@@ -3,10 +3,10 @@
 #ifndef __Atmosphere_H__
 #define __Atmosphere_H__
 
-#include "../Library/math/Vector.hpp"
-#include "../Library/math/Quaternion.hpp"
-#include "../Interface/LogOutput/ILoggable.h"
-#include "../Library/nrlmsise00/Wrapper_nrlmsise00.h"
+#include "../../Library/math/Vector.hpp"
+#include "../../Library/math/Quaternion.hpp"
+#include "../../Interface/LogOutput/ILoggable.h"
+#include "../../Library/nrlmsise00/Wrapper_nrlmsise00.h"
 
 using libra::Vector;
 using libra::Quaternion;

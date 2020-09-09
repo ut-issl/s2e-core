@@ -5,7 +5,7 @@
 using namespace std;
 
 #include "Attitude.h"
-#include "../../Environment/CelestialInformation.h"
+#include "../../Environment/Local/LocalCelestialInformation.h"
 #include "../Orbit/Orbit.h"
 
 enum AttCtrlMode
@@ -27,7 +27,7 @@ public:
     const Quaternion quaternion_i2t,
     const Vector<3> pointing_t_b,
     const Vector<3> pointing_sub_t_b,
-    const CelestialInformation* celes_info,
+    const LocalCelestialInformation* local_celes_info,
     const Orbit* orbit
   );
   ~ControlledAttitude();
@@ -47,7 +47,7 @@ private:
   Vector<3> pointing_t_b_;      //Pointing target on body frame
   Vector<3> pointing_sub_t_b_;  //Pointing sub target on body frame
   //Inputs
-  const CelestialInformation* celes_info_;
+  const LocalCelestialInformation* local_celes_info_;
   const Orbit* orbit_;
   //Local functions
   Vector<3> CalcTargetDirection(AttCtrlMode mode);

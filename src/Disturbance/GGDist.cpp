@@ -18,10 +18,9 @@ GGDist::GGDist(const double mu_e_input)
   kilo_ = 1000.0;
 }
 
-void GGDist::Update(Envir& env, const Spacecraft& spacecraft)
+void GGDist::Update(const LocalEnvironment & local_env, const Dynamics & dynamics)
 {
-  CalcTorque(spacecraft.dynamics_->GetCelestial().GetPosFromSC_b("EARTH"), 
-    spacecraft.dynamics_->GetAttitude().GetInertiaTensor());
+  CalcTorque(local_env.GetCelesInfo().GetPosFromSC_b("EARTH"), dynamics.GetAttitude().GetInertiaTensor());
 }
 
 Vector<3> GGDist::CalcTorque(double R0, Vector<3> u_b, Matrix<3, 3> I_b)

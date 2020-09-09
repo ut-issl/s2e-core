@@ -11,7 +11,6 @@
 // Simulator includes
 #include "Interface/InitInput/Initialize.h"
 #include "Interface/LogOutput/Logger.h"
-#include "Simulation/Case/SimulationCase.h"
 
 //Add custom include files
 #include "Simulation/Case/SampleCase.h"
@@ -59,7 +58,7 @@ int main(int argc, char* argv[])
   std::cout << "\tData path: "; print_path(data_path);
   std::cout << "\tIni file: "; print_path(ini_file);
 
-  auto simcase = SampleCase(ini_file, data_path);
+  auto simcase = SampleCase(ini_file);
   simcase.Initialize();
   simcase.Main();
 

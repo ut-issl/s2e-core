@@ -16,7 +16,7 @@ GNSSReceiver::GNSSReceiver(const int id, const Vector<3> ant_direction, const Ve
 
 void GNSSReceiver::MainRoutine(int count)
 {
-  Vector<3> pos_ture_eci_ = dynamics_->orbit_->GetSatPosition_i();
+  Vector<3> pos_ture_eci_ = dynamics_->GetOrbit().GetSatPosition_i();
   CheckAntenna(pos_ture_eci_);
   if (is_gnss_sats_visible_ == 1) {  //Antenna of GNSS-R can detect GNSS signal
     AddNoise(pos_ture_eci_);

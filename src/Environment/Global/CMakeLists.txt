@@ -1,15 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
-project(DISTURBANCE)
+project(GLOBAL_ENVIRONMENT)
 add_library(${PROJECT_NAME} STATIC
-  AirDrag.cpp
-  Disturbances.cpp
-  GeoPotential.cpp
-  GGDist.cpp
-  MagDisturbance.cpp
-  SolarRadiation.cpp
-  SurfaceForce.cpp
-  ThirdBodyGravity.cpp
-  ../Interface/InitInput/Init_Disturbance.cpp
+  GlobalEnvironment.cpp
+  CelestialInformation.cpp
+  HipparcosCatalogue.cpp
+  SimTime.cpp
+  ClockGenerator.cpp
 )
 # Compile option
 if(MSVC)

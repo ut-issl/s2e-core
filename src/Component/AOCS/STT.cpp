@@ -22,10 +22,11 @@ STT::STT(Quaternion& q_b2c,
 	double earth_forbidden_angle,
 	double moon_forbidden_angle,
 	double capture_rate,
-	const Dynamics *dynamics)
+	const Dynamics *dynamics,
+  const LocalEnvironment* local_env)
 	: pos_(0), rot_(g_rand.MakeSeed()), n_ortho_(0.0, sigma_ortho, g_rand.MakeSeed()),
 	n_sight_(0.0, sigma_sight, g_rand.MakeSeed()), step_time_(step_time), output_delay_(output_delay),
-	output_interval_(output_interval), count_(0), dynamics_(dynamics)
+	output_interval_(output_interval), count_(0), dynamics_(dynamics),local_env_(local_env)
 {
 	sun_forbidden_angle_ = sun_forbidden_angle;
 	earth_forbidden_angle_ = earth_forbidden_angle;
@@ -56,9 +57,9 @@ STT::STT(Quaternion& q_b2c,
 	error_flag = true;
 }
 
-Quaternion STT::measure(CelestialInformation *celestial_info, Attitude *attinfo)
+Quaternion STT::measure(const LocalCelestialInformation *local_celes_info, const Attitude *attinfo)
 {
-	update(celestial_info, attinfo); // q_buffer_更新
+	update(local_celes_info, attinfo); // q_buffer_更新
 	if (count_ == 0)
 	{
 		int hist = pos_ - output_delay_ - 1;
@@ -78,7 +79,7 @@ libra::Quaternion STT::GetQuaternion() const
   return q_stt_i2c_;
 }
 
-void STT::update(CelestialInformation *celestial_info, Attitude *attinfo)
+void STT::update(const LocalCelestialInformation *local_celes_info, const Attitude *attinfo)
 {
 	Quaternion q_i2b = attinfo->GetQuaternion_i2b();
 	//姿勢真値 i2c
@@ -91,7 +92,7 @@ void STT::update(CelestialInformation *celestial_info, Attitude *attinfo)
 	Vector<3> rot_axis = cos(rot)*ortho1_ + sin(rot)*ortho2_;
 	// 回転軸回りの誤差回転を表すQuaternion
 	Quaternion q_ortho(rot_axis, n_ortho_);
-	AllJudgement(celestial_info, attinfo);
+	AllJudgement(local_celes_info, attinfo);
 
 	// 慣性座標→STT座標→視線方向回転→視線直交方向回転
 	q_buffer_[pos_] = q_stt_temp*q_sight*q_ortho;
@@ -101,10 +102,13 @@ void STT::update(CelestialInformation *celestial_info, Attitude *attinfo)
 
 }
 
-void STT::AllJudgement(CelestialInformation *celestial_info, Attitude *attinfo)
+void STT::AllJudgement(const LocalCelestialInformation *local_celes_info, const Attitude *attinfo)
 {
 	int judgement = 0;
-	judgement = SunJudgement(celestial_info->GetPosFromSC_b("SUN")) + EarthJudgement(celestial_info->GetPosFromSC_b("EARTH")) + MoonJudgement(celestial_info->GetPosFromSC_b("MOON")) + CaptureRateJudgement(attinfo->GetOmega_b());
+	judgement = SunJudgement(local_celes_info->GetPosFromSC_b("SUN"));
+	judgement+= EarthJudgement(local_celes_info->GetPosFromSC_b("EARTH"));
+	judgement+= MoonJudgement(local_celes_info->GetPosFromSC_b("MOON"));
+	judgement+= CaptureRateJudgement(attinfo->GetOmega_b());
 	if (judgement > 0){
 		error_flag = true;
 	}
@@ -193,7 +197,7 @@ double STT::CalAngleVect_rad(const Vector<3>& vect1, const Vector<3>& vect2)
 void STT::MainRoutine(int count)
 {
     ReceiveCommand();
-    measure(dynamics_->celestial_, dynamics_->attitude_);
+    measure(&(local_env_->GetCelesInfo()), &(dynamics_->GetAttitude()));
     SendTelemetry();
 }
 

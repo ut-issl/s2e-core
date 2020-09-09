@@ -64,12 +64,7 @@ public:
     inertia_tensor_ = set;
     inv_inertia_tensor_ = invert(inertia_tensor_);
   }
-  inline void AddTorque_b(Vector<3> set, bool flag = true)
-  {
-    if (flag == true){
-      torque_b_ += set;
-    }
-  }
+  inline void AddTorque_b(Vector<3> set){torque_b_ += set;}
 
   virtual void Propagate(double endtime) = 0;		// プロパゲーション
 

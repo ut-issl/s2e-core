@@ -13,7 +13,7 @@ class GeoPotential : public AccelerationDisturbance
 {
 public:
   GeoPotential(const int degree, const string file_path);
-  virtual void Update(Envir& env, const Spacecraft & spacecraft);
+  virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);
   virtual string GetLogHeader() const;
   virtual string GetLogValue() const;
 

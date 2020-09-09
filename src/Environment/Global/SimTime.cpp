@@ -115,7 +115,7 @@ void SimTime::UpdateTime(void)
   state_.running = true;
 }
 
-TimeState SimTime::GetState(void)
+TimeState SimTime::GetState(void) const
 {
   return state_;
 }
@@ -125,52 +125,52 @@ void SimTime::ResetClock(void)
   clock_start_time_millisec_ = chrono::system_clock::now();
 }
 
-double SimTime::GetElapsedSec(void)
+double SimTime::GetElapsedSec(void) const
 {
   return elapsed_time_sec_;
 }
 
-double SimTime::GetStepSec(void)
+double SimTime::GetStepSec(void) const
 {
   return step_sec_;
 }
 
-double SimTime::GetOrbitStepSec(void)
+double SimTime::GetOrbitStepSec(void) const
 {
   return orbit_propagate_step_sec_;
 }
 
-double SimTime::GetEndSec(void)
+double SimTime::GetEndSec(void) const
 {
   return end_sec_;
 }
 
-int SimTime::GetProgressionRate(void)
+int SimTime::GetProgressionRate(void) const
 {
   return (int)floor((elapsed_time_sec_ / end_sec_ * 100));
 }
 
-double SimTime::GetCurrentJd(void)
+double SimTime::GetCurrentJd(void) const
 {
   return current_jd_;
 }
 
-bool SimTime::GetOrbitPropagateFlag(void)
+bool SimTime::GetOrbitPropagateFlag(void) const
 {
   return orbit_propagate_flag_;
 }
 
-double SimTime::GetCurrentSidereal(void)
+double SimTime::GetCurrentSidereal(void) const
 {
   return current_sidereal_;
 }
 
-double SimTime::GetCurrentDecyear(void)
+double SimTime::GetCurrentDecyear(void) const
 {
   return current_decyear_;
 }
 
-void SimTime::PrintStartDateTime(void)
+void SimTime::PrintStartDateTime(void) const
 {
   int sec_int = int(start_sec_ + 0.5);
   stringstream s, m, h;

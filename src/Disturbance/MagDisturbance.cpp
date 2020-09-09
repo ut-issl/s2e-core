@@ -29,9 +29,9 @@ Vector<3> MagDisturbance::CalcTorque(const Vector<3>& mag_b)
 	return torque_b_;
 }
 
-void MagDisturbance::Update(Envir& env, const Spacecraft& spacecraft)
+void MagDisturbance::Update(const LocalEnvironment & local_env, const Dynamics & dynamics)
 {
-	CalcTorque(env.magnet->GetMag_b());
+	CalcTorque(local_env.GetMag().GetMag_b());
 }
 
 //残留磁気モーメントの計算

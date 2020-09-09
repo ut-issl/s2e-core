@@ -11,13 +11,11 @@
 using namespace std;
 
 HipparcosCatalogue::HipparcosCatalogue(double max_magnitude, string catalogue_path) : max_magnitude_(max_magnitude), catalogue_path_(catalogue_path)
-{
-	
+{	
 }
 
 HipparcosCatalogue::~HipparcosCatalogue()
 {
-
 }
 
 bool HipparcosCatalogue::ReadContents(const string& filename, const char delimiter = ',')

@@ -8,7 +8,7 @@
 #pragma once
 #include "../../Interface/LogOutput/ILoggable.h"
 #include "../../Component/CommGS/ANT.h"
-#include "../../Simulation/Spacecraft/Spacecraft.h"
+#include "../../Dynamics/Dynamics.h"
 #include "../../Simulation/GroundStation/GroundStation.h"
 #include "../../Library/math/Matrix.hpp"
 #include "../../Library/math/Vector.hpp"
@@ -54,17 +54,15 @@ public:
                  double margin_req);
     ~GScalculator();
     void Initialize();
-    void Update(const Spacecraft& spacecraft, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant);
+    void Update(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant);
 
     virtual string GetLogHeader() const;
     virtual string GetLogValue() const;
 
 protected:
     // 衛星と地上局が可視の位置関係のときにtrue，非可視のときにfalseを返す
-    bool IsVisible(const Spacecraft& spacecraft, const GroundStation& groundstation);
+    bool IsVisible(const Dynamics& dynamics, const GroundStation& groundstation);
 
     // 最大可能ビットレートを回線計算をもとに計算する
-    double CalcMaxBitrate(const Spacecraft& spacecraft, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant);
-
-    Vector<3> TransECIToECEF(double current_jd, Vector<3> v_eci);  // 変換行列まわりをspacecraft外に持つようにしたら不要になるはずの関数
+    double CalcMaxBitrate(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant);
 };

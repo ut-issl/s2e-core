@@ -27,20 +27,20 @@ Disturbances::~Disturbances()
   }
 }
 
-void Disturbances::Update(Envir & env, const Spacecraft & spacecraft)
+void Disturbances::Update(const LocalEnvironment& local_env, const Dynamics& dynamics)
 {
   InitializeOutput();
 
   for (auto dist : disturbances_)
   {
-    dist->UpdateIfEnabled(env, spacecraft);
+    dist->UpdateIfEnabled(local_env, dynamics);
     sum_torque_ += dist->GetTorque();
     sum_force_ += dist->GetForce();
   }
   sum_acceleration_i_ *= 0;
   for (auto acc_dist : acc_disturbances_)
   {
-    acc_dist->UpdateIfEnabled(env, spacecraft);
+    acc_dist->UpdateIfEnabled(local_env, dynamics);
     sum_acceleration_i_ += acc_dist->GetAccelerationI();
   }
 }

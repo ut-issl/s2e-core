@@ -4,11 +4,9 @@
 #include "../../../Component/CDH/OBC.h"
 #include "../../../Component/AOCS/Gyro.h"
 
-
 using libra::Vector;
 class OBC;
 class Gyro;
-
 
 class SampleComponents
 {

@@ -10,16 +10,16 @@ ThirdBodyGravity::~ThirdBodyGravity()
 
 }
 
-void ThirdBodyGravity::Update(Envir& env, const Spacecraft & spacecraft)
+void ThirdBodyGravity::Update(const LocalEnvironment & local_env, const Dynamics & dynamics)
 {
   acceleration_i_ = libra::Vector<3>(0); //initialize
 
-  libra::Vector<3> sat_pos_i = spacecraft.dynamics_->orbit_->GetSatPosition_i();	//position of the spacecraft from the center object
+  libra::Vector<3> sat_pos_i = dynamics.GetOrbit().GetSatPosition_i();	//position of the spacecraft from the center object
   for (auto third_body : third_body_list_)
   {
-    libra::Vector<3> third_body_pos_from_sc_i = spacecraft.dynamics_->celestial_->GetPosFromSC_i(third_body.c_str());	//position of the third body from the spacecraft
+    libra::Vector<3> third_body_pos_from_sc_i = local_env.GetCelesInfo().GetPosFromSC_i(third_body.c_str());	//position of the third body from the spacecraft
     libra::Vector<3> third_body_pos_i = sat_pos_i + third_body_pos_from_sc_i;	//position of the third body from the center object
-    double gravity_constant = spacecraft.dynamics_->celestial_->GetGravityConstant(third_body.c_str());
+    double gravity_constant = local_env.GetCelesInfo().GetGlobalInfo().GetGravityConstant(third_body.c_str());
 
     thirdbody_acc_i_ = CalcAcceleration(third_body_pos_i, third_body_pos_from_sc_i, gravity_constant);
     acceleration_i_ += thirdbody_acc_i_;

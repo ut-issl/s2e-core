@@ -1,11 +1,11 @@
 #pragma once
-#include "../Interface/LogOutput/ILoggable.h"
+#include "../../Interface/LogOutput/ILoggable.h"
 //HipDataを要素に持つベクタが欲しかったので，STLのベクタを使用している
 //計算に使うベクタは歴代nlabのベクタを使用しているので，混在していてまずい...
 #include <vector>
-#include "../Library/math/Vector.hpp"
-#include "../Library/math/Quaternion.hpp"
-#include "../Interface/LogOutput/ILoggable.h"
+#include "../../Library/math/Vector.hpp"
+#include "../../Library/math/Quaternion.hpp"
+#include "../../Interface/LogOutput/ILoggable.h"
 
 struct HipData
 {

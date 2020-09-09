@@ -1,18 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
-project(ENVIRONMENT)
+project(LOCAL_ENVIRONMENT)
 add_library(${PROJECT_NAME} STATIC
   Atmosphere.cpp
-  Atmosphere.h
-  CelestialInformation.cpp
-  CelestialInformation.h
-  Environment.cpp
-  Environment.h
-  HipparcosCatalogue.cpp
-  HipparcosCatalogue.h
+  LocalEnvironment.cpp
   MagEnvironment.cpp
-  MagEnvironment.h
   SRPEnvironment.cpp
-  SRPEnvironment.h
+  LocalCelestialInformation.cpp
 )
 # Compile option
 if(MSVC)

@@ -3,8 +3,8 @@
 #include <math.h>
 #include <fstream>
 #include <cassert>
-#include "../Library/math/Vector.hpp"
-#include "../Interface/LogOutput/LogUtility.h"
+#include "../../Library/math/Vector.hpp"
+#include "../../Interface/LogOutput/LogUtility.h"
 
 using libra::Vector;
 using namespace std;
@@ -33,6 +33,7 @@ void SRPEnvironment::UpdateAllStates(Vector<3>& earth_position_b, Vector<3>& sun
 
   CalcShadowFunction(sd_sun, sd_earth, delta, x, y);
 
+  for(int i=0;i<3;i++)  d_sc2sun_b_[i] = sun_position_b[i]/distance_sat_to_sun;
 }
 
 double SRPEnvironment::CalcTruePressure() const
@@ -45,7 +46,7 @@ double SRPEnvironment::CalcPowerDensity() const
   return pressure_ * c_ * shadow_function_;
 }
 
-double SRPEnvironment::GetPressure()
+double SRPEnvironment::GetPressure() const
 {
   return pressure_;
 }

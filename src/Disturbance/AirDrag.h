@@ -4,7 +4,7 @@
 #include "../Library/math/Vector.hpp"
 #include "../Library/math/Quaternion.hpp"
 #include "SurfaceForce.h"
-#include "../Environment/Atmosphere.h"
+#include "../Environment/Local/Atmosphere.h"
 #include "../Interface/LogOutput/ILoggable.h"
 using libra::Vector;
 using libra::Quaternion;
@@ -35,7 +35,7 @@ public:
     const double molecular);
 
   // Override SimpleDisturbance
-  virtual void Update(Envir & env, const Spacecraft & spacecraft);
+  virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);
 
   // Override Loggable
   virtual string GetLogHeader() const;

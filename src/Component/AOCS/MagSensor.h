@@ -16,7 +16,7 @@
 #include "../../Library/math/RandomWalk.hpp"
 #include "../../Interface/LogOutput/ILoggable.h"
 #include "../Abstract/ComponentBase.h"
-#include "../../Environment/Environment.h"
+#include "../../Environment/Local/LocalEnvironment.h"
 
 using namespace std;
 

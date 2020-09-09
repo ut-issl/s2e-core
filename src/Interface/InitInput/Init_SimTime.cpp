@@ -1,5 +1,5 @@
 #include "Initialize.h"
-#include "../../Dynamics/SimTime.h"
+#include "../../Environment/Global/SimTime.h"
 
 SimTime* InitSimTime(string file_name)
 {

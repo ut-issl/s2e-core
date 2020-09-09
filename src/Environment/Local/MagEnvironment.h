@@ -1,12 +1,12 @@
 #ifndef __MagEnvironment_H__
 #define __MagEnvironment_H__
 
-#include "../Library/math/Vector.hpp"
+#include "../../Library/math/Vector.hpp"
 using libra::Vector;
-#include "../Library/math/Quaternion.hpp"
+#include "../../Library/math/Quaternion.hpp"
 using libra::Quaternion;
 
-#include "../Interface/LogOutput/ILoggable.h"
+#include "../../Interface/LogOutput/ILoggable.h"
 
 class MagEnvironment : public ILoggable
 {

@@ -8,7 +8,7 @@
 #include "../../Library/math/Ran1.hpp"
 #include "../../Library/math/NormalRand.hpp"
 #include "../../Interface/LogOutput/ILoggable.h"
-#include "../../Environment/CelestialInformation.h"
+#include "../../Environment/Local/LocalEnvironment.h"
 #include "../../Dynamics/Attitude/Attitude.h"
 #include "../Abstract/ComponentBase.h"
 #include "../../Dynamics/Dynamics.h"
@@ -38,17 +38,18 @@ public:
 		double earth_forbidden_angle,
 		double moon_forbidden_angle,
 		double capture_rate,
-		const Dynamics *dynamics);
+		const Dynamics *dynamics,
+    const LocalEnvironment* local_env);
 
 	void  MainRoutine(int count) override;
 
-	libra::Quaternion measure(CelestialInformation *celestial_info, Attitude *attinfo);//姿勢取得
-    libra::Quaternion GetQuaternion() const;
+	libra::Quaternion measure(const LocalCelestialInformation *local_celes_info, const Attitude *attinfo);//姿勢取得
+  libra::Quaternion GetQuaternion() const;
 	int SunJudgement(const libra::Vector<3>& sun_b);//太陽禁止角判定
 	int EarthJudgement(const libra::Vector<3>& earth_b);//地球禁止角判定
 	int MoonJudgement(const libra::Vector<3>& moon_b);//月禁止角判定
 	int CaptureRateJudgement(const libra::Vector<3>& omega_b);//捕捉レート判定
-	void update(CelestialInformation *celestial_info, Attitude *attinfo);
+	void update(const LocalCelestialInformation *local_celes_info, const Attitude *attinfo);
 	virtual string GetLogHeader() const;
 	virtual string GetLogValue() const;
 	//! 異常検知bool true:異常あり，　false:異常なし
@@ -94,12 +95,13 @@ private:
 	//! STT出力更新カウンタ
 	std::size_t count_;
 
-    const Dynamics* dynamics_;
+  const Dynamics* dynamics_;
+	const LocalEnvironment* local_env_;
 
 	//2つのベクトルの角度を計算する関数
 	double CalAngleVect_rad(const libra::Vector<3>& vect1, const libra::Vector<3>& vect2);
 	//Judgement系関数総括
-	void AllJudgement(CelestialInformation *celestial_info, Attitude *attinfo);
+	void AllJudgement(const LocalCelestialInformation *local_celes_info, const Attitude *attinfo);
 	
 	//デバッグ用
 	//libra::Quaternion q_i2b_stt;

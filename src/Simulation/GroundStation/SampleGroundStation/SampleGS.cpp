@@ -1,7 +1,7 @@
 #include "SampleGS.h"
 #include "SampleGSComponents.h"
 
-SampleGS::SampleGS(SimulationConfig config, int gs_id)
+SampleGS::SampleGS(const SimulationConfig* config, int gs_id)
   :GroundStation(config, gs_id)
 {
   Initialize();
@@ -14,7 +14,7 @@ SampleGS::~SampleGS()
 
 void SampleGS::Initialize()
 {
-  components_ = new SampleGSComponents(&config_);
+  components_ = new SampleGSComponents(config_);
 }
 
 void SampleGS::LogSetup(Logger& logger)
@@ -23,8 +23,8 @@ void SampleGS::LogSetup(Logger& logger)
   components_->CompoLogSetUp(logger);
 }
 
-void SampleGS::Update(const SampleSat& samplesat, const ANT& sc_ant, const SampleGS& samplegs)
+void SampleGS::Update(const Dynamics& dynamics, const ANT& sc_ant, const SampleGS& samplegs, const double& current_jd)
 {
-  GroundStation::Update();
-  components_->gscalculator_->Update(samplesat, sc_ant, samplegs, *(components_->ant_));  // compo->ant_がnullの場合未定義動作になる気がするので対処が必要？
+  GroundStation::Update(current_jd);
+  components_->gscalculator_->Update(dynamics, sc_ant, samplegs, *(components_->ant_));  // compo->ant_がnullの場合未定義動作になる気がするので対処が必要？
 }

@@ -41,10 +41,10 @@ AirDrag::AirDrag(const Vector<3>& px_arm,
   M = molecular;
 };
 
-void AirDrag::Update(Envir& env, const Spacecraft& spacecraft)
+void AirDrag::Update(const LocalEnvironment & local_env, const Dynamics & dynamics)
 {
-  double air_dens = env.atmosphere->GetAirDensity();
-  Vector<3> tmp = spacecraft.dynamics_->GetOrbit().GetSatVelocity_b();
+  double air_dens = local_env.GetAtmosphere().GetAirDensity();
+  Vector<3> tmp = dynamics.GetOrbit().GetSatVelocity_b();
   CalcTorqueForce(tmp, air_dens);
 }
 

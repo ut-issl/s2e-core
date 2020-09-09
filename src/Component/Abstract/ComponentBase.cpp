@@ -1,6 +1,6 @@
 #include "ComponentBase.h"
 
-#include "../../Dynamics/ClockGenerator.h"
+#include "../../Environment/Global/ClockGenerator.h"
 #include "../../Interface/SpacecraftInOut/PowerDriver.h"
 
 ComponentBase::ComponentBase() : ComponentBase(1)

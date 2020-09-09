@@ -5,7 +5,7 @@
 #include <math.h>
 using namespace std;
 
-Telescope InitTelescope(int sensor_id, const string fname, const Dynamics* dynamics) {
+Telescope InitTelescope(int sensor_id, const string fname, const Attitude * attitude, const HipparcosCatalogue* hipp, const LocalCelestialInformation *local_celes_info) {
 	IniAccess Telescope_conf(fname);
 	const string st_sensor_id = std::to_string(static_cast<long long>(sensor_id));
 	const char *cs = st_sensor_id.data();
@@ -37,6 +37,6 @@ Telescope InitTelescope(int sensor_id, const string fname, const Dynamics* dynam
 
 	int num_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "num_of_logged_stars");
 
-	Telescope telescope(q_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_num_of_pix, y_num_of_pix, x_fov_par_pix_rad, y_fov_par_pix_rad, num_of_logged_stars, dynamics);
+	Telescope telescope(q_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_num_of_pix, y_num_of_pix, x_fov_par_pix_rad, y_fov_par_pix_rad, num_of_logged_stars, attitude, hipp, local_celes_info);
 	return telescope;
 }

@@ -1,6 +1,6 @@
 ﻿#include "PCU_InitialStudy.h"
 #include <cmath>
-#include "../../Dynamics/ClockGenerator.h"
+#include "../../Environment/Global/ClockGenerator.h"
 #include "../../Interface/InitInput/InitPower/CsvScenarioInterface.h"
 
 PCU_InitialStudy::PCU_InitialStudy(const std::vector<SAP*> saps,

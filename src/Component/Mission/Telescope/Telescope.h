@@ -3,7 +3,9 @@
 #include "../../../Library/math/Quaternion.hpp"
 #include "../../../Library/math/Vector.hpp"
 #include "../../../Interface/LogOutput/ILoggable.h"
-#include "../../../Dynamics/Dynamics.h"
+#include "../../../Environment/Local/LocalCelestialInformation.h"
+#include "../../../Environment/Global/HipparcosCatalogue.h"
+#include "../../../Dynamics/Attitude/Attitude.h"
 #include<vector>
 
 struct Star//望遠鏡視野内に入っている恒星の情報
@@ -24,7 +26,9 @@ public:
 		double x_fov_par_pix,
 		double y_fov_par_pix,
 		int num_of_logged_stars,
-		const Dynamics *dynamics);
+		const Attitude * attitude,
+		const HipparcosCatalogue* hipp,
+		const LocalCelestialInformation *local_celes_info);
 
 	~Telescope();
 
@@ -65,11 +69,12 @@ private:
 	void Observe(Vector<2> &pos_imgsensor, const Vector<3, double> target_b);
 	void ObserveStars();//Hip Catalogueのデータからの観測
 
-	const Dynamics* dynamics_;
+	const Attitude * attitude_;
+	const HipparcosCatalogue* hipp_;
+	const LocalCelestialInformation *local_celes_info_;
 
 	virtual string GetLogHeader() const;
 	virtual string GetLogValue() const;
-
 
 	//デバッグ用変数**********************************************
 	//Vector<3> sun_pos_c;

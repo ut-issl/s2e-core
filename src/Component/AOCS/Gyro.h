@@ -12,7 +12,6 @@
 #include "../../Library/math/Matrix.hpp"
 #include "../../Library/math/NormalRand.hpp"
 #include "../../Library/math/Quantization.h"
-#include "../../Dynamics/SimTime.h"
 #include "../../Interface/LogOutput/ILoggable.h"
 #include "../../Library/math/RandomWalk.hpp"
 #include "../Abstract/ComponentBase.h"

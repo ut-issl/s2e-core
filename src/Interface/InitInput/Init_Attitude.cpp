@@ -2,7 +2,7 @@
 #include "../../Dynamics/Attitude/AttitudeRK4.h"
 #include "../../Dynamics/Attitude/ControlledAttitude.h"
 
-Attitude* InitAttitude(string file_name, const Orbit* orbit, const CelestialInformation* celes_info)
+Attitude* InitAttitude(string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info)
 {
   IniAccess ini_file(file_name);
   char* section_ = "ATTITUDE";

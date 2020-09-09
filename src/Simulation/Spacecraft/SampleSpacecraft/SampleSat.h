@@ -8,15 +8,15 @@ class SampleComponents;
 class SampleSat : public Spacecraft
 {
 public:
-  SampleSat(SimulationConfig config);
+  SampleSat(SimulationConfig* sim_config, const GlobalEnvironment* glo_env);
   ~SampleSat();
 
   // 初期化
-  virtual void Initialize();
+  virtual void Initialize(SimulationConfig* sim_config);
   // ログ保存機能
   virtual void LogSetup(Logger& logger);
   // 状態量の更新
-  virtual void Update();
+  virtual void Update(const SimTime* sim_time);
 
   //ダイナミクスへの力・トルク出力
   void GenerateTorque_b();

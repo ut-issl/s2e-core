@@ -1,8 +1,9 @@
 #include <stdlib.h>
-#include "../../Environment/CelestialInformation.h"
+#include "../../Environment/Global/CelestialInformation.h"
+#include "SpiceUsr.h"
 #include "Initialize.h"
 
-CelestialInformation InitCelesInfo(string file_name)
+CelestialInformation* InitCelesInfo(string file_name)
 {
 	IniAccess ini_file(file_name);
 	char* section = "PLANET_SELECTION";
@@ -41,6 +42,7 @@ CelestialInformation InitCelesInfo(string file_name)
 		}
 		selected_body[i] = planet_id;
 	}
-	CelestialInformation celestial_info(inertial_frame, aber_cor, center_obj, num_of_selected_body, selected_body);
+	CelestialInformation* celestial_info;
+	celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, num_of_selected_body, selected_body);
 	return celestial_info;
 }

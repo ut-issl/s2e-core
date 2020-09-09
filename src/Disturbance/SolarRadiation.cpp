@@ -36,10 +36,10 @@ SolarRadiation::SolarRadiation(const Vector<3>& px_arm,
   }
 }
 
-void SolarRadiation::Update(Envir& env, const Spacecraft& spacecraft)
+void SolarRadiation::Update(const LocalEnvironment & local_env, const Dynamics & dynamics)
 {
-  Vector<3> tmp = spacecraft.dynamics_->GetCelestial().GetPosFromSC_b("SUN");
-  CalcTorqueForce(tmp, env.srp->CalcTruePressure());
+  Vector<3> tmp = local_env.GetCelesInfo().GetPosFromSC_b("SUN");
+  CalcTorqueForce(tmp, local_env.GetSrp().CalcTruePressure());
 }
 
 // input_b:Direction vector of the sun at the body frame

@@ -7,7 +7,7 @@
 using namespace std;
 
 
-STT InitSTT(int sensor_id, const string fname, double step_time, const Dynamics *dynamics){
+STT InitSTT(int sensor_id, const string fname, double step_time, const Dynamics *dynamics, const LocalEnvironment* local_env){
 
     IniAccess STT_conf(fname);
 	const string st_sensor_id = std::to_string(static_cast<long long>(sensor_id));
@@ -33,7 +33,7 @@ STT InitSTT(int sensor_id, const string fname, double step_time, const Dynamics 
 	double capture_rate = STT_conf.ReadDouble(STTSection, "capture_rate");
 
 	STT stt(q_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval,
-	        sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate, dynamics);
+	        sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate, dynamics, local_env);
 	return stt;
 }
 

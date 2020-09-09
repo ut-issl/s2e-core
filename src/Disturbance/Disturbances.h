@@ -13,7 +13,7 @@ class Disturbances
 public:
   Disturbances(string base_ini_fname);
   virtual ~Disturbances();
-  void Update(Envir& env, const Spacecraft & spacecraft);
+  void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
 
   void LogSetup(Logger & logger);
 

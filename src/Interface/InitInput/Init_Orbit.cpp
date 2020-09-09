@@ -1,7 +1,10 @@
 #include "Initialize.h"
-#include "../../Dynamics/SimTime.h"
+#include "../../Environment/Global/SimTime.h"
 #include "../../Dynamics/Orbit/SimpleCircularOrbit.h"
 #include "../../Dynamics/Orbit/EarthCenteredOrbit.h"
+
+class EarthCenteredOrbit;
+class SimpleCircularOrbit;
 
 Orbit* InitOrbit(string ini_path, double stepSec, double current_jd, string section)
 {

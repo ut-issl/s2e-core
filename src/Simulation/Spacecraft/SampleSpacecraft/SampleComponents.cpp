@@ -5,11 +5,11 @@
 SampleComponents::SampleComponents(const Dynamics* dynamics, const SimulationConfig* config)
   :dynamics_(dynamics), config_(config)
 {
-  IniAccess iniAccess = IniAccess(config_->mainIniPath);
+  IniAccess iniAccess = IniAccess(config_->ini_base_fname_);
 
   obc_ = new OBC();
   string gyro_ini_path = iniAccess.ReadString("COMPONENTS_FILE", "gyro_file");
-  config_->logger->CopyFileToLogDir(gyro_ini_path);
+  config_->main_logger_->CopyFileToLogDir(gyro_ini_path);
   gyro_ = new Gyro(InitGyro(1, GYRO, gyro_ini_path, dynamics_));
 }
 

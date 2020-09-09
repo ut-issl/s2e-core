@@ -1,5 +1,5 @@
 ﻿#include "SAP.h"
-#include "../../Dynamics/ClockGenerator.h"
+#include "../../Environment/Global/ClockGenerator.h"
 #include "../../Interface/InitInput/InitPower/CsvScenarioInterface.h"
 
 SAP::SAP(int id,
@@ -9,18 +9,17 @@ SAP::SAP(int id,
   libra::Vector<3> normal_vector,
   double cell_efficiency,
   double transmission_efficiency,
-  const SRPEnvironment* srp,
-  const CelestialInformation* celestial)
+  const SRPEnvironment* srp)
   :ComponentBase(1000), id_(id), number_of_series_(number_of_series), number_of_parallel_(number_of_parallel),
   cell_area_(cell_area), normal_vector_(libra::normalize(normal_vector)), cell_efficiency_(cell_efficiency),
-  transmission_efficiency_(transmission_efficiency),srp_(srp), celestial_(celestial)
+  transmission_efficiency_(transmission_efficiency),srp_(srp)
 {
 }
 
 SAP::SAP(const SAP &obj)
   :ComponentBase(obj), id_(obj.id_), number_of_series_(obj.number_of_series_), number_of_parallel_(obj.number_of_parallel_),
   cell_area_(obj.cell_area_), normal_vector_(obj.normal_vector_), cell_efficiency_(obj.cell_efficiency_),
-  transmission_efficiency_(obj.transmission_efficiency_),srp_(obj.srp_), celestial_(obj.celestial_)
+  transmission_efficiency_(obj.transmission_efficiency_),srp_(obj.srp_)
 {
   voltage_ = 0.0;
   power_generation_ = 0.0;
@@ -68,7 +67,7 @@ void SAP::MainRoutine(int time_count)
   else
   {
     const auto power_density = srp_->CalcPowerDensity();
-    libra::Vector<3> sun_direction = celestial_->GetPosFromSC_b("SUN");
+    libra::Vector<3> sun_direction = srp_->GetSunDirectionFromSC_b();
     libra::Vector<3> normalized_sun_direction = libra::normalize(sun_direction);
     power_generation_ = cell_efficiency_ * transmission_efficiency_ * power_density * cell_area_ * number_of_parallel_ * number_of_series_ *
       inner_product(normal_vector_, normalized_sun_direction); //仮の実装．実際は太陽方向などからIVカーブを更新．動作電圧に応じた発電電力を求める

@@ -5,7 +5,6 @@
 \brief  Gyro.cppの実装
 */
 #include "Gyro.h"
-#include "../../Dynamics/SimTime.h"
 #include "../../Interface/SpacecraftInOut/SpacecraftInterface.h"
 #include "../../Interface/SpacecraftInOut/SCIDriver.h"
 #include "../../Library/utils/endian.h"
@@ -49,7 +48,7 @@ Gyro::~Gyro()
 void Gyro::MainRoutine(int count)
 {
   ReceiveCommand();
-  measure(dynamics_->attitude_->GetOmega_b());
+  measure(dynamics_->GetAttitude().GetOmega_b());
   SendTelemetry();
 }
 

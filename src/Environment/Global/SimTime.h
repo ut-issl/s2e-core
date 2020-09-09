@@ -9,10 +9,10 @@
 // #include <time.h>
 #include <chrono>
 
-#include "../Interface/LogOutput/ILoggable.h"
-#include "../Library/sgp4/sgp4unit.h"
-#include "../Library/sgp4/sgp4io.h"
-#include "../Library/sgp4/sgp4ext.h"
+#include "../../Interface/LogOutput/ILoggable.h"
+#include "../../Library/sgp4/sgp4unit.h"
+#include "../../Library/sgp4/sgp4io.h"
+#include "../../Library/sgp4/sgp4ext.h"
 
 using namespace std;
 
@@ -39,20 +39,23 @@ public:
   void SetParameters(void); // Simulation開始前処理（Monte-Carlo Simulationの際は毎回呼ばれる予定）
   void UpdateTime(void);		// 時刻の更新
   void ResetClock(void);
-  TimeState GetState(void);
-  double GetElapsedSec(void);
-  double GetStepSec(void);
-  double GetOrbitStepSec(void);
-  double GetEndSec(void);
-  int GetProgressionRate(void);
-  double GetCurrentJd(void);
-  bool GetOrbitPropagateFlag(void);
-  double GetCurrentSidereal(void);
-  double GetCurrentDecyear(void);
 
-  void PrintStartDateTime(void);
+  // Get functions
+  TimeState GetState(void) const;
+  double GetElapsedSec(void) const;
+  double GetStepSec(void) const;
+  double GetOrbitStepSec(void) const;
+  double GetEndSec(void) const;
+  int GetProgressionRate(void) const;
+  double GetCurrentJd(void) const;
+  bool GetOrbitPropagateFlag(void) const;
+  double GetCurrentSidereal(void) const;
+  double GetCurrentDecyear(void) const;
+  // logs
   virtual string GetLogHeader() const;
   virtual string GetLogValue() const;
+  //debug
+  void PrintStartDateTime(void) const;
 
 private:
   //変動値

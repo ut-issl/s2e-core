@@ -51,6 +51,11 @@ public:
   // 姿勢情報の更新
   inline void UpdateAtt(Quaternion q_i2b) { sat_velocity_b_ = q_i2b.frame_conv(sat_velocity_i_); }
 
+  inline void SetAcceleration_i(Vector<3> acceleration_i)
+  {
+    acc_i_ = acceleration_i;
+  }
+
   // 慣性系での並進力をセットする
   inline void AddForce_i(Vector<3> force_i, double spacecraft_mass)
   {
@@ -61,7 +66,7 @@ public:
   // 慣性系での加速度をセットする
   inline void AddAcceleration_i(Vector<3> acceleration_i)
   {
-    acc_i_ = acceleration_i;
+    acc_i_ += acceleration_i;
   }
 
   // 機体座標系での並進力をセットする
@@ -127,9 +132,9 @@ public:
   virtual string GetLogHeader() const = 0;
   virtual string GetLogValue() const = 0;
 
-  inline virtual Vector<3> GetESIOmega() { return Vector<3>();}
+  inline virtual Vector<3> GetESIOmega()const { return Vector<3>();}
 
-  inline Matrix<3,3> GetTransECItoECEF() { return trans_eci2ecef_; }
+  inline Matrix<3,3> GetTransECItoECEF()const { return trans_eci2ecef_; }
 
   bool IsCalcEnabled = false;
 

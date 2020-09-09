@@ -35,7 +35,7 @@ public:
   );
 
   // Override SimpleDisturbance
-  virtual void Update(Envir& env, const Spacecraft & spacecraft);
+  virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);
 
   // Override Loggable
   virtual string GetLogHeader() const;
