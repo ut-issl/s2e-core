@@ -7,16 +7,18 @@ DIR_HIPCATALOGUE=../../../ExtLibraries/HipparcosCatalogue/
 mkdir $DIR_TMP
 mkdir $DIR_HIPCATALOGUE
 
-#establish anonymous ftp connection and download the file
-ftp -n -v -A<<END
-open cdsarc.u-strasbg.fr
-user ftp test@
-lcd ../../../ExtLibraries/tmp_hipcatalogue
-cd /pub/cats/I/239
-bin
-get hip_main.dat.gz
-quit
-END
+# #establish anonymous ftp connection and download the file
+# ftp -n -v -A<<END
+# open cdsarc.u-strasbg.fr
+# user ftp test@
+# lcd ../../../ExtLibraries/tmp_hipcatalogue
+# cd /pub/cats/I/239
+# bin
+# get hip_main.dat.gz
+# quit
+# END
+
+curl ftp://cddis.gsfc.nasa.gov/pub/egm96/general_info/egm96_to360.ascii > $DIR_GEOPOTENTIAL/egm96_to360.ascii
 
 #unzip the downloaded file
 gzip -d -v $DIR_TMP/hip_main.dat.gz
