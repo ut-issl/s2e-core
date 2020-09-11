@@ -25,9 +25,12 @@
 
 ## How to compile
 
-- First of all, please execute `./script/dowload_cspice_VS32bit.bat` to set up CSPICE library
+- First of all, please execute `./script/name_of_your_environment/dowload_cspice_name_of_your_environment.bat` to set up CSPICE library
+  - if you use docker, excute `./script/Docker_Ubuntu/download_cspice_Linux_gcc.sh`  
+    if you use OS X, excute `./script/Mac/download_cspice_Mac.sh`  
+    if you use Visual Studio, excute `./script/VisualStudio/download_cspice_VS32bit.bat`
   - **Note:** The script is not completely automatic. Users need to input several simple words.
-  - If you don't use Windows and Visual Studio 2017 or the script doesn't work well in your environment, please see [How to download CSPICE library](https://gitlab.com/ut_issl/s2e/documents_oss/-/blob/master/General/HowToDwnloadCSPCElibrary.md) in [Documents_OSS](https://gitlab.com/ut_issl/s2e/documents_oss)..
+  - If the script doesn't work well in your environment, please see [How to download CSPICE library](https://gitlab.com/ut_issl/s2e/documents_oss/-/blob/master/General/HowToDwnloadCSPCElibrary.md) in [Documents_OSS](https://gitlab.com/ut_issl/s2e/documents_oss)..
 - Second, please see  [How to download and make NRLMSISE00 library](https://gitlab.com/ut_issl/s2e/documents_oss/-/blob/master/General/HowToDownloadNRLMSISE00library.md) in [Documents_OSS](https://gitlab.com/ut_issl/s2e/documents_oss) and set up NRLMSISE00 library.
 - To compile the CMake, please see [Documents_OSS](https://gitlab.com/ut_issl/s2e/documents_oss).
 
