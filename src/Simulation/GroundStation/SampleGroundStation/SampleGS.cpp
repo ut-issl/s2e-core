@@ -1,10 +1,10 @@
 #include "SampleGS.h"
 #include "SampleGSComponents.h"
 
-SampleGS::SampleGS(const SimulationConfig* config, int gs_id)
+SampleGS::SampleGS(SimulationConfig* config, int gs_id)
   :GroundStation(config, gs_id)
 {
-  Initialize();
+  Initialize(config);
 }
 
 SampleGS::~SampleGS()
@@ -12,9 +12,9 @@ SampleGS::~SampleGS()
   delete components_;
 }
 
-void SampleGS::Initialize()
+void SampleGS::Initialize(SimulationConfig* config)
 {
-  components_ = new SampleGSComponents(config_);
+  components_ = new SampleGSComponents(config);
 }
 
 void SampleGS::LogSetup(Logger& logger)

@@ -8,11 +8,11 @@ class SampleGSComponents;
 class SampleGS : public GroundStation
 {
 public:
-  SampleGS(const SimulationConfig* config, int gs_id);
+  SampleGS(SimulationConfig* config, int gs_id);
   ~SampleGS();
 
   // 初期化
-  virtual void Initialize();
+  virtual void Initialize(SimulationConfig* config);
   // ログ保存機能
   virtual void LogSetup(Logger& logger);
   // 状態量の更新
