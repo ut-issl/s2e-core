@@ -34,6 +34,7 @@ public:
   inline int GetNumBody(void) const{return num_of_selected_body_;}
   inline int* GetSelectedBody(void) const{return selected_body_;}
   int CalcBodyIdFromName(const char* body_name) const;
+  inline string GetCenterBodyName(void) const { return center_obj_; }
 
   // FOR LOG OUTPUT
   virtual string GetLogHeader() const;

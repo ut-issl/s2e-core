@@ -46,7 +46,7 @@ class Orbit;
 class Temperature;
 class Node;
 Attitude* InitAttitude(string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info);
-Orbit* InitOrbit(string ini_path, double stepSec, double current_jd, string section = "ORBIT");
+Orbit* InitOrbit(string ini_path, double stepSec, double current_jd, double gravity_constant, string section = "ORBIT");
 Temperature* InitTemperature(IniAccess mainIni);
 Node InitNode(const vector<string>& nodestr);
 

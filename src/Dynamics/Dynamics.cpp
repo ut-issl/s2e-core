@@ -22,7 +22,8 @@ void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time,
   // Save ini file
   //config_.logger->CopyFileToLogDir(orbit_ini_path);
   // Initialize
-  orbit_ = InitOrbit(orbit_ini_path, sim_time->GetOrbitStepSec(), sim_time->GetCurrentJd(), "ORBIT");
+  string center_body_name = local_celes_info->GetGlobalInfo().GetCenterBodyName();
+  orbit_ = InitOrbit(orbit_ini_path, sim_time->GetOrbitStepSec(), sim_time->GetCurrentJd(), local_celes_info->GetGlobalInfo().GetGravityConstant(center_body_name.c_str()), "ORBIT");
   attitude_ = InitAttitude(attitude_ini_path, orbit_, local_celes_info);
   temperature_ = InitTemperature(mainIni);
   mass = mainIni.ReadDouble("ATTITUDE", "mass");
