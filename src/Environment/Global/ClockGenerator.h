@@ -10,14 +10,16 @@ public:
   ~ClockGenerator();
 
   // クロックの周期（ミリ秒）
-  static const int IntervalMillisecond = 1;
+  const int IntervalMillisecond = 1;
 
-  static void RegisterComponent(ITickable* tickable);
-  static void RemoveComponent(ITickable* tickable);
-  static void TickToComponents();
+  void RegisterComponent(ITickable* tickable);
+  void RemoveComponent(ITickable* tickable);
+  void TickToComponents();
+
+  inline void ClearTimerCount(void){ timer_count_ = 0;}
 
 private:
-  static std::vector<ITickable*> components_;
-  static unsigned long long timer_count_;
+  std::vector<ITickable*> components_;
+  unsigned long long timer_count_;
 };
 

@@ -10,7 +10,7 @@ using libra::Vector;
 class GNSSReceiver : public ComponentBase, public ILoggable
 {
   public:
-    GNSSReceiver(const int id, const Vector<3> ant_direction, const Vector<3> noise_std, const Dynamics *dynamics);
+    GNSSReceiver(ClockGenerator* clock_gen, const int id, const Vector<3> ant_direction, const Vector<3> noise_std, const Dynamics *dynamics);
     void MainRoutine(int count);
     virtual string GetLogHeader() const;
     virtual string GetLogValue() const;

@@ -12,7 +12,8 @@
 using namespace std;
 using namespace libra;
 
-STT::STT(Quaternion& q_b2c,
+STT::STT(ClockGenerator* clock_gen,
+  Quaternion& q_b2c,
 	double sigma_ortho,
 	double sigma_sight,
 	double step_time,
@@ -24,7 +25,7 @@ STT::STT(Quaternion& q_b2c,
 	double capture_rate,
 	const Dynamics *dynamics,
   const LocalEnvironment* local_env)
-	: pos_(0), rot_(g_rand.MakeSeed()), n_ortho_(0.0, sigma_ortho, g_rand.MakeSeed()),
+	: ComponentBase(1,clock_gen),pos_(0), rot_(g_rand.MakeSeed()), n_ortho_(0.0, sigma_ortho, g_rand.MakeSeed()),
 	n_sight_(0.0, sigma_sight, g_rand.MakeSeed()), step_time_(step_time), output_delay_(output_delay),
 	output_interval_(output_interval), count_(0), dynamics_(dynamics),local_env_(local_env)
 {

@@ -16,7 +16,8 @@ using namespace std;
 #include "../../Library/math/Quaternion.hpp"
 #include "../../Library/math/GlobalRand.h"
 
-Gyro::Gyro(const int sensor_id,
+Gyro::Gyro(ClockGenerator* clock_gen,
+  const int sensor_id,
   const int port_id,
   const Quaternion& q_b2c,
   const Matrix<3, 3>& scale_factor,
@@ -29,7 +30,7 @@ Gyro::Gyro(const int sensor_id,
   double range_to_zero_c,
   double current,
   const Dynamics *dynamics)
-  : ComponentBase(50), sensor_id_(sensor_id), port_id_(port_id), q_b2c_(q_b2c),
+  : ComponentBase(50, clock_gen), sensor_id_(sensor_id), port_id_(port_id), q_b2c_(q_b2c),
   scale_factor_(scale_factor), bias_c_(bias_c), n_rw_c_(rw_stepwidth, rw_stddev_c, rw_limit_c),
   nrs0_c_(0.0, nr_stddev_c[0], g_rand.MakeSeed()), 
   nrs1_c_(0.0, nr_stddev_c[1], g_rand.MakeSeed()),

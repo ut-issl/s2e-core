@@ -17,7 +17,7 @@ SampleSat::~SampleSat()
 
 void SampleSat::Initialize(SimulationConfig* sim_config)
 {
-  components_ = new SampleComponents(dynamics_, sim_config);
+  components_ = new SampleComponents(dynamics_, sim_config, &clock_gen_);
 }
 
 void SampleSat::LogSetup(Logger & logger)
@@ -32,7 +32,7 @@ void SampleSat::Update(const SimTime* sim_time)
   // Component update
   for (int i = 0; i < sim_time->GetStepSec() * 1000; i++)
   {
-    ClockGenerator::TickToComponents();
+    clock_gen_.TickToComponents();
   }
 }
 

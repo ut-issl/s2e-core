@@ -1,8 +1,5 @@
 #include "ClockGenerator.h"
 
-std::vector<ITickable*> ClockGenerator::components_;
-unsigned long long ClockGenerator::timer_count_ = 0;
-
 ClockGenerator::~ClockGenerator()
 {
 }

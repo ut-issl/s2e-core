@@ -8,6 +8,7 @@ using namespace std;
 using namespace libra;
 
 Telescope::Telescope(
+  ClockGenerator* clock_gen,
 	libra::Quaternion& q_b2c,
 	double sun_forbidden_angle,
 	double earth_forbidden_angle,
@@ -21,7 +22,7 @@ Telescope::Telescope(
 	const HipparcosCatalogue* hipp,
 	const LocalCelestialInformation *local_celes_info
 	)
-	: ComponentBase(1), local_celes_info_(local_celes_info), attitude_(attitude), hipp_(hipp),
+	: ComponentBase(1, clock_gen), local_celes_info_(local_celes_info), attitude_(attitude), hipp_(hipp),
 	sun_forbidden_angle_(sun_forbidden_angle), earth_forbidden_angle_(earth_forbidden_angle),moon_forbidden_angle_(moon_forbidden_angle), 
 	q_b2c_(q_b2c), x_num_of_pix_(x_num_of_pix), y_num_of_pix_(y_num_of_pix), x_fov_par_pix_(x_fov_par_pix), y_fov_par_pix_(y_fov_par_pix), num_of_logged_stars_(num_of_logged_stars)
 {

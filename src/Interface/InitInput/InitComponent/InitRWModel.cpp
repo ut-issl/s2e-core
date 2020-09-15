@@ -1,7 +1,7 @@
 #include "../Initialize.h"
 #include "../../../Component/AOCS/RWModel.h"
 
-RWModel InitRWModel(int actuator_num, string file_name, double prop_step){
+RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_num, string file_name, double prop_step){
 
   double step_width = prop_step;
   IniAccess rwmodel_conf(file_name);
@@ -33,7 +33,7 @@ RWModel InitRWModel(int actuator_num, string file_name, double prop_step){
   double dead_time = rwmodel_conf.ReadDouble(RWsection, "dead_time");
   double max_torque = rwmodel_conf.ReadDouble(RWsection, "max_torque");
 
-  RWModel rwmodel(step_width,
+  RWModel rwmodel(clock_gen, step_width,
 	  angular_velocity_init,
 	  inertia,
 	  angular_velocity_limit_init,

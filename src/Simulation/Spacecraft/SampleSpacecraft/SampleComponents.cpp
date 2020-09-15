@@ -2,15 +2,15 @@
 #include "Sample_PortConfig.h"
 
 //TODO: Create a base class?
-SampleComponents::SampleComponents(const Dynamics* dynamics, const SimulationConfig* config)
+SampleComponents::SampleComponents(const Dynamics* dynamics, const SimulationConfig* config, ClockGenerator* clock_gen)
   :dynamics_(dynamics), config_(config)
 {
   IniAccess iniAccess = IniAccess(config_->ini_base_fname_);
 
-  obc_ = new OBC();
+  obc_ = new OBC(clock_gen);
   string gyro_ini_path = iniAccess.ReadString("COMPONENTS_FILE", "gyro_file");
   config_->main_logger_->CopyFileToLogDir(gyro_ini_path);
-  gyro_ = new Gyro(InitGyro(1, GYRO, gyro_ini_path, dynamics_));
+  gyro_ = new Gyro(InitGyro(clock_gen, 1, GYRO, gyro_ini_path, dynamics_));
 }
 
 SampleComponents::~SampleComponents()

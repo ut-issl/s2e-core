@@ -4,7 +4,7 @@
 #include "../../../Component/AOCS/MagTorquer.h"
 
 //磁気トルカ初期化, actuator_idで対応するアクチュエータ読み込み
-MagTorquer InitMagTorquer(int actuator_id, const string fname){
+MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const string fname){
 
 	IniAccess magtorquer_conf(fname);
 
@@ -40,7 +40,7 @@ MagTorquer InitMagTorquer(int actuator_id, const string fname){
 	resolution = magtorquer_conf.ReadInt(MTSection, "resolution");
 
 
-	MagTorquer magtorquer(actuator_id, q_b2c, max_c, min_c, bias_c, rw_stepwidth,
+	MagTorquer magtorquer(clock_gen, actuator_id, q_b2c, max_c, min_c, bias_c, rw_stepwidth,
 	        rw_stddev_c, rw_limit_c, nr_stddev_c, resolution);
 	return magtorquer;	
 	

@@ -3,7 +3,7 @@
 #include "../Initialize.h"
 #include "../../../Component/Power/SAP.h"
 
-SAP InitSAP(int sap_id, const string fname, const SRPEnvironment* srp) {
+SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const string fname, const SRPEnvironment* srp) {
 
   IniAccess sap_conf(fname);
 
@@ -31,7 +31,7 @@ SAP InitSAP(int sap_id, const string fname, const SRPEnvironment* srp) {
   double transmission_efficiency;
   transmission_efficiency = sap_conf.ReadDouble(Section, "transmission_efficiency");
 
-  SAP sap(sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency, transmission_efficiency, srp);
+  SAP sap(clock_gen, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency, transmission_efficiency, srp);
 
   return sap;
 }

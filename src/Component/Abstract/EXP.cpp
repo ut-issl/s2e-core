@@ -4,7 +4,7 @@
 #include "../../Interface/SpacecraftInOut/SCIDriver.h"
 #include "../../Interface/SpacecraftInOut/GPIODriver.h"
 
-EXP::EXP(int port_id) : ComponentBase(100)
+EXP::EXP(ClockGenerator* clock_gen, int port_id) : ComponentBase(100,clock_gen)
 {
   SCIDriver::ConnectPort(port_id);
   port_id_ = port_id;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Interface/InitInput/Initialize.h"
+#include "../../Environment/Global/ClockGenerator.h"
 #include "../../Dynamics/Dynamics.h"
 #include "../../Environment/Local/LocalEnvironment.h"
 #include "../../Disturbance/Disturbances.h"
@@ -27,6 +28,7 @@ public:
   inline const Disturbances& GetDisturbances() const { return *disturbances_; }
 
 protected:
+  ClockGenerator clock_gen_;
   Dynamics* dynamics_;
   LocalEnvironment* local_env_;
   Disturbances*  disturbances_;

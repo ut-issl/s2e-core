@@ -3,8 +3,8 @@
 #include "../../Library/math/GlobalRand.h"
 
 
-GNSSReceiver::GNSSReceiver(const int id, const Vector<3> ant_direction, const Vector<3> noise_std, const Dynamics *dynamics)
-	: ComponentBase(50), id_(id), antenna_direction_(ant_direction),
+GNSSReceiver::GNSSReceiver(ClockGenerator* clock_gen, const int id, const Vector<3> ant_direction, const Vector<3> noise_std, const Dynamics *dynamics)
+	: ComponentBase(50, clock_gen), id_(id), antenna_direction_(ant_direction),
     nrs_eci_x_(0.0, noise_std[0], g_rand.MakeSeed()), nrs_eci_y_(0.0, noise_std[1], g_rand.MakeSeed()), nrs_eci_z_(0.0, noise_std[2], g_rand.MakeSeed()),
     dynamics_(dynamics)
 {

@@ -14,7 +14,8 @@ using namespace std;
 #include "../../Interface/LogOutput/Logger.h"
 
 
-MagSensor::MagSensor(const int sensor_id,
+MagSensor::MagSensor(ClockGenerator* clock_gen,
+  const int sensor_id,
   const Quaternion& q_b2c,
   const Matrix<3, 3>& scale_factor,
   const Vector<3>& bias_c,
@@ -23,7 +24,7 @@ MagSensor::MagSensor(const int sensor_id,
   const Vector<3>& rw_limit_c,
   const Vector<3>& nr_stddev_c,
   const MagEnvironment *magnet)
-  : ComponentBase(60), sensor_id_(sensor_id), q_b2c_(q_b2c),
+  : ComponentBase(60, clock_gen), sensor_id_(sensor_id), q_b2c_(q_b2c),
   scale_factor_(scale_factor), bias_c_(bias_c),
   n_rw_c_(rw_stepwidth, rw_stddev_c, rw_limit_c),
   nrs0_c_(0.0, nr_stddev_c[0], g_rand.MakeSeed()),

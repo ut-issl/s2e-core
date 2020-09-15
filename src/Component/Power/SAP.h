@@ -9,7 +9,8 @@
 class SAP : public ComponentBase, public ILoggable
 {
 public:
-  SAP(int id,
+  SAP(ClockGenerator* clock_gen,
+    int id,
     int number_of_series,
     int number_of_parallel,
     double cell_area,

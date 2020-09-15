@@ -13,8 +13,8 @@
   #include "TaskDispatcher.h"
   #include "WatchdogTimer.h"
 #endif
-
-OBC::OBC() : ComponentBase(1)
+#include <iostream>
+OBC::OBC(ClockGenerator* clock_gen) : ComponentBase(1,clock_gen)
 {
   Initialize();
 }

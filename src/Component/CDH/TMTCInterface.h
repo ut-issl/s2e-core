@@ -8,7 +8,7 @@
 class TMTCInterface : public ComponentBase
 {
 public:
-  TMTCInterface(int port_id);
+  TMTCInterface(ClockGenerator* clock_gen,int port_id);
   ~TMTCInterface();
 protected:
   virtual void MainRoutine(int count);

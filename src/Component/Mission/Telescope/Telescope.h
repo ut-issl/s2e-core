@@ -17,7 +17,8 @@ struct Star//望遠鏡視野内に入っている恒星の情報
 class Telescope : public ComponentBase, public ILoggable
 {
 public:
-	Telescope(libra::Quaternion& q_b2c,
+	Telescope(ClockGenerator* clock_gen,
+    libra::Quaternion& q_b2c,
 		double sun_forbidden_angle,
 		double earth_forbidden_angle,
 		double moon_forbidden_angle,

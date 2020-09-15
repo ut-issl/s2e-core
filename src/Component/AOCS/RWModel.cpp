@@ -18,7 +18,8 @@ static double angularVelocity2rpm(double angular_velocity)
   return angular_velocity * 60 / (2.0 * M_PI);
 }
 
-RWModel::RWModel(double step_width,
+RWModel::RWModel(ClockGenerator* clock_gen,
+  double step_width,
 	double init_rpm,
 	double inertia,
 	double max_rpm,
@@ -30,7 +31,7 @@ RWModel::RWModel(double step_width,
 	Vector<3> coasting_lag_coef,
 	double max_torque,
 	double target_angular_velocity) :
-	ComponentBase(10),
+	ComponentBase(10,clock_gen),
 	kDeadSeconds_(dead_seconds),
 	dead_seconds_(dead_seconds),
 	inertia_(inertia),

@@ -19,7 +19,7 @@
 class EXP : public ComponentBase, public IGPIOCompo
 {
 public:
-  EXP(int port_id);
+  EXP(ClockGenerator* clock_gen, int port_id);
   int ReceiveCommand();
   int SendTelemetry();
 protected:

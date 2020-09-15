@@ -30,7 +30,8 @@ public:
   \MagEarth 地球磁場[T] 座標系は機体座標系(B)
   \resoluion 解像度
   */
-  MagTorquer(const int sensor_id,
+  MagTorquer(ClockGenerator* clock_gen,
+    const int sensor_id,
     const libra::Quaternion& q_b2c,
     const libra::Vector<3>& max_c,
     const libra::Vector<3>& min_c,

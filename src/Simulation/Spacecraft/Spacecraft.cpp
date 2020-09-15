@@ -17,6 +17,7 @@ Spacecraft::~Spacecraft()
 
 void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env)
 {
+  clock_gen_.ClearTimerCount();
   local_env_ = new LocalEnvironment(sim_config, glo_env);
   dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimTime()), &(local_env_->GetCelesInfo()));
   disturbances_ = new Disturbances(sim_config->ini_base_fname_);

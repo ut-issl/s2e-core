@@ -1,12 +1,12 @@
 #pragma once
 #include "ITickable.h"
+#include "../../Environment/Global/ClockGenerator.h"
 
 // 電源ON/OFFと時間の概念のみを持った、コンポーネントの基底クラス
 class ComponentBase : public ITickable
 {
 public:
-  ComponentBase();
-  ComponentBase(int prescaler);
+  ComponentBase(int prescaler, ClockGenerator* clock_gen);
   ComponentBase(const ComponentBase& obj);
   virtual ~ComponentBase();
 
@@ -37,5 +37,8 @@ protected:
   // クロックを分周した周期で呼び出されるメソッド
   // 周期的な処理をここに書く（定期テレメ送信・コマンド受信など）
   virtual void MainRoutine(int time_count) = 0;
+
+  // 
+  ClockGenerator* clock_gen_;
 };
 

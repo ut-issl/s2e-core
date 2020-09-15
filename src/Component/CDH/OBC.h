@@ -4,7 +4,7 @@
 class OBC: public ComponentBase
 {
 public:
-    OBC();
+    OBC(ClockGenerator* clock_gen);
     ~OBC();
     void Initialize();
     double GetCurrent(int port_id) const;

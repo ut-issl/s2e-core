@@ -26,7 +26,7 @@ public:
   const SRPEnvironment *srp_;
   void SunDetectionJudgement(bool sun_eclipsed);
 
-  SunSensor(
+  SunSensor(ClockGenerator* clock_gen,
     const libra::Quaternion& q_b2c, 
     double detectable_angle_rad,
     double ss_wnvar,

@@ -36,7 +36,8 @@ public:
 	* @param[in] dead_seconds 無駄時間
 	* @param[in] target_angular_velocity　目標角速度(=0)
 	*/
-	RWModel(double step_width,
+	RWModel(ClockGenerator* clock_gen,
+    double step_width,
 		double init_rpm,
 		double inertia,
 		double max_rpm,

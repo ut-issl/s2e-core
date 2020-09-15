@@ -37,7 +37,9 @@ public:
   \current 消費電流値
   \dynamics measureで参照するためのdynamics
   */
-  Gyro(const int sensor_id,
+  Gyro(
+    ClockGenerator* clock_gen,
+    const int sensor_id,
     const int port_id,
     const libra::Quaternion& q_b2c,
     const libra::Matrix<3, 3>& scale_factor,

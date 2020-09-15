@@ -9,13 +9,13 @@ using libra::NormalRand;
 
 using namespace std;
 
-SunSensor::SunSensor(
+SunSensor::SunSensor(ClockGenerator* clock_gen,
   const libra::Quaternion& q_b2c,
   double detectable_angle_rad,
   double ss_wnvar,
   double ss_bivar,
   const SRPEnvironment *srp)
-  : detectable_angle_rad_(detectable_angle_rad),
+  : ComponentBase(1,clock_gen),detectable_angle_rad_(detectable_angle_rad),
     ss_wnvar_(ss_wnvar),
     ss_bivar_(ss_bivar),
     srp_(srp)

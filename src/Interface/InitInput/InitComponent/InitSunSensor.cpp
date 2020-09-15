@@ -5,7 +5,7 @@
 #include "../../../Component/AOCS/SunSensor.h"
 
 //太陽センサ初期化, sensor_idで対応するセンサ読み込み
-SunSensor InitSunSensor(int ss_id, string file_name, const SRPEnvironment* srp){
+SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, string file_name, const SRPEnvironment* srp){
 
     IniAccess ss_conf(file_name);
 
@@ -28,6 +28,6 @@ SunSensor InitSunSensor(int ss_id, string file_name, const SRPEnvironment* srp){
 	double ss_bivar = 0.0;
 	ss_bivar = ss_conf.ReadDouble(Section, "ss_bivar");
 
-	SunSensor ss(q_b2c, detectable_angle_rad, ss_wnvar, ss_bivar, srp);
+	SunSensor ss(clock_gen, q_b2c, detectable_angle_rad, ss_wnvar, ss_bivar, srp);
 	return ss;
 }

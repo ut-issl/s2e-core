@@ -28,7 +28,8 @@ public:
 	\param forbidden_angle 太陽禁止角[rad]．
 	\param capture_rate 捕捉可能レート[rad/s]
 	*/
-	STT(libra::Quaternion& q_b2c,
+	STT(ClockGenerator* clock_gen,
+    libra::Quaternion& q_b2c,
 		double sigma_ortho,
 		double sigma_sight,
 		double step_time,

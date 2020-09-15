@@ -4,7 +4,7 @@
 #include "../../../Component/AOCS/MagSensor.h"
 
 //磁気センサ初期化, sensor_idで対応するセンサ読み込み
-MagSensor InitMagSensor(int sensor_id, const string fname, const MagEnvironment* magnet){
+MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const string fname, const MagEnvironment* magnet){
 
 	IniAccess magsensor_conf(fname);
 
@@ -41,7 +41,7 @@ MagSensor InitMagSensor(int sensor_id, const string fname, const MagEnvironment*
 	Vector<3> nr_stddev_c;
 	magsensor_conf.ReadVector(MSSection, "nr_stddev_c",nr_stddev_c);
 
-	MagSensor magsensor(sensor_id, q_b2c, scale_factor, bias_c, rw_stepwidth, rw_stddev_c, rw_limit_c, nr_stddev_c, magnet);
+	MagSensor magsensor(clock_gen, sensor_id, q_b2c, scale_factor, bias_c, rw_stepwidth, rw_stddev_c, rw_limit_c, nr_stddev_c, magnet);
 	return magsensor;	
 	
 }
