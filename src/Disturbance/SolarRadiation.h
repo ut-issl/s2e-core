@@ -16,23 +16,7 @@ using libra::Vector;
 class SolarRadiation : public SurfaceForce
 {
 public:
-  SolarRadiation(const Vector<3>& px_arm,
-    const Vector<3>& mx_arm,
-    const Vector<3>& py_arm,
-    const Vector<3>& my_arm,
-    const Vector<3>& pz_arm,
-    const Vector<3>& mz_arm,
-    const Vector<6>& area,
-    const Vector<3>& px_normal,
-    const Vector<3>& mx_normal,
-    const Vector<3>& py_normal,
-    const Vector<3>& my_normal,
-    const Vector<3>& pz_normal,
-    const Vector<3>& mz_normal,
-    const Vector<3>& center,
-    const Vector<6>& reflectivity,
-    const Vector<6>& specularity
-  );
+  SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b);
 
   // Override SimpleDisturbance
   virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);

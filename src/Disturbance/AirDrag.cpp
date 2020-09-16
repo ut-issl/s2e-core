@@ -10,35 +10,21 @@
 using namespace std;
 using namespace libra;
 
-AirDrag::AirDrag(const Vector<3>& px_arm,
-  const Vector<3>& mx_arm,
-  const Vector<3>& py_arm,
-  const Vector<3>& my_arm,
-  const Vector<3>& pz_arm,
-  const Vector<3>& mz_arm,
-  const Vector<6>& area,
-  const Vector<3>& px_normal,
-  const Vector<3>& mx_normal,
-  const Vector<3>& py_normal,
-  const Vector<3>& my_normal,
-  const Vector<3>& pz_normal,
-  const Vector<3>& mz_normal,
-  const Vector<3>& center,
-  const Vector<6>& specularity,
+AirDrag::AirDrag(
+  const vector<Surface>& surfaces, 
+  const Vector<3>& cg_b,
   const double t_w,
   const double t_m,
   const double molecular)
-  :SurfaceForce(px_arm, mx_arm, py_arm, my_arm, pz_arm, mz_arm, area,
-    px_normal, mx_normal, py_normal, my_normal, pz_normal, mz_normal, center)
+  :SurfaceForce(surfaces, cg_b)
 {
-  for (int i = 0; i < 6; ++i)
-  {
-    reflectivity_[i] = 1.0; //Total reflectance is 1.0 for air drag
-    specularity_[i] = specularity[i];//specularity
-  }
+  int num = surfaces_.size();
+  Ct_.assign(num,1.0);
+  Cn_.assign(num,0.0);
+  cnct.assign(num,0.0);
   Tw_ = t_w;
   Tm_ = t_m;
-  M = molecular;
+  M_ = molecular;
 };
 
 void AirDrag::Update(const LocalEnvironment & local_env, const Dynamics & dynamics)
@@ -53,13 +39,13 @@ void AirDrag::Update(const LocalEnvironment & local_env, const Dynamics & dynami
 void AirDrag::CalcCoef(Vector<3>& vel_b, double air_dens)
 {
   double vel_b_norm_m = norm(vel_b);
-  rho = air_dens;
+  rho_ = air_dens;
   CalCnCt(vel_b);
-  for (int i = 0; i < 6; i++)
+  for (size_t i = 0; i < surfaces_.size(); i++)
   {
-    double k = 0.5 * rho * vel_b_norm_m * vel_b_norm_m * area_[i];
-    normal_coef_[i] = k * Cn[i];
-    tangential_coef_[i] = k * Ct[i];
+    double k = 0.5 * rho_ * vel_b_norm_m * vel_b_norm_m * surfaces_[i].GetArea();
+    normal_coef_[i] = k * Cn_[i];
+    tangential_coef_[i] = k * Ct_[i];
   }
 }
 
@@ -86,24 +72,25 @@ void AirDrag::CalCnCt(Vector<3>& vel_b)
   Vector<3> vel_b_normal(vel_b); 
   normalize(vel_b_normal);
   //Re-emitting speed
-  S = sqrt(M * vel_b_norm_m * vel_b_norm_m / (2.0 * K * Tw_));
+  S = sqrt(M_ * vel_b_norm_m * vel_b_norm_m / (2.0 * K * Tw_));
   //CalcTheta(vel_b);
-  for (int i = 0; i < 6; i++)
+  for (size_t i = 0; i < surfaces_.size(); i++)
   {
     double Sn = S * cosX[i];
     double St = S * sinX[i];
-    double diffuse = 1.0 - specularity_[i];
-    Cn[i] = (2.0 - diffuse) / sqrt(M_PI) * funcPi(Sn) / (S*S) + diffuse / 2.0 * funcChi(Sn) / (S*S) * sqrt(Tw_ / Tm_);
-    Ct[i] = diffuse * St * funcChi(Sn) / (sqrt(M_PI) * S*S);
+    double diffuse = 1.0 - surfaces_[i].GetAirSpecularity();
+    Cn_[i] = (2.0 - diffuse) / sqrt(M_PI) * funcPi(Sn) / (S*S) + diffuse / 2.0 * funcChi(Sn) / (S*S) * sqrt(Tw_ / Tm_);
+    Ct_[i] = diffuse * St * funcChi(Sn) / (sqrt(M_PI) * S*S);
     //for debug
-    cnct[i] = Ct[i] / Cn[i];
+    cnct[i] = Ct_[i] / Cn_[i];
   }
 }
 
 void AirDrag::PrintParams(void)//for debug
 {
-  cout << "px_arm =(" << arms_b[0][0] << "," << arms_b[0][1] << "," << arms_b[0][2] << ") m \n";
-  cout << "area =(" << area_[0] << "," << area_[1] << "," << area_[2] << ") m^2 \n";
+  Vector<3> arms_b = surfaces_[0].GetPosition();
+  cout << "px_arm =(" << arms_b[0] << "," << arms_b[1] << "," << arms_b[2] << ") m \n";
+  cout << "area =(" << surfaces_[0].GetArea() << "," << surfaces_[1].GetArea() << "," << surfaces_[2].GetArea() << ") m^2 \n";
   cout << "Temperature =(" << Tw_ << "," << Tm_ << ") K \n";
 }
 
@@ -111,8 +98,8 @@ string AirDrag::GetLogHeader() const
 {
   string str_tmp = "";
 
-  str_tmp += WriteVector("airdragtorque", "b", "Nm", 3);
-  str_tmp += WriteVector("airdragforce", "b", "N", 3);
+  str_tmp += WriteVector("airdrag_torque", "b", "Nm", 3);
+  str_tmp += WriteVector("airdrag_force", "b", "N", 3);
 
   return str_tmp;
 }

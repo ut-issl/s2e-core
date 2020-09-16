@@ -52,14 +52,16 @@ Temperature* InitTemperature(IniAccess mainIni);
 Node InitNode(const vector<string>& nodestr);
 
 //Disturbance
+class Surface;
 class AirDrag;
 class SolarRadiation;
 class GGDist;
 class MagDisturbance;
 class GeoPotential;
 class ThirdBodyGravity;
-AirDrag InitAirDrag(string ini_path);
-SolarRadiation InitSRDist(string ini_path);
+vector<Surface> InitSurfaces(string ini_path);
+AirDrag InitAirDrag(string ini_path, const vector<Surface>& surfaces);
+SolarRadiation InitSRDist(string ini_path, const vector<Surface>& surfaces);
 GGDist InitGGDist(string ini_path);
 MagDisturbance InitMagDisturbance(string ini_path);
 GeoPotential InitGeoPotential(string ini_path);

@@ -7,10 +7,10 @@
 #include "ThirdBodyGravity.h"
 #include "../Interface/InitInput/Initialize.h"
 
-Disturbances::Disturbances(string base_ini_fname)
+Disturbances::Disturbances(string base_ini_fname, const vector<Surface>& surfaces)
   : base_ini_fname_(base_ini_fname)
 {
-  InitializeInstances();
+  InitializeInstances(surfaces);
   InitializeOutput();
 }
 
@@ -74,15 +74,15 @@ Vector<3> Disturbances::GetAccelerationI()
   return sum_acceleration_i_;
 }
 
-void Disturbances::InitializeInstances()
+void Disturbances::InitializeInstances(const vector<Surface>& surfaces)
 {
   IniAccess iniAccess = IniAccess(base_ini_fname_);
   ini_fname_ = iniAccess.ReadString("SIM_SETTING", "dist_file");
 
   GGDist* gg_dist = new GGDist(InitGGDist(ini_fname_));
-  AirDrag* air_dist = new AirDrag(InitAirDrag(ini_fname_));
+  AirDrag* air_dist = new AirDrag(InitAirDrag(ini_fname_,surfaces));
+  SolarRadiation* srp_dist = new SolarRadiation(InitSRDist(ini_fname_,surfaces));
   MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(ini_fname_));
-  SolarRadiation* srp_dist = new SolarRadiation(InitSRDist(ini_fname_));
 
   disturbances_.push_back(gg_dist);
   disturbances_.push_back(air_dist);

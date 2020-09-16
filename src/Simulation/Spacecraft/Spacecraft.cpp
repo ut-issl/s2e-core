@@ -17,10 +17,17 @@ Spacecraft::~Spacecraft()
 
 void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env)
 {
+  //Structure
+  auto conf = IniAccess(sim_config->ini_base_fname_);
+  conf.ReadVector("STRUCTURE", "cg_b", cg_b_);
+  mass_ = conf.ReadDouble("STRUCTURE", "mass");
+  string ini_dist = conf.ReadString("SIM_SETTING", "dist_file");
+  surfaces_ = InitSurfaces(ini_dist);
+
   clock_gen_.ClearTimerCount();
   local_env_ = new LocalEnvironment(sim_config, glo_env);
   dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimTime()), &(local_env_->GetCelesInfo()));
-  disturbances_ = new Disturbances(sim_config->ini_base_fname_);
+  disturbances_ = new Disturbances(sim_config->ini_base_fname_,surfaces_);  
 }
 
 void Spacecraft::LogSetup(Logger& logger)

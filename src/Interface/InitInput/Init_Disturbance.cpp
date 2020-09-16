@@ -6,93 +6,122 @@
 #include "../../Disturbance/GeoPotential.h"
 #include "../../Disturbance/ThirdBodyGravity.h"
 
-AirDrag InitAirDrag(string ini_path)
+#define MIN_VAL 1e-9
+
+vector<Surface> InitSurfaces(string ini_path)
+{
+  auto conf = IniAccess(ini_path);
+  char* section = "SURFACES";
+
+  const int num_surface = conf.ReadInt(section, "num_of_surfaces");
+  vector<Surface> surfaces;
+
+  for (int i=0;i<num_surface;i++)
+  {
+    string idx = std::to_string(i);
+    idx = "_" + idx;
+    string keyword;
+
+    keyword = "area"+idx;
+    double area = conf.ReadDouble(section, keyword.c_str());
+    if(area < -MIN_VAL) //Fixme: magic word
+    {
+      cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
+      break;
+    }
+
+    keyword = "reflectivity"+idx;
+    double ref = conf.ReadDouble(section, keyword.c_str());
+    if(ref < -MIN_VAL) //Fixme: magic word
+    {
+      cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
+      break;
+    }
+    else if(ref > 1.0+MIN_VAL) //Fixme: magic word
+    {
+      cout << "Surface Error! " << keyword << ": larger than 1.0\n";
+      break;
+    }
+
+    keyword = "specularity"+idx;
+    double spe = conf.ReadDouble(section, keyword.c_str());
+    if(spe < -MIN_VAL) //Fixme: magic word
+    {
+      cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
+      break;
+    }
+    else if(spe > 1.0+MIN_VAL) //Fixme: magic word
+    {
+      cout << "Surface Error! " << keyword << ": larger than 0.0\n";
+      break;
+    }
+
+    keyword = "air_specularity"+idx;   
+    double air_spe = conf.ReadDouble(section, keyword.c_str());
+    if(air_spe < -MIN_VAL) //Fixme: magic word
+    {
+      cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
+      break;
+    }
+    else if(air_spe > 1.0+MIN_VAL) //Fixme: magic word
+    {
+      cout << "Surface Error! " << keyword << ": larger than 0.0\n";
+      break;
+    }
+
+    Vector<3> position, normal;
+    keyword = "position"+idx;   
+    conf.ReadVector(section, keyword.c_str(), position);
+
+    keyword = "normal"+idx;   
+    conf.ReadVector(section, keyword.c_str(), normal);
+    if(norm(normal) > 1.0+MIN_VAL) //Fixme: magic word
+    {
+      cout << "Surface Error! " << keyword << ": norm is larger than 1.0\n";
+      break;
+    }
+
+    //Add a surface
+    surfaces.push_back(Surface(position, normal, area, ref, spe, air_spe));
+  }
+  return surfaces;
+}
+
+AirDrag InitAirDrag(string ini_path, const vector<Surface>& surfaces)
 {
   auto conf = IniAccess(ini_path);
   char* section = "AIRDRAG";
 
-  //air drag
-  Vector<6> specularity(0);
-  //surface force
-  Vector<3> px_arm(0), mx_arm(0), py_arm(0), my_arm(0), pz_arm(0), mz_arm(0);
-  Vector<6> area(0);
-  Vector<3> px_normal(0), mx_normal(0), py_normal(0), my_normal(0), pz_normal(0), mz_normal(0);
-  Vector<3> center(0);
-
   double t_w = conf.ReadDouble(section, "Temp_wall") + 273.0;
   double t_m = conf.ReadDouble(section, "Temp_molecular") + 273.0;
   double molecular = conf.ReadDouble(section, "Molecular");
-  conf.ReadVector(section, "specularity", specularity);
+
   bool calcen = conf.ReadEnable(section, CALC_LABEL);
   bool logen = conf.ReadEnable(section, LOG_LABEL);
 
   section = "SURFACEFORCE";
-
-  conf.ReadVector(section, "px_arm", px_arm);
-  conf.ReadVector(section, "mx_arm", mx_arm);
-  conf.ReadVector(section, "py_arm", py_arm);
-  conf.ReadVector(section, "my_arm", my_arm);
-  conf.ReadVector(section, "pz_arm", pz_arm);
-  conf.ReadVector(section, "mz_arm", mz_arm);
-
-  conf.ReadVector(section, "area", area);
-
-  conf.ReadVector(section, "px_normal", px_normal);
-  conf.ReadVector(section, "mx_normal", mx_normal);
-  conf.ReadVector(section, "py_normal", py_normal);
-  conf.ReadVector(section, "my_normal", my_normal);
-  conf.ReadVector(section, "pz_normal", pz_normal);
-  conf.ReadVector(section, "mz_normal", mz_normal);
-
+  Vector<3> center(0);
   conf.ReadVector(section, "center", center);
-
-  AirDrag airdrag(px_arm, mx_arm, py_arm, my_arm, pz_arm, mz_arm, area,
-    px_normal, mx_normal, py_normal, my_normal, pz_normal, mz_normal, center, specularity, t_w, t_m, molecular);
+  AirDrag airdrag(surfaces, center, t_w, t_m, molecular);
   airdrag.IsCalcEnabled = calcen;
   airdrag.IsLogEnabled = logen;
 
   return airdrag;
 }
 
-SolarRadiation InitSRDist(string ini_path)
+SolarRadiation InitSRDist(string ini_path, const vector<Surface>& surfaces)
 {
   auto conf = IniAccess(ini_path);
   char* section = "SRDIST";
 
-  //SRP
-  Vector<6> reflectivity(0), specularity(0);
-  //surface force
-  Vector<3> px_arm(0), mx_arm(0), py_arm(0), my_arm(0), pz_arm(0), mz_arm(0);
-  Vector<6> area(0);
-  Vector<3> px_normal(0), mx_normal(0), py_normal(0), my_normal(0), pz_normal(0), mz_normal(0);
-  Vector<3> center(0);
-
-  conf.ReadVector(section, "reflectivity", reflectivity);
-  conf.ReadVector(section, "specularity", specularity);
   bool calcen = conf.ReadEnable(section, CALC_LABEL);
   bool logen = conf.ReadEnable(section, LOG_LABEL);
 
   section = "SURFACEFORCE";
 
-  conf.ReadVector(section, "px_arm", px_arm);
-  conf.ReadVector(section, "mx_arm", mx_arm);
-  conf.ReadVector(section, "py_arm", py_arm);
-  conf.ReadVector(section, "my_arm", my_arm);
-  conf.ReadVector(section, "pz_arm", pz_arm);
-  conf.ReadVector(section, "mz_arm", mz_arm);
-
-  conf.ReadVector(section, "area", area);
-
-  conf.ReadVector(section, "px_normal", px_normal);
-  conf.ReadVector(section, "mx_normal", mx_normal);
-  conf.ReadVector(section, "py_normal", py_normal);
-  conf.ReadVector(section, "my_normal", my_normal);
-  conf.ReadVector(section, "pz_normal", pz_normal);
-  conf.ReadVector(section, "mz_normal", mz_normal);
-
+  Vector<3> center(0);
   conf.ReadVector(section, "center", center);
-  SolarRadiation srdist(px_arm, mx_arm, py_arm, my_arm, pz_arm, mz_arm, area,
-    px_normal, mx_normal, py_normal, my_normal, pz_normal, mz_normal, center, reflectivity, specularity);
+  SolarRadiation srdist(surfaces, center);
   srdist.IsCalcEnabled = calcen;
   srdist.IsLogEnabled = logen;
 
