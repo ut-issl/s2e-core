@@ -1,8 +1,8 @@
 #include "../Initialize.h"
 #include "../../../Component/Propulsion/SimpleThruster.h"
 
-SimpleThruster InitSimpleThruster(int thruster_id){
-	IniAccess thruster_conf("data/ini/component/thruster.ini");
+SimpleThruster InitSimpleThruster(int thruster_id, const std::string fname){
+	IniAccess thruster_conf(fname);
 
     string sectionstr = "THRUSTER" + to_string(thruster_id);
     auto* Section = sectionstr.c_str();

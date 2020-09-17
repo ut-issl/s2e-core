@@ -87,7 +87,7 @@ Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, int port_id, const strin
 MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const string fname, const MagEnvironment* magnet);
 MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const string fname);
 RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id, string file_name, double prop_step);
-SimpleThruster InitSimpleThruster(int thruster_id);
+SimpleThruster InitSimpleThruster(int thruster_id, const string fname);
 BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const string fname);
 SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const string fname, const SRPEnvironment* srp);
 EMDS InitEMDS(int actuator_id);
