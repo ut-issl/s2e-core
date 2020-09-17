@@ -14,6 +14,17 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const stri
 	char MTSection[30] = "MAGTORQUER";
 	strcat(MTSection, cs);
 	
+	Vector<9> sf_vec;
+	magtorquer_conf.ReadVector(MTSection, "ScaleFactor", sf_vec);
+	Matrix<3,3> scale_factor;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			scale_factor[i][j] = sf_vec[i * 3 + j];
+		}
+	}
+
 	Quaternion q_b2c;
 	magtorquer_conf.ReadQuaternion(MTSection, "q_b2c", q_b2c);
 
@@ -40,7 +51,7 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const stri
 	resolution = magtorquer_conf.ReadInt(MTSection, "resolution");
 
 
-	MagTorquer magtorquer(clock_gen, actuator_id, q_b2c, max_c, min_c, bias_c, rw_stepwidth,
+	MagTorquer magtorquer(clock_gen,actuator_id, q_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth,
 	        rw_stddev_c, rw_limit_c, nr_stddev_c, resolution);
 	return magtorquer;	
 	

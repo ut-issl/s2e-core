@@ -9,6 +9,7 @@ using namespace std;
 MagTorquer::MagTorquer(ClockGenerator* clock_gen,
   const int sensor_id,
   const Quaternion& q_b2c,
+  const libra::Matrix<3, 3>& scale_factor,
   const libra::Vector<3>& max_c,
   const libra::Vector<3>& min_c,
   const libra::Vector<3>& bias_c,
@@ -17,7 +18,7 @@ MagTorquer::MagTorquer(ClockGenerator* clock_gen,
   const libra::Vector<3>& rw_limit_c,
   const libra::Vector<3>& nr_stddev_c,
   unsigned int resolution)
-  : ComponentBase(40,clock_gen), sensor_id_(sensor_id), q_b2c_(q_b2c), q_c2b_(q_b2c_.conjugate()), resolution_(resolution),
+  : ComponentBase(40,clock_gen), sensor_id_(sensor_id),scale_factor_(scale_factor), q_b2c_(q_b2c), q_c2b_(q_b2c_.conjugate()), resolution_(resolution),
   max_c_(max_c), min_c_(min_c), bias_c_(bias_c), n_rw_c_(rw_stepwidth, rw_stddev_c, rw_limit_c),
   nrs0_c_(0.0, nr_stddev_c[0], g_rand.MakeSeed()),
   nrs1_c_(0.0, nr_stddev_c[1], g_rand.MakeSeed()),
@@ -77,6 +78,9 @@ Vector<3> MagTorquer::activate(const Vector<3>& MagTorque_ordered, const libra::
     }
 
   }
+
+  MagTorque_c = scale_factor_ * MagTorque_c;
+
   // ランダムウォークの更新
   ++n_rw_c_;
 

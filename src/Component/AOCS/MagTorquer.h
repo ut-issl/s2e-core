@@ -33,6 +33,7 @@ public:
   MagTorquer(ClockGenerator* clock_gen,
     const int sensor_id,
     const libra::Quaternion& q_b2c,
+    const libra::Matrix<3, 3>& scale_facter,
     const libra::Vector<3>& max_c,
     const libra::Vector<3>& min_c,
     const libra::Vector<3>& bias_c,
@@ -69,6 +70,8 @@ private:
   double current_;
   libra::Vector<3> max_c_;
   libra::Vector<3> min_c_;
+  //! スケールファクタ
+  libra::Matrix<3, 3> scale_factor_;
   //! バイアス定常成分
   libra::Vector<3> bias_c_;
   //! ランダムウォーク生成オブジェクト
