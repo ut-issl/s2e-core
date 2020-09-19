@@ -8,11 +8,11 @@ class SampleComponents;
 class SampleSat : public Spacecraft
 {
 public:
-  SampleSat(SimulationConfig* sim_config, const GlobalEnvironment* glo_env);
+  SampleSat(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
   ~SampleSat();
 
   // 初期化
-  virtual void Initialize(SimulationConfig* sim_config);
+  virtual void Initialize(SimulationConfig* sim_config, const int sat_id);
   // ログ保存機能
   virtual void LogSetup(Logger& logger);
   // 状態量の更新

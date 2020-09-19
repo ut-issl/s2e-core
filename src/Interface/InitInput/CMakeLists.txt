@@ -16,6 +16,8 @@ add_library(${PROJECT_NAME} STATIC
   InitThermal/Init_Temperature.cpp
   # Disturbance
   #Init_Disturbance.cpp
+  # Structure
+  Init_Structure.cpp
 
   Init_MCSim.cpp
 

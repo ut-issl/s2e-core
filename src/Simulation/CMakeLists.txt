@@ -6,6 +6,10 @@ add_library(${PROJECT_NAME} STATIC
   MCSim/MCSimExecutor.cpp
   MCSim/SimulationObject.cpp
   Spacecraft/Spacecraft.cpp
+  Spacecraft/Structure/Structure.cpp
+  Spacecraft/Structure/KinematicsParams.cpp
+  Spacecraft/Structure/RMMParams.cpp
+  Spacecraft/Structure/Surface.cpp
   GroundStation/GroundStation.cpp
 )
 # Compile option

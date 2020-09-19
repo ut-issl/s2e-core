@@ -8,7 +8,6 @@ add_library(${PROJECT_NAME} STATIC
   MagDisturbance.cpp
   SolarRadiation.cpp
   SurfaceForce.cpp
-  Surface.cpp
   ThirdBodyGravity.cpp
   ../Interface/InitInput/Init_Disturbance.cpp
 )

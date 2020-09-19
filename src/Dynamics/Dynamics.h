@@ -17,12 +17,14 @@ using libra::Vector;
 #include "../Environment/Global/SimTime.h"
 #include "../Environment/Local/LocalCelestialInformation.h"
 
+#include "../Simulation/Spacecraft/Structure/Structure.h"
+
 class Dynamics
 {
 public:
-  Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info);
+  Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id, Structure* structure);
   ~Dynamics();
-  void Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info);
+  void Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id, Structure* structure);
   void Update(const SimTime* sim_time, const LocalCelestialInformation* local_celes_info);
   void LogSetup(Logger& logger);
 
@@ -38,7 +40,7 @@ public:
   inline const Temperature& GetTemperature() const { return *temperature_;  }  
 
   //必要性に疑問を感じる物たち
-  double mass;        // これはここは不適切なきがする．設定ファイルも
+  double mass_;        // これはここは不適切なきがする．設定ファイルも
   // 慣性系における位置を取得する関数
   // オーバーライドしてセンサーによる推定値を返すのも良い
   virtual Vector<3> GetPosition_i() const;

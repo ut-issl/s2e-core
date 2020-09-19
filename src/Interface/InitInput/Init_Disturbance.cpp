@@ -8,86 +8,7 @@
 
 #define MIN_VAL 1e-9
 
-vector<Surface> InitSurfaces(string ini_path)
-{
-  auto conf = IniAccess(ini_path);
-  char* section = "SURFACES";
-
-  const int num_surface = conf.ReadInt(section, "num_of_surfaces");
-  vector<Surface> surfaces;
-
-  for (int i=0;i<num_surface;i++)
-  {
-    string idx = std::to_string(i);
-    idx = "_" + idx;
-    string keyword;
-
-    keyword = "area"+idx;
-    double area = conf.ReadDouble(section, keyword.c_str());
-    if(area < -MIN_VAL) //Fixme: magic word
-    {
-      cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
-      break;
-    }
-
-    keyword = "reflectivity"+idx;
-    double ref = conf.ReadDouble(section, keyword.c_str());
-    if(ref < -MIN_VAL) //Fixme: magic word
-    {
-      cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
-      break;
-    }
-    else if(ref > 1.0+MIN_VAL) //Fixme: magic word
-    {
-      cout << "Surface Error! " << keyword << ": larger than 1.0\n";
-      break;
-    }
-
-    keyword = "specularity"+idx;
-    double spe = conf.ReadDouble(section, keyword.c_str());
-    if(spe < -MIN_VAL) //Fixme: magic word
-    {
-      cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
-      break;
-    }
-    else if(spe > 1.0+MIN_VAL) //Fixme: magic word
-    {
-      cout << "Surface Error! " << keyword << ": larger than 0.0\n";
-      break;
-    }
-
-    keyword = "air_specularity"+idx;   
-    double air_spe = conf.ReadDouble(section, keyword.c_str());
-    if(air_spe < -MIN_VAL) //Fixme: magic word
-    {
-      cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
-      break;
-    }
-    else if(air_spe > 1.0+MIN_VAL) //Fixme: magic word
-    {
-      cout << "Surface Error! " << keyword << ": larger than 0.0\n";
-      break;
-    }
-
-    Vector<3> position, normal;
-    keyword = "position"+idx;   
-    conf.ReadVector(section, keyword.c_str(), position);
-
-    keyword = "normal"+idx;   
-    conf.ReadVector(section, keyword.c_str(), normal);
-    if(norm(normal) > 1.0+MIN_VAL) //Fixme: magic word
-    {
-      cout << "Surface Error! " << keyword << ": norm is larger than 1.0\n";
-      break;
-    }
-
-    //Add a surface
-    surfaces.push_back(Surface(position, normal, area, ref, spe, air_spe));
-  }
-  return surfaces;
-}
-
-AirDrag InitAirDrag(string ini_path, const vector<Surface>& surfaces)
+AirDrag InitAirDrag(string ini_path, const vector<Surface>& surfaces, const Vector<3> cg_b)
 {
   auto conf = IniAccess(ini_path);
   char* section = "AIRDRAG";
@@ -99,17 +20,14 @@ AirDrag InitAirDrag(string ini_path, const vector<Surface>& surfaces)
   bool calcen = conf.ReadEnable(section, CALC_LABEL);
   bool logen = conf.ReadEnable(section, LOG_LABEL);
 
-  section = "SURFACEFORCE";
-  Vector<3> center(0);
-  conf.ReadVector(section, "center", center);
-  AirDrag airdrag(surfaces, center, t_w, t_m, molecular);
+  AirDrag airdrag(surfaces, cg_b, t_w, t_m, molecular);
   airdrag.IsCalcEnabled = calcen;
   airdrag.IsLogEnabled = logen;
 
   return airdrag;
 }
 
-SolarRadiation InitSRDist(string ini_path, const vector<Surface>& surfaces)
+SolarRadiation InitSRDist(string ini_path, const vector<Surface>& surfaces, const Vector<3> cg_b)
 {
   auto conf = IniAccess(ini_path);
   char* section = "SRDIST";
@@ -117,11 +35,7 @@ SolarRadiation InitSRDist(string ini_path, const vector<Surface>& surfaces)
   bool calcen = conf.ReadEnable(section, CALC_LABEL);
   bool logen = conf.ReadEnable(section, LOG_LABEL);
 
-  section = "SURFACEFORCE";
-
-  Vector<3> center(0);
-  conf.ReadVector(section, "center", center);
-  SolarRadiation srdist(surfaces, center);
+  SolarRadiation srdist(surfaces, cg_b);
   srdist.IsCalcEnabled = calcen;
   srdist.IsLogEnabled = logen;
 
@@ -140,21 +54,12 @@ GGDist InitGGDist(string ini_path)
   return ggdist;
 }
 
-MagDisturbance InitMagDisturbance(string ini_path)
+MagDisturbance InitMagDisturbance(string ini_path, RMMParams rmm_params)
 {
   auto conf = IniAccess(ini_path);
   char* section = "MAG_DISTURBANCE";
 
-  Vector<3> rmm_const_b(0);
-  double rmm_rwdev = 0.0, rmm_rwlimit = 0.0, rmm_wnvar = 0.0;
-
-  conf.ReadVector(section, "rmm_const_b", rmm_const_b);
-
-  rmm_rwdev = conf.ReadDouble(section, "rmm_rwdev");
-  rmm_rwlimit = conf.ReadDouble(section, "rmm_rwlimit");
-  rmm_wnvar = conf.ReadDouble(section, "rmm_wnvar");
-
-  MagDisturbance mag_dist(rmm_const_b, rmm_rwdev, rmm_rwlimit, rmm_wnvar);
+  MagDisturbance mag_dist(rmm_params.GetRMMConst_b(), rmm_params.GetRMMRWDev(), rmm_params.GetRMMRWLimit(), rmm_params.GetRMMWNVar());
   mag_dist.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   mag_dist.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 

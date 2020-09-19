@@ -21,6 +21,16 @@ using libra::Quaternion;
 class Logger;
 Logger* InitLog(string file_name);
 Logger* InitLogMC(string file_name, bool enable);
+
+//Structure
+class KinematicsParams;
+class Surface;
+class RMMParams;
+KinematicsParams InitKinematicsParams(string ini_path);
+vector<Surface> InitSurfaces(string ini_path);
+RMMParams InitRMMParams(string ini_path);
+
+
 //Global Environment
 class SimTime;
 class ClockGenerator;
@@ -46,24 +56,23 @@ class Attitude;
 class Orbit;
 class Temperature;
 class Node;
-Attitude* InitAttitude(string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info);
+Attitude* InitAttitude(string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info, const Matrix<3, 3> inertia_tensor);
 Orbit* InitOrbit(string ini_path, double stepSec, double current_jd, double gravity_constant, string section = "ORBIT");
-Temperature* InitTemperature(IniAccess mainIni);
+Temperature* InitTemperature(string ini_path);
 Node InitNode(const vector<string>& nodestr);
 
 //Disturbance
-class Surface;
+class RMMParams;
 class AirDrag;
 class SolarRadiation;
 class GGDist;
 class MagDisturbance;
 class GeoPotential;
 class ThirdBodyGravity;
-vector<Surface> InitSurfaces(string ini_path);
-AirDrag InitAirDrag(string ini_path, const vector<Surface>& surfaces);
-SolarRadiation InitSRDist(string ini_path, const vector<Surface>& surfaces);
+AirDrag InitAirDrag(string ini_path, const vector<Surface>& surfaces, const Vector<3> cg_b);
+SolarRadiation InitSRDist(string ini_path, const vector<Surface>& surfaces, Vector<3> cg_b);
 GGDist InitGGDist(string ini_path);
-MagDisturbance InitMagDisturbance(string ini_path);
+MagDisturbance InitMagDisturbance(string ini_path, RMMParams rmm_params);
 GeoPotential InitGeoPotential(string ini_path);
 ThirdBodyGravity InitThirdBodyGravity(string ini_path, string ini_path_celes);
 

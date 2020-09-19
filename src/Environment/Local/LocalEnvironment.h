@@ -14,9 +14,9 @@ class SimTime;
 class LocalEnvironment
 {
 public:
-  LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env);
+  LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
   ~LocalEnvironment();
-  void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env);
+  void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
   void Update(const Dynamics* dynamics, const SimTime* sim_time);
   void LogSetup(Logger& logger);
 

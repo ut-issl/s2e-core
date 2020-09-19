@@ -4,7 +4,7 @@
 #define __SurfaceForce_H__
 
 #include "SimpleDisturbance.h"
-#include "Surface.h"
+#include"../Simulation/Spacecraft/Structure/Surface.h"
 #include "../Library/math/Vector.hpp"
 #include "../Library/math/Quaternion.hpp"
 using libra::Vector;

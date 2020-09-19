@@ -7,10 +7,9 @@
 #include "ThirdBodyGravity.h"
 #include "../Interface/InitInput/Initialize.h"
 
-Disturbances::Disturbances(string base_ini_fname, const vector<Surface>& surfaces)
-  : base_ini_fname_(base_ini_fname)
+Disturbances::Disturbances(SimulationConfig* sim_config, const int sat_id, Structure* structure)
 {
-  InitializeInstances(surfaces);
+  InitializeInstances(sim_config, sat_id, structure);
   InitializeOutput();
 }
 
@@ -74,15 +73,15 @@ Vector<3> Disturbances::GetAccelerationI()
   return sum_acceleration_i_;
 }
 
-void Disturbances::InitializeInstances(const vector<Surface>& surfaces)
+void Disturbances::InitializeInstances(SimulationConfig* sim_config, const int sat_id, Structure* structure)
 {
-  IniAccess iniAccess = IniAccess(base_ini_fname_);
-  ini_fname_ = iniAccess.ReadString("SIM_SETTING", "dist_file");
+  IniAccess iniAccess = IniAccess(sim_config->sat_file_[sat_id]);
+  ini_fname_ = iniAccess.ReadString("DISTURBANCE", "dist_file");
 
   GGDist* gg_dist = new GGDist(InitGGDist(ini_fname_));
-  AirDrag* air_dist = new AirDrag(InitAirDrag(ini_fname_,surfaces));
-  SolarRadiation* srp_dist = new SolarRadiation(InitSRDist(ini_fname_,surfaces));
-  MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(ini_fname_));
+  AirDrag* air_dist = new AirDrag(InitAirDrag(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
+  SolarRadiation* srp_dist = new SolarRadiation(InitSRDist(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
+  MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(ini_fname_, structure->GetRMMParams()));
 
   disturbances_.push_back(gg_dist);
   disturbances_.push_back(air_dist);
@@ -90,8 +89,7 @@ void Disturbances::InitializeInstances(const vector<Surface>& surfaces)
   disturbances_.push_back(srp_dist);
 
   GeoPotential* geopotential = new GeoPotential(InitGeoPotential(ini_fname_));
-  ini_fname_celes_ = iniAccess.ReadString("SIM_SETTING", "celestial_file");
-  ThirdBodyGravity* thirdbodygravity = new ThirdBodyGravity(InitThirdBodyGravity(ini_fname_, ini_fname_celes_));
+  ThirdBodyGravity* thirdbodygravity = new ThirdBodyGravity(InitThirdBodyGravity(ini_fname_, sim_config->ini_base_fname_));
 
   acc_disturbances_.push_back(geopotential);
   acc_disturbances_.push_back(thirdbodygravity);

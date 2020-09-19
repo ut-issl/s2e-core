@@ -11,7 +11,7 @@ class Gyro;
 class SampleComponents
 {
 public:
-  SampleComponents(const Dynamics* dynamics, const SimulationConfig* config, ClockGenerator* clock_gen);
+  SampleComponents(const Dynamics* dynamics, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id);
   ~SampleComponents();
   Vector<3> GenerateForce_b();
   Vector<3> GenerateTorque_b();

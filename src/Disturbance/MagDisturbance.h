@@ -6,6 +6,7 @@ using libra::Vector;
 
 #include "../Interface/LogOutput/ILoggable.h"
 #include "SimpleDisturbance.h"
+#include "../Simulation/Spacecraft/Structure/RMMParams.h"
 
 class MagDisturbance : public SimpleDisturbance
 {

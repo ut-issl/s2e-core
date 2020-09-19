@@ -1,9 +1,9 @@
 #include "Dynamics.h"
 using namespace std;
 
-Dynamics::Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info)
+Dynamics::Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id, Structure* structure)
 {
-  Initialize(sim_config, sim_time, local_celes_info);
+  Initialize(sim_config, sim_time, local_celes_info, sat_id, structure);
 }
 
 Dynamics::~Dynamics()
@@ -13,20 +13,15 @@ Dynamics::~Dynamics()
   delete temperature_;
 }
 
-void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info)
+void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id, Structure* structure)
 {
-  //Read file name
-  IniAccess mainIni = IniAccess(sim_config->ini_base_fname_);
-  string orbit_ini_path = mainIni.ReadString("SIM_SETTING", "orbit_file");
-  string attitude_ini_path = sim_config->ini_base_fname_;
-  // Save ini file
-  //config_.logger->CopyFileToLogDir(orbit_ini_path);
+  mass_ = structure->GetKinematicsParams().GetMass();
+  
   // Initialize
   string center_body_name = local_celes_info->GetGlobalInfo().GetCenterBodyName();
-  orbit_ = InitOrbit(orbit_ini_path, sim_time->GetOrbitStepSec(), sim_time->GetCurrentJd(), local_celes_info->GetGlobalInfo().GetGravityConstant(center_body_name.c_str()), "ORBIT");
-  attitude_ = InitAttitude(attitude_ini_path, orbit_, local_celes_info);
-  temperature_ = InitTemperature(mainIni);
-  mass = mainIni.ReadDouble("ATTITUDE", "mass");
+  orbit_ = InitOrbit(sim_config->sat_file_[sat_id], sim_time->GetOrbitStepSec(), sim_time->GetCurrentJd(), local_celes_info->GetGlobalInfo().GetGravityConstant(center_body_name.c_str()), "ORBIT");
+  attitude_ = InitAttitude(sim_config->sat_file_[sat_id], orbit_, local_celes_info, structure->GetKinematicsParams().GetInertiaTensor());
+  temperature_ = InitTemperature(sim_config->sat_file_[sat_id]);
 
   // To get initial value
   orbit_->UpdateAtt(attitude_->GetQuaternion_i2b());
@@ -73,7 +68,7 @@ void Dynamics::AddTorque_b(Vector<3> torque_b)
 
 void Dynamics::AddForce_b(Vector<3> force_b)
 {
-  orbit_->AddForce_b(force_b, attitude_->GetQuaternion_i2b(), mass);
+  orbit_->AddForce_b(force_b, attitude_->GetQuaternion_i2b(), mass_);
 }
 
 void Dynamics::AddAcceleration_i(Vector<3> acceleration_i)

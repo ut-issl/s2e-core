@@ -14,17 +14,19 @@ SampleCase::~SampleCase()
 
 void SampleCase::Initialize()
 {
-  //シミュレーションされるもののインスタンス化
-  sample_sat_ = new SampleSat(&sim_config_, glo_env_);
+  //Instantiate the target of the simulation
+  //`sat_id` corresponds to the index of `sat_file` in Simbase.ini
+  const int sat_id = 0;
+  sample_sat_ = new SampleSat(&sim_config_, glo_env_, sat_id);
 
-  //ログ出力の登録
+  //Register the log output
   glo_env_->LogSetup(*(sim_config_.main_logger_));
   sample_sat_->LogSetup(*(sim_config_.main_logger_));
 
-  //ログにヘッダを書き込み
+  //Write headers to the log
   sim_config_.main_logger_->WriteHeaders();
 
-  //シミュレーション開始
+  //Start the simulation
   cout << "\nSimulationDateTime \n";
   glo_env_->GetSimTime().PrintStartDateTime();
 }

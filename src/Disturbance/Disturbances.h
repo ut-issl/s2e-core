@@ -3,6 +3,7 @@
 #include <vector>
 #include "SimpleDisturbance.h"
 #include "AccelerationDisturbance.h"
+#include"../Simulation/Spacecraft/Structure/Structure.h"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ class Logger;
 class Disturbances
 {
 public:
-  Disturbances(string base_ini_fname,const vector<Surface>& surfaces);
+  Disturbances(SimulationConfig* sim_config, const int sat_id, Structure* structure);
   virtual ~Disturbances();
   void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
 
@@ -23,9 +24,7 @@ public:
 
 private:
   string ini_fname_;
-  string base_ini_fname_;
-  string ini_fname_celes_;
-  void InitializeInstances(const vector<Surface>& surfaces);
+  void InitializeInstances(SimulationConfig* sim_config, const int sat_id, Structure* structure);
   void InitializeOutput();
   vector<SimpleDisturbance*> disturbances_;
   Vector<3> sum_torque_;

@@ -5,9 +5,9 @@
 #include "../../Dynamics/Attitude/Attitude.h"
 #include "../../Dynamics/Orbit/Orbit.h"
 
-LocalEnvironment::LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env)
+LocalEnvironment::LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id)
 {
-  Initialize(sim_config, glo_env);
+  Initialize(sim_config, glo_env, sat_id);
 }
 
 LocalEnvironment::~LocalEnvironment()
@@ -18,11 +18,11 @@ LocalEnvironment::~LocalEnvironment()
   delete celes_info_;
 }
 
-void LocalEnvironment::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env)
+void LocalEnvironment::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id)
 {
   // Read file name
-  IniAccess iniAccess = IniAccess(sim_config->ini_base_fname_);
-  string ini_fname = iniAccess.ReadString("SIM_SETTING", "env_file");
+  IniAccess iniAccess = IniAccess(sim_config->sat_file_[sat_id]);
+  string ini_fname = iniAccess.ReadString("LOCAL_ENVIRONMENT", "local_env_file");
   // Save ini file
   sim_config->main_logger_->CopyFileToLogDir(ini_fname);
   // Initialize
