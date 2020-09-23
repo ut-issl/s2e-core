@@ -5,7 +5,7 @@
 MCSimExecutor* InitMCSim(string file_name)
 {
   IniAccess ini_file(file_name);
-  char* section = "EXECUTION";
+  char* section = "MC_EXECUTION";
 
   unsigned long long total_num_of_executions = ini_file.ReadInt(section, "NumOfExecutions");
 
@@ -20,7 +20,7 @@ MCSimExecutor* InitMCSim(string file_name)
   bool log_history = (strcmp(endis_str, "ENABLED") == 0);
   mc_sim->LogHistory(log_history);
 
-  section = "RANDOMIZATION";
+  section = "MC_RANDOMIZATION";
   vector<string> so_dot_ip_str_vec = ini_file.ReadStrVector(section, "Param");
   vector<string> so_str_vec, ip_str_vec;
 
