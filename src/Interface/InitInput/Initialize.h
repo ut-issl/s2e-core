@@ -56,7 +56,7 @@ class Attitude;
 class Orbit;
 class Temperature;
 class Node;
-Attitude* InitAttitude(string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info, const Matrix<3, 3> inertia_tensor);
+Attitude* InitAttitude(string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info, const Matrix<3, 3> inertia_tensor, const int sat_id);
 Orbit* InitOrbit(string ini_path, double stepSec, double current_jd, double gravity_constant, string section = "ORBIT");
 Temperature* InitTemperature(string ini_path);
 Node InitNode(const vector<string>& nodestr);
