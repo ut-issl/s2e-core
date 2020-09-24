@@ -10,183 +10,149 @@ using namespace std;
 
 static double rpm2angularVelocity(double rpm)
 {
-  return rpm * 2.0*M_PI / 60.0;
+  return rpm * 2.0 * M_PI / 60.0;
 }
 
 static double angularVelocity2rpm(double angular_velocity)
 {
-  return angular_velocity * 60 / (2.0 * M_PI);
+  return angular_velocity * 60.0 / (2.0 * M_PI);
 }
 
-RWModel::RWModel(ClockGenerator* clock_gen,
-  double step_width,
-	double init_rpm,
-	double inertia,
-	double max_rpm,
-	bool motor_drive_init,
-	Vector<3> torque_transition,
-	double dead_seconds,
-	double coastring_end,
-	Vector<3>  ordinary_lag_coef,
-	Vector<3> coasting_lag_coef,
-	double max_torque,
-	double target_angular_velocity) :
-	ComponentBase(10,clock_gen),
-	kDeadSeconds_(dead_seconds),
-	dead_seconds_(dead_seconds),
-	inertia_(inertia),
-	motor_drive_(motor_drive_init),
-	kTorqueTransition_(torque_transition),
-	ode_angular_velocity_(step_width,
-		rpm2angularVelocity(init_rpm),
-		rpm2angularVelocity(init_rpm),
-		ordinary_lag_coef),
-	angular_velocity_limit_(rpm2angularVelocity(max_rpm)),
-	kStepSeconds_(step_width),
-	kOrdinaryLagCoef_(ordinary_lag_coef),
-	kCoastingLagCoef_(coasting_lag_coef),
-	target_angular_accl_before_(0),
-	kCoastingEnd_(rpm2angularVelocity(coastring_end)),
-	MAX_TORQUE_(max_torque)
+RWModel::RWModel(
+    int prescaler,
+    ClockGenerator *clock_gen,
+    double step_width,
+    double dt_main_routine,
+    double inertia,
+    double max_torque,
+    double max_velocity_rpm,
+    Vector<3> direction_b,
+    double dead_time,
+    Vector<3> driving_lag_coef,
+    Vector<3> coasting_lag_coef,
+    bool drive_flag,
+    double init_velocity)
+    : ComponentBase(prescaler, clock_gen),
+      step_width_(step_width),
+      dt_main_routine_(dt_main_routine),
+      inertia_(inertia),
+      max_torque_(max_torque),
+      max_velocity_rpm_(max_velocity_rpm),
+      direction_b_(direction_b),
+      dead_time_(dead_time),
+      driving_lag_coef_(driving_lag_coef),
+      coasting_lag_coef_(coasting_lag_coef),
+      drive_flag_(drive_flag),
+      ode_angular_velocity_(step_width_, init_velocity, 0.0, coasting_lag_coef_)
 {
-}
+  velocity_limit_rpm_ = max_velocity_rpm_;
+  output_torque_b_ = Vector<3>(0.0);
+  angular_momentum_b_ = Vector<3>(0.0);
+  target_accl_ = 0.0;
+  int len_buffer = floor(dead_time_ / dt_main_routine_) + 1;
+  delay_buffer_accl_.assign(len_buffer, 0.0);
 
+  angular_acceleration_ = 0.0;
+  angular_velocity_rpm_ = 0.0;
+  angular_velocity_rad_ = 0.0;
+}
 
 void RWModel::MainRoutine(int count)
 {
-
+  CalcTorque();
 }
 
-Vector<3> RWModel::CalcTorque(double com_period_ms)
+Vector<3> RWModel::CalcTorque()
 {
-	double com_period_ = com_period_ms/1000;
-	if (com_period_ < kStepSeconds_)
-	{
-        ode_angular_velocity_.setStepWidth(com_period_);
-	}
-	if (!motor_drive_)
-	{
-		double pre_angular_velocity = ode_angular_velocity_.getAngularVelocity();
-		ode_angular_velocity_.setLagCoef(kCoastingLagCoef_);
-		ode_angular_velocity_.setTargetAngularVelocity(0);
-		for (int i = 0; i < (com_period_ / kStepSeconds_); i++)
-		{
-			++ode_angular_velocity_; // propagate()
-		}
-		double angular_velocity = ode_angular_velocity_.getAngularVelocity();
-        //std::cout << "angular_vel: "<< angular_velocity<< "\n";
-		angular_velocity_rpm = angularVelocity2rpm(ode_angular_velocity_.getAngularVelocity());
-		angular_accleration_ = (angular_velocity - pre_angular_velocity) / com_period_;
-		rwtorque_b_ = inertia_ * (angular_accleration_)* kTorqueTransition_;
-		angular_momentum_b_ = inertia_ * angular_velocity;
-		return rwtorque_b_;
-	}
-	else
-	{
-		ode_angular_velocity_.setLagCoef(kOrdinaryLagCoef_);
-		double pre_angular_velocity = ode_angular_velocity_.getAngularVelocity();
-		double angular_accl = targets_angular_accl_.front();
-		double target_angular_velocity = pre_angular_velocity + angular_accl * com_period_;
-		targets_angular_accl_.erase(targets_angular_accl_.begin());
-		if (targets_angular_accl_.size() == 0)
-		{
-			//error handling(avoiding segmentation fault)
-			targets_angular_accl_.push_back(0);
-		}
-		ode_angular_velocity_.setTargetAngularVelocity(target_angular_velocity);
-		for (int i = 0; i < (com_period_ / kStepSeconds_); i++)//通信速度分の伝搬を行う。
-		{
-			++ode_angular_velocity_;//propagate
-		}
-		double angular_velocity = ode_angular_velocity_.getAngularVelocity();
-		angular_velocity_rpm = angularVelocity2rpm(ode_angular_velocity_.getAngularVelocity());
-		angular_accleration_ = (angular_velocity - pre_angular_velocity) / com_period_;
-        rwtorque_b_ = inertia_ * (angular_accleration_)*kTorqueTransition_;
-        angular_momentum_b_ = inertia_ * angular_velocity;// *kTorqueTransition_;
-		return rwtorque_b_;
-	}
+  double pre_angular_velocity_rad = angular_velocity_rad_;
+  if (!drive_flag_) //RW power off -> coasting mode
+  {
+    //Set lag coefficient
+    ode_angular_velocity_.setLagCoef(coasting_lag_coef_);
+    //Set target velocity
+    ode_angular_velocity_.setTargetAngularVelocity(0.0);
+    //Clear delay buffer
+    std::fill(delay_buffer_accl_.begin(), delay_buffer_accl_.end(), 0.0);
+  }
+  else //RW power on
+  {
+    //Set lag coefficient
+    ode_angular_velocity_.setLagCoef(driving_lag_coef_);
+    //Set target velocity from target torque
+    double angular_accl = delay_buffer_accl_.front();
+    double target_angular_velocity_rad = pre_angular_velocity_rad + angular_accl;
+    //Check velocity limit
+    double velocity_limit_rad = rpm2angularVelocity(velocity_limit_rpm_);
+    if (target_angular_velocity_rad > velocity_limit_rad)
+      target_angular_velocity_rad = velocity_limit_rad;
+    else if (target_angular_velocity_rad < -1.0 * velocity_limit_rad)
+      target_angular_velocity_rad = -1.0 * velocity_limit_rad;
+    //Set target velocity
+    ode_angular_velocity_.setTargetAngularVelocity(target_angular_velocity_rad);
+    //Update delay buffer
+    delay_buffer_accl_.push_back(target_accl_);
+    delay_buffer_accl_.erase(delay_buffer_accl_.begin());
+  }
+  //Calc RW ODE
+  int itr_num = ceil(dt_main_routine_ / step_width_);
+  for (int i = 0; i < itr_num; i++)
+  {
+    ++ode_angular_velocity_; // propagate()
+  }
+  //Substitution
+  angular_velocity_rad_ = ode_angular_velocity_.getAngularVelocity();
+  angular_velocity_rpm_ = angularVelocity2rpm(angular_velocity_rad_);
+  angular_acceleration_ = (angular_velocity_rad_ - pre_angular_velocity_rad) / dt_main_routine_;
+  //Component frame -> Body frame
+  output_torque_b_ = -1.0 * inertia_ * angular_acceleration_ * direction_b_;
+  angular_momentum_b_ = inertia_ * angular_velocity_rad_ * direction_b_;
+  return output_torque_b_;
 }
 
-Vector<3> RWModel::GetTorque()
+void RWModel::SetTargetTorqueRw(double torque_rw)
 {
-  return rwtorque_b_;
+  // Check Torque Limit
+  double sign;
+  torque_rw > 0 ? sign = 1.0 : sign = -1.0;
+  if (abs(torque_rw) < max_torque_)
+  {
+    target_accl_ = torque_rw / inertia_;
+  }
+  else
+  {
+    target_accl_ = sign * max_torque_ / inertia_;
+  }
 }
-
-
-bool RWModel::isMotorDrived()
+void RWModel::SetTargetTorqueBody(double torque_body)
 {
-  return motor_drive_;
+  SetTargetTorqueRw(-1.0*torque_body);
 }
-
-double RWModel::GetAngularVelocity()
+//制御時の最大角速度設定
+void RWModel::SetVelocityLimitRpm(double velocity_limit_rpm)
 {
-  return ode_angular_velocity_.getAngularVelocity();
-}
-
-double RWModel::GetAngularMomentLimit(){
-    return kCoastingEnd_*inertia_;
-}
-
-double RWModel::GetRPM()
-{
-	return angularVelocity2rpm(ode_angular_velocity_.getAngularVelocity());
-}
-
-double RWModel::GetAngularMomentum()
-{
-  return angular_momentum_b_;
-}
-
-void RWModel::SetTorque(double torque, double ctrl_cycle)
-{
-	//目標トルクからRW目標角加速度履歴を追加
-	double angular_acceleration;
-	ctrl_cycle /= 1000;
-	int sign;
-	torque > 0 ? sign = 1 : sign = -1;
-	if (abs(torque) < MAX_TORQUE_)
-	{
-		angular_acceleration = torque / inertia_; // 単位はrad/sec
-	}
-	else
-	{
-		angular_acceleration = sign * MAX_TORQUE_ / inertia_;
-	}
-	if (abs(target_angular_accl_before_) < std::numeric_limits<double>::epsilon() && abs(angular_acceleration) > std::numeric_limits<double>::epsilon())
-	{
-		//無駄時間追加処理
-		for (int i = 1; i <= (kDeadSeconds_ / ctrl_cycle); i++)
-		{
-			targets_angular_accl_.push_back(0);
-		}
-		targets_angular_accl_.push_back(angular_acceleration);
-	}
-	else
-	{
-		targets_angular_accl_.push_back(angular_acceleration);
-	}
-	target_angular_accl_before_ = angular_acceleration;
-}
-
-void RWModel::SetLimits(double angular_velocity_limit)
-{
-	angular_velocity_limit_ = rpm2angularVelocity(angular_velocity_limit);
-}
-
-void RWModel::SetDrive(bool flag)
-{
-	motor_drive_ = flag;
+  if (velocity_limit_rpm > max_velocity_rpm_)
+  {
+    velocity_limit_rpm_ = max_velocity_rpm_;
+  }
+  else if (velocity_limit_rpm < -1.0 * max_velocity_rpm_)
+  {
+    velocity_limit_rpm_ = -1.0 * max_velocity_rpm_;
+  }
+  else
+  {
+    velocity_limit_rpm_ = velocity_limit_rpm;
+  }
+  return;
 }
 
 string RWModel::GetLogHeader() const
 {
   string str_tmp = "";
 
-  str_tmp += WriteScalar("angular_velocity", "rad/s");
-  str_tmp += WriteScalar("angular_velocity_upperlimit", "rad/s");
-  str_tmp += WriteScalar("angular_accelaration", "rad/s^2");
-  str_tmp += WriteScalar("angular_velocity_rpm", "rpm");
-  str_tmp += WriteScalar("angular_momentum_b_", "Nms");
+  str_tmp += WriteScalar("rw_angular_velocity", "rad/s");
+  str_tmp += WriteScalar("rw_angular_velocity_rpm", "rpm");
+  str_tmp += WriteScalar("rw_angular_velocity_upperlimit", "rpm");
+  str_tmp += WriteScalar("rw_angular_acceleration", "rad/s^2");
 
   return str_tmp;
 }
@@ -195,10 +161,10 @@ string RWModel::GetLogValue() const
 {
   string str_tmp = "";
 
-  str_tmp += WriteScalar(ode_angular_velocity_.getAngularVelocity());
-  str_tmp += WriteScalar(angular_velocity_limit_);
-  str_tmp += WriteScalar(angular_accleration_);
-  str_tmp += WriteScalar(angular_velocity_rpm);
-  str_tmp += WriteScalar(angular_momentum_b_);
+  str_tmp += WriteScalar(angular_velocity_rad_);
+  str_tmp += WriteScalar(angular_velocity_rpm_);
+  str_tmp += WriteScalar(velocity_limit_rpm_);
+  str_tmp += WriteScalar(angular_acceleration_);
+
   return str_tmp;
 }

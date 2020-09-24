@@ -67,6 +67,9 @@ public:
   double GetRangeToConst(); //本当はprivateにしたいがXACTが使っているので
   void PrintParams(int sensor_id);  //デバッグ出力
 
+  //Getter
+  inline const libra::Vector<3>& GetOmegaC(void)const{return omega_c;}
+
 private:
   void RangeCheck(void);										//レンジが両方正であり，かつrange_to_const_c < range_to_zero_cを満たしていることをチェック．満たしていないとinvalid_argumentが出る．
   void Clip(void);											//コンポ系角速度とレンジを比較し，Gyro出力を返す．

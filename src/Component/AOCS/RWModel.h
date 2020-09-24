@@ -1,11 +1,3 @@
-
-/*
-* @file RWModel.h
-* @brief リアクションホイール一個に相当
-* @author Kohta Kakihara (refactored by Shun Arahata)
-* @date
-*/
-
 #ifndef __RWModel_H__
 #define __RWModel_H__
 #include "../../Library/math/Vector.hpp"
@@ -24,71 +16,85 @@
 class RWModel : public ComponentBase, public ILoggable
 {
 public:
-	/**
-	* @brief コンストラクタ
-	* @param[in]　step_width 積分幅
-	* @param[in] init_rpm 初期RPM
-	* @param[in] inertia 慣性モーメント
-	* @param[in] max_rpm 最高角速度
-	* @param[in] motor_drive_init 稼働フラグ
-	* @param[in] torque_transition トルク変換行列
-	* @param[in] firstorder_lag_const 一次遅れ用定数
-	* @param[in] dead_seconds 無駄時間
-	* @param[in] target_angular_velocity　目標角速度(=0)
-	*/
-	RWModel(ClockGenerator* clock_gen,
-    double step_width,
-		double init_rpm,
-		double inertia,
-		double max_rpm,
-		bool motor_drive_init,
-		libra::Vector<3> torque_transition,
-		double dead_seconds,
-		double coasting_end,
-		libra::Vector<3> ordinary_lag_coef,
-		libra::Vector<3> coasting_lag_coef,
-		double max_torque,
-		double target_angular_velocity = 0);
+  /**
+  * @brief コンストラクタ
+  * @param[in] prescaler and clock_gen : argument for ComponentBase:
+  * @param[in] step width: step_width of integration by RwOde [sec]
+  * @param[in] dt_main_routine: period of execution of main routine [sec]
+  * @param[in] inertia: Moment of inertia of the RW   [kgm2]
+  * @param[in] max_torque: Maximum output torque      [Nm]
+  * @param[in] max_velocity: Maximum output angular velocity  [RPM]
+  * @param[in] direction_b: Mounting direction of the Wheel at Body frame
+  * @param[in] dead_time: dead time [sec]
+  * @param[in] driving_lag_coef
+  * @param[in] coasting_lag_coef
+  */
+  RWModel(
+      int prescaler,
+      ClockGenerator *clock_gen,
+      double step_width,
+      double dt_main_routine,
+      double inertia,
+      double max_torque,
+      double max_velocity_rpm,
+      Vector<3> direction_b,
+      double dead_time,
+      Vector<3> driving_lag_coef,
+      Vector<3> coasting_lag_coef,
+      bool drive_flag = false,
+      double init_velocity = 0.0);
 
-	void MainRoutine(int count);
-	Vector<3> CalcTorque(double com_period_ms);//!トルク計算、発生
-	libra::Vector<3> GetTorque();//!トルク取得(基本的にデバッグ用？)
-	bool isMotorDrived();//!動作フラグ取得
-	double GetAngularVelocity();//!現在の角速度を取得
-	double GetRPM(); //!現在のRPM
-	double GetAngularMomentum();//!現在の角運動量を取得(単位はkgm^2/s)
-	void SetTorque(double torque = 0, double ctrl_cycle = 0);//!必要なrpm加速度の指定
-	void SetLimits(double angular_velocity_upperlimit);	//!最大rpmの設定(単位はrpm)
-	void SetDrive(bool);//!動作フラグの設定
-	string GetLogHeader() const;
-	string GetLogValue() const;
-	const double inertia_;//!慣性モーメント edited by ikura
-	const double kStepSeconds_;//!積分刻み秒数
-	double angular_velocity_limit_;//!角速度絶対値最大値(単位はrad/s)
-	const double kCoastingEnd_;
+  //Main Routine
+  void MainRoutine(int count);
+  Vector<3> CalcTorque(); //!トルク計算、発生
 
-	double GetAngularMomentLimit();
+  //Getter
+  inline const libra::Vector<3> GetOutputTorqueB() const { return output_torque_b_; };
+  inline const bool isMotorDrived() const { return drive_flag_; };
+  inline const double GetVelocityRad() const { return angular_velocity_rad_; };
+  inline const double GetVelocityRpm() const { return angular_velocity_rpm_; };
+  inline const libra::Vector<3> GetAngMomB() const { return angular_momentum_b_; };
+
+  //double GetAngularMomentLimit();
+  //Setter
+  void SetTargetTorqueRw(double torque_rw);
+  void SetTargetTorqueBody(double torque_body);
+  void SetVelocityLimitRpm(double velocity_limit_rpm);
+  inline void SetDriveFlag(bool flag) { drive_flag_ = flag; }; //!動作フラグの設定
+                                                               //For Iloggable
+  string GetLogHeader() const;
+  string GetLogValue() const;
 
 private:
-  //void HandlePowerAndCoasting(void);
-  RwOde ode_angular_velocity_;//微分方程式のメンバ
-  const double kDeadSeconds_;//!無駄時間
-  const libra::Vector<3> kTorqueTransition_;//!トルク変換行列(行ベクトルのつもり)
-  const libra::Vector<3> kOrdinaryLagCoef_;
-  const libra::Vector<3> kCoastingLagCoef_;
-  double dead_seconds_;//!残り無駄時間
-  double angular_accleration_;
-  double angular_velocity_rpm; //角速度をrpmで表示
-  double angular_velocity_rad; //角速度をradで表示
-  const double MAX_TORQUE_;
-  bool motor_drive_;//!動作フラグ(1で動作、0で停止)
-  libra::Vector<3> rwtorque_b_;//!トルク保存用、単位はNm
-  //libra::Vector<3> angular_momentum_b_;//!RWの角運動量、単位はkgm^2/s(トルク計算には使っていない)
-  double angular_momentum_b_;//!RWの角運動量、単位はkgm^2/s(トルク計算には使っていない)
-  std::vector<double> targets_angular_accl_;//!無駄時間分のRW各加速度保存
-  double target_angular_accl_before_;//!目標回転数1step前情報
+  // Fixed Parameters
+  const double inertia_;                     //kg m2
+  const double max_torque_;                  //Nm
+  const double max_velocity_rpm_;                //rpm
+  const libra::Vector<3> direction_b_;       //Mounting direction at body frame
+                                             // Fixed Parameters for control delay ()
+  const double step_width_;                  //step width for RwOde [sec]
+  const double dead_time_;                   //無駄時間 [sec]
+  const libra::Vector<3> driving_lag_coef_;  // delay coefficient for normal drive
+  const libra::Vector<3> coasting_lag_coef_; // delay coefficient for coasting drive(Power off)
+
+  // Controlled Parameters
+  bool drive_flag_;       //!動作フラグ(1で動作、0で停止)
+  double velocity_limit_rpm_; //!velocity limit defined by users rpm
+  double target_accl_;
+
+  // Internal variables for control delay
+  std::vector<double> delay_buffer_accl_; //delay buffer
+  double dt_main_routine_;                //period of execution of main routine [sec]
+
+  // Output at RW frame
+  double angular_acceleration_; //rad/s2
+  double angular_velocity_rpm_; //rpm
+  double angular_velocity_rad_; //rad/s
+
+  //Output at body frame
+  libra::Vector<3> output_torque_b_;    //Nm
+  libra::Vector<3> angular_momentum_b_; //Nms
+
+  RwOde ode_angular_velocity_; //微分方程式のメンバ
 };
-
-
-
 #endif //__RWModel_H__
