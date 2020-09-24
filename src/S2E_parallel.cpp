@@ -21,7 +21,7 @@ MCSimExecutor* mc_sim;
 
 int _tmain_parallel(int argc, _TCHAR* argv[])
 {
-  mc_sim = InitMCSim("data/ini/MCsim.ini");
+  mc_sim = InitMCSim("data/ini/SimBase.ini");
   Logger mclog("mont.csv");
 
   // Monte-Carlo Simulation
