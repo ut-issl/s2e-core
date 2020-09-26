@@ -3,6 +3,7 @@
 #include <math.h>
 #include <fstream>
 #include <cassert>
+#include <algorithm>
 #include "../../Library/math/Vector.hpp"
 #include "../../Interface/LogOutput/LogUtility.h"
 
@@ -29,7 +30,7 @@ void SRPEnvironment::UpdateAllStates(Vector<3>& earth_position_b, Vector<3>& sun
   double sd_earth = asin(r_earth_ / norm(earth_position_b));//Apparent radius of the earth
   double delta = acos(inner_product(earth_position_b, sun_position_b - earth_position_b) / norm(earth_position_b) / norm(sun_position_b - earth_position_b));//地球中心から太陽中心のずれの角度
   double x = (delta * delta + sd_sun * sd_sun - sd_earth * sd_earth) / (2.0 * delta); //The angle between the center of the sun and the common chord
-  double y = sqrt(sd_sun * sd_sun - x * x); //The length of the common chord of the apparent solar disk and apparent tellestial disk
+  double y = sqrt(max(sd_sun * sd_sun - x * x, 0.0)); //The length of the common chord of the apparent solar disk and apparent tellestial disk
 
   CalcShadowFunction(sd_sun, sd_earth, delta, x, y);
 
@@ -90,16 +91,16 @@ void SRPEnvironment::CalcShadowFunction(double a, double b, double c, double x, 
   }
   else if (c < abs(a - b) && a > b) //The occultation is partial but maximum
   {
-    shadow_function_ = 1 - (b * b) / (a * a);
+    shadow_function_ = 1.0 - (b * b) / (a * a);
   }
   else if (abs(a - b) <= c && c <= (a + b)) // spacecraft is in penunbra
   {
     double A = a * a * acos(x / a) + b * b * acos((c - x) / b) - c * y;//The area of the occulted segment of the apparent solar disk
-    shadow_function_ = 1 - A / (M_PI * a *a);
+    shadow_function_ = 1.0 - A / (M_PI * a *a);
   }
   else {// no occultation takes place
     assert(c > (a + b));
-    shadow_function_ = 1;
+    shadow_function_ = 1.0;
   }
   
 }
