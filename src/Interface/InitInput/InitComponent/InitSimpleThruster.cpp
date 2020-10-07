@@ -20,8 +20,8 @@ SimpleThruster InitSimpleThruster(int thruster_id, const std::string fname){
 	Vector<3> thruster_dir;
 	thruster_conf.ReadVector(Section, "thruster_dir", thruster_dir);
 
-    //スラスト大きさ誤差
-    double max_mag = thruster_conf.ReadDouble(Section, "max_mag");
+	//スラスト大きさ
+	double max_mag = thruster_conf.ReadDouble(Section, "max_mag");
 
 	//スラスト大きさ誤差
 	double mag_err;

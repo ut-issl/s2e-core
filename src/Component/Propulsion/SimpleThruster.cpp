@@ -1,6 +1,10 @@
 #include <math.h>
 
 #include "SimpleThruster.h"
+#include "../../Library/math/GlobalRand.h"
+
+#define DEG2RAD 0.017453292519943295769  // PI/180
+
 //コンストラクタ
 SimpleThruster::SimpleThruster(Vector<3> thruster_pos, Vector<3> thrust_dir, double max_mag, double mag_err, double deg_err, int id)
   :mag_nr(0, mag_err, id), dir_nr(0, deg_err, id), id_(id)
@@ -44,8 +48,8 @@ string SimpleThruster::GetLogHeader() const
   string str_tmp = "";
 
   string head = "TH" + to_string(id_);
-  //str_tmp += WriteVector(head+"thrust", "b", "N", 3);
-  //str_tmp += WriteVector(head+"torque", "b", "Nm", 3);
+  str_tmp += WriteVector(head+"thrust", "b", "N", 3);
+  str_tmp += WriteVector(head+"torque", "b", "Nm", 3);
   str_tmp += WriteScalar(head + "thrust", "N");
   return str_tmp;
 }
@@ -54,8 +58,8 @@ string SimpleThruster::GetLogValue() const
 {
   string str_tmp = "";
 
-  //str_tmp += WriteVector(thrust_b_);
-  //str_tmp += WriteVector(torque_b_);
+  str_tmp += WriteVector(thrust_b_);
+  str_tmp += WriteVector(torque_b_);
   str_tmp += WriteScalar(norm(thrust_b_));
 
   return str_tmp;
@@ -100,9 +104,9 @@ Vector<3> SimpleThruster::calc_thrust_dir()
       make_axis_rot_deg = -rand();
     }
 
-    Quaternion make_axis_rot(thrust_dir_true, make_axis_rot_deg);//回転軸を回す角度はとりあえずランダムな正負の整数値にしてある
+    Quaternion make_axis_rot(thrust_dir_true, make_axis_rot_deg*DEG2RAD);//回転軸を回す角度はとりあえずランダムな正負の整数値にしてある
     Vector<3> axis_rot = make_axis_rot.frame_conv(ex);//x軸をスラスタ初期ベクトルを軸に回して、ランダムな回転軸を生成
-    NormalRand make_dir_err_deg(0, thrust_dir_err_, (unsigned)time(NULL));//正規分布に従った角度誤差を作るオブジェクト、平均は0°標準偏差に入力された角度誤差
+    NormalRand make_dir_err_deg(0, thrust_dir_err_*DEG2RAD,  g_rand.MakeSeed());//正規分布に従った角度誤差を作るオブジェクト、平均は0°標準偏差に入力された角度誤差
     Quaternion err_rot(axis_rot, make_dir_err_deg.operator double());//誤差を与えるクオータニオン生成、角度誤差から毎回正規分布に従った角度誤差をランダムに出し続ける
     thrust_dir_true = err_rot.frame_conv(thrust_dir_true);//クオータニオンによる誤差追加
   }
