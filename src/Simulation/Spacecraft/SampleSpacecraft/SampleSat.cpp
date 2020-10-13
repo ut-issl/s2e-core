@@ -30,7 +30,8 @@ void SampleSat::Update(const SimTime* sim_time)
 {
   Spacecraft::Update(sim_time);
   // Component update
-  for (int i = 0; i < sim_time->GetStepSec() * 1000; i++)
+  int n = sim_time->GetStepSec() * 1000;
+  for (int i = 0; i < n; i++)
   {
     clock_gen_.TickToComponents();
   }
