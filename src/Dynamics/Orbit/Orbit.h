@@ -17,7 +17,7 @@ using libra::Quaternion;
 #include "../../Library/sgp4/sgp4unit.h"
 #include "../../Library/sgp4/sgp4io.h"
 #include "../../Library/sgp4/sgp4ext.h"
-static gravconsttype whichconst;
+
 #define PIO2		1.57079632679489656		/* Pi/2 */
 #define TWOPI		6.28318530717958623		/* 2*Pi  */
 #define DEG2RAD		0.017453292519943295769	// PI/180
@@ -137,6 +137,7 @@ public:
   inline Matrix<3,3> GetTransECItoECEF()const { return trans_eci2ecef_; }
 
   bool IsCalcEnabled = false;
+  gravconsttype whichconst;
 
 protected:
   // 慣性系での宇宙機位置 [m]
