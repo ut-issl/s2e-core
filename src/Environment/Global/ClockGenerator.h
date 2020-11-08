@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "../../Component/Abstract/ITickable.h"
+#include "SimTime.h"
 
 // ITickableを実装したクラスにクロック（Tick）を与えるクラス
 // メインループなどで周期的にTickToComponentsを呼び出すという想定
@@ -15,6 +16,7 @@ public:
   void RegisterComponent(ITickable* tickable);
   void RemoveComponent(ITickable* tickable);
   void TickToComponents();
+  void UpdateComponents(const SimTime* sim_time);
 
   inline void ClearTimerCount(void){ timer_count_ = 0;}
 

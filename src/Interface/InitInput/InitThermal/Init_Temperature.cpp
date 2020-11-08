@@ -41,7 +41,7 @@ First row is for Header, data begins from the second row
    mainstepSec: time step interval for Main Routin integration (= temperature.end_time_) 
  */
 
-Temperature* InitTemperature(string ini_path)
+Temperature* InitTemperature(string ini_path, const double rk_prop_step_sec)
 {
   auto mainIni = IniAccess(ini_path);
 
@@ -53,7 +53,7 @@ Temperature* InitTemperature(string ini_path)
 
   // read ini-file settings
   string file_path     = mainIni.ReadString("Thermal", "thrm_file");
-  double propstep      = mainIni.ReadDouble("Thermal", "PropStepSec_Thermal");
+
   bool is_calc_enabled = mainIni.ReadBoolean("Thermal", "IsCalcEnabled");
   bool debug = mainIni.ReadBoolean("Thermal", "debug");
 
@@ -79,7 +79,7 @@ Temperature* InitTemperature(string ini_path)
   conf_rij.ReadCsvDouble(rij, nodes_num+1);
 
   Temperature* temperature;
-  temperature = new Temperature(cij,rij,vnodes,nodes_num, propstep, is_calc_enabled,debug);
+  temperature = new Temperature(cij,rij,vnodes,nodes_num, rk_prop_step_sec, is_calc_enabled,debug);
   return temperature;
 
 }

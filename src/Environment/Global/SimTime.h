@@ -28,10 +28,17 @@ struct TimeState
 class SimTime: public ILoggable
 {
 public:
-  SimTime(const double end_sec,
+  SimTime(
+    const double end_sec,
     const double step_sec,
-    const double orbit_propagate_step_sec,
-    const int log_period,
+    const double attitude_update_interval_sec,
+    const double attitude_rk_step_sec,
+    const double orbit_update_interval_sec,
+    const double orbit_rk_step_sec,
+    const double thermal_update_interval_sec,
+    const double thermal_rk_step_sec,
+    const double compo_propagate_step_sec,
+    const double log_output_interval_sec,
     const char* start_ymdhms,
     const double sim_speed);
   ~SimTime();
@@ -44,11 +51,22 @@ public:
   TimeState GetState(void) const;
   double GetElapsedSec(void) const;
   double GetStepSec(void) const;
-  double GetOrbitStepSec(void) const;
+  double GetAttitudeUpdateIntervalSec(void) const;
+  bool GetAttitudePropagateFlag(void) const;
+  inline double GetAttitudeRKStepSec() const { return attitude_rk_step_sec_; }
+  double GetOrbitUpdateIntervalSec(void) const;
+  bool GetOrbitPropagateFlag(void) const;
+  inline double GetOrbitRKStepSec() const { return orbit_rk_step_sec_; }
+  double GetThermalUpdateIntervalSec(void) const;
+  bool GetThermalPropagateFlag(void) const;
+  inline double GetThermalRKStepSec() const { return thermal_rk_step_sec_; }
+  double GetCompoStepSec(void) const;
+  inline bool GetCompoUpdateFlag() const { return compo_update_flag_; }
+  int GetCompoPropagateFrequency(void) const;
+
   double GetEndSec(void) const;
   int GetProgressionRate(void) const;
   double GetCurrentJd(void) const;
-  bool GetOrbitPropagateFlag(void) const;
   double GetCurrentSidereal(void) const;
   double GetCurrentDecyear(void) const;
   // logs
@@ -64,8 +82,14 @@ private:
   double current_sidereal_; //グリニッジ平均恒星時
   double current_decyear_; //Decimal Year(yearの小数点表記)
 
-  int orbit_propagate_counter_;
-  bool orbit_propagate_flag_;
+  int attitude_update_counter_;
+  bool attitude_update_flag_;
+  int orbit_update_counter_;
+  bool orbit_update_flag_;
+  int thermal_update_counter_;
+  bool thermal_update_flag_;
+  int compo_update_counter_;
+  bool compo_update_flag_;
   int log_counter_;
   int disp_counter_;
   TimeState state_;
@@ -75,8 +99,15 @@ private:
                                         //固定値
   double end_sec_;	//simulation開始から終了までの時刻
   double step_sec_;	//simulation刻み時刻
-  double orbit_propagate_step_sec_; //軌道計算用刻み時間
-  int log_period_;	//Logファイル出力頻度(ステップ時間=log_period*sim_step_sec)
+  double attitude_update_interval_sec_;
+  double attitude_rk_step_sec_;
+  double orbit_update_interval_sec_;
+  double orbit_rk_step_sec_;
+  double thermal_update_interval_sec_;
+  double thermal_rk_step_sec_;
+  double compo_update_interval_sec_;
+  int compo_propagate_frequency_;
+  double log_output_interval_sec_;
   double disp_period_;	//コンソール出力頻度
   double start_jd_;
   int start_year_;
@@ -88,5 +119,6 @@ private:
   double sim_speed_; //実時間に対するシミュレーションの進行速度（負の場合は実時間を考慮しない）
 
   void InitializeState();
+  void AssertTimeStepParams();
 };
 #endif //__SIMULATION_TIME_H__

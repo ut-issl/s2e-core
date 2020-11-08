@@ -38,7 +38,7 @@ void Spacecraft::Update(const SimTime* sim_time)
 {
   // Update local environment and disturbance
   local_env_->Update(dynamics_, sim_time);
-  disturbances_->Update(*local_env_,*dynamics_);
+  disturbances_->Update(*local_env_,*dynamics_, sim_time);
   // Add generated force and torque by disturbances
   dynamics_->AddAcceleration_i(disturbances_->GetAccelerationI());
   dynamics_->AddTorque_b(disturbances_->GetTorque());

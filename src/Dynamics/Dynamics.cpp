@@ -19,9 +19,9 @@ void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time,
   
   // Initialize
   string center_body_name = local_celes_info->GetGlobalInfo().GetCenterBodyName();
-  orbit_ = InitOrbit(sim_config->sat_file_[sat_id], sim_time->GetOrbitStepSec(), sim_time->GetCurrentJd(), local_celes_info->GetGlobalInfo().GetGravityConstant(center_body_name.c_str()), "ORBIT");
-  attitude_ = InitAttitude(sim_config->sat_file_[sat_id], orbit_, local_celes_info, structure->GetKinematicsParams().GetInertiaTensor(), sat_id);
-  temperature_ = InitTemperature(sim_config->sat_file_[sat_id]);
+  orbit_ = InitOrbit(sim_config->sat_file_[sat_id], sim_time->GetOrbitRKStepSec(), sim_time->GetCurrentJd(), local_celes_info->GetGlobalInfo().GetGravityConstant(center_body_name.c_str()), "ORBIT");
+  attitude_ = InitAttitude(sim_config->sat_file_[sat_id], orbit_, local_celes_info, sim_time->GetAttitudeRKStepSec(), structure->GetKinematicsParams().GetInertiaTensor(), sat_id);
+  temperature_ = InitTemperature(sim_config->sat_file_[sat_id], sim_time->GetThermalRKStepSec());
 
   // To get initial value
   orbit_->UpdateAtt(attitude_->GetQuaternion_i2b());
@@ -30,7 +30,9 @@ void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time,
 void Dynamics::Update(const SimTime* sim_time, const LocalCelestialInformation* local_celes_info)
 {
   //Attitude propagation
-  attitude_->Propagate(sim_time->GetElapsedSec());
+  if (sim_time->GetAttitudePropagateFlag()) {
+    attitude_->Propagate(sim_time->GetElapsedSec());
+  }
   //Orbit Propagation
   if (sim_time->GetOrbitPropagateFlag())
   {
@@ -40,11 +42,13 @@ void Dynamics::Update(const SimTime* sim_time, const LocalCelestialInformation* 
   orbit_->UpdateAtt(attitude_->GetQuaternion_i2b());
 
   //Thermal
-  std::string sun_str = "SUN";
-  char* c_sun = new char[sun_str.size() + 1];
-  std::char_traits<char>::copy(c_sun, sun_str.c_str(), sun_str.size() + 1); // string -> char*
-  temperature_->Propagate(local_celes_info->GetPosFromSC_b(c_sun), sim_time->GetElapsedSec());
-  delete[] c_sun;
+  if (sim_time->GetThermalPropagateFlag()) {
+    std::string sun_str = "SUN";
+    char* c_sun = new char[sun_str.size() + 1];
+    std::char_traits<char>::copy(c_sun, sun_str.c_str(), sun_str.size() + 1); // string -> char*
+    temperature_->Propagate(local_celes_info->GetPosFromSC_b(c_sun), sim_time->GetElapsedSec());
+    delete[] c_sun;
+  }
 }
 
 void Dynamics::ClearForceTorque(void)

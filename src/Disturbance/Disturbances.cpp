@@ -10,7 +10,8 @@
 Disturbances::Disturbances(SimulationConfig* sim_config, const int sat_id, Structure* structure)
 {
   InitializeInstances(sim_config, sat_id, structure);
-  InitializeOutput();
+  InitializeForceAndTorque();
+  InitializeAcceleration();
 }
 
 Disturbances::~Disturbances()
@@ -26,21 +27,26 @@ Disturbances::~Disturbances()
   }
 }
 
-void Disturbances::Update(const LocalEnvironment& local_env, const Dynamics& dynamics)
+void Disturbances::Update(const LocalEnvironment& local_env, const Dynamics& dynamics, const SimTime* sim_time)
 {
-  InitializeOutput();
-
-  for (auto dist : disturbances_)
-  {
-    dist->UpdateIfEnabled(local_env, dynamics);
-    sum_torque_ += dist->GetTorque();
-    sum_force_ += dist->GetForce();
+  //Update disturbances that depend on the attitude (and the position)
+  if (sim_time->GetAttitudePropagateFlag()) {
+    InitializeForceAndTorque();
+    for (auto dist : disturbances_)
+    {
+      dist->UpdateIfEnabled(local_env, dynamics);
+      sum_torque_ += dist->GetTorque();
+      sum_force_ += dist->GetForce();
+    }
   }
-  sum_acceleration_i_ *= 0;
-  for (auto acc_dist : acc_disturbances_)
-  {
-    acc_dist->UpdateIfEnabled(local_env, dynamics);
-    sum_acceleration_i_ += acc_dist->GetAccelerationI();
+  //Update disturbances that depend only on the position
+  if (sim_time->GetOrbitPropagateFlag()) {
+    InitializeAcceleration();
+    for (auto acc_dist : acc_disturbances_)
+    {
+      acc_dist->UpdateIfEnabled(local_env, dynamics);
+      sum_acceleration_i_ += acc_dist->GetAccelerationI();
+    }
   }
 }
 
@@ -95,9 +101,13 @@ void Disturbances::InitializeInstances(SimulationConfig* sim_config, const int s
   acc_disturbances_.push_back(thirdbodygravity);
 }
 
-void Disturbances::InitializeOutput()
+void Disturbances::InitializeForceAndTorque()
 {
   sum_torque_ = Vector<3>(0);
   sum_force_ = Vector<3>(0);
+}
+
+void Disturbances::InitializeAcceleration()
+{
   sum_acceleration_i_ = Vector<3>(0);
 }

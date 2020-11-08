@@ -29,12 +29,7 @@ void SampleSat::LogSetup(Logger & logger)
 void SampleSat::Update(const SimTime* sim_time)
 {
   Spacecraft::Update(sim_time);
-  // Component update
-  int n = sim_time->GetStepSec() * 1000;
-  for (int i = 0; i < n; i++)
-  {
-    clock_gen_.TickToComponents();
-  }
+  clock_gen_.UpdateComponents(sim_time);
 }
 
 void SampleSat::GenerateTorque_b()

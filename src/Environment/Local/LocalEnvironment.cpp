@@ -37,12 +37,19 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimTime* sim_time)
   auto& orbit     = dynamics->GetOrbit();
   auto& attitude  = dynamics->GetAttitude();
 
-  celes_info_->UpdateAllObjectsInfo(orbit.GetSatPosition_i(), orbit.GetSatVelocity_i(), attitude.GetQuaternion_i2b(), attitude.GetOmega_b());
-  mag_->CalcMag(sim_time->GetCurrentDecyear(), sim_time->GetCurrentSidereal(),orbit.GetLatLonAlt(), attitude.GetQuaternion_i2b());
-  Vector<3> v1 = celes_info_->GetPosFromSC_b("EARTH");
-  Vector<3> v2 = celes_info_->GetPosFromSC_b("SUN");
-  srp_->UpdateAllStates(v1, v2);
-  atmosphere_->CalcAirDensity(sim_time->GetCurrentDecyear(),  sim_time->GetEndSec(), orbit.GetLatLonAlt());
+  //Update local environments that depend on the attitude (and the position)
+  if (sim_time->GetAttitudePropagateFlag()) {
+    celes_info_->UpdateAllObjectsInfo(orbit.GetSatPosition_i(), orbit.GetSatVelocity_i(), attitude.GetQuaternion_i2b(), attitude.GetOmega_b());
+    mag_->CalcMag(sim_time->GetCurrentDecyear(), sim_time->GetCurrentSidereal(), orbit.GetLatLonAlt(), attitude.GetQuaternion_i2b());
+  }
+  
+  //Update local environments that depend only on the position
+  if (sim_time->GetOrbitPropagateFlag()) {
+    Vector<3> v1 = celes_info_->GetPosFromSC_b("EARTH");
+    Vector<3> v2 = celes_info_->GetPosFromSC_b("SUN");
+    srp_->UpdateAllStates(v1, v2);
+    atmosphere_->CalcAirDensity(sim_time->GetCurrentDecyear(), sim_time->GetEndSec(), orbit.GetLatLonAlt());
+  }  
 }
 
 void LocalEnvironment::LogSetup(Logger & logger)

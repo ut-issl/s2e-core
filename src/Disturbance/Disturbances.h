@@ -4,6 +4,7 @@
 #include "SimpleDisturbance.h"
 #include "AccelerationDisturbance.h"
 #include"../Simulation/Spacecraft/Structure/Structure.h"
+#include"../Environment/Global/SimTime.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ class Disturbances
 public:
   Disturbances(SimulationConfig* sim_config, const int sat_id, Structure* structure);
   virtual ~Disturbances();
-  void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
+  void Update(const LocalEnvironment& local_env, const Dynamics& dynamics, const SimTime* sim_time);
 
   void LogSetup(Logger & logger);
 
@@ -25,7 +26,8 @@ public:
 private:
   string ini_fname_;
   void InitializeInstances(SimulationConfig* sim_config, const int sat_id, Structure* structure);
-  void InitializeOutput();
+  void InitializeForceAndTorque();
+  void InitializeAcceleration();
   vector<SimpleDisturbance*> disturbances_;
   Vector<3> sum_torque_;
   Vector<3> sum_force_;

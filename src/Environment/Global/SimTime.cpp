@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <math.h>
+#include <cassert>
 
 #include "SimTime.h"
 #ifdef WIN32
@@ -15,23 +16,38 @@ using namespace std;
 SimTime::SimTime(
   const double end_sec,
   const double step_sec,
-  const double orbit_propagate_step_sec,
-  const int log_period,
+  const double attitude_update_interval_sec,
+  const double attitude_rk_step_sec,
+  const double orbit_update_interval_sec,
+  const double orbit_rk_step_sec,
+  const double thermal_update_interval_sec,
+  const double thermal_rk_step_sec,
+  const double compo_propagate_step_sec,
+  const double log_output_interval_sec,
   const char* start_ymdhms,
   const double sim_speed)
 {
   end_sec_ = end_sec;
   step_sec_ = step_sec;
-  orbit_propagate_step_sec_ = orbit_propagate_step_sec;
-  log_period_ = log_period;
+  attitude_update_interval_sec_ = attitude_update_interval_sec;
+  attitude_rk_step_sec_ = attitude_rk_step_sec;
+  orbit_update_interval_sec_ = orbit_update_interval_sec;
+  orbit_rk_step_sec_ = orbit_rk_step_sec;
+  thermal_update_interval_sec_ = thermal_update_interval_sec;
+  thermal_rk_step_sec_ = thermal_rk_step_sec;
+  log_output_interval_sec_ = log_output_interval_sec;
+  compo_update_interval_sec_ = compo_propagate_step_sec;
+  compo_propagate_frequency_ = int(1.0 / compo_update_interval_sec_);
   sim_speed_ = sim_speed;
   disp_period_ = (1.0 * end_sec / step_sec / 100);  // 1%毎に更新
+
 //  sscanf_s(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_mon_, &start_day_, &start_hr_, &start_min_, &start_sec_);
   sscanf(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_mon_, &start_day_, &start_hr_, &start_min_, &start_sec_);
   jday(start_year_, start_mon_, start_day_, start_hr_, start_min_, start_sec_, start_jd_);
   current_jd_ = start_jd_;
   current_sidereal_ = gstime(current_jd_);
   JdToDecyear(current_jd_, &current_decyear_);
+  AssertTimeStepParams();
   InitializeState();
   SetParameters();
 }
@@ -40,11 +56,32 @@ SimTime::~SimTime()
 {
 }
 
+void SimTime::AssertTimeStepParams()
+{
+  //Runge-Kutta time step must be smaller than its update interval
+  assert(attitude_rk_step_sec_ <= attitude_update_interval_sec_);
+  assert(orbit_rk_step_sec_ <= orbit_update_interval_sec_);
+  assert(thermal_rk_step_sec_ <= thermal_update_interval_sec_);
+
+  //Step time for the entire simulation must be smaller than all of the subroutine step times
+  assert(step_sec_ <= attitude_update_interval_sec_);
+  assert(step_sec_ <= orbit_update_interval_sec_);
+  assert(step_sec_ <= thermal_update_interval_sec_);
+  assert(step_sec_ <= compo_update_interval_sec_);
+  assert(step_sec_ <= log_output_interval_sec_);
+}
+
 void SimTime::SetParameters(void)
 {
   elapsed_time_sec_ = 0.0;
-  orbit_propagate_counter_ = 1;
-  orbit_propagate_flag_ = false;
+  attitude_update_counter_ = 1;
+  attitude_update_flag_ = false;
+  orbit_update_counter_ = 1;
+  orbit_update_flag_ = false;
+  thermal_update_counter_ = 1;
+  thermal_update_flag_ = false;
+  compo_update_counter_ = 1;
+  compo_update_flag_ = false;
   log_counter_ = 0;
   disp_counter_ = 0;
   state_.log_output = true;
@@ -80,7 +117,10 @@ void SimTime::UpdateTime(void)
     }
   }
 
-  orbit_propagate_counter_++;
+  attitude_update_counter_++;
+  orbit_update_counter_++;
+  thermal_update_counter_++;
+  compo_update_counter_++;
   log_counter_++;
   disp_counter_++;
 
@@ -93,14 +133,35 @@ void SimTime::UpdateTime(void)
   current_sidereal_ = gstime(current_jd_);
   JdToDecyear(current_jd_, &current_decyear_);
 
-  orbit_propagate_flag_ = false;
-  if (orbit_propagate_counter_ * step_sec_ >= orbit_propagate_step_sec_)
+  attitude_update_flag_ = false;
+  if (double(attitude_update_counter_) * step_sec_ >= attitude_update_interval_sec_)
   {
-    orbit_propagate_counter_ = 0;
-    orbit_propagate_flag_ = true;
+    attitude_update_counter_ = 0;
+    attitude_update_flag_ = true;
   }
 
-  if (log_counter_ >= log_period_)
+  orbit_update_flag_ = false;
+  if (double(orbit_update_counter_) * step_sec_ >= orbit_update_interval_sec_)
+  {
+    orbit_update_counter_ = 0;
+    orbit_update_flag_ = true;
+  }
+
+  thermal_update_flag_ = false;
+  if (double(thermal_update_counter_) * step_sec_ >= thermal_update_interval_sec_)
+  {
+    thermal_update_counter_ = 0;
+    thermal_update_flag_ = true;
+  }
+
+  compo_update_flag_ = false;
+  if (double(compo_update_counter_) * step_sec_ >= compo_update_interval_sec_)
+  {
+    compo_update_counter_ = 0;
+    compo_update_flag_ = true;
+  }
+
+  if (double(log_counter_) * step_sec_ >= log_output_interval_sec_)
   {
     log_counter_ = 0;
     state_.log_output = true;
@@ -135,9 +196,44 @@ double SimTime::GetStepSec(void) const
   return step_sec_;
 }
 
-double SimTime::GetOrbitStepSec(void) const
+double SimTime::GetAttitudeUpdateIntervalSec(void) const
 {
-  return orbit_propagate_step_sec_;
+  return attitude_update_interval_sec_;
+}
+
+bool SimTime::GetAttitudePropagateFlag(void) const
+{
+  return attitude_update_flag_;
+}
+
+double SimTime::GetOrbitUpdateIntervalSec(void) const
+{
+  return orbit_update_interval_sec_;
+}
+
+bool SimTime::GetOrbitPropagateFlag(void) const
+{
+  return orbit_update_flag_;
+}
+
+double SimTime::GetThermalUpdateIntervalSec(void) const
+{
+  return thermal_update_interval_sec_;
+}
+
+bool SimTime::GetThermalPropagateFlag(void) const
+{
+  return thermal_update_flag_;
+}
+
+double SimTime::GetCompoStepSec(void) const
+{
+  return compo_update_interval_sec_;
+}
+
+int SimTime::GetCompoPropagateFrequency(void) const
+{
+  return compo_propagate_frequency_;
 }
 
 double SimTime::GetEndSec(void) const
@@ -155,10 +251,6 @@ double SimTime::GetCurrentJd(void) const
   return current_jd_;
 }
 
-bool SimTime::GetOrbitPropagateFlag(void) const
-{
-  return orbit_propagate_flag_;
-}
 
 double SimTime::GetCurrentSidereal(void) const
 {
