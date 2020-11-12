@@ -38,7 +38,9 @@ public:
   inline const Attitude& GetAttitude() const { return *attitude_; }
   inline const Orbit& GetOrbit() const { return *orbit_; }
   inline const Temperature& GetTemperature() const { return *temperature_;  }  
-
+  //Setter
+  inline Attitude& SetAttitude() const { return *attitude_; }
+  
   //必要性に疑問を感じる物たち
   double mass_;        // これはここは不適切なきがする．設定ファイルも
   // 慣性系における位置を取得する関数

@@ -13,6 +13,16 @@ using libra::Quaternion;
 
 #include "../../Interface/LogOutput/ILoggable.h"
 
+enum AttCtrlMode
+{
+  INERTIAL_STABILIZE,
+  SUN_POINTING,
+  EARTH_CENTER_POINTING,
+  VELOCITY_DIRECTION_POINTING,
+  ORBIT_NORMAL_POINTING,
+  NO_CTRL,
+};
+
 class Attitude : public ILoggable
 {
 public:
@@ -66,6 +76,13 @@ public:
   }
   inline void AddTorque_b(Vector<3> set){torque_b_ += set;}
 
+  // Setter for Controlled Attitude
+  inline void SetMainMode(const AttCtrlMode main_mode){main_mode_ = main_mode;}
+  inline void SetSubMode(const AttCtrlMode sub_mode){sub_mode_ = sub_mode;}
+  inline void SetQuaternionI2T(const Quaternion quaternion_i2t){quaternion_i2t_ = quaternion_i2t;}
+  inline void SetPointingTb(Vector<3> pointing_t_b){ pointing_t_b_ = pointing_t_b;}
+  inline void SetPointingSubTb(Vector<3> pointing_sub_t_b){ pointing_sub_t_b_ = pointing_sub_t_b;}
+
   virtual void Propagate(double endtime) = 0;		// プロパゲーション
 
   virtual string GetLogHeader() const = 0;
@@ -74,6 +91,7 @@ public:
   bool IsCalcEnabled = true;
 
 protected:
+  //for RK4
   double prop_time_;	//現在時刻
   double prop_step_;	//積分タイムステップ
   Vector<3> omega_b_;
@@ -86,5 +104,12 @@ protected:
   double h_total_;
   Matrix<3, 3> inertia_tensor_;
   Matrix<3, 3> inv_inertia_tensor_; // Iner_の逆行列
+
+  //for Controlled Attitude
+  AttCtrlMode main_mode_;
+  AttCtrlMode sub_mode_;     //for control around pointing direction
+  Quaternion quaternion_i2t_;   //ECI->Target
+  Vector<3> pointing_t_b_;      //Pointing target on body frame
+  Vector<3> pointing_sub_t_b_;  //Pointing sub target on body frame
 };
 #endif //__attitude_H__

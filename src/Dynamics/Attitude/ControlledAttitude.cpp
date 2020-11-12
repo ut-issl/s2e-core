@@ -12,14 +12,14 @@ ControlledAttitude::ControlledAttitude(
   const Vector<3> pointing_sub_t_b,
   const LocalCelestialInformation* local_celes_info,
   const Orbit* orbit)
-  : main_mode_(main_mode),
-    sub_mode_(sub_mode),
-    quaternion_i2t_(quaternion_i2t),
-    pointing_t_b_(pointing_t_b),
-    pointing_sub_t_b_(pointing_sub_t_b),
-    local_celes_info_(local_celes_info),
+  : local_celes_info_(local_celes_info),
     orbit_(orbit)
 {
+  main_mode_ = main_mode;
+  sub_mode_ = sub_mode;
+  quaternion_i2t_ = quaternion_i2t;
+  pointing_t_b_ = pointing_t_b;
+  pointing_sub_t_b_ = pointing_sub_t_b;
   Initialize();
 }
 
