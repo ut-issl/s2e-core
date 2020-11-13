@@ -40,6 +40,7 @@ STT::STT(ClockGenerator* clock_gen,
 
 	//遅れ生成用配列のサイズを決定，最大遅れの2倍
 	MAX_DELAY = int(output_delay_ * 2 / step_time_);
+  if(MAX_DELAY <= 0) MAX_DELAY = 1;
 	vector<Quaternion> temp(MAX_DELAY);
 	q_buffer_ = temp;
 	//遅れ生成用配列初期化
