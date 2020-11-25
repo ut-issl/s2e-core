@@ -1,8 +1,8 @@
 #include "OBC.h"
 
 #ifdef USE_C2A
-  #include "cmd_analyze_mobc.h"
-  #include "tlm_frame_mobc.h"
+  #include "CommandAnalyze.h"
+  #include "TelemetryFrame.h"
   #include "PacketHandler.h"
   #include "AnomalyLogger.h"
   #include "AppManager.h"
