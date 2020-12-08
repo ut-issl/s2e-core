@@ -18,10 +18,10 @@ mkdir $DIR_HIPCATALOGUE
 # quit
 # END
 
-curl ftp://cddis.gsfc.nasa.gov/pub/egm96/general_info/egm96_to360.ascii > $DIR_GEOPOTENTIAL/egm96_to360.ascii
+curl ftp://cdsarc.u-strasbg.fr/pub/cats/I/239/hip_main.dat > $DIR_TMP/hip_main.dat
 
 #unzip the downloaded file
-gzip -d -v $DIR_TMP/hip_main.dat.gz
+#gzip -d -v $DIR_TMP/hip_main.dat.gz
 
 #extract reqired datum and put them into the csv file
 cut -f 2,6,9,10 -d "|" $DIR_TMP/hip_main.dat>$DIR_TMP/tmp.csv
