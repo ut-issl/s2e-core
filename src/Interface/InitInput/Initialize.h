@@ -36,9 +36,11 @@ class SimTime;
 class ClockGenerator;
 class CelestialInformation;
 class HipparcosCatalogue;
+class GnssSatellites;
 SimTime* InitSimTime(string file_name);
 CelestialInformation* InitCelesInfo(string file_name);
 HipparcosCatalogue* InitHipCatalogue(string file_name);
+GnssSatellites* InitGnssSatellites(string file_name);
 
 //Local Environment
 class MagEnvironment;

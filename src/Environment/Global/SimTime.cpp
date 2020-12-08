@@ -262,6 +262,21 @@ double SimTime::GetCurrentDecyear(void) const
   return current_decyear_;
 }
 
+int SimTime::GetStartHr(void) const
+{
+  return start_hr_;
+}
+
+int SimTime::GetStartMin(void) const
+{
+  return start_min_;
+}
+
+double SimTime::GetStartSec(void) const
+{
+  return start_sec_;
+}
+
 void SimTime::PrintStartDateTime(void) const
 {
   int sec_int = int(start_sec_ + 0.5);

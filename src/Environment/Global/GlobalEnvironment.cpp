@@ -11,6 +11,7 @@ GlobalEnvironment::~GlobalEnvironment()
   delete sim_time_;
   delete celes_info_;
   delete hipp_;
+  delete gnss_satellites_;
 }
 
 void GlobalEnvironment::Initialize(SimulationConfig* sim_config)
@@ -23,15 +24,18 @@ void GlobalEnvironment::Initialize(SimulationConfig* sim_config)
   sim_time_ = InitSimTime(sim_time_ini_path);
   celes_info_ = InitCelesInfo(sim_config->ini_base_fname_);
   hipp_ = InitHipCatalogue(sim_config->ini_base_fname_);
+  gnss_satellites_ = InitGnssSatellites(sim_config->ini_base_fname_);
 
   //Calc initial value
   celes_info_->UpdateAllObjectsInfo(sim_time_->GetCurrentJd());
+  gnss_satellites_->InitTable(sim_time_->GetStartHr(), sim_time_->GetStartMin(), sim_time_->GetStartSec(), sim_time_->GetElapsedSec());
 }
 
 void GlobalEnvironment::Update()
 {
   sim_time_->UpdateTime();
   celes_info_->UpdateAllObjectsInfo(sim_time_->GetCurrentJd());
+  gnss_satellites_->Update(sim_time_->GetStartHr(), sim_time_->GetStartMin(), sim_time_->GetStartSec(), sim_time_->GetElapsedSec());
 }
 
 void GlobalEnvironment::LogSetup(Logger& logger)

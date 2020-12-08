@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME} STATIC
   Init_Log.cpp
   Init_CelesInfo.cpp
   Init_HipCatalogue.cpp
+  Init_GnssSatellites.cpp
   # Local Environment
   Init_Environment.cpp
   # Dynamics

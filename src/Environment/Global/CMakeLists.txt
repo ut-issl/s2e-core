@@ -4,6 +4,7 @@ add_library(${PROJECT_NAME} STATIC
   GlobalEnvironment.cpp
   CelestialInformation.cpp
   HipparcosCatalogue.cpp
+  GnssSatellites.cpp
   SimTime.cpp
   ClockGenerator.cpp
 )

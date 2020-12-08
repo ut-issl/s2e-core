@@ -3,6 +3,7 @@
 #include "SimTime.h"
 #include "CelestialInformation.h"
 #include "HipparcosCatalogue.h"
+#include "GnssSatellites.h"
 #include "../../Interface/LogOutput/Logger.h"
 #include "../../Simulation/SimulationConfig.h"
 
@@ -21,9 +22,11 @@ public:
   inline const SimTime& GetSimTime() const { return *sim_time_; }
   inline const CelestialInformation& GetCelesInfo() const { return *celes_info_; }
   inline const HipparcosCatalogue& GetHippCatalog() const { return *hipp_; }
+  inline const GnssSatellites& GetGnssSatellites() const {return *gnss_satellites_; }
 
 private:
   SimTime* sim_time_;
   CelestialInformation* celes_info_;
   HipparcosCatalogue* hipp_;
+  GnssSatellites* gnss_satellites_;
 };
