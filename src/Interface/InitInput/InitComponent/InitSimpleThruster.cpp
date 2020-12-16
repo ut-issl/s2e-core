@@ -1,7 +1,7 @@
 #include "../Initialize.h"
 #include "../../../Component/Propulsion/SimpleThruster.h"
 
-SimpleThruster InitSimpleThruster(int thruster_id, const std::string fname){
+SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, const std::string fname, const Structure* structure, const Dynamics* dynamics){
 	IniAccess thruster_conf(fname);
 
     string sectionstr = "THRUSTER" + to_string(thruster_id);
@@ -31,6 +31,6 @@ SimpleThruster InitSimpleThruster(int thruster_id, const std::string fname){
 	double deg_err;
 	deg_err = thruster_conf.ReadDouble(Section,"deg_err");
 
-	SimpleThruster thruster(thruster_pos, thruster_dir, max_mag, mag_err, deg_err, thruster_id);
+	SimpleThruster thruster(clock_gen, thruster_pos, thruster_dir, max_mag, mag_err, deg_err, thruster_id, structure, dynamics);
 	return thruster;
 }

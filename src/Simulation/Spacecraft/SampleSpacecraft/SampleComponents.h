@@ -1,6 +1,7 @@
 #pragma once
 #include "../../../Library/math/Vector.hpp"
 #include "../../../Dynamics/Dynamics.h"
+#include "../../../Simulation/Spacecraft/Structure/Structure.h"
 #include "../../../Component/CDH/OBC.h"
 #include "../../../Component/AOCS/Gyro.h"
 
@@ -11,7 +12,7 @@ class Gyro;
 class SampleComponents
 {
 public:
-  SampleComponents(const Dynamics* dynamics, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id);
+  SampleComponents(const Dynamics* dynamics, const Structure* structure, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id);
   ~SampleComponents();
   Vector<3> GenerateForce_b();
   Vector<3> GenerateTorque_b();
@@ -21,4 +22,5 @@ private:
   Gyro* gyro_;
   const SimulationConfig* config_;
   const Dynamics* dynamics_;
+  const Structure* structure_;
 };

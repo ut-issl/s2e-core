@@ -17,7 +17,7 @@ SampleSat::~SampleSat()
 
 void SampleSat::Initialize(SimulationConfig* sim_config, const int sat_id)
 {
-  components_ = new SampleComponents(dynamics_, sim_config, &clock_gen_, sat_id);
+  components_ = new SampleComponents(dynamics_, structure_, sim_config, &clock_gen_, sat_id);
 }
 
 void SampleSat::LogSetup(Logger & logger)

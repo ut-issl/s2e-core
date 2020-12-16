@@ -11,6 +11,7 @@
 #include "../../Library/math/MatVec.hpp"
 #include "../../Library/math/Quaternion.hpp"
 #include "../../Dynamics/Dynamics.h"
+#include "../../Simulation/Spacecraft/Structure/Structure.h"
 
 #include <vector>
 using libra::Matrix;
@@ -98,7 +99,7 @@ Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, int port_id, const strin
 MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const string fname, const MagEnvironment* magnet);
 MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const string fname);
 RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id, string file_name, double prop_step, double compo_update_step);
-SimpleThruster InitSimpleThruster(int thruster_id, const string fname);
+SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, const string fname, const Structure* structure, const Dynamics* dynamics);
 BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const string fname);
 SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const string fname, const SRPEnvironment* srp);
 EMDS InitEMDS(int actuator_id);

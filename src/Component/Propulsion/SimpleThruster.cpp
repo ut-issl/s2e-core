@@ -6,8 +6,8 @@
 #define DEG2RAD 0.017453292519943295769  // PI/180
 
 //コンストラクタ
-SimpleThruster::SimpleThruster(Vector<3> thruster_pos, Vector<3> thrust_dir, double max_mag, double mag_err, double deg_err, int id)
-  :mag_nr(0, mag_err, id), dir_nr(0, deg_err, id), id_(id)
+SimpleThruster::SimpleThruster(ClockGenerator* clock_gen, Vector<3> thruster_pos, Vector<3> thrust_dir, double max_mag, double mag_err, double deg_err, int id, const Structure* structure, const Dynamics* dynamics)
+  :ComponentBase(1000,clock_gen),mag_nr(0, mag_err, id), dir_nr(0, deg_err, id), id_(id), structure_(structure),dynamics_(dynamics)
 {
   thruster_pos_ = thruster_pos;//スラスタ位置ベクトル格納
   thrust_dir_ = normalize(thrust_dir);//スラスト方向ベクトル正規化
@@ -18,29 +18,46 @@ SimpleThruster::SimpleThruster(Vector<3> thruster_pos, Vector<3> thrust_dir, dou
   duty_ = 0;
 }
 
-void SimpleThruster::set_duty(double dutyratio)
+SimpleThruster::~SimpleThruster(){
+}
+
+void SimpleThruster::MainRoutine(int count){
+  SetDuty(0); //閉めておく
+  CalcThrust();
+  CalcTorque(structure_->GetKinematicsParams().GetCGb(),0);
+}
+
+void SimpleThruster::SetDuty(double dutyratio)
 {
   duty_ = dutyratio;
 }
 
 //並進力計算
-Vector<3> SimpleThruster::calc_thrust(bool isReal)
+void SimpleThruster::CalcThrust(bool isReal)
 {
-  double mag = calc_thrust_magnitude();
+  double mag = CalcThrustMagnitude();
   if (isReal && duty_ != 0) mag += mag_nr;
-  thrust_b_ = mag * calc_thrust_dir();
-  return thrust_b_;//ベクトルで返す
+  thrust_b_ = mag * CalcThrustDir();
 }
 
 //トルク計算
-Vector<3> SimpleThruster::calc_torque(Vector<3> center, double temp)
+void SimpleThruster::CalcTorque(Vector<3> center, double temp)
 {
 
   Vector<3> vector_center2thruster = thruster_pos_ - center;//重心位置計算
-  Vector<3> torque = outer_product(vector_center2thruster, calc_thrust(temp));//トルク計算(外積)
+  Vector<3> torque = outer_product(vector_center2thruster, GetThrust());//トルク計算(外積)
 
   torque_b_ = torque;
-  return torque;
+}
+
+Vector<3> SimpleThruster::GetThrust()
+{
+  return thrust_b_;
+}
+
+Vector<3> SimpleThruster::GetTorque()
+{
+  return torque_b_;
 }
 
 string SimpleThruster::GetLogHeader() const
@@ -66,7 +83,7 @@ string SimpleThruster::GetLogValue() const
 }
 
 //バルブの数による推力の大きさ絶対値計算、温度が必要
-double SimpleThruster::calc_thrust_magnitude()
+double SimpleThruster::CalcThrustMagnitude()
 {
   //バルブが開いたらスラスト計算(バルブが閉じている場合はゼロ．)
   return duty_* thrust_magnitude_max;
@@ -77,7 +94,7 @@ double SimpleThruster::calc_thrust_magnitude()
 //!!!外積で直行ベクトルを出してから角度を変更したら良い
 //!!!もしこれで行くなら、分母が0のときで場合分けしないと、あとはランダム値は正規分布を実装
 //!!!randは正の値しか出ない
-Vector<3> SimpleThruster::calc_thrust_dir()
+Vector<3> SimpleThruster::CalcThrustDir()
 {
 
   Vector<3> thrust_dir_true = thrust_dir_;//正規化方向ベクトル(誤差なし)

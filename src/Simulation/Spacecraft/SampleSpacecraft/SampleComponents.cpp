@@ -2,8 +2,8 @@
 #include "Sample_PortConfig.h"
 
 //TODO: Create a base class?
-SampleComponents::SampleComponents(const Dynamics* dynamics, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id)
-  :dynamics_(dynamics), config_(config)
+SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* structure, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id)
+  :dynamics_(dynamics), structure_(structure), config_(config)
 {
   IniAccess iniAccess = IniAccess(config_->sat_file_[sat_id]);
 
