@@ -16,4 +16,4 @@ mkdir $DIR_GEOPOTENTIAL
 # quit
 # END
 
-curl ftp://cddis.gsfc.nasa.gov/pub/egm96/general_info/egm96_to360.ascii > $DIR_GEOPOTENTIAL/egm96_to360.ascii
+# curl ftp://cddis.gsfc.nasa.gov/pub/egm96/general_info/egm96_to360.ascii > $DIR_GEOPOTENTIAL/egm96_to360.ascii
