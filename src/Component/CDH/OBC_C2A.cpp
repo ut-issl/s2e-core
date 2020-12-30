@@ -79,11 +79,12 @@ int OBC_C2A::CloseComPort(int port_id)
   SCIPort *port = com_ports_c2a_.at(port_id);
   delete port;
   com_ports_c2a_.erase(port_id);
+  return 0;
 }
 
 int OBC_C2A::SendFromObc(int port_id, unsigned char* buffer, int offset, int count)
 {
-  OBC_C2A::SendFromObc_C2A(port_id, buffer, offset, count);
+  return OBC_C2A::SendFromObc_C2A(port_id, buffer, offset, count);
 }
 
 int OBC_C2A::ReceivedByCompo(int port_id, unsigned char* buffer, int offset, int count)
@@ -102,7 +103,7 @@ int OBC_C2A::SendFromCompo(int port_id, unsigned char* buffer, int offset, int c
 
 int OBC_C2A::ReceivedByObc(int port_id, unsigned char* buffer, int offset, int count)
 {
-  OBC_C2A::ReceivedByObc_C2A(port_id, buffer, offset, count);
+  return OBC_C2A::ReceivedByObc_C2A(port_id, buffer, offset, count);
 }
 
 // Static functions

@@ -54,6 +54,7 @@ int OBC::CloseComPort(int port_id)
   SCIPort *port = com_ports_.at(port_id);
   delete port;
   com_ports_.erase(port_id);
+  return 0;
 }
 
 int OBC::SendFromObc(int port_id, unsigned char* buffer, int offset, int count)
