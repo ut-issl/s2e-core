@@ -1,13 +1,11 @@
 #include "EXP.h"
 #include <string.h>
-#include "../../Interface/SpacecraftInOut/SpacecraftInterface.h"
-#include "../../Interface/SpacecraftInOut/SCIDriver.h"
 #include "../../Interface/SpacecraftInOut/GPIODriver.h"
 
-EXP::EXP(ClockGenerator* clock_gen, int port_id) : ComponentBase(100,clock_gen)
+EXP::EXP(ClockGenerator* clock_gen, int port_id, OBC* obc) : ComponentBase(1000,clock_gen), obc_(obc)
 {
-  SCIDriver::ConnectPort(port_id);
   port_id_ = port_id;
+  obc_->ConnectComPort(port_id_,1024,1024);
   Initialize();
 }
 
@@ -20,10 +18,15 @@ int EXP::Initialize()
   return 0;
 }
 
+EXP::~EXP()
+{
+  obc_->CloseComPort(port_id_);
+}
+
 int EXP::ReceiveCommand()
 {
-  unsigned char rxb[5];
-  int ret = SCIDriver::ReceiveFromSC(port_id_, rxb, 0, 5);
+  unsigned char rxb[5]={0,0,0,0,0};
+  int ret = obc_->ReceivedByCompo(port_id_, rxb, 0, 5);
   if (ret == 0) return 0;
   for (int i = 0; i < MAX_MEMORY_LEN; i++)
   {
@@ -56,7 +59,7 @@ int EXP::SendTelemetry()
   {
     tx_buff[i] = (unsigned char)memory[i];
   }
-  SCIDriver::SendToSC(port_id_, tx_buff, 0, MAX_MEMORY_LEN);
+  obc_->SendFromCompo(port_id_, tx_buff, 0, MAX_MEMORY_LEN+1);
   return 0;
 }
 

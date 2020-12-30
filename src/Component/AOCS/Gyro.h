@@ -58,8 +58,6 @@ public:
 
   void MainRoutine(int count);
   double GetCurrent(int port_id) const;
-  int ReceiveCommand();
-  int SendTelemetry();
   virtual string GetLogHeader() const;
   virtual string GetLogValue() const;
 
@@ -73,7 +71,6 @@ public:
 private:
   void RangeCheck(void);										//レンジが両方正であり，かつrange_to_const_c < range_to_zero_cを満たしていることをチェック．満たしていないとinvalid_argumentが出る．
   void Clip(void);											//コンポ系角速度とレンジを比較し，Gyro出力を返す．
-  int ParseCommand(unsigned char* cmd);
 
   libra::Vector<3> omega_c{0.0};
   uint16_t status = 0;

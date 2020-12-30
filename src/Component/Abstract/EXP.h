@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
-#include "../Abstract/ComponentBase.h"
-#include "../Abstract/IGPIOCompo.h"
+#include "ComponentBase.h"
+#include "IGPIOCompo.h"
+#include "../CDH/OBC_C2A.h"
 
 // 研修用の模擬コンポーネント
 // # コンポ「EXP」の仕様
@@ -19,7 +20,8 @@
 class EXP : public ComponentBase, public IGPIOCompo
 {
 public:
-  EXP(ClockGenerator* clock_gen, int port_id);
+  EXP(ClockGenerator* clock_gen, int port_id, OBC* obc);
+  ~EXP();
   int ReceiveCommand();
   int SendTelemetry();
 protected:
@@ -27,6 +29,7 @@ protected:
   void GPIOStateChanged(int port_id, bool isPosedge);
   double GetCurrent(int port_id) const;
 private:
+  OBC* obc_;
   const static int MAX_MEMORY_LEN = 100;
   std::vector<char> memory;
   char memoryc[100];

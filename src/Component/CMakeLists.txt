@@ -17,6 +17,7 @@ add_library(${PROJECT_NAME} STATIC
   CommGS/ANT.cpp
   CommGS/GScalculator.cpp
   CDH/OBC.cpp
+  CDH/OBC_C2A.cpp
   Logic/LPF.cpp
   Logic/RVDController.cpp
   Logic/UWBEstimator.cpp

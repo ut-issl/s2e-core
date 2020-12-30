@@ -1,23 +1,16 @@
 #include "OBC.h"
 
-#ifdef USE_C2A
-  #include "CommandAnalyze.h"
-  #include "TelemetryFrame.h"
-  #include "PacketHandler.h"
-  #include "AnomalyLogger.h"
-  #include "AppManager.h"
-  #include "AppRegistry.h"
-  #include "TimeManager.h"
-  #include "BlockCommandTable.h"
-  #include "ModeManager.h"
-  #include "TaskDispatcher.h"
-  #include "WatchdogTimer.h"
-#endif
-#include <iostream>
 OBC::OBC(ClockGenerator* clock_gen) : ComponentBase(1,clock_gen)
 {
   Initialize();
 }
+
+OBC::OBC(int prescaler, ClockGenerator* clock_gen, double current)
+: ComponentBase(prescaler,clock_gen), current_(current)
+{
+  Initialize();
+}
+
 
 OBC::~OBC()
 {
@@ -25,39 +18,68 @@ OBC::~OBC()
 
 void OBC::Initialize()
 {
-#ifdef USE_C2A
-  CA_initialize();            //Cmd Analyze
-  TF_initialize();            //TLM frame
-  PH_init();                  //Packet Handler
-  TMGR_init();                //Time Manager
-  AL_initialize();            //Anomaly Logger
-  AM_initialize();            //App Manager
-  AR_load_initial_settings();	//App Registry
-  AM_initialize_all_apps();	  //App Managerに登録されてるアプリの初期化
-  BCT_initialize();	          //Block Cmd Table
-  MM_initialize();            //Mode Manager
-  TDSP_initialize();          //Task Dispatcher
-  WDT_init();                 // WDT
-#endif
 }
 
 double OBC::GetCurrent(int port_id) const
 {
   if (isOn_)
   {
-    return 0.1;
+    return current_;
   }
-  return 0;
+  return 0.0;
 }
 
 void OBC::MainRoutine(int count)
 {
-#ifdef USE_C2A
-  #ifdef C2A_EQUULEUS
-    TMGR_count_up();
-  #else
-    TMGR_count_up_master_clock();
-  #endif
-  TDSP_execute_pl_as_task_list();
-#endif
+}
+
+int OBC::ConnectComPort(int port_id, int tx_buf_size, int rx_buf_size)
+{
+  if (com_ports_[port_id] != nullptr)
+  {
+    // Port already used
+    return -1;
+  }
+  com_ports_[port_id] = new SCIPort(tx_buf_size, rx_buf_size);
+  return 0;
+}
+
+// Close port and free resources
+int OBC::CloseComPort(int port_id)
+{
+  // Port not used
+  if (com_ports_[port_id] == nullptr)
+    return -1;
+
+  SCIPort *port = com_ports_.at(port_id);
+  delete port;
+  com_ports_.erase(port_id);
+}
+
+int OBC::SendFromObc(int port_id, unsigned char* buffer, int offset, int count)
+{
+  SCIPort* port = com_ports_[port_id];
+  if (port == nullptr) return -1;
+  return port->WriteTx(buffer, offset, count);
+}
+
+int OBC::ReceivedByCompo(int port_id, unsigned char* buffer, int offset, int count)
+{
+  SCIPort* port = com_ports_[port_id];
+  if (port == nullptr) return -1;
+  return port->ReadTx(buffer, offset, count);
+}
+
+int OBC::SendFromCompo(int port_id, unsigned char* buffer, int offset, int count)
+{
+  SCIPort* port = com_ports_[port_id];
+  if (port == nullptr) return -1;
+  return port->WriteRx(buffer, offset, count);
+}
+
+int OBC::ReceivedByObc(int port_id, unsigned char* buffer, int offset, int count)
+{
+  SCIPort* port = com_ports_[port_id];
+  if (port == nullptr) return -1;
+  return port->ReadRx(buffer, offset, count);
 }
