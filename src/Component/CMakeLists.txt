@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(COMPONENT)
 add_library(${PROJECT_NAME} STATIC
   Abstract/ComponentBase.cpp
+  Abstract/ObcCommunicationBase.cpp
   Abstract/EXP.cpp
   AOCS/EMDS.cpp
   AOCS/Gyro.cpp
