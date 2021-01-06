@@ -6,7 +6,7 @@ add_library(${PROJECT_NAME} STATIC
   Ports/SCIPort.cpp
   Utils/RingBuffer.cpp
   GPIODriver.cpp
-  PowerDriver.cpp
+  # PowerDriver.cpp
   #SCIDriver.cpp
   #SpacecraftInterface.cpp
 

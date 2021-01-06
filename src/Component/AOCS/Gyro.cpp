@@ -16,6 +16,7 @@ using namespace std;
 #include "../../Library/math/GlobalRand.h"
 
 Gyro::Gyro(ClockGenerator* clock_gen,
+  PowerPort* power_port,
   const int sensor_id,
   const int port_id,
   const Quaternion& q_b2c,
@@ -29,7 +30,7 @@ Gyro::Gyro(ClockGenerator* clock_gen,
   double range_to_zero_c,
   double current,
   const Dynamics *dynamics)
-  : ComponentBase(50, clock_gen), sensor_id_(sensor_id), port_id_(port_id), q_b2c_(q_b2c),
+  : ComponentBase(1, clock_gen, power_port), sensor_id_(sensor_id), port_id_(port_id), q_b2c_(q_b2c),
   scale_factor_(scale_factor), bias_c_(bias_c), n_rw_c_(rw_stepwidth, rw_stddev_c, rw_limit_c),
   nrs0_c_(0.0, nr_stddev_c[0], g_rand.MakeSeed()), 
   nrs1_c_(0.0, nr_stddev_c[1], g_rand.MakeSeed()),
@@ -46,12 +47,6 @@ Gyro::~Gyro()
 void Gyro::MainRoutine(int count)
 {
   measure(dynamics_->GetAttitude().GetOmega_b());
-}
-
-double Gyro::GetCurrent(int port_id) const
-{
-  if (!isOn_) return 0;
-  return current_;
 }
 
 //body座標系角速度を入力，

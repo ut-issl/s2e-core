@@ -6,7 +6,7 @@ class OBC_C2A: public OBC
 public:
   OBC_C2A(ClockGenerator* clock_gen);
   OBC_C2A(ClockGenerator* clock_gen, int timing_regulator);
-  OBC_C2A(int prescaler, ClockGenerator* clock_gen, double current, int timing_regulator);
+  OBC_C2A(int prescaler, ClockGenerator* clock_gen, int timing_regulator, PowerPort* power_port);
   ~OBC_C2A();
 
   // Communication port functions

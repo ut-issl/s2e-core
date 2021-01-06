@@ -25,7 +25,7 @@ public:
 protected:
   void MainRoutine(int count);
   void GPIOStateChanged(int port_id, bool isPosedge);
-  double GetCurrent(int port_id) const;
+
 private:
   const static int MAX_MEMORY_LEN = 100;
   std::vector<char> memory;

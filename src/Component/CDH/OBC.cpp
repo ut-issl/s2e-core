@@ -5,12 +5,11 @@ OBC::OBC(ClockGenerator* clock_gen) : ComponentBase(1,clock_gen)
   Initialize();
 }
 
-OBC::OBC(int prescaler, ClockGenerator* clock_gen, double current)
-: ComponentBase(prescaler,clock_gen), current_(current)
+OBC::OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port)
+: ComponentBase(prescaler, clock_gen, power_port)
 {
   Initialize();
 }
-
 
 OBC::~OBC()
 {
@@ -18,15 +17,6 @@ OBC::~OBC()
 
 void OBC::Initialize()
 {
-}
-
-double OBC::GetCurrent(int port_id) const
-{
-  if (isOn_)
-  {
-    return current_;
-  }
-  return 0.0;
 }
 
 void OBC::MainRoutine(int count)

@@ -28,8 +28,8 @@ OBC_C2A::OBC_C2A(ClockGenerator* clock_gen, int timing_regulator)
   Initialize();
 }
 
-OBC_C2A::OBC_C2A(int prescaler, ClockGenerator* clock_gen, double current, int timing_regulator)
-:OBC(prescaler, clock_gen, current), timing_regulator_(timing_regulator)
+OBC_C2A::OBC_C2A(int prescaler, ClockGenerator* clock_gen, int timing_regulator, PowerPort* power_port)
+:OBC(prescaler, clock_gen, power_port), timing_regulator_(timing_regulator)
 {
   Initialize();
 }

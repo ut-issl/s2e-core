@@ -22,6 +22,7 @@ add_library(${PROJECT_NAME} STATIC
   Logic/LPF.cpp
   Logic/RVDController.cpp
   Logic/UWBEstimator.cpp
+  Power/PCU.cpp
   Power/BAT.cpp
   Power/PCU_InitialStudy.cpp
   Mission/Telescope/Telescope.cpp

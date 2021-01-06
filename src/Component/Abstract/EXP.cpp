@@ -55,9 +55,3 @@ void EXP::GPIOStateChanged(int port_id, bool isPosedge)
 {
   printf("interrupted");
 }
-
-double EXP::GetCurrent(int port_id) const
-{
-  if (!isOn_) return 0;
-  return 0.5;
-}

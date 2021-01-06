@@ -46,7 +46,6 @@ public:
   //指令トルク(期待座標系(B))，地球磁場(機体座標系(B))を入力し，磁気トルカの出力を機体座標系(B)で返す．
   libra::Vector<3> activate(const libra::Vector<3>& c_mtq, const libra::Vector<3>& MagEarth);
   void MainRoutine(int count);
-  double GetCurrent(int port_id) const;
 
   void PrintParams(int sensor_id);  //デバッグ出力
   virtual string GetLogHeader() const;

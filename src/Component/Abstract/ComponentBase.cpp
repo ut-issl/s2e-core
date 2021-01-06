@@ -1,17 +1,18 @@
 #include "ComponentBase.h"
 
-#include "../../Environment/Global/ClockGenerator.h"
-#include "../../Interface/SpacecraftInOut/PowerDriver.h"
+ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen)
+  :clock_gen_(clock_gen)
+{
+  power_port_ = new PowerPort();
+  clock_gen_->RegisterComponent(this);
+  prescaler_ = (prescaler > 0) ? prescaler : 1;
+}
 
-ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen):clock_gen_(clock_gen)
+ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port)
+:clock_gen_(clock_gen), power_port_(power_port)
 {
   clock_gen_->RegisterComponent(this);
   prescaler_ = (prescaler > 0) ? prescaler : 1;
-
-  // デフォルトはON。
-  // PowerPortと接続すると、まず電圧が初期化され、OFFになる。その後はPCUから制御されるのみ。
-  // PowerPortのことを知らなければ、ONのまま使える。
-  isOn_ = true;
 }
 
 // コピーされたらそのインスタンスもClockGeneratorに登録しないとならない
@@ -19,37 +20,21 @@ ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen):clock_gen
 ComponentBase::ComponentBase(const ComponentBase & obj)
 {
   prescaler_ = obj.prescaler_;
-  isOn_ = obj.isOn_;
   clock_gen_ = obj.clock_gen_;
   clock_gen_->RegisterComponent(this);
-  PowerDriver::ReplaceComponent((ComponentBase*)&obj, this);
+  power_port_ = obj.power_port_;
 }
 
 // 破棄されたらClockGeneratorから削除しないとならない
 ComponentBase::~ComponentBase()
 {
   clock_gen_->RemoveComponent(this);
-  PowerDriver::RemoveComponent(this);
-}
-
-void ComponentBase::SetPowerState(int port_id, double voltage)
-{
-  // 仮の実装
-  // ポートIDによらず電圧が0以上ならこの機器をONにする、0ならオフにする
-  isOn_ = voltage > 0;
-}
-
-double ComponentBase::GetCurrent(int port_id) const
-{
-  // 仮の実装
-  // 消費電流は常に0 A
-  return 0;
 }
 
 // 時を刻む
 void ComponentBase::Tick(int count)
 {
-  if (!isOn_) return;
+  if (!power_port_->GetIsOn()) return;
   if (count % prescaler_ > 0) return;
   MainRoutine(count);
 }

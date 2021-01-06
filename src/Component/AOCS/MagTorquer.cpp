@@ -32,12 +32,6 @@ void MagTorquer::MainRoutine(int count)
   // config
 }
 
-double MagTorquer::GetCurrent(int port_id) const
-{
-  if (!isOn_) return 0;
-  return current_;
-}
-
 Vector<3> MagTorquer::activate(const Vector<3>& MagTorque_ordered, const libra::Vector<3>& MagEarth)
 {
   // 指令磁気モーメントを機体座標系(B)からコンポーネント座標系(C)へ変換，q_b2cはセンサミスアライメントも含む．

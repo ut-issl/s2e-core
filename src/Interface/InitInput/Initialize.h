@@ -12,6 +12,7 @@
 #include "../../Library/math/Quaternion.hpp"
 #include "../../Dynamics/Dynamics.h"
 #include "../../Simulation/Spacecraft/Structure/Structure.h"
+#include "../SpacecraftInOut/Ports/PowerPort.h"
 
 #include <vector>
 using libra::Matrix;
@@ -95,7 +96,7 @@ class GScalculator;
 class Telescope;
 class STT;
 class GNSSReceiver;
-Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, int port_id, const string fname, const Dynamics* dynamics);
+Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, int port_id, const string fname, const Dynamics* dynamics);
 MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const string fname, const MagEnvironment* magnet);
 MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const string fname);
 RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id, string file_name, double prop_step, double compo_update_step);

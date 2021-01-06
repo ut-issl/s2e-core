@@ -7,9 +7,8 @@ class OBC: public ComponentBase
 {
 public:
   OBC(ClockGenerator* clock_gen);
-  OBC(int prescaler, ClockGenerator* clock_gen, double current);
+  OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port);
   virtual ~OBC();
-  virtual double GetCurrent(int port_id) const;
 
   // Communication port functions
   virtual int ConnectComPort(int port_id, int tx_buf_size, int rx_buf_size);
@@ -25,10 +24,6 @@ protected:
   // function
   virtual void Initialize();
   virtual void MainRoutine(int count);
-
-  // general parameters
-  double current_=0.1; //A
-
 private:
   // ports
   std::map<int, SCIPort*> com_ports_;

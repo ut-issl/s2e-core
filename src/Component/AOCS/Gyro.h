@@ -39,6 +39,7 @@ public:
   */
   Gyro(
     ClockGenerator* clock_gen,
+    PowerPort* power_port,
     const int sensor_id,
     const int port_id,
     const libra::Quaternion& q_b2c,
@@ -57,7 +58,6 @@ public:
   ~Gyro();
 
   void MainRoutine(int count);
-  double GetCurrent(int port_id) const;
   virtual string GetLogHeader() const;
   virtual string GetLogValue() const;
 

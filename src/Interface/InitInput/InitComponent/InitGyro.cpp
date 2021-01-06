@@ -4,7 +4,7 @@
 #include "../../../Component/AOCS/Gyro.h"
 
 // ジャイロ初期化, sensor_idで対応するセンサ読み込み
-Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, int port_id, const string fname, const Dynamics* dynamics){
+Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, int port_id, const string fname, const Dynamics* dynamics){
 
 	IniAccess gyro_conf(fname);
 
@@ -44,7 +44,7 @@ Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, int port_id, const strin
   double current;
   current = gyro_conf.ReadDouble(GSection, "current");
 
-	Gyro gyro(clock_gen, sensor_id, port_id, q_b2c, scale_factor, bias_c, 
+	Gyro gyro(clock_gen, power_port, sensor_id, port_id, q_b2c, scale_factor, bias_c, 
             rw_stepwidth, rw_stddev_c, rw_limit_c, nr_stddev_c, 
             range_to_const, range_to_zero, current, dynamics);
 
