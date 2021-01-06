@@ -54,7 +54,22 @@ public:
     double current,
     const Dynamics *dynamics
   );								
-
+  Gyro(
+    ClockGenerator* clock_gen,
+    const int sensor_id,
+    const int port_id,
+    const libra::Quaternion& q_b2c,
+    const libra::Matrix<3, 3>& scale_factor,
+    const libra::Vector<3>& bias_c,
+    double rw_stepwidth,
+    const libra::Vector<3>& rw_stddev_c,
+    const libra::Vector<3>& rw_limit_c,
+    const libra::Vector<3>& nr_stddev_c,
+    double range_to_const_c,
+    double range_to_zero_c,
+    double current,
+    const Dynamics *dynamics
+  );						
   ~Gyro();
 
   void MainRoutine(int count);
