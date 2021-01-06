@@ -5,7 +5,8 @@ class OBC_C2A: public OBC
 {
 public:
   OBC_C2A(ClockGenerator* clock_gen);
-  OBC_C2A(int prescaler, ClockGenerator* clock_gen, double current);
+  OBC_C2A(ClockGenerator* clock_gen, int timing_regulator);
+  OBC_C2A(int prescaler, ClockGenerator* clock_gen, double current, int timing_regulator);
   ~OBC_C2A();
 
   // Communication port functions
@@ -22,6 +23,7 @@ public:
   static int ReceivedByObc_C2A(int port_id, unsigned char* buffer, int offset, int count);
   
 private:
+  const int timing_regulator_;
   void MainRoutine(int count);
   void Initialize();
   // ports

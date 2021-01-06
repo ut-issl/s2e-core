@@ -17,13 +17,19 @@
 std::map<int, SCIPort*> OBC_C2A::com_ports_c2a_;
 
 OBC_C2A::OBC_C2A(ClockGenerator* clock_gen)
-:OBC(clock_gen)
+:OBC(clock_gen), timing_regulator_(1)
 {
   Initialize();
 }
 
-OBC_C2A::OBC_C2A(int prescaler, ClockGenerator* clock_gen, double current)
-:OBC(prescaler, clock_gen, current)
+OBC_C2A::OBC_C2A(ClockGenerator* clock_gen, int timing_regulator)
+:OBC(clock_gen), timing_regulator_(timing_regulator)
+{
+  Initialize();
+}
+
+OBC_C2A::OBC_C2A(int prescaler, ClockGenerator* clock_gen, double current, int timing_regulator)
+:OBC(prescaler, clock_gen, current), timing_regulator_(timing_regulator)
 {
   Initialize();
 }
@@ -52,8 +58,11 @@ void OBC_C2A::Initialize()
 void OBC_C2A::MainRoutine(int count)
 {
 #ifdef USE_C2A
-  TMGR_count_up_master_clock();   //The update time oc C2A clock is 1msec
-  TDSP_execute_pl_as_task_list();
+  for(int i=0;i<timing_regulator_;i++)
+  {
+    TMGR_count_up_master_clock();   //The update time oc C2A clock should be 1msec
+    TDSP_execute_pl_as_task_list();
+  }
 #endif
 }
 
