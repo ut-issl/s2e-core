@@ -19,7 +19,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* st
 
   string gyro_ini_path = iniAccess.ReadString("COMPONENTS_FILE", "gyro_file");
   config_->main_logger_->CopyFileToLogDir(gyro_ini_path);
-  gyro_ = new Gyro(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, GYRO, gyro_ini_path, dynamics_));
+  gyro_ = new Gyro(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, gyro_ini_path, dynamics_));
 }
 
 SampleComponents::~SampleComponents()

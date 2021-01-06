@@ -39,7 +39,7 @@ void MagDisturbance::CalcRMM()
 {
 	static Vector<3> stddev(rmm_rwdev_);
 	static Vector<3> limit(rmm_rwlimit_);
-	static RandomWalk rw(0.1, stddev, limit);
+	static RandomWalk<3> rw(0.1, stddev, limit);
 	static NormalRand nr(0.0, rmm_wnvar_, g_rand.MakeSeed());
 
 	rmm_b_ = rmm_const_b_;

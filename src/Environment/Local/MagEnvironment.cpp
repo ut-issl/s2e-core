@@ -46,7 +46,7 @@ void MagEnvironment::AddNoise(double* mag_i_array)
 {
   static Vector<3> stddev(mag_rwdev_);
   static Vector<3> limit(mag_rwlimit_);
-  static RandomWalk rw(0.1, stddev, limit);
+  static RandomWalk<3> rw(0.1, stddev, limit);
   static NormalRand nr(0.0, mag_wnvar_, g_rand.MakeSeed());
   for (int i = 0; i < 3; ++i) { mag_i_array[i] += rw[i] + nr; }
   ++rw; // ランダムウォーク更新

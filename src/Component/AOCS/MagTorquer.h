@@ -74,7 +74,7 @@ private:
   //! バイアス定常成分
   libra::Vector<3> bias_c_;
   //! ランダムウォーク生成オブジェクト
-  RandomWalk n_rw_c_;
+  RandomWalk<3> n_rw_c_;
   //! 正規乱数生成オブジェクト
   libra::NormalRand nrs0_c_, nrs1_c_, nrs2_c_;
   //! nT→Tに変換する定数
