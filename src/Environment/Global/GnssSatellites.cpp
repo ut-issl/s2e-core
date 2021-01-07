@@ -14,8 +14,8 @@ using namespace std;
 tm* initilized_tm()
 {
   tm* time_tm = (tm*)malloc(sizeof(tm));
-  time_tm->tm_zone = NULL;
-  time_tm->tm_gmtoff = 0;
+  //time_tm->tm_zone = NULL;
+  //time_tm->tm_gmtoff = 0;
   time_tm->tm_isdst = 0;
   time_tm->tm_yday = 0;
   time_tm->tm_wday = 0;
