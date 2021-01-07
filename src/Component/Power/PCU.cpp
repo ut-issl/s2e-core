@@ -15,6 +15,16 @@ PCU::~PCU()
 
 void PCU::MainRoutine(int count)
 {
+  double current_=ports_[1]->GetCurrentConsumption();
+}
+
+int PCU::ConnectPort(const int port_id, const double current_Limit)
+{
+  // The port is already used
+  if (ports_[port_id] != nullptr) return -1;
+
+  ports_[port_id] = new PowerPort(port_id, current_Limit);
+  return 0;
 }
 
 int PCU::ConnectPort(const int port_id, const double current_Limit, const double minimum_voltage, const double assumed_power_consumption)

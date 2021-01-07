@@ -22,6 +22,7 @@ public:
   inline PowerPort* GetPowerPort(int port_id){return ports_[port_id];};
 
   // Port control functions
+  int ConnectPort(const int port_id, const double current_Limit);
   int ConnectPort(const int port_id, const double current_Limit, const double minimum_voltage, const double assumed_power_consumption);
   int ClosePort(const int port_id);
 

@@ -8,6 +8,7 @@ class OBC: public ComponentBase
 public:
   OBC(ClockGenerator* clock_gen);
   OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port);
+  OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const double minimum_voltage, const double assumed_power_consumption);
   virtual ~OBC();
 
   // Communication port functions
