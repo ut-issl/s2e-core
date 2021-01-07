@@ -262,6 +262,21 @@ double SimTime::GetCurrentDecyear(void) const
   return current_decyear_;
 }
 
+int SimTime::GetStartYear(void) const
+{
+  return start_year_;
+}
+
+int SimTime::GetStartMon(void) const
+{
+  return start_mon_;
+}
+
+int SimTime::GetStartDay(void) const
+{
+  return start_day_;
+}
+
 int SimTime::GetStartHr(void) const
 {
   return start_hr_;

@@ -69,6 +69,9 @@ public:
   double GetCurrentJd(void) const;
   double GetCurrentSidereal(void) const;
   double GetCurrentDecyear(void) const;
+  int GetStartYear(void) const;
+  int GetStartMon(void) const;
+  int GetStartDay(void) const;
   int GetStartHr(void) const;
   int GetStartMin(void) const;
   double GetStartSec(void) const;
