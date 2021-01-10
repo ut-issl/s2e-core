@@ -18,11 +18,11 @@ EarthCenteredOrbit::EarthCenteredOrbit(char* tle1, char* tle2, int wgs, double c
 
   //To calculate initial position and verocity
   IsCalcEnabled = true;
-  Propagate(current_jd);
+  Propagate(0.0, current_jd);
   IsCalcEnabled = false;
 }
 
-void EarthCenteredOrbit::Propagate(double current_jd)
+void EarthCenteredOrbit::Propagate(double endtime, double current_jd)
 {
   if (!IsCalcEnabled) return;
   double elapse_time_min = (current_jd - satrec.jdsatepoch) * (24.0 * 60.0);

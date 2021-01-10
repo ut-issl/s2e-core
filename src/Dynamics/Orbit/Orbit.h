@@ -46,7 +46,7 @@ public:
   inline virtual void Initialize(Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time = 0) {}
 
   //軌道のプロパゲーション
-  virtual void Propagate(double current_jd) = 0;
+  virtual void Propagate(double endtime, double current_jd) = 0;
 
   // 姿勢情報の更新
   inline void UpdateAtt(Quaternion q_i2b) { sat_velocity_b_ = q_i2b.frame_conv(sat_velocity_i_); }

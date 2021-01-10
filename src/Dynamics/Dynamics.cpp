@@ -36,7 +36,7 @@ void Dynamics::Update(const SimTime* sim_time, const LocalCelestialInformation* 
   //Orbit Propagation
   if (sim_time->GetOrbitPropagateFlag())
   {
-    orbit_->Propagate(sim_time->GetCurrentJd());
+    orbit_->Propagate(sim_time->GetElapsedSec(), sim_time->GetCurrentJd());
   }
   //Attitude dependent update
   orbit_->UpdateAtt(attitude_->GetQuaternion_i2b());
