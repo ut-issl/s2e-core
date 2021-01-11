@@ -14,11 +14,6 @@ using namespace std;
 tm* initilized_tm()
 {
   tm* time_tm = (tm*)malloc(sizeof(tm));
-  //time_tm->tm_zone = NULL;
-  //time_tm->tm_gmtoff = 0;
-  time_tm->tm_isdst = 0;
-  time_tm->tm_yday = 0;
-  time_tm->tm_wday = 0;
 
   time_tm->tm_year = 0;
   time_tm->tm_mon = 0;
@@ -26,6 +21,15 @@ tm* initilized_tm()
   time_tm->tm_hour = 0;
   time_tm->tm_min = 0;
   time_tm->tm_sec = 0;
+
+  time_tm->tm_isdst = 0;
+  time_tm->tm_yday = 0;
+  time_tm->tm_wday = 0;
+  
+  #ifndef WIN32
+    time_tm->tm_zone = NULL;
+    time_tm->tm_gmtoff = 0;
+  #endif
 
   return time_tm;
 }
