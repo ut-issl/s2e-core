@@ -17,7 +17,7 @@ public:
   double GetSolarConstant() const;                  //Get solar constant value [W/m^2]
   inline Vector<3> GetSunDirectionFromSC_b() const{return d_sc2sun_b_;}
   double GetShadowFunction() const;                 //Get Shadow function
-  inline bool GetIsEclipsed() const { return(shadow_function_ >= 1 ? true : false); } //Returns false if the shadow function is less than 1
+  inline bool GetIsEclipsed() const { return(shadow_function_ >= 1 ? false : true); } //Returns true if the shadow function is less than 1
 
   virtual string GetLogHeader() const;													//ログofヘッダー
   virtual string GetLogValue() const;														//ログof値

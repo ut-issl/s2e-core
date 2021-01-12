@@ -85,15 +85,15 @@ string SRPEnvironment::GetLogValue() const
 
 void SRPEnvironment::CalcShadowFunction(double a, double b, double c, double x, double y)
 {
-  if (c < abs(a - b) && a <= b) //The occultation is total (spacecraft is in umbra)
+  if (c < fabs(a - b) && a <= b) //The occultation is total (spacecraft is in umbra)
   {
     shadow_function_ = 0;
   }
-  else if (c < abs(a - b) && a > b) //The occultation is partial but maximum
+  else if (c < fabs(a - b) && a > b) //The occultation is partial but maximum
   {
     shadow_function_ = 1.0 - (b * b) / (a * a);
   }
-  else if (abs(a - b) <= c && c <= (a + b)) // spacecraft is in penunbra
+  else if (fabs(a - b) <= c && c <= (a + b)) // spacecraft is in penunbra
   {
     double A = a * a * acos(x / a) + b * b * acos((c - x) / b) - c * y;//The area of the occulted segment of the apparent solar disk
     shadow_function_ = 1.0 - A / (M_PI * a *a);

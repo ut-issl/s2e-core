@@ -10,22 +10,21 @@ add_library(${PROJECT_NAME} STATIC
   AOCS/MagTorquer.cpp
   AOCS/rw_ode.cpp
   AOCS/RWModel.cpp
-  #AOCS/RWModule.cpp
   AOCS/STT.cpp
   AOCS/SunSensor.cpp
   AOCS/UWBSensor.cpp
   AOCS/GNSSReceiver.cpp
-  CommGS/ANT.cpp
-  CommGS/GScalculator.cpp
   CDH/OBC.cpp
   CDH/OBC_C2A.cpp
+  CommGS/ANT.cpp
+  CommGS/GScalculator.cpp
   Logic/LPF.cpp
   Logic/RVDController.cpp
   Logic/UWBEstimator.cpp
+  Mission/Telescope/Telescope.cpp
   Power/PCU.cpp
   Power/BAT.cpp
   Power/PCU_InitialStudy.cpp
-  Mission/Telescope/Telescope.cpp
   Power/SAP.cpp
   Propulsion/SimpleThruster.cpp
 
@@ -49,7 +48,6 @@ add_library(${PROJECT_NAME} STATIC
 
 ## C++/CLI related codes
 #  CDH/TMTCInterface.cpp
-#  CDH/TMTCInterface.h
 )
 # Compile option
 if(MSVC)

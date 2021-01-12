@@ -1,33 +1,63 @@
-#define _CRT_SECURE_NO_WARNINGS
-#define PI   3.14159265358979323846
 #include <string.h>
 #include "../Initialize.h"
 #include "../../../Component/AOCS/SunSensor.h"
 
-//太陽センサ初期化, sensor_idで対応するセンサ読み込み
-SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, string file_name, const SRPEnvironment* srp){
+SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, string file_name, const SRPEnvironment* srp)
+{
+  IniAccess ss_conf(file_name);
+  const string st_ss_id = std::to_string(static_cast<long long>(ss_id));
+  const char *cs = st_ss_id.data();
+  char Section[30] = "SUNSENSOR";
+  strcat(Section, cs);
 
-    IniAccess ss_conf(file_name);
+  int prescaler = ss_conf.ReadInt(Section, "prescaler");
+  if (prescaler <= 1) prescaler = 1;
 
-	const string st_ss_id = std::to_string(static_cast<long long>(ss_id));
-	const char *cs = st_ss_id.data();
+  Quaternion q_b2c;
+  ss_conf.ReadQuaternion(Section, "q_b2c", q_b2c);
 
-	char Section[30] = "SUNSENSOR";
-	strcat(Section, cs);
+  double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
+  detectable_angle_deg = ss_conf.ReadDouble(Section, "detectable_angle_deg");
+  detectable_angle_rad = M_PI/180.0*detectable_angle_deg;
 
-	Quaternion q_b2c;
-	ss_conf.ReadQuaternion(Section, "q_b2c", q_b2c);
+  double nr_stddev = 0.0;
+  nr_stddev = ss_conf.ReadDouble(Section, "nr_stddev");
+  nr_stddev *= M_PI/180.0;
 
-	double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
-	detectable_angle_deg = ss_conf.ReadDouble(Section, "detectable_angle_deg");
-	detectable_angle_rad = PI/180.0*detectable_angle_deg;
+  double nr_bias_stddev = 0.0;
+  nr_bias_stddev = ss_conf.ReadDouble(Section, "nr_bias_stddev");
+  nr_bias_stddev *= M_PI/180.0;
 
-	double ss_wnvar = 0.0;
-	ss_wnvar = ss_conf.ReadDouble(Section, "ss_wnvar");
+  SunSensor ss(prescaler, clock_gen, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, srp);
+  return ss;
+}
 
-	double ss_bivar = 0.0;
-	ss_bivar = ss_conf.ReadDouble(Section, "ss_bivar");
+SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss_id, string file_name, const SRPEnvironment* srp)
+{
+  IniAccess ss_conf(file_name);
+  const string st_ss_id = std::to_string(static_cast<long long>(ss_id));
+  const char *cs = st_ss_id.data();
+  char Section[30] = "SUNSENSOR";
+  strcat(Section, cs);
 
-	SunSensor ss(clock_gen, q_b2c, detectable_angle_rad, ss_wnvar, ss_bivar, srp);
-	return ss;
+  int prescaler = ss_conf.ReadInt(Section, "prescaler");
+  if (prescaler <= 1) prescaler = 1;
+
+  Quaternion q_b2c;
+  ss_conf.ReadQuaternion(Section, "q_b2c", q_b2c);
+
+  double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
+  detectable_angle_deg = ss_conf.ReadDouble(Section, "detectable_angle_deg");
+  detectable_angle_rad = M_PI/180.0*detectable_angle_deg;
+
+  double nr_stddev = 0.0;
+  nr_stddev = ss_conf.ReadDouble(Section, "nr_stddev");
+  nr_stddev *= M_PI/180.0;
+
+  double nr_bias_stddev = 0.0;
+  nr_bias_stddev = ss_conf.ReadDouble(Section, "nr_bias_stddev");
+  nr_bias_stddev *= M_PI/180.0;
+
+  SunSensor ss(prescaler, clock_gen, power_port, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, srp);
+  return ss;
 }

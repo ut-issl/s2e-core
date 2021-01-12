@@ -48,33 +48,33 @@ public:
   void ResetClock(void);
 
   // Get functions
-  TimeState GetState(void) const;
-  double GetElapsedSec(void) const;
-  double GetStepSec(void) const;
-  double GetAttitudeUpdateIntervalSec(void) const;
-  bool GetAttitudePropagateFlag(void) const;
-  inline double GetAttitudeRKStepSec() const { return attitude_rk_step_sec_; }
-  double GetOrbitUpdateIntervalSec(void) const;
-  bool GetOrbitPropagateFlag(void) const;
-  inline double GetOrbitRKStepSec() const { return orbit_rk_step_sec_; }
-  double GetThermalUpdateIntervalSec(void) const;
-  bool GetThermalPropagateFlag(void) const;
-  inline double GetThermalRKStepSec() const { return thermal_rk_step_sec_; }
-  double GetCompoStepSec(void) const;
-  inline bool GetCompoUpdateFlag() const { return compo_update_flag_; }
-  int GetCompoPropagateFrequency(void) const;
+  inline const TimeState GetState(void) const { return state_; };
+  inline const double GetElapsedSec(void) const { return elapsed_time_sec_; };
+  inline const double GetStepSec(void) const { return step_sec_; };
+  inline const double GetAttitudeUpdateIntervalSec(void) const { return attitude_update_interval_sec_; };
+  inline const bool GetAttitudePropagateFlag(void) const { return attitude_update_flag_; };
+  inline const double GetAttitudeRKStepSec() const { return attitude_rk_step_sec_; }
+  inline const double GetOrbitUpdateIntervalSec(void) const { return orbit_update_interval_sec_; };
+  inline const bool GetOrbitPropagateFlag(void) const { return orbit_update_flag_; };
+  inline const double GetOrbitRKStepSec() const { return orbit_rk_step_sec_; }
+  inline const double GetThermalUpdateIntervalSec(void) const { return thermal_update_interval_sec_; };
+  inline const bool GetThermalPropagateFlag(void) const { return thermal_update_flag_; };
+  inline const double GetThermalRKStepSec() const { return thermal_rk_step_sec_; }
+  inline const double GetCompoStepSec(void) const { return compo_update_interval_sec_; };
+  inline const bool GetCompoUpdateFlag() const { return compo_update_flag_; }
+  inline const int GetCompoPropagateFrequency(void) const { return compo_propagate_frequency_; };
 
-  double GetEndSec(void) const;
-  int GetProgressionRate(void) const;
-  double GetCurrentJd(void) const;
-  double GetCurrentSidereal(void) const;
-  double GetCurrentDecyear(void) const;
-  int GetStartYear(void) const;
-  int GetStartMon(void) const;
-  int GetStartDay(void) const;
-  int GetStartHr(void) const;
-  int GetStartMin(void) const;
-  double GetStartSec(void) const;
+  inline const double GetEndSec(void) const { return end_sec_; };
+  inline const int GetProgressionRate(void) const { return (int)floor((elapsed_time_sec_ / end_sec_ * 100)); };
+  inline const double GetCurrentJd(void) const { return current_jd_; };
+  inline const double GetCurrentSidereal(void) const { return current_sidereal_; };
+  inline const double GetCurrentDecyear(void) const { return current_decyear_; };
+  inline const int GetStartYear(void) const { return start_year_; };
+  inline const int GetStartMon(void) const { return start_mon_; };
+  inline const int GetStartDay(void) const { return start_day_; };
+  inline const int GetStartHr(void) const { return start_hr_; };
+  inline const int GetStartMin(void) const { return start_min_; };
+  inline const double GetStartSec(void) const { return start_sec_; };
   // logs
   virtual string GetLogHeader() const;
   virtual string GetLogValue() const;

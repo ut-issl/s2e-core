@@ -2,27 +2,27 @@
 #include "../CDH/OBC_C2A.h"
 
 Gyro::Gyro(
-  int prescaler, 
+  const int prescaler, 
   ClockGenerator* clock_gen,
+  SensorBase& sensor_base,
   const int sensor_id,
   const Quaternion& q_b2c,
-  SensorBase& sensor_base,
   const Dynamics *dynamics)
-  : ComponentBase(prescaler, clock_gen), SensorBase(sensor_base), 
+  : ComponentBase(prescaler, clock_gen), SensorBase(sensor_base),
   sensor_id_(sensor_id), q_b2c_(q_b2c),
   dynamics_(dynamics)
 {
 }
 
 Gyro::Gyro(
-  int prescaler, 
+  const int prescaler, 
   ClockGenerator* clock_gen,
   PowerPort* power_port,
+  SensorBase& sensor_base,
   const int sensor_id,
   const libra::Quaternion& q_b2c,
-  SensorBase& sensor_base,
   const Dynamics *dynamics)
-  : ComponentBase(1, clock_gen, power_port), SensorBase(sensor_base), 
+  : ComponentBase(prescaler, clock_gen, power_port), SensorBase(sensor_base),
   sensor_id_(sensor_id), q_b2c_(q_b2c),
   dynamics_(dynamics)
 {

@@ -7,7 +7,7 @@
 SampleSat::SampleSat(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id)
   :Spacecraft(sim_config, glo_env, sat_id)
 {
-  Initialize(sim_config, sat_id);
+  Initialize(sim_config, glo_env, sat_id);
 }
 
 SampleSat::~SampleSat()
@@ -15,9 +15,9 @@ SampleSat::~SampleSat()
   delete components_;
 }
 
-void SampleSat::Initialize(SimulationConfig* sim_config, const int sat_id)
+void SampleSat::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id)
 {
-  components_ = new SampleComponents(dynamics_, structure_, sim_config, &clock_gen_, sat_id);
+  components_ = new SampleComponents(dynamics_, structure_, local_env_, glo_env, sim_config, &clock_gen_, sat_id);
 }
 
 void SampleSat::LogSetup(Logger & logger)
@@ -28,8 +28,10 @@ void SampleSat::LogSetup(Logger & logger)
 
 void SampleSat::Update(const SimTime* sim_time)
 {
-  Spacecraft::Update(sim_time);
   clock_gen_.UpdateComponents(sim_time);
+  GenerateTorque_b();
+  GenerateForce_b();
+  Spacecraft::Update(sim_time);
 }
 
 void SampleSat::GenerateTorque_b()

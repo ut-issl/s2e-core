@@ -1,11 +1,8 @@
 #pragma once
 
 #include "../../Library/math/NormalRand.hpp"
-using libra::NormalRand;
 #include "../../Library/math/Vector.hpp"
-using libra::Vector;
 #include "../../Library/math/Quaternion.hpp"
-using libra::Quaternion;
 
 #include "../Abstract/ComponentBase.h"
 #include "../../Dynamics/Dynamics.h"
@@ -15,39 +12,65 @@ using libra::Quaternion;
 class SimpleThruster : public ComponentBase, public ILoggable
 {
 public:
-  SimpleThruster(ClockGenerator* clock_gen, Vector<3> thruster_pos, Vector<3> thruster_dir, double max_mag, double mag_err, double deg_err, int id, const Structure* structure, const Dynamics* dynamics);
-  //コンストラクタ
+  SimpleThruster(
+    const int prescaler,
+    ClockGenerator* clock_gen,
+    const int id, 
+    const Vector<3> thruster_pos_b, 
+    const Vector<3> thrust_dir_b, 
+    const double max_mag,   // N
+    const double mag_err,   // N
+    const double dir_err,   // rad
+    const Structure* structure, 
+    const Dynamics* dynamics
+  );
+  SimpleThruster(
+    const int prescaler,
+    ClockGenerator* clock_gen,
+    PowerPort* power_port,
+    const int id, 
+    const Vector<3> thruster_pos_b, 
+    const Vector<3> thrust_dir_b, 
+    const double max_mag,   // N
+    const double mag_err,   // N
+    const double dir_err,   // rad
+    const Structure* structure, 
+    const Dynamics* dynamics
+  );
   ~SimpleThruster();
+
+  // ComponentBase override function
   void MainRoutine(int count);
-  void SetDuty(double dutyratio);
 
-  // 推力の計算 
-  // isReal: 真なら実際の値を出力、偽なら理論上の値（ノイズなし）を出力
-  void CalcThrust(bool isReal = true);
-  void CalcTorque(Vector<3> center, double temp);
-
-  Vector<3> GetThrust();
-  Vector<3> GetTorque();
-
+  // ILogabble override function
   virtual string GetLogHeader() const;
   virtual string GetLogValue() const;
 
-private:
-  //内部状態
-  double duty_; // スラスタバルブ開閉のデューティ比
-                //基本情報
-  Vector<3> thruster_pos_;  //スラスタ取り付け位置
-  Vector<3> thrust_dir_;//スラスト方向ベクトル
-  double thrust_magnitude_max;
-  double thrust_magnitude_err_; //スラスト大きさ揺らぎ //時間独立のランダム変数でとりあえずよい
-  double thrust_dir_err_;//スラスト方向揺らぎの誤差角
-  NormalRand mag_nr, dir_nr;
-  Vector<3> thrust_b_;
-  Vector<3> torque_b_;
-  const int id_;
+  // Getter
+  inline const Vector<3> GetThrustB() const { return thrust_b_; };
+  inline const Vector<3> GetTorqueB()const { return torque_b_; };
 
+  // Setter
+  inline void SetDuty(double duty){duty_=duty;};
+
+protected:
+  // parameters
+  const int id_;
+  Vector<3> thruster_pos_b_{0.0};   // Thruster position @ body frame
+  Vector<3> thrust_dir_b_{0.0};     // Thrust direction @ body frame
+  double duty_=0.0; // [0.0:1.0]
+  double thrust_magnitude_max_=0.0; // N
+  double thrust_dir_err_=0.0; // Thrust direction error rad
+  libra::NormalRand mag_nr_, dir_nr_; 
+  // outputs
+  Vector<3> thrust_b_{0.0};
+  Vector<3> torque_b_{0.0};
+
+  void CalcThrust();
+  void CalcTorque(Vector<3> center, double temp);
   double CalcThrustMagnitude();
   Vector<3> CalcThrustDir();
+  void Initialize(const double mag_err, const double dir_err);
 
   const Structure* structure_;
   const Dynamics* dynamics_;

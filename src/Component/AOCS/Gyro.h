@@ -12,29 +12,21 @@ const size_t kGyroDim=3;
 class Gyro : public ComponentBase, public SensorBase<kGyroDim>, public ILoggable
 {
 public:
-  //! コンストラクタ
-  /*!
-  \q_b2c : 機体座標系(B)→センサ座標系(C)変換Quaternion
-  \port_id : OBCとの通信用ポートID
-  \MisAlign : センサミスアライメント(3×3行列)
-  \current 消費電流値
-  \dynamics measureで参照するためのdynamics
-  */
   Gyro(
-    int prescaler, 
+    const int prescaler, 
     ClockGenerator* clock_gen,
+    SensorBase& sensor_base,
     const int sensor_id,
     const libra::Quaternion& q_b2c,
-    SensorBase& sensor_base,
     const Dynamics *dynamics
   );								
   Gyro(
-    int prescaler, 
+    const int prescaler, 
     ClockGenerator* clock_gen,
     PowerPort* power_port,
+    SensorBase& sensor_base,
     const int sensor_id,
     const libra::Quaternion& q_b2c,
-    SensorBase& sensor_base,
     const Dynamics *dynamics
   );						
   ~Gyro();
@@ -46,10 +38,10 @@ public:
   //Getter
   inline const libra::Vector<kGyroDim>& GetOmegaC(void)const{return omega_c_;}
 
-private:
+protected:
   libra::Vector<kGyroDim> omega_c_{0.0};
-  libra::Quaternion q_b2c_;//! Quaternion from body frame to component frame
-  const int sensor_id_;
+  int sensor_id_=0;
+  libra::Quaternion q_b2c_{0.0,0.0,0.0,1.0}; //! Quaternion from body frame to component frame
 
   const Dynamics* dynamics_;
 };

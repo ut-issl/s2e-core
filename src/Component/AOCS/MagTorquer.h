@@ -1,8 +1,6 @@
 #ifndef MTQ_H_
 #define MTQ_H_
 
-#include <cstring>
-#define _CRT_SECURE_NO_WARNINGS
 #include "../../Library/math/Quaternion.hpp"
 #include "../../Library/math/Vector.hpp"
 #include "../../Library/math/Matrix.hpp"
@@ -10,78 +8,91 @@
 #include "../../Library/math/RandomWalk.hpp"
 #include "../Abstract/ComponentBase.h"
 #include "../../Interface/LogOutput/ILoggable.h"
+#include "../../Environment/Local/LocalEnvironment.h"
 
-using namespace std;
+const size_t kMtqDim = 3;
 
 class MagTorquer: public ComponentBase, public ILoggable
 {
 public:
-  //! コンストラクタ
+  //! Constructor
   /*!
-    \q_b2c : 機体座標系(B)→コンポ座標系(C)変換Quarternion センサミスアライメントも含む．
-  \const libra::Vector<3>& max, 指令磁気モーメント最大値
-  \const libra::Vector<3>& min, 指令磁気モーメント最小値
-    \param Bias バイアス定常成分(3次元ベクトル)
-  \rw_stepwidth : ODE<3>に渡すステップ幅
-    \param rw_stddev ランダムウォーク標準偏差
-    \param rw_limit ランダムウォーク制限値
-    \param nr_stddev ガウスノイズ標準偏差
-  \c_mtq 磁気トルカ発生磁気モーメント[Am^2]
-  \MagEarth 地球磁場[T] 座標系は機体座標系(B)
-  \resoluion 解像度
+  \prescaler, clock_gen : For ComponentBase
+  \id : ID for log output
+  \q_b2c : Quarternion from body frame to component frame
+  \max_c : Maximum magnetic moment [Am2]
+  \min_c : Minimum magnetic moment [Am2]
+  \bias_c : Constant bias noise [Am2]
+  \rw_stepwidth : Step width for Random Walk [s]
+  \rw_stddev: Standard deviation for Random Walk noise [Am2]
+  \rw_limit: Limit for  Random Walk noise [Am2]
+  \nr_stddev: Standard deviation for the normal random noise [Am2]
+  \resolution: Output resolution [Am2]
   */
-  MagTorquer(ClockGenerator* clock_gen,
-    const int sensor_id,
+  MagTorquer(
+    const int prescaler, 
+    ClockGenerator* clock_gen,
+    const int id,
     const libra::Quaternion& q_b2c,
-    const libra::Matrix<3, 3>& scale_facter,
-    const libra::Vector<3>& max_c,
-    const libra::Vector<3>& min_c,
-    const libra::Vector<3>& bias_c,
-    double rw_stepwidth,                       //ODEのステップ幅（のはず）．ODE<3>にdoubleで引数を渡しているので，ここはdoubleでなければならない．
-    const libra::Vector<3>& rw_stddev_c,
-    const libra::Vector<3>& rw_limit_c,
-    const libra::Vector<3>& nr_stddev_c,
-    unsigned int resolution);
+    const libra::Matrix<kMtqDim, kMtqDim>& scale_facter,
+    const libra::Vector<kMtqDim>& max_c,
+    const libra::Vector<kMtqDim>& min_c,
+    const libra::Vector<kMtqDim>& bias_c,
+    double rw_stepwidth,
+    const libra::Vector<kMtqDim>& rw_stddev_c,
+    const libra::Vector<kMtqDim>& rw_limit_c,
+    const libra::Vector<kMtqDim>& nr_stddev_c,
+    const MagEnvironment *mag_env
+  );
+  MagTorquer(
+    const int prescaler, 
+    ClockGenerator* clock_gen,
+    PowerPort* power_port,
+    const int id,
+    const libra::Quaternion& q_b2c,
+    const libra::Matrix<kMtqDim, kMtqDim>& scale_facter,
+    const libra::Vector<kMtqDim>& max_c,
+    const libra::Vector<kMtqDim>& min_c,
+    const libra::Vector<kMtqDim>& bias_c,
+    double rw_stepwidth,
+    const libra::Vector<kMtqDim>& rw_stddev_c,
+    const libra::Vector<kMtqDim>& rw_limit_c,
+    const libra::Vector<kMtqDim>& nr_stddev_c,
+    const MagEnvironment *mag_env
+  );
 
-  //指令トルク(期待座標系(B))，地球磁場(機体座標系(B))を入力し，磁気トルカの出力を機体座標系(B)で返す．
-  libra::Vector<3> activate(const libra::Vector<3>& c_mtq, const libra::Vector<3>& MagEarth);
-  void MainRoutine(int count);
-
-  void PrintParams(int sensor_id);  //デバッグ出力
+  // ComponentBase override functions
+  void MainRoutine(int count) override;
+  // ILogabble override functions
   virtual string GetLogHeader() const;
   virtual string GetLogValue() const;
 
-  Vector<3> GetMaxAm2();
+  // Getter
+  inline const libra::Vector<kMtqDim>& GetMagMoment_b(void)const{return mag_moment_b_;};  //Am2
+  inline const libra::Vector<kMtqDim>& GetTorque_b(void)const{return torque_b_;}; //Nm
+  // Setter
+  inline void SetMagMomentC(const libra::Vector<kMtqDim> mag_moment_c){mag_moment_c_ = mag_moment_c;};  //Am2
+  
+protected: 
+  const int id_=0;
+  const double knT2T = 1.0e-9;
+  libra::Vector<kMtqDim> torque_b_{0.0};   //Nm
+  libra::Vector<kMtqDim> mag_moment_c_{0.0};  //Am2
+  libra::Vector<kMtqDim> mag_moment_b_{0.0};  //Am2
 
-  libra::Vector<3> Torque_b;
-  libra::Vector<3> MagTorque_c;
-  libra::Vector<3> MagTorque_b;
-  libra::Vector<3> GetMagTorque_b();
-
-private:
-  //! 機体座標系(B)→ コンポ座標系(C)変換Quaternion
-  libra::Quaternion q_b2c_;
-  //! コンポ座標系(C)→機体座標系(B)変換Quaternion
-  libra::Quaternion q_c2b_;
-  //
-  unsigned int resolution_;
-  double zero_limit_;
-  double current_;
-  libra::Vector<3> max_c_;
-  libra::Vector<3> min_c_;
-  //! スケールファクタ
-  libra::Matrix<3, 3> scale_factor_;
-  //! バイアス定常成分
-  libra::Vector<3> bias_c_;
-  //! ランダムウォーク生成オブジェクト
-  RandomWalk<3> n_rw_c_;
-  //! 正規乱数生成オブジェクト
-  libra::NormalRand nrs0_c_, nrs1_c_, nrs2_c_;
-  //! nT→Tに変換する定数
-  const double nT2T = 1.0e-9;
-  // センサーID
-  const int sensor_id_;
-
+  libra::Quaternion q_b2c_{0.0,0.0,0.0,1.0}; //Quarternion from body frame to component frame
+  libra::Quaternion q_c2b_{0.0,0.0,0.0,1.0}; //Quarternion from component frame to body frame
+  libra::Matrix<kMtqDim, kMtqDim> scale_factor_;
+  libra::Vector<kMtqDim> max_c_{100.0};  //Am2
+  libra::Vector<kMtqDim> min_c_{-100.0};  //Am2
+  libra::Vector<kMtqDim> bias_c_{0.0};  //Am2;
+  //! Random Walk
+  RandomWalk<kMtqDim> n_rw_c_;
+  //! Normal random noise 
+  libra::NormalRand nrs_c_[kMtqDim];  //Am2
+  
+  const MagEnvironment *mag_env_;  
+  libra::Vector<kMtqDim> CalcOutputTorque(void);
 };
 
 #endif // MTQ_H_

@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 
   end = chrono::system_clock::now();
   double time = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000000.0);
-  std::cout << std::endl << "Simulation evecution time: " << time << "sec"<< std::endl << std::endl;
+  std::cout << std::endl << "Simulation execution time: " << time << "sec"<< std::endl << std::endl;
 
   return EXIT_SUCCESS;
 }

@@ -45,6 +45,42 @@ RWModel::RWModel(
       drive_flag_(drive_flag),
       ode_angular_velocity_(step_width_, init_velocity, 0.0, coasting_lag_coef_)
 {
+  Initialize();
+}
+
+RWModel::RWModel(
+    int prescaler,
+    ClockGenerator *clock_gen,
+    PowerPort* power_port,
+    double step_width,
+    double dt_main_routine,
+    double inertia,
+    double max_torque,
+    double max_velocity_rpm,
+    Vector<3> direction_b,
+    double dead_time,
+    Vector<3> driving_lag_coef,
+    Vector<3> coasting_lag_coef,
+    bool drive_flag,
+    double init_velocity)
+    : ComponentBase(prescaler, clock_gen, power_port),
+      step_width_(step_width),
+      dt_main_routine_(dt_main_routine),
+      inertia_(inertia),
+      max_torque_(max_torque),
+      max_velocity_rpm_(max_velocity_rpm),
+      direction_b_(direction_b),
+      dead_time_(dead_time),
+      driving_lag_coef_(driving_lag_coef),
+      coasting_lag_coef_(coasting_lag_coef),
+      drive_flag_(drive_flag),
+      ode_angular_velocity_(step_width_, init_velocity, 0.0, coasting_lag_coef_)
+{
+  Initialize();
+}
+
+void RWModel::Initialize()
+{
   velocity_limit_rpm_ = max_velocity_rpm_;
   output_torque_b_ = Vector<3>(0.0);
   angular_momentum_b_ = Vector<3>(0.0);
@@ -56,6 +92,7 @@ RWModel::RWModel(
   angular_velocity_rpm_ = 0.0;
   angular_velocity_rad_ = 0.0;
 }
+
 
 void RWModel::MainRoutine(int count)
 {
@@ -127,7 +164,7 @@ void RWModel::SetTargetTorqueBody(double torque_body)
 {
   SetTargetTorqueRw(-1.0*torque_body);
 }
-//制御時の最大角速度設定
+
 void RWModel::SetVelocityLimitRpm(double velocity_limit_rpm)
 {
   if (velocity_limit_rpm > max_velocity_rpm_)
