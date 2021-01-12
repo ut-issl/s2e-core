@@ -28,11 +28,11 @@ STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const string fname, double
   double earth_forbidden_angle_rad = earth_forbidden_angle_deg*M_PI / 180.0;
   double moon_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "moon_forbidden_angle");
   double moon_forbidden_angle_rad = moon_forbidden_angle_deg*M_PI / 180.0;
-  double capture_rate = STT_conf.ReadDouble(STTSection, "capture_rate");
+  double capture_rate_deg_s = STT_conf.ReadDouble(STTSection, "capture_rate");
   double capture_rate_rad_s = capture_rate_deg_s*M_PI / 180.0;
 
   STT stt(prescaler, clock_gen, sensor_id, q_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval,
-          sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate, dynamics, local_env);
+          sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_env);
   return stt;
 }
 
