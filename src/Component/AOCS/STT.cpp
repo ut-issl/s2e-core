@@ -9,6 +9,10 @@
 #include <math.h>
 #include <iostream>
 
+#ifndef RE
+  #define RE 6378136.30 //Earth radius [m]
+#endif
+
 using namespace std;
 using namespace libra;
 
@@ -147,8 +151,10 @@ int STT::EarthJudgement(const libra::Vector<3>& earth_b)
 {
   Quaternion q_c2b = q_b2c_.conjugate();
   Vector<3> sight_b = q_c2b.frame_conv(sight_);
-  double earth_angle_rad = CalAngleVect_rad(earth_b, sight_b);
-  if (earth_angle_rad < earth_forbidden_angle_)
+  double earth_size_rad = atan2(RE,norm(earth_b));                        //angles between sat<->earth_center & sat<->earth_edge
+  double earth_center_angle_rad = CalAngleVect_rad(earth_b, sight_b);     //angles between sat<->earth_center & sat_sight
+  double earth_edge_angle_rad = earth_center_angle_rad - earth_size_rad;  //angles between sat<->earth_edge & sat_sight
+  if (earth_edge_angle_rad < earth_forbidden_angle_)
     return 1;
   else
     return 0;
