@@ -20,11 +20,11 @@
   - Branch structure
   ```
   .
-  ├── master      # The latest operation guaranteed codes
-  ├── develop     # The latest buildable codes
+  ├── master      # The latest operation guaranteed codes for general users
+  ├── develop     # The latest buildable codes for S2E primary developers
   └── feature/*   # Developing codes
   ```
-  - **Note**: Currently, the `master` branch is ancient, and the `develop` branch is useful.
+  - We recommend general users to use the `master` branch or suitable released version because we sometimes update the `develop` branch without the backward compatibility, and users need to modify their user side codes and settings.
   - Push to `master` and `develop` is prohibited. All developers have to develop with `feature/*` branch and make a merge request.
   - Maintainers confirm the request and merge it to the `develop` branch.
   - [Reference document](https://nvie.com/posts/a-successful-git-branching-model/) 
@@ -36,6 +36,7 @@
   4. A maintainer reviews the merge request. If some problems are found, the maintainer proposes modifications.
   5. The developer modifies the codes according to the maintainer's proposal and goes back to 3.
   6. The maintainer merges the `feature/*` branch to the `develop` branch.
+  7. The ISSL's S2E development members decide to merge the `develop` branch to the `master` branch and release new version.
 
 - Binary files
   - Binary file commit is prohibited.
