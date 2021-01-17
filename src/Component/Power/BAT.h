@@ -7,7 +7,8 @@
 class BAT : public ComponentBase, public ILoggable
 {
 public:
-  BAT(int number_of_series,
+  BAT(ClockGenerator* clock_gen,
+    int number_of_series,
     int number_of_parallel,
     double cell_capacity,
     const std::vector<double> cell_discharge_curve_coeffs,

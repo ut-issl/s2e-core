@@ -1,18 +1,11 @@
-/*!
-  \file   MagRandomWalk.hpp
-  \author Takumi Kudo
-  \date   
-  \brief  MagSensor用のランダムウォーク生成クラス
-  \cite  TAKISAWA氏のST5RW.hppを改造．
-*/
-#ifndef RandomWalk_H_
-#define RandomWalk_H_
+#pragma once
 
 #include "./ODE.hpp"
 #include "./Vector.hpp"
 #include "./NormalRand.hpp"
 
-class RandomWalk : public libra::ODE<3>
+template<size_t N>
+class RandomWalk : public libra::ODE<N>
 {
 public:
   //! コンストラクタ
@@ -22,17 +15,17 @@ public:
     \param limit ランダムウォーク制限値
   */
   RandomWalk(double step_width,
-				const libra::Vector<3>& stddev,
-				const libra::Vector<3>& limit);
+				const libra::Vector<N>& stddev,
+				const libra::Vector<N>& limit);
 
   virtual void RHS(double x,
-                   const libra::Vector<3>& state,
-                   libra::Vector<3>& rhs);
+                   const libra::Vector<N>& state,
+                   libra::Vector<N>& rhs);
 private:
   //! ランダムウォーク制限値
-  libra::Vector<3> limit_;
+  libra::Vector<N> limit_;
   //! ランダムウォーク励起ノイズ源
-  libra::NormalRand nrs0_,nrs1_,nrs2_;
+  libra::NormalRand nrs_[N];
 };
 
-#endif // ST5RW_HPP_
+#include "./RandomWalk_tfs.hpp" // template function definisions.

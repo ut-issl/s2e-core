@@ -17,7 +17,7 @@ using libra::Quaternion;
 #include "../../Library/sgp4/sgp4unit.h"
 #include "../../Library/sgp4/sgp4io.h"
 #include "../../Library/sgp4/sgp4ext.h"
-static gravconsttype whichconst;
+
 #define PIO2		1.57079632679489656		/* Pi/2 */
 #define TWOPI		6.28318530717958623		/* 2*Pi  */
 #define DEG2RAD		0.017453292519943295769	// PI/180
@@ -46,10 +46,15 @@ public:
   inline virtual void Initialize(Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time = 0) {}
 
   //軌道のプロパゲーション
-  virtual void Propagate(double current_jd) = 0;
+  virtual void Propagate(double endtime, double current_jd) = 0;
 
   // 姿勢情報の更新
   inline void UpdateAtt(Quaternion q_i2b) { sat_velocity_b_ = q_i2b.frame_conv(sat_velocity_i_); }
+
+  inline void SetAcceleration_i(Vector<3> acceleration_i)
+  {
+    acc_i_ = acceleration_i;
+  }
 
   // 慣性系での並進力をセットする
   inline void AddForce_i(Vector<3> force_i, double spacecraft_mass)
@@ -61,7 +66,7 @@ public:
   // 慣性系での加速度をセットする
   inline void AddAcceleration_i(Vector<3> acceleration_i)
   {
-    acc_i_ = acceleration_i;
+    acc_i_ += acceleration_i;
   }
 
   // 機体座標系での並進力をセットする
@@ -127,11 +132,12 @@ public:
   virtual string GetLogHeader() const = 0;
   virtual string GetLogValue() const = 0;
 
-  inline virtual Vector<3> GetESIOmega() { return Vector<3>();}
+  inline virtual Vector<3> GetESIOmega()const { return Vector<3>();}
 
-  inline Matrix<3,3> GetTransECItoECEF() { return trans_eci2ecef_; }
+  inline Matrix<3,3> GetTransECItoECEF()const { return trans_eci2ecef_; }
 
   bool IsCalcEnabled = false;
+  gravconsttype whichconst;
 
 protected:
   // 慣性系での宇宙機位置 [m]

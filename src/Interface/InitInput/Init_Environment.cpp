@@ -1,7 +1,7 @@
 #include "Initialize.h"
-#include "../../Environment/MagEnvironment.h"
-#include "../../Environment/SRPEnvironment.h"
-#include "../../Environment/Atmosphere.h"
+#include "../../Environment/Local/MagEnvironment.h"
+#include "../../Environment/Local/SRPEnvironment.h"
+#include "../../Environment/Local/Atmosphere.h"
 
 MagEnvironment InitMagEnvironment(string ini_path)
 {

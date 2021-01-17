@@ -1,50 +1,74 @@
 #ifndef __SunSensor_H__
 #define __SunSensor_H__
 
-#include "../../Dynamics/Dynamics.h"
+#include "../../Environment/Local/SRPEnvironment.h"
 #include "../../Library/math/Vector.hpp"
-using libra::Vector;
+#include "../../Library/math/NormalRand.hpp"
 #include "../../Library/math/Quaternion.hpp"
-using libra::Quaternion;
 #include "../../Interface/LogOutput/ILoggable.h"
 #include "../Abstract/ComponentBase.h"
 
 class SunSensor: public ComponentBase, public ILoggable
 {
 public:
-	Quaternion q_b2c_;
-	Vector<3> sun_c_;
-	Vector<3> measured_sun_c_;
-	double alpha_; //太陽方向ベクトル(sc2sun)をセンサ座標系xz平面に射影したベクトルのz軸から測った角度[rad]
-	double beta_; //太陽方向ベクトル(sc2sun)をセンサ座標系yz平面に射影したベクトルのz軸から測った角度[rad]
-	double detectable_angle_rad_;
-	double sun_angle_;
-	bool sun_detected_flag_;
-	double ss_wnvar_;
-	double ss_bivar_;
-	double ss_bias_;
-    const Dynamics *dynamics_;
+  SunSensor(
+    const int prescaler,
+    ClockGenerator* clock_gen,
+    const int id,
+    const libra::Quaternion& q_b2c, 
+    const double detectable_angle_rad,
+    const double nr_stddev_c,
+    const double nr_bias_stddev_c,
+    const SRPEnvironment *srp
+  );
+  SunSensor(
+    const int prescaler,
+    ClockGenerator* clock_gen,
+    PowerPort* power_port,
+    const int id,
+    const libra::Quaternion& q_b2c, 
+    const double detectable_angle_rad,
+    const double nr_stddev_c,
+    const double nr_bias_stddev_c,
+    const SRPEnvironment *srp
+  );
 
-	void SunDetectionJudgement(bool sun_eclipsed);
+  //ComponentBase override function
+  void MainRoutine(int count) override;
+  // ILogabble override functions
+  virtual string GetLogHeader() const;
+  virtual string GetLogValue() const;
+  // Getter
+  inline const bool GetSunDetectedFlag() const { return sun_detected_flag_; };
+  inline const Vector<3> GetMeasuredSun_c() const { return measured_sun_c_; };
+  inline const Vector<3> GetMeasuredSun_b() const { return q_b2c_.conjugate().frame_conv(measured_sun_c_); };
+  inline const double GetSunAngleAlpha() const { return alpha_; };
+  inline const double GetSunAngleBeta() const { return beta_; };
 
-	SunSensor(const libra::Quaternion& q_b2c, 
-			  double detectable_angle_rad,
-			  double ss_wnvar,
-			  double ss_bivar,
-              const Dynamics* dynamics);
+protected:
+  const int id_;
+  libra::Quaternion q_b2c_;  // Quaternion from body frame to component frame (Z-axis of the component is sight direction)
+  libra::Vector<3> sun_c_{0.0};
+  libra::Vector<3> measured_sun_c_{0.0};
+  double alpha_=0.0;  // Angle between Z-axis and the sun direction projected on XZ plane [rad]
+  double beta_=0.0;   // Angle between Z-axis and the sun direction projected on YZ plane [rad]
 
-	void MainRoutine(int time_count) override;
-	void measure(const libra::Vector<3>& sun_b, bool sun_eclipsed);
+  double detectable_angle_rad_; //half angle (>0) [rad]
+  bool sun_detected_flag_ = false;
+  // Noise parameters
+  libra::NormalRand nrs_alpha_; // Normal random
+  libra::NormalRand nrs_beta_; // Normal random
+  double bias_alpha_=0.0; // Normal random for bias
+  double bias_beta_=0.0; // Normal random for bias
 
-	bool GetSunDetected();
-	Vector<3> GetMeasuredSun_c();
-	Vector<3> GetMeasuredSun_b();
-	double GetSunAngleAlpha();
-	double GetSunAngleBeta();
-	void SetTanRange(double);
+  // Measured variables
+  const SRPEnvironment *srp_;
 
-	virtual string GetLogHeader() const;
-	virtual string GetLogValue() const;
+  // functions
+  void SunDetectionJudgement(bool sun_eclipsed);
+  void measure(const libra::Vector<3>& sun_b, bool sun_eclipsed);
+  double TanRange(double x);
+  void Initialize(const double nr_stddev_c,const double nr_bias_stddev_c);
 };
 
 #endif //__SunSensor_H__

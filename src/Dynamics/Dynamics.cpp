@@ -1,81 +1,69 @@
-
 #include "Dynamics.h"
 using namespace std;
 
-
-Dynamics::Dynamics(SimulationConfig config, string AttitudeName, string OrbitName)
-  :config_(config), AttitudeName(AttitudeName), OrbitName(OrbitName)
+Dynamics::Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id, Structure* structure)
 {
-  Initialize();
+  Initialize(sim_config, sim_time, local_celes_info, sat_id, structure);
 }
 
 Dynamics::~Dynamics()
 {
   delete attitude_;
   delete orbit_;
-  delete celestial_;
-  delete hip_;
+  delete temperature_;
 }
 
-void Dynamics::Initialize()
+void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id, Structure* structure)
 {
-  string ini_fname = config_.mainIniPath;
-  IniAccess mainIni = IniAccess(ini_fname);
-  string orbit_ini_path = mainIni.ReadString("SIM_SETTING", "orbit_file");
-  string celestial_ini_path = mainIni.ReadString("SIM_SETTING", "celestial_file");
-  string hip_ini_path = mainIni.ReadString("SIM_SETTING", "env_file");
+  mass_ = structure->GetKinematicsParams().GetMass();
+  
+  // Initialize
+  string center_body_name = local_celes_info->GetGlobalInfo().GetCenterBodyName();
+  orbit_ = InitOrbit(sim_config->sat_file_[sat_id], sim_time->GetOrbitRKStepSec(), sim_time->GetCurrentJd(), local_celes_info->GetGlobalInfo().GetGravityConstant(center_body_name.c_str()), "ORBIT");
+  attitude_ = InitAttitude(sim_config->sat_file_[sat_id], orbit_, local_celes_info, sim_time->GetAttitudeRKStepSec(), structure->GetKinematicsParams().GetInertiaTensor(), sat_id);
+  temperature_ = InitTemperature(sim_config->sat_file_[sat_id], sim_time->GetThermalRKStepSec());
 
-  config_.logger->CopyFileToLogDir(orbit_ini_path);
-  config_.logger->CopyFileToLogDir(celestial_ini_path);
-
-  orbit_ = InitOrbit(orbit_ini_path, config_.simTime->GetOrbitStepSec(), config_.simTime->GetCurrentJd(), OrbitName);
-  celestial_ = new CelestialInformation(InitCelesInfo(celestial_ini_path));
-  attitude_ = InitAttitude(ini_fname, orbit_, celestial_);
-  hip_ = new HipparcosCatalogue(InitHipCatalogue(hip_ini_path));
-
+  // To get initial value
   orbit_->UpdateAtt(attitude_->GetQuaternion_i2b());
-
-  celestial_->UpdateAllObjectsInfo(
-    config_.simTime->GetCurrentJd(), orbit_->GetSatPosition_i(),
-    orbit_->GetSatVelocity_i(), attitude_->GetQuaternion_i2b(), attitude_->GetOmega_b());
-  celestial_->CalcAllPosVel_b(attitude_->GetQuaternion_i2b(), attitude_->GetOmega_b());
-
-  temperature_ = InitTemperature(mainIni);
-
-  mass = mainIni.ReadDouble(AttitudeName.c_str(), "mass");
 }
 
-void Dynamics::Update()
+void Dynamics::Update(const SimTime* sim_time, const LocalCelestialInformation* local_celes_info)
 {
-  attitude_->Propagate(config_.simTime->GetElapsedSec());
-
-  //Orbit Propagation, Celestial Information Update
-  // 一定間隔で伝搬計算を行う
-  if (config_.simTime->GetOrbitPropagateFlag())
-  {
-    orbit_->Propagate(config_.simTime->GetCurrentJd());
-    celestial_->UpdateAllObjectsInfo(config_.simTime->GetCurrentJd(),
-      orbit_->GetSatPosition_i(), orbit_->GetSatVelocity_i(), attitude_->GetQuaternion_i2b(), attitude_->GetOmega_b());
+  //Attitude propagation
+  if (sim_time->GetAttitudePropagateFlag()) {
+    attitude_->Propagate(sim_time->GetElapsedSec());
   }
+  //Orbit Propagation
+  if (sim_time->GetOrbitPropagateFlag())
+  {
+    orbit_->Propagate(sim_time->GetElapsedSec(), sim_time->GetCurrentJd());
+  }
+  //Attitude dependent update
   orbit_->UpdateAtt(attitude_->GetQuaternion_i2b());
-  //姿勢によって変化する部分のみ更新
-  celestial_->CalcAllPosVel_b(attitude_->GetQuaternion_i2b(), attitude_->GetOmega_b());
-  attitude_->SetTorque_b(Vector<3>(0));
 
-  std::string sun_str = "SUN";
-  char* c_sun = new char[sun_str.size() + 1];
-  std::char_traits<char>::copy(c_sun, sun_str.c_str(), sun_str.size() + 1); // string -> char*
-  temperature_->Propagate(celestial_->GetPosFromSC_b(c_sun), config_.simTime->GetElapsedSec());
-  delete[] c_sun;
+  //Thermal
+  if (sim_time->GetThermalPropagateFlag()) {
+    std::string sun_str = "SUN";
+    char* c_sun = new char[sun_str.size() + 1];
+    std::char_traits<char>::copy(c_sun, sun_str.c_str(), sun_str.size() + 1); // string -> char*
+    temperature_->Propagate(local_celes_info->GetPosFromSC_b(c_sun), sim_time->GetElapsedSec());
+    delete[] c_sun;
+  }
 }
+
+void Dynamics::ClearForceTorque(void)
+{
+  Vector<3> zero(0.0);
+  attitude_->SetTorque_b(zero);
+  orbit_->SetAcceleration_i(zero);
+}
+
 
 void Dynamics::LogSetup(Logger& logger)
 {
   logger.AddLoggable(attitude_);
   logger.AddLoggable(orbit_);
-  logger.AddLoggable(celestial_);
 }
-
 
 void Dynamics::AddTorque_b(Vector<3> torque_b)
 {
@@ -84,7 +72,7 @@ void Dynamics::AddTorque_b(Vector<3> torque_b)
 
 void Dynamics::AddForce_b(Vector<3> force_b)
 {
-  orbit_->AddForce_b(force_b, attitude_->GetQuaternion_i2b(), mass);
+  orbit_->AddForce_b(force_b, attitude_->GetQuaternion_i2b(), mass_);
 }
 
 void Dynamics::AddAcceleration_i(Vector<3> acceleration_i)
@@ -100,9 +88,4 @@ Vector<3> Dynamics::GetPosition_i() const
 Quaternion Dynamics::GetQuaternion_i2b() const
 {
   return attitude_->GetQuaternion_i2b();
-}
-
-double Dynamics::GetCurrentJd() const
-{
-  return config_.simTime->GetCurrentJd();
 }

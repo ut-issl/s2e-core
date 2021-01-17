@@ -71,7 +71,7 @@ bool GeoPotential::ReadCoefficientsEGM96(string file_name)
   return true;
 }
 
-void GeoPotential::Update(Envir& env, const Spacecraft& spacecraft)
+void GeoPotential::Update(const LocalEnvironment & local_env, const Dynamics & dynamics)
 {
   #ifdef DEBUG_GEOPOTENTIAL
   chrono::system_clock::time_point start, end;
@@ -79,13 +79,13 @@ void GeoPotential::Update(Envir& env, const Spacecraft& spacecraft)
   debug_pos_ecef_ = spacecraft.dynamics_->orbit_->GetSatPosition_ecef();
   #endif
 
-  CalcAccelerationECEF(spacecraft.dynamics_->orbit_->GetSatPosition_ecef());
+  CalcAccelerationECEF(dynamics.GetOrbit().GetSatPosition_ecef());
   #ifdef DEBUG_GEOPOTENTIAL
   end = chrono::system_clock::now();
   time_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
   #endif
 
-  Matrix<3, 3> trans_eci2ecef_ = spacecraft.dynamics_->orbit_->GetTransECItoECEF();
+  Matrix<3, 3> trans_eci2ecef_ = dynamics.GetOrbit().GetTransECItoECEF();
   Matrix<3, 3> trans_ecef2eci = transpose(trans_eci2ecef_);
   acceleration_i_ = trans_ecef2eci * acc_ecef_;
 }

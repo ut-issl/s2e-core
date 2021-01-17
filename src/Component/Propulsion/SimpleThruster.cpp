@@ -1,42 +1,77 @@
 #include <math.h>
+#include <cfloat>
 
 #include "SimpleThruster.h"
-//コンストラクタ
-SimpleThruster::SimpleThruster(Vector<3> thruster_pos, Vector<3> thrust_dir, double max_mag, double mag_err, double deg_err, int id)
-  :mag_nr(0, mag_err, id), dir_nr(0, deg_err, id), id_(id)
+#include "../../Library/math/GlobalRand.h"
+
+//Constructor
+SimpleThruster::SimpleThruster(
+    const int prescaler,
+    ClockGenerator* clock_gen,
+    const int id, 
+    const Vector<3> thruster_pos_b, 
+    const Vector<3> thrust_dir_b, 
+    const double max_mag, 
+    const double mag_err, 
+    const double dir_err, 
+    const Structure* structure, 
+    const Dynamics* dynamics)
+  :ComponentBase(prescaler,clock_gen), id_(id),
+  thruster_pos_b_(thruster_pos_b), thrust_dir_b_(thrust_dir_b),
+  thrust_magnitude_max_(max_mag), thrust_dir_err_(dir_err),
+  structure_(structure),dynamics_(dynamics)
 {
-  thruster_pos_ = thruster_pos;//スラスタ位置ベクトル格納
-  thrust_dir_ = normalize(thrust_dir);//スラスト方向ベクトル正規化
-  thrust_magnitude_max = max_mag; // スラスト最大値
-  thrust_magnitude_err_ = mag_err;//スラスト誤差大きさ設定,正規分布関数の標準偏差を入力
-  thrust_dir_err_ = deg_err;//誤差角の大きさ設定、正規分布関数の標準偏差を入力
-  thrust_b_ *= 0;
-  duty_ = 0;
+  Initialize(mag_err, dir_err);
 }
 
-void SimpleThruster::set_duty(double dutyratio)
+SimpleThruster::SimpleThruster(
+    const int prescaler,
+    ClockGenerator* clock_gen,
+    PowerPort* power_port,
+    const int id, 
+    const Vector<3> thruster_pos_b, 
+    const Vector<3> thrust_dir_b, 
+    const double max_mag, 
+    const double mag_err, 
+    const double dir_err, 
+    const Structure* structure, 
+    const Dynamics* dynamics)
+  :ComponentBase(prescaler,clock_gen), id_(id),
+  thruster_pos_b_(thruster_pos_b), thrust_dir_b_(thrust_dir_b),
+  thrust_magnitude_max_(max_mag), thrust_dir_err_(dir_err),
+  structure_(structure),dynamics_(dynamics)
 {
-  duty_ = dutyratio;
+  Initialize(mag_err, dir_err);
 }
 
-//並進力計算
-Vector<3> SimpleThruster::calc_thrust(bool isReal)
-{
-  double mag = calc_thrust_magnitude();
-  if (isReal && duty_ != 0) mag += mag_nr;
-  thrust_b_ = mag * calc_thrust_dir();
-  return thrust_b_;//ベクトルで返す
+SimpleThruster::~SimpleThruster(){
 }
 
-//トルク計算
-Vector<3> SimpleThruster::calc_torque(Vector<3> center, double temp)
+void SimpleThruster::Initialize(const double mag_err, const double dir_err)
 {
+  mag_nr_.set_param(0.0, mag_err);
+  dir_nr_.set_param(0.0, dir_err); 
+  thrust_dir_b_ = normalize(thrust_dir_b_);  
+}
 
-  Vector<3> vector_center2thruster = thruster_pos_ - center;//重心位置計算
-  Vector<3> torque = outer_product(vector_center2thruster, calc_thrust(temp));//トルク計算(外積)
+void SimpleThruster::MainRoutine(int count){
+  CalcThrust();
+  CalcTorque(structure_->GetKinematicsParams().GetCGb(),0);
+}
+
+void SimpleThruster::CalcThrust()
+{
+  double mag = CalcThrustMagnitude();
+  if (duty_ > 0.0 + DBL_EPSILON) mag += mag_nr_;
+  thrust_b_ = mag * CalcThrustDir();
+}
+
+void SimpleThruster::CalcTorque(Vector<3> center, double temp)
+{
+  Vector<3> vector_center2thruster = thruster_pos_b_ - center;
+  Vector<3> torque = outer_product(vector_center2thruster, thrust_b_);
 
   torque_b_ = torque;
-  return torque;
 }
 
 string SimpleThruster::GetLogHeader() const
@@ -44,8 +79,8 @@ string SimpleThruster::GetLogHeader() const
   string str_tmp = "";
 
   string head = "TH" + to_string(id_);
-  //str_tmp += WriteVector(head+"thrust", "b", "N", 3);
-  //str_tmp += WriteVector(head+"torque", "b", "Nm", 3);
+  str_tmp += WriteVector(head+"thrust", "b", "N", 3);
+  str_tmp += WriteVector(head+"torque", "b", "Nm", 3);
   str_tmp += WriteScalar(head + "thrust", "N");
   return str_tmp;
 }
@@ -54,69 +89,42 @@ string SimpleThruster::GetLogValue() const
 {
   string str_tmp = "";
 
-  //str_tmp += WriteVector(thrust_b_);
-  //str_tmp += WriteVector(torque_b_);
+  str_tmp += WriteVector(thrust_b_);
+  str_tmp += WriteVector(torque_b_);
   str_tmp += WriteScalar(norm(thrust_b_));
 
   return str_tmp;
 }
 
-//バルブの数による推力の大きさ絶対値計算、温度が必要
-double SimpleThruster::calc_thrust_magnitude()
+double SimpleThruster::CalcThrustMagnitude()
 {
-  //バルブが開いたらスラスト計算(バルブが閉じている場合はゼロ．)
-  return duty_* thrust_magnitude_max;
+  return duty_ * thrust_magnitude_max_;
 }
 
-//方向の誤差追加(正規化方向ベクトルに対してクオータニオン処理を行う。INITファイルでの誤差値を0にすれば、誤差は出ずにそのまま返される)
-//回転軸ベクトルは、誤差がない場合のベクトルに垂直なベクトルの中からランダムに選ぶので良い
-//!!!外積で直行ベクトルを出してから角度を変更したら良い
-//!!!もしこれで行くなら、分母が0のときで場合分けしないと、あとはランダム値は正規分布を実装
-//!!!randは正の値しか出ない
-Vector<3> SimpleThruster::calc_thrust_dir()
+Vector<3> SimpleThruster::CalcThrustDir()
 {
-
-  Vector<3> thrust_dir_true = thrust_dir_;//正規化方向ベクトル(誤差なし)
-  if (thrust_dir_err_ != 0)
+  Vector<3> thrust_dir_b_true = thrust_dir_b_;
+  if (thrust_dir_err_ > 0.0 + DBL_EPSILON)
   {
-    Vector<3> ez;
-    ez[0] = 0;
-    ez[1] = 0;
-    ez[2] = 1;
-    Vector<3> ex;//スラスタベクトルに垂直なベクトルの一例
-    ex[0] = 1;
-    ex[1] = 0;
-    ex[2] = 0;
-
-
-    double flag = rand() % 2;
-    double make_axis_rot_deg;
+    Vector<3> ex;  //Fixme: to use outer product to generate orthogonal vector
+    ex[0] = 1.0;  ex[1] = 0.0;  ex[2] = 0.0;
+    int flag = rand() % 2;
+    double make_axis_rot_rad;
     if (flag == 0)
     {
-      make_axis_rot_deg = rand();
+      make_axis_rot_rad = M_PI*(double)rand()/RAND_MAX;
     }
-    if (flag == 1)
+    else
     {
-      make_axis_rot_deg = -rand();
+      make_axis_rot_rad = -M_PI*(double)rand()/RAND_MAX;
     }
 
-    Quaternion make_axis_rot(thrust_dir_true, make_axis_rot_deg);//回転軸を回す角度はとりあえずランダムな正負の整数値にしてある
-    Vector<3> axis_rot = make_axis_rot.frame_conv(ex);//x軸をスラスタ初期ベクトルを軸に回して、ランダムな回転軸を生成
-    NormalRand make_dir_err_deg(0, thrust_dir_err_, (unsigned)time(NULL));//正規分布に従った角度誤差を作るオブジェクト、平均は0°標準偏差に入力された角度誤差
-    Quaternion err_rot(axis_rot, make_dir_err_deg.operator double());//誤差を与えるクオータニオン生成、角度誤差から毎回正規分布に従った角度誤差をランダムに出し続ける
-    thrust_dir_true = err_rot.frame_conv(thrust_dir_true);//クオータニオンによる誤差追加
+    Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);
+    Vector<3> axis_rot = make_axis_rot.frame_conv(ex);
+    
+    Quaternion err_rot(axis_rot, dir_nr_);  // Generate error quaternion
+    thrust_dir_b_true = err_rot.frame_conv(thrust_dir_b_true);  // Add error
   }
-  /*
-    if(thrust_dir_err_ != 0){
-    Vector<3> axis_rot;
-    srand((unsigned int)time(NULL));
-    axis_rot[0] = rand();
-    axis_rot[1] = rand();
-    //ここ合ってる？axis_rot[2] = thruster_pos_[2] - thrust_dir_true[0] / thrust_dir_true[2] * axis_rot[0] - thrust_dir_true[1] / thrust_dir_true[2] * axis_rot[1];//回転軸、誤差ない時の推力べクトルに垂直なベクトル
-    axis_rot[2] = thruster_pos_[2] - thrust_dir_true[0] / thrust_dir_true[2] * (axis_rot[0] - thruster_pos_[0]) - thrust_dir_true[1] / thrust_dir_true[2] * (axis_rot[1] - thruster_pos_[1]);//回転軸、誤差ない時の推力べクトルに垂直なベクトル
-        Quaternion err_rot(axis_rot,-thrust_dir_err_);//誤差を与えるクオータニオン生成
-        err_rot.frame_conv(thrust_dir_true);//クオータニオンによる誤差追加
-    }
-  */
-  return thrust_dir_true;
+
+  return thrust_dir_b_true;
 }

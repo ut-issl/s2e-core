@@ -1,36 +1,58 @@
 #include "../Initialize.h"
 #include "../../../Component/Propulsion/SimpleThruster.h"
 
-SimpleThruster InitSimpleThruster(int thruster_id){
-	IniAccess thruster_conf("data/ini/component/thruster.ini");
+SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, const std::string fname, const Structure* structure, const Dynamics* dynamics){
+  IniAccess thruster_conf(fname);
+  string sectionstr = "THRUSTER" + to_string(thruster_id);
+  auto* Section = sectionstr.c_str();
 
-    string sectionstr = "THRUSTER" + to_string(thruster_id);
-    auto* Section = sectionstr.c_str();
+  int prescaler = thruster_conf.ReadInt(Section, "prescaler");
+  if (prescaler <= 1) prescaler = 1;
 
-	//スラスタ製品名
-	char comp_name_char[100];
-	thruster_conf.ReadChar(Section, "comp_name", 100, comp_name_char);
-	string comp_name = comp_name_char;
+  Vector<3> thruster_pos;
+  thruster_conf.ReadVector(Section, "thruster_pos", thruster_pos);
 
-	//スラスタ位置
-	Vector<3> thruster_pos;
-	thruster_conf.ReadVector(Section, "thruster_pos", thruster_pos);
+  Vector<3> thruster_dir;
+  thruster_conf.ReadVector(Section, "thruster_dir", thruster_dir);
 
-	//スラスト方向ベクトル
-	Vector<3> thruster_dir;
-	thruster_conf.ReadVector(Section, "thruster_dir", thruster_dir);
+  double max_mag = thruster_conf.ReadDouble(Section, "max_mag");
 
-    //スラスト大きさ誤差
-    double max_mag = thruster_conf.ReadDouble(Section, "max_mag");
+  double mag_err;
+  mag_err = thruster_conf.ReadDouble(Section,"mag_err");
 
-	//スラスト大きさ誤差
-	double mag_err;
-	mag_err = thruster_conf.ReadDouble(Section,"mag_err");
+  double deg_err;
+  deg_err = thruster_conf.ReadDouble(Section,"dir_err") * M_PI/180.0;
 
-	//スラスト方向ベクトル誤差
-	double deg_err;
-	deg_err = thruster_conf.ReadDouble(Section,"deg_err");
+  SimpleThruster thruster(prescaler, clock_gen, thruster_id, 
+      thruster_pos, thruster_dir, max_mag, mag_err, deg_err, 
+      structure, dynamics);
+  return thruster;
+}
 
-	SimpleThruster thruster(thruster_pos, thruster_dir, max_mag, mag_err, deg_err, thruster_id);
-	return thruster;
+SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, PowerPort* power_port, int thruster_id, const std::string fname, const Structure* structure, const Dynamics* dynamics){
+  IniAccess thruster_conf(fname);
+  string sectionstr = "THRUSTER" + to_string(thruster_id);
+  auto* Section = sectionstr.c_str();
+
+  int prescaler = thruster_conf.ReadInt(Section, "prescaler");
+  if (prescaler <= 1) prescaler = 1;
+
+  Vector<3> thruster_pos;
+  thruster_conf.ReadVector(Section, "thruster_pos", thruster_pos);
+
+  Vector<3> thruster_dir;
+  thruster_conf.ReadVector(Section, "thruster_dir", thruster_dir);
+
+  double max_mag = thruster_conf.ReadDouble(Section, "max_mag");
+
+  double mag_err;
+  mag_err = thruster_conf.ReadDouble(Section,"mag_err");
+
+  double deg_err;
+  deg_err = thruster_conf.ReadDouble(Section,"dir_err") * M_PI/180.0;
+
+  SimpleThruster thruster(prescaler, clock_gen, power_port, thruster_id, 
+      thruster_pos, thruster_dir, max_mag, mag_err, deg_err, 
+      structure, dynamics);
+  return thruster;
 }

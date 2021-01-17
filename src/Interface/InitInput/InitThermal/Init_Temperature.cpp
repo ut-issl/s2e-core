@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iostream>
 using namespace std;
-#include "../../../Dynamics/SimTime.h"
+#include "../../../Environment/Global/SimTime.h"
 #include "../../../Dynamics/Thermal/Temperature.h"
 
 /* Import node properties and Cij/Rij Datas by reading CSV File (Node.csv, Cij.csv, Rij.csv)
@@ -41,8 +41,10 @@ First row is for Header, data begins from the second row
    mainstepSec: time step interval for Main Routin integration (= temperature.end_time_) 
  */
 
-Temperature* InitTemperature(IniAccess mainIni)
+Temperature* InitTemperature(string ini_path, const double rk_prop_step_sec)
 {
+  auto mainIni = IniAccess(ini_path);
+
   vector<Node> vnodes;
   vector<vector<double>> cij;
   vector<vector<double>> rij;
@@ -50,8 +52,8 @@ Temperature* InitTemperature(IniAccess mainIni)
   int nodes_num = 1;
 
   // read ini-file settings
-  string file_path     = mainIni.ReadString("SIM_SETTING", "thrm_file");
-  double propstep      = mainIni.ReadDouble("Thermal", "PropStepSec_Thermal");
+  string file_path     = mainIni.ReadString("Thermal", "thrm_file");
+
   bool is_calc_enabled = mainIni.ReadBoolean("Thermal", "IsCalcEnabled");
   bool debug = mainIni.ReadBoolean("Thermal", "debug");
 
@@ -77,7 +79,7 @@ Temperature* InitTemperature(IniAccess mainIni)
   conf_rij.ReadCsvDouble(rij, nodes_num+1);
 
   Temperature* temperature;
-  temperature = new Temperature(cij,rij,vnodes,nodes_num, propstep, is_calc_enabled,debug);
+  temperature = new Temperature(cij,rij,vnodes,nodes_num, rk_prop_step_sec, is_calc_enabled,debug);
   return temperature;
 
 }

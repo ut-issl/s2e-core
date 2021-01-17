@@ -29,9 +29,9 @@ Vector<3> MagDisturbance::CalcTorque(const Vector<3>& mag_b)
 	return torque_b_;
 }
 
-void MagDisturbance::Update(Envir& env, const Spacecraft& spacecraft)
+void MagDisturbance::Update(const LocalEnvironment & local_env, const Dynamics & dynamics)
 {
-	CalcTorque(env.magnet->GetMag_b());
+	CalcTorque(local_env.GetMag().GetMag_b());
 }
 
 //残留磁気モーメントの計算
@@ -39,7 +39,7 @@ void MagDisturbance::CalcRMM()
 {
 	static Vector<3> stddev(rmm_rwdev_);
 	static Vector<3> limit(rmm_rwlimit_);
-	static RandomWalk rw(0.1, stddev, limit);
+	static RandomWalk<3> rw(0.1, stddev, limit);
 	static NormalRand nr(0.0, rmm_wnvar_, g_rand.MakeSeed());
 
 	rmm_b_ = rmm_const_b_;

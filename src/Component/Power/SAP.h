@@ -3,21 +3,21 @@
 #include "../Abstract/ComponentBase.h"
 #include "../../Interface/LogOutput/ILoggable.h"
 #include "../../Library/math/Vector.hpp"
-#include "../../Environment/CelestialInformation.h"
-#include "../../Environment/SRPEnvironment.h"
+#include "../../Environment/Local/LocalCelestialInformation.h"
+#include "../../Environment/Local/SRPEnvironment.h"
 
 class SAP : public ComponentBase, public ILoggable
 {
 public:
-  SAP(int id,
+  SAP(ClockGenerator* clock_gen,
+    int id,
     int number_of_series,
     int number_of_parallel,
     double cell_area,
     libra::Vector<3> normal_vector,
     double cell_efficiency,
     double transmission_efficiency,
-    const SRPEnvironment* srp,
-    const CelestialInformation* celestial);
+    const SRPEnvironment* srp);
   SAP(const SAP &obj);
   ~SAP();
   double GetPowerGeneration() const;
@@ -36,7 +36,6 @@ private:
   const double cell_efficiency_;
   const double transmission_efficiency_; //各種損失を考慮したPCUへの伝達効率
   const SRPEnvironment* const srp_;
-  const CelestialInformation* const celestial_;
   double voltage_; //[V]
   double power_generation_; //[W]
   /* 他にIV曲線を決めるために必要なパラメータなど

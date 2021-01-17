@@ -9,136 +9,136 @@ using libra::NormalRand;
 
 using namespace std;
 
-SunSensor::SunSensor(const libra::Quaternion& q_b2c,
-					 double detectable_angle_rad,
-				     double ss_wnvar,
-					 double ss_bivar,
-                     const Dynamics* dynamics)
-	:detectable_angle_rad_(detectable_angle_rad),
-	 ss_wnvar_(ss_wnvar),
-	 ss_bivar_(ss_bivar),
-	 dynamics_(dynamics)
+SunSensor::SunSensor(
+  const int prescaler,
+  ClockGenerator* clock_gen,
+  const int id,
+  const libra::Quaternion& q_b2c, 
+  const double detectable_angle_rad,
+  const double nr_stddev_c,
+  const double nr_bias_stddev_c,
+  const SRPEnvironment *srp)
+  : ComponentBase(prescaler,clock_gen), id_(id),
+    q_b2c_(q_b2c), detectable_angle_rad_(detectable_angle_rad),
+    srp_(srp)
 {
-	q_b2c_ = q_b2c;
-	sun_c_ = Vector<3>(0);
-	measured_sun_c_ = Vector<3>(0);
-	sun_detected_flag_ = false;
-
-	static NormalRand nr(0.0, ss_bivar_, g_rand.MakeSeed());
-	ss_bias_ = nr;
+  Initialize(nr_stddev_c,nr_bias_stddev_c);
 }
 
-void SunSensor::MainRoutine(int time_count)
+SunSensor::SunSensor(
+  const int prescaler,
+  ClockGenerator* clock_gen,
+  PowerPort* power_port,
+  const int id,
+  const libra::Quaternion& q_b2c, 
+  const double detectable_angle_rad,
+  const double nr_stddev_c,
+  const double nr_bias_stddev_c,
+  const SRPEnvironment *srp)
+  : ComponentBase(prescaler,clock_gen), id_(id),
+    q_b2c_(q_b2c), detectable_angle_rad_(detectable_angle_rad),
+    srp_(srp)
 {
-    measure(dynamics_->GetCelestial().GetPosFromSC_b("SUN"), false);
+  Initialize(nr_stddev_c,nr_bias_stddev_c);
+}
+
+void SunSensor::Initialize(const double nr_stddev_c,const double nr_bias_stddev_c)
+{
+  // Bias
+  NormalRand nr(0.0, nr_bias_stddev_c, g_rand.MakeSeed());
+  bias_alpha_ += nr;
+  bias_beta_ += nr;
+
+  // Normal Random
+  nrs_alpha_.set_param(0.0, nr_stddev_c);  //g_rand.MakeSeed()
+  nrs_beta_.set_param(0.0, nr_stddev_c);  //g_rand.MakeSeed()
+}
+void SunSensor::MainRoutine(int count)
+{
+  measure(srp_->GetSunDirectionFromSC_b(), srp_->GetIsEclipsed());
 }
 
 void SunSensor::measure(const Vector<3>& sun_b, bool sun_eclipsed)
 {
-	sun_c_ = q_b2c_.frame_conv(sun_b); //太陽方向ベクトルを機体座標系からセンサ座標系へ変換
+  sun_c_ = q_b2c_.frame_conv(sun_b);    // Frame conversion from body to component
 
-	SunDetectionJudgement(sun_eclipsed); //太陽がセンサ視野内あるかの判断
+  SunDetectionJudgement(sun_eclipsed);  // Judge the sun is inside the FoV
 
-	//太陽がセンサ視野内にある場合
-	if (sun_detected_flag_)
-	{
-		alpha_ = atan2(sun_c_[0], sun_c_[2]);
-		beta_ = atan2(sun_c_[1], sun_c_[2]);
+  if (sun_detected_flag_)
+  {
+    alpha_ = atan2(sun_c_[0], sun_c_[2]);
+    beta_ = atan2(sun_c_[1], sun_c_[2]);
+    // Add constant bias noise
+    alpha_ += bias_alpha_;
+    beta_ += bias_beta_;
 
-		static NormalRand nr1(ss_bias_, ss_wnvar_, g_rand.MakeSeed());
-		static NormalRand nr2(ss_bias_, ss_wnvar_, g_rand.MakeSeed());
-		alpha_ += nr1;
-		beta_ += nr2;
+    // Add Normal random noise
+    alpha_ += nrs_alpha_;
+    beta_ += nrs_beta_;
 
-		//-π/2〜π/2にする
-		SetTanRange(alpha_);
-		SetTanRange(beta_);
+    // Range [-π/2:π/2]
+    alpha_ = TanRange(alpha_);
+    beta_ = TanRange(beta_);
 
-		measured_sun_c_[0] = tan(alpha_);
-		measured_sun_c_[1] = tan(beta_);
-		measured_sun_c_[2] = 1.0;
+    measured_sun_c_[0] = tan(alpha_);
+    measured_sun_c_[1] = tan(beta_);
+    measured_sun_c_[2] = 1.0;
 
-		normalize(measured_sun_c_); //正規化
-	}
-	//太陽がセンサ視野内にない場合
-	else
-	{
-		measured_sun_c_ = Vector<3>(0);
-		alpha_ = 0.0;
-		beta_ = 0.0;
-	}
+    measured_sun_c_ = normalize(measured_sun_c_);
+  }
+  else
+  {
+    measured_sun_c_ = Vector<3>(0);
+    alpha_ = 0.0;
+    beta_ = 0.0;
+  }
 }
 
 void SunSensor::SunDetectionJudgement(bool sun_eclipsed)
 {
-	Vector<3> sun_direction_c = normalize(sun_c_);
+  Vector<3> sun_direction_c = normalize(sun_c_);
 
-	sun_angle_ = acos(sun_direction_c[2]);
+  double sun_angle_ = acos(sun_direction_c[2]);
 
-	//視野角内に太陽あるかの判定
-	if (sun_eclipsed)
-	{
-		sun_detected_flag_ = false;
-	}
-	else{
-		if (sun_angle_ < detectable_angle_rad_)
-		{
-			sun_detected_flag_ = true;
-		}
-		else{
-			sun_detected_flag_ = false;
-		}
-	}
+  if (sun_eclipsed)
+  {
+    sun_detected_flag_ = false;
+  }
+  else{
+    if (sun_angle_ < detectable_angle_rad_)
+    {
+      sun_detected_flag_ = true;
+    }
+    else{
+      sun_detected_flag_ = false;
+    }
+  }
 }
 
-bool SunSensor::GetSunDetected()
+double SunSensor::TanRange(double x)
 {
-	return sun_detected_flag_;
-}
-
-Vector<3> SunSensor::GetMeasuredSun_c()
-{
-	return measured_sun_c_;
-}
-
-Vector<3> SunSensor::GetMeasuredSun_b()
-{
-	return  q_b2c_.conjugate().frame_conv(measured_sun_c_); //太陽方向ベクトルをセンサ座標系から機体座標系へ変換
-}
-//太陽角(α)の取得用関数
-double SunSensor::GetSunAngleAlpha()
-{
-	return alpha_;
-}
-
-//太陽角(β)の取得用関数
-double SunSensor::GetSunAngleBeta()
-{
-	return beta_;
-}
-
-void SunSensor::SetTanRange(double x)
-{
-	if (x>  M_PI / 2) x = M_PI - x;
-	if (x< -M_PI / 2) x = -M_PI - x;
+  if (x>  M_PI / 2.0) x = M_PI - x;
+  if (x< -M_PI / 2.0) x = -M_PI - x;
+  return x;
 }
 
 string SunSensor::GetLogHeader() const
 {
-	string str_tmp = "";
+  string str_tmp = "";
+  const string st_id = std::to_string(static_cast<long long>(id_));
 
-	str_tmp += WriteVector("sun", "c", "-", 3);
-	str_tmp += WriteScalar("sun_detected_flag","-");;
+  str_tmp += WriteVector("sun"+st_id, "c", "-", 3);
+  str_tmp += WriteScalar("sun_detected_flag"+st_id,"-");;
 
-	return str_tmp;
+  return str_tmp;
 }
 
 string SunSensor::GetLogValue() const
 {
-	string str_tmp = "";
+  string str_tmp = "";
 
-	str_tmp += WriteVector(measured_sun_c_);
-	str_tmp += WriteScalar(double(sun_detected_flag_));
+  str_tmp += WriteVector(measured_sun_c_);
+  str_tmp += WriteScalar(double(sun_detected_flag_));
 
-	return str_tmp;
+  return str_tmp;
 }

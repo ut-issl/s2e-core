@@ -7,11 +7,11 @@
 #include "ThirdBodyGravity.h"
 #include "../Interface/InitInput/Initialize.h"
 
-Disturbances::Disturbances(string base_ini_fname)
-  : base_ini_fname_(base_ini_fname)
+Disturbances::Disturbances(SimulationConfig* sim_config, const int sat_id, Structure* structure)
 {
-  InitializeInstances();
-  InitializeOutput();
+  InitializeInstances(sim_config, sat_id, structure);
+  InitializeForceAndTorque();
+  InitializeAcceleration();
 }
 
 Disturbances::~Disturbances()
@@ -27,21 +27,26 @@ Disturbances::~Disturbances()
   }
 }
 
-void Disturbances::Update(Envir & env, const Spacecraft & spacecraft)
+void Disturbances::Update(const LocalEnvironment& local_env, const Dynamics& dynamics, const SimTime* sim_time)
 {
-  InitializeOutput();
-
-  for (auto dist : disturbances_)
-  {
-    dist->UpdateIfEnabled(env, spacecraft);
-    sum_torque_ += dist->GetTorque();
-    sum_force_ += dist->GetForce();
+  //Update disturbances that depend on the attitude (and the position)
+  if (sim_time->GetAttitudePropagateFlag()) {
+    InitializeForceAndTorque();
+    for (auto dist : disturbances_)
+    {
+      dist->UpdateIfEnabled(local_env, dynamics);
+      sum_torque_ += dist->GetTorque();
+      sum_force_ += dist->GetForce();
+    }
   }
-  sum_acceleration_i_ *= 0;
-  for (auto acc_dist : acc_disturbances_)
-  {
-    acc_dist->UpdateIfEnabled(env, spacecraft);
-    sum_acceleration_i_ += acc_dist->GetAccelerationI();
+  //Update disturbances that depend only on the position
+  if (sim_time->GetOrbitPropagateFlag()) {
+    InitializeAcceleration();
+    for (auto acc_dist : acc_disturbances_)
+    {
+      acc_dist->UpdateIfEnabled(local_env, dynamics);
+      sum_acceleration_i_ += acc_dist->GetAccelerationI();
+    }
   }
 }
 
@@ -74,15 +79,15 @@ Vector<3> Disturbances::GetAccelerationI()
   return sum_acceleration_i_;
 }
 
-void Disturbances::InitializeInstances()
+void Disturbances::InitializeInstances(SimulationConfig* sim_config, const int sat_id, Structure* structure)
 {
-  IniAccess iniAccess = IniAccess(base_ini_fname_);
-  ini_fname_ = iniAccess.ReadString("SIM_SETTING", "dist_file");
+  IniAccess iniAccess = IniAccess(sim_config->sat_file_[sat_id]);
+  ini_fname_ = iniAccess.ReadString("DISTURBANCE", "dist_file");
 
   GGDist* gg_dist = new GGDist(InitGGDist(ini_fname_));
-  AirDrag* air_dist = new AirDrag(InitAirDrag(ini_fname_));
-  MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(ini_fname_));
-  SolarRadiation* srp_dist = new SolarRadiation(InitSRDist(ini_fname_));
+  AirDrag* air_dist = new AirDrag(InitAirDrag(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
+  SolarRadiation* srp_dist = new SolarRadiation(InitSRDist(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
+  MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(ini_fname_, structure->GetRMMParams()));
 
   disturbances_.push_back(gg_dist);
   disturbances_.push_back(air_dist);
@@ -90,16 +95,19 @@ void Disturbances::InitializeInstances()
   disturbances_.push_back(srp_dist);
 
   GeoPotential* geopotential = new GeoPotential(InitGeoPotential(ini_fname_));
-  ini_fname_celes_ = iniAccess.ReadString("SIM_SETTING", "celestial_file");
-  ThirdBodyGravity* thirdbodygravity = new ThirdBodyGravity(InitThirdBodyGravity(ini_fname_, ini_fname_celes_));
+  ThirdBodyGravity* thirdbodygravity = new ThirdBodyGravity(InitThirdBodyGravity(ini_fname_, sim_config->ini_base_fname_));
 
   acc_disturbances_.push_back(geopotential);
   acc_disturbances_.push_back(thirdbodygravity);
 }
 
-void Disturbances::InitializeOutput()
+void Disturbances::InitializeForceAndTorque()
 {
   sum_torque_ = Vector<3>(0);
   sum_force_ = Vector<3>(0);
+}
+
+void Disturbances::InitializeAcceleration()
+{
   sum_acceleration_i_ = Vector<3>(0);
 }

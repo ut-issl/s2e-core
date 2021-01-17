@@ -8,7 +8,7 @@
         echo "root:password" | chpasswd
     # timezone setting
     ENV TZ=Asia/Tokyo
-    
+
     # Tool
     RUN apt-get update --fix-missing && \
         apt-get install -y --no-install-recommends \
@@ -26,7 +26,6 @@
         apt-get install -y \
         cmake \
         gcc-multilib g++-multilib
-
 
     #
     # 一般ユーザ用設定
@@ -52,6 +51,36 @@
 
     # 22:SSH
     EXPOSE 22
+
+    # make directory for external libraries
+    RUN mkdir /home/s2e/work
+    RUN mkdir /home/s2e/work/ExtLibraries
+    RUN mkdir /home/s2e/work/scripts
+    RUN mkdir /home/s2e/work/scripts/hoge
+    RUN mkdir /home/s2e/work/scripts/hoge/hoge
+
+    ADD ./Docker_Ubuntu/download_cspice_Linux_gcc.sh   /home/s2e/work/scripts/hoge/hoge/download_cspice_Linux_gcc.sh
+    ADD ./Common/download_EGM96coefficients.sh         /home/s2e/work/scripts/hoge/hoge/download_EGM96coefficients.sh
+    ADD ./Common/download_HIPcatalogue.sh              /home/s2e/work/scripts/hoge/hoge/download_HIPcatalogue.sh
+    ADD ./Common/download_nrlmsise00_src_and_table.sh  /home/s2e/work/scripts/hoge/hoge/download_nrlmsise00_src_and_table.sh
+
+    RUN chmod +x /home/s2e/work/scripts/hoge/hoge/download_cspice_Linux_gcc.sh
+    RUN chmod +x /home/s2e/work/scripts/hoge/hoge/download_EGM96coefficients.sh
+    RUN chmod +x /home/s2e/work/scripts/hoge/hoge/download_HIPcatalogue.sh
+    RUN chmod +x /home/s2e/work/scripts/hoge/hoge/download_nrlmsise00_src_and_table.sh
+
+    # 改行コードをCRLFからLFに置換する．
+    RUN sed -i 's/\r//' /home/s2e/work/scripts/hoge/hoge/download_cspice_Linux_gcc.sh
+    RUN sed -i 's/\r//' /home/s2e/work/scripts/hoge/hoge/download_EGM96coefficients.sh
+    RUN sed -i 's/\r//' /home/s2e/work/scripts/hoge/hoge/download_HIPcatalogue.sh
+    RUN sed -i 's/\r//' /home/s2e/work/scripts/hoge/hoge/download_nrlmsise00_src_and_table.sh
+
+    WORKDIR /home/s2e/work/scripts/hoge/hoge
+    RUN /home/s2e/work/scripts/hoge/hoge/download_cspice_Linux_gcc.sh
+    RUN /home/s2e/work/scripts/hoge/hoge/download_EGM96coefficients.sh
+    RUN /home/s2e/work/scripts/hoge/hoge/download_HIPcatalogue.sh
+    RUN /home/s2e/work/scripts/hoge/hoge/download_nrlmsise00_src_and_table.sh
+
+
     WORKDIR /root
     CMD service ssh start && /bin/bash
-

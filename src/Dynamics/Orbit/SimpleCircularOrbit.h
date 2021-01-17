@@ -21,7 +21,7 @@ public:
   virtual void Initialize(Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time = 0);
 
   // 軌道伝播の計算する
-  virtual void Propagate(double current_jd);
+  virtual void Propagate(double endtime, double current_jd);
 
   virtual void AddPositionOffset(Vector<3> offset_i);
 
@@ -29,5 +29,6 @@ public:
   virtual string GetLogValue() const;
 
 private:
-
+  double prop_time_; //Simulation current time for numerical integration by RK4
+  double prop_step_; //Δt for RK4 
 };

@@ -26,4 +26,4 @@ sed -i -e "/CFLAGS/s/-Wall/-m32 -Wall/" ./makefile
 make
 ar rcs libnrlmsise00.a nrlmsise-00.o nrlmsise-00_data.o
 mv libnrlmsise00.a ../lib/libnrlmsise00.a
-rm nrlmsise-00.o nrlmsise-00_data.o nrlmsise-00_test.o nrlmsise-test.exe
+# rm nrlmsise-00.o nrlmsise-00_data.o nrlmsise-00_test.o nrlmsise-test.exe

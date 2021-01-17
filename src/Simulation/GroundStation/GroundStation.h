@@ -16,8 +16,6 @@ using namespace std;
 static gravconsttype whichconst_gs;
 //↑
 
-
-
 class GroundStation
 {
 public:
@@ -27,22 +25,21 @@ public:
   double height_;  //[m]
   double elevation_angle_;  //[deg]
 
-  GroundStation(SimulationConfig config, int gs_id_);
+  GroundStation(SimulationConfig* config, int gs_id_);
   virtual ~GroundStation();
 
   // ちょっとコピー周りの対応がめんどいのでとりあえずコピー禁止しとく
   // GroundStation(const GroundStation &) = delete;
   // GroundStation& operator= (const GroundStation &) = delete;
 
-  virtual void Initialize(int gs_id);
+  virtual void Initialize(int gs_id,SimulationConfig* config);
 
   virtual void LogSetup(Logger& logger);
 
-  virtual void Update();
+  virtual void Update(const double& current_jd);
   
   Vector<3> GetGSPosition_i() const { return gs_position_i_; }
 
 protected:
-  const SimulationConfig config_;
   Vector<3> gs_position_i_;  // 慣性系での地上局位置[m]
 };

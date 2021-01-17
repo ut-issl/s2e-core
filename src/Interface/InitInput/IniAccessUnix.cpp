@@ -100,7 +100,7 @@ vector<string> IniAccess::ReadStrVector(const char* section_name, const char* ke
     stringstream c_name;
     c_name << key_name << "(" << i << ")";
     ReadChar(section_name, c_name.str().c_str(), buf_size, temp);
-    if (strcmp(temp,"NULL"))
+    if (!strcmp(temp,"NULL"))
     {
       break;
     }

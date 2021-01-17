@@ -1,9 +1,12 @@
 #include "Initialize.h"
-#include "../../Dynamics/SimTime.h"
+#include "../../Environment/Global/SimTime.h"
 #include "../../Dynamics/Orbit/SimpleCircularOrbit.h"
 #include "../../Dynamics/Orbit/EarthCenteredOrbit.h"
 
-Orbit* InitOrbit(string ini_path, double stepSec, double current_jd, string section)
+class EarthCenteredOrbit;
+class SimpleCircularOrbit;
+
+Orbit* InitOrbit(string ini_path, double stepSec, double current_jd, double gravity_constant, string section)
 {
   auto conf = IniAccess(ini_path);
   const char* section_ = section.c_str();
@@ -25,9 +28,8 @@ Orbit* InitOrbit(string ini_path, double stepSec, double current_jd, string sect
   //深宇宙の軌道情報をinitialize
   else
   {
-    double mu = conf.ReadDouble(section_, "GM_e");
-	int wgs = conf.ReadInt(section_, "wgs");
-    orbit = new SimpleCircularOrbit(mu, stepSec, wgs);
+	  int wgs = conf.ReadInt(section_, "wgs");
+    orbit = new SimpleCircularOrbit(gravity_constant, stepSec, wgs);
     Vector<3> init_pos;
     conf.ReadVector<3>(section_, "init_position", init_pos);
     Vector<3> init_veloc;

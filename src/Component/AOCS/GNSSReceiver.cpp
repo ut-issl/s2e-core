@@ -3,23 +3,36 @@
 #include "../../Library/math/GlobalRand.h"
 
 
-GNSSReceiver::GNSSReceiver(const int id, const Vector<3> ant_direction, const Vector<3> noise_std, const Dynamics *dynamics)
-	: ComponentBase(50), id_(id), antenna_direction_(ant_direction),
+GNSSReceiver::GNSSReceiver(
+  const int prescaler, 
+  ClockGenerator* clock_gen, 
+  const int id, 
+  const Vector<3> ant_direction, 
+  const Vector<3> noise_std, 
+  const Dynamics *dynamics)
+  : ComponentBase(prescaler, clock_gen), id_(id), antenna_direction_(ant_direction),
     nrs_eci_x_(0.0, noise_std[0], g_rand.MakeSeed()), nrs_eci_y_(0.0, noise_std[1], g_rand.MakeSeed()), nrs_eci_z_(0.0, noise_std[2], g_rand.MakeSeed()),
     dynamics_(dynamics)
-{
-  position_eci_[0] = 0.0;
-  position_eci_[1] = 0.0;
-  position_eci_[2] = 0.0;
-  is_gnss_sats_visible_ = 0;
-}
+{}
+GNSSReceiver::GNSSReceiver(
+  const int prescaler, 
+  ClockGenerator* clock_gen,
+  PowerPort* power_port, 
+  const int id, 
+  const Vector<3> ant_direction, 
+  const Vector<3> noise_std, 
+  const Dynamics *dynamics)
+  : ComponentBase(prescaler, clock_gen, power_port), id_(id), antenna_direction_(ant_direction),
+    nrs_eci_x_(0.0, noise_std[0], g_rand.MakeSeed()), nrs_eci_y_(0.0, noise_std[1], g_rand.MakeSeed()), nrs_eci_z_(0.0, noise_std[2], g_rand.MakeSeed()),
+    dynamics_(dynamics)
+{}
 
 void GNSSReceiver::MainRoutine(int count)
 {
-  Vector<3> pos_ture_eci_ = dynamics_->orbit_->GetSatPosition_i();
-  CheckAntenna(pos_ture_eci_);
+  Vector<3> pos_true_eci_ = dynamics_->GetOrbit().GetSatPosition_i();
+  CheckAntenna(pos_true_eci_);
   if (is_gnss_sats_visible_ == 1) {  //Antenna of GNSS-R can detect GNSS signal
-    AddNoise(pos_ture_eci_);
+    AddNoise(pos_true_eci_);
   }
   else{
     position_eci_[0] = 0.0;

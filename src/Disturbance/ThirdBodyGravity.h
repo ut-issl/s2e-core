@@ -10,7 +10,7 @@ class ThirdBodyGravity : public AccelerationDisturbance
 public:
   ThirdBodyGravity(std::set<string> third_body_list);
   ~ThirdBodyGravity();
-  virtual void Update(Envir& env, const Spacecraft & spacecraft);
+  virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);
 
 private:
   virtual string GetLogHeader() const;

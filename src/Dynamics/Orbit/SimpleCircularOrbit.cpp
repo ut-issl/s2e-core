@@ -5,6 +5,8 @@
 SimpleCircularOrbit::SimpleCircularOrbit(double mu, double timestep, int wgs)
   :ODE<N>(timestep), mu(mu)
 {
+  prop_time_ = 0.0;
+  prop_step_ = timestep;
   acc_i_ *= 0;
   if (wgs == 0) { whichconst = wgs72old; }
   else if (wgs == 1) { whichconst = wgs72; }
@@ -53,12 +55,21 @@ void SimpleCircularOrbit::Initialize(Vector<3> init_position, Vector<3> init_vel
   TransECIToECEF(current_jd);
 }
 
-void SimpleCircularOrbit::Propagate(double current_jd)
+void SimpleCircularOrbit::Propagate(double endtime, double current_jd)
 {
   if (!IsCalcEnabled) return;
 
-  Update(); // ODEの伝播メソッド
-  acc_i_ *= 0;
+  setStepWidth(prop_step_); //Re-set propagation Δt
+  while (endtime - prop_time_ - prop_step_ > 1.0e-6) 
+  {
+    Update(); // Propagation methods of the ODE class
+    prop_time_ += prop_step_;
+  }
+  setStepWidth(endtime - prop_time_); //Adjust the last propagation Δt
+  Update();
+  prop_time_ = endtime;
+  
+  acc_i_ *= 0; //Reset disturbance acceleration
   sat_position_i_[0] = state()[0];
   sat_position_i_[1] = state()[1];
   sat_position_i_[2] = state()[2];

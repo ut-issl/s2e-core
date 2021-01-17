@@ -6,93 +6,36 @@
 #include "../../Disturbance/GeoPotential.h"
 #include "../../Disturbance/ThirdBodyGravity.h"
 
-AirDrag InitAirDrag(string ini_path)
+#define MIN_VAL 1e-9
+
+AirDrag InitAirDrag(string ini_path, const vector<Surface>& surfaces, const Vector<3> cg_b)
 {
   auto conf = IniAccess(ini_path);
   char* section = "AIRDRAG";
 
-  //air drag
-  Vector<6> specularity(0);
-  //surface force
-  Vector<3> px_arm(0), mx_arm(0), py_arm(0), my_arm(0), pz_arm(0), mz_arm(0);
-  Vector<6> area(0);
-  Vector<3> px_normal(0), mx_normal(0), py_normal(0), my_normal(0), pz_normal(0), mz_normal(0);
-  Vector<3> center(0);
-
   double t_w = conf.ReadDouble(section, "Temp_wall") + 273.0;
   double t_m = conf.ReadDouble(section, "Temp_molecular") + 273.0;
   double molecular = conf.ReadDouble(section, "Molecular");
-  conf.ReadVector(section, "specularity", specularity);
+
   bool calcen = conf.ReadEnable(section, CALC_LABEL);
   bool logen = conf.ReadEnable(section, LOG_LABEL);
 
-  section = "SURFACEFORCE";
-
-  conf.ReadVector(section, "px_arm", px_arm);
-  conf.ReadVector(section, "mx_arm", mx_arm);
-  conf.ReadVector(section, "py_arm", py_arm);
-  conf.ReadVector(section, "my_arm", my_arm);
-  conf.ReadVector(section, "pz_arm", pz_arm);
-  conf.ReadVector(section, "mz_arm", mz_arm);
-
-  conf.ReadVector(section, "area", area);
-
-  conf.ReadVector(section, "px_normal", px_normal);
-  conf.ReadVector(section, "mx_normal", mx_normal);
-  conf.ReadVector(section, "py_normal", py_normal);
-  conf.ReadVector(section, "my_normal", my_normal);
-  conf.ReadVector(section, "pz_normal", pz_normal);
-  conf.ReadVector(section, "mz_normal", mz_normal);
-
-  conf.ReadVector(section, "center", center);
-
-  AirDrag airdrag(px_arm, mx_arm, py_arm, my_arm, pz_arm, mz_arm, area,
-    px_normal, mx_normal, py_normal, my_normal, pz_normal, mz_normal, center, specularity, t_w, t_m, molecular);
+  AirDrag airdrag(surfaces, cg_b, t_w, t_m, molecular);
   airdrag.IsCalcEnabled = calcen;
   airdrag.IsLogEnabled = logen;
 
   return airdrag;
 }
 
-SolarRadiation InitSRDist(string ini_path)
+SolarRadiation InitSRDist(string ini_path, const vector<Surface>& surfaces, const Vector<3> cg_b)
 {
   auto conf = IniAccess(ini_path);
   char* section = "SRDIST";
 
-  //SRP
-  Vector<6> reflectivity(0), specularity(0);
-  //surface force
-  Vector<3> px_arm(0), mx_arm(0), py_arm(0), my_arm(0), pz_arm(0), mz_arm(0);
-  Vector<6> area(0);
-  Vector<3> px_normal(0), mx_normal(0), py_normal(0), my_normal(0), pz_normal(0), mz_normal(0);
-  Vector<3> center(0);
-
-  conf.ReadVector(section, "reflectivity", reflectivity);
-  conf.ReadVector(section, "specularity", specularity);
   bool calcen = conf.ReadEnable(section, CALC_LABEL);
   bool logen = conf.ReadEnable(section, LOG_LABEL);
 
-  section = "SURFACEFORCE";
-
-  conf.ReadVector(section, "px_arm", px_arm);
-  conf.ReadVector(section, "mx_arm", mx_arm);
-  conf.ReadVector(section, "py_arm", py_arm);
-  conf.ReadVector(section, "my_arm", my_arm);
-  conf.ReadVector(section, "pz_arm", pz_arm);
-  conf.ReadVector(section, "mz_arm", mz_arm);
-
-  conf.ReadVector(section, "area", area);
-
-  conf.ReadVector(section, "px_normal", px_normal);
-  conf.ReadVector(section, "mx_normal", mx_normal);
-  conf.ReadVector(section, "py_normal", py_normal);
-  conf.ReadVector(section, "my_normal", my_normal);
-  conf.ReadVector(section, "pz_normal", pz_normal);
-  conf.ReadVector(section, "mz_normal", mz_normal);
-
-  conf.ReadVector(section, "center", center);
-  SolarRadiation srdist(px_arm, mx_arm, py_arm, my_arm, pz_arm, mz_arm, area,
-    px_normal, mx_normal, py_normal, my_normal, pz_normal, mz_normal, center, reflectivity, specularity);
+  SolarRadiation srdist(surfaces, cg_b);
   srdist.IsCalcEnabled = calcen;
   srdist.IsLogEnabled = logen;
 
@@ -111,21 +54,12 @@ GGDist InitGGDist(string ini_path)
   return ggdist;
 }
 
-MagDisturbance InitMagDisturbance(string ini_path)
+MagDisturbance InitMagDisturbance(string ini_path, RMMParams rmm_params)
 {
   auto conf = IniAccess(ini_path);
   char* section = "MAG_DISTURBANCE";
 
-  Vector<3> rmm_const_b(0);
-  double rmm_rwdev = 0.0, rmm_rwlimit = 0.0, rmm_wnvar = 0.0;
-
-  conf.ReadVector(section, "rmm_const_b", rmm_const_b);
-
-  rmm_rwdev = conf.ReadDouble(section, "rmm_rwdev");
-  rmm_rwlimit = conf.ReadDouble(section, "rmm_rwlimit");
-  rmm_wnvar = conf.ReadDouble(section, "rmm_wnvar");
-
-  MagDisturbance mag_dist(rmm_const_b, rmm_rwdev, rmm_rwlimit, rmm_wnvar);
+  MagDisturbance mag_dist(rmm_params.GetRMMConst_b(), rmm_params.GetRMMRWDev(), rmm_params.GetRMMRWLimit(), rmm_params.GetRMMWNVar());
   mag_dist.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   mag_dist.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 

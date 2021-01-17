@@ -1,26 +1,23 @@
 #include "SampleSat.h"
 #include "SampleComponents.h"
 #include "../../../Interface/InitInput/Initialize.h"
-#include "../../../Dynamics/ClockGenerator.h"
+#include "../../../Environment/Global/ClockGenerator.h"
 #include "../../../Library/math/NormalRand.hpp"
 
-SampleSat::SampleSat(SimulationConfig config)
-  :Spacecraft(config)
+SampleSat::SampleSat(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id)
+  :Spacecraft(sim_config, glo_env, sat_id)
 {
-  Initialize();
+  Initialize(sim_config, glo_env, sat_id);
 }
 
 SampleSat::~SampleSat()
 {
   delete components_;
-  // この後親のデストラクタも勝手に呼ばれる
 }
 
-void SampleSat::Initialize()
+void SampleSat::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id)
 {
-  // 親のInitialize()はコンストラクタで呼ばれている
-  components_ = new SampleComponents(dynamics_, &config_);
-  IniAccess mainIni = IniAccess(config_.mainIniPath);
+  components_ = new SampleComponents(dynamics_, structure_, local_env_, glo_env, sim_config, &clock_gen_, sat_id);
 }
 
 void SampleSat::LogSetup(Logger & logger)
@@ -29,25 +26,22 @@ void SampleSat::LogSetup(Logger & logger)
   components_->CompoLogSetUp(logger);
 }
 
-void SampleSat::Update()
+void SampleSat::Update(const SimTime* sim_time)
 {
-  // ダイナミクスのアップデート
-  Spacecraft::Update(); // ここで軌道・姿勢伝搬 力はリセットされる
-  // 模擬コンポの時を刻む
-  for (int i = 0; i < config_.simTime->GetStepSec() * 1000; i++)
-  {
-    ClockGenerator::TickToComponents();
-  }
+  clock_gen_.UpdateComponents(sim_time);
+  GenerateTorque_b();
+  GenerateForce_b();
+  Spacecraft::Update(sim_time);
 }
 
 void SampleSat::GenerateTorque_b()
 {
-  dynamics_->attitude_->AddTorque_b(components_->GenerateTorque_b());
+  dynamics_->AddTorque_b(components_->GenerateTorque_b());
 }
 
 void SampleSat::GenerateForce_b()
 {
-  dynamics_->orbit_->AddForce_b(components_->GenerateForce_b(), dynamics_->attitude_->GetQuaternion_i2b(), dynamics_->mass);
+  dynamics_->AddForce_b(components_->GenerateForce_b());
 }
 
 

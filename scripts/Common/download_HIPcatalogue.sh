@@ -7,19 +7,21 @@ DIR_HIPCATALOGUE=../../../ExtLibraries/HipparcosCatalogue/
 mkdir $DIR_TMP
 mkdir $DIR_HIPCATALOGUE
 
-#establish anonymous ftp connection and download the file
-ftp -n -v -A<<END
-open cdsarc.u-strasbg.fr
-user ftp test@
-lcd ../../../ExtLibraries/tmp_hipcatalogue
-cd /pub/cats/I/239
-bin
-get hip_main.dat.gz
-quit
-END
+# #establish anonymous ftp connection and download the file
+# ftp -n -v -A<<END
+# open cdsarc.u-strasbg.fr
+# user ftp test@
+# lcd ../../../ExtLibraries/tmp_hipcatalogue
+# cd /pub/cats/I/239
+# bin
+# get hip_main.dat.gz
+# quit
+# END
+
+curl ftp://cdsarc.u-strasbg.fr/pub/cats/I/239/hip_main.dat > $DIR_TMP/hip_main.dat
 
 #unzip the downloaded file
-gzip -d -v $DIR_TMP/hip_main.dat.gz
+#gzip -d -v $DIR_TMP/hip_main.dat.gz
 
 #extract reqired datum and put them into the csv file
 cut -f 2,6,9,10 -d "|" $DIR_TMP/hip_main.dat>$DIR_TMP/tmp.csv

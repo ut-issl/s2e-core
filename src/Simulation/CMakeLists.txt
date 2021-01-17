@@ -1,18 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
 project(SIMULATION)
 add_library(${PROJECT_NAME} STATIC
-  Case/SimulationCase.h
+  Case/SimulationCase.cpp
   MCSim/InitParameter.cpp
-  MCSim/InitParameter.h
   MCSim/MCSimExecutor.cpp
-  MCSim/MCSimExecutor.h
   MCSim/SimulationObject.cpp
-  MCSim/SimulationObject.h
   Spacecraft/Spacecraft.cpp
-  Spacecraft/Spacecraft.h
+  Spacecraft/Structure/Structure.cpp
+  Spacecraft/Structure/KinematicsParams.cpp
+  Spacecraft/Structure/RMMParams.cpp
+  Spacecraft/Structure/Surface.cpp
   GroundStation/GroundStation.cpp
-  GroundStation/GroundStation.h
-  SimulationConfig.h
 )
 # Compile option
 if(MSVC)

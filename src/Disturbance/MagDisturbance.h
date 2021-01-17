@@ -6,6 +6,7 @@ using libra::Vector;
 
 #include "../Interface/LogOutput/ILoggable.h"
 #include "SimpleDisturbance.h"
+#include "../Simulation/Spacecraft/Structure/RMMParams.h"
 
 class MagDisturbance : public SimpleDisturbance
 {
@@ -23,7 +24,7 @@ public:
 				   const double rmm_wnvar);
 	void CalcRMM();
 	Vector<3> CalcTorque(const Vector<3>& mag_b);
-    virtual void Update(Envir& env, const Spacecraft & spacecraft);
+    virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);
 	void PrintTorque();
 
 	virtual string GetLogHeader() const;

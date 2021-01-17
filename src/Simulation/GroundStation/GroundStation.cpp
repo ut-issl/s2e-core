@@ -5,19 +5,19 @@
 
 
 
-GroundStation::GroundStation(SimulationConfig config, int gs_id)
-  :config_(config), gs_id_(gs_id)
+GroundStation::GroundStation(SimulationConfig* config, int gs_id)
+  :gs_id_(gs_id)
 {
-  Initialize(gs_id_);
+  Initialize(gs_id_,config);
 }
 
 GroundStation::~GroundStation()
 {
 }
 
-void GroundStation::Initialize(int gs_id)
+void GroundStation::Initialize(int gs_id,SimulationConfig* config)
 {
-  IniAccess iniAccess = IniAccess(config_.mainIniPath);
+  IniAccess iniAccess = IniAccess(config->ini_base_fname_);
   string gs_ini_path = iniAccess.ReadString("SIM_SETTING", "gs_file");
   auto conf = IniAccess(gs_ini_path);
 
@@ -36,9 +36,9 @@ void GroundStation::LogSetup(Logger& logger)
 {
 }
 
-void GroundStation::Update()  // 慣性系での地上局位置を更新する
+void GroundStation::Update(const double& current_jd)  // 慣性系での地上局位置を更新する
 {
-  double current_side = gstime(config_.simTime->GetCurrentJd());
+  double current_side = gstime(current_jd);
   double theta = FMod2p(longitude_ * DEG2RAD + current_side);  //[rad]
 
   double radiusearthkm;

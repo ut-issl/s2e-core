@@ -1,102 +1,70 @@
 #include "SampleCase.h"
 
 #include "../../Interface/InitInput/Initialize.h"
-#include "../SimulationConfig.h"
-
-#include "../../Disturbance/Disturbances.h"
-#include "../../Environment/Environment.h"
-
 #include "../Spacecraft/SampleSpacecraft/SampleSat.h"
 
-//TODO: Refactor to improve base class
-SampleCase::SampleCase(string ini_fname, string data_path)
-  : ini_fname(ini_fname), data_path(data_path)
+SampleCase::SampleCase(string ini_base):SimulationCase(ini_base)
 {
 }
 
 SampleCase::~SampleCase()
 {
-  delete environment;
-  delete disturbances;
-  delete sample_sat;
-  delete sim_time;
-  delete default_log;
+  delete sample_sat_;
 }
 
 void SampleCase::Initialize()
 {
-  //シミュレーション条件の設定
-  //シミュレーション時間
-  sim_time      = InitSimTime(ini_fname);
-  //ログファイル名
-  default_log = InitLog(ini_fname);
-  //config
-  SimulationConfig config = {ini_fname, sim_time, default_log};
+  //Instantiate the target of the simulation
+  //`sat_id` corresponds to the index of `sat_file` in Simbase.ini
+  const int sat_id = 0;
+  sample_sat_ = new SampleSat(&sim_config_, glo_env_, sat_id);
 
-  //シミュレーションされるもののインスタンス化
-  environment  = new Envir(ini_fname);
-  disturbances = new Disturbances(ini_fname);
-  sample_sat = new SampleSat(config);
+  //Register the log output
+  glo_env_->LogSetup(*(sim_config_.main_logger_));
+  sample_sat_->LogSetup(*(sim_config_.main_logger_));
 
-  //ログ出力の登録
-  default_log->AddLoggable(sim_time);
-  sample_sat->LogSetup(*default_log);
-  environment->LogSetup(*default_log);
-  disturbances->LogSetup(*default_log);
+  //Write headers to the log
+  sim_config_.main_logger_->WriteHeaders();
 
-  //ログにヘッダを書き込み
-  default_log->WriteHeaders();
-
-  //シミュレーション開始
+  //Start the simulation
   cout << "\nSimulationDateTime \n";
-  sim_time->PrintStartDateTime();
+  glo_env_->GetSimTime().PrintStartDateTime();
 }
 
 void SampleCase::Main()
 {
-  sim_time->ResetClock();
-  while (!sim_time->GetState().finish)
+  glo_env_->Reset(); //for MonteCarlo Sim
+  while (!glo_env_->GetSimTime().GetState().finish)
   {
-    //ログ書き出し
-    if (sim_time->GetState().log_output)
+    //Logging
+    if (glo_env_->GetSimTime().GetState().log_output)
     {
-      default_log->WriteValues();
+      sim_config_.main_logger_->WriteValues();
     }
 
-    // Time update
-    sim_time->UpdateTime();
-    //環境と加わる外乱の更新
-    environment->Update(*sample_sat, *sim_time);
-    disturbances->Update(*environment, *sample_sat);
-
-    //次のダイナミクス伝搬のため外乱で発生した力・トルクを加える
-    sample_sat->dynamics_->AddAcceleration_i(disturbances->GetAccelerationI());
-    sample_sat->dynamics_->AddTorque_b(disturbances->GetTorque());
-    sample_sat->dynamics_->AddForce_b(disturbances->GetForce());
-    //次のダイナミクス伝搬のため衛星が発生させる力・トルクを加える
-    sample_sat->GenerateTorque_b();
-    //sample_sat->GenerateForce_b();
-
-    //衛星内のダイナミクス，コンポーネントの更新
-    sample_sat->Update();
-
-
-    if (sim_time->GetState().disp_output)
+    // Global Environment Update
+    glo_env_->Update();
+    // Spacecraft Update
+    sample_sat_->Clear(); //Zero clear force and torque for dynamics
+    sample_sat_->Update(&(glo_env_->GetSimTime()));
+    // Debug output
+    if (glo_env_->GetSimTime().GetState().disp_output)
     {
-      cout << "Progresss: " << sim_time->GetProgressionRate() << "%\r";
+      cout << "Progresss: " << glo_env_->GetSimTime().GetProgressionRate() << "%\r";
     }
   }
 }
 
+// Log for Monte Carlo Simulation
 string SampleCase::GetLogHeader() const
 {
   string str_tmp = "";
 
   str_tmp += WriteScalar("time", "s");
-  str_tmp += WriteVector("position", "i", "m", 3);
-  str_tmp += WriteVector("velocity", "i", "m/s", 3);
-  str_tmp += WriteVector("quaternion", "i2b", "-", 4);
-  str_tmp += WriteVector("omega", "b", "-", 3);
+  //str_tmp += WriteVector("position", "i", "m", 3);
+  //str_tmp += WriteVector("velocity", "i", "m/s", 3);
+  //str_tmp += WriteVector("quaternion", "i2b", "-", 4);
+  //str_tmp += WriteVector("omega", "b", "-", 3);
 
   return str_tmp;
 }
@@ -105,18 +73,17 @@ string SampleCase::GetLogValue() const
 {
   string str_tmp = "";
 
-  auto pos_i = sample_sat->dynamics_->GetOrbit().GetSatPosition_i();
-  auto vel_i = sample_sat->dynamics_->GetOrbit().GetSatVelocity_i();
-  auto quat_i2b = sample_sat->dynamics_->GetAttitude().GetQuaternion_i2b();
-  auto omega_b = sample_sat->dynamics_->GetAttitude().GetOmega_b();
+  //auto pos_i = sample_sat->dynamics_->GetOrbit().GetSatPosition_i();
+  //auto vel_i = sample_sat->dynamics_->GetOrbit().GetSatVelocity_i();
+  //auto quat_i2b = sample_sat->dynamics_->GetAttitude().GetQuaternion_i2b();
+  //auto omega_b = sample_sat->dynamics_->GetAttitude().GetOmega_b();
   
-
   //＊上のヘッダと内容を一致させる
-  str_tmp += WriteScalar(sim_time->GetElapsedSec());
-  str_tmp += WriteVector(pos_i, 16);
-  str_tmp += WriteVector(vel_i, 10);
-  str_tmp += WriteQuaternion(quat_i2b);
-  str_tmp += WriteVector(omega_b, 10);
+  str_tmp += WriteScalar(glo_env_->GetSimTime().GetElapsedSec());
+  //str_tmp += WriteVector(pos_i, 16);
+  //str_tmp += WriteVector(vel_i, 10);
+  //str_tmp += WriteQuaternion(quat_i2b);
+  //str_tmp += WriteVector(omega_b, 10);
 
   return str_tmp;
 }

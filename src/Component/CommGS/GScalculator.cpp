@@ -42,23 +42,23 @@ void GScalculator::Initialize()
 {
 }
 
-void GScalculator::Update(const Spacecraft& spacecraft, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant)
+void GScalculator::Update(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant)
 {
-  visible_flag_ = IsVisible(spacecraft, groundstation);
+  visible_flag_ = IsVisible(dynamics, groundstation);
   if (visible_flag_){
-    max_bitrate_ = CalcMaxBitrate(spacecraft, sc_ant, groundstation, gs_ant);
+    max_bitrate_ = CalcMaxBitrate(dynamics, sc_ant, groundstation, gs_ant);
   } else{
     max_bitrate_ = 0.0f;
   }
 }
 
-bool GScalculator::IsVisible(const Spacecraft& spacecraft, const GroundStation& groundstation)
+bool GScalculator::IsVisible(const Dynamics& dynamics, const GroundStation& groundstation)
 {
-  Vector<3> sc_pos_ecef = spacecraft.dynamics_->GetOrbit().GetSatPosition_ecef();
+  Vector<3> sc_pos_ecef = dynamics.GetOrbit().GetSatPosition_ecef();
 
   Vector<3> gs_pos_i = groundstation.GetGSPosition_i();
-  double current_jd = spacecraft.dynamics_->GetCurrentJd();
-  Vector<3> gs_pos_ecef = TransECIToECEF(current_jd, gs_pos_i);
+  Matrix<3,3> DCM_ecei_ecef = dynamics.GetOrbit().GetTransECItoECEF();
+  Vector<3> gs_pos_ecef = DCM_ecei_ecef * gs_pos_i;
 
   double lat = groundstation.latitude_ * DEG2RAD;  //[rad]
   double lon = groundstation.longitude_ * DEG2RAD;  //[rad]
@@ -89,13 +89,13 @@ bool GScalculator::IsVisible(const Spacecraft& spacecraft, const GroundStation& 
   }
 }
 
-double GScalculator::CalcMaxBitrate(const Spacecraft& spacecraft, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant)
+double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant)
 {
   if (!sc_ant.is_transmitter_ || !gs_ant.is_receiver_){
     return 0.0f;  //送受信の噛み合わせをここでチェック（いずれどのidのANTを使うかとDLとULどっちにするかを指定できるようにしないといけない）
   }
 
-  Vector<3> sc_pos_i = spacecraft.dynamics_->GetOrbit().GetSatPosition_i();
+  Vector<3> sc_pos_i = dynamics.GetOrbit().GetSatPosition_i();
   Vector<3> gs_pos_i = groundstation.GetGSPosition_i();
   double dist_sc_gs = norm(sc_pos_i - gs_pos_i) / 1000;  //[km]
   double loss_space = -20 * log10(4 * M_PI * dist_sc_gs / (300 / sc_ant.frequency_ / 1000));  //[dB]
@@ -113,25 +113,6 @@ double GScalculator::CalcMaxBitrate(const Spacecraft& spacecraft, const ANT& sc_
   } else{
     return 0.0;
   }
-}
-
-Vector<3> GScalculator::TransECIToECEF(double current_jd, Vector<3> v_eci)
-{
-  double current_side = gstime(current_jd);
-  
-  Matrix<3,3> trans_mat;  // グリニッジ恒星時により地球の自転を表したECI2ECEF変換行列
-  trans_mat[0][0] = cos(current_side);
-  trans_mat[0][1] = sin(current_side);
-  trans_mat[0][2] = 0;
-  trans_mat[1][0] = -sin(current_side);
-  trans_mat[1][1] = cos(current_side);
-  trans_mat[1][2] = 0;
-  trans_mat[2][0] = 0;
-  trans_mat[2][1] = 0;
-  trans_mat[2][2] = 1;
-
-  Vector<3> v_ecef =  trans_mat * v_eci;
-  return v_ecef;
 }
 
 string GScalculator::GetLogHeader() const

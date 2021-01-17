@@ -21,14 +21,14 @@ if(USE_C2A)
   add_definitions(-DUSE_C2A)
   add_definitions(-DSILS_FW)
   #include_directories
-  include_directories(${C2A_DIR}/SH7254R_C2A/src/Core/AnomalyLogger)
-  include_directories(${C2A_DIR}/SH7254R_C2A/src/Core/ApplicationManager)
-  include_directories(${C2A_DIR}/SH7254R_C2A/src/Applications)
-  include_directories(${C2A_DIR}/SH7254R_C2A/src/Core/TimeManager)
-  include_directories(${C2A_DIR}/SH7254R_C2A/src/CmdTlm)
-  include_directories(${C2A_DIR}/SH7254R_C2A/src/Core/ModeManager)
-  include_directories(${C2A_DIR}/SH7254R_C2A/src/Core/TaskManager)
-  include_directories(${C2A_DIR}/SH7254R_C2A/src/Core/WatchdogTimer)
+  include_directories(${C2A_DIR}/SH7254R_C2A/src_core/System/AnomalyLogger)
+  include_directories(${C2A_DIR}/SH7254R_C2A/src_core/System/ApplicationManager)
+  include_directories(${C2A_DIR}/SH7254R_C2A/src_core/System/ModeManager)
+  include_directories(${C2A_DIR}/SH7254R_C2A/src_core/System/TaskManager)
+  include_directories(${C2A_DIR}/SH7254R_C2A/src_core/System/WatchdogTimer)
+  include_directories(${C2A_DIR}/SH7254R_C2A/src_core/System/TimeManager)
+  include_directories(${C2A_DIR}/SH7254R_C2A/src_core/CmdTlm)
+  include_directories(${C2A_DIR}/SH7254R_C2A/src_user/Applications)
   include_directories(${S2E_CORE_DIR}/src/Interface/SpacecraftInOut)
   #add subdirectory
   add_subdirectory(${C2A_DIR} C2A)
@@ -39,11 +39,12 @@ include_directories(${CSPICE_DIR}/include)
 include_directories(${NRLMSISE00_DIR}/src)
 
 ## add_subdirectories
-add_subdirectory(src/Component)
-add_subdirectory(src/Disturbance)
+add_subdirectory(src/Simulation)
+add_subdirectory(src/Environment/Global)
+add_subdirectory(src/Environment/Local)
 add_subdirectory(src/Dynamics)
-add_subdirectory(src/Environment)
-#add_subdirectory(src/Interface/HilsInOut)
+add_subdirectory(src/Disturbance)
+add_subdirectory(src/Component)
 add_subdirectory(src/Interface/InitInput)
 add_subdirectory(src/Interface/LogOutput)
 add_subdirectory(src/Interface/SpacecraftInOut)
@@ -53,21 +54,15 @@ add_subdirectory(src/Library/math)
 add_subdirectory(src/Library/nrlmsise00)
 add_subdirectory(src/Library/sgp4)
 add_subdirectory(src/Library/utils)
-add_subdirectory(src/Simulation)
+#add_subdirectory(src/Interface/HilsInOut)
 
 set(SOURCE_FILES
   src/S2E.cpp
   src/Simulation/Case/SampleCase.cpp
-  src/Simulation/Case/SampleCase.h
-  src/Simulation/Spacecraft/SampleSpacecraft/Sample_PortConfig.h
-  src/Simulation/Spacecraft/SampleSpacecraft/SampleComponents.cpp
-  src/Simulation/Spacecraft/SampleSpacecraft/SampleComponents.h
   src/Simulation/Spacecraft/SampleSpacecraft/SampleSat.cpp
-  src/Simulation/Spacecraft/SampleSpacecraft/SampleSat.h
+  src/Simulation/Spacecraft/SampleSpacecraft/SampleComponents.cpp
   src/Simulation/GroundStation/SampleGroundStation/SampleGSComponents.cpp
-  src/Simulation/GroundStation/SampleGroundStation/SampleGSComponents.h
   src/Simulation/GroundStation/SampleGroundStation/SampleGS.cpp
-  src/Simulation/GroundStation/SampleGroundStation/SampleGS.h
 )
 
 ## Create executable file
@@ -81,33 +76,6 @@ else()
     set(CMAKE_CXX_FLAGS "-m32 -rdynamic -Wall -g")
     set(CMAKE_C_FLAGS "-m32 -rdynamic -Wall -g")
 endif()
-
-## Linking libraries
-## components
-target_link_libraries(${PROJECT_NAME} COMPONENT)
-## dynamics, environment, disturbance
-target_link_libraries(${PROJECT_NAME} DYNAMICS ENVIRONMENT DISTURBANCE)
-## Interface
-target_link_libraries(${PROJECT_NAME} INI_IN INI_ACC LOG_OUT SC_IO)
-
-target_link_libraries(${PROJECT_NAME} COMPONENT)
-target_link_libraries(${PROJECT_NAME} DYNAMICS ENVIRONMENT DISTURBANCE)
-target_link_libraries(${PROJECT_NAME} INI_IN INI_ACC LOG_OUT SC_IO)
-
-## HILS
-if (WIN32)
-#  target_link_libraries(${PROJECT_NAME} HILS_IO)
-  ## winsock2
-  #SET (CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
-  #find_library(WS2_32_LIB ws2_32.lib)
-  #message("path for winsock2 is")
-  #message(${WS2_32_LIB})
-#  target_link_libraries(${PROJECT_NAME} ${WS2_32_LIB})
-endif()
-## Library
-target_link_libraries(${PROJECT_NAME} IGRF WRAPPER_NRLMSISE00 INIH MATH SGP4 UTIL)
-## simulation
-target_link_libraries(${PROJECT_NAME} SIMULATION)
 
 ## cspice library
 if(CYGWIN)
@@ -125,7 +93,7 @@ elseif(WIN32)
     NAMES cspice.lib csupport.lib
     PATHS ${CSPICE_DIR}/cspice_msvs/lib)
 endif()
-target_link_libraries(${PROJECT_NAME} ${CSPICE_LIB})
+#target_link_libraries(${PROJECT_NAME} ${CSPICE_LIB})
 
 ## nrlmsise00 library
 if(CYGWIN)
@@ -143,14 +111,45 @@ elseif(WIN32)
     NAMES libnrlmsise00.lib
     PATHS ${NRLMSISE00_DIR}/lib)
 endif()
-target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
+#target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
+
+## Linking libraries
+set(S2E_LIBRARIES
+  IGRF WRAPPER_NRLMSISE00 INIH MATH SGP4 UTIL 
+)
+# Initialize link
+target_link_libraries(COMPONENT INTERFACE INI_IN DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SC_IO ${S2E_LIBRARIES})
+target_link_libraries(DYNAMICS INTERFACE INI_IN GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION ${S2E_LIBRARIES})
+target_link_libraries(DISTURBANCE INTERFACE INI_IN DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT ${S2E_LIBRARIES})
+target_link_libraries(SIMULATION INTERFACE INI_IN DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE ${S2E_LIBRARIES})
+target_link_libraries(GLOBAL_ENVIRONMENT INTERFACE INI_IN ${CSPICE_LIB} ${S2E_LIBRARIES})
+target_link_libraries(LOCAL_ENVIRONMENT INTERFACE INI_IN GLOBAL_ENVIRONMENT ${CSPICE_LIB} ${S2E_LIBRARIES})
+target_link_libraries(INI_IN INTERFACE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT ${S2E_LIBRARIES})
+target_link_libraries(WRAPPER_NRLMSISE00 INTERFACE ${NRLMSISE00_LIB})
+
+target_link_libraries(${PROJECT_NAME} DYNAMICS)
+target_link_libraries(${PROJECT_NAME} DISTURBANCE)
+target_link_libraries(${PROJECT_NAME} SIMULATION)
+target_link_libraries(${PROJECT_NAME} GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT)
+target_link_libraries(${PROJECT_NAME} INI_ACC LOG_OUT SC_IO)
+target_link_libraries(${PROJECT_NAME} COMPONENT)
+
+## HILS
+if (WIN32)
+#  target_link_libraries(${PROJECT_NAME} HILS_IO)
+  ## winsock2
+  #SET (CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
+  #find_library(WS2_32_LIB ws2_32.lib)
+  #message("path for winsock2 is")
+  #message(${WS2_32_LIB})
+#  target_link_libraries(${PROJECT_NAME} ${WS2_32_LIB})
+endif()
 
 ## C2A integration
 if(USE_C2A)
   target_link_libraries(${PROJECT_NAME} C2A)
   target_link_libraries(${PROJECT_NAME} SC_IO)
 endif()
-
 
 ## Cmake debug
 message("Cspice_LIB:  "${CSPICE_LIB})

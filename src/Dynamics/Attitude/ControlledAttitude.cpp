@@ -10,16 +10,16 @@ ControlledAttitude::ControlledAttitude(
   const Quaternion quaternion_i2t,
   const Vector<3> pointing_t_b,
   const Vector<3> pointing_sub_t_b,
-  const CelestialInformation* celes_info,
+  const LocalCelestialInformation* local_celes_info,
   const Orbit* orbit)
-  : main_mode_(main_mode),
-    sub_mode_(sub_mode),
-    quaternion_i2t_(quaternion_i2t),
-    pointing_t_b_(pointing_t_b),
-    pointing_sub_t_b_(pointing_sub_t_b),
-    celes_info_(celes_info),
+  : local_celes_info_(local_celes_info),
     orbit_(orbit)
 {
+  main_mode_ = main_mode;
+  sub_mode_ = sub_mode;
+  quaternion_i2t_ = quaternion_i2t;
+  pointing_t_b_ = pointing_t_b;
+  pointing_sub_t_b_ = pointing_sub_t_b;
   Initialize();
 }
 
@@ -83,11 +83,11 @@ Vector<3> ControlledAttitude::CalcTargetDirection(AttCtrlMode mode)
   Vector<3> direction;
   if(mode == SUN_POINTING) 
   {
-    direction = celes_info_->GetPosFromSC_i("SUN");
+    direction = local_celes_info_->GetPosFromSC_i("SUN");
   }
   else if(mode == EARTH_CENTER_POINTING)
   {
-    direction = celes_info_->GetPosFromSC_i("EARTH");
+    direction = local_celes_info_->GetPosFromSC_i("EARTH");
   }
   else if(mode == VELOCITY_DIRECTION_POINTING)
   {

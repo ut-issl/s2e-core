@@ -4,7 +4,7 @@
 #include "../Library/math/Vector.hpp"
 #include "../Library/math/Quaternion.hpp"
 #include "SurfaceForce.h"
-#include "../Environment/Atmosphere.h"
+#include "../Environment/Local/Atmosphere.h"
 #include "../Interface/LogOutput/ILoggable.h"
 using libra::Vector;
 using libra::Quaternion;
@@ -15,27 +15,15 @@ using libra::Quaternion;
 class AirDrag : public SurfaceForce
 {
 public:
-  AirDrag(const Vector<3>& px_arm,
-    const Vector<3>& mx_arm,
-    const Vector<3>& py_arm,
-    const Vector<3>& my_arm,
-    const Vector<3>& pz_arm,
-    const Vector<3>& mz_arm,
-    const Vector<6>& area,
-    const Vector<3>& px_normal,
-    const Vector<3>& mx_normal,
-    const Vector<3>& py_normal,
-    const Vector<3>& my_normal,
-    const Vector<3>& pz_normal,
-    const Vector<3>& mz_normal,
-    const Vector<3>& center,
-    const Vector<6>& specularity,
+  AirDrag(
+    const vector<Surface>& surfaces, 
+    const Vector<3>& cg_b,
     const double t_w,
     const double t_m,
     const double molecular);
 
   // Override SimpleDisturbance
-  virtual void Update(Envir & env, const Spacecraft & spacecraft);
+  virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);
 
   // Override Loggable
   virtual string GetLogHeader() const;
@@ -43,15 +31,15 @@ public:
 
   //for debug
   void PrintParams(void);
-  double cnct[6];
+  vector<double> cnct;
 
 private:
-  double Cn[6]; //coefficients for out-plane force
-  double Ct[6]; //coefficients for in-plane force
-  double rho;   //Air density [kg/m^3]
+  vector<double> Cn_; //coefficients for out-plane force
+  vector<double> Ct_; //coefficients for in-plane force
+  double rho_;   //Air density [kg/m^3]
   double Tw_;   //Temperature of surface [K]
   double Tm_;   //Temperature of atmosphere [K]
-  double M;     //Molecular weight [g/mol]
+  double M_;     //Molecular weight [g/mol]
 
   // Override SurfaceForce
   void CalcCoef(Vector<3>& vel_b, double air_dens);

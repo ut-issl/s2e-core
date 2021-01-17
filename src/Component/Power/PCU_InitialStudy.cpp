@@ -1,11 +1,11 @@
 ﻿#include "PCU_InitialStudy.h"
 #include <cmath>
-#include "../../Dynamics/ClockGenerator.h"
+#include "../../Environment/Global/ClockGenerator.h"
 #include "../../Interface/InitInput/InitPower/CsvScenarioInterface.h"
 
-PCU_InitialStudy::PCU_InitialStudy(const std::vector<SAP*> saps,
+PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_gen,const std::vector<SAP*> saps,
   BAT* bat)
-  :ComponentBase(1000), saps_(saps), bat_(bat), cc_charge_current_(bat->GetCCChargeCurrent()),
+  :ComponentBase(1000, clock_gen), saps_(saps), bat_(bat), cc_charge_current_(bat->GetCCChargeCurrent()),
   cv_charge_voltage_(bat->GetCVChargeVoltage())
 {
   bus_voltage_ = 0.0;
@@ -34,7 +34,7 @@ string PCU_InitialStudy::GetLogValue() const
 
 void PCU_InitialStudy::MainRoutine(int time_count)
 {
-  power_consumption_ = CalcPowerConsumption(time_count * ClockGenerator::IntervalMillisecond / 1000); // 時間はSimTimeから持ってきたほうが良い？そもそもtime_countがintなのでオーバーフローする可能性あり
+  power_consumption_ = CalcPowerConsumption(time_count * clock_gen_->IntervalMillisecond / 1000); // 時間はSimTimeから持ってきたほうが良い？そもそもtime_countがintなのでオーバーフローする可能性あり
   UpdateChargeCurrentAndBusVoltage();
   for (auto sap : saps_)
   {

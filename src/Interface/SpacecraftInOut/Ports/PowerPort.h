@@ -1,42 +1,39 @@
 #pragma once
-class ComponentBase;
 
-// PCUについている各コンポへの電源ポートを模するクラス
-// PCU内部ソフトウェアの認識している各ch電源ON/OFF状態と、実際のハードウェアでの電源ON/OFF状態が
-// 異なる場合があるので、それを再現するためPCUとコンポの間に1枚噛ませる。
 class PowerPort
 {
 public:
-  PowerPort(int port_id, double currentLimit, ComponentBase* component);
+  PowerPort();
+  PowerPort(int port_id, double current_Limit);
+  PowerPort(int port_id, double current_Limit, double minimum_voltage, double assumed_power_consumption);
   ~PowerPort();
-  
-  // 接続されたコンポの現在の消費電流[A]を返す
-  double GetCurrent();
-  
-  // 電源ポートの現在の電圧[V]を返す
-  double GetVoltage();
 
-  // 電源ポートの現在の電圧[V]を設定する
-  void SetVoltage(double voltage);
+  bool Update(void);  //return is_on_
 
-  // 接続先コンポーネントを返す
-  ComponentBase* GetComponent();
-
-  // 接続先コンポーネントを設定する
-  void SetComponent(ComponentBase* component);
-
+  // Getters
+  inline const double GetVoltage(void)const {return voltage_;};
+  inline const double GetCurrentConsumption() const {return current_consumption_;};
+  inline const double GetAssumedPowerConsumption() const {return assumed_power_consumption_;};
+  inline const bool GetIsOn() const {return is_on_;};
+ 
+  // Setters
+  bool SetVoltage(const double voltage);  //return is_on_
+  inline void SetAssumedPowerConsumption(const double power){assumed_power_consumption_ = power;};
+  inline void SetMinimumVoltage(const double minimum_voltage){minimum_voltage_ = minimum_voltage;}; 
+  inline void SetCurrentLimit(const double current_limit){current_limit_ = current_limit;}; 
 private:
-
-  // 電源ポートの上限電流[A]
-  const double kCurrentLimit;
-
-  // 電源ポートのポートID
+  // PCU setting parameters
   const int kPortId;
+  double current_limit_; // [A] for Over Current Protection
+  
+  // Components setting parameters
+  double minimum_voltage_; // [V] Minimum voltage for power on
+  double assumed_power_consumption_; // [W] Assumed power consumption when the switch is turned on
+  
+  double voltage_; // [V]
+  double current_consumption_; // calculated by I = P/V[A]
+  bool is_on_;
 
-  // 接続先のコンポーネント
-  ComponentBase* component_;
-
-  // 電源ポートの電圧[V]
-  double voltage_;
+  void Initialize(void);
 };
 

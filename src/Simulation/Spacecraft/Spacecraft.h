@@ -1,37 +1,38 @@
 #pragma once
 
-
 #include "../../Interface/InitInput/Initialize.h"
-#include "../SimulationConfig.h"
+#include "../../Environment/Global/ClockGenerator.h"
 #include "../../Dynamics/Dynamics.h"
-#include "../../Environment/Environment.h"
-
+#include "../../Environment/Local/LocalEnvironment.h"
+#include "../../Disturbance/Disturbances.h"
+#include "./Structure/Structure.h"
 
 class Spacecraft
 {
 public:
-  Spacecraft(SimulationConfig config);
-  Spacecraft(SimulationConfig config, string AttitudeName, string OrbitName);
+  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
   virtual ~Spacecraft();
 
-  // ちょっとコピー周りの対応がめんどいのでとりあえずコピー禁止しとく
+  // forbidden copy
   Spacecraft(const Spacecraft &) = delete;
   Spacecraft& operator= (const Spacecraft &) = delete;
 
-  // 初期化
-  virtual void Initialize(string AttitudeName="ATTITUDE", string OrbitName="ORBIT");
-
+  //virtual functions
+  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  virtual void Update(const SimTime* sim_time);
+  virtual void Clear(void);
   virtual void LogSetup(Logger& logger);
 
-  // 状態量の更新
-  virtual void Update();
-
-  Dynamics* dynamics_;
-  Envir* environments_;
-
+  //Get functions
+  inline const Dynamics& GetDynamics() const { return *dynamics_; }
+  inline const LocalEnvironment& GetLocalEnv() const { return *local_env_; }
+  inline const Disturbances& GetDisturbances() const { return *disturbances_; }
 
 protected:
-
-  const SimulationConfig config_;
+  ClockGenerator clock_gen_;
+  Dynamics* dynamics_;
+  LocalEnvironment* local_env_;
+  Disturbances*  disturbances_;
+  Structure* structure_;
 };
 

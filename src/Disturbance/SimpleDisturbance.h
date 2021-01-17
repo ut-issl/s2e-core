@@ -1,23 +1,23 @@
 #pragma once
-#include "../Environment/Environment.h"
 #include "Disturbance.h"
-#include "../Simulation/Spacecraft/Spacecraft.h"
+#include "../Environment/Local/LocalEnvironment.h"
+#include "../Dynamics/Dynamics.h"
 
-// 環境とダイナミクスのみから計算できる単純な外乱の抽象クラス
+// The Abstract class for disturbance calculation with local environment and spacecraft dynamics
 // トルクと並進力を発生する（どちらか片方だけでも良い）
 class SimpleDisturbance : public Disturbance, public ILoggable
 {
 public:
   virtual ~SimpleDisturbance() { }
 
-  virtual inline void UpdateIfEnabled(Envir& env, const Spacecraft& spacecraft)
+  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_env, const Dynamics& dynamics)
   {
-    if (IsCalcEnabled) { Update(env, spacecraft); }
+    if (IsCalcEnabled) { Update(local_env, dynamics); }
     else { force_b_ *= 0; torque_b_ *= 0; }
   }
 
   // 環境とダイナミクスに応じて外乱のトルクと並進力を更新する
-  virtual void Update(Envir& env, const Spacecraft& spacecraft) = 0;
+  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics) = 0;
 };
 
 // 全ての外乱がこのインターフェースで計算できれば良いのだが、そういうわけにもいかない

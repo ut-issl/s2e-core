@@ -4,7 +4,7 @@
 #include "../Initialize.h"
 #include "../../../Component/Power/BAT.h"
 
-BAT InitBAT(int bat_id, const string fname) {
+BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const string fname) {
 
   IniAccess bat_conf(fname);
 
@@ -44,7 +44,7 @@ BAT InitBAT(int bat_id, const string fname) {
   double bat_resistance;
   bat_resistance = bat_conf.ReadDouble(Section, "bat_resistance");
 
-  BAT bat(number_of_series, number_of_parallel, cell_capacity, cell_discharge_curve_coeffs, initial_dod, cc_charge_c_rate, cv_charge_voltage, bat_resistance);
+  BAT bat(clock_gen, number_of_series, number_of_parallel, cell_capacity, cell_discharge_curve_coeffs, initial_dod, cc_charge_c_rate, cv_charge_voltage, bat_resistance);
 
   return bat;
 }

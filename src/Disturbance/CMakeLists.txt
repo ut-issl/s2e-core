@@ -2,22 +2,14 @@ cmake_minimum_required(VERSION 3.10)
 project(DISTURBANCE)
 add_library(${PROJECT_NAME} STATIC
   AirDrag.cpp
-  AirDrag.h
-  Disturbance.h
   Disturbances.cpp
-  Disturbances.h
   GeoPotential.cpp
   GGDist.cpp
-  GGDist.h
   MagDisturbance.cpp
-  MagDisturbance.h
-  SimpleDisturbance.h
   SolarRadiation.cpp
-  SolarRadiation.h
   SurfaceForce.cpp
-  SurfaceForce.h
   ThirdBodyGravity.cpp
-  ThirdBodyGravity.h
+  ../Interface/InitInput/Init_Disturbance.cpp
 )
 # Compile option
 if(MSVC)

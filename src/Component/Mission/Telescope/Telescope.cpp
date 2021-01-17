@@ -8,6 +8,7 @@ using namespace std;
 using namespace libra;
 
 Telescope::Telescope(
+  ClockGenerator* clock_gen,
 	libra::Quaternion& q_b2c,
 	double sun_forbidden_angle,
 	double earth_forbidden_angle,
@@ -17,10 +18,13 @@ Telescope::Telescope(
 	double x_fov_par_pix,
 	double y_fov_par_pix,
 	int num_of_logged_stars,
-	const Dynamics *dynamics
+	const Attitude * attitude,
+	const HipparcosCatalogue* hipp,
+	const LocalCelestialInformation *local_celes_info
 	)
-	: ComponentBase(1), dynamics_(dynamics), sun_forbidden_angle_(sun_forbidden_angle), earth_forbidden_angle_(earth_forbidden_angle),
-	moon_forbidden_angle_(moon_forbidden_angle), q_b2c_(q_b2c), x_num_of_pix_(x_num_of_pix), y_num_of_pix_(y_num_of_pix), x_fov_par_pix_(x_fov_par_pix), y_fov_par_pix_(y_fov_par_pix), num_of_logged_stars_(num_of_logged_stars)
+	: ComponentBase(1, clock_gen), local_celes_info_(local_celes_info), attitude_(attitude), hipp_(hipp),
+	sun_forbidden_angle_(sun_forbidden_angle), earth_forbidden_angle_(earth_forbidden_angle),moon_forbidden_angle_(moon_forbidden_angle), 
+	q_b2c_(q_b2c), x_num_of_pix_(x_num_of_pix), y_num_of_pix_(y_num_of_pix), x_fov_par_pix_(x_fov_par_pix), y_fov_par_pix_(y_fov_par_pix), num_of_logged_stars_(num_of_logged_stars)
 {
 	is_sun_in_forbidden_angle = true;
 	is_earth_in_forbidden_angle = true;
@@ -55,16 +59,16 @@ Telescope::~Telescope()
 void Telescope::MainRoutine(int count)
 {
 	//禁止角判定
-	is_sun_in_forbidden_angle = JudgeForbiddenAngle(dynamics_->celestial_->GetPosFromSC_b("SUN"), sun_forbidden_angle_);
-	is_earth_in_forbidden_angle = JudgeForbiddenAngle(dynamics_->celestial_->GetPosFromSC_b("EARTH"), earth_forbidden_angle_);
-	is_moon_in_forbidden_angle = JudgeForbiddenAngle(dynamics_->celestial_->GetPosFromSC_b("MOON"), moon_forbidden_angle_);
+	is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("SUN"), sun_forbidden_angle_);
+	is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("EARTH"), earth_forbidden_angle_);
+	is_moon_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("MOON"), moon_forbidden_angle_);
 	//CelesInfoから得られる各天体の像の位置の計算
-	Observe(sun_pos_imgsensor, dynamics_->celestial_->GetPosFromSC_b("SUN"));
-	Observe(earth_pos_imgsensor, dynamics_->celestial_->GetPosFromSC_b("EARTH"));
-	Observe(moon_pos_imgsensor, dynamics_->celestial_->GetPosFromSC_b("MOON"));
+	Observe(sun_pos_imgsensor, local_celes_info_->GetPosFromSC_b("SUN"));
+	Observe(earth_pos_imgsensor, local_celes_info_->GetPosFromSC_b("EARTH"));
+	Observe(moon_pos_imgsensor, local_celes_info_->GetPosFromSC_b("MOON"));
 	//HIP Catalogueから得られる、画角内の天体のHIP IDとセンサ上の位置の計算
 	//HIP Catalogueがデータを読まなかった場合は，アップデートしない
-	if(dynamics_->hip_->IsCalcEnabled) ObserveStars();
+	if(hipp_->IsCalcEnabled) ObserveStars();
 	//以下デバッグ******************************************************************
 	//sun_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPosFromSC_b("SUN"));
 	//earth_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPosFromSC_b("EARTH"));
@@ -90,8 +94,8 @@ void Telescope::Observe(Vector<2> &pos_imgsensor, const Vector<3, double> target
 	Vector<3, double> target_c = q_b2c_.frame_conv(target_b);
 	double arg_x = atan2(target_c[2], target_c[0]);//コンポ座標xz平面上でx軸から測った偏角
 	double arg_y = atan2(target_c[1], target_c[0]);//コンポ座標xy平面上でx軸から測った偏角
-
-	if (abs(arg_x) <= x_field_of_view_rad && abs(arg_y) <= y_field_of_view_rad) {
+	
+	if (abs(arg_x) < x_field_of_view_rad && abs(arg_y) < y_field_of_view_rad) {
 		pos_imgsensor[0] = x_num_of_pix_ / 2 * tan(arg_x) / tan(x_field_of_view_rad) + x_num_of_pix_ / 2;
 		pos_imgsensor[1] = y_num_of_pix_ / 2 * tan(arg_y) / tan(y_field_of_view_rad) + y_num_of_pix_ / 2;
 	}
@@ -103,13 +107,13 @@ void Telescope::Observe(Vector<2> &pos_imgsensor, const Vector<3, double> target
 
 void Telescope::ObserveStars()
 {
-	Quaternion q_i2b = dynamics_->GetQuaternion_i2b();
+	Quaternion q_i2b = attitude_->GetQuaternion_i2b();
 
 	star_in_sight.clear();//最初にクリアしておく
 	int count = 0;//whileループのカウンタ
 
 	while (star_in_sight.size() < num_of_logged_stars_) {
-		Vector<3> target_b = dynamics_->hip_->GetStarDir_b(count, q_i2b);
+		Vector<3> target_b = hipp_->GetStarDir_b(count, q_i2b);
 		Vector<3> target_c = q_b2c_.frame_conv(target_b);
 
 		double arg_x = atan2(target_c[2], target_c[0]);//コンポ座標xz平面上でx軸から測った偏角
@@ -117,12 +121,12 @@ void Telescope::ObserveStars()
 
 		if (abs(arg_x) <= x_field_of_view_rad && abs(arg_y) <= y_field_of_view_rad) {
 			Star star;
-			star.hipdata.hip_num = dynamics_->hip_->GetHipID(count);
-			star.hipdata.vmag = dynamics_->hip_->GetVmag(count);
-			star.hipdata.ra = dynamics_->hip_->GetRA(count);
-			star.hipdata.de = dynamics_->hip_->GetDE(count);
-			star.pos_imgsensor[0] = x_num_of_pix_ / 2 * tan(arg_x) / tan(x_field_of_view_rad) + x_num_of_pix_ / 2;
-			star.pos_imgsensor[1] = y_num_of_pix_ / 2 * tan(arg_y) / tan(y_field_of_view_rad) + y_num_of_pix_ / 2;
+			star.hipdata.hip_num = hipp_->GetHipID(count);
+			star.hipdata.vmag = hipp_->GetVmag(count);
+			star.hipdata.ra = hipp_->GetRA(count);
+			star.hipdata.de = hipp_->GetDE(count);
+			star.pos_imgsensor[0] = x_num_of_pix_ / 2.0 * tan(arg_x) / tan(x_field_of_view_rad) + x_num_of_pix_ / 2.0;
+			star.pos_imgsensor[1] = y_num_of_pix_ / 2.0 * tan(arg_y) / tan(y_field_of_view_rad) + y_num_of_pix_ / 2.0;
 
 			star_in_sight.push_back(star);
 		}
@@ -130,7 +134,7 @@ void Telescope::ObserveStars()
 		count++;
 
 		//カタログをすべて見尽くしてしまった場合に，残りの各種パラメータを-1で埋めてループから抜ける
-		if (count >= dynamics_->hip_->GetCatalogueSize()) {
+		if (count >= hipp_->GetCatalogueSize()) {
 			while (star_in_sight.size() < num_of_logged_stars_) {
 				Star star;
 				star.hipdata.hip_num = -1;
@@ -160,7 +164,7 @@ string Telescope::GetLogHeader() const
 	str_tmp += WriteVector("earth_pos_imgsensor", " ", "pix", 2);
 	str_tmp += WriteVector("moon_pos_imgsensor", " ", "pix", 2);
 	//Hip Catalogueがデータを読まなかった場合は，ObserveStarsに関する出力を行わない
-	if (dynamics_->hip_->IsCalcEnabled) {
+	if (hipp_->IsCalcEnabled) {
 		for (int i = 0; i < num_of_logged_stars_; i++) {
 			str_tmp += WriteScalar("HIP ID (" + to_string(i) + ")", " ");
 			str_tmp += WriteScalar("Vmag (" + to_string(i) + ")", " ");
@@ -186,7 +190,7 @@ string Telescope::GetLogValue() const
 	str_tmp += WriteVector(earth_pos_imgsensor);
 	str_tmp += WriteVector(moon_pos_imgsensor);
 	//Hip Catalogueがデータを読まなかった場合は，ObserveStarsに関する出力を行わない
-	if (dynamics_->hip_->IsCalcEnabled) {
+	if (hipp_->IsCalcEnabled) {
 		for (int i = 0; i < num_of_logged_stars_; i++) {
 			str_tmp += WriteScalar(star_in_sight[i].hipdata.hip_num);
 			str_tmp += WriteScalar(star_in_sight[i].hipdata.vmag);

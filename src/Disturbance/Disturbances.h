@@ -3,6 +3,8 @@
 #include <vector>
 #include "SimpleDisturbance.h"
 #include "AccelerationDisturbance.h"
+#include"../Simulation/Spacecraft/Structure/Structure.h"
+#include"../Environment/Global/SimTime.h"
 
 using namespace std;
 
@@ -11,9 +13,9 @@ class Logger;
 class Disturbances
 {
 public:
-  Disturbances(string base_ini_fname);
+  Disturbances(SimulationConfig* sim_config, const int sat_id, Structure* structure);
   virtual ~Disturbances();
-  void Update(Envir& env, const Spacecraft & spacecraft);
+  void Update(const LocalEnvironment& local_env, const Dynamics& dynamics, const SimTime* sim_time);
 
   void LogSetup(Logger & logger);
 
@@ -23,14 +25,12 @@ public:
 
 private:
   string ini_fname_;
-  string base_ini_fname_;
-  string ini_fname_celes_;
-  void InitializeInstances();
-  void InitializeOutput();
+  void InitializeInstances(SimulationConfig* sim_config, const int sat_id, Structure* structure);
+  void InitializeForceAndTorque();
+  void InitializeAcceleration();
   vector<SimpleDisturbance*> disturbances_;
   Vector<3> sum_torque_;
   Vector<3> sum_force_;
   vector<AccelerationDisturbance*> acc_disturbances_;
   Vector<3> sum_acceleration_i_;
-
 };
