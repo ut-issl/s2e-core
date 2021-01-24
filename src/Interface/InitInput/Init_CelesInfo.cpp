@@ -2,6 +2,7 @@
 #include "../../Environment/Global/CelestialInformation.h"
 #include "SpiceUsr.h"
 #include "Initialize.h"
+#include <cassert>
 
 CelestialInformation* InitCelesInfo(string file_name)
 {
@@ -33,13 +34,10 @@ CelestialInformation* InitCelesInfo(string file_name)
 		ini_file.ReadChar(section, selected_body_i.c_str(), 30, selected_body_temp);
 		bodn2c_c(selected_body_temp, (SpiceInt*)&planet_id, (SpiceBoolean*)&found);
 		string body_name = selected_body_temp;
-		// Error indication
-		if(found == SPICEFALSE){
-		    string message = "Input Celestial Object: '" + body_name + "' is not found.\nBe sure the name is defined in SPICE.\n";
-        //TODO: manage MessageBox in windows
-        //MessageBox(NULL, TEXT("One or More Input Celestial Object is not found.\nBe sure the name is defined in SPICE.\n"), TEXT("ERROR INDICATION"), MB_OK);
-			exit(1);
-		}
+
+    //If the object specified in the ini file is not found, exit the program.
+    assert(found == SPICETRUE);
+		
 		selected_body[i] = planet_id;
 	}
 	CelestialInformation* celestial_info;
