@@ -42,5 +42,9 @@ CelestialInformation* InitCelesInfo(string file_name)
 	}
 	CelestialInformation* celestial_info;
 	celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, num_of_selected_body, selected_body);
+
+  //log setting
+  celestial_info->IsLogEnabled = ini_file.ReadEnable(section, LOG_LABEL);
+
 	return celestial_info;
 }
