@@ -92,6 +92,8 @@ void SunSensor::measure(const Vector<3>& sun_b, bool sun_eclipsed)
     alpha_ = 0.0;
     beta_ = 0.0;
   }
+
+  CalcSolarIlluminance();
 }
 
 void SunSensor::SunDetectionJudgement(bool sun_eclipsed)
@@ -113,6 +115,16 @@ void SunSensor::SunDetectionJudgement(bool sun_eclipsed)
       sun_detected_flag_ = false;
     }
   }
+}
+
+void SunSensor::CalcSolarIlluminance()
+{
+  Vector<3> sun_direction_c = normalize(sun_c_);
+  double sun_angle_ = acos(sun_direction_c[2]);
+
+  double power_density = srp_->CalcPowerDensity();
+  solar_illuminance_ = power_density * cos(sun_angle_);
+  //TODO: Take into account the effects of albedo.
 }
 
 double SunSensor::TanRange(double x)
