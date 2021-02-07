@@ -760,6 +760,16 @@ bool GnssSat_Info::GetWhetherValid(int sat_id) const
   return false;
 }
 
+const GnssSat_position& GnssSat_Info::GetGnssSatPos() const
+{
+    return position_;
+}
+
+const GnssSat_clock& GnssSat_Info::GetGnssSatClock() const
+{
+    return clock_;
+}
+
 libra::Vector<3> GnssSat_Info::GetSatellitePositionEcef(int sat_id) const
 {
   return position_.GetSatEcef(sat_id);
@@ -866,6 +876,16 @@ void GnssSatellites::Update(const SimTime* sim_time)
 int GnssSatellites::GetNumOfSatellites() const
 {
   return estimate_info_.GetNumOfSatellites();
+}
+
+string GnssSatellites::GetIDFromIndex(int index) const
+{
+  return estimate_info_.GetGnssSatPos().GetIDFromIndex(index);
+}
+
+int GnssSatellites::GetIndexFromID(string sat_num) const
+{
+  return estimate_info_.GetGnssSatPos().GetIndexFromID(sat_num);
 }
 
 bool GnssSatellites::GetWhetherValid(int sat_id) const

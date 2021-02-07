@@ -132,6 +132,8 @@ class GnssSat_Info
     libra::Vector<3> GetSatellitePositionEcef(int sat_id) const;
     libra::Vector<3> GetSatellitePositionEci(int sat_id) const;
     double GetSatelliteClock(int sat_id) const;
+    const  GnssSat_position& GetGnssSatPos() const;
+    const  GnssSat_clock& GetGnssSatClock() const;
 
   private:
     GnssSat_position position_;
@@ -171,6 +173,8 @@ public:
   void Update(const SimTime* sim_time);
 
   //GET FUNCTIONS
+  int GetIndexFromID(string sat_num) const;
+  string GetIDFromIndex(int index) const;
   int GetNumOfSatellites() const;
   bool GetWhetherValid(int sat_id) const;
   double GetStartUnixTime() const;

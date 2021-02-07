@@ -108,8 +108,8 @@ STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const string fname, double
 STT InitSTT(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const string fname, double compo_step_time, const Dynamics *dynamics, const LocalEnvironment* local_env);
 SunSensor InitSunSensor(ClockGenerator* clock_gen, int sensor_id, const string fname, const SRPEnvironment* srp);
 SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const string fname, const SRPEnvironment* srp);
-GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const string fname, const Dynamics* dynamics);
-GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const string fname, const Dynamics* dynamics);
+GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites);
+GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites);
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, const string fname, const Structure* structure, const Dynamics* dynamics);
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, PowerPort* power_port, int thruster_id, const string fname, const Structure* structure, const Dynamics* dynamics);
 
