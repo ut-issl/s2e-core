@@ -21,6 +21,7 @@ using libra::Quaternion;
 #define PIO2		1.57079632679489656		/* Pi/2 */
 #define TWOPI		6.28318530717958623		/* 2*Pi  */
 #define DEG2RAD		0.017453292519943295769	// PI/180
+#define OmegaEarth  7.29211514670698e-05	// Earth Rotational rate (not considering Nutation/Precession)
 
 class Orbit: public ILoggable
 {
@@ -31,6 +32,7 @@ public:
   inline Vector<3> GetSatPosition_ecef() const { return sat_position_ecef_; }
   inline Vector<3> GetSatVelocity_i() const { return sat_velocity_i_; }
   inline Vector<3> GetSatVelocity_b() const { return sat_velocity_b_; }
+  inline Vector<3> GetSatVelocity_ecef() const { return sat_velocity_ecef_; }
 
   inline double GetLat_rad() const { return lat_rad_; }
   inline double GetLon_rad() const { return lon_rad_; }
@@ -96,6 +98,13 @@ public:
     trans_mat[2][2] = 1;
 
     sat_position_ecef_ = trans_mat * sat_position_i_;
+
+	// convert velocity vector in ECI to the vector in ECEF
+	Vector<3> OmegaE{ 0.0 }; OmegaE[2] = OmegaEarth;
+	Vector<3> wExr     = outer_product(OmegaE, sat_position_i_);
+	Vector<3> V_wExr   = sat_velocity_i_ - wExr;
+	sat_velocity_ecef_ = trans_mat * V_wExr;
+
     trans_eci2ecef_ = trans_mat;
   }
 
@@ -152,6 +161,9 @@ protected:
   // 機体座標系での宇宙機速度 [m/s]
   Vector<3> sat_velocity_b_;
 
+  // ECEFでの宇宙機速度 [m/s]
+  Vector<3> sat_velocity_ecef_;
+
   // 慣性系での宇宙機加速度 [m/s2]
   // Propagate関数の末尾でゼロクリアしてください
   Vector<3> acc_i_;
@@ -167,6 +179,7 @@ protected:
 
   //TransECItoECEF
   Matrix<3,3> trans_eci2ecef_;
+
 };
 
 #endif //__orbit_H__

@@ -2,7 +2,8 @@
 #include <string.h>
 #include "../../../Component/AOCS/GNSSReceiver.h"
 
-GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites) {
+GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime)
+{
   IniAccess gnssr_conf(fname);
   char GSection[30] = "GNSSReceiver";
 
@@ -20,11 +21,13 @@ GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const string fn
   Vector<3> noise_std;
   gnssr_conf.ReadVector(GSection, "nr_stddev_eci", noise_std);
 
-  GNSSReceiver gnss_r(prescaler, clock_gen, id, gnss_id, ch_max, antenna_model, antenna_pos_b, q_b2c, half_width, noise_std, dynamics, gnss_satellites);
+  GNSSReceiver gnss_r(prescaler, clock_gen, id, gnss_id, ch_max, antenna_model, antenna_pos_b, q_b2c, half_width, noise_std, dynamics, gnss_satellites, simtime);
   return gnss_r;
 };
 
-GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites) {
+
+GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime)
+{
   IniAccess gnssr_conf(fname);
   char GSection[30] = "GNSSReceiver";
 
@@ -42,6 +45,6 @@ GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, 
   Vector<3> noise_std;
   gnssr_conf.ReadVector(GSection, "nr_stddev_eci", noise_std);
 
-  GNSSReceiver gnss_r(prescaler, clock_gen, power_port, id, gnss_id, ch_max, antenna_model, antenna_pos_b, q_b2c, half_width, noise_std, dynamics, gnss_satellites);
+  GNSSReceiver gnss_r(prescaler, clock_gen, power_port, id, gnss_id, ch_max, antenna_model, antenna_pos_b, q_b2c, half_width, noise_std, dynamics, gnss_satellites, simtime);
   return gnss_r;
 };

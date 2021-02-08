@@ -24,6 +24,17 @@ struct TimeState
   bool disp_output = true;
 };
 
+// UTC (calendar day) struct
+struct UTC
+{
+  unsigned int year = 2000;
+  unsigned int month = 1;
+  unsigned int day = 1;
+  unsigned int hour = 0;
+  unsigned int min = 0;
+  double sec = 0.0;
+};
+
 // シミュレーション上の時間を管理するシングルトン
 class SimTime: public ILoggable
 {
@@ -69,6 +80,7 @@ public:
   inline const double GetCurrentJd(void) const { return current_jd_; };
   inline const double GetCurrentSidereal(void) const { return current_sidereal_; };
   inline const double GetCurrentDecyear(void) const { return current_decyear_; };
+  inline const UTC GetCurrentUTC(void) const { return current_utc_; };
   inline const int GetStartYear(void) const { return start_year_; };
   inline const int GetStartMon(void) const { return start_mon_; };
   inline const int GetStartDay(void) const { return start_day_; };
@@ -87,6 +99,7 @@ private:
   double current_jd_;      //ユリウス日
   double current_sidereal_; //グリニッジ平均恒星時
   double current_decyear_; //Decimal Year(yearの小数点表記)
+  UTC	 current_utc_; // UTC calendar day
 
   int attitude_update_counter_;
   bool attitude_update_flag_;
@@ -126,5 +139,6 @@ private:
 
   void InitializeState();
   void AssertTimeStepParams();
+  void ConvJDtoCalndarDay(const double JD); // wrapper function of invjday @ sgp4ext for interface adjustment
 };
 #endif //__SIMULATION_TIME_H__

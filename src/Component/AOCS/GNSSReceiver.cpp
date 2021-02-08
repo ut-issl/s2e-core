@@ -15,10 +15,11 @@ GNSSReceiver::GNSSReceiver(
   const double half_width,
   const Vector<3> noise_std, 
   const Dynamics *dynamics,
-  const GnssSatellites *gnss_satellites)
+  const GnssSatellites *gnss_satellites,
+  const SimTime *simtime)
   : ComponentBase(prescaler, clock_gen), id_(id), gnss_id_(gnss_id), ch_max_(ch_max), antenna_model_(antenna_model), antenna_position_b_(ant_pos_b), q_b2c_(q_b2c), half_width_(half_width),
     nrs_eci_x_(0.0, noise_std[0], g_rand.MakeSeed()), nrs_eci_y_(0.0, noise_std[1], g_rand.MakeSeed()), nrs_eci_z_(0.0, noise_std[2], g_rand.MakeSeed()),
-    dynamics_(dynamics), gnss_satellites_(gnss_satellites)
+    dynamics_(dynamics), gnss_satellites_(gnss_satellites),simtime_(simtime)
 {}
 GNSSReceiver::GNSSReceiver(
   const int prescaler,
@@ -33,10 +34,11 @@ GNSSReceiver::GNSSReceiver(
   const double half_width,
   const Vector<3> noise_std,
   const Dynamics* dynamics,
-  const GnssSatellites* gnss_satellites)
+  const GnssSatellites* gnss_satellites,
+  const SimTime *simtime)
   : ComponentBase(prescaler, clock_gen, power_port), id_(id), gnss_id_(gnss_id), ch_max_(ch_max), antenna_model_(antenna_model), antenna_position_b_(ant_pos_b), q_b2c_(q_b2c), half_width_(half_width),
     nrs_eci_x_(0.0, noise_std[0], g_rand.MakeSeed()), nrs_eci_y_(0.0, noise_std[1], g_rand.MakeSeed()), nrs_eci_z_(0.0, noise_std[2], g_rand.MakeSeed()),
-    dynamics_(dynamics), gnss_satellites_(gnss_satellites)
+    dynamics_(dynamics), gnss_satellites_(gnss_satellites), simtime_(simtime)
 {}
 
 void GNSSReceiver::MainRoutine(int count)
@@ -48,6 +50,13 @@ void GNSSReceiver::MainRoutine(int count)
   
   if (is_gnss_sats_visible_ == 1) {  //Antenna of GNSS-R can detect GNSS signal
     AddNoise(pos_true_eci_);
+
+	// should be modified to add noise in the future
+	position_ecef_	= dynamics_->GetOrbit().GetSatPosition_ecef();
+	position_llh_	= dynamics_->GetOrbit().GetLatLonAlt();
+	velocity_ecef_  = dynamics_->GetOrbit().GetSatVelocity_ecef();
+	utc_			= simtime_->GetCurrentUTC();
+
   }
   else{
     position_eci_[0] = 0.0;
@@ -171,7 +180,17 @@ void GNSSReceiver::AddNoise(Vector<3> pos_true_eci_)
 string GNSSReceiver::GetLogHeader() const //For logs
 {
   string str_tmp = "";
+  str_tmp += WriteScalar("gnss_year");
+  str_tmp += WriteScalar("gnss_month");
+  str_tmp += WriteScalar("gnss_day");
+  str_tmp += WriteScalar("gnss_hour");
+  str_tmp += WriteScalar("gnss_min");
+  str_tmp += WriteScalar("gnss_sec");
   str_tmp += WriteVector("gnss_position", "eci", "m", 3);
+  str_tmp += WriteVector("gnss_velocity", "ecef", "m/s", 3);
+  str_tmp += WriteScalar("gnss_lat","rad");
+  str_tmp += WriteScalar("gnss_lon","rad");
+  str_tmp += WriteScalar("gnss_alt","m");
   str_tmp += WriteScalar("gnss_vis_flag");
   str_tmp += WriteScalar("gnss_vis_num");
 
@@ -181,7 +200,17 @@ string GNSSReceiver::GetLogHeader() const //For logs
 string GNSSReceiver::GetLogValue() const //For logs
 {
   string str_tmp = "";
+  str_tmp += WriteScalar(utc_.year);
+  str_tmp += WriteScalar(utc_.month);
+  str_tmp += WriteScalar(utc_.day);
+  str_tmp += WriteScalar(utc_.hour);
+  str_tmp += WriteScalar(utc_.min);
+  str_tmp += WriteScalar(utc_.sec);
   str_tmp += WriteVector(position_eci_);
+  str_tmp += WriteVector(velocity_ecef_);
+  str_tmp += WriteScalar(position_llh_[0]);
+  str_tmp += WriteScalar(position_llh_[1]);
+  str_tmp += WriteScalar(position_llh_[2]);
   str_tmp += WriteScalar(is_gnss_sats_visible_);
   str_tmp += WriteScalar(gnss_sats_visible_num_);
 

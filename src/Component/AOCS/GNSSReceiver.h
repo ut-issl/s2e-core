@@ -6,6 +6,7 @@
 #include "../../Dynamics/Dynamics.h"
 #include "../../Environment/Global/GnssSatellites.h"
 #include "../../Library/math/Quaternion.hpp"
+#include "../../Environment/Global/SimTime.h"
 
 #define DEG2RAD 0.017453292519943295769 // PI/180
 
@@ -40,7 +41,8 @@ class GNSSReceiver : public ComponentBase, public ILoggable
       const double half_width,
       const Vector<3> noise_std, 
       const Dynamics *dynamics,
-      const GnssSatellites *gnss_satellites
+      const GnssSatellites *gnss_satellites,
+      const SimTime *simtime
     );
     GNSSReceiver(
       const int prescaler,
@@ -55,7 +57,8 @@ class GNSSReceiver : public ComponentBase, public ILoggable
       const double half_width,
       const Vector<3> noise_std, 
       const Dynamics *dynamics,
-      const GnssSatellites* gnss_satellites
+      const GnssSatellites* gnss_satellites,
+      const SimTime *simtime
     );
     void MainRoutine(int count);
     inline const GnssInfo GetGnssInfo(int ch) const { return vec_gnssinfo_[ch]; };
@@ -75,13 +78,19 @@ class GNSSReceiver : public ComponentBase, public ILoggable
 
     //Calculated values
     Vector<3> position_eci_{0.0};
-    int is_gnss_sats_visible_=0;
+	Vector<3> velocity_eci_{ 0.0 };		//[m]
+	Vector<3> position_ecef_{ 0.0 };	//[m/s]
+	Vector<3> velocity_ecef_{ 0.0 };	//[m/s]
+	Vector<3> position_llh_{ 0.0 };		//[rad,rad,m]
+	UTC utc_ = {2000, 1, 1, 0, 0, 0.0};	//[year, month, day, hour, min, sec]
+	int is_gnss_sats_visible_ = 0;
     int gnss_sats_visible_num_ = 0;
     std::vector<GnssInfo> vec_gnssinfo_;
     
     //References
     const Dynamics* dynamics_;
     const GnssSatellites* gnss_satellites_;
+    const SimTime*  simtime_;
 
     //Internal Functions
     void CheckAntenna(Vector<3> location_true, Quaternion q_i2b);
