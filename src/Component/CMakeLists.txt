@@ -10,6 +10,7 @@ add_library(${PROJECT_NAME} STATIC
   AOCS/MagTorquer.cpp
   AOCS/rw_ode.cpp
   AOCS/RWModel.cpp
+  AOCS/RWJitter.cpp
   AOCS/STT.cpp
   AOCS/SunSensor.cpp
   AOCS/UWBSensor.cpp

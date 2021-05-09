@@ -245,6 +245,13 @@ Vector<3, double> ortho2spher(const Vector<3, double>& ortho);
 */
 Vector<3, double> ortho2lonlat(const Vector<3, double>& ortho);
 
+//! Generate one unit vector orthogonal to the given 3D vector
+/*!
+  \param v Given vector
+  \return v_ortho Generated unit vector that is orthogonal to v
+*/
+Vector<3, double> GenerateOrthoUnitVector(const Vector<3, double>& v);
+
 } //libra
 
 #include "Vector_ifs.hpp" // inline function definisions.

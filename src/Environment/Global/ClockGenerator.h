@@ -18,10 +18,10 @@ public:
   void TickToComponents();
   void UpdateComponents(const SimTime* sim_time);
 
-  inline void ClearTimerCount(void){ timer_count_ = 0;}
+  inline void ClearTimerCount(void) { timer_count_ = 0;}
 
 private:
   std::vector<ITickable*> components_;
-  unsigned long long timer_count_;
+  unsigned long long timer_count_; 
 };
 

@@ -51,6 +51,15 @@ public:
   Quaternion(const Vector<3>& axis,
              double rot);
 
+  //! Constructor
+  /*!
+    Generate a Quaternion that rotates v_before to match v_after
+    \param v_before Vector before rotation
+    \param v_after Vector after rotation
+  */
+  Quaternion(const Vector<3>& v_before,
+             const Vector<3>& v_after);
+
   //! Vectorからの代入演算子
   /*!
     Vectorで指定された値をQuaternionへ代入する。
