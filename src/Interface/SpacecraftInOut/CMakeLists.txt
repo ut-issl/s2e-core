@@ -4,11 +4,9 @@ add_library(${PROJECT_NAME} STATIC
   Ports/GPIOPort.cpp
   Ports/PowerPort.cpp
   Ports/SCIPort.cpp
+  Ports/I2CPort.cpp
   Utils/RingBuffer.cpp
   GPIODriver.cpp
-  # PowerDriver.cpp
-  #SCIDriver.cpp
-  #SpacecraftInterface.cpp
 
 ## C++/CLI related codes
 #  Utils/ITCTMChannel.h
