@@ -8,7 +8,7 @@
 #include "Quaternion.hpp"
 #include <stdexcept>
 #include <cassert>
-
+#include <cfloat>
 
 namespace libra
 {
@@ -39,7 +39,7 @@ Quaternion::Quaternion(const Vector<3>& v_before,
   double ip = inner_product(normalized_v_before, normalized_v_after);
   //outer product (rotation axis for converting v_before to v_after)
   Vector<3> op = outer_product(normalized_v_before, normalized_v_after);
-  
+
   if (ip > 1.0 - DBL_EPSILON)
   { //if theta=0, then rotation is not need
     q_[0] = 0.0; q_[1] = 0.0; q_[2] = 0.0; q_[3] = 1.0;
@@ -51,7 +51,8 @@ Quaternion::Quaternion(const Vector<3>& v_before,
   }
   else
   {
-    Vector<3> rotation_axis = op;
+    assert(norm(op) > 0.0);
+    Vector<3> rotation_axis = 1.0 / norm(op) * op;
     double rotation_angle = acos(ip);
     q_[0] = rotation_axis[0] * sin(0.5 * rotation_angle);
     q_[1] = rotation_axis[1] * sin(0.5 * rotation_angle);

@@ -10,7 +10,7 @@ SampleComponents::SampleComponents(
   const SimulationConfig* config,
   ClockGenerator* clock_gen,
   const int sat_id)
-  :dynamics_(dynamics), structure_(structure), local_env_(local_env), glo_env_(glo_env),config_(config)
+  :dynamics_(dynamics), structure_(structure), local_env_(local_env), glo_env_(glo_env), config_(config)
 {
   IniAccess iniAccess = IniAccess(config_->sat_file_[sat_id]);
   // PCU power port connection

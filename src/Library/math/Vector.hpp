@@ -247,6 +247,7 @@ Vector<3, double> ortho2lonlat(const Vector<3, double>& ortho);
 
 //! Generate one unit vector orthogonal to the given 3D vector
 /*!
+  NOTE: Vectors orthogonal to the other vector have rotational degree of freedom, which are determined arbitrarily in this function.
   \param v Given vector
   \return v_ortho Generated unit vector that is orthogonal to v
 */

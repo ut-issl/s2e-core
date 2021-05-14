@@ -138,6 +138,23 @@ public:
       lat_rad_ -= TWOPI;
   }
 
+  Quaternion CalcQuaternionI2LVLH()
+  {
+    Vector<3> lvlh_x  = sat_position_i_; //x-axis in LVLH frame is position vector direction from geocenter to satellite
+    Vector<3> lvlh_ex = normalize(lvlh_x);
+    Vector<3> lvlh_z  = outer_product(sat_position_i_, sat_velocity_i_); //z-axis in LVLH frame is angular momentum vector direction of orbit
+    Vector<3> lvlh_ez = normalize(lvlh_z);
+    Vector<3> lvlh_ey = outer_product(lvlh_ez, lvlh_ex);
+
+    Matrix<3, 3> dcm_i2lvlh;
+    dcm_i2lvlh[0][0] = lvlh_ex[0]; dcm_i2lvlh[0][1] = lvlh_ex[1]; dcm_i2lvlh[0][2] = lvlh_ex[2];
+    dcm_i2lvlh[1][0] = lvlh_ey[0]; dcm_i2lvlh[1][1] = lvlh_ey[1]; dcm_i2lvlh[1][2] = lvlh_ey[2];
+    dcm_i2lvlh[2][0] = lvlh_ez[0]; dcm_i2lvlh[2][1] = lvlh_ez[1]; dcm_i2lvlh[2][2] = lvlh_ez[2];
+
+    Quaternion q_i2lvlh = Quaternion::fromDCM(dcm_i2lvlh);
+    return q_i2lvlh;
+  }
+
   virtual string GetLogHeader() const = 0;
   virtual string GetLogValue() const = 0;
 

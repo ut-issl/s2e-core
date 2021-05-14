@@ -43,8 +43,8 @@ RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id, string file_name
   Vector<3> coasting_lag_coef(1.0);
   //rwmodel_conf.ReadVector(RWsection, "coasting_lag_coef", coasting_lag_coef);　バグが修正できるまで読み込まない
 
-  bool is_calc_jitter_enabled = rwmodel_conf.ReadEnable(RWsection, "calculation");
-  bool is_log_jitter_enabled = rwmodel_conf.ReadEnable(RWsection, "logging");
+  bool is_calc_jitter_enabled = rwmodel_conf.ReadEnable(RWsection, "jitter_calculation");
+  bool is_log_jitter_enabled = rwmodel_conf.ReadEnable(RWsection, "jitter_logging");
   
   vector<vector<double>> radial_force_harmonics_coef;
   vector<vector<double>> radial_torque_harmonics_coef;

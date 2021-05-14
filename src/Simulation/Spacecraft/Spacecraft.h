@@ -3,14 +3,17 @@
 #include "../../Interface/InitInput/Initialize.h"
 #include "../../Environment/Global/ClockGenerator.h"
 #include "../../Dynamics/Dynamics.h"
+#include "../../RelativeInformation/RelativeInformation.h"
 #include "../../Environment/Local/LocalEnvironment.h"
 #include "../../Disturbance/Disturbances.h"
 #include "./Structure/Structure.h"
+#include "../InterSatComm/InterSatComm.h"
 
 class Spacecraft
 {
 public:
-  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id); //For single satellite simulation
+  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, InterSatComm* inter_sat_comm, const int sat_id); //for multi satellite simulation
   virtual ~Spacecraft();
 
   // forbidden copy
@@ -18,7 +21,8 @@ public:
   Spacecraft& operator= (const Spacecraft &) = delete;
 
   //virtual functions
-  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id); //For single satellite simulation
+  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, InterSatComm* inter_sat_comm, const int sat_id); //for multi satellite simulation
   virtual void Update(const SimTime* sim_time);
   virtual void Clear(void);
   virtual void LogSetup(Logger& logger);
@@ -31,8 +35,11 @@ public:
 protected:
   ClockGenerator clock_gen_;
   Dynamics* dynamics_;
+  RelativeInformation* rel_info_;
   LocalEnvironment* local_env_;
   Disturbances*  disturbances_;
   Structure* structure_;
+  InterSatComm* inter_sat_comm_;
+  const int sat_id_;
 };
 

@@ -61,7 +61,7 @@ namespace libra
       v_ortho = normalize(v_ortho);
       return(v_ortho);
     }
-    else 
+    else
     {
       v_ortho[0] = v[1];
       v_ortho[1] = -v[0];
