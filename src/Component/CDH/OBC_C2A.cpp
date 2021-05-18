@@ -11,7 +11,7 @@
   #include "BlockCommandTable.h"
   #include "ModeManager.h"
   #include "TaskDispatcher.h"
-  #include "WatchdogTimer.h"
+  #include "watchdog_timer.h"
 #endif
 
 std::map<int, SCIPort*> OBC_C2A::com_ports_c2a_;
