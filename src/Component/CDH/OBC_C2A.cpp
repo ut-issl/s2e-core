@@ -8,7 +8,7 @@
   #include "AppManager.h"
   #include "AppRegistry.h"
   #include "TimeManager.h"
-  #include "BlockCommandTable.h"
+  #include "block_command_table.h"
   #include "ModeManager.h"
   #include "TaskDispatcher.h"
   #include "watchdog_timer.h"
