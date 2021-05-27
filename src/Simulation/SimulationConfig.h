@@ -8,4 +8,5 @@ struct SimulationConfig
   vector<string> sat_file_;
   string gs_file_;
   string inter_sat_comm_file_;
+  string gnss_file_;
 };

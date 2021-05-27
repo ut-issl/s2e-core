@@ -61,7 +61,15 @@ class GNSSReceiver : public ComponentBase, public ILoggable
       const SimTime *simtime
     );
     void MainRoutine(int count);
+
+    // Getter
     inline const GnssInfo GetGnssInfo(int ch) const { return vec_gnssinfo_[ch]; };
+    inline const Vector<3> GetPositionECI(void) const { return position_eci_; }
+    inline const Vector<3> GetPositionECEF(void) const { return position_ecef_; }
+    inline const Vector<3> GetPositionLLH(void) const { return position_llh_; }
+    inline const Vector<3> GetVelocityECI(void) const { return velocity_eci_; }
+    inline const Vector<3> GetVelocityECEF(void) const { return velocity_ecef_; }
+
     virtual string GetLogHeader() const;
     virtual string GetLogValue() const;
 
@@ -77,13 +85,13 @@ class GNSSReceiver : public ComponentBase, public ILoggable
     AntennaModel antenna_model_;
 
     //Calculated values
-    Vector<3> position_eci_{0.0};
-	Vector<3> velocity_eci_{ 0.0 };		//[m]
-	Vector<3> position_ecef_{ 0.0 };	//[m/s]
-	Vector<3> velocity_ecef_{ 0.0 };	//[m/s]
-	Vector<3> position_llh_{ 0.0 };		//[rad,rad,m]
-	UTC utc_ = {2000, 1, 1, 0, 0, 0.0};	//[year, month, day, hour, min, sec]
-	int is_gnss_sats_visible_ = 0;
+    Vector<3> position_eci_{ 0.0 };
+    Vector<3> velocity_eci_{ 0.0 };     // [m]
+    Vector<3> position_ecef_{ 0.0 };    // [m/s]
+    Vector<3> velocity_ecef_{ 0.0 };    // [m/s]
+    Vector<3> position_llh_{ 0.0 };     // [rad,rad,m]
+    UTC utc_ = {2000, 1, 1, 0, 0, 0.0}; // [year, month, day, hour, min, sec]
+    int is_gnss_sats_visible_ = 0;
     int gnss_sats_visible_num_ = 0;
     std::vector<GnssInfo> vec_gnssinfo_;
     

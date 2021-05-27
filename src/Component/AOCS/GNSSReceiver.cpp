@@ -206,11 +206,11 @@ string GNSSReceiver::GetLogValue() const //For logs
   str_tmp += WriteScalar(utc_.hour);
   str_tmp += WriteScalar(utc_.min);
   str_tmp += WriteScalar(utc_.sec);
-  str_tmp += WriteVector(position_eci_);
-  str_tmp += WriteVector(velocity_ecef_);
-  str_tmp += WriteScalar(position_llh_[0]);
-  str_tmp += WriteScalar(position_llh_[1]);
-  str_tmp += WriteScalar(position_llh_[2]);
+  str_tmp += WriteVector(position_eci_,10);
+  str_tmp += WriteVector(velocity_ecef_,10);
+  str_tmp += WriteScalar(position_llh_[0],10);
+  str_tmp += WriteScalar(position_llh_[1],10);
+  str_tmp += WriteScalar(position_llh_[2],10);
   str_tmp += WriteScalar(is_gnss_sats_visible_);
   str_tmp += WriteScalar(gnss_sats_visible_num_);
 

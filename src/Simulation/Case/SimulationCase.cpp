@@ -10,6 +10,7 @@ SimulationCase::SimulationCase(string ini_base)
   sim_config_.sat_file_ = simbase_ini.ReadStrVector(section, "sat_file");
   sim_config_.gs_file_ = simbase_ini.ReadString(section, "gs_file");
   sim_config_.inter_sat_comm_file_ = simbase_ini.ReadString(section, "inter_sat_comm_file");
+  sim_config_.gnss_file_ = simbase_ini.ReadString(section, "gnss_file");
   glo_env_ = new GlobalEnvironment(&sim_config_);
 }
 SimulationCase::SimulationCase(string ini_base, const MCSimExecutor& mc_sim, const string log_path)
@@ -24,6 +25,7 @@ SimulationCase::SimulationCase(string ini_base, const MCSimExecutor& mc_sim, con
   sim_config_.sat_file_ = simbase_ini.ReadStrVector(section, "sat_file");
   sim_config_.gs_file_ = simbase_ini.ReadString(section, "gs_file");
   sim_config_.inter_sat_comm_file_ = simbase_ini.ReadString(section, "inter_sat_comm_file");
+  sim_config_.gnss_file_ = simbase_ini.ReadString(section, "gnss_file");
   //Global Environment
   glo_env_ = new GlobalEnvironment(&sim_config_);
 }

@@ -24,7 +24,7 @@ void GlobalEnvironment::Initialize(SimulationConfig* sim_config)
   sim_time_ = InitSimTime(sim_time_ini_path);
   celes_info_ = InitCelesInfo(sim_config->ini_base_fname_);
   hipp_ = InitHipCatalogue(sim_config->ini_base_fname_);
-  gnss_satellites_ = InitGnssSatellites(sim_config->ini_base_fname_);
+  gnss_satellites_ = InitGnssSatellites(sim_config->gnss_file_);
 
   //Calc initial value
   celes_info_->UpdateAllObjectsInfo(sim_time_->GetCurrentJd());
