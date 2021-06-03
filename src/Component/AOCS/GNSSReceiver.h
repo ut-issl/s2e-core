@@ -91,7 +91,9 @@ class GNSSReceiver : public ComponentBase, public ILoggable
     Vector<3> velocity_ecef_{ 0.0 };    // [m/s]
     Vector<3> position_llh_{ 0.0 };     // [rad,rad,m]
     UTC utc_ = {2000, 1, 1, 0, 0, 0.0}; // [year, month, day, hour, min, sec]
-    int is_gnss_sats_visible_ = 0;
+    unsigned int gpstime_week_ = 0;
+    double       gpstime_sec_  = 0.0;
+    int is_gnss_sats_visible_  = 0;
     int gnss_sats_visible_num_ = 0;
     std::vector<GnssInfo> vec_gnssinfo_;
     
@@ -105,7 +107,8 @@ class GNSSReceiver : public ComponentBase, public ILoggable
     void CheckAntennaSimple(Vector<3> location_true, Quaternion q_i2b);
     void CheckAntennaCone(Vector<3> location_true, Quaternion q_i2b);
     void SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, string gnss_id);
-    void AddNoise(Vector<3> location_true);
+    void AddNoise(Vector<3> location_true_eci, Vector<3> location_true_ecef); // substitutional method for "Measure" in other sensor modles inherited SensorBase class
+    void ConvertJulianDayToGPSTime(const double JulianDay);
 };
 
 

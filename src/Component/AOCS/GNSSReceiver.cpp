@@ -49,19 +49,19 @@ void GNSSReceiver::MainRoutine(int count)
   CheckAntenna(pos_true_eci_, q_i2b);
   
   if (is_gnss_sats_visible_ == 1) {  //Antenna of GNSS-R can detect GNSS signal
-    AddNoise(pos_true_eci_);
+    position_ecef_  = dynamics_->GetOrbit().GetSatPosition_ecef();
+    position_llh_   = dynamics_->GetOrbit().GetLatLonAlt();
+    velocity_ecef_  = dynamics_->GetOrbit().GetSatVelocity_ecef();
+    AddNoise(pos_true_eci_, position_ecef_);
 
-	// should be modified to add noise in the future
-	position_ecef_	= dynamics_->GetOrbit().GetSatPosition_ecef();
-	position_llh_	= dynamics_->GetOrbit().GetLatLonAlt();
-	velocity_ecef_  = dynamics_->GetOrbit().GetSatVelocity_ecef();
-	utc_			= simtime_->GetCurrentUTC();
-
+    utc_            = simtime_->GetCurrentUTC();
+    ConvertJulianDayToGPSTime(simtime_->GetCurrentJd());
   }
   else{
-    position_eci_[0] = 0.0;
-    position_eci_[1] = 0.0;
-    position_eci_[2] = 0.0;
+    // position information will not be updated in this case
+    // only time information will be updated in this case (according to the receiver's internal clock)
+    utc_ = simtime_->GetCurrentUTC();
+    ConvertJulianDayToGPSTime(simtime_->GetCurrentJd());
   }
 }
 
@@ -169,12 +169,30 @@ void GNSSReceiver::SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, string gn
   vec_gnssinfo_.push_back(gnss_info_new);
 }
 
-void GNSSReceiver::AddNoise(Vector<3> pos_true_eci_)
+void GNSSReceiver::AddNoise(Vector<3> location_true_eci, Vector<3> location_true_ecef)
 {
   //Simplest noise model
-  position_eci_[0] = pos_true_eci_[0] + nrs_eci_x_;
-  position_eci_[1] = pos_true_eci_[1] + nrs_eci_y_;
-  position_eci_[2] = pos_true_eci_[2] + nrs_eci_z_;
+  position_eci_[0] = location_true_eci[0] + nrs_eci_x_;
+  position_eci_[1] = location_true_eci[1] + nrs_eci_y_;
+  position_eci_[2] = location_true_eci[2] + nrs_eci_z_;
+
+  position_ecef_[0] = location_true_ecef[0] + nrs_eci_x_;
+  position_ecef_[1] = location_true_ecef[1] + nrs_eci_y_;
+  position_ecef_[2] = location_true_ecef[2] + nrs_eci_z_;
+}
+
+void GNSSReceiver::ConvertJulianDayToGPSTime(const double JulianDay)
+{
+  const double kJulianDayAtGPSTimeZero = 2444244.5; // corresponds to 1980/1/5 midnight
+  const double kDayInWeek = 7.0;
+  const double kSecInWeek = 604800.0;
+  const double kSecInDay  = 86400.0;
+
+  // compute ToW from current JulianDay 
+  // note:"gpstime_week_" computed in this method is larger than 1024
+  double elapsed_day = JulianDay - kJulianDayAtGPSTimeZero;
+  gpstime_week_ = (unsigned int)(elapsed_day / kDayInWeek);
+  gpstime_sec_ = (elapsed_day - (double)(gpstime_week_)*kDayInWeek) * kSecInDay;
 }
 
 string GNSSReceiver::GetLogHeader() const //For logs
