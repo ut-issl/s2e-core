@@ -6,7 +6,7 @@
 class EarthCenteredOrbit;
 class SimpleCircularOrbit;
 
-Orbit* InitOrbit(string ini_path, double stepSec, double current_jd, double gravity_constant, string section)
+Orbit* InitOrbit(const CelestialInformation* celes_info, string ini_path, double stepSec, double current_jd, double gravity_constant, string section)
 {
   auto conf = IniAccess(ini_path);
   const char* section_ = section.c_str();
@@ -22,14 +22,14 @@ Orbit* InitOrbit(string ini_path, double stepSec, double current_jd, double grav
     conf.ReadChar(section_, "tle2", 80, tle2);
 
     int wgs = conf.ReadInt(section_, "wgs");
-    orbit = new EarthCenteredOrbit(tle1, tle2, wgs, current_jd);
+    orbit = new EarthCenteredOrbit(celes_info, tle1, tle2, wgs, current_jd);
   }
 
   //深宇宙の軌道情報をinitialize
   else
   {
 	  int wgs = conf.ReadInt(section_, "wgs");
-    orbit = new SimpleCircularOrbit(gravity_constant, stepSec, wgs);
+    orbit = new SimpleCircularOrbit(celes_info, gravity_constant, stepSec, wgs);
     Vector<3> init_pos;
     conf.ReadVector<3>(section_, "init_position", init_pos);
     Vector<3> init_veloc;

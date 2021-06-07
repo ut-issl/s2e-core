@@ -14,6 +14,24 @@ CelestialInformation* InitCelesInfo(string file_name)
   string inertial_frame = ini_file.ReadString(section, "inertial_frame");
   string aber_cor = ini_file.ReadString(section, "aberration_correction");
   string center_obj = ini_file.ReadString(section, "center_object");
+  RotationMode rotation_mode;
+  string rotation_mode_temp = ini_file.ReadString(section, "rotation_mode");
+  if (rotation_mode_temp == "Idle")
+  {
+	  rotation_mode = Idle;
+  }
+  else if (rotation_mode_temp == "Simple")
+  {
+	  rotation_mode = Simple;
+  }
+  else if (rotation_mode_temp == "Full")
+  {
+	  rotation_mode = Full;
+  }
+  else // if rotation_mode is neither Idle, Simple, nor Full, set rotation_mode to Idle
+  {
+	  rotation_mode = Idle;
+  }
 
 	//SPICE Furnsh
   vector<string> keywords = {"TLS", "TPC1", "TPC2", "TPC3", "BSP"};
@@ -41,7 +59,7 @@ CelestialInformation* InitCelesInfo(string file_name)
 		selected_body[i] = planet_id;
 	}
 	CelestialInformation* celestial_info;
-	celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, num_of_selected_body, selected_body);
+	celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body);
 
   //log setting
   celestial_info->IsLogEnabled = ini_file.ReadEnable(section, LOG_LABEL);

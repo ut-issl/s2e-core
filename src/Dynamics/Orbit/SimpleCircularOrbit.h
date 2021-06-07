@@ -1,5 +1,6 @@
 #include "Orbit.h"
 #include "../../Library/math/ODE.hpp"
+#include "../../Environment/Global/CelestialInformation.h"
 
 using namespace libra;
 
@@ -11,7 +12,7 @@ private:
   double mu;
 
 public:
-  SimpleCircularOrbit(double mu, double timestep, int wgs);
+  SimpleCircularOrbit(const CelestialInformation* celes_info, double mu, double timestep, int wgs);
   ~SimpleCircularOrbit();
 
   virtual void RHS(double t,
@@ -31,4 +32,5 @@ public:
 private:
   double prop_time_; //Simulation current time for numerical integration by RK4
   double prop_step_; //Δt for RK4 
+  const CelestialInformation* celes_info_;
 };

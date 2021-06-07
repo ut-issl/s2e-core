@@ -81,33 +81,6 @@ public:
   // 宇宙機の位置を指定した慣性座標系でのオフセットベクトルだけずらす
   inline virtual void AddPositionOffset(Vector<3> offset_i) {}
 
-  // Convert ECI satellite position to ECEF frame
-  inline void TransECIToECEF(double current_jd)
-  {
-    double current_side = gstime(current_jd);
-
-    Matrix<3, 3> trans_mat;  // グリニッジ恒星時により地球の自転を表したECI2ECEF変換行列
-    trans_mat[0][0] = cos(current_side);
-    trans_mat[0][1] = sin(current_side);
-    trans_mat[0][2] = 0;
-    trans_mat[1][0] = -sin(current_side);
-    trans_mat[1][1] = cos(current_side);
-    trans_mat[1][2] = 0;
-    trans_mat[2][0] = 0;
-    trans_mat[2][1] = 0;
-    trans_mat[2][2] = 1;
-
-    sat_position_ecef_ = trans_mat * sat_position_i_;
-
-	// convert velocity vector in ECI to the vector in ECEF
-	Vector<3> OmegaE{ 0.0 }; OmegaE[2] = OmegaEarth;
-	Vector<3> wExr     = outer_product(OmegaE, sat_position_i_);
-	Vector<3> V_wExr   = sat_velocity_i_ - wExr;
-	sat_velocity_ecef_ = trans_mat * V_wExr;
-
-    trans_eci2ecef_ = trans_mat;
-  }
-
   // Convert ECI satellite position to GEO(lattitude, longitude, and latitude)
   void TransECIToGeo(double current_jd)
   {

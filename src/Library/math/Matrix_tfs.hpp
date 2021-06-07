@@ -197,6 +197,33 @@ Matrix<R, R, T> eye()
   return m;
 }
 
+template<typename T>
+Matrix<3, 3, typename T>& rotx(Matrix<3, 3, T>& m, const double& theta)
+{
+  unitalize(m);
+  m[1][1] = cos(theta); m[1][2] = sin(theta);
+  m[2][1] = -sin(theta); m[2][2] = cos(theta);
+  return m;
+}
+
+template<typename T>
+Matrix<3, 3, typename T>& roty(Matrix<3, 3, T>& m, const double& theta)
+{
+  unitalize(m);
+  m[0][0] = cos(theta); m[0][2] = -sin(theta);
+  m[2][0] = sin(theta); m[2][2] = cos(theta);
+  return m;
+}
+
+template<typename T>
+Matrix<3, 3, typename T>& rotz(Matrix<3, 3, T>& m, const double& theta)
+{
+  unitalize(m);
+  m[0][0] = cos(theta); m[0][1] = sin(theta);
+  m[1][0] = -sin(theta); m[1][1] = cos(theta);
+  return m;
+}
+
 } // libra
 
 #endif // MATRIX_TFS_HPP_

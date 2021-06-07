@@ -10,6 +10,7 @@ using namespace std;
 #include "../../Library/math/MatVec.hpp"
 #include "../../Library/math/Quaternion.hpp"
 #include "../../Interface/LogOutput/ILoggable.h"
+#include "CelestialRotation.h"
 
 using libra::Vector;
 using libra::Quaternion;
@@ -18,7 +19,7 @@ class CelestialInformation : public ILoggable
 {
 public:
   // CONSTRUCTOR OF CELESTIAL INFORMATION
-  CelestialInformation(string inertial_frame, string aber_cor, string center_obj, int num_of_selected_body, int* selected_body);
+  CelestialInformation(string inertial_frame, string aber_cor, string center_obj, RotationMode rotation_mode, int num_of_selected_body, int* selected_body);
   CelestialInformation(const CelestialInformation &obj);
   ~CelestialInformation();
 
@@ -35,6 +36,8 @@ public:
   inline int* GetSelectedBody(void) const{return selected_body_;}
   int CalcBodyIdFromName(const char* body_name) const;
   inline string GetCenterBodyName(void) const { return center_obj_; }
+  
+  inline CelestialRotation GetEarthRotation(void) const { return *EarthRotation_; };
 
   // FOR LOG OUTPUT
   virtual string GetLogHeader() const;
@@ -49,10 +52,14 @@ private:
   string inertial_frame_;     //Definition of inertial frame. Default = "J2000"
   string aber_cor_;           //stellar aberration correction. Default = "NONE"（Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt）
   string center_obj_;         //center object. Default = "EARTH"
+  RotationMode rotation_mode_;   //designation of dynamics model. Default = "Full"
 
   // Global Information. POS:[m], VEL:[m/s], GRAVITY CONSTANT (G*M):[m^3/s^2]
   double* celes_objects_pos_from_center_i_;
   double* celes_objects_vel_from_center_i_;
   double* celes_objects_gravity_constant_;
+
+  // Rotational Motion of each planets 
+  CelestialRotation* EarthRotation_;
 };
 #endif //__celestial_information_H__

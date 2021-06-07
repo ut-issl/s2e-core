@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME} STATIC
   GnssSatellites.cpp
   SimTime.cpp
   ClockGenerator.cpp
+  CelestialRotation.cpp
 )
 # Compile option
 if(MSVC)
