@@ -10,7 +10,7 @@
   #include "TimeManager.h"
   #include "block_command_table.h"
   #include "ModeManager.h"
-  #include "TaskDispatcher.h"
+  #include "task_dispatcher.h"
   #include "watchdog_timer.h"
 #endif
 
