@@ -238,31 +238,31 @@ Matrix<R, R, T> eye();
 /*!
   x軸周りの3*3の回転行列を生成する。
   引数で指定された角度[rad]だけx軸周りに回転する回転行列を返す。
-  \param m 回転行列設定対象、theta x軸周り回転角[rad]
+  \param  theta x軸周り回転角[rad]
   \return 生成結果
 */
-template<typename T>
-Matrix<3, 3, typename T>& rotx(Matrix<3, 3, T>& m, const double& theta);
+template<size_t R=3, typename T = double>
+Matrix<R, R, T>& rotx(const double& theta);
 
 //! y軸回転行列生成関数
 /*!
   y軸周りの3*3の回転行列を生成する。
   引数で指定された角度[rad]だけy軸周りに回転する回転行列を返す。
-  \param m 回転行列設定対象、theta y軸周り回転角[rad]
+  \param  theta y軸周り回転角[rad]
   \return 生成結果
 */
-template<typename T>
-Matrix<3, 3, typename T>& roty(Matrix<3, 3, T>& m, const double& theta);
+template<size_t R=3, typename T = double>
+Matrix<R, R, T>& roty(const double& theta);
 
 //! z軸回転行列生成関数
 /*!
   z軸周りの3*3の回転行列を生成する。
   引数で指定された角度[rad]だけz軸周りに回転する回転行列を返す。
-  \param m 回転行列設定対象、theta z軸周り回転角[rad]
+  \param  theta z軸周り回転角[rad]
   \return 生成結果
 */
-template<typename T>
-Matrix<3, 3, typename T>& rotz(Matrix<3, 3, T>& m, const double& theta);
+template<size_t R=3, typename T = double>
+Matrix<R, R, T>& rotz(const double& theta);
 
 } //libra
 
