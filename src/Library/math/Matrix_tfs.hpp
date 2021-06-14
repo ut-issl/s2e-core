@@ -198,8 +198,8 @@ Matrix<R, R, T> eye()
   return m;
 }
 
-template<size_t R = 3, typename T = double>
-Matrix<R, R, T>& rotx(const double& theta)
+template<size_t R, typename T>
+Matrix<R, R, T> rotx(const double& theta)
 {
   Matrix<R, R, T> m;
   unitalize(m);
@@ -208,8 +208,8 @@ Matrix<R, R, T>& rotx(const double& theta)
   return m;
 }
 
-template<size_t R = 3, typename T = double>
-Matrix<R, R, T>& roty(const double& theta)
+template<size_t R, typename T>
+Matrix<R, R, T> roty(const double& theta)
 {
   Matrix<R, R, T> m;
   unitalize(m);
@@ -218,8 +218,8 @@ Matrix<R, R, T>& roty(const double& theta)
   return m;
 }
 
-template<size_t R = 3, typename T = double>
-Matrix<R, R, T>& rotz(const double& theta)
+template<size_t R, typename T>
+Matrix<R, R, T> rotz(const double& theta)
 {
   Matrix<R, R, T> m;
   unitalize(m);

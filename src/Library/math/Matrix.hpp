@@ -241,8 +241,8 @@ Matrix<R, R, T> eye();
   \param  theta x軸周り回転角[rad]
   \return 生成結果
 */
-template<size_t R=3, typename T = double>
-Matrix<R, R, T>& rotx(const double& theta);
+template<size_t R = 3, typename T = double>
+Matrix<R, R, T> rotx(const double& theta);
 
 //! y軸回転行列生成関数
 /*!
@@ -251,8 +251,8 @@ Matrix<R, R, T>& rotx(const double& theta);
   \param  theta y軸周り回転角[rad]
   \return 生成結果
 */
-template<size_t R=3, typename T = double>
-Matrix<R, R, T>& roty(const double& theta);
+template<size_t R = 3, typename T = double>
+Matrix<R, R, T> roty(const double& theta);
 
 //! z軸回転行列生成関数
 /*!
@@ -261,8 +261,8 @@ Matrix<R, R, T>& roty(const double& theta);
   \param  theta z軸周り回転角[rad]
   \return 生成結果
 */
-template<size_t R=3, typename T = double>
-Matrix<R, R, T>& rotz(const double& theta);
+template<size_t R = 3, typename T = double>
+Matrix<R, R, T> rotz(const double& theta);
 
 } //libra
 
