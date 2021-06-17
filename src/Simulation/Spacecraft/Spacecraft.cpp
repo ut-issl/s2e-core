@@ -37,7 +37,7 @@ void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironmen
   clock_gen_.ClearTimerCount();
   structure_ = new Structure(sim_config, sat_id);
   local_env_ = new LocalEnvironment(sim_config, glo_env, sat_id);
-  dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimTime()), &(local_env_->GetCelesInfo()), sat_id, structure_);
+  dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimTime()), &(local_env_->GetCelesInfo()), sat_id, structure_, rel_info);
   disturbances_ = new Disturbances(sim_config, sat_id, structure_); 
 
   sim_config->main_logger_->CopyFileToLogDir(sim_config->sat_file_[sat_id]);

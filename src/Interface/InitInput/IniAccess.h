@@ -17,6 +17,7 @@
 #include "../../Library/math/Vector.hpp"
 #include "../../Library/math/Quaternion.hpp"
 
+#undef  MAX_PATH
 #define MAX_PATH 1024
 
 using namespace std;

@@ -12,14 +12,14 @@ private:
   double mu;
 
 public:
-  SimpleCircularOrbit(const CelestialInformation* celes_info, double mu, double timestep, int wgs);
+  SimpleCircularOrbit(const CelestialInformation* celes_info, double mu, double timestep, int wgs, Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time = 0);
   ~SimpleCircularOrbit();
 
   virtual void RHS(double t,
     const Vector<N>& state,
     Vector<N>& rhs);
 
-  virtual void Initialize(Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time = 0);
+  void Initialize(Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time = 0);
 
   // 軌道伝播の計算する
   virtual void Propagate(double endtime, double current_jd);

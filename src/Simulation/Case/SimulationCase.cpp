@@ -7,6 +7,7 @@ SimulationCase::SimulationCase(string ini_base)
   char* section = "SIM_SETTING";
   sim_config_.ini_base_fname_ = ini_base;
   sim_config_.main_logger_ = InitLog(sim_config_.ini_base_fname_);
+  sim_config_.num_of_simulated_spacecraft_ = simbase_ini.ReadInt(section, "num_of_simulated_spacecraft");
   sim_config_.sat_file_ = simbase_ini.ReadStrVector(section, "sat_file");
   sim_config_.gs_file_ = simbase_ini.ReadString(section, "gs_file");
   sim_config_.inter_sat_comm_file_ = simbase_ini.ReadString(section, "inter_sat_comm_file");
@@ -22,6 +23,7 @@ SimulationCase::SimulationCase(string ini_base, const MCSimExecutor& mc_sim, con
   string log_file_name = "default" + to_string(mc_sim.GetNumOfExecutionsDone()) + ".csv";
   //ToDo: Consider that `enable_inilog = false` is fine or not?
   sim_config_.main_logger_ = new Logger(log_file_name, log_path, ini_base, false, mc_sim.LogHistory());
+  sim_config_.num_of_simulated_spacecraft_ = simbase_ini.ReadInt(section, "num_of_simulated_spacecraft");
   sim_config_.sat_file_ = simbase_ini.ReadStrVector(section, "sat_file");
   sim_config_.gs_file_ = simbase_ini.ReadString(section, "gs_file");
   sim_config_.inter_sat_comm_file_ = simbase_ini.ReadString(section, "inter_sat_comm_file");

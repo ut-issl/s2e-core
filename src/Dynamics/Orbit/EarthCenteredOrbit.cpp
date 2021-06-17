@@ -6,6 +6,8 @@ using namespace std;
 EarthCenteredOrbit::EarthCenteredOrbit(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd)
   : celes_info_(celes_info)
 {
+  propagate_mode_ = PROPAGATE_MODE::SGP4;
+
   if (wgs == 0) { whichconst = wgs72old; }
   else if (wgs == 1) { whichconst = wgs72; }
   else if (wgs == 2) { whichconst = wgs84; }

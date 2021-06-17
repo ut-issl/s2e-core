@@ -31,6 +31,7 @@ public:
   inline const Dynamics& GetDynamics() const { return *dynamics_; }
   inline const LocalEnvironment& GetLocalEnv() const { return *local_env_; }
   inline const Disturbances& GetDisturbances() const { return *disturbances_; }
+  inline const int GetSatID() const { return sat_id_; }
 
 protected:
   ClockGenerator clock_gen_;

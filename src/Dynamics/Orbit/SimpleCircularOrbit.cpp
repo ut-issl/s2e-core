@@ -2,15 +2,19 @@
 #include <iostream>
 #include <sstream>
 
-SimpleCircularOrbit::SimpleCircularOrbit(const CelestialInformation* celes_info, double mu, double timestep, int wgs)
+SimpleCircularOrbit::SimpleCircularOrbit(const CelestialInformation* celes_info, double mu, double timestep, int wgs, Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time)
   : celes_info_(celes_info), ODE<N>(timestep), mu(mu)
 {
+  propagate_mode_ = PROPAGATE_MODE::RK4;
+
   prop_time_ = 0.0;
   prop_step_ = timestep;
   acc_i_ *= 0;
   if (wgs == 0) { whichconst = wgs72old; }
   else if (wgs == 1) { whichconst = wgs72; }
   else if (wgs == 2) { whichconst = wgs84; }
+
+  Initialize(init_position, init_velocity, current_jd, init_time);
 }
 
 SimpleCircularOrbit::~SimpleCircularOrbit()
@@ -28,6 +32,8 @@ void SimpleCircularOrbit::RHS(double t, const Vector<N>& state, Vector<N>& rhs)
   rhs[3] = acc_i_[0] - mu / r3 * x;
   rhs[4] = acc_i_[1] - mu / r3 * y;
   rhs[5] = acc_i_[2] - mu / r3 * z;
+
+  (void)t;
 }
 
 void SimpleCircularOrbit::Initialize(Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time)
