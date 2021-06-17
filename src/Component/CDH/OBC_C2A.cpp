@@ -14,8 +14,9 @@
   #include "watchdog_timer.h"
 #endif
 
-std::map<int, SCIPort*> OBC_C2A::com_ports_c2a_;
-std::map<int, I2CPort*> OBC_C2A::i2c_com_ports_c2a_;
+std::map<int, SCIPort*>  OBC_C2A::com_ports_c2a_;
+std::map<int, I2CPort*>  OBC_C2A::i2c_com_ports_c2a_;
+std::map<int, GPIOPort*> OBC_C2A::gpio_ports_c2a_;
 
 OBC_C2A::OBC_C2A(ClockGenerator* clock_gen)
 :OBC(clock_gen), timing_regulator_(1)
@@ -226,4 +227,54 @@ int OBC_C2A_I2cWriteRegister(int port_id, const unsigned char i2c_addr, const un
 int OBC_C2A_I2cReadRegister (int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len)
 {
   return OBC_C2A::I2cReadRegister(port_id, i2c_addr, data, len);
+}
+
+int OBC_C2A::GpioConnectPort(int port_id)
+{
+  if (gpio_ports_c2a_[port_id] != nullptr)
+  {
+    // Port already used
+    return -1;
+  }
+  gpio_ports_c2a_[port_id] = new GPIOPort(port_id);
+  return 0;
+}
+
+int OBC_C2A::GpioComponentWrite(int port_id, const bool is_high)
+{
+  GPIOPort* port = gpio_ports_c2a_[port_id];
+  if (port == nullptr) return -1;
+  return port->DigitalWrite(is_high);
+}
+
+bool OBC_C2A::GpioComponentRead(int port_id)
+{
+  GPIOPort* port = gpio_ports_c2a_[port_id];
+  if (port == nullptr) return false;
+  return port->DigitalRead();
+}
+
+int  OBC_C2A::GpioWrite_C2A(int port_id, const bool is_high)
+{
+  GPIOPort* port = gpio_ports_c2a_[port_id];
+  if (port == nullptr) return -1;
+  return port->DigitalWrite(is_high);
+}
+
+bool OBC_C2A::GpioRead_C2A (int port_id)
+{
+  GPIOPort* port = gpio_ports_c2a_[port_id];
+  if (port == nullptr) return false;
+  return port->DigitalRead();
+}
+
+
+int OBC_C2A_GpioWrite(int port_id, const bool is_high)
+{
+  return OBC_C2A::GpioWrite_C2A(port_id, is_high);
+}
+
+bool OBC_C2A_GpioRead(int port_id)
+{
+  return OBC_C2A::GpioRead_C2A(port_id);
 }

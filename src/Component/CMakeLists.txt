@@ -4,6 +4,7 @@ add_library(${PROJECT_NAME} STATIC
   Abstract/ComponentBase.cpp
   Abstract/ObcCommunicationBase.cpp
   Abstract/ObcI2cCommunicationBase.cpp
+  Abstract/ObcGpioBase.cpp
   Abstract/EXP.cpp
   AOCS/EMDS.cpp
   AOCS/Gyro.cpp
