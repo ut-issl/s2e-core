@@ -116,9 +116,10 @@ void CelestialRotation::Init_CelestialRotation_As_Earth(const RotationMode rotat
       c_theta_rad_[0] = 2004.310900 * ASEC2RAD; // [rad/century]
       c_theta_rad_[1] =   -0.426650 * ASEC2RAD; // [rad/century^2]
       c_theta_rad_[2] =   -0.041833 * ASEC2RAD; // [rad/century^3]
-      // the actual unit of c_z_rad_ is [rad/century^(i+2)], i is the index of the array
-      c_z_rad_[0]     =    0.792800 * ASEC2RAD; // [rad/century^2]
-      c_z_rad_[1]     =    0.002053 * ASEC2RAD; // [rad/century^3]
+      // the actual unit of c_z_rad_ is [rad/century^(i+1)], i is the index of the array
+      c_z_rad_[0]     = 2306.218100 * ASEC2RAD; // [rad/century]
+      c_z_rad_[1]     =    1.094680 * ASEC2RAD; // [rad/century^2]
+      c_z_rad_[2]     =    0.018203 * ASEC2RAD; // [rad/century^3]
     }
     else
     {
@@ -186,7 +187,7 @@ Matrix<3, 3> CelestialRotation::AxialRotation(const double GAST_rad)
 Matrix<3, 3> CelestialRotation::Nutation(const double(&tTT_century)[4])
 {
   // mean obliquity of the ecliptic
-  double epsi_rad = c_epsi_rad_[0]; // [rad]
+  epsi_rad_ = c_epsi_rad_[0]; // [rad]
   for (int i = 0; i < 3; i++) { epsi_rad_ += c_epsi_rad_[i+1] * tTT_century[i]; }
 
   // compute five delauney angles(l=lm,l'=ls,F,D,Ω=O) 
@@ -237,7 +238,8 @@ Matrix<3, 3> CelestialRotation::Precession(const double (&tTT_century)[4])
   for (int i = 0; i < 3; i++) { zeta_rad += c_zeta_rad_[i] * tTT_century[i]; }
   double theta_rad = 0.0; // [rad]
   for (int i = 0; i < 3; i++) { theta_rad += c_theta_rad_[i] * tTT_century[i]; }
-  double z_rad = zeta_rad + c_z_rad_[0] * tTT_century[1] + c_z_rad_[1] * tTT_century[2]; // [rad]
+  double z_rad = 0.0;     // [rad]
+  for (int i = 0; i < 3; i++) { z_rad += c_z_rad_[i] * tTT_century[i]; }
 
   // develop transformation matrix
   Matrix<3, 3> Z_zeta = libra::rotz(-zeta_rad);
