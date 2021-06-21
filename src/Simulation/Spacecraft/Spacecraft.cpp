@@ -15,6 +15,10 @@ Spacecraft::Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* gl
 
 Spacecraft::~Spacecraft()
 {
+  if (rel_info_ != nullptr)
+  {
+    rel_info_->RemoveDynamicsInfo(sat_id_);
+  }
   delete structure_;
   delete dynamics_;
   delete local_env_;
@@ -30,6 +34,9 @@ void Spacecraft::Initialize(SimulationConfig * sim_config, const GlobalEnvironme
   disturbances_ = new Disturbances(sim_config, sat_id, structure_);
 
   sim_config->main_logger_->CopyFileToLogDir(sim_config->sat_file_[sat_id]);
+
+  rel_info_ = nullptr;
+  inter_sat_comm_ = nullptr;
 }
 
 void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, InterSatComm* inter_sat_comm, const int sat_id)

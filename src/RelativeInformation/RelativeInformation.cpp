@@ -13,6 +13,11 @@ void RelativeInformation::RegisterDynamicsInfo(const int sat_id, const Dynamics 
   dynamics_database_.emplace(sat_id, dynamics);
 }
 
+void RelativeInformation::RemoveDynamicsInfo(const int sat_id)
+{
+  dynamics_database_.erase(sat_id);
+}
+
 const libra::Quaternion RelativeInformation::CalcRelativeAttitudeQuaternion(const int target_sat_id, const int reference_sat_id) const
 {
   //Observer SC Body frame(obs_sat) -> ECI frame(i)

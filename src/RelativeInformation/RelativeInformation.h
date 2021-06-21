@@ -12,6 +12,7 @@ public:
   virtual string GetLogValue() const;
   void LogSetup(Logger& logger);
   void RegisterDynamicsInfo(const int sat_id, const Dynamics* dynamics);
+  void RemoveDynamicsInfo(const int sat_id);
 
   //Getter
 
