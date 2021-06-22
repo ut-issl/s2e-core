@@ -1,9 +1,9 @@
 #include "OBC_C2A.h"
 
 #ifdef USE_C2A
-  #include "CommandAnalyze.h"
+  #include "command_analyze.h"
   #include "TelemetryFrame.h"
-  #include "PacketHandler.h"
+  #include "packet_handler.h"
   #include "AnomalyLogger.h"
   #include "AppManager.h"
   #include "AppRegistry.h"
