@@ -108,7 +108,7 @@ bool UWBEstimator::IsConverged()
   bool isconverged = true;
   for (auto i = 0; i < Pdiff.row(); i++) {
     // 最初は1mで捕捉できてれば十分
-    isconverged &= abs(Pdiff[i][i]) < 1e-2;
+    isconverged &= std::abs(Pdiff[i][i]) < 1e-2;
   }
   return isconverged;
 }

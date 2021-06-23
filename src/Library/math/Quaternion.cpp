@@ -153,9 +153,9 @@ Quaternion Quaternion::fromDCM(Matrix<3, 3> dcm)
   for (int i = 0; i < 4; i++)
   {
     // 最大値のインデックスをスキャン
-    if (abs(q[i]) > maxval)
+    if (std::abs(q[i]) > maxval)
     {
-      maxval = abs(q[i]);
+      maxval = std::abs(q[i]);
       maxidx = i;
     }
   }
