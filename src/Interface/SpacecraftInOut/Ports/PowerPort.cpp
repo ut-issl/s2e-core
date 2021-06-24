@@ -70,3 +70,10 @@ bool PowerPort::SetVoltage(const double voltage)
   Update();
   return is_on_;
 }
+
+void PowerPort::SubtractAssumedPowerConsumption(const double power)
+{
+  assumed_power_consumption_ -= power;
+  if(assumed_power_consumption_ < 0.0) assumed_power_consumption_ = 0.0;
+  return;
+}
