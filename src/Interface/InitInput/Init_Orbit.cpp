@@ -6,7 +6,7 @@
 #include "../../Dynamics/Orbit/EarthCenteredOrbit.h"
 #include "../../Dynamics/Orbit/RelativeOrbit.h"
 #include "../../RelativeInformation/RelativeInformation.h"
-#include "../../Library/relativeorbit/RelativeOrbitModels.h"
+#include "../../Library/RelativeOrbit/RelativeOrbitModels.h"
 
 class EarthCenteredOrbit;
 class SimpleCircularOrbit;
