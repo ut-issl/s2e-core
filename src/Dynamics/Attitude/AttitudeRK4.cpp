@@ -44,6 +44,7 @@ AttitudeRK4::AttitudeRK4(
   inv_inertia_tensor_ = invert(inertia_tensor_);
   h_rw_b_ = Vector<3>(0);				//どう取り扱うか要検討，Propagateで参照しているのも良くないかも
   CalcAngMom();
+  CalcSatRotationalKineticEnergy();
 }
 
 AttitudeRK4::~AttitudeRK4()
@@ -60,6 +61,7 @@ void AttitudeRK4::SetParameters(const MCSimExecutor& mc_sim)
   inv_inertia_tensor_ = invert(inertia_tensor_);
   h_rw_b_ = Vector<3>(0);				//どう取り扱うか要検討，Propagateで参照しているのも良くないかも
   CalcAngMom();
+  CalcSatRotationalKineticEnergy();
 }
 
 void AttitudeRK4::CalcAngMom(void)
@@ -69,6 +71,12 @@ void AttitudeRK4::CalcAngMom(void)
   Quaternion q_b2i = quaternion_i2b_.conjugate();
   h_total_i_ = q_b2i.frame_conv(h_total_b_);
   h_total_ = norm(h_total_i_);
+}
+
+void AttitudeRK4::CalcSatRotationalKineticEnergy(void)
+{
+  
+  k_sc_ = 0.5 * libra::inner_product(h_sc_b_, omega_b_);
 }
 
 void AttitudeRK4::Propagate(double endtime)
@@ -83,6 +91,7 @@ void AttitudeRK4::Propagate(double endtime)
   prop_time_ = endtime;
 
   CalcAngMom();
+  CalcSatRotationalKineticEnergy();
 }
 
 Matrix<4, 4> AttitudeRK4::Omega4Kinematics(Vector<3> omega)
@@ -155,6 +164,7 @@ string AttitudeRK4::GetLogHeader() const
   //str_tmp += WriteVector("h_total", "b", "Nms", 3);
   //str_tmp += WriteVector("h_total", "i", "Nms", 3);
   str_tmp += WriteScalar("h_total", "Nms");
+  str_tmp += WriteScalar("k_sc", "J");
 
   return str_tmp;
 }
@@ -169,6 +179,7 @@ string AttitudeRK4::GetLogValue() const
   //str_tmp += WriteVector(h_total_b_);
   //str_tmp += WriteVector(h_total_i_);
   str_tmp += WriteScalar(h_total_);
+  str_tmp += WriteScalar(k_sc_);
 
   return str_tmp;
 }
