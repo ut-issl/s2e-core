@@ -122,6 +122,12 @@ void SunSensor::CalcSolarIlluminance()
   Vector<3> sun_direction_c = normalize(sun_c_);
   double sun_angle_ = acos(sun_direction_c[2]);
 
+  if (sun_angle_ > M_PI_2)
+  {
+    solar_illuminance_ = 0.0;
+    return;
+  }
+
   double power_density = srp_->CalcPowerDensity();
   solar_illuminance_ = power_density * cos(sun_angle_);
   //TODO: Take into account the effects of albedo.
