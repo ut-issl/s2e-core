@@ -2,14 +2,14 @@
 
 #ifdef USE_C2A
   #include "command_analyze.h"
-  #include "TelemetryFrame.h"
+  #include "telemetry_frame.h"
   #include "packet_handler.h"
-  #include "AnomalyLogger.h"
-  #include "AppManager.h"
-  #include "AppRegistry.h"
-  #include "TimeManager.h"
+  #include "anomaly_logger.h"
+  #include "app_manager.h"
+  #include "app_registry.h"
+  #include "time_manager.h"
   #include "block_command_table.h"
-  #include "ModeManager.h"
+  #include "mode_manager.h"
   #include "task_dispatcher.h"
   #include "watchdog_timer.h"
 #endif
