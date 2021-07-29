@@ -56,6 +56,7 @@ void AttitudeRK4::SetParameters(const MCSimExecutor& mc_sim)
   GetInitParameterVec(mc_sim, "Debug", debug_vec_);
   //cout << "Attitude.Debug = " << debug_vec_[0] << ", " << debug_vec_[1] << ", " << debug_vec_[2] << endl;
   GetInitParameterVec(mc_sim, "Omega_b", omega_b_);
+  GetInitParameterQuaternion(mc_sim, "Q_i2b", quaternion_i2b_);
   //cout << "Attitude.Omega_b = " << omega_b_[0] << ", " << omega_b_[1] << ", " << omega_b_[2] << endl;
   prop_time_ = 0;
   inv_inertia_tensor_ = invert(inertia_tensor_);

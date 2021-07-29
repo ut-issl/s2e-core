@@ -6,6 +6,7 @@
 #include <functional>
 
 #include "../../Library/math/Vector.hpp"
+#include "../../Library/math/Quaternion.hpp"
 #include "InitParameter.h"
 #include "MCSimExecutor.h"
 
@@ -40,6 +41,9 @@ public:
 
   // Randomizeされた後の値を取得しdstに格納
   void GetInitParameterDouble(const MCSimExecutor& mc_sim, string ip_name, double& dst) const;
+
+  // Randomizeされた後の値を取得しdst_quatに格納
+  void GetInitParameterQuaternion(const MCSimExecutor& mc_sim, string ip_name, Quaternion& dst_quat) const;
 
   // Randomize結果を実際に使われる変数へ格納する処理を行う関数．継承先において定義されるべき純粋仮想関数．
   virtual void SetParameters(const MCSimExecutor& mc_sim) = 0;

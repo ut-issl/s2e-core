@@ -50,6 +50,23 @@ void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name, doubl
   }
 }
 
+void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name, Quaternion& dst_quat) const
+{
+  if (!enabled_) return;
+  {
+    string name = so_name + MCSimExecutor::separator_ + ip_name;
+    if (ip_list_.find(name) == ip_list_.end())
+    {
+      // ip_listに登録されていない（MCSim.iniで定義されていない）
+      return; // return without any update of dst
+    }
+    else
+    {
+      ip_list_.at(name)->GetQuaternion(dst_quat);  // const mapなのでoperator[]は使えない
+    }
+  }
+}
+
 void MCSimExecutor::RandomizeAllParameters()
 {
   for (auto ip : ip_list_)

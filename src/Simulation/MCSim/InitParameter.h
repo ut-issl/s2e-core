@@ -53,6 +53,9 @@ public:
   // Ranzomizeした結果の値をdst_vecに格納する
   void GetVec(Vector<NumElement>& dst_vec) const;
 
+  // Ranzomizeした結果の値をdst_quatに格納する
+  void GetQuaternion(Quaternion& dst_quat) const;
+
   // Ranzomizeした結果の値をdstに格納する
   void GetDouble(double& dst) const;
 
@@ -132,3 +135,4 @@ void InitParameter::GetVec(Vector<NumElement>& dst_vec) const
     }
   }
 }
+
