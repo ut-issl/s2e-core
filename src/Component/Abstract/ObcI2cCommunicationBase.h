@@ -14,7 +14,8 @@ public:
 protected:
   void ReadRegister (const unsigned char reg_addr, unsigned char* data, const unsigned char len);
   void WriteRegister(const unsigned char reg_addr, const unsigned char* data, const unsigned char len); 
-
+  void ReadCommand  (unsigned char* data, const unsigned char len);
+  
 private:
   int port_id_;
   unsigned char i2c_address_;

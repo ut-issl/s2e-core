@@ -29,6 +29,7 @@ public:
   virtual int I2cCloseComPort(int port_id);
   virtual int I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, const unsigned char* data, const unsigned char len);
   virtual int I2cComponentReadRegister (int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, unsigned char* data, const unsigned char len);
+  virtual int I2cComponentReadCommand  (int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len);
 
   // GPIO port functions
   virtual int  GpioConnectPort(int port_id);

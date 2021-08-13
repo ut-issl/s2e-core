@@ -173,6 +173,13 @@ int OBC_C2A::I2cCloseComPort(int port_id)
   return 0;
 }
 
+int OBC_C2A::I2cWriteCommand(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len)
+{
+  I2CPort* i2c_port = i2c_com_ports_c2a_[port_id];
+  i2c_port->WriteCommand(i2c_addr, data, len);
+  return 0;
+}
+
 int OBC_C2A::I2cWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len)
 {
   I2CPort* i2c_port = i2c_com_ports_c2a_[port_id];
@@ -219,7 +226,17 @@ int OBC_C2A::I2cComponentReadRegister (int port_id, const unsigned char i2c_addr
   }
   return 0;
 }
+int OBC_C2A::I2cComponentReadCommand(int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len)
+{
+  I2CPort* i2c_port = i2c_com_ports_c2a_[port_id];
+  i2c_port->ReadCommand(i2c_addr, data, len);
+  return 0;
+}
 
+int OBC_C2A_I2cWriteCommand(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len)
+{
+  return OBC_C2A::I2cWriteCommand(port_id, i2c_addr, data, len);
+}
 int OBC_C2A_I2cWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len)
 {
   return OBC_C2A::I2cWriteRegister(port_id, i2c_addr, data, len);

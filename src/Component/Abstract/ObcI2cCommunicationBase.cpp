@@ -20,3 +20,8 @@ void ObcI2cCommunicationBase::WriteRegister(const unsigned char reg_addr, const 
 {
   obc_->I2cComponentWriteRegister(port_id_, i2c_address_, reg_addr, data, len);
 }
+
+void ObcI2cCommunicationBase::ReadCommand(unsigned char* data, const unsigned char len)
+{
+  obc_->I2cComponentReadCommand(port_id_, i2c_address_, data, len);
+}

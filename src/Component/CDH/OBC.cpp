@@ -127,6 +127,12 @@ int OBC::I2cComponentReadRegister (int port_id, const unsigned char i2c_addr, co
   }
   return 0;
 }
+int OBC::I2cComponentReadCommand(int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len)
+{
+  I2CPort* i2c_port = i2c_com_ports_[port_id];
+  i2c_port->ReadCommand(i2c_addr, data, len);
+  return 0;
+}
 
 int OBC::GpioConnectPort(int port_id)
 {

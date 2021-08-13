@@ -29,7 +29,10 @@ public:
   // For Component
   int I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, const unsigned char* data, const unsigned char len) override;
   int I2cComponentReadRegister (int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, unsigned char* data, const unsigned char len) override;
+  int I2cComponentReadCommand  (int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len) override;
+
   // Static function for C2A
+  static int I2cWriteCommand (int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len);
   static int I2cWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len);
   static int I2cReadRegister (int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len);
 
@@ -59,6 +62,7 @@ int OBC_C2A_SendFromObc(int port_id, unsigned char* buffer, int offset, int coun
 int OBC_C2A_ReceivedByObc(int port_id, unsigned char* buffer, int offset, int count);
 
 // I2C
+int OBC_C2A_I2cWriteCommand (int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len);
 int OBC_C2A_I2cWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len);
 int OBC_C2A_I2cReadRegister (int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len);
 
