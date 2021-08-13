@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(UTIL)
 add_library(${PROJECT_NAME} STATIC
   endian.cpp
+  slip.cpp
 )
 # Compile option
 if(MSVC)
