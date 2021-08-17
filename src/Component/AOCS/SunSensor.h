@@ -19,6 +19,7 @@ public:
     const double detectable_angle_rad,
     const double nr_stddev_c,
     const double nr_bias_stddev_c,
+    const double intensity_lower_threshold_percent,
     const SRPEnvironment *srp
   );
   SunSensor(
@@ -30,6 +31,7 @@ public:
     const double detectable_angle_rad,
     const double nr_stddev_c,
     const double nr_bias_stddev_c,
+    const double intensity_lower_threshold_percent,
     const SRPEnvironment *srp
   );
 
@@ -49,6 +51,8 @@ public:
 protected:
   const int id_;
   libra::Quaternion q_b2c_;  // Quaternion from body frame to component frame (Z-axis of the component is sight direction)
+  double intensity_lower_threshold_percent_; // If the light intensity becomes smaller than this, it becomes impossible to get the sun direction
+
   libra::Vector<3> sun_c_{0.0};
   libra::Vector<3> measured_sun_c_{0.0};
   double alpha_=0.0;  // Angle between Z-axis and the sun direction projected on XZ plane [rad]
@@ -67,8 +71,10 @@ protected:
   const SRPEnvironment *srp_;
  
   // functions
-  void SunDetectionJudgement(bool sun_eclipsed);
-  void measure(const libra::Vector<3>& sun_b, bool sun_eclipsed);
+  void SunDetectionJudgement();
+  void SunDetectionJudgement(bool sun_eclipsed); // This function is old version, but retained for backward compatibility
+  void measure(const libra::Vector<3>& sun_b);
+  void measure(const libra::Vector<3>& sun_b, bool sun_eclipsed); // This function is old version, but retained for backward compatibility
   double TanRange(double x);
   void Initialize(const double nr_stddev_c,const double nr_bias_stddev_c);
   void CalcSolarIlluminance();
