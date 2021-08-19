@@ -36,7 +36,7 @@ std::vector<uint8_t> decode_slip(const std::vector<uint8_t> in)
       // TODO error handling
     }
     fesc_itr = out.erase(fesc_itr);
-    fesc_itr++;
+    fesc_itr+=2;
   }
 
   return out;
