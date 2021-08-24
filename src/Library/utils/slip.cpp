@@ -14,14 +14,14 @@ std::vector<uint8_t> decode_slip(const std::vector<uint8_t> in)
   std::vector<uint8_t> out = in;
   // Footer Search
   auto fend_itr = std::find(out.begin(), out.end(), kSlipFend_);
-  out.erase(fend_itr, out.end());
+  out.erase(fend_itr, out.end()); // Delete 
   
   // FESC search
   auto fesc_itr = out.begin();
   while(1)
   {
-    fesc_itr = std::find(fesc_itr, fend_itr, kSlipFesc_);
-    if (fesc_itr == fend_itr) break;
+    fesc_itr = std::find(fesc_itr, out.end(), kSlipFesc_);
+    if (fesc_itr == out.end()) break;
     // convert
     if (*(fesc_itr + 1) == kSlipTfend_)
     {
@@ -36,7 +36,7 @@ std::vector<uint8_t> decode_slip(const std::vector<uint8_t> in)
       // TODO error handling
     }
     fesc_itr = out.erase(fesc_itr);
-    fesc_itr+=2;
+    ++fesc_itr;
   }
 
   return out;
