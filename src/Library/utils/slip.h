@@ -6,4 +6,6 @@
 #include <vector>
 
 std::vector<uint8_t> decode_slip(std::vector<uint8_t> in);
+std::vector<uint8_t> decode_slip_with_header(std::vector<uint8_t> in);
 std::vector<uint8_t> encode_slip(std::vector<uint8_t> in);
+std::vector<uint8_t> encode_slip_with_header(std::vector<uint8_t> in);

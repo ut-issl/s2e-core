@@ -12,6 +12,7 @@ static uint8_t kSlipTfesc_ = 0xdd;
 std::vector<uint8_t> decode_slip(const std::vector<uint8_t> in)
 {
   std::vector<uint8_t> out = in;
+
   // Footer Search
   auto fend_itr = std::find(out.begin(), out.end(), kSlipFend_);
   out.erase(fend_itr, out.end()); // Delete 
@@ -42,6 +43,13 @@ std::vector<uint8_t> decode_slip(const std::vector<uint8_t> in)
   return out;
 }
 
+std::vector<uint8_t> decode_slip_with_header(const std::vector<uint8_t> in)
+{
+  std::vector<uint8_t> in_without_header = in;
+  in_without_header.erase(in_without_header.begin(), in_without_header.begin() + 1);
+  return decode_slip(in_without_header);
+}
+
 std::vector<uint8_t> encode_slip(const std::vector<uint8_t> in)
 {
   std::vector<uint8_t> out = in;
@@ -68,5 +76,12 @@ std::vector<uint8_t> encode_slip(const std::vector<uint8_t> in)
   }
 
   out.push_back(kSlipFend_);
+  return out;
+}
+
+std::vector<uint8_t> encode_slip_with_header(const std::vector<uint8_t> in)
+{
+  std::vector<uint8_t> out = encode_slip(in);
+  out.insert(out.begin(), kSlipFend_);
   return out;
 }
