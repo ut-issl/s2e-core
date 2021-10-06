@@ -12,7 +12,6 @@ add_library(${PROJECT_NAME} STATIC
   Spacecraft/Structure/Surface.cpp
   GroundStation/GroundStation.cpp
   InterSatComm/InterSatComm.cpp
-  InterSatComm/Abstract/InterSatCommBase.cpp
 )
 # Compile option
 if(MSVC)

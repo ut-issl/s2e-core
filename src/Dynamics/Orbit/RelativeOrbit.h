@@ -4,9 +4,7 @@
 #include "../../RelativeInformation/RelativeInformation.h"
 #include "../../Library/RelativeOrbit/RelativeOrbitModels.h"
 
-using namespace libra;
-
-class RelativeOrbit : public Orbit, public ODE<6>
+class RelativeOrbit : public Orbit, public libra::ODE<6>
 {
 public:
   typedef enum

@@ -2,9 +2,7 @@
 #include "../../Library/math/ODE.hpp"
 #include "../../Environment/Global/CelestialInformation.h"
 
-using namespace libra;
-
-class SimpleCircularOrbit : public Orbit, public ODE<6>
+class SimpleCircularOrbit : public Orbit, public libra::ODE<6>
 {
 private:
   static const int N = 6; // 状態量の次元数

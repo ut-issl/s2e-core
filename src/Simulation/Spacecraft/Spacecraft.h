@@ -7,13 +7,12 @@
 #include "../../Environment/Local/LocalEnvironment.h"
 #include "../../Disturbance/Disturbances.h"
 #include "./Structure/Structure.h"
-#include "../InterSatComm/InterSatComm.h"
 
 class Spacecraft
 {
 public:
   Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id); //For single satellite simulation
-  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, InterSatComm* inter_sat_comm, const int sat_id); //for multi satellite simulation
+  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id); //for multi satellite simulation
   virtual ~Spacecraft();
 
   // forbidden copy
@@ -22,7 +21,7 @@ public:
 
   //virtual functions
   virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id); //For single satellite simulation
-  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, InterSatComm* inter_sat_comm, const int sat_id); //for multi satellite simulation
+  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id); //for multi satellite simulation
   virtual void Update(const SimTime* sim_time);
   virtual void Clear(void);
   virtual void LogSetup(Logger& logger);
@@ -40,7 +39,6 @@ protected:
   LocalEnvironment* local_env_;
   Disturbances*  disturbances_;
   Structure* structure_;
-  InterSatComm* inter_sat_comm_;
   const int sat_id_;
 };
 

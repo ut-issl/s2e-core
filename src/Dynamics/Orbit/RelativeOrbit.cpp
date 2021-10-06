@@ -13,7 +13,7 @@ RelativeOrbit::RelativeOrbit(
   RelativeOrbitModel relative_dynamics_model_type,
   STMModel stm_model_type,
   RelativeInformation* rel_info)
-  :ODE<6>(timestep),
+  :libra::ODE<6>(timestep),
   mu_(mu),
   reference_sat_id_(reference_sat_id),
   update_method_(update_method),

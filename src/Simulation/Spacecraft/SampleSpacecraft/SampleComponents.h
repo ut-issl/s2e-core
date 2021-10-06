@@ -2,7 +2,6 @@
 #include "../../../Library/math/Vector.hpp"
 #include "../../../Dynamics/Dynamics.h"
 #include "../../../Simulation/Spacecraft/Structure/Structure.h"
-#include "../../../Simulation/InterSatComm/InterSatComm.h"
 #include "../../../Component/Power/PCU.h"
 #include "../../../Component/CDH/OBC.h"
 #include "../../../Component/AOCS/Gyro.h"
