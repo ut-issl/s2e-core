@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 project(COMPONENT)
 add_library(${PROJECT_NAME} STATIC
   Abstract/ComponentBase.cpp
