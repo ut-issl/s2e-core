@@ -1,14 +1,11 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 project(SC_IO)
 add_library(${PROJECT_NAME} STATIC
   Ports/GPIOPort.cpp
   Ports/PowerPort.cpp
   Ports/SCIPort.cpp
+  Ports/I2CPort.cpp
   Utils/RingBuffer.cpp
-  GPIODriver.cpp
-  # PowerDriver.cpp
-  #SCIDriver.cpp
-  #SpacecraftInterface.cpp
 
 ## C++/CLI related codes
 #  Utils/ITCTMChannel.h

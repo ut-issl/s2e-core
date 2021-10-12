@@ -7,7 +7,8 @@
 
 #include "Quaternion.hpp"
 #include <stdexcept>
-
+#include <cassert>
+#include <cfloat>
 
 namespace libra
 {
@@ -22,6 +23,41 @@ Quaternion::Quaternion(const Vector<3>& axis,
   //for(size_t i=0; i<3; ++i){ q_[i] = norm[i]*sin(rot); }
   for (size_t i = 0; i<3; ++i){
       q_[i] = axis[i] * sin(rot);
+  }
+}
+
+Quaternion::Quaternion(const Vector<3>& v_before,
+                       const Vector<3>& v_after)
+{
+  //Assert for zero vector
+  assert(norm(v_before) > DBL_EPSILON);
+  assert(norm(v_after) > DBL_EPSILON);
+  //Normalize
+  Vector<3> normalized_v_before = 1.0 / norm(v_before) * v_before;
+  Vector<3> normalized_v_after = 1.0 / norm(v_after) * v_after;
+  //inner product (=cosine of the angle(theta) between two vectors)
+  double ip = inner_product(normalized_v_before, normalized_v_after);
+  //outer product (rotation axis for converting v_before to v_after)
+  Vector<3> op = outer_product(normalized_v_before, normalized_v_after);
+
+  if (ip > 1.0 - DBL_EPSILON)
+  { //if theta=0, then rotation is not need
+    q_[0] = 0.0; q_[1] = 0.0; q_[2] = 0.0; q_[3] = 1.0;
+  }
+  else if (ip < -1.0 + DBL_EPSILON)
+  { //if theta=180deg, the rotation axis can't be defined, so rotate v_before manually
+    Vector<3> rotation_axis = GenerateOrthoUnitVector(v_before);
+    q_[0] = rotation_axis[0], q_[1] = rotation_axis[1], q_[2] = rotation_axis[2], q_[3] = 0.0;
+  }
+  else
+  {
+    assert(norm(op) > 0.0);
+    Vector<3> rotation_axis = 1.0 / norm(op) * op;
+    double rotation_angle = acos(ip);
+    q_[0] = rotation_axis[0] * sin(0.5 * rotation_angle);
+    q_[1] = rotation_axis[1] * sin(0.5 * rotation_angle);
+    q_[2] = rotation_axis[2] * sin(0.5 * rotation_angle);
+    q_[3] = cos(0.5 * rotation_angle);
   }
 }
 
@@ -117,9 +153,9 @@ Quaternion Quaternion::fromDCM(Matrix<3, 3> dcm)
   for (int i = 0; i < 4; i++)
   {
     // 最大値のインデックスをスキャン
-    if (abs(q[i]) > maxval)
+    if (std::abs(q[i]) > maxval)
     {
-      maxval = abs(q[i]);
+      maxval = std::abs(q[i]);
       maxidx = i;
     }
   }

@@ -49,6 +49,27 @@ void InitParameter::GetDouble(double& dst) const
   }
 }
 
+void InitParameter::GetQuaternion(Quaternion& dst_quat) const
+{
+  if (rnd_type_ == NoRandomization)
+  {
+    ;
+  }
+  else if (4 > val_.size())
+  {
+    throw "Too few randomization configuration parameters.";
+  }
+  else
+  {
+    for (int i = 0; i < 4; i++)
+    {
+      dst_quat[i] = val_[i];
+    }
+  }
+
+  dst_quat.normalize();
+}
+
 void InitParameter::Randomize()
 {
   switch (rnd_type_)

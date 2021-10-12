@@ -1,5 +1,5 @@
 ## General settings
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 set(CMAKE_CXX_STANDARD 14)
 project(S2E CXX)
 # preprocessor
@@ -45,6 +45,7 @@ add_subdirectory(src/Environment/Local)
 add_subdirectory(src/Dynamics)
 add_subdirectory(src/Disturbance)
 add_subdirectory(src/Component)
+add_subdirectory(src/RelativeInformation)
 add_subdirectory(src/Interface/InitInput)
 add_subdirectory(src/Interface/LogOutput)
 add_subdirectory(src/Interface/SpacecraftInOut)
@@ -54,6 +55,8 @@ add_subdirectory(src/Library/math)
 add_subdirectory(src/Library/nrlmsise00)
 add_subdirectory(src/Library/sgp4)
 add_subdirectory(src/Library/utils)
+add_subdirectory(src/Library/optics)
+add_subdirectory(src/Library/RelativeOrbit)
 #add_subdirectory(src/Interface/HilsInOut)
 
 set(SOURCE_FILES
@@ -115,10 +118,10 @@ endif()
 
 ## Linking libraries
 set(S2E_LIBRARIES
-  IGRF WRAPPER_NRLMSISE00 INIH MATH SGP4 UTIL 
+  IGRF WRAPPER_NRLMSISE00 INIH MATH SGP4 UTIL OPTICS RELATIVE_ORBIT_MODELS
 )
 # Initialize link
-target_link_libraries(COMPONENT INTERFACE INI_IN DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SC_IO ${S2E_LIBRARIES})
+target_link_libraries(COMPONENT INTERFACE INI_IN DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SC_IO RELATIVE_INFO ${S2E_LIBRARIES})
 target_link_libraries(DYNAMICS INTERFACE INI_IN GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION ${S2E_LIBRARIES})
 target_link_libraries(DISTURBANCE INTERFACE INI_IN DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT ${S2E_LIBRARIES})
 target_link_libraries(SIMULATION INTERFACE INI_IN DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE ${S2E_LIBRARIES})
@@ -131,6 +134,7 @@ target_link_libraries(${PROJECT_NAME} DYNAMICS)
 target_link_libraries(${PROJECT_NAME} DISTURBANCE)
 target_link_libraries(${PROJECT_NAME} SIMULATION)
 target_link_libraries(${PROJECT_NAME} GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT)
+target_link_libraries(${PROJECT_NAME} RELATIVE_INFO)
 target_link_libraries(${PROJECT_NAME} INI_ACC LOG_OUT SC_IO)
 target_link_libraries(${PROJECT_NAME} COMPONENT)
 
@@ -152,5 +156,5 @@ if(USE_C2A)
 endif()
 
 ## Cmake debug
-message("Cspice_LIB:  "${CSPICE_LIB})
-message("nrlmsise00_LIB:  "${NRLMSISE00_LIB})
+message("Cspice_LIB:  " ${CSPICE_LIB})
+message("nrlmsise00_LIB:  " ${NRLMSISE00_LIB})

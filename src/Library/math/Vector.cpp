@@ -41,4 +41,33 @@ namespace libra
 
     return lonlat;
   }
+
+  Vector<3, double> GenerateOrthoUnitVector(const Vector<3, double>& v)
+  {
+    Vector<3> v_ortho;
+    if (v[0] * v[0] <= v[1] * v[1] && v[0] * v[0] <= v[1] * v[1])
+    {
+      v_ortho[0] = 0.0;
+      v_ortho[1] = v[2];
+      v_ortho[2] = -v[1];
+      v_ortho = normalize(v_ortho);
+      return(v_ortho);
+    }
+    else if (v[1] * v[1] <= v[0] * v[0] && v[1] * v[1] <= v[2] * v[2])
+    {
+      v_ortho[0] = -v[2];
+      v_ortho[1] = 0.0;
+      v_ortho[2] = v[0];
+      v_ortho = normalize(v_ortho);
+      return(v_ortho);
+    }
+    else
+    {
+      v_ortho[0] = v[1];
+      v_ortho[1] = -v[0];
+      v_ortho[2] = 0.0;
+      v_ortho = normalize(v_ortho);
+      return(v_ortho);
+    }
+  }
 } // libra

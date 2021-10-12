@@ -234,6 +234,36 @@ Matrix<R, R, T>& unitalize(Matrix<R, R, T>& m);
 template<size_t R, typename T = double>
 Matrix<R, R, T> eye();
 
+//! x軸回転行列生成関数
+/*!
+  x軸周りの3*3の回転行列を生成する。
+  引数で指定された角度[rad]だけx軸周りに回転する回転行列を返す。
+  \param  theta x軸周り回転角[rad]
+  \return 生成結果
+*/
+template<size_t R = 3, typename T = double>
+Matrix<R, R, T> rotx(const double& theta);
+
+//! y軸回転行列生成関数
+/*!
+  y軸周りの3*3の回転行列を生成する。
+  引数で指定された角度[rad]だけy軸周りに回転する回転行列を返す。
+  \param  theta y軸周り回転角[rad]
+  \return 生成結果
+*/
+template<size_t R = 3, typename T = double>
+Matrix<R, R, T> roty(const double& theta);
+
+//! z軸回転行列生成関数
+/*!
+  z軸周りの3*3の回転行列を生成する。
+  引数で指定された角度[rad]だけz軸周りに回転する回転行列を返す。
+  \param  theta z軸周り回転角[rad]
+  \return 生成結果
+*/
+template<size_t R = 3, typename T = double>
+Matrix<R, R, T> rotz(const double& theta);
+
 } //libra
 
 #include "Matrix_ifs.hpp" // inline function definisions.

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 project(SIMULATION)
 add_library(${PROJECT_NAME} STATIC
   Case/SimulationCase.cpp
@@ -11,6 +11,7 @@ add_library(${PROJECT_NAME} STATIC
   Spacecraft/Structure/RMMParams.cpp
   Spacecraft/Structure/Surface.cpp
   GroundStation/GroundStation.cpp
+  InterSatComm/InterSatComm.cpp
 )
 # Compile option
 if(MSVC)

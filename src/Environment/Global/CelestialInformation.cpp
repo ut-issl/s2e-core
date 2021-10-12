@@ -7,14 +7,9 @@
 
 using namespace std;
 
-CelestialInformation::CelestialInformation(string inertial_frame, string aber_cor, string center_obj, int num_of_selected_body, int* selected_body) :
-  num_of_selected_body_(num_of_selected_body)
+CelestialInformation::CelestialInformation(string inertial_frame, string aber_cor, string center_obj, RotationMode rotation_mode, int num_of_selected_body, int* selected_body)
+  : inertial_frame_(inertial_frame), aber_cor_(aber_cor), center_obj_(center_obj), rotation_mode_(rotation_mode), num_of_selected_body_(num_of_selected_body),  selected_body_(selected_body)
 {
-  inertial_frame_ = inertial_frame;
-  aber_cor_ = aber_cor;
-  center_obj_ = center_obj;
-  selected_body_ = selected_body;
-
   int num_of_state = num_of_selected_body_ * 3;
   celes_objects_pos_from_center_i_ = new double[num_of_state];
   celes_objects_vel_from_center_i_ = new double[num_of_state];
@@ -29,14 +24,13 @@ CelestialInformation::CelestialInformation(string inertial_frame, string aber_co
     // CONVERT FROM [km^3/s^2] to [m^3/s^2]
     celes_objects_gravity_constant_[i] = gravity_constant * 1E+9;
   }
+
+  EarthRotation_ = new CelestialRotation(rotation_mode_, center_obj_);
 }
 
 CelestialInformation::CelestialInformation(const CelestialInformation & obj)
+  : inertial_frame_(obj.inertial_frame_), aber_cor_(obj.aber_cor_), center_obj_(obj.center_obj_), rotation_mode_(obj.rotation_mode_), num_of_selected_body_(obj.num_of_selected_body_)
 {
-  num_of_selected_body_ = obj.num_of_selected_body_;
-  inertial_frame_ = obj.inertial_frame_;
-  aber_cor_ = obj.aber_cor_;
-  center_obj_ = obj.center_obj_;
   int num_of_state = num_of_selected_body_ * 3;
   int sd = sizeof(double);
   int si = sizeof(int);
@@ -58,6 +52,7 @@ CelestialInformation::~CelestialInformation()
   delete[] celes_objects_vel_from_center_i_;
   delete[] celes_objects_gravity_constant_;
   delete[] selected_body_;
+  delete EarthRotation_;
 }
 
 void CelestialInformation::UpdateAllObjectsInfo(const double current_jd)
@@ -83,6 +78,10 @@ void CelestialInformation::UpdateAllObjectsInfo(const double current_jd)
       celes_objects_vel_from_center_i_[i * 3 + j] = rv_buf[j + 3] * 1000.0;
     }
   }
+
+  // Update CelesRot
+  EarthRotation_->Update(current_jd);
+
 }
 
 Vector<3> CelestialInformation::GetPosFromCenter_i(const int id) const

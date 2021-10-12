@@ -82,3 +82,79 @@ int OBC::ReceivedByObc(int port_id, unsigned char* buffer, int offset, int count
   if (port == nullptr) return -1;
   return port->ReadRx(buffer, offset, count);
 }
+
+int OBC::I2cConnectPort(int port_id, const unsigned char i2c_addr)
+{
+  if (i2c_com_ports_[port_id] != nullptr)
+  {
+    // Port already used
+  }
+  else
+  {
+    i2c_com_ports_[port_id] = new I2CPort();
+  }
+  i2c_com_ports_[port_id]->RegisterDevice(i2c_addr);
+  
+  return 0;
+}
+
+int OBC::I2cCloseComPort(int port_id)
+{
+  // Port not used
+  if (i2c_com_ports_[port_id] == nullptr)  return -1;
+
+  I2CPort *port = i2c_com_ports_.at(port_id);
+  delete port;
+  i2c_com_ports_.erase(port_id);
+  return 0;
+}
+
+int OBC::I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, const unsigned char* data, const unsigned char len)
+{
+  I2CPort* i2c_port = i2c_com_ports_[port_id];
+  for(int i = 0; i < len; i++)
+  {
+    i2c_port->WriteRegister(i2c_addr, reg_addr, data[i]);
+  }
+  return 0;
+}
+int OBC::I2cComponentReadRegister (int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, unsigned char* data, const unsigned char len)
+{
+  I2CPort*  i2c_port = i2c_com_ports_[port_id];
+  for(int i = 0; i < len; i++)
+  {
+    data[i] = i2c_port->ReadRegister(reg_addr, i2c_addr);
+  }
+  return 0;
+}
+int OBC::I2cComponentReadCommand(int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len)
+{
+  I2CPort* i2c_port = i2c_com_ports_[port_id];
+  i2c_port->ReadCommand(i2c_addr, data, len);
+  return 0;
+}
+
+int OBC::GpioConnectPort(int port_id)
+{
+  if (gpio_ports_[port_id] != nullptr)
+  {
+    // Port already used
+    return -1;
+  }
+  gpio_ports_[port_id] = new GPIOPort(port_id);
+  return 0;
+}
+
+int OBC::GpioComponentWrite(int port_id, const bool is_high)
+{
+  GPIOPort* port = gpio_ports_[port_id];
+  if (port == nullptr) return -1;
+  return port->DigitalWrite(is_high);
+}
+
+bool OBC::GpioComponentRead (int port_id)
+{
+  GPIOPort* port = gpio_ports_[port_id];
+  if (port == nullptr) return false;
+  return port->DigitalRead();
+}

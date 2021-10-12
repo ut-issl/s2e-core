@@ -10,7 +10,7 @@ SampleComponents::SampleComponents(
   const SimulationConfig* config,
   ClockGenerator* clock_gen,
   const int sat_id)
-  :dynamics_(dynamics), structure_(structure), local_env_(local_env), glo_env_(glo_env),config_(config)
+  :dynamics_(dynamics), structure_(structure), local_env_(local_env), glo_env_(glo_env), config_(config)
 {
   IniAccess iniAccess = IniAccess(config_->sat_file_[sat_id]);
   // PCU power port connection
@@ -40,7 +40,7 @@ SampleComponents::SampleComponents(
   // GNSS-R
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "gnss_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
-  gnss_ = new GNSSReceiver(InitGNSSReceiver(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_));
+  gnss_ = new GNSSReceiver(InitGNSSReceiver(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_, &(glo_env_->GetGnssSatellites()), &(glo_env_->GetSimTime())));
 
   // MagTorquer
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "mag_torquer_file");

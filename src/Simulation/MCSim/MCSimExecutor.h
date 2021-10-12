@@ -72,6 +72,9 @@ public:
 
   // Randomizeされた後の値を取得しdstに格納
   void GetInitParameterDouble(string so_name, string ip_name, double& dst) const;
+
+  // Randomizeされた後の値を取得しdst_quatに格納
+  void GetInitParameterQuaternion(string so_name, string ip_name, Quaternion& dst_quat) const;
 };
 
 void MCSimExecutor::Enable(bool enabled)

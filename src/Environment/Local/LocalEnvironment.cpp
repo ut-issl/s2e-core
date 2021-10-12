@@ -30,6 +30,9 @@ void LocalEnvironment::Initialize(SimulationConfig* sim_config, const GlobalEnvi
   srp_        = new SRPEnvironment(InitSRPEnvironment(ini_fname));
   atmosphere_ = new Atmosphere(InitAtmosphere(ini_fname));
   celes_info_ = new LocalCelestialInformation(&(glo_env->GetCelesInfo()));
+  // Log setting for Local celestial information
+  IniAccess conf = IniAccess(ini_fname);
+  celes_info_->IsLogEnabled = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", LOG_LABEL);
 }
 
 void LocalEnvironment::Update(const Dynamics* dynamics, const SimTime* sim_time)

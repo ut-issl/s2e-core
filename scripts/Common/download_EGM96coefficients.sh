@@ -1,9 +1,10 @@
 #!/bin/bash
+cd `dirname $0`
 
 #set variables
 DIR_GEOPOTENTIAL=../../../ExtLibraries/GeoPotential
 
-mkdir $DIR_GEOPOTENTIAL
+mkdir -p $DIR_GEOPOTENTIAL
 
 # #establish anonymous ftp connection and download the file
 # ftp -n -v -A<<END

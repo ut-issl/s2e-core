@@ -1,14 +1,14 @@
 #!/bin/bash
+cd `dirname $0`
 
 #set variables
 DIR_NRLMSISE00=../../../ExtLibraries/nrlmsise00/
 URL_NRLMSISE00=https://ccmc.gsfc.nasa.gov/pub/modelweb/atmospheric/msis/nrlmsise00/nrlmsis00_c_version/
 URL_TABLE=ftp://ftp.agi.com/pub/DynamicEarthData/SpaceWeather-v1.2.txt
 
-mkdir $DIR_NRLMSISE00
-mkdir $DIR_NRLMSISE00/table/
-mkdir $DIR_NRLMSISE00/src/
-mkdir $DIR_NRLMSISE00/lib/
+mkdir -p $DIR_NRLMSISE00/table/
+mkdir -p $DIR_NRLMSISE00/src/
+mkdir -p $DIR_NRLMSISE00/lib/
 
 
 # download source and space weather table for nrlmsise00 model

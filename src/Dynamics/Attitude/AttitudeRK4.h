@@ -38,5 +38,6 @@ private:
   Vector<7> DynamicsKinematics(Vector<7> x, double t);
   void RungeOneStep(double t, double dt);
   void CalcAngMom(void);
+  void CalcSatRotationalKineticEnergy(void); // 衛星の回転運動エネルギー計算関数
 };
 #endif //__attitude_rk4_H__

@@ -148,6 +148,10 @@ vector<string> IniAccess::Split(string& input, char delimiter)
 void IniAccess::ReadCsvDouble(vector<vector<double>>& doublevec,int node_num)
 {
 	ifstream ifs(strPath_);
+  if (!ifs.is_open())
+  {
+    cerr << "file open error. filename = " << strPath_ << std::endl;
+  }
 	string line;
 	int line_num = 0;
 	doublevec.reserve(node_num);

@@ -1,15 +1,8 @@
 #include "GPIOPort.h"
 
-
-GPIOPort::GPIOPort(int port_id)
-  :kPortId(port_id)
+GPIOPort::GPIOPort(int port_id, IGPIOCompo* compo) : kPortId(port_id)
 {
   hl_state_ = GPIO_LOW;
-}
-
-GPIOPort::GPIOPort(int port_id, IGPIOCompo* compo)
-  : GPIOPort(port_id)
-{
   component_ = compo;
 }
 

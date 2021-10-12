@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 project(WRAPPER_NRLMSISE00)
 add_library(${PROJECT_NAME} STATIC
   Wrapper_nrlmsise00.cpp

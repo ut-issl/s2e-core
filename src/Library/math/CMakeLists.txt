@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 project(MATH)
 add_library(${PROJECT_NAME} STATIC
   GlobalRand.cpp

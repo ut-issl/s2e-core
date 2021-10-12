@@ -1,6 +1,5 @@
 #include "EXP.h"
 #include <string.h>
-#include "../../Interface/SpacecraftInOut/GPIODriver.h"
 
 EXP::EXP(ClockGenerator* clock_gen, int port_id, OBC* obc)
  : ComponentBase(1000,clock_gen), ObcCommunicationBase(port_id, obc)

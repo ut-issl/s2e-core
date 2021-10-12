@@ -1,11 +1,12 @@
 #!/bin/bash
+cd `dirname $0`
 
 #set variables
 DIR_TMP=../../../ExtLibraries/tmp_hipcatalogue/
 DIR_HIPCATALOGUE=../../../ExtLibraries/HipparcosCatalogue/
 
-mkdir $DIR_TMP
-mkdir $DIR_HIPCATALOGUE
+mkdir -p $DIR_TMP
+mkdir -p $DIR_HIPCATALOGUE
 
 # #establish anonymous ftp connection and download the file
 # ftp -n -v -A<<END

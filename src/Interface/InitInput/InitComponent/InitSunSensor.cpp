@@ -28,7 +28,10 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, string file_name, 
   nr_bias_stddev = ss_conf.ReadDouble(Section, "nr_bias_stddev");
   nr_bias_stddev *= M_PI/180.0;
 
-  SunSensor ss(prescaler, clock_gen, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, srp);
+  double intensity_lower_threshold_percent;
+  intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");
+
+  SunSensor ss(prescaler, clock_gen, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent, srp);
   return ss;
 }
 
@@ -58,6 +61,9 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss
   nr_bias_stddev = ss_conf.ReadDouble(Section, "nr_bias_stddev");
   nr_bias_stddev *= M_PI/180.0;
 
-  SunSensor ss(prescaler, clock_gen, power_port, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, srp);
+  double intensity_lower_threshold_percent;
+  intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");
+
+  SunSensor ss(prescaler, clock_gen, power_port, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent, srp);
   return ss;
 }

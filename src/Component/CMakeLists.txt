@@ -1,8 +1,10 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 project(COMPONENT)
 add_library(${PROJECT_NAME} STATIC
   Abstract/ComponentBase.cpp
   Abstract/ObcCommunicationBase.cpp
+  Abstract/ObcI2cCommunicationBase.cpp
+  Abstract/ObcGpioBase.cpp
   Abstract/EXP.cpp
   AOCS/EMDS.cpp
   AOCS/Gyro.cpp
@@ -10,6 +12,7 @@ add_library(${PROJECT_NAME} STATIC
   AOCS/MagTorquer.cpp
   AOCS/rw_ode.cpp
   AOCS/RWModel.cpp
+  AOCS/RWJitter.cpp
   AOCS/STT.cpp
   AOCS/SunSensor.cpp
   AOCS/UWBSensor.cpp

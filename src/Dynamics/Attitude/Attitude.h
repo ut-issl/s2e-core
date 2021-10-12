@@ -83,7 +83,7 @@ public:
   inline void SetPointingTb(Vector<3> pointing_t_b){ pointing_t_b_ = pointing_t_b;}
   inline void SetPointingSubTb(Vector<3> pointing_sub_t_b){ pointing_sub_t_b_ = pointing_sub_t_b;}
 
-  virtual void Propagate(double endtime) = 0;		// プロパゲーション
+  virtual void Propagate(double endtime) = 0;
 
   virtual string GetLogHeader() const = 0;
   virtual string GetLogValue() const = 0;
@@ -92,8 +92,8 @@ public:
 
 protected:
   //for RK4
-  double prop_time_;	//現在時刻
-  double prop_step_;	//積分タイムステップ
+  double prop_time_;                // current time
+  double prop_step_;                // timestep for integral
   Vector<3> omega_b_;
   Quaternion quaternion_i2b_;
   Vector<3> torque_b_;
@@ -102,14 +102,15 @@ protected:
   Vector<3> h_total_b_;
   Vector<3> h_total_i_;
   double h_total_;
+  double k_sc_;                     // Rotational Kinetic Energy of Spacecraft [J]
   Matrix<3, 3> inertia_tensor_;
-  Matrix<3, 3> inv_inertia_tensor_; // Iner_の逆行列
+  Matrix<3, 3> inv_inertia_tensor_; // inverse matrix of Iner_
 
   //for Controlled Attitude
   AttCtrlMode main_mode_;
-  AttCtrlMode sub_mode_;     //for control around pointing direction
-  Quaternion quaternion_i2t_;   //ECI->Target
-  Vector<3> pointing_t_b_;      //Pointing target on body frame
-  Vector<3> pointing_sub_t_b_;  //Pointing sub target on body frame
+  AttCtrlMode sub_mode_;            //for control around pointing direction
+  Quaternion quaternion_i2t_;       //ECI->Target
+  Vector<3> pointing_t_b_;          //Pointing target on body frame
+  Vector<3> pointing_sub_t_b_;      //Pointing sub target on body frame
 };
 #endif //__attitude_H__

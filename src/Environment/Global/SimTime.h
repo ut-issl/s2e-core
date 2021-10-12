@@ -24,6 +24,17 @@ struct TimeState
   bool disp_output = true;
 };
 
+// UTC (calendar day) struct
+struct UTC
+{
+  unsigned int year = 2000;
+  unsigned int month = 1;
+  unsigned int day = 1;
+  unsigned int hour = 0;
+  unsigned int min = 0;
+  double sec = 0.0;
+};
+
 // シミュレーション上の時間を管理するシングルトン
 class SimTime: public ILoggable
 {
@@ -69,6 +80,7 @@ public:
   inline const double GetCurrentJd(void) const { return current_jd_; };
   inline const double GetCurrentSidereal(void) const { return current_sidereal_; };
   inline const double GetCurrentDecyear(void) const { return current_decyear_; };
+  inline const UTC GetCurrentUTC(void) const { return current_utc_; };
   inline const int GetStartYear(void) const { return start_year_; };
   inline const int GetStartMon(void) const { return start_mon_; };
   inline const int GetStartDay(void) const { return start_day_; };
@@ -87,6 +99,7 @@ private:
   double current_jd_;      //ユリウス日
   double current_sidereal_; //グリニッジ平均恒星時
   double current_decyear_; //Decimal Year(yearの小数点表記)
+  UTC	 current_utc_; // UTC calendar day
 
   int attitude_update_counter_;
   bool attitude_update_flag_;
@@ -103,8 +116,8 @@ private:
   // chrono::system_clock::time_point clock_elapsed_time_millisec_; //実時間でのシミュレーション実行時間
 
                                         //固定値
-  double end_sec_;	//simulation開始から終了までの時刻
-  double step_sec_;	//simulation刻み時刻
+  double end_sec_;	//Time from start of simulation to end
+  double step_sec_;	//simulation step time
   double attitude_update_interval_sec_;
   double attitude_rk_step_sec_;
   double orbit_update_interval_sec_;
@@ -114,7 +127,7 @@ private:
   double compo_update_interval_sec_;
   int compo_propagate_frequency_;
   double log_output_interval_sec_;
-  double disp_period_;	//コンソール出力頻度
+  double disp_period_;	//Output frequency to console
   double start_jd_;
   int start_year_;
   int start_mon_;
@@ -122,9 +135,10 @@ private:
   int start_hr_;
   int start_min_;
   double start_sec_;
-  double sim_speed_; //実時間に対するシミュレーションの進行速度（負の場合は実時間を考慮しない）
+  double sim_speed_; //The speed of the simulation relative to real time (if negative, real time is not taken into account)
 
   void InitializeState();
   void AssertTimeStepParams();
+  void ConvJDtoCalndarDay(const double JD); // wrapper function of invjday @ sgp4ext for interface adjustment
 };
 #endif //__SIMULATION_TIME_H__

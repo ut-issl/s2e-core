@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 project(GLOBAL_ENVIRONMENT)
 add_library(${PROJECT_NAME} STATIC
   GlobalEnvironment.cpp
@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME} STATIC
   GnssSatellites.cpp
   SimTime.cpp
   ClockGenerator.cpp
+  CelestialRotation.cpp
 )
 # Compile option
 if(MSVC)

@@ -117,7 +117,7 @@ Vector<6> RVDController::CalcThrustEach(Vector<3> thrusts)
   for (int i = 0; i < 3; i++)
   {
     int sign = thrusts[i] > 0 ? 1 : -1;
-    double thrust = abs(thrusts[i]);
+    double thrust = std::abs(thrusts[i]);
     thrust *= sf_x;
     if (thrust > 1) thrust = 1;
     results(idx[i]) = thrust;

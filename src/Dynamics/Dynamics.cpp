@@ -1,9 +1,11 @@
 #include "Dynamics.h"
+#include "../RelativeInformation/RelativeInformation.h"
+
 using namespace std;
 
-Dynamics::Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id, Structure* structure)
+Dynamics::Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id, Structure* structure, RelativeInformation* rel_info)
 {
-  Initialize(sim_config, sim_time, local_celes_info, sat_id, structure);
+  Initialize(sim_config, sim_time, local_celes_info, sat_id, structure, rel_info);
 }
 
 Dynamics::~Dynamics()
@@ -13,13 +15,13 @@ Dynamics::~Dynamics()
   delete temperature_;
 }
 
-void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id, Structure* structure)
+void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id, Structure* structure, RelativeInformation* rel_info)
 {
   mass_ = structure->GetKinematicsParams().GetMass();
   
   // Initialize
   string center_body_name = local_celes_info->GetGlobalInfo().GetCenterBodyName();
-  orbit_ = InitOrbit(sim_config->sat_file_[sat_id], sim_time->GetOrbitRKStepSec(), sim_time->GetCurrentJd(), local_celes_info->GetGlobalInfo().GetGravityConstant(center_body_name.c_str()), "ORBIT");
+  orbit_ = InitOrbit(&(local_celes_info->GetGlobalInfo()), sim_config->sat_file_[sat_id], sim_time->GetOrbitRKStepSec(), sim_time->GetCurrentJd(), local_celes_info->GetGlobalInfo().GetGravityConstant(center_body_name.c_str()), "ORBIT", rel_info);
   attitude_ = InitAttitude(sim_config->sat_file_[sat_id], orbit_, local_celes_info, sim_time->GetAttitudeRKStepSec(), structure->GetKinematicsParams().GetInertiaTensor(), sat_id);
   temperature_ = InitTemperature(sim_config->sat_file_[sat_id], sim_time->GetThermalRKStepSec());
 

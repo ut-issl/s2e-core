@@ -87,7 +87,7 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int se
   double minimum_voltage = magsensor_conf.ReadDouble(MSSection, "minimum_voltage");
   power_port->SetMinimumVoltage(minimum_voltage);
   double assumed_power_consumption = magsensor_conf.ReadDouble(MSSection, "assumed_power_consumption");
-  power_port->SetAssumedPowerConsumption(assumed_power_consumption);
+  power_port->AddAssumedPowerConsumption(assumed_power_consumption);
 
   MagSensor magsensor(prescaler, clock_gen, power_port, mag_sb, sensor_id, q_b2c, magnet);
   return magsensor;		

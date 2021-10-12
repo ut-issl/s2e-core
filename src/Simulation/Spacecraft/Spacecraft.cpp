@@ -3,28 +3,53 @@
 #include "../../Interface/LogOutput/LogUtility.h"
 #include "../../Interface/LogOutput/Logger.h"
 
-Spacecraft::Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id)
+Spacecraft::Spacecraft(SimulationConfig * sim_config, const GlobalEnvironment * glo_env, const int sat_id) :sat_id_(sat_id)
 {
   Initialize(sim_config, glo_env, sat_id);
 }
 
+Spacecraft::Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id):sat_id_(sat_id)
+{
+  Initialize(sim_config, glo_env, rel_info, sat_id);
+}
+
 Spacecraft::~Spacecraft()
 {
+  if (rel_info_ != nullptr)
+  {
+    rel_info_->RemoveDynamicsInfo(sat_id_);
+  }
   delete structure_;
   delete dynamics_;
   delete local_env_;
   delete disturbances_;
 }
 
-void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id)
+void Spacecraft::Initialize(SimulationConfig * sim_config, const GlobalEnvironment * glo_env, const int sat_id)
 {
   clock_gen_.ClearTimerCount();
   structure_ = new Structure(sim_config, sat_id);
   local_env_ = new LocalEnvironment(sim_config, glo_env, sat_id);
   dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimTime()), &(local_env_->GetCelesInfo()), sat_id, structure_);
+  disturbances_ = new Disturbances(sim_config, sat_id, structure_);
+
+  sim_config->main_logger_->CopyFileToLogDir(sim_config->sat_file_[sat_id]);
+
+  rel_info_ = nullptr;
+}
+
+void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id)
+{
+  clock_gen_.ClearTimerCount();
+  structure_ = new Structure(sim_config, sat_id);
+  local_env_ = new LocalEnvironment(sim_config, glo_env, sat_id);
+  dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimTime()), &(local_env_->GetCelesInfo()), sat_id, structure_, rel_info);
   disturbances_ = new Disturbances(sim_config, sat_id, structure_); 
 
   sim_config->main_logger_->CopyFileToLogDir(sim_config->sat_file_[sat_id]);
+
+  rel_info_ = rel_info;
+  rel_info_->RegisterDynamicsInfo(sat_id, dynamics_);
 }
 
 void Spacecraft::LogSetup(Logger& logger)

@@ -28,11 +28,23 @@ void ClockGenerator::RemoveComponent(ITickable* tickable)
 void ClockGenerator::TickToComponents()
 {
   //Update for each component
-  for (auto itr = components_.begin(); itr != components_.end(); ++itr) { (*itr)->Tick(timer_count_); }
+  for (auto itr = components_.begin(); itr != components_.end(); ++itr) 
+  { 
+    //Run MainRoutine
+    (*itr)->Tick(timer_count_); 
+    //Run FastUpdate (Processes that are executed more frequently than MainRoutine)
+    if ((*itr)->GetNeedsFastUpdate()) { (*itr)->FastTick(timer_count_); }
+  }
   timer_count_++; //TODO: Consider if "timer_count" is necessary
 }
 
+
 void ClockGenerator::UpdateComponents(const SimTime* sim_time)
 {
-  if (sim_time->GetCompoUpdateFlag()) { TickToComponents(); }
+  if (sim_time->GetCompoUpdateFlag()) 
+  { 
+    TickToComponents(); 
+  }
 }
+
+

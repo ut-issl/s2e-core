@@ -47,6 +47,7 @@ SimTime::SimTime(
   current_jd_ = start_jd_;
   current_sidereal_ = gstime(current_jd_);
   JdToDecyear(current_jd_, &current_decyear_);
+  ConvJDtoCalndarDay(current_jd_);
   AssertTimeStepParams();
   InitializeState();
   SetParameters();
@@ -132,6 +133,7 @@ void SimTime::UpdateTime(void)
   current_jd_ = start_jd_ + elapsed_time_sec_ / (60.0 * 60.0 * 24.0);
   current_sidereal_ = gstime(current_jd_);
   JdToDecyear(current_jd_, &current_decyear_);
+  ConvJDtoCalndarDay(current_jd_);
 
   attitude_update_flag_ = false;
   if (double(attitude_update_counter_) * step_sec_ >= attitude_update_interval_sec_)
@@ -219,4 +221,18 @@ void SimTime::InitializeState()
   state_.finish = false;
   state_.log_output = false;
   state_.running = false;
+}
+
+// wrapper function of invjday @ sgp4ext for interface adjustment
+void SimTime::ConvJDtoCalndarDay(const double JD)
+{
+  int year, mon, day, hr, min;
+  double sec;
+  invjday(JD, year, mon, day, hr, min, sec);
+  current_utc_.year  = (unsigned int)(year);
+  current_utc_.month = (unsigned int)(mon);
+  current_utc_.day   = (unsigned int)(day);
+  current_utc_.hour  = (unsigned int)(hr);
+  current_utc_.min   = (unsigned int)(min);
+  current_utc_.sec   = sec;
 }

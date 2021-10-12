@@ -7,8 +7,7 @@
 class GPIOPort
 {
 public:
-	GPIOPort(int port_id_);
-	GPIOPort(int port_id_, IGPIOCompo* compo);
+	GPIOPort(int port_id_, IGPIOCompo* compo = nullptr);
 	~GPIOPort();
 	int DigitalWrite(bool isHigh);
 	bool DigitalRead();

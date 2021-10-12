@@ -3,8 +3,11 @@
 #include <sstream>
 using namespace std;
 
-EarthCenteredOrbit::EarthCenteredOrbit(char* tle1, char* tle2, int wgs, double current_jd)
+EarthCenteredOrbit::EarthCenteredOrbit(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd)
+  : celes_info_(celes_info)
 {
+  propagate_mode_ = PROPAGATE_MODE::SGP4;
+
   if (wgs == 0) { whichconst = wgs72old; }
   else if (wgs == 1) { whichconst = wgs72; }
   else if (wgs == 2) { whichconst = wgs84; }
@@ -42,7 +45,15 @@ void EarthCenteredOrbit::Propagate(double endtime, double current_jd)
   }
 
   TransECIToGeo(current_jd);
-  TransECIToECEF(current_jd);
+
+  trans_eci2ecef_ = celes_info_->GetEarthRotation().GetDCMJ2000toXCXF();
+  sat_position_ecef_ = trans_eci2ecef_ * sat_position_i_;
+
+  // convert velocity vector in ECI to the vector in ECEF
+  Vector<3> OmegaE{ 0.0 }; OmegaE[2] = OmegaEarth;
+  Vector<3> wExr = outer_product(OmegaE, sat_position_i_);
+  Vector<3> V_wExr = sat_velocity_i_ - wExr;
+  sat_velocity_ecef_ = trans_eci2ecef_ * V_wExr;
 }
 
 string EarthCenteredOrbit::GetLogHeader() const
