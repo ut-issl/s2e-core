@@ -69,12 +69,6 @@
     RUN chmod +x /home/s2e/work/scripts/hoge/hoge/download_HIPcatalogue.sh
     RUN chmod +x /home/s2e/work/scripts/hoge/hoge/download_nrlmsise00_src_and_table.sh
 
-    # 改行コードをCRLFからLFに置換する．
-    RUN sed -i 's/\r//' /home/s2e/work/scripts/hoge/hoge/download_cspice_Linux_gcc.sh
-    RUN sed -i 's/\r//' /home/s2e/work/scripts/hoge/hoge/download_EGM96coefficients.sh
-    RUN sed -i 's/\r//' /home/s2e/work/scripts/hoge/hoge/download_HIPcatalogue.sh
-    RUN sed -i 's/\r//' /home/s2e/work/scripts/hoge/hoge/download_nrlmsise00_src_and_table.sh
-
     WORKDIR /home/s2e/work/scripts/hoge/hoge
     RUN /home/s2e/work/scripts/hoge/hoge/download_cspice_Linux_gcc.sh
     RUN /home/s2e/work/scripts/hoge/hoge/download_EGM96coefficients.sh
