@@ -6,6 +6,7 @@ add_library(${PROJECT_NAME} STATIC
   Abstract/ObcI2cCommunicationBase.cpp
   Abstract/ObcGpioBase.cpp
   Abstract/EXP.cpp
+  Abstract/ExpHils.cpp
   AOCS/EMDS.cpp
   AOCS/Gyro.cpp
   AOCS/MagSensor.cpp

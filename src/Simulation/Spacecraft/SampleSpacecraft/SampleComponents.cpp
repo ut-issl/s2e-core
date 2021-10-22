@@ -21,6 +21,8 @@ SampleComponents::SampleComponents(
 
   // Components
   obc_ = new OBC(1, clock_gen, pcu_->GetPowerPort(0));
+  hils_port_manager_ = new HilsPortManager();
+
   // Gyro
   string ini_path = iniAccess.ReadString("COMPONENTS_FILE", "gyro_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
@@ -60,6 +62,10 @@ SampleComponents::SampleComponents(
   pcu_->GetPowerPort(1)->SetVoltage(3.3);
   pcu_->GetPowerPort(2)->SetVoltage(3.3);
 
+  // Examples of HILS
+  exp_hils_responder_ = new ExpHils(clock_gen, 1, obc_, 3, 9600, hils_port_manager_, 1);
+  exp_hils_sender_ = new ExpHils(clock_gen, 0, obc_, 4, 9600, hils_port_manager_, 0);
+
   // actuator debug output
   libra::Vector<kMtqDim> mag_moment_c{0.01};
   //mag_torquer_->SetMagMomentC(mag_moment_c);
@@ -79,7 +85,10 @@ SampleComponents::~SampleComponents()
   delete rw_;
   delete thruster_;
   delete pcu_;
+  delete exp_hils_responder_;
+  delete exp_hils_sender_;
   delete obc_;
+  delete hils_port_manager_; // delete after exp_hils
 }
 
 Vector<3> SampleComponents::GenerateForce_b()
