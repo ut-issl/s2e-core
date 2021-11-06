@@ -37,11 +37,28 @@ Atmosphere InitAtmosphere(string ini_path)
 {
   auto conf = IniAccess(ini_path);
   const char* section = "ATMOSPHERE";
-
+  double f107_threshold = 50.0;
+  double f107_default   = 150.0;
+  
   string model = conf.ReadString(section, "model");
   string table_path = conf.ReadString(section, "nrlmsise00_table_path");
   double rho_stddev = conf.ReadDouble(section, "rho_stddev");
-  Atmosphere atmosphere(model, table_path, rho_stddev);
+  bool is_manual_param_used = conf.ReadEnable(section, "is_manual_param_used");
+  double manual_daily_f107 = conf.ReadDouble(section, "manual_daily_f107");
+  if (manual_daily_f107 < f107_threshold)
+  {
+    std::cerr << "Daily F10.7 may be too low. It is set as 150.0 in this simulation. Check [ATMOSPHERE] section in LocalEnvironment.ini." << std::endl;
+    manual_daily_f107 = f107_default;
+  }
+  double manual_average_f107 = conf.ReadDouble(section, "manual_average_f107");
+  if (manual_average_f107 < f107_threshold)
+  {
+    std::cerr << "Average F10.7 may be too low. It is set as 150.0 in this simulation. Check [ATMOSPHERE] section in LocalEnvironment.ini." << std::endl;
+    manual_average_f107 = f107_default;
+  }
+  double manual_ap = conf.ReadDouble(section, "manual_ap");
+  
+  Atmosphere atmosphere(model, table_path, rho_stddev, is_manual_param_used, manual_daily_f107, manual_average_f107, manual_ap);
   atmosphere.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   atmosphere.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
   
