@@ -22,7 +22,7 @@ void LocalEnvironment::Initialize(SimulationConfig* sim_config, const GlobalEnvi
 {
   // Read file name
   IniAccess iniAccess = IniAccess(sim_config->sat_file_[sat_id]);
-  string ini_fname = iniAccess.ReadString("LOCAL_ENVIRONMENT", "local_env_file");
+  std::string ini_fname = iniAccess.ReadString("LOCAL_ENVIRONMENT", "local_env_file");
   // Save ini file
   sim_config->main_logger_->CopyFileToLogDir(ini_fname);
   // Initialize

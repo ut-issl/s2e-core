@@ -1,7 +1,7 @@
 #include "../Initialize.h"
 #include "../../../Component/AOCS/MagTorquer.h"
 
-MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const string fname, double compo_step_time, const MagEnvironment* mag_env)
+MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const std::string fname, double compo_step_time, const MagEnvironment* mag_env)
 {
   IniAccess magtorquer_conf(fname);
   char MTSection[30] = "MAGTORQUER";
@@ -46,7 +46,7 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const stri
   return magtorquer;	
 }
 
-MagTorquer InitMagTorquer(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, const string fname, double compo_step_time, const MagEnvironment* mag_env)
+MagTorquer InitMagTorquer(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, const std::string fname, double compo_step_time, const MagEnvironment* mag_env)
 {
   IniAccess magtorquer_conf(fname);
   char MTSection[30] = "MAGTORQUER";

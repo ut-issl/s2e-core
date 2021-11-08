@@ -7,11 +7,11 @@ using libra::Vector;
 
 
 // アンテナ初期化，ant_idで対応するアンテナ読み込み
-ANT InitANT(int ant_id, const string fname){
+ANT InitANT(int ant_id, const std::string fname){
 
     IniAccess ant_conf(fname);
 
-    const string st_ant_id = std::to_string(static_cast<long long>(ant_id));
+    const std::string st_ant_id = std::to_string(static_cast<long long>(ant_id));
     const char *cs = st_ant_id.data();
 
     char Section[30] = "ANT";

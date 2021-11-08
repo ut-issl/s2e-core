@@ -24,8 +24,8 @@ public:
 
   virtual void AddPositionOffset(Vector<3> offset_i);
 
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
 private:
   double prop_time_; //Simulation current time for numerical integration by RK4

@@ -1,6 +1,6 @@
 #include "ThirdBodyGravity.h"
 
-ThirdBodyGravity::ThirdBodyGravity(std::set<string> third_body_list) :third_body_list_(third_body_list)
+ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list) :third_body_list_(third_body_list)
 {
   acceleration_i_ *= 0;
 }
@@ -39,17 +39,17 @@ libra::Vector<3> ThirdBodyGravity::CalcAcceleration(libra::Vector<3> s, libra::V
   return acc;
 }
 
-string ThirdBodyGravity::GetLogHeader() const
+std::string ThirdBodyGravity::GetLogHeader() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteVector("acc_thirdbody", "i", "m/s2", 3);
 
   return str_tmp;
 }
 
-string ThirdBodyGravity::GetLogValue() const
+std::string ThirdBodyGravity::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteVector(acceleration_i_);
 
   return str_tmp;

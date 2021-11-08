@@ -1,6 +1,6 @@
 #include "ObcGpioBase.h"
 
-ObcGpioBase::ObcGpioBase(const vector<int> port_id, OBC* obc)
+ObcGpioBase::ObcGpioBase(const std::vector<int> port_id, OBC* obc)
 : port_id_(port_id), obc_(obc)
 {
   for (size_t i = 0; i< port_id_.size(); i++)

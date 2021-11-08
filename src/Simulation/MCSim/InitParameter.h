@@ -10,7 +10,6 @@
 #include "../../Library/math/Vector.hpp"
 #include "../../Library/math/Quaternion.hpp"
 
-using namespace std;
 using libra::Vector;
 using libra::Quaternion;
 
@@ -61,20 +60,20 @@ public:
 
 private:
   // 実際の値
-  vector<double> val_;
+  std::vector<double> val_;
 
   // 平均値または最小値（使われ方はgen_[RandomizationType]関数のコメントを参照）
-  vector<double> mean_or_min_;
+  std::vector<double> mean_or_min_;
 
   // 標準偏差または最大値（使われ方はgen_[RandomizationType]関数のコメントを参照）
-  vector<double> sigma_or_max_;
+  std::vector<double> sigma_or_max_;
 
   // For randomization
   RandomizationType rnd_type_;  // 乱数タイプ
-  static random_device rnd_;  // 非決定的乱数生成器（時刻に基づいて乱数を生成し，非決定的なseedを生成する）
-  static mt19937 mt_;  // 決定的乱数生成器
-  static uniform_real_distribution<>* uniform_dist_;  // 一様分布乱数生成器
-  static normal_distribution<>* normal_dist_;  // 正規分布乱数生成器
+  static std::random_device rnd_;  // 非決定的乱数生成器（時刻に基づいて乱数を生成し，非決定的なseedを生成する）
+  static std::mt19937 mt_;  // 決定的乱数生成器
+  static std::uniform_real_distribution<>* uniform_dist_;  // 一様分布乱数生成器
+  static std::normal_distribution<>* normal_dist_;  // 正規分布乱数生成器
 
   // 一様分布する1次元乱数を生成する
   static double Uniform_1d(double lb, double ub);

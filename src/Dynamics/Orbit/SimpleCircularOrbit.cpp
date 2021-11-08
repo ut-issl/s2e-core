@@ -2,6 +2,8 @@
 #include <iostream>
 #include <sstream>
 
+using std::string;
+
 SimpleCircularOrbit::SimpleCircularOrbit(const CelestialInformation* celes_info, double mu, double timestep, int wgs, Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time)
   : celes_info_(celes_info), ODE<N>(timestep), mu(mu)
 {

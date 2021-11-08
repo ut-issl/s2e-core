@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "ObcCommunicationBase.h"
 
 ObcCommunicationBase::ObcCommunicationBase(int sils_port_id, OBC* obc)
@@ -82,7 +84,7 @@ ObcCommunicationBase::~ObcCommunicationBase()
     int ret = obc_->CloseComPort(sils_port_id_);
     if (ret != 0)
     {
-      cout << "Error: ObcCommunication CloseComPort ID:" << sils_port_id_ << "\n";
+      std::cout << "Error: ObcCommunication CloseComPort ID:" << sils_port_id_ << "\n";
     }
   }
   else // sim_mode_ == OBC_COM_UART_MODE::HILS
@@ -90,7 +92,7 @@ ObcCommunicationBase::~ObcCommunicationBase()
     int ret = hils_port_manager_->UartCloseComPort(hils_port_id_);
     if (ret != 0)
     {
-      cout << "Error: ObcCommunication CloseComPort ID:" << hils_port_id_ << "\n";
+      std::cout << "Error: ObcCommunication CloseComPort ID:" << hils_port_id_ << "\n";
     }
   }
 }
@@ -106,7 +108,7 @@ void ObcCommunicationBase::InitializeObcComBase()
     int ret = obc_->ConnectComPort(sils_port_id_, tx_buf_size_, rx_buf_size_);
     if (ret != 0)
     {
-      cout << "Already connected: ObcCommunication ConnectComPort ID:" << sils_port_id_ << "\n";
+      std::cout << "Already connected: ObcCommunication ConnectComPort ID:" << sils_port_id_ << "\n";
       is_connected_ = false;
     }
     else
@@ -119,7 +121,7 @@ void ObcCommunicationBase::InitializeObcComBase()
     int ret = hils_port_manager_->UartConnectComPort(hils_port_id_, baud_rate_, tx_buf_size_, rx_buf_size_);
     if (ret != 0)
     {
-      cout << "Error: ObcCommunication ConnectComPort ID:" << hils_port_id_ << "\n";
+      std::cout << "Error: ObcCommunication ConnectComPort ID:" << hils_port_id_ << "\n";
       is_connected_ = false;
     }
     else

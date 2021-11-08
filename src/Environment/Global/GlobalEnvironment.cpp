@@ -18,7 +18,7 @@ void GlobalEnvironment::Initialize(SimulationConfig* sim_config)
 {
   //Get ini file path
   IniAccess iniAccess = IniAccess(sim_config->ini_base_fname_);
-  string sim_time_ini_path = sim_config->ini_base_fname_;
+  std::string sim_time_ini_path = sim_config->ini_base_fname_;
 
   //Initialize
   sim_time_ = InitSimTime(sim_time_ini_path);

@@ -47,8 +47,8 @@ public:
     const Vector<3> coasting_lag_coef,
     bool is_calc_jitter_enabled,
     bool is_log_jitter_enabled,
-    vector<vector<double>> radial_force_harmonics_coef,
-    vector<vector<double>> radial_torque_harmonics_coef,
+    std::vector<std::vector<double>> radial_force_harmonics_coef,
+    std::vector<std::vector<double>> radial_torque_harmonics_coef,
     double structural_resonance_freq,
     double damping_factor,
     double bandwidth,
@@ -74,8 +74,8 @@ public:
     const Vector<3> coasting_lag_coef,
     bool is_calc_jitter_enabled,
     bool is_log_jitter_enabled,
-    vector<vector<double>> radial_force_harmonics_coef,
-    vector<vector<double>> radial_torque_harmonics_coef,
+    std::vector<std::vector<double>> radial_force_harmonics_coef,
+    std::vector<std::vector<double>> radial_torque_harmonics_coef,
     double structural_resonance_freq,
     double damping_factor,
     double bandwidth,
@@ -90,8 +90,8 @@ public:
   void FastUpdate() override;
 
   // Iloggable override function
-  string GetLogHeader() const;
-  string GetLogValue() const;
+  std::string GetLogHeader() const;
+  std::string GetLogValue() const;
 
   //Getter
   const libra::Vector<3> GetOutputTorqueB() const;

@@ -1,6 +1,9 @@
 #ifndef __AirDrag_H__
 #define __AirDrag_H__
 
+#include <string>
+#include <vector>
+
 #include "../Library/math/Vector.hpp"
 #include "../Library/math/Quaternion.hpp"
 #include "SurfaceForce.h"
@@ -26,12 +29,12 @@ public:
   virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);
 
   // Override Loggable
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
   //for debug
   void PrintParams(void);
-  vector<double> cnct;
+  std::vector<double> cnct;
 
 private:
   vector<double> Cn_; //coefficients for out-plane force

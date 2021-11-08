@@ -41,7 +41,7 @@ int EXP::GenerateTelemetry()
   {
     tx_buff[i] = (unsigned char)memory[i];
   }
-  tx_buffer_.assign(std::begin(tx_buff),end(tx_buff));
+  tx_buffer_.assign(std::begin(tx_buff),std::end(tx_buff));
   return sizeof(tx_buff);
 }
 void EXP::MainRoutine(int count)

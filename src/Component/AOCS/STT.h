@@ -69,8 +69,8 @@ public:
   // ComponentBase override functions
   void  MainRoutine(int count) override;
   // ILogabble override functions
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
   // Getter
   inline const libra::Quaternion GetObsQuaternion() const { return q_stt_i2c_; };

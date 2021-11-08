@@ -80,17 +80,17 @@ Vector<3> RVDController::CalcRW(Quaternion q_ib_now)
   return res;
 }
 
-string RVDController::GetLogHeader() const
+std::string RVDController::GetLogHeader() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteVector("thrust", "b", "N", 3);
   str_tmp += WriteVector("torque", "b", "Nm", 3);
   return str_tmp;
 }
 
-string RVDController::GetLogValue() const
+std::string RVDController::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteVector(thrust_b_);
   str_tmp += WriteVector(torque_);
   return str_tmp;

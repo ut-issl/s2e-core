@@ -6,15 +6,15 @@
 class SampleCase : public SimulationCase
 {
 public:
-  SampleCase(string ini_base);
+  SampleCase(std::string ini_base);
   virtual ~SampleCase();
   
   void Initialize();
   void Main();
 
   // Log for Monte Carlo Simulation
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
 private:
   SampleSat* sample_sat_;

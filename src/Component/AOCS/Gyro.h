@@ -33,8 +33,8 @@ public:
   // ComponentBase
   void MainRoutine(int count) override;
   // ILoggable
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
   //Getter
   inline const libra::Vector<kGyroDim>& GetOmegaC(void)const{return omega_c_;}
 

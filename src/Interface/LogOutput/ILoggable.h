@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-using namespace std;
 
 // 必要ないが、利便性のためにinclude
 #include "LogUtility.h"
@@ -14,10 +13,10 @@ class ILoggable
 // 抽象クラスとします　多重継承してください
 public:
   // csvのヘッダー行の文字列を取得する
-  virtual string GetLogHeader() const = 0;
+  virtual std::string GetLogHeader() const = 0;
 
   // csvの値行の文字列を取得する
-  virtual string GetLogValue() const = 0;
+  virtual std::string GetLogValue() const = 0;
 
   bool IsLogEnabled = true;
 };

@@ -1,5 +1,7 @@
 #include "InitParameter.h"
 
+using namespace std;
+
 random_device InitParameter::rnd_;
 mt19937 InitParameter::mt_;
 uniform_real_distribution<>* InitParameter::uniform_dist_;

@@ -19,8 +19,8 @@ public:
   double GetShadowFunction() const;                 //Get Shadow function
   inline bool GetIsEclipsed() const { return(shadow_function_ >= 1.0 ? false : true); } //Returns true if the shadow function is less than 1
 
-  virtual string GetLogHeader() const;													//ログofヘッダー
-  virtual string GetLogValue() const;														//ログof値
+  virtual std::string GetLogHeader() const;													//ログofヘッダー
+  virtual std::string GetLogValue() const;														//ログof値
 
 private:
   double pressure_;																//太陽輻射定数、単位はN/m^2

@@ -115,9 +115,9 @@ double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const ANT& sc_ant,
   }
 }
 
-string GScalculator::GetLogHeader() const
+std::string GScalculator::GetLogHeader() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
 
   str_tmp += WriteScalar("visible flag");
   str_tmp += WriteScalar("max bitrate[Mbps]");
@@ -125,9 +125,9 @@ string GScalculator::GetLogHeader() const
   return str_tmp;
 }
 
-string GScalculator::GetLogValue() const
+std::string GScalculator::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
 
   str_tmp += WriteScalar(visible_flag_);
   str_tmp += WriteScalar(max_bitrate_);

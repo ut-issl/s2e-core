@@ -8,6 +8,9 @@
 using libra::Vector;
 using libra::NormalRand;
 
+using std::string;
+using std::cerr;
+using std::endl;
 using namespace libra;
 
 Atmosphere::Atmosphere(string model, string fname, double gauss_stddev,

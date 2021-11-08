@@ -25,23 +25,23 @@ const double nan99 = 999999.999999;
 class GnssSat_coordinate
 {
   public:
-    int GetIndexFromID(string sat_num) const;
-    string GetIDFromIndex(int index) const;
+    int GetIndexFromID(std::string sat_num) const;
+    std::string GetIDFromIndex(int index) const;
     int GetNumOfSatellites() const;
     bool GetWhetherValid(int sat_id) const;
 
   protected:
-    void ProcessData(vector<vector<string>>& raw_file, vector<pair<string, vector<string>>>& data);
-    void ProcessData(vector<vector<string>>& raw_file, vector<pair<string, vector<string>>>& data, bool ur_flag);
-    void ProcessData(vector<vector<string>>& raw_file, vector<string>& data);
+    void ProcessData(std::vector<std::vector<std::string>>& raw_file, std::vector<std::pair<std::string, std::vector<std::string>>>& data);
+    void ProcessData(std::vector<std::vector<std::string>>& raw_file, std::vector<std::pair<std::string, std::vector<std::string>>>& data, bool ur_flag);
+    void ProcessData(std::vector<std::vector<std::string>>& raw_file, std::vector<std::string>& data);
     /*
     https://en.wikipedia.org/wiki/Trigonometric_interpolation#
     http://acc.igs.org/orbits/orbit-interp_gpssoln03.pdf
     */
-    template<size_t N> Vector<N> TrigonometricInterpolation(const vector<double>& time_vector, const vector<Vector<N>>& values, double time) const;
-    double TrigonometricInterpolation(const vector<double>& time_vector, const vector<double>& values, double time) const;
-    template<size_t N> Vector<N> LagrangeInterpolation(const vector<double>& time_vector, const vector<Vector<N>>& values, double time) const;
-    double LagrangeInterpolation(const vector<double>& time_vector, const vector<double>& values, double time) const;
+    template<size_t N> Vector<N> TrigonometricInterpolation(const std::vector<double>& time_vector, const std::vector<Vector<N>>& values, double time) const;
+    double TrigonometricInterpolation(const std::vector<double>& time_vector, const std::vector<double>& values, double time) const;
+    template<size_t N> Vector<N> LagrangeInterpolation(const std::vector<double>& time_vector, const std::vector<Vector<N>>& values, double time) const;
+    double LagrangeInterpolation(const std::vector<double>& time_vector, const std::vector<double>& values, double time) const;
 
     std::vector<double> time_table_; //unix_time
     std::vector<std::vector<bool>> available_table_; //whether available for every time
@@ -72,7 +72,7 @@ class GnssSat_position: public GnssSat_coordinate
 {
   public:
     GnssSat_position() {}
-    void Init(vector<vector<string>>& file, int interpolation_method,
+    void Init(std::vector<std::vector<std::string>>& file, int interpolation_method,
               int interpolation_number, bool ur_flag);
     void SetUp(const double start_unix_time, const double step_sec);
     void Update(const double now_unix_time);
@@ -87,17 +87,17 @@ class GnssSat_position: public GnssSat_coordinate
 
     std::vector<std::vector<libra::Vector<3>>> gnss_sat_table_ecef_;
     std::vector<std::vector<libra::Vector<3>>> gnss_sat_table_eci_;
-    vector<vector<pair<double, int>>> time_and_index_list_; //contains the pair of available time and index.
+    std::vector<std::vector<std::pair<double, int>>> time_and_index_list_; //contains the pair of available time and index.
 
-    vector<vector<Vector<3>>> ecef_;
-    vector<vector<Vector<3>>> eci_;
+    std::vector<std::vector<Vector<3>>> ecef_;
+    std::vector<std::vector<Vector<3>>> eci_;
 };
 
 class GnssSat_clock: public GnssSat_coordinate
 {
   public:
     GnssSat_clock() {}
-    void Init(vector<vector<string>>& file, string file_extension,
+    void Init(std::vector<std::vector<std::string>>& file, std::string file_extension,
               int interpolation_number, bool ur_flag);
     void SetUp(const double start_unix_time, const double step_sec);
     void Update(const double now_unix_time);
@@ -107,7 +107,7 @@ class GnssSat_clock: public GnssSat_coordinate
   private:
     std::vector<double> gnss_sat_clock_; //clock bias [m], not micro second
     std::vector<std::vector<double>> gnss_sat_clock_table_;
-    vector<int> time_and_index_num_; //clock bias calculation should be stict, so it includes time_table_index(not for available)
+	std::vector<int> time_and_index_num_; //clock bias calculation should be stict, so it includes time_table_index(not for available)
     std::vector<std::vector<double>> clock_bias_;
 };
 
@@ -115,13 +115,13 @@ class GnssSat_Info
 {
   public:
     GnssSat_Info();
-    void Init(vector<vector<string>>& position_file,
+    void Init(std::vector<std::vector<std::string>>& position_file,
               int position_interpolation_method,
               int position_interpolation_number,
               bool position_ur_flag,
 
-              vector<vector<string>>& clock_file,
-              string clock_file_extension,
+              std::vector<std::vector<std::string>>& clock_file,
+              std::string clock_file_extension,
               int clock_interpolation_number,
               bool clock_ur_flag);
     void SetUp(const double start_unix_time, const double step_sec);
@@ -147,23 +147,23 @@ public:
   GnssSatellites(bool is_calc_enabled);
   ~GnssSatellites() {}
 
-  void Init(vector<vector<string>>& true_position_file,
+  void Init(std::vector<std::vector<std::string>>& true_position_file,
             int true_position_interpolation_method,
             int true_position_interpolation_number,
             bool true_position_ur_flag,
 
-            vector<vector<string>>& true_clock_file,
-            string true_clock_file_extension,
+            std::vector<std::vector<std::string>>& true_clock_file,
+            std::string true_clock_file_extension,
             int true_clock_interpolation_number,
             bool true_clock_ur_flag,
             
-            vector<vector<string>>& estimate_position_file,
+            std::vector<std::vector<std::string>>& estimate_position_file,
             int estimate_position_interpolation_method,
             int estimate_position_interpolation_number,
             bool estimate_position_ur_flag,
 
-            vector<vector<string>>& estimate_clock_file,
-            string estimate_clock_file_extension,
+            std::vector<std::vector<std::string>>& estimate_clock_file,
+            std::string estimate_clock_file_extension,
             int estimate_clock_interpolation_number,
             bool estimate_clock_ur_flag);
 
@@ -173,8 +173,8 @@ public:
   void Update(const SimTime* sim_time);
 
   //GET FUNCTIONS
-  int GetIndexFromID(string sat_num) const;
-  string GetIDFromIndex(int index) const;
+  int GetIndexFromID(std::string sat_num) const;
+  std::string GetIDFromIndex(int index) const;
   int GetNumOfSatellites() const;
   bool GetWhetherValid(int sat_id) const;
   double GetStartUnixTime() const;
@@ -189,18 +189,18 @@ public:
   //Get observation Range:[m] CarrierPhase:[no unit]
   double GetPseudoRangeECEF(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
   double GetPseudoRangeECI(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
-  pair<double, double> GetCarrierPhaseECEF(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
-  pair<double, double> GetCarrierPhaseECI(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
+  std::pair<double, double> GetCarrierPhaseECEF(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
+  std::pair<double, double> GetCarrierPhaseECI(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
 
   // FOR LOG OUTPUT // 継承のために
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
   // FOR DEBUG OUTPUT
   void DebugOutput(void);
 
 private:
-  double TrigonometricInterpolation(vector<double> time_period, vector<double> position, double time);
+  double TrigonometricInterpolation(std::vector<double> time_period, std::vector<double> position, double time);
   // for Ionospheric delay very Miscellaneous need to fix.
   double AddIonosphericDelay(const int sat_id, const libra::Vector<3> rec_position, const double frequency, const bool flag) const;
 

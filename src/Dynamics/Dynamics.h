@@ -2,7 +2,6 @@
 #define __dynamics_H__
 
 #include <string>
-using namespace std;
 
 #include "../Library/math/Vector.hpp"
 using libra::Vector;

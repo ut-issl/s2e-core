@@ -40,16 +40,16 @@ void SAP::SetVoltage(const double voltage)
   voltage_ = voltage;
 }
 
-string SAP::GetLogHeader() const
+std::string SAP::GetLogHeader() const
 {
-  string str_tmp = "";
-  str_tmp += WriteScalar("power_generation"+to_string(id_), "W");
+  std::string str_tmp = "";
+  str_tmp += WriteScalar("power_generation"+std::to_string(id_), "W");
   return str_tmp;
 }
 
-string SAP::GetLogValue() const
+std::string SAP::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteScalar(power_generation_);
   return str_tmp;
 }

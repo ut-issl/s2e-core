@@ -5,8 +5,6 @@
 
 #include <string>
 #include <vector> 
-using namespace std;
-
 
 #include "../../Interface/LogOutput/Logger.h"
 
@@ -14,7 +12,7 @@ class Node
 {
 protected:
   int node_id_; //node番号
-  string node_label_; //node name
+  std::string node_label_; //node name
   int heater_node_id_;  // heater node番号
   double temperature_; // 温度[K]
   double capacity_;  // 熱容量[J/K]
@@ -29,7 +27,7 @@ protected:
 public:
 
 	Node(const int node_id,
-		const string node_label,
+		const std::string node_label,
     const int heater_node_id,
 		const double temperature_ini,
 		const double capacity_ini,
@@ -45,7 +43,7 @@ public:
 
   //Output from this class
   int GetNodeId(void) const;
-  string GetNodeLabel(void) const;
+  std::string GetNodeLabel(void) const;
   int GetHeaterNodeId(void) const;
   double GetTemperature_K(void) const;
   double GetTemperature_deg(void) const;

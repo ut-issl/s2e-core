@@ -8,6 +8,8 @@
 
 #ifndef __SolarRadiation_h__
 #define __SolarRadiation_h__
+#include <string>
+
 #include "../Interface/LogOutput/ILoggable.h"
 #include "SurfaceForce.h"
 #include "../Library/math/Vector.hpp"
@@ -22,8 +24,8 @@ public:
   virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);
 
   // Override Loggable
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
 private:
   // Override SurfaceForce

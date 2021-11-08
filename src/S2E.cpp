@@ -37,8 +37,10 @@ int main(int argc, _TCHAR* argv[])
 int main(int argc, char* argv[])
 #endif
 {
-  chrono::system_clock::time_point start, end;
-  start = chrono::system_clock::now();
+  using namespace std::chrono;
+
+  system_clock::time_point start, end;
+  start = system_clock::now();
 
   std::string data_path = "../../data/"; // 必要なくなった？
   std::string ini_file = "../../data/SampleSat/ini/SampleSimBase.ini";
@@ -65,8 +67,8 @@ int main(int argc, char* argv[])
   simcase.Initialize();
   simcase.Main();
 
-  end = chrono::system_clock::now();
-  double time = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000000.0);
+  end = system_clock::now();
+  double time = static_cast<double>(duration_cast<microseconds>(end - start).count() / 1000000.0);
   std::cout << std::endl << "Simulation execution time: " << time << "sec"<< std::endl << std::endl;
 
   return EXIT_SUCCESS;

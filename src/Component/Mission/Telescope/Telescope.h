@@ -74,8 +74,8 @@ private:
 	const HipparcosCatalogue* hipp_;
 	const LocalCelestialInformation *local_celes_info_;
 
-	virtual string GetLogHeader() const;
-	virtual string GetLogValue() const;
+	virtual std::string GetLogHeader() const;
+	virtual std::string GetLogValue() const;
 
 	//デバッグ用変数**********************************************
 	//Vector<3> sun_pos_c;

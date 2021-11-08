@@ -3,11 +3,11 @@
 #include "../Initialize.h"
 #include "../../../Component/Power/SAP.h"
 
-SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const string fname, const SRPEnvironment* srp) {
+SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp) {
 
   IniAccess sap_conf(fname);
 
-  const string st_sap_id = std::to_string(static_cast<long long>(sap_id));
+  const std::string st_sap_id = std::to_string(static_cast<long long>(sap_id));
   const char *cs = st_sap_id.data();
 
   char Section[30] = "SAP";

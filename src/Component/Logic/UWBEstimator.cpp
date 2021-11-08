@@ -54,7 +54,7 @@ void UWBEstimator::Update(Vector<12> visibility, Vector<12> measurement)
   }
   catch (...) {
     fill_up(inv, 0.0);
-	cout << "singular!!\r\n";
+    std::cout << "singular!!\r\n";
   }
 
   K = M * transpose(H) * inv;
@@ -113,9 +113,9 @@ bool UWBEstimator::IsConverged()
   return isconverged;
 }
 
-string UWBEstimator::GetLogHeader() const
+std::string UWBEstimator::GetLogHeader() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteVector("RelPosEst", "i", "m", 3);
   str_tmp += WriteVector("RelVelEst", "i", "m/s", 3);
   str_tmp += WriteVector("UWBObs", "i", "m", 12);
@@ -123,9 +123,9 @@ string UWBEstimator::GetLogHeader() const
   return str_tmp;
 }
 
-string UWBEstimator::GetLogValue() const
+std::string UWBEstimator::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteVector(x);
   str_tmp += WriteVector(lastObservation);
   str_tmp += WriteVector(Fcontrol_i);

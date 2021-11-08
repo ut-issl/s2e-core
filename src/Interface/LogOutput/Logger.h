@@ -2,8 +2,6 @@
 #define __LOGGER_H__
 #define _CRT_SECURE_NO_WARNINGS
 
-using namespace std;
-
 #include <string>
 #include <fstream>
 #include <vector>
@@ -13,10 +11,10 @@ using namespace std;
 class Logger
 {
 public:
-  Logger(const string &file_name, const string &data_path, const string &ini_file_name, const bool enable_inilog, bool enable = true);
+  Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool enable_inilog, bool enable = true);
   ~Logger(void);
 
-  void Write(string log, bool flag = true);
+  void Write(std::string log, bool flag = true);
   void AddLoggable(ILoggable* loggable);
   void ClearLoggables();
   void WriteHeaders(bool add_newline = true);
@@ -24,21 +22,21 @@ public:
   void WriteNewLine();
   inline bool IsEnabled();
   inline void Enable(bool enable);
-  void CopyFileToLogDir(const string &ini_file_name);
-  inline string GetLogPath() const;
+  void CopyFileToLogDir(const std::string &ini_file_name);
+  inline std::string GetLogPath() const;
 
 private:
-  ofstream csv_file_;
+  std::ofstream csv_file_;
   char registered_num_;
   bool is_enabled_;
   bool is_open_;
-  vector<ILoggable*> loggables_;
+  std::vector<ILoggable*> loggables_;
 
   bool is_enabled_inilog_;
   bool is_success_make_dir_ = false;
-  string directory_path_;
-  string CreateDirectory(const string &data_path, const string & time);
-  string GetFileName(const string &path);
+  std::string directory_path_;
+  std::string CreateDirectory(const std::string &data_path, const std::string & time);
+  std::string GetFileName(const std::string &path);
 };
 
 bool Logger::IsEnabled()
@@ -51,7 +49,7 @@ void Logger::Enable(bool enable)
   is_enabled_ = enable;
 }
 
-string Logger::GetLogPath() const
+std::string Logger::GetLogPath() const
 {
   return directory_path_;
 }

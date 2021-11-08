@@ -38,8 +38,8 @@ public:
   //ComponentBase override function
   void MainRoutine(int count) override;
   // ILogabble override functions
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
   // Getter
   inline const bool GetSunDetectedFlag() const { return sun_detected_flag_; };
   inline const Vector<3> GetMeasuredSun_c() const { return measured_sun_c_; };

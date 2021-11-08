@@ -43,8 +43,8 @@ public:
   void MainRoutine(int count);
 
   // ILogabble override function
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
   // Getter
   inline const Vector<3> GetThrustB() const { return thrust_b_; };

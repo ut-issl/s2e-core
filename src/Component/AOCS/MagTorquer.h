@@ -64,8 +64,8 @@ public:
   // ComponentBase override functions
   void MainRoutine(int count) override;
   // ILogabble override functions
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
   // Getter
   inline const libra::Vector<kMtqDim>& GetMagMoment_b(void)const{return mag_moment_b_;};  //Am2

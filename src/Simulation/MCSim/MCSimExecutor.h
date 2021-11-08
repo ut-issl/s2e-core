@@ -6,7 +6,6 @@
 //#include "SimulationObject.h"
 #include "InitParameter.h"
 
-using namespace std;
 using libra::Vector;
 
 class MCSimExecutor
@@ -18,7 +17,7 @@ private:
   bool log_history_;  // 1 caseごとのログを記録するかどうかのflag
 
   // List of InitParameters read from MCSim.ini
-  map<string, InitParameter*> ip_list_;
+  std::map<std::string, InitParameter*> ip_list_;
 
 public:
   // MCSim.iniにおいてSimulationObjectとInitParameter名を区別するための文字
@@ -61,20 +60,20 @@ public:
 
   template<size_t NumElement1, size_t NumElement2>
   // InitParameterの追加
-  void AddInitParameter(string so_name, string ip_name, const Vector<NumElement1>& mean_or_min, const Vector<NumElement2>& sigma_or_max, InitParameter::RandomizationType rnd_type);
+  void AddInitParameter(std::string so_name, std::string ip_name, const Vector<NumElement1>& mean_or_min, const Vector<NumElement2>& sigma_or_max, InitParameter::RandomizationType rnd_type);
 
   // 全てのInitParameterをRandomize
   void RandomizeAllParameters();
 
   template<size_t NumElement>
   // Randomizeされた後の値を取得しdst_vecに格納
-  void GetInitParameterVec(string so_name, string ip_name, Vector<NumElement>& dst_vec) const;
+  void GetInitParameterVec(std::string so_name, std::string ip_name, Vector<NumElement>& dst_vec) const;
 
   // Randomizeされた後の値を取得しdstに格納
-  void GetInitParameterDouble(string so_name, string ip_name, double& dst) const;
+  void GetInitParameterDouble(std::string so_name, std::string ip_name, double& dst) const;
 
   // Randomizeされた後の値を取得しdst_quatに格納
-  void GetInitParameterQuaternion(string so_name, string ip_name, Quaternion& dst_quat) const;
+  void GetInitParameterQuaternion(std::string so_name, std::string ip_name, Quaternion& dst_quat) const;
 };
 
 void MCSimExecutor::Enable(bool enabled)
@@ -115,10 +114,10 @@ void MCSimExecutor::LogHistory(bool set)
 }
 
 template<size_t NumElement>
-void MCSimExecutor::GetInitParameterVec(string so_name, string ip_name, Vector<NumElement>& dst_vec) const
+void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name, Vector<NumElement>& dst_vec) const
 {
   if (!enabled_) return;
-  string name = so_name + MCSimExecutor::separator_ + ip_name;
+  std::string name = so_name + MCSimExecutor::separator_ + ip_name;
   if (ip_list_.find(name) == ip_list_.end())
   {
     // ip_listに登録されていない（MCSim.iniで定義されていない）
@@ -131,9 +130,9 @@ void MCSimExecutor::GetInitParameterVec(string so_name, string ip_name, Vector<N
 }
 
 template<size_t NumElement1, size_t NumElement2>
-void MCSimExecutor::AddInitParameter(string so_name, string ip_name, const Vector<NumElement1>& mean_or_min, const Vector<NumElement2>& sigma_or_max, InitParameter::RandomizationType rnd_type)
+void MCSimExecutor::AddInitParameter(std::string so_name, std::string ip_name, const Vector<NumElement1>& mean_or_min, const Vector<NumElement2>& sigma_or_max, InitParameter::RandomizationType rnd_type)
 {
-  string name = so_name + MCSimExecutor::separator_ + ip_name;
+  std::string name = so_name + MCSimExecutor::separator_ + ip_name;
   if (ip_list_.find(name) == ip_list_.end())
   {
     // ip_listに登録されていない場合は登録

@@ -24,7 +24,7 @@ SampleComponents::SampleComponents(
   hils_port_manager_ = new HilsPortManager();
 
   // Gyro
-  string ini_path = iniAccess.ReadString("COMPONENTS_FILE", "gyro_file");
+  std::string ini_path = iniAccess.ReadString("COMPONENTS_FILE", "gyro_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   gyro_ = new Gyro(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimTime().GetCompoStepSec(), dynamics_));
   // MagSensor

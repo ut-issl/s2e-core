@@ -30,7 +30,7 @@ int ExpHils::ParseCommand(const int cmd_size)
   else if (mode_id_ == 0) // data returned from the responder component to the sender component
   {
     // the first row will overwrite the progress output in SampleCase.cpp
-    cout << endl << rx_buffer_[0] << rx_buffer_[1] << rx_buffer_[2] << endl;
+    std::cout << std::endl << rx_buffer_[0] << rx_buffer_[1] << rx_buffer_[2] << std::endl;
   }
   return 0;
 }
@@ -49,7 +49,7 @@ int ExpHils::GenerateTelemetry()
     {
       counter_ = 0;
     }
-    tx_buffer_.assign(std::begin(tx_), end(tx_));
+    tx_buffer_.assign(std::begin(tx_), std::end(tx_));
     return sizeof(tx_);
   }
   else if (mode_id_ == 1) // The responder component sends back the received message.
@@ -58,7 +58,7 @@ int ExpHils::GenerateTelemetry()
     {
       tx_[i] = (unsigned char)memory_[i];
     }
-    tx_buffer_.assign(std::begin(tx_), end(tx_));
+    tx_buffer_.assign(std::begin(tx_), std::end(tx_));
     return sizeof(tx_);
   }
   return 0;

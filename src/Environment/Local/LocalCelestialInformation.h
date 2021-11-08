@@ -20,8 +20,8 @@ public:
   // Get Global CelesInfo for gravitational constant
   inline const CelestialInformation& GetGlobalInfo() const { return *glo_celes_info_; }
   // FOR LOG OUTPUT
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
 private:
   const CelestialInformation* glo_celes_info_;

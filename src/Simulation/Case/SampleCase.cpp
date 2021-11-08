@@ -3,6 +3,9 @@
 #include "../../Interface/InitInput/Initialize.h"
 #include "../Spacecraft/SampleSpacecraft/SampleSat.h"
 
+using std::string;
+using std::cout;
+
 SampleCase::SampleCase(string ini_base):SimulationCase(ini_base)
 {
 }

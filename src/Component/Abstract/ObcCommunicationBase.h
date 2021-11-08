@@ -48,8 +48,8 @@ public:
 protected:
   int ReceiveCommand(const int offset, const int rec_size);
   int SendTelemetry(const int offset); 
-  vector<unsigned char> tx_buffer_;
-  vector<unsigned char> rx_buffer_;
+  std::vector<unsigned char> tx_buffer_;
+  std::vector<unsigned char> rx_buffer_;
 
 private:
   const int kDefaultBufferSize = 1024;// Fixme: The magic number. This is depending on SCIPort.h.

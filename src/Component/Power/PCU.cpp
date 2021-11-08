@@ -47,14 +47,14 @@ int PCU::ClosePort(const int port_id)
   return 0;
 }
 
-string PCU::GetLogHeader() const
+std::string PCU::GetLogHeader() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   return str_tmp;
 }
 
-string PCU::GetLogValue() const
+std::string PCU::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   return str_tmp;
 }

@@ -1,6 +1,8 @@
 #ifndef __MagDisturbance_H__
 #define __MagDisturbance_H__
 
+#include <string>
+
 #include "../Library/math/Vector.hpp"
 using libra::Vector;
 
@@ -27,8 +29,8 @@ public:
     virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);
 	void PrintTorque();
 
-	virtual string GetLogHeader() const;
-	virtual string GetLogValue() const;
+	virtual std::string GetLogHeader() const;
+	virtual std::string GetLogValue() const;
 };
 
 #endif //__MagDisturbance_H__

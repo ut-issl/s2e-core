@@ -17,7 +17,7 @@ public:
     const Matrix<3, 3>&	InertiaTensor_ini,
     const Vector<3>&	torque_b_ini,
     const double		prop_step_ini,
-    string name);
+    std::string name);
   ~AttitudeRK4();
 
   //MonteCalro
@@ -25,8 +25,8 @@ public:
 
   virtual void Propagate(double endtime);		// 姿勢・角速度のプロパゲーション
 
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
   //デバッグ出力
   void PrintParams(void);

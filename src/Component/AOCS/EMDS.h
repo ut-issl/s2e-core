@@ -17,8 +17,8 @@ public:
   inline Vector<3> GetTorque_b() { return torque_b_; }
   inline Vector<3> GetForce_b() { return force_b_; }
 
-  virtual string GetLogHeader() const; 
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const; 
+  virtual std::string GetLogValue() const;
 
   // position: position of C.G. of s/c in inertia frame
   // quaternion: quaternion from inertia to body frame

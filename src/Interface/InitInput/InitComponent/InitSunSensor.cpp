@@ -2,10 +2,10 @@
 #include "../Initialize.h"
 #include "../../../Component/AOCS/SunSensor.h"
 
-SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, string file_name, const SRPEnvironment* srp)
+SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_name, const SRPEnvironment* srp)
 {
   IniAccess ss_conf(file_name);
-  const string st_ss_id = std::to_string(static_cast<long long>(ss_id));
+  const std::string st_ss_id = std::to_string(static_cast<long long>(ss_id));
   const char *cs = st_ss_id.data();
   char Section[30] = "SUNSENSOR";
   strcat(Section, cs);
@@ -35,10 +35,10 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, string file_name, 
   return ss;
 }
 
-SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss_id, string file_name, const SRPEnvironment* srp)
+SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss_id, std::string file_name, const SRPEnvironment* srp)
 {
   IniAccess ss_conf(file_name);
-  const string st_ss_id = std::to_string(static_cast<long long>(ss_id));
+  const std::string st_ss_id = std::to_string(static_cast<long long>(ss_id));
   const char *cs = st_ss_id.data();
   char Section[30] = "SUNSENSOR";
   strcat(Section, cs);

@@ -56,8 +56,8 @@ public:
     void Initialize();
     void Update(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant);
 
-    virtual string GetLogHeader() const;
-    virtual string GetLogValue() const;
+    virtual std::string GetLogHeader() const;
+    virtual std::string GetLogValue() const;
 
 protected:
     // 衛星と地上局が可視の位置関係のときにtrue，非可視のときにfalseを返す

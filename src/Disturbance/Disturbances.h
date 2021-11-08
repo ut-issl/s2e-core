@@ -6,8 +6,6 @@
 #include"../Simulation/Spacecraft/Structure/Structure.h"
 #include"../Environment/Global/SimTime.h"
 
-using namespace std;
-
 class Logger;
 
 class Disturbances
@@ -24,11 +22,11 @@ public:
   Vector<3> GetAccelerationI();
 
 private:
-  string ini_fname_;
+  std::string ini_fname_;
   void InitializeInstances(SimulationConfig* sim_config, const int sat_id, Structure* structure);
   void InitializeForceAndTorque();
   void InitializeAcceleration();
-  vector<SimpleDisturbance*> disturbances_;
+  std::vector<SimpleDisturbance*> disturbances_;
   Vector<3> sum_torque_;
   Vector<3> sum_force_;
   vector<AccelerationDisturbance*> acc_disturbances_;

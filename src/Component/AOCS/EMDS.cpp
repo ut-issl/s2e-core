@@ -23,9 +23,9 @@ void EMDS::Update(EMDS& other)
   other.torque_b_ = results[3];
 }
 
-string EMDS::GetLogHeader() const
+std::string EMDS::GetLogHeader() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
 
   str_tmp += WriteVector("emds_force", "b", "N", 3);
   str_tmp += WriteVector("emds_torque", "b", "Nm", 3);
@@ -33,9 +33,9 @@ string EMDS::GetLogHeader() const
   return str_tmp;
 }
 
-string EMDS::GetLogValue() const
+std::string EMDS::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
 
   str_tmp += WriteVector(force_b_);
   str_tmp += WriteVector(torque_b_);

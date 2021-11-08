@@ -1,5 +1,7 @@
 #ifndef __GEOPOTENTIAL_H__
 #define __GEOPOTENTIAL_H__
+#include <string>
+
 #include "../Interface/LogOutput/ILoggable.h"
 #include "../Library/math/Matrix.hpp"
 #include "../Library/math/Vector.hpp"
@@ -12,13 +14,13 @@ using libra::Vector;
 class GeoPotential : public AccelerationDisturbance
 {
 public:
-  GeoPotential(const int degree, const string file_path);
+  GeoPotential(const int degree, const std::string file_path);
   virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
   void CalcAccelerationECEF(const Vector<3>& position_ecef);
-  bool ReadCoefficientsEGM96(string file_name);
+  bool ReadCoefficientsEGM96(std::string file_name);
 private:
   int degree_;
   vector<vector<double>> c_;
