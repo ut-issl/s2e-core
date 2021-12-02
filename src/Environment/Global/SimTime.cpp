@@ -105,7 +105,7 @@ void SimTime::UpdateTime(void)
 
       // カウントアップしてきた経過時刻を強制的に実際の経過時刻に合わせる
       // 意図としては、ブレークポイントからの復帰後に一瞬でリアルタイムに追いつかせるため
-      elapsed_time_sec_ = chrono::duration_cast<chrono::seconds>(clk.now() - clock_start_time_millisec_).count() * sim_speed_;
+      elapsed_time_sec_ = (chrono::duration_cast<chrono::duration<double, ratio<1,1>>>(clk.now() - clock_start_time_millisec_).count() * sim_speed_);
     }
     else
     {
