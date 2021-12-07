@@ -1,9 +1,10 @@
 #include "Initialize.h"
+#include "../../Library/math/Vector.hpp"
 #include"../../Simulation/Spacecraft/Structure/KinematicsParams.h"
 #include"../../Simulation/Spacecraft/Structure/Surface.h"
 #include"../../Simulation/Spacecraft/Structure/RMMParams.h"
 
-#define MIN_VAL 1e-9
+#define MIN_VAL 1e-6
 KinematicsParams InitKinematicsParams(std::string ini_path)
 {
   auto conf = IniAccess(ini_path);
@@ -98,8 +99,9 @@ vector<Surface> InitSurfaces(std::string ini_path)
     conf.ReadVector(section, keyword.c_str(), normal);
     if (norm(normal) > 1.0 + MIN_VAL) //Fixme: magic word
     {
-      cout << "Surface Error! " << keyword << ": norm is larger than 1.0\n";
-      break;
+      cout << "Surface Warning! " << keyword << ": norm is larger than 1.0.";
+      cout << "The vector is normalized.\n";
+      normal = normalize(normal);
     }
 
     //Add a surface
