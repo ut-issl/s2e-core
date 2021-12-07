@@ -48,7 +48,6 @@ void SampleCase::Main()
     // Global Environment Update
     glo_env_->Update();
     // Spacecraft Update
-    sample_sat_->Clear(); //Zero clear force and torque for dynamics
     sample_sat_->Update(&(glo_env_->GetSimTime()));
     // Debug output
     if (glo_env_->GetSimTime().GetState().disp_output)
