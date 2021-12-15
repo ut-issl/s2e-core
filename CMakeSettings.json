@@ -7,7 +7,6 @@
       "inheritEnvironments": [
         "msvc_x86"
       ],
-      //"buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "buildRoot": "${thisFileDir}\\CMakeBuilds",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
       "cmakeCommandArgs": "",
