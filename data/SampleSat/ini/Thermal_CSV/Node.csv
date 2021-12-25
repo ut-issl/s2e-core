@@ -1,0 +1,4 @@
+Node_id,Node_label,heater_node_id,capacity,alpha,area,normal_v_b_x,normal_v_b_y,normal_v_b_z,initial_internal_heat,initial_temperature
+0,BUS,0,880,0,0.5,1,0,0,0,300
+1,SAP,1,880,0,0.5,0,1,1,0,350
+2,BUS-2,2,880,0,0.5,0,1,1,0,400

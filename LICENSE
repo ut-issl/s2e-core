@@ -1,0 +1,18 @@
+現時点ではフルオープンではないので厳密なライセンスは規定していませんが，次の点を守っていただきたいと考えております．  
+- 無断二次配布禁止  
+- 商用利用は事前に相談  
+- 更新があればISSL_OSSに反映させる  
+- 何か不具合があってもISSLは責任を負わない  
+- 成果を発表する時には謝辞に入れてもらう  
+- 特許，著作権など気になる場合は要相談  
+
+その他ライセンスに関して気になるところがあれば，#management チャンネルでご質問ください．
+
+Currently, ISSL doesn't have a strict license because the codes are not fully opened.
+However, ISSL require all users to accept following points.
+- Secondary distribution prohibited
+- Discuss with ISSL members before commercial use
+- Useful modification should be commited to the ISSL_OSS repositories
+- ISSL is not responsible any failure related with the codes
+- When you publish papers or official documents with results from ISSL_OSS source codes, please refer this activity as acknowledgement in the document
+- If you have any questions about license, patent, and copyright, pleaase ask ISSL members. 

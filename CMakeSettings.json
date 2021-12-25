@@ -1,0 +1,18 @@
+﻿{
+  "configurations": [
+    {
+      "name": "Win32",
+      "generator": "Visual Studio 15 2017",
+      "configurationType": "Debug",
+      "inheritEnvironments": [
+        "msvc_x86"
+      ],
+      //"buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
+      "buildRoot": "${thisFileDir}\\CMakeBuilds",
+      "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": ""
+    }
+  ]
+}

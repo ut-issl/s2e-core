@@ -1,0 +1,34 @@
+# CMake and VS directories
+CMakeBuilds/
+.vs/
+.vscode/
+src/.vscode/
+
+
+# Docker
+build/
+
+# Log files
+data/**/logs/
+
+# CSIPCE
+scripts/tmp_cspice/
+
+# Executables
+*.exe
+*.out
+*.app
+
+# OSX
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
