@@ -1,0 +1,67 @@
+- name: "bug"
+  color: "d73a4a"
+  description: "Something isn't working"
+
+- name: "documentation"
+  color: "0075ca"
+  description: "Improvements or additions to documentation"
+
+- name: "duplicate"
+  color: "cfd8d7"
+  description: "This issue or pull request already exists"
+
+- name: "enhancement"
+  description: "New feature or request"
+  color: "a2eeef"
+
+- name: "good first issue"
+  description: "Good for newcomers"
+  color: "7057ff"
+
+- name: "help wanted"
+  description: "Extra attention is needed"
+  color: "008672"
+
+- name: "invalid"
+  description: "This doesn't seem right"
+  color: "e4e669"
+
+- name: "question"
+  description: "Further information is requested"
+  color: "d876e3"
+
+- name: "wontfix"
+  description: "This will not be worked on"
+  color: "ffffff"
+
+- name: "icebox"
+  description: "icebox or pending"
+  color: "c5def5"
+
+- name: "priority::high"
+  description: "priorityg high"
+  color: "d93f0b"
+
+- name: "priority::low"
+  description: "priority low"
+  color: "9dcce0"
+
+- name: "priority::medium"
+  description: "priority medium"
+  color: "fbca04"
+
+- name: "tools"
+  description: ""
+  color: "510f70"
+
+- name: "C2A"
+  description: ""
+  color: "2a9637"
+
+- name: "S2E"
+  description: ""
+  color: "eef789"
+
+- name: "WINGS"
+  description: ""
+  color: "1503bb"
