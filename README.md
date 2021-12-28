@@ -6,7 +6,7 @@
 - S2E can:
   - Simulate spacecraft's attitude and orbit behavior in LEO and other orbits.
   - Emulate spacecraft's components behavior not only sensors and actuators but also OBCs, power components, communications, and others.
-  - Emulate embedded software inside OBCs by connecting with [C2A](https://gitlab.com/ut_issl/c2a) or others.
+  - Emulate embedded software inside OBCs by connecting with [C2A](https://github.com/ut-issl/c2a-core) or others.
   - Connect with Ground Station software (not yet).
   - Output log files in CSV format.
   - Connect with real OBCs for HILS tests.
@@ -46,9 +46,9 @@
 
 ## Documents
 
-- Documents for S2E are summarized in [Documents_OSS](https://gitlab.com/ut_issl/s2e/documents_oss).
+- Documents for S2E are summarized in [s2e-documents](https://github.com/ut-issl/s2e-documents).
 
 ## How to use
 
-- Please see [Documents_OSS](https://gitlab.com/ut_issl/s2e/documents_oss).
+- Please see [s2e-documents](https://github.com/ut-issl/s2e-documents).
 
