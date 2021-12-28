@@ -1,23 +1,23 @@
-## 概要
-ひとことで
+## Overview
+Write briefly.
 
 ## Issue
-- 関連する issue
+- Related issues
 
-## 詳細
-詳しく
+## Details
+Write in detail.
 
-## 検証結果
-test へのリンクや，検証結果へのリンク
+##  Validation results
+Link to tests or validation results.
 
-## 影響範囲
-XX系の動作がガラッと変わる，とか．
+## Scope of influence
+eg. The behavior of XX will be change.
 
-## 補足
-何かあれば
+## Supplement
+Write additional comments if you need.
 
-## 注意
-- 関連する Projects が存在する場合，それの紐付けを行うこと
-- Assignees を設定すること
-- 可能ならば Reviewers を設定すること
-- 可能ならば `priority` ラベルを付けること
+## Note
+- If there are related Projects, tie them together.
+- Assignees should be set if possible.
+- Reviewers should be set if possible.
+- Set `priority` label if possible.
