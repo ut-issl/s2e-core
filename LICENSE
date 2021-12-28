@@ -1,18 +1,21 @@
-現時点ではフルオープンではないので厳密なライセンスは規定していませんが，次の点を守っていただきたいと考えております．  
-- 無断二次配布禁止  
-- 商用利用は事前に相談  
-- 更新があればISSL_OSSに反映させる  
-- 何か不具合があってもISSLは責任を負わない  
-- 成果を発表する時には謝辞に入れてもらう  
-- 特許，著作権など気になる場合は要相談  
+MIT License
 
-その他ライセンスに関して気になるところがあれば，#management チャンネルでご質問ください．
+Copyright (c) 2021 Intelligent Space Systems Laboratory, The University of Tokyo
 
-Currently, ISSL doesn't have a strict license because the codes are not fully opened.
-However, ISSL require all users to accept following points.
-- Secondary distribution prohibited
-- Discuss with ISSL members before commercial use
-- Useful modification should be commited to the ISSL_OSS repositories
-- ISSL is not responsible any failure related with the codes
-- When you publish papers or official documents with results from ISSL_OSS source codes, please refer this activity as acknowledgement in the document
-- If you have any questions about license, patent, and copyright, pleaase ask ISSL members. 
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
