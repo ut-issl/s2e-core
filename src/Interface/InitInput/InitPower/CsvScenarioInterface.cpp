@@ -12,7 +12,7 @@ void CsvScenarioInterface::Initialize(const std::string fname)
 
   CsvScenarioInterface::is_csv_senario_enabled_ = scenario_conf.ReadBoolean(Section, "is_csv_scenario_enabled");
 
-  string csv_path;
+  std::string csv_path;
   csv_path = scenario_conf.ReadString(Section, "csv_path");
 
   buffer_line_id_["sun_dir_b_x"] = 1;

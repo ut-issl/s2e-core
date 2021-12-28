@@ -7,8 +7,6 @@
 #include "../../Interface/LogOutput/Logger.h"
 #include "../../Simulation/SimulationConfig.h"
 
-using namespace std;
-
 class GlobalEnvironment
 {
 public:

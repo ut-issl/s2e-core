@@ -1,5 +1,7 @@
 #include "MCSimExecutor.h"
 
+using std::string;
+
 MCSimExecutor::MCSimExecutor(unsigned long long total_num_of_executions)
   :total_num_of_executions_(total_num_of_executions)
 {

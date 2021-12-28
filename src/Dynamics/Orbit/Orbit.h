@@ -161,8 +161,8 @@ public:
     return q_i2lvlh.normalize();
   }
 
-  virtual string GetLogHeader() const = 0;
-  virtual string GetLogValue() const = 0;
+  virtual std::string GetLogHeader() const = 0;
+  virtual std::string GetLogValue() const = 0;
 
   inline virtual Vector<3> GetESIOmega()const { return Vector<3>();}
 

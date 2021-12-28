@@ -238,9 +238,9 @@ void RWModel::SetVelocityLimitRpm(double velocity_limit_rpm)
   return;
 }
 
-string RWModel::GetLogHeader() const
+std::string RWModel::GetLogHeader() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
 
   str_tmp += WriteScalar("rw_angular_velocity", "rad/s");
   str_tmp += WriteScalar("rw_angular_velocity_rpm", "rpm");
@@ -256,9 +256,9 @@ string RWModel::GetLogHeader() const
   return str_tmp;
 }
 
-string RWModel::GetLogValue() const
+std::string RWModel::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
 
   str_tmp += WriteScalar(angular_velocity_rad_);
   str_tmp += WriteScalar(angular_velocity_rpm_);

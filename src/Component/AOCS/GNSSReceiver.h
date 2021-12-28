@@ -20,7 +20,7 @@ enum AntennaModel
 
 typedef struct _gnssinfo
 {
-  string ID;
+  std::string ID;
   double latitude;
   double longitude;
   double distance;
@@ -33,7 +33,7 @@ class GNSSReceiver : public ComponentBase, public ILoggable
       const int prescaler,
       ClockGenerator* clock_gen, 
       const int id, 
-      const string gnss_id,
+      const std::string gnss_id,
       const int ch_max,
       const AntennaModel antenna_model,
       const Vector<3> ant_pos_b,
@@ -49,7 +49,7 @@ class GNSSReceiver : public ComponentBase, public ILoggable
       ClockGenerator* clock_gen, 
       PowerPort* power_port,
       const int id, 
-      string gnss_id,
+      std::string gnss_id,
       const int ch_max,
       const AntennaModel antenna_model,
       const Vector<3> ant_pos_b,
@@ -70,8 +70,8 @@ class GNSSReceiver : public ComponentBase, public ILoggable
     inline const Vector<3> GetVelocityECI(void) const { return velocity_eci_; }
     inline const Vector<3> GetVelocityECEF(void) const { return velocity_ecef_; }
 
-    virtual string GetLogHeader() const;
-    virtual string GetLogValue() const;
+    virtual std::string GetLogHeader() const;
+    virtual std::string GetLogValue() const;
 
   protected:
     //Parameters for receiver
@@ -81,7 +81,7 @@ class GNSSReceiver : public ComponentBase, public ILoggable
     Quaternion q_b2c_;  // Quaternion from body frame to component frame
     libra::NormalRand nrs_eci_x_, nrs_eci_y_, nrs_eci_z_; // Random Error for each axis
     double half_width_ = 0.0;
-    string gnss_id_;
+    std::string gnss_id_;
     AntennaModel antenna_model_;
 
     //Calculated values
@@ -106,7 +106,7 @@ class GNSSReceiver : public ComponentBase, public ILoggable
     void CheckAntenna(Vector<3> location_true, Quaternion q_i2b);
     void CheckAntennaSimple(Vector<3> location_true, Quaternion q_i2b);
     void CheckAntennaCone(Vector<3> location_true, Quaternion q_i2b);
-    void SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, string gnss_id);
+    void SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, std::string gnss_id);
     void AddNoise(Vector<3> location_true_eci, Vector<3> location_true_ecef); // substitutional method for "Measure" in other sensor modles inherited SensorBase class
     void ConvertJulianDayToGPSTime(const double JulianDay);
 };

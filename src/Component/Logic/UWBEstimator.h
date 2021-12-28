@@ -34,8 +34,8 @@ public:
   void SetX(Vector<6> x_new);
   bool IsConverged();
 
-  string GetLogHeader() const;
-  string GetLogValue() const;
+  std::string GetLogHeader() const;
+  std::string GetLogValue() const;
 
 private:
   double Rinf = 1000000;

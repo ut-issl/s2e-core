@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 #include "Orbit.h"
 #include "../../Library/math/ODE.hpp"
 #include "../../RelativeInformation/RelativeInformation.h"
@@ -31,8 +33,8 @@ public:
 
   virtual void RHS(double t, const Vector<6>& state, Vector<6>& rhs);
 
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
 private:
   double mu_;

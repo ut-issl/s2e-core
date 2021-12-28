@@ -92,12 +92,12 @@ libra::Vector<kMtqDim> MagTorquer::CalcOutputTorque(void)
   return torque_b_;
 }
 
-string MagTorquer::GetLogHeader() const
+std::string MagTorquer::GetLogHeader() const
 {
-  string str_tmp = "";
-  const string st_sensor_id = std::to_string(static_cast<long long>(id_));
+  std::string str_tmp = "";
+  const std::string st_sensor_id = std::to_string(static_cast<long long>(id_));
   const char *cs = st_sensor_id.data();
-  string MSSection = "mag_torquer";
+  std::string MSSection = "mag_torquer";
 
   str_tmp += WriteVector(MSSection + cs, "b", "Am^2", kMtqDim);
   str_tmp += WriteVector(MSSection + cs, "b", "Nm", kMtqDim);
@@ -105,9 +105,9 @@ string MagTorquer::GetLogHeader() const
   return str_tmp;
 }
 
-string MagTorquer::GetLogValue() const
+std::string MagTorquer::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteVector(mag_moment_b_);
   str_tmp += WriteVector(torque_b_);
 

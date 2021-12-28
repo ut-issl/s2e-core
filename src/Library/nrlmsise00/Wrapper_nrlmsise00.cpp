@@ -185,7 +185,8 @@ int ConvertMonthStrToMonthNum(string month_str)
 /* --------------------------CalcNRLMSISE00--------------------------- */
 /* ------------------------------------------------------------------- */
 /* GTD7 Wrapper */
-double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, const vector<nrlmsise_table>& table)
+double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, const vector<nrlmsise_table>& table,
+                      bool is_manual_param, double manual_f107, double manual_f107a, double manual_ap)
 {
   struct nrlmsise_output output;
   struct nrlmsise_input input;
@@ -209,37 +210,45 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, 
   input.g_long = lonrad * RAD2DEG;
   input.lst = input.sec / 3600.0 + lonrad * RAD2DEG / 15.0;
 
-  // f10.7 and ap from table
-
-  // テーブルサイズが0なら，0を返して終了
-  if (table.size() == 0) { return 0.0; }
-
-  // search table index 
-  for (i = 0; i < table.size(); i++)
+  if (is_manual_param)
   {
-    if (decyear < decyear_monthly)
-    {
-      // 年月日が一致
-      if ((date[0] == table[i].year) && (date[1] == table[i].month) && (date[2] == table[i].day))
-      {
-        idx = i;
-        break;
-      }
-    }
-    else
-    {
-      // 年月が一致
-      if ((date[0] == table[i].year) && (date[1] == table[i].month))
-      {
-        idx = i;
-        break;
-      }
-    }
+    input.f107 = manual_f107;
+    input.f107A = manual_f107a;
+    input.ap = manual_ap;
   }
+  else
+  {
+    // f10.7 and ap from table
+    // テーブルサイズが0なら，0を返して終了
+    if (table.size() == 0) { return 0.0; }
 
-  input.f107A = table[idx].Ctr81_adj;
-  input.f107 = table[idx].F107_adj;
-  input.ap = table[idx].Ap_avg;
+    // search table index 
+    for (i = 0; i < table.size(); i++)
+    {
+      if (decyear < decyear_monthly)
+      {
+        // 年月日が一致
+        if ((date[0] == table[i].year) && (date[1] == table[i].month) && (date[2] == table[i].day))
+        {
+          idx = i;
+          break;
+        }
+      }
+      else
+      {
+        // 年月が一致
+        if ((date[0] == table[i].year) && (date[1] == table[i].month))
+        {
+          idx = i;
+          break;
+        }
+      }
+    }
+
+    input.f107A = table[idx].Ctr81_adj;
+    input.f107 = table[idx].F107_adj;
+    input.ap = table[idx].Ap_avg;
+  }
 
   for (i = 0; i < 7; i++) { aph.a[i] = input.ap; }
   input.ap_a = &aph;
@@ -306,15 +315,16 @@ int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename,
     int month = atoi(line.substr(5, 2).c_str());
     int day = atoi(line.substr(8, 2).c_str());
     double decyear_line = ConvertDateToDecyear(year, month, day);
-    double decyear_ini_ymd = ConvertDateToDecyear(date_ini[0], date_ini[1], date_ini[2]);
+    // 少なくとも1カ月分はデータを確保するため，シミュレーション開始時刻の一ヶ月前からテーブル値を確保する
+    double decyear_ini_ymd = ConvertDateToDecyear(date_ini[0], date_ini[1], date_ini[2]) - 31.0 / 365.0; // 一ヶ月引く
     double decyear_end_ymd = ConvertDateToDecyear(date_end[0], date_end[1], date_end[2]);
 
     if (decyear_line < decyear_ini_ymd || decyear_line > decyear_end_ymd) continue;
 
     // Read table data
-    line_data.year = atoi(year_str.c_str());
-    line_data.month = atoi(line.substr(5, 2).c_str());
-    line_data.day = atoi(line.substr(8, 2).c_str());
+    line_data.year = year;
+    line_data.month = month;
+    line_data.day = day;
     line_data.Ap_avg = atof(line.substr(80, 3).c_str());
     line_data.F107_adj = atof(line.substr(93, 5).c_str());
     line_data.Ctr81_adj = atof(line.substr(101, 5).c_str());
@@ -326,5 +336,5 @@ int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename,
     table.push_back(line_data);
   }
 
-  return 1;
+  return table.size();
 }

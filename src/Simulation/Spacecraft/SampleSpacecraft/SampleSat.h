@@ -18,10 +18,6 @@ public:
   // 状態量の更新
   virtual void Update(const SimTime* sim_time);
 
-  //ダイナミクスへの力・トルク出力
-  void GenerateTorque_b();
-  void GenerateForce_b();
-
 private:
   SampleComponents* components_;
 };

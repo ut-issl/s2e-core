@@ -12,7 +12,7 @@ class EarthCenteredOrbit;
 class SimpleCircularOrbit;
 class RelativeOrbit;
 
-Orbit* InitOrbit(const CelestialInformation* celes_info, string ini_path, double stepSec, double current_jd, double gravity_constant, string section, RelativeInformation* rel_info)
+Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, double stepSec, double current_jd, double gravity_constant, std::string section, RelativeInformation* rel_info)
 {
   auto conf = IniAccess(ini_path);
   const char* section_ = section.c_str();

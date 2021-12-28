@@ -34,9 +34,9 @@ void SolarRadiation::CalcCoef(Vector<3>& input_b, double item)
   }
 }
 
-string SolarRadiation::GetLogHeader() const
+std::string SolarRadiation::GetLogHeader() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
 
   str_tmp += WriteVector("srp_torque", "b", "Nm", 3);
   str_tmp += WriteVector("srp_force", "b", "N", 3);
@@ -44,9 +44,9 @@ string SolarRadiation::GetLogHeader() const
   return str_tmp;
 }
 
-string SolarRadiation::GetLogValue() const
+std::string SolarRadiation::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
 
   str_tmp += WriteVector(torque_b_);
   str_tmp += WriteVector(force_b_);

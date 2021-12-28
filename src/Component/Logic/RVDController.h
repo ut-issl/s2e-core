@@ -40,8 +40,8 @@ public:
   inline Vector<3> GetTorque() { return torque_; }
   inline void ClearForce() { thrust_b_ *= 0; }
 
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
 private:
   double acos_tolerant(double x);

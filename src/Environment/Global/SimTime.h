@@ -14,8 +14,6 @@
 #include "../../Library/sgp4/sgp4io.h"
 #include "../../Library/sgp4/sgp4ext.h"
 
-using namespace std;
-
 struct TimeState
 {
   bool running = false;
@@ -88,8 +86,8 @@ public:
   inline const int GetStartMin(void) const { return start_min_; };
   inline const double GetStartSec(void) const { return start_sec_; };
   // logs
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
   //debug
   void PrintStartDateTime(void) const;
 
@@ -112,7 +110,7 @@ private:
   int log_counter_;
   int disp_counter_;
   TimeState state_;
-  chrono::system_clock::time_point clock_start_time_millisec_;
+  std::chrono::system_clock::time_point clock_start_time_millisec_;
   // chrono::system_clock::time_point clock_elapsed_time_millisec_; //実時間でのシミュレーション実行時間
 
                                         //固定値

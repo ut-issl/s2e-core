@@ -2,7 +2,6 @@
 #define __attitude_H__
 
 #include <string>
-using namespace std;
 
 #include "../../Library/math/MatVec.hpp"
 #include "../../Library/math/Quaternion.hpp"
@@ -85,8 +84,8 @@ public:
 
   virtual void Propagate(double endtime) = 0;
 
-  virtual string GetLogHeader() const = 0;
-  virtual string GetLogValue() const = 0;
+  virtual std::string GetLogHeader() const = 0;
+  virtual std::string GetLogValue() const = 0;
 
   bool IsCalcEnabled = true;
 

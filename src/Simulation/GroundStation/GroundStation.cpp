@@ -1,9 +1,9 @@
+#include <string>
+
 #include "GroundStation.h"
 
 #include "../../Interface/LogOutput/LogUtility.h"
 #include "../../Interface/LogOutput/Logger.h"
-
-
 
 GroundStation::GroundStation(SimulationConfig* config, int gs_id)
   :gs_id_(gs_id)
@@ -18,10 +18,10 @@ GroundStation::~GroundStation()
 void GroundStation::Initialize(int gs_id,SimulationConfig* config)
 {
   IniAccess iniAccess = IniAccess(config->ini_base_fname_);
-  string gs_ini_path = iniAccess.ReadString("SIM_SETTING", "gs_file");
+  std::string gs_ini_path = iniAccess.ReadString("SIM_SETTING", "gs_file");
   auto conf = IniAccess(gs_ini_path);
 
-  const string st_gs_id = std::to_string(static_cast<long long>(gs_id));
+  const std::string st_gs_id = std::to_string(static_cast<long long>(gs_id));
   const char* cs = st_gs_id.data();
   char Section[30] = "GS";
   strcat(Section, cs);

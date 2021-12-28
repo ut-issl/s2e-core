@@ -24,8 +24,8 @@ public:
   void SetVoltage(const double voltage);
   
   /*LOG出力用関数*/
-  string GetLogHeader() const override;
-  string GetLogValue() const override;
+  std::string GetLogHeader() const override;
+  std::string GetLogValue() const override;
 
 private:
   const int id_; //ここは文字列にした方が分かりやすい？

@@ -4,8 +4,6 @@
 #include <sstream>
 #include <iomanip>
 
-using namespace std;
-
 #include "../../Library/math/MatVec.hpp"
 #include "../../Library/math/Quaternion.hpp"
 using libra::Matrix;
@@ -13,47 +11,47 @@ using libra::Vector;
 using libra::Quaternion;
 
 template<typename T>
-inline string WriteScalar(T scalar, int precision=6);
-inline string WriteScalar(string name, string unit);
+inline std::string WriteScalar(T scalar, int precision=6);
+inline std::string WriteScalar(std::string name, std::string unit);
 
 template<size_t NUM>
-inline string WriteVector(Vector<NUM, double> vec, int precision=6);
-inline string WriteVector(string name, string frame, string unit, int n);
+inline std::string WriteVector(Vector<NUM, double> vec, int precision=6);
+inline std::string WriteVector(std::string name, std::string frame, std::string unit, int n);
 
 template<size_t ROW, size_t COLUMN>
-inline string WriteMatrix(Matrix<ROW, COLUMN, double> mat);
-inline string WriteMatrix(string name, string frame, string unit, int r, int c);
+inline std::string WriteMatrix(Matrix<ROW, COLUMN, double> mat);
+inline std::string WriteMatrix(std::string name, std::string frame, std::string unit, int r, int c);
 
-inline string WriteQuaternion(Quaternion quat);
+inline std::string WriteQuaternion(Quaternion quat);
 
 //Libraries for log writing
 template<typename T>
-string WriteScalar(T scalar, int precision)
+std::string WriteScalar(T scalar, int precision)
 {
-  stringstream str_tmp;
-  str_tmp << setprecision(precision) << scalar << ",";
+  std::stringstream str_tmp;
+  str_tmp << std::setprecision(precision) << scalar << ",";
   return str_tmp.str();
 }
-string WriteScalar(string name, string unit)
+std::string WriteScalar(std::string name, std::string unit)
 {
   return name + "[" + unit + "],";
 }
 
 template<size_t NUM>
-string WriteVector(Vector<NUM, double> vec, int precision)
+std::string WriteVector(Vector<NUM, double> vec, int precision)
 {
-  stringstream str_tmp;
+  std::stringstream str_tmp;
 
   for (int n = 0; n < NUM; n++)
   {
-    str_tmp << setprecision(precision) << vec[n] << ",";
+    str_tmp << std::setprecision(precision) << vec[n] << ",";
   }
   return str_tmp.str();
 }
-string WriteVector(string name, string frame, string unit, int n)
+std::string WriteVector(std::string name, std::string frame, std::string unit, int n)
 {
-  stringstream str_tmp;
-  string axis[3] = { "(X)", "(Y)", "(Z)" };
+  std::stringstream str_tmp;
+  std::string axis[3] = { "(X)", "(Y)", "(Z)" };
 
 
   for (int i = 0; i < n; i++)
@@ -71,9 +69,9 @@ string WriteVector(string name, string frame, string unit, int n)
 }
 
 template<size_t ROW, size_t COLUMN>
-string WriteMatrix(Matrix<ROW, COLUMN, double> mat)
+std::string WriteMatrix(Matrix<ROW, COLUMN, double> mat)
 {
-  stringstream str_tmp;
+  std::stringstream str_tmp;
 
   for (int n = 0; n < ROW; n++)
   {
@@ -84,9 +82,9 @@ string WriteMatrix(Matrix<ROW, COLUMN, double> mat)
   }
   return str_tmp.str();
 }
-string WriteMatrix(string name, string frame, string unit, int r, int c)
+std::string WriteMatrix(std::string name, std::string frame, std::string unit, int r, int c)
 {
-  stringstream str_tmp;
+  std::stringstream str_tmp;
 
   for (int i = 0; i < r; i++)
   {
@@ -98,9 +96,9 @@ string WriteMatrix(string name, string frame, string unit, int r, int c)
   return str_tmp.str();
 }
 
-string WriteQuaternion(Quaternion quat)
+std::string WriteQuaternion(Quaternion quat)
 {
-  stringstream str_tmp;
+  std::stringstream str_tmp;
 
   for (int i = 0; i < 4; i++)
   {

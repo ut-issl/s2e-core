@@ -12,6 +12,8 @@
 #include "../../../Component/AOCS/MagTorquer.h"
 #include "../../../Component/AOCS/RWModel.h"
 #include "../../../Component/Propulsion/SimpleThruster.h"
+#include "../../../Interface/HilsInOut/HilsPortManager.h"
+#include "../../../Component/Abstract/ExpHils.h"
 
 using libra::Vector;
 class OBC;
@@ -44,6 +46,7 @@ public:
 private:
   PCU* pcu_;
   OBC* obc_;
+  HilsPortManager* hils_port_manager_;
   Gyro* gyro_;
   MagSensor* mag_sensor_;
   STT* stt_;
@@ -52,6 +55,8 @@ private:
   MagTorquer* mag_torquer_;
   RWModel* rw_;
   SimpleThruster* thruster_;
+  ExpHils* exp_hils_responder_;
+  ExpHils* exp_hils_sender_;
 
   const SimulationConfig* config_;
   const Dynamics* dynamics_;

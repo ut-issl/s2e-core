@@ -2,7 +2,6 @@
 #define __controlled_attitude_H__
 
 #include <string>
-using namespace std;
 
 #include "Attitude.h"
 #include "../../Environment/Local/LocalCelestialInformation.h"
@@ -26,8 +25,8 @@ public:
   virtual void Propagate(double endtime);
 
   // Override ILoggable
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
 private:
   //Inputs

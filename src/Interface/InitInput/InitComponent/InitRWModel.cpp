@@ -28,13 +28,13 @@ namespace {
   bool drive_flag;
   double init_velocity;
 
-  void InitParams(int actuator_id, string file_name, double prop_step, double compo_update_step)
+  void InitParams(int actuator_id, std::string file_name, double prop_step, double compo_update_step)
   {
     //Access Parameters
     IniAccess rwmodel_conf(file_name);
-    const string st_actuator_num = std::to_string(static_cast<long long>(actuator_id));
+    const std::string st_actuator_num = std::to_string(static_cast<long long>(actuator_id));
     const char *cs = st_actuator_num.data();
-    string section_tmp = "RW";
+    std::string section_tmp = "RW";
     section_tmp += cs;
     const char *RWsection = section_tmp.data();
 
@@ -47,7 +47,7 @@ namespace {
     max_torque = rwmodel_conf.ReadDouble(RWsection, "max_torque");
     max_velocity = rwmodel_conf.ReadDouble(RWsection, "max_angular_velocity");
 
-    string direction_determination_mode;
+    std::string direction_determination_mode;
     direction_determination_mode = rwmodel_conf.ReadString(RWsection, "direction_determination_mode");
     if (direction_determination_mode == "QUATERNION")
     {
@@ -70,8 +70,8 @@ namespace {
     is_calc_jitter_enabled = rwmodel_conf.ReadEnable(RWsection, "jitter_calculation");
     is_log_jitter_enabled = rwmodel_conf.ReadEnable(RWsection, "jitter_logging");
 
-    string radial_force_harmonics_coef_path = rwmodel_conf.ReadString(RWsection, "radial_force_harmonics_coef_path");
-    string radial_torque_harmonics_coef_path = rwmodel_conf.ReadString(RWsection, "radial_torque_harmonics_coef_path");
+    std::string radial_force_harmonics_coef_path = rwmodel_conf.ReadString(RWsection, "radial_force_harmonics_coef_path");
+    std::string radial_torque_harmonics_coef_path = rwmodel_conf.ReadString(RWsection, "radial_torque_harmonics_coef_path");
     int harmonics_degree = rwmodel_conf.ReadInt(RWsection, "harmonics_degree");
     IniAccess conf_radial_force_harmonics(radial_force_harmonics_coef_path);
     IniAccess conf_radial_torque_harmonics(radial_torque_harmonics_coef_path);
@@ -93,7 +93,7 @@ namespace {
   }
 }
 
-RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id, string file_name, double prop_step, double compo_update_step){
+RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id, std::string file_name, double prop_step, double compo_update_step){
   InitParams(actuator_id, file_name, prop_step, compo_update_step);
 
   RWModel rwmodel(prescaler, fast_prescaler, clock_gen, step_width, dt_main_routine, jitter_update_interval,
@@ -105,7 +105,7 @@ RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id, string file_name
   return rwmodel;
 }
 
-RWModel InitRWModel(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, string file_name, double prop_step, double compo_update_step){
+RWModel InitRWModel(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, std::string file_name, double prop_step, double compo_update_step){
   InitParams(actuator_id, file_name, prop_step, compo_update_step);
 
   RWModel rwmodel(prescaler, fast_prescaler, clock_gen, power_port, step_width, dt_main_routine, jitter_update_interval,

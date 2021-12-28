@@ -54,17 +54,17 @@ double BAT::GetCVChargeVoltage() const
   return cv_charge_voltage_;
 }
 
-string BAT::GetLogHeader() const
+std::string BAT::GetLogHeader() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteScalar("bat_voltage", "V");
   str_tmp += WriteScalar("DoD", "%");
   return str_tmp;
 }
 
-string BAT::GetLogValue() const
+std::string BAT::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteScalar(bat_voltage_);
   str_tmp += WriteScalar(dod_);
   return str_tmp;

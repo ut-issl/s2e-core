@@ -4,7 +4,7 @@
 UWBSensor InitUWBSensor(int sensor_id)
 {
   IniAccess conf("data/ini/component/UWBSensor.ini");
-  string section = "UWB" + to_string(sensor_id);
+  std::string section = "UWB" + std::to_string(sensor_id);
   const char* csection = section.c_str();
 
   Vector<3> pos;

@@ -5,7 +5,7 @@ class ObcGpioBase
 {
 public:
   ObcGpioBase(
-    const vector<int> port_id, 
+    const std::vector<int> port_id, 
     OBC* obc
   );
   ~ObcGpioBase();
@@ -15,6 +15,6 @@ protected:
   void Write(const int idx, const bool is_high);  // The first arg is the element index for port_id_ vector, not the GPIO port ID for OBC.
 
 private:
-  vector<int> port_id_;
+  std::vector<int> port_id_;
   OBC* obc_;
 };

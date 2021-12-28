@@ -1,0 +1,15 @@
+*      text=auto
+
+*.md   text
+*.txt  text
+*.json text
+
+*.cpp  text
+*.h    text
+*.hpp  text
+
+*.sh   text eol=lf
+*.bat  text eol=crlf
+
+*.ini  text
+*.csv  text

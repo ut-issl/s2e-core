@@ -13,7 +13,7 @@ class MagEnvironment : public ILoggable
 public:
   bool IsCalcEnabled = true;
 
-  MagEnvironment(string fname,
+  MagEnvironment(std::string fname,
     double mag_rwdev,
     double mag_rwlimit,
     double mag_wnvar);
@@ -21,8 +21,8 @@ public:
   Vector<3> GetMag_i() const;
   Vector<3> GetMag_b() const;
 
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
 private:
   Vector<3> Mag_i_;
@@ -30,7 +30,7 @@ private:
   double mag_rwdev_;
   double mag_rwlimit_;
   double mag_wnvar_;
-  string fname_;
+  std::string fname_;
 
   void AddNoise(double* mag_i_array);
 

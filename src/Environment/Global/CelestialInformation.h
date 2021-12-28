@@ -3,7 +3,6 @@
 
 #include <cstring>
 #include <string>
-using namespace std;
 
 #include "../../Library/math/Matrix.hpp"
 #include "../../Library/math/Vector.hpp"
@@ -19,7 +18,7 @@ class CelestialInformation : public ILoggable
 {
 public:
   // CONSTRUCTOR OF CELESTIAL INFORMATION
-  CelestialInformation(string inertial_frame, string aber_cor, string center_obj, RotationMode rotation_mode, int num_of_selected_body, int* selected_body);
+  CelestialInformation(std::string inertial_frame, std::string aber_cor, std::string center_obj, RotationMode rotation_mode, int num_of_selected_body, int* selected_body);
   CelestialInformation(const CelestialInformation &obj);
   ~CelestialInformation();
 
@@ -35,13 +34,13 @@ public:
   inline int GetNumBody(void) const{return num_of_selected_body_;}
   inline int* GetSelectedBody(void) const{return selected_body_;}
   int CalcBodyIdFromName(const char* body_name) const;
-  inline string GetCenterBodyName(void) const { return center_obj_; }
+  inline std::string GetCenterBodyName(void) const { return center_obj_; }
   
   inline CelestialRotation GetEarthRotation(void) const { return *EarthRotation_; };
 
   // FOR LOG OUTPUT
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
 
   // FOR DEBUG OUTPUT
   void DebugOutput(void);
@@ -49,9 +48,9 @@ public:
 private:
   int   num_of_selected_body_;
   int*  selected_body_;       //IDs of selected bodies.
-  string inertial_frame_;     //Definition of inertial frame. Default = "J2000"
-  string aber_cor_;           //stellar aberration correction. Default = "NONE"（Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt）
-  string center_obj_;         //center object. Default = "EARTH"
+  std::string inertial_frame_;     //Definition of inertial frame. Default = "J2000"
+  std::string aber_cor_;           //stellar aberration correction. Default = "NONE"（Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt）
+  std::string center_obj_;         //center object. Default = "EARTH"
   RotationMode rotation_mode_;   //designation of dynamics model. Default = "Full"
 
   // Global Information. POS:[m], VEL:[m/s], GRAVITY CONSTANT (G*M):[m^3/s^2]

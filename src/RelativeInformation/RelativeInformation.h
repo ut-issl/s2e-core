@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 #include "../Interface/LogOutput/ILoggable.h"
 #include "../Interface/LogOutput/Logger.h"
 #include "../Dynamics/Dynamics.h"
@@ -8,8 +10,8 @@ class RelativeInformation : public ILoggable
 public:
   RelativeInformation();
   ~RelativeInformation();
-  virtual string GetLogHeader() const;
-  virtual string GetLogValue() const;
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
   void LogSetup(Logger& logger);
   void RegisterDynamicsInfo(const int sat_id, const Dynamics* dynamics);
   void RemoveDynamicsInfo(const int sat_id);

@@ -7,7 +7,7 @@ GNSSReceiver::GNSSReceiver(
   const int prescaler, 
   ClockGenerator* clock_gen, 
   const int id, 
-  const string gnss_id,
+  const std::string gnss_id,
   const int ch_max,
   const AntennaModel antenna_model,
   const Vector<3> ant_pos_b,
@@ -26,7 +26,7 @@ GNSSReceiver::GNSSReceiver(
   ClockGenerator* clock_gen,
   PowerPort* power_port,
   const int id,
-  const string gnss_id,
+  const std::string gnss_id,
   const int ch_max,
   const AntennaModel antenna_model,
   const Vector<3> ant_pos_b,
@@ -113,8 +113,8 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_
   for (int i = 0; i < gnss_num; i++)
   {
     // check if gnss ID is compatible with the receiver
-    string id_tmp = gnss_satellites_->GetIDFromIndex(i);
-    if (gnss_id_.find(id_tmp[0]) == string::npos) continue;
+    std::string id_tmp = gnss_satellites_->GetIDFromIndex(i);
+    if (gnss_id_.find(id_tmp[0]) == std::string::npos) continue;
     
     // compute direction from sat to gnss in body-fixed frame
     gnss_sat_pos_i = gnss_satellites_->GetSatellitePositionEci(i);
@@ -154,7 +154,7 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_
     is_gnss_sats_visible_ = 0;
 }
 
-void GNSSReceiver::SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, string gnss_id)
+void GNSSReceiver::SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, std::string gnss_id)
 {
   Vector<3> ant2gnss_b, ant2gnss_c;
 
@@ -195,9 +195,9 @@ void GNSSReceiver::ConvertJulianDayToGPSTime(const double JulianDay)
   gpstime_sec_ = (elapsed_day - (double)(gpstime_week_)*kDayInWeek) * kSecInDay;
 }
 
-string GNSSReceiver::GetLogHeader() const //For logs
+std::string GNSSReceiver::GetLogHeader() const //For logs
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteScalar("gnss_year");
   str_tmp += WriteScalar("gnss_month");
   str_tmp += WriteScalar("gnss_day");
@@ -215,9 +215,9 @@ string GNSSReceiver::GetLogHeader() const //For logs
   return str_tmp;
 }
 
-string GNSSReceiver::GetLogValue() const //For logs
+std::string GNSSReceiver::GetLogValue() const //For logs
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteScalar(utc_.year);
   str_tmp += WriteScalar(utc_.month);
   str_tmp += WriteScalar(utc_.day);

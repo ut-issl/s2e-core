@@ -4,7 +4,7 @@
 #include "../../../Component/CommGS/GScalculator.h"
 
 // 地上局計算クラス初期化
-GScalculator InitGScalculator(const string fname){
+GScalculator InitGScalculator(const std::string fname){
 
     IniAccess gs_conf(fname);
 

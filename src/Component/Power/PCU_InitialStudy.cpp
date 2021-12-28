@@ -16,17 +16,17 @@ PCU_InitialStudy::~PCU_InitialStudy()
 {
 }
 
-string PCU_InitialStudy::GetLogHeader() const
+std::string PCU_InitialStudy::GetLogHeader() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteScalar("power_consumption", "W");
   str_tmp += WriteScalar("bus_voltage", "V");
   return str_tmp;
 }
 
-string PCU_InitialStudy::GetLogValue() const
+std::string PCU_InitialStudy::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
   str_tmp += WriteScalar(power_consumption_);
   str_tmp += WriteScalar(bus_voltage_);
   return str_tmp;

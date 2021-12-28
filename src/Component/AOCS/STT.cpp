@@ -180,10 +180,10 @@ int STT::CaptureRateJudgement(const libra::Vector<3>& omega_b)
     return 0;
 }
 
-string STT::GetLogHeader() const
+std::string STT::GetLogHeader() const
 {
-  string str_tmp = "";
-  const string sensor_id = std::to_string(static_cast<long long>(id_));
+  std::string str_tmp = "";
+  const std::string sensor_id = std::to_string(static_cast<long long>(id_));
 
   str_tmp += WriteVector("quaternion_STT"+sensor_id, "i2c", "-", 4);
   str_tmp += WriteScalar("STT error flag"+sensor_id);
@@ -191,9 +191,9 @@ string STT::GetLogHeader() const
   return str_tmp;
 }
 
-string STT::GetLogValue() const
+std::string STT::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
 
   str_tmp += WriteQuaternion(q_stt_i2c_);
   str_tmp += WriteScalar(double(error_flag_));

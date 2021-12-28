@@ -7,9 +7,9 @@
   #include <sys/stat.h>
 #endif
 
-vector<ILoggable*> loggables_;
+std::vector<ILoggable*> loggables_;
 
-Logger::Logger(const string &file_name,const string &data_path, const string &ini_file_name, const bool enable_inilog, bool enable)
+Logger::Logger(const std::string &file_name,const std::string &data_path, const std::string &ini_file_name, const bool enable_inilog, bool enable)
 {
   is_enabled_ = enable;
   is_open_ = false;
@@ -26,7 +26,7 @@ Logger::Logger(const string &file_name,const string &data_path, const string &in
   if(is_enabled_inilog_ == true) directory_path_ = CreateDirectory(data_path, start_time_c);
   else directory_path_ = data_path;
   // Create File
-  stringstream file_path;
+  std::stringstream file_path;
   file_path << directory_path_ << start_time_c << "_" << file_name;
   if (is_enabled_)
   {
@@ -72,7 +72,7 @@ void Logger::WriteNewLine()
   Write("\n");
 }
 
-void Logger::Write(string log, bool flag)
+void Logger::Write(std::string log, bool flag)
 {
   if (flag && is_enabled_)
   {
@@ -90,9 +90,9 @@ void Logger::ClearLoggables()
   loggables_.clear();
 }
 
-string Logger::CreateDirectory(const string &data_path, const string & time)
+std::string Logger::CreateDirectory(const std::string &data_path, const std::string & time)
 {
-  string directory_path_tmp_ = data_path + "/logs_" + time + "/";
+  std::string directory_path_tmp_ = data_path + "/logs_" + time + "/";
   //Make directory
   int rtn_mkdir = 0;
   #ifdef WIN32
@@ -109,30 +109,32 @@ string Logger::CreateDirectory(const string &data_path, const string & time)
   return directory_path_tmp_;
 }
 
-void Logger::CopyFileToLogDir(const string &ini_file_name)
+void Logger::CopyFileToLogDir(const std::string &ini_file_name)
 {
+  using std::ios;
+
   if(is_enabled_inilog_ == false) return;
   //Copy files to the directory
-  string file_name = GetFileName(ini_file_name);
-  string to_file_name = directory_path_ + file_name;
-  ifstream is(ini_file_name, ios::in | ios::binary);
-  ofstream os(to_file_name, ios::out | ios::binary);
+  std::string file_name = GetFileName(ini_file_name);
+  std::string to_file_name = directory_path_ + file_name;
+  std::ifstream is(ini_file_name, ios::in | ios::binary);
+  std::ofstream os(to_file_name, ios::out | ios::binary);
   os << is.rdbuf();
 
   return;
 }
 
-string Logger::GetFileName(const string &path)
+std::string Logger::GetFileName(const std::string &path)
 {
   size_t pos1;
 
   pos1 = path.rfind('\\');
-  if (pos1 != string::npos) {
+  if (pos1 != std::string::npos) {
     return path.substr(pos1 + 1, path.size() - pos1 - 1);
   }
 
   pos1 = path.rfind('/');
-  if (pos1 != string::npos) {
+  if (pos1 != std::string::npos) {
     return path.substr(pos1 + 1, path.size() - pos1 - 1);
   }
 

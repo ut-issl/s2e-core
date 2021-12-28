@@ -15,8 +15,8 @@ public:
   // Override ComponentBase
   void MainRoutine(int count) override;
   // Override ILoggable
-  string GetLogHeader() const override;
-  string GetLogValue() const override;
+  std::string GetLogHeader() const override;
+  std::string GetLogValue() const override;
 
   // Getter
   inline PowerPort* GetPowerPort(int port_id){return ports_[port_id];};

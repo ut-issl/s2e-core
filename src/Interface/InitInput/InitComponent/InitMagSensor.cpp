@@ -1,7 +1,7 @@
 #include "../Initialize.h"
 #include "../../../Component/AOCS/MagSensor.h"
 
-MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const string fname, double compo_step_time, const MagEnvironment* magnet){
+MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const MagEnvironment* magnet){
   IniAccess magsensor_conf(fname);
   char MSSection[30] = "MAGSENSOR";
 
@@ -44,7 +44,7 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const string f
   return magsensor;		
 }
 
-MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const string fname, double compo_step_time, const MagEnvironment* magnet){
+MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time, const MagEnvironment* magnet){
   IniAccess magsensor_conf(fname);
   char MSSection[30] = "MAGSENSOR";
 

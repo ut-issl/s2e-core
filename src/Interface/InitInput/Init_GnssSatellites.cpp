@@ -1,10 +1,11 @@
 #include <iostream>
+#include <string>
 #include "../../Environment/Global/GnssSatellites.h"
 #include "Initialize.h"
 
-string return_dirctory_path(string sort)
+std::string return_dirctory_path(std::string sort)
 {
-  string main_directory,sub_directory;
+  std::string main_directory,sub_directory;
 
   if(sort.substr(0, 2) == "IG"){
     main_directory = "IGS/";
@@ -19,7 +20,7 @@ string return_dirctory_path(string sort)
     main_directory = "JAXA/";
     sub_directory = "madoca/";
   }else{
-    for(int i = 0;i < sort.size();++i){
+    for(int i = 0;i < (int)sort.size();++i){
       if(sort.at(i) == '_'){
         main_directory = sort.substr(0, i) + "/";
         if(sort.at(i + 1) == 'F'){
@@ -29,7 +30,7 @@ string return_dirctory_path(string sort)
         }else if(sort.at(i + 1) == 'U'){
           sub_directory = "ultra_rapid/";
         }else{
-          cout << "file_sort has something wrong" << endl;
+          std::cout << "file_sort has something wrong" << std::endl;
           exit(1);
         }
         break;
@@ -40,17 +41,17 @@ string return_dirctory_path(string sort)
   return main_directory + sub_directory;
 }
 
-void get_raw_contents(string directory_path, string file_name, vector<string>& storage)
+void get_raw_contents(std::string directory_path, std::string file_name, std::vector<std::string>& storage)
 {
-  string all_file_path = directory_path + file_name;
-  ifstream ifs(all_file_path);
+  std::string all_file_path = directory_path + file_name;
+  std::ifstream ifs(all_file_path);
 
   if(!ifs.is_open()){
-    cout << "in " << directory_path << "gnss file: " << file_name << " not found" << endl;
+    std::cout << "in " << directory_path << "gnss file: " << file_name << " not found" << std::endl;
     exit(1);
   }
-  string str;
-  while(getline(ifs, str)){
+  std::string str;
+  while(std::getline(ifs, str)){
     storage.push_back(str);
   }
   ifs.close();
@@ -59,14 +60,14 @@ void get_raw_contents(string directory_path, string file_name, vector<string>& s
   return;
 }
 
-void get_sp3_file_contents(string directory_path, string file_sort, string first, string last, vector<vector<string>>& file_contents, bool& ur_flag)
+void get_sp3_file_contents(std::string directory_path, std::string file_sort, std::string first, std::string last, std::vector<std::vector<std::string>>& file_contents, UR_KINDS& ur_flag)
 {
-  string all_directory_path = directory_path + return_dirctory_path(file_sort);
-  ur_flag = false;
+  std::string all_directory_path = directory_path + return_dirctory_path(file_sort);
+  ur_flag = UR_NOT_UR;
 
   if(first.substr(0, 3) == "COD"){
-    string file_header = "COD0MGXFIN_"; 
-    string file_footer = "0000_01D_05M_ORB.SP3";
+    std::string file_header = "COD0MGXFIN_";
+    std::string file_footer = "0000_01D_05M_ORB.SP3";
     int year = stoi(first.substr(file_header.size(), 4));
     int year_last_day = 365 + (year%4 == 0) - (year%100 == 0) + (year%400 == 0);
     int day = stoi(first.substr(file_header.size() + 4, 3));
@@ -79,26 +80,27 @@ void get_sp3_file_contents(string directory_path, string file_sort, string first
         year_last_day = 365 + (year%4 == 0) - (year%100 == 0) + (year%400 == 0);
         day = 1;
       }
-      string s_day;
-      if(day >= 100) s_day = to_string(day);
-      else if(day >= 10) s_day = '0' + to_string(day);
-      else s_day = "00" + to_string(day);
-      string file_name = file_header + to_string(year) + s_day + file_footer;
-      file_contents.push_back(vector<string>());
+      std::string s_day;
+      if(day >= 100) s_day = std::to_string(day);
+      else if(day >= 10) s_day = '0' + std::to_string(day);
+      else s_day = "00" + std::to_string(day);
+      std::string file_name = file_header + std::to_string(year) + s_day + file_footer;
+      file_contents.push_back(std::vector<std::string>());
 
       get_raw_contents(all_directory_path, file_name, file_contents.back());
-      
+
       if(file_name == last) break;
       ++day;
     }
-  }else if(file_sort.substr(0, 3) == "IGU" || (file_sort.size() >= 11 && file_sort.substr(file_sort.size() - 11) == "Ultra_rapid")){ //URの場合
-    ur_flag = true;
-    string file_header, file_footer;
+  }else if(file_sort.substr(0, 3) == "IGU" || file_sort.find("Ultra") != std::string::npos){ //URの場合
+    ur_flag = UR_UNKNOWN;
+    std::string file_header, file_footer;
     int gps_week, day;
     int hour;
-    for(int i = 0;i < first.size();++i){
+    for(int i = 0;i < (int)first.size();++i){
       int n = first.at(i);
-      if(48 <= n && n < 58){
+      // Looking for the number of file name
+      if((int)'0' <= n && n < (int)('0' + 10)){
         file_header = first.substr(0, i);
         gps_week = stoi(first.substr(file_header.size(), 4));
         day = stoi(first.substr(file_header.size() + 4, 1));
@@ -119,24 +121,25 @@ void get_sp3_file_contents(string directory_path, string file_sort, string first
         ++gps_week;
         day = 0;
       }
-      string file_name = file_header + to_string(gps_week) + to_string(day) + "_";
+      std::string file_name = file_header + std::to_string(gps_week) + std::to_string(day) + "_";
       if(hour < 10){
         file_name += "0";
       }
-      file_name += to_string(hour) + file_footer;
-      file_contents.push_back(vector<string>());
+      file_name += std::to_string(hour) + file_footer;
+      file_contents.push_back(std::vector<std::string>());
 
       get_raw_contents(all_directory_path, file_name, file_contents.back());
-      
+
       if(file_name == last) break;
       hour += 6;
     }
   }else{
-    string file_header, file_footer;
+    std::string file_header, file_footer;
     int gps_week, day;
-    for(int i = 0;i < first.size();++i){
+    for(int i = 0;i < (int)first.size();++i){
       int n = first.at(i);
-      if(48 <= n && n < 58){
+      // Looking for the number of file name
+      if((int)'0' <= n && n < (int)('0' + 10)){
         file_header = first.substr(0, i);
         gps_week = stoi(first.substr(file_header.size(), 4));
         day = stoi(first.substr(file_header.size() + 4, 1));
@@ -144,7 +147,7 @@ void get_sp3_file_contents(string directory_path, string file_sort, string first
         break;
       }
     }
-    
+
     file_contents.clear();
 
     while(true){
@@ -152,11 +155,11 @@ void get_sp3_file_contents(string directory_path, string file_sort, string first
         ++gps_week;
         day = 0;
       }
-      string file_name = file_header + to_string(gps_week) + to_string(day) + file_footer;
-      file_contents.push_back(vector<string>());
+      std::string file_name = file_header + std::to_string(gps_week) + std::to_string(day) + file_footer;
+      file_contents.push_back(std::vector<std::string>());
 
       get_raw_contents(all_directory_path, file_name, file_contents.back());
-      
+
       if(file_name == last) break;
       ++day;
     }
@@ -165,70 +168,117 @@ void get_sp3_file_contents(string directory_path, string file_sort, string first
   return;
 }
 
-void get_clk_file_contents(string directory_path, string extension, string file_sort, string first, string last, vector<vector<string>>& file_contents)
+void get_clk_file_contents(std::string directory_path, std::string extension, std::string file_sort, std::string first, std::string last, std::vector<std::vector<std::string>>& file_contents)
 {
-  string all_directory_path = directory_path + return_dirctory_path(file_sort) + extension.substr(1) + '/';
-  
-  string file_header, file_footer;
-  int gps_week, day;
-  for(int i = 0;i < first.size();++i){
-    int n = first.at(i);
-    if(48 <= n && n < 58){
-      file_header = first.substr(0, i);
-      gps_week = stoi(first.substr(file_header.size(), 4));
-      day = stoi(first.substr(file_header.size() + 4, 1));
-      file_footer = first.substr(file_header.size() + 5);
-      break;
+  std::string all_directory_path = directory_path + return_dirctory_path(file_sort) + extension.substr(1) + '/';
+
+  if(file_sort.find("Ultra") != std::string::npos){
+    std::string file_header, file_footer;
+    int gps_week, day;
+    int hour;
+    for(int i = 0;i < (int)first.size();++i){
+      int n = first.at(i);
+      // Looking for the number of file name
+      if((int)'0' <= n && n < (int)('0' + 10)){
+        file_header = first.substr(0, i);
+        gps_week = stoi(first.substr(file_header.size(), 4));
+        day = stoi(first.substr(file_header.size() + 4, 1));
+        hour = stoi(first.substr(file_header.size() + 6, 2));
+        file_footer = first.substr(file_header.size() + 8);
+        break;
+      }
     }
-  }
 
-  file_contents.clear();
+    file_contents.clear();
 
-  while(true){
-    if(day == 7){
-      ++gps_week;
-      day = 0;
+    while(true){
+      if(hour == 24){
+        hour = 0;
+        ++day;
+      }
+      if(day == 7){
+        ++gps_week;
+        day = 0;
+      }
+      std::string file_name = file_header + std::to_string(gps_week) + std::to_string(day) + "_";
+      if(hour < 10){
+        file_name += "0";
+      }
+      file_name += std::to_string(hour) + file_footer;
+      file_contents.push_back(std::vector<std::string>());
+
+      get_raw_contents(all_directory_path, file_name, file_contents.back());
+
+      if(file_name == last) break;
+      hour += 6;
     }
-    string file_name = file_header + to_string(gps_week) + to_string(day) + file_footer;
-    file_contents.push_back(vector<string>());
+  }else{
+    std::string file_header, file_footer;
+    int gps_week, day;
+    for(int i = 0;i < (int)first.size();++i){
+      int n = first.at(i);
+      // Looking for the number of file name
+      if((int)'0' <= n && n < (int)('0' + 10)){
+        file_header = first.substr(0, i);
+        gps_week = stoi(first.substr(file_header.size(), 4));
+        day = stoi(first.substr(file_header.size() + 4, 1));
+        file_footer = first.substr(file_header.size() + 5);
+        break;
+      }
+    }
 
-    get_raw_contents(all_directory_path, file_name, file_contents.back());
-    
-    if(file_name == last) break;
-    ++day;
+    file_contents.clear();
+
+    while(true){
+      if(day == 7){
+        ++gps_week;
+        day = 0;
+      }
+      std::string file_name = file_header + std::to_string(gps_week) + std::to_string(day) + file_footer;
+      file_contents.push_back(std::vector<std::string>());
+
+      get_raw_contents(all_directory_path, file_name, file_contents.back());
+
+      if(file_name == last) break;
+      ++day;
+    }
   }
 
   return;
 }
 
-GnssSatellites* InitGnssSatellites(string file_name)
-{   
+GnssSatellites* InitGnssSatellites(std::string file_name)
+{
   IniAccess ini_file(file_name);
-  char* section = "GNSS_SATELLIES";
+  char section[] = "GNSS_SATELLIES";
   GnssSatellites* gnss_satellites = new GnssSatellites(ini_file.ReadEnable(section, CALC_LABEL));
   if(!gnss_satellites->IsCalcEnabled()){
     return gnss_satellites;
   }
 
-  string directory_path = ini_file.ReadString(section, "directory_path");
+  std::string directory_path = ini_file.ReadString(section, "directory_path");
 
-  vector<vector<string>> true_position_file;
-  bool true_position_ur_flag = false;
-  get_sp3_file_contents(directory_path, 
-                        ini_file.ReadString(section, "true_position_file_sort"), 
+  std::vector<std::vector<std::string>> true_position_file;
+  UR_KINDS true_position_ur_flag = UR_NOT_UR;
+  get_sp3_file_contents(directory_path,
+                        ini_file.ReadString(section, "true_position_file_sort"),
                         ini_file.ReadString(section, "true_position_first"),
-                        ini_file.ReadString(section, "true_position_last"), true_position_file, true_position_ur_flag);
+                        ini_file.ReadString(section, "true_position_last"),
+                        true_position_file,
+                        true_position_ur_flag);
   int true_position_interpolation_method = ini_file.ReadInt(section, "true_position_interpolation_method");
   int true_position_interpolation_number = ini_file.ReadInt(section, "true_position_interpolation_number");
 
-  vector<vector<string>> true_clock_file;
-  bool true_clock_ur_flag = false;
-  string true_clock_file_extension = ini_file.ReadString(section, "true_clock_file_extension");
+  std::vector<std::vector<std::string>> true_clock_file;
+  UR_KINDS true_clock_ur_flag = UR_NOT_UR;
+  std::string true_clock_file_extension = ini_file.ReadString(section, "true_clock_file_extension");
   if(true_clock_file_extension == ".sp3"){
-    get_sp3_file_contents(directory_path, 
-                          ini_file.ReadString(section, "true_clock_file_sort"), 
+    get_sp3_file_contents(directory_path,
+                          ini_file.ReadString(section, "true_clock_file_sort"),
                           ini_file.ReadString(section, "true_clock_first"),
-                          ini_file.ReadString(section, "true_clock_last"), true_clock_file, true_clock_ur_flag);
+                          ini_file.ReadString(section, "true_clock_last"),
+                          true_clock_file,
+                          true_clock_ur_flag);
   }else{
     get_clk_file_contents(directory_path,
                           true_clock_file_extension,
@@ -239,23 +289,36 @@ GnssSatellites* InitGnssSatellites(string file_name)
   }
   int true_clock_interpolation_number = ini_file.ReadInt(section, "true_clock_interpolation_number");
 
-  vector<vector<string>> estimate_position_file;
-  bool estimate_position_ur_flag = true;
-  get_sp3_file_contents(directory_path, 
-                        ini_file.ReadString(section, "estimate_position_file_sort"), 
+  std::vector<std::vector<std::string>> estimate_position_file;
+  UR_KINDS estimate_position_ur_flag = UR_NOT_UR;
+  get_sp3_file_contents(directory_path,
+                        ini_file.ReadString(section, "estimate_position_file_sort"),
                         ini_file.ReadString(section, "estimate_position_first"),
-                        ini_file.ReadString(section, "estimate_position_last"), estimate_position_file, estimate_position_ur_flag);
+                        ini_file.ReadString(section, "estimate_position_last"),
+                        estimate_position_file,
+                        estimate_position_ur_flag);
   int estimate_position_interpolation_method = ini_file.ReadInt(section, "estimate_position_interpolation_method");
   int estimate_position_interpolation_number = ini_file.ReadInt(section, "estimate_position_interpolation_number");
+  if(estimate_position_ur_flag != UR_NOT_UR){
+    std::string ur_flag = ini_file.ReadString(section, "estimate_ur_observe_or_predict");
+    if(ur_flag.find("observe") != std::string::npos){
+      estimate_position_ur_flag = (UR_KINDS)((int)UR_OBSERVE1 + (ur_flag.back() - '1'));
+    }
+    else{
+      estimate_position_ur_flag = (UR_KINDS)((int)UR_PREDICT1 + (ur_flag.back() - '1'));
+    }
+  }
 
-  vector<vector<string>> estimate_clock_file;
-  bool estimate_clock_ur_flag = false;
-  string estimate_clock_file_extension = ini_file.ReadString(section, "estimate_clock_file_extension");
+  std::vector<std::vector<std::string>> estimate_clock_file;
+  UR_KINDS estimate_clock_ur_flag = estimate_position_ur_flag;
+  std::string estimate_clock_file_extension = ini_file.ReadString(section, "estimate_clock_file_extension");
   if(estimate_clock_file_extension == ".sp3"){
-    get_sp3_file_contents(directory_path, 
-                          ini_file.ReadString(section, "estimate_clock_file_sort"), 
+    get_sp3_file_contents(directory_path,
+                          ini_file.ReadString(section, "estimate_clock_file_sort"),
                           ini_file.ReadString(section, "estimate_clock_first"),
-                          ini_file.ReadString(section, "estimate_clock_last"), estimate_clock_file, estimate_clock_ur_flag);
+                          ini_file.ReadString(section, "estimate_clock_last"),
+                          estimate_clock_file,
+                          estimate_clock_ur_flag);
   }else{
     get_clk_file_contents(directory_path,
                           estimate_clock_file_extension,
@@ -275,7 +338,7 @@ GnssSatellites* InitGnssSatellites(string file_name)
                         true_clock_file_extension,
                         true_clock_interpolation_number,
                         true_clock_ur_flag,
-    
+
                         estimate_position_file,
                         estimate_position_interpolation_method,
                         estimate_position_interpolation_number,

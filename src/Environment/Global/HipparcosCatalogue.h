@@ -18,9 +18,9 @@ struct HipData
 class HipparcosCatalogue : public ILoggable
 {
 public:
-	HipparcosCatalogue(double max_magnitude, string catalogue_path);
+	HipparcosCatalogue(double max_magnitude, std::string catalogue_path);
 	~HipparcosCatalogue();
-	bool ReadContents(const string& filename, const char delimiter);
+	bool ReadContents(const std::string& filename, const char delimiter);
 	//ヒッパルコス星表のデータは視等級順に並べているので、等級の順位を引数に取る
 	int GetCatalogueSize() const { return hip_catalogue.size(); }
 	int GetHipID(int rank) const { return hip_catalogue[rank].hip_num; }
@@ -30,14 +30,13 @@ public:
 	libra::Vector<3> GetStarDir_i(int rank) const;//恒星の方向を返す
 	libra::Vector<3> GetStarDir_b(int rank, Quaternion q_i2b) const;//恒星の方向を返す
 
-	virtual string GetLogHeader() const;
-	virtual string GetLogValue() const;
+	virtual std::string GetLogHeader() const;
+	virtual std::string GetLogValue() const;
 
 	bool IsCalcEnabled = true;
 
 private:
 	std::vector<HipData> hip_catalogue;//CSVデータの格納先
 	double max_magnitude_;
-	string catalogue_path_;
-
+	std::string catalogue_path_;
 };

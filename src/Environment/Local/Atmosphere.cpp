@@ -8,28 +8,29 @@
 using libra::Vector;
 using libra::NormalRand;
 
+using std::string;
+using std::cerr;
+using std::endl;
 using namespace libra;
 
-Atmosphere::Atmosphere(string model, string fname, double gauss_stddev)   //コンストラクタ，空気密度外乱の割合を決定
+Atmosphere::Atmosphere(string model, string fname, double gauss_stddev,
+                       bool is_manual_param_used, double manual_daily_f107, double manual_average_f107, double manual_ap)
+                       :model_(model), fname_(fname), air_density_(0.0), gauss_stddev_(gauss_stddev),
+                        is_table_imported_(false), is_manual_param_used_(is_manual_param_used),
+                        manual_daily_f107_(manual_daily_f107), manual_average_f107_(manual_average_f107), manual_ap_(manual_ap)
 {
-  model_ = model;
-  fname_ = fname;
-  gauss_stddev_ = gauss_stddev;
-  air_density_ = 0.0;
-  is_table_imported_ = false;
-
   if (model_ == "STANDARD")
   {
-    cerr << "Air density model : STANDARD" << endl;
+    std::cerr << "Air density model : STANDARD" << std::endl;
   }
   else if (model_ == "NRLMSISE00")
   {
-    cerr << "Air density model : NRLMSISE00" << endl;
+    std::cerr << "Air density model : NRLMSISE00" << std::endl;
   }
   else
   {
-    cerr << "Air density model : None" << endl;
-    cerr << "Air density is set as 0.0 kg/m3" << endl;
+    std::cerr << "Air density model : None" << std::endl;
+    std::cerr << "Air density is set as 0.0 kg/m3" << std::endl;
   }
 }
 
@@ -55,23 +56,27 @@ double Atmosphere::CalcAirDensity(double decyear, double endsec, Vector<3> lat_l
   }
   else if (model_ == "NRLMSISE00") // NRLMSISE00 model
   {
-    if (!is_table_imported_)
+    if (!is_manual_param_used_)
     {
-      if (GetSpaceWeatherTable(decyear, endsec))
+      if (!is_table_imported_)
       {
-        is_table_imported_ = true;
-      }
-      else
-      {
-        cerr << "Air density is changed to STANDARD model" << endl;
-        model_ = "STANDARD";
+        if (GetSpaceWeatherTable(decyear, endsec))
+        {
+          is_table_imported_ = true;
+        }
+        else
+        {
+          std::cerr << "Air density is switched to STANDARD model" << std::endl;
+          model_ = "STANDARD";
+        }
       }
     }
 
     double latrad = lat_lon_alt(0);
     double lonrad = lat_lon_alt(1);
     double alt = lat_lon_alt(2);
-    air_density_ = CalcNRLMSISE00(decyear, latrad, lonrad, alt, table_);
+    air_density_ = CalcNRLMSISE00(decyear, latrad, lonrad, alt, 
+                                  table_, is_manual_param_used_, manual_daily_f107_, manual_average_f107_, manual_ap_);
   }
   else
   {

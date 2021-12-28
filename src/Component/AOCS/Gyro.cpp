@@ -38,20 +38,20 @@ void Gyro::MainRoutine(int count)
   omega_c_ = Measure(omega_c_); //Add noises
 }
 
-string Gyro::GetLogHeader() const
+std::string Gyro::GetLogHeader() const
 {
-  string str_tmp = "";
-  const string st_sensor_id = std::to_string(static_cast<long long>(sensor_id_));
+  std::string str_tmp = "";
+  const std::string st_sensor_id = std::to_string(static_cast<long long>(sensor_id_));
   const char *cs = st_sensor_id.data();
-  string GSection = "gyro_omega";
+  std::string GSection = "gyro_omega";
   str_tmp += WriteVector(GSection + cs, "c", "rad/s", kGyroDim);
 
   return str_tmp;
 }
 
-string Gyro::GetLogValue() const
+std::string Gyro::GetLogValue() const
 {
-  string str_tmp = "";
+  std::string str_tmp = "";
 
   str_tmp += WriteVector(omega_c_);
 

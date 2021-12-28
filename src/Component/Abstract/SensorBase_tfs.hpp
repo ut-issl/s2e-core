@@ -71,15 +71,15 @@ void SensorBase<N>::RangeCheck(void)
   {
     if (range_to_const_c_[i] < 0.0 || range_to_zero_c_[i] < 0.0)
     {
-      cout << "SensorBase: Range should be positive!!\n";
-      cout << "The range values are set as positive.\n";
+      std::cout << "SensorBase: Range should be positive!!\n";
+      std::cout << "The range values are set as positive.\n";
       range_to_zero_c_[i] = fabs(range_to_zero_c_[i]);
       range_to_const_c_[i] = fabs(range_to_const_c_[i]);
     }
     if (range_to_const_c_[i] > range_to_zero_c_[i])
     {
-      cout << "SensorBase: range_zero should be greater than range_const!!\n";
-      cout << "The range_zero is set as twice value of the range_const.\n";
+      std::cout << "SensorBase: range_zero should be greater than range_const!!\n";
+      std::cout << "The range_zero is set as twice value of the range_const.\n";
       range_to_zero_c_[i] = 2.0*range_to_const_c_[i];
     }
   }

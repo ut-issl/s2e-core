@@ -1,10 +1,11 @@
 #include "Initialize.h"
+#include "../../Library/math/Vector.hpp"
 #include"../../Simulation/Spacecraft/Structure/KinematicsParams.h"
 #include"../../Simulation/Spacecraft/Structure/Surface.h"
 #include"../../Simulation/Spacecraft/Structure/RMMParams.h"
 
-#define MIN_VAL 1e-9
-KinematicsParams InitKinematicsParams(string ini_path)
+#define MIN_VAL 1e-6
+KinematicsParams InitKinematicsParams(std::string ini_path)
 {
   auto conf = IniAccess(ini_path);
   char* section = "STRUCTURE";
@@ -27,8 +28,10 @@ KinematicsParams InitKinematicsParams(string ini_path)
   return kinematics_params;
 }
 
-vector<Surface> InitSurfaces(string ini_path)
+vector<Surface> InitSurfaces(std::string ini_path)
 {
+  using std::cout;
+
   auto conf = IniAccess(ini_path);
   char* section = "SURFACES";
 
@@ -37,9 +40,9 @@ vector<Surface> InitSurfaces(string ini_path)
 
   for (int i = 0; i < num_surface; i++)
   {
-    string idx = std::to_string(i);
+    std::string idx = std::to_string(i);
     idx = "_" + idx;
-    string keyword;
+    std::string keyword;
 
     keyword = "area" + idx;
     double area = conf.ReadDouble(section, keyword.c_str());
@@ -96,8 +99,9 @@ vector<Surface> InitSurfaces(string ini_path)
     conf.ReadVector(section, keyword.c_str(), normal);
     if (norm(normal) > 1.0 + MIN_VAL) //Fixme: magic word
     {
-      cout << "Surface Error! " << keyword << ": norm is larger than 1.0\n";
-      break;
+      cout << "Surface Warning! " << keyword << ": norm is larger than 1.0.";
+      cout << "The vector is normalized.\n";
+      normal = normalize(normal);
     }
 
     //Add a surface
@@ -107,7 +111,7 @@ vector<Surface> InitSurfaces(string ini_path)
 }
 
 
-RMMParams InitRMMParams(string ini_path)
+RMMParams InitRMMParams(std::string ini_path)
 {
   auto conf = IniAccess(ini_path);
   char* section = "RMM";

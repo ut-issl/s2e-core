@@ -25,8 +25,8 @@ public:
   double GetCVChargeVoltage() const; //今後実装方法は変える？
 
   /*LOG出力用関数*/
-  string GetLogHeader() const override;
-  string GetLogValue() const override;
+  std::string GetLogHeader() const override;
+  std::string GetLogValue() const override;
 
 private:
   const int number_of_series_;

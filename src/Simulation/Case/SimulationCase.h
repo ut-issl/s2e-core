@@ -8,15 +8,15 @@ class Logger;
 class SimulationCase : public ILoggable
 {
 public:
-  SimulationCase(string ini_base);
-  SimulationCase(string ini_base, const MCSimExecutor& mc_sim, string log_path);  //For MonteCarlo
+  SimulationCase(std::string ini_base);
+  SimulationCase(std::string ini_base, const MCSimExecutor& mc_sim, std::string log_path);  //For MonteCarlo
   virtual ~SimulationCase();
 
   virtual void Initialize() = 0;
   virtual void Main() = 0;
 
-  virtual string GetLogHeader() const = 0;
-  virtual string GetLogValue() const = 0;
+  virtual std::string GetLogHeader() const = 0;
+  virtual std::string GetLogValue() const = 0;
 
   //Get 
   inline SimulationConfig& GetSimConfig(){return sim_config_;}

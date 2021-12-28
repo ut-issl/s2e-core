@@ -14,8 +14,8 @@ public:
   ~PCU_InitialStudy();
 
   /*LOG出力用関数*/
-  string GetLogHeader() const override;
-  string GetLogValue() const override;
+  std::string GetLogHeader() const override;
+  std::string GetLogValue() const override;
 
 private:
   const std::vector<SAP*> saps_;

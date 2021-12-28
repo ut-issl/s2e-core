@@ -2,7 +2,7 @@
 #include "../../Dynamics/Attitude/AttitudeRK4.h"
 #include "../../Dynamics/Attitude/ControlledAttitude.h"
 
-Attitude* InitAttitude(string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info, const double step_sec, const Matrix<3, 3> inertia_tensor, const int sat_id)
+Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info, const double step_sec, const Matrix<3, 3> inertia_tensor, const int sat_id)
 {
   IniAccess ini_file(file_name);
   char* section_ = "ATTITUDE";
@@ -20,7 +20,7 @@ Attitude* InitAttitude(string file_name, const Orbit* orbit, const LocalCelestia
     Vector<3> torque_b;
     ini_file.ReadVector(section_, "Torque_b", torque_b);
   
-    string name = section_ + to_string(sat_id); // "Attitude" + to_string(id);
+    std::string name = section_ + std::to_string(sat_id); // "Attitude" + to_string(id);
     attitude = new AttitudeRK4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, name);
   }
   // Controlled attitude

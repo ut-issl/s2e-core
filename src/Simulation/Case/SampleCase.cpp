@@ -3,6 +3,9 @@
 #include "../../Interface/InitInput/Initialize.h"
 #include "../Spacecraft/SampleSpacecraft/SampleSat.h"
 
+using std::string;
+using std::cout;
+
 SampleCase::SampleCase(string ini_base):SimulationCase(ini_base)
 {
 }
@@ -45,7 +48,6 @@ void SampleCase::Main()
     // Global Environment Update
     glo_env_->Update();
     // Spacecraft Update
-    sample_sat_->Clear(); //Zero clear force and torque for dynamics
     sample_sat_->Update(&(glo_env_->GetSimTime()));
     // Debug output
     if (glo_env_->GetSimTime().GetState().disp_output)

@@ -9,13 +9,13 @@ typedef struct _gnssrecever_param
   Vector<3> antenna_pos_b;
   Quaternion q_b2c;
   double half_width;
-  string gnss_id;
+  std::string gnss_id;
   int ch_max;
   Vector<3> noise_std;
 }GNSSReceiverParam;
 
 
-GNSSReceiverParam ReadGNSSReceiverIni(const string fname, const GnssSatellites* gnss_satellites)
+GNSSReceiverParam ReadGNSSReceiverIni(const std::string fname, const GnssSatellites* gnss_satellites)
 {
   GNSSReceiverParam gnssreceiver_param;
 
@@ -44,7 +44,7 @@ GNSSReceiverParam ReadGNSSReceiverIni(const string fname, const GnssSatellites* 
 };
 
 
-GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime)
+GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const std::string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime)
 {
   GNSSReceiverParam gr_param = ReadGNSSReceiverIni(fname, gnss_satellites);
 
@@ -54,7 +54,7 @@ GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const string fn
 };
 
 
-GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime)
+GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const std::string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime)
 {
   GNSSReceiverParam gr_param = ReadGNSSReceiverIni(fname, gnss_satellites);
 

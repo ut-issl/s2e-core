@@ -1,7 +1,7 @@
 #include "Initialize.h"
 #include "../../Environment/Global/SimTime.h"
 
-SimTime* InitSimTime(string file_name)
+SimTime* InitSimTime(std::string file_name)
 {
   IniAccess ini_file(file_name);
 
@@ -9,7 +9,7 @@ SimTime* InitSimTime(string file_name)
   //Parameters about entire simulation
   double end_sec = ini_file.ReadDouble(section, "EndTimeSec");
   double step_sec = ini_file.ReadDouble(section, "StepTimeSec");
-  string start_ymdhms = ini_file.ReadString(section, "StartYMDHMS");
+  std::string start_ymdhms = ini_file.ReadString(section, "StartYMDHMS");
   double sim_speed = ini_file.ReadDouble(section, "SimulationSpeed");
 
   //Time step parameters for dynamics propagation

@@ -5,7 +5,7 @@ EMDS InitEMDS(int actuator_id)
 {
   IniAccess emds_conf("data/ini/component/EMDS.ini");
 
-  string section = "EMDS" + to_string(actuator_id);
+  std::string section = "EMDS" + std::to_string(actuator_id);
 
   Vector<3> displacement;
   emds_conf.ReadVector(section.c_str(), "displacement", displacement);
