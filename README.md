@@ -27,7 +27,7 @@
   - We recommend that the general users use the `main` branch or suitable released version because we sometimes update the `develop` branch without backward compatibility, and users need to modify their user side codes and settings.
   - Push to `main` and `develop` is prohibited. All developers have to develop with `feature/*` branch and make a pull request.
   - Maintainers confirm the request and merge it to the `develop` branch.
-  - [Reference document](https://nvie.com/posts/a-successful-git-branching-model/) 
+  - [Reference document for the development style](https://nvie.com/posts/a-successful-git-branching-model/) 
 
 - Flow of development
   1. Make a `feature/*` branch from the `develop` branch.
@@ -36,7 +36,7 @@
   4. A maintainer reviews the pull request. If some problems are found, the maintainer proposes modifications.
   5. According to the maintainer's proposal, the developer modifies the codes and goes back to 3.
   6. The maintainer merges the `feature/*` branch to the `develop` branch.
-  7. The ISSL's S2E development members decide to merge the `develop` branch to the `main` branch and release a new version.
+  7. The code owners decide to merge the `develop` branch to the `main` branch and release a new version.
 
 - Binary files
   - Binary file commit is prohibited.
