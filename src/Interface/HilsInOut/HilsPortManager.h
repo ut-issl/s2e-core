@@ -18,7 +18,7 @@ public:
   // Uart Com ports -> Components
   virtual int UartReceive(unsigned int port_id, unsigned char* buffer, int offset, int count);
   // Uart Components -> Com ports
-  virtual int UartSend(unsigned int port_id, unsigned char* buffer, int offset, int count);
+  virtual int UartSend(unsigned int port_id, const unsigned char* buffer, int offset, int count);
 
   // TODO: Add I2C Communication port functions
 

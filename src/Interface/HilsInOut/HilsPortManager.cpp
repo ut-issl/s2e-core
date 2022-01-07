@@ -59,7 +59,7 @@ int HilsPortManager::UartReceive(unsigned int port_id, unsigned char* buffer, in
 #endif
 }
 
-int HilsPortManager::UartSend(unsigned int port_id, unsigned char* buffer, int offset, int count)
+int HilsPortManager::UartSend(unsigned int port_id, const unsigned char* buffer, int offset, int count)
 {
 #ifdef USE_HILS
   HilsUartPort* port = uart_com_ports_[port_id];

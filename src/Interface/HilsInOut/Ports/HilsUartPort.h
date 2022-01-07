@@ -15,7 +15,7 @@ public:
   ~HilsUartPort();
   int OpenPort();
   int ClosePort();
-  int WriteTx(unsigned char* buffer, int offset, int count);
+  int WriteTx(const unsigned char* buffer, int offset, int count);
   int ReadRx(unsigned char* buffer, int offset, int count);
 private:
   const unsigned int kTxBufferSize;
