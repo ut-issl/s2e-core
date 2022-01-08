@@ -106,10 +106,11 @@ int HilsUartPort::OpenPort()
 
 int HilsUartPort::WriteTx(const unsigned char* buffer, int offset, int count)
 {
-  unsigned char* buffer_tmp;
-  memcpy(buffer_tmp, buffer + offset, count);
+  unsigned char* buffer_tmp = new unsigned char[count];
+  memcpy(buffer_tmp, buffer + offset, count); // const unsigned char* -> unsigned char*
   // Marshal::Copy : Copies data from an unmanaged memory pointer to a managed array.
-  System::Runtime::InteropServices::Marshal::Copy((System::IntPtr)(buffer_tmp), tx_buf_, 0, count);
+  System::Runtime::InteropServices::Marshal::Copy((System::IntPtr)(buffer_tmp), tx_buf_, 0, count); // unsigned char* -> System::IntPtr
+  delete[] buffer_tmp;
   try
   {
     port_->Write(tx_buf_, 0, count);
