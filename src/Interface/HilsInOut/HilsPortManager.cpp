@@ -8,6 +8,7 @@ HilsPortManager::~HilsPortManager()
 {
 }
 
+// UART Communication port functions
 int HilsPortManager::UartConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buf_size, unsigned int rx_buf_size)
 {
 #ifdef USE_HILS
@@ -68,4 +69,57 @@ int HilsPortManager::UartSend(unsigned int port_id, const unsigned char* buffer,
 #else
   return -1;
 #endif
+}
+
+// I2C Communication port functions
+int HilsPortManager::I2cConnectComPort(unsigned int port_id)
+{
+#ifdef USE_HILS
+  i2c_com_ports_[port_id] = new HilsI2cPort(port_id);
+  return 0;
+#else
+  return -1;
+#endif
+}
+
+int HilsPortManager::I2cCloseComPort(unsigned int port_id)
+{
+#ifdef USE_HILS
+  i2c_com_ports_[port_id]->ClosePort();
+  HilsI2cPort* port = i2c_com_ports_.at(port_id);
+  delete port;
+  i2c_com_ports_.erase(port_id);
+  return 0;
+#else
+  return -1;
+#endif
+}
+
+int HilsPortManager::I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_addr, unsigned char* data, const unsigned char len)
+{
+  return 0;
+}
+
+int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_addr, const unsigned char* data, const unsigned char len)
+{
+  return 0;
+}
+
+int HilsPortManager::I2cTargetReadCommand(unsigned int port_id, const unsigned char* data, const unsigned char len)
+{
+  return 0;
+}
+
+int HilsPortManager::I2cTargetUpdateCmd(unsigned int port_id)
+{
+  // I2C-USB変換器(Target)のbufferを定期的・高速に読み込む
+
+  return 0;
+}
+
+int HilsPortManager::I2cTargetUpdateTlm(unsigned int port_id)
+{
+  // I2C-USB変換器(Target)のbufferに定期的・高速に書き込む
+
+  return 0;
 }

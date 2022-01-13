@@ -28,7 +28,8 @@ protected:
   void ReadRegister (const unsigned char reg_addr, unsigned char* data, const unsigned char len);
   void WriteRegister(const unsigned char reg_addr, const unsigned char* data, const unsigned char len); 
   void ReadCommand  (unsigned char* data, const unsigned char len);
-  
+  void Update();
+
 private:
   const int kDefaultBufferSize = 512;  // Fixme: The magic number. This is depending on USB-I2C converter.
   const int kDefaultBaudRate   = 9600; // Any value is fine for I2C slave.
