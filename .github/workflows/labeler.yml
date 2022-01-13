@@ -3,7 +3,7 @@ name: labeler
 on:
   push:
     branches:
-      - main
+      - develop
   pull_request:
     paths:
       - .github/workflows/labeler.yml
@@ -22,4 +22,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yaml-file: .github/labels.yml
           skip-delete: false
-          dry-run: ${{ github.ref != 'refs/heads/main' }}
+          dry-run: ${{ github.ref != 'refs/heads/develop' }}
