@@ -1,8 +1,7 @@
 ﻿#include "HilsI2cPort.h"
 
 HilsI2cPort::HilsI2cPort(const unsigned int port_id)
-  : tx_size_(kDefaultTxSize),
-    HilsUartPort(port_id, 9600, max_register_number_, kDefaultCmdSize) // TODO: Define the magic number.
+  : HilsUartPort(port_id, 9600, 512, 512) // TODO: Define the magic number.
 {
   // TODO
   // 接続するI2C-USB変換器に応じてヘッダー・フッターを初期化
@@ -10,8 +9,8 @@ HilsI2cPort::HilsI2cPort(const unsigned int port_id)
 }
 
 HilsI2cPort::HilsI2cPort(const unsigned int port_id, const unsigned char max_register_number)
-  : max_register_number_(max_register_number), tx_size_(kDefaultTxSize),
-    HilsUartPort(port_id, 9600, max_register_number_, kDefaultCmdSize) // TODO: Define the magic number.
+  : max_register_number_(max_register_number),
+    HilsUartPort(port_id, 9600, 512, 512) // TODO: Define the magic number.
 {
 }
 
@@ -49,8 +48,8 @@ int HilsI2cPort::WriteRegister(const unsigned char reg_addr, const unsigned char
 unsigned char HilsI2cPort::ReadRegister(const unsigned char reg_addr)
 {
   if (reg_addr >= max_register_number_) return 0;
-  saved_reg_addr_ = reg_addr;
-  unsigned char ret = device_registers_[saved_reg_addr_];
+  // saved_reg_addr_ = reg_addr;
+  unsigned char ret = device_registers_[reg_addr];
   return ret;
 }
 
@@ -101,8 +100,9 @@ int HilsI2cPort::UpdateCmd()
 
 int HilsI2cPort::UpdateTlm()
 {
+  unsigned char tx_size_ = kDefaultTxSize; // larger than Controller's request tlm size
   unsigned char tx_buf[kDefaultTxSize];
-  unsigned int max_tlm_size = max_register_number_ - saved_reg_addr_ + 1;
+  unsigned int max_tlm_size = max_register_number_ - saved_reg_addr_;
   if (tx_size_ > max_tlm_size)
   {
     tx_size_ = max_tlm_size;
@@ -116,6 +116,5 @@ int HilsI2cPort::UpdateTlm()
   DiscardInBuffer();
   // テレメ送信
   int ret = WriteTx(tx_buf, 0, tx_size_);
-  tx_size_ = kDefaultTxSize;
   return 0;
 }

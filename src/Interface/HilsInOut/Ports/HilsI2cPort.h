@@ -30,7 +30,6 @@ public:
 private:
   unsigned char max_register_number_ = 0xff;
   unsigned char saved_reg_addr_ = 0x00;
-  unsigned char tx_size_; // larger than Controller's request tlm size
 
   // < register address, value>
   std::map< unsigned char, unsigned char > device_registers_;

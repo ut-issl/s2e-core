@@ -8,7 +8,7 @@ add_library(${PROJECT_NAME} STATIC
   Abstract/ObcGpioBase.cpp
   Abstract/EXP.cpp
   Abstract/ExpHils.cpp
-  Abstract/ExpHilsI2c.cpp
+  Abstract/ExpHilsI2cTarget.cpp
   AOCS/EMDS.cpp
   AOCS/Gyro.cpp
   AOCS/MagSensor.cpp

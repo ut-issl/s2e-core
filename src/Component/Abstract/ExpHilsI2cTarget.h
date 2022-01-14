@@ -4,28 +4,24 @@
 #include "ObcI2cTargetCommunicationBase.h"
 
 // emulated components for training
-// # Specification for ExpHilsI2c
+// # Specification for ExpHilsI2cTarget
 // * Checking I2C communication for HILS exam
-//   compo_id = 0 : the controller compo which sends out "XYZ"
-//   compo_id = 1 : the target compo which returns "ABC"
 
-class ExpHilsI2c : public ComponentBase, public ObcI2cTargetCommunicationBase
+class ExpHilsI2cTarget : public ComponentBase, public ObcI2cTargetCommunicationBase
 {
 public:
-  ExpHilsI2c(
+  ExpHilsI2cTarget(
     ClockGenerator* clock_gen,
     const int sils_port_id,
     unsigned char i2c_address,
     OBC* obc,
     const unsigned int hils_port_id,
-    HilsPortManager* hils_port_manager,
-    const int mode_id
+    HilsPortManager* hils_port_manager
   );
-  ~ExpHilsI2c();
+  ~ExpHilsI2cTarget();
 protected:
   void MainRoutine(int count);
 
 private:
-  const int mode_id_;
   char i2c_address_;
 };
