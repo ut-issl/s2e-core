@@ -4,10 +4,11 @@ cmake_minimum_required(VERSION 3.13)
 add_library(${PROJECT_NAME} STATIC
   Abstract/ComponentBase.cpp
   Abstract/ObcCommunicationBase.cpp
-  Abstract/ObcI2cCommunicationBase.cpp
+  "Abstract/ObcI2cCommunicationBase.cpp"
   Abstract/ObcGpioBase.cpp
   Abstract/EXP.cpp
   Abstract/ExpHils.cpp
+  Abstract/ExpHilsI2c.cpp
   AOCS/EMDS.cpp
   AOCS/Gyro.cpp
   AOCS/MagSensor.cpp

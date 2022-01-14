@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "ObcI2cCommunicationBase.h"
+#include "ObcI2cTargetCommunicationBase.h"
 
-ObcI2cCommunicationBase::ObcI2cCommunicationBase(int sils_port_id, const unsigned char i2c_address, OBC* obc)
+ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(int sils_port_id, const unsigned char i2c_address, OBC* obc)
 : sils_port_id_(sils_port_id), i2c_address_(i2c_address), obc_(obc)
 {
 #ifdef USE_HILS
@@ -14,13 +14,9 @@ ObcI2cCommunicationBase::ObcI2cCommunicationBase(int sils_port_id, const unsigne
 #endif
 }
 
-ObcI2cCommunicationBase::ObcI2cCommunicationBase(const unsigned int hils_port_id, HilsPortManager* hils_port_manager)
+ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int hils_port_id, HilsPortManager* hils_port_manager)
 : hils_port_id_(hils_port_id), hils_port_manager_(hils_port_manager)
 {
-  baud_rate_   = kDefaultBaudRate;
-  tx_buf_size_ = kDefaultBufferSize;
-  rx_buf_size_ = kDefaultBufferSize;
-
 #ifdef USE_HILS
   sim_mode_ = OBC_COM_UART_MODE::HILS;
   int ret = hils_port_manager_->I2cConnectComPort(hils_port_id_);
@@ -34,15 +30,11 @@ ObcI2cCommunicationBase::ObcI2cCommunicationBase(const unsigned int hils_port_id
 #endif
 }
 
-ObcI2cCommunicationBase::ObcI2cCommunicationBase(const int sils_port_id, const unsigned char i2c_address, OBC* obc,
+ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const int sils_port_id, const unsigned char i2c_address, OBC* obc,
                                                  const unsigned int hils_port_id, HilsPortManager* hils_port_manager)
 : sils_port_id_(sils_port_id), i2c_address_(i2c_address), obc_(obc), hils_port_id_(hils_port_id),
   hils_port_manager_(hils_port_manager)
 {
-  baud_rate_   = kDefaultBaudRate;
-  tx_buf_size_ = kDefaultBufferSize;
-  rx_buf_size_ = kDefaultBufferSize;
-
 #ifdef USE_HILS
   sim_mode_ = OBC_COM_UART_MODE::HILS;
   int ret = hils_port_manager_->I2cConnectComPort(hils_port_id_);
@@ -56,7 +48,7 @@ ObcI2cCommunicationBase::ObcI2cCommunicationBase(const int sils_port_id, const u
 #endif
 }
 
-ObcI2cCommunicationBase::~ObcI2cCommunicationBase()
+ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase()
 {
   if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return;
 
@@ -74,7 +66,7 @@ ObcI2cCommunicationBase::~ObcI2cCommunicationBase()
   }
 }
 
-void ObcI2cCommunicationBase::ReadRegister (const unsigned char reg_addr, unsigned char* data, const unsigned char len)
+void ObcI2cTargetCommunicationBase::ReadRegister (const unsigned char reg_addr, unsigned char* data, const unsigned char len)
 {
   if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return;
 
@@ -88,7 +80,7 @@ void ObcI2cCommunicationBase::ReadRegister (const unsigned char reg_addr, unsign
   }
 }
 
-void ObcI2cCommunicationBase::WriteRegister(const unsigned char reg_addr, const unsigned char* data, const unsigned char len)
+void ObcI2cTargetCommunicationBase::WriteRegister(const unsigned char reg_addr, const unsigned char* data, const unsigned char len)
 {
   if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return;
 
@@ -102,7 +94,7 @@ void ObcI2cCommunicationBase::WriteRegister(const unsigned char reg_addr, const 
   }
 }
 
-void ObcI2cCommunicationBase::ReadCommand(unsigned char* data, const unsigned char len)
+void ObcI2cTargetCommunicationBase::ReadCommand(unsigned char* data, const unsigned char len)
 {
   if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return;
 
@@ -116,7 +108,7 @@ void ObcI2cCommunicationBase::ReadCommand(unsigned char* data, const unsigned ch
   }
 }
 
-void ObcI2cCommunicationBase::Update() // HILSの際，模擬コンポのMainRoutine()でcallされることを想定
+void ObcI2cTargetCommunicationBase::Update() // HILSの際，模擬コンポのMainRoutine()でcallされることを想定
 {
   if (sim_mode_ != OBC_COM_UART_MODE::HILS) return;
   hils_port_manager_->I2cTargetUpdateCmd(hils_port_id_);

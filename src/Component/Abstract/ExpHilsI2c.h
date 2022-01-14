@@ -1,15 +1,15 @@
 #pragma once
 #include <vector>
 #include "ComponentBase.h"
-#include "ObcI2cCommunicationBase.h"
+#include "ObcI2cTargetCommunicationBase.h"
 
 // emulated components for training
 // # Specification for ExpHilsI2c
 // * Checking I2C communication for HILS exam
-//   compo_id = 0 : the master compo which sends out "XYZ"
-//   compo_id = 1 : the slave compo which returns "ABC"
+//   compo_id = 0 : the controller compo which sends out "XYZ"
+//   compo_id = 1 : the target compo which returns "ABC"
 
-class ExpHilsI2c : public ComponentBase, public ObcI2cCommunicationBase
+class ExpHilsI2c : public ComponentBase, public ObcI2cTargetCommunicationBase
 {
 public:
   ExpHilsI2c(
