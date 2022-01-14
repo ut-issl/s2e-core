@@ -66,7 +66,8 @@ ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase()
   }
 }
 
-void ObcI2cTargetCommunicationBase::ReadRegister (const unsigned char reg_addr, unsigned char* data, const unsigned char len)
+void ObcI2cTargetCommunicationBase::ReadRegister (const unsigned char reg_addr,
+                                                  unsigned char* data, const unsigned char len)
 {
   if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return;
 
@@ -80,7 +81,8 @@ void ObcI2cTargetCommunicationBase::ReadRegister (const unsigned char reg_addr, 
   }
 }
 
-void ObcI2cTargetCommunicationBase::WriteRegister(const unsigned char reg_addr, const unsigned char* data, const unsigned char len)
+void ObcI2cTargetCommunicationBase::WriteRegister(const unsigned char reg_addr,
+                                                  const unsigned char* data, const unsigned char len)
 {
   if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return;
 

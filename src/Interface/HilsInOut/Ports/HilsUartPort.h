@@ -17,6 +17,7 @@ public:
   int ClosePort();
   int WriteTx(const unsigned char* buffer, int offset, int count);
   int ReadRx(unsigned char* buffer, int offset, int count);
+  int DiscardInBuffer();
 private:
   const unsigned int kTxBufferSize;
   const unsigned int kRxBufferSize;
@@ -24,7 +25,6 @@ private:
   static std::string PortName(unsigned int port_id);
   int Initialize();
   int GetBytesToRead();
-  int DiscardInBuffer();
   unsigned int baud_rate_; // [baud] ex. 9600, 115200
   // gcroot is the type-safe wrapper template to refer to a CLR object from the c++ heap
   // reference: https://docs.microsoft.com/en-us/cpp/dotnet/how-to-declare-handles-in-native-types?view=msvc-160

@@ -24,9 +24,11 @@ public:
   // I2C Target Communication port functions
   virtual int I2cConnectComPort(unsigned int port_id);
   virtual int I2cCloseComPort(unsigned int port_id);
-  virtual int I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_addr, unsigned char* data, const unsigned char len);
-  virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_addr, const unsigned char* data, const unsigned char len);
-  virtual int I2cTargetReadCommand(unsigned int port_id, const unsigned char* data, const unsigned char len);
+  virtual int I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_addr,
+                                    unsigned char* data, const unsigned char len);
+  virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_addr,
+                                     const unsigned char* data, const unsigned char len);
+  virtual int I2cTargetReadCommand(unsigned int port_id, unsigned char* data, const unsigned char len);
   virtual int I2cTargetUpdateCmd(unsigned int port_id); // I2C-USB converter -> emulated target compo
   virtual int I2cTargetUpdateTlm(unsigned int port_id); // I2C-USB converter <- emulated target compo
 
