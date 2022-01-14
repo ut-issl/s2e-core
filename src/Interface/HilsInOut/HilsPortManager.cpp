@@ -81,6 +81,7 @@ int HilsPortManager::I2cConnectComPort(unsigned int port_id)
     return -1;
   }
   i2c_com_ports_[port_id] = new HilsI2cPort(port_id);
+  i2c_com_ports_[port_id]->RegisterDevice();
   return 0;
 #else
   return -1;
@@ -90,7 +91,7 @@ int HilsPortManager::I2cConnectComPort(unsigned int port_id)
 int HilsPortManager::I2cCloseComPort(unsigned int port_id)
 {
 #ifdef USE_HILS
-  if (uart_com_ports_[port_id] == nullptr)
+  if (i2c_com_ports_[port_id] == nullptr)
   {
     // Port not used
     return -1;
