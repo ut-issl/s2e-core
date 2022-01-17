@@ -1,19 +1,16 @@
 #include "Structure.h"
-#include"../../../Interface/InitInput/Initialize.h"
+#include "../../../Interface/InitInput/Initialize.h"
 
-Structure::Structure(SimulationConfig* sim_config, const int sat_id)
-{
+Structure::Structure(SimulationConfig *sim_config, const int sat_id) {
   Initialize(sim_config, sat_id);
 }
 
-Structure::~Structure()
-{
+Structure::~Structure() {
   delete kinnematics_params_;
   delete rmm_params_;
 }
 
-void Structure::Initialize(SimulationConfig* sim_config, const int sat_id)
-{
+void Structure::Initialize(SimulationConfig *sim_config, const int sat_id) {
   // Read file name
   IniAccess conf = IniAccess(sim_config->sat_file_[sat_id]);
   std::string ini_fname = conf.ReadString("STRUCTURE_FILE", "structure_file");

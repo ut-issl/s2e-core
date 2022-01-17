@@ -1,12 +1,11 @@
 #pragma once
+#include "../Interface/LogOutput/Logger.h"
 #include <string>
 #include <vector>
-#include "../Interface/LogOutput/Logger.h"
 
-struct SimulationConfig
-{
+struct SimulationConfig {
   std::string ini_base_fname_;
-  Logger* main_logger_;
+  Logger *main_logger_;
   int num_of_simulated_spacecraft_;
   std::vector<std::string> sat_file_;
   std::string gs_file_;

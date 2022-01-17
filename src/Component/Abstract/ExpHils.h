@@ -1,7 +1,7 @@
 #pragma once
-#include <vector>
 #include "ComponentBase.h"
 #include "ObcCommunicationBase.h"
+#include <vector>
 
 // mock components for training
 // # Specification for ExpHils
@@ -12,27 +12,21 @@
 //   the first 3 bytes : ASCII(ABC, BCD, CDE,...)
 //   the last byte : \0
 
-class ExpHils : public ComponentBase, public ObcCommunicationBase
-{
+class ExpHils : public ComponentBase, public ObcCommunicationBase {
 public:
-  ExpHils(
-    ClockGenerator* clock_gen,
-    const int sils_port_id,
-    OBC* obc,
-    const unsigned int hils_port_id,
-    const unsigned int baud_rate,
-    HilsPortManager* hils_port_manager,
-    const int mode_id
-  );
+  ExpHils(ClockGenerator *clock_gen, const int sils_port_id, OBC *obc,
+          const unsigned int hils_port_id, const unsigned int baud_rate,
+          HilsPortManager *hils_port_manager, const int mode_id);
   ~ExpHils();
+
 protected:
   void MainRoutine(int count);
 
 private:
   const static int kMemorySize = 4;
   const int kNumAlphabet = 26;
-  char memory_[kMemorySize] = { 0, 0, 0, '\0' }; // for the responder compo
-  char tx_[kMemorySize] = { 0, 0, 0, '\0' };
+  char memory_[kMemorySize] = {0, 0, 0, '\0'}; // for the responder compo
+  char tx_[kMemorySize] = {0, 0, 0, '\0'};
   const int mode_id_;
   int counter_ = 0;
 

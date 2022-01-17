@@ -1,8 +1,7 @@
-#include "../Initialize.h"
 #include "../../../Component/AOCS/EMDS.h"
+#include "../Initialize.h"
 
-EMDS InitEMDS(int actuator_id)
-{
+EMDS InitEMDS(int actuator_id) {
   IniAccess emds_conf("data/ini/component/EMDS.ini");
 
   std::string section = "EMDS" + std::to_string(actuator_id);

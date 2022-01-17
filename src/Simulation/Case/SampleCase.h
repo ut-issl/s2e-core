@@ -1,14 +1,13 @@
 #pragma once
 
-#include "./SimulationCase.h"
 #include "../Spacecraft/SampleSpacecraft/SampleSat.h"
+#include "./SimulationCase.h"
 
-class SampleCase : public SimulationCase
-{
+class SampleCase : public SimulationCase {
 public:
   SampleCase(std::string ini_base);
   virtual ~SampleCase();
-  
+
   void Initialize();
   void Main();
 
@@ -17,5 +16,5 @@ public:
   virtual std::string GetLogValue() const;
 
 private:
-  SampleSat* sample_sat_;
+  SampleSat *sample_sat_;
 };

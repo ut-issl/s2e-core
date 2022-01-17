@@ -1,9 +1,10 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
-#include <string.h>
-#include "../Initialize.h"
 #include "../../../Component/Power/SAP.h"
+#include "../Initialize.h"
+#include <string.h>
 
-SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp) {
+SAP InitSAP(ClockGenerator *clock_gen, int sap_id, const std::string fname,
+            const SRPEnvironment *srp) {
 
   IniAccess sap_conf(fname);
 
@@ -29,9 +30,11 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
   cell_efficiency = sap_conf.ReadDouble(Section, "cell_efficiency");
 
   double transmission_efficiency;
-  transmission_efficiency = sap_conf.ReadDouble(Section, "transmission_efficiency");
+  transmission_efficiency =
+      sap_conf.ReadDouble(Section, "transmission_efficiency");
 
-  SAP sap(clock_gen, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency, transmission_efficiency, srp);
+  SAP sap(clock_gen, sap_id, number_of_series, number_of_parallel, cell_area,
+          normal_vector, cell_efficiency, transmission_efficiency, srp);
 
   return sap;
 }

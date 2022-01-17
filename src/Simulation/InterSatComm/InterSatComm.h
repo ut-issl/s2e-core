@@ -1,12 +1,10 @@
 #pragma once
 #include "../SimulationConfig.h"
 
-class InterSatComm
-{
+class InterSatComm {
 public:
-  InterSatComm(const SimulationConfig* sim_config);
+  InterSatComm(const SimulationConfig *sim_config);
   ~InterSatComm();
 
 private:
-
 };

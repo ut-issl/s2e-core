@@ -5,12 +5,12 @@ bool CsvScenarioInterface::is_csv_senario_enabled_;
 std::map<std::string, unsigned int> CsvScenarioInterface::buffer_line_id_;
 std::map<std::string, DoubleBuffer> CsvScenarioInterface::buffers_;
 
-void CsvScenarioInterface::Initialize(const std::string fname)
-{
+void CsvScenarioInterface::Initialize(const std::string fname) {
   IniAccess scenario_conf(fname);
   char Section[30] = "SCENARIO";
 
-  CsvScenarioInterface::is_csv_senario_enabled_ = scenario_conf.ReadBoolean(Section, "is_csv_scenario_enabled");
+  CsvScenarioInterface::is_csv_senario_enabled_ =
+      scenario_conf.ReadBoolean(Section, "is_csv_scenario_enabled");
 
   std::string csv_path;
   csv_path = scenario_conf.ReadString(Section, "csv_path");
@@ -24,18 +24,18 @@ void CsvScenarioInterface::Initialize(const std::string fname)
   std::vector<std::vector<double>> data;
   data = ReadCsvData(csv_path, 1);
 
-  for (auto itr = buffer_line_id_.begin(); itr != buffer_line_id_.end(); itr++) {
+  for (auto itr = buffer_line_id_.begin(); itr != buffer_line_id_.end();
+       itr++) {
     StoreBuffer(itr->first, data);
   }
 }
 
-bool CsvScenarioInterface::IsCsvScenarioEnabled()
-{
+bool CsvScenarioInterface::IsCsvScenarioEnabled() {
   return CsvScenarioInterface::is_csv_senario_enabled_;
 }
 
-libra::Vector<3> CsvScenarioInterface::GetSunDirectionBody(const double time_query)
-{
+libra::Vector<3>
+CsvScenarioInterface::GetSunDirectionBody(const double time_query) {
   libra::Vector<3> sun_dir_b;
   sun_dir_b[0] = GetValueFromBuffer("sun_dir_b_x", time_query);
   sun_dir_b[1] = GetValueFromBuffer("sun_dir_b_y", time_query);
@@ -43,26 +43,27 @@ libra::Vector<3> CsvScenarioInterface::GetSunDirectionBody(const double time_que
   return sun_dir_b;
 }
 
-bool CsvScenarioInterface::GetSunFlag(const double time_query)
-{
+bool CsvScenarioInterface::GetSunFlag(const double time_query) {
   return (bool)GetValueFromBuffer("sun_flag", time_query);
 }
 
-double CsvScenarioInterface::GetPowerConsumption(const double time_query)
-{
+double CsvScenarioInterface::GetPowerConsumption(const double time_query) {
   return GetValueFromBuffer("power_consumption", time_query);
 }
 
-std::vector<std::vector<double>> CsvScenarioInterface::ReadCsvData(const std::string filename, const std::size_t ignore_line_num)
-{
+std::vector<std::vector<double>>
+CsvScenarioInterface::ReadCsvData(const std::string filename,
+                                  const std::size_t ignore_line_num) {
   std::ifstream file;
   file.open(filename, std::ios::in);
-  if (!file) throw std::invalid_argument(filename + std::string(" cannot be opened."));
+  if (!file)
+    throw std::invalid_argument(filename + std::string(" cannot be opened."));
 
   std::string reading_line_buffer;
   for (std::size_t line = 0; line < ignore_line_num; line++) {
     getline(file, reading_line_buffer);
-    if (file.eof()) break;
+    if (file.eof())
+      break;
   }
 
   double num;
@@ -70,7 +71,8 @@ std::vector<std::vector<double>> CsvScenarioInterface::ReadCsvData(const std::st
   std::vector<std::vector<double>> data;
 
   while (std::getline(file, reading_line_buffer)) {
-    if (reading_line_buffer.size() == 0) break;
+    if (reading_line_buffer.size() == 0)
+      break;
     std::vector<double> temp_data;
     std::istringstream is(reading_line_buffer);
     while (is >> num) {
@@ -83,20 +85,22 @@ std::vector<std::vector<double>> CsvScenarioInterface::ReadCsvData(const std::st
   return data;
 }
 
-void CsvScenarioInterface::StoreBuffer(const std::string buffer_name, const std::vector<std::vector<double>>& data)
-{
+void CsvScenarioInterface::StoreBuffer(
+    const std::string buffer_name,
+    const std::vector<std::vector<double>> &data) {
   auto line_num = buffer_line_id_.at(buffer_name);
   for (const auto line : data) {
     buffers_[buffer_name][line[0]] = line[line_num];
   }
 }
 
-double CsvScenarioInterface::GetValueFromBuffer(const std::string buffer_name, const double time_query)
-{
+double CsvScenarioInterface::GetValueFromBuffer(const std::string buffer_name,
+                                                const double time_query) {
   double output;
   auto itr = buffers_.at(buffer_name).upper_bound(time_query);
   itr--;
-  if (itr == buffers_.at(buffer_name).end()) return 0;
+  if (itr == buffers_.at(buffer_name).end())
+    return 0;
   output = itr->second;
   return output;
 }

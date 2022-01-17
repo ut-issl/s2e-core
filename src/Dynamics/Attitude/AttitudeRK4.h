@@ -3,27 +3,24 @@
 
 #include "Attitude.h"
 
-class AttitudeRK4 :public Attitude, public SimulationObject
-{
+class AttitudeRK4 : public Attitude, public SimulationObject {
 public:
-  AttitudeRK4(const Vector<3>&	omega_b_ini,
-    const Quaternion&	quaternion_i2b_ini,
-    const Matrix<3, 3>&	InertiaTensor_ini,
-    const Vector<3>&	torque_b_ini,
-    const double		prop_step_ini);
+  AttitudeRK4(const Vector<3> &omega_b_ini,
+              const Quaternion &quaternion_i2b_ini,
+              const Matrix<3, 3> &InertiaTensor_ini,
+              const Vector<3> &torque_b_ini, const double prop_step_ini);
 
-  AttitudeRK4(const Vector<3>&	omega_b_ini,
-    const Quaternion&	quaternion_i2b_ini,
-    const Matrix<3, 3>&	InertiaTensor_ini,
-    const Vector<3>&	torque_b_ini,
-    const double		prop_step_ini,
-    std::string name);
+  AttitudeRK4(const Vector<3> &omega_b_ini,
+              const Quaternion &quaternion_i2b_ini,
+              const Matrix<3, 3> &InertiaTensor_ini,
+              const Vector<3> &torque_b_ini, const double prop_step_ini,
+              std::string name);
   ~AttitudeRK4();
 
-  //MonteCalro
-  void SetParameters(const MCSimExecutor& mc_sim);
+  // MonteCalro
+  void SetParameters(const MCSimExecutor &mc_sim);
 
-  virtual void Propagate(double endtime);		// 姿勢・角速度のプロパゲーション
+  virtual void Propagate(double endtime); // 姿勢・角速度のプロパゲーション
 
   virtual std::string GetLogHeader() const;
   virtual std::string GetLogValue() const;

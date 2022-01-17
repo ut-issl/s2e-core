@@ -1,17 +1,15 @@
-#include <stdlib.h>
 #include "endian.h"
+#include <stdlib.h>
 
-void *endian_memcpy(void *dst, const void *src, size_t size)
-{
+void *endian_memcpy(void *dst, const void *src, size_t size) {
 #ifdef IS_LITTLE_ENDIAN
-  uint8_t *src_ = (uint8_t*)src;
-  uint8_t *dst_ = (uint8_t*)dst;
-  int       i;
+  uint8_t *src_ = (uint8_t *)src;
+  uint8_t *dst_ = (uint8_t *)dst;
+  int i;
 
   size--;
 
-  for (i = 0; i <= size; i++)
-  {
+  for (i = 0; i <= size; i++) {
     *(dst_ + (size - i)) = *(src_ + i);
   }
 

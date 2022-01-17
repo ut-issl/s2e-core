@@ -1,11 +1,10 @@
-#include "../Initialize.h"
 #include "../../../Component/AOCS/UWBSensor.h"
+#include "../Initialize.h"
 
-UWBSensor InitUWBSensor(int sensor_id)
-{
+UWBSensor InitUWBSensor(int sensor_id) {
   IniAccess conf("data/ini/component/UWBSensor.ini");
   std::string section = "UWB" + std::to_string(sensor_id);
-  const char* csection = section.c_str();
+  const char *csection = section.c_str();
 
   Vector<3> pos;
   conf.ReadVector(csection, "pos", pos);
@@ -20,4 +19,3 @@ UWBSensor InitUWBSensor(int sensor_id)
 
   return uwb;
 }
-
