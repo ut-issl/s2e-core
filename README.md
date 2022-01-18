@@ -46,9 +46,9 @@
 
 ## Documents
 
-- Documents for S2E are summarized in [s2e-documents](https://github.com/ut-issl/s2e-documents).
+- Documents for S2E are summarized in [s2e-documents](https://ut-issl.github.io/s2e-documents).
 
 ## How to use
 
-- Please see [s2e-documents](https://github.com/ut-issl/s2e-documents).
+- Please see [s2e-documents's getting started page](https://ut-issl.github.io/s2e-documents/Tutorials/GettingStarted.html).
 
