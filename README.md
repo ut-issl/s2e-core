@@ -1,29 +1,27 @@
-# S2E_CORE_OSS
+# S2E CORE
 
 ## Overview
 
-- S2E(Spacecraft Simulation Environment) is a spacecraft numerical simulator developed by [ISSL](https://www.space.t.u-tokyo.ac.jp/nlab/index_e.html) at the University of Tokyo.
+- S2E (Spacecraft Simulation Environment) is a spacecraft numerical simulator developed by [ISSL](https://www.space.t.u-tokyo.ac.jp/nlab/index_e.html) at the University of Tokyo.
 - S2E can:
   - Simulate spacecraft's attitude and orbit behavior in LEO and other orbits.
   - Emulate spacecraft's components behavior not only sensors and actuators but also OBCs, power components, communications, and others.
   - Emulate embedded software inside OBCs by connecting with [C2A](https://github.com/ut-issl/c2a-core) or others.
-  - Connect with Ground Station software (not yet).
+  - Connect with Ground Station software.
   - Output log files in CSV format.
   - Connect with real OBCs for HILS tests.
-- S2E is divided into a core repository and user repositories. 
-  - `S2E_CORE` includes most of the functions for S2E.
+- S2E is divided into this core repository(`S2E CORE`) and user repositories. 
+  - `S2E CORE` includes most of the functions for S2E.
   - S2E user repositories include only files and source codes to define the simulation scenario. 
-- The core codes are shared with ISSL OSS members.
 
 ## Development style
 - Repository settings
   - Branch structure
-  ```
-  .
-  ├── main        # The latest operation guaranteed codes for general users
-  ├── develop     # The latest buildable codes for S2E primary developers
-  └── feature/*   # Developing codes
-  ```
+    ```
+    - main        # The latest operation guaranteed codes for general users
+    - develop     # The latest buildable codes for S2E primary developers
+    - feature/*   # Developing codes
+    ```
   - We recommend that the general users use the `main` branch or suitable released version because we sometimes update the `develop` branch without backward compatibility, and users need to modify their user side codes and settings.
   - Push to `main` and `develop` is prohibited. All developers have to develop with `feature/*` branch and make a pull request.
   - Maintainers confirm the request and merge it to the `develop` branch.
@@ -32,7 +30,7 @@
 - Flow of development
   1. Make a `feature/*` branch from the `develop` branch.
   2. Edit, commit, and push in the `feature/*` branch.
-  3. Make a pull request to the `develop` branch.
+  3. Create a new pull request to the `develop` branch.
   4. A maintainer reviews the pull request. If some problems are found, the maintainer proposes modifications.
   5. According to the maintainer's proposal, the developer modifies the codes and goes back to 3.
   6. The maintainer merges the `feature/*` branch to the `develop` branch.
@@ -46,9 +44,8 @@
 
 ## Documents
 
-- Documents for S2E are summarized in [s2e-documents](https://github.com/ut-issl/s2e-documents).
+- Documents for S2E are summarized in [s2e-documents](https://ut-issl.github.io/s2e-documents).
 
 ## How to use
 
-- Please see [s2e-documents](https://github.com/ut-issl/s2e-documents).
-
+- Please see [s2e-documents' getting started page](https://ut-issl.github.io/s2e-documents/Tutorials/GettingStarted.html).
