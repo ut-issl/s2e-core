@@ -1,4 +1,4 @@
-# S2E_CORE_OSS
+# S2E CORE
 
 ## Overview
 
@@ -11,9 +11,8 @@
   - Output log files in CSV format.
   - Connect with real OBCs for HILS tests.
 - S2E is divided into a core repository and user repositories. 
-  - `S2E_CORE` includes most of the functions for S2E.
+  - `S2E CORE` includes most of the functions for S2E.
   - S2E user repositories include only files and source codes to define the simulation scenario. 
-- The core codes are shared with ISSL OSS members.
 
 ## Development style
 - Repository settings
