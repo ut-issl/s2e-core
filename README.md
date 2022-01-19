@@ -49,5 +49,5 @@
 
 ## How to use
 
-- Please see [s2e-documents's getting started page](https://ut-issl.github.io/s2e-documents/Tutorials/GettingStarted.html).
+- Please see [s2e-documents' getting started page](https://ut-issl.github.io/s2e-documents/Tutorials/GettingStarted.html).
 
