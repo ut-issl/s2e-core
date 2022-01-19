@@ -174,3 +174,17 @@ int HilsUartPort::DiscardInBuffer()
   }
   return 0;
 }
+
+int HilsUartPort::DiscardOutBuffer()
+{
+  try
+  {
+    port_->DiscardOutBuffer();
+  }
+  catch (System::Exception^ e)
+  {
+    System::Console::Write(e->Message);
+    return -1;
+  }
+  return 0;
+}

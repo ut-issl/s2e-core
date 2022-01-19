@@ -113,7 +113,8 @@ int HilsI2cPort::UpdateTlm()
   }
   // I2C-USB変換器(Target)のbufferに定期的・高速に書き込む
   // bufferをクリア
-  DiscardInBuffer();
+  DiscardOutBuffer(); // 変換器のbufferはクリアできていない
+  // TODO: 変換器のbufferクリア
   // テレメ送信
   int ret = WriteTx(tx_buf, 0, tx_size_);
   return 0;
