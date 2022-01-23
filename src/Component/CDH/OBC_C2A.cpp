@@ -37,13 +37,14 @@ void OBC_C2A::Initialize()
 {
 #ifdef USE_C2A
   TMGR_init();  // Time Manager
-                // AM_initialize_all_apps での時間計測のためにここで初期化
+                // Initialize at the beginning in order to measure the execution time of C2A core initialization.
   C2A_core_init();
-  WDT_init();   // 意味はない
+  WDT_init();   // Watchdog timer. In SILS, it does not have meaning.
 
-  TMGR_clear(); // TMGR clear は内部で呼ばれている
+  TMGR_clear(); // This called in C2A_core_init, but should be called again just before executing the C2A main loop.
 #endif
 }
+
 void OBC_C2A::MainRoutine(int count)
 {
 #ifdef USE_C2A
