@@ -1,4 +1,5 @@
 #include <Dynamics/Orbit/EarthCenteredOrbit.h>
+#include <Dynamics/Orbit/EnckeOrbitPropagation.h>
 #include <Dynamics/Orbit/KeplerOrbitPropagation.h>
 #include <Dynamics/Orbit/Orbit.h>
 #include <Dynamics/Orbit/RelativeOrbit.h>
@@ -75,6 +76,13 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     }
     KeplerOrbit kepler_orbit(mu_m3_s2, current_jd, oe);
     orbit = new KeplerOrbitPropagation(current_jd, kepler_orbit, wgs);
+  } else if (propagate_mode == (int)Orbit::PROPAGATE_MODE::ENCKE) {
+    Vector<3> init_pos_m;
+    conf.ReadVector<3>(section_, "init_position", init_pos_m);
+    Vector<3> init_vel_m_s;
+    conf.ReadVector<3>(section_, "init_velocity", init_vel_m_s);
+    double error_tolerance = conf.ReadDouble(section_, "error_tolerance");
+    orbit = new EnckeOrbitPropagation(gravity_constant, stepSec, current_jd, init_pos_m, init_vel_m_s, error_tolerance, wgs);
   } else  // initialize orbit for RK4 propagation
   {
     Vector<3> init_pos;

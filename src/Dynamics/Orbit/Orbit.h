@@ -23,7 +23,7 @@ using libra::Vector;
 
 class Orbit : public ILoggable {
  public:
-  enum class PROPAGATE_MODE { RK4 = 0, SGP4, RELATIVE_ORBIT, KEPLER };
+  enum class PROPAGATE_MODE { RK4 = 0, SGP4, RELATIVE_ORBIT, KEPLER, ENCKE };
 
   virtual ~Orbit() {}
 

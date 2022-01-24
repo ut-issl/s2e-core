@@ -4,7 +4,7 @@
 KeplerOrbitPropagation::KeplerOrbitPropagation(
   const double current_jd,
   KeplerOrbit kepler_orbit,
-  int wgs
+  const int wgs
 ):KeplerOrbit(kepler_orbit)
 {
   // TODO whichconst周りを整理する
