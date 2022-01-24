@@ -42,7 +42,7 @@ void OrbitalElements::CalcOeFromPosVel(
   const libra::Vector<3> r_i_m,
   const libra::Vector<3> v_i_m_s)
 {
-  // comman variables
+  // common variables
   double r_m = norm(r_i_m);
   double r2_m2 = inner_product(r_i_m, r_i_m);
   double v_m_s = norm(v_i_m_s);
@@ -78,14 +78,15 @@ void OrbitalElements::CalcOeFromPosVel(
   eccentricity_ = sqrt(t1*t1 + t2*t2);
 
   // arg perigee
-  arg_perigee_rad_ = acos(t1/eccentricity_);
+  arg_perigee_rad_ = atan2(t2, t1);
 
   // true anomaly f_rad and eccentric anomaly u_rad
-  double phi_rad = acos(x_p_m/r_m);
+  double phi_rad = atan2(y_p_m, x_p_m);
   double f_rad = phi_rad - arg_perigee_rad_;
   f_rad = libra::WrapTo2Pi(f_rad);
 
-  double u_rad = asin(r_m*sin(f_rad)/(semi_major_axis_m_ * sqrt(1.0 - eccentricity_*eccentricity_)));
+  double u_rad = atan2(r_m*sin(f_rad)/sqrt(1.0 - eccentricity_*eccentricity_),
+                       r_m*cos(f_rad) + semi_major_axis_m_ * eccentricity_);
   u_rad = libra::WrapTo2Pi(u_rad);
 
   // epoch t0
