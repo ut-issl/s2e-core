@@ -9,6 +9,7 @@ add_library(${PROJECT_NAME} STATIC
   Ran0.cpp
   Ran1.cpp
   Vector.cpp
+  s2e_math.cpp
 )
 
 include(../../../common.cmake)

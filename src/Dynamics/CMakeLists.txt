@@ -5,6 +5,7 @@ add_library(${PROJECT_NAME} STATIC
   Orbit/EarthCenteredOrbit.cpp
   Orbit/SimpleCircularOrbit.cpp
   Orbit/RelativeOrbit.cpp
+  Orbit/KeplerOrbitPropagation.cpp
   Thermal/Node.cpp
   Thermal/Temperature.cpp
   Attitude/AttitudeRK4.cpp
