@@ -19,6 +19,7 @@ public:
 
   inline const libra::Vector<3> GetPosition_i_m() const {return position_i_m_;}
   inline const libra::Vector<3> GetVelocity_i_m_s() const {return velocity_i_m_s_;}
+
 protected:
   libra::Vector<3> position_i_m_;
   libra::Vector<3> velocity_i_m_s_;

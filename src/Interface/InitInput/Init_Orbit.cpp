@@ -23,6 +23,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
   Orbit* orbit;
 
   int propagate_mode = conf.ReadInt(section_, "propagate_mode");
+  int wgs = conf.ReadInt(section_, "wgs");
 
   // Initialize SGP4 orbit propagator
   if (propagate_mode == (int)Orbit::PROPAGATE_MODE::SGP4) {
@@ -30,11 +31,9 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     conf.ReadChar(section_, "tle1", 80, tle1);
     conf.ReadChar(section_, "tle2", 80, tle2);
 
-    int wgs = conf.ReadInt(section_, "wgs");
     orbit = new EarthCenteredOrbit(celes_info, tle1, tle2, wgs, current_jd);
   } else if (propagate_mode == (int)Orbit::PROPAGATE_MODE::RELATIVE_ORBIT)  // initialize orbit for relative dynamics of formation flying
   {
-    int wgs = conf.ReadInt(section_, "wgs");
     RelativeOrbit::RelativeOrbitUpdateMethod update_method =
         (RelativeOrbit::RelativeOrbitUpdateMethod)(conf.ReadInt(section_, "relative_orbit_update_method"));
     RelativeOrbitModel relative_dynamics_model_type = (RelativeOrbitModel)(conf.ReadInt(section_, "relative_dynamics_model_type"));
@@ -75,10 +74,9 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
       oe = OrbitalElements(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
     }
     KeplerOrbit kepler_orbit(mu_m3_s2, current_jd, oe);
-    orbit = new KeplerOrbitPropagation(current_jd, kepler_orbit);
+    orbit = new KeplerOrbitPropagation(current_jd, kepler_orbit, wgs);
   } else  // initialize orbit for RK4 propagation
   {
-    int wgs = conf.ReadInt(section_, "wgs");
     Vector<3> init_pos;
     conf.ReadVector<3>(section_, "init_position", init_pos);
     Vector<3> init_veloc;

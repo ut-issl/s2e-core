@@ -8,7 +8,8 @@ public:
   // Initialize with orbital elements
   KeplerOrbitPropagation(
     const double current_jd,
-    KeplerOrbit kepler_orbit
+    KeplerOrbit kepler_orbit,
+    int wgs
   );
   ~KeplerOrbitPropagation();
 

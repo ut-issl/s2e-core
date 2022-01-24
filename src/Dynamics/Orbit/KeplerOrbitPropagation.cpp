@@ -3,9 +3,15 @@
 
 KeplerOrbitPropagation::KeplerOrbitPropagation(
   const double current_jd,
-  KeplerOrbit kepler_orbit
+  KeplerOrbit kepler_orbit,
+  int wgs
 ):KeplerOrbit(kepler_orbit)
 {
+  // TODO whichconst周りを整理する
+  if (wgs == 0) { whichconst = wgs72old; }
+  else if (wgs == 1) { whichconst = wgs72; }
+  else if (wgs == 2) { whichconst = wgs84; }
+
   UpdateState(current_jd);
 }
 
@@ -57,4 +63,5 @@ void KeplerOrbitPropagation::UpdateState(const double current_jd)
   sat_position_i_ = position_i_m_;
   sat_velocity_i_ = velocity_i_m_s_;
   TransECIToGeo(current_jd);
+  TransECIToECEF(current_jd);
 }
