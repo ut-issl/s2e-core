@@ -26,13 +26,24 @@ jobs:
         with:
           arch: amd64_x86
 
+      - name: cache extlib
+        id: cache-extlib
+        uses: actions/cache@v2
+        with:
+          key: extlib-${{ runner.os }}-${{ hashFiles('s2e-core/ExtLibraries/**') }}
+          restore-keys: |
+            extlib-${{ runner.os }}-
+          path: ExtLibraries
+
       - name: build extlib
+        if: steps.cache-extlib.outputs.cache-hit != 'true'
         shell: powershell
         working-directory: s2e-core/ExtLibraries
         run: |
           cmake -G "Visual Studio 16 2019" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug"
           cmake --build .
       - name: install extlib
+        if: steps.cache-extlib.outputs.cache-hit != 'true'
         shell: powershell
         working-directory: s2e-core/ExtLibraries
         run: |
