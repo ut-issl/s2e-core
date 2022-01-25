@@ -128,6 +128,9 @@ void EnckeOrbitPropagation::Initialize(
   fill_up(diff_position_i_m_, 0.0);
   fill_up(diff_velocity_i_m_s_, 0.0);
 
+  Vector<6> zero(0.0f);
+  setup(0.0, zero);
+
   UpdateSatOrbit(current_jd);
 }
 
