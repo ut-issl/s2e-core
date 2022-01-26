@@ -38,7 +38,12 @@ download_file(${NRLMSISE_TABLE_URL_BASE} ${NRLMSISE_TABLE_FILE} "10369764025772a
 
 
 # build
-add_library(libnrlmsise00 STATIC ${NRLMSISE_TMP_DIR}/nrlmsise-00.c ${NRLMSISE_TMP_DIR}/nrlmsise-00_data.c)
+if(WIN32)
+  set(NRLMSISE_LIB libnrlmsise00)
+else()
+  set(NRLMSISE_LIB nrlmsise00) # prevent liblibnrlmsise00.a
+endif()
+add_library(${NRLMSISE_LIB} STATIC ${NRLMSISE_TMP_DIR}/nrlmsise-00.c ${NRLMSISE_TMP_DIR}/nrlmsise-00_data.c)
 
 
 # install
@@ -51,7 +56,7 @@ install(EXPORT nrlmsise00-config
 )
 
 ## install library
-install(TARGETS libnrlmsise00
+install(TARGETS ${NRLMSISE_LIB}
   EXPORT nrlmsise00-config
   ARCHIVE DESTINATION ${NRLMSISE_INSTALL_DIR}/lib
 )
