@@ -34,7 +34,7 @@ download_file(${NRLMSISE_URL_BASE} nrlmsise-00_data.c "d0b3022f3c3e7ffdf703cc0e0
 download_file(${NRLMSISE_URL_BASE} nrlmsise-00_test.c "5a95faa996dc265ab85a0f6db641628abe84c9aef504638b4aa465ed76c89113")
 
 ## download table
-download_file(${NRLMSISE_TABLE_URL_BASE} ${NRLMSISE_TABLE_FILE} "0e9b0839e764639a7acc2a78ced8a4dd5a9c4d2eed662fd53e12a9231f62a80d")
+download_file(${NRLMSISE_TABLE_URL_BASE} ${NRLMSISE_TABLE_FILE} "10369764025772abf565902fee36f9cf720b75ba6b8be20159720bf779dd3f1a")
 
 
 # build
