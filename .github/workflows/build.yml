@@ -18,38 +18,52 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          path: s2e-core
 
       - name: Configure build for x86
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64_x86
 
+      - name: cache extlib
+        id: cache-extlib
+        uses: actions/cache@v2
+        with:
+          key: extlib-${{ runner.os }}-${{ hashFiles('s2e-core/ExtLibraries/**') }}
+          restore-keys: |
+            extlib-${{ runner.os }}-
+          path: ExtLibraries
+
       - name: build extlib
+        if: steps.cache-extlib.outputs.cache-hit != 'true'
         shell: powershell
-        working-directory: ExtLibraries
+        working-directory: s2e-core/ExtLibraries
         run: |
           cmake -G "Visual Studio 16 2019" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug"
           cmake --build .
       - name: install extlib
+        if: steps.cache-extlib.outputs.cache-hit != 'true'
         shell: powershell
-        working-directory: ExtLibraries
+        working-directory: s2e-core/ExtLibraries
         run: |
           cmake --install .
       - name: check extlib
         shell: powershell
         run: |
-          ls ..
-          ls ../ExtLibraries
-          ls ../ExtLibraries/cspice
-          ls ../ExtLibraries/cspice/cspice_msvs
-          ls ../ExtLibraries/cspice/include
-          ls ../ExtLibraries/cspice/generic_kernels
-          ls ../ExtLibraries/nrlmsise00
-          ls ../ExtLibraries/nrlmsise00/table
-          ls ../ExtLibraries/nrlmsise00/lib
-          ls ../ExtLibraries/nrlmsise00/lib/libnrlmsise00.lib
-          ls ../ExtLibraries/nrlmsise00/src
+          ls ExtLibraries
+          ls ExtLibraries/cspice
+          ls ExtLibraries/cspice/cspice_msvs
+          ls ExtLibraries/cspice/include
+          ls ExtLibraries/cspice/generic_kernels
+          ls ExtLibraries/nrlmsise00
+          ls ExtLibraries/nrlmsise00/table
+          ls ExtLibraries/nrlmsise00/lib
+          ls ExtLibraries/nrlmsise00/lib/libnrlmsise00.lib
+          ls ExtLibraries/nrlmsise00/src
+
       - name: build
+        working-directory: s2e-core
         shell: cmd
         run: |
           cl.exe
