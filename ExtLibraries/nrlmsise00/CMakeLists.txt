@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.13)
-
 project(nrlmsise00)
+
+cmake_minimum_required(VERSION 3.13)
 
 include(ExternalProject)
 include(FetchContent)
@@ -14,26 +14,27 @@ set(NRLMSISE_TABLE_FILE SpaceWeather-v1.2.txt)
 set(NRLMSISE_TMP_DIR "nrlmsise")
 
 # download files
-function(download_file base_url file)
+function(download_file base_url file sha256)
   message("downloading ${file}")
   FetchContent_Declare(
     ${file}
     SOURCE_DIR ${NRLMSISE_TMP_DIR}
     URL ${base_url}/${file}
+    URL_HASH SHA256=${sha256}
     DOWNLOAD_NO_EXTRACT true
   )
   FetchContent_MakeAvailable(${file})
 endfunction()
 
 ## download source files
-download_file(${NRLMSISE_URL_BASE} makefile)
-download_file(${NRLMSISE_URL_BASE} nrlmsise-00.c)
-download_file(${NRLMSISE_URL_BASE} nrlmsise-00.h)
-download_file(${NRLMSISE_URL_BASE} nrlmsise-00_data.c)
-download_file(${NRLMSISE_URL_BASE} nrlmsise-00_test.c)
+download_file(${NRLMSISE_URL_BASE} makefile "6c58c08dc6f83b11407750733a08b45e6a63d39b6d24ea3127e4cec7d6807d34")
+download_file(${NRLMSISE_URL_BASE} nrlmsise-00.c "a20d6523420188241963f095ad0b65df44ac0a6fa6db52d2e1df823c366f0285")
+download_file(${NRLMSISE_URL_BASE} nrlmsise-00.h "d5b45be690bbc6cf394f69b18c0e641a1769da0a87015704fdabf0e7560794aa")
+download_file(${NRLMSISE_URL_BASE} nrlmsise-00_data.c "d0b3022f3c3e7ffdf703cc0e0d02339dfee01c0bf1520b29c68d5f4afd8784d5")
+download_file(${NRLMSISE_URL_BASE} nrlmsise-00_test.c "5a95faa996dc265ab85a0f6db641628abe84c9aef504638b4aa465ed76c89113")
 
 ## download table
-download_file(${NRLMSISE_TABLE_URL_BASE} ${NRLMSISE_TABLE_FILE})
+download_file(${NRLMSISE_TABLE_URL_BASE} ${NRLMSISE_TABLE_FILE} "0e9b0839e764639a7acc2a78ced8a4dd5a9c4d2eed662fd53e12a9231f62a80d")
 
 
 # build
