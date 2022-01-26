@@ -79,6 +79,10 @@ jobs:
         with:
           path: s2e-core
 
+      - name: install deps
+        run: |
+          sudo apt-get install -y gcc-multilib g++-multilib
+
       - name: cache extlib
         id: cache-extlib
         uses: actions/cache@v2
