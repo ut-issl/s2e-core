@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.13)
-
 project(nrlmsise00)
+
+cmake_minimum_required(VERSION 3.13)
 
 include(ExternalProject)
 include(FetchContent)

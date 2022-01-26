@@ -1,3 +1,5 @@
+project(ExtLibraries)
+
 cmake_minimum_required(VERSION 3.13)
 
 set(EXT_LIB_DIR "${CMAKE_CURRENT_LIST_DIR}/../../ExtLibraries/")
