@@ -26,8 +26,8 @@ public:
 
   int Receive();
   int Send(const unsigned char len);
-  unsigned char CheckFlag();
-  unsigned char SetFlag();
+  int CheckFlag();
+  int SetFlag();
 
 private:
   unsigned char max_register_number_ = 0xff;

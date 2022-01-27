@@ -33,8 +33,8 @@ public:
   virtual int I2cTargetReceive(unsigned int port_id);
   // I2c Components -> Com ports
   virtual int I2cTargetSend(unsigned int port_id, const unsigned char len);
-  virtual unsigned char I2cTargetCheckFlag(unsigned int port_id);
-  virtual unsigned char I2cTargetSetFlag(unsigned int port_id);
+  virtual int I2cTargetCheckFlag(unsigned int port_id);
+  virtual int I2cTargetSetFlag(unsigned int port_id);
 
   // TODO: Add I2C controller functions
 

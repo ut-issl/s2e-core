@@ -114,7 +114,7 @@ int HilsI2cPort::Send(const unsigned char len)
   return 0;
 }
 
-unsigned char HilsI2cPort::CheckFlag()
+int HilsI2cPort::CheckFlag()
 {
   if (send_tlm_flag_ == 0)
   {
@@ -126,7 +126,7 @@ unsigned char HilsI2cPort::CheckFlag()
   }
 }
 
-unsigned char HilsI2cPort::SetFlag()
+int HilsI2cPort::SetFlag()
 {
   send_tlm_flag_ = 1;
   return saved_reg_addr_;

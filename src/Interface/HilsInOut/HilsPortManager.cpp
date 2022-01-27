@@ -170,7 +170,7 @@ int HilsPortManager::I2cTargetSend(unsigned int port_id, const unsigned char len
 #endif
 }
 
-unsigned char HilsPortManager::I2cTargetCheckFlag(unsigned int port_id)
+int HilsPortManager::I2cTargetCheckFlag(unsigned int port_id)
 {
 #ifdef USE_HILS
   HilsI2cPort* port = i2c_com_ports_[port_id];
@@ -181,7 +181,7 @@ unsigned char HilsPortManager::I2cTargetCheckFlag(unsigned int port_id)
 #endif
 }
 
-unsigned char HilsPortManager::I2cTargetSetFlag(unsigned int port_id)
+int HilsPortManager::I2cTargetSetFlag(unsigned int port_id)
 {
 #ifdef USE_HILS
   HilsI2cPort* port = i2c_com_ports_[port_id];
