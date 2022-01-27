@@ -12,6 +12,7 @@ else()
 
   # 32bit
   target_compile_options(${PROJECT_NAME} PUBLIC "-m32")
+  target_link_options(${PROJECT_NAME} PUBLIC "-m32")
 
   # debug
   target_compile_options(${PROJECT_NAME} PUBLIC "-g")
