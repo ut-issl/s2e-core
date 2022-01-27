@@ -1,7 +1,11 @@
-## General settings
+project(S2E
+  LANGUAGES CXX
+  DESCRIPTION "S2E: Spacecraft Simulation Environment"
+  VERSION 4.0
+)
+
 cmake_minimum_required(VERSION 3.13)
-set(CMAKE_CXX_STANDARD 14)
-project(S2E CXX)
+
 # preprocessor
 if(WIN32)
   add_definitions(-DWIN32)
@@ -9,8 +13,9 @@ if(WIN32)
 endif()
 
 ## set directory path
-set(CSPICE_DIR ../ExtLibraries/cspice)
-set(NRLMSISE00_DIR ../ExtLibraries/nrlmsise00)
+set(EXT_LIB_DIR ../ExtLibraries)
+set(CSPICE_DIR ${EXT_LIB_DIR}/cspice)
+set(NRLMSISE00_DIR ${EXT_LIB_DIR}/nrlmsise00)
 set(FLIGHT_SW_DIR ../FlightSW)
 set(C2A_DIR ${FLIGHT_SW_DIR}/c2a_oss)
 
@@ -75,15 +80,6 @@ set(SOURCE_FILES
 
 ## Create executable file
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-# Compile option
-if(MSVC)
-    target_compile_options(${PROJECT_NAME} PUBLIC "/W4")
-	target_compile_options(${PROJECT_NAME} PUBLIC "/source-charset:utf-8")
-else()
-    target_compile_options(${PROJECT_NAME} PUBLIC "${CMAKE_CXX_FLAGS}-Wall")
-    set(CMAKE_CXX_FLAGS "-m32 -rdynamic -Wall -g")
-    set(CMAKE_C_FLAGS "-m32 -rdynamic -Wall -g")
-endif()
 
 ## cspice library
 if(CYGWIN)
@@ -168,3 +164,5 @@ endif()
 ## Cmake debug
 message("Cspice_LIB:  " ${CSPICE_LIB})
 message("nrlmsise00_LIB:  " ${NRLMSISE00_LIB})
+
+include(common.cmake)

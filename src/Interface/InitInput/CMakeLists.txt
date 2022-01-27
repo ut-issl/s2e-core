@@ -1,5 +1,6 @@
-cmake_minimum_required(VERSION 3.13)
 project(INI_IN)
+cmake_minimum_required(VERSION 3.13)
+
 add_library(${PROJECT_NAME} STATIC
   Initialize.h
   # Global Environment
@@ -41,15 +42,8 @@ add_library(${PROJECT_NAME} STATIC
   #  Init_COSMOSWrapper.cpp
 #  Init_HardwareMessage.cpp
 )
-# Compile option
-if(MSVC)
-    target_compile_options(${PROJECT_NAME} PUBLIC "/W4")
-	target_compile_options(${PROJECT_NAME} PUBLIC "/source-charset:utf-8")
-else()
-    target_compile_options(${PROJECT_NAME} PUBLIC "-Wall")
-    set(CMAKE_CXX_FLAGS "-m32 -rdynamic -Wall -g")
-    set(CMAKE_C_FLAGS "-m32 -rdynamic -Wall -g")
-endif()
+
+include(../../../common.cmake)
 
 ## ini access
 if(WIN32)
@@ -60,9 +54,8 @@ endif()
 # Compile option
 if(MSVC)
   target_compile_options(INI_ACC PUBLIC "/W4")
-	target_compile_options(INI_ACC PUBLIC "/source-charset:utf-8")
+  target_compile_options(INI_ACC PUBLIC "/source-charset:utf-8")
 else()
   target_compile_options(INI_ACC PUBLIC -Wall -g -m32)
-  set(CMAKE_CXX_FLAGS "-m32 -rdynamic -Wall -g")
-  set(CMAKE_C_FLAGS "-m32 -rdynamic -Wall -g")
+  target_compile_options(INI_ACC PUBLIC "-m32 -rdynamic")
 endif()
