@@ -25,6 +25,16 @@ function(download_file base_url file sha256)
   )
   FetchContent_MakeAvailable(${file})
 endfunction()
+function(download_file_without_validate base_url file)
+  message("downloading ${file}")
+  FetchContent_Declare(
+    ${file}
+    SOURCE_DIR ${NRLMSISE_TMP_DIR}
+    URL ${base_url}/${file}
+    DOWNLOAD_NO_EXTRACT true
+  )
+  FetchContent_MakeAvailable(${file})
+endfunction()
 
 ## download source files
 download_file(${NRLMSISE_URL_BASE} makefile "6c58c08dc6f83b11407750733a08b45e6a63d39b6d24ea3127e4cec7d6807d34")
@@ -34,7 +44,7 @@ download_file(${NRLMSISE_URL_BASE} nrlmsise-00_data.c "d0b3022f3c3e7ffdf703cc0e0
 download_file(${NRLMSISE_URL_BASE} nrlmsise-00_test.c "5a95faa996dc265ab85a0f6db641628abe84c9aef504638b4aa465ed76c89113")
 
 ## download table
-download_file(${NRLMSISE_TABLE_URL_BASE} ${NRLMSISE_TABLE_FILE} "10369764025772abf565902fee36f9cf720b75ba6b8be20159720bf779dd3f1a")
+download_file_without_validate(${NRLMSISE_TABLE_URL_BASE} ${NRLMSISE_TABLE_FILE})
 
 
 # build
