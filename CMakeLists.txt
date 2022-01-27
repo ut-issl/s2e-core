@@ -1,3 +1,4 @@
+cmake_policy(SET CMP0048 NEW)
 project(S2E
   LANGUAGES CXX
   DESCRIPTION "S2E: Spacecraft Simulation Environment"
