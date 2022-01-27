@@ -7,6 +7,10 @@ project(S2E
 
 cmake_minimum_required(VERSION 3.13)
 
+# build config
+option(USE_HILS "Use HILS" OFF)
+option(USE_C2A "Use C2A" OFF)
+
 # preprocessor
 if(WIN32)
   add_definitions(-DWIN32)
@@ -21,8 +25,6 @@ set(FLIGHT_SW_DIR ../FlightSW)
 set(C2A_DIR ${FLIGHT_SW_DIR}/c2a_oss)
 
 ## options to use C2A
-option(USE_C2A "Use C2A")
-set(USE_C2A OFF)
 if(USE_C2A)
   add_definitions(-DUSE_C2A)
   add_definitions(-DSILS_FW)
@@ -34,8 +36,6 @@ if(USE_C2A)
 endif()
 
 ## options to use HILS
-option(USE_HILS "Use HILS")
-set(USE_HILS OFF)
 if(USE_HILS AND WIN32)
   add_definitions(-DUSE_HILS)
   ## winsock2
