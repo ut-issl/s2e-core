@@ -18,7 +18,9 @@ if(WIN32)
 endif()
 
 ## set directory path
-set(EXT_LIB_DIR ../ExtLibraries)
+if(NOT DEFINED EXT_LIB_DIR)
+  set(EXT_LIB_DIR ../ExtLibraries)
+endif()
 set(CSPICE_DIR ${EXT_LIB_DIR}/cspice)
 set(NRLMSISE00_DIR ${EXT_LIB_DIR}/nrlmsise00)
 set(FLIGHT_SW_DIR ../FlightSW)
