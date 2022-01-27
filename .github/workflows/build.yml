@@ -39,7 +39,8 @@ jobs:
         shell: powershell
         working-directory: ./ExtLibraries
         run: |
-          cmake -G "Visual Studio 16 2019" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${pwd}"
+          $extlib_dir=(pwd).Path
+          cmake -G "Visual Studio 16 2019" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}"
           cmake --build .
       - name: install extlib
         if: steps.cache-extlib.outputs.cache-hit != 'true'
@@ -66,7 +67,7 @@ jobs:
         run: |
           cl.exe
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
-          cmake -G "Visual Studio 16 2019" -A Win32  -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=${pwd}/ExtLibraries
+          cmake -G "Visual Studio 16 2019" -A Win32  -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries
           cmake --build .
 
   build_s2e_linux:
