@@ -25,6 +25,16 @@ function(download_file base_url file sha256)
   )
   FetchContent_MakeAvailable(${file})
 endfunction()
+function(download_file_without_validate base_url file)
+  message("downloading ${file}")
+  FetchContent_Declare(
+    ${file}
+    SOURCE_DIR ${NRLMSISE_TMP_DIR}
+    URL ${base_url}/${file}
+    DOWNLOAD_NO_EXTRACT true
+  )
+  FetchContent_MakeAvailable(${file})
+endfunction()
 
 ## download source files
 download_file(${NRLMSISE_URL_BASE} makefile "6c58c08dc6f83b11407750733a08b45e6a63d39b6d24ea3127e4cec7d6807d34")
