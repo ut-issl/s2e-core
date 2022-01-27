@@ -8,5 +8,11 @@ if(MSVC)
   target_compile_options(${PROJECT_NAME} PUBLIC "/source-charset:utf-8")
 else()
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wall")
-  target_compile_options(${PROJECT_NAME} PUBLIC "-m32 -rdynamic -Wall -g")
+  target_compile_options(${PROJECT_NAME} PUBLIC "-rdynamic")
+
+  # 32bit
+  target_compile_options(${PROJECT_NAME} PUBLIC "-m32")
+
+  # debug
+  target_compile_options(${PROJECT_NAME} PUBLIC "-g")
 endif()
