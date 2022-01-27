@@ -98,6 +98,9 @@ elseif(WIN32)
     NAMES cspice.lib csupport.lib
     PATHS ${CSPICE_DIR}/cspice_msvs/lib)
 endif()
+if(NOT CSPICE_LIB)
+  message(FATAL_ERROR "cspice not found in ${EXT_LIB_DIR}")
+endif()
 #target_link_libraries(${PROJECT_NAME} ${CSPICE_LIB})
 
 ## nrlmsise00 library
@@ -115,6 +118,9 @@ elseif(WIN32)
   find_library(NRLMSISE00_LIB 
     NAMES libnrlmsise00.lib
     PATHS ${NRLMSISE00_DIR}/lib)
+endif()
+if(NOT NRLMSISE00_LIB)
+  message(FATAL_ERROR "nrlmsise00 not found in ${EXT_LIB_DIR}")
 endif()
 #target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
 
