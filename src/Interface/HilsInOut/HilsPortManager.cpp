@@ -148,27 +148,45 @@ int HilsPortManager::I2cTargetReadCommand(unsigned int port_id, unsigned char* d
 #endif
 }
 
-int HilsPortManager::I2cTargetUpdateCmd(unsigned int port_id)
+int HilsPortManager::I2cTargetReceive(unsigned int port_id)
 {
-  // I2C-USB変換器(Target)のbufferを定期的・高速に読み込む
 #ifdef USE_HILS
   HilsI2cPort* port = i2c_com_ports_[port_id];
   if (port == nullptr) return -1;
-  port->UpdateCmd();
-  return 0;
+  return port->Receive();
 #else
   return -1;
 #endif
 }
 
-int HilsPortManager::I2cTargetUpdateTlm(unsigned int port_id)
+int HilsPortManager::I2cTargetSend(unsigned int port_id, const unsigned char len)
 {
-  // I2C-USB変換器(Target)のbufferに定期的・高速に書き込む
 #ifdef USE_HILS
   HilsI2cPort* port = i2c_com_ports_[port_id];
   if (port == nullptr) return -1;
-  port->UpdateTlm();
-  return 0;
+  return port->Send(len);
+#else
+  return -1;
+#endif
+}
+
+unsigned char HilsPortManager::I2cTargetCheckFlag(unsigned int port_id)
+{
+#ifdef USE_HILS
+  HilsI2cPort* port = i2c_com_ports_[port_id];
+  if (port == nullptr) return -1;
+  return port->CheckFlag();
+#else
+  return -1;
+#endif
+}
+
+unsigned char HilsPortManager::I2cTargetSetFlag(unsigned int port_id)
+{
+#ifdef USE_HILS
+  HilsI2cPort* port = i2c_com_ports_[port_id];
+  if (port == nullptr) return -1;
+  return port->SetFlag();
 #else
   return -1;
 #endif

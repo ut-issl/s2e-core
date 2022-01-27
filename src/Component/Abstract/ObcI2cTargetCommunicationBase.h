@@ -28,7 +28,10 @@ protected:
   void ReadRegister (const unsigned char reg_addr, unsigned char* data, const unsigned char len);
   void WriteRegister(const unsigned char reg_addr, const unsigned char* data, const unsigned char len);
   void ReadCommand  (unsigned char* data, const unsigned char len);
-  void Update();
+  int ReceiveCommand();
+  int SendTelemetry (const unsigned char len);
+  unsigned char CheckFlag();
+  unsigned char SetFlag();
 
 private:
   int sils_port_id_;

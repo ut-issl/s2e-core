@@ -29,8 +29,12 @@ public:
   virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_addr,
                                      const unsigned char* data, const unsigned char len);
   virtual int I2cTargetReadCommand(unsigned int port_id, unsigned char* data, const unsigned char len);
-  virtual int I2cTargetUpdateCmd(unsigned int port_id); // I2C-USB converter -> emulated target compo
-  virtual int I2cTargetUpdateTlm(unsigned int port_id); // I2C-USB converter <- emulated target compo
+  // I2c Com ports -> Components
+  virtual int I2cTargetReceive(unsigned int port_id);
+  // I2c Components -> Com ports
+  virtual int I2cTargetSend(unsigned int port_id, const unsigned char len);
+  virtual unsigned char I2cTargetCheckFlag(unsigned int port_id);
+  virtual unsigned char I2cTargetSetFlag(unsigned int port_id);
 
   // TODO: Add I2C controller functions
 

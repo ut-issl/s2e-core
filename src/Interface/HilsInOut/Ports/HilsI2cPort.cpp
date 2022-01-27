@@ -48,7 +48,7 @@ int HilsI2cPort::WriteRegister(const unsigned char reg_addr, const unsigned char
 unsigned char HilsI2cPort::ReadRegister(const unsigned char reg_addr)
 {
   if (reg_addr >= max_register_number_) return 0;
-  // saved_reg_addr_ = reg_addr;
+  saved_reg_addr_ = reg_addr;
   unsigned char ret = device_registers_[reg_addr];
   return ret;
 }
@@ -66,7 +66,7 @@ int HilsI2cPort::ReadCommand(unsigned char* rx_data, const unsigned int length)
   return length;
 }
 
-int HilsI2cPort::UpdateCmd()
+int HilsI2cPort::Receive()
 {
   unsigned char rx_buf[kDefaultCmdSize];
   // I2C-USB変換器(Target)のbufferを定期的・高速に読み込む
@@ -90,32 +90,44 @@ int HilsI2cPort::UpdateCmd()
   if (received_bytes == 1) // length == 1 means setting of read register address
   {
     WriteRegister(rx_buf[0]);
+    send_tlm_flag_ = 1;
   }
-  if (received_bytes == 2) // length ==2 means setting specific register. FIXME: this rule is not general.
+  if (received_bytes == 2) // length == 2 means setting specific register. FIXME: this rule is not general.
   {
     WriteRegister(rx_buf[0], rx_buf[1]);
   }
   return received_bytes;
 }
 
-int HilsI2cPort::UpdateTlm()
+int HilsI2cPort::Send(const unsigned char len)
 {
-  unsigned char tx_size_ = kDefaultTxSize; // larger than Controller's request tlm size
-  unsigned char tx_buf[kDefaultTxSize];
-  unsigned int max_tlm_size = max_register_number_ - saved_reg_addr_;
-  if (tx_size_ > max_tlm_size)
-  {
-    tx_size_ = max_tlm_size;
-  }
-  for (int i = 0; i < tx_size_; i++)
+  if (send_tlm_flag_ == 0) return -1;
+  if (saved_reg_addr_ + len > max_register_number_) return -1;
+  unsigned char tx_buf[kDefaultTxSize] = { 0 };
+  for (int i = 0; i < len; i++)
   {
     tx_buf[i] = device_registers_[saved_reg_addr_ + i];
   }
-  // I2C-USB変換器(Target)のbufferに定期的・高速に書き込む
-  // bufferをクリア
-  DiscardOutBuffer(); // 変換器のbufferはクリアできていない
-  // TODO: 変換器のbufferクリア
   // テレメ送信
-  int ret = WriteTx(tx_buf, 0, tx_size_);
+  int ret = WriteTx(tx_buf, 0, len);
+  send_tlm_flag_ = 0;
   return 0;
+}
+
+unsigned char HilsI2cPort::CheckFlag()
+{
+  if (send_tlm_flag_ == 0)
+  {
+    return -1;
+  }
+  else
+  {
+    return saved_reg_addr_;
+  }
+}
+
+unsigned char HilsI2cPort::SetFlag()
+{
+  send_tlm_flag_ = 1;
+  return saved_reg_addr_;
 }

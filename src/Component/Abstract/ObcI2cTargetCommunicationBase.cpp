@@ -110,9 +110,26 @@ void ObcI2cTargetCommunicationBase::ReadCommand(unsigned char* data, const unsig
   }
 }
 
-void ObcI2cTargetCommunicationBase::Update() // HILSの際，模擬コンポのMainRoutine()でcallされることを想定
+int ObcI2cTargetCommunicationBase::ReceiveCommand()
 {
-  if (sim_mode_ != OBC_COM_UART_MODE::HILS) return;
-  hils_port_manager_->I2cTargetUpdateCmd(hils_port_id_);
-  hils_port_manager_->I2cTargetUpdateTlm(hils_port_id_);
+  if (sim_mode_ != OBC_COM_UART_MODE::HILS) return -1;
+  return hils_port_manager_->I2cTargetReceive(hils_port_id_);
+}
+
+int ObcI2cTargetCommunicationBase::SendTelemetry(const unsigned char len)
+{
+  if (sim_mode_ != OBC_COM_UART_MODE::HILS) return -1;
+  return hils_port_manager_->I2cTargetSend(hils_port_id_, len);
+}
+
+unsigned char ObcI2cTargetCommunicationBase::CheckFlag()
+{
+  if (sim_mode_ != OBC_COM_UART_MODE::HILS) return -1;
+  return hils_port_manager_->I2cTargetCheckFlag(hils_port_id_);
+}
+
+unsigned char ObcI2cTargetCommunicationBase::SetFlag()
+{
+  if (sim_mode_ != OBC_COM_UART_MODE::HILS) return -1;
+  return hils_port_manager_->I2cTargetSetFlag(hils_port_id_);
 }
