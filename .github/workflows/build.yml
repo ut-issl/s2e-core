@@ -14,6 +14,7 @@ on:
 
 jobs:
   build_s2e_win:
+    name: Build on Windows
     runs-on: windows-latest
 
     steps:
@@ -72,6 +73,7 @@ jobs:
           cmake --build .
 
   build_s2e_linux:
+    name: Build on Linux
     runs-on: ubuntu-latest
 
     steps:
