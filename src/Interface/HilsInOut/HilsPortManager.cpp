@@ -71,7 +71,7 @@ int HilsPortManager::UartSend(unsigned int port_id, const unsigned char* buffer,
 #endif
 }
 
-// I2C Communication port functions
+// I2C Target Communication port functions
 int HilsPortManager::I2cConnectComPort(unsigned int port_id)
 {
 #ifdef USE_HILS
@@ -190,4 +190,25 @@ int HilsPortManager::I2cTargetSetFlag(unsigned int port_id)
 #else
   return -1;
 #endif
+}
+
+// I2C Controller Communication port functions
+int HilsPortManager::I2cControllerConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buf_size, unsigned int rx_buf_size)
+{
+  return UartConnectComPort(port_id, baud_rate, tx_buf_size, rx_buf_size);
+}
+
+int HilsPortManager::I2cControllerCloseComPort(unsigned int port_id)
+{
+  return UartCloseComPort(port_id);
+}
+
+int HilsPortManager::I2cControllerReceive(unsigned int port_id, unsigned char* buffer, int offset, int count)
+{
+  return UartReceive(port_id, buffer, offset, count);
+}
+
+int HilsPortManager::I2cControllerSend(unsigned int port_id, const unsigned char* buffer, int offset, int count)
+{
+  return UartSend(port_id, buffer, offset, count);
 }

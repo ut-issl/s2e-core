@@ -24,4 +24,5 @@ protected:
 
 private:
   char i2c_address_;
+  int counter_ = 0;
 };

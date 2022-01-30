@@ -65,7 +65,7 @@ SampleComponents::SampleComponents(
   // Examples of HILS
   //exp_hils_responder_ = new ExpHils(clock_gen, 1, obc_, 3, 9600, hils_port_manager_, 1);
   //exp_hils_sender_ = new ExpHils(clock_gen, 0, obc_, 4, 9600, hils_port_manager_, 0);
-  //exp_hils_i2c_controller_ = new ExpHilsI2c(clock_gen, 0, 0x44, obc_, 5, hils_port_manager_, 0);
+  exp_hils_i2c_controller_ = new ExpHilsI2cController(clock_gen, 5, hils_port_manager_);
   exp_hils_i2c_target_ = new ExpHilsI2cTarget(clock_gen, 0, 0x44, obc_, 6, hils_port_manager_);
 
   // actuator debug output
@@ -89,7 +89,7 @@ SampleComponents::~SampleComponents()
   delete pcu_;
   //delete exp_hils_responder_;
   //delete exp_hils_sender_;
-  //delete exp_hils_i2c_controller_;
+  delete exp_hils_i2c_controller_;
   delete exp_hils_i2c_target_;
   delete obc_;
   delete hils_port_manager_; // delete after exp_hils

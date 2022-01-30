@@ -58,6 +58,7 @@ private:
   //ExpHils* exp_hils_responder_;
   //ExpHils* exp_hils_sender_;
   //ExpHilsI2c* exp_hils_i2c_controller_;
+  ExpHilsI2cController* exp_hils_i2c_controller_;
   ExpHilsI2cTarget* exp_hils_i2c_target_;
 
   const SimulationConfig* config_;

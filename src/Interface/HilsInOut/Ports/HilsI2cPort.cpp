@@ -1,7 +1,7 @@
 ﻿#include "HilsI2cPort.h"
 
 HilsI2cPort::HilsI2cPort(const unsigned int port_id)
-  : HilsUartPort(port_id, 9600, 512, 512) // TODO: Define the magic number.
+  : HilsUartPort(port_id, 115200, 512, 512) // TODO: Define the magic number.
 {
   // TODO
   // 接続するI2C-USB変換器に応じてヘッダー・フッターを初期化
@@ -10,7 +10,7 @@ HilsI2cPort::HilsI2cPort(const unsigned int port_id)
 
 HilsI2cPort::HilsI2cPort(const unsigned int port_id, const unsigned char max_register_number)
   : max_register_number_(max_register_number),
-    HilsUartPort(port_id, 9600, 512, 512) // TODO: Define the magic number.
+    HilsUartPort(port_id, 115200, 512, 512) // TODO: Define the magic number.
 {
 }
 
