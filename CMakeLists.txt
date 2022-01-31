@@ -23,11 +23,18 @@ if(NOT DEFINED EXT_LIB_DIR)
 endif()
 set(CSPICE_DIR ${EXT_LIB_DIR}/cspice)
 set(NRLMSISE00_DIR ${EXT_LIB_DIR}/nrlmsise00)
-set(FLIGHT_SW_DIR ../FlightSW)
-set(C2A_DIR ${FLIGHT_SW_DIR}/c2a_oss)
+
+if(NOT DEFINED FLIGHT_SW_DIR)
+  set(FLIGHT_SW_DIR ../FlightSW)
+endif()
+if(NOT DEFINED C2A_NAME)
+  set(C2A_NAME "c2a_oss")
+endif()
 
 ## options to use C2A
 if(USE_C2A)
+  set(C2A_DIR ${FLIGHT_SW_DIR}/${C2A_NAME})
+  message("C2A dir: ${C2A_DIR}")
   add_definitions(-DUSE_C2A)
   add_definitions(-DSILS_FW)
   #include_directories
