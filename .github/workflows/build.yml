@@ -32,12 +32,26 @@ jobs:
           repository: ut-issl/c2a-core
           ref: v3.4.0
           fetch-depth: 1
+      - name: move C2A to ../
+        if: matrix.use_c2a == 'ON'
+        shell: cmd
+        run: move c2a-core ..\c2a-core
 
       - name: setup C2A
         if: matrix.use_c2a == 'ON'
-        working-directory: c2a-core
         shell: cmd
-        run: setup.bat
+        run: |
+          cd ..
+          cd c2a-core
+          dir
+          setup.bat
+      - name: setup C2A user
+        if: matrix.use_c2a == 'ON'
+        shell: cmd
+        working-directory: ..
+        run: |
+          mkdir FlightSW
+          mklink /j /d ".\FlightSW\c2a_oss" ".\c2a-core\Examples\minimum_user_for_s2e"
 
       - name: Configure build for x86
         uses: ilammy/msvc-dev-cmd@v1
