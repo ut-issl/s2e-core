@@ -1,5 +1,5 @@
 #include "../Initialize.h"
-#include "../../../Component/AOCS/RWModel.h"
+#include <Component/AOCS/RWModel.h>
 
 // In order to share processing among initialization functions, variables should also be shared.
 // These variables have internal linkages and cannot be referenced from the outside.

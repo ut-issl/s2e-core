@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "../Initialize.h"
-#include "../../../Component/Power/BAT.h"
+#include <Component/Power/BAT.h>
 
 BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname) {
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../../Library/math/Vector.hpp"
-#include "../../../Library/math/Matrix.hpp"
+#include <Library/math/Vector.hpp>
+#include <Library/math/Matrix.hpp>
 using libra::Vector;
 using libra::Matrix;
 

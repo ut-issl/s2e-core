@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "../../../Library/math/Vector.hpp"
+#include <Library/math/Vector.hpp>
 
 typedef std::map<double, double> DoubleBuffer;
 

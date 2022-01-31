@@ -1,8 +1,8 @@
 #include "SampleSat.h"
 #include "SampleComponents.h"
-#include "../../../Interface/InitInput/Initialize.h"
-#include "../../../Environment/Global/ClockGenerator.h"
-#include "../../../Library/math/NormalRand.hpp"
+#include <Interface/InitInput/Initialize.h>
+#include <Environment/Global/ClockGenerator.h>
+#include <Library/math/NormalRand.hpp>
 
 SampleSat::SampleSat(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id)
   :Spacecraft(sim_config, glo_env, sat_id)

@@ -1,7 +1,7 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include <string.h>
 #include "../Initialize.h"
-#include "../../../Component/Power/SAP.h"
+#include <Component/Power/SAP.h>
 
 SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp) {
 

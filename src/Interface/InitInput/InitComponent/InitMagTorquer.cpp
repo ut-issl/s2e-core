@@ -1,5 +1,5 @@
 #include "../Initialize.h"
-#include "../../../Component/AOCS/MagTorquer.h"
+#include <Component/AOCS/MagTorquer.h>
 
 MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const std::string fname, double compo_step_time, const MagEnvironment* mag_env)
 {

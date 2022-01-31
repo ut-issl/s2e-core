@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../Library/math/Vector.hpp"
+#include <Library/math/Vector.hpp>
 using libra::Vector;
 
 class Surface

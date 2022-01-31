@@ -1,8 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <string.h>
 #include "../Initialize.h"
-#include "../../../Component/CommGS/ANT.h"
-#include "../../../Library/math/Vector.hpp"
+#include <Component/CommGS/ANT.h>
+#include <Library/math/Vector.hpp>
 using libra::Vector;
 
 
