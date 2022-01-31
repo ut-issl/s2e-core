@@ -2,6 +2,9 @@
 set_target_properties(${PROJECT_NAME} PROPERTIES LANGUAGE CXX)
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 14)
 
+# common include
+target_include_directories(${PROJECT_NAME} PUBLIC ${S2E_DIR}/src)
+
 # Compile option
 if(MSVC)
   target_compile_options(${PROJECT_NAME} PUBLIC "/W4")

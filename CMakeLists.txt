@@ -54,6 +54,8 @@ if(USE_HILS AND WIN32)
   message(${WS2_32_LIB})
 endif()
 
+set(S2E_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 ## include directories
 include_directories(${CSPICE_DIR}/include)
 include_directories(${NRLMSISE00_DIR}/src)
