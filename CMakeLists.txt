@@ -14,7 +14,6 @@ option(USE_C2A "Use C2A" OFF)
 # preprocessor
 if(WIN32)
   add_definitions(-DWIN32)
-  #add_definitions(-D_HAS_STD_BYTE=0) #when you chose C++ 17
 endif()
 
 ## set directory path
