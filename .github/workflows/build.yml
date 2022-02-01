@@ -10,6 +10,8 @@ on:
       - '.github/workflows/build.yml'
       - 'ExtLibraries/**'
       - 'CMakeLists.txt'
+      - 'common.cmake'
+      - 'CMakeSettings.json'
       - 'src/**'
 
 jobs:
