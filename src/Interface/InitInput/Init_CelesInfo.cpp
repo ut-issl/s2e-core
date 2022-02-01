@@ -1,6 +1,6 @@
 #include <stdlib.h>
-#include "../../Environment/Global/CelestialInformation.h"
-#include "SpiceUsr.h"
+#include <Environment/Global/CelestialInformation.h>
+#include <SpiceUsr.h>
 #include "Initialize.h"
 #include <cassert>
 

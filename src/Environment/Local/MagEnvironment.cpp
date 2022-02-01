@@ -1,9 +1,9 @@
 #include "MagEnvironment.h"
-#include "../../Library/igrf/igrf.h"
-#include "../../Library/math/NormalRand.hpp"
-#include "../../Library/math/GlobalRand.h"
-#include "../../Library/math/RandomWalk.hpp"
-#include "../../Interface/InitInput/IniAccess.h"
+#include <Library/igrf/igrf.h>
+#include <Library/math/NormalRand.hpp>
+#include <Library/math/GlobalRand.h>
+#include <Library/math/RandomWalk.hpp>
+#include <Interface/InitInput/IniAccess.h>
 
 using libra::NormalRand;
 using namespace std;

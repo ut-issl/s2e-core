@@ -2,7 +2,7 @@
 #include <cfloat>
 
 #include "SimpleThruster.h"
-#include "../../Library/math/GlobalRand.h"
+#include <Library/math/GlobalRand.h>
 
 //Constructor
 SimpleThruster::SimpleThruster(

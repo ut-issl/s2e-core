@@ -1,5 +1,5 @@
 #include "../Initialize.h"
-#include "../../../Component/Mission/Telescope/Telescope.h"
+#include <Component/Mission/Telescope/Telescope.h>
 #include <string.h>
 #define _USE_MATH_DEFINES
 #include <math.h>

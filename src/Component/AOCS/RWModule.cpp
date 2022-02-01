@@ -1,6 +1,6 @@
 #include <math.h>
-#include "../../Library/math/MatVec.hpp"
-#include "../../Library/math/ODE.hpp"
+#include <Library/math/MatVec.hpp>
+#include <Library/math/ODE.hpp>
 #include "RWModule.h"
 using namespace libra;
 

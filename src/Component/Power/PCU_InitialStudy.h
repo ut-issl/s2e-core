@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "../Abstract/ComponentBase.h"
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
 #include "SAP.h"
 #include "BAT.h"
 

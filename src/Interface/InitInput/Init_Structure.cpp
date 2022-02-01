@@ -1,8 +1,8 @@
 #include "Initialize.h"
-#include "../../Library/math/Vector.hpp"
-#include"../../Simulation/Spacecraft/Structure/KinematicsParams.h"
-#include"../../Simulation/Spacecraft/Structure/Surface.h"
-#include"../../Simulation/Spacecraft/Structure/RMMParams.h"
+#include <Library/math/Vector.hpp>
+#include <Simulation/Spacecraft/Structure/KinematicsParams.h>
+#include <Simulation/Spacecraft/Structure/Surface.h>
+#include <Simulation/Spacecraft/Structure/RMMParams.h>
 
 #define MIN_VAL 1e-6
 KinematicsParams InitKinematicsParams(std::string ini_path)

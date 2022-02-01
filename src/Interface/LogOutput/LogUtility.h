@@ -4,8 +4,8 @@
 #include <sstream>
 #include <iomanip>
 
-#include "../../Library/math/MatVec.hpp"
-#include "../../Library/math/Quaternion.hpp"
+#include <Library/math/MatVec.hpp>
+#include <Library/math/Quaternion.hpp>
 using libra::Matrix;
 using libra::Vector;
 using libra::Quaternion;

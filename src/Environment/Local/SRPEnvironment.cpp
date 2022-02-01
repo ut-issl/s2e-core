@@ -4,8 +4,8 @@
 #include <fstream>
 #include <cassert>
 #include <algorithm>
-#include "../../Library/math/Vector.hpp"
-#include "../../Interface/LogOutput/LogUtility.h"
+#include <Library/math/Vector.hpp>
+#include <Interface/LogOutput/LogUtility.h>
 
 using libra::Vector;
 using namespace std;

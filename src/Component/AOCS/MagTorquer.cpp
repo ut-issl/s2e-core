@@ -1,8 +1,8 @@
 #include "MagTorquer.h"
-#include "../../Library/math/GlobalRand.h"
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Library/math/MatVec.hpp"
-#include "../../Interface/LogOutput/Logger.h"
+#include <Library/math/GlobalRand.h>
+#include <Library/math/Quaternion.hpp>
+#include <Library/math/MatVec.hpp>
+#include <Interface/LogOutput/Logger.h>
 
 MagTorquer::MagTorquer(
   const int prescaler, 

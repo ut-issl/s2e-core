@@ -1,6 +1,6 @@
 #include <string.h>
 #include "../Initialize.h"
-#include "../../../Component/AOCS/SunSensor.h"
+#include <Component/AOCS/SunSensor.h>
 
 SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_name, const SRPEnvironment* srp)
 {

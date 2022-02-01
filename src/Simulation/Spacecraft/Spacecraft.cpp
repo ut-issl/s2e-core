@@ -1,7 +1,7 @@
 #include "Spacecraft.h"
 
-#include "../../Interface/LogOutput/LogUtility.h"
-#include "../../Interface/LogOutput/Logger.h"
+#include <Interface/LogOutput/LogUtility.h>
+#include <Interface/LogOutput/Logger.h>
 
 Spacecraft::Spacecraft(SimulationConfig * sim_config, const GlobalEnvironment * glo_env, const int sat_id) :sat_id_(sat_id)
 {

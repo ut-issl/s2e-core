@@ -1,7 +1,7 @@
 #include <string>
 
 #include "SimulationCase.h"
-#include "../../Interface/InitInput/Initialize.h"
+#include <Interface/InitInput/Initialize.h>
 
 SimulationCase::SimulationCase(std::string ini_base)
 {

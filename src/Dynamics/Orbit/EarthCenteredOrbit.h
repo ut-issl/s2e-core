@@ -1,6 +1,6 @@
 #pragma once
 #include "Orbit.h"
-#include "../../Environment/Global/CelestialInformation.h"
+#include <Environment/Global/CelestialInformation.h>
 
 static elsetrec satrec;
 

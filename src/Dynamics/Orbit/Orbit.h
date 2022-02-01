@@ -1,22 +1,22 @@
 #ifndef __orbit_H__
 #define __orbit_H__
 
-#include "../../Library/math/Matrix.hpp"
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/MatVec.hpp"
-#include "../../Library/math/Quaternion.hpp"
+#include <Library/math/Matrix.hpp>
+#include <Library/math/Vector.hpp>
+#include <Library/math/MatVec.hpp>
+#include <Library/math/Quaternion.hpp>
 
 using libra::Matrix;
 using libra::Vector;
 using libra::Quaternion;
 
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
 
 // For ECI to GEO calculation
 #include <math.h>
-#include "../../Library/sgp4/sgp4unit.h"
-#include "../../Library/sgp4/sgp4io.h"
-#include "../../Library/sgp4/sgp4ext.h"
+#include <Library/sgp4/sgp4unit.h>
+#include <Library/sgp4/sgp4io.h>
+#include <Library/sgp4/sgp4ext.h>
 
 #define PIO2		1.57079632679489656		/* Pi/2 */
 #define TWOPI		6.28318530717958623		/* 2*Pi  */

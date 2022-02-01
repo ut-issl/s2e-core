@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
 #include "../Abstract/ComponentBase.h"
-#include "../../Library/math/NormalRand.hpp"
-#include "../../Dynamics/Dynamics.h"
-#include "../../Environment/Global/GnssSatellites.h"
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Environment/Global/SimTime.h"
+#include <Library/math/NormalRand.hpp>
+#include <Dynamics/Dynamics.h>
+#include <Environment/Global/GnssSatellites.h>
+#include <Library/math/Quaternion.hpp>
+#include <Environment/Global/SimTime.h>
 
 #define DEG2RAD 0.017453292519943295769 // PI/180
 

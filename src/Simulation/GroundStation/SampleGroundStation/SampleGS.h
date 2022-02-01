@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../GroundStation.h"
-#include "../../../Dynamics/Dynamics.h"
+#include <Dynamics/Dynamics.h>
 
 class SampleGSComponents;
 

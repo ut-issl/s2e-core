@@ -2,8 +2,8 @@
 
 #include "GroundStation.h"
 
-#include "../../Interface/LogOutput/LogUtility.h"
-#include "../../Interface/LogOutput/Logger.h"
+#include <Interface/LogOutput/LogUtility.h>
+#include <Interface/LogOutput/Logger.h>
 
 GroundStation::GroundStation(SimulationConfig* config, int gs_id)
   :gs_id_(gs_id)

@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
 #include "Node.h"
 
 class Temperature: public ILoggable

@@ -1,6 +1,5 @@
-
 #include "AttitudeRK4.h"
-#include "../../Interface/LogOutput/LogUtility.h"
+#include <Interface/LogOutput/LogUtility.h>
 using namespace std;
 
 #include <iostream>

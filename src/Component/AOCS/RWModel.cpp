@@ -3,7 +3,7 @@
 #include <random>
 #include <fstream>
 #include <iostream>
-#include "../../Library/math/Vector.hpp"
+#include <Library/math/Vector.hpp>
 #include "RWModel.h"
 
 using namespace libra;

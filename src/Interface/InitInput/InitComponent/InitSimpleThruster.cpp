@@ -1,5 +1,5 @@
 #include "../Initialize.h"
-#include "../../../Component/Propulsion/SimpleThruster.h"
+#include <Component/Propulsion/SimpleThruster.h>
 
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, const std::string fname, const Structure* structure, const Dynamics* dynamics){
   IniAccess thruster_conf(fname);

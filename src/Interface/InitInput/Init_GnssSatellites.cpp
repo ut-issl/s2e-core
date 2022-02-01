@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../../Environment/Global/GnssSatellites.h"
+#include <Environment/Global/GnssSatellites.h>
 #include "Initialize.h"
 
 std::string return_dirctory_path(std::string sort)

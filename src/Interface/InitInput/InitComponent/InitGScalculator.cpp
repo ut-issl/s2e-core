@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <string.h>
 #include "../Initialize.h"
-#include "../../../Component/CommGS/GScalculator.h"
+#include <Component/CommGS/GScalculator.h>
 
 // 地上局計算クラス初期化
 GScalculator InitGScalculator(const std::string fname){

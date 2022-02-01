@@ -5,9 +5,9 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include "GnssSatellites.h"
-#include "../../Interface/LogOutput/LogUtility.h"
-#include "../../Library/sgp4/sgp4unit.h" //for gstime()
-#include "../../Library/sgp4/sgp4ext.h" //for jday()
+#include <Interface/LogOutput/LogUtility.h>
+#include <Library/sgp4/sgp4unit.h> //for gstime()
+#include <Library/sgp4/sgp4ext.h> //for jday()
 
 const double speed_of_light_m_s = 299792458.0; //[m/s] in vacuum
 const double nan99 = 999999.999999;

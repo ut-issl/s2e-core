@@ -1,6 +1,6 @@
 #include "Initialize.h"
-#include "../../Dynamics/Attitude/AttitudeRK4.h"
-#include "../../Dynamics/Attitude/ControlledAttitude.h"
+#include <Dynamics/Attitude/AttitudeRK4.h>
+#include <Dynamics/Attitude/ControlledAttitude.h>
 
 Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info, const double step_sec, const Matrix<3, 3> inertia_tensor, const int sat_id)
 {

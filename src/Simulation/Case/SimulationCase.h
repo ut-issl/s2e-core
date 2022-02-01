@@ -1,8 +1,8 @@
 #pragma once
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
 #include "../SimulationConfig.h"
-#include "../../Environment/Global/GlobalEnvironment.h"
-#include "../../Simulation/MCSim/MCSimExecutor.h"
+#include <Environment/Global/GlobalEnvironment.h>
+#include <Simulation/MCSim/MCSimExecutor.h>
 class Logger;
 
 class SimulationCase : public ILoggable

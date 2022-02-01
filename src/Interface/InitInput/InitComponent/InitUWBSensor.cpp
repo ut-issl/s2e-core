@@ -1,5 +1,5 @@
 #include "../Initialize.h"
-#include "../../../Component/AOCS/UWBSensor.h"
+#include <Component/AOCS/UWBSensor.h>
 
 UWBSensor InitUWBSensor(int sensor_id)
 {

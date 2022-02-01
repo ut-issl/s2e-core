@@ -5,8 +5,8 @@
 #include <map>
 #include <functional>
 
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/Quaternion.hpp"
+#include <Library/math/Vector.hpp>
+#include <Library/math/Quaternion.hpp>
 #include "InitParameter.h"
 #include "MCSimExecutor.h"
 

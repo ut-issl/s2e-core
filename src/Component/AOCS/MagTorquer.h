@@ -1,14 +1,14 @@
 #ifndef MTQ_H_
 #define MTQ_H_
 
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/Matrix.hpp"
-#include "../../Library/math/NormalRand.hpp"
-#include "../../Library/math/RandomWalk.hpp"
+#include <Library/math/Quaternion.hpp>
+#include <Library/math/Vector.hpp>
+#include <Library/math/Matrix.hpp>
+#include <Library/math/NormalRand.hpp>
+#include <Library/math/RandomWalk.hpp>
 #include "../Abstract/ComponentBase.h"
-#include "../../Interface/LogOutput/ILoggable.h"
-#include "../../Environment/Local/LocalEnvironment.h"
+#include <Interface/LogOutput/ILoggable.h>
+#include <Environment/Local/LocalEnvironment.h>
 
 const size_t kMtqDim = 3;
 

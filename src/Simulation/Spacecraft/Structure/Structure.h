@@ -2,7 +2,7 @@
 #include "KinematicsParams.h"
 #include "Surface.h"
 #include "RMMParams.h"
-#include "../../../Simulation/SimulationConfig.h"
+#include <Simulation/SimulationConfig.h>
 #include <vector>
 using std::vector;
 

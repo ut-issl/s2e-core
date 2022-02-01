@@ -1,8 +1,8 @@
 #include "STT.h"
 
-#include "../../Library/math/Matrix.hpp"
-#include "../../Library/math/GlobalRand.h"
-#include "../../Interface/LogOutput/LogUtility.h"
+#include <Library/math/Matrix.hpp>
+#include <Library/math/GlobalRand.h>
+#include <Interface/LogOutput/LogUtility.h>
 
 #define _USE_MATH_DEFINES
 

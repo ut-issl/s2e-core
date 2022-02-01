@@ -1,5 +1,5 @@
 #include "../Initialize.h"
-#include "../../../Component/AOCS/EMDS.h"
+#include <Component/AOCS/EMDS.h>
 
 EMDS InitEMDS(int actuator_id)
 {

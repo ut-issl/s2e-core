@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../LogOutput/ILoggable.h"
-#include "../../Library/utils/endian.h"
+#include <Library/utils/endian.h>
 #include "ComPortInterface.h"
 
 typedef unsigned short int crc_t;

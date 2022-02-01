@@ -1,8 +1,8 @@
 #include "SunSensor.h"
-#include "../../Library/math/NormalRand.hpp"
+#include <Library/math/NormalRand.hpp>
 using libra::NormalRand;
-#include "../../Library/math/GlobalRand.h"
-#include "../../Interface/LogOutput/LogUtility.h"
+#include <Library/math/GlobalRand.h>
+#include <Interface/LogOutput/LogUtility.h>
 
 #define _USE_MATH_DEFINES
 #include <math.h>

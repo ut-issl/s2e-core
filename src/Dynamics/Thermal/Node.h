@@ -6,7 +6,7 @@
 #include <string>
 #include <vector> 
 
-#include "../../Interface/LogOutput/Logger.h"
+#include <Interface/LogOutput/Logger.h>
 
 class Node
 {

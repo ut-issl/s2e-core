@@ -9,12 +9,12 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-#include "../../Library/math/Matrix.hpp"
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/MatVec.hpp"
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Dynamics/Dynamics.h"
-#include "../../Simulation/Spacecraft/Structure/Structure.h"
+#include <Library/math/Matrix.hpp>
+#include <Library/math/Vector.hpp>
+#include <Library/math/MatVec.hpp>
+#include <Library/math/Quaternion.hpp>
+#include <Dynamics/Dynamics.h>
+#include <Simulation/Spacecraft/Structure/Structure.h>
 #include "../SpacecraftInOut/Ports/PowerPort.h"
 
 using libra::Matrix;

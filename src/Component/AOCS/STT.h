@@ -3,15 +3,15 @@
 #ifndef __STT_H__
 #define __STT_H__
 
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/Ran1.hpp"
-#include "../../Library/math/NormalRand.hpp"
-#include "../../Interface/LogOutput/ILoggable.h"
-#include "../../Environment/Local/LocalEnvironment.h"
-#include "../../Dynamics/Attitude/Attitude.h"
+#include <Library/math/Quaternion.hpp>
+#include <Library/math/Vector.hpp>
+#include <Library/math/Ran1.hpp>
+#include <Library/math/NormalRand.hpp>
+#include <Interface/LogOutput/ILoggable.h>
+#include <Environment/Local/LocalEnvironment.h>
+#include <Dynamics/Attitude/Attitude.h>
 #include "../Abstract/ComponentBase.h"
-#include "../../Dynamics/Dynamics.h"
+#include "Dynamics/Dynamics.h"
 #include<vector>
 
 class STT: public ComponentBase, public ILoggable

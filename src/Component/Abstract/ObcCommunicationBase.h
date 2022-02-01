@@ -1,6 +1,6 @@
 #pragma once
 #include "../CDH/OBC.h"
-#include "../../Interface/HilsInOut/HilsPortManager.h"
+#include <Interface/HilsInOut/HilsPortManager.h>
 
 enum class OBC_COM_UART_MODE
 {

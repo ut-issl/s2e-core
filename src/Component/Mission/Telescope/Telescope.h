@@ -1,11 +1,11 @@
 #pragma once
-#include "../../Abstract/ComponentBase.h"
-#include "../../../Library/math/Quaternion.hpp"
-#include "../../../Library/math/Vector.hpp"
-#include "../../../Interface/LogOutput/ILoggable.h"
-#include "../../../Environment/Local/LocalCelestialInformation.h"
-#include "../../../Environment/Global/HipparcosCatalogue.h"
-#include "../../../Dynamics/Attitude/Attitude.h"
+#include <Abstract/ComponentBase.h>
+#include <Library/math/Quaternion.hpp>
+#include <Library/math/Vector.hpp>
+#include <Interface/LogOutput/ILoggable.h>
+#include <Environment/Local/LocalCelestialInformation.h>
+#include <Environment/Global/HipparcosCatalogue.h>
+#include <Dynamics/Attitude/Attitude.h>
 #include<vector>
 
 struct Star//望遠鏡視野内に入っている恒星の情報

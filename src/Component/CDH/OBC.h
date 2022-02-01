@@ -1,8 +1,8 @@
 #pragma once
 #include "../Abstract/ComponentBase.h"
-#include "../../Interface/SpacecraftInOut/Ports/SCIPort.h"
-#include "../../Interface/SpacecraftInOut/Ports/I2CPort.h"
-#include "../../Interface/SpacecraftInOut/Ports/GPIOPort.h"
+#include <Interface/SpacecraftInOut/Ports/SCIPort.h>
+#include <Interface/SpacecraftInOut/Ports/I2CPort.h>
+#include <Interface/SpacecraftInOut/Ports/GPIOPort.h>
 #include <map>
 
 class OBC: public ComponentBase

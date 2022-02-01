@@ -1,7 +1,7 @@
 ﻿#include "PCU_InitialStudy.h"
 #include <cmath>
-#include "../../Environment/Global/ClockGenerator.h"
-#include "../../Interface/InitInput/InitPower/CsvScenarioInterface.h"
+#include <Environment/Global/ClockGenerator.h>
+#include <Interface/InitInput/InitPower/CsvScenarioInterface.h>
 
 PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_gen,const std::vector<SAP*> saps,
   BAT* bat)

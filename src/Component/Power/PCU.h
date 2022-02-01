@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../Abstract/ComponentBase.h"
-#include "../../Interface/LogOutput/ILoggable.h"
-#include "../../Interface/SpacecraftInOut/Ports/PowerPort.h"
+#include <Interface/LogOutput/ILoggable.h>
+#include <Interface/SpacecraftInOut/Ports/PowerPort.h>
 #include <map>
 
 class PCU : public ComponentBase, public ILoggable

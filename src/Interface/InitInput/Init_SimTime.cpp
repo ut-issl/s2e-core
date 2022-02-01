@@ -1,5 +1,5 @@
 #include "Initialize.h"
-#include "../../Environment/Global/SimTime.h"
+#include <Environment/Global/SimTime.h>
 
 SimTime* InitSimTime(std::string file_name)
 {

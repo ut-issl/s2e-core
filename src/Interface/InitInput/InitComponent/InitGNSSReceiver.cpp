@@ -1,6 +1,6 @@
 #include "../Initialize.h"
 #include <string.h>
-#include "../../../Component/AOCS/GNSSReceiver.h"
+#include <Component/AOCS/GNSSReceiver.h>
 
 typedef struct _gnssrecever_param
 {

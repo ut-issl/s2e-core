@@ -1,7 +1,7 @@
 #include <math.h>
-#include "../../Library/math/MatVec.hpp"
-#include "../../Interface/LogOutput/Logger.h"
-#include "../../Library/math/ODE.hpp"
+#include <Library/math/MatVec.hpp>
+#include <Interface/LogOutput/Logger.h>
+#include <Library/math/ODE.hpp>
 #include "RWModel.h"
 using namespace libra;
 

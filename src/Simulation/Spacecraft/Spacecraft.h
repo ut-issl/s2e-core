@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../../Interface/InitInput/Initialize.h"
-#include "../../Environment/Global/ClockGenerator.h"
-#include "../../Dynamics/Dynamics.h"
-#include "../../RelativeInformation/RelativeInformation.h"
-#include "../../Environment/Local/LocalEnvironment.h"
-#include "../../Disturbance/Disturbances.h"
-#include "./Structure/Structure.h"
+#include <Interface/InitInput/Initialize.h>
+#include <Environment/Global/ClockGenerator.h>
+#include <Dynamics/Dynamics.h>
+#include <RelativeInformation/RelativeInformation.h>
+#include <Environment/Local/LocalEnvironment.h>
+#include <Disturbance/Disturbances.h>
+#include "Structure/Structure.h"
 
 class Spacecraft
 {

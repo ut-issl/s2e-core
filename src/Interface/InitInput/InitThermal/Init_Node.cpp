@@ -6,7 +6,7 @@
 #include <typeinfo>
 using namespace std;
 
-#include "../../../Dynamics/Thermal/Node.h"
+#include <Dynamics/Thermal/Node.h>
 
 /* Import node properties and Cij/Rij Datas by reading CSV File (Node.csv, Cij.csv, Rij.csv)
 Detailed process of reading node properties from CSV File, and CSV file formats of node properties is written in Init_Node.cpp

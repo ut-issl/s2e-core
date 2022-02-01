@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "../Abstract/ComponentBase.h"
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
 
 class BAT : public ComponentBase, public ILoggable
 {

@@ -1,6 +1,6 @@
 #include "Initialize.h"
-#include "../../Simulation/MCSim/MCSimExecutor.h"
-#include "../../Simulation/MCSim/InitParameter.h"
+#include <Simulation/MCSim/MCSimExecutor.h>
+#include <Simulation/MCSim/InitParameter.h>
 
 MCSimExecutor* InitMCSim(std::string file_name)
 {

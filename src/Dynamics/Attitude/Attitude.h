@@ -3,14 +3,14 @@
 
 #include <string>
 
-#include "../../Library/math/MatVec.hpp"
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Simulation/MCSim/SimulationObject.h"
+#include <Library/math/MatVec.hpp>
+#include <Library/math/Quaternion.hpp>
+#include <Simulation/MCSim/SimulationObject.h>
 using libra::Matrix;
 using libra::Vector;
 using libra::Quaternion;
 
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
 
 enum AttCtrlMode
 {

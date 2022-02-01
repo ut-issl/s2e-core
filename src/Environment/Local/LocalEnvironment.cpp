@@ -2,8 +2,8 @@
 #include "Atmosphere.h"
 #include "MagEnvironment.h"
 #include "SRPEnvironment.h"
-#include "../../Dynamics/Attitude/Attitude.h"
-#include "../../Dynamics/Orbit/Orbit.h"
+#include <Dynamics/Attitude/Attitude.h>
+#include <Dynamics/Orbit/Orbit.h>
 
 LocalEnvironment::LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id)
 {

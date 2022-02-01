@@ -1,7 +1,7 @@
 #ifndef __SRPEnvironment_h__
 #define __SRPEnvironment_h__
-#include "../../Library/math/Vector.hpp"
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Library/math/Vector.hpp>
+#include <Interface/LogOutput/ILoggable.h>
 using libra::Vector;
 
 class SRPEnvironment : public ILoggable

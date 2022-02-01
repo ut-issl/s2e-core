@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/Quaternion.hpp"
+#include <Library/math/Vector.hpp>
+#include <Library/math/Quaternion.hpp>
 using namespace libra;
 
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
 
 class EMDS : public ILoggable
 {

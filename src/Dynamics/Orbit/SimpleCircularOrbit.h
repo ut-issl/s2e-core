@@ -1,6 +1,6 @@
 #include "Orbit.h"
-#include "../../Library/math/ODE.hpp"
-#include "../../Environment/Global/CelestialInformation.h"
+#include <Library/math/ODE.hpp>
+#include <Environment/Global/CelestialInformation.h>
 
 class SimpleCircularOrbit : public Orbit, public libra::ODE<6>
 {

@@ -1,6 +1,5 @@
-
 #include "../Initialize.h"
-#include "../../../Component/AOCS/STT.h"
+#include <Component/AOCS/STT.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
 

@@ -1,15 +1,14 @@
 #pragma once
 
-
-#include "../../Interface/InitInput/Initialize.h"
+#include <Interface/InitInput/Initialize.h>
 #include "../SimulationConfig.h"
-#include "../../Library/math/Vector.hpp"
+#include <Library/math/Vector.hpp>
 
 //↓TODO: 地上局位置を求めるため，Dynamics/Orbit/EarthCenterOrbit.cppのTransECIToGeo()を参考に直接SGPをいじっているが，これをDynamics外に出すissueがあるので，いずれそれと関連して間接的にいじるように変える必要がある
 // https://gitlab.com/ut_issl/s2e/s2e_core_oss/-/issues/4
-#include "../../Library/sgp4/sgp4unit.h"
-#include "../../Library/sgp4/sgp4io.h"
-#include "../../Library/sgp4/sgp4ext.h"
+#include <Library/sgp4/sgp4unit.h>
+#include <Library/sgp4/sgp4io.h>
+#include <Library/sgp4/sgp4ext.h>
 #include <math.h>
 
 #define DEG2RAD 0.017453292519943295769  // PI/180

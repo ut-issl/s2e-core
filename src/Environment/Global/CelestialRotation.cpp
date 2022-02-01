@@ -2,8 +2,8 @@
 #include <sstream>
 
 #include "CelestialRotation.h"
-#include "../../Library/sgp4/sgp4unit.h" //for gstime()
-#include "../../Library/sgp4/sgp4ext.h"  //for jday()
+#include <Library/sgp4/sgp4unit.h> //for gstime()
+#include <Library/sgp4/sgp4ext.h>  //for jday()
 
 using namespace std;
 

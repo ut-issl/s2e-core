@@ -7,8 +7,8 @@
 #define _USE_MATH_DEFINES
 #endif
 #include <math.h>
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/Quaternion.hpp"
+#include <Library/math/Vector.hpp>
+#include <Library/math/Quaternion.hpp>
 
 using libra::Vector;
 using libra::Quaternion;

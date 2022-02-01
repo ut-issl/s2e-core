@@ -1,6 +1,6 @@
 ﻿#include "SAP.h"
-#include "../../Environment/Global/ClockGenerator.h"
-#include "../../Interface/InitInput/InitPower/CsvScenarioInterface.h"
+#include <Environment/Global/ClockGenerator.h>
+#include <Interface/InitInput/InitPower/CsvScenarioInterface.h>
 
 SAP::SAP(ClockGenerator* clock_gen,
   int id,
