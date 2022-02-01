@@ -1,7 +1,7 @@
 #pragma once
 #include "ITickable.h"
-#include "../../Environment/Global/ClockGenerator.h"
-#include "../../Interface/SpacecraftInOut/Ports/PowerPort.h"
+#include <Environment/Global/ClockGenerator.h>
+#include <Interface/SpacecraftInOut/Ports/PowerPort.h>
 
 // 電源ON/OFFと時間の概念のみを持った、コンポーネントの基底クラス
 class ComponentBase : public ITickable

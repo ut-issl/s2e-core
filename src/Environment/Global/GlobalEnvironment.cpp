@@ -1,5 +1,5 @@
 #include "GlobalEnvironment.h"
-#include "../../Interface/InitInput/Initialize.h"
+#include <Interface/InitInput/Initialize.h>
 
 GlobalEnvironment::GlobalEnvironment(SimulationConfig* sim_config)
 {

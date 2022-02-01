@@ -9,10 +9,10 @@
 // #include <time.h>
 #include <chrono>
 
-#include "../../Interface/LogOutput/ILoggable.h"
-#include "../../Library/sgp4/sgp4unit.h"
-#include "../../Library/sgp4/sgp4io.h"
-#include "../../Library/sgp4/sgp4ext.h"
+#include <Interface/LogOutput/ILoggable.h>
+#include <Library/sgp4/sgp4unit.h>
+#include <Library/sgp4/sgp4io.h>
+#include <Library/sgp4/sgp4ext.h>
 
 struct TimeState
 {

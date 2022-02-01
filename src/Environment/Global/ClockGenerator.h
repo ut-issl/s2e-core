@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "../../Component/Abstract/ITickable.h"
+#include <Component/Abstract/ITickable.h>
 #include "SimTime.h"
 
 // ITickableを実装したクラスにクロック（Tick）を与えるクラス

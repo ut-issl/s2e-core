@@ -1,11 +1,11 @@
 #ifndef MagSensor_H_
 #define MagSensor_H_
 
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Library/math/Quaternion.hpp>
+#include <Interface/LogOutput/ILoggable.h>
 #include "../Abstract/ComponentBase.h"
 #include "../Abstract/SensorBase.h"
-#include "../../Environment/Local/LocalEnvironment.h"
+#include <Environment/Local/LocalEnvironment.h>
 
 const size_t kMagDim=3;
 

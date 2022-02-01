@@ -1,5 +1,5 @@
 #include "Initialize.h"
-#include "../../Environment/Global/HipparcosCatalogue.h"
+#include <Environment/Global/HipparcosCatalogue.h>
 
 HipparcosCatalogue* InitHipCatalogue(std::string file_name)
 {

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/Matrix.hpp"
-#include "../../Library/math/NormalRand.hpp"
-#include "../../Library/math/RandomWalk.hpp"
+#include <Library/math/Vector.hpp>
+#include <Library/math/Matrix.hpp>
+#include <Library/math/NormalRand.hpp>
+#include <Library/math/RandomWalk.hpp>
 
 template<size_t N>
 class SensorBase

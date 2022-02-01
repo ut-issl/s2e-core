@@ -1,9 +1,9 @@
 #include "Atmosphere.h"
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/NormalRand.hpp"
-#include "../../Library/math/GlobalRand.h"
-#include "../../Library/math/RandomWalk.hpp"
-#include "../../Interface/LogOutput/LogUtility.h"
+#include <Library/math/Vector.hpp>
+#include <Library/math/NormalRand.hpp>
+#include <Library/math/GlobalRand.h>
+#include <Library/math/RandomWalk.hpp>
+#include <Interface/LogOutput/LogUtility.h>
 
 using libra::Vector;
 using libra::NormalRand;

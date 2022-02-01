@@ -1,10 +1,10 @@
 ﻿#pragma once
 
 #include "../Abstract/ComponentBase.h"
-#include "../../Interface/LogOutput/ILoggable.h"
-#include "../../Library/math/Vector.hpp"
-#include "../../Environment/Local/LocalCelestialInformation.h"
-#include "../../Environment/Local/SRPEnvironment.h"
+#include <Interface/LogOutput/ILoggable.h>
+#include <Library/math/Vector.hpp>
+#include <Environment/Local/LocalCelestialInformation.h>
+#include <Environment/Local/SRPEnvironment.h>
 
 class SAP : public ComponentBase, public ILoggable
 {

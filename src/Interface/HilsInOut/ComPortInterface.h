@@ -3,7 +3,7 @@
 #include <msclr/gcroot.h>
 #include <msclr/marshal_cppstd.h>
 
-#include "../../Component/Abstract/ITickable.h"
+#include <Component/Abstract/ITickable.h>
 #include <string>
 
 // SerialPort Classリファレンス： https://docs.microsoft.com/ja-jp/dotnet/api/system.io.ports.serialport?view=netframework-4.7.2

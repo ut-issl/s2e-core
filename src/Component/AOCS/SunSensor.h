@@ -1,11 +1,11 @@
 #ifndef __SunSensor_H__
 #define __SunSensor_H__
 
-#include "../../Environment/Local/SRPEnvironment.h"
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/NormalRand.hpp"
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Environment/Local/SRPEnvironment.h>
+#include <Library/math/Vector.hpp>
+#include <Library/math/NormalRand.hpp>
+#include <Library/math/Quaternion.hpp>
+#include <Interface/LogOutput/ILoggable.h>
 #include "../Abstract/ComponentBase.h"
 
 class SunSensor: public ComponentBase, public ILoggable

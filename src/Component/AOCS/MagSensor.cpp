@@ -1,6 +1,6 @@
 #include "MagSensor.h"
 
-#include "../../Library/math/Quaternion.hpp"
+#include <Library/math/Quaternion.hpp>
 
 MagSensor::MagSensor(
   int prescaler, 

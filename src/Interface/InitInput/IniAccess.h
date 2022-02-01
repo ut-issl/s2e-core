@@ -7,15 +7,15 @@
 	#include <windows.h>
 	#include <tchar.h>
 #else
-	#include "../../Library/inih/cpp/INIReader.h"
+	#include <Library/inih/cpp/INIReader.h>
 #endif
 #include <string>
 #include <vector>
 #include <sstream>
 #include <fstream>
 
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/Quaternion.hpp"
+#include <Library/math/Vector.hpp>
+#include <Library/math/Quaternion.hpp>
 
 #undef  MAX_PATH
 #define MAX_PATH 1024

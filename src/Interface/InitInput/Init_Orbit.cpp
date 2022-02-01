@@ -1,12 +1,12 @@
 #include <cassert>
 
 #include "Initialize.h"
-#include "../../Environment/Global/SimTime.h"
-#include "../../Dynamics/Orbit/SimpleCircularOrbit.h"
-#include "../../Dynamics/Orbit/EarthCenteredOrbit.h"
-#include "../../Dynamics/Orbit/RelativeOrbit.h"
-#include "../../RelativeInformation/RelativeInformation.h"
-#include "../../Library/RelativeOrbit/RelativeOrbitModels.h"
+#include <Environment/Global/SimTime.h>
+#include <Dynamics/Orbit/SimpleCircularOrbit.h>
+#include <Dynamics/Orbit/EarthCenteredOrbit.h>
+#include <Dynamics/Orbit/RelativeOrbit.h>
+#include <RelativeInformation/RelativeInformation.h>
+#include <Library/RelativeOrbit/RelativeOrbitModels.h>
 
 class EarthCenteredOrbit;
 class SimpleCircularOrbit;

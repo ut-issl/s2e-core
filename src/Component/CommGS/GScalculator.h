@@ -6,22 +6,22 @@
 */
 
 #pragma once
-#include "../../Interface/LogOutput/ILoggable.h"
-#include "../../Component/CommGS/ANT.h"
-#include "../../Dynamics/Dynamics.h"
-#include "../../Simulation/GroundStation/GroundStation.h"
-#include "../../Library/math/Matrix.hpp"
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/MatVec.hpp"
+#include <Interface/LogOutput/ILoggable.h>
+#include <Component/CommGS/ANT.h>
+#include <Dynamics/Dynamics.h>
+#include <Simulation/GroundStation/GroundStation.h>
+#include <Library/math/Matrix.hpp>
+#include <Library/math/Vector.hpp>
+#include <Library/math/MatVec.hpp>
 
 using libra::Matrix;
 using libra::Vector;
 
 //↓TODO: 地上局位置をECI2ECEF変換するためにユリウス時が必要なのでDynamicsに作ったGetCurrentJd()で持ち出して直接SGPをいじっているが，これをDynamics外に出すissueがあるので，いずれそれと関連して間接的にいじるように変える必要がある
 // https://gitlab.com/ut_issl/s2e/s2e_core_oss/-/issues/4
-#include "../../Library/sgp4/sgp4unit.h"
-#include "../../Library/sgp4/sgp4io.h"
-#include "../../Library/sgp4/sgp4ext.h"
+#include <Library/sgp4/sgp4unit.h>
+#include <Library/sgp4/sgp4io.h>
+#include <Library/sgp4/sgp4ext.h>
 // #include <math.h>
 // using namespace std;
 // #define DEG2RAD 0.017453292519943295769  // PI/180

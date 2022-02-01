@@ -2,7 +2,7 @@
 
 #include <string>
 #include <map>
-#include "../../Library/math/Vector.hpp"
+#include <Library/math/Vector.hpp>
 //#include "SimulationObject.h"
 #include "InitParameter.h"
 

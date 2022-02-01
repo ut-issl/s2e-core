@@ -1,11 +1,11 @@
 #ifndef Gyro_H_
 #define Gyro_H_
 
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Library/math/Quaternion.hpp>
+#include <Interface/LogOutput/ILoggable.h>
 #include "../Abstract/ComponentBase.h"
 #include "../Abstract/SensorBase.h"
-#include "../../Dynamics/Dynamics.h"
+#include <Dynamics/Dynamics.h>
 
 const size_t kGyroDim=3;
 

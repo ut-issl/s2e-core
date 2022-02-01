@@ -1,8 +1,8 @@
 #ifndef __RWModel_H__
 #define __RWModel_H__
-#include "../../Library/math/Vector.hpp"
-#include "../../Interface/LogOutput/Logger.h"
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Library/math/Vector.hpp>
+#include <Interface/LogOutput/Logger.h>
+#include <Interface/LogOutput/ILoggable.h>
 #include "../Abstract/ComponentBase.h"
 #include "rw_ode.hpp"
 #include "RWJitter.h"

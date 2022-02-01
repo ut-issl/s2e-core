@@ -1,9 +1,9 @@
 #include <string>
 
 #include "Initialize.h"
-#include "../../Environment/Local/MagEnvironment.h"
-#include "../../Environment/Local/SRPEnvironment.h"
-#include "../../Environment/Local/Atmosphere.h"
+#include <Environment/Local/MagEnvironment.h>
+#include <Environment/Local/SRPEnvironment.h>
+#include <Environment/Local/Atmosphere.h>
 
 MagEnvironment InitMagEnvironment(std::string ini_path)
 {

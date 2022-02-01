@@ -1,5 +1,5 @@
 #include "ControlledAttitude.h"
-#include "../../Interface/LogOutput/LogUtility.h"
+#include <Interface/LogOutput/LogUtility.h>
 using namespace std;
 
 #define THRESHOLD_CA cos(30.0 / 180.0*M_PI) //fix me

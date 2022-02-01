@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/Quaternion.hpp"
+#include <Library/math/Vector.hpp>
+#include <Library/math/Quaternion.hpp>
 class RWJitter
 {
 public:

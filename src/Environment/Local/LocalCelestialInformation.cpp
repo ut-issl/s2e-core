@@ -2,8 +2,8 @@
 #include <sstream>
 
 #include "LocalCelestialInformation.h"
-#include "../../Interface/LogOutput/LogUtility.h"
-#include "SpiceUsr.h"
+#include <Interface/LogOutput/LogUtility.h>
+#include <SpiceUsr.h>
 
 using namespace std;
 

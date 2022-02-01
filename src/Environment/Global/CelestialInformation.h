@@ -4,11 +4,11 @@
 #include <cstring>
 #include <string>
 
-#include "../../Library/math/Matrix.hpp"
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/MatVec.hpp"
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Interface/LogOutput/ILoggable.h"
+#include "Library/math/Matrix.hpp"
+#include "Library/math/Vector.hpp"
+#include "Library/math/MatVec.hpp"
+#include "Library/math/Quaternion.hpp"
+#include "Interface/LogOutput/ILoggable.h"
 #include "CelestialRotation.h"
 
 using libra::Vector;

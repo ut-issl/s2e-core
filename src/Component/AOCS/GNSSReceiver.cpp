@@ -1,6 +1,6 @@
 #include <string>
 #include "GNSSReceiver.h"
-#include "../../Library/math/GlobalRand.h"
+#include <Library/math/GlobalRand.h>
 
 
 GNSSReceiver::GNSSReceiver(

@@ -9,8 +9,8 @@
 #include <iomanip>
 
 #include "SimTime.h"
-#include "../../Library/math/Vector.hpp"
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Library/math/Vector.hpp>
+#include <Interface/LogOutput/ILoggable.h>
 
 extern const double speed_of_light; //[m/s] in vacuum
 extern const double nan99;

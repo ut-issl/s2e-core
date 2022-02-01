@@ -1,12 +1,12 @@
 #pragma once
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Library/math/NormalRand.hpp"
+#include <Library/math/Vector.hpp>
+#include <Library/math/Quaternion.hpp>
+#include <Library/math/NormalRand.hpp>
 using libra::Vector;
 using libra::Quaternion;
 using libra::NormalRand;
 
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
 
 class UWBSensor
 {

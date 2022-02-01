@@ -2,9 +2,9 @@
 #include <string>
 
 #include "Orbit.h"
-#include "../../Library/math/ODE.hpp"
-#include "../../RelativeInformation/RelativeInformation.h"
-#include "../../Library/RelativeOrbit/RelativeOrbitModels.h"
+#include <Library/math/ODE.hpp>
+#include <RelativeInformation/RelativeInformation.h>
+#include <Library/RelativeOrbit/RelativeOrbitModels.h>
 
 class RelativeOrbit : public Orbit, public libra::ODE<6>
 {

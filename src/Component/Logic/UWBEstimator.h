@@ -3,13 +3,13 @@
 #include <vector>
 #include <iterator>
 
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Library/math/MatVec.hpp"
+#include <Library/math/Quaternion.hpp>
+#include <Library/math/MatVec.hpp>
 using libra::Vector;
 using libra::Quaternion;
 using libra::Matrix;
 
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
 
 class UWBSensor;
 using uwbvec = std::vector<UWBSensor*>;

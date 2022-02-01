@@ -7,8 +7,8 @@
  */
 #ifndef __RW_ODE_H__
 #define __RW_ODE_H__
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/ODE.hpp"
+#include <Library/math/Vector.hpp>
+#include <Library/math/ODE.hpp>
 #include <vector>
 
 

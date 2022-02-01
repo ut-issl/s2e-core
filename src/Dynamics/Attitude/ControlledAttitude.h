@@ -4,7 +4,7 @@
 #include <string>
 
 #include "Attitude.h"
-#include "../../Environment/Local/LocalCelestialInformation.h"
+#include <Environment/Local/LocalCelestialInformation.h>
 #include "../Orbit/Orbit.h"
 
 class ControlledAttitude : public Attitude

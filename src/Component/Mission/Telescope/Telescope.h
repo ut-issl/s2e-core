@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Abstract/ComponentBase.h"
+#include <Abstract/ComponentBase.h>
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
 #include <Interface/LogOutput/ILoggable.h>

@@ -1,6 +1,6 @@
 #pragma once
 #include "OBC.h"
-#include "../../Interface/SpacecraftInOut/Ports/GPIOPort.h"
+#include <Interface/SpacecraftInOut/Ports/GPIOPort.h>
 
 class OBC_C2A: public OBC
 {

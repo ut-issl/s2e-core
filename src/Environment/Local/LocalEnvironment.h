@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../Interface/InitInput/Initialize.h"
+#include <Interface/InitInput/Initialize.h>
 #include "../Global/GlobalEnvironment.h"
-#include "../../Simulation/SimulationConfig.h"
+#include "Simulation/SimulationConfig.h"
 #include "Atmosphere.h"
 #include "MagEnvironment.h"
 #include "SRPEnvironment.h"

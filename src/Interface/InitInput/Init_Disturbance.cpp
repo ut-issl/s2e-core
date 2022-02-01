@@ -1,10 +1,10 @@
 #include "Initialize.h"
-#include "../../Disturbance/AirDrag.h"
-#include "../../Disturbance/SolarRadiation.h"
-#include "../../Disturbance/GGDist.h"
-#include "../../Disturbance/MagDisturbance.h"
-#include "../../Disturbance/GeoPotential.h"
-#include "../../Disturbance/ThirdBodyGravity.h"
+#include <Disturbance/AirDrag.h>
+#include <Disturbance/SolarRadiation.h>
+#include <Disturbance/GGDist.h>
+#include <Disturbance/MagDisturbance.h>
+#include <Disturbance/GeoPotential.h>
+#include <Disturbance/ThirdBodyGravity.h>
 
 #define MIN_VAL 1e-9
 

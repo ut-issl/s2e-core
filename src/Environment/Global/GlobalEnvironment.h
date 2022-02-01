@@ -4,8 +4,8 @@
 #include "CelestialInformation.h"
 #include "HipparcosCatalogue.h"
 #include "GnssSatellites.h"
-#include "../../Interface/LogOutput/Logger.h"
-#include "../../Simulation/SimulationConfig.h"
+#include <Interface/LogOutput/Logger.h>
+#include <Simulation/SimulationConfig.h>
 
 class GlobalEnvironment
 {

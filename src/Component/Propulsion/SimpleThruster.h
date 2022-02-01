@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../../Library/math/NormalRand.hpp"
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/Quaternion.hpp"
+#include <Library/math/NormalRand.hpp>
+#include <Library/math/Vector.hpp>
+#include <Library/math/Quaternion.hpp>
 
 #include "../Abstract/ComponentBase.h"
-#include "../../Dynamics/Dynamics.h"
-#include "../../Simulation/Spacecraft/Structure/Structure.h"
-#include "../../Interface/LogOutput/Logger.h"
+#include <Dynamics/Dynamics.h>
+#include <Simulation/Spacecraft/Structure/Structure.h>
+#include <Interface/LogOutput/Logger.h>
 
 class SimpleThruster : public ComponentBase, public ILoggable
 {
