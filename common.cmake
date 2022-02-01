@@ -1,6 +1,7 @@
 # C++
 set_target_properties(${PROJECT_NAME} PROPERTIES LANGUAGE CXX)
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
+set_target_properties(${PROJECT_NAME} PROPERTIES CXX_EXTENSIONS FALSE)
 
 # common include
 target_include_directories(${PROJECT_NAME} PUBLIC ${S2E_DIR}/src)
