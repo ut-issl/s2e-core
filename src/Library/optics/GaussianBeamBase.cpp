@@ -3,7 +3,6 @@
 * @brief  definition of the class "GaussianBeamBase"
 */
 
-#define _USE_MATH_DEFINES
 #include "GaussianBeamBase.h"
 #include <cassert>
 #include <cmath>

@@ -5,8 +5,7 @@
 * @date 2020.05.16
 */
 
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 
 #include "ANT.h"
 

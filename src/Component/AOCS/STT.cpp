@@ -4,9 +4,7 @@
 #include <Library/math/GlobalRand.h>
 #include <Interface/LogOutput/LogUtility.h>
 
-#define _USE_MATH_DEFINES
-
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 #ifndef RE

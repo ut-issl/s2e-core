@@ -1,8 +1,7 @@
 #include "../Initialize.h"
 #include <Component/Mission/Telescope/Telescope.h>
 #include <string.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 using namespace std;
 
 Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const string fname, const Attitude * attitude, const HipparcosCatalogue* hipp, const LocalCelestialInformation *local_celes_info) {

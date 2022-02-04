@@ -2,7 +2,6 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-#define _USE_MATH_DEFINES
 #include <cmath>
 #include "GnssSatellites.h"
 #include <Interface/LogOutput/LogUtility.h>

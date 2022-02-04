@@ -1,4 +1,3 @@
-#define _USE_MATH_DEFINES
 #include "HipparcosCatalogue.h"
 #include <string>
 #include <vector>

@@ -5,8 +5,7 @@
 * @date 2020.05.26
 */
 
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 
 #include "GScalculator.h"
 #define Kb 1.38064852E-23  //Boltzmann constant

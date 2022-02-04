@@ -1,4 +1,3 @@
-#define	_USE_MATH_DEFINES
 #include "Telescope.h"
 #include <cassert>
 #include <cmath>
