@@ -61,7 +61,7 @@ void SunSensor::MainRoutine(int count)
 {
   Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
   Vector<3> sun_dir_b = normalize(sun_pos_b);
-  measure(sun_dir_b, srp_->GetShadowFunction());
+  measure(sun_dir_b);
 }
 
 void SunSensor::measure(const Vector<3>& sun_b)
