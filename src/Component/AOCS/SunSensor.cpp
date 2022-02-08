@@ -102,44 +102,6 @@ void SunSensor::measure(const Vector<3>& sun_b)
   CalcSolarIlluminance();
 }
 
-void SunSensor::measure(const Vector<3>& sun_b, bool is_eclipsed)
-{
-  sun_c_ = q_b2c_.frame_conv(sun_b);    // Frame conversion from body to component
-
-  SunDetectionJudgement(is_eclipsed);  // Judge the sun is inside the FoV
-
-  if (sun_detected_flag_)
-  {
-    alpha_ = atan2(sun_c_[0], sun_c_[2]);
-    beta_ = atan2(sun_c_[1], sun_c_[2]);
-    // Add constant bias noise
-    alpha_ += bias_alpha_;
-    beta_ += bias_beta_;
-
-    // Add Normal random noise
-    alpha_ += nrs_alpha_;
-    beta_ += nrs_beta_;
-
-    // Range [-π/2:π/2]
-    alpha_ = TanRange(alpha_);
-    beta_ = TanRange(beta_);
-
-    measured_sun_c_[0] = tan(alpha_);
-    measured_sun_c_[1] = tan(beta_);
-    measured_sun_c_[2] = 1.0;
-
-    measured_sun_c_ = normalize(measured_sun_c_);
-  }
-  else
-  {
-    measured_sun_c_ = Vector<3>(0);
-    alpha_ = 0.0;
-    beta_ = 0.0;
-  }
-
-  CalcSolarIlluminance();
-}
-
 void SunSensor::SunDetectionJudgement()
 {
   Vector<3> sun_direction_c = normalize(sun_c_);
@@ -156,27 +118,6 @@ void SunSensor::SunDetectionJudgement()
       sun_detected_flag_ = true;
     }
     else{
-      sun_detected_flag_ = false;
-    }
-  }
-}
-
-void SunSensor::SunDetectionJudgement(bool sun_eclipsed)
-{
-  Vector<3> sun_direction_c = normalize(sun_c_);
-
-  double sun_angle_ = acos(sun_direction_c[2]);
-
-  if (sun_eclipsed)
-  {
-    sun_detected_flag_ = false;
-  }
-  else {
-    if (sun_angle_ < detectable_angle_rad_)
-    {
-      sun_detected_flag_ = true;
-    }
-    else {
       sun_detected_flag_ = false;
     }
   }

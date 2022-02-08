@@ -76,9 +76,7 @@ protected:
  
   // functions
   void SunDetectionJudgement();
-  void SunDetectionJudgement(bool sun_eclipsed); // This function is old version, but retained for backward compatibility
   void measure(const libra::Vector<3>& sun_b);
-  void measure(const libra::Vector<3>& sun_b, bool sun_eclipsed); // This function is old version, but retained for backward compatibility
   double TanRange(double x);
   void Initialize(const double nr_stddev_c,const double nr_bias_stddev_c);
   void CalcSolarIlluminance();
