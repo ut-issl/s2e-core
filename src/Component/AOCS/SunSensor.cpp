@@ -146,7 +146,7 @@ void SunSensor::SunDetectionJudgement()
 
   double sun_angle_ = acos(sun_direction_c[2]);
 
-  if (solar_illuminance_ < intensity_lower_threshold_percent_)
+  if (solar_illuminance_ < intensity_lower_threshold_percent_ / 100.0 * srp_->GetSolarConstant())
   {
     sun_detected_flag_ = false;
   }
@@ -211,7 +211,7 @@ string SunSensor::GetLogHeader() const
   const string st_id = std::to_string(static_cast<long long>(id_));
 
   str_tmp += WriteVector("sun"+st_id, "c", "-", 3);
-  str_tmp += WriteScalar("sun_detected_flag"+st_id,"-");;
+  str_tmp += WriteScalar("sun_detected_flag"+st_id,"-");
 
   return str_tmp;
 }
