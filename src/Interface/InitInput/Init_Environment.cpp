@@ -23,12 +23,12 @@ MagEnvironment InitMagEnvironment(std::string ini_path)
   return mag_env;
 }
 
-SRPEnvironment InitSRPEnvironment(std::string ini_path)
+SRPEnvironment InitSRPEnvironment(std::string ini_path, LocalCelestialInformation* local_celes_info)
 {
   auto conf = IniAccess(ini_path);
   const char* section = "SRP";
 
-  SRPEnvironment srp_env;
+  SRPEnvironment srp_env(local_celes_info);
   srp_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   srp_env.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 

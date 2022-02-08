@@ -38,7 +38,7 @@ SampleComponents::SampleComponents(
   // SunSensor
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "ss_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
-  sun_sensor_ = new SunSensor(InitSunSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, &(local_env_->GetSrp())));
+  sun_sensor_ = new SunSensor(InitSunSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, &(local_env_->GetSrp()), &(local_env_->GetCelesInfo())));
   // GNSS-R
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "gnss_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);

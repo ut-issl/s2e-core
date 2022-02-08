@@ -27,9 +27,9 @@ void LocalEnvironment::Initialize(SimulationConfig* sim_config, const GlobalEnvi
   sim_config->main_logger_->CopyFileToLogDir(ini_fname);
   // Initialize
   mag_     = new MagEnvironment(InitMagEnvironment(ini_fname));
-  srp_        = new SRPEnvironment(InitSRPEnvironment(ini_fname));
   atmosphere_ = new Atmosphere(InitAtmosphere(ini_fname));
   celes_info_ = new LocalCelestialInformation(&(glo_env->GetCelesInfo()));
+  srp_ = new SRPEnvironment(InitSRPEnvironment(ini_fname, celes_info_));
   // Log setting for Local celestial information
   IniAccess conf = IniAccess(ini_fname);
   celes_info_->IsLogEnabled = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", LOG_LABEL);
@@ -50,7 +50,7 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimTime* sim_time)
   if (sim_time->GetOrbitPropagateFlag()) {
     Vector<3> v1 = celes_info_->GetPosFromSC_b("EARTH");
     Vector<3> v2 = celes_info_->GetPosFromSC_b("SUN");
-    srp_->UpdateAllStates(v1, v2);
+    srp_->UpdateAllStates();
     atmosphere_->CalcAirDensity(sim_time->GetCurrentDecyear(), sim_time->GetEndSec(), orbit.GetLatLonAlt());
   }  
 }

@@ -10,7 +10,7 @@
 using libra::Vector;
 using namespace std;
 
-SRPEnvironment::SRPEnvironment()
+SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info):local_celes_info_(local_celes_info)
 {
   astronomical_unit_ = 149597870700.0;  //[m]
   c_ = 299792458.0;   //[m/s]
@@ -20,21 +20,22 @@ SRPEnvironment::SRPEnvironment()
   pressure_ = solar_constant_ / c_;//N/m2
 }
 
-void SRPEnvironment::UpdateAllStates(Vector<3>& earth_position_b, Vector<3>& sun_position_b)
+void SRPEnvironment::UpdateAllStates()
 {
   if (!IsCalcEnabled) return;
 
-  double distance_sat_to_sun = norm(sun_position_b);
+  Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
+  Vector<3> r_sc2earth_eci = local_celes_info_->GetPosFromSC_i("EARTH");
+
+  double distance_sat_to_sun = norm(r_sc2sun_eci);
   pressure_ = solar_constant_ / c_ / pow(distance_sat_to_sun / astronomical_unit_, 2.0);
   double sd_sun = asin(r_sun_ / distance_sat_to_sun);//Apparent radius of the sun
-  double sd_earth = asin(r_earth_ / norm(earth_position_b));//Apparent radius of the earth
-  double delta = acos(inner_product(earth_position_b, sun_position_b - earth_position_b) / norm(earth_position_b) / norm(sun_position_b - earth_position_b));//地球中心から太陽中心のずれの角度
+  double sd_earth = asin(r_earth_ / norm(r_sc2earth_eci));//Apparent radius of the earth
+  double delta = acos(inner_product(r_sc2earth_eci, r_sc2sun_eci - r_sc2earth_eci) / norm(r_sc2earth_eci) / norm(r_sc2sun_eci - r_sc2earth_eci));//Angle of deviation from earth center to sun center
   double x = (delta * delta + sd_sun * sd_sun - sd_earth * sd_earth) / (2.0 * delta); //The angle between the center of the sun and the common chord
   double y = sqrt(max(sd_sun * sd_sun - x * x, 0.0)); //The length of the common chord of the apparent solar disk and apparent tellestial disk
 
   CalcShadowFunction(sd_sun, sd_earth, delta, x, y);
-
-  for(int i=0;i<3;i++)  d_sc2sun_b_[i] = sun_position_b[i]/distance_sat_to_sun;
 }
 
 double SRPEnvironment::CalcTruePressure() const

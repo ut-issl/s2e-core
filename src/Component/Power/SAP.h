@@ -5,6 +5,7 @@
 #include <Library/math/Vector.hpp>
 #include <Environment/Local/LocalCelestialInformation.h>
 #include <Environment/Local/SRPEnvironment.h>
+#include <Environment/Local/LocalCelestialInformation.h>
 
 class SAP : public ComponentBase, public ILoggable
 {
@@ -17,7 +18,8 @@ public:
     libra::Vector<3> normal_vector,
     double cell_efficiency,
     double transmission_efficiency,
-    const SRPEnvironment* srp);
+    const SRPEnvironment* srp,
+    const LocalCelestialInformation* local_celes_info);
   SAP(const SAP &obj);
   ~SAP();
   double GetPowerGeneration() const;
@@ -36,6 +38,7 @@ private:
   const double cell_efficiency_;
   const double transmission_efficiency_; //各種損失を考慮したPCUへの伝達効率
   const SRPEnvironment* const srp_;
+  const LocalCelestialInformation* local_celes_info_;
   double voltage_; //[V]
   double power_generation_; //[W]
   /* 他にIV曲線を決めるために必要なパラメータなど

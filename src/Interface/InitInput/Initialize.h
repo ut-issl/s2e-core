@@ -53,7 +53,7 @@ class Atmosphere;
 class LocalCelestialInformation;
 class LocalEnvironment;
 MagEnvironment InitMagEnvironment(std::string ini_path);
-SRPEnvironment InitSRPEnvironment(std::string ini_path);
+SRPEnvironment InitSRPEnvironment(std::string ini_path, LocalCelestialInformation* local_celes_info);
 Atmosphere InitAtmosphere(std::string ini_path);
 
 //Dynamics
@@ -109,15 +109,15 @@ RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id, std::string file
 RWModel InitRWModel(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, std::string file_name, double prop_step, double compo_update_step);
 STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const Dynamics *dynamics, const LocalEnvironment* local_env);
 STT InitSTT(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time, const Dynamics *dynamics, const LocalEnvironment* local_env);
-SunSensor InitSunSensor(ClockGenerator* clock_gen, int sensor_id, const std::string fname, const SRPEnvironment* srp);
-SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, const SRPEnvironment* srp);
+SunSensor InitSunSensor(ClockGenerator* clock_gen, int sensor_id, const std::string fname, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info);
+SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info);
 GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const std::string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime);
 GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const std::string fname, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime);
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, const std::string fname, const Structure* structure, const Dynamics* dynamics);
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, PowerPort* power_port, int thruster_id, const std::string fname, const Structure* structure, const Dynamics* dynamics);
 
 BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname);
-SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp);
+SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info);
 EMDS InitEMDS(int actuator_id);
 UWBSensor InitUWBSensor(int sensor_id);
 ANT InitANT(int ant_id, const std::string fname);

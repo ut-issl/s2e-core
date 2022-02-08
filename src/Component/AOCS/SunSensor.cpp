@@ -18,10 +18,11 @@ SunSensor::SunSensor(
   const double nr_stddev_c,
   const double nr_bias_stddev_c,
   const double intensity_lower_threshold_percent,
-  const SRPEnvironment *srp)
+  const SRPEnvironment* srp,
+  const LocalCelestialInformation* local_celes_info)
   : ComponentBase(prescaler,clock_gen), id_(id),
     q_b2c_(q_b2c), detectable_angle_rad_(detectable_angle_rad), intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
-    srp_(srp)
+    srp_(srp), local_celes_info_(local_celes_info)
 {
   Initialize(nr_stddev_c,nr_bias_stddev_c);
 }
@@ -36,10 +37,11 @@ SunSensor::SunSensor(
   const double nr_stddev_c,
   const double nr_bias_stddev_c,
   const double intensity_lower_threshold_percent,
-  const SRPEnvironment *srp)
+  const SRPEnvironment* srp,
+  const LocalCelestialInformation* local_celes_info)
   : ComponentBase(prescaler,clock_gen), id_(id),
     q_b2c_(q_b2c), detectable_angle_rad_(detectable_angle_rad), intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
-    srp_(srp)
+    srp_(srp), local_celes_info_(local_celes_info)
 {
   Initialize(nr_stddev_c,nr_bias_stddev_c);
 }
@@ -57,7 +59,9 @@ void SunSensor::Initialize(const double nr_stddev_c,const double nr_bias_stddev_
 }
 void SunSensor::MainRoutine(int count)
 {
-  measure(srp_->GetSunDirectionFromSC_b(), srp_->GetShadowFunction());
+  Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
+  Vector<3> sun_dir_b = normalize(sun_pos_b);
+  measure(sun_dir_b, srp_->GetShadowFunction());
 }
 
 void SunSensor::measure(const Vector<3>& sun_b)

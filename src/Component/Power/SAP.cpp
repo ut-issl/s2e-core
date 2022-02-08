@@ -10,17 +10,20 @@ SAP::SAP(ClockGenerator* clock_gen,
   libra::Vector<3> normal_vector,
   double cell_efficiency,
   double transmission_efficiency,
-  const SRPEnvironment* srp)
+  const SRPEnvironment* srp,
+  const LocalCelestialInformation* local_celes_info)
   :ComponentBase(1000,clock_gen), id_(id), number_of_series_(number_of_series), number_of_parallel_(number_of_parallel),
   cell_area_(cell_area), normal_vector_(libra::normalize(normal_vector)), cell_efficiency_(cell_efficiency),
-  transmission_efficiency_(transmission_efficiency),srp_(srp)
+  transmission_efficiency_(transmission_efficiency),srp_(srp), local_celes_info_(local_celes_info)
 {
+  voltage_ = 0.0;
+  power_generation_ = 0.0;
 }
 
 SAP::SAP(const SAP &obj)
   :ComponentBase(obj), id_(obj.id_), number_of_series_(obj.number_of_series_), number_of_parallel_(obj.number_of_parallel_),
   cell_area_(obj.cell_area_), normal_vector_(obj.normal_vector_), cell_efficiency_(obj.cell_efficiency_),
-  transmission_efficiency_(obj.transmission_efficiency_),srp_(obj.srp_)
+  transmission_efficiency_(obj.transmission_efficiency_),srp_(obj.srp_), local_celes_info_(obj.local_celes_info_)
 {
   voltage_ = 0.0;
   power_generation_ = 0.0;
@@ -68,10 +71,10 @@ void SAP::MainRoutine(int time_count)
   else
   {
     const auto power_density = srp_->CalcPowerDensity();
-    libra::Vector<3> sun_direction = srp_->GetSunDirectionFromSC_b();
-    libra::Vector<3> normalized_sun_direction = libra::normalize(sun_direction);
+    libra::Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
+    libra::Vector<3> sun_dir_b = libra::normalize(sun_pos_b);
     power_generation_ = cell_efficiency_ * transmission_efficiency_ * power_density * cell_area_ * number_of_parallel_ * number_of_series_ *
-      inner_product(normal_vector_, normalized_sun_direction); //仮の実装．実際は太陽方向などからIVカーブを更新．動作電圧に応じた発電電力を求める
+      inner_product(normal_vector_, sun_dir_b); //仮の実装．実際は太陽方向などからIVカーブを更新．動作電圧に応じた発電電力を求める
   }
   if (power_generation_ < 0) power_generation_ = 0.0;
 }

@@ -11,14 +11,13 @@ class SRPEnvironment : public ILoggable
 public:
   bool IsCalcEnabled = true;
 
-  SRPEnvironment();                //Default constructor
-  void UpdateAllStates(Vector<3>& earth_position_b, Vector<3>& sun_position_b);
+  SRPEnvironment(LocalCelestialInformation* local_celes_info);   //Default constructor
+  void UpdateAllStates();
   double CalcTruePressure() const;          //Obtaining solar radiation pressure that takes into account eclipse
   double CalcPowerDensity() const;          //Get solar power per unit area considering eclipse [W/m^2]
   double GetPressure() const;               //Get pressure_(for debug)
   double GetSolarConstant() const;          //Get solar constant value [W/m^2]
-  inline Vector<3> GetSunDirectionFromSC_b() const{return d_sc2sun_b_;}
-  double GetShadowFunction() const;                 //Get Shadow function
+  double GetShadowFunction() const;         //Get Shadow function
   inline bool GetIsEclipsed() const { return(shadow_function_ >= 1.0 ? false : true); } //Returns true if the shadow function is less than 1
 
   virtual std::string GetLogHeader() const; //log of header
@@ -31,8 +30,9 @@ private:
   double solar_constant_;        //solar constant [W/m^2]
   double r_earth_;               //radius of earth [m]
   double r_sun_;                 //radius of sun [m]
-  Vector<3> d_sc2sun_b_;         //Direction Vector from SC to Sun in the body frame
   double shadow_function_ = 1.0; //shadow function
+
+  LocalCelestialInformation* local_celes_info_;
 
   void CalcShadowFunction(double a, double b, double c, double x, double y);
 };
