@@ -59,14 +59,15 @@ void SunSensor::Initialize(const double nr_stddev_c,const double nr_bias_stddev_
 }
 void SunSensor::MainRoutine(int count)
 {
-  Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
-  Vector<3> sun_dir_b = normalize(sun_pos_b);
-  measure(sun_dir_b);
+  measure();
 }
 
-void SunSensor::measure(const Vector<3>& sun_b)
+void SunSensor::measure()
 {
-  sun_c_ = q_b2c_.frame_conv(sun_b);    // Frame conversion from body to component
+  Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
+  Vector<3> sun_dir_b = normalize(sun_pos_b);
+
+  sun_c_ = q_b2c_.frame_conv(sun_dir_b);    // Frame conversion from body to component
 
   SunDetectionJudgement();  // Judge the sun is inside the FoV
 

@@ -76,7 +76,7 @@ protected:
  
   // functions
   void SunDetectionJudgement();
-  void measure(const libra::Vector<3>& sun_b);
+  void measure();
   double TanRange(double x);
   void Initialize(const double nr_stddev_c,const double nr_bias_stddev_c);
   void CalcSolarIlluminance();

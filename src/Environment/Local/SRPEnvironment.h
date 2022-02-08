@@ -34,7 +34,7 @@ private:
 
   LocalCelestialInformation* local_celes_info_;
 
-  void CalcShadowFunction(double a, double b, double c, double x, double y);
+  void CalcShadowFunction(const char* shadow_source_name);
 };
 
 #endif /* SRPEnvironment_h */
