@@ -15,8 +15,6 @@ SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info):loca
   astronomical_unit_ = 149597870700.0;  //[m]
   c_ = 299792458.0;   //[m/s]
   solar_constant_ = 1366.0;              //[W/m2]
-  r_earth_ = 6378137.0;                  //[m]
-  r_sun_ = 6.96e+8;                       //[m]
   pressure_ = solar_constant_ / c_;//N/m2
 }
 
@@ -78,10 +76,16 @@ void SRPEnvironment::CalcShadowFunction(const char* shadow_source_name)
   Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
   Vector<3> r_sc2source_eci = local_celes_info_->GetPosFromSC_i(shadow_source_name);
 
+  Vector<3> sun_radii_m = local_celes_info_->GetGlobalInfo().GetRadii("SUN");
+  Vector<3> source_radii_m = local_celes_info_->GetGlobalInfo().GetRadii(shadow_source_name);
+  // Convert 3D radii to a mean radius
+  double sun_radius_m = pow(sun_radii_m[0] * sun_radii_m[1] * sun_radii_m[2], 1.0 / 3.0);
+  double source_radius_m = pow(source_radii_m[0] * source_radii_m[1] * source_radii_m[2], 1.0 / 3.0);
+
   double distance_sat_to_sun = norm(r_sc2sun_eci);
   pressure_ = solar_constant_ / c_ / pow(distance_sat_to_sun / astronomical_unit_, 2.0);
-  double sd_sun = asin(r_sun_ / distance_sat_to_sun);       //Apparent radius of the sun
-  double sd_source = asin(r_earth_ / norm(r_sc2source_eci)); //Apparent radius of the shadow source
+  double sd_sun = asin(sun_radius_m / distance_sat_to_sun);        //Apparent radius of the sun
+  double sd_source = asin(source_radius_m / norm(r_sc2source_eci)); //Apparent radius of the shadow source
 
   double delta = acos(inner_product(r_sc2source_eci, r_sc2sun_eci - r_sc2source_eci) / norm(r_sc2source_eci) / norm(r_sc2sun_eci - r_sc2source_eci));//Angle of deviation from shadow source center to sun center
   double x = (delta * delta + sd_sun * sd_sun - sd_source * sd_source) / (2.0 * delta); //The angle between the center of the sun and the common chord

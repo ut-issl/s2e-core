@@ -28,8 +28,6 @@ private:
   double astronomical_unit_;     //1AU [m]
   double c_;                     //speed of light [m/s]
   double solar_constant_;        //solar constant [W/m^2]
-  double r_earth_;               //radius of earth [m]
-  double r_sun_;                 //radius of sun [m]
   double shadow_function_ = 1.0; //shadow function
 
   LocalCelestialInformation* local_celes_info_;
