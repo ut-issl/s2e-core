@@ -13,9 +13,9 @@ public:
 
   SRPEnvironment(LocalCelestialInformation* local_celes_info);   //Default constructor
   void UpdateAllStates();
-  double CalcTruePressure() const;          //Obtaining solar radiation pressure that takes into account eclipse
+  double CalcTruePressure() const;          //Obtaining solar radiation pressure that takes into account eclipse [N/m^2]
   double CalcPowerDensity() const;          //Get solar power per unit area considering eclipse [W/m^2]
-  double GetPressure() const;               //Get pressure_(for debug)
+  double GetPressure() const;               //Get solar pressure without eclipse effect [N/m^2]
   double GetSolarConstant() const;          //Get solar constant value [W/m^2]
   double GetShadowFunction() const;         //Get Shadow function
   inline bool GetIsEclipsed() const { return(shadow_function_ >= 1.0 ? false : true); } //Returns true if the shadow function is less than 1
