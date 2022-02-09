@@ -14,7 +14,8 @@ CelestialInformation::CelestialInformation(string inertial_frame, string aber_co
   celes_objects_pos_from_center_i_ = new double[num_of_state];
   celes_objects_vel_from_center_i_ = new double[num_of_state];
   celes_objects_gravity_constant_ = new double[num_of_selected_body_];
-  celes_objects_radius_m_ = new double[num_of_state];
+  celes_objects_planetographic_radii_m_ = new double[num_of_state];
+  celes_objects_mean_radius_m_ = new double[num_of_selected_body_];
  
   // Acquisition of gravity constant
   for (int i = 0; i < num_of_selected_body_; i++)
@@ -31,11 +32,17 @@ CelestialInformation::CelestialInformation(string inertial_frame, string aber_co
     SpiceInt planet_id = selected_body_[i];
     SpiceInt dim; SpiceDouble radii_km[3];
 
+    bodvcd_c(planet_id, "RADII", 3, &dim, (SpiceDouble*)radii_km);
     for (int j = 0; j < 3; j++)
     {
-      bodvcd_c(planet_id, "RADII", 3, &dim, (SpiceDouble*)radii_km);
-      celes_objects_radius_m_[i * 3 + j] = radii_km[j] * 1000.0;
+      celes_objects_planetographic_radii_m_[i * 3 + j] = radii_km[j] * 1000.0;
     }
+
+    double rx = celes_objects_planetographic_radii_m_[i * 3];
+    double ry = celes_objects_planetographic_radii_m_[i * 3 + 1];
+    double rz = celes_objects_planetographic_radii_m_[i * 3 + 2];
+
+    celes_objects_mean_radius_m_[i] = pow(rx * ry * rz, 1.0 / 3.0);
   }
 
   EarthRotation_ = new CelestialRotation(rotation_mode_, center_obj_);
@@ -52,13 +59,15 @@ CelestialInformation::CelestialInformation(const CelestialInformation & obj)
   celes_objects_pos_from_center_i_ = new double[num_of_state];
   celes_objects_vel_from_center_i_ = new double[num_of_state];
   celes_objects_gravity_constant_ = new double[num_of_selected_body_];
-  celes_objects_radius_m_ = new double[num_of_state];
+  celes_objects_planetographic_radii_m_ = new double[num_of_state];
+  celes_objects_mean_radius_m_ = new double[num_of_selected_body_];
 
   memcpy(selected_body_, obj.selected_body_, si*num_of_selected_body_);
   memcpy(celes_objects_pos_from_center_i_, obj.celes_objects_pos_from_center_i_, sd*num_of_state);
   memcpy(celes_objects_vel_from_center_i_, obj.celes_objects_vel_from_center_i_, sd*num_of_state);
   memcpy(celes_objects_gravity_constant_, obj.celes_objects_gravity_constant_, sd*num_of_selected_body_);
-  memcpy(celes_objects_radius_m_, obj.celes_objects_radius_m_, sd*num_of_state);
+  memcpy(celes_objects_planetographic_radii_m_, obj.celes_objects_planetographic_radii_m_, sd*num_of_state);
+  memcpy(celes_objects_mean_radius_m_, obj.celes_objects_mean_radius_m_, sd*num_of_selected_body_);
 }
 
 CelestialInformation::~CelestialInformation()
@@ -66,7 +75,8 @@ CelestialInformation::~CelestialInformation()
   delete[] celes_objects_pos_from_center_i_;
   delete[] celes_objects_vel_from_center_i_;
   delete[] celes_objects_gravity_constant_;
-  delete[] celes_objects_radius_m_;
+  delete[] celes_objects_planetographic_radii_m_;
+  delete[] celes_objects_mean_radius_m_;
   delete[] selected_body_;
   delete EarthRotation_;
 }
@@ -120,7 +130,7 @@ Vector<3> CelestialInformation::GetRadii(const int id) const
 {
   Vector<3> radii(0.0);
   if (id > num_of_selected_body_) return radii;
-  for (int i = 0; i < 3; i++) radii[i] = celes_objects_radius_m_[id * 3 + i];
+  for (int i = 0; i < 3; i++) radii[i] = celes_objects_planetographic_radii_m_[id * 3 + i];
   return radii;
 }
 
@@ -142,10 +152,16 @@ double CelestialInformation::GetGravityConstant(const char* body_name) const
   return celes_objects_gravity_constant_[index];
 }
 
-Vector<3> CelestialInformation::GetRadii(const char* body_name) const
+Vector<3> CelestialInformation::GetRadiiFromName(const char* body_name) const
 {
   int id = CalcBodyIdFromName(body_name);
   return GetRadii(id);
+}
+
+double CelestialInformation::GetMeanRadiusFromName(const char* body_name) const
+{
+  int index = CalcBodyIdFromName(body_name);
+  return celes_objects_mean_radius_m_[index];
 }
 
 int CelestialInformation::CalcBodyIdFromName(const char* body_name) const

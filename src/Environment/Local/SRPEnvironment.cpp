@@ -73,15 +73,11 @@ string SRPEnvironment::GetLogValue() const
 
 void SRPEnvironment::CalcShadowFunction(const char* shadow_source_name)
 {
-  Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
-  Vector<3> r_sc2source_eci = local_celes_info_->GetPosFromSC_i(shadow_source_name);
+  const Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
+  const Vector<3> r_sc2source_eci = local_celes_info_->GetPosFromSC_i(shadow_source_name);
 
-  Vector<3> sun_radii_m = local_celes_info_->GetGlobalInfo().GetRadii("SUN");
-  Vector<3> source_radii_m = local_celes_info_->GetGlobalInfo().GetRadii(shadow_source_name);
-  // Convert 3D radii to a mean radius
-  double sun_radius_m = pow(sun_radii_m[0] * sun_radii_m[1] * sun_radii_m[2], 1.0 / 3.0);
-  double source_radius_m = pow(source_radii_m[0] * source_radii_m[1] * source_radii_m[2], 1.0 / 3.0);
-
+  const double sun_radius_m = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName("SUN");
+  const double source_radius_m = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName(shadow_source_name);
   double distance_sat_to_sun = norm(r_sc2sun_eci);
   pressure_ = solar_constant_ / c_ / pow(distance_sat_to_sun / astronomical_unit_, 2.0);
   double sd_sun = asin(sun_radius_m / distance_sat_to_sun);        //Apparent radius of the sun

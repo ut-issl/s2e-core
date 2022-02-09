@@ -32,7 +32,8 @@ public:
   Vector<3> GetPosFromCenter_i(const char* body_name) const;
   Vector<3> GetVelFromCenter_i(const char* body_name) const;
   double GetGravityConstant(const char* body_name) const;
-  Vector<3> GetRadii(const char* body_name) const;
+  Vector<3> GetRadiiFromName(const char* body_name) const;
+  double GetMeanRadiusFromName(const char* body_name) const;
   inline int GetNumBody(void) const{return num_of_selected_body_;}
   inline int* GetSelectedBody(void) const{return selected_body_;}
   int CalcBodyIdFromName(const char* body_name) const;
@@ -55,11 +56,17 @@ private:
   std::string center_obj_;         //center object. Default = "EARTH"
   RotationMode rotation_mode_;   //designation of dynamics model. Default = "Full"
 
-  // Global Information. POS:[m], VEL:[m/s], GRAVITY CONSTANT (G*M):[m^3/s^2], RADIUS:[m]
+  // Global Information. POS:[m], VEL:[m/s], GRAVITY CONSTANT (G*M):[m^3/s^2]
   double* celes_objects_pos_from_center_i_;
   double* celes_objects_vel_from_center_i_;
   double* celes_objects_gravity_constant_;
-  double* celes_objects_radius_m_;
+  // 3 axis planetographic radii.
+  // X-axis pass through the 0 degree latitude 0 degree longitude direction
+  // Z-axis pass through the 90 degree latitude direction
+  // Y-axis equal to the cross product of the unit Z-axis and X-axis vectors
+  double* celes_objects_planetographic_radii_m_;
+  // Mean radius: r = (rx * ry * rz)^(1/3)
+  double* celes_objects_mean_radius_m_;
 
   // Rotational Motion of each planets 
   CelestialRotation* EarthRotation_;
