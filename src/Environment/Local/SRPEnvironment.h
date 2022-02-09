@@ -13,6 +13,7 @@ public:
 
   SRPEnvironment(LocalCelestialInformation* local_celes_info);   //Default constructor
   void UpdateAllStates();
+  void UpdatePressure();
   double CalcTruePressure() const;          //Obtaining solar radiation pressure that takes into account eclipse [N/m^2]
   double CalcPowerDensity() const;          //Get solar power per unit area considering eclipse [W/m^2]
   double GetPressure() const;               //Get solar pressure without eclipse effect [N/m^2]

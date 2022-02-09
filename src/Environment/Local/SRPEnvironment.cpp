@@ -22,7 +22,15 @@ void SRPEnvironment::UpdateAllStates()
 {
   if (!IsCalcEnabled) return;
 
+  UpdatePressure();
   CalcShadowFunction("EARTH");
+}
+
+void SRPEnvironment::UpdatePressure()
+{
+  const Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
+  const double distance_sat_to_sun = norm(r_sc2sun_eci);
+  pressure_ = solar_constant_ / c_ / pow(distance_sat_to_sun / astronomical_unit_, 2.0);
 }
 
 double SRPEnvironment::CalcTruePressure() const
@@ -78,17 +86,16 @@ void SRPEnvironment::CalcShadowFunction(const char* shadow_source_name)
 
   const double sun_radius_m = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName("SUN");
   const double source_radius_m = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName(shadow_source_name);
-  double distance_sat_to_sun = norm(r_sc2sun_eci);
-  pressure_ = solar_constant_ / c_ / pow(distance_sat_to_sun / astronomical_unit_, 2.0);
-  double sd_sun = asin(sun_radius_m / distance_sat_to_sun);        //Apparent radius of the sun
-  double sd_source = asin(source_radius_m / norm(r_sc2source_eci)); //Apparent radius of the shadow source
+  const double distance_sat_to_sun = norm(r_sc2sun_eci);
+  const double sd_sun = asin(sun_radius_m / distance_sat_to_sun);         //Apparent radius of the sun
+  const double sd_source = asin(source_radius_m / norm(r_sc2source_eci)); //Apparent radius of the shadow source
 
-  double delta = acos(inner_product(r_sc2source_eci, r_sc2sun_eci - r_sc2source_eci) / norm(r_sc2source_eci) / norm(r_sc2sun_eci - r_sc2source_eci));//Angle of deviation from shadow source center to sun center
-  double x = (delta * delta + sd_sun * sd_sun - sd_source * sd_source) / (2.0 * delta); //The angle between the center of the sun and the common chord
-  double y = sqrt(max(sd_sun * sd_sun - x * x, 0.0)); //The length of the common chord of the apparent solar disk and apparent tellestial disk
-  double a = sd_sun;
-  double b = sd_source;
-  double c = delta;
+  const double delta = acos(inner_product(r_sc2source_eci, r_sc2sun_eci - r_sc2source_eci) / norm(r_sc2source_eci) / norm(r_sc2sun_eci - r_sc2source_eci));//Angle of deviation from shadow source center to sun center
+  const double x = (delta * delta + sd_sun * sd_sun - sd_source * sd_source) / (2.0 * delta); //The angle between the center of the sun and the common chord
+  const double y = sqrt(max(sd_sun * sd_sun - x * x, 0.0)); //The length of the common chord of the apparent solar disk and apparent tellestial disk
+  const double a = sd_sun;
+  const double b = sd_source;
+  const double c = delta;
 
   if (c < fabs(a - b) && a <= b) //The occultation is total (spacecraft is in umbra)
   {
