@@ -11,7 +11,7 @@ class SRPEnvironment : public ILoggable
 public:
   bool IsCalcEnabled = true;
 
-  SRPEnvironment(LocalCelestialInformation* local_celes_info);   //Default constructor
+  SRPEnvironment(LocalCelestialInformation* local_celes_info, std::string shadow_source_name);   //Default constructor
   void UpdateAllStates();
   void UpdatePressure();
   double CalcTruePressure() const;          //Obtaining solar radiation pressure that takes into account eclipse [N/m^2]
@@ -30,10 +30,13 @@ private:
   double c_;                     //speed of light [m/s]
   double solar_constant_;        //solar constant [W/m^2]
   double shadow_function_ = 1.0; //shadow function
+  double sun_radius_m_;
+  double source_radius_m_;
+  std::string shadow_source_name_;
 
   LocalCelestialInformation* local_celes_info_;
 
-  void CalcShadowFunction(const char* shadow_source_name);
+  void CalcShadowFunction();
 };
 
 #endif /* SRPEnvironment_h */

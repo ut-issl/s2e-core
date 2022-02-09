@@ -10,12 +10,14 @@
 using libra::Vector;
 using namespace std;
 
-SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info):local_celes_info_(local_celes_info)
+SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info, string shadow_source_name):local_celes_info_(local_celes_info), shadow_source_name_(shadow_source_name)
 {
-  astronomical_unit_ = 149597870700.0;  //[m]
-  c_ = 299792458.0;   //[m/s]
-  solar_constant_ = 1366.0;              //[W/m2]
-  pressure_ = solar_constant_ / c_;//N/m2
+  astronomical_unit_ = 149597870700.0;//[m]
+  c_ = 299792458.0;                   //[m/s]
+  solar_constant_ = 1366.0;           //[W/m2]
+  pressure_ = solar_constant_ / c_;   //[N/m2]
+  sun_radius_m_ = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName("SUN");
+  source_radius_m_ = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName(shadow_source_name_.c_str());
 }
 
 void SRPEnvironment::UpdateAllStates()
@@ -23,7 +25,7 @@ void SRPEnvironment::UpdateAllStates()
   if (!IsCalcEnabled) return;
 
   UpdatePressure();
-  CalcShadowFunction("EARTH");
+  CalcShadowFunction();
 }
 
 void SRPEnvironment::UpdatePressure()
@@ -79,16 +81,14 @@ string SRPEnvironment::GetLogValue() const
   return str_tmp;
 }
 
-void SRPEnvironment::CalcShadowFunction(const char* shadow_source_name)
+void SRPEnvironment::CalcShadowFunction()
 {
   const Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
-  const Vector<3> r_sc2source_eci = local_celes_info_->GetPosFromSC_i(shadow_source_name);
+  const Vector<3> r_sc2source_eci = local_celes_info_->GetPosFromSC_i(shadow_source_name_.c_str());
 
-  const double sun_radius_m = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName("SUN");
-  const double source_radius_m = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName(shadow_source_name);
   const double distance_sat_to_sun = norm(r_sc2sun_eci);
-  const double sd_sun = asin(sun_radius_m / distance_sat_to_sun);         //Apparent radius of the sun
-  const double sd_source = asin(source_radius_m / norm(r_sc2source_eci)); //Apparent radius of the shadow source
+  const double sd_sun = asin(sun_radius_m_ / distance_sat_to_sun);         //Apparent radius of the sun
+  const double sd_source = asin(source_radius_m_ / norm(r_sc2source_eci)); //Apparent radius of the shadow source
 
   const double delta = acos(inner_product(r_sc2source_eci, r_sc2sun_eci - r_sc2source_eci) / norm(r_sc2source_eci) / norm(r_sc2sun_eci - r_sc2source_eci));//Angle of deviation from shadow source center to sun center
   const double x = (delta * delta + sd_sun * sd_sun - sd_source * sd_source) / (2.0 * delta); //The angle between the center of the sun and the common chord
