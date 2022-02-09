@@ -10,12 +10,13 @@
 using libra::Vector;
 using namespace std;
 
-SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info, string shadow_source_name):local_celes_info_(local_celes_info), shadow_source_name_(shadow_source_name)
+SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info):local_celes_info_(local_celes_info)
 {
   astronomical_unit_ = 149597870700.0;//[m]
   c_ = 299792458.0;                   //[m/s]
   solar_constant_ = 1366.0;           //[W/m2]
   pressure_ = solar_constant_ / c_;   //[N/m2]
+  shadow_source_name_ = local_celes_info_->GetGlobalInfo().GetCenterBodyName();
   sun_radius_m_ = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName("SUN");
   source_radius_m_ = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName(shadow_source_name_.c_str());
 }
@@ -83,8 +84,14 @@ string SRPEnvironment::GetLogValue() const
 
 void SRPEnvironment::CalcShadowFunction()
 {
+  if (shadow_source_name_.c_str() == "SUN")
+  {
+    shadow_function_ = 1.0;
+    return;
+  }
+
   const Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
-  const Vector<3> r_sc2source_eci = local_celes_info_->GetPosFromSC_i(shadow_source_name_.c_str());
+  const Vector<3> r_sc2source_eci = local_celes_info_->GetPosFromSC_i(local_celes_info_->GetGlobalInfo().GetCenterBodyName().c_str());
 
   const double distance_sat_to_sun = norm(r_sc2sun_eci);
   const double sd_sun = asin(sun_radius_m_ / distance_sat_to_sun);         //Apparent radius of the sun
@@ -99,7 +106,7 @@ void SRPEnvironment::CalcShadowFunction()
 
   if (c < fabs(a - b) && a <= b) //The occultation is total (spacecraft is in umbra)
   {
-    shadow_function_ = 0;
+    shadow_function_ = 0.0;
   }
   else if (c < fabs(a - b) && a > b) //The occultation is partial but maximum
   {
@@ -114,7 +121,6 @@ void SRPEnvironment::CalcShadowFunction()
     assert(c > (a + b));
     shadow_function_ = 1.0;
   }
-  
 }
 
 /*int main(){

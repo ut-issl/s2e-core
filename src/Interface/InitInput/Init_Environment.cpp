@@ -27,9 +27,8 @@ SRPEnvironment InitSRPEnvironment(std::string ini_path, LocalCelestialInformatio
 {
   auto conf = IniAccess(ini_path);
   const char* section = "SRP";
-  std::string shadow_source_name = conf.ReadString(section, "shadow_source_name");
 
-  SRPEnvironment srp_env(local_celes_info, shadow_source_name);
+  SRPEnvironment srp_env(local_celes_info);
   srp_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   srp_env.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 

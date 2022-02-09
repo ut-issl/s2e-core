@@ -11,7 +11,7 @@ class SRPEnvironment : public ILoggable
 public:
   bool IsCalcEnabled = true;
 
-  SRPEnvironment(LocalCelestialInformation* local_celes_info, std::string shadow_source_name);   //Default constructor
+  SRPEnvironment(LocalCelestialInformation* local_celes_info);   //Default constructor
   void UpdateAllStates();
   void UpdatePressure();
   double CalcTruePressure() const;          //Obtaining solar radiation pressure that takes into account eclipse [N/m^2]
