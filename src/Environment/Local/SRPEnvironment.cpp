@@ -18,7 +18,6 @@ SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info):loca
   pressure_ = solar_constant_ / c_;   //[N/m2]
   shadow_source_name_ = local_celes_info_->GetGlobalInfo().GetCenterBodyName();
   sun_radius_m_ = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName("SUN");
-  source_radius_m_ = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName(shadow_source_name_.c_str());
 }
 
 void SRPEnvironment::UpdateAllStates()
@@ -26,7 +25,7 @@ void SRPEnvironment::UpdateAllStates()
   if (!IsCalcEnabled) return;
 
   UpdatePressure();
-  CalcShadowFunction();
+  CalcShadowCoefficient(shadow_source_name_);
 }
 
 void SRPEnvironment::UpdatePressure()
@@ -38,12 +37,12 @@ void SRPEnvironment::UpdatePressure()
 
 double SRPEnvironment::CalcTruePressure() const
 {
-  return pressure_ * shadow_function_;
+  return pressure_ * shadow_coefficient_;
 }
 
 double SRPEnvironment::CalcPowerDensity() const
 {
-  return pressure_ * c_ * shadow_function_;
+  return pressure_ * c_ * shadow_coefficient_;
 }
 
 double SRPEnvironment::GetPressure() const
@@ -56,9 +55,9 @@ double SRPEnvironment::GetSolarConstant() const
   return solar_constant_;
 }
 
-double SRPEnvironment::GetShadowFunction() const
+double SRPEnvironment::GetShadowCoefficient() const
 {
-  return shadow_function_;
+  return shadow_coefficient_;
 }
 
 
@@ -67,7 +66,7 @@ string SRPEnvironment::GetLogHeader() const
   string str_tmp = "";
 
   str_tmp += WriteScalar("sr_pressure", "N/m^2");
-  str_tmp += WriteScalar("shadow function");
+  str_tmp += WriteScalar("shadow coefficient");
 
   return str_tmp;
 }
@@ -76,26 +75,28 @@ string SRPEnvironment::GetLogValue() const
 {
   string str_tmp = "";
 
-  str_tmp += WriteScalar(pressure_ * shadow_function_);
-  str_tmp += WriteScalar(shadow_function_);
+  str_tmp += WriteScalar(pressure_ * shadow_coefficient_);
+  str_tmp += WriteScalar(shadow_coefficient_);
 
   return str_tmp;
 }
 
-void SRPEnvironment::CalcShadowFunction()
+void SRPEnvironment::CalcShadowCoefficient(string shadow_source_name)
 {
-  if (shadow_source_name_.c_str() == "SUN")
+  if (shadow_source_name.c_str() == "SUN")
   {
-    shadow_function_ = 1.0;
+    shadow_coefficient_ = 1.0;
     return;
   }
 
   const Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
-  const Vector<3> r_sc2source_eci = local_celes_info_->GetPosFromSC_i(local_celes_info_->GetGlobalInfo().GetCenterBodyName().c_str());
+  const Vector<3> r_sc2source_eci = local_celes_info_->GetPosFromSC_i(shadow_source_name.c_str());
+
+  const double shadow_source_radius_m = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName(shadow_source_name.c_str());
 
   const double distance_sat_to_sun = norm(r_sc2sun_eci);
   const double sd_sun = asin(sun_radius_m_ / distance_sat_to_sun);         //Apparent radius of the sun
-  const double sd_source = asin(source_radius_m_ / norm(r_sc2source_eci)); //Apparent radius of the shadow source
+  const double sd_source = asin(shadow_source_radius_m / norm(r_sc2source_eci)); //Apparent radius of the shadow source
 
   const double delta = acos(inner_product(r_sc2source_eci, r_sc2sun_eci - r_sc2source_eci) / norm(r_sc2source_eci) / norm(r_sc2sun_eci - r_sc2source_eci));//Angle of deviation from shadow source center to sun center
   const double x = (delta * delta + sd_sun * sd_sun - sd_source * sd_source) / (2.0 * delta); //The angle between the center of the sun and the common chord
@@ -106,20 +107,20 @@ void SRPEnvironment::CalcShadowFunction()
 
   if (c < fabs(a - b) && a <= b) //The occultation is total (spacecraft is in umbra)
   {
-    shadow_function_ = 0.0;
+    shadow_coefficient_ = 0.0;
   }
   else if (c < fabs(a - b) && a > b) //The occultation is partial but maximum
   {
-    shadow_function_ = 1.0 - (b * b) / (a * a);
+    shadow_coefficient_ = 1.0 - (b * b) / (a * a);
   }
   else if (fabs(a - b) <= c && c <= (a + b)) // spacecraft is in penunbra
   {
     double A = a * a * acos(x / a) + b * b * acos((c - x) / b) - c * y;//The area of the occulted segment of the apparent solar disk
-    shadow_function_ = 1.0 - A / (M_PI * a *a);
+    shadow_coefficient_ = 1.0 - A / (M_PI * a *a);
   }
   else {// no occultation takes place
     assert(c > (a + b));
-    shadow_function_ = 1.0;
+    shadow_coefficient_ = 1.0;
   }
 }
 
