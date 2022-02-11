@@ -83,7 +83,7 @@ string SRPEnvironment::GetLogValue() const
 
 void SRPEnvironment::CalcShadowCoefficient(string shadow_source_name)
 {
-  if (shadow_source_name.c_str() == "SUN")
+  if (shadow_source_name == "SUN")
   {
     shadow_coefficient_ = 1.0;
     return;
