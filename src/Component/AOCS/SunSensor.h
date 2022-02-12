@@ -2,6 +2,7 @@
 #define __SunSensor_H__
 
 #include <Environment/Local/SRPEnvironment.h>
+#include <Environment/Local/LocalCelestialInformation.h>
 #include <Library/math/Vector.hpp>
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
@@ -20,7 +21,8 @@ public:
     const double nr_stddev_c,
     const double nr_bias_stddev_c,
     const double intensity_lower_threshold_percent,
-    const SRPEnvironment *srp
+    const SRPEnvironment* srp,
+    const LocalCelestialInformation* local_celes_info 
   );
   SunSensor(
     const int prescaler,
@@ -32,7 +34,8 @@ public:
     const double nr_stddev_c,
     const double nr_bias_stddev_c,
     const double intensity_lower_threshold_percent,
-    const SRPEnvironment *srp
+    const SRPEnvironment* srp,
+    const LocalCelestialInformation* local_celes_info
   );
 
   //ComponentBase override function
@@ -68,13 +71,12 @@ protected:
   double bias_beta_=0.0; // Normal random for bias
 
   // Measured variables
-  const SRPEnvironment *srp_;
+  const SRPEnvironment* srp_;
+  const LocalCelestialInformation* local_celes_info_;
  
   // functions
   void SunDetectionJudgement();
-  void SunDetectionJudgement(bool sun_eclipsed); // This function is old version, but retained for backward compatibility
-  void measure(const libra::Vector<3>& sun_b);
-  void measure(const libra::Vector<3>& sun_b, bool sun_eclipsed); // This function is old version, but retained for backward compatibility
+  void measure();
   double TanRange(double x);
   void Initialize(const double nr_stddev_c,const double nr_bias_stddev_c);
   void CalcSolarIlluminance();
