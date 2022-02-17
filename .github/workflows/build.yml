@@ -17,7 +17,8 @@ on:
 jobs:
   build_s2e_win:
     name: Build on Windows
-    runs-on: windows-latest
+    # VS2019 を使うため
+    runs-on: windows-2019
     strategy:
       fail-fast: false
       matrix:
