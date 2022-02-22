@@ -4,7 +4,6 @@ using namespace std;
 
 #include <iostream>
 #include <sstream>
-// #include <math.h>
 
 AttitudeRK4::AttitudeRK4(
   const Vector<3>&	omega_b_ini,

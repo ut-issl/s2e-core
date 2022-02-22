@@ -7,7 +7,7 @@
 //
 
 #include "SolarRadiation.h"
-#include <math.h>
+#include <cmath>
 #include "../Interface/LogOutput/LogUtility.h"
 
 SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b)

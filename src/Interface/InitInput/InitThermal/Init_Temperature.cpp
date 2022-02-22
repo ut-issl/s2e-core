@@ -1,10 +1,5 @@
 #include "../Initialize.h"
-#include <math.h>
-#include <fstream>
 #include <string>
-#include <sstream>
-#include <iostream>
-using namespace std;
 #include <Environment/Global/SimTime.h>
 #include <Dynamics/Thermal/Temperature.h>
 
@@ -28,10 +23,10 @@ First row is for Header, data begins from the second row
  Cij information is written in Row i, column j
  Ex.
     0.5 0.3 0.2
-	0.1 0.4 0.1
-	0.2 0.2 0.5
+    0.1 0.4 0.1
+    0.2 0.2 0.5
 
-	→R12 = 0.3
+    →R12 = 0.3
 */
 
 /* Parameters
@@ -40,6 +35,9 @@ First row is for Header, data begins from the second row
    propstep   : time step interval for temperature propagation integration(read from SimBase.ini)
    mainstepSec: time step interval for Main Routin integration (= temperature.end_time_) 
  */
+
+using std::string;
+using std::vector;
 
 Temperature* InitTemperature(string ini_path, const double rk_prop_step_sec)
 {
@@ -67,9 +65,9 @@ Temperature* InitTemperature(string ini_path, const double rk_prop_step_sec)
   nodes_num = vnodestr.size() - 1; //First Row is for Header(not data)
   vnodes.reserve(nodes_num); // reserve memory
   for (auto itr = vnodestr.begin() + 1; itr != vnodestr.end(); ++itr) {  // first row is for labels
-	  vnodes.push_back(InitNode(*itr));
+    vnodes.push_back(InitNode(*itr));
   }
-  
+
   // Read Cij,Rij data from CSV File
   string filepath_cij = file_path + "Cij.csv";
   string filepath_rij = file_path + "Rij.csv";

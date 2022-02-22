@@ -1,6 +1,7 @@
 #ifndef __orbit_H__
 #define __orbit_H__
 
+#include <Library/math/Constant.hpp>
 #include <Library/math/Matrix.hpp>
 #include <Library/math/Vector.hpp>
 #include <Library/math/MatVec.hpp>
@@ -13,13 +14,12 @@ using libra::Quaternion;
 #include <Interface/LogOutput/ILoggable.h>
 
 // For ECI to GEO calculation
-#include <math.h>
 #include <Library/sgp4/sgp4unit.h>
 #include <Library/sgp4/sgp4io.h>
 #include <Library/sgp4/sgp4ext.h>
 
-#define PIO2		1.57079632679489656		/* Pi/2 */
-#define TWOPI		6.28318530717958623		/* 2*Pi  */
+//#define PIO2		1.57079632679489656		/* Pi/2 */
+//#define TWOPI		6.28318530717958623		/* 2*Pi  */
 #define DEG2RAD		0.017453292519943295769	// PI/180
 #define OmegaEarth  7.29211514670698e-05	// Earth Rotational rate (not considering Nutation/Precession)
 
@@ -139,8 +139,8 @@ public:
 
     alt_m_ = r / cos(lat_rad_) - radiusearthkm * c * 1000.0; /* kilometers -> meters */  //Height of the ellipsoid
 
-    if (lat_rad_ > PIO2)
-      lat_rad_ -= TWOPI;
+    if (lat_rad_ > libra::pi_2)
+      lat_rad_ -= libra::tau;
   }
 
   Quaternion CalcQuaternionI2LVLH() const

@@ -1,4 +1,3 @@
-#include <math.h>
 #include <Library/math/MatVec.hpp>
 #include <Interface/LogOutput/Logger.h>
 #include <Library/math/ODE.hpp>

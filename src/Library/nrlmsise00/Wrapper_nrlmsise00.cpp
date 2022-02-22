@@ -8,12 +8,12 @@ extern "C"
 #include <nrlmsise-00.h>   /* header for nrlmsise-00.h */
 }
 #include "Wrapper_nrlmsise00.h"   /* header for nrlmsise-00.h */
-#include <math.h>          /* maths functions */
-#include <stdio.h>         /* for error messages. TBD: remove this */
+#include <cmath>          /* maths functions */
 #include <stdlib.h>        /* for malloc/free */
 #include <cctype>
 #include <algorithm>
 #include <numeric>
+#include <Library/math/Constant.hpp>
 
 using namespace std;
 
@@ -21,8 +21,7 @@ using namespace std;
 /* ------------------------------ DEFINES ---------------------------- */
 /* ------------------------------------------------------------------- */
 
-#define PI			3.14159265358979323846
-#define RAD2DEG		(180/PI)
+#define RAD2DEG		(180/libra::pi)
 
 
 static double decyear_monthly;

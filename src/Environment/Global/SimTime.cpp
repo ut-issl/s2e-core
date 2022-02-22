@@ -1,7 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <sstream>
-#include <math.h>
 #include <cassert>
 
 #include "SimTime.h"

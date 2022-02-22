@@ -5,8 +5,7 @@
 #include <Library/math/GlobalRand.h>
 #include <Interface/LogOutput/LogUtility.h>
 
-#include <cmath>
-#include <iostream>
+#include <string>
 
 #ifndef RE
   #define RE 6378136.30 //Earth radius [m]
@@ -70,7 +69,7 @@ STT::STT(
 void STT::Initialize()
 {
   q_stt_i2c_ = Quaternion(0.0, 0.0, 0.0, 1.0);
-  
+
   // Decide delay buffer size
   MAX_DELAY = int(output_delay_ * 2 / step_time_);
   if(MAX_DELAY <= 0) MAX_DELAY = 1;
@@ -78,7 +77,7 @@ void STT::Initialize()
   q_buffer_ = temp;
   // Initialize delay buffer
   for (int i = 0; i<MAX_DELAY; ++i){ q_buffer_[i] = q_stt_i2c_; }
-  
+
   sight_ = Vector<3>(0.0);
   ortho1_ = Vector<3>(0.0);
   ortho2_ = Vector<3>(0.0);

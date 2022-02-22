@@ -38,7 +38,7 @@ ANT::ANT(int ant_id,
     tx_EIRP_ = 0.0;
   }
   if (is_receiver_){
-    rx_GT_ = rx_gain_ + rx_loss_feeder_ + rx_loss_pointing_ - 10 * log10(rx_system_noise_temperature_);  // 初期化では最大ゲインの場合で計算しておく
+    rx_GT_ = rx_gain_ + rx_loss_feeder_ + rx_loss_pointing_ - 10 * std::log10(rx_system_noise_temperature_);  // 初期化では最大ゲインの場合で計算しておく
   } else{
     rx_GT_ = 0.0;
   }
