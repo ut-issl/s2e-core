@@ -3,6 +3,7 @@
 #include "AirDrag.h"
 #include "../Interface/LogOutput/LogUtility.h"
 #include "../Interface/InitInput/Initialize.h"
+#include <Library/math/Constant.hpp>
 
 #include <iostream>
 
@@ -52,7 +53,7 @@ double AirDrag::funcPi(double s)
 {
   double x;
   double erfs = erf(s); //ERF function is defined in math standard library
-  x = s * exp(-s*s) + sqrt(M_PI)*(s*s + 0.5)*(1.0 + erfs);
+  x = s * exp(-s*s) + sqrt(libra::pi)*(s*s + 0.5)*(1.0 + erfs);
   return x;
 }
 
@@ -60,7 +61,7 @@ double AirDrag::funcChi(double s)
 {
   double x;
   double erfs = erf(s);
-  x = exp(-s*s) + sqrt(M_PI)*s*(1.0 + erfs);
+  x = exp(-s*s) + sqrt(libra::pi)*s*(1.0 + erfs);
   return x;
 }
 
@@ -78,8 +79,8 @@ void AirDrag::CalCnCt(Vector<3>& vel_b)
     double Sn = S * cosX[i];
     double St = S * sinX[i];
     double diffuse = 1.0 - surfaces_[i].GetAirSpecularity();
-    Cn_[i] = (2.0 - diffuse) / sqrt(M_PI) * funcPi(Sn) / (S*S) + diffuse / 2.0 * funcChi(Sn) / (S*S) * sqrt(Tw_ / Tm_);
-    Ct_[i] = diffuse * St * funcChi(Sn) / (sqrt(M_PI) * S*S);
+    Cn_[i] = (2.0 - diffuse) / sqrt(libra::pi) * funcPi(Sn) / (S*S) + diffuse / 2.0 * funcChi(Sn) / (S*S) * sqrt(Tw_ / Tm_);
+    Ct_[i] = diffuse * St * funcChi(Sn) / (sqrt(libra::pi) * S*S);
     //for debug
     cnct[i] = Ct_[i] / Cn_[i];
   }

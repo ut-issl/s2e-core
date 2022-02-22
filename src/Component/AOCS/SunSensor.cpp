@@ -1,10 +1,9 @@
 #include "SunSensor.h"
+#include <Library/math/Constant.hpp>
 #include <Library/math/NormalRand.hpp>
 using libra::NormalRand;
 #include <Library/math/GlobalRand.h>
 #include <Interface/LogOutput/LogUtility.h>
-
-#include <cmath>
 
 using namespace std;
 
@@ -128,7 +127,7 @@ void SunSensor::CalcSolarIlluminance()
   Vector<3> sun_direction_c = normalize(sun_c_);
   double sun_angle_ = acos(sun_direction_c[2]);
 
-  if (sun_angle_ > M_PI_2)
+  if (sun_angle_ > libra::pi_2)
   {
     solar_illuminance_ = 0.0;
     return;
@@ -141,8 +140,8 @@ void SunSensor::CalcSolarIlluminance()
 
 double SunSensor::TanRange(double x)
 {
-  if (x>  M_PI / 2.0) x = M_PI - x;
-  if (x< -M_PI / 2.0) x = -M_PI - x;
+  if (x>  libra::pi_2) x = libra::pi - x;
+  if (x< -libra::pi_2) x = -libra::pi - x;
   return x;
 }
 

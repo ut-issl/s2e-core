@@ -5,7 +5,7 @@
 * @date 2020.05.26
 */
 
-#include <cmath>
+#include <Library/math/Constant.hpp>
 
 #include "GScalculator.h"
 #define Kb 1.38064852E-23  //Boltzmann constant
@@ -97,7 +97,7 @@ double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const ANT& sc_ant,
   Vector<3> sc_pos_i = dynamics.GetOrbit().GetSatPosition_i();
   Vector<3> gs_pos_i = groundstation.GetGSPosition_i();
   double dist_sc_gs = norm(sc_pos_i - gs_pos_i) / 1000;  //[km]
-  double loss_space = -20 * log10(4 * M_PI * dist_sc_gs / (300 / sc_ant.frequency_ / 1000));  //[dB]
+  double loss_space = -20 * log10(4 * libra::pi * dist_sc_gs / (300 / sc_ant.frequency_ / 1000));  //[dB]
 
   double sc_boresight_angle = 0;  // 衛星姿勢と地上局との位置関係から，電波方向のボアサイトからの角度を求める（今はANT::CalcAntennaGain()も未実装のため0と適当に置いておく） 
   //参考  // double theta = angle(q_b2i.frame_conv(axis_b), rel_pos);

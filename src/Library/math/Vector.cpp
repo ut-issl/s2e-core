@@ -5,9 +5,8 @@
   
   \brief  Vector.hppで宣言された非template関数の定義
 */
+#include "Constant.hpp"
 #include "Vector.hpp"
-
-#include <cmath>
 
 namespace libra
 {
@@ -22,8 +21,8 @@ namespace libra
     // ベクトルがz軸上の場合phi計算をスキップする。
     if((ortho[0] == 0.0) && (ortho[1] == 0.0)){ return spher; }
     spher[2] = atan2(ortho[1], ortho[0]);
-    if(spher[2] < 0.0){ spher[2]+=2.0*M_PI; }
-    
+    if(spher[2] < 0.0){ spher[2] += numbers::tau; }
+
     return spher;
   }
 
@@ -33,7 +32,7 @@ namespace libra
     lonlat[0] = norm(ortho);
     // 零ベクトルの場合角度計算をスキップする。
     if(lonlat[0] == 0.0){ return lonlat; }
-    lonlat[1] = 0.5*M_PI - acos(ortho[2]/lonlat[0]);
+    lonlat[1] = numbers::pi_2 - acos(ortho[2]/lonlat[0]);
     // ベクトルがz軸上の場合phi計算をスキップする。
     if((ortho[0] == 0.0) && (ortho[1] == 0.0)){ return lonlat; }
     lonlat[2] = atan2(ortho[1], ortho[0]);

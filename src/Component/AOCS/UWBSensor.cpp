@@ -1,4 +1,4 @@
-#include <cmath>
+#include <Library/math/Constant.hpp>
 
 #include "UWBSensor.h"
 
@@ -34,7 +34,7 @@ int UWBSensor::IsVisible(UWBSensor & other)
   double theta = angle(q_b2i.frame_conv(axis_b), rel_pos);
   double o_theta = angle(o.q_b2i.frame_conv(o.axis_b), rel_pos);
 
-  double propagate_loss = -20 * log10(4 * M_PI*fc*norm(rel_pos) / c);
+  double propagate_loss = -20 * log10(4 * libra::pi *fc*norm(rel_pos) / c);
   double received_gain = Pt + propagate_loss + CalcAntennaGain(theta) + o.CalcAntennaGain(o_theta);
 
   if (received_gain > Plimit) return 1;
@@ -66,7 +66,7 @@ void UWBSensor::SetParameters(Vector<3> pos_i, Quaternion q_i2b)
 
 double UWBSensor::CalcAntennaGain(double theta)
 {
-  return 2.15 + 20 * log10(cos(M_PI/2*cos(theta))/sin(theta));
+  return 2.15 + 20 * log10(cos(libra::pi_2 * cos(theta))/sin(theta));
 }
 
 double UWBSensor::CalcDeviation(double distance)

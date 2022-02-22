@@ -2,9 +2,9 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-#include <cmath>
 #include "GnssSatellites.h"
 #include <Interface/LogOutput/LogUtility.h>
+#include <Library/math/Constant.hpp>
 #include <Library/sgp4/sgp4unit.h> //for gstime()
 #include <Library/sgp4/sgp4ext.h> //for jday()
 
@@ -69,7 +69,7 @@ template<size_t N>
 Vector<N> GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<Vector<N>>& values, double time) const
 {
   int n = time_vector.size();
-  double w = 2.0*M_PI/(24.0*60.0*60.0)*1.03; //coefficient of a day long
+  double w = libra::tau/(24.0*60.0*60.0)*1.03; //coefficient of a day long
   Vector<N> res(0.0);
 
   for(int i = 0;i < n;++i){
@@ -89,7 +89,7 @@ Vector<N> GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& t
 double GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<double>& values, double time) const
 {
   int n = time_vector.size();
-  double w = 2.0*M_PI/(24.0*60.0*60.0)*1.03; //coefficient of a day long
+  double w = libra::tau/(24.0*60.0*60.0)*1.03; //coefficient of a day long
   double res = 0.0;
 
   for(int i = 0;i < n;++i){

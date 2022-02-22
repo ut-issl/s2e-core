@@ -1,3 +1,5 @@
+#include <Library/math/Constant.hpp>
+
 #include "InitParameter.h"
 
 using namespace std;
@@ -257,7 +259,7 @@ void InitParameter::get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& m
   // mean vectorに垂直な単位ベクトルの一つ．mean vectorがx軸またはy軸と平行だった場合に備えて，外積ベクトルノルムの大きい方との外積を選ぶ．
   Vector<3> normal_unit_vec = norm(op_x) > norm(op_y) ? normalize(op_x) : normalize(op_y);
 
-  double rotation_angle_of_normal_unit_vec = InitParameter::Uniform_1d(0.0, 2 * M_PI);
+  double rotation_angle_of_normal_unit_vec = InitParameter::Uniform_1d(0.0, libra::tau);
   Quaternion rotation_of_normal_unit_vec(mean_vec_dir, -rotation_angle_of_normal_unit_vec); //座標が回転するのではなくベクトルが回転するので角度の向きを逆にする
   Vector<3> rotation_axis = rotation_of_normal_unit_vec.frame_conv(normal_unit_vec); // mean vectorを回転させる軸
 
@@ -305,7 +307,7 @@ void InitParameter::get_QuaternionUniform(Quaternion& dst)
   Quaternion first_cnv;
   Vector<3> x_axis_cnvd;
   double theta = acos(1 - (1 - (-1)) * InitParameter::Uniform_1d(0.0, 1.0));
-  double phi = InitParameter::Uniform_1d(0, 2 * M_PI);
+  double phi = InitParameter::Uniform_1d(0, libra::tau);
   x_axis_cnvd[0] = sin(theta) * cos(phi);
   x_axis_cnvd[1] = sin(theta) * sin(phi);
   x_axis_cnvd[2] = cos(theta);
@@ -319,7 +321,7 @@ void InitParameter::get_QuaternionUniform(Quaternion& dst)
   first_cnv[3] = cos_angle_between;
 
   // x軸周りの回転角をランダムに生成する
-  double rotation_angle = InitParameter::Uniform_1d(0.0, 2 * M_PI);
+  double rotation_angle = InitParameter::Uniform_1d(0.0, libra::tau);
   Quaternion second_cnv(x_axis, rotation_angle);
 
   Quaternion ret_q = first_cnv * second_cnv;
@@ -349,7 +351,7 @@ void InitParameter::get_QuaternionNormal(Quaternion& dst, double theta_sigma)
   // 回転軸は全球面上に一様分布
   Vector<3> rot_axis;
   double theta = acos(1 - (1 - (-1)) * InitParameter::Uniform_1d(0.0, 1.0));
-  double phi = InitParameter::Uniform_1d(0, 2 * M_PI);
+  double phi = InitParameter::Uniform_1d(0, libra::tau);
   rot_axis[0] = sin(theta) * cos(phi);
   rot_axis[1] = sin(theta) * sin(phi);
   rot_axis[2] = cos(theta);

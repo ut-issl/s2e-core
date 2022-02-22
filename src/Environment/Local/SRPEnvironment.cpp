@@ -1,8 +1,8 @@
 #include "SRPEnvironment.h"
-#include <cmath>
 #include <fstream>
 #include <cassert>
 #include <algorithm>
+#include <Library/math/Constant.hpp>
 #include <Library/math/Vector.hpp>
 #include <Interface/LogOutput/LogUtility.h>
 
@@ -115,7 +115,7 @@ void SRPEnvironment::CalcShadowCoefficient(string shadow_source_name)
   else if (fabs(a - b) <= c && c <= (a + b)) // spacecraft is in penunbra
   {
     double A = a * a * acos(x / a) + b * b * acos((c - x) / b) - c * y;//The area of the occulted segment of the apparent solar disk
-    shadow_coefficient_ = 1.0 - A / (M_PI * a *a);
+    shadow_coefficient_ = 1.0 - A / (libra::pi * a *a);
   }
   else {// no occultation takes place
     assert(c > (a + b));
@@ -144,8 +144,8 @@ void SRPEnvironment::CalcShadowCoefficient(string shadow_source_name)
         log1 << srp.GetP() << ",";
     }
     for(int i = 0;i < 360; i++){
-        ep[0] = 6400000 * cos(M_PI * i / 180);
-        ep[1] = 6400000 * sin(M_PI * i / 180);
+        ep[0] = 6400000 * cos(libra::pi * i / 180);
+        ep[1] = 6400000 * sin(libra::pi * i / 180);
         srp.Update(ep,sp);
         log2 << srp.GetP() << ",";
     }

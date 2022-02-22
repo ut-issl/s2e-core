@@ -1,5 +1,6 @@
 #include "../Initialize.h"
 #include <Component/Propulsion/SimpleThruster.h>
+#include <Library/math/Constant.hpp>
 
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, const std::string fname, const Structure* structure, const Dynamics* dynamics){
   IniAccess thruster_conf(fname);
@@ -21,7 +22,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, co
   mag_err = thruster_conf.ReadDouble(Section,"mag_err");
 
   double deg_err;
-  deg_err = thruster_conf.ReadDouble(Section,"dir_err") * M_PI/180.0;
+  deg_err = thruster_conf.ReadDouble(Section,"dir_err") * libra::pi/180.0;
 
   SimpleThruster thruster(prescaler, clock_gen, thruster_id, 
       thruster_pos, thruster_dir, max_mag, mag_err, deg_err, 
@@ -49,7 +50,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, PowerPort* power_po
   mag_err = thruster_conf.ReadDouble(Section,"mag_err");
 
   double deg_err;
-  deg_err = thruster_conf.ReadDouble(Section,"dir_err") * M_PI/180.0;
+  deg_err = thruster_conf.ReadDouble(Section,"dir_err") * libra::pi/180.0;
 
   SimpleThruster thruster(prescaler, clock_gen, power_port, thruster_id, 
       thruster_pos, thruster_dir, max_mag, mag_err, deg_err, 
