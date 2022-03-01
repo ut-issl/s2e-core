@@ -14,6 +14,8 @@
 #include <Component/Propulsion/SimpleThruster.h>
 #include <Interface/HilsInOut/HilsPortManager.h>
 #include <Component/Abstract/ExpHils.h>
+#include <Component/Abstract/ExpHilsI2cController.h>
+#include <Component/Abstract/ExpHilsI2cTarget.h>
 
 using libra::Vector;
 class OBC;

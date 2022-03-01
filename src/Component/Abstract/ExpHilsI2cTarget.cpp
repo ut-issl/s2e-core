@@ -11,13 +11,6 @@ ExpHilsI2cTarget::ExpHilsI2cTarget(
   ObcI2cTargetCommunicationBase(sils_port_id, i2c_address, obc, hils_port_id, hils_port_manager),
   i2c_address_(i2c_address)
 {
-  const unsigned int kRegSize = 5;
-  unsigned char rx_data[kRegSize] = { 0 };
-  for (int i = 0; i < kRegSize; i++)
-  {
-    rx_data[i] = 'A' + i;
-  }
-  WriteRegister(0, rx_data, kRegSize);
 }
 
 ExpHilsI2cTarget::~ExpHilsI2cTarget()
@@ -26,23 +19,30 @@ ExpHilsI2cTarget::~ExpHilsI2cTarget()
 
 void ExpHilsI2cTarget::MainRoutine(int count)
 {
-  ReceiveCommand();
-  int ret = CheckFlag();
-  if (ret >= 0) // レジスタアドレスに応じてテレメ長を指定
+  // update telemetry data
+  const unsigned int kTlmSize = 5;
+  unsigned char tlm[kTlmSize] = { 0 };
+  for (int i = 0; i < kTlmSize; i++)
   {
-    SendTelemetry(5);
-
-    const unsigned int kRegSize = 5;
-    unsigned char rx_data[kRegSize] = { 0 };
-    ReadRegister(0, rx_data, kRegSize);
-    std::cout << "Target Send: " << rx_data[0] << rx_data[1] << rx_data[2] << rx_data[3] << rx_data[4] << std::endl;
-
-    // change register value
-    counter_++;
-    for (int i = 0; i < kRegSize; i++)
-    {
-      rx_data[i] = 'A' + counter_ + i;
-    }
-    WriteRegister(0, rx_data, kRegSize);
+    tlm[i] = 'A' + tlm_counter_ + i;
   }
+  WriteRegister(0, tlm, kTlmSize);
+  tlm_counter_++;
+  if (tlm_counter_ > kNumAlphabet - kTlmSize)
+  {
+    tlm_counter_ = 0; // ABCDE, ..., VWXYZ, ABCDE, ...
+  }
+
+  ReceiveCommand();
+  int add_frame_counter = kStoredFrameSize - GetStoredFrameCounter();
+  if (add_frame_counter <= 0) return;
+
+  // store telemetry in converter up to kStoredFrameSize
+  for (int i = 0; i < add_frame_counter; i++)
+  {
+    SendTelemetry(kTlmSize);
+    std::cout << "Target sends to converter: " << tlm[0] << tlm[1] << tlm[2] << tlm[3] << tlm[4] << std::endl;
+  }
+
+  return;
 }

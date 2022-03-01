@@ -3,9 +3,10 @@
 ExpHilsI2cController::ExpHilsI2cController(
   ClockGenerator* clock_gen,
   const unsigned int hils_port_id,
+  const unsigned int baud_rate,
   HilsPortManager* hils_port_manager)
-  : ComponentBase(0, clock_gen),
-  ObcI2cControllerCommunicationBase(hils_port_id, 9600, 256, 256, hils_port_manager)
+  : ComponentBase(30, clock_gen),
+  ObcI2cControllerCommunicationBase(hils_port_id, baud_rate, 256, 256, hils_port_manager)
 {
 }
 
@@ -15,61 +16,46 @@ ExpHilsI2cController::~ExpHilsI2cController()
 
 void ExpHilsI2cController::MainRoutine(int count)
 {
-  counter_++;
-  if (counter_ % 4 == 0)
+  RequestTlm();
+  Receive();
+  return;
+}
+
+void ExpHilsI2cController::RequestTlm()
+{
+  const unsigned char req_tlm_cmd_size = 5;
+  unsigned char req_tlm_cmd[req_tlm_cmd_size];
+  req_tlm_cmd[0] = kHeader_;
+  req_tlm_cmd[1] = kWrite_;
+  req_tlm_cmd[2] = 0x01; // bytes to write
+  req_tlm_cmd[3] = 0x00; // register address
+  req_tlm_cmd[req_tlm_cmd_size - 1] = kFooter_;
+  tx_buffer_.assign(std::begin(req_tlm_cmd), std::end(req_tlm_cmd));
+  SendCommand(req_tlm_cmd_size);
+  std::cout << "Controller requests Telemetry" << std::endl;
+  return;
+}
+
+void ExpHilsI2cController::Receive()
+{
+  const unsigned int kTlmSize = 5;
+  const unsigned char receive_cmd_size = 4;
+  unsigned char receive_cmd[receive_cmd_size];
+  receive_cmd[0] = kHeader_;
+  receive_cmd[1] = kRead_;
+  receive_cmd[2] = (char)kTlmSize; // bytes to read
+  receive_cmd[receive_cmd_size - 1] = kFooter_;
+  tx_buffer_.assign(std::begin(receive_cmd), std::end(receive_cmd));
+  SendCommand(receive_cmd_size);
+
+  rx_buffer_.resize(kTlmSize);
+  int ret = ReceiveTelemetry(kTlmSize);
+  if (ret <= 0) return;
+  std::cout << "Controller received: ";
+  for (int i = 0; i < ret; i++)
   {
-    const unsigned char clear_buffer_cmd_size = 5;
-    unsigned char clear_buffer_tx[clear_buffer_cmd_size];
-    clear_buffer_tx[0] = kHeader_;
-    clear_buffer_tx[1] = 0x00; // General Call Address
-    clear_buffer_tx[2] = 0x01; // data_size
-    clear_buffer_tx[3] = 0x06; // clear cmd
-    clear_buffer_tx[clear_buffer_cmd_size - 1] = kFooter_;
-    tx_buffer_.assign(std::begin(clear_buffer_tx), std::end(clear_buffer_tx));
-    SendCommand(clear_buffer_cmd_size); // Clear buffer
-    std::cout << "Clear Buffer" << std::endl;
-    return;
+    std::cout << rx_buffer_[i];
   }
-  else if (counter_ % 4 == 1)
-  {
-    const unsigned char req_tlm_cmd_size = 5;
-    unsigned char req_tlm_tx[req_tlm_cmd_size];
-    req_tlm_tx[0] = kHeader_;
-    req_tlm_tx[1] = kWrite_;
-    req_tlm_tx[2] = 0x01; // data_size
-    req_tlm_tx[3] = 0x00; // reg_addr
-    req_tlm_tx[req_tlm_cmd_size - 1] = kFooter_;
-    tx_buffer_.assign(std::begin(req_tlm_tx), std::end(req_tlm_tx));
-    SendCommand(req_tlm_cmd_size); // Request Tlm
-    std::cout << "Request Tlm" << std::endl;
-  //  return;
-  //}
-  //else if (counter_ % 4 == 2)
-  //{
-    const unsigned char read_cmd_size = 4;
-    unsigned char read_tx[read_cmd_size];
-    read_tx[0] = kHeader_;
-    read_tx[1] = kRead_;
-    read_tx[2] = 0x05; // tlm_size
-    read_tx[read_cmd_size - 1] = kFooter_;
-    tx_buffer_.assign(std::begin(read_tx), std::end(read_tx));
-    SendCommand(read_cmd_size); // Read
-    std::cout << "Read Buffer" << std::endl;
-    return;
-  }
-  else if(counter_ % 4 == 3)
-  {
-    unsigned char tlm_size = 5;
-    rx_buffer_.resize(tlm_size);
-    int ret = ReceiveTelemetry(tlm_size);
-    std::cout << "Controller Received Bytes: " << ret << std::endl;
-    if (ret <= 0) return;
-    std::cout << "Controller Received: ";
-    for (int i = 0; i < ret; i++)
-    {
-      std::cout << rx_buffer_[i];
-    }
-    std::cout << std::endl;
-    return;
-  }
+  std::cout << std::endl;
+  return;
 }
