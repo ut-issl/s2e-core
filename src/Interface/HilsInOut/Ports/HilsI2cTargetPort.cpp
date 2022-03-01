@@ -1,21 +1,21 @@
-﻿#include "HilsI2cPort.h"
+﻿#include "HilsI2cTargetPort.h"
 
-HilsI2cPort::HilsI2cPort(const unsigned int port_id)
+HilsI2cTargetPort::HilsI2cTargetPort(const unsigned int port_id)
   : HilsUartPort(port_id, 115200, 512, 512) // Fixme: The magic number. This is depending on the converter.
 {
 }
 
-HilsI2cPort::HilsI2cPort(const unsigned int port_id, const unsigned char max_register_number)
+HilsI2cTargetPort::HilsI2cTargetPort(const unsigned int port_id, const unsigned char max_register_number)
   : max_register_number_(max_register_number),
     HilsUartPort(port_id, 115200, 512, 512) // Fixme: The magic number. This is depending on the converter.
 {
 }
 
-HilsI2cPort::~HilsI2cPort()
+HilsI2cTargetPort::~HilsI2cTargetPort()
 {
 }
 
-void HilsI2cPort::RegisterDevice()
+void HilsI2cTargetPort::RegisterDevice()
 {
   for (unsigned char i = 0; i < max_register_number_; i++)
   {
@@ -27,14 +27,14 @@ void HilsI2cPort::RegisterDevice()
   }
 }
 
-int HilsI2cPort::WriteRegister(const unsigned char reg_addr)
+int HilsI2cTargetPort::WriteRegister(const unsigned char reg_addr)
 {
   if (reg_addr >= max_register_number_) return 0;
   saved_reg_addr_ = reg_addr;
   return 0;
 }
 
-int HilsI2cPort::WriteRegister(const unsigned char reg_addr, const unsigned char value)
+int HilsI2cTargetPort::WriteRegister(const unsigned char reg_addr, const unsigned char value)
 {
   if (reg_addr >= max_register_number_) return 0;
   saved_reg_addr_ = reg_addr;
@@ -42,7 +42,7 @@ int HilsI2cPort::WriteRegister(const unsigned char reg_addr, const unsigned char
   return 0;
 }
 
-unsigned char HilsI2cPort::ReadRegister(const unsigned char reg_addr)
+unsigned char HilsI2cTargetPort::ReadRegister(const unsigned char reg_addr)
 {
   if (reg_addr >= max_register_number_) return 0;
   saved_reg_addr_ = reg_addr;
@@ -50,7 +50,7 @@ unsigned char HilsI2cPort::ReadRegister(const unsigned char reg_addr)
   return ret;
 }
 
-int HilsI2cPort::ReadCommand(unsigned char* rx_data, const unsigned int length)
+int HilsI2cTargetPort::ReadCommand(unsigned char* rx_data, const unsigned int length)
 {
   if (length > kDefaultCmdSize)
   {
@@ -63,7 +63,7 @@ int HilsI2cPort::ReadCommand(unsigned char* rx_data, const unsigned int length)
   return length;
 }
 
-int HilsI2cPort::Receive() // from I2C-USB Target converter
+int HilsI2cTargetPort::Receive() // from I2C-USB Target converter
 {
   unsigned char rx_buf[kDefaultCmdSize];
   if (GetBytesToRead() <= 0) return -1; // No bytes were available to read.
@@ -90,7 +90,7 @@ int HilsI2cPort::Receive() // from I2C-USB Target converter
   return received_bytes;
 }
 
-int HilsI2cPort::Send(const unsigned char len) // to I2C-USB Target Converter
+int HilsI2cTargetPort::Send(const unsigned char len) // to I2C-USB Target Converter
 {
   if (saved_reg_addr_ + len > max_register_number_) return -1;
   unsigned char tx_buf[kDefaultTxSize] = { 0 };
@@ -104,7 +104,7 @@ int HilsI2cPort::Send(const unsigned char len) // to I2C-USB Target Converter
   return ret;
 }
 
-int HilsI2cPort::GetStoredFrameCounter()
+int HilsI2cTargetPort::GetStoredFrameCounter()
 {
   return stored_frame_counter_;
 }

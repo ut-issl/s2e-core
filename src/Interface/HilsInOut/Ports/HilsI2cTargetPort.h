@@ -10,12 +10,12 @@ const int kDefaultCmdSize = 0xff;
 const int kDefaultTxSize  = 0xff;
 
 // Communication between I2C-USB converter and emulated component via com port is the same as UART.
-class HilsI2cPort : public HilsUartPort
+class HilsI2cTargetPort : public HilsUartPort
 {
 public:
-  HilsI2cPort(const unsigned int port_id);
-  HilsI2cPort(const unsigned int port_id, const unsigned char max_register_number);
-  ~HilsI2cPort();
+  HilsI2cTargetPort(const unsigned int port_id);
+  HilsI2cTargetPort(const unsigned int port_id, const unsigned char max_register_number);
+  ~HilsI2cTargetPort();
 
   void RegisterDevice();
 

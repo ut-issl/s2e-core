@@ -1,7 +1,7 @@
 #pragma once
 #ifdef USE_HILS
   #include "Ports/HilsUartPort.h"
-  #include "Ports/HilsI2cPort.h"
+  #include "Ports/HilsI2cTargetPort.h"
 #endif
 #include <map>
 
@@ -46,6 +46,6 @@ private:
   // Uart ports
   std::map<int, HilsUartPort*> uart_com_ports_;
   // I2C ports
-  std::map<int, HilsI2cPort*> i2c_com_ports_;
+  std::map<int, HilsI2cTargetPort*> i2c_com_ports_;
 #endif
 };
