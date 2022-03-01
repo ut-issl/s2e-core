@@ -35,7 +35,7 @@ public:
   virtual int I2cTargetSend(unsigned int port_id, const unsigned char len);
   virtual int I2cTargetGetStoredFrameCounter(unsigned int port_id);
 
-  // TODO: Add I2C controller functions
+  // I2C Controller Communication port functions
   virtual int I2cControllerConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buf_size, unsigned int rx_buf_size);
   virtual int I2cControllerCloseComPort(unsigned int port_id);
   virtual int I2cControllerReceive(unsigned int port_id, unsigned char* buffer, int offset, int count);

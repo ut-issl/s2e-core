@@ -24,7 +24,7 @@ void ExpHilsI2cTarget::MainRoutine(int count)
   unsigned char tlm[kTlmSize] = { 0 };
   for (int i = 0; i < kTlmSize; i++)
   {
-    tlm[i] = 'A' + tlm_counter_ + i;
+    tlm[i] = (char)('A' + tlm_counter_ + i);
   }
   WriteRegister(0, tlm, kTlmSize);
   tlm_counter_++;
