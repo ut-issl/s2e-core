@@ -122,14 +122,8 @@ int ObcI2cTargetCommunicationBase::SendTelemetry(const unsigned char len)
   return hils_port_manager_->I2cTargetSend(hils_port_id_, len);
 }
 
-int ObcI2cTargetCommunicationBase::CheckFlag()
+int ObcI2cTargetCommunicationBase::GetStoredFrameCounter()
 {
   if (sim_mode_ != OBC_COM_UART_MODE::HILS) return -1;
-  return hils_port_manager_->I2cTargetCheckFlag(hils_port_id_);
-}
-
-int ObcI2cTargetCommunicationBase::SetFlag()
-{
-  if (sim_mode_ != OBC_COM_UART_MODE::HILS) return -1;
-  return hils_port_manager_->I2cTargetSetFlag(hils_port_id_);
+  return hils_port_manager_->I2cTargetGetStoredFrameCounter(hils_port_id_);
 }

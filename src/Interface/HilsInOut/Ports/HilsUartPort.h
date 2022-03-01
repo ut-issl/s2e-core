@@ -17,13 +17,13 @@ public:
   int ClosePort();
   int WriteTx(const unsigned char* buffer, int offset, int count);
   int ReadRx(unsigned char* buffer, int offset, int count);
+  int GetBytesToRead();
 private:
   const unsigned int kTxBufferSize;
   const unsigned int kRxBufferSize;
   const std::string kPortName;
   static std::string PortName(unsigned int port_id);
   int Initialize();
-  int GetBytesToRead();
   int DiscardInBuffer();
   int DiscardOutBuffer();
   unsigned int baud_rate_; // [baud] ex. 9600, 115200

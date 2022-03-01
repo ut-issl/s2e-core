@@ -170,23 +170,12 @@ int HilsPortManager::I2cTargetSend(unsigned int port_id, const unsigned char len
 #endif
 }
 
-int HilsPortManager::I2cTargetCheckFlag(unsigned int port_id)
+int HilsPortManager::I2cTargetGetStoredFrameCounter(unsigned int port_id)
 {
 #ifdef USE_HILS
   HilsI2cPort* port = i2c_com_ports_[port_id];
   if (port == nullptr) return -1;
-  return port->CheckFlag();
-#else
-  return -1;
-#endif
-}
-
-int HilsPortManager::I2cTargetSetFlag(unsigned int port_id)
-{
-#ifdef USE_HILS
-  HilsI2cPort* port = i2c_com_ports_[port_id];
-  if (port == nullptr) return -1;
-  return port->SetFlag();
+  return port->GetStoredFrameCounter();
 #else
   return -1;
 #endif

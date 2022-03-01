@@ -30,8 +30,7 @@ protected:
   void ReadCommand  (unsigned char* data, const unsigned char len);
   int ReceiveCommand();
   int SendTelemetry (const unsigned char len);
-  int CheckFlag();
-  int SetFlag();
+  int GetStoredFrameCounter();
 
 private:
   int sils_port_id_;

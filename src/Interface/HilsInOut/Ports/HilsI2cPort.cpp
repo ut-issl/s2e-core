@@ -70,16 +70,10 @@ int HilsI2cPort::Receive()
 {
   unsigned char rx_buf[kDefaultCmdSize];
   // I2C-USB変換器(Target)のbufferを定期的・高速に読み込む
+  if (GetBytesToRead() <= 0) return -1; // No bytes were available to read.
   int received_bytes = ReadRx(rx_buf, 0, kDefaultCmdSize); //  TODO: Fix count size. larger than cmd size.
-
-  if (received_bytes < 0)
-  {
-    return -1; // No bytes were available to read.
-  }
-  else if (received_bytes > kDefaultCmdSize)
-  {
-    return -1;
-  }
+  if (received_bytes > kDefaultCmdSize) return -1;
+  
   // コマンドをcmd_buffer_に格納
   for (int i = 0; i < received_bytes; i++)
   {
@@ -90,7 +84,10 @@ int HilsI2cPort::Receive()
   if (received_bytes == 1) // length == 1 means setting of read register address
   {
     WriteRegister(rx_buf[0]);
-    send_tlm_flag_ = 1;
+    if (stored_frame_counter_ > 0)
+    {
+      stored_frame_counter_ = stored_frame_counter_ - 1;
+    }
   }
   if (received_bytes == 2) // length == 2 means setting specific register. FIXME: this rule is not general.
   {
@@ -101,7 +98,6 @@ int HilsI2cPort::Receive()
 
 int HilsI2cPort::Send(const unsigned char len)
 {
-  if (send_tlm_flag_ == 0) return -1;
   if (saved_reg_addr_ + len > max_register_number_) return -1;
   unsigned char tx_buf[kDefaultTxSize] = { 0 };
   for (int i = 0; i < len; i++)
@@ -110,24 +106,11 @@ int HilsI2cPort::Send(const unsigned char len)
   }
   // テレメ送信
   int ret = WriteTx(tx_buf, 0, len);
-  send_tlm_flag_ = 0;
+  stored_frame_counter_++;
   return 0;
 }
 
-int HilsI2cPort::CheckFlag()
+int HilsI2cPort::GetStoredFrameCounter()
 {
-  if (send_tlm_flag_ == 0)
-  {
-    return -1;
-  }
-  else
-  {
-    return saved_reg_addr_;
-  }
-}
-
-int HilsI2cPort::SetFlag()
-{
-  send_tlm_flag_ = 1;
-  return saved_reg_addr_;
+  return stored_frame_counter_;
 }

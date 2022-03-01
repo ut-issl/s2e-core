@@ -3,6 +3,9 @@
 
 #include <map>
 
+// I2C-USB変換器の使用を想定
+// 模擬コンポはcomポートを介して変換器と送受信を行う
+
 const int kDefaultCmdSize = 0xff;
 const int kDefaultTxSize = 0xff; // TODO: change this value
 
@@ -26,13 +29,12 @@ public:
 
   int Receive();
   int Send(const unsigned char len);
-  int CheckFlag();
-  int SetFlag();
+  int GetStoredFrameCounter();
 
 private:
   unsigned char max_register_number_ = 0xff;
   unsigned char saved_reg_addr_ = 0x00;
-  unsigned char send_tlm_flag_ = 0;
+  unsigned int stored_frame_counter_ = 0; // 変換器にあらかじめ数フレーム分のテレメを送信しておく
 
   // < register address, value>
   std::map< unsigned char, unsigned char > device_registers_;
