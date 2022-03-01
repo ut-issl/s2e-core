@@ -36,10 +36,12 @@ ObcI2cControllerCommunicationBase::~ObcI2cControllerCommunicationBase()
 
 int ObcI2cControllerCommunicationBase::ReceiveTelemetry(const unsigned char len)
 {
+  if (sim_mode_ != OBC_COM_UART_MODE::HILS) return -1;
   return hils_port_manager_->I2cControllerReceive(hils_port_id_, &rx_buffer_.front(), 0, len);
 }
 
 int ObcI2cControllerCommunicationBase::SendCommand(const unsigned char len)
 {
+  if (sim_mode_ != OBC_COM_UART_MODE::HILS) return -1;
   return hils_port_manager_->I2cControllerSend(hils_port_id_, &tx_buffer_.front(), 0, len);
 }

@@ -72,7 +72,7 @@ int HilsPortManager::UartSend(unsigned int port_id, const unsigned char* buffer,
 }
 
 // I2C Target Communication port functions
-int HilsPortManager::I2cConnectComPort(unsigned int port_id)
+int HilsPortManager::I2cTargetConnectComPort(unsigned int port_id)
 {
 #ifdef USE_HILS
   if (i2c_com_ports_[port_id] != nullptr)
@@ -88,7 +88,7 @@ int HilsPortManager::I2cConnectComPort(unsigned int port_id)
 #endif
 }
 
-int HilsPortManager::I2cCloseComPort(unsigned int port_id)
+int HilsPortManager::I2cTargetCloseComPort(unsigned int port_id)
 {
 #ifdef USE_HILS
   if (i2c_com_ports_[port_id] == nullptr)

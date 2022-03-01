@@ -22,8 +22,8 @@ public:
   virtual int UartSend(unsigned int port_id, const unsigned char* buffer, int offset, int count);
 
   // I2C Target Communication port functions
-  virtual int I2cConnectComPort(unsigned int port_id);
-  virtual int I2cCloseComPort(unsigned int port_id);
+  virtual int I2cTargetConnectComPort(unsigned int port_id);
+  virtual int I2cTargetCloseComPort(unsigned int port_id);
   virtual int I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_addr,
                                     unsigned char* data, const unsigned char len);
   virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_addr,

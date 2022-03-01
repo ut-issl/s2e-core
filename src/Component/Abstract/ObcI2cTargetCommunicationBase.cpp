@@ -19,7 +19,7 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int 
 {
 #ifdef USE_HILS
   sim_mode_ = OBC_COM_UART_MODE::HILS;
-  int ret = hils_port_manager_->I2cConnectComPort(hils_port_id_);
+  int ret = hils_port_manager_->I2cTargetConnectComPort(hils_port_id_);
   if (ret != 0)
   {
     std::cout << "Error: ObcI2cCommunication ConnectComPort ID:" << hils_port_id_ << "\n";
@@ -37,7 +37,7 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const int sils_port
 {
 #ifdef USE_HILS
   sim_mode_ = OBC_COM_UART_MODE::HILS;
-  int ret = hils_port_manager_->I2cConnectComPort(hils_port_id_);
+  int ret = hils_port_manager_->I2cTargetConnectComPort(hils_port_id_);
   if (ret != 0)
   {
     std::cout << "Error: ObcI2cCommunication ConnectComPort ID:" << hils_port_id_ << "\n";
@@ -58,7 +58,7 @@ ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase()
   }
   else // sim_mode_ == OBC_COM_UART_MODE::HILS
   {
-    int ret = hils_port_manager_->I2cCloseComPort(hils_port_id_);
+    int ret = hils_port_manager_->I2cTargetCloseComPort(hils_port_id_);
     if (ret != 0)
     {
       std::cout << "Error: ObcI2cCommunication CloseComPort ID:" << hils_port_id_ << "\n";
