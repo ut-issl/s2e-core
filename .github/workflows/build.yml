@@ -25,11 +25,11 @@ jobs:
         use_c2a: ['USE_C2A=OFF', 'USE_C2A=ON']
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: checkout C2A core
         if: contains(matrix.use_c2a, 'ON')
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: c2a-core
           repository: ut-issl/c2a-core
@@ -96,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: install deps
         run: |
