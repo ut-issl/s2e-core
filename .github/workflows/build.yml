@@ -100,6 +100,7 @@ jobs:
 
       - name: install deps
         run: |
+          sudo apt-get update
           sudo apt-get install -y gcc-multilib g++-multilib
 
       - name: cache extlib
