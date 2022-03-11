@@ -1,7 +1,6 @@
 #include "../Initialize.h"
 #include <Component/AOCS/STT.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <Library/math/Constant.hpp>
 
 using namespace std;
 
@@ -22,13 +21,13 @@ STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const string fname, double
   double output_interval_sec = STT_conf.ReadDouble(STTSection, "output_interval");
   int output_interval = max(int(output_interval_sec / step_time),1);
   double sun_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "sun_forbidden_angle");
-  double sun_forbidden_angle_rad = sun_forbidden_angle_deg*M_PI / 180.0;
+  double sun_forbidden_angle_rad = sun_forbidden_angle_deg*libra::pi / 180.0;
   double earth_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "earth_forbidden_angle");
-  double earth_forbidden_angle_rad = earth_forbidden_angle_deg*M_PI / 180.0;
+  double earth_forbidden_angle_rad = earth_forbidden_angle_deg*libra::pi / 180.0;
   double moon_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "moon_forbidden_angle");
-  double moon_forbidden_angle_rad = moon_forbidden_angle_deg*M_PI / 180.0;
+  double moon_forbidden_angle_rad = moon_forbidden_angle_deg*libra::pi / 180.0;
   double capture_rate_deg_s = STT_conf.ReadDouble(STTSection, "capture_rate");
-  double capture_rate_rad_s = capture_rate_deg_s*M_PI / 180.0;
+  double capture_rate_rad_s = capture_rate_deg_s*libra::pi / 180.0;
 
   STT stt(prescaler, clock_gen, sensor_id, q_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval,
           sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_env);
@@ -53,13 +52,13 @@ STT InitSTT(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, con
   double output_interval_sec = STT_conf.ReadDouble(STTSection, "output_interval");
   int output_interval = max(int(output_interval_sec / step_time),1);
   double sun_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "sun_forbidden_angle");
-  double sun_forbidden_angle_rad = sun_forbidden_angle_deg*M_PI / 180.0;
+  double sun_forbidden_angle_rad = sun_forbidden_angle_deg*libra::pi / 180.0;
   double earth_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "earth_forbidden_angle");
-  double earth_forbidden_angle_rad = earth_forbidden_angle_deg*M_PI / 180.0;
+  double earth_forbidden_angle_rad = earth_forbidden_angle_deg*libra::pi / 180.0;
   double moon_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "moon_forbidden_angle");
-  double moon_forbidden_angle_rad = moon_forbidden_angle_deg*M_PI / 180.0;
+  double moon_forbidden_angle_rad = moon_forbidden_angle_deg*libra::pi / 180.0;
   double capture_rate_deg_s = STT_conf.ReadDouble(STTSection, "capture_rate");
-  double capture_rate_rad_s = capture_rate_deg_s*M_PI / 180.0;
+  double capture_rate_rad_s = capture_rate_deg_s*libra::pi / 180.0;
 
   STT stt(prescaler, clock_gen, power_port, sensor_id, q_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval,
           sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_env);

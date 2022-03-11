@@ -1,7 +1,7 @@
-#include <math.h>
 #include <cfloat>
 
 #include "SimpleThruster.h"
+#include <Library/math/Constant.hpp>
 #include <Library/math/GlobalRand.h>
 
 //Constructor
@@ -112,11 +112,11 @@ Vector<3> SimpleThruster::CalcThrustDir()
     double make_axis_rot_rad;
     if (flag == 0)
     {
-      make_axis_rot_rad = M_PI*(double)rand()/RAND_MAX;
+      make_axis_rot_rad = libra::pi*(double)rand()/RAND_MAX;
     }
     else
     {
-      make_axis_rot_rad = -M_PI*(double)rand()/RAND_MAX;
+      make_axis_rot_rad = -libra::pi*(double)rand()/RAND_MAX;
     }
 
     Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);

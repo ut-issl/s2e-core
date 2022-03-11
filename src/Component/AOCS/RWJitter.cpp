@@ -1,6 +1,7 @@
-#define _USE_MATH_DEFINES
-#include "RWJitter.h"
 #include <random>
+
+#include <Library/math/Constant.hpp>
+#include "RWJitter.h"
 
 RWJitter::RWJitter(
   std::vector<std::vector<double>> radial_force_harmonics_coef,
@@ -17,7 +18,7 @@ RWJitter::RWJitter(
   jitter_update_interval_(jitter_update_interval),
   q_b2c_(q_b2c),
   structural_resonance_freq_(structural_resonance_freq),
-  structural_resonance_angular_freq_(2.0*M_PI*structural_resonance_freq),
+  structural_resonance_angular_freq_(libra::tau*structural_resonance_freq),
   damping_factor_(damping_factor),
   bandwidth_(bandwidth),
   considers_structural_resonance_(considers_structural_resonance)
@@ -25,7 +26,7 @@ RWJitter::RWJitter(
   //Generate random number for initial rotation phase
   std::random_device seed_gen;
   std::default_random_engine engine(seed_gen());
-  std::uniform_real_distribution<double> dist(0.0, 2.0*M_PI);
+  std::uniform_real_distribution<double> dist(0.0, libra::tau);
   //Initialize RW rotation phase
   for (int i = 0; i < radial_force_harmonics_coef_.size(); i++) { jitter_force_rot_phase_.push_back(dist(engine)); }
   for (int i = 0; i < radial_torque_harmonics_coef_.size(); i++) { jitter_torque_rot_phase_.push_back(dist(engine)); }

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <math.h>
+#include <cmath>
 #include "GGDist.h"
 #include "../Interface/LogOutput/LogUtility.h"
 

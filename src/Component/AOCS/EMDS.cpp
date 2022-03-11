@@ -1,5 +1,4 @@
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <Library/math/Constant.hpp>
 
 #include "EMDS.h"
 
@@ -77,7 +76,9 @@ void EMDS::calc(Vector<3> d1_i, Vector<3> d2_i, Quaternion q1_ib, Quaternion q2_
 void EMDS::calc_approx(Vector<3> d1_i, Vector<3> d2_i, Quaternion q1_ib, Quaternion q2_ib, 
   Vector<3> r1_b, Vector<3> r2_b, double i1, double i2, double m_c0, Vector<3>* results)
 {
-  const double mu_0 = 4e-7 * M_PI;
+  using libra::pi;
+
+  const double mu_0 = 4e-7 * pi;
   Vector<3> m1_mb(0); m1_mb[1] = 4.965; // magnetic moment of neodymium 
   // double m_c0 = 0.23; // offset of coil magnet moment (both 1 and 2)
 
@@ -114,14 +115,14 @@ void EMDS::calc_approx(Vector<3> d1_i, Vector<3> d2_i, Quaternion q1_ib, Quatern
   Vector<3> d = dh; normalize(d);
 
   // Calculate magnetic force
-  Vector<3> F1_i = 3.0*mu_0 / (4.0*M_PI*pow(norm(-dh), 4))*(dot(mu1_i, -d)*mu2_i + 
+  Vector<3> F1_i = 3.0*mu_0 / (4.0*pi*pow(norm(-dh), 4))*(dot(mu1_i, -d)*mu2_i + 
     dot(mu2_i, -d)*mu1_i + dot(mu1_i, mu2_i)*(-d) - 5 * dot(mu1_i, -d)*dot(mu2_i, -d)*(-d));
-  Vector<3> F2_i = 3.0*mu_0 / (4.0*M_PI*pow(norm(dh), 4))*(dot(mu2_i, d)*mu1_i +
+  Vector<3> F2_i = 3.0*mu_0 / (4.0*pi*pow(norm(dh), 4))*(dot(mu2_i, d)*mu1_i +
     dot(mu1_i, d)*mu2_i + dot(mu2_i, mu1_i)*(d)-5 * dot(mu2_i, d)*dot(mu1_i, d)*(d));
 
   // Calculate the magnet field from magnetic moment
-  Vector<3> B1_i = mu_0 / (4 * M_PI*pow(norm(-dh), 3))*(3 * dot(mu2_i, -d)*(-d) - mu2_i);
-  Vector<3> B2_i = mu_0 / (4 * M_PI*pow(norm(dh), 3))*(3 * dot(mu1_i, d)*(d)-mu1_i);
+  Vector<3> B1_i = mu_0 / (4 * pi*pow(norm(-dh), 3))*(3 * dot(mu2_i, -d)*(-d) - mu2_i);
+  Vector<3> B2_i = mu_0 / (4 * pi*pow(norm(dh), 3))*(3 * dot(mu1_i, d)*(d)-mu1_i);
 
   // Calculate magnetic torque
   Vector<3> tau1_m_i = cross(mu1_i, B1_i);
@@ -138,7 +139,7 @@ void EMDS::calc_approx(Vector<3> d1_i, Vector<3> d2_i, Quaternion q1_ib, Quatern
   // Rotate the torque vectors
   Vector<3> tau1_b = dot(tau1_i, n1)*n1 + cos(-theta1)*(tau1_i - dot(tau1_i, n1)*n1) + sin(-theta1)*cross(n1, tau1_i);
   Vector<3> tau2_b = dot(tau2_i, n2)*n2 + cos(-theta2)*(tau2_i - dot(tau2_i, n2)*n2) + sin(-theta2)*cross(n2, tau2_i);
-  
+
   results[0] = q1_ib.frame_conv(F1_i);
   results[1] = q2_ib.frame_conv(F2_i);
   results[2] = tau1_b;

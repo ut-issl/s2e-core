@@ -1,8 +1,7 @@
-#define _USE_MATH_DEFINES
-#include <cmath>
 #include <random>
 #include <fstream>
 #include <iostream>
+#include <Library/math/Constant.hpp>
 #include <Library/math/Vector.hpp>
 #include "RWModel.h"
 
@@ -11,12 +10,12 @@ using namespace std;
 
 static double rpm2angularVelocity(double rpm)
 {
-  return rpm * 2.0 * M_PI / 60.0;
+  return rpm * libra::tau / 60.0;
 }
 
 static double angularVelocity2rpm(double angular_velocity)
 {
-  return angular_velocity * 60.0 / (2.0 * M_PI);
+  return angular_velocity * 60.0 / libra::tau;
 }
 
 RWModel::RWModel(

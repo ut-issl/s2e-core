@@ -1,7 +1,7 @@
-#define	_USE_MATH_DEFINES
+#include <Library/math/Constant.hpp>
+
 #include "Telescope.h"
 #include <cassert>
-#include <cmath>
 
 
 using namespace std;
@@ -32,8 +32,8 @@ Telescope::Telescope(
 
 	x_field_of_view_rad = x_num_of_pix_ * x_fov_par_pix_;
 	y_field_of_view_rad = y_num_of_pix_ * y_fov_par_pix_;
-	assert(x_field_of_view_rad < M_PI / 2);//視野角90度以上だと計算が成り立たないので，その場合を弾く
-	assert(y_field_of_view_rad < M_PI / 2);
+	assert(x_field_of_view_rad < libra::pi_2);//視野角90度以上だと計算が成り立たないので，その場合を弾く
+	assert(y_field_of_view_rad < libra::pi_2);
 
 	sight_ = Vector<3>(0);sight_[0] = 1;//(1,0,0)@コンポ座標，視線方向ベクトル
 
@@ -73,9 +73,9 @@ void Telescope::MainRoutine(int count)
 	//sun_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPosFromSC_b("SUN"));
 	//earth_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPosFromSC_b("EARTH"));
 	//moon_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPosFromSC_b("MOON"));
-	//angle_sun = angle(sight_, sun_pos_c) * 180/M_PI;
-	//angle_earth = angle(sight_, earth_pos_c) * 180 / M_PI;
-	//angle_moon = angle(sight_, moon_pos_c) * 180 / M_PI;
+	//angle_sun = angle(sight_, sun_pos_c) * 180/libra::pi;
+	//angle_earth = angle(sight_, earth_pos_c) * 180 / libra::pi;
+	//angle_moon = angle(sight_, moon_pos_c) * 180 / libra::pi;
 	//******************************************************************************
 }
 

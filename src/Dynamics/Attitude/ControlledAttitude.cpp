@@ -1,8 +1,10 @@
 #include "ControlledAttitude.h"
 #include <Interface/LogOutput/LogUtility.h>
+#include <Library/math/Constant.hpp>
+
 using namespace std;
 
-#define THRESHOLD_CA cos(30.0 / 180.0*M_PI) //fix me
+#define THRESHOLD_CA cos(30.0 / 180.0*libra::pi) //fix me
 
 ControlledAttitude::ControlledAttitude(
   const AttCtrlMode main_mode,

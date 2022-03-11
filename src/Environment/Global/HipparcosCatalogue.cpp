@@ -1,4 +1,3 @@
-#define _USE_MATH_DEFINES
 #include "HipparcosCatalogue.h"
 #include <string>
 #include <vector>
@@ -6,12 +5,12 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
-#include <cmath>
+#include <Library/math/Constant.hpp>
 
 using namespace std;
 
 HipparcosCatalogue::HipparcosCatalogue(double max_magnitude, string catalogue_path) : max_magnitude_(max_magnitude), catalogue_path_(catalogue_path)
-{	
+{
 }
 
 HipparcosCatalogue::~HipparcosCatalogue()
@@ -19,7 +18,7 @@ HipparcosCatalogue::~HipparcosCatalogue()
 }
 
 bool HipparcosCatalogue::ReadContents(const string& filename, const char delimiter = ',')
-{	
+{
 	if (!IsCalcEnabled) return false;
 
 	ifstream ifs(filename);
@@ -51,8 +50,8 @@ bool HipparcosCatalogue::ReadContents(const string& filename, const char delimit
 libra::Vector<3> HipparcosCatalogue::GetStarDir_i(int rank) const
 {
 	libra::Vector<3> position;
-	double ra = GetRA(rank) * M_PI / 180;
-	double de = GetDE(rank) * M_PI / 180;
+	double ra = GetRA(rank) * libra::pi / 180;
+	double de = GetDE(rank) * libra::pi / 180;
 
 	position[0] = cos(ra) * cos(de);
 	position[1] = sin(ra) * cos(de);

@@ -1,11 +1,11 @@
 #include "LPF.h"
 
 #include <cmath>
-using namespace std;
-#include <iostream>
 
 LPF::LPF(double omega_c, double sampling_t)
 {
+	using std::pow;
+
 	double gamma = 0.5*omega_c*sampling_t;
 	double gamma_2 = pow(gamma, 2.0);
 	double coef = 1.0 / pow(1 + gamma, 2.0);

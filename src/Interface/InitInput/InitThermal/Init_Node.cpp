@@ -1,10 +1,8 @@
 #include "../Initialize.h"
-#include <math.h>
 #include <vector>
 #include <string>
 #include <iostream>
 #include <typeinfo>
-using namespace std;
 
 #include <Dynamics/Thermal/Node.h>
 
@@ -28,10 +26,13 @@ Node_id,Node_label,capacity,solar_radiation,internal_heat,temperature
 2,SAP,3.2,10,30,288
 */
 
-Node InitNode(const vector<string>& node_str)
+Node InitNode(const std::vector<std::string>& node_str)
 {
+  using std::stoi;
+  using std::stod;
+
   int node_id = 0; //node number
-  string node_label ="temp"; //node name
+  std::string node_label ="temp"; //node name
   int heater_node_id = 0; // heater node index
   double temperature =0; // [K]
   double capacity = 0;  // [J/K]

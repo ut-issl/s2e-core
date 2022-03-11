@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <math.h>
+#include <cmath>
 #include "GeoPotential.h"
 #include "../Interface/LogOutput/LogUtility.h"
 #include <chrono>
@@ -10,8 +10,7 @@
 using namespace std;
 
 #define RE 6378136.30 //m
-#define MU 3.986004415 * pow(10.0, 14.0) //m3/s2
-//#include <cmath.h>
+#define MU (3.986004415 * std::pow(10.0, 14.0)) //m3/s2
 
 GeoPotential::GeoPotential(const int degree, const string file_path)
 :degree_(degree)

@@ -1,8 +1,8 @@
 #include "Temperature.h"
 
-#include <math.h>
+#include <cmath>
 #include <vector>
-#include "iostream"
+#include <iostream>
 
 using namespace std;
 

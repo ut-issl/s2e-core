@@ -1,13 +1,11 @@
 #include "STT.h"
 
+#include <Library/math/Constant.hpp>
 #include <Library/math/Matrix.hpp>
 #include <Library/math/GlobalRand.h>
 #include <Interface/LogOutput/LogUtility.h>
 
-#define _USE_MATH_DEFINES
-
-#include <math.h>
-#include <iostream>
+#include <string>
 
 #ifndef RE
   #define RE 6378136.30 //Earth radius [m]
@@ -71,7 +69,7 @@ STT::STT(
 void STT::Initialize()
 {
   q_stt_i2c_ = Quaternion(0.0, 0.0, 0.0, 1.0);
-  
+
   // Decide delay buffer size
   MAX_DELAY = int(output_delay_ * 2 / step_time_);
   if(MAX_DELAY <= 0) MAX_DELAY = 1;
@@ -79,7 +77,7 @@ void STT::Initialize()
   q_buffer_ = temp;
   // Initialize delay buffer
   for (int i = 0; i<MAX_DELAY; ++i){ q_buffer_[i] = q_stt_i2c_; }
-  
+
   sight_ = Vector<3>(0.0);
   ortho1_ = Vector<3>(0.0);
   ortho2_ = Vector<3>(0.0);
@@ -110,7 +108,7 @@ void STT::update(const LocalCelestialInformation *local_celes_info, const Attitu
   // Add noise on sight direction
   Quaternion q_sight(sight_, n_sight_);
   // Random noise on orthogonal direction of sight. Range [0:2pi]
-  double rot = 2.0*M_PI*double(rot_);
+  double rot = libra::tau*double(rot_);
   // Calc observation error on orthogonal direction of sight
   Vector<3> rot_axis = cos(rot)*ortho1_ + sin(rot)*ortho2_;
   Quaternion q_ortho(rot_axis, n_ortho_);
