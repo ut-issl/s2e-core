@@ -4,12 +4,12 @@
 #include <map>
 
 // I2C-USB converter is assumed to be used.
-// The emulated component transmits to and receives from the converter via the com port.
+// The emulated component transmits to and receives from the converter via the COM port.
 
 const int kDefaultCmdSize = 0xff;
 const int kDefaultTxSize  = 0xff;
 
-// Communication between I2C-USB converter and emulated component via com port is the same as UART.
+// Communication between I2C-USB converter and emulated component via COM port is the same as UART.
 class HilsI2cTargetPort : public HilsUartPort
 {
 public:

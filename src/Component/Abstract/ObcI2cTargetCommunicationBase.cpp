@@ -2,7 +2,8 @@
 
 #include "ObcI2cTargetCommunicationBase.h"
 
-ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(int sils_port_id, const unsigned char i2c_address, OBC* obc)
+ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int sils_port_id,
+                                                             const unsigned char i2c_address, OBC* obc)
 : sils_port_id_(sils_port_id), i2c_address_(i2c_address), obc_(obc)
 {
 #ifdef USE_HILS
@@ -14,7 +15,8 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(int sils_port_id, c
 #endif
 }
 
-ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int hils_port_id, HilsPortManager* hils_port_manager)
+ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int hils_port_id,
+                                                             HilsPortManager* hils_port_manager)
 : hils_port_id_(hils_port_id), hils_port_manager_(hils_port_manager)
 {
 #ifdef USE_HILS
@@ -30,8 +32,10 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int 
 #endif
 }
 
-ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const int sils_port_id, const unsigned char i2c_address, OBC* obc,
-                                                 const unsigned int hils_port_id, HilsPortManager* hils_port_manager)
+ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int sils_port_id,
+                                                             const unsigned char i2c_address, OBC* obc,
+                                                             const unsigned int hils_port_id,
+                                                             HilsPortManager* hils_port_manager)
 : sils_port_id_(sils_port_id), i2c_address_(i2c_address), obc_(obc), hils_port_id_(hils_port_id),
   hils_port_manager_(hils_port_manager)
 {
@@ -50,63 +54,84 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const int sils_port
 
 ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase()
 {
-  if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return;
-
-  if (sim_mode_ == OBC_COM_UART_MODE::SILS)
+  int ret;
+  switch (sim_mode_)
   {
-    int ret = obc_->CloseComPort(sils_port_id_);
-  }
-  else // sim_mode_ == OBC_COM_UART_MODE::HILS
-  {
-    int ret = hils_port_manager_->I2cTargetCloseComPort(hils_port_id_);
+  case OBC_COM_UART_MODE::MODE_ERROR:
+    break;
+  case OBC_COM_UART_MODE::SILS:
+    ret = obc_->CloseComPort(sils_port_id_);
     if (ret != 0)
     {
-      std::cout << "Error: ObcI2cCommunication CloseComPort ID:" << hils_port_id_ << "\n";
+      std::cout << "Error: ObcI2cTargetCommunication CloseComPort ID:" << sils_port_id_ << "\n";
     }
+    break;
+  case OBC_COM_UART_MODE::HILS:
+    ret = hils_port_manager_->I2cTargetCloseComPort(hils_port_id_);
+    if (ret != 0)
+    {
+      std::cout << "Error: ObcI2cTargetCommunication CloseComPort ID:" << hils_port_id_ << "\n";
+    }
+    break;
+  default:
+    // NOT REACHED
+    break;
   }
 }
 
 void ObcI2cTargetCommunicationBase::ReadRegister (const unsigned char reg_addr,
                                                   unsigned char* data, const unsigned char len)
 {
-  if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return;
-
-  if (sim_mode_ == OBC_COM_UART_MODE::SILS)
+  switch (sim_mode_)
   {
+  case OBC_COM_UART_MODE::MODE_ERROR:
+    break;
+  case OBC_COM_UART_MODE::SILS:
     obc_->I2cComponentReadRegister(sils_port_id_, i2c_address_, reg_addr, data, len);
-  }
-  else // sim_mode_ == OBC_COM_UART_MODE::HILS
-  {
+    break;
+  case OBC_COM_UART_MODE::HILS:
     hils_port_manager_->I2cTargetReadRegister(hils_port_id_, reg_addr, data, len);
+    break;
+  default:
+    // NOT REACHED
+    break;
   }
 }
 
 void ObcI2cTargetCommunicationBase::WriteRegister(const unsigned char reg_addr,
                                                   const unsigned char* data, const unsigned char len)
 {
-  if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return;
-
-  if (sim_mode_ == OBC_COM_UART_MODE::SILS)
+  switch (sim_mode_)
   {
+  case OBC_COM_UART_MODE::MODE_ERROR:
+    break;
+  case OBC_COM_UART_MODE::SILS:
     obc_->I2cComponentWriteRegister(sils_port_id_, i2c_address_, reg_addr, data, len);
-  }
-  else // sim_mode_ == OBC_COM_UART_MODE::HILS
-  {
+    break;
+  case OBC_COM_UART_MODE::HILS:
     hils_port_manager_->I2cTargetWriteRegister(hils_port_id_, reg_addr, data, len);
+    break;
+  default:
+    // NOT REACHED
+    break;
   }
 }
 
 void ObcI2cTargetCommunicationBase::ReadCommand(unsigned char* data, const unsigned char len)
 {
-  if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return;
-
-  if (sim_mode_ == OBC_COM_UART_MODE::SILS)
+  switch (sim_mode_)
   {
+  case OBC_COM_UART_MODE::MODE_ERROR:
+    break;
+  case OBC_COM_UART_MODE::SILS:
     obc_->I2cComponentReadCommand(sils_port_id_, i2c_address_, data, len);
-  }
-  else // sim_mode_ == OBC_COM_UART_MODE::HILS
-  {
+    break;
+  case OBC_COM_UART_MODE::HILS:
     hils_port_manager_->I2cTargetReadCommand(hils_port_id_, data, len);
+    break;
+  default:
+    // NOT REACHED
+    break;
   }
 }
 

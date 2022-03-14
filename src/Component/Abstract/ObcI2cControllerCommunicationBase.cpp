@@ -5,8 +5,8 @@
 ObcI2cControllerCommunicationBase::ObcI2cControllerCommunicationBase(
   const unsigned int hils_port_id,
   const unsigned int baud_rate,
-  const int tx_buf_size,
-  const int rx_buf_size,
+  const unsigned int tx_buf_size,
+  const unsigned int rx_buf_size,
   HilsPortManager* hils_port_manager)
 : hils_port_id_(hils_port_id), baud_rate_(baud_rate), tx_buf_size_(tx_buf_size), rx_buf_size_(rx_buf_size), hils_port_manager_(hils_port_manager)
 {

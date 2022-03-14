@@ -7,7 +7,7 @@ class ObcI2cTargetCommunicationBase
 {
 public:
   ObcI2cTargetCommunicationBase(
-    const int sils_port_id,
+    const unsigned int sils_port_id,
     const unsigned char i2c_address,
     OBC* obc
   );
@@ -16,7 +16,7 @@ public:
     HilsPortManager* hils_port_manager
   );
   ObcI2cTargetCommunicationBase(
-    const int sils_port_id,
+    const unsigned int sils_port_id,
     const unsigned char i2c_address,
     OBC* obc,
     const unsigned int hils_port_id,
@@ -33,8 +33,8 @@ protected:
   int GetStoredFrameCounter();
 
 private:
-  int sils_port_id_;
-  int hils_port_id_;
+  unsigned int sils_port_id_;
+  unsigned int hils_port_id_;
   unsigned char i2c_address_;
   OBC_COM_UART_MODE sim_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
 
