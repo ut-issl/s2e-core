@@ -2,7 +2,7 @@
 #include "../../Interface/HilsInOut/HilsPortManager.h"
 #include "ObcCommunicationBase.h"
 
-// This class simulates communication between the I2C Controller and the I2C Target.
+// This class simulates the I2C Controller communication with the I2C Target.
 // The main purpose is to validate the emulated I2C Target component in the HILS test.
 
 class I2cControllerCommunicationBase

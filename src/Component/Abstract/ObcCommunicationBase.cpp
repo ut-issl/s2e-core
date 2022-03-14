@@ -77,6 +77,7 @@ ObcCommunicationBase::~ObcCommunicationBase()
   switch (sim_mode_)
   {
   case OBC_COM_UART_MODE::MODE_ERROR:
+    std::cout << "Error: ObcCommunication CloseComPort MODE_ERROR\n";
     break;
   case OBC_COM_UART_MODE::SILS:
     ret = obc_->CloseComPort(sils_port_id_);

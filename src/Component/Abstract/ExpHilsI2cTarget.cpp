@@ -9,7 +9,7 @@ ExpHilsI2cTarget::ExpHilsI2cTarget(
   const unsigned int hils_port_id,
   HilsPortManager* hils_port_manager)
   : ComponentBase(prescaler, clock_gen),
-  ObcI2cTargetCommunicationBase(sils_port_id, i2c_address, obc, hils_port_id, hils_port_manager)
+  ObcI2cTargetCommunicationBase(sils_port_id, hils_port_id, i2c_address, obc, hils_port_manager)
 {
 }
 

@@ -12,15 +12,15 @@ public:
     OBC* obc
   );
   ObcI2cTargetCommunicationBase(
-    const unsigned char i2c_address,
     const unsigned int hils_port_id,
+    const unsigned char i2c_address,
     HilsPortManager* hils_port_manager
   );
   ObcI2cTargetCommunicationBase(
     const unsigned int sils_port_id,
+    const unsigned int hils_port_id,
     const unsigned char i2c_address,
     OBC* obc,
-    const unsigned int hils_port_id,
     HilsPortManager* hils_port_manager
   );
   ~ObcI2cTargetCommunicationBase();
