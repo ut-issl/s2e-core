@@ -5,6 +5,7 @@ if(USE_HILS)
 add_library(${PROJECT_NAME} STATIC
   HilsPortManager.cpp
   Ports/HilsUartPort.cpp
+  Ports/HilsI2cTargetPort.cpp
   )
 else()
 add_library(${PROJECT_NAME} STATIC

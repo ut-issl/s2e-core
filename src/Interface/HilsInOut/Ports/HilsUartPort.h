@@ -15,16 +15,17 @@ public:
   ~HilsUartPort();
   int OpenPort();
   int ClosePort();
-  int WriteTx(unsigned char* buffer, int offset, int count);
+  int WriteTx(const unsigned char* buffer, int offset, int count);
   int ReadRx(unsigned char* buffer, int offset, int count);
+  int GetBytesToRead();
 private:
   const unsigned int kTxBufferSize;
   const unsigned int kRxBufferSize;
   const std::string kPortName;
   static std::string PortName(unsigned int port_id);
   int Initialize();
-  int GetBytesToRead();
   int DiscardInBuffer();
+  int DiscardOutBuffer();
   unsigned int baud_rate_; // [baud] ex. 9600, 115200
   // gcroot is the type-safe wrapper template to refer to a CLR object from the c++ heap
   // reference: https://docs.microsoft.com/en-us/cpp/dotnet/how-to-declare-handles-in-native-types?view=msvc-160
