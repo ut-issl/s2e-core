@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "ComponentBase.h"
-#include "ObcI2cControllerCommunicationBase.h"
+#include "I2cControllerCommunicationBase.h"
 
 // Example of the I2C Controller side communication.
 // This helps I2C communication for HILS testing.
@@ -9,7 +9,7 @@
 // Data Sheet: https://www.nxp.com/docs/en/data-sheet/SC18IM700.pdf
 // telemetry size = 5 bytes(ASCII)
 
-class ExpHilsI2cController : public ComponentBase, public ObcI2cControllerCommunicationBase
+class ExpHilsI2cController : public ComponentBase, public I2cControllerCommunicationBase
 {
 public:
   ExpHilsI2cController(

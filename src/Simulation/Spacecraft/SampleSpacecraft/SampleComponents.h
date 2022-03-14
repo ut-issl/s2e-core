@@ -57,8 +57,8 @@ private:
   MagTorquer* mag_torquer_;
   RWModel* rw_;
   SimpleThruster* thruster_;
-  //ExpHils* exp_hils_responder_;
-  //ExpHils* exp_hils_sender_;
+  //ExpHils* exp_hils_uart_responder_;
+  //ExpHils* exp_hils_uart_sender_;
   ExpHilsI2cController* exp_hils_i2c_controller_;
   ExpHilsI2cTarget* exp_hils_i2c_target_;
 

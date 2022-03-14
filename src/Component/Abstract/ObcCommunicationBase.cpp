@@ -73,39 +73,40 @@ ObcCommunicationBase::ObcCommunicationBase(const int sils_port_id, OBC* obc, con
 
 ObcCommunicationBase::~ObcCommunicationBase()
 {
-  if (is_connected_ == false) return;
-
-  if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR)
+  int ret;
+  switch (sim_mode_)
   {
-    return;
-  }
-  else if (sim_mode_ == OBC_COM_UART_MODE::SILS)
-  {
-    int ret = obc_->CloseComPort(sils_port_id_);
+  case OBC_COM_UART_MODE::MODE_ERROR:
+    break;
+  case OBC_COM_UART_MODE::SILS:
+    ret = obc_->CloseComPort(sils_port_id_);
     if (ret != 0)
     {
       std::cout << "Error: ObcCommunication CloseComPort ID:" << sils_port_id_ << "\n";
     }
-  }
-  else // sim_mode_ == OBC_COM_UART_MODE::HILS
-  {
-    int ret = hils_port_manager_->UartCloseComPort(hils_port_id_);
+    break;
+  case OBC_COM_UART_MODE::HILS:
+    ret = hils_port_manager_->UartCloseComPort(hils_port_id_);
     if (ret != 0)
     {
       std::cout << "Error: ObcCommunication CloseComPort ID:" << hils_port_id_ << "\n";
     }
+    break;
+  default:
+    // NOT REACHED
+    break;
   }
 }
 
 void ObcCommunicationBase::InitializeObcComBase()
 {
-  if (sim_mode_ == OBC_COM_UART_MODE::MODE_ERROR)
+  int ret;
+  switch (sim_mode_)
   {
-    return;
-  }
-  else if (sim_mode_ == OBC_COM_UART_MODE::SILS)
-  {
-    int ret = obc_->ConnectComPort(sils_port_id_, tx_buf_size_, rx_buf_size_);
+  case OBC_COM_UART_MODE::MODE_ERROR:
+    break;
+  case OBC_COM_UART_MODE::SILS:
+    ret = obc_->ConnectComPort(sils_port_id_, tx_buf_size_, rx_buf_size_);
     if (ret != 0)
     {
       std::cout << "Already connected: ObcCommunication ConnectComPort ID:" << sils_port_id_ << "\n";
@@ -115,10 +116,9 @@ void ObcCommunicationBase::InitializeObcComBase()
     {
       is_connected_ = true;
     }
-  }
-  else // sim_mode_ == OBC_COM_UART_MODE::HILS
-  {
-    int ret = hils_port_manager_->UartConnectComPort(hils_port_id_, baud_rate_, tx_buf_size_, rx_buf_size_);
+    break;
+  case OBC_COM_UART_MODE::HILS:
+    ret = hils_port_manager_->UartConnectComPort(hils_port_id_, baud_rate_, tx_buf_size_, rx_buf_size_);
     if (ret != 0)
     {
       std::cout << "Error: ObcCommunication ConnectComPort ID:" << hils_port_id_ << "\n";
@@ -128,6 +128,10 @@ void ObcCommunicationBase::InitializeObcComBase()
     {
       is_connected_ = true;
     }
+    break;
+  default:
+    // NOT REACHED
+    break;
   }
 }
 
@@ -138,17 +142,20 @@ int ObcCommunicationBase::ReceiveCommand(const int offset, const int rec_size)
   if (offset+rec_size > rx_buf_size_) return -1;
   rx_buffer_.resize(rec_size);
 
-  if (sim_mode_ == OBC_COM_UART_MODE::SILS)
+  int ret;
+  switch (sim_mode_)
   {
-    int ret = obc_->ReceivedByCompo(sils_port_id_, &rx_buffer_.front(), offset, rec_size);
+  case OBC_COM_UART_MODE::SILS:
+    ret = obc_->ReceivedByCompo(sils_port_id_, &rx_buffer_.front(), offset, rec_size);
     if (ret == 0) return 0; // No read data
     return ParseCommand(ret);
-  }
-  else // sim_mode_ == OBC_COM_UART_MODE::HILS
-  {
-    int ret = hils_port_manager_->UartReceive(hils_port_id_, &rx_buffer_.front(), offset, rec_size);
+  case OBC_COM_UART_MODE::HILS:
+    ret = hils_port_manager_->UartReceive(hils_port_id_, &rx_buffer_.front(), offset, rec_size);
     if (ret == 0) return 0; // No read data
     return ParseCommand(ret);
+  default:
+    // NOT REACHED
+    return -1;;
   }
 }
 int ObcCommunicationBase::SendTelemetry(const int offset)
@@ -158,14 +165,16 @@ int ObcCommunicationBase::SendTelemetry(const int offset)
   if (offset > rx_buf_size_) return -1;
   if (offset+tlm_size > rx_buf_size_) return -1;
 
-  if (sim_mode_ == OBC_COM_UART_MODE::SILS)
+  switch (sim_mode_)
   {
+  case OBC_COM_UART_MODE::SILS:
     obc_->SendFromCompo(sils_port_id_, &tx_buffer_.front(), offset, tlm_size);
     return 0;
-  }
-  else // sim_mode_ == OBC_COM_UART_MODE::HILS
-  {
+  case OBC_COM_UART_MODE::HILS:
     hils_port_manager_->UartSend(hils_port_id_, &tx_buffer_.front(), offset, tlm_size);
     return 0;
+  default:
+    // NOT REACHED
+    return -1;
   }
 }

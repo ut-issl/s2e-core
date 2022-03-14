@@ -5,17 +5,17 @@
 // This class simulates communication between the I2C Controller and the I2C Target.
 // The main purpose is to validate the emulated I2C Target component in the HILS test.
 
-class ObcI2cControllerCommunicationBase
+class I2cControllerCommunicationBase
 {
 public:
-  ObcI2cControllerCommunicationBase(
+  I2cControllerCommunicationBase(
     const unsigned int hils_port_id,
     const unsigned int baud_rate,
     const unsigned int tx_buf_size,
     const unsigned int rx_buf_size,
     HilsPortManager* hils_port_manager
   );
-  ~ObcI2cControllerCommunicationBase();
+  ~I2cControllerCommunicationBase();
 
 protected:
   int ReceiveTelemetry(const unsigned char len);

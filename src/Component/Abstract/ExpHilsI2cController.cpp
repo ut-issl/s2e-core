@@ -9,7 +9,7 @@ ExpHilsI2cController::ExpHilsI2cController(
   const unsigned int rx_buf_size,
   HilsPortManager* hils_port_manager)
   : ComponentBase(prescaler, clock_gen),
-  ObcI2cControllerCommunicationBase(hils_port_id, baud_rate, tx_buf_size, rx_buf_size, hils_port_manager)
+  I2cControllerCommunicationBase(hils_port_id, baud_rate, tx_buf_size, rx_buf_size, hils_port_manager)
 {
 }
 
