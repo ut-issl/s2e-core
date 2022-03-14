@@ -15,7 +15,8 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int 
 #endif
 }
 
-ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int hils_port_id,
+ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned char i2c_address,
+                                                             const unsigned int hils_port_id,
                                                              HilsPortManager* hils_port_manager)
 : hils_port_id_(hils_port_id), hils_port_manager_(hils_port_manager)
 {
