@@ -12,12 +12,10 @@
 #include "Ran1.hpp"
 using libra::Ran1;
 
-namespace libra
-{
+namespace libra {
 
-class NormalRand
-{
-public:
+class NormalRand {
+ public:
   //! コンストラクタ
   /*!
     平均0.0, 標準偏差1.0の標準正規乱数を出力するオブジェクトを生成する。
@@ -72,7 +70,8 @@ public:
     \param stddev 正規乱数の標準偏差
   */
   inline void set_param(double avg, double stddev);
-private:
+
+ private:
   //! 平均値を保持するメンバ
   double avg_;
 
@@ -95,8 +94,8 @@ private:
   bool is_empty_;
 };
 
-} // libra
+}  // namespace libra
 
-#include "NormalRand_ifs.hpp" // inline function definisions.
+#include "NormalRand_ifs.hpp"  // inline function definisions.
 
-#endif // NORMAL_RAND_HPP_
+#endif  // NORMAL_RAND_HPP_

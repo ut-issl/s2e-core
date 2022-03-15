@@ -1,17 +1,17 @@
 #pragma once
-#include <Library/math/Vector.hpp>
-#include <Library/math/Quaternion.hpp>
 #include <Library/math/NormalRand.hpp>
-using libra::Vector;
-using libra::Quaternion;
+#include <Library/math/Quaternion.hpp>
+#include <Library/math/Vector.hpp>
 using libra::NormalRand;
+using libra::Quaternion;
+using libra::Vector;
 
 #include <Interface/LogOutput/ILoggable.h>
 
-class UWBSensor
-{
-public:
-  UWBSensor(int sensor_id, Vector<3> pos_b_, Vector<3> dir_b_, Vector<3> axis_b_);
+class UWBSensor {
+ public:
+  UWBSensor(int sensor_id, Vector<3> pos_b_, Vector<3> dir_b_,
+            Vector<3> axis_b_);
   ~UWBSensor();
 
   // 対向UWBの電波送受信レベルが十分高ければ1を、受信できない状況では0を返す
@@ -27,7 +27,7 @@ public:
 
   inline Vector<3> GetPos_b() { return pos_b; }
 
-private:
+ private:
   // 光速 [m/s]
   static const int c = 299792458;
 

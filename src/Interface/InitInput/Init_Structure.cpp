@@ -1,12 +1,13 @@
-#include "Initialize.h"
-#include <Library/math/Vector.hpp>
 #include <Simulation/Spacecraft/Structure/KinematicsParams.h>
-#include <Simulation/Spacecraft/Structure/Surface.h>
 #include <Simulation/Spacecraft/Structure/RMMParams.h>
+#include <Simulation/Spacecraft/Structure/Surface.h>
+
+#include <Library/math/Vector.hpp>
+
+#include "Initialize.h"
 
 #define MIN_VAL 1e-6
-KinematicsParams InitKinematicsParams(std::string ini_path)
-{
+KinematicsParams InitKinematicsParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   char* section = "STRUCTURE";
 
@@ -16,10 +17,8 @@ KinematicsParams InitKinematicsParams(std::string ini_path)
   Vector<9> inertia_vec;
   Matrix<3, 3> inertia_tensor;
   conf.ReadVector(section, "Iner", inertia_vec);
-  for (int i = 0; i < 3; i++)
-  {
-    for (int j = 0; j < 3; j++)
-    {
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
       inertia_tensor[i][j] = inertia_vec[i * 3 + j];
     }
   }
@@ -28,8 +27,7 @@ KinematicsParams InitKinematicsParams(std::string ini_path)
   return kinematics_params;
 }
 
-vector<Surface> InitSurfaces(std::string ini_path)
-{
+vector<Surface> InitSurfaces(std::string ini_path) {
   using std::cout;
 
   auto conf = IniAccess(ini_path);
@@ -38,15 +36,14 @@ vector<Surface> InitSurfaces(std::string ini_path)
   const int num_surface = conf.ReadInt(section, "num_of_surfaces");
   vector<Surface> surfaces;
 
-  for (int i = 0; i < num_surface; i++)
-  {
+  for (int i = 0; i < num_surface; i++) {
     std::string idx = std::to_string(i);
     idx = "_" + idx;
     std::string keyword;
 
     keyword = "area" + idx;
     double area = conf.ReadDouble(section, keyword.c_str());
-    if (area < -MIN_VAL) //Fixme: magic word
+    if (area < -MIN_VAL)  // Fixme: magic word
     {
       cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
       break;
@@ -54,12 +51,11 @@ vector<Surface> InitSurfaces(std::string ini_path)
 
     keyword = "reflectivity" + idx;
     double ref = conf.ReadDouble(section, keyword.c_str());
-    if (ref < -MIN_VAL) //Fixme: magic word
+    if (ref < -MIN_VAL)  // Fixme: magic word
     {
       cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
       break;
-    }
-    else if (ref > 1.0 + MIN_VAL) //Fixme: magic word
+    } else if (ref > 1.0 + MIN_VAL)  // Fixme: magic word
     {
       cout << "Surface Error! " << keyword << ": larger than 1.0\n";
       break;
@@ -67,12 +63,11 @@ vector<Surface> InitSurfaces(std::string ini_path)
 
     keyword = "specularity" + idx;
     double spe = conf.ReadDouble(section, keyword.c_str());
-    if (spe < -MIN_VAL) //Fixme: magic word
+    if (spe < -MIN_VAL)  // Fixme: magic word
     {
       cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
       break;
-    }
-    else if (spe > 1.0 + MIN_VAL) //Fixme: magic word
+    } else if (spe > 1.0 + MIN_VAL)  // Fixme: magic word
     {
       cout << "Surface Error! " << keyword << ": larger than 0.0\n";
       break;
@@ -80,12 +75,11 @@ vector<Surface> InitSurfaces(std::string ini_path)
 
     keyword = "air_specularity" + idx;
     double air_spe = conf.ReadDouble(section, keyword.c_str());
-    if (air_spe < -MIN_VAL) //Fixme: magic word
+    if (air_spe < -MIN_VAL)  // Fixme: magic word
     {
       cout << "Surface Error! " << keyword << ": smaller than 0.0\n";
       break;
-    }
-    else if (air_spe > 1.0 + MIN_VAL) //Fixme: magic word
+    } else if (air_spe > 1.0 + MIN_VAL)  // Fixme: magic word
     {
       cout << "Surface Error! " << keyword << ": larger than 0.0\n";
       break;
@@ -97,22 +91,20 @@ vector<Surface> InitSurfaces(std::string ini_path)
 
     keyword = "normal" + idx;
     conf.ReadVector(section, keyword.c_str(), normal);
-    if (norm(normal) > 1.0 + MIN_VAL) //Fixme: magic word
+    if (norm(normal) > 1.0 + MIN_VAL)  // Fixme: magic word
     {
       cout << "Surface Warning! " << keyword << ": norm is larger than 1.0.";
       cout << "The vector is normalized.\n";
       normal = normalize(normal);
     }
 
-    //Add a surface
+    // Add a surface
     surfaces.push_back(Surface(position, normal, area, ref, spe, air_spe));
   }
   return surfaces;
 }
 
-
-RMMParams InitRMMParams(std::string ini_path)
-{
+RMMParams InitRMMParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   char* section = "RMM";
 

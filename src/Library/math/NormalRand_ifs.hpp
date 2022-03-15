@@ -7,23 +7,21 @@
 #ifndef NORMAL_RAND_IFS_HPP_
 #define NORMAL_RAND_IFS_HPP_
 
-namespace libra
-{
+namespace libra {
 
 double NormalRand::avg() const { return avg_; }
 
-void NormalRand::avg(double avg){ avg_ = avg; }
+void NormalRand::avg(double avg) { avg_ = avg; }
 
 double NormalRand::stddev() const { return stddev_; }
 
-void NormalRand::stddev(double stddev){ stddev_ = stddev; }
+void NormalRand::stddev(double stddev) { stddev_ = stddev; }
 
-void NormalRand::set_param(double avg, double stddev)
-{
+void NormalRand::set_param(double avg, double stddev) {
   avg_ = avg;
   stddev_ = stddev;
 }
 
-} // libra
+}  // namespace libra
 
-#endif // NORMAL_RAND_IFS_HPP_
+#endif  // NORMAL_RAND_IFS_HPP_

@@ -9,13 +9,11 @@
 
 #include "./Vector.hpp"
 
-namespace libra
-{
+namespace libra {
 
-template<size_t N>
-class ODE 
-{
-public:
+template <size_t N>
+class ODE {
+ public:
   //! コンストラクタ
   /*!
     第1引数にステップ幅をとる。
@@ -34,9 +32,7 @@ public:
     \param state 状態量
     \return 状態量微分値
   */
-  virtual void RHS(double x,
-                   const Vector<N>& state,
-                   Vector<N>& rhs) = 0;
+  virtual void RHS(double x, const Vector<N>& state, Vector<N>& rhs) = 0;
 
   //! 状態初期化メソッド
   /*!
@@ -44,8 +40,7 @@ public:
     \param init_x 初期独立変数値
     \param init_cond 初期条件
   */
-  void setup(double init_x, const Vector<N> &init_cond);
-
+  void setup(double init_x, const Vector<N>& init_cond);
 
   void setStepWidth(double new_step);
 
@@ -100,10 +95,10 @@ public:
   //! 状態更新メソッド
   void Update();
 
-protected:
+ protected:
   inline libra::Vector<N>& state();
 
-private:
+ private:
   //! 最新の独立変数値
   double x_;
   //! 最新の状態量
@@ -114,9 +109,9 @@ private:
   double step_width_;
 };
 
-} // libra
+}  // namespace libra
 
-#include "./ODE_ifs.hpp" // inline function definisions.
-#include "./ODE_tfs.hpp" // template function definisions.
+#include "./ODE_ifs.hpp"  // inline function definisions.
+#include "./ODE_tfs.hpp"  // template function definisions.
 
-#endif // ODE_HPP_
+#endif  // ODE_HPP_
