@@ -89,9 +89,9 @@ SampleComponents::SampleComponents(const Dynamics* dynamics,
   // obc_, 4, 9600, hils_port_manager_, 0);
   // I2C tutorial. Comment out when not in use.
   // exp_hils_i2c_controller_ = new ExpHilsI2cController(
-  //    30, clock_gen, 5, 115200, 256, 256, hils_port_manager_);
+  // 30, clock_gen, 5, 115200, 256, 256, hils_port_manager_);
   // exp_hils_i2c_target_ =
-  //    new ExpHilsI2cTarget(1, clock_gen, 0, 0x44, obc_, 6, hils_port_manager_);
+  // new ExpHilsI2cTarget(1, clock_gen, 0, 0x44, obc_, 6, hils_port_manager_);
 
   // actuator debug output
   libra::Vector<kMtqDim> mag_moment_c{0.01};
