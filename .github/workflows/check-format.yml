@@ -28,8 +28,8 @@ jobs:
       - name: check clang-format version
         run: |
           clang-format --version
-          md5sum $(which git-clang-format)
-          head $(which git-clang-format)
+          md5sum "$(which git-clang-format)"
+          head "$(which git-clang-format)"
 
       - name: check format(push)
         if: github.event_name == 'push'
