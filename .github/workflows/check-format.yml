@@ -25,6 +25,12 @@ jobs:
           sudo apt-get install -y clang-format
           clang-format --version
 
+      - name: check clang-format version
+        run: |
+          clang-format --version
+          md5sum $(which git-clang-format)
+          head $(which git-clang-format)
+
       - name: check format(push)
         if: github.event_name == 'push'
         run: |
