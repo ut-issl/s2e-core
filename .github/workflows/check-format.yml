@@ -34,9 +34,15 @@ jobs:
       - name: check format(push)
         if: github.event_name == 'push'
         run: |
-          git-clang-format --commit HEAD^ --diff
+          git-clang-format --commit HEAD^ --diff | tee format.patch
 
       - name: check format(pull_request)
         if: github.event_name == 'pull_request'
         run: |
-          git-clang-format --commit ${{ github.event.pull_request.base.sha }} --diff
+          git-clang-format --commit ${{ github.event.pull_request.base.sha }} --diff | tee format.patch
+
+      - name: check
+        run: |
+          git apply --allow-empty format.patch
+          git status
+          git diff --exit-code
