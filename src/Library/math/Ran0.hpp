@@ -9,12 +9,10 @@
 #ifndef RAN0_HPP_
 #define RAN0_HPP_
 
-namespace libra
-{
+namespace libra {
 
-class Ran0
-{
-public:
+class Ran0 {
+ public:
   //! 乗算の係数a。
   static const long A = 16807;
   //! mod m。
@@ -35,7 +33,7 @@ public:
 
   //! 初期化
   /*
-	指定した引数にseedを設定しなおす
+        指定した引数にseedを設定しなおす
   */
   void init(long seed);
   //! double型へのキャスト演算子
@@ -44,7 +42,8 @@ public:
     \return 生成した乱数値
   */
   operator double();
-private:
+
+ private:
   static const double AM_;
   static const long Q_ = 127773;
   static const long R_ = 2836;
@@ -52,5 +51,5 @@ private:
   long seed_;
 };
 
-}
-#endif //RAN0_HPP_
+}  // namespace libra
+#endif  // RAN0_HPP_

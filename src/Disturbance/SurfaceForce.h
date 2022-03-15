@@ -3,29 +3,28 @@
 #ifndef __SurfaceForce_H__
 #define __SurfaceForce_H__
 
-#include "SimpleDisturbance.h"
-#include"../Simulation/Spacecraft/Structure/Surface.h"
-#include "../Library/math/Vector.hpp"
 #include "../Library/math/Quaternion.hpp"
-using libra::Vector;
+#include "../Library/math/Vector.hpp"
+#include "../Simulation/Spacecraft/Structure/Surface.h"
+#include "SimpleDisturbance.h"
 using libra::Quaternion;
+using libra::Vector;
 
 #include <vector>
 
-class SurfaceForce : public SimpleDisturbance
-{
-public:
+class SurfaceForce : public SimpleDisturbance {
+ public:
   SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b);
-  virtual ~SurfaceForce() { }
-  
-protected:
+  virtual ~SurfaceForce() {}
+
+ protected:
   // Spacecraft Structure parameters
   const vector<Surface>& surfaces_;
-  Vector<3> cg_b_;//Position vector of the center of mass @ Body frame
+  Vector<3> cg_b_;  // Position vector of the center of mass @ Body frame
 
   // Internal calculated variables
-  vector<double> normal_coef_;     //coefficients for out-plane force
-  vector<double> tangential_coef_; //coefficients for in-plane force
+  vector<double> normal_coef_;      // coefficients for out-plane force
+  vector<double> tangential_coef_;  // coefficients for in-plane force
   vector<double> cosX;
   vector<double> sinX;
 

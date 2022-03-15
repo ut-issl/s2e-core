@@ -1,50 +1,38 @@
 #include "ClockGenerator.h"
 
-ClockGenerator::~ClockGenerator()
-{
-}
+ClockGenerator::~ClockGenerator() {}
 
-void ClockGenerator::RegisterComponent(ITickable* tickable)
-{
+void ClockGenerator::RegisterComponent(ITickable* tickable) {
   components_.push_back(tickable);
 }
 
-void ClockGenerator::RemoveComponent(ITickable* tickable)
-{
-  for (auto itr = components_.begin(); itr != components_.end();)
-  {
-    if (*itr == tickable)
-    {
+void ClockGenerator::RemoveComponent(ITickable* tickable) {
+  for (auto itr = components_.begin(); itr != components_.end();) {
+    if (*itr == tickable) {
       components_.erase(itr++);
       break;
-    }
-    else
-    {
+    } else {
       ++itr;
     }
   }
 }
 
-void ClockGenerator::TickToComponents()
-{
-  //Update for each component
-  for (auto itr = components_.begin(); itr != components_.end(); ++itr) 
-  { 
-    //Run MainRoutine
-    (*itr)->Tick(timer_count_); 
-    //Run FastUpdate (Processes that are executed more frequently than MainRoutine)
-    if ((*itr)->GetNeedsFastUpdate()) { (*itr)->FastTick(timer_count_); }
+void ClockGenerator::TickToComponents() {
+  // Update for each component
+  for (auto itr = components_.begin(); itr != components_.end(); ++itr) {
+    // Run MainRoutine
+    (*itr)->Tick(timer_count_);
+    // Run FastUpdate (Processes that are executed more frequently than
+    // MainRoutine)
+    if ((*itr)->GetNeedsFastUpdate()) {
+      (*itr)->FastTick(timer_count_);
+    }
   }
-  timer_count_++; //TODO: Consider if "timer_count" is necessary
+  timer_count_++;  // TODO: Consider if "timer_count" is necessary
 }
 
-
-void ClockGenerator::UpdateComponents(const SimTime* sim_time)
-{
-  if (sim_time->GetCompoUpdateFlag()) 
-  { 
-    TickToComponents(); 
+void ClockGenerator::UpdateComponents(const SimTime* sim_time) {
+  if (sim_time->GetCompoUpdateFlag()) {
+    TickToComponents();
   }
 }
-
-

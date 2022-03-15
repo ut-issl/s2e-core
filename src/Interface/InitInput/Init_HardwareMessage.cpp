@@ -1,9 +1,7 @@
-#include "Initialize.h"
 #include "../HilsInOut/HardwareMessage.h"
+#include "Initialize.h"
 
-HardwareMessage* Init_HardwareMessage(string file_name)
-{
-
+HardwareMessage* Init_HardwareMessage(string file_name) {
   IniAccess ini_file(file_name);
 
   char* section = "ObcDebugCom";
@@ -12,8 +10,8 @@ HardwareMessage* Init_HardwareMessage(string file_name)
   unsigned int baudrate = ini_file.ReadInt(section, "BaudRate");
   unsigned short obc_com_port_num = ini_file.ReadInt(section, "ComPortNum");
 
-  HardwareMessage* hw_msg = new HardwareMessage(obc_com_port_num, receive_msg_from_obc, baudrate, obc_com_period);
+  HardwareMessage* hw_msg = new HardwareMessage(
+      obc_com_port_num, receive_msg_from_obc, baudrate, obc_com_period);
   hw_msg->IsLogEnabled = receive_msg_from_obc;
   return hw_msg;
-
 }

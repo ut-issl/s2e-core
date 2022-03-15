@@ -11,23 +11,23 @@
 #include <string>
 
 #include "../Interface/LogOutput/ILoggable.h"
-#include "SurfaceForce.h"
 #include "../Library/math/Vector.hpp"
+#include "SurfaceForce.h"
 using libra::Vector;
 
-class SolarRadiation : public SurfaceForce
-{
-public:
+class SolarRadiation : public SurfaceForce {
+ public:
   SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b);
 
   // Override SimpleDisturbance
-  virtual void Update(const LocalEnvironment & local_env, const Dynamics & dynamics);
+  virtual void Update(const LocalEnvironment& local_env,
+                      const Dynamics& dynamics);
 
   // Override Loggable
   virtual std::string GetLogHeader() const;
   virtual std::string GetLogValue() const;
 
-private:
+ private:
   // Override SurfaceForce
   virtual void CalcCoef(Vector<3>& input_b, double item);
 };

@@ -9,16 +9,14 @@
 #ifndef RAN1_HPP_
 #define RAN1_HPP_
 
+#include <cstddef>  // size_t
+
 #include "Ran0.hpp"
 
-#include <cstddef> // size_t
+namespace libra {
 
-namespace libra
-{
-
-class Ran1
-{
-public:
+class Ran1 {
+ public:
   //! コンストラクタ
   /*!
     デフォルトの種で乱数オブジェクトを生成する。
@@ -38,7 +36,8 @@ public:
     オブジェクトがdouble型へキャストされるたびに、新たな乱数を生成する。
    */
   operator double();
-private:
+
+ private:
   //! 切り混ぜ表の初期化処理を行う関数
   void init_();
 
@@ -52,6 +51,6 @@ private:
   double vec_[V_SIZE_];
 };
 
-} // libra
+}  // namespace libra
 
-#endif //RAN1_HPP_
+#endif  // RAN1_HPP_

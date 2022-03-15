@@ -8,16 +8,14 @@
 #ifndef MATRIX_HPP_
 #define MATRIX_HPP_
 
-#include <cstddef> // for size_t
-#include <iostream> // for ostream, cout
+#include <cstddef>   // for size_t
+#include <iostream>  // for ostream, cout
 
-namespace libra
-{
+namespace libra {
 
-template<size_t R, size_t C, typename T = double>
-class Matrix
-{
-public:
+template <size_t R, size_t C, typename T = double>
+class Matrix {
+ public:
   //! コンストラクタ
   /*!
     要素初期化を一切行わないコンストラクタ。
@@ -32,9 +30,9 @@ public:
   Matrix(const T& n);
 
   //! 行列格納配列へのポインタをTP型として定義。
-  typedef T(*TP)[C];
+  typedef T (*TP)[C];
   //! 行列格納配列へのconstポインタをCTP型として定義。
-  typedef const T(*CTP)[C];
+  typedef const T (*CTP)[C];
 
   //! 行数取得関数
   /*!
@@ -116,7 +114,7 @@ public:
   */
   const Matrix<R, C, T>& operator/=(const T& n);
 
-private:
+ private:
   //! 行列要素記録用配列
   T matrix_[R][C];
 
@@ -136,7 +134,7 @@ private:
   \param m 設定対象Matrix
   \param t 設定値
 */
-template<size_t R, size_t C, typename T>
+template <size_t R, size_t C, typename T>
 void fill_up(Matrix<R, C, T>& m, const T& t);
 
 //! 固有和計算関数
@@ -145,7 +143,7 @@ void fill_up(Matrix<R, C, T>& m, const T& t);
   \param m 計算対象Matrix
   \return 固有和計算結果
 */
-template<size_t N, typename T>
+template <size_t N, typename T>
 T trace(const Matrix<N, N, T>& m);
 
 //! 要素出力関数
@@ -158,9 +156,8 @@ T trace(const Matrix<N, N, T>& m);
   \param delimiter 要素の区切り文字(デフォルトはtab)
   \param stream 出力先(デフォルトはcout)
 */
-template<size_t R, size_t C, typename T>
-void print(const Matrix<R, C, T>& m,
-           char delimiter = '\t',
+template <size_t R, size_t C, typename T>
+void print(const Matrix<R, C, T>& m, char delimiter = '\t',
            std::ostream& stream = std::cout);
 
 //! Matrix加算演算子
@@ -170,7 +167,7 @@ void print(const Matrix<R, C, T>& m,
   \param rhs +演算子の右辺
   \return 加算結果
 */
-template<size_t R, size_t C, typename T>
+template <size_t R, size_t C, typename T>
 const Matrix<R, C, T> operator+(const Matrix<R, C, T>& lhs,
                                 const Matrix<R, C, T>& rhs);
 
@@ -181,7 +178,7 @@ const Matrix<R, C, T> operator+(const Matrix<R, C, T>& lhs,
   \param rhs -演算子の右辺
   \return 減算結果
 */
-template<size_t R, size_t C, typename T>
+template <size_t R, size_t C, typename T>
 const Matrix<R, C, T> operator-(const Matrix<R, C, T>& lhs,
                                 const Matrix<R, C, T>& rhs);
 
@@ -192,9 +189,8 @@ const Matrix<R, C, T> operator-(const Matrix<R, C, T>& lhs,
   \param rhs Matrix
   \return 係数乗算結果
 */
-template<size_t R, size_t C, typename T>
-const Matrix<R, C, T> operator*(const T& lhs,
-                                const Matrix<R, C, T>& rhs);
+template <size_t R, size_t C, typename T>
+const Matrix<R, C, T> operator*(const T& lhs, const Matrix<R, C, T>& rhs);
 
 //! Matrix乗算演算子
 /*!
@@ -203,7 +199,7 @@ const Matrix<R, C, T> operator*(const T& lhs,
   \param rhs *演算子の右辺
   \return 乗算結果
 */
-template<size_t R, size_t C1, size_t C2, typename T>
+template <size_t R, size_t C1, size_t C2, typename T>
 const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs,
                                  const Matrix<C1, C2, T>& rhs);
 
@@ -213,7 +209,7 @@ const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs,
   \param m 転置対象
   \return 転置結果
 */
-template<size_t R, size_t C, typename T>
+template <size_t R, size_t C, typename T>
 const Matrix<C, R, T> transpose(const Matrix<R, C, T>& m);
 
 //! 単行列生成関数
@@ -223,7 +219,7 @@ const Matrix<C, R, T> transpose(const Matrix<R, C, T>& m);
   \param m 単位行列設定対象
   \return 設定結果
 */
-template<size_t R, typename T>
+template <size_t R, typename T>
 Matrix<R, R, T>& unitalize(Matrix<R, R, T>& m);
 
 //! 単行列生成関数
@@ -231,7 +227,7 @@ Matrix<R, R, T>& unitalize(Matrix<R, R, T>& m);
 指定された大きさの単位行列を生成する。
 \return 生成結果
 */
-template<size_t R, typename T = double>
+template <size_t R, typename T = double>
 Matrix<R, R, T> eye();
 
 //! x軸回転行列生成関数
@@ -241,7 +237,7 @@ Matrix<R, R, T> eye();
   \param  theta x軸周り回転角[rad]
   \return 生成結果
 */
-template<size_t R = 3, typename T = double>
+template <size_t R = 3, typename T = double>
 Matrix<R, R, T> rotx(const double& theta);
 
 //! y軸回転行列生成関数
@@ -251,7 +247,7 @@ Matrix<R, R, T> rotx(const double& theta);
   \param  theta y軸周り回転角[rad]
   \return 生成結果
 */
-template<size_t R = 3, typename T = double>
+template <size_t R = 3, typename T = double>
 Matrix<R, R, T> roty(const double& theta);
 
 //! z軸回転行列生成関数
@@ -261,12 +257,12 @@ Matrix<R, R, T> roty(const double& theta);
   \param  theta z軸周り回転角[rad]
   \return 生成結果
 */
-template<size_t R = 3, typename T = double>
+template <size_t R = 3, typename T = double>
 Matrix<R, R, T> rotz(const double& theta);
 
-} //libra
+}  // namespace libra
 
-#include "Matrix_ifs.hpp" // inline function definisions.
-#include "Matrix_tfs.hpp" // template function definisions.
+#include "Matrix_ifs.hpp"  // inline function definisions.
+#include "Matrix_tfs.hpp"  // template function definisions.
 
-#endif //MATRIX_HPP_
+#endif  // MATRIX_HPP_

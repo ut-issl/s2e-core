@@ -9,15 +9,13 @@
 #ifndef QUATERNION_HPP_
 #define QUATERNION_HPP_
 
-#include "Vector.hpp"
 #include "Matrix.hpp"
+#include "Vector.hpp"
 
-namespace libra
-{
+namespace libra {
 
-class Quaternion
-{
-public:
+class Quaternion {
+ public:
   //! コンストラクタ
   /*!
     デフォルトコンストラクタ。一切の初期化処理を行わない。
@@ -48,8 +46,7 @@ public:
     \param axis 回転軸
     \param rot 回転角度[rad]
   */
-  Quaternion(const Vector<3>& axis,
-             double rot);
+  Quaternion(const Vector<3>& axis, double rot);
 
   //! Constructor
   /*!
@@ -57,8 +54,7 @@ public:
     \param v_before Vector before rotation
     \param v_after Vector after rotation
   */
-  Quaternion(const Vector<3>& v_before,
-             const Vector<3>& v_after);
+  Quaternion(const Vector<3>& v_before, const Vector<3>& v_after);
 
   //! Vectorからの代入演算子
   /*!
@@ -86,10 +82,7 @@ public:
     \param q2 Quaternionの第3成分
     \param q3 Quaternionの第4成分
   */
-  void set(double q0=0.0,
-           double q1=0.0,
-           double q2=0.0,
-           double q3=1.0);
+  void set(double q0 = 0.0, double q1 = 0.0, double q2 = 0.0, double q3 = 1.0);
 
   //! 要素直接アクセス用キャスト演算子
   /*!
@@ -168,28 +161,24 @@ public:
    */
   Vector<4> toVector();
 
-private:
+ private:
   //! Quaternionの要素を格納する列ベクトル
   Vector<4> q_;
 };
 
 //! Quaternion同士の和演算子
-Quaternion operator+(const Quaternion& lhs,
-                     const Quaternion& rhs);
+Quaternion operator+(const Quaternion& lhs, const Quaternion& rhs);
 
 //! Quaternion同士の差演算子
-Quaternion operator-(const Quaternion& lhs,
-                     const Quaternion& rhs);
+Quaternion operator-(const Quaternion& lhs, const Quaternion& rhs);
 
 //! Quaternion同士の積演算子
-Quaternion operator*(const Quaternion &lhs,
-                     const Quaternion &rhs);
+Quaternion operator*(const Quaternion& lhs, const Quaternion& rhs);
 
 //! QuaternionとVectorの積演算子
-Quaternion operator*(const Quaternion& lhs,
-                     const Vector<3>& rhs);
-} // libra
+Quaternion operator*(const Quaternion& lhs, const Vector<3>& rhs);
+}  // namespace libra
 
-#include "Quaternion_ifs.hpp" // inline function definisions.
+#include "Quaternion_ifs.hpp"  // inline function definisions.
 
-#endif //QUATERNION_HPP_
+#endif  // QUATERNION_HPP_

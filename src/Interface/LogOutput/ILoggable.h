@@ -7,11 +7,10 @@
 
 // ログに書けるクラス
 
-class ILoggable
-{
-// インターフェースにしたかったが、イネーブル周りの書き直しが面倒になるので
-// 抽象クラスとします　多重継承してください
-public:
+class ILoggable {
+  // インターフェースにしたかったが、イネーブル周りの書き直しが面倒になるので
+  // 抽象クラスとします　多重継承してください
+ public:
   // csvのヘッダー行の文字列を取得する
   virtual std::string GetLogHeader() const = 0;
 
@@ -20,4 +19,3 @@ public:
 
   bool IsLogEnabled = true;
 };
-

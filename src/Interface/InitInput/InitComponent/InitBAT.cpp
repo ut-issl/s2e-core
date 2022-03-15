@@ -1,15 +1,16 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
-#include <string>
-#include <vector>
-#include "../Initialize.h"
 #include <Component/Power/BAT.h>
 
-BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname) {
+#include <string>
+#include <vector>
 
+#include "../Initialize.h"
+
+BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname) {
   IniAccess bat_conf(fname);
 
   const std::string st_bat_id = std::to_string(static_cast<long long>(bat_id));
-  const char *cs = st_bat_id.data();
+  const char* cs = st_bat_id.data();
 
   char Section[30] = "BAT";
   strcat(Section, cs);
@@ -27,9 +28,10 @@ BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname) {
   approx_order = bat_conf.ReadInt(Section, "approx_order");
 
   std::vector<double> cell_discharge_curve_coeffs;
-  for (int i=0; i<=approx_order; ++i)
-  {
-    cell_discharge_curve_coeffs.push_back(bat_conf.ReadDouble(Section, ("cell_discharge_curve_coeffs(" + std::to_string(i) + ")").c_str()));
+  for (int i = 0; i <= approx_order; ++i) {
+    cell_discharge_curve_coeffs.push_back(bat_conf.ReadDouble(
+        Section,
+        ("cell_discharge_curve_coeffs(" + std::to_string(i) + ")").c_str()));
   }
 
   double initial_dod;
@@ -44,7 +46,9 @@ BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname) {
   double bat_resistance;
   bat_resistance = bat_conf.ReadDouble(Section, "bat_resistance");
 
-  BAT bat(clock_gen, number_of_series, number_of_parallel, cell_capacity, cell_discharge_curve_coeffs, initial_dod, cc_charge_c_rate, cv_charge_voltage, bat_resistance);
+  BAT bat(clock_gen, number_of_series, number_of_parallel, cell_capacity,
+          cell_discharge_curve_coeffs, initial_dod, cc_charge_c_rate,
+          cv_charge_voltage, bat_resistance);
 
   return bat;
 }

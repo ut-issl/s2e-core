@@ -1,29 +1,32 @@
 #pragma once
 
 #include <vector>
-#include "SimpleDisturbance.h"
+
+#include "../Environment/Global/SimTime.h"
+#include "../Simulation/Spacecraft/Structure/Structure.h"
 #include "AccelerationDisturbance.h"
-#include"../Simulation/Spacecraft/Structure/Structure.h"
-#include"../Environment/Global/SimTime.h"
+#include "SimpleDisturbance.h"
 
 class Logger;
 
-class Disturbances
-{
-public:
-  Disturbances(SimulationConfig* sim_config, const int sat_id, Structure* structure);
+class Disturbances {
+ public:
+  Disturbances(SimulationConfig* sim_config, const int sat_id,
+               Structure* structure);
   virtual ~Disturbances();
-  void Update(const LocalEnvironment& local_env, const Dynamics& dynamics, const SimTime* sim_time);
+  void Update(const LocalEnvironment& local_env, const Dynamics& dynamics,
+              const SimTime* sim_time);
 
-  void LogSetup(Logger & logger);
+  void LogSetup(Logger& logger);
 
   Vector<3> GetTorque();
   Vector<3> GetForce();
   Vector<3> GetAccelerationI();
 
-private:
+ private:
   std::string ini_fname_;
-  void InitializeInstances(SimulationConfig* sim_config, const int sat_id, Structure* structure);
+  void InitializeInstances(SimulationConfig* sim_config, const int sat_id,
+                           Structure* structure);
   void InitializeForceAndTorque();
   void InitializeAcceleration();
   std::vector<SimpleDisturbance*> disturbances_;
