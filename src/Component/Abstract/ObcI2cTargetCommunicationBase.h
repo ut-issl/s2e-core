@@ -14,6 +14,8 @@ class ObcI2cTargetCommunicationBase {
                                 const unsigned int hils_port_id,
                                 const unsigned char i2c_address, OBC* obc,
                                 HilsPortManager* hils_port_manager);
+  //ObcI2cTargetCommunicationBase(const ObcI2cTargetCommunicationBase& obj); // copy constructor
+  ObcI2cTargetCommunicationBase(ObcI2cTargetCommunicationBase&& obj) noexcept; // move constructor
   ~ObcI2cTargetCommunicationBase();
 
  protected:
@@ -30,6 +32,7 @@ class ObcI2cTargetCommunicationBase {
   unsigned int sils_port_id_;
   unsigned int hils_port_id_;
   unsigned char i2c_address_;
+  bool is_moved_ = false;
   OBC_COM_UART_MODE sim_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
 
   OBC* obc_;
