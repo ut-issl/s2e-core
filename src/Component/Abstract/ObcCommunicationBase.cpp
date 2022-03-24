@@ -91,6 +91,7 @@ ObcCommunicationBase::ObcCommunicationBase(const int sils_port_id, OBC* obc,
 }
 
 ObcCommunicationBase::~ObcCommunicationBase() {
+  if (is_connected_ == false) return;
   int ret;
   switch (sim_mode_) {
     case OBC_COM_UART_MODE::MODE_ERROR:
