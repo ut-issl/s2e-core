@@ -75,21 +75,21 @@ ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase() {
       break;
     case OBC_COM_UART_MODE::SILS:
       ret = obc_->I2cCloseComPort(sils_port_id_);
+      if(ret != 0) {
       // TODO: Add a flag to select whether to show or hide warnings
-      // if(ret != 0) {
       //   std::cout << "Already closed or not used: ObcI2cTargetCommunication "
       //                "CloseComPort ID:"
       //             << sils_port_id_ << "\n";
-      // }
+      }
       break;
     case OBC_COM_UART_MODE::HILS:
       ret = hils_port_manager_->I2cTargetCloseComPort(hils_port_id_);
+      if (ret != 0) {
       // TODO: Add a flag to select whether to show or hide warnings
-      // if (ret != 0) {
       //   std::cout << "Already closed or not used: ObcI2cTargetCommunication "
       //                "CloseComPort ID:"
       //             << hils_port_id_ << "\n";
-      // }
+      }
       break;
     default:
       // NOT REACHED
