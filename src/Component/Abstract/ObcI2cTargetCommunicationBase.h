@@ -14,8 +14,8 @@ class ObcI2cTargetCommunicationBase {
                                 const unsigned int hils_port_id,
                                 const unsigned char i2c_address, OBC* obc,
                                 HilsPortManager* hils_port_manager);
-  //ObcI2cTargetCommunicationBase(const ObcI2cTargetCommunicationBase& obj); // copy constructor
-  ObcI2cTargetCommunicationBase(ObcI2cTargetCommunicationBase&& obj) noexcept; // move constructor
+  // prevent double freeing of memory when this class is copied
+  ObcI2cTargetCommunicationBase(ObcI2cTargetCommunicationBase&& obj) noexcept;
   ~ObcI2cTargetCommunicationBase();
 
  protected:

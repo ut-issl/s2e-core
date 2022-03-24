@@ -11,7 +11,6 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(
 #else
   sim_mode_ = OBC_COM_UART_MODE::SILS;
   obc_->I2cConnectPort(sils_port_id_, i2c_address_);
-  std::cout << "default constructor is called" << sils_port_id_ << "\n";
 #endif
 }
 
@@ -53,34 +52,23 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(
   obc_->I2cConnectPort(sils_port_id_, i2c_address_);
 #endif
 }
-/*
-ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(
-    const ObcI2cTargetCommunicationBase& obj) {
-  sils_port_id_ = obj.sils_port_id_;
-  hils_port_id_ = obj.hils_port_id_;
-  i2c_address_ = obj.i2c_address_;
-  obc_ = obj.obc_;
-  hils_port_manager_ = obj.hils_port_manager_;
-  std::cout << "copy constructor is called" << sils_port_id_ << "\n";
-}
-*/
+
 ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(
     ObcI2cTargetCommunicationBase&& obj) noexcept
     : sils_port_id_(obj.sils_port_id_),
       hils_port_id_(obj.hils_port_id_),
       i2c_address_(obj.i2c_address_),
       obc_(obj.obc_),
-      hils_port_manager_(obj.hils_port_manager_) {
+      hils_port_manager_(obj.hils_port_manager_),
+      sim_mode_(obj.sim_mode_) {
   obj.is_moved_ = true;
-  std::cout << "move constructor is called" << sils_port_id_ << "\n";
+  obj.obc_ = nullptr;
+  obj.hils_port_manager_ = nullptr;
 }
 
 ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase() {
-  if (is_moved_ == true) {
-    std::cout << "keep open" << sils_port_id_ << "\n";
-    return;
-  }
-  std::cout << "close port" << sils_port_id_ << "\n";
+  if (is_moved_ == true) return; // prevent double freeing of memory
+
   int ret;
   switch (sim_mode_) {
     case OBC_COM_UART_MODE::MODE_ERROR:
