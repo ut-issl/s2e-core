@@ -67,7 +67,7 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(
 }
 
 ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase() {
-  if (is_moved_ == true) return; // prevent double freeing of memory
+  if (is_moved_ == true) return;  // prevent double freeing of memory
 
   int ret;
   switch (sim_mode_) {
