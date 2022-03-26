@@ -53,23 +53,42 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(
 #endif
 }
 
+ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(
+    ObcI2cTargetCommunicationBase&& obj) noexcept
+    : sils_port_id_(obj.sils_port_id_),
+      hils_port_id_(obj.hils_port_id_),
+      i2c_address_(obj.i2c_address_),
+      obc_(obj.obc_),
+      hils_port_manager_(obj.hils_port_manager_),
+      sim_mode_(obj.sim_mode_) {
+  obj.is_moved_ = true;
+  obj.obc_ = nullptr;
+  obj.hils_port_manager_ = nullptr;
+}
+
 ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase() {
+  if (is_moved_ == true) return;  // prevent double freeing of memory
+
   int ret;
   switch (sim_mode_) {
     case OBC_COM_UART_MODE::MODE_ERROR:
       break;
     case OBC_COM_UART_MODE::SILS:
-      ret = obc_->CloseComPort(sils_port_id_);
+      ret = obc_->I2cCloseComPort(sils_port_id_);
       if (ret != 0) {
-        std::cout << "Error: ObcI2cTargetCommunication CloseComPort ID:"
-                  << sils_port_id_ << "\n";
+        // TODO: Add a flag to select whether to show or hide warnings
+        // std::cout << "Already closed or not used: ObcI2cTargetCommunication "
+        //              "CloseComPort ID:"
+        //           << sils_port_id_ << "\n";
       }
       break;
     case OBC_COM_UART_MODE::HILS:
       ret = hils_port_manager_->I2cTargetCloseComPort(hils_port_id_);
       if (ret != 0) {
-        std::cout << "Error: ObcI2cTargetCommunication CloseComPort ID:"
-                  << hils_port_id_ << "\n";
+        // TODO: Add a flag to select whether to show or hide warnings
+        // std::cout << "Already closed or not used: ObcI2cTargetCommunication "
+        //              "CloseComPort ID:"
+        //           << hils_port_id_ << "\n";
       }
       break;
     default:
