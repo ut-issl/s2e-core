@@ -22,7 +22,7 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(
   sim_mode_ = OBC_COM_UART_MODE::HILS;
   int ret = hils_port_manager_->I2cTargetConnectComPort(hils_port_id_);
   if (ret != 0) {
-    std::cout << "Error: ObcI2cCommunication ConnectComPort ID:"
+    std::cout << "Error: ObcI2cTargetCommunication ConnectComPort ID:"
               << hils_port_id_ << "\n";
   }
 #else
@@ -44,7 +44,7 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(
   sim_mode_ = OBC_COM_UART_MODE::HILS;
   int ret = hils_port_manager_->I2cTargetConnectComPort(hils_port_id_);
   if (ret != 0) {
-    std::cout << "Error: ObcI2cCommunication ConnectComPort ID:"
+    std::cout << "Error: ObcI2cTargetCommunication ConnectComPort ID:"
               << hils_port_id_ << "\n";
   }
 #else
