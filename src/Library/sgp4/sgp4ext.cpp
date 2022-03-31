@@ -157,9 +157,7 @@ double sgn(double x) {
  * ---------------------------------------------------------------------------
  */
 
-double mag(double x[3]) {
-  return sqrt(x[0] * x[0] + x[1] * x[1] + x[2] * x[2]);
-}  // end mag
+double mag(double x[3]) { return sqrt(x[0] * x[0] + x[1] * x[1] + x[2] * x[2]); }  // end mag
 
 /* -----------------------------------------------------------------------------
 *
@@ -212,11 +210,9 @@ void cross(double vec1[3], double vec2[3], double outvec[3]) {
  *    none.
  *
  * ---------------------------------------------------------------------------
-*/
+ */
 
-double dot(double x[3], double y[3]) {
-  return (x[0] * y[0] + x[1] * y[1] + x[2] * y[2]);
-}  // end dot
+double dot(double x[3], double y[3]) { return (x[0] * y[0] + x[1] * y[1] + x[2] * y[2]); }  // end dot
 
 /* -----------------------------------------------------------------------------
  *
@@ -326,7 +322,7 @@ double  asinh(double xval)
  *  references    :
  *    vallado       2007, 85, alg 5
  * ---------------------------------------------------------------------------
-*/
+ */
 
 void newtonnu(double ecc, double nu, double& e0, double& m) {
   double small, sine, cose;
@@ -426,11 +422,9 @@ void newtonnu(double ecc, double nu, double& e0, double& m) {
  * ---------------------------------------------------------------------------
  */
 
-void rv2coe(double r[3], double v[3], double mu, double& p, double& a,
-            double& ecc, double& incl, double& omega, double& argp, double& nu,
-            double& m, double& arglat, double& truelon, double& lonper) {
-  double undefined, small, hbar[3], nbar[3], magr, magv, magn, ebar[3], sme,
-      rdotv, infinite, temp, c1, hk, twopi, magh, halfpi, e;
+void rv2coe(double r[3], double v[3], double mu, double& p, double& a, double& ecc, double& incl, double& omega, double& argp, double& nu, double& m,
+            double& arglat, double& truelon, double& lonper) {
+  double undefined, small, hbar[3], nbar[3], magr, magv, magn, ebar[3], sme, rdotv, infinite, temp, c1, hk, twopi, magh, halfpi, e;
 
   int i;
   char typeorbit[3];
@@ -590,12 +584,10 @@ void rv2coe(double r[3], double v[3], double mu, double& p, double& a,
  *    vallado       2007, 189, alg 14, ex 3-14
  *
  * ---------------------------------------------------------------------------
-*/
+ */
 
-void jday(int year, int mon, int day, int hr, int minute, double sec,
-          double& jd) {
-  jd = 367.0 * year - floor((7 * (year + floor((mon + 9) / 12.0))) * 0.25) +
-       floor(275 * mon / 9.0) + day + 1721013.5 +
+void jday(int year, int mon, int day, int hr, int minute, double sec, double& jd) {
+  jd = 367.0 * year - floor((7 * (year + floor((mon + 9) / 12.0))) * 0.25) + floor(275 * mon / 9.0) + day + 1721013.5 +
        ((sec / 60.0 + minute) / 60.0 + hr) / 24.0;  // ut in days
   // - 0.5*sgn(100.0*year + mon - 190002.5) + 0.5;
 }  // end jday
@@ -638,10 +630,9 @@ void jday(int year, int mon, int day, int hr, int minute, double sec,
  *  coupling      :
  *    none.
  * ---------------------------------------------------------------------------
-*/
+ */
 
-void days2mdhms(int year, double days, int& mon, int& day, int& hr, int& minute,
-                double& sec) {
+void days2mdhms(int year, double days, int& mon, int& day, int& hr, int& minute, double& sec) {
   int i, inttemp, dayofyr;
   double temp;
   int lmonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -709,10 +700,9 @@ void days2mdhms(int year, double days, int& mon, int& day, int& hr, int& minute,
  *  references    :
  *    vallado       2007, 208, alg 22, ex 3-13
  * ---------------------------------------------------------------------------
-*/
+ */
 
-void invjday(double jd, int& year, int& mon, int& day, int& hr, int& minute,
-             double& sec) {
+void invjday(double jd, int& year, int& mon, int& day, int& hr, int& minute, double& sec) {
   int leapyrs;
   double days, tu, temp;
 

@@ -1,13 +1,7 @@
 #include "ComPortInterface.h"
 
-ComPortInterface::ComPortInterface(int port_id, int baudrate,
-                                   unsigned int tx_buffer_size,
-                                   unsigned int rx_buffer_size)
-    : kPortId(port_id),
-      kPortName(PortName(port_id)),
-      kBaudRate(baudrate),
-      kTxBufferSize(tx_buffer_size),
-      kRxBufferSize(rx_buffer_size) {
+ComPortInterface::ComPortInterface(int port_id, int baudrate, unsigned int tx_buffer_size, unsigned int rx_buffer_size)
+    : kPortId(port_id), kPortName(PortName(port_id)), kBaudRate(baudrate), kTxBufferSize(tx_buffer_size), kRxBufferSize(rx_buffer_size) {
   // Managed配列を確保
   tx_buf_ = gcnew bytearray(kTxBufferSize);
   rx_buf_ = gcnew bytearray(kRxBufferSize);
@@ -22,15 +16,12 @@ ComPortInterface::~ComPortInterface() {
 }
 
 // COMポート番号（4）からCOMポート名（"COM4"）へ変換する静的メソッド
-std::string ComPortInterface::PortName(int port_id) {
-  return "COM" + std::to_string(port_id);
-}
+std::string ComPortInterface::PortName(int port_id) { return "COM" + std::to_string(port_id); }
 
 int ComPortInterface::Initialize() {
   try {
     // ポートを初期設定
-    port_ = gcnew IO::Ports::SerialPort(
-        msclr::interop::marshal_as<String ^>(kPortName), kBaudRate);
+    port_ = gcnew IO::Ports::SerialPort(msclr::interop::marshal_as<String ^>(kPortName), kBaudRate);
   } catch (IO::IOException ^ e) {
     // ポート初期設定失敗
     return -1;
@@ -94,8 +85,7 @@ int ComPortInterface::Send(unsigned char *buffer, size_t offset, size_t count) {
   return 0;
 }
 
-int ComPortInterface::Receive(unsigned char *buffer, size_t offset,
-                              size_t count) {
+int ComPortInterface::Receive(unsigned char *buffer, size_t offset, size_t count) {
   try {
     int received_bytes = port_->Read(rx_buf_, 0, count);
     Marshal::Copy(rx_buf_, 0, (IntPtr)(buffer + offset),

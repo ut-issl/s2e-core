@@ -38,8 +38,7 @@ std::vector<uint8_t> decode_slip(const std::vector<uint8_t> in) {
 
 std::vector<uint8_t> decode_slip_with_header(const std::vector<uint8_t> in) {
   std::vector<uint8_t> in_without_header = in;
-  in_without_header.erase(in_without_header.begin(),
-                          in_without_header.begin() + 1);
+  in_without_header.erase(in_without_header.begin(), in_without_header.begin() + 1);
   return decode_slip(in_without_header);
 }
 

@@ -12,13 +12,10 @@
 // telemetry size = 5 bytes(ASCII)
 // Telemetry changes; ABCDE, BCDEF, ..., VWXYZ, ABCDE, ...
 
-class ExpHilsI2cTarget : public ComponentBase,
-                         public ObcI2cTargetCommunicationBase {
+class ExpHilsI2cTarget : public ComponentBase, public ObcI2cTargetCommunicationBase {
  public:
-  ExpHilsI2cTarget(const int prescaler, ClockGenerator* clock_gen,
-                   const int sils_port_id, unsigned char i2c_address, OBC* obc,
-                   const unsigned int hils_port_id,
-                   HilsPortManager* hils_port_manager);
+  ExpHilsI2cTarget(const int prescaler, ClockGenerator* clock_gen, const int sils_port_id, unsigned char i2c_address, OBC* obc,
+                   const unsigned int hils_port_id, HilsPortManager* hils_port_manager);
   ~ExpHilsI2cTarget();
 
  protected:

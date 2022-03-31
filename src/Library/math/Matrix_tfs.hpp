@@ -86,8 +86,7 @@ void print(const Matrix<R, C, T>& m, char delimiter, std::ostream& stream) {
 }
 
 template <size_t R, size_t C, typename T>
-const Matrix<R, C, T> operator+(const Matrix<R, C, T>& lhs,
-                                const Matrix<R, C, T>& rhs) {
+const Matrix<R, C, T> operator+(const Matrix<R, C, T>& lhs, const Matrix<R, C, T>& rhs) {
   Matrix<R, C, T> temp;
   for (int i = 0; i < R; ++i) {
     for (int j = 0; j < C; ++j) {
@@ -98,8 +97,7 @@ const Matrix<R, C, T> operator+(const Matrix<R, C, T>& lhs,
 }
 
 template <size_t R, size_t C, typename T>
-const Matrix<R, C, T> operator-(const Matrix<R, C, T>& lhs,
-                                const Matrix<R, C, T>& rhs) {
+const Matrix<R, C, T> operator-(const Matrix<R, C, T>& lhs, const Matrix<R, C, T>& rhs) {
   Matrix<R, C, T> temp;
   for (int i = 0; i < R; ++i) {
     for (int j = 0; j < C; ++j) {
@@ -121,8 +119,7 @@ const Matrix<R, C, T> operator*(const T& rhs, const Matrix<R, C, T>& lhs) {
 }
 
 template <size_t R, size_t C1, size_t C2, typename T>
-const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs,
-                                 const Matrix<C1, C2, T>& rhs) {
+const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs, const Matrix<C1, C2, T>& rhs) {
   Matrix<R, C2, T> temp(0);
   for (int i = 0; i < R; ++i) {
     for (int j = 0; j < C2; ++j) {

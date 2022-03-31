@@ -8,9 +8,7 @@ class ITickable {
 
   // Whether or not high-frequency disturbances need to be calculated
   inline bool GetNeedsFastUpdate() { return needs_fast_update_; }
-  inline void SetNeedsFastUpdate(bool need_fast_update) {
-    needs_fast_update_ = need_fast_update;
-  }
+  inline void SetNeedsFastUpdate(bool need_fast_update) { needs_fast_update_ = need_fast_update; }
 
  protected:
   // Whether or not high-frequency disturbances need to be calculated

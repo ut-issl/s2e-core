@@ -1,14 +1,8 @@
 #include "ExpHilsI2cTarget.h"
 
-ExpHilsI2cTarget::ExpHilsI2cTarget(const int prescaler,
-                                   ClockGenerator* clock_gen,
-                                   const int sils_port_id,
-                                   unsigned char i2c_address, OBC* obc,
-                                   const unsigned int hils_port_id,
-                                   HilsPortManager* hils_port_manager)
-    : ComponentBase(prescaler, clock_gen),
-      ObcI2cTargetCommunicationBase(sils_port_id, hils_port_id, i2c_address,
-                                    obc, hils_port_manager) {}
+ExpHilsI2cTarget::ExpHilsI2cTarget(const int prescaler, ClockGenerator* clock_gen, const int sils_port_id, unsigned char i2c_address, OBC* obc,
+                                   const unsigned int hils_port_id, HilsPortManager* hils_port_manager)
+    : ComponentBase(prescaler, clock_gen), ObcI2cTargetCommunicationBase(sils_port_id, hils_port_id, i2c_address, obc, hils_port_manager) {}
 
 ExpHilsI2cTarget::~ExpHilsI2cTarget() {}
 
@@ -32,8 +26,7 @@ void ExpHilsI2cTarget::MainRoutine(int count) {
   // store telemetry in converter up to kStoredFrameSize
   for (int i = 0; i < additional_frame_num; i++) {
     SendTelemetry(kTlmSize);
-    std::cout << "I2C Target sends to converter: " << tlm[0] << tlm[1] << tlm[2]
-              << tlm[3] << tlm[4] << std::endl;
+    std::cout << "I2C Target sends to converter: " << tlm[0] << tlm[1] << tlm[2] << tlm[3] << tlm[4] << std::endl;
   }
 
   return;

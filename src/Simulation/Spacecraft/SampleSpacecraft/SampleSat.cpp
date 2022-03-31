@@ -7,18 +7,14 @@
 
 #include "SampleComponents.h"
 
-SampleSat::SampleSat(SimulationConfig* sim_config,
-                     const GlobalEnvironment* glo_env, const int sat_id)
-    : Spacecraft(sim_config, glo_env, sat_id) {
+SampleSat::SampleSat(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) : Spacecraft(sim_config, glo_env, sat_id) {
   Initialize(sim_config, glo_env, sat_id);
 }
 
 SampleSat::~SampleSat() { delete components_; }
 
-void SampleSat::Initialize(SimulationConfig* sim_config,
-                           const GlobalEnvironment* glo_env, const int sat_id) {
-  components_ = new SampleComponents(dynamics_, structure_, local_env_, glo_env,
-                                     sim_config, &clock_gen_, sat_id);
+void SampleSat::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) {
+  components_ = new SampleComponents(dynamics_, structure_, local_env_, glo_env, sim_config, &clock_gen_, sat_id);
 }
 
 void SampleSat::LogSetup(Logger& logger) {

@@ -10,15 +10,10 @@
 // SC18IM700 Data Sheet: https://www.nxp.com/docs/en/data-sheet/SC18IM700.pdf
 // telemetry size = 5 bytes(ASCII)
 
-class ExpHilsI2cController : public ComponentBase,
-                             public I2cControllerCommunicationBase {
+class ExpHilsI2cController : public ComponentBase, public I2cControllerCommunicationBase {
  public:
-  ExpHilsI2cController(const int prescaler, ClockGenerator* clock_gen,
-                       const unsigned int hils_port_id,
-                       const unsigned int baud_rate,
-                       const unsigned int tx_buf_size,
-                       const unsigned int rx_buf_size,
-                       HilsPortManager* hils_port_manager);
+  ExpHilsI2cController(const int prescaler, ClockGenerator* clock_gen, const unsigned int hils_port_id, const unsigned int baud_rate,
+                       const unsigned int tx_buf_size, const unsigned int rx_buf_size, HilsPortManager* hils_port_manager);
   ~ExpHilsI2cController();
 
  protected:

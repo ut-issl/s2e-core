@@ -15,8 +15,7 @@ typedef cli::array<Byte> bytearray;
 
 class ComPortInterface {
  public:
-  ComPortInterface(int port_id, int baudrate, unsigned int tx_buffer_size,
-                   unsigned int rx_buffer_size);
+  ComPortInterface(int port_id, int baudrate, unsigned int tx_buffer_size, unsigned int rx_buffer_size);
   ~ComPortInterface();
   static std::string PortName(int port_id);
   int Initialize();

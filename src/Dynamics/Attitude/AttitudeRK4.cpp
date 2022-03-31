@@ -6,11 +6,8 @@ using namespace std;
 #include <iostream>
 #include <sstream>
 
-AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini,
-                         const Quaternion& quaternion_i2b_ini,
-                         const Matrix<3, 3>& InertiaTensor_ini,
-                         const Vector<3>& torque_b_ini,
-                         const double prop_step_ini)
+AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini, const Quaternion& quaternion_i2b_ini, const Matrix<3, 3>& InertiaTensor_ini,
+                         const Vector<3>& torque_b_ini, const double prop_step_ini)
     : SimulationObject("Attitude") {
   omega_b_ = omega_b_ini;
   quaternion_i2b_ = quaternion_i2b_ini;
@@ -19,16 +16,12 @@ AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini,
   prop_step_ = prop_step_ini;
   prop_time_ = 0;
   inv_inertia_tensor_ = invert(inertia_tensor_);
-  h_rw_b_ = Vector<3>(
-      0);  //どう取り扱うか要検討，Propagateで参照しているのも良くないかも
+  h_rw_b_ = Vector<3>(0);  //どう取り扱うか要検討，Propagateで参照しているのも良くないかも
   CalcAngMom();
 }
 
-AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini,
-                         const Quaternion& quaternion_i2b_ini,
-                         const Matrix<3, 3>& InertiaTensor_ini,
-                         const Vector<3>& torque_b_ini,
-                         const double prop_step_ini, string name)
+AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini, const Quaternion& quaternion_i2b_ini, const Matrix<3, 3>& InertiaTensor_ini,
+                         const Vector<3>& torque_b_ini, const double prop_step_ini, string name)
     : SimulationObject(name) {
   omega_b_ = omega_b_ini;
   quaternion_i2b_ = quaternion_i2b_ini;
@@ -37,8 +30,7 @@ AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini,
   prop_step_ = prop_step_ini;
   prop_time_ = 0;
   inv_inertia_tensor_ = invert(inertia_tensor_);
-  h_rw_b_ = Vector<3>(
-      0);  //どう取り扱うか要検討，Propagateで参照しているのも良くないかも
+  h_rw_b_ = Vector<3>(0);  //どう取り扱うか要検討，Propagateで参照しているのも良くないかも
   CalcAngMom();
   CalcSatRotationalKineticEnergy();
 }
@@ -55,8 +47,7 @@ void AttitudeRK4::SetParameters(const MCSimExecutor& mc_sim) {
   // << omega_b_[2] << endl;
   prop_time_ = 0;
   inv_inertia_tensor_ = invert(inertia_tensor_);
-  h_rw_b_ = Vector<3>(
-      0);  //どう取り扱うか要検討，Propagateで参照しているのも良くないかも
+  h_rw_b_ = Vector<3>(0);  //どう取り扱うか要検討，Propagateで参照しているのも良くないかも
   CalcAngMom();
   CalcSatRotationalKineticEnergy();
 }
@@ -69,9 +60,7 @@ void AttitudeRK4::CalcAngMom(void) {
   h_total_ = norm(h_total_i_);
 }
 
-void AttitudeRK4::CalcSatRotationalKineticEnergy(void) {
-  k_sc_ = 0.5 * libra::inner_product(h_sc_b_, omega_b_);
-}
+void AttitudeRK4::CalcSatRotationalKineticEnergy(void) { k_sc_ = 0.5 * libra::inner_product(h_sc_b_, omega_b_); }
 
 void AttitudeRK4::Propagate(double endtime) {
   if (!IsCalcEnabled) return;
@@ -117,8 +106,7 @@ Vector<7> AttitudeRK4::DynamicsKinematics(Vector<7> x, double t) {
     omega_b[i] = x[i];
   }
   h_total_b_ = (inertia_tensor_ * omega_b) + h_rw_b_;
-  Vector<3> rhs =
-      inv_inertia_tensor_ * (torque_b_ - outer_product(omega_b, h_total_b_));
+  Vector<3> rhs = inv_inertia_tensor_ * (torque_b_ - outer_product(omega_b, h_total_b_));
 
   for (int i = 0; i < 3; ++i) {
     dxdt[i] = rhs[i];
@@ -202,16 +190,10 @@ string AttitudeRK4::GetLogValue() const {
 
 //デバッグ用
 void AttitudeRK4::PrintParams(void) {
-  cout << "Omega_b =(" << omega_b_[0] << "," << omega_b_[1] << ","
-       << omega_b_[2] << ") rad/s \n";
-  cout << "Quaternion_i2b =(" << quaternion_i2b_[0] << "," << quaternion_i2b_[1]
-       << "," << quaternion_i2b_[2] << "," << quaternion_i2b_[3] << ") \n";
-  cout << "Torque_b =(" << torque_b_[0] << "," << torque_b_[1] << ","
-       << torque_b_[2] << ") Nm \n";
-  cout << "               (" << inertia_tensor_[0][0] << ","
-       << inertia_tensor_[0][1] << "," << inertia_tensor_[0][2] << ")\n";
-  cout << "InertiaTensor =(" << inertia_tensor_[1][0] << ","
-       << inertia_tensor_[1][1] << "," << inertia_tensor_[1][2] << ") kg m2\n";
-  cout << "               (" << inertia_tensor_[2][0] << ","
-       << inertia_tensor_[2][1] << "," << inertia_tensor_[2][2] << ")\n";
+  cout << "Omega_b =(" << omega_b_[0] << "," << omega_b_[1] << "," << omega_b_[2] << ") rad/s \n";
+  cout << "Quaternion_i2b =(" << quaternion_i2b_[0] << "," << quaternion_i2b_[1] << "," << quaternion_i2b_[2] << "," << quaternion_i2b_[3] << ") \n";
+  cout << "Torque_b =(" << torque_b_[0] << "," << torque_b_[1] << "," << torque_b_[2] << ") Nm \n";
+  cout << "               (" << inertia_tensor_[0][0] << "," << inertia_tensor_[0][1] << "," << inertia_tensor_[0][2] << ")\n";
+  cout << "InertiaTensor =(" << inertia_tensor_[1][0] << "," << inertia_tensor_[1][1] << "," << inertia_tensor_[1][2] << ") kg m2\n";
+  cout << "               (" << inertia_tensor_[2][0] << "," << inertia_tensor_[2][1] << "," << inertia_tensor_[2][2] << ")\n";
 }

@@ -1,11 +1,8 @@
 #include "HardwareMessage.h"
 
-HardwareMessage::HardwareMessage(int port_id, bool enable,
-                                 unsigned int baudrate,
-                                 unsigned int obc_com_period)
+HardwareMessage::HardwareMessage(int port_id, bool enable, unsigned int baudrate, unsigned int obc_com_period)
     : enable_(enable), obc_com_period_(obc_com_period), kBaudRate(baudrate) {
-  hils_com_port_ =
-      new ComPortInterface(port_id, kBaudRate, kTxMessageSize, kRxMessageSize);
+  hils_com_port_ = new ComPortInterface(port_id, kBaudRate, kTxMessageSize, kRxMessageSize);
   // IsLogEnabled = true; // InitHardwareMessage.cpp内で設定
   ZeroPad(txbuff, sizeof(txbuff));
   ZeroPad(rxbuff, sizeof(rxbuff));
@@ -54,8 +51,7 @@ int HardwareMessage::ReceiveAndInterpretMsg() {
   int received_bytes = hils_com_port_->Receive(rxbuff, offset, kRxMessageSize);
   // ヘッダーが一致するまでポインタを移動
   while (memcmp(rxbuff + offset, kHeader, kHeaderSize)) {
-    if (offset >= kRxMessageSize - kHeaderSize)
-      return -1;  // ヘッダー見つからなかった
+    if (offset >= kRxMessageSize - kHeaderSize) return -1;  // ヘッダー見つからなかった
     offset++;
   }
   // ヘッダーが見つかった。
@@ -130,8 +126,7 @@ int HardwareMessage::ReceiveAndInterpretMsg() {
   size = sizeof(hw_msg_.valve_ctrl.cumulative_rv_open_counter);
   endian_memcpy(&(hw_msg_.valve_ctrl.cumulative_rv_open_counter), ptr, size);
   ptr += size;
-  printf("\rcumulative_rv_open_counter: %d\n",
-         hw_msg_.valve_ctrl.cumulative_rv_open_counter);
+  printf("\rcumulative_rv_open_counter: %d\n", hw_msg_.valve_ctrl.cumulative_rv_open_counter);
 
   printf("thrust [mN]: ");
   for (int i = 0; i < VALVE_THRUSTER_MAX; i++) {

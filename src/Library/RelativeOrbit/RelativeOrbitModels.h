@@ -10,5 +10,4 @@ enum class STMModel { HCW = 0 };
 libra::Matrix<6, 6> CalculateHillSystemMatrix(double orbit_radius, double mu);
 
 // STMs
-libra::Matrix<6, 6> CalculateHCWSTM(double orbit_radius, double mu,
-                                    double elapsed_sec);
+libra::Matrix<6, 6> CalculateHCWSTM(double orbit_radius, double mu, double elapsed_sec);

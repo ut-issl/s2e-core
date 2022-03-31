@@ -53,13 +53,9 @@ class Orbit : public ILoggable {
   virtual void Propagate(double endtime, double current_jd) = 0;
 
   // update of attitude information
-  inline void UpdateAtt(Quaternion q_i2b) {
-    sat_velocity_b_ = q_i2b.frame_conv(sat_velocity_i_);
-  }
+  inline void UpdateAtt(Quaternion q_i2b) { sat_velocity_b_ = q_i2b.frame_conv(sat_velocity_i_); }
 
-  inline void SetAcceleration_i(Vector<3> acceleration_i) {
-    acc_i_ = acceleration_i;
-  }
+  inline void SetAcceleration_i(Vector<3> acceleration_i) { acc_i_ = acceleration_i; }
 
   // set force in an inertial frame
   inline void AddForce_i(Vector<3> force_i, double spacecraft_mass) {
@@ -68,13 +64,10 @@ class Orbit : public ILoggable {
   }
 
   // set acceleration in inertial frame
-  inline void AddAcceleration_i(Vector<3> acceleration_i) {
-    acc_i_ += acceleration_i;
-  }
+  inline void AddAcceleration_i(Vector<3> acceleration_i) { acc_i_ += acceleration_i; }
 
   // set acceleration in body frame
-  inline void AddForce_b(Vector<3> force_b, Quaternion q_i2b,
-                         double spacecraft_mass) {
+  inline void AddForce_b(Vector<3> force_b, Quaternion q_i2b, double spacecraft_mass) {
     auto force_i = q_i2b.frame_conv_inv(force_b);
     AddForce_i(force_i, spacecraft_mass);
   }
@@ -87,9 +80,8 @@ class Orbit : public ILoggable {
   inline void TransECIToECEF(double current_jd) {
     double current_side = gstime(current_jd);
 
-    Matrix<3, 3>
-        trans_mat;  // ECI2ECEF transformation matrix representing the Earth's
-                    // rotation according to Greenwich Sidereal Time.
+    Matrix<3, 3> trans_mat;  // ECI2ECEF transformation matrix representing the Earth's
+                             // rotation according to Greenwich Sidereal Time.
     trans_mat[0][0] = cos(current_side);
     trans_mat[0][1] = sin(current_side);
     trans_mat[0][2] = 0;
@@ -123,34 +115,30 @@ class Orbit : public ILoggable {
 
     theta = AcTan(sat_position_i_[1], sat_position_i_[0]); /* radians */
     lon_rad_ = FMod2p(theta - current_side);               /* radians */
-    r = sqrt(sat_position_i_[0] * sat_position_i_[0] +
-             sat_position_i_[1] * sat_position_i_[1]);
+    r = sqrt(sat_position_i_[0] * sat_position_i_[0] + sat_position_i_[1] * sat_position_i_[1]);
     e2 = f * (2.0 - f);
     lat_rad_ = AcTan(sat_position_i_[2], r); /* radians */
 
     do {
       phi = lat_rad_;
       c = 1.0 / sqrt(1.0 - e2 * sin(phi) * sin(phi));
-      lat_rad_ = AcTan(
-          sat_position_i_[2] + radiusearthkm * c * e2 * sin(phi) * 1000.0, r);
+      lat_rad_ = AcTan(sat_position_i_[2] + radiusearthkm * c * e2 * sin(phi) * 1000.0, r);
 
     } while (fabs(lat_rad_ - phi) >= 1E-10);
 
     alt_m_ = r / cos(lat_rad_) - radiusearthkm * c * 1000.0;
-        /* kilometers -> meters */  // Height of the ellipsoid
+    /* kilometers -> meters */  // Height of the ellipsoid
 
     if (lat_rad_ > libra::pi_2) lat_rad_ -= libra::tau;
   }
 
   Quaternion CalcQuaternionI2LVLH() const {
-    Vector<3> lvlh_x =
-        sat_position_i_;  // x-axis in LVLH frame is position vector direction
-                          // from geocenter to satellite
+    Vector<3> lvlh_x = sat_position_i_;  // x-axis in LVLH frame is position vector direction
+                                         // from geocenter to satellite
     Vector<3> lvlh_ex = normalize(lvlh_x);
-    Vector<3> lvlh_z =
-        outer_product(sat_position_i_,
-                      sat_velocity_i_);  // z-axis in LVLH frame is angular
-                                         // momentum vector direction of orbit
+    Vector<3> lvlh_z = outer_product(sat_position_i_,
+                                     sat_velocity_i_);  // z-axis in LVLH frame is angular
+                                                        // momentum vector direction of orbit
     Vector<3> lvlh_ez = normalize(lvlh_z);
     Vector<3> lvlh_y = outer_product(lvlh_z, lvlh_x);
     Vector<3> lvlh_ey = normalize(lvlh_y);

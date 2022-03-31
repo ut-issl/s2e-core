@@ -2,8 +2,7 @@
 
 #include "../AOCS/UWBSensor.h"
 
-UWBEstimator::UWBEstimator(double dt, double Mt, double Mc, uwbvec uwb_t,
-                           uwbvec uwb_c) {
+UWBEstimator::UWBEstimator(double dt, double Mt, double Mc, uwbvec uwb_t, uwbvec uwb_c) {
   this->sigma_Q_tf = 0.001;
   this->sigma_Q_cf = 0.001;
   this->dt = dt;
@@ -121,9 +120,7 @@ std::string UWBEstimator::GetLogValue() const {
   return str_tmp;
 }
 
-Vector<3> UWBEstimator::distanceVector(Vector<3> L, Quaternion qt_i2b,
-                                       Quaternion qc_i2b, Vector<3> post_b,
-                                       Vector<3> posc_b) {
+Vector<3> UWBEstimator::distanceVector(Vector<3> L, Quaternion qt_i2b, Quaternion qc_i2b, Vector<3> post_b, Vector<3> posc_b) {
   return L + qt_i2b.frame_conv_inv(post_b) - qc_i2b.frame_conv_inv(posc_b);
 }
 
@@ -141,8 +138,7 @@ void UWBEstimator::SetH() {
     for (auto j = 0; j < 4; j++) {
       auto uwbt = uwb_t[j];
       auto Le = GetRelativePosition();
-      auto relpos =
-          distanceVector(Le, q_t, q_c, uwbt->GetPos_b(), uwbc->GetPos_b());
+      auto relpos = distanceVector(Le, q_t, q_c, uwbt->GetPos_b(), uwbc->GetPos_b());
       auto relposnorm = norm(relpos);
       hx[i * 4 + j] = relposnorm;
       auto diffs = 1 / relposnorm * relpos;

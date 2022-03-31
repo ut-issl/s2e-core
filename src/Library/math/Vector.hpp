@@ -134,8 +134,7 @@ void fill_up(Vector<N, T>& v, const T& n);
   \param stream 出力先(デフォルトはcout)
 */
 template <size_t N, typename T>
-void print(const Vector<N, T>& v, char delimiter = '\t',
-           std::ostream& stream = std::cout);
+void print(const Vector<N, T>& v, char delimiter = '\t', std::ostream& stream = std::cout);
 
 //! Vector加算演算子
 /*!
@@ -185,8 +184,7 @@ const T inner_product(const Vector<N, T>& lhs, const Vector<N, T>& rhs);
   \return 外積計算結果
 */
 template <typename T>
-const Vector<3, T> outer_product(const Vector<3, T>& lhs,
-                                 const Vector<3, T>& rhs);
+const Vector<3, T> outer_product(const Vector<3, T>& lhs, const Vector<3, T>& rhs);
 
 //! ノルム計算関数
 /*!

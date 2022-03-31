@@ -9,10 +9,9 @@ class ObcGpioBase {
  protected:
   bool Read(const int idx);  // The first arg is the element index for port_id_
                              // vector, not the GPIO port ID for OBC.
-  void Write(
-      const int idx,
-      const bool is_high);  // The first arg is the element index for port_id_
-                            // vector, not the GPIO port ID for OBC.
+  void Write(const int idx,
+             const bool is_high);  // The first arg is the element index for port_id_
+                                   // vector, not the GPIO port ID for OBC.
 
  private:
   std::vector<int> port_id_;

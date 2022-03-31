@@ -73,10 +73,8 @@ static double blat, blon, bhi, br, bthe, bthc;
 static double rlat, slat, slat2, clat, clat2;
 static double r, the, phi, cth, sth, cph, sph;
 static double x, y, z, f, ext0, ext1, ext2;
-static double gh[MxOD + 1][MxOD + 1], ght[MxOD + 1][MxOD + 1],
-    g[MxOD + 1][MxOD + 1];
-static double rar[MxOD + 1], csp[MxOD + 1], snp[MxOD + 1],
-    p[MxOD + 2][MxOD + 1];
+static double gh[MxOD + 1][MxOD + 1], ght[MxOD + 1][MxOD + 1], g[MxOD + 1][MxOD + 1];
+static double rar[MxOD + 1], csp[MxOD + 1], snp[MxOD + 1], p[MxOD + 2][MxOD + 1];
 
 static double vgh[MxOD + 1][MxOD + 1], vght[MxOD + 1][MxOD + 1];
 
@@ -108,10 +106,8 @@ static void fcalc(void) /* This is an internal function */
       p[n + 2][0] = (p[0][n + 1] * cth - p[0][n]) * (n + 1) / sth;
       for (m = 0; m <= n; m++) {
         pn1m = p[m][n + 1];
-        p[m + 1][n + 1] =
-            (p[m][n] * (n + m + 1) - pn1m * cth * (n - m + 1)) / sth;
-        p[n + 2][m + 1] = pn1m * (n + m + 2) * (n - m + 1) -
-                          p[m + 1][n + 1] * cth * (m + 1) / sth;
+        p[m + 1][n + 1] = (p[m][n] * (n + m + 1) - pn1m * cth * (n - m + 1)) / sth;
+        p[n + 2][m + 1] = pn1m * (n + m + 2) * (n - m + 1) - p[m + 1][n + 1] * cth * (m + 1) / sth;
       }
     }
   }
@@ -132,12 +128,9 @@ static void fcalc(void) /* This is an internal function */
     ty = 0.;
     tz = g[0][n + 1] * p[0][n + 1];
     for (m = 0; m <= n; m++) {
-      tx += (g[m + 1][n + 1] * csp[m + 1] + g[n + 1][m] * snp[m + 1]) *
-            p[n + 2][m + 1];
-      ty += (g[m + 1][n + 1] * snp[m + 1] - g[n + 1][m] * csp[m + 1]) *
-            p[m + 1][n + 1] * (m + 1);
-      tz += (g[m + 1][n + 1] * csp[m + 1] + g[n + 1][m] * snp[m + 1]) *
-            p[m + 1][n + 1];
+      tx += (g[m + 1][n + 1] * csp[m + 1] + g[n + 1][m] * snp[m + 1]) * p[n + 2][m + 1];
+      ty += (g[m + 1][n + 1] * snp[m + 1] - g[n + 1][m] * csp[m + 1]) * p[m + 1][n + 1] * (m + 1);
+      tz += (g[m + 1][n + 1] * csp[m + 1] + g[n + 1][m] * snp[m + 1]) * p[m + 1][n + 1];
     }
     x += rar[n + 1] * tx;
     y += rar[n + 1] * ty;
@@ -168,8 +161,7 @@ void field(double are, double aflat, double ara, int maxoda) {
   kph = 1;
 }
 
-void tcoef(double agh[MxOD + 1][MxOD + 1], double aght[MxOD + 1][MxOD + 1],
-           double atzero, int kexta, double aext[3]) {
+void tcoef(double agh[MxOD + 1][MxOD + 1], double aght[MxOD + 1][MxOD + 1], double atzero, int kexta, double aext[3]) {
   int nn, mm;
   double fac;
   tzero = atzero;
@@ -210,8 +202,7 @@ void tyear(double ayear) {
   }
 }
 
-void mfldg(double alat, double alon, double ahi, double *ax, double *ay,
-           double *az, double *af) {
+void mfldg(double alat, double alon, double ahi, double *ax, double *ay, double *az, double *af) {
   double hi, rm2, rm, rrm;
   if ((kg != 1) || (blat != alat) || (bhi != ahi)) {
     kg = 1;
@@ -245,8 +236,7 @@ void mfldg(double alat, double alon, double ahi, double *ax, double *ay,
   *af = f;
 }
 
-void mfldc(double athe, double alon, double ar, double *ax, double *ay,
-           double *az, double *af) {
+void mfldc(double athe, double alon, double ar, double *ax, double *ay, double *az, double *af) {
   if (kg == 0) {
     if (bthe != athe) kth = 1;
     if (br != ar) kr = 1;
@@ -354,8 +344,7 @@ void gigrf(int gen, double year) {
     exit(1);
   }
   nlin = (maxod + 1) * (maxod + 1) - 1;
-  if ((year < y1) || (year > y2))
-    fprintf(stderr, "gigrf: IGRF-%02d not defined for %9.3lf\n", gen, year);
+  if ((year < y1) || (year > y2)) fprintf(stderr, "gigrf: IGRF-%02d not defined for %9.3lf\n", gen, year);
   if (fgets(buf, LLINE, fp) == NULL) {
     fprintf(stderr, "gigrf: EOF before Line-2\n");
     exit(1);
@@ -423,7 +412,7 @@ void gigrf(int gen, double year) {
   }
   maxod = k;
   //ジオイドに関わる定数?? field(double are, double aflat, double ara, int
-  //maxoda)
+  // maxoda)
   field(6378.137, 298.25722, 6371.2, maxod);
   tcoef(vgh, vght, tzero, 0, dmy);
   tyear(year);
@@ -435,8 +424,7 @@ void igrfc(double fido, double fkeido, double hght, double *tf) {
 }
 
 //地磁気要素（地心表現）をECI座標へ
-int TransMagaxisToECI(const double *mag, double *pos, double lonrad,
-                      double thetarad, double gmst) {
+int TransMagaxisToECI(const double *mag, double *pos, double lonrad, double thetarad, double gmst) {
   RotationY(mag, pos, 180 * DEG2RAD - thetarad);
   RotationZ(pos, pos, -lonrad);
   RotationZ(pos, pos, -gmst);
@@ -446,8 +434,7 @@ int TransMagaxisToECI(const double *mag, double *pos, double lonrad,
 
 // IGRFの計算を実行するメインルーチン
 // Output	:	mag[3]	ECI座標での磁界の値[nT]
-void IgrfCalc(double decyear, double latrad, double lonrad, double alt,
-              double side, double *mag) {
+void IgrfCalc(double decyear, double latrad, double lonrad, double alt, double side, double *mag) {
   static bool first_flg = true;
 
   double f;

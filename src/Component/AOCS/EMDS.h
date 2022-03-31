@@ -25,12 +25,10 @@ class EMDS : public ILoggable {
   void SetParameters(Vector<3> position, Quaternion quaternion, double current);
 
  private:
-  void calc(Vector<3> d1_i, Vector<3> d2_i, Quaternion q1_ib, Quaternion q2_ib,
-            Vector<3> r1_b, Vector<3> r2_b, double i1, double i2,
+  void calc(Vector<3> d1_i, Vector<3> d2_i, Quaternion q1_ib, Quaternion q2_ib, Vector<3> r1_b, Vector<3> r2_b, double i1, double i2,
             Vector<3>* results);
-  void calc_approx(Vector<3> d1_i, Vector<3> d2_i, Quaternion q1_ib,
-                   Quaternion q2_ib, Vector<3> r1_b, Vector<3> r2_b, double i1,
-                   double i2, double m_c0, Vector<3>* results);
+  void calc_approx(Vector<3> d1_i, Vector<3> d2_i, Quaternion q1_ib, Quaternion q2_ib, Vector<3> r1_b, Vector<3> r2_b, double i1, double i2,
+                   double m_c0, Vector<3>* results);
 
   Vector<3> torque_b_ = Vector<3>(0);
   Vector<3> force_b_ = Vector<3>(0);

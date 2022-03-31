@@ -2,13 +2,8 @@
 
 #include <Library/math/Constant.hpp>
 
-UWBSensor::UWBSensor(int sensor_id, Vector<3> pos_b_, Vector<3> dir_b_,
-                     Vector<3> axis_b_)
-    : sensor_id(sensor_id),
-      pos_b(pos_b_),
-      dir_b(dir_b_),
-      axis_b(axis_b_),
-      measure_nr(0, 1, sensor_id) {}
+UWBSensor::UWBSensor(int sensor_id, Vector<3> pos_b_, Vector<3> dir_b_, Vector<3> axis_b_)
+    : sensor_id(sensor_id), pos_b(pos_b_), dir_b(dir_b_), axis_b(axis_b_), measure_nr(0, 1, sensor_id) {}
 
 UWBSensor::~UWBSensor() {}
 
@@ -34,8 +29,7 @@ int UWBSensor::IsVisible(UWBSensor& other) {
   double o_theta = angle(o.q_b2i.frame_conv(o.axis_b), rel_pos);
 
   double propagate_loss = -20 * log10(4 * libra::pi * fc * norm(rel_pos) / c);
-  double received_gain =
-      Pt + propagate_loss + CalcAntennaGain(theta) + o.CalcAntennaGain(o_theta);
+  double received_gain = Pt + propagate_loss + CalcAntennaGain(theta) + o.CalcAntennaGain(o_theta);
 
   if (received_gain > Plimit) return 1;
 
@@ -45,8 +39,7 @@ int UWBSensor::IsVisible(UWBSensor& other) {
 Vector<3> UWBSensor::LocationTo(UWBSensor& other) {
   UWBSensor& o = other;
   // チェーサーUWBからターゲットUWBへの相対位置ベクトル(慣性座標系)
-  Vector<3> rel_pos = o.ref_pos_i - ref_pos_i - q_b2i.frame_conv(pos_b) +
-                      o.q_b2i.frame_conv(o.pos_b);
+  Vector<3> rel_pos = o.ref_pos_i - ref_pos_i - q_b2i.frame_conv(pos_b) + o.q_b2i.frame_conv(o.pos_b);
   return rel_pos;
 }
 
@@ -62,9 +55,7 @@ void UWBSensor::SetParameters(Vector<3> pos_i, Quaternion q_i2b) {
   q_b2i = q_i2b.conjugate();
 }
 
-double UWBSensor::CalcAntennaGain(double theta) {
-  return 2.15 + 20 * log10(cos(libra::pi_2 * cos(theta)) / sin(theta));
-}
+double UWBSensor::CalcAntennaGain(double theta) { return 2.15 + 20 * log10(cos(libra::pi_2 * cos(theta)) / sin(theta)); }
 
 double UWBSensor::CalcDeviation(double distance) {
   if (distance < 200 && distance >= 150) return 0.07;

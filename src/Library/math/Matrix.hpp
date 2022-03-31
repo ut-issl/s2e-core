@@ -157,8 +157,7 @@ T trace(const Matrix<N, N, T>& m);
   \param stream 出力先(デフォルトはcout)
 */
 template <size_t R, size_t C, typename T>
-void print(const Matrix<R, C, T>& m, char delimiter = '\t',
-           std::ostream& stream = std::cout);
+void print(const Matrix<R, C, T>& m, char delimiter = '\t', std::ostream& stream = std::cout);
 
 //! Matrix加算演算子
 /*!
@@ -168,8 +167,7 @@ void print(const Matrix<R, C, T>& m, char delimiter = '\t',
   \return 加算結果
 */
 template <size_t R, size_t C, typename T>
-const Matrix<R, C, T> operator+(const Matrix<R, C, T>& lhs,
-                                const Matrix<R, C, T>& rhs);
+const Matrix<R, C, T> operator+(const Matrix<R, C, T>& lhs, const Matrix<R, C, T>& rhs);
 
 //! Matrix減算演算子
 /*!
@@ -179,8 +177,7 @@ const Matrix<R, C, T> operator+(const Matrix<R, C, T>& lhs,
   \return 減算結果
 */
 template <size_t R, size_t C, typename T>
-const Matrix<R, C, T> operator-(const Matrix<R, C, T>& lhs,
-                                const Matrix<R, C, T>& rhs);
+const Matrix<R, C, T> operator-(const Matrix<R, C, T>& lhs, const Matrix<R, C, T>& rhs);
 
 //! Matrix係数倍演算子
 /*!
@@ -200,8 +197,7 @@ const Matrix<R, C, T> operator*(const T& lhs, const Matrix<R, C, T>& rhs);
   \return 乗算結果
 */
 template <size_t R, size_t C1, size_t C2, typename T>
-const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs,
-                                 const Matrix<C1, C2, T>& rhs);
+const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs, const Matrix<C1, C2, T>& rhs);
 
 //! 転置行列計算関数
 /*!

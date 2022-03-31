@@ -11,17 +11,12 @@
 
 const size_t kMagDim = 3;
 
-class MagSensor : public ComponentBase,
-                  public SensorBase<kMagDim>,
-                  public ILoggable {
+class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILoggable {
  public:
-  MagSensor(const int prescaler, ClockGenerator* clock_gen,
-            SensorBase& sensor_base, const int sensor_id,
-            const libra::Quaternion& q_b2c,
+  MagSensor(const int prescaler, ClockGenerator* clock_gen, SensorBase& sensor_base, const int sensor_id, const libra::Quaternion& q_b2c,
             const MagEnvironment* magnet  // nT
   );
-  MagSensor(const int prescaler, ClockGenerator* clock_gen,
-            PowerPort* power_port, SensorBase& sensor_base, const int sensor_id,
+  MagSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, SensorBase& sensor_base, const int sensor_id,
             const libra::Quaternion& q_b2c,
             const MagEnvironment* magnet  // nT
   );
@@ -37,8 +32,7 @@ class MagSensor : public ComponentBase,
  protected:
   libra::Vector<kMagDim> mag_c_{0.0};  // nT
   int sensor_id_ = 0;
-  libra::Quaternion q_b2c_{
-      0.0, 0.0, 0.0, 1.0};  //! Quaternion from body frame to component frame
+  libra::Quaternion q_b2c_{0.0, 0.0, 0.0, 1.0};  //! Quaternion from body frame to component frame
 
   const MagEnvironment* magnet_;
 };

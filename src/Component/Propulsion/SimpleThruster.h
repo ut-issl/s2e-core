@@ -12,15 +12,13 @@
 
 class SimpleThruster : public ComponentBase, public ILoggable {
  public:
-  SimpleThruster(const int prescaler, ClockGenerator* clock_gen, const int id,
-                 const Vector<3> thruster_pos_b, const Vector<3> thrust_dir_b,
+  SimpleThruster(const int prescaler, ClockGenerator* clock_gen, const int id, const Vector<3> thruster_pos_b, const Vector<3> thrust_dir_b,
                  const double max_mag,  // N
                  const double mag_err,  // N
                  const double dir_err,  // rad
                  const Structure* structure, const Dynamics* dynamics);
-  SimpleThruster(const int prescaler, ClockGenerator* clock_gen,
-                 PowerPort* power_port, const int id,
-                 const Vector<3> thruster_pos_b, const Vector<3> thrust_dir_b,
+  SimpleThruster(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const Vector<3> thruster_pos_b,
+                 const Vector<3> thrust_dir_b,
                  const double max_mag,  // N
                  const double mag_err,  // N
                  const double dir_err,  // rad

@@ -4,8 +4,7 @@ std::map<std::string, SimulationObject*> SimulationObject::so_list_;
 
 SimulationObject::SimulationObject(std::string name) : name_(name) {
   // so_listに登録されているかを調べる
-  std::map<std::string, SimulationObject*>::iterator itr =
-      SimulationObject::so_list_.find(name);
+  std::map<std::string, SimulationObject*>::iterator itr = SimulationObject::so_list_.find(name);
 
   if (itr == SimulationObject::so_list_.end()) {
     // so_listに未登録の場合，自分を登録する
@@ -28,14 +27,10 @@ void SimulationObject::SetAllParameters(const MCSimExecutor& mc_sim) {
   }
 }
 
-void SimulationObject::GetInitParameterDouble(const MCSimExecutor& mc_sim,
-                                              std::string ip_name,
-                                              double& dst) const {
+void SimulationObject::GetInitParameterDouble(const MCSimExecutor& mc_sim, std::string ip_name, double& dst) const {
   mc_sim.GetInitParameterDouble(name_, ip_name, dst);
 }
 
-void SimulationObject::GetInitParameterQuaternion(const MCSimExecutor& mc_sim,
-                                                  std::string ip_name,
-                                                  Quaternion& dst_quat) const {
+void SimulationObject::GetInitParameterQuaternion(const MCSimExecutor& mc_sim, std::string ip_name, Quaternion& dst_quat) const {
   mc_sim.GetInitParameterQuaternion(name_, ip_name, dst_quat);
 }

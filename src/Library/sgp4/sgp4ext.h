@@ -44,8 +44,7 @@ double angle(double[], double[]);
 
 void newtonnu(double ecc, double nu, double& e0, double& m);
 
-void rv2coe(double[], double[], double, double&, double&, double&, double&,
-            double&, double&, double&, double&, double&, double&, double&);
+void rv2coe(double[], double[], double, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&, double&);
 
 void jday(int, int, int, int, int, double, double&);
 

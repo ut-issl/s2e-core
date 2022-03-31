@@ -2,8 +2,7 @@
 
 using std::string;
 
-MCSimExecutor::MCSimExecutor(unsigned long long total_num_of_executions)
-    : total_num_of_executions_(total_num_of_executions) {
+MCSimExecutor::MCSimExecutor(unsigned long long total_num_of_executions) : total_num_of_executions_(total_num_of_executions) {
   num_of_executions_done_ = 0;
   enabled_ = total_num_of_executions_ > 1 ? true : false;
   log_history_ = !enabled_;
@@ -28,8 +27,7 @@ void MCSimExecutor::AtTheEndOfEachCase() {
   num_of_executions_done_++;
 }
 
-void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name,
-                                           double& dst) const {
+void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name, double& dst) const {
   if (!enabled_) return;
   {
     string name = so_name + MCSimExecutor::separator_ + ip_name;
@@ -42,8 +40,7 @@ void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name,
   }
 }
 
-void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name,
-                                               Quaternion& dst_quat) const {
+void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name, Quaternion& dst_quat) const {
   if (!enabled_) return;
   {
     string name = so_name + MCSimExecutor::separator_ + ip_name;
@@ -51,8 +48,7 @@ void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name,
       // ip_listに登録されていない（MCSim.iniで定義されていない）
       return;  // return without any update of dst
     } else {
-      ip_list_.at(name)->GetQuaternion(
-          dst_quat);  // const mapなのでoperator[]は使えない
+      ip_list_.at(name)->GetQuaternion(dst_quat);  // const mapなのでoperator[]は使えない
     }
   }
 }
@@ -63,6 +59,4 @@ void MCSimExecutor::RandomizeAllParameters() {
   }
 }
 
-void MCSimExecutor::SetSeed(unsigned long seed, bool is_deterministic) {
-  InitParameter::SetSeed(seed, is_deterministic);
-}
+void MCSimExecutor::SetSeed(unsigned long seed, bool is_deterministic) { InitParameter::SetSeed(seed, is_deterministic); }

@@ -10,8 +10,7 @@ using libra::Vector;
 
 class UWBSensor {
  public:
-  UWBSensor(int sensor_id, Vector<3> pos_b_, Vector<3> dir_b_,
-            Vector<3> axis_b_);
+  UWBSensor(int sensor_id, Vector<3> pos_b_, Vector<3> dir_b_, Vector<3> axis_b_);
   ~UWBSensor();
 
   // 対向UWBの電波送受信レベルが十分高ければ1を、受信できない状況では0を返す

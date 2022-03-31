@@ -54,8 +54,7 @@ class Atmosphere;
 class LocalCelestialInformation;
 class LocalEnvironment;
 MagEnvironment InitMagEnvironment(std::string ini_path);
-SRPEnvironment InitSRPEnvironment(std::string ini_path,
-                                  LocalCelestialInformation* local_celes_info);
+SRPEnvironment InitSRPEnvironment(std::string ini_path, LocalCelestialInformation* local_celes_info);
 Atmosphere InitAtmosphere(std::string ini_path);
 
 // Dynamics
@@ -65,16 +64,11 @@ class Orbit;
 class Temperature;
 class Node;
 class RelativeInformation;
-Attitude* InitAttitude(std::string file_name, const Orbit* orbit,
-                       const LocalCelestialInformation* celes_info,
-                       const double step_sec, const Matrix<3, 3> inertia_tensor,
-                       const int sat_id);
-Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path,
-                 double stepSec, double current_jd, double gravity_constant,
-                 std::string section = "ORBIT",
-                 RelativeInformation* rel_info = (RelativeInformation*)nullptr);
-Temperature* InitTemperature(std::string ini_path,
-                             const double rk_prop_step_sec);
+Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info, const double step_sec,
+                       const Matrix<3, 3> inertia_tensor, const int sat_id);
+Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, double stepSec, double current_jd, double gravity_constant,
+                 std::string section = "ORBIT", RelativeInformation* rel_info = (RelativeInformation*)nullptr);
+Temperature* InitTemperature(std::string ini_path, const double rk_prop_step_sec);
 Node InitNode(const vector<std::string>& nodestr);
 
 // Disturbance
@@ -85,15 +79,12 @@ class GGDist;
 class MagDisturbance;
 class GeoPotential;
 class ThirdBodyGravity;
-AirDrag InitAirDrag(std::string ini_path, const vector<Surface>& surfaces,
-                    const Vector<3> cg_b);
-SolarRadiation InitSRDist(std::string ini_path, const vector<Surface>& surfaces,
-                          Vector<3> cg_b);
+AirDrag InitAirDrag(std::string ini_path, const vector<Surface>& surfaces, const Vector<3> cg_b);
+SolarRadiation InitSRDist(std::string ini_path, const vector<Surface>& surfaces, Vector<3> cg_b);
 GGDist InitGGDist(std::string ini_path);
 MagDisturbance InitMagDisturbance(std::string ini_path, RMMParams rmm_params);
 GeoPotential InitGeoPotential(std::string ini_path);
-ThirdBodyGravity InitThirdBodyGravity(std::string ini_path,
-                                      std::string ini_path_celes);
+ThirdBodyGravity InitThirdBodyGravity(std::string ini_path, std::string ini_path_celes);
 
 // Component
 class Gyro;
@@ -111,73 +102,43 @@ class GScalculator;
 class Telescope;
 class STT;
 class GNSSReceiver;
-Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname,
-              double compo_step_time, const Dynamics* dynamics);
-Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id,
-              const std::string fname, double compo_step_time,
+Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const Dynamics* dynamics);
+Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
               const Dynamics* dynamics);
-MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id,
-                        const std::string fname, double compo_step_time,
+MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const MagEnvironment* magnet);
+MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
                         const MagEnvironment* magnet);
-MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port,
-                        int sensor_id, const std::string fname,
-                        double compo_step_time, const MagEnvironment* magnet);
-MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id,
-                          const std::string fname, double compo_step_time,
+MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const std::string fname, double compo_step_time, const MagEnvironment* mag_env);
+MagTorquer InitMagTorquer(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, const std::string fname, double compo_step_time,
                           const MagEnvironment* mag_env);
-MagTorquer InitMagTorquer(ClockGenerator* clock_gen, PowerPort* power_port,
-                          int actuator_id, const std::string fname,
-                          double compo_step_time,
-                          const MagEnvironment* mag_env);
-RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id,
-                    std::string file_name, double prop_step,
+RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id, std::string file_name, double prop_step, double compo_update_step);
+RWModel InitRWModel(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, std::string file_name, double prop_step,
                     double compo_update_step);
-RWModel InitRWModel(ClockGenerator* clock_gen, PowerPort* power_port,
-                    int actuator_id, std::string file_name, double prop_step,
-                    double compo_update_step);
-STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const std::string fname,
-            double compo_step_time, const Dynamics* dynamics,
+STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const Dynamics* dynamics,
             const LocalEnvironment* local_env);
-STT InitSTT(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id,
-            const std::string fname, double compo_step_time,
+STT InitSTT(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
             const Dynamics* dynamics, const LocalEnvironment* local_env);
-SunSensor InitSunSensor(ClockGenerator* clock_gen, int sensor_id,
-                        const std::string fname, const SRPEnvironment* srp,
+SunSensor InitSunSensor(ClockGenerator* clock_gen, int sensor_id, const std::string fname, const SRPEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info);
-SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port,
-                        int sensor_id, const std::string fname,
-                        const SRPEnvironment* srp,
+SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, const SRPEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info);
-GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id,
-                              const std::string fname, const Dynamics* dynamics,
-                              const GnssSatellites* gnss_satellites,
-                              const SimTime* simtime);
-GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port,
-                              int id, const std::string fname,
-                              const Dynamics* dynamics,
-                              const GnssSatellites* gnss_satellites,
-                              const SimTime* simtime);
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id,
-                                  const std::string fname,
-                                  const Structure* structure,
+GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const std::string fname, const Dynamics* dynamics,
+                              const GnssSatellites* gnss_satellites, const SimTime* simtime);
+GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const std::string fname, const Dynamics* dynamics,
+                              const GnssSatellites* gnss_satellites, const SimTime* simtime);
+SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, const std::string fname, const Structure* structure,
                                   const Dynamics* dynamics);
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen,
-                                  PowerPort* power_port, int thruster_id,
-                                  const std::string fname,
-                                  const Structure* structure,
-                                  const Dynamics* dynamics);
+SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, PowerPort* power_port, int thruster_id, const std::string fname,
+                                  const Structure* structure, const Dynamics* dynamics);
 
 BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname);
-SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname,
-            const SRPEnvironment* srp,
+SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp,
             const LocalCelestialInformation* local_celes_info);
 EMDS InitEMDS(int actuator_id);
 UWBSensor InitUWBSensor(int sensor_id);
 ANT InitANT(int ant_id, const std::string fname);
 GScalculator InitGScalculator(const std::string fname);
-Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id,
-                        const std::string fname, const Attitude* attitude,
-                        const HipparcosCatalogue* hipp,
+Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const std::string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
                         const LocalCelestialInformation* local_celes_info);
 // MCSim
 class MCSimExecutor;

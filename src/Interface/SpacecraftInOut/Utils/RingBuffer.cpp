@@ -35,9 +35,7 @@ int RingBuffer::Read(byte* buffer, int offset, int count) {
   // whether all of the RP to the WP are requested by count.
   // (RPがWPを追い越しているか、countでRPからWPまで全て要求されているかどうかにより、4通りの挙動)
   while (read_count != count && wp_ != rp_) {
-    int read_len = (wp_ > rp_)
-                       ? std::min(wp_ - rp_, count - read_count)
-                       : std::min(kBufferSize - rp_, count - read_count);
+    int read_len = (wp_ > rp_) ? std::min(wp_ - rp_, count - read_count) : std::min(kBufferSize - rp_, count - read_count);
     memcpy(&buffer[offset + read_count], &buf_[rp_], read_len);
     rp_ = (rp_ + read_len == kBufferSize) ? 0 : rp_ + read_len;
     read_count += read_len;

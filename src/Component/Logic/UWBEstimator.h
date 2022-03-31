@@ -54,8 +54,7 @@ class UWBEstimator : public ILoggable {
   uwbvec uwb_t, uwb_c;
   Quaternion q_t, q_c;  // i2b
 
-  Vector<3> distanceVector(Vector<3> L, Quaternion qt_i2b, Quaternion qc_i2b,
-                           Vector<3> post_b, Vector<3> posc_b);
+  Vector<3> distanceVector(Vector<3> L, Quaternion qt_i2b, Quaternion qc_i2b, Vector<3> post_b, Vector<3> posc_b);
 
   void SetR(Vector<12> visibility);
   void SetH();

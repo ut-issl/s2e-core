@@ -5,11 +5,8 @@
 
 using std::string;
 
-SimpleCircularOrbit::SimpleCircularOrbit(const CelestialInformation* celes_info,
-                                         double mu, double timestep, int wgs,
-                                         Vector<3> init_position,
-                                         Vector<3> init_velocity,
-                                         double current_jd, double init_time)
+SimpleCircularOrbit::SimpleCircularOrbit(const CelestialInformation* celes_info, double mu, double timestep, int wgs, Vector<3> init_position,
+                                         Vector<3> init_velocity, double current_jd, double init_time)
     : celes_info_(celes_info), ODE<N>(timestep), mu(mu) {
   propagate_mode_ = PROPAGATE_MODE::RK4;
 
@@ -29,8 +26,7 @@ SimpleCircularOrbit::SimpleCircularOrbit(const CelestialInformation* celes_info,
 
 SimpleCircularOrbit::~SimpleCircularOrbit() {}
 
-void SimpleCircularOrbit::RHS(double t, const Vector<N>& state,
-                              Vector<N>& rhs) {
+void SimpleCircularOrbit::RHS(double t, const Vector<N>& state, Vector<N>& rhs) {
   double x = state[0], y = state[1], z = state[2];
   double vx = state[3], vy = state[4], vz = state[5];
 
@@ -46,9 +42,7 @@ void SimpleCircularOrbit::RHS(double t, const Vector<N>& state,
   (void)t;
 }
 
-void SimpleCircularOrbit::Initialize(Vector<3> init_position,
-                                     Vector<3> init_velocity, double current_jd,
-                                     double init_time) {
+void SimpleCircularOrbit::Initialize(Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time) {
   // 状態量ベクトル [x,y,z,vx,vy,vz]
   Vector<N> init_state;
   init_state[0] = init_position[0];

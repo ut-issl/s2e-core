@@ -106,8 +106,7 @@ const T inner_product(const Vector<N, T>& lhs, const Vector<N, T>& rhs) {
 }
 
 template <typename T>
-const Vector<3, T> outer_product(const Vector<3, T>& lhs,
-                                 const Vector<3, T>& rhs) {
+const Vector<3, T> outer_product(const Vector<3, T>& lhs, const Vector<3, T>& rhs) {
   Vector<3, T> temp;
   temp[0] = lhs[1] * rhs[2] - lhs[2] * rhs[1];
   temp[1] = lhs[2] * rhs[0] - lhs[0] * rhs[2];

@@ -14,12 +14,9 @@
 using namespace std;
 using namespace libra;
 
-STT::STT(const int prescaler, ClockGenerator* clock_gen, const int id,
-         const libra::Quaternion& q_b2c, const double sigma_ortho,
-         const double sigma_sight, const double step_time,
-         const unsigned int output_delay, const unsigned int output_interval,
-         const double sun_forbidden_angle, const double earth_forbidden_angle,
-         const double moon_forbidden_angle, const double capture_rate,
+STT::STT(const int prescaler, ClockGenerator* clock_gen, const int id, const libra::Quaternion& q_b2c, const double sigma_ortho,
+         const double sigma_sight, const double step_time, const unsigned int output_delay, const unsigned int output_interval,
+         const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
          const Dynamics* dynamics, const LocalEnvironment* local_env)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
@@ -40,13 +37,10 @@ STT::STT(const int prescaler, ClockGenerator* clock_gen, const int id,
       local_env_(local_env) {
   Initialize();
 }
-STT::STT(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port,
-         const int id, const libra::Quaternion& q_b2c, const double sigma_ortho,
-         const double sigma_sight, const double step_time,
-         const unsigned int output_delay, const unsigned int output_interval,
-         const double sun_forbidden_angle, const double earth_forbidden_angle,
-         const double moon_forbidden_angle, const double capture_rate,
-         const Dynamics* dynamics, const LocalEnvironment* local_env)
+STT::STT(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
+         const double sigma_ortho, const double sigma_sight, const double step_time, const unsigned int output_delay,
+         const unsigned int output_interval, const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle,
+         const double capture_rate, const Dynamics* dynamics, const LocalEnvironment* local_env)
     : ComponentBase(prescaler, clock_gen, power_port),
       id_(id),
       q_b2c_(q_b2c),
@@ -83,16 +77,13 @@ void STT::Initialize() {
   sight_ = Vector<3>(0.0);
   ortho1_ = Vector<3>(0.0);
   ortho2_ = Vector<3>(0.0);
-  sight_[0] = 1.0;  //(1,0,0)@Component coordinates, viewing direction
-  ortho1_[1] =
-      1.0;  //(0,1,0)@Component coordinates, line-of-sight orthogonal direction
-  ortho2_[2] =
-      1.0;  //(0,0,1)@Component coordinates, line-of-sight orthogonal direction
+  sight_[0] = 1.0;   //(1,0,0)@Component coordinates, viewing direction
+  ortho1_[1] = 1.0;  //(0,1,0)@Component coordinates, line-of-sight orthogonal direction
+  ortho2_[2] = 1.0;  //(0,0,1)@Component coordinates, line-of-sight orthogonal direction
 
   error_flag_ = true;
 }
-Quaternion STT::measure(const LocalCelestialInformation* local_celes_info,
-                        const Attitude* attinfo) {
+Quaternion STT::measure(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo) {
   update(local_celes_info, attinfo);  // update delay buffer
   if (count_ == 0) {
     int hist = pos_ - output_delay_ - 1;
@@ -108,10 +99,9 @@ Quaternion STT::measure(const LocalCelestialInformation* local_celes_info,
   return q_stt_i2c_;
 }
 
-void STT::update(const LocalCelestialInformation* local_celes_info,
-                 const Attitude* attinfo) {
+void STT::update(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo) {
   Quaternion q_i2b = attinfo->GetQuaternion_i2b();  // Read true value
-  Quaternion q_stt_temp = q_i2b * q_b2c_;  // Convert to component frame
+  Quaternion q_stt_temp = q_i2b * q_b2c_;           // Convert to component frame
   // Add noise on sight direction
   Quaternion q_sight(sight_, n_sight_);
   // Random noise on orthogonal direction of sight. Range [0:2pi]
@@ -130,8 +120,7 @@ void STT::update(const LocalCelestialInformation* local_celes_info,
   pos_ %= MAX_DELAY;
 }
 
-void STT::AllJudgement(const LocalCelestialInformation* local_celes_info,
-                       const Attitude* attinfo) {
+void STT::AllJudgement(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo) {
   int judgement = 0;
   judgement = SunJudgement(local_celes_info->GetPosFromSC_b("SUN"));
   judgement += EarthJudgement(local_celes_info->GetPosFromSC_b("EARTH"));
@@ -156,14 +145,10 @@ int STT::SunJudgement(const libra::Vector<3>& sun_b) {
 int STT::EarthJudgement(const libra::Vector<3>& earth_b) {
   Quaternion q_c2b = q_b2c_.conjugate();
   Vector<3> sight_b = q_c2b.frame_conv(sight_);
-  double earth_size_rad = atan2(
-      RE,
-      norm(earth_b));  // angles between sat<->earth_center & sat<->earth_edge
-  double earth_center_angle_rad = CalAngleVect_rad(
-      earth_b, sight_b);  // angles between sat<->earth_center & sat_sight
-  double earth_edge_angle_rad =
-      earth_center_angle_rad -
-      earth_size_rad;  // angles between sat<->earth_edge & sat_sight
+  double earth_size_rad = atan2(RE,
+                                norm(earth_b));                           // angles between sat<->earth_center & sat<->earth_edge
+  double earth_center_angle_rad = CalAngleVect_rad(earth_b, sight_b);     // angles between sat<->earth_center & sat_sight
+  double earth_edge_angle_rad = earth_center_angle_rad - earth_size_rad;  // angles between sat<->earth_edge & sat_sight
   if (earth_edge_angle_rad < earth_forbidden_angle_)
     return 1;
   else
@@ -211,13 +196,11 @@ double STT::CalAngleVect_rad(const Vector<3>& vect1, const Vector<3>& vect2) {
   Vector<3> vect1_normal(vect1);
   normalize(vect1_normal);  // Normalize Vector1
   Vector<3> vect2_normal(vect2);
-  normalize(vect2_normal);  // Normalize Vector2
+  normalize(vect2_normal);                                      // Normalize Vector2
   double cosTheta = inner_product(vect1_normal, vect2_normal);  // Calc cos
                                                                 // value
   double theta_rad = acos(cosTheta);
   return theta_rad;
 }
 
-void STT::MainRoutine(int count) {
-  measure(&(local_env_->GetCelesInfo()), &(dynamics_->GetAttitude()));
-}
+void STT::MainRoutine(int count) { measure(&(local_env_->GetCelesInfo()), &(dynamics_->GetAttitude())); }

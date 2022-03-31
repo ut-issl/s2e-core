@@ -17,12 +17,10 @@ using libra::Vector;
 #pragma once
 class AirDrag : public SurfaceForce {
  public:
-  AirDrag(const vector<Surface>& surfaces, const Vector<3>& cg_b,
-          const double t_w, const double t_m, const double molecular);
+  AirDrag(const vector<Surface>& surfaces, const Vector<3>& cg_b, const double t_w, const double t_m, const double molecular);
 
   // Override SimpleDisturbance
-  virtual void Update(const LocalEnvironment& local_env,
-                      const Dynamics& dynamics);
+  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
 
   // Override Loggable
   virtual std::string GetLogHeader() const;

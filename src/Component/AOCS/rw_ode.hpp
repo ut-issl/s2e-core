@@ -24,8 +24,7 @@ class RwOde : public libra::ODE<1> {
    * @param[in] init_angular_velocity 初期角速度
    * @param[in] target_angular_velocity 目標角速度
    */
-  RwOde(double step_width, double init_angular_velocity,
-        double target_angular_velocity, libra::Vector<3> lag_coef);
+  RwOde(double step_width, double init_angular_velocity, double target_angular_velocity, libra::Vector<3> lag_coef);
   /**
    * @brief 微分方程式の実装
    * @param[in] x　時間
@@ -34,8 +33,7 @@ class RwOde : public libra::ODE<1> {
    * @return void
    * @detail ode.hppにて純粋仮想関数として宣言
    */
-  void RHS(double x, const libra::Vector<1>& state,
-           libra::Vector<1>& rhs) override;
+  void RHS(double x, const libra::Vector<1>& state, libra::Vector<1>& rhs) override;
 
   /**
    *@brief 角速度の取得
@@ -58,7 +56,7 @@ class RwOde : public libra::ODE<1> {
   void setLagCoef(libra::Vector<3> lag_coef);
 
  private:
-  RwOde(double step_width);  //!基底クラスのコンストラクタ呼び出しの禁止
+  RwOde(double step_width);            //!基底クラスのコンストラクタ呼び出しの禁止
   libra::Vector<3> lag_coef_;          //!<一次遅れ用定数
   const double kInitAngularVelocity_;  //!初期角速度
   double target_angular_velocity_;     //!目標角速度

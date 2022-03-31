@@ -14,11 +14,9 @@ class SimTime;
 
 class LocalEnvironment {
  public:
-  LocalEnvironment(SimulationConfig* sim_config,
-                   const GlobalEnvironment* glo_env, const int sat_id);
+  LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
   ~LocalEnvironment();
-  void Initialize(SimulationConfig* sim_config,
-                  const GlobalEnvironment* glo_env, const int sat_id);
+  void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
   void Update(const Dynamics* dynamics, const SimTime* sim_time);
   void LogSetup(Logger& logger);
 
@@ -26,9 +24,7 @@ class LocalEnvironment {
   inline const Atmosphere& GetAtmosphere() const { return *atmosphere_; }
   inline const MagEnvironment& GetMag() const { return *mag_; }
   inline const SRPEnvironment& GetSrp() const { return *srp_; }
-  inline const LocalCelestialInformation& GetCelesInfo() const {
-    return *celes_info_;
-  }
+  inline const LocalCelestialInformation& GetCelesInfo() const { return *celes_info_; }
 
  private:
   Atmosphere* atmosphere_;

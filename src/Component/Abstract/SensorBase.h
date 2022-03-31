@@ -8,12 +8,8 @@
 template <size_t N>
 class SensorBase {
  public:
-  SensorBase(const libra::Matrix<N, N>& scale_factor,
-             const libra::Vector<N>& range_to_const_c,
-             const libra::Vector<N>& range_to_zero_c,
-             const libra::Vector<N>& bias_c,
-             const libra::Vector<N>& nr_stddev_c, double rw_stepwidth,
-             const libra::Vector<N>& rw_stddev_c,
+  SensorBase(const libra::Matrix<N, N>& scale_factor, const libra::Vector<N>& range_to_const_c, const libra::Vector<N>& range_to_zero_c,
+             const libra::Vector<N>& bias_c, const libra::Vector<N>& nr_stddev_c, double rw_stepwidth, const libra::Vector<N>& rw_stddev_c,
              const libra::Vector<N>& rw_limit_c);
   ~SensorBase();
 

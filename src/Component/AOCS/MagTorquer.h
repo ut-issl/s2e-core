@@ -30,27 +30,14 @@ class MagTorquer : public ComponentBase, public ILoggable {
   \nr_stddev: Standard deviation for the normal random noise [Am2]
   \resolution: Output resolution [Am2]
   */
-  MagTorquer(const int prescaler, ClockGenerator* clock_gen, const int id,
-             const libra::Quaternion& q_b2c,
-             const libra::Matrix<kMtqDim, kMtqDim>& scale_facter,
-             const libra::Vector<kMtqDim>& max_c,
-             const libra::Vector<kMtqDim>& min_c,
-             const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth,
-             const libra::Vector<kMtqDim>& rw_stddev_c,
-             const libra::Vector<kMtqDim>& rw_limit_c,
-             const libra::Vector<kMtqDim>& nr_stddev_c,
-             const MagEnvironment* mag_env);
-  MagTorquer(const int prescaler, ClockGenerator* clock_gen,
-             PowerPort* power_port, const int id,
-             const libra::Quaternion& q_b2c,
-             const libra::Matrix<kMtqDim, kMtqDim>& scale_facter,
-             const libra::Vector<kMtqDim>& max_c,
-             const libra::Vector<kMtqDim>& min_c,
-             const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth,
-             const libra::Vector<kMtqDim>& rw_stddev_c,
-             const libra::Vector<kMtqDim>& rw_limit_c,
-             const libra::Vector<kMtqDim>& nr_stddev_c,
-             const MagEnvironment* mag_env);
+  MagTorquer(const int prescaler, ClockGenerator* clock_gen, const int id, const libra::Quaternion& q_b2c,
+             const libra::Matrix<kMtqDim, kMtqDim>& scale_facter, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
+             const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
+             const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const MagEnvironment* mag_env);
+  MagTorquer(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
+             const libra::Matrix<kMtqDim, kMtqDim>& scale_facter, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
+             const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
+             const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const MagEnvironment* mag_env);
 
   // ComponentBase override functions
   void MainRoutine(int count) override;
@@ -59,16 +46,10 @@ class MagTorquer : public ComponentBase, public ILoggable {
   virtual std::string GetLogValue() const;
 
   // Getter
-  inline const libra::Vector<kMtqDim>& GetMagMoment_b(void) const {
-    return mag_moment_b_;
-  };  // Am2
-  inline const libra::Vector<kMtqDim>& GetTorque_b(void) const {
-    return torque_b_;
-  };  // Nm
+  inline const libra::Vector<kMtqDim>& GetMagMoment_b(void) const { return mag_moment_b_; };  // Am2
+  inline const libra::Vector<kMtqDim>& GetTorque_b(void) const { return torque_b_; };         // Nm
   // Setter
-  inline void SetMagMomentC(const libra::Vector<kMtqDim> mag_moment_c) {
-    mag_moment_c_ = mag_moment_c;
-  };  // Am2
+  inline void SetMagMomentC(const libra::Vector<kMtqDim> mag_moment_c) { mag_moment_c_ = mag_moment_c; };  // Am2
 
  protected:
   const int id_ = 0;
@@ -77,10 +58,8 @@ class MagTorquer : public ComponentBase, public ILoggable {
   libra::Vector<kMtqDim> mag_moment_c_{0.0};  // Am2
   libra::Vector<kMtqDim> mag_moment_b_{0.0};  // Am2
 
-  libra::Quaternion q_b2c_{
-      0.0, 0.0, 0.0, 1.0};  // Quarternion from body frame to component frame
-  libra::Quaternion q_c2b_{
-      0.0, 0.0, 0.0, 1.0};  // Quarternion from component frame to body frame
+  libra::Quaternion q_b2c_{0.0, 0.0, 0.0, 1.0};  // Quarternion from body frame to component frame
+  libra::Quaternion q_c2b_{0.0, 0.0, 0.0, 1.0};  // Quarternion from component frame to body frame
   libra::Matrix<kMtqDim, kMtqDim> scale_factor_;
   libra::Vector<kMtqDim> max_c_{100.0};   // Am2
   libra::Vector<kMtqDim> min_c_{-100.0};  // Am2

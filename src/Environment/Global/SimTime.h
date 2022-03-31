@@ -34,15 +34,9 @@ struct UTC {
 // シミュレーション上の時間を管理するシングルトン
 class SimTime : public ILoggable {
  public:
-  SimTime(const double end_sec, const double step_sec,
-          const double attitude_update_interval_sec,
-          const double attitude_rk_step_sec,
-          const double orbit_update_interval_sec,
-          const double orbit_rk_step_sec,
-          const double thermal_update_interval_sec,
-          const double thermal_rk_step_sec,
-          const double compo_propagate_step_sec,
-          const double log_output_interval_sec, const char* start_ymdhms,
+  SimTime(const double end_sec, const double step_sec, const double attitude_update_interval_sec, const double attitude_rk_step_sec,
+          const double orbit_update_interval_sec, const double orbit_rk_step_sec, const double thermal_update_interval_sec,
+          const double thermal_rk_step_sec, const double compo_propagate_step_sec, const double log_output_interval_sec, const char* start_ymdhms,
           const double sim_speed);
   ~SimTime();
 
@@ -55,50 +49,24 @@ class SimTime : public ILoggable {
   inline const TimeState GetState(void) const { return state_; };
   inline const double GetElapsedSec(void) const { return elapsed_time_sec_; };
   inline const double GetStepSec(void) const { return step_sec_; };
-  inline const double GetAttitudeUpdateIntervalSec(void) const {
-    return attitude_update_interval_sec_;
-  };
-  inline const bool GetAttitudePropagateFlag(void) const {
-    return attitude_update_flag_;
-  };
-  inline const double GetAttitudeRKStepSec() const {
-    return attitude_rk_step_sec_;
-  }
-  inline const double GetOrbitUpdateIntervalSec(void) const {
-    return orbit_update_interval_sec_;
-  };
-  inline const bool GetOrbitPropagateFlag(void) const {
-    return orbit_update_flag_;
-  };
+  inline const double GetAttitudeUpdateIntervalSec(void) const { return attitude_update_interval_sec_; };
+  inline const bool GetAttitudePropagateFlag(void) const { return attitude_update_flag_; };
+  inline const double GetAttitudeRKStepSec() const { return attitude_rk_step_sec_; }
+  inline const double GetOrbitUpdateIntervalSec(void) const { return orbit_update_interval_sec_; };
+  inline const bool GetOrbitPropagateFlag(void) const { return orbit_update_flag_; };
   inline const double GetOrbitRKStepSec() const { return orbit_rk_step_sec_; }
-  inline const double GetThermalUpdateIntervalSec(void) const {
-    return thermal_update_interval_sec_;
-  };
-  inline const bool GetThermalPropagateFlag(void) const {
-    return thermal_update_flag_;
-  };
-  inline const double GetThermalRKStepSec() const {
-    return thermal_rk_step_sec_;
-  }
-  inline const double GetCompoStepSec(void) const {
-    return compo_update_interval_sec_;
-  };
+  inline const double GetThermalUpdateIntervalSec(void) const { return thermal_update_interval_sec_; };
+  inline const bool GetThermalPropagateFlag(void) const { return thermal_update_flag_; };
+  inline const double GetThermalRKStepSec() const { return thermal_rk_step_sec_; }
+  inline const double GetCompoStepSec(void) const { return compo_update_interval_sec_; };
   inline const bool GetCompoUpdateFlag() const { return compo_update_flag_; }
-  inline const int GetCompoPropagateFrequency(void) const {
-    return compo_propagate_frequency_;
-  };
+  inline const int GetCompoPropagateFrequency(void) const { return compo_propagate_frequency_; };
 
   inline const double GetEndSec(void) const { return end_sec_; };
-  inline const int GetProgressionRate(void) const {
-    return (int)floor((elapsed_time_sec_ / end_sec_ * 100));
-  };
+  inline const int GetProgressionRate(void) const { return (int)floor((elapsed_time_sec_ / end_sec_ * 100)); };
   inline const double GetCurrentJd(void) const { return current_jd_; };
-  inline const double GetCurrentSidereal(void) const {
-    return current_sidereal_;
-  };
-  inline const double GetCurrentDecyear(void) const {
-    return current_decyear_;
-  };
+  inline const double GetCurrentSidereal(void) const { return current_sidereal_; };
+  inline const double GetCurrentDecyear(void) const { return current_decyear_; };
   inline const UTC GetCurrentUTC(void) const { return current_utc_; };
   inline const int GetStartYear(void) const { return start_year_; };
   inline const int GetStartMon(void) const { return start_mon_; };

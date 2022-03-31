@@ -25,8 +25,7 @@ const int galileo_index_bias_ = glonass_index_bias_ + glonass_sat_num_;
 const int beidou_index_bias_ = galileo_index_bias_ + galileo_sat_num_;
 const int qzss_index_bias_ = beidou_index_bias_ + beidou_sat_num_;
 
-const int all_sat_num_ = gps_sat_num_ + glonass_sat_num_ + galileo_sat_num_ +
-                         beidou_sat_num_ + qzss_sat_num_;
+const int all_sat_num_ = gps_sat_num_ + glonass_sat_num_ + galileo_sat_num_ + beidou_sat_num_ + qzss_sat_num_;
 
 using namespace std;
 
@@ -55,15 +54,11 @@ tm* initilized_tm() {
 double get_unixtime_from_timestamp_line(std::vector<string>& s) {
   tm* time_tm = initilized_tm();
   time_tm->tm_year = stoi(s.at(1)) - 1900;
-  time_tm->tm_mon =
-      stoi(s.at(2)) -
-      1;  // 0 - 11, in time struct, 1 - 12 month is expressed by 1 - 12
+  time_tm->tm_mon = stoi(s.at(2)) - 1;  // 0 - 11, in time struct, 1 - 12 month is expressed by 1 - 12
   time_tm->tm_mday = stoi(s.at(3));
   time_tm->tm_hour = stoi(s.at(4));
   time_tm->tm_min = stoi(s.at(5));
-  time_tm->tm_sec =
-      (int)(stod(s.at(6)) +
-            1e-4);  // for the numerical error, plus 1e-4 (tm_sec is to be int)
+  time_tm->tm_sec = (int)(stod(s.at(6)) + 1e-4);  // for the numerical error, plus 1e-4 (tm_sec is to be int)
   double unix_time = (double)mktime(time_tm);
   std::free(time_tm);
 
@@ -71,20 +66,16 @@ double get_unixtime_from_timestamp_line(std::vector<string>& s) {
 }
 
 template <size_t N>
-Vector<N> GnssSat_coordinate::TrigonometricInterpolation(
-    const vector<double>& time_vector, const vector<Vector<N>>& values,
-    double time) const {
+Vector<N> GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<Vector<N>>& values, double time) const {
   int n = time_vector.size();
-  double w =
-      libra::tau / (24.0 * 60.0 * 60.0) * 1.03;  // coefficient of a day long
+  double w = libra::tau / (24.0 * 60.0 * 60.0) * 1.03;  // coefficient of a day long
   Vector<N> res(0.0);
 
   for (int i = 0; i < n; ++i) {
     double t_k = 1.0;
     for (int j = 0; j < n; ++j) {
       if (i == j) continue;
-      t_k *= sin(w * (time - time_vector.at(j)) / 2.0) /
-             sin(w * (time_vector.at(i) - time_vector.at(j)) / 2.0);
+      t_k *= sin(w * (time - time_vector.at(j)) / 2.0) / sin(w * (time_vector.at(i) - time_vector.at(j)) / 2.0);
     }
     for (int j = 0; j < (int)N; ++j) {
       res(j) += t_k * values.at(i)(j);
@@ -94,20 +85,16 @@ Vector<N> GnssSat_coordinate::TrigonometricInterpolation(
   return res;
 }
 
-double GnssSat_coordinate::TrigonometricInterpolation(
-    const vector<double>& time_vector, const vector<double>& values,
-    double time) const {
+double GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<double>& values, double time) const {
   int n = time_vector.size();
-  double w =
-      libra::tau / (24.0 * 60.0 * 60.0) * 1.03;  // coefficient of a day long
+  double w = libra::tau / (24.0 * 60.0 * 60.0) * 1.03;  // coefficient of a day long
   double res = 0.0;
 
   for (int i = 0; i < n; ++i) {
     double t_k = 1.0;
     for (int j = 0; j < n; ++j) {
       if (i == j) continue;
-      t_k *= sin(w * (time - time_vector.at(j)) / 2.0) /
-             sin(w * (time_vector.at(i) - time_vector.at(j)) / 2.0);
+      t_k *= sin(w * (time - time_vector.at(j)) / 2.0) / sin(w * (time_vector.at(i) - time_vector.at(j)) / 2.0);
     }
     res += t_k * values.at(i);
   }
@@ -116,9 +103,7 @@ double GnssSat_coordinate::TrigonometricInterpolation(
 }
 
 template <size_t N>
-Vector<N> GnssSat_coordinate::LagrangeInterpolation(
-    const vector<double>& time_vector, const vector<Vector<N>>& values,
-    double time) const {
+Vector<N> GnssSat_coordinate::LagrangeInterpolation(const vector<double>& time_vector, const vector<Vector<N>>& values, double time) const {
   int n = time_vector.size();
   Vector<N> res(0.0);
 
@@ -126,8 +111,7 @@ Vector<N> GnssSat_coordinate::LagrangeInterpolation(
     double l_i = 1.0;
     for (int j = 0; j < n; ++j) {
       if (i == j) continue;
-      l_i *=
-          (time - time_vector.at(j)) / (time_vector.at(i) - time_vector.at(j));
+      l_i *= (time - time_vector.at(j)) / (time_vector.at(i) - time_vector.at(j));
     }
     for (int j = 0; j < N; ++j) {
       res(j) += l_i * values.at(i)(j);
@@ -137,17 +121,14 @@ Vector<N> GnssSat_coordinate::LagrangeInterpolation(
   return res;
 }
 
-double GnssSat_coordinate::LagrangeInterpolation(
-    const vector<double>& time_vector, const vector<double>& values,
-    double time) const {
+double GnssSat_coordinate::LagrangeInterpolation(const vector<double>& time_vector, const vector<double>& values, double time) const {
   int n = time_vector.size();
   double res = 0.0;
   for (int i = 0; i < n; ++i) {
     double l_i = 1.0;
     for (int j = 0; j < n; ++j) {
       if (i == j) continue;
-      l_i *=
-          (time - time_vector.at(j)) / (time_vector.at(i) - time_vector.at(j));
+      l_i *= (time - time_vector.at(j)) / (time_vector.at(i) - time_vector.at(j));
     }
     res += values.at(i) * l_i;
   }
@@ -225,15 +206,11 @@ bool GnssSat_coordinate::GetWhetherValid(int sat_id) const {
   return validate_.at(sat_id);
 }
 
-pair<double, double> GnssSat_position::Init(vector<vector<string>>& file,
-                                            int interpolation_method,
-                                            int interpolation_number,
-                                            UR_KINDS ur_flag) {
+pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int interpolation_method, int interpolation_number, UR_KINDS ur_flag) {
   interpolation_number_ = interpolation_number;
 
   // 拡張
-  gnss_sat_table_ecef_.resize(
-      all_sat_num_);  // first vectir size is the sat num
+  gnss_sat_table_ecef_.resize(all_sat_num_);  // first vectir size is the sat num
   gnss_sat_table_eci_.resize(all_sat_num_);
   unixtime_vector_.resize(all_sat_num_);
 
@@ -282,8 +259,7 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file,
     } else {
       int offset = (int)ur_flag - (int)UR_OBSERVE1;
       start_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * offset;
-      end_line =
-          line + (num_of_sat + 1) * num_of_time_stamps / 8 * (offset + 1);
+      end_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * (offset + 1);
     }
 
     double unix_time = 0;
@@ -302,8 +278,7 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file,
 
         unix_time = get_unixtime_from_timestamp_line(s);
         double jd;
-        jday(stoi(s.at(1)), stoi(s.at(2)), stoi(s.at(3)), stoi(s.at(4)),
-             stoi(s.at(5)), stod(s.at(6)), jd);
+        jday(stoi(s.at(1)), stoi(s.at(2)), stoi(s.at(3)), stoi(s.at(4)), stoi(s.at(5)), stod(s.at(6)), jd);
         double gs_time_ = gstime(jd);
         cos_ = cos(gs_time_);
         sin_ = sin(gs_time_);
@@ -343,8 +318,7 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file,
         eci_position(1) = sin_ * x + cos_ * y;
         eci_position(2) = z;
 
-        if (!unixtime_vector_.at(sat_id).empty() &&
-            std::abs(unix_time - unixtime_vector_.at(sat_id).back()) < 1.0) {
+        if (!unixtime_vector_.at(sat_id).empty() && std::abs(unix_time - unixtime_vector_.at(sat_id).back()) < 1.0) {
           unixtime_vector_.at(sat_id).back() = unix_time;
           gnss_sat_table_ecef_.at(sat_id).back() = ecef_position_m;
           gnss_sat_table_eci_.at(sat_id).back() = eci_position;
@@ -360,8 +334,7 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file,
   return make_pair(start_unix_time, end_unix_time);
 }
 
-void GnssSat_position::SetUp(const double start_unix_time,
-                             const double step_sec) {
+void GnssSat_position::SetUp(const double start_unix_time, const double step_sec) {
   step_sec_ = step_sec;
 
   gnss_sat_ecef_.assign(all_sat_num_, Vector<3>(0.0));
@@ -381,9 +354,7 @@ void GnssSat_position::SetUp(const double start_unix_time,
     }
 
     int index =
-        lower_bound(unixtime_vector_.at(sat_id).begin(),
-                    unixtime_vector_.at(sat_id).end(), start_unix_time) -
-        unixtime_vector_.at(sat_id).begin();
+        lower_bound(unixtime_vector_.at(sat_id).begin(), unixtime_vector_.at(sat_id).end(), start_unix_time) - unixtime_vector_.at(sat_id).begin();
     if (index == (int)unixtime_vector_.at(sat_id).size()) {
       nearest_index_.at(sat_id) = index;
       validate_.at(sat_id) = false;
@@ -393,9 +364,7 @@ void GnssSat_position::SetUp(const double start_unix_time,
     double nearest_unixtime = unixtime_vector_.at(sat_id).at(index);
     if (interpolation_number_ % 2 && index != 0) {
       double pre_time = unixtime_vector_.at(sat_id).at(index - 1);
-      if (std::abs(start_unix_time - pre_time) <
-          std::abs(start_unix_time - nearest_unixtime))
-        --index;
+      if (std::abs(start_unix_time - pre_time) < std::abs(start_unix_time - nearest_unixtime)) --index;
     }
     nearest_index_.at(sat_id) = index;
     nearest_unixtime = unixtime_vector_.at(sat_id).at(index);
@@ -405,14 +374,11 @@ void GnssSat_position::SetUp(const double start_unix_time,
     }
 
     // for both even and odd: 2n+1 -> [-n, n] 2n -> [-n, n)
-    for (int j = -interpolation_number_ / 2;
-         j < (interpolation_number_ + 1) / 2; ++j) {
+    for (int j = -interpolation_number_ / 2; j < (interpolation_number_ + 1) / 2; ++j) {
       int now_index = index + j;
-      if (now_index < 0 || now_index >= (int)unixtime_vector_.at(sat_id).size())
-        continue;
+      if (now_index < 0 || now_index >= (int)unixtime_vector_.at(sat_id).size()) continue;
 
-      time_period_.at(sat_id).push_back(
-          unixtime_vector_.at(sat_id).at(now_index));
+      time_period_.at(sat_id).push_back(unixtime_vector_.at(sat_id).at(now_index));
       ecef_.at(sat_id).push_back(gnss_sat_table_ecef_.at(sat_id).at(now_index));
       eci_.at(sat_id).push_back(gnss_sat_table_eci_.at(sat_id).at(now_index));
     }
@@ -421,25 +387,20 @@ void GnssSat_position::SetUp(const double start_unix_time,
       continue;
     }
 
-    double time_period_length =
-        time_period_.at(sat_id).back() - time_period_.at(sat_id).front();
-    if (time_period_length > time_interval_ * (interpolation_number_ - 1 + 3) +
-                                 1e-4) {  // allow for 3 missing
+    double time_period_length = time_period_.at(sat_id).back() - time_period_.at(sat_id).front();
+    if (time_period_length > time_interval_ * (interpolation_number_ - 1 + 3) + 1e-4) {  // allow for 3 missing
       validate_.at(sat_id) = false;
       continue;
     } else {
       validate_.at(sat_id) = true;
     }
 
-    if (std::abs(start_unix_time - nearest_unixtime) <
-        1e-4) {  // for the numerical error, plus 1e-4
+    if (std::abs(start_unix_time - nearest_unixtime) < 1e-4) {  // for the numerical error, plus 1e-4
       gnss_sat_ecef_.at(sat_id) = gnss_sat_table_ecef_.at(sat_id).at(index);
       gnss_sat_eci_.at(sat_id) = gnss_sat_table_eci_.at(sat_id).at(index);
     } else {
-      gnss_sat_ecef_.at(sat_id) = TrigonometricInterpolation(
-          time_period_.at(sat_id), ecef_.at(sat_id), start_unix_time);
-      gnss_sat_eci_.at(sat_id) = TrigonometricInterpolation(
-          time_period_.at(sat_id), eci_.at(sat_id), start_unix_time);
+      gnss_sat_ecef_.at(sat_id) = TrigonometricInterpolation(time_period_.at(sat_id), ecef_.at(sat_id), start_unix_time);
+      gnss_sat_eci_.at(sat_id) = TrigonometricInterpolation(time_period_.at(sat_id), eci_.at(sat_id), start_unix_time);
     }
   }
 }
@@ -461,8 +422,7 @@ void GnssSat_position::Update(const double now_unix_time) {
       double pre_unix = unixtime_vector_.at(sat_id).at(index);
       double post_unix = unixtime_vector_.at(sat_id).at(index + 1);
 
-      if (std::abs(now_unix_time - post_unix) <
-          std::abs(now_unix_time - pre_unix)) {
+      if (std::abs(now_unix_time - post_unix) < std::abs(now_unix_time - pre_unix)) {
         ++index;
         nearest_index_.at(sat_id) = index;
 
@@ -471,19 +431,13 @@ void GnssSat_position::Update(const double now_unix_time) {
         eci_.at(sat_id).clear();
 
         // for both even and odd: 2n+1 -> [-n, n] 2n -> [-n, n)
-        for (int j = -interpolation_number_ / 2;
-             j < (interpolation_number_ + 1) / 2; ++j) {
+        for (int j = -interpolation_number_ / 2; j < (interpolation_number_ + 1) / 2; ++j) {
           int now_index = index + j;
-          if (now_index < 0 ||
-              now_index >= (int)unixtime_vector_.at(sat_id).size())
-            continue;
+          if (now_index < 0 || now_index >= (int)unixtime_vector_.at(sat_id).size()) continue;
 
-          time_period_.at(sat_id).push_back(
-              unixtime_vector_.at(sat_id).at(now_index));
-          ecef_.at(sat_id).push_back(
-              gnss_sat_table_ecef_.at(sat_id).at(now_index));
-          eci_.at(sat_id).push_back(
-              gnss_sat_table_eci_.at(sat_id).at(now_index));
+          time_period_.at(sat_id).push_back(unixtime_vector_.at(sat_id).at(now_index));
+          ecef_.at(sat_id).push_back(gnss_sat_table_ecef_.at(sat_id).at(now_index));
+          eci_.at(sat_id).push_back(gnss_sat_table_eci_.at(sat_id).at(now_index));
         }
       }
     }
@@ -498,25 +452,20 @@ void GnssSat_position::Update(const double now_unix_time) {
       continue;
     }
 
-    double time_period_length =
-        time_period_.at(sat_id).back() - time_period_.at(sat_id).front();
-    if (time_period_length > time_interval_ * (interpolation_number_ - 1 + 3) +
-                                 1e-4) {  // allow for 3 missing
+    double time_period_length = time_period_.at(sat_id).back() - time_period_.at(sat_id).front();
+    if (time_period_length > time_interval_ * (interpolation_number_ - 1 + 3) + 1e-4) {  // allow for 3 missing
       validate_.at(sat_id) = false;
       continue;
     } else {
       validate_.at(sat_id) = true;
     }
 
-    if (std::abs(now_unix_time - nearest_unix_time) <
-        1e-4) {  // for the numerical error, plus 1e-4
+    if (std::abs(now_unix_time - nearest_unix_time) < 1e-4) {  // for the numerical error, plus 1e-4
       gnss_sat_ecef_.at(sat_id) = gnss_sat_table_ecef_.at(sat_id).at(index);
       gnss_sat_eci_.at(sat_id) = gnss_sat_table_eci_.at(sat_id).at(index);
     } else {
-      gnss_sat_ecef_.at(sat_id) = TrigonometricInterpolation(
-          time_period_.at(sat_id), ecef_.at(sat_id), now_unix_time);
-      gnss_sat_eci_.at(sat_id) = TrigonometricInterpolation(
-          time_period_.at(sat_id), eci_.at(sat_id), now_unix_time);
+      gnss_sat_ecef_.at(sat_id) = TrigonometricInterpolation(time_period_.at(sat_id), ecef_.at(sat_id), now_unix_time);
+      gnss_sat_eci_.at(sat_id) = TrigonometricInterpolation(time_period_.at(sat_id), eci_.at(sat_id), now_unix_time);
     }
   }
 }
@@ -531,12 +480,10 @@ libra::Vector<3> GnssSat_position::GetSatEci(int sat_id) const {
   return gnss_sat_eci_.at(sat_id);
 }
 
-void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension,
-                         int interpolation_number, UR_KINDS ur_flag,
+void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, int interpolation_number, UR_KINDS ur_flag,
                          pair<double, double> unix_time_period) {
   interpolation_number_ = interpolation_number;
-  gnss_sat_clock_table_.resize(
-      all_sat_num_);  // first vectir size is the sat num
+  gnss_sat_clock_table_.resize(all_sat_num_);  // first vectir size is the sat num
   unixtime_vector_.resize(all_sat_num_);
 
   if (file_extension == ".sp3") {
@@ -581,8 +528,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension,
       } else {
         int offset = (int)ur_flag - (int)UR_OBSERVE1;
         start_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * offset;
-        end_line =
-            line + (num_of_sat + 1) * num_of_time_stamps / 8 * (offset + 1);
+        end_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * (offset + 1);
       }
 
       double unix_time = 0;
@@ -612,8 +558,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension,
           // in the file, clock bias is expressed in [micro second], so by
           // multiplying by the speed_of_light & 1e-6, they are converted to [m]
           clock *= (speed_of_light_m_s * 1e-6);
-          if (!unixtime_vector_.at(sat_id).empty() &&
-              std::abs(unix_time - unixtime_vector_.at(sat_id).back()) < 1.0) {
+          if (!unixtime_vector_.at(sat_id).empty() && std::abs(unix_time - unixtime_vector_.at(sat_id).back()) < 1.0) {
             unixtime_vector_.at(sat_id).back() = unix_time;
             gnss_sat_clock_table_.at(sat_id).back() = clock;
           } else {
@@ -652,15 +597,12 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension,
 
         tm* time_tm = initilized_tm();
         time_tm->tm_year = stoi(s.at(2)) - 1900;
-        time_tm->tm_mon =
-            stoi(s.at(3)) -
-            1;  // 0 - 11, in time struct, 1 - 12 month is expressed by 1 - 12
+        time_tm->tm_mon = stoi(s.at(3)) - 1;  // 0 - 11, in time struct, 1 - 12 month is expressed by 1 - 12
         time_tm->tm_mday = stoi(s.at(4));
         time_tm->tm_hour = stoi(s.at(5));
         time_tm->tm_min = stoi(s.at(6));
-        time_tm->tm_sec =
-            (int)(stod(s.at(7)) + 1e-4);  // for the numerical error, plus 1e-4.
-                                          // tm_sec is tobe int
+        time_tm->tm_sec = (int)(stod(s.at(7)) + 1e-4);  // for the numerical error, plus 1e-4.
+                                                        // tm_sec is tobe int
         double unix_time = (double)mktime(time_tm);
         const double interval = 6 * 60 * 60;
         if (start_unix_time < 0) {
@@ -672,18 +614,13 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension,
 
         int sat_id = GetIndexFromID(s.at(1));
         double clock_bias = stod(s.at(9)) * speed_of_light_m_s;  // [s] -> [m]
-        if (start_unix_time - unix_time > 1e-4)
-          continue;  // for the numerical error
+        if (start_unix_time - unix_time > 1e-4) continue;        // for the numerical error
         if (end_unix_time - unix_time < 1e-4) break;
-        if (!unixtime_vector_.at(sat_id).empty() &&
-            std::abs(unix_time - unixtime_vector_.at(sat_id).back()) <
-                1e-4) {  // for the numerical error
+        if (!unixtime_vector_.at(sat_id).empty() && std::abs(unix_time - unixtime_vector_.at(sat_id).back()) < 1e-4) {  // for the numerical error
           unixtime_vector_.at(sat_id).back() = unix_time;
           gnss_sat_clock_table_.at(sat_id).back() = clock_bias;
         } else {
-          if (!unixtime_vector_.at(sat_id).empty())
-            time_interval_ = min(
-                time_interval_, unix_time - unixtime_vector_.at(sat_id).back());
+          if (!unixtime_vector_.at(sat_id).empty()) time_interval_ = min(time_interval_, unix_time - unixtime_vector_.at(sat_id).back());
           unixtime_vector_.at(sat_id).emplace_back(unix_time);
           gnss_sat_clock_table_.at(sat_id).emplace_back(clock_bias);
         }
@@ -710,9 +647,7 @@ void GnssSat_clock::SetUp(const double start_unix_time, const double step_sec) {
     }
 
     int index =
-        lower_bound(unixtime_vector_.at(sat_id).begin(),
-                    unixtime_vector_.at(sat_id).end(), start_unix_time) -
-        unixtime_vector_.at(sat_id).begin();
+        lower_bound(unixtime_vector_.at(sat_id).begin(), unixtime_vector_.at(sat_id).end(), start_unix_time) - unixtime_vector_.at(sat_id).begin();
     if (index == (int)unixtime_vector_.at(sat_id).size()) {
       validate_.at(sat_id) = false;
       nearest_index_.at(sat_id) = index;
@@ -722,9 +657,7 @@ void GnssSat_clock::SetUp(const double start_unix_time, const double step_sec) {
     double nearest_unixtime = unixtime_vector_.at(sat_id).at(index);
     if (interpolation_number_ % 2 && index != 0) {
       double pre_time = unixtime_vector_.at(sat_id).at(index - 1);
-      if (std::abs(start_unix_time - pre_time) <
-          std::abs(start_unix_time - nearest_unixtime))
-        --index;
+      if (std::abs(start_unix_time - pre_time) < std::abs(start_unix_time - nearest_unixtime)) --index;
     }
     nearest_index_.at(sat_id) = index;
     nearest_unixtime = unixtime_vector_.at(sat_id).at(index);
@@ -734,38 +667,30 @@ void GnssSat_clock::SetUp(const double start_unix_time, const double step_sec) {
     }
 
     // for both even and odd: 2n+1 -> [-n, n] 2n -> [-n, n)
-    for (int j = -interpolation_number_ / 2;
-         j < (interpolation_number_ + 1) / 2; ++j) {
+    for (int j = -interpolation_number_ / 2; j < (interpolation_number_ + 1) / 2; ++j) {
       int now_index = index + j;
-      if (now_index < 0 || now_index >= (int)unixtime_vector_.at(sat_id).size())
-        continue;
+      if (now_index < 0 || now_index >= (int)unixtime_vector_.at(sat_id).size()) continue;
 
-      time_period_.at(sat_id).push_back(
-          unixtime_vector_.at(sat_id).at(now_index));
-      clock_bias_.at(sat_id).push_back(
-          gnss_sat_clock_table_.at(sat_id).at(now_index));
+      time_period_.at(sat_id).push_back(unixtime_vector_.at(sat_id).at(now_index));
+      clock_bias_.at(sat_id).push_back(gnss_sat_clock_table_.at(sat_id).at(now_index));
     }
 
     if ((int)time_period_.at(sat_id).size() != interpolation_number_) {
       validate_.at(sat_id) = false;
       continue;
     }
-    double time_period_length =
-        time_period_.at(sat_id).back() - time_period_.at(sat_id).front();
-    if (time_period_length > time_interval_ * (interpolation_number_ - 1) +
-                                 1e-4) {  // more strict for clock_bias
+    double time_period_length = time_period_.at(sat_id).back() - time_period_.at(sat_id).front();
+    if (time_period_length > time_interval_ * (interpolation_number_ - 1) + 1e-4) {  // more strict for clock_bias
       validate_.at(sat_id) = false;
       continue;
     } else {
       validate_.at(sat_id) = true;
     }
 
-    if (std::abs(start_unix_time - nearest_unixtime) <
-        1e-4) {  // for the numerical error
+    if (std::abs(start_unix_time - nearest_unixtime) < 1e-4) {  // for the numerical error
       gnss_sat_clock_.at(sat_id) = gnss_sat_clock_table_.at(sat_id).at(index);
     } else {
-      gnss_sat_clock_.at(sat_id) = LagrangeInterpolation(
-          time_period_.at(sat_id), clock_bias_.at(sat_id), start_unix_time);
+      gnss_sat_clock_.at(sat_id) = LagrangeInterpolation(time_period_.at(sat_id), clock_bias_.at(sat_id), start_unix_time);
     }
   }
 }
@@ -787,8 +712,7 @@ void GnssSat_clock::Update(const double now_unix_time) {
       double pre_unix = unixtime_vector_.at(sat_id).at(index);
       double post_unix = unixtime_vector_.at(sat_id).at(index + 1);
 
-      if (std::abs(now_unix_time - post_unix) <
-          std::abs(now_unix_time - pre_unix)) {
+      if (std::abs(now_unix_time - post_unix) < std::abs(now_unix_time - pre_unix)) {
         ++index;
         nearest_index_.at(sat_id) = index;
 
@@ -796,17 +720,12 @@ void GnssSat_clock::Update(const double now_unix_time) {
         clock_bias_.at(sat_id).clear();
 
         // for both even and odd: 2n+1 -> [-n, n] 2n -> [-n, n)
-        for (int j = -interpolation_number_ / 2;
-             j < (interpolation_number_ + 1) / 2; ++j) {
+        for (int j = -interpolation_number_ / 2; j < (interpolation_number_ + 1) / 2; ++j) {
           int now_index = index + j;
-          if (now_index < 0 ||
-              now_index >= (int)unixtime_vector_.at(sat_id).size())
-            continue;
+          if (now_index < 0 || now_index >= (int)unixtime_vector_.at(sat_id).size()) continue;
 
-          time_period_.at(sat_id).push_back(
-              unixtime_vector_.at(sat_id).at(now_index));
-          clock_bias_.at(sat_id).push_back(
-              gnss_sat_clock_table_.at(sat_id).at(now_index));
+          time_period_.at(sat_id).push_back(unixtime_vector_.at(sat_id).at(now_index));
+          clock_bias_.at(sat_id).push_back(gnss_sat_clock_table_.at(sat_id).at(now_index));
         }
       }
     }
@@ -822,10 +741,8 @@ void GnssSat_clock::Update(const double now_unix_time) {
     }
 
     // in clock_bias, more strict.
-    double time_period_length =
-        time_period_.at(sat_id).back() - time_period_.at(sat_id).front();
-    if (time_period_length > time_interval_ * (interpolation_number_ - 1) +
-                                 1e-4) {  // more strict for clock_bias
+    double time_period_length = time_period_.at(sat_id).back() - time_period_.at(sat_id).front();
+    if (time_period_length > time_interval_ * (interpolation_number_ - 1) + 1e-4) {  // more strict for clock_bias
       validate_.at(sat_id) = false;
       continue;
     } else {
@@ -835,8 +752,7 @@ void GnssSat_clock::Update(const double now_unix_time) {
     if (std::abs(now_unix_time - nearest_unix_time) < 1e-4) {
       gnss_sat_clock_.at(sat_id) = gnss_sat_clock_table_.at(sat_id).at(index);
     } else {
-      gnss_sat_clock_.at(sat_id) = LagrangeInterpolation(
-          time_period_.at(sat_id), clock_bias_.at(sat_id), now_unix_time);
+      gnss_sat_clock_.at(sat_id) = LagrangeInterpolation(time_period_.at(sat_id), clock_bias_.at(sat_id), now_unix_time);
     }
   }
 }
@@ -847,17 +763,12 @@ double GnssSat_clock::GetSatClock(int sat_id) const {
 }
 
 GnssSat_Info::GnssSat_Info() {}
-void GnssSat_Info::Init(
-    vector<vector<string>>& position_file, int position_interpolation_method,
-    int position_interpolation_number, UR_KINDS position_ur_flag,
+void GnssSat_Info::Init(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
+                        UR_KINDS position_ur_flag,
 
-    vector<vector<string>>& clock_file, string clock_file_extension,
-    int clock_interpolation_number, UR_KINDS clock_ur_flag) {
-  auto unix_time_period =
-      position_.Init(position_file, position_interpolation_method,
-                     position_interpolation_number, position_ur_flag);
-  clock_.Init(clock_file, clock_file_extension, clock_interpolation_number,
-              clock_ur_flag, unix_time_period);
+                        vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number, UR_KINDS clock_ur_flag) {
+  auto unix_time_period = position_.Init(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag);
+  clock_.Init(clock_file, clock_file_extension, clock_interpolation_number, clock_ur_flag, unix_time_period);
 }
 
 void GnssSat_Info::SetUp(const double start_unix_time, const double step_sec) {
@@ -881,28 +792,19 @@ int GnssSat_Info::GetNumOfSatellites() const {
 }
 
 bool GnssSat_Info::GetWhetherValid(int sat_id) const {
-  if (position_.GetWhetherValid(sat_id) && clock_.GetWhetherValid(sat_id))
-    return true;
+  if (position_.GetWhetherValid(sat_id) && clock_.GetWhetherValid(sat_id)) return true;
   return false;
 }
 
-const GnssSat_position& GnssSat_Info::GetGnssSatPos() const {
-  return position_;
-}
+const GnssSat_position& GnssSat_Info::GetGnssSatPos() const { return position_; }
 
 const GnssSat_clock& GnssSat_Info::GetGnssSatClock() const { return clock_; }
 
-libra::Vector<3> GnssSat_Info::GetSatellitePositionEcef(int sat_id) const {
-  return position_.GetSatEcef(sat_id);
-}
+libra::Vector<3> GnssSat_Info::GetSatellitePositionEcef(int sat_id) const { return position_.GetSatEcef(sat_id); }
 
-libra::Vector<3> GnssSat_Info::GetSatellitePositionEci(int sat_id) const {
-  return position_.GetSatEci(sat_id);
-}
+libra::Vector<3> GnssSat_Info::GetSatellitePositionEci(int sat_id) const { return position_.GetSatEci(sat_id); }
 
-double GnssSat_Info::GetSatelliteClock(int sat_id) const {
-  return clock_.GetSatClock(sat_id);
-}
+double GnssSat_Info::GetSatelliteClock(int sat_id) const { return clock_.GetSatClock(sat_id); }
 
 GnssSatellites::GnssSatellites(bool is_calc_enabled)
 #ifdef GNSS_SATELLITES_DEBUG_OUTPUT
@@ -916,34 +818,25 @@ GnssSatellites::GnssSatellites(bool is_calc_enabled)
 
 bool GnssSatellites::IsCalcEnabled() const { return is_calc_enabled_; }
 
-void GnssSatellites::Init(
-    vector<vector<string>>& true_position_file,
-    int true_position_interpolation_method,
-    int true_position_interpolation_number, UR_KINDS true_position_ur_flag,
+void GnssSatellites::Init(vector<vector<string>>& true_position_file, int true_position_interpolation_method, int true_position_interpolation_number,
+                          UR_KINDS true_position_ur_flag,
 
-    vector<vector<string>>& true_clock_file, string true_clock_file_extension,
-    int true_clock_interpolation_number, UR_KINDS true_clock_ur_flag,
+                          vector<vector<string>>& true_clock_file, string true_clock_file_extension, int true_clock_interpolation_number,
+                          UR_KINDS true_clock_ur_flag,
 
-    vector<vector<string>>& estimate_position_file,
-    int estimate_position_interpolation_method,
-    int estimate_position_interpolation_number,
-    UR_KINDS estimate_position_ur_flag,
+                          vector<vector<string>>& estimate_position_file, int estimate_position_interpolation_method,
+                          int estimate_position_interpolation_number, UR_KINDS estimate_position_ur_flag,
 
-    vector<vector<string>>& estimate_clock_file,
-    string estimate_clock_file_extension,
-    int estimate_clock_interpolation_number, UR_KINDS estimate_clock_ur_flag) {
-  true_info_.Init(true_position_file, true_position_interpolation_method,
-                  true_position_interpolation_number, true_position_ur_flag,
+                          vector<vector<string>>& estimate_clock_file, string estimate_clock_file_extension, int estimate_clock_interpolation_number,
+                          UR_KINDS estimate_clock_ur_flag) {
+  true_info_.Init(true_position_file, true_position_interpolation_method, true_position_interpolation_number, true_position_ur_flag,
 
-                  true_clock_file, true_clock_file_extension,
-                  true_clock_interpolation_number, true_clock_ur_flag);
+                  true_clock_file, true_clock_file_extension, true_clock_interpolation_number, true_clock_ur_flag);
 
-  estimate_info_.Init(
-      estimate_position_file, estimate_position_interpolation_method,
-      estimate_position_interpolation_number, estimate_position_ur_flag,
+  estimate_info_.Init(estimate_position_file, estimate_position_interpolation_method, estimate_position_interpolation_number,
+                      estimate_position_ur_flag,
 
-      estimate_clock_file, estimate_clock_file_extension,
-      estimate_clock_interpolation_number, estimate_clock_ur_flag);
+                      estimate_clock_file, estimate_clock_file_extension, estimate_clock_interpolation_number, estimate_clock_ur_flag);
 
   return;
 }
@@ -984,23 +877,16 @@ void GnssSatellites::Update(const SimTime* sim_time) {
   return;
 }
 
-int GnssSatellites::GetNumOfSatellites() const {
-  return estimate_info_.GetNumOfSatellites();
-}
+int GnssSatellites::GetNumOfSatellites() const { return estimate_info_.GetNumOfSatellites(); }
 
-string GnssSatellites::GetIDFromIndex(int index) const {
-  return estimate_info_.GetGnssSatPos().GetIDFromIndex(index);
-}
+string GnssSatellites::GetIDFromIndex(int index) const { return estimate_info_.GetGnssSatPos().GetIDFromIndex(index); }
 
-int GnssSatellites::GetIndexFromID(string sat_num) const {
-  return estimate_info_.GetGnssSatPos().GetIndexFromID(sat_num);
-}
+int GnssSatellites::GetIndexFromID(string sat_num) const { return estimate_info_.GetGnssSatPos().GetIndexFromID(sat_num); }
 
 bool GnssSatellites::GetWhetherValid(int sat_id) const {
   if (sat_id >= GetNumOfSatellites()) return false;
 
-  if (true_info_.GetWhetherValid(sat_id) &&
-      estimate_info_.GetWhetherValid(sat_id))
+  if (true_info_.GetWhetherValid(sat_id) && estimate_info_.GetWhetherValid(sat_id))
     return true;
   else
     return false;
@@ -1010,12 +896,9 @@ double GnssSatellites::GetStartUnixTime() const { return start_unix_time_; }
 
 const GnssSat_Info& GnssSatellites::Get_true_info() const { return true_info_; }
 
-const GnssSat_Info& GnssSatellites::Get_estimate_info() const {
-  return estimate_info_;
-}
+const GnssSat_Info& GnssSatellites::Get_estimate_info() const { return estimate_info_; }
 
-libra::Vector<3> GnssSatellites::GetSatellitePositionEcef(
-    const int sat_id) const {
+libra::Vector<3> GnssSatellites::GetSatellitePositionEcef(const int sat_id) const {
   // sat_id is wrong or not valid
   if (sat_id >= GetNumOfSatellites() || !GetWhetherValid(sat_id)) {
     libra::Vector<3> res(0);
@@ -1025,8 +908,7 @@ libra::Vector<3> GnssSatellites::GetSatellitePositionEcef(
   return estimate_info_.GetSatellitePositionEcef(sat_id);
 }
 
-libra::Vector<3> GnssSatellites::GetSatellitePositionEci(
-    const int sat_id) const {
+libra::Vector<3> GnssSatellites::GetSatellitePositionEci(const int sat_id) const {
   // sat_id is wrong or not valid
   if (sat_id >= GetNumOfSatellites() || !GetWhetherValid(sat_id)) {
     libra::Vector<3> res(0);
@@ -1044,10 +926,7 @@ double GnssSatellites::GetSatelliteClock(const int sat_id) const {
   return estimate_info_.GetSatelliteClock(sat_id);
 }
 
-double GnssSatellites::GetPseudoRangeECEF(const int sat_id,
-                                          libra::Vector<3> rec_position,
-                                          double rec_clock,
-                                          const double frequency) const {
+double GnssSatellites::GetPseudoRangeECEF(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const {
   // sat_id is wrong or not validate
   if (sat_id >= GetNumOfSatellites() || !GetWhetherValid(sat_id)) return 0.0;
 
@@ -1062,18 +941,14 @@ double GnssSatellites::GetPseudoRangeECEF(const int sat_id,
   res += rec_clock - true_info_.GetSatelliteClock(sat_id);
 
   // ionospheric delay
-  const double ionospheric_delay =
-      AddIonosphericDelay(sat_id, rec_position, frequency, ECEF);
+  const double ionospheric_delay = AddIonosphericDelay(sat_id, rec_position, frequency, ECEF);
 
   res += ionospheric_delay;
 
   return res;
 }
 
-double GnssSatellites::GetPseudoRangeECI(const int sat_id,
-                                         libra::Vector<3> rec_position,
-                                         double rec_clock,
-                                         const double frequency) const {
+double GnssSatellites::GetPseudoRangeECI(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const {
   // sat_id is wrong or not validate
   if (sat_id >= GetNumOfSatellites() || !GetWhetherValid(sat_id)) return 0.0;
 
@@ -1088,20 +963,17 @@ double GnssSatellites::GetPseudoRangeECI(const int sat_id,
   res += rec_clock - true_info_.GetSatelliteClock(sat_id);
 
   // ionospheric delay
-  const double ionospheric_delay =
-      AddIonosphericDelay(sat_id, rec_position, frequency, ECI);
+  const double ionospheric_delay = AddIonosphericDelay(sat_id, rec_position, frequency, ECI);
 
   res += ionospheric_delay;
 
   return res;
 }
 
-pair<double, double> GnssSatellites::GetCarrierPhaseECEF(
-    const int sat_id, libra::Vector<3> rec_position, double rec_clock,
-    const double frequency) const {
+pair<double, double> GnssSatellites::GetCarrierPhaseECEF(const int sat_id, libra::Vector<3> rec_position, double rec_clock,
+                                                         const double frequency) const {
   // sat_id is wrong or not validate
-  if (sat_id >= GetNumOfSatellites() || !GetWhetherValid(sat_id))
-    return {0.0, 0.0};
+  if (sat_id >= GetNumOfSatellites() || !GetWhetherValid(sat_id)) return {0.0, 0.0};
 
   double res = 0.0;
   auto gnss_position = true_info_.GetSatellitePositionEcef(sat_id);
@@ -1114,8 +986,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECEF(
   res += rec_clock - true_info_.GetSatelliteClock(sat_id);
 
   // ionospheric delay
-  const double ionospheric_delay =
-      AddIonosphericDelay(sat_id, rec_position, frequency, ECEF);
+  const double ionospheric_delay = AddIonosphericDelay(sat_id, rec_position, frequency, ECEF);
 
   res -= ionospheric_delay;
 
@@ -1130,12 +1001,10 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECEF(
   return {cycle, bias};
 }
 
-pair<double, double> GnssSatellites::GetCarrierPhaseECI(
-    const int sat_id, libra::Vector<3> rec_position, double rec_clock,
-    const double frequency) const {
+pair<double, double> GnssSatellites::GetCarrierPhaseECI(const int sat_id, libra::Vector<3> rec_position, double rec_clock,
+                                                        const double frequency) const {
   // sat_id is wrong or not validate
-  if (sat_id >= GetNumOfSatellites() || !GetWhetherValid(sat_id))
-    return {0.0, 0.0};
+  if (sat_id >= GetNumOfSatellites() || !GetWhetherValid(sat_id)) return {0.0, 0.0};
 
   double res = 0.0;
   auto gnss_position = true_info_.GetSatellitePositionEci(sat_id);
@@ -1148,8 +1017,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECI(
   res += rec_clock - true_info_.GetSatelliteClock(sat_id);
 
   // ionospheric delay
-  const double ionospheric_delay =
-      AddIonosphericDelay(sat_id, rec_position, frequency, ECI);
+  const double ionospheric_delay = AddIonosphericDelay(sat_id, rec_position, frequency, ECI);
 
   res -= ionospheric_delay;
 
@@ -1165,10 +1033,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECI(
 }
 
 // for Ionospheric delay I[m]
-double GnssSatellites::AddIonosphericDelay(const int sat_id,
-                                           const libra::Vector<3> rec_position,
-                                           const double frequency,
-                                           const bool flag) const {
+double GnssSatellites::AddIonosphericDelay(const int sat_id, const libra::Vector<3> rec_position, const double frequency, const bool flag) const {
   // sat_id is wrong or not validate
   if (sat_id >= GetNumOfSatellites() || !GetWhetherValid(sat_id)) return 0.0;
 
@@ -1178,7 +1043,7 @@ double GnssSatellites::AddIonosphericDelay(const int sat_id,
   for (int i = 0; i < 3; ++i) altitude += pow(rec_position[i], 2.0);
   altitude = sqrt(altitude);
   altitude = altitude / 1000.0 - Earth_hemisphere;  //[m -> km]
-  if (altitude >= 1000.0) return 0.0;  // there is no Ionosphere above 1000km
+  if (altitude >= 1000.0) return 0.0;               // there is no Ionosphere above 1000km
 
   libra::Vector<3> gnss_position;
   if (flag == ECEF)
@@ -1187,11 +1052,10 @@ double GnssSatellites::AddIonosphericDelay(const int sat_id,
     gnss_position = true_info_.GetSatellitePositionEci(sat_id);
 
   double angle_rad = angle(rec_position, gnss_position - rec_position);
-  const double default_delay = 20.0;  //[m] default delay
-  double delay = default_delay * (1000.0 - altitude) / 1000.0 /
-                 cos(angle_rad);  // set the maximum height as 1000.0. Divide by
-                                  // cos because the slope makes it longer.
-  const double default_frequency = 1500.0;  //[MHz]
+  const double default_delay = 20.0;                                             //[m] default delay
+  double delay = default_delay * (1000.0 - altitude) / 1000.0 / cos(angle_rad);  // set the maximum height as 1000.0. Divide by
+                                                                                 // cos because the slope makes it longer.
+  const double default_frequency = 1500.0;                                       //[MHz]
   // Ionospheric delay is inversely proportional to the square of the frequency
   delay *= pow(default_frequency / frequency, 2.0);
 

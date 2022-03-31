@@ -6,10 +6,8 @@
 
 using namespace std;
 
-Temperature::Temperature(const vector<vector<double>> cij,
-                         const vector<vector<double>> rij, vector<Node> vnodes,
-                         const int node_num, const double propstep,
-                         const bool is_calc_enabled, const bool debug)
+Temperature::Temperature(const vector<vector<double>> cij, const vector<vector<double>> rij, vector<Node> vnodes, const int node_num,
+                         const double propstep, const bool is_calc_enabled, const bool debug)
     : cij_(cij),
       rij_(rij),
       vnodes_(vnodes),
@@ -53,8 +51,7 @@ void Temperature::Propagate(Vector<3> sun_direction, const double endtime) {
   }
 }
 
-void Temperature::RungeOneStep(double t, double dt, Vector<3> sun_direction,
-                               int node_num) {
+void Temperature::RungeOneStep(double t, double dt, Vector<3> sun_direction, int node_num) {
   vector<double> x(node_num);
   for (int i = 0; i < node_num; i++) {
     x[i] = vnodes_[i].GetTemperature_K();
@@ -90,28 +87,20 @@ void Temperature::RungeOneStep(double t, double dt, Vector<3> sun_direction,
   }
 }
 
-vector<double> Temperature::OdeTemperature(vector<double> x, double t,
-                                           Vector<3> sun_direction,
-                                           int node_num) {
+vector<double> Temperature::OdeTemperature(vector<double> x, double t, Vector<3> sun_direction, int node_num) {
   vector<double> dTdt(node_num);
   for (int i = 0; i < node_num; i++) {
-    double solar =
-        vnodes_[i].CalcSolarRadiation(sun_direction);  // solar radiation[W]
-    double internal =
-        vnodes_[i].GetInternalHeat();  // internal(generated) heat[W]
+    double solar = vnodes_[i].CalcSolarRadiation(sun_direction);  // solar radiation[W]
+    double internal = vnodes_[i].GetInternalHeat();               // internal(generated) heat[W]
 
-    double coupling_heat = 0;   // Coupling of node i and j by heat transfer
-    double radiation_heat = 0;  // Coupling of node i and j by thermal radiation
+    double coupling_heat = 0;      // Coupling of node i and j by heat transfer
+    double radiation_heat = 0;     // Coupling of node i and j by thermal radiation
     double const sigma = 5.67E-8;  // Stefan-Boltzmann Constant
     for (int j = 0; j < node_num; j++) {
-      coupling_heat += cij_[i][j] * (vnodes_[j].GetTemperature_K() -
-                                     vnodes_[i].GetTemperature_K());
-      radiation_heat += sigma * rij_[i][j] *
-                        (pow(vnodes_[j].GetTemperature_K(), 4) -
-                         pow(vnodes_[i].GetTemperature_K(), 4));
+      coupling_heat += cij_[i][j] * (vnodes_[j].GetTemperature_K() - vnodes_[i].GetTemperature_K());
+      radiation_heat += sigma * rij_[i][j] * (pow(vnodes_[j].GetTemperature_K(), 4) - pow(vnodes_[i].GetTemperature_K(), 4));
     }
-    dTdt[i] = (coupling_heat + radiation_heat + solar + internal) /
-              vnodes_[i].GetCapacity();
+    dTdt[i] = (coupling_heat + radiation_heat + solar + internal) / vnodes_[i].GetCapacity();
   }
   return dTdt;
 }
@@ -119,8 +108,7 @@ vector<double> Temperature::OdeTemperature(vector<double> x, double t,
 void Temperature::AddHeaterPower(vector<double> heater_power) {
   for (auto itr = vnodes_.begin(); itr != vnodes_.end(); ++itr) {
     if ((itr->GetHeaterNodeId()) > 0) {
-      itr->SetInternalHeat(
-          heater_power[itr->GetHeaterNodeId()]);  // Set internal heat
+      itr->SetInternalHeat(heater_power[itr->GetHeaterNodeId()]);  // Set internal heat
     } else {
       itr->SetInternalHeat(0.0);  // Nodes without heater
     }
@@ -132,8 +120,7 @@ vector<Node> Temperature::GetVnodes() const { return vnodes_; }
 string Temperature::GetLogHeader() const {
   string str_tmp = "";
   for (int i = 0; i < node_num_; i++) {
-    string str_node = "temp_" + to_string(vnodes_[i].GetNodeId()) + " (" +
-                      vnodes_[i].GetNodeLabel() + ")";
+    string str_node = "temp_" + to_string(vnodes_[i].GetNodeId()) + " (" + vnodes_[i].GetNodeLabel() + ")";
     str_tmp += WriteScalar(str_node, "deg");
   }
   /*

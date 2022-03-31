@@ -4,8 +4,8 @@
 
 #ifdef WIN32
 #define _WINSOCKAPI_  // stops windows.h including winsock.h
-#include <windows.h>
 #include <tchar.h>
+#include <windows.h>
 #else
 #include <Library/inih/cpp/INIReader.h>
 #endif
@@ -39,33 +39,24 @@ class IniAccess {
   double ReadDouble(const char* section_name, const char* key_name);
   int ReadInt(const char* section_name, const char* key_name);
   bool ReadBoolean(const char* section_name, const char* key_name);
-  void ReadDoubleArray(const char* section_name, const char* key_name, int id,
-                       int num, double* data);
+  void ReadDoubleArray(const char* section_name, const char* key_name, int id, int num, double* data);
   template <size_t NumElement>
-  void ReadVector(const char* section_name, const char* key_name,
-                  Vector<NumElement>& data);
-  std::vector<std::string> ReadStrVector(const char* section_name,
-                                         const char* key_name);
-  void ReadQuaternion(const char* section_name, const char* key_name,
-                      Quaternion& data);
-  void ReadChar(const char* section_name, const char* key_name, int size,
-                char* data);
+  void ReadVector(const char* section_name, const char* key_name, Vector<NumElement>& data);
+  std::vector<std::string> ReadStrVector(const char* section_name, const char* key_name);
+  void ReadQuaternion(const char* section_name, const char* key_name, Quaternion& data);
+  void ReadChar(const char* section_name, const char* key_name, int size, char* data);
   std::string ReadString(const char* section_name, const char* key_name);
   bool ReadEnable(const char* section_name, const char* key_name);
   // CSV読み込み関数
   std::vector<std::string> Split(std::string& input, char delimiter);
-  void ReadCsvDouble(
-      std::vector<std::vector<double>>& doublevec,
-      int node_num); /*nxm行列を読み込む場合,
-                        n,mの内大きい方を第二引数に代入する(メモリ事前確保のため)*/
-  void ReadCsvString(std::vector<std::vector<std::string>>& stringvec,
-                     int node_num);
+  void ReadCsvDouble(std::vector<std::vector<double>>& doublevec, int node_num); /*nxm行列を読み込む場合,
+                                                                                    n,mの内大きい方を第二引数に代入する(メモリ事前確保のため)*/
+  void ReadCsvString(std::vector<std::vector<std::string>>& stringvec, int node_num);
 };
 
 //テンプレートなのでヘッダに書く
 template <size_t NumElement>
-void IniAccess::ReadVector(const char* section_name, const char* key_name,
-                           Vector<NumElement>& data) {
+void IniAccess::ReadVector(const char* section_name, const char* key_name, Vector<NumElement>& data) {
   for (int i = 0; i < NumElement; i++) {
     std::stringstream c_name;
     c_name << key_name << "(" << i << ")";

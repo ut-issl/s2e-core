@@ -89,13 +89,9 @@ void InitParameter::Randomize() {
   }
 }
 
-double InitParameter::Uniform_1d(double lb, double ub) {
-  return lb + (*InitParameter::uniform_dist_)(InitParameter::mt_) * (ub - lb);
-}
+double InitParameter::Uniform_1d(double lb, double ub) { return lb + (*InitParameter::uniform_dist_)(InitParameter::mt_) * (ub - lb); }
 
-double InitParameter::Normal_1d(double mean, double std) {
-  return mean + (*InitParameter::normal_dist_)(InitParameter::mt_) * (std);
-}
+double InitParameter::Normal_1d(double mean, double std) { return mean + (*InitParameter::normal_dist_)(InitParameter::mt_) * (std); }
 
 // 乱数生成なし（GetVec, GetDoubleで与えられる参照の変数を変更しない）
 void InitParameter::gen_NoRandomization() { val_.clear(); }
@@ -107,8 +103,7 @@ void InitParameter::gen_NoRandomization() { val_.clear(); }
 void InitParameter::gen_CartesianUniform() {
   val_.clear();
   for (unsigned int i = 0; i < mean_or_min_.size(); i++) {
-    val_.push_back(
-        InitParameter::Uniform_1d(mean_or_min_[i], sigma_or_max_[i]));
+    val_.push_back(InitParameter::Uniform_1d(mean_or_min_[i], sigma_or_max_[i]));
   }
 }
 
@@ -124,9 +119,7 @@ void InitParameter::gen_CartesianNormal() {
 }
 
 // 円座標系においてrが正規分布，θが一様分布に従う
-void InitParameter::get_CircularNormalUniform(Vector<2>& dst, double r_mean,
-                                              double r_sigma, double theta_min,
-                                              double theta_max) {
+void InitParameter::get_CircularNormalUniform(Vector<2>& dst, double r_mean, double r_sigma, double theta_min, double theta_max) {
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
   double theta = InitParameter::Uniform_1d(theta_min, theta_max);
   dst[0] = r * cos(theta);
@@ -141,8 +134,7 @@ void InitParameter::gen_CircularNormalUniform() {
     throw "Config parameters dimension unmatched.";
   }
   Vector<dim> temp_vec;
-  get_CircularNormalUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0],
-                            mean_or_min_[1], sigma_or_max_[1]);
+  get_CircularNormalUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1]);
 
   val_.clear();
   for (int i = 0; i < dim; i++) {
@@ -151,9 +143,7 @@ void InitParameter::gen_CircularNormalUniform() {
 }
 
 // 円座標系においてrとθが正規分布に従う
-void InitParameter::get_CircularNormalNormal(Vector<2>& dst, double r_mean,
-                                             double r_sigma, double theta_mean,
-                                             double theta_sigma) {
+void InitParameter::get_CircularNormalNormal(Vector<2>& dst, double r_mean, double r_sigma, double theta_mean, double theta_sigma) {
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
   double theta = InitParameter::Normal_1d(theta_mean, theta_sigma);
   dst[0] = r * cos(theta);
@@ -168,8 +158,7 @@ void InitParameter::gen_CircularNormalNormal() {
     throw "Config parameters dimension unmatched.";
   }
   Vector<dim> temp_vec;
-  get_CircularNormalNormal(temp_vec, mean_or_min_[0], sigma_or_max_[0],
-                           mean_or_min_[1], sigma_or_max_[1]);
+  get_CircularNormalNormal(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1]);
 
   val_.clear();
   for (int i = 0; i < dim; i++) {
@@ -179,12 +168,10 @@ void InitParameter::gen_CircularNormalNormal() {
 
 // 球座標系においてrが正規分布，θ・φが球面一様分布に従う
 // θ・φは球面に対して一様な分布をするように計算されている．
-void InitParameter::get_SphericalNormalUniformUniform(
-    Vector<3>& dst, double r_mean, double r_sigma, double theta_min,
-    double theta_max, double phi_min, double phi_max) {
+void InitParameter::get_SphericalNormalUniformUniform(Vector<3>& dst, double r_mean, double r_sigma, double theta_min, double theta_max,
+                                                      double phi_min, double phi_max) {
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
-  double theta = acos(cos(theta_min) - (cos(theta_min) - cos(theta_max)) *
-                                           InitParameter::Uniform_1d(0.0, 1.0));
+  double theta = acos(cos(theta_min) - (cos(theta_min) - cos(theta_max)) * InitParameter::Uniform_1d(0.0, 1.0));
   double phi = InitParameter::Uniform_1d(phi_min, phi_max);
   dst[0] = r * sin(theta) * cos(phi);
   dst[1] = r * sin(theta) * sin(phi);
@@ -200,9 +187,8 @@ void InitParameter::gen_SphericalNormalUniformUniform() {
     throw "Config parameters dimension unmatched.";
   }
   Vector<dim> temp_vec;
-  get_SphericalNormalUniformUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0],
-                                    mean_or_min_[1], sigma_or_max_[1],
-                                    mean_or_min_[2], sigma_or_max_[2]);
+  get_SphericalNormalUniformUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1], mean_or_min_[2],
+                                    sigma_or_max_[2]);
 
   val_.clear();
   for (int i = 0; i < dim; i++) {
@@ -215,13 +201,9 @@ void InitParameter::gen_SphericalNormalUniformUniform() {
 // mean_or_min_[0]: x成分平均    sigma_or_max_[0]: r成分標準偏差
 // mean_or_min_[1]: y成分平均    sigma_or_max_[1]: θ成分標準偏差
 // mean_or_min_[2]: z成分平均    sigma_or_max_[2]: なし
-void InitParameter::get_SphericalNormalNormal(Vector<3>& dst,
-                                              const Vector<3>& mean_vec,
-                                              double r_sigma,
-                                              double theta_sigma) {
+void InitParameter::get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& mean_vec, double r_sigma, double theta_sigma) {
   Vector<3> mean_vec_dir;
-  mean_vec_dir =
-      1.0 / norm(mean_vec) * mean_vec;  // mean vector方向の単位ベクトル
+  mean_vec_dir = 1.0 / norm(mean_vec) * mean_vec;  // mean vector方向の単位ベクトル
 
   Vector<3> x_axis(0.0), y_axis(0.0);
   x_axis[0] = 1.0;
@@ -231,27 +213,19 @@ void InitParameter::get_SphericalNormalNormal(Vector<3>& dst,
 
   // mean vectorに垂直な単位ベクトルの一つ．mean
   // vectorがx軸またはy軸と平行だった場合に備えて，外積ベクトルノルムの大きい方との外積を選ぶ．
-  Vector<3> normal_unit_vec =
-      norm(op_x) > norm(op_y) ? normalize(op_x) : normalize(op_y);
+  Vector<3> normal_unit_vec = norm(op_x) > norm(op_y) ? normalize(op_x) : normalize(op_y);
 
-  double rotation_angle_of_normal_unit_vec =
-      InitParameter::Uniform_1d(0.0, libra::tau);
-  Quaternion rotation_of_normal_unit_vec(
-      mean_vec_dir,
-      -rotation_angle_of_normal_unit_vec);  //座標が回転するのではなくベクトルが回転するので角度の向きを逆にする
-  Vector<3> rotation_axis = rotation_of_normal_unit_vec.frame_conv(
-      normal_unit_vec);  // mean vectorを回転させる軸
+  double rotation_angle_of_normal_unit_vec = InitParameter::Uniform_1d(0.0, libra::tau);
+  Quaternion rotation_of_normal_unit_vec(mean_vec_dir,
+                                         -rotation_angle_of_normal_unit_vec);  //座標が回転するのではなくベクトルが回転するので角度の向きを逆にする
+  Vector<3> rotation_axis = rotation_of_normal_unit_vec.frame_conv(normal_unit_vec);  // mean vectorを回転させる軸
 
-  double rotation_angle_of_mean_vec =
-      InitParameter::Normal_1d(0.0, sigma_or_max_[1]);
-  Quaternion rotation_of_mean_vec(
-      rotation_axis,
-      -rotation_angle_of_mean_vec);  //座標が回転するのではなくベクトルが回転するので角度の向きを逆にする
-  Vector<3> ret_vec =
-      rotation_of_mean_vec.frame_conv(mean_vec_dir);  //方向の計算完了
+  double rotation_angle_of_mean_vec = InitParameter::Normal_1d(0.0, sigma_or_max_[1]);
+  Quaternion rotation_of_mean_vec(rotation_axis,
+                                  -rotation_angle_of_mean_vec);  //座標が回転するのではなくベクトルが回転するので角度の向きを逆にする
+  Vector<3> ret_vec = rotation_of_mean_vec.frame_conv(mean_vec_dir);  //方向の計算完了
 
-  ret_vec = InitParameter::Normal_1d(norm(mean_vec), sigma_or_max_[0]) *
-            ret_vec;  //ノルム掛け算
+  ret_vec = InitParameter::Normal_1d(norm(mean_vec), sigma_or_max_[0]) * ret_vec;  //ノルム掛け算
 
   for (int i = 0; i < 3; i++) {
     dst[i] = ret_vec[i];
@@ -267,8 +241,7 @@ void InitParameter::gen_SphericalNormalNormal() {
   for (int i = 0; i < dim; i++) {
     temp_mean_vec[i] = mean_or_min_[i];
   }
-  get_SphericalNormalNormal(temp_vec, temp_mean_vec, sigma_or_max_[0],
-                            sigma_or_max_[1]);
+  get_SphericalNormalNormal(temp_vec, temp_mean_vec, sigma_or_max_[0], sigma_or_max_[1]);
 
   val_.clear();
   for (int i = 0; i < dim; i++) {

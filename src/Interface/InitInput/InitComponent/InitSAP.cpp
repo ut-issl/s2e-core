@@ -4,8 +4,7 @@
 
 #include "../Initialize.h"
 
-SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname,
-            const SRPEnvironment* srp,
+SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp,
             const LocalCelestialInformation* local_celes_info) {
   IniAccess sap_conf(fname);
 
@@ -31,11 +30,9 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname,
   cell_efficiency = sap_conf.ReadDouble(Section, "cell_efficiency");
 
   double transmission_efficiency;
-  transmission_efficiency =
-      sap_conf.ReadDouble(Section, "transmission_efficiency");
+  transmission_efficiency = sap_conf.ReadDouble(Section, "transmission_efficiency");
 
-  SAP sap(clock_gen, sap_id, number_of_series, number_of_parallel, cell_area,
-          normal_vector, cell_efficiency, transmission_efficiency, srp,
+  SAP sap(clock_gen, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency, transmission_efficiency, srp,
           local_celes_info);
 
   return sap;

@@ -4,8 +4,7 @@ using libra::Vector;
 
 class RMMParams {
  public:
-  RMMParams(Vector<3> rmm_const_b, double rmm_rwdev, double rmm_rwlimit,
-            double rmm_wnvar);
+  RMMParams(Vector<3> rmm_const_b, double rmm_rwdev, double rmm_rwlimit, double rmm_wnvar);
   ~RMMParams(){};
   inline const Vector<3>& GetRMMConst_b(void) const { return rmm_const_b_; }
   inline const double& GetRMMRWDev(void) const { return rmm_rwdev_; }

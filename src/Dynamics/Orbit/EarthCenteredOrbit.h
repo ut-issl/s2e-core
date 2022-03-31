@@ -7,8 +7,7 @@ static elsetrec satrec;
 
 class EarthCenteredOrbit : public Orbit {
  public:
-  EarthCenteredOrbit(const CelestialInformation* celes_info, char* tle1,
-                     char* tle2, int wgs,
+  EarthCenteredOrbit(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs,
                      double current_jd);  //地球周回軌道用コンストラクタ
 
   virtual void Propagate(double endtime,

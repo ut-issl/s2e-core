@@ -24,15 +24,11 @@ struct nrlmsise_table {
 
 /* CalcNRLMSISE00  */
 /* GTD7 Wrapper */
-double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt,
-                      const std::vector<nrlmsise_table>& table,
-                      bool is_manual_param, double manual_f107,
-                      double manual_f107a, double manual_ap);
+double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, const std::vector<nrlmsise_table>& table, bool is_manual_param,
+                      double manual_f107, double manual_f107a, double manual_ap);
 
 /* GetSpaceWeatherTable_*/
-int GetSpaceWeatherTable_(double decyear, double endsec,
-                          const std::string& filename,
-                          std::vector<nrlmsise_table>& table);
+int GetSpaceWeatherTable_(double decyear, double endsec, const std::string& filename, std::vector<nrlmsise_table>& table);
 
 /* ------------------------------------------------------------------- */
 /* ----------------------- COMPILATION TWEAKS ------------------------ */

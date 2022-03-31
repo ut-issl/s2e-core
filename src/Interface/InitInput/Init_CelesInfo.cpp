@@ -16,8 +16,7 @@ CelestialInformation* InitCelesInfo(std::string file_name) {
   std::string aber_cor = ini_file.ReadString(section, "aberration_correction");
   std::string center_obj = ini_file.ReadString(section, "center_object");
   RotationMode rotation_mode;
-  std::string rotation_mode_temp =
-      ini_file.ReadString(section, "rotation_mode");
+  std::string rotation_mode_temp = ini_file.ReadString(section, "rotation_mode");
   if (rotation_mode_temp == "Idle") {
     rotation_mode = Idle;
   } else if (rotation_mode_temp == "Simple") {
@@ -33,16 +32,13 @@ CelestialInformation* InitCelesInfo(std::string file_name) {
   // SPICE Furnsh
   std::vector<std::string> keywords = {"TLS", "TPC1", "TPC2", "TPC3", "BSP"};
   for (int i = 0; i < keywords.size(); i++) {
-    std::string fname =
-        ini_file.ReadString(furnsh_section, keywords[i].c_str());
+    std::string fname = ini_file.ReadString(furnsh_section, keywords[i].c_str());
     furnsh_c(fname.c_str());
   }
 
   //天体情報をinitialize
-  const int num_of_selected_body =
-      ini_file.ReadInt(section, "num_of_selected_body");
-  int* selected_body = new int
-      [num_of_selected_body];  // これのdeleteはCelestialInformationに任せる
+  const int num_of_selected_body = ini_file.ReadInt(section, "num_of_selected_body");
+  int* selected_body = new int[num_of_selected_body];  // これのdeleteはCelestialInformationに任せる
   SpiceInt planet_id;
   SpiceBoolean found;
   for (int i = 0; i < num_of_selected_body; i++) {
@@ -58,9 +54,7 @@ CelestialInformation* InitCelesInfo(std::string file_name) {
     selected_body[i] = planet_id;
   }
   CelestialInformation* celestial_info;
-  celestial_info = new CelestialInformation(
-      inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body,
-      selected_body);
+  celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body);
 
   // log setting
   celestial_info->IsLogEnabled = ini_file.ReadEnable(section, LOG_LABEL);

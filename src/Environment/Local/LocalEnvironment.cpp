@@ -7,9 +7,7 @@
 #include "MagEnvironment.h"
 #include "SRPEnvironment.h"
 
-LocalEnvironment::LocalEnvironment(SimulationConfig* sim_config,
-                                   const GlobalEnvironment* glo_env,
-                                   const int sat_id) {
+LocalEnvironment::LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) {
   Initialize(sim_config, glo_env, sat_id);
 }
 
@@ -20,13 +18,10 @@ LocalEnvironment::~LocalEnvironment() {
   delete celes_info_;
 }
 
-void LocalEnvironment::Initialize(SimulationConfig* sim_config,
-                                  const GlobalEnvironment* glo_env,
-                                  const int sat_id) {
+void LocalEnvironment::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) {
   // Read file name
   IniAccess iniAccess = IniAccess(sim_config->sat_file_[sat_id]);
-  std::string ini_fname =
-      iniAccess.ReadString("LOCAL_ENVIRONMENT", "local_env_file");
+  std::string ini_fname = iniAccess.ReadString("LOCAL_ENVIRONMENT", "local_env_file");
   // Save ini file
   sim_config->main_logger_->CopyFileToLogDir(ini_fname);
   // Initialize
@@ -36,22 +31,17 @@ void LocalEnvironment::Initialize(SimulationConfig* sim_config,
   srp_ = new SRPEnvironment(InitSRPEnvironment(ini_fname, celes_info_));
   // Log setting for Local celestial information
   IniAccess conf = IniAccess(ini_fname);
-  celes_info_->IsLogEnabled =
-      conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", LOG_LABEL);
+  celes_info_->IsLogEnabled = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", LOG_LABEL);
 }
 
-void LocalEnvironment::Update(const Dynamics* dynamics,
-                              const SimTime* sim_time) {
+void LocalEnvironment::Update(const Dynamics* dynamics, const SimTime* sim_time) {
   auto& orbit = dynamics->GetOrbit();
   auto& attitude = dynamics->GetAttitude();
 
   // Update local environments that depend on the attitude (and the position)
   if (sim_time->GetAttitudePropagateFlag()) {
-    celes_info_->UpdateAllObjectsInfo(
-        orbit.GetSatPosition_i(), orbit.GetSatVelocity_i(),
-        attitude.GetQuaternion_i2b(), attitude.GetOmega_b());
-    mag_->CalcMag(sim_time->GetCurrentDecyear(), sim_time->GetCurrentSidereal(),
-                  orbit.GetLatLonAlt(), attitude.GetQuaternion_i2b());
+    celes_info_->UpdateAllObjectsInfo(orbit.GetSatPosition_i(), orbit.GetSatVelocity_i(), attitude.GetQuaternion_i2b(), attitude.GetOmega_b());
+    mag_->CalcMag(sim_time->GetCurrentDecyear(), sim_time->GetCurrentSidereal(), orbit.GetLatLonAlt(), attitude.GetQuaternion_i2b());
   }
 
   // Update local environments that depend only on the position
@@ -59,8 +49,7 @@ void LocalEnvironment::Update(const Dynamics* dynamics,
     Vector<3> v1 = celes_info_->GetPosFromSC_b("EARTH");
     Vector<3> v2 = celes_info_->GetPosFromSC_b("SUN");
     srp_->UpdateAllStates();
-    atmosphere_->CalcAirDensity(sim_time->GetCurrentDecyear(),
-                                sim_time->GetEndSec(), orbit.GetLatLonAlt());
+    atmosphere_->CalcAirDensity(sim_time->GetCurrentDecyear(), sim_time->GetEndSec(), orbit.GetLatLonAlt());
   }
 }
 

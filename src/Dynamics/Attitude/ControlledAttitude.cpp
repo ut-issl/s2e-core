@@ -8,11 +8,9 @@ using namespace std;
 
 #define THRESHOLD_CA cos(30.0 / 180.0 * libra::pi)  // fix me
 
-ControlledAttitude::ControlledAttitude(
-    const AttCtrlMode main_mode, const AttCtrlMode sub_mode,
-    const Quaternion quaternion_i2t, const Vector<3> pointing_t_b,
-    const Vector<3> pointing_sub_t_b,
-    const LocalCelestialInformation* local_celes_info, const Orbit* orbit)
+ControlledAttitude::ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2t,
+                                       const Vector<3> pointing_t_b, const Vector<3> pointing_sub_t_b,
+                                       const LocalCelestialInformation* local_celes_info, const Orbit* orbit)
     : local_celes_info_(local_celes_info), orbit_(orbit) {
   main_mode_ = main_mode;
   sub_mode_ = sub_mode;
@@ -79,15 +77,13 @@ Vector<3> ControlledAttitude::CalcTargetDirection(AttCtrlMode mode) {
   } else if (mode == VELOCITY_DIRECTION_POINTING) {
     direction = orbit_->GetSatVelocity_i();
   } else if (mode == ORBIT_NORMAL_POINTING) {
-    direction =
-        outer_product(orbit_->GetSatPosition_i(), orbit_->GetSatVelocity_i());
+    direction = outer_product(orbit_->GetSatPosition_i(), orbit_->GetSatVelocity_i());
   }
   normalize(direction);
   return direction;
 }
 
-void ControlledAttitude::PointingCtrl(const Vector<3> main_direction_i,
-                                      const Vector<3> sub_direction_i) {
+void ControlledAttitude::PointingCtrl(const Vector<3> main_direction_i, const Vector<3> sub_direction_i) {
   // Calc DCM ECI->Target
   Matrix<3, 3> DCM_t2i = CalcDCM(main_direction_i, sub_direction_i);
   // Calc DCM Target->body
@@ -97,8 +93,7 @@ void ControlledAttitude::PointingCtrl(const Vector<3> main_direction_i,
   // Convert to Quaternion
   quaternion_i2b_ = Quaternion::fromDCM(DCM_i2b);
 }
-Matrix<3, 3> ControlledAttitude::CalcDCM(const Vector<3> main_direction,
-                                         const Vector<3> sub_direction) {
+Matrix<3, 3> ControlledAttitude::CalcDCM(const Vector<3> main_direction, const Vector<3> sub_direction) {
   // Calc basis vectors
   Vector<3> ex, ey, ez;
   ex = main_direction;

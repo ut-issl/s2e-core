@@ -39,7 +39,6 @@ ANT InitANT(int ant_id, const std::string fname) {
     rx_params[3] = ant_conf.ReadDouble(Section, "rx_system_noise_temperature");
   }
 
-  ANT ant(ant_id, q_b2c, is_transmitter, is_receiver, frequency, tx_params,
-          rx_params);
+  ANT ant(ant_id, q_b2c, is_transmitter, is_receiver, frequency, tx_params, rx_params);
   return ant;
 }

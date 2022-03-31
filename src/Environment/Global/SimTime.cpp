@@ -12,16 +12,10 @@
 
 using namespace std;
 
-SimTime::SimTime(const double end_sec, const double step_sec,
-                 const double attitude_update_interval_sec,
-                 const double attitude_rk_step_sec,
-                 const double orbit_update_interval_sec,
-                 const double orbit_rk_step_sec,
-                 const double thermal_update_interval_sec,
-                 const double thermal_rk_step_sec,
-                 const double compo_propagate_step_sec,
-                 const double log_output_interval_sec, const char* start_ymdhms,
-                 const double sim_speed) {
+SimTime::SimTime(const double end_sec, const double step_sec, const double attitude_update_interval_sec, const double attitude_rk_step_sec,
+                 const double orbit_update_interval_sec, const double orbit_rk_step_sec, const double thermal_update_interval_sec,
+                 const double thermal_rk_step_sec, const double compo_propagate_step_sec, const double log_output_interval_sec,
+                 const char* start_ymdhms, const double sim_speed) {
   end_sec_ = end_sec;
   step_sec_ = step_sec;
   attitude_update_interval_sec_ = attitude_update_interval_sec;
@@ -38,10 +32,8 @@ SimTime::SimTime(const double end_sec, const double step_sec,
 
   //  sscanf_s(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_mon_,
   //  &start_day_, &start_hr_, &start_min_, &start_sec_);
-  sscanf(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_mon_,
-         &start_day_, &start_hr_, &start_min_, &start_sec_);
-  jday(start_year_, start_mon_, start_day_, start_hr_, start_min_, start_sec_,
-       start_jd_);
+  sscanf(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_mon_, &start_day_, &start_hr_, &start_min_, &start_sec_);
+  jday(start_year_, start_mon_, start_day_, start_hr_, start_min_, start_sec_, start_jd_);
   current_jd_ = start_jd_;
   current_sidereal_ = gstime(current_jd_);
   JdToDecyear(current_jd_, &current_decyear_);
@@ -88,11 +80,8 @@ void SimTime::UpdateTime(void) {
   elapsed_time_sec_ += step_sec_;
   if (sim_speed_ > 0) {
     chrono::system_clock clk;
-    int toWaitTime = (int)(elapsed_time_sec_ * 1000 -
-                           chrono::duration_cast<chrono::milliseconds>(
-                               clk.now() - clock_start_time_millisec_)
-                                   .count() *
-                               sim_speed_);
+    int toWaitTime =
+        (int)(elapsed_time_sec_ * 1000 - chrono::duration_cast<chrono::milliseconds>(clk.now() - clock_start_time_millisec_).count() * sim_speed_);
     if (toWaitTime <= 0) {
       // PCの処理速度が足りていない場合、この分岐に入る
       cout << "Error: the specified step_sec is too small for this "
@@ -100,17 +89,12 @@ void SimTime::UpdateTime(void) {
 
       // カウントアップしてきた経過時刻を強制的に実際の経過時刻に合わせる
       // 意図としては、ブレークポイントからの復帰後に一瞬でリアルタイムに追いつかせるため
-      elapsed_time_sec_ =
-          (chrono::duration_cast<chrono::duration<double, ratio<1, 1>>>(
-               clk.now() - clock_start_time_millisec_)
-               .count() *
-           sim_speed_);
+      elapsed_time_sec_ = (chrono::duration_cast<chrono::duration<double, ratio<1, 1>>>(clk.now() - clock_start_time_millisec_).count() * sim_speed_);
     } else {
 #ifdef WIN32
       Sleep(toWaitTime);
 #else
-      const struct timespec req = {toWaitTime / 1000,
-                                   (toWaitTime % 1000) * 1000000};
+      const struct timespec req = {toWaitTime / 1000, (toWaitTime % 1000) * 1000000};
       nanosleep(&req, NULL);
 #endif
     }
@@ -133,8 +117,7 @@ void SimTime::UpdateTime(void) {
   ConvJDtoCalndarDay(current_jd_);
 
   attitude_update_flag_ = false;
-  if (double(attitude_update_counter_) * step_sec_ >=
-      attitude_update_interval_sec_) {
+  if (double(attitude_update_counter_) * step_sec_ >= attitude_update_interval_sec_) {
     attitude_update_counter_ = 0;
     attitude_update_flag_ = true;
   }
@@ -146,8 +129,7 @@ void SimTime::UpdateTime(void) {
   }
 
   thermal_update_flag_ = false;
-  if (double(thermal_update_counter_) * step_sec_ >=
-      thermal_update_interval_sec_) {
+  if (double(thermal_update_counter_) * step_sec_ >= thermal_update_interval_sec_) {
     thermal_update_counter_ = 0;
     thermal_update_flag_ = true;
   }
@@ -171,9 +153,7 @@ void SimTime::UpdateTime(void) {
   state_.running = true;
 }
 
-void SimTime::ResetClock(void) {
-  clock_start_time_millisec_ = chrono::system_clock::now();
-}
+void SimTime::ResetClock(void) { clock_start_time_millisec_ = chrono::system_clock::now(); }
 
 void SimTime::PrintStartDateTime(void) const {
   int sec_int = int(start_sec_ + 0.5);
@@ -194,8 +174,7 @@ void SimTime::PrintStartDateTime(void) const {
     h << start_hr_;
   }
 
-  cout << " " << start_year_ << "/" << start_mon_ << "/" << start_day_ << " "
-       << h.str() << ":" << m.str() << ":" << s.str() << "\n";
+  cout << " " << start_year_ << "/" << start_mon_ << "/" << start_day_ << " " << h.str() << ":" << m.str() << ":" << s.str() << "\n";
 }
 
 string SimTime::GetLogHeader() const {

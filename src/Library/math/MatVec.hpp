@@ -49,8 +49,7 @@ Matrix<N, N>& ludcmp(Matrix<N, N>& a, unsigned int index[]);
   \return 求解結果
 */
 template <std::size_t N>
-Vector<N>& lubksb(const Matrix<N, N>& a, const unsigned int index[],
-                  Vector<N>& b);
+Vector<N>& lubksb(const Matrix<N, N>& a, const unsigned int index[], Vector<N>& b);
 
 }  // namespace libra
 

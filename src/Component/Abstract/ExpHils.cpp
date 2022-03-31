@@ -1,12 +1,8 @@
 #include "ExpHils.h"
 
-ExpHils::ExpHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc,
-                 const unsigned int hils_port_id, const unsigned int baud_rate,
+ExpHils::ExpHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
                  HilsPortManager* hils_port_manager, const int mode_id)
-    : ComponentBase(300, clock_gen),
-      ObcCommunicationBase(sils_port_id, obc, hils_port_id, baud_rate,
-                           hils_port_manager),
-      mode_id_(mode_id) {}
+    : ComponentBase(300, clock_gen), ObcCommunicationBase(sils_port_id, obc, hils_port_id, baud_rate, hils_port_manager), mode_id_(mode_id) {}
 
 ExpHils::~ExpHils() {}
 
@@ -20,8 +16,7 @@ int ExpHils::ParseCommand(const int cmd_size) {
                              // the sender component
   {
     // the first row will overwrite the progress output in SampleCase.cpp
-    std::cout << std::endl
-              << rx_buffer_[0] << rx_buffer_[1] << rx_buffer_[2] << std::endl;
+    std::cout << std::endl << rx_buffer_[0] << rx_buffer_[1] << rx_buffer_[2] << std::endl;
   }
   return 0;
 }
@@ -39,8 +34,7 @@ int ExpHils::GenerateTelemetry() {
     }
     tx_buffer_.assign(std::begin(tx_), std::end(tx_));
     return sizeof(tx_);
-  } else if (mode_id_ ==
-             1)  // The responder component sends back the received message.
+  } else if (mode_id_ == 1)  // The responder component sends back the received message.
   {
     for (int i = 0; i < kMemorySize; i++) {
       tx_[i] = (unsigned char)memory_[i];

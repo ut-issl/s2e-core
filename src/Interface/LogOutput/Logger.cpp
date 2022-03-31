@@ -10,9 +10,7 @@
 
 std::vector<ILoggable *> loggables_;
 
-Logger::Logger(const std::string &file_name, const std::string &data_path,
-               const std::string &ini_file_name, const bool enable_inilog,
-               bool enable) {
+Logger::Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool enable_inilog, bool enable) {
   is_enabled_ = enable;
   is_open_ = false;
   is_enabled_inilog_ = enable_inilog;
@@ -35,8 +33,7 @@ Logger::Logger(const std::string &file_name, const std::string &data_path,
   if (is_enabled_) {
     csv_file_.open(file_path.str());
     is_open_ = csv_file_.is_open();
-    if (!is_open_)
-      std::cerr << "Error opening log file: " << file_path.str() << std::endl;
+    if (!is_open_) std::cerr << "Error opening log file: " << file_path.str() << std::endl;
   }
   registered_num_ = 0;
 
@@ -74,14 +71,11 @@ void Logger::Write(std::string log, bool flag) {
   }
 }
 
-void Logger::AddLoggable(ILoggable *loggable) {
-  loggables_.push_back(loggable);
-}
+void Logger::AddLoggable(ILoggable *loggable) { loggables_.push_back(loggable); }
 
 void Logger::ClearLoggables() { loggables_.clear(); }
 
-std::string Logger::CreateDirectory(const std::string &data_path,
-                                    const std::string &time) {
+std::string Logger::CreateDirectory(const std::string &data_path, const std::string &time) {
   std::string directory_path_tmp_ = data_path + "/logs_" + time + "/";
   // Make directory
   int rtn_mkdir = 0;

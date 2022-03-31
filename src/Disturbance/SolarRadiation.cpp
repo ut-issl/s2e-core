@@ -12,12 +12,9 @@
 
 #include "../Interface/LogOutput/LogUtility.h"
 
-SolarRadiation::SolarRadiation(const vector<Surface>& surfaces,
-                               const Vector<3>& cg_b)
-    : SurfaceForce(surfaces, cg_b) {}
+SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b) : SurfaceForce(surfaces, cg_b) {}
 
-void SolarRadiation::Update(const LocalEnvironment& local_env,
-                            const Dynamics& dynamics) {
+void SolarRadiation::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
   Vector<3> tmp = local_env.GetCelesInfo().GetPosFromSC_b("SUN");
   CalcTorqueForce(tmp, local_env.GetSrp().CalcTruePressure());
 }
@@ -30,11 +27,8 @@ void SolarRadiation::CalcCoef(Vector<3>& input_b, double item) {
     double reflectivity = surfaces_[i].GetReflectivity();
     double specularity = surfaces_[i].GetSpecularity();
     normal_coef_[i] =
-        area * item *
-        ((1.0 + reflectivity * specularity) * pow(cosX[i], 2.0) +
-         2.0 / 3.0 * reflectivity * (1.0 - specularity) * cosX[i]);
-    tangential_coef_[i] =
-        area * item * (1.0 - reflectivity * specularity) * cosX[i] * sinX[i];
+        area * item * ((1.0 + reflectivity * specularity) * pow(cosX[i], 2.0) + 2.0 / 3.0 * reflectivity * (1.0 - specularity) * cosX[i]);
+    tangential_coef_[i] = area * item * (1.0 - reflectivity * specularity) * cosX[i] * sinX[i];
   }
 }
 

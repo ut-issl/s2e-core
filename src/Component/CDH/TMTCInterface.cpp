@@ -1,9 +1,6 @@
 #include "TMTCInterface.h"
 
-TMTCInterface::TMTCInterface(ClockGenerator* clock_gen, int port_id)
-    : ComponentBase(100, clock_gen) {
-  tmtc_ = gcnew TMTCDriver(port_id);
-}
+TMTCInterface::TMTCInterface(ClockGenerator* clock_gen, int port_id) : ComponentBase(100, clock_gen) { tmtc_ = gcnew TMTCDriver(port_id); }
 
 TMTCInterface::~TMTCInterface() {}
 

@@ -1,7 +1,6 @@
 #include "RVDController.h"
 
-RVDController::RVDController(double dt)
-    : relPosCtrl(dt), relAttCtrl(dt), relVelCtrl(dt) {
+RVDController::RVDController(double dt) : relPosCtrl(dt), relAttCtrl(dt), relVelCtrl(dt) {
   relPosCtrl.SetGains(0.8, 20.0, 0.00);
   relVelCtrl.SetGains(100, 0.0, 0.00);
   relAttCtrl.SetGains(3.5, 13.0, 0);
@@ -11,22 +10,15 @@ RVDController::RVDController(double dt)
 
 RVDController::~RVDController() {}
 
-void RVDController::SetTargetRelPosition(Vector<3> relPos_i) {
-  tar_relpos_i = relPos_i;
-}
+void RVDController::SetTargetRelPosition(Vector<3> relPos_i) { tar_relpos_i = relPos_i; }
 
-void RVDController::SetTargetRelVelocity(Vector<3> relVel_i) {
-  tar_relvel_i = relVel_i;
-}
+void RVDController::SetTargetRelVelocity(Vector<3> relVel_i) { tar_relvel_i = relVel_i; }
 
 void RVDController::SetTargetRelAttitude(Quaternion q12) { tar_q_i2b = q12; }
 
-void RVDController::SetPositionGain(double p, double d, double i) {
-  relPosCtrl.SetGains(p, d, i);
-}
+void RVDController::SetPositionGain(double p, double d, double i) { relPosCtrl.SetGains(p, d, i); }
 
-Vector<2> RVDController::CalcCurrent(Vector<3> relpos_i, Quaternion q1_ib,
-                                     Quaternion q2_ib) {
+Vector<2> RVDController::CalcCurrent(Vector<3> relpos_i, Quaternion q1_ib, Quaternion q2_ib) {
   Vector<2> currents;
   currents[0] = 5;
   currents[1] = 5;
@@ -40,17 +32,14 @@ Vector<6> RVDController::CalcThrust(Vector<3> relpos_now_i, Quaternion q_i2b) {
   return res;
 }
 
-Vector<6> RVDController::CalcThrust(Vector<3> relpos_now_i,
-                                    Vector<3> relvel_now_i, Quaternion q_i2b) {
-  auto input_i =
-      relPosCtrl.CalcOutput(relpos_now_i - tar_relpos_i, relvel_now_i);
+Vector<6> RVDController::CalcThrust(Vector<3> relpos_now_i, Vector<3> relvel_now_i, Quaternion q_i2b) {
+  auto input_i = relPosCtrl.CalcOutput(relpos_now_i - tar_relpos_i, relvel_now_i);
   auto input_b = q_i2b.frame_conv(input_i);
   auto res = CalcThrustEach(input_b);
   return res;
 }
 
-Vector<6> RVDController::CalcThrustVeloc(Vector<3> relvel_now_i,
-                                         Quaternion q_i2b) {
+Vector<6> RVDController::CalcThrustVeloc(Vector<3> relvel_now_i, Quaternion q_i2b) {
   auto input_i = relVelCtrl.CalcOutput(relvel_now_i - tar_relvel_i);
   auto input_b = q_i2b.frame_conv(input_i);
   auto res = CalcThrustEach(input_b);

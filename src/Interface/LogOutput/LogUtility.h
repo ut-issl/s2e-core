@@ -15,13 +15,11 @@ inline std::string WriteScalar(std::string name, std::string unit);
 
 template <size_t NUM>
 inline std::string WriteVector(Vector<NUM, double> vec, int precision = 6);
-inline std::string WriteVector(std::string name, std::string frame,
-                               std::string unit, int n);
+inline std::string WriteVector(std::string name, std::string frame, std::string unit, int n);
 
 template <size_t ROW, size_t COLUMN>
 inline std::string WriteMatrix(Matrix<ROW, COLUMN, double> mat);
-inline std::string WriteMatrix(std::string name, std::string frame,
-                               std::string unit, int r, int c);
+inline std::string WriteMatrix(std::string name, std::string frame, std::string unit, int r, int c);
 
 inline std::string WriteQuaternion(Quaternion quat);
 
@@ -32,9 +30,7 @@ std::string WriteScalar(T scalar, int precision) {
   str_tmp << std::setprecision(precision) << scalar << ",";
   return str_tmp.str();
 }
-std::string WriteScalar(std::string name, std::string unit) {
-  return name + "[" + unit + "],";
-}
+std::string WriteScalar(std::string name, std::string unit) { return name + "[" + unit + "],"; }
 
 template <size_t NUM>
 std::string WriteVector(Vector<NUM, double> vec, int precision) {
@@ -45,8 +41,7 @@ std::string WriteVector(Vector<NUM, double> vec, int precision) {
   }
   return str_tmp.str();
 }
-std::string WriteVector(std::string name, std::string frame, std::string unit,
-                        int n) {
+std::string WriteVector(std::string name, std::string frame, std::string unit, int n) {
   std::stringstream str_tmp;
   std::string axis[3] = {"(X)", "(Y)", "(Z)"};
 
@@ -72,8 +67,7 @@ std::string WriteMatrix(Matrix<ROW, COLUMN, double> mat) {
   }
   return str_tmp.str();
 }
-std::string WriteMatrix(std::string name, std::string frame, std::string unit,
-                        int r, int c) {
+std::string WriteMatrix(std::string name, std::string frame, std::string unit, int r, int c) {
   std::stringstream str_tmp;
 
   for (int i = 0; i < r; i++) {

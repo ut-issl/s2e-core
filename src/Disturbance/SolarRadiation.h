@@ -20,8 +20,7 @@ class SolarRadiation : public SurfaceForce {
   SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b);
 
   // Override SimpleDisturbance
-  virtual void Update(const LocalEnvironment& local_env,
-                      const Dynamics& dynamics);
+  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
 
   // Override Loggable
   virtual std::string GetLogHeader() const;
