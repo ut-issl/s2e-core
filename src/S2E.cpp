@@ -68,11 +68,8 @@ int main(int argc, char *argv[])
   simcase.Main();
 
   end = system_clock::now();
-  double time = static_cast<double>(
-      duration_cast<microseconds>(end - start).count() / 1000000.0);
-  std::cout << std::endl
-            << "Simulation execution time: " << time << "sec" << std::endl
-            << std::endl;
+  double time = static_cast<double>(duration_cast<microseconds>(end - start).count() / 1000000.0);
+  std::cout << std::endl << "Simulation execution time: " << time << "sec" << std::endl << std::endl;
 
   return EXIT_SUCCESS;
 }

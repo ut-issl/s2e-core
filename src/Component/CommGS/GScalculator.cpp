@@ -11,10 +11,8 @@
 #define Kb 1.38064852E-23                // Boltzmann constant
 #define DEG2RAD 0.017453292519943295769  // PI/180
 
-GScalculator::GScalculator(double loss_polarization, double loss_atmosphere,
-                           double loss_rainfall, double loss_others,
-                           double EbN0, double hardware_deterioration,
-                           double coding_gain, double margin_req)
+GScalculator::GScalculator(double loss_polarization, double loss_atmosphere, double loss_rainfall, double loss_others, double EbN0,
+                           double hardware_deterioration, double coding_gain, double margin_req)
     : loss_polarization_(loss_polarization),
       loss_atmosphere_(loss_atmosphere),
       loss_rainfall_(loss_rainfall),
@@ -31,9 +29,7 @@ GScalculator::~GScalculator() {}
 
 void GScalculator::Initialize() {}
 
-void GScalculator::Update(const Dynamics& dynamics, const ANT& sc_ant,
-                          const GroundStation& groundstation,
-                          const ANT& gs_ant) {
+void GScalculator::Update(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant) {
   visible_flag_ = IsVisible(dynamics, groundstation);
   if (visible_flag_) {
     max_bitrate_ = CalcMaxBitrate(dynamics, sc_ant, groundstation, gs_ant);
@@ -42,8 +38,7 @@ void GScalculator::Update(const Dynamics& dynamics, const ANT& sc_ant,
   }
 }
 
-bool GScalculator::IsVisible(const Dynamics& dynamics,
-                             const GroundStation& groundstation) {
+bool GScalculator::IsVisible(const Dynamics& dynamics, const GroundStation& groundstation) {
   Vector<3> sc_pos_ecef = dynamics.GetOrbit().GetSatPosition_ecef();
 
   Vector<3> gs_pos_i = groundstation.GetGSPosition_i();
@@ -64,16 +59,14 @@ bool GScalculator::IsVisible(const Dynamics& dynamics,
   trans_mat[2][1] = cos(lat) * sin(lon);
   trans_mat[2][2] = sin(lat);
 
-  Vector<3> sc_pos_ltc =
-      trans_mat * (sc_pos_ecef - gs_pos_ecef);  //局所座標系における衛星位置
+  Vector<3> sc_pos_ltc = trans_mat * (sc_pos_ecef - gs_pos_ecef);  //局所座標系における衛星位置
 
   // 地上局から天頂への単位ベクトル
   Vector<3> dir_GS_to_zenith = Vector<3>(0);
   dir_GS_to_zenith[2] = 1;
 
   // 地上局の最低可視仰角をクリアしているかを判定
-  if (dot(sc_pos_ltc, dir_GS_to_zenith) >
-      norm(sc_pos_ltc) * sin(groundstation.elevation_angle_ * DEG2RAD)) {
+  if (dot(sc_pos_ltc, dir_GS_to_zenith) > norm(sc_pos_ltc) * sin(groundstation.elevation_angle_ * DEG2RAD)) {
     // std::cout << std::asin(dot(sc_pos_ltc, dir_GS_to_zenith) /
     // norm(sc_pos_ltc)) / DEG2RAD << std::endl;
     return true;
@@ -82,33 +75,25 @@ bool GScalculator::IsVisible(const Dynamics& dynamics,
   }
 }
 
-double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const ANT& sc_ant,
-                                    const GroundStation& groundstation,
-                                    const ANT& gs_ant) {
+double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant) {
   if (!sc_ant.is_transmitter_ || !gs_ant.is_receiver_) {
     return 0.0f;  //送受信の噛み合わせをここでチェック（いずれどのidのANTを使うかとDLとULどっちにするかを指定できるようにしないといけない）
   }
 
   Vector<3> sc_pos_i = dynamics.GetOrbit().GetSatPosition_i();
   Vector<3> gs_pos_i = groundstation.GetGSPosition_i();
-  double dist_sc_gs = norm(sc_pos_i - gs_pos_i) / 1000;  //[km]
-  double loss_space = -20 * log10(4 * libra::pi * dist_sc_gs /
-                                  (300 / sc_ant.frequency_ / 1000));  //[dB]
+  double dist_sc_gs = norm(sc_pos_i - gs_pos_i) / 1000;                                            //[km]
+  double loss_space = -20 * log10(4 * libra::pi * dist_sc_gs / (300 / sc_ant.frequency_ / 1000));  //[dB]
 
   double sc_boresight_angle =
       0;  // 衛星姿勢と地上局との位置関係から，電波方向のボアサイトからの角度を求める（今はANT::CalcAntennaGain()も未実装のため0と適当に置いておく）
   //参考  // double theta = angle(q_b2i.frame_conv(axis_b), rel_pos);
-  double gs_boresight_angle =
-      0;  // 地上局アンテナは追尾を行うとして，最大ゲインを適用できると考える
+  double gs_boresight_angle = 0;  // 地上局アンテナは追尾を行うとして，最大ゲインを適用できると考える
 
-  double CN0 = sc_ant.GetTxEIRP(sc_boresight_angle) + loss_space +
-               loss_polarization_ + loss_atmosphere_ + loss_rainfall_ +
-               loss_others_ + gs_ant.GetRxGT(gs_boresight_angle) -
-               10 * log10(Kb);  //[dBHz]
+  double CN0 = sc_ant.GetTxEIRP(sc_boresight_angle) + loss_space + loss_polarization_ + loss_atmosphere_ + loss_rainfall_ + loss_others_ +
+               gs_ant.GetRxGT(gs_boresight_angle) - 10 * log10(Kb);  //[dBHz]
 
-  double margin_for_bitrate = CN0 -
-                              (EbN0_ + hardware_deterioration_ + coding_gain_) -
-                              margin_req_;  //[dB]
+  double margin_for_bitrate = CN0 - (EbN0_ + hardware_deterioration_ + coding_gain_) - margin_req_;  //[dB]
 
   if (margin_for_bitrate > 0) {
     return pow(10, margin_for_bitrate / 10.) / 1000000.;  //[MHz]

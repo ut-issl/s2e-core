@@ -20,8 +20,7 @@ typedef enum {
 
 class HardwareMessage : public ILoggable {
  public:
-  HardwareMessage(int port_id, bool enable, unsigned int baudrate,
-                  unsigned int obc_com_period = 1);
+  HardwareMessage(int port_id, bool enable, unsigned int baudrate, unsigned int obc_com_period = 1);
   HardwareMessage();  // when not in use
   ~HardwareMessage();
   int ReceiveAndInterpretMsg();
@@ -41,10 +40,8 @@ class HardwareMessage : public ILoggable {
   const uint8_t kHeader[kHeaderSize] = {0xBE, 0xEF};
   const uint8_t kFooter[kFooterSize] = {0xCA, 0xFE};
   uint8_t txbuff[kTxMessageSize];
-  uint8_t
-      rxbuff[kRxMessageSize *
-             2];  // HACK:
-                  // ヘッダーが見つからない場合のため、とりあえず2倍用意しておく
+  uint8_t rxbuff[kRxMessageSize * 2];  // HACK:
+                                       // ヘッダーが見つからない場合のため、とりあえず2倍用意しておく
 
   static void ZeroPad(void* ptr, size_t size);
 
@@ -76,8 +73,7 @@ class HardwareMessage : public ILoggable {
   } hw_msg_;
 
  public:
-  const HWMSG* hw_msg =
-      &hw_msg_;  // これで外部から書き換え禁止のアクセスできるか？
+  const HWMSG* hw_msg = &hw_msg_;  // これで外部から書き換え禁止のアクセスできるか？
   const ComPortInterface* hils_com_port = hils_com_port_;
   bool Enable() const;
   int Initialize();

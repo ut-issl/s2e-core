@@ -7,8 +7,7 @@ MCSimExecutor* InitMCSim(std::string file_name) {
   IniAccess ini_file(file_name);
   char* section = "MC_EXECUTION";
 
-  unsigned long long total_num_of_executions =
-      ini_file.ReadInt(section, "NumOfExecutions");
+  unsigned long long total_num_of_executions = ini_file.ReadInt(section, "NumOfExecutions");
 
   MCSimExecutor* mc_sim = new MCSimExecutor(total_num_of_executions);
 
@@ -22,15 +21,10 @@ MCSimExecutor* InitMCSim(std::string file_name) {
   mc_sim->LogHistory(log_history);
 
   section = "MC_RANDOMIZATION";
-  std::vector<std::string> so_dot_ip_str_vec =
-      ini_file.ReadStrVector(section, "Param");
+  std::vector<std::string> so_dot_ip_str_vec = ini_file.ReadStrVector(section, "Param");
   std::vector<std::string> so_str_vec, ip_str_vec;
 
-  enum Phase {
-    FoundNothingYet,
-    FoundSimulationObjectStr,
-    FoundInitParameterStr
-  };
+  enum Phase { FoundNothingYet, FoundSimulationObjectStr, FoundInitParameterStr };
   for (auto so_dot_ip_str : so_dot_ip_str_vec) {
     // 文字列をSimulationObjectとInitParameterに分割
     Phase phase = FoundNothingYet;
@@ -55,8 +49,7 @@ MCSimExecutor* InitMCSim(std::string file_name) {
     InitParameter::RandomizationType rnd_type;
     const static unsigned int buf_size = 256;
     char rnd_type_str[buf_size];
-    std::string key_name =
-        so_dot_ip_str + MCSimExecutor::separator_ + "randomization_type";
+    std::string key_name = so_dot_ip_str + MCSimExecutor::separator_ + "randomization_type";
 
     ini_file.ReadChar(section, key_name.c_str(), buf_size, rnd_type_str);
     if (!strcmp(rnd_type_str, "NoRandomization"))
@@ -89,8 +82,7 @@ MCSimExecutor* InitMCSim(std::string file_name) {
     ini_file.ReadVector(section, key_name.c_str(), sigma_or_max);
 
     // 乱数設定を書き込み
-    mc_sim->AddInitParameter(so_str, ip_str, mean_or_min, sigma_or_max,
-                             rnd_type);
+    mc_sim->AddInitParameter(so_str, ip_str, mean_or_min, sigma_or_max, rnd_type);
   }
 
   return mc_sim;

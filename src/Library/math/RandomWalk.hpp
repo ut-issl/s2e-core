@@ -13,11 +13,9 @@ class RandomWalk : public libra::ODE<N> {
     \param stddev ランダムウォーク励起ノイズ標準偏差
     \param limit ランダムウォーク制限値
   */
-  RandomWalk(double step_width, const libra::Vector<N>& stddev,
-             const libra::Vector<N>& limit);
+  RandomWalk(double step_width, const libra::Vector<N>& stddev, const libra::Vector<N>& limit);
 
-  virtual void RHS(double x, const libra::Vector<N>& state,
-                   libra::Vector<N>& rhs);
+  virtual void RHS(double x, const libra::Vector<N>& state, libra::Vector<N>& rhs);
 
  private:
   //! ランダムウォーク制限値

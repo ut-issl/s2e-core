@@ -19,13 +19,10 @@ GScalculator InitGScalculator(const std::string fname) {
   double loss_rainfall = gs_conf.ReadDouble(Section, "loss_rainfall");
   double loss_others = gs_conf.ReadDouble(Section, "loss_others");
   double EbN0 = gs_conf.ReadDouble(Section, "EbN0");
-  double hardware_deterioration =
-      gs_conf.ReadDouble(Section, "hardware_deterioration");
+  double hardware_deterioration = gs_conf.ReadDouble(Section, "hardware_deterioration");
   double coding_gain = gs_conf.ReadDouble(Section, "coding_gain");
   double margin_req = gs_conf.ReadDouble(Section, "margin_req");
 
-  GScalculator gscalculator(loss_polarization, loss_atmosphere, loss_rainfall,
-                            loss_others, EbN0, hardware_deterioration,
-                            coding_gain, margin_req);
+  GScalculator gscalculator(loss_polarization, loss_atmosphere, loss_rainfall, loss_others, EbN0, hardware_deterioration, coding_gain, margin_req);
   return gscalculator;
 }

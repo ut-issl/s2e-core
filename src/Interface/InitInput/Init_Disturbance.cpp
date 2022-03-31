@@ -9,8 +9,7 @@
 
 #define MIN_VAL 1e-9
 
-AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces,
-                    const Vector<3> cg_b) {
+AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b) {
   auto conf = IniAccess(ini_path);
   char* section = "AIRDRAG";
 
@@ -28,9 +27,7 @@ AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces,
   return airdrag;
 }
 
-SolarRadiation InitSRDist(std::string ini_path,
-                          const std::vector<Surface>& surfaces,
-                          const Vector<3> cg_b) {
+SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b) {
   auto conf = IniAccess(ini_path);
   char* section = "SRDIST";
 
@@ -59,8 +56,7 @@ MagDisturbance InitMagDisturbance(std::string ini_path, RMMParams rmm_params) {
   auto conf = IniAccess(ini_path);
   char* section = "MAG_DISTURBANCE";
 
-  MagDisturbance mag_dist(rmm_params.GetRMMConst_b(), rmm_params.GetRMMRWDev(),
-                          rmm_params.GetRMMRWLimit(), rmm_params.GetRMMWNVar());
+  MagDisturbance mag_dist(rmm_params.GetRMMConst_b(), rmm_params.GetRMMRWDev(), rmm_params.GetRMMRWLimit(), rmm_params.GetRMMWNVar());
   mag_dist.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   mag_dist.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
@@ -80,21 +76,17 @@ GeoPotential InitGeoPotential(std::string ini_path) {
   return geop;
 }
 
-ThirdBodyGravity InitThirdBodyGravity(std::string ini_path,
-                                      std::string ini_path_celes) {
+ThirdBodyGravity InitThirdBodyGravity(std::string ini_path, std::string ini_path_celes) {
   // Generate a list of bodies to be calculated in "CelesInfo"
   auto conf_celes = IniAccess(ini_path_celes);
   const char* section_celes = "PLANET_SELECTION";
-  const int num_of_selected_body =
-      conf_celes.ReadInt(section_celes, "num_of_selected_body");
-  std::string center_object =
-      conf_celes.ReadString(section_celes, "center_object");
+  const int num_of_selected_body = conf_celes.ReadInt(section_celes, "num_of_selected_body");
+  std::string center_object = conf_celes.ReadString(section_celes, "center_object");
   std::set<std::string> selected_body_list;
 
   for (int i = 0; i < num_of_selected_body; i++) {
     std::string selected_body_id = "selected_body(" + std::to_string(i) + ")";
-    selected_body_list.insert(
-        conf_celes.ReadString(section_celes, selected_body_id.c_str()));
+    selected_body_list.insert(conf_celes.ReadString(section_celes, selected_body_id.c_str()));
   }
 
   // Generate a list of bodies to be calculated in "ThirdBodyGravity" from the
@@ -111,8 +103,7 @@ ThirdBodyGravity InitThirdBodyGravity(std::string ini_path,
   {
     for (int i = 0; i < num_of_third_body; i++) {
       std::string third_body_id = "third_body(" + std::to_string(i) + ")";
-      std::string third_body_name =
-          conf.ReadString(section, third_body_id.c_str());
+      std::string third_body_name = conf.ReadString(section, third_body_id.c_str());
       // If the object specified by `third_body` in "SampleDisturbance.ini" is
       // the center object of the orbital propagation, the system prints an
       // error message.
@@ -120,8 +111,7 @@ ThirdBodyGravity InitThirdBodyGravity(std::string ini_path,
       // If the target specified by `third_body` in "SampleDisturbance.ini" is
       // not in the list of bodies to be calculated by "CelesInfo", the system
       // prints an error message.
-      assert(selected_body_list.find(third_body_name) !=
-             selected_body_list.end());
+      assert(selected_body_list.find(third_body_name) != selected_body_list.end());
       third_body_list.insert(third_body_name);
     }
   }

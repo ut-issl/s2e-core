@@ -15,8 +15,7 @@
 
 class ExpHils : public ComponentBase, public ObcCommunicationBase {
  public:
-  ExpHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc,
-          const unsigned int hils_port_id, const unsigned int baud_rate,
+  ExpHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
           HilsPortManager* hils_port_manager, const int mode_id);
   ~ExpHils();
 

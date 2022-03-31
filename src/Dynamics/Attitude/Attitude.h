@@ -50,14 +50,10 @@ class Attitude : public ILoggable {
   // Output from this class
   inline double GetPropStep() const { return prop_step_; }
   inline double GetPropTime() const { return prop_time_; }
-  inline double GetEnergy() const {
-    return 0.5f * inner_product(omega_b_, inertia_tensor_ * omega_b_);
-  }
+  inline double GetEnergy() const { return 0.5f * inner_product(omega_b_, inertia_tensor_ * omega_b_); }
   inline double GetTotalAngMomNorm() const { return norm(h_total_b_); }
   inline Matrix<3, 3> GetInertiaTensor() const { return inertia_tensor_; }
-  inline Matrix<3, 3> GetInvInertiaTensor() const {
-    return inv_inertia_tensor_;
-  }
+  inline Matrix<3, 3> GetInvInertiaTensor() const { return inv_inertia_tensor_; }
   inline Vector<3> GetOmega_b() const { return omega_b_; }
   inline Quaternion GetQuaternion_i2b() const { return quaternion_i2b_; }
   inline Matrix<3, 3> GetDCM_b2i() const { return quaternion_i2b_.toDCM(); }
@@ -71,9 +67,7 @@ class Attitude : public ILoggable {
   inline void SetPropStep(double set) { prop_step_ = set; }
   inline void SetOmega_b(Vector<3> set) { omega_b_ = set; }
   inline void SetQuaternion_i2b(Quaternion set) { quaternion_i2b_ = set; }
-  inline void AddQuaternionOffset(Quaternion offset) {
-    quaternion_i2b_ = quaternion_i2b_ * offset;
-  }
+  inline void AddQuaternionOffset(Quaternion offset) { quaternion_i2b_ = quaternion_i2b_ * offset; }
   inline void SetTorque_b(Vector<3> set) { torque_b_ = set; }
   inline void SetAngMom_rw(Vector<3> set) { h_rw_b_ = set; }
   inline void SetInertiaTensor(const Matrix<3, 3>& set) {
@@ -83,19 +77,11 @@ class Attitude : public ILoggable {
   inline void AddTorque_b(Vector<3> set) { torque_b_ += set; }
 
   // Setter for Controlled Attitude
-  inline void SetMainMode(const AttCtrlMode main_mode) {
-    main_mode_ = main_mode;
-  }
+  inline void SetMainMode(const AttCtrlMode main_mode) { main_mode_ = main_mode; }
   inline void SetSubMode(const AttCtrlMode sub_mode) { sub_mode_ = sub_mode; }
-  inline void SetQuaternionI2T(const Quaternion quaternion_i2t) {
-    quaternion_i2t_ = quaternion_i2t;
-  }
-  inline void SetPointingTb(Vector<3> pointing_t_b) {
-    pointing_t_b_ = pointing_t_b;
-  }
-  inline void SetPointingSubTb(Vector<3> pointing_sub_t_b) {
-    pointing_sub_t_b_ = pointing_sub_t_b;
-  }
+  inline void SetQuaternionI2T(const Quaternion quaternion_i2t) { quaternion_i2t_ = quaternion_i2t; }
+  inline void SetPointingTb(Vector<3> pointing_t_b) { pointing_t_b_ = pointing_t_b; }
+  inline void SetPointingSubTb(Vector<3> pointing_sub_t_b) { pointing_sub_t_b_ = pointing_sub_t_b; }
 
   virtual void Propagate(double endtime) = 0;
 

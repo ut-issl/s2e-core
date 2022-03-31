@@ -42,68 +42,39 @@ FILE* dbgfile;
 #define pi 3.14159265358979323846
 
 /* ----------- local functions - only ever used internally by sgp4 ---------- */
-static void dpper(double e3, double ee2, double peo, double pgho, double pho,
-                  double pinco, double plo, double se2, double se3, double sgh2,
-                  double sgh3, double sgh4, double sh2, double sh3, double si2,
-                  double si3, double sl2, double sl3, double sl4, double t,
-                  double xgh2, double xgh3, double xgh4, double xh2, double xh3,
-                  double xi2, double xi3, double xl2, double xl3, double xl4,
-                  double zmol, double zmos, double inclo, char init, double& ep,
-                  double& inclp, double& nodep, double& argpp, double& mp);
+static void dpper(double e3, double ee2, double peo, double pgho, double pho, double pinco, double plo, double se2, double se3, double sgh2,
+                  double sgh3, double sgh4, double sh2, double sh3, double si2, double si3, double sl2, double sl3, double sl4, double t, double xgh2,
+                  double xgh3, double xgh4, double xh2, double xh3, double xi2, double xi3, double xl2, double xl3, double xl4, double zmol,
+                  double zmos, double inclo, char init, double& ep, double& inclp, double& nodep, double& argpp, double& mp);
 
-static void dscom(
-    double epoch, double ep, double argpp, double tc, double inclp,
-    double nodep, double np, double& snodm, double& cnodm, double& sinim,
-    double& cosim, double& sinomm, double& cosomm, double& day, double& e3,
-    double& ee2, double& em, double& emsq, double& gam, double& peo,
-    double& pgho, double& pho, double& pinco, double& plo, double& rtemsq,
-    double& se2, double& se3, double& sgh2, double& sgh3, double& sgh4,
-    double& sh2, double& sh3, double& si2, double& si3, double& sl2,
-    double& sl3, double& sl4, double& s1, double& s2, double& s3, double& s4,
-    double& s5, double& s6, double& s7, double& ss1, double& ss2, double& ss3,
-    double& ss4, double& ss5, double& ss6, double& ss7, double& sz1,
-    double& sz2, double& sz3, double& sz11, double& sz12, double& sz13,
-    double& sz21, double& sz22, double& sz23, double& sz31, double& sz32,
-    double& sz33, double& xgh2, double& xgh3, double& xgh4, double& xh2,
-    double& xh3, double& xi2, double& xi3, double& xl2, double& xl3,
-    double& xl4, double& nm, double& z1, double& z2, double& z3, double& z11,
-    double& z12, double& z13, double& z21, double& z22, double& z23,
-    double& z31, double& z32, double& z33, double& zmol, double& zmos);
+static void dscom(double epoch, double ep, double argpp, double tc, double inclp, double nodep, double np, double& snodm, double& cnodm,
+                  double& sinim, double& cosim, double& sinomm, double& cosomm, double& day, double& e3, double& ee2, double& em, double& emsq,
+                  double& gam, double& peo, double& pgho, double& pho, double& pinco, double& plo, double& rtemsq, double& se2, double& se3,
+                  double& sgh2, double& sgh3, double& sgh4, double& sh2, double& sh3, double& si2, double& si3, double& sl2, double& sl3, double& sl4,
+                  double& s1, double& s2, double& s3, double& s4, double& s5, double& s6, double& s7, double& ss1, double& ss2, double& ss3,
+                  double& ss4, double& ss5, double& ss6, double& ss7, double& sz1, double& sz2, double& sz3, double& sz11, double& sz12, double& sz13,
+                  double& sz21, double& sz22, double& sz23, double& sz31, double& sz32, double& sz33, double& xgh2, double& xgh3, double& xgh4,
+                  double& xh2, double& xh3, double& xi2, double& xi3, double& xl2, double& xl3, double& xl4, double& nm, double& z1, double& z2,
+                  double& z3, double& z11, double& z12, double& z13, double& z21, double& z22, double& z23, double& z31, double& z32, double& z33,
+                  double& zmol, double& zmos);
 
-static void dsinit(gravconsttype whichconst, double cosim, double emsq,
-                   double argpo, double s1, double s2, double s3, double s4,
-                   double s5, double sinim, double ss1, double ss2, double ss3,
-                   double ss4, double ss5, double sz1, double sz3, double sz11,
-                   double sz13, double sz21, double sz23, double sz31,
-                   double sz33, double t, double tc, double gsto, double mo,
-                   double mdot, double no, double nodeo, double nodedot,
-                   double xpidot, double z1, double z3, double z11, double z13,
-                   double z21, double z23, double z31, double z33, double ecco,
-                   double eccsq, double& em, double& argpm, double& inclm,
-                   double& mm, double& nm, double& nodem, int& irez,
-                   double& atime, double& d2201, double& d2211, double& d3210,
-                   double& d3222, double& d4410, double& d4422, double& d5220,
-                   double& d5232, double& d5421, double& d5433, double& dedt,
-                   double& didt, double& dmdt, double& dndt, double& dnodt,
-                   double& domdt, double& del1, double& del2, double& del3,
-                   double& xfact, double& xlamo, double& xli, double& xni);
+static void dsinit(gravconsttype whichconst, double cosim, double emsq, double argpo, double s1, double s2, double s3, double s4, double s5,
+                   double sinim, double ss1, double ss2, double ss3, double ss4, double ss5, double sz1, double sz3, double sz11, double sz13,
+                   double sz21, double sz23, double sz31, double sz33, double t, double tc, double gsto, double mo, double mdot, double no,
+                   double nodeo, double nodedot, double xpidot, double z1, double z3, double z11, double z13, double z21, double z23, double z31,
+                   double z33, double ecco, double eccsq, double& em, double& argpm, double& inclm, double& mm, double& nm, double& nodem, int& irez,
+                   double& atime, double& d2201, double& d2211, double& d3210, double& d3222, double& d4410, double& d4422, double& d5220,
+                   double& d5232, double& d5421, double& d5433, double& dedt, double& didt, double& dmdt, double& dndt, double& dnodt, double& domdt,
+                   double& del1, double& del2, double& del3, double& xfact, double& xlamo, double& xli, double& xni);
 
-static void dspace(int irez, double d2201, double d2211, double d3210,
-                   double d3222, double d4410, double d4422, double d5220,
-                   double d5232, double d5421, double d5433, double dedt,
-                   double del1, double del2, double del3, double didt,
-                   double dmdt, double dnodt, double domdt, double argpo,
-                   double argpdot, double t, double tc, double gsto,
-                   double xfact, double xlamo, double no, double& atime,
-                   double& em, double& argpm, double& inclm, double& xli,
-                   double& mm, double& xni, double& nodem, double& dndt,
-                   double& nm);
+static void dspace(int irez, double d2201, double d2211, double d3210, double d3222, double d4410, double d4422, double d5220, double d5232,
+                   double d5421, double d5433, double dedt, double del1, double del2, double del3, double didt, double dmdt, double dnodt,
+                   double domdt, double argpo, double argpdot, double t, double tc, double gsto, double xfact, double xlamo, double no, double& atime,
+                   double& em, double& argpm, double& inclm, double& xli, double& mm, double& xni, double& nodem, double& dndt, double& nm);
 
-static void initl(int satn, gravconsttype whichconst, double ecco, double epoch,
-                  double inclo, double& no, char& method, double& ainv,
-                  double& ao, double& con41, double& con42, double& cosio,
-                  double& cosio2, double& eccsq, double& omeosq, double& posq,
-                  double& rp, double& rteosq, double& sinio, double& gsto);
+static void initl(int satn, gravconsttype whichconst, double ecco, double epoch, double inclo, double& no, char& method, double& ainv, double& ao,
+                  double& con41, double& con42, double& cosio, double& cosio2, double& eccsq, double& omeosq, double& posq, double& rp,
+                  double& rteosq, double& sinio, double& gsto);
 
 /* -----------------------------------------------------------------------------
 *
@@ -172,19 +143,14 @@ static void initl(int satn, gravconsttype whichconst, double ecco, double epoch,
 *    vallado, crawford, hujsak, kelso  2006
   ----------------------------------------------------------------------------*/
 
-static void dpper(double e3, double ee2, double peo, double pgho, double pho,
-                  double pinco, double plo, double se2, double se3, double sgh2,
-                  double sgh3, double sgh4, double sh2, double sh3, double si2,
-                  double si3, double sl2, double sl3, double sl4, double t,
-                  double xgh2, double xgh3, double xgh4, double xh2, double xh3,
-                  double xi2, double xi3, double xl2, double xl3, double xl4,
-                  double zmol, double zmos, double inclo, char init, double& ep,
-                  double& inclp, double& nodep, double& argpp, double& mp) {
+static void dpper(double e3, double ee2, double peo, double pgho, double pho, double pinco, double plo, double se2, double se3, double sgh2,
+                  double sgh3, double sgh4, double sh2, double sh3, double si2, double si3, double sl2, double sl3, double sl4, double t, double xgh2,
+                  double xgh3, double xgh4, double xh2, double xh3, double xi2, double xi3, double xl2, double xl3, double xl4, double zmol,
+                  double zmos, double inclo, char init, double& ep, double& inclp, double& nodep, double& argpp, double& mp) {
   /* --------------------- local variables ------------------------ */
   const double twopi = 2.0 * pi;
-  double alfdp, betdp, cosip, cosop, dalf, dbet, dls, f2, f3, pe, pgh, ph, pinc,
-      pl, sel, ses, sghl, sghs, shll, shs, sil, sinip, sinop, sinzf, sis, sll,
-      sls, xls, xnoh, zf, zm, zel, zes, znl, zns;
+  double alfdp, betdp, cosip, cosop, dalf, dbet, dls, f2, f3, pe, pgh, ph, pinc, pl, sel, ses, sghl, sghs, shll, shs, sil, sinip, sinop, sinzf, sis,
+      sll, sls, xls, xnoh, zf, zm, zel, zes, znl, zns;
 
   /* ---------------------- constants ----------------------------- */
   zns = 1.19459e-5;
@@ -351,24 +317,16 @@ static void dpper(double e3, double ee2, double peo, double pgho, double pho,
 *    vallado, crawford, hujsak, kelso  2006
   ----------------------------------------------------------------------------*/
 
-static void dscom(
-    double epoch, double ep, double argpp, double tc, double inclp,
-    double nodep, double np, double& snodm, double& cnodm, double& sinim,
-    double& cosim, double& sinomm, double& cosomm, double& day, double& e3,
-    double& ee2, double& em, double& emsq, double& gam, double& peo,
-    double& pgho, double& pho, double& pinco, double& plo, double& rtemsq,
-    double& se2, double& se3, double& sgh2, double& sgh3, double& sgh4,
-    double& sh2, double& sh3, double& si2, double& si3, double& sl2,
-    double& sl3, double& sl4, double& s1, double& s2, double& s3, double& s4,
-    double& s5, double& s6, double& s7, double& ss1, double& ss2, double& ss3,
-    double& ss4, double& ss5, double& ss6, double& ss7, double& sz1,
-    double& sz2, double& sz3, double& sz11, double& sz12, double& sz13,
-    double& sz21, double& sz22, double& sz23, double& sz31, double& sz32,
-    double& sz33, double& xgh2, double& xgh3, double& xgh4, double& xh2,
-    double& xh3, double& xi2, double& xi3, double& xl2, double& xl3,
-    double& xl4, double& nm, double& z1, double& z2, double& z3, double& z11,
-    double& z12, double& z13, double& z21, double& z22, double& z23,
-    double& z31, double& z32, double& z33, double& zmol, double& zmos) {
+static void dscom(double epoch, double ep, double argpp, double tc, double inclp, double nodep, double np, double& snodm, double& cnodm,
+                  double& sinim, double& cosim, double& sinomm, double& cosomm, double& day, double& e3, double& ee2, double& em, double& emsq,
+                  double& gam, double& peo, double& pgho, double& pho, double& pinco, double& plo, double& rtemsq, double& se2, double& se3,
+                  double& sgh2, double& sgh3, double& sgh4, double& sh2, double& sh3, double& si2, double& si3, double& sl2, double& sl3, double& sl4,
+                  double& s1, double& s2, double& s3, double& s4, double& s5, double& s6, double& s7, double& ss1, double& ss2, double& ss3,
+                  double& ss4, double& ss5, double& ss6, double& ss7, double& sz1, double& sz2, double& sz3, double& sz11, double& sz12, double& sz13,
+                  double& sz21, double& sz22, double& sz23, double& sz31, double& sz32, double& sz33, double& xgh2, double& xgh3, double& xgh4,
+                  double& xh2, double& xh3, double& xi2, double& xi3, double& xl2, double& xl3, double& xl4, double& nm, double& z1, double& z2,
+                  double& z3, double& z11, double& z12, double& z13, double& z21, double& z22, double& z23, double& z31, double& z32, double& z33,
+                  double& zmol, double& zmos) {
   /* -------------------------- constants ------------------------- */
   const double zes = 0.01675;
   const double zel = 0.05490;
@@ -382,8 +340,7 @@ static void dscom(
 
   /* --------------------- local variables ------------------------ */
   int lsflg;
-  double a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, betasq, cc, ctem, stem, x1,
-      x2, x3, x4, x5, x6, x7, x8, xnodce, xnoi, zcosg, zcosgl, zcosh, zcoshl,
+  double a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, betasq, cc, ctem, stem, x1, x2, x3, x4, x5, x6, x7, x8, xnodce, xnoi, zcosg, zcosgl, zcosh, zcoshl,
       zcosi, zcosil, zsing, zsingl, zsinh, zsinhl, zsini, zsinil, zx, zy;
 
   nm = np;
@@ -458,12 +415,10 @@ static void dscom(
     z2 = 6.0 * (a1 * a3 + a2 * a4) + z32 * emsq;
     z3 = 3.0 * (a3 * a3 + a4 * a4) + z33 * emsq;
     z11 = -6.0 * a1 * a5 + emsq * (-24.0 * x1 * x7 - 6.0 * x3 * x5);
-    z12 = -6.0 * (a1 * a6 + a3 * a5) +
-          emsq * (-24.0 * (x2 * x7 + x1 * x8) - 6.0 * (x3 * x6 + x4 * x5));
+    z12 = -6.0 * (a1 * a6 + a3 * a5) + emsq * (-24.0 * (x2 * x7 + x1 * x8) - 6.0 * (x3 * x6 + x4 * x5));
     z13 = -6.0 * a3 * a6 + emsq * (-24.0 * x2 * x8 - 6.0 * x4 * x6);
     z21 = 6.0 * a2 * a5 + emsq * (24.0 * x1 * x5 - 6.0 * x3 * x7);
-    z22 = 6.0 * (a4 * a5 + a2 * a6) +
-          emsq * (24.0 * (x2 * x5 + x1 * x6) - 6.0 * (x4 * x7 + x3 * x8));
+    z22 = 6.0 * (a4 * a5 + a2 * a6) + emsq * (24.0 * (x2 * x5 + x1 * x6) - 6.0 * (x4 * x7 + x3 * x8));
     z23 = 6.0 * a4 * a6 + emsq * (24.0 * x2 * x6 - 6.0 * x4 * x8);
     z1 = z1 + z1 + betasq * z31;
     z2 = z2 + z2 + betasq * z32;
@@ -621,33 +576,20 @@ static void dscom(
 *    vallado, crawford, hujsak, kelso  2006
   ----------------------------------------------------------------------------*/
 
-static void dsinit(gravconsttype whichconst, double cosim, double emsq,
-                   double argpo, double s1, double s2, double s3, double s4,
-                   double s5, double sinim, double ss1, double ss2, double ss3,
-                   double ss4, double ss5, double sz1, double sz3, double sz11,
-                   double sz13, double sz21, double sz23, double sz31,
-                   double sz33, double t, double tc, double gsto, double mo,
-                   double mdot, double no, double nodeo, double nodedot,
-                   double xpidot, double z1, double z3, double z11, double z13,
-                   double z21, double z23, double z31, double z33, double ecco,
-                   double eccsq, double& em, double& argpm, double& inclm,
-                   double& mm, double& nm, double& nodem, int& irez,
-                   double& atime, double& d2201, double& d2211, double& d3210,
-                   double& d3222, double& d4410, double& d4422, double& d5220,
-                   double& d5232, double& d5421, double& d5433, double& dedt,
-                   double& didt, double& dmdt, double& dndt, double& dnodt,
-                   double& domdt, double& del1, double& del2, double& del3,
-                   double& xfact, double& xlamo, double& xli, double& xni) {
+static void dsinit(gravconsttype whichconst, double cosim, double emsq, double argpo, double s1, double s2, double s3, double s4, double s5,
+                   double sinim, double ss1, double ss2, double ss3, double ss4, double ss5, double sz1, double sz3, double sz11, double sz13,
+                   double sz21, double sz23, double sz31, double sz33, double t, double tc, double gsto, double mo, double mdot, double no,
+                   double nodeo, double nodedot, double xpidot, double z1, double z3, double z11, double z13, double z21, double z23, double z31,
+                   double z33, double ecco, double eccsq, double& em, double& argpm, double& inclm, double& mm, double& nm, double& nodem, int& irez,
+                   double& atime, double& d2201, double& d2211, double& d3210, double& d3222, double& d4410, double& d4422, double& d5220,
+                   double& d5232, double& d5421, double& d5433, double& dedt, double& didt, double& dmdt, double& dndt, double& dnodt, double& domdt,
+                   double& del1, double& del2, double& del3, double& xfact, double& xlamo, double& xli, double& xni) {
   /* --------------------- local variables ------------------------ */
   const double twopi = 2.0 * pi;
 
-  double ainv2, aonv = 0.0, cosisq, eoc, f220, f221, f311, f321, f322, f330,
-                f441, f442, f522, f523, f542, f543, g200, g201, g211, g300,
-                g310, g322, g410, g422, g520, g521, g532, g533, ses, sgs, sghl,
-                sghs, shs, shll, sis, sini2, sls, temp, temp1, theta, xno2, q22,
-                q31, q33, root22, root44, root54, rptim, root32, root52, x2o3,
-                xke, znl, emo, zns, emsqo, tumin, mu, radiusearthkm, j2, j3, j4,
-                j3oj2;
+  double ainv2, aonv = 0.0, cosisq, eoc, f220, f221, f311, f321, f322, f330, f441, f442, f522, f523, f542, f543, g200, g201, g211, g300, g310, g322,
+                g410, g422, g520, g521, g532, g533, ses, sgs, sghl, sghs, shs, shll, sis, sini2, sls, temp, temp1, theta, xno2, q22, q31, q33, root22,
+                root44, root54, rptim, root32, root52, x2o3, xke, znl, emo, zns, emsqo, tumin, mu, radiusearthkm, j2, j3, j4, j3oj2;
 
   q22 = 1.7891679e-6;
   q31 = 2.1460748e-6;
@@ -655,8 +597,7 @@ static void dsinit(gravconsttype whichconst, double cosim, double emsq,
   root22 = 1.7891679e-6;
   root44 = 7.3636953e-9;
   root54 = 2.1765803e-9;
-  rptim =
-      4.37526908801129966e-3;  // this equates to 7.29211514668855e-5 rad/sec
+  rptim = 4.37526908801129966e-3;  // this equates to 7.29211514668855e-5 rad/sec
   root32 = 3.7393792e-7;
   root52 = 1.1428639e-7;
   x2o3 = 2.0 / 3.0;
@@ -763,18 +704,10 @@ static void dsinit(gravconsttype whichconst, double cosim, double emsq,
       f322 = -1.875 * sinim * (1.0 + 2.0 * cosim - 3.0 * cosisq);
       f441 = 35.0 * sini2 * f220;
       f442 = 39.3750 * sini2 * sini2;
-      f522 = 9.84375 * sinim *
-             (sini2 * (1.0 - 2.0 * cosim - 5.0 * cosisq) +
-              0.33333333 * (-2.0 + 4.0 * cosim + 6.0 * cosisq));
-      f523 =
-          sinim * (4.92187512 * sini2 * (-2.0 - 4.0 * cosim + 10.0 * cosisq) +
-                   6.56250012 * (1.0 + 2.0 * cosim - 3.0 * cosisq));
-      f542 =
-          29.53125 * sinim *
-          (2.0 - 8.0 * cosim + cosisq * (-12.0 + 8.0 * cosim + 10.0 * cosisq));
-      f543 =
-          29.53125 * sinim *
-          (-2.0 - 8.0 * cosim + cosisq * (12.0 + 8.0 * cosim - 10.0 * cosisq));
+      f522 = 9.84375 * sinim * (sini2 * (1.0 - 2.0 * cosim - 5.0 * cosisq) + 0.33333333 * (-2.0 + 4.0 * cosim + 6.0 * cosisq));
+      f523 = sinim * (4.92187512 * sini2 * (-2.0 - 4.0 * cosim + 10.0 * cosisq) + 6.56250012 * (1.0 + 2.0 * cosim - 3.0 * cosisq));
+      f542 = 29.53125 * sinim * (2.0 - 8.0 * cosim + cosisq * (-12.0 + 8.0 * cosim + 10.0 * cosisq));
+      f543 = 29.53125 * sinim * (-2.0 - 8.0 * cosim + cosisq * (12.0 + 8.0 * cosim - 10.0 * cosisq));
       xno2 = nm * nm;
       ainv2 = aonv * aonv;
       temp1 = 3.0 * xno2 * ainv2;
@@ -808,8 +741,7 @@ static void dsinit(gravconsttype whichconst, double cosim, double emsq,
       g310 = 1.0 + 2.0 * emsq;
       g300 = 1.0 + emsq * (-6.0 + 6.60937 * emsq);
       f220 = 0.75 * (1.0 + cosim) * (1.0 + cosim);
-      f311 =
-          0.9375 * sinim * sinim * (1.0 + 3.0 * cosim) - 0.75 * (1.0 + cosim);
+      f311 = 0.9375 * sinim * sinim * (1.0 + 3.0 * cosim) - 0.75 * (1.0 + cosim);
       f330 = 1.0 + cosim;
       f330 = 1.875 * f330 * f330 * f330;
       del1 = 3.0 * nm * nm * aonv * aonv;
@@ -903,20 +835,13 @@ static void dsinit(gravconsttype whichconst, double cosim, double emsq,
 *    vallado, crawford, hujsak, kelso  2006
   ----------------------------------------------------------------------------*/
 
-static void dspace(int irez, double d2201, double d2211, double d3210,
-                   double d3222, double d4410, double d4422, double d5220,
-                   double d5232, double d5421, double d5433, double dedt,
-                   double del1, double del2, double del3, double didt,
-                   double dmdt, double dnodt, double domdt, double argpo,
-                   double argpdot, double t, double tc, double gsto,
-                   double xfact, double xlamo, double no, double& atime,
-                   double& em, double& argpm, double& inclm, double& xli,
-                   double& mm, double& xni, double& nodem, double& dndt,
-                   double& nm) {
+static void dspace(int irez, double d2201, double d2211, double d3210, double d3222, double d4410, double d4422, double d5220, double d5232,
+                   double d5421, double d5433, double dedt, double del1, double del2, double del3, double didt, double dmdt, double dnodt,
+                   double domdt, double argpo, double argpdot, double t, double tc, double gsto, double xfact, double xlamo, double no, double& atime,
+                   double& em, double& argpm, double& inclm, double& xli, double& mm, double& xni, double& nodem, double& dndt, double& nm) {
   const double twopi = 2.0 * pi;
   int iretn, iret;
-  double delt, ft, theta, x2li, x2omi, xl, xldot, xnddt, xndt, xomi, g22, g32,
-      g44, g52, g54, fasx2, fasx4, fasx6, rptim, step2, stepn, stepp;
+  double delt, ft, theta, x2li, x2omi, xl, xldot, xnddt, xndt, xomi, g22, g32, g44, g52, g54, fasx2, fasx4, fasx6, rptim, step2, stepn, stepp;
 
   ft = 0.0;
   fasx2 = 0.13130908;
@@ -927,8 +852,7 @@ static void dspace(int irez, double d2201, double d2211, double d3210,
   g44 = 1.8014998;
   g52 = 1.0508330;
   g54 = 4.4108898;
-  rptim =
-      4.37526908801129966e-3;  // this equates to 7.29211514668855e-5 rad/sec
+  rptim = 4.37526908801129966e-3;  // this equates to 7.29211514668855e-5 rad/sec
   stepp = 720.0;
   stepn = -720.0;
   step2 = 259200.0;
@@ -962,8 +886,7 @@ static void dspace(int irez, double d2201, double d2211, double d3210,
   ft = 0.0;
   atime = 0.0;
   if (irez != 0) {
-    if ((atime == 0.0) || ((t >= 0.0) && (atime < 0.0)) ||
-        ((t < 0.0) && (atime >= 0.0))) {
+    if ((atime == 0.0) || ((t >= 0.0) && (atime < 0.0)) || ((t < 0.0) && (atime >= 0.0))) {
       if (t >= 0.0)
         delt = stepp;
       else
@@ -999,31 +922,22 @@ static void dspace(int irez, double d2201, double d2211, double d3210,
       /* ------------------- dot terms calculated ------------- */
       /* ----------- near - synchronous resonance terms ------- */
       if (irez != 2) {
-        xndt = del1 * sin(xli - fasx2) + del2 * sin(2.0 * (xli - fasx4)) +
-               del3 * sin(3.0 * (xli - fasx6));
+        xndt = del1 * sin(xli - fasx2) + del2 * sin(2.0 * (xli - fasx4)) + del3 * sin(3.0 * (xli - fasx6));
         xldot = xni + xfact;
-        xnddt = del1 * cos(xli - fasx2) +
-                2.0 * del2 * cos(2.0 * (xli - fasx4)) +
-                3.0 * del3 * cos(3.0 * (xli - fasx6));
+        xnddt = del1 * cos(xli - fasx2) + 2.0 * del2 * cos(2.0 * (xli - fasx4)) + 3.0 * del3 * cos(3.0 * (xli - fasx6));
         xnddt = xnddt * xldot;
       } else {
         /* --------- near - half-day resonance terms -------- */
         xomi = argpo + argpdot * atime;
         x2omi = xomi + xomi;
         x2li = xli + xli;
-        xndt = d2201 * sin(x2omi + xli - g22) + d2211 * sin(xli - g22) +
-               d3210 * sin(xomi + xli - g32) + d3222 * sin(-xomi + xli - g32) +
-               d4410 * sin(x2omi + x2li - g44) + d4422 * sin(x2li - g44) +
-               d5220 * sin(xomi + xli - g52) + d5232 * sin(-xomi + xli - g52) +
+        xndt = d2201 * sin(x2omi + xli - g22) + d2211 * sin(xli - g22) + d3210 * sin(xomi + xli - g32) + d3222 * sin(-xomi + xli - g32) +
+               d4410 * sin(x2omi + x2li - g44) + d4422 * sin(x2li - g44) + d5220 * sin(xomi + xli - g52) + d5232 * sin(-xomi + xli - g52) +
                d5421 * sin(xomi + x2li - g54) + d5433 * sin(-xomi + x2li - g54);
         xldot = xni + xfact;
-        xnddt =
-            d2201 * cos(x2omi + xli - g22) + d2211 * cos(xli - g22) +
-            d3210 * cos(xomi + xli - g32) + d3222 * cos(-xomi + xli - g32) +
-            d5220 * cos(xomi + xli - g52) + d5232 * cos(-xomi + xli - g52) +
-            2.0 * (d4410 * cos(x2omi + x2li - g44) + d4422 * cos(x2li - g44) +
-                   d5421 * cos(xomi + x2li - g54) +
-                   d5433 * cos(-xomi + x2li - g54));
+        xnddt = d2201 * cos(x2omi + xli - g22) + d2211 * cos(xli - g22) + d3210 * cos(xomi + xli - g32) + d3222 * cos(-xomi + xli - g32) +
+                d5220 * cos(xomi + xli - g52) + d5232 * cos(-xomi + xli - g52) +
+                2.0 * (d4410 * cos(x2omi + x2li - g44) + d4422 * cos(x2li - g44) + d5421 * cos(xomi + x2li - g54) + d5433 * cos(-xomi + x2li - g54));
         xnddt = xnddt * xldot;
       }
 
@@ -1103,14 +1017,11 @@ static void dspace(int irez, double d2201, double d2211, double d3210,
 *    vallado, crawford, hujsak, kelso  2006
   ----------------------------------------------------------------------------*/
 
-static void initl(int satn, gravconsttype whichconst, double ecco, double epoch,
-                  double inclo, double& no, char& method, double& ainv,
-                  double& ao, double& con41, double& con42, double& cosio,
-                  double& cosio2, double& eccsq, double& omeosq, double& posq,
-                  double& rp, double& rteosq, double& sinio, double& gsto) {
+static void initl(int satn, gravconsttype whichconst, double ecco, double epoch, double inclo, double& no, char& method, double& ainv, double& ao,
+                  double& con41, double& con42, double& cosio, double& cosio2, double& eccsq, double& omeosq, double& posq, double& rp,
+                  double& rteosq, double& sinio, double& gsto) {
   /* --------------------- local variables ------------------------ */
-  double ak, d1, del, adel, po, x2o3, j2, xke, tumin, mu, radiusearthkm, j3, j4,
-      j3oj2;
+  double ak, d1, del, adel, po, x2o3, j2, xke, tumin, mu, radiusearthkm, j3, j4, j3oj2;
 
   // sgp4fix use old way of finding gst
   int ids70;
@@ -1250,20 +1161,14 @@ static void initl(int satn, gravconsttype whichconst, double ecco, double epoch,
 *    vallado, crawford, hujsak, kelso  2006
   ----------------------------------------------------------------------------*/
 
-int sgp4init(gravconsttype whichconst, const int satn, const double epoch,
-             const double xbstar, const double xecco, const double xargpo,
-             const double xinclo, const double xmo, const double xno,
-             const double xnodeo, elsetrec& satrec) {
+int sgp4init(gravconsttype whichconst, const int satn, const double epoch, const double xbstar, const double xecco, const double xargpo,
+             const double xinclo, const double xmo, const double xno, const double xnodeo, elsetrec& satrec) {
   /* --------------------- local variables ------------------------ */
-  double ao, ainv, con42, cosio, sinio, cosio2, eccsq, omeosq, posq, rp, rteosq,
-      cnodm, snodm, cosim, sinim, cosomm, sinomm, cc1sq, cc2, cc3, coef, coef1,
-      cosio4, day, dndt, em, emsq, eeta, etasq, gam, argpm, nodem, inclm, mm,
-      nm, perige, pinvsq, psisq, qzms24, rtemsq, s1, s2, s3, s4, s5, s6, s7,
-      sfour, ss1, ss2, ss3, ss4, ss5, ss6, ss7, sz1, sz2, sz3, sz11, sz12, sz13,
-      sz21, sz22, sz23, sz31, sz32, sz33, tc, temp, temp1, temp2, temp3, tsi,
-      xpidot, xhdot1, z1, z2, z3, z11, z12, z13, z21, z22, z23, z31, z32, z33,
-      qzms2t, ss, j2, j3oj2, j4, x2o3, r[3], v[3], tumin, mu, radiusearthkm,
-      xke, j3;
+  double ao, ainv, con42, cosio, sinio, cosio2, eccsq, omeosq, posq, rp, rteosq, cnodm, snodm, cosim, sinim, cosomm, sinomm, cc1sq, cc2, cc3, coef,
+      coef1, cosio4, day, dndt, em, emsq, eeta, etasq, gam, argpm, nodem, inclm, mm, nm, perige, pinvsq, psisq, qzms24, rtemsq, s1, s2, s3, s4, s5,
+      s6, s7, sfour, ss1, ss2, ss3, ss4, ss5, ss6, ss7, sz1, sz2, sz3, sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33, tc, temp, temp1, temp2,
+      temp3, tsi, xpidot, xhdot1, z1, z2, z3, z11, z12, z13, z21, z22, z23, z31, z32, z33, qzms2t, ss, j2, j3oj2, j4, x2o3, r[3], v[3], tumin, mu,
+      radiusearthkm, xke, j3;
 
   /* ------------------------ initialization --------------------- */
   // sgp4fix divisor for divide by zero check on inclination
@@ -1379,9 +1284,8 @@ int sgp4init(gravconsttype whichconst, const int satn, const double epoch,
   satrec.init = 'y';
   satrec.t = 0.0;
 
-  initl(satn, whichconst, satrec.ecco, epoch, satrec.inclo, satrec.no,
-        satrec.method, ainv, ao, satrec.con41, con42, cosio, cosio2, eccsq,
-        omeosq, posq, rp, rteosq, sinio, satrec.gsto);
+  initl(satn, whichconst, satrec.ecco, epoch, satrec.inclo, satrec.no, satrec.method, ainv, ao, satrec.con41, con42, cosio, cosio2, eccsq, omeosq,
+        posq, rp, rteosq, sinio, satrec.gsto);
   satrec.error = 0;
 
   if (rp < 1.0) {
@@ -1413,38 +1317,25 @@ int sgp4init(gravconsttype whichconst, const int satn, const double epoch,
     coef = qzms24 * pow(tsi, 4.0);
     coef1 = coef / pow(psisq, 3.5);
     cc2 = coef1 * satrec.no *
-          (ao * (1.0 + 1.5 * etasq + eeta * (4.0 + etasq)) +
-           0.375 * j2 * tsi / psisq * satrec.con41 *
-               (8.0 + 3.0 * etasq * (8.0 + etasq)));
+          (ao * (1.0 + 1.5 * etasq + eeta * (4.0 + etasq)) + 0.375 * j2 * tsi / psisq * satrec.con41 * (8.0 + 3.0 * etasq * (8.0 + etasq)));
     satrec.cc1 = satrec.bstar * cc2;
     cc3 = 0.0;
-    if (satrec.ecco > 1.0e-4)
-      cc3 = -2.0 * coef * tsi * j3oj2 * satrec.no * sinio / satrec.ecco;
+    if (satrec.ecco > 1.0e-4) cc3 = -2.0 * coef * tsi * j3oj2 * satrec.no * sinio / satrec.ecco;
     satrec.x1mth2 = 1.0 - cosio2;
-    satrec.cc4 =
-        2.0 * satrec.no * coef1 * ao * omeosq *
-        (satrec.eta * (2.0 + 0.5 * etasq) + satrec.ecco * (0.5 + 2.0 * etasq) -
-         j2 * tsi / (ao * psisq) *
-             (-3.0 * satrec.con41 *
-                  (1.0 - 2.0 * eeta + etasq * (1.5 - 0.5 * eeta)) +
-              0.75 * satrec.x1mth2 * (2.0 * etasq - eeta * (1.0 + etasq)) *
-                  cos(2.0 * satrec.argpo)));
-    satrec.cc5 = 2.0 * coef1 * ao * omeosq *
-                 (1.0 + 2.75 * (etasq + eeta) + eeta * etasq);
+    satrec.cc4 = 2.0 * satrec.no * coef1 * ao * omeosq *
+                 (satrec.eta * (2.0 + 0.5 * etasq) + satrec.ecco * (0.5 + 2.0 * etasq) -
+                  j2 * tsi / (ao * psisq) *
+                      (-3.0 * satrec.con41 * (1.0 - 2.0 * eeta + etasq * (1.5 - 0.5 * eeta)) +
+                       0.75 * satrec.x1mth2 * (2.0 * etasq - eeta * (1.0 + etasq)) * cos(2.0 * satrec.argpo)));
+    satrec.cc5 = 2.0 * coef1 * ao * omeosq * (1.0 + 2.75 * (etasq + eeta) + eeta * etasq);
     cosio4 = cosio2 * cosio2;
     temp1 = 1.5 * j2 * pinvsq * satrec.no;
     temp2 = 0.5 * temp1 * j2 * pinvsq;
     temp3 = -0.46875 * j4 * pinvsq * pinvsq * satrec.no;
-    satrec.mdot =
-        satrec.no + 0.5 * temp1 * rteosq * satrec.con41 +
-        0.0625 * temp2 * rteosq * (13.0 - 78.0 * cosio2 + 137.0 * cosio4);
-    satrec.argpdot = -0.5 * temp1 * con42 +
-                     0.0625 * temp2 * (7.0 - 114.0 * cosio2 + 395.0 * cosio4) +
-                     temp3 * (3.0 - 36.0 * cosio2 + 49.0 * cosio4);
+    satrec.mdot = satrec.no + 0.5 * temp1 * rteosq * satrec.con41 + 0.0625 * temp2 * rteosq * (13.0 - 78.0 * cosio2 + 137.0 * cosio4);
+    satrec.argpdot = -0.5 * temp1 * con42 + 0.0625 * temp2 * (7.0 - 114.0 * cosio2 + 395.0 * cosio4) + temp3 * (3.0 - 36.0 * cosio2 + 49.0 * cosio4);
     xhdot1 = -temp1 * cosio;
-    satrec.nodedot = xhdot1 + (0.5 * temp2 * (4.0 - 19.0 * cosio2) +
-                               2.0 * temp3 * (3.0 - 7.0 * cosio2)) *
-                                  cosio;
+    satrec.nodedot = xhdot1 + (0.5 * temp2 * (4.0 - 19.0 * cosio2) + 2.0 * temp3 * (3.0 - 7.0 * cosio2)) * cosio;
     xpidot = satrec.argpdot + satrec.nodedot;
     satrec.omgcof = satrec.bstar * cc3 * cos(satrec.argpo);
     satrec.xmcof = 0.0;
@@ -1453,8 +1344,7 @@ int sgp4init(gravconsttype whichconst, const int satn, const double epoch,
     satrec.t2cof = 1.5 * satrec.cc1;
     // sgp4fix for divide by zero with xinco = 180 deg
     if (fabs(cosio + 1.0) > 1.5e-12)
-      satrec.xlcof =
-          -0.25 * j3oj2 * sinio * (3.0 + 5.0 * cosio) / (1.0 + cosio);
+      satrec.xlcof = -0.25 * j3oj2 * sinio * (3.0 + 5.0 * cosio) / (1.0 + cosio);
     else
       satrec.xlcof = -0.25 * j3oj2 * sinio * (3.0 + 5.0 * cosio) / temp4;
     satrec.aycof = -0.5 * j3oj2 * sinio;
@@ -1469,42 +1359,26 @@ int sgp4init(gravconsttype whichconst, const int satn, const double epoch,
       tc = 0.0;
       inclm = satrec.inclo;
 
-      dscom(epoch, satrec.ecco, satrec.argpo, tc, satrec.inclo, satrec.nodeo,
-            satrec.no, snodm, cnodm, sinim, cosim, sinomm, cosomm, day,
-            satrec.e3, satrec.ee2, em, emsq, gam, satrec.peo, satrec.pgho,
-            satrec.pho, satrec.pinco, satrec.plo, rtemsq, satrec.se2,
-            satrec.se3, satrec.sgh2, satrec.sgh3, satrec.sgh4, satrec.sh2,
-            satrec.sh3, satrec.si2, satrec.si3, satrec.sl2, satrec.sl3,
-            satrec.sl4, s1, s2, s3, s4, s5, s6, s7, ss1, ss2, ss3, ss4, ss5,
-            ss6, ss7, sz1, sz2, sz3, sz11, sz12, sz13, sz21, sz22, sz23, sz31,
-            sz32, sz33, satrec.xgh2, satrec.xgh3, satrec.xgh4, satrec.xh2,
-            satrec.xh3, satrec.xi2, satrec.xi3, satrec.xl2, satrec.xl3,
-            satrec.xl4, nm, z1, z2, z3, z11, z12, z13, z21, z22, z23, z31, z32,
-            z33, satrec.zmol, satrec.zmos);
-      dpper(satrec.e3, satrec.ee2, satrec.peo, satrec.pgho, satrec.pho,
-            satrec.pinco, satrec.plo, satrec.se2, satrec.se3, satrec.sgh2,
-            satrec.sgh3, satrec.sgh4, satrec.sh2, satrec.sh3, satrec.si2,
-            satrec.si3, satrec.sl2, satrec.sl3, satrec.sl4, satrec.t,
-            satrec.xgh2, satrec.xgh3, satrec.xgh4, satrec.xh2, satrec.xh3,
-            satrec.xi2, satrec.xi3, satrec.xl2, satrec.xl3, satrec.xl4,
-            satrec.zmol, satrec.zmos, inclm, satrec.init, satrec.ecco,
-            satrec.inclo, satrec.nodeo, satrec.argpo, satrec.mo);
+      dscom(epoch, satrec.ecco, satrec.argpo, tc, satrec.inclo, satrec.nodeo, satrec.no, snodm, cnodm, sinim, cosim, sinomm, cosomm, day, satrec.e3,
+            satrec.ee2, em, emsq, gam, satrec.peo, satrec.pgho, satrec.pho, satrec.pinco, satrec.plo, rtemsq, satrec.se2, satrec.se3, satrec.sgh2,
+            satrec.sgh3, satrec.sgh4, satrec.sh2, satrec.sh3, satrec.si2, satrec.si3, satrec.sl2, satrec.sl3, satrec.sl4, s1, s2, s3, s4, s5, s6, s7,
+            ss1, ss2, ss3, ss4, ss5, ss6, ss7, sz1, sz2, sz3, sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33, satrec.xgh2, satrec.xgh3,
+            satrec.xgh4, satrec.xh2, satrec.xh3, satrec.xi2, satrec.xi3, satrec.xl2, satrec.xl3, satrec.xl4, nm, z1, z2, z3, z11, z12, z13, z21, z22,
+            z23, z31, z32, z33, satrec.zmol, satrec.zmos);
+      dpper(satrec.e3, satrec.ee2, satrec.peo, satrec.pgho, satrec.pho, satrec.pinco, satrec.plo, satrec.se2, satrec.se3, satrec.sgh2, satrec.sgh3,
+            satrec.sgh4, satrec.sh2, satrec.sh3, satrec.si2, satrec.si3, satrec.sl2, satrec.sl3, satrec.sl4, satrec.t, satrec.xgh2, satrec.xgh3,
+            satrec.xgh4, satrec.xh2, satrec.xh3, satrec.xi2, satrec.xi3, satrec.xl2, satrec.xl3, satrec.xl4, satrec.zmol, satrec.zmos, inclm,
+            satrec.init, satrec.ecco, satrec.inclo, satrec.nodeo, satrec.argpo, satrec.mo);
 
       argpm = 0.0;
       nodem = 0.0;
       mm = 0.0;
 
-      dsinit(whichconst, cosim, emsq, satrec.argpo, s1, s2, s3, s4, s5, sinim,
-             ss1, ss2, ss3, ss4, ss5, sz1, sz3, sz11, sz13, sz21, sz23, sz31,
-             sz33, satrec.t, tc, satrec.gsto, satrec.mo, satrec.mdot, satrec.no,
-             satrec.nodeo, satrec.nodedot, xpidot, z1, z3, z11, z13, z21, z23,
-             z31, z33, satrec.ecco, eccsq, em, argpm, inclm, mm, nm, nodem,
-             satrec.irez, satrec.atime, satrec.d2201, satrec.d2211,
-             satrec.d3210, satrec.d3222, satrec.d4410, satrec.d4422,
-             satrec.d5220, satrec.d5232, satrec.d5421, satrec.d5433,
-             satrec.dedt, satrec.didt, satrec.dmdt, dndt, satrec.dnodt,
-             satrec.domdt, satrec.del1, satrec.del2, satrec.del3, satrec.xfact,
-             satrec.xlamo, satrec.xli, satrec.xni);
+      dsinit(whichconst, cosim, emsq, satrec.argpo, s1, s2, s3, s4, s5, sinim, ss1, ss2, ss3, ss4, ss5, sz1, sz3, sz11, sz13, sz21, sz23, sz31, sz33,
+             satrec.t, tc, satrec.gsto, satrec.mo, satrec.mdot, satrec.no, satrec.nodeo, satrec.nodedot, xpidot, z1, z3, z11, z13, z21, z23, z31, z33,
+             satrec.ecco, eccsq, em, argpm, inclm, mm, nm, nodem, satrec.irez, satrec.atime, satrec.d2201, satrec.d2211, satrec.d3210, satrec.d3222,
+             satrec.d4410, satrec.d4422, satrec.d5220, satrec.d5232, satrec.d5421, satrec.d5433, satrec.dedt, satrec.didt, satrec.dmdt, dndt,
+             satrec.dnodt, satrec.domdt, satrec.del1, satrec.del2, satrec.del3, satrec.xfact, satrec.xlamo, satrec.xli, satrec.xni);
     }
 
     /* ----------- set variables if not deep space ----------- */
@@ -1513,14 +1387,10 @@ int sgp4init(gravconsttype whichconst, const int satn, const double epoch,
       satrec.d2 = 4.0 * ao * tsi * cc1sq;
       temp = satrec.d2 * tsi * satrec.cc1 / 3.0;
       satrec.d3 = (17.0 * ao + sfour) * temp;
-      satrec.d4 =
-          0.5 * temp * ao * tsi * (221.0 * ao + 31.0 * sfour) * satrec.cc1;
+      satrec.d4 = 0.5 * temp * ao * tsi * (221.0 * ao + 31.0 * sfour) * satrec.cc1;
       satrec.t3cof = satrec.d2 + 2.0 * cc1sq;
-      satrec.t4cof = 0.25 * (3.0 * satrec.d3 +
-                             satrec.cc1 * (12.0 * satrec.d2 + 10.0 * cc1sq));
-      satrec.t5cof = 0.2 * (3.0 * satrec.d4 + 12.0 * satrec.cc1 * satrec.d3 +
-                            6.0 * satrec.d2 * satrec.d2 +
-                            15.0 * cc1sq * (2.0 * satrec.d2 + cc1sq));
+      satrec.t4cof = 0.25 * (3.0 * satrec.d3 + satrec.cc1 * (12.0 * satrec.d2 + 10.0 * cc1sq));
+      satrec.t5cof = 0.2 * (3.0 * satrec.d4 + 12.0 * satrec.cc1 * satrec.d3 + 6.0 * satrec.d2 * satrec.d2 + 15.0 * cc1sq * (2.0 * satrec.d2 + cc1sq));
     }
   }  // if omeosq = 0 ...
 
@@ -1624,16 +1494,12 @@ int sgp4init(gravconsttype whichconst, const int satn, const double epoch,
 *    vallado, crawford, hujsak, kelso  2006
   ----------------------------------------------------------------------------*/
 
-int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
-         double v[3]) {
-  double am, axnl, aynl, betal, cosim, cnod, cos2u, coseo1, cosi, cosip, cosisq,
-      cossu, cosu, delm, delomg, em, emsq, ecose, el2, eo1, ep, esine, argpm,
-      argpp, argpdf, pl,
-      mrt = 0.0, mvt, rdotl, rl, rvdot, rvdotl, sinim, sin2u, sineo1, sini,
-      sinip, sinsu, sinu, snod, su, t2, t3, t4, tem5, temp, temp1, temp2, tempa,
-      tempe, templ, u, ux, uy, uz, vx, vy, vz, inclm, mm, nm, nodem, xinc,
-      xincp, xl, xlm, mp, xmdf, xmx, xmy, nodedf, xnode, nodep, tc, dndt, twopi,
-      x2o3, j2, j3, tumin, j4, xke, j3oj2, radiusearthkm, mu, vkmpersec;
+int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3], double v[3]) {
+  double am, axnl, aynl, betal, cosim, cnod, cos2u, coseo1, cosi, cosip, cosisq, cossu, cosu, delm, delomg, em, emsq, ecose, el2, eo1, ep, esine,
+      argpm, argpp, argpdf, pl, mrt = 0.0, mvt, rdotl, rl, rvdot, rvdotl, sinim, sin2u, sineo1, sini, sinip, sinsu, sinu, snod, su, t2, t3, t4, tem5,
+                                temp, temp1, temp2, tempa, tempe, templ, u, ux, uy, uz, vx, vy, vz, inclm, mm, nm, nodem, xinc, xincp, xl, xlm, mp,
+                                xmdf, xmx, xmy, nodedf, xnode, nodep, tc, dndt, twopi, x2o3, j2, j3, tumin, j4, xke, j3oj2, radiusearthkm, mu,
+                                vkmpersec;
   int ktr;
 
   /* ------------------ set mathematical constants --------------- */
@@ -1664,8 +1530,7 @@ int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
 
   if (satrec.isimp != 1) {
     delomg = satrec.omgcof * satrec.t;
-    delm =
-        satrec.xmcof * (pow((1.0 + satrec.eta * cos(xmdf)), 3) - satrec.delmo);
+    delm = satrec.xmcof * (pow((1.0 + satrec.eta * cos(xmdf)), 3) - satrec.delmo);
     temp = delomg + delm;
     mm = xmdf + temp;
     argpm = argpdf - temp;
@@ -1673,8 +1538,7 @@ int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
     t4 = t3 * satrec.t;
     tempa = tempa - satrec.d2 * t2 - satrec.d3 * t3 - satrec.d4 * t4;
     tempe = tempe + satrec.bstar * satrec.cc5 * (sin(mm) - satrec.sinmao);
-    templ = templ + satrec.t3cof * t3 +
-            t4 * (satrec.t4cof + satrec.t * satrec.t5cof);
+    templ = templ + satrec.t3cof * t3 + t4 * (satrec.t4cof + satrec.t * satrec.t5cof);
   }
 
   nm = satrec.no;
@@ -1682,13 +1546,10 @@ int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
   inclm = satrec.inclo;
   if (satrec.method == 'd') {
     tc = satrec.t;
-    dspace(satrec.irez, satrec.d2201, satrec.d2211, satrec.d3210, satrec.d3222,
-           satrec.d4410, satrec.d4422, satrec.d5220, satrec.d5232, satrec.d5421,
-           satrec.d5433, satrec.dedt, satrec.del1, satrec.del2, satrec.del3,
-           satrec.didt, satrec.dmdt, satrec.dnodt, satrec.domdt, satrec.argpo,
-           satrec.argpdot, satrec.t, tc, satrec.gsto, satrec.xfact,
-           satrec.xlamo, satrec.no, satrec.atime, em, argpm, inclm, satrec.xli,
-           mm, satrec.xni, nodem, dndt, nm);
+    dspace(satrec.irez, satrec.d2201, satrec.d2211, satrec.d3210, satrec.d3222, satrec.d4410, satrec.d4422, satrec.d5220, satrec.d5232, satrec.d5421,
+           satrec.d5433, satrec.dedt, satrec.del1, satrec.del2, satrec.del3, satrec.didt, satrec.dmdt, satrec.dnodt, satrec.domdt, satrec.argpo,
+           satrec.argpdot, satrec.t, tc, satrec.gsto, satrec.xfact, satrec.xlamo, satrec.no, satrec.atime, em, argpm, inclm, satrec.xli, mm,
+           satrec.xni, nodem, dndt, nm);
   }  // if method = d
 
   if (nm <= 0.0) {
@@ -1728,13 +1589,10 @@ int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
   sinip = sinim;
   cosip = cosim;
   if (satrec.method == 'd') {
-    dpper(satrec.e3, satrec.ee2, satrec.peo, satrec.pgho, satrec.pho,
-          satrec.pinco, satrec.plo, satrec.se2, satrec.se3, satrec.sgh2,
-          satrec.sgh3, satrec.sgh4, satrec.sh2, satrec.sh3, satrec.si2,
-          satrec.si3, satrec.sl2, satrec.sl3, satrec.sl4, satrec.t, satrec.xgh2,
-          satrec.xgh3, satrec.xgh4, satrec.xh2, satrec.xh3, satrec.xi2,
-          satrec.xi3, satrec.xl2, satrec.xl3, satrec.xl4, satrec.zmol,
-          satrec.zmos, satrec.inclo, 'n', ep, xincp, nodep, argpp, mp);
+    dpper(satrec.e3, satrec.ee2, satrec.peo, satrec.pgho, satrec.pho, satrec.pinco, satrec.plo, satrec.se2, satrec.se3, satrec.sgh2, satrec.sgh3,
+          satrec.sgh4, satrec.sh2, satrec.sh3, satrec.si2, satrec.si3, satrec.sl2, satrec.sl3, satrec.sl4, satrec.t, satrec.xgh2, satrec.xgh3,
+          satrec.xgh4, satrec.xh2, satrec.xh3, satrec.xi2, satrec.xi3, satrec.xl2, satrec.xl3, satrec.xl4, satrec.zmol, satrec.zmos, satrec.inclo,
+          'n', ep, xincp, nodep, argpp, mp);
     if (xincp < 0.0) {
       xincp = -xincp;
       nodep = nodep + pi;
@@ -1753,8 +1611,7 @@ int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
     satrec.aycof = -0.5 * j3oj2 * sinip;
     // sgp4fix for divide by zero for xincp = 180 deg
     if (fabs(cosip + 1.0) > 1.5e-12)
-      satrec.xlcof =
-          -0.25 * j3oj2 * sinip * (3.0 + 5.0 * cosip) / (1.0 + cosip);
+      satrec.xlcof = -0.25 * j3oj2 * sinip * (3.0 + 5.0 * cosip) / (1.0 + cosip);
     else
       satrec.xlcof = -0.25 * j3oj2 * sinip * (3.0 + 5.0 * cosip) / temp4;
   }
@@ -1811,14 +1668,12 @@ int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
       satrec.x1mth2 = 1.0 - cosisq;
       satrec.x7thm1 = 7.0 * cosisq - 1.0;
     }
-    mrt = rl * (1.0 - 1.5 * temp2 * betal * satrec.con41) +
-          0.5 * temp1 * satrec.x1mth2 * cos2u;
+    mrt = rl * (1.0 - 1.5 * temp2 * betal * satrec.con41) + 0.5 * temp1 * satrec.x1mth2 * cos2u;
     su = su - 0.25 * temp2 * satrec.x7thm1 * sin2u;
     xnode = nodep + 1.5 * temp2 * cosip * sin2u;
     xinc = xincp + 1.5 * temp2 * cosip * sinip * cos2u;
     mvt = rdotl - nm * temp1 * satrec.x1mth2 * sin2u / xke;
-    rvdot = rvdotl +
-            nm * temp1 * (satrec.x1mth2 * cos2u + 1.5 * satrec.con41) / xke;
+    rvdot = rvdotl + nm * temp1 * (satrec.x1mth2 * cos2u + 1.5 * satrec.con41) / xke;
 
     /* --------------------- orientation vectors ------------------- */
     sinsu = sin(su);
@@ -1883,7 +1738,7 @@ int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
  *  references    :
  *    vallado       2004, 191, eq 3-45
  * ---------------------------------------------------------------------------
-*/
+ */
 
 double gstime(double jdut1) {
   const double twopi = 2.0 * pi;
@@ -1891,10 +1746,8 @@ double gstime(double jdut1) {
   double temp, tut1;
 
   tut1 = (jdut1 - 2451545.0) / 36525.0;
-  temp = -6.2e-6 * tut1 * tut1 * tut1 + 0.093104 * tut1 * tut1 +
-         (876600.0 * 3600 + 8640184.812866) * tut1 + 67310.54841;  // sec
-  temp =
-      fmod(temp * deg2rad / 240.0, twopi);  // 360/86400 = 1/240, to deg, to rad
+  temp = -6.2e-6 * tut1 * tut1 * tut1 + 0.093104 * tut1 * tut1 + (876600.0 * 3600 + 8640184.812866) * tut1 + 67310.54841;  // sec
+  temp = fmod(temp * deg2rad / 240.0, twopi);  // 360/86400 = 1/240, to deg, to rad
 
   // ------------------------ check quadrants ---------------------
   if (temp < 0.0) temp += twopi;
@@ -1946,9 +1799,8 @@ to
 *    vallado, crawford, hujsak, kelso  2006
   --------------------------------------------------------------------------- */
 
-void getgravconst(gravconsttype whichconst, double& tumin, double& mu,
-                  double& radiusearthkm, double& xke, double& j2, double& j3,
-                  double& j4, double& j3oj2) {
+void getgravconst(gravconsttype whichconst, double& tumin, double& mu, double& radiusearthkm, double& xke, double& j2, double& j3, double& j4,
+                  double& j3oj2) {
   switch (whichconst) {
     // -- wgs-72 low precision str#3 constants --
     case wgs72old:

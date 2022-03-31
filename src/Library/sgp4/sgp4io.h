@@ -31,7 +31,6 @@
 
 // ------------------------- function declarations -------------------------
 
-void twoline2rv(char[130], char[130], char, char, gravconsttype, double&,
-                double&, double&, elsetrec&);
+void twoline2rv(char[130], char[130], char, char, gravconsttype, double&, double&, double&, elsetrec&);
 
 #endif

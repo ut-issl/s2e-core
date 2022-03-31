@@ -11,9 +11,7 @@ typedef cli::array<System::Byte> bytearray;
 
 class HilsUartPort {
  public:
-  HilsUartPort(const unsigned int port_id, const unsigned int baud_rate,
-               const unsigned int tx_buffer_size,
-               const unsigned int rx_buffer_size);
+  HilsUartPort(const unsigned int port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size);
   ~HilsUartPort();
   int OpenPort();
   int ClosePort();

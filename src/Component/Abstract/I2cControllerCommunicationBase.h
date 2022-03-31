@@ -8,11 +8,8 @@
 
 class I2cControllerCommunicationBase {
  public:
-  I2cControllerCommunicationBase(const unsigned int hils_port_id,
-                                 const unsigned int baud_rate,
-                                 const unsigned int tx_buf_size,
-                                 const unsigned int rx_buf_size,
-                                 HilsPortManager* hils_port_manager);
+  I2cControllerCommunicationBase(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buf_size,
+                                 const unsigned int rx_buf_size, HilsPortManager* hils_port_manager);
   ~I2cControllerCommunicationBase();
 
  protected:

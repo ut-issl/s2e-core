@@ -9,26 +9,16 @@
 using namespace libra;
 using namespace std;
 
-static double rpm2angularVelocity(double rpm) {
-  return rpm * libra::tau / 60.0;
-}
+static double rpm2angularVelocity(double rpm) { return rpm * libra::tau / 60.0; }
 
-static double angularVelocity2rpm(double angular_velocity) {
-  return angular_velocity * 60.0 / libra::tau;
-}
+static double angularVelocity2rpm(double angular_velocity) { return angular_velocity * 60.0 / libra::tau; }
 
-RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen,
-                 double step_width, double dt_main_routine,
-                 double jitter_update_interval, double inertia,
-                 double max_torque, double max_velocity_rpm, Quaternion q_b2c,
-                 Vector<3> pos_b, double dead_time, Vector<3> driving_lag_coef,
-                 Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled,
-                 bool is_log_jitter_enabled,
-                 vector<vector<double>> radial_force_harmonics_coef,
-                 vector<vector<double>> radial_torque_harmonics_coef,
-                 double structural_resonance_freq, double damping_factor,
-                 double bandwidth, bool considers_structural_resonance,
-                 bool drive_flag, double init_velocity)
+RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, double step_width, double dt_main_routine,
+                 double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm, Quaternion q_b2c, Vector<3> pos_b,
+                 double dead_time, Vector<3> driving_lag_coef, Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
+                 vector<vector<double>> radial_force_harmonics_coef, vector<vector<double>> radial_torque_harmonics_coef,
+                 double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance, bool drive_flag,
+                 double init_velocity)
     : ComponentBase(prescaler, clock_gen, fast_prescaler),
       step_width_(step_width),
       dt_main_routine_(dt_main_routine),
@@ -43,26 +33,18 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen,
       is_calculated_jitter_(is_calc_jitter_enabled),
       is_logged_jitter_(is_log_jitter_enabled),
       drive_flag_(drive_flag),
-      ode_angular_velocity_(step_width_, init_velocity, 0.0,
-                            coasting_lag_coef_),
-      rw_jitter_(radial_force_harmonics_coef, radial_torque_harmonics_coef,
-                 jitter_update_interval, q_b2c, structural_resonance_freq,
-                 damping_factor, bandwidth, considers_structural_resonance) {
+      ode_angular_velocity_(step_width_, init_velocity, 0.0, coasting_lag_coef_),
+      rw_jitter_(radial_force_harmonics_coef, radial_torque_harmonics_coef, jitter_update_interval, q_b2c, structural_resonance_freq, damping_factor,
+                 bandwidth, considers_structural_resonance) {
   Initialize();
 }
 
-RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen,
-                 PowerPort *power_port, double step_width,
-                 double dt_main_routine, double jitter_update_interval,
-                 double inertia, double max_torque, double max_velocity_rpm,
-                 Quaternion q_b2c, Vector<3> pos_b, double dead_time,
-                 Vector<3> driving_lag_coef, Vector<3> coasting_lag_coef,
-                 bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
-                 vector<vector<double>> radial_force_harmonics_coef,
-                 vector<vector<double>> radial_torque_harmonics_coef,
-                 double structural_resonance_freq, double damping_factor,
-                 double bandwidth, bool considers_structural_resonance,
-                 bool drive_flag, double init_velocity)
+RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, PowerPort *power_port, double step_width, double dt_main_routine,
+                 double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm, Quaternion q_b2c, Vector<3> pos_b,
+                 double dead_time, Vector<3> driving_lag_coef, Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
+                 vector<vector<double>> radial_force_harmonics_coef, vector<vector<double>> radial_torque_harmonics_coef,
+                 double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance, bool drive_flag,
+                 double init_velocity)
     : ComponentBase(prescaler, clock_gen, power_port, fast_prescaler),
       step_width_(step_width),
       dt_main_routine_(dt_main_routine),
@@ -77,11 +59,9 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen,
       is_calculated_jitter_(is_calc_jitter_enabled),
       is_logged_jitter_(is_log_jitter_enabled),
       drive_flag_(drive_flag),
-      ode_angular_velocity_(step_width_, init_velocity, 0.0,
-                            coasting_lag_coef_),
-      rw_jitter_(radial_force_harmonics_coef, radial_torque_harmonics_coef,
-                 jitter_update_interval, q_b2c, structural_resonance_freq,
-                 damping_factor, bandwidth, considers_structural_resonance) {
+      ode_angular_velocity_(step_width_, init_velocity, 0.0, coasting_lag_coef_),
+      rw_jitter_(radial_force_harmonics_coef, radial_torque_harmonics_coef, jitter_update_interval, q_b2c, structural_resonance_freq, damping_factor,
+                 bandwidth, considers_structural_resonance) {
   Initialize();
 }
 
@@ -128,8 +108,7 @@ Vector<3> RWModel::CalcTorque() {
     ode_angular_velocity_.setLagCoef(driving_lag_coef_);
     // Set target velocity from target torque
     double angular_accl = delay_buffer_accl_.front();
-    double target_angular_velocity_rad =
-        pre_angular_velocity_rad + angular_accl;
+    double target_angular_velocity_rad = pre_angular_velocity_rad + angular_accl;
     // Check velocity limit
     double velocity_limit_rad = rpm2angularVelocity(velocity_limit_rpm_);
     if (target_angular_velocity_rad > velocity_limit_rad)
@@ -150,8 +129,7 @@ Vector<3> RWModel::CalcTorque() {
   // Substitution
   angular_velocity_rad_ = ode_angular_velocity_.getAngularVelocity();
   angular_velocity_rpm_ = angularVelocity2rpm(angular_velocity_rad_);
-  angular_acceleration_ =
-      (angular_velocity_rad_ - pre_angular_velocity_rad) / dt_main_routine_;
+  angular_acceleration_ = (angular_velocity_rad_ - pre_angular_velocity_rad) / dt_main_routine_;
   // Component frame -> Body frame
   output_torque_b_ = -1.0 * inertia_ * angular_acceleration_ * direction_b_;
   angular_momentum_b_ = inertia_ * angular_velocity_rad_ * direction_b_;
@@ -162,9 +140,7 @@ const libra::Vector<3> RWModel::GetOutputTorqueB() const {
   if (is_calculated_jitter_) {
     // Add jitter_force_b_-derived torque and jitter_torque_b_ to
     // output_torqur_b
-    return output_torque_b_ -
-           libra::outer_product(pos_b_, rw_jitter_.GetJitterForceB()) -
-           rw_jitter_.GetJitterTorqueB();
+    return output_torque_b_ - libra::outer_product(pos_b_, rw_jitter_.GetJitterForceB()) - rw_jitter_.GetJitterTorqueB();
   } else {
     return output_torque_b_;
   }
@@ -180,9 +156,7 @@ void RWModel::SetTargetTorqueRw(double torque_rw) {
     target_accl_ = sign * max_torque_ / inertia_;
   }
 }
-void RWModel::SetTargetTorqueBody(double torque_body) {
-  SetTargetTorqueRw(-1.0 * torque_body);
-}
+void RWModel::SetTargetTorqueBody(double torque_body) { SetTargetTorqueRw(-1.0 * torque_body); }
 
 void RWModel::SetVelocityLimitRpm(double velocity_limit_rpm) {
   if (velocity_limit_rpm > max_velocity_rpm_) {

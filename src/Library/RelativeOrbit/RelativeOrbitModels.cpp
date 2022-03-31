@@ -44,8 +44,7 @@ libra::Matrix<6, 6> CalculateHillSystemMatrix(double orbit_radius, double mu) {
   return system_matrix;
 }
 
-libra::Matrix<6, 6> CalculateHCWSTM(double orbit_radius, double mu,
-                                    double elapsed_sec) {
+libra::Matrix<6, 6> CalculateHCWSTM(double orbit_radius, double mu, double elapsed_sec) {
   libra::Matrix<6, 6> stm;
 
   double n = sqrt(mu / pow(orbit_radius, 3));

@@ -29,9 +29,7 @@ BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname) {
 
   std::vector<double> cell_discharge_curve_coeffs;
   for (int i = 0; i <= approx_order; ++i) {
-    cell_discharge_curve_coeffs.push_back(bat_conf.ReadDouble(
-        Section,
-        ("cell_discharge_curve_coeffs(" + std::to_string(i) + ")").c_str()));
+    cell_discharge_curve_coeffs.push_back(bat_conf.ReadDouble(Section, ("cell_discharge_curve_coeffs(" + std::to_string(i) + ")").c_str()));
   }
 
   double initial_dod;
@@ -46,8 +44,7 @@ BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname) {
   double bat_resistance;
   bat_resistance = bat_conf.ReadDouble(Section, "bat_resistance");
 
-  BAT bat(clock_gen, number_of_series, number_of_parallel, cell_capacity,
-          cell_discharge_curve_coeffs, initial_dod, cc_charge_c_rate,
+  BAT bat(clock_gen, number_of_series, number_of_parallel, cell_capacity, cell_discharge_curve_coeffs, initial_dod, cc_charge_c_rate,
           cv_charge_voltage, bat_resistance);
 
   return bat;

@@ -1,16 +1,13 @@
 #include "ComponentBase.h"
 
-ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen,
-                             int fast_prescaler)
-    : clock_gen_(clock_gen) {
+ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen, int fast_prescaler) : clock_gen_(clock_gen) {
   power_port_ = new PowerPort();
   clock_gen_->RegisterComponent(this);
   prescaler_ = (prescaler > 0) ? prescaler : 1;
   fast_prescaler_ = (fast_prescaler > 0) ? fast_prescaler : 1;
 }
 
-ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen,
-                             PowerPort* power_port, int fast_prescaler)
+ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, int fast_prescaler)
     : clock_gen_(clock_gen), power_port_(power_port) {
   clock_gen_->RegisterComponent(this);
   prescaler_ = (prescaler > 0) ? prescaler : 1;

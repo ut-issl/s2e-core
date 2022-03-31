@@ -2,14 +2,9 @@
 
 #include "SimpleCircularOrbit.h"
 
-RelativeOrbit::RelativeOrbit(double mu, double timestep, int wgs,
-                             double current_jd, int reference_sat_id,
-                             Vector<3> initial_relative_position_lvlh,
-                             Vector<3> initial_relative_velocity_lvlh,
-                             RelativeOrbitUpdateMethod update_method,
-                             RelativeOrbitModel relative_dynamics_model_type,
-                             STMModel stm_model_type,
-                             RelativeInformation* rel_info)
+RelativeOrbit::RelativeOrbit(double mu, double timestep, int wgs, double current_jd, int reference_sat_id, Vector<3> initial_relative_position_lvlh,
+                             Vector<3> initial_relative_velocity_lvlh, RelativeOrbitUpdateMethod update_method,
+                             RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type, RelativeInformation* rel_info)
     : libra::ODE<6>(timestep),
       mu_(mu),
       reference_sat_id_(reference_sat_id),
@@ -29,15 +24,12 @@ RelativeOrbit::RelativeOrbit(double mu, double timestep, int wgs,
     whichconst = wgs84;
   }
 
-  InitializeState(initial_relative_position_lvlh,
-                  initial_relative_velocity_lvlh, current_jd, mu);
+  InitializeState(initial_relative_position_lvlh, initial_relative_velocity_lvlh, current_jd, mu);
 }
 
 RelativeOrbit::~RelativeOrbit() {}
 
-void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh,
-                                    Vector<3> initial_relative_velocity_lvlh,
-                                    double current_jd, double mu,
+void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh, double current_jd, double mu,
                                     double init_time) {
   relative_position_lvlh_ = initial_relative_position_lvlh;
   relative_velocity_lvlh_ = initial_relative_velocity_lvlh;
@@ -45,22 +37,12 @@ void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh,
   // Disturbance acceleration are not considered in relative orbit propagation
   acc_i_ *= 0;
 
-  Vector<3> reference_sat_position_i =
-      rel_info_->GetReferenceSatDynamics(reference_sat_id_)
-          ->GetOrbit()
-          .GetSatPosition_i();
-  Vector<3> reference_sat_velocity_i =
-      rel_info_->GetReferenceSatDynamics(reference_sat_id_)
-          ->GetOrbit()
-          .GetSatVelocity_i();
-  Quaternion q_i2lvlh = rel_info_->GetReferenceSatDynamics(reference_sat_id_)
-                            ->GetOrbit()
-                            .CalcQuaternionI2LVLH();
+  Vector<3> reference_sat_position_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetSatPosition_i();
+  Vector<3> reference_sat_velocity_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetSatVelocity_i();
+  Quaternion q_i2lvlh = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().CalcQuaternionI2LVLH();
   Quaternion q_lvlh2i = q_i2lvlh.conjugate();
-  sat_position_i_ =
-      q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
-  sat_velocity_i_ =
-      q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
+  sat_position_i_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
+  sat_velocity_i_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
 
   initial_state_[0] = initial_relative_position_lvlh[0];
   initial_state_[1] = initial_relative_position_lvlh[1];
@@ -71,31 +53,21 @@ void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh,
 
   if (update_method_ == RK4) {
     setup(init_time, initial_state_);
-    CalculateSystemMatrix(
-        relative_dynamics_model_type_,
-        &(rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit()),
-        mu);
+    CalculateSystemMatrix(relative_dynamics_model_type_, &(rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit()), mu);
   } else  // update_method_ == STM
   {
-    CalculateSTM(
-        stm_model_type_,
-        &(rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit()),
-        mu, 0.0);
+    CalculateSTM(stm_model_type_, &(rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit()), mu, 0.0);
   }
 
   TransECIToGeo(current_jd);
   TransECIToECEF(current_jd);
 }
 
-void RelativeOrbit::CalculateSystemMatrix(
-    RelativeOrbitModel relative_dynamics_model_type,
-    const Orbit* reference_sat_orbit, double mu) {
+void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit, double mu) {
   switch (relative_dynamics_model_type) {
     case RelativeOrbitModel::Hill: {
-      double reference_sat_orbit_radius =
-          libra::norm(reference_sat_orbit->GetSatPosition_i());
-      system_matrix_ =
-          CalculateHillSystemMatrix(reference_sat_orbit_radius, mu);
+      double reference_sat_orbit_radius = libra::norm(reference_sat_orbit->GetSatPosition_i());
+      system_matrix_ = CalculateHillSystemMatrix(reference_sat_orbit_radius, mu);
     }
     default: {
       // NOT REACHED
@@ -104,13 +76,10 @@ void RelativeOrbit::CalculateSystemMatrix(
   }
 }
 
-void RelativeOrbit::CalculateSTM(STMModel stm_model_type,
-                                 const Orbit* reference_sat_orbit, double mu,
-                                 double elapsed_sec) {
+void RelativeOrbit::CalculateSTM(STMModel stm_model_type, const Orbit* reference_sat_orbit, double mu, double elapsed_sec) {
   switch (stm_model_type) {
     case STMModel::HCW: {
-      double reference_sat_orbit_radius =
-          libra::norm(reference_sat_orbit->GetSatPosition_i());
+      double reference_sat_orbit_radius = libra::norm(reference_sat_orbit->GetSatPosition_i());
       stm_ = CalculateHCWSTM(reference_sat_orbit_radius, mu, elapsed_sec);
     }
     default: {
@@ -133,23 +102,13 @@ void RelativeOrbit::Propagate(double endtime, double current_jd) {
     PropagateSTM(endtime);
   }
 
-  Vector<3> reference_sat_position_i =
-      rel_info_->GetReferenceSatDynamics(reference_sat_id_)
-          ->GetOrbit()
-          .GetSatPosition_i();
-  Vector<3> reference_sat_velocity_i =
-      rel_info_->GetReferenceSatDynamics(reference_sat_id_)
-          ->GetOrbit()
-          .GetSatVelocity_i();
-  Quaternion q_i2lvlh = rel_info_->GetReferenceSatDynamics(reference_sat_id_)
-                            ->GetOrbit()
-                            .CalcQuaternionI2LVLH();
+  Vector<3> reference_sat_position_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetSatPosition_i();
+  Vector<3> reference_sat_velocity_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetSatVelocity_i();
+  Quaternion q_i2lvlh = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().CalcQuaternionI2LVLH();
   Quaternion q_lvlh2i = q_i2lvlh.conjugate();
 
-  sat_position_i_ =
-      q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
-  sat_velocity_i_ =
-      q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
+  sat_position_i_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
+  sat_velocity_i_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
   TransECIToGeo(current_jd);
   TransECIToECEF(current_jd);
 }
@@ -174,10 +133,7 @@ void RelativeOrbit::PropagateRK4(double elapsed_sec) {
 
 void RelativeOrbit::PropagateSTM(double elapsed_sec) {
   Vector<6> current_state;
-  CalculateSTM(
-      stm_model_type_,
-      &(rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit()), mu_,
-      elapsed_sec);
+  CalculateSTM(stm_model_type_, &(rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit()), mu_, elapsed_sec);
   current_state = stm_ * initial_state_;
 
   relative_position_lvlh_[0] = current_state[0];
@@ -188,9 +144,8 @@ void RelativeOrbit::PropagateSTM(double elapsed_sec) {
   relative_velocity_lvlh_[2] = current_state[5];
 }
 
-void RelativeOrbit::RHS(
-    double t, const Vector<6>& state,
-    Vector<6>& rhs)  // only for RK4 relative dynamics propagation
+void RelativeOrbit::RHS(double t, const Vector<6>& state,
+                        Vector<6>& rhs)  // only for RK4 relative dynamics propagation
 {
   rhs = system_matrix_ * state;
   (void)t;
@@ -202,12 +157,8 @@ std::string RelativeOrbit::GetLogHeader() const {
   str_tmp += WriteVector("sat_position", "i", "m", 3);
   str_tmp += WriteVector("sat_velocity", "i", "m/s", 3);
   str_tmp += WriteVector("sat_velocity", "b", "m/s", 3);
-  str_tmp += WriteVector(
-      "sat_position_relative_to_sat" + std::to_string(reference_sat_id_),
-      "LVLH", "m", 3);
-  str_tmp += WriteVector(
-      "sat_velocity_relative_to_sat" + std::to_string(reference_sat_id_),
-      "LVLH", "m", 3);
+  str_tmp += WriteVector("sat_position_relative_to_sat" + std::to_string(reference_sat_id_), "LVLH", "m", 3);
+  str_tmp += WriteVector("sat_velocity_relative_to_sat" + std::to_string(reference_sat_id_), "LVLH", "m", 3);
   str_tmp += WriteVector("sat_acc_i", "i", "m/s^2", 3);
   str_tmp += WriteScalar("lat", "rad");
   str_tmp += WriteScalar("lon", "rad");

@@ -110,8 +110,7 @@ Matrix<N, N>& ludcmp(Matrix<N, N>& a, unsigned int index[]) {
 }
 
 template <std::size_t N>
-Vector<N>& lubksb(const Matrix<N, N>& a, const unsigned int index[],
-                  Vector<N>& b) {
+Vector<N>& lubksb(const Matrix<N, N>& a, const unsigned int index[], Vector<N>& b) {
   double sum;
   bool non_zero = false;
   unsigned int mark;

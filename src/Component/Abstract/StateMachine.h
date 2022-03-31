@@ -81,9 +81,7 @@ class StateInterface {
   StateInterface* GetParent() const { return parent_; }
 
  public:
-  void AddTransition(Event const& e, state_t* state) {
-    transition_.insert(std::make_pair(e, state));
-  }
+  void AddTransition(Event const& e, state_t* state) { transition_.insert(std::make_pair(e, state)); }
 
   bool Transit(Event const& e) {
     typename transition_map::iterator it = transition_.find(e);
@@ -97,9 +95,7 @@ class StateInterface {
   }
 
  public:
-  void AddAction(Event const& e, action_t* act) {
-    action_.insert(std::make_pair(e, act));
-  }
+  void AddAction(Event const& e, action_t* act) { action_.insert(std::make_pair(e, act)); }
 };
 
 // 階層化ステートマシンの実装．
@@ -148,12 +144,10 @@ class StateMachine {
     typedef std::list<state_t*> state_list;
     // src_stateからrootまでの経路
     state_list src_top;
-    for (state_t* s = src_state; s != 0; s = s->GetParent())
-      src_top.push_front(s);
+    for (state_t* s = src_state; s != 0; s = s->GetParent()) src_top.push_front(s);
     // dest_stateからrootまでの経路
     state_list dest_top;
-    for (state_t* s = dest_state; s != 0; s = s->GetParent())
-      dest_top.push_front(s);
+    for (state_t* s = dest_state; s != 0; s = s->GetParent()) dest_top.push_front(s);
 
     //最も近い共通の親をrootから検索する
     state_t* parent = 0;
@@ -186,15 +180,11 @@ class StateMachine {
     // Exit & Entry でカバーできない特殊処理が必要な遷移を実施．
     // ChangeStateした上で，自分で処理できない場合は親に渡す
     state_t* s = current_;
-    while (
-        s != 0 &&
-        !s->Transit(
-            e))  // Transitはtransition_が存在するかどうかをBoolで返す．ので，Transitに関しては子は親の処理を実行しない（はず）．
+    while (s != 0 && !s->Transit(e))  // Transitはtransition_が存在するかどうかをBoolで返す．ので，Transitに関しては子は親の処理を実行しない（はず）．
       s = s->GetParent();
   }
 
-  void AddTransition(state_t* current, Event const& e, state_t* next,
-                     action_t* action) {
+  void AddTransition(state_t* current, Event const& e, state_t* next, action_t* action) {
     current->AddTransition(e, next);
     if (action) current->AddAction(e, action);
   }

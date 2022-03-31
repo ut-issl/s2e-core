@@ -7,9 +7,7 @@ TMTCDriver::TMTCDriver(int port_id) : kPortId(port_id) { Initialize(); }
 void TMTCDriver::Initialize() {
   try {
     ChannelFactory<ITCTMChannel ^> ^ pipeFactory =
-        gcnew ChannelFactory<ITCTMChannel ^>(
-            gcnew NetNamedPipeBinding(),
-            gcnew EndpointAddress("net.pipe://localhost/TMTC_SILS"));
+        gcnew ChannelFactory<ITCTMChannel ^>(gcnew NetNamedPipeBinding(), gcnew EndpointAddress("net.pipe://localhost/TMTC_SILS"));
     tctm_if_ = pipeFactory->CreateChannel();
     tctm_if_->Cmd_to_SILS();  // 試し送信 つながってなかったらこれで例外吐く
   } catch (Exception ^) {

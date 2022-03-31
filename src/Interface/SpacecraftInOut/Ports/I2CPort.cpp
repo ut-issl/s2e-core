@@ -2,8 +2,7 @@
 
 I2CPort::I2CPort(void) {}
 
-I2CPort::I2CPort(const unsigned char max_register_number)
-    : max_register_number_(max_register_number) {}
+I2CPort::I2CPort(const unsigned char max_register_number) : max_register_number_(max_register_number) {}
 
 void I2CPort::RegisterDevice(const unsigned char i2c_addr) {
   for (unsigned char i = 0; i < max_register_number_; i++) {
@@ -14,16 +13,13 @@ void I2CPort::RegisterDevice(const unsigned char i2c_addr) {
   }
 }
 
-int I2CPort::WriteRegister(const unsigned char i2c_addr,
-                           const unsigned char reg_addr) {
+int I2CPort::WriteRegister(const unsigned char i2c_addr, const unsigned char reg_addr) {
   if (reg_addr >= max_register_number_) return 0;
   saved_reg_addr_ = reg_addr;
   return 1;
 }
 
-int I2CPort::WriteRegister(const unsigned char i2c_addr,
-                           const unsigned char reg_addr,
-                           const unsigned char value) {
+int I2CPort::WriteRegister(const unsigned char i2c_addr, const unsigned char reg_addr, const unsigned char value) {
   if (reg_addr >= max_register_number_) return 0;
   saved_reg_addr_ = reg_addr;
   device_registers_[std::make_pair(i2c_addr, reg_addr)] = value;
@@ -46,25 +42,20 @@ reg_addr, float value)
 */
 
 unsigned char I2CPort::ReadRegister(const unsigned char i2c_addr) {
-  unsigned char ret =
-      device_registers_[std::make_pair(i2c_addr, saved_reg_addr_)];
+  unsigned char ret = device_registers_[std::make_pair(i2c_addr, saved_reg_addr_)];
   saved_reg_addr_++;
   if (saved_reg_addr_ >= max_register_number_) saved_reg_addr_ = 0;
   return ret;
 }
 
-unsigned char I2CPort::ReadRegister(const unsigned char i2c_addr,
-                                    const unsigned char reg_addr) {
+unsigned char I2CPort::ReadRegister(const unsigned char i2c_addr, const unsigned char reg_addr) {
   if (reg_addr >= max_register_number_) return 0;
   saved_reg_addr_ = reg_addr;
-  unsigned char ret =
-      device_registers_[std::make_pair(i2c_addr, saved_reg_addr_)];
+  unsigned char ret = device_registers_[std::make_pair(i2c_addr, saved_reg_addr_)];
   return ret;
 }
 
-int I2CPort::WriteCommand(const unsigned char i2c_addr,
-                          const unsigned char* tx_data,
-                          const unsigned int length) {
+int I2CPort::WriteCommand(const unsigned char i2c_addr, const unsigned char* tx_data, const unsigned int length) {
   if (length > kDefaultCmdBufferSize) {
     return -1;
   }
@@ -85,8 +76,7 @@ int I2CPort::WriteCommand(const unsigned char i2c_addr,
   return length;
 }
 
-int I2CPort::ReadCommand(const unsigned char i2c_addr, unsigned char* rx_data,
-                         const unsigned int length) {
+int I2CPort::ReadCommand(const unsigned char i2c_addr, unsigned char* rx_data, const unsigned int length) {
   if (length > kDefaultCmdBufferSize) {
     return -1;
   }

@@ -41,12 +41,10 @@ Quaternion::Quaternion(const Vector<3>& v_before, const Vector<3>& v_after) {
     q_[1] = 0.0;
     q_[2] = 0.0;
     q_[3] = 1.0;
-  } else if (ip <
-             -1.0 + DBL_EPSILON) {  // if theta=180deg, the rotation axis can't
-                                    // be defined, so rotate v_before manually
+  } else if (ip < -1.0 + DBL_EPSILON) {  // if theta=180deg, the rotation axis can't
+                                         // be defined, so rotate v_before manually
     Vector<3> rotation_axis = GenerateOrthoUnitVector(v_before);
-    q_[0] = rotation_axis[0], q_[1] = rotation_axis[1],
-    q_[2] = rotation_axis[2], q_[3] = 0.0;
+    q_[0] = rotation_axis[0], q_[1] = rotation_axis[1], q_[2] = rotation_axis[2], q_[3] = 0.0;
   } else {
     assert(norm(op) > 0.0);
     Vector<3> rotation_axis = 1.0 / norm(op) * op;
@@ -77,14 +75,10 @@ Quaternion operator+(const Quaternion& lhs, const Quaternion& rhs) {
 Quaternion operator*(const Quaternion& lhs, const Quaternion& rhs) {
   Quaternion temp;
 
-  temp[0] =
-      lhs[3] * rhs[0] - lhs[2] * rhs[1] + lhs[1] * rhs[2] + lhs[0] * rhs[3];
-  temp[1] =
-      lhs[2] * rhs[0] + lhs[3] * rhs[1] - lhs[0] * rhs[2] + lhs[1] * rhs[3];
-  temp[2] =
-      -lhs[1] * rhs[0] + lhs[0] * rhs[1] + lhs[3] * rhs[2] + lhs[2] * rhs[3];
-  temp[3] =
-      -lhs[0] * rhs[0] - lhs[1] * rhs[1] - lhs[2] * rhs[2] + lhs[3] * rhs[3];
+  temp[0] = lhs[3] * rhs[0] - lhs[2] * rhs[1] + lhs[1] * rhs[2] + lhs[0] * rhs[3];
+  temp[1] = lhs[2] * rhs[0] + lhs[3] * rhs[1] - lhs[0] * rhs[2] + lhs[1] * rhs[3];
+  temp[2] = -lhs[1] * rhs[0] + lhs[0] * rhs[1] + lhs[3] * rhs[2] + lhs[2] * rhs[3];
+  temp[3] = -lhs[0] * rhs[0] - lhs[1] * rhs[1] - lhs[2] * rhs[2] + lhs[3] * rhs[3];
 
   return temp;
 }
@@ -188,8 +182,7 @@ Vector<3> Quaternion::toEuler(void) const {
   auto dcm = this->toDCM();
   Vector<3> eul;
   eul[0] = atan2(dcm[1][2], dcm[2][2]);
-  eul[1] =
-      atan2(-dcm[0][2], sqrt(dcm[1][2] * dcm[1][2] + dcm[2][2] * dcm[2][2]));
+  eul[1] = atan2(-dcm[0][2], sqrt(dcm[1][2] * dcm[1][2] + dcm[2][2] * dcm[2][2]));
   eul[2] = atan2(dcm[0][1], dcm[0][0]);
   return eul;
 }

@@ -11,20 +11,16 @@ std::map<int, SCIPort*> OBC_C2A::com_ports_c2a_;
 std::map<int, I2CPort*> OBC_C2A::i2c_com_ports_c2a_;
 std::map<int, GPIOPort*> OBC_C2A::gpio_ports_c2a_;
 
-OBC_C2A::OBC_C2A(ClockGenerator* clock_gen)
-    : OBC(clock_gen), timing_regulator_(1) {
+OBC_C2A::OBC_C2A(ClockGenerator* clock_gen) : OBC(clock_gen), timing_regulator_(1) {
   // Initialize();
 }
 
-OBC_C2A::OBC_C2A(ClockGenerator* clock_gen, int timing_regulator)
-    : OBC(clock_gen), timing_regulator_(timing_regulator) {
+OBC_C2A::OBC_C2A(ClockGenerator* clock_gen, int timing_regulator) : OBC(clock_gen), timing_regulator_(timing_regulator) {
   // Initialize();
 }
 
-OBC_C2A::OBC_C2A(int prescaler, ClockGenerator* clock_gen, int timing_regulator,
-                 PowerPort* power_port)
-    : OBC(prescaler, clock_gen, power_port),
-      timing_regulator_(timing_regulator) {
+OBC_C2A::OBC_C2A(int prescaler, ClockGenerator* clock_gen, int timing_regulator, PowerPort* power_port)
+    : OBC(prescaler, clock_gen, power_port), timing_regulator_(timing_regulator) {
   // Initialize();
 }
 
@@ -78,39 +74,33 @@ int OBC_C2A::CloseComPort(int port_id) {
   return 0;
 }
 
-int OBC_C2A::SendFromObc(int port_id, unsigned char* buffer, int offset,
-                         int count) {
+int OBC_C2A::SendFromObc(int port_id, unsigned char* buffer, int offset, int count) {
   return OBC_C2A::SendFromObc_C2A(port_id, buffer, offset, count);
 }
 
-int OBC_C2A::ReceivedByCompo(int port_id, unsigned char* buffer, int offset,
-                             int count) {
+int OBC_C2A::ReceivedByCompo(int port_id, unsigned char* buffer, int offset, int count) {
   SCIPort* port = com_ports_c2a_[port_id];
   if (port == nullptr) return -1;
   return port->ReadTx(buffer, offset, count);
 }
 
-int OBC_C2A::SendFromCompo(int port_id, unsigned char* buffer, int offset,
-                           int count) {
+int OBC_C2A::SendFromCompo(int port_id, unsigned char* buffer, int offset, int count) {
   SCIPort* port = com_ports_c2a_[port_id];
   if (port == nullptr) return -1;
   return port->WriteRx(buffer, offset, count);
 }
 
-int OBC_C2A::ReceivedByObc(int port_id, unsigned char* buffer, int offset,
-                           int count) {
+int OBC_C2A::ReceivedByObc(int port_id, unsigned char* buffer, int offset, int count) {
   return OBC_C2A::ReceivedByObc_C2A(port_id, buffer, offset, count);
 }
 
 // Static functions
-int OBC_C2A::SendFromObc_C2A(int port_id, unsigned char* buffer, int offset,
-                             int count) {
+int OBC_C2A::SendFromObc_C2A(int port_id, unsigned char* buffer, int offset, int count) {
   SCIPort* port = com_ports_c2a_[port_id];
   if (port == nullptr) return -1;
   return port->WriteTx(buffer, offset, count);
 }
-int OBC_C2A::ReceivedByObc_C2A(int port_id, unsigned char* buffer, int offset,
-                               int count) {
+int OBC_C2A::ReceivedByObc_C2A(int port_id, unsigned char* buffer, int offset, int count) {
   SCIPort* port = com_ports_c2a_[port_id];
   if (port == nullptr) return -1;
   return port->ReadRx(buffer, offset, count);
@@ -118,12 +108,10 @@ int OBC_C2A::ReceivedByObc_C2A(int port_id, unsigned char* buffer, int offset,
 
 // If the character encoding of C2A is UTF-8, these functions are not necessary,
 // and users can directory use SendFromObc_C2A and ReceivedByObc_C2A
-int OBC_C2A_SendFromObc(int port_id, unsigned char* buffer, int offset,
-                        int count) {
+int OBC_C2A_SendFromObc(int port_id, unsigned char* buffer, int offset, int count) {
   return OBC_C2A::SendFromObc_C2A(port_id, buffer, offset, count);
 }
-int OBC_C2A_ReceivedByObc(int port_id, unsigned char* buffer, int offset,
-                          int count) {
+int OBC_C2A_ReceivedByObc(int port_id, unsigned char* buffer, int offset, int count) {
   return OBC_C2A::ReceivedByObc_C2A(port_id, buffer, offset, count);
 }
 
@@ -148,17 +136,13 @@ int OBC_C2A::I2cCloseComPort(int port_id) {
   return 0;
 }
 
-int OBC_C2A::I2cWriteCommand(int port_id, const unsigned char i2c_addr,
-                             const unsigned char* data,
-                             const unsigned char len) {
+int OBC_C2A::I2cWriteCommand(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len) {
   I2CPort* i2c_port = i2c_com_ports_c2a_[port_id];
   i2c_port->WriteCommand(i2c_addr, data, len);
   return 0;
 }
 
-int OBC_C2A::I2cWriteRegister(int port_id, const unsigned char i2c_addr,
-                              const unsigned char* data,
-                              const unsigned char len) {
+int OBC_C2A::I2cWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len) {
   I2CPort* i2c_port = i2c_com_ports_c2a_[port_id];
 
   if (len == 1) {
@@ -171,8 +155,7 @@ int OBC_C2A::I2cWriteRegister(int port_id, const unsigned char i2c_addr,
   return 0;
 }
 
-int OBC_C2A::I2cReadRegister(int port_id, const unsigned char i2c_addr,
-                             unsigned char* data, const unsigned char len) {
+int OBC_C2A::I2cReadRegister(int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len) {
   I2CPort* i2c_port = i2c_com_ports_c2a_[port_id];
   for (int i = 0; i < len; i++) {
     data[i] = i2c_port->ReadRegister(i2c_addr);
@@ -180,10 +163,7 @@ int OBC_C2A::I2cReadRegister(int port_id, const unsigned char i2c_addr,
   return 0;
 }
 
-int OBC_C2A::I2cComponentWriteRegister(int port_id,
-                                       const unsigned char i2c_addr,
-                                       const unsigned char reg_addr,
-                                       const unsigned char* data,
+int OBC_C2A::I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, const unsigned char* data,
                                        const unsigned char len) {
   I2CPort* i2c_port = i2c_com_ports_c2a_[port_id];
   for (int i = 0; i < len; i++) {
@@ -191,9 +171,7 @@ int OBC_C2A::I2cComponentWriteRegister(int port_id,
   }
   return 0;
 }
-int OBC_C2A::I2cComponentReadRegister(int port_id, const unsigned char i2c_addr,
-                                      const unsigned char reg_addr,
-                                      unsigned char* data,
+int OBC_C2A::I2cComponentReadRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, unsigned char* data,
                                       const unsigned char len) {
   I2CPort* i2c_port = i2c_com_ports_c2a_[port_id];
   for (int i = 0; i < len; i++) {
@@ -201,26 +179,19 @@ int OBC_C2A::I2cComponentReadRegister(int port_id, const unsigned char i2c_addr,
   }
   return 0;
 }
-int OBC_C2A::I2cComponentReadCommand(int port_id, const unsigned char i2c_addr,
-                                     unsigned char* data,
-                                     const unsigned char len) {
+int OBC_C2A::I2cComponentReadCommand(int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len) {
   I2CPort* i2c_port = i2c_com_ports_c2a_[port_id];
   i2c_port->ReadCommand(i2c_addr, data, len);
   return 0;
 }
 
-int OBC_C2A_I2cWriteCommand(int port_id, const unsigned char i2c_addr,
-                            const unsigned char* data,
-                            const unsigned char len) {
+int OBC_C2A_I2cWriteCommand(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len) {
   return OBC_C2A::I2cWriteCommand(port_id, i2c_addr, data, len);
 }
-int OBC_C2A_I2cWriteRegister(int port_id, const unsigned char i2c_addr,
-                             const unsigned char* data,
-                             const unsigned char len) {
+int OBC_C2A_I2cWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len) {
   return OBC_C2A::I2cWriteRegister(port_id, i2c_addr, data, len);
 }
-int OBC_C2A_I2cReadRegister(int port_id, const unsigned char i2c_addr,
-                            unsigned char* data, const unsigned char len) {
+int OBC_C2A_I2cReadRegister(int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len) {
   return OBC_C2A::I2cReadRegister(port_id, i2c_addr, data, len);
 }
 
@@ -257,8 +228,6 @@ bool OBC_C2A::GpioRead_C2A(int port_id) {
   return port->DigitalRead();
 }
 
-int OBC_C2A_GpioWrite(int port_id, const bool is_high) {
-  return OBC_C2A::GpioWrite_C2A(port_id, is_high);
-}
+int OBC_C2A_GpioWrite(int port_id, const bool is_high) { return OBC_C2A::GpioWrite_C2A(port_id, is_high); }
 
 bool OBC_C2A_GpioRead(int port_id) { return OBC_C2A::GpioRead_C2A(port_id); }

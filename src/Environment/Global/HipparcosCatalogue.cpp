@@ -10,14 +10,12 @@
 
 using namespace std;
 
-HipparcosCatalogue::HipparcosCatalogue(double max_magnitude,
-                                       string catalogue_path)
+HipparcosCatalogue::HipparcosCatalogue(double max_magnitude, string catalogue_path)
     : max_magnitude_(max_magnitude), catalogue_path_(catalogue_path) {}
 
 HipparcosCatalogue::~HipparcosCatalogue() {}
 
-bool HipparcosCatalogue::ReadContents(const string& filename,
-                                      const char delimiter = ',') {
+bool HipparcosCatalogue::ReadContents(const string& filename, const char delimiter = ',') {
   if (!IsCalcEnabled) return false;
 
   ifstream ifs(filename);
@@ -33,9 +31,8 @@ bool HipparcosCatalogue::ReadContents(const string& filename,
 
     string line;
     ifs >> line;
-    replace(
-        line.begin(), line.end(), delimiter,
-        ' ');  // stringstreamで自動的に数値を抽出するために、スペース区切りに直す
+    replace(line.begin(), line.end(), delimiter,
+            ' ');  // stringstreamで自動的に数値を抽出するために、スペース区切りに直す
     istringstream streamline(line);
 
     streamline >> hipdata.hip_num >> hipdata.vmag >> hipdata.ra >> hipdata.de;
@@ -61,8 +58,7 @@ libra::Vector<3> HipparcosCatalogue::GetStarDir_i(int rank) const {
   return position;
 }
 
-libra::Vector<3> HipparcosCatalogue::GetStarDir_b(int rank,
-                                                  Quaternion q_i2b) const {
+libra::Vector<3> HipparcosCatalogue::GetStarDir_b(int rank, Quaternion q_i2b) const {
   libra::Vector<3> position_i;
   libra::Vector<3> position_b;
 

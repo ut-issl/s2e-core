@@ -28,8 +28,7 @@ int _tmain_parallel(int argc, _TCHAR* argv[]) {
   // while (mc_sim->WillExecuteNextCase())
   //  concurrency::parallel_for(0, mc_sim->GetTotalNumOfExecutions(), //(auto
   //  i=0; i<mc_sim->GetTotalNumOfExecutions(); i++)
-  Parallel::For(0, mc_sim->GetTotalNumOfExecutions(),
-                gcnew System::Action<int>(mail_loop));
+  Parallel::For(0, mc_sim->GetTotalNumOfExecutions(), gcnew System::Action<int>(mail_loop));
   return 0;
   //{
   //  SimulationCase& simcase = EquuleusCase(*mc_sim, ini_fname);
@@ -51,9 +50,8 @@ void mail_loop(int idx) {
   COSMOSWrapper& cosmos_wrapper = COSMOSWrapper();
   HardwareMessage& hw_msg = HardwareMessage();
 
-  SimulationCase& simcase = EquuleusCase(
-      *mc_sim, ini_fname, cosmos_wrapper,
-      hw_msg);  // 最終的にはnullptrではなくCOSMOSWrapperインスタンスへのポインタを渡すべき。
+  SimulationCase& simcase = EquuleusCase(*mc_sim, ini_fname, cosmos_wrapper,
+                                         hw_msg);  // 最終的にはnullptrではなくCOSMOSWrapperインスタンスへのポインタを渡すべき。
   // mclog.AddLoggable(&simcase);
   // if (mc_sim->GetNumOfExecutionsDone() == 0)
   //{

@@ -10,12 +10,8 @@
 using libra::NormalRand;
 using namespace std;
 
-MagEnvironment::MagEnvironment(string fname, double mag_rwdev,
-                               double mag_rwlimit, double mag_wnvar)
-    : fname_(fname),
-      mag_rwdev_(mag_rwdev),
-      mag_rwlimit_(mag_rwlimit),
-      mag_wnvar_(mag_wnvar) {
+MagEnvironment::MagEnvironment(string fname, double mag_rwdev, double mag_rwlimit, double mag_wnvar)
+    : fname_(fname), mag_rwdev_(mag_rwdev), mag_rwlimit_(mag_rwlimit), mag_wnvar_(mag_wnvar) {
   //初期化コンストラクタ
   for (int i = 0; i < 3; ++i) {
     Mag_i_[i] = 0;
@@ -26,8 +22,7 @@ MagEnvironment::MagEnvironment(string fname, double mag_rwdev,
   set_file_path(fname_.c_str());
 }
 
-void MagEnvironment::CalcMag(double decyear, double side, Vector<3> lat_lon_alt,
-                             Quaternion q_i2b) {
+void MagEnvironment::CalcMag(double decyear, double side, Vector<3> lat_lon_alt, Quaternion q_i2b) {
   if (!IsCalcEnabled) return;
 
   double latrad = lat_lon_alt(0);

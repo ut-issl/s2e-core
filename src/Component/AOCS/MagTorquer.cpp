@@ -6,17 +6,10 @@
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Quaternion.hpp>
 
-MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen,
-                       const int id, const Quaternion& q_b2c,
-                       const libra::Matrix<kMtqDim, kMtqDim>& scale_factor,
-                       const libra::Vector<kMtqDim>& max_c,
-                       const libra::Vector<kMtqDim>& min_c,
-                       const libra::Vector<kMtqDim>& bias_c,
-                       double rw_stepwidth,
-                       const libra::Vector<kMtqDim>& rw_stddev_c,
-                       const libra::Vector<kMtqDim>& rw_limit_c,
-                       const libra::Vector<kMtqDim>& nr_stddev_c,
-                       const MagEnvironment* mag_env)
+MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, const int id, const Quaternion& q_b2c,
+                       const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
+                       const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
+                       const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const MagEnvironment* mag_env)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       q_b2c_(q_b2c),
@@ -32,15 +25,10 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen,
   }
 }
 
-MagTorquer::MagTorquer(
-    const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port,
-    const int id, const Quaternion& q_b2c,
-    const libra::Matrix<kMtqDim, kMtqDim>& scale_factor,
-    const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
-    const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth,
-    const libra::Vector<kMtqDim>& rw_stddev_c,
-    const libra::Vector<kMtqDim>& rw_limit_c,
-    const libra::Vector<kMtqDim>& nr_stddev_c, const MagEnvironment* mag_env)
+MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const Quaternion& q_b2c,
+                       const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
+                       const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
+                       const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const MagEnvironment* mag_env)
     : ComponentBase(prescaler, clock_gen, power_port),
       id_(id),
       q_b2c_(q_b2c),

@@ -6,9 +6,7 @@ using libra::Vector;
 
 using namespace libra;
 
-SurfaceForce::SurfaceForce(const vector<Surface>& surfaces,
-                           const Vector<3>& cg_b)
-    : surfaces_(surfaces), cg_b_(cg_b) {
+SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b) : surfaces_(surfaces), cg_b_(cg_b) {
   force_b_ = Vector<3>(0);
   torque_b_ = Vector<3>(0);
 
@@ -32,8 +30,7 @@ Vector<3> SurfaceForce::CalcTorqueForce(Vector<3>& input_b, double item) {
   normalize(input_b_normal);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {
-    if (cosX[i] >
-        0) {  // if the surface directs to the disturbance source (sun or air)
+    if (cosX[i] > 0) {  // if the surface directs to the disturbance source (sun or air)
       // calc direction of in-plane force
       Vector<3> normal = surfaces_[i].GetNormal();
       Vector<3> ncu = outer_product(input_b_normal, normal);

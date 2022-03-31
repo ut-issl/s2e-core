@@ -7,10 +7,8 @@
 // 電源ON/OFFと時間の概念のみを持った、コンポーネントの基底クラス
 class ComponentBase : public ITickable {
  public:
-  ComponentBase(int prescaler, ClockGenerator* clock_gen,
-                int fast_prescaler = 1);
-  ComponentBase(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port,
-                int fast_prescaler = 1);
+  ComponentBase(int prescaler, ClockGenerator* clock_gen, int fast_prescaler = 1);
+  ComponentBase(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, int fast_prescaler = 1);
   ComponentBase(const ComponentBase& obj);
   virtual ~ComponentBase();
 

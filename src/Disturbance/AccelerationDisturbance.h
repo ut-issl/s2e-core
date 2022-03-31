@@ -8,8 +8,7 @@ class AccelerationDisturbance : public Disturbance, public ILoggable {
  public:
   virtual ~AccelerationDisturbance() {}
 
-  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_env,
-                                      const Dynamics& dynamics) {
+  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_env, const Dynamics& dynamics) {
     if (IsCalcEnabled) {
       Update(local_env, dynamics);
     } else {
@@ -18,6 +17,5 @@ class AccelerationDisturbance : public Disturbance, public ILoggable {
     }
   }
 
-  virtual void Update(const LocalEnvironment& local_env,
-                      const Dynamics& dynamics) = 0;
+  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics) = 0;
 };

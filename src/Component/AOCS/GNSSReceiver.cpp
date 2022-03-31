@@ -4,14 +4,9 @@
 
 #include <string>
 
-GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen,
-                           const int id, const std::string gnss_id,
-                           const int ch_max, const AntennaModel antenna_model,
-                           const Vector<3> ant_pos_b, const Quaternion q_b2c,
-                           const double half_width, const Vector<3> noise_std,
-                           const Dynamics* dynamics,
-                           const GnssSatellites* gnss_satellites,
-                           const SimTime* simtime)
+GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const int id, const std::string gnss_id, const int ch_max,
+                           const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
+                           const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       gnss_id_(gnss_id),
@@ -26,14 +21,9 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen,
       dynamics_(dynamics),
       gnss_satellites_(gnss_satellites),
       simtime_(simtime) {}
-GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen,
-                           PowerPort* power_port, const int id,
-                           const std::string gnss_id, const int ch_max,
-                           const AntennaModel antenna_model,
-                           const Vector<3> ant_pos_b, const Quaternion q_b2c,
-                           const double half_width, const Vector<3> noise_std,
-                           const Dynamics* dynamics,
-                           const GnssSatellites* gnss_satellites,
+GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const std::string gnss_id,
+                           const int ch_max, const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c,
+                           const double half_width, const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
                            const SimTime* simtime)
     : ComponentBase(prescaler, clock_gen, power_port),
       id_(id),
@@ -73,16 +63,14 @@ void GNSSReceiver::MainRoutine(int count) {
   }
 }
 
-void GNSSReceiver::CheckAntenna(const Vector<3> pos_true_eci_,
-                                Quaternion q_i2b) {
+void GNSSReceiver::CheckAntenna(const Vector<3> pos_true_eci_, Quaternion q_i2b) {
   if (antenna_model_ == SIMPLE)
     CheckAntennaSimple(pos_true_eci_, q_i2b);
   else if (antenna_model_ == CONE)
     CheckAntennaCone(pos_true_eci_, q_i2b);
 }
 
-void GNSSReceiver::CheckAntennaSimple(const Vector<3> pos_true_eci_,
-                                      Quaternion q_i2b) {
+void GNSSReceiver::CheckAntennaSimple(const Vector<3> pos_true_eci_, Quaternion q_i2b) {
   // Simplest model
   // GNSS sats are visible when antenna directs anti-earth direction
   //  antenna normal vector at inertial frame
@@ -98,8 +86,7 @@ void GNSSReceiver::CheckAntennaSimple(const Vector<3> pos_true_eci_,
     is_gnss_sats_visible_ = 1;
 }
 
-void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_,
-                                    Quaternion q_i2b) {
+void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_i2b) {
   // Cone model
   Vector<3> gnss_sat_pos_i, ant_pos_i, ant2gnss_i, ant2gnss_i_n, sat2ant_i;
   vec_gnssinfo_.clear();
@@ -136,8 +123,7 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_,
     if (inner1 > 0)
       is_visible_ant2gnss = 1;
     else {
-      Vector<3> tmp =
-          ant_pos_i + inner_product(-ant_pos_i, ant2gnss_i_n) * ant2gnss_i;
+      Vector<3> tmp = ant_pos_i + inner_product(-ant_pos_i, ant2gnss_i_n) * ant2gnss_i;
       if (norm(tmp) < Re)
         // There is earth between antenna and gnss
         is_visible_ant2gnss = 0;
@@ -160,8 +146,7 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_,
     is_gnss_sats_visible_ = 0;
 }
 
-void GNSSReceiver::SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b,
-                               std::string gnss_id) {
+void GNSSReceiver::SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, std::string gnss_id) {
   Vector<3> ant2gnss_b, ant2gnss_c;
 
   ant2gnss_b = q_i2b.frame_conv(ant2gnss_i);
@@ -175,8 +160,7 @@ void GNSSReceiver::SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b,
   vec_gnssinfo_.push_back(gnss_info_new);
 }
 
-void GNSSReceiver::AddNoise(Vector<3> location_true_eci,
-                            Vector<3> location_true_ecef) {
+void GNSSReceiver::AddNoise(Vector<3> location_true_eci, Vector<3> location_true_ecef) {
   // Simplest noise model
   position_eci_[0] = location_true_eci[0] + nrs_eci_x_;
   position_eci_[1] = location_true_eci[1] + nrs_eci_y_;
@@ -188,8 +172,7 @@ void GNSSReceiver::AddNoise(Vector<3> location_true_eci,
 }
 
 void GNSSReceiver::ConvertJulianDayToGPSTime(const double JulianDay) {
-  const double kJulianDayAtGPSTimeZero =
-      2444244.5;  // corresponds to 1980/1/5 midnight
+  const double kJulianDayAtGPSTimeZero = 2444244.5;  // corresponds to 1980/1/5 midnight
   const double kDayInWeek = 7.0;
   const double kSecInWeek = 604800.0;
   const double kSecInDay = 86400.0;

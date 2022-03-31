@@ -8,9 +8,7 @@ COSMOSWrapper::COSMOSWrapper(bool enable) : enable_(enable) {
 
 COSMOSWrapper::COSMOSWrapper() : enable_(false) {}
 
-COSMOSWrapper::COSMOSWrapper(unsigned short port_num, bool enable,
-                             char* server_ip)
-    : COSMOS_TCP_IF(port_num, server_ip), enable_(enable) {}
+COSMOSWrapper::COSMOSWrapper(unsigned short port_num, bool enable, char* server_ip) : COSMOS_TCP_IF(port_num, server_ip), enable_(enable) {}
 
 COSMOSWrapper::~COSMOSWrapper() {}
 
@@ -41,10 +39,7 @@ void COSMOSWrapper::CosmosEval(std::string expr) {
   COSMOS_TCP_IF::SendString(expr);
 }
 
-void COSMOSWrapper::Cmd_RDP_SAT_CMD_EXTERNAL_TORQUE(uint8_t torque_frame,
-                                                    uint32_t duration_ms,
-                                                    float ext_torque_x,
-                                                    float ext_torque_y,
+void COSMOSWrapper::Cmd_RDP_SAT_CMD_EXTERNAL_TORQUE(uint8_t torque_frame, uint32_t duration_ms, float ext_torque_x, float ext_torque_y,
                                                     float ext_torque_z) {
   if (!enable_) return;
 

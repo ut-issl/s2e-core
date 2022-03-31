@@ -16,9 +16,7 @@ class Structure {
 
   // Getter
   inline const vector<Surface>& GetSurfaces() const { return surfaces_; }
-  inline const KinematicsParams& GetKinematicsParams() const {
-    return *kinnematics_params_;
-  }
+  inline const KinematicsParams& GetKinematicsParams() const { return *kinnematics_params_; }
   inline const RMMParams& GetRMMParams() const { return *rmm_params_; }
 
  private:

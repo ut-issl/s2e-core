@@ -10,8 +10,7 @@
 
 class PCU_InitialStudy : public ComponentBase, public ILoggable {
  public:
-  PCU_InitialStudy(ClockGenerator* clock_gen, const std::vector<SAP*> saps,
-                   BAT* bat);
+  PCU_InitialStudy(ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat);
   ~PCU_InitialStudy();
 
   /*LOG出力用関数*/

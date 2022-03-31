@@ -6,10 +6,7 @@
 #include <cmath>
 #include <string>
 
-GroundStation::GroundStation(SimulationConfig* config, int gs_id)
-    : gs_id_(gs_id) {
-  Initialize(gs_id_, config);
-}
+GroundStation::GroundStation(SimulationConfig* config, int gs_id) : gs_id_(gs_id) { Initialize(gs_id_, config); }
 
 GroundStation::~GroundStation() {}
 
@@ -31,8 +28,7 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
 
 void GroundStation::LogSetup(Logger& logger) {}
 
-void GroundStation::Update(
-    const double& current_jd)  // 慣性系での地上局位置を更新する
+void GroundStation::Update(const double& current_jd)  // 慣性系での地上局位置を更新する
 {
   double current_side = gstime(current_jd);
   double theta = FMod2p(longitude_ * DEG2RAD + current_side);  //[rad]
@@ -42,8 +38,7 @@ void GroundStation::Update(
   getwgsconst(whichconst_gs, radiusearthkm, f);
 
   double e2 = f * (2 - f);
-  double c =
-      1 / sqrt(1 - e2 * sin(latitude_ * DEG2RAD) * sin(latitude_ * DEG2RAD));
+  double c = 1 / sqrt(1 - e2 * sin(latitude_ * DEG2RAD) * sin(latitude_ * DEG2RAD));
   double N = c * radiusearthkm * 1000.0;  //[metre]
 
   double x = (N + height_) * cos(latitude_ * DEG2RAD) * cos(theta);  //[metre]

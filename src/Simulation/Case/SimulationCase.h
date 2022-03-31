@@ -21,9 +21,7 @@ class SimulationCase : public ILoggable {
 
   // Get
   inline SimulationConfig& GetSimConfig() { return sim_config_; }
-  inline const GlobalEnvironment& GetGlobalEnvironment() const {
-    return *glo_env_;
-  }
+  inline const GlobalEnvironment& GetGlobalEnvironment() const { return *glo_env_; }
 
  protected:
   SimulationConfig sim_config_;

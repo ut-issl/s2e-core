@@ -26,47 +26,35 @@ enum RotationMode {
 class CelestialRotation {
  public:
   // initialize DCM to unit matrix in the default constructor
-  CelestialRotation(const RotationMode rotation_mode,
-                    const std::string center_obj);
+  CelestialRotation(const RotationMode rotation_mode, const std::string center_obj);
   // calculate rotation
   void Update(const double JulianDate);
   // get the DCM between J2000 and the coordinate system attached to the surface
   // of the target object X (X-Centered X-Fixed)
-  inline const Matrix<3, 3> GetDCMJ2000toXCXF() const {
-    return DCM_J2000toXCXF_;
-  };
+  inline const Matrix<3, 3> GetDCMJ2000toXCXF() const { return DCM_J2000toXCXF_; };
   // get the DCM between TEME (Inertial coordinate used in SGP4) and the
   // coordinate system attached to the surface of the target object X
   // (X-Centered X-Fixed)
-  inline const Matrix<3, 3> GetDCMTEMEtoXCXF() const {
-    return DCM_TEMEtoXCXF_;
-  };
+  inline const Matrix<3, 3> GetDCMTEMEtoXCXF() const { return DCM_TEMEtoXCXF_; };
 
  private:
   // coefficient initialization function, 対象天体ごとに用意するか…？
-  void Init_CelestialRotation_As_Earth(const RotationMode rotation_mode,
-                                       const std::string center_obj);
-  Matrix<3, 3> AxialRotation(
-      const double GAST_rad);  // movement of the coordinate axes due to
-                               // rotation around the rotation axis
-  Matrix<3, 3> Nutation(const double (
-      &tTT_century)[4]);  // movement of the coordinate axes due to Nutation
-  Matrix<3, 3> Precession(const double (
-      &tTT_century)[4]);  // movement of the coordinate axes due to Precession
-  Matrix<3, 3> PolarMotion(
-      const double Xp,
-      const double Yp);  // movement of the coordinate axes due to Polar Motion
+  void Init_CelestialRotation_As_Earth(const RotationMode rotation_mode, const std::string center_obj);
+  Matrix<3, 3> AxialRotation(const double GAST_rad);        // movement of the coordinate axes due to
+                                                            // rotation around the rotation axis
+  Matrix<3, 3> Nutation(const double (&tTT_century)[4]);    // movement of the coordinate axes due to Nutation
+  Matrix<3, 3> Precession(const double (&tTT_century)[4]);  // movement of the coordinate axes due to Precession
+  Matrix<3, 3> PolarMotion(const double Xp,
+                           const double Yp);  // movement of the coordinate axes due to Polar Motion
 
   double dpsi_rad_;               // nutation in obliquity [rad]
   double depsilon_rad_;           // nutation in longitude [rad]
   double epsi_rad_;               // mean obliquity of the ecliptic [rad]
   Matrix<3, 3> DCM_J2000toXCXF_;  // DCM J2000 to XCXF(X-Centered X-Fixed)
   Matrix<3, 3> DCM_TEMEtoXCXF_;   // DCM TEME to XCXF(X-Centered X-Fixed)
-  RotationMode
-      rotation_mode_;  // designation of dynamics model, "Idle":no
-                       // motion，"Simple":rotation only，"Full":full-dynamics
-  std::string
-      planet_name_;  // designate which solar planet the instance should work as
+  RotationMode rotation_mode_;    // designation of dynamics model, "Idle":no
+                                  // motion，"Simple":rotation only，"Full":full-dynamics
+  std::string planet_name_;       // designate which solar planet the instance should work as
 
   // definitions of
   // coefficeints(地球以外の天体の場合はケアすべき天体が変わりうる気もするが，ひとまず日月歳差の形式を前提とする)

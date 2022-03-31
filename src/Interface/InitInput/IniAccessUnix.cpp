@@ -23,15 +23,10 @@ double IniAccess::ReadDouble(const char* section_name, const char* key_name) {
   return reader.GetReal(section_name, key_name, 0);  //文字列を入力
 }
 
-int IniAccess::ReadInt(const char* section_name, const char* key_name) {
-  return (int)reader.GetInteger(section_name, key_name, 0);
-}
-bool IniAccess::ReadBoolean(const char* section_name, const char* key_name) {
-  return reader.GetBoolean(section_name, key_name, false);
-}
+int IniAccess::ReadInt(const char* section_name, const char* key_name) { return (int)reader.GetInteger(section_name, key_name, 0); }
+bool IniAccess::ReadBoolean(const char* section_name, const char* key_name) { return reader.GetBoolean(section_name, key_name, false); }
 
-void IniAccess::ReadDoubleArray(const char* section_name, const char* key_name,
-                                int id, int num, double* data) {
+void IniAccess::ReadDoubleArray(const char* section_name, const char* key_name, int id, int num, double* data) {
   for (int i = 0; i < num; i++) {
     stringstream c_name;
     c_name << key_name << id << "(" << i << ")";
@@ -39,20 +34,17 @@ void IniAccess::ReadDoubleArray(const char* section_name, const char* key_name,
   }
 }
 
-void IniAccess::ReadQuaternion(const char* section_name, const char* key_name,
-                               Quaternion& data) {
+void IniAccess::ReadQuaternion(const char* section_name, const char* key_name, Quaternion& data) {
   Quaternion temp;
   double norm = 0.0;
 
-  for (int i = 0; i < 4;
-       i++) {  // 新しいフォーマットに沿ってQuaternionを読み込む
+  for (int i = 0; i < 4; i++) {  // 新しいフォーマットに沿ってQuaternionを読み込む
     stringstream c_name;
     c_name << key_name << "_(" << i << ")";
     temp[i] = ReadDouble(section_name, c_name.str().c_str());
     norm += temp[i] * temp[i];
   }
-  if (norm ==
-      0.0) {  // 新しいフォーマットが読み込めなかった（古いConfigファイルの場合）
+  if (norm == 0.0) {  // 新しいフォーマットが読み込めなかった（古いConfigファイルの場合）
     for (int i = 0; i < 4; i++) {
       stringstream c_name;
       c_name << key_name << "(" << i << ")";
@@ -66,8 +58,7 @@ void IniAccess::ReadQuaternion(const char* section_name, const char* key_name,
   }
 }
 
-void IniAccess::ReadChar(const char* section_name, const char* key_name,
-                         int size, char* data) {
+void IniAccess::ReadChar(const char* section_name, const char* key_name, int size, char* data) {
   string sdata = ReadString(section_name, key_name);
   strncpy(data, sdata.c_str(), size);
 }
@@ -84,8 +75,7 @@ bool IniAccess::ReadEnable(const char* section_name, const char* key_name) {
   return false;
 }
 
-vector<string> IniAccess::ReadStrVector(const char* section_name,
-                                        const char* key_name) {
+vector<string> IniAccess::ReadStrVector(const char* section_name, const char* key_name) {
   const static unsigned int buf_size = 1024;
   vector<string> data;
   char temp[buf_size];

@@ -17,9 +17,8 @@ using libra::Vector;
 class CelestialInformation : public ILoggable {
  public:
   // CONSTRUCTOR OF CELESTIAL INFORMATION
-  CelestialInformation(std::string inertial_frame, std::string aber_cor,
-                       std::string center_obj, RotationMode rotation_mode,
-                       int num_of_selected_body, int* selected_body);
+  CelestialInformation(std::string inertial_frame, std::string aber_cor, std::string center_obj, RotationMode rotation_mode, int num_of_selected_body,
+                       int* selected_body);
   CelestialInformation(const CelestialInformation& obj);
   ~CelestialInformation();
 
@@ -40,9 +39,7 @@ class CelestialInformation : public ILoggable {
   int CalcBodyIdFromName(const char* body_name) const;
   inline std::string GetCenterBodyName(void) const { return center_obj_; }
 
-  inline CelestialRotation GetEarthRotation(void) const {
-    return *EarthRotation_;
-  };
+  inline CelestialRotation GetEarthRotation(void) const { return *EarthRotation_; };
 
   // FOR LOG OUTPUT
   virtual std::string GetLogHeader() const;
@@ -53,15 +50,12 @@ class CelestialInformation : public ILoggable {
 
  private:
   int num_of_selected_body_;
-  int* selected_body_;  // IDs of selected bodies.
-  std::string
-      inertial_frame_;  // Definition of inertial frame. Default = "J2000"
-  std::string
-      aber_cor_;  // stellar aberration correction. Default =
-                  // "NONE"（Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt）
-  std::string center_obj_;  // center object. Default = "EARTH"
-  RotationMode
-      rotation_mode_;  // designation of dynamics model. Default = "Full"
+  int* selected_body_;          // IDs of selected bodies.
+  std::string inertial_frame_;  // Definition of inertial frame. Default = "J2000"
+  std::string aber_cor_;        // stellar aberration correction. Default =
+                                // "NONE"（Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt）
+  std::string center_obj_;      // center object. Default = "EARTH"
+  RotationMode rotation_mode_;  // designation of dynamics model. Default = "Full"
 
   // Global Information. POS:[m], VEL:[m/s], GRAVITY CONSTANT (G*M):[m^3/s^2]
   double* celes_objects_pos_from_center_i_;

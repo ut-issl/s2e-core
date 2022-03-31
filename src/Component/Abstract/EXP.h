@@ -18,9 +18,7 @@
 //   * 100バイト目は必ず ’\n’
 // * テレメは定期的に自動で送出される
 // * その他の仕様は都合良く仮定して良い
-class EXP : public ComponentBase,
-            public ObcCommunicationBase,
-            public IGPIOCompo {
+class EXP : public ComponentBase, public ObcCommunicationBase, public IGPIOCompo {
  public:
   EXP(ClockGenerator* clock_gen, int port_id, OBC* obc);
   ~EXP();

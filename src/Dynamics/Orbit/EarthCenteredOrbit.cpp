@@ -4,9 +4,7 @@
 #include <sstream>
 using namespace std;
 
-EarthCenteredOrbit::EarthCenteredOrbit(const CelestialInformation* celes_info,
-                                       char* tle1, char* tle2, int wgs,
-                                       double current_jd)
+EarthCenteredOrbit::EarthCenteredOrbit(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd)
     : celes_info_(celes_info) {
   propagate_mode_ = PROPAGATE_MODE::SGP4;
 
@@ -21,8 +19,7 @@ EarthCenteredOrbit::EarthCenteredOrbit(const CelestialInformation* celes_info,
   char typerun = 'c', typeinput = 0;
   double startmfe, stopmfe, deltamin;
 
-  twoline2rv(tle1, tle2, typerun, typeinput, whichconst, startmfe, stopmfe,
-             deltamin, satrec);
+  twoline2rv(tle1, tle2, typerun, typeinput, whichconst, startmfe, stopmfe, deltamin, satrec);
 
   acc_i_ *= 0;
 
@@ -42,8 +39,7 @@ void EarthCenteredOrbit::Propagate(double endtime, double current_jd) {
   sgp4(whichconst, satrec, elapse_time_min, r, v);
 
   // SGP4エラー表示
-  if (satrec.error > 0)
-    printf("# *** error: time:= %f *** code = %3d\n", satrec.t, satrec.error);
+  if (satrec.error > 0) printf("# *** error: time:= %f *** code = %3d\n", satrec.t, satrec.error);
 
   for (int i = 0; i < 3; ++i) {
     sat_position_i_[i] = r[i] * 1000;

@@ -9,8 +9,7 @@ class SimpleDisturbance : public Disturbance, public ILoggable {
  public:
   virtual ~SimpleDisturbance() {}
 
-  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_env,
-                                      const Dynamics& dynamics) {
+  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_env, const Dynamics& dynamics) {
     if (IsCalcEnabled) {
       Update(local_env, dynamics);
     } else {
@@ -20,8 +19,7 @@ class SimpleDisturbance : public Disturbance, public ILoggable {
   }
 
   // 環境とダイナミクスに応じて外乱のトルクと並進力を更新する
-  virtual void Update(const LocalEnvironment& local_env,
-                      const Dynamics& dynamics) = 0;
+  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics) = 0;
 };
 
 // 全ての外乱がこのインターフェースで計算できれば良いのだが、そういうわけにもいかない

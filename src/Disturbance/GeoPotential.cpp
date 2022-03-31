@@ -14,8 +14,7 @@ using namespace std;
 #define RE 6378136.30                            // m
 #define MU (3.986004415 * std::pow(10.0, 14.0))  // m3/s2
 
-GeoPotential::GeoPotential(const int degree, const string file_path)
-    : degree_(degree) {
+GeoPotential::GeoPotential(const int degree, const string file_path) : degree_(degree) {
   // Initialize
   acc_ecef_ = Vector<3>(0);
   debug_pos_ecef_ = Vector<3>(0);
@@ -64,8 +63,7 @@ bool GeoPotential::ReadCoefficientsEGM96(string file_name) {
   return true;
 }
 
-void GeoPotential::Update(const LocalEnvironment &local_env,
-                          const Dynamics &dynamics) {
+void GeoPotential::Update(const LocalEnvironment &local_env, const Dynamics &dynamics) {
 #ifdef DEBUG_GEOPOTENTIAL
   chrono::system_clock::time_point start, end;
   start = chrono::system_clock::now();
@@ -75,9 +73,7 @@ void GeoPotential::Update(const LocalEnvironment &local_env,
   CalcAccelerationECEF(dynamics.GetOrbit().GetSatPosition_ecef());
 #ifdef DEBUG_GEOPOTENTIAL
   end = chrono::system_clock::now();
-  time_ = static_cast<double>(
-      chrono::duration_cast<chrono::microseconds>(end - start).count() /
-      1000.0);
+  time_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
 #endif
 
   Matrix<3, 3> trans_eci2ecef_ = dynamics.GetOrbit().GetTransECItoECEF();
@@ -103,8 +99,7 @@ void GeoPotential::CalcAccelerationECEF(const Vector<3> &position_ecef) {
       if (n <= m + 1)
         v_w_nm_update(&v[n][m], &w[n][m], v[n - 1][m], w[n - 1][m], 0.0, 0.0);
       else
-        v_w_nm_update(&v[n][m], &w[n][m], v[n - 1][m], w[n - 1][m], v[n - 2][m],
-                      w[n - 2][m]);
+        v_w_nm_update(&v[n][m], &w[n][m], v[n - 1][m], w[n - 1][m], v[n - 2][m], w[n - 2][m]);
     }
     // next step
     m++;
@@ -123,33 +118,23 @@ void GeoPotential::CalcAccelerationECEF(const Vector<3> &position_ecef) {
     // m==0
     acc_ecef_[0] += -c_[n][0] * v[n + 1][1] * normalize_xy;
     acc_ecef_[1] += -c_[n][0] * w[n + 1][1] * normalize_xy;
-    acc_ecef_[2] += (n + 1.0) *
-                    (-c_[n][0] * v[n + 1][0] - s_[n][0] * w[n + 1][0]) *
-                    normalize;
+    acc_ecef_[2] += (n + 1.0) * (-c_[n][0] * v[n + 1][0] - s_[n][0] * w[n + 1][0]) * normalize;
     for (m = 1; m <= n; m++) {
       double m_d = (double)m;
       double factorial = (n_d - m_d + 1.0) * (n_d - m_d + 2.0);
-      double normalize_xy1 =
-          normalize * sqrt((n_d + m_d + 1.0) * (n_d + m_d + 2.0));
+      double normalize_xy1 = normalize * sqrt((n_d + m_d + 1.0) * (n_d + m_d + 2.0));
       double normalize_xy2;
       if (m == 1)
         normalize_xy2 = normalize * sqrt(factorial) * sqrt(2.0);
       else
         normalize_xy2 = normalize * sqrt(factorial);
-      double normalize_z =
-          normalize * sqrt((n_d + m_d + 1.0) / (n_d - m_d + 1.0));
+      double normalize_z = normalize * sqrt((n_d + m_d + 1.0) / (n_d - m_d + 1.0));
 
-      acc_ecef_[0] += 0.5 * (normalize_xy1 * (-c_[n][m] * v[n + 1][m + 1] -
-                                              s_[n][m] * w[n + 1][m + 1]) +
-                             normalize_xy2 * (c_[n][m] * v[n + 1][m - 1] +
-                                              s_[n][m] * w[n + 1][m - 1]));
-      acc_ecef_[1] += 0.5 * (normalize_xy1 * (-c_[n][m] * w[n + 1][m + 1] +
-                                              s_[n][m] * v[n + 1][m + 1]) +
-                             normalize_xy2 * (-c_[n][m] * w[n + 1][m - 1] +
-                                              s_[n][m] * v[n + 1][m - 1]));
-      acc_ecef_[2] += (n_d - m_d + 1.0) *
-                      (-c_[n][m] * v[n + 1][m] - s_[n][m] * w[n + 1][m]) *
-                      normalize_z;
+      acc_ecef_[0] += 0.5 * (normalize_xy1 * (-c_[n][m] * v[n + 1][m + 1] - s_[n][m] * w[n + 1][m + 1]) +
+                             normalize_xy2 * (c_[n][m] * v[n + 1][m - 1] + s_[n][m] * w[n + 1][m - 1]));
+      acc_ecef_[1] += 0.5 * (normalize_xy1 * (-c_[n][m] * w[n + 1][m + 1] + s_[n][m] * v[n + 1][m + 1]) +
+                             normalize_xy2 * (-c_[n][m] * w[n + 1][m - 1] + s_[n][m] * v[n + 1][m - 1]));
+      acc_ecef_[2] += (n_d - m_d + 1.0) * (-c_[n][m] * v[n + 1][m] - s_[n][m] * w[n + 1][m]) * normalize_z;
     }
   }
   acc_ecef_ *= MU / (RE * RE);
@@ -157,8 +142,7 @@ void GeoPotential::CalcAccelerationECEF(const Vector<3> &position_ecef) {
   return;
 }
 
-void GeoPotential::v_w_nn_update(double *v_nn, double *w_nn,
-                                 const double v_prev, const double w_prev) {
+void GeoPotential::v_w_nn_update(double *v_nn, double *w_nn, const double v_prev, const double w_prev) {
   if (n != m) return;
 
   double n_d = (double)n;
@@ -177,9 +161,7 @@ void GeoPotential::v_w_nn_update(double *v_nn, double *w_nn,
   return;
 }
 
-void GeoPotential::v_w_nm_update(double *v_nm, double *w_nm,
-                                 const double v_prev, const double w_prev,
-                                 const double v_prev2, const double w_prev2) {
+void GeoPotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_prev, const double w_prev, const double v_prev2, const double w_prev2) {
   if (n == m) return;
 
   double m_d = (double)m;
@@ -192,18 +174,14 @@ void GeoPotential::v_w_nm_update(double *v_nm, double *w_nm,
   double c2 = (n_d + m_d - 1.0) / (n_d - m_d);
   double c_normalize, c2_normalize;
 
-  c_normalize = sqrt(((2.0 * n_d + 1.0) * (n_d - m_d)) /
-                     ((2.0 * n_d - 1.0) * (n_d + m_d)));
+  c_normalize = sqrt(((2.0 * n_d + 1.0) * (n_d - m_d)) / ((2.0 * n_d - 1.0) * (n_d + m_d)));
   if (n <= 1)
     c2_normalize = 1.0;
   else
-    c2_normalize = sqrt(((2.0 * n_d - 1.0) * (n_d - m_d - 1.0)) /
-                        ((2.0 * n_d - 3.0) * (n_d + m_d - 1.0)));
+    c2_normalize = sqrt(((2.0 * n_d - 1.0) * (n_d - m_d - 1.0)) / ((2.0 * n_d - 3.0) * (n_d + m_d - 1.0)));
 
-  *v_nm = c_normalize *
-          (c1 * z_tmp * v_prev - c2 * c2_normalize * re_tmp * v_prev2);
-  *w_nm = c_normalize *
-          (c1 * z_tmp * w_prev - c2 * c2_normalize * re_tmp * w_prev2);
+  *v_nm = c_normalize * (c1 * z_tmp * v_prev - c2 * c2_normalize * re_tmp * v_prev2);
+  *w_nm = c_normalize * (c1 * z_tmp * w_prev - c2 * c2_normalize * re_tmp * w_prev2);
   return;
 }
 

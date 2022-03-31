@@ -6,12 +6,9 @@
 using namespace std;
 using namespace libra;
 
-Telescope::Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c,
-                     double sun_forbidden_angle, double earth_forbidden_angle,
-                     double moon_forbidden_angle, int x_num_of_pix,
-                     int y_num_of_pix, double x_fov_par_pix,
-                     double y_fov_par_pix, int num_of_logged_stars,
-                     const Attitude* attitude, const HipparcosCatalogue* hipp,
+Telescope::Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double sun_forbidden_angle, double earth_forbidden_angle,
+                     double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix,
+                     int num_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipp,
                      const LocalCelestialInformation* local_celes_info)
     : ComponentBase(1, clock_gen),
       local_celes_info_(local_celes_info),
@@ -32,9 +29,7 @@ Telescope::Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c,
 
   x_field_of_view_rad = x_num_of_pix_ * x_fov_par_pix_;
   y_field_of_view_rad = y_num_of_pix_ * y_fov_par_pix_;
-  assert(
-      x_field_of_view_rad <
-      libra::pi_2);  //視野角90度以上だと計算が成り立たないので，その場合を弾く
+  assert(x_field_of_view_rad < libra::pi_2);  //視野角90度以上だと計算が成り立たないので，その場合を弾く
   assert(y_field_of_view_rad < libra::pi_2);
 
   sight_ = Vector<3>(0);
@@ -58,12 +53,9 @@ Telescope::~Telescope() {}
 
 void Telescope::MainRoutine(int count) {
   //禁止角判定
-  is_sun_in_forbidden_angle = JudgeForbiddenAngle(
-      local_celes_info_->GetPosFromSC_b("SUN"), sun_forbidden_angle_);
-  is_earth_in_forbidden_angle = JudgeForbiddenAngle(
-      local_celes_info_->GetPosFromSC_b("EARTH"), earth_forbidden_angle_);
-  is_moon_in_forbidden_angle = JudgeForbiddenAngle(
-      local_celes_info_->GetPosFromSC_b("MOON"), moon_forbidden_angle_);
+  is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("SUN"), sun_forbidden_angle_);
+  is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("EARTH"), earth_forbidden_angle_);
+  is_moon_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("MOON"), moon_forbidden_angle_);
   // CelesInfoから得られる各天体の像の位置の計算
   Observe(sun_pos_imgsensor, local_celes_info_->GetPosFromSC_b("SUN"));
   Observe(earth_pos_imgsensor, local_celes_info_->GetPosFromSC_b("EARTH"));
@@ -84,8 +76,7 @@ void Telescope::MainRoutine(int count) {
   //******************************************************************************
 }
 
-bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b,
-                                    const double forbidden_angle) {
+bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle) {
   Quaternion q_c2b = q_b2c_.conjugate();
   Vector<3> sight_b = q_c2b.frame_conv(sight_);
   double angle_rad = libra::angle(target_b, sight_b);
@@ -95,21 +86,14 @@ bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b,
     return false;
 }
 
-void Telescope::Observe(Vector<2>& pos_imgsensor,
-                        const Vector<3, double> target_b) {
+void Telescope::Observe(Vector<2>& pos_imgsensor, const Vector<3, double> target_b) {
   Vector<3, double> target_c = q_b2c_.frame_conv(target_b);
-  double arg_x =
-      atan2(target_c[2], target_c[0]);  //コンポ座標xz平面上でx軸から測った偏角
-  double arg_y =
-      atan2(target_c[1], target_c[0]);  //コンポ座標xy平面上でx軸から測った偏角
+  double arg_x = atan2(target_c[2], target_c[0]);  //コンポ座標xz平面上でx軸から測った偏角
+  double arg_y = atan2(target_c[1], target_c[0]);  //コンポ座標xy平面上でx軸から測った偏角
 
   if (abs(arg_x) < x_field_of_view_rad && abs(arg_y) < y_field_of_view_rad) {
-    pos_imgsensor[0] =
-        x_num_of_pix_ / 2 * tan(arg_x) / tan(x_field_of_view_rad) +
-        x_num_of_pix_ / 2;
-    pos_imgsensor[1] =
-        y_num_of_pix_ / 2 * tan(arg_y) / tan(y_field_of_view_rad) +
-        y_num_of_pix_ / 2;
+    pos_imgsensor[0] = x_num_of_pix_ / 2 * tan(arg_x) / tan(x_field_of_view_rad) + x_num_of_pix_ / 2;
+    pos_imgsensor[1] = y_num_of_pix_ / 2 * tan(arg_y) / tan(y_field_of_view_rad) + y_num_of_pix_ / 2;
   } else {  //天体が画角外の場合は-1を出力
     pos_imgsensor[0] = -1;
     pos_imgsensor[1] = -1;
@@ -131,19 +115,14 @@ void Telescope::ObserveStars() {
     double arg_y = atan2(target_c[1],
                          target_c[0]);  //コンポ座標xy平面上でx軸から測った偏角
 
-    if (abs(arg_x) <= x_field_of_view_rad &&
-        abs(arg_y) <= y_field_of_view_rad) {
+    if (abs(arg_x) <= x_field_of_view_rad && abs(arg_y) <= y_field_of_view_rad) {
       Star star;
       star.hipdata.hip_num = hipp_->GetHipID(count);
       star.hipdata.vmag = hipp_->GetVmag(count);
       star.hipdata.ra = hipp_->GetRA(count);
       star.hipdata.de = hipp_->GetDE(count);
-      star.pos_imgsensor[0] =
-          x_num_of_pix_ / 2.0 * tan(arg_x) / tan(x_field_of_view_rad) +
-          x_num_of_pix_ / 2.0;
-      star.pos_imgsensor[1] =
-          y_num_of_pix_ / 2.0 * tan(arg_y) / tan(y_field_of_view_rad) +
-          y_num_of_pix_ / 2.0;
+      star.pos_imgsensor[0] = x_num_of_pix_ / 2.0 * tan(arg_x) / tan(x_field_of_view_rad) + x_num_of_pix_ / 2.0;
+      star.pos_imgsensor[1] = y_num_of_pix_ / 2.0 * tan(arg_y) / tan(y_field_of_view_rad) + y_num_of_pix_ / 2.0;
 
       star_in_sight.push_back(star);
     }
@@ -183,8 +162,7 @@ string Telescope::GetLogHeader() const {
     for (int i = 0; i < num_of_logged_stars_; i++) {
       str_tmp += WriteScalar("HIP ID (" + to_string(i) + ")", " ");
       str_tmp += WriteScalar("Vmag (" + to_string(i) + ")", " ");
-      str_tmp +=
-          WriteVector("pos_imagesensor (" + to_string(i) + ")", " ", "pix", 2);
+      str_tmp += WriteVector("pos_imagesensor (" + to_string(i) + ")", " ", "pix", 2);
     }
   }
 

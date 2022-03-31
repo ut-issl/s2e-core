@@ -1,16 +1,10 @@
 #include "OBC.h"
 
-OBC::OBC(ClockGenerator* clock_gen) : ComponentBase(1, clock_gen) {
-  Initialize();
-}
+OBC::OBC(ClockGenerator* clock_gen) : ComponentBase(1, clock_gen) { Initialize(); }
 
-OBC::OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port)
-    : ComponentBase(prescaler, clock_gen, power_port) {
-  Initialize();
-}
+OBC::OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port) : ComponentBase(prescaler, clock_gen, power_port) { Initialize(); }
 
-OBC::OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port,
-         const double minimum_voltage, const double assumed_power_consumption)
+OBC::OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const double minimum_voltage, const double assumed_power_consumption)
     : ComponentBase(prescaler, clock_gen, power_port) {
   power_port_->SetMinimumVoltage(minimum_voltage);
   power_port_->SetAssumedPowerConsumption(assumed_power_consumption);
@@ -43,29 +37,25 @@ int OBC::CloseComPort(int port_id) {
   return 0;
 }
 
-int OBC::SendFromObc(int port_id, unsigned char* buffer, int offset,
-                     int count) {
+int OBC::SendFromObc(int port_id, unsigned char* buffer, int offset, int count) {
   SCIPort* port = com_ports_[port_id];
   if (port == nullptr) return -1;
   return port->WriteTx(buffer, offset, count);
 }
 
-int OBC::ReceivedByCompo(int port_id, unsigned char* buffer, int offset,
-                         int count) {
+int OBC::ReceivedByCompo(int port_id, unsigned char* buffer, int offset, int count) {
   SCIPort* port = com_ports_[port_id];
   if (port == nullptr) return -1;
   return port->ReadTx(buffer, offset, count);
 }
 
-int OBC::SendFromCompo(int port_id, unsigned char* buffer, int offset,
-                       int count) {
+int OBC::SendFromCompo(int port_id, unsigned char* buffer, int offset, int count) {
   SCIPort* port = com_ports_[port_id];
   if (port == nullptr) return -1;
   return port->WriteRx(buffer, offset, count);
 }
 
-int OBC::ReceivedByObc(int port_id, unsigned char* buffer, int offset,
-                       int count) {
+int OBC::ReceivedByObc(int port_id, unsigned char* buffer, int offset, int count) {
   SCIPort* port = com_ports_[port_id];
   if (port == nullptr) return -1;
   return port->ReadRx(buffer, offset, count);
@@ -92,9 +82,7 @@ int OBC::I2cCloseComPort(int port_id) {
   return 0;
 }
 
-int OBC::I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr,
-                                   const unsigned char reg_addr,
-                                   const unsigned char* data,
+int OBC::I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, const unsigned char* data,
                                    const unsigned char len) {
   I2CPort* i2c_port = i2c_com_ports_[port_id];
   for (int i = 0; i < len; i++) {
@@ -102,9 +90,7 @@ int OBC::I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr,
   }
   return 0;
 }
-int OBC::I2cComponentReadRegister(int port_id, const unsigned char i2c_addr,
-                                  const unsigned char reg_addr,
-                                  unsigned char* data,
+int OBC::I2cComponentReadRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, unsigned char* data,
                                   const unsigned char len) {
   I2CPort* i2c_port = i2c_com_ports_[port_id];
   for (int i = 0; i < len; i++) {
@@ -112,8 +98,7 @@ int OBC::I2cComponentReadRegister(int port_id, const unsigned char i2c_addr,
   }
   return 0;
 }
-int OBC::I2cComponentReadCommand(int port_id, const unsigned char i2c_addr,
-                                 unsigned char* data, const unsigned char len) {
+int OBC::I2cComponentReadCommand(int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len) {
   I2CPort* i2c_port = i2c_com_ports_[port_id];
   i2c_port->ReadCommand(i2c_addr, data, len);
   return 0;

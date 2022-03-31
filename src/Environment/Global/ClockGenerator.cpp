@@ -2,9 +2,7 @@
 
 ClockGenerator::~ClockGenerator() {}
 
-void ClockGenerator::RegisterComponent(ITickable* tickable) {
-  components_.push_back(tickable);
-}
+void ClockGenerator::RegisterComponent(ITickable* tickable) { components_.push_back(tickable); }
 
 void ClockGenerator::RemoveComponent(ITickable* tickable) {
   for (auto itr = components_.begin(); itr != components_.end();) {

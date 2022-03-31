@@ -6,12 +6,9 @@
 #include <cfloat>
 
 // Constructor
-SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen,
-                               const int id, const Vector<3> thruster_pos_b,
-                               const Vector<3> thrust_dir_b,
-                               const double max_mag, const double mag_err,
-                               const double dir_err, const Structure* structure,
-                               const Dynamics* dynamics)
+SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen, const int id, const Vector<3> thruster_pos_b,
+                               const Vector<3> thrust_dir_b, const double max_mag, const double mag_err, const double dir_err,
+                               const Structure* structure, const Dynamics* dynamics)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       thruster_pos_b_(thruster_pos_b),
@@ -23,13 +20,9 @@ SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen,
   Initialize(mag_err, dir_err);
 }
 
-SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen,
-                               PowerPort* power_port, const int id,
-                               const Vector<3> thruster_pos_b,
-                               const Vector<3> thrust_dir_b,
-                               const double max_mag, const double mag_err,
-                               const double dir_err, const Structure* structure,
-                               const Dynamics* dynamics)
+SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const Vector<3> thruster_pos_b,
+                               const Vector<3> thrust_dir_b, const double max_mag, const double mag_err, const double dir_err,
+                               const Structure* structure, const Dynamics* dynamics)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       thruster_pos_b_(thruster_pos_b),
@@ -87,9 +80,7 @@ std::string SimpleThruster::GetLogValue() const {
   return str_tmp;
 }
 
-double SimpleThruster::CalcThrustMagnitude() {
-  return duty_ * thrust_magnitude_max_;
-}
+double SimpleThruster::CalcThrustMagnitude() { return duty_ * thrust_magnitude_max_; }
 
 Vector<3> SimpleThruster::CalcThrustDir() {
   Vector<3> thrust_dir_b_true = thrust_dir_b_;
@@ -109,7 +100,7 @@ Vector<3> SimpleThruster::CalcThrustDir() {
     Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);
     Vector<3> axis_rot = make_axis_rot.frame_conv(ex);
 
-    Quaternion err_rot(axis_rot, dir_nr_);  // Generate error quaternion
+    Quaternion err_rot(axis_rot, dir_nr_);                      // Generate error quaternion
     thrust_dir_b_true = err_rot.frame_conv(thrust_dir_b_true);  // Add error
   }
 

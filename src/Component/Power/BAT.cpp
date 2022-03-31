@@ -2,10 +2,8 @@
 
 #include <cmath>
 
-BAT::BAT(ClockGenerator* clock_gen, int number_of_series,
-         int number_of_parallel, double cell_capacity,
-         const std::vector<double> cell_discharge_curve_coeffs,
-         double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
+BAT::BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
+         const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
          double bat_resistance)
     : ComponentBase(1000, clock_gen),
       number_of_series_(number_of_series),
@@ -58,8 +56,7 @@ std::string BAT::GetLogValue() const {
 }
 
 void BAT::MainRoutine(int time_count) {
-  dod_ -= charge_current_ / (cell_capacity_ * number_of_parallel_ * 3600.0) *
-          100.0;  // 1秒に1回MainRoutineが実行される想定
+  dod_ -= charge_current_ / (cell_capacity_ * number_of_parallel_ * 3600.0) * 100.0;  // 1秒に1回MainRoutineが実行される想定
   UpdateBatVoltage();
 }
 

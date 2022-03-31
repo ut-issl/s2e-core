@@ -64,10 +64,9 @@ Temperature* InitTemperature(string ini_path, const double rk_prop_step_sec) {
   /*since we don't know the number of nodes yet, set nodes_num=100 temporary.
     Recall that Nodes_num are given to this function only to reseve memory*/
 
-  nodes_num = vnodestr.size() - 1;  // First Row is for Header(not data)
-  vnodes.reserve(nodes_num);        // reserve memory
-  for (auto itr = vnodestr.begin() + 1; itr != vnodestr.end();
-       ++itr) {  // first row is for labels
+  nodes_num = vnodestr.size() - 1;                                       // First Row is for Header(not data)
+  vnodes.reserve(nodes_num);                                             // reserve memory
+  for (auto itr = vnodestr.begin() + 1; itr != vnodestr.end(); ++itr) {  // first row is for labels
     vnodes.push_back(InitNode(*itr));
   }
 
@@ -76,13 +75,11 @@ Temperature* InitTemperature(string ini_path, const double rk_prop_step_sec) {
   string filepath_rij = file_path + "Rij.csv";
   IniAccess conf_cij(filepath_cij);
   IniAccess conf_rij(filepath_rij);
-  conf_cij.ReadCsvDouble(
-      cij,
-      nodes_num + 1);  // for Cij,Rij, include outerspace as an additional node
+  conf_cij.ReadCsvDouble(cij,
+                         nodes_num + 1);  // for Cij,Rij, include outerspace as an additional node
   conf_rij.ReadCsvDouble(rij, nodes_num + 1);
 
   Temperature* temperature;
-  temperature = new Temperature(cij, rij, vnodes, nodes_num, rk_prop_step_sec,
-                                is_calc_enabled, debug);
+  temperature = new Temperature(cij, rij, vnodes, nodes_num, rk_prop_step_sec, is_calc_enabled, debug);
   return temperature;
 }

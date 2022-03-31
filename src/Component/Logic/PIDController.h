@@ -55,8 +55,7 @@ Vector<N> PIDController<N>::CalcOutput(Vector<N> p_error) {
 }
 
 template <size_t N>
-inline Vector<N> PIDController<N>::CalcOutput(Vector<N> p_error,
-                                              Vector<N> current_d) {
+inline Vector<N> PIDController<N>::CalcOutput(Vector<N> p_error, Vector<N> current_d) {
   auto dvec = current_d;
   dvec *= 1;
 

@@ -9,12 +9,8 @@
 #include "rw_ode.hpp"
 using namespace libra;
 
-RwOde::RwOde(double step_width, double init_angular_velocity,
-             double target_angular_velocity, Vector<3> lag_coef)
-    : ODE<1>(step_width),
-      lag_coef_(lag_coef),
-      kInitAngularVelocity_(init_angular_velocity),
-      target_angular_velocity_(target_angular_velocity) {
+RwOde::RwOde(double step_width, double init_angular_velocity, double target_angular_velocity, Vector<3> lag_coef)
+    : ODE<1>(step_width), lag_coef_(lag_coef), kInitAngularVelocity_(init_angular_velocity), target_angular_velocity_(target_angular_velocity) {
   this->setup(0.0, Vector<1>(init_angular_velocity));
 }
 
@@ -43,8 +39,6 @@ void RwOde::RHS(double x, const Vector<1> &state, Vector<1> &rhs) {
   // rhs[0]   = (target_angular_velocity_);
 }
 
-void RwOde::setTargetAngularVelocity(double angular_velocity) {
-  target_angular_velocity_ = angular_velocity;
-}
+void RwOde::setTargetAngularVelocity(double angular_velocity) { target_angular_velocity_ = angular_velocity; }
 
 void RwOde::setLagCoef(const Vector<3> lag_coef) { lag_coef_ = lag_coef; };

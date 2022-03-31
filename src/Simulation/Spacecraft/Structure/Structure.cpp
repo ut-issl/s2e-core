@@ -2,9 +2,7 @@
 
 #include "../../../Interface/InitInput/Initialize.h"
 
-Structure::Structure(SimulationConfig* sim_config, const int sat_id) {
-  Initialize(sim_config, sat_id);
-}
+Structure::Structure(SimulationConfig* sim_config, const int sat_id) { Initialize(sim_config, sat_id); }
 
 Structure::~Structure() {
   delete kinnematics_params_;

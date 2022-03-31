@@ -17,12 +17,9 @@ struct Star  //望遠鏡視野内に入っている恒星の情報
 
 class Telescope : public ComponentBase, public ILoggable {
  public:
-  Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c,
-            double sun_forbidden_angle, double earth_forbidden_angle,
-            double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix,
-            double x_fov_par_pix, double y_fov_par_pix, int num_of_logged_stars,
-            const Attitude* attitude, const HipparcosCatalogue* hipp,
-            const LocalCelestialInformation* local_celes_info);
+  Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double sun_forbidden_angle, double earth_forbidden_angle,
+            double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix, int num_of_logged_stars,
+            const Attitude* attitude, const HipparcosCatalogue* hipp, const LocalCelestialInformation* local_celes_info);
 
   ~Telescope();
 
@@ -50,17 +47,13 @@ class Telescope : public ComponentBase, public ILoggable {
 
   int num_of_logged_stars_;  //恒星観測でログに出力する恒星の個数
 
-  libra::Vector<2> sun_pos_imgsensor{
-      -1};  //イメージセンサ上における太陽の像の位置
-  libra::Vector<2> earth_pos_imgsensor{
-      -1};  //イメージセンサ上における地球の像の位置
-  libra::Vector<2> moon_pos_imgsensor{
-      -1};  //イメージセンサ上における月の像の位置
+  libra::Vector<2> sun_pos_imgsensor{-1};    //イメージセンサ上における太陽の像の位置
+  libra::Vector<2> earth_pos_imgsensor{-1};  //イメージセンサ上における地球の像の位置
+  libra::Vector<2> moon_pos_imgsensor{-1};   //イメージセンサ上における月の像の位置
 
   std::vector<Star> star_in_sight;
 
-  bool JudgeForbiddenAngle(const libra::Vector<3>& target_b,
-                           const double forbidden_angle);
+  bool JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle);
   void MainRoutine(int count);
   void Observe(Vector<2>& pos_imgsensor, const Vector<3, double> target_b);
   void ObserveStars();  // Hip Catalogueのデータからの観測

@@ -28,19 +28,12 @@ typedef struct _gnssinfo {
 
 class GNSSReceiver : public ComponentBase, public ILoggable {
  public:
-  GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const int id,
-               const std::string gnss_id, const int ch_max,
-               const AntennaModel antenna_model, const Vector<3> ant_pos_b,
-               const Quaternion q_b2c, const double half_width,
-               const Vector<3> noise_std, const Dynamics* dynamics,
-               const GnssSatellites* gnss_satellites, const SimTime* simtime);
-  GNSSReceiver(const int prescaler, ClockGenerator* clock_gen,
-               PowerPort* power_port, const int id, std::string gnss_id,
-               const int ch_max, const AntennaModel antenna_model,
-               const Vector<3> ant_pos_b, const Quaternion q_b2c,
-               const double half_width, const Vector<3> noise_std,
-               const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
-               const SimTime* simtime);
+  GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const int id, const std::string gnss_id, const int ch_max,
+               const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
+               const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime);
+  GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, std::string gnss_id, const int ch_max,
+               const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
+               const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime);
   void MainRoutine(int count);
 
   // Getter
@@ -59,7 +52,7 @@ class GNSSReceiver : public ComponentBase, public ILoggable {
   const int id_;                  // ID
   const int ch_max_;              // Number of channels
   Vector<3> antenna_position_b_;  // GNSS antenna position at body-fixed frame
-  Quaternion q_b2c_;  // Quaternion from body frame to component frame
+  Quaternion q_b2c_;              // Quaternion from body frame to component frame
   libra::NormalRand nrs_eci_x_, nrs_eci_y_,
       nrs_eci_z_;  // Random Error for each axis
   double half_width_ = 0.0;
@@ -89,10 +82,8 @@ class GNSSReceiver : public ComponentBase, public ILoggable {
   void CheckAntennaSimple(Vector<3> location_true, Quaternion q_i2b);
   void CheckAntennaCone(Vector<3> location_true, Quaternion q_i2b);
   void SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, std::string gnss_id);
-  void AddNoise(
-      Vector<3> location_true_eci,
-      Vector<3>
-          location_true_ecef);  // substitutional method for "Measure" in other
-                                // sensor modles inherited SensorBase class
+  void AddNoise(Vector<3> location_true_eci,
+                Vector<3> location_true_ecef);  // substitutional method for "Measure" in other
+                                                // sensor modles inherited SensorBase class
   void ConvertJulianDayToGPSTime(const double JulianDay);
 };

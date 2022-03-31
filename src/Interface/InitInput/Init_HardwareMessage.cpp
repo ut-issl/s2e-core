@@ -10,8 +10,7 @@ HardwareMessage* Init_HardwareMessage(string file_name) {
   unsigned int baudrate = ini_file.ReadInt(section, "BaudRate");
   unsigned short obc_com_port_num = ini_file.ReadInt(section, "ComPortNum");
 
-  HardwareMessage* hw_msg = new HardwareMessage(
-      obc_com_port_num, receive_msg_from_obc, baudrate, obc_com_period);
+  HardwareMessage* hw_msg = new HardwareMessage(obc_com_port_num, receive_msg_from_obc, baudrate, obc_com_period);
   hw_msg->IsLogEnabled = receive_msg_from_obc;
   return hw_msg;
 }

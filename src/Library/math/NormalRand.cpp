@@ -10,14 +10,11 @@ using libra::NormalRand;
 #include <cfloat>  //DBL_EPSILON
 #include <cmath>   //sqrt, log;
 
-NormalRand::NormalRand()
-    : avg_(0.0), stddev_(1.0), holder_(0.0), is_empty_(true) {}
+NormalRand::NormalRand() : avg_(0.0), stddev_(1.0), holder_(0.0), is_empty_(true) {}
 
-NormalRand::NormalRand(double avg, double stddev)
-    : avg_(avg), stddev_(stddev), holder_(0.0), is_empty_(true) {}
+NormalRand::NormalRand(double avg, double stddev) : avg_(avg), stddev_(stddev), holder_(0.0), is_empty_(true) {}
 
-NormalRand::NormalRand(double avg, double stddev, long seed) throw()
-    : avg_(avg), stddev_(stddev), rand_(seed), holder_(0.0), is_empty_(true) {}
+NormalRand::NormalRand(double avg, double stddev, long seed) throw() : avg_(avg), stddev_(stddev), rand_(seed), holder_(0.0), is_empty_(true) {}
 
 NormalRand::operator double() {
   if (is_empty_) {

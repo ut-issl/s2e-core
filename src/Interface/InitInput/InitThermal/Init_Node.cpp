@@ -54,7 +54,6 @@ Node InitNode(const std::vector<std::string>& node_str) {
   internal_heat = stod(node_str[9]);  // column 10
   temperature = stod(node_str[10]);   // column 11
 
-  Node node(node_id, node_label, heater_node_id, temperature, capacity,
-            internal_heat, alpha, area, normal_v_b);
+  Node node(node_id, node_label, heater_node_id, temperature, capacity, internal_heat, alpha, area, normal_v_b);
   return node;
 }

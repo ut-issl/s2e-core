@@ -24,9 +24,7 @@ class PCU : public ComponentBase, public ILoggable {
 
   // Port control functions
   int ConnectPort(const int port_id, const double current_Limit);
-  int ConnectPort(const int port_id, const double current_Limit,
-                  const double minimum_voltage,
-                  const double assumed_power_consumption);
+  int ConnectPort(const int port_id, const double current_Limit, const double minimum_voltage, const double assumed_power_consumption);
   int ClosePort(const int port_id);
 
  private:

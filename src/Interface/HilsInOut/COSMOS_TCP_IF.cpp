@@ -8,14 +8,9 @@
 // // 上記Webページのアーカイブ
 // - https://www.sbcr.jp/books/img/Linuxnet_02.pdf
 
-COSMOS_TCP_IF::COSMOS_TCP_IF() : kPortNum(COSMOS_TCP_PORT_DEFAULT) {
-  is_connected_ = false;
-}
+COSMOS_TCP_IF::COSMOS_TCP_IF() : kPortNum(COSMOS_TCP_PORT_DEFAULT) { is_connected_ = false; }
 
-COSMOS_TCP_IF::COSMOS_TCP_IF(unsigned short port_num, const char *server_ip)
-    : kPortNum(port_num), kServerIP(server_ip) {
-  is_connected_ = false;
-}
+COSMOS_TCP_IF::COSMOS_TCP_IF(unsigned short port_num, const char *server_ip) : kPortNum(port_num), kServerIP(server_ip) { is_connected_ = false; }
 
 COSMOS_TCP_IF::~COSMOS_TCP_IF() {
   closesocket(sock_);  // 忘れないように一応ここでも。

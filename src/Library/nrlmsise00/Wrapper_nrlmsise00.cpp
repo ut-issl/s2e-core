@@ -26,9 +26,7 @@ using namespace std;
 
 static double decyear_monthly;
 
-int LeapYear(int year) {
-  return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
-};
+int LeapYear(int year) { return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0); };
 
 void ConvertDaysToMonthDay(int days, int is_leap_year, int* month_day) {
   int days_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -40,48 +38,37 @@ void ConvertDaysToMonthDay(int days, int is_leap_year, int* month_day) {
   if (days <= days_month[0]) {
     month_day[0] = 1;
     month_day[1] = days;
-  } else if (days > days_month[0] &&
-             days <= accumulate(days_month, days_month + 2, 0)) {
+  } else if (days > days_month[0] && days <= accumulate(days_month, days_month + 2, 0)) {
     month_day[0] = 2;
     month_day[1] = days - days_month[0];
-  } else if (days > accumulate(days_month, days_month + 2, 0) &&
-             days <= accumulate(days_month, days_month + 3, 0)) {
+  } else if (days > accumulate(days_month, days_month + 2, 0) && days <= accumulate(days_month, days_month + 3, 0)) {
     month_day[0] = 3;
     month_day[1] = days - accumulate(days_month, days_month + 2, 0);
-  } else if (days > accumulate(days_month, days_month + 3, 0) &&
-             days <= accumulate(days_month, days_month + 4, 0)) {
+  } else if (days > accumulate(days_month, days_month + 3, 0) && days <= accumulate(days_month, days_month + 4, 0)) {
     month_day[0] = 4;
     month_day[1] = days - accumulate(days_month, days_month + 3, 0);
-  } else if (days > accumulate(days_month, days_month + 4, 0) &&
-             days <= accumulate(days_month, days_month + 5, 0)) {
+  } else if (days > accumulate(days_month, days_month + 4, 0) && days <= accumulate(days_month, days_month + 5, 0)) {
     month_day[0] = 5;
     month_day[1] = days - accumulate(days_month, days_month + 4, 0);
-  } else if (days > accumulate(days_month, days_month + 5, 0) &&
-             days <= accumulate(days_month, days_month + 6, 0)) {
+  } else if (days > accumulate(days_month, days_month + 5, 0) && days <= accumulate(days_month, days_month + 6, 0)) {
     month_day[0] = 6;
     month_day[1] = days - accumulate(days_month, days_month + 5, 0);
-  } else if (days > accumulate(days_month, days_month + 6, 0) &&
-             days <= accumulate(days_month, days_month + 7, 0)) {
+  } else if (days > accumulate(days_month, days_month + 6, 0) && days <= accumulate(days_month, days_month + 7, 0)) {
     month_day[0] = 7;
     month_day[1] = days - accumulate(days_month, days_month + 6, 0);
-  } else if (days > accumulate(days_month, days_month + 7, 0) &&
-             days <= accumulate(days_month, days_month + 8, 0)) {
+  } else if (days > accumulate(days_month, days_month + 7, 0) && days <= accumulate(days_month, days_month + 8, 0)) {
     month_day[0] = 8;
     month_day[1] = days - accumulate(days_month, days_month + 7, 0);
-  } else if (days > accumulate(days_month, days_month + 8, 0) &&
-             days <= accumulate(days_month, days_month + 9, 0)) {
+  } else if (days > accumulate(days_month, days_month + 8, 0) && days <= accumulate(days_month, days_month + 9, 0)) {
     month_day[0] = 9;
     month_day[1] = days - accumulate(days_month, days_month + 8, 0);
-  } else if (days > accumulate(days_month, days_month + 9, 0) &&
-             days <= accumulate(days_month, days_month + 10, 0)) {
+  } else if (days > accumulate(days_month, days_month + 9, 0) && days <= accumulate(days_month, days_month + 10, 0)) {
     month_day[0] = 10;
     month_day[1] = days - accumulate(days_month, days_month + 9, 0);
-  } else if (days > accumulate(days_month, days_month + 10, 0) &&
-             days <= accumulate(days_month, days_month + 11, 0)) {
+  } else if (days > accumulate(days_month, days_month + 10, 0) && days <= accumulate(days_month, days_month + 11, 0)) {
     month_day[0] = 11;
     month_day[1] = days - accumulate(days_month, days_month + 10, 0);
-  } else if (days > accumulate(days_month, days_month + 11, 0) &&
-             days <= accumulate(days_month, days_month + 12, 0)) {
+  } else if (days > accumulate(days_month, days_month + 11, 0) && days <= accumulate(days_month, days_month + 12, 0)) {
     month_day[0] = 12;
     month_day[1] = days - accumulate(days_month, days_month + 11, 0);
   }
@@ -137,8 +124,7 @@ double ConvertDateToDecyear(int year, int month, int day) {
     days_month[1] = 29;
   }
 
-  double days =
-      (double)accumulate(days_month, days_month + month - 1, 0) + (double)day;
+  double days = (double)accumulate(days_month, days_month + month - 1, 0) + (double)day;
 
   return (double)year + days / (double)days_per_year;
 }
@@ -177,10 +163,8 @@ int ConvertMonthStrToMonthNum(string month_str) {
 /* --------------------------CalcNRLMSISE00--------------------------- */
 /* ------------------------------------------------------------------- */
 /* GTD7 Wrapper */
-double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt,
-                      const vector<nrlmsise_table>& table, bool is_manual_param,
-                      double manual_f107, double manual_f107a,
-                      double manual_ap) {
+double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, const vector<nrlmsise_table>& table, bool is_manual_param,
+                      double manual_f107, double manual_f107a, double manual_ap) {
   struct nrlmsise_output output;
   struct nrlmsise_input input;
   struct nrlmsise_flags flags;
@@ -220,8 +204,7 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt,
     for (i = 0; i < table.size(); i++) {
       if (decyear < decyear_monthly) {
         // 年月日が一致
-        if ((date[0] == table[i].year) && (date[1] == table[i].month) &&
-            (date[2] == table[i].day)) {
+        if ((date[0] == table[i].year) && (date[1] == table[i].month) && (date[2] == table[i].day)) {
           idx = i;
           break;
         }
@@ -254,8 +237,7 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt,
 /* URL for SpaceWeather.txt */
 /* ftp://ftp.agi.com/pub/DynamicEarthData/SpaceWeather-v1.2.txt */
 
-int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename,
-                          vector<nrlmsise_table>& table) {
+int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename, vector<nrlmsise_table>& table) {
   ifstream ifs(filename);
 
   if (!ifs.is_open()) {
@@ -272,8 +254,7 @@ int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename,
   ConvertDecyearToDate(decyear_end, date_end);
 
   if (date_ini[0] < 2015 || date_ini[0] > 2043 || date_end[0] > 2043) {
-    cerr << "Year must be between 2015 and 2043 for NRLMSISE00 atmosphere model"
-         << endl;
+    cerr << "Year must be between 2015 and 2043 for NRLMSISE00 atmosphere model" << endl;
   }
 
   string line;
@@ -281,8 +262,7 @@ int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename,
     nrlmsise_table line_data;
 
     string year_str = line.substr(0, 4);  // first 4 char
-    if (!std::all_of(year_str.cbegin(), year_str.cend(), ::isdigit) ||
-        year_str.empty()) {
+    if (!std::all_of(year_str.cbegin(), year_str.cend(), ::isdigit) || year_str.empty()) {
       if (year_str == "UPDA") {
         int year_updated = atoi(line.substr(8, 4).c_str());
         string month_updated_str = line.substr(13, 3).c_str();
@@ -290,13 +270,11 @@ int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename,
         int day_updated = atoi(line.substr(17, 2).c_str());
 
         // テーブルの更新日時を取得
-        double decyear_updated =
-            ConvertDateToDecyear(year_updated, month_updated, day_updated);
+        double decyear_updated = ConvertDateToDecyear(year_updated, month_updated, day_updated);
 
         // 更新日時から1カ月半以降は一日毎ではなく一月毎にデータが更新されるので，その日時をdecyearで計算しておく
         int days_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        decyear_monthly =
-            decyear_updated + (days_month[month_updated] + 14) / 365.0;
+        decyear_monthly = decyear_updated + (days_month[month_updated] + 14) / 365.0;
       }
       continue;
     }
@@ -306,14 +284,10 @@ int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename,
     int day = atoi(line.substr(8, 2).c_str());
     double decyear_line = ConvertDateToDecyear(year, month, day);
     // 少なくとも1カ月分はデータを確保するため，シミュレーション開始時刻の一ヶ月前からテーブル値を確保する
-    double decyear_ini_ymd =
-        ConvertDateToDecyear(date_ini[0], date_ini[1], date_ini[2]) -
-        31.0 / 365.0;  // 一ヶ月引く
-    double decyear_end_ymd =
-        ConvertDateToDecyear(date_end[0], date_end[1], date_end[2]);
+    double decyear_ini_ymd = ConvertDateToDecyear(date_ini[0], date_ini[1], date_ini[2]) - 31.0 / 365.0;  // 一ヶ月引く
+    double decyear_end_ymd = ConvertDateToDecyear(date_end[0], date_end[1], date_end[2]);
 
-    if (decyear_line < decyear_ini_ymd || decyear_line > decyear_end_ymd)
-      continue;
+    if (decyear_line < decyear_ini_ymd || decyear_line > decyear_end_ymd) continue;
 
     // Read table data
     line_data.year = year;

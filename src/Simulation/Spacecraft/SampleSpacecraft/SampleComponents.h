@@ -32,11 +32,8 @@ class SimpleThruster;
 
 class SampleComponents {
  public:
-  SampleComponents(const Dynamics* dynamics, const Structure* structure,
-                   const LocalEnvironment* local_env,
-                   const GlobalEnvironment* glo_env,
-                   const SimulationConfig* config, ClockGenerator* clock_gen,
-                   const int sat_id);
+  SampleComponents(const Dynamics* dynamics, const Structure* structure, const LocalEnvironment* local_env, const GlobalEnvironment* glo_env,
+                   const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id);
   ~SampleComponents();
   Vector<3> GenerateForce_b();
   Vector<3> GenerateTorque_b();

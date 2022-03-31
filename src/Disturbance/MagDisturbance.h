@@ -19,12 +19,10 @@ class MagDisturbance : public SimpleDisturbance {
   double rmm_wnvar_;
 
  public:
-  MagDisturbance(const Vector<3>& rmm_const_b, const double rmm_rwdev,
-                 const double rmm_rwlimit, const double rmm_wnvar);
+  MagDisturbance(const Vector<3>& rmm_const_b, const double rmm_rwdev, const double rmm_rwlimit, const double rmm_wnvar);
   void CalcRMM();
   Vector<3> CalcTorque(const Vector<3>& mag_b);
-  virtual void Update(const LocalEnvironment& local_env,
-                      const Dynamics& dynamics);
+  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
   void PrintTorque();
 
   virtual std::string GetLogHeader() const;

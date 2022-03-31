@@ -15,8 +15,7 @@ const int kDefaultTxSize = 0xff;
 class HilsI2cTargetPort : public HilsUartPort {
  public:
   HilsI2cTargetPort(const unsigned int port_id);
-  HilsI2cTargetPort(const unsigned int port_id,
-                    const unsigned char max_register_number);
+  HilsI2cTargetPort(const unsigned int port_id, const unsigned char max_register_number);
   ~HilsI2cTargetPort();
 
   void RegisterDevice();
@@ -33,8 +32,7 @@ class HilsI2cTargetPort : public HilsUartPort {
  private:
   unsigned char max_register_number_ = 0xff;
   unsigned char saved_reg_addr_ = 0x00;
-  unsigned int stored_frame_counter_ =
-      0;  // Send a few frames of telemetry to the converter in advance.
+  unsigned int stored_frame_counter_ = 0;  // Send a few frames of telemetry to the converter in advance.
 
   // < register address, value>
   std::map<unsigned char, unsigned char> device_registers_;

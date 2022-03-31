@@ -2,9 +2,7 @@
 
 #include <Interface/InitInput/Initialize.h>
 
-GlobalEnvironment::GlobalEnvironment(SimulationConfig* sim_config) {
-  Initialize(sim_config);
-}
+GlobalEnvironment::GlobalEnvironment(SimulationConfig* sim_config) { Initialize(sim_config); }
 
 GlobalEnvironment::~GlobalEnvironment() {
   delete sim_time_;

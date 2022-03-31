@@ -19,19 +19,13 @@ class RelativeInformation;
 
 class Dynamics {
  public:
-  Dynamics(SimulationConfig* sim_config, const SimTime* sim_time,
-           const LocalCelestialInformation* local_celes_info, const int sat_id,
-           Structure* structure,
-           RelativeInformation* rel_info = (RelativeInformation*)nullptr);
+  Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
+           Structure* structure, RelativeInformation* rel_info = (RelativeInformation*)nullptr);
   ~Dynamics();
 
-  void Initialize(
-      SimulationConfig* sim_config, const SimTime* sim_time,
-      const LocalCelestialInformation* local_celes_info, const int sat_id,
-      Structure* structure,
-      RelativeInformation* rel_info = (RelativeInformation*)nullptr);
-  void Update(const SimTime* sim_time,
-              const LocalCelestialInformation* local_celes_info);
+  void Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
+                  Structure* structure, RelativeInformation* rel_info = (RelativeInformation*)nullptr);
+  void Update(const SimTime* sim_time, const LocalCelestialInformation* local_celes_info);
   void LogSetup(Logger& logger);
 
   // Set

@@ -8,13 +8,9 @@ using libra::NormalRand;
 
 using namespace std;
 
-SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen,
-                     const int id, const libra::Quaternion& q_b2c,
-                     const double detectable_angle_rad,
-                     const double nr_stddev_c, const double nr_bias_stddev_c,
-                     const double intensity_lower_threshold_percent,
-                     const SRPEnvironment* srp,
-                     const LocalCelestialInformation* local_celes_info)
+SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen, const int id, const libra::Quaternion& q_b2c, const double detectable_angle_rad,
+                     const double nr_stddev_c, const double nr_bias_stddev_c, const double intensity_lower_threshold_percent,
+                     const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       q_b2c_(q_b2c),
@@ -25,14 +21,9 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen,
   Initialize(nr_stddev_c, nr_bias_stddev_c);
 }
 
-SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen,
-                     PowerPort* power_port, const int id,
-                     const libra::Quaternion& q_b2c,
-                     const double detectable_angle_rad,
-                     const double nr_stddev_c, const double nr_bias_stddev_c,
-                     const double intensity_lower_threshold_percent,
-                     const SRPEnvironment* srp,
-                     const LocalCelestialInformation* local_celes_info)
+SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
+                     const double detectable_angle_rad, const double nr_stddev_c, const double nr_bias_stddev_c,
+                     const double intensity_lower_threshold_percent, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       q_b2c_(q_b2c),
@@ -43,8 +34,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen,
   Initialize(nr_stddev_c, nr_bias_stddev_c);
 }
 
-void SunSensor::Initialize(const double nr_stddev_c,
-                           const double nr_bias_stddev_c) {
+void SunSensor::Initialize(const double nr_stddev_c, const double nr_bias_stddev_c) {
   // Bias
   NormalRand nr(0.0, nr_bias_stddev_c, g_rand.MakeSeed());
   bias_alpha_ += nr;
@@ -60,8 +50,7 @@ void SunSensor::measure() {
   Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
   Vector<3> sun_dir_b = normalize(sun_pos_b);
 
-  sun_c_ =
-      q_b2c_.frame_conv(sun_dir_b);  // Frame conversion from body to component
+  sun_c_ = q_b2c_.frame_conv(sun_dir_b);  // Frame conversion from body to component
 
   SunDetectionJudgement();  // Judge the sun is inside the FoV
 
@@ -99,8 +88,7 @@ void SunSensor::SunDetectionJudgement() {
 
   double sun_angle_ = acos(sun_direction_c[2]);
 
-  if (solar_illuminance_ <
-      intensity_lower_threshold_percent_ / 100.0 * srp_->GetSolarConstant()) {
+  if (solar_illuminance_ < intensity_lower_threshold_percent_ / 100.0 * srp_->GetSolarConstant()) {
     sun_detected_flag_ = false;
   } else {
     if (sun_angle_ < detectable_angle_rad_) {

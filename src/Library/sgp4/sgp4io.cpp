@@ -77,16 +77,14 @@ min
 *    vallado, crawford, hujsak, kelso  2006
   --------------------------------------------------------------------------- */
 
-void twoline2rv(char longstr1[130], char longstr2[130], char typerun,
-                char typeinput, gravconsttype whichconst, double& startmfe,
-                double& stopmfe, double& deltamin, elsetrec& satrec) {
+void twoline2rv(char longstr1[130], char longstr2[130], char typerun, char typeinput, gravconsttype whichconst, double& startmfe, double& stopmfe,
+                double& deltamin, elsetrec& satrec) {
   const double deg2rad = pi / 180.0;          //   0.0174532925199433
   const double xpdotp = 1440.0 / (2.0 * pi);  // 229.1831180523293
 
   double sec, mu, radiusearthkm, tumin, xke, j2, j3, j4, j3oj2;
   double startsec, stopsec, startdayofyr, stopdayofyr, jdstart, jdstop;
-  int startyear, stopyear, startmon, stopmon, startday, stopday, starthr,
-      stophr, startmin, stopmin;
+  int startyear, stopyear, startmon, stopmon, startday, stopday, starthr, stophr, startmin, stopmin;
   int cardnumb, numb, j;
   long revnum = 0, elnum = 0;
   char classification, intldesg[11];
@@ -117,26 +115,17 @@ void twoline2rv(char longstr1[130], char longstr2[130], char typerun,
   if (longstr1[62] == ' ') longstr1[62] = '0';
   if (longstr1[68] == ' ') longstr1[68] = '0';
 
-  sscanf(longstr1,
-         "%2d %5ld %1c %10s %2d %12lf %11lf %7lf %2d %7lf %2d %2d %6ld ",
-         &cardnumb, &satrec.satnum, &classification, intldesg, &satrec.epochyr,
-         &satrec.epochdays, &satrec.ndot, &satrec.nddot, &nexp, &satrec.bstar,
-         &ibexp, &numb, &elnum);
+  sscanf(longstr1, "%2d %5ld %1c %10s %2d %12lf %11lf %7lf %2d %7lf %2d %2d %6ld ", &cardnumb, &satrec.satnum, &classification, intldesg,
+         &satrec.epochyr, &satrec.epochdays, &satrec.ndot, &satrec.nddot, &nexp, &satrec.bstar, &ibexp, &numb, &elnum);
 
   if (typerun == 'v')  // run for specified times from the file
   {
     if (longstr2[52] == ' ')
-      sscanf(longstr2,
-             "%2d %5ld %9lf %9lf %8lf %9lf %9lf %10lf %6ld %lf %lf %lf \n",
-             &cardnumb, &satrec.satnum, &satrec.inclo, &satrec.nodeo,
-             &satrec.ecco, &satrec.argpo, &satrec.mo, &satrec.no, &revnum,
-             &startmfe, &stopmfe, &deltamin);
+      sscanf(longstr2, "%2d %5ld %9lf %9lf %8lf %9lf %9lf %10lf %6ld %lf %lf %lf \n", &cardnumb, &satrec.satnum, &satrec.inclo, &satrec.nodeo,
+             &satrec.ecco, &satrec.argpo, &satrec.mo, &satrec.no, &revnum, &startmfe, &stopmfe, &deltamin);
     else
-      sscanf(longstr2,
-             "%2d %5ld %9lf %9lf %8lf %9lf %9lf %11lf %6ld %lf %lf %lf \n",
-             &cardnumb, &satrec.satnum, &satrec.inclo, &satrec.nodeo,
-             &satrec.ecco, &satrec.argpo, &satrec.mo, &satrec.no, &revnum,
-             &startmfe, &stopmfe, &deltamin);
+      sscanf(longstr2, "%2d %5ld %9lf %9lf %8lf %9lf %9lf %11lf %6ld %lf %lf %lf \n", &cardnumb, &satrec.satnum, &satrec.inclo, &satrec.nodeo,
+             &satrec.ecco, &satrec.argpo, &satrec.mo, &satrec.no, &revnum, &startmfe, &stopmfe, &deltamin);
     // incl 軌道傾斜角
     // node 昇交点赤経
     // ecc 離心率
@@ -147,13 +136,11 @@ void twoline2rv(char longstr1[130], char longstr2[130], char typerun,
   } else  // simply run -1 day to +1 day or user input times
   {
     if (longstr2[52] == ' ')
-      sscanf(longstr2, "%2d %5ld %9lf %9lf %8lf %9lf %9lf %10lf %6ld \n",
-             &cardnumb, &satrec.satnum, &satrec.inclo, &satrec.nodeo,
-             &satrec.ecco, &satrec.argpo, &satrec.mo, &satrec.no, &revnum);
+      sscanf(longstr2, "%2d %5ld %9lf %9lf %8lf %9lf %9lf %10lf %6ld \n", &cardnumb, &satrec.satnum, &satrec.inclo, &satrec.nodeo, &satrec.ecco,
+             &satrec.argpo, &satrec.mo, &satrec.no, &revnum);
     else
-      sscanf(longstr2, "%2d %5ld %9lf %9lf %8lf %9lf %9lf %11lf %6ld \n",
-             &cardnumb, &satrec.satnum, &satrec.inclo, &satrec.nodeo,
-             &satrec.ecco, &satrec.argpo, &satrec.mo, &satrec.no, &revnum);
+      sscanf(longstr2, "%2d %5ld %9lf %9lf %8lf %9lf %9lf %11lf %6ld \n", &cardnumb, &satrec.satnum, &satrec.inclo, &satrec.nodeo, &satrec.ecco,
+             &satrec.argpo, &satrec.mo, &satrec.no, &revnum);
   }
 
   // ---- find no, ndot, nddot ----
@@ -198,14 +185,12 @@ void twoline2rv(char longstr1[130], char longstr2[130], char typerun,
       printf("input start prop year mon day hr min sec \n");
       // make sure there is no space at the end of the format specifiers in
       // scanf!
-      scanf("%i %i %i %i %i %lf", &startyear, &startmon, &startday, &starthr,
-            &startmin, &startsec);
+      scanf("%i %i %i %i %i %lf", &startyear, &startmon, &startday, &starthr, &startmin, &startsec);
       fflush(stdin);
       jday(startyear, startmon, startday, starthr, startmin, startsec, jdstart);
 
       printf("input stop prop year mon day hr min sec \n");
-      scanf("%i %i %i %i %i %lf", &stopyear, &stopmon, &stopday, &stophr,
-            &stopmin, &stopsec);
+      scanf("%i %i %i %i %i %lf", &stopyear, &stopmon, &stopday, &stophr, &stopmin, &stopsec);
       fflush(stdin);
       jday(stopyear, stopmon, stopday, stophr, stopmin, stopsec, jdstop);
 
@@ -252,7 +237,6 @@ void twoline2rv(char longstr1[130], char longstr2[130], char typerun,
   }
 
   // ---------------- initialize the orbit at sgp4epoch -------------------
-  sgp4init(whichconst, satrec.satnum, satrec.jdsatepoch - 2433281.5,
-           satrec.bstar, satrec.ecco, satrec.argpo, satrec.inclo, satrec.mo,
-           satrec.no, satrec.nodeo, satrec);
+  sgp4init(whichconst, satrec.satnum, satrec.jdsatepoch - 2433281.5, satrec.bstar, satrec.ecco, satrec.argpo, satrec.inclo, satrec.mo, satrec.no,
+           satrec.nodeo, satrec);
 }  // end twoline2rv

@@ -16,12 +16,9 @@ class CsvScenarioInterface {
   static double GetPowerConsumption(const double time_query);
 
  private:
-  static std::vector<std::vector<double>> ReadCsvData(
-      const std::string filename, const std::size_t ignore_line_num = 0);
-  static void StoreBuffer(const std::string buffer_name,
-                          const std::vector<std::vector<double>>& data);
-  static double GetValueFromBuffer(const std::string buffer_name,
-                                   const double time_query);
+  static std::vector<std::vector<double>> ReadCsvData(const std::string filename, const std::size_t ignore_line_num = 0);
+  static void StoreBuffer(const std::string buffer_name, const std::vector<std::vector<double>>& data);
+  static double GetValueFromBuffer(const std::string buffer_name, const double time_query);
 
   static bool is_csv_senario_enabled_;
   static std::map<std::string, unsigned int> buffer_line_id_;

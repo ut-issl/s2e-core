@@ -12,8 +12,7 @@ using namespace std;
 #define ASEC2RAD DEG2RAD / 3600.0
 
 // default constructor
-CelestialRotation::CelestialRotation(const RotationMode rotation_mode,
-                                     const string center_obj) {
+CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const string center_obj) {
   planet_name_ = "Anonymous";
   rotation_mode_ = Idle;
   unitalize(DCM_J2000toXCXF_);
@@ -24,8 +23,7 @@ CelestialRotation::CelestialRotation(const RotationMode rotation_mode,
 };
 
 // initialize the class CelestialRotation instance as Earth
-void CelestialRotation::Init_CelestialRotation_As_Earth(
-    const RotationMode rotation_mode, const string center_obj) {
+void CelestialRotation::Init_CelestialRotation_As_Earth(const RotationMode rotation_mode, const string center_obj) {
   planet_name_ = "EARTH";
   if (center_obj == planet_name_) {
     if (rotation_mode == Simple) {
@@ -140,15 +138,11 @@ void CelestialRotation::Init_CelestialRotation_As_Earth(
 }
 
 void CelestialRotation::Update(const double JulianDate) {
-  double gmst_rad = gstime(
-      JulianDate);  //長沢のアルゴリズムと微妙に違う…？，他と合わせた方が良いので，暫定このままで行く．
+  double gmst_rad = gstime(JulianDate);  //長沢のアルゴリズムと微妙に違う…？，他と合わせた方が良いので，暫定このままで行く．
 
   if (rotation_mode_ == Full) {
     // compute Julian date for terestrial time
-    double jdTT_day =
-        JulianDate +
-        dtUT1UTC_ *
-            kSec2Day;  // 不正確かも(?)だが，S2E内部でグレゴリオ暦の伝播はしていないので，これで済ませる
+    double jdTT_day = JulianDate + dtUT1UTC_ * kSec2Day;  // 不正確かも(?)だが，S2E内部でグレゴリオ暦の伝播はしていないので，これで済ませる
 
     // compute nth power of julian century for terrestrial time
     // the actual unit of tTT_century is [century^(i+1)], i is the index of the
@@ -169,11 +163,8 @@ void CelestialRotation::Update(const double JulianDate) {
                                 // updated in this proccedure
 
     // Axial Rotation
-    double Eq_rad =
-        dpsi_rad_ *
-        cos(epsi_rad_ + depsilon_rad_);  // equation of equinoxes [rad]
-    double gast_rad =
-        gmst_rad + Eq_rad;  // Greenwitch 'Appearent' Sidereal Time [rad]
+    double Eq_rad = dpsi_rad_ * cos(epsi_rad_ + depsilon_rad_);  // equation of equinoxes [rad]
+    double gast_rad = gmst_rad + Eq_rad;                         // Greenwitch 'Appearent' Sidereal Time [rad]
     R = AxialRotation(gast_rad);
     // polar motion (isnot considered so far, even without polar motion, the
     // result agrees well with the matlab reference)
@@ -193,9 +184,7 @@ void CelestialRotation::Update(const double JulianDate) {
   }
 }
 
-Matrix<3, 3> CelestialRotation::AxialRotation(const double GAST_rad) {
-  return libra::rotz(GAST_rad);
-}
+Matrix<3, 3> CelestialRotation::AxialRotation(const double GAST_rad) { return libra::rotz(GAST_rad); }
 
 Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) {
   // mean obliquity of the ecliptic
@@ -237,25 +226,16 @@ Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) {
 
   // compute luni-solar nutation
   // nutation in obliquity
-  dpsi_rad_ = c_dpsi_rad_[0] * sin(O_rad) + c_dpsi_rad_[1] * sin(2 * Ld_rad) +
-              c_dpsi_rad_[2] * sin(2 * O_rad) +
-              c_dpsi_rad_[3] * sin(2 * L_rad) +
+  dpsi_rad_ = c_dpsi_rad_[0] * sin(O_rad) + c_dpsi_rad_[1] * sin(2 * Ld_rad) + c_dpsi_rad_[2] * sin(2 * O_rad) + c_dpsi_rad_[3] * sin(2 * L_rad) +
               c_dpsi_rad_[4] * sin(ls_rad);  // [rad]
-  dpsi_rad_ = dpsi_rad_ + c_dpsi_rad_[5] * sin(lm_rad) +
-              c_dpsi_rad_[6] * sin(2 * Ld_rad + ls_rad) +
-              c_dpsi_rad_[7] * sin(2 * L_rad + lm_rad) +
+  dpsi_rad_ = dpsi_rad_ + c_dpsi_rad_[5] * sin(lm_rad) + c_dpsi_rad_[6] * sin(2 * Ld_rad + ls_rad) + c_dpsi_rad_[7] * sin(2 * L_rad + lm_rad) +
               c_dpsi_rad_[8] * sin(2 * Ld_rad - ls_rad);  // [rad]
 
   // nutation in longitude
-  depsilon_rad_ = c_depsilon_rad_[0] * cos(O_rad) +
-                  c_depsilon_rad_[1] * cos(2 * Ld_rad) +
-                  c_depsilon_rad_[2] * cos(2 * O_rad) +
-                  c_depsilon_rad_[3] * cos(2 * L_rad) +
-                  c_depsilon_rad_[4] * cos(ls_rad);  // [rad]
-  depsilon_rad_ = depsilon_rad_ + c_depsilon_rad_[5] * cos(lm_rad) +
-                  c_depsilon_rad_[6] * cos(2 * Ld_rad + ls_rad) +
-                  c_depsilon_rad_[7] * cos(2 * L_rad + lm_rad) +
-                  c_depsilon_rad_[8] * cos(2 * Ld_rad - ls_rad);  // [rad]
+  depsilon_rad_ = c_depsilon_rad_[0] * cos(O_rad) + c_depsilon_rad_[1] * cos(2 * Ld_rad) + c_depsilon_rad_[2] * cos(2 * O_rad) +
+                  c_depsilon_rad_[3] * cos(2 * L_rad) + c_depsilon_rad_[4] * cos(ls_rad);  // [rad]
+  depsilon_rad_ = depsilon_rad_ + c_depsilon_rad_[5] * cos(lm_rad) + c_depsilon_rad_[6] * cos(2 * Ld_rad + ls_rad) +
+                  c_depsilon_rad_[7] * cos(2 * L_rad + lm_rad) + c_depsilon_rad_[8] * cos(2 * Ld_rad - ls_rad);  // [rad]
 
   double epsi_mod_rad = epsi_rad_ + depsilon_rad_;
   Matrix<3, 3> X_epsi_1st = libra::rotx(epsi_rad_);

@@ -43,8 +43,7 @@ void SampleCase::Main() {
     sample_sat_->Update(&(glo_env_->GetSimTime()));
     // Debug output
     if (glo_env_->GetSimTime().GetState().disp_output) {
-      cout << "Progresss: " << glo_env_->GetSimTime().GetProgressionRate()
-           << "%\r";
+      cout << "Progresss: " << glo_env_->GetSimTime().GetProgressionRate() << "%\r";
     }
   }
 }
