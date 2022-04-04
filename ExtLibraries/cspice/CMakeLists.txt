@@ -11,7 +11,7 @@ set(GENERIC_KERNEL_URL_BASE https://naif.jpl.nasa.gov/pub/naif/generic_kernels)
 if(WIN32)
   set(CSPICE_URL http://naif.jpl.nasa.gov/pub/naif/toolkit/C/PC_Windows_VisualC_32bit/packages/cspice.zip)
   set(CSPICE_SHA256 "bc566e6a975c888fc5fd89d76554329501446bda88c8bab937c0725faead170f")
-  set(CSPICE_BUILD_COMMAND cd src/cspice COMMAND mkprodct.bat)
+  set(CSPICE_BUILD_COMMAND "")
 else()
   # Linux
   set(CSPICE_URL https://naif.jpl.nasa.gov/pub/naif/toolkit/C/PC_Linux_GCC_32bit/packages/cspice.tar.Z)
