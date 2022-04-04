@@ -52,8 +52,6 @@ jobs:
         uses: actions/cache@v3
         with:
           key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}
-          restore-keys: |
-            extlib-${{ runner.os }}-
           path: ./ExtLibraries
 
       - name: build extlib
@@ -108,8 +106,6 @@ jobs:
         uses: actions/cache@v3
         with:
           key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}
-          restore-keys: |
-            extlib-${{ runner.os }}-
           path: ExtLibraries
 
       - name: build extlib
