@@ -73,7 +73,7 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           ls cspice
-          ls cspice/cspice_msvs
+          ls cspice/cspice_msvs/lib
           ls cspice/include
           ls cspice/generic_kernels
           ls nrlmsise00
