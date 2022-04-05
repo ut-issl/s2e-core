@@ -18,9 +18,6 @@ using libra::Vector;
 #include <Library/sgp4/sgp4io.h>
 #include <Library/sgp4/sgp4unit.h>
 
-//#define PIO2		1.57079632679489656		/* Pi/2 */
-//#define TWOPI		6.28318530717958623		/* 2*Pi  */
-#define DEG2RAD 0.017453292519943295769  // PI/180
 #define OmegaEarth \
   7.29211514670698e-05  // Earth Rotational rate (not considering
                         // Nutation/Precession)

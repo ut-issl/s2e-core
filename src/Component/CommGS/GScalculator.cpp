@@ -10,8 +10,6 @@
 #include <Library/math/Constant.hpp>
 #include <Environment/Global/PhysicalConstants.hpp>
 
-#define DEG2RAD 0.017453292519943295769  // PI/180
-
 GScalculator::GScalculator(double loss_polarization, double loss_atmosphere, double loss_rainfall, double loss_others, double EbN0,
                            double hardware_deterioration, double coding_gain, double margin_req)
     : loss_polarization_(loss_polarization),
@@ -46,8 +44,8 @@ bool GScalculator::IsVisible(const Dynamics& dynamics, const GroundStation& grou
   Matrix<3, 3> DCM_ecei_ecef = dynamics.GetOrbit().GetTransECItoECEF();
   Vector<3> gs_pos_ecef = DCM_ecei_ecef * gs_pos_i;
 
-  double lat = groundstation.latitude_ * DEG2RAD;   //[rad]
-  double lon = groundstation.longitude_ * DEG2RAD;  //[rad]
+  double lat = groundstation.latitude_ * libra::deg_to_rad;   //[rad]
+  double lon = groundstation.longitude_ * libra::deg_to_rad;  //[rad]
 
   Matrix<3, 3> trans_mat;  // 地上局におけるECEF2LTC変換行列の回転部分
   trans_mat[0][0] = -sin(lon);
@@ -67,9 +65,9 @@ bool GScalculator::IsVisible(const Dynamics& dynamics, const GroundStation& grou
   dir_GS_to_zenith[2] = 1;
 
   // 地上局の最低可視仰角をクリアしているかを判定
-  if (dot(sc_pos_ltc, dir_GS_to_zenith) > norm(sc_pos_ltc) * sin(groundstation.elevation_angle_ * DEG2RAD)) {
+  if (dot(sc_pos_ltc, dir_GS_to_zenith) > norm(sc_pos_ltc) * sin(groundstation.elevation_angle_ * libra::deg_to_rad)) {
     // std::cout << std::asin(dot(sc_pos_ltc, dir_GS_to_zenith) /
-    // norm(sc_pos_ltc)) / DEG2RAD << std::endl;
+    // norm(sc_pos_ltc)) / libra::deg_to_rad << std::endl;
     return true;
   } else {
     return false;

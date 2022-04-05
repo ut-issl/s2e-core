@@ -134,7 +134,7 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_
     }
 
     double inner2 = inner_product(antenna_direction_i, ant2gnss_i_n);
-    if (inner2 > cos(half_width_ * DEG2RAD) && is_visible_ant2gnss) {
+    if (inner2 > cos(half_width_ * libra::deg_to_rad) && is_visible_ant2gnss) {
       // is visible
       gnss_sats_visible_num_++;
       SetGnssInfo(ant2gnss_i, q_i2b, id_tmp);

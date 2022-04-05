@@ -2,14 +2,12 @@
 
 #include <Library/sgp4/sgp4ext.h>   //for jday()
 #include <Library/sgp4/sgp4unit.h>  //for gstime()
+#include <Library/math/Constant.hpp>
 
 #include <iostream>
 #include <sstream>
 
 using namespace std;
-
-#define DEG2RAD 0.017453292519943295769  // PI/180
-#define ASEC2RAD DEG2RAD / 3600.0
 
 // default constructor
 CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const string center_obj) {
@@ -38,91 +36,91 @@ void CelestialRotation::Init_CelestialRotation_As_Earth(const RotationMode rotat
       // coefficients for computing mean obliquity of the ecliptic
       // the actual unit of c_epsi_rad_ is [rad/century^i], i is the index of
       // the array
-      c_epsi_rad_[0] = 23.4392911 * DEG2RAD;    // [rad]
-      c_epsi_rad_[1] = -46.8150000 * ASEC2RAD;  // [rad/century]
-      c_epsi_rad_[2] = -5.9000e-4 * ASEC2RAD;   // [rad/century^2]
-      c_epsi_rad_[3] = 1.8130e-3 * ASEC2RAD;    // [rad/century^3]
+      c_epsi_rad_[0] = 23.4392911 * libra::deg_to_rad;      // [rad]
+      c_epsi_rad_[1] = -46.8150000 * libra::arcsec_to_rad;  // [rad/century]
+      c_epsi_rad_[2] = -5.9000e-4 * libra::arcsec_to_rad;   // [rad/century^2]
+      c_epsi_rad_[3] = 1.8130e-3 * libra::arcsec_to_rad;    // [rad/century^3]
 
       // coefficients for computing five delauney angles(l=lm,l'=ls,F,D,Ω=O)
       // lm means mean anomaly of the moon
       // the actual unit of c_lm_rad_ is [rad/century^i], i is the index of the
       // array
-      c_lm_rad_[0] = 134.96340251 * DEG2RAD;          // [rad]
-      c_lm_rad_[1] = 1717915923.21780000 * ASEC2RAD;  // [rad/century]
-      c_lm_rad_[2] = 31.87920000 * ASEC2RAD;          // [rad/century^2]
-      c_lm_rad_[3] = 0.05163500 * ASEC2RAD;           // [rad/century^3]
-      c_lm_rad_[4] = -0.00024470 * ASEC2RAD;          // [rad/century^4]
+      c_lm_rad_[0] = 134.96340251 * libra::deg_to_rad;            // [rad]
+      c_lm_rad_[1] = 1717915923.21780000 * libra::arcsec_to_rad;  // [rad/century]
+      c_lm_rad_[2] = 31.87920000 * libra::arcsec_to_rad;          // [rad/century^2]
+      c_lm_rad_[3] = 0.05163500 * libra::arcsec_to_rad;           // [rad/century^3]
+      c_lm_rad_[4] = -0.00024470 * libra::arcsec_to_rad;          // [rad/century^4]
       // ls means mean anomaly of the sun
       // the actual unit of c_ls_rad_ is [rad/century^i], i is the index of the
       // array
-      c_ls_rad_[0] = 357.52910918 * DEG2RAD;         // [rad]
-      c_ls_rad_[1] = 129596581.04810000 * ASEC2RAD;  // [rad/century]
-      c_ls_rad_[2] = -0.55320000 * ASEC2RAD;         // [rad/century^2]
-      c_ls_rad_[3] = 0.00013600 * ASEC2RAD;          // [rad/century^3]
-      c_ls_rad_[4] = -0.00001149 * ASEC2RAD;         // [rad/century^4]
+      c_ls_rad_[0] = 357.52910918 * libra::deg_to_rad;           // [rad]
+      c_ls_rad_[1] = 129596581.04810000 * libra::arcsec_to_rad;  // [rad/century]
+      c_ls_rad_[2] = -0.55320000 * libra::arcsec_to_rad;         // [rad/century^2]
+      c_ls_rad_[3] = 0.00013600 * libra::arcsec_to_rad;          // [rad/century^3]
+      c_ls_rad_[4] = -0.00001149 * libra::arcsec_to_rad;         // [rad/century^4]
       // F means mean longitude of the moon - mean longitude of ascending node
       // of the moon the actual unit of c_F_rad_ is [rad/century^i], i is the
       // index of the array
-      c_F_rad_[0] = 93.27209062 * DEG2RAD;           // [rad]
-      c_F_rad_[1] = 1739527262.84780000 * ASEC2RAD;  // [rad/century]
-      c_F_rad_[2] = -12.75120000 * ASEC2RAD;         // [rad/century^2]
-      c_F_rad_[3] = -0.00103700 * ASEC2RAD;          // [rad/century^3]
-      c_F_rad_[4] = 0.00000417 * ASEC2RAD;           // [rad/century^4]
+      c_F_rad_[0] = 93.27209062 * libra::deg_to_rad;             // [rad]
+      c_F_rad_[1] = 1739527262.84780000 * libra::arcsec_to_rad;  // [rad/century]
+      c_F_rad_[2] = -12.75120000 * libra::arcsec_to_rad;         // [rad/century^2]
+      c_F_rad_[3] = -0.00103700 * libra::arcsec_to_rad;          // [rad/century^3]
+      c_F_rad_[4] = 0.00000417 * libra::arcsec_to_rad;           // [rad/century^4]
       // D means mean elogation of the moon from the sun
       // the actual unit of c_D_rad_ is [rad/century^i], i is the index of the
       // array
-      c_D_rad_[0] = 297.85019547 * DEG2RAD;          // [rad]
-      c_D_rad_[1] = 1602961601.20900000 * ASEC2RAD;  // [rad/century]
-      c_D_rad_[2] = -6.37060000 * ASEC2RAD;          // [rad/century^2]
-      c_D_rad_[3] = 0.00659300 * ASEC2RAD;           // [rad/century^3]
-      c_D_rad_[4] = -0.00003169 * ASEC2RAD;          // [rad/century^4]
+      c_D_rad_[0] = 297.85019547 * libra::deg_to_rad;            // [rad]
+      c_D_rad_[1] = 1602961601.20900000 * libra::arcsec_to_rad;  // [rad/century]
+      c_D_rad_[2] = -6.37060000 * libra::arcsec_to_rad;          // [rad/century^2]
+      c_D_rad_[3] = 0.00659300 * libra::arcsec_to_rad;           // [rad/century^3]
+      c_D_rad_[4] = -0.00003169 * libra::arcsec_to_rad;          // [rad/century^4]
       // O means mean longitude of ascending node of the moon
       // the actual unit of c_O_rad_ is [rad/century^i], i is the index of the
       // array
-      c_O_rad_[0] = 125.04455501 * DEG2RAD;        // [rad]
-      c_O_rad_[1] = -6962890.54310000 * ASEC2RAD;  // [rad/century]
-      c_O_rad_[2] = 7.47220000 * ASEC2RAD;         // [rad/century^2]
-      c_O_rad_[3] = 0.00770200 * ASEC2RAD;         // [rad/century^3]
-      c_O_rad_[4] = -0.00005939 * ASEC2RAD;        // [rad/century^4]
+      c_O_rad_[0] = 125.04455501 * libra::deg_to_rad;          // [rad]
+      c_O_rad_[1] = -6962890.54310000 * libra::arcsec_to_rad;  // [rad/century]
+      c_O_rad_[2] = 7.47220000 * libra::arcsec_to_rad;         // [rad/century^2]
+      c_O_rad_[3] = 0.00770200 * libra::arcsec_to_rad;         // [rad/century^3]
+      c_O_rad_[4] = -0.00005939 * libra::arcsec_to_rad;        // [rad/century^4]
 
       // coefficients for computing nutation angles
       // delta epsilon
-      c_depsilon_rad_[0] = 9.2050 * ASEC2RAD;   // [rad]
-      c_depsilon_rad_[1] = 0.5730 * ASEC2RAD;   // [rad]
-      c_depsilon_rad_[2] = -0.0900 * ASEC2RAD;  // [rad]
-      c_depsilon_rad_[3] = 0.0980 * ASEC2RAD;   // [rad]
-      c_depsilon_rad_[4] = 0.0070 * ASEC2RAD;   // [rad]
-      c_depsilon_rad_[5] = -0.0010 * ASEC2RAD;  // [rad]
-      c_depsilon_rad_[6] = 0.0220 * ASEC2RAD;   // [rad]
-      c_depsilon_rad_[7] = 0.0130 * ASEC2RAD;   // [rad]
-      c_depsilon_rad_[8] = -0.0100 * ASEC2RAD;  // [rad]
+      c_depsilon_rad_[0] = 9.2050 * libra::arcsec_to_rad;   // [rad]
+      c_depsilon_rad_[1] = 0.5730 * libra::arcsec_to_rad;   // [rad]
+      c_depsilon_rad_[2] = -0.0900 * libra::arcsec_to_rad;  // [rad]
+      c_depsilon_rad_[3] = 0.0980 * libra::arcsec_to_rad;   // [rad]
+      c_depsilon_rad_[4] = 0.0070 * libra::arcsec_to_rad;   // [rad]
+      c_depsilon_rad_[5] = -0.0010 * libra::arcsec_to_rad;  // [rad]
+      c_depsilon_rad_[6] = 0.0220 * libra::arcsec_to_rad;   // [rad]
+      c_depsilon_rad_[7] = 0.0130 * libra::arcsec_to_rad;   // [rad]
+      c_depsilon_rad_[8] = -0.0100 * libra::arcsec_to_rad;  // [rad]
       // delta psi
-      c_dpsi_rad_[0] = -17.2060 * ASEC2RAD;  // [rad]
-      c_dpsi_rad_[1] = -1.3170 * ASEC2RAD;   // [rad]
-      c_dpsi_rad_[2] = 0.2070 * ASEC2RAD;    // [rad]
-      c_dpsi_rad_[3] = -0.2280 * ASEC2RAD;   // [rad]
-      c_dpsi_rad_[4] = 0.1480 * ASEC2RAD;    // [rad]
-      c_dpsi_rad_[5] = 0.0710 * ASEC2RAD;    // [rad]
-      c_dpsi_rad_[6] = -0.0520 * ASEC2RAD;   // [rad]
-      c_dpsi_rad_[7] = -0.0300 * ASEC2RAD;   // [rad]
-      c_dpsi_rad_[8] = 0.0220 * ASEC2RAD;    // [rad]
+      c_dpsi_rad_[0] = -17.2060 * libra::arcsec_to_rad;  // [rad]
+      c_dpsi_rad_[1] = -1.3170 * libra::arcsec_to_rad;   // [rad]
+      c_dpsi_rad_[2] = 0.2070 * libra::arcsec_to_rad;    // [rad]
+      c_dpsi_rad_[3] = -0.2280 * libra::arcsec_to_rad;   // [rad]
+      c_dpsi_rad_[4] = 0.1480 * libra::arcsec_to_rad;    // [rad]
+      c_dpsi_rad_[5] = 0.0710 * libra::arcsec_to_rad;    // [rad]
+      c_dpsi_rad_[6] = -0.0520 * libra::arcsec_to_rad;   // [rad]
+      c_dpsi_rad_[7] = -0.0300 * libra::arcsec_to_rad;   // [rad]
+      c_dpsi_rad_[8] = 0.0220 * libra::arcsec_to_rad;    // [rad]
 
       // coefficients for computing precession angles(zeta, theta, z)
       // the actual unit of c_zeta_rad_ is [rad/century^(i+1)], i is the index
       // of the array
-      c_zeta_rad_[0] = 2306.218100 * ASEC2RAD;  // [rad/century]
-      c_zeta_rad_[1] = 0.301880 * ASEC2RAD;     // [rad/century^2]
-      c_zeta_rad_[2] = 0.017998 * ASEC2RAD;     // [rad/century^3]
+      c_zeta_rad_[0] = 2306.218100 * libra::arcsec_to_rad;  // [rad/century]
+      c_zeta_rad_[1] = 0.301880 * libra::arcsec_to_rad;     // [rad/century^2]
+      c_zeta_rad_[2] = 0.017998 * libra::arcsec_to_rad;     // [rad/century^3]
       // the actual unit of c_theta_rad_ is [rad/century^(i+1)], i is the index
       // of the array
-      c_theta_rad_[0] = 2004.310900 * ASEC2RAD;  // [rad/century]
-      c_theta_rad_[1] = -0.426650 * ASEC2RAD;    // [rad/century^2]
-      c_theta_rad_[2] = -0.041833 * ASEC2RAD;    // [rad/century^3]
+      c_theta_rad_[0] = 2004.310900 * libra::arcsec_to_rad;  // [rad/century]
+      c_theta_rad_[1] = -0.426650 * libra::arcsec_to_rad;    // [rad/century^2]
+      c_theta_rad_[2] = -0.041833 * libra::arcsec_to_rad;    // [rad/century^3]
       // the actual unit of c_z_rad_ is [rad/century^(i+1)], i is the index of
       // the array
-      c_z_rad_[0] = 2306.218100 * ASEC2RAD;  // [rad/century]
-      c_z_rad_[1] = 1.094680 * ASEC2RAD;     // [rad/century^2]
-      c_z_rad_[2] = 0.018203 * ASEC2RAD;     // [rad/century^3]
+      c_z_rad_[0] = 2306.218100 * libra::arcsec_to_rad;  // [rad/century]
+      c_z_rad_[1] = 1.094680 * libra::arcsec_to_rad;     // [rad/century^2]
+      c_z_rad_[2] = 0.018203 * libra::arcsec_to_rad;     // [rad/century^3]
     } else {
       // if the rotation mode is neither Simple nor Full, disable the rotation
       // calculation and make the DCM a unit matrix
