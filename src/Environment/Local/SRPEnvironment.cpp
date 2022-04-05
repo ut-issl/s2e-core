@@ -14,8 +14,8 @@ using libra::Vector;
 using namespace std;
 
 SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info) : local_celes_info_(local_celes_info) {
-  solar_constant_ = 1366.0;  // TODO: move to constant[W/m2]
-  pressure_ = solar_constant_ / libra::speed_of_light_m_s; //[N/m2]
+  solar_constant_ = 1366.0;  // [W/m2]
+  pressure_ = solar_constant_ / libra::speed_of_light_m_s; // [N/m2]
   shadow_source_name_ = local_celes_info_->GetGlobalInfo().GetCenterBodyName();
   sun_radius_m_ = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName("SUN");
 }
