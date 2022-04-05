@@ -60,6 +60,8 @@ double testglobal[3];
 /*   Basic Routines   */
 /*--------------------*/
 
+// TODO: Consider how to fix the following constant values in this library copied from outside
+
 #define MxOD 19
 #define URAD (180. / 3.14159265359)
 
