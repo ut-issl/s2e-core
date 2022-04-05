@@ -2,10 +2,10 @@
 
 #include <Interface/LogOutput/LogUtility.h>
 #include <Library/math/GlobalRand.h>
+
+#include <Environment/Global/PhysicalConstants.hpp>
 #include <Library/math/Constant.hpp>
 #include <Library/math/Matrix.hpp>
-#include <Environment/Global/PhysicalConstants.hpp>
-
 #include <string>
 
 using namespace std;

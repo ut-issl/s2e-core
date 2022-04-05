@@ -3,9 +3,9 @@
 #include <Interface/LogOutput/LogUtility.h>
 #include <Library/sgp4/sgp4ext.h>   //for jday()
 #include <Library/sgp4/sgp4unit.h>  //for gstime()
-#include <Library/math/Constant.hpp>
-#include <Environment/Global/PhysicalConstants.hpp>
 
+#include <Environment/Global/PhysicalConstants.hpp>
+#include <Library/math/Constant.hpp>
 #include <algorithm>
 #include <iostream>
 #include <sstream>
@@ -614,7 +614,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
 
         int sat_id = GetIndexFromID(s.at(1));
         double clock_bias = stod(s.at(9)) * libra::speed_of_light_m_s;  // [s] -> [m]
-        if (start_unix_time - unix_time > 1e-4) continue;        // for the numerical error
+        if (start_unix_time - unix_time > 1e-4) continue;               // for the numerical error
         if (end_unix_time - unix_time < 1e-4) break;
         if (!unixtime_vector_.at(sat_id).empty() && std::abs(unix_time - unixtime_vector_.at(sat_id).back()) < 1e-4) {  // for the numerical error
           unixtime_vector_.at(sat_id).back() = unix_time;

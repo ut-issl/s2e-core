@@ -1,11 +1,11 @@
 #include "GGDist.h"
 
+#include <Environment/Global/PhysicalConstants.hpp>
 #include <cmath>
 #include <fstream>
 #include <iostream>
 
 #include "../Interface/LogOutput/LogUtility.h"
-#include <Environment/Global/PhysicalConstants.hpp>
 
 using namespace std;
 

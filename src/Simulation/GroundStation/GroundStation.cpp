@@ -2,8 +2,8 @@
 
 #include <Interface/LogOutput/LogUtility.h>
 #include <Interface/LogOutput/Logger.h>
-#include <Environment/Global/PhysicalConstants.hpp>
 
+#include <Environment/Global/PhysicalConstants.hpp>
 #include <cmath>
 #include <string>
 

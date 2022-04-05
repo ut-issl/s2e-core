@@ -2,8 +2,8 @@
 
 #include <Library/sgp4/sgp4ext.h>   //for jday()
 #include <Library/sgp4/sgp4unit.h>  //for gstime()
-#include <Library/math/Constant.hpp>
 
+#include <Library/math/Constant.hpp>
 #include <iostream>
 #include <sstream>
 

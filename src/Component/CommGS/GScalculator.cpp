@@ -7,8 +7,8 @@
 
 #include "GScalculator.h"
 
-#include <Library/math/Constant.hpp>
 #include <Environment/Global/PhysicalConstants.hpp>
+#include <Library/math/Constant.hpp>
 
 GScalculator::GScalculator(double loss_polarization, double loss_atmosphere, double loss_rainfall, double loss_others, double EbN0,
                            double hardware_deterioration, double coding_gain, double margin_req)

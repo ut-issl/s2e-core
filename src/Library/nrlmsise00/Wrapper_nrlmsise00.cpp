@@ -8,8 +8,8 @@ extern "C" {
 }
 #include <stdlib.h> /* for malloc/free */
 
-#include <Library/math/Constant.hpp>
 #include <Environment/Global/PhysicalConstants.hpp>
+#include <Library/math/Constant.hpp>
 #include <algorithm>
 #include <cctype>
 #include <cmath> /* maths functions */

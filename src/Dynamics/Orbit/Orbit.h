@@ -12,6 +12,7 @@ using libra::Quaternion;
 using libra::Vector;
 
 #include <Interface/LogOutput/ILoggable.h>
+
 #include <Environment/Global/PhysicalConstants.hpp>
 
 // For ECI to GEO calculation

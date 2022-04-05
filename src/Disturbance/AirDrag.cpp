@@ -1,7 +1,7 @@
 #include "AirDrag.h"
 
-#include <Library/math/Constant.hpp>
 #include <Environment/Global/PhysicalConstants.hpp>
+#include <Library/math/Constant.hpp>
 #include <cmath>
 #include <iostream>
 
