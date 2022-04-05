@@ -1,6 +1,7 @@
 #include "Node.h"
 
 #include <cmath>
+#include <Environment/Global/PhysicalConstants.hpp>
 
 using namespace std;
 using namespace libra;
@@ -22,7 +23,7 @@ Node::Node(const int node_id, const string node_label, const int heater_node_id,
 Node::~Node() {}
 
 double Node::K2deg(double kelvin) const {
-  double temp = kelvin - 273;
+  double temp = kelvin + libra::absolute_zero_degC;
   return temp;
 }
 
@@ -52,6 +53,7 @@ void Node::SetInternalHeat(double heat_power) {
 }
 
 double Node::CalcSolarRadiation(Vector<3> sun_direction) {
+  // FIXME: constants
   double R = 6.96E+8;                              // Distance from sun
   double T = 5778;                                 // sun surface temperature [K]
   double sigma = 5.67E-8;                          // stephan-boltzman constant

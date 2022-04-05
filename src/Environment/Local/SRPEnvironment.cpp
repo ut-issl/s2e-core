@@ -4,6 +4,8 @@
 
 #include <Library/math/Constant.hpp>
 #include <Library/math/Vector.hpp>
+#include <Environment/Global/PhysicalConstants.hpp>
+
 #include <algorithm>
 #include <cassert>
 #include <fstream>
@@ -12,10 +14,8 @@ using libra::Vector;
 using namespace std;
 
 SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info) : local_celes_info_(local_celes_info) {
-  astronomical_unit_ = 149597870700.0;  //[m]
-  c_ = 299792458.0;                     //[m/s]
-  solar_constant_ = 1366.0;             //[W/m2]
-  pressure_ = solar_constant_ / c_;     //[N/m2]
+  solar_constant_ = 1366.0;  // TODO: move to constant[W/m2]
+  pressure_ = solar_constant_ / libra::speed_of_light_m_s; //[N/m2]
   shadow_source_name_ = local_celes_info_->GetGlobalInfo().GetCenterBodyName();
   sun_radius_m_ = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName("SUN");
 }
@@ -30,12 +30,12 @@ void SRPEnvironment::UpdateAllStates() {
 void SRPEnvironment::UpdatePressure() {
   const Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
   const double distance_sat_to_sun = norm(r_sc2sun_eci);
-  pressure_ = solar_constant_ / c_ / pow(distance_sat_to_sun / astronomical_unit_, 2.0);
+  pressure_ = solar_constant_ / libra::speed_of_light_m_s / pow(distance_sat_to_sun / libra::astronomical_unit_m, 2.0);
 }
 
 double SRPEnvironment::CalcTruePressure() const { return pressure_ * shadow_coefficient_; }
 
-double SRPEnvironment::CalcPowerDensity() const { return pressure_ * c_ * shadow_coefficient_; }
+double SRPEnvironment::CalcPowerDensity() const { return pressure_ * libra::speed_of_light_m_s * shadow_coefficient_; }
 
 double SRPEnvironment::GetPressure() const { return pressure_; }
 

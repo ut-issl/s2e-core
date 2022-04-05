@@ -2,14 +2,11 @@
 
 #include <Interface/LogOutput/LogUtility.h>
 #include <Library/math/GlobalRand.h>
-
 #include <Library/math/Constant.hpp>
 #include <Library/math/Matrix.hpp>
-#include <string>
+#include <Environment/Global/PhysicalConstants.hpp>
 
-#ifndef RE
-#define RE 6378136.30  // Earth radius [m]
-#endif
+#include <string>
 
 using namespace std;
 using namespace libra;
@@ -145,7 +142,7 @@ int STT::SunJudgement(const libra::Vector<3>& sun_b) {
 int STT::EarthJudgement(const libra::Vector<3>& earth_b) {
   Quaternion q_c2b = q_b2c_.conjugate();
   Vector<3> sight_b = q_c2b.frame_conv(sight_);
-  double earth_size_rad = atan2(RE,
+  double earth_size_rad = atan2(libra::earth_equatorial_radius_m,
                                 norm(earth_b));                           // angles between sat<->earth_center & sat<->earth_edge
   double earth_center_angle_rad = CalAngleVect_rad(earth_b, sight_b);     // angles between sat<->earth_center & sat_sight
   double earth_edge_angle_rad = earth_center_angle_rad - earth_size_rad;  // angles between sat<->earth_edge & sat_sight

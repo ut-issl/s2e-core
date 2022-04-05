@@ -1,6 +1,7 @@
 #include "GNSSReceiver.h"
 
 #include <Library/math/GlobalRand.h>
+#include <Environment/Global/PhysicalConstants.hpp>
 
 #include <string>
 
@@ -117,7 +118,7 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_
     ant2gnss_i_n = normalizer * ant2gnss_i;
 
     // check gnss sats are visible from antenna
-    double Re = 6378137.0;  // radius of earth [m]
+    double Re = libra::earth_equatorial_radius_m;
     double inner1 = inner_product(ant_pos_i, gnss_sat_pos_i);
     int is_visible_ant2gnss = 0;
     if (inner1 > 0)

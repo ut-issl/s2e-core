@@ -27,8 +27,6 @@ class SRPEnvironment : public ILoggable {
 
  private:
   double pressure_;                  // solar radiation constant [N/m^2]
-  double astronomical_unit_;         // 1AU [m]
-  double c_;                         // speed of light [m/s]
   double solar_constant_;            // solar constant [W/m^2]
   double shadow_coefficient_ = 1.0;  // shadow function
   double sun_radius_m_;

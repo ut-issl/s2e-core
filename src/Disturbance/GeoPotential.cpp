@@ -1,5 +1,6 @@
 #include "GeoPotential.h"
 
+#include <Environment/Global/PhysicalConstants.hpp>
 #include <chrono>
 #include <cmath>
 #include <fstream>
@@ -10,9 +11,6 @@
 //#define DEBUG_GEOPOTENTIAL
 
 using namespace std;
-
-#define RE 6378136.30                            // m
-#define MU (3.986004415 * std::pow(10.0, 14.0))  // m3/s2
 
 GeoPotential::GeoPotential(const int degree, const string file_path) : degree_(degree) {
   // Initialize
@@ -90,7 +88,7 @@ void GeoPotential::CalcAccelerationECEF(const Vector<3> &position_ecef) {
   vector<vector<double>> v(degree_vw + 1, vector<double>(degree_vw + 1, 0.0));
   vector<vector<double>> w(degree_vw + 1, vector<double>(degree_vw + 1, 0.0));
   // n=m=0
-  v[0][0] = RE / r;
+  v[0][0] = libra::earth_equatorial_radius_m / r;
   w[0][0] = 0.0;
   m = 0;
 
@@ -137,7 +135,7 @@ void GeoPotential::CalcAccelerationECEF(const Vector<3> &position_ecef) {
       acc_ecef_[2] += (n_d - m_d + 1.0) * (-c_[n][m] * v[n + 1][m] - s_[n][m] * w[n + 1][m]) * normalize_z;
     }
   }
-  acc_ecef_ *= MU / (RE * RE);
+  acc_ecef_ *= libra::earth_gravitational_constant_m3_s2 / (libra::earth_equatorial_radius_m * libra::earth_equatorial_radius_m);
 
   return;
 }
@@ -147,7 +145,7 @@ void GeoPotential::v_w_nn_update(double *v_nn, double *w_nn, const double v_prev
 
   double n_d = (double)n;
 
-  double tmp = RE / (r * r);
+  double tmp = libra::earth_equatorial_radius_m / (r * r);
   double x_tmp = x * tmp;
   double y_tmp = y * tmp;
   double c_normalize;
@@ -167,9 +165,9 @@ void GeoPotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_prev
   double m_d = (double)m;
   double n_d = (double)n;
 
-  double tmp = RE / (r * r);
+  double tmp = libra::earth_equatorial_radius_m / (r * r);
   double z_tmp = z * tmp;
-  double re_tmp = RE * tmp;
+  double re_tmp = libra::earth_equatorial_radius_m * tmp;
   double c1 = (2.0 * n_d - 1.0) / (n_d - m_d);
   double c2 = (n_d + m_d - 1.0) / (n_d - m_d);
   double c_normalize, c2_normalize;

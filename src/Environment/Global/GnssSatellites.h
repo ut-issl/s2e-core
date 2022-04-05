@@ -13,7 +13,6 @@
 
 #include "SimTime.h"
 
-extern const double speed_of_light;  //[m/s] in vacuum
 extern const double nan99;
 
 #define ECEF 0
