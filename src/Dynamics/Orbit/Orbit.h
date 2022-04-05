@@ -12,15 +12,12 @@ using libra::Quaternion;
 using libra::Vector;
 
 #include <Interface/LogOutput/ILoggable.h>
+#include <Environment/Global/PhysicalConstants.hpp>
 
 // For ECI to GEO calculation
 #include <Library/sgp4/sgp4ext.h>
 #include <Library/sgp4/sgp4io.h>
 #include <Library/sgp4/sgp4unit.h>
-
-#define OmegaEarth \
-  7.29211514670698e-05  // Earth Rotational rate (not considering
-                        // Nutation/Precession)
 
 class Orbit : public ILoggable {
  public:
@@ -93,7 +90,7 @@ class Orbit : public ILoggable {
 
     // convert velocity vector in ECI to the vector in ECEF
     Vector<3> OmegaE{0.0};
-    OmegaE[2] = OmegaEarth;
+    OmegaE[2] = libra::earth_mean_angular_velocity_rad_s;
     Vector<3> wExr = outer_product(OmegaE, sat_position_i_);
     Vector<3> V_wExr = sat_velocity_i_ - wExr;
     sat_velocity_ecef_ = trans_mat * V_wExr;

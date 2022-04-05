@@ -32,6 +32,7 @@ DEFINE_PHYSICAL_CONSTANT(gravitational_constant_Nm2_kg2, 6.67428e-11L);         
 DEFINE_PHYSICAL_CONSTANT(earth_equatorial_radius_m, 6378136.6L);                /* best estimates m */
 DEFINE_PHYSICAL_CONSTANT(earth_polar_radius_m, 6378136.6L);                     /* best estimates m */
 DEFINE_PHYSICAL_CONSTANT(earth_gravitational_constant_m3_s2, 3.986004415e14L);  /* best estimates, TT m3/s2 */
+DEFINE_PHYSICAL_CONSTANT(earth_mean_angular_velocity_rad_s, 7.292115e-5L);      /* best estimates, TT rad/s */
 
 
 #undef DEFINE_PHYSICAL_CONSTANT
