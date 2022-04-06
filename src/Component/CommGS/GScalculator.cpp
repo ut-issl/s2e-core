@@ -90,7 +90,7 @@ double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const ANT& sc_ant,
   double gs_boresight_angle = 0;  // 地上局アンテナは追尾を行うとして，最大ゲインを適用できると考える
 
   double CN0 = sc_ant.GetTxEIRP(sc_boresight_angle) + loss_space + loss_polarization_ + loss_atmosphere_ + loss_rainfall_ + loss_others_ +
-               gs_ant.GetRxGT(gs_boresight_angle) - 10 * log10(libra::boltzmann_constant_J_K);  //[dBHz]
+               gs_ant.GetRxGT(gs_boresight_angle) - 10 * log10(environment::boltzmann_constant_J_K);  //[dBHz]
 
   double margin_for_bitrate = CN0 - (EbN0_ + hardware_deterioration_ + coding_gain_) - margin_req_;  //[dB]
 

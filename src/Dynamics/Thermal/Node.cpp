@@ -23,7 +23,7 @@ Node::Node(const int node_id, const string node_label, const int heater_node_id,
 Node::~Node() {}
 
 double Node::K2deg(double kelvin) const {
-  double temp = kelvin + libra::absolute_zero_degC;
+  double temp = kelvin + environment::absolute_zero_degC;
   return temp;
 }
 

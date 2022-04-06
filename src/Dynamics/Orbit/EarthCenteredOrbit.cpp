@@ -53,7 +53,7 @@ void EarthCenteredOrbit::Propagate(double endtime, double current_jd) {
 
   // convert velocity vector in ECI to the vector in ECEF
   Vector<3> OmegaE{0.0};
-  OmegaE[2] = libra::earth_mean_angular_velocity_rad_s;
+  OmegaE[2] = environment::earth_mean_angular_velocity_rad_s;
   Vector<3> wExr = outer_product(OmegaE, sat_position_i_);
   Vector<3> V_wExr = sat_velocity_i_ - wExr;
   sat_velocity_ecef_ = trans_eci2ecef_ * V_wExr;

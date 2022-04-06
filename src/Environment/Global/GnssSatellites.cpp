@@ -557,7 +557,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
 
           // in the file, clock bias is expressed in [micro second], so by
           // multiplying by the speed_of_light & 1e-6, they are converted to [m]
-          clock *= (libra::speed_of_light_m_s * 1e-6);
+          clock *= (environment::speed_of_light_m_s * 1e-6);
           if (!unixtime_vector_.at(sat_id).empty() && std::abs(unix_time - unixtime_vector_.at(sat_id).back()) < 1.0) {
             unixtime_vector_.at(sat_id).back() = unix_time;
             gnss_sat_clock_table_.at(sat_id).back() = clock;
@@ -613,8 +613,8 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
         std::free(time_tm);
 
         int sat_id = GetIndexFromID(s.at(1));
-        double clock_bias = stod(s.at(9)) * libra::speed_of_light_m_s;  // [s] -> [m]
-        if (start_unix_time - unix_time > 1e-4) continue;               // for the numerical error
+        double clock_bias = stod(s.at(9)) * environment::speed_of_light_m_s;  // [s] -> [m]
+        if (start_unix_time - unix_time > 1e-4) continue;                     // for the numerical error
         if (end_unix_time - unix_time < 1e-4) break;
         if (!unixtime_vector_.at(sat_id).empty() && std::abs(unix_time - unixtime_vector_.at(sat_id).back()) < 1e-4) {  // for the numerical error
           unixtime_vector_.at(sat_id).back() = unix_time;
@@ -992,7 +992,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECEF(const int sat_id, libra
 
   // wavelength
   // frequency is thought to be given by MHz
-  double lambda = libra::speed_of_light_m_s * 1e-6 / frequency;
+  double lambda = environment::speed_of_light_m_s * 1e-6 / frequency;
   double cycle = res / lambda;
 
   double bias = floor(cycle);
@@ -1023,7 +1023,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECI(const int sat_id, libra:
 
   // wavelength
   // frequency is thought to be given by MHz
-  double lambda = libra::speed_of_light_m_s * 1e-6 / frequency;
+  double lambda = environment::speed_of_light_m_s * 1e-6 / frequency;
   double cycle = res / lambda;
 
   double bias = floor(cycle);

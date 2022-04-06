@@ -9,7 +9,7 @@
 
 using namespace std;
 
-GGDist::GGDist() : GGDist(libra::earth_gravitational_constant_m3_s2) {  //デフォルトコンストラクタ
+GGDist::GGDist() : GGDist(environment::earth_gravitational_constant_m3_s2) {  //デフォルトコンストラクタ
 }
 
 GGDist::GGDist(const double mu_e_input) {  //コンストラクタ
