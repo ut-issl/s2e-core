@@ -1,8 +1,7 @@
 #pragma once
-#include<cmath>
+#include <cmath>
 
-namespace libra
-{
+namespace libra {
 
 double WrapTo2Pi(const double angle);
 

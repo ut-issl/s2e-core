@@ -1,33 +1,29 @@
 #include "KeplerOrbitPropagation.h"
+
 #include "../../Library/math/s2e_math.hpp"
 
-KeplerOrbitPropagation::KeplerOrbitPropagation(
-  const double current_jd,
-  KeplerOrbit kepler_orbit,
-  const int wgs
-):KeplerOrbit(kepler_orbit)
-{
+KeplerOrbitPropagation::KeplerOrbitPropagation(const double current_jd, KeplerOrbit kepler_orbit, const int wgs) : KeplerOrbit(kepler_orbit) {
   // TODO whichconst周りを整理する
-  if (wgs == 0) { whichconst = wgs72old; }
-  else if (wgs == 1) { whichconst = wgs72; }
-  else if (wgs == 2) { whichconst = wgs84; }
+  if (wgs == 0) {
+    whichconst = wgs72old;
+  } else if (wgs == 1) {
+    whichconst = wgs72;
+  } else if (wgs == 2) {
+    whichconst = wgs84;
+  }
 
   UpdateState(current_jd);
 }
 
-KeplerOrbitPropagation::~KeplerOrbitPropagation()
-{
-}
+KeplerOrbitPropagation::~KeplerOrbitPropagation() {}
 
-void KeplerOrbitPropagation::Propagate(double endtime, double current_jd)
-{
+void KeplerOrbitPropagation::Propagate(double endtime, double current_jd) {
   if (!IsCalcEnabled) return;
 
   UpdateState(current_jd);
 }
 
-std::string KeplerOrbitPropagation::GetLogHeader() const
-{
+std::string KeplerOrbitPropagation::GetLogHeader() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector("sat_position", "i", "m", 3);
@@ -41,8 +37,7 @@ std::string KeplerOrbitPropagation::GetLogHeader() const
   return str_tmp;
 }
 
-std::string KeplerOrbitPropagation::GetLogValue() const
-{
+std::string KeplerOrbitPropagation::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector(sat_position_i_, 16);
@@ -57,8 +52,7 @@ std::string KeplerOrbitPropagation::GetLogValue() const
 }
 
 // Private Function
-void KeplerOrbitPropagation::UpdateState(const double current_jd)
-{
+void KeplerOrbitPropagation::UpdateState(const double current_jd) {
   CalcPosVel(current_jd);
   sat_position_i_ = position_i_m_;
   sat_velocity_i_ = velocity_i_m_s_;

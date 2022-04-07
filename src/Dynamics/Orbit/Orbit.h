@@ -17,9 +17,9 @@ using libra::Vector;
 #include <Environment/Global/PhysicalConstants.hpp>
 
 // For ECI to GEO calculation
-#include "../../Library/sgp4/sgp4ext.h"
-#include "../../Library/sgp4/sgp4io.h"
-#include "../../Library/sgp4/sgp4unit.h"
+#include <Library/sgp4/sgp4ext.h>
+#include <Library/sgp4/sgp4io.h>
+#include <Library/sgp4/sgp4unit.h>
 
 class Orbit : public ILoggable {
  public:

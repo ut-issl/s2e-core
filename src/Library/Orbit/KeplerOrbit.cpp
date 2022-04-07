@@ -1,25 +1,18 @@
 #include "KeplerOrbit.h"
-#include "../math/s2e_math.hpp"
-#include "../math/MatVec.hpp"
 
-KeplerOrbit::KeplerOrbit(){}
+#include "../math/MatVec.hpp"
+#include "../math/s2e_math.hpp"
+
+KeplerOrbit::KeplerOrbit() {}
 // Initialize with orbital elements
-KeplerOrbit::KeplerOrbit(
-  const double mu_m3_s2,
-  const double current_jd,
-  const OrbitalElements oe
-):mu_m3_s2_(mu_m3_s2), oe_(oe)
-{
+KeplerOrbit::KeplerOrbit(const double mu_m3_s2, const double current_jd, const OrbitalElements oe) : mu_m3_s2_(mu_m3_s2), oe_(oe) {
   CalcConstKeplerMotion();
 }
 
-KeplerOrbit::~KeplerOrbit()
-{
-}
+KeplerOrbit::~KeplerOrbit() {}
 
 // Private Functions
-void KeplerOrbit::CalcConstKeplerMotion()
-{
+void KeplerOrbit::CalcConstKeplerMotion() {
   // mean motion
   double a_m3 = pow(oe_.GetSemiMajor(), 3.0);
   mean_motion_rad_s_ = sqrt(mu_m3_s2_ / a_m3);
@@ -32,13 +25,12 @@ void KeplerOrbit::CalcConstKeplerMotion()
   dcm_inplane_to_eci_ = dcm_raan * dcm_inc_arg;
 }
 
-void KeplerOrbit::CalcPosVel(double time_jday)
-{
+void KeplerOrbit::CalcPosVel(double time_jday) {
   // replace to short name variables
   double a_m = oe_.GetSemiMajor();
   double e = oe_.GetEccentricity();
   double n_rad_s = mean_motion_rad_s_;
-  double dt_s = (time_jday - oe_.GetEpoch()) * (24.0*60.0*60.0);
+  double dt_s = (time_jday - oe_.GetEpoch()) * (24.0 * 60.0 * 60.0);
 
   double mean_anomaly_rad = mean_motion_rad_s_ * dt_s;
   double l_rad = libra::WrapTo2Pi(mean_anomaly_rad);
@@ -61,7 +53,7 @@ void KeplerOrbit::CalcPosVel(double time_jday)
 
   libra::Vector<3> vel_inplane_m_s;
   vel_inplane_m_s[0] = -1.0 * a_m * n_rad_s * sin_u / e_cos_u;
-  vel_inplane_m_s[1] =  n_rad_s * a_sqrt_e_m * cos_u / e_cos_u;
+  vel_inplane_m_s[1] = n_rad_s * a_sqrt_e_m * cos_u / e_cos_u;
   vel_inplane_m_s[2] = 0.0;
 
   // Transform to ECI
@@ -69,17 +61,12 @@ void KeplerOrbit::CalcPosVel(double time_jday)
   velocity_i_m_s_ = dcm_inplane_to_eci_ * vel_inplane_m_s;
 }
 
-double KeplerOrbit::SolveKeplerFirstOrder(
-  const double eccentricity, 
-  const double mean_anomaly_rad, 
-  const double angle_limit_rad, 
-  const int iteration_limit)
-{
+double KeplerOrbit::SolveKeplerFirstOrder(const double eccentricity, const double mean_anomaly_rad, const double angle_limit_rad,
+                                          const int iteration_limit) {
   double u_prev_rad = mean_anomaly_rad;
   double u_rad = 0.0;
 
-  for (int i = 0; i < iteration_limit; i++)
-  {
+  for (int i = 0; i < iteration_limit; i++) {
     u_rad = mean_anomaly_rad + eccentricity * sin(u_prev_rad);
 
     float diff_abs_rad;

@@ -1,39 +1,34 @@
 #include "EnckeOrbitPropagation.h"
+
 #include "../../Library/Orbit/OrbitalElements.h"
 
-EnckeOrbitPropagation::EnckeOrbitPropagation(
-  const double mu_m3_s2,
-  const double prop_step_s,
-  const double current_jd,
-  const Vector<3> init_position_i_m, 
-  const Vector<3> init_velocity_i_m_s,
-  const double error_tolerance,
-  const int wgs
-):mu_m3_s2_(mu_m3_s2), error_tolerance_(error_tolerance), prop_step_s_(prop_step_s), libra::ODE<6>(prop_step_s)
-{
+EnckeOrbitPropagation::EnckeOrbitPropagation(const double mu_m3_s2, const double prop_step_s, const double current_jd,
+                                             const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s, const double error_tolerance,
+                                             const int wgs)
+    : mu_m3_s2_(mu_m3_s2), error_tolerance_(error_tolerance), prop_step_s_(prop_step_s), libra::ODE<6>(prop_step_s) {
   // TODO whichconst周りを整理する
-  if (wgs == 0) { whichconst = wgs72old; }
-  else if (wgs == 1) { whichconst = wgs72; }
-  else if (wgs == 2) { whichconst = wgs84; }
+  if (wgs == 0) {
+    whichconst = wgs72old;
+  } else if (wgs == 1) {
+    whichconst = wgs72;
+  } else if (wgs == 2) {
+    whichconst = wgs84;
+  }
 
   prop_time_s_ = 0.0;
   Initialize(current_jd, init_position_i_m, init_velocity_i_m_s);
 }
 
-EnckeOrbitPropagation::~EnckeOrbitPropagation()
-{
-}
+EnckeOrbitPropagation::~EnckeOrbitPropagation() {}
 
 // Functions for Orbit
-void EnckeOrbitPropagation::Propagate(double endtime, double current_jd)
-{
+void EnckeOrbitPropagation::Propagate(double endtime, double current_jd) {
   if (!IsCalcEnabled) return;
 
   // Rectification
   double norm_sat_position_m = norm(sat_position_i_);
   double norm_diff_position_m = norm(diff_position_i_m_);
-  if (norm_diff_position_m/norm_sat_position_m > error_tolerance_)
-  {
+  if (norm_diff_position_m / norm_sat_position_m > error_tolerance_) {
     Initialize(current_jd, sat_position_i_, sat_velocity_i_);
   }
 
@@ -43,20 +38,19 @@ void EnckeOrbitPropagation::Propagate(double endtime, double current_jd)
   ref_velocity_i_m_s_ = ref_kepler_orbit.GetVelocity_i_m_s();
 
   // Propagate difference orbit
-  setStepWidth(prop_step_s_); //Re-set propagation Δt
-  while (endtime - prop_time_s_ - prop_step_s_ > 1.0e-6) 
-  {
-    Update(); // Propagation methods of the ODE class
+  setStepWidth(prop_step_s_);  // Re-set propagation Δt
+  while (endtime - prop_time_s_ - prop_step_s_ > 1.0e-6) {
+    Update();  // Propagation methods of the ODE class
     prop_time_s_ += prop_step_s_;
   }
-  setStepWidth(endtime - prop_time_s_); //Adjust the last propagation Δt
+  setStepWidth(endtime - prop_time_s_);  // Adjust the last propagation Δt
   Update();
   prop_time_s_ = endtime;
-  
-  acc_i_ *= 0.0; //Reset disturbance acceleration
-  diff_position_i_m_[0]   = state()[0];
-  diff_position_i_m_[1]   = state()[1];
-  diff_position_i_m_[2]   = state()[2];
+
+  acc_i_ *= 0.0;  // Reset disturbance acceleration
+  diff_position_i_m_[0] = state()[0];
+  diff_position_i_m_[1] = state()[1];
+  diff_position_i_m_[2] = state()[2];
   diff_velocity_i_m_s_[0] = state()[3];
   diff_velocity_i_m_s_[1] = state()[4];
   diff_velocity_i_m_s_[2] = state()[5];
@@ -64,8 +58,7 @@ void EnckeOrbitPropagation::Propagate(double endtime, double current_jd)
   UpdateSatOrbit(current_jd);
 }
 
-std::string EnckeOrbitPropagation::GetLogHeader() const
-{
+std::string EnckeOrbitPropagation::GetLogHeader() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector("sat_position", "i", "m", 3);
@@ -75,8 +68,7 @@ std::string EnckeOrbitPropagation::GetLogHeader() const
   return str_tmp;
 }
 
-std::string EnckeOrbitPropagation::GetLogValue() const
-{
+std::string EnckeOrbitPropagation::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector(sat_position_i_, 16);
@@ -87,21 +79,19 @@ std::string EnckeOrbitPropagation::GetLogValue() const
 }
 
 // Functions for ODE
-void EnckeOrbitPropagation::RHS(double t, const Vector<6>& state, Vector<6>& rhs)
-{
+void EnckeOrbitPropagation::RHS(double t, const Vector<6>& state, Vector<6>& rhs) {
   Vector<3> diff_pos_i_m, diff_acc_i_m_s2;
-  for (int i=0;i<3;i++)
-  {
+  for (int i = 0; i < 3; i++) {
     diff_pos_i_m[i] = state[i];
   }
-  
+
   double q_func = CalcQFunction(diff_pos_i_m);
   double r_m = norm(ref_position_i_m_);
   double r_m3 = pow(r_m, 3.0);
 
-  diff_acc_i_m_s2 = - (mu_m3_s2_ / r_m3) *(q_func * sat_position_i_ + diff_pos_i_m) + acc_i_;
+  diff_acc_i_m_s2 = -(mu_m3_s2_ / r_m3) * (q_func * sat_position_i_ + diff_pos_i_m) + acc_i_;
 
-  rhs[0] = state[3]; 
+  rhs[0] = state[3];
   rhs[1] = state[4];
   rhs[2] = state[5];
   rhs[3] = diff_acc_i_m_s2[0];
@@ -110,11 +100,7 @@ void EnckeOrbitPropagation::RHS(double t, const Vector<6>& state, Vector<6>& rhs
 }
 
 // Private Functions
-void EnckeOrbitPropagation::Initialize(
-  double current_jd,
-  Vector<3> init_ref_position_i_m, 
-  Vector<3> init_ref_velocity_i_m_s)
-{
+void EnckeOrbitPropagation::Initialize(double current_jd, Vector<3> init_ref_position_i_m, Vector<3> init_ref_velocity_i_m_s) {
   // General
   fill_up(acc_i_, 0.0);
 
@@ -134,27 +120,25 @@ void EnckeOrbitPropagation::Initialize(
   UpdateSatOrbit(current_jd);
 }
 
-void EnckeOrbitPropagation::UpdateSatOrbit(double current_jd)
-{
+void EnckeOrbitPropagation::UpdateSatOrbit(double current_jd) {
   sat_position_i_ = ref_position_i_m_ + diff_position_i_m_;
   sat_velocity_i_ = ref_velocity_i_m_s_ + diff_velocity_i_m_s_;
-  
+
   // ECI->ECEF
   TransECIToGeo(current_jd);
   TransECIToECEF(current_jd);
 }
 
-double EnckeOrbitPropagation::CalcQFunction(Vector<3> diff_pos_i)
-{
+double EnckeOrbitPropagation::CalcQFunction(Vector<3> diff_pos_i) {
   double r2;
   r2 = inner_product(sat_position_i_, sat_position_i_);
-  
+
   Vector<3> dr_2r;
   dr_2r = diff_pos_i - 2.0 * sat_position_i_;
 
   double q = inner_product(diff_pos_i, dr_2r) / r2;
 
-  double q_func = q*(q*q + 3.0*q + 3.0)/(pow(1.0+q, 1.5)+1.0);
+  double q_func = q * (q * q + 3.0 * q + 3.0) / (pow(1.0 + q, 1.5) + 1.0);
 
   return q_func;
 }
