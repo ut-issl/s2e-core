@@ -32,7 +32,4 @@ SimulationCase::SimulationCase(std::string ini_base, const MCSimExecutor& mc_sim
   // Global Environment
   glo_env_ = new GlobalEnvironment(&sim_config_);
 }
-SimulationCase::~SimulationCase() {
-  delete glo_env_;
-  delete sim_config_.main_logger_;
-}
+SimulationCase::~SimulationCase() { delete glo_env_; }
