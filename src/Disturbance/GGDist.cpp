@@ -1,5 +1,6 @@
 #include "GGDist.h"
 
+#include <Environment/Global/PhysicalConstants.hpp>
 #include <cmath>
 #include <fstream>
 #include <iostream>
@@ -8,7 +9,7 @@
 
 using namespace std;
 
-GGDist::GGDist() : GGDist(3.986004418 * pow(10.0, 14.0)) {  //デフォルトコンストラクタ
+GGDist::GGDist() : GGDist(environment::earth_gravitational_constant_m3_s2) {  //デフォルトコンストラクタ
 }
 
 GGDist::GGDist(const double mu_e_input) {  //コンストラクタ

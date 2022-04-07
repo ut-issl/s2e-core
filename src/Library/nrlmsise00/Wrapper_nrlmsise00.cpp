@@ -8,6 +8,7 @@ extern "C" {
 }
 #include <stdlib.h> /* for malloc/free */
 
+#include <Environment/Global/PhysicalConstants.hpp>
 #include <Library/math/Constant.hpp>
 #include <algorithm>
 #include <cctype>
@@ -21,8 +22,6 @@ using namespace std;
 /* ------------------------------------------------------------------- */
 /* ------------------------------ DEFINES ---------------------------- */
 /* ------------------------------------------------------------------- */
-
-#define RAD2DEG (180 / libra::pi)
 
 static double decyear_monthly;
 
@@ -185,9 +184,9 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, 
   input.year = 0; /* without effect */
   input.sec = date[3] * 60.0 * 60.0 + date[4] * 60.0 + date[5];
   input.alt = alt / 1000.0;
-  input.g_lat = latrad * RAD2DEG;
-  input.g_long = lonrad * RAD2DEG;
-  input.lst = input.sec / 3600.0 + lonrad * RAD2DEG / 15.0;
+  input.g_lat = latrad * libra::rad_to_deg;
+  input.g_long = lonrad * libra::rad_to_deg;
+  input.lst = input.sec / 3600.0 + lonrad * libra::rad_to_deg / 15.0;
 
   if (is_manual_param) {
     input.f107 = manual_f107;

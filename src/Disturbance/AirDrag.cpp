@@ -1,5 +1,6 @@
 #include "AirDrag.h"
 
+#include <Environment/Global/PhysicalConstants.hpp>
 #include <Library/math/Constant.hpp>
 #include <cmath>
 #include <iostream>
@@ -60,7 +61,7 @@ void AirDrag::CalCnCt(Vector<3>& vel_b) {
   Vector<3> vel_b_normal(vel_b);
   normalize(vel_b_normal);
   // Re-emitting speed
-  S = sqrt(M_ * vel_b_norm_m * vel_b_norm_m / (2.0 * K * Tw_));
+  S = sqrt(M_ * vel_b_norm_m * vel_b_norm_m / (2.0 * environment::boltzmann_constant_J_K * Tw_));
   // CalcTheta(vel_b);
   for (size_t i = 0; i < surfaces_.size(); i++) {
     double Sn = S * cosX[i];

@@ -24,10 +24,6 @@ using libra::Vector;
 #include <Library/sgp4/sgp4ext.h>
 #include <Library/sgp4/sgp4io.h>
 #include <Library/sgp4/sgp4unit.h>
-// using namespace std;
-// #define DEG2RAD 0.017453292519943295769  // PI/180
-// static gravconsttype whichconst;
-//↑
 
 class GScalculator : public ILoggable {
  public:

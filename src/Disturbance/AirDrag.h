@@ -12,8 +12,6 @@
 using libra::Quaternion;
 using libra::Vector;
 
-#define K 1.38064852E-23 /* Boltzmann constant */
-
 #pragma once
 class AirDrag : public SurfaceForce {
  public:

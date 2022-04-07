@@ -10,8 +10,6 @@
 
 #include "../Abstract/ComponentBase.h"
 
-#define DEG2RAD 0.017453292519943295769  // PI/180
-
 using libra::Vector;
 
 enum AntennaModel {

@@ -13,7 +13,6 @@
 #include <Library/sgp4/sgp4io.h>
 #include <Library/sgp4/sgp4unit.h>
 
-#define DEG2RAD 0.017453292519943295769  // PI/180
 static gravconsttype whichconst_gs;
 //↑
 
