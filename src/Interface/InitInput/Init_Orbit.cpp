@@ -23,17 +23,24 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
   const char* section_ = section.c_str();
   Orbit* orbit;
 
-  int propagate_mode = conf.ReadInt(section_, "propagate_mode");
+  std::string propagate_mode = conf.ReadString(section_, "propagate_mode");
   int wgs = conf.ReadInt(section_, "wgs");
 
-  // Initialize SGP4 orbit propagator
-  if (propagate_mode == (int)Orbit::PROPAGATE_MODE::SGP4) {
+  if (propagate_mode == "RK4")  // initialize RK4 orbit propagator
+  {
+    Vector<3> init_pos;
+    conf.ReadVector<3>(section_, "init_position", init_pos);
+    Vector<3> init_veloc;
+    conf.ReadVector<3>(section_, "init_velocity", init_veloc);
+
+    orbit = new SimpleCircularOrbit(celes_info, gravity_constant, stepSec, wgs, init_pos, init_veloc, current_jd);
+  } else if (propagate_mode == "SGP4") {  // Initialize SGP4 orbit propagator
     char tle1[80], tle2[80];
     conf.ReadChar(section_, "tle1", 80, tle1);
     conf.ReadChar(section_, "tle2", 80, tle2);
 
     orbit = new EarthCenteredOrbit(celes_info, tle1, tle2, wgs, current_jd);
-  } else if (propagate_mode == (int)Orbit::PROPAGATE_MODE::RELATIVE_ORBIT)  // initialize orbit for relative dynamics of formation flying
+  } else if (propagate_mode == "RELATIVE")  // initialize orbit for relative dynamics of formation flying
   {
     RelativeOrbit::RelativeOrbitUpdateMethod update_method =
         (RelativeOrbit::RelativeOrbitUpdateMethod)(conf.ReadInt(section_, "relative_orbit_update_method"));
@@ -53,7 +60,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
 
     orbit = new RelativeOrbit(gravity_constant, stepSec, wgs, current_jd, reference_sat_id, init_relative_position_lvlh, init_relative_velocity_lvlh,
                               update_method, relative_dynamics_model_type, stm_model_type, rel_info);
-  } else if (propagate_mode == (int)Orbit::PROPAGATE_MODE::KEPLER) {
+  } else if (propagate_mode == "KEPLER") {
     int init_mode_kepler = conf.ReadInt(section_, "init_mode_kepler");
     double mu_m3_s2 = gravity_constant;
     OrbitalElements oe;
@@ -76,21 +83,15 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     }
     KeplerOrbit kepler_orbit(mu_m3_s2, current_jd, oe);
     orbit = new KeplerOrbitPropagation(current_jd, kepler_orbit, wgs);
-  } else if (propagate_mode == (int)Orbit::PROPAGATE_MODE::ENCKE) {
+  } else if (propagate_mode == "ENCKE") {
     Vector<3> init_pos_m;
     conf.ReadVector<3>(section_, "init_position", init_pos_m);
     Vector<3> init_vel_m_s;
     conf.ReadVector<3>(section_, "init_velocity", init_vel_m_s);
     double error_tolerance = conf.ReadDouble(section_, "error_tolerance");
     orbit = new EnckeOrbitPropagation(gravity_constant, stepSec, current_jd, init_pos_m, init_vel_m_s, error_tolerance, wgs);
-  } else  // initialize orbit for RK4 propagation
-  {
-    Vector<3> init_pos;
-    conf.ReadVector<3>(section_, "init_position", init_pos);
-    Vector<3> init_veloc;
-    conf.ReadVector<3>(section_, "init_velocity", init_veloc);
-
-    orbit = new SimpleCircularOrbit(celes_info, gravity_constant, stepSec, wgs, init_pos, init_veloc, current_jd);
+  } else {
+    std::cerr << "ERROR: orbit propagation mode: " << propagate_mode << " is not defined!" << std::endl;
   }
 
   orbit->IsCalcEnabled = conf.ReadEnable(section_, CALC_LABEL);
