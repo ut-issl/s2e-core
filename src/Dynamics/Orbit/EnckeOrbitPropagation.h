@@ -21,7 +21,7 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
   // General
   const double mu_m3_s2_;
   const double error_tolerance_;  // error ratio
-  double prop_step_s_;            //Δt for RK4
+  double prop_step_s_;            // Δt for RK4
   double prop_time_s_;            // Simulation current time for numerical integration by RK4
 
   // reference orbit
