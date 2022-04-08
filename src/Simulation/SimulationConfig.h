@@ -12,4 +12,6 @@ struct SimulationConfig {
   std::string gs_file_;
   std::string inter_sat_comm_file_;
   std::string gnss_file_;
+
+  ~SimulationConfig() { delete main_logger_; }
 };
