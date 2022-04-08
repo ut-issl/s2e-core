@@ -1,3 +1,4 @@
+# This format rule is derived from Google C++ Style Guide(https://google.github.io/styleguide/cppguide.html)
 Language:        Cpp
 AccessModifierOffset: -1
 AlignAfterOpenBracket: Align
