@@ -61,18 +61,20 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     orbit = new RelativeOrbit(gravity_constant, stepSec, wgs, current_jd, reference_sat_id, init_relative_position_lvlh, init_relative_velocity_lvlh,
                               update_method, relative_dynamics_model_type, stm_model_type, rel_info);
   } else if (propagate_mode == "KEPLER") {
-    int init_mode_kepler = conf.ReadInt(section_, "init_mode_kepler");
+    std::string init_mode_kepler = conf.ReadString(section_, "init_mode_kepler");
     double mu_m3_s2 = gravity_constant;
     OrbitalElements oe;
-    if (init_mode_kepler == 0)  // initialize with position and velocity
+    if (init_mode_kepler == "INIT_POSVEL")
     {
+      // initialize with position and velocity
       Vector<3> init_pos_m;
       conf.ReadVector<3>(section_, "init_position", init_pos_m);
       Vector<3> init_vel_m_s;
       conf.ReadVector<3>(section_, "init_velocity", init_vel_m_s);
       oe = OrbitalElements(mu_m3_s2, current_jd, init_pos_m, init_vel_m_s);
-    } else  // initialize with orbital elements
+    } else if (init_mode_kepler == "INIT_OE")
     {
+      // initialize with orbital elements
       double semi_major_axis_m = conf.ReadDouble(section_, "semi_major_axis_m");
       double eccentricity = conf.ReadDouble(section_, "eccentricity");
       double inclination_rad = conf.ReadDouble(section_, "inclination_rad");
@@ -80,6 +82,9 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
       double arg_perigee_rad = conf.ReadDouble(section_, "arg_perigee_rad");
       double epoch_jday = conf.ReadDouble(section_, "epoch_jday");
       oe = OrbitalElements(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
+    }
+    else {
+      std::cerr << "ERROR: Kepler orbit initialize mode: " << init_mode_kepler << " is not defined!" << std::endl;
     }
     KeplerOrbit kepler_orbit(mu_m3_s2, current_jd, oe);
     orbit = new KeplerOrbitPropagation(current_jd, kepler_orbit, wgs);
