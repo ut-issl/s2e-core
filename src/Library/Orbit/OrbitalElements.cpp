@@ -44,12 +44,12 @@ void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_
   // RAAN
   raan_rad_ = asin(h[0] / sqrt(h[0] * h[0] + h[1] * h[1]));  // TODO: 傾斜角0に対応できない
 
-  // position in plain
+  // position in plane
   double x_p_m = r_i_m[0] * cos(raan_rad_) + r_i_m[1] * sin(raan_rad_);
   double tmp_m = -r_i_m[0] * sin(raan_rad_) + r_i_m[1] * cos(raan_rad_);
   double y_p_m = tmp_m * cos(inclination_rad_) + r_i_m[2] * sin(inclination_rad_);
 
-  // velocity in plain
+  // velocity in plane
   double dx_p_m_s = v_i_m_s[0] * cos(raan_rad_) + v_i_m_s[1] * sin(raan_rad_);
   double dtmp_m_s = -v_i_m_s[0] * sin(raan_rad_) + v_i_m_s[1] * cos(raan_rad_);
   double dy_p_m_s = dtmp_m_s * cos(inclination_rad_) + v_i_m_s[2] * sin(inclination_rad_);
