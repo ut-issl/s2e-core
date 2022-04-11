@@ -23,7 +23,7 @@ class KeplerOrbit {
   double mu_m3_s2_;
   OrbitalElements oe_;
   double mean_motion_rad_s_;
-  libra::Matrix<3, 3> dcm_inplane_to_eci_;
+  libra::Matrix<3, 3> dcm_inplane_to_i_;
 
   // Calculation of constants for kepler motion calculation
   void CalcConstKeplerMotion();

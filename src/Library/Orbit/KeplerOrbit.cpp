@@ -22,7 +22,7 @@ void KeplerOrbit::CalcConstKeplerMotion() {
   libra::Matrix<3, 3> dcm_inclination = libra::rotx(-1.0 * oe_.GetInclination());
   libra::Matrix<3, 3> dcm_raan = libra::rotz(-1.0 * oe_.GetRaan());
   libra::Matrix<3, 3> dcm_inc_arg = dcm_inclination * dcm_arg_perigee;
-  dcm_inplane_to_eci_ = dcm_raan * dcm_inc_arg;
+  dcm_inplane_to_i_ = dcm_raan * dcm_inc_arg;
 }
 
 void KeplerOrbit::CalcPosVel(double time_jday) {
@@ -57,8 +57,8 @@ void KeplerOrbit::CalcPosVel(double time_jday) {
   vel_inplane_m_s[2] = 0.0;
 
   // Transform to ECI
-  position_i_m_ = dcm_inplane_to_eci_ * pos_inplane_m;
-  velocity_i_m_s_ = dcm_inplane_to_eci_ * vel_inplane_m_s;
+  position_i_m_ = dcm_inplane_to_i_ * pos_inplane_m;
+  velocity_i_m_s_ = dcm_inplane_to_i_ * vel_inplane_m_s;
 }
 
 double KeplerOrbit::SolveKeplerFirstOrder(const double eccentricity, const double mean_anomaly_rad, const double angle_limit_rad,
