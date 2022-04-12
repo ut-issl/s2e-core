@@ -11,6 +11,7 @@ using libra::Matrix;
 using libra::Quaternion;
 using libra::Vector;
 
+#include <Environment/Global/CelestialInformation.h>
 #include <Interface/LogOutput/ILoggable.h>
 #include <math.h>
 
@@ -23,9 +24,10 @@ using libra::Vector;
 
 class Orbit : public ILoggable {
  public:
-  enum class PROPAGATE_MODE { RK4 = 0, SGP4, RELATIVE_ORBIT, KEPLER, ENCKE };
-
+  Orbit(const CelestialInformation* celes_info) : celes_info_(celes_info) {}
   virtual ~Orbit() {}
+
+  enum class PROPAGATE_MODE { RK4 = 0, SGP4, RELATIVE_ORBIT, KEPLER, ENCKE };
 
   inline PROPAGATE_MODE GetPropagateMode() const { return propagate_mode_; }
   inline Vector<3> GetSatPosition_i() const { return sat_position_i_; }
@@ -105,6 +107,7 @@ class Orbit : public ILoggable {
   gravconsttype whichconst;
 
  protected:
+  const CelestialInformation* celes_info_;
   // propagate mode
   PROPAGATE_MODE propagate_mode_;
 
@@ -137,35 +140,17 @@ class Orbit : public ILoggable {
   // Altitude [m]
   double alt_m_;
 
-  // TransECItoECEF
-  Matrix<3, 3> trans_eci2ecef_;
-
   // Convert ECI satellite position to ECEF frame
-  inline void TransECIToECEF(double current_jd) {
-    double current_side = gstime(current_jd);
-
-    Matrix<3, 3> trans_mat;  // ECI2ECEF transformation matrix representing the Earth's
-                             // rotation according to Greenwich Sidereal Time.
-    trans_mat[0][0] = cos(current_side);
-    trans_mat[0][1] = sin(current_side);
-    trans_mat[0][2] = 0;
-    trans_mat[1][0] = -sin(current_side);
-    trans_mat[1][1] = cos(current_side);
-    trans_mat[1][2] = 0;
-    trans_mat[2][0] = 0;
-    trans_mat[2][1] = 0;
-    trans_mat[2][2] = 1;
-
-    sat_position_ecef_ = trans_mat * sat_position_i_;
+  inline void TransECIToECEF(void) {
+    Matrix<3, 3> dcm_i_to_xcxf = celes_info_->GetEarthRotation().GetDCMJ2000toXCXF();
+    sat_position_ecef_ = dcm_i_to_xcxf * sat_position_i_;
 
     // convert velocity vector in ECI to the vector in ECEF
     Vector<3> OmegaE{0.0};
     OmegaE[2] = environment::earth_mean_angular_velocity_rad_s;
     Vector<3> wExr = outer_product(OmegaE, sat_position_i_);
     Vector<3> V_wExr = sat_velocity_i_ - wExr;
-    sat_velocity_ecef_ = trans_mat * V_wExr;
-
-    trans_eci2ecef_ = trans_mat;
+    sat_velocity_ecef_ = dcm_i_to_xcxf * V_wExr;
   }
 
   // Convert ECI satellite position to GEO(lattitude, longitude, and latitude)

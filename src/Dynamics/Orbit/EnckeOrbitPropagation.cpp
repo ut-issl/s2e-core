@@ -2,10 +2,10 @@
 
 #include "../../Library/Orbit/OrbitalElements.h"
 
-EnckeOrbitPropagation::EnckeOrbitPropagation(const double mu_m3_s2, const double prop_step_s, const double current_jd,
-                                             const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s, const double error_tolerance,
-                                             const int wgs)
-    : mu_m3_s2_(mu_m3_s2), error_tolerance_(error_tolerance), prop_step_s_(prop_step_s), libra::ODE<6>(prop_step_s) {
+EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celes_info, const double mu_m3_s2, const double prop_step_s,
+                                             const double current_jd, const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s,
+                                             const double error_tolerance, const int wgs)
+    : Orbit(celes_info), mu_m3_s2_(mu_m3_s2), error_tolerance_(error_tolerance), prop_step_s_(prop_step_s), libra::ODE<6>(prop_step_s) {
   // TODO whichconst周りを整理する
   if (wgs == 0) {
     whichconst = wgs72old;
@@ -126,7 +126,7 @@ void EnckeOrbitPropagation::UpdateSatOrbit(double current_jd) {
 
   // ECI->ECEF
   TransECIToGeo(current_jd);
-  TransECIToECEF(current_jd);
+  TransECIToECEF();
 }
 
 double EnckeOrbitPropagation::CalcQFunction(Vector<3> diff_pos_i) {

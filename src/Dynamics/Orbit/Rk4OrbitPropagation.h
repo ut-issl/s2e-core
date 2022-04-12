@@ -29,5 +29,4 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
   double prop_time_;  // Simulation current time for numerical integration by
                       // RK4
   double prop_step_;  //Δt for RK4
-  const CelestialInformation* celes_info_;
 };

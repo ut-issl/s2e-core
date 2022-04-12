@@ -2,10 +2,12 @@
 
 #include "Rk4OrbitPropagation.h"
 
-RelativeOrbit::RelativeOrbit(double mu, double timestep, int wgs, double current_jd, int reference_sat_id, Vector<3> initial_relative_position_lvlh,
-                             Vector<3> initial_relative_velocity_lvlh, RelativeOrbitUpdateMethod update_method,
-                             RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type, RelativeInformation* rel_info)
-    : libra::ODE<6>(timestep),
+RelativeOrbit::RelativeOrbit(const CelestialInformation* celes_info, double mu, double timestep, int wgs, double current_jd, int reference_sat_id,
+                             Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh,
+                             RelativeOrbitUpdateMethod update_method, RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type,
+                             RelativeInformation* rel_info)
+    : Orbit(celes_info),
+      libra::ODE<6>(timestep),
       mu_(mu),
       reference_sat_id_(reference_sat_id),
       update_method_(update_method),
@@ -60,7 +62,7 @@ void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh, Ve
   }
 
   TransECIToGeo(current_jd);
-  TransECIToECEF(current_jd);
+  TransECIToECEF();
 }
 
 void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit, double mu) {
@@ -110,7 +112,7 @@ void RelativeOrbit::Propagate(double endtime, double current_jd) {
   sat_position_i_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
   sat_velocity_i_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
   TransECIToGeo(current_jd);
-  TransECIToECEF(current_jd);
+  TransECIToECEF();
 }
 
 void RelativeOrbit::PropagateRK4(double elapsed_sec) {

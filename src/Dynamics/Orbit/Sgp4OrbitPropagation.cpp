@@ -5,7 +5,7 @@
 using namespace std;
 
 Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd)
-    : celes_info_(celes_info) {
+    : Orbit(celes_info) {
   propagate_mode_ = PROPAGATE_MODE::SGP4;
 
   if (wgs == 0) {
@@ -46,17 +46,8 @@ void Sgp4OrbitPropagation::Propagate(double endtime, double current_jd) {
     sat_velocity_i_[i] = v[i] * 1000;
   }
 
+  TransECIToECEF();
   TransECIToGeo(current_jd);
-
-  trans_eci2ecef_ = celes_info_->GetEarthRotation().GetDCMJ2000toXCXF();
-  sat_position_ecef_ = trans_eci2ecef_ * sat_position_i_;
-
-  // convert velocity vector in ECI to the vector in ECEF
-  Vector<3> OmegaE{0.0};
-  OmegaE[2] = environment::earth_mean_angular_velocity_rad_s;
-  Vector<3> wExr = outer_product(OmegaE, sat_position_i_);
-  Vector<3> V_wExr = sat_velocity_i_ - wExr;
-  sat_velocity_ecef_ = trans_eci2ecef_ * V_wExr;
 }
 
 string Sgp4OrbitPropagation::GetLogHeader() const {

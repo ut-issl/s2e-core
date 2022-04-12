@@ -5,7 +5,7 @@
 class KeplerOrbitPropagation : public Orbit, public KeplerOrbit {
  public:
   // Initialize with orbital elements
-  KeplerOrbitPropagation(const double current_jd, KeplerOrbit kepler_orbit, const int wgs);
+  KeplerOrbitPropagation(const CelestialInformation* celes_info, const double current_jd, KeplerOrbit kepler_orbit, const int wgs);
   ~KeplerOrbitPropagation();
 
   // Orbit class

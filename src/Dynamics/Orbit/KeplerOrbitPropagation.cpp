@@ -2,7 +2,9 @@
 
 #include "../../Library/math/s2e_math.hpp"
 
-KeplerOrbitPropagation::KeplerOrbitPropagation(const double current_jd, KeplerOrbit kepler_orbit, const int wgs) : KeplerOrbit(kepler_orbit) {
+KeplerOrbitPropagation::KeplerOrbitPropagation(const CelestialInformation* celes_info, const double current_jd, KeplerOrbit kepler_orbit,
+                                               const int wgs)
+    : Orbit(celes_info), KeplerOrbit(kepler_orbit) {
   // TODO whichconst周りを整理する
   if (wgs == 0) {
     whichconst = wgs72old;
@@ -57,5 +59,5 @@ void KeplerOrbitPropagation::UpdateState(const double current_jd) {
   sat_position_i_ = position_i_m_;
   sat_velocity_i_ = velocity_i_m_s_;
   TransECIToGeo(current_jd);
-  TransECIToECEF(current_jd);
+  TransECIToECEF();
 }
