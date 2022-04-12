@@ -1,8 +1,8 @@
-#include <Dynamics/Orbit/EarthCenteredOrbit.h>
 #include <Dynamics/Orbit/EnckeOrbitPropagation.h>
 #include <Dynamics/Orbit/KeplerOrbitPropagation.h>
 #include <Dynamics/Orbit/Orbit.h>
 #include <Dynamics/Orbit/RelativeOrbit.h>
+#include <Dynamics/Orbit/Sgp4OrbitPropagation.h>
 #include <Dynamics/Orbit/SimpleCircularOrbit.h>
 #include <Environment/Global/SimTime.h>
 #include <Library/RelativeOrbit/RelativeOrbitModels.h>
@@ -12,7 +12,7 @@
 
 #include "Initialize.h"
 
-class EarthCenteredOrbit;
+// class Sgp4OrbitPropagation;
 class SimpleCircularOrbit;
 class RelativeOrbit;
 class KeplerOrbit;
@@ -39,7 +39,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     conf.ReadChar(section_, "tle1", 80, tle1);
     conf.ReadChar(section_, "tle2", 80, tle2);
 
-    orbit = new EarthCenteredOrbit(celes_info, tle1, tle2, wgs, current_jd);
+    orbit = new Sgp4OrbitPropagation(celes_info, tle1, tle2, wgs, current_jd);
   } else if (propagate_mode == "RELATIVE")  // initialize orbit for relative dynamics of formation flying
   {
     RelativeOrbit::RelativeOrbitUpdateMethod update_method =
@@ -64,16 +64,14 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     std::string init_mode_kepler = conf.ReadString(section_, "init_mode_kepler");
     double mu_m3_s2 = gravity_constant;
     OrbitalElements oe;
-    if (init_mode_kepler == "INIT_POSVEL")
-    {
+    if (init_mode_kepler == "INIT_POSVEL") {
       // initialize with position and velocity
       Vector<3> init_pos_m;
       conf.ReadVector<3>(section_, "init_position", init_pos_m);
       Vector<3> init_vel_m_s;
       conf.ReadVector<3>(section_, "init_velocity", init_vel_m_s);
       oe = OrbitalElements(mu_m3_s2, current_jd, init_pos_m, init_vel_m_s);
-    } else if (init_mode_kepler == "INIT_OE")
-    {
+    } else if (init_mode_kepler == "INIT_OE") {
       // initialize with orbital elements
       double semi_major_axis_m = conf.ReadDouble(section_, "semi_major_axis_m");
       double eccentricity = conf.ReadDouble(section_, "eccentricity");
@@ -82,8 +80,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
       double arg_perigee_rad = conf.ReadDouble(section_, "arg_perigee_rad");
       double epoch_jday = conf.ReadDouble(section_, "epoch_jday");
       oe = OrbitalElements(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
-    }
-    else {
+    } else {
       std::cerr << "ERROR: Kepler orbit initialize mode: " << init_mode_kepler << " is not defined!" << std::endl;
     }
     KeplerOrbit kepler_orbit(mu_m3_s2, current_jd, oe);
