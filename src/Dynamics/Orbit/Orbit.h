@@ -33,7 +33,7 @@ class Orbit : public ILoggable {
   inline Vector<3> GetSatVelocity_i() const { return sat_velocity_i_; }
   inline Vector<3> GetSatVelocity_b() const { return sat_velocity_b_; }
   inline Vector<3> GetSatVelocity_ecef() const { return sat_velocity_ecef_; }
-
+  inline virtual Vector<3> GetESIOmega() const { return Vector<3>(); }
   inline double GetLat_rad() const { return lat_rad_; }
   inline double GetLon_rad() const { return lon_rad_; }
   inline double GetAlt_m() const { return alt_m_; }
@@ -71,6 +71,74 @@ class Orbit : public ILoggable {
   // Shift the position of the spacecraft by the offset vector in the inertial
   // frame
   inline virtual void AddPositionOffset(Vector<3> offset_i) { (void)offset_i; }
+
+  Quaternion CalcQuaternionI2LVLH() const {
+    Vector<3> lvlh_x = sat_position_i_;  // x-axis in LVLH frame is position vector direction
+                                         // from geocenter to satellite
+    Vector<3> lvlh_ex = normalize(lvlh_x);
+    Vector<3> lvlh_z = outer_product(sat_position_i_,
+                                     sat_velocity_i_);  // z-axis in LVLH frame is angular
+                                                        // momentum vector direction of orbit
+    Vector<3> lvlh_ez = normalize(lvlh_z);
+    Vector<3> lvlh_y = outer_product(lvlh_z, lvlh_x);
+    Vector<3> lvlh_ey = normalize(lvlh_y);
+
+    Matrix<3, 3> dcm_i2lvlh;
+    dcm_i2lvlh[0][0] = lvlh_ex[0];
+    dcm_i2lvlh[0][1] = lvlh_ex[1];
+    dcm_i2lvlh[0][2] = lvlh_ex[2];
+    dcm_i2lvlh[1][0] = lvlh_ey[0];
+    dcm_i2lvlh[1][1] = lvlh_ey[1];
+    dcm_i2lvlh[1][2] = lvlh_ey[2];
+    dcm_i2lvlh[2][0] = lvlh_ez[0];
+    dcm_i2lvlh[2][1] = lvlh_ez[1];
+    dcm_i2lvlh[2][2] = lvlh_ez[2];
+
+    Quaternion q_i2lvlh = Quaternion::fromDCM(dcm_i2lvlh);
+    return q_i2lvlh.normalize();
+  }
+
+  virtual std::string GetLogHeader() const = 0;
+  virtual std::string GetLogValue() const = 0;
+
+  bool IsCalcEnabled = false;
+  gravconsttype whichconst;
+
+ protected:
+  // propagate mode
+  PROPAGATE_MODE propagate_mode_;
+
+  // spacecraft position in inertial frame [m]
+  Vector<3> sat_position_i_;
+
+  // spacecraft position in ECEF frame [m]
+  Vector<3> sat_position_ecef_;
+
+  // spacecraft velocity in inertial frame [m/s]
+  Vector<3> sat_velocity_i_;
+
+  // spacecraft velocity in body frame [m/s]
+  Vector<3> sat_velocity_b_;
+
+  // spacecraft velocity in ECEF frame [m/s]
+  Vector<3> sat_velocity_ecef_;
+
+  // spacecraft acceleration in inertial frame [m/s2]
+  // NOTE: Clear to zero at the end of the Propagate function
+  Vector<3> acc_i_;
+
+  // Latitude [rad] South: -π/2 to 0, North: 0 to π/2
+  double lat_rad_;
+
+  // Longitude [rad] East longitude: 0 to π, West longitude: 2π to π (i.e.,
+  // defined as 0 to 2π [rad] east of the Greenwich meridian)
+  double lon_rad_;
+
+  // Altitude [m]
+  double alt_m_;
+
+  // TransECItoECEF
+  Matrix<3, 3> trans_eci2ecef_;
 
   // Convert ECI satellite position to ECEF frame
   inline void TransECIToECEF(double current_jd) {
@@ -127,78 +195,6 @@ class Orbit : public ILoggable {
 
     if (lat_rad_ > libra::pi_2) lat_rad_ -= libra::tau;
   }
-
-  Quaternion CalcQuaternionI2LVLH() const {
-    Vector<3> lvlh_x = sat_position_i_;  // x-axis in LVLH frame is position vector direction
-                                         // from geocenter to satellite
-    Vector<3> lvlh_ex = normalize(lvlh_x);
-    Vector<3> lvlh_z = outer_product(sat_position_i_,
-                                     sat_velocity_i_);  // z-axis in LVLH frame is angular
-                                                        // momentum vector direction of orbit
-    Vector<3> lvlh_ez = normalize(lvlh_z);
-    Vector<3> lvlh_y = outer_product(lvlh_z, lvlh_x);
-    Vector<3> lvlh_ey = normalize(lvlh_y);
-
-    Matrix<3, 3> dcm_i2lvlh;
-    dcm_i2lvlh[0][0] = lvlh_ex[0];
-    dcm_i2lvlh[0][1] = lvlh_ex[1];
-    dcm_i2lvlh[0][2] = lvlh_ex[2];
-    dcm_i2lvlh[1][0] = lvlh_ey[0];
-    dcm_i2lvlh[1][1] = lvlh_ey[1];
-    dcm_i2lvlh[1][2] = lvlh_ey[2];
-    dcm_i2lvlh[2][0] = lvlh_ez[0];
-    dcm_i2lvlh[2][1] = lvlh_ez[1];
-    dcm_i2lvlh[2][2] = lvlh_ez[2];
-
-    Quaternion q_i2lvlh = Quaternion::fromDCM(dcm_i2lvlh);
-    return q_i2lvlh.normalize();
-  }
-
-  virtual std::string GetLogHeader() const = 0;
-  virtual std::string GetLogValue() const = 0;
-
-  inline virtual Vector<3> GetESIOmega() const { return Vector<3>(); }
-
-  inline Matrix<3, 3> GetTransECItoECEF() const { return trans_eci2ecef_; }
-
-  bool IsCalcEnabled = false;
-  gravconsttype whichconst;
-
- protected:
-  // propagate mode
-  PROPAGATE_MODE propagate_mode_;
-
-  // spacecraft position in inertial frame [m]
-  Vector<3> sat_position_i_;
-
-  // spacecraft position in ECEF frame [m]
-  Vector<3> sat_position_ecef_;
-
-  // spacecraft velocity in inertial frame [m/s]
-  Vector<3> sat_velocity_i_;
-
-  // spacecraft velocity in body frame [m/s]
-  Vector<3> sat_velocity_b_;
-
-  // spacecraft velocity in ECEF frame [m/s]
-  Vector<3> sat_velocity_ecef_;
-
-  // spacecraft acceleration in inertial frame [m/s2]
-  // NOTE: Clear to zero at the end of the Propagate function
-  Vector<3> acc_i_;
-
-  // Latitude [rad] South: -π/2 to 0, North: 0 to π/2
-  double lat_rad_;
-
-  // Longitude [rad] East longitude: 0 to π, West longitude: 2π to π (i.e.,
-  // defined as 0 to 2π [rad] east of the Greenwich meridian)
-  double lon_rad_;
-
-  // Altitude [m]
-  double alt_m_;
-
-  // TransECItoECEF
-  Matrix<3, 3> trans_eci2ecef_;
 };
 
 #endif  //__orbit_H__

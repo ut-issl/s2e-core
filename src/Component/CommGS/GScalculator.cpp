@@ -28,8 +28,9 @@ GScalculator::~GScalculator() {}
 
 void GScalculator::Initialize() {}
 
-void GScalculator::Update(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant) {
-  visible_flag_ = IsVisible(dynamics, groundstation);
+void GScalculator::Update(const Dynamics& dynamics, const GlobalEnvironment& global_env, const ANT& sc_ant, const GroundStation& groundstation,
+                          const ANT& gs_ant) {
+  visible_flag_ = IsVisible(dynamics, global_env, groundstation);
   if (visible_flag_) {
     max_bitrate_ = CalcMaxBitrate(dynamics, sc_ant, groundstation, gs_ant);
   } else {
@@ -37,12 +38,12 @@ void GScalculator::Update(const Dynamics& dynamics, const ANT& sc_ant, const Gro
   }
 }
 
-bool GScalculator::IsVisible(const Dynamics& dynamics, const GroundStation& groundstation) {
+bool GScalculator::IsVisible(const Dynamics& dynamics, const GlobalEnvironment& global_env, const GroundStation& groundstation) {
   Vector<3> sc_pos_ecef = dynamics.GetOrbit().GetSatPosition_ecef();
 
   Vector<3> gs_pos_i = groundstation.GetGSPosition_i();
-  Matrix<3, 3> DCM_ecei_ecef = dynamics.GetOrbit().GetTransECItoECEF();
-  Vector<3> gs_pos_ecef = DCM_ecei_ecef * gs_pos_i;
+  Matrix<3, 3> DCM_eci_ecef = global_env.GetCelesInfo().GetEarthRotation().GetDCMJ2000toXCXF();
+  Vector<3> gs_pos_ecef = DCM_eci_ecef * gs_pos_i;
 
   double lat = groundstation.latitude_ * libra::deg_to_rad;   //[rad]
   double lon = groundstation.longitude_ * libra::deg_to_rad;  //[rad]

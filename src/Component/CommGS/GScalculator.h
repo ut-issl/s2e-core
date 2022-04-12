@@ -8,6 +8,7 @@
 #pragma once
 #include <Component/CommGS/ANT.h>
 #include <Dynamics/Dynamics.h>
+#include <Environment/Global/GlobalEnvironment.h>
 #include <Interface/LogOutput/ILoggable.h>
 #include <Simulation/GroundStation/GroundStation.h>
 
@@ -43,14 +44,15 @@ class GScalculator : public ILoggable {
                double coding_gain, double margin_req);
   ~GScalculator();
   void Initialize();
-  void Update(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant);
+  void Update(const Dynamics& dynamics, const GlobalEnvironment& global_env, const ANT& sc_ant, const GroundStation& groundstation,
+              const ANT& gs_ant);
 
   virtual std::string GetLogHeader() const;
   virtual std::string GetLogValue() const;
 
  protected:
   // 衛星と地上局が可視の位置関係のときにtrue，非可視のときにfalseを返す
-  bool IsVisible(const Dynamics& dynamics, const GroundStation& groundstation);
+  bool IsVisible(const Dynamics& dynamics, const GlobalEnvironment& global_env, const GroundStation& groundstation);
 
   // 最大可能ビットレートを回線計算をもとに計算する
   double CalcMaxBitrate(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant);
