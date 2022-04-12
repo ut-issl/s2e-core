@@ -6,15 +6,6 @@ EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celes_i
                                              const double current_jd, const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s,
                                              const double error_tolerance, const int wgs)
     : Orbit(celes_info), mu_m3_s2_(mu_m3_s2), error_tolerance_(error_tolerance), prop_step_s_(prop_step_s), libra::ODE<6>(prop_step_s) {
-  // TODO whichconst周りを整理する
-  if (wgs == 0) {
-    whichconst = wgs72old;
-  } else if (wgs == 1) {
-    whichconst = wgs72;
-  } else if (wgs == 2) {
-    whichconst = wgs84;
-  }
-
   prop_time_s_ = 0.0;
   Initialize(current_jd, init_position_i_m, init_velocity_i_m_s);
 }

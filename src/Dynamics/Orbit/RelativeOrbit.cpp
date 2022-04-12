@@ -18,13 +18,6 @@ RelativeOrbit::RelativeOrbit(const CelestialInformation* celes_info, double mu, 
 
   prop_time_ = 0.0;
   prop_step_ = timestep;
-  if (wgs == 0) {
-    whichconst = wgs72old;
-  } else if (wgs == 1) {
-    whichconst = wgs72;
-  } else if (wgs == 2) {
-    whichconst = wgs84;
-  }
 
   InitializeState(initial_relative_position_lvlh, initial_relative_velocity_lvlh, current_jd, mu);
 }

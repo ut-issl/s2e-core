@@ -40,27 +40,24 @@ void Orbit::TransECIToECEF(void) {
 
 void Orbit::TransECIToGeo(double current_jd) {
   double r, e2, phi, c;
-  double theta;
+  double theta_rad;
   double current_side = gstime(current_jd);
-  double radiusearthkm;
-  double f;
-  getwgsconst(whichconst, radiusearthkm, f);
+  double radius_m = environment::earth_equatorial_radius_m;
+  double flattening = environment::earth_flattening;
 
-  theta = AcTan(sat_position_i_[1], sat_position_i_[0]); /* radians */
-  lon_rad_ = FMod2p(theta - current_side);               /* radians */
+  theta_rad = AcTan(sat_position_i_[1], sat_position_i_[0]);
+  lon_rad_ = FMod2p(theta_rad - current_side);
   r = sqrt(sat_position_i_[0] * sat_position_i_[0] + sat_position_i_[1] * sat_position_i_[1]);
-  e2 = f * (2.0 - f);
-  lat_rad_ = AcTan(sat_position_i_[2], r); /* radians */
+  e2 = flattening * (2.0 - flattening);
+  lat_rad_ = AcTan(sat_position_i_[2], r);
 
   do {
     phi = lat_rad_;
     c = 1.0 / sqrt(1.0 - e2 * sin(phi) * sin(phi));
-    lat_rad_ = AcTan(sat_position_i_[2] + radiusearthkm * c * e2 * sin(phi) * 1000.0, r);
-
+    lat_rad_ = AcTan(sat_position_i_[2] + radius_m * c * e2 * sin(phi), r);
   } while (fabs(lat_rad_ - phi) >= 1E-10);
 
-  alt_m_ = r / cos(lat_rad_) - radiusearthkm * c * 1000.0;
-  /* kilometers -> meters */  // Height of the ellipsoid
+  alt_m_ = r / cos(lat_rad_) - c * radius_m;
 
   if (lat_rad_ > libra::pi_2) lat_rad_ -= libra::tau;
 }

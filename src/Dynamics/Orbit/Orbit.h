@@ -13,7 +13,6 @@ using libra::Vector;
 
 #include <Environment/Global/CelestialInformation.h>
 #include <Interface/LogOutput/ILoggable.h>
-#include <math.h>
 
 #include <Environment/Global/PhysicalConstants.hpp>
 
@@ -82,7 +81,6 @@ class Orbit : public ILoggable {
   // Settings
   bool is_calc_enabled_ = false;
   PROPAGATE_MODE propagate_mode_;
-  gravconsttype whichconst;  // this value defines the constants in SGP4 calculation
 
   // spacecraft position in inertial frame [m]
   Vector<3> sat_position_i_;
@@ -108,9 +106,8 @@ class Orbit : public ILoggable {
   // Altitude [m]
   double alt_m_;
 
-  // Convert ECI satellite position to ECEF frame
+  // Frame Conversion TODO: consider other planet
   void TransECIToECEF(void);
-  // Convert ECI satellite position to GEO(lattitude, longitude, and latitude)
   void TransECIToGeo(double current_jd);
 };
 

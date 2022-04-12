@@ -13,13 +13,6 @@ Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celes_info,
   prop_time_ = 0.0;
   prop_step_ = timestep;
   acc_i_ *= 0;
-  if (wgs == 0) {
-    whichconst = wgs72old;
-  } else if (wgs == 1) {
-    whichconst = wgs72;
-  } else if (wgs == 2) {
-    whichconst = wgs84;
-  }
 
   Initialize(init_position, init_velocity, current_jd, init_time);
 }

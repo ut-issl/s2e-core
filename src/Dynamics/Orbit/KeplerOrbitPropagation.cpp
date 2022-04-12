@@ -5,15 +5,6 @@
 KeplerOrbitPropagation::KeplerOrbitPropagation(const CelestialInformation* celes_info, const double current_jd, KeplerOrbit kepler_orbit,
                                                const int wgs)
     : Orbit(celes_info), KeplerOrbit(kepler_orbit) {
-  // TODO whichconst周りを整理する
-  if (wgs == 0) {
-    whichconst = wgs72old;
-  } else if (wgs == 1) {
-    whichconst = wgs72;
-  } else if (wgs == 2) {
-    whichconst = wgs84;
-  }
-
   UpdateState(current_jd);
 }
 

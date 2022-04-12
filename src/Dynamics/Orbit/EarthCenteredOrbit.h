@@ -19,4 +19,5 @@ class EarthCenteredOrbit : public Orbit {
   virtual std::string GetLogValue() const;
 
  private:
+  gravconsttype whichconst_;
 };

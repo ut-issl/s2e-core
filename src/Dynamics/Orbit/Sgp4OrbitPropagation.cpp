@@ -9,17 +9,17 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celes_inf
   propagate_mode_ = PROPAGATE_MODE::SGP4;
 
   if (wgs == 0) {
-    whichconst = wgs72old;
+    whichconst_ = wgs72old;
   } else if (wgs == 1) {
-    whichconst = wgs72;
+    whichconst_ = wgs72;
   } else if (wgs == 2) {
-    whichconst = wgs84;
+    whichconst_ = wgs84;
   }
 
   char typerun = 'c', typeinput = 0;
   double startmfe, stopmfe, deltamin;
 
-  twoline2rv(tle1, tle2, typerun, typeinput, whichconst, startmfe, stopmfe, deltamin, satrec);
+  twoline2rv(tle1, tle2, typerun, typeinput, whichconst_, startmfe, stopmfe, deltamin, satrec);
 
   acc_i_ *= 0;
 
@@ -36,7 +36,7 @@ void Sgp4OrbitPropagation::Propagate(double endtime, double current_jd) {
   double r[3];
   double v[3];
 
-  sgp4(whichconst, satrec, elapse_time_min, r, v);
+  sgp4(whichconst_, satrec, elapse_time_min, r, v);
 
   // Error in SGP4
   if (satrec.error > 0) printf("# *** error: time:= %f *** code = %3d\n", satrec.t, satrec.error);
