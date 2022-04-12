@@ -74,37 +74,13 @@ class Orbit : public ILoggable {
   // frame
   inline virtual void AddPositionOffset(Vector<3> offset_i) { (void)offset_i; }
 
-  Quaternion CalcQuaternionI2LVLH() const {
-    Vector<3> lvlh_x = sat_position_i_;  // x-axis in LVLH frame is position vector direction
-                                         // from geocenter to satellite
-    Vector<3> lvlh_ex = normalize(lvlh_x);
-    Vector<3> lvlh_z = outer_product(sat_position_i_,
-                                     sat_velocity_i_);  // z-axis in LVLH frame is angular
-                                                        // momentum vector direction of orbit
-    Vector<3> lvlh_ez = normalize(lvlh_z);
-    Vector<3> lvlh_y = outer_product(lvlh_z, lvlh_x);
-    Vector<3> lvlh_ey = normalize(lvlh_y);
-
-    Matrix<3, 3> dcm_i2lvlh;
-    dcm_i2lvlh[0][0] = lvlh_ex[0];
-    dcm_i2lvlh[0][1] = lvlh_ex[1];
-    dcm_i2lvlh[0][2] = lvlh_ex[2];
-    dcm_i2lvlh[1][0] = lvlh_ey[0];
-    dcm_i2lvlh[1][1] = lvlh_ey[1];
-    dcm_i2lvlh[1][2] = lvlh_ey[2];
-    dcm_i2lvlh[2][0] = lvlh_ez[0];
-    dcm_i2lvlh[2][1] = lvlh_ez[1];
-    dcm_i2lvlh[2][2] = lvlh_ez[2];
-
-    Quaternion q_i2lvlh = Quaternion::fromDCM(dcm_i2lvlh);
-    return q_i2lvlh.normalize();
-  }
-
-  virtual std::string GetLogHeader() const = 0;
-  virtual std::string GetLogValue() const = 0;
+  Quaternion CalcQuaternionI2LVLH() const;
 
   bool IsCalcEnabled = false;
   gravconsttype whichconst;
+
+  virtual std::string GetLogHeader() const = 0;
+  virtual std::string GetLogValue() const = 0;
 
  protected:
   const CelestialInformation* celes_info_;
@@ -141,45 +117,9 @@ class Orbit : public ILoggable {
   double alt_m_;
 
   // Convert ECI satellite position to ECEF frame
-  inline void TransECIToECEF(void) {
-    Matrix<3, 3> dcm_i_to_xcxf = celes_info_->GetEarthRotation().GetDCMJ2000toXCXF();
-    sat_position_ecef_ = dcm_i_to_xcxf * sat_position_i_;
-
-    // convert velocity vector in ECI to the vector in ECEF
-    Vector<3> OmegaE{0.0};
-    OmegaE[2] = environment::earth_mean_angular_velocity_rad_s;
-    Vector<3> wExr = outer_product(OmegaE, sat_position_i_);
-    Vector<3> V_wExr = sat_velocity_i_ - wExr;
-    sat_velocity_ecef_ = dcm_i_to_xcxf * V_wExr;
-  }
-
+  void TransECIToECEF(void);
   // Convert ECI satellite position to GEO(lattitude, longitude, and latitude)
-  void TransECIToGeo(double current_jd) {
-    double r, e2, phi, c;
-    double theta;
-    double current_side = gstime(current_jd);
-    double radiusearthkm;
-    double f;
-    getwgsconst(whichconst, radiusearthkm, f);
-
-    theta = AcTan(sat_position_i_[1], sat_position_i_[0]); /* radians */
-    lon_rad_ = FMod2p(theta - current_side);               /* radians */
-    r = sqrt(sat_position_i_[0] * sat_position_i_[0] + sat_position_i_[1] * sat_position_i_[1]);
-    e2 = f * (2.0 - f);
-    lat_rad_ = AcTan(sat_position_i_[2], r); /* radians */
-
-    do {
-      phi = lat_rad_;
-      c = 1.0 / sqrt(1.0 - e2 * sin(phi) * sin(phi));
-      lat_rad_ = AcTan(sat_position_i_[2] + radiusearthkm * c * e2 * sin(phi) * 1000.0, r);
-
-    } while (fabs(lat_rad_ - phi) >= 1E-10);
-
-    alt_m_ = r / cos(lat_rad_) - radiusearthkm * c * 1000.0;
-    /* kilometers -> meters */  // Height of the ellipsoid
-
-    if (lat_rad_ > libra::pi_2) lat_rad_ -= libra::tau;
-  }
+  void TransECIToGeo(double current_jd);
 };
 
 #endif  //__orbit_H__
