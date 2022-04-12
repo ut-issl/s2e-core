@@ -12,6 +12,7 @@ using libra::Quaternion;
 using libra::Vector;
 
 #include <Interface/LogOutput/ILoggable.h>
+#include <math.h>
 
 #include <Environment/Global/PhysicalConstants.hpp>
 
@@ -22,9 +23,9 @@ using libra::Vector;
 
 class Orbit : public ILoggable {
  public:
-  virtual ~Orbit() {}
+  enum class PROPAGATE_MODE { RK4 = 0, SGP4, RELATIVE_ORBIT, KEPLER, ENCKE };
 
-  enum class PROPAGATE_MODE { RK4 = 0, SGP4, RELATIVE_ORBIT };
+  virtual ~Orbit() {}
 
   inline PROPAGATE_MODE GetPropagateMode() const { return propagate_mode_; }
   inline Vector<3> GetSatPosition_i() const { return sat_position_i_; }
