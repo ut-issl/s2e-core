@@ -1,11 +1,11 @@
-#include "SimpleCircularOrbit.h"
+#include "Rk4OrbitPropagation.h"
 
 #include <iostream>
 #include <sstream>
 
 using std::string;
 
-SimpleCircularOrbit::SimpleCircularOrbit(const CelestialInformation* celes_info, double mu, double timestep, int wgs, Vector<3> init_position,
+Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, int wgs, Vector<3> init_position,
                                          Vector<3> init_velocity, double current_jd, double init_time)
     : celes_info_(celes_info), ODE<N>(timestep), mu(mu) {
   propagate_mode_ = PROPAGATE_MODE::RK4;
@@ -24,9 +24,9 @@ SimpleCircularOrbit::SimpleCircularOrbit(const CelestialInformation* celes_info,
   Initialize(init_position, init_velocity, current_jd, init_time);
 }
 
-SimpleCircularOrbit::~SimpleCircularOrbit() {}
+Rk4OrbitPropagation::~Rk4OrbitPropagation() {}
 
-void SimpleCircularOrbit::RHS(double t, const Vector<N>& state, Vector<N>& rhs) {
+void Rk4OrbitPropagation::RHS(double t, const Vector<N>& state, Vector<N>& rhs) {
   double x = state[0], y = state[1], z = state[2];
   double vx = state[3], vy = state[4], vz = state[5];
 
@@ -42,8 +42,8 @@ void SimpleCircularOrbit::RHS(double t, const Vector<N>& state, Vector<N>& rhs) 
   (void)t;
 }
 
-void SimpleCircularOrbit::Initialize(Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time) {
-  // 状態量ベクトル [x,y,z,vx,vy,vz]
+void Rk4OrbitPropagation::Initialize(Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time) {
+  // state vector [x,y,z,vx,vy,vz]
   Vector<N> init_state;
   init_state[0] = init_position[0];
   init_state[1] = init_position[1];
@@ -53,7 +53,7 @@ void SimpleCircularOrbit::Initialize(Vector<3> init_position, Vector<3> init_vel
   init_state[5] = init_velocity[2];
   setup(init_time, init_state);
 
-  // 初期値代入
+  // initialize
   acc_i_ *= 0;
   sat_position_i_[0] = init_state[0];
   sat_position_i_[1] = init_state[1];
@@ -75,7 +75,7 @@ void SimpleCircularOrbit::Initialize(Vector<3> init_position, Vector<3> init_vel
   sat_velocity_ecef_ = trans_eci2ecef_ * V_wExr;
 }
 
-void SimpleCircularOrbit::Propagate(double endtime, double current_jd) {
+void Rk4OrbitPropagation::Propagate(double endtime, double current_jd) {
   if (!IsCalcEnabled) return;
 
   setStepWidth(prop_step_);  // Re-set propagation Δt
@@ -108,7 +108,7 @@ void SimpleCircularOrbit::Propagate(double endtime, double current_jd) {
   sat_velocity_ecef_ = trans_eci2ecef_ * V_wExr;
 }
 
-void SimpleCircularOrbit::AddPositionOffset(Vector<3> offset_i) {
+void Rk4OrbitPropagation::AddPositionOffset(Vector<3> offset_i) {
   auto newstate = state();
   for (auto i = 0; i < 3; i++) {
     newstate[i] += offset_i[i];
@@ -119,7 +119,7 @@ void SimpleCircularOrbit::AddPositionOffset(Vector<3> offset_i) {
   sat_position_i_[2] = state()[2];
 }
 
-string SimpleCircularOrbit::GetLogHeader() const {
+string Rk4OrbitPropagation::GetLogHeader() const {
   string str_tmp = "";
 
   str_tmp += WriteVector("sat_position", "i", "m", 3);
@@ -133,7 +133,7 @@ string SimpleCircularOrbit::GetLogHeader() const {
   return str_tmp;
 }
 
-string SimpleCircularOrbit::GetLogValue() const {
+string Rk4OrbitPropagation::GetLogValue() const {
   string str_tmp = "";
 
   str_tmp += WriteVector(sat_position_i_, 16);

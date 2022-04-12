@@ -2,8 +2,8 @@
 #include <Dynamics/Orbit/KeplerOrbitPropagation.h>
 #include <Dynamics/Orbit/Orbit.h>
 #include <Dynamics/Orbit/RelativeOrbit.h>
+#include <Dynamics/Orbit/Rk4OrbitPropagation.h>
 #include <Dynamics/Orbit/Sgp4OrbitPropagation.h>
-#include <Dynamics/Orbit/SimpleCircularOrbit.h>
 #include <Environment/Global/SimTime.h>
 #include <Library/RelativeOrbit/RelativeOrbitModels.h>
 #include <RelativeInformation/RelativeInformation.h>
@@ -12,8 +12,6 @@
 
 #include "Initialize.h"
 
-// class Sgp4OrbitPropagation;
-class SimpleCircularOrbit;
 class RelativeOrbit;
 class KeplerOrbit;
 
@@ -33,7 +31,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     Vector<3> init_veloc;
     conf.ReadVector<3>(section_, "init_velocity", init_veloc);
 
-    orbit = new SimpleCircularOrbit(celes_info, gravity_constant, stepSec, wgs, init_pos, init_veloc, current_jd);
+    orbit = new Rk4OrbitPropagation(celes_info, gravity_constant, stepSec, wgs, init_pos, init_veloc, current_jd);
   } else if (propagate_mode == "SGP4") {  // Initialize SGP4 orbit propagator
     char tle1[80], tle2[80];
     conf.ReadChar(section_, "tle1", 80, tle1);
