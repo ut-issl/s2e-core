@@ -67,7 +67,7 @@ void Rk4OrbitPropagation::Initialize(Vector<3> init_position, Vector<3> init_vel
 }
 
 void Rk4OrbitPropagation::Propagate(double endtime, double current_jd) {
-  if (!IsCalcEnabled) return;
+  if (!is_calc_enabled_) return;
 
   setStepWidth(prop_step_);  // Re-set propagation Δt
   while (endtime - prop_time_ - prop_step_ > 1.0e-6) {

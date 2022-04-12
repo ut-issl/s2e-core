@@ -23,7 +23,7 @@ EnckeOrbitPropagation::~EnckeOrbitPropagation() {}
 
 // Functions for Orbit
 void EnckeOrbitPropagation::Propagate(double endtime, double current_jd) {
-  if (!IsCalcEnabled) return;
+  if (!is_calc_enabled_) return;
 
   // Rectification
   double norm_sat_position_m = norm(sat_position_i_);

@@ -92,7 +92,7 @@ void RelativeOrbit::CalculateSTM(STMModel stm_model_type, const Orbit* reference
 }
 
 void RelativeOrbit::Propagate(double endtime, double current_jd) {
-  if (!IsCalcEnabled) return;
+  if (!is_calc_enabled_) return;
 
   acc_i_ *= 0;  // Disturbance acceleration are not considered in relative orbit
                 // propagation

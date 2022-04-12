@@ -24,13 +24,13 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celes_inf
   acc_i_ *= 0;
 
   // To calculate initial position and verocity
-  IsCalcEnabled = true;
+  is_calc_enabled_ = true;
   Propagate(0.0, current_jd);
-  IsCalcEnabled = false;
+  is_calc_enabled_ = false;
 }
 
 void Sgp4OrbitPropagation::Propagate(double endtime, double current_jd) {
-  if (!IsCalcEnabled) return;
+  if (!is_calc_enabled_) return;
   double elapse_time_min = (current_jd - satrec.jdsatepoch) * (24.0 * 60.0);
 
   double r[3];
