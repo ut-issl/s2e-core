@@ -46,7 +46,7 @@ void Sgp4OrbitPropagation::Propagate(double endtime, double current_jd) {
     sat_velocity_i_[i] = v[i] * 1000;
   }
 
-  TransECIToECEF();
+  TransEciToEcef();
   TransEcefToGeo();
 }
 

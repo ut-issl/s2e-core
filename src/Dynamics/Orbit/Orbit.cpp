@@ -26,7 +26,7 @@ Quaternion Orbit::CalcQuaternionI2LVLH() const {
   return q_i2lvlh.normalize();
 }
 
-void Orbit::TransECIToECEF(void) {
+void Orbit::TransEciToEcef(void) {
   Matrix<3, 3> dcm_i_to_xcxf = celes_info_->GetEarthRotation().GetDCMJ2000toXCXF();
   sat_position_ecef_ = dcm_i_to_xcxf * sat_position_i_;
 

@@ -54,7 +54,7 @@ void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh, Ve
     CalculateSTM(stm_model_type_, &(rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit()), mu, 0.0);
   }
 
-  TransECIToECEF();
+  TransEciToEcef();
   TransEcefToGeo();
 }
 
@@ -104,7 +104,7 @@ void RelativeOrbit::Propagate(double endtime, double current_jd) {
 
   sat_position_i_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
   sat_velocity_i_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
-  TransECIToECEF();
+  TransEciToEcef();
   TransEcefToGeo();
 }
 

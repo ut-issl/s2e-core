@@ -115,7 +115,7 @@ void EnckeOrbitPropagation::UpdateSatOrbit(double current_jd) {
   sat_position_i_ = ref_position_i_m_ + diff_position_i_m_;
   sat_velocity_i_ = ref_velocity_i_m_s_ + diff_velocity_i_m_s_;
 
-  TransECIToECEF();
+  TransEciToEcef();
   TransEcefToGeo();
 }
 
