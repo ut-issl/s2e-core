@@ -1,6 +1,6 @@
 #include "RelativeOrbit.h"
 
-#include "SimpleCircularOrbit.h"
+#include "Rk4OrbitPropagation.h"
 
 RelativeOrbit::RelativeOrbit(double mu, double timestep, int wgs, double current_jd, int reference_sat_id, Vector<3> initial_relative_position_lvlh,
                              Vector<3> initial_relative_velocity_lvlh, RelativeOrbitUpdateMethod update_method,

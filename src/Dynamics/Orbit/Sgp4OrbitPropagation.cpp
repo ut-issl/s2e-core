@@ -1,10 +1,10 @@
-#include "EarthCenteredOrbit.h"
+#include "Sgp4OrbitPropagation.h"
 
 #include <iostream>
 #include <sstream>
 using namespace std;
 
-EarthCenteredOrbit::EarthCenteredOrbit(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd)
+Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd)
     : celes_info_(celes_info) {
   propagate_mode_ = PROPAGATE_MODE::SGP4;
 
@@ -29,7 +29,7 @@ EarthCenteredOrbit::EarthCenteredOrbit(const CelestialInformation* celes_info, c
   IsCalcEnabled = false;
 }
 
-void EarthCenteredOrbit::Propagate(double endtime, double current_jd) {
+void Sgp4OrbitPropagation::Propagate(double endtime, double current_jd) {
   if (!IsCalcEnabled) return;
   double elapse_time_min = (current_jd - satrec.jdsatepoch) * (24.0 * 60.0);
 
@@ -38,7 +38,7 @@ void EarthCenteredOrbit::Propagate(double endtime, double current_jd) {
 
   sgp4(whichconst, satrec, elapse_time_min, r, v);
 
-  // SGP4エラー表示
+  // Error in SGP4
   if (satrec.error > 0) printf("# *** error: time:= %f *** code = %3d\n", satrec.t, satrec.error);
 
   for (int i = 0; i < 3; ++i) {
@@ -59,7 +59,7 @@ void EarthCenteredOrbit::Propagate(double endtime, double current_jd) {
   sat_velocity_ecef_ = trans_eci2ecef_ * V_wExr;
 }
 
-string EarthCenteredOrbit::GetLogHeader() const {
+string Sgp4OrbitPropagation::GetLogHeader() const {
   string str_tmp = "";
 
   str_tmp += WriteVector("sat_position", "i", "m", 3);
@@ -72,7 +72,7 @@ string EarthCenteredOrbit::GetLogHeader() const {
   return str_tmp;
 }
 
-string EarthCenteredOrbit::GetLogValue() const {
+string Sgp4OrbitPropagation::GetLogValue() const {
   string str_tmp = "";
 
   str_tmp += WriteVector(sat_position_i_);
@@ -85,7 +85,7 @@ string EarthCenteredOrbit::GetLogValue() const {
   return str_tmp;
 }
 
-Vector<3> EarthCenteredOrbit::GetESIOmega() {
+Vector<3> Sgp4OrbitPropagation::GetESIOmega() {
   Vector<3> omega_peri = Vector<3>();
   omega_peri[0] = 0.0;
   omega_peri[1] = 0.0;
