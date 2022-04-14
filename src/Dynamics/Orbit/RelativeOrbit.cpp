@@ -2,7 +2,7 @@
 
 #include "Rk4OrbitPropagation.h"
 
-RelativeOrbit::RelativeOrbit(const CelestialInformation* celes_info, double mu, double timestep, int wgs, double current_jd, int reference_sat_id,
+RelativeOrbit::RelativeOrbit(const CelestialInformation* celes_info, double mu, double timestep, double current_jd, int reference_sat_id,
                              Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh,
                              RelativeOrbitUpdateMethod update_method, RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type,
                              RelativeInformation* rel_info)

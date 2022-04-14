@@ -2,8 +2,7 @@
 
 #include "../../Library/math/s2e_math.hpp"
 
-KeplerOrbitPropagation::KeplerOrbitPropagation(const CelestialInformation* celes_info, const double current_jd, KeplerOrbit kepler_orbit,
-                                               const int wgs)
+KeplerOrbitPropagation::KeplerOrbitPropagation(const CelestialInformation* celes_info, const double current_jd, KeplerOrbit kepler_orbit)
     : Orbit(celes_info), KeplerOrbit(kepler_orbit) {
   UpdateState(current_jd);
 }

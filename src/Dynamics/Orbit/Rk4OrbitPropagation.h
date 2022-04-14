@@ -10,7 +10,7 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
   double mu;
 
  public:
-  Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, int wgs, Vector<3> init_position, Vector<3> init_velocity,
+  Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, Vector<3> init_position, Vector<3> init_velocity,
                       double current_jd, double init_time = 0);
   ~Rk4OrbitPropagation();
 

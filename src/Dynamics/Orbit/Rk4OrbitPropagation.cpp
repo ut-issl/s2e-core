@@ -5,7 +5,7 @@
 
 using std::string;
 
-Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, int wgs, Vector<3> init_position,
+Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, Vector<3> init_position,
                                          Vector<3> init_velocity, double current_jd, double init_time)
     : Orbit(celes_info), ODE<N>(timestep), mu(mu) {
   propagate_mode_ = PROPAGATE_MODE::RK4;
