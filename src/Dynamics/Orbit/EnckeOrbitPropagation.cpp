@@ -54,6 +54,7 @@ std::string EnckeOrbitPropagation::GetLogHeader() const {
 
   str_tmp += WriteVector("sat_position", "i", "m", 3);
   str_tmp += WriteVector("sat_velocity", "i", "m/s", 3);
+  str_tmp += WriteVector("sat_velocity", "b", "m/s", 3);
   str_tmp += WriteVector("sat_acc", "i", "m/s^2", 3);
   str_tmp += WriteScalar("lat", "rad");
   str_tmp += WriteScalar("lon", "rad");
@@ -66,10 +67,11 @@ std::string EnckeOrbitPropagation::GetLogValue() const {
 
   str_tmp += WriteVector(sat_position_i_, 16);
   str_tmp += WriteVector(sat_velocity_i_, 10);
+  str_tmp += WriteVector(sat_velocity_b_, 10);
   str_tmp += WriteVector(acc_i_, 10);
-  str_tmp += WriteScalar(geo_pos_.GetLat_rad());
-  str_tmp += WriteScalar(geo_pos_.GetLon_rad());
-  str_tmp += WriteScalar(geo_pos_.GetAlt_m());
+  str_tmp += WriteScalar(sat_position_geo_.GetLat_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetLon_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetAlt_m());
   return str_tmp;
 }
 

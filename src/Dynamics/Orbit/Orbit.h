@@ -41,19 +41,20 @@ class Orbit : public ILoggable {
   inline Vector<3> GetSatVelocity_i() const { return sat_velocity_i_; }
   inline Vector<3> GetSatVelocity_b() const { return sat_velocity_b_; }
   inline Vector<3> GetSatVelocity_ecef() const { return sat_velocity_ecef_; }
-  inline GeodeticPosition GetGeodeticPosition() const { return geo_pos_; }
+  inline GeodeticPosition GetGeodeticPosition() const { return sat_position_geo_; }
 
-  // TODO delete somedays...
-  inline double GetLat_rad() const { return geo_pos_.GetLat_rad(); }
-  inline double GetLon_rad() const { return geo_pos_.GetLon_rad(); }
-  inline double GetAlt_m() const { return geo_pos_.GetAlt_m(); }
+  // TODO delete the following functions
+  inline double GetLat_rad() const { return sat_position_geo_.GetLat_rad(); }
+  inline double GetLon_rad() const { return sat_position_geo_.GetLon_rad(); }
+  inline double GetAlt_m() const { return sat_position_geo_.GetAlt_m(); }
   inline Vector<3> GetLatLonAlt() const {
     Vector<3> vec;
-    vec(0) = geo_pos_.GetLat_rad();
-    vec(1) = geo_pos_.GetLon_rad();
-    vec(2) = geo_pos_.GetAlt_m();
+    vec(0) = sat_position_geo_.GetLat_rad();
+    vec(1) = sat_position_geo_.GetLon_rad();
+    vec(2) = sat_position_geo_.GetAlt_m();
     return vec;
   }
+
   // Setters
   inline void SetIsCalcEnabled(bool is_calc_enabled) { is_calc_enabled_ = is_calc_enabled; }
   inline void SetAcceleration_i(Vector<3> acceleration_i) { acc_i_ = acceleration_i; }
@@ -79,9 +80,9 @@ class Orbit : public ILoggable {
   bool is_calc_enabled_ = false;
   PROPAGATE_MODE propagate_mode_;
 
-  Vector<3> sat_position_i_;     //! spacecraft position in inertial frame [m]
-  Vector<3> sat_position_ecef_;  //! spacecraft position in ECEF frame [m]
-  GeodeticPosition geo_pos_;     //! spacecraft position in Geodetic frame
+  Vector<3> sat_position_i_;           //! spacecraft position in inertial frame [m]
+  Vector<3> sat_position_ecef_;        //! spacecraft position in ECEF frame [m]
+  GeodeticPosition sat_position_geo_;  //! spacecraft position in Geodetic frame
 
   Vector<3> sat_velocity_i_;     //! spacecraft velocity in inertial frame [m/s]
   Vector<3> sat_velocity_b_;     //! spacecraft velocity in body frame [m/s]

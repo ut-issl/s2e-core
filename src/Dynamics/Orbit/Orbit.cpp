@@ -38,4 +38,4 @@ void Orbit::TransEciToEcef(void) {
   sat_velocity_ecef_ = dcm_i_to_xcxf * V_wExr;
 }
 
-void Orbit::TransEcefToGeo(void) { geo_pos_.UpdateFromEcef(sat_position_ecef_); }
+void Orbit::TransEcefToGeo(void) { sat_position_geo_.UpdateFromEcef(sat_position_ecef_); }
