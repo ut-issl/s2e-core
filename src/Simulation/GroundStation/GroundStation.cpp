@@ -21,32 +21,18 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
   char Section[30] = "GS";
   strcat(Section, cs);
 
-  latitude_ = conf.ReadDouble(Section, "latitude");
-  longitude_ = conf.ReadDouble(Section, "longitude");
-  height_ = conf.ReadDouble(Section, "height");
+  double latitude_deg = conf.ReadDouble(Section, "latitude");
+  double longitude_deg = conf.ReadDouble(Section, "longitude");
+  double height_m = conf.ReadDouble(Section, "height");
+  gs_position_geo_ = GeodeticPosition(latitude_deg * libra::deg_to_rad, longitude_deg * libra::deg_to_rad, height_m);
+  gs_position_ecef_ = gs_position_geo_.CalcEcefPosition();
+
   elevation_angle_ = conf.ReadDouble(Section, "elevation_angle");
 }
 
 void GroundStation::LogSetup(Logger& logger) {}
 
-void GroundStation::Update(const double& current_jd)  // 慣性系での地上局位置を更新する
-{
-  double current_side = gstime(current_jd);
-  double theta = FMod2p(longitude_ * libra::deg_to_rad + current_side);  //[rad]
-
-  double radiusearthkm;
-  double f;
-  getwgsconst(whichconst_gs, radiusearthkm, f);
-
-  double e2 = f * (2 - f);
-  double c = 1 / sqrt(1 - e2 * sin(latitude_ * libra::deg_to_rad) * sin(latitude_ * libra::deg_to_rad));
-  double N = c * radiusearthkm * 1000.0;  //[metre]
-
-  double x = (N + height_) * cos(latitude_ * libra::deg_to_rad) * cos(theta);  //[metre]
-  double y = (N + height_) * cos(latitude_ * libra::deg_to_rad) * sin(theta);  //[metre]
-  double z = (N * (1 - e2) + height_) * sin(latitude_ * libra::deg_to_rad);    //[metre]
-
-  gs_position_i_(0) = x;
-  gs_position_i_(1) = y;
-  gs_position_i_(2) = z;
+void GroundStation::Update(const CelestialRotation& celes_rotation) {
+  Matrix<3, 3> dcm_ecef2eci = transpose(celes_rotation.GetDCMJ2000toXCXF());
+  gs_position_i_ = dcm_ecef2eci * gs_position_ecef_;
 }

@@ -1,27 +1,16 @@
 #pragma once
 
+#include <Environment/Global/CelestialRotation.h>
 #include <Interface/InitInput/Initialize.h>
 
+#include <Library/Geodesy/GeodeticPosition.hpp>
 #include <Library/math/Vector.hpp>
 
 #include "../SimulationConfig.h"
 
-//↓TODO:
-//地上局位置を求めるため，Dynamics/Orbit/EarthCenterOrbit.cppのTransECIToGeo()を参考に直接SGPをいじっているが，これをDynamics外に出すissueがあるので，いずれそれと関連して間接的にいじるように変える必要がある
-// https://gitlab.com/ut_issl/s2e/s2e_core_oss/-/issues/4
-#include <Library/sgp4/sgp4ext.h>
-#include <Library/sgp4/sgp4io.h>
-#include <Library/sgp4/sgp4unit.h>
-
-static gravconsttype whichconst_gs;
-//↑
-
 class GroundStation {
  public:
   int gs_id_;               // GroundStationのID
-  double latitude_;         //[deg]
-  double longitude_;        //[deg]
-  double height_;           //[m]
   double elevation_angle_;  //[deg]
 
   GroundStation(SimulationConfig* config, int gs_id_);
@@ -35,10 +24,14 @@ class GroundStation {
 
   virtual void LogSetup(Logger& logger);
 
-  virtual void Update(const double& current_jd);
+  virtual void Update(const CelestialRotation& celes_rotation);
 
+  GeodeticPosition GetGSPosition_geo() const { return gs_position_geo_; }
+  Vector<3> GetGSPosition_ecef() const { return gs_position_ecef_; }
   Vector<3> GetGSPosition_i() const { return gs_position_i_; }
 
  protected:
-  Vector<3> gs_position_i_;  // 慣性系での地上局位置[m]
+  GeodeticPosition gs_position_geo_;  //! Ground Station Position in the geodetic frame
+  Vector<3> gs_position_ecef_;        //! Ground Station Position in the ECEF frame [m]
+  Vector<3> gs_position_i_;           //! Ground Station Position in the inertial frame [m]
 };

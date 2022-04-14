@@ -15,7 +15,7 @@ void SampleGS::LogSetup(Logger& logger) {
 
 void SampleGS::Update(const Dynamics& dynamics, const GlobalEnvironment& global_env, const ANT& sc_ant, const SampleGS& samplegs,
                       const double& current_jd) {
-  GroundStation::Update(current_jd);
+  GroundStation::Update(global_env.GetCelesInfo().GetEarthRotation());
   components_->gscalculator_->Update(dynamics, global_env, sc_ant, samplegs,
                                      *(components_->ant_));  // compo->ant_がnullの場合未定義動作になる気がするので対処が必要？
 }
