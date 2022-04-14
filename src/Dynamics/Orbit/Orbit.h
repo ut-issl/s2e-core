@@ -108,7 +108,7 @@ class Orbit : public ILoggable {
 
   // Frame Conversion TODO: consider other planet
   void TransECIToECEF(void);
-  void TransECIToGeo(double current_jd);
+  void TransEcefToGeo(void);
 };
 
 #endif  //__orbit_H__

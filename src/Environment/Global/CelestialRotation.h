@@ -37,6 +37,8 @@ class CelestialRotation {
   // (X-Centered X-Fixed)
   inline const Matrix<3, 3> GetDCMTEMEtoXCXF() const { return DCM_TEMEtoXCXF_; };
 
+  Vector<3> TransformEcefToGeo(const Vector<3> position_ecef_m) const;
+
  private:
   // coefficient initialization function, 対象天体ごとに用意するか…？
   void Init_CelestialRotation_As_Earth(const RotationMode rotation_mode, const std::string center_obj);

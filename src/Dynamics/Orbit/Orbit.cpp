@@ -38,26 +38,25 @@ void Orbit::TransECIToECEF(void) {
   sat_velocity_ecef_ = dcm_i_to_xcxf * V_wExr;
 }
 
-void Orbit::TransECIToGeo(double current_jd) {
-  double r, e2, phi, c;
+void Orbit::TransEcefToGeo(void) {
+  double r_m, e2, phi, c;
   double theta_rad;
-  double current_side = gstime(current_jd);
-  double radius_m = environment::earth_equatorial_radius_m;
+  double earth_radius_m = environment::earth_equatorial_radius_m;
   double flattening = environment::earth_flattening;
 
-  theta_rad = AcTan(sat_position_i_[1], sat_position_i_[0]);
-  lon_rad_ = FMod2p(theta_rad - current_side);
-  r = sqrt(sat_position_i_[0] * sat_position_i_[0] + sat_position_i_[1] * sat_position_i_[1]);
+  theta_rad = AcTan(sat_position_ecef_[1], sat_position_ecef_[0]);
+  lon_rad_ = FMod2p(theta_rad);
+  r_m = sqrt(sat_position_ecef_[0] * sat_position_ecef_[0] + sat_position_ecef_[1] * sat_position_ecef_[1]);
   e2 = flattening * (2.0 - flattening);
-  lat_rad_ = AcTan(sat_position_i_[2], r);
+  lat_rad_ = AcTan(sat_position_ecef_[2], r_m);
 
   do {
     phi = lat_rad_;
     c = 1.0 / sqrt(1.0 - e2 * sin(phi) * sin(phi));
-    lat_rad_ = AcTan(sat_position_i_[2] + radius_m * c * e2 * sin(phi), r);
+    lat_rad_ = AcTan(sat_position_ecef_[2] + earth_radius_m * c * e2 * sin(phi), r_m);
   } while (fabs(lat_rad_ - phi) >= 1E-10);
 
-  alt_m_ = r / cos(lat_rad_) - c * radius_m;
+  alt_m_ = r_m / cos(lat_rad_) - c * earth_radius_m;
 
   if (lat_rad_ > libra::pi_2) lat_rad_ -= libra::tau;
 }

@@ -47,7 +47,7 @@ void Sgp4OrbitPropagation::Propagate(double endtime, double current_jd) {
   }
 
   TransECIToECEF();
-  TransECIToGeo(current_jd);
+  TransEcefToGeo();
 }
 
 string Sgp4OrbitPropagation::GetLogHeader() const {

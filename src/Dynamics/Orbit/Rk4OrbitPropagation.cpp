@@ -56,7 +56,7 @@ void Rk4OrbitPropagation::Initialize(Vector<3> init_position, Vector<3> init_vel
   sat_velocity_i_[2] = init_state[5];
 
   TransECIToECEF();
-  TransECIToGeo(current_jd);
+  TransEcefToGeo();
 }
 
 void Rk4OrbitPropagation::Propagate(double endtime, double current_jd) {
@@ -80,7 +80,7 @@ void Rk4OrbitPropagation::Propagate(double endtime, double current_jd) {
   sat_velocity_i_[2] = state()[5];
 
   TransECIToECEF();
-  TransECIToGeo(current_jd);
+  TransEcefToGeo();
 }
 
 void Rk4OrbitPropagation::AddPositionOffset(Vector<3> offset_i) {
