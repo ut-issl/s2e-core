@@ -1,6 +1,6 @@
 ﻿#include "CelestialRotation.h"
 
-#include <Library/sgp4/sgp4ext.h>   //for jday()
+#include <Library/sgp4/sgp4ext.h>   //for jday(), AcTan
 #include <Library/sgp4/sgp4unit.h>  //for gstime()
 
 #include <Environment/Global/PhysicalConstants.hpp>
@@ -291,34 +291,31 @@ Matrix<3, 3> CelestialRotation::PolarMotion(const double Xp, const double Yp) {
 }
 
 Vector<3> CelestialRotation::TransformEcefToGeo(const Vector<3> position_ecef_m) const {
-  const double earth_radius_m = environment::earth_equatorial_radius_m;
-  const double flattening = environment::earth_flattening;
-
+  double r_m, e2, phi, c;
+  double theta_rad;
+  double earth_radius_m = environment::earth_equatorial_radius_m;
+  double flattening = environment::earth_flattening;
   double lon_rad, lat_rad, alt_m;
 
-  /*
-  // longitude
-  double theta_rad;
   theta_rad = AcTan(position_ecef_m[1], position_ecef_m[0]);
-  lon_rad = WrapTo2Pi(theta_rad);
-
-  // Latitude by Bowring's method
-  double s = sqrt(position_ecef_m[0] * position_ecef_m[0] + position_ecef_m[1] * position_ecef_m[1]);
-  double e2 = flattening * (2.0 - flattening);
-  double lat_reduced = AcTan(position_ecef_m[2], (1.0 - flattening) * s);
-  double lat_geodetic = ;
-
-  lat_rad = 0.0;
+  lon_rad = FMod2p(theta_rad);
+  r_m = sqrt(position_ecef_m[0] * position_ecef_m[0] + position_ecef_m[1] * position_ecef_m[1]);
+  e2 = flattening * (2.0 - flattening);
+  lat_rad = AcTan(position_ecef_m[2], r_m);
 
   do {
     phi = lat_rad;
     c = 1.0 / sqrt(1.0 - e2 * sin(phi) * sin(phi));
-    lat_rad = AcTan(sat_position_i_[2] + earth_radius_m * c * e2 * sin(phi), r_m);
+    lat_rad = AcTan(position_ecef_m[2] + earth_radius_m * c * e2 * sin(phi), r_m);
   } while (fabs(lat_rad - phi) >= 1E-10);
 
-  // Altitude
   alt_m = r_m / cos(lat_rad) - c * earth_radius_m;
 
   if (lat_rad > libra::pi_2) lat_rad -= libra::tau;
-*/
+
+  Vector<3> ret;
+  ret[0] = lat_rad;
+  ret[1] = lon_rad;
+  ret[2] = alt_m;
+  return ret;
 }

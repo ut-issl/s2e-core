@@ -27,16 +27,20 @@ class CelestialRotation {
  public:
   // initialize DCM to unit matrix in the default constructor
   CelestialRotation(const RotationMode rotation_mode, const std::string center_obj);
+
   // calculate rotation
   void Update(const double JulianDate);
+
   // get the DCM between J2000 and the coordinate system attached to the surface
   // of the target object X (X-Centered X-Fixed)
   inline const Matrix<3, 3> GetDCMJ2000toXCXF() const { return DCM_J2000toXCXF_; };
+
   // get the DCM between TEME (Inertial coordinate used in SGP4) and the
   // coordinate system attached to the surface of the target object X
   // (X-Centered X-Fixed)
   inline const Matrix<3, 3> GetDCMTEMEtoXCXF() const { return DCM_TEMEtoXCXF_; };
 
+  // Return geodetic value latitude[rad], longitude[rad], altitude[m]
   Vector<3> TransformEcefToGeo(const Vector<3> position_ecef_m) const;
 
  private:
