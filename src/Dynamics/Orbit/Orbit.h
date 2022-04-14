@@ -45,7 +45,6 @@ class Orbit : public ILoggable {
   inline Vector<3> GetSatVelocity_i() const { return sat_velocity_i_; }
   inline Vector<3> GetSatVelocity_b() const { return sat_velocity_b_; }
   inline Vector<3> GetSatVelocity_ecef() const { return sat_velocity_ecef_; }
-  inline virtual Vector<3> GetESIOmega() const { return Vector<3>(); }
   inline double GetLat_rad() const { return lat_rad_; }
   inline double GetLon_rad() const { return lon_rad_; }
   inline double GetAlt_m() const { return alt_m_; }
