@@ -38,9 +38,4 @@ void Orbit::TransEciToEcef(void) {
   sat_velocity_ecef_ = dcm_i_to_xcxf * V_wExr;
 }
 
-void Orbit::TransEcefToGeo(void) {
-  Vector<3> lla = celes_info_->GetEarthRotation().TransformEcefToGeo(sat_position_ecef_);
-  lat_rad_ = lla[0];
-  lon_rad_ = lla[1];
-  alt_m_ = lla[2];
-}
+void Orbit::TransEcefToGeo(void) { geo_pos_.UpdateFromEcef(sat_position_ecef_); }

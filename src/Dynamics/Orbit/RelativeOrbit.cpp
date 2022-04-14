@@ -171,9 +171,9 @@ std::string RelativeOrbit::GetLogValue() const {
   str_tmp += WriteVector(relative_position_lvlh_, 10);
   str_tmp += WriteVector(relative_velocity_lvlh_, 10);
   str_tmp += WriteVector(acc_i_, 10);
-  str_tmp += WriteScalar(lat_rad_);
-  str_tmp += WriteScalar(lon_rad_);
-  str_tmp += WriteScalar(alt_m_);
+  str_tmp += WriteScalar(geo_pos_.GetLat_rad());
+  str_tmp += WriteScalar(geo_pos_.GetLon_rad());
+  str_tmp += WriteScalar(geo_pos_.GetAlt_m());
 
   return str_tmp;
 }

@@ -289,33 +289,3 @@ Matrix<3, 3> CelestialRotation::PolarMotion(const double Xp, const double Yp) {
 
   return W;
 }
-
-Vector<3> CelestialRotation::TransformEcefToGeo(const Vector<3> position_ecef_m) const {
-  double r_m, e2, phi, c;
-  double theta_rad;
-  double earth_radius_m = environment::earth_equatorial_radius_m;
-  double flattening = environment::earth_flattening;
-  double lon_rad, lat_rad, alt_m;
-
-  theta_rad = AcTan(position_ecef_m[1], position_ecef_m[0]);
-  lon_rad = FMod2p(theta_rad);
-  r_m = sqrt(position_ecef_m[0] * position_ecef_m[0] + position_ecef_m[1] * position_ecef_m[1]);
-  e2 = flattening * (2.0 - flattening);
-  lat_rad = AcTan(position_ecef_m[2], r_m);
-
-  do {
-    phi = lat_rad;
-    c = 1.0 / sqrt(1.0 - e2 * sin(phi) * sin(phi));
-    lat_rad = AcTan(position_ecef_m[2] + earth_radius_m * c * e2 * sin(phi), r_m);
-  } while (fabs(lat_rad - phi) >= 1E-10);
-
-  alt_m = r_m / cos(lat_rad) - c * earth_radius_m;
-
-  if (lat_rad > libra::pi_2) lat_rad -= libra::tau;
-
-  Vector<3> ret;
-  ret[0] = lat_rad;
-  ret[1] = lon_rad;
-  ret[2] = alt_m;
-  return ret;
-}
