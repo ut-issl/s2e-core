@@ -17,5 +17,6 @@ class Sgp4OrbitPropagation : public Orbit {
   virtual std::string GetLogValue() const;
 
  private:
+  gravconsttype whichconst_;
   const CelestialInformation* celes_info_;
 };
