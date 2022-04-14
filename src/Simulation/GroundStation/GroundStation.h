@@ -25,6 +25,7 @@ class GroundStation {
   virtual void LogSetup(Logger& logger);
 
   virtual void Update(const CelestialRotation& celes_rotation);
+  // TODO: Do we actually need the update function to calculate the GS position in ECI frame?
 
   GeodeticPosition GetGSPosition_geo() const { return gs_position_geo_; }
   Vector<3> GetGSPosition_ecef() const { return gs_position_ecef_; }

@@ -28,9 +28,8 @@ GScalculator::~GScalculator() {}
 
 void GScalculator::Initialize() {}
 
-void GScalculator::Update(const Dynamics& dynamics, const GlobalEnvironment& global_env, const ANT& sc_ant, const GroundStation& groundstation,
-                          const ANT& gs_ant) {
-  visible_flag_ = IsVisible(dynamics, global_env, groundstation);
+void GScalculator::Update(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant) {
+  visible_flag_ = IsVisible(dynamics, groundstation);
   if (visible_flag_) {
     max_bitrate_ = CalcMaxBitrate(dynamics, sc_ant, groundstation, gs_ant);
   } else {
@@ -38,7 +37,7 @@ void GScalculator::Update(const Dynamics& dynamics, const GlobalEnvironment& glo
   }
 }
 
-bool GScalculator::IsVisible(const Dynamics& dynamics, const GlobalEnvironment& global_env, const GroundStation& groundstation) {
+bool GScalculator::IsVisible(const Dynamics& dynamics, const GroundStation& groundstation) {
   Vector<3> sc_pos_ecef = dynamics.GetOrbit().GetSatPosition_ecef();
   Vector<3> gs_pos_ecef = groundstation.GetGSPosition_ecef();
 
