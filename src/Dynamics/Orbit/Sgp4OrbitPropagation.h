@@ -1,6 +1,5 @@
 #pragma once
 #include <Environment/Global/CelestialInformation.h>
-#include <Library/sgp4/sgp4ext.h>
 #include <Library/sgp4/sgp4io.h>
 #include <Library/sgp4/sgp4unit.h>
 
