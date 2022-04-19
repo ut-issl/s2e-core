@@ -1,5 +1,6 @@
 /*!
   \file   Matrix_tfs.hpp
+  \author TAKISAWA Jun'ichi.
   \brief  Matrix.hppのtemplate関数実装
 */
 #ifndef MATRIX_TFS_HPP_

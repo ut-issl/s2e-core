@@ -1,5 +1,6 @@
 /*!
   \file   Vector_impl.hpp
+  \author TAKISAWA Jun'ichi.
   \brief  Vector.hppのテンプレート実装
 */
 #ifndef VECTOR_HPP_TFS_HPP_

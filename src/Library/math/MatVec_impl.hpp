@@ -1,5 +1,6 @@
 /*!
   \file   MatVec_impl.hpp
+  \author TAKISAWA Jun'ichi.
   \brief  MatVec.hppの実装
 */
 #ifndef MAT_VEC_IMPL_HPP_
