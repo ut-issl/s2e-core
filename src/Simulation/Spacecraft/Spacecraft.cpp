@@ -52,12 +52,14 @@ void Spacecraft::LogSetup(Logger& logger) {
   dynamics_->LogSetup(logger);
   local_env_->LogSetup(logger);
   disturbances_->LogSetup(logger);
+  components_->LogSetup(logger);
 }
 
 void Spacecraft::Update(const SimTime* sim_time) {
   // Update local environment and disturbance
   local_env_->Update(dynamics_, sim_time);
   disturbances_->Update(*local_env_, *dynamics_, sim_time);
+
   // Add generated force and torque by disturbances
   dynamics_->AddAcceleration_i(disturbances_->GetAccelerationI());
   dynamics_->AddTorque_b(disturbances_->GetTorque());
@@ -65,6 +67,7 @@ void Spacecraft::Update(const SimTime* sim_time) {
   // Add generated force and torque by components
   dynamics_->AddTorque_b(components_->GenerateTorque_Nm_b());
   dynamics_->AddForce_b(components_->GenerateForce_N_b());
+
   // Propagate dynamics
   dynamics_->Update(sim_time, &(local_env_->GetCelesInfo()));
 }

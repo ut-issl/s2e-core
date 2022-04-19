@@ -8,7 +8,7 @@ class InstalledComponents {
  public:
   virtual libra::Vector<3> GenerateForce_N_b();
   virtual libra::Vector<3> GenerateTorque_Nm_b();
-  virtual void SetComponentLog(Logger& logger);
+  virtual void LogSetup(Logger& logger);
 
  private:
 };

@@ -10,4 +10,4 @@ libra::Vector<3> InstalledComponents::GenerateTorque_Nm_b() {
   return torque_Nm_b_;
 };
 
-void InstalledComponents::SetComponentLog(Logger& logger) {}
+void InstalledComponents::LogSetup(Logger& logger) {}
