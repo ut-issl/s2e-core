@@ -20,6 +20,7 @@ Spacecraft::~Spacecraft() {
   delete dynamics_;
   delete local_env_;
   delete disturbances_;
+  delete components_;
 }
 
 void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) {
@@ -61,6 +62,9 @@ void Spacecraft::Update(const SimTime* sim_time) {
   dynamics_->AddAcceleration_i(disturbances_->GetAccelerationI());
   dynamics_->AddTorque_b(disturbances_->GetTorque());
   dynamics_->AddForce_b(disturbances_->GetForce());
+  // Add generated force and torque by components
+  dynamics_->AddTorque_b(components_->GenerateTorque_Nm_b());
+  dynamics_->AddForce_b(components_->GenerateForce_N_b());
   // Propagate dynamics
   dynamics_->Update(sim_time, &(local_env_->GetCelesInfo()));
 }

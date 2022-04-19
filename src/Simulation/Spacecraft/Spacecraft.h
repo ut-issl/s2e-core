@@ -7,6 +7,7 @@
 #include <Interface/InitInput/Initialize.h>
 #include <RelativeInformation/RelativeInformation.h>
 
+#include "InstalledComponents.hpp"
 #include "Structure/Structure.h"
 
 class Spacecraft {
@@ -43,5 +44,6 @@ class Spacecraft {
   LocalEnvironment* local_env_;
   Disturbances* disturbances_;
   Structure* structure_;
+  InstalledComponents* components_;
   const int sat_id_;
 };
