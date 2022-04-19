@@ -18,7 +18,7 @@ struct Star  //望遠鏡視野内に入っている恒星の情報
 class Telescope : public ComponentBase, public ILoggable {
  public:
   Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double sun_forbidden_angle, double earth_forbidden_angle,
-            double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix, int num_of_logged_stars,
+            double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix, size_t num_of_logged_stars,
             const Attitude* attitude, const HipparcosCatalogue* hipp, const LocalCelestialInformation* local_celes_info);
 
   ~Telescope();
@@ -45,7 +45,7 @@ class Telescope : public ComponentBase, public ILoggable {
   bool is_earth_in_forbidden_angle = true;
   bool is_moon_in_forbidden_angle = true;
 
-  int num_of_logged_stars_;  //恒星観測でログに出力する恒星の個数
+  size_t num_of_logged_stars_;  //恒星観測でログに出力する恒星の個数
 
   libra::Vector<2> sun_pos_imgsensor{-1};    //イメージセンサ上における太陽の像の位置
   libra::Vector<2> earth_pos_imgsensor{-1};  //イメージセンサ上における地球の像の位置

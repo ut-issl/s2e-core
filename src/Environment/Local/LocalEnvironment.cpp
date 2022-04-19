@@ -46,8 +46,6 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimTime* sim_time)
 
   // Update local environments that depend only on the position
   if (sim_time->GetOrbitPropagateFlag()) {
-    Vector<3> v1 = celes_info_->GetPosFromSC_b("EARTH");
-    Vector<3> v2 = celes_info_->GetPosFromSC_b("SUN");
     srp_->UpdateAllStates();
     atmosphere_->CalcAirDensity(sim_time->GetCurrentDecyear(), sim_time->GetEndSec(), orbit.GetLatLonAlt());
   }

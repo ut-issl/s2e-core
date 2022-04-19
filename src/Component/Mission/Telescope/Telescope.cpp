@@ -8,21 +8,21 @@ using namespace libra;
 
 Telescope::Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double sun_forbidden_angle, double earth_forbidden_angle,
                      double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix,
-                     int num_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipp,
+                     size_t num_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipp,
                      const LocalCelestialInformation* local_celes_info)
     : ComponentBase(1, clock_gen),
-      local_celes_info_(local_celes_info),
-      attitude_(attitude),
-      hipp_(hipp),
+      q_b2c_(q_b2c),
       sun_forbidden_angle_(sun_forbidden_angle),
       earth_forbidden_angle_(earth_forbidden_angle),
       moon_forbidden_angle_(moon_forbidden_angle),
-      q_b2c_(q_b2c),
       x_num_of_pix_(x_num_of_pix),
       y_num_of_pix_(y_num_of_pix),
       x_fov_par_pix_(x_fov_par_pix),
       y_fov_par_pix_(y_fov_par_pix),
-      num_of_logged_stars_(num_of_logged_stars) {
+      num_of_logged_stars_(num_of_logged_stars),
+      attitude_(attitude),
+      hipp_(hipp),
+      local_celes_info_(local_celes_info) {
   is_sun_in_forbidden_angle = true;
   is_earth_in_forbidden_angle = true;
   is_moon_in_forbidden_angle = true;
@@ -36,7 +36,7 @@ Telescope::Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double
   sight_[0] = 1;  //(1,0,0)@コンポ座標，視線方向ベクトル
 
   // t=0のときの値として0を入れておく
-  for (int i = 0; i < num_of_logged_stars_; i++) {
+  for (size_t i = 0; i < num_of_logged_stars_; i++) {
     Star star;
     star.hipdata.hip_num = -1;
     star.hipdata.vmag = -1;
@@ -159,7 +159,7 @@ string Telescope::GetLogHeader() const {
   // Hip
   // Catalogueがデータを読まなかった場合は，ObserveStarsに関する出力を行わない
   if (hipp_->IsCalcEnabled) {
-    for (int i = 0; i < num_of_logged_stars_; i++) {
+    for (size_t i = 0; i < num_of_logged_stars_; i++) {
       str_tmp += WriteScalar("HIP ID (" + to_string(i) + ")", " ");
       str_tmp += WriteScalar("Vmag (" + to_string(i) + ")", " ");
       str_tmp += WriteVector("pos_imagesensor (" + to_string(i) + ")", " ", "pix", 2);
@@ -185,7 +185,7 @@ string Telescope::GetLogValue() const {
   // Hip
   // Catalogueがデータを読まなかった場合は，ObserveStarsに関する出力を行わない
   if (hipp_->IsCalcEnabled) {
-    for (int i = 0; i < num_of_logged_stars_; i++) {
+    for (size_t i = 0; i < num_of_logged_stars_; i++) {
       str_tmp += WriteScalar(star_in_sight[i].hipdata.hip_num);
       str_tmp += WriteScalar(star_in_sight[i].hipdata.vmag);
       str_tmp += WriteVector(star_in_sight[i].pos_imgsensor);

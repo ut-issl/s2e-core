@@ -10,9 +10,9 @@ BAT::BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel
       number_of_parallel_(number_of_parallel),
       cell_capacity_(cell_capacity),
       cell_discharge_curve_coeffs_(cell_discharge_curve_coeffs),
-      dod_(initial_dod),
       cc_charge_current_(cc_charge_c_rate * cell_capacity * number_of_parallel),
       cv_charge_voltage_(cv_charge_voltage),
+      dod_(initial_dod),
       bat_resistance_(bat_resistance) {}
 
 BAT::BAT(const BAT& obj)
@@ -21,9 +21,9 @@ BAT::BAT(const BAT& obj)
       number_of_parallel_(obj.number_of_parallel_),
       cell_capacity_(obj.cell_capacity_),
       cell_discharge_curve_coeffs_(obj.cell_discharge_curve_coeffs_),
-      dod_(obj.dod_),
       cc_charge_current_(obj.cc_charge_current_),
       cv_charge_voltage_(obj.cv_charge_voltage_),
+      dod_(obj.dod_),
       bat_resistance_(obj.bat_resistance_) {
   charge_current_ = 0.0;
   UpdateBatVoltage();

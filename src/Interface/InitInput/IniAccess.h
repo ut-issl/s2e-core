@@ -57,7 +57,7 @@ class IniAccess {
 //テンプレートなのでヘッダに書く
 template <size_t NumElement>
 void IniAccess::ReadVector(const char* section_name, const char* key_name, Vector<NumElement>& data) {
-  for (int i = 0; i < NumElement; i++) {
+  for (size_t i = 0; i < NumElement; i++) {
     std::stringstream c_name;
     c_name << key_name << "(" << i << ")";
     data[i] = ReadDouble(section_name, c_name.str().c_str());

@@ -31,7 +31,7 @@ CelestialInformation* InitCelesInfo(std::string file_name) {
 
   // SPICE Furnsh
   std::vector<std::string> keywords = {"TLS", "TPC1", "TPC2", "TPC3", "BSP"};
-  for (int i = 0; i < keywords.size(); i++) {
+  for (size_t i = 0; i < keywords.size(); i++) {
     std::string fname = ini_file.ReadString(furnsh_section, keywords[i].c_str());
     furnsh_c(fname.c_str());
   }

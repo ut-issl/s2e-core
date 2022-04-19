@@ -83,8 +83,7 @@ double RVDController::acos_tolerant(double x) {
 
 Vector<6> RVDController::CalcThrustEach(Vector<3> thrusts) {
   const double sf_x = 1;
-  const double sf_y = 1;
-  const double sf_z = 1;
+
   Vector<6> results(0);
   int idx[3];
   idx[0] = thrusts[0] > 0 ? MX : PX;

@@ -11,7 +11,7 @@ using libra::NormalRand;
 using namespace std;
 
 MagEnvironment::MagEnvironment(string fname, double mag_rwdev, double mag_rwlimit, double mag_wnvar)
-    : fname_(fname), mag_rwdev_(mag_rwdev), mag_rwlimit_(mag_rwlimit), mag_wnvar_(mag_wnvar) {
+    : mag_rwdev_(mag_rwdev), mag_rwlimit_(mag_rwlimit), mag_wnvar_(mag_wnvar), fname_(fname) {
   //初期化コンストラクタ
   for (int i = 0; i < 3; ++i) {
     Mag_i_[i] = 0;

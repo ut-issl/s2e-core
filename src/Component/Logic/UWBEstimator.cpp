@@ -57,8 +57,8 @@ void UWBEstimator::Update(Vector<12> visibility, Vector<12> measurement) {
 
   K = M * transpose(H) * inv;
   auto t3 = measurement - hx;
-  auto t4 = K * (measurement - hx);
-  x = x + K * (measurement - hx);
+  auto t4 = K * (t3);
+  x = x + t4;
   // Joseph Form https://wolfweb.unr.edu/~fadali/EE782/DiscreteKF.pdf
   auto temp = libra::eye<6>() - K * H;
   P = temp * M * transpose(temp) + K * R * transpose(K);
@@ -96,7 +96,7 @@ void UWBEstimator::SetX(Vector<6> x_new) { x = x_new; }
 bool UWBEstimator::IsConverged() {
   auto Pdiff = P - lastP;
   bool isconverged = true;
-  for (auto i = 0; i < Pdiff.row(); i++) {
+  for (size_t i = 0; i < Pdiff.row(); i++) {
     // 最初は1mで捕捉できてれば十分
     isconverged &= std::abs(Pdiff[i][i]) < 1e-2;
   }

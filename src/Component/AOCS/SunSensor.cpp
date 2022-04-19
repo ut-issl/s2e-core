@@ -14,8 +14,8 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen, const int i
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       q_b2c_(q_b2c),
-      detectable_angle_rad_(detectable_angle_rad),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
+      detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),
       local_celes_info_(local_celes_info) {
   Initialize(nr_stddev_c, nr_bias_stddev_c);
@@ -27,8 +27,8 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* 
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       q_b2c_(q_b2c),
-      detectable_angle_rad_(detectable_angle_rad),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
+      detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),
       local_celes_info_(local_celes_info) {
   Initialize(nr_stddev_c, nr_bias_stddev_c);

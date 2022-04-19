@@ -33,14 +33,14 @@ const libra::Vector<3> RelativeInformation::GetRelativeVelocity_i(const int targ
 
 std::string RelativeInformation::GetLogHeader() const {
   std::string str_tmp = "";
-  for (int target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
-    for (int reference_sat_id = 0; reference_sat_id < target_sat_id; reference_sat_id++) {
+  for (size_t target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
+    for (size_t reference_sat_id = 0; reference_sat_id < target_sat_id; reference_sat_id++) {
       str_tmp += WriteVector("sat" + std::to_string(target_sat_id) + " pos from sat" + std::to_string(reference_sat_id), "i", "m", 3);
     }
   }
 
-  for (int target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
-    for (int reference_sat_id = 0; reference_sat_id < target_sat_id; reference_sat_id++) {
+  for (size_t target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
+    for (size_t reference_sat_id = 0; reference_sat_id < target_sat_id; reference_sat_id++) {
       str_tmp += WriteVector("sat" + std::to_string(target_sat_id) + " velocity from sat" + std::to_string(reference_sat_id), "i", "m", 3);
     }
   }
@@ -49,14 +49,14 @@ std::string RelativeInformation::GetLogHeader() const {
 
 std::string RelativeInformation::GetLogValue() const {
   std::string str_tmp = "";
-  for (int target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
-    for (int reference_sat_id = 0; reference_sat_id < target_sat_id; reference_sat_id++) {
+  for (size_t target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
+    for (size_t reference_sat_id = 0; reference_sat_id < target_sat_id; reference_sat_id++) {
       str_tmp += WriteVector(GetRelativePosition_i(target_sat_id, reference_sat_id));
     }
   }
 
-  for (int target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
-    for (int reference_sat_id = 0; reference_sat_id < target_sat_id; reference_sat_id++) {
+  for (size_t target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
+    for (size_t reference_sat_id = 0; reference_sat_id < target_sat_id; reference_sat_id++) {
       str_tmp += WriteVector(GetRelativeVelocity_i(target_sat_id, reference_sat_id));
     }
   }

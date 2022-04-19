@@ -7,7 +7,6 @@
 #include "IniAccess.h"
 
 using namespace std;
-static double inf = std::numeric_limits<double>::infinity();
 
 IniAccess::IniAccess(string path) : file_path_(path), reader(path) {
   if (path.substr(3) == "ini") {
@@ -113,7 +112,7 @@ void IniAccess::ReadCsvDouble(vector<vector<double>>& doublevec, int node_num) {
     vector<string> strvec = Split(line, ',');
     vector<double> tempdoublevec;
     tempdoublevec.reserve(node_num);
-    for (int i = 0; i < strvec.size(); i++) {
+    for (size_t i = 0; i < strvec.size(); i++) {
       tempdoublevec.push_back(stod(strvec.at(i)));
     }
     doublevec.push_back(tempdoublevec);

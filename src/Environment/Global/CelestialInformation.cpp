@@ -10,12 +10,12 @@ using namespace std;
 
 CelestialInformation::CelestialInformation(string inertial_frame, string aber_cor, string center_obj, RotationMode rotation_mode,
                                            int num_of_selected_body, int* selected_body)
-    : inertial_frame_(inertial_frame),
+    : num_of_selected_body_(num_of_selected_body),
+      selected_body_(selected_body),
+      inertial_frame_(inertial_frame),
       aber_cor_(aber_cor),
       center_obj_(center_obj),
-      rotation_mode_(rotation_mode),
-      num_of_selected_body_(num_of_selected_body),
-      selected_body_(selected_body) {
+      rotation_mode_(rotation_mode) {
   int num_of_state = num_of_selected_body_ * 3;
   celes_objects_pos_from_center_i_ = new double[num_of_state];
   celes_objects_vel_from_center_i_ = new double[num_of_state];
@@ -54,11 +54,11 @@ CelestialInformation::CelestialInformation(string inertial_frame, string aber_co
 }
 
 CelestialInformation::CelestialInformation(const CelestialInformation& obj)
-    : inertial_frame_(obj.inertial_frame_),
+    : num_of_selected_body_(obj.num_of_selected_body_),
+      inertial_frame_(obj.inertial_frame_),
       aber_cor_(obj.aber_cor_),
       center_obj_(obj.center_obj_),
-      rotation_mode_(obj.rotation_mode_),
-      num_of_selected_body_(obj.num_of_selected_body_) {
+      rotation_mode_(obj.rotation_mode_) {
   int num_of_state = num_of_selected_body_ * 3;
   int sd = sizeof(double);
   int si = sizeof(int);
@@ -163,7 +163,7 @@ int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {
   int index = 0;
   SpiceInt planet_id;
   SpiceBoolean found;
-  const int maxlen = 100;
+
   // Acquisition of ID from body name
   bodn2c_c(body_name, (SpiceInt*)&planet_id, (SpiceBoolean*)&found);
   for (int i = 0; i < num_of_selected_body_; i++) {

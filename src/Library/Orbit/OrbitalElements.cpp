@@ -26,8 +26,6 @@ OrbitalElements::~OrbitalElements() {}
 void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_jday, const libra::Vector<3> r_i_m, const libra::Vector<3> v_i_m_s) {
   // common variables
   double r_m = norm(r_i_m);
-  double r2_m2 = inner_product(r_i_m, r_i_m);
-  double v_m_s = norm(v_i_m_s);
   double v2_m2_s2 = inner_product(v_i_m_s, v_i_m_s);
   libra::Vector<3> h;
   h = outer_product(r_i_m, v_i_m_s);

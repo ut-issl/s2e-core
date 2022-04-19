@@ -169,7 +169,7 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, 
   struct nrlmsise_flags flags;
   struct ap_array aph;
 
-  int i;
+  size_t i;
   int date[6];
   int idx = 0;
 

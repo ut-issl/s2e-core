@@ -107,7 +107,7 @@ void Convert_i2b_velocity(const double* r_i, const double* v_i, double* v_b, Qua
   for (int i = 0; i < 3; i++) {
     wb[i] = bodyrate_b[i];
   }
-  Vector<3> wi = q_i2b.frame_conv_inv(wb);
+
   // compute crossterm wxr
   Vector<3> wxr_i = outer_product(wb, ri);
   // compute dr/dt + wxr

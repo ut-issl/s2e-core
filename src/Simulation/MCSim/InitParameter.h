@@ -103,11 +103,11 @@ void InitParameter::SetRandomConfig(const Vector<NumElement1>& mean_or_min, cons
                                     InitParameter::RandomizationType rnd_type) {
   rnd_type_ = rnd_type;
   mean_or_min_.clear();
-  for (int i = 0; i < NumElement1; i++) {
+  for (size_t i = 0; i < NumElement1; i++) {
     mean_or_min_.push_back(mean_or_min[i]);
   }
   sigma_or_max_.clear();
-  for (int i = 0; i < NumElement2; i++) {
+  for (size_t i = 0; i < NumElement2; i++) {
     sigma_or_max_.push_back(sigma_or_max[i]);
   }
 }
@@ -119,7 +119,7 @@ void InitParameter::GetVec(Vector<NumElement>& dst_vec) const {
   } else if (NumElement > val_.size()) {
     throw "Too few randomization configuration parameters.";
   } else {
-    for (int i = 0; i < NumElement; i++) {
+    for (size_t i = 0; i < NumElement; i++) {
       dst_vec[i] = val_[i];
     }
   }

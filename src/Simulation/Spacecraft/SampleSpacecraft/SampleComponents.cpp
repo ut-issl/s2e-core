@@ -5,7 +5,7 @@
 // TODO: Create a base class?
 SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* structure, const LocalEnvironment* local_env,
                                    const GlobalEnvironment* glo_env, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id)
-    : dynamics_(dynamics), structure_(structure), local_env_(local_env), glo_env_(glo_env), config_(config) {
+    : config_(config), dynamics_(dynamics), structure_(structure), local_env_(local_env), glo_env_(glo_env) {
   IniAccess iniAccess = IniAccess(config_->sat_file_[sat_id]);
   // PCU power port connection
   pcu_ = new PCU(clock_gen);
