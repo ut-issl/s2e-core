@@ -2,23 +2,15 @@
 
 #include "../../Library/math/s2e_math.hpp"
 
-KeplerOrbitPropagation::KeplerOrbitPropagation(const double current_jd, KeplerOrbit kepler_orbit, const int wgs) : KeplerOrbit(kepler_orbit) {
-  // TODO whichconst周りを整理する
-  if (wgs == 0) {
-    whichconst = wgs72old;
-  } else if (wgs == 1) {
-    whichconst = wgs72;
-  } else if (wgs == 2) {
-    whichconst = wgs84;
-  }
-
+KeplerOrbitPropagation::KeplerOrbitPropagation(const CelestialInformation* celes_info, const double current_jd, KeplerOrbit kepler_orbit)
+    : Orbit(celes_info), KeplerOrbit(kepler_orbit) {
   UpdateState(current_jd);
 }
 
 KeplerOrbitPropagation::~KeplerOrbitPropagation() {}
 
 void KeplerOrbitPropagation::Propagate(double endtime, double current_jd) {
-  if (!IsCalcEnabled) return;
+  if (!is_calc_enabled_) return;
 
   UpdateState(current_jd);
 }
@@ -42,11 +34,11 @@ std::string KeplerOrbitPropagation::GetLogValue() const {
 
   str_tmp += WriteVector(sat_position_i_, 16);
   str_tmp += WriteVector(sat_velocity_i_, 10);
-  str_tmp += WriteVector(sat_velocity_b_);
+  str_tmp += WriteVector(sat_velocity_b_, 10);
   str_tmp += WriteVector(acc_i_, 10);
-  str_tmp += WriteScalar(lat_rad_);
-  str_tmp += WriteScalar(lon_rad_);
-  str_tmp += WriteScalar(alt_m_);
+  str_tmp += WriteScalar(sat_position_geo_.GetLat_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetLon_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetAlt_m());
 
   return str_tmp;
 }
@@ -56,6 +48,6 @@ void KeplerOrbitPropagation::UpdateState(const double current_jd) {
   CalcPosVel(current_jd);
   sat_position_i_ = position_i_m_;
   sat_velocity_i_ = velocity_i_m_s_;
-  TransECIToGeo(current_jd);
-  TransECIToECEF(current_jd);
+  TransEciToEcef();
+  TransEcefToGeo();
 }

@@ -5,21 +5,14 @@
 
 using std::string;
 
-Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, int wgs, Vector<3> init_position,
+Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, Vector<3> init_position,
                                          Vector<3> init_velocity, double current_jd, double init_time)
-    : celes_info_(celes_info), ODE<N>(timestep), mu(mu) {
+    : Orbit(celes_info), ODE<N>(timestep), mu(mu) {
   propagate_mode_ = PROPAGATE_MODE::RK4;
 
   prop_time_ = 0.0;
   prop_step_ = timestep;
   acc_i_ *= 0;
-  if (wgs == 0) {
-    whichconst = wgs72old;
-  } else if (wgs == 1) {
-    whichconst = wgs72;
-  } else if (wgs == 2) {
-    whichconst = wgs84;
-  }
 
   Initialize(init_position, init_velocity, current_jd, init_time);
 }
@@ -62,21 +55,12 @@ void Rk4OrbitPropagation::Initialize(Vector<3> init_position, Vector<3> init_vel
   sat_velocity_i_[1] = init_state[4];
   sat_velocity_i_[2] = init_state[5];
 
-  TransECIToGeo(current_jd);
-
-  trans_eci2ecef_ = celes_info_->GetEarthRotation().GetDCMJ2000toXCXF();
-  sat_position_ecef_ = trans_eci2ecef_ * sat_position_i_;
-
-  // convert velocity vector in ECI to the vector in ECEF
-  Vector<3> OmegaE{0.0};
-  OmegaE[2] = environment::earth_mean_angular_velocity_rad_s;
-  Vector<3> wExr = outer_product(OmegaE, sat_position_i_);
-  Vector<3> V_wExr = sat_velocity_i_ - wExr;
-  sat_velocity_ecef_ = trans_eci2ecef_ * V_wExr;
+  TransEciToEcef();
+  TransEcefToGeo();
 }
 
 void Rk4OrbitPropagation::Propagate(double endtime, double current_jd) {
-  if (!IsCalcEnabled) return;
+  if (!is_calc_enabled_) return;
 
   setStepWidth(prop_step_);  // Re-set propagation Δt
   while (endtime - prop_time_ - prop_step_ > 1.0e-6) {
@@ -95,17 +79,8 @@ void Rk4OrbitPropagation::Propagate(double endtime, double current_jd) {
   sat_velocity_i_[1] = state()[4];
   sat_velocity_i_[2] = state()[5];
 
-  TransECIToGeo(current_jd);
-
-  trans_eci2ecef_ = celes_info_->GetEarthRotation().GetDCMJ2000toXCXF();
-  sat_position_ecef_ = trans_eci2ecef_ * sat_position_i_;
-
-  // convert velocity vector in ECI to the vector in ECEF
-  Vector<3> OmegaE{0.0};
-  OmegaE[2] = environment::earth_mean_angular_velocity_rad_s;
-  Vector<3> wExr = outer_product(OmegaE, sat_position_i_);
-  Vector<3> V_wExr = sat_velocity_i_ - wExr;
-  sat_velocity_ecef_ = trans_eci2ecef_ * V_wExr;
+  TransEciToEcef();
+  TransEcefToGeo();
 }
 
 void Rk4OrbitPropagation::AddPositionOffset(Vector<3> offset_i) {
@@ -138,11 +113,11 @@ string Rk4OrbitPropagation::GetLogValue() const {
 
   str_tmp += WriteVector(sat_position_i_, 16);
   str_tmp += WriteVector(sat_velocity_i_, 10);
-  str_tmp += WriteVector(sat_velocity_b_);
+  str_tmp += WriteVector(sat_velocity_b_, 10);
   str_tmp += WriteVector(acc_i_, 10);
-  str_tmp += WriteScalar(lat_rad_);
-  str_tmp += WriteScalar(lon_rad_);
-  str_tmp += WriteScalar(alt_m_);
+  str_tmp += WriteScalar(sat_position_geo_.GetLat_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetLon_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetAlt_m());
 
   return str_tmp;
 }

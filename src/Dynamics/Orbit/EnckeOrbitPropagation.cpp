@@ -2,19 +2,10 @@
 
 #include "../../Library/Orbit/OrbitalElements.h"
 
-EnckeOrbitPropagation::EnckeOrbitPropagation(const double mu_m3_s2, const double prop_step_s, const double current_jd,
-                                             const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s, const double error_tolerance,
-                                             const int wgs)
-    : mu_m3_s2_(mu_m3_s2), error_tolerance_(error_tolerance), prop_step_s_(prop_step_s), libra::ODE<6>(prop_step_s) {
-  // TODO whichconst周りを整理する
-  if (wgs == 0) {
-    whichconst = wgs72old;
-  } else if (wgs == 1) {
-    whichconst = wgs72;
-  } else if (wgs == 2) {
-    whichconst = wgs84;
-  }
-
+EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celes_info, const double mu_m3_s2, const double prop_step_s,
+                                             const double current_jd, const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s,
+                                             const double error_tolerance)
+    : Orbit(celes_info), mu_m3_s2_(mu_m3_s2), error_tolerance_(error_tolerance), prop_step_s_(prop_step_s), libra::ODE<6>(prop_step_s) {
   prop_time_s_ = 0.0;
   Initialize(current_jd, init_position_i_m, init_velocity_i_m_s);
 }
@@ -23,7 +14,7 @@ EnckeOrbitPropagation::~EnckeOrbitPropagation() {}
 
 // Functions for Orbit
 void EnckeOrbitPropagation::Propagate(double endtime, double current_jd) {
-  if (!IsCalcEnabled) return;
+  if (!is_calc_enabled_) return;
 
   // Rectification
   double norm_sat_position_m = norm(sat_position_i_);
@@ -63,8 +54,11 @@ std::string EnckeOrbitPropagation::GetLogHeader() const {
 
   str_tmp += WriteVector("sat_position", "i", "m", 3);
   str_tmp += WriteVector("sat_velocity", "i", "m/s", 3);
+  str_tmp += WriteVector("sat_velocity", "b", "m/s", 3);
   str_tmp += WriteVector("sat_acc", "i", "m/s^2", 3);
-
+  str_tmp += WriteScalar("lat", "rad");
+  str_tmp += WriteScalar("lon", "rad");
+  str_tmp += WriteScalar("alt", "m");
   return str_tmp;
 }
 
@@ -73,8 +67,11 @@ std::string EnckeOrbitPropagation::GetLogValue() const {
 
   str_tmp += WriteVector(sat_position_i_, 16);
   str_tmp += WriteVector(sat_velocity_i_, 10);
+  str_tmp += WriteVector(sat_velocity_b_, 10);
   str_tmp += WriteVector(acc_i_, 10);
-
+  str_tmp += WriteScalar(sat_position_geo_.GetLat_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetLon_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetAlt_m());
   return str_tmp;
 }
 
@@ -124,9 +121,8 @@ void EnckeOrbitPropagation::UpdateSatOrbit(double current_jd) {
   sat_position_i_ = ref_position_i_m_ + diff_position_i_m_;
   sat_velocity_i_ = ref_velocity_i_m_s_ + diff_velocity_i_m_s_;
 
-  // ECI->ECEF
-  TransECIToGeo(current_jd);
-  TransECIToECEF(current_jd);
+  TransEciToEcef();
+  TransEcefToGeo();
 }
 
 double EnckeOrbitPropagation::CalcQFunction(Vector<3> diff_pos_i) {

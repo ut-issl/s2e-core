@@ -2,10 +2,12 @@
 
 #include "Rk4OrbitPropagation.h"
 
-RelativeOrbit::RelativeOrbit(double mu, double timestep, int wgs, double current_jd, int reference_sat_id, Vector<3> initial_relative_position_lvlh,
-                             Vector<3> initial_relative_velocity_lvlh, RelativeOrbitUpdateMethod update_method,
-                             RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type, RelativeInformation* rel_info)
-    : libra::ODE<6>(timestep),
+RelativeOrbit::RelativeOrbit(const CelestialInformation* celes_info, double mu, double timestep, double current_jd, int reference_sat_id,
+                             Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh,
+                             RelativeOrbitUpdateMethod update_method, RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type,
+                             RelativeInformation* rel_info)
+    : Orbit(celes_info),
+      libra::ODE<6>(timestep),
       mu_(mu),
       reference_sat_id_(reference_sat_id),
       update_method_(update_method),
@@ -16,13 +18,6 @@ RelativeOrbit::RelativeOrbit(double mu, double timestep, int wgs, double current
 
   prop_time_ = 0.0;
   prop_step_ = timestep;
-  if (wgs == 0) {
-    whichconst = wgs72old;
-  } else if (wgs == 1) {
-    whichconst = wgs72;
-  } else if (wgs == 2) {
-    whichconst = wgs84;
-  }
 
   InitializeState(initial_relative_position_lvlh, initial_relative_velocity_lvlh, current_jd, mu);
 }
@@ -59,8 +54,8 @@ void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh, Ve
     CalculateSTM(stm_model_type_, &(rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit()), mu, 0.0);
   }
 
-  TransECIToGeo(current_jd);
-  TransECIToECEF(current_jd);
+  TransEciToEcef();
+  TransEcefToGeo();
 }
 
 void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit, double mu) {
@@ -90,7 +85,7 @@ void RelativeOrbit::CalculateSTM(STMModel stm_model_type, const Orbit* reference
 }
 
 void RelativeOrbit::Propagate(double endtime, double current_jd) {
-  if (!IsCalcEnabled) return;
+  if (!is_calc_enabled_) return;
 
   acc_i_ *= 0;  // Disturbance acceleration are not considered in relative orbit
                 // propagation
@@ -109,8 +104,8 @@ void RelativeOrbit::Propagate(double endtime, double current_jd) {
 
   sat_position_i_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
   sat_velocity_i_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
-  TransECIToGeo(current_jd);
-  TransECIToECEF(current_jd);
+  TransEciToEcef();
+  TransEcefToGeo();
 }
 
 void RelativeOrbit::PropagateRK4(double elapsed_sec) {
@@ -172,13 +167,13 @@ std::string RelativeOrbit::GetLogValue() const {
 
   str_tmp += WriteVector(sat_position_i_, 16);
   str_tmp += WriteVector(sat_velocity_i_, 10);
-  str_tmp += WriteVector(sat_velocity_b_);
+  str_tmp += WriteVector(sat_velocity_b_, 10);
   str_tmp += WriteVector(relative_position_lvlh_, 10);
   str_tmp += WriteVector(relative_velocity_lvlh_, 10);
   str_tmp += WriteVector(acc_i_, 10);
-  str_tmp += WriteScalar(lat_rad_);
-  str_tmp += WriteScalar(lon_rad_);
-  str_tmp += WriteScalar(alt_m_);
+  str_tmp += WriteScalar(sat_position_geo_.GetLat_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetLon_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetAlt_m());
 
   return str_tmp;
 }

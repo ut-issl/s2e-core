@@ -39,13 +39,10 @@ void GScalculator::Update(const Dynamics& dynamics, const ANT& sc_ant, const Gro
 
 bool GScalculator::IsVisible(const Dynamics& dynamics, const GroundStation& groundstation) {
   Vector<3> sc_pos_ecef = dynamics.GetOrbit().GetSatPosition_ecef();
+  Vector<3> gs_pos_ecef = groundstation.GetGSPosition_ecef();
 
-  Vector<3> gs_pos_i = groundstation.GetGSPosition_i();
-  Matrix<3, 3> DCM_ecei_ecef = dynamics.GetOrbit().GetTransECItoECEF();
-  Vector<3> gs_pos_ecef = DCM_ecei_ecef * gs_pos_i;
-
-  double lat = groundstation.latitude_ * libra::deg_to_rad;   //[rad]
-  double lon = groundstation.longitude_ * libra::deg_to_rad;  //[rad]
+  double lat = groundstation.GetGSPosition_geo().GetLat_rad();
+  double lon = groundstation.GetGSPosition_geo().GetLon_rad();
 
   Matrix<3, 3> trans_mat;  // 地上局におけるECEF2LTC変換行列の回転部分
   trans_mat[0][0] = -sin(lon);

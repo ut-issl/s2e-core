@@ -11,9 +11,9 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
  public:
   typedef enum { RK4 = 0, STM = 1 } RelativeOrbitUpdateMethod;
 
-  RelativeOrbit(double mu, double timestep, int wgs, double current_jd, int reference_sat_id, Vector<3> initial_relative_position_lvlh,
-                Vector<3> initial_relative_velocity_lvlh, RelativeOrbitUpdateMethod update_method, RelativeOrbitModel relative_dynamics_model_type,
-                STMModel stm_model_type, RelativeInformation* rel_info);
+  RelativeOrbit(const CelestialInformation* celes_info, double mu, double timestep, double current_jd, int reference_sat_id,
+                Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh, RelativeOrbitUpdateMethod update_method,
+                RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type, RelativeInformation* rel_info);
   ~RelativeOrbit();
 
   virtual void Propagate(double endtime, double current_jd);

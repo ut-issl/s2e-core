@@ -1,5 +1,7 @@
 #pragma once
 #include <Environment/Global/CelestialInformation.h>
+#include <Library/sgp4/sgp4io.h>
+#include <Library/sgp4/sgp4unit.h>
 
 #include "Orbit.h"
 
@@ -17,5 +19,6 @@ class Sgp4OrbitPropagation : public Orbit {
   virtual std::string GetLogValue() const;
 
  private:
+  gravconsttype whichconst_;
   const CelestialInformation* celes_info_;
 };

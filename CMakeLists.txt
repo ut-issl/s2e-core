@@ -80,6 +80,7 @@ add_subdirectory(src/Library/utils)
 add_subdirectory(src/Library/optics)
 add_subdirectory(src/Library/RelativeOrbit)
 add_subdirectory(src/Library/Orbit)
+add_subdirectory(src/Library/Geodesy)
 
 set(SOURCE_FILES
   src/S2E.cpp
@@ -137,7 +138,7 @@ endif()
 
 ## Linking libraries
 set(S2E_LIBRARIES
-  IGRF WRAPPER_NRLMSISE00 INIH SGP4 UTIL OPTICS RELATIVE_ORBIT_MODELS ORBIT_MODELS MATH
+  IGRF WRAPPER_NRLMSISE00 INIH SGP4 UTIL OPTICS RELATIVE_ORBIT_MODELS ORBIT_MODELS GEODESY MATH
 )
 # Initialize link
 target_link_libraries(COMPONENT INTERFACE INI_IN DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SC_IO RELATIVE_INFO ${S2E_LIBRARIES})

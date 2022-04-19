@@ -8,6 +8,7 @@
 #pragma once
 #include <Component/CommGS/ANT.h>
 #include <Dynamics/Dynamics.h>
+#include <Environment/Global/GlobalEnvironment.h>
 #include <Interface/LogOutput/ILoggable.h>
 #include <Simulation/GroundStation/GroundStation.h>
 
