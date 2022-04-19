@@ -11,10 +11,6 @@ add_library(${PROJECT_NAME} STATIC
   Init_GnssSatellites.cpp
   # Local Environment
   Init_Environment.cpp
-  # Dynamics
-  #Init_Orbit.cpp
-  InitThermal/Init_Node.cpp
-  InitThermal/Init_Temperature.cpp
   # Disturbance
   #Init_Disturbance.cpp
   # Structure

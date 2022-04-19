@@ -1,9 +1,11 @@
-#include <Dynamics/Thermal/Temperature.h>
+#include "InitTemperature.hpp"
+
 #include <Environment/Global/SimTime.h>
+#include <Interface/InitInput/IniAccess.h>
 
 #include <string>
 
-#include "../Initialize.h"
+#include "InitNode.hpp"
 
 /* Import node properties and Cij/Rij Datas by reading CSV File (Node.csv,
 Cij.csv, Rij.csv) Detailed process of reading node properties from CSV File, and
@@ -42,7 +44,7 @@ First row is for Header, data begins from the second row
 using std::string;
 using std::vector;
 
-Temperature* InitTemperature(string ini_path, const double rk_prop_step_sec) {
+Temperature* InitTemperature(const std::string ini_path, const double rk_prop_step_sec) {
   auto mainIni = IniAccess(ini_path);
 
   vector<Node> vnodes;

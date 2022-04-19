@@ -1,11 +1,11 @@
-#include <Dynamics/Thermal/Node.h>
+#include "InitNode.hpp"
+
+#include <Interface/InitInput/IniAccess.h>
 
 #include <iostream>
 #include <string>
 #include <typeinfo>
 #include <vector>
-
-#include "../Initialize.h"
 
 /* Import node properties and Cij/Rij Datas by reading CSV File (Node.csv,
 Cij.csv, Rij.csv) Detailed process of reading node properties from CSV File, and
