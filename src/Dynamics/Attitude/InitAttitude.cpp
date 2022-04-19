@@ -10,8 +10,8 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
 
   int propagate_mode = ini_file.ReadInt(section_, "propagate_mode");
 
-  // RK4 propagator
   if (propagate_mode == 0) {
+    // RK4 propagator
     Vector<3> omega_b;
     ini_file.ReadVector(section_, "Omega_b", omega_b);
     Quaternion quaternion_i2b;
@@ -21,9 +21,8 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
 
     std::string name = section_ + std::to_string(sat_id);  // "Attitude" + to_string(id);
     attitude = new AttitudeRK4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, name);
-  }
-  // Controlled attitude
-  else {
+  } else if (propagate_mode == 1) {
+    // Controlled attitude
     // new file open
     IniAccess ini_file_ca(file_name);
     //
@@ -36,6 +35,8 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     ini_file_ca.ReadVector(section_ca_, "pointing_t_b", pointing_t_b);
     ini_file_ca.ReadVector(section_ca_, "pointing_sub_t_b", pointing_sub_t_b);
     attitude = new ControlledAttitude(main_mode, sub_mode, quaternion_i2t, pointing_t_b, pointing_sub_t_b, celes_info, orbit);
+  } else {
+    std::cerr << "ERROR: attitude propagation mode: " << propagate_mode << " is not defined!" << std::endl;
   }
 
   return attitude;
