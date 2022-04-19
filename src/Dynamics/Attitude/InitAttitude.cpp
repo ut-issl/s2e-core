@@ -5,7 +5,7 @@
 Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info, const double step_sec,
                        const Matrix<3, 3> inertia_tensor, const int sat_id) {
   IniAccess ini_file(file_name);
-  char* section_ = "ATTITUDE";
+  const char* section_ = "ATTITUDE";
   Attitude* attitude;
 
   int propagate_mode = ini_file.ReadInt(section_, "propagate_mode");
@@ -23,10 +23,8 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     attitude = new AttitudeRK4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, name);
   } else if (propagate_mode == 1) {
     // Controlled attitude
-    // new file open
     IniAccess ini_file_ca(file_name);
-    //
-    char* section_ca_ = "ControlledAttitude";
+    const char* section_ca_ = "ControlledAttitude";
     AttCtrlMode main_mode = static_cast<AttCtrlMode>(ini_file_ca.ReadInt(section_ca_, "main_mode"));
     AttCtrlMode sub_mode = static_cast<AttCtrlMode>(ini_file_ca.ReadInt(section_ca_, "sub_mode"));
     Quaternion quaternion_i2t;
