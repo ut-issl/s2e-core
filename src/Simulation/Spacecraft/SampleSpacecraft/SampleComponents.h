@@ -34,9 +34,9 @@ class SampleComponents : public InstalledComponents {
   SampleComponents(const Dynamics* dynamics, const Structure* structure, const LocalEnvironment* local_env, const GlobalEnvironment* glo_env,
                    const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id);
   ~SampleComponents();
-  libra::Vector<3> GenerateForce_N_b() override;
-  libra::Vector<3> GenerateTorque_Nm_b() override;
-  void LogSetup(Logger& logger) override;
+  libra::Vector<3> GenerateForce_N_b();
+  libra::Vector<3> GenerateTorque_Nm_b();
+  void LogSetup(Logger& logger);
 
  private:
   PCU* pcu_;

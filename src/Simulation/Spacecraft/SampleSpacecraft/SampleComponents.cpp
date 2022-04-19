@@ -2,7 +2,6 @@
 
 #include "Sample_PortConfig.h"
 
-// TODO: Create a base class?
 SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* structure, const LocalEnvironment* local_env,
                                    const GlobalEnvironment* glo_env, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id)
     : dynamics_(dynamics), structure_(structure), local_env_(local_env), glo_env_(glo_env), config_(config) {
@@ -74,7 +73,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* st
   // new ExpHilsI2cTarget(1, clock_gen, 0, 0x44, obc_, 6, hils_port_manager_);
 
   // actuator debug output
-  libra::Vector<kMtqDim> mag_moment_c{0.01};
+  // libra::Vector<kMtqDim> mag_moment_c{0.01};
   // mag_torquer_->SetMagMomentC(mag_moment_c);
   // rw_->SetTargetTorqueRw(0.01);
   // rw_->SetDriveFlag(true);
