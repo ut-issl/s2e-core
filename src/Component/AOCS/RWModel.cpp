@@ -20,22 +20,22 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, d
                  double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance, bool drive_flag,
                  double init_velocity)
     : ComponentBase(prescaler, clock_gen, fast_prescaler),
-      step_width_(step_width),
-      dt_main_routine_(dt_main_routine),
       inertia_(inertia),
       max_torque_(max_torque),
       max_velocity_rpm_(max_velocity_rpm),
       q_b2c_(q_b2c),
       pos_b_(pos_b),
+      step_width_(step_width),
       dead_time_(dead_time),
       driving_lag_coef_(driving_lag_coef),
       coasting_lag_coef_(coasting_lag_coef),
-      is_calculated_jitter_(is_calc_jitter_enabled),
-      is_logged_jitter_(is_log_jitter_enabled),
       drive_flag_(drive_flag),
+      dt_main_routine_(dt_main_routine),
       ode_angular_velocity_(step_width_, init_velocity, 0.0, coasting_lag_coef_),
       rw_jitter_(radial_force_harmonics_coef, radial_torque_harmonics_coef, jitter_update_interval, q_b2c, structural_resonance_freq, damping_factor,
-                 bandwidth, considers_structural_resonance) {
+                 bandwidth, considers_structural_resonance),
+      is_calculated_jitter_(is_calc_jitter_enabled),
+      is_logged_jitter_(is_log_jitter_enabled) {
   Initialize();
 }
 
@@ -46,22 +46,22 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, P
                  double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance, bool drive_flag,
                  double init_velocity)
     : ComponentBase(prescaler, clock_gen, power_port, fast_prescaler),
-      step_width_(step_width),
-      dt_main_routine_(dt_main_routine),
       inertia_(inertia),
       max_torque_(max_torque),
       max_velocity_rpm_(max_velocity_rpm),
       q_b2c_(q_b2c),
       pos_b_(pos_b),
+      step_width_(step_width),
       dead_time_(dead_time),
       driving_lag_coef_(driving_lag_coef),
       coasting_lag_coef_(coasting_lag_coef),
-      is_calculated_jitter_(is_calc_jitter_enabled),
-      is_logged_jitter_(is_log_jitter_enabled),
       drive_flag_(drive_flag),
+      dt_main_routine_(dt_main_routine),
       ode_angular_velocity_(step_width_, init_velocity, 0.0, coasting_lag_coef_),
       rw_jitter_(radial_force_harmonics_coef, radial_torque_harmonics_coef, jitter_update_interval, q_b2c, structural_resonance_freq, damping_factor,
-                 bandwidth, considers_structural_resonance) {
+                 bandwidth, considers_structural_resonance),
+      is_calculated_jitter_(is_calc_jitter_enabled),
+      is_logged_jitter_(is_log_jitter_enabled) {
   Initialize();
 }
 

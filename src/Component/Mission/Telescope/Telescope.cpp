@@ -11,18 +11,18 @@ Telescope::Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double
                      int num_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipp,
                      const LocalCelestialInformation* local_celes_info)
     : ComponentBase(1, clock_gen),
-      local_celes_info_(local_celes_info),
-      attitude_(attitude),
-      hipp_(hipp),
+      q_b2c_(q_b2c),
       sun_forbidden_angle_(sun_forbidden_angle),
       earth_forbidden_angle_(earth_forbidden_angle),
       moon_forbidden_angle_(moon_forbidden_angle),
-      q_b2c_(q_b2c),
       x_num_of_pix_(x_num_of_pix),
       y_num_of_pix_(y_num_of_pix),
       x_fov_par_pix_(x_fov_par_pix),
       y_fov_par_pix_(y_fov_par_pix),
-      num_of_logged_stars_(num_of_logged_stars) {
+      num_of_logged_stars_(num_of_logged_stars),
+      attitude_(attitude),
+      hipp_(hipp),
+      local_celes_info_(local_celes_info) {
   is_sun_in_forbidden_angle = true;
   is_earth_in_forbidden_angle = true;
   is_moon_in_forbidden_angle = true;

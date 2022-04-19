@@ -60,7 +60,7 @@ ObcCommunicationBase::ObcCommunicationBase(const unsigned int hils_port_id, cons
 
 ObcCommunicationBase::ObcCommunicationBase(const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
                                            HilsPortManager* hils_port_manager)
-    : sils_port_id_(sils_port_id), obc_(obc), hils_port_id_(hils_port_id), baud_rate_(baud_rate), hils_port_manager_(hils_port_manager) {
+    : sils_port_id_(sils_port_id), hils_port_id_(hils_port_id), baud_rate_(baud_rate), obc_(obc), hils_port_manager_(hils_port_manager) {
 #ifdef USE_HILS
   sim_mode_ = OBC_COM_UART_MODE::HILS;
 #else

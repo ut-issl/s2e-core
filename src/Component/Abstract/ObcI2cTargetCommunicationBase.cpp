@@ -30,7 +30,7 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int 
 
 ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int sils_port_id, const unsigned int hils_port_id,
                                                              const unsigned char i2c_address, OBC* obc, HilsPortManager* hils_port_manager)
-    : sils_port_id_(sils_port_id), i2c_address_(i2c_address), obc_(obc), hils_port_id_(hils_port_id), hils_port_manager_(hils_port_manager) {
+    : sils_port_id_(sils_port_id), hils_port_id_(hils_port_id), i2c_address_(i2c_address), obc_(obc), hils_port_manager_(hils_port_manager) {
 #ifdef USE_HILS
   sim_mode_ = OBC_COM_UART_MODE::HILS;
   int ret = hils_port_manager_->I2cTargetConnectComPort(hils_port_id_);
@@ -47,9 +47,9 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(ObcI2cTargetCommuni
     : sils_port_id_(obj.sils_port_id_),
       hils_port_id_(obj.hils_port_id_),
       i2c_address_(obj.i2c_address_),
+      sim_mode_(obj.sim_mode_),
       obc_(obj.obc_),
-      hils_port_manager_(obj.hils_port_manager_),
-      sim_mode_(obj.sim_mode_) {
+      hils_port_manager_(obj.hils_port_manager_) {
   obj.is_moved_ = true;
   obj.obc_ = nullptr;
   obj.hils_port_manager_ = nullptr;
