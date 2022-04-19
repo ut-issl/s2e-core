@@ -20,10 +20,10 @@ RWJitter::RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coef,
   std::default_random_engine engine(seed_gen());
   std::uniform_real_distribution<double> dist(0.0, libra::tau);
   // Initialize RW rotation phase
-  for (int i = 0; i < radial_force_harmonics_coef_.size(); i++) {
+  for (size_t i = 0; i < radial_force_harmonics_coef_.size(); i++) {
     jitter_force_rot_phase_.push_back(dist(engine));
   }
-  for (int i = 0; i < radial_torque_harmonics_coef_.size(); i++) {
+  for (size_t i = 0; i < radial_torque_harmonics_coef_.size(); i++) {
     jitter_torque_rot_phase_.push_back(dist(engine));
   }
   // Calculate the coefficients of the difference equation when structural
@@ -41,7 +41,7 @@ void RWJitter::CalcJitter(double angular_velocity_rad) {
   unfiltered_jitter_torque_n_c_ *= 0.0;
 
   // Calculate harmonics force
-  for (int i = 0; i < jitter_force_rot_phase_.size(); i++) {
+  for (size_t i = 0; i < jitter_force_rot_phase_.size(); i++) {
     // Advance the phase of RW rotation
     jitter_force_rot_phase_[i] += radial_force_harmonics_coef_[i][0] * angular_velocity_rad * jitter_update_interval_;
     // Add jitter force
@@ -53,7 +53,7 @@ void RWJitter::CalcJitter(double angular_velocity_rad) {
   }
 
   // Calculate harmonics torque
-  for (int i = 0; i < jitter_torque_rot_phase_.size(); i++) {
+  for (size_t i = 0; i < jitter_torque_rot_phase_.size(); i++) {
     // Advance the phase of RW rotation
     jitter_torque_rot_phase_[i] += radial_torque_harmonics_coef_[i][0] * angular_velocity_rad * jitter_update_interval_;
     // Add jitter torque

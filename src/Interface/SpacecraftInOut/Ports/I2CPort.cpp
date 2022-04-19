@@ -55,11 +55,11 @@ unsigned char I2CPort::ReadRegister(const unsigned char i2c_addr, const unsigned
   return ret;
 }
 
-int I2CPort::WriteCommand(const unsigned char i2c_addr, const unsigned char* tx_data, const unsigned int length) {
+size_t I2CPort::WriteCommand(const unsigned char i2c_addr, const unsigned char* tx_data, const size_t length) {
   if (length > kDefaultCmdBufferSize) {
     return -1;
   }
-  for (int i = 0; i < length; i++) {
+  for (size_t i = 0; i < length; i++) {
     cmd_buffer_[std::make_pair(i2c_addr, i)] = tx_data[i];
   }
 
@@ -76,11 +76,11 @@ int I2CPort::WriteCommand(const unsigned char i2c_addr, const unsigned char* tx_
   return length;
 }
 
-int I2CPort::ReadCommand(const unsigned char i2c_addr, unsigned char* rx_data, const unsigned int length) {
+size_t I2CPort::ReadCommand(const unsigned char i2c_addr, unsigned char* rx_data, const size_t length) {
   if (length > kDefaultCmdBufferSize) {
     return -1;
   }
-  for (int i = 0; i < length; i++) {
+  for (size_t i = 0; i < length; i++) {
     rx_data[i] = cmd_buffer_[std::make_pair(i2c_addr, i)];
   }
   return length;

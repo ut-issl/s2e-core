@@ -36,7 +36,7 @@ Telescope::Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double
   sight_[0] = 1;  //(1,0,0)@コンポ座標，視線方向ベクトル
 
   // t=0のときの値として0を入れておく
-  for (int i = 0; i < num_of_logged_stars_; i++) {
+  for (unsigned int i = 0; i < num_of_logged_stars_; i++) {
     Star star;
     star.hipdata.hip_num = -1;
     star.hipdata.vmag = -1;
@@ -159,7 +159,7 @@ string Telescope::GetLogHeader() const {
   // Hip
   // Catalogueがデータを読まなかった場合は，ObserveStarsに関する出力を行わない
   if (hipp_->IsCalcEnabled) {
-    for (int i = 0; i < num_of_logged_stars_; i++) {
+    for (unsigned int i = 0; i < num_of_logged_stars_; i++) {
       str_tmp += WriteScalar("HIP ID (" + to_string(i) + ")", " ");
       str_tmp += WriteScalar("Vmag (" + to_string(i) + ")", " ");
       str_tmp += WriteVector("pos_imagesensor (" + to_string(i) + ")", " ", "pix", 2);
@@ -185,7 +185,7 @@ string Telescope::GetLogValue() const {
   // Hip
   // Catalogueがデータを読まなかった場合は，ObserveStarsに関する出力を行わない
   if (hipp_->IsCalcEnabled) {
-    for (int i = 0; i < num_of_logged_stars_; i++) {
+    for (unsigned int i = 0; i < num_of_logged_stars_; i++) {
       str_tmp += WriteScalar(star_in_sight[i].hipdata.hip_num);
       str_tmp += WriteScalar(star_in_sight[i].hipdata.vmag);
       str_tmp += WriteVector(star_in_sight[i].pos_imgsensor);

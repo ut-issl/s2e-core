@@ -6,7 +6,7 @@ void *endian_memcpy(void *dst, const void *src, size_t size) {
 #ifdef IS_LITTLE_ENDIAN
   uint8_t *src_ = (uint8_t *)src;
   uint8_t *dst_ = (uint8_t *)dst;
-  int i;
+  size_t i;
 
   size--;
 

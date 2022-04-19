@@ -15,11 +15,11 @@ inline std::string WriteScalar(std::string name, std::string unit);
 
 template <size_t NUM>
 inline std::string WriteVector(Vector<NUM, double> vec, int precision = 6);
-inline std::string WriteVector(std::string name, std::string frame, std::string unit, int n);
+inline std::string WriteVector(std::string name, std::string frame, std::string unit, size_t n);
 
 template <size_t ROW, size_t COLUMN>
 inline std::string WriteMatrix(Matrix<ROW, COLUMN, double> mat);
-inline std::string WriteMatrix(std::string name, std::string frame, std::string unit, int r, int c);
+inline std::string WriteMatrix(std::string name, std::string frame, std::string unit, size_t r, size_t c);
 
 inline std::string WriteQuaternion(Quaternion quat);
 
@@ -36,16 +36,16 @@ template <size_t NUM>
 std::string WriteVector(Vector<NUM, double> vec, int precision) {
   std::stringstream str_tmp;
 
-  for (int n = 0; n < NUM; n++) {
+  for (size_t n = 0; n < NUM; n++) {
     str_tmp << std::setprecision(precision) << vec[n] << ",";
   }
   return str_tmp.str();
 }
-std::string WriteVector(std::string name, std::string frame, std::string unit, int n) {
+std::string WriteVector(std::string name, std::string frame, std::string unit, size_t n) {
   std::stringstream str_tmp;
   std::string axis[3] = {"(X)", "(Y)", "(Z)"};
 
-  for (int i = 0; i < n; i++) {
+  for (size_t i = 0; i < n; i++) {
     if (n == 3) {
       str_tmp << name << "_" << frame << axis[i] << "[" << unit << "],";
     } else {
@@ -60,18 +60,18 @@ template <size_t ROW, size_t COLUMN>
 std::string WriteMatrix(Matrix<ROW, COLUMN, double> mat) {
   std::stringstream str_tmp;
 
-  for (int n = 0; n < ROW; n++) {
-    for (int m = 0; m < COLUMN; m++) {
+  for (size_t n = 0; n < ROW; n++) {
+    for (size_t m = 0; m < COLUMN; m++) {
       str_tmp << mat[n][m] << ",";
     }
   }
   return str_tmp.str();
 }
-std::string WriteMatrix(std::string name, std::string frame, std::string unit, int r, int c) {
+std::string WriteMatrix(std::string name, std::string frame, std::string unit, size_t r, size_t c) {
   std::stringstream str_tmp;
 
-  for (int i = 0; i < r; i++) {
-    for (int j = 0; j < c; j++) {
+  for (size_t i = 0; i < r; i++) {
+    for (size_t j = 0; j < c; j++) {
       str_tmp << name << "_" << frame << "(" << i << j << ")"
               << "[" << unit << "],";
     }
@@ -82,7 +82,7 @@ std::string WriteMatrix(std::string name, std::string frame, std::string unit, i
 std::string WriteQuaternion(Quaternion quat) {
   std::stringstream str_tmp;
 
-  for (int i = 0; i < 4; i++) {
+  for (size_t i = 0; i < 4; i++) {
     str_tmp << quat[i] << ",";
   }
   return str_tmp.str();

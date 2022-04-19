@@ -96,7 +96,7 @@ void UWBEstimator::SetX(Vector<6> x_new) { x = x_new; }
 bool UWBEstimator::IsConverged() {
   auto Pdiff = P - lastP;
   bool isconverged = true;
-  for (auto i = 0; i < Pdiff.row(); i++) {
+  for (size_t i = 0; i < Pdiff.row(); i++) {
     // 最初は1mで捕捉できてれば十分
     isconverged &= std::abs(Pdiff[i][i]) < 1e-2;
   }
