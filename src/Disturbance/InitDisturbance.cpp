@@ -1,17 +1,10 @@
-#include <Disturbance/AirDrag.h>
-#include <Disturbance/GGDist.h>
-#include <Disturbance/GeoPotential.h>
-#include <Disturbance/MagDisturbance.h>
-#include <Disturbance/SolarRadiation.h>
-#include <Disturbance/ThirdBodyGravity.h>
-
-#include "Initialize.h"
+#include "InitDisturbance.hpp"
 
 #define MIN_VAL 1e-9
 
 AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b) {
   auto conf = IniAccess(ini_path);
-  char* section = "AIRDRAG";
+  const char* section = "AIRDRAG";
 
   double t_w = conf.ReadDouble(section, "Temp_wall") + 273.0;
   double t_m = conf.ReadDouble(section, "Temp_molecular") + 273.0;
@@ -29,7 +22,7 @@ AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, 
 
 SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b) {
   auto conf = IniAccess(ini_path);
-  char* section = "SRDIST";
+  const char* section = "SRDIST";
 
   bool calcen = conf.ReadEnable(section, CALC_LABEL);
   bool logen = conf.ReadEnable(section, LOG_LABEL);
@@ -54,7 +47,7 @@ GGDist InitGGDist(std::string ini_path) {
 
 MagDisturbance InitMagDisturbance(std::string ini_path, RMMParams rmm_params) {
   auto conf = IniAccess(ini_path);
-  char* section = "MAG_DISTURBANCE";
+  const char* section = "MAG_DISTURBANCE";
 
   MagDisturbance mag_dist(rmm_params.GetRMMConst_b(), rmm_params.GetRMMRWDev(), rmm_params.GetRMMRWLimit(), rmm_params.GetRMMWNVar());
   mag_dist.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);

@@ -10,6 +10,6 @@ add_library(${PROJECT_NAME} STATIC
   SolarRadiation.cpp
   SurfaceForce.cpp
   ThirdBodyGravity.cpp
-  ../Interface/InitInput/Init_Disturbance.cpp
+  InitDisturbance.cpp
 )
 include(../../common.cmake)
