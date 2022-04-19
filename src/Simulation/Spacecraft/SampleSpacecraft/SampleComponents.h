@@ -16,9 +16,8 @@
 #include <Interface/HilsInOut/HilsPortManager.h>
 #include <Simulation/Spacecraft/Structure/Structure.h>
 
-#include <Library/math/Vector.hpp>
+#include "../InstalledComponents.hpp"
 
-using libra::Vector;
 class OBC;
 class PCU;
 class Gyro;
@@ -30,14 +29,14 @@ class MagTorquer;
 class RWModel;
 class SimpleThruster;
 
-class SampleComponents {
+class SampleComponents : public InstalledComponents {
  public:
   SampleComponents(const Dynamics* dynamics, const Structure* structure, const LocalEnvironment* local_env, const GlobalEnvironment* glo_env,
                    const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id);
   ~SampleComponents();
-  Vector<3> GenerateForce_b();
-  Vector<3> GenerateTorque_b();
-  void CompoLogSetUp(Logger& logger);
+  libra::Vector<3> GenerateForce_N_b() override;
+  libra::Vector<3> GenerateTorque_Nm_b() override;
+  void LogSetup(Logger& logger) override;
 
  private:
   PCU* pcu_;

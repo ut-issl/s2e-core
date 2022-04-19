@@ -12,10 +12,10 @@
 
 class Spacecraft {
  public:
-  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env,
-             const int sat_id);  // For single satellite simulation
-  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info,
-             const int sat_id);  // for multi satellite simulation
+  // For single satellite simulation
+  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  // for multi satellite simulation
+  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id);
   virtual ~Spacecraft();
 
   // forbidden copy
@@ -23,10 +23,10 @@ class Spacecraft {
   Spacecraft& operator=(const Spacecraft&) = delete;
 
   // virtual functions
-  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env,
-                          const int sat_id);  // For single satellite simulation
-  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info,
-                          const int sat_id);  // for multi satellite simulation
+  // For single satellite simulation
+  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  // for multi satellite simulation
+  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id);
   virtual void Update(const SimTime* sim_time);
   virtual void Clear(void);
   virtual void LogSetup(Logger& logger);

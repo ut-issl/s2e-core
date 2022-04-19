@@ -99,21 +99,21 @@ SampleComponents::~SampleComponents() {
   delete hils_port_manager_;  // delete after exp_hils
 }
 
-Vector<3> SampleComponents::GenerateForce_b() {
-  Vector<3> force_b_(0.0);
-  force_b_ += thruster_->GetThrustB();
-  return force_b_;
+libra::Vector<3> SampleComponents::GenerateForce_N_b() {
+  libra::Vector<3> force_N_b_(0.0);
+  force_N_b_ += thruster_->GetThrustB();
+  return force_N_b_;
 };
 
-Vector<3> SampleComponents::GenerateTorque_b() {
-  Vector<3> torque_b_(0.0);
-  torque_b_ += mag_torquer_->GetTorque_b();
-  torque_b_ += rw_->GetOutputTorqueB();
-  torque_b_ += thruster_->GetTorqueB();
-  return torque_b_;
+libra::Vector<3> SampleComponents::GenerateTorque_Nm_b() {
+  libra::Vector<3> torque_Nm_b_(0.0);
+  torque_Nm_b_ += mag_torquer_->GetTorque_b();
+  torque_Nm_b_ += rw_->GetOutputTorqueB();
+  torque_Nm_b_ += thruster_->GetTorqueB();
+  return torque_Nm_b_;
 };
 
-void SampleComponents::CompoLogSetUp(Logger& logger) {
+void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLoggable(gyro_);
   logger.AddLoggable(mag_sensor_);
   logger.AddLoggable(stt_);
