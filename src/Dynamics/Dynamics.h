@@ -8,6 +8,8 @@ using libra::Vector;
 
 #include <Dynamics/Attitude/InitAttitude.hpp>
 #include <Dynamics/Orbit/InitOrbit.hpp>
+#include <Dynamics/Thermal/InitNode.hpp>
+#include <Dynamics/Thermal/InitTemperature.hpp>
 
 #include "../Environment/Global/SimTime.h"
 #include "../Environment/Local/LocalCelestialInformation.h"
