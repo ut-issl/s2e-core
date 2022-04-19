@@ -64,8 +64,6 @@ class Orbit;
 class Temperature;
 class Node;
 class RelativeInformation;
-Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, double stepSec, double current_jd, double gravity_constant,
-                 std::string section = "ORBIT", RelativeInformation* rel_info = (RelativeInformation*)nullptr);
 Temperature* InitTemperature(std::string ini_path, const double rk_prop_step_sec);
 Node InitNode(const vector<std::string>& nodestr);
 

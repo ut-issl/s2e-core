@@ -1,19 +1,12 @@
-#include <Dynamics/Orbit/EnckeOrbitPropagation.h>
-#include <Dynamics/Orbit/KeplerOrbitPropagation.h>
-#include <Dynamics/Orbit/Orbit.h>
-#include <Dynamics/Orbit/RelativeOrbit.h>
-#include <Dynamics/Orbit/Rk4OrbitPropagation.h>
-#include <Dynamics/Orbit/Sgp4OrbitPropagation.h>
-#include <Environment/Global/SimTime.h>
-#include <Library/RelativeOrbit/RelativeOrbitModels.h>
-#include <RelativeInformation/RelativeInformation.h>
+#include "InitOrbit.hpp"
 
-#include <cassert>
+#include <Interface/InitInput/IniAccess.h>
 
-#include "Initialize.h"
-
-class RelativeOrbit;
-class KeplerOrbit;
+#include "EnckeOrbitPropagation.h"
+#include "KeplerOrbitPropagation.h"
+#include "RelativeOrbit.h"
+#include "Rk4OrbitPropagation.h"
+#include "Sgp4OrbitPropagation.h"
 
 Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, double stepSec, double current_jd, double gravity_constant,
                  std::string section, RelativeInformation* rel_info) {
