@@ -6,7 +6,9 @@ PCU::PCU(int prescaler, ClockGenerator* clock_gen) : ComponentBase(prescaler, cl
 
 PCU::~PCU() {}
 
-void PCU::MainRoutine(int count) { double current_ = ports_[1]->GetCurrentConsumption(); }
+void PCU::MainRoutine(int count) {
+  // double current_ = ports_[1]->GetCurrentConsumption();
+}
 
 int PCU::ConnectPort(const int port_id, const double current_Limit) {
   // The port is already used

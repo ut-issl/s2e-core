@@ -163,7 +163,7 @@ int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {
   int index = 0;
   SpiceInt planet_id;
   SpiceBoolean found;
-  const int maxlen = 100;
+
   // Acquisition of ID from body name
   bodn2c_c(body_name, (SpiceInt*)&planet_id, (SpiceBoolean*)&found);
   for (int i = 0; i < num_of_selected_body_; i++) {

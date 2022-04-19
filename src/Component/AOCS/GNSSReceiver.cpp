@@ -175,7 +175,7 @@ void GNSSReceiver::AddNoise(Vector<3> location_true_eci, Vector<3> location_true
 void GNSSReceiver::ConvertJulianDayToGPSTime(const double JulianDay) {
   const double kJulianDayAtGPSTimeZero = 2444244.5;  // corresponds to 1980/1/5 midnight
   const double kDayInWeek = 7.0;
-  const double kSecInWeek = 604800.0;
+  // const double kSecInWeek = 604800.0;
   const double kSecInDay = 86400.0;
 
   // compute ToW from current JulianDay

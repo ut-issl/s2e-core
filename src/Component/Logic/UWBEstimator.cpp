@@ -57,8 +57,8 @@ void UWBEstimator::Update(Vector<12> visibility, Vector<12> measurement) {
 
   K = M * transpose(H) * inv;
   auto t3 = measurement - hx;
-  auto t4 = K * (measurement - hx);
-  x = x + K * (measurement - hx);
+  auto t4 = K * (t3);
+  x = x + t4;
   // Joseph Form https://wolfweb.unr.edu/~fadali/EE782/DiscreteKF.pdf
   auto temp = libra::eye<6>() - K * H;
   P = temp * M * transpose(temp) + K * R * transpose(K);

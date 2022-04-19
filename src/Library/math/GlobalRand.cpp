@@ -5,7 +5,7 @@ GlobalRand g_rand;
 GlobalRand::GlobalRand() { seed_ = 0xdeadbeef; }
 void GlobalRand::SetSeed(long seed) {
   base_rand_.init(seed);
-  double dl = base_rand_;  //慣らし
+  // double dl = base_rand_;  //慣らし
 }
 
 long GlobalRand::MakeSeed() {
