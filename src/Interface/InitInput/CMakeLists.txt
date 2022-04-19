@@ -9,10 +9,6 @@ add_library(${PROJECT_NAME} STATIC
   Init_CelesInfo.cpp
   Init_HipCatalogue.cpp
   Init_GnssSatellites.cpp
-  # Local Environment
-  Init_Environment.cpp
-  # Disturbance
-  #Init_Disturbance.cpp
   # Structure
   Init_Structure.cpp
 

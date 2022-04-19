@@ -53,9 +53,6 @@ class SRPEnvironment;
 class Atmosphere;
 class LocalCelestialInformation;
 class LocalEnvironment;
-MagEnvironment InitMagEnvironment(std::string ini_path);
-SRPEnvironment InitSRPEnvironment(std::string ini_path, LocalCelestialInformation* local_celes_info);
-Atmosphere InitAtmosphere(std::string ini_path);
 
 // Dynamics
 class Dynamics;
@@ -64,8 +61,6 @@ class Orbit;
 class Temperature;
 class Node;
 class RelativeInformation;
-Temperature* InitTemperature(std::string ini_path, const double rk_prop_step_sec);
-Node InitNode(const vector<std::string>& nodestr);
 
 // Disturbance
 class RMMParams;

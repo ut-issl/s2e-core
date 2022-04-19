@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME} STATIC
   MagEnvironment.cpp
   SRPEnvironment.cpp
   LocalCelestialInformation.cpp
+  InitLocalEnvironment.cpp
 )
 
 include(../../../common.cmake)

@@ -1,10 +1,11 @@
-#include <Environment/Local/Atmosphere.h>
-#include <Environment/Local/MagEnvironment.h>
-#include <Environment/Local/SRPEnvironment.h>
+#include "InitLocalEnvironment.hpp"
+
+#include <Interface/InitInput/IniAccess.h>
 
 #include <string>
 
-#include "Initialize.h"
+#define CALC_LABEL "calculation"
+#define LOG_LABEL "logging"
 
 MagEnvironment InitMagEnvironment(std::string ini_path) {
   auto conf = IniAccess(ini_path);
