@@ -1,9 +1,9 @@
-#include <Environment/Global/GnssSatellites.h>
+#include "InitGnssSatellites.hpp"
+
+#include <Interface/InitInput/IniAccess.h>
 
 #include <iostream>
 #include <string>
-
-#include "Initialize.h"
 
 std::string return_dirctory_path(std::string sort) {
   std::string main_directory, sub_directory;
@@ -253,7 +253,7 @@ void get_clk_file_contents(std::string directory_path, std::string extension, st
 GnssSatellites* InitGnssSatellites(std::string file_name) {
   IniAccess ini_file(file_name);
   char section[] = "GNSS_SATELLIES";
-  GnssSatellites* gnss_satellites = new GnssSatellites(ini_file.ReadEnable(section, CALC_LABEL));
+  GnssSatellites* gnss_satellites = new GnssSatellites(ini_file.ReadEnable(section, "calculation"));
   if (!gnss_satellites->IsCalcEnabled()) {
     return gnss_satellites;
   }

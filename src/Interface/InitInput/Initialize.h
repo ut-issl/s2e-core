@@ -42,9 +42,7 @@ class ClockGenerator;
 class CelestialInformation;
 class HipparcosCatalogue;
 class GnssSatellites;
-SimTime* InitSimTime(std::string file_name);
 CelestialInformation* InitCelesInfo(std::string file_name);
-HipparcosCatalogue* InitHipCatalogue(std::string file_name);
 GnssSatellites* InitGnssSatellites(std::string file_name);
 
 // Local Environment

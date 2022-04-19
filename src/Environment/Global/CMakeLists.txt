@@ -9,6 +9,8 @@ add_library(${PROJECT_NAME} STATIC
   SimTime.cpp
   ClockGenerator.cpp
   CelestialRotation.cpp
+  InitGlobalEnvironment.cpp
+  InitGnssSatellites.cpp
 )
 
 include(../../../common.cmake)

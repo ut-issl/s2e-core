@@ -4,11 +4,7 @@ cmake_minimum_required(VERSION 3.13)
 add_library(${PROJECT_NAME} STATIC
   Initialize.h
   # Global Environment
-  Init_SimTime.cpp
   Init_Log.cpp
-  Init_CelesInfo.cpp
-  Init_HipCatalogue.cpp
-  Init_GnssSatellites.cpp
   # Structure
   Init_Structure.cpp
 
