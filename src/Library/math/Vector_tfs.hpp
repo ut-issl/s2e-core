@@ -1,7 +1,6 @@
 /*!
   \file   Vector_impl.hpp
   \author TAKISAWA Jun'ichi.
-  \date   Sun Oct 24 13:54:57 2010
   \brief  Vector.hppのテンプレート実装
 */
 #ifndef VECTOR_HPP_TFS_HPP_
@@ -28,7 +27,7 @@ Vector<N, T>& Vector<N, T>::operator+=(const Vector<N, T>& v) {
 
 template <size_t N, typename T>
 Vector<N, T>& Vector<N, T>::operator-=(const Vector<N, T>& v) {
-  for (int i = 0; i < N; ++i) {
+  for (size_t i = 0; i < N; ++i) {
     vector_[i] -= v.vector_[i];
   }
   return *this;
@@ -64,7 +63,7 @@ void fill_up(Vector<N, T>& v, const T& n) {
 template <size_t N, typename T>
 void print(const Vector<N, T>& v, char delimiter, std::ostream& stream) {
   stream << v[0];
-  for (int i = 1; i < N; ++i) {
+  for (size_t i = 1; i < N; ++i) {
     stream << delimiter << v[i];
   }
 }
@@ -81,7 +80,7 @@ const Vector<N, T> operator+(const Vector<N, T>& lhs, const Vector<N, T>& rhs) {
 template <size_t N, typename T>
 const Vector<N, T> operator-(const Vector<N, T>& lhs, const Vector<N, T>& rhs) {
   Vector<N, T> temp;
-  for (int i = 0; i < N; ++i) {
+  for (size_t i = 0; i < N; ++i) {
     temp[i] = lhs[i] - rhs[i];
   }
   return temp;
@@ -99,7 +98,7 @@ const Vector<N, T> operator*(const T& lhs, const Vector<N, T>& rhs) {
 template <size_t N, typename T>
 const T inner_product(const Vector<N, T>& lhs, const Vector<N, T>& rhs) {
   T temp = 0;
-  for (int i = 0; i < N; ++i) {
+  for (size_t i = 0; i < N; ++i) {
     temp += lhs[i] * rhs[i];
   }
   return temp;
