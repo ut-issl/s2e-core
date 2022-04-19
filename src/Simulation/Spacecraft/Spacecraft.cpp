@@ -56,6 +56,8 @@ void Spacecraft::LogSetup(Logger& logger) {
 }
 
 void Spacecraft::Update(const SimTime* sim_time) {
+  dynamics_->ClearForceTorque();
+
   // Update local environment and disturbance
   local_env_->Update(dynamics_, sim_time);
   disturbances_->Update(*local_env_, *dynamics_, sim_time);
