@@ -12,7 +12,6 @@ add_library(${PROJECT_NAME} STATIC
   # Local Environment
   Init_Environment.cpp
   # Dynamics
-  #Init_Attitude.cpp
   #Init_Orbit.cpp
   InitThermal/Init_Node.cpp
   InitThermal/Init_Temperature.cpp

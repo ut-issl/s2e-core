@@ -6,12 +6,13 @@
 #include "../Library/math/Vector.hpp"
 using libra::Vector;
 
+#include <Dynamics/Attitude/InitAttitude.hpp>
+
 #include "../Environment/Global/SimTime.h"
 #include "../Environment/Local/LocalCelestialInformation.h"
 #include "../Interface/InitInput/Initialize.h"
 #include "../Simulation/SimulationConfig.h"
 #include "../Simulation/Spacecraft/Structure/Structure.h"
-#include "./Attitude/Attitude.h"
 #include "./Orbit/Orbit.h"
 #include "./Thermal/Temperature.h"
 

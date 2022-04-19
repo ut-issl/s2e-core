@@ -12,8 +12,8 @@ add_library(${PROJECT_NAME} STATIC
   Thermal/Temperature.cpp
   Attitude/AttitudeRK4.cpp
   Attitude/ControlledAttitude.cpp
+  Attitude/InitAttitude.cpp
   Dynamics.cpp
-  ../Interface/InitInput/Init_Attitude.cpp
   ../Interface/InitInput/Init_Orbit.cpp
 )
 
