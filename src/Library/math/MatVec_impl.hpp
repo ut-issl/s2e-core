@@ -127,7 +127,7 @@ Vector<N>& lubksb(const Matrix<N, N>& a, const unsigned int index[], Vector<N>& 
     b[i] = sum;
   }
 
-  for (size_t i = N - 1; i >= 0; --i) {
+  for (int i = N - 1; i >= 0; --i) {
     sum = b[i];
     for (size_t j = i + 1; j < N; ++j) {
       sum -= a[i][j] * b[j];
