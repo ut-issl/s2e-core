@@ -4,7 +4,6 @@
 #include <Component/Abstract/ExpHilsI2cTarget.h>
 #include <Component/CDH/OBC.h>
 #include <Component/Power/PCU.h>
-#include <Component/Propulsion/SimpleThruster.h>
 #include <Dynamics/Dynamics.h>
 #include <Interface/HilsInOut/HilsPortManager.h>
 #include <Simulation/Spacecraft/Structure/Structure.h>
@@ -16,6 +15,7 @@
 #include <Component/AOCS/InitRwModel.hpp>
 #include <Component/AOCS/InitStt.hpp>
 #include <Component/AOCS/InitSunSensor.hpp>
+#include <Component/Propulsion/InitSimpleThruster.hpp>
 #include <Library/math/Vector.hpp>
 
 #include "../InstalledComponents.hpp"

@@ -55,9 +55,9 @@ add_library(${PROJECT_NAME} STATIC
   Power/InitSap.cpp
 
   Propulsion/SimpleThruster.cpp
+  Propulsion/InitSimpleThruster.cpp
 
   # initialize functions
-  ../Interface/InitInput/InitComponent/InitSimpleThruster.cpp
   ../Interface/InitInput/InitComponent/initTelescope.cpp
   ../Interface/InitInput/InitPower/CsvScenarioInterface.cpp
 

@@ -79,11 +79,6 @@ class Telescope;
 class STT;
 class GNSSReceiver;
 
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, const std::string fname, const Structure* structure,
-                                  const Dynamics* dynamics);
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, PowerPort* power_port, int thruster_id, const std::string fname,
-                                  const Structure* structure, const Dynamics* dynamics);
-
 Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const std::string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
                         const LocalCelestialInformation* local_celes_info);
 // MCSim
