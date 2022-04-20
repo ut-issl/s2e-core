@@ -1,5 +1,6 @@
 #ifdef WIN32
 #define _WINSOCKAPI_  // stops windows.h including winsock.h
+#include <tchar.h>
 #include <windows.h>
 #endif
 
