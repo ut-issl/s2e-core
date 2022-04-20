@@ -1,9 +1,9 @@
 #include "Disturbances.h"
 
-#include "../Interface/InitInput/Initialize.h"
 #include "AirDrag.h"
 #include "GGDist.h"
 #include "GeoPotential.h"
+#include "InitDisturbance.hpp"
 #include "MagDisturbance.h"
 #include "SolarRadiation.h"
 #include "ThirdBodyGravity.h"

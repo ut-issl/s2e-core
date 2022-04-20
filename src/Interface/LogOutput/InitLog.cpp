@@ -1,4 +1,6 @@
-#include "Initialize.h"
+#include "InitLog.hpp"
+
+#include <Interface/InitInput/IniAccess.h>
 
 Logger* InitLog(std::string file_name) {
   IniAccess ini_file(file_name);

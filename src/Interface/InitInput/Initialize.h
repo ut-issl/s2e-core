@@ -25,8 +25,6 @@ using libra::Vector;
 
 // Logger
 class Logger;
-Logger* InitLog(std::string file_name);
-Logger* InitLogMC(std::string file_name, bool enable);
 
 // Structure
 class KinematicsParams;
@@ -42,8 +40,6 @@ class ClockGenerator;
 class CelestialInformation;
 class HipparcosCatalogue;
 class GnssSatellites;
-CelestialInformation* InitCelesInfo(std::string file_name);
-GnssSatellites* InitGnssSatellites(std::string file_name);
 
 // Local Environment
 class MagEnvironment;
@@ -68,12 +64,6 @@ class GGDist;
 class MagDisturbance;
 class GeoPotential;
 class ThirdBodyGravity;
-AirDrag InitAirDrag(std::string ini_path, const vector<Surface>& surfaces, const Vector<3> cg_b);
-SolarRadiation InitSRDist(std::string ini_path, const vector<Surface>& surfaces, Vector<3> cg_b);
-GGDist InitGGDist(std::string ini_path);
-MagDisturbance InitMagDisturbance(std::string ini_path, RMMParams rmm_params);
-GeoPotential InitGeoPotential(std::string ini_path);
-ThirdBodyGravity InitThirdBodyGravity(std::string ini_path, std::string ini_path_celes);
 
 // Component
 class Gyro;
