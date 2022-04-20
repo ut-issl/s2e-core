@@ -9,7 +9,6 @@
 #include <string>
 
 // Simulator includes
-#include "Interface/InitInput/Initialize.h"
 #include "Interface/LogOutput/Logger.h"
 
 // Add custom include files

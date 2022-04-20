@@ -1,5 +1,4 @@
 #pragma once
-#include <Interface/InitInput/Initialize.h>
 
 #include <Component/CommGS/InitAnt.hpp>
 #include <Component/CommGS/InitGsCalculator.hpp>

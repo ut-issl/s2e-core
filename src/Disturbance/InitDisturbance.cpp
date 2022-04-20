@@ -1,5 +1,9 @@
 #include "InitDisturbance.hpp"
 
+#include <Interface/InitInput/IniAccess.h>
+
+#define CALC_LABEL "calculation"
+#define LOG_LABEL "logging"
 #define MIN_VAL 1e-9
 
 AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b) {

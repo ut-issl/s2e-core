@@ -1,5 +1,7 @@
 #include "InitGyro.hpp"
 
+#include <Interface/InitInput/IniAccess.h>
+
 Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const Dynamics* dynamics) {
   IniAccess gyro_conf(fname);
   char GSection[30] = "GYRO";

@@ -1,5 +1,7 @@
 #include "SampleComponents.h"
 
+#include <Interface/InitInput/IniAccess.h>
+
 #include "Sample_PortConfig.h"
 
 SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* structure, const LocalEnvironment* local_env,

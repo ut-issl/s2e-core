@@ -4,7 +4,6 @@
 #include <Dynamics/Dynamics.h>
 #include <Environment/Global/ClockGenerator.h>
 #include <Environment/Local/LocalEnvironment.h>
-#include <Interface/InitInput/Initialize.h>
 #include <RelativeInformation/RelativeInformation.h>
 
 #include "InstalledComponents.hpp"

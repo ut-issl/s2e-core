@@ -87,7 +87,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     std::cerr << "ERROR: orbit propagation mode: " << propagate_mode << " is not defined!" << std::endl;
   }
 
-  orbit->SetIsCalcEnabled(conf.ReadEnable(section_, CALC_LABEL));
-  orbit->IsLogEnabled = conf.ReadEnable(section_, LOG_LABEL);
+  orbit->SetIsCalcEnabled(conf.ReadEnable(section_, "calculation"));
+  orbit->IsLogEnabled = conf.ReadEnable(section_, "logging");
   return orbit;
 }

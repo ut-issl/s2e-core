@@ -1,5 +1,7 @@
 #include "SampleGSComponents.h"
 
+#include <Interface/InitInput/IniAccess.h>
+
 SampleGSComponents::SampleGSComponents(const SimulationConfig* config) : config_(config) {
   IniAccess iniAccess = IniAccess(config_->ini_base_fname_);
 

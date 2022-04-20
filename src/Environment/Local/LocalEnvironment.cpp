@@ -2,6 +2,7 @@
 
 #include <Dynamics/Attitude/Attitude.h>
 #include <Dynamics/Orbit/Orbit.h>
+#include <Interface/InitInput/IniAccess.h>
 
 #include "InitLocalEnvironment.hpp"
 
@@ -29,7 +30,7 @@ void LocalEnvironment::Initialize(SimulationConfig* sim_config, const GlobalEnvi
   srp_ = new SRPEnvironment(InitSRPEnvironment(ini_fname, celes_info_));
   // Log setting for Local celestial information
   IniAccess conf = IniAccess(ini_fname);
-  celes_info_->IsLogEnabled = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", LOG_LABEL);
+  celes_info_->IsLogEnabled = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", "logging");
 }
 
 void LocalEnvironment::Update(const Dynamics* dynamics, const SimTime* sim_time) {

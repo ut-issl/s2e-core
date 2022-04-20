@@ -13,7 +13,6 @@ using libra::Vector;
 
 #include "../Environment/Global/SimTime.h"
 #include "../Environment/Local/LocalCelestialInformation.h"
-#include "../Interface/InitInput/Initialize.h"
 #include "../Simulation/SimulationConfig.h"
 #include "../Simulation/Spacecraft/Structure/Structure.h"
 #include "./Orbit/Orbit.h"

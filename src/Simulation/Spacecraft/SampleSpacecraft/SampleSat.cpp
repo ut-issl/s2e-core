@@ -1,7 +1,6 @@
 #include "SampleSat.h"
 
 #include <Environment/Global/ClockGenerator.h>
-#include <Interface/InitInput/Initialize.h>
 
 #include <Library/math/NormalRand.hpp>
 
