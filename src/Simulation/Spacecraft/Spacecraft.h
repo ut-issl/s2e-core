@@ -7,14 +7,15 @@
 #include <Interface/InitInput/Initialize.h>
 #include <RelativeInformation/RelativeInformation.h>
 
+#include "InstalledComponents.hpp"
 #include "Structure/Structure.h"
 
 class Spacecraft {
  public:
-  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env,
-             const int sat_id);  // For single satellite simulation
-  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info,
-             const int sat_id);  // for multi satellite simulation
+  // For single satellite simulation
+  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  // for multi satellite simulation
+  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id);
   virtual ~Spacecraft();
 
   // forbidden copy
@@ -22,10 +23,10 @@ class Spacecraft {
   Spacecraft& operator=(const Spacecraft&) = delete;
 
   // virtual functions
-  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env,
-                          const int sat_id);  // For single satellite simulation
-  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info,
-                          const int sat_id);  // for multi satellite simulation
+  // For single satellite simulation
+  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  // for multi satellite simulation
+  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id);
   virtual void Update(const SimTime* sim_time);
   virtual void Clear(void);
   virtual void LogSetup(Logger& logger);
@@ -34,6 +35,7 @@ class Spacecraft {
   inline const Dynamics& GetDynamics() const { return *dynamics_; }
   inline const LocalEnvironment& GetLocalEnv() const { return *local_env_; }
   inline const Disturbances& GetDisturbances() const { return *disturbances_; }
+  inline const InstalledComponents& GetInstalledComponents() const { return *components_; }
   inline const int GetSatID() const { return sat_id_; }
 
  protected:
@@ -43,5 +45,6 @@ class Spacecraft {
   LocalEnvironment* local_env_;
   Disturbances* disturbances_;
   Structure* structure_;
+  InstalledComponents* components_;
   const int sat_id_;
 };
