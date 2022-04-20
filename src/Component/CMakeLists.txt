@@ -54,12 +54,11 @@ add_library(${PROJECT_NAME} STATIC
   Power/PCU_InitialStudy.cpp
   Power/SAP.cpp
   Power/InitSap.cpp
+  Power/CsvScenarioInterface.cpp
 
   Propulsion/SimpleThruster.cpp
   Propulsion/InitSimpleThruster.cpp
 
-  # initialize functions
-  ../Interface/InitInput/InitPower/CsvScenarioInterface.cpp
 
 ## C++/CLI related codes
 #  CDH/TMTCInterface.cpp
