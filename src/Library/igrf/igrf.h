@@ -4,7 +4,6 @@
 extern double testglobal[3];
 
 void set_file_path(const char *fname);
-static void fcalc(void);
 void field(double are, double aflat, double ara, int maxoda);
 void tcoef(double *agh, double *aght, double atzero, int kexta, double aext[3]);
 void tyear(double ayear);
