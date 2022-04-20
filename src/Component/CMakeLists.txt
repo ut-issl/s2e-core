@@ -23,7 +23,9 @@ add_library(${PROJECT_NAME} STATIC
   AOCS/RWModel.cpp
   AOCS/RWJitter.cpp
   AOCS/STT.cpp
+  AOCS/InitStt.cpp
   AOCS/SunSensor.cpp
+  AOCS/InitSunSensor.cpp
   AOCS/UWBSensor.cpp
   AOCS/GNSSReceiver.cpp
 
@@ -54,8 +56,6 @@ add_library(${PROJECT_NAME} STATIC
   ../Interface/InitInput/InitComponent/InitRWModel.cpp
   ../Interface/InitInput/InitComponent/InitSAP.cpp
   ../Interface/InitInput/InitComponent/InitSimpleThruster.cpp
-  ../Interface/InitInput/InitComponent/InitSTT.cpp
-  ../Interface/InitInput/InitComponent/InitSunSensor.cpp
   ../Interface/InitInput/InitComponent/initTelescope.cpp
   ../Interface/InitInput/InitComponent/InitUWBSensor.cpp
   ../Interface/InitInput/InitComponent/InitGNSSReceiver.cpp

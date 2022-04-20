@@ -1,8 +1,8 @@
-#include <Component/AOCS/STT.h>
+#include "InitStt.hpp"
 
 #include <Library/math/Constant.hpp>
 
-#include "../Initialize.h"
+#include "Interface/InitInput/IniAccess.h"
 
 using namespace std;
 

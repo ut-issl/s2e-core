@@ -1,9 +1,10 @@
-#include <Component/AOCS/SunSensor.h>
+#include "InitSunSensor.hpp"
+
 #include <string.h>
 
 #include <Library/math/Constant.hpp>
 
-#include "../Initialize.h"
+#include "Interface/InitInput/IniAccess.h"
 
 SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_name, const SRPEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info) {
