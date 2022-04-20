@@ -1,6 +1,6 @@
-#include <Component/AOCS/EMDS.h>
+#include "InitEmds.hpp"
 
-#include "../Initialize.h"
+#include "Interface/InitInput/IniAccess.h"
 
 EMDS InitEMDS(int actuator_id) {
   IniAccess emds_conf("data/ini/component/EMDS.ini");

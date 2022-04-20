@@ -13,6 +13,7 @@ add_library(${PROJECT_NAME} STATIC
   Abstract/ExpHilsI2cTarget.cpp
 
   AOCS/EMDS.cpp
+  AOCS/InitEmds.cpp
   AOCS/Gyro.cpp
   AOCS/InitGyro.cpp
   AOCS/MagSensor.cpp
@@ -55,7 +56,6 @@ add_library(${PROJECT_NAME} STATIC
 
   # initialize functions
   ../Interface/InitInput/InitComponent/InitBAT.cpp
-  ../Interface/InitInput/InitComponent/InitEMDS.cpp
   ../Interface/InitInput/InitComponent/InitSAP.cpp
   ../Interface/InitInput/InitComponent/InitSimpleThruster.cpp
   ../Interface/InitInput/InitComponent/initTelescope.cpp

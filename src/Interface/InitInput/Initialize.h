@@ -87,7 +87,6 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, PowerPort* power_po
 BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname);
 SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp,
             const LocalCelestialInformation* local_celes_info);
-EMDS InitEMDS(int actuator_id);
 Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const std::string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
                         const LocalCelestialInformation* local_celes_info);
 // MCSim
