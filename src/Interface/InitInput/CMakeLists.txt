@@ -1,5 +1,4 @@
 ## ini access
-### TODO: split CMakeLists.txt
 if(WIN32)
   add_library(INI_ACC STATIC IniAccess.cpp)
 else()

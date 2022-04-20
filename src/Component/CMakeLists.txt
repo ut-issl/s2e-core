@@ -11,8 +11,10 @@ add_library(${PROJECT_NAME} STATIC
   Abstract/ExpHils.cpp
   Abstract/ExpHilsI2cController.cpp
   Abstract/ExpHilsI2cTarget.cpp
+
   AOCS/EMDS.cpp
   AOCS/Gyro.cpp
+  AOCS/InitGyro.cpp
   AOCS/MagSensor.cpp
   AOCS/MagTorquer.cpp
   AOCS/rw_ode.cpp
@@ -22,22 +24,27 @@ add_library(${PROJECT_NAME} STATIC
   AOCS/SunSensor.cpp
   AOCS/UWBSensor.cpp
   AOCS/GNSSReceiver.cpp
+
   CDH/OBC.cpp
   CDH/OBC_C2A.cpp
+
   CommGS/ANT.cpp
   CommGS/GScalculator.cpp
+
   Logic/LPF.cpp
   Logic/RVDController.cpp
   Logic/UWBEstimator.cpp
+
   Mission/Telescope/Telescope.cpp
+
   Power/PCU.cpp
   Power/BAT.cpp
   Power/PCU_InitialStudy.cpp
   Power/SAP.cpp
+
   Propulsion/SimpleThruster.cpp
 
-    # initialize functions
-  ../Interface/InitInput/InitComponent/InitGyro.cpp
+  # initialize functions
   ../Interface/InitInput/InitComponent/InitANT.cpp
   ../Interface/InitInput/InitComponent/InitBAT.cpp
   ../Interface/InitInput/InitComponent/InitEMDS.cpp

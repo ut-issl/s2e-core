@@ -1,6 +1,5 @@
 #pragma once
 #include <Component/AOCS/GNSSReceiver.h>
-#include <Component/AOCS/Gyro.h>
 #include <Component/AOCS/MagSensor.h>
 #include <Component/AOCS/MagTorquer.h>
 #include <Component/AOCS/RWModel.h>
@@ -15,6 +14,9 @@
 #include <Dynamics/Dynamics.h>
 #include <Interface/HilsInOut/HilsPortManager.h>
 #include <Simulation/Spacecraft/Structure/Structure.h>
+
+#include <Component/AOCS/InitGyro.hpp>
+#include <Library/math/Vector.hpp>
 
 #include "../InstalledComponents.hpp"
 
