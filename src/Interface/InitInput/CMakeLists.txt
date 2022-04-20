@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
   Initialize.h
-  # Structure
-  Init_Structure.cpp
 
   Init_MCSim.cpp
 

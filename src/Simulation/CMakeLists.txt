@@ -12,6 +12,7 @@ add_library(${PROJECT_NAME} STATIC
   Spacecraft/Structure/KinematicsParams.cpp
   Spacecraft/Structure/RMMParams.cpp
   Spacecraft/Structure/Surface.cpp
+  Spacecraft/Structure/InitStructure.cpp
   GroundStation/GroundStation.cpp
   InterSatComm/InterSatComm.cpp
 )

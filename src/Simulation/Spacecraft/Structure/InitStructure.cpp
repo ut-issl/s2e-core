@@ -1,15 +1,13 @@
-#include <Simulation/Spacecraft/Structure/KinematicsParams.h>
-#include <Simulation/Spacecraft/Structure/RMMParams.h>
-#include <Simulation/Spacecraft/Structure/Surface.h>
+#include "InitStructure.hpp"
+
+#include <Interface/InitInput/IniAccess.h>
 
 #include <Library/math/Vector.hpp>
-
-#include "Initialize.h"
 
 #define MIN_VAL 1e-6
 KinematicsParams InitKinematicsParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
-  char* section = "STRUCTURE";
+  const char* section = "STRUCTURE";
 
   Vector<3> cg_b;
   conf.ReadVector(section, "cg_b", cg_b);
@@ -31,7 +29,7 @@ vector<Surface> InitSurfaces(std::string ini_path) {
   using std::cout;
 
   auto conf = IniAccess(ini_path);
-  char* section = "SURFACES";
+  const char* section = "SURFACES";
 
   const int num_surface = conf.ReadInt(section, "num_of_surfaces");
   vector<Surface> surfaces;
@@ -106,7 +104,7 @@ vector<Surface> InitSurfaces(std::string ini_path) {
 
 RMMParams InitRMMParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
-  char* section = "RMM";
+  const char* section = "RMM";
 
   Vector<3> rmm_const_b;
   conf.ReadVector(section, "rmm_const_b", rmm_const_b);

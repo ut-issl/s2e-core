@@ -30,9 +30,6 @@ class Logger;
 class KinematicsParams;
 class Surface;
 class RMMParams;
-KinematicsParams InitKinematicsParams(std::string ini_path);
-vector<Surface> InitSurfaces(std::string ini_path);
-RMMParams InitRMMParams(std::string ini_path);
 
 // Global Environment
 class SimTime;
