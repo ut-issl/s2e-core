@@ -1,11 +1,14 @@
-#include <Simulation/MCSim/InitParameter.h>
-#include <Simulation/MCSim/MCSimExecutor.h>
+#include "InitMcSim.hpp"
 
-#include "Initialize.h"
+#include <Interface/InitInput/IniAccess.h>
+
+#include <cstring>
+
+#define MAX_CHAR_NUM 256
 
 MCSimExecutor* InitMCSim(std::string file_name) {
   IniAccess ini_file(file_name);
-  char* section = "MC_EXECUTION";
+  const char* section = "MC_EXECUTION";
 
   unsigned long long total_num_of_executions = ini_file.ReadInt(section, "NumOfExecutions");
 

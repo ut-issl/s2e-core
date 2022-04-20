@@ -118,7 +118,6 @@ Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const std::str
                         const LocalCelestialInformation* local_celes_info);
 // MCSim
 class MCSimExecutor;
-MCSimExecutor* InitMCSim(std::string file_name);
 /*
 // HILS
 class HardwareMessage;

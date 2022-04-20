@@ -1,33 +1,3 @@
-project(INI_IN)
-cmake_minimum_required(VERSION 3.13)
-
-add_library(${PROJECT_NAME} STATIC
-  Initialize.h
-
-  Init_MCSim.cpp
-
-  #InitComponent/InitGyro.cpp
-  #InitComponent/InitANT.cpp
-  #InitComponent/InitBAT.cpp
-  #InitComponent/InitEMDS.cpp
-  #InitComponent/InitGScalculator.cpp
-  #InitComponent/InitMagSensor.cpp
-  #InitComponent/InitMagTorquer.cpp
-  #InitComponent/InitRWModel.cpp
-  #InitComponent/InitSAP.cpp
-  #InitComponent/InitSimpleThruster.cpp
-  #InitComponent/InitSTT.cpp
-  #InitComponent/InitSunSensor.cpp
-  #InitComponent/initTelescope.cpp
-  #InitComponent/InitUWBSensor.cpp
-  #InitComponent/InitGNSSReceiver.cpp
-  #InitPower/CsvScenarioInterface.cpp
-  #  Init_COSMOSWrapper.cpp
-#  Init_HardwareMessage.cpp
-)
-
-include(../../../common.cmake)
-
 ## ini access
 ### TODO: split CMakeLists.txt
 if(WIN32)
