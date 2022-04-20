@@ -18,6 +18,7 @@ add_library(${PROJECT_NAME} STATIC
   AOCS/MagSensor.cpp
   AOCS/InitMagSensor.cpp
   AOCS/MagTorquer.cpp
+  AOCS/InitMagTorquer.cpp
   AOCS/rw_ode.cpp
   AOCS/RWModel.cpp
   AOCS/RWJitter.cpp
@@ -50,7 +51,6 @@ add_library(${PROJECT_NAME} STATIC
   ../Interface/InitInput/InitComponent/InitBAT.cpp
   ../Interface/InitInput/InitComponent/InitEMDS.cpp
   ../Interface/InitInput/InitComponent/InitGScalculator.cpp
-  ../Interface/InitInput/InitComponent/InitMagTorquer.cpp
   ../Interface/InitInput/InitComponent/InitRWModel.cpp
   ../Interface/InitInput/InitComponent/InitSAP.cpp
   ../Interface/InitInput/InitComponent/InitSimpleThruster.cpp
