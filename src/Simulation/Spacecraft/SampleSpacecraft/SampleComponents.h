@@ -1,6 +1,5 @@
 #pragma once
 #include <Component/AOCS/GNSSReceiver.h>
-#include <Component/AOCS/RWModel.h>
 #include <Component/Abstract/ExpHils.h>
 #include <Component/Abstract/ExpHilsI2cController.h>
 #include <Component/Abstract/ExpHilsI2cTarget.h>
@@ -14,6 +13,7 @@
 #include <Component/AOCS/InitGyro.hpp>
 #include <Component/AOCS/InitMagSensor.hpp>
 #include <Component/AOCS/InitMagTorquer.hpp>
+#include <Component/AOCS/InitRwModel.hpp>
 #include <Component/AOCS/InitStt.hpp>
 #include <Component/AOCS/InitSunSensor.hpp>
 #include <Library/math/Vector.hpp>

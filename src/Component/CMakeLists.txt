@@ -21,6 +21,7 @@ add_library(${PROJECT_NAME} STATIC
   AOCS/InitMagTorquer.cpp
   AOCS/rw_ode.cpp
   AOCS/RWModel.cpp
+  AOCS/InitRwModel.cpp
   AOCS/RWJitter.cpp
   AOCS/STT.cpp
   AOCS/InitStt.cpp
@@ -53,7 +54,6 @@ add_library(${PROJECT_NAME} STATIC
   ../Interface/InitInput/InitComponent/InitBAT.cpp
   ../Interface/InitInput/InitComponent/InitEMDS.cpp
   ../Interface/InitInput/InitComponent/InitGScalculator.cpp
-  ../Interface/InitInput/InitComponent/InitRWModel.cpp
   ../Interface/InitInput/InitComponent/InitSAP.cpp
   ../Interface/InitInput/InitComponent/InitSimpleThruster.cpp
   ../Interface/InitInput/InitComponent/initTelescope.cpp

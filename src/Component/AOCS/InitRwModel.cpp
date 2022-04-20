@@ -1,6 +1,8 @@
-#include <Component/AOCS/RWModel.h>
+#include "InitRwModel.hpp"
 
-#include "../Initialize.h"
+#include <vector>
+
+#include "Interface/InitInput/IniAccess.h"
 
 // In order to share processing among initialization functions, variables should
 // also be shared. These variables have internal linkages and cannot be
@@ -21,8 +23,8 @@ libra::Vector<3> ordinary_lag_coef(1.0);
 libra::Vector<3> coasting_lag_coef(1.0);
 bool is_calc_jitter_enabled;
 bool is_log_jitter_enabled;
-vector<vector<double>> radial_force_harmonics_coef;
-vector<vector<double>> radial_torque_harmonics_coef;
+std::vector<std::vector<double>> radial_force_harmonics_coef;
+std::vector<std::vector<double>> radial_torque_harmonics_coef;
 double structural_resonance_freq;
 double damping_factor;
 double bandwidth;
