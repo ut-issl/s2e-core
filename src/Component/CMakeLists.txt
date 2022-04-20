@@ -46,6 +46,7 @@ add_library(${PROJECT_NAME} STATIC
   Logic/UWBEstimator.cpp
 
   Mission/Telescope/Telescope.cpp
+  Mission/Telescope/InitTelescope.cpp
 
   Power/PCU.cpp
   Power/BAT.cpp
@@ -58,7 +59,6 @@ add_library(${PROJECT_NAME} STATIC
   Propulsion/InitSimpleThruster.cpp
 
   # initialize functions
-  ../Interface/InitInput/InitComponent/initTelescope.cpp
   ../Interface/InitInput/InitPower/CsvScenarioInterface.cpp
 
 ## C++/CLI related codes

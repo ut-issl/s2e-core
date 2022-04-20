@@ -79,8 +79,6 @@ class Telescope;
 class STT;
 class GNSSReceiver;
 
-Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const std::string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
-                        const LocalCelestialInformation* local_celes_info);
 // MCSim
 class MCSimExecutor;
 /*

@@ -1,9 +1,11 @@
-#include <Component/Mission/Telescope/Telescope.h>
+#include "InitTelescope.hpp"
+
 #include <string.h>
 
 #include <Library/math/Constant.hpp>
 
-#include "../Initialize.h"
+#include "Interface/InitInput/IniAccess.h"
+
 using namespace std;
 
 Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
