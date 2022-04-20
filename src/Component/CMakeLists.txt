@@ -38,6 +38,7 @@ add_library(${PROJECT_NAME} STATIC
   CommGS/ANT.cpp
   CommGS/InitAnt.cpp
   CommGS/GScalculator.cpp
+  CommGS/InitGsCalculator.cpp
 
   Logic/LPF.cpp
   Logic/RVDController.cpp
@@ -55,7 +56,6 @@ add_library(${PROJECT_NAME} STATIC
   # initialize functions
   ../Interface/InitInput/InitComponent/InitBAT.cpp
   ../Interface/InitInput/InitComponent/InitEMDS.cpp
-  ../Interface/InitInput/InitComponent/InitGScalculator.cpp
   ../Interface/InitInput/InitComponent/InitSAP.cpp
   ../Interface/InitInput/InitComponent/InitSimpleThruster.cpp
   ../Interface/InitInput/InitComponent/initTelescope.cpp
