@@ -38,7 +38,7 @@ class SimTime : public ILoggable {
           const double orbit_update_interval_sec, const double orbit_rk_step_sec, const double thermal_update_interval_sec,
           const double thermal_rk_step_sec, const double compo_propagate_step_sec, const double log_output_interval_sec, const char* start_ymdhms,
           const double sim_speed);
-  ~SimTime();
+  virtual ~SimTime();
 
   void SetParameters(void);  // Simulation開始前処理（Monte-Carlo
                              // Simulationの際は毎回呼ばれる予定）

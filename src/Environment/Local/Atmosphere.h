@@ -20,6 +20,7 @@ class Atmosphere : public ILoggable {
 
   Atmosphere(std::string model, std::string fname, double gauss_stddev, bool is_manual_param, double manual_f107, double manual_f107a,
              double manual_ap);
+  virtual ~Atmosphere() {}
   double CalcAirDensity(double decyear, double endsec, Vector<3> lat_lon_alt);
   double GetAirDensity() const;
   virtual std::string GetLogHeader() const;

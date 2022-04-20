@@ -13,6 +13,7 @@ class MagEnvironment : public ILoggable {
   bool IsCalcEnabled = true;
 
   MagEnvironment(std::string fname, double mag_rwdev, double mag_rwlimit, double mag_wnvar);
+  virtual ~MagEnvironment() {}
   void CalcMag(double decyear, double side, Vector<3> lat_lon_alt, Quaternion q_i2b);
   Vector<3> GetMag_i() const;
   Vector<3> GetMag_b() const;

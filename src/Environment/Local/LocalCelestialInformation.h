@@ -6,7 +6,7 @@
 class LocalCelestialInformation : public ILoggable {
  public:
   LocalCelestialInformation(const CelestialInformation* glo_celes_info);
-  ~LocalCelestialInformation();
+  virtual ~LocalCelestialInformation();
 
   // UPDATE THE ALL SELECTED CELESTIAL OBJECTS INFORMATION
   void UpdateAllObjectsInfo(const Vector<3> sc_pos_from_center_i, const Vector<3> sc_vel_from_center_i, Quaternion q_i2b,

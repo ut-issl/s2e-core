@@ -20,7 +20,7 @@ class CelestialInformation : public ILoggable {
   CelestialInformation(std::string inertial_frame, std::string aber_cor, std::string center_obj, RotationMode rotation_mode, int num_of_selected_body,
                        int* selected_body);
   CelestialInformation(const CelestialInformation& obj);
-  ~CelestialInformation();
+  virtual ~CelestialInformation();
 
   // UPDATE THE ALL SELECTED CELESTIAL OBJECTS INFORMATION
   void UpdateAllObjectsInfo(const double current_jd);
