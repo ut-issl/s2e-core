@@ -28,6 +28,7 @@ add_library(${PROJECT_NAME} STATIC
   AOCS/SunSensor.cpp
   AOCS/InitSunSensor.cpp
   AOCS/UWBSensor.cpp
+  AOCS/InitUwbSensor.cpp
   AOCS/GNSSReceiver.cpp
   AOCS/InitGnssReceiver.cpp
 
@@ -58,7 +59,6 @@ add_library(${PROJECT_NAME} STATIC
   ../Interface/InitInput/InitComponent/InitSAP.cpp
   ../Interface/InitInput/InitComponent/InitSimpleThruster.cpp
   ../Interface/InitInput/InitComponent/initTelescope.cpp
-  ../Interface/InitInput/InitComponent/InitUWBSensor.cpp
   ../Interface/InitInput/InitPower/CsvScenarioInterface.cpp
 
 ## C++/CLI related codes

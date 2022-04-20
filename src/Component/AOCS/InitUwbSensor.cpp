@@ -1,6 +1,6 @@
-#include <Component/AOCS/UWBSensor.h>
+#include "InitUwbSensor.hpp"
 
-#include "../Initialize.h"
+#include "Interface/InitInput/IniAccess.h"
 
 UWBSensor InitUWBSensor(int sensor_id) {
   IniAccess conf("data/ini/component/UWBSensor.ini");

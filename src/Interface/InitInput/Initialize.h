@@ -88,7 +88,6 @@ BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname);
 SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp,
             const LocalCelestialInformation* local_celes_info);
 EMDS InitEMDS(int actuator_id);
-UWBSensor InitUWBSensor(int sensor_id);
 ANT InitANT(int ant_id, const std::string fname);
 GScalculator InitGScalculator(const std::string fname);
 Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const std::string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
