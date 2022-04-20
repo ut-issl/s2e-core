@@ -31,7 +31,7 @@ void ControlledAttitude::Initialize(void) {
   if (main_mode_ == INERTIAL_STABILIZE) {
     quaternion_i2b_ = quaternion_i2t_;
     quaternion_i2b_.normalize();
-  } else  // Pointig control
+  } else  // Pointing control
   {
     // sub mode check
     if (main_mode_ == sub_mode_) {
@@ -56,8 +56,11 @@ void ControlledAttitude::Initialize(void) {
 void ControlledAttitude::Propagate(double endtime) {
   Vector<3> main_direction_i, sub_direction_i;
   if (!IsCalcEnabled) return;
-  // Calc main target direction
-  if (main_mode_ == INERTIAL_STABILIZE) return;
+
+  if (main_mode_ == INERTIAL_STABILIZE) {
+    quaternion_i2b_ = quaternion_i2t_;
+    return;
+  }
 
   // Calc main target direction
   main_direction_i = CalcTargetDirection(main_mode_);
