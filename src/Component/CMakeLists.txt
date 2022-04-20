@@ -16,6 +16,7 @@ add_library(${PROJECT_NAME} STATIC
   AOCS/Gyro.cpp
   AOCS/InitGyro.cpp
   AOCS/MagSensor.cpp
+  AOCS/InitMagSensor.cpp
   AOCS/MagTorquer.cpp
   AOCS/rw_ode.cpp
   AOCS/RWModel.cpp
@@ -49,7 +50,6 @@ add_library(${PROJECT_NAME} STATIC
   ../Interface/InitInput/InitComponent/InitBAT.cpp
   ../Interface/InitInput/InitComponent/InitEMDS.cpp
   ../Interface/InitInput/InitComponent/InitGScalculator.cpp
-  ../Interface/InitInput/InitComponent/InitMagSensor.cpp
   ../Interface/InitInput/InitComponent/InitMagTorquer.cpp
   ../Interface/InitInput/InitComponent/InitRWModel.cpp
   ../Interface/InitInput/InitComponent/InitSAP.cpp
