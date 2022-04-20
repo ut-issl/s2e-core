@@ -10,7 +10,7 @@ void ExpHilsI2cTarget::MainRoutine(int count) {
   // update telemetry data
   const unsigned char kTlmSize = 5;
   unsigned char tlm[kTlmSize] = {0};
-  for (char i = 0; i < kTlmSize; i++) {
+  for (unsigned char i = 0; i < kTlmSize; i++) {
     tlm[i] = 'A' + tlm_counter_ + i;
   }
   WriteRegister(0, tlm, kTlmSize);
