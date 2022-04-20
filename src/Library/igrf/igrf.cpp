@@ -379,7 +379,7 @@ void gigrf(int gen, double year) {
     }
     for (m = 2; m < l; m++) {
       line += n;
-      if (sscanf(line, "%*lf%n", &n) == EOF) {
+      if (sscanf(line, "%*f%n", &n) == EOF) {
         fprintf(stderr, "gigrf: Line-%d short\n", i + 3);
         exit(1);
       }
