@@ -1,8 +1,9 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
-#include <Component/Power/SAP.h>
+#include "InitSap.hpp"
+
 #include <string.h>
 
-#include "../Initialize.h"
+#include "Interface/InitInput/IniAccess.h"
 
 SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp,
             const LocalCelestialInformation* local_celes_info) {

@@ -84,8 +84,6 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, co
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, PowerPort* power_port, int thruster_id, const std::string fname,
                                   const Structure* structure, const Dynamics* dynamics);
 
-SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp,
-            const LocalCelestialInformation* local_celes_info);
 Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const std::string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
                         const LocalCelestialInformation* local_celes_info);
 // MCSim
