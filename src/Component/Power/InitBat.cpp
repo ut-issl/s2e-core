@@ -1,10 +1,10 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
-#include <Component/Power/BAT.h>
+#include "InitBat.hpp"
 
 #include <string>
 #include <vector>
 
-#include "../Initialize.h"
+#include "Interface/InitInput/IniAccess.h"
 
 BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname) {
   IniAccess bat_conf(fname);

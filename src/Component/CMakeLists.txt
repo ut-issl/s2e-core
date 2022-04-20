@@ -49,13 +49,13 @@ add_library(${PROJECT_NAME} STATIC
 
   Power/PCU.cpp
   Power/BAT.cpp
+  Power/InitBat.cpp
   Power/PCU_InitialStudy.cpp
   Power/SAP.cpp
 
   Propulsion/SimpleThruster.cpp
 
   # initialize functions
-  ../Interface/InitInput/InitComponent/InitBAT.cpp
   ../Interface/InitInput/InitComponent/InitSAP.cpp
   ../Interface/InitInput/InitComponent/InitSimpleThruster.cpp
   ../Interface/InitInput/InitComponent/initTelescope.cpp
