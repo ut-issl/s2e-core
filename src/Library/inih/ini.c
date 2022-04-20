@@ -16,9 +16,7 @@ https://github.com/benhoyt/inih
 #endif
 
 #include <stdio.h>
-#if 0
 #include <ctype.h>
-#endif
 #include <string.h>
 
 #include "ini.h"
