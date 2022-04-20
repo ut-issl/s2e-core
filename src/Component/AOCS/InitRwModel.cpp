@@ -65,7 +65,7 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
   }
 
   rwmodel_conf.ReadVector(RWsection, "pos_b", pos_b);
-  double dead_time = rwmodel_conf.ReadDouble(RWsection, "dead_time");
+  dead_time = rwmodel_conf.ReadDouble(RWsection, "dead_time");
   // rwmodel_conf.ReadVector(RWsection, "firstorder_lag_coef",
   // ordinary_lag_coef);　バグが修正できるまで読み込まない
   // rwmodel_conf.ReadVector(RWsection, "coasting_lag_coef",
