@@ -1,7 +1,8 @@
-#include <Component/AOCS/GNSSReceiver.h>
+#include "InitGnssReceiver.hpp"
+
 #include <string.h>
 
-#include "../Initialize.h"
+#include "Interface/InitInput/IniAccess.h"
 
 typedef struct _gnssrecever_param {
   int prescaler;

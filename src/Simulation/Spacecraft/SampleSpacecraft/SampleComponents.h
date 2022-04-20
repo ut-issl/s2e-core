@@ -1,5 +1,4 @@
 #pragma once
-#include <Component/AOCS/GNSSReceiver.h>
 #include <Component/Abstract/ExpHils.h>
 #include <Component/Abstract/ExpHilsI2cController.h>
 #include <Component/Abstract/ExpHilsI2cTarget.h>
@@ -10,6 +9,7 @@
 #include <Interface/HilsInOut/HilsPortManager.h>
 #include <Simulation/Spacecraft/Structure/Structure.h>
 
+#include <Component/AOCS/InitGnssReceiver.hpp>
 #include <Component/AOCS/InitGyro.hpp>
 #include <Component/AOCS/InitMagSensor.hpp>
 #include <Component/AOCS/InitMagTorquer.hpp>
