@@ -36,6 +36,7 @@ add_library(${PROJECT_NAME} STATIC
   CDH/OBC_C2A.cpp
 
   CommGS/ANT.cpp
+  CommGS/InitAnt.cpp
   CommGS/GScalculator.cpp
 
   Logic/LPF.cpp
@@ -52,7 +53,6 @@ add_library(${PROJECT_NAME} STATIC
   Propulsion/SimpleThruster.cpp
 
   # initialize functions
-  ../Interface/InitInput/InitComponent/InitANT.cpp
   ../Interface/InitInput/InitComponent/InitBAT.cpp
   ../Interface/InitInput/InitComponent/InitEMDS.cpp
   ../Interface/InitInput/InitComponent/InitGScalculator.cpp

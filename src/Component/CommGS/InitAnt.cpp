@@ -1,10 +1,12 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <Component/CommGS/ANT.h>
+#include "InitAnt.hpp"
+
 #include <string.h>
 
 #include <Library/math/Vector.hpp>
 
-#include "../Initialize.h"
+#include "Interface/InitInput/IniAccess.h"
+
 using libra::Vector;
 
 // アンテナ初期化，ant_idで対応するアンテナ読み込み
