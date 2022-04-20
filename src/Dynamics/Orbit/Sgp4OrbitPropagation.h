@@ -5,8 +5,6 @@
 
 #include "Orbit.h"
 
-static elsetrec satrec;
-
 class Sgp4OrbitPropagation : public Orbit {
  public:
   Sgp4OrbitPropagation(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd);
@@ -20,5 +18,6 @@ class Sgp4OrbitPropagation : public Orbit {
 
  private:
   gravconsttype whichconst_;
+  elsetrec satrec_;
   const CelestialInformation* celes_info_;
 };
