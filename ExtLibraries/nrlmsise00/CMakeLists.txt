@@ -11,7 +11,7 @@ set(NRLMSISE_URL_BASE https://ccmc.gsfc.nasa.gov/pub/modelweb/atmospheric/msis/n
 set(NRLMSISE_TABLE_URL_BASE ftp://ftp.agi.com/pub/DynamicEarthData)
 set(NRLMSISE_TABLE_FILE SpaceWeather-v1.2.txt)
 
-set(NRLMSISE_TMP_DIR "nrlmsise")
+set(NRLMSISE_TMP_DIR ${NRLMSISE_INSTALL_DIR}/tmp)
 
 # download files
 function(download_file base_url file sha256)
@@ -89,6 +89,6 @@ install(FILES ${NRLMSISE_TMP_DIR}/nrlmsise-00_data.c
 )
 
 ## install table
-install(FILES nrlmsise/${NRLMSISE_TABLE_FILE}
+install(FILES ${NRLMSISE_TMP_DIR}/${NRLMSISE_TABLE_FILE}
   DESTINATION ${NRLMSISE_INSTALL_DIR}/table
 )
