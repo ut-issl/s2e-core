@@ -2,7 +2,7 @@
   "configurations": [
     {
       "name": "Win32",
-      "generator": "Visual Studio 16 2019",
+      "generator": "Visual Studio 17 2022",
       "configurationType": "Debug",
       "inheritEnvironments": [
         "msvc_x86"
