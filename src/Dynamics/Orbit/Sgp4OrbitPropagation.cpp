@@ -19,7 +19,7 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celes_inf
   char typerun = 'c', typeinput = 0;
   double startmfe, stopmfe, deltamin;
 
-  twoline2rv(tle1, tle2, typerun, typeinput, whichconst_, startmfe, stopmfe, deltamin, satrec);
+  twoline2rv(tle1, tle2, typerun, typeinput, whichconst_, startmfe, stopmfe, deltamin, satrec_);
 
   acc_i_ *= 0;
 
@@ -31,15 +31,15 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celes_inf
 
 void Sgp4OrbitPropagation::Propagate(double endtime, double current_jd) {
   if (!is_calc_enabled_) return;
-  double elapse_time_min = (current_jd - satrec.jdsatepoch) * (24.0 * 60.0);
+  double elapse_time_min = (current_jd - satrec_.jdsatepoch) * (24.0 * 60.0);
 
   double r[3];
   double v[3];
 
-  sgp4(whichconst_, satrec, elapse_time_min, r, v);
+  sgp4(whichconst_, satrec_, elapse_time_min, r, v);
 
   // Error in SGP4
-  if (satrec.error > 0) printf("# *** error: time:= %f *** code = %3d\n", satrec.t, satrec.error);
+  if (satrec_.error > 0) printf("# *** error: time:= %f *** code = %3d\n", satrec_.t, satrec_.error);
 
   for (int i = 0; i < 3; ++i) {
     sat_position_i_[i] = r[i] * 1000;
@@ -82,11 +82,11 @@ Vector<3> Sgp4OrbitPropagation::GetESIOmega() {
   Vector<3> omega_peri = Vector<3>();
   omega_peri[0] = 0.0;
   omega_peri[1] = 0.0;
-  omega_peri[2] = satrec.no / 60;
+  omega_peri[2] = satrec_.no / 60;
 
-  double i = satrec.inclo;      // inclo
-  double OMEGA = satrec.nodeo;  // raan
-  double omega = satrec.argpo;  // argpo
+  double i = satrec_.inclo;      // inclo
+  double OMEGA = satrec_.nodeo;  // raan
+  double omega = satrec_.argpo;  // argpo
 
   double comega = cos(omega);
   double cOMEGA = cos(OMEGA);

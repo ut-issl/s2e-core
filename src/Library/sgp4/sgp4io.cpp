@@ -203,9 +203,9 @@ void twoline2rv(char longstr1[130], char longstr2[130], char typerun, char typei
     // -------- enter start/stop year and days of year values -----------
     if (typeinput == 'd') {
       printf("input start year dayofyr \n");
-      scanf("%li %lf", &startyear, &startdayofyr);
+      scanf("%i %lf", &startyear, &startdayofyr);
       printf("input stop year dayofyr \n");
-      scanf("%li %lf", &stopyear, &stopdayofyr);
+      scanf("%i %lf", &stopyear, &stopdayofyr);
 
       days2mdhms(startyear, startdayofyr, mon, day, hr, minute, sec);
       jday(startyear, mon, day, hr, minute, sec, jdstart);

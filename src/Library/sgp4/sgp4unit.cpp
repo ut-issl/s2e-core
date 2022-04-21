@@ -236,11 +236,12 @@ static void dpper(double e3, double ee2, double peo, double pgho, double pho, do
       //  sgp4fix for afspc written intrinsic functions
       // nodep used without a trigonometric function ahead
       if (nodep < 0.0) nodep = nodep + twopi;
-      if (fabs(xnoh - nodep) > pi)
+      if (fabs(xnoh - nodep) > pi) {
         if (nodep < xnoh)
           nodep = nodep + twopi;
         else
           nodep = nodep - twopi;
+      }
       mp = mp + pl;
       argpp = xls - mp - cosip * nodep;
     }

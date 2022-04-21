@@ -71,8 +71,8 @@ double testglobal[3];
 
 static double ra, rpre, re, re2, re4, rp, rp2, rp4, tzero;
 static int maxod, kg, kgc, kr, kth, kph, kext;
-static double blat, blon, bhi, br, bthe, bthc;
-static double rlat, slat, slat2, clat, clat2;
+static double blat, blon, bhi, br, bthe;
+static double rlat, slat, slat2, clat2;
 static double r, the, phi, cth, sth, cph, sph;
 static double x, y, z, f, ext0, ext1, ext2;
 static double gh[MxOD + 1][MxOD + 1], ght[MxOD + 1][MxOD + 1], g[MxOD + 1][MxOD + 1];
@@ -82,6 +82,8 @@ static double vgh[MxOD + 1][MxOD + 1], vght[MxOD + 1][MxOD + 1];
 
 // coeff file path
 static char coeff_file[256];
+
+static void fcalc(void);
 
 void set_file_path(const char *fname) { strcpy(coeff_file, fname); }
 
@@ -377,7 +379,7 @@ void gigrf(int gen, double year) {
     }
     for (m = 2; m < l; m++) {
       line += n;
-      if (sscanf(line, "%*lf%n", &n) == EOF) {
+      if (sscanf(line, "%*f%n", &n) == EOF) {
         fprintf(stderr, "gigrf: Line-%d short\n", i + 3);
         exit(1);
       }

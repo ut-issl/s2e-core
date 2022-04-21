@@ -6,7 +6,7 @@
 
 SimulationCase::SimulationCase(std::string ini_base) {
   IniAccess simbase_ini = IniAccess(ini_base);
-  char* section = "SIM_SETTING";
+  const char* section = "SIM_SETTING";
   sim_config_.ini_base_fname_ = ini_base;
   sim_config_.main_logger_ = InitLog(sim_config_.ini_base_fname_);
   sim_config_.num_of_simulated_spacecraft_ = simbase_ini.ReadInt(section, "num_of_simulated_spacecraft");
@@ -18,7 +18,7 @@ SimulationCase::SimulationCase(std::string ini_base) {
 }
 SimulationCase::SimulationCase(std::string ini_base, const MCSimExecutor& mc_sim, const std::string log_path) {
   IniAccess simbase_ini = IniAccess(ini_base);
-  char* section = "SIM_SETTING";
+  const char* section = "SIM_SETTING";
   sim_config_.ini_base_fname_ = ini_base;
   // Log for Monte Carlo Simulation
   std::string log_file_name = "default" + std::to_string(mc_sim.GetNumOfExecutionsDone()) + ".csv";
