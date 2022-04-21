@@ -18,7 +18,7 @@ struct HipData {
 class HipparcosCatalogue : public ILoggable {
  public:
   HipparcosCatalogue(double max_magnitude, std::string catalogue_path);
-  ~HipparcosCatalogue();
+  virtual ~HipparcosCatalogue();
   bool ReadContents(const std::string& filename, const char delimiter);
   //ヒッパルコス星表のデータは視等級順に並べているので、等級の順位を引数に取る
   int GetCatalogueSize() const { return hip_catalogue.size(); }

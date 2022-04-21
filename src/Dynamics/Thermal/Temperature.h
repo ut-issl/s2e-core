@@ -29,7 +29,7 @@ class Temperature : public ILoggable {
  public:
   Temperature(const std::vector<std::vector<double>> cij_, const std::vector<std::vector<double>> rij, std::vector<Node> vnodes, const int node_num,
               const double propstep, const bool is_calc_enabled, const bool debug);
-  ~Temperature();
+  virtual ~Temperature();
   void Propagate(Vector<3> sun_direction,
                  const double endtime);  //太陽入熱量計算のため, 太陽方向の情報を入手
   std::vector<Node> GetVnodes() const;

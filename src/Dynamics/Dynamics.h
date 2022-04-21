@@ -21,7 +21,7 @@ class Dynamics {
  public:
   Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
            Structure* structure, RelativeInformation* rel_info = (RelativeInformation*)nullptr);
-  ~Dynamics();
+  virtual ~Dynamics();
 
   void Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
                   Structure* structure, RelativeInformation* rel_info = (RelativeInformation*)nullptr);

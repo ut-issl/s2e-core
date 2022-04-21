@@ -42,7 +42,7 @@ class GScalculator : public ILoggable {
 
   GScalculator(double loss_polarization, double loss_atmosphere, double loss_rainfall, double loss_others, double EbN0, double hardware_deterioration,
                double coding_gain, double margin_req);
-  ~GScalculator();
+  virtual ~GScalculator();
   void Initialize();
   void Update(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant);
 

@@ -12,6 +12,7 @@ class SRPEnvironment : public ILoggable {
   bool IsCalcEnabled = true;
 
   SRPEnvironment(LocalCelestialInformation* local_celes_info);  // Default constructor
+  virtual ~SRPEnvironment() {}
   void UpdateAllStates();
   void UpdatePressure();
   double CalcTruePressure() const;      // Obtaining solar radiation pressure that
