@@ -1,7 +1,7 @@
 ﻿#include "SAP.h"
 
+#include <Component/Power/CsvScenarioInterface.h>
 #include <Environment/Global/ClockGenerator.h>
-#include <Interface/InitInput/InitPower/CsvScenarioInterface.h>
 
 SAP::SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
          double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info)

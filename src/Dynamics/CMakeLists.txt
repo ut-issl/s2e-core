@@ -8,13 +8,18 @@ add_library(${PROJECT_NAME} STATIC
   Orbit/RelativeOrbit.cpp
   Orbit/KeplerOrbitPropagation.cpp
   Orbit/EnckeOrbitPropagation.cpp
+  Orbit/InitOrbit.cpp
+
   Thermal/Node.cpp
   Thermal/Temperature.cpp
+  Thermal/InitNode.cpp
+  Thermal/InitTemperature.cpp
+
   Attitude/AttitudeRK4.cpp
   Attitude/ControlledAttitude.cpp
+  Attitude/InitAttitude.cpp
+
   Dynamics.cpp
-  ../Interface/InitInput/Init_Attitude.cpp
-  ../Interface/InitInput/Init_Orbit.cpp
 )
 
 include(../../common.cmake)

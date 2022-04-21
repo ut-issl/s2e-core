@@ -1,10 +1,11 @@
 #include "GroundStation.h"
 
+#include <Interface/InitInput/IniAccess.h>
 #include <Interface/LogOutput/LogUtility.h>
 #include <Interface/LogOutput/Logger.h>
 
 #include <Environment/Global/PhysicalConstants.hpp>
-#include <cmath>
+#include <Library/math/Constant.hpp>
 #include <string>
 
 GroundStation::GroundStation(SimulationConfig* config, int gs_id) : gs_id_(gs_id) { Initialize(gs_id_, config); }

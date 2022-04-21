@@ -5,7 +5,6 @@
 #include <cmath>
 #include <iostream>
 
-#include "../Interface/InitInput/Initialize.h"
 #include "../Interface/LogOutput/LogUtility.h"
 
 using namespace std;

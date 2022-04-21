@@ -1,20 +1,22 @@
 #pragma once
-#include <Component/AOCS/GNSSReceiver.h>
-#include <Component/AOCS/Gyro.h>
-#include <Component/AOCS/MagSensor.h>
-#include <Component/AOCS/MagTorquer.h>
-#include <Component/AOCS/RWModel.h>
-#include <Component/AOCS/STT.h>
-#include <Component/AOCS/SunSensor.h>
 #include <Component/Abstract/ExpHils.h>
 #include <Component/Abstract/ExpHilsI2cController.h>
 #include <Component/Abstract/ExpHilsI2cTarget.h>
 #include <Component/CDH/OBC.h>
 #include <Component/Power/PCU.h>
-#include <Component/Propulsion/SimpleThruster.h>
 #include <Dynamics/Dynamics.h>
 #include <Interface/HilsInOut/HilsPortManager.h>
 #include <Simulation/Spacecraft/Structure/Structure.h>
+
+#include <Component/AOCS/InitGnssReceiver.hpp>
+#include <Component/AOCS/InitGyro.hpp>
+#include <Component/AOCS/InitMagSensor.hpp>
+#include <Component/AOCS/InitMagTorquer.hpp>
+#include <Component/AOCS/InitRwModel.hpp>
+#include <Component/AOCS/InitStt.hpp>
+#include <Component/AOCS/InitSunSensor.hpp>
+#include <Component/Propulsion/InitSimpleThruster.hpp>
+#include <Library/math/Vector.hpp>
 
 #include "../InstalledComponents.hpp"
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Environment/Global/CelestialRotation.h>
-#include <Interface/InitInput/Initialize.h>
 
 #include <Library/Geodesy/GeodeticPosition.hpp>
 #include <Library/math/Vector.hpp>

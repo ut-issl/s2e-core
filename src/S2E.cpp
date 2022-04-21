@@ -1,5 +1,6 @@
 #ifdef WIN32
 #define _WINSOCKAPI_  // stops windows.h including winsock.h
+#include <tchar.h>
 #include <windows.h>
 #endif
 
@@ -9,7 +10,6 @@
 #include <string>
 
 // Simulator includes
-#include "Interface/InitInput/Initialize.h"
 #include "Interface/LogOutput/Logger.h"
 
 // Add custom include files

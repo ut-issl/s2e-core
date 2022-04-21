@@ -1,7 +1,5 @@
 #include "SampleCase.h"
 
-#include <Interface/InitInput/Initialize.h>
-
 #include "../Spacecraft/SampleSpacecraft/SampleSat.h"
 
 using std::cout;

@@ -1,7 +1,8 @@
 #include "SimulationCase.h"
 
-#include <Interface/InitInput/Initialize.h>
+#include <Interface/InitInput/IniAccess.h>
 
+#include <Interface/LogOutput/InitLog.hpp>
 #include <string>
 
 SimulationCase::SimulationCase(std::string ini_base) {

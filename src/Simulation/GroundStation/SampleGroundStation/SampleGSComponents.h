@@ -1,7 +1,7 @@
 #pragma once
-#include <Component/CommGS/ANT.h>
-#include <Component/CommGS/GScalculator.h>
-#include <Interface/InitInput/Initialize.h>
+
+#include <Component/CommGS/InitAnt.hpp>
+#include <Component/CommGS/InitGsCalculator.hpp>
 
 class ANT;
 class GScalculator;

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Interface/InitInput/Initialize.h>
+#include <Dynamics/Dynamics.h>
+#include <Environment/Global/GlobalEnvironment.h>
 
-#include "../Global/GlobalEnvironment.h"
 #include "Atmosphere.h"
 #include "LocalCelestialInformation.h"
 #include "MagEnvironment.h"

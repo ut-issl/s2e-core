@@ -1,7 +1,7 @@
 ﻿#include "PCU_InitialStudy.h"
 
+#include <Component/Power/CsvScenarioInterface.h>
 #include <Environment/Global/ClockGenerator.h>
-#include <Interface/InitInput/InitPower/CsvScenarioInterface.h>
 
 #include <cmath>
 
