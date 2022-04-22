@@ -53,7 +53,7 @@ class SimpleThruster : public ComponentBase, public ILoggable {
   Vector<3> torque_b_{0.0};
 
   void CalcThrust();
-  void CalcTorque(Vector<3> center, double temp);
+  void CalcTorque(Vector<3> center);
   double CalcThrustMagnitude();
   Vector<3> CalcThrustDir();
   void Initialize(const double mag_err, const double dir_err);

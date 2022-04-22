@@ -6,6 +6,7 @@
 
 #include <Environment/Global/PhysicalConstants.hpp>
 #include <Library/math/Constant.hpp>
+#include <Library/utils/Unused.hpp>
 #include <string>
 
 GroundStation::GroundStation(SimulationConfig* config, int gs_id) : gs_id_(gs_id) { Initialize(gs_id_, config); }
@@ -31,7 +32,7 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
   elevation_angle_ = conf.ReadDouble(Section, "elevation_angle");
 }
 
-void GroundStation::LogSetup(Logger& logger) {}
+void GroundStation::LogSetup(Logger& logger) { UNUSED(logger); }
 
 void GroundStation::Update(const CelestialRotation& celes_rotation) {
   Matrix<3, 3> dcm_ecef2eci = transpose(celes_rotation.GetDCMJ2000toXCXF());

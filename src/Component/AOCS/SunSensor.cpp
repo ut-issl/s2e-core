@@ -24,7 +24,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen, const int i
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
                      const double detectable_angle_rad, const double nr_stddev_c, const double nr_bias_stddev_c,
                      const double intensity_lower_threshold_percent, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info)
-    : ComponentBase(prescaler, clock_gen),
+    : ComponentBase(prescaler, clock_gen, power_port),
       id_(id),
       q_b2c_(q_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
