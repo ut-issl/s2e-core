@@ -6,6 +6,7 @@
 
 #include <Environment/Global/PhysicalConstants.hpp>
 #include <Library/math/Constant.hpp>
+#include <Library/utils/Unused.hpp>
 #include <algorithm>
 #include <iostream>
 #include <sstream>
@@ -207,6 +208,8 @@ bool GnssSat_coordinate::GetWhetherValid(int sat_id) const {
 }
 
 pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int interpolation_method, int interpolation_number, UR_KINDS ur_flag) {
+  UNUSED(interpolation_method);
+
   interpolation_number_ = interpolation_number;
 
   // 拡張

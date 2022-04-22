@@ -26,7 +26,7 @@ class RVDController : public ILoggable {
 
   void SetPositionGain(double p, double d, double i);
 
-  Vector<2> CalcCurrent(Vector<3> relpos_now_i, Quaternion q1_ib, Quaternion q2_ib);
+  Vector<2> CalcCurrent();  // FIXME: Do we need this?
 
   // 3軸±方向に必要なスラスト
   Vector<6> CalcThrust(Vector<3> relpos_now_i, Quaternion q_i2b);

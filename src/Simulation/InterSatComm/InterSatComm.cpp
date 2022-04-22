@@ -1,5 +1,7 @@
 #include "InterSatComm.h"
 
-InterSatComm::InterSatComm(const SimulationConfig* sim_config) {}
+#include <Library/utils/Unused.hpp>
+
+InterSatComm::InterSatComm(const SimulationConfig* sim_config) { UNUSED(sim_config); }
 
 InterSatComm::~InterSatComm() {}

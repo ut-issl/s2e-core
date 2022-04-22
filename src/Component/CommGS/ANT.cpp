@@ -2,11 +2,11 @@
  * @file ANT.cpp
  * @brief アンテナ模擬コンポです．
  * @author 山本 智貴
- * @date 2020.05.16
  */
 
 #include "ANT.h"
 
+#include <Library/utils/Unused.hpp>
 #include <cmath>
 
 ANT::ANT(int ant_id, const libra::Quaternion& q_b2c, bool is_transmitter, bool is_receiver, double frequency, Vector<4> tx_params,
@@ -41,6 +41,8 @@ void ANT::Initialize() {}
 
 double ANT::CalcAntennaGain(double theta, bool is_tx) const  // アンテナパターンをもとに姿勢方向に応じてゲインを返したい
 {
+  UNUSED(theta);  // TODO: use this parameter
+
   if (is_tx) {
     return tx_gain_;
   } else {

@@ -3,10 +3,12 @@
  * @brief
  * リアクションホイールの指定されたrpmまでの推移(一次遅れ系として実装されている)
  * @author Shun Arahata
- * @date December.14,2017
  * @details rw_ode.cppの実装
  */
 #include "rw_ode.hpp"
+
+#include <Library/utils/Unused.hpp>
+
 using namespace libra;
 
 RwOde::RwOde(double step_width, double init_angular_velocity, double target_angular_velocity, Vector<3> lag_coef)
@@ -20,6 +22,9 @@ double RwOde::getAngularVelocity(void) const {
 }
 
 void RwOde::RHS(double x, const Vector<1> &state, Vector<1> &rhs) {
+  // FIXME: fix this function
+  UNUSED(x);
+  UNUSED(state);
   //	double zero_deviation;
   //	double one_deviation;
   //	zero_deviation = this->state()[0];

@@ -3,6 +3,7 @@
 #include <Interface/LogOutput/LogUtility.h>
 
 #include <Library/math/Constant.hpp>
+#include <Library/utils/Unused.hpp>
 
 using namespace std;
 
@@ -54,6 +55,8 @@ void ControlledAttitude::Initialize(void) {
   return;
 }
 void ControlledAttitude::Propagate(double endtime) {
+  UNUSED(endtime);
+
   Vector<3> main_direction_i, sub_direction_i;
   if (!IsCalcEnabled) return;
 
