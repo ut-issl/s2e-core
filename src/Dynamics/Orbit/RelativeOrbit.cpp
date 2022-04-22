@@ -1,8 +1,10 @@
 #include "RelativeOrbit.h"
 
+#include <Library/utils/Unused.hpp>
+
 #include "Rk4OrbitPropagation.h"
 
-RelativeOrbit::RelativeOrbit(const CelestialInformation* celes_info, double mu, double timestep, double current_jd, int reference_sat_id,
+RelativeOrbit::RelativeOrbit(const CelestialInformation* celes_info, double mu, double timestep, int reference_sat_id,
                              Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh,
                              RelativeOrbitUpdateMethod update_method, RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type,
                              RelativeInformation* rel_info)
@@ -19,13 +21,12 @@ RelativeOrbit::RelativeOrbit(const CelestialInformation* celes_info, double mu, 
   prop_time_ = 0.0;
   prop_step_ = timestep;
 
-  InitializeState(initial_relative_position_lvlh, initial_relative_velocity_lvlh, current_jd, mu);
+  InitializeState(initial_relative_position_lvlh, initial_relative_velocity_lvlh, mu);
 }
 
 RelativeOrbit::~RelativeOrbit() {}
 
-void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh, double current_jd, double mu,
-                                    double init_time) {
+void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh, double mu, double init_time) {
   relative_position_lvlh_ = initial_relative_position_lvlh;
   relative_velocity_lvlh_ = initial_relative_velocity_lvlh;
 
@@ -85,6 +86,8 @@ void RelativeOrbit::CalculateSTM(STMModel stm_model_type, const Orbit* reference
 }
 
 void RelativeOrbit::Propagate(double endtime, double current_jd) {
+  UNUSED(current_jd);
+
   if (!is_calc_enabled_) return;
 
   acc_i_ *= 0;  // Disturbance acceleration are not considered in relative orbit

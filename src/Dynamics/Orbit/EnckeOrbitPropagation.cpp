@@ -1,5 +1,7 @@
 #include "EnckeOrbitPropagation.h"
 
+#include <Library/utils/Unused.hpp>
+
 #include "../../Library/Orbit/OrbitalElements.h"
 
 EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celes_info, const double mu_m3_s2, const double prop_step_s,
@@ -46,7 +48,7 @@ void EnckeOrbitPropagation::Propagate(double endtime, double current_jd) {
   diff_velocity_i_m_s_[1] = state()[4];
   diff_velocity_i_m_s_[2] = state()[5];
 
-  UpdateSatOrbit(current_jd);
+  UpdateSatOrbit();
 }
 
 std::string EnckeOrbitPropagation::GetLogHeader() const {
@@ -77,6 +79,7 @@ std::string EnckeOrbitPropagation::GetLogValue() const {
 
 // Functions for ODE
 void EnckeOrbitPropagation::RHS(double t, const Vector<6>& state, Vector<6>& rhs) {
+  UNUSED(t);
   Vector<3> diff_pos_i_m, diff_acc_i_m_s2;
   for (int i = 0; i < 3; i++) {
     diff_pos_i_m[i] = state[i];
@@ -105,7 +108,7 @@ void EnckeOrbitPropagation::Initialize(double current_jd, Vector<3> init_ref_pos
   ref_position_i_m_ = init_ref_position_i_m;
   ref_velocity_i_m_s_ = init_ref_velocity_i_m_s;
   OrbitalElements oe_ref(mu_m3_s2_, current_jd, init_ref_position_i_m, init_ref_velocity_i_m_s);
-  ref_kepler_orbit = KeplerOrbit(mu_m3_s2_, current_jd, oe_ref);
+  ref_kepler_orbit = KeplerOrbit(mu_m3_s2_, oe_ref);
 
   // difference orbit
   fill_up(diff_position_i_m_, 0.0);
@@ -114,10 +117,10 @@ void EnckeOrbitPropagation::Initialize(double current_jd, Vector<3> init_ref_pos
   Vector<6> zero(0.0f);
   setup(0.0, zero);
 
-  UpdateSatOrbit(current_jd);
+  UpdateSatOrbit();
 }
 
-void EnckeOrbitPropagation::UpdateSatOrbit(double current_jd) {
+void EnckeOrbitPropagation::UpdateSatOrbit() {
   sat_position_i_ = ref_position_i_m_ + diff_position_i_m_;
   sat_velocity_i_ = ref_velocity_i_m_s_ + diff_velocity_i_m_s_;
 

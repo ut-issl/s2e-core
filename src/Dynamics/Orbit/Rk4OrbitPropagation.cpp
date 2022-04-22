@@ -1,12 +1,13 @@
 #include "Rk4OrbitPropagation.h"
 
+#include <Library/utils/Unused.hpp>
 #include <iostream>
 #include <sstream>
 
 using std::string;
 
 Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, Vector<3> init_position,
-                                         Vector<3> init_velocity, double current_jd, double init_time)
+                                         Vector<3> init_velocity, double init_time)
     : Orbit(celes_info), ODE<N>(timestep), mu(mu) {
   propagate_mode_ = PROPAGATE_MODE::RK4;
 
@@ -14,7 +15,7 @@ Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celes_info,
   prop_step_ = timestep;
   acc_i_ *= 0;
 
-  Initialize(init_position, init_velocity, current_jd, init_time);
+  Initialize(init_position, init_velocity, init_time);
 }
 
 Rk4OrbitPropagation::~Rk4OrbitPropagation() {}
@@ -35,7 +36,7 @@ void Rk4OrbitPropagation::RHS(double t, const Vector<N>& state, Vector<N>& rhs) 
   (void)t;
 }
 
-void Rk4OrbitPropagation::Initialize(Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time) {
+void Rk4OrbitPropagation::Initialize(Vector<3> init_position, Vector<3> init_velocity, double init_time) {
   // state vector [x,y,z,vx,vy,vz]
   Vector<N> init_state;
   init_state[0] = init_position[0];
@@ -60,6 +61,8 @@ void Rk4OrbitPropagation::Initialize(Vector<3> init_position, Vector<3> init_vel
 }
 
 void Rk4OrbitPropagation::Propagate(double endtime, double current_jd) {
+  UNUSED(current_jd);
+
   if (!is_calc_enabled_) return;
 
   setStepWidth(prop_step_);  // Re-set propagation Δt

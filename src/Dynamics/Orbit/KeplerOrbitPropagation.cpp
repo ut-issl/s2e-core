@@ -1,5 +1,7 @@
 #include "KeplerOrbitPropagation.h"
 
+#include <Library/utils/Unused.hpp>
+
 #include "../../Library/math/s2e_math.hpp"
 
 KeplerOrbitPropagation::KeplerOrbitPropagation(const CelestialInformation* celes_info, const double current_jd, KeplerOrbit kepler_orbit)
@@ -10,6 +12,8 @@ KeplerOrbitPropagation::KeplerOrbitPropagation(const CelestialInformation* celes
 KeplerOrbitPropagation::~KeplerOrbitPropagation() {}
 
 void KeplerOrbitPropagation::Propagate(double endtime, double current_jd) {
+  UNUSED(endtime);
+
   if (!is_calc_enabled_) return;
 
   UpdateState(current_jd);

@@ -5,9 +5,7 @@
 
 KeplerOrbit::KeplerOrbit() {}
 // Initialize with orbital elements
-KeplerOrbit::KeplerOrbit(const double mu_m3_s2, const double current_jd, const OrbitalElements oe) : mu_m3_s2_(mu_m3_s2), oe_(oe) {
-  CalcConstKeplerMotion();
-}
+KeplerOrbit::KeplerOrbit(const double mu_m3_s2, const OrbitalElements oe) : mu_m3_s2_(mu_m3_s2), oe_(oe) { CalcConstKeplerMotion(); }
 
 KeplerOrbit::~KeplerOrbit() {}
 

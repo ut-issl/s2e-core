@@ -11,12 +11,10 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
 
  public:
   Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, Vector<3> init_position, Vector<3> init_velocity,
-                      double current_jd, double init_time = 0);
+                      double init_time = 0);
   ~Rk4OrbitPropagation();
 
   virtual void RHS(double t, const Vector<N>& state, Vector<N>& rhs);
-
-  void Initialize(Vector<3> init_position, Vector<3> init_velocity, double current_jd, double init_time = 0);
 
   virtual void Propagate(double endtime, double current_jd);
 
@@ -29,4 +27,6 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
   double prop_time_;  // Simulation current time for numerical integration by
                       // RK4
   double prop_step_;  //Δt for RK4
+
+  void Initialize(Vector<3> init_position, Vector<3> init_velocity, double init_time = 0);
 };

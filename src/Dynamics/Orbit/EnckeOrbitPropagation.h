@@ -35,6 +35,6 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
 
   // functions
   void Initialize(double current_jd, Vector<3> init_ref_position_i_m, Vector<3> init_ref_velocity_i_m_s);
-  void UpdateSatOrbit(double current_jd);
+  void UpdateSatOrbit();
   double CalcQFunction(Vector<3> diff_pos_i);
 };

@@ -1,5 +1,6 @@
 #include "Sgp4OrbitPropagation.h"
 
+#include <Library/utils/Unused.hpp>
 #include <iostream>
 #include <sstream>
 using namespace std;
@@ -30,6 +31,8 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celes_inf
 }
 
 void Sgp4OrbitPropagation::Propagate(double endtime, double current_jd) {
+  UNUSED(endtime);
+
   if (!is_calc_enabled_) return;
   double elapse_time_min = (current_jd - satrec_.jdsatepoch) * (24.0 * 60.0);
 
