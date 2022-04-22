@@ -27,12 +27,12 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     const char* section_ca_ = "ControlledAttitude";
     AttCtrlMode main_mode = static_cast<AttCtrlMode>(ini_file_ca.ReadInt(section_ca_, "main_mode"));
     AttCtrlMode sub_mode = static_cast<AttCtrlMode>(ini_file_ca.ReadInt(section_ca_, "sub_mode"));
-    Quaternion quaternion_i2t;
-    ini_file_ca.ReadQuaternion(section_ca_, "quaternion_i2t", quaternion_i2t);
+    Quaternion quaternion_i2b;
+    ini_file_ca.ReadQuaternion(section_, "quaternion_i2b", quaternion_i2b);
     Vector<3> pointing_t_b, pointing_sub_t_b;
     ini_file_ca.ReadVector(section_ca_, "pointing_t_b", pointing_t_b);
     ini_file_ca.ReadVector(section_ca_, "pointing_sub_t_b", pointing_sub_t_b);
-    attitude = new ControlledAttitude(main_mode, sub_mode, quaternion_i2t, pointing_t_b, pointing_sub_t_b, celes_info, orbit);
+    attitude = new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, pointing_t_b, pointing_sub_t_b, celes_info, orbit);
   } else {
     std::cerr << "ERROR: attitude propagation mode: " << propagate_mode << " is not defined!" << std::endl;
   }
