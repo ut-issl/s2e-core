@@ -1,5 +1,7 @@
 #include "ExpHils.h"
 
+#include <Library/utils/Unused.hpp>
+
 ExpHils::ExpHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
                  HilsPortManager* hils_port_manager, const int mode_id)
     : ComponentBase(300, clock_gen), ObcCommunicationBase(sils_port_id, obc, hils_port_id, baud_rate, hils_port_manager), mode_id_(mode_id) {}
@@ -7,6 +9,8 @@ ExpHils::ExpHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc, co
 ExpHils::~ExpHils() {}
 
 int ExpHils::ParseCommand(const int cmd_size) {
+  UNUSED(cmd_size);
+
   if (mode_id_ == 1) {
     for (int i = 0; i < kMemorySize; i++) {
       memory_[i] = (unsigned char)rx_buffer_[i];

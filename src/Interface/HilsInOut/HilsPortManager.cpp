@@ -1,5 +1,7 @@
 #include "HilsPortManager.h"
 
+#include <Library/utils/Unused.hpp>
+
 HilsPortManager::HilsPortManager() {}
 
 HilsPortManager::~HilsPortManager() {}
@@ -18,6 +20,11 @@ int HilsPortManager::UartConnectComPort(unsigned int port_id, unsigned int baud_
   uart_com_ports_[port_id] = new HilsUartPort(port_id, baud_rate, tx_buf_size, rx_buf_size);
   return 0;
 #else
+  UNUSED(port_id);
+  UNUSED(baud_rate);
+  UNUSED(tx_buf_size);
+  UNUSED(rx_buf_size);
+
   return -1;
 #endif
 }
@@ -36,6 +43,8 @@ int HilsPortManager::UartCloseComPort(unsigned int port_id) {
   uart_com_ports_.erase(port_id);
   return 0;
 #else
+  UNUSED(port_id);
+
   return -1;
 #endif
 }
@@ -46,6 +55,11 @@ int HilsPortManager::UartReceive(unsigned int port_id, unsigned char* buffer, in
   if (port == nullptr) return -1;
   return port->ReadRx(buffer, offset, count);
 #else
+  UNUSED(port_id);
+  UNUSED(buffer);
+  UNUSED(offset);
+  UNUSED(count);
+
   return -1;
 #endif
 }
@@ -56,6 +70,11 @@ int HilsPortManager::UartSend(unsigned int port_id, const unsigned char* buffer,
   if (port == nullptr) return -1;
   return port->WriteTx(buffer, offset, count);
 #else
+  UNUSED(port_id);
+  UNUSED(buffer);
+  UNUSED(offset);
+  UNUSED(count);
+
   return -1;
 #endif
 }
@@ -71,6 +90,8 @@ int HilsPortManager::I2cTargetConnectComPort(unsigned int port_id) {
   i2c_com_ports_[port_id]->RegisterDevice();
   return 0;
 #else
+  UNUSED(port_id);
+
   return -1;
 #endif
 }
@@ -87,6 +108,8 @@ int HilsPortManager::I2cTargetCloseComPort(unsigned int port_id) {
   i2c_com_ports_.erase(port_id);
   return 0;
 #else
+  UNUSED(port_id);
+
   return -1;
 #endif
 }
@@ -100,6 +123,11 @@ int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned
   }
   return 0;
 #else
+  UNUSED(port_id);
+  UNUSED(reg_addr);
+  UNUSED(data);
+  UNUSED(len);
+
   return -1;
 #endif
 }
@@ -113,6 +141,11 @@ int HilsPortManager::I2cTargetReadRegister(unsigned int port_id, const unsigned 
   }
   return 0;
 #else
+  UNUSED(port_id);
+  UNUSED(reg_addr);
+  UNUSED(data);
+  UNUSED(len);
+
   return -1;
 #endif
 }
@@ -124,6 +157,10 @@ int HilsPortManager::I2cTargetReadCommand(unsigned int port_id, unsigned char* d
   port->ReadCommand(data, len);
   return 0;
 #else
+  UNUSED(port_id);
+  UNUSED(data);
+  UNUSED(len);
+
   return -1;
 #endif
 }
@@ -134,6 +171,8 @@ int HilsPortManager::I2cTargetReceive(unsigned int port_id) {
   if (port == nullptr) return -1;
   return port->Receive();
 #else
+  UNUSED(port_id);
+
   return -1;
 #endif
 }
@@ -144,6 +183,9 @@ int HilsPortManager::I2cTargetSend(unsigned int port_id, const unsigned char len
   if (port == nullptr) return -1;
   return port->Send(len);
 #else
+  UNUSED(port_id);
+  UNUSED(len);
+
   return -1;
 #endif
 }
@@ -154,6 +196,8 @@ int HilsPortManager::I2cTargetGetStoredFrameCounter(unsigned int port_id) {
   if (port == nullptr) return -1;
   return port->GetStoredFrameCounter();
 #else
+  UNUSED(port_id);
+
   return -1;
 #endif
 }
