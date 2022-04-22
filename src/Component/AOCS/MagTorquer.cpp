@@ -44,7 +44,11 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, PowerPort
   }
 }
 
-void MagTorquer::MainRoutine(int count) { CalcOutputTorque(); }
+void MagTorquer::MainRoutine(int count) {
+  UNUSED(count);
+
+  CalcOutputTorque();
+}
 
 libra::Vector<kMtqDim> MagTorquer::CalcOutputTorque(void) {
   for (size_t i = 0; i < kMtqDim; ++i) {

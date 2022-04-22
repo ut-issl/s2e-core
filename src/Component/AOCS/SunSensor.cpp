@@ -44,7 +44,11 @@ void SunSensor::Initialize(const double nr_stddev_c, const double nr_bias_stddev
   nrs_alpha_.set_param(0.0, nr_stddev_c);  // g_rand.MakeSeed()
   nrs_beta_.set_param(0.0, nr_stddev_c);   // g_rand.MakeSeed()
 }
-void SunSensor::MainRoutine(int count) { measure(); }
+void SunSensor::MainRoutine(int count) {
+  UNUSED(count);
+
+  measure();
+}
 
 void SunSensor::measure() {
   Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");

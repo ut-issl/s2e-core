@@ -2,6 +2,8 @@
 #include <Environment/Global/ClockGenerator.h>
 #include <Interface/SpacecraftInOut/Ports/PowerPort.h>
 
+#include <Library/utils/Unused.hpp>
+
 #include "ITickable.h"
 
 // 電源ON/OFFと時間の概念のみを持った、コンポーネントの基底クラス

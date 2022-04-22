@@ -7,6 +7,8 @@ ExpHilsI2cTarget::ExpHilsI2cTarget(const int prescaler, ClockGenerator* clock_ge
 ExpHilsI2cTarget::~ExpHilsI2cTarget() {}
 
 void ExpHilsI2cTarget::MainRoutine(int count) {
+  UNUSED(count);
+
   // update telemetry data
   const unsigned char kTlmSize = 5;
   unsigned char tlm[kTlmSize] = {0};

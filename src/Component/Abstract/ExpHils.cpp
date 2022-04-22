@@ -46,6 +46,8 @@ int ExpHils::GenerateTelemetry() {
 }
 
 void ExpHils::MainRoutine(int count) {
+  UNUSED(count);
+
   ReceiveCommand(0, kMemorySize);
   SendTelemetry(0);
 }

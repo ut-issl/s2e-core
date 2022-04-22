@@ -55,7 +55,9 @@ std::string BAT::GetLogValue() const {
   return str_tmp;
 }
 
-void BAT::MainRoutine(int time_count) {
+void BAT::MainRoutine(int count) {
+  UNUSED(count);
+
   dod_ -= charge_current_ / (cell_capacity_ * number_of_parallel_ * 3600.0) * 100.0;  // 1秒に1回MainRoutineが実行される想定
   UpdateBatVoltage();
 }

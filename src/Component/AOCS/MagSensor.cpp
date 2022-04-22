@@ -11,6 +11,8 @@ MagSensor::MagSensor(int prescaler, ClockGenerator* clock_gen, PowerPort* power_
 MagSensor::~MagSensor() {}
 
 void MagSensor::MainRoutine(int count) {
+  UNUSED(count);
+
   mag_c_ = q_b2c_.frame_conv(magnet_->GetMag_b());  // Convert frame
   mag_c_ = Measure(mag_c_);                         // Add noises
 }

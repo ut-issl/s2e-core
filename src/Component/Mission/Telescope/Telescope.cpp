@@ -52,6 +52,8 @@ Telescope::Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double
 Telescope::~Telescope() {}
 
 void Telescope::MainRoutine(int count) {
+  UNUSED(count);
+
   //禁止角判定
   is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("SUN"), sun_forbidden_angle_);
   is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("EARTH"), earth_forbidden_angle_);

@@ -40,6 +40,8 @@ void OBC_C2A::Initialize() {
 }
 
 void OBC_C2A::MainRoutine(int count) {
+  UNUSED(count);
+
 #ifdef USE_C2A
   if (is_initialized == false) {
     is_initialized = true;

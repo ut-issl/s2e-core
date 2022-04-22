@@ -43,6 +43,8 @@ void SimpleThruster::Initialize(const double mag_err, const double dir_err) {
 }
 
 void SimpleThruster::MainRoutine(int count) {
+  UNUSED(count);
+
   CalcThrust();
   CalcTorque(structure_->GetKinematicsParams().GetCGb(), 0);
 }
