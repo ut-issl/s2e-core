@@ -38,7 +38,7 @@ function(download_generic_kernel dir kernel sha256)
     URL ${GENERIC_KERNEL_URL_BASE}/${dir}/${kernel}
     URL_HASH SHA256=${sha256}
     DOWNLOAD_NO_EXTRACT true
-    SOURCE_DIR ${CSPICE_INSTALL_DIR}/generic_kernels
+    SOURCE_DIR ${CSPICE_INSTALL_DIR}/generic_kernels/${dir}
   )
   FetchContent_MakeAvailable(${kernel})
 endfunction(download_generic_kernel)
