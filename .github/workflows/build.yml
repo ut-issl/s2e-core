@@ -47,6 +47,11 @@ jobs:
         with:
           arch: amd64_x86
 
+      - name: show tools version
+        shell: powershell
+        run: |
+          cmake --version
+
       - name: cache extlib
         id: cache-extlib
         uses: actions/cache@v3
@@ -100,6 +105,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y gcc-multilib g++-multilib
+
+      - name: show tools version
+        run: |
+          cmake --version
+          gcc --version
 
       - name: cache extlib
         id: cache-extlib
