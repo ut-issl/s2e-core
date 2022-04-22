@@ -57,9 +57,9 @@ class RWModel : public ComponentBase, public ILoggable {
   // Getter
   const libra::Vector<3> GetOutputTorqueB() const;
   const libra::Vector<3> GetJitterForceB() const { return rw_jitter_.GetJitterForceB(); }
-  inline const bool isMotorDrove() const { return drive_flag_; };
-  inline const double GetVelocityRad() const { return angular_velocity_rad_; };
-  inline const double GetVelocityRpm() const { return angular_velocity_rpm_; };
+  inline bool isMotorDrove() const { return drive_flag_; };
+  inline double GetVelocityRad() const { return angular_velocity_rad_; };
+  inline double GetVelocityRpm() const { return angular_velocity_rpm_; };
   inline const libra::Vector<3> GetAngMomB() const { return angular_momentum_b_; };
 
   // Setter

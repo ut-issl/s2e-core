@@ -47,33 +47,33 @@ class SimTime : public ILoggable {
 
   // Get functions
   inline const TimeState GetState(void) const { return state_; };
-  inline const double GetElapsedSec(void) const { return elapsed_time_sec_; };
-  inline const double GetStepSec(void) const { return step_sec_; };
-  inline const double GetAttitudeUpdateIntervalSec(void) const { return attitude_update_interval_sec_; };
-  inline const bool GetAttitudePropagateFlag(void) const { return attitude_update_flag_; };
-  inline const double GetAttitudeRKStepSec() const { return attitude_rk_step_sec_; }
-  inline const double GetOrbitUpdateIntervalSec(void) const { return orbit_update_interval_sec_; };
-  inline const bool GetOrbitPropagateFlag(void) const { return orbit_update_flag_; };
-  inline const double GetOrbitRKStepSec() const { return orbit_rk_step_sec_; }
-  inline const double GetThermalUpdateIntervalSec(void) const { return thermal_update_interval_sec_; };
-  inline const bool GetThermalPropagateFlag(void) const { return thermal_update_flag_; };
-  inline const double GetThermalRKStepSec() const { return thermal_rk_step_sec_; }
-  inline const double GetCompoStepSec(void) const { return compo_update_interval_sec_; };
-  inline const bool GetCompoUpdateFlag() const { return compo_update_flag_; }
-  inline const int GetCompoPropagateFrequency(void) const { return compo_propagate_frequency_; };
+  inline double GetElapsedSec(void) const { return elapsed_time_sec_; };
+  inline double GetStepSec(void) const { return step_sec_; };
+  inline double GetAttitudeUpdateIntervalSec(void) const { return attitude_update_interval_sec_; };
+  inline bool GetAttitudePropagateFlag(void) const { return attitude_update_flag_; };
+  inline double GetAttitudeRKStepSec() const { return attitude_rk_step_sec_; }
+  inline double GetOrbitUpdateIntervalSec(void) const { return orbit_update_interval_sec_; };
+  inline bool GetOrbitPropagateFlag(void) const { return orbit_update_flag_; };
+  inline double GetOrbitRKStepSec() const { return orbit_rk_step_sec_; }
+  inline double GetThermalUpdateIntervalSec(void) const { return thermal_update_interval_sec_; };
+  inline bool GetThermalPropagateFlag(void) const { return thermal_update_flag_; };
+  inline double GetThermalRKStepSec() const { return thermal_rk_step_sec_; }
+  inline double GetCompoStepSec(void) const { return compo_update_interval_sec_; };
+  inline bool GetCompoUpdateFlag() const { return compo_update_flag_; }
+  inline int GetCompoPropagateFrequency(void) const { return compo_propagate_frequency_; };
 
-  inline const double GetEndSec(void) const { return end_sec_; };
-  inline const int GetProgressionRate(void) const { return (int)floor((elapsed_time_sec_ / end_sec_ * 100)); };
-  inline const double GetCurrentJd(void) const { return current_jd_; };
-  inline const double GetCurrentSidereal(void) const { return current_sidereal_; };
-  inline const double GetCurrentDecyear(void) const { return current_decyear_; };
+  inline double GetEndSec(void) const { return end_sec_; };
+  inline int GetProgressionRate(void) const { return (int)floor((elapsed_time_sec_ / end_sec_ * 100)); };
+  inline double GetCurrentJd(void) const { return current_jd_; };
+  inline double GetCurrentSidereal(void) const { return current_sidereal_; };
+  inline double GetCurrentDecyear(void) const { return current_decyear_; };
   inline const UTC GetCurrentUTC(void) const { return current_utc_; };
-  inline const int GetStartYear(void) const { return start_year_; };
-  inline const int GetStartMon(void) const { return start_mon_; };
-  inline const int GetStartDay(void) const { return start_day_; };
-  inline const int GetStartHr(void) const { return start_hr_; };
-  inline const int GetStartMin(void) const { return start_min_; };
-  inline const double GetStartSec(void) const { return start_sec_; };
+  inline int GetStartYear(void) const { return start_year_; };
+  inline int GetStartMon(void) const { return start_mon_; };
+  inline int GetStartDay(void) const { return start_day_; };
+  inline int GetStartHr(void) const { return start_hr_; };
+  inline int GetStartMin(void) const { return start_min_; };
+  inline double GetStartSec(void) const { return start_sec_; };
   // logs
   virtual std::string GetLogHeader() const;
   virtual std::string GetLogValue() const;

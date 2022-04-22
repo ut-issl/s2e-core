@@ -12,12 +12,12 @@ class OrbitalElements {
   ~OrbitalElements();
 
   // Getter
-  inline const double GetSemiMajor() const { return semi_major_axis_m_; }
-  inline const double GetEccentricity() const { return eccentricity_; }
-  inline const double GetInclination() const { return inclination_rad_; }
-  inline const double GetRaan() const { return raan_rad_; }
-  inline const double GetArgPerigee() const { return arg_perigee_rad_; }
-  inline const double GetEpoch() const { return epoch_jday_; }
+  inline double GetSemiMajor() const { return semi_major_axis_m_; }
+  inline double GetEccentricity() const { return eccentricity_; }
+  inline double GetInclination() const { return inclination_rad_; }
+  inline double GetRaan() const { return raan_rad_; }
+  inline double GetArgPerigee() const { return arg_perigee_rad_; }
+  inline double GetEpoch() const { return epoch_jday_; }
 
  private:
   // Common Variables

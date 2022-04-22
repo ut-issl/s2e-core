@@ -50,7 +50,7 @@ class STT : public ComponentBase, public ILoggable {
 
   // Getter
   inline const libra::Quaternion GetObsQuaternion() const { return q_stt_i2c_; };
-  inline const bool GetErrorFlag() const { return error_flag_; }
+  inline bool GetErrorFlag() const { return error_flag_; }
 
  protected:
   // STT general parameters
