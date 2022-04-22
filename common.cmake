@@ -13,6 +13,7 @@ if(MSVC)
   target_compile_options(${PROJECT_NAME} PUBLIC "/source-charset:utf-8")
 else()
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wall")
+  target_compile_options(${PROJECT_NAME} PUBLIC "-Wextra")
   target_compile_options(${PROJECT_NAME} PUBLIC "-rdynamic")
 
   # 32bit
