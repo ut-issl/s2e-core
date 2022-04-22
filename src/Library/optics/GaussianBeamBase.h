@@ -14,9 +14,9 @@ class GaussianBeamBase {
   void SetBeamWaistPos_i(const libra::Vector<3> pos_beamwaist_i);
 
   // getter
-  inline const double GetWaveLength() const { return wavelength_m_; }
-  inline const double GetBeamWaistRadius() const { return r_beam_waist_m_; }
-  inline const double GetTotalPower() const { return total_power_watt_; }
+  inline double GetWaveLength() const { return wavelength_m_; }
+  inline double GetBeamWaistRadius() const { return r_beam_waist_m_; }
+  inline double GetTotalPower() const { return total_power_watt_; }
   inline const libra::Vector<3> GetPointingVector_i() const { return pointing_vector_i_; }
   inline const libra::Vector<3> GetBeamWaistPos_i() const { return pos_beamwaist_i_; }
 

@@ -10,10 +10,10 @@ class PowerPort {
   bool Update(void);  // return is_on_
 
   // Getters
-  inline const double GetVoltage(void) const { return voltage_; }
-  inline const double GetCurrentConsumption() const { return current_consumption_; }
-  inline const double GetAssumedPowerConsumption() const { return assumed_power_consumption_; }
-  inline const bool GetIsOn() const { return is_on_; }
+  inline double GetVoltage(void) const { return voltage_; }
+  inline double GetCurrentConsumption() const { return current_consumption_; }
+  inline double GetAssumedPowerConsumption() const { return assumed_power_consumption_; }
+  inline bool GetIsOn() const { return is_on_; }
 
   // Setters
   bool SetVoltage(const double voltage);  // return is_on_

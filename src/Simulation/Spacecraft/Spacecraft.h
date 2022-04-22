@@ -35,7 +35,7 @@ class Spacecraft {
   inline const LocalEnvironment& GetLocalEnv() const { return *local_env_; }
   inline const Disturbances& GetDisturbances() const { return *disturbances_; }
   inline const InstalledComponents& GetInstalledComponents() const { return *components_; }
-  inline const int GetSatID() const { return sat_id_; }
+  inline int GetSatID() const { return sat_id_; }
 
  protected:
   ClockGenerator clock_gen_;

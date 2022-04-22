@@ -20,7 +20,7 @@ class ObcCommunicationBase {
                        HilsPortManager* hils_port_manager);
   ~ObcCommunicationBase();
 
-  inline const bool IsConnected() const { return is_connected_; }
+  inline bool IsConnected() const { return is_connected_; }
 
  protected:
   int ReceiveCommand(const int offset, const int rec_size);
