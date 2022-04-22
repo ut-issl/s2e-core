@@ -201,7 +201,7 @@ void InitParameter::gen_SphericalNormalUniformUniform() {
 // mean_or_min_[0]: x成分平均    sigma_or_max_[0]: r成分標準偏差
 // mean_or_min_[1]: y成分平均    sigma_or_max_[1]: θ成分標準偏差
 // mean_or_min_[2]: z成分平均    sigma_or_max_[2]: なし
-void InitParameter::get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& mean_vec, double r_sigma, double theta_sigma) {
+void InitParameter::get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& mean_vec) {
   Vector<3> mean_vec_dir;
   mean_vec_dir = 1.0 / norm(mean_vec) * mean_vec;  // mean vector方向の単位ベクトル
 
@@ -241,7 +241,7 @@ void InitParameter::gen_SphericalNormalNormal() {
   for (int i = 0; i < dim; i++) {
     temp_mean_vec[i] = mean_or_min_[i];
   }
-  get_SphericalNormalNormal(temp_vec, temp_mean_vec, sigma_or_max_[0], sigma_or_max_[1]);
+  get_SphericalNormalNormal(temp_vec, temp_mean_vec);
 
   val_.clear();
   for (int i = 0; i < dim; i++) {

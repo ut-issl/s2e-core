@@ -93,7 +93,7 @@ class InitParameter {
   void get_CircularNormalNormal(Vector<2>& dst, double r_mean, double r_sigma, double theta_mean, double theta_sigma);
   void get_SphericalNormalUniformUniform(Vector<3>& dst, double r_mean, double r_sigma, double theta_min, double theta_max, double phi_min,
                                          double phi_max);
-  void get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& mean_vec, double r_sigma, double theta_sigma);
+  void get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& mean_vec);
   void get_QuaternionUniform(Quaternion& dst);
   void get_QuaternionNormal(Quaternion& dst, double theta_sigma);
 };
