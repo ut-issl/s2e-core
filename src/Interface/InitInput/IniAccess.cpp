@@ -131,7 +131,7 @@ void IniAccess::ReadCsvDouble(vector<vector<double>>& doublevec, int node_num) {
     vector<string> strvec = Split(line, ',');
     vector<double> tempdoublevec;
     tempdoublevec.reserve(node_num);
-    for (int i = 0; i < strvec.size(); i++) {
+    for (size_t i = 0; i < strvec.size(); i++) {
       tempdoublevec.push_back(stod(strvec.at(i)));
     }
     doublevec.push_back(tempdoublevec);

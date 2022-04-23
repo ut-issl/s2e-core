@@ -150,7 +150,7 @@ int OBC_C2A::I2cWriteRegister(int port_id, const unsigned char i2c_addr, const u
   if (len == 1) {
     i2c_port->WriteRegister(i2c_addr, data[0]);
   } else {
-    for (int i = 0; i < len - 1; i++) {
+    for (unsigned char i = 0; i < len - 1; i++) {
       i2c_port->WriteRegister(i2c_addr, data[0] + i, data[i + 1]);
     }
   }
@@ -168,7 +168,7 @@ int OBC_C2A::I2cReadRegister(int port_id, const unsigned char i2c_addr, unsigned
 int OBC_C2A::I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, const unsigned char* data,
                                        const unsigned char len) {
   I2CPort* i2c_port = i2c_com_ports_c2a_[port_id];
-  for (int i = 0; i < len; i++) {
+  for (unsigned char i = 0; i < len; i++) {
     i2c_port->WriteRegister(i2c_addr, reg_addr + i, data[i]);
   }
   return 0;
@@ -176,7 +176,7 @@ int OBC_C2A::I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr
 int OBC_C2A::I2cComponentReadRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, unsigned char* data,
                                       const unsigned char len) {
   I2CPort* i2c_port = i2c_com_ports_c2a_[port_id];
-  for (int i = 0; i < len; i++) {
+  for (unsigned char i = 0; i < len; i++) {
     data[i] = i2c_port->ReadRegister(i2c_addr, reg_addr + i);
   }
   return 0;
