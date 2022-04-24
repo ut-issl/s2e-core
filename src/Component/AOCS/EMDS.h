@@ -2,7 +2,6 @@
 
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
-using namespace libra;
 
 #include <Interface/LogOutput/ILoggable.h>
 

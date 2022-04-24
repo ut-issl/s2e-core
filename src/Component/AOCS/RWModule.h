@@ -4,7 +4,6 @@
 #include <Library/math/ODE.hpp>
 
 #include "RWModel.h"
-using namespace libra;
 
 class RWModule {
  private:
@@ -19,8 +18,8 @@ class RWModule {
            double angular_accelaration_init_1, double angular_velocity_init_2, double inertia_2, double angular_velocity_upperlimit_init_2,
            double angular_velocity_lowerlimit_init_2, bool motor_drive_init_2, double angular_accelaration_init_2, double angular_velocity_init_3,
            double inertia_3, double angular_velocity_upperlimit_init_3, double angular_velocity_lowerlimit_init_3, bool motor_drive_init_3,
-           double angular_accelaration_init_3, int number_of_RW, Matrix<3, 4> torque_transition);
-  Vector<3> GetTorque();  //トルク発生
+           double angular_accelaration_init_3, int number_of_RW, libra::Matrix<3, 4> torque_transition);
+  libra::Vector<3> GetTorque();  //トルク発生
   void SetTorque(double angular_accelaration,
                  int module_number);  //必要な角加速度の指定(単位はrpm/s)
   void SetLimits(double angular_velocity_upperlimit, double angular_velocity_lowerlimit,
