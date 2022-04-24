@@ -29,7 +29,7 @@ class ControlledAttitude : public Attitude {
   // Setter
   inline void SetMainMode(const AttCtrlMode main_mode) { main_mode_ = main_mode; }
   inline void SetSubMode(const AttCtrlMode sub_mode) { sub_mode_ = sub_mode; }
-  inline void SetQuaternionI2T(const Quaternion quaternion_i2t) { quaternion_i2t_ = quaternion_i2t; }
+  inline void SetQuaternionI2T(const Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
   inline void SetPointingTb(Vector<3> pointing_t_b) { pointing_t_b_ = pointing_t_b; }
   inline void SetPointingSubTb(Vector<3> pointing_sub_t_b) { pointing_sub_t_b_ = pointing_sub_t_b; }
 
@@ -39,7 +39,6 @@ class ControlledAttitude : public Attitude {
  private:
   AttCtrlMode main_mode_;
   AttCtrlMode sub_mode_;               // for control around pointing direction
-  libra::Quaternion quaternion_i2t_;   // ECI->Target
   libra::Vector<3> pointing_t_b_;      // Pointing target on body frame
   libra::Vector<3> pointing_sub_t_b_;  // Pointing sub target on body frame
 
