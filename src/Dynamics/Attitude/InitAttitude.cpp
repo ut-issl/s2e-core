@@ -6,6 +6,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
                        const Matrix<3, 3> inertia_tensor, const int sat_id) {
   IniAccess ini_file(file_name);
   const char* section_ = "ATTITUDE";
+  std::string mc_name = section_ + std::to_string(sat_id);  // "Attitude" + to_string(id);
   Attitude* attitude;
 
   int propagate_mode = ini_file.ReadInt(section_, "propagate_mode");
@@ -19,8 +20,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     Vector<3> torque_b;
     ini_file.ReadVector(section_, "Torque_b", torque_b);
 
-    std::string name = section_ + std::to_string(sat_id);  // "Attitude" + to_string(id);
-    attitude = new AttitudeRK4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, name);
+    attitude = new AttitudeRK4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, mc_name);
   } else if (propagate_mode == 1) {
     // Controlled attitude
     IniAccess ini_file_ca(file_name);
@@ -28,11 +28,11 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     AttCtrlMode main_mode = static_cast<AttCtrlMode>(ini_file_ca.ReadInt(section_ca_, "main_mode"));
     AttCtrlMode sub_mode = static_cast<AttCtrlMode>(ini_file_ca.ReadInt(section_ca_, "sub_mode"));
     Quaternion quaternion_i2b;
-    ini_file_ca.ReadQuaternion(section_, "quaternion_i2b", quaternion_i2b);
+    ini_file_ca.ReadQuaternion(section_, "Quaternion_i2b", quaternion_i2b);
     Vector<3> pointing_t_b, pointing_sub_t_b;
     ini_file_ca.ReadVector(section_ca_, "pointing_t_b", pointing_t_b);
     ini_file_ca.ReadVector(section_ca_, "pointing_sub_t_b", pointing_sub_t_b);
-    attitude = new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, pointing_t_b, pointing_sub_t_b, celes_info, orbit);
+    attitude = new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, pointing_t_b, pointing_sub_t_b, celes_info, orbit, mc_name);
   } else {
     std::cerr << "ERROR: attitude propagation mode: " << propagate_mode << " is not defined!" << std::endl;
   }
