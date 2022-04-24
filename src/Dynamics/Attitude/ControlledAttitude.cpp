@@ -118,3 +118,19 @@ Matrix<3, 3> ControlledAttitude::CalcDCM(const Vector<3> main_direction, const V
   }
   return DCM_;
 }
+
+AttCtrlMode ConvertStringToCtrlMode(const std::string mode) {
+  if (mode == "INERTIAL_STABILIZE") {
+    return INERTIAL_STABILIZE;
+  } else if (mode == "SUN_POINTING") {
+    return SUN_POINTING;
+  } else if (mode == "EARTH_CENTER_POINTING") {
+    return EARTH_CENTER_POINTING;
+  } else if (mode == "VELOCITY_DIRECTION_POINTING") {
+    return VELOCITY_DIRECTION_POINTING;
+  } else if (mode == "ORBIT_NORMAL_POINTING") {
+    return ORBIT_NORMAL_POINTING;
+  } else {
+    return NO_CTRL;
+  }
+}

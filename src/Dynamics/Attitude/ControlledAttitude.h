@@ -17,6 +17,8 @@ enum AttCtrlMode {
   NO_CTRL,
 };
 
+AttCtrlMode ConvertStringToCtrlMode(const std::string mode);
+
 class ControlledAttitude : public Attitude {
  public:
   ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2b, const Vector<3> pointing_t_b,
