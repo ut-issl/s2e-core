@@ -13,7 +13,7 @@ Temperature::Temperature(const vector<vector<double>> cij, const vector<vector<d
       vnodes_(vnodes),
       node_num_(node_num),
       prop_step_(propstep),  // ルンゲクッタ積分時間刻み幅
-      isCalcEnabled_(is_calc_enabled),
+      is_calc_enabled_(is_calc_enabled),
       debug_(debug) {
   prop_time_ = 0;
   if (debug_) {
@@ -21,10 +21,17 @@ Temperature::Temperature(const vector<vector<double>> cij, const vector<vector<d
   }
 }
 
+Temperature::Temperature() {
+  node_num_ = 0;
+  prop_step_ = 0.0;
+  is_calc_enabled_ = false;
+  debug_ = false;
+}
+
 Temperature::~Temperature() {}
 
 void Temperature::Propagate(Vector<3> sun_direction, const double endtime) {
-  if (!isCalcEnabled_) return;
+  if (!is_calc_enabled_) return;
   while (endtime - prop_time_ - prop_step_ > 1.0e-6) {
     RungeOneStep(prop_time_, prop_step_, sun_direction, node_num_);
     prop_time_ += prop_step_;
@@ -145,7 +152,7 @@ string Temperature::GetLogValue() const {
 
 void Temperature::PrintParams(void) {
   cout << "< Print Thermal Parameters >" << endl;
-  cout << "IsCalcEnabled: " << isCalcEnabled_ << endl;
+  cout << "IsCalcEnabled: " << is_calc_enabled_ << endl;
   cout << "Vnodes:" << endl;
   for (auto itr = vnodes_.begin(); itr != vnodes_.end(); ++itr) {
     itr->PrintParam();
