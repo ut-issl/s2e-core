@@ -74,7 +74,7 @@ std::vector<std::vector<double>> CsvScenarioInterface::ReadCsvData(const std::st
 
 void CsvScenarioInterface::StoreBuffer(const std::string buffer_name, const std::vector<std::vector<double>>& data) {
   auto line_num = buffer_line_id_.at(buffer_name);
-  for (const auto line : data) {
+  for (const auto& line : data) {
     buffers_[buffer_name][line[0]] = line[line_num];
   }
 }
