@@ -103,14 +103,15 @@ jobs:
 
       - name: install deps
         run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt-get update
-          sudo apt-get install -y gcc-10-multilib g++-10-multilib
+          sudo apt-get install -y gcc-11-multilib g++-11-multilib
 
       - name: show tools version
         run: |
           cmake --version
           gcc --version
-          gcc-10 --version
+          gcc-11 --version
 
       - name: cache extlib
         id: cache-extlib
@@ -145,8 +146,8 @@ jobs:
 
       - name: build
         env:
-          CC: gcc-10
-          CXX: g++-10
+          CC: gcc-11
+          CXX: g++-11
         run: |
           cmake . -DEXT_LIB_DIR=./ExtLibraries
           cmake --build .
