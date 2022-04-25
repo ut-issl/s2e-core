@@ -1631,6 +1631,8 @@ int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
   eo1 = u;
   tem5 = 9999.9;
   ktr = 1;
+  sineo1 = sin(eo1);
+  coseo1 = cos(eo1);
   //   sgp4fix for kepler iteration
   //   the following iteration needs better limits on corrections
   while ((fabs(tem5) >= 1.0e-12) && (ktr <= 10)) {
