@@ -73,6 +73,8 @@ MCSimExecutor* InitMCSim(std::string file_name) {
       rnd_type = InitParameter::QuaternionUniform;
     else if (!strcmp(rnd_type_str, "QuaternionNormal"))
       rnd_type = InitParameter::QuaternionNormal;
+    else
+      rnd_type = InitParameter::NoRandomization;
 
     // mean_or_min ベクトルを読み込み
     key_name = so_dot_ip_str + MCSimExecutor::separator_ + "mean_or_min";
