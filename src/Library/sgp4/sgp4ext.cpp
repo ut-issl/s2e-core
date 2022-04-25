@@ -23,7 +23,9 @@
  *                           original baseline
  *       ---------------------------------------------------------------- */
 
+#ifdef WIN32
 #pragma warning(disable : 4996)
+#endif
 
 #include "sgp4ext.h"
 

@@ -53,8 +53,10 @@ using namespace std;
 
 double testglobal[3];
 
+#ifdef WIN32
 #pragma warning(disable : 4996)  // fopenなど回避
 #pragma warning(disable : 4305)  // double->float回避
+#endif
 
 /*--------------------*/
 /*   Basic Routines   */
