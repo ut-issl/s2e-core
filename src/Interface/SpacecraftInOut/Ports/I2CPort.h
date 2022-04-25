@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <cstddef>
 
 const int kDefaultCmdBufferSize = 0xff;
 
