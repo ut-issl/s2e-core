@@ -38,6 +38,16 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     attitude = new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, pointing_t_b, pointing_sub_t_b, celes_info, orbit, mc_name);
   } else {
     std::cerr << "ERROR: attitude propagation mode: " << propagate_mode << " is not defined!" << std::endl;
+    std::cerr << "The attitude mode is automatically set as RK4" << std::endl;
+
+    Vector<3> omega_b;
+    ini_file.ReadVector(section_, "Omega_b", omega_b);
+    Quaternion quaternion_i2b;
+    ini_file.ReadQuaternion(section_, "Quaternion_i2b", quaternion_i2b);
+    Vector<3> torque_b;
+    ini_file.ReadVector(section_, "Torque_b", torque_b);
+
+    attitude = new AttitudeRK4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, mc_name);
   }
 
   return attitude;

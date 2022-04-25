@@ -85,6 +85,14 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     orbit = new EnckeOrbitPropagation(celes_info, gravity_constant, stepSec, current_jd, init_pos_m, init_vel_m_s, error_tolerance);
   } else {
     std::cerr << "ERROR: orbit propagation mode: " << propagate_mode << " is not defined!" << std::endl;
+    std::cerr << "The orbit mode is automatically set as RK4" << std::endl;
+
+    Vector<3> init_pos;
+    conf.ReadVector<3>(section_, "init_position", init_pos);
+    Vector<3> init_veloc;
+    conf.ReadVector<3>(section_, "init_velocity", init_veloc);
+
+    orbit = new Rk4OrbitPropagation(celes_info, gravity_constant, stepSec, init_pos, init_veloc);
   }
 
   orbit->SetIsCalcEnabled(conf.ReadEnable(section_, "calculation"));
