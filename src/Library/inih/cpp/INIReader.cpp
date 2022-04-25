@@ -19,6 +19,10 @@
 
 using std::string;
 
+struct ToLower {
+  char operator()(char c) { return (char)::tolower(c); }
+};
+
 INIReader::INIReader(const string& filename) { _error = ini_parse(filename.c_str(), ValueHandler, this); }
 
 INIReader::INIReader(const char* buffer, size_t buffer_size) {
@@ -60,7 +64,7 @@ double INIReader::GetReal(const string& section, const string& name, double defa
 bool INIReader::GetBoolean(const string& section, const string& name, bool default_value) const {
   string valstr = Get(section, name, "");
   // Convert to lower case to make string comparisons case-insensitive
-  std::transform(valstr.begin(), valstr.end(), valstr.begin(), ::tolower);
+  std::transform(valstr.begin(), valstr.end(), valstr.begin(), ToLower());
   if (valstr == "true" || valstr == "yes" || valstr == "on" || valstr == "1")
     return true;
   else if (valstr == "false" || valstr == "no" || valstr == "off" || valstr == "0")
@@ -85,7 +89,7 @@ bool INIReader::HasValue(const string& section, const string& name) const {
 string INIReader::MakeKey(const string& section, const string& name) {
   string key = section + "=" + name;
   // Convert to lower case to make section/name lookups case-insensitive
-  std::transform(key.begin(), key.end(), key.begin(), ::tolower);
+  std::transform(key.begin(), key.end(), key.begin(), ToLower());
   return key;
 }
 
