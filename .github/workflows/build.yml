@@ -115,6 +115,7 @@ jobs:
         id: compiler
         run: |
           COMPILER="${{ matrix.compiler }}"
+          read -r -a COMPILER <<< "$COMPILER"
           echo "::set-output name=CC::${COMPILER[0]}"
           echo "::set-output name=CXX::${COMPILER[1]}"
 
