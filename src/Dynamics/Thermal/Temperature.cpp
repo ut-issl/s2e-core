@@ -1,6 +1,6 @@
 #include "Temperature.h"
 
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 #include <cmath>
 #include <iostream>
 #include <vector>

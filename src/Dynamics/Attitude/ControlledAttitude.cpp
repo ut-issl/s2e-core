@@ -3,7 +3,7 @@
 #include <Interface/LogOutput/LogUtility.h>
 
 #include <Library/math/Constant.hpp>
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 
 using namespace std;
 

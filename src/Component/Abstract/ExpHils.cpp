@@ -1,6 +1,6 @@
 #include "ExpHils.h"
 
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 
 ExpHils::ExpHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
                  HilsPortManager* hils_port_manager, const int mode_id)

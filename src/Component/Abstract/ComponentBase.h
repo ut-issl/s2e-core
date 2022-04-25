@@ -2,7 +2,7 @@
 #include <Environment/Global/ClockGenerator.h>
 #include <Interface/SpacecraftInOut/Ports/PowerPort.h>
 
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 
 #include "ITickable.h"
 

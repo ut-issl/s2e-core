@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 
 template <size_t N>
 RandomWalk<N>::RandomWalk(double step_width, const libra::Vector<N>& stddev, const libra::Vector<N>& limit)

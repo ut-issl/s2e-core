@@ -6,7 +6,7 @@
 
 #include "ANT.h"
 
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 #include <cmath>
 
 ANT::ANT(int ant_id, const libra::Quaternion& q_b2c, bool is_transmitter, bool is_receiver, double frequency, Vector<4> tx_params,

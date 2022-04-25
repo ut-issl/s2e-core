@@ -1,6 +1,6 @@
 #include "KeplerOrbitPropagation.h"
 
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 
 #include "../../Library/math/s2e_math.hpp"
 

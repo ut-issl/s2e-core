@@ -8,7 +8,7 @@
 
 #ifndef __SolarRadiation_h__
 #define __SolarRadiation_h__
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 #include <string>
 
 #include "../Interface/LogOutput/ILoggable.h"

@@ -2,7 +2,7 @@
 
 #include <Interface/LogOutput/LogUtility.h>
 
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 using namespace std;
 
 #include <iostream>

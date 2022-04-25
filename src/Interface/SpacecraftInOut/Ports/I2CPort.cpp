@@ -1,6 +1,6 @@
 #include "I2CPort.h"
 
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 
 I2CPort::I2CPort(void) {}
 

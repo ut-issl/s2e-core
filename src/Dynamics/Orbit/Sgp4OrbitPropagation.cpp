@@ -1,6 +1,6 @@
 #include "Sgp4OrbitPropagation.h"
 
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 #include <iostream>
 #include <sstream>
 using namespace std;

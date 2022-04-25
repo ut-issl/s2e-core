@@ -6,7 +6,7 @@
 
 #include <Environment/Global/PhysicalConstants.hpp>
 #include <Library/math/Constant.hpp>
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 #include <string>
 
 GroundStation::GroundStation(SimulationConfig* config, int gs_id) : gs_id_(gs_id) { Initialize(gs_id_, config); }

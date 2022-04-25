@@ -34,7 +34,7 @@
 
 #include "sgp4unit.h"
 
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 #include <iostream>
 
 const char help = 'n';

@@ -1,6 +1,6 @@
 #include "EnckeOrbitPropagation.h"
 
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 
 #include "../../Library/Orbit/OrbitalElements.h"
 

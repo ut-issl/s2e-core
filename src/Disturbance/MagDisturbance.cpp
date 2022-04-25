@@ -2,7 +2,7 @@
 
 #include "../Library/math/NormalRand.hpp"
 using libra::NormalRand;
-#include <Library/utils/Unused.hpp>
+#include <Library/utils/Macros.hpp>
 
 #include "../Interface/LogOutput/LogUtility.h"
 #include "../Library/math/GlobalRand.h"
