@@ -71,9 +71,9 @@ class GnssSat_coordinate {
   std::vector<int> nearest_index_;  // index list for update(in position,
                                     // time_and_index_list_. in clock_bias, time_table_)
 
-  double step_sec_;
-  double time_interval_;
-  int interpolation_number_;
+  double step_sec_ = 0.0;
+  double time_interval_ = 0.0;
+  int interpolation_number_ = 0;
 };
 
 class GnssSat_position : public GnssSat_coordinate {

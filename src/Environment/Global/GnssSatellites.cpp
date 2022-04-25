@@ -223,9 +223,10 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
 
   // Get Header Info
   for (int page = 0; page < (int)file.size(); ++page) {
-    int num_of_time_stamps, num_of_sat;
-
-    for (int line = 0; line < 3; ++line) {
+    int num_of_time_stamps = 0;
+    int num_of_sat = 0;
+    int line;
+    for (line = 0; line < 3; ++line) {
       istringstream iss{file.at(page).at(line)};
 
       if (line == 0) {
@@ -252,7 +253,7 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
       }
     }
 
-    int line = 3;
+    line = 3;
     while (file.at(page).at(line).front() != '*') ++line;
 
     int start_line, end_line;
@@ -266,9 +267,10 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
     }
 
     double unix_time = 0;
-    double cos_, sin_;
+    double cos_ = 0.0;
+    double sin_ = 0.0;
     for (int i = 0; i < end_line - start_line; ++i) {
-      int line = i + start_line;
+      line = i + start_line;
 
       istringstream iss{file.at(page).at(line)};
       vector<string> s;
@@ -492,9 +494,10 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
   if (file_extension == ".sp3") {
     // Get Header Info
     for (int page = 0; page < (int)file.size(); ++page) {
-      int num_of_time_stamps, num_of_sat;
-
-      for (int line = 0; line < 3; ++line) {
+      int num_of_time_stamps = 0;
+      int num_of_sat = 0;
+      int line;
+      for (line = 0; line < 3; ++line) {
         istringstream iss{file.at(page).at(line)};
 
         if (line == 0) {
@@ -521,7 +524,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
         }
       }
 
-      int line = 3;
+      line = 3;
       while (file.at(page).at(line).front() != '*') ++line;
 
       int start_line, end_line;
@@ -536,7 +539,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
 
       double unix_time = 0;
       for (int i = 0; i < end_line - start_line; ++i) {
-        int line = i + start_line;
+        line = i + start_line;
 
         istringstream iss{file.at(page).at(line)};
         vector<string> s;
@@ -785,11 +788,10 @@ void GnssSat_Info::Update(const double now_unix_time) {
 }
 
 int GnssSat_Info::GetNumOfSatellites() const {
-  if (position_.GetNumOfSatellites() == clock_.GetNumOfSatellites())
+  if (position_.GetNumOfSatellites() == clock_.GetNumOfSatellites()) {
     return position_.GetNumOfSatellites();
-  else {
+  }else {
     cout << "Num Of Gnss Satellites has something wrong" << endl;
-    exit(1);
     return 0;
   }
 }

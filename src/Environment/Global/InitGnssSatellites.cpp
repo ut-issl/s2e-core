@@ -98,8 +98,8 @@ void get_sp3_file_contents(std::string directory_path, std::string file_sort, st
   } else if (file_sort.substr(0, 3) == "IGU" || file_sort.find("Ultra") != std::string::npos) {  // URの場合
     ur_flag = UR_UNKNOWN;
     std::string file_header, file_footer;
-    int gps_week, day;
-    int hour;
+    int gps_week = 0, day = 0;
+    int hour = 0;
     for (int i = 0; i < (int)first.size(); ++i) {
       int n = first.at(i);
       // Looking for the number of file name
@@ -138,7 +138,7 @@ void get_sp3_file_contents(std::string directory_path, std::string file_sort, st
     }
   } else {
     std::string file_header, file_footer;
-    int gps_week, day;
+    int gps_week = 0, day = 0;
     for (int i = 0; i < (int)first.size(); ++i) {
       int n = first.at(i);
       // Looking for the number of file name
@@ -177,8 +177,8 @@ void get_clk_file_contents(std::string directory_path, std::string extension, st
 
   if (file_sort.find("Ultra") != std::string::npos) {
     std::string file_header, file_footer;
-    int gps_week, day;
-    int hour;
+    int gps_week = 0, day = 0;
+    int hour = 0;
     for (int i = 0; i < (int)first.size(); ++i) {
       int n = first.at(i);
       // Looking for the number of file name
@@ -217,7 +217,7 @@ void get_clk_file_contents(std::string directory_path, std::string extension, st
     }
   } else {
     std::string file_header, file_footer;
-    int gps_week, day;
+    int gps_week = 0, day = 0;
     for (int i = 0; i < (int)first.size(); ++i) {
       int n = first.at(i);
       // Looking for the number of file name
