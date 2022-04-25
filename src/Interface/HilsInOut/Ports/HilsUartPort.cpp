@@ -109,6 +109,7 @@ int HilsUartPort::ReadRx(unsigned char* buffer, int offset, int count) {
     // TODO: Add enum for exception
   } catch (System::TimeoutException ^ e) {
     // No bytes were available to read.
+    System::Console::Write(e->Message);
     return -1;
   } catch (System::Exception ^ e) {
     System::Console::Write(e->Message);

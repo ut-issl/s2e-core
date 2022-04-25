@@ -20,7 +20,7 @@ class ObcI2cTargetCommunicationBase {
   int ReceiveCommand();
   int SendTelemetry(const unsigned char len);
   int GetStoredFrameCounter();
-  int StoreTelemetry(const unsigned int stored_frame_num, const unsigned int tlm_size);
+  int StoreTelemetry(const unsigned int stored_frame_num, const unsigned char tlm_size);
 
  private:
   unsigned int sils_port_id_;
