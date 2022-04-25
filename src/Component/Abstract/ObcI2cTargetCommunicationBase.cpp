@@ -149,7 +149,7 @@ int ObcI2cTargetCommunicationBase::GetStoredFrameCounter() {
   return hils_port_manager_->I2cTargetGetStoredFrameCounter(hils_port_id_);
 }
 
-int ObcI2cTargetCommunicationBase::StoreTelemetry(const unsigned int stored_frame_num, const unsigned int tlm_size) {
+int ObcI2cTargetCommunicationBase::StoreTelemetry(const unsigned int stored_frame_num, const unsigned char tlm_size) {
   if (sim_mode_ != OBC_COM_UART_MODE::HILS) return -1;
   int additional_frame_num = stored_frame_num - GetStoredFrameCounter();
   if (additional_frame_num <= 0) return -1;

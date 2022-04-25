@@ -118,7 +118,7 @@ int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned
 #ifdef USE_HILS
   HilsI2cTargetPort* port = i2c_com_ports_[port_id];
   if (port == nullptr) return -1;
-  for (int i = 0; i < len; i++) {
+  for (unsigned char i = 0; i < len; i++) {
     port->WriteRegister(reg_addr + i, data[i]);
   }
   return 0;
@@ -136,7 +136,7 @@ int HilsPortManager::I2cTargetReadRegister(unsigned int port_id, const unsigned 
 #ifdef USE_HILS
   HilsI2cTargetPort* port = i2c_com_ports_[port_id];
   if (port == nullptr) return -1;
-  for (int i = 0; i < len; i++) {
+  for (unsigned char i = 0; i < len; i++) {
     data[i] = port->ReadRegister(reg_addr + i);
   }
   return 0;
