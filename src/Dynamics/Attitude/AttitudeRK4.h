@@ -3,33 +3,28 @@
 
 #include "Attitude.h"
 
-class AttitudeRK4 : public Attitude, public SimulationObject {
+class AttitudeRK4 : public Attitude {
  public:
   AttitudeRK4(const Vector<3>& omega_b_ini, const Quaternion& quaternion_i2b_ini, const Matrix<3, 3>& InertiaTensor_ini,
-              const Vector<3>& torque_b_ini, const double prop_step_ini);
-
-  AttitudeRK4(const Vector<3>& omega_b_ini, const Quaternion& quaternion_i2b_ini, const Matrix<3, 3>& InertiaTensor_ini,
-              const Vector<3>& torque_b_ini, const double prop_step_ini, std::string name);
+              const Vector<3>& torque_b_ini, const double prop_step_ini, const std::string& sim_object_name = "Attitude");
   ~AttitudeRK4();
 
-  // MonteCalro
-  void SetParameters(const MCSimExecutor& mc_sim);
+  // Getter
+  inline double GetPropTime() const { return prop_time_s_; }
 
-  virtual void Propagate(double endtime);  // 姿勢・角速度のプロパゲーション
+  // Setter
+  inline void SetTime(double set) { prop_time_s_ = set; }
 
-  virtual std::string GetLogHeader() const;
-  virtual std::string GetLogValue() const;
-
-  //デバッグ出力
-  void PrintParams(void);
+  // Attitude
+  virtual void Propagate(const double endtime_s);
+  virtual void SetParameters(const MCSimExecutor& mc_sim);
 
  private:
-  Vector<3> debug_vec_;
+  double prop_time_s_;  // current time
 
   Matrix<4, 4> Omega4Kinematics(Vector<3> omega);
   Vector<7> DynamicsKinematics(Vector<7> x, double t);
   void RungeOneStep(double t, double dt);
-  void CalcAngMom(void);
-  void CalcSatRotationalKineticEnergy(void);  // 衛星の回転運動エネルギー計算関数
 };
+
 #endif  //__attitude_rk4_H__

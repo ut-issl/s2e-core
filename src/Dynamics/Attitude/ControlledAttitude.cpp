@@ -9,15 +9,17 @@ using namespace std;
 
 #define THRESHOLD_CA cos(30.0 / 180.0 * libra::pi)  // fix me
 
-ControlledAttitude::ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2t,
+ControlledAttitude::ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2b,
                                        const Vector<3> pointing_t_b, const Vector<3> pointing_sub_t_b,
-                                       const LocalCelestialInformation* local_celes_info, const Orbit* orbit)
-    : local_celes_info_(local_celes_info), orbit_(orbit) {
-  main_mode_ = main_mode;
-  sub_mode_ = sub_mode;
-  quaternion_i2t_ = quaternion_i2t;
-  pointing_t_b_ = pointing_t_b;
-  pointing_sub_t_b_ = pointing_sub_t_b;
+                                       const LocalCelestialInformation* local_celes_info, const Orbit* orbit, const std::string& sim_object_name)
+    : Attitude(sim_object_name),
+      main_mode_(main_mode),
+      sub_mode_(sub_mode),
+      pointing_t_b_(pointing_t_b),
+      pointing_sub_t_b_(pointing_sub_t_b),
+      local_celes_info_(local_celes_info),
+      orbit_(orbit) {
+  quaternion_i2b_ = quaternion_i2b;
   Initialize();
 }
 
@@ -25,19 +27,16 @@ ControlledAttitude::~ControlledAttitude() {}
 
 // Main function
 void ControlledAttitude::Initialize(void) {
-  quaternion_i2b_ = Quaternion(0, 0, 0, 1);
-
-  if (main_mode_ >= NO_CTRL) IsCalcEnabled = false;
-  if (sub_mode_ >= NO_CTRL) IsCalcEnabled = false;
+  if (main_mode_ >= NO_CTRL) is_calc_enabled_ = false;
+  if (sub_mode_ >= NO_CTRL) is_calc_enabled_ = false;
   if (main_mode_ == INERTIAL_STABILIZE) {
-    quaternion_i2b_ = quaternion_i2t_;
-    quaternion_i2b_.normalize();
+    //
   } else  // Pointing control
   {
     // sub mode check
     if (main_mode_ == sub_mode_) {
       cout << "sub mode should not equal to main mode. \n";
-      IsCalcEnabled = false;
+      is_calc_enabled_ = false;
       return;
     }
     // pointing direction check
@@ -46,22 +45,22 @@ void ControlledAttitude::Initialize(void) {
     double tmp = inner_product(pointing_t_b_, pointing_sub_t_b_);
     tmp = std::abs(tmp);
     if (tmp > THRESHOLD_CA) {
-      cout << "sub target direction should separate from the main target "
-              "direction. \n";
-      IsCalcEnabled = false;
+      cout << "sub target direction should separate from the main target direction. \n";
+      is_calc_enabled_ = false;
       return;
     }
   }
   return;
 }
-void ControlledAttitude::Propagate(double endtime) {
-  UNUSED(endtime);
 
+void ControlledAttitude::Propagate(const double endtime_s) {
+  UNUSED(endtime_s);
+  
   Vector<3> main_direction_i, sub_direction_i;
-  if (!IsCalcEnabled) return;
+  if (!is_calc_enabled_) return;
 
   if (main_mode_ == INERTIAL_STABILIZE) {
-    quaternion_i2b_ = quaternion_i2t_;
+    // quaternion_i2b_ = quaternion_i2t_;
     return;
   }
 
@@ -99,6 +98,7 @@ void ControlledAttitude::PointingCtrl(const Vector<3> main_direction_i, const Ve
   // Convert to Quaternion
   quaternion_i2b_ = Quaternion::fromDCM(DCM_i2b);
 }
+
 Matrix<3, 3> ControlledAttitude::CalcDCM(const Vector<3> main_direction, const Vector<3> sub_direction) {
   // Calc basis vectors
   Vector<3> ex, ey, ez;
@@ -119,20 +119,18 @@ Matrix<3, 3> ControlledAttitude::CalcDCM(const Vector<3> main_direction, const V
   return DCM_;
 }
 
-string ControlledAttitude::GetLogHeader() const {
-  string str_tmp = "";
-
-  str_tmp += WriteVector("omega_t", "b", "rad/s", 3);
-  str_tmp += WriteVector("q_t", "i2b", "-", 4);
-
-  return str_tmp;
-}
-
-string ControlledAttitude::GetLogValue() const {
-  string str_tmp = "";
-
-  str_tmp += WriteVector(omega_b_);
-  str_tmp += WriteQuaternion(quaternion_i2b_);
-
-  return str_tmp;
+AttCtrlMode ConvertStringToCtrlMode(const std::string mode) {
+  if (mode == "INERTIAL_STABILIZE") {
+    return INERTIAL_STABILIZE;
+  } else if (mode == "SUN_POINTING") {
+    return SUN_POINTING;
+  } else if (mode == "EARTH_CENTER_POINTING") {
+    return EARTH_CENTER_POINTING;
+  } else if (mode == "VELOCITY_DIRECTION_POINTING") {
+    return VELOCITY_DIRECTION_POINTING;
+  } else if (mode == "ORBIT_NORMAL_POINTING") {
+    return ORBIT_NORMAL_POINTING;
+  } else {
+    return NO_CTRL;
+  }
 }
