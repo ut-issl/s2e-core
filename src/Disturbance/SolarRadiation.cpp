@@ -15,6 +15,8 @@
 SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b) : SurfaceForce(surfaces, cg_b) {}
 
 void SolarRadiation::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
+  UNUSED(dynamics);
+
   Vector<3> tmp = local_env.GetCelesInfo().GetPosFromSC_b("SUN");
   CalcTorqueForce(tmp, local_env.GetSrp().CalcTruePressure());
 }
@@ -22,6 +24,8 @@ void SolarRadiation::Update(const LocalEnvironment& local_env, const Dynamics& d
 // input_b:Direction vector of the sun at the body frame
 // item: Solar pressure [N/m^2]
 void SolarRadiation::CalcCoef(Vector<3>& input_b, double item) {
+  UNUSED(input_b);
+
   for (size_t i = 0; i < surfaces_.size(); i++) {  //各面で計算
     double area = surfaces_[i].GetArea();
     double reflectivity = surfaces_[i].GetReflectivity();

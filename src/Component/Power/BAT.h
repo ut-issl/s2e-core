@@ -35,6 +35,6 @@ class BAT : public ComponentBase, public ILoggable {
   double charge_current_;           //[A]
   double bat_resistance_;           //[Ohm]
 
-  void MainRoutine(int time_count) override;
+  void MainRoutine(int count) override;
   void UpdateBatVoltage();
 };

@@ -23,7 +23,7 @@ SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen, c
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const Vector<3> thruster_pos_b,
                                const Vector<3> thrust_dir_b, const double max_mag, const double mag_err, const double dir_err,
                                const Structure* structure, const Dynamics* dynamics)
-    : ComponentBase(prescaler, clock_gen),
+    : ComponentBase(prescaler, clock_gen, power_port),
       id_(id),
       thruster_pos_b_(thruster_pos_b),
       thrust_dir_b_(thrust_dir_b),
@@ -43,8 +43,10 @@ void SimpleThruster::Initialize(const double mag_err, const double dir_err) {
 }
 
 void SimpleThruster::MainRoutine(int count) {
+  UNUSED(count);
+
   CalcThrust();
-  CalcTorque(structure_->GetKinematicsParams().GetCGb(), 0);
+  CalcTorque(structure_->GetKinematicsParams().GetCGb());
 }
 
 void SimpleThruster::CalcThrust() {
@@ -53,7 +55,7 @@ void SimpleThruster::CalcThrust() {
   thrust_b_ = mag * CalcThrustDir();
 }
 
-void SimpleThruster::CalcTorque(Vector<3> center, double temp) {
+void SimpleThruster::CalcTorque(Vector<3> center) {
   Vector<3> vector_center2thruster = thruster_pos_b_ - center;
   Vector<3> torque = outer_product(vector_center2thruster, thrust_b_);
 

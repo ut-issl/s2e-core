@@ -87,7 +87,11 @@ void RWModel::Initialize() {
   }
 }
 
-void RWModel::MainRoutine(int count) { CalcTorque(); }
+void RWModel::MainRoutine(int count) {
+  UNUSED(count);
+
+  CalcTorque();
+}
 
 // Jitter calculation
 void RWModel::FastUpdate() { rw_jitter_.CalcJitter(angular_velocity_rad_); }

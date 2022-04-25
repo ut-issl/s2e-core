@@ -15,7 +15,7 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int 
 
 ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int hils_port_id, const unsigned char i2c_address,
                                                              HilsPortManager* hils_port_manager)
-    : hils_port_id_(hils_port_id), hils_port_manager_(hils_port_manager) {
+    : hils_port_id_(hils_port_id), i2c_address_(i2c_address), hils_port_manager_(hils_port_manager) {
 #ifdef USE_HILS
   sim_mode_ = OBC_COM_UART_MODE::HILS;
   int ret = hils_port_manager_->I2cTargetConnectComPort(hils_port_id_);

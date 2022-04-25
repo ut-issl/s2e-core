@@ -23,7 +23,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     Vector<3> init_veloc;
     conf.ReadVector<3>(section_, "init_velocity", init_veloc);
 
-    orbit = new Rk4OrbitPropagation(celes_info, gravity_constant, stepSec, init_pos, init_veloc, current_jd);
+    orbit = new Rk4OrbitPropagation(celes_info, gravity_constant, stepSec, init_pos, init_veloc);
   } else if (propagate_mode == "SGP4") {  // Initialize SGP4 orbit propagator
     int wgs = conf.ReadInt(section_, "wgs");
     char tle1[80], tle2[80];
@@ -49,8 +49,8 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     // orbit of the reference sat
     int reference_sat_id = conf.ReadInt(section_, "reference_sat_id");
 
-    orbit = new RelativeOrbit(celes_info, gravity_constant, stepSec, current_jd, reference_sat_id, init_relative_position_lvlh,
-                              init_relative_velocity_lvlh, update_method, relative_dynamics_model_type, stm_model_type, rel_info);
+    orbit = new RelativeOrbit(celes_info, gravity_constant, stepSec, reference_sat_id, init_relative_position_lvlh, init_relative_velocity_lvlh,
+                              update_method, relative_dynamics_model_type, stm_model_type, rel_info);
   } else if (propagate_mode == "KEPLER") {
     std::string init_mode_kepler = conf.ReadString(section_, "init_mode_kepler");
     double mu_m3_s2 = gravity_constant;
@@ -74,7 +74,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     } else {
       std::cerr << "ERROR: Kepler orbit initialize mode: " << init_mode_kepler << " is not defined!" << std::endl;
     }
-    KeplerOrbit kepler_orbit(mu_m3_s2, current_jd, oe);
+    KeplerOrbit kepler_orbit(mu_m3_s2, oe);
     orbit = new KeplerOrbitPropagation(celes_info, current_jd, kepler_orbit);
   } else if (propagate_mode == "ENCKE") {
     Vector<3> init_pos_m;

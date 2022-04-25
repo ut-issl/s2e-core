@@ -5,9 +5,7 @@
 
 KeplerOrbit::KeplerOrbit() {}
 // Initialize with orbital elements
-KeplerOrbit::KeplerOrbit(const double mu_m3_s2, const double current_jd, const OrbitalElements oe) : mu_m3_s2_(mu_m3_s2), oe_(oe) {
-  CalcConstKeplerMotion();
-}
+KeplerOrbit::KeplerOrbit(const double mu_m3_s2, const OrbitalElements oe) : mu_m3_s2_(mu_m3_s2), oe_(oe) { CalcConstKeplerMotion(); }
 
 KeplerOrbit::~KeplerOrbit() {}
 
@@ -43,7 +41,7 @@ void KeplerOrbit::CalcPosVel(double time_jday) {
   // Calc position and velocity in the plane
   double cos_u = cos(u_rad);
   double sin_u = sin(u_rad);
-  double a_sqrt_e_m = a_m * sqrtf(1.0 - e * e);
+  double a_sqrt_e_m = a_m * sqrt(1.0 - e * e);
   double e_cos_u = 1.0 - e * cos_u;
 
   libra::Vector<3> pos_inplane_m;

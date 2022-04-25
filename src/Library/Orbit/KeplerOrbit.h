@@ -7,7 +7,7 @@ class KeplerOrbit {
  public:
   KeplerOrbit();
   // Initialize with orbital elements
-  KeplerOrbit(const double mu_m3_s2, const double current_jd, const OrbitalElements oe);
+  KeplerOrbit(const double mu_m3_s2, const OrbitalElements oe);
   ~KeplerOrbit();
 
   void CalcPosVel(double time_jday);  // Calculation of Position and Velocity from Orbital Elements

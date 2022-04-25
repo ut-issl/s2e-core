@@ -42,6 +42,8 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, Power
       simtime_(simtime) {}
 
 void GNSSReceiver::MainRoutine(int count) {
+  UNUSED(count);
+
   Vector<3> pos_true_eci_ = dynamics_->GetOrbit().GetSatPosition_i();
   Quaternion q_i2b = dynamics_->GetQuaternion_i2b();
 

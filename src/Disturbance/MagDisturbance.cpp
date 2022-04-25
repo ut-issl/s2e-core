@@ -2,6 +2,8 @@
 
 #include "../Library/math/NormalRand.hpp"
 using libra::NormalRand;
+#include <Library/utils/Macros.hpp>
+
 #include "../Interface/LogOutput/LogUtility.h"
 #include "../Library/math/GlobalRand.h"
 #include "../Library/math/RandomWalk.hpp"
@@ -24,7 +26,11 @@ Vector<3> MagDisturbance::CalcTorque(const Vector<3>& mag_b) {
   return torque_b_;
 }
 
-void MagDisturbance::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) { CalcTorque(local_env.GetMag().GetMag_b()); }
+void MagDisturbance::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
+  UNUSED(dynamics);
+
+  CalcTorque(local_env.GetMag().GetMag_b());
+}
 
 //残留磁気モーメントの計算
 void MagDisturbance::CalcRMM() {

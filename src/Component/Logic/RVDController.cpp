@@ -18,7 +18,7 @@ void RVDController::SetTargetRelAttitude(Quaternion q12) { tar_q_i2b = q12; }
 
 void RVDController::SetPositionGain(double p, double d, double i) { relPosCtrl.SetGains(p, d, i); }
 
-Vector<2> RVDController::CalcCurrent(Vector<3> relpos_i, Quaternion q1_ib, Quaternion q2_ib) {
+Vector<2> RVDController::CalcCurrent() {
   Vector<2> currents;
   currents[0] = 5;
   currents[1] = 5;

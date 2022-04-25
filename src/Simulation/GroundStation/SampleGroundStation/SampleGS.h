@@ -19,8 +19,7 @@ class SampleGS : public GroundStation {
   // ログ保存機能
   virtual void LogSetup(Logger& logger);
   // 状態量の更新
-  virtual void Update(const Dynamics& dynamics, const GlobalEnvironment& global_env, const ANT& sc_ant, const SampleGS& samplegs,
-                      const double& current_jd);
+  virtual void Update(const Dynamics& dynamics, const GlobalEnvironment& global_env, const ANT& sc_ant, const SampleGS& samplegs);
 
  private:
   SampleGSComponents* components_;

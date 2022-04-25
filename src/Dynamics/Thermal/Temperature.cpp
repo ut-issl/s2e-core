@@ -1,5 +1,6 @@
 #include "Temperature.h"
 
+#include <Library/utils/Macros.hpp>
 #include <cmath>
 #include <iostream>
 #include <vector>
@@ -95,6 +96,10 @@ void Temperature::RungeOneStep(double t, double dt, Vector<3> sun_direction, int
 }
 
 vector<double> Temperature::OdeTemperature(vector<double> x, double t, Vector<3> sun_direction, int node_num) {
+  // TODO: consider the following unused arguments are really needed
+  UNUSED(x);
+  UNUSED(t);
+
   vector<double> dTdt(node_num);
   for (int i = 0; i < node_num; i++) {
     double solar = vnodes_[i].CalcSolarRadiation(sun_direction);  // solar radiation[W]

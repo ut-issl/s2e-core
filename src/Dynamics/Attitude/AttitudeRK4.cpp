@@ -1,6 +1,8 @@
 #include "AttitudeRK4.h"
 
 #include <Interface/LogOutput/LogUtility.h>
+
+#include <Library/utils/Macros.hpp>
 using namespace std;
 
 #include <iostream>
@@ -99,6 +101,8 @@ Matrix<4, 4> AttitudeRK4::Omega4Kinematics(Vector<3> omega) {
 }
 
 Vector<7> AttitudeRK4::DynamicsKinematics(Vector<7> x, double t) {
+  UNUSED(t);
+
   Vector<7> dxdt;
 
   Vector<3> omega_b;

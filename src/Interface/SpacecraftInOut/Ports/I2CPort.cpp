@@ -1,5 +1,7 @@
 #include "I2CPort.h"
 
+#include <Library/utils/Macros.hpp>
+
 I2CPort::I2CPort(void) {}
 
 I2CPort::I2CPort(const unsigned char max_register_number) : max_register_number_(max_register_number) {}
@@ -14,6 +16,8 @@ void I2CPort::RegisterDevice(const unsigned char i2c_addr) {
 }
 
 int I2CPort::WriteRegister(const unsigned char i2c_addr, const unsigned char reg_addr) {
+  UNUSED(i2c_addr);  // TODO: consider this argument is really needed.
+
   if (reg_addr >= max_register_number_) return 0;
   saved_reg_addr_ = reg_addr;
   return 1;

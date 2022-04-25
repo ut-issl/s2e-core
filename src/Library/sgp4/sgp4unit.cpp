@@ -34,6 +34,7 @@
 
 #include "sgp4unit.h"
 
+#include <Library/utils/Macros.hpp>
 #include <iostream>
 
 const char help = 'n';
@@ -147,6 +148,7 @@ static void dpper(double e3, double ee2, double peo, double pgho, double pho, do
                   double sgh3, double sgh4, double sh2, double sh3, double si2, double si3, double sl2, double sl3, double sl4, double t, double xgh2,
                   double xgh3, double xgh4, double xh2, double xh3, double xi2, double xi3, double xl2, double xl3, double xl4, double zmol,
                   double zmos, double inclo, char init, double& ep, double& inclp, double& nodep, double& argpp, double& mp) {
+  UNUSED(inclo);
   /* --------------------- local variables ------------------------ */
   const double twopi = 2.0 * pi;
   double alfdp, betdp, cosip, cosop, dalf, dbet, dls, f2, f3, pe, pgh, ph, pinc, pl, sel, ses, sghl, sghs, shll, shs, sil, sinip, sinop, sinzf, sis,
@@ -1021,6 +1023,8 @@ static void dspace(int irez, double d2201, double d2211, double d3210, double d3
 static void initl(int satn, gravconsttype whichconst, double ecco, double epoch, double inclo, double& no, char& method, double& ainv, double& ao,
                   double& con41, double& con42, double& cosio, double& cosio2, double& eccsq, double& omeosq, double& posq, double& rp,
                   double& rteosq, double& sinio, double& gsto) {
+  UNUSED(satn);
+
   /* --------------------- local variables ------------------------ */
   double ak, d1, del, adel, po, x2o3, j2, xke, tumin, mu, radiusearthkm, j3, j4, j3oj2;
 

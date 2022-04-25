@@ -33,8 +33,9 @@ int EXP::GenerateTelemetry() {
   return sizeof(tx_buff);
 }
 void EXP::MainRoutine(int count) {
+  UNUSED(count);
   ReceiveCommand(0, 5);
   SendTelemetry(0);
 }
 
-void EXP::GPIOStateChanged(int port_id, bool isPosedge) { printf("interrupted"); }
+void EXP::GPIOStateChanged(int port_id, bool isPosedge) { printf("interrupted. portid = %d, isPosedge = %d./n", port_id, isPosedge); }

@@ -8,6 +8,8 @@ ExpHilsI2cController::ExpHilsI2cController(const int prescaler, ClockGenerator* 
 ExpHilsI2cController::~ExpHilsI2cController() {}
 
 void ExpHilsI2cController::MainRoutine(int count) {
+  UNUSED(count);
+
   RequestTlm();
   Receive();
   return;

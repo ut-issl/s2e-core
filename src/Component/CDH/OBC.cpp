@@ -15,7 +15,7 @@ OBC::~OBC() {}
 
 void OBC::Initialize() {}
 
-void OBC::MainRoutine(int count) {}
+void OBC::MainRoutine(int count) { UNUSED(count); }
 
 int OBC::ConnectComPort(int port_id, int tx_buf_size, int rx_buf_size) {
   if (com_ports_[port_id] != nullptr) {

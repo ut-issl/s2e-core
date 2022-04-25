@@ -13,6 +13,8 @@ Gyro::Gyro(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port
 Gyro::~Gyro() {}
 
 void Gyro::MainRoutine(int count) {
+  UNUSED(count);
+
   omega_c_ = q_b2c_.frame_conv(dynamics_->GetAttitude().GetOmega_b());  // Convert frame
   omega_c_ = Measure(omega_c_);                                         // Add noises
 }
