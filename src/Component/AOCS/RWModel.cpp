@@ -74,7 +74,7 @@ void RWModel::Initialize() {
   output_torque_b_ = Vector<3>(0.0);
   angular_momentum_b_ = Vector<3>(0.0);
   target_accl_ = 0.0;
-  int len_buffer = floor(dead_time_ / dt_main_routine_) + 1;
+  int len_buffer = (int)floor(dead_time_ / dt_main_routine_) + 1;
   delay_buffer_accl_.assign(len_buffer, 0.0);
 
   angular_acceleration_ = 0.0;
@@ -126,7 +126,7 @@ Vector<3> RWModel::CalcTorque() {
     delay_buffer_accl_.erase(delay_buffer_accl_.begin());
   }
   // Calc RW ODE
-  int itr_num = ceil(dt_main_routine_ / step_width_);
+  int itr_num = (int)ceil(dt_main_routine_ / step_width_);
   for (int i = 0; i < itr_num; i++) {
     ++ode_angular_velocity_;  // propagate()
   }

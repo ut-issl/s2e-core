@@ -146,7 +146,7 @@ void SimTime::UpdateTime(void) {
   }
 
   if (disp_counter_ >= disp_period_) {
-    disp_counter_ -= disp_period_;
+    disp_counter_ -= (int)disp_period_;
     state_.disp_output = true;
   }
 

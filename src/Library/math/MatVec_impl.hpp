@@ -67,7 +67,7 @@ Matrix<N, N>& ludcmp(Matrix<N, N>& a, unsigned int index[]) {
     }
 
     double biggest = 0.0;
-    size_t imax;
+    size_t imax = j;
     for (size_t i = j; i < N; ++i) {
       double sum = a[i][j];
       for (size_t k = 0; k < j; ++k) {
@@ -111,7 +111,7 @@ template <std::size_t N>
 Vector<N>& lubksb(const Matrix<N, N>& a, const unsigned int index[], Vector<N>& b) {
   double sum;
   bool non_zero = false;
-  unsigned int mark;
+  unsigned int mark = 0;
   for (size_t i = 0; i < N; ++i) {
     unsigned int ip = index[i];
     sum = b[ip];
