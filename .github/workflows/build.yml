@@ -104,12 +104,13 @@ jobs:
       - name: install deps
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-multilib g++-multilib
+          sudo apt-get install -y gcc-10-multilib g++-10-multilib
 
       - name: show tools version
         run: |
           cmake --version
           gcc --version
+          gcc-10 --version
 
       - name: cache extlib
         id: cache-extlib
@@ -143,6 +144,9 @@ jobs:
           ls nrlmsise00/src
 
       - name: build
+        env:
+          CC: gcc-10
+          CXX: g++-10
         run: |
           cmake . -DEXT_LIB_DIR=./ExtLibraries
           cmake --build .
