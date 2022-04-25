@@ -14,6 +14,7 @@ if(MSVC)
 else()
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wall")
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wextra")
+  target_compile_options(${PROJECT_NAME} PUBLIC "-Wpedantic")
   target_compile_options(${PROJECT_NAME} PUBLIC "-rdynamic")
 
   # 32bit

@@ -104,7 +104,7 @@ libra::Vector<3> SampleComponents::GenerateForce_N_b() {
   libra::Vector<3> force_N_b_(0.0);
   force_N_b_ += thruster_->GetThrustB();
   return force_N_b_;
-};
+}
 
 libra::Vector<3> SampleComponents::GenerateTorque_Nm_b() {
   libra::Vector<3> torque_Nm_b_(0.0);
@@ -112,7 +112,7 @@ libra::Vector<3> SampleComponents::GenerateTorque_Nm_b() {
   torque_Nm_b_ += rw_->GetOutputTorqueB();
   torque_Nm_b_ += thruster_->GetTorqueB();
   return torque_Nm_b_;
-};
+}
 
 void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLoggable(gyro_);
