@@ -10,6 +10,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 # Compile option
 if(MSVC)
   target_compile_options(${PROJECT_NAME} PUBLIC "/W4")
+  target_compile_options(${PROJECT_NAME} PUBLIC "/MT")
   target_compile_options(${PROJECT_NAME} PUBLIC "/source-charset:utf-8")
 else()
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wall")
