@@ -22,8 +22,8 @@ class Attitude : public ILoggable, public SimulationObject {
     libra::Matrix<3, 3> DCM_b2i = quaternion_i2b_.toDCM();
     return transpose(DCM_b2i);
   }
-  inline double GetTotalAngMomNorm() const { return norm(h_total_b_Nms_); }
-  inline double GetEnergy() const { return 0.5f * inner_product(omega_b_rad_s_, inertia_tensor_kgm2_ * omega_b_rad_s_); }
+  inline double GetTotalAngMomNorm() const { return libra::norm(h_total_b_Nms_); }
+  inline double GetEnergy() const { return 0.5f * libra::inner_product(omega_b_rad_s_, inertia_tensor_kgm2_ * omega_b_rad_s_); }
   inline libra::Matrix<3, 3> GetInertiaTensor() const { return inertia_tensor_kgm2_; }
   inline libra::Matrix<3, 3> GetInvInertiaTensor() const { return inv_inertia_tensor_; }
 

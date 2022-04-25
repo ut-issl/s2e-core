@@ -18,7 +18,7 @@ AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini, const Quaternion& quatern
   prop_step_s_ = prop_step_ini;
   prop_time_s_ = 0.0;
   inv_inertia_tensor_ = invert(inertia_tensor_kgm2_);
-  h_rw_b_Nms_ = libra::Vector<3>(0);
+  h_rw_b_Nms_ = libra::Vector<3>(0.0);
   CalcAngMom();
 }
 
@@ -28,10 +28,10 @@ void AttitudeRK4::SetParameters(const MCSimExecutor& mc_sim) {
   Attitude::SetParameters(mc_sim);
   GetInitParameterVec(mc_sim, "Omega_b", omega_b_rad_s_);
 
-  // ?
+  // TODO この部分の必要性を考える
   prop_time_s_ = 0.0;
   inv_inertia_tensor_ = libra::invert(inertia_tensor_kgm2_);
-  h_rw_b_Nms_ = Vector<3>(0);  //どう取り扱うか要検討，Propagateで参照しているのも良くないかも
+  h_rw_b_Nms_ = Vector<3>(0.0);  //どう取り扱うか要検討，Propagateで参照しているのも良くないかも
   CalcAngMom();
   CalcSatRotationalKineticEnergy();
 }
