@@ -12,7 +12,7 @@
 namespace libra {
 
 template <size_t R, size_t C, typename T>
-Matrix<R, C, T>::Matrix(){};
+Matrix<R, C, T>::Matrix(){}
 
 template <size_t R, size_t C, typename T>
 size_t Matrix<R, C, T>::row() const {

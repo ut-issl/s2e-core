@@ -18,7 +18,7 @@ CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const str
   if (center_obj == "EARTH") {
     Init_CelestialRotation_As_Earth(rotation_mode, center_obj);
   }
-};
+}
 
 // initialize the class CelestialRotation instance as Earth
 void CelestialRotation::Init_CelestialRotation_As_Earth(const RotationMode rotation_mode, const string center_obj) {

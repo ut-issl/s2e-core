@@ -46,4 +46,4 @@ void RwOde::RHS(double x, const Vector<1> &state, Vector<1> &rhs) {
 
 void RwOde::setTargetAngularVelocity(double angular_velocity) { target_angular_velocity_ = angular_velocity; }
 
-void RwOde::setLagCoef(const Vector<3> lag_coef) { lag_coef_ = lag_coef; };
+void RwOde::setLagCoef(const Vector<3> lag_coef) { lag_coef_ = lag_coef; }

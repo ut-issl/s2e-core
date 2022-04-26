@@ -25,7 +25,7 @@ using namespace std;
 
 static double decyear_monthly;
 
-int LeapYear(int year) { return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0); };
+int LeapYear(int year) { return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0); }
 
 void ConvertDaysToMonthDay(int days, int is_leap_year, int* month_day) {
   int days_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};

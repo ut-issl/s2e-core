@@ -19,7 +19,7 @@ AirDrag::AirDrag(const vector<Surface>& surfaces, const Vector<3>& cg_b, const d
   Tw_ = t_w;
   Tm_ = t_m;
   M_ = molecular;
-};
+}
 
 void AirDrag::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
   double air_dens = local_env.GetAtmosphere().GetAirDensity();
