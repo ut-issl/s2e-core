@@ -11,7 +11,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_n
   IniAccess ss_conf(file_name);
   const char* sensor_name = "SUNSENSOR";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
-  const char* Section = section_tmp.data();
+  const char* Section = section_tmp.c_str();
 
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
@@ -44,7 +44,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss
   IniAccess ss_conf(file_name);
   const char* sensor_name = "SUNSENSOR";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
-  const char* Section = section_tmp.data();
+  const char* Section = section_tmp.c_str();
 
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
