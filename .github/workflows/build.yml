@@ -97,21 +97,41 @@ jobs:
   build_s2e_linux:
     name: Build on Linux
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: ['gcc-11 g++-11', 'clang clang++']
 
     steps:
       - uses: actions/checkout@v3
 
+      - name: set compiler
+        id: compiler
+        run: |
+          COMPILER="${{ matrix.compiler }}"
+          read -r -a COMPILER <<< "$COMPILER"
+          echo "::set-output name=CC::${COMPILER[0]}"
+          echo "::set-output name=CXX::${COMPILER[1]}"
+
       - name: install deps
         run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          # FIXME: temporary install gcc-11 in ubuntu:focal
+          if [[ "${{ steps.compiler.outputs.CC }}" =~ "gcc-11" ]]; then
+            sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          fi
           sudo apt-get update
-          sudo apt-get install -y gcc-11-multilib g++-11-multilib
+          if [[ "${{ steps.compiler.outputs.CC }}" =~ "gcc" ]]; then
+            sudo apt-get install -y ${{ steps.compiler.outputs.CC }}-multilib \
+                                    ${{ steps.compiler.outputs.CXX }}-multilib
+          else
+            sudo apt-get install -y gcc-multilib g++-multilib
+          fi
 
       - name: show tools version
         run: |
           cmake --version
-          gcc --version
-          gcc-11 --version
+          ${{ steps.compiler.outputs.CC  }} --version
+          ${{ steps.compiler.outputs.CXX }} --version
 
       - name: cache extlib
         id: cache-extlib
@@ -146,8 +166,8 @@ jobs:
 
       - name: build
         env:
-          CC: gcc-11
-          CXX: g++-11
+          CC:  ${{ steps.compiler.outputs.CC  }}
+          CXX: ${{ steps.compiler.outputs.CXX }}
         run: |
           cmake . -DEXT_LIB_DIR=./ExtLibraries
           cmake --build .
