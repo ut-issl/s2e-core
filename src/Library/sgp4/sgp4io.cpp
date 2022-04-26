@@ -29,7 +29,9 @@
 #include "sgp4ext.h"   // for several misc routines
 #include "sgp4unit.h"  // for sgp4init and getgravconst
 
+#ifdef WIN32
 #pragma warning(disable : 4996)  // fopenエラー回避
+#endif
 
 #define pi 3.14159265358979323846
 
