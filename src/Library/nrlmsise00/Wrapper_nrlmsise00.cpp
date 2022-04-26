@@ -180,7 +180,7 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, 
 
   ConvertDecyearToDate(decyear, date);
 
-  input.doy = (decyear - (int)decyear) * 365.25;
+  input.doy = (int)((decyear - (int)decyear) * 365.25);
   input.year = 0; /* without effect */
   input.sec = date[3] * 60.0 * 60.0 + date[4] * 60.0 + date[5];
   input.alt = alt / 1000.0;

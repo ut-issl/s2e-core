@@ -56,7 +56,9 @@ endif()
 add_library(${NRLMSISE_LIB} STATIC ${NRLMSISE_TMP_DIR}/nrlmsise-00.c ${NRLMSISE_TMP_DIR}/nrlmsise-00_data.c)
 
 # build with 32bit
-if(NOT MSVC)
+if(MSVC)
+  target_compile_options(${NRLMSISE_LIB} PUBLIC "/MT")
+else()
   target_compile_options(${NRLMSISE_LIB} PUBLIC "-m32")
   target_link_options(${NRLMSISE_LIB} PRIVATE "-m32")
 endif()

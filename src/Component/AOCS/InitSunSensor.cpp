@@ -9,10 +9,9 @@
 SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_name, const SRPEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info) {
   IniAccess ss_conf(file_name);
-  const std::string st_ss_id = std::to_string(static_cast<long long>(ss_id));
-  const char* cs = st_ss_id.data();
-  char Section[30] = "SUNSENSOR";
-  strcat(Section, cs);
+  const char* sensor_name = "SUNSENSOR";
+  const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
+  const char* Section = section_tmp.c_str();
 
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
@@ -43,10 +42,9 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_n
 SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss_id, std::string file_name, const SRPEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info) {
   IniAccess ss_conf(file_name);
-  const std::string st_ss_id = std::to_string(static_cast<long long>(ss_id));
-  const char* cs = st_ss_id.data();
-  char Section[30] = "SUNSENSOR";
-  strcat(Section, cs);
+  const char* sensor_name = "SUNSENSOR";
+  const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
+  const char* Section = section_tmp.c_str();
 
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;

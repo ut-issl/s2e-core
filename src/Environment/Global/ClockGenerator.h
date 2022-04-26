@@ -23,5 +23,5 @@ class ClockGenerator {
 
  private:
   std::vector<ITickable*> components_;
-  unsigned long long timer_count_;
+  int timer_count_; // TODO consider size, unsigned
 };

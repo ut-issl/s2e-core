@@ -1,6 +1,5 @@
 #pragma once
 #include <map>
-#include <cstddef>
 
 const int kDefaultCmdBufferSize = 0xff;
 
@@ -20,8 +19,8 @@ class I2CPort {
   unsigned char ReadRegister(const unsigned char i2c_addr, const unsigned char reg_addr);
 
   // OBC->Component Command emulation
-  size_t WriteCommand(const unsigned char i2c_addr, const unsigned char* tx_data, const size_t length);
-  size_t ReadCommand(const unsigned char i2c_addr, unsigned char* rx_data, const size_t length);
+  unsigned char WriteCommand(const unsigned char i2c_addr, const unsigned char* tx_data, const unsigned char length);
+  unsigned char ReadCommand(const unsigned char i2c_addr, unsigned char* rx_data, const unsigned char length);
 
  private:
   unsigned char max_register_number_ = 0xff;

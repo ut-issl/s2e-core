@@ -18,10 +18,9 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
   std::string gs_ini_path = iniAccess.ReadString("SIM_SETTING", "gs_file");
   auto conf = IniAccess(gs_ini_path);
 
-  const std::string st_gs_id = std::to_string(static_cast<long long>(gs_id));
-  const char* cs = st_gs_id.data();
-  char Section[30] = "GS";
-  strcat(Section, cs);
+  const char* section_base = "GS";
+  const std::string section_tmp = section_base + std::to_string(static_cast<long long>(gs_id));
+  const char* Section = section_tmp.data();
 
   double latitude_deg = conf.ReadDouble(Section, "latitude");
   double longitude_deg = conf.ReadDouble(Section, "longitude");

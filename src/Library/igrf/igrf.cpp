@@ -289,9 +289,9 @@ void mfldc(double athe, double alon, double ar, double *ax, double *ay, double *
 // GIGRFの計算（G,D,P-GRFの区別なく計算）
 // WGS84モデルで計算
 void gigrf(int gen, double year) {
-  int maxod, i, n, m, l, k, ncol, nlin;
-  double y1, y2, yr1, yr2;
-  double tzero, dmy[3], cb[MxELM], cv[MxELM];
+  int i, n, m, l, k, ncol, nlin;
+  double y1, y2, yr1 = 0.0, yr2 = 0.0;
+  double dmy[3], cb[MxELM], cv[MxELM];
   //係数表指定
   // char path[]="igrf10.coef";
   // char file[]="igrf10.coef";
@@ -442,8 +442,6 @@ int TransMagaxisToECI(const double *mag, double *pos, double lonrad, double thet
 // Output	:	mag[3]	ECI座標での磁界の値[nT]
 void IgrfCalc(double decyear, double latrad, double lonrad, double alt, double side, double *mag) {
   static bool first_flg = true;
-
-  double f;
 
   if (first_flg == true) {
     // gigrf(10,decyear);	//ファイル読み込み
