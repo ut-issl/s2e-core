@@ -3,6 +3,7 @@
 #include <string.h>
 
 EXP::EXP(ClockGenerator* clock_gen, int port_id, OBC* obc) : ComponentBase(1000, clock_gen), ObcCommunicationBase(port_id, obc) { Initialize(); }
+EXP::EXP(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc) : ComponentBase(prescaler, clock_gen), ObcCommunicationBase(port_id, obc) { Initialize(); }
 
 int EXP::Initialize() {
   for (int i = 0; i < MAX_MEMORY_LEN; i++) {
