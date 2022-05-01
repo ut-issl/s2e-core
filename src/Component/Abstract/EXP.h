@@ -21,6 +21,7 @@
 class EXP : public ComponentBase, public ObcCommunicationBase, public IGPIOCompo {
  public:
   EXP(ClockGenerator* clock_gen, int port_id, OBC* obc);
+  EXP(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc);
   ~EXP();
 
  protected:
