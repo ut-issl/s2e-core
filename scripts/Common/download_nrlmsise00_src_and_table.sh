@@ -3,7 +3,7 @@ cd `dirname $0`
 
 #set variables
 DIR_NRLMSISE00=../../../ExtLibraries/nrlmsise00/
-URL_NRLMSISE00=https://ccmc.gsfc.nasa.gov/pub/modelweb/atmospheric/msis/nrlmsise00/nrlmsis00_c_version/
+URL_NRLMSISE00=git://git.linta.de/~brodo/nrlmsise-00.git
 URL_TABLE=ftp://ftp.agi.com/pub/DynamicEarthData/SpaceWeather-v1.2.txt
 
 mkdir -p $DIR_NRLMSISE00/table/
@@ -13,14 +13,12 @@ mkdir -p $DIR_NRLMSISE00/lib/
 
 # download source and space weather table for nrlmsise00 model
 curl $URL_TABLE > $DIR_NRLMSISE00/table/SpaceWeather.txt
-curl $URL_NRLMSISE00/makefile > $DIR_NRLMSISE00/src/makefile
-curl $URL_NRLMSISE00/nrlmsise-00.c > $DIR_NRLMSISE00/src/nrlmsise-00.c
-curl $URL_NRLMSISE00/nrlmsise-00.h > $DIR_NRLMSISE00/src/nrlmsise-00.h
-curl $URL_NRLMSISE00/nrlmsise-00_data.c > $DIR_NRLMSISE00/src/nrlmsise-00_data.c
-curl $URL_NRLMSISE00/nrlmsise-00_test.c > $DIR_NRLMSISE00/src/nrlmsise-00_test.c
+cd $DIR_NRLMSISE00
+git clone $URL_NRLMSISE00 src
+
 
 # build and make library
-cd $DIR_NRLMSISE00/src
+cd src
 # modify compile option to 32bit
 sed -i -e "/CFLAGS/s/-Wall/-m32 -Wall/" ./makefile
 make
