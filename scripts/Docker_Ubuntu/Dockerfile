@@ -78,4 +78,5 @@
 
 
     WORKDIR /root
+    RUN chmod 777 /home/s2e/work
     CMD service ssh start && /bin/bash
