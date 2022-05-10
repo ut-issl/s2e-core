@@ -42,6 +42,16 @@
   - **Exception**
     - Images for markdown document files are allowable when the file size is smaller than 200K Bytes.
 
+## Release style
+
+- We use [Semantic Versioning 2.0.0](https://semver.org/) as versioning style
+  - Basic version format is `<major>.<minor>.<patch>`(like `4.0.0`)
+  - Public API is declared in the code itself(currently, there is no definitive list)
+- All release should be tagged as `v<semver>`(like `v4.0.0`)
+- These tags also should be release on [GitHub Releases](https://github.com/ut-issl/s2e-core/releases)
+- Before S2E was released as OSS, a different versioning was adopted(missing patch version)
+  - These versions are aliased with tags in the corresponding semver style(`v2.0` -> `v2.0.0`)
+
 ## Documents
 
 - Documents for S2E are summarized in [s2e-documents](https://ut-issl.github.io/s2e-documents).
