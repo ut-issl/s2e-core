@@ -177,13 +177,12 @@ jobs:
           cmake . -DEXT_LIB_DIR=./ExtLibraries -D${{ matrix.build_bit }}
           cmake --build .
 
-      - name: move binary for run test(temporary)
+      - name: fix simulation config
+        working-directory: ./data/SampleSat/ini
         run: |
-          cp -r ./ExtLibraries ../
-          mkdir build
-          mv ./S2E ./build/
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
 
       - name: run simulation(SampleSat)
         working-directory: ./data/SampleSat
         run: |
-          ../../build/S2E
+          ../../S2E
