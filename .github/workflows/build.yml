@@ -177,7 +177,13 @@ jobs:
           cmake . -DEXT_LIB_DIR=./ExtLibraries -D${{ matrix.build_bit }}
           cmake --build .
 
+      - name: move binary for run test(temporary)
+        run: |
+          cp -r ./ExtLibraries ../
+          mkdir build
+          mv ./S2E ./build/
+
       - name: run simulation(SampleSat)
         working-directory: ./data/SampleSat
         run: |
-          ../../S2E
+          ../../build/S2E
