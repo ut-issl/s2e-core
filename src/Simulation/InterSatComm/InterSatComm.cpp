@@ -1,9 +1,7 @@
 #include "InterSatComm.h"
 
-InterSatComm::InterSatComm(const SimulationConfig * sim_config)
-{
-}
+#include <Library/utils/Macros.hpp>
 
-InterSatComm::~InterSatComm()
-{
-}
+InterSatComm::InterSatComm(const SimulationConfig* sim_config) { UNUSED(sim_config); }
+
+InterSatComm::~InterSatComm() {}

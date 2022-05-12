@@ -1,0 +1,49 @@
+name: check format
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    paths:
+      - '.github/workflows/check-format.yml'
+      - '.clang-format'
+      - 'src/**'
+
+jobs:
+  clang-format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: install clang-format
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format
+          clang-format --version
+
+      - name: check clang-format version
+        run: |
+          clang-format --version
+          md5sum "$(which git-clang-format)"
+          head "$(which git-clang-format)"
+
+      - name: check format(push)
+        if: github.event_name == 'push'
+        run: |
+          git-clang-format --commit HEAD^ --diff | tee format.patch
+
+      - name: check format(pull_request)
+        if: github.event_name == 'pull_request'
+        run: |
+          git-clang-format --commit ${{ github.event.pull_request.base.sha }} --diff | tee format.patch
+
+      - name: check
+        run: |
+          git apply --allow-empty format.patch
+          git status
+          git diff --exit-code

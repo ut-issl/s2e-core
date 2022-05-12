@@ -13,16 +13,15 @@ using namespace System::ServiceModel::Channels;
 // を行うクラス
 // IPCのためにマネージドなクラスにしたが……なんとかなった
 // gcrootを使うことでネイティブなクラスでの利用も可能
-ref class TMTCDriver
-{
-public:
+ref class TMTCDriver {
+ public:
   TMTCDriver(int port_id);
   void ReceiveCommand();
   void SendTelemetryIfAny();
-private:
-  ITCTMChannel^ tctm_if_;
+
+ private:
+  ITCTMChannel ^ tctm_if_;
   const unsigned char kPortId = 7;
 
   void Initialize();
 };
-

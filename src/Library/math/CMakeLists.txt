@@ -1,5 +1,6 @@
-cmake_minimum_required(VERSION 3.13)
 project(MATH)
+cmake_minimum_required(VERSION 3.13)
+
 add_library(${PROJECT_NAME} STATIC
   GlobalRand.cpp
   NormalRand.cpp
@@ -8,13 +9,7 @@ add_library(${PROJECT_NAME} STATIC
   Ran0.cpp
   Ran1.cpp
   Vector.cpp
+  s2e_math.cpp
 )
-# Compile option
-if(MSVC)
-  target_compile_options(${PROJECT_NAME} PUBLIC "/W4")
-  target_compile_options(${PROJECT_NAME} PUBLIC "/source-charset:utf-8")
-else()
-  target_compile_options(${PROJECT_NAME} PUBLIC "-Wall")
-  set(CMAKE_CXX_FLAGS "-m32 -rdynamic -Wall -g")
-  set(CMAKE_C_FLAGS "-m32 -rdynamic -Wall -g")
-endif()
+
+include(../../../common.cmake)

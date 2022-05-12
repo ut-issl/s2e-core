@@ -8,12 +8,12 @@
 #define QUANTIZATION_H_
 
 //!入力
-//!continuous_num : 連続する実数(double)
-//!resolution : 解像度
+//! continuous_num : 連続する実数(double)
+//! resolution : 解像度
 //!出力
-//quantized_num : 量子化された数(double)
+// quantized_num : 量子化された数(double)
 
 double quantization(double continuous_num, double resolution);
 float quantization_f(double continuous_num, double resolution);
 
-#endif // QUANTIZATION_H_
+#endif  // QUANTIZATION_H_

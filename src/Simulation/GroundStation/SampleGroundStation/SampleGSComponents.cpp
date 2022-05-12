@@ -1,8 +1,8 @@
 #include "SampleGSComponents.h"
 
-SampleGSComponents::SampleGSComponents(const SimulationConfig* config)
-  :config_(config)
-{
+#include <Interface/InitInput/IniAccess.h>
+
+SampleGSComponents::SampleGSComponents(const SimulationConfig* config) : config_(config) {
   IniAccess iniAccess = IniAccess(config_->ini_base_fname_);
 
   std::string ant_ini_path = iniAccess.ReadString("COMPONENTS_FILE", "ant_gs_file");
@@ -13,14 +13,12 @@ SampleGSComponents::SampleGSComponents(const SimulationConfig* config)
   gscalculator_ = new GScalculator(InitGScalculator(gscalculator_ini_path));  // GScalcはGSごとに固有のものなのでidは不要か
 }
 
-SampleGSComponents::~SampleGSComponents()
-{
+SampleGSComponents::~SampleGSComponents() {
   delete ant_;
   delete gscalculator_;
 }
 
-void SampleGSComponents::CompoLogSetUp(Logger& logger)
-{
+void SampleGSComponents::CompoLogSetUp(Logger& logger) {
   // logger.AddLoggable(ant_);
   logger.AddLoggable(gscalculator_);
 }

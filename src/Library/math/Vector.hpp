@@ -7,18 +7,16 @@
 #ifndef VECTOR_HPP_
 #define VECTOR_HPP_
 
-#include <cstddef> // for size_t
-#include <iostream> // for ostream, cout
+#include <cstddef>   // for size_t
+#include <iostream>  // for ostream, cout
 
 #define dot inner_product
 #define cross outer_product
 
-namespace libra
-{
-template<size_t N, typename T = double>
-class Vector
-{
-public:
+namespace libra {
+template <size_t N, typename T = double>
+class Vector {
+ public:
   //! コンストラクタ
   /*!
     ベクトル要素の初期化を一切行わないコンストラクタ。
@@ -109,7 +107,8 @@ public:
   Vectorの負反転を行う。
   */
   Vector<N, T> operator-() const;
-private:
+
+ private:
   //! 要素格納配列
   T vector_[N];
 };
@@ -120,7 +119,7 @@ private:
   \param v 設定対象Vector
   \param n 設定値
 */
-template<size_t N, typename T>
+template <size_t N, typename T>
 void fill_up(Vector<N, T>& v, const T& n);
 
 //! 要素出力関数
@@ -134,10 +133,8 @@ void fill_up(Vector<N, T>& v, const T& n);
   \param delimiter 要素の区切り文字(デフォルトはtab)
   \param stream 出力先(デフォルトはcout)
 */
-template<size_t N, typename T>
-void print(const Vector<N, T>& v,
-           char delimiter = '\t',
-           std::ostream& stream = std::cout);
+template <size_t N, typename T>
+void print(const Vector<N, T>& v, char delimiter = '\t', std::ostream& stream = std::cout);
 
 //! Vector加算演算子
 /*!
@@ -146,9 +143,8 @@ void print(const Vector<N, T>& v,
   \param rhs +演算子の右辺
   \return 加算結果
 */
-template<size_t N, typename T>
-const Vector<N, T> operator+(const Vector<N, T>& lhs,
-                             const Vector<N, T>& rhs);
+template <size_t N, typename T>
+const Vector<N, T> operator+(const Vector<N, T>& lhs, const Vector<N, T>& rhs);
 
 //! Vector減算演算子
 /*!
@@ -157,9 +153,8 @@ const Vector<N, T> operator+(const Vector<N, T>& lhs,
   \param rhs -演算子の右辺
   \return 減算結果
 */
-template<size_t N, typename T>
-const Vector<N, T> operator-(const Vector<N, T>& lhs,
-                             const Vector<N, T>& rhs);
+template <size_t N, typename T>
+const Vector<N, T> operator-(const Vector<N, T>& lhs, const Vector<N, T>& rhs);
 
 //! Vector係数倍演算子
 /*!
@@ -168,9 +163,8 @@ const Vector<N, T> operator-(const Vector<N, T>& lhs,
   \param rhs Vector
   \return 乗算結果
 */
-template<size_t N, typename T>
-const Vector<N, T> operator*(const T& lhs,
-                             const Vector<N, T>& rhs);
+template <size_t N, typename T>
+const Vector<N, T> operator*(const T& lhs, const Vector<N, T>& rhs);
 
 //! 内積計算関数
 /*!
@@ -179,9 +173,8 @@ const Vector<N, T> operator*(const T& lhs,
   \param rhs 右辺
   \return 内積計算結果
 */
-template<size_t N, typename T>
-const T inner_product(const Vector<N, T>& lhs,
-                      const Vector<N, T>& rhs);
+template <size_t N, typename T>
+const T inner_product(const Vector<N, T>& lhs, const Vector<N, T>& rhs);
 
 //! 外積計算結果
 /*!
@@ -190,9 +183,8 @@ const T inner_product(const Vector<N, T>& lhs,
   \param rhs 右辺
   \return 外積計算結果
 */
-template<typename T>
-const Vector<3, T> outer_product(const Vector<3, T>& lhs,
-                                 const Vector<3, T>& rhs);
+template <typename T>
+const Vector<3, T> outer_product(const Vector<3, T>& lhs, const Vector<3, T>& rhs);
 
 //! ノルム計算関数
 /*!
@@ -200,7 +192,7 @@ const Vector<3, T> outer_product(const Vector<3, T>& lhs,
   \param v 計算対象Vector
   \return ノルム計算結果
 */
-template<size_t N>
+template <size_t N>
 double norm(const Vector<N, double>& v);
 
 //! Vector正規化関数
@@ -209,7 +201,7 @@ double norm(const Vector<N, double>& v);
   \param v 正規化対象Vector
   \return 正規化結果
 */
-template<size_t N>
+template <size_t N>
 Vector<N, double>& normalize(Vector<N, double>& v);
 
 //! ベクトル間角度計算関数
@@ -218,7 +210,7 @@ Vector同士の角度を計算する
 \param v1,v2 計算対象Vector
 \return 角度計算結果
 */
-template<size_t N>
+template <size_t N>
 double angle(const Vector<N, double>& v1, const Vector<N, double>& v2);
 
 //! 直交座標->球座標変換
@@ -247,15 +239,15 @@ Vector<3, double> ortho2lonlat(const Vector<3, double>& ortho);
 
 //! Generate one unit vector orthogonal to the given 3D vector
 /*!
-  NOTE: Vectors orthogonal to the other vector have rotational degree of freedom, which are determined arbitrarily in this function.
-  \param v Given vector
-  \return v_ortho Generated unit vector that is orthogonal to v
+  NOTE: Vectors orthogonal to the other vector have rotational degree of
+  freedom, which are determined arbitrarily in this function. \param v Given
+  vector \return v_ortho Generated unit vector that is orthogonal to v
 */
 Vector<3, double> GenerateOrthoUnitVector(const Vector<3, double>& v);
 
-} //libra
+}  // namespace libra
 
-#include "Vector_ifs.hpp" // inline function definisions.
-#include "Vector_tfs.hpp" // template function definisions.
+#include "Vector_ifs.hpp"  // inline function definisions.
+#include "Vector_tfs.hpp"  // template function definisions.
 
-#endif //VECTOR_HPP_
+#endif  // VECTOR_HPP_

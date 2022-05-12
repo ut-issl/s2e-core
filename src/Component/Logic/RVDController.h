@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../Library/math/Vector.hpp"
-#include "../../Library/math/Quaternion.hpp"
-using namespace libra;
+#include <Library/math/Quaternion.hpp>
+#include <Library/math/Vector.hpp>
 
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
+
 #include "PIDController.h"
 
 const int MX = 0;
@@ -14,9 +14,8 @@ const int PY = 3;
 const int MZ = 4;
 const int PZ = 5;
 
-class RVDController :public ILoggable
-{
-public:
+class RVDController : public ILoggable {
+ public:
   RVDController(double dt);
   ~RVDController();
 
@@ -26,7 +25,7 @@ public:
 
   void SetPositionGain(double p, double d, double i);
 
-  Vector<2> CalcCurrent(Vector<3> relpos_now_i, Quaternion q1_ib, Quaternion q2_ib);
+  Vector<2> CalcCurrent();  // FIXME: Do we need this?
 
   // 3軸±方向に必要なスラスト
   Vector<6> CalcThrust(Vector<3> relpos_now_i, Quaternion q_i2b);
@@ -43,7 +42,7 @@ public:
   virtual std::string GetLogHeader() const;
   virtual std::string GetLogValue() const;
 
-private:
+ private:
   double acos_tolerant(double x);
   Vector<3> thrust_b_;
   Vector<3> torque_;
@@ -63,4 +62,3 @@ private:
 
   Vector<6> CalcThrustEach(Vector<3> thrusts);
 };
-

@@ -1,38 +1,42 @@
 #ifndef __SRPEnvironment_h__
 #define __SRPEnvironment_h__
-#include "../../Library/math/Vector.hpp"
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Environment/Local/LocalCelestialInformation.h>
+#include <Interface/LogOutput/ILoggable.h>
+
+#include <Library/math/Vector.hpp>
+
 using libra::Vector;
 
-class SRPEnvironment : public ILoggable
-{
-public:
+class SRPEnvironment : public ILoggable {
+ public:
   bool IsCalcEnabled = true;
 
-  SRPEnvironment();																//デフォルトコンストラクタ
-  void UpdateAllStates(Vector<3>& earth_position_b, Vector<3>& sun_position_b);	//状態を更新、引数は地球中心までのベクトルと太陽中心までのベクトル、単位はm
-  double CalcTruePressure() const;														//蝕も考慮した太陽輻射圧を取得
-  double CalcPowerDensity() const;                  //Get solar power per unit area considering eclipse [W/m^2]
-  double GetPressure() const;															//pressure_を取得(デバッグ用)
-  double GetSolarConstant() const;                  //Get solar constant value [W/m^2]
-  inline Vector<3> GetSunDirectionFromSC_b() const{return d_sc2sun_b_;}
-  double GetShadowFunction() const;                 //Get Shadow function
-  inline bool GetIsEclipsed() const { return(shadow_function_ >= 1.0 ? false : true); } //Returns true if the shadow function is less than 1
+  SRPEnvironment(LocalCelestialInformation* local_celes_info);  // Default constructor
+  virtual ~SRPEnvironment() {}
+  void UpdateAllStates();
+  void UpdatePressure();
+  double CalcTruePressure() const;      // Obtaining solar radiation pressure that
+                                        // takes into account eclipse [N/m^2]
+  double CalcPowerDensity() const;      // Get solar power per unit area considering eclipse [W/m^2]
+  double GetPressure() const;           // Get solar pressure without eclipse effect [N/m^2]
+  double GetSolarConstant() const;      // Get solar constant value [W/m^2]
+  double GetShadowCoefficient() const;  // Get Shadow function
+  inline bool GetIsEclipsed() const { return (shadow_coefficient_ >= 1.0 ? false : true); }  // Returns true if the shadow function is less than 1
 
-  virtual std::string GetLogHeader() const;													//ログofヘッダー
-  virtual std::string GetLogValue() const;														//ログof値
+  virtual std::string GetLogHeader() const;  // log of header
+  virtual std::string GetLogValue() const;   // log of value
 
-private:
-  double pressure_;																//太陽輻射定数、単位はN/m^2
-  double astronomical_unit_;														//1天文単位、単位はm
-  double c_;																		//光速、単位はm/s
-  double solar_constant_;															//太陽定数、単位はW/m^2
-  double r_earth_;																//地球半径、単位はm
-  double r_sun_;																	//太陽半径、単位はm
-  Vector<3> d_sc2sun_b_;  //Direction Vector from SC to Sun in the body frame
-  double shadow_function_ = 1.0;                                     //shadow function
+ private:
+  double pressure_;                  // solar radiation pressure [N/m^2]
+  double solar_constant_;            // solar constant [W/m^2]
+                                     // TODO: This value is not a constant value in real. We need to change the value depends on sun activity.
+  double shadow_coefficient_ = 1.0;  // shadow function
+  double sun_radius_m_;
+  std::string shadow_source_name_;
 
-  void CalcShadowFunction(double a, double b, double c, double x, double y);
+  LocalCelestialInformation* local_celes_info_;
+
+  void CalcShadowCoefficient(std::string shadow_source_name);
 };
 
 #endif /* SRPEnvironment_h */

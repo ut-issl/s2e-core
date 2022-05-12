@@ -1,22 +1,20 @@
 #pragma once
 
-#include <vector>
+#include <Library/math/MatVec.hpp>
+#include <Library/math/Quaternion.hpp>
 #include <iterator>
-
-#include "../../Library/math/Quaternion.hpp"
-#include "../../Library/math/MatVec.hpp"
-using libra::Vector;
-using libra::Quaternion;
+#include <vector>
 using libra::Matrix;
+using libra::Quaternion;
+using libra::Vector;
 
-#include "../../Interface/LogOutput/ILoggable.h"
+#include <Interface/LogOutput/ILoggable.h>
 
 class UWBSensor;
 using uwbvec = std::vector<UWBSensor*>;
 
-class UWBEstimator : public ILoggable
-{
-public:
+class UWBEstimator : public ILoggable {
+ public:
   UWBEstimator(double dt, double Mt, double Mc, uwbvec uwb_t, uwbvec uwb_c);
   ~UWBEstimator();
 
@@ -37,7 +35,7 @@ public:
   std::string GetLogHeader() const;
   std::string GetLogValue() const;
 
-private:
+ private:
   double Rinf = 1000000;
   Matrix<12, 6> H;
   Matrix<6, 12> K;
@@ -49,7 +47,7 @@ private:
   Vector<6> x, Fcontrol_i;
   Vector<12> hx;
   Vector<12> lastObservation;
-  //Vector<3> Le, Ve; // 相対位置・速度ベクトルの推定値
+  // Vector<3> Le, Ve; // 相対位置・速度ベクトルの推定値
   double dt;
   double sigma_Q_tf, sigma_Q_cf;
   double Mc, Mt;
@@ -62,6 +60,4 @@ private:
   void SetH();
 
   double CalcDeviation(double distance);
-
 };
-

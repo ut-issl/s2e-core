@@ -1,23 +1,26 @@
-cmake_minimum_required(VERSION 3.13)
 project(DYNAMICS)
+cmake_minimum_required(VERSION 3.13)
+
 add_library(${PROJECT_NAME} STATIC
-  Orbit/EarthCenteredOrbit.cpp
-  Orbit/SimpleCircularOrbit.cpp
+  Orbit/Orbit.cpp
+  Orbit/Sgp4OrbitPropagation.cpp
+  Orbit/Rk4OrbitPropagation.cpp
   Orbit/RelativeOrbit.cpp
+  Orbit/KeplerOrbitPropagation.cpp
+  Orbit/EnckeOrbitPropagation.cpp
+  Orbit/InitOrbit.cpp
+
   Thermal/Node.cpp
   Thermal/Temperature.cpp
+  Thermal/InitNode.cpp
+  Thermal/InitTemperature.cpp
+
+  Attitude/Attitude.cpp
   Attitude/AttitudeRK4.cpp
   Attitude/ControlledAttitude.cpp
+  Attitude/InitAttitude.cpp
+
   Dynamics.cpp
-  ../Interface/InitInput/Init_Attitude.cpp
-  ../Interface/InitInput/Init_Orbit.cpp
 )
-# Compile option
-if(MSVC)
-  target_compile_options(${PROJECT_NAME} PUBLIC "/W4")
-	target_compile_options(${PROJECT_NAME} PUBLIC "/source-charset:utf-8")
-else()
-  target_compile_options(${PROJECT_NAME} PUBLIC "-Wall")
-  set(CMAKE_CXX_FLAGS "-m32 -rdynamic -Wall -g")
-  set(CMAKE_C_FLAGS "-m32 -rdynamic -Wall -g")
-endif()
+
+include(../../common.cmake)

@@ -1,68 +1,14 @@
+project(INI_ACC)
 cmake_minimum_required(VERSION 3.13)
-project(INI_IN)
-add_library(${PROJECT_NAME} STATIC
-  Initialize.h
-  # Global Environment
-  Init_SimTime.cpp
-  Init_Log.cpp
-  Init_CelesInfo.cpp
-  Init_HipCatalogue.cpp
-  Init_GnssSatellites.cpp
-  # Local Environment
-  Init_Environment.cpp
-  # Dynamics
-  #Init_Attitude.cpp
-  #Init_Orbit.cpp
-  InitThermal/Init_Node.cpp
-  InitThermal/Init_Temperature.cpp
-  # Disturbance
-  #Init_Disturbance.cpp
-  # Structure
-  Init_Structure.cpp
 
-  Init_MCSim.cpp
-
-  #InitComponent/InitGyro.cpp
-  #InitComponent/InitANT.cpp
-  #InitComponent/InitBAT.cpp
-  #InitComponent/InitEMDS.cpp
-  #InitComponent/InitGScalculator.cpp
-  #InitComponent/InitMagSensor.cpp
-  #InitComponent/InitMagTorquer.cpp
-  #InitComponent/InitRWModel.cpp
-  #InitComponent/InitSAP.cpp
-  #InitComponent/InitSimpleThruster.cpp
-  #InitComponent/InitSTT.cpp
-  #InitComponent/InitSunSensor.cpp
-  #InitComponent/initTelescope.cpp
-  #InitComponent/InitUWBSensor.cpp
-  #InitComponent/InitGNSSReceiver.cpp
-  #InitPower/CsvScenarioInterface.cpp
-  #  Init_COSMOSWrapper.cpp
-#  Init_HardwareMessage.cpp
-)
-# Compile option
-if(MSVC)
-    target_compile_options(${PROJECT_NAME} PUBLIC "/W4")
-	target_compile_options(${PROJECT_NAME} PUBLIC "/source-charset:utf-8")
-else()
-    target_compile_options(${PROJECT_NAME} PUBLIC "-Wall")
-    set(CMAKE_CXX_FLAGS "-m32 -rdynamic -Wall -g")
-    set(CMAKE_C_FLAGS "-m32 -rdynamic -Wall -g")
-endif()
-
-## ini access
 if(WIN32)
-  add_library(INI_ACC STATIC IniAccess.cpp)
+  add_library(${PROJECT_NAME} STATIC
+    IniAccess.cpp
+  )
 else()
-  add_library(INI_ACC STATIC IniAccessUnix.cpp)
+  add_library(${PROJECT_NAME} STATIC
+    IniAccessUnix.cpp
+  )
 endif()
-# Compile option
-if(MSVC)
-  target_compile_options(INI_ACC PUBLIC "/W4")
-	target_compile_options(INI_ACC PUBLIC "/source-charset:utf-8")
-else()
-  target_compile_options(INI_ACC PUBLIC -Wall -g -m32)
-  set(CMAKE_CXX_FLAGS "-m32 -rdynamic -Wall -g")
-  set(CMAKE_C_FLAGS "-m32 -rdynamic -Wall -g")
-endif()
+
+include(../../../common.cmake)
