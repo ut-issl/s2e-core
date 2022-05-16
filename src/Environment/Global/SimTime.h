@@ -102,6 +102,7 @@ class SimTime : public ILoggable {
   std::chrono::system_clock::time_point clock_start_time_millisec_;
   // chrono::system_clock::time_point clock_elapsed_time_millisec_;
   // //実時間でのシミュレーション実行時間
+  std::chrono::system_clock::time_point clock_last_time_completed_step_in_time_;
 
   //固定値
   double end_sec_;   // Time from start of simulation to end
@@ -125,6 +126,9 @@ class SimTime : public ILoggable {
   double start_sec_;
   double sim_speed_;  // The speed of the simulation relative to real time (if
                       // negative, real time is not taken into account)
+  double time_exceeds_continuously_limit_sec_; // Maximum duration to allow
+                                               // actual step_sec to be larger
+                                               // than specified continuously
 
   void InitializeState();
   void AssertTimeStepParams();
