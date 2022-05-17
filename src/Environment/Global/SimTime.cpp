@@ -86,7 +86,7 @@ void SimTime::UpdateTime(void) {
     if (toWaitTime <= 0) {
       // When the execution time is larger than specified step_sec
 
-      int exceeded_duration_ms = chrono::duration_cast<chrono::milliseconds>(clk.now() - clock_last_time_completed_step_in_time_).count();
+      int exceeded_duration_ms = (int)chrono::duration_cast<chrono::milliseconds>(clk.now() - clock_last_time_completed_step_in_time_).count();
       if (exceeded_duration_ms > time_exceeds_continuously_limit_sec_ * 1000) {
         // Skip time and warn only when execition time exceeds continuously for long time
           
