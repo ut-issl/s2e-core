@@ -126,9 +126,7 @@ class SimTime : public ILoggable {
   double start_sec_;
   double sim_speed_;  // The speed of the simulation relative to real time (if
                       // negative, real time is not taken into account)
-  double time_exceeds_continuously_limit_sec_; // Maximum duration to allow
-                                               // actual step_sec to be larger
-                                               // than specified continuously
+  double time_exceeds_continuously_limit_sec_; // Maximum duration to allow actual step_sec to be larger than specified continuously
 
   void InitializeState();
   void AssertTimeStepParams();

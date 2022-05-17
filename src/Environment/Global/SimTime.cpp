@@ -84,17 +84,16 @@ void SimTime::UpdateTime(void) {
     int toWaitTime =
         (int)(elapsed_time_sec_ * 1000 - chrono::duration_cast<chrono::milliseconds>(clk.now() - clock_start_time_millisec_).count() * sim_speed_);
     if (toWaitTime <= 0) {
-      // PCの処理速度が足りていない場合、この分岐に入る
+      // When the execution time is larger than specified step_sec
 
       int exceeded_duration_ms = chrono::duration_cast<chrono::milliseconds>(clk.now() - clock_last_time_completed_step_in_time_).count();
       if (exceeded_duration_ms > time_exceeds_continuously_limit_sec_ * 1000) {
-        // Actual step_sec is larger than specified for long time
+        // Skip time and warn only when execition time exceeds continuously for long time
           
-        cout << "Error: the specified step_sec is too small for this "
-                "computer.\r\n";
+        cout << "Error: the specified step_sec is too small for this computer.\r\n";
 
-        // カウントアップしてきた経過時刻を強制的に実際の経過時刻に合わせる
-        // 意図としては、ブレークポイントからの復帰後に一瞬でリアルタイムに追いつかせるため
+        // Forcibly set elapsed_tim_sec_ as actual elapced time 
+        // Reason: to catch up with real time when resume from a breakpoint
         elapsed_time_sec_ = (chrono::duration_cast<chrono::duration<double, ratio<1, 1>>>(clk.now() - clock_start_time_millisec_).count() * sim_speed_);
 
         clock_last_time_completed_step_in_time_ = clk.now();
