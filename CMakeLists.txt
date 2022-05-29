@@ -10,6 +10,7 @@ cmake_minimum_required(VERSION 3.13)
 # build config
 option(USE_HILS "Use HILS" OFF)
 option(USE_C2A "Use C2A" OFF)
+option(BUILD_64BIT "Build 64bit" OFF)
 
 # preprocessor
 if(WIN32)
@@ -32,6 +33,7 @@ endif()
 
 ## options to use C2A
 if(USE_C2A)
+  option(BUILD_64BIT OFF) # force to build with 32bit
   set(C2A_DIR ${FLIGHT_SW_DIR}/${C2A_NAME})
   message("C2A dir: ${C2A_DIR}")
   add_definitions(-DUSE_C2A)

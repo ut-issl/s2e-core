@@ -20,10 +20,11 @@ else()
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wpedantic")
   target_compile_options(${PROJECT_NAME} PUBLIC "-rdynamic")
 
-  # 32bit
-  target_compile_options(${PROJECT_NAME} PUBLIC "-m32")
-  target_link_options(${PROJECT_NAME} PUBLIC "-m32")
-
+  if(NOT BUILD_64BIT)
+    # 32bit
+    target_compile_options(${PROJECT_NAME} PUBLIC "-m32")
+    target_link_options(${PROJECT_NAME} PUBLIC "-m32")
+  endif()
   # debug
   target_compile_options(${PROJECT_NAME} PUBLIC "-g")
 endif()
