@@ -49,8 +49,10 @@ add_library(${NRLMSISE_LIB} STATIC ${NRLMSISE_TMP_DIR}/nrlmsise-00.c ${NRLMSISE_
 if(MSVC)
   target_compile_options(${NRLMSISE_LIB} PUBLIC "/MT")
 else()
-  target_compile_options(${NRLMSISE_LIB} PUBLIC "-m32")
-  target_link_options(${NRLMSISE_LIB} PRIVATE "-m32")
+  if(NOT BUILD_64BIT)
+    target_compile_options(${NRLMSISE_LIB} PUBLIC "-m32")
+    target_link_options(${NRLMSISE_LIB} PRIVATE "-m32")
+  endif()
 endif()
 
 # install
@@ -63,9 +65,15 @@ install(EXPORT nrlmsise00-config
 )
 
 ## install library
+if(BUILD_64BIT)
+  set(NRLMSISE_LIB_DIR lib_64bit)
+else()
+  set(NRLMSISE_LIB_DIR lib)
+endif()
+
 install(TARGETS ${NRLMSISE_LIB}
   EXPORT nrlmsise00-config
-  ARCHIVE DESTINATION ${NRLMSISE_INSTALL_DIR}/lib
+  ARCHIVE DESTINATION ${NRLMSISE_INSTALL_DIR}/${NRLMSISE_LIB_DIR}
 )
 
 ## install source
