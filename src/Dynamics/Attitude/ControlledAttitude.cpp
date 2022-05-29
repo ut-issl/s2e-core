@@ -10,7 +10,7 @@ using namespace std;
 #define THRESHOLD_CA cos(30.0 / 180.0 * libra::pi)  // fix me
 
 ControlledAttitude::ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2b,
-                                       const Vector<3> pointing_t_b, const Vector<3> pointing_sub_t_b,
+                                       const Vector<3> pointing_t_b, const Vector<3> pointing_sub_t_b, const Matrix<3, 3>& inertia_tensor_kgm2,
                                        const LocalCelestialInformation* local_celes_info, const Orbit* orbit, const std::string& sim_object_name)
     : Attitude(sim_object_name),
       main_mode_(main_mode),
@@ -20,6 +20,9 @@ ControlledAttitude::ControlledAttitude(const AttCtrlMode main_mode, const AttCtr
       local_celes_info_(local_celes_info),
       orbit_(orbit) {
   quaternion_i2b_ = quaternion_i2b;
+  inertia_tensor_kgm2_ = inertia_tensor_kgm2;
+  inv_inertia_tensor_ = invert(inertia_tensor_kgm2_);
+
   Initialize();
 }
 
