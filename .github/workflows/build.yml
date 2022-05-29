@@ -142,13 +142,13 @@ jobs:
           path: ExtLibraries
 
       - name: build extlib
-        #if: steps.cache-extlib.outputs.cache-hit != 'true'
+        if: steps.cache-extlib.outputs.cache-hit != 'true'
         working-directory: ./ExtLibraries
         run: |
           cmake . -DEXT_LIB_DIR="$(pwd)" -D${{ matrix.build_option }}
           cmake --build .
       - name: install extlib
-        #if: steps.cache-extlib.outputs.cache-hit != 'true'
+        if: steps.cache-extlib.outputs.cache-hit != 'true'
         working-directory: ./ExtLibraries
         run: |
           cmake --install .
