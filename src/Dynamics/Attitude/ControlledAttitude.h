@@ -38,10 +38,13 @@ class ControlledAttitude : public Attitude {
 
  private:
   AttCtrlMode main_mode_;
-  AttCtrlMode sub_mode_;               // for control around pointing direction
-  libra::Vector<3> pointing_t_b_;      // Pointing target on body frame
-  libra::Vector<3> pointing_sub_t_b_;  // Pointing sub target on body frame
-
+  AttCtrlMode sub_mode_;                   //!< for control around pointing direction
+  libra::Vector<3> pointing_t_b_;          //!< Pointing target on body frame
+  libra::Vector<3> pointing_sub_t_b_;      //!< Pointing sub target on body frame
+  double previous_calc_time_s_ = -1.0;     //!< previous time of velocity calculation
+  libra::Quaternion prev_quaternion_i2b_;  //!< previous quaternion
+  libra::Vector<3> prev_omega_b_rad_s_;    //!< previous angular velocity
+  
   // Inputs
   const LocalCelestialInformation* local_celes_info_;
   const Orbit* orbit_;
@@ -50,6 +53,8 @@ class ControlledAttitude : public Attitude {
   void Initialize(void);
   Vector<3> CalcTargetDirection(AttCtrlMode mode);
   void PointingCtrl(const Vector<3> main_direction_i, const Vector<3> sub_direction_i);
+  void CalcAngularVelocity(const double current_time_s);
+  void CalcTorque(const double current_time_s);
   Matrix<3, 3> CalcDCM(const Vector<3> main_direction, const Vector<3> sub_direction);
 };
 
