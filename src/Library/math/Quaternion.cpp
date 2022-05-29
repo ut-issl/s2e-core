@@ -94,6 +94,14 @@ Quaternion operator*(const Quaternion& lhs, const Vector<3>& rhs) {
   return temp;
 }
 
+Quaternion operator*(const double& lhs, const Quaternion& rhs) {
+  Quaternion temp;
+  for (size_t i = 0; i < 4; i++) {
+    temp[i] = lhs * rhs[i];
+  }
+  return temp;
+}
+
 Quaternion Quaternion::normalize(void) {
   double n = 0.0;
   for (int i = 0; i < 4; ++i) {
