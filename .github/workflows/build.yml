@@ -157,15 +157,12 @@ jobs:
         run: |
           ls cspice
           ls cspice/cspice_unix
-          ls cspice/cspice_unix_64bit
           ls cspice/include
           ls cspice/generic_kernels
           ls nrlmsise00
           ls nrlmsise00/table
           ls nrlmsise00/lib
           ls nrlmsise00/lib/libnrlmsise00.a
-          ls nrlmsise00/lib_64bit
-          ls nrlmsise00/lib_64bit/libnrlmsise00.a
           ls nrlmsise00/src
 
       - name: build
