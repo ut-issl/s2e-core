@@ -14,7 +14,7 @@ if(WIN32)
 else()
   # Linux
   if(BUILD_64BIT)
-    set(CSPICE_LIB_DEST "cspice_unix_64bit")
+    set(CSPICE_LIB_DEST "cspice_unix64")
   else()
     set(CSPICE_LIB_DEST "cspice_unix")
   endif()

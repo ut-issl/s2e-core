@@ -66,7 +66,7 @@ install(EXPORT nrlmsise00-config
 
 ## install library
 if(BUILD_64BIT)
-  set(NRLMSISE_LIB_DIR lib_64bit)
+  set(NRLMSISE_LIB_DIR lib64)
 else()
   set(NRLMSISE_LIB_DIR lib)
 endif()

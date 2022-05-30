@@ -106,7 +106,7 @@ elseif(UNIX)
   if(BUILD_64BIT)
     find_library(CSPICE_LIB
       NAMES cspice.a csupport.a
-      PATHS ${CSPICE_DIR}/cspice_unix_64bit/lib)
+      PATHS ${CSPICE_DIR}/cspice_unix64/lib)
   else()
     find_library(CSPICE_LIB
       NAMES cspice.a csupport.a
@@ -133,7 +133,7 @@ elseif(UNIX)
   if(BUILD_64BIT)
     find_library(NRLMSISE00_LIB
       NAMES libnrlmsise00.a
-      PATHS ${NRLMSISE00_DIR}/lib_64bit)
+      PATHS ${NRLMSISE00_DIR}/lib64)
   else()
     find_library(NRLMSISE00_LIB
       NAMES libnrlmsise00.a
