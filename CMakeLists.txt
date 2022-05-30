@@ -106,7 +106,7 @@ elseif(UNIX)
   else()
     set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_unix/lib)
   endif()
-else
+endif()
 
 if(WIN32)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
