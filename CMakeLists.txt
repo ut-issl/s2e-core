@@ -99,27 +99,27 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 ## cspice library
 if(CYGWIN)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".so" ".a")
-  find_library(CSPICE_LIB
-    NAMES cspice.a csupport.a
-    PATHS ${CSPICE_DIR}/cspice_cygwin/lib)
+  set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_cygwin/lib)
 elseif(UNIX)
   if(BUILD_64BIT)
-    find_library(CSPICE_LIB
-      NAMES cspice.a csupport.a
-      PATHS ${CSPICE_DIR}/cspice_unix64/lib)
+    set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_unix64/lib)
   else()
-    find_library(CSPICE_LIB
-      NAMES cspice.a csupport.a
-      PATHS ${CSPICE_DIR}/cspice_unix/lib)
+    set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_unix/lib)
   endif()
-elseif(WIN32)
+endif()
+
+if(WIN32)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
   find_library(CSPICE_LIB
     NAMES cspice.lib csupport.lib
     PATHS ${CSPICE_DIR}/cspice_msvs/lib)
+else()
+  find_library(CSPICE_LIB
+    NAMES cspice.a csupport.a
+    PATHS ${CSPICE_LIB_DIR})
 endif()
 if(NOT CSPICE_LIB)
-  message(FATAL_ERROR "cspice not found in ${EXT_LIB_DIR}")
+  message(FATAL_ERROR "cspice not found in ${CSPICE_LIB_DIR}")
 endif()
 #target_link_libraries(${PROJECT_NAME} ${CSPICE_LIB})
 

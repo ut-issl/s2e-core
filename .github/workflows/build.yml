@@ -138,7 +138,7 @@ jobs:
         id: cache-extlib
         uses: actions/cache@v3
         with:
-          key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}
+          key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}-${{ matrix.build_option }}
           path: ExtLibraries
 
       - name: build extlib
@@ -156,13 +156,13 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           ls cspice
-          ls cspice/cspice_unix
+          ls cspice/cspice_unix*
           ls cspice/include
           ls cspice/generic_kernels
           ls nrlmsise00
           ls nrlmsise00/table
-          ls nrlmsise00/lib
-          ls nrlmsise00/lib/libnrlmsise00.a
+          ls nrlmsise00/lib*
+          ls nrlmsise00/lib*/libnrlmsise00.a
           ls nrlmsise00/src
 
       - name: build
