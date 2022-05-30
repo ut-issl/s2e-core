@@ -156,7 +156,7 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           ls cspice
-          ls cspice/cspice_unix
+          ls cspice/cspice_unix*
           ls cspice/include
           ls cspice/generic_kernels
           ls nrlmsise00
