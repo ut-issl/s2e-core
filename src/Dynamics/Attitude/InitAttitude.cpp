@@ -35,7 +35,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     Vector<3> pointing_t_b, pointing_sub_t_b;
     ini_file_ca.ReadVector(section_ca_, "pointing_t_b", pointing_t_b);
     ini_file_ca.ReadVector(section_ca_, "pointing_sub_t_b", pointing_sub_t_b);
-    attitude = new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, pointing_t_b, pointing_sub_t_b, celes_info, orbit, mc_name);
+    attitude = new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, pointing_t_b, pointing_sub_t_b, inertia_tensor, celes_info, orbit, mc_name);
   } else {
     std::cerr << "ERROR: attitude propagation mode: " << propagate_mode << " is not defined!" << std::endl;
     std::cerr << "The attitude mode is automatically set as RK4" << std::endl;
