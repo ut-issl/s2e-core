@@ -161,8 +161,8 @@ jobs:
           ls cspice/generic_kernels
           ls nrlmsise00
           ls nrlmsise00/table
-          ls nrlmsise00/lib
-          ls nrlmsise00/lib/libnrlmsise00.a
+          ls nrlmsise00/lib*
+          ls nrlmsise00/lib*/libnrlmsise00.a
           ls nrlmsise00/src
 
       - name: build
