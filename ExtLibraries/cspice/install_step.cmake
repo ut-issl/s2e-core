@@ -20,7 +20,7 @@ else()
   endif()
 endif()
 
-message("install cspice/lib to "${CSPICE_LIB_DEST})
+message("install cspice/lib to ${CSPICE_LIB_DEST}")
 file(
   COPY ${CMAKE_SOURCE_DIR}/lib
   DESTINATION ${CSPICE_INSTALL_DIR}/${CSPICE_LIB_DEST}
