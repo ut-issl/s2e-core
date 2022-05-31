@@ -138,8 +138,9 @@ AttCtrlMode ConvertStringToCtrlMode(const std::string mode) {
   }
 }
 
-void ControlledAttitude::CalcAngularVelocity(const double current_time_s)
-{
+void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
+  libra::Vector<3> controlled_torque_b_Nm(0.0);
+
   if (previous_calc_time_s_ > 0.0) {
     double time_diff_sec = current_time_s - previous_calc_time_s_;
     libra::Quaternion prev_q_b2i = prev_quaternion_i2b_.conjugate();
@@ -147,19 +148,17 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s)
     q_diff = (2.0 / time_diff_sec) * q_diff;
 
     libra::Vector<3> angular_acc_b_rad_s2_;
-    for (int i = 0; i < 3; i++)
-    {
+    for (int i = 0; i < 3; i++) {
       omega_b_rad_s_[i] = q_diff[i];
-      angular_acc_b_rad_s2_[i] = (prev_omega_b_rad_s_[i] - omega_b_rad_s_[i]) / time_diff_sec; // TODO:実装する
+      angular_acc_b_rad_s2_[i] = (prev_omega_b_rad_s_[i] - omega_b_rad_s_[i]) / time_diff_sec;
     }
-    // TODO: calc torque after bug in I calculation
-    torque_b_Nm_ = inv_inertia_tensor_ * angular_acc_b_rad_s2_;
-  }
-  else {
+    controlled_torque_b_Nm = inv_inertia_tensor_ * angular_acc_b_rad_s2_;
+  } else {
     omega_b_rad_s_ = libra::Vector<3>(0.0);
-    torque_b_Nm_ = libra::Vector<3>(0.0);
+    controlled_torque_b_Nm = libra::Vector<3>(0.0);
   }
-
+  // Add torque with disturbances
+  AddTorque_b(controlled_torque_b_Nm);
   // save previous values
   previous_calc_time_s_ = current_time_s;
   prev_quaternion_i2b_ = quaternion_i2b_;
