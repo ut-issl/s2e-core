@@ -14,12 +14,9 @@ class SampleGS : public GroundStation {
   SampleGS(SimulationConfig* config, int gs_id);
   ~SampleGS();
 
-  // 初期化
   virtual void Initialize(SimulationConfig* config);
-  // ログ保存機能
   virtual void LogSetup(Logger& logger);
-  // 状態量の更新
-  virtual void Update(const Dynamics& dynamics, const GlobalEnvironment& global_env, const ANT& sc_ant, const SampleGS& samplegs);
+  virtual void Update(const Dynamics& dynamics, const GlobalEnvironment& global_env, const ANT& sc_ant, const SampleGS& sample_gs);
 
  private:
   SampleGSComponents* components_;
