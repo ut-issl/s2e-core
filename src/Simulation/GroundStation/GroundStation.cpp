@@ -22,13 +22,13 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
   const std::string section_tmp = section_base + std::to_string(static_cast<long long>(gs_id));
   const char* Section = section_tmp.data();
 
-  double latitude_deg = conf.ReadDouble(Section, "latitude");
-  double longitude_deg = conf.ReadDouble(Section, "longitude");
-  double height_m = conf.ReadDouble(Section, "height");
+  double latitude_deg = conf.ReadDouble(Section, "latitude_deg");
+  double longitude_deg = conf.ReadDouble(Section, "longitude_deg");
+  double height_m = conf.ReadDouble(Section, "height_m");
   gs_position_geo_ = GeodeticPosition(latitude_deg * libra::deg_to_rad, longitude_deg * libra::deg_to_rad, height_m);
   gs_position_ecef_ = gs_position_geo_.CalcEcefPosition();
 
-  elevation_angle_ = conf.ReadDouble(Section, "elevation_angle");
+  elevation_limit_angle_deg_ = conf.ReadDouble(Section, "elevation_angle_deg");
 }
 
 void GroundStation::LogSetup(Logger& logger) { UNUSED(logger); }

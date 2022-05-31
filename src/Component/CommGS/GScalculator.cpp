@@ -62,7 +62,7 @@ bool GScalculator::IsVisible(const Dynamics& dynamics, const GroundStation& grou
   dir_GS_to_zenith[2] = 1;
 
   // 地上局の最低可視仰角をクリアしているかを判定
-  if (dot(sc_pos_ltc, dir_GS_to_zenith) > norm(sc_pos_ltc) * sin(groundstation.elevation_angle_ * libra::deg_to_rad)) {
+  if (dot(sc_pos_ltc, dir_GS_to_zenith) > norm(sc_pos_ltc) * sin(groundstation.GetElevationLimitAngle_deg() * libra::deg_to_rad)) {
     // std::cout << std::asin(dot(sc_pos_ltc, dir_GS_to_zenith) /
     // norm(sc_pos_ltc)) / libra::deg_to_rad << std::endl;
     return true;
