@@ -3,17 +3,18 @@
 #include <Component/CommGS/InitAnt.hpp>
 #include <Component/CommGS/InitGsCalculator.hpp>
 
-class ANT;
-class GScalculator;
-
 class SampleGSComponents {
  public:
   SampleGSComponents(const SimulationConfig* config);
   ~SampleGSComponents();
   void CompoLogSetUp(Logger& logger);
-  ANT* ant_;
-  GScalculator* gscalculator_;
+
+  // Getter
+  inline ANT* GetAntenna() const { return antenna_; }
+  inline GScalculator* GetGsCalculator() const { return gs_calculator_; }
 
  private:
+  ANT* antenna_;
+  GScalculator* gs_calculator_;
   const SimulationConfig* config_;
 };
