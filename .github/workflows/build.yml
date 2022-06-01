@@ -101,6 +101,7 @@ jobs:
       fail-fast: false
       matrix:
         compiler: ['gcc-11 g++-11', 'clang clang++']
+        build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
 
     steps:
       - uses: actions/checkout@v3
@@ -137,14 +138,14 @@ jobs:
         id: cache-extlib
         uses: actions/cache@v3
         with:
-          key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}
+          key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}-${{ matrix.build_bit }}
           path: ExtLibraries
 
       - name: build extlib
         if: steps.cache-extlib.outputs.cache-hit != 'true'
         working-directory: ./ExtLibraries
         run: |
-          cmake . -DEXT_LIB_DIR="$(pwd)"
+          cmake . -DEXT_LIB_DIR="$(pwd)" -D${{ matrix.build_bit }}
           cmake --build .
       - name: install extlib
         if: steps.cache-extlib.outputs.cache-hit != 'true'
@@ -155,13 +156,13 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           ls cspice
-          ls cspice/cspice_unix
+          ls cspice/cspice_unix*
           ls cspice/include
           ls cspice/generic_kernels
           ls nrlmsise00
           ls nrlmsise00/table
-          ls nrlmsise00/lib
-          ls nrlmsise00/lib/libnrlmsise00.a
+          ls nrlmsise00/lib*
+          ls nrlmsise00/lib*/libnrlmsise00.a
           ls nrlmsise00/src
 
       - name: build
@@ -169,5 +170,5 @@ jobs:
           CC:  ${{ steps.compiler.outputs.CC  }}
           CXX: ${{ steps.compiler.outputs.CXX }}
         run: |
-          cmake . -DEXT_LIB_DIR=./ExtLibraries
+          cmake . -DEXT_LIB_DIR=./ExtLibraries -D${{ matrix.build_bit }}
           cmake --build .

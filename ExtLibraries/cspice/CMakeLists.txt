@@ -14,12 +14,18 @@ if(WIN32)
   set(CSPICE_BUILD_COMMAND "")
 else()
   # Linux
-  set(CSPICE_URL https://naif.jpl.nasa.gov/pub/naif/toolkit/C/PC_Linux_GCC_32bit/packages/cspice.tar.Z)
-  set(CSPICE_SHA256 "33d75cd94acf6546e53d7ebc4e7d3d6d42ac27c83cb0d8f04c91a8b50c1149e3")
-  set(CSPICE_BUILD_COMMAND "")
+  if(BUILD_64BIT)
+    set(CSPICE_URL https://naif.jpl.nasa.gov/pub/naif/toolkit/C/PC_Linux_GCC_64bit/packages/cspice.tar.Z)
+    set(CSPICE_SHA256 "60a95b51a6472f1afe7e40d77ebdee43c12bb5b8823676ccc74692ddfede06ce")
+    set(CSPICE_BUILD_COMMAND "")
+  else()
+    set(CSPICE_URL https://naif.jpl.nasa.gov/pub/naif/toolkit/C/PC_Linux_GCC_32bit/packages/cspice.tar.Z)
+    set(CSPICE_SHA256 "33d75cd94acf6546e53d7ebc4e7d3d6d42ac27c83cb0d8f04c91a8b50c1149e3")
+    set(CSPICE_BUILD_COMMAND "")
+  endif()
 endif()
-
 # build & install cspice
+message("URL" ${CSPICE_URL})
 ExternalProject_Add(cspice
   URL ${CSPICE_URL}
   URL_HASH SHA256=${CSPICE_SHA256}
@@ -28,7 +34,7 @@ ExternalProject_Add(cspice
   BUILD_IN_SOURCE true
   BUILD_COMMAND "${CSPICE_BUILD_COMMAND}"
   INSTALL_COMMAND
-    ${CMAKE_COMMAND} -DCSPICE_INSTALL_DIR=${CSPICE_INSTALL_DIR} -P ${CMAKE_CURRENT_LIST_DIR}/install_step.cmake
+    ${CMAKE_COMMAND} -DCSPICE_INSTALL_DIR=${CSPICE_INSTALL_DIR} -DBUILD_64BIT=${BUILD_64BIT} -P ${CMAKE_CURRENT_LIST_DIR}/install_step.cmake
 )
 
 # install generic kernels

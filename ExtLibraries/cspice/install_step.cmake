@@ -13,10 +13,14 @@ if(WIN32)
   set(CSPICE_LIB_DEST "cspice_msvs")
 else()
   # Linux
-  set(CSPICE_LIB_DEST "cspice_unix")
+  if(BUILD_64BIT)
+    set(CSPICE_LIB_DEST "cspice_unix64")
+  else()
+    set(CSPICE_LIB_DEST "cspice_unix")
+  endif()
 endif()
 
-message("install cspice/lib")
+message("install cspice/lib to ${CSPICE_LIB_DEST}")
 file(
   COPY ${CMAKE_SOURCE_DIR}/lib
   DESTINATION ${CSPICE_INSTALL_DIR}/${CSPICE_LIB_DEST}

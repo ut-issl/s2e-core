@@ -22,8 +22,8 @@ AttCtrlMode ConvertStringToCtrlMode(const std::string mode);
 class ControlledAttitude : public Attitude {
  public:
   ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2b, const Vector<3> pointing_t_b,
-                     const Vector<3> pointing_sub_t_b, const LocalCelestialInformation* local_celes_info, const Orbit* orbit,
-                     const std::string& sim_object_name = "Attitude");
+                     const Vector<3> pointing_sub_t_b, const Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celes_info,
+                     const Orbit* orbit, const std::string& sim_object_name = "Attitude");
   ~ControlledAttitude();
 
   // Setter
@@ -54,7 +54,6 @@ class ControlledAttitude : public Attitude {
   Vector<3> CalcTargetDirection(AttCtrlMode mode);
   void PointingCtrl(const Vector<3> main_direction_i, const Vector<3> sub_direction_i);
   void CalcAngularVelocity(const double current_time_s);
-  void CalcTorque(const double current_time_s);
   Matrix<3, 3> CalcDCM(const Vector<3> main_direction, const Vector<3> sub_direction);
 };
 
