@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Component/CommGS/InitAnt.hpp>
+#include <Component/CommGS/InitAntenna.hpp>
 #include <Component/CommGS/InitGsCalculator.hpp>
 
 class SampleGSComponents {
