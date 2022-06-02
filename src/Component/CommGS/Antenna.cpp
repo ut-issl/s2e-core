@@ -9,7 +9,8 @@
 #include <Library/utils/Macros.hpp>
 #include <cmath>
 
-ANT::ANT(int id, const libra::Quaternion& q_b2c, bool is_transmitter, bool is_receiver, double frequency, Vector<4> tx_params, Vector<4> rx_params)
+Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
+                 const Vector<4> tx_params, const Vector<4> rx_params)
     : id_(id), is_transmitter_(is_transmitter), is_receiver_(is_receiver), frequency_(frequency) {
   q_b2c_ = q_b2c;
   tx_output_ = tx_params[0];
@@ -34,11 +35,9 @@ ANT::ANT(int id, const libra::Quaternion& q_b2c, bool is_transmitter, bool is_re
   }
 }
 
-ANT::~ANT() {}
+Antenna::~Antenna() {}
 
-void ANT::Initialize() {}
-
-double ANT::CalcAntennaGain(double theta, bool is_tx) const {
+double Antenna::CalcAntennaGain(double theta, bool is_tx) const {
   UNUSED(theta);
   // TODO: implement gain calculation considering the angle theta
 
@@ -49,5 +48,5 @@ double ANT::CalcAntennaGain(double theta, bool is_tx) const {
   }
 }
 
-double ANT::CalcTxEIRP(double theta) const { return tx_EIRP_ - tx_gain_ + CalcAntennaGain(theta, true); }
-double ANT::CalcRxGT(double theta) const { return rx_GT_ - rx_gain_ + CalcAntennaGain(theta, false); }
+double Antenna::CalcTxEIRP(double theta) const { return tx_EIRP_ - tx_gain_ + CalcAntennaGain(theta, true); }
+double Antenna::CalcRxGT(double theta) const { return rx_GT_ - rx_gain_ + CalcAntennaGain(theta, false); }

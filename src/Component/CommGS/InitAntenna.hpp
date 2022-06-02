@@ -2,4 +2,4 @@
 
 #include <Component/CommGS/Antenna.hpp>
 
-ANT InitANT(int ant_id, const std::string fname);
+Antenna InitAntenna(int ant_id, const std::string fname);

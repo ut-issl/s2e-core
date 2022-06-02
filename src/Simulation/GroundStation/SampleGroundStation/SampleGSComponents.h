@@ -10,11 +10,11 @@ class SampleGSComponents {
   void CompoLogSetUp(Logger& logger);
 
   // Getter
-  inline ANT* GetAntenna() const { return antenna_; }
+  inline Antenna* GetAntenna() const { return antenna_; }
   inline GScalculator* GetGsCalculator() const { return gs_calculator_; }
 
  private:
-  ANT* antenna_;
+  Antenna* antenna_;
   GScalculator* gs_calculator_;
   const SimulationConfig* config_;
 };

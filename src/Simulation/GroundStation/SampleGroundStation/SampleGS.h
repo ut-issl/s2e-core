@@ -17,7 +17,7 @@ class SampleGS : public GroundStation {
 
   virtual void Initialize(SimulationConfig* config);
   virtual void LogSetup(Logger& logger);
-  virtual void Update(const Dynamics& dynamics, const GlobalEnvironment& global_env, const ANT& sc_ant, const SampleGS& sample_gs);
+  virtual void Update(const Dynamics& dynamics, const GlobalEnvironment& global_env, const Antenna& sc_ant, const SampleGS& sample_gs);
 
  private:
   SampleGSComponents* components_;

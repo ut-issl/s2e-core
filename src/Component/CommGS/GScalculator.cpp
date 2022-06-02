@@ -28,7 +28,7 @@ GScalculator::~GScalculator() {}
 
 void GScalculator::Initialize() {}
 
-void GScalculator::Update(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant) {
+void GScalculator::Update(const Dynamics& dynamics, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant) {
   visible_flag_ = IsVisible(dynamics, groundstation);
   if (visible_flag_) {
     max_bitrate_ = CalcMaxBitrate(dynamics, sc_ant, groundstation, gs_ant);
@@ -71,7 +71,7 @@ bool GScalculator::IsVisible(const Dynamics& dynamics, const GroundStation& grou
   }
 }
 
-double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant) {
+double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant) {
   if (!sc_ant.IsTransmitter() || !gs_ant.IsReceiver()) {
     return 0.0f;  //送受信の噛み合わせをここでチェック（いずれどのidのANTを使うかとDLとULどっちにするかを指定できるようにしないといけない）
   }

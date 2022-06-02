@@ -10,7 +10,7 @@
 using libra::Vector;
 
 // アンテナ初期化，ant_idで対応するアンテナ読み込み
-ANT InitANT(int ant_id, const std::string fname) {
+Antenna InitAntenna(int ant_id, const std::string fname) {
   IniAccess ant_conf(fname);
 
   const std::string st_ant_id = std::to_string(static_cast<long long>(ant_id));
@@ -41,6 +41,6 @@ ANT InitANT(int ant_id, const std::string fname) {
     rx_params[3] = ant_conf.ReadDouble(Section, "rx_system_noise_temperature");
   }
 
-  ANT ant(ant_id, q_b2c, is_transmitter, is_receiver, frequency, tx_params, rx_params);
+  Antenna ant(ant_id, q_b2c, is_transmitter, is_receiver, frequency, tx_params, rx_params);
   return ant;
 }

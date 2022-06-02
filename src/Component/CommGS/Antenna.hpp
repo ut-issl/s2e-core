@@ -10,11 +10,11 @@
 using libra::Quaternion;
 using libra::Vector;
 
-class ANT {
+class Antenna {
  public:
-  ANT(int id, const libra::Quaternion& q_b2c, bool is_transmitter, bool is_receiver, double frequency, Vector<4> tx_params, Vector<4> rx_params);
-  ~ANT();
-  void Initialize();
+  Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
+          const Vector<4> tx_params, const Vector<4> rx_params);
+  ~Antenna();
 
   // Calculations
   double CalcTxEIRP(double theta) const;
