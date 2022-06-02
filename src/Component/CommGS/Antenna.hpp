@@ -1,5 +1,5 @@
 /*
- * @file ANT.cpp
+ * @file Antenna.hpp
  * @brief アンテナ模擬コンポです．
  * @author 山本 智貴
  * @date 2020.05.16

@@ -1,5 +1,5 @@
 /*
- * @file ANT.cpp
+ * @file Antenna.cpp
  * @brief Component emuration: RF antenna
  * @author 山本 智貴
  */
