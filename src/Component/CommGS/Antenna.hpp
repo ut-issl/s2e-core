@@ -1,8 +1,7 @@
 /*
  * @file Antenna.hpp
- * @brief アンテナ模擬コンポです．
+ * @brief Component emuration: RF antenna
  * @author 山本 智貴
- * @date 2020.05.16
  */
 
 #pragma once
