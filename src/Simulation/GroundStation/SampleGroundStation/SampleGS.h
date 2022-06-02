@@ -1,9 +1,10 @@
 #pragma once
 
-#include <Component/CommGS/ANT.h>
 #include <Component/CommGS/GScalculator.h>
 #include <Dynamics/Dynamics.h>
 #include <Environment/Global/GlobalEnvironment.h>
+
+#include <Component/CommGS/Antenna.hpp>
 
 #include "../GroundStation.h"
 

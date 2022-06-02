@@ -36,7 +36,7 @@ add_library(${PROJECT_NAME} STATIC
   CDH/OBC.cpp
   CDH/OBC_C2A.cpp
 
-  CommGS/ANT.cpp
+  CommGS/Antenna.cpp
   CommGS/InitAnt.cpp
   CommGS/GScalculator.cpp
   CommGS/InitGsCalculator.cpp

@@ -6,12 +6,12 @@
  */
 
 #pragma once
-#include <Component/CommGS/ANT.h>
 #include <Dynamics/Dynamics.h>
 #include <Environment/Global/GlobalEnvironment.h>
 #include <Interface/LogOutput/ILoggable.h>
 #include <Simulation/GroundStation/GroundStation.h>
 
+#include <Component/CommGS/Antenna.hpp>
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Matrix.hpp>
 #include <Library/math/Vector.hpp>

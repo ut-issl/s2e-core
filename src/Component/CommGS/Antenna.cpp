@@ -4,7 +4,7 @@
  * @author 山本 智貴
  */
 
-#include "ANT.h"
+#include "Antenna.hpp"
 
 #include <Library/utils/Macros.hpp>
 #include <cmath>
