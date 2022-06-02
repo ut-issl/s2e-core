@@ -19,49 +19,17 @@ GScalculator::GScalculator(const double loss_polarization, const double loss_atm
       hardware_deterioration_(hardware_deterioration),
       coding_gain_(coding_gain),
       margin_req_(margin_req) {
-  is_visible_ = false;
   max_bitrate_ = 0.0f;
 }
 
 GScalculator::~GScalculator() {}
 
-void GScalculator::Update(const Dynamics& dynamics, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant) {
-  is_visible_ = CalcIsVisible(dynamics, groundstation);
-  if (is_visible_) {
-    max_bitrate_ = CalcMaxBitrate(dynamics, sc_ant, groundstation, gs_ant);
+void GScalculator::Update(const Spacecraft& spacecraft, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant) {
+  bool is_visible = groundstation.IsVisible(spacecraft.GetSatID());
+  if (is_visible) {
+    max_bitrate_ = CalcMaxBitrate(spacecraft.GetDynamics(), sc_ant, groundstation, gs_ant);
   } else {
     max_bitrate_ = 0.0f;
-  }
-}
-
-bool GScalculator::CalcIsVisible(const Dynamics& dynamics, const GroundStation& groundstation) {
-  Vector<3> sc_pos_ecef = dynamics.GetOrbit().GetSatPosition_ecef();
-  Vector<3> gs_pos_ecef = groundstation.GetGSPosition_ecef();
-
-  double lat = groundstation.GetGSPosition_geo().GetLat_rad();
-  double lon = groundstation.GetGSPosition_geo().GetLon_rad();
-
-  // ECEF -> LTC frame transform at the ground station
-  Matrix<3, 3> trans_mat;
-  trans_mat[0][0] = -sin(lon);
-  trans_mat[0][1] = cos(lon);
-  trans_mat[0][2] = 0;
-  trans_mat[1][0] = -sin(lat) * cos(lon);
-  trans_mat[1][1] = -sin(lat) * sin(lon);
-  trans_mat[1][2] = cos(lat);
-  trans_mat[2][0] = cos(lat) * cos(lon);
-  trans_mat[2][1] = cos(lat) * sin(lon);
-  trans_mat[2][2] = sin(lat);
-
-  Vector<3> sc_pos_ltc = trans_mat * (sc_pos_ecef - gs_pos_ecef);  // Satellite position in LTC frame [m]
-  Vector<3> dir_GS_to_zenith = Vector<3>(0);
-  dir_GS_to_zenith[2] = 1;
-
-  // Judge the satellite position angle is over the minimum elevation
-  if (dot(sc_pos_ltc, dir_GS_to_zenith) > norm(sc_pos_ltc) * sin(groundstation.GetElevationLimitAngle_deg() * libra::deg_to_rad)) {
-    return true;
-  } else {
-    return false;
   }
 }
 
@@ -98,7 +66,6 @@ double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_
 std::string GScalculator::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("is visible");
   str_tmp += WriteScalar("max bitrate[Mbps]");
 
   return str_tmp;
@@ -107,7 +74,6 @@ std::string GScalculator::GetLogHeader() const {
 std::string GScalculator::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(is_visible_);
   str_tmp += WriteScalar(max_bitrate_);
 
   return str_tmp;

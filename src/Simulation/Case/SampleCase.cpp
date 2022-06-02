@@ -14,10 +14,13 @@ void SampleCase::Initialize() {
   //`sat_id` corresponds to the index of `sat_file` in Simbase.ini
   const int sat_id = 0;
   sample_sat_ = new SampleSat(&sim_config_, glo_env_, sat_id);
+  const int gs_id = 0;
+  sample_gs_ = new GroundStation(&sim_config_, gs_id);
 
   // Register the log output
   glo_env_->LogSetup(*(sim_config_.main_logger_));
   sample_sat_->LogSetup(*(sim_config_.main_logger_));
+  sample_gs_->LogSetup(*(sim_config_.main_logger_));
 
   // Write headers to the log
   sim_config_.main_logger_->WriteHeaders();
@@ -39,6 +42,9 @@ void SampleCase::Main() {
     glo_env_->Update();
     // Spacecraft Update
     sample_sat_->Update(&(glo_env_->GetSimTime()));
+    // Ground Station Update
+    sample_gs_->Update(glo_env_->GetCelesInfo().GetEarthRotation(), *sample_sat_);
+
     // Debug output
     if (glo_env_->GetSimTime().GetState().disp_output) {
       cout << "Progresss: " << glo_env_->GetSimTime().GetProgressionRate() << "%\r";

@@ -23,14 +23,13 @@ class GScalculator : public ILoggable {
   GScalculator(const double loss_polarization, const double loss_atmosphere, const double loss_rainfall, const double loss_others, const double EbN0,
                const double hardware_deterioration, const double coding_gain, const double margin_req);
   virtual ~GScalculator();
-  void Update(const Dynamics& dynamics, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant);
+  void Update(const Spacecraft& spacecraft, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant);
 
   // ILoggable
   virtual std::string GetLogHeader() const;
   virtual std::string GetLogValue() const;
 
   // Getter
-  inline bool IsVisible() const { return is_visible_; }
   inline bool GetMaxBitrate() const { return max_bitrate_; }
 
  protected:
@@ -43,11 +42,7 @@ class GScalculator : public ILoggable {
   double coding_gain_;             //[dB]
   double margin_req_;              //[dB]
 
-  bool is_visible_;
   double max_bitrate_;  //[kbps]
-
-  // Return true when the satellite is visible from the ground station
-  bool CalcIsVisible(const Dynamics& dynamics, const GroundStation& groundstation);
 
   // Calculate the maximum bitrate
   double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant);
