@@ -13,30 +13,38 @@ using libra::Vector;
 
 class ANT {
  public:
-  int ant_id_;           // ANTのID
-  Quaternion q_b2c_;     // ANT搭載面
-  bool is_transmitter_;  //送信用ANTか否か
-  bool is_receiver_;     //受信用ANTか否か
-  double frequency_;     //中心周波数[MHz]
-
-  ANT(int ant_id, const libra::Quaternion& q_b2c, bool is_transmitter, bool is_receiver, double frequency, Vector<4> tx_params, Vector<4> rx_params);
+  ANT(int id, const libra::Quaternion& q_b2c, bool is_transmitter, bool is_receiver, double frequency, Vector<4> tx_params, Vector<4> rx_params);
   ~ANT();
   void Initialize();
-  double GetTxEIRP(double theta) const;
-  double GetRxGT(double theta) const;
+
+  // Calculations
+  double CalcTxEIRP(double theta) const;
+  double CalcRxGT(double theta) const;
+
+  // Getter
+  inline double GetFrequency() const { return frequency_; }
+  inline bool IsTransmitter() const { return is_transmitter_; }
+  inline bool IsReceiver() const { return is_receiver_; }
 
  protected:
-  double tx_output_;                    // RF出力[W]
-  double tx_gain_;                      //送信ゲイン[dBi]（「最大ゲイン」が適切？）
-  double tx_loss_feeder_;               //給電損失[dB]
-  double tx_loss_pointing_;             //ポインティング損失[dB]
-  double rx_gain_;                      //受信ゲイン[dBi]（「最大ゲイン」が適切？）
-  double rx_loss_feeder_;               //給電損失[dB]
-  double rx_loss_pointing_;             //ポインティング損失[dB]
-  double rx_system_noise_temperature_;  //システム雑音温度[K]
+  // General info
+  int id_;               //! ID
+  Quaternion q_b2c_;     //! corrdinate transform from body to component
+  bool is_transmitter_;  //! Antenna for transmitter or not
+  bool is_receiver_;     //! Antenna for receiver or not
+  double frequency_;     //! Center Frequency [MHz]
+  // Tx info
+  double tx_output_;         //! RF output power [W]
+  double tx_gain_;           //! transmit maximum gain [dBi]
+  double tx_loss_feeder_;    //! feeder loss [dB]
+  double tx_loss_pointing_;  //! pointing loss [dB]
+  double tx_EIRP_;           //! transmit EIRP[dBW]
+  // Rx info
+  double rx_gain_;                      //! Receive maximum gain [dBi]
+  double rx_loss_feeder_;               //! feeder loss [dB]
+  double rx_loss_pointing_;             //! pointing loss [dB]
+  double rx_system_noise_temperature_;  //! system noise temperature [K]
+  double rx_GT_;                        //! receive G/T [dB/K]
 
-  double tx_EIRP_;  //送信EIRP[dBW]
-  double rx_GT_;    //受信G/T[dB/K]
-
-  double CalcAntennaGain(double theta, bool is_tx) const;  //方向を指定したときのアンテナゲイン[dB]を返す
+  double CalcAntennaGain(double theta, bool is_tx) const;  //! Calc antenna gain [dB] considering the target direction
 };

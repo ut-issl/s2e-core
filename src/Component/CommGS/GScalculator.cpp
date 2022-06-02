@@ -72,22 +72,22 @@ bool GScalculator::IsVisible(const Dynamics& dynamics, const GroundStation& grou
 }
 
 double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant) {
-  if (!sc_ant.is_transmitter_ || !gs_ant.is_receiver_) {
+  if (!sc_ant.IsTransmitter() || !gs_ant.IsReceiver()) {
     return 0.0f;  //送受信の噛み合わせをここでチェック（いずれどのidのANTを使うかとDLとULどっちにするかを指定できるようにしないといけない）
   }
 
   Vector<3> sc_pos_i = dynamics.GetOrbit().GetSatPosition_i();
   Vector<3> gs_pos_i = groundstation.GetGSPosition_i();
-  double dist_sc_gs = norm(sc_pos_i - gs_pos_i) / 1000;                                            //[km]
-  double loss_space = -20 * log10(4 * libra::pi * dist_sc_gs / (300 / sc_ant.frequency_ / 1000));  //[dB]
+  double dist_sc_gs = norm(sc_pos_i - gs_pos_i) / 1000;                                                //[km]
+  double loss_space = -20 * log10(4 * libra::pi * dist_sc_gs / (300 / sc_ant.GetFrequency() / 1000));  //[dB]
 
   double sc_boresight_angle =
       0;  // 衛星姿勢と地上局との位置関係から，電波方向のボアサイトからの角度を求める（今はANT::CalcAntennaGain()も未実装のため0と適当に置いておく）
   //参考  // double theta = angle(q_b2i.frame_conv(axis_b), rel_pos);
   double gs_boresight_angle = 0;  // 地上局アンテナは追尾を行うとして，最大ゲインを適用できると考える
 
-  double CN0 = sc_ant.GetTxEIRP(sc_boresight_angle) + loss_space + loss_polarization_ + loss_atmosphere_ + loss_rainfall_ + loss_others_ +
-               gs_ant.GetRxGT(gs_boresight_angle) - 10 * log10(environment::boltzmann_constant_J_K);  //[dBHz]
+  double CN0 = sc_ant.CalcTxEIRP(sc_boresight_angle) + loss_space + loss_polarization_ + loss_atmosphere_ + loss_rainfall_ + loss_others_ +
+               gs_ant.CalcRxGT(gs_boresight_angle) - 10 * log10(environment::boltzmann_constant_J_K);  //[dBHz]
 
   double margin_for_bitrate = CN0 - (EbN0_ + hardware_deterioration_ + coding_gain_) - margin_req_;  //[dB]
 
