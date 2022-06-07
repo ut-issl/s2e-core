@@ -34,7 +34,7 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
   gs_position_geo_ = GeodeticPosition(latitude_deg * libra::deg_to_rad, longitude_deg * libra::deg_to_rad, height_m);
   gs_position_ecef_ = gs_position_geo_.CalcEcefPosition();
 
-  elevation_limit_angle_deg_ = conf.ReadDouble(Section, "elevation_angle_deg");
+  elevation_limit_angle_deg_ = conf.ReadDouble(Section, "elevation_limit_angle_deg");
 }
 
 void GroundStation::LogSetup(Logger& logger) { logger.AddLoggable(this); }
@@ -63,11 +63,13 @@ bool GroundStation::CalcIsVisible(const Vector<3> sc_pos_ecef_m) {
   trans_mat_ecef_to_ltc[2][2] = sin(lat);
 
   Vector<3> sc_pos_ltc = trans_mat_ecef_to_ltc * (sc_pos_ecef_m - gs_position_ecef_);  // Satellite position in LTC frame [m]
-  Vector<3> dir_GS_to_zenith = Vector<3>(0);
-  dir_GS_to_zenith[2] = 1;
+  Vector<3> dir_sc_pos_ltc = normalize(sc_pos_ltc);
+  Vector<3> dir_gs_to_zenith = Vector<3>(0);
+  dir_gs_to_zenith[2] = 1;
 
   // Judge the satellite position angle is over the minimum elevation
-  if (dot(sc_pos_ltc, dir_GS_to_zenith) > norm(sc_pos_ltc) * sin(elevation_limit_angle_deg_ * libra::deg_to_rad)) {
+
+  if (dot(sc_pos_ltc, dir_gs_to_zenith) > sin(elevation_limit_angle_deg_ * libra::deg_to_rad)) {
     return true;
   } else {
     return false;
