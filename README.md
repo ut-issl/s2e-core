@@ -42,6 +42,13 @@
   - **Exception**
     - Images for markdown document files are allowable when the file size is smaller than 200K Bytes.
 
+- Code format
+  - We use [clang-format](https://clang.llvm.org/docs/ClangFormat.html) for format source code.
+  - We recommend install clang-format and format code before commit. It also will be checked on CI.
+  - Some modern editor has plugin/extension for code format. It will be very useful.
+    - VSCode: [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
+    - Vim: [vim-clang-format](https://github.com/rhysd/vim-clang-format)
+
 ## Release style
 
 - We use [Semantic Versioning 2.0.0](https://semver.org/) as versioning style
