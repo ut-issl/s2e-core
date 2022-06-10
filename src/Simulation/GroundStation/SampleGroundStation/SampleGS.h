@@ -1,9 +1,10 @@
 #pragma once
 
-#include <Component/CommGS/ANT.h>
 #include <Component/CommGS/GScalculator.h>
 #include <Dynamics/Dynamics.h>
 #include <Environment/Global/GlobalEnvironment.h>
+
+#include <Component/CommGS/Antenna.hpp>
 
 #include "../GroundStation.h"
 
@@ -14,12 +15,9 @@ class SampleGS : public GroundStation {
   SampleGS(SimulationConfig* config, int gs_id);
   ~SampleGS();
 
-  // 初期化
   virtual void Initialize(SimulationConfig* config);
-  // ログ保存機能
   virtual void LogSetup(Logger& logger);
-  // 状態量の更新
-  virtual void Update(const Dynamics& dynamics, const GlobalEnvironment& global_env, const ANT& sc_ant, const SampleGS& samplegs);
+  virtual void Update(const Spacecraft& spacecraft, const GlobalEnvironment& global_env, const Antenna& sc_ant, const SampleGS& sample_gs);
 
  private:
   SampleGSComponents* components_;

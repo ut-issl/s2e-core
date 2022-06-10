@@ -1,17 +1,16 @@
 /*
  * @file GScalculator.h
- * @brief 地上局クラスが持つ，通信関連計算模擬クラスです．
+ * @brief Emuration of analysis and calculation for Ground Stations
  * @author 山本 智貴
- * @date 2020.05.26
  */
 
 #pragma once
-#include <Component/CommGS/ANT.h>
 #include <Dynamics/Dynamics.h>
 #include <Environment/Global/GlobalEnvironment.h>
 #include <Interface/LogOutput/ILoggable.h>
 #include <Simulation/GroundStation/GroundStation.h>
 
+#include <Component/CommGS/Antenna.hpp>
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Matrix.hpp>
 #include <Library/math/Vector.hpp>
@@ -19,15 +18,21 @@
 using libra::Matrix;
 using libra::Vector;
 
-//↓TODO:
-//地上局位置をECI2ECEF変換するためにユリウス時が必要なのでDynamicsに作ったGetCurrentJd()で持ち出して直接SGPをいじっているが，これをDynamics外に出すissueがあるので，いずれそれと関連して間接的にいじるように変える必要がある
-// https://gitlab.com/ut_issl/s2e/s2e_core_oss/-/issues/4
-#include <Library/sgp4/sgp4ext.h>
-#include <Library/sgp4/sgp4io.h>
-#include <Library/sgp4/sgp4unit.h>
-
 class GScalculator : public ILoggable {
  public:
+  GScalculator(const double loss_polarization, const double loss_atmosphere, const double loss_rainfall, const double loss_others, const double EbN0,
+               const double hardware_deterioration, const double coding_gain, const double margin_req);
+  virtual ~GScalculator();
+  void Update(const Spacecraft& spacecraft, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant);
+
+  // ILoggable
+  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogValue() const;
+
+  // Getter
+  inline bool GetMaxBitrate() const { return max_bitrate_; }
+
+ protected:
   double loss_polarization_;       //[dB]
   double loss_atmosphere_;         //[dB]
   double loss_rainfall_;           //[dB]
@@ -37,22 +42,8 @@ class GScalculator : public ILoggable {
   double coding_gain_;             //[dB]
   double margin_req_;              //[dB]
 
-  bool visible_flag_;
   double max_bitrate_;  //[kbps]
 
-  GScalculator(double loss_polarization, double loss_atmosphere, double loss_rainfall, double loss_others, double EbN0, double hardware_deterioration,
-               double coding_gain, double margin_req);
-  virtual ~GScalculator();
-  void Initialize();
-  void Update(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant);
-
-  virtual std::string GetLogHeader() const;
-  virtual std::string GetLogValue() const;
-
- protected:
-  // 衛星と地上局が可視の位置関係のときにtrue，非可視のときにfalseを返す
-  bool IsVisible(const Dynamics& dynamics, const GroundStation& groundstation);
-
-  // 最大可能ビットレートを回線計算をもとに計算する
-  double CalcMaxBitrate(const Dynamics& dynamics, const ANT& sc_ant, const GroundStation& groundstation, const ANT& gs_ant);
+  // Calculate the maximum bitrate
+  double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant);
 };
