@@ -14,6 +14,10 @@ on:
       - 'CMakeSettings.json'
       - 'src/**'
 
+env:
+  # datasource=github-releases depName=ut-issl/c2a-core
+  C2A_CORE_VERSION: v3.4.0
+
 jobs:
   build_s2e_win:
     name: Build on Windows VS2022
@@ -33,7 +37,7 @@ jobs:
         with:
           path: c2a-core
           repository: ut-issl/c2a-core
-          ref: v3.4.0
+          ref: ${{ env.C2A_CORE_VERSION }}
           fetch-depth: 1
 
       - name: setup C2A
