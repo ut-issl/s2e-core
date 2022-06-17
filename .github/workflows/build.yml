@@ -15,6 +15,7 @@ on:
       - 'src/**'
 
 env:
+  # datasource=github-releases depName=ut-issl/c2a-core
   C2A_CORE_VERSION: v3.4.0
 
 jobs:
