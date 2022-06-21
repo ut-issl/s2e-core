@@ -3,8 +3,8 @@
 #include <Interface/InitInput/IniAccess.h>
 
 #include "AirDrag.h"
-#include "GGDist.h"
 #include "GeoPotential.h"
+#include "GravityGradient.hpp"
 #include "InitDisturbance.hpp"
 #include "MagDisturbance.h"
 #include "SolarRadiation.h"

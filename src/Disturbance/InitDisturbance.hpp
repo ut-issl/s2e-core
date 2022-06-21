@@ -1,11 +1,12 @@
 #pragma once
 
 #include <Disturbance/AirDrag.h>
-#include <Disturbance/GGDist.h>
 #include <Disturbance/GeoPotential.h>
 #include <Disturbance/MagDisturbance.h>
 #include <Disturbance/SolarRadiation.h>
 #include <Disturbance/ThirdBodyGravity.h>
+
+#include <Disturbance/GravityGradient.hpp>
 
 AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b);
 SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b);

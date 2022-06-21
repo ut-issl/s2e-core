@@ -1,4 +1,4 @@
-#include "GGDist.h"
+#include "GravityGradient.hpp"
 
 #include <Environment/Global/PhysicalConstants.hpp>
 #include <cmath>
