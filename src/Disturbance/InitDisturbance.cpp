@@ -38,11 +38,11 @@ SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surf
   return srdist;
 }
 
-GGDist InitGGDist(std::string ini_path) {
+GravityGradient InitGGDist(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "GRAVITY_GRADIENT";
 
-  GGDist ggdist;
+  GravityGradient ggdist;
   ggdist.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   ggdist.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
