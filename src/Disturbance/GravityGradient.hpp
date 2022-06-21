@@ -14,7 +14,7 @@ using libra::Vector;
 class GravityGradient : public SimpleDisturbance {
  public:
   GravityGradient();  // mu is automatically set as earth's gravity
-  GravityGradient(const double mu_e_input);
+  GravityGradient(const double mu_m3_s2);
   virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
 
   // R0: Earth radius [m], u_b: direction vector of the earth @ body frame, I_b: Inertia Tensor [kg*m^2]
@@ -26,7 +26,7 @@ class GravityGradient : public SimpleDisturbance {
   virtual std::string GetLogValue() const;
 
  private:
-  double mu_e_;
+  double mu_m3_s2_;
 };
 
 #endif  //__GravityGradient_H__
