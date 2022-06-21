@@ -27,7 +27,6 @@ class GravityGradient : public SimpleDisturbance {
 
  private:
   double mu_e_;
-  Vector<3> ggtorque_b_;
 };
 
 #endif  //__GravityGradient_H__
