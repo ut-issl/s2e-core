@@ -38,7 +38,7 @@ SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surf
   return srdist;
 }
 
-GravityGradient InitGGDist(std::string ini_path) {
+GravityGradient InitGravityGradient(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "GRAVITY_GRADIENT";
 

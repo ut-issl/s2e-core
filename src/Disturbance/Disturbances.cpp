@@ -67,7 +67,7 @@ void Disturbances::InitializeInstances(SimulationConfig* sim_config, const int s
   IniAccess iniAccess = IniAccess(sim_config->sat_file_[sat_id]);
   ini_fname_ = iniAccess.ReadString("DISTURBANCE", "dist_file");
 
-  GravityGradient* gg_dist = new GravityGradient(InitGGDist(ini_fname_));
+  GravityGradient* gg_dist = new GravityGradient(InitGravityGradient(ini_fname_));
   AirDrag* air_dist = new AirDrag(InitAirDrag(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   SolarRadiation* srp_dist = new SolarRadiation(InitSRDist(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(ini_fname_, structure->GetRMMParams()));
