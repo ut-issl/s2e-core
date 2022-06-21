@@ -15,7 +15,6 @@ GravityGradient::GravityGradient() : GravityGradient(environment::earth_gravitat
 GravityGradient::GravityGradient(const double mu_e_input) {  //コンストラクタ
   fill_up(torque_b_, 0.0);
   mu_e_ = mu_e_input;
-  kilo_ = 1000.0;
 }
 
 void GravityGradient::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {

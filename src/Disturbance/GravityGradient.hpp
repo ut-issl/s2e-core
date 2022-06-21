@@ -23,7 +23,6 @@ class GravityGradient : public SimpleDisturbance {
 
  private:
   double mu_e_;
-  double kilo_;
   Vector<3> ggtorque_b_;
 };
 
