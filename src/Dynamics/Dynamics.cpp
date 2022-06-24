@@ -20,9 +20,8 @@ void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time,
   mass_ = structure->GetKinematicsParams().GetMass();
 
   // Initialize
-  string center_body_name = local_celes_info->GetGlobalInfo().GetCenterBodyName();
   orbit_ = InitOrbit(&(local_celes_info->GetGlobalInfo()), sim_config->sat_file_[sat_id], sim_time->GetOrbitRKStepSec(), sim_time->GetCurrentJd(),
-                     local_celes_info->GetGlobalInfo().GetGravityConstant(center_body_name.c_str()), "ORBIT", rel_info);
+                     local_celes_info->GetGlobalInfo().GetCenterBodyGravityConstant_m3_s2(), "ORBIT", rel_info);
   attitude_ = InitAttitude(sim_config->sat_file_[sat_id], orbit_, local_celes_info, sim_time->GetAttitudeRKStepSec(),
                            structure->GetKinematicsParams().GetInertiaTensor(), sat_id);
   temperature_ = InitTemperature(sim_config->sat_file_[sat_id], sim_time->GetThermalRKStepSec());

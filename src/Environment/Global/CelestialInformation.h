@@ -32,6 +32,7 @@ class CelestialInformation : public ILoggable {
   Vector<3> GetPosFromCenter_i(const char* body_name) const;
   Vector<3> GetVelFromCenter_i(const char* body_name) const;
   double GetGravityConstant(const char* body_name) const;
+  double GetCenterBodyGravityConstant_m3_s2(void) const;
   Vector<3> GetRadiiFromName(const char* body_name) const;
   double GetMeanRadiusFromName(const char* body_name) const;
   inline int GetNumBody(void) const { return num_of_selected_body_; }
@@ -52,8 +53,8 @@ class CelestialInformation : public ILoggable {
   int num_of_selected_body_;
   int* selected_body_;          // IDs of selected bodies.
   std::string inertial_frame_;  // Definition of inertial frame. Default = "J2000"
-  std::string aber_cor_;        // stellar aberration correction. Default =
-                                // "NONE"（Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt）
+  std::string aber_cor_;        // stellar aberration correction. Default = "NONE"
+                                //（Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt）
   std::string center_obj_;      // center object. Default = "EARTH"
   RotationMode rotation_mode_;  // designation of dynamics model. Default = "Full"
 
