@@ -10,8 +10,8 @@
 #include "SolarRadiation.h"
 #include "ThirdBodyGravity.h"
 
-Disturbances::Disturbances(SimulationConfig* sim_config, const int sat_id, Structure* structure) {
-  InitializeInstances(sim_config, sat_id, structure);
+Disturbances::Disturbances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env) {
+  InitializeInstances(sim_config, sat_id, structure, glo_env);
   InitializeForceAndTorque();
   InitializeAcceleration();
 }
@@ -63,11 +63,11 @@ Vector<3> Disturbances::GetForce() { return sum_force_; }
 
 Vector<3> Disturbances::GetAccelerationI() { return sum_acceleration_i_; }
 
-void Disturbances::InitializeInstances(SimulationConfig* sim_config, const int sat_id, Structure* structure) {
+void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env) {
   IniAccess iniAccess = IniAccess(sim_config->sat_file_[sat_id]);
   ini_fname_ = iniAccess.ReadString("DISTURBANCE", "dist_file");
 
-  GravityGradient* gg_dist = new GravityGradient(InitGravityGradient(ini_fname_));
+  GravityGradient* gg_dist = new GravityGradient(InitGravityGradient(ini_fname_, glo_env->GetCelesInfo().GetCenterBodyGravityConstant_m3_s2()));
   AirDrag* air_dist = new AirDrag(InitAirDrag(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   SolarRadiation* srp_dist = new SolarRadiation(InitSRDist(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(ini_fname_, structure->GetRMMParams()));
