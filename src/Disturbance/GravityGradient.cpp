@@ -17,14 +17,13 @@ void GravityGradient::Update(const LocalEnvironment& local_env, const Dynamics& 
   CalcTorque(local_env.GetCelesInfo().GetPosFromSC_b("EARTH"), dynamics.GetAttitude().GetInertiaTensor());
 }
 
-Vector<3> GravityGradient::CalcTorque(double R0, Vector<3> u_b, Matrix<3, 3> I_b) {
-  torque_b_ = 3.0 * mu_m3_s2_ / pow(R0, 3.0) * outer_product(normalize(u_b), I_b * normalize(u_b));
-  return torque_b_;
-}
+Vector<3> GravityGradient::CalcTorque(const Vector<3> r_b_m, const Matrix<3, 3> I_b_kgm2) {
+  double r_norm_m = norm(r_b_m);
+  Vector<3> u_b = r_b_m;  // TODO: make undestructive normalize function for Vector
+  u_b /= r_norm_m;
 
-Vector<3> GravityGradient::CalcTorque(Vector<3> r_b, Matrix<3, 3> I_b) {
-  double coeff = 3.0 * mu_m3_s2_ / pow(norm(r_b), 3.0);
-  torque_b_ = coeff * outer_product(normalize(r_b), I_b * normalize(r_b));
+  double coeff = 3.0 * mu_m3_s2_ / pow(r_norm_m, 3.0);
+  torque_b_ = coeff * outer_product(u_b, I_b_kgm2 * u_b);
   return torque_b_;
 }
 
