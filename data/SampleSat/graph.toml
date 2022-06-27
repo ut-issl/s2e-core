@@ -1,0 +1,11 @@
+[[graph]]
+title = "position"
+type = "sat_position_i"
+value = ["X", "Y", "Z"]
+unit = "m"
+
+[[graph]]
+title = "velocity"
+type = "sat_velocity_i"
+value = ["X", "Y", "Z"]
+unit = "m/s"
