@@ -196,3 +196,9 @@ jobs:
           ./gen_graph.sh "${LOG}"
           ls
           ls ./imgs
+
+      - name: upload imgs
+        working-directory: ./data/SampleSat
+        run: |
+          IMG_URL=$(curl -sL -X POST upload.gyazo.com/upload.cgi -F "imagedata=@imgs/position.png")
+          echo "gyazo url: ${IMG_URL}"
