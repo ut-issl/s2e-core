@@ -209,6 +209,7 @@ jobs:
           echo "::set-output name=IMG_EMBED_URL::${IMG_EMBED_URL}"
 
       - name: comment imgs
+        if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF')
         uses: actions/github-script@v6.1.0
         with:
           script: |
