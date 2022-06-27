@@ -14,7 +14,7 @@ GravityGradient::GravityGradient() : GravityGradient(environment::earth_gravitat
 GravityGradient::GravityGradient(const double mu_m3_s2) : mu_m3_s2_(mu_m3_s2) { fill_up(torque_b_, 0.0); }
 
 void GravityGradient::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
-  CalcTorque(local_env.GetCelesInfo().GetPosFromSC_b("EARTH"), dynamics.GetAttitude().GetInertiaTensor());
+  CalcTorque(local_env.GetCelesInfo().GetCenterBodyPosFromSC_b(), dynamics.GetAttitude().GetInertiaTensor());
 }
 
 Vector<3> GravityGradient::CalcTorque(const Vector<3> r_b_m, const Matrix<3, 3> I_b_kgm2) {
