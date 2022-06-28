@@ -5,7 +5,7 @@ add_library(${PROJECT_NAME} STATIC
   AirDrag.cpp
   Disturbances.cpp
   GeoPotential.cpp
-  GGDist.cpp
+  GravityGradient.cpp
   MagDisturbance.cpp
   SolarRadiation.cpp
   SurfaceForce.cpp

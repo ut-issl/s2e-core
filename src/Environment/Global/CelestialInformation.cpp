@@ -149,6 +149,11 @@ double CelestialInformation::GetGravityConstant(const char* body_name) const {
   return celes_objects_gravity_constant_[index];
 }
 
+double CelestialInformation::GetCenterBodyGravityConstant_m3_s2(void) const {
+  return GetGravityConstant(center_obj_.c_str());
+}
+
+
 Vector<3> CelestialInformation::GetRadiiFromName(const char* body_name) const {
   int id = CalcBodyIdFromName(body_name);
   return GetRadii(id);

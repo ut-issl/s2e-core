@@ -3,15 +3,15 @@
 #include <Interface/InitInput/IniAccess.h>
 
 #include "AirDrag.h"
-#include "GGDist.h"
 #include "GeoPotential.h"
+#include "GravityGradient.hpp"
 #include "InitDisturbance.hpp"
 #include "MagDisturbance.h"
 #include "SolarRadiation.h"
 #include "ThirdBodyGravity.h"
 
-Disturbances::Disturbances(SimulationConfig* sim_config, const int sat_id, Structure* structure) {
-  InitializeInstances(sim_config, sat_id, structure);
+Disturbances::Disturbances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env) {
+  InitializeInstances(sim_config, sat_id, structure, glo_env);
   InitializeForceAndTorque();
   InitializeAcceleration();
 }
@@ -63,25 +63,29 @@ Vector<3> Disturbances::GetForce() { return sum_force_; }
 
 Vector<3> Disturbances::GetAccelerationI() { return sum_acceleration_i_; }
 
-void Disturbances::InitializeInstances(SimulationConfig* sim_config, const int sat_id, Structure* structure) {
+void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env) {
   IniAccess iniAccess = IniAccess(sim_config->sat_file_[sat_id]);
   ini_fname_ = iniAccess.ReadString("DISTURBANCE", "dist_file");
 
-  GGDist* gg_dist = new GGDist(InitGGDist(ini_fname_));
-  AirDrag* air_dist = new AirDrag(InitAirDrag(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
-  SolarRadiation* srp_dist = new SolarRadiation(InitSRDist(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
-  MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(ini_fname_, structure->GetRMMParams()));
-
+  GravityGradient* gg_dist = new GravityGradient(InitGravityGradient(ini_fname_, glo_env->GetCelesInfo().GetCenterBodyGravityConstant_m3_s2()));
   disturbances_.push_back(gg_dist);
-  disturbances_.push_back(air_dist);
-  disturbances_.push_back(mag_dist);
+
+  SolarRadiation* srp_dist = new SolarRadiation(InitSRDist(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   disturbances_.push_back(srp_dist);
 
-  GeoPotential* geopotential = new GeoPotential(InitGeoPotential(ini_fname_));
   ThirdBodyGravity* thirdbodygravity = new ThirdBodyGravity(InitThirdBodyGravity(ini_fname_, sim_config->ini_base_fname_));
-
-  acc_disturbances_.push_back(geopotential);
   acc_disturbances_.push_back(thirdbodygravity);
+
+  if (glo_env->GetCelesInfo().GetCenterBodyName() != "EARTH") return;
+  // Earth only disturbances (TODO: implement disturbances for other center bodies)
+  AirDrag* air_dist = new AirDrag(InitAirDrag(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
+  disturbances_.push_back(air_dist);
+
+  MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(ini_fname_, structure->GetRMMParams()));
+  disturbances_.push_back(mag_dist);
+
+  GeoPotential* geopotential = new GeoPotential(InitGeoPotential(ini_fname_));
+  acc_disturbances_.push_back(geopotential);
 }
 
 void Disturbances::InitializeForceAndTorque() {
