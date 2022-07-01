@@ -18,7 +18,9 @@ else()
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wall")
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wextra")
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wpedantic")
-  target_compile_options(${PROJECT_NAME} PUBLIC "-rdynamic")
+
+  # link option
+  target_link_options(${PROJECT_NAME} PUBLIC "-rdynamic")
 
   if(NOT BUILD_64BIT)
     # 32bit
