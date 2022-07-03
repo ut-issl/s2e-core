@@ -23,6 +23,11 @@ class Telescope : public ComponentBase, public ILoggable {
 
   ~Telescope();
 
+  // Getter
+  inline bool GetIsSunInForbiddenAngle() const {return is_sun_in_forbidden_angle;}
+  inline bool GetIsEarthInForbiddenAngle() const {return is_earth_in_forbidden_angle;}
+  inline bool GetIsMoonInForbiddenAngle() const {return is_moon_in_forbidden_angle;}
+
  protected:
  private:
   //! 望遠鏡の姿勢b2c
@@ -41,9 +46,9 @@ class Telescope : public ComponentBase, public ILoggable {
   double x_field_of_view_rad;
   double y_field_of_view_rad;
 
-  bool is_sun_in_forbidden_angle = true;
-  bool is_earth_in_forbidden_angle = true;
-  bool is_moon_in_forbidden_angle = true;
+  bool is_sun_in_forbidden_angle = false;
+  bool is_earth_in_forbidden_angle = false;
+  bool is_moon_in_forbidden_angle = false;
 
   size_t num_of_logged_stars_;  //恒星観測でログに出力する恒星の個数
 
