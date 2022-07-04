@@ -24,9 +24,9 @@ IniAccess::IniAccess(string path) : file_path_(path), reader(path) {
     return;
   }
   if (reader.ParseError() != 0) {
-    cout << "Error reading INI file : " << path << endl;
-    cout << "\t error code: " << reader.ParseError() << endl;
-    throw "Error reading INI file";
+    cerr << "Error reading INI file : " << path << endl;
+    cerr << "\t error code: " << reader.ParseError() << endl;
+    throw std::runtime_error("Error reading INI file");
   }
 }
 #endif
