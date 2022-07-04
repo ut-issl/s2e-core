@@ -182,6 +182,9 @@ void IniAccess::ReadCsvDouble(vector<vector<double>>& doublevec, int node_num) {
 
 void IniAccess::ReadCsvString(vector<vector<string>>& stringvec, int node_num) {
   ifstream ifs(strPath_);
+  if (!ifs.is_open()) {
+    cerr << "file open error. filename = " << strPath_ << std::endl;
+  }
   string line;
   int line_num = 0;
   stringvec.reserve(node_num);
