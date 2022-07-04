@@ -24,9 +24,9 @@ class Telescope : public ComponentBase, public ILoggable {
   ~Telescope();
 
   // Getter
-  inline const bool GetIsSunInForbiddenAngle() const {return is_sun_in_forbidden_angle;}
-  inline const bool GetIsEarthInForbiddenAngle() const {return is_earth_in_forbidden_angle;}
-  inline const bool GetIsMoonInForbiddenAngle() const {return is_moon_in_forbidden_angle;}
+  inline bool GetIsSunInForbiddenAngle() const {return is_sun_in_forbidden_angle;}
+  inline bool GetIsEarthInForbiddenAngle() const {return is_earth_in_forbidden_angle;}
+  inline bool GetIsMoonInForbiddenAngle() const {return is_moon_in_forbidden_angle;}
 
  protected:
  private:
