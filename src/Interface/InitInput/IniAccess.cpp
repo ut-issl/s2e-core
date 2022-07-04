@@ -16,7 +16,8 @@ IniAccess::IniAccess(string path) : file_path_(path) {
 }
 #else
 IniAccess::IniAccess(string path) : file_path_(path), reader(path) {
-  if (path.substr(3) == "ini") {
+  std::string ext = ".ini";
+  if (path.size() > 4 && std::equal(std::rbegin(ext), std::rend(ext), std::rbegin(path))) {
     if (reader.ParseError() != 0) {
       cout << "Error reading INI file : " << path << endl;
       cout << "\t error code: " << reader.ParseError() << endl;
