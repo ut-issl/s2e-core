@@ -9,6 +9,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Compile option
 if(MSVC)
+  target_compile_options(${PROJECT_NAME} PUBLIC "/MP")  # multi process build
+
   target_compile_options(${PROJECT_NAME} PUBLIC "/W4")
   if(NOT USE_HILS) # /MT option conflicts /clr option in the HILS config.
     target_compile_options(${PROJECT_NAME} PUBLIC "/MT")
