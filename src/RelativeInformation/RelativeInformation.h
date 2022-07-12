@@ -25,6 +25,7 @@ class RelativeInformation : public ILoggable {
 
   const libra::Vector<3> GetRelativePosition_i(const int target_sat_id, const int reference_sat_id) const;
   const libra::Vector<3> GetRelativeVelocity_i(const int target_sat_id, const int reference_sat_id) const;
+  libra::Vector<3> CalcRelativePosition_rtn(const int target_sat_id, const int reference_sat_id) const;
 
   inline const Dynamics* GetReferenceSatDynamics(const int reference_sat_id) const { return dynamics_database_.at(reference_sat_id); };
 

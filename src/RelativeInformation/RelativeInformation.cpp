@@ -31,6 +31,29 @@ const libra::Vector<3> RelativeInformation::GetRelativeVelocity_i(const int targ
   return target_sat_vel_i - reference_sat_vel_i;
 }
 
+libra::Vector<3> RelativeInformation::CalcRelativePosition_rtn(const int target_sat_id, const int reference_sat_id) const {
+  libra::Vector<3> target_sat_pos_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetSatPosition_i();
+  libra::Vector<3> reference_sat_pos_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetSatPosition_i();
+  libra::Vector<3> reference_sat_vel_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetSatVelocity_i();
+  libra::Vector<3> relative_pos_i = target_sat_pos_i - reference_sat_pos_i;
+
+  // RTN frame for the reference satellite
+  libra::Vector<3> direction_r_i = normalize(reference_sat_pos_i);
+  libra::Vector<3> direction_v_i = normalize(reference_sat_vel_i);
+  libra::Vector<3> normal_i = cross(direction_r_i, direction_v_i);
+  libra::Vector<3> direction_n_i = normalize(normal_i);
+  libra::Vector<3> direction_t_i = cross(direction_n_i, direction_r_i);
+  direction_t_i = normalize(direction_t_i);
+  libra::Matrix<3, 3> dcm_eci2rtn;
+  for (size_t i = 0; i < 3; i++) {
+    dcm_eci2rtn[0][i] = direction_r_i[i];
+    dcm_eci2rtn[1][i] = direction_t_i[i];
+    dcm_eci2rtn[2][i] = direction_n_i[i];
+  }
+  libra::Vector<3> relative_pos_rtn = dcm_eci2rtn * relative_pos_i;
+  return relative_pos_rtn;
+}
+
 std::string RelativeInformation::GetLogHeader() const {
   std::string str_tmp = "";
   for (size_t target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
@@ -42,6 +65,12 @@ std::string RelativeInformation::GetLogHeader() const {
   for (size_t target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
     for (size_t reference_sat_id = 0; reference_sat_id < target_sat_id; reference_sat_id++) {
       str_tmp += WriteVector("sat" + std::to_string(target_sat_id) + " velocity from sat" + std::to_string(reference_sat_id), "i", "m", 3);
+    }
+  }
+
+  for (size_t target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
+    for (size_t reference_sat_id = 0; reference_sat_id < target_sat_id; reference_sat_id++) {
+      str_tmp += WriteVector("sat" + std::to_string(target_sat_id) + " pos from sat" + std::to_string(reference_sat_id), "rtn", "m", 3);
     }
   }
   return str_tmp;
@@ -60,6 +89,13 @@ std::string RelativeInformation::GetLogValue() const {
       str_tmp += WriteVector(GetRelativeVelocity_i(target_sat_id, reference_sat_id));
     }
   }
+
+  for (size_t target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
+    for (size_t reference_sat_id = 0; reference_sat_id < target_sat_id; reference_sat_id++) {
+      str_tmp += WriteVector(CalcRelativePosition_rtn(target_sat_id, reference_sat_id));
+    }
+  }
+
   return str_tmp;
 }
 
