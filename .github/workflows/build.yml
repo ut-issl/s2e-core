@@ -108,7 +108,7 @@ jobs:
       - name: run simulation(SampleSat)
         working-directory: ./data/SampleSat
         run: |
-          ..\..\S2E.exe
+          ..\..\Debug\S2E.exe
 
   build_s2e_linux:
     name: Build on Linux
