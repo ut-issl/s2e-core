@@ -61,3 +61,7 @@
 - name: "WINGS"
   description: ""
   color: "1503bb"
+
+- name: "automation::comment-graph"
+  description: "comment simulation result graph on pull request"
+  color: "d4c5f9"
