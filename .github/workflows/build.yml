@@ -6,6 +6,7 @@ on:
       - main
       - develop
   pull_request:
+    types: [opened, synchronize, reopened, labeled]
     paths:
       - '.github/workflows/build.yml'
       - 'ExtLibraries/**'
@@ -200,7 +201,7 @@ jobs:
       - name: upload imgs
         id: upload_imgs
         working-directory: ./data/SampleSat
-        if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF')
+        if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF') && contains(github.event.pull_request.labels.*.name, 'enhancement')
         run: |
           IMG_URL=$(curl -sL -X POST upload.gyazo.com/upload.cgi -F "imagedata=@imgs/position.png")
           echo "gyazo url: ${IMG_URL}"
@@ -209,7 +210,7 @@ jobs:
           echo "::set-output name=IMG_EMBED_URL::${IMG_EMBED_URL}"
 
       - name: comment imgs
-        if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF')
+        if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF') && contains(github.event.pull_request.labels.*.name, 'enhancement')
         uses: actions/github-script@v6.1.0
         with:
           script: |
