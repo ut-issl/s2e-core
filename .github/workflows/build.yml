@@ -99,6 +99,17 @@ jobs:
           cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }}
           cmake --build .
 
+      - name: fix simulation config
+        shell: bash
+        working-directory: ./data/SampleSat/ini
+        run: |
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
+
+      - name: run simulation(SampleSat)
+        working-directory: ./data/SampleSat
+        run: |
+          ../../S2E
+
   build_s2e_linux:
     name: Build on Linux
     runs-on: ubuntu-latest
