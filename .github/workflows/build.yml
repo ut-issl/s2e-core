@@ -6,6 +6,7 @@ on:
       - main
       - develop
   pull_request:
+    types: [opened, synchronize, reopened, labeled]
     paths:
       - '.github/workflows/build.yml'
       - 'ExtLibraries/**'
@@ -98,6 +99,17 @@ jobs:
           cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }}
           cmake --build .
 
+      - name: fix simulation config
+        shell: bash
+        working-directory: ./data/SampleSat/ini
+        run: |
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
+
+      - name: run simulation(SampleSat)
+        working-directory: ./data/SampleSat
+        run: |
+          ..\..\Debug\S2E.exe
+
   build_s2e_linux:
     name: Build on Linux
     runs-on: ubuntu-latest
@@ -176,3 +188,48 @@ jobs:
         run: |
           cmake . -DEXT_LIB_DIR=./ExtLibraries -D${{ matrix.build_bit }}
           cmake --build .
+
+      - name: fix simulation config
+        working-directory: ./data/SampleSat/ini
+        run: |
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
+
+      - name: run simulation(SampleSat)
+        working-directory: ./data/SampleSat
+        run: |
+          ../../S2E
+      - name: generate graph
+        working-directory: ./data/SampleSat
+        run: |
+          sudo apt-get install -y gnuplot
+          pip3 install yq
+          LOG=$(ls logs/logs_*/*.csv)
+          echo "plot $LOG"
+          ./gen_graph.sh "${LOG}"
+          ls
+          ls ./imgs
+
+      - name: upload imgs
+        id: upload_imgs
+        working-directory: ./data/SampleSat
+        if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF') && contains(github.event.pull_request.labels.*.name, 'automation::comment-graph')
+        run: |
+          IMG_URL=$(curl -sL -X POST upload.gyazo.com/upload.cgi -F "imagedata=@imgs/position.png")
+          echo "gyazo url: ${IMG_URL}"
+          IMG_EMBED_URL="${IMG_URL//gyazo/i.gyazo}.png"
+          echo "gyazo embed url: ${IMG_EMBED_URL}"
+          echo "::set-output name=IMG_EMBED_URL::${IMG_EMBED_URL}"
+
+      - name: comment imgs
+        if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF') && contains(github.event.pull_request.labels.*.name, 'automation::comment-graph')
+        uses: actions/github-script@v6.1.0
+        with:
+          script: |
+            const output = `## \`position.png\`
+            ![position](${{ steps.upload_imgs.outputs.IMG_EMBED_URL }})`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
