@@ -34,23 +34,12 @@ const libra::Vector<3> RelativeInformation::GetRelativeVelocity_i(const int targ
 libra::Vector<3> RelativeInformation::CalcRelativePosition_rtn(const int target_sat_id, const int reference_sat_id) const {
   libra::Vector<3> target_sat_pos_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetSatPosition_i();
   libra::Vector<3> reference_sat_pos_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetSatPosition_i();
-  libra::Vector<3> reference_sat_vel_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetSatVelocity_i();
   libra::Vector<3> relative_pos_i = target_sat_pos_i - reference_sat_pos_i;
 
   // RTN frame for the reference satellite
-  libra::Vector<3> direction_r_i = normalize(reference_sat_pos_i);
-  libra::Vector<3> direction_v_i = normalize(reference_sat_vel_i);
-  libra::Vector<3> normal_i = cross(direction_r_i, direction_v_i);
-  libra::Vector<3> direction_n_i = normalize(normal_i);
-  libra::Vector<3> direction_t_i = cross(direction_n_i, direction_r_i);
-  direction_t_i = normalize(direction_t_i);
-  libra::Matrix<3, 3> dcm_eci2rtn;
-  for (size_t i = 0; i < 3; i++) {
-    dcm_eci2rtn[0][i] = direction_r_i[i];
-    dcm_eci2rtn[1][i] = direction_t_i[i];
-    dcm_eci2rtn[2][i] = direction_n_i[i];
-  }
-  libra::Vector<3> relative_pos_rtn = dcm_eci2rtn * relative_pos_i;
+  libra::Quaternion q_i2rtn = dynamics_database_.at(reference_sat_id)->GetOrbit().CalcQuaternionI2LVLH();
+
+  libra::Vector<3> relative_pos_rtn = q_i2rtn.frame_conv(relative_pos_i);
   return relative_pos_rtn;
 }
 
