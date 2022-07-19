@@ -1,13 +1,8 @@
 #
 # Plot Satellite Position on Miller Projection Map
 #
-
+# arg[1] : read_file_tag : time tag for default CSV output log file. ex. 220627_142946
 #
-# User Settings
-#
-# CSC file path and name
-read_file_name = '../../data/SampleSat/logs/logs_220627_142946/220627_142946_default.csv'
-
 
 #
 # Import
@@ -16,10 +11,32 @@ read_file_name = '../../data/SampleSat/logs/logs_220627_142946/220627_142946_def
 import numpy as np
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
-# csv
+# csv read
 import pandas
 # local function
 from make_miller_projection_map import make_miller_projection_map
+# arguments
+import sys
+
+#
+# User Settings
+#
+path_to_logs = '../../data/SampleSat/logs/'
+# CSV file path and name used when no arguments
+# TODO: Read the latest log file when there is no argument
+read_file_tag = '220627_142946'
+
+#
+# Read Arguments
+#
+num_args = len(sys.argv)
+if num_args == 2:
+  read_file_tag = sys.argv[1]
+
+#
+# CSV file name
+#
+read_file_name  = path_to_logs + 'logs_' + read_file_tag + '/' + read_file_tag + '_default.csv'
 
 #
 # Base Map projection
@@ -43,5 +60,5 @@ sc_map_lon, sc_map_lat = map(sc_lon_deg, sc_lat_deg)
 for i in range(len(sc_map_lat)):
   map.plot(sc_map_lon[i], sc_map_lat[i], color='blue', marker='o', markersize=3)
 
-plt.title('Satellite Orbit on Miller Projection Map')
+plt.title('Satellite Orbit on Miller Projection Map: logs_' + read_file_tag)
 plt.show()

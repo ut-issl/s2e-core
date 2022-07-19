@@ -1,16 +1,10 @@
 #
 # Plot Satellite Position with Ground Station Visibility on Miller Projection Map
 #
-
+# arg[1] : read_file_tag : time tag for default CSV output log file. ex. 220627_142946
+# arg[2] : gs_lat_deg : lattitude of ground station [deg]
+# arg[3] : gs_lon_deg : longitude of ground station [deg]
 #
-# User Settings
-#
-# Ground Station Position
-gs_lat_deg = 26.140837
-gs_lon_deg = 127.661483
-# CSC file name
-read_file_name = '../../data/SampleSat/logs/logs_220627_142946/220627_142946_default.csv'
-
 
 #
 # Import
@@ -23,6 +17,36 @@ import matplotlib.pyplot as plt
 import pandas
 # local function
 from make_miller_projection_map import make_miller_projection_map
+# arguments
+import sys
+
+#
+# User Settings
+#
+# log file path
+path_to_logs = '../../data/SampleSat/logs/'
+# CSV file time tag name used when no arguments
+# TODO: Read the latest log file when there is no argument
+read_file_tag = '220627_142946'
+# Ground Station Position used when no arguments
+# TODO: Read from the ini file in the logs directory
+gs_lat_deg = 26.140837
+gs_lon_deg = 127.661483
+
+#
+# Read Arguments
+#
+num_args = len(sys.argv)
+if num_args >= 2:
+  read_file_tag = sys.argv[1]
+if num_args == 4:
+  gs_lat_deg = float(sys.argv[2])
+  gs_lon_deg = float(sys.argv[3])
+
+#
+# CSV file name
+#
+read_file_name  = path_to_logs + 'logs_' + read_file_tag + '/' + read_file_tag + '_default.csv'
 
 #
 # Base Map projection
@@ -59,5 +83,5 @@ map.plot(gs_map_lon, gs_map_lat, color='red', marker='*', markersize=12)
 for i in range(len(sc_map_lat)):
   map.plot(sc_map_lon[i], sc_map_lat[i], color=visibility_color(gs_visibility[i]), marker='o', markersize=3)
 
-plt.title('GS Visilibity Analysis')
+plt.title('GS Visilibity Analysis: logs_' + read_file_tag)
 plt.show()
