@@ -32,3 +32,5 @@ Icon
 .Spotlight-V100
 .Trashes
 
+# Python
+__pycache__/
