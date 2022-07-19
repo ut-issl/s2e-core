@@ -44,8 +44,8 @@ gs_visibility = df['is_sc0_visible_from_gs0'].to_numpy()
 
 # Set color
 def visibility_color(visibility):
- if visibility == 1: return 'red'
- else: return 'blue'
+  if visibility == 1: return 'red'
+  else: return 'blue'
 
 
 #
