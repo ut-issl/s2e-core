@@ -16,22 +16,24 @@ import pandas
 # local function
 from make_miller_projection_map import make_miller_projection_map
 # arguments
-import sys
+import argparse
 
-#
-# User Settings
-#
-path_to_logs = '../../data/SampleSat/logs/'
-# CSV file path and name used when no arguments
-# TODO: Read the latest log file when there is no argument
-read_file_tag = '220627_142946'
+aparser = argparse.ArgumentParser()
+
+aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs/')
+aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
+
+args = aparser.parse_args()
 
 #
 # Read Arguments
 #
-num_args = len(sys.argv)
-if num_args == 2:
-  read_file_tag = sys.argv[1]
+
+# log file path
+path_to_logs = args.logs_dir
+
+# TODO: Read the latest log file when there is no argument
+read_file_tag = args.file_tag
 
 #
 # CSV file name
