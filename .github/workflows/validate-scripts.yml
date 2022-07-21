@@ -8,7 +8,7 @@ on:
   pull_request:
     paths:
       - '.github/workflows/validate-scripts.yml'
-      - './scripts/**'
+      - 'scripts/**'
 
 jobs:
   validate_plot_scripts:
