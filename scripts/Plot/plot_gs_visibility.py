@@ -17,10 +17,9 @@ import matplotlib.pyplot as plt
 import pandas
 # local function
 from make_miller_projection_map import make_miller_projection_map
+from common import find_latest_log_tag
 # arguments
 import argparse
-
-import os
 
 aparser = argparse.ArgumentParser()
 
@@ -40,17 +39,10 @@ path_to_logs = args.logs_dir
 
 read_file_tag = args.file_tag
 if read_file_tag == None:
-  print("file tag does not found.")
-  dlist = sorted(os.listdir(path_to_logs))
-  latest_log = None
-  for d in dlist:
-    if os.path.isfile(path_to_logs + d):
-      continue
-    if not d.startswith("logs_"):
-      continue
-    latest_log = d
-  print("use latest log: " + path_to_logs + "/" + latest_log)
-  read_file_tag = latest_log[len("logs_"):]
+  print("file tag does not found. use latest.")
+  read_file_tag = find_latest_log_tag(path_to_logs)
+
+print("log: " + read_file_tag)
 
 gs_lat_deg = args.gs_lat
 gs_lon_deg = args.gs_lon
