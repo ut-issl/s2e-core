@@ -18,9 +18,11 @@ from make_miller_projection_map import make_miller_projection_map
 # arguments
 import argparse
 
+import os
+
 aparser = argparse.ArgumentParser()
 
-aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs/')
+aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs')
 aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
 
 args = aparser.parse_args()
@@ -32,13 +34,24 @@ args = aparser.parse_args()
 # log file path
 path_to_logs = args.logs_dir
 
-# TODO: Read the latest log file when there is no argument
 read_file_tag = args.file_tag
+if read_file_tag == None:
+  print("file tag does not found.")
+  dlist = sorted(os.listdir(path_to_logs))
+  latest_log = None
+  for d in dlist:
+    if os.path.isfile(path_to_logs + d):
+      continue
+    if not d.startswith("logs_"):
+      continue
+    latest_log = d
+  print("use latest log: " + path_to_logs + "/" + latest_log)
+  read_file_tag = latest_log[len("logs_"):]
 
 #
 # CSV file name
 #
-read_file_name  = path_to_logs + 'logs_' + read_file_tag + '/' + read_file_tag + '_default.csv'
+read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file_tag + '_default.csv'
 
 #
 # Base Map projection
