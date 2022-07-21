@@ -11,8 +11,12 @@ on:
       - 'scripts/**'
 
 jobs:
-  validate_plot_scripts:
+  validate_script:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        script_dir: ['./scripts/Plot']
 
     steps:
       - uses: actions/checkout@v3
@@ -25,7 +29,7 @@ jobs:
         run: pip install pipenv
 
       - name: install Plot script dependencies
-        working-directory: ./scripts/Plot
+        working-directory: ${{ matrix.script_dir }}
         run: |
           pipenv install
           pipenv graph
