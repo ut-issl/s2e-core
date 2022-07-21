@@ -21,9 +21,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: read python version from Pipfile
+        id: python-version
+        working-directory: ${{ matrix.script_dir }}
+        run: |
+          ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
+          echo "::set-output name=version::${ver}"
+
       - uses: actions/setup-python@v4.1.0
         with:
-          python-version: '3.7'
+          python-version: ${{ steps.python-version.outputs.version }}
 
       - name: install pipenv
         run: pip install pipenv
