@@ -18,30 +18,35 @@ import pandas
 # local function
 from make_miller_projection_map import make_miller_projection_map
 # arguments
-import sys
+import argparse
 
-#
-# User Settings
-#
-# log file path
-path_to_logs = '../../data/SampleSat/logs/'
-# CSV file time tag name used when no arguments
-# TODO: Read the latest log file when there is no argument
-read_file_tag = '220627_142946'
-# Ground Station Position used when no arguments
-# TODO: Read from the ini file in the logs directory
-gs_lat_deg = 26.140837
-gs_lon_deg = 127.661483
+aparser = argparse.ArgumentParser()
+
+aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs/')
+aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
+aparser.add_argument('--gs-lat', type=float, help='ground station lat(deg)')
+aparser.add_argument('--gs-lon', type=float, help='ground station lon(deg)')
+
+args = aparser.parse_args()
 
 #
 # Read Arguments
 #
-num_args = len(sys.argv)
-if num_args >= 2:
-  read_file_tag = sys.argv[1]
-if num_args == 4:
-  gs_lat_deg = float(sys.argv[2])
-  gs_lon_deg = float(sys.argv[3])
+
+# log file path
+path_to_logs = args.logs_dir
+
+# TODO: Read the latest log file when there is no argument
+read_file_tag = args.file_tag
+
+gs_lat_deg = args.gs_lat
+gs_lon_deg = args.gs_lon
+
+# TODO: Read from the ini file in the logs directory
+if not gs_lon_deg:
+  gs_lon_deg = 26.140837
+if not gs_lat_deg:
+  gs_lat_deg = 127.661483
 
 #
 # CSV file name
