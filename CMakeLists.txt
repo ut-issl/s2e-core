@@ -57,9 +57,21 @@ endif()
 
 set(S2E_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
+include(ExternalProject)
+## toml11
+ExternalProject_Add(
+  toml11
+  GIT_REPOSITORY    https://github.com/ToruNiina/toml11
+  GIT_TAG           v3.7.0
+  PREFIX            ${CMAKE_CURRENT_BINARY_DIR}/toml11
+  CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR} -Dtoml11_BUILD_TEST=OFF
+)
+
+
 ## include directories
 include_directories(${CSPICE_DIR}/include)
 include_directories(${NRLMSISE00_DIR}/src)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 
 ## add_subdirectories
 add_subdirectory(src/Simulation)
@@ -95,6 +107,7 @@ set(SOURCE_FILES
 
 ## Create executable file
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_dependencies(${PROJECT_NAME} toml11)
 
 ## cspice library
 if(CYGWIN)
