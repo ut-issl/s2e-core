@@ -30,13 +30,19 @@ ComponentBase::~ComponentBase() { clock_gen_->RemoveComponent(this); }
 
 // 時を刻む
 void ComponentBase::Tick(int count) {
-  if (!power_port_->GetIsOn()) return;
-  if (count % prescaler_ > 0) return;
-  MainRoutine(count);
+  if (power_port_->GetIsOn()) {
+    if (count % prescaler_ > 0) return;
+    MainRoutine(count);
+  } else {
+    PowerOffRoutine();
+  }
 }
 
 void ComponentBase::FastTick(int count) {
-  if (!power_port_->GetIsOn()) return;
-  if (count % fast_prescaler_ > 0) return;
-  FastUpdate();
+  if (power_port_->GetIsOn()) {
+    if (count % fast_prescaler_ > 0) return;
+    FastUpdate();
+  } else {
+    PowerOffRoutine();
+  }
 }
