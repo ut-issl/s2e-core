@@ -47,8 +47,8 @@ class RWModel : public ComponentBase, public ILoggable {
 
   // ComponentBase override function
   void MainRoutine(int count) override;
-  // Fast Update for jitter
-  void FastUpdate() override;
+  void PowerOffRoutine() override;
+  void FastUpdate() override;  // Fast Update for jitter
 
   // Iloggable override function
   std::string GetLogHeader() const;
