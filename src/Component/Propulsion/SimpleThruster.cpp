@@ -49,6 +49,11 @@ void SimpleThruster::MainRoutine(int count) {
   CalcTorque(structure_->GetKinematicsParams().GetCGb());
 }
 
+void SimpleThruster::PowerOffRoutine() {
+  thrust_b_(0.0);
+  torque_b_(0.0);
+}
+
 void SimpleThruster::CalcThrust() {
   double mag = CalcThrustMagnitude();
   if (duty_ > 0.0 + DBL_EPSILON) mag += mag_nr_;
