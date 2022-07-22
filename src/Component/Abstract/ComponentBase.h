@@ -22,7 +22,8 @@ class ComponentBase : public ITickable {
   int prescaler_;           //!< Frequency scale factor for normal update
   int fast_prescaler_ = 1;  //!< Frequency scale factor for fast update
 
-  // The method periodically executed. The period is decided with the prescaler_ and the base clock.
+  // The method periodically executed when the power switch is on.
+  // The period is decided with the prescaler_ and the base clock.
   virtual void MainRoutine(int time_count) = 0;
 
   // Method used to calculate high-frequency disturbances(e.g. RW jitter)
