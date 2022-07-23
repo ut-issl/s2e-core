@@ -74,7 +74,6 @@ void Rk4OrbitPropagation::Propagate(double endtime, double current_jd) {
   Update();
   prop_time_ = endtime;
 
-  acc_i_ *= 0;  // Reset disturbance acceleration
   sat_position_i_[0] = state()[0];
   sat_position_i_[1] = state()[1];
   sat_position_i_[2] = state()[2];
