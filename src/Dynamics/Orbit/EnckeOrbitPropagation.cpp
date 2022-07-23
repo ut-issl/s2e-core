@@ -40,7 +40,6 @@ void EnckeOrbitPropagation::Propagate(double endtime, double current_jd) {
   Update();
   prop_time_s_ = endtime;
 
-  acc_i_ *= 0.0;  // Reset disturbance acceleration
   diff_position_i_m_[0] = state()[0];
   diff_position_i_m_[1] = state()[1];
   diff_position_i_m_[2] = state()[2];
