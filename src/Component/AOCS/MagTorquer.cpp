@@ -50,7 +50,7 @@ void MagTorquer::MainRoutine(int count) {
   CalcOutputTorque();
 }
 
-void MagTorquer::PowerOffRoutine() { torque_b_(0.0); }
+void MagTorquer::PowerOffRoutine() { torque_b_ *= 0.0; }
 
 libra::Vector<kMtqDim> MagTorquer::CalcOutputTorque(void) {
   for (size_t i = 0; i < kMtqDim; ++i) {

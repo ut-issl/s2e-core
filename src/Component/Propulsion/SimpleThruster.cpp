@@ -50,8 +50,8 @@ void SimpleThruster::MainRoutine(int count) {
 }
 
 void SimpleThruster::PowerOffRoutine() {
-  thrust_b_(0.0);
-  torque_b_(0.0);
+  thrust_b_ *= 0.0;
+  torque_b_ *= 0.0;
 }
 
 void SimpleThruster::CalcThrust() {
