@@ -93,6 +93,8 @@ void RWModel::MainRoutine(int count) {
   CalcTorque();
 }
 
+void RWModel::PowerOffRoutine() { drive_flag_ = 0; }
+
 // Jitter calculation
 void RWModel::FastUpdate() { rw_jitter_.CalcJitter(angular_velocity_rad_); }
 

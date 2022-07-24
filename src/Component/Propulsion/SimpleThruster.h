@@ -27,6 +27,7 @@ class SimpleThruster : public ComponentBase, public ILoggable {
 
   // ComponentBase override function
   void MainRoutine(int count);
+  void PowerOffRoutine() override;
 
   // ILogabble override function
   virtual std::string GetLogHeader() const;

@@ -41,6 +41,7 @@ class MagTorquer : public ComponentBase, public ILoggable {
 
   // ComponentBase override functions
   void MainRoutine(int count) override;
+  void PowerOffRoutine() override;
   // ILogabble override functions
   virtual std::string GetLogHeader() const;
   virtual std::string GetLogValue() const;
