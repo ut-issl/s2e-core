@@ -15,12 +15,13 @@ import matplotlib.pyplot as plt
 import pandas
 # local function
 from make_miller_projection_map import make_miller_projection_map
+from common import find_latest_log_tag
 # arguments
 import argparse
 
 aparser = argparse.ArgumentParser()
 
-aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs/')
+aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs')
 aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
 
 args = aparser.parse_args()
@@ -32,13 +33,17 @@ args = aparser.parse_args()
 # log file path
 path_to_logs = args.logs_dir
 
-# TODO: Read the latest log file when there is no argument
 read_file_tag = args.file_tag
+if read_file_tag == None:
+  print("file tag does not found. use latest.")
+  read_file_tag = find_latest_log_tag(path_to_logs)
+
+print("log: " + read_file_tag)
 
 #
 # CSV file name
 #
-read_file_name  = path_to_logs + 'logs_' + read_file_tag + '/' + read_file_tag + '_default.csv'
+read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file_tag + '_default.csv'
 
 #
 # Base Map projection
