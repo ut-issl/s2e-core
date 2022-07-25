@@ -209,6 +209,13 @@ jobs:
           ls
           ls ./imgs
 
+      - name: plot GS visibility
+        working-directory: ./scripts/Plot
+        run: |
+          pip install pipenv
+          pipenv install
+          pipenv run python plot_gs_visibility.py --no-gui
+
       - name: upload imgs
         id: upload_imgs
         working-directory: ./data/SampleSat
