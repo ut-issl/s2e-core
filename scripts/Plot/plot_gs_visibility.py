@@ -27,6 +27,7 @@ aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../da
 aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
 aparser.add_argument('--gs-lat', type=float, help='ground station lat(deg)')
 aparser.add_argument('--gs-lon', type=float, help='ground station lon(deg)')
+aparser.add_argument('--no-gui', action='store_true')
 
 args = aparser.parse_args()
 
@@ -94,4 +95,8 @@ for i in range(len(sc_map_lat)):
   map.plot(sc_map_lon[i], sc_map_lat[i], color=visibility_color(gs_visibility[i]), marker='o', markersize=3)
 
 plt.title('GS Visilibity Analysis: logs_' + read_file_tag)
-plt.show()
+
+if args.no_gui:
+  plt.savefig(read_file_tag + "_gs_visibility.png")
+else:
+  plt.show()
