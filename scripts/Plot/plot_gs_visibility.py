@@ -48,10 +48,10 @@ gs_lat_deg = args.gs_lat
 gs_lon_deg = args.gs_lon
 
 # TODO: Read from the ini file in the logs directory
-if not gs_lon_deg:
-  gs_lon_deg = 26.140837
 if not gs_lat_deg:
-  gs_lat_deg = 127.661483
+  gs_lat_deg = 26.140837
+if not gs_lon_deg:
+  gs_lon_deg = 127.661483
 
 #
 # CSV file name
