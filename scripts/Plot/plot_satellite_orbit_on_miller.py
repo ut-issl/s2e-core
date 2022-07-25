@@ -23,6 +23,7 @@ aparser = argparse.ArgumentParser()
 
 aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs')
 aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
+aparser.add_argument('--no-gui', action='store_true')
 
 args = aparser.parse_args()
 
@@ -69,3 +70,8 @@ for i in range(len(sc_map_lat)):
 
 plt.title('Satellite Orbit on Miller Projection Map: logs_' + read_file_tag)
 plt.show()
+
+if args.no_gui:
+  plt.savefig(read_file_tag + "_orbit_on_miller.png")
+else:
+  plt.show()
