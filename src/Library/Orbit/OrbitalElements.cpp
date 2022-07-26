@@ -1,5 +1,7 @@
 #include "OrbitalElements.h"
 
+#include <cfloat>
+
 #include "../math/s2e_math.hpp"
 
 OrbitalElements::OrbitalElements() {}
@@ -40,8 +42,13 @@ void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_
   inclination_rad_ = acos(h_direction[2]);
 
   // RAAN
-  raan_rad_ = asin(h[0] / sqrt(h[0] * h[0] + h[1] * h[1]));  // TODO: 傾斜角0に対応できない
-
+  double norm_h = sqrt(h[0] * h[0] + h[1] * h[1]);
+  if (norm_h < 0.0 + DBL_EPSILON) {
+    // We cannot define raan when i = 0
+    raan_rad_ = 0.0;
+  } else {
+    raan_rad_ = asin(h[0] / sqrt(h[0] * h[0] + h[1] * h[1]));
+  }
   // position in plane
   double x_p_m = r_i_m[0] * cos(raan_rad_) + r_i_m[1] * sin(raan_rad_);
   double tmp_m = -r_i_m[0] * sin(raan_rad_) + r_i_m[1] * cos(raan_rad_);
