@@ -5,7 +5,7 @@
 ObcCommunicationBase::ObcCommunicationBase(int sils_port_id, OBC* obc) : sils_port_id_(sils_port_id), obc_(obc) {
 #ifdef USE_HILS
   sim_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
-  printf("Error: USE_HILS:ON Check compo initialization");
+  printf("Error: USE_HILS:ON Check compo initialization\n");
 #else
   sim_mode_ = OBC_COM_UART_MODE::SILS;
 #endif
@@ -18,7 +18,7 @@ ObcCommunicationBase::ObcCommunicationBase(int sils_port_id, const int tx_buf_si
     : sils_port_id_(sils_port_id), tx_buf_size_(tx_buf_size), rx_buf_size_(rx_buf_size), obc_(obc) {
 #ifdef USE_HILS
   sim_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
-  printf("Error: USE_HILS:ON Check compo initialization");
+  printf("Error: USE_HILS:ON Check compo initialization\n");
 #else
   sim_mode_ = OBC_COM_UART_MODE::SILS;
 #endif
@@ -33,7 +33,7 @@ ObcCommunicationBase::ObcCommunicationBase(const unsigned int hils_port_id, cons
   sim_mode_ = OBC_COM_UART_MODE::HILS;
 #else
   sim_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
-  printf("Error: USE_HILS:OFF Check compo initialization");
+  printf("Error: USE_HILS:OFF Check compo initialization\n");
 #endif
   tx_buf_size_ = kDefaultBufferSize;
   rx_buf_size_ = kDefaultBufferSize;
@@ -51,7 +51,7 @@ ObcCommunicationBase::ObcCommunicationBase(const unsigned int hils_port_id, cons
   sim_mode_ = OBC_COM_UART_MODE::HILS;
 #else
   sim_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
-  printf("Error: USE_HILS:OFF Check compo initialization");
+  printf("Error: USE_HILS:OFF Check compo initialization\n");
 #endif
   if (tx_buf_size_ > kDefaultBufferSize) tx_buf_size_ = kDefaultBufferSize;
   if (rx_buf_size_ > kDefaultBufferSize) rx_buf_size_ = kDefaultBufferSize;

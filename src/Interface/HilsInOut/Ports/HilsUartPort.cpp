@@ -1,5 +1,7 @@
 ﻿#include "HilsUartPort.h"
 
+// # define HILS_UART_PORT_SHOW_DEBUG_DATA
+
 HilsUartPort::HilsUartPort(const unsigned int port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
                            const unsigned int rx_buffer_size)
     : kPortName(PortName(port_id)), baud_rate_(baud_rate), kTxBufferSize(tx_buffer_size), kRxBufferSize(rx_buffer_size) {
@@ -42,7 +44,10 @@ int HilsUartPort::ClosePort() {
   try {
     port_->Close();
   } catch (System::Exception ^ e) {
+#ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
+    printf("\n");
+#endif
     return -1;
   }
   return 0;
@@ -61,21 +66,33 @@ int HilsUartPort::OpenPort() {
     // The current process, or another process on the system, already has the
     // specified COM port open
     //   either by a SerialPort instance or in unmanaged code.
+#ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
+    printf("\n");
+#endif
     return -2;
   } catch (System::ArgumentOutOfRangeException ^ e) {
     // One or more of the properties for this instance are invalid.
+#ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
+    printf("\n");
+#endif
     return -3;
   } catch (System::ArgumentException ^ e) {
     // The port name does not begin with "COM".
     //   or
     // The file type of the port is not supported.
+#ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
+    printf("\n");
+#endif
     return -4;
   } catch (System::IO::IOException ^ e) {
     // The port is in an invalid state.
+#ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
+    printf("\n");
+#endif
     return -5;
   }
   return 0;  // Success !!
@@ -93,7 +110,10 @@ int HilsUartPort::WriteTx(const unsigned char* buffer, int offset, int count) {
   try {
     port_->Write(tx_buf_, 0, count);
   } catch (System::Exception ^ e) {
+#ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
+    printf("\n");
+#endif
     return -1;
   }
   return 0;
@@ -109,10 +129,16 @@ int HilsUartPort::ReadRx(unsigned char* buffer, int offset, int count) {
     // TODO: Add enum for exception
   } catch (System::TimeoutException ^ e) {
     // No bytes were available to read.
+#ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
+    printf("\n");
+#endif
     return -1;
   } catch (System::Exception ^ e) {
+#ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
+    printf("\n");
+#endif
     return -2;
   }
 }
@@ -123,7 +149,10 @@ int HilsUartPort::GetBytesToRead() {
     bytes_to_read = port_->BytesToRead;
   } catch (System::Exception ^ e) {
     // Port is not open
+#ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
+    printf("\n");
+#endif
     return -1;
   }
   return bytes_to_read;
@@ -133,7 +162,10 @@ int HilsUartPort::DiscardInBuffer() {
   try {
     port_->DiscardInBuffer();
   } catch (System::Exception ^ e) {
+#ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
+    printf("\n");
+#endif
     return -1;
   }
   return 0;
@@ -143,7 +175,10 @@ int HilsUartPort::DiscardOutBuffer() {
   try {
     port_->DiscardOutBuffer();
   } catch (System::Exception ^ e) {
+#ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
+    printf("\n");
+#endif
     return -1;
   }
   return 0;
