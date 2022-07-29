@@ -59,6 +59,12 @@ int HilsI2cTargetPort::Receive()  // from I2C-USB Target converter
   int received_bytes = ReadRx(rx_buf, 0, kDefaultCmdSize);
   if (received_bytes > kDefaultCmdSize) return -1;
 
+  for (int i = 0; i < received_bytes; i++)
+  {
+    printf("%02x ", rx_buf[i]);
+  }
+  printf("\n");
+
   for (unsigned char i = 0; i < received_bytes; i++) {
     cmd_buffer_[i] = rx_buf[i];
   }
@@ -85,6 +91,12 @@ int HilsI2cTargetPort::Send(const unsigned char len)  // to I2C-USB Target Conve
   for (unsigned char i = 0; i < len; i++) {
     tx_buf[i] = device_registers_[saved_reg_addr_ + i];
   }
+
+  for (int i = 0; i < len; i++)
+  {
+    printf("%02x ", tx_buf[i]);
+  }
+  printf("\n");
 
   int ret = WriteTx(tx_buf, 0, len);
   stored_frame_counter_++;
