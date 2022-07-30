@@ -71,6 +71,8 @@ class NormalRand {
   */
   inline void set_param(double avg, double stddev);
 
+  inline void set_param(double avg, double stddev, long seed);
+
  private:
   //! 平均値を保持するメンバ
   double avg_;
