@@ -1,13 +1,14 @@
 #pragma once
 
 #include <Library/utils/Macros.hpp>
+#include <Library/math/GlobalRand.h>
 
 template <size_t N>
 RandomWalk<N>::RandomWalk(double step_width, const libra::Vector<N>& stddev, const libra::Vector<N>& limit)
     : libra::ODE<N>(step_width), limit_(limit) {
   // 標準偏差設定
   for (size_t i = 0; i < N; ++i) {
-    nrs_[i].set_param(0.0, stddev[i]);  // g_rand.MakeSeed()
+    nrs_[i].set_param(0.0, stddev[i], g_rand.MakeSeed());
   }
 }
 

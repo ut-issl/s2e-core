@@ -11,6 +11,11 @@ Ran1::Ran1() : y_(0) { init_(); }
 
 Ran1::Ran1(long seed) : ran0_(seed), y_(0) { init_(); }
 
+void Ran1::init_seed(long seed) {
+  ran0_.init(seed);
+  init_();
+}
+
 void Ran1::init_() {
   // ran0_のウォームアップ
   for (int i = 0; i < 8; i++) {

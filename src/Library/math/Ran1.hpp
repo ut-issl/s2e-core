@@ -37,6 +37,8 @@ class Ran1 {
    */
   operator double();
 
+  void init_seed(long seed);
+
  private:
   //! 切り混ぜ表の初期化処理を行う関数
   void init_();
