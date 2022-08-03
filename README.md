@@ -1,4 +1,6 @@
 # S2E CORE
+[![check format](https://github.com/ut-issl/s2e-core/actions/workflows/check-format.yml/badge.svg)](https://github.com/ut-issl/s2e-core/actions/workflows/check-format.yml)
+[![Build](https://github.com/ut-issl/s2e-core/actions/workflows/build.yml/badge.svg)](https://github.com/ut-issl/s2e-core/actions/workflows/build.yml)
 
 ## Overview
 
