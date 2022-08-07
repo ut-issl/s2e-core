@@ -1,0 +1,107 @@
+name: GoogleTest
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    paths:
+      - '.github/workflows/google-test.yml'
+      - 'ExtLibraries/**'
+      - 'CMakeLists.txt'
+      - 'common.cmake'
+      - 'src/**'
+      - 'test/**'
+
+env:
+  GOOGLE_TEST_VERSION: release-1.12.1
+
+jobs:
+  build_s2e_test_linux:
+    name: Build on Linux with test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: ['gcc-11 g++-11', 'clang clang++']
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: checkout the submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      
+      - name: set compiler
+        id: compiler
+        run: |
+          COMPILER="${{ matrix.compiler }}"
+          read -r -a COMPILER <<< "$COMPILER"
+          echo "::set-output name=CC::${COMPILER[0]}"
+          echo "::set-output name=CXX::${COMPILER[1]}"
+
+      - name: install deps
+        run: |
+          # FIXME: temporary install gcc-11 in ubuntu:focal
+          if [[ "${{ steps.compiler.outputs.CC }}" =~ "gcc-11" ]]; then
+            sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          fi
+          sudo apt-get update
+          if [[ "${{ steps.compiler.outputs.CC }}" =~ "gcc" ]]; then
+            sudo apt-get install -y ${{ steps.compiler.outputs.CC }}-multilib \
+                                    ${{ steps.compiler.outputs.CXX }}-multilib
+          else
+            sudo apt-get install -y gcc-multilib g++-multilib
+          fi
+
+      - name: show tools version
+        run: |
+          cmake --version
+          ${{ steps.compiler.outputs.CC  }} --version
+          ${{ steps.compiler.outputs.CXX }} --version
+
+      - name: cache extlib
+        id: cache-extlib
+        uses: actions/cache@v3
+        with:
+          key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}-${{ matrix.build_bit }}
+          path: ExtLibraries
+
+      - name: build extlib
+        if: steps.cache-extlib.outputs.cache-hit != 'true'
+        working-directory: ./ExtLibraries
+        run: |
+          cmake . -DEXT_LIB_DIR="$(pwd)" -D${{ matrix.build_bit }}
+          cmake --build .
+      - name: install extlib
+        if: steps.cache-extlib.outputs.cache-hit != 'true'
+        working-directory: ./ExtLibraries
+        run: |
+          cmake --install .
+      - name: check extlib
+        working-directory: ./ExtLibraries
+        run: |
+          ls cspice
+          ls cspice/cspice_unix*
+          ls cspice/include
+          ls cspice/generic_kernels
+          ls nrlmsise00
+          ls nrlmsise00/table
+          ls nrlmsise00/lib*
+          ls nrlmsise00/lib*/libnrlmsise00.a
+          ls nrlmsise00/src
+
+      - name: build
+        env:
+          CC:  ${{ steps.compiler.outputs.CC  }}
+          CXX: ${{ steps.compiler.outputs.CXX }}
+        run: |
+          cmake . -DEXT_LIB_DIR=./ExtLibraries -DBUILD_64BIT=ON -DGOOGLE_TEST=ON
+          cmake --build .
+
+      - name: run test
+        working-directory: ./s2e-ff
+        run: ./S2E_TEST
