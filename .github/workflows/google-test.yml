@@ -103,5 +103,4 @@ jobs:
           cmake --build .
 
       - name: run test
-        working-directory: ./s2e-ff
         run: ./S2E_TEST
