@@ -35,21 +35,3 @@ TEST(Quaternion, ConstructorAxisRot) {
   EXPECT_NEAR(1/sqrt(2), q[3], 1e-5);
 }
 
-TEST(Quaternion, ConstructorTwoVectors) {
-  libra::Vector<3> v_before;
-  v_before[0] = 1.0;
-  v_before[1] = 0.0;
-  v_before[2] = 0.0;
-
-  libra::Vector<3> v_after;  
-  v_before[0] = 0.0;
-  v_before[1] = 1.0;
-  v_before[2] = 0.0;
-
-  libra::Quaternion q(v_before, v_after);
-
-  EXPECT_NEAR(0.0, q[0], 1e-5);
-  EXPECT_NEAR(0.0, q[1], 1e-5);
-  EXPECT_NEAR(1/sqrt(2), q[2], 1e-5);
-  EXPECT_NEAR(1/sqrt(2), q[3], 1e-5);
-}
