@@ -13,7 +13,6 @@ on:
       - 'CMakeLists.txt'
       - 'common.cmake'
       - 'src/**'
-      - 'test/**'
 
 jobs:
   build_s2e_test_linux:
