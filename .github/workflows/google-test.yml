@@ -15,9 +15,6 @@ on:
       - 'src/**'
       - 'test/**'
 
-env:
-  GOOGLE_TEST_VERSION: release-1.12.1
-
 jobs:
   build_s2e_test_linux:
     name: Build on Linux with test
