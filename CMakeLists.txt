@@ -204,10 +204,10 @@ if(GOOGLE_TEST)
     GIT_REPOSITORY https://github.com/google/googletest.git
     GIT_TAG release-1.12.1
   )
-  FetchContent_MakeAvailable(googletest)
   if(WIN32)
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
   endif()
+  FetchContent_MakeAvailable(googletest)
 
   # Unit test
   set(TEST_PROJECT_NAME ${PROJECT_NAME}_TEST)
