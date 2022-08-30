@@ -10,8 +10,8 @@ cmake_minimum_required(VERSION 3.13)
 # build config
 option(USE_HILS "Use HILS" OFF)
 option(USE_C2A "Use C2A" OFF)
-option(BUILD_64BIT "Build 64bit" OFF)
-option(GOOGLE_TEST "Execute GoogleTest" OFF)
+option(BUILD_64BIT "Build 64bit" ON)
+option(GOOGLE_TEST "Execute GoogleTest" ON)
 
 # preprocessor
 if(WIN32)
@@ -213,7 +213,7 @@ if(GOOGLE_TEST)
   set(TEST_PROJECT_NAME ${PROJECT_NAME}_TEST)
   set(TEST_FILES
     src/Library/math/Quaternion.cpp
-    test/TestQuaternion.cpp
+    src/Library/math/TestQuaternion.cpp
   )
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)

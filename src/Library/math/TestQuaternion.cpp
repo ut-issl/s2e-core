@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../src/Library/math/Quaternion.hpp"
+#include "Quaternion.hpp"
 
 TEST(Quaternion, ConstructorFourNumber) {
   libra::Quaternion q(0.5, 0.5, 0.5, 0.5);
@@ -25,13 +25,12 @@ TEST(Quaternion, ConstructorAxisRot) {
   libra::Vector<3> axis;
   axis[0] = 1.0;
   axis[1] = 0.0;
-  axis[2] = 0.0;  
+  axis[2] = 0.0;
   double theta_rad = 1.5708;
   libra::Quaternion q(axis, theta_rad);
 
-  EXPECT_NEAR(1/sqrt(2), q[0], 1e-5);
+  EXPECT_NEAR(1 / sqrt(2), q[0], 1e-5);
   EXPECT_NEAR(0.0, q[1], 1e-5);
   EXPECT_NEAR(0.0, q[2], 1e-5);
-  EXPECT_NEAR(1/sqrt(2), q[3], 1e-5);
+  EXPECT_NEAR(1 / sqrt(2), q[3], 1e-5);
 }
-
