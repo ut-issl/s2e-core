@@ -10,7 +10,7 @@ set(NRLMSISE_INSTALL_DIR ${EXT_LIB_DIR}/nrlmsise00)
 set(NRLMSISE_TABLE_URL_BASE ftp://ftp.agi.com/pub/DynamicEarthData)
 set(NRLMSISE_TABLE_FILE SpaceWeather-v1.2.txt)
 
-set(NRLMSISE_TMP_DIR ${NRLMSISE_INSTALL_DIR}/tmp)
+set(NRLMSISE_TMP_DIR ${CMAKE_CURRENT_BINARY_DIR}/tmp)
 
 # download files
 # download source files
