@@ -34,9 +34,31 @@ ExternalProject_Add(cspice
   CONFIGURE_COMMAND ""
   BUILD_IN_SOURCE true
   BUILD_COMMAND "${CSPICE_BUILD_COMMAND}"
-  INSTALL_COMMAND
-    ${CMAKE_COMMAND} -DCSPICE_INSTALL_DIR=${CSPICE_INSTALL_DIR} -DBUILD_64BIT=${BUILD_64BIT} -P ${CMAKE_CURRENT_LIST_DIR}/install_step.cmake
+  INSTALL_COMMAND ""
 )
+
+# install
+message("install cspice/include")
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/cspice/include
+  DESTINATION ${CSPICE_INSTALL_DIR}
+)
+
+if(WIN32)
+  set(CSPICE_LIB_DEST "cspice_msvs")
+else()
+  # Linux
+  if(BUILD_64BIT)
+    set(CSPICE_LIB_DEST "cspice_unix64")
+  else()
+    set(CSPICE_LIB_DEST "cspice_unix")
+  endif()
+endif()
+
+message("install cspice/lib to ${CSPICE_LIB_DEST}")
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/cspice/lib
+  DESTINATION ${CSPICE_INSTALL_DIR}/${CSPICE_LIB_DEST}
+)
+message("install cspice done.")
 
 # install generic kernels
 function(download_generic_kernel dir kernel sha256)
