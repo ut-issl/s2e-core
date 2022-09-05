@@ -45,7 +45,7 @@ function(download_generic_kernel dir kernel sha256)
     URL ${GENERIC_KERNEL_URL_BASE}/${dir}/${kernel}
     URL_HASH SHA256=${sha256}
     DOWNLOAD_NO_EXTRACT true
-    SOURCE_DIR ${CSPICE_INSTALL_DIR}/generic_kernels/${dir}
+    SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels/${dir}
   )
   FetchContent_MakeAvailable(${kernel})
 endfunction(download_generic_kernel)
@@ -55,3 +55,14 @@ download_generic_kernel(pck de-403-masses.tpc "5cd68fcd3f59ddc21ed8bbad3a341126b
 download_generic_kernel(pck gm_de431.tpc "15756c162151853f329d473fa00c38d35e62d83c3e25ddceece6516bbd98738b")
 download_generic_kernel(pck pck00010.tpc "59468328349aa730d18bf1f8d7e86efe6e40b75dfb921908f99321b3a7a701d2")
 download_generic_kernel(spk/planets de430.bsp "6e1b277c5f07135a84950604b83e56b736be696a7f3560bcddb1d4aeb944fca1")
+
+# move generic kernel
+message("install cspice/generic_kernels/lsk")
+file(RENAME
+  ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels/lsk/a_old_versions/naif0010.tls
+  ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels/lsk/naif0010.tls
+)
+
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels
+  DESTINATION ${CSPICE_INSTALL_DIR}
+)

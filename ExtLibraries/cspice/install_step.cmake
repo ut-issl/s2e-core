@@ -26,12 +26,6 @@ file(
   DESTINATION ${CSPICE_INSTALL_DIR}/${CSPICE_LIB_DEST}
 )
 
-# move generic kernel
-message("install cspice/generic_kernels/lsk")
-file(
-  INSTALL ${CSPICE_INSTALL_DIR}/generic_kernels/lsk/a_old_versions/naif0010.tls
-  DESTINATION ${CSPICE_INSTALL_DIR}/generic_kernels/lsk
-)
 
 
 message("install cspice done.")
