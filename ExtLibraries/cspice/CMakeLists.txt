@@ -38,7 +38,6 @@ ExternalProject_Add(cspice
 )
 
 # install
-message("install cspice/include")
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/cspice/include
   DESTINATION ${CSPICE_INSTALL_DIR}
 )
@@ -54,11 +53,10 @@ else()
   endif()
 endif()
 
-message("install cspice/lib to ${CSPICE_LIB_DEST}")
+message("cspice/lib will be install to ${CSPICE_LIB_DEST}")
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/cspice/lib
   DESTINATION ${CSPICE_INSTALL_DIR}/${CSPICE_LIB_DEST}
 )
-message("install cspice done.")
 
 # install generic kernels
 function(download_generic_kernel dir kernel sha256)
@@ -79,7 +77,6 @@ download_generic_kernel(pck pck00010.tpc "59468328349aa730d18bf1f8d7e86efe6e40b7
 download_generic_kernel(spk/planets de430.bsp "6e1b277c5f07135a84950604b83e56b736be696a7f3560bcddb1d4aeb944fca1")
 
 # move generic kernel
-message("install cspice/generic_kernels/lsk")
 file(RENAME
   ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels/lsk/a_old_versions/naif0010.tls
   ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels/lsk/naif0010.tls
