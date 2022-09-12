@@ -35,7 +35,7 @@ void ComponentBase::Tick(int count) {
 }
 
 void ComponentBase::FastTick(int count) {
-  if (count % prescaler_ > 0) return;
+  if (count % fast_prescaler_ > 0) return;
   if (power_port_->GetIsOn()) {
     FastUpdate();
   } else {
