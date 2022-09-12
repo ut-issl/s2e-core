@@ -2,7 +2,7 @@
 
 #include <Library/utils/Macros.hpp>
 
-#define HILS_PORT_MANAGER_SHOW_DEBUG_DATA
+// #define HILS_PORT_MANAGER_SHOW_DEBUG_DATA
 
 HilsPortManager::HilsPortManager() {}
 
