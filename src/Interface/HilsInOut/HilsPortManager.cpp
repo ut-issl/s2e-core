@@ -2,6 +2,8 @@
 
 #include <Library/utils/Macros.hpp>
 
+// #define HILS_PORT_MANAGER_SHOW_DEBUG_DATA
+
 HilsPortManager::HilsPortManager() {}
 
 HilsPortManager::~HilsPortManager() {}
@@ -53,7 +55,19 @@ int HilsPortManager::UartReceive(unsigned int port_id, unsigned char* buffer, in
 #ifdef USE_HILS
   HilsUartPort* port = uart_com_ports_[port_id];
   if (port == nullptr) return -1;
-  return port->ReadRx(buffer, offset, count);
+  int ret = port->ReadRx(buffer, offset, count);
+#ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
+  if (ret > 0)
+  {
+    printf("UART PORT ID: %d received %d bytes\n", port_id, ret);
+    for (int i = 0; i < ret; i++)
+    {
+      printf("%02x ", buffer[i]);
+    }
+    printf("\n");
+  }
+#endif
+  return ret;
 #else
   UNUSED(port_id);
   UNUSED(buffer);
@@ -68,7 +82,19 @@ int HilsPortManager::UartSend(unsigned int port_id, const unsigned char* buffer,
 #ifdef USE_HILS
   HilsUartPort* port = uart_com_ports_[port_id];
   if (port == nullptr) return -1;
-  return port->WriteTx(buffer, offset, count);
+  int ret = port->WriteTx(buffer, offset, count);
+#ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
+  if (count > 0)
+  {
+    printf("UART PORT ID: %d sent %d bytes\n", port_id, count);
+    for (int i = 0; i < count; i++)
+    {
+      printf("%02x ", buffer[i]);
+    }
+    printf("\n");
+  }
+#endif
+  return ret;
 #else
   UNUSED(port_id);
   UNUSED(buffer);
@@ -169,7 +195,14 @@ int HilsPortManager::I2cTargetReceive(unsigned int port_id) {
 #ifdef USE_HILS
   HilsI2cTargetPort* port = i2c_com_ports_[port_id];
   if (port == nullptr) return -1;
-  return port->Receive();
+  int ret =  port->Receive();
+#ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
+  if (ret > 0)
+  {
+    printf("I2C PORT ID: %d received %d bytes\n", port_id, ret);
+  }
+#endif
+  return ret;
 #else
   UNUSED(port_id);
 
@@ -181,7 +214,14 @@ int HilsPortManager::I2cTargetSend(unsigned int port_id, const unsigned char len
 #ifdef USE_HILS
   HilsI2cTargetPort* port = i2c_com_ports_[port_id];
   if (port == nullptr) return -1;
-  return port->Send(len);
+  int ret = port->Send(len);
+#ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
+  if (len > 0)
+  {
+    printf("I2C PORT ID: %d sent %d bytes\n", port_id, len);
+  }
+#endif
+  return ret;
 #else
   UNUSED(port_id);
   UNUSED(len);

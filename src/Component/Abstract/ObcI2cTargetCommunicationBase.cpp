@@ -6,7 +6,7 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int 
     : sils_port_id_(sils_port_id), i2c_address_(i2c_address), obc_(obc) {
 #ifdef USE_HILS
   sim_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
-  printf("Error: USE_HILS:ON Check compo initialization");
+  printf("Error: USE_HILS:ON Check compo initialization\n");
 #else
   sim_mode_ = OBC_COM_UART_MODE::SILS;
   obc_->I2cConnectPort(sils_port_id_, i2c_address_);
@@ -24,7 +24,7 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int 
   }
 #else
   sim_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
-  printf("Error: USE_HILS:OFF Check compo initialization");
+  printf("Error: USE_HILS:OFF Check compo initialization\n");
 #endif
 }
 
