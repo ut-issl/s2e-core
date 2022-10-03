@@ -9,7 +9,7 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
             const LocalCelestialInformation* local_celes_info, double compo_step_time) {
   IniAccess sap_conf(fname);
 
-  const std::string st_sap_id = std::to_string(static_cast<long long>(sap_id));
+  const std::string st_sap_id = std::to_string(sap_id);
   const char* cs = st_sap_id.data();
 
   char Section[30] = "SAP";
@@ -45,7 +45,7 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
 SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp, double compo_step_time) {
   IniAccess sap_conf(fname);
 
-  const std::string st_sap_id = std::to_string(static_cast<long long>(sap_id));
+  const std::string st_sap_id = std::to_string(sap_id);
   const char* cs = st_sap_id.data();
 
   char Section[30] = "SAP";

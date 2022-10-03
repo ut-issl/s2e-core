@@ -9,7 +9,7 @@
 BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname, double compo_step_time) {
   IniAccess bat_conf(fname);
 
-  const std::string st_bat_id = std::to_string(static_cast<long long>(bat_id));
+  const std::string st_bat_id = std::to_string(bat_id);
   const char* cs = st_bat_id.data();
 
   char Section[30] = "BAT";
