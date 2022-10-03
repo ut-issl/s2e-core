@@ -52,6 +52,7 @@ add_library(${PROJECT_NAME} STATIC
   Power/BAT.cpp
   Power/InitBat.cpp
   Power/PCU_InitialStudy.cpp
+  Power/InitPcu_InitialStudy.cpp
   Power/SAP.cpp
   Power/InitSap.cpp
   Power/CsvScenarioInterface.cpp
