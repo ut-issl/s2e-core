@@ -36,6 +36,23 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_s
   power_generation_ = 0.0;
 }
 
+SAP::SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
+         double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info)
+    : ComponentBase(10, clock_gen),
+      id_(id),
+      number_of_series_(number_of_series),
+      number_of_parallel_(number_of_parallel),
+      cell_area_(cell_area),
+      normal_vector_(libra::normalize(normal_vector)),
+      cell_efficiency_(cell_efficiency),
+      transmission_efficiency_(transmission_efficiency),
+      srp_(srp),
+      local_celes_info_(local_celes_info),
+      compo_step_time_(0.1) {
+  voltage_ = 0.0;
+  power_generation_ = 0.0;
+}
+
 SAP::SAP(const SAP& obj)
     : ComponentBase(obj),
       id_(obj.id_),

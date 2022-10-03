@@ -16,6 +16,17 @@ PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_ge
   power_consumption_ = 0.0;
 }
 
+PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat)
+    : ComponentBase(10, clock_gen),
+      saps_(saps),
+      bat_(bat),
+      cc_charge_current_(bat->GetCCChargeCurrent()),
+      cv_charge_voltage_(bat->GetCVChargeVoltage()),
+      compo_step_time_(0.1) {
+  bus_voltage_ = 0.0;
+  power_consumption_ = 0.0;
+}
+
 PCU_InitialStudy::~PCU_InitialStudy() {}
 
 std::string PCU_InitialStudy::GetLogHeader() const {

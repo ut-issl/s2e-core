@@ -11,6 +11,7 @@
 class PCU_InitialStudy : public ComponentBase, public ILoggable {
  public:
   PCU_InitialStudy(const int prescaler, ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat, double compo_step_time);
+  PCU_InitialStudy(ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat);
   ~PCU_InitialStudy();
 
   /*LOG出力用関数*/
