@@ -3,9 +3,9 @@
 #include <Component/Power/CsvScenarioInterface.h>
 #include <Environment/Global/ClockGenerator.h>
 
-SAP::SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
-         double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info)
-    : ComponentBase(1000, clock_gen),
+SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
+         double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info, double compo_step_time)
+    : ComponentBase(prescaler, clock_gen),
       id_(id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
@@ -14,7 +14,24 @@ SAP::SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
       srp_(srp),
-      local_celes_info_(local_celes_info) {
+      local_celes_info_(local_celes_info),
+      compo_step_time_(compo_step_time) {
+  voltage_ = 0.0;
+  power_generation_ = 0.0;
+}
+
+SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
+         double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, double compo_step_time)
+    : ComponentBase(prescaler, clock_gen),
+      id_(id),
+      number_of_series_(number_of_series),
+      number_of_parallel_(number_of_parallel),
+      cell_area_(cell_area),
+      normal_vector_(libra::normalize(normal_vector)),
+      cell_efficiency_(cell_efficiency),
+      transmission_efficiency_(transmission_efficiency),
+      srp_(srp),
+      compo_step_time_(compo_step_time) {
   voltage_ = 0.0;
   power_generation_ = 0.0;
 }
@@ -29,7 +46,8 @@ SAP::SAP(const SAP& obj)
       cell_efficiency_(obj.cell_efficiency_),
       transmission_efficiency_(obj.transmission_efficiency_),
       srp_(obj.srp_),
-      local_celes_info_(obj.local_celes_info_) {
+      local_celes_info_(obj.local_celes_info_),
+      compo_step_time_(obj.compo_step_time_) {
   voltage_ = 0.0;
   power_generation_ = 0.0;
 }
@@ -54,11 +72,11 @@ std::string SAP::GetLogValue() const {
 
 void SAP::MainRoutine(int time_count) {
   if (CsvScenarioInterface::IsCsvScenarioEnabled()) {
-    double time_in_sec = time_count * clock_gen_->IntervalMillisecond / 1000;
+    double time_query = compo_step_time_ * time_count;
     const auto solar_constant = srp_->GetSolarConstant();
-    libra::Vector<3> sun_direction_body = CsvScenarioInterface::GetSunDirectionBody(time_in_sec);
+    libra::Vector<3> sun_direction_body = CsvScenarioInterface::GetSunDirectionBody(time_query);
     libra::Vector<3> normalized_sun_direction_body = libra::normalize(sun_direction_body);
-    power_generation_ = cell_efficiency_ * transmission_efficiency_ * solar_constant * (int)CsvScenarioInterface::GetSunFlag(time_in_sec) *
+    power_generation_ = cell_efficiency_ * transmission_efficiency_ * solar_constant * (int)CsvScenarioInterface::GetSunFlag(time_query) *
                         cell_area_ * number_of_parallel_ * number_of_series_ * inner_product(normal_vector_, normalized_sun_direction_body);
   } else {
     const auto power_density = srp_->CalcPowerDensity();
