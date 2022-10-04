@@ -5,12 +5,24 @@
 
 #include <cmath>
 
-PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat)
-    : ComponentBase(1000, clock_gen),
+PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat, double compo_step_time)
+    : ComponentBase(prescaler, clock_gen),
       saps_(saps),
       bat_(bat),
       cc_charge_current_(bat->GetCCChargeCurrent()),
-      cv_charge_voltage_(bat->GetCVChargeVoltage()) {
+      cv_charge_voltage_(bat->GetCVChargeVoltage()),
+      compo_step_time_(compo_step_time) {
+  bus_voltage_ = 0.0;
+  power_consumption_ = 0.0;
+}
+
+PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat)
+    : ComponentBase(10, clock_gen),
+      saps_(saps),
+      bat_(bat),
+      cc_charge_current_(bat->GetCCChargeCurrent()),
+      cv_charge_voltage_(bat->GetCVChargeVoltage()),
+      compo_step_time_(0.1) {
   bus_voltage_ = 0.0;
   power_consumption_ = 0.0;
 }
@@ -32,29 +44,30 @@ std::string PCU_InitialStudy::GetLogValue() const {
 }
 
 void PCU_InitialStudy::MainRoutine(int time_count) {
+  double time_query = compo_step_time_ * time_count;
   power_consumption_ =
-      CalcPowerConsumption(time_count * clock_gen_->IntervalMillisecond /
-                           1000);  // 時間はSimTimeから持ってきたほうが良い？そもそもtime_countがintなのでオーバーフローする可能性あり
+      CalcPowerConsumption(time_query);  // 時間はSimTimeから持ってきたほうが良い？そもそもtime_countがintなのでオーバーフローする可能性あり
   UpdateChargeCurrentAndBusVoltage();
   for (auto sap : saps_) {
     sap->SetVoltage(16.0);  // MPPTを想定
   }
 }
 
-double PCU_InitialStudy::CalcPowerConsumption(int time_in_sec) const {
+double PCU_InitialStudy::CalcPowerConsumption(double time_query) const {
   if (CsvScenarioInterface::IsCsvScenarioEnabled()) {
-    return CsvScenarioInterface::GetPowerConsumption(time_in_sec);
+    return CsvScenarioInterface::GetPowerConsumption(time_query);
   } else {
     //仮の実装．
-    if (time_in_sec % 3600 < 600) {
-      return 10.0;
-    } else if (time_in_sec % 3600 < 2000) {
-      return 5.0;
-    } else if (time_in_sec % 3600 < 2500) {
-      return 20.0;
-    } else {
-      return 5.0;
-    }
+    // if (time_in_sec % 3600 < 600) {
+    //   return 10.0;
+    // } else if (time_in_sec % 3600 < 2000) {
+    //   return 5.0;
+    // } else if (time_in_sec % 3600 < 2500) {
+    //   return 20.0;
+    // } else {
+    //   return 5.0;
+    // }
+    return 5.0;
   }
 }
 

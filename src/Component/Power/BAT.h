@@ -8,6 +8,9 @@
 
 class BAT : public ComponentBase, public ILoggable {
  public:
+  BAT(const int prescaler, ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
+      const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
+      double bat_resistance, double compo_step_time);
   BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
       const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
       double bat_resistance);
@@ -34,6 +37,7 @@ class BAT : public ComponentBase, public ILoggable {
   double dod_;                      //[%]
   double charge_current_;           //[A]
   double bat_resistance_;           //[Ohm]
+  double compo_step_time_;          //[sec]
 
   void MainRoutine(int count) override;
   void UpdateBatVoltage();
