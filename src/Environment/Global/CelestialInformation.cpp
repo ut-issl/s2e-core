@@ -1,12 +1,14 @@
 #include "CelestialInformation.h"
 
 #include <Interface/LogOutput/LogUtility.h>
-#include <SpiceUsr.h>
+#include <string.h>
 
 #include <iostream>
 #include <sstream>
 
 using namespace std;
+
+const int kMaxCharLength = 100;
 
 CelestialInformation::CelestialInformation(string inertial_frame, string aber_cor, string center_obj, RotationMode rotation_mode,
                                            int num_of_selected_body, int* selected_body)
@@ -16,6 +18,7 @@ CelestialInformation::CelestialInformation(string inertial_frame, string aber_co
       aber_cor_(aber_cor),
       center_obj_(center_obj),
       rotation_mode_(rotation_mode) {
+  // Initialize list
   int num_of_state = num_of_selected_body_ * 3;
   celes_objects_pos_from_center_i_ = new double[num_of_state];
   celes_objects_vel_from_center_i_ = new double[num_of_state];
@@ -29,10 +32,11 @@ CelestialInformation::CelestialInformation(string inertial_frame, string aber_co
     SpiceInt dim;
     SpiceDouble gravity_constant;
     bodvcd_c(planet_id, "GM", 1, &dim, &gravity_constant);
-    // CONVERT FROM [km^3/s^2] to [m^3/s^2]
+    // Convert unit [km^3/s^2] to [m^3/s^2]
     celes_objects_gravity_constant_[i] = gravity_constant * 1E+9;
   }
 
+  // Acquisition of radius
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
     SpiceInt dim;
@@ -50,6 +54,7 @@ CelestialInformation::CelestialInformation(string inertial_frame, string aber_co
     celes_objects_mean_radius_m_[i] = pow(rx * ry * rz, 1.0 / 3.0);
   }
 
+  // Initialize rotation
   EarthRotation_ = new CelestialRotation(rotation_mode_, center_obj_);
 }
 
@@ -89,20 +94,23 @@ CelestialInformation::~CelestialInformation() {
 }
 
 void CelestialInformation::UpdateAllObjectsInfo(const double current_jd) {
-  SpiceDouble rv_buf[6], lt, et;
-  SpiceBoolean found;
-  const int maxlen = 100;
-  char namebuf[maxlen];
+  // Convert time
+  SpiceDouble et;
   string jd = "jd " + to_string(current_jd);
   str2et_c(jd.c_str(), &et);
 
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
+
     // Acquisition of body name from id
-    bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
+    SpiceBoolean found;
+    char namebuf[kMaxCharLength];
+    bodc2n_c(planet_id, kMaxCharLength, namebuf, (SpiceBoolean*)&found);
+
     // Acquisition of position and velocity
-    spkezr_c(namebuf, et, inertial_frame_.c_str(), aber_cor_.c_str(), center_obj_.c_str(), (SpiceDouble*)rv_buf, (SpiceDouble*)&lt);
-    // CONVERT [km], [km/s] to [m], [m/s]
+    SpiceDouble rv_buf[6];
+    GetPlanetOrbit(namebuf, et, (SpiceDouble*)rv_buf);
+    // Convert unit [km], [km/s] to [m], [m/s]
     for (int j = 0; j < 3; j++) {
       celes_objects_pos_from_center_i_[i * 3 + j] = rv_buf[j] * 1000.0;
       celes_objects_vel_from_center_i_[i * 3 + j] = rv_buf[j + 3] * 1000.0;
@@ -113,6 +121,7 @@ void CelestialInformation::UpdateAllObjectsInfo(const double current_jd) {
   EarthRotation_->Update(current_jd);
 }
 
+// Getters
 Vector<3> CelestialInformation::GetPosFromCenter_i(const int id) const {
   Vector<3> pos(0.0);
   if (id > num_of_selected_body_) return pos;
@@ -125,13 +134,6 @@ Vector<3> CelestialInformation::GetVelFromCenter_i(const int id) const {
   if (id > num_of_selected_body_) return vel;
   for (int i = 0; i < 3; i++) vel[i] = celes_objects_vel_from_center_i_[id * 3 + i];
   return vel;
-}
-
-Vector<3> CelestialInformation::GetRadii(const int id) const {
-  Vector<3> radii(0.0);
-  if (id > num_of_selected_body_) return radii;
-  for (int i = 0; i < 3; i++) radii[i] = celes_objects_planetographic_radii_m_[id * 3 + i];
-  return radii;
 }
 
 Vector<3> CelestialInformation::GetPosFromCenter_i(const char* body_name) const {
@@ -147,6 +149,15 @@ Vector<3> CelestialInformation::GetVelFromCenter_i(const char* body_name) const 
 double CelestialInformation::GetGravityConstant(const char* body_name) const {
   int index = CalcBodyIdFromName(body_name);
   return celes_objects_gravity_constant_[index];
+}
+
+double CelestialInformation::GetCenterBodyGravityConstant_m3_s2(void) const { return GetGravityConstant(center_obj_.c_str()); }
+
+Vector<3> CelestialInformation::GetRadii(const int id) const {
+  Vector<3> radii(0.0);
+  if (id > num_of_selected_body_) return radii;
+  for (int i = 0; i < 3; i++) radii[i] = celes_objects_planetographic_radii_m_[id * 3 + i];
+  return radii;
 }
 
 Vector<3> CelestialInformation::GetRadiiFromName(const char* body_name) const {
@@ -177,13 +188,12 @@ int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {
 
 string CelestialInformation::GetLogHeader() const {
   SpiceBoolean found;
-  const int maxlen = 100;
-  char namebuf[maxlen];
+  char namebuf[kMaxCharLength];
   string str_tmp = "";
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
     // Acquisition of body name from id
-    bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
+    bodc2n_c(planet_id, kMaxCharLength, namebuf, (SpiceBoolean*)&found);
     string name = namebuf;
     string body_pos = name + "_pos";
     string body_vel = name + "_vel";
@@ -210,22 +220,36 @@ string CelestialInformation::GetLogValue() const {
 
 void CelestialInformation::DebugOutput(void) {
   SpiceBoolean found;
-  const int maxlen = 100;
-  char namebuf[maxlen];
+  char namebuf[kMaxCharLength];
   cout << "BODY NAME, POSx,y,z[m], VELx,y,z[m/s] from CENTER;\nPOSx,y,z[m], "
           "VELx,y,z[m/s] from SC";
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
     // Acquisition of body name from id
-    bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
+    bodc2n_c(planet_id, kMaxCharLength, namebuf, (SpiceBoolean*)&found);
     //		cout<<namebuf<<
   }
   cout << "GRAVITY CONSTASNT of\n";
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
     // Acquisition of body name from id
-    bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
+    bodc2n_c(planet_id, kMaxCharLength, namebuf, (SpiceBoolean*)&found);
     cout << namebuf << "is"
          << ": " << celes_objects_gravity_constant_[i] << "\n";
   }
+}
+
+void CelestialInformation::GetPlanetOrbit(ConstSpiceChar* planet_name, SpiceDouble et, SpiceDouble orbit[6]) {
+  // Add `BARYCENTER` if needed
+  char planet_name_[kMaxCharLength];
+  strcpy(planet_name_, planet_name);
+  if (strcmp(planet_name, "MARS") == 0 || strcmp(planet_name, "JUPITER") == 0 || strcmp(planet_name, "SATURN") == 0 ||
+      strcmp(planet_name, "URANUS") == 0 || strcmp(planet_name, "NEPTUNE") == 0 || strcmp(planet_name, "PLUTO") == 0) {
+    strcat(planet_name_, "_BARYCENTER");
+  }
+
+  // Get orbit
+  SpiceDouble lt;
+  spkezr_c((ConstSpiceChar*)planet_name_, et, inertial_frame_.c_str(), aber_cor_.c_str(), center_obj_.c_str(), orbit, (SpiceDouble*)&lt);
+  return;
 }
