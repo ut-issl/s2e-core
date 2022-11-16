@@ -231,7 +231,7 @@ jobs:
 
       - name: comment imgs
         if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF') && contains(github.event.pull_request.labels.*.name, 'automation::comment-graph')
-        uses: actions/github-script@v6.2.0
+        uses: actions/github-script@v6.3.3
         with:
           script: |
             const output = `## \`position.png\`
