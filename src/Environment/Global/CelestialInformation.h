@@ -1,8 +1,6 @@
 #ifndef __celestial_information_H__
 #define __celestial_information_H__
 
-#include <SpiceUsr.h>
-
 #include <cstring>
 #include <string>
 
@@ -78,7 +76,7 @@ class CelestialInformation : public ILoggable {
   RotationMode rotation_mode_;  //!< Designation of rotation model
 
   // Override function of SPICE
-  void GetPlanetOrbit(ConstSpiceChar* planet_name, SpiceDouble et, SpiceDouble orbit[6]);
+  void GetPlanetOrbit(const char* planet_name, double et, double orbit[6]);
 };
 
 #endif  //__celestial_information_H__
