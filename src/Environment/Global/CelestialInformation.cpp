@@ -8,8 +8,6 @@
 
 using namespace std;
 
-const int kMaxCharLength = 100;
-
 CelestialInformation::CelestialInformation(string inertial_frame, string aber_cor, string center_obj, RotationMode rotation_mode,
                                            int num_of_selected_body, int* selected_body)
     : num_of_selected_body_(num_of_selected_body),
@@ -104,8 +102,9 @@ void CelestialInformation::UpdateAllObjectsInfo(const double current_jd) {
 
     // Acquisition of body name from id
     SpiceBoolean found;
-    char namebuf[kMaxCharLength];
-    bodc2n_c(planet_id, kMaxCharLength, namebuf, (SpiceBoolean*)&found);
+    const int maxlen = 100;
+    char namebuf[maxlen];
+    bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
 
     // Acquisition of position and velocity
     SpiceDouble rv_buf[6];
@@ -188,12 +187,13 @@ int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {
 
 string CelestialInformation::GetLogHeader() const {
   SpiceBoolean found;
-  char namebuf[kMaxCharLength];
+  const int maxlen = 100;
+  char namebuf[maxlen];
   string str_tmp = "";
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
     // Acquisition of body name from id
-    bodc2n_c(planet_id, kMaxCharLength, namebuf, (SpiceBoolean*)&found);
+    bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
     string name = namebuf;
     string body_pos = name + "_pos";
     string body_vel = name + "_vel";
@@ -220,20 +220,21 @@ string CelestialInformation::GetLogValue() const {
 
 void CelestialInformation::DebugOutput(void) {
   SpiceBoolean found;
-  char namebuf[kMaxCharLength];
+  const int maxlen = 100;
+  char namebuf[maxlen];
   cout << "BODY NAME, POSx,y,z[m], VELx,y,z[m/s] from CENTER;\nPOSx,y,z[m], "
           "VELx,y,z[m/s] from SC";
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
     // Acquisition of body name from id
-    bodc2n_c(planet_id, kMaxCharLength, namebuf, (SpiceBoolean*)&found);
+    bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
     //		cout<<namebuf<<
   }
   cout << "GRAVITY CONSTASNT of\n";
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
     // Acquisition of body name from id
-    bodc2n_c(planet_id, kMaxCharLength, namebuf, (SpiceBoolean*)&found);
+    bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
     cout << namebuf << "is"
          << ": " << celes_objects_gravity_constant_[i] << "\n";
   }
@@ -241,7 +242,8 @@ void CelestialInformation::DebugOutput(void) {
 
 void CelestialInformation::GetPlanetOrbit(ConstSpiceChar* planet_name, SpiceDouble et, SpiceDouble orbit[6]) {
   // Add `BARYCENTER` if needed
-  char planet_name_[kMaxCharLength];
+  const int maxlen = 100;
+  char planet_name_[maxlen];
   strcpy(planet_name_, planet_name);
   if (strcmp(planet_name, "MARS") == 0 || strcmp(planet_name, "JUPITER") == 0 || strcmp(planet_name, "SATURN") == 0 ||
       strcmp(planet_name, "URANUS") == 0 || strcmp(planet_name, "NEPTUNE") == 0 || strcmp(planet_name, "PLUTO") == 0) {
