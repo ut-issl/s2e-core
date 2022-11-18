@@ -66,8 +66,7 @@ sun_direction_i = normalize_csv_read_vector(sun_position_i)
 #
 # Base projection
 fig = plt.figure()
-#ax = plt.axes( projection="3d")
-ax = fig.add_subplot(111, projection='3d')
+ax = plt.axes( projection="3d")
 
 # Plot Origin
 length_axis_m = 5e6
@@ -90,6 +89,9 @@ for i in range(sc_position_i.shape[1]):
 
 # Plot setting
 ax.legend()
+ax.set_xlabel("X [m]")
+ax.set_ylabel("Y [m]")
+ax.set_zlabel("Z [m]")
 plt.title('Spacecraft Orbit @ ECI')
 plt.show()
 
