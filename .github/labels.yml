@@ -55,13 +55,41 @@
   color: "510f70"
 
 - name: "C2A"
-  description: ""
+  description: "Something related with C2A flight software"
   color: "2a9637"
 
 - name: "WINGS"
-  description: ""
+  description: "Something related with WINGS ground station"
   color: "1503bb"
 
 - name: "automation::comment-graph"
   description: "comment simulation result graph on pull request"
   color: "d4c5f9"
+
+- name: "gui"
+  description: "graphical user interface"
+  color: "781306"
+
+- name: "test"
+  description: "test of the codes"
+  color: "25D18F"
+
+- name: "dynamics"
+  description: "dynamics calculation"
+  color: "F007D6"
+
+- name: "environment"
+  description: "environment calculation"
+  color: "A917ED"
+
+- name: "disturbance"
+  description: "disturbance calculation"
+  color: "2B6EA1"
+
+- name: "component"
+  description: "component calculation"
+  color: "6DF99D"
+
+- name: "library"
+  description: "library calculation"
+  color: "2275B4"
