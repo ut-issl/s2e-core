@@ -87,9 +87,13 @@
   color: "2B6EA1"
 
 - name: "component"
-  description: "component calculation"
+  description: "component emulation"
   color: "6DF99D"
 
 - name: "library"
-  description: "library calculation"
+  description: "library"
   color: "2275B4"
+
+- name: "simulation"
+  description: "simulation settings"
+  color: "D9E868"
