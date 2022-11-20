@@ -198,6 +198,7 @@ jobs:
         working-directory: ./data/SampleSat
         run: |
           ../../S2E
+
       - name: generate graph
         working-directory: ./data/SampleSat
         run: |
@@ -208,6 +209,10 @@ jobs:
           ./gen_graph.sh "${LOG}"
           ls
           ls ./imgs
+      
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v4
+        with: python-version: '3.8'
 
       - name: plot GS visibility
         working-directory: ./scripts/Plot
