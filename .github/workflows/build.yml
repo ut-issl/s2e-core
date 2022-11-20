@@ -210,12 +210,14 @@ jobs:
           ls
           ls ./imgs
       
-      - name: Setup Python with version in pipfile
+      - name: read python version from Pipfile
         id: python-version
+        working-directory: ./scripts/Plot
         run: |
           ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
           echo "::set-output name=version::${ver}"
-        uses: actions/setup-python@v4.3.0
+      
+      - uses: actions/setup-python@v4.3.0
         with:
           python-version: ${{ steps.python-version.outputs.version }}
 
