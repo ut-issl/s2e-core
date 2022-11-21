@@ -17,6 +17,8 @@ from common import find_latest_log_tag
 from common import normalize_csv_read_vector
 # arguments
 import argparse
+# math
+from numpy.linalg import norm
 
 aparser = argparse.ArgumentParser()
 
@@ -52,6 +54,7 @@ csv_data = pandas.read_csv(read_file_name, sep=',', usecols=['sat_position_i(X)[
 sc_position_i = np.array([csv_data['sat_position_i(X)[m]'].to_numpy(), 
                           csv_data['sat_position_i(Y)[m]'].to_numpy(),
                           csv_data['sat_position_i(Z)[m]'].to_numpy()])
+max_norm_v = max(norm(sc_position_i, axis=0))
 shadow_coeff = csv_data['shadow coefficient'].to_numpy()
 
 # Read S2E CSV for Sun
@@ -69,7 +72,7 @@ fig = plt.figure()
 ax = plt.axes( projection="3d")
 
 # Plot Origin
-length_axis_m = 5e6
+length_axis_m = max_norm_v * 1.5
 ax.plot(0,0,0, marker="*", c="black", markersize=10, label="Origin")
 ax.quiver(0, 0, 0, length_axis_m, 0, 0, color='r', label="X") # X-axis
 ax.quiver(0, 0, 0, 0, length_axis_m, 0, color='g', label="Y") # Y-axis
@@ -88,6 +91,9 @@ for i in range(sc_position_i.shape[1]):
   ax.plot(sc_position_i[0][i], sc_position_i[1][i], sc_position_i[2][i], marker="o", color=eclipse_color(shadow_coeff[i]))
 
 # Plot setting
+ax.set_xlim([-length_axis_m, length_axis_m])
+ax.set_ylim([-length_axis_m, length_axis_m])
+ax.set_zlim([-length_axis_m, length_axis_m])
 ax.legend()
 ax.set_xlabel("X [m]")
 ax.set_ylabel("Y [m]")
