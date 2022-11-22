@@ -58,6 +58,11 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* st
   config_->main_logger_->CopyFileToLogDir(ini_path);
   thruster_ = new SimpleThruster(InitSimpleThruster(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, structure_, dynamics));
 
+  // Force Generator
+  ini_path = iniAccess.ReadString("COMPONENTS_FILE", "force_generator_file");
+  config_->main_logger_->CopyFileToLogDir(ini_path);
+  force_generator_ = new ForceGenerator(InitializeForceGenerator(clock_gen, ini_path, dynamics_));
+
   // PCU power port initial control
   pcu_->GetPowerPort(0)->SetVoltage(3.3);
   pcu_->GetPowerPort(1)->SetVoltage(3.3);
@@ -80,6 +85,13 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* st
   // rw_->SetTargetTorqueRw(0.01);
   // rw_->SetDriveFlag(true);
   // thruster_->SetDuty(0.9);
+
+  // force generator debug output
+  libra::Vector<3> force_N;
+  force_N[0] = 1.0;
+  force_N[1] = 0.0;
+  force_N[2] = 0.0;
+  force_generator_->SetForce_b_N(force_N);
 }
 
 SampleComponents::~SampleComponents() {
@@ -91,6 +103,7 @@ SampleComponents::~SampleComponents() {
   delete mag_torquer_;
   delete rw_;
   delete thruster_;
+  delete force_generator_;
   delete pcu_;
   // delete exp_hils_uart_responder_;
   // delete exp_hils_uart_sender_;
@@ -123,4 +136,5 @@ void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLoggable(mag_torquer_);
   logger.AddLoggable(rw_);
   logger.AddLoggable(thruster_);
+  logger.AddLoggable(force_generator_);
 }
