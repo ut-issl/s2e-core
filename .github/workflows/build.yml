@@ -234,12 +234,12 @@ jobs:
         working-directory: ./scripts/Plot
         if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF') && contains(github.event.pull_request.labels.*.name, 'automation::comment-graph')
         run: |
-          IMG=$(ls *_gs_visibility.png)
+          IMG=$(ls ./*_gs_visibility.png)
           IMG_URL=$(curl -sL -X POST upload.gyazo.com/upload.cgi -F "imagedata=@${IMG}")
           echo "gyazo url: ${IMG_URL}"
           IMG_EMBED_URL="${IMG_URL//gyazo/i.gyazo}.png"
           echo "gyazo embed url: ${IMG_EMBED_URL}"
-          echo "::set-output name=IMG_EMBED_URL::${IMG_EMBED_URL}"
+          echo "IMG_EMBED_URL=${IMG_EMBED_URL}" >> "$GITHUB_OUTPUT"
 
       - name: comment imgs
         if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF') && contains(github.event.pull_request.labels.*.name, 'automation::comment-graph')

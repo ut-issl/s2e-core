@@ -26,7 +26,7 @@ jobs:
         working-directory: ${{ matrix.script_dir }}
         run: |
           ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
-          echo "::set-output name=version::${ver}"
+          echo "version=${ver}" >> "$GITHUB_OUTPUT"
 
       - uses: actions/setup-python@v4.3.0
         with:
