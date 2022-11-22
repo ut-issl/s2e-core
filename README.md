@@ -24,16 +24,20 @@
     - main        # The latest operation guaranteed codes for general users
     - develop     # The latest buildable codes for S2E primary developers
     - feature/*   # Developing codes
+    - hotfix/*    # Bug Fix codes
     ```
   - We recommend that the general users use the `main` branch or suitable released version because we sometimes update the `develop` branch without backward compatibility, and users need to modify their user side codes and settings.
-  - Push to `main` and `develop` is prohibited. All developers have to develop with `feature/*` branch and make a pull request.
-  - Maintainers confirm the request and merge it to the `develop` branch.
+  - Push to `main` and `develop` is prohibited. All developers have to develop with `feature/*` or `hotfix/*` branch and make a pull request.
+  - Maintainers confirm the request and merge it to the `develop` or `main` branch.
   - [Reference document for the development style](https://nvie.com/posts/a-successful-git-branching-model/) 
 
 - Flow of development
   1. Make a `feature/*` branch from the `develop` branch.
-  2. Edit, commit, and push in the `feature/*` branch.
+     - To fix the small bugs in the latest release codes, please make `hotfix/*` branch from the `main` branch
+  2. Edit, commit, and push in the branch.
+     - Please check the [coding convention](https://github.com/ut-issl/s2e-documents/blob/develop/General/CodingConvention.md) and the `code format` in next section.
   3. Create a new pull request to the `develop` branch.
+     - The target branch becomes the `main` branch for the `hotfix/*` branchs.
   4. A maintainer reviews the pull request. If some problems are found, the maintainer proposes modifications.
   5. According to the maintainer's proposal, the developer modifies the codes and goes back to 3.
   6. The maintainer merges the `feature/*` branch to the `develop` branch.
@@ -64,8 +68,12 @@
 
 ## Documents
 
-- Documents for S2E are summarized in [s2e-documents](https://ut-issl.github.io/s2e-documents).
+- Documents for S2E are summarized in [s2e-documents](https://github.com/ut-issl/s2e-documents).
 
-## How to use
+## How to use S2E
 
-- Please see [s2e-documents' getting started page](https://ut-issl.github.io/s2e-documents/Tutorials/GettingStarted.html).
+- Please see [s2e-documents' getting started page](https://github.com/ut-issl/s2e-documents/blob/develop/Tutorials/GettingStarted.md).
+
+## Example of User side
+- [S2E-FF](https://github.com/ut-issl/s2e-ff)
+  - An example of S2E user side repository for Formation Flying study.
