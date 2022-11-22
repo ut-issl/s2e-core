@@ -41,6 +41,9 @@ add_library(${PROJECT_NAME} STATIC
   CommGS/GScalculator.cpp
   CommGS/InitGsCalculator.cpp
 
+  IdealComponents/ForceGenerator.cpp
+  IdealComponents/InitializeForceGenerator.cpp
+
   Logic/LPF.cpp
   Logic/RVDController.cpp
   Logic/UWBEstimator.cpp
