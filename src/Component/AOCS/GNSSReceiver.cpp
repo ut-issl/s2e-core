@@ -157,7 +157,7 @@ void GNSSReceiver::SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, std::stri
 
   double dist = norm(ant2gnss_c);
   double lon = AcTan(ant2gnss_c[1], ant2gnss_c[0]);
-  double lat = AcTan(ant2gnss_c[2], dist);
+  double lat = AcTan(ant2gnss_c[2], sqrt(pow(ant2gnss_c[0], 2.0) + pow(ant2gnss_c[1], 2.0)));
 
   GnssInfo gnss_info_new = {gnss_id, lat, lon, dist};
   vec_gnssinfo_.push_back(gnss_info_new);
