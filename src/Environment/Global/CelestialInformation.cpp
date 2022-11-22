@@ -1,8 +1,7 @@
 #include "CelestialInformation.h"
 
-#include <SpiceUsr.h>
-
 #include <Interface/LogOutput/LogUtility.h>
+#include <SpiceUsr.h>
 #include <string.h>
 
 #include <iostream>
@@ -254,6 +253,7 @@ void CelestialInformation::GetPlanetOrbit(const char* planet_name, double et, do
 
   // Get orbit
   SpiceDouble lt;
-  spkezr_c((ConstSpiceChar*)planet_name_, (SpiceDouble)et, (ConstSpiceChar*)inertial_frame_.c_str(), (ConstSpiceChar*)aber_cor_.c_str(), (ConstSpiceChar*)center_obj_.c_str(), (SpiceDouble*)orbit, (SpiceDouble*)&lt);
+  spkezr_c((ConstSpiceChar*)planet_name_, (SpiceDouble)et, (ConstSpiceChar*)inertial_frame_.c_str(), (ConstSpiceChar*)aber_cor_.c_str(),
+           (ConstSpiceChar*)center_obj_.c_str(), (SpiceDouble*)orbit, (SpiceDouble*)&lt);
   return;
 }
