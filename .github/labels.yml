@@ -97,3 +97,15 @@
 - name: "simulation"
   description: "simulation settings"
   color: "D9E868"
+
+- name: "patch"
+  description: "backwards compatible bug fixes"
+  color: "08C036"
+
+- name: "minor update"
+  description: "add functionality in a backwards compatible manner"
+  color: "EFFA85"
+
+- name: "major update"
+  description: "incompatible API changes"
+  color: "B60205"
