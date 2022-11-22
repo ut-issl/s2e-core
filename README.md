@@ -74,6 +74,26 @@
 
 - Please see [s2e-documents' getting started page](https://github.com/ut-issl/s2e-documents/blob/develop/Tutorials/GettingStarted.md).
 
-## Example of User side
+## Examples of User side
+
 - [S2E-FF](https://github.com/ut-issl/s2e-ff)
   - An example of S2E user side repository for Formation Flying study.
+
+## Used Projects
+
+| Project Name          | Developer          | Launch  | Refs       |
+| ----------------------| ------------------ | ------- | ---------- |
+| MAGNARO               | Nagoya Univ.       | 2022    | -          |
+| EQUULEUS              | UT ISSL            | 2022    | -          |
+| Optimal-1             | ArkEdge Space      | -       | -          |
+| ONGLAISAT             | UT ISSL            | -       | [Ikari 2022](https://archive.ists.ne.jp/upload_pdf/F-9-05.pdf)    |
+
+
+## Collaborators
+
+[<img src="./data/img/arkedgespace_logo.png" width="25%" alt="ArkEdge Space Inc.">](https://arkedgespace.com/)
+
+
+## Publications
+1. S. Ikari, and et al., "Development of Compact and Highly Capable Integrated AOCS Module for CubeSats", [2022-f-41](https://archive.ists.ne.jp/upload_pdf/F-9-05.pdf), 33rd ISTS, 2022.
+1. 五十里, 他, "宇宙開発の効率化・高度化を目指した東京大学中須賀・船瀬研のOSS活動", [UNISEC2022-04](http://unisec.jp/archives/7836), 12th UNISEC Space Takumi Conference, 2022.
