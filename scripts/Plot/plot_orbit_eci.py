@@ -2,6 +2,7 @@
 # Plot Spacecraft orbit in ECI frame with Sun information
 #
 # arg[1] : read_file_tag : time tag for default CSV output log file. ex. 220627_142946
+# arg[2] : is_animation : true -> generate animation, false -> generate plot
 #
 
 #
@@ -10,6 +11,8 @@
 # plots
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+# from matplotlib.animation import PillowWriter
 # csv read
 import pandas
 # local function
@@ -24,6 +27,7 @@ aparser = argparse.ArgumentParser()
 
 aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs')
 aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
+aparser.add_argument('--is-animation', type=bool, help='True: generate animation, False: generate plot', default=False)
 aparser.add_argument('--no-gui', action='store_true')
 
 args = aparser.parse_args()
@@ -40,6 +44,8 @@ if read_file_tag == None:
   read_file_tag = find_latest_log_tag(path_to_logs)
 
 print("log: " + read_file_tag)
+
+is_animation = args.is_animation
 
 #
 # CSV file name
@@ -80,15 +86,24 @@ ax.quiver(0, 0, 0, 0, 0, length_axis_m, color='b', label="Z") # Z-axis
 
 # Plot Sun direction
 sun_direction_i = sun_direction_i * length_axis_m
-ax.quiver(0, 0, 0, sun_direction_i[0], sun_direction_i[1], sun_direction_i[2], color='y', label="sun") # Z-axis
+ax.quiver(0, 0, 0, sun_direction_i[0][0], sun_direction_i[1][0], sun_direction_i[2][0], color='y', label="sun")
 
-# Plot spacecraft orbit with eclipse information
+# Check eclipse or not
 def eclipse_color(shadow_coeff):
   if shadow_coeff >= 0.9: return 'orange'
   else: return 'black'
 
-for i in range(sc_position_i.shape[1]):
-  ax.plot(sc_position_i[0][i], sc_position_i[1][i], sc_position_i[2][i], marker="o", color=eclipse_color(shadow_coeff[i]))
+# Plot or Animation
+if is_animation:
+  def animate(i):
+    line = ax.plot(sc_position_i[0][i], sc_position_i[1][i], sc_position_i[2][i], marker="o", color=eclipse_color(shadow_coeff[i]))
+    return line
+  
+  ax.plot(sc_position_i[0], sc_position_i[1], sc_position_i[2], color='gray', lw=2, linestyle='--')
+  animation = FuncAnimation(fig, animate, frames = len(sc_position_i[0]), interval = 5, blit = True)
+else:
+  for i in range(sc_position_i.shape[1]):
+    ax.plot(sc_position_i[0][i], sc_position_i[1][i], sc_position_i[2][i], marker="o", color=eclipse_color(shadow_coeff[i]))
 
 # Plot setting
 ax.set_xlim([-length_axis_m, length_axis_m])
@@ -102,7 +117,10 @@ plt.title('Spacecraft Orbit @ ECI')
 plt.show()
 
 # Data save
-if args.no_gui:
-  plt.savefig(read_file_tag + "_sc_orbit_eci.png")
+if args.no_gui and is_animation==False:
+  # if is_animation:
+    # animation.save(read_file_tag + "_sc_orbit_eci.gif", PillowWriter(fps=30)) # it takes long time...
+  # else:
+    plt.savefig(read_file_tag + "_sc_orbit_eci.png")
 else:
   plt.show()
