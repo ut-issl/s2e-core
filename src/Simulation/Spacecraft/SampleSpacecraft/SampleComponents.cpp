@@ -87,11 +87,11 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* st
   // thruster_->SetDuty(0.9);
 
   // force generator debug output
-  libra::Vector<3> force_N;
-  force_N[0] = 1.0;
-  force_N[1] = 0.0;
-  force_N[2] = 0.0;
-  force_generator_->SetForce_b_N(force_N);
+  // libra::Vector<3> force_N;
+  // force_N[0] = 1.0;
+  // force_N[1] = 0.0;
+  // force_N[2] = 0.0;
+  // force_generator_->SetForce_b_N(force_N);
 }
 
 SampleComponents::~SampleComponents() {
@@ -116,6 +116,7 @@ SampleComponents::~SampleComponents() {
 libra::Vector<3> SampleComponents::GenerateForce_N_b() {
   libra::Vector<3> force_N_b_(0.0);
   force_N_b_ += thruster_->GetThrustB();
+  force_N_b_ += force_generator_->GetGeneratedForce_b_N();
   return force_N_b_;
 }
 
