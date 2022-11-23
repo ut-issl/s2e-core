@@ -81,12 +81,12 @@
 
 ## Used Projects
 
-| Project Name          | Developer          | Launch  | Refs       |
-| ----------------------| ------------------ | ------- | ---------- |
-| MAGNARO               | Nagoya Univ.       | 2022    | -          |
-| EQUULEUS              | UT ISSL            | 2022    | -          |
-| Optimal-1             | ArkEdge Space      | -       | -          |
-| ONGLAISAT             | UT ISSL            | -       | [Ikari 2022](https://archive.ists.ne.jp/upload_pdf/F-9-05.pdf)    |
+| Project Name          | Developer               | Launch  | Refs       |
+| ----------------------| ----------------------- | ------- | ---------- |
+| MAGNARO               | Nagoya Univ.            | 2022    | -          |
+| EQUULEUS              | ISSL, UT                | 2022    | -          |
+| Optimal-1             | ArkEdge Space Inc.      | -       | -          |
+| ONGLAISAT             | ISSL, UT                | -       | [Ikari 2022](https://archive.ists.ne.jp/upload_pdf/F-9-05.pdf)    |
 
 
 ## Collaborators
