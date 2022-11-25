@@ -10,6 +10,7 @@
 
 class PCU_InitialStudy : public ComponentBase, public ILoggable {
  public:
+  PCU_InitialStudy(const int prescaler, ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat, double compo_step_time);
   PCU_InitialStudy(ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat);
   ~PCU_InitialStudy();
 
@@ -24,8 +25,9 @@ class PCU_InitialStudy : public ComponentBase, public ILoggable {
   const double cv_charge_voltage_;  //[V]
   double bus_voltage_;              //[V]
   double power_consumption_;        //[W]
+  double compo_step_time_;          //[sec]
 
   void MainRoutine(int time_count) override;
-  double CalcPowerConsumption(int time_in_sec) const;
+  double CalcPowerConsumption(double time_query) const;
   void UpdateChargeCurrentAndBusVoltage();
 };

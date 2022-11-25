@@ -1,0 +1,42 @@
+name: Validate scripts
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    paths:
+      - '.github/workflows/validate-scripts.yml'
+      - 'scripts/**'
+
+jobs:
+  validate_script:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        script_dir: ['./scripts/Plot']
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: read python version from Pipfile
+        id: python-version
+        working-directory: ${{ matrix.script_dir }}
+        run: |
+          ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
+          echo "version=${ver}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-python@v4.3.0
+        with:
+          python-version: ${{ steps.python-version.outputs.version }}
+
+      - name: install pipenv
+        run: pip install pipenv
+
+      - name: install Plot script dependencies
+        working-directory: ${{ matrix.script_dir }}
+        run: |
+          pipenv install
+          pipenv graph

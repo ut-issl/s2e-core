@@ -131,6 +131,12 @@ Vector<3> LocalCelestialInformation::GetPosFromSC_i(const char* body_name) const
   return position;
 }
 
+Vector<3> LocalCelestialInformation::GetCenterBodyPosFromSC_i() const {
+  string body_name = glo_celes_info_->GetCenterBodyName();
+  Vector<3> position = GetPosFromSC_i(body_name.c_str());
+  return position;
+}
+
 Vector<3> LocalCelestialInformation::GetPosFromSC_b(const char* body_name) const {
   Vector<3> position;
   int index = 0;
@@ -138,6 +144,12 @@ Vector<3> LocalCelestialInformation::GetPosFromSC_b(const char* body_name) const
   for (int i = 0; i < 3; i++) {
     position[i] = celes_objects_pos_from_sc_b_[index * 3 + i];
   }
+  return position;
+}
+
+Vector<3> LocalCelestialInformation::GetCenterBodyPosFromSC_b(void) const {
+  string body_name = glo_celes_info_->GetCenterBodyName();
+  Vector<3> position = GetPosFromSC_b(body_name.c_str());
   return position;
 }
 

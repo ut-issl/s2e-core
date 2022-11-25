@@ -10,7 +10,7 @@ set(NRLMSISE_INSTALL_DIR ${EXT_LIB_DIR}/nrlmsise00)
 set(NRLMSISE_TABLE_URL_BASE ftp://ftp.agi.com/pub/DynamicEarthData)
 set(NRLMSISE_TABLE_FILE SpaceWeather-v1.2.txt)
 
-set(NRLMSISE_TMP_DIR ${NRLMSISE_INSTALL_DIR}/tmp)
+set(NRLMSISE_TMP_DIR ${CMAKE_CURRENT_BINARY_DIR}/tmp)
 
 # download files
 # download source files
@@ -49,8 +49,10 @@ add_library(${NRLMSISE_LIB} STATIC ${NRLMSISE_TMP_DIR}/nrlmsise-00.c ${NRLMSISE_
 if(MSVC)
   target_compile_options(${NRLMSISE_LIB} PUBLIC "/MT")
 else()
-  target_compile_options(${NRLMSISE_LIB} PUBLIC "-m32")
-  target_link_options(${NRLMSISE_LIB} PRIVATE "-m32")
+  if(NOT BUILD_64BIT)
+    target_compile_options(${NRLMSISE_LIB} PUBLIC "-m32")
+    target_link_options(${NRLMSISE_LIB} PRIVATE "-m32")
+  endif()
 endif()
 
 # install
@@ -63,9 +65,15 @@ install(EXPORT nrlmsise00-config
 )
 
 ## install library
+if(BUILD_64BIT)
+  set(NRLMSISE_LIB_DIR lib64)
+else()
+  set(NRLMSISE_LIB_DIR lib)
+endif()
+
 install(TARGETS ${NRLMSISE_LIB}
   EXPORT nrlmsise00-config
-  ARCHIVE DESTINATION ${NRLMSISE_INSTALL_DIR}/lib
+  ARCHIVE DESTINATION ${NRLMSISE_INSTALL_DIR}/${NRLMSISE_LIB_DIR}
 )
 
 ## install source

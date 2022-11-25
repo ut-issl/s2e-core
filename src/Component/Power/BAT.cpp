@@ -2,10 +2,10 @@
 
 #include <cmath>
 
-BAT::BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
+BAT::BAT(const int prescaler, ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
          const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
-         double bat_resistance)
-    : ComponentBase(1000, clock_gen),
+         double bat_resistance, double compo_step_time)
+    : ComponentBase(prescaler, clock_gen),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_capacity_(cell_capacity),
@@ -13,7 +13,22 @@ BAT::BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel
       cc_charge_current_(cc_charge_c_rate * cell_capacity * number_of_parallel),
       cv_charge_voltage_(cv_charge_voltage),
       dod_(initial_dod),
-      bat_resistance_(bat_resistance) {}
+      bat_resistance_(bat_resistance),
+      compo_step_time_(compo_step_time) {}
+
+BAT::BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
+         const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
+         double bat_resistance)
+    : ComponentBase(10, clock_gen),
+      number_of_series_(number_of_series),
+      number_of_parallel_(number_of_parallel),
+      cell_capacity_(cell_capacity),
+      cell_discharge_curve_coeffs_(cell_discharge_curve_coeffs),
+      cc_charge_current_(cc_charge_c_rate * cell_capacity * number_of_parallel),
+      cv_charge_voltage_(cv_charge_voltage),
+      dod_(initial_dod),
+      bat_resistance_(bat_resistance),
+      compo_step_time_(0.1) {}
 
 BAT::BAT(const BAT& obj)
     : ComponentBase(obj),
@@ -24,7 +39,8 @@ BAT::BAT(const BAT& obj)
       cc_charge_current_(obj.cc_charge_current_),
       cv_charge_voltage_(obj.cv_charge_voltage_),
       dod_(obj.dod_),
-      bat_resistance_(obj.bat_resistance_) {
+      bat_resistance_(obj.bat_resistance_),
+      compo_step_time_(obj.compo_step_time_) {
   charge_current_ = 0.0;
   UpdateBatVoltage();
 }
@@ -55,10 +71,11 @@ std::string BAT::GetLogValue() const {
   return str_tmp;
 }
 
-void BAT::MainRoutine(int count) {
-  UNUSED(count);
+void BAT::MainRoutine(int time_count) {
+  UNUSED(time_count);
 
-  dod_ -= charge_current_ / (cell_capacity_ * number_of_parallel_ * 3600.0) * 100.0;  // 1秒に1回MainRoutineが実行される想定
+  double delta_time_query = compo_step_time_ * prescaler_;
+  dod_ -= charge_current_ * delta_time_query / 3600.0 / (cell_capacity_ * number_of_parallel_ ) * 100.0;
   UpdateBatVoltage();
 }
 

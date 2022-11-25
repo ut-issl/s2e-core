@@ -2,7 +2,7 @@ cmake_policy(SET CMP0048 NEW)
 project(S2E
   LANGUAGES CXX
   DESCRIPTION "S2E: Spacecraft Simulation Environment"
-  VERSION 5.0.4
+  VERSION 5.1.0
 )
 
 cmake_minimum_required(VERSION 3.13)
@@ -10,6 +10,8 @@ cmake_minimum_required(VERSION 3.13)
 # build config
 option(USE_HILS "Use HILS" OFF)
 option(USE_C2A "Use C2A" OFF)
+option(BUILD_64BIT "Build 64bit" OFF)
+option(GOOGLE_TEST "Execute GoogleTest" OFF)
 
 # preprocessor
 if(WIN32)
@@ -32,6 +34,7 @@ endif()
 
 ## options to use C2A
 if(USE_C2A)
+  option(BUILD_64BIT OFF) # force to build with 32bit
   set(C2A_DIR ${FLIGHT_SW_DIR}/${C2A_NAME})
   message("C2A dir: ${C2A_DIR}")
   add_definitions(-DUSE_C2A)
@@ -97,21 +100,27 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 ## cspice library
 if(CYGWIN)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".so" ".a")
-  find_library(CSPICE_LIB
-    NAMES cspice.a csupport.a
-    PATHS ${CSPICE_DIR}/cspice_cygwin/lib)
+  set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_cygwin/lib)
 elseif(UNIX)
-  find_library(CSPICE_LIB
-    NAMES cspice.a csupport.a
-    PATHS ${CSPICE_DIR}/cspice_unix/lib)
-elseif(WIN32)
+  if(BUILD_64BIT)
+    set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_unix64/lib)
+  else()
+    set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_unix/lib)
+  endif()
+endif()
+
+if(WIN32)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
   find_library(CSPICE_LIB
     NAMES cspice.lib csupport.lib
     PATHS ${CSPICE_DIR}/cspice_msvs/lib)
+else()
+  find_library(CSPICE_LIB
+    NAMES cspice.a csupport.a
+    PATHS ${CSPICE_LIB_DIR})
 endif()
 if(NOT CSPICE_LIB)
-  message(FATAL_ERROR "cspice not found in ${EXT_LIB_DIR}")
+  message(FATAL_ERROR "cspice not found in ${CSPICE_LIB_DIR}")
 endif()
 #target_link_libraries(${PROJECT_NAME} ${CSPICE_LIB})
 
@@ -122,9 +131,15 @@ if(CYGWIN)
     NAMES libnrlmsise00.a
     PATHS ${NRLMSISE00_DIR}/lib)
 elseif(UNIX)
-  find_library(NRLMSISE00_LIB 
-    NAMES libnrlmsise00.a
-    PATHS ${NRLMSISE00_DIR}/lib)
+  if(BUILD_64BIT)
+    find_library(NRLMSISE00_LIB
+      NAMES libnrlmsise00.a
+      PATHS ${NRLMSISE00_DIR}/lib64)
+  else()
+    find_library(NRLMSISE00_LIB
+      NAMES libnrlmsise00.a
+      PATHS ${NRLMSISE00_DIR}/lib)
+  endif()
 elseif(WIN32)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
   find_library(NRLMSISE00_LIB 
@@ -177,6 +192,36 @@ if(USE_HILS)
   set_target_properties(HILS_IO PROPERTIES COMMON_LANGUAGE_RUNTIME "")
   set_target_properties(RELATIVE_INFO PROPERTIES COMMON_LANGUAGE_RUNTIME "")
 endif()
+
+## GoogleTest settings
+if (NOT BUILD_64BIT)
+  option(GOOGLE_TEST OFF) # GoogleTest supports 64bit only
+endif()
+if(GOOGLE_TEST)
+  include(FetchContent)
+  FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.12.1
+  )
+  if(WIN32)
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  endif()
+  FetchContent_MakeAvailable(googletest)
+
+  # Unit test
+  set(TEST_PROJECT_NAME ${PROJECT_NAME}_TEST)
+  set(TEST_FILES
+    src/Library/math/TestQuaternion.cpp
+  )
+  add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
+  target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)
+  target_link_libraries(${TEST_PROJECT_NAME} MATH)
+  include_directories(${TEST_PROJECT_NAME})
+  add_test(NAME s2e-test COMMAND ${TEST_PROJECT_NAME})
+  enable_testing()
+endif()
+
 
 ## Cmake debug
 message("Cspice_LIB:  " ${CSPICE_LIB})

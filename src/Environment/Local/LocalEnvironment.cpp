@@ -28,6 +28,12 @@ void LocalEnvironment::Initialize(SimulationConfig* sim_config, const GlobalEnvi
   atmosphere_ = new Atmosphere(InitAtmosphere(ini_fname));
   celes_info_ = new LocalCelestialInformation(&(glo_env->GetCelesInfo()));
   srp_ = new SRPEnvironment(InitSRPEnvironment(ini_fname, celes_info_));
+  // Force to disable when the center body is not the Earth
+  if (glo_env->GetCelesInfo().GetCenterBodyName() != "EARTH") {
+    mag_->IsCalcEnabled = false;
+    atmosphere_->IsCalcEnabled = false;
+  }
+
   // Log setting for Local celestial information
   IniAccess conf = IniAccess(ini_fname);
   celes_info_->IsLogEnabled = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", "logging");

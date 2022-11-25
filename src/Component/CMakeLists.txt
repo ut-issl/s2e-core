@@ -36,10 +36,13 @@ add_library(${PROJECT_NAME} STATIC
   CDH/OBC.cpp
   CDH/OBC_C2A.cpp
 
-  CommGS/ANT.cpp
-  CommGS/InitAnt.cpp
+  CommGS/Antenna.cpp
+  CommGS/InitAntenna.cpp
   CommGS/GScalculator.cpp
   CommGS/InitGsCalculator.cpp
+
+  IdealComponents/ForceGenerator.cpp
+  IdealComponents/InitializeForceGenerator.cpp
 
   Logic/LPF.cpp
   Logic/RVDController.cpp
@@ -52,6 +55,7 @@ add_library(${PROJECT_NAME} STATIC
   Power/BAT.cpp
   Power/InitBat.cpp
   Power/PCU_InitialStudy.cpp
+  Power/InitPcu_InitialStudy.cpp
   Power/SAP.cpp
   Power/InitSap.cpp
   Power/CsvScenarioInterface.cpp

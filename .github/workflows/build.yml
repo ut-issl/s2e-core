@@ -6,6 +6,7 @@ on:
       - main
       - develop
   pull_request:
+    types: [opened, synchronize, reopened, labeled]
     paths:
       - '.github/workflows/build.yml'
       - 'ExtLibraries/**'
@@ -13,6 +14,10 @@ on:
       - 'common.cmake'
       - 'CMakeSettings.json'
       - 'src/**'
+
+env:
+  # datasource=github-releases depName=ut-issl/c2a-core
+  C2A_CORE_VERSION: v3.7.0
 
 jobs:
   build_s2e_win:
@@ -33,7 +38,7 @@ jobs:
         with:
           path: c2a-core
           repository: ut-issl/c2a-core
-          ref: v3.4.0
+          ref: ${{ env.C2A_CORE_VERSION }}
           fetch-depth: 1
 
       - name: setup C2A
@@ -91,8 +96,19 @@ jobs:
         shell: cmd
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user_for_s2e -D${{ matrix.use_c2a }}
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }}
           cmake --build .
+
+      - name: fix simulation config
+        shell: bash
+        working-directory: ./data/SampleSat/ini
+        run: |
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
+
+      - name: run simulation(SampleSat)
+        working-directory: ./data/SampleSat
+        run: |
+          ..\..\Debug\S2E.exe
 
   build_s2e_linux:
     name: Build on Linux
@@ -101,6 +117,7 @@ jobs:
       fail-fast: false
       matrix:
         compiler: ['gcc-11 g++-11', 'clang clang++']
+        build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
 
     steps:
       - uses: actions/checkout@v3
@@ -137,14 +154,14 @@ jobs:
         id: cache-extlib
         uses: actions/cache@v3
         with:
-          key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}
+          key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}-${{ matrix.build_bit }}
           path: ExtLibraries
 
       - name: build extlib
         if: steps.cache-extlib.outputs.cache-hit != 'true'
         working-directory: ./ExtLibraries
         run: |
-          cmake . -DEXT_LIB_DIR="$(pwd)"
+          cmake . -DEXT_LIB_DIR="$(pwd)" -D${{ matrix.build_bit }}
           cmake --build .
       - name: install extlib
         if: steps.cache-extlib.outputs.cache-hit != 'true'
@@ -155,13 +172,13 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           ls cspice
-          ls cspice/cspice_unix
+          ls cspice/cspice_unix*
           ls cspice/include
           ls cspice/generic_kernels
           ls nrlmsise00
           ls nrlmsise00/table
-          ls nrlmsise00/lib
-          ls nrlmsise00/lib/libnrlmsise00.a
+          ls nrlmsise00/lib*
+          ls nrlmsise00/lib*/libnrlmsise00.a
           ls nrlmsise00/src
 
       - name: build
@@ -169,5 +186,71 @@ jobs:
           CC:  ${{ steps.compiler.outputs.CC  }}
           CXX: ${{ steps.compiler.outputs.CXX }}
         run: |
-          cmake . -DEXT_LIB_DIR=./ExtLibraries
+          cmake . -DEXT_LIB_DIR=./ExtLibraries -D${{ matrix.build_bit }}
           cmake --build .
+
+      - name: fix simulation config
+        working-directory: ./data/SampleSat/ini
+        run: |
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
+
+      - name: run simulation(SampleSat)
+        working-directory: ./data/SampleSat
+        run: |
+          ../../S2E
+
+      - name: generate graph
+        working-directory: ./data/SampleSat
+        run: |
+          sudo apt-get install -y gnuplot
+          pip3 install yq
+          LOG=$(ls logs/logs_*/*.csv)
+          echo "plot $LOG"
+          ./gen_graph.sh "${LOG}"
+          ls
+          ls ./imgs
+      
+      - name: read python version from Pipfile
+        id: python-version
+        working-directory: ./scripts/Plot
+        run: |
+          ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
+          echo "version=$ver" >> "$GITHUB_OUTPUT"
+      
+      - uses: actions/setup-python@v4.3.0
+        with:
+          python-version: ${{ steps.python-version.outputs.version }}
+
+      - name: plot GS visibility
+        working-directory: ./scripts/Plot
+        run: |
+          pip install pipenv
+          pipenv install
+          pipenv run python plot_gs_visibility.py --no-gui
+          ls ./*_gs_visibility.png
+
+      - name: upload imgs
+        id: upload_imgs
+        working-directory: ./scripts/Plot
+        if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF') && contains(github.event.pull_request.labels.*.name, 'automation::comment-graph')
+        run: |
+          IMG=$(ls ./*_gs_visibility.png)
+          IMG_URL=$(curl -sL -X POST upload.gyazo.com/upload.cgi -F "imagedata=@${IMG}")
+          echo "gyazo url: ${IMG_URL}"
+          IMG_EMBED_URL="${IMG_URL//gyazo/i.gyazo}.png"
+          echo "gyazo embed url: ${IMG_EMBED_URL}"
+          echo "IMG_EMBED_URL=${IMG_EMBED_URL}" >> "$GITHUB_OUTPUT"
+
+      - name: comment imgs
+        if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF') && contains(github.event.pull_request.labels.*.name, 'automation::comment-graph')
+        uses: actions/github-script@v6.3.3
+        with:
+          script: |
+            const output = `## \`position.png\`
+            ![position](${{ steps.upload_imgs.outputs.IMG_EMBED_URL }})`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })

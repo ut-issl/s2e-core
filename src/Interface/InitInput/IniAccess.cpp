@@ -1,17 +1,38 @@
 #include "IniAccess.h"
 
 #include <string.h>
+#include <algorithm>
+#include <cstring>
+#include <limits>
 
 using namespace std;
 
+#ifdef WIN32
 IniAccess::IniAccess(string path) : file_path_(path) {
   //読み出しファイル名の取得
   // TODO: Modify the codes for multi-platform support
   // strcpy_s(strPath_, (size_t)_countof(strPath_), file_path_.c_str());
   strncpy(strPath_, file_path_.c_str(), MAX_PATH);
 }
+#else
+IniAccess::IniAccess(string path) : file_path_(path), reader(path) {
+  strncpy(strPath_, file_path_.c_str(), MAX_PATH);
+
+  std::string ext = ".ini";
+  if(path.size() < 4 || !std::equal(std::rbegin(ext), std::rend(ext), std::rbegin(path))) {
+    // this is not ini file(csv)
+    return;
+  }
+  if (reader.ParseError() != 0) {
+    cerr << "Error reading INI file : " << path << endl;
+    cerr << "\t error code: " << reader.ParseError() << endl;
+    throw std::runtime_error("Error reading INI file");
+  }
+}
+#endif
 
 double IniAccess::ReadDouble(const char* section_name, const char* key_name) {
+#ifdef WIN32
   stringstream value;
   double temp = 0;
 
@@ -22,16 +43,24 @@ double IniAccess::ReadDouble(const char* section_name, const char* key_name) {
   //	cout << strText_;
 
   return temp;
+#else
+  return reader.GetReal(section_name, key_name, 0);  //文字列を入力
+#endif
 }
 
 int IniAccess::ReadInt(const char* section_name, const char* key_name) {
+#ifdef WIN32
   int temp;
 
   temp = GetPrivateProfileIntA(section_name, key_name, 0, strPath_);
 
   return temp;
+#else
+  return (int)reader.GetInteger(section_name, key_name, 0);
+#endif
 }
 bool IniAccess::ReadBoolean(const char* section_name, const char* key_name) {
+#ifdef WIN32
   int temp;
 
   temp = GetPrivateProfileIntA(section_name, key_name, 0, strPath_);
@@ -39,6 +68,9 @@ bool IniAccess::ReadBoolean(const char* section_name, const char* key_name) {
     return true;
   }
   return false;
+#else
+  return reader.GetBoolean(section_name, key_name, false);
+#endif
 }
 
 void IniAccess::ReadDoubleArray(const char* section_name, const char* key_name, int id, int num, double* data) {
@@ -74,13 +106,23 @@ void IniAccess::ReadQuaternion(const char* section_name, const char* key_name, Q
 }
 
 void IniAccess::ReadChar(const char* section_name, const char* key_name, int size, char* data) {
+#ifdef WIN32
   GetPrivateProfileStringA(section_name, key_name, 0, data, size, strPath_);
+#else
+  string sdata = ReadString(section_name, key_name);
+  strncpy(data, sdata.c_str(), size);
+#endif
 }
 
 string IniAccess::ReadString(const char* section_name, const char* key_name) {
+#ifdef WIN32
   char temp[1024];
   ReadChar(section_name, key_name, 1024, temp);
   return string(temp);
+#else
+  string value = reader.GetString(section_name, key_name, "NULL");
+  return value;
+#endif
 }
 
 bool IniAccess::ReadEnable(const char* section_name, const char* key_name) {
@@ -99,7 +141,11 @@ vector<string> IniAccess::ReadStrVector(const char* section_name, const char* ke
     stringstream c_name;
     c_name << key_name << "(" << i << ")";
     ReadChar(section_name, c_name.str().c_str(), buf_size, temp);
+    #ifdef WIN32
     if (temp[0] == NULL) {
+    #else
+    if (!strcmp(temp, "NULL")) {
+    #endif
       break;
     } else {
       data.push_back(temp);
@@ -141,6 +187,9 @@ void IniAccess::ReadCsvDouble(vector<vector<double>>& doublevec, int node_num) {
 
 void IniAccess::ReadCsvString(vector<vector<string>>& stringvec, int node_num) {
   ifstream ifs(strPath_);
+  if (!ifs.is_open()) {
+    cerr << "file open error. filename = " << strPath_ << std::endl;
+  }
   string line;
   int line_num = 0;
   stringvec.reserve(node_num);

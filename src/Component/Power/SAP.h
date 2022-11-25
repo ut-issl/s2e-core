@@ -10,6 +10,10 @@
 
 class SAP : public ComponentBase, public ILoggable {
  public:
+  SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
+      double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info, double compo_step_time);
+  SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
+      double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, double compo_step_time);
   SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
       double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info);
   SAP(const SAP& obj);
@@ -38,6 +42,7 @@ class SAP : public ComponentBase, public ILoggable {
   太陽光強度などによって変化するパラメータは非constで持ち，MainRoutineで更新 */
   static const double solar_constant_;
   static const double light_speed_;
+  double compo_step_time_;   //[sec]
 
   void MainRoutine(int time_count) override;
 };

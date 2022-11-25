@@ -9,6 +9,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Compile option
 if(MSVC)
+  target_compile_options(${PROJECT_NAME} PUBLIC "/MP")  # multi process build
+
   target_compile_options(${PROJECT_NAME} PUBLIC "/W4")
   if(NOT USE_HILS) # /MT option conflicts /clr option in the HILS config.
     target_compile_options(${PROJECT_NAME} PUBLIC "/MT")
@@ -18,12 +20,15 @@ else()
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wall")
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wextra")
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wpedantic")
-  target_compile_options(${PROJECT_NAME} PUBLIC "-rdynamic")
 
-  # 32bit
-  target_compile_options(${PROJECT_NAME} PUBLIC "-m32")
-  target_link_options(${PROJECT_NAME} PUBLIC "-m32")
+  # link option
+  target_link_options(${PROJECT_NAME} PUBLIC "-rdynamic")
 
+  if(NOT BUILD_64BIT)
+    # 32bit
+    target_compile_options(${PROJECT_NAME} PUBLIC "-m32")
+    target_link_options(${PROJECT_NAME} PUBLIC "-m32")
+  endif()
   # debug
   target_compile_options(${PROJECT_NAME} PUBLIC "-g")
 endif()

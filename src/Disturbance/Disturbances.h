@@ -11,7 +11,7 @@ class Logger;
 
 class Disturbances {
  public:
-  Disturbances(SimulationConfig* sim_config, const int sat_id, Structure* structure);
+  Disturbances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env);
   virtual ~Disturbances();
   void Update(const LocalEnvironment& local_env, const Dynamics& dynamics, const SimTime* sim_time);
 
@@ -23,7 +23,7 @@ class Disturbances {
 
  private:
   std::string ini_fname_;
-  void InitializeInstances(SimulationConfig* sim_config, const int sat_id, Structure* structure);
+  void InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env);
   void InitializeForceAndTorque();
   void InitializeAcceleration();
   std::vector<SimpleDisturbance*> disturbances_;

@@ -15,6 +15,7 @@
 #include <Component/AOCS/InitRwModel.hpp>
 #include <Component/AOCS/InitStt.hpp>
 #include <Component/AOCS/InitSunSensor.hpp>
+#include <Component/IdealComponents/InitializeForceGenerator.hpp>
 #include <Component/Propulsion/InitSimpleThruster.hpp>
 #include <Library/math/Vector.hpp>
 
@@ -30,6 +31,7 @@ class GNSSReceiver;
 class MagTorquer;
 class RWModel;
 class SimpleThruster;
+class ForceGenerator;
 
 class SampleComponents : public InstalledComponents {
  public:
@@ -52,6 +54,7 @@ class SampleComponents : public InstalledComponents {
   MagTorquer* mag_torquer_;
   RWModel* rw_;
   SimpleThruster* thruster_;
+  ForceGenerator* force_generator_;
   // ExpHils* exp_hils_uart_responder_;
   // ExpHils* exp_hils_uart_sender_;
   // ExpHilsI2cController* exp_hils_i2c_controller_;

@@ -14,8 +14,6 @@ ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen, PowerPort
   fast_prescaler_ = (fast_prescaler > 0) ? fast_prescaler : 1;
 }
 
-// コピーされたらそのインスタンスもClockGeneratorに登録しないとならない
-// 実用上、コピー元かコピー先のどちらか（大体コピー元？）はすぐに破棄されるはずだが
 ComponentBase::ComponentBase(const ComponentBase& obj) {
   prescaler_ = obj.prescaler_;
   fast_prescaler_ = obj.fast_prescaler_;
@@ -25,18 +23,22 @@ ComponentBase::ComponentBase(const ComponentBase& obj) {
   power_port_ = obj.power_port_;
 }
 
-// 破棄されたらClockGeneratorから削除しないとならない
 ComponentBase::~ComponentBase() { clock_gen_->RemoveComponent(this); }
 
-// 時を刻む
 void ComponentBase::Tick(int count) {
-  if (!power_port_->GetIsOn()) return;
   if (count % prescaler_ > 0) return;
-  MainRoutine(count);
+  if (power_port_->GetIsOn()) {
+    MainRoutine(count);
+  } else {
+    PowerOffRoutine();
+  }
 }
 
 void ComponentBase::FastTick(int count) {
-  if (!power_port_->GetIsOn()) return;
   if (count % fast_prescaler_ > 0) return;
-  FastUpdate();
+  if (power_port_->GetIsOn()) {
+    FastUpdate();
+  } else {
+    PowerOffRoutine();
+  }
 }

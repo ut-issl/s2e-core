@@ -177,6 +177,9 @@ Quaternion operator*(const Quaternion& lhs, const Quaternion& rhs);
 
 //! QuaternionとVectorの積演算子
 Quaternion operator*(const Quaternion& lhs, const Vector<3>& rhs);
+
+//! Quaternionとスカラーの積演算子
+Quaternion operator*(const double& lhs, const Quaternion& rhs);
 }  // namespace libra
 
 #include "Quaternion_ifs.hpp"  // inline function definisions.
