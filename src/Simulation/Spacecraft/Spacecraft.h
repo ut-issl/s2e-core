@@ -34,6 +34,7 @@ class Spacecraft {
   inline const Dynamics& GetDynamics() const { return *dynamics_; }
   inline const LocalEnvironment& GetLocalEnv() const { return *local_env_; }
   inline const Disturbances& GetDisturbances() const { return *disturbances_; }
+  inline const Structure& GetStructure() const { return *structure_; }
   inline const InstalledComponents& GetInstalledComponents() const { return *components_; }
   inline int GetSatID() const { return sat_id_; }
 
