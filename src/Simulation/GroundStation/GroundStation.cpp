@@ -35,6 +35,8 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
   gs_position_ecef_ = gs_position_geo_.CalcEcefPosition();
 
   elevation_limit_angle_deg_ = conf.ReadDouble(Section, "elevation_limit_angle_deg");
+
+  config->main_logger_->CopyFileToLogDir(gs_ini_path);
 }
 
 void GroundStation::LogSetup(Logger& logger) { logger.AddLoggable(this); }
