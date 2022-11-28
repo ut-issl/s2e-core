@@ -15,6 +15,8 @@ from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
 # csv
 import pandas
+# ini file
+from configparser import ConfigParser
 # local function
 from make_miller_projection_map import make_miller_projection_map
 from common import find_latest_log_tag
@@ -48,11 +50,17 @@ print("log: " + read_file_tag)
 gs_lat_deg = args.gs_lat
 gs_lon_deg = args.gs_lon
 
-# TODO: Read from the ini file in the logs directory
+# Read Gound Station position from the ini file in the logs directory
+gs_ini_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + "/SampleGS.ini"
+configur = ConfigParser(comment_prefixes=('#', ';', '//'), inline_comment_prefixes=('#', ';', '//'))
+configur.read(gs_ini_file_name)
+gs_lat_in_inifile_deg = configur.getfloat('GS0', 'latitude_deg')
+gs_lon_in_inifile_deg = configur.getfloat('GS0', 'longitude_deg')
+
 if not gs_lat_deg:
-  gs_lat_deg = 26.140837
+  gs_lat_deg = gs_lat_in_inifile_deg
 if not gs_lon_deg:
-  gs_lon_deg = 127.661483
+  gs_lon_deg = gs_lon_in_inifile_deg
 
 #
 # CSV file name
