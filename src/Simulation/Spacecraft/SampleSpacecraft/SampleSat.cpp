@@ -1,3 +1,8 @@
+/**
+ * @file SampleSat.cpp
+ * @brief An example of user side spacecraft class
+ */
+
 #include "SampleSat.h"
 
 #include <Environment/Global/ClockGenerator.h>
