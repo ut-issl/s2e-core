@@ -1,3 +1,8 @@
+/**
+ * @file Spacecraft.cpp
+ * @brief Definition of Spacecraft class
+ */
+
 #include "Spacecraft.h"
 
 #include <Interface/LogOutput/LogUtility.h>
@@ -61,6 +66,7 @@ void Spacecraft::Update(const SimTime* sim_time) {
   // Update local environment and disturbance
   local_env_->Update(dynamics_, sim_time);
   disturbances_->Update(*local_env_, *dynamics_, sim_time);
+
   // Update components
   clock_gen_.UpdateComponents(sim_time);
 
@@ -68,6 +74,7 @@ void Spacecraft::Update(const SimTime* sim_time) {
   dynamics_->AddAcceleration_i(disturbances_->GetAccelerationI());
   dynamics_->AddTorque_b(disturbances_->GetTorque());
   dynamics_->AddForce_b(disturbances_->GetForce());
+
   // Add generated force and torque by components
   dynamics_->AddTorque_b(components_->GenerateTorque_Nm_b());
   dynamics_->AddForce_b(components_->GenerateForce_N_b());
