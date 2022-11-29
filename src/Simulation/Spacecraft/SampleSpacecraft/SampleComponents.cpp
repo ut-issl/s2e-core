@@ -13,13 +13,12 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* st
                                    const GlobalEnvironment* glo_env, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id)
     : config_(config), dynamics_(dynamics), structure_(structure), local_env_(local_env), glo_env_(glo_env) {
   IniAccess iniAccess = IniAccess(config_->sat_file_[sat_id]);
+
   // PCU power port connection
   pcu_ = new PCU(clock_gen);
-  pcu_->ConnectPort(0, 0.5, 3.3,
-                    1.0);  // OBC: assumed power consumption is defined here
-  pcu_->ConnectPort(1,
-                    1.0);     // Gyro: assumed power consumption is defined inside the InitGyro
-  pcu_->ConnectPort(2, 1.0);  // for other all components
+  pcu_->ConnectPort(0, 0.5, 3.3, 1.0);  // OBC: assumed power consumption is defined here
+  pcu_->ConnectPort(1, 1.0);            // Gyro: assumed power consumption is defined inside the InitGyro
+  pcu_->ConnectPort(2, 1.0);            // for other all components
 
   // Components
   obc_ = new OBC(1, clock_gen, pcu_->GetPowerPort(0));
@@ -29,19 +28,23 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* st
   std::string ini_path = iniAccess.ReadString("COMPONENTS_FILE", "gyro_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   gyro_ = new Gyro(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimTime().GetCompoStepSec(), dynamics_));
+
   // MagSensor
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "mag_sensor_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   mag_sensor_ =
       new MagSensor(InitMagSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimTime().GetCompoStepSec(), &(local_env_->GetMag())));
+
   // STT
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "stt_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   stt_ = new STT(InitSTT(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimTime().GetCompoStepSec(), dynamics_, local_env_));
+
   // SunSensor
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "ss_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   sun_sensor_ = new SunSensor(InitSunSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, &(local_env_->GetSrp()), &(local_env_->GetCelesInfo())));
+
   // GNSS-R
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "gnss_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
@@ -53,11 +56,13 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* st
   config_->main_logger_->CopyFileToLogDir(ini_path);
   mag_torquer_ = new MagTorquer(
       InitMagTorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimTime().GetCompoStepSec(), &(local_env_->GetMag())));
+
   // RW
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "rw_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   rw_ = new RWModel(
       InitRWModel(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_->GetAttitude().GetPropStep(), glo_env_->GetSimTime().GetCompoStepSec()));
+
   // Thruster
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "thruster_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
