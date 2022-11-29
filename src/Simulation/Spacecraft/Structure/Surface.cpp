@@ -1,3 +1,8 @@
+/**
+ * @file Surface.cpp
+ * @brief Definition of spacecraft surface
+ */
+
 #include "Surface.h"
 
 Surface::Surface(Vector<3> position, Vector<3> normal, double area, double reflectivity, double specularity, double air_specularity)
