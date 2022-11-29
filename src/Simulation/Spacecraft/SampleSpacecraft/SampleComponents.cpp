@@ -1,3 +1,8 @@
+/**
+ * @file SampleComponents.cpp
+ * @brief An example of user side components management installed on a spacecraft
+ */
+
 #include "SampleComponents.h"
 
 #include <Interface/InitInput/IniAccess.h>
