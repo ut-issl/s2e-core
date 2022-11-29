@@ -1,3 +1,8 @@
+/**
+ * @file S2E_parallel.cpp
+ * @brief The main file of S2E parallel execution
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <tchar.h>
@@ -50,8 +55,7 @@ void mail_loop(int idx) {
   COSMOSWrapper& cosmos_wrapper = COSMOSWrapper();
   HardwareMessage& hw_msg = HardwareMessage();
 
-  SimulationCase& simcase = EquuleusCase(*mc_sim, ini_fname, cosmos_wrapper,
-                                         hw_msg);  // 最終的にはnullptrではなくCOSMOSWrapperインスタンスへのポインタを渡すべき。
+  SimulationCase& simcase = EquuleusCase(*mc_sim, ini_fname, cosmos_wrapper, hw_msg);
   // mclog.AddLoggable(&simcase);
   // if (mc_sim->GetNumOfExecutionsDone() == 0)
   //{
