@@ -1,3 +1,8 @@
+/**
+ * @file GroundStation.cpp
+ * @brief Base class of ground station
+ */
+
 #include "GroundStation.h"
 
 #include <Interface/InitInput/IniAccess.h>

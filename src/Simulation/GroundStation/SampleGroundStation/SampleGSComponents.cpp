@@ -1,3 +1,7 @@
+/**
+ * @file SampleGSComponents.cpp
+ * @brief An example of ground station related components list
+ */
 #include "SampleGSComponents.h"
 
 #include <Interface/InitInput/IniAccess.h>
