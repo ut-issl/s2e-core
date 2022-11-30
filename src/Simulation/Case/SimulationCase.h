@@ -36,24 +36,24 @@ class SimulationCase : public ILoggable {
 
   /**
    * @fn Initialize
-   * @brief Initialize the simulation scenario
+   * @brief Virtual function to initialize the simulation scenario
    */
   virtual void Initialize() = 0;
 
   /**
    * @fn Main
-   * @brief Main routine of the simulation scenario
+   * @brief Virtual function of main routine of the simulation scenario
    */
   virtual void Main() = 0;
 
   /**
    * @fn GetLogHeader
-   * @brief Log header settings for Monte-Carlo Simulation result
+   * @brief Virtual function of Log header settings for Monte-Carlo Simulation result
    */
   virtual std::string GetLogHeader() const = 0;
   /**
    * @fn GetLogValue
-   * @brief Log value settings for Monte-Carlo Simulation result
+   * @brief Virtual function of Log value settings for Monte-Carlo Simulation result
    */
   virtual std::string GetLogValue() const = 0;
 
