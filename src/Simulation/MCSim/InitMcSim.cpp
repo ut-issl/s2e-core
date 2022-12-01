@@ -1,3 +1,8 @@
+/**
+ * @file InitMcSim.cpp
+ * @brief Initialize function for Monte-Carlo Simulator
+ */
+
 #include "InitMcSim.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
@@ -29,7 +34,7 @@ MCSimExecutor* InitMCSim(std::string file_name) {
 
   enum Phase { FoundNothingYet, FoundSimulationObjectStr, FoundInitParameterStr };
   for (auto so_dot_ip_str : so_dot_ip_str_vec) {
-    // 文字列をSimulationObjectとInitParameterに分割
+    // Divide the string to SimulationObject and InitParameter
     Phase phase = FoundNothingYet;
     std::stringstream ss(so_dot_ip_str);
     std::string item, so_str, ip_str;
@@ -48,7 +53,7 @@ MCSimExecutor* InitMCSim(std::string file_name) {
       }
     }
 
-    // Randomization typeを読みこみ
+    // Read Randomization type
     InitParameter::RandomizationType rnd_type;
     const static unsigned int buf_size = 256;
     char rnd_type_str[buf_size];
@@ -76,17 +81,17 @@ MCSimExecutor* InitMCSim(std::string file_name) {
     else
       rnd_type = InitParameter::NoRandomization;
 
-    // mean_or_min ベクトルを読み込み
+    // Read mean_or_min vector
     key_name = so_dot_ip_str + MCSimExecutor::separator_ + "mean_or_min";
     Vector<3> mean_or_min;
     ini_file.ReadVector(section, key_name.c_str(), mean_or_min);
 
-    // sigma_or_max ベクトルを読み込み
+    // Read sigma_or_max vector
     key_name = so_dot_ip_str + MCSimExecutor::separator_ + "sigma_or_max";
     Vector<3> sigma_or_max;
     ini_file.ReadVector(section, key_name.c_str(), sigma_or_max);
 
-    // 乱数設定を書き込み
+    // Write randomize setting
     mc_sim->AddInitParameter(so_str, ip_str, mean_or_min, sigma_or_max, rnd_type);
   }
 

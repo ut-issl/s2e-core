@@ -1,3 +1,8 @@
+/**
+ * @file SimulationObject.h
+ * @brief Class to manage randomization of variables for Monte-Carlo simulation
+ */
+
 #pragma once
 
 #include <Library/math/Quaternion.hpp>
@@ -12,51 +17,64 @@
 
 using libra::Vector;
 
+/**
+ * @class SimulationObject
+ * @brief Class to manage randomization of variables for Monte-Carlo simulation
+ */
 class SimulationObject {
  public:
-  // コンストラクタ
+  /**
+   * @fn SimulationObject
+   * @brief Constructor
+   */
   explicit SimulationObject(std::string name);
 
-  //// コピーコンストラクタ
-  // SimulationObject(const SimulationObject& other);
-
-  // デストラクタ
+  /**
+   * @fn ~SimulationObject
+   * @brief Deconstructor
+   */
   virtual ~SimulationObject();
 
-  //// 代入演算子
-  // SimulationObject& operator=(const SimulationObject& other);
-
-  //// アクセッサ
-  // string GetName() const;
-
-  //// 等価演算子
-  // bool operator==(const SimulationObject& other) const;
-  // bool operator!=(const SimulationObject& other) const;
-
+  /**
+   * @fn GetInitParameterVec
+   * @brief Get randomized vector value and store it in dst_vec
+   */
   template <size_t NumElement>
-  // Randomizeされた後の値を取得しdst_vecに格納
   void GetInitParameterVec(const MCSimExecutor& mc_sim, std::string ip_name, Vector<NumElement>& dst_vec) const;
 
-  // Randomizeされた後の値を取得しdstに格納
+  /**
+   * @fn GetInitParameterDouble
+   * @brief Get randomized value and store it in dst
+   */
   void GetInitParameterDouble(const MCSimExecutor& mc_sim, std::string ip_name, double& dst) const;
 
-  // Randomizeされた後の値を取得しdst_quatに格納
+  /**
+   * @fn GetInitParameterQuaternion
+   * @brief Get randomized quaternion and store it in dst_quat
+   */
   void GetInitParameterQuaternion(const MCSimExecutor& mc_sim, std::string ip_name, Quaternion& dst_quat) const;
 
-  // Randomize結果を実際に使われる変数へ格納する処理を行う関数．継承先において定義されるべき純粋仮想関数．
+  /**
+   * @fn SetParameters
+   * @brief Virtual function to set the randomized results to target variables
+   */
   virtual void SetParameters(const MCSimExecutor& mc_sim) = 0;
 
-  // 全てのSimulationObejectのSetParameter関数を実行する
+  /**
+   * @fn SetAllParameters
+   * @brief Execute all SetParameter function for all SimulationObject instance
+   */
   static void SetAllParameters(const MCSimExecutor& mc_sim);
 
  private:
-  // MCSim.iniにおいて区別するための名称．継承する際にはコンストラクタの引数として設定する．
-  std::string name_;
-
-  // list of objects with simulation parameters
-  static std::map<std::string, SimulationObject*> so_list_;
+  std::string name_;  //!< Name to distinguish the target variable in initialize file for Monte-Carlo simulation
+  static std::map<std::string, SimulationObject*> so_list_;  //!< list of objects with simulation parameters
 };
 
+/**
+ * @fn GetInitParameterVec
+ * @brief Return initialized parameters for vector
+ */
 template <size_t NumElement>
 void SimulationObject::GetInitParameterVec(const MCSimExecutor& mc_sim, std::string ip_name, Vector<NumElement>& dst_vec) const {
   mc_sim.GetInitParameterVec(name_, ip_name, dst_vec);
