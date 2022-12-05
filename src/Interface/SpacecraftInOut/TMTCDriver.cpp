@@ -1,3 +1,8 @@
+/**
+ * @file TMTCDriver.cpp
+ * @brief Driver of TMTC
+ */
+
 #include "TMTCDriver.h"
 
 typedef cli::array<Byte> arr;
@@ -9,7 +14,7 @@ void TMTCDriver::Initialize() {
     ChannelFactory<ITCTMChannel ^> ^ pipeFactory =
         gcnew ChannelFactory<ITCTMChannel ^>(gcnew NetNamedPipeBinding(), gcnew EndpointAddress("net.pipe://localhost/TMTC_SILS"));
     tctm_if_ = pipeFactory->CreateChannel();
-    tctm_if_->Cmd_to_SILS();  // 試し送信 つながってなかったらこれで例外吐く
+    tctm_if_->Cmd_to_SILS();  // Try to send
   } catch (Exception ^) {
     // Console::WriteLine("Failed to connect GSTOS interface...");
     tctm_if_ = nullptr;
@@ -26,7 +31,7 @@ void TMTCDriver::ReceiveCommand() {
   try {
     cmdbuf = tctm_if_->Cmd_to_SILS();
   } catch (Exception ^) {
-    // 1回でも失敗したら、以後GSTOSとの通信を試みない（それで良いの？）
+    // Never try communication only one fail (Fixme?)
     tctm_if_ = nullptr;
     return;
   }
