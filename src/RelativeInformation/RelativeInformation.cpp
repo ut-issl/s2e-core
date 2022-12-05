@@ -1,3 +1,8 @@
+/**
+ * @file RelativeInformation.cpp
+ * @brief Base class to manage relative information between spacecraft
+ */
+
 #include "RelativeInformation.h"
 
 RelativeInformation::RelativeInformation() {}
@@ -14,7 +19,7 @@ void RelativeInformation::Update() {
       rel_pos_list_rtn_m_[target_sat_id][reference_sat_id] = CalcRelativePosition_rtn_m(target_sat_id, reference_sat_id);
       // Distance
       rel_distance_list_m_[target_sat_id][reference_sat_id] = norm(rel_pos_list_i_m_[target_sat_id][reference_sat_id]);
-      // Velociry
+      // Velocity
       libra::Vector<3> target_sat_vel_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetSatVelocity_i();
       libra::Vector<3> reference_sat_vel_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetSatVelocity_i();
       rel_vel_list_i_m_s_[target_sat_id][reference_sat_id] = target_sat_vel_i - reference_sat_vel_i;
