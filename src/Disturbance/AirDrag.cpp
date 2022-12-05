@@ -1,3 +1,8 @@
+/**
+ * @file AirDrag.cpp
+ * @brief Class to calculate the air drag disturbance force and torque
+ */
+
 #include "AirDrag.h"
 
 #include <Environment/Global/PhysicalConstants.hpp>
@@ -27,8 +32,6 @@ void AirDrag::Update(const LocalEnvironment& local_env, const Dynamics& dynamics
   CalcTorqueForce(tmp, air_dens);
 }
 
-// vel_b:Velocity vector at the body frame[m/s]
-// air_dens:air density[kg/m^3]
 void AirDrag::CalcCoef(Vector<3>& vel_b, double air_dens) {
   double vel_b_norm_m = norm(vel_b);
   rho_ = air_dens;
