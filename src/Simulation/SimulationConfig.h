@@ -24,7 +24,7 @@ struct SimulationConfig {
 
   /**
    * @fn ~SimulationConfig
-   * @brief Deconstructor
+   * @brief Destructor
    */
   ~SimulationConfig() { delete main_logger_; }
 };

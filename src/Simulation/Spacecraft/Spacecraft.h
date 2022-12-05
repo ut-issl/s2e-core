@@ -33,7 +33,7 @@ class Spacecraft {
 
   /**
    * @fn ~Spacecraft
-   * @brief Deconstructor
+   * @brief Destructor
    */
   virtual ~Spacecraft();
 

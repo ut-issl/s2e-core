@@ -23,7 +23,7 @@ class KinematicsParams {
   KinematicsParams(Vector<3> cg_b, double mass, Matrix<3, 3> inertia_tensor);
   /**
    * @fn ~KinematicsParams
-   * @brief Deconstructor
+   * @brief Destructor
    */
   ~KinematicsParams(){};
 

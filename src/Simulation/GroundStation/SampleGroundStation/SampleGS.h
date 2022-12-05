@@ -28,7 +28,7 @@ class SampleGS : public GroundStation {
   SampleGS(SimulationConfig* config, int gs_id);
   /**
    * @fn ~SampleGS
-   * @brief Deconstructor
+   * @brief Destructor
    */
   ~SampleGS();
 

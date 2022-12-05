@@ -52,7 +52,7 @@ class SampleComponents : public InstalledComponents {
                    const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id);
   /**
    * @fn ~SampleComponents
-   * @brief Deconstructor
+   * @brief Destructor
    */
   ~SampleComponents();
 

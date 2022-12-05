@@ -21,7 +21,7 @@ class SampleGSComponents {
   SampleGSComponents(const SimulationConfig* config);
   /**
    * @fn ~SampleGSComponents
-   * @brief Deconstructor
+   * @brief Destructor
    */
   ~SampleGSComponents();
   /**

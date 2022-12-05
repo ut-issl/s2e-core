@@ -20,7 +20,7 @@ class RMMParams {
   RMMParams(Vector<3> rmm_const_b, double rmm_rwdev, double rmm_rwlimit, double rmm_wnvar);
   /**
    * @fn ~RMMParams
-   * @brief Deconstructor
+   * @brief Destructor
    */
   ~RMMParams(){};
 

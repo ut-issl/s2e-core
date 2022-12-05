@@ -30,7 +30,7 @@ class SimulationCase : public ILoggable {
   SimulationCase(std::string ini_base, const MCSimExecutor& mc_sim, std::string log_path);
   /**
    * @fn ~SimulationCase
-   * @brief Deconstructor
+   * @brief Destructor
    */
   virtual ~SimulationCase();
 

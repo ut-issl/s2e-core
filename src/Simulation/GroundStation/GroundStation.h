@@ -26,7 +26,7 @@ class GroundStation : public ILoggable {
   GroundStation(SimulationConfig* config, int gs_id_);
   /**
    * @fn ~GroundStation
-   * @brief Deconstructor
+   * @brief Destructor
    */
   virtual ~GroundStation();
 

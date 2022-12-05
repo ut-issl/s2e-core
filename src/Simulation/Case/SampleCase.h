@@ -23,7 +23,7 @@ class SampleCase : public SimulationCase {
 
   /**
    * @fn ~SampleCase
-   * @brief Deconstructor
+   * @brief Destructor
    */
   virtual ~SampleCase();
 

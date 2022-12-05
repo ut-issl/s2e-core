@@ -26,7 +26,7 @@ class Structure {
   Structure(SimulationConfig* sim_config, const int sat_id);
   /**
    * @fn ~Structure
-   * @brief Deconstructor
+   * @brief Destructor
    */
   ~Structure();
   /**

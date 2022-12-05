@@ -31,7 +31,7 @@ class SimulationObject {
 
   /**
    * @fn ~SimulationObject
-   * @brief Deconstructor
+   * @brief Destructor
    */
   virtual ~SimulationObject();
 

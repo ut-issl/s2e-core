@@ -16,7 +16,7 @@ class InstalledComponents {
  public:
   /**
    * @fn ~InstalledComponents
-   * @brief Deconstructor
+   * @brief Destructor
    */
   virtual ~InstalledComponents() {}
 
