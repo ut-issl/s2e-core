@@ -1,3 +1,8 @@
+/**
+ * @file InitDisturbance.cpp
+ * @brief Define initialize functions for disturbances
+ */
+
 #include "InitDisturbance.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
@@ -97,18 +102,15 @@ ThirdBodyGravity InitThirdBodyGravity(std::string ini_path, std::string ini_path
     selected_body_list.insert(conf_celes.ReadString(section_celes, selected_body_id.c_str()));
   }
 
-  // Generate a list of bodies to be calculated in "ThirdBodyGravity" from the
-  // list of bodies of "CelesInfo"
+  // Generate a list of bodies to be calculated in "ThirdBodyGravity" from the list of bodies of "CelesInfo"
   auto conf = IniAccess(ini_path);
   const char* section = "THIRD_BODY_GRAVITY";
 
   const int num_of_third_body = conf.ReadInt(section, "num_of_third_body");
   std::set<std::string> third_body_list;
 
-  if (conf.ReadEnable(section,
-                      CALC_LABEL))  // Generate the list of the third object if
-                                    // and only if "calculation=ENABLE"
-  {
+  // Generate the list of the third object if "calculation=ENABLE"
+  if (conf.ReadEnable(section, CALC_LABEL)) {
     for (int i = 0; i < num_of_third_body; i++) {
       std::string third_body_id = "third_body(" + std::to_string(i) + ")";
       std::string third_body_name = conf.ReadString(section, third_body_id.c_str());
