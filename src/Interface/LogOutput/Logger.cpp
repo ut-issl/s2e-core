@@ -1,3 +1,8 @@
+/**
+ * @file Logger.cpp
+ * @brief Class to manage log output file
+ */
+
 #include "Logger.h"
 
 #include <ctime>
