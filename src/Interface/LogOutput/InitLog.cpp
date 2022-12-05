@@ -1,3 +1,8 @@
+/**
+ * @file InitLog.cpp
+ * @brief Initialize function for Log output
+ */
+
 #include "InitLog.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
