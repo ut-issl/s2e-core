@@ -33,7 +33,7 @@ class ComPortInterface {
   ComPortInterface(int port_id, int baudrate, unsigned int tx_buffer_size, unsigned int rx_buffer_size);
   /**
    * @fn ~ComPortInterface
-   * @brief Deconstructor.
+   * @brief Destructor.
    */
   ~ComPortInterface();
 
