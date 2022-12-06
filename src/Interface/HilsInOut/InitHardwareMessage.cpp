@@ -1,6 +1,16 @@
+/**
+ * @file InitHardwareMessage.cpp
+ * @brief Initialize function for HardwareMessage
+ */
+
 #include "../HilsInOut/HardwareMessage.h"
 #include "Initialize.h"
 
+/**
+ * @fn Init_HardwareMessage
+ * @brief Initialize function for HardwareMessage
+ * @param [in] file_name: File nama of the initialize file
+ */
 HardwareMessage* Init_HardwareMessage(string file_name) {
   IniAccess ini_file(file_name);
 
