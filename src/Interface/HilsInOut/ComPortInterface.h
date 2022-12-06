@@ -68,9 +68,9 @@ class ComPortInterface {
   /**
    * @fn Receive
    * @brief Receive data from COM port
-   * @param [in] buffer: Data buffer to send
-   * @param [in] offset: Start offset for the data buffer to send
-   * @param [in] count: Length of data to send
+   * @param [out] buffer: Data buffer to receive
+   * @param [in] offset: Start offset for the data buffer to receive
+   * @param [in] count: Length of data to receive
    * @return received data length: success, 0: error
    */
   int Receive(unsigned char *buffer, size_t offset, size_t count);
