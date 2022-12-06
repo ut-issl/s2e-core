@@ -72,8 +72,7 @@ unsigned char I2CPort::WriteCommand(const unsigned char i2c_addr, const unsigned
     WriteRegister(i2c_addr, tx_data[0]);
   }
 
-  if (length == 2)  // length ==2 means setting specific register. FIXME: this
-                    // rule is not general.
+  if (length == 2)  // length ==2 means setting specific register. FIXME: this rule is not general.
   {
     WriteRegister(i2c_addr, tx_data[0], tx_data[1]);
   }
