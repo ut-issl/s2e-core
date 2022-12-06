@@ -1,5 +1,5 @@
 /**
- * @file SurfaceForce.h
+ * @file SurfaceForce.cpp
  * @brief Base class for disturbances acting on a spacecraft surface (e.g., SRP, Air drag, etc)
  */
 
