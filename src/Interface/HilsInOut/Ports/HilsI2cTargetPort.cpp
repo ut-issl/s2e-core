@@ -1,17 +1,18 @@
-﻿#include "HilsI2cTargetPort.h"
+﻿/**
+ * @file HilsI2cTargetPort.cpp
+ * @brief Class to control I2C-USB converter for the target(device) side from COM port
+ */
 
-// #define HILS_I2C_TARGET_PORT_SHOW_DEBUG_DATA
+#include "HilsI2cTargetPort.h"
 
-HilsI2cTargetPort::HilsI2cTargetPort(const unsigned int port_id)
-    : HilsUartPort(port_id, 115200, 512,
-                   512)  // Fixme: The magic number. This is depending on the converter.
-{}
+// #define HILS_I2C_TARGET_PORT_SHOW_DEBUG_DATA //!< Remove comment when you want to show the debug message
 
+// Fixme: The magic number. This is depending on the converter.
+HilsI2cTargetPort::HilsI2cTargetPort(const unsigned int port_id) : HilsUartPort(port_id, 115200, 512, 512) {}
+
+// Fixme: The magic number. This is depending on the converter.
 HilsI2cTargetPort::HilsI2cTargetPort(const unsigned int port_id, const unsigned char max_register_number)
-    : max_register_number_(max_register_number),
-      HilsUartPort(port_id, 115200, 512,
-                   512)  // Fixme: The magic number. This is depending on the converter.
-{}
+    : max_register_number_(max_register_number), HilsUartPort(port_id, 115200, 512, 512) {}
 
 HilsI2cTargetPort::~HilsI2cTargetPort() {}
 
@@ -27,14 +28,14 @@ void HilsI2cTargetPort::RegisterDevice() {
 int HilsI2cTargetPort::WriteRegister(const unsigned char reg_addr) {
   if (reg_addr >= max_register_number_) return 0;
   saved_reg_addr_ = reg_addr;
-  return 0;
+  return 0;  // FIXME: return should be 1 when success
 }
 
 int HilsI2cTargetPort::WriteRegister(const unsigned char reg_addr, const unsigned char value) {
   if (reg_addr >= max_register_number_) return 0;
   saved_reg_addr_ = reg_addr;
   device_registers_[reg_addr] = value;
-  return 0;
+  return 0;  // FIXME: return should be 1 when success
 }
 
 unsigned char HilsI2cTargetPort::ReadRegister(const unsigned char reg_addr) {
@@ -61,8 +62,7 @@ int HilsI2cTargetPort::Receive()  // from I2C-USB Target converter
   int received_bytes = ReadRx(rx_buf, 0, kDefaultCmdSize);
   if (received_bytes > kDefaultCmdSize) return -1;
 #ifdef HILS_I2C_TARGET_PORT_SHOW_DEBUG_DATA
-  for (int i = 0; i < received_bytes; i++)
-  {
+  for (int i = 0; i < received_bytes; i++) {
     printf("%02x ", rx_buf[i]);
   }
   printf("\n");
@@ -94,8 +94,7 @@ int HilsI2cTargetPort::Send(const unsigned char len)  // to I2C-USB Target Conve
     tx_buf[i] = device_registers_[saved_reg_addr_ + i];
   }
 #ifdef HILS_I2C_TARGET_PORT_SHOW_DEBUG_DATA
-  for (int i = 0; i < len; i++)
-  {
+  for (int i = 0; i < len; i++) {
     printf("%02x ", tx_buf[i]);
   }
   printf("\n");
