@@ -1,3 +1,8 @@
+/**
+ * @file SCIPort.cpp
+ * @brief Class to emulate SCI(Serial Communication Interface) communication port
+ */
+
 #include "SCIPort.h"
 
 SCIPort::SCIPort() : SCIPort(kDefaultBufferSize, kDefaultBufferSize) {}
