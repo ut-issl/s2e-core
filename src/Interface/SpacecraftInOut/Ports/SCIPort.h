@@ -54,7 +54,7 @@ class SCIPort {
   /**
    * @fn ReadTx
    * @brief Read data from the TX buffer by Component
-   * @param [in] buffer: Data buffer to stored the read data
+   * @param [out] buffer: Data buffer to stored the read data
    * @param [in] offset: Start offset of the buffer to read (usually zero)
    * @param [in] count: Length of the data to read
    * @return Number of read byte
@@ -63,7 +63,7 @@ class SCIPort {
   /**
    * @fn ReadRx
    * @brief Read data from the TX buffer by OBC
-   * @param [in] buffer: Data buffer to stored the read data
+   * @param [out] buffer: Data buffer to stored the read data
    * @param [in] offset: Start offset of the buffer to read (usually zero)
    * @param [in] count: Length of the data to read
    * @return Number of read byte

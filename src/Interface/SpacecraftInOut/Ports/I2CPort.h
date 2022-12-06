@@ -90,7 +90,7 @@ class I2CPort {
    * @fn ReadCommand
    * @brief Read command requested from an OBC to the component
    * @param [in] i2c_addr: I2C address of the target device
-   * @param [in] rx_data: Data to the OBC
+   * @param [out] rx_data: Data to the OBC
    * @param [in] length: Length of the tx_data
    * @return Length or zero when an error happened
    */
