@@ -1,4 +1,12 @@
-﻿#include "HilsUartPort.h"
+﻿/**
+ * @file HilsUartPort.h
+ * @brief Class to manage PC's COM port
+ * @details Currently, this feature supports Windows Visual Studio only.(FIXME)
+ * Reference: https://docs.microsoft.com/en-us/dotnet/api/system.io.ports.serialport?view=netframework-4.7.2
+ * @note TODO :We need to clarify the difference with ComPortInterface
+ */
+
+#include "HilsUartPort.h"
 
 // # define HILS_UART_PORT_SHOW_DEBUG_DATA
 
@@ -30,7 +38,7 @@ int HilsUartPort::Initialize() {
     port_->WriteTimeout = 10;  // [ms]
   } catch (System::Exception ^ e) {
     // baudrate must be larger than zero
-    // port nameのチェックはここでは行われない
+    // port name is not checked here
     System::Console::Write(e->Message);
     return -1;
   }
@@ -62,10 +70,9 @@ int HilsUartPort::OpenPort() {
 
   } catch (System::UnauthorizedAccessException ^ e) {
     // Access is denied to the port.
-    //   or
-    // The current process, or another process on the system, already has the
-    // specified COM port open
-    //   either by a SerialPort instance or in unmanaged code.
+    // or
+    // The current process, or another process on the system, already has the specified COM port open
+    // either by a SerialPort instance or in unmanaged code.
 #ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
     printf("\n");
@@ -80,7 +87,7 @@ int HilsUartPort::OpenPort() {
     return -3;
   } catch (System::ArgumentException ^ e) {
     // The port name does not begin with "COM".
-    //   or
+    // or
     // The file type of the port is not supported.
 #ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
@@ -100,12 +107,9 @@ int HilsUartPort::OpenPort() {
 
 int HilsUartPort::WriteTx(const unsigned char* buffer, int offset, int count) {
   unsigned char* buffer_tmp = new unsigned char[count];
-  memcpy(buffer_tmp, buffer + offset,
-         count);  // const unsigned char* -> unsigned char*
-  // Marshal::Copy : Copies data from an unmanaged memory pointer to a managed
-  // array.
-  System::Runtime::InteropServices::Marshal::Copy((System::IntPtr)(buffer_tmp), tx_buf_, 0,
-                                                  count);  // unsigned char* -> System::IntPtr
+  memcpy(buffer_tmp, buffer + offset, count);  // const unsigned char* -> unsigned char*
+  // Marshal::Copy : Copies data from an unmanaged memory pointer to a managed array.
+  System::Runtime::InteropServices::Marshal::Copy((System::IntPtr)(buffer_tmp), tx_buf_, 0, count);  // unsigned char* -> System::IntPtr
   delete[] buffer_tmp;
   try {
     port_->Write(tx_buf_, 0, count);
@@ -122,8 +126,7 @@ int HilsUartPort::WriteTx(const unsigned char* buffer, int offset, int count) {
 int HilsUartPort::ReadRx(unsigned char* buffer, int offset, int count) {
   try {
     int received_bytes = port_->Read(rx_buf_, 0, count);
-    // Marshal::Copy : Copies data from a managed array to an unmanaged memory
-    // pointer.
+    // Marshal::Copy : Copies data from a managed array to an unmanaged memory pointer.
     System::Runtime::InteropServices::Marshal::Copy(rx_buf_, 0, (System::IntPtr)(buffer + offset), count);
     return received_bytes;
     // TODO: Add enum for exception
