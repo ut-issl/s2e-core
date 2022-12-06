@@ -1,3 +1,8 @@
+/**
+ * @file Disturbances.cpp
+ * @brief Class to manage all disturbances
+ */
+
 #include "Disturbances.h"
 
 #include <Interface/InitInput/IniAccess.h>
@@ -63,7 +68,8 @@ Vector<3> Disturbances::GetForce() { return sum_force_; }
 
 Vector<3> Disturbances::GetAccelerationI() { return sum_acceleration_i_; }
 
-void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env) {
+void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure,
+                                       const GlobalEnvironment* glo_env) {
   IniAccess iniAccess = IniAccess(sim_config->sat_file_[sat_id]);
   ini_fname_ = iniAccess.ReadString("DISTURBANCE", "dist_file");
 

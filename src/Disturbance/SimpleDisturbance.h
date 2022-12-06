@@ -1,14 +1,31 @@
+/**
+ * @file SimpleDisturbance.h
+ * @brief Abstract class for a disturbance
+ * @note It is better to use this abstract class for all disturbances, but it is difficult. (e.g. Gravity between spacecraft.)
+ * In the difficult case, users need to use the Disturbance class directory.
+ */
+
 #pragma once
 #include "../Dynamics/Dynamics.h"
 #include "../Environment/Local/LocalEnvironment.h"
 #include "Disturbance.h"
 
-// The Abstract class for disturbance calculation with local environment and
-// spacecraft dynamics トルクと並進力を発生する（どちらか片方だけでも良い）
+/**
+ * @class SimpleDisturbance
+ * @brief Abstract class for a disturbance
+ */
 class SimpleDisturbance : public Disturbance, public ILoggable {
  public:
+  /**
+   * @fn ~SimpleDisturbance
+   * @brief Destructor
+   */
   virtual ~SimpleDisturbance() {}
 
+  /**
+   * @fn UpdateIfEnabled
+   * @brief Update calculated disturbance when the calculation flag is true
+   */
   virtual inline void UpdateIfEnabled(const LocalEnvironment& local_env, const Dynamics& dynamics) {
     if (IsCalcEnabled) {
       Update(local_env, dynamics);
@@ -18,10 +35,9 @@ class SimpleDisturbance : public Disturbance, public ILoggable {
     }
   }
 
-  // 環境とダイナミクスに応じて外乱のトルクと並進力を更新する
+  /**
+   * @fn Update
+   * @brief Pure virtual function to define the disturbance calculation
+   */
   virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics) = 0;
 };
-
-// 全ての外乱がこのインターフェースで計算できれば良いのだが、そういうわけにもいかない
-// 例えば宇宙機間の万有引力は、相手と自分両方の軌道情報が必要（あまり考慮することはないだろうが……）
-// そういった外乱については、Disturbanceを継承して適切な実装をすることになる

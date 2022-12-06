@@ -1,10 +1,7 @@
-//
-//  SolarRadiation.cpp
-//
-//
-//  Created by KakiharaKota on 2016/02/26.
-//
-//
+/**
+ * @file SolarRadiation.cpp
+ * @brief Class to calculate the solar radiation pressure disturbance force and torque
+ */
 
 #include "SolarRadiation.h"
 
@@ -21,12 +18,10 @@ void SolarRadiation::Update(const LocalEnvironment& local_env, const Dynamics& d
   CalcTorqueForce(tmp, local_env.GetSrp().CalcTruePressure());
 }
 
-// input_b:Direction vector of the sun at the body frame
-// item: Solar pressure [N/m^2]
 void SolarRadiation::CalcCoef(Vector<3>& input_b, double item) {
   UNUSED(input_b);
 
-  for (size_t i = 0; i < surfaces_.size(); i++) {  //各面で計算
+  for (size_t i = 0; i < surfaces_.size(); i++) {  // Calculate for each surface
     double area = surfaces_[i].GetArea();
     double reflectivity = surfaces_[i].GetReflectivity();
     double specularity = surfaces_[i].GetSpecularity();
