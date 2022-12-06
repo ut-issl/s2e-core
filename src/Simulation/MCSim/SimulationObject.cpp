@@ -1,23 +1,28 @@
+/**
+ * @file SimulationObject.cpp
+ * @brief Class to manage randomization of variables for Monte-Carlo simulation
+ */
+
 #include "SimulationObject.h"
 
 std::map<std::string, SimulationObject*> SimulationObject::so_list_;
 
 SimulationObject::SimulationObject(std::string name) : name_(name) {
-  // so_listに登録されているかを調べる
+  // Check the name is already registered in so_list
   std::map<std::string, SimulationObject*>::iterator itr = SimulationObject::so_list_.find(name);
 
   if (itr == SimulationObject::so_list_.end()) {
-    // so_listに未登録の場合，自分を登録する
+    // Register itself in so_list if it is not registered yet
     SimulationObject::so_list_[name] = this;
   } else {
-    // so_listに登録済みの場合．前回のcase終了時にdeleteされていないということなのでエラーを吐く
-    // または（考えにくいが）同名のSimulationObjectが2つ以上定義されている可能性もある．
+    // If it is already registered in so_list, throw error. It should be deleted in the finalize phase of previous case.
+    // Or there is a possibility that the same name SimulationObjects are registered in the list.
     throw "SimulationObject already defined. You may have forgotten to delete me in the previous simulation case, or defined two SimulationObjects with the same name.";
   }
 }
 
 SimulationObject::~SimulationObject() {
-  // so_listから自分を削除
+  // Remove itself from so_list
   SimulationObject::so_list_.erase(name_);
 }
 

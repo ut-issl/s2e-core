@@ -1,3 +1,8 @@
+/**
+ * @file MCSimExecutor.cpp
+ * @brief Monte-Carlo Simulation Executor class
+ */
+
 #include "MCSimExecutor.h"
 
 using std::string;
@@ -8,7 +13,6 @@ MCSimExecutor::MCSimExecutor(unsigned long long total_num_of_executions) : total
   log_history_ = !enabled_;
 }
 
-// 次のcaseを実行するかどうか
 bool MCSimExecutor::WillExecuteNextCase() {
   if (!enabled_) {
     return (num_of_executions_done_ < 1);
@@ -18,12 +22,12 @@ bool MCSimExecutor::WillExecuteNextCase() {
 }
 
 void MCSimExecutor::AtTheBeginningOfEachCase() {
-  // Randomization結果のcsv出力など
+  // Write CSV output of the randomization results
   ;
 }
 
 void MCSimExecutor::AtTheEndOfEachCase() {
-  // Simulation結果のcsv出力など
+  // Write CSV output of the simulation results
   num_of_executions_done_++;
 }
 
@@ -32,10 +36,10 @@ void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name, doubl
   {
     string name = so_name + MCSimExecutor::separator_ + ip_name;
     if (ip_list_.find(name) == ip_list_.end()) {
-      // ip_listに登録されていない（MCSim.iniで定義されていない）
+      // Not registered in ip_list（Not defined in MCSim.ini）
       return;  // return without any update of dst
     } else {
-      ip_list_.at(name)->GetDouble(dst);  // const mapなのでoperator[]は使えない
+      ip_list_.at(name)->GetDouble(dst);  // cannot use operator[] since it is const map
     }
   }
 }
@@ -45,10 +49,10 @@ void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name, Q
   {
     string name = so_name + MCSimExecutor::separator_ + ip_name;
     if (ip_list_.find(name) == ip_list_.end()) {
-      // ip_listに登録されていない（MCSim.iniで定義されていない）
+      // Not registered in ip_list（Not defined in MCSim.ini）
       return;  // return without any update of dst
     } else {
-      ip_list_.at(name)->GetQuaternion(dst_quat);  // const mapなのでoperator[]は使えない
+      ip_list_.at(name)->GetQuaternion(dst_quat);  // cannot use operator[] since it is const map
     }
   }
 }

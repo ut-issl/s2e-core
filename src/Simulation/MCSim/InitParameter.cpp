@@ -1,3 +1,8 @@
+/**
+ * @file InitParameter.cpp
+ * @brief Initialized parameters for Monte-Carlo simulation
+ */
+
 #include "InitParameter.h"
 
 #include <Library/math/Constant.hpp>
@@ -10,7 +15,7 @@ uniform_real_distribution<>* InitParameter::uniform_dist_;
 normal_distribution<>* InitParameter::normal_dist_;
 
 InitParameter::InitParameter() {
-  //初回実行時のみオブジェクトを生成する
+  // Generate object when the first execution
   static bool initial_setup_done = false;
   if (!initial_setup_done) {
     SetSeed();
@@ -19,7 +24,7 @@ InitParameter::InitParameter() {
     initial_setup_done = true;
   }
 
-  // SetRandomConfigが呼ばれない場合（MCSim.iniに設定されていない場合）はRandomizeしない
+  // No randomization when SetRandomConfig is not called（No setting in MCSim.ini）
   rnd_type_ = NoRandomization;
 }
 
@@ -57,31 +62,31 @@ void InitParameter::GetQuaternion(Quaternion& dst_quat) const {
 
 void InitParameter::Randomize() {
   switch (rnd_type_) {
-    case NoRandomization:  // 乱数生成なし（デフォルト値を出力）
+    case NoRandomization:
       gen_NoRandomization();
       break;
-    case CartesianUniform:  // 直交座標系での各成分が一様分布に従う確率変数
+    case CartesianUniform:
       gen_CartesianUniform();
       break;
-    case CartesianNormal:  // 直交座標系での各成分が正規分布に従う確率変数
+    case CartesianNormal:
       gen_CartesianNormal();
       break;
-    case CircularNormalUniform:  // 円座標系においてrが正規分布，θが一様分布に従う
+    case CircularNormalUniform:
       gen_CircularNormalUniform();
       break;
-    case CircularNormalNormal:  // 円座標系においてrとθが正規分布に従う
+    case CircularNormalNormal:
       gen_CircularNormalNormal();
       break;
-    case SphericalNormalUniformUniform:  // 球座標系においてrが正規分布，θ・φが一様分布に従う
+    case SphericalNormalUniformUniform:
       gen_SphericalNormalUniformUniform();
       break;
-    case SphericalNormalNormal:  // ベクトルのノルム(r)とデフォルトベクトルとの角度(θ)が正規分布に従う．デフォルトベクトル周りの角度(φ)は[0,2*pi]の一様分布．
+    case SphericalNormalNormal:
       gen_SphericalNormalNormal();
       break;
-    case QuaternionUniform:  // 完全にランダムな姿勢を出力するクオータニオン確率変数．
+    case QuaternionUniform:
       gen_QuaternionUniform();
       break;
-    case QuaternionNormal:  // デフォルトクオータニオンからの角度のずれ(θ)が正規分布に従う．
+    case QuaternionNormal:
       gen_QuaternionNormal();
       break;
     default:
@@ -93,41 +98,32 @@ double InitParameter::Uniform_1d(double lb, double ub) { return lb + (*InitParam
 
 double InitParameter::Normal_1d(double mean, double std) { return mean + (*InitParameter::normal_dist_)(InitParameter::mt_) * (std); }
 
-// 乱数生成なし（GetVec, GetDoubleで与えられる参照の変数を変更しない）
 void InitParameter::gen_NoRandomization() { val_.clear(); }
 
-// 直交座標系での各成分が一様分布に従う確率変数（現状3次元まで）
-// mean_or_min_[0]: x成分最小値   sigma_or_max_[0]: x成分最大値
-// mean_or_min_[1]: y成分最小値   sigma_or_max_[1]: y成分最大値
-// mean_or_min_[2]: z成分最小値   sigma_or_max_[2]: z成分最大値
 void InitParameter::gen_CartesianUniform() {
+  // Random variables following a uniform distribution in Cartesian frame
   val_.clear();
   for (unsigned int i = 0; i < mean_or_min_.size(); i++) {
     val_.push_back(InitParameter::Uniform_1d(mean_or_min_[i], sigma_or_max_[i]));
   }
 }
 
-// 直交座標系での各成分が正規分布に従う確率変数（現状3次元まで）
-// mean_or_min_[0]: x成分平均   sigma_or_max_[0]: x成分標準偏差
-// mean_or_min_[1]: y成分平均   sigma_or_max_[1]: y成分標準偏差
-// mean_or_min_[2]: z成分平均   sigma_or_max_[2]: z成分標準偏差
 void InitParameter::gen_CartesianNormal() {
+  // Random variables following a normal distribution in Cartesian frame
   val_.clear();
   for (unsigned int i = 0; i < mean_or_min_.size(); i++) {
     val_.push_back(InitParameter::Normal_1d(mean_or_min_[i], sigma_or_max_[i]));
   }
 }
 
-// 円座標系においてrが正規分布，θが一様分布に従う
 void InitParameter::get_CircularNormalUniform(Vector<2>& dst, double r_mean, double r_sigma, double theta_min, double theta_max) {
+  // r follows normal distribution, and θ follows uniform distribution in Circular frame
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
   double theta = InitParameter::Uniform_1d(theta_min, theta_max);
   dst[0] = r * cos(theta);
   dst[1] = r * sin(theta);
 }
 
-// mean_or_min_[0]: r成分平均     sigma_or_max_[0]: r成分標準偏差
-// mean_or_min_[1]: θ成分最小値   sigma_or_max_[1]: θ成分最大値
 void InitParameter::gen_CircularNormalUniform() {
   const static int dim = 2;
   if (mean_or_min_.size() < dim || sigma_or_max_.size() < dim) {
@@ -142,16 +138,14 @@ void InitParameter::gen_CircularNormalUniform() {
   }
 }
 
-// 円座標系においてrとθが正規分布に従う
 void InitParameter::get_CircularNormalNormal(Vector<2>& dst, double r_mean, double r_sigma, double theta_mean, double theta_sigma) {
+  // r and θ follow normal distribution in Circular frame
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
   double theta = InitParameter::Normal_1d(theta_mean, theta_sigma);
   dst[0] = r * cos(theta);
   dst[1] = r * sin(theta);
 }
 
-// mean_or_min_[0]: r成分平均   sigma_or_max_[0]: r成分標準偏差
-// mean_or_min_[1]: θ成分平均   sigma_or_max_[1]: θ成分標準偏差
 void InitParameter::gen_CircularNormalNormal() {
   const static int dim = 2;
   if (mean_or_min_.size() < dim || sigma_or_max_.size() < dim) {
@@ -166,10 +160,9 @@ void InitParameter::gen_CircularNormalNormal() {
   }
 }
 
-// 球座標系においてrが正規分布，θ・φが球面一様分布に従う
-// θ・φは球面に対して一様な分布をするように計算されている．
 void InitParameter::get_SphericalNormalUniformUniform(Vector<3>& dst, double r_mean, double r_sigma, double theta_min, double theta_max,
                                                       double phi_min, double phi_max) {
+  // r follows normal distribution, and θ and φ follow uniform distribution in Spherical frame
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
   double theta = acos(cos(theta_min) - (cos(theta_min) - cos(theta_max)) * InitParameter::Uniform_1d(0.0, 1.0));
   double phi = InitParameter::Uniform_1d(phi_min, phi_max);
@@ -178,9 +171,6 @@ void InitParameter::get_SphericalNormalUniformUniform(Vector<3>& dst, double r_m
   dst[2] = r * cos(theta);
 }
 
-// mean_or_min_[0]: r成分平均     sigma_or_max_[0]: r成分標準偏差
-// mean_or_min_[1]: θ成分最小値   sigma_or_max_[1]: θ成分最大値
-// mean_or_min_[2]: φ成分最小値   sigma_or_max_[2]: φ成分最大値
 void InitParameter::gen_SphericalNormalUniformUniform() {
   const static int dim = 3;
   if (mean_or_min_.size() < dim || sigma_or_max_.size() < dim) {
@@ -196,14 +186,10 @@ void InitParameter::gen_SphericalNormalUniformUniform() {
   }
 }
 
-// ベクトルのノルム(r)とmean vectorとの角度(θ)が正規分布に従う．
-// mean vector周りの角度(φ)は[0,2*pi]の一様分布．
-// mean_or_min_[0]: x成分平均    sigma_or_max_[0]: r成分標準偏差
-// mean_or_min_[1]: y成分平均    sigma_or_max_[1]: θ成分標準偏差
-// mean_or_min_[2]: z成分平均    sigma_or_max_[2]: なし
 void InitParameter::get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& mean_vec) {
+  // r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
   Vector<3> mean_vec_dir;
-  mean_vec_dir = 1.0 / norm(mean_vec) * mean_vec;  // mean vector方向の単位ベクトル
+  mean_vec_dir = 1.0 / norm(mean_vec) * mean_vec;  // Unit vector of mean vector direction
 
   Vector<3> x_axis(0.0), y_axis(0.0);
   x_axis[0] = 1.0;
@@ -211,21 +197,19 @@ void InitParameter::get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& m
   Vector<3> op_x = outer_product(mean_vec_dir, x_axis);
   Vector<3> op_y = outer_product(mean_vec_dir, y_axis);
 
-  // mean vectorに垂直な単位ベクトルの一つ．mean
-  // vectorがx軸またはy軸と平行だった場合に備えて，外積ベクトルノルムの大きい方との外積を選ぶ．
+  // An unit vector perpendicular with the mean vector
+  // In case of the mean vector is parallel with X or Y axis, selecting the axis depend on the norm of outer product
   Vector<3> normal_unit_vec = norm(op_x) > norm(op_y) ? normalize(op_x) : normalize(op_y);
 
   double rotation_angle_of_normal_unit_vec = InitParameter::Uniform_1d(0.0, libra::tau);
-  Quaternion rotation_of_normal_unit_vec(mean_vec_dir,
-                                         -rotation_angle_of_normal_unit_vec);  //座標が回転するのではなくベクトルが回転するので角度の向きを逆にする
-  Vector<3> rotation_axis = rotation_of_normal_unit_vec.frame_conv(normal_unit_vec);  // mean vectorを回転させる軸
+  Quaternion rotation_of_normal_unit_vec(mean_vec_dir, -rotation_angle_of_normal_unit_vec);  // Use opposite sign to rotate the vector (not the frame)
+  Vector<3> rotation_axis = rotation_of_normal_unit_vec.frame_conv(normal_unit_vec);         // Axis of mean vector rotation
 
   double rotation_angle_of_mean_vec = InitParameter::Normal_1d(0.0, sigma_or_max_[1]);
-  Quaternion rotation_of_mean_vec(rotation_axis,
-                                  -rotation_angle_of_mean_vec);  //座標が回転するのではなくベクトルが回転するので角度の向きを逆にする
-  Vector<3> ret_vec = rotation_of_mean_vec.frame_conv(mean_vec_dir);  //方向の計算完了
+  Quaternion rotation_of_mean_vec(rotation_axis, -rotation_angle_of_mean_vec);  // Use opposite sign to rotate the vector (not the frame)
+  Vector<3> ret_vec = rotation_of_mean_vec.frame_conv(mean_vec_dir);            // Complete calculation of the direction
 
-  ret_vec = InitParameter::Normal_1d(norm(mean_vec), sigma_or_max_[0]) * ret_vec;  //ノルム掛け算
+  ret_vec = InitParameter::Normal_1d(norm(mean_vec), sigma_or_max_[0]) * ret_vec;  // multiply norm
 
   for (int i = 0; i < 3; i++) {
     dst[i] = ret_vec[i];
@@ -249,12 +233,12 @@ void InitParameter::gen_SphericalNormalNormal() {
   }
 }
 
-// 完全にランダムな姿勢を出力するクオータニオン確率変数．
 void InitParameter::get_QuaternionUniform(Quaternion& dst) {
+  // Perfectly Randomized Quaternion
   Vector<3> x_axis(0.0);
   x_axis[0] = 1.0;
 
-  // x軸がクオータニオンによって変換された後の方向ベクトルは球面上に一様な確率分布を持つはずである．
+  // A direction vector converted from the X-axis by a quaternion may follows the uniform distribution in full sphere.
   Quaternion first_cnv;
   Vector<3> x_axis_cnvd;
   double theta = acos(1 - (1 - (-1)) * InitParameter::Uniform_1d(0.0, 1.0));
@@ -270,7 +254,7 @@ void InitParameter::get_QuaternionUniform(Quaternion& dst) {
   }
   first_cnv[3] = cos_angle_between;
 
-  // x軸周りの回転角をランダムに生成する
+  // Generate randomized rotation angle around the X-axis
   double rotation_angle = InitParameter::Uniform_1d(0.0, libra::tau);
   Quaternion second_cnv(x_axis, rotation_angle);
 
@@ -292,9 +276,9 @@ void InitParameter::gen_QuaternionUniform() {
   }
 }
 
-// デフォルトクオータニオンからの角度のずれ(θ)が正規分布に従う．
 void InitParameter::get_QuaternionNormal(Quaternion& dst, double theta_sigma) {
-  // 回転軸は全球面上に一様分布
+  // Angle from the default quaternion θ follows normal distribution
+  // The rotation axis follows uniform distribution on full sphere
   Vector<3> rot_axis;
   double theta = acos(1 - (1 - (-1)) * InitParameter::Uniform_1d(0.0, 1.0));
   double phi = InitParameter::Uniform_1d(0, libra::tau);
@@ -310,8 +294,8 @@ void InitParameter::get_QuaternionNormal(Quaternion& dst, double theta_sigma) {
   }
 }
 
-// mean_or_min_[0]: なし   sigma_or_max_[0]: θ標準偏差
 void InitParameter::gen_QuaternionNormal() {
+  // mean_or_min_[0]: NA   sigma_or_max_[0]: standard deviation of θ [rad]
   const static int dim = 4;
   if (sigma_or_max_.size() < 1) {
     throw "Config parameters dimension unmatched.";

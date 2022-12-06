@@ -1,3 +1,8 @@
+/**
+ * @file KinematicsParams.cpp
+ * @brief Definition of Kinematics information
+ */
+
 #include "KinematicsParams.h"
 
 KinematicsParams::KinematicsParams(Vector<3> cg_b, double mass, Matrix<3, 3> inertia_tensor)

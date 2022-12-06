@@ -1,3 +1,8 @@
+/**
+ * @file RMMParams.cpp
+ * @brief Definition of RMM (Residual Magnetic Moment)
+ */
+
 #include "RMMParams.h"
 
 RMMParams::RMMParams(Vector<3> rmm_const_b, double rmm_rwdev, double rmm_rwlimit, double rmm_wnvar)

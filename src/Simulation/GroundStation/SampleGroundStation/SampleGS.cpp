@@ -1,3 +1,8 @@
+/**
+ * @file SampleGS.cpp
+ * @brief An example of user defined ground station class
+ */
+
 #include "SampleGS.h"
 
 #include "SampleGSComponents.h"
@@ -16,5 +21,5 @@ void SampleGS::LogSetup(Logger& logger) {
 void SampleGS::Update(const Spacecraft& spacecraft, const GlobalEnvironment& global_env, const Antenna& sc_ant, const SampleGS& samplegs) {
   GroundStation::Update(global_env.GetCelesInfo().GetEarthRotation(), spacecraft);
   components_->GetGsCalculator()->Update(spacecraft, sc_ant, samplegs, *(components_->GetAntenna()));
-  // TODO: compo->ant_がnullの場合未定義動作になる気がするので対処が必要？
+  // TODO: When compo->ant_ is null, the calculation is undefined.
 }

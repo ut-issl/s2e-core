@@ -1,3 +1,8 @@
+/**
+ * @file SimulationCase.cpp
+ * @brief Base class to define simulation scenario
+ */
+
 #include "SimulationCase.h"
 
 #include <Interface/InitInput/IniAccess.h>

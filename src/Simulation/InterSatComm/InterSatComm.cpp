@@ -1,3 +1,8 @@
+/**
+ * @file InterSatComm.cpp
+ * @brief Base class of inter satellite communication
+ */
+
 #include "InterSatComm.h"
 
 #include <Library/utils/Macros.hpp>
