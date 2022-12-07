@@ -7,10 +7,10 @@
 
 // #define HILS_I2C_TARGET_PORT_SHOW_DEBUG_DATA //!< Remove comment when you want to show the debug message
 
-// Fixme: The magic number. This is depending on the converter.
+// FIXME: The magic number. This is depending on the converter.
 HilsI2cTargetPort::HilsI2cTargetPort(const unsigned int port_id) : HilsUartPort(port_id, 115200, 512, 512) {}
 
-// Fixme: The magic number. This is depending on the converter.
+// FIXME: The magic number. This is depending on the converter.
 HilsI2cTargetPort::HilsI2cTargetPort(const unsigned int port_id, const unsigned char max_register_number)
     : max_register_number_(max_register_number), HilsUartPort(port_id, 115200, 512, 512) {}
 
