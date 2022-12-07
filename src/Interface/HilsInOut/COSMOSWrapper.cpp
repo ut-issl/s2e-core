@@ -1,7 +1,7 @@
 /**
  * @file COSMOSWrapper.cpp
  * @brief Wrapper for COSMOS
- * @details COSMOS Scripting Guide: https://cosmosrb.com/docs/scripting/
+ * @details COSMOS (Currently, called OpenC3) : https://openc3.com/
  * @note This file is very old and recently not managed well...
  */
 
