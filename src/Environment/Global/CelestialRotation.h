@@ -33,7 +33,7 @@ enum RotationMode {
 };
 
 /**
- * @file CelestialRotation.h
+ * @class CelestialRotation
  * @brief Class to calculate the celestial rotation
  * @note Support earth rotation only now (TODO: add other planets)
  */
