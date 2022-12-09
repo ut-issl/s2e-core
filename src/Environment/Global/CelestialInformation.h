@@ -118,8 +118,8 @@ class CelestialInformation : public ILoggable {
   /**
    * @fn GetRadiiFromName
    * @brief Return 3 axis planetographic radii of a celestial body [m]
-  * @param [in] body_name: Name of the body defined in the SPICE
-   */  
+   * @param [in] body_name: Name of the body defined in the SPICE
+   */
   Vector<3> GetRadiiFromName(const char* body_name) const;
   /**
    * @fn GetMeanRadiusFromName
