@@ -1,3 +1,7 @@
+/**
+ *@file InitGlobalEnvironment.cpp
+ *@brief Initialize functions for classes in global environment
+ */
 #include "InitGlobalEnvironment.hpp"
 
 #include <Environment/Global/SimTime.h>
