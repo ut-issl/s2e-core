@@ -1,3 +1,8 @@
+/**
+ *@file SimTime.cpp
+ *@brief Class to manage simulation time related information
+ */
+
 #define _CRT_SECURE_NO_WARNINGS
 #include "SimTime.h"
 
@@ -28,11 +33,10 @@ SimTime::SimTime(const double end_sec, const double step_sec, const double attit
   compo_update_interval_sec_ = compo_propagate_step_sec;
   compo_propagate_frequency_ = int(1.0 / compo_update_interval_sec_);
   sim_speed_ = sim_speed;
-  disp_period_ = (1.0 * end_sec / step_sec / 100);  // 1%毎に更新
+  disp_period_ = (1.0 * end_sec / step_sec / 100);  // Update every 1%
   time_exceeds_continuously_limit_sec_ = 1.0;
 
-  //  sscanf_s(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_mon_,
-  //  &start_day_, &start_hr_, &start_min_, &start_sec_);
+  //  sscanf_s(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_mon_, &start_day_, &start_hr_, &start_min_, &start_sec_);
   sscanf(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_mon_, &start_day_, &start_hr_, &start_min_, &start_sec_);
   jday(start_year_, start_mon_, start_day_, start_hr_, start_min_, start_sec_, start_jd_);
   current_jd_ = start_jd_;
@@ -52,8 +56,7 @@ void SimTime::AssertTimeStepParams() {
   assert(orbit_rk_step_sec_ <= orbit_update_interval_sec_);
   assert(thermal_rk_step_sec_ <= thermal_update_interval_sec_);
 
-  // Step time for the entire simulation must be smaller than all of the
-  // subroutine step times
+  // Step time for the entire simulation must be smaller than all of the subroutine step times
   assert(step_sec_ <= attitude_update_interval_sec_);
   assert(step_sec_ <= orbit_update_interval_sec_);
   assert(step_sec_ <= thermal_update_interval_sec_);
@@ -88,12 +91,11 @@ void SimTime::UpdateTime(void) {
 
       int exceeded_duration_ms = (int)chrono::duration_cast<chrono::milliseconds>(clk.now() - clock_last_time_completed_step_in_time_).count();
       if (exceeded_duration_ms > time_exceeds_continuously_limit_sec_ * 1000) {
-        // Skip time and warn only when execition time exceeds continuously for long time
+        // Skip time and warn only when execution time exceeds continuously for long time
           
         cout << "Error: the specified step_sec is too small for this computer.\r\n";
 
-        // Forcibly set elapsed_tim_sec_ as actual elapced time 
-        // Reason: to catch up with real time when resume from a breakpoint
+        // Forcibly set elapsed_tim_sec_ as actual elapsed time Reason: to catch up with real time when resume from a breakpoint
         elapsed_time_sec_ = (chrono::duration_cast<chrono::duration<double, ratio<1, 1>>>(clk.now() - clock_start_time_millisec_).count() * sim_speed_);
 
         clock_last_time_completed_step_in_time_ = clk.now();
