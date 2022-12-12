@@ -20,7 +20,7 @@ COSMOSWrapper::~COSMOSWrapper() {}
 void COSMOSWrapper::Initialize() {
   if (!enable_) return;
 
-  // Error messages are generated in side the Initialize function
+  // Error messages are generated inside the Initialize function
   int ret = COSMOS_TCP_IF::Initialize();
 }
 
