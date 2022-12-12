@@ -1,3 +1,8 @@
+/**
+ * @file InitLocalEnvironment.cpp
+ * @brief Initialize functions for local environment classes
+ */
+
 #include "InitLocalEnvironment.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
@@ -47,15 +52,13 @@ Atmosphere InitAtmosphere(std::string ini_path) {
   double manual_daily_f107 = conf.ReadDouble(section, "manual_daily_f107");
   if (manual_daily_f107 < f107_threshold) {
     std::cerr << "Daily F10.7 may be too low. It is set as 150.0 in this simulation. "
-                 "Check [ATMOSPHERE] section in LocalEnvironment.ini."
-              << std::endl;
+                 "Check [ATMOSPHERE] section in LocalEnvironment.ini." << std::endl;
     manual_daily_f107 = f107_default;
   }
   double manual_average_f107 = conf.ReadDouble(section, "manual_average_f107");
   if (manual_average_f107 < f107_threshold) {
     std::cerr << "Average F10.7 may be too low. It is set as 150.0 in this "
-                 "simulation. Check [ATMOSPHERE] section in LocalEnvironment.ini."
-              << std::endl;
+                 "simulation. Check [ATMOSPHERE] section in LocalEnvironment.ini." << std::endl;
     manual_average_f107 = f107_default;
   }
   double manual_ap = conf.ReadDouble(section, "manual_ap");
