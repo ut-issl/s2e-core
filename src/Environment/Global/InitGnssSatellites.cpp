@@ -100,7 +100,7 @@ void get_sp3_file_contents(std::string directory_path, std::string file_sort, st
       if (file_name == last) break;
       ++day;
     }
-  } else if (file_sort.substr(0, 3) == "IGU" || file_sort.find("Ultra") != std::string::npos) {  // URの場合
+  } else if (file_sort.substr(0, 3) == "IGU" || file_sort.find("Ultra") != std::string::npos) {  // In case of UR
     ur_flag = UR_UNKNOWN;
     std::string file_header, file_footer;
     int gps_week = 0, day = 0;

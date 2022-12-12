@@ -104,8 +104,7 @@ CelestialInformation* InitCelesInfo(std::string file_name) {
     rotation_mode = Simple;
   } else if (rotation_mode_temp == "Full") {
     rotation_mode = Full;
-  } else  // if rotation_mode is neither Idle, Simple, nor Full, set
-          // rotation_mode to Idle
+  } else  // if rotation_mode is neither Idle, Simple, nor Full, set rotation_mode to Idle
   {
     rotation_mode = Idle;
   }

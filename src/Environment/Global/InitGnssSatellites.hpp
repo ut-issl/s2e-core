@@ -10,6 +10,6 @@
 /**
  *@fn InitGnssSatellites
  *@brief Initialize function for GnssSatellites class
-*@param [in] file_name: Path to the initialize function
+ *@param [in] file_name: Path to the initialize function
  */
 GnssSatellites* InitGnssSatellites(std::string file_name);
