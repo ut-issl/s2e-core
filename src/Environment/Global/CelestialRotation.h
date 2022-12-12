@@ -94,12 +94,12 @@ class CelestialRotation {
   // They are handling as constant values
   // TODO: Consider to read setting files for these coefficients
   // TODO: Consider other formats for other planets
-  double c_epsi_rad_[4];      //!< Coefficients to compute mean obliquity of the ecliptic
-  double c_lm_rad_[5];        //!< Coefficients to compute delauney angle (l=lm: Mean anomaly of the moon)
-  double c_ls_rad_[5];        //!< Coefficients to compute delauney angle (l'=ls: Mean anomaly of the sun)
-  double c_F_rad_[5];         //!< Coefficients to compute delauney angle (F: Mean longitude of the moon - mean longitude of ascending node of the moon)
-  double c_D_rad_[5];         //!< Coefficients to compute delauney angle (D: Elogation of the moon from the sun)
-  double c_O_rad_[5];         //!< Coefficients to compute delauney angle (Ω=O: Mean longitude of ascending node of the moon)
+  double c_epsi_rad_[4];  //!< Coefficients to compute mean obliquity of the ecliptic
+  double c_lm_rad_[5];    //!< Coefficients to compute delauney angle (l=lm: Mean anomaly of the moon)
+  double c_ls_rad_[5];    //!< Coefficients to compute delauney angle (l'=ls: Mean anomaly of the sun)
+  double c_F_rad_[5];     //!< Coefficients to compute delauney angle (F: Mean longitude of the moon - mean longitude of ascending node of the moon)
+  double c_D_rad_[5];     //!< Coefficients to compute delauney angle (D: Elogation of the moon from the sun)
+  double c_O_rad_[5];     //!< Coefficients to compute delauney angle (Ω=O: Mean longitude of ascending node of the moon)
   double c_depsilon_rad_[9];  //!< Coefficients to compute nutation angle (delta-epsilon)
   double c_dpsi_rad_[9];      //!< Coefficients to compute nutation angle (delta-psi)
   double c_zeta_rad_[3];      //!< Coefficients to compute precession angle (zeta)

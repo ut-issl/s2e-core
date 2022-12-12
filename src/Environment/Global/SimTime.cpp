@@ -92,11 +92,12 @@ void SimTime::UpdateTime(void) {
       int exceeded_duration_ms = (int)chrono::duration_cast<chrono::milliseconds>(clk.now() - clock_last_time_completed_step_in_time_).count();
       if (exceeded_duration_ms > time_exceeds_continuously_limit_sec_ * 1000) {
         // Skip time and warn only when execution time exceeds continuously for long time
-          
+
         cout << "Error: the specified step_sec is too small for this computer.\r\n";
 
         // Forcibly set elapsed_tim_sec_ as actual elapsed time Reason: to catch up with real time when resume from a breakpoint
-        elapsed_time_sec_ = (chrono::duration_cast<chrono::duration<double, ratio<1, 1>>>(clk.now() - clock_start_time_millisec_).count() * sim_speed_);
+        elapsed_time_sec_ =
+            (chrono::duration_cast<chrono::duration<double, ratio<1, 1>>>(clk.now() - clock_start_time_millisec_).count() * sim_speed_);
 
         clock_last_time_completed_step_in_time_ = clk.now();
       }
