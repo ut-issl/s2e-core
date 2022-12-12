@@ -1,3 +1,8 @@
+/**
+ *@file InitGnssSatellites.cpp
+ *@brief Initialize functions for GnssSatellites class
+ */
+
 #include "InitGnssSatellites.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
