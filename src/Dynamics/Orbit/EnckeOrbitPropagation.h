@@ -36,7 +36,7 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
   /**
    * @fn Propagate
    * @brief Propagate orbit
-   * @param [in] endtime:
+   * @param [in] endtime: End time of simulation [sec]
    * @param [in] current_jd: Current Julian day [day]
    */
   virtual void Propagate(double endtime, double current_jd);
