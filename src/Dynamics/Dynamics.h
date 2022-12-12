@@ -119,7 +119,7 @@ class Dynamics {
    */
   inline Attitude& SetAttitude() const { return *attitude_; }
 
-  double mass_;  //!< Mass of spacecraft FIXME: Move to structure
+  double mass_;  //!< Mass of spacecraft [kg] FIXME: Move to Structure
 
   /**
    * @fn GetPosition_i
