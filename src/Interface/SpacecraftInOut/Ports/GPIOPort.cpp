@@ -1,3 +1,8 @@
+/**
+ * @file GPIOPort.cpp
+ * @brief Class to emulate GPIO(General Purpose Input and Output) port
+ */
+
 #include "GPIOPort.h"
 
 GPIOPort::GPIOPort(int port_id, IGPIOCompo* compo) : kPortId(port_id) {
@@ -9,7 +14,7 @@ GPIOPort::~GPIOPort() {}
 
 int GPIOPort::DigitalWrite(bool isHigh) {
   if (hl_state_ != isHigh) {
-    // HIGH/LOWに変化があったら、割り込み関数を呼ぶ
+    // Call interaction function when detecting the change of the HIGH/LOW state
     if (component_ != nullptr) {
       component_->GPIOStateChanged(kPortId, isHigh);
     }

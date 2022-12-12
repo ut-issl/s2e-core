@@ -1,3 +1,8 @@
+/**
+ * @file RingBuffer.cpp
+ * @brief Class to emulate ring buffer
+ */
+
 #include "RingBuffer.h"
 
 #include <stdlib.h>
@@ -13,8 +18,6 @@ RingBuffer::RingBuffer(int bufSize) : kBufferSize(bufSize) {
 
 RingBuffer::~RingBuffer() { delete[] buf_; }
 
-// Write count bytes from offset byte of the buffer to the RingBuffer
-// Returns the number of bytes written
 int RingBuffer::Write(byte* buffer, int offset, int count) {
   int write_count = 0;
   while (write_count != count) {
@@ -27,13 +30,10 @@ int RingBuffer::Write(byte* buffer, int offset, int count) {
   return write_count;
 }
 
-// Read only count bytes from the offset byte of the buffer
-// Return the number of bytes read
 int RingBuffer::Read(byte* buffer, int offset, int count) {
   int read_count = 0;
   // There are four behaviors depending on whether the RP overtakes the WP, or
   // whether all of the RP to the WP are requested by count.
-  // (RPがWPを追い越しているか、countでRPからWPまで全て要求されているかどうかにより、4通りの挙動)
   while (read_count != count && wp_ != rp_) {
     int read_len = (wp_ > rp_) ? std::min(wp_ - rp_, count - read_count) : std::min(kBufferSize - rp_, count - read_count);
     memcpy(&buffer[offset + read_count], &buf_[rp_], read_len);

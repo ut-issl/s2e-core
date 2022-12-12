@@ -1,6 +1,12 @@
+/**
+ * @file IniAccess.cpp
+ * @brief Class to read and get parameters for the `ini` format file
+ */
+
 #include "IniAccess.h"
 
 #include <string.h>
+
 #include <algorithm>
 #include <cstring>
 #include <limits>
@@ -9,8 +15,6 @@ using namespace std;
 
 #ifdef WIN32
 IniAccess::IniAccess(string path) : file_path_(path) {
-  //読み出しファイル名の取得
-  // TODO: Modify the codes for multi-platform support
   // strcpy_s(strPath_, (size_t)_countof(strPath_), file_path_.c_str());
   strncpy(strPath_, file_path_.c_str(), MAX_PATH);
 }
@@ -19,7 +23,7 @@ IniAccess::IniAccess(string path) : file_path_(path), reader(path) {
   strncpy(strPath_, file_path_.c_str(), MAX_PATH);
 
   std::string ext = ".ini";
-  if(path.size() < 4 || !std::equal(std::rbegin(ext), std::rend(ext), std::rbegin(path))) {
+  if (path.size() < 4 || !std::equal(std::rbegin(ext), std::rend(ext), std::rbegin(path))) {
     // this is not ini file(csv)
     return;
   }
@@ -38,13 +42,13 @@ double IniAccess::ReadDouble(const char* section_name, const char* key_name) {
 
   GetPrivateProfileStringA(section_name, key_name, 0, strText_, 1024, strPath_);
 
-  value << strText_;  //文字列を入力
-  value >> temp;      // doubleで返却
+  value << strText_;  // input string
+  value >> temp;      // return as double
   //	cout << strText_;
 
   return temp;
 #else
-  return reader.GetReal(section_name, key_name, 0);  //文字列を入力
+  return reader.GetReal(section_name, key_name, 0);
 #endif
 }
 
@@ -85,19 +89,19 @@ void IniAccess::ReadQuaternion(const char* section_name, const char* key_name, Q
   Quaternion temp;
   double norm = 0.0;
 
-  for (int i = 0; i < 4; i++) {  // 新しいフォーマットに沿ってQuaternionを読み込む
+  for (int i = 0; i < 4; i++) {  // Read Quaternion as new format
     stringstream c_name;
     c_name << key_name << "_(" << i << ")";
     temp[i] = ReadDouble(section_name, c_name.str().c_str());
     norm += temp[i] * temp[i];
   }
-  if (norm == 0.0) {  // 新しいフォーマットが読み込めなかった（古いConfigファイルの場合）
+  if (norm == 0.0) {  // If it is not new format, try to read old format
     for (int i = 0; i < 4; i++) {
       stringstream c_name;
       c_name << key_name << "(" << i << ")";
       data[i] = ReadDouble(section_name, c_name.str().c_str());
     }
-  } else {  // 新しいフォーマットが読み込めた場合（新しいConfigファイルの場合）
+  } else {
     data[0] = temp[0];
     data[1] = temp[1];
     data[2] = temp[2];
@@ -141,11 +145,11 @@ vector<string> IniAccess::ReadStrVector(const char* section_name, const char* ke
     stringstream c_name;
     c_name << key_name << "(" << i << ")";
     ReadChar(section_name, c_name.str().c_str(), buf_size, temp);
-    #ifdef WIN32
+#ifdef WIN32
     if (temp[0] == NULL) {
-    #else
+#else
     if (!strcmp(temp, "NULL")) {
-    #endif
+#endif
       break;
     } else {
       data.push_back(temp);

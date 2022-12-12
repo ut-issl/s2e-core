@@ -1,6 +1,16 @@
+/**
+ * @file InitCosmosWrapper.cpp
+ * @brief Initialize function for COSMOSWrapper
+ */
+
 #include "../HilsInOut/COSMOSWrapper.h"
 #include "Initialize.h"
 
+/**
+ * @fn Init_COSMOSWrapper
+ * @brief Initialize function for COSMOSWrapper
+ * @param [in] file_name: File nama of the initialize file
+ */
 COSMOSWrapper* Init_COSMOSWrapper(string file_name) {
   IniAccess ini_file(file_name);
 
