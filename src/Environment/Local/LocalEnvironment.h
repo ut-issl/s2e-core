@@ -1,3 +1,7 @@
+/**
+ * @file LocalEnvironment.h
+ * @brief Class to manage local environments
+ */
 #pragma once
 
 #include <Dynamics/Dynamics.h>
@@ -12,6 +16,10 @@
 class Logger;
 class SimTime;
 
+/**
+ * @class LocalEnvironment
+ * @brief Class to manage local environments
+ */
 class LocalEnvironment {
  public:
   LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);

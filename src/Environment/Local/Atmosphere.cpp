@@ -46,10 +46,7 @@ int Atmosphere::GetSpaceWeatherTable(double decyear, double endsec) {
   return GetSpaceWeatherTable_(decyear, endsec, fname_, table_);
 }
 
-double Atmosphere::GetAirDensity() const
-{
-  return air_density_;
-}
+double Atmosphere::GetAirDensity() const { return air_density_; }
 
 double Atmosphere::CalcAirDensity(double decyear, double endsec, Vector<3> lat_lon_alt) {
   if (!IsCalcEnabled) return 0;

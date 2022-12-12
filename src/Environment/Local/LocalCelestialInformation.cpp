@@ -170,7 +170,7 @@ string LocalCelestialInformation::GetLogHeader() const {
     string name = namebuf;
     string body_pos = name + "_pos";
     string body_vel = name + "_vel";
-    //　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
+    // 　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
     str_tmp += WriteVector(body_pos, "b", "m", 3);
     str_tmp += WriteVector(body_vel, "b", "m/s", 3);
   }
@@ -180,7 +180,7 @@ string LocalCelestialInformation::GetLogHeader() const {
 string LocalCelestialInformation::GetLogValue() const {
   string str_tmp = "";
   for (int i = 0; i < glo_celes_info_->GetNumBody(); i++) {
-    //　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
+    // 　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
     for (int j = 0; j < 3; j++) {
       str_tmp += WriteScalar(celes_objects_pos_from_sc_b_[i * 3 + j]);
     }
