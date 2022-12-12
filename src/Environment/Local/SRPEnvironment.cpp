@@ -1,3 +1,7 @@
+/**
+ * @file SRPEnvironment.cpp
+ * @brief Class to calculate Solar Radiation Pressure
+ */
 #include "SRPEnvironment.h"
 
 #include <Interface/LogOutput/LogUtility.h>
@@ -75,14 +79,14 @@ void SRPEnvironment::CalcShadowCoefficient(string shadow_source_name) {
   const double sd_sun = asin(sun_radius_m_ / distance_sat_to_sun);                // Apparent radius of the sun
   const double sd_source = asin(shadow_source_radius_m / norm(r_sc2source_eci));  // Apparent radius of the shadow source
 
-  const double delta = acos(inner_product(r_sc2source_eci, r_sc2sun_eci - r_sc2source_eci) / norm(r_sc2source_eci) /
-                            norm(r_sc2sun_eci - r_sc2source_eci));  // Angle of deviation from shadow
-                                                                    // source center to sun center
-  const double x =
-      (delta * delta + sd_sun * sd_sun - sd_source * sd_source) / (2.0 * delta);  // The angle between the center of the sun and the common chord
-  const double y = sqrt(max(sd_sun * sd_sun - x * x,
-                            0.0));  // The length of the common chord of the apparent solar
-                                    // disk and apparent tellestial disk
+  // Angle of deviation from shadow source center to sun center
+  const double delta =
+      acos(inner_product(r_sc2source_eci, r_sc2sun_eci - r_sc2source_eci) / norm(r_sc2source_eci) / norm(r_sc2sun_eci - r_sc2source_eci));
+  // The angle between the center of the sun and the common chord
+  const double x = (delta * delta + sd_sun * sd_sun - sd_source * sd_source) / (2.0 * delta);
+  // The length of the common chord of the apparent solar disk and apparent telestial disk
+  const double y = sqrt(max(sd_sun * sd_sun - x * x, 0.0));
+
   const double a = sd_sun;
   const double b = sd_source;
   const double c = delta;
@@ -93,7 +97,7 @@ void SRPEnvironment::CalcShadowCoefficient(string shadow_source_name) {
   } else if (c < fabs(a - b) && a > b)  // The occultation is partial but maximum
   {
     shadow_coefficient_ = 1.0 - (b * b) / (a * a);
-  } else if (fabs(a - b) <= c && c <= (a + b))  // spacecraft is in penunbra
+  } else if (fabs(a - b) <= c && c <= (a + b))  // spacecraft is in penumbra
   {
     double A = a * a * acos(x / a) + b * b * acos((c - x) / b) - c * y;  // The area of the occulted segment of the apparent solar disk
     shadow_coefficient_ = 1.0 - A / (libra::pi * a * a);
