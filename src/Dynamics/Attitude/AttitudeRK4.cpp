@@ -1,3 +1,7 @@
+/**
+ * @file AttitudeRK4.cpp
+ * @brief Class to calculate spacecraft attitude with Runge-Kutta method
+ */
 #include "AttitudeRK4.h"
 
 #include <Interface/LogOutput/LogUtility.h>
@@ -28,10 +32,10 @@ void AttitudeRK4::SetParameters(const MCSimExecutor& mc_sim) {
   Attitude::SetParameters(mc_sim);
   GetInitParameterVec(mc_sim, "Omega_b", omega_b_rad_s_);
 
-  // TODO この部分の必要性を考える
+  // TODO: Consider the following calculation is needed here?
   prop_time_s_ = 0.0;
   inv_inertia_tensor_ = libra::invert(inertia_tensor_kgm2_);
-  h_rw_b_Nms_ = Vector<3>(0.0);  //どう取り扱うか要検討，Propagateで参照しているのも良くないかも
+  h_rw_b_Nms_ = Vector<3>(0.0);  //!< Consider how to handle this variable
   CalcAngMom();
   CalcSatRotationalKineticEnergy();
 }

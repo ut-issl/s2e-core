@@ -1,6 +1,6 @@
 /**
  * @file Attitude.h
- * @brief Class to manage attitude of spacecraft
+ * @brief Base class for attitude of spacecraft
  */
 #ifndef __attitude_H__
 #define __attitude_H__
@@ -14,7 +14,7 @@
 
 /**
  * @class Attitude
- * @brief Class to manage attitude of spacecraft
+ * @brief Base class for attitude of spacecraft
  */
 class Attitude : public ILoggable, public SimulationObject {
  public:
@@ -131,6 +131,7 @@ class Attitude : public ILoggable, public SimulationObject {
   /**
    * @fn Propagate
    * @brief Pure virtual function of attitude propagation
+   * @param [in] endtime_s: Propagation endtime [sec]
    */
   virtual void Propagate(const double endtime_s) = 0;
 

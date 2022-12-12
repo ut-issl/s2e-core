@@ -1,6 +1,6 @@
 /**
  * @file Attitude.cpp
- * @brief Class to manage attitude of spacecraft
+ * @brief Base class for attitude of spacecraft
  */
 #include "Attitude.h"
 
