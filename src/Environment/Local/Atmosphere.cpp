@@ -1,3 +1,8 @@
+/**
+ * @file Atmosphere.cpp
+ * @brief Class to calculate earth's atmospheric density
+ */
+
 #include "Atmosphere.h"
 
 #include <Interface/LogOutput/LogUtility.h>
@@ -37,11 +42,11 @@ Atmosphere::Atmosphere(string model, string fname, double gauss_stddev, bool is_
 }
 
 int Atmosphere::GetSpaceWeatherTable(double decyear, double endsec) {
-  // メモリ節約のためシミュレーション期間のみのテーブルを取得
+  // Get table of simulation duration only to decrease memory
   return GetSpaceWeatherTable_(decyear, endsec, fname_, table_);
 }
 
-double Atmosphere::GetAirDensity() const  //値を返すだけの関数
+double Atmosphere::GetAirDensity() const
 {
   return air_density_;
 }
@@ -70,7 +75,7 @@ double Atmosphere::CalcAirDensity(double decyear, double endsec, Vector<3> lat_l
     double alt = lat_lon_alt(2);
     air_density_ = CalcNRLMSISE00(decyear, latrad, lonrad, alt, table_, is_manual_param_used_, manual_daily_f107_, manual_average_f107_, manual_ap_);
   } else {
-    // 該当のモデルがない場合は0を返す
+    // No suitable model
     return air_density_ = 0.0;
   }
 
@@ -79,12 +84,12 @@ double Atmosphere::CalcAirDensity(double decyear, double endsec, Vector<3> lat_l
 
 double Atmosphere::CalcStandard(double altitude_m) {
   // altitude_mの単位は[m]
-  double altitude = altitude_m / 1000.0;  // kmへ変換
-  double scaleHeight;                     //[km]
-  double baseHeight;                      //[km]
-  double baseRho;                         //[kg/m^3]
+  double altitude = altitude_m / 1000.0;  // Convert to km
+  double scaleHeight;                     // [km]
+  double baseHeight;                      // [km]
+  double baseRho;                         // [kg/m^3]
 
-  // scaleHeightなどの値は，『ミッション解析と軌道設計の基礎』より
+  // scaleHeight values: Ref "ミッション解析と軌道設計の基礎" (in Japanese)
   if (altitude > 1000.0) {
     scaleHeight = 268.0;
     baseHeight = 1000.0;
@@ -197,7 +202,7 @@ double Atmosphere::CalcStandard(double altitude_m) {
     scaleHeight = 7.249;
     baseHeight = 0.0;
     baseRho = 1.225;
-  } else {  //高度がマイナスの場合，0を返して終了
+  } else {  // In case of altitude is minus value
     scaleHeight = 7.249;
     baseHeight = 0.0;
     baseRho = 0.0;
