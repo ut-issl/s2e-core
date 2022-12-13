@@ -1,3 +1,8 @@
+/**
+ * @file s2e_math.cpp
+ * @brief Math functions
+ */
+
 #include "s2e_math.hpp"
 
 #include <Library/math/Constant.hpp>
