@@ -1,9 +1,8 @@
-/*!
-  \file   Quaternion_ifs.hpp
-  \author TAKISAWA, Jun'ichi.
-  \date   Wed May 18 22:59:03 2011
-  \brief  Quaternionクラスのinline関数実装
-*/
+/**
+ * @file Quaternion_ifs.hpp
+ * @brief Class for Quaternion (Inline functions)
+ */
+
 #ifndef QUATERNION_IFS_HPP_
 #define QUATERNION_IFS_HPP_
 
