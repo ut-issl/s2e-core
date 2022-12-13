@@ -1,13 +1,17 @@
+/**
+ * @file slip.cpp
+ * @brief Functions for SLIP(Serial Line Internet Protocol) encoding
+ */
 
 #include "slip.h"
 
 #include <algorithm>
 #include <iterator>
 
-static uint8_t kSlipFend_ = 0xc0;
-static uint8_t kSlipFesc_ = 0xdb;
-static uint8_t kSlipTfend_ = 0xdc;
-static uint8_t kSlipTfesc_ = 0xdd;
+static uint8_t kSlipFend_ = 0xc0;   //!< FEND: Frame End
+static uint8_t kSlipFesc_ = 0xdb;   //!< FESC: Frame Escape
+static uint8_t kSlipTfend_ = 0xdc;  //!< TFEND: Transposed Frame End
+static uint8_t kSlipTfesc_ = 0xdd;  //!< TFESC: Transposed Frame Escape
 
 std::vector<uint8_t> decode_slip(const std::vector<uint8_t> in) {
   std::vector<uint8_t> out = in;
