@@ -1,3 +1,7 @@
+/**
+ * @file Attitude.cpp
+ * @brief Base class for attitude of spacecraft
+ */
 #include "Attitude.h"
 
 #include <Interface/LogOutput/LogUtility.h>

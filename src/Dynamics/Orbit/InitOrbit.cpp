@@ -1,3 +1,7 @@
+/**
+ * @file InitOrbit.cpp
+ * @brief Initialize function for Orbit class
+ */
 #include "InitOrbit.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
@@ -43,10 +47,8 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     Vector<3> init_relative_velocity_lvlh;
     conf.ReadVector<3>(section_, "init_relative_velocity_lvlh", init_relative_velocity_lvlh);
 
-    // There is a possibility that the orbit of the reference sat is not
-    // initialized when RelativeOrbit initialization is called To ensure that
-    // the orbit of the reference sat is initialized, create temporary initial
-    // orbit of the reference sat
+    // There is a possibility that the orbit of the reference sat is not initialized when RelativeOrbit initialization is called To ensure that
+    // the orbit of the reference sat is initialized, create temporary initial orbit of the reference sat
     int reference_sat_id = conf.ReadInt(section_, "reference_sat_id");
 
     orbit = new RelativeOrbit(celes_info, gravity_constant, stepSec, reference_sat_id, init_relative_position_lvlh, init_relative_velocity_lvlh,

@@ -1,3 +1,8 @@
+/**
+ * @file EnckeOrbitPropagation.cpp
+ * @brief Class to propagate spacecraft orbit with Encke's method
+ */
+
 #include "EnckeOrbitPropagation.h"
 
 #include <Library/utils/Macros.hpp>

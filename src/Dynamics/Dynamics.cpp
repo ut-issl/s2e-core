@@ -1,3 +1,8 @@
+/**
+ * @file Dynamics.cpp
+ * @brief Class to manage dynamics of spacecraft
+ */
+
 #include "Dynamics.h"
 
 #include "../RelativeInformation/RelativeInformation.h"
@@ -46,8 +51,7 @@ void Dynamics::Update(const SimTime* sim_time, const LocalCelestialInformation* 
   if (sim_time->GetThermalPropagateFlag()) {
     std::string sun_str = "SUN";
     char* c_sun = new char[sun_str.size() + 1];
-    std::char_traits<char>::copy(c_sun, sun_str.c_str(),
-                                 sun_str.size() + 1);  // string -> char*
+    std::char_traits<char>::copy(c_sun, sun_str.c_str(), sun_str.size() + 1);  // string -> char*
     temperature_->Propagate(local_celes_info->GetPosFromSC_b(c_sun), sim_time->GetElapsedSec());
     delete[] c_sun;
   }

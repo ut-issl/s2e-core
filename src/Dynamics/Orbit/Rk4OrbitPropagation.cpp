@@ -1,3 +1,7 @@
+/**
+ * @file Rk4OrbitPropagation.cpp
+ * @brief Class to propagate spacecraft orbit with Runge-Kutta-4 method
+ */
 #include "Rk4OrbitPropagation.h"
 
 #include <Library/utils/Macros.hpp>

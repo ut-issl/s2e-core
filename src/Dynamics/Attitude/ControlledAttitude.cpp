@@ -1,3 +1,7 @@
+/**
+ * @file ControlledAttitude.h
+ * @brief Class to calculate spacecraft attitude with Controlled Attitude mode
+ */
 #include "ControlledAttitude.h"
 
 #include <Interface/LogOutput/LogUtility.h>
@@ -33,7 +37,6 @@ void ControlledAttitude::Initialize(void) {
   if (main_mode_ >= NO_CTRL) is_calc_enabled_ = false;
   if (sub_mode_ >= NO_CTRL) is_calc_enabled_ = false;
   if (main_mode_ == INERTIAL_STABILIZE) {
-    //
   } else  // Pointing control
   {
     // sub mode check
