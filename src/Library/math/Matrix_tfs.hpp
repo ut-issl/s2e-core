@@ -1,8 +1,8 @@
-/*!
-  \file   Matrix_tfs.hpp
-  \author TAKISAWA Jun'ichi.
-  \brief  Matrix.hppのtemplate関数実装
-*/
+/**
+ * @file Matrix_tfs.hpp
+ * @brief Matrix class to handle math matrix with template
+ */
+
 #ifndef MATRIX_TFS_HPP_
 #define MATRIX_TFS_HPP_
 
