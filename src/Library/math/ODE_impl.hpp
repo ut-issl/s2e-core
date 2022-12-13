@@ -1,10 +1,8 @@
 /*!
-  \file   ODE_impl.hpp
-  \author TAKISAWA Jun'ichi.
-  \date   Sat Mar  7 10:19:50 2009
-
-  \brief  ODE.hppの実装
-*/
+/**
+ * @file ODE_impl.hpp
+ * @brief Class for Ordinary Difference Equation
+ */
 
 namespace libra {
 
@@ -19,10 +17,10 @@ void ODE<N>::setup(double init_x, const Vector<N>& init_cond) {
 
 template <size_t N>
 ODE<N>& ODE<N>::operator++() {
-  RHS(x_, state_, rhs_);  // 現在の導関数計算
-  write_log();            // 現状態をログに記録
+  RHS(x_, state_, rhs_);  // Calculation of current derivative
+  write_log();            // Write log
 
-  // 4次のRunge-Kutta係数計算
+  // 4th order Runge-Kutta method
   Vector<N> k1(rhs_);
   k1 *= step_width_;
   Vector<N> k2(state_.dim());
@@ -35,9 +33,8 @@ ODE<N>& ODE<N>::operator++() {
   RHS(x_ + step_width_, state_ + k3, k4);
   k4 *= step_width_;
 
-  state_ += (1.0 / 6.0) * (k1 + 2.0 * (k2 + k3) + k4);  // 状態量更新
-  x_ += step_width_;                                    // 時刻更新
-
+  state_ += (1.0 / 6.0) * (k1 + 2.0 * (k2 + k3) + k4);  // Update state vector
+  x_ += step_width_;                                    // Update independent variable
   return *this;
 }
 
