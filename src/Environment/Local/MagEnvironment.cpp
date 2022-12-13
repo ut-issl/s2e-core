@@ -1,3 +1,8 @@
+/**
+ * @file MagEnvironment.cpp
+ * @brief Class to calculate magnetic field of the earth
+ */
+
 #include "MagEnvironment.h"
 
 #include <Interface/InitInput/IniAccess.h>
@@ -12,7 +17,6 @@ using namespace std;
 
 MagEnvironment::MagEnvironment(string fname, double mag_rwdev, double mag_rwlimit, double mag_wnvar)
     : mag_rwdev_(mag_rwdev), mag_rwlimit_(mag_rwlimit), mag_wnvar_(mag_wnvar), fname_(fname) {
-  //初期化コンストラクタ
   for (int i = 0; i < 3; ++i) {
     Mag_i_[i] = 0;
   }
@@ -38,7 +42,6 @@ void MagEnvironment::CalcMag(double decyear, double side, Vector<3> lat_lon_alt,
   Mag_b_ = q_i2b.frame_conv(Mag_i_);
 }
 
-//磁場真値のIGRFからのズレを加える関数
 void MagEnvironment::AddNoise(double* mag_i_array) {
   static Vector<3> stddev(mag_rwdev_);
   static Vector<3> limit(mag_rwlimit_);
@@ -47,13 +50,11 @@ void MagEnvironment::AddNoise(double* mag_i_array) {
   for (int i = 0; i < 3; ++i) {
     mag_i_array[i] += rw[i] + nr;
   }
-  ++rw;  // ランダムウォーク更新
+  ++rw;  // Update random walk
 }
 
-//地磁気ベクトル(ECI座標系)[nT]の取得用関数
 Vector<3> MagEnvironment::GetMag_i() const { return Mag_i_; }
 
-//地磁気ベクトル(body座標系)[nT]の取得用関数
 Vector<3> MagEnvironment::GetMag_b() const { return Mag_b_; }
 
 string MagEnvironment::GetLogHeader() const {

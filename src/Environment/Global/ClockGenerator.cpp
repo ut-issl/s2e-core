@@ -1,3 +1,8 @@
+/**
+ * @file ClockGenerator.cpp
+ * @brief Class to generate clock for classes which have ITickable
+ */
+
 #include "ClockGenerator.h"
 
 ClockGenerator::~ClockGenerator() {}
@@ -20,8 +25,7 @@ void ClockGenerator::TickToComponents() {
   for (auto itr = components_.begin(); itr != components_.end(); ++itr) {
     // Run MainRoutine
     (*itr)->Tick(timer_count_);
-    // Run FastUpdate (Processes that are executed more frequently than
-    // MainRoutine)
+    // Run FastUpdate (Processes that are executed more frequently than MainRoutine)
     if ((*itr)->GetNeedsFastUpdate()) {
       (*itr)->FastTick(timer_count_);
     }
