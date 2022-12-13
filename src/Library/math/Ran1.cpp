@@ -1,9 +1,9 @@
-/*!
-  \file   Ran1.cpp
-  \author TAKISAWA <junichi@Hyperion>
-  \date   Wed Sep 30 23:13:41 2009
-  \brief  Ran1.hppの実装
-*/
+/**
+ * @file Ran1.cpp
+ * @brief Randomization with Park and Miller's multiplicative congruential method combined with mixed method
+ * @note ran1 function in "NUMERICAL RECIPES in C, p.207-208"
+ */
+
 #include "Ran1.hpp"
 using libra::Ran1;
 
@@ -17,12 +17,12 @@ void Ran1::init_seed(long seed) {
 }
 
 void Ran1::init_() {
-  // ran0_のウォームアップ
+  // Warmup of ran0_
   for (int i = 0; i < 8; i++) {
     double temp = ran0_;
     static_cast<void>(temp);
   }
-  // 切り混ぜ表を埋める。
+  // Fill mixing table
   for (size_t i = 0; i < V_SIZE_; i++) {
     vec_[i] = ran0_;
   }
@@ -31,7 +31,7 @@ void Ran1::init_() {
 
 Ran1::operator double() {
   double out = vec_[y_];
-  vec_[y_] = ran0_;  // 次の乱数を補填
+  vec_[y_] = ran0_;  // Compensate next random value
   y_ = (size_t)out * Ran0::M;
   y_ %= V_SIZE_;  // y <- [0 : V_SIZE_-1]
 
