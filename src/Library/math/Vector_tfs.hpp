@@ -1,8 +1,7 @@
-/*!
-  \file   Vector_impl.hpp
-  \author TAKISAWA Jun'ichi.
-  \brief  Vector.hppのテンプレート実装
-*/
+/**
+ * @file Vector_tfs.hpp
+ * @brief Class for mathematical vector (template functions)
+ */
 #ifndef VECTOR_HPP_TFS_HPP_
 #define VECTOR_HPP_TFS_HPP_
 
@@ -127,7 +126,7 @@ Vector<N, double>& normalize(Vector<N, double>& v) {
   double n = norm(v);
   if (n == 0.0) {
     return v;
-  }  //零ベクトル
+  }  // 零ベクトル
 
   // 正規化
   n = 1.0 / n;
