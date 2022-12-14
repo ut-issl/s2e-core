@@ -1,9 +1,6 @@
 /*
  * @file rw_ode.hpp
- * @brief リアクションホイールの指定された角速度までの推移の微分方程式(一時遅れ)
- * @author Shun Arahata
- * @date
- * @details ODEクラスを継承
+ * @brief Ordinary differential equation of angular velocity of reaction wheel with first-order lag
  */
 #ifndef __RW_ODE_H__
 #define __RW_ODE_H__
@@ -11,55 +8,64 @@
 #include <Library/math/Vector.hpp>
 #include <vector>
 
-/**
- * @brief RWのトルクを求める微分方程式
- * @details ODEの実装
+/*
+ * @file RwOde
+ * @brief Ordinary differential equation of angular velocity of reaction wheel with first-order lag
  */
 class RwOde : public libra::ODE<1> {
  public:
   /**
-   * @brief コンストラクタ
-   * @param[in] step_width  計算ステップ幅
-   * @param[in] first_order_lag　一次遅れ用定数
-   * @param[in] init_angular_velocity 初期角速度
-   * @param[in] target_angular_velocity 目標角速度
+   * @fn RwOde
+   * @brief Constructor
+   * @param [in] step_width: Step width for ODE calculation
+   * @param [in] init_angular_velocity: Initial angular velocity [rad/s]
+   * @param [in] target_angular_velocity: Target angular velocity [rad/s]
+   * @param [in] lag_coef: coefficients for first order lag
    */
   RwOde(double step_width, double init_angular_velocity, double target_angular_velocity, libra::Vector<3> lag_coef);
+
   /**
-   * @brief 微分方程式の実装
-   * @param[in] x　時間
-   * @param[out] rhs 右辺
-   * @param[out] state
-   * @return void
-   * @detail ode.hppにて純粋仮想関数として宣言
+   * @fn RHS
+   * @brief Definition of the difference equation (Override function of ODE class)
+   * @param [in] x: Independent variable (e.g. time)
+   * @param [in] state: State vector
+   * @param [out] rhs: Differentiated value of state vector
    */
   void RHS(double x, const libra::Vector<1>& state, libra::Vector<1>& rhs) override;
 
   /**
-   *@brief 角速度の取得
-   *@return 角速度
-   *@detail 計算をさせているわけではないことに注意
+   * @fn getAngularVelocity
+   * @brief Return current angular velocity of RW rotor [rad/s]
    */
   double getAngularVelocity(void) const;
 
   /**
-   *@brief 目標角速度の取得
-   *@return void
+   * @fn setTargetAngularVelocity
+   * @brief Set target angular velocity [rad/s]
    */
-
   void setTargetAngularVelocity(double angular_velocity);
 
+  /**
+   * @fn setFirstOrderLag
+   * @brief Set first order lag coefficient (Currently not used)
+   */
   void setFirstOrderLag(double first_order_lag);
-
+  /**
+   * @fn setSecondOrderCoef
+   * @brief Set second order lag coefficient (Currently not used)
+   */
   void setSecondOrderCoef(double second_order_coef);
-
+  /**
+   * @fn setLagCoef
+   * @brief Set lag coefficients
+   */
   void setLagCoef(libra::Vector<3> lag_coef);
 
  private:
-  RwOde(double step_width);            //!基底クラスのコンストラクタ呼び出しの禁止
-  libra::Vector<3> lag_coef_;          //!<一次遅れ用定数
-  const double kInitAngularVelocity_;  //!初期角速度
-  double target_angular_velocity_;     //!目標角速度
+  RwOde(double step_width);            //!< Prohibit calling constructor
+  libra::Vector<3> lag_coef_;          //!< Coefficients for the first order lag
+  const double kInitAngularVelocity_;  //!< Initial angular velocity [rad/s]
+  double target_angular_velocity_;     //!< Target angular velocity [rad/s]
 };
 
 #endif  //__RW_ODE_H__

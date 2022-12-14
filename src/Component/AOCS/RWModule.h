@@ -1,3 +1,9 @@
+/*
+ * @file RWModule.h
+ * @brief Class to combine four reaction wheels
+ * @note We recommend not to use this class. Users can make multiple RW by making multiple instances of RWModel. TODO: Delete this class.
+ */
+
 #include <Interface/LogOutput/Logger.h>
 
 #include <Library/math/MatVec.hpp>
@@ -8,8 +14,8 @@
 class RWModule {
  private:
   RWModel RW_[4];
-  Matrix<3, 4> torque_transition_;  //トルク変換行列
-  Vector<3> RWtorque_b_;            //出したトルク(ログ用)
+  Matrix<3, 4> torque_transition_;  // トルク変換行列
+  Vector<3> RWtorque_b_;            // 出したトルク(ログ用)
  public:
   RWModule();
   RWModule(double step_width, double angular_velocity_init_0, double inertia_0, double angular_velocity_upperlimit_init_0,
@@ -19,12 +25,12 @@ class RWModule {
            double angular_velocity_lowerlimit_init_2, bool motor_drive_init_2, double angular_accelaration_init_2, double angular_velocity_init_3,
            double inertia_3, double angular_velocity_upperlimit_init_3, double angular_velocity_lowerlimit_init_3, bool motor_drive_init_3,
            double angular_accelaration_init_3, int number_of_RW, libra::Matrix<3, 4> torque_transition);
-  libra::Vector<3> GetTorque();  //トルク発生
+  libra::Vector<3> GetTorque();  // トルク発生
   void SetTorque(double angular_accelaration,
-                 int module_number);  //必要な角加速度の指定(単位はrpm/s)
+                 int module_number);  // 必要な角加速度の指定(単位はrpm/s)
   void SetLimits(double angular_velocity_upperlimit, double angular_velocity_lowerlimit,
                  int module_number);          // UL/LLの設定(単位はrpm)
-  void SetDrive(bool on, int module_number);  //動作フラグの設定
-  string WriteLogHeader(void);                //ログofヘッダー
-  string WriteLogValue(void);                 //ログof値
+  void SetDrive(bool on, int module_number);  // 動作フラグの設定
+  string WriteLogHeader(void);                // ログofヘッダー
+  string WriteLogValue(void);                 // ログof値
 };
