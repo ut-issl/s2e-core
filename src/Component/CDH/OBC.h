@@ -193,7 +193,8 @@ class OBC : public ComponentBase {
   // Override functions for ComponentBase
   /**
    * @fn MainRoutine
-   * @brief Main routine for sensor observation
+   * @brief Main routine to execute flight software
+   * @note Users need to write flight software
    */
   virtual void MainRoutine(int count);
 
