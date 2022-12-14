@@ -31,7 +31,7 @@ class EXP : public ComponentBase, public ObcCommunicationBase, public IGPIOCompo
    * @note The prescaler is set as 1000
    * @param [in] clock_gen: Clock generator
    * @param [in] port_id: Port ID for communication line b/w OBC
-   * @param [in] obc:The communication target OBC
+   * @param [in] obc: The communication target OBC
    */
   EXP(ClockGenerator* clock_gen, int port_id, OBC* obc);
   /**
@@ -40,7 +40,7 @@ class EXP : public ComponentBase, public ObcCommunicationBase, public IGPIOCompo
    * @param [in] clock_gen: Clock generator
    * @param [in] port_id: Port ID for communication line b/w OBC
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] obc:The communication target OBC
+   * @param [in] obc: The communication target OBC
    */
   EXP(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc);
   /**
