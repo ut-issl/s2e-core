@@ -1,9 +1,26 @@
+/**
+ * @file IGPIOCompo.h
+ * @brief Interface class for components which have GPIO port
+ */
+
 #pragma once
+/**
+ * @class IGPIOCompo
+ * @brief Interface class for components which have GPIO port
+ */
 class IGPIOCompo {
  public:
+  /**
+   * @fn ~IGPIOCompo
+   * @brief Destructor
+   */
   virtual ~IGPIOCompo(){};
-  // GPIOのHIGH/LOWが変化したときに呼び出される
-  // GPIOはしばしば割り込み的に使われるので、用意した
-  // ポートにより振る舞いを変更する必要がある可能性があるので、引数にport_idを含める
+
+  /**
+   * @fn GPIOStateChanged
+   * @brief Pure virtual function called at the GPIO state is changed like interrupt function.
+   * @param[in] port_id: GPIO port ID
+   * @param[in] isPosedge: Flag to express positive edge or not
+   */
   virtual void GPIOStateChanged(int port_id, bool isPosedge) = 0;
 };
