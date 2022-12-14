@@ -1,7 +1,6 @@
 /*
  * @file Antenna.cpp
- * @brief Component emuration: RF antenna
- * @author 山本 智貴
+ * @brief Component emulation: RF antenna
  */
 
 #include "Antenna.hpp"
