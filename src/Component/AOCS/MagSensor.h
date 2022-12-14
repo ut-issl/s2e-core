@@ -36,7 +36,7 @@ class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILogg
             const MagEnvironment* magnet);
   /**
    * @fn MagSensor
-   * @brief Constructor without power port
+   * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_gen: Clock generator
    * @param [in] power_port: Power port
