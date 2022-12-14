@@ -47,6 +47,7 @@ class ComponentBase : public ITickable {
    */
   virtual ~ComponentBase();
 
+  // Override functions for ITickable
   /**
    * @fn Tick
    * @brief The methods to input clock. This will be called periodically.
