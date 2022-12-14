@@ -21,6 +21,7 @@ enum class OBC_COM_UART_MODE {
 /**
  * @class ObcCommunicationBase
  * @brief Base class for serial communication (e.g., UART) with OBC flight software
+ * @note Components which want to communicate with OBC using serial communication have to inherit this.
  */
 class ObcCommunicationBase {
  public:
