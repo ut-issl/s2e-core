@@ -31,14 +31,14 @@ class Antenna {
   /**
    * @fn CalcTxEIRP
    * @brief Calculation of TX EIRP
-   * @param theta: Target direction angle [rad]
+   * @param [in] theta: Target direction angle [rad]
    * @return TX EIRP [dBW]
    */
   double CalcTxEIRP(double theta) const;
   /**
    * @fn CalcRxGT
    * @brief Calculation of RX G/T
-   * @param theta: Target direction angle [rad]
+   * @param [in] theta: Target direction angle [rad]
    * @return RX G/T [dB/K]
    */
   double CalcRxGT(double theta) const;
