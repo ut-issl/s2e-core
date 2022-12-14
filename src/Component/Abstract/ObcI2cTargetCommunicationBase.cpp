@@ -1,3 +1,7 @@
+/**
+ * @file ObcI2cTargetCommunicationBase.cpp
+ * @brief Base class for I2C communication as target side with OBC flight software
+ */
 #include "ObcI2cTargetCommunicationBase.h"
 
 #include <iostream>
@@ -67,8 +71,7 @@ ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase() {
       if (ret != 0) {
         // TODO: Add a flag to select whether to show or hide warnings
         // std::cout << "Already closed or not used: ObcI2cTargetCommunication "
-        //              "CloseComPort ID:"
-        //           << sils_port_id_ << "\n";
+        //              "CloseComPort ID:" << sils_port_id_ << "\n";
       }
       break;
     case OBC_COM_UART_MODE::HILS:
@@ -76,8 +79,7 @@ ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase() {
       if (ret != 0) {
         // TODO: Add a flag to select whether to show or hide warnings
         // std::cout << "Already closed or not used: ObcI2cTargetCommunication "
-        //              "CloseComPort ID:"
-        //           << hils_port_id_ << "\n";
+        //              "CloseComPort ID:" << hils_port_id_ << "\n";
       }
       break;
     default:
