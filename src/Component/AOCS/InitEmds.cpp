@@ -1,3 +1,7 @@
+/**
+ * @file InitEmds.cpp
+ * @brief Initialize functions for EMDS
+ */
 #include "InitEmds.hpp"
 
 #include "Interface/InitInput/IniAccess.h"

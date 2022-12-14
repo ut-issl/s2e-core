@@ -1,3 +1,7 @@
+/**
+ * @file InitStt.cpp
+ * @brief Initialize functions for star sensor
+ */
 #include "InitStt.hpp"
 
 #include <Library/math/Constant.hpp>

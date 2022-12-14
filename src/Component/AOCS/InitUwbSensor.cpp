@@ -1,3 +1,7 @@
+/**
+ * @file InitUwbSensor.cpp
+ * @brief Initialize functions for UWB distance sensor
+ */
 #include "InitUwbSensor.hpp"
 
 #include "Interface/InitInput/IniAccess.h"
