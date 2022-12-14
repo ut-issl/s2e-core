@@ -1,3 +1,9 @@
+/**
+ * @file UWBSensor.h
+ * @brief Class to emulate Ultra Wide Band distance sensor
+ * @note This class is not managed now. TODO: Consider to delete.
+ */
+
 #pragma once
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
