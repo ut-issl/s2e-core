@@ -1,3 +1,8 @@
+/*
+ * @file InitAntenna.cpp
+ * @brief Initialize function for Antenna
+ */
+
 #define _CRT_SECURE_NO_WARNINGS
 #include "InitAntenna.hpp"
 
@@ -9,7 +14,6 @@
 
 using libra::Vector;
 
-// アンテナ初期化，ant_idで対応するアンテナ読み込み
 Antenna InitAntenna(int ant_id, const std::string fname) {
   IniAccess ant_conf(fname);
 
