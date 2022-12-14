@@ -52,14 +52,48 @@ class GNSSReceiver : public ComponentBase, public ILoggable {
   void MainRoutine(int count);
 
   // Getter
+  /**
+   * @fn GetGnssInfo
+   * @brief Return GNSS satellite information
+   * @param [in] ch: Channel number
+   */
   inline const GnssInfo GetGnssInfo(int ch) const { return vec_gnssinfo_[ch]; };
+  /**
+   * @fn GetPositionECI
+   * @brief Return Observed position in the ECI frame [m]
+   */
   inline const Vector<3> GetPositionECI(void) const { return position_eci_; }
+  /**
+   * @fn GetPositionECEF
+   * @brief Return Observed position in the ECEF frame [m]
+   */
   inline const Vector<3> GetPositionECEF(void) const { return position_ecef_; }
+  /**
+   * @fn GetPositionLLH
+   * @brief Return Observed position in the LLH frame [m]
+   */
   inline const Vector<3> GetPositionLLH(void) const { return position_llh_; }
+  /**
+   * @fn GetVelocityECI
+   * @brief Return Observed velocity in the ECI frame [m/s]
+   */
   inline const Vector<3> GetVelocityECI(void) const { return velocity_eci_; }
+  /**
+   * @fn GetVelocityECEF
+   * @brief Return Observed velocity in the ECEF frame [m/s]
+   */
   inline const Vector<3> GetVelocityECEF(void) const { return velocity_ecef_; }
 
+  // Override ILoggable
+  /**
+   * @fn GetLogHeader
+   * @brief Override GetLogHeader function of ILoggable
+   */
   virtual std::string GetLogHeader() const;
+  /**
+   * @fn GetLogValue
+   * @brief Override GetLogValue function of ILoggable
+   */
   virtual std::string GetLogValue() const;
 
  protected:
