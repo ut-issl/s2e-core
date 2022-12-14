@@ -17,7 +17,7 @@
 const size_t kGyroDim = 3;  //!< Dimension of gyro sensor
 
 /**
- * @file Gyro.h
+ * @class Gyro
  * @brief Class to emulate gyro sensor
  */
 class Gyro : public ComponentBase, public SensorBase<kGyroDim>, public ILoggable {
@@ -72,15 +72,14 @@ class Gyro : public ComponentBase, public SensorBase<kGyroDim>, public ILoggable
    */
   virtual std::string GetLogValue() const;
 
-  // Getter
   /**
    * @fn GetOmegaC
-   * @brief Return observed angular velocity of the body fixed frame with respect to the inertial frame
+   * @brief Return observed angular velocity of the component frame with respect to the inertial frame
    */
   inline const libra::Vector<kGyroDim>& GetOmegaC(void) const { return omega_c_; }
 
  protected:
-  libra::Vector<kGyroDim> omega_c_{0.0};         //!< Observed angular velocity of the body fixed frame with respect to the inertial frame
+  libra::Vector<kGyroDim> omega_c_{0.0};         //!< Observed angular velocity of the component frame with respect to the inertial frame [rad/s]
   int sensor_id_ = 0;                            //!< Sensor ID
   libra::Quaternion q_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
 
