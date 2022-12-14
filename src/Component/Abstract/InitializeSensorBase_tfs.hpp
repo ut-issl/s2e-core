@@ -1,3 +1,8 @@
+/**
+ * @file InitializeSensorBase_tfs.hpp
+ * @brief Initialize functions for SensorBase class (template functions)
+ */
+
 #pragma once
 #include "Interface/InitInput/IniAccess.h"
 
