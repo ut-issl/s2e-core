@@ -43,12 +43,51 @@ typedef struct _gnssinfo {
  */
 class GNSSReceiver : public ComponentBase, public ILoggable {
  public:
+  /**
+   * @fn GNSSReceiver
+   * @brief Constructor without power port
+   * @param [in] prescaler: Frequency scale factor for update
+   * @param [in] clock_gen: Clock generator
+   * @param [in] gnss_id: GNSS satellite number defined by GNSS system
+   * @param [in] ch_max: Maximum number of channels
+   * @param [in] antenna_model: Antenna model
+   * @param [in] ant_pos_b: GNSS antenna position at the body-fixed frame [m]
+   * @param [in] q_b2c: Quaternion from body frame to component frame (antenna frame)
+   * @param [in] half_width: Half width of the antenna cone model [rad]
+   * @param [in] noise_std: Standard deviation of normal random noise in the ECI frame [m]
+   * @param [in] dynamics: Dynamics information
+   * @param [in] gnss_satellites: GNSS Satellites information
+   * @param [in] simtime: Simulation time information
+   */
   GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const int id, const std::string gnss_id, const int ch_max,
                const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
                const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime);
+  /**
+   * @fn GNSSReceiver
+   * @brief Constructor with power port
+   * @param [in] prescaler: Frequency scale factor for update
+   * @param [in] clock_gen: Clock generator
+   * @param [in] power_port: Power port
+   * @param [in] gnss_id: GNSS satellite number defined by GNSS system
+   * @param [in] ch_max: Maximum number of channels
+   * @param [in] antenna_model: Antenna model
+   * @param [in] ant_pos_b: GNSS antenna position at the body-fixed frame [m]
+   * @param [in] q_b2c: Quaternion from body frame to component frame (antenna frame)
+   * @param [in] half_width: Half width of the antenna cone model [rad]
+   * @param [in] noise_std: Standard deviation of normal random noise in the ECI frame [m]
+   * @param [in] dynamics: Dynamics information
+   * @param [in] gnss_satellites: GNSS Satellites information
+   * @param [in] simtime: Simulation time information
+   */
   GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, std::string gnss_id, const int ch_max,
                const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
                const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime);
+
+  // Override functions for ComponentBase
+  /**
+   * @fn MainRoutine
+   * @brief Main routine for sensor observation
+   */
   void MainRoutine(int count);
 
   // Getter
@@ -100,13 +139,13 @@ class GNSSReceiver : public ComponentBase, public ILoggable {
   // Parameters for receiver
   const int id_;                  //!< Receiver ID (not used now)
   const int ch_max_;              //!< Maximum number of channels
-  Vector<3> antenna_position_b_;  //!< GNSS antenna position at the body-fixed frame
+  Vector<3> antenna_position_b_;  //!< GNSS antenna position at the body-fixed frame [m]
   Quaternion q_b2c_;              //!< Quaternion from body frame to component frame (antenna frame)
 
   libra::NormalRand nrs_eci_x_, nrs_eci_y_, nrs_eci_z_;  //!< Random noise for each axis
 
-  double half_width_ = 0.0;     //!< Half width of the antenna cone model
-  std::string gnss_id_;         //!< GNSS ID
+  double half_width_ = 0.0;     //!< Half width of the antenna cone model [rad]
+  std::string gnss_id_;         //!< GNSS satellite number defined by GNSS system
   AntennaModel antenna_model_;  //!< Antenna model
 
   // Calculated values
