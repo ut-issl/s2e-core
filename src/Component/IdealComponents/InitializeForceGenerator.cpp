@@ -1,3 +1,7 @@
+/*
+ * @file InitializeForceGenerator.cpp
+ * @brief Initialize function for ForceGenerator
+ */
 #include "InitializeForceGenerator.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
