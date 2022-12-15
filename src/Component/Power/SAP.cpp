@@ -3,8 +3,9 @@
 #include <Component/Power/CsvScenarioInterface.h>
 #include <Environment/Global/ClockGenerator.h>
 
-SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
-         double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info, double compo_step_time)
+SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
+         libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp,
+         const LocalCelestialInformation* local_celes_info, double compo_step_time)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       number_of_series_(number_of_series),
@@ -20,8 +21,8 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_s
   power_generation_ = 0.0;
 }
 
-SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
-         double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, double compo_step_time)
+SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
+         libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, double compo_step_time)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       number_of_series_(number_of_series),
@@ -100,8 +101,8 @@ void SAP::MainRoutine(int time_count) {
     libra::Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
     libra::Vector<3> sun_dir_b = libra::normalize(sun_pos_b);
     power_generation_ = cell_efficiency_ * transmission_efficiency_ * power_density * cell_area_ * number_of_parallel_ * number_of_series_ *
-                        inner_product(normal_vector_,
-                                      sun_dir_b);  //仮の実装．実際は太陽方向などからIVカーブを更新．動作電圧に応じた発電電力を求める
+                        inner_product(normal_vector_, sun_dir_b);
+    // TODO: Improve implementation. For example, update IV curve with sun direction and calculate generated power
   }
   if (power_generation_ < 0) power_generation_ = 0.0;
 }
