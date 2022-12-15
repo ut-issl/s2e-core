@@ -112,8 +112,7 @@ void Telescope::ObserveStars() {
     Vector<3> target_b = hipp_->GetStarDir_b(count, q_i2b);
     Vector<3> target_c = q_b2c_.frame_conv(target_b);
 
-    double arg_x = atan2(target_c[2], target_c[0]);
-    double arg_y = atan2(target_c[1], target_c[0]);  // Angle from X-axis on XY plane in the component frame
+    double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame
     double arg_y = atan2(target_c[1], target_c[0]);  // Angle from X-axis on XY plane in the component frame
 
     if (abs(arg_x) <= x_field_of_view_rad && abs(arg_y) <= y_field_of_view_rad) {
