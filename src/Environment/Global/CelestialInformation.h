@@ -78,7 +78,7 @@ class CelestialInformation : public ILoggable {
   Vector<3> GetPosFromCenter_i(const int id) const;
   /**
    * @fn GetPosFromCenter_i
-   * @brief Return position from the center body in the inertial frame [m/s]
+   * @brief Return position from the center body in the inertial frame [m]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
   Vector<3> GetPosFromCenter_i(const char* body_name) const;
