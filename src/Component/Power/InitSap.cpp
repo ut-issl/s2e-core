@@ -1,4 +1,8 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+﻿/*
+ * @file InitSap.cpp
+ * @brief Initialize function of SAP (Solar Array Panel)
+ */
+#define _CRT_SECURE_NO_WARNINGS
 #include "InitSap.hpp"
 
 #include <string.h>
@@ -36,8 +40,8 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
   double transmission_efficiency;
   transmission_efficiency = sap_conf.ReadDouble(Section, "transmission_efficiency");
 
-  SAP sap(prescaler, clock_gen, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency,
-          transmission_efficiency, srp, local_celes_info, compo_step_time);
+  SAP sap(prescaler, clock_gen, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency, transmission_efficiency, srp,
+          local_celes_info, compo_step_time);
 
   return sap;
 }
@@ -72,8 +76,8 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
   double transmission_efficiency;
   transmission_efficiency = sap_conf.ReadDouble(Section, "transmission_efficiency");
 
-  SAP sap(prescaler, clock_gen, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency,
-          transmission_efficiency, srp, compo_step_time);
+  SAP sap(prescaler, clock_gen, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency, transmission_efficiency, srp,
+          compo_step_time);
 
   return sap;
 }
