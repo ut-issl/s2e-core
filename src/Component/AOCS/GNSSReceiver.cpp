@@ -63,8 +63,8 @@ void GNSSReceiver::MainRoutine(int count) {
     utc_ = simtime_->GetCurrentUTC();
     ConvertJulianDayToGPSTime(simtime_->GetCurrentJd());
   } else {
-    // position information will not be updated in this case only time information will be updated in this case
-    // (according to the receiver's internal clock)
+    // position information will not be updated in this case
+    // only time information will be updated in this case (according to the receiver's internal clock)
     utc_ = simtime_->GetCurrentUTC();
     ConvertJulianDayToGPSTime(simtime_->GetCurrentJd());
   }

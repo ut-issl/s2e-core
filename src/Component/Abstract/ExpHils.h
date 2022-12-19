@@ -52,7 +52,7 @@ class ExpHils : public ComponentBase, public ObcCommunicationBase {
   const int kNumAlphabet = 26;                  //!< Number of Alphabet
   char memory_[kMemorySize] = {0, 0, 0, '\0'};  //!< Memory
   char tx_[kMemorySize] = {0, 0, 0, '\0'};      //!< TX(Telemetry send) buffer
-  const int mode_id_;                           //!<  Mode ID to select sender(0) or responder(1)
+  const int mode_id_;                           //!< Mode ID to select sender(0) or responder(1)
   int counter_ = 0;                             //!< Internal counter
 
   // Override functions for ObcComunication
