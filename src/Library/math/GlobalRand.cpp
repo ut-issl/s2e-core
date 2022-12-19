@@ -1,11 +1,17 @@
+/**
+ * @class GlobalRand.cpp
+ * @brief Class to manage global randomization
+ */
+
 #include "GlobalRand.h"
 
 GlobalRand g_rand;
 
 GlobalRand::GlobalRand() { seed_ = 0xdeadbeef; }
+
 void GlobalRand::SetSeed(long seed) {
   base_rand_.init(seed);
-  // double dl = base_rand_;  //慣らし
+  // double dl = base_rand_;
 }
 
 long GlobalRand::MakeSeed() {

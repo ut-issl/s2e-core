@@ -1,9 +1,8 @@
-/*!
-  \file   NormalRand.cpp
-  \author TAKISAWA Jun'ichi.
-  \date   Sat Oct  3 02:53:44 2009
-  \brief  NormalRand.hppの実装
-*/
+/**
+ * @file NormalRand.cpp
+ * @brief Class to generate random value with normal distribution with Box-Muller method
+ * @note Ref: NUMERICAL RECIPES in C, p.216-p.217
+ */
 #include "NormalRand.hpp"
 using libra::NormalRand;
 

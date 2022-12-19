@@ -1,3 +1,8 @@
+/**
+ * @file endian.h
+ * @brief Function to consider the endian
+ */
+
 #include "endian.h"
 
 #include <stdlib.h>
@@ -16,6 +21,6 @@ void *endian_memcpy(void *dst, const void *src, size_t size) {
 
   return dst;
 #else
-  return memcpy(dst, src, size);  // 基本ここは使われないはず。
+  return memcpy(dst, src, size);
 #endif  // IS_LITTLE_ENDIAN
 }

@@ -1,3 +1,9 @@
+/**
+ * @file igrf.h
+ * @brief Functions for IGRF (International Geo-magnetic reference frame) calculation
+ * @note The most of this code was copied from https://www.gsj.jp/data/openfile/no0423/index.html
+ */
+
 #ifndef __igrf_H__
 #define __igrf_H__
 

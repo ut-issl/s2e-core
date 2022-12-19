@@ -1,9 +1,7 @@
-/*!
-  \file   Quaternion.cpp
-  \author TAKISAWA, Jun'ichi.
-  \date   Fri Jul 10 23:55:34 2009
-  \brief  Quaternion.hppの実装
-*/
+/**
+ * @file Quaternion.hpp
+ * @brief Class for Quaternion
+ */
 
 #include "Quaternion.hpp"
 
@@ -14,7 +12,7 @@
 namespace libra {
 
 Quaternion::Quaternion(const Vector<3>& axis, double rot) {
-  rot *= 0.5;  // 回転角の1/2を計算
+  rot *= 0.5;
   q_[3] = cos(rot);
 
   // Vector<3> norm = normalize(axis);
@@ -41,8 +39,8 @@ Quaternion::Quaternion(const Vector<3>& v_before, const Vector<3>& v_after) {
     q_[1] = 0.0;
     q_[2] = 0.0;
     q_[3] = 1.0;
-  } else if (ip < -1.0 + DBL_EPSILON) {  // if theta=180deg, the rotation axis can't
-                                         // be defined, so rotate v_before manually
+  } else if (ip < -1.0 + DBL_EPSILON) {
+    // if theta=180deg, the rotation axis can't be defined, so rotate v_before manually
     Vector<3> rotation_axis = GenerateOrthoUnitVector(v_before);
     q_[0] = rotation_axis[0], q_[1] = rotation_axis[1], q_[2] = rotation_axis[2], q_[3] = 0.0;
   } else {
@@ -109,7 +107,7 @@ Quaternion Quaternion::normalize(void) {
   }
   if (n == 0.0) {
     return q_;
-  }  //零Quaternion
+  }  // zero Quaternion
 
   n = 1.0 / sqrt(n);
   for (int i = 0; i < 4; ++i) {
@@ -154,13 +152,13 @@ Quaternion Quaternion::fromDCM(Matrix<3, 3> dcm) {
   double maxval = 0;
   int maxidx = 0;
   for (int i = 0; i < 4; i++) {
-    // 最大値のインデックスをスキャン
+    // Scan maximum value index
     if (std::abs(q[i]) > maxval) {
       maxval = std::abs(q[i]);
       maxidx = i;
     }
   }
-  // 最大値を分母にして変換
+  // Use the maximum value as denominator
   switch (maxidx) {
     case 0:
       q[1] = (dcm[0][1] + dcm[1][0]) / (4 * q[0]);

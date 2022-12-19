@@ -1,26 +1,23 @@
-/*!
-  \file   Vector.cpp
-  \author TAKISAWA Jun'ichi.
-  \date   Sat Nov  6 02:44:24 2010
+/**
+ * @file Vector.cpp
+ * @brief Class for mathematical vector
+ */
 
-  \brief  Vector.hppで宣言された非template関数の定義
-*/
 #include "Vector.hpp"
 
 #include "Constant.hpp"
 
 namespace libra {
 Vector<3, double> ortho2spher(const Vector<3, double>& ortho) {
-  // 球座標結果格納先。全て0.0で初期化する。
-  Vector<3, double> spher;
+  Vector<3, double> spher;  // vector on the polar coordinate
   fill_up(spher, 0.0);
   spher[0] = norm(ortho);
-  // 零ベクトルの場合角度計算をスキップする。
+  // Skip when zero vector
   if (spher[0] == 0.0) {
     return spher;
   }
   spher[1] = acos(ortho[2] / spher[0]);
-  // ベクトルがz軸上の場合phi計算をスキップする。
+  // Skip phi calculation when the ortho is on the Z-axis
   if ((ortho[0] == 0.0) && (ortho[1] == 0.0)) {
     return spher;
   }
@@ -36,12 +33,12 @@ Vector<3, double> ortho2lonlat(const Vector<3, double>& ortho) {
   Vector<3, double> lonlat;
   fill_up(lonlat, 0.0);
   lonlat[0] = norm(ortho);
-  // 零ベクトルの場合角度計算をスキップする。
+  // Skip when zero vector
   if (lonlat[0] == 0.0) {
     return lonlat;
   }
   lonlat[1] = numbers::pi_2 - acos(ortho[2] / lonlat[0]);
-  // ベクトルがz軸上の場合phi計算をスキップする。
+  // Skip phi calculation when the ortho is on the Z-axis
   if ((ortho[0] == 0.0) && (ortho[1] == 0.0)) {
     return lonlat;
   }

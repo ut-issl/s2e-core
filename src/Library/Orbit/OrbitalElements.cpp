@@ -1,3 +1,8 @@
+/**
+ * @file OrbitalElements.cpp
+ * @brief Class for classical orbital elements
+ */
+
 #include "OrbitalElements.h"
 
 #include <cfloat>

@@ -1,6 +1,6 @@
 /**
- * @file   GaussianBeamBase.cpp
- * @brief  definition of the class "GaussianBeamBase"
+ * @file GaussianBeamBase.cpp
+ * @brief Class to express gaussian beam laser
  */
 
 #include "GaussianBeamBase.h"

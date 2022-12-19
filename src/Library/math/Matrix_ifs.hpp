@@ -1,9 +1,8 @@
-/*!
-  \file   Matrix_ifs.hpp
-  \author TAKISAWA, Jun'ichi.
-  \date   Sun Apr 24 14:21:50 2011
-  \brief  Matrix.hppのinline関数実装
-*/
+/**
+ * @file Matrix_ifs.hpp
+ * @brief Matrix class to handle math matrix with template
+ */
+
 #ifndef MATRIX_IFS_HPP_
 #define MATRIX_IFS_HPP_
 
@@ -12,7 +11,7 @@
 namespace libra {
 
 template <size_t R, size_t C, typename T>
-Matrix<R, C, T>::Matrix(){}
+Matrix<R, C, T>::Matrix() {}
 
 template <size_t R, size_t C, typename T>
 size_t Matrix<R, C, T>::row() const {
