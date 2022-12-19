@@ -1,9 +1,15 @@
+/**
+ * @file EMDS.h
+ * @brief Class to emulate Electro Magnetic Docking System
+ * @note This class is not managed now. TODO: Consider to delete.
+ */
+
 #pragma once
+
+#include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
-
-#include <Interface/LogOutput/ILoggable.h>
 
 class EMDS : public ILoggable {
  public:

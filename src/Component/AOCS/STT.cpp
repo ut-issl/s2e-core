@@ -1,3 +1,8 @@
+/*
+ * @file STT.cpp
+ * @brief Class to emulate star tracker
+ */
+
 #include "STT.h"
 
 #include <Interface/LogOutput/LogUtility.h>
@@ -194,8 +199,7 @@ double STT::CalAngleVect_rad(const Vector<3>& vect1, const Vector<3>& vect2) {
   normalize(vect1_normal);  // Normalize Vector1
   Vector<3> vect2_normal(vect2);
   normalize(vect2_normal);                                      // Normalize Vector2
-  double cosTheta = inner_product(vect1_normal, vect2_normal);  // Calc cos
-                                                                // value
+  double cosTheta = inner_product(vect1_normal, vect2_normal);  // Calc cos value
   double theta_rad = acos(cosTheta);
   return theta_rad;
 }

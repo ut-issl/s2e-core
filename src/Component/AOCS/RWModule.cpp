@@ -1,3 +1,9 @@
+/*
+ * @file RWModule.cpp
+ * @brief Class to combine four reaction wheels
+ * @note We recommend not to use this class. Users can make multiple RW by making multiple instances of RWModel. TODO: Delete this class.
+ */
+
 #include "RWModule.h"
 
 #include <Library/math/MatVec.hpp>

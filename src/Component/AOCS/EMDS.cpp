@@ -1,3 +1,9 @@
+/**
+ * @file EMDS.cpp
+ * @brief Class to emulate Electro Magnetic Docking System
+ * @note This class is not managed now. TODO: Consider to delete.
+ */
+
 #include "EMDS.h"
 
 #include <Library/math/Constant.hpp>

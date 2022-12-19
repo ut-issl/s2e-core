@@ -1,3 +1,7 @@
+/**
+ * @file I2cControllerCommunicationBase.cpp
+ * @brief This class simulates the I2C Controller communication with the I2C Target.
+ */
 #include "I2cControllerCommunicationBase.h"
 
 #include <iostream>

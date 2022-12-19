@@ -1,3 +1,7 @@
+/**
+ * @file MagSensor.cpp
+ * @brief Class to emulate magnetometer
+ */
 #include "MagSensor.h"
 
 #include <Library/math/Quaternion.hpp>

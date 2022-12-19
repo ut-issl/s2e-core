@@ -1,3 +1,8 @@
+/*
+ * @file InitTelescope.cpp
+ * @brief Initialize function of Telescope
+ */
+
 #include "InitTelescope.hpp"
 
 #include <string.h>
@@ -27,19 +32,19 @@ Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const string f
   Telescope_conf.ReadQuaternion(TelescopeSection, "q_b2c", q_b2c);
 
   double sun_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "sun_forbidden_angle");
-  double sun_forbidden_angle_rad = sun_forbidden_angle_deg * pi / 180;  // deg→rad変換
+  double sun_forbidden_angle_rad = sun_forbidden_angle_deg * pi / 180;  // deg to rad
   double earth_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "earth_forbidden_angle");
-  double earth_forbidden_angle_rad = earth_forbidden_angle_deg * pi / 180;  // deg→rad変換
+  double earth_forbidden_angle_rad = earth_forbidden_angle_deg * pi / 180;  // deg to rad
   double moon_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "moon_forbidden_angle");
-  double moon_forbidden_angle_rad = moon_forbidden_angle_deg * pi / 180;  // deg→rad変換
+  double moon_forbidden_angle_rad = moon_forbidden_angle_deg * pi / 180;  // deg to rad
 
   int x_num_of_pix = Telescope_conf.ReadInt(TelescopeSection, "x_num_of_pix");
   int y_num_of_pix = Telescope_conf.ReadInt(TelescopeSection, "y_num_of_pix");
 
   double x_fov_par_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "x_fov_par_pix");
-  double x_fov_par_pix_rad = x_fov_par_pix_deg * pi / 180;  // deg→rad変換
+  double x_fov_par_pix_rad = x_fov_par_pix_deg * pi / 180;  // deg to rad
   double y_fov_par_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "y_fov_par_pix");
-  double y_fov_par_pix_rad = y_fov_par_pix_deg * pi / 180;  // deg→rad変換
+  double y_fov_par_pix_rad = y_fov_par_pix_deg * pi / 180;  // deg to rad
 
   int num_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "num_of_logged_stars");
 

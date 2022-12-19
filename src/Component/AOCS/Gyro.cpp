@@ -1,3 +1,8 @@
+/**
+ * @file Gyro.cpp
+ * @brief Class to emulate gyro sensor (angular velocity sensor)
+ */
+
 #include "Gyro.h"
 
 #include "../CDH/OBC_C2A.h"

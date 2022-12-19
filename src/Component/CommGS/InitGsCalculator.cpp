@@ -1,3 +1,8 @@
+/*
+ * @file InitGscalculator.cpp
+ * @brief Initialize function for Ground Station Calculator
+ */
+
 #define _CRT_SECURE_NO_WARNINGS
 #include "InitGsCalculator.hpp"
 
@@ -5,7 +10,6 @@
 
 #include "Interface/InitInput/IniAccess.h"
 
-// 地上局計算クラス初期化
 GScalculator InitGScalculator(const std::string fname) {
   IniAccess gs_conf(fname);
 

@@ -1,3 +1,8 @@
+/**
+ * @file MagTorquer.cpp
+ * @brief Class to emulate magnetorquer
+ */
+
 #include "MagTorquer.h"
 
 #include <Interface/LogOutput/Logger.h>

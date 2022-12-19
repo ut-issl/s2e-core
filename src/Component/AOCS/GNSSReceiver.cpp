@@ -1,3 +1,8 @@
+/**
+ * @file GNSSReceiver.cpp
+ * @brief Class to emulate GNSS receiver
+ */
+
 #include "GNSSReceiver.h"
 
 #include <Library/math/GlobalRand.h>
@@ -59,8 +64,7 @@ void GNSSReceiver::MainRoutine(int count) {
     ConvertJulianDayToGPSTime(simtime_->GetCurrentJd());
   } else {
     // position information will not be updated in this case
-    // only time information will be updated in this case (according to the
-    // receiver's internal clock)
+    // only time information will be updated in this case (according to the receiver's internal clock)
     utc_ = simtime_->GetCurrentUTC();
     ConvertJulianDayToGPSTime(simtime_->GetCurrentJd());
   }
@@ -76,7 +80,7 @@ void GNSSReceiver::CheckAntenna(const Vector<3> pos_true_eci_, Quaternion q_i2b)
 void GNSSReceiver::CheckAntennaSimple(const Vector<3> pos_true_eci_, Quaternion q_i2b) {
   // Simplest model
   // GNSS sats are visible when antenna directs anti-earth direction
-  //  antenna normal vector at inertial frame
+  // antenna normal vector at inertial frame
   Vector<3> antenna_direction_c(0.0);
   antenna_direction_c[2] = 1.0;
   Vector<3> antenna_direction_b = q_b2c_.frame_conv_inv(antenna_direction_c);
@@ -169,6 +173,7 @@ void GNSSReceiver::AddNoise(Vector<3> location_true_eci, Vector<3> location_true
   position_eci_[1] = location_true_eci[1] + nrs_eci_y_;
   position_eci_[2] = location_true_eci[2] + nrs_eci_z_;
 
+  // FIXME: noise in ECI frame is added to ECEF frame value
   position_ecef_[0] = location_true_ecef[0] + nrs_eci_x_;
   position_ecef_[1] = location_true_ecef[1] + nrs_eci_y_;
   position_ecef_[2] = location_true_ecef[2] + nrs_eci_z_;

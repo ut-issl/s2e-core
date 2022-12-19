@@ -1,3 +1,7 @@
+/**
+ * @file ExpHilsI2cController.cpp
+ * @brief Example of component emulation for I2C controller side communication in HILS environment
+ */
 #include "ExpHilsI2cController.h"
 
 ExpHilsI2cController::ExpHilsI2cController(const int prescaler, ClockGenerator* clock_gen, const unsigned int hils_port_id,

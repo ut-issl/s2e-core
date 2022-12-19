@@ -1,7 +1,6 @@
 /*
  * @file GScalculator.cpp
- * @brief Emuration of analysis and calculation for Ground Stations
- * @author 山本 智貴
+ * @brief Emulation of analysis and calculation for Ground Stations
  */
 
 #include "GScalculator.h"

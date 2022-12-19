@@ -1,3 +1,8 @@
+/**
+ * @file SensorBase.cpp
+ * @brief Base class for sensor emulation to add noises
+ */
+
 #pragma once
 
 #include <Library/math/GlobalRand.h>

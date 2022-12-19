@@ -1,3 +1,7 @@
+/**
+ * @file InitMagSensor.cpp
+ * @brief Initialize functions for magnetometer
+ */
 #include "InitMagSensor.hpp"
 
 #include "Interface/InitInput/IniAccess.h"
@@ -13,6 +17,7 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::str
   magsensor_conf.ReadQuaternion(MSSection, "q_b2c", q_b2c);
 
   // SensorBase
+  // TODO: Use InitializeSensorBase
   Vector<kMagDim * kMagDim> sf_vec;
   magsensor_conf.ReadVector(MSSection, "ScaleFactor", sf_vec);
   Matrix<kMagDim, kMagDim> scale_factor;
@@ -54,6 +59,7 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int se
   magsensor_conf.ReadQuaternion(MSSection, "q_b2c", q_b2c);
 
   // SensorBase
+  // TODO: Use InitializeSensorBase
   Vector<kMagDim * kMagDim> sf_vec;
   magsensor_conf.ReadVector(MSSection, "ScaleFactor", sf_vec);
   Matrix<kMagDim, kMagDim> scale_factor;
