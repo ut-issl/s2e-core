@@ -2,15 +2,13 @@
 
 #include <Interface/InitInput/IniAccess.h>
 
-bool CsvScenarioInterface::is_csv_senario_enabled_;
-std::map<std::string, unsigned int> CsvScenarioInterface::buffer_line_id_;
-std::map<std::string, DoubleBuffer> CsvScenarioInterface::buffers_;
-
 void CsvScenarioInterface::Initialize(const std::string fname) {
   IniAccess scenario_conf(fname);
   char Section[30] = "SCENARIO";
 
-  CsvScenarioInterface::is_csv_senario_enabled_ = scenario_conf.ReadBoolean(Section, "is_csv_scenario_enabled");
+  CsvScenarioInterface::use_csv_sun_direction_ = scenario_conf.ReadBoolean(Section, "use_csv_sun_direction");
+  CsvScenarioInterface::use_csv_sun_flag_ = scenario_conf.ReadBoolean(Section, "use_csv_sun_flag");
+  CsvScenarioInterface::use_csv_power_consumption_ = scenario_conf.ReadBoolean(Section, "use_csv_power_consumption");
 
   std::string csv_path;
   csv_path = scenario_conf.ReadString(Section, "csv_path");
@@ -29,7 +27,11 @@ void CsvScenarioInterface::Initialize(const std::string fname) {
   }
 }
 
-bool CsvScenarioInterface::IsCsvScenarioEnabled() { return CsvScenarioInterface::is_csv_senario_enabled_; }
+bool CsvScenarioInterface::UseCsvSunDirection() { return CsvScenarioInterface::use_csv_sun_direction_; }
+
+bool CsvScenarioInterface::UseCsvSunFlag() { return CsvScenarioInterface::use_csv_sun_flag_; }
+
+bool CsvScenarioInterface::UseCsvSunDirection() { return CsvScenarioInterface::use_csv_power_consumption_; }
 
 libra::Vector<3> CsvScenarioInterface::GetSunDirectionBody(const double time_query) {
   libra::Vector<3> sun_dir_b;

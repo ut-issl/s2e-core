@@ -54,9 +54,10 @@ void PCU_InitialStudy::MainRoutine(int time_count) {
 }
 
 double PCU_InitialStudy::CalcPowerConsumption(double time_query) const {
-  if (CsvScenarioInterface::IsCsvScenarioEnabled()) {
+  if (CsvScenarioInterface::UseCsvPowerConsumption()) {
     return CsvScenarioInterface::GetPowerConsumption(time_query);
-  } else {
+  }
+  else {
     //仮の実装．
     // if (time_in_sec % 3600 < 600) {
     //   return 10.0;

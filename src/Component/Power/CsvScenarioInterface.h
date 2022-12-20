@@ -10,7 +10,9 @@ typedef std::map<double, double> DoubleBuffer;
 class CsvScenarioInterface {
  public:
   static void Initialize(const std::string fname);
-  static bool IsCsvScenarioEnabled();
+  static bool UseCsvSunDirection();
+  static bool UseCsvSunFlag();
+  static bool UseCsvPowerConsumption();
   static libra::Vector<3> GetSunDirectionBody(const double time_query);
   static bool GetSunFlag(const double time_query);
   static double GetPowerConsumption(const double time_query);
@@ -20,7 +22,9 @@ class CsvScenarioInterface {
   static void StoreBuffer(const std::string buffer_name, const std::vector<std::vector<double>>& data);
   static double GetValueFromBuffer(const std::string buffer_name, const double time_query);
 
-  static bool is_csv_senario_enabled_;
+  static bool use_csv_sun_direction_;
+  static bool use_csv_sun_flag_;
+  static bool use_csv_power_consumption_;
   static std::map<std::string, unsigned int> buffer_line_id_;
   static std::map<std::string, DoubleBuffer> buffers_;
 };

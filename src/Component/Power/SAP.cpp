@@ -88,20 +88,30 @@ std::string SAP::GetLogValue() const {
 }
 
 void SAP::MainRoutine(int time_count) {
-  if (CsvScenarioInterface::IsCsvScenarioEnabled()) {
-    double time_query = compo_step_time_ * time_count;
-    const auto solar_constant = srp_->GetSolarConstant();
+  libra::Vector<3> sun_dir_b;
+  double power_density;
+
+  double time_query = compo_step_time_ * time_count;
+  
+  if (CsvScenarioInterface::UseCsvSunDirection()) {
     libra::Vector<3> sun_direction_body = CsvScenarioInterface::GetSunDirectionBody(time_query);
-    libra::Vector<3> normalized_sun_direction_body = libra::normalize(sun_direction_body);
-    power_generation_ = cell_efficiency_ * transmission_efficiency_ * solar_constant * (int)CsvScenarioInterface::GetSunFlag(time_query) *
-                        cell_area_ * number_of_parallel_ * number_of_series_ * inner_product(normal_vector_, normalized_sun_direction_body);
-  } else {
-    const auto power_density = srp_->CalcPowerDensity();
-    libra::Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
-    libra::Vector<3> sun_dir_b = libra::normalize(sun_pos_b);
-    power_generation_ = cell_efficiency_ * transmission_efficiency_ * power_density * cell_area_ * number_of_parallel_ * number_of_series_ *
-                        inner_product(normal_vector_,
-                                      sun_dir_b);  //仮の実装．実際は太陽方向などからIVカーブを更新．動作電圧に応じた発電電力を求める
+    sun_dir_b = libra::normalize(sun_direction_body);
   }
+  else{
+    libra::Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
+    sun_dir_b = libra::normalize(sun_pos_b);
+  }
+
+  if (CsvScenarioInterface::UseCsvSunFlag()) {
+    power_density = srp_->GetSolarConstant() * (int)CsvScenarioInterface::GetSunFlag(time_query);
+  }
+  else
+  {
+    power_density = srp_->CalcPowerDensity();
+  }
+
+  power_generation_ = cell_efficiency_ * transmission_efficiency_ * power_density * cell_area_ * number_of_parallel_ * number_of_series_ *
+                        inner_product(normal_vector_, sun_dir_b);  //仮の実装．実際は太陽方向などからIVカーブを更新．動作電圧に応じた発電電力を求める
+
   if (power_generation_ < 0) power_generation_ = 0.0;
 }
