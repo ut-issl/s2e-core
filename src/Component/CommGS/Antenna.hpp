@@ -78,17 +78,19 @@ class Antenna {
   /**
    * @fn CalcTxEIRP
    * @brief Calculation of TX EIRP
-   * @param [in] theta: Target direction angle [rad]
+   * @param [in] theta: Angle from PZ axis on the antenna frame [rad]
+   * @param [in] phi: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
    * @return TX EIRP [dBW]
    */
-  double CalcTxEIRP(double theta) const;
+  double CalcTxEIRP(const double theta_rad, const double phi_rad = 0.0) const;
   /**
    * @fn CalcRxGT
    * @brief Calculation of RX G/T
-   * @param [in] theta: Target direction angle [rad]
+   * @param [in] theta: Angle from PZ axis on the antenna frame [rad]
+   * @param [in] phi: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
    * @return RX G/T [dB/K]
    */
-  double CalcRxGT(double theta) const;
+  double CalcRxGT(const double theta_rad, const double phi_rad = 0.0) const;
 
   // Getter
   /**
@@ -118,19 +120,20 @@ class Antenna {
   // Tx info
   double tx_output_power_W_;     //!< Transmit output power [W]
   AntennaParameters tx_params_;  //!< Tx parameters
-  double tx_eirp_;               //!< Transmit EIRP(Equivalent Isotropic Radiated Power) [dBW]
+  double tx_eirp_dBW_;               //!< Transmit EIRP(Equivalent Isotropic Radiated Power) [dBW]
 
   // Rx info
   double rx_system_noise_temperature_K_;  //!< Receive system noise temperature [K]
   AntennaParameters rx_params_;           //!< Rx parameters
-  double rx_gt_;                          //!< Receive G/T [dB/K]
+  double rx_gt_dBK_;                          //!< Receive G/T [dB/K]
 
   /**
    * @fn CalcAntennaGain
    * @brief Calculation antenna gain considering the target direction
-   * @param [in] theta: Target direction angle [rad]
    * @param [in] is_tx: Flag TX(True) or RX(False)
+   * @param [in] theta: Angle from PZ axis on the antenna frame [rad]
+   * @param [in] phi: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
    * @return Antenna gain [dB]
    */
-  double CalcAntennaGain(double theta, bool is_tx) const;
+  double CalcAntennaGain(const bool is_tx, const double theta_rad, const double phi_rad = 0.0) const;
 };
