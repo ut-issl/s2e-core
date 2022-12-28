@@ -8,6 +8,7 @@
 #include <Interface/InitInput/IniAccess.h>
 
 #include <Library/math/s2e_math.hpp>
+#include <algorithm>
 
 AntennaRadiationPattern::AntennaRadiationPattern() { gain_dB_.assign(length_theta_, std::vector<double>(length_phi_, 0.0)); }
 
