@@ -42,9 +42,17 @@ Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_tra
 }
 
 Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
-          const double tx_output_power_W, const AntennaParameters tx_params, const double rx_system_noise_temperature_K, const AntennaParameters rx_params)
-    : id_(id), q_b2c_(q_b2c), is_transmitter_(is_transmitter), is_receiver_(is_receiver), frequency_(frequency), tx_output_power_W_(tx_output_power_W), tx_params_(tx_params), rx_system_noise_temperature_K_(rx_system_noise_temperature_K), rx_params_(rx_params)
-{
+                 const double tx_output_power_W, const AntennaParameters tx_params, const double rx_system_noise_temperature_K,
+                 const AntennaParameters rx_params)
+    : id_(id),
+      q_b2c_(q_b2c),
+      is_transmitter_(is_transmitter),
+      is_receiver_(is_receiver),
+      frequency_(frequency),
+      tx_output_power_W_(tx_output_power_W),
+      tx_params_(tx_params),
+      rx_system_noise_temperature_K_(rx_system_noise_temperature_K),
+      rx_params_(rx_params) {
   // Calculate the EIRP or GT for the maximum gain
   if (is_transmitter_) {
     tx_eirp_dBW_ = 10 * log10(tx_output_power_W_) + tx_params_.gain_dBi_ + tx_params_.loss_feeder_dB_ + tx_params_.loss_pointing_dB_;
@@ -60,15 +68,24 @@ Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_tra
 
 Antenna::~Antenna() {}
 
-double Antenna::CalcAntennaGain(const bool is_tx, const double theta_rad, const double phi_rad) const {
-  // TODO: implement gain calculation considering the angle theta
-
-  if (is_tx) {
-    return tx_params_.gain_dBi_;
-  } else {
-    return rx_params_.gain_dBi_;
+double Antenna::CalcAntennaGain(const AntennaParameters ant_params, const double theta_rad, const double phi_rad) const {
+  double gain_dB = 0.0;
+  switch (ant_params.antenna_gain_model) {
+    case AntennaGainModel::ISOTROPIC:
+      gain_dB = ant_params.gain_dBi_;
+      break;
+    case AntennaGainModel::RADIATION_PATTERN_CSV:
+      gain_dB = ant_params.radiation_pattern.GetGain_dB(theta_rad, phi_rad);
+      break;
+    default:
+      break;
   }
+  return gain_dB;
 }
 
-double Antenna::CalcTxEIRP(const double theta_rad, const double phi_rad) const { return tx_eirp_dBW_ - tx_params_.gain_dBi_ + CalcAntennaGain(true, theta_rad, phi_rad); }
-double Antenna::CalcRxGT(const double theta_rad, const double phi_rad) const { return rx_gt_dBK_ - rx_params_.gain_dBi_ + CalcAntennaGain(false, theta_rad, phi_rad); }
+double Antenna::CalcTxEIRP(const double theta_rad, const double phi_rad) const {
+  return tx_eirp_dBW_ - tx_params_.gain_dBi_ + CalcAntennaGain(tx_params_, theta_rad, phi_rad);
+}
+double Antenna::CalcRxGT(const double theta_rad, const double phi_rad) const {
+  return rx_gt_dBK_ - rx_params_.gain_dBi_ + CalcAntennaGain(rx_params_, theta_rad, phi_rad);
+}

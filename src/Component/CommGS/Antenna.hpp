@@ -130,10 +130,10 @@ class Antenna {
   /**
    * @fn CalcAntennaGain
    * @brief Calculation antenna gain considering the target direction
-   * @param [in] is_tx: Flag TX(True) or RX(False)
+   * @param [in] ant_params: Antenna parameters
    * @param [in] theta: Angle from PZ axis on the antenna frame [rad]
    * @param [in] phi: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
    * @return Antenna gain [dB]
    */
-  double CalcAntennaGain(const bool is_tx, const double theta_rad, const double phi_rad = 0.0) const;
+  double CalcAntennaGain(const AntennaParameters ant_params, const double theta_rad, const double phi_rad = 0.0) const;  
 };

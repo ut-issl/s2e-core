@@ -43,7 +43,7 @@ class AntennaRadiationPattern {
    * @param[in] phi_rad: Angle for phi direction [rad]
    * @return Antenna gain [dB]
    */
-  double GetGain_dB(const double theta_rad, const double phi_rad);
+  double GetGain_dB(const double theta_rad, const double phi_rad) const;
 
  private:
   size_t length_theta_ = 360;                //!< Length of grid for theta direction

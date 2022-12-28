@@ -18,7 +18,7 @@ AntennaRadiationPattern::AntennaRadiationPattern(const std::string file_path) {
 
 AntennaRadiationPattern::~AntennaRadiationPattern() {}
 
-double AntennaRadiationPattern::GetGain_dB(const double theta_rad, const double phi_rad) {
+double AntennaRadiationPattern::GetGain_dB(const double theta_rad, const double phi_rad) const{
   // Argument check
   double theta_rad_clipped = theta_rad;
   double phi_rad_clipped = phi_rad;
