@@ -8,6 +8,30 @@
 #include <Library/math/Vector.hpp>
 using libra::Quaternion;
 using libra::Vector;
+#include <vector>
+
+#include "./AntennaRadiationPattern.hpp"
+
+/*
+ * @enum AntennaGainModel
+ * @brief Antenna gain model definition
+ */
+enum class AntennaGainModel {
+  ISOTROPIC,              //!< Ideal isotropic antenna
+  RADIATION_PATTERN_CSV,  //!< Radiation pattern obtained by CSV file
+};
+
+/*
+ * @struct AntennaParameters
+ * @brief Antenna parameters
+ */
+struct AntennaParameters {
+  double gain_dBi_;                           //!< Transmit maximum gain [dBi]
+  double loss_feeder_dB_;                     //!< Feeder loss [dB]
+  double loss_pointing_dB_;                   //!< Pointing loss [dB]
+  AntennaGainModel antenna_gain_model;        //!< Antenna gain model
+  AntennaRadiationPattern radiation_pattern;  //!< Radiation pattern
+};
 
 /*
  * @class Antenna
@@ -18,7 +42,14 @@ class Antenna {
   /**
    * @fn Antenna
    * @brief Constructor
-   * @param [in] clock_gen: Clock generator
+   * @param [in] id: Antenna ID
+   * @param [in] q_b2c: Coordinate transform from body to component
+   * @param [in] is_transmitter: Antenna for transmitter or not
+   * @param [in] is_receiver: Antenna for receiver or not
+   * @param [in] frequency: Center Frequency [MHz]
+   * @param [in] tx_params: output, gain, loss_feeder, loss_pointing for TX
+   * @param [in] rx_params: gain, loss_feeder, loss_pointing, system_temperature for RX
+   *
    */
   Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
           const Vector<4> tx_params, const Vector<4> rx_params);
@@ -67,18 +98,16 @@ class Antenna {
   bool is_transmitter_;  //!< Antenna for transmitter or not
   bool is_receiver_;     //!< Antenna for receiver or not
   double frequency_;     //!< Center Frequency [MHz]
+
   // Tx info
-  double tx_output_;         //!< RF output power [W]
-  double tx_gain_;           //!< Transmit maximum gain [dBi]
-  double tx_loss_feeder_;    //!< Feeder loss [dB]
-  double tx_loss_pointing_;  //!< Pointing loss [dB]
-  double tx_EIRP_;           //!< Transmit EIRP(Equivalent Isotropic Radiated Power) [dBW]
+  AntennaParameters tx_params_;  //!< Tx parameters
+  double tx_output_power_W_;     //!< Transmit output power [W]
+  double tx_eirp_;               //!< Transmit EIRP(Equivalent Isotropic Radiated Power) [dBW]
+
   // Rx info
-  double rx_gain_;                      //!< Receive maximum gain [dBi]
-  double rx_loss_feeder_;               //!< Feeder loss [dB]
-  double rx_loss_pointing_;             //!< Pointing loss [dB]
-  double rx_system_noise_temperature_;  //!< System noise temperature [K]
-  double rx_GT_;                        //!< Receive G/T [dB/K]
+  AntennaParameters rx_params_;           //!< Rx parameters
+  double rx_system_noise_temperature_K_;  //!< Receive system noise temperature [K]
+  double rx_gt_;                          //!< Receive G/T [dB/K]
 
   /**
    * @fn CalcAntennaGain
