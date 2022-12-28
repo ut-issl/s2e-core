@@ -42,6 +42,7 @@ class Antenna {
   /**
    * @fn Antenna
    * @brief Constructor
+   * @note TODO: This constructor will be removed.
    * @param [in] id: Antenna ID
    * @param [in] q_b2c: Coordinate transform from body to component
    * @param [in] is_transmitter: Antenna for transmitter or not
@@ -49,10 +50,25 @@ class Antenna {
    * @param [in] frequency: Center Frequency [MHz]
    * @param [in] tx_params: output, gain, loss_feeder, loss_pointing for TX
    * @param [in] rx_params: gain, loss_feeder, loss_pointing, system_temperature for RX
-   *
    */
   Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
           const Vector<4> tx_params, const Vector<4> rx_params);
+
+  /**
+   * @fn Antenna
+   * @brief Constructor
+   * @param [in] id: Antenna ID
+   * @param [in] q_b2c: Coordinate transform from body to component
+   * @param [in] is_transmitter: Antenna for transmitter or not
+   * @param [in] is_receiver: Antenna for receiver or not
+   * @param [in] frequency: Center Frequency [MHz]
+   * @param [in] tx_output_power_W: Transmit output power [W]
+   * @param [in] tx_params: TX antenna parameters
+   * @param [in] rx_system_noise_temperature_K: Receive system noise temperature [K]
+   * @param [in] rx_params: RX antenna parameters
+   */
+  Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
+          const double tx_output_power_W, const AntennaParameters tx_params, const double rx_system_noise_temperature_K, const AntennaParameters rx_params);
   /**
    * @fn ~Antenna
    * @brief Destructor
@@ -100,13 +116,13 @@ class Antenna {
   double frequency_;     //!< Center Frequency [MHz]
 
   // Tx info
-  AntennaParameters tx_params_;  //!< Tx parameters
   double tx_output_power_W_;     //!< Transmit output power [W]
+  AntennaParameters tx_params_;  //!< Tx parameters
   double tx_eirp_;               //!< Transmit EIRP(Equivalent Isotropic Radiated Power) [dBW]
 
   // Rx info
-  AntennaParameters rx_params_;           //!< Rx parameters
   double rx_system_noise_temperature_K_;  //!< Receive system noise temperature [K]
+  AntennaParameters rx_params_;           //!< Rx parameters
   double rx_gt_;                          //!< Receive G/T [dB/K]
 
   /**

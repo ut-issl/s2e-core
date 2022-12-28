@@ -12,6 +12,8 @@ Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_tra
                  const Vector<4> tx_params, const Vector<4> rx_params)
     : id_(id), is_transmitter_(is_transmitter), is_receiver_(is_receiver), frequency_(frequency) {
   q_b2c_ = q_b2c;
+
+  // Parameters
   tx_output_power_W_ = tx_params[0];
   tx_params_.gain_dBi_ = tx_params[1];
   tx_params_.loss_feeder_dB_ = tx_params[2];
@@ -22,6 +24,27 @@ Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_tra
   rx_params_.loss_pointing_dB_ = rx_params[2];
   rx_system_noise_temperature_K_ = rx_params[3];
 
+  // Antenna gain
+  tx_params_.antenna_gain_model = AntennaGainModel::ISOTROPIC;
+  rx_params_.antenna_gain_model = AntennaGainModel::ISOTROPIC;
+
+  // Calculate the EIRP or GT for the maximum gain
+  if (is_transmitter_) {
+    tx_eirp_ = 10 * log10(tx_output_power_W_) + tx_params_.gain_dBi_ + tx_params_.loss_feeder_dB_ + tx_params_.loss_pointing_dB_;
+  } else {
+    tx_eirp_ = 0.0;
+  }
+  if (is_receiver_) {
+    rx_gt_ = rx_params_.gain_dBi_ + rx_params_.loss_feeder_dB_ + rx_params_.loss_pointing_dB_ - 10 * std::log10(rx_system_noise_temperature_K_);
+  } else {
+    rx_gt_ = 0.0;
+  }
+}
+
+Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
+          const double tx_output_power_W, const AntennaParameters tx_params, const double rx_system_noise_temperature_K, const AntennaParameters rx_params)
+    : id_(id), q_b2c_(q_b2c), is_transmitter_(is_transmitter), is_receiver_(is_receiver), frequency_(frequency), tx_output_power_W_(tx_output_power_W), tx_params_(tx_params), rx_system_noise_temperature_K_(rx_system_noise_temperature_K), rx_params_(rx_params)
+{
   // Calculate the EIRP or GT for the maximum gain
   if (is_transmitter_) {
     tx_eirp_ = 10 * log10(tx_output_power_W_) + tx_params_.gain_dBi_ + tx_params_.loss_feeder_dB_ + tx_params_.loss_pointing_dB_;
