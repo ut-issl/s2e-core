@@ -30,21 +30,37 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
   bool is_receiver = antenna_conf.ReadBoolean(Section, "is_receiver");
   double frequency = antenna_conf.ReadDouble(Section, "frequency");
 
-  Vector<4> tx_params;
-  Vector<4> rx_params;
+  double tx_output_power_W = antenna_conf.ReadDouble(Section, "tx_output");
+  double rx_system_noise_temperature_K = antenna_conf.ReadDouble(Section, "rx_system_noise_temperature");
+
+  AntennaParameters tx_params;
   if (is_transmitter) {
-    tx_params[0] = antenna_conf.ReadDouble(Section, "tx_output");
-    tx_params[1] = antenna_conf.ReadDouble(Section, "tx_gain");
-    tx_params[2] = antenna_conf.ReadDouble(Section, "tx_loss_feeder");
-    tx_params[3] = antenna_conf.ReadDouble(Section, "tx_loss_pointing");
-  }
-  if (is_receiver) {
-    rx_params[0] = antenna_conf.ReadDouble(Section, "rx_gain");
-    rx_params[1] = antenna_conf.ReadDouble(Section, "rx_loss_feeder");
-    rx_params[2] = antenna_conf.ReadDouble(Section, "rx_loss_pointing");
-    rx_params[3] = antenna_conf.ReadDouble(Section, "rx_system_noise_temperature");
+    tx_params.gain_dBi_ = antenna_conf.ReadDouble(Section, "tx_gain");
+    tx_params.loss_feeder_dB_ = antenna_conf.ReadDouble(Section, "tx_loss_feeder");
+    tx_params.loss_pointing_dB_ = antenna_conf.ReadDouble(Section, "tx_loss_pointing");
+    tx_params.antenna_gain_model = SetAntennaGainModel(antenna_conf.ReadString(Section, "tx_antenna_gain_model"));
+    tx_params.radiation_pattern = AntennaRadiationPattern(antenna_conf.ReadString(Section, "tx_antenna_radiation_pattern_file"));
+  } else {
+    tx_params.gain_dBi_ = 0.0;
+    tx_params.loss_feeder_dB_ = 0.0;
+    tx_params.loss_pointing_dB_ = 0.0;
+    tx_params.antenna_gain_model = AntennaGainModel::ISOTROPIC;
   }
 
-  Antenna antenna(antenna_id, q_b2c, is_transmitter, is_receiver, frequency, tx_params, rx_params);
+  AntennaParameters rx_params;
+  if (is_receiver) {
+    rx_params.gain_dBi_ = antenna_conf.ReadDouble(Section, "rx_gain");
+    rx_params.loss_feeder_dB_ = antenna_conf.ReadDouble(Section, "rx_loss_feeder");
+    rx_params.loss_pointing_dB_ = antenna_conf.ReadDouble(Section, "rx_loss_pointing");
+    rx_params.antenna_gain_model = SetAntennaGainModel(antenna_conf.ReadString(Section, "rx_antenna_gain_model"));
+    rx_params.radiation_pattern = AntennaRadiationPattern(antenna_conf.ReadString(Section, "rx_antenna_radiation_pattern_file"));
+  } else {
+    rx_params.gain_dBi_ = 0.0;
+    rx_params.loss_feeder_dB_ = 0.0;
+    rx_params.loss_pointing_dB_ = 0.0;
+    rx_params.antenna_gain_model = AntennaGainModel::ISOTROPIC;
+  }
+
+  Antenna antenna(antenna_id, q_b2c, is_transmitter, is_receiver, frequency, tx_output_power_W, tx_params, rx_system_noise_temperature_K, rx_params);
   return antenna;
 }

@@ -24,6 +24,9 @@
 #include <Component/Propulsion/InitSimpleThruster.hpp>
 #include <Library/math/Vector.hpp>
 
+#include <Component/CommGS/InitAntenna.hpp>
+
+
 #include "../InstalledComponents.hpp"
 
 class OBC;
@@ -88,6 +91,9 @@ class SampleComponents : public InstalledComponents {
   RWModel* rw_;                      //!< Reaction Wheel
   SimpleThruster* thruster_;         //!< Thruster
   ForceGenerator* force_generator_;  //!< Ideal Force Generator
+
+  // CommGs
+  Antenna* antenna_;
 
   // HILS settings examples
   /*

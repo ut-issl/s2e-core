@@ -73,6 +73,10 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* st
   config_->main_logger_->CopyFileToLogDir(ini_path);
   force_generator_ = new ForceGenerator(InitializeForceGenerator(clock_gen, ini_path, dynamics_));
 
+  ini_path = iniAccess.ReadString("COMPONENTS_FILE", "antenna_file");
+  config_->main_logger_->CopyFileToLogDir(ini_path);
+  antenna_ = new Antenna(InitAntenna(1, ini_path));
+
   // PCU power port initial control
   pcu_->GetPowerPort(0)->SetVoltage(3.3);
   pcu_->GetPowerPort(1)->SetVoltage(3.3);
@@ -114,6 +118,7 @@ SampleComponents::~SampleComponents() {
   delete rw_;
   delete thruster_;
   delete force_generator_;
+  delete antenna_;
   delete pcu_;
   // delete exp_hils_uart_responder_;
   // delete exp_hils_uart_sender_;

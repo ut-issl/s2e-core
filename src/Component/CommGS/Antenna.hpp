@@ -68,7 +68,8 @@ class Antenna {
    * @param [in] rx_params: RX antenna parameters
    */
   Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
-          const double tx_output_power_W, const AntennaParameters tx_params, const double rx_system_noise_temperature_K, const AntennaParameters rx_params);
+          const double tx_output_power_W, const AntennaParameters tx_params, const double rx_system_noise_temperature_K,
+          const AntennaParameters rx_params);
   /**
    * @fn ~Antenna
    * @brief Destructor
@@ -120,12 +121,12 @@ class Antenna {
   // Tx info
   double tx_output_power_W_;     //!< Transmit output power [W]
   AntennaParameters tx_params_;  //!< Tx parameters
-  double tx_eirp_dBW_;               //!< Transmit EIRP(Equivalent Isotropic Radiated Power) [dBW]
+  double tx_eirp_dBW_;           //!< Transmit EIRP(Equivalent Isotropic Radiated Power) [dBW]
 
   // Rx info
   double rx_system_noise_temperature_K_;  //!< Receive system noise temperature [K]
   AntennaParameters rx_params_;           //!< Rx parameters
-  double rx_gt_dBK_;                          //!< Receive G/T [dB/K]
+  double rx_gt_dBK_;                      //!< Receive G/T [dB/K]
 
   /**
    * @fn CalcAntennaGain
@@ -135,5 +136,7 @@ class Antenna {
    * @param [in] phi: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
    * @return Antenna gain [dB]
    */
-  double CalcAntennaGain(const AntennaParameters ant_params, const double theta_rad, const double phi_rad = 0.0) const;  
+  double CalcAntennaGain(const AntennaParameters ant_params, const double theta_rad, const double phi_rad = 0.0) const;
 };
+
+AntennaGainModel SetAntennaGainModel(const std::string gain_model_name);

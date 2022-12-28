@@ -89,3 +89,13 @@ double Antenna::CalcTxEIRP(const double theta_rad, const double phi_rad) const {
 double Antenna::CalcRxGT(const double theta_rad, const double phi_rad) const {
   return rx_gt_dBK_ - rx_params_.gain_dBi_ + CalcAntennaGain(rx_params_, theta_rad, phi_rad);
 }
+
+AntennaGainModel SetAntennaGainModel(const std::string gain_model_name) {
+  if (gain_model_name == "ISOTROPIC") {
+    return AntennaGainModel::ISOTROPIC;
+  } else if (gain_model_name == "RADIATION_PATTERN_CSV") {
+    return AntennaGainModel::RADIATION_PATTERN_CSV;
+  } else {
+    return AntennaGainModel::ISOTROPIC;
+  }
+}
