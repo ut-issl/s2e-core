@@ -18,6 +18,7 @@ class AntennaRadiationPattern {
   /**
    * @fn AntennaRadiationPattern
    * @brief Default Constructor
+   * @note The gain table is initialized as all zero value
    */
   AntennaRadiationPattern();
 

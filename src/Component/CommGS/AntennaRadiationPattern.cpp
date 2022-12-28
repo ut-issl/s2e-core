@@ -5,17 +5,15 @@
 
 #include "AntennaRadiationPattern.hpp"
 
-#include <Library/math/s2e_math.hpp>
-
 #include <Interface/InitInput/IniAccess.h>
 
-AntennaRadiationPattern::AntennaRadiationPattern() {
-  gain_dB_.assign(length_theta_, std::vector<double>(length_phi_, 0.0));
-}
+#include <Library/math/s2e_math.hpp>
+
+AntennaRadiationPattern::AntennaRadiationPattern() { gain_dB_.assign(length_theta_, std::vector<double>(length_phi_, 0.0)); }
 
 AntennaRadiationPattern::AntennaRadiationPattern(std::string file_path) {
   IniAccess gain_file(file_path);
-  gain_file.ReadCsvDouble(gain_dB_, std::max(length_theta_, length_phi_)); 
+  gain_file.ReadCsvDouble(gain_dB_, std::max(length_theta_, length_phi_));
 }
 
 AntennaRadiationPattern::~AntennaRadiationPattern() {}
