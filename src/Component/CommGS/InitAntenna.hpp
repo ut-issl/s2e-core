@@ -9,7 +9,7 @@
 /*
  * @fn InitAntenna
  * @brief Initialize function for Antenna
- * @param [in] ant_id: Antenna ID
- * @param [in] fname: Path to initialize file
+ * @param [in] antenna_id: Antenna ID
+ * @param [in] file_name: Path to initialize file
  */
-Antenna InitAntenna(int ant_id, const std::string fname);
+Antenna InitAntenna(const int antenna_id, const std::string file_name);
