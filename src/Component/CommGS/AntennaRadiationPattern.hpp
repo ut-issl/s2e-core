@@ -6,6 +6,7 @@
 #pragma once
 #include <Library/math/Constant.hpp>
 #include <vector>
+#include <string>
 
 /*
  * @class AntennaRadiationPattern
@@ -27,7 +28,7 @@ class AntennaRadiationPattern {
    * @brief Constructor
    * @param[in] file_path: Path to antenna pattern CSV file
    */
-  AntennaRadiationPattern(std::string file_path);
+  AntennaRadiationPattern(const std::string file_path);
 
   /**
    * @fn ~AntennaRadiationPattern

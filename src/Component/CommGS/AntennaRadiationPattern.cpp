@@ -11,7 +11,7 @@
 
 AntennaRadiationPattern::AntennaRadiationPattern() { gain_dB_.assign(length_theta_, std::vector<double>(length_phi_, 0.0)); }
 
-AntennaRadiationPattern::AntennaRadiationPattern(std::string file_path) {
+AntennaRadiationPattern::AntennaRadiationPattern(const std::string file_path) {
   IniAccess gain_file(file_path);
   gain_file.ReadCsvDouble(gain_dB_, std::max(length_theta_, length_phi_));
 }
