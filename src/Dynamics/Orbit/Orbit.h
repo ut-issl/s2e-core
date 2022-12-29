@@ -26,11 +26,11 @@ using libra::Vector;
  * @brief Propagation mode of orbit
  */
 enum class OrbitPropagateMode {
-  RK4 = 0,         //!< 4th order Runge-Kutta propagation with disturbances and thruster maneuver
-  SGP4,            //!< SGP4 propagation using TLE without thruster maneuver
-  RELATIVE_ORBIT,  //!< Relative dynamics (for formation flying simulation)
-  KEPLER,          //!< Kepler orbit propagation without disturbances and thruster maneuver
-  ENCKE            //!< Encke orbit propagation with disturbances and thruster maneuver
+  kRk4 = 0,        //!< 4th order Runge-Kutta propagation with disturbances and thruster maneuver
+  kSgp4,           //!< SGP4 propagation using TLE without thruster maneuver
+  kRelativeOrbit,  //!< Relative dynamics (for formation flying simulation)
+  kKepler,         //!< Kepler orbit propagation without disturbances and thruster maneuver
+  kEncke           //!< Encke orbit propagation with disturbances and thruster maneuver
 };
 
 /**
@@ -188,7 +188,7 @@ class Orbit : public ILoggable {
   const CelestialInformation* celes_info_;  //!< Celestial information
 
   // Settings
-  bool is_calc_enabled_ = false;   //!< Calculate flag
+  bool is_calc_enabled_ = false;       //!< Calculate flag
   OrbitPropagateMode propagate_mode_;  //!< Propagation mode
 
   Vector<3> sat_position_i_;           //!< Spacecraft position in the inertial frame [m]
