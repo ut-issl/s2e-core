@@ -22,10 +22,10 @@ using libra::Vector;
 #include <Library/Geodesy/GeodeticPosition.hpp>
 
 /**
- * @enum ORBIT_PROPAGATE_MODE
+ * @enum OrbitPropagateMode
  * @brief Propagation mode of orbit
  */
-enum class ORBIT_PROPAGATE_MODE {
+enum class OrbitPropagateMode {
   RK4 = 0,         //!< 4th order Runge-Kutta propagation with disturbances and thruster maneuver
   SGP4,            //!< SGP4 propagation using TLE without thruster maneuver
   RELATIVE_ORBIT,  //!< Relative dynamics (for formation flying simulation)
@@ -84,7 +84,7 @@ class Orbit : public ILoggable {
    * @fn GetPropagateMode
    * @brief Return propagate mode
    */
-  inline ORBIT_PROPAGATE_MODE GetPropagateMode() const { return propagate_mode_; }
+  inline OrbitPropagateMode GetPropagateMode() const { return propagate_mode_; }
   /**
    * @fn GetSatPosition_i
    * @brief Return spacecraft position in the inertial frame [m]
@@ -189,7 +189,7 @@ class Orbit : public ILoggable {
 
   // Settings
   bool is_calc_enabled_ = false;   //!< Calculate flag
-  ORBIT_PROPAGATE_MODE propagate_mode_;  //!< Propagation mode
+  OrbitPropagateMode propagate_mode_;  //!< Propagation mode
 
   Vector<3> sat_position_i_;           //!< Spacecraft position in the inertial frame [m]
   Vector<3> sat_position_ecef_;        //!< Spacecraft position in the ECEF frame [m]
