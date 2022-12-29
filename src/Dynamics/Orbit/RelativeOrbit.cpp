@@ -20,7 +20,7 @@ RelativeOrbit::RelativeOrbit(const CelestialInformation* celes_info, double mu, 
       relative_dynamics_model_type_(relative_dynamics_model_type),
       stm_model_type_(stm_model_type),
       rel_info_(rel_info) {
-  propagate_mode_ = PROPAGATE_MODE::RELATIVE_ORBIT;
+  propagate_mode_ = ORBIT_PROPAGATE_MODE::RELATIVE_ORBIT;
 
   prop_time_ = 0.0;
   prop_step_ = timestep;
