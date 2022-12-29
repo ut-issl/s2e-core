@@ -22,7 +22,7 @@ using libra::Vector;
 #include <Library/Geodesy/GeodeticPosition.hpp>
 
 /**
- * @enum PROPAGATE_MODE
+ * @enum ORBIT_PROPAGATE_MODE
  * @brief Propagation mode of orbit
  */
 enum class ORBIT_PROPAGATE_MODE {
