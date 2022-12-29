@@ -34,6 +34,16 @@ enum class OrbitPropagateMode {
 };
 
 /**
+ * @enum OrbitInitializeMode
+ * @brief Initialize mode of orbit
+ */
+enum class OrbitInitializeMode {
+  kDefault = 0,                  //!< Default
+  kInertialPositionAndVelocity,  //!< Position and velocity in the inertial frame
+  kOrbitalElements,              //!< Orbital elements
+};
+
+/**
  * @class Orbit
  * @brief Base class of orbit propagation
  */
@@ -188,8 +198,9 @@ class Orbit : public ILoggable {
   const CelestialInformation* celes_info_;  //!< Celestial information
 
   // Settings
-  bool is_calc_enabled_ = false;       //!< Calculate flag
-  OrbitPropagateMode propagate_mode_;  //!< Propagation mode
+  bool is_calc_enabled_ = false;         //!< Calculate flag
+  OrbitPropagateMode propagate_mode_;    //!< Propagation mode
+  OrbitInitializeMode initialize_mode_;  // A< Initialize mode
 
   Vector<3> sat_position_i_;           //!< Spacecraft position in the inertial frame [m]
   Vector<3> sat_position_ecef_;        //!< Spacecraft position in the ECEF frame [m]
@@ -214,5 +225,7 @@ class Orbit : public ILoggable {
    */
   void TransEcefToGeo(void);
 };
+
+OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode);
 
 #endif  //__orbit_H__
