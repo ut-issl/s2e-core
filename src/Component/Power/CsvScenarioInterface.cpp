@@ -2,6 +2,12 @@
 
 #include <Interface/InitInput/IniAccess.h>
 
+bool CsvScenarioInterface::use_csv_sun_direction_;
+bool CsvScenarioInterface::use_csv_sun_flag_;
+bool CsvScenarioInterface::use_csv_power_consumption_;
+std::map<std::string, unsigned int> CsvScenarioInterface::buffer_line_id_;
+std::map<std::string, DoubleBuffer> CsvScenarioInterface::buffers_;
+
 void CsvScenarioInterface::Initialize(const std::string fname) {
   IniAccess scenario_conf(fname);
   char Section[30] = "SCENARIO";
@@ -31,7 +37,7 @@ bool CsvScenarioInterface::UseCsvSunDirection() { return CsvScenarioInterface::u
 
 bool CsvScenarioInterface::UseCsvSunFlag() { return CsvScenarioInterface::use_csv_sun_flag_; }
 
-bool CsvScenarioInterface::UseCsvSunDirection() { return CsvScenarioInterface::use_csv_power_consumption_; }
+bool CsvScenarioInterface::UseCsvPowerConsumption() { return CsvScenarioInterface::use_csv_power_consumption_; }
 
 libra::Vector<3> CsvScenarioInterface::GetSunDirectionBody(const double time_query) {
   libra::Vector<3> sun_dir_b;
