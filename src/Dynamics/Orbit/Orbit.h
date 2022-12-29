@@ -22,6 +22,18 @@ using libra::Vector;
 #include <Library/Geodesy/GeodeticPosition.hpp>
 
 /**
+ * @enum PROPAGATE_MODE
+ * @brief Propagation mode of orbit
+ */
+enum class PROPAGATE_MODE {
+  RK4 = 0,         //!< 4th order Runge-Kutta propagation with disturbances and thruster maneuver
+  SGP4,            //!< SGP4 propagation using TLE without thruster maneuver
+  RELATIVE_ORBIT,  //!< Relative dynamics (for formation flying simulation)
+  KEPLER,          //!< Kepler orbit propagation without disturbances and thruster maneuver
+  ENCKE            //!< Encke orbit propagation with disturbances and thruster maneuver
+};
+
+/**
  * @class Orbit
  * @brief Base class of orbit propagation
  */
@@ -38,12 +50,6 @@ class Orbit : public ILoggable {
    * @brief Destructor
    */
   virtual ~Orbit() {}
-
-  /**
-   * @enum PROPAGATE_MODE
-   * @brief Propagation mode of orbit
-   */
-  enum class PROPAGATE_MODE { RK4 = 0, SGP4, RELATIVE_ORBIT, KEPLER, ENCKE };
 
   /**
    * @fn Propagate
