@@ -12,7 +12,7 @@ using namespace std;
 
 Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd)
     : Orbit(celes_info) {
-  propagate_mode_ = PROPAGATE_MODE::SGP4;
+  propagate_mode_ = OrbitPropagateMode::kSgp4;
 
   if (wgs == 0) {
     whichconst_ = wgs72old;

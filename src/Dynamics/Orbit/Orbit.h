@@ -22,6 +22,28 @@ using libra::Vector;
 #include <Library/Geodesy/GeodeticPosition.hpp>
 
 /**
+ * @enum OrbitPropagateMode
+ * @brief Propagation mode of orbit
+ */
+enum class OrbitPropagateMode {
+  kRk4 = 0,        //!< 4th order Runge-Kutta propagation with disturbances and thruster maneuver
+  kSgp4,           //!< SGP4 propagation using TLE without thruster maneuver
+  kRelativeOrbit,  //!< Relative dynamics (for formation flying simulation)
+  kKepler,         //!< Kepler orbit propagation without disturbances and thruster maneuver
+  kEncke           //!< Encke orbit propagation with disturbances and thruster maneuver
+};
+
+/**
+ * @enum OrbitInitializeMode
+ * @brief Initialize mode of orbit
+ */
+enum class OrbitInitializeMode {
+  kDefault = 0,                  //!< Default
+  kInertialPositionAndVelocity,  //!< Position and velocity in the inertial frame
+  kOrbitalElements,              //!< Orbital elements
+};
+
+/**
  * @class Orbit
  * @brief Base class of orbit propagation
  */
@@ -38,12 +60,6 @@ class Orbit : public ILoggable {
    * @brief Destructor
    */
   virtual ~Orbit() {}
-
-  /**
-   * @enum PROPAGATE_MODE
-   * @brief Propagation mode of orbit
-   */
-  enum class PROPAGATE_MODE { RK4 = 0, SGP4, RELATIVE_ORBIT, KEPLER, ENCKE };
 
   /**
    * @fn Propagate
@@ -78,7 +94,7 @@ class Orbit : public ILoggable {
    * @fn GetPropagateMode
    * @brief Return propagate mode
    */
-  inline PROPAGATE_MODE GetPropagateMode() const { return propagate_mode_; }
+  inline OrbitPropagateMode GetPropagateMode() const { return propagate_mode_; }
   /**
    * @fn GetSatPosition_i
    * @brief Return spacecraft position in the inertial frame [m]
@@ -182,8 +198,8 @@ class Orbit : public ILoggable {
   const CelestialInformation* celes_info_;  //!< Celestial information
 
   // Settings
-  bool is_calc_enabled_ = false;   //!< Calculate flag
-  PROPAGATE_MODE propagate_mode_;  //!< Propagation mode
+  bool is_calc_enabled_ = false;       //!< Calculate flag
+  OrbitPropagateMode propagate_mode_;  //!< Propagation mode
 
   Vector<3> sat_position_i_;           //!< Spacecraft position in the inertial frame [m]
   Vector<3> sat_position_ecef_;        //!< Spacecraft position in the ECEF frame [m]
@@ -208,5 +224,7 @@ class Orbit : public ILoggable {
    */
   void TransEcefToGeo(void);
 };
+
+OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode);
 
 #endif  //__orbit_H__

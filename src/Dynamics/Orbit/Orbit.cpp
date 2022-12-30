@@ -40,3 +40,15 @@ void Orbit::TransEciToEcef(void) {
 }
 
 void Orbit::TransEcefToGeo(void) { sat_position_geo_.UpdateFromEcef(sat_position_ecef_); }
+
+OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode) {
+  if (initialize_mode == "DEFAULT") {
+    return OrbitInitializeMode::kDefault;
+  } else if (initialize_mode == "POSITION_VELOCITY_I") {
+    return OrbitInitializeMode::kInertialPositionAndVelocity;
+  } else if (initialize_mode == "ORBITAL_ELEMENTS") {
+    return OrbitInitializeMode::kOrbitalElements;
+  } else {
+    return OrbitInitializeMode::kDefault;
+  }
+}
