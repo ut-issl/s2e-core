@@ -28,6 +28,10 @@ class AntennaRadiationPattern {
    * @fn AntennaRadiationPattern
    * @brief Constructor
    * @param[in] file_path: Path to antenna pattern CSV file
+   * @param[in] length_theta_: Length of grid for theta direction
+   * @param[in] length_phi_: Length of grid for phi direction
+   * @param[in] theta_max_rad_: Maximum value of theta
+   * @param[in] phi_max_rad_: Maximum value of phi
    */
   AntennaRadiationPattern(const std::string file_path, const size_t length_theta = 360, const size_t length_phi = 181,
                           const double theta_max_rad = libra::tau, const double phi_max_rad = libra::pi);
@@ -39,10 +43,10 @@ class AntennaRadiationPattern {
   ~AntennaRadiationPattern();
 
   /**
-   * @fn GetGain_dB
-   * @brief Get antenna gain [dB]
-   * @param[in] theta_rad: Angle for theta direction [rad]
-   * @param[in] phi_rad: Angle for phi direction [rad]
+   * @fn GetGain_dBi
+   * @brief Get antenna gain [dBi]
+   * @param[in] theta_rad: theta = [0, max_theta], theta = 0 is on the plus Z axis
+   * @param[in] phi_rad: phi = [0, max_phi], phi = 0 is on the plus X axis, and phi = pi/2 is on the plus Y axis
    * @return Antenna gain [dBi]
    */
   double GetGain_dBi(const double theta_rad, const double phi_rad) const;
@@ -53,5 +57,5 @@ class AntennaRadiationPattern {
   double theta_max_rad_;  //!< Maximum value of theta
   double phi_max_rad_;    //!< Maximum value of phi
 
-  std::vector<std::vector<double>> gain_dBi_;  //!< Antenna gain table
+  std::vector<std::vector<double>> gain_dBi_;  //!< Antenna gain table [dBi]
 };
