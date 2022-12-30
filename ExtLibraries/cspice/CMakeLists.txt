@@ -1,6 +1,6 @@
 project(cspice)
 
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.18)
 
 include(ExternalProject)
 include(FetchContent)

@@ -1,6 +1,6 @@
 project(ExtLibraries)
 
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.18)
 
 # build config
 option(BUILD_64BIT "Build 64bit" OFF)
