@@ -137,7 +137,7 @@ class IniAccess {
   // Read CSV functions TODO: Make new class for CSV file
   /**
    * @fn Split
-   * @brief Return true when the read value is ENABLE or 1.
+   * @brief Split inputted strings with the delimiter.
    * @param[in] input: Input string
    * @param[in] delimiter: Delimiter to split the string
    * @return List of string splitted by the delimiter

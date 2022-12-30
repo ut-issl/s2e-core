@@ -20,6 +20,7 @@
 #include <Component/AOCS/InitRwModel.hpp>
 #include <Component/AOCS/InitStt.hpp>
 #include <Component/AOCS/InitSunSensor.hpp>
+#include <Component/CommGS/InitAntenna.hpp>
 #include <Component/IdealComponents/InitializeForceGenerator.hpp>
 #include <Component/Propulsion/InitSimpleThruster.hpp>
 #include <Library/math/Vector.hpp>
@@ -88,6 +89,9 @@ class SampleComponents : public InstalledComponents {
   RWModel* rw_;                      //!< Reaction Wheel
   SimpleThruster* thruster_;         //!< Thruster
   ForceGenerator* force_generator_;  //!< Ideal Force Generator
+
+  // CommGs
+  Antenna* antenna_;  //!< Antenna
 
   // HILS settings examples
   /*
