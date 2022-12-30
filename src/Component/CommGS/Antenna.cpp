@@ -30,12 +30,12 @@ Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_tra
 
   // Calculate the EIRP or GT for the maximum gain
   if (is_transmitter_) {
-    tx_eirp_dBW_ = 10 * log10(tx_output_power_W_) + tx_params_.gain_dBi_ + tx_params_.loss_feeder_dB_ + tx_params_.loss_pointing_dB_;
+    tx_eirp_dBW_ = 10 * log10(tx_output_power_W_) + tx_params_.loss_feeder_dB_ + tx_params_.loss_pointing_dB_;
   } else {
     tx_eirp_dBW_ = 0.0;
   }
   if (is_receiver_) {
-    rx_gt_dBK_ = rx_params_.gain_dBi_ + rx_params_.loss_feeder_dB_ + rx_params_.loss_pointing_dB_ - 10 * std::log10(rx_system_noise_temperature_K_);
+    rx_gt_dBK_ = rx_params_.loss_feeder_dB_ + rx_params_.loss_pointing_dB_ - 10 * std::log10(rx_system_noise_temperature_K_);
   } else {
     rx_gt_dBK_ = 0.0;
   }
@@ -55,12 +55,12 @@ Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_tra
       rx_params_(rx_params) {
   // Calculate the EIRP or GT for the maximum gain
   if (is_transmitter_) {
-    tx_eirp_dBW_ = 10 * log10(tx_output_power_W_) + tx_params_.gain_dBi_ + tx_params_.loss_feeder_dB_ + tx_params_.loss_pointing_dB_;
+    tx_eirp_dBW_ = 10 * log10(tx_output_power_W_) + tx_params_.loss_feeder_dB_ + tx_params_.loss_pointing_dB_;
   } else {
     tx_eirp_dBW_ = 0.0;
   }
   if (is_receiver_) {
-    rx_gt_dBK_ = rx_params_.gain_dBi_ + rx_params_.loss_feeder_dB_ + rx_params_.loss_pointing_dB_ - 10 * std::log10(rx_system_noise_temperature_K_);
+    rx_gt_dBK_ = rx_params_.loss_feeder_dB_ + rx_params_.loss_pointing_dB_ - 10 * std::log10(rx_system_noise_temperature_K_);
   } else {
     rx_gt_dBK_ = 0.0;
   }
@@ -84,10 +84,10 @@ double Antenna::CalcAntennaGain(const AntennaParameters ant_params, const double
 }
 
 double Antenna::CalcTxEIRP(const double theta_rad, const double phi_rad) const {
-  return tx_eirp_dBW_ - tx_params_.gain_dBi_ + CalcAntennaGain(tx_params_, theta_rad, phi_rad);
+  return tx_eirp_dBW_ + CalcAntennaGain(tx_params_, theta_rad, phi_rad);
 }
 double Antenna::CalcRxGT(const double theta_rad, const double phi_rad) const {
-  return rx_gt_dBK_ - rx_params_.gain_dBi_ + CalcAntennaGain(rx_params_, theta_rad, phi_rad);
+  return rx_gt_dBK_ + CalcAntennaGain(rx_params_, theta_rad, phi_rad);
 }
 
 AntennaGainModel SetAntennaGainModel(const std::string gain_model_name) {
