@@ -31,10 +31,10 @@ double AntennaRadiationPattern::GetGain_dBi(const double theta_rad, const double
   if (phi_rad_clipped > phi_max_rad_) phi_rad_clipped = phi_max_rad_;
 
   // Calc index
-  size_t theta_idx = (size_t)(length_theta_ * theta_rad_clipped / theta_max_rad_);
-  if (theta_idx > length_theta_) theta_idx = length_theta_;
-  size_t phi_idx = (size_t)(length_phi_ * phi_rad_clipped / phi_max_rad_);
-  if (phi_idx > length_phi_) phi_idx = length_phi_;
+  size_t theta_idx = (size_t)(length_theta_ * theta_rad_clipped / theta_max_rad_ + 0.5);
+  if (theta_idx >= length_theta_) theta_idx = length_theta_ - 1;
+  size_t phi_idx = (size_t)(length_phi_ * phi_rad_clipped / phi_max_rad_ + 0.5);
+  if (phi_idx >= length_phi_) phi_idx = length_phi_ - 1;
 
   return gain_dBi_[theta_idx][phi_idx];
 }
