@@ -91,7 +91,7 @@ class SampleComponents : public InstalledComponents {
   ForceGenerator* force_generator_;  //!< Ideal Force Generator
 
   // CommGs
-  Antenna* antenna_;
+  Antenna* antenna_;  //!< Antenna
 
   // HILS settings examples
   /*

@@ -73,6 +73,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* st
   config_->main_logger_->CopyFileToLogDir(ini_path);
   force_generator_ = new ForceGenerator(InitializeForceGenerator(clock_gen, ini_path, dynamics_));
 
+  // Antenna
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "antenna_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   antenna_ = new Antenna(InitAntenna(1, ini_path));
