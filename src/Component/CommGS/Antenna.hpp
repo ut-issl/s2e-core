@@ -26,7 +26,8 @@ enum class AntennaGainModel {
  * @brief Antenna parameters
  */
 struct AntennaParameters {
-  double gain_dBi_;                           //!< Transmit maximum gain [dBi]
+  double gain_dBi_;                           /*!< Gain used in ISOTROPIC mode [dBi]
+                                                   Generally, it is zero but users can set any value for ideal analysis */
   double loss_feeder_dB_;                     //!< Feeder loss [dB]
   double loss_pointing_dB_;                   //!< Pointing loss [dB]
   AntennaGainModel antenna_gain_model;        //!< Antenna gain model

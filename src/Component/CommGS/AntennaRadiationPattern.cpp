@@ -10,16 +10,16 @@
 #include <Library/math/s2e_math.hpp>
 #include <algorithm>
 
-AntennaRadiationPattern::AntennaRadiationPattern() { gain_dB_.assign(length_theta_, std::vector<double>(length_phi_, 0.0)); }
+AntennaRadiationPattern::AntennaRadiationPattern() { gain_dBi_.assign(length_theta_, std::vector<double>(length_phi_, 0.0)); }
 
 AntennaRadiationPattern::AntennaRadiationPattern(const std::string file_path) {
   IniAccess gain_file(file_path);
-  gain_file.ReadCsvDouble(gain_dB_, (std::max)(length_theta_, length_phi_));
+  gain_file.ReadCsvDouble(gain_dBi_, (std::max)(length_theta_, length_phi_));
 }
 
 AntennaRadiationPattern::~AntennaRadiationPattern() {}
 
-double AntennaRadiationPattern::GetGain_dB(const double theta_rad, const double phi_rad) const {
+double AntennaRadiationPattern::GetGain_dBi(const double theta_rad, const double phi_rad) const {
   // Argument check
   double theta_rad_clipped = theta_rad;
   double phi_rad_clipped = phi_rad;
@@ -34,5 +34,5 @@ double AntennaRadiationPattern::GetGain_dB(const double theta_rad, const double 
   size_t phi_idx = (size_t)(length_phi_ * phi_rad_clipped / phi_max_rad_);
   if (phi_idx > length_phi_) phi_idx = length_phi_;
 
-  return gain_dB_[theta_idx][phi_idx];
+  return gain_dBi_[theta_idx][phi_idx];
 }

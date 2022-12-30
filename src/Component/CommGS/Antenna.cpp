@@ -75,7 +75,7 @@ double Antenna::CalcAntennaGain(const AntennaParameters ant_params, const double
       gain_dB = ant_params.gain_dBi_;
       break;
     case AntennaGainModel::RADIATION_PATTERN_CSV:
-      gain_dB = ant_params.radiation_pattern.GetGain_dB(theta_rad, phi_rad);
+      gain_dB = ant_params.radiation_pattern.GetGain_dBi(theta_rad, phi_rad);
       break;
     default:
       break;

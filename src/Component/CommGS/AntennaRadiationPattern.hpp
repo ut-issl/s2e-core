@@ -13,6 +13,7 @@
  * @brief Antenna radiation pattern
  * @details theta = [0, 2pi], theta = 0 is on the plus Z axis
  *          phi = [0, pi], phi = 0 is on the plus X axis, and phi = pi/2 is on the plus Y axis
+ *          The unit of gain values in the CSV file should be [dBi]
  */
 class AntennaRadiationPattern {
  public:
@@ -44,9 +45,9 @@ class AntennaRadiationPattern {
    * @brief Get antenna gain [dB]
    * @param[in] theta_rad: Angle for theta direction [rad]
    * @param[in] phi_rad: Angle for phi direction [rad]
-   * @return Antenna gain [dB]
+   * @return Antenna gain [dBi]
    */
-  double GetGain_dB(const double theta_rad, const double phi_rad) const;
+  double GetGain_dBi(const double theta_rad, const double phi_rad) const;
 
  private:
   size_t length_theta_ = 360;          //!< Length of grid for theta direction
@@ -54,5 +55,5 @@ class AntennaRadiationPattern {
   double theta_max_rad_ = libra::tau;  //!< Maximum value of theta
   double phi_max_rad_ = libra::pi;     //!< Maximum value of phi
 
-  std::vector<std::vector<double>> gain_dB_;  //!< Antenna gain table
+  std::vector<std::vector<double>> gain_dBi_;  //!< Antenna gain table
 };
