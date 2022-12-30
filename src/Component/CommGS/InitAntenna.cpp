@@ -39,7 +39,12 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
     tx_params.loss_feeder_dB_ = antenna_conf.ReadDouble(Section, "tx_loss_feeder");
     tx_params.loss_pointing_dB_ = antenna_conf.ReadDouble(Section, "tx_loss_pointing");
     tx_params.antenna_gain_model = SetAntennaGainModel(antenna_conf.ReadString(Section, "tx_antenna_gain_model"));
-    tx_params.radiation_pattern = AntennaRadiationPattern(antenna_conf.ReadString(Section, "tx_antenna_radiation_pattern_file"));
+    size_t length_theta = antenna_conf.ReadInt(Section, "tx_length_theta");
+    size_t length_phi = antenna_conf.ReadInt(Section, "tx_length_phi");
+    double theta_max_rad = antenna_conf.ReadDouble(Section, "tx_theta_max_rad");
+    double phi_max_rad = antenna_conf.ReadDouble(Section, "tx_phi_max_rad");
+    tx_params.radiation_pattern = AntennaRadiationPattern(antenna_conf.ReadString(Section, "tx_antenna_radiation_pattern_file"), length_theta,
+                                                          length_phi, theta_max_rad, phi_max_rad);
   } else {
     tx_params.gain_dBi_ = 0.0;
     tx_params.loss_feeder_dB_ = 0.0;
@@ -54,6 +59,12 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
     rx_params.loss_pointing_dB_ = antenna_conf.ReadDouble(Section, "rx_loss_pointing");
     rx_params.antenna_gain_model = SetAntennaGainModel(antenna_conf.ReadString(Section, "rx_antenna_gain_model"));
     rx_params.radiation_pattern = AntennaRadiationPattern(antenna_conf.ReadString(Section, "rx_antenna_radiation_pattern_file"));
+    size_t length_theta = antenna_conf.ReadInt(Section, "rx_length_theta");
+    size_t length_phi = antenna_conf.ReadInt(Section, "rx_length_phi");
+    double theta_max_rad = antenna_conf.ReadDouble(Section, "rx_theta_max_rad");
+    double phi_max_rad = antenna_conf.ReadDouble(Section, "rx_phi_max_rad");
+    rx_params.radiation_pattern = AntennaRadiationPattern(antenna_conf.ReadString(Section, "rx_antenna_radiation_pattern_file"), length_theta,
+                                                          length_phi, theta_max_rad, phi_max_rad);
   } else {
     rx_params.gain_dBi_ = 0.0;
     rx_params.loss_feeder_dB_ = 0.0;
