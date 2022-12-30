@@ -37,6 +37,7 @@ add_library(${PROJECT_NAME} STATIC
   CDH/OBC_C2A.cpp
 
   CommGS/Antenna.cpp
+  CommGS/AntennaRadiationPattern.cpp
   CommGS/InitAntenna.cpp
   CommGS/GScalculator.cpp
   CommGS/InitGsCalculator.cpp

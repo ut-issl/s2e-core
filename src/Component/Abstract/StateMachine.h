@@ -1,3 +1,9 @@
+/**
+ * @file StateMachine.h
+ * @brief State Machine
+ * @note TODO: Is this needed? Currently this is not used. And we need to use other library if we want to use.
+ */
+
 #pragma once
 #include <list>
 #include <map>
@@ -63,7 +69,7 @@ class StateInterface {
  protected:
   context_t* context_;
   state_t* parent_;  // 親状態（状態は階層化されている）
-  string name_;      //デバッグ用
+  string name_;      // デバッグ用
   transition_map transition_;
   action_map action_;
 
@@ -107,12 +113,12 @@ class StateMachine {
   typedef ActionInterface<context_t> action_t;
 
  protected:
-  //開始状態．一意なので，Singletonを継承．
+  // 開始状態．一意なので，Singletonを継承．
   class Start : public state_t, public Singleton<Start> {
     friend class Singleton<Start>;
     Start() : state_t("Start") {}  // デバッグ用にStateに命名
   };
-  //終了状態．一意なので，Singletonを継承．
+  // 終了状態．一意なので，Singletonを継承．
   class End : public state_t, public Singleton<End> {
     friend class Singleton<End>;
     End() : state_t("End") {}
@@ -123,7 +129,7 @@ class StateMachine {
 
  public:
   StateMachine()
-      : current_(Start::GetInstance())  //　Startステートで初期化
+      : current_(Start::GetInstance())  // 　Startステートで初期化
   {}
 
  public:
@@ -132,7 +138,7 @@ class StateMachine {
   void ChangeState(state_t* dest_state, state_t* src_state = 0) {
     if (src_state == 0) src_state = current_;
 
-    //自己遷移
+    // 自己遷移
     if (src_state == dest_state) {
       src_state->Exit();
       dest_state->Entry();
@@ -149,7 +155,7 @@ class StateMachine {
     state_list dest_top;
     for (state_t* s = dest_state; s != 0; s = s->GetParent()) dest_top.push_front(s);
 
-    //最も近い共通の親をrootから検索する
+    // 最も近い共通の親をrootから検索する
     state_t* parent = 0;
     typename state_list::iterator it_src = src_top.begin();
     typename state_list::iterator it_dest = dest_top.begin();
@@ -164,10 +170,10 @@ class StateMachine {
       parent = *it_src;
     }
 
-    //退場動作．子→親の順にExit
+    // 退場動作．子→親の順にExit
     for (state_t* s = current_; s != parent; s = s->GetParent()) s->Exit();
 
-    //入場動作．親→子の順にEntry
+    // 入場動作．親→子の順にEntry
     for (; it_dest != dest_top.end(); ++it_dest) (*it_dest)->Entry();
 
     current_ = dest_state;
@@ -176,9 +182,9 @@ class StateMachine {
   context_t* Derived() { return static_cast<context_t*>(this); }
 
   void ProcessEvent(Event const& e) {
-    //イベントによるtransition
-    // Exit & Entry でカバーできない特殊処理が必要な遷移を実施．
-    // ChangeStateした上で，自分で処理できない場合は親に渡す
+    // イベントによるtransition
+    //  Exit & Entry でカバーできない特殊処理が必要な遷移を実施．
+    //  ChangeStateした上で，自分で処理できない場合は親に渡す
     state_t* s = current_;
     while (s != 0 && !s->Transit(e))  // Transitはtransition_が存在するかどうかをBoolで返す．ので，Transitに関しては子は親の処理を実行しない（はず）．
       s = s->GetParent();

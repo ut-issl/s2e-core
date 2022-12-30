@@ -1,4 +1,9 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+﻿/*
+ * @file InitPCU_InitialStudy.cpp
+ * @brief Initialize function of PCU_InitialStudy
+ */
+
+#define _CRT_SECURE_NO_WARNINGS
 #include "InitPcu_InitialStudy.hpp"
 
 #include <string>
@@ -6,7 +11,8 @@
 
 #include "Interface/InitInput/IniAccess.h"
 
-PCU_InitialStudy InitPCU_InitialStudy(ClockGenerator* clock_gen, int pcu_id, const std::string fname, const std::vector<SAP*> saps, BAT* bat, double compo_step_time) {
+PCU_InitialStudy InitPCU_InitialStudy(ClockGenerator* clock_gen, int pcu_id, const std::string fname, const std::vector<SAP*> saps, BAT* bat,
+                                      double compo_step_time) {
   IniAccess pcu_conf(fname);
 
   const std::string st_pcu_id = std::to_string(pcu_id);

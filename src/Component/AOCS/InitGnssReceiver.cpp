@@ -1,3 +1,7 @@
+/**
+ * @file InitGnssReceiver.cpp
+ * @brief Initialize functions for GNSS Receiver
+ */
 #include "InitGnssReceiver.hpp"
 
 #include <string.h>

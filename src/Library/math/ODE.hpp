@@ -1,9 +1,7 @@
-/*!
-  \file   ODE.hpp
-  \author TAKISAWA Jun'ichi.
-  \date   Sat Mar  7 10:14:04 2009
-  \brief  常微分方程式を扱うクラス。
-*/
+/**
+ * @file ODE.hpp
+ * @brief Class for Ordinary Difference Equation
+ */
 #ifndef ODE_HPP_
 #define ODE_HPP_
 
@@ -11,102 +9,103 @@
 
 namespace libra {
 
+/**
+ * @class ODE
+ * @brief Class for Ordinary Difference Equation
+ */
 template <size_t N>
 class ODE {
  public:
-  //! コンストラクタ
-  /*!
-    第1引数にステップ幅をとる。
-    \param step_width 計算ステップ幅
-  */
-
+  /**
+   * @fn ODE
+   * @brief Constructor
+   * @param [in] step_width: Step width
+   */
   ODE(double step_width);
-
-  //! デストラクタ
+  /**
+   * @fn ~ODE
+   * @brief Destructor
+   */
   inline virtual ~ODE();
 
-  //! 微分方程式
-  /*!
-    解くべき微分方程式を継承側が実装する
-    \param x 独立変数
-    \param state 状態量
-    \return 状態量微分値
-  */
+  /**
+   * @fn RHS
+   * @brief Pure virtual function to define the difference equation
+   * @param [in] x: Independent variable (e.g. time)
+   * @param [in] state: State vector
+   * @param [out] rhs: Differentiated value of state vector
+   */
   virtual void RHS(double x, const Vector<N>& state, Vector<N>& rhs) = 0;
 
-  //! 状態初期化メソッド
-  /*!
-    微分方程式の状態初期化を行う
-    \param init_x 初期独立変数値
-    \param init_cond 初期条件
-  */
+  /**
+   * @fn setup
+   * @brief Initialize the state vector
+   * @param [in] init_x: Initial value of independent variable
+   * @param [in] init_cond: Initial condition of the state vector
+   */
   void setup(double init_x, const Vector<N>& init_cond);
-
+  /**
+   * @fn setStepWidth
+   * @brief Initialize the state vector
+   * @param [in] new_step: Initial value of independent variable
+   */
   void setStepWidth(double new_step);
 
-  //! 刻み幅取得メソッド
-  /*!
-    独立変数の刻み幅を返す。
-  */
+  /**
+   * @fn step_width
+   * @brief Return step width
+   */
   inline double step_width() const;
 
-  //! 独立変数取得メソッド
-  /*!
-    現在の独立変数値を返す。
-    独立変数はシミュレーションの経過とともに変化するものであり、
-    独自に設定を行う関数は設けない仕様とする。
-    初期条件の指定にはsetup()関数を用いること。
-    \return 現在の独立変数値。
-  */
+  /**
+   * @fn x
+   * @brief Return current independent variable
+   */
   inline double x() const;
 
-  //! 状態量ベクトル取得メソッド
-  /*!
-    状態量ベクトルへのconst参照を返す。
-    状態量はシミュレーションの過程に従って変化するものであり、
-    独自に設定を行う関数は設けない仕様とする。
-    初期条件の指定にはsetup()関数を用いること。
-    \return 状態量ベクトルへのconst参照
-  */
+  /**
+   * @fn state
+   * @brief Return current state vector
+   */
   inline const Vector<N>& state() const;
 
-  //! 状態量ベクトルの要素値を取得する
-  /*!
-    状態量ベクトルの要素値を返す。
-    \param n 参照したい状態量の位置
-    \return 引数に対応する位置の状態量
-  */
+  /**
+   * @fn operator []
+   * @brief Return element of current state vector
+   * @param [in] n: Target element number
+   */
   inline double operator[](int n) const;
 
-  //! 状態量微分値取得メソッド
-  /*!
-    状態量微分値のベクトルへのconst参照を返す。
-    このベクトルはシミュレーションの結果として生成される情報
-    であり、外部からの直接設定は行えない仕様とする。
-    ただし継承先のクラスについてはprotectedなメソッドで変更を
-    許可する。
-    \return 状態量微分値ベクトルへのconst参照
-  */
+  /**
+   * @fn rhs
+   * @brief Return const reference of differentiate state vector
+   */
   inline const Vector<N>& rhs() const;
 
-  //! 状態更新メソッド
+  /**
+   * @fn operator ++
+   * @brief Update the state
+   */
   ODE& operator++();
 
-  //! 状態更新メソッド
+  /**
+   * @fn Update
+   * @brief Update the state
+   */
   void Update();
 
  protected:
+  /**
+   * @fn state
+   * @brief Return current state vector for inheriting class
+   */
   inline libra::Vector<N>& state();
 
  private:
-  //! 最新の独立変数値
-  double x_;
-  //! 最新の状態量
-  Vector<N> state_;
-  //! 最新の状態量微分値(微分方程式の右辺値)
-  Vector<N> rhs_;
-  //! 計算刻み幅
-  double step_width_;
+  double x_;           //!< Latest value of independent variable
+  Vector<N> state_;    //!< Latest state vector
+  Vector<N> rhs_;      //!< Latest differentiate of the state vector
+  double step_width_;  //!< Step width
 };
 
 }  // namespace libra

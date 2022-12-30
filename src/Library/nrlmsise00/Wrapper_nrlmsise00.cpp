@@ -1,3 +1,7 @@
+/**
+ * @file Wrapper_nrlmsise00.cpp
+ * @brief Functions to wrap NRLMSISE-00 air density model in the ExternalLibrary
+ */
 
 /* ------------------------------------------------------------------- */
 /* ------------------------------ INCLUDES --------------------------- */
@@ -161,7 +165,6 @@ int ConvertMonthStrToMonthNum(string month_str) {
 /* ------------------------------------------------------------------- */
 /* --------------------------CalcNRLMSISE00--------------------------- */
 /* ------------------------------------------------------------------- */
-/* GTD7 Wrapper */
 double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, const vector<nrlmsise_table>& table, bool is_manual_param,
                       double manual_f107, double manual_f107a, double manual_ap) {
   struct nrlmsise_output output;
@@ -194,7 +197,7 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, 
     input.ap = manual_ap;
   } else {
     // f10.7 and ap from table
-    // テーブルサイズが0なら，0を返して終了
+    // If the table size is zero, return 0
     if (table.size() == 0) {
       return 0.0;
     }
@@ -202,13 +205,13 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, 
     // search table index
     for (i = 0; i < table.size(); i++) {
       if (decyear < decyear_monthly) {
-        // 年月日が一致
+        // Match year, month, date
         if ((date[0] == table[i].year) && (date[1] == table[i].month) && (date[2] == table[i].day)) {
           idx = i;
           break;
         }
       } else {
-        // 年月が一致
+        // Match year, month
         if ((date[0] == table[i].year) && (date[1] == table[i].month)) {
           idx = i;
           break;
@@ -233,9 +236,6 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, 
 /* ------------------------------------------------------------------- */
 /* -----------------------ReadSpaceWeatherTable----------------------- */
 /* ------------------------------------------------------------------- */
-/* URL for SpaceWeather.txt */
-/* ftp://ftp.agi.com/pub/DynamicEarthData/SpaceWeather-v1.2.txt */
-
 int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename, vector<nrlmsise_table>& table) {
   ifstream ifs(filename);
 
@@ -268,10 +268,10 @@ int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename,
         int month_updated = ConvertMonthStrToMonthNum(month_updated_str);
         int day_updated = atoi(line.substr(17, 2).c_str());
 
-        // テーブルの更新日時を取得
+        // Get table update date
         double decyear_updated = ConvertDateToDecyear(year_updated, month_updated, day_updated);
 
-        // 更新日時から1カ月半以降は一日毎ではなく一月毎にデータが更新されるので，その日時をdecyearで計算しておく
+        // After 1.5 month from the update date, the data is updated once per month. So calculate the decimal year of the date
         int days_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         decyear_monthly = decyear_updated + (days_month[month_updated] + 14) / 365.0;
       }
@@ -282,8 +282,8 @@ int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename,
     int month = atoi(line.substr(5, 2).c_str());
     int day = atoi(line.substr(8, 2).c_str());
     double decyear_line = ConvertDateToDecyear(year, month, day);
-    // 少なくとも1カ月分はデータを確保するため，シミュレーション開始時刻の一ヶ月前からテーブル値を確保する
-    double decyear_ini_ymd = ConvertDateToDecyear(date_ini[0], date_ini[1], date_ini[2]) - 31.0 / 365.0;  // 一ヶ月引く
+    // To get 1 month data, read the data before a month from the simulation starting date
+    double decyear_ini_ymd = ConvertDateToDecyear(date_ini[0], date_ini[1], date_ini[2]) - 31.0 / 365.0;  // Subtract one month
     double decyear_end_ymd = ConvertDateToDecyear(date_end[0], date_end[1], date_end[2]);
 
     if (decyear_line < decyear_ini_ymd || decyear_line > decyear_end_ymd) continue;

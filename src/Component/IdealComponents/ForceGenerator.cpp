@@ -1,3 +1,8 @@
+/*
+ * @file ForceGenerator.cpp
+ * @brief Ideal component which can generate for control algorithm test
+ */
+
 #include "ForceGenerator.hpp"
 
 #include <cfloat>

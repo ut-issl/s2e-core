@@ -1,10 +1,8 @@
-/*!
-  \file   Matrix.hpp
-  \author TAKISAWA, Jun'ichi.
-  \date   Sat Oct 23 00:07:48 2010
-  \brief  テンプレート行列クラス
-  テンプレートを用いた行列クラス。数学の行列を取り扱う。
-*/
+/**
+ * @file Matrix.hpp
+ * @brief Matrix class to handle math matrix with template
+ */
+
 #ifndef MATRIX_HPP_
 #define MATRIX_HPP_
 
@@ -13,246 +11,243 @@
 
 namespace libra {
 
+/**
+ * @class Matrix
+ * @brief Matrix class to handle math matrix with template
+ */
 template <size_t R, size_t C, typename T = double>
 class Matrix {
  public:
-  //! コンストラクタ
-  /*!
-    要素初期化を一切行わないコンストラクタ。
-  */
+  /**
+   * @fn Matrix
+   * @brief Default constructor without any initialization
+   */
   inline Matrix();
 
-  //! コンストラクタ(一括初期化版)
-  /*!
-    全要素を引数で指定された値で初期化する。
-    ゼロクリアなどが必要な場合に用いる。
-  */
+  /**
+   * @fn Matrix
+   * @brief Constructor with initialize the elements as all same value
+   * @param [in] n: The value for initializing
+   */
   Matrix(const T& n);
 
-  //! 行列格納配列へのポインタをTP型として定義。
-  typedef T (*TP)[C];
-  //! 行列格納配列へのconstポインタをCTP型として定義。
-  typedef const T (*CTP)[C];
+  typedef T (*TP)[C];         //!< Define the pointer of the array as TP type
+  typedef const T (*CTP)[C];  //!< Define the const pointer of the array as CTP type
 
-  //! 行数取得関数
-  /*!
-    行列の行数を返す。
-    \return 行数
-  */
+  /**
+   * @fn row
+   * @brief Return row number
+   */
   inline size_t row() const;
 
-  //! 列数取得関数
-  /*!
-    行列の列数を返す。
-    \return 列数
-  */
+  /**
+   * @fn row
+   * @brief Return column number
+   */
   inline size_t column() const;
 
-  //! 要素直接アセス用のキャスト演算子
-  /*!
-    行列各要素を2次元配列と同様にアクセスする為のキャスト演算子。
-    内部で保持しているデータ記録配列へのポインタを返す。
-    利用側は2次元配列同様[]演算子を利用して要素へのアクセスが可能になる。
-    \return 行列データ記録配列へのポインタ
-  */
+  /**
+   * @fn Cast operator to directly access the elements
+   * @brief Operator to access the elements similar with the 2D-array using `[]`
+   * @return Pointer to the data storing array
+   */
   inline operator TP();
 
-  //! 要素直接アクセス用のキャスト演算子 const版
-  /*!
-    constが指定されている場合でも行列各要素の参照を可能にする。
-    \return 行列データ記録配列へのconstポインタ
-  */
+  /**
+   * @fn Cast operator to directly access the elements (const ver.)
+   * @brief Operator to access the elements similar with the 2D-array using `[]`
+   * @return Const pointer to the data storing array
+   */
   inline operator CTP() const;
 
-  //! 要素アクセス用()演算子
-  /*!
-    行列各要素へのアクセスを提供する。
-    キャスト演算子の場合と異なり、この関数では領域外指定に対する検知機構が
-    実装されている。行列の範囲外を指定した場合には"invalid_argumnet"例外
-    が発生する。
-    \param row 行列の行指定
-    \param column 行列の列指定
-    \return 指定された位置の要素
-  */
+  /**
+   * @fn Operator ()
+   * @brief Operator to access the element value
+   * @details This operator has assertion to detect range over
+   * @param [in] row: Target row number
+   * @param [in] column: Target column number
+   * @return Value of the target element
+   */
   inline T& operator()(size_t row, size_t column);
 
-  //! 要素アクセス用()演算子 const版
-  /*!
-    constが指定されている場合でも、要素の参照を可能にする。
-    非const版と同様領域外指定に対する検知機構が実装されている。
-    \param row 行列の行指定
-    \param column 行列の列指定
-    \return 指定された位置の要素
-  */
+  /**
+   * @fn Operator ()
+   * @brief Operator to access the element value (const ver.)
+   * @details This operator has assertion to detect range over
+   * @param [in] row: Target row number
+   * @param [in] column: Target column number
+   * @return Value of the target element
+   */
   inline const T& operator()(size_t row, size_t column) const;
 
-  //! 加算代入演算子
-  /*!
-    自身に引数で指定されたMatrixを加える。
-    この操作を行うには行列の要素型について+=演算子が定義されている必要がある。
-  */
+  /**
+   * @fn Operator +=
+   * @brief Operator to add Matrix
+   * @note The element type should has += operator
+   * @param [in] m: Adding matrix
+   * @return Result of added matrix
+   */
   const Matrix<R, C, T>& operator+=(const Matrix<R, C, T>& m);
 
-  //! 減算代入演算子
-  /*!
-    自身から引数で指定されたMatrixを減じる。
-    この操作を行うには行列の要素型について-=演算子が定義されている必要がある。
-  */
+  /**
+   * @fn Operator -=
+   * @brief Operator to subtract Matrix
+   * @note The element type should has -= operator
+   * @param [in] m: Subtracting matrix
+   * @return Result of subtracted matrix
+   */
   const Matrix<R, C, T>& operator-=(const Matrix<R, C, T>& m);
 
-  //! 乗算代入演算子
-  /*!
-    自身の各要素に引数で指定された係数を乗じる。
-    この操作を行うには行列の要素型について*=演算子が定義されている必要がある。
-  */
+  /**
+   * @fn Operator *=
+   * @brief Operator to multiply scalar for all elements
+   * @note The element type should has *= operator
+   * @param [in] n: Multiplying scalar value
+   * @return Result of multiplied matrix
+   */
   const Matrix<R, C, T>& operator*=(const T& n);
 
-  //! 除算代入演算子
-  /*!
-    自身の各要素を引数で指定された係数で除する。
-    この操作を行うには行列の要素型について/=演算子が定義されている必要がある。
-  */
+  /**
+   * @fn Operator /=
+   * @brief Operator to divide scalar for all elements
+   * @note The element type should has /= operator
+   * @param [in] n: Dividing scalar value
+   * @return Result of multiplied matrix
+   */
   const Matrix<R, C, T>& operator/=(const T& n);
 
  private:
-  //! 行列要素記録用配列
-  T matrix_[R][C];
+  T matrix_[R][C];  //!< Array to save the elements
 
-  //! 行列領域確認関数
-  /*!
-    引数で指定された要素が行列の範囲内かどうかを判定する。
-    \param row 行列の列指定
-    \param column 行列の行指定
-    \return 範囲内であればtrue それ以外はfalse
+  /**
+   * @fn is_valid_range_
+   * @brief Judge the target row/column number is in the range
+   * @param [in] row: Target row number
+   * @param [in] column: Target column number
+   * @return True: row/column number is in the range
    */
   inline bool is_valid_range_(size_t row, size_t column);
 };
 
-//! 全要素一括設定関数
-/*!
-  Matrixの全要素を指定された値に設定する。
-  \param m 設定対象Matrix
-  \param t 設定値
-*/
+/**
+ * @fn fill_up
+ * @brief Fill up all elements with same value
+ * @param [in] m: Target matrix
+ * @param [in] t: Scalar value to fill up
+ */
 template <size_t R, size_t C, typename T>
 void fill_up(Matrix<R, C, T>& m, const T& t);
 
-//! 固有和計算関数
-/*!
-  Matrixの固有和を計算する。
-  \param m 計算対象Matrix
-  \return 固有和計算結果
-*/
+/**
+ * @fn trace
+ * @brief Calculate and return the trace of matrix
+ * @param [in] m: Target matrix
+ * @return Trace of the matrix
+ */
 template <size_t N, typename T>
 T trace(const Matrix<N, N, T>& m);
 
-//! 要素出力関数
-/*!
-  Matrixの全要素を指定された出力先(ostream)へ出力する。
-  デフォルトの出力先はcoutである。
-  各要素は引数で指定された区切り文字区切りで出力され、各行ごとに改行が行われる。
-  区切り文字のデフォルトはtabである。
-  \param m 出力対象Matrix
-  \param delimiter 要素の区切り文字(デフォルトはtab)
-  \param stream 出力先(デフォルトはcout)
-*/
+/**
+ * @fn print
+ * @brief Generate all elements to outstream
+ * @param [in] m: Target matrix
+ * @param [in] delimiter: Delimiter (Default: tab)
+ * @param [out] stream: Output target(Default: cout)
+ */
 template <size_t R, size_t C, typename T>
 void print(const Matrix<R, C, T>& m, char delimiter = '\t', std::ostream& stream = std::cout);
 
-//! Matrix加算演算子
-/*!
-  2つのMatrixの加算を行う。
-  \param lhs +演算子の左辺
-  \param rhs +演算子の右辺
-  \return 加算結果
-*/
+/**
+ * @fn operator +
+ * @brief Add two matrices
+ * @param [in] lhs: Left hand side matrix
+ * @param [in] rhs: Right hand side matrix
+ * @return Result of added matrix
+ */
 template <size_t R, size_t C, typename T>
 const Matrix<R, C, T> operator+(const Matrix<R, C, T>& lhs, const Matrix<R, C, T>& rhs);
 
-//! Matrix減算演算子
-/*!
-  2つのMatrixの減算を行う
-  \param lhs -演算子の左辺
-  \param rhs -演算子の右辺
-  \return 減算結果
-*/
+/**
+ * @fn operator -
+ * @brief Subtract two matrices
+ * @param [in] lhs: Left hand side matrix
+ * @param [in] rhs: Right hand side matrix
+ * @return Result of subtracted matrix
+ */
 template <size_t R, size_t C, typename T>
 const Matrix<R, C, T> operator-(const Matrix<R, C, T>& lhs, const Matrix<R, C, T>& rhs);
 
-//! Matrix係数倍演算子
-/*!
-  Matrixの各要素に指定された係数を乗じる。
-  \param lhs 係数
-  \param rhs Matrix
-  \return 係数乗算結果
-*/
+/**
+ * @fn operator *
+ * @brief Multiply scar and matrix
+ * @param [in] lhs: Left hand side scalar
+ * @param [in] rhs: Right hand side matrix
+ * @return Result of multiplied matrix
+ */
 template <size_t R, size_t C, typename T>
 const Matrix<R, C, T> operator*(const T& lhs, const Matrix<R, C, T>& rhs);
 
-//! Matrix乗算演算子
-/*!
-  2つのMatrixの乗算を行う
-  \param lhs *演算子の左辺
-  \param rhs *演算子の右辺
-  \return 乗算結果
-*/
+/**
+ * @fn operator *
+ * @brief Multiply two matrices
+ * @param [in] lhs: Left hand side matrix
+ * @param [in] rhs: Right hand side matrix
+ * @return Result of multiplied matrix
+ */
 template <size_t R, size_t C1, size_t C2, typename T>
 const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs, const Matrix<C1, C2, T>& rhs);
 
-//! 転置行列計算関数
-/*!
-  指定された行列の転置行列を計算する。
-  \param m 転置対象
-  \return 転置結果
-*/
+/**
+ * @fn transpose
+ * @brief Calculate and return transposed matrix
+ * @param [in] m: Target matrix
+ * @return Result of transposed matrix
+ */
 template <size_t R, size_t C, typename T>
 const Matrix<C, R, T> transpose(const Matrix<R, C, T>& m);
 
-//! 単行列生成関数
-/*!
-  指定された正方行列を単位行列に設定する。
-  引数で指定されたMatrixを直接単位行列へ書き換え、結果を返り値の形でも返す。
-  \param m 単位行列設定対象
-  \return 設定結果
-*/
+/**
+ * @fn unitalize
+ * @brief Rewrite the input matrix as the identity matrix
+ * @note Warning: m is overwritten.
+ * @param [in/out] m: Target matrix
+ * @return The identity matrix
+ */
 template <size_t R, typename T>
 Matrix<R, R, T>& unitalize(Matrix<R, R, T>& m);
 
-//! 単行列生成関数
-/*!
-指定された大きさの単位行列を生成する。
-\return 生成結果
-*/
+/**
+ * @fn eye
+ * @brief Generate identity matrix
+ * @return The identity matrix
+ */
 template <size_t R, typename T = double>
 Matrix<R, R, T> eye();
 
-//! x軸回転行列生成関数
-/*!
-  x軸周りの3*3の回転行列を生成する。
-  引数で指定された角度[rad]だけx軸周りに回転する回転行列を返す。
-  \param  theta x軸周り回転角[rad]
-  \return 生成結果
-*/
+/**
+ * @fn rotx
+ * @brief Generate 3*3 rotation matrix around X-axis
+ * @param [in] theta: Rotation angle [rad]
+ * @return Rotation matrix
+ */
 template <size_t R = 3, typename T = double>
 Matrix<R, R, T> rotx(const double& theta);
 
-//! y軸回転行列生成関数
-/*!
-  y軸周りの3*3の回転行列を生成する。
-  引数で指定された角度[rad]だけy軸周りに回転する回転行列を返す。
-  \param  theta y軸周り回転角[rad]
-  \return 生成結果
-*/
+/**
+ * @fn roty
+ * @brief Generate 3*3 rotation matrix around Y-axis
+ * @param [in] theta: Rotation angle [rad]
+ * @return Rotation matrix
+ */
 template <size_t R = 3, typename T = double>
 Matrix<R, R, T> roty(const double& theta);
 
-//! z軸回転行列生成関数
-/*!
-  z軸周りの3*3の回転行列を生成する。
-  引数で指定された角度[rad]だけz軸周りに回転する回転行列を返す。
-  \param  theta z軸周り回転角[rad]
-  \return 生成結果
-*/
+/**
+ * @fn rotz
+ * @brief Generate 3*3 rotation matrix around Z-axis
+ * @param [in] theta: Rotation angle [rad]
+ * @return Rotation matrix
+ */
 template <size_t R = 3, typename T = double>
 Matrix<R, R, T> rotz(const double& theta);
 

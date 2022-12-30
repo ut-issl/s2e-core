@@ -1,3 +1,7 @@
+/**
+ * @file ExpHils.cpp
+ * @brief Example of component emulation for UART communication in HILS environment
+ */
 #include "ExpHils.h"
 
 #include <Library/utils/Macros.hpp>
@@ -16,8 +20,7 @@ int ExpHils::ParseCommand(const int cmd_size) {
       memory_[i] = (unsigned char)rx_buffer_[i];
     }
     memory_[kMemorySize - 1] = '\0';
-  } else if (mode_id_ == 0)  // data returned from the responder component to
-                             // the sender component
+  } else if (mode_id_ == 0)  // data returned from the responder component to the sender component
   {
     // the first row will overwrite the progress output in SampleCase.cpp
     std::cout << std::endl << rx_buffer_[0] << rx_buffer_[1] << rx_buffer_[2] << std::endl;

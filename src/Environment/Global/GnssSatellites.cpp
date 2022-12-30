@@ -1,3 +1,8 @@
+/**
+ * @file GnssSatellites
+ * @brief Class to calculate GNSS satellite position and related states
+ */
+
 #include "GnssSatellites.h"
 
 #include <Interface/LogOutput/LogUtility.h>
@@ -14,22 +19,26 @@
 
 const double nan99 = 999999.999999;
 
-const int gps_sat_num_ = 32;
-const int glonass_sat_num_ = 26;
-const int galileo_sat_num_ = 36;
-const int beidou_sat_num_ = 16;
-const int qzss_sat_num_ = 7;
+const int gps_sat_num_ = 32;      //!< Number of GPS satellites
+const int glonass_sat_num_ = 26;  //!< Number of GLONASS satellites
+const int galileo_sat_num_ = 36;  //!< Number of Galileo satellites
+const int beidou_sat_num_ = 16;   //!< Number of BeiDou satellites
+const int qzss_sat_num_ = 7;      //!< Number of QZSS satellites TODO: 5 at this momen?
 
-const int gps_index_bias_ = -1;
-const int glonass_index_bias_ = gps_index_bias_ + gps_sat_num_;
-const int galileo_index_bias_ = glonass_index_bias_ + glonass_sat_num_;
-const int beidou_index_bias_ = galileo_index_bias_ + galileo_sat_num_;
-const int qzss_index_bias_ = beidou_index_bias_ + beidou_sat_num_;
+const int gps_index_bias_ = -1;                                          //!< Bias of index for GPS satellites
+const int glonass_index_bias_ = gps_index_bias_ + gps_sat_num_;          //!< Bias of index for GLONASS satellites
+const int galileo_index_bias_ = glonass_index_bias_ + glonass_sat_num_;  //!< Bias of index for GALILEO satellites
+const int beidou_index_bias_ = galileo_index_bias_ + galileo_sat_num_;   //!< Bias of index for BeiDou satellites
+const int qzss_index_bias_ = beidou_index_bias_ + beidou_sat_num_;       //!< Bias of index for QZSS satellites
 
-const int all_sat_num_ = gps_sat_num_ + glonass_sat_num_ + galileo_sat_num_ + beidou_sat_num_ + qzss_sat_num_;
+const int all_sat_num_ = gps_sat_num_ + glonass_sat_num_ + galileo_sat_num_ + beidou_sat_num_ + qzss_sat_num_;  //<! Total number of GNSS satellites
 
 using namespace std;
 
+/**
+ * @fn initilized_tm
+ * @brief Initialize time as calendar expression
+ */
 tm* initilized_tm() {
   tm* time_tm = (tm*)malloc(sizeof(tm));
 
@@ -52,6 +61,12 @@ tm* initilized_tm() {
   return time_tm;
 }
 
+/**
+ * @fn get_unixtime_from_timestamp_line
+ * @brief Calculate unix time from calendar expression
+ * @param [in] s: Time as calendar expression
+ * @return Unix time
+ */
 double get_unixtime_from_timestamp_line(std::vector<string>& s) {
   tm* time_tm = initilized_tm();
   time_tm->tm_year = stoi(s.at(1)) - 1900;
@@ -212,8 +227,8 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
 
   interpolation_number_ = interpolation_number;
 
-  // 拡張
-  gnss_sat_table_ecef_.resize(all_sat_num_);  // first vectir size is the sat num
+  // Expansion
+  gnss_sat_table_ecef_.resize(all_sat_num_);  // first vector size is the sat num
   gnss_sat_table_eci_.resize(all_sat_num_);
   unixtime_vector_.resize(all_sat_num_);
 
@@ -488,7 +503,7 @@ libra::Vector<3> GnssSat_position::GetSatEci(int sat_id) const {
 void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, int interpolation_number, UR_KINDS ur_flag,
                          pair<double, double> unix_time_period) {
   interpolation_number_ = interpolation_number;
-  gnss_sat_clock_table_.resize(all_sat_num_);  // first vectir size is the sat num
+  gnss_sat_clock_table_.resize(all_sat_num_);  // first vector size is the sat num
   unixtime_vector_.resize(all_sat_num_);
 
   if (file_extension == ".sp3") {
@@ -561,8 +576,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
           double clock = stod(s.at(4));
           if (std::abs(clock - nan99) < 1.0) continue;
 
-          // in the file, clock bias is expressed in [micro second], so by
-          // multiplying by the speed_of_light & 1e-6, they are converted to [m]
+          // in the file, clock bias is expressed in [micro second], so by multiplying by the speed_of_light & 1e-6, they are converted to [m]
           clock *= (environment::speed_of_light_m_s * 1e-6);
           if (!unixtime_vector_.at(sat_id).empty() && std::abs(unix_time - unixtime_vector_.at(sat_id).back()) < 1.0) {
             unixtime_vector_.at(sat_id).back() = unix_time;
@@ -607,8 +621,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
         time_tm->tm_mday = stoi(s.at(4));
         time_tm->tm_hour = stoi(s.at(5));
         time_tm->tm_min = stoi(s.at(6));
-        time_tm->tm_sec = (int)(stod(s.at(7)) + 1e-4);  // for the numerical error, plus 1e-4.
-                                                        // tm_sec is tobe int
+        time_tm->tm_sec = (int)(stod(s.at(7)) + 1e-4);  // for the numerical error, plus 1e-4. tm_sec is to be int
         double unix_time = (double)mktime(time_tm);
         const double interval = 6 * 60 * 60;
         if (start_unix_time < 0) {
@@ -770,9 +783,8 @@ double GnssSat_clock::GetSatClock(int sat_id) const {
 
 GnssSat_Info::GnssSat_Info() {}
 void GnssSat_Info::Init(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                        UR_KINDS position_ur_flag,
-
-                        vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number, UR_KINDS clock_ur_flag) {
+                        UR_KINDS position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number,
+                        UR_KINDS clock_ur_flag) {
   auto unix_time_period = position_.Init(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag);
   clock_.Init(clock_file, clock_file_extension, clock_interpolation_number, clock_ur_flag, unix_time_period);
 }
@@ -790,7 +802,7 @@ void GnssSat_Info::Update(const double now_unix_time) {
 int GnssSat_Info::GetNumOfSatellites() const {
   if (position_.GetNumOfSatellites() == clock_.GetNumOfSatellites()) {
     return position_.GetNumOfSatellites();
-  }else {
+  } else {
     cout << "Num Of Gnss Satellites has something wrong" << endl;
     return 0;
   }
@@ -995,8 +1007,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECEF(const int sat_id, libra
 
   res -= ionospheric_delay;
 
-  // wavelength
-  // frequency is thought to be given by MHz
+  // wavelength frequency is thought to be given by MHz
   double lambda = environment::speed_of_light_m_s * 1e-6 / frequency;
   double cycle = res / lambda;
 
@@ -1026,8 +1037,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECI(const int sat_id, libra:
 
   res -= ionospheric_delay;
 
-  // wavelength
-  // frequency is thought to be given by MHz
+  // wavelength frequency is thought to be given by MHz
   double lambda = environment::speed_of_light_m_s * 1e-6 / frequency;
   double cycle = res / lambda;
 
@@ -1042,7 +1052,7 @@ double GnssSatellites::AddIonosphericDelay(const int sat_id, const libra::Vector
   // sat_id is wrong or not validate
   if (sat_id >= GetNumOfSatellites() || !GetWhetherValid(sat_id)) return 0.0;
 
-  const double Earth_hemisphere = 6378.1;  //[km]
+  const double Earth_hemisphere = 6378.1;  //[km] FIXME: Use Constant.hpp
 
   double altitude = 0.0;
   for (int i = 0; i < 3; ++i) altitude += pow(rec_position[i], 2.0);

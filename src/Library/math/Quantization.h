@@ -1,19 +1,27 @@
-/*!
-\file   Quantization.h
-\author TAKISAWA Jun'ichi.
-\date   Sat Oct  3 02:44:23 2009
-\brief  量子化するための関数を格納．
-*/
+/**
+ * @file Quantization.h
+ * @brief Functions for quantization
+ */
+
 #ifndef QUANTIZATION_H_
 #define QUANTIZATION_H_
 
-//!入力
-//! continuous_num : 連続する実数(double)
-//! resolution : 解像度
-//!出力
-// quantized_num : 量子化された数(double)
-
+/**
+ * @fn quantization
+ * @brief Default constructor without any initialization
+ * @param [in] continuous_num: Target number
+ * @param [in] resolution: Resolution of the quantization
+ * @return Quantized value (double)
+ */
 double quantization(double continuous_num, double resolution);
+
+/**
+ * @fn quantization_f
+ * @brief Default constructor without any initialization
+ * @param [in] continuous_num: Target number
+ * @param [in] resolution: Resolution of the quantization
+ * @return Quantized value (float)
+ */
 float quantization_f(double continuous_num, double resolution);
 
 #endif  // QUANTIZATION_H_

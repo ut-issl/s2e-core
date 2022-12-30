@@ -1,3 +1,7 @@
+/**
+ * @file InitGyro.cpp
+ * @brief Initialize functions for gyro sensor
+ */
 #include "InitGyro.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
@@ -12,6 +16,7 @@ Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname,
   if (prescaler <= 1) prescaler = 1;
 
   // SensorBase
+  // TODO: Use InitializeSensorBase
   Vector<kGyroDim * kGyroDim> sf_vec;
   gyro_conf.ReadVector(GSection, "ScaleFactor", sf_vec);
   Matrix<kGyroDim, kGyroDim> scale_factor;
@@ -54,6 +59,7 @@ Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, c
   if (prescaler <= 1) prescaler = 1;
 
   // SensorBase
+  // TODO: Use InitializeSensorBase
   Vector<kGyroDim * kGyroDim> sf_vec;
   gyro_conf.ReadVector(GSection, "ScaleFactor", sf_vec);
   Matrix<kGyroDim, kGyroDim> scale_factor;

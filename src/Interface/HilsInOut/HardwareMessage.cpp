@@ -1,3 +1,10 @@
+/**
+ * @file HardwareMessage.cpp
+ * @brief An example of communication class for HILS
+ * @note This file is very old and recently not managed well...
+ *       TODO: Add detailed comment... or Delete this file from s2e-core since this is user side code.
+ */
+
 #include "HardwareMessage.h"
 
 HardwareMessage::HardwareMessage(int port_id, bool enable, unsigned int baudrate, unsigned int obc_com_period)

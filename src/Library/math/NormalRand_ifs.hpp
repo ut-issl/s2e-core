@@ -1,9 +1,8 @@
-/*!
-  \file   NormalRand_ifs.hpp
-  \author TAKISAWA, Jun'ichi.
-  \date   Sat May 14 00:25:14 2011
-  \brief  NormalRandクラスのinline関数実装
-*/
+/**
+ * @file NormalRand_ifs.hpp
+ * @brief Class to generate random value with normal distribution with Box-Muller method
+ * @note Inline functions
+ */
 #ifndef NORMAL_RAND_IFS_HPP_
 #define NORMAL_RAND_IFS_HPP_
 

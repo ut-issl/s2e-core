@@ -1,3 +1,8 @@
+/**
+ * @file GravityGradient.cpp
+ * @brief Class to calculate the gravity gradient torque
+ */
+
 #include "GravityGradient.hpp"
 
 #include <Environment/Global/PhysicalConstants.hpp>

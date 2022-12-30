@@ -1,12 +1,13 @@
+/**
+ * @file Orbit.cpp
+ * @brief Base class of orbit propagation
+ */
 #include "Orbit.h"
 
 Quaternion Orbit::CalcQuaternionI2LVLH() const {
-  Vector<3> lvlh_x = sat_position_i_;  // x-axis in LVLH frame is position vector direction
-                                       // from geocenter to satellite
+  Vector<3> lvlh_x = sat_position_i_;  // x-axis in LVLH frame is position vector direction from geocenter to satellite
   Vector<3> lvlh_ex = normalize(lvlh_x);
-  Vector<3> lvlh_z = outer_product(sat_position_i_,
-                                   sat_velocity_i_);  // z-axis in LVLH frame is angular
-                                                      // momentum vector direction of orbit
+  Vector<3> lvlh_z = outer_product(sat_position_i_, sat_velocity_i_);  // z-axis in LVLH frame is angular momentum vector direction of orbit
   Vector<3> lvlh_ez = normalize(lvlh_z);
   Vector<3> lvlh_y = outer_product(lvlh_z, lvlh_x);
   Vector<3> lvlh_ey = normalize(lvlh_y);
@@ -39,3 +40,15 @@ void Orbit::TransEciToEcef(void) {
 }
 
 void Orbit::TransEcefToGeo(void) { sat_position_geo_.UpdateFromEcef(sat_position_ecef_); }
+
+OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode) {
+  if (initialize_mode == "DEFAULT") {
+    return OrbitInitializeMode::kDefault;
+  } else if (initialize_mode == "POSITION_VELOCITY_I") {
+    return OrbitInitializeMode::kInertialPositionAndVelocity;
+  } else if (initialize_mode == "ORBITAL_ELEMENTS") {
+    return OrbitInitializeMode::kOrbitalElements;
+  } else {
+    return OrbitInitializeMode::kDefault;
+  }
+}

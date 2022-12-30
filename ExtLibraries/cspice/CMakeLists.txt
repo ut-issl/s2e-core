@@ -1,6 +1,6 @@
 project(cspice)
 
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.18)
 
 include(ExternalProject)
 include(FetchContent)
@@ -29,7 +29,7 @@ message("URL" ${CSPICE_URL})
 ExternalProject_Add(cspice
   URL ${CSPICE_URL}
   URL_HASH SHA256=${CSPICE_SHA256}
-  DOWNLOAD_EXTRACT_TIMESTAMP false
+  # DOWNLOAD_EXTRACT_TIMESTAMP false # prepare for CMake 3.24
   SOURCE_DIR "cspice"
   CONFIGURE_COMMAND ""
   BUILD_IN_SOURCE true

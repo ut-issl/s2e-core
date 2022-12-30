@@ -1,3 +1,8 @@
+/**
+ * @file SampleCase.cpp
+ * @brief Example of user defined simulation case
+ */
+
 #include "SampleCase.h"
 
 #include "../Spacecraft/SampleSpacecraft/SampleSat.h"
@@ -11,7 +16,7 @@ SampleCase::~SampleCase() { delete sample_sat_; }
 
 void SampleCase::Initialize() {
   // Instantiate the target of the simulation
-  //`sat_id` corresponds to the index of `sat_file` in Simbase.ini
+  // `sat_id` corresponds to the index of `sat_file` in Simbase.ini
   const int sat_id = 0;
   sample_sat_ = new SampleSat(&sim_config_, glo_env_, sat_id);
   const int gs_id = 0;
@@ -52,7 +57,6 @@ void SampleCase::Main() {
   }
 }
 
-// Log for Monte Carlo Simulation
 string SampleCase::GetLogHeader() const {
   string str_tmp = "";
 
@@ -73,7 +77,7 @@ string SampleCase::GetLogValue() const {
   // auto quat_i2b = sample_sat->dynamics_->GetAttitude().GetQuaternion_i2b();
   // auto omega_b = sample_sat->dynamics_->GetAttitude().GetOmega_b();
 
-  //＊上のヘッダと内容を一致させる
+  // Need to match the contents of log with header setting above
   str_tmp += WriteScalar(glo_env_->GetSimTime().GetElapsedSec());
   // str_tmp += WriteVector(pos_i, 16);
   // str_tmp += WriteVector(vel_i, 10);

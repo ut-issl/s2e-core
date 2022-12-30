@@ -1,4 +1,8 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+﻿/*
+ * @file InitBAT.cpp
+ * @brief Initialize function of BAT
+ */
+#define _CRT_SECURE_NO_WARNINGS
 #include "InitBat.hpp"
 
 #include <string>

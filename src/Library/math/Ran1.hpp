@@ -1,11 +1,9 @@
-/*!
-  \file   Ran1.hpp
-  \author TAKISAWA Jun'ichi.
-  \date   Wed Sep 30 22:54:03 2009
-  \brief  乱数生成ルーチン1
-  "NUMERICAL RECIPES in C"のp.207-p.208に記載されている関数ran1のC++実装。
-  Park and Miller の乗算合同法に切り混ぜを加えたもの。
-*/
+/**
+ * @file Ran1.hpp
+ * @brief Randomization with Park and Miller's multiplicative congruential method combined with mixed method
+ * @note ran1 function in "NUMERICAL RECIPES in C, p.207-208"
+ */
+
 #ifndef RAN1_HPP_
 #define RAN1_HPP_
 
@@ -15,42 +13,50 @@
 
 namespace libra {
 
+/**
+ * @class Ran1
+ * @brief Randomization with Park and Miller's multiplicative congruential method combined with mixed method
+ */
 class Ran1 {
  public:
-  //! コンストラクタ
-  /*!
-    デフォルトの種で乱数オブジェクトを生成する。
-  */
+  /**
+   * @fn Ran1
+   * @brief Default constructor with default seed value
+   */
   Ran1();
-
-  //! コンストラクタ (種指定版)
-  /*!
-    乱数の種を引数として指定する。
-    0は種に指定できず、指定した場合にはstd::invalid_argument例外が発生する。
-    \param seed 乱数の種
-  */
+  /**
+   * @fn Ran1
+   * @brief Default constructor with seed value
+   * @param [in] seed: Seed of randomization
+   */
   explicit Ran1(long seed);
 
-  //! double型へのキャスト演算子
-  /*!
-    オブジェクトがdouble型へキャストされるたびに、新たな乱数を生成する。
+  /**
+   * @fn Cast operator of double type
+   * @brief Generate randomized value when casting
+   * @return Generated randomized value
    */
   operator double();
 
+  /**
+   * @fn init_seed
+   * @brief Set seed value
+   * @param [in] seed: Seed of randomization
+   */
   void init_seed(long seed);
 
  private:
-  //! 切り混ぜ表の初期化処理を行う関数
+  /**
+   * @fn init_
+   * @brief Initialize function
+   */
   void init_();
 
-  Ran0 ran0_;
-  //! 切り混ぜ表の要素数
-  static const std::size_t V_SIZE_ = 32;
-  //! 切り混ぜ表
-  double v_[V_SIZE_];
-  //! 切り混ぜ表の取得位置を格納するメンバ。
-  std::size_t y_;
-  double vec_[V_SIZE_];
+  Ran0 ran0_;                             //!< Randomization with Park and Miller's multiplicative congruential method
+  static const std::size_t V_SIZE_ = 32;  //!< Number of elements for mixing table
+  double v_[V_SIZE_];                     //!< Mixing table (Not used now)
+  std::size_t y_;                         //!< Position of mixing table
+  double vec_[V_SIZE_];                   //!< Mixing table
 };
 
 }  // namespace libra

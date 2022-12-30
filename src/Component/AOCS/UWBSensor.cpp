@@ -1,3 +1,9 @@
+/**
+ * @file UWBSensor.cpp
+ * @brief Class to emulate Ultra Wide Band distance sensor
+ * @note This class is not managed now. TODO: Consider to delete.
+ */
+
 #include "UWBSensor.h"
 
 #include <Library/math/Constant.hpp>

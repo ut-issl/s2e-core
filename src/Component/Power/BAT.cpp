@@ -1,4 +1,9 @@
-﻿#include "BAT.h"
+﻿/*
+ * @file BAT.cpp
+ * @brief Component emulation of battery
+ */
+
+#include "BAT.h"
 
 #include <cmath>
 
@@ -75,7 +80,7 @@ void BAT::MainRoutine(int time_count) {
   UNUSED(time_count);
 
   double delta_time_query = compo_step_time_ * prescaler_;
-  dod_ -= charge_current_ * delta_time_query / 3600.0 / (cell_capacity_ * number_of_parallel_ ) * 100.0;
+  dod_ -= charge_current_ * delta_time_query / 3600.0 / (cell_capacity_ * number_of_parallel_) * 100.0;
   UpdateBatVoltage();
 }
 

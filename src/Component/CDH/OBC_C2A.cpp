@@ -1,3 +1,8 @@
+/*
+ * @file OBC_C2A.cpp
+ * @brief Class to emulate on board computer with C2A flight software
+ */
+
 #include "OBC_C2A.h"
 
 #ifdef USE_C2A

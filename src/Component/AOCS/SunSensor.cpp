@@ -1,3 +1,8 @@
+/*
+ * @file SunSensor.cpp
+ * @brief Class to emulate sun sensor
+ */
+
 #include "SunSensor.h"
 
 #include <Library/math/Constant.hpp>

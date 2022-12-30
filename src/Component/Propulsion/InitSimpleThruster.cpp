@@ -1,3 +1,7 @@
+/*
+ * @file InitSimpleThruster.cpp
+ * @brief Initialize function os SimpleThruster
+ */
 #include "InitSimpleThruster.hpp"
 
 #include <Library/math/Constant.hpp>

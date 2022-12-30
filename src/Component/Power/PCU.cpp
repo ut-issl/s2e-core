@@ -1,3 +1,7 @@
+/*
+ * @file PCU.cpp
+ * @brief Component emulation of Power Control Unit
+ */
 #include "PCU.h"
 
 PCU::PCU(ClockGenerator* clock_gen) : ComponentBase(1, clock_gen) {}

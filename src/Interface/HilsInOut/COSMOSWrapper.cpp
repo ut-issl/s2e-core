@@ -1,6 +1,11 @@
-#include "COSMOSWrapper.h"
+/**
+ * @file COSMOSWrapper.cpp
+ * @brief Wrapper for COSMOS
+ * @details COSMOS (Currently, called OpenC3) : https://openc3.com/
+ * @note This file is very old and recently not managed well...
+ */
 
-// COSMOSのScripting Guide: https://cosmosrb.com/docs/scripting/
+#include "COSMOSWrapper.h"
 
 COSMOSWrapper::COSMOSWrapper(bool enable) : enable_(enable) {
   // cosmos_tcp_if_ = new COSMOS_TCP_IF();
@@ -15,7 +20,7 @@ COSMOSWrapper::~COSMOSWrapper() {}
 void COSMOSWrapper::Initialize() {
   if (!enable_) return;
 
-  //エラーメッセージは内部で出している
+  // Error messages are generated inside the Initialize function
   int ret = COSMOS_TCP_IF::Initialize();
 }
 
@@ -23,7 +28,7 @@ void COSMOSWrapper::Finalize() { COSMOS_TCP_IF::Finalize(); }
 
 bool COSMOSWrapper::Enable() const { return enable_; }
 
-// COSMOSからRDPに送信するcmd関数のラッパー。
+// Wrapper of cmd function to send data from COSMOS to RDP
 void COSMOSWrapper::Cmd(std::string cmd_str) {
   if (!enable_) return;
 
@@ -35,7 +40,7 @@ void COSMOSWrapper::Cmd(std::string cmd_str) {
 
 void COSMOSWrapper::CosmosEval(std::string expr) {
   if (!enable_) return;
-  // Ruby側で「受け取った文字列をそのままeval関数に渡している」想定。
+  // Expected the Ruby side directly pass the string to eval function
   COSMOS_TCP_IF::SendString(expr);
 }
 

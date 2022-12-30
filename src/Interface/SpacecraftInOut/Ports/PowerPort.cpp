@@ -1,8 +1,12 @@
+/**
+ * @file PowerPort.cpp
+ * @brief Class to emulate electrical power port
+ */
+
 #include "PowerPort.h"
 
 #include <cfloat>
 
-// Default constructor for users who don't want to use this feature
 PowerPort::PowerPort() : kPortId(-1), current_limit_(10.0), minimum_voltage_(3.3), assumed_power_consumption_(0.0) {
   is_on_ = true;  // power on to work the component
   Initialize();
@@ -34,7 +38,7 @@ bool PowerPort::Update(void) {
     current_consumption_ = 0.0;
     is_on_ = false;
   }
-  // over curret protection
+  // over current protection
   if (current_consumption_ >= (current_limit_ - DBL_EPSILON)) {
     current_consumption_ = 0.0;
     voltage_ = 0.0;

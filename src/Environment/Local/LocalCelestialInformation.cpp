@@ -1,3 +1,8 @@
+/**
+ * @file LocalCelestialInformation.cpp
+ * @brief Class to manage celestial body information in the spacecraft body frame
+ */
+
 #include "LocalCelestialInformation.h"
 
 #include <Interface/LogOutput/LogUtility.h>
@@ -102,13 +107,13 @@ void Convert_i2b_velocity(const double* r_i, const double* v_i, double* v_b, Qua
     ri[i] = r_i[i];
   }
 
-  // convert bodyrate vector into that in inertial coordinate
+  // convert body rate vector into that in inertial coordinate
   Vector<3> wb;
   for (int i = 0; i < 3; i++) {
     wb[i] = bodyrate_b[i];
   }
 
-  // compute crossterm wxr
+  // compute cross term wxr
   Vector<3> wxr_i = outer_product(wb, ri);
   // compute dr/dt + wxr
   for (int i = 0; i < 3; i++) {
@@ -165,7 +170,7 @@ string LocalCelestialInformation::GetLogHeader() const {
     string name = namebuf;
     string body_pos = name + "_pos";
     string body_vel = name + "_vel";
-    //　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
+    // 　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
     str_tmp += WriteVector(body_pos, "b", "m", 3);
     str_tmp += WriteVector(body_vel, "b", "m/s", 3);
   }
@@ -175,7 +180,7 @@ string LocalCelestialInformation::GetLogHeader() const {
 string LocalCelestialInformation::GetLogValue() const {
   string str_tmp = "";
   for (int i = 0; i < glo_celes_info_->GetNumBody(); i++) {
-    //　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
+    // 　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
     for (int j = 0; j < 3; j++) {
       str_tmp += WriteScalar(celes_objects_pos_from_sc_b_[i * 3 + j]);
     }

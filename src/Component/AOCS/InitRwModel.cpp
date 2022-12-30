@@ -1,11 +1,14 @@
+/**
+ * @file InitRwModel.cpp
+ * @brief Initialize functions for Reaction Wheel
+ */
 #include "InitRwModel.hpp"
 
 #include <vector>
 
 #include "Interface/InitInput/IniAccess.h"
 
-// In order to share processing among initialization functions, variables should
-// also be shared. These variables have internal linkages and cannot be
+// In order to share processing among initialization functions, variables should also be shared. These variables have internal linkages and cannot be
 // referenced from the outside.
 namespace {
 int prescaler;
@@ -66,10 +69,8 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
 
   rwmodel_conf.ReadVector(RWsection, "pos_b", pos_b);
   dead_time = rwmodel_conf.ReadDouble(RWsection, "dead_time");
-  // rwmodel_conf.ReadVector(RWsection, "firstorder_lag_coef",
-  // ordinary_lag_coef);　バグが修正できるまで読み込まない
-  // rwmodel_conf.ReadVector(RWsection, "coasting_lag_coef",
-  // coasting_lag_coef);　バグが修正できるまで読み込まない
+  // rwmodel_conf.ReadVector(RWsection, "firstorder_lag_coef", ordinary_lag_coef);　// TODO: Fix bug
+  // rwmodel_conf.ReadVector(RWsection, "coasting_lag_coef", coasting_lag_coef); // TODO: Fix bug
 
   is_calc_jitter_enabled = rwmodel_conf.ReadEnable(RWsection, "jitter_calculation");
   is_log_jitter_enabled = rwmodel_conf.ReadEnable(RWsection, "jitter_logging");

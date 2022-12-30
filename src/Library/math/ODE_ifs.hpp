@@ -1,9 +1,8 @@
-/*!
-  \file   ODE_ifs.hpp
-  \author TAKISAWA Jun'ichi.
-  \date   Tue May 10 10:19:13 2011
-  \brief  ODEクラスのinline関数定義
-*/
+/**
+ * @file ODE_ifs.hpp
+ * @brief Class for Ordinary Difference Equation (inline functions)
+ */
+
 #ifndef ODE_IFS_HPP_
 #define ODE_IFS_HPP_
 

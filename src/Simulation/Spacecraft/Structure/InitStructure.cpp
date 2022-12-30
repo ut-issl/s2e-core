@@ -1,3 +1,8 @@
+/**
+ * @file InitStructure.cpp
+ * @brief Initialize functions for spacecraft structure
+ */
+
 #include "InitStructure.hpp"
 
 #include <Interface/InitInput/IniAccess.h>

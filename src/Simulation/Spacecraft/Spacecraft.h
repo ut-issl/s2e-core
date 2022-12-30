@@ -1,3 +1,8 @@
+/**
+ * @file Spacecraft.h
+ * @brief Definition of Spacecraft class
+ */
+
 #pragma once
 
 #include <Disturbance/Disturbances.h>
@@ -9,41 +14,102 @@
 #include "InstalledComponents.hpp"
 #include "Structure/Structure.h"
 
+/**
+ * @class Spacecraft
+ * @brief Base class to express Spacecraft
+ */
 class Spacecraft {
  public:
-  // For single satellite simulation
+  /**
+   * @fn Spacecraft
+   * @brief Constructor for single satellite simulation
+   */
   Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
-  // for multi satellite simulation
+  /**
+   * @fn Spacecraft
+   * @brief Constructor for multiple satellite simulation
+   */
   Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id);
+
+  /**
+   * @fn ~Spacecraft
+   * @brief Destructor
+   */
   virtual ~Spacecraft();
 
   // forbidden copy
   Spacecraft(const Spacecraft&) = delete;
   Spacecraft& operator=(const Spacecraft&) = delete;
 
-  // virtual functions
-  // For single satellite simulation
+  // Virtual functions
+  /**
+   * @fn Initialize
+   * @brief Initialize function for single spacecraft simulation
+   */
   virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
-  // for multi satellite simulation
+  /**
+   * @fn Initialize
+   * @brief Initialize function for multiple spacecraft simulation
+   */
   virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id);
+
+  /**
+   * @fn Update
+   * @brief Update all states related with the spacecraft
+   */
   virtual void Update(const SimTime* sim_time);
+
+  /**
+   * @fn Clear
+   * @brief Clear force and torque acting on the spacecraft
+   */
   virtual void Clear(void);
+
+  /**
+   * @fn LogSetup
+   * @brief Logger setting for the spacecraft specific information
+   */
   virtual void LogSetup(Logger& logger);
 
-  // Get functions
+  // Getters
+  /**
+   * @fn GetDynamics
+   * @brief Get dynamics of the spacecraft
+   */
   inline const Dynamics& GetDynamics() const { return *dynamics_; }
+  /**
+   * @fn GetlocalEnv
+   * @brief Get local environment around the spacecraft
+   */
   inline const LocalEnvironment& GetLocalEnv() const { return *local_env_; }
+  /**
+   * @fn GetDisturbances
+   * @brief Get disturbance acting of the spacecraft
+   */
   inline const Disturbances& GetDisturbances() const { return *disturbances_; }
+  /**
+   * @fn GetStructure
+   * @brief Get structure of the spacecraft
+   */
+  inline const Structure& GetStructure() const { return *structure_; }
+  /**
+   * @fn GetInstalledComponents
+   * @brief Get components installed on the spacecraft
+   */
   inline const InstalledComponents& GetInstalledComponents() const { return *components_; }
+  /**
+   * @fn GetSatID
+   * @brief Get ID of the spacecraft
+   */
   inline int GetSatID() const { return sat_id_; }
 
  protected:
-  ClockGenerator clock_gen_;
-  Dynamics* dynamics_;
-  RelativeInformation* rel_info_;
-  LocalEnvironment* local_env_;
-  Disturbances* disturbances_;
-  Structure* structure_;
-  InstalledComponents* components_;
-  const int sat_id_;
+  ClockGenerator clock_gen_;         //!< Origin of clock for the spacecraft
+  Dynamics* dynamics_;               //!< Dynamics information of the spacecraft
+  RelativeInformation* rel_info_;    //!< Relative information with respect to the other spacecraft
+  LocalEnvironment* local_env_;      //!< Local environment information around the spacecraft
+  Disturbances* disturbances_;       //!< Disturbance information acting on the spacecraft
+  Structure* structure_;             //!< Structure information of the spacecraft
+  InstalledComponents* components_;  //!< Components information installed on the spacecraft
+  const int sat_id_;                 //!< ID of the spacecraft
 };

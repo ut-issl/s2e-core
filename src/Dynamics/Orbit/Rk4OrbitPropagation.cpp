@@ -1,3 +1,7 @@
+/**
+ * @file Rk4OrbitPropagation.cpp
+ * @brief Class to propagate spacecraft orbit with Runge-Kutta-4 method
+ */
 #include "Rk4OrbitPropagation.h"
 
 #include <Library/utils/Macros.hpp>
@@ -9,7 +13,7 @@ using std::string;
 Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, Vector<3> init_position,
                                          Vector<3> init_velocity, double init_time)
     : Orbit(celes_info), ODE<N>(timestep), mu(mu) {
-  propagate_mode_ = PROPAGATE_MODE::RK4;
+  propagate_mode_ = OrbitPropagateMode::kRk4;
 
   prop_time_ = 0.0;
   prop_step_ = timestep;

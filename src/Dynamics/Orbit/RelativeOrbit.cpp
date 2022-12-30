@@ -1,3 +1,7 @@
+/**
+ * @file RelativeOrbit.cpp
+ * @brief Class to propagate relative orbit
+ */
 #include "RelativeOrbit.h"
 
 #include <Library/utils/Macros.hpp>
@@ -16,7 +20,7 @@ RelativeOrbit::RelativeOrbit(const CelestialInformation* celes_info, double mu, 
       relative_dynamics_model_type_(relative_dynamics_model_type),
       stm_model_type_(stm_model_type),
       rel_info_(rel_info) {
-  propagate_mode_ = PROPAGATE_MODE::RELATIVE_ORBIT;
+  propagate_mode_ = OrbitPropagateMode::kRelativeOrbit;
 
   prop_time_ = 0.0;
   prop_step_ = timestep;
@@ -90,8 +94,7 @@ void RelativeOrbit::Propagate(double endtime, double current_jd) {
 
   if (!is_calc_enabled_) return;
 
-  acc_i_ *= 0;  // Disturbance acceleration are not considered in relative orbit
-                // propagation
+  acc_i_ *= 0;  // Disturbance acceleration are not considered in relative orbit propagation
 
   if (update_method_ == RK4) {
     PropagateRK4(endtime);
@@ -142,8 +145,7 @@ void RelativeOrbit::PropagateSTM(double elapsed_sec) {
   relative_velocity_lvlh_[2] = current_state[5];
 }
 
-void RelativeOrbit::RHS(double t, const Vector<6>& state,
-                        Vector<6>& rhs)  // only for RK4 relative dynamics propagation
+void RelativeOrbit::RHS(double t, const Vector<6>& state, Vector<6>& rhs)  // only for RK4 relative dynamics propagation
 {
   rhs = system_matrix_ * state;
   (void)t;

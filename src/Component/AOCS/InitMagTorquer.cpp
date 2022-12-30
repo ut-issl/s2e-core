@@ -1,3 +1,7 @@
+/**
+ * @file InitMagTorquer.cpp
+ * @brief Initialize functions for magnetorquer
+ */
 #include "InitMagTorquer.hpp"
 
 #include "Interface/InitInput/IniAccess.h"

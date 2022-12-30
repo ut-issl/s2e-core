@@ -1,3 +1,8 @@
+/**
+ * @file Sgp4OrbitPropagation.cpp
+ * @brief Class to propagate spacecraft orbit with SGP4 method with TLE
+ */
+
 #include "Sgp4OrbitPropagation.h"
 
 #include <Library/utils/Macros.hpp>
@@ -7,7 +12,7 @@ using namespace std;
 
 Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd)
     : Orbit(celes_info) {
-  propagate_mode_ = PROPAGATE_MODE::SGP4;
+  propagate_mode_ = OrbitPropagateMode::kSgp4;
 
   if (wgs == 0) {
     whichconst_ = wgs72old;
@@ -24,7 +29,7 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celes_inf
 
   acc_i_ *= 0;
 
-  // To calculate initial position and verocity
+  // To calculate initial position and velocity
   is_calc_enabled_ = true;
   Propagate(0.0, current_jd);
   is_calc_enabled_ = false;
@@ -87,9 +92,9 @@ Vector<3> Sgp4OrbitPropagation::GetESIOmega() {
   omega_peri[1] = 0.0;
   omega_peri[2] = satrec_.no / 60;
 
-  double i = satrec_.inclo;      // inclo
+  double i = satrec_.inclo;      // inclination
   double OMEGA = satrec_.nodeo;  // raan
-  double omega = satrec_.argpo;  // argpo
+  double omega = satrec_.argpo;  // argment of perigee
 
   double comega = cos(omega);
   double cOMEGA = cos(OMEGA);

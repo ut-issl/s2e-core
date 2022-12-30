@@ -1,7 +1,11 @@
+/**
+ * @file Singleton.h
+ * @brief Class to restrict that class that the class can have only one instance at a time
+ * @note TODO: Is this needed? Currently this is used in StateMachine only. And we need to use other library if we want to use.
+ */
+
 #pragma once
 
-// インスタンスがただ一つに定まるときに継承させることで，制約をかけている．
-// オレオレ実装なので，なんかライブラリとか使って肩に乗りたいが．．
 template <typename T>
 class Singleton {
  protected:

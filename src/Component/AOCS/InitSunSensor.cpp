@@ -1,3 +1,7 @@
+/**
+ * @file InitSunSensor.cpp
+ * @brief Initialize functions for sun sensor
+ */
 #include "InitSunSensor.hpp"
 
 #include <string.h>

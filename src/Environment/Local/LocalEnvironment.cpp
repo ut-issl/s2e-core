@@ -1,3 +1,7 @@
+/**
+ * @file LocalEnvironment.cpp
+ * @brief Class to manage local environments
+ */
 #include "LocalEnvironment.h"
 
 #include <Dynamics/Attitude/Attitude.h>

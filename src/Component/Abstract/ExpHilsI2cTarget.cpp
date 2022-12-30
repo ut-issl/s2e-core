@@ -1,3 +1,8 @@
+/**
+ * @file ExpHilsI2cTarget.cpp
+ * @brief Example of component emulation for I2C target side communication in HILS environment
+ */
+
 #include "ExpHilsI2cTarget.h"
 
 ExpHilsI2cTarget::ExpHilsI2cTarget(const int prescaler, ClockGenerator* clock_gen, const int sils_port_id, unsigned char i2c_address, OBC* obc,

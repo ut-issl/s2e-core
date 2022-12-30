@@ -1,9 +1,6 @@
 /*
- * @file rw_ode.hpp
- * @brief
- * リアクションホイールの指定されたrpmまでの推移(一次遅れ系として実装されている)
- * @author Shun Arahata
- * @details rw_ode.cppの実装
+ * @file rw_ode.cpp
+ * @brief Ordinary differential equation of angular velocity of reaction wheel with first-order lag
  */
 #include "rw_ode.hpp"
 

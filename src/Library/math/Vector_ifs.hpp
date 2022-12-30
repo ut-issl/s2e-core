@@ -1,9 +1,7 @@
-/*!
-  \file   Vector_ifs.hpp
-  \author TAKISAWA, Jun'ichi.
-  \date   Sun Apr 24 00:55:31 2011
-  \brief  Vector.hppのinline関数実装
-*/
+/**
+ * @file Vector_ifs.hpp
+ * @brief Class for mathematical vector (inline functions)
+ */
 #ifndef VECTOR_IFS_HPP_
 #define VECTOR_IFS_HPP_
 

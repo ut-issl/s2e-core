@@ -1,3 +1,8 @@
+/**
+ * @file ObcCommunicationBase.cpp
+ * @brief Base class for serial communication (e.g., UART) with OBC flight software
+ */
+
 #include "ObcCommunicationBase.h"
 
 #include <iostream>

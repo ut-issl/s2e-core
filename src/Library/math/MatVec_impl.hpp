@@ -1,8 +1,8 @@
-/*!
-  \file   MatVec_impl.hpp
-  \author TAKISAWA Jun'ichi.
-  \brief  MatVec.hppの実装
-*/
+/**
+ * @file MatVec_impl.hpp
+ * @brief Template library for Matrix-Vector calculation
+ */
+
 #ifndef MAT_VEC_IMPL_HPP_
 #define MAT_VEC_IMPL_HPP_
 #include <stdexcept>  // for invalid_argument.

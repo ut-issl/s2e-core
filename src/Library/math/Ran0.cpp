@@ -1,9 +1,9 @@
-/*!
-  \file   Ran0.cpp
-  \author TAKISAWA Jun'ichi.
-  \date   Tue Sep 29 20:34:49 2009
-  \brief  Ran0.hppの実装
-*/
+/**
+ * @file Ran0.cpp
+ * @brief Randomization with Park and Miller's multiplicative congruential method
+ * @note ran0 function in "NUMERICAL RECIPES in C, p.206"
+ */
+
 #include "Ran0.hpp"
 using libra::Ran0;
 

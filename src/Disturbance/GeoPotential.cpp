@@ -1,3 +1,8 @@
+/**
+ * @file GeoPotential.cpp
+ * @brief Class to calculate the high-order earth gravity acceleration
+ */
+
 #include "GeoPotential.h"
 
 #include <Environment/Global/PhysicalConstants.hpp>

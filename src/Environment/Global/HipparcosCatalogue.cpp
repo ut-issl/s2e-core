@@ -1,3 +1,7 @@
+/**
+ *@file HipparcosCatalogue.cpp
+ *@brief Class to calculate star direction with Hipparcos catalogue
+ */
 #include "HipparcosCatalogue.h"
 
 #include <Library/math/Constant.hpp>
@@ -25,21 +29,20 @@ bool HipparcosCatalogue::ReadContents(const string& filename, const char delimit
   }
 
   string title;
-  ifs >> title;  //タイトルを読み飛ばす
+  ifs >> title;  // Skip title
   while (!ifs.eof()) {
     HipData hipdata;
 
     string line;
     ifs >> line;
-    replace(line.begin(), line.end(), delimiter,
-            ' ');  // stringstreamで自動的に数値を抽出するために、スペース区切りに直す
+    replace(line.begin(), line.end(), delimiter, ' ');  // Convert delimiter as space for stringstream
     istringstream streamline(line);
 
     streamline >> hipdata.hip_num >> hipdata.vmag >> hipdata.ra >> hipdata.de;
 
     if (hipdata.vmag > max_magnitude_) {
       return true;
-    }  // max_magnitudeで指定したvmagより暗い星は読み込まない
+    }  // Don't read stars darker than max_magnitude
     hip_catalogue.push_back(hipdata);
   }
 

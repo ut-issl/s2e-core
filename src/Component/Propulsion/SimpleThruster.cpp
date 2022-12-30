@@ -1,3 +1,7 @@
+/*
+ * @file SimpleThruster.p
+ * @brief Component emulation of simple thruster
+ */
 #include "SimpleThruster.h"
 
 #include <Library/math/GlobalRand.h>

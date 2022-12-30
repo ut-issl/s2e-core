@@ -1,3 +1,8 @@
+/*
+ * @file RWJitter.cpp
+ * @brief Class to calculate RW high-frequency jitter effect
+ */
+
 #include "RWJitter.h"
 
 #include <Library/math/Constant.hpp>
@@ -26,8 +31,7 @@ RWJitter::RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coef,
   for (size_t i = 0; i < radial_torque_harmonics_coef_.size(); i++) {
     jitter_torque_rot_phase_.push_back(dist(engine));
   }
-  // Calculate the coefficients of the difference equation when structural
-  // resonance is considered
+  // Calculate the coefficients of the difference equation when structural resonance is considered
   if (considers_structural_resonance_) {
     CalcCoef();
   }
@@ -107,7 +111,7 @@ void RWJitter::ShiftTimeStep() {
 void RWJitter::CalcCoef() {
   // Pre-warping
   structural_resonance_angular_freq_ = 2.0 / jitter_update_interval_ * tan(structural_resonance_angular_freq_ * jitter_update_interval_ / 2.0);
-  // Calculate coefficients of difference equatiion
+  // Calculate coefficients of difference equation
   coef_[0] = 4.0 + 4.0 * bandwidth_ * damping_factor_ * jitter_update_interval_ * structural_resonance_angular_freq_ +
              pow(jitter_update_interval_, 2.0) * pow(structural_resonance_angular_freq_, 2.0);
   coef_[1] = -8.0 + 2.0 * pow(jitter_update_interval_, 2.0) * pow(structural_resonance_angular_freq_, 2.0);

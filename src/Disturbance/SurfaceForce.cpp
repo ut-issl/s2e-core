@@ -1,3 +1,8 @@
+/**
+ * @file SurfaceForce.cpp
+ * @brief Base class for disturbances acting on a spacecraft surface (e.g., SRP, Air drag, etc)
+ */
+
 #include "SurfaceForce.h"
 
 #include "../Library/math/Vector.hpp"
@@ -18,9 +23,6 @@ SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_
   sinX.assign(num, 0.0);
 }
 
-// input_b: direction of disturbance source @ body frame
-// item: parameter which decide the magnitude of the disturbances (Solar flux,
-// air density)
 Vector<3> SurfaceForce::CalcTorqueForce(Vector<3>& input_b, double item) {
   CalcTheta(input_b);
   CalcCoef(input_b, item);
@@ -30,7 +32,7 @@ Vector<3> SurfaceForce::CalcTorqueForce(Vector<3>& input_b, double item) {
   normalize(input_b_normal);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {
-    if (cosX[i] > 0) {  // if the surface directs to the disturbance source (sun or air)
+    if (cosX[i] > 0) {  // if the surface faces to the disturbance source (sun or air)
       // calc direction of in-plane force
       Vector<3> normal = surfaces_[i].GetNormal();
       Vector<3> ncu = outer_product(input_b_normal, normal);
@@ -49,7 +51,6 @@ Vector<3> SurfaceForce::CalcTorqueForce(Vector<3>& input_b, double item) {
   return torque_b_;
 }
 
-// input_b: direction of disturbance source @ body frame
 void SurfaceForce::CalcTheta(Vector<3>& input_b) {
   Vector<3> input_b_normal(input_b);
   normalize(input_b_normal);

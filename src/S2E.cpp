@@ -1,3 +1,8 @@
+/**
+ * @file S2E.cpp
+ * @brief The main file of S2E
+ */
+
 #ifdef WIN32
 #define _WINSOCKAPI_  // stops windows.h including winsock.h
 #include <tchar.h>
@@ -14,9 +19,9 @@
 
 // Add custom include files
 #include "Simulation/Case/SampleCase.h"
-//#include "Simulation/MCSim/MCSimExecutor.h"
-//#include "Interface/HilsInOut/COSMOSWrapper.h"
-//#include "Interface/HilsInOut/HardwareMessage.h"
+// #include "Simulation/MCSim/MCSimExecutor.h"
+// #include "Interface/HilsInOut/COSMOSWrapper.h"
+// #include "Interface/HilsInOut/HardwareMessage.h"
 
 void print_path(std::string path) {
 #ifdef WIN32
@@ -41,7 +46,7 @@ int main(int argc, char *argv[])
   system_clock::time_point start, end;
   start = system_clock::now();
 
-  std::string data_path = "../../data/";  // 必要なくなった？
+  std::string data_path = "../../data/";
   std::string ini_file = "../../data/SampleSat/ini/SampleSimBase.ini";
 
   // Parsing arguments:  SatAttSim <data_path> [ini_file]
