@@ -2,7 +2,7 @@ cmake_policy(SET CMP0048 NEW)
 project(S2E
   LANGUAGES CXX
   DESCRIPTION "S2E: Spacecraft Simulation Environment"
-  VERSION 5.1.0
+  VERSION 5.2.0
 )
 
 cmake_minimum_required(VERSION 3.13)
