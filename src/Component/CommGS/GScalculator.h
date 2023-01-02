@@ -86,13 +86,13 @@ class GScalculator : public ILoggable {
   /**
    * @fn CalcMaxBitrate
    * @brief Calculate the maximum bitrate
-   * @param [in] dynamics: Dynamics information
-   * @param [in] sc_ant: Antenna mounted on spacecraft
-   * @param [in] groundstation: Ground station information
-   * @param [in] gs_ant: Antenna mounted on ground station
+   * @param [in] dynamics: Spacecraft dynamics information
+   * @param [in] sc_tx_ant: Tx Antenna mounted on spacecraft
+   * @param [in] ground_station: Ground station information
+   * @param [in] gs_rx_ant: Rx Antenna mounted on ground station
    * @return Max bitrate [kbps]
    */
-  double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant);
+  double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
 
   /**
    * @fn CalcCn0
@@ -103,5 +103,5 @@ class GScalculator : public ILoggable {
    * @param [in] gs_rx_ant: Rx Antenna mounted on ground station
    * @return CN0 [dB]
    */
-  double CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_antt);
+  double CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
 };

@@ -32,31 +32,14 @@ void GScalculator::Update(const Spacecraft& spacecraft, const Antenna& sc_ant, c
   }
 }
 
-double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant) {
-  if (!sc_ant.IsTransmitter() || !gs_ant.IsReceiver()) {
-    // Check compatibility of transmitter and receiver
-    return 0.0f;
-  }
-
-  // TODO: Consider Inertial frame of ECEF frame?
-  Vector<3> sc_pos_i = dynamics.GetOrbit().GetSatPosition_i();
-  Vector<3> gs_pos_i = groundstation.GetGSPosition_i();
-  double dist_sc_gs_km = norm(sc_pos_i - gs_pos_i) / 1000;
-  double loss_space_dB = -20 * log10(4 * libra::pi * dist_sc_gs_km / (300 / sc_ant.GetFrequency() / 1000));
-
-  // TODO: Calculate the boresight angle from position of the satellite
-  double sc_boresight_angle_rad = 0;
-  // Ref.  // double theta = angle(q_b2i.frame_conv(axis_b), rel_pos);
-
-  double gs_boresight_angle_rad = 0;  // Assume the GS antenna completely track the satellite
-
-  double cn0_dBHz = sc_ant.CalcTxEIRP(sc_boresight_angle_rad) + loss_space_dB + loss_polarization_ + loss_atmosphere_ + loss_rainfall_ +
-                    loss_others_ + gs_ant.CalcRxGT(gs_boresight_angle_rad) - 10 * log10(environment::boltzmann_constant_J_K);
+double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station,
+                                    const Antenna& gs_rx_ant) {
+  double cn0_dBHz = CalcCn0OnGs(dynamics, sc_tx_ant, ground_station, gs_rx_ant);
 
   double margin_for_bitrate_dB = cn0_dBHz - (EbN0_ + hardware_deterioration_ + coding_gain_) - margin_req_;
 
   if (margin_for_bitrate_dB > 0) {
-    return pow(10, margin_for_bitrate_dB / 10.) / 1000000.;  //[MHz]? TODO: Need to check the correctness...
+    return pow(10.0, margin_for_bitrate_dB / 10.0) / 1000000.0;  //[MHz]? TODO: Need to check the correctness...
   } else {
     return 0.0;
   }
@@ -71,8 +54,8 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
   // Free space path loss
   Vector<3> sc_pos_i = dynamics.GetOrbit().GetSatPosition_i();
   Vector<3> gs_pos_i = ground_station.GetGSPosition_i();
-  double dist_sc_gs_km = norm(sc_pos_i - gs_pos_i) / 1000;
-  double loss_space_dB = -20 * log10(4 * libra::pi * dist_sc_gs_km / (300 / sc_tx_ant.GetFrequency() / 1000));
+  double dist_sc_gs_km = norm(sc_pos_i - gs_pos_i) / 1000.0;
+  double loss_space_dB = -20.0 * log10(4.0 * libra::pi * dist_sc_gs_km / (300.0 / sc_tx_ant.GetFrequency() / 1000.0));
 
   // GS direction on SC TX antenna frame
   Vector<3> sc_to_gs_i = gs_pos_i - sc_pos_i;
@@ -93,7 +76,7 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
   // Calc CN0
   double cn0_dBHz = sc_tx_ant.CalcTxEIRP(theta_on_sc_ant_rad, phi_on_sc_ant_rad) + loss_space_dB + loss_polarization_ + loss_atmosphere_ +
                     loss_rainfall_ + loss_others_ + gs_rx_ant.CalcRxGT(theta_on_gs_ant_rad, phi_on_gs_ant_rad) -
-                    10 * log10(environment::boltzmann_constant_J_K);
+                    10.0 * log10(environment::boltzmann_constant_J_K);
   return cn0_dBHz;
 }
 
