@@ -23,10 +23,10 @@ GScalculator::GScalculator(const double loss_polarization, const double loss_atm
 
 GScalculator::~GScalculator() {}
 
-void GScalculator::Update(const Spacecraft& spacecraft, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant) {
-  bool is_visible = groundstation.IsVisible(spacecraft.GetSatID());
+void GScalculator::Update(const Spacecraft& spacecraft, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant) {
+  bool is_visible = ground_station.IsVisible(spacecraft.GetSatID());
   if (is_visible) {
-    max_bitrate_ = CalcMaxBitrate(spacecraft.GetDynamics(), sc_ant, groundstation, gs_ant);
+    max_bitrate_ = CalcMaxBitrate(spacecraft.GetDynamics(), sc_tx_ant, ground_station, gs_rx_ant);
   } else {
     max_bitrate_ = 0.0f;
   }

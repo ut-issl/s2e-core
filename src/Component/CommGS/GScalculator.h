@@ -47,12 +47,11 @@ class GScalculator : public ILoggable {
    * @fn Update
    * @brief Update state
    * @param [in] spacecraft: Spacecraft information
-   * @param [in] sc_ant: Antenna mounted on spacecraft
-   * @param [in] groundstation: Ground station information
-   * @param [in] gs_ant: Antenna mounted on ground station
-   * @return Max bitrate [kbps]
+   * @param [in] sc_tx_ant: Antenna mounted on spacecraft
+   * @param [in] ground_station: Ground station information
+   * @param [in] gs_rx_ant: Antenna mounted on ground station
    */
-  void Update(const Spacecraft& spacecraft, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant);
+  void Update(const Spacecraft& spacecraft, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
 
   // Override ILoggable
   /**
