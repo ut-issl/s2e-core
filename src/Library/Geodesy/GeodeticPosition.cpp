@@ -8,15 +8,19 @@
 
 #include <Environment/Global/PhysicalConstants.hpp>
 #include <Library/math/Constant.hpp>
+#include <Library/math/Matrix.hpp>
 
 GeodeticPosition::GeodeticPosition() {
   latitude_rad_ = 0.0;
   longitude_rad_ = 0.0;
   altitude_m_ = 0.0;
+  CalcQuaternionXcxfToLtc();
 }
+
 GeodeticPosition::GeodeticPosition(const double latitude_rad, const double longitude_rad, const double altitude_m)
     : latitude_rad_(latitude_rad), longitude_rad_(longitude_rad), altitude_m_(altitude_m) {
   // TODO: Add assertion check for altitude limit
+  CalcQuaternionXcxfToLtc();
 }
 
 void GeodeticPosition::UpdateFromEcef(const libra::Vector<3> position_ecef_m) {
@@ -44,6 +48,7 @@ void GeodeticPosition::UpdateFromEcef(const libra::Vector<3> position_ecef_m) {
 
   latitude_rad_ = lat_tmp_rad;
 
+  CalcQuaternionXcxfToLtc();
   return;
 }
 
@@ -62,4 +67,19 @@ libra::Vector<3> GeodeticPosition::CalcEcefPosition() const {
   pos_ecef_m(2) = (N * (1 - e2) + altitude_m_) * sin(latitude_rad_);
 
   return pos_ecef_m;
+}
+
+void GeodeticPosition::CalcQuaternionXcxfToLtc() {
+  libra::Matrix<3, 3> trans_mat_xcxf_to_ltc;
+  trans_mat_xcxf_to_ltc[0][0] = -sin(longitude_rad_);
+  trans_mat_xcxf_to_ltc[0][1] = cos(longitude_rad_);
+  trans_mat_xcxf_to_ltc[0][2] = 0;
+  trans_mat_xcxf_to_ltc[1][0] = -sin(latitude_rad_) * cos(longitude_rad_);
+  trans_mat_xcxf_to_ltc[1][1] = -sin(latitude_rad_) * sin(longitude_rad_);
+  trans_mat_xcxf_to_ltc[1][2] = cos(latitude_rad_);
+  trans_mat_xcxf_to_ltc[2][0] = cos(latitude_rad_) * cos(longitude_rad_);
+  trans_mat_xcxf_to_ltc[2][1] = cos(latitude_rad_) * sin(longitude_rad_);
+  trans_mat_xcxf_to_ltc[2][2] = sin(latitude_rad_);
+
+  q_xcxf_to_ltc_ = q_xcxf_to_ltc_.fromDCM(trans_mat_xcxf_to_ltc);
 }

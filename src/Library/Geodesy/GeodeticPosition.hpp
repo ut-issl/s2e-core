@@ -4,6 +4,7 @@
  */
 #pragma once
 
+#include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
 
 /**
@@ -55,9 +56,22 @@ class GeodeticPosition {
    * @brief Return altitude [m]
    */
   inline double GetAlt_m() const { return altitude_m_; }
+  /**
+   * @fn GetQuaternionXcxfToLtc
+   * @brief Conversion quaternion from XCXF (e.g. ECEF) to LTC frame
+   */
+  inline libra::Quaternion GetQuaternionXcxfToLtc() const { return q_xcxf_to_ltc_; }
 
  private:
-  double latitude_rad_;   //! Latitude [rad] South: -π/2 to 0, North: 0 to π/2
-  double longitude_rad_;  //! Longitude [rad] East: 0 to π, West: 2π to π (i.e., defined as 0 to 2π [rad] east of the Greenwich meridian)
-  double altitude_m_;     //! Altitude [m]
+  double latitude_rad_;   //!< Latitude [rad] South: -π/2 to 0, North: 0 to π/2
+  double longitude_rad_;  //!< Longitude [rad] East: 0 to π, West: 2π to π (i.e., defined as 0 to 2π [rad] east of the Greenwich meridian)
+  double altitude_m_;     //!< Altitude [m]
+
+  libra::Quaternion q_xcxf_to_ltc_;  //!< Conversion quaternion from XCXF (e.g. ECEF) to LTC (Local Topographic Coordinate)
+
+  /**
+   * @fn CalcQuaternionXcxfToLtc
+   * @brief Calculate quaternion which converts XCXF frame to LTC frame at the geodetic position
+   */
+  void CalcQuaternionXcxfToLtc();
 };
