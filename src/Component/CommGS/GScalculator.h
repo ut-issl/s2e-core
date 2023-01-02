@@ -1,6 +1,7 @@
 /*
  * @file GScalculator.h
  * @brief Emulation of analysis and calculation for Ground Stations
+ * @note TODO: This class is not `Component`. We need to move this to `Analysis` category and use this as library in future.
  */
 
 #pragma once
@@ -45,7 +46,8 @@ class GScalculator : public ILoggable {
 
   /**
    * @fn Update
-   * @brief Update state
+   * @brief Update maximum bitrate calculation
+   * @note TODO: fix function name
    * @param [in] spacecraft: Spacecraft information
    * @param [in] sc_tx_ant: Antenna mounted on spacecraft
    * @param [in] ground_station: Ground station information
@@ -53,7 +55,20 @@ class GScalculator : public ILoggable {
    */
   void Update(const Spacecraft& spacecraft, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
 
-  // Override ILoggable
+  /**
+   * @fn CalcReceiveMarginOnGs
+   * @brief Calculate receive margin at the ground station
+   * @param [in] dynamics: Spacecraft dynamics information
+   * @param [in] sc_tx_ant: Tx Antenna mounted on spacecraft
+   * @param [in] downlink_bitrate_bps: Downlink bitrate [bps]
+   * @param [in] ground_station: Ground station information
+   * @param [in] gs_rx_ant: Rx Antenna mounted on ground station
+   * @return Receive margin [dB]
+   */
+  double CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const double downlink_bitrate_bps,
+                               const GroundStation& ground_station, const Antenna& gs_rx_ant);
+
+  // Override ILoggable TODO: Maybe we don't need logabble, and this class should be used as library.
   /**
    * @fn GetLogHeader
    * @brief Override GetLogHeader function of ILoggable
@@ -72,6 +87,7 @@ class GScalculator : public ILoggable {
   inline bool GetMaxBitrate() const { return max_bitrate_; }
 
  protected:
+  // Parameters
   double loss_polarization_;       //!< Loss polarization [dB]
   double loss_atmosphere_;         //!< Loss atmosphere [dB]
   double loss_rainfall_;           //!< Loss rainfall [dB]
@@ -80,7 +96,9 @@ class GScalculator : public ILoggable {
   double hardware_deterioration_;  //!< Hardware deterioration [dB]
   double coding_gain_;             //!< Coding gain [dB]
   double margin_req_;              //!< Margin requirement [dB]
-  double max_bitrate_;             //!< Max bitrate [kbps]
+
+  // Calculated values
+  double max_bitrate_;  //!< Max bitrate [kbps]
 
   /**
    * @fn CalcMaxBitrate

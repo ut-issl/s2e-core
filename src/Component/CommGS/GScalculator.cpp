@@ -32,6 +32,14 @@ void GScalculator::Update(const Spacecraft& spacecraft, const Antenna& sc_tx_ant
   }
 }
 
+double GScalculator::CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const double downlink_bitrate_bps,
+                                           const GroundStation& ground_station, const Antenna& gs_rx_ant) {
+  double cn0_dB = CalcCn0OnGs(dynamics, sc_tx_ant, ground_station, gs_rx_ant);
+  double cn0_requirement_dB = EbN0_ + hardware_deterioration_ + coding_gain_ + 10.0 * log10(downlink_bitrate_bps);
+  return cn0_dB - cn0_requirement_dB;
+}
+
+// Private functions
 double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station,
                                     const Antenna& gs_rx_ant) {
   double cn0_dBHz = CalcCn0OnGs(dynamics, sc_tx_ant, ground_station, gs_rx_ant);
