@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "../GroundStation/GroundStation.h"
+#include "../GroundStation/SampleGroundStation/SampleGS.h"
 #include "../Spacecraft/SampleSpacecraft/SampleSat.h"
 #include "./SimulationCase.h"
 
@@ -52,5 +52,5 @@ class SampleCase : public SimulationCase {
 
  private:
   SampleSat* sample_sat_;     //!< Instance of spacecraft
-  GroundStation* sample_gs_;  //!< Instance of ground station
+  SampleGS* sample_gs_;  //!< Instance of ground station
 };

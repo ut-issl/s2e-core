@@ -18,8 +18,7 @@ void SampleGS::LogSetup(Logger& logger) {
   components_->CompoLogSetUp(logger);
 }
 
-void SampleGS::Update(const Spacecraft& spacecraft, const GlobalEnvironment& global_env, const Antenna& sc_ant, const SampleGS& samplegs) {
-  GroundStation::Update(global_env.GetCelesInfo().GetEarthRotation(), spacecraft);
-  components_->GetGsCalculator()->Update(spacecraft, sc_ant, samplegs, *(components_->GetAntenna()));
-  // TODO: When compo->ant_ is null, the calculation is undefined.
+void SampleGS::Update(const CelestialRotation& celes_rotation, const SampleSat& spacecraft) {
+  GroundStation::Update(celes_rotation, spacecraft);
+  components_->GetGsCalculator()->Update(spacecraft, spacecraft.GetInstalledComponents().GetAntenna(), *this, *(components_->GetAntenna()));
 }

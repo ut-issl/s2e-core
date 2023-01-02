@@ -20,7 +20,7 @@ void SampleCase::Initialize() {
   const int sat_id = 0;
   sample_sat_ = new SampleSat(&sim_config_, glo_env_, sat_id);
   const int gs_id = 0;
-  sample_gs_ = new GroundStation(&sim_config_, gs_id);
+  sample_gs_ = new SampleGS(&sim_config_, gs_id);
 
   // Register the log output
   glo_env_->LogSetup(*(sim_config_.main_logger_));
