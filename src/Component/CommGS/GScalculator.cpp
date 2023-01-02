@@ -9,7 +9,8 @@
 #include <Library/math/Constant.hpp>
 
 GScalculator::GScalculator(const double loss_polarization, const double loss_atmosphere, const double loss_rainfall, const double loss_others,
-                           const double EbN0, const double hardware_deterioration, const double coding_gain, const double margin_req)
+                           const double EbN0, const double hardware_deterioration, const double coding_gain, const double margin_req,
+                           const double downlink_bitrate_bps)
     : loss_polarization_(loss_polarization),
       loss_atmosphere_(loss_atmosphere),
       loss_rainfall_(loss_rainfall),
@@ -17,8 +18,10 @@ GScalculator::GScalculator(const double loss_polarization, const double loss_atm
       EbN0_(EbN0),
       hardware_deterioration_(hardware_deterioration),
       coding_gain_(coding_gain),
-      margin_req_(margin_req) {
-  max_bitrate_ = 0.0f;
+      margin_req_(margin_req),
+      downlink_bitrate_bps_(downlink_bitrate_bps) {
+  max_bitrate_Mbps_ = 0.0;
+  receive_margin_dB_ = -10000.0;  // FIXME: which value is suitable?
 }
 
 GScalculator::~GScalculator() {}
@@ -26,17 +29,12 @@ GScalculator::~GScalculator() {}
 void GScalculator::Update(const Spacecraft& spacecraft, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant) {
   bool is_visible = ground_station.IsVisible(spacecraft.GetSatID());
   if (is_visible) {
-    max_bitrate_ = CalcMaxBitrate(spacecraft.GetDynamics(), sc_tx_ant, ground_station, gs_rx_ant);
+    max_bitrate_Mbps_ = CalcMaxBitrate(spacecraft.GetDynamics(), sc_tx_ant, ground_station, gs_rx_ant);
+    receive_margin_dB_ = CalcReceiveMarginOnGs(spacecraft.GetDynamics(), sc_tx_ant, ground_station, gs_rx_ant);
   } else {
-    max_bitrate_ = 0.0f;
+    max_bitrate_Mbps_ = 0.0;
+    receive_margin_dB_ = -10000.0;  // FIXME: which value is suitable?
   }
-}
-
-double GScalculator::CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const double downlink_bitrate_bps,
-                                           const GroundStation& ground_station, const Antenna& gs_rx_ant) {
-  double cn0_dB = CalcCn0OnGs(dynamics, sc_tx_ant, ground_station, gs_rx_ant);
-  double cn0_requirement_dB = EbN0_ + hardware_deterioration_ + coding_gain_ + 10.0 * log10(downlink_bitrate_bps);
-  return cn0_dB - cn0_requirement_dB;
 }
 
 // Private functions
@@ -47,10 +45,17 @@ double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_
   double margin_for_bitrate_dB = cn0_dBHz - (EbN0_ + hardware_deterioration_ + coding_gain_) - margin_req_;
 
   if (margin_for_bitrate_dB > 0) {
-    return pow(10.0, margin_for_bitrate_dB / 10.0) / 1000000.0;  //[MHz]? TODO: Need to check the correctness...
+    return pow(10.0, margin_for_bitrate_dB / 10.0) / 1000000.0;
   } else {
     return 0.0;
   }
+}
+
+double GScalculator::CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station,
+                                           const Antenna& gs_rx_ant) {
+  double cn0_dB = CalcCn0OnGs(dynamics, sc_tx_ant, ground_station, gs_rx_ant);
+  double cn0_requirement_dB = EbN0_ + hardware_deterioration_ + coding_gain_ + 10.0 * log10(downlink_bitrate_bps_);
+  return cn0_dB - cn0_requirement_dB;
 }
 
 double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant) {
@@ -92,6 +97,7 @@ std::string GScalculator::GetLogHeader() const {
   std::string str_tmp = "";
 
   str_tmp += WriteScalar("max bitrate[Mbps]");
+  str_tmp += WriteScalar("receive_margin[dB]");
 
   return str_tmp;
 }
@@ -99,7 +105,8 @@ std::string GScalculator::GetLogHeader() const {
 std::string GScalculator::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(max_bitrate_);
+  str_tmp += WriteScalar(max_bitrate_Mbps_);
+  str_tmp += WriteScalar(receive_margin_dB_);
 
   return str_tmp;
 }

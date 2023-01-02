@@ -34,10 +34,11 @@ class GScalculator : public ILoggable {
    * @param [in] EbN0: EbN0 [dB]
    * @param [in] hardware_deterioration: Hardware deterioration [dB]
    * @param [in] coding_gain: Coding gain [dB]
-   * @param [in] margin_req: Margin requirement [dB]
+   * @param [in] margin_req: Required margin to calculate max bitrate [dB]
+   * @param [in] downlink_bitrate_bps: Downlink bitrate to calculate receive margin [bps]
    */
   GScalculator(const double loss_polarization, const double loss_atmosphere, const double loss_rainfall, const double loss_others, const double EbN0,
-               const double hardware_deterioration, const double coding_gain, const double margin_req);
+               const double hardware_deterioration, const double coding_gain, const double margin_req, const double downlink_bitrate_bps = 1000);
   /**
    * @fn ~GScalculator
    * @brief Destructor
@@ -55,19 +56,6 @@ class GScalculator : public ILoggable {
    */
   void Update(const Spacecraft& spacecraft, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
 
-  /**
-   * @fn CalcReceiveMarginOnGs
-   * @brief Calculate receive margin at the ground station
-   * @param [in] dynamics: Spacecraft dynamics information
-   * @param [in] sc_tx_ant: Tx Antenna mounted on spacecraft
-   * @param [in] downlink_bitrate_bps: Downlink bitrate [bps]
-   * @param [in] ground_station: Ground station information
-   * @param [in] gs_rx_ant: Rx Antenna mounted on ground station
-   * @return Receive margin [dB]
-   */
-  double CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const double downlink_bitrate_bps,
-                               const GroundStation& ground_station, const Antenna& gs_rx_ant);
-
   // Override ILoggable TODO: Maybe we don't need logabble, and this class should be used as library.
   /**
    * @fn GetLogHeader
@@ -80,11 +68,24 @@ class GScalculator : public ILoggable {
    */
   virtual std::string GetLogValue() const;
 
+  // Getter
   /**
    * @fn GetMaxBitrate
-   * @brief Return max bitrate [kbps]
+   * @brief Return max bitrate [Mbps]
    */
-  inline bool GetMaxBitrate() const { return max_bitrate_; }
+  inline double GetMaxBitrate() const { return max_bitrate_Mbps_; }
+  /**
+   * @fn GetReceiveMargin
+   * @brief Return receive margin [dB]
+   */
+  inline double GetReceiveMargin() const { return receive_margin_dB_; }
+
+  // Setter
+  /**
+   * @fn SetDownlinkBitrate_bps
+   * @param [in] downlink_bitrate_bps: Downlink bitrate to calculate receive margin [bps]
+   */
+  inline void SetDownlinkBitrate_bps(const double downlink_bitrate_bps) { downlink_bitrate_bps_ = downlink_bitrate_bps; }
 
  protected:
   // Parameters
@@ -95,10 +96,13 @@ class GScalculator : public ILoggable {
   double EbN0_;                    //!< EbN0 [dB]
   double hardware_deterioration_;  //!< Hardware deterioration [dB]
   double coding_gain_;             //!< Coding gain [dB]
-  double margin_req_;              //!< Margin requirement [dB]
+  // Variables
+  double margin_req_;            //!< Required margin to calculate max bitrate [dB]
+  double downlink_bitrate_bps_;  //!< Downlink bitrate to calculate receive margin [bps]
 
   // Calculated values
-  double max_bitrate_;  //!< Max bitrate [kbps]
+  double receive_margin_dB_;  //!< Receive margin [dB]
+  double max_bitrate_Mbps_;        //!< Max bitrate [Mbps]
 
   /**
    * @fn CalcMaxBitrate
@@ -107,9 +111,19 @@ class GScalculator : public ILoggable {
    * @param [in] sc_tx_ant: Tx Antenna mounted on spacecraft
    * @param [in] ground_station: Ground station information
    * @param [in] gs_rx_ant: Rx Antenna mounted on ground station
-   * @return Max bitrate [kbps]
+   * @return Max bitrate [Mbps]
    */
   double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
+  /**
+   * @fn CalcReceiveMarginOnGs
+   * @brief Calculate receive margin at the ground station
+   * @param [in] dynamics: Spacecraft dynamics information
+   * @param [in] sc_tx_ant: Tx Antenna mounted on spacecraft
+   * @param [in] ground_station: Ground station information
+   * @param [in] gs_rx_ant: Rx Antenna mounted on ground station
+   * @return Receive margin [dB]
+   */
+  double CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
 
   /**
    * @fn CalcCn0
