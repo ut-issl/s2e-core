@@ -54,22 +54,9 @@ void GroundStation::Update(const CelestialRotation& celes_rotation, const Spacec
 }
 
 bool GroundStation::CalcIsVisible(const Vector<3> sc_pos_ecef_m) {
-  double lat = gs_position_geo_.GetLat_rad();
-  double lon = gs_position_geo_.GetLon_rad();
+  Quaternion q_ecef_to_ltc = gs_position_geo_.GetQuaternionXcxfToLtc();
 
-  // ECEF -> LTC frame transform at the ground station
-  Matrix<3, 3> trans_mat_ecef_to_ltc;
-  trans_mat_ecef_to_ltc[0][0] = -sin(lon);
-  trans_mat_ecef_to_ltc[0][1] = cos(lon);
-  trans_mat_ecef_to_ltc[0][2] = 0;
-  trans_mat_ecef_to_ltc[1][0] = -sin(lat) * cos(lon);
-  trans_mat_ecef_to_ltc[1][1] = -sin(lat) * sin(lon);
-  trans_mat_ecef_to_ltc[1][2] = cos(lat);
-  trans_mat_ecef_to_ltc[2][0] = cos(lat) * cos(lon);
-  trans_mat_ecef_to_ltc[2][1] = cos(lat) * sin(lon);
-  trans_mat_ecef_to_ltc[2][2] = sin(lat);
-
-  Vector<3> sc_pos_ltc = trans_mat_ecef_to_ltc * (sc_pos_ecef_m - gs_position_ecef_);  // Satellite position in LTC frame [m]
+  Vector<3> sc_pos_ltc = q_ecef_to_ltc.frame_conv(sc_pos_ecef_m - gs_position_ecef_);  // Satellite position in LTC frame [m]
   normalize(sc_pos_ltc);
   Vector<3> dir_gs_to_zenith = Vector<3>(0);
   dir_gs_to_zenith[2] = 1;
