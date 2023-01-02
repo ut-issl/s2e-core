@@ -29,6 +29,7 @@ GScalculator InitGScalculator(const std::string fname) {
   double margin_req = gs_conf.ReadDouble(Section, "margin_req");
   double downlink_bitrate_bps = gs_conf.ReadDouble(Section, "downlink_bitrate_bps");
 
-  GScalculator gs_calculator(loss_polarization, loss_atmosphere, loss_rainfall, loss_others, EbN0, hardware_deterioration, coding_gain, margin_req, downlink_bitrate_bps);
+  GScalculator gs_calculator(loss_polarization, loss_atmosphere, loss_rainfall, loss_others, EbN0, hardware_deterioration, coding_gain, margin_req,
+                             downlink_bitrate_bps);
   return gs_calculator;
 }

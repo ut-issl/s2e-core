@@ -102,7 +102,7 @@ class GScalculator : public ILoggable {
 
   // Calculated values
   double receive_margin_dB_;  //!< Receive margin [dB]
-  double max_bitrate_Mbps_;        //!< Max bitrate [Mbps]
+  double max_bitrate_Mbps_;   //!< Max bitrate [Mbps]
 
   /**
    * @fn CalcMaxBitrate

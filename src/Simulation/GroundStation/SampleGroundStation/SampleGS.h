@@ -11,8 +11,8 @@
 
 #include <Component/CommGS/Antenna.hpp>
 
-#include "../GroundStation.h"
 #include "../../Spacecraft/SampleSpacecraft/SampleSat.h"
+#include "../GroundStation.h"
 
 class SampleGSComponents;
 

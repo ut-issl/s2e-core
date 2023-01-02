@@ -28,6 +28,6 @@ class SampleSat : public Spacecraft {
    */
   inline const SampleComponents& GetInstalledComponents() const { return *sample_components_; }
 
-  private:
+ private:
   SampleComponents* sample_components_;
 };
