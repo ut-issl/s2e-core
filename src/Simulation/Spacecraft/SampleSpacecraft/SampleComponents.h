@@ -74,6 +74,9 @@ class SampleComponents : public InstalledComponents {
    */
   void LogSetup(Logger& logger);
 
+  // Getter
+  inline Antenna& GetAntenna() const {return *antenna_;}
+
  private:
   PCU* pcu_;                            //!< Power Control Unit
   OBC* obc_;                            //!< Onboard Computer
