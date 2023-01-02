@@ -93,4 +93,15 @@ class GScalculator : public ILoggable {
    * @return Max bitrate [kbps]
    */
   double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_ant, const GroundStation& groundstation, const Antenna& gs_ant);
+
+  /**
+   * @fn CalcCn0
+   * @brief Calculate CN0 (Carrier to Noise density ratio) of received signal at the ground station
+   * @param [in] dynamics: Spacecraft dynamics information
+   * @param [in] sc_tx_ant: Tx Antenna mounted on spacecraft
+   * @param [in] ground_station: Ground station information
+   * @param [in] gs_rx_ant: Rx Antenna mounted on ground station
+   * @return CN0 [dB]
+   */
+  double CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_antt);
 };
