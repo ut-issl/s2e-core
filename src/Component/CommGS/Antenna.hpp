@@ -101,6 +101,12 @@ class Antenna {
    */
   inline double GetFrequency() const { return frequency_; }
   /**
+   * @fn GetQuaternion_b2c
+   * @brief Return quaternion from body to component
+   */
+  inline Quaternion GetQuaternion_b2c() const { return q_b2c_; }
+  
+  /**
    * @fn IsTransmitter
    * @brief Return antenna for transmitter or not
    */
