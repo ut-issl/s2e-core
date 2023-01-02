@@ -94,6 +94,7 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
   double cn0_dBHz = sc_tx_ant.CalcTxEIRP(theta_on_sc_ant_rad, phi_on_sc_ant_rad) + loss_space_dB + loss_polarization_ + loss_atmosphere_ +
                     loss_rainfall_ + loss_others_ + gs_rx_ant.CalcRxGT(theta_on_gs_ant_rad, phi_on_gs_ant_rad) -
                     10 * log10(environment::boltzmann_constant_J_K);
+  return cn0_dBHz;
 }
 
 std::string GScalculator::GetLogHeader() const {
