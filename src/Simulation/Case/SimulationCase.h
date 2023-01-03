@@ -8,7 +8,7 @@ class Logger;
 
 class SimulationCase : public ILoggable {
  public:
-  SimulationCase(std::string ini_base);
+  SimulationCase(std::string ini_base, const std::string& log_dir_name = "");
   SimulationCase(std::string ini_base, const MCSimExecutor& mc_sim,
                  std::string log_path);  // For MonteCarlo
   virtual ~SimulationCase();
