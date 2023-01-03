@@ -12,32 +12,33 @@ std::vector<ILoggable *> loggables_;
 
 // file_name: "default.csv", log_root_dir: "../../data/logs/", ini_file_name: "../../data/ini/ISSL6U_SimBase.ini", enable_inilog: true, enable: true
 Logger::Logger(const std::string &file_name, const std::string &log_root_dir, const std::string &ini_file_name, const bool enable_inilog, bool enable,
-               const std::string &sim_name) {
+               const std::string &log_dir_name) {
   is_enabled_ = enable;
   is_open_ = false;
   is_enabled_inilog_ = enable_inilog;
 
-  // If sim_name is not specified, use current time
-  std::string sim_name_tmp;
-  if (sim_name == "") {
+  // If log_dir_name is not specified, use current time
+  std::string log_dir_name_tmp;
+  if (log_dir_name == "") {
     time_t timer = time(NULL);
     struct tm *now;
     now = localtime(&timer);
     char start_time_c[64];
     strftime(start_time_c, 64, "%y%m%d_%H%M%S", now);
-    sim_name_tmp = start_time_c;
+    log_dir_name_tmp = "logs_";
+    log_dir_name_tmp += start_time_c;
   } else {
-    sim_name_tmp = sim_name;
+    log_dir_name_tmp = log_dir_name;
   }
 
   // Create directory
-  if (is_enabled_inilog_ == true)
-    directory_path_ = CreateDirectory(log_root_dir, sim_name_tmp);
+  if (is_enabled_inilog_ == true || log_dir_name == "")
+    directory_path_ = CreateDirectory(log_root_dir, log_dir_name_tmp);
   else
     directory_path_ = log_root_dir;
   // Create File
   std::stringstream file_path;
-  file_path << directory_path_ << sim_name_tmp << "_" << file_name;
+  file_path << directory_path_ << file_name;
   if (is_enabled_) {
     csv_file_.open(file_path.str());
     is_open_ = csv_file_.is_open();
@@ -83,8 +84,8 @@ void Logger::AddLoggable(ILoggable *loggable) { loggables_.push_back(loggable); 
 
 void Logger::ClearLoggables() { loggables_.clear(); }
 
-std::string Logger::CreateDirectory(const std::string &log_root_dir, const std::string &sim_name) {
-  std::string directory_path_tmp_ = log_root_dir + "/logs_" + sim_name + "/";
+std::string Logger::CreateDirectory(const std::string &log_root_dir, const std::string &log_dir_name) {
+  std::string directory_path_tmp_ = log_root_dir + "/" + log_dir_name + "/";
   // Make directory
   int rtn_mkdir = 0;
 #ifdef WIN32

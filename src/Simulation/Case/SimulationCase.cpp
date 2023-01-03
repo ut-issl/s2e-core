@@ -5,11 +5,11 @@
 #include <Interface/LogOutput/InitLog.hpp>
 #include <string>
 
-SimulationCase::SimulationCase(std::string ini_base) {
+SimulationCase::SimulationCase(std::string ini_base, const std::string& log_dir_name) {
   IniAccess simbase_ini = IniAccess(ini_base);
   const char* section = "SIM_SETTING";
   sim_config_.ini_base_fname_ = ini_base;
-  sim_config_.main_logger_ = InitLog(sim_config_.ini_base_fname_);
+  sim_config_.main_logger_ = InitLog(sim_config_.ini_base_fname_, log_dir_name);
   sim_config_.num_of_simulated_spacecraft_ = simbase_ini.ReadInt(section, "num_of_simulated_spacecraft");
   sim_config_.sat_file_ = simbase_ini.ReadStrVector(section, "sat_file");
   sim_config_.gs_file_ = simbase_ini.ReadString(section, "gs_file");

@@ -11,7 +11,7 @@
 class Logger {
  public:
   Logger(const std::string &file_name, const std::string &log_root_dir, const std::string &ini_file_name, const bool enable_inilog,
-         bool enable = true, const std::string &sim_name = "");
+         bool enable = true, const std::string &log_dir_name = "");
   ~Logger(void);
 
   void Write(std::string log, bool flag = true);
@@ -35,7 +35,7 @@ class Logger {
   bool is_enabled_inilog_;
   bool is_success_make_dir_ = false;
   std::string directory_path_;
-  std::string CreateDirectory(const std::string &log_root_dir, const std::string &sim_name);
+  std::string CreateDirectory(const std::string &log_root_dir, const std::string &log_dir_name);
   std::string GetFileName(const std::string &path);
 };
 
