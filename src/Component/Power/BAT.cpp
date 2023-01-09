@@ -14,7 +14,10 @@ BAT::BAT(const int prescaler, ClockGenerator* clock_gen, int number_of_series, i
       cv_charge_voltage_(cv_charge_voltage),
       dod_(initial_dod),
       bat_resistance_(bat_resistance),
-      compo_step_time_(compo_step_time) {}
+      compo_step_time_(compo_step_time) {
+  charge_current_ = 0.0;
+  UpdateBatVoltage();
+}
 
 BAT::BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
          const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
@@ -28,7 +31,10 @@ BAT::BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel
       cv_charge_voltage_(cv_charge_voltage),
       dod_(initial_dod),
       bat_resistance_(bat_resistance),
-      compo_step_time_(0.1) {}
+      compo_step_time_(0.1) {
+  charge_current_ = 0.0;
+  UpdateBatVoltage();
+}
 
 BAT::BAT(const BAT& obj)
     : ComponentBase(obj),
@@ -75,7 +81,7 @@ void BAT::MainRoutine(int time_count) {
   UNUSED(time_count);
 
   double delta_time_query = compo_step_time_ * prescaler_;
-  dod_ -= charge_current_ * delta_time_query / 3600.0 / (cell_capacity_ * number_of_parallel_ ) * 100.0;
+  dod_ -= charge_current_ * delta_time_query / 3600.0 / (cell_capacity_ * number_of_parallel_) * 100.0;
   UpdateBatVoltage();
 }
 
