@@ -81,6 +81,9 @@ bool GroundStation::CalcIsVisible(const Vector<3> sc_pos_ecef_m) {
 std::string GroundStation::GetLogHeader() const {
   std::string str_tmp = "";
 
+  std::string col_gs_position_i = "gs_position_gs_" + std::to_string(gs_id_);
+  str_tmp += WriteVector(col_gs_position_i, "eci", "m", 3);
+
   for (int i = 0; i < num_sc_; i++) {
     std::string legend = "is_sc" + std::to_string(i) + "_visible_from_gs" + std::to_string(gs_id_);
     str_tmp += WriteScalar(legend);
@@ -90,6 +93,8 @@ std::string GroundStation::GetLogHeader() const {
 
 std::string GroundStation::GetLogValue() const {
   std::string str_tmp = "";
+
+  str_tmp += WriteVector(gs_position_i_, 3);
 
   for (int i = 0; i < num_sc_; i++) {
     str_tmp += WriteScalar(is_visible_.at(i));
