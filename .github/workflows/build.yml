@@ -217,7 +217,7 @@ jobs:
           ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
           echo "version=$ver" >> "$GITHUB_OUTPUT"
       
-      - uses: actions/setup-python@v4.4.0
+      - uses: actions/setup-python@v4.5.0
         with:
           python-version: ${{ steps.python-version.outputs.version }}
 
