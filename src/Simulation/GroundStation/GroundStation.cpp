@@ -30,8 +30,8 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
 
   double latitude_deg = conf.ReadDouble(Section, "latitude_deg");
   double longitude_deg = conf.ReadDouble(Section, "longitude_deg");
-  double height_m = conf.ReadDouble(Section, "height_m");
-  gs_position_geo_ = GeodeticPosition(latitude_deg * libra::deg_to_rad, longitude_deg * libra::deg_to_rad, height_m);
+  double altitude_m = conf.ReadDouble(Section, "altitude_m");
+  gs_position_geo_ = GeodeticPosition(latitude_deg * libra::deg_to_rad, longitude_deg * libra::deg_to_rad, altitude_m);
   gs_position_ecef_ = gs_position_geo_.CalcEcefPosition();
 
   elevation_limit_angle_deg_ = conf.ReadDouble(Section, "elevation_limit_angle_deg");
