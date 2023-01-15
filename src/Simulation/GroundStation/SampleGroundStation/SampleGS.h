@@ -11,6 +11,7 @@
 
 #include <Component/CommGS/Antenna.hpp>
 
+#include "../../Spacecraft/SampleSpacecraft/SampleSat.h"
 #include "../GroundStation.h"
 
 class SampleGSComponents;
@@ -46,7 +47,7 @@ class SampleGS : public GroundStation {
    * @fn Update
    * @brief Override function of Update in GroundStation class
    */
-  virtual void Update(const Spacecraft& spacecraft, const GlobalEnvironment& global_env, const Antenna& sc_ant, const SampleGS& sample_gs);
+  virtual void Update(const CelestialRotation& celes_rotation, const SampleSat& spacecraft);
 
  private:
   SampleGSComponents* components_;  //!< Ground station related components
