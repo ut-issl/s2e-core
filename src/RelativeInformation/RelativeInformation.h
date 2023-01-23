@@ -111,6 +111,16 @@ class RelativeInformation : public ILoggable {
   inline libra::Vector<3> GetRelativePosition_rtn_m(const int target_sat_id, const int reference_sat_id) const {
     return rel_pos_list_rtn_m_[target_sat_id][reference_sat_id];
   }
+  /**
+   * @fn GetRelativeVelocity_rtn_m_s
+   * @brief Return relative velocity of the target spacecraft with respect to the reference spacecraft in the RTN frame of the reference spacecraft
+   * and unit [m]
+   * @params [in] target_sat_id: ID of target spacecraft
+   * @params [in] reference_sat_id: ID of reference spacecraft
+   */
+  inline libra::Vector<3> GetRelativeVelocity_rtn_m_s(const int target_sat_id, const int reference_sat_id) const {
+    return rel_vel_list_rtn_m_s_[target_sat_id][reference_sat_id];
+  }
 
   /**
    * @fn GetReferenceSatDynamics
@@ -126,23 +136,32 @@ class RelativeInformation : public ILoggable {
   std::vector<std::vector<libra::Vector<3>>> rel_pos_list_i_m_;          //!< Relative position list in the inertial frame in unit [m]
   std::vector<std::vector<libra::Vector<3>>> rel_vel_list_i_m_s_;        //!< Relative velocity list in the inertial frame in unit [m/s]
   std::vector<std::vector<libra::Vector<3>>> rel_pos_list_rtn_m_;        //!< Relative position list in the RTN frame in unit [m]
+  std::vector<std::vector<libra::Vector<3>>> rel_vel_list_rtn_m_s_;      //!< Relative velocity list in the RTN frame in unit [m/s]
   std::vector<std::vector<double>> rel_distance_list_m_;                 //!< Relative distance list in unit [m]
   std::vector<std::vector<libra::Quaternion>> rel_att_quaternion_list_;  //!< Relative attitude quaternion list
 
   /**
    * @fn CalcRelativeAttitudeQuaternion
-   * @brief Calculate an return the relative attitude quaternion
+   * @brief Calculate and return the relative attitude quaternion
    * @params [in] target_sat_id: ID of the spacecraft
    * @params [in] reference_sat_id: ID of reference spacecraft
    */
   libra::Quaternion CalcRelativeAttitudeQuaternion(const int target_sat_id, const int reference_sat_id);
   /**
    * @fn CalcRelativePosition_rtn_m
-   * @brief Calculate an return the relative position in RTN frame
+   * @brief Calculate and return the relative position in RTN frame
    * @params [in] target_sat_id: ID of the spacecraft
    * @params [in] reference_sat_id: ID of reference spacecraft
    */
   libra::Vector<3> CalcRelativePosition_rtn_m(const int target_sat_id, const int reference_sat_id);
+  /**
+   * @fn CalcRelativeVelocity_rtn_m_s
+   * @brief Calculate and return the relative velocity in RTN frame
+   * @params [in] target_sat_id: ID of the spacecraft
+   * @params [in] reference_sat_id: ID of reference spacecraft
+   */
+  libra::Vector<3> CalcRelativeVelocity_rtn_m_s(const int target_sat_id, const int reference_sat_id);
+
   /**
    * @fn ResizeLists
    * @brief Resize list suit with the dynamics database
