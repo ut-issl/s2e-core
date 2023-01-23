@@ -16,6 +16,11 @@ void CsvScenarioInterface::Initialize(const std::string fname) {
   CsvScenarioInterface::use_csv_sun_flag_ = scenario_conf.ReadBoolean(Section, "use_csv_sun_flag");
   CsvScenarioInterface::use_csv_power_consumption_ = scenario_conf.ReadBoolean(Section, "use_csv_power_consumption");
 
+  if (!CsvScenarioInterface::use_csv_sun_direction_ && !CsvScenarioInterface::use_csv_sun_flag_ &&
+      !CsvScenarioInterface::use_csv_power_consumption_) {
+    return;
+  }
+
   std::string csv_path;
   csv_path = scenario_conf.ReadString(Section, "csv_path");
 
@@ -40,6 +45,9 @@ bool CsvScenarioInterface::UseCsvSunFlag() { return CsvScenarioInterface::use_cs
 bool CsvScenarioInterface::UseCsvPowerConsumption() { return CsvScenarioInterface::use_csv_power_consumption_; }
 
 libra::Vector<3> CsvScenarioInterface::GetSunDirectionBody(const double time_query) {
+  if (!CsvScenarioInterface::use_csv_sun_direction_) {
+    throw std::invalid_argument("GetSunDirectionBody() is called, but use_csv_sun_direction is false.");
+  }
   libra::Vector<3> sun_dir_b;
   sun_dir_b[0] = GetValueFromBuffer("sun_dir_b_x", time_query);
   sun_dir_b[1] = GetValueFromBuffer("sun_dir_b_y", time_query);
@@ -47,9 +55,19 @@ libra::Vector<3> CsvScenarioInterface::GetSunDirectionBody(const double time_que
   return sun_dir_b;
 }
 
-bool CsvScenarioInterface::GetSunFlag(const double time_query) { return (bool)GetValueFromBuffer("sun_flag", time_query); }
+bool CsvScenarioInterface::GetSunFlag(const double time_query) {
+  if (!CsvScenarioInterface::use_csv_sun_flag_) {
+    throw std::invalid_argument("GetSunFlag() is called, but use_csv_sun_flag is false.");
+  }
+  return (bool)GetValueFromBuffer("sun_flag", time_query);
+}
 
-double CsvScenarioInterface::GetPowerConsumption(const double time_query) { return GetValueFromBuffer("power_consumption", time_query); }
+double CsvScenarioInterface::GetPowerConsumption(const double time_query) {
+  if (!CsvScenarioInterface::use_csv_power_consumption_) {
+    throw std::invalid_argument("GetPowerConsumption() is called, but use_csv_power_consumption is false.");
+  }
+  return GetValueFromBuffer("power_consumption", time_query);
+}
 
 std::vector<std::vector<double>> CsvScenarioInterface::ReadCsvData(const std::string filename, const std::size_t ignore_line_num) {
   std::ifstream file;
