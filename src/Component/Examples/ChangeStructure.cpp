@@ -13,6 +13,12 @@ void ChangeStructure::MainRoutine(int count) {
   if (count > 1000) {
     // Mass
     structure_->GetToSetKinematicsParams().SetMass_kg(100.0);
+    // Center of gravity
+    Vector<3> cg(0.0);
+    cg[0] = 0.01;
+    cg[1] = -0.01;
+    cg[2] = 0.02;
+    structure_->GetToSetKinematicsParams().SetCenterOfGravityVector_b_m(cg);
     // RMM
     Vector<3> rmm(0.0);
     rmm[0] = 0.1;
