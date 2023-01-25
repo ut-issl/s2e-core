@@ -78,7 +78,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   config_->main_logger_->CopyFileToLogDir(ini_path);
   antenna_ = new Antenna(InitAntenna(1, ini_path));
 
-  // ChangeStructure: Please uncomment the following line if you want to test the change_structure
+  // ChangeStructure: Please uncomment change_structure related codes if you want to test the change_structure
   // change_structure_ = new ChangeStructure(clock_gen, structure_);
 
   // PCU power port initial control
@@ -123,7 +123,7 @@ SampleComponents::~SampleComponents() {
   delete thruster_;
   delete force_generator_;
   delete antenna_;
-  delete change_structure_;
+  // delete change_structure_;
   delete pcu_;
   // delete exp_hils_uart_responder_;
   // delete exp_hils_uart_sender_;

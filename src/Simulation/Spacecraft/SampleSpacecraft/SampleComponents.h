@@ -98,7 +98,7 @@ class SampleComponents : public InstalledComponents {
   Antenna* antenna_;  //!< Antenna
 
   // Examples
-  ChangeStructure* change_structure_;  //!< Change structure
+  // ChangeStructure* change_structure_;  //!< Change structure
 
   // HILS settings examples
   /*
