@@ -11,7 +11,7 @@
 #define LOG_LABEL "logging"
 #define MIN_VAL 1e-9
 
-AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b) {
+AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3>& cg_b) {
   auto conf = IniAccess(ini_path);
   const char* section = "AIRDRAG";
 
@@ -29,7 +29,7 @@ AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, 
   return airdrag;
 }
 
-SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b) {
+SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3>& cg_b) {
   auto conf = IniAccess(ini_path);
   const char* section = "SRDIST";
 

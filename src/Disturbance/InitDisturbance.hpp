@@ -20,7 +20,7 @@
  * @param [in] surfaces: surface information of the spacecraft
  * @param [in] cg_b: Center of gravity position vector at body frame [m]
  */
-AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b);
+AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3>& cg_b);
 /**
  * @fn InitSRDist
  * @brief Initialize SolarRadiation class
@@ -28,7 +28,7 @@ AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, 
  * @param [in] surfaces: surface information of the spacecraft
  * @param [in] cg_b: Center of gravity position vector at body frame [m]
  */
-SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b);
+SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3>& cg_b);
 
 /**
  * @fn InitGravityGradient
