@@ -11,12 +11,16 @@ ChangeStructure::~ChangeStructure() {}
 
 void ChangeStructure::MainRoutine(int count) {
   if (count > 1000) {
+    // Mass
     structure_->GetToSetKinematicsParams().SetMass_kg(100.0);
+    // RMM
     Vector<3> rmm(0.0);
     rmm[0] = 0.1;
     rmm[1] = -0.1;
     rmm[2] = 0.2;
     structure_->GetToSetRMMParams().SetRmmConstant_b_Am2(rmm);
+    // Surface
+    structure_->GetToSetSurfaces()[0].SetArea(0.5);
   }
 }
 
