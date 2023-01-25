@@ -60,6 +60,16 @@ class KinematicsParams {
     if (mass_kg > 0.0) mass_ = mass_kg;
   }
   /**
+   * @fn AddMass_kg
+   * @brief Add mass of the satellite
+   * @param [in] mass_kg: Mass of the satellite [kg]
+   * @note Normally, this function is used to decrease the mass due to the fuel consumption.
+   */
+  inline void AddMass_kg(const double mass_kg) {
+    mass_ += mass_kg;
+    if (mass_ < 0.0) mass_ = 0.0;
+  }
+  /**
    * @fn SetInertiaTensor_b_kgm2
    * @brief Inertia tensor at body frame
    * @param [in] inertia_tensor_b_kgm2: Inertia tensor at body frame [kgm2]

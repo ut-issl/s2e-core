@@ -53,6 +53,12 @@ class RMMParams {
    * @param [in] rmm_const_b_Am2: Constant value of RMM at the body frame [Am2]
    */
   inline void SetRMMConst_b_Am2(const Vector<3> rmm_const_b_Am2) { rmm_const_b_ = rmm_const_b_Am2; }
+  /**
+   * @fn AddRMMConst_b_Am2
+   * @brief Add Constant value of RMM at body frame [Am2]
+   * @param [in] rmm_const_b_Am2: Constant value of RMM at the body frame [Am2]
+   */
+  inline void AddRMMConst_b_Am2(const Vector<3> rmm_const_b_Am2) { rmm_const_b_ += rmm_const_b_Am2; }
 
  private:
   Vector<3> rmm_const_b_;  //!< Constant value of RMM at body frame [Am2]
