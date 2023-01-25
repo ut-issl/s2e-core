@@ -44,6 +44,31 @@ class KinematicsParams {
    */
   inline const Matrix<3, 3>& GetInertiaTensor() const { return inertia_tensor_; }
 
+  // Setter
+  /**
+   * @fn SetCenterOfGravityVector_b_m
+   * @brief Set center of gravity vector at the body frame [m]
+   * @param [in] center_of_gravity_vector_b_m: Center of gravity vector at the body frame [m]
+   */
+  inline void SetCenterOfGravityVector_b_m(const Vector<3> center_of_gravity_vector_b_m) { cg_b_ = center_of_gravity_vector_b_m; }
+  /**
+   * @fn SetMass_kg
+   * @brief Set mass of the satellite
+   * @param [in] mass_kg: Mass of the satellite [kg]
+   */
+  inline void SetMass_kg(const double mass_kg) {
+    if (mass_kg > 0.0) mass_ = mass_kg;
+  }
+  /**
+   * @fn SetInertiaTensor_b_kgm2
+   * @brief Inertia tensor at body frame
+   * @param [in] inertia_tensor_b_kgm2: Inertia tensor at body frame [kgm2]
+   */
+  inline void SetInertiaTensor_b_kgm2(const Matrix<3, 3> inertia_tensor_b_kgm2) {
+    // TODO add assertion check
+    inertia_tensor_ = inertia_tensor_b_kgm2;
+  }
+
  private:
   Vector<3> cg_b_;               //!< Position vector of center of gravity at body frame [m]
   double mass_;                  //!< Mass of the satellite [kg]
