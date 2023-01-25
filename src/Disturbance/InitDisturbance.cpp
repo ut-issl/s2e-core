@@ -65,11 +65,11 @@ GravityGradient InitGravityGradient(std::string ini_path, const double mu_m3_s2)
   return ggdist;
 }
 
-MagDisturbance InitMagDisturbance(std::string ini_path, RMMParams rmm_params) {
+MagDisturbance InitMagDisturbance(std::string ini_path, const RMMParams& rmm_params) {
   auto conf = IniAccess(ini_path);
   const char* section = "MAG_DISTURBANCE";
 
-  MagDisturbance mag_dist(rmm_params.GetRMMConst_b(), rmm_params.GetRMMRWDev(), rmm_params.GetRMMRWLimit(), rmm_params.GetRMMWNVar());
+  MagDisturbance mag_dist(rmm_params);
   mag_dist.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   mag_dist.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 

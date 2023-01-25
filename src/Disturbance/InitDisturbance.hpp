@@ -50,7 +50,7 @@ GravityGradient InitGravityGradient(std::string ini_path, const double mu_m3_s2)
  * @param [in] ini_path: Initialize file path
  * @param [in] rmm_params: RMM parameters
  */
-MagDisturbance InitMagDisturbance(std::string ini_path, RMMParams rmm_params);
+MagDisturbance InitMagDisturbance(std::string ini_path, const RMMParams& rmm_params);
 /**
  * @fn InitGeoPotential
  * @brief Initialize GeoPotential class with earth gravitational constant

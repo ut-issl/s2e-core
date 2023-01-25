@@ -87,7 +87,7 @@ void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const
   AirDrag* air_dist = new AirDrag(InitAirDrag(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   disturbances_.push_back(air_dist);
 
-  MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(ini_fname_, structure->GetRMMParams()));
+  MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(ini_fname_, (structure->GetRMMParams())));
   disturbances_.push_back(mag_dist);
 
   GeoPotential* geopotential = new GeoPotential(InitGeoPotential(ini_fname_));
