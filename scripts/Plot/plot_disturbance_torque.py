@@ -8,7 +8,6 @@
 # Import
 #
 # plots
-import numpy as np
 import matplotlib.pyplot as plt
 # local function
 from common import find_latest_log_tag
