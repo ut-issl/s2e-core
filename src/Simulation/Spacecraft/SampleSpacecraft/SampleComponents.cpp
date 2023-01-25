@@ -78,8 +78,8 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   config_->main_logger_->CopyFileToLogDir(ini_path);
   antenna_ = new Antenna(InitAntenna(1, ini_path));
 
-  // ChangeStructure
-  change_structure_ = new ChangeStructure(clock_gen, structure_);
+  // ChangeStructure: Please uncomment the following line if you want to test the change_structure
+  // change_structure_ = new ChangeStructure(clock_gen, structure_);
 
   // PCU power port initial control
   pcu_->GetPowerPort(0)->SetVoltage(3.3);
