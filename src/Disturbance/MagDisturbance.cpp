@@ -15,13 +15,12 @@ using libra::NormalRand;
 
 using namespace std;
 
-MagDisturbance::MagDisturbance(const Vector<3>& rmm_const_b, const double rmm_rwdev, const double rmm_rwlimit, const double rmm_wnvar)
-    : rmm_const_b_(rmm_const_b), rmm_rwdev_(rmm_rwdev), rmm_rwlimit_(rmm_rwlimit), rmm_wnvar_(rmm_wnvar) {
+MagDisturbance::MagDisturbance(const RMMParams& rmm_params) : rmm_params_(rmm_params) {
   for (int i = 0; i < 3; ++i) {
     torque_b_[i] = 0;
   }
   mag_unit_ = 1.0E-9;  // [nT] -> [T]
-  rmm_b_ = rmm_const_b_;
+  rmm_b_ = rmm_params_.GetRMMConst_b();
 }
 
 Vector<3> MagDisturbance::CalcTorque(const Vector<3>& mag_b) {
@@ -37,12 +36,12 @@ void MagDisturbance::Update(const LocalEnvironment& local_env, const Dynamics& d
 }
 
 void MagDisturbance::CalcRMM() {
-  static Vector<3> stddev(rmm_rwdev_);
-  static Vector<3> limit(rmm_rwlimit_);
+  static Vector<3> stddev(rmm_params_.GetRMMRWDev());
+  static Vector<3> limit(rmm_params_.GetRMMRWLimit());
   static RandomWalk<3> rw(0.1, stddev, limit);
-  static NormalRand nr(0.0, rmm_wnvar_, g_rand.MakeSeed());
+  static NormalRand nr(0.0, rmm_params_.GetRMMWNVar(), g_rand.MakeSeed());
 
-  rmm_b_ = rmm_const_b_;
+  rmm_b_ = rmm_params_.GetRMMConst_b();
   for (int i = 0; i < 3; ++i) {
     rmm_b_[i] += rw[i] + nr;
   }

@@ -42,6 +42,8 @@ add_library(${PROJECT_NAME} STATIC
   CommGS/GScalculator.cpp
   CommGS/InitGsCalculator.cpp
 
+  Examples/ChangeStructure.cpp
+
   IdealComponents/ForceGenerator.cpp
   IdealComponents/InitializeForceGenerator.cpp
 

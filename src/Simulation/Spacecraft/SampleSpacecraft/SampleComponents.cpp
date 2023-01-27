@@ -9,7 +9,7 @@
 
 #include "Sample_PortConfig.h"
 
-SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* structure, const LocalEnvironment* local_env,
+SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_env,
                                    const GlobalEnvironment* glo_env, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id)
     : config_(config), dynamics_(dynamics), structure_(structure), local_env_(local_env), glo_env_(glo_env) {
   IniAccess iniAccess = IniAccess(config_->sat_file_[sat_id]);
@@ -78,6 +78,9 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, const Structure* st
   config_->main_logger_->CopyFileToLogDir(ini_path);
   antenna_ = new Antenna(InitAntenna(1, ini_path));
 
+  // ChangeStructure: Please uncomment change_structure related codes if you want to test the change_structure
+  // change_structure_ = new ChangeStructure(clock_gen, structure_);
+
   // PCU power port initial control
   pcu_->GetPowerPort(0)->SetVoltage(3.3);
   pcu_->GetPowerPort(1)->SetVoltage(3.3);
@@ -120,6 +123,7 @@ SampleComponents::~SampleComponents() {
   delete thruster_;
   delete force_generator_;
   delete antenna_;
+  // delete change_structure_;
   delete pcu_;
   // delete exp_hils_uart_responder_;
   // delete exp_hils_uart_sender_;

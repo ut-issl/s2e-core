@@ -21,6 +21,7 @@
 #include <Component/AOCS/InitStt.hpp>
 #include <Component/AOCS/InitSunSensor.hpp>
 #include <Component/CommGS/InitAntenna.hpp>
+#include <Component/Examples/ChangeStructure.hpp>
 #include <Component/IdealComponents/InitializeForceGenerator.hpp>
 #include <Component/Propulsion/InitSimpleThruster.hpp>
 #include <Library/math/Vector.hpp>
@@ -49,7 +50,7 @@ class SampleComponents : public InstalledComponents {
    * @fn SampleComponents
    * @brief Constructor
    */
-  SampleComponents(const Dynamics* dynamics, const Structure* structure, const LocalEnvironment* local_env, const GlobalEnvironment* glo_env,
+  SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_env, const GlobalEnvironment* glo_env,
                    const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id);
   /**
    * @fn ~SampleComponents
@@ -96,6 +97,9 @@ class SampleComponents : public InstalledComponents {
   // CommGs
   Antenna* antenna_;  //!< Antenna
 
+  // Examples
+  // ChangeStructure* change_structure_;  //!< Change structure
+
   // HILS settings examples
   /*
   ExpHils* exp_hils_uart_responder_;               //!< Example of HILS UART responder
@@ -107,7 +111,7 @@ class SampleComponents : public InstalledComponents {
   // States
   const SimulationConfig* config_;     //!< Simulation settings
   const Dynamics* dynamics_;           //!< Dynamics information of the spacecraft
-  const Structure* structure_;         //!< Structure information of the spacecraft
+  Structure* structure_;               //!< Structure information of the spacecraft
   const LocalEnvironment* local_env_;  //!< Local environment information around the spacecraft
   const GlobalEnvironment* glo_env_;   //!< Global environment information
 };

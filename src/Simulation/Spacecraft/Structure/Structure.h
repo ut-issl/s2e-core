@@ -52,6 +52,22 @@ class Structure {
    */
   inline const RMMParams& GetRMMParams() const { return *rmm_params_; }
 
+  /**
+   * @fn GetToSetSurfaces
+   * @brief Return surface information
+   */
+  inline vector<Surface>& GetToSetSurfaces() { return surfaces_; }
+  /**
+   * @fn GetToSetKinematicsParams
+   * @brief Return kinematics information
+   */
+  inline KinematicsParams& GetToSetKinematicsParams() { return *kinnematics_params_; }
+  /**
+   * @fn GetToSetRMMParams
+   * @brief Return Residual Magnetic Moment information
+   */
+  inline RMMParams& GetToSetRMMParams() { return *rmm_params_; }
+
  private:
   KinematicsParams* kinnematics_params_;  //!< Kinematics parameters
   vector<Surface> surfaces_;              //!< Surface information

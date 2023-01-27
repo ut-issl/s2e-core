@@ -22,7 +22,7 @@ Dynamics::~Dynamics() {
 
 void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
                           Structure* structure, RelativeInformation* rel_info) {
-  mass_ = structure->GetKinematicsParams().GetMass();
+  structure_ = structure;
 
   // Initialize
   orbit_ = InitOrbit(&(local_celes_info->GetGlobalInfo()), sim_config->sat_file_[sat_id], sim_time->GetOrbitRKStepSec(), sim_time->GetCurrentJd(),
@@ -70,7 +70,9 @@ void Dynamics::LogSetup(Logger& logger) {
 
 void Dynamics::AddTorque_b(Vector<3> torque_b) { attitude_->AddTorque_b(torque_b); }
 
-void Dynamics::AddForce_b(Vector<3> force_b) { orbit_->AddForce_b(force_b, attitude_->GetQuaternion_i2b(), mass_); }
+void Dynamics::AddForce_b(Vector<3> force_b) {
+  orbit_->AddForce_b(force_b, attitude_->GetQuaternion_i2b(), structure_->GetKinematicsParams().GetMass());
+}
 
 void Dynamics::AddAcceleration_i(Vector<3> acceleration_i) { orbit_->AddAcceleration_i(acceleration_i); }
 

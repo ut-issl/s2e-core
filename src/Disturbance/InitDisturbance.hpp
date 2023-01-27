@@ -20,7 +20,7 @@
  * @param [in] surfaces: surface information of the spacecraft
  * @param [in] cg_b: Center of gravity position vector at body frame [m]
  */
-AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b);
+AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3>& cg_b);
 /**
  * @fn InitSRDist
  * @brief Initialize SolarRadiation class
@@ -28,7 +28,7 @@ AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, 
  * @param [in] surfaces: surface information of the spacecraft
  * @param [in] cg_b: Center of gravity position vector at body frame [m]
  */
-SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3> cg_b);
+SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3>& cg_b);
 
 /**
  * @fn InitGravityGradient
@@ -50,7 +50,7 @@ GravityGradient InitGravityGradient(std::string ini_path, const double mu_m3_s2)
  * @param [in] ini_path: Initialize file path
  * @param [in] rmm_params: RMM parameters
  */
-MagDisturbance InitMagDisturbance(std::string ini_path, RMMParams rmm_params);
+MagDisturbance InitMagDisturbance(std::string ini_path, const RMMParams& rmm_params);
 /**
  * @fn InitGeoPotential
  * @brief Initialize GeoPotential class with earth gravitational constant
