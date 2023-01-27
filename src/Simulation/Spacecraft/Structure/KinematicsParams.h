@@ -66,8 +66,8 @@ class KinematicsParams {
    * @note Normally, this function is used to decrease the mass due to the fuel consumption.
    */
   inline void AddMass_kg(const double mass_kg) {
-    mass_ += mass_kg;
-    if (mass_ < 0.0) mass_ = 0.0;
+    double temp_mass_kg = mass_ + mass_kg;
+    SetMass_kg(temp_mass_kg);
   }
   /**
    * @fn SetInertiaTensor_b_kgm2
