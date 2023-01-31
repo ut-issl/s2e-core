@@ -47,10 +47,10 @@ SimTime* InitSimTime(std::string file_name) {
 
 HipparcosCatalogue* InitHipCatalogue(std::string file_name) {
   IniAccess ini_file(file_name);
-  const char* section = "HIPPARCOS_CATALOGUE";
+  const char* section = "HipparcosCatalogue";
 
+  std::string catalogue_path = ini_file.ReadString(section, "catalogue_file_path");
   double max_magnitude = ini_file.ReadDouble(section, "max_magnitude");
-  std::string catalogue_path = ini_file.ReadString(section, "catalogue_path");
 
   HipparcosCatalogue* hip_catalogue;
   hip_catalogue = new HipparcosCatalogue(max_magnitude, catalogue_path);
