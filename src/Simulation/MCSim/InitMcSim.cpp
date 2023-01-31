@@ -28,8 +28,8 @@ MCSimExecutor* InitMCSim(std::string file_name) {
   bool log_history = (strcmp(endis_str, "ENABLED") == 0);
   mc_sim->LogHistory(log_history);
 
-  section = "MC_RANDOMIZATION";
-  std::vector<std::string> so_dot_ip_str_vec = ini_file.ReadStrVector(section, "Param");
+  section = "MonteCarloRandomization";
+  std::vector<std::string> so_dot_ip_str_vec = ini_file.ReadStrVector(section, "parameter");
   std::vector<std::string> so_str_vec, ip_str_vec;
 
   enum Phase { FoundNothingYet, FoundSimulationObjectStr, FoundInitParameterStr };
