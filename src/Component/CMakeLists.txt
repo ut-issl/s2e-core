@@ -69,6 +69,6 @@ add_library(${PROJECT_NAME} STATIC
 
 ## C++/CLI related codes
 #  CDH/TMTCInterface.cpp
-)
+ "IdealComponents/TorqueGenerator.cpp" "IdealComponents/InitializeTorqueGenerator.cpp")
 
 include(../../common.cmake)
