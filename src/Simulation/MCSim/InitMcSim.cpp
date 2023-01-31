@@ -13,18 +13,18 @@
 
 MCSimExecutor* InitMCSim(std::string file_name) {
   IniAccess ini_file(file_name);
-  const char* section = "MC_EXECUTION";
+  const char* section = "MonteCarloExecution";
 
-  unsigned long long total_num_of_executions = ini_file.ReadInt(section, "NumOfExecutions");
+  unsigned long long total_num_of_executions = ini_file.ReadInt(section, "number_of_executions");
 
   MCSimExecutor* mc_sim = new MCSimExecutor(total_num_of_executions);
 
   char endis_str[MAX_CHAR_NUM];
-  ini_file.ReadChar(section, "MCSimEnabled", MAX_CHAR_NUM, endis_str);
+  ini_file.ReadChar(section, "monte_carlo_enable", MAX_CHAR_NUM, endis_str);
   bool enable = (strcmp(endis_str, "ENABLED") == 0);
   mc_sim->Enable(enable);
 
-  ini_file.ReadChar(section, "LogHistory", MAX_CHAR_NUM, endis_str);
+  ini_file.ReadChar(section, "log_enable", MAX_CHAR_NUM, endis_str);
   bool log_history = (strcmp(endis_str, "ENABLED") == 0);
   mc_sim->LogHistory(log_history);
 
