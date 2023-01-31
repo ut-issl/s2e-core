@@ -21,11 +21,11 @@ Attitude::Attitude(const std::string& sim_object_name) : SimulationObject(sim_ob
 std::string Attitude::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector("omega_true", "b", "rad/s", 3);
-  str_tmp += WriteVector("quaternion_true", "i2b", "-", 4);
-  str_tmp += WriteVector("torque_true", "b", "Nm", 3);
-  str_tmp += WriteScalar("h_total", "Nms");
-  str_tmp += WriteScalar("k_sc", "J");
+  str_tmp += WriteVector("angular_velocity", "b", "rad/s", 3);
+  str_tmp += WriteQuaternion("quaternion", "i2b");
+  str_tmp += WriteVector("torque", "b", "Nm", 3);
+  str_tmp += WriteScalar("total_angular_momentum", "Nms");
+  str_tmp += WriteScalar("kinematic_energy", "J");
 
   return str_tmp;
 }
