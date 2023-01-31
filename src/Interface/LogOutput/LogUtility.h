@@ -97,7 +97,7 @@ std::string WriteVector(Vector<NUM, double> vec, int precision) {
 }
 std::string WriteVector(std::string name, std::string frame, std::string unit, size_t n) {
   std::stringstream str_tmp;
-  std::string axis[3] = {"(X)", "(Y)", "(Z)"};
+  std::string axis[3] = {"_x", "_y", "_z"};
 
   for (size_t i = 0; i < n; i++) {
     if (n == 3) {
