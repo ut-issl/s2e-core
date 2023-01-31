@@ -101,6 +101,12 @@ class Antenna {
    */
   inline double GetFrequency() const { return frequency_; }
   /**
+   * @fn GetQuaternion_b2c
+   * @brief Return quaternion from body to component
+   */
+  inline Quaternion GetQuaternion_b2c() const { return q_b2c_; }
+
+  /**
    * @fn IsTransmitter
    * @brief Return antenna for transmitter or not
    */
@@ -135,7 +141,7 @@ class Antenna {
    * @param [in] ant_params: Antenna parameters
    * @param [in] theta: Angle from PZ axis on the antenna frame [rad]
    * @param [in] phi: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
-   * @return Antenna gain [dB]
+   * @return Antenna gain [dBi]
    */
   double CalcAntennaGain(const AntennaParameters ant_params, const double theta_rad, const double phi_rad = 0.0) const;
 };

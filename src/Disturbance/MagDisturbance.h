@@ -20,19 +20,12 @@ using libra::Vector;
  * @brief Class to calculate the magnetic disturbance torque
  */
 class MagDisturbance : public SimpleDisturbance {
-  Vector<3> rmm_b_;        //!< True RMM of the spacecraft in the body frame [Am2]
-  double mag_unit_;        //!< Constant value to change the unit [nT] -> [T]
-  Vector<3> rmm_const_b_;  //!< Constant component of the RMM in the body frame [Am2]
-  double rmm_rwdev_;       //!< Standard deviation of random walk component of the RMM [Am2]
-  double rmm_rwlimit_;     //!< Limit of random walk component of the RMM [Am2]
-  double rmm_wnvar_;       //!< Standard deviation of white noise of the RMM [Am2]
-
  public:
   /**
    * @fn MagDisturbance
    * @brief Constructor
    */
-  MagDisturbance(const Vector<3>& rmm_const_b, const double rmm_rwdev, const double rmm_rwlimit, const double rmm_wnvar);
+  MagDisturbance(const RMMParams& rmm_params);
 
   /**
    * @fn CalcRMM
@@ -67,6 +60,12 @@ class MagDisturbance : public SimpleDisturbance {
    * @brief Override GetLogValue function of ILoggable
    */
   virtual std::string GetLogValue() const;
+
+ private:
+  double mag_unit_;  //!< Constant value to change the unit [nT] -> [T]
+
+  Vector<3> rmm_b_;              //!< True RMM of the spacecraft in the body frame [Am2]
+  const RMMParams& rmm_params_;  //!< RMM parameters
 };
 
 #endif  //__MagDisturbance_H__

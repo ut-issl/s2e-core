@@ -101,9 +101,8 @@ class GroundStation : public ILoggable {
   std::map<int, bool> is_visible_;  //!< Visible flag for each spacecraft ID (not care antenna)
   int num_sc_;                      //!< Number of spacecraft in the simulation
 
-  // Return true when the satellite is visible from the ground station
   /**
-   * @fn GetElevationLimitAngle_deg
+   * @fn CalcIsVisible
    * @brief Calculate the visibility for the target spacecraft
    * @param [in] sc_pos_ecef_m: spacecraft position in ECEF frame [m]
    * @return True when the satellite is visible from the ground station

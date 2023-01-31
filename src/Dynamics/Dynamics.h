@@ -119,8 +119,6 @@ class Dynamics {
    */
   inline Attitude& SetAttitude() const { return *attitude_; }
 
-  double mass_;  //!< Mass of spacecraft [kg] FIXME: Move to Structure
-
   /**
    * @fn GetPosition_i
    * @brief Return spacecraft position in the inertial frame [m]
@@ -134,9 +132,10 @@ class Dynamics {
   virtual Quaternion GetQuaternion_i2b() const;
 
  private:
-  Attitude* attitude_;        //!< Attitude dynamics
-  Orbit* orbit_;              //!< Orbit dynamics
-  Temperature* temperature_;  //!< Thermal dynamics
+  Attitude* attitude_;          //!< Attitude dynamics
+  Orbit* orbit_;                //!< Orbit dynamics
+  Temperature* temperature_;    //!< Thermal dynamics
+  const Structure* structure_;  //!< Structure information
 };
 
 #endif  //__dynamics_H__
