@@ -25,8 +25,7 @@ GroundStation::GroundStation(SimulationConfig* config, int gs_id) : gs_id_(gs_id
 GroundStation::~GroundStation() {}
 
 void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
-  IniAccess iniAccess = IniAccess(config->ini_base_fname_);
-  std::string gs_ini_path = iniAccess.ReadString("SIM_SETTING", "gs_file");
+  std::string gs_ini_path = config->gs_file_;
   auto conf = IniAccess(gs_ini_path);
 
   const char* section_base = "GS";
