@@ -182,9 +182,9 @@ std::string RWModel::GetLogHeader() const {
   std::string str_tmp = "";
 
   str_tmp += WriteScalar("rw_angular_velocity", "rad/s");
-  str_tmp += WriteScalar("rw_angular_velocity_rpm", "rpm");
-  str_tmp += WriteScalar("rw_angular_velocity_upperlimit", "rpm");
-  str_tmp += WriteScalar("rw_angular_acceleration", "rad/s^2");
+  str_tmp += WriteScalar("rw_angular_velocity", "rpm");
+  str_tmp += WriteScalar("rw_angular_velocity_upper_limit", "rpm");
+  str_tmp += WriteScalar("rw_angular_acceleration", "rad/s2");
 
   if (is_logged_jitter_) {
     str_tmp += WriteVector("rw_jitter_force", "c", "N", 3);

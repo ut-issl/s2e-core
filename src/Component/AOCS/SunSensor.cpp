@@ -131,9 +131,10 @@ double SunSensor::TanRange(double x) {
 string SunSensor::GetLogHeader() const {
   string str_tmp = "";
   const string st_id = std::to_string(static_cast<long long>(id_));
+  std::string sensor_name = "sun_sensor" + st_id + "_";
 
-  str_tmp += WriteVector("sun" + st_id, "c", "-", 3);
-  str_tmp += WriteScalar("sun_detected_flag" + st_id, "-");
+  str_tmp += WriteVector(sensor_name + "measured_sun_direction", "c", "-", 3);
+  str_tmp += WriteScalar(sensor_name + "sun_detected_flag", "-");
 
   return str_tmp;
 }
