@@ -26,8 +26,6 @@ add_library(${PROJECT_NAME} STATIC
   AOCS/InitStt.cpp
   AOCS/SunSensor.cpp
   AOCS/InitSunSensor.cpp
-  AOCS/UWBSensor.cpp
-  AOCS/InitUwbSensor.cpp
   AOCS/GNSSReceiver.cpp
   AOCS/InitGnssReceiver.cpp
 
@@ -47,7 +45,6 @@ add_library(${PROJECT_NAME} STATIC
 
   Logic/LPF.cpp
   Logic/RVDController.cpp
-  Logic/UWBEstimator.cpp
 
   Mission/Telescope/Telescope.cpp
   Mission/Telescope/InitTelescope.cpp
