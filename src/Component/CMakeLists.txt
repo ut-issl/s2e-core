@@ -12,8 +12,6 @@ add_library(${PROJECT_NAME} STATIC
   Abstract/ExpHilsI2cController.cpp
   Abstract/ExpHilsI2cTarget.cpp
 
-  AOCS/EMDS.cpp
-  AOCS/InitEmds.cpp
   AOCS/Gyro.cpp
   AOCS/InitGyro.cpp
   AOCS/MagSensor.cpp
