@@ -195,19 +195,22 @@ void GNSSReceiver::ConvertJulianDayToGPSTime(const double JulianDay) {
 std::string GNSSReceiver::GetLogHeader() const  // For logs
 {
   std::string str_tmp = "";
-  str_tmp += WriteScalar("gnss_year");
-  str_tmp += WriteScalar("gnss_month");
-  str_tmp += WriteScalar("gnss_day");
-  str_tmp += WriteScalar("gnss_hour");
-  str_tmp += WriteScalar("gnss_min");
-  str_tmp += WriteScalar("gnss_sec");
-  str_tmp += WriteVector("gnss_position", "eci", "m", 3);
-  str_tmp += WriteVector("gnss_velocity", "ecef", "m/s", 3);
-  str_tmp += WriteScalar("gnss_lat", "rad");
-  str_tmp += WriteScalar("gnss_lon", "rad");
-  str_tmp += WriteScalar("gnss_alt", "m");
-  str_tmp += WriteScalar("gnss_vis_flag");
-  str_tmp += WriteScalar("gnss_vis_num");
+  const std::string sensor_id = std::to_string(static_cast<long long>(id_));
+  std::string sensor_name = "gnss_receiver" + sensor_id + "_";
+
+  str_tmp += WriteScalar(sensor_name + "measured_utc_time_year");
+  str_tmp += WriteScalar(sensor_name + "measured_utc_time_month");
+  str_tmp += WriteScalar(sensor_name + "measured_utc_time_day");
+  str_tmp += WriteScalar(sensor_name + "measured_utc_time_hour");
+  str_tmp += WriteScalar(sensor_name + "measured_utc_time_min");
+  str_tmp += WriteScalar(sensor_name + "measured_utc_time_sec");
+  str_tmp += WriteVector(sensor_name + "measured_position", "eci", "m", 3);
+  str_tmp += WriteVector(sensor_name + "measured_velocity", "ecef", "m/s", 3);
+  str_tmp += WriteScalar(sensor_name + "measured_latitude", "rad");
+  str_tmp += WriteScalar(sensor_name + "measured_longitude", "rad");
+  str_tmp += WriteScalar(sensor_name + "measured_altitude", "m");
+  str_tmp += WriteScalar(sensor_name + "satellite_visible_flag");
+  str_tmp += WriteScalar(sensor_name + "number_of_visible_satellites");
 
   return str_tmp;
 }
