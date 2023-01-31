@@ -20,6 +20,7 @@ from configparser import ConfigParser
 # local function
 from make_miller_projection_map import make_miller_projection_map
 from common import find_latest_log_tag
+from common import read_scalar_from_csv
 # arguments
 import argparse
 
@@ -66,14 +67,10 @@ map = make_miller_projection_map()
 # Data read and edit
 #
 # Read S2E CSV
-df = pandas.read_csv(read_file_name, sep=',', usecols=['lat[rad]', 'lon[rad]', 'is_sc0_visible_from_gs0'])
-# satellite position data
-sc_lat_deg = df['lat[rad]'].to_numpy() * 180/3.14
-sc_lon_deg = df['lon[rad]'].to_numpy() * 180/3.14
+sc_lat_deg = read_scalar_from_csv(read_file_name, 'spacecraft_latitude[rad]') * 180/3.14
+sc_lon_deg = read_scalar_from_csv(read_file_name, 'spacecraft_longitude[rad]') * 180/3.14
 sc_map_lon, sc_map_lat = map(sc_lon_deg, sc_lat_deg)
-
-# GS visibility data
-gs_visibility = df['is_sc0_visible_from_gs0'].to_numpy()
+gs_visibility = np.transpose(read_scalar_from_csv(read_file_name, 'is_sc0_visible_from_gs0'))
 
 # Set color
 def visibility_color(visibility):
