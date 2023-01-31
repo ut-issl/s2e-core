@@ -36,7 +36,7 @@ Vector<3> GravityGradient::CalcTorque(const Vector<3> r_b_m, const Matrix<3, 3> 
 string GravityGradient::GetLogHeader() const {
   string str_tmp = "";
 
-  str_tmp += WriteVector("ggtorque", "b", "Nm", 3);
+  str_tmp += WriteVector("gravity_gradient_torque", "b", "Nm", 3);
 
   return str_tmp;
 }

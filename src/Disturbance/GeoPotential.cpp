@@ -13,7 +13,7 @@
 
 #include "../Interface/LogOutput/LogUtility.h"
 
-//#define DEBUG_GEOPOTENTIAL
+// #define DEBUG_GEOPOTENTIAL
 
 using namespace std;
 
@@ -195,7 +195,7 @@ string GeoPotential::GetLogHeader() const {
   str_tmp += WriteVector("pos_", "ecef", "m", 3);
   str_tmp += WriteScalar("time_geop", "ms");
 #endif
-  str_tmp += WriteVector("a_geop", "ecef", "m/s2", 3);
+  str_tmp += WriteVector("geopotential_acceleration", "ecef", "m/s2", 3);
 
   return str_tmp;
 }
