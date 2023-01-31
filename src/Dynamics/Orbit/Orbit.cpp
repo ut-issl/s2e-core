@@ -59,7 +59,7 @@ std::string Orbit::GetLogHeader() const {
   str_tmp += WriteVector("spacecraft_position", "i", "m", 3);
   str_tmp += WriteVector("spacecraft_velocity", "i", "m/s", 3);
   str_tmp += WriteVector("spacecraft_velocity", "b", "m/s", 3);
-  str_tmp += WriteVector("spacecraft_acceleration_i", "i", "m/s2", 3);
+  str_tmp += WriteVector("spacecraft_acceleration", "i", "m/s2", 3);
   str_tmp += WriteScalar("spacecraft_latitude", "rad");
   str_tmp += WriteScalar("spacecraft_longitude", "rad");
   str_tmp += WriteScalar("spacecraft_altitude", "m");
