@@ -18,6 +18,8 @@ import pandas
 # local function
 from common import find_latest_log_tag
 from common import normalize_csv_read_vector
+from common import read_3d_vector_from_csv
+from common import read_scalar_from_csv
 # arguments
 import argparse
 # math
@@ -56,19 +58,13 @@ read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file
 # Data read and edit
 #
 # Read S2E CSV for position
-csv_data = pandas.read_csv(read_file_name, sep=',', usecols=['sat_position_i(X)[m]', 'sat_position_i(Y)[m]', 'sat_position_i(Z)[m]', 'shadow coefficient'])
-sc_position_i = np.array([csv_data['sat_position_i(X)[m]'].to_numpy(), 
-                          csv_data['sat_position_i(Y)[m]'].to_numpy(),
-                          csv_data['sat_position_i(Z)[m]'].to_numpy()])
+sc_position_i = read_3d_vector_from_csv(read_file_name, 'spacecraft_position_i', 'm')
 max_norm_v = max(norm(sc_position_i, axis=0))
-shadow_coeff = csv_data['shadow coefficient'].to_numpy()
+shadow_coeff = np.transpose(read_scalar_from_csv(read_file_name, 'shadow_coefficient_at_spacecraft_position'))
 
 # Read S2E CSV for Sun
-csv_data = pandas.read_csv(read_file_name, sep=',', usecols=['SUN_pos_i(X)[m]', 'SUN_pos_i(Y)[m]', 'SUN_pos_i(Z)[m]'])
-sun_position_i = np.transpose(np.array([csv_data['SUN_pos_i(X)[m]'].to_numpy(), 
-                                        csv_data['SUN_pos_i(Y)[m]'].to_numpy(),
-                                        csv_data['SUN_pos_i(Z)[m]'].to_numpy()]))
-sun_direction_i = normalize_csv_read_vector(sun_position_i)
+sun_position_i = read_3d_vector_from_csv(read_file_name, 'sun_position_i', 'm')
+sun_direction_i = normalize_csv_read_vector(np.transpose(sun_position_i))
 
 #
 # Plot
