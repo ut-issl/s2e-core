@@ -46,13 +46,13 @@ read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file
 # Data read and edit
 #
 # Read S2E CSV
-time = read_scalar_from_csv(read_file_name, 'time[sec]')
+time = read_scalar_from_csv(read_file_name, 'time[s]')
 
-total_torque_b = read_3d_vector_from_csv(read_file_name, 'torque_true_b', 'Nm')
-gg_torque_b = read_3d_vector_from_csv(read_file_name, 'ggtorque_b', 'Nm')
+total_torque_b = read_3d_vector_from_csv(read_file_name, 'spacecraft_torque_b', 'Nm')
+gg_torque_b = read_3d_vector_from_csv(read_file_name, 'gravity_gradient_torque_b', 'Nm')
 srp_torque_b = read_3d_vector_from_csv(read_file_name, 'srp_torque_b', 'Nm')
-airdrag_torque_b = read_3d_vector_from_csv(read_file_name, 'airdrag_torque_b', 'Nm')
-mag_torque_b = read_3d_vector_from_csv(read_file_name, 'mag_dist_torque_b', 'Nm')
+airdrag_torque_b = read_3d_vector_from_csv(read_file_name, 'air_drag_torque_b', 'Nm')
+mag_torque_b = read_3d_vector_from_csv(read_file_name, 'magnetic_disturbance_torque_b', 'Nm')
 
 #
 # Plot
