@@ -10,8 +10,6 @@
 # plots
 import numpy as np
 import matplotlib.pyplot as plt
-# csv read
-import pandas
 # local function
 from common import find_latest_log_tag
 from common import normalize_csv_read_vector
