@@ -64,18 +64,6 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    */
   virtual void RHS(double t, const Vector<6>& state, Vector<6>& rhs);
 
-  // Override ILoggable
-  /**
-   * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
-   */
-  virtual std::string GetLogHeader() const;
-  /**
-   * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
-   */
-  virtual std::string GetLogValue() const;
-
  private:
   double mu_;             //!< Gravity constant of the center body [m3/s2]
   int reference_sat_id_;  //!< Reference satellite ID

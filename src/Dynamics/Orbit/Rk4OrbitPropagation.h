@@ -63,18 +63,6 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    */
   virtual void AddPositionOffset(Vector<3> offset_i);
 
-  // Override ILoggable
-  /**
-   * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
-   */
-  virtual std::string GetLogHeader() const;
-  /**
-   * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
-   */
-  virtual std::string GetLogValue() const;
-
  private:
   double prop_time_;  //!< Simulation current time for numerical integration by RK4 [sec]
   double prop_step_;  //!< Step width for RK4 [sec]

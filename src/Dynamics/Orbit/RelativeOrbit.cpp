@@ -150,35 +150,3 @@ void RelativeOrbit::RHS(double t, const Vector<6>& state, Vector<6>& rhs)  // on
   rhs = system_matrix_ * state;
   (void)t;
 }
-
-std::string RelativeOrbit::GetLogHeader() const {
-  std::string str_tmp = "";
-
-  str_tmp += WriteVector("sat_position", "i", "m", 3);
-  str_tmp += WriteVector("sat_velocity", "i", "m/s", 3);
-  str_tmp += WriteVector("sat_velocity", "b", "m/s", 3);
-  str_tmp += WriteVector("sat_position_relative_to_sat" + std::to_string(reference_sat_id_), "LVLH", "m", 3);
-  str_tmp += WriteVector("sat_velocity_relative_to_sat" + std::to_string(reference_sat_id_), "LVLH", "m", 3);
-  str_tmp += WriteVector("sat_acc_i", "i", "m/s^2", 3);
-  str_tmp += WriteScalar("lat", "rad");
-  str_tmp += WriteScalar("lon", "rad");
-  str_tmp += WriteScalar("alt", "m");
-
-  return str_tmp;
-}
-
-std::string RelativeOrbit::GetLogValue() const {
-  std::string str_tmp = "";
-
-  str_tmp += WriteVector(sat_position_i_, 16);
-  str_tmp += WriteVector(sat_velocity_i_, 10);
-  str_tmp += WriteVector(sat_velocity_b_, 10);
-  str_tmp += WriteVector(relative_position_lvlh_, 10);
-  str_tmp += WriteVector(relative_velocity_lvlh_, 10);
-  str_tmp += WriteVector(acc_i_, 10);
-  str_tmp += WriteScalar(sat_position_geo_.GetLat_rad());
-  str_tmp += WriteScalar(sat_position_geo_.GetLon_rad());
-  str_tmp += WriteScalar(sat_position_geo_.GetAlt_m());
-
-  return str_tmp;
-}

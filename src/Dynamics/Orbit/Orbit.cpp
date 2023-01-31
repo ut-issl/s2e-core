@@ -52,3 +52,31 @@ OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode) {
     return OrbitInitializeMode::kDefault;
   }
 }
+
+std::string Orbit::GetLogHeader() const {
+  std::string str_tmp = "";
+
+  str_tmp += WriteVector("spacecraft_position", "i", "m", 3);
+  str_tmp += WriteVector("spacecraft_velocity", "i", "m/s", 3);
+  str_tmp += WriteVector("spacecraft_velocity", "b", "m/s", 3);
+  str_tmp += WriteVector("spacecraft_acceleration_i", "i", "m/s2", 3);
+  str_tmp += WriteScalar("spacecraft_latitude", "rad");
+  str_tmp += WriteScalar("spacecraft_longitude", "rad");
+  str_tmp += WriteScalar("spacecraft_altitude", "m");
+
+  return str_tmp;
+}
+
+std::string Orbit::GetLogValue() const {
+  std::string str_tmp = "";
+
+  str_tmp += WriteVector(sat_position_i_, 16);
+  str_tmp += WriteVector(sat_velocity_i_, 10);
+  str_tmp += WriteVector(sat_velocity_b_, 10);
+  str_tmp += WriteVector(acc_i_, 10);
+  str_tmp += WriteScalar(sat_position_geo_.GetLat_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetLon_rad());
+  str_tmp += WriteScalar(sat_position_geo_.GetAlt_m());
+
+  return str_tmp;
+}

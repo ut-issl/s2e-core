@@ -187,12 +187,12 @@ class Orbit : public ILoggable {
    * @fn GetLogHeader
    * @brief Override GetLogHeader function of ILoggable
    */
-  virtual std::string GetLogHeader() const = 0;
+  virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
    * @brief Override GetLogValue function of ILoggable
    */
-  virtual std::string GetLogValue() const = 0;
+  virtual std::string GetLogValue() const;
 
  protected:
   const CelestialInformation* celes_info_;  //!< Celestial information

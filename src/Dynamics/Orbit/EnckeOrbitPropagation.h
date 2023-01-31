@@ -41,18 +41,6 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
    */
   virtual void Propagate(double endtime, double current_jd);
 
-  // Override ILoggable
-  /**
-   * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
-   */
-  virtual std::string GetLogHeader() const;
-  /**
-   * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
-   */
-  virtual std::string GetLogValue() const;
-
   // Override ODE
   /**
    * @fn RHS
