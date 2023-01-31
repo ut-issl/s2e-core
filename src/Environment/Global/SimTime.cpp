@@ -193,7 +193,7 @@ void SimTime::PrintStartDateTime(void) const {
 string SimTime::GetLogHeader() const {
   string str_tmp = "";
 
-  str_tmp += WriteScalar("time", "sec");
+  str_tmp += WriteScalar("time", "s");
 
   return str_tmp;
 }
