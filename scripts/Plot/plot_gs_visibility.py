@@ -11,10 +11,7 @@
 #
 # plots
 import numpy as np
-from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
-# csv
-import pandas
 # ini file
 from configparser import ConfigParser
 # local function
