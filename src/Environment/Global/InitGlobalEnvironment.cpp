@@ -63,8 +63,8 @@ HipparcosCatalogue* InitHipCatalogue(std::string file_name) {
 
 CelestialInformation* InitCelesInfo(std::string file_name) {
   IniAccess ini_file(file_name);
-  const char* section = "PLANET_SELECTION";
-  const char* furnsh_section = "FURNSH_PATH";
+  const char* section = "CelestialInformation";
+  const char* furnsh_section = "CspiceKernels";
 
   // Read SPICE setting
   std::string inertial_frame = ini_file.ReadString(section, "inertial_frame");
@@ -72,18 +72,18 @@ CelestialInformation* InitCelesInfo(std::string file_name) {
   std::string center_obj = ini_file.ReadString(section, "center_object");
 
   // SPICE Furnsh
-  std::vector<std::string> keywords = {"TLS", "TPC1", "TPC2", "TPC3", "BSP"};
+  std::vector<std::string> keywords = {"tls", "tpc1", "tpc2", "tpc3", "bsp"};
   for (size_t i = 0; i < keywords.size(); i++) {
     std::string fname = ini_file.ReadString(furnsh_section, keywords[i].c_str());
     furnsh_c(fname.c_str());
   }
 
   // Initialize celestial body list
-  const int num_of_selected_body = ini_file.ReadInt(section, "num_of_selected_body");
+  const int num_of_selected_body = ini_file.ReadInt(section, "number_of_selected_body");
   int* selected_body = new int[num_of_selected_body];
   for (int i = 0; i < num_of_selected_body; i++) {
     // Convert body name to SPICE ID
-    std::string selected_body_i = "selected_body(" + std::to_string(i) + ")";
+    std::string selected_body_i = "selected_body_name(" + std::to_string(i) + ")";
     char selected_body_temp[30];
     ini_file.ReadChar(section, selected_body_i.c_str(), 30, selected_body_temp);
     SpiceInt planet_id;
