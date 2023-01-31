@@ -43,7 +43,6 @@ add_library(${PROJECT_NAME} STATIC
   IdealComponents/ForceGenerator.cpp
   IdealComponents/InitializeForceGenerator.cpp
 
-  Logic/LPF.cpp
   Logic/RVDController.cpp
 
   Mission/Telescope/Telescope.cpp
