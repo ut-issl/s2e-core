@@ -19,13 +19,10 @@ MCSimExecutor* InitMCSim(std::string file_name) {
 
   MCSimExecutor* mc_sim = new MCSimExecutor(total_num_of_executions);
 
-  char endis_str[MAX_CHAR_NUM];
-  ini_file.ReadChar(section, "monte_carlo_enable", MAX_CHAR_NUM, endis_str);
-  bool enable = (strcmp(endis_str, "ENABLED") == 0);
+  bool enable = ini_file.ReadEnable(section, "monte_carlo_enable");
   mc_sim->Enable(enable);
 
-  ini_file.ReadChar(section, "log_enable", MAX_CHAR_NUM, endis_str);
-  bool log_history = (strcmp(endis_str, "ENABLED") == 0);
+  bool log_history = ini_file.ReadEnable(section, "log_enable");
   mc_sim->LogHistory(log_history);
 
   section = "MonteCarloRandomization";
