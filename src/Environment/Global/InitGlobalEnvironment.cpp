@@ -16,26 +16,27 @@
 SimTime* InitSimTime(std::string file_name) {
   IniAccess ini_file(file_name);
 
-  const char* section = "TIME";
+  const char* section = "Time";
   // Parameters about entire simulation
-  double end_sec = ini_file.ReadDouble(section, "EndTimeSec");
-  double step_sec = ini_file.ReadDouble(section, "StepTimeSec");
-  std::string start_ymdhms = ini_file.ReadString(section, "StartYMDHMS");
-  double sim_speed = ini_file.ReadDouble(section, "SimulationSpeed");
+  std::string start_ymdhms = ini_file.ReadString(section, "simulation_start_time_utc");
+  double end_sec = ini_file.ReadDouble(section, "simulation_duration_s");
+  double step_sec = ini_file.ReadDouble(section, "simulation_step_s");
 
   // Time step parameters for dynamics propagation
-  double attitude_update_interval_sec = ini_file.ReadDouble(section, "AttitudeUpdateIntervalSec");
-  double attitude_rk_step_sec = ini_file.ReadDouble(section, "AttitudeRKStepSec");
-  double orbit_update_interval_sec = ini_file.ReadDouble(section, "OrbitUpdateIntervalSec");
-  double orbit_rk_step_sec = ini_file.ReadDouble(section, "OrbitRKStepSec");
-  double thermal_update_interval_sec = ini_file.ReadDouble(section, "ThermalUpdateIntervalSec");
-  double thermal_rk_step_sec = ini_file.ReadDouble(section, "ThermalRKStepSec");
+  double attitude_update_interval_sec = ini_file.ReadDouble(section, "attitude_update_period_s");
+  double attitude_rk_step_sec = ini_file.ReadDouble(section, "attitude_integral_step_s");
+  double orbit_update_interval_sec = ini_file.ReadDouble(section, "orbit_update_period_s");
+  double orbit_rk_step_sec = ini_file.ReadDouble(section, "orbit_integral_step_s");
+  double thermal_update_interval_sec = ini_file.ReadDouble(section, "thermal_update_period_s");
+  double thermal_rk_step_sec = ini_file.ReadDouble(section, "thermal_integral_step_s");
 
   // Time step parameter for component propagation
-  double compo_propagate_step_sec = ini_file.ReadDouble(section, "CompoUpdateIntervalSec");
+  double compo_propagate_step_sec = ini_file.ReadDouble(section, "component_update_period_s");
 
   // Time step parameter for log output
-  double log_output_interval_sec = ini_file.ReadDouble(section, "LogOutPutIntervalSec");
+  double log_output_interval_sec = ini_file.ReadDouble(section, "log_output_period_s");
+
+  double sim_speed = ini_file.ReadDouble(section, "simulation_speed_setting");
 
   SimTime* simTime = new SimTime(end_sec, step_sec, attitude_update_interval_sec, attitude_rk_step_sec, orbit_update_interval_sec, orbit_rk_step_sec,
                                  thermal_update_interval_sec, thermal_rk_step_sec, compo_propagate_step_sec, log_output_interval_sec,
