@@ -86,7 +86,7 @@ map.plot(gs_map_lon, gs_map_lat, color='red', marker='*', markersize=12)
 for i in range(len(sc_map_lat)):
   map.plot(sc_map_lon[i], sc_map_lat[i], color=visibility_color(gs_visibility[i]), marker='o', markersize=3)
 
-plt.title('GS Visilibity Analysis: logs_' + read_file_tag)
+plt.title('GS Visibility Analysis: logs_' + read_file_tag)
 
 if args.no_gui:
   plt.savefig(read_file_tag + "_gs_visibility.png")
