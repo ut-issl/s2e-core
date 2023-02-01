@@ -67,7 +67,7 @@ map = make_miller_projection_map()
 sc_lat_deg = read_scalar_from_csv(read_file_name, 'spacecraft_latitude[rad]') * 180/3.14
 sc_lon_deg = read_scalar_from_csv(read_file_name, 'spacecraft_longitude[rad]') * 180/3.14
 sc_map_lon, sc_map_lat = map(sc_lon_deg, sc_lat_deg)
-gs_visibility = np.transpose(read_scalar_from_csv(read_file_name, 'is_sc0_visible_from_gs0'))
+gs_visibility = np.transpose(read_scalar_from_csv(read_file_name, 'ground_station0_sc0_visible_flag'))
 
 # Set color
 def visibility_color(visibility):
