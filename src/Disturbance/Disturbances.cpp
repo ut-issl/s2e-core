@@ -71,7 +71,7 @@ Vector<3> Disturbances::GetAccelerationI() { return sum_acceleration_i_; }
 void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure,
                                        const GlobalEnvironment* glo_env) {
   IniAccess iniAccess = IniAccess(sim_config->sat_file_[sat_id]);
-  ini_fname_ = iniAccess.ReadString("DISTURBANCE", "dist_file");
+  ini_fname_ = iniAccess.ReadString("DISTURBANCE", "disturbance_file");
 
   GravityGradient* gg_dist = new GravityGradient(InitGravityGradient(ini_fname_, glo_env->GetCelesInfo().GetCenterBodyGravityConstant_m3_s2()));
   disturbances_.push_back(gg_dist);

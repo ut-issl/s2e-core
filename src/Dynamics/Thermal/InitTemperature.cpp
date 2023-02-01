@@ -53,7 +53,7 @@ Temperature* InitTemperature(const std::string ini_path, const double rk_prop_st
   vector<vector<string>> vnodestr;  // string vector of node property data
   int nodes_num = 1;
 
-  bool is_calc_enabled = mainIni.ReadBoolean("Thermal", "IsCalcEnabled");
+  bool is_calc_enabled = mainIni.ReadEnable("Thermal", "calculation");
   if (is_calc_enabled == false) {
     // Return here to avoid CSV file reading
     Temperature* temperature;
@@ -62,7 +62,7 @@ Temperature* InitTemperature(const std::string ini_path, const double rk_prop_st
   }
 
   // read ini-file settings
-  string file_path = mainIni.ReadString("Thermal", "thrm_file");
+  string file_path = mainIni.ReadString("Thermal", "thermal_file_directory");
   bool debug = mainIni.ReadBoolean("Thermal", "debug");
 
   // Read Node Properties from CSV File

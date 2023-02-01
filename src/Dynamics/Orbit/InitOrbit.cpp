@@ -50,42 +50,37 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     STMModel stm_model_type = (STMModel)(conf.ReadInt(section_, "stm_model_type"));
 
     Vector<3> init_relative_position_lvlh;
-    conf.ReadVector<3>(section_, "init_relative_position_lvlh", init_relative_position_lvlh);
+    conf.ReadVector<3>(section_, "initial_relative_position_lvlh_m", init_relative_position_lvlh);
     Vector<3> init_relative_velocity_lvlh;
-    conf.ReadVector<3>(section_, "init_relative_velocity_lvlh", init_relative_velocity_lvlh);
+    conf.ReadVector<3>(section_, "initial_relative_velocity_lvlh_m_s", init_relative_velocity_lvlh);
 
     // There is a possibility that the orbit of the reference sat is not initialized when RelativeOrbit initialization is called To ensure that
     // the orbit of the reference sat is initialized, create temporary initial orbit of the reference sat
-    int reference_sat_id = conf.ReadInt(section_, "reference_sat_id");
+    int reference_sat_id = conf.ReadInt(section_, "reference_satellite_id");
 
     orbit = new RelativeOrbit(celes_info, gravity_constant, stepSec, reference_sat_id, init_relative_position_lvlh, init_relative_velocity_lvlh,
                               update_method, relative_dynamics_model_type, stm_model_type, rel_info);
   } else if (propagate_mode == "KEPLER") {
     // initialize orbit for Kepler propagation
-    std::string init_mode_kepler = conf.ReadString(section_, "init_mode_kepler");
     double mu_m3_s2 = gravity_constant;
     OrbitalElements oe;
     // TODO: init_mode_kepler should be removed in the next major update
-    if ((init_mode_kepler == "INIT_POSVEL" && initialize_mode == OrbitInitializeMode::kDefault) ||
-        initialize_mode == OrbitInitializeMode::kInertialPositionAndVelocity) {
+    if (initialize_mode == OrbitInitializeMode::kInertialPositionAndVelocity) {
       // initialize with position and velocity
       Vector<3> init_pos_m;
-      conf.ReadVector<3>(section_, "init_position", init_pos_m);
+      conf.ReadVector<3>(section_, "initial_position_i_m", init_pos_m);
       Vector<3> init_vel_m_s;
-      conf.ReadVector<3>(section_, "init_velocity", init_vel_m_s);
+      conf.ReadVector<3>(section_, "initial_velocity_i_m_s", init_vel_m_s);
       oe = OrbitalElements(mu_m3_s2, current_jd, init_pos_m, init_vel_m_s);
-    } else if ((init_mode_kepler == "INIT_OE" && initialize_mode == OrbitInitializeMode::kDefault) ||
-               initialize_mode == OrbitInitializeMode::kOrbitalElements) {
+    } else {
       // initialize with orbital elements
       double semi_major_axis_m = conf.ReadDouble(section_, "semi_major_axis_m");
       double eccentricity = conf.ReadDouble(section_, "eccentricity");
       double inclination_rad = conf.ReadDouble(section_, "inclination_rad");
       double raan_rad = conf.ReadDouble(section_, "raan_rad");
-      double arg_perigee_rad = conf.ReadDouble(section_, "arg_perigee_rad");
+      double arg_perigee_rad = conf.ReadDouble(section_, "argument_of_perigee_rad");
       double epoch_jday = conf.ReadDouble(section_, "epoch_jday");
       oe = OrbitalElements(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
-    } else {
-      std::cerr << "ERROR: Kepler orbit initialize mode: " << init_mode_kepler << " is not defined!" << std::endl;
     }
     KeplerOrbit kepler_orbit(mu_m3_s2, oe);
     orbit = new KeplerOrbitPropagation(celes_info, current_jd, kepler_orbit);
@@ -133,7 +128,7 @@ Vector<6> InitializePosVel(std::string ini_path, double current_jd, double mu_m3
     double eccentricity = conf.ReadDouble(section_, "eccentricity");
     double inclination_rad = conf.ReadDouble(section_, "inclination_rad");
     double raan_rad = conf.ReadDouble(section_, "raan_rad");
-    double arg_perigee_rad = conf.ReadDouble(section_, "arg_perigee_rad");
+    double arg_perigee_rad = conf.ReadDouble(section_, "argument_of_perigee_rad");
     double epoch_jday = conf.ReadDouble(section_, "epoch_jday");
     OrbitalElements oe(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
     KeplerOrbit kepler_orbit(mu_m3_s2, oe);
@@ -142,14 +137,14 @@ Vector<6> InitializePosVel(std::string ini_path, double current_jd, double mu_m3
     position_i_m = kepler_orbit.GetPosition_i_m();
     velocity_i_m_s = kepler_orbit.GetVelocity_i_m_s();
   } else if (initialize_mode == OrbitInitializeMode::kInertialPositionAndVelocity) {
-    conf.ReadVector<3>(section_, "init_position", position_i_m);
-    conf.ReadVector<3>(section_, "init_velocity", velocity_i_m_s);
+    conf.ReadVector<3>(section_, "initial_position_i_m", position_i_m);
+    conf.ReadVector<3>(section_, "initial_velocity_i_m_s", velocity_i_m_s);
   } else {
     std::cerr << "WARNINGS: orbit initialize mode is not defined!" << std::endl;
     std::cerr << "The orbit is automatically initialized as default mode" << std::endl;
 
-    conf.ReadVector<3>(section_, "init_position", position_i_m);
-    conf.ReadVector<3>(section_, "init_velocity", velocity_i_m_s);
+    conf.ReadVector<3>(section_, "initial_position_i_m", position_i_m);
+    conf.ReadVector<3>(section_, "initial_velocity_i_m_s", velocity_i_m_s);
   }
 
   for (size_t i = 0; i < 3; i++) {
