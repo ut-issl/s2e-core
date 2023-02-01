@@ -73,8 +73,9 @@ bool GroundStation::CalcIsVisible(const Vector<3> sc_pos_ecef_m) {
 std::string GroundStation::GetLogHeader() const {
   std::string str_tmp = "";
 
+  std::string head = "ground_station" + std::to_string(gs_id_) + "_";
   for (int i = 0; i < num_sc_; i++) {
-    std::string legend = "is_sc" + std::to_string(i) + "_visible_from_gs" + std::to_string(gs_id_);
+    std::string legend = head + "sc" + std::to_string(i) + "_visible_flag";
     str_tmp += WriteScalar(legend);
   }
   return str_tmp;
