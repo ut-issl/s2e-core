@@ -36,8 +36,9 @@ PCU_InitialStudy::~PCU_InitialStudy() {}
 
 std::string PCU_InitialStudy::GetLogHeader() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar("power_consumption", "W");
-  str_tmp += WriteScalar("bus_voltage", "V");
+  std::string component_name = "pcu_initial_study_";
+  str_tmp += WriteScalar(component_name + "power_consumption", "W");
+  str_tmp += WriteScalar(component_name + "bus_voltage", "V");
   return str_tmp;
 }
 

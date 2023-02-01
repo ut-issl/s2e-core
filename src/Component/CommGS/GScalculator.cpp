@@ -95,9 +95,10 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
 
 std::string GScalculator::GetLogHeader() const {
   std::string str_tmp = "";
+  std::string component_name = "gs_calculator_";
 
-  str_tmp += WriteScalar("max bitrate[Mbps]");
-  str_tmp += WriteScalar("receive_margin[dB]");
+  str_tmp += WriteScalar(component_name + "max_bitrate", "Mbps");
+  str_tmp += WriteScalar(component_name + "receive_margin", "dB");
 
   return str_tmp;
 }

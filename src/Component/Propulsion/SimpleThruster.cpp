@@ -74,10 +74,10 @@ void SimpleThruster::CalcTorque(Vector<3> center) {
 std::string SimpleThruster::GetLogHeader() const {
   std::string str_tmp = "";
 
-  std::string head = "TH" + std::to_string(id_);
-  str_tmp += WriteVector(head + "thrust", "b", "N", 3);
-  str_tmp += WriteVector(head + "torque", "b", "Nm", 3);
-  str_tmp += WriteScalar(head + "thrust", "N");
+  std::string head = "simple_thruster" + std::to_string(id_) + "_";
+  str_tmp += WriteVector(head + "output_thrust", "b", "N", 3);
+  str_tmp += WriteVector(head + "output_torque", "b", "Nm", 3);
+  str_tmp += WriteScalar(head + "output_thrust_norm", "N");
   return str_tmp;
 }
 
