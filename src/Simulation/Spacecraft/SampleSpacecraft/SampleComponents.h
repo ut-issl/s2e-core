@@ -23,6 +23,7 @@
 #include <Component/CommGS/InitAntenna.hpp>
 #include <Component/Examples/ChangeStructure.hpp>
 #include <Component/IdealComponents/InitializeForceGenerator.hpp>
+#include <Component/IdealComponents/InitializeTorqueGenerator.hpp>
 #include <Component/Propulsion/InitSimpleThruster.hpp>
 #include <Library/math/Vector.hpp>
 
@@ -39,6 +40,7 @@ class MagTorquer;
 class RWModel;
 class SimpleThruster;
 class ForceGenerator;
+class TorqueGenerator;
 
 /**
  * @class SampleComponents
@@ -84,15 +86,16 @@ class SampleComponents : public InstalledComponents {
   HilsPortManager* hils_port_manager_;  //!< Port manager for HILS test
 
   // AOCS
-  Gyro* gyro_;                       //!< Gyro sensor
-  MagSensor* mag_sensor_;            //!< Magnetmeter
-  STT* stt_;                         //!< Star sensor
-  SunSensor* sun_sensor_;            //!< Sun sensor
-  GNSSReceiver* gnss_;               //!< GNSS receiver
-  MagTorquer* mag_torquer_;          //!< Magnetorquer
-  RWModel* rw_;                      //!< Reaction Wheel
-  SimpleThruster* thruster_;         //!< Thruster
-  ForceGenerator* force_generator_;  //!< Ideal Force Generator
+  Gyro* gyro_;                        //!< Gyro sensor
+  MagSensor* mag_sensor_;             //!< Magnetmeter
+  STT* stt_;                          //!< Star sensor
+  SunSensor* sun_sensor_;             //!< Sun sensor
+  GNSSReceiver* gnss_;                //!< GNSS receiver
+  MagTorquer* mag_torquer_;           //!< Magnetorquer
+  RWModel* rw_;                       //!< Reaction Wheel
+  SimpleThruster* thruster_;          //!< Thruster
+  ForceGenerator* force_generator_;   //!< Ideal Force Generator
+  TorqueGenerator* torque_generator_; //!< Ideal Torque Generator
 
   // CommGs
   Antenna* antenna_;  //!< Antenna

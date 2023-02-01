@@ -46,6 +46,9 @@ add_library(${PROJECT_NAME} STATIC
 
   IdealComponents/ForceGenerator.cpp
   IdealComponents/InitializeForceGenerator.cpp
+  IdealComponents/TorqueGenerator.cpp
+  IdealComponents/InitializeTorqueGenerator.cpp
+
 
   Logic/LPF.cpp
   Logic/RVDController.cpp
@@ -69,6 +72,6 @@ add_library(${PROJECT_NAME} STATIC
 
 ## C++/CLI related codes
 #  CDH/TMTCInterface.cpp
- "IdealComponents/TorqueGenerator.cpp" "IdealComponents/InitializeTorqueGenerator.cpp")
+)
 
 include(../../common.cmake)
