@@ -16,10 +16,10 @@ MagEnvironment InitMagEnvironment(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "MAG_ENVIRONMENT";
 
-  std::string fname = conf.ReadString(section, "coeff_file");
-  double mag_rwdev = conf.ReadDouble(section, "mag_rwdev");
-  double mag_rwlimit = conf.ReadDouble(section, "mag_rwlimit");
-  double mag_wnvar = conf.ReadDouble(section, "mag_wnvar");
+  std::string fname = conf.ReadString(section, "coefficient_file");
+  double mag_rwdev = conf.ReadDouble(section, "magnetic_field_random_walk_speed_nT");
+  double mag_rwlimit = conf.ReadDouble(section, "magnetic_field_random_walk_limit_nT");
+  double mag_wnvar = conf.ReadDouble(section, "magnetic_field_white_noise_standard_deviation_nT");
 
   MagEnvironment mag_env(fname, mag_rwdev, mag_rwlimit, mag_wnvar);
   mag_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
@@ -46,9 +46,9 @@ Atmosphere InitAtmosphere(std::string ini_path) {
   double f107_default = 150.0;
 
   std::string model = conf.ReadString(section, "model");
-  std::string table_path = conf.ReadString(section, "nrlmsise00_table_path");
-  double rho_stddev = conf.ReadDouble(section, "rho_stddev");
-  bool is_manual_param_used = conf.ReadEnable(section, "is_manual_param_used");
+  std::string table_path = conf.ReadString(section, "nrlmsise00_table_file");
+  double rho_stddev = conf.ReadDouble(section, "air_density_standard_deviation");
+  bool is_manual_param_used = conf.ReadEnable(section, "is_manual_parameter_used");
   double manual_daily_f107 = conf.ReadDouble(section, "manual_daily_f107");
   if (manual_daily_f107 < f107_threshold) {
     std::cerr << "Daily F10.7 may be too low. It is set as 150.0 in this simulation. "
