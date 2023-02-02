@@ -45,8 +45,8 @@ std::string TorqueGenerator::GetLogHeader() const {
   std::string str_tmp = "";
 
   std::string head = "IdealTorqueGenerator_";
-  str_tmp += WriteVector(head + "ordered_torque", "b", "N", 3);
-  str_tmp += WriteVector(head + "generated_torque", "b", "N", 3);
+  str_tmp += WriteVector(head + "ordered_torque", "b", "Nm", 3);
+  str_tmp += WriteVector(head + "generated_torque", "b", "Nm", 3);
 
   return str_tmp;
 }
