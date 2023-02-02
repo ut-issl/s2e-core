@@ -41,7 +41,7 @@ void TorqueGenerator::PowerOffRoutine() { generated_torque_b_Nm_ *= 0.0; }
 std::string TorqueGenerator::GetLogHeader() const {
   std::string str_tmp = "";
 
-  std::string head = "IdealTorqueGenerator_";
+  std::string head = "ideal_torque_generator_";
   str_tmp += WriteVector(head + "ordered_torque", "b", "Nm", 3);
   str_tmp += WriteVector(head + "generated_torque", "b", "Nm", 3);
 
