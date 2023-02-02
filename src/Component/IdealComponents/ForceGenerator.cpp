@@ -1,6 +1,6 @@
 /*
  * @file ForceGenerator.cpp
- * @brief Ideal component which can generate for control algorithm test
+ * @brief Ideal component which can generate force for control algorithm test
  */
 
 #include "ForceGenerator.hpp"

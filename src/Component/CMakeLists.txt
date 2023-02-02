@@ -46,6 +46,8 @@ add_library(${PROJECT_NAME} STATIC
 
   IdealComponents/ForceGenerator.cpp
   IdealComponents/InitializeForceGenerator.cpp
+  IdealComponents/TorqueGenerator.cpp
+  IdealComponents/InitializeTorqueGenerator.cpp
 
   Logic/LPF.cpp
   Logic/RVDController.cpp
