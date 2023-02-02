@@ -63,6 +63,11 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   rw_ = new RWModel(
       InitRWModel(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_->GetAttitude().GetPropStep(), glo_env_->GetSimTime().GetCompoStepSec()));
 
+  // Torque Generator
+  ini_path = iniAccess.ReadString("COMPONENTS_FILE", "torque_generator_file");
+  config_->main_logger_->CopyFileToLogDir(ini_path);
+  torque_generator_ = new TorqueGenerator(InitializeTorqueGenerator(clock_gen, ini_path, dynamics_));
+
   // Thruster
   ini_path = iniAccess.ReadString("COMPONENTS_FILE", "thruster_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
@@ -110,6 +115,13 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // force_N[1] = 0.0;
   // force_N[2] = 0.0;
   // force_generator_->SetForce_b_N(force_N);
+
+  // torque generator debug output
+  // libra::Vector<3> torque_Nm;
+  // torque_Nm[0] = 1.0;
+  // torque_Nm[1] = 0.0;
+  // torque_Nm[2] = 0.0;
+  // torque_generator_->SetTorque_b_Nm(torque_Nm);
 }
 
 SampleComponents::~SampleComponents() {
@@ -122,6 +134,7 @@ SampleComponents::~SampleComponents() {
   delete rw_;
   delete thruster_;
   delete force_generator_;
+  delete torque_generator_;
   delete antenna_;
   // delete change_structure_;
   delete pcu_;
@@ -145,6 +158,7 @@ libra::Vector<3> SampleComponents::GenerateTorque_Nm_b() {
   torque_Nm_b_ += mag_torquer_->GetTorque_b();
   torque_Nm_b_ += rw_->GetOutputTorqueB();
   torque_Nm_b_ += thruster_->GetTorqueB();
+  torque_Nm_b_ += torque_generator_->GetGeneratedTorque_b_Nm();
   return torque_Nm_b_;
 }
 
@@ -158,4 +172,5 @@ void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLoggable(rw_);
   logger.AddLoggable(thruster_);
   logger.AddLoggable(force_generator_);
+  logger.AddLoggable(torque_generator_);
 }
