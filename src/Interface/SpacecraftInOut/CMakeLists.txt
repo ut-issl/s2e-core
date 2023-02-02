@@ -7,11 +7,6 @@ add_library(${PROJECT_NAME} STATIC
   Ports/SCIPort.cpp
   Ports/I2CPort.cpp
   Utils/RingBuffer.cpp
-
-## C++/CLI related codes
-#  Utils/ITCTMChannel.h
-#  TMTCDriver.cpp
-#  TMTCDriver.h
 )
 
 include(../../../common.cmake)
