@@ -117,11 +117,11 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // force_generator_->SetForce_b_N(force_N);
 
   // torque generator debug output
-  //libra::Vector<3> torque_Nm;
-  //torque_Nm[0] = 1.0;
-  //torque_Nm[1] = 0.0;
-  //torque_Nm[2] = 0.0;
-  //torque_generator_->SetTorque_b_Nm(torque_Nm);
+  // libra::Vector<3> torque_Nm;
+  // torque_Nm[0] = 1.0;
+  // torque_Nm[1] = 0.0;
+  // torque_Nm[2] = 0.0;
+  // torque_generator_->SetTorque_b_Nm(torque_Nm);
 }
 
 SampleComponents::~SampleComponents() {
