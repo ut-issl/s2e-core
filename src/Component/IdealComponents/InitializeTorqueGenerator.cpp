@@ -16,10 +16,10 @@ TorqueGenerator InitializeTorqueGenerator(ClockGenerator* clock_gen, const std::
 
   // TorqueGenerator
   char section[30] = "TorqueGenerator";
-  double torque_magnitude_standard_deviation_N = ini_file.ReadDouble(section, "torque_magnitude_standard_deviation_N");
+  double torque_magnitude_standard_deviation_Nm = ini_file.ReadDouble(section, "torque_magnitude_standard_deviation_Nm");
   double torque_direction_standard_deviation_deg = ini_file.ReadDouble(section, "torque_direction_standard_deviation_deg");
   double torque_direction_standard_deviation_rad = libra::deg_to_rad * torque_direction_standard_deviation_deg;
-  TorqueGenerator torque_generator(prescaler, clock_gen, torque_magnitude_standard_deviation_N, torque_direction_standard_deviation_rad, dynamics);
+  TorqueGenerator torque_generator(prescaler, clock_gen, torque_magnitude_standard_deviation_Nm, torque_direction_standard_deviation_rad, dynamics);
 
   return torque_generator;
 }
