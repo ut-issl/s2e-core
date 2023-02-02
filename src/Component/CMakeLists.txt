@@ -42,6 +42,8 @@ add_library(${PROJECT_NAME} STATIC
 
   IdealComponents/ForceGenerator.cpp
   IdealComponents/InitializeForceGenerator.cpp
+  IdealComponents/TorqueGenerator.cpp
+  IdealComponents/InitializeTorqueGenerator.cpp
 
   Mission/Telescope/Telescope.cpp
   Mission/Telescope/InitTelescope.cpp
