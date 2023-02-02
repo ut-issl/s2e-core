@@ -3,13 +3,13 @@
  * @brief Ideal component which can generate torque for control algorithm test
  */
 
-#include <cfloat>
-
 #include "TorqueGenerator.hpp"
+
+#include <cfloat>
 
 // Constructor
 TorqueGenerator::TorqueGenerator(const int prescaler, ClockGenerator* clock_gen, const double magnitude_error_standard_deviation_Nm,
-                               const double direction_error_standard_deviation_rad, const Dynamics* dynamics)
+                                 const double direction_error_standard_deviation_rad, const Dynamics* dynamics)
     : ComponentBase(prescaler, clock_gen),
       magnitude_noise_(0.0, magnitude_error_standard_deviation_Nm),
       direction_error_standard_deviation_rad_(direction_error_standard_deviation_rad),
@@ -34,12 +34,9 @@ void TorqueGenerator::MainRoutine(int count) {
     double torque_norm_with_error = norm_ordered_torque + magnitude_noise_;
     generated_torque_b_Nm_ = torque_norm_with_error * converted_direction;
   }
-
 }
 
-void TorqueGenerator::PowerOffRoutine() {
-  generated_torque_b_Nm_ *= 0.0;
-}
+void TorqueGenerator::PowerOffRoutine() { generated_torque_b_Nm_ *= 0.0; }
 
 std::string TorqueGenerator::GetLogHeader() const {
   std::string str_tmp = "";

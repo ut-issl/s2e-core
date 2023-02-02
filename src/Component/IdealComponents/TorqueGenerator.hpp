@@ -27,7 +27,7 @@ class TorqueGenerator : public ComponentBase, public ILoggable {
    * @param [in] dynamics: Dynamics information
    */
   TorqueGenerator(const int prescaler, ClockGenerator* clock_gen, const double magnitude_error_standard_deviation_Nm,
-                 const double direction_error_standard_deviation_rad, const Dynamics* dynamics);
+                  const double direction_error_standard_deviation_rad, const Dynamics* dynamics);
   /**
    * @fn ~TorqueGenerator
    * @brief Destructor
@@ -73,8 +73,8 @@ class TorqueGenerator : public ComponentBase, public ILoggable {
   inline void SetTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { ordered_torque_b_Nm_ = torque_b_Nm; };
 
  protected:
-  libra::Vector<3> ordered_torque_b_Nm_{0.0};      //!< Ordered torque in the body fixed frame [Nm]
-  libra::Vector<3> generated_torque_b_Nm_{0.0};    //!< Generated torque in the body fixed frame [Nm]
+  libra::Vector<3> ordered_torque_b_Nm_{0.0};    //!< Ordered torque in the body fixed frame [Nm]
+  libra::Vector<3> generated_torque_b_Nm_{0.0};  //!< Generated torque in the body fixed frame [Nm]
 
   // Noise
   libra::NormalRand magnitude_noise_;              //!< Normal random for magnitude noise

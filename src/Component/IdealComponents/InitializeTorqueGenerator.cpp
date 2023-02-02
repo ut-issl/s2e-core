@@ -2,9 +2,9 @@
  * @file InitializeTorqueGenerator.cpp
  * @brief Initialize function for TorqueGenerator
  */
-#include <Interface/InitInput/IniAccess.h>
-
 #include "InitializeTorqueGenerator.hpp"
+
+#include <Interface/InitInput/IniAccess.h>
 
 TorqueGenerator InitializeTorqueGenerator(ClockGenerator* clock_gen, const std::string file_name, const Dynamics* dynamics) {
   // General
