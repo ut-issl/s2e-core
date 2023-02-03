@@ -38,7 +38,7 @@ add_library(${PROJECT_NAME} STATIC
   CommGS/InitGsCalculator.cpp
 
   examples/ChangeStructure.cpp
-  examples/serial_communication_with_obc.cpp
+  examples/example_serial_communication_with_obc.cpp
 
   IdealComponents/ForceGenerator.cpp
   IdealComponents/InitializeForceGenerator.cpp

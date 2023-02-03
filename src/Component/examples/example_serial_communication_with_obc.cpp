@@ -1,31 +1,31 @@
 /**
- * @file serial_communication_with_obc.cpp
+ * @file example_serial_communication_with_obc.cpp
  * @brief Example of component emulation with communication between OBC Flight software
  */
 
-#include "serial_communication_with_obc.hpp"
+#include "example_serial_communication_with_obc.hpp"
 
 #include <string.h>
 
-SerialCommunicationWithObc::SerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, OBC* obc)
+ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, OBC* obc)
     : ComponentBase(1000, clock_gen), ObcCommunicationBase(port_id, obc) {
   Initialize();
 }
-SerialCommunicationWithObc::SerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc)
+ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc)
     : ComponentBase(prescaler, clock_gen), ObcCommunicationBase(port_id, obc) {
   Initialize();
 }
 
-int SerialCommunicationWithObc::Initialize() {
+int ExampleSerialCommunicationWithObc::Initialize() {
   for (int i = 0; i < MAX_MEMORY_LEN; i++) {
     memory.push_back(0);
   }
   return 0;
 }
 
-SerialCommunicationWithObc::~SerialCommunicationWithObc() {}
+ExampleSerialCommunicationWithObc::~ExampleSerialCommunicationWithObc() {}
 
-int SerialCommunicationWithObc::ParseCommand(const int cmd_size) {
+int ExampleSerialCommunicationWithObc::ParseCommand(const int cmd_size) {
   if (cmd_size < 4) {
     return -1;
   }
@@ -37,19 +37,19 @@ int SerialCommunicationWithObc::ParseCommand(const int cmd_size) {
   memory[MAX_MEMORY_LEN - 1] = '\n';
   return 0;
 }
-int SerialCommunicationWithObc::GenerateTelemetry() {
+int ExampleSerialCommunicationWithObc::GenerateTelemetry() {
   for (int i = 0; i < MAX_MEMORY_LEN; i++) {
     tx_buff[i] = (unsigned char)memory[i];
   }
   tx_buffer_.assign(std::begin(tx_buff), std::end(tx_buff));
   return sizeof(tx_buff);
 }
-void SerialCommunicationWithObc::MainRoutine(int count) {
+void ExampleSerialCommunicationWithObc::MainRoutine(int count) {
   UNUSED(count);
   ReceiveCommand(0, 5);
   SendTelemetry(0);
 }
 
-void SerialCommunicationWithObc::GPIOStateChanged(int port_id, bool isPosedge) {
+void ExampleSerialCommunicationWithObc::GPIOStateChanged(int port_id, bool isPosedge) {
   printf("interrupted. portid = %d, isPosedge = %d./n", port_id, isPosedge);
 }
