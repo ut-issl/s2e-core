@@ -18,7 +18,7 @@ Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname,
   if (prescaler <= 1) prescaler = 1;
 
   // SensorBase
-  SensorBase<3> sensor_base = ReadSensorBaseInformation<3>(fname, compo_step_time * (double)(prescaler), "Gyro", "rad_s");
+  SensorBase<kGyroDim> sensor_base = ReadSensorBaseInformation<kGyroDim>(fname, compo_step_time * (double)(prescaler), "Gyro", "rad_s");
 
   Gyro gyro(prescaler, clock_gen, sensor_base, sensor_id, q_b2c, dynamics);
 
@@ -36,7 +36,7 @@ Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, c
   if (prescaler <= 1) prescaler = 1;
 
   // SensorBase
-  SensorBase<3> sensor_base = ReadSensorBaseInformation<3>(fname, compo_step_time * (double)(prescaler), "Gyro", "rad_s");
+  SensorBase<kGyroDim> sensor_base = ReadSensorBaseInformation<kGyroDim>(fname, compo_step_time * (double)(prescaler), "Gyro", "rad_s");
 
   // PowerPort
   double minimum_voltage = gyro_conf.ReadDouble(GSection, "minimum_voltage_V");

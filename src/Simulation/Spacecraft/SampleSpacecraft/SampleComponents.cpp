@@ -30,7 +30,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   gyro_ = new Gyro(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimTime().GetCompoStepSec(), dynamics_));
 
   // MagSensor
-  ini_path = iniAccess.ReadString("COMPONENTS_FILE", "mag_sensor_file");
+  ini_path = iniAccess.ReadString("COMPONENTS_FILE", "magetometer_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   mag_sensor_ =
       new MagSensor(InitMagSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimTime().GetCompoStepSec(), &(local_env_->GetMag())));
