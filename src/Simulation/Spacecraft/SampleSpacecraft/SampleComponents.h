@@ -102,8 +102,8 @@ class SampleComponents : public InstalledComponents {
 
   // HILS settings examples
   /*
-  ExpHils* exp_hils_uart_responder_;               //!< Example of HILS UART responder
-  ExpHils* exp_hils_uart_sender_;                  //!< Example of HILS UART sender
+  ExampleSerialCommunicationForHils* exp_hils_uart_responder_;  //!< Example of HILS UART responder
+  ExampleSerialCommunicationForHils* exp_hils_uart_sender_;     //!< Example of HILS UART sender
   ExpHilsI2cController* exp_hils_i2c_controller_;  //!< Example of HILS I2C controller
   ExpHilsI2cTarget* exp_hils_i2c_target_;          //!< Example of HILS I2C target
   */

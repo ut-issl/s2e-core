@@ -6,13 +6,14 @@
 
 #include <Library/utils/Macros.hpp>
 
-ExpHils::ExpHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
-                 HilsPortManager* hils_port_manager, const int mode_id)
+ExampleSerialCommunicationForHils::ExampleSerialCommunicationForHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc,
+                                                                     const unsigned int hils_port_id, const unsigned int baud_rate,
+                                                                     HilsPortManager* hils_port_manager, const int mode_id)
     : ComponentBase(300, clock_gen), ObcCommunicationBase(sils_port_id, obc, hils_port_id, baud_rate, hils_port_manager), mode_id_(mode_id) {}
 
-ExpHils::~ExpHils() {}
+ExampleSerialCommunicationForHils::~ExampleSerialCommunicationForHils() {}
 
-int ExpHils::ParseCommand(const int cmd_size) {
+int ExampleSerialCommunicationForHils::ParseCommand(const int cmd_size) {
   UNUSED(cmd_size);
 
   if (mode_id_ == 1) {
@@ -28,7 +29,7 @@ int ExpHils::ParseCommand(const int cmd_size) {
   return 0;
 }
 
-int ExpHils::GenerateTelemetry() {
+int ExampleSerialCommunicationForHils::GenerateTelemetry() {
   if (mode_id_ == 0)  // The sender component sends ABC, BCD, CDE ...
   {
     for (int i = 0; i < kMemorySize; i++) {
@@ -52,7 +53,7 @@ int ExpHils::GenerateTelemetry() {
   return 0;
 }
 
-void ExpHils::MainRoutine(int count) {
+void ExampleSerialCommunicationForHils::MainRoutine(int count) {
   UNUSED(count);
 
   ReceiveCommand(0, kMemorySize);
