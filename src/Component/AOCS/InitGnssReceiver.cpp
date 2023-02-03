@@ -37,12 +37,12 @@ GNSSReceiverParam ReadGNSSReceiverIni(const std::string fname, const GnssSatelli
     gnssreceiver_param.antenna_model = SIMPLE;
   }
 
-  gnssr_conf.ReadVector(GSection, "antenna_pos_b", gnssreceiver_param.antenna_pos_b);
-  gnssr_conf.ReadQuaternion(GSection, "q_b2c", gnssreceiver_param.q_b2c);
-  gnssreceiver_param.half_width = gnssr_conf.ReadDouble(GSection, "half_width");
+  gnssr_conf.ReadVector(GSection, "antenna_position_b_m", gnssreceiver_param.antenna_pos_b);
+  gnssr_conf.ReadQuaternion(GSection, "quaternion_b2c", gnssreceiver_param.q_b2c);
+  gnssreceiver_param.half_width = gnssr_conf.ReadDouble(GSection, "antenna_half_width_deg");
   gnssreceiver_param.gnss_id = gnssr_conf.ReadString(GSection, "gnss_id");
-  gnssreceiver_param.ch_max = gnssr_conf.ReadInt(GSection, "ch_max");
-  gnssr_conf.ReadVector(GSection, "nr_stddev_eci", gnssreceiver_param.noise_std);
+  gnssreceiver_param.ch_max = gnssr_conf.ReadInt(GSection, "maximum_channel");
+  gnssr_conf.ReadVector(GSection, "white_noise_standard_deviation_eci_m", gnssreceiver_param.noise_std);
 
   return gnssreceiver_param;
 }
