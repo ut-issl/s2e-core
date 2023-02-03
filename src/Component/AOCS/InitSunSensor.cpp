@@ -21,18 +21,18 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_n
   if (prescaler <= 1) prescaler = 1;
 
   Quaternion q_b2c;
-  ss_conf.ReadQuaternion(Section, "q_b2c", q_b2c);
+  ss_conf.ReadQuaternion(Section, "quaternion_b2c", q_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
-  detectable_angle_deg = ss_conf.ReadDouble(Section, "detectable_angle_deg");
+  detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
   detectable_angle_rad = libra::pi / 180.0 * detectable_angle_deg;
 
   double nr_stddev = 0.0;
-  nr_stddev = ss_conf.ReadDouble(Section, "nr_stddev");
+  nr_stddev = ss_conf.ReadDouble(Section, "white_noise_standard_deviation_deg");
   nr_stddev *= libra::pi / 180.0;
 
   double nr_bias_stddev = 0.0;
-  nr_bias_stddev = ss_conf.ReadDouble(Section, "nr_bias_stddev");
+  nr_bias_stddev = ss_conf.ReadDouble(Section, "bias_standard_deviation_deg");
   nr_bias_stddev *= libra::pi / 180.0;
 
   double intensity_lower_threshold_percent;
@@ -54,18 +54,18 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss
   if (prescaler <= 1) prescaler = 1;
 
   Quaternion q_b2c;
-  ss_conf.ReadQuaternion(Section, "q_b2c", q_b2c);
+  ss_conf.ReadQuaternion(Section, "quaternion_b2c", q_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
-  detectable_angle_deg = ss_conf.ReadDouble(Section, "detectable_angle_deg");
+  detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
   detectable_angle_rad = libra::pi / 180.0 * detectable_angle_deg;
 
   double nr_stddev = 0.0;
-  nr_stddev = ss_conf.ReadDouble(Section, "nr_stddev");
+  nr_stddev = ss_conf.ReadDouble(Section, "white_noise_standard_deviation_deg");
   nr_stddev *= libra::pi / 180.0;
 
   double nr_bias_stddev = 0.0;
-  nr_bias_stddev = ss_conf.ReadDouble(Section, "nr_bias_stddev");
+  nr_bias_stddev = ss_conf.ReadDouble(Section, "bias_standard_deviation_deg");
   nr_bias_stddev *= libra::pi / 180.0;
 
   double intensity_lower_threshold_percent;
