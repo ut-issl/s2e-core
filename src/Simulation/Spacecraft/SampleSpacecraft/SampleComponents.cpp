@@ -52,7 +52,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
       InitGNSSReceiver(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_, &(glo_env_->GetGnssSatellites()), &(glo_env_->GetSimTime())));
 
   // MagTorquer
-  ini_path = iniAccess.ReadString("COMPONENTS_FILE", "mag_torquer_file");
+  ini_path = iniAccess.ReadString("COMPONENTS_FILE", "magetorquer_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   mag_torquer_ = new MagTorquer(
       InitMagTorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimTime().GetCompoStepSec(), &(local_env_->GetMag())));
