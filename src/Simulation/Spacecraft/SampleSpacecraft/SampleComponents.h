@@ -4,7 +4,6 @@
  */
 
 #pragma once
-#include <Component/Abstract/ExpHilsI2cTarget.h>
 #include <Component/CDH/OBC.h>
 #include <Component/Power/PCU.h>
 #include <Dynamics/Dynamics.h>
@@ -23,6 +22,7 @@
 #include <Component/Propulsion/InitSimpleThruster.hpp>
 #include <Component/examples/ChangeStructure.hpp>
 #include <Component/examples/example_i2c_controller_for_hils.hpp>
+#include <Component/examples/example_i2c_target_for_hils.hpp>
 #include <Component/examples/example_serial_communication_for_hils.hpp>
 #include <Library/math/Vector.hpp>
 

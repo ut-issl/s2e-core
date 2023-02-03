@@ -1,13 +1,13 @@
 /**
- * @file ExpHilsI2cTarget.h
+ * @file example_i2c_target_for_hils.hpp
  * @brief Example of component emulation for I2C target side communication in HILS environment
  */
 
 #pragma once
 #include <vector>
 
-#include "ComponentBase.h"
-#include "ObcI2cTargetCommunicationBase.h"
+#include "../Abstract/ComponentBase.h"
+#include "../Abstract/ObcI2cTargetCommunicationBase.h"
 
 /**
  * @class ExpHilsI2cTarget
