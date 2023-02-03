@@ -14,7 +14,7 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::str
   if (prescaler <= 1) prescaler = 1;
 
   Quaternion q_b2c;
-  magsensor_conf.ReadQuaternion(MSSection, "q_b2c", q_b2c);
+  magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", q_b2c);
 
   // SensorBase
   // TODO: Use InitializeSensorBase
@@ -56,7 +56,7 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int se
   if (prescaler <= 1) prescaler = 1;
 
   Quaternion q_b2c;
-  magsensor_conf.ReadQuaternion(MSSection, "q_b2c", q_b2c);
+  magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", q_b2c);
 
   // SensorBase
   // TODO: Use InitializeSensorBase
