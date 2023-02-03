@@ -4,7 +4,6 @@
  */
 
 #pragma once
-#include <Component/Abstract/ExpHils.h>
 #include <Component/Abstract/ExpHilsI2cController.h>
 #include <Component/Abstract/ExpHilsI2cTarget.h>
 #include <Component/CDH/OBC.h>
@@ -21,9 +20,10 @@
 #include <Component/AOCS/InitStt.hpp>
 #include <Component/AOCS/InitSunSensor.hpp>
 #include <Component/CommGS/InitAntenna.hpp>
-#include <Component/examples/ChangeStructure.hpp>
 #include <Component/IdealComponents/InitializeForceGenerator.hpp>
 #include <Component/Propulsion/InitSimpleThruster.hpp>
+#include <Component/examples/ChangeStructure.hpp>
+#include <Component/examples/example_serial_communication_for_hils.hpp>
 #include <Library/math/Vector.hpp>
 
 #include "../InstalledComponents.hpp"

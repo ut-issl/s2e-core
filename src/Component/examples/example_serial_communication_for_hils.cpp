@@ -1,8 +1,8 @@
 /**
- * @file ExpHils.cpp
+ * @file example_serial_communication_for_hils.cpp
  * @brief Example of component emulation for UART communication in HILS environment
  */
-#include "ExpHils.h"
+#include "example_serial_communication_for_hils.hpp"
 
 #include <Library/utils/Macros.hpp>
 

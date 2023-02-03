@@ -1,12 +1,12 @@
 /**
- * @file ExpHils.h
+ * @file example_serial_communication_for_hils.hpp
  * @brief Example of component emulation for UART communication in HILS environment
  */
 #pragma once
 #include <vector>
 
-#include "ComponentBase.h"
-#include "ObcCommunicationBase.h"
+#include "../Abstract/ComponentBase.h"
+#include "../Abstract/ObcCommunicationBase.h"
 
 /**
  * @class ExpHils

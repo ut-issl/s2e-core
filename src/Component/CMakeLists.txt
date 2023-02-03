@@ -7,7 +7,6 @@ add_library(${PROJECT_NAME} STATIC
   Abstract/I2cControllerCommunicationBase.cpp
   Abstract/ObcI2cTargetCommunicationBase.cpp
   Abstract/ObcGpioBase.cpp
-  Abstract/ExpHils.cpp
   Abstract/ExpHilsI2cController.cpp
   Abstract/ExpHilsI2cTarget.cpp
 
@@ -39,6 +38,7 @@ add_library(${PROJECT_NAME} STATIC
 
   examples/ChangeStructure.cpp
   examples/example_serial_communication_with_obc.cpp
+  examples/example_serial_communication_for_hils.cpp
 
   IdealComponents/ForceGenerator.cpp
   IdealComponents/InitializeForceGenerator.cpp
