@@ -21,7 +21,7 @@
 #include <Component/AOCS/InitStt.hpp>
 #include <Component/AOCS/InitSunSensor.hpp>
 #include <Component/CommGS/InitAntenna.hpp>
-#include <Component/Examples/ChangeStructure.hpp>
+#include <Component/examples/ChangeStructure.hpp>
 #include <Component/IdealComponents/InitializeForceGenerator.hpp>
 #include <Component/Propulsion/InitSimpleThruster.hpp>
 #include <Library/math/Vector.hpp>

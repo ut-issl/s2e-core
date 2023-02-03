@@ -6,9 +6,9 @@
 #pragma once
 #include <vector>
 
-#include "ComponentBase.h"
-#include "IGPIOCompo.h"
-#include "ObcCommunicationBase.h"
+#include "../Abstract/ComponentBase.h"
+#include "../Abstract/IGPIOCompo.h"
+#include "../Abstract/ObcCommunicationBase.h"
 
 /**
  * @class EXP

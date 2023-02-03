@@ -3,7 +3,7 @@
  * @brief Example of component emulation with communication between OBC Flight software
  */
 
-#include "EXP.h"
+#include "serial_communication_with_obc.hpp"
 
 #include <string.h>
 
