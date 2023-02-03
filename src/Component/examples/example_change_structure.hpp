@@ -1,5 +1,5 @@
 /**
- * @file ChangeStructure.hpp
+ * @file example_change_structure.hpp
  * @brief Class to show an example to change satellite structure information
  */
 

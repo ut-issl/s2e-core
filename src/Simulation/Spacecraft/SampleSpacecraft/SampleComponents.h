@@ -20,7 +20,7 @@
 #include <Component/CommGS/InitAntenna.hpp>
 #include <Component/IdealComponents/InitializeForceGenerator.hpp>
 #include <Component/Propulsion/InitSimpleThruster.hpp>
-#include <Component/examples/ChangeStructure.hpp>
+#include <Component/examples/example_change_structure.hpp>
 #include <Component/examples/example_i2c_controller_for_hils.hpp>
 #include <Component/examples/example_i2c_target_for_hils.hpp>
 #include <Component/examples/example_serial_communication_for_hils.hpp>

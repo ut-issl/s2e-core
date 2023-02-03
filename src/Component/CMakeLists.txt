@@ -34,7 +34,7 @@ add_library(${PROJECT_NAME} STATIC
   CommGS/GScalculator.cpp
   CommGS/InitGsCalculator.cpp
 
-  examples/ChangeStructure.cpp
+  examples/example_change_structure.cpp
   examples/example_serial_communication_with_obc.cpp
   examples/example_serial_communication_for_hils.cpp
   examples/example_i2c_controller_for_hils.cpp

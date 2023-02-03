@@ -1,9 +1,9 @@
 /**
- * @file ChangeStructure.cpp
+ * @file example_change_structure.cpp
  * @brief Class to show an example to change satellite structure information
  */
 
-#include "ChangeStructure.hpp"
+#include "example_change_structure.hpp"
 
 ChangeStructure::ChangeStructure(ClockGenerator* clock_gen, Structure* structure) : ComponentBase(1, clock_gen), structure_(structure) {}
 
