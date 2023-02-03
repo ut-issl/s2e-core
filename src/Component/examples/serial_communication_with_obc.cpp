@@ -1,5 +1,5 @@
 /**
- * @file EXP.cpp
+ * @file serial_communication_with_obc.cpp
  * @brief Example of component emulation with communication between OBC Flight software
  */
 
@@ -7,21 +7,25 @@
 
 #include <string.h>
 
-EXP::EXP(ClockGenerator* clock_gen, int port_id, OBC* obc) : ComponentBase(1000, clock_gen), ObcCommunicationBase(port_id, obc) { Initialize(); }
-EXP::EXP(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc) : ComponentBase(prescaler, clock_gen), ObcCommunicationBase(port_id, obc) {
+SerialCommunicationWithObc::SerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, OBC* obc)
+    : ComponentBase(1000, clock_gen), ObcCommunicationBase(port_id, obc) {
+  Initialize();
+}
+SerialCommunicationWithObc::SerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc)
+    : ComponentBase(prescaler, clock_gen), ObcCommunicationBase(port_id, obc) {
   Initialize();
 }
 
-int EXP::Initialize() {
+int SerialCommunicationWithObc::Initialize() {
   for (int i = 0; i < MAX_MEMORY_LEN; i++) {
     memory.push_back(0);
   }
   return 0;
 }
 
-EXP::~EXP() {}
+SerialCommunicationWithObc::~SerialCommunicationWithObc() {}
 
-int EXP::ParseCommand(const int cmd_size) {
+int SerialCommunicationWithObc::ParseCommand(const int cmd_size) {
   if (cmd_size < 4) {
     return -1;
   }
@@ -33,17 +37,19 @@ int EXP::ParseCommand(const int cmd_size) {
   memory[MAX_MEMORY_LEN - 1] = '\n';
   return 0;
 }
-int EXP::GenerateTelemetry() {
+int SerialCommunicationWithObc::GenerateTelemetry() {
   for (int i = 0; i < MAX_MEMORY_LEN; i++) {
     tx_buff[i] = (unsigned char)memory[i];
   }
   tx_buffer_.assign(std::begin(tx_buff), std::end(tx_buff));
   return sizeof(tx_buff);
 }
-void EXP::MainRoutine(int count) {
+void SerialCommunicationWithObc::MainRoutine(int count) {
   UNUSED(count);
   ReceiveCommand(0, 5);
   SendTelemetry(0);
 }
 
-void EXP::GPIOStateChanged(int port_id, bool isPosedge) { printf("interrupted. portid = %d, isPosedge = %d./n", port_id, isPosedge); }
+void SerialCommunicationWithObc::GPIOStateChanged(int port_id, bool isPosedge) {
+  printf("interrupted. portid = %d, isPosedge = %d./n", port_id, isPosedge);
+}

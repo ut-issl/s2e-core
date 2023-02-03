@@ -1,5 +1,5 @@
 /**
- * @file EXP.h
+ * @file serial_communication_with_obc.hpp
  * @brief Example of component emulation with communication between OBC Flight software
  */
 
@@ -11,7 +11,7 @@
 #include "../Abstract/ObcCommunicationBase.h"
 
 /**
- * @class EXP
+ * @class SerialCommunicationWithObc
  * @brief Example of component emulation with communication between OBC Flight software
  * @details Command to EXP is 5 bytes.
  *          - The first 3 bytes: "SET"
@@ -23,31 +23,31 @@
  *          - The last byte: "\n"
  *          - The telemetry is automatically generated
  */
-class EXP : public ComponentBase, public ObcCommunicationBase, public IGPIOCompo {
+class SerialCommunicationWithObc : public ComponentBase, public ObcCommunicationBase, public IGPIOCompo {
  public:
   /**
-   * @fn EXP
+   * @fn SerialCommunicationWithObc
    * @brief Constructor without prescaler
    * @note The prescaler is set as 1000
    * @param [in] clock_gen: Clock generator
    * @param [in] port_id: Port ID for communication line b/w OBC
    * @param [in] obc: The communication target OBC
    */
-  EXP(ClockGenerator* clock_gen, int port_id, OBC* obc);
+  SerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, OBC* obc);
   /**
-   * @fn EXP
+   * @fn SerialCommunicationWithObc
    * @brief Constructor
    * @param [in] clock_gen: Clock generator
    * @param [in] port_id: Port ID for communication line b/w OBC
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] obc: The communication target OBC
    */
-  EXP(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc);
+  SerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc);
   /**
-   * @fn ~EXP
+   * @fn ~SerialCommunicationWithObc
    * @brief Destructor
    */
-  ~EXP();
+  ~SerialCommunicationWithObc();
 
  protected:
   // Override functions for ComponentBase
