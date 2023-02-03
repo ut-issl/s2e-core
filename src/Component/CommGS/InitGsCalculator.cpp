@@ -19,14 +19,14 @@ GScalculator InitGScalculator(const std::string fname) {
   char Section[30] = "GScalculator";
   // strcat(Section, cs);
 
-  double loss_polarization = gs_conf.ReadDouble(Section, "loss_polarization");
-  double loss_atmosphere = gs_conf.ReadDouble(Section, "loss_atmosphere");
-  double loss_rainfall = gs_conf.ReadDouble(Section, "loss_rainfall");
-  double loss_others = gs_conf.ReadDouble(Section, "loss_others");
-  double EbN0 = gs_conf.ReadDouble(Section, "EbN0");
-  double hardware_deterioration = gs_conf.ReadDouble(Section, "hardware_deterioration");
-  double coding_gain = gs_conf.ReadDouble(Section, "coding_gain");
-  double margin_req = gs_conf.ReadDouble(Section, "margin_req");
+  double loss_polarization = gs_conf.ReadDouble(Section, "loss_polarization_dB");
+  double loss_atmosphere = gs_conf.ReadDouble(Section, "loss_atmosphere_dB");
+  double loss_rainfall = gs_conf.ReadDouble(Section, "loss_rainfall_dB");
+  double loss_others = gs_conf.ReadDouble(Section, "loss_others_dB");
+  double EbN0 = gs_conf.ReadDouble(Section, "ebn0_dB");
+  double hardware_deterioration = gs_conf.ReadDouble(Section, "hardware_deterioration_dB");
+  double coding_gain = gs_conf.ReadDouble(Section, "coding_gain_dB");
+  double margin_req = gs_conf.ReadDouble(Section, "margin_requirement_dB");
   double downlink_bitrate_bps = gs_conf.ReadDouble(Section, "downlink_bitrate_bps");
 
   GScalculator gs_calculator(loss_polarization, loss_atmosphere, loss_rainfall, loss_others, EbN0, hardware_deterioration, coding_gain, margin_req,
