@@ -29,10 +29,10 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
   number_of_parallel = sap_conf.ReadInt(Section, "number_of_parallel");
 
   double cell_area;
-  cell_area = sap_conf.ReadDouble(Section, "cell_area");
+  cell_area = sap_conf.ReadDouble(Section, "cell_area_m2");
 
   Vector<3> normal_vector;
-  sap_conf.ReadVector(Section, "normal_vector", normal_vector);
+  sap_conf.ReadVector(Section, "normal_vector_b", normal_vector);
 
   double cell_efficiency;
   cell_efficiency = sap_conf.ReadDouble(Section, "cell_efficiency");
@@ -65,10 +65,10 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
   number_of_parallel = sap_conf.ReadInt(Section, "number_of_parallel");
 
   double cell_area;
-  cell_area = sap_conf.ReadDouble(Section, "cell_area");
+  cell_area = sap_conf.ReadDouble(Section, "cell_area_m2");
 
   Vector<3> normal_vector;
-  sap_conf.ReadVector(Section, "normal_vector", normal_vector);
+  sap_conf.ReadVector(Section, "normal_vector_b", normal_vector);
 
   double cell_efficiency;
   cell_efficiency = sap_conf.ReadDouble(Section, "cell_efficiency");
