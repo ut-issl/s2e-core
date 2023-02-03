@@ -86,7 +86,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   /**  Examples  **/
 
   // ChangeStructure: Please uncomment change_structure related codes if you want to test the change_structure
-  // change_structure_ = new ChangeStructure(clock_gen, structure_);
+  // change_structure_ = new ExampleChangeStructure(clock_gen, structure_);
 
   // UART tutorial. Comment out when not in use.
   // exp_hils_uart_responder_ = new ExampleSerialCommunicationForHils(clock_gen, 1, obc_, 3, 9600, hils_port_manager_, 1);

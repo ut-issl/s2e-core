@@ -98,7 +98,7 @@ class SampleComponents : public InstalledComponents {
   Antenna* antenna_;  //!< Antenna
 
   // Examples
-  // ChangeStructure* change_structure_;  //!< Change structure
+  // ExampleChangeStructure* change_structure_;  //!< Change structure
   /*
   ExampleSerialCommunicationForHils* exp_hils_uart_responder_;  //!< Example of HILS UART responder
   ExampleSerialCommunicationForHils* exp_hils_uart_sender_;     //!< Example of HILS UART sender
