@@ -1,12 +1,12 @@
 /**
- * @file ExpHilsI2cController.h
+ * @file example_i2c_controller_for_hils.hpp
  * @brief Example of component emulation for I2C controller side communication in HILS environment
  */
 #pragma once
 #include <vector>
 
-#include "ComponentBase.h"
-#include "I2cControllerCommunicationBase.h"
+#include "../Abstract/ComponentBase.h"
+#include "../Abstract/I2cControllerCommunicationBase.h"
 
 /**
  * @class ExpHilsI2cController
