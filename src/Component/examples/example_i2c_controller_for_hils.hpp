@@ -29,7 +29,7 @@ class ExampleI2cControllerForHils : public ComponentBase, public I2cControllerCo
    * @param [in] hils_port_manager: HILS port manager
    */
   ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_gen, const unsigned int hils_port_id, const unsigned int baud_rate,
-                       const unsigned int tx_buf_size, const unsigned int rx_buf_size, HilsPortManager* hils_port_manager);
+                              const unsigned int tx_buf_size, const unsigned int rx_buf_size, HilsPortManager* hils_port_manager);
   /**
    * @fn ~ExampleI2cControllerForHils
    * @brief Destructor
