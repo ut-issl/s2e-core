@@ -29,24 +29,24 @@ Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const string f
 #endif
 
   Quaternion q_b2c;
-  Telescope_conf.ReadQuaternion(TelescopeSection, "q_b2c", q_b2c);
+  Telescope_conf.ReadQuaternion(TelescopeSection, "quaternion_b2c", q_b2c);
 
-  double sun_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "sun_forbidden_angle");
+  double sun_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "sun_forbidden_angle_deg");
   double sun_forbidden_angle_rad = sun_forbidden_angle_deg * pi / 180;  // deg to rad
-  double earth_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "earth_forbidden_angle");
+  double earth_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "earth_forbidden_angle_deg");
   double earth_forbidden_angle_rad = earth_forbidden_angle_deg * pi / 180;  // deg to rad
-  double moon_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "moon_forbidden_angle");
+  double moon_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "moon_forbidden_angle_deg");
   double moon_forbidden_angle_rad = moon_forbidden_angle_deg * pi / 180;  // deg to rad
 
-  int x_num_of_pix = Telescope_conf.ReadInt(TelescopeSection, "x_num_of_pix");
-  int y_num_of_pix = Telescope_conf.ReadInt(TelescopeSection, "y_num_of_pix");
+  int x_num_of_pix = Telescope_conf.ReadInt(TelescopeSection, "x_number_of_pixel");
+  int y_num_of_pix = Telescope_conf.ReadInt(TelescopeSection, "y_number_of_pixel");
 
-  double x_fov_par_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "x_fov_par_pix");
+  double x_fov_par_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "x_fov_deg_per_pixel");
   double x_fov_par_pix_rad = x_fov_par_pix_deg * pi / 180;  // deg to rad
-  double y_fov_par_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "y_fov_par_pix");
+  double y_fov_par_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "y_fov_deg_per_pixel");
   double y_fov_par_pix_rad = y_fov_par_pix_deg * pi / 180;  // deg to rad
 
-  int num_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "num_of_logged_stars");
+  int num_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "number_of_stars_for_log");
 
   Telescope telescope(clock_gen, q_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_num_of_pix, y_num_of_pix,
                       x_fov_par_pix_rad, y_fov_par_pix_rad, num_of_logged_stars, attitude, hipp, local_celes_info);
