@@ -39,11 +39,8 @@ Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, c
   SensorBase<kGyroDim> sensor_base = ReadSensorBaseInformation<kGyroDim>(fname, compo_step_time * (double)(prescaler), "Gyro", "rad_s");
 
   // PowerPort
-  double minimum_voltage = gyro_conf.ReadDouble(GSection, "minimum_voltage_V");
-  power_port->SetMinimumVoltage(minimum_voltage);
-  double assumed_power_consumption = gyro_conf.ReadDouble(GSection, "assumed_power_consumption_W");
-  power_port->SetAssumedPowerConsumption(assumed_power_consumption);
-
+  power_port->InitializeWithInitializeFile(fname);
+  
   Gyro gyro(prescaler, clock_gen, power_port, sensor_base, sensor_id, q_b2c, dynamics);
   return gyro;
 }
