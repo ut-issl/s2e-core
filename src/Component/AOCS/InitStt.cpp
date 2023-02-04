@@ -68,6 +68,8 @@ STT InitSTT(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, con
   double capture_rate_deg_s = STT_conf.ReadDouble(STTSection, "angular_rate_limit_deg_s");
   double capture_rate_rad_s = capture_rate_deg_s * libra::pi / 180.0;
 
+  power_port->InitializeWithInitializeFile(fname);
+
   STT stt(prescaler, clock_gen, power_port, sensor_id, q_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval,
           sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_env);
   return stt;
