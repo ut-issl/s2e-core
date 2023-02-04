@@ -65,8 +65,8 @@ void PowerPort::InitializeWithInitializeFile(const std::string file_name) {
   IniAccess initialize_file(file_name);
   const std::string section_name = "PowerPort";
 
-  double minimum_voltage = initialize_file.ReadInt(section_name.c_str(), "minimum_voltage_V");
+  double minimum_voltage = initialize_file.ReadDouble(section_name.c_str(), "minimum_voltage_V");
   this->SetMinimumVoltage(minimum_voltage);
-  double assumed_power_consumption = initialize_file.ReadInt(section_name.c_str(), "assumed_power_consumption_W");
+  double assumed_power_consumption = initialize_file.ReadDouble(section_name.c_str(), "assumed_power_consumption_W");
   this->SetAssumedPowerConsumption(assumed_power_consumption);
 }
