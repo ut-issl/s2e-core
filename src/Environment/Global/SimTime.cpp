@@ -206,7 +206,7 @@ string SimTime::GetLogValue() const {
 
   const char kSize = 100;
   char ymdhms[kSize];
-  snprintf(ymdhms, kSize, "%4d/%02d/%02d %02d:%02d:%.3lf", current_utc_.year, current_utc_.month, current_utc_.day, current_utc_.hour,
+  snprintf(ymdhms, kSize, "%4d/%02d/%02d %02d:%02d:%.3lf,", current_utc_.year, current_utc_.month, current_utc_.day, current_utc_.hour,
            current_utc_.min, current_utc_.sec);
   str_tmp += ymdhms;
 
