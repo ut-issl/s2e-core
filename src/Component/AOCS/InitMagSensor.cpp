@@ -39,10 +39,7 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int se
   SensorBase<kMagDim> sensor_base = ReadSensorBaseInformation<kMagDim>(fname, compo_step_time * (double)(prescaler), "Magnetometer", "nT");
 
   // PowerPort
-  double minimum_voltage = magsensor_conf.ReadDouble(MSSection, "minimum_voltage_V");
-  power_port->SetMinimumVoltage(minimum_voltage);
-  double assumed_power_consumption = magsensor_conf.ReadDouble(MSSection, "assumed_power_consumption_W");
-  power_port->AddAssumedPowerConsumption(assumed_power_consumption);
+  power_port->InitializeWithInitializeFile(fname);
 
   MagSensor magsensor(prescaler, clock_gen, power_port, sensor_base, sensor_id, q_b2c, magnet);
   return magsensor;
