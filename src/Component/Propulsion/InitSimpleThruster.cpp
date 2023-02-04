@@ -58,6 +58,8 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, PowerPort* power_po
   double deg_err;
   deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * libra::pi / 180.0;
 
+  power_port->InitializeWithInitializeFile(fname);
+
   SimpleThruster thruster(prescaler, clock_gen, power_port, thruster_id, thruster_pos, thruster_dir, max_mag, mag_err, deg_err, structure, dynamics);
   return thruster;
 }
