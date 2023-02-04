@@ -71,6 +71,8 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss
   double intensity_lower_threshold_percent;
   intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");
 
+  power_port->InitializeWithInitializeFile(file_name);
+
   SunSensor ss(prescaler, clock_gen, power_port, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent,
                srp, local_celes_info);
   return ss;
