@@ -86,10 +86,7 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_gen, PowerPort* power_port, int 
   magtorquer_conf.ReadVector(MTSection, "white_noise_standard_deviation_c_Am2", nr_stddev_c);
 
   // PowerPort
-  double minimum_voltage = magtorquer_conf.ReadDouble(MTSection, "minimum_voltage_V");
-  power_port->SetMinimumVoltage(minimum_voltage);
-  double assumed_power_consumption = magtorquer_conf.ReadDouble(MTSection, "assumed_power_consumption_W");
-  power_port->SetAssumedPowerConsumption(assumed_power_consumption);
+  power_port->InitializeWithInitializeFile(fname);
 
   MagTorquer magtorquer(prescaler, clock_gen, power_port, actuator_id, q_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth, rw_stddev_c,
                         rw_limit_c, nr_stddev_c, mag_env);
