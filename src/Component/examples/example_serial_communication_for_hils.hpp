@@ -1,15 +1,15 @@
 /**
- * @file ExpHils.h
+ * @file example_serial_communication_for_hils.hpp
  * @brief Example of component emulation for UART communication in HILS environment
  */
 #pragma once
 #include <vector>
 
-#include "ComponentBase.h"
-#include "ObcCommunicationBase.h"
+#include "../Abstract/ComponentBase.h"
+#include "../Abstract/ObcCommunicationBase.h"
 
 /**
- * @class ExpHils
+ * @class ExampleSerialCommunicationForHils
  * @brief Example of component emulation for communication in HILS environment
  * @details The sender mode: ExpHils sends out a new massage
  *          - message size is 4 bytes
@@ -17,10 +17,10 @@
  *            - the last byte : \0
  *          The responder mode: ExpHils returns the message as received
  */
-class ExpHils : public ComponentBase, public ObcCommunicationBase {
+class ExampleSerialCommunicationForHils : public ComponentBase, public ObcCommunicationBase {
  public:
   /**
-   * @fn ExpHils
+   * @fn ExampleSerialCommunicationForHils
    * @brief Constructor
    * @note prescaler is set as 300.
    * @param [in] clock_gen: Clock generator
@@ -31,13 +31,13 @@ class ExpHils : public ComponentBase, public ObcCommunicationBase {
    * @param [in] hils_port_manager: HILS port manager
    * @param [in] mode_id: Mode ID to select sender(0) or responder(1)
    */
-  ExpHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
-          HilsPortManager* hils_port_manager, const int mode_id);
+  ExampleSerialCommunicationForHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc, const unsigned int hils_port_id,
+                                    const unsigned int baud_rate, HilsPortManager* hils_port_manager, const int mode_id);
   /**
-   * @fn ~ExpHils
+   * @fn ~ExampleSerialCommunicationForHils
    * @brief Destructor
    */
-  ~ExpHils();
+  ~ExampleSerialCommunicationForHils();
 
  protected:
   // Override functions for ComponentBase

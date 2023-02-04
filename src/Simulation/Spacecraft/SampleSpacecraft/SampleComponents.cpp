@@ -83,24 +83,25 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   config_->main_logger_->CopyFileToLogDir(ini_path);
   antenna_ = new Antenna(InitAntenna(1, ini_path));
 
-  // ChangeStructure: Please uncomment change_structure related codes if you want to test the change_structure
-  // change_structure_ = new ChangeStructure(clock_gen, structure_);
-
   // PCU power port initial control
   pcu_->GetPowerPort(0)->SetVoltage(3.3);
   pcu_->GetPowerPort(1)->SetVoltage(3.3);
   pcu_->GetPowerPort(2)->SetVoltage(3.3);
 
-  // Examples of HILS
+  /**  Examples  **/
+
+  // ChangeStructure: Please uncomment change_structure related codes if you want to test the change_structure
+  // change_structure_ = new ExampleChangeStructure(clock_gen, structure_);
+
   // UART tutorial. Comment out when not in use.
-  // exp_hils_uart_responder_ = new ExpHils(clock_gen, 1, obc_, 3, 9600,
-  // hils_port_manager_, 1); exp_hils_uart_sender_ = new ExpHils(clock_gen, 0,
-  // obc_, 4, 9600, hils_port_manager_, 0);
+  // exp_hils_uart_responder_ = new ExampleSerialCommunicationForHils(clock_gen, 1, obc_, 3, 9600, hils_port_manager_, 1);
+  // exp_hils_uart_sender_ = new ExampleSerialCommunicationForHils(clock_gen, 0, obc_, 4, 9600, hils_port_manager_, 0);
+
   // I2C tutorial. Comment out when not in use.
-  // exp_hils_i2c_controller_ = new ExpHilsI2cController(
-  // 30, clock_gen, 5, 115200, 256, 256, hils_port_manager_);
-  // exp_hils_i2c_target_ =
-  // new ExpHilsI2cTarget(1, clock_gen, 0, 0x44, obc_, 6, hils_port_manager_);
+  // exp_hils_i2c_controller_ = new ExampleI2cControllerForHils(30, clock_gen, 5, 115200, 256, 256, hils_port_manager_);
+  // exp_hils_i2c_target_ = new ExampleI2cTargetForHils(1, clock_gen, 0, 0x44, obc_, 6, hils_port_manager_);
+
+  /**************/
 
   // actuator debug output
   // libra::Vector<kMtqDim> mag_moment_c{0.01};

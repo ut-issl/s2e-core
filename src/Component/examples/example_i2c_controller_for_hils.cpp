@@ -1,17 +1,17 @@
 /**
- * @file ExpHilsI2cController.cpp
+ * @file example_i2c_controller_for_hils.cpp
  * @brief Example of component emulation for I2C controller side communication in HILS environment
  */
-#include "ExpHilsI2cController.h"
+#include "example_i2c_controller_for_hils.hpp"
 
-ExpHilsI2cController::ExpHilsI2cController(const int prescaler, ClockGenerator* clock_gen, const unsigned int hils_port_id,
-                                           const unsigned int baud_rate, const unsigned int tx_buf_size, const unsigned int rx_buf_size,
-                                           HilsPortManager* hils_port_manager)
+ExampleI2cControllerForHils::ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_gen, const unsigned int hils_port_id,
+                                                         const unsigned int baud_rate, const unsigned int tx_buf_size, const unsigned int rx_buf_size,
+                                                         HilsPortManager* hils_port_manager)
     : ComponentBase(prescaler, clock_gen), I2cControllerCommunicationBase(hils_port_id, baud_rate, tx_buf_size, rx_buf_size, hils_port_manager) {}
 
-ExpHilsI2cController::~ExpHilsI2cController() {}
+ExampleI2cControllerForHils::~ExampleI2cControllerForHils() {}
 
-void ExpHilsI2cController::MainRoutine(int count) {
+void ExampleI2cControllerForHils::MainRoutine(int count) {
   UNUSED(count);
 
   RequestTlm();
@@ -19,7 +19,7 @@ void ExpHilsI2cController::MainRoutine(int count) {
   return;
 }
 
-void ExpHilsI2cController::RequestTlm() {
+void ExampleI2cControllerForHils::RequestTlm() {
   const unsigned char kReqTlmCmdSize = 5;
   unsigned char req_tlm_cmd[kReqTlmCmdSize];
   req_tlm_cmd[0] = kCmdHeader_;
@@ -33,7 +33,7 @@ void ExpHilsI2cController::RequestTlm() {
   return;
 }
 
-void ExpHilsI2cController::Receive() {
+void ExampleI2cControllerForHils::Receive() {
   const unsigned char kTlmSize = 5;
   const unsigned char kReceiveCmdSize = 4;
   unsigned char receive_cmd[kReceiveCmdSize];

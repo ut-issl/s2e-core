@@ -1,17 +1,17 @@
 /**
- * @file ExpHilsI2cTarget.cpp
+ * @file example_i2c_target_for_hils.cpp
  * @brief Example of component emulation for I2C target side communication in HILS environment
  */
 
-#include "ExpHilsI2cTarget.h"
+#include "example_i2c_target_for_hils.hpp"
 
-ExpHilsI2cTarget::ExpHilsI2cTarget(const int prescaler, ClockGenerator* clock_gen, const int sils_port_id, unsigned char i2c_address, OBC* obc,
-                                   const unsigned int hils_port_id, HilsPortManager* hils_port_manager)
+ExampleI2cTargetForHils::ExampleI2cTargetForHils(const int prescaler, ClockGenerator* clock_gen, const int sils_port_id, unsigned char i2c_address,
+                                                 OBC* obc, const unsigned int hils_port_id, HilsPortManager* hils_port_manager)
     : ComponentBase(prescaler, clock_gen), ObcI2cTargetCommunicationBase(sils_port_id, hils_port_id, i2c_address, obc, hils_port_manager) {}
 
-ExpHilsI2cTarget::~ExpHilsI2cTarget() {}
+ExampleI2cTargetForHils::~ExampleI2cTargetForHils() {}
 
-void ExpHilsI2cTarget::MainRoutine(int count) {
+void ExampleI2cTargetForHils::MainRoutine(int count) {
   UNUSED(count);
 
   // update telemetry data

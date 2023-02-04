@@ -1,15 +1,16 @@
 /**
- * @file ChangeStructure.cpp
+ * @file example_change_structure.cpp
  * @brief Class to show an example to change satellite structure information
  */
 
-#include "ChangeStructure.hpp"
+#include "example_change_structure.hpp"
 
-ChangeStructure::ChangeStructure(ClockGenerator* clock_gen, Structure* structure) : ComponentBase(1, clock_gen), structure_(structure) {}
+ExampleChangeStructure::ExampleChangeStructure(ClockGenerator* clock_gen, Structure* structure)
+    : ComponentBase(1, clock_gen), structure_(structure) {}
 
-ChangeStructure::~ChangeStructure() {}
+ExampleChangeStructure::~ExampleChangeStructure() {}
 
-void ChangeStructure::MainRoutine(int count) {
+void ExampleChangeStructure::MainRoutine(int count) {
   if (count > 1000) {
     // Mass
     structure_->GetToSetKinematicsParams().SetMass_kg(100.0);
@@ -30,13 +31,13 @@ void ChangeStructure::MainRoutine(int count) {
   }
 }
 
-std::string ChangeStructure::GetLogHeader() const {
+std::string ExampleChangeStructure::GetLogHeader() const {
   std::string str_tmp = "";
 
   return str_tmp;
 }
 
-std::string ChangeStructure::GetLogValue() const {
+std::string ExampleChangeStructure::GetLogValue() const {
   std::string str_tmp = "";
 
   return str_tmp;

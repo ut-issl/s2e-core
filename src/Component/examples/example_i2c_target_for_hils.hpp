@@ -1,26 +1,26 @@
 /**
- * @file ExpHilsI2cTarget.h
+ * @file example_i2c_target_for_hils.hpp
  * @brief Example of component emulation for I2C target side communication in HILS environment
  */
 
 #pragma once
 #include <vector>
 
-#include "ComponentBase.h"
-#include "ObcI2cTargetCommunicationBase.h"
+#include "../Abstract/ComponentBase.h"
+#include "../Abstract/ObcI2cTargetCommunicationBase.h"
 
 /**
- * @class ExpHilsI2cTarget
+ * @class ExampleI2cTargetForHils
  * @brief Example of component emulation for I2C target side communication in HILS environment
  * @details Supposed to be used in connection with the following I2C-USB Controller converter
  *          MFT200XD Data Sheet:https://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT200XD.pdf
  *          Telemetry size = 5 bytes(ASCII)
  *          Telemetry changes; ABCDE, BCDEF, ..., VWXYZ, ABCDE, ...
  */
-class ExpHilsI2cTarget : public ComponentBase, public ObcI2cTargetCommunicationBase {
+class ExampleI2cTargetForHils : public ComponentBase, public ObcI2cTargetCommunicationBase {
  public:
   /**
-   * @fn ExpHilsI2cTarget
+   * @fn ExampleI2cTargetForHils
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_gen: Clock generator
@@ -30,13 +30,13 @@ class ExpHilsI2cTarget : public ComponentBase, public ObcI2cTargetCommunicationB
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] hils_port_manager: HILS port manager
    */
-  ExpHilsI2cTarget(const int prescaler, ClockGenerator* clock_gen, const int sils_port_id, unsigned char i2c_address, OBC* obc,
-                   const unsigned int hils_port_id, HilsPortManager* hils_port_manager);
+  ExampleI2cTargetForHils(const int prescaler, ClockGenerator* clock_gen, const int sils_port_id, unsigned char i2c_address, OBC* obc,
+                          const unsigned int hils_port_id, HilsPortManager* hils_port_manager);
   /**
-   * @fn ~ExpHilsI2cTarget
+   * @fn ~ExampleI2cTargetForHils
    * @brief Destructor
    */
-  ~ExpHilsI2cTarget();
+  ~ExampleI2cTargetForHils();
 
  protected:
   // Override functions for ComponentBase

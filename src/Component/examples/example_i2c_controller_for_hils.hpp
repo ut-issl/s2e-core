@@ -1,24 +1,24 @@
 /**
- * @file ExpHilsI2cController.h
+ * @file example_i2c_controller_for_hils.hpp
  * @brief Example of component emulation for I2C controller side communication in HILS environment
  */
 #pragma once
 #include <vector>
 
-#include "ComponentBase.h"
-#include "I2cControllerCommunicationBase.h"
+#include "../Abstract/ComponentBase.h"
+#include "../Abstract/I2cControllerCommunicationBase.h"
 
 /**
- * @class ExpHilsI2cController
+ * @class ExampleI2cControllerForHils
  * @brief Example of component emulation for I2C controller side communication in HILS environment
  * @details Supposed to be used in connection with the following I2C-USB Controller converter
  *          SC18IM700 Data Sheet: https://www.nxp.com/docs/en/data-sheet/SC18IM700.pdf
  *          telemetry size = 5 bytes(ASCII)
  */
-class ExpHilsI2cController : public ComponentBase, public I2cControllerCommunicationBase {
+class ExampleI2cControllerForHils : public ComponentBase, public I2cControllerCommunicationBase {
  public:
   /**
-   * @fn ExpHilsI2cController
+   * @fn ExampleI2cControllerForHils
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_gen: Clock generator
@@ -28,13 +28,13 @@ class ExpHilsI2cController : public ComponentBase, public I2cControllerCommunica
    * @param [in] rx_buf_size: RX (Target to Controller) buffer size
    * @param [in] hils_port_manager: HILS port manager
    */
-  ExpHilsI2cController(const int prescaler, ClockGenerator* clock_gen, const unsigned int hils_port_id, const unsigned int baud_rate,
-                       const unsigned int tx_buf_size, const unsigned int rx_buf_size, HilsPortManager* hils_port_manager);
+  ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_gen, const unsigned int hils_port_id, const unsigned int baud_rate,
+                              const unsigned int tx_buf_size, const unsigned int rx_buf_size, HilsPortManager* hils_port_manager);
   /**
-   * @fn ~ExpHilsI2cController
+   * @fn ~ExampleI2cControllerForHils
    * @brief Destructor
    */
-  ~ExpHilsI2cController();
+  ~ExampleI2cControllerForHils();
 
  protected:
   // Override functions for ComponentBase

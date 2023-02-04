@@ -1,10 +1,9 @@
 /**
- * @file ChangeStructure.hpp
+ * @file example_change_structure.hpp
  * @brief Class to show an example to change satellite structure information
  */
 
-#ifndef CHANGE_STRUCTURE_H_
-#define CHANGE_STRUCTURE_H_
+#pragma once
 
 #include <Interface/LogOutput/ILoggable.h>
 #include <Simulation/Spacecraft/Structure/Structure.h>
@@ -12,23 +11,23 @@
 #include "../Abstract/ComponentBase.h"
 
 /**
- * @class ChangeStructure
+ * @class ExampleChangeStructure
  * @brief Class to show an example to change satellite structure information
  */
-class ChangeStructure : public ComponentBase, public ILoggable {
+class ExampleChangeStructure : public ComponentBase, public ILoggable {
  public:
   /**
-   * @fn ChangeStructure
+   * @fn ExampleChangeStructure
    * @brief Constructor with power port
    * @param [in] clock_gen: Clock generator
    * @param [in] structure: Structure information
    */
-  ChangeStructure(ClockGenerator* clock_gen, Structure* structure);
+  ExampleChangeStructure(ClockGenerator* clock_gen, Structure* structure);
   /**
    * @fn ~ChangeStructure
    * @brief Destructor
    */
-  ~ChangeStructure();
+  ~ExampleChangeStructure();
 
   // Override functions for ComponentBase
   /**
@@ -52,5 +51,3 @@ class ChangeStructure : public ComponentBase, public ILoggable {
  protected:
   Structure* structure_;  //!< Structure information
 };
-
-#endif

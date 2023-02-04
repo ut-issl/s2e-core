@@ -4,9 +4,6 @@
  */
 
 #pragma once
-#include <Component/Abstract/ExpHils.h>
-#include <Component/Abstract/ExpHilsI2cController.h>
-#include <Component/Abstract/ExpHilsI2cTarget.h>
 #include <Component/CDH/OBC.h>
 #include <Component/Power/PCU.h>
 #include <Dynamics/Dynamics.h>
@@ -21,10 +18,13 @@
 #include <Component/AOCS/InitStt.hpp>
 #include <Component/AOCS/InitSunSensor.hpp>
 #include <Component/CommGS/InitAntenna.hpp>
-#include <Component/Examples/ChangeStructure.hpp>
 #include <Component/IdealComponents/InitializeForceGenerator.hpp>
 #include <Component/IdealComponents/InitializeTorqueGenerator.hpp>
 #include <Component/Propulsion/InitSimpleThruster.hpp>
+#include <Component/examples/example_change_structure.hpp>
+#include <Component/examples/example_i2c_controller_for_hils.hpp>
+#include <Component/examples/example_i2c_target_for_hils.hpp>
+#include <Component/examples/example_serial_communication_for_hils.hpp>
 #include <Library/math/Vector.hpp>
 
 #include "../InstalledComponents.hpp"
@@ -101,14 +101,12 @@ class SampleComponents : public InstalledComponents {
   Antenna* antenna_;  //!< Antenna
 
   // Examples
-  // ChangeStructure* change_structure_;  //!< Change structure
-
-  // HILS settings examples
+  // ExampleChangeStructure* change_structure_;  //!< Change structure
   /*
-  ExpHils* exp_hils_uart_responder_;               //!< Example of HILS UART responder
-  ExpHils* exp_hils_uart_sender_;                  //!< Example of HILS UART sender
-  ExpHilsI2cController* exp_hils_i2c_controller_;  //!< Example of HILS I2C controller
-  ExpHilsI2cTarget* exp_hils_i2c_target_;          //!< Example of HILS I2C target
+  ExampleSerialCommunicationForHils* exp_hils_uart_responder_;  //!< Example of HILS UART responder
+  ExampleSerialCommunicationForHils* exp_hils_uart_sender_;     //!< Example of HILS UART sender
+  ExampleI2cControllerForHils* exp_hils_i2c_controller_;        //!< Example of HILS I2C controller
+  ExampleI2cTargetForHils* exp_hils_i2c_target_;                //!< Example of HILS I2C target
   */
 
   // States
