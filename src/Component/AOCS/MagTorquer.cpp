@@ -84,8 +84,8 @@ libra::Vector<kMtqDim> MagTorquer::CalcOutputTorque(void) {
 
 std::string MagTorquer::GetLogHeader() const {
   std::string str_tmp = "";
-  const std::string st_sensor_id = std::to_string(static_cast<long long>(id_));
-  std::string actuator_name = "magnetorquer" + st_sensor_id + "_";
+  const std::string actuator_id = std::to_string(static_cast<long long>(id_));
+  std::string actuator_name = "magnetorquer" + actuator_id + "_";
 
   str_tmp += WriteVector(actuator_name + "output_magnetic_moment", "b", "Am2", kMtqDim);
   str_tmp += WriteVector(actuator_name + "output_torque", "b", "Nm", kMtqDim);

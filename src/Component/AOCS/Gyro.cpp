@@ -26,8 +26,8 @@ void Gyro::MainRoutine(int count) {
 
 std::string Gyro::GetLogHeader() const {
   std::string str_tmp = "";
-  const std::string st_sensor_id = std::to_string(static_cast<long long>(sensor_id_));
-  std::string sensor_name = "gyro_sensor" + st_sensor_id + "_";
+  const std::string sensor_id = std::to_string(static_cast<long long>(sensor_id_));
+  std::string sensor_name = "gyro_sensor" + sensor_id + "_";
   str_tmp += WriteVector(sensor_name + "measured_angular_velocity", "c", "rad/s", kGyroDim);
 
   return str_tmp;

@@ -23,8 +23,8 @@ void MagSensor::MainRoutine(int count) {
 
 std::string MagSensor::GetLogHeader() const {
   std::string str_tmp = "";
-  const std::string st_sensor_id = std::to_string(static_cast<long long>(sensor_id_));
-  std::string sensor_name = "magnetometer" + st_sensor_id + "_";
+  const std::string sensor_id = std::to_string(static_cast<long long>(sensor_id_));
+  std::string sensor_name = "magnetometer" + sensor_id + "_";
   str_tmp += WriteVector(sensor_name + "measured_magnetic_field", "c", "nT", kMagDim);
 
   return str_tmp;
