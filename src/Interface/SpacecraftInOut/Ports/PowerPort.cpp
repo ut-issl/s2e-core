@@ -5,6 +5,8 @@
 
 #include "PowerPort.h"
 
+#include <Interface/InitInput/IniAccess.h>
+
 #include <cfloat>
 
 PowerPort::PowerPort() : kPortId(-1), current_limit_(10.0), minimum_voltage_(3.3), assumed_power_consumption_(0.0) {
@@ -57,4 +59,14 @@ void PowerPort::SubtractAssumedPowerConsumption(const double power) {
   assumed_power_consumption_ -= power;
   if (assumed_power_consumption_ < 0.0) assumed_power_consumption_ = 0.0;
   return;
+}
+
+void PowerPort::InitializeWithInitializeFile(const std::string file_name) {
+  IniAccess initialize_file(file_name);
+  const std::string section_name = "PowerPort";
+
+  double minimum_voltage = initialize_file.ReadInt(section_name.c_str(), "minimum_voltage_V");
+  this->SetMinimumVoltage(minimum_voltage);
+  double assumed_power_consumption = initialize_file.ReadInt(section_name.c_str(), "assumed_power_consumption_W");
+  this->SetAssumedPowerConsumption(assumed_power_consumption);
 }
