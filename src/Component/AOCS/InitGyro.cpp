@@ -40,7 +40,7 @@ Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, c
 
   // PowerPort
   power_port->InitializeWithInitializeFile(fname);
-  
+
   Gyro gyro(prescaler, clock_gen, power_port, sensor_base, sensor_id, q_b2c, dynamics);
   return gyro;
 }
