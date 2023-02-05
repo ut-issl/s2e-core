@@ -31,7 +31,7 @@ AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, 
 
 SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3>& cg_b) {
   auto conf = IniAccess(ini_path);
-  const char* section = "SOLAR_RADIATION_PRESSURE";
+  const char* section = "SOLAR_RADIATION_PRESSURE_DISTURBANCE";
 
   bool calcen = conf.ReadEnable(section, CALC_LABEL);
   bool logen = conf.ReadEnable(section, LOG_LABEL);
