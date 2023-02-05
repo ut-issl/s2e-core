@@ -20,7 +20,7 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
   const std::string st_ant_id = std::to_string(static_cast<long long>(antenna_id));
   const char *cs = st_ant_id.data();
 
-  char Section[30] = "ANT";
+  char Section[30] = "ANTENNA_";
   strcat(Section, cs);
 
   Quaternion q_b2c;
