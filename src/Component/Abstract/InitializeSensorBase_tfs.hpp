@@ -10,7 +10,7 @@ template <size_t N>
 SensorBase<N> ReadSensorBaseInformation(const std::string file_name, const double step_width_s, const std::string component_name,
                                         const std::string unit) {
   IniAccess ini_file(file_name);
-  std::string section = "SensorBase" + component_name;
+  std::string section = "SENSOR_BASE_" + component_name;
 
   libra::Vector<N * N> scale_factor_vector;
   ini_file.ReadVector(section.c_str(), "scale_factor_c", scale_factor_vector);

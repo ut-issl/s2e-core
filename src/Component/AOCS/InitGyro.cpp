@@ -10,7 +10,7 @@
 
 Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const Dynamics* dynamics) {
   IniAccess gyro_conf(fname);
-  char GSection[30] = "GYRO";
+  char GSection[30] = "GYRO_SENSOR";
 
   Quaternion q_b2c;
   gyro_conf.ReadQuaternion(GSection, "quaternion_b2c", q_b2c);
@@ -18,7 +18,7 @@ Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname,
   if (prescaler <= 1) prescaler = 1;
 
   // SensorBase
-  SensorBase<kGyroDim> sensor_base = ReadSensorBaseInformation<kGyroDim>(fname, compo_step_time * (double)(prescaler), "Gyro", "rad_s");
+  SensorBase<kGyroDim> sensor_base = ReadSensorBaseInformation<kGyroDim>(fname, compo_step_time * (double)(prescaler), GSection, "rad_s");
 
   Gyro gyro(prescaler, clock_gen, sensor_base, sensor_id, q_b2c, dynamics);
 
@@ -28,7 +28,7 @@ Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname,
 Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
               const Dynamics* dynamics) {
   IniAccess gyro_conf(fname);
-  char GSection[30] = "GYRO";
+  char GSection[30] = "GYRO_SENSOR";
 
   Quaternion q_b2c;
   gyro_conf.ReadQuaternion(GSection, "quaternion_b2c", q_b2c);
@@ -36,7 +36,7 @@ Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, c
   if (prescaler <= 1) prescaler = 1;
 
   // SensorBase
-  SensorBase<kGyroDim> sensor_base = ReadSensorBaseInformation<kGyroDim>(fname, compo_step_time * (double)(prescaler), "Gyro", "rad_s");
+  SensorBase<kGyroDim> sensor_base = ReadSensorBaseInformation<kGyroDim>(fname, compo_step_time * (double)(prescaler), GSection, "rad_s");
 
   // PowerPort
   power_port->InitializeWithInitializeFile(fname);
