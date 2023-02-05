@@ -40,7 +40,7 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
   IniAccess rwmodel_conf(file_name);
   const std::string st_actuator_num = std::to_string(static_cast<long long>(actuator_id));
   const char* cs = st_actuator_num.data();
-  std::string section_tmp = "RW";
+  std::string section_tmp = "REACTION_WHEEL_";
   section_tmp += cs;
   const char* RWsection = section_tmp.data();
 
