@@ -11,7 +11,7 @@
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, const std::string fname, const Structure* structure,
                                   const Dynamics* dynamics) {
   IniAccess thruster_conf(fname);
-  std::string sectionstr = "THRUSTER" + std::to_string(thruster_id);
+  std::string sectionstr = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = sectionstr.c_str();
 
   int prescaler = thruster_conf.ReadInt(Section, "prescaler");
@@ -38,7 +38,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, co
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, PowerPort* power_port, int thruster_id, const std::string fname,
                                   const Structure* structure, const Dynamics* dynamics) {
   IniAccess thruster_conf(fname);
-  std::string sectionstr = "THRUSTER" + std::to_string(thruster_id);
+  std::string sectionstr = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = sectionstr.c_str();
 
   int prescaler = thruster_conf.ReadInt(Section, "prescaler");
