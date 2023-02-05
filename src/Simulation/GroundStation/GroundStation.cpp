@@ -28,7 +28,7 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
   std::string gs_ini_path = config->gs_file_;
   auto conf = IniAccess(gs_ini_path);
 
-  const char* section_base = "GS";
+  const char* section_base = "GROUND_STATION_";
   const std::string section_tmp = section_base + std::to_string(static_cast<long long>(gs_id));
   const char* Section = section_tmp.data();
 
