@@ -13,11 +13,7 @@
 GScalculator InitGScalculator(const std::string fname) {
   IniAccess gs_conf(fname);
 
-  // const string st_gs_id = std::to_string(static_cast<long long>(gs_id));
-  // const char *cs = st_gs_id.data();
-
-  char Section[30] = "GScalculator";
-  // strcat(Section, cs);
+  char Section[30] = "GROUND_STATION_CALCULATOR";
 
   double loss_polarization = gs_conf.ReadDouble(Section, "loss_polarization_dB");
   double loss_atmosphere = gs_conf.ReadDouble(Section, "loss_atmosphere_dB");
