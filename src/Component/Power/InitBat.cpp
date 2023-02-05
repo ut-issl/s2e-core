@@ -16,7 +16,7 @@ BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname, doub
   const std::string st_bat_id = std::to_string(bat_id);
   const char* cs = st_bat_id.data();
 
-  char Section[30] = "BAT";
+  char Section[30] = "BATTERY_";
   strcat(Section, cs);
 
   int prescaler = bat_conf.ReadInt(Section, "prescaler");
