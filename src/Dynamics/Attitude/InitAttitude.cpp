@@ -28,7 +28,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
   } else if (propagate_mode == "CONTROLLED") {
     // Controlled attitude
     IniAccess ini_file_ca(file_name);
-    const char* section_ca_ = "ControlledAttitude";
+    const char* section_ca_ = "CONTROLLED_ATTITUDE";
     const std::string main_mode_in = ini_file.ReadString(section_ca_, "main_mode");
     const std::string sub_mode_in = ini_file.ReadString(section_ca_, "sub_mode");
 
