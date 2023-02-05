@@ -9,7 +9,7 @@
 MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const std::string fname, double compo_step_time,
                           const MagEnvironment* mag_env) {
   IniAccess magtorquer_conf(fname);
-  char MTSection[30] = "MAGTORQUER";
+  char MTSection[30] = "MAGNETORQUER";
 
   int prescaler = magtorquer_conf.ReadInt(MTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
@@ -51,7 +51,7 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const std:
 MagTorquer InitMagTorquer(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, const std::string fname, double compo_step_time,
                           const MagEnvironment* mag_env) {
   IniAccess magtorquer_conf(fname);
-  char MTSection[30] = "MAGTORQUER";
+  char MTSection[30] = "MAGNETORQUER";
 
   int prescaler = magtorquer_conf.ReadInt(MTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
