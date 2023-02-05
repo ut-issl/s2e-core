@@ -14,7 +14,7 @@
 
 MagEnvironment InitMagEnvironment(std::string ini_path) {
   auto conf = IniAccess(ini_path);
-  const char* section = "MAG_ENVIRONMENT";
+  const char* section = "MAGNETIC_FIELD_ENVIRONMENT";
 
   std::string fname = conf.ReadString(section, "coefficient_file");
   double mag_rwdev = conf.ReadDouble(section, "magnetic_field_random_walk_speed_nT");
@@ -30,7 +30,7 @@ MagEnvironment InitMagEnvironment(std::string ini_path) {
 
 SRPEnvironment InitSRPEnvironment(std::string ini_path, LocalCelestialInformation* local_celes_info) {
   auto conf = IniAccess(ini_path);
-  const char* section = "SRP";
+  const char* section = "SOLAR_RADIATION_PRESSURE_ENVIRONMENT";
 
   SRPEnvironment srp_env(local_celes_info);
   srp_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
