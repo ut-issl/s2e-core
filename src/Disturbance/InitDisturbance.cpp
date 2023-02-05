@@ -13,7 +13,7 @@
 
 AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3>& cg_b) {
   auto conf = IniAccess(ini_path);
-  const char* section = "AIRDRAG";
+  const char* section = "AIR_DRAG";
 
   double t_w = conf.ReadDouble(section, "wall_temperature_degC") + 273.0;
   double t_m = conf.ReadDouble(section, "molecular_temperature_degC") + 273.0;
@@ -31,7 +31,7 @@ AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, 
 
 SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surfaces, const Vector<3>& cg_b) {
   auto conf = IniAccess(ini_path);
-  const char* section = "SRDIST";
+  const char* section = "SOLAR_RADIATION_PRESSURE";
 
   bool calcen = conf.ReadEnable(section, CALC_LABEL);
   bool logen = conf.ReadEnable(section, LOG_LABEL);
@@ -67,7 +67,7 @@ GravityGradient InitGravityGradient(std::string ini_path, const double mu_m3_s2)
 
 MagDisturbance InitMagDisturbance(std::string ini_path, const RMMParams& rmm_params) {
   auto conf = IniAccess(ini_path);
-  const char* section = "MAG_DISTURBANCE";
+  const char* section = "MAGNETIC_DISTURBANCE";
 
   MagDisturbance mag_dist(rmm_params);
   mag_dist.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
@@ -92,7 +92,7 @@ GeoPotential InitGeoPotential(std::string ini_path) {
 ThirdBodyGravity InitThirdBodyGravity(std::string ini_path, std::string ini_path_celes) {
   // Generate a list of bodies to be calculated in "CelesInfo"
   auto conf_celes = IniAccess(ini_path_celes);
-  const char* section_celes = "CelestialInformation";
+  const char* section_celes = "CELESTIAL_INFORMATION";
   const int num_of_selected_body = conf_celes.ReadInt(section_celes, "number_of_selected_body");
   std::string center_object = conf_celes.ReadString(section_celes, "center_object");
   std::set<std::string> selected_body_list;
