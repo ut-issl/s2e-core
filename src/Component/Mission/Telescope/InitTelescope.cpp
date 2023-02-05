@@ -31,11 +31,11 @@ Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const string f
   Quaternion q_b2c;
   Telescope_conf.ReadQuaternion(TelescopeSection, "quaternion_b2c", q_b2c);
 
-  double sun_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "sun_forbidden_angle_deg");
+  double sun_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "sun_exclusion_angle_deg");
   double sun_forbidden_angle_rad = sun_forbidden_angle_deg * pi / 180;  // deg to rad
-  double earth_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "earth_forbidden_angle_deg");
+  double earth_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "earth_exclusion_angle_deg");
   double earth_forbidden_angle_rad = earth_forbidden_angle_deg * pi / 180;  // deg to rad
-  double moon_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "moon_forbidden_angle_deg");
+  double moon_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "moon_exclusion_angle_deg");
   double moon_forbidden_angle_rad = moon_forbidden_angle_deg * pi / 180;  // deg to rad
 
   int x_num_of_pix = Telescope_conf.ReadInt(TelescopeSection, "x_number_of_pixel");
