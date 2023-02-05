@@ -18,7 +18,7 @@ PCU_InitialStudy InitPCU_InitialStudy(ClockGenerator* clock_gen, int pcu_id, con
   const std::string st_pcu_id = std::to_string(pcu_id);
   const char* cs = st_pcu_id.data();
 
-  char Section[30] = "PCU_INITIAL_STUDY";
+  char Section[30] = "PCU_INITIAL_STUDY_";
   strcat(Section, cs);
 
   int prescaler = pcu_conf.ReadInt(Section, "prescaler");
