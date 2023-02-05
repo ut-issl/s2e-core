@@ -13,7 +13,7 @@
 
 MCSimExecutor* InitMCSim(std::string file_name) {
   IniAccess ini_file(file_name);
-  const char* section = "MonteCarloExecution";
+  const char* section = "MONTE_CARLO_EXECUTION";
 
   unsigned long long total_num_of_executions = ini_file.ReadInt(section, "number_of_executions");
 
@@ -25,7 +25,7 @@ MCSimExecutor* InitMCSim(std::string file_name) {
   bool log_history = ini_file.ReadEnable(section, "log_enable");
   mc_sim->LogHistory(log_history);
 
-  section = "MonteCarloRandomization";
+  section = "MONTE_CARLO_RANDOMIZATION";
   std::vector<std::string> so_dot_ip_str_vec = ini_file.ReadStrVector(section, "parameter");
   std::vector<std::string> so_str_vec, ip_str_vec;
 

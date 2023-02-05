@@ -16,7 +16,7 @@
 SimTime* InitSimTime(std::string file_name) {
   IniAccess ini_file(file_name);
 
-  const char* section = "Time";
+  const char* section = "TIME";
   // Parameters about entire simulation
   std::string start_ymdhms = ini_file.ReadString(section, "simulation_start_time_utc");
   double end_sec = ini_file.ReadDouble(section, "simulation_duration_s");
@@ -47,7 +47,7 @@ SimTime* InitSimTime(std::string file_name) {
 
 HipparcosCatalogue* InitHipCatalogue(std::string file_name) {
   IniAccess ini_file(file_name);
-  const char* section = "HipparcosCatalogue";
+  const char* section = "HIPPARCOS_CATALOGUE";
 
   std::string catalogue_path = ini_file.ReadString(section, "catalogue_file_path");
   double max_magnitude = ini_file.ReadDouble(section, "max_magnitude");
@@ -63,8 +63,8 @@ HipparcosCatalogue* InitHipCatalogue(std::string file_name) {
 
 CelestialInformation* InitCelesInfo(std::string file_name) {
   IniAccess ini_file(file_name);
-  const char* section = "CelestialInformation";
-  const char* furnsh_section = "CspiceKernels";
+  const char* section = "CELESTIAL_INFORMATION";
+  const char* furnsh_section = "CSPICE_KERNELS";
 
   // Read SPICE setting
   std::string inertial_frame = ini_file.ReadString(section, "inertial_frame");
