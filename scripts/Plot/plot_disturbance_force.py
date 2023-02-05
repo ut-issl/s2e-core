@@ -46,15 +46,15 @@ read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file
 # Data read and edit
 #
 # Read S2E CSV
-time = read_scalar_from_csv(read_file_name, 'time[sec]')
+time = read_scalar_from_csv(read_file_name, 'time[s]')
 
 srp_force_b = read_3d_vector_from_csv(read_file_name, 'srp_force_b', 'N')
-airdrag_force_b = read_3d_vector_from_csv(read_file_name, 'airdrag_force_b', 'N')
+airdrag_force_b = read_3d_vector_from_csv(read_file_name, 'air_drag_force_b', 'N')
 
-third_body_acc_i = read_3d_vector_from_csv(read_file_name, 'acc_thirdbody_i', 'm/s2')
-geopotential_acc_ecef = read_3d_vector_from_csv(read_file_name, 'a_geop_ecef', 'm/s2')
+third_body_acc_i = read_3d_vector_from_csv(read_file_name, 'third_body_acceleration_i', 'm/s2')
+geopotential_acc_ecef = read_3d_vector_from_csv(read_file_name, 'geopotential_acceleration_ecef', 'm/s2')
 
-total_acc_i = read_3d_vector_from_csv(read_file_name, 'sat_acc_i_i', 'm/s^2')
+total_acc_i = read_3d_vector_from_csv(read_file_name, 'spacecraft_acceleration_i', 'm/s2')
 
 #
 # Plot

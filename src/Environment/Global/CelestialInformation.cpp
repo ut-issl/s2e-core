@@ -10,6 +10,7 @@
 #include <SpiceUsr.h>
 #include <string.h>
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 
@@ -202,9 +203,10 @@ string CelestialInformation::GetLogHeader() const {
     // Acquisition of body name from id
     bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
     string name = namebuf;
-    string body_pos = name + "_pos";
-    string body_vel = name + "_vel";
-    //　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
+    std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+    string body_pos = name + "_position";
+    string body_vel = name + "_velocity";
+
     str_tmp += WriteVector(body_pos, "i", "m", 3);
     str_tmp += WriteVector(body_vel, "i", "m/s", 3);
   }
@@ -214,7 +216,6 @@ string CelestialInformation::GetLogHeader() const {
 string CelestialInformation::GetLogValue() const {
   string str_tmp = "";
   for (int i = 0; i < num_of_selected_body_; i++) {
-    //　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
     for (int j = 0; j < 3; j++) {
       str_tmp += WriteScalar(celes_objects_pos_from_center_i_[i * 3 + j]);
     }

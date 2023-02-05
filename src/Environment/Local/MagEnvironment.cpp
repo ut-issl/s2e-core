@@ -60,8 +60,8 @@ Vector<3> MagEnvironment::GetMag_b() const { return Mag_b_; }
 string MagEnvironment::GetLogHeader() const {
   string str_tmp = "";
 
-  str_tmp += WriteVector("mag", "i", "nT", 3);
-  str_tmp += WriteVector("mag", "b", "nT", 3);
+  str_tmp += WriteVector("geomagnetic_field_at_spacecraft_position", "i", "nT", 3);
+  str_tmp += WriteVector("geomagnetic_field_at_spacecraft_position", "b", "nT", 3);
 
   return str_tmp;
 }

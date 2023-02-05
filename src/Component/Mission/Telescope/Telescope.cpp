@@ -150,18 +150,21 @@ void Telescope::ObserveStars() {
 
 string Telescope::GetLogHeader() const {
   string str_tmp = "";
-  str_tmp += WriteScalar("Sun in forbidden angle", "");
-  str_tmp += WriteScalar("Earth in forbidden angle", "");
-  str_tmp += WriteScalar("Moon in forbidden angle", "");
-  str_tmp += WriteVector("sun_pos_imgsensor", " ", "pix", 2);
-  str_tmp += WriteVector("earth_pos_imgsensor", " ", "pix", 2);
-  str_tmp += WriteVector("moon_pos_imgsensor", " ", "pix", 2);
+
+  std::string component_name = "telescope_";
+
+  str_tmp += WriteScalar(component_name + "sun_in_exclusion_angle", "");
+  str_tmp += WriteScalar(component_name + "earth_in_exclusion_angle", "");
+  str_tmp += WriteScalar(component_name + "moon_in_exclusion_angle", "");
+  str_tmp += WriteVector(component_name + "sun_position", "img", "pix", 2);
+  str_tmp += WriteVector(component_name + "earth_position", "img", "pix", 2);
+  str_tmp += WriteVector(component_name + "moon_position", "img", "pix", 2);
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipp_->IsCalcEnabled) {
     for (size_t i = 0; i < num_of_logged_stars_; i++) {
-      str_tmp += WriteScalar("HIP ID (" + to_string(i) + ")", " ");
-      str_tmp += WriteScalar("Vmag (" + to_string(i) + ")", " ");
-      str_tmp += WriteVector("pos_imagesensor (" + to_string(i) + ")", " ", "pix", 2);
+      str_tmp += WriteScalar(component_name + "hipparcos_id (" + to_string(i) + ")", " ");
+      str_tmp += WriteScalar(component_name + "visible_magnitude (" + to_string(i) + ")", " ");
+      str_tmp += WriteVector(component_name + "star_position (" + to_string(i) + ")", "img", "pix", 2);
     }
   }
 

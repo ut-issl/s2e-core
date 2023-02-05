@@ -193,7 +193,8 @@ void SimTime::PrintStartDateTime(void) const {
 string SimTime::GetLogHeader() const {
   string str_tmp = "";
 
-  str_tmp += WriteScalar("time", "sec");
+  str_tmp += WriteScalar("elapsed_time", "s");
+  str_tmp += WriteScalar("time", "UTC");
 
   return str_tmp;
 }
@@ -202,6 +203,12 @@ string SimTime::GetLogValue() const {
   string str_tmp = "";
 
   str_tmp += WriteScalar(elapsed_time_sec_);
+
+  const char kSize = 100;
+  char ymdhms[kSize];
+  snprintf(ymdhms, kSize, "%4d/%02d/%02d %02d:%02d:%.3lf,", current_utc_.year, current_utc_.month, current_utc_.day, current_utc_.hour,
+           current_utc_.min, current_utc_.sec);
+  str_tmp += ymdhms;
 
   return str_tmp;
 }

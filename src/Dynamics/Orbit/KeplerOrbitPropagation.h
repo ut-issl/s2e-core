@@ -36,18 +36,6 @@ class KeplerOrbitPropagation : public Orbit, public KeplerOrbit {
    */
   virtual void Propagate(double endtime, double current_jd);
 
-  // Override ILoggable
-  /**
-   * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
-   */
-  virtual std::string GetLogHeader() const;
-  /**
-   * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
-   */
-  virtual std::string GetLogValue() const;
-
  private:
   /**
    * @fn UpdateState

@@ -40,7 +40,7 @@ libra::Vector<3> ThirdBodyGravity::CalcAcceleration(libra::Vector<3> s, libra::V
 
 std::string ThirdBodyGravity::GetLogHeader() const {
   std::string str_tmp = "";
-  str_tmp += WriteVector("acc_thirdbody", "i", "m/s2", 3);
+  str_tmp += WriteVector("third_body_acceleration", "i", "m/s2", 3);
 
   return str_tmp;
 }

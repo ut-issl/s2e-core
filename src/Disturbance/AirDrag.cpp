@@ -87,8 +87,8 @@ void AirDrag::PrintParams(void)  // for debug
 string AirDrag::GetLogHeader() const {
   string str_tmp = "";
 
-  str_tmp += WriteVector("airdrag_torque", "b", "Nm", 3);
-  str_tmp += WriteVector("airdrag_force", "b", "N", 3);
+  str_tmp += WriteVector("air_drag_torque", "b", "Nm", 3);
+  str_tmp += WriteVector("air_drag_force", "b", "N", 3);
 
   return str_tmp;
 }

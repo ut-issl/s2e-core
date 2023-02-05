@@ -178,9 +178,10 @@ int STT::CaptureRateJudgement(const libra::Vector<3>& omega_b) {
 std::string STT::GetLogHeader() const {
   std::string str_tmp = "";
   const std::string sensor_id = std::to_string(static_cast<long long>(id_));
+  std::string sensor_name = "stt" + sensor_id + "_";
 
-  str_tmp += WriteVector("quaternion_STT" + sensor_id, "i2c", "-", 4);
-  str_tmp += WriteScalar("STT error flag" + sensor_id);
+  str_tmp += WriteQuaternion(sensor_name + "measured_quaternion", "i2c");
+  str_tmp += WriteScalar(sensor_name + "error_flag");
 
   return str_tmp;
 }

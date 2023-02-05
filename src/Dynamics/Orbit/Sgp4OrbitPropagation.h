@@ -42,18 +42,6 @@ class Sgp4OrbitPropagation : public Orbit {
    */
   Vector<3> GetESIOmega();
 
-  // Override ILoggable
-  /**
-   * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
-   */
-  virtual std::string GetLogHeader() const;
-  /**
-   * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
-   */
-  virtual std::string GetLogValue() const;
-
  private:
   gravconsttype whichconst_;                //!< Gravity constant value type
   elsetrec satrec_;                         //!< Structure data for SGP4 library

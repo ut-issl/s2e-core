@@ -49,8 +49,8 @@ double SRPEnvironment::GetShadowCoefficient() const { return shadow_coefficient_
 string SRPEnvironment::GetLogHeader() const {
   string str_tmp = "";
 
-  str_tmp += WriteScalar("sr_pressure", "N/m^2");
-  str_tmp += WriteScalar("shadow coefficient");
+  str_tmp += WriteScalar("solar_radiation_pressure_at_spacecraft_position", "N/m2");
+  str_tmp += WriteScalar("shadow_coefficient_at_spacecraft_position");
 
   return str_tmp;
 }

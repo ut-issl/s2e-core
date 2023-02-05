@@ -64,7 +64,7 @@ void ForceGenerator::SetForce_rtn_N(const libra::Vector<3> force_rtn_N) {
 std::string ForceGenerator::GetLogHeader() const {
   std::string str_tmp = "";
 
-  std::string head = "IdealForceGenerator_";
+  std::string head = "ideal_force_generator_";
   str_tmp += WriteVector(head + "ordered_force", "b", "N", 3);
   str_tmp += WriteVector(head + "generated_force", "b", "N", 3);
   str_tmp += WriteVector(head + "generated_force", "i", "N", 3);

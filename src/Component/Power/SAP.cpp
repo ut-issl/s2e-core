@@ -78,7 +78,8 @@ void SAP::SetVoltage(const double voltage) { voltage_ = voltage; }
 
 std::string SAP::GetLogHeader() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar("power_generation" + std::to_string(id_), "W");
+  std::string component_name = "sap" + std::to_string(id_) + "_";
+  str_tmp += WriteScalar(component_name + "generated_power", "W");
   return str_tmp;
 }
 

@@ -56,8 +56,8 @@ void MagDisturbance::PrintTorque() {
 string MagDisturbance::GetLogHeader() const {
   string str_tmp = "";
 
-  str_tmp += WriteVector("rmm", "b", "Am^2", 3);
-  str_tmp += WriteVector("mag_dist_torque", "b", "Nm", 3);
+  str_tmp += WriteVector("spacecraft_magnetic_moment", "b", "Am2", 3);
+  str_tmp += WriteVector("magnetic_disturbance_torque", "b", "Nm", 3);
 
   return str_tmp;
 }

@@ -74,6 +74,13 @@ inline std::string WriteMatrix(std::string name, std::string frame, std::string 
  * @note TODO: add function for headers?
  */
 inline std::string WriteQuaternion(Quaternion quat);
+/**
+ * @fn WriteQuaternion
+ * @brief Write header for quaternion
+ * @param [in] name: Name of the value
+ * @param [in] frame: Frame of the quaternion
+ */
+inline std::string WriteQuaternion(std::string name, std::string frame);
 
 //
 // Libraries for log writing
@@ -97,7 +104,7 @@ std::string WriteVector(Vector<NUM, double> vec, int precision) {
 }
 std::string WriteVector(std::string name, std::string frame, std::string unit, size_t n) {
   std::stringstream str_tmp;
-  std::string axis[3] = {"(X)", "(Y)", "(Z)"};
+  std::string axis[3] = {"_x", "_y", "_z"};
 
   for (size_t i = 0; i < n; i++) {
     if (n == 3) {
@@ -138,6 +145,15 @@ std::string WriteQuaternion(Quaternion quat) {
 
   for (size_t i = 0; i < 4; i++) {
     str_tmp << quat[i] << ",";
+  }
+  return str_tmp.str();
+}
+std::string WriteQuaternion(std::string name, std::string frame) {
+  std::stringstream str_tmp;
+  std::string axis[4] = {"_x", "_y", "_z", "_w"};
+
+  for (size_t i = 0; i < 4; i++) {
+    str_tmp << name << "_" << frame << axis[i] << ",";
   }
   return str_tmp.str();
 }

@@ -20,9 +20,9 @@ def normalize_csv_read_vector(vector):
   return np.transpose(normalized_vector)
 
 def read_3d_vector_from_csv(read_file_name, header_name, unit):
-  name_x = header_name + "(X)" + '[' + unit + ']'
-  name_y = header_name + "(Y)" + '[' + unit + ']'
-  name_z = header_name + "(Z)" + '[' + unit + ']'
+  name_x = header_name + "_x" + '[' + unit + ']'
+  name_y = header_name + "_y" + '[' + unit + ']'
+  name_z = header_name + "_z" + '[' + unit + ']'
   csv_data = pandas.read_csv(read_file_name, sep=',', usecols=[name_x, name_y, name_z])
   vector = np.array([csv_data[name_x].to_numpy(), 
                      csv_data[name_y].to_numpy(),
