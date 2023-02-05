@@ -13,7 +13,7 @@
 SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_name, const SRPEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info) {
   IniAccess ss_conf(file_name);
-  const char* sensor_name = "SUNSENSOR";
+  const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
   const char* Section = section_tmp.c_str();
 
@@ -46,7 +46,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_n
 SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss_id, std::string file_name, const SRPEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info) {
   IniAccess ss_conf(file_name);
-  const char* sensor_name = "SUNSENSOR";
+  const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
   const char* Section = section_tmp.c_str();
 
