@@ -23,7 +23,7 @@ GNSSReceiverParam ReadGNSSReceiverIni(const std::string fname, const GnssSatelli
   GNSSReceiverParam gnssreceiver_param;
 
   IniAccess gnssr_conf(fname);
-  char GSection[30] = "GNSSReceiver";
+  char GSection[30] = "GNSS_RECEIVER";
 
   int prescaler = gnssr_conf.ReadInt(GSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
