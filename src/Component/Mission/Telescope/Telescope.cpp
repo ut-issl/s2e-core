@@ -153,9 +153,9 @@ string Telescope::GetLogHeader() const {
 
   std::string component_name = "telescope_";
 
-  str_tmp += WriteScalar(component_name + "sun_in_forbidden_angle", "");
-  str_tmp += WriteScalar(component_name + "earth_in_forbidden_angle", "");
-  str_tmp += WriteScalar(component_name + "moon_in_forbidden_angle", "");
+  str_tmp += WriteScalar(component_name + "sun_in_exclusion_angle", "");
+  str_tmp += WriteScalar(component_name + "earth_in_exclusion_angle", "");
+  str_tmp += WriteScalar(component_name + "moon_in_exclusion_angle", "");
   str_tmp += WriteVector(component_name + "sun_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "earth_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "moon_position", "img", "pix", 2);
