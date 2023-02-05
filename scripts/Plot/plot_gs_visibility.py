@@ -49,8 +49,8 @@ print("log: " + read_file_tag)
 gs_ini_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + "/sample_ground_station.ini"
 configur = ConfigParser(comment_prefixes=('#', ';', '//'), inline_comment_prefixes=('#', ';', '//'))
 configur.read(gs_ini_file_name)
-gs_lat_deg = configur.getfloat('GS0', 'latitude_deg')
-gs_lon_deg = configur.getfloat('GS0', 'longitude_deg')
+gs_lat_deg = configur.getfloat('GROUND_STATION_0', 'latitude_deg')
+gs_lon_deg = configur.getfloat('GROUND_STATION_0', 'longitude_deg')
 
 #
 # CSV file name
