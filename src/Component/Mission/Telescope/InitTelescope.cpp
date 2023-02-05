@@ -21,7 +21,7 @@ Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const string f
   const string st_sensor_id = std::to_string(static_cast<long long>(sensor_id));
   const char* cs = st_sensor_id.data();
 
-  char TelescopeSection[30] = "Telescope";
+  char TelescopeSection[30] = "TELESCOPE_";
 #ifdef WIN32
   strcat_s(TelescopeSection, cs);
 #else
