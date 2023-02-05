@@ -12,7 +12,7 @@
 #define MIN_VAL 1e-6
 KinematicsParams InitKinematicsParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
-  const char* section = "STRUCTURE";
+  const char* section = "KINEMATIC_PARAMETERS";
 
   Vector<3> cg_b;
   conf.ReadVector(section, "center_of_gravity_b_m", cg_b);
@@ -109,7 +109,7 @@ vector<Surface> InitSurfaces(std::string ini_path) {
 
 RMMParams InitRMMParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
-  const char* section = "RMM";
+  const char* section = "RESIDUAL_MAGNETIC_MOMENT";
 
   Vector<3> rmm_const_b;
   conf.ReadVector(section, "rmm_constant_b_Am2", rmm_const_b);
