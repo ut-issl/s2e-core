@@ -10,7 +10,9 @@
 
 Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const Dynamics* dynamics) {
   IniAccess gyro_conf(fname);
-  char GSection[30] = "GYRO_SENSOR";
+  const char* sensor_name = "GYRO_SENSOR_";
+  const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
+  const char* GSection = section_name.c_str();
 
   Quaternion q_b2c;
   gyro_conf.ReadQuaternion(GSection, "quaternion_b2c", q_b2c);
@@ -28,7 +30,9 @@ Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname,
 Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
               const Dynamics* dynamics) {
   IniAccess gyro_conf(fname);
-  char GSection[30] = "GYRO_SENSOR";
+  const char* sensor_name = "GYRO_SENSOR_";
+  const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
+  const char* GSection = section_name.c_str();
 
   Quaternion q_b2c;
   gyro_conf.ReadQuaternion(GSection, "quaternion_b2c", q_b2c);

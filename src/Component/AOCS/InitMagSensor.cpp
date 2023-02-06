@@ -9,7 +9,9 @@
 
 MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const MagEnvironment* magnet) {
   IniAccess magsensor_conf(fname);
-  char MSSection[30] = "MAGNETOMETER";
+  const char* sensor_name = "MAGNETOMETER_";
+  const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
+  const char* MSSection = section_name.c_str();
 
   int prescaler = magsensor_conf.ReadInt(MSSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
@@ -27,7 +29,9 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::str
 MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
                         const MagEnvironment* magnet) {
   IniAccess magsensor_conf(fname);
-  char MSSection[30] = "MAGNETOMETER";
+  const char* sensor_name = "MAGNETOMETER_";
+  const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
+  const char* MSSection = section_name.c_str();
 
   int prescaler = magsensor_conf.ReadInt(MSSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
