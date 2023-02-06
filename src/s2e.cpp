@@ -1,5 +1,5 @@
 /**
- * @file S2E.cpp
+ * @file s2e.cpp
  * @brief The main file of S2E
  */
 
