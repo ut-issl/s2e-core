@@ -17,13 +17,14 @@ static double rpm2angularVelocity(double rpm) { return rpm * libra::tau / 60.0; 
 
 static double angularVelocity2rpm(double angular_velocity) { return angular_velocity * 60.0 / libra::tau; }
 
-RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, double step_width, double dt_main_routine,
+RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, const int id, double step_width, double dt_main_routine,
                  double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm, Quaternion q_b2c, Vector<3> pos_b,
                  double dead_time, Vector<3> driving_lag_coef, Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
                  vector<vector<double>> radial_force_harmonics_coef, vector<vector<double>> radial_torque_harmonics_coef,
                  double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance, bool drive_flag,
                  double init_velocity)
     : ComponentBase(prescaler, clock_gen, fast_prescaler),
+      id_(id),
       inertia_(inertia),
       max_torque_(max_torque),
       max_velocity_rpm_(max_velocity_rpm),
@@ -43,13 +44,14 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, d
   Initialize();
 }
 
-RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, PowerPort *power_port, double step_width, double dt_main_routine,
+RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, PowerPort *power_port, const int id, double step_width, double dt_main_routine,
                  double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm, Quaternion q_b2c, Vector<3> pos_b,
                  double dead_time, Vector<3> driving_lag_coef, Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
                  vector<vector<double>> radial_force_harmonics_coef, vector<vector<double>> radial_torque_harmonics_coef,
                  double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance, bool drive_flag,
                  double init_velocity)
     : ComponentBase(prescaler, clock_gen, power_port, fast_prescaler),
+      id_(id),
       inertia_(inertia),
       max_torque_(max_torque),
       max_velocity_rpm_(max_velocity_rpm),
@@ -180,15 +182,16 @@ void RWModel::SetVelocityLimitRpm(double velocity_limit_rpm) {
 
 std::string RWModel::GetLogHeader() const {
   std::string str_tmp = "";
+  std::string component_name = "rw" + std::to_string(static_cast<long long>(id_)) + "_";
 
-  str_tmp += WriteScalar("rw_angular_velocity", "rad/s");
-  str_tmp += WriteScalar("rw_angular_velocity", "rpm");
-  str_tmp += WriteScalar("rw_angular_velocity_upper_limit", "rpm");
-  str_tmp += WriteScalar("rw_angular_acceleration", "rad/s2");
+  str_tmp += WriteScalar(component_name + "angular_velocity", "rad/s");
+  str_tmp += WriteScalar(component_name + "angular_velocity", "rpm");
+  str_tmp += WriteScalar(component_name + "angular_velocity_upper_limit", "rpm");
+  str_tmp += WriteScalar(component_name + "angular_acceleration", "rad/s2");
 
   if (is_logged_jitter_) {
-    str_tmp += WriteVector("rw_jitter_force", "c", "N", 3);
-    str_tmp += WriteVector("rw_jitter_torque", "c", "Nm", 3);
+    str_tmp += WriteVector(component_name + "jitter_force", "c", "N", 3);
+    str_tmp += WriteVector(component_name + "jitter_torque", "c", "Nm", 3);
   }
 
   return str_tmp;
