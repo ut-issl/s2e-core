@@ -7,8 +7,8 @@
 
 #include "InitNode.hpp"
 
-/* Import node properties and Cij/Rij Datas by reading CSV File (Node.csv,
-Cij.csv, Rij.csv) Detailed process of reading node properties from CSV File, and
+/* Import node properties and Cij/Rij Datas by reading CSV File (node.csv,
+cij.csv, rij.csv) Detailed process of reading node properties from CSV File, and
 CSV file formats of node properties is written in Init_Node.cpp
 
 [File Formats of Node.csv]
@@ -53,7 +53,7 @@ Temperature* InitTemperature(const std::string ini_path, const double rk_prop_st
   vector<vector<string>> vnodestr;  // string vector of node property data
   int nodes_num = 1;
 
-  bool is_calc_enabled = mainIni.ReadBoolean("Thermal", "IsCalcEnabled");
+  bool is_calc_enabled = mainIni.ReadEnable("THERMAL", "calculation");
   if (is_calc_enabled == false) {
     // Return here to avoid CSV file reading
     Temperature* temperature;
@@ -62,11 +62,11 @@ Temperature* InitTemperature(const std::string ini_path, const double rk_prop_st
   }
 
   // read ini-file settings
-  string file_path = mainIni.ReadString("Thermal", "thrm_file");
-  bool debug = mainIni.ReadBoolean("Thermal", "debug");
+  string file_path = mainIni.ReadString("THERMAL", "thermal_file_directory");
+  bool debug = mainIni.ReadBoolean("THERMAL", "debug");
 
   // Read Node Properties from CSV File
-  string filepath_node = file_path + "Node.csv";
+  string filepath_node = file_path + "node.csv";
   IniAccess conf_node(filepath_node);
   conf_node.ReadCsvString(vnodestr, 100);
   /*since we don't know the number of nodes yet, set nodes_num=100 temporary.
@@ -79,8 +79,8 @@ Temperature* InitTemperature(const std::string ini_path, const double rk_prop_st
   }
 
   // Read Cij,Rij data from CSV File
-  string filepath_cij = file_path + "Cij.csv";
-  string filepath_rij = file_path + "Rij.csv";
+  string filepath_cij = file_path + "cij.csv";
+  string filepath_rij = file_path + "rij.csv";
   IniAccess conf_cij(filepath_cij);
   IniAccess conf_rij(filepath_rij);
   conf_cij.ReadCsvDouble(cij,

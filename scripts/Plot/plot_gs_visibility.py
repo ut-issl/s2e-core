@@ -23,7 +23,7 @@ import argparse
 
 aparser = argparse.ArgumentParser()
 
-aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs')
+aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/sample/logs"', default='../../data/sample/logs')
 aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
 aparser.add_argument('--no-gui', action='store_true')
 
@@ -44,11 +44,11 @@ if read_file_tag == None:
 print("log: " + read_file_tag)
 
 # Read Gound Station position from the ini file in the logs directory
-gs_ini_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + "/SampleGS.ini"
+gs_ini_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + "/sample_ground_station.ini"
 configur = ConfigParser(comment_prefixes=('#', ';', '//'), inline_comment_prefixes=('#', ';', '//'))
 configur.read(gs_ini_file_name)
-gs_lat_deg = configur.getfloat('GS0', 'latitude_deg')
-gs_lon_deg = configur.getfloat('GS0', 'longitude_deg')
+gs_lat_deg = configur.getfloat('GROUND_STATION_0', 'latitude_deg')
+gs_lon_deg = configur.getfloat('GROUND_STATION_0', 'longitude_deg')
 
 #
 # CSV file name

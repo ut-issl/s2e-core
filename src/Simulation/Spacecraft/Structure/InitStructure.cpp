@@ -12,14 +12,14 @@
 #define MIN_VAL 1e-6
 KinematicsParams InitKinematicsParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
-  const char* section = "STRUCTURE";
+  const char* section = "KINEMATIC_PARAMETERS";
 
   Vector<3> cg_b;
-  conf.ReadVector(section, "cg_b", cg_b);
-  double mass = conf.ReadDouble(section, "mass");
+  conf.ReadVector(section, "center_of_gravity_b_m", cg_b);
+  double mass = conf.ReadDouble(section, "mass_kg");
   Vector<9> inertia_vec;
   Matrix<3, 3> inertia_tensor;
-  conf.ReadVector(section, "Iner", inertia_vec);
+  conf.ReadVector(section, "inertia_tensor_kgm2", inertia_vec);
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       inertia_tensor[i][j] = inertia_vec[i * 3 + j];
@@ -36,7 +36,7 @@ vector<Surface> InitSurfaces(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "SURFACES";
 
-  const int num_surface = conf.ReadInt(section, "num_of_surfaces");
+  const int num_surface = conf.ReadInt(section, "number_of_surfaces");
   vector<Surface> surfaces;
 
   for (int i = 0; i < num_surface; i++) {
@@ -44,7 +44,7 @@ vector<Surface> InitSurfaces(std::string ini_path) {
     idx = "_" + idx;
     std::string keyword;
 
-    keyword = "area" + idx;
+    keyword = "area" + idx + "_m2";
     double area = conf.ReadDouble(section, keyword.c_str());
     if (area < -MIN_VAL)  // Fixme: magic word
     {
@@ -89,10 +89,10 @@ vector<Surface> InitSurfaces(std::string ini_path) {
     }
 
     Vector<3> position, normal;
-    keyword = "position" + idx;
+    keyword = "position" + idx + "_b_m";
     conf.ReadVector(section, keyword.c_str(), position);
 
-    keyword = "normal" + idx;
+    keyword = "normal_vector" + idx + "_b";
     conf.ReadVector(section, keyword.c_str(), normal);
     if (norm(normal) > 1.0 + MIN_VAL)  // Fixme: magic word
     {
@@ -109,13 +109,13 @@ vector<Surface> InitSurfaces(std::string ini_path) {
 
 RMMParams InitRMMParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
-  const char* section = "RMM";
+  const char* section = "RESIDUAL_MAGNETIC_MOMENT";
 
   Vector<3> rmm_const_b;
-  conf.ReadVector(section, "rmm_const_b", rmm_const_b);
-  double rmm_rwdev = conf.ReadDouble(section, "rmm_rwdev");
-  double rmm_rwlimit = conf.ReadDouble(section, "rmm_rwlimit");
-  double rmm_wnvar = conf.ReadDouble(section, "rmm_wnvar");
+  conf.ReadVector(section, "rmm_constant_b_Am2", rmm_const_b);
+  double rmm_rwdev = conf.ReadDouble(section, "rmm_random_walk_speed_Am2");
+  double rmm_rwlimit = conf.ReadDouble(section, "rmm_random_walk_limit_Am2");
+  double rmm_wnvar = conf.ReadDouble(section, "rmm_white_noise_standard_deviation_Am2");
 
   RMMParams rmm_params(rmm_const_b, rmm_rwdev, rmm_rwlimit, rmm_wnvar);
   return rmm_params;

@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <string>
+
 /**
  * @class PowerPort
  * @brief Class to emulate electrical power port
@@ -104,6 +106,11 @@ class PowerPort {
    * @brief Subtract assumed power consumption [W] to emulate power line which has multiple loads
    */
   void SubtractAssumedPowerConsumption(const double power);
+  /**
+   * @fn InitializeWithInitializeFile
+   * @brief Initialize PowerPort class with initialize file
+   */
+  void InitializeWithInitializeFile(const std::string file_name);
 
  private:
   // PCU setting parameters
