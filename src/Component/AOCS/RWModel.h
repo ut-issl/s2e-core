@@ -31,6 +31,7 @@ class RWModel : public ComponentBase, public ILoggable {
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] fast_prescaler: Frequency scale factor for fast update
    * @param [in] clock_gen: Clock generator
+   * @param [in] id: Component ID
    * @param [in] step_width: Step width of integration by reaction wheel ordinary differential equation [sec]
    * @param [in] dt_main_routine: Period of execution of main routine of RW [sec]
    * @param [in] jitter_update_interval: Update period of RW jitter [sec]
@@ -53,12 +54,13 @@ class RWModel : public ComponentBase, public ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity: Initial value of angular velocity of RW
    */
-  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_gen, const double step_width, const double dt_main_routine,
-          const double jitter_update_interval, const double inertia, const double max_torque, const double max_velocity_rpm, const Quaternion q_b2c,
-          const Vector<3> pos_b, const double dead_time, const Vector<3> driving_lag_coef, const Vector<3> coasting_lag_coef,
-          bool is_calc_jitter_enabled, bool is_log_jitter_enabled, std::vector<std::vector<double>> radial_force_harmonics_coef,
-          std::vector<std::vector<double>> radial_torque_harmonics_coef, double structural_resonance_freq, double damping_factor, double bandwidth,
-          bool considers_structural_resonance, const bool drive_flag = false, const double init_velocity = 0.0);
+  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_gen, const int id, const double step_width,
+          const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
+          const double max_velocity_rpm, const Quaternion q_b2c, const Vector<3> pos_b, const double dead_time, const Vector<3> driving_lag_coef,
+          const Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
+          std::vector<std::vector<double>> radial_force_harmonics_coef, std::vector<std::vector<double>> radial_torque_harmonics_coef,
+          double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance,
+          const bool drive_flag = false, const double init_velocity = 0.0);
   /**
    * @fn RWModel
    * @brief Constructor with power port
@@ -66,6 +68,7 @@ class RWModel : public ComponentBase, public ILoggable {
    * @param [in] fast_prescaler: Frequency scale factor for fast update
    * @param [in] clock_gen: Clock generator
    * @param [in] power_port: Power port
+   * @param [in] id: Component ID
    * @param [in] step_width: Step width of integration by reaction wheel ordinary differential equation [sec]
    * @param [in] dt_main_routine: Period of execution of main routine of RW [sec]
    * @param [in] jitter_update_interval: Update period of RW jitter [sec]
@@ -88,7 +91,7 @@ class RWModel : public ComponentBase, public ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity: Initial value of angular velocity of RW [rad/s]
    */
-  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_gen, PowerPort *power_port, const double step_width,
+  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_gen, PowerPort *power_port, const int id, const double step_width,
           const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
           const double max_velocity_rpm, const Quaternion q_b2c, const Vector<3> pos_b, const double dead_time, const Vector<3> driving_lag_coef,
           const Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
@@ -181,6 +184,7 @@ class RWModel : public ComponentBase, public ILoggable {
 
  protected:
   // Fixed Parameters
+  const int id_;                   //!< Actuator ID
   const double inertia_;           //!< Inertia of RW rotor [kgm2]
   const double max_torque_;        //!< Maximum output torque [Nm]
   const double max_velocity_rpm_;  //!< Maximum angular velocity of rotor [rpm]

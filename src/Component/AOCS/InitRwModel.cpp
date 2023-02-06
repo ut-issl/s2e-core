@@ -101,10 +101,10 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
 RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id, std::string file_name, double prop_step, double compo_update_step) {
   InitParams(actuator_id, file_name, prop_step, compo_update_step);
 
-  RWModel rwmodel(prescaler, fast_prescaler, clock_gen, step_width, dt_main_routine, jitter_update_interval, inertia, max_torque, max_velocity, q_b2c,
-                  pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled, is_log_jitter_enabled, radial_force_harmonics_coef,
-                  radial_torque_harmonics_coef, structural_resonance_freq, damping_factor, bandwidth, considers_structural_resonance, drive_flag,
-                  init_velocity);
+  RWModel rwmodel(prescaler, fast_prescaler, clock_gen, actuator_id, step_width, dt_main_routine, jitter_update_interval, inertia, max_torque,
+                  max_velocity, q_b2c, pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled, is_log_jitter_enabled,
+                  radial_force_harmonics_coef, radial_torque_harmonics_coef, structural_resonance_freq, damping_factor, bandwidth,
+                  considers_structural_resonance, drive_flag, init_velocity);
 
   return rwmodel;
 }
@@ -115,10 +115,10 @@ RWModel InitRWModel(ClockGenerator* clock_gen, PowerPort* power_port, int actuat
 
   power_port->InitializeWithInitializeFile(file_name);
 
-  RWModel rwmodel(prescaler, fast_prescaler, clock_gen, power_port, step_width, dt_main_routine, jitter_update_interval, inertia, max_torque,
-                  max_velocity, q_b2c, pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled, is_log_jitter_enabled,
-                  radial_force_harmonics_coef, radial_torque_harmonics_coef, structural_resonance_freq, damping_factor, bandwidth,
-                  considers_structural_resonance, drive_flag, init_velocity);
+  RWModel rwmodel(prescaler, fast_prescaler, clock_gen, power_port, actuator_id, step_width, dt_main_routine, jitter_update_interval, inertia,
+                  max_torque, max_velocity, q_b2c, pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled,
+                  is_log_jitter_enabled, radial_force_harmonics_coef, radial_torque_harmonics_coef, structural_resonance_freq, damping_factor,
+                  bandwidth, considers_structural_resonance, drive_flag, init_velocity);
 
   return rwmodel;
 }
