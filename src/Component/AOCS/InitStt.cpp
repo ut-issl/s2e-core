@@ -13,8 +13,9 @@ using namespace std;
 STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const string fname, double compo_step_time, const Dynamics* dynamics,
             const LocalEnvironment* local_env) {
   IniAccess STT_conf(fname);
-  string section_tmp = "STAR_SENSOR";
-  const char* STTSection = section_tmp.data();
+  const char* sensor_name = "STAR_SENSOR_";
+  const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
+  const char* STTSection = section_name.c_str();
 
   int prescaler = STT_conf.ReadInt(STTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
@@ -44,8 +45,9 @@ STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const string fname, double
 STT InitSTT(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const string fname, double compo_step_time, const Dynamics* dynamics,
             const LocalEnvironment* local_env) {
   IniAccess STT_conf(fname);
-  string section_tmp = "STAR_SENSOR";
-  const char* STTSection = section_tmp.data();
+  const char* sensor_name = "STAR_SENSOR_";
+  const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
+  const char* STTSection = section_name.c_str();
 
   int prescaler = STT_conf.ReadInt(STTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
