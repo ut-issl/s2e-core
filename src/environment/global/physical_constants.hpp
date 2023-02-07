@@ -1,10 +1,10 @@
 /**
- * @file
+ * @file physical_constants.hpp
  * @brief header for physical constant values
  */
 
-#ifndef PHYSICAL_CONSTANT_HPP_
-#define PHYSICAL_CONSTANT_HPP_
+#ifndef S2E_ENVIRONMENT_GLOBAL_PHYSICAL_CONSTANT_H_
+#define S2E_ENVIRONMENT_GLOBAL_PHYSICAL_CONSTANT_H_
 
 #include <type_traits>  // std::is_floating_point_v
 
@@ -39,4 +39,4 @@ DEFINE_PHYSICAL_CONSTANT(earth_flattening, 3.352797e-3L)                       /
 
 }  // namespace environment
 
-#endif  // PHYSICAL_CONSTANT_HPP_
+#endif  // S2E_ENVIRONMENT_GLOBAL_PHYSICAL_CONSTANT_H_

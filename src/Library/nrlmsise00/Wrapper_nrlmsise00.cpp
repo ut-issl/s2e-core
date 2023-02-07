@@ -12,7 +12,7 @@ extern "C" {
 }
 #include <stdlib.h> /* for malloc/free */
 
-#include <environment/global/PhysicalConstants.hpp>
+#include <environment/global/physical_constants.hpp>
 #include <Library/math/Constant.hpp>
 #include <algorithm>
 #include <cctype>

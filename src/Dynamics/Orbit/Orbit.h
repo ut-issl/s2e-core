@@ -18,7 +18,7 @@ using libra::Vector;
 #include <environment/global/celestial_information.hpp>
 #include <Interface/LogOutput/ILoggable.h>
 
-#include <environment/global/PhysicalConstants.hpp>
+#include <environment/global/physical_constants.hpp>
 #include <Library/Geodesy/GeodeticPosition.hpp>
 
 /**
