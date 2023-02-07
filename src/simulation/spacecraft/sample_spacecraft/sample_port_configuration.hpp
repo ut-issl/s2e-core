@@ -3,7 +3,8 @@
  * @brief An example of port configuration management
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_PORT_CONFIGURATION_H_
+#define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_PORT_CONFIGURATION_H_
 
 /**
  * @enum PowerPortConfig
@@ -25,3 +26,5 @@ enum UARTPortConfig {
   GYRO = 0,
   UART_COMPONENT_MAX  //!< Maximum port number. Do not remove. Place on the bottom.
 };
+
+#endif  // S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_PORT_CONFIGURATION_H_
