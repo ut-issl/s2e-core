@@ -7,7 +7,7 @@
 
 #include <Interface/InitInput/IniAccess.h>
 
-#include "GeoPotential.h"
+#include "geopotential.hpp"
 #include "GravityGradient.hpp"
 #include "InitDisturbance.hpp"
 #include "MagDisturbance.h"

@@ -1,10 +1,11 @@
 /**
- * @file GeoPotential.h
+ * @file geopotential.hpp
  * @brief Class to calculate the high-order earth gravity acceleration
  */
 
-#ifndef __GEOPOTENTIAL_H__
-#define __GEOPOTENTIAL_H__
+#ifndef S2E_DISTURBANCES_GEOPOTENTIAL_H_
+#define S2E_DISTURBANCES_GEOPOTENTIAL_H_
+
 #include <string>
 
 #include "../Interface/LogOutput/ILoggable.h"
@@ -86,4 +87,4 @@ class GeoPotential : public AccelerationDisturbance {
   double time_ = 0.0;         //!< Calculation time [ms]
 };
 
-#endif  //__GEOPOTENTIAL_H__
+#endif  // S2E_DISTURBANCES_GEOPOTENTIAL_H_
