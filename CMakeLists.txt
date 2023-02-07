@@ -87,7 +87,7 @@ add_subdirectory(src/Library/Geodesy)
 
 set(SOURCE_FILES
   src/s2e.cpp
-  src/simulation/Case/SampleCase.cpp
+  src/simulation/case/SampleCase.cpp
   src/simulation/spacecraft/sample_spacecraft/sample_spacecraft.cpp
   src/simulation/spacecraft/sample_spacecraft/sample_components.cpp
   src/simulation/ground_station/sample_ground_station/sample_ground_station_components.cpp
