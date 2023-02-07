@@ -4,7 +4,7 @@
  */
 #include "InitGlobalEnvironment.hpp"
 
-#include <Environment/Global/SimTime.h>
+#include <environment/global/SimTime.h>
 #include <Interface/InitInput/IniAccess.h>
 #include <SpiceUsr.h>
 

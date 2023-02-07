@@ -6,7 +6,7 @@
 
 #pragma once
 #include <Dynamics/Dynamics.h>
-#include <Environment/Global/GlobalEnvironment.h>
+#include <environment/global/GlobalEnvironment.h>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Component/CommGS/Antenna.hpp>

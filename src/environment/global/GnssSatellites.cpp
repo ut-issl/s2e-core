@@ -9,7 +9,7 @@
 #include <Library/sgp4/sgp4ext.h>   //for jday()
 #include <Library/sgp4/sgp4unit.h>  //for gstime()
 
-#include <Environment/Global/PhysicalConstants.hpp>
+#include <environment/global/PhysicalConstants.hpp>
 #include <Library/math/Constant.hpp>
 #include <Library/utils/Macros.hpp>
 #include <algorithm>

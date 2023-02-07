@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Environment/Global/GnssSatellites.h>
+#include <environment/global/GnssSatellites.h>
 
 /**
  *@fn InitGnssSatellites

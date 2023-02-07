@@ -7,7 +7,7 @@
 
 #include <Library/math/GlobalRand.h>
 
-#include <Environment/Global/PhysicalConstants.hpp>
+#include <environment/global/PhysicalConstants.hpp>
 #include <string>
 
 GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const int id, const std::string gnss_id, const int ch_max,

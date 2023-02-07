@@ -7,7 +7,7 @@
 #define S2E_DISTURBANCES_ACCELERATION_DISTURBANCE_H_
 
 #include "../Dynamics/Dynamics.h"
-#include "../Environment/Local/LocalEnvironment.h"
+#include "../environment/local/LocalEnvironment.h"
 #include "disturbance.hpp"
 
 /**

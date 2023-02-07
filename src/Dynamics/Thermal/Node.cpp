@@ -1,6 +1,6 @@
 #include "Node.h"
 
-#include <Environment/Global/PhysicalConstants.hpp>
+#include <environment/global/PhysicalConstants.hpp>
 #include <cmath>
 
 using namespace std;

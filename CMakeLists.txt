@@ -64,8 +64,8 @@ include_directories(${NRLMSISE00_DIR}/src)
 
 ## add_subdirectories
 add_subdirectory(src/simulation)
-add_subdirectory(src/Environment/Global)
-add_subdirectory(src/Environment/Local)
+add_subdirectory(src/environment/global)
+add_subdirectory(src/environment/local)
 add_subdirectory(src/Dynamics)
 add_subdirectory(src/disturbances)
 add_subdirectory(src/Component)

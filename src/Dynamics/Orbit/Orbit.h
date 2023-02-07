@@ -15,10 +15,10 @@ using libra::Matrix;
 using libra::Quaternion;
 using libra::Vector;
 
-#include <Environment/Global/CelestialInformation.h>
+#include <environment/global/CelestialInformation.h>
 #include <Interface/LogOutput/ILoggable.h>
 
-#include <Environment/Global/PhysicalConstants.hpp>
+#include <environment/global/PhysicalConstants.hpp>
 #include <Library/Geodesy/GeodeticPosition.hpp>
 
 /**

@@ -4,9 +4,9 @@
  */
 #pragma once
 
-#include <Environment/Local/Atmosphere.h>
-#include <Environment/Local/MagEnvironment.h>
-#include <Environment/Local/SRPEnvironment.h>
+#include <environment/local/Atmosphere.h>
+#include <environment/local/MagEnvironment.h>
+#include <environment/local/SRPEnvironment.h>
 
 /**
  * @fn InitMagEnvironment

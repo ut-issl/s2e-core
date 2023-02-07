@@ -6,7 +6,7 @@
 #ifndef MTQ_H_
 #define MTQ_H_
 
-#include <Environment/Local/LocalEnvironment.h>
+#include <environment/local/LocalEnvironment.h>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/Matrix.hpp>

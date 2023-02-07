@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include <Environment/Global/CelestialInformation.h>
-#include <Environment/Global/HipparcosCatalogue.h>
-#include <Environment/Global/SimTime.h>
+#include <environment/global/CelestialInformation.h>
+#include <environment/global/HipparcosCatalogue.h>
+#include <environment/global/SimTime.h>
 
 /**
  *@fn InitSimTime

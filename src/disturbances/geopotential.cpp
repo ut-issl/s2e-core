@@ -5,7 +5,7 @@
 
 #include "geopotential.hpp"
 
-#include <Environment/Global/PhysicalConstants.hpp>
+#include <environment/global/PhysicalConstants.hpp>
 #include <chrono>
 #include <cmath>
 #include <fstream>

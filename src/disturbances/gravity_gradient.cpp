@@ -5,7 +5,7 @@
 
 #include "gravity_gradient.hpp"
 
-#include <Environment/Global/PhysicalConstants.hpp>
+#include <environment/global/PhysicalConstants.hpp>
 #include <cmath>
 #include <fstream>
 #include <iostream>

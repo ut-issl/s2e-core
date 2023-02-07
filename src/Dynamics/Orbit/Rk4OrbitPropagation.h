@@ -2,7 +2,7 @@
  * @file Rk4OrbitPropagation.h
  * @brief Class to propagate spacecraft orbit with Runge-Kutta-4 method
  */
-#include <Environment/Global/CelestialInformation.h>
+#include <environment/global/CelestialInformation.h>
 
 #include <Library/math/ODE.hpp>
 

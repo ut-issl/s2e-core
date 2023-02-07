@@ -6,8 +6,8 @@
 #pragma once
 
 #include <Dynamics/Dynamics.h>
-#include <Environment/Global/GnssSatellites.h>
-#include <Environment/Global/SimTime.h>
+#include <environment/global/GnssSatellites.h>
+#include <environment/global/SimTime.h>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/NormalRand.hpp>

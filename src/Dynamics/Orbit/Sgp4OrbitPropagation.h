@@ -3,7 +3,7 @@
  * @brief Class to propagate spacecraft orbit with SGP4 method with TLE
  */
 #pragma once
-#include <Environment/Global/CelestialInformation.h>
+#include <environment/global/CelestialInformation.h>
 #include <Library/sgp4/sgp4io.h>
 #include <Library/sgp4/sgp4unit.h>
 

@@ -5,7 +5,7 @@
 #pragma once
 
 #include <Dynamics/Dynamics.h>
-#include <Environment/Global/GlobalEnvironment.h>
+#include <environment/global/GlobalEnvironment.h>
 
 #include "Atmosphere.h"
 #include "LocalCelestialInformation.h"

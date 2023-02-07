@@ -4,7 +4,7 @@
  */
 #ifndef __SRPEnvironment_h__
 #define __SRPEnvironment_h__
-#include <Environment/Local/LocalCelestialInformation.h>
+#include <environment/local/LocalCelestialInformation.h>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/Vector.hpp>

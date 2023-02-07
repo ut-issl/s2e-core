@@ -7,8 +7,8 @@
 #define S2E_SIMULATION_SPACECRAFT_SPACECRAFT_H_
 
 #include <Dynamics/Dynamics.h>
-#include <Environment/Global/ClockGenerator.h>
-#include <Environment/Local/LocalEnvironment.h>
+#include <environment/global/ClockGenerator.h>
+#include <environment/local/LocalEnvironment.h>
 
 #include <disturbances/disturbances.hpp>
 #include <relative_information/relative_information.hpp>

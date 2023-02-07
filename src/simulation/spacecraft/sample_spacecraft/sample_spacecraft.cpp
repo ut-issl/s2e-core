@@ -5,7 +5,7 @@
 
 #include "sample_spacecraft.hpp"
 
-#include <Environment/Global/ClockGenerator.h>
+#include <environment/global/ClockGenerator.h>
 
 #include <Library/math/NormalRand.hpp>
 

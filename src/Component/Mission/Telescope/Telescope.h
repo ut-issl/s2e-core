@@ -6,8 +6,8 @@
 #pragma once
 #include <Abstract/ComponentBase.h>
 #include <Dynamics/Attitude/Attitude.h>
-#include <Environment/Global/HipparcosCatalogue.h>
-#include <Environment/Local/LocalCelestialInformation.h>
+#include <environment/global/HipparcosCatalogue.h>
+#include <environment/local/LocalCelestialInformation.h>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/Quaternion.hpp>
