@@ -13,7 +13,7 @@
 #include "../Interface/LogOutput/ILoggable.h"
 #include "../Library/math/Quaternion.hpp"
 #include "../Library/math/Vector.hpp"
-#include "SurfaceForce.h"
+#include "surface_force.hpp"
 using libra::Quaternion;
 using libra::Vector;
 

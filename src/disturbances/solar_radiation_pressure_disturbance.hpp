@@ -11,7 +11,7 @@
 
 #include "../Interface/LogOutput/ILoggable.h"
 #include "../Library/math/Vector.hpp"
-#include "SurfaceForce.h"
+#include "surface_force.hpp"
 using libra::Vector;
 
 /**

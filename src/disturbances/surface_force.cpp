@@ -1,9 +1,9 @@
 /**
- * @file SurfaceForce.cpp
+ * @file surface_force.cpp
  * @brief Base class for disturbances acting on a spacecraft surface (e.g., SRP, Air drag, etc)
  */
 
-#include "SurfaceForce.h"
+#include "surface_force.hpp"
 
 #include "../Library/math/Vector.hpp"
 using libra::Quaternion;

@@ -1,12 +1,12 @@
 /**
- * @file SurfaceForce.h
+ * @file surface_force.hpp
  * @brief Base class for disturbances acting on a spacecraft surface (e.g., SRP, Air drag, etc)
  */
 
 #pragma once
 
-#ifndef __SurfaceForce_H__
-#define __SurfaceForce_H__
+#ifndef S2E_DISTURBANCES_SURFACE_FORCE_H_
+#define S2E_DISTURBANCES_SURFACE_FORCE_H_
 
 #include "../Library/math/Quaternion.hpp"
 #include "../Library/math/Vector.hpp"
@@ -69,4 +69,5 @@ class SurfaceForce : public SimpleDisturbance {
    */
   virtual void CalcCoef(Vector<3>& input_b, double item) = 0;
 };
-#endif
+
+#endif  // S2E_DISTURBANCES_SURFACE_FORCE_H_

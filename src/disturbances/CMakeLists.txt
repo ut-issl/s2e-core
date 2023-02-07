@@ -8,7 +8,7 @@ add_library(${PROJECT_NAME} STATIC
   gravity_gradient.cpp
   magnetic_disturbance.cpp
   solar_radiation_pressure_disturbance.cpp
-  SurfaceForce.cpp
+  surface_force.cpp
   ThirdBodyGravity.cpp
   initialize_disturbances.cpp
 )
