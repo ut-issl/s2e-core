@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.13)
 add_library(${PROJECT_NAME} STATIC
   orbit/orbit.cpp
   orbit/Sgp4OrbitPropagation.cpp
-  orbit/Rk4OrbitPropagation.cpp
+  orbit/rk4_orbit_propagation.cpp
   orbit/relative_orbit.cpp
   orbit/kepler_orbit_propagation.cpp
   orbit/encke_orbit_propagation.cpp

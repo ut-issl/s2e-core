@@ -6,7 +6,7 @@
 
 #include <Library/utils/Macros.hpp>
 
-#include "Rk4OrbitPropagation.h"
+#include "rk4_orbit_propagation.hpp"
 
 RelativeOrbit::RelativeOrbit(const CelestialInformation* celes_info, double mu, double timestep, int reference_sat_id,
                              Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh,
