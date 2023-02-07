@@ -1,8 +1,8 @@
 /**
- *@file HipparcosCatalogue.cpp
+ *@file hipparcos_catalogue.cpp
  *@brief Class to calculate star direction with Hipparcos catalogue
  */
-#include "HipparcosCatalogue.h"
+#include "hipparcos_catalogue.hpp"
 
 #include <Library/math/Constant.hpp>
 #include <algorithm>

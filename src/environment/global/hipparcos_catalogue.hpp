@@ -1,8 +1,11 @@
 /**
- *@file HipparcosCatalogue.h
+ *@file hipparcos_catalogue.hpp
  *@brief Class to calculate star direction with Hipparcos catalogue
  */
-#pragma once
+
+#ifndef S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_H_
+#define S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_H_
+
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/Quaternion.hpp>
@@ -108,3 +111,5 @@ class HipparcosCatalogue : public ILoggable {
   double max_magnitude_;               //!< Maximum magnitude in the data base
   std::string catalogue_path_;         //!< Path to Hipparcos catalog file
 };
+
+#endif  // S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_H_

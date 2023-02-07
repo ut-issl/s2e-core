@@ -6,7 +6,7 @@
 #pragma once
 #include <Abstract/ComponentBase.h>
 #include <Dynamics/Attitude/Attitude.h>
-#include <environment/global/HipparcosCatalogue.h>
+#include <environment/global/hipparcos_catalogue.hpp>
 #include <environment/local/LocalCelestialInformation.h>
 #include <Interface/LogOutput/ILoggable.h>
 

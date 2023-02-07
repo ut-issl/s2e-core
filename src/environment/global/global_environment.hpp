@@ -11,7 +11,7 @@
 #include <simulation/simulation_configuration.hpp>
 
 #include "gnss_satellites.hpp"
-#include "HipparcosCatalogue.h"
+#include "hipparcos_catalogue.hpp"
 #include "SimTime.h"
 #include "celestial_information.hpp"
 
