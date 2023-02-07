@@ -1,6 +1,6 @@
 #include "InitTemperature.hpp"
 
-#include <environment/global/SimTime.h>
+#include <environment/global/simulation_time.hpp>
 #include <Interface/InitInput/IniAccess.h>
 
 #include <string>

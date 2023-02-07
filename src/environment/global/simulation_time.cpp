@@ -1,10 +1,10 @@
 /**
- *@file SimTime.cpp
+ *@file simulation_time.cpp
  *@brief Class to manage simulation time related information
  */
 
 #define _CRT_SECURE_NO_WARNINGS
-#include "SimTime.h"
+#include "simulation_time.hpp"
 
 #include <cassert>
 #include <iostream>

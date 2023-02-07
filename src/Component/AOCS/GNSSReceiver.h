@@ -7,7 +7,7 @@
 
 #include <Dynamics/Dynamics.h>
 #include <environment/global/gnss_satellites.hpp>
-#include <environment/global/SimTime.h>
+#include <environment/global/simulation_time.hpp>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/NormalRand.hpp>

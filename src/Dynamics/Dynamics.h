@@ -15,7 +15,7 @@ using libra::Vector;
 #include <Dynamics/Thermal/InitNode.hpp>
 #include <Dynamics/Thermal/InitTemperature.hpp>
 
-#include "../environment/global/SimTime.h"
+#include "../environment/global/simulation_time.hpp"
 #include "../environment/local/LocalCelestialInformation.h"
 #include "../simulation/simulation_configuration.hpp"
 #include "../simulation/spacecraft/structure/structure.hpp"

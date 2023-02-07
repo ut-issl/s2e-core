@@ -6,7 +6,7 @@
 
 #include <Interface/InitInput/IniAccess.h>
 #include <SpiceUsr.h>
-#include <environment/global/SimTime.h>
+#include <environment/global/simulation_time.hpp>
 
 #include <cassert>
 

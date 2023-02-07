@@ -16,7 +16,7 @@
 #include <map>
 #include <vector>
 
-#include "SimTime.h"
+#include "simulation_time.hpp"
 
 extern const double nan99;  //!< Not at Number TODO: Should be moved to another place
 

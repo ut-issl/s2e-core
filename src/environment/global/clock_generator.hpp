@@ -10,7 +10,7 @@
 
 #include <vector>
 
-#include "SimTime.h"
+#include "simulation_time.hpp"
 
 /**
  * @class ClockGenerator

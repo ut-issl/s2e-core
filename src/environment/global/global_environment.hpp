@@ -12,7 +12,7 @@
 
 #include "gnss_satellites.hpp"
 #include "hipparcos_catalogue.hpp"
-#include "SimTime.h"
+#include "simulation_time.hpp"
 #include "celestial_information.hpp"
 
 /**

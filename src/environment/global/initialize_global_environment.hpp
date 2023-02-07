@@ -6,10 +6,9 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_INITIALIZE_GLOBAL_ENVIRONMENT_H_
 #define S2E_ENVIRONMENT_GLOBAL_INITIALIZE_GLOBAL_ENVIRONMENT_H_
 
-#include <environment/global/SimTime.h>
-
 #include <environment/global/celestial_information.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
+#include <environment/global/simulation_time.hpp>
 
 /**
  *@fn InitSimTime
