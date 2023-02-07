@@ -20,7 +20,7 @@ add_library(${PROJECT_NAME} STATIC
   Attitude/ControlledAttitude.cpp
   Attitude/InitAttitude.cpp
 
-  Dynamics.cpp
+  dynamics.cpp
 )
 
 include(../../common.cmake)

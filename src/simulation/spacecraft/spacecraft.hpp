@@ -6,9 +6,8 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_SPACECRAFT_H_
 #define S2E_SIMULATION_SPACECRAFT_SPACECRAFT_H_
 
-#include <dynamics/Dynamics.h>
-
 #include <disturbances/disturbances.hpp>
+#include <dynamics/dynamics.hpp>
 #include <environment/global/clock_generator.hpp>
 #include <environment/local/local_environment.hpp>
 #include <relative_information/relative_information.hpp>

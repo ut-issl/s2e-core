@@ -1,9 +1,9 @@
 /**
- * @file Dynamics.h
+ * @file dynamics.hpp
  * @brief Class to manage dynamics of spacecraft
  */
-#ifndef __dynamics_H__
-#define __dynamics_H__
+#ifndef S2E_DYNAMICS_DYNAMICS_H_
+#define S2E_DYNAMICS_DYNAMICS_H_
 
 #include <string>
 
@@ -138,4 +138,4 @@ class Dynamics {
   const Structure* structure_;  //!< Structure information
 };
 
-#endif  //__dynamics_H__
+#endif  // S2E_DYNAMICS_DYNAMICS_H_

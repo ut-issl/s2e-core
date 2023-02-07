@@ -8,7 +8,7 @@
 #ifndef S2E_DISTURBANCES_SIMPLE_DISTURBANCE_H_
 #define S2E_DISTURBANCES_SIMPLE_DISTURBANCE_H_
 
-#include "../dynamics/Dynamics.h"
+#include "../dynamics/dynamics.hpp"
 #include "../environment/local/local_environment.hpp"
 #include "disturbance.hpp"
 

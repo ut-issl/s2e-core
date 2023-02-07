@@ -8,7 +8,7 @@
 
 #include <Component/CDH/OBC.h>
 #include <Component/Power/PCU.h>
-#include <dynamics/Dynamics.h>
+#include <dynamics/dynamics.hpp>
 #include <Interface/HilsInOut/HilsPortManager.h>
 
 #include <Component/AOCS/InitGnssReceiver.hpp>

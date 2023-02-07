@@ -7,9 +7,9 @@
 #define S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_H_
 
 #include <Component/CommGS/GScalculator.h>
-#include <dynamics/Dynamics.h>
 
 #include <Component/CommGS/Antenna.hpp>
+#include <dynamics/dynamics.hpp>
 #include <environment/global/global_environment.hpp>
 
 #include "../../spacecraft/sample_spacecraft/sample_spacecraft.hpp"

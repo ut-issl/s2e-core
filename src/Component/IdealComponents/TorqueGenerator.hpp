@@ -6,10 +6,10 @@
 
 #include <Component/Abstract/ComponentBase.h>
 #include <Interface/LogOutput/Logger.h>
-#include <dynamics/Dynamics.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Vector.hpp>
+#include <dynamics/dynamics.hpp>
 
 /*
  * @class TorqueGenerator

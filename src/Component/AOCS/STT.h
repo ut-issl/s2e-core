@@ -19,7 +19,7 @@
 #include <vector>
 
 #include "../Abstract/ComponentBase.h"
-#include "dynamics/Dynamics.h"
+#include "dynamics/dynamics.hpp"
 
 /*
  * @class STT

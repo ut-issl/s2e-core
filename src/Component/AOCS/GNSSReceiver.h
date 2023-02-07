@@ -6,10 +6,10 @@
 #pragma once
 
 #include <Interface/LogOutput/ILoggable.h>
-#include <dynamics/Dynamics.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
+#include <dynamics/dynamics.hpp>
 #include <environment/global/gnss_satellites.hpp>
 #include <environment/global/simulation_time.hpp>
 

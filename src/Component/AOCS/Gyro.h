@@ -7,9 +7,9 @@
 #define Gyro_H_
 
 #include <Interface/LogOutput/ILoggable.h>
-#include <dynamics/Dynamics.h>
 
 #include <Library/math/Quaternion.hpp>
+#include <dynamics/dynamics.hpp>
 
 #include "../Abstract/ComponentBase.h"
 #include "../Abstract/SensorBase.h"

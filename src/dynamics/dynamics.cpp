@@ -1,9 +1,9 @@
 /**
- * @file Dynamics.cpp
+ * @file dynamics.cpp
  * @brief Class to manage dynamics of spacecraft
  */
 
-#include "Dynamics.h"
+#include "dynamics.hpp"
 
 #include "../relative_information/relative_information.hpp"
 
