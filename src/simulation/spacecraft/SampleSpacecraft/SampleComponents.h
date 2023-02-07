@@ -8,7 +8,6 @@
 #include <Component/Power/PCU.h>
 #include <Dynamics/Dynamics.h>
 #include <Interface/HilsInOut/HilsPortManager.h>
-#include <simulation/spacecraft/structure/Structure.h>
 
 #include <Component/AOCS/InitGnssReceiver.hpp>
 #include <Component/AOCS/InitGyro.hpp>
@@ -26,6 +25,7 @@
 #include <Component/examples/example_i2c_target_for_hils.hpp>
 #include <Component/examples/example_serial_communication_for_hils.hpp>
 #include <Library/math/Vector.hpp>
+#include <simulation/spacecraft/structure/structure.hpp>
 
 #include "../installed_components.hpp"
 

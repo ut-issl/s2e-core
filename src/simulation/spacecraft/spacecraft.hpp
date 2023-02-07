@@ -13,7 +13,7 @@
 #include <RelativeInformation/RelativeInformation.h>
 
 #include "installed_components.hpp"
-#include "structure/Structure.h"
+#include "structure/structure.hpp"
 
 /**
  * @class Spacecraft

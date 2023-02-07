@@ -1,5 +1,5 @@
 /**
- * @file Structure.h
+ * @file structure.hpp
  * @brief Definition of spacecraft structure
  */
 

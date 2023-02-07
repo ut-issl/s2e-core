@@ -1,9 +1,9 @@
 /**
- * @file Structure.cpp
+ * @file structure.cpp
  * @brief Definition of spacecraft structure
  */
 
-#include "Structure.h"
+#include "structure.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 

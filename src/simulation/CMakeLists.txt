@@ -11,7 +11,7 @@ add_library(${PROJECT_NAME} STATIC
 
   spacecraft/spacecraft.cpp
   spacecraft/installed_components.cpp
-  spacecraft/structure/Structure.cpp
+  spacecraft/structure/structure.cpp
   spacecraft/structure/KinematicsParams.cpp
   spacecraft/structure/RMMParams.cpp
   spacecraft/structure/surface.cpp
