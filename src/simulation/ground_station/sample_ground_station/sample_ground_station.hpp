@@ -8,7 +8,7 @@
 
 #include <Component/CommGS/GScalculator.h>
 #include <Dynamics/Dynamics.h>
-#include <environment/global/GlobalEnvironment.h>
+#include <environment/global/global_environment.hpp>
 
 #include <Component/CommGS/Antenna.hpp>
 

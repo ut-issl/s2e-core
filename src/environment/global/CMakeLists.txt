@@ -2,7 +2,7 @@ project(GLOBAL_ENVIRONMENT)
 cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
-  GlobalEnvironment.cpp
+  global_environment.cpp
   celestial_information.cpp
   HipparcosCatalogue.cpp
   GnssSatellites.cpp

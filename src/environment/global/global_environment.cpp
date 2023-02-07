@@ -1,9 +1,9 @@
 /**
- * @file GlobalEnvironment.cpp
+ * @file global_environment.cpp
  * @brief Class to manage the global environment
  */
 
-#include "GlobalEnvironment.h"
+#include "global_environment.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 

@@ -1,18 +1,19 @@
 /**
- * @file GlobalEnvironment.h
+ * @file global_environment.hpp
  * @brief Class to manage the global environment
  */
 
-#pragma once
+#ifndef S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_H_
+#define S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_H_
 
 #include <Interface/LogOutput/Logger.h>
 
 #include <simulation/simulation_configuration.hpp>
 
-#include "celestial_information.hpp"
 #include "GnssSatellites.h"
 #include "HipparcosCatalogue.h"
 #include "SimTime.h"
+#include "celestial_information.hpp"
 
 /**
  * @class GlobalEnvironment
@@ -82,3 +83,5 @@ class GlobalEnvironment {
   HipparcosCatalogue* hipp_;          //!< Hipparcos catalogue
   GnssSatellites* gnss_satellites_;   //!< GNSS satellites
 };
+
+#endif  // S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_H_
