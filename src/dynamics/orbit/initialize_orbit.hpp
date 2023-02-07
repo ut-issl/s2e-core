@@ -1,8 +1,10 @@
 /**
- * @file InitOrbit.h
+ * @file initialize_orbit.hpp
  * @brief Initialize function for Orbit class
  */
-#pragma once
+
+#ifndef S2E_DYNAMICS_ORBIT_INITIALIZE_ORBIT_H_
+#define S2E_DYNAMICS_ORBIT_INITIALIZE_ORBIT_H_
 
 #include <Library/Orbit/OrbitalElements.h>
 
@@ -33,3 +35,5 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
  * @param [in] section: Section name
  */
 Vector<6> InitializePosVel(std::string ini_path, double current_jd, double mu_m3_s2, std::string section = "ORBIT");
+
+#endif  // S2E_DYNAMICS_ORBIT_INITIALIZE_ORBIT_H_

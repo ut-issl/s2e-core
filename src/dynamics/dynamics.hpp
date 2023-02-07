@@ -11,7 +11,7 @@
 using libra::Vector;
 
 #include <dynamics/attitude/initialize_attitude.hpp>
-#include <dynamics/orbit/InitOrbit.hpp>
+#include <dynamics/orbit/initialize_orbit.hpp>
 #include <dynamics/thermal/InitNode.hpp>
 #include <dynamics/thermal/InitTemperature.hpp>
 

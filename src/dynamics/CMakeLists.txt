@@ -8,7 +8,7 @@ add_library(${PROJECT_NAME} STATIC
   orbit/RelativeOrbit.cpp
   orbit/KeplerOrbitPropagation.cpp
   orbit/encke_orbit_propagation.cpp
-  orbit/InitOrbit.cpp
+  orbit/initialize_orbit.cpp
 
   thermal/Node.cpp
   thermal/Temperature.cpp

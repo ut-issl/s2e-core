@@ -1,8 +1,8 @@
 /**
- * @file InitOrbit.cpp
+ * @file initialize_orbit.cpp
  * @brief Initialize function for Orbit class
  */
-#include "InitOrbit.hpp"
+#include "initialize_orbit.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 
