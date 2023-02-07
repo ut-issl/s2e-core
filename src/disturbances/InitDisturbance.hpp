@@ -11,7 +11,7 @@
 #include <disturbances/SolarRadiation.h>
 #include <disturbances/ThirdBodyGravity.h>
 
-#include <disturbances/GravityGradient.hpp>
+#include <disturbances/gravity_gradient.hpp>
 
 /**
  * @fn InitAirDrag

@@ -1,10 +1,11 @@
 /**
- * @file GravityGradient.hpp
+ * @file gravity_gradient.hpp
  * @brief Class to calculate the gravity gradient torque
  */
 
-#ifndef __GravityGradient_H__
-#define __GravityGradient_H__
+#ifndef S2E_DISTURBANCES_GRAVITY_GRADIENT_H_
+#define S2E_DISTURBANCES_GRAVITY_GRADIENT_H_
+
 #include <string>
 
 #include "../Interface/LogOutput/ILoggable.h"
@@ -65,4 +66,4 @@ class GravityGradient : public SimpleDisturbance {
   double mu_m3_s2_;  //!< Gravitational constant [m3/s2]
 };
 
-#endif  //__GravityGradient_H__
+#endif  // S2E_DISTURBANCES_GRAVITY_GRADIENT_H_
