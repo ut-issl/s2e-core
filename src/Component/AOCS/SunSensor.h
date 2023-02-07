@@ -6,7 +6,7 @@
 #ifndef __SunSensor_H__
 #define __SunSensor_H__
 
-#include <environment/local/LocalCelestialInformation.h>
+#include <environment/local/local_celestial_information.hpp>
 #include <environment/local/SRPEnvironment.h>
 #include <Interface/LogOutput/ILoggable.h>
 

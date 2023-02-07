@@ -7,7 +7,7 @@
 #include <Abstract/ComponentBase.h>
 #include <Dynamics/Attitude/Attitude.h>
 #include <environment/global/hipparcos_catalogue.hpp>
-#include <environment/local/LocalCelestialInformation.h>
+#include <environment/local/local_celestial_information.hpp>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/Quaternion.hpp>

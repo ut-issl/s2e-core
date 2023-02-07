@@ -1,9 +1,9 @@
 /**
- * @file LocalCelestialInformation.cpp
+ * @file local_celestial_information.cpp
  * @brief Class to manage celestial body information in the spacecraft body frame
  */
 
-#include "LocalCelestialInformation.h"
+#include "local_celestial_information.hpp"
 
 #include <Interface/LogOutput/LogUtility.h>
 #include <SpiceUsr.h>

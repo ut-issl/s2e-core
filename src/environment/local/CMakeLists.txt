@@ -6,7 +6,7 @@ add_library(${PROJECT_NAME} STATIC
   LocalEnvironment.cpp
   MagEnvironment.cpp
   SRPEnvironment.cpp
-  LocalCelestialInformation.cpp
+  local_celestial_information.cpp
   initialize_local_environment.cpp
 )
 

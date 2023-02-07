@@ -8,7 +8,7 @@
 #include <environment/global/global_environment.hpp>
 
 #include "atmosphere.hpp"
-#include "LocalCelestialInformation.h"
+#include "local_celestial_information.hpp"
 #include "MagEnvironment.h"
 #include "SRPEnvironment.h"
 #include "simulation/simulation_configuration.hpp"
