@@ -6,7 +6,7 @@
 
 #include <Library/Orbit/OrbitalElements.h>
 
-#include "Orbit.h"
+#include "orbit.hpp"
 
 class RelativeInformation;
 

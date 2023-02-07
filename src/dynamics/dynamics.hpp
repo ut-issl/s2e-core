@@ -19,7 +19,7 @@ using libra::Vector;
 #include "../environment/local/local_celestial_information.hpp"
 #include "../simulation/simulation_configuration.hpp"
 #include "../simulation/spacecraft/structure/structure.hpp"
-#include "./orbit/Orbit.h"
+#include "./orbit/orbit.hpp"
 #include "./thermal/Temperature.h"
 
 class RelativeInformation;

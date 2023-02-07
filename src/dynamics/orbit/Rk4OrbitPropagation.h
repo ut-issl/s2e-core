@@ -5,7 +5,7 @@
 #include <Library/math/ODE.hpp>
 #include <environment/global/celestial_information.hpp>
 
-#include "Orbit.h"
+#include "orbit.hpp"
 
 /**
  * @class Rk4OrbitPropagation

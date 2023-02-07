@@ -9,7 +9,7 @@
 #include <relative_information/relative_information.hpp>
 #include <string>
 
-#include "Orbit.h"
+#include "orbit.hpp"
 
 /**
  * @class RelativeOrbit

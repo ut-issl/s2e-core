@@ -8,7 +8,7 @@
 
 #include "../../Library/Orbit/KeplerOrbit.h"
 #include "../../Library/math/ODE.hpp"
-#include "Orbit.h"
+#include "orbit.hpp"
 
 /**
  * @class EnckeOrbitPropagation

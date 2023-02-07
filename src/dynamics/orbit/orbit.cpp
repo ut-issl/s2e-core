@@ -1,8 +1,8 @@
 /**
- * @file Orbit.cpp
+ * @file orbit.cpp
  * @brief Base class of orbit propagation
  */
-#include "Orbit.h"
+#include "orbit.hpp"
 
 Quaternion Orbit::CalcQuaternionI2LVLH() const {
   Vector<3> lvlh_x = sat_position_i_;  // x-axis in LVLH frame is position vector direction from geocenter to satellite

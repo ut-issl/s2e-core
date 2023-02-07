@@ -4,7 +4,7 @@
  */
 #pragma once
 #include "../../Library/Orbit/KeplerOrbit.h"
-#include "Orbit.h"
+#include "orbit.hpp"
 
 /**
  * @class KeplerOrbitPropagation

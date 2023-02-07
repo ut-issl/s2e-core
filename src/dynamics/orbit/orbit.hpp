@@ -1,9 +1,10 @@
 /**
- * @file Orbit.h
+ * @file orbit.hpp
  * @brief Base class of orbit propagation
  */
-#ifndef __orbit_H__
-#define __orbit_H__
+
+#ifndef S2E_DYNAMICS_ORBIT_ORBIT_H_
+#define S2E_DYNAMICS_ORBIT_ORBIT_H_
 
 #include <Library/math/Constant.hpp>
 #include <Library/math/MatVec.hpp>
@@ -227,4 +228,4 @@ class Orbit : public ILoggable {
 
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode);
 
-#endif  //__orbit_H__
+#endif  // S2E_DYNAMICS_ORBIT_ORBIT_H_

@@ -2,7 +2,7 @@ project(DYNAMICS)
 cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
-  orbit/Orbit.cpp
+  orbit/orbit.cpp
   orbit/Sgp4OrbitPropagation.cpp
   orbit/Rk4OrbitPropagation.cpp
   orbit/RelativeOrbit.cpp

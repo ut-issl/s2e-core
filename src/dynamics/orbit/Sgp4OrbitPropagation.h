@@ -8,7 +8,7 @@
 
 #include <environment/global/celestial_information.hpp>
 
-#include "Orbit.h"
+#include "orbit.hpp"
 
 /**
  * @class Sgp4OrbitPropagation
