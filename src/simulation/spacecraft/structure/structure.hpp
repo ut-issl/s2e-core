@@ -3,7 +3,9 @@
  * @brief Definition of spacecraft structure
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_H_
+#define S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_H_
+
 #include <simulation/simulation_configuration.hpp>
 #include <vector>
 
@@ -72,3 +74,5 @@ class Structure {
   vector<Surface> surfaces_;              //!< Surface information
   RMMParams* rmm_params_;                 //!< Residual Magnetic Moment
 };
+
+#endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_H_
