@@ -3,7 +3,8 @@
  * @brief Definition of Kinematics information
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_H_
+#define S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_H_
 
 #include <Library/math/Matrix.hpp>
 #include <Library/math/Vector.hpp>
@@ -84,3 +85,5 @@ class KinematicsParams {
   double mass_;                  //!< Mass of the satellite [kg]
   Matrix<3, 3> inertia_tensor_;  //!< Inertia tensor at body frame [kgm2]
 };
+
+#endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_H_
