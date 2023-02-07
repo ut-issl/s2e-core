@@ -1,5 +1,5 @@
 /**
- * @file Surface.h
+ * @file surface.hpp
  * @brief Definition of spacecraft surface
  */
 

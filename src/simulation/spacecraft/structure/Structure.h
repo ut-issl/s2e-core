@@ -9,7 +9,7 @@
 
 #include "KinematicsParams.h"
 #include "RMMParams.h"
-#include "Surface.h"
+#include "surface.hpp"
 using std::vector;
 
 /**

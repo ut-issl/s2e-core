@@ -10,7 +10,7 @@
 
 #include "../Library/math/Quaternion.hpp"
 #include "../Library/math/Vector.hpp"
-#include "../simulation/spacecraft/structure/Surface.h"
+#include "../simulation/spacecraft/structure/surface.hpp"
 #include "SimpleDisturbance.h"
 using libra::Quaternion;
 using libra::Vector;
