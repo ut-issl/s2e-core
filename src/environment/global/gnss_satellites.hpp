@@ -6,7 +6,7 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_H_
 #define S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_H_
 
-#include <interface/LogOutput/ILoggable.h>
+#include <interface/log_output/ILoggable.h>
 
 #include <Library/math/Vector.hpp>
 #include <cmath>

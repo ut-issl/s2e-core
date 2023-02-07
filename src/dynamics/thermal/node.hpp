@@ -6,7 +6,7 @@
 #ifndef S2E_DYNAMICS_THERMAL_NODE_H_
 #define S2E_DYNAMICS_THERMAL_NODE_H_
 
-#include <interface/LogOutput/Logger.h>
+#include <interface/log_output/Logger.h>
 
 #include <string>
 #include <vector>

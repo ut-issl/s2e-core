@@ -9,7 +9,7 @@
 #include <Library/utils/Macros.hpp>
 #include <string>
 
-#include "../interface/LogOutput/ILoggable.h"
+#include "../interface/log_output/ILoggable.h"
 #include "../Library/math/Vector.hpp"
 #include "surface_force.hpp"
 using libra::Vector;

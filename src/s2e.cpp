@@ -15,7 +15,7 @@
 #include <string>
 
 // Simulator includes
-#include "interface/LogOutput/Logger.h"
+#include "interface/log_output/Logger.h"
 
 // Add custom include files
 #include "simulation/case/sample_case.hpp"

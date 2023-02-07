@@ -5,8 +5,8 @@
 
 #include "spacecraft.hpp"
 
-#include <interface/LogOutput/LogUtility.h>
-#include <interface/LogOutput/Logger.h>
+#include <interface/log_output/LogUtility.h>
+#include <interface/log_output/Logger.h>
 
 Spacecraft::Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) : sat_id_(sat_id) {
   Initialize(sim_config, glo_env, sat_id);

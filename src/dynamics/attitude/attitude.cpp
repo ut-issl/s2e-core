@@ -4,7 +4,7 @@
  */
 #include "attitude.hpp"
 
-#include <interface/LogOutput/LogUtility.h>
+#include <interface/log_output/LogUtility.h>
 
 Attitude::Attitude(const std::string& sim_object_name) : SimulationObject(sim_object_name) {
   omega_b_rad_s_ = libra::Vector<3>(0.0);

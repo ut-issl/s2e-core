@@ -10,7 +10,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "../interface/LogOutput/LogUtility.h"
+#include "../interface/log_output/LogUtility.h"
 
 using namespace std;
 

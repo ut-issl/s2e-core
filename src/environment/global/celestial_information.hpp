@@ -10,7 +10,7 @@
 #include <cstring>
 #include <string>
 
-#include "interface/LogOutput/ILoggable.h"
+#include "interface/log_output/ILoggable.h"
 #include "Library/math/MatVec.hpp"
 #include "Library/math/Matrix.hpp"
 #include "Library/math/Quaternion.hpp"

@@ -10,7 +10,7 @@
 #include <environment/global/physical_constants.hpp>
 #include <iostream>
 
-#include "../interface/LogOutput/LogUtility.h"
+#include "../interface/log_output/LogUtility.h"
 
 using namespace std;
 using namespace libra;

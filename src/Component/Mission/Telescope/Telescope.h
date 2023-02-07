@@ -5,7 +5,7 @@
 
 #pragma once
 #include <Abstract/ComponentBase.h>
-#include <interface/LogOutput/ILoggable.h>
+#include <interface/log_output/ILoggable.h>
 
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>

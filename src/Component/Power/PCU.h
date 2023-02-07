@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <interface/LogOutput/ILoggable.h>
+#include <interface/log_output/ILoggable.h>
 #include <interface/SpacecraftInOut/Ports/PowerPort.h>
 
 #include <map>

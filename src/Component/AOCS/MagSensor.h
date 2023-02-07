@@ -6,7 +6,7 @@
 #ifndef MagSensor_H_
 #define MagSensor_H_
 
-#include <interface/LogOutput/ILoggable.h>
+#include <interface/log_output/ILoggable.h>
 
 #include <Library/math/Quaternion.hpp>
 #include <environment/local/local_environment.hpp>

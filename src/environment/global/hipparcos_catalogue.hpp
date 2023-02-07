@@ -6,7 +6,7 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_H_
 #define S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_H_
 
-#include <interface/LogOutput/ILoggable.h>
+#include <interface/log_output/ILoggable.h>
 
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>

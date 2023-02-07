@@ -6,7 +6,7 @@
 #ifndef Gyro_H_
 #define Gyro_H_
 
-#include <interface/LogOutput/ILoggable.h>
+#include <interface/log_output/ILoggable.h>
 
 #include <Library/math/Quaternion.hpp>
 #include <dynamics/dynamics.hpp>

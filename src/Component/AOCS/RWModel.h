@@ -5,8 +5,8 @@
 
 #ifndef __RWModel_H__
 #define __RWModel_H__
-#include <interface/LogOutput/ILoggable.h>
-#include <interface/LogOutput/Logger.h>
+#include <interface/log_output/ILoggable.h>
+#include <interface/log_output/Logger.h>
 
 #include <Library/math/Vector.hpp>
 #include <limits>

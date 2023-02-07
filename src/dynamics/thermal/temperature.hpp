@@ -6,7 +6,7 @@
 #ifndef S2E_DYNAMICS_THERMAL_TEMPERATURE_H_
 #define S2E_DYNAMICS_THERMAL_TEMPERATURE_H_
 
-#include <interface/LogOutput/ILoggable.h>
+#include <interface/log_output/ILoggable.h>
 
 #include <string>
 #include <vector>

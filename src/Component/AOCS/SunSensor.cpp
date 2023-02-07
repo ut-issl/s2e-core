@@ -8,7 +8,7 @@
 #include <Library/math/Constant.hpp>
 #include <Library/math/NormalRand.hpp>
 using libra::NormalRand;
-#include <interface/LogOutput/LogUtility.h>
+#include <interface/log_output/LogUtility.h>
 #include <Library/math/GlobalRand.h>
 
 using namespace std;

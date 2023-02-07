@@ -7,7 +7,7 @@
 
 #include <interface/initialize/initialize_file_access.hpp>
 
-#include <interface/LogOutput/InitLog.hpp>
+#include <interface/log_output/InitLog.hpp>
 #include <string>
 
 SimulationCase::SimulationCase(std::string ini_base) {

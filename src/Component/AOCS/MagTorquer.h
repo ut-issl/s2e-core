@@ -6,7 +6,7 @@
 #ifndef MTQ_H_
 #define MTQ_H_
 
-#include <interface/LogOutput/ILoggable.h>
+#include <interface/log_output/ILoggable.h>
 
 #include <Library/math/Matrix.hpp>
 #include <Library/math/NormalRand.hpp>

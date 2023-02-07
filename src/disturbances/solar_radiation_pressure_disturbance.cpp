@@ -7,7 +7,7 @@
 
 #include <cmath>
 
-#include "../interface/LogOutput/LogUtility.h"
+#include "../interface/log_output/LogUtility.h"
 
 SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b) : SurfaceForce(surfaces, cg_b) {}
 

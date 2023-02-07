@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <interface/LogOutput/ILoggable.h>
+#include <interface/log_output/ILoggable.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>

@@ -9,7 +9,7 @@
 
 #include <Library/utils/endian.h>
 
-#include "../LogOutput/ILoggable.h"
+#include "../log_output/ILoggable.h"
 #include "ComPortInterface.h"
 
 typedef unsigned short int crc_t;
