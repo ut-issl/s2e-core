@@ -6,7 +6,7 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_INITIALIZE_LOCAL_ENVIRONMENT_H_
 #define S2E_ENVIRONMENT_LOCAL_INITIALIZE_LOCAL_ENVIRONMENT_H_
 
-#include <environment/local/MagEnvironment.h>
+#include <environment/local/geomagnetic_field.hpp>
 #include <environment/local/SRPEnvironment.h>
 
 #include <environment/local/atmosphere.hpp>

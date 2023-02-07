@@ -10,7 +10,7 @@
 
 #include <environment/global/global_environment.hpp>
 
-#include "MagEnvironment.h"
+#include "geomagnetic_field.hpp"
 #include "SRPEnvironment.h"
 #include "atmosphere.hpp"
 #include "local_celestial_information.hpp"

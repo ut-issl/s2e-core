@@ -1,9 +1,9 @@
 /**
- * @file MagEnvironment.cpp
+ * @file geomagnetic_field.cpp
  * @brief Class to calculate magnetic field of the earth
  */
 
-#include "MagEnvironment.h"
+#include "geomagnetic_field.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 #include <Library/igrf/igrf.h>
