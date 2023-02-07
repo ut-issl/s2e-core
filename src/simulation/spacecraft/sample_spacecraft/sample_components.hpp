@@ -1,5 +1,5 @@
 /**
- * @file SampleComponents.h
+ * @file sample_components.hpp
  * @brief An example of user side components management installed on a spacecraft
  */
 

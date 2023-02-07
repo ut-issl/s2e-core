@@ -6,7 +6,7 @@
 #pragma once
 
 #include "../spacecraft.hpp"
-#include "SampleComponents.h"
+#include "sample_components.hpp"
 
 class SampleComponents;
 
