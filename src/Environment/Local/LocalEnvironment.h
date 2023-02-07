@@ -11,7 +11,7 @@
 #include "LocalCelestialInformation.h"
 #include "MagEnvironment.h"
 #include "SRPEnvironment.h"
-#include "Simulation/SimulationConfig.h"
+#include "simulation/simulation_configuration.hpp"
 
 class Logger;
 class SimTime;

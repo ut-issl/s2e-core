@@ -8,7 +8,7 @@
 #include <Dynamics/Dynamics.h>
 #include <Environment/Global/GlobalEnvironment.h>
 #include <Interface/LogOutput/ILoggable.h>
-#include <Simulation/GroundStation/GroundStation.h>
+#include <simulation/GroundStation/GroundStation.h>
 
 #include <Component/CommGS/Antenna.hpp>
 #include <Library/math/MatVec.hpp>

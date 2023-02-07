@@ -63,7 +63,7 @@ include_directories(${CSPICE_DIR}/include)
 include_directories(${NRLMSISE00_DIR}/src)
 
 ## add_subdirectories
-add_subdirectory(src/Simulation)
+add_subdirectory(src/simulation)
 add_subdirectory(src/Environment/Global)
 add_subdirectory(src/Environment/Local)
 add_subdirectory(src/Dynamics)
@@ -86,12 +86,12 @@ add_subdirectory(src/Library/Orbit)
 add_subdirectory(src/Library/Geodesy)
 
 set(SOURCE_FILES
-  src/S2E.cpp
-  src/Simulation/Case/SampleCase.cpp
-  src/Simulation/Spacecraft/SampleSpacecraft/SampleSat.cpp
-  src/Simulation/Spacecraft/SampleSpacecraft/SampleComponents.cpp
-  src/Simulation/GroundStation/SampleGroundStation/SampleGSComponents.cpp
-  src/Simulation/GroundStation/SampleGroundStation/SampleGS.cpp
+  src/s2e.cpp
+  src/simulation/Case/SampleCase.cpp
+  src/simulation/Spacecraft/SampleSpacecraft/SampleSat.cpp
+  src/simulation/Spacecraft/SampleSpacecraft/SampleComponents.cpp
+  src/simulation/GroundStation/SampleGroundStation/SampleGSComponents.cpp
+  src/simulation/GroundStation/SampleGroundStation/SampleGS.cpp
 )
 
 ## Create executable file

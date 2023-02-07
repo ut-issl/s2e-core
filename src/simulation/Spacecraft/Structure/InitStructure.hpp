@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Simulation/Spacecraft/Structure/Structure.h>
+#include <simulation/Spacecraft/Structure/Structure.h>
 
 /**
  * @fn InitKinematicsParams

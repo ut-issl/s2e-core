@@ -6,12 +6,12 @@
 #pragma once
 
 #include <Environment/Global/CelestialRotation.h>
-#include <Simulation/Spacecraft/Spacecraft.h>
+#include <simulation/Spacecraft/Spacecraft.h>
 
 #include <Library/Geodesy/GeodeticPosition.hpp>
 #include <Library/math/Vector.hpp>
 
-#include "../SimulationConfig.h"
+#include "../simulation_configuration.hpp"
 
 /**
  * @class GroundStation

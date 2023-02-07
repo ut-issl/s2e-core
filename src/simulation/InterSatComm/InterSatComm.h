@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "../SimulationConfig.h"
+#include "../simulation_configuration.hpp"
 
 /**
  * @class InterSatComm

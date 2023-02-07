@@ -6,7 +6,8 @@
 #pragma once
 
 #include <Interface/LogOutput/Logger.h>
-#include <Simulation/SimulationConfig.h>
+
+#include <simulation/simulation_configuration.hpp>
 
 #include "CelestialInformation.h"
 #include "GnssSatellites.h"

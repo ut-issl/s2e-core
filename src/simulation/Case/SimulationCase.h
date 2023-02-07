@@ -7,9 +7,9 @@
 
 #include <Environment/Global/GlobalEnvironment.h>
 #include <Interface/LogOutput/ILoggable.h>
-#include <Simulation/MCSim/MCSimExecutor.h>
+#include <simulation/MCSim/MCSimExecutor.h>
 
-#include "../SimulationConfig.h"
+#include "../simulation_configuration.hpp"
 class Logger;
 
 /**

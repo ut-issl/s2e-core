@@ -18,8 +18,8 @@
 #include "Interface/LogOutput/Logger.h"
 
 // Add custom include files
-#include "Simulation/Case/SampleCase.h"
-// #include "Simulation/MCSim/MCSimExecutor.h"
+#include "simulation/Case/SampleCase.h"
+// #include "simulation/MCSim/MCSimExecutor.h"
 // #include "Interface/HilsInOut/COSMOSWrapper.h"
 // #include "Interface/HilsInOut/HardwareMessage.h"
 

@@ -4,8 +4,7 @@
  */
 
 #pragma once
-#include <Simulation/SimulationConfig.h>
-
+#include <simulation/simulation_configuration.hpp>
 #include <vector>
 
 #include "KinematicsParams.h"
