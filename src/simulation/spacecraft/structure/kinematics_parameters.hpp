@@ -1,5 +1,5 @@
 /**
- * @file KinematicsParams.h
+ * @file kinematics_parameters.h
  * @brief Definition of Kinematics information
  */
 

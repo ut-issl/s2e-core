@@ -9,7 +9,7 @@
 #include <simulation/simulation_configuration.hpp>
 #include <vector>
 
-#include "KinematicsParams.h"
+#include "kinematics_parameters.hpp"
 #include "residual_magnetic_moment.hpp"
 #include "surface.hpp"
 using std::vector;
