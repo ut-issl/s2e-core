@@ -3,7 +3,8 @@
  * @brief Definition of Spacecraft class
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_SPACECRAFT_SPACECRAFT_H_
+#define S2E_SIMULATION_SPACECRAFT_SPACECRAFT_H_
 
 #include <Disturbance/Disturbances.h>
 #include <Dynamics/Dynamics.h>
@@ -113,3 +114,5 @@ class Spacecraft {
   InstalledComponents* components_;  //!< Components information installed on the spacecraft
   const int sat_id_;                 //!< ID of the spacecraft
 };
+
+#endif  // S2E_SIMULATION_SPACECRAFT_SPACECRAFT_H_
