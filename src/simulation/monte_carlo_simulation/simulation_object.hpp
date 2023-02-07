@@ -3,7 +3,8 @@
  * @brief Class to manage randomization of variables for Monte-Carlo simulation
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_MONTE_CARLO_SIMULATION_SIMULATION_OBJECT_H_
+#define S2E_SIMULATION_MONTE_CARLO_SIMULATION_SIMULATION_OBJECT_H_
 
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
@@ -79,3 +80,5 @@ template <size_t NumElement>
 void SimulationObject::GetInitParameterVec(const MCSimExecutor& mc_sim, std::string ip_name, Vector<NumElement>& dst_vec) const {
   mc_sim.GetInitParameterVec(name_, ip_name, dst_vec);
 }
+
+#endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_SIMULATION_OBJECT_H_
