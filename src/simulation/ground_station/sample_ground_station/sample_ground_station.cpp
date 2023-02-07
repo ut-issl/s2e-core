@@ -1,9 +1,9 @@
 /**
- * @file SampleGS.cpp
+ * @file sample_ground_station.cpp
  * @brief An example of user defined ground station class
  */
 
-#include "SampleGS.h"
+#include "sample_ground_station.hpp"
 
 #include "SampleGSComponents.h"
 

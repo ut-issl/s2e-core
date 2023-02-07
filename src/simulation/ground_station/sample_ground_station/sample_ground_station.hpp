@@ -1,9 +1,10 @@
 /**
- * @file SampleGS.h
+ * @file sample_ground_station.h
  * @brief An example of user defined ground station class
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_H_
+#define S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_H_
 
 #include <Component/CommGS/GScalculator.h>
 #include <Dynamics/Dynamics.h>
@@ -52,3 +53,5 @@ class SampleGS : public GroundStation {
  private:
   SampleGSComponents* components_;  //!< Ground station related components
 };
+
+#endif  // S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_H_
