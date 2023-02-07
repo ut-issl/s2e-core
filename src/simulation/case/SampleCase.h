@@ -7,7 +7,7 @@
 
 #include "../ground_station/sample_ground_station/sample_ground_station.hpp"
 #include "../spacecraft/sample_spacecraft/sample_spacecraft.hpp"
-#include "./SimulationCase.h"
+#include "./simulation_case.hpp"
 
 /**
  * @class SampleCase

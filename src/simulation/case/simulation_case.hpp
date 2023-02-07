@@ -1,5 +1,5 @@
 /**
- * @file SimulationCase.h
+ * @file simulation_case.hpp
  * @brief Base class to define simulation scenario
  */
 

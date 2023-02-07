@@ -2,7 +2,7 @@ project(SIMULATION)
 cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
-  case/SimulationCase.cpp
+  case/simulation_case.cpp
   
   monte_carlo_simulation/monte_carlo_simulation_executor.cpp
   monte_carlo_simulation/simulation_object.cpp
