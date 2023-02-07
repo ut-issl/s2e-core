@@ -5,7 +5,7 @@
 
 #include "SampleCase.h"
 
-#include "../Spacecraft/SampleSpacecraft/SampleSat.h"
+#include "../spacecraft/SampleSpacecraft/SampleSat.h"
 
 using std::cout;
 using std::string;

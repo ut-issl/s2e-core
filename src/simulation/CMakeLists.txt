@@ -9,13 +9,13 @@ add_library(${PROJECT_NAME} STATIC
   MCSim/SimulationObject.cpp
   MCSim/InitMcSim.cpp
 
-  Spacecraft/Spacecraft.cpp
-  Spacecraft/InstalledComponents.cpp
-  Spacecraft/Structure/Structure.cpp
-  Spacecraft/Structure/KinematicsParams.cpp
-  Spacecraft/Structure/RMMParams.cpp
-  Spacecraft/Structure/Surface.cpp
-  Spacecraft/Structure/InitStructure.cpp
+  spacecraft/Spacecraft.cpp
+  spacecraft/InstalledComponents.cpp
+  spacecraft/Structure/Structure.cpp
+  spacecraft/Structure/KinematicsParams.cpp
+  spacecraft/Structure/RMMParams.cpp
+  spacecraft/Structure/Surface.cpp
+  spacecraft/Structure/InitStructure.cpp
   
   GroundStation/GroundStation.cpp
   

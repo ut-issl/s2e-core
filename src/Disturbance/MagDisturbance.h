@@ -12,7 +12,7 @@
 using libra::Vector;
 
 #include "../Interface/LogOutput/ILoggable.h"
-#include "../simulation/Spacecraft/Structure/RMMParams.h"
+#include "../simulation/spacecraft/Structure/RMMParams.h"
 #include "SimpleDisturbance.h"
 
 /**

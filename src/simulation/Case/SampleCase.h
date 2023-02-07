@@ -6,7 +6,7 @@
 #pragma once
 
 #include "../GroundStation/SampleGroundStation/SampleGS.h"
-#include "../Spacecraft/SampleSpacecraft/SampleSat.h"
+#include "../spacecraft/SampleSpacecraft/SampleSat.h"
 #include "./SimulationCase.h"
 
 /**

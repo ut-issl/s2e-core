@@ -6,7 +6,7 @@
 #pragma once
 
 #include <Environment/Global/CelestialRotation.h>
-#include <simulation/Spacecraft/Spacecraft.h>
+#include <simulation/spacecraft/Spacecraft.h>
 
 #include <Library/Geodesy/GeodeticPosition.hpp>
 #include <Library/math/Vector.hpp>

@@ -17,8 +17,8 @@ using libra::Vector;
 
 #include "../Environment/Global/SimTime.h"
 #include "../Environment/Local/LocalCelestialInformation.h"
-#include "../simulation/Spacecraft/Structure/Structure.h"
 #include "../simulation/simulation_configuration.hpp"
+#include "../simulation/spacecraft/Structure/Structure.h"
 #include "./Orbit/Orbit.h"
 #include "./Thermal/Temperature.h"
 

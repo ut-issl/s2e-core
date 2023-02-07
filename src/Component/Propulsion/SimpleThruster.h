@@ -6,7 +6,7 @@
 
 #include <Dynamics/Dynamics.h>
 #include <Interface/LogOutput/Logger.h>
-#include <simulation/Spacecraft/Structure/Structure.h>
+#include <simulation/spacecraft/Structure/Structure.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
