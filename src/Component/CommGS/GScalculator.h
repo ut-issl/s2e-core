@@ -8,12 +8,12 @@
 #include <Dynamics/Dynamics.h>
 #include <Environment/Global/GlobalEnvironment.h>
 #include <Interface/LogOutput/ILoggable.h>
-#include <simulation/ground_station/GroundStation.h>
 
 #include <Component/CommGS/Antenna.hpp>
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Matrix.hpp>
 #include <Library/math/Vector.hpp>
+#include <simulation/ground_station/ground_station.hpp>
 
 using libra::Matrix;
 using libra::Vector;

@@ -12,7 +12,7 @@
 #include <Component/CommGS/Antenna.hpp>
 
 #include "../../spacecraft/sample_spacecraft/sample_spacecraft.hpp"
-#include "../GroundStation.h"
+#include "../ground_station.hpp"
 
 class SampleGSComponents;
 
