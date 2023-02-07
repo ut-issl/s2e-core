@@ -7,7 +7,7 @@
 #define S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_H_
 
 #include <disturbances/solar_radiation_pressure_disturbance.hpp>
-#include <disturbances/ThirdBodyGravity.h>
+#include <disturbances/third_body_gravity.hpp>
 
 #include <disturbances/air_drag.hpp>
 #include <disturbances/geopotential.hpp>

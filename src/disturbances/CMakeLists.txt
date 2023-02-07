@@ -9,7 +9,7 @@ add_library(${PROJECT_NAME} STATIC
   magnetic_disturbance.cpp
   solar_radiation_pressure_disturbance.cpp
   surface_force.cpp
-  ThirdBodyGravity.cpp
+  third_body_gravity.cpp
   initialize_disturbances.cpp
 )
 include(../../common.cmake)

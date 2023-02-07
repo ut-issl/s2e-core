@@ -1,9 +1,11 @@
 /**
- * @file ThirdBodyGravity.h
+ * @file third_body_gravity.hpp
  * @brief Class to calculate third body gravity disturbance
  */
 
-#pragma once
+#ifndef S2E_DISTURBANCES_THIRD_BODY_GRAVITY_H_
+#define S2E_DISTURBANCES_THIRD_BODY_GRAVITY_H_
+
 #include <cassert>
 #include <set>
 #include <string>
@@ -61,3 +63,5 @@ class ThirdBodyGravity : public AccelerationDisturbance {
   std::set<std::string> third_body_list_;  //!< List of celestial bodies to calculate the third body disturbances
   libra::Vector<3> thirdbody_acc_i_{0};    //!< Calculated third body disturbance acceleration in the inertial frame [m/s2]
 };
+
+#endif  // S2E_DISTURBANCES_THIRD_BODY_GRAVITY_H_

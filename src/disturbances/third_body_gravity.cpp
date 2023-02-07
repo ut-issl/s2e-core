@@ -1,9 +1,9 @@
 /**
- * @file ThirdBodyGravity.cpp
+ * @file third_body_gravity.cpp
  * @brief Class to calculate third body gravity disturbance
  */
 
-#include "ThirdBodyGravity.h"
+#include "third_body_gravity.hpp"
 
 ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list) : third_body_list_(third_body_list) { acceleration_i_ *= 0; }
 
