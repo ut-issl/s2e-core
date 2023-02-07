@@ -6,7 +6,7 @@
 #ifndef S2E_DYNAMICS_ATTITUDE_ATTITUDE_H_
 #define S2E_DYNAMICS_ATTITUDE_ATTITUDE_H_
 
-#include <Interface/LogOutput/ILoggable.h>
+#include <interface/LogOutput/ILoggable.h>
 
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Quaternion.hpp>

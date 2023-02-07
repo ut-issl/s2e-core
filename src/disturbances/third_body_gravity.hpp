@@ -10,7 +10,7 @@
 #include <set>
 #include <string>
 
-#include "../Interface/LogOutput/ILoggable.h"
+#include "../interface/LogOutput/ILoggable.h"
 #include "../Library/math/Vector.hpp"
 #include "acceleration_disturbance.hpp"
 

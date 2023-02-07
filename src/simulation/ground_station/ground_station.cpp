@@ -5,9 +5,9 @@
 
 #include "ground_station.hpp"
 
-#include <Interface/InitInput/IniAccess.h>
-#include <Interface/LogOutput/LogUtility.h>
-#include <Interface/LogOutput/Logger.h>
+#include <interface/InitInput/IniAccess.h>
+#include <interface/LogOutput/LogUtility.h>
+#include <interface/LogOutput/Logger.h>
 
 #include <Library/math/Constant.hpp>
 #include <Library/utils/Macros.hpp>

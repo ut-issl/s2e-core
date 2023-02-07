@@ -4,7 +4,7 @@
  */
 #include "InitializeTorqueGenerator.hpp"
 
-#include <Interface/InitInput/IniAccess.h>
+#include <interface/InitInput/IniAccess.h>
 
 TorqueGenerator InitializeTorqueGenerator(ClockGenerator* clock_gen, const std::string file_name, const Dynamics* dynamics) {
   // General

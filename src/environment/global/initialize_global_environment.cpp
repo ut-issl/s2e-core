@@ -4,7 +4,7 @@
  */
 #include "initialize_global_environment.hpp"
 
-#include <Interface/InitInput/IniAccess.h>
+#include <interface/InitInput/IniAccess.h>
 #include <SpiceUsr.h>
 
 #include <cassert>

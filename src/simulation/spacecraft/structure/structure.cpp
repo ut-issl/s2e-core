@@ -5,7 +5,7 @@
 
 #include "structure.hpp"
 
-#include <Interface/InitInput/IniAccess.h>
+#include <interface/InitInput/IniAccess.h>
 
 #include <simulation/spacecraft/structure/initialize_structure.hpp>
 

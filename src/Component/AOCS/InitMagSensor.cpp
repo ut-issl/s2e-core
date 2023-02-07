@@ -5,7 +5,7 @@
 #include "InitMagSensor.hpp"
 
 #include "../Abstract/InitializeSensorBase.hpp"
-#include "Interface/InitInput/IniAccess.h"
+#include "interface/InitInput/IniAccess.h"
 
 MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const MagEnvironment* magnet) {
   IniAccess magsensor_conf(fname);

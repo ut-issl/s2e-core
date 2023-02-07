@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include <Interface/SpacecraftInOut/Ports/PowerPort.h>
+#include <interface/SpacecraftInOut/Ports/PowerPort.h>
 
 #include <Library/utils/Macros.hpp>
 #include <environment/global/clock_generator.hpp>

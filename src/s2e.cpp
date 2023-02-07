@@ -15,13 +15,13 @@
 #include <string>
 
 // Simulator includes
-#include "Interface/LogOutput/Logger.h"
+#include "interface/LogOutput/Logger.h"
 
 // Add custom include files
 #include "simulation/case/sample_case.hpp"
 // #include "simulation/monte_carlo_simulation/monte_carlo_simulation_executor.hpp"
-// #include "Interface/HilsInOut/COSMOSWrapper.h"
-// #include "Interface/HilsInOut/HardwareMessage.h"
+// #include "interface/HilsInOut/COSMOSWrapper.h"
+// #include "interface/HilsInOut/HardwareMessage.h"
 
 void print_path(std::string path) {
 #ifdef WIN32

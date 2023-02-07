@@ -4,7 +4,7 @@
  */
 #include "sample_ground_station_components.hpp"
 
-#include <Interface/InitInput/IniAccess.h>
+#include <interface/InitInput/IniAccess.h>
 
 SampleGSComponents::SampleGSComponents(const SimulationConfig* config) : config_(config) {
   IniAccess iniAccess = IniAccess(config_->gs_file_);

@@ -5,9 +5,9 @@
 
 #include "simulation_case.hpp"
 
-#include <Interface/InitInput/IniAccess.h>
+#include <interface/InitInput/IniAccess.h>
 
-#include <Interface/LogOutput/InitLog.hpp>
+#include <interface/LogOutput/InitLog.hpp>
 #include <string>
 
 SimulationCase::SimulationCase(std::string ini_base) {

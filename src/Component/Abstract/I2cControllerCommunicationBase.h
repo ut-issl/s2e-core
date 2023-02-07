@@ -3,7 +3,7 @@
  * @brief This class simulates the I2C Controller communication with the I2C Target.
  */
 #pragma once
-#include "../../Interface/HilsInOut/HilsPortManager.h"
+#include "../../interface/HilsInOut/HilsPortManager.h"
 #include "ObcCommunicationBase.h"
 
 /**

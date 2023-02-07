@@ -12,7 +12,7 @@
 
 #include <string>
 // #include <time.h>
-#include <Interface/LogOutput/ILoggable.h>
+#include <interface/LogOutput/ILoggable.h>
 #include <Library/sgp4/sgp4ext.h>
 #include <Library/sgp4/sgp4io.h>
 #include <Library/sgp4/sgp4unit.h>

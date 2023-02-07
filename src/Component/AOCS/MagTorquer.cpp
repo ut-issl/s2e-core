@@ -5,7 +5,7 @@
 
 #include "MagTorquer.h"
 
-#include <Interface/LogOutput/Logger.h>
+#include <interface/LogOutput/Logger.h>
 #include <Library/math/GlobalRand.h>
 
 #include <Library/math/MatVec.hpp>

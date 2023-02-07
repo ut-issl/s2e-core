@@ -5,7 +5,7 @@
 
 #include "gnss_satellites.hpp"
 
-#include <Interface/LogOutput/LogUtility.h>
+#include <interface/LogOutput/LogUtility.h>
 #include <Library/sgp4/sgp4ext.h>   //for jday()
 #include <Library/sgp4/sgp4unit.h>  //for gstime()
 

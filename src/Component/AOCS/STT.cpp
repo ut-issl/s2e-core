@@ -5,7 +5,7 @@
 
 #include "STT.h"
 
-#include <Interface/LogOutput/LogUtility.h>
+#include <interface/LogOutput/LogUtility.h>
 #include <Library/math/GlobalRand.h>
 
 #include <Library/math/Constant.hpp>

@@ -6,7 +6,7 @@
 
 #include "celestial_information.hpp"
 
-#include <Interface/LogOutput/LogUtility.h>
+#include <interface/LogOutput/LogUtility.h>
 #include <SpiceUsr.h>
 #include <string.h>
 

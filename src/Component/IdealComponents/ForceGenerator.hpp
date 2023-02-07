@@ -5,7 +5,7 @@
 #pragma once
 
 #include <Component/Abstract/ComponentBase.h>
-#include <Interface/LogOutput/Logger.h>
+#include <interface/LogOutput/Logger.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Vector.hpp>

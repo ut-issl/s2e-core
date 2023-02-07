@@ -4,7 +4,7 @@
  */
 #include "InitGyro.hpp"
 
-#include <Interface/InitInput/IniAccess.h>
+#include <interface/InitInput/IniAccess.h>
 
 #include "../Abstract/InitializeSensorBase.hpp"
 

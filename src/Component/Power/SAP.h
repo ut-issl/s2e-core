@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Interface/LogOutput/ILoggable.h>
+#include <interface/LogOutput/ILoggable.h>
 
 #include <Library/math/Vector.hpp>
 #include <environment/local/local_celestial_information.hpp>

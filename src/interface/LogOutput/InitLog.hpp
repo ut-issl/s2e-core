@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Interface/LogOutput/Logger.h>
+#include <interface/LogOutput/Logger.h>
 
 /**
  * @fn InitLog

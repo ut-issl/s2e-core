@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include <Interface/SpacecraftInOut/Ports/GPIOPort.h>
+#include <interface/SpacecraftInOut/Ports/GPIOPort.h>
 
 #include "OBC.h"
 

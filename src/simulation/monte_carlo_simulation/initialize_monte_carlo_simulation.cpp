@@ -5,7 +5,7 @@
 
 #include "initialize_monte_carlo_simulation.hpp"
 
-#include <Interface/InitInput/IniAccess.h>
+#include <interface/InitInput/IniAccess.h>
 
 #include <cstring>
 

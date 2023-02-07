@@ -6,7 +6,7 @@
 #ifndef S2E_SIMULATION_CASE_SIMULATION_CASE_H_
 #define S2E_SIMULATION_CASE_SIMULATION_CASE_H_
 
-#include <Interface/LogOutput/ILoggable.h>
+#include <interface/LogOutput/ILoggable.h>
 
 #include <environment/global/global_environment.hpp>
 #include <simulation/monte_carlo_simulation/monte_carlo_simulation_executor.hpp>

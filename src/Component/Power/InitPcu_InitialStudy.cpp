@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "Interface/InitInput/IniAccess.h"
+#include "interface/InitInput/IniAccess.h"
 
 PCU_InitialStudy InitPCU_InitialStudy(ClockGenerator* clock_gen, int pcu_id, const std::string fname, const std::vector<SAP*> saps, BAT* bat,
                                       double compo_step_time) {

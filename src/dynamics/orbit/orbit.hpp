@@ -16,7 +16,7 @@ using libra::Matrix;
 using libra::Quaternion;
 using libra::Vector;
 
-#include <Interface/LogOutput/ILoggable.h>
+#include <interface/LogOutput/ILoggable.h>
 
 #include <Library/Geodesy/GeodeticPosition.hpp>
 #include <environment/global/celestial_information.hpp>

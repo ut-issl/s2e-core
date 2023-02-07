@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <Interface/LogOutput/ILoggable.h>
+#include <interface/LogOutput/ILoggable.h>
 
 #include <Component/CommGS/Antenna.hpp>
 #include <Library/math/MatVec.hpp>

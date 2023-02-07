@@ -5,7 +5,7 @@
 
 #include "initialize_temperature.hpp"
 
-#include <Interface/InitInput/IniAccess.h>
+#include <interface/InitInput/IniAccess.h>
 
 #include <environment/global/simulation_time.hpp>
 #include <string>

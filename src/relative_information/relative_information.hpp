@@ -9,8 +9,8 @@
 #include <string>
 
 #include "../dynamics/dynamics.hpp"
-#include "../Interface/LogOutput/ILoggable.h"
-#include "../Interface/LogOutput/Logger.h"
+#include "../interface/LogOutput/ILoggable.h"
+#include "../interface/LogOutput/Logger.h"
 
 /**
  * @class RelativeInformation

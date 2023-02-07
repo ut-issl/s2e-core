@@ -11,7 +11,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "../Interface/LogOutput/LogUtility.h"
+#include "../interface/LogOutput/LogUtility.h"
 
 // #define DEBUG_GEOPOTENTIAL
 

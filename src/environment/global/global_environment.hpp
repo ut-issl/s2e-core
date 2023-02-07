@@ -6,7 +6,7 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_H_
 #define S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_H_
 
-#include <Interface/LogOutput/Logger.h>
+#include <interface/LogOutput/Logger.h>
 
 #include <simulation/simulation_configuration.hpp>
 

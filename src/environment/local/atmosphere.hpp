@@ -7,7 +7,7 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_H_
 #define S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_H_
 
-#include <Interface/LogOutput/ILoggable.h>
+#include <interface/LogOutput/ILoggable.h>
 #include <Library/nrlmsise00/Wrapper_nrlmsise00.h>
 
 #include <Library/math/Quaternion.hpp>

@@ -5,7 +5,7 @@
 
 #include "initialize_structure.hpp"
 
-#include <Interface/InitInput/IniAccess.h>
+#include <interface/InitInput/IniAccess.h>
 
 #include <Library/math/Vector.hpp>
 

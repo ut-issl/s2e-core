@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "../Interface/LogOutput/ILoggable.h"
+#include "../interface/LogOutput/ILoggable.h"
 #include "../Library/math/Quaternion.hpp"
 #include "../Library/math/Vector.hpp"
 #include "../environment/local/atmosphere.hpp"
