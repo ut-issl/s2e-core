@@ -7,7 +7,7 @@
 
 #include <Interface/InitInput/IniAccess.h>
 
-#include "InitGlobalEnvironment.hpp"
+#include "initialize_global_environment.hpp"
 #include "InitGnssSatellites.hpp"
 
 GlobalEnvironment::GlobalEnvironment(SimulationConfig* sim_config) { Initialize(sim_config); }

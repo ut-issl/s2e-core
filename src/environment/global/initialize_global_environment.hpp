@@ -1,13 +1,15 @@
 /**
- *@file InitGlobalEnvironment.hpp
+ *@file initialize_global_environment.hpp
  *@brief Initialize functions for classes in global environment
  */
 
-#pragma once
+#ifndef S2E_ENVIRONMENT_GLOBAL_INITIALIZE_GLOBAL_ENVIRONMENT_H_
+#define S2E_ENVIRONMENT_GLOBAL_INITIALIZE_GLOBAL_ENVIRONMENT_H_
+
+#include <environment/global/SimTime.h>
 
 #include <environment/global/celestial_information.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
-#include <environment/global/SimTime.h>
 
 /**
  *@fn InitSimTime
@@ -29,3 +31,5 @@ HipparcosCatalogue* InitHipCatalogue(std::string file_name);
  *@param [in] file_name: Path to the initialize function
  */
 CelestialInformation* InitCelesInfo(std::string file_name);
+
+#endif  // S2E_ENVIRONMENT_GLOBAL_INITIALIZE_GLOBAL_ENVIRONMENT_H_

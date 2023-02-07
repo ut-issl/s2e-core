@@ -1,12 +1,12 @@
 /**
- *@file InitGlobalEnvironment.cpp
+ *@file initialize_global_environment.cpp
  *@brief Initialize functions for classes in global environment
  */
-#include "InitGlobalEnvironment.hpp"
+#include "initialize_global_environment.hpp"
 
-#include <environment/global/SimTime.h>
 #include <Interface/InitInput/IniAccess.h>
 #include <SpiceUsr.h>
+#include <environment/global/SimTime.h>
 
 #include <cassert>
 
