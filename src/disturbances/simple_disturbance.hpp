@@ -1,11 +1,13 @@
 /**
- * @file SimpleDisturbance.h
+ * @file simple_disturbance.hpp
  * @brief Abstract class for a disturbance
  * @note It is better to use this abstract class for all disturbances, but it is difficult. (e.g. Gravity between spacecraft.)
  * In the difficult case, users need to use the Disturbance class directory.
  */
 
-#pragma once
+#ifndef S2E_DISTURBANCES_SIMPLE_DISTURBANCE_H_
+#define S2E_DISTURBANCES_SIMPLE_DISTURBANCE_H_
+
 #include "../Dynamics/Dynamics.h"
 #include "../Environment/Local/LocalEnvironment.h"
 #include "disturbance.hpp"
@@ -41,3 +43,5 @@ class SimpleDisturbance : public Disturbance, public ILoggable {
    */
   virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics) = 0;
 };
+
+#endif  // S2E_DISTURBANCES_SIMPLE_DISTURBANCE_H_

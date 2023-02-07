@@ -12,7 +12,7 @@
 #include "../Library/math/MatVec.hpp"
 #include "../Library/math/Matrix.hpp"
 #include "../Library/math/Vector.hpp"
-#include "SimpleDisturbance.h"
+#include "simple_disturbance.hpp"
 
 using libra::Matrix;
 using libra::Vector;

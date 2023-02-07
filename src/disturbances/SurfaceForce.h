@@ -11,7 +11,7 @@
 #include "../Library/math/Quaternion.hpp"
 #include "../Library/math/Vector.hpp"
 #include "../simulation/spacecraft/structure/surface.hpp"
-#include "SimpleDisturbance.h"
+#include "simple_disturbance.hpp"
 using libra::Quaternion;
 using libra::Vector;
 

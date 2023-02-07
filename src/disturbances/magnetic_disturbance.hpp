@@ -13,7 +13,7 @@ using libra::Vector;
 
 #include "../Interface/LogOutput/ILoggable.h"
 #include "../simulation/spacecraft/structure/residual_magnetic_moment.hpp"
-#include "SimpleDisturbance.h"
+#include "simple_disturbance.hpp"
 
 /**
  * @class MagDisturbance
