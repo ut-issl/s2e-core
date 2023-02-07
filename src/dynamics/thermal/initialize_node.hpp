@@ -6,7 +6,7 @@
 #ifndef S2E_DYNAMICS_THERMAL_INITIALIZE_NODE_H_
 #define S2E_DYNAMICS_THERMAL_INITIALIZE_NODE_H_
 
-#include "Node.h"
+#include "node.hpp"
 
 Node InitNode(const std::vector<std::string>& node_str);
 

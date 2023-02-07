@@ -1,4 +1,9 @@
-#include "Node.h"
+/**
+ * @file node.cpp
+ * @brief thermal calculation node
+ */
+
+#include "node.hpp"
 
 #include <cmath>
 #include <environment/global/physical_constants.hpp>

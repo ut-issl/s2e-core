@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "Node.h"
+#include "node.hpp"
 
 class Temperature : public ILoggable {
  protected:

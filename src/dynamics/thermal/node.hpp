@@ -1,7 +1,10 @@
-#pragma once
+/**
+ * @file node.hpp
+ * @brief thermal calculation node
+ */
 
-#ifndef __node_H__
-#define __node_H__
+#ifndef S2E_DYNAMICS_THERMAL_NODE_H_
+#define S2E_DYNAMICS_THERMAL_NODE_H_
 
 #include <Interface/LogOutput/Logger.h>
 
@@ -17,9 +20,9 @@ class Node {
   double capacity_;         // 熱容量[J/K]
   double internal_heat_;    // 内部生成熱[J]
   double alpha_;
-  double area_;             //太陽熱が入射する面の面積[m^2]
-  Vector<3> normal_v_b_;    //太陽熱が入射する面の法線ベクトル(機体固定座標系)
-  double solar_radiation_;  //入射する太陽輻射熱[W]([J]に変換するためには時間をかけないといけないことに注意
+  double area_;             // 太陽熱が入射する面の面積[m^2]
+  Vector<3> normal_v_b_;    // 太陽熱が入射する面の法線ベクトル(機体固定座標系)
+  double solar_radiation_;  // 入射する太陽輻射熱[W]([J]に変換するためには時間をかけないといけないことに注意
 
   double K2deg(double kelvin) const;  // 絶対温度からdegCに変換
 
@@ -43,9 +46,10 @@ class Node {
 
   // Setter
   void SetTemperature_K(double temp_K);
-  void SetInternalHeat(double heat_power);  //内部発熱を計算
+  void SetInternalHeat(double heat_power);  // 内部発熱を計算
 
   // for debug
   void PrintParam(void);
 };
-#endif  //__node_H__
+
+#endif  // S2E_DYNAMICS_THERMAL_NODE_H_

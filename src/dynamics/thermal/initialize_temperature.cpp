@@ -1,3 +1,8 @@
+/**
+ * @file initialize_temperature.cpp
+ * @brief Initialize function for temperature
+ */
+
 #include "initialize_temperature.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
