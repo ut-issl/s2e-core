@@ -1,9 +1,9 @@
 /**
- * @file InitMcSim.cpp
+ * @file initialize_monte_carlo_simulation.cpp
  * @brief Initialize function for Monte-Carlo Simulator
  */
 
-#include "InitMcSim.hpp"
+#include "initialize_monte_carlo_simulation.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 

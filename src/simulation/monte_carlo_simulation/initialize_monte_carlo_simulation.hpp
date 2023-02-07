@@ -1,5 +1,5 @@
 /**
- * @file InitMcSim.hpp
+ * @file initialize_monte_carlo_simulation.hpp
  * @brief Initialize function for Monte-Carlo Simulator
  */
 
