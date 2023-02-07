@@ -1,9 +1,10 @@
 /**
- * @file AttitudeRK4.h
+ * @file attitude_rk4.hpp
  * @brief Class to calculate spacecraft attitude with Runge-Kutta method
  */
-#ifndef __attitude_rk4_H__
-#define __attitude_rk4_H__
+
+#ifndef S2E_DYNAMICS_ATTITUDE_ATTITUDE_RK4_H_
+#define S2E_DYNAMICS_ATTITUDE_ATTITUDE_RK4_H_
 
 #include "attitude.hpp"
 
@@ -82,4 +83,4 @@ class AttitudeRK4 : public Attitude {
   void RungeOneStep(double t, double dt);
 };
 
-#endif  //__attitude_rk4_H__
+#endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_RK4_H_

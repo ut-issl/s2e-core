@@ -1,8 +1,8 @@
 /**
- * @file AttitudeRK4.cpp
+ * @file attitude_rk4.cpp
  * @brief Class to calculate spacecraft attitude with Runge-Kutta method
  */
-#include "AttitudeRK4.h"
+#include "attitude_rk4.hpp"
 
 #include <Interface/LogOutput/LogUtility.h>
 
