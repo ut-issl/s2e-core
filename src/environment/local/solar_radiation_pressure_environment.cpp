@@ -1,8 +1,8 @@
 /**
- * @file SRPEnvironment.cpp
+ * @file solar_radiation_pressure_environment.cpp
  * @brief Class to calculate Solar Radiation Pressure
  */
-#include "SRPEnvironment.h"
+#include "solar_radiation_pressure_environment.hpp"
 
 #include <Interface/LogOutput/LogUtility.h>
 

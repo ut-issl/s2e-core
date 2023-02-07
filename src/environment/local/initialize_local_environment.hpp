@@ -7,7 +7,7 @@
 #define S2E_ENVIRONMENT_LOCAL_INITIALIZE_LOCAL_ENVIRONMENT_H_
 
 #include <environment/local/geomagnetic_field.hpp>
-#include <environment/local/SRPEnvironment.h>
+#include <environment/local/solar_radiation_pressure_environment.hpp>
 
 #include <environment/local/atmosphere.hpp>
 

@@ -5,7 +5,7 @@ add_library(${PROJECT_NAME} STATIC
   atmosphere.cpp
   local_environment.cpp
   geomagnetic_field.cpp
-  SRPEnvironment.cpp
+  solar_radiation_pressure_environment.cpp
   local_celestial_information.cpp
   initialize_local_environment.cpp
 )

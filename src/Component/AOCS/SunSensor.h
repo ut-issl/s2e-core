@@ -7,7 +7,7 @@
 #define __SunSensor_H__
 
 #include <environment/local/local_celestial_information.hpp>
-#include <environment/local/SRPEnvironment.h>
+#include <environment/local/solar_radiation_pressure_environment.hpp>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/NormalRand.hpp>

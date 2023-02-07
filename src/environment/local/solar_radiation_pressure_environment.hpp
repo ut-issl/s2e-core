@@ -1,13 +1,15 @@
 /**
- * @file SRPEnvironment.h
+ * @file solar_radiation_pressure_environment.hpp
  * @brief Class to calculate Solar Radiation Pressure
  */
-#ifndef __SRPEnvironment_h__
-#define __SRPEnvironment_h__
-#include <environment/local/local_celestial_information.hpp>
+
+#ifndef S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_H_
+#define S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_H_
+
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/Vector.hpp>
+#include <environment/local/local_celestial_information.hpp>
 
 using libra::Vector;
 
@@ -102,4 +104,4 @@ class SRPEnvironment : public ILoggable {
   void CalcShadowCoefficient(std::string shadow_source_name);
 };
 
-#endif /* SRPEnvironment_h */
+#endif  // S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_H_

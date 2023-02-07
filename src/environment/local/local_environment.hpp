@@ -11,7 +11,7 @@
 #include <environment/global/global_environment.hpp>
 
 #include "geomagnetic_field.hpp"
-#include "SRPEnvironment.h"
+#include "solar_radiation_pressure_environment.hpp"
 #include "atmosphere.hpp"
 #include "local_celestial_information.hpp"
 #include "simulation/simulation_configuration.hpp"
