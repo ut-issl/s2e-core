@@ -4,8 +4,8 @@
  */
 #include "local_environment.hpp"
 
-#include <Dynamics/Attitude/Attitude.h>
-#include <Dynamics/Orbit/Orbit.h>
+#include <dynamics/Attitude/Attitude.h>
+#include <dynamics/Orbit/Orbit.h>
 #include <Interface/InitInput/IniAccess.h>
 
 #include "initialize_local_environment.hpp"

@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "../Dynamics/Dynamics.h"
+#include "../dynamics/Dynamics.h"
 #include "../Interface/LogOutput/ILoggable.h"
 #include "../Interface/LogOutput/Logger.h"
 

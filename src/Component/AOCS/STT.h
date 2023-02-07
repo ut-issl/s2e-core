@@ -8,8 +8,8 @@
 #ifndef __STT_H__
 #define __STT_H__
 
-#include <Dynamics/Attitude/Attitude.h>
 #include <Interface/LogOutput/ILoggable.h>
+#include <dynamics/Attitude/Attitude.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
@@ -19,7 +19,7 @@
 #include <vector>
 
 #include "../Abstract/ComponentBase.h"
-#include "Dynamics/Dynamics.h"
+#include "dynamics/Dynamics.h"
 
 /*
  * @class STT

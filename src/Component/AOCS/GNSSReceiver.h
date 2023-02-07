@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <Dynamics/Dynamics.h>
 #include <Interface/LogOutput/ILoggable.h>
+#include <dynamics/Dynamics.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>

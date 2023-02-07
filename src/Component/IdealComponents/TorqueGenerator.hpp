@@ -5,8 +5,8 @@
 #pragma once
 
 #include <Component/Abstract/ComponentBase.h>
-#include <Dynamics/Dynamics.h>
 #include <Interface/LogOutput/Logger.h>
+#include <dynamics/Dynamics.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Vector.hpp>

@@ -5,8 +5,9 @@
  */
 
 #pragma once
-#include <Dynamics/Dynamics.h>
+
 #include <Interface/LogOutput/ILoggable.h>
+#include <dynamics/Dynamics.h>
 
 #include <Component/CommGS/Antenna.hpp>
 #include <Library/math/MatVec.hpp>

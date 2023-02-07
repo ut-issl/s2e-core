@@ -10,10 +10,10 @@
 #include "../Library/math/Vector.hpp"
 using libra::Vector;
 
-#include <Dynamics/Attitude/InitAttitude.hpp>
-#include <Dynamics/Orbit/InitOrbit.hpp>
-#include <Dynamics/Thermal/InitNode.hpp>
-#include <Dynamics/Thermal/InitTemperature.hpp>
+#include <dynamics/Attitude/InitAttitude.hpp>
+#include <dynamics/Orbit/InitOrbit.hpp>
+#include <dynamics/Thermal/InitNode.hpp>
+#include <dynamics/Thermal/InitTemperature.hpp>
 
 #include "../environment/global/simulation_time.hpp"
 #include "../environment/local/local_celestial_information.hpp"

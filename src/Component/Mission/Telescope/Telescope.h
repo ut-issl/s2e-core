@@ -5,8 +5,8 @@
 
 #pragma once
 #include <Abstract/ComponentBase.h>
-#include <Dynamics/Attitude/Attitude.h>
 #include <Interface/LogOutput/ILoggable.h>
+#include <dynamics/Attitude/Attitude.h>
 
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>

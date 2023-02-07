@@ -6,7 +6,7 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_H_
 #define S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_H_
 
-#include <Dynamics/Dynamics.h>
+#include <dynamics/Dynamics.h>
 
 #include <environment/global/global_environment.hpp>
 

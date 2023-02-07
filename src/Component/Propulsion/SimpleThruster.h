@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Dynamics/Dynamics.h>
+#include <dynamics/Dynamics.h>
 #include <Interface/LogOutput/Logger.h>
 
 #include <Library/math/NormalRand.hpp>
