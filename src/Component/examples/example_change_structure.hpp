@@ -6,7 +6,7 @@
 #pragma once
 
 #include <Interface/LogOutput/ILoggable.h>
-#include <simulation/spacecraft/Structure/Structure.h>
+#include <simulation/spacecraft/structure/Structure.h>
 
 #include "../Abstract/ComponentBase.h"
 

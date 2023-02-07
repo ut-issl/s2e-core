@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "../Environment/Global/SimTime.h"
-#include "../simulation/spacecraft/Structure/Structure.h"
+#include "../simulation/spacecraft/structure/Structure.h"
 #include "AccelerationDisturbance.h"
 #include "SimpleDisturbance.h"
 

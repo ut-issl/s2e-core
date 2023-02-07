@@ -8,7 +8,7 @@
 #include <Component/Power/PCU.h>
 #include <Dynamics/Dynamics.h>
 #include <Interface/HilsInOut/HilsPortManager.h>
-#include <simulation/spacecraft/Structure/Structure.h>
+#include <simulation/spacecraft/structure/Structure.h>
 
 #include <Component/AOCS/InitGnssReceiver.hpp>
 #include <Component/AOCS/InitGyro.hpp>

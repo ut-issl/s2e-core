@@ -12,8 +12,8 @@
 #include <Environment/Local/LocalEnvironment.h>
 #include <RelativeInformation/RelativeInformation.h>
 
-#include "Structure/Structure.h"
 #include "installed_components.hpp"
+#include "structure/Structure.h"
 
 /**
  * @class Spacecraft
