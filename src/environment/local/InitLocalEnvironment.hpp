@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <environment/local/Atmosphere.h>
+#include <environment/local/atmosphere.hpp>
 #include <environment/local/MagEnvironment.h>
 #include <environment/local/SRPEnvironment.h>
 

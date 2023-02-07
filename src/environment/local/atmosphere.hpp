@@ -1,11 +1,11 @@
 /**
- * @file Atmosphere.h
+ * @file atmosphere.hpp
  * @brief Class to calculate earth's atmospheric density
  */
 #pragma once
 
-#ifndef __Atmosphere_H__
-#define __Atmosphere_H__
+#ifndef S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_H_
+#define S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_H_
 
 #include <Interface/LogOutput/ILoggable.h>
 #include <Library/nrlmsise00/Wrapper_nrlmsise00.h>
@@ -113,4 +113,4 @@ class Atmosphere : public ILoggable {
   double AddNoise(double rho);
 };
 
-#endif  //__Atmosphere.h__
+#endif  // S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_H_

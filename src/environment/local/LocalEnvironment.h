@@ -7,7 +7,7 @@
 #include <Dynamics/Dynamics.h>
 #include <environment/global/global_environment.hpp>
 
-#include "Atmosphere.h"
+#include "atmosphere.hpp"
 #include "LocalCelestialInformation.h"
 #include "MagEnvironment.h"
 #include "SRPEnvironment.h"

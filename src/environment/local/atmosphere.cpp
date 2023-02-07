@@ -1,9 +1,9 @@
 /**
- * @file Atmosphere.cpp
+ * @file atmosphere.cpp
  * @brief Class to calculate earth's atmospheric density
  */
 
-#include "Atmosphere.h"
+#include "atmosphere.hpp"
 
 #include <Interface/LogOutput/LogUtility.h>
 #include <Library/math/GlobalRand.h>
