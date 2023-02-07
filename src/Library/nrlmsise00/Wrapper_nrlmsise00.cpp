@@ -12,11 +12,11 @@ extern "C" {
 }
 #include <stdlib.h> /* for malloc/free */
 
-#include <environment/global/physical_constants.hpp>
 #include <Library/math/Constant.hpp>
 #include <algorithm>
 #include <cctype>
 #include <cmath> /* maths functions */
+#include <environment/global/physical_constants.hpp>
 #include <numeric>
 
 #include "Wrapper_nrlmsise00.h" /* header for nrlmsise-00.h */

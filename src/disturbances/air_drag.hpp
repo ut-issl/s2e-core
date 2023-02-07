@@ -9,10 +9,10 @@
 #include <string>
 #include <vector>
 
-#include "../environment/local/atmosphere.hpp"
 #include "../Interface/LogOutput/ILoggable.h"
 #include "../Library/math/Quaternion.hpp"
 #include "../Library/math/Vector.hpp"
+#include "../environment/local/atmosphere.hpp"
 #include "surface_force.hpp"
 using libra::Quaternion;
 using libra::Vector;

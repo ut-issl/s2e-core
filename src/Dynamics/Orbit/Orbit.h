@@ -15,11 +15,11 @@ using libra::Matrix;
 using libra::Quaternion;
 using libra::Vector;
 
-#include <environment/global/celestial_information.hpp>
 #include <Interface/LogOutput/ILoggable.h>
 
-#include <environment/global/physical_constants.hpp>
 #include <Library/Geodesy/GeodeticPosition.hpp>
+#include <environment/global/celestial_information.hpp>
+#include <environment/global/physical_constants.hpp>
 
 /**
  * @enum OrbitPropagateMode

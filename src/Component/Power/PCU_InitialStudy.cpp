@@ -6,9 +6,9 @@
 #include "PCU_InitialStudy.h"
 
 #include <Component/Power/CsvScenarioInterface.h>
-#include <environment/global/clock_generator.hpp>
 
 #include <cmath>
+#include <environment/global/clock_generator.hpp>
 
 PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat, double compo_step_time)
     : ComponentBase(prescaler, clock_gen),

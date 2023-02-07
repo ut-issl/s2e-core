@@ -6,9 +6,9 @@
 
 #include <Interface/InitInput/IniAccess.h>
 #include <SpiceUsr.h>
-#include <environment/global/simulation_time.hpp>
 
 #include <cassert>
+#include <environment/global/simulation_time.hpp>
 
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"

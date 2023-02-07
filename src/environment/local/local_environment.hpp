@@ -10,11 +10,11 @@
 
 #include <environment/global/global_environment.hpp>
 
-#include "geomagnetic_field.hpp"
-#include "solar_radiation_pressure_environment.hpp"
 #include "atmosphere.hpp"
+#include "geomagnetic_field.hpp"
 #include "local_celestial_information.hpp"
 #include "simulation/simulation_configuration.hpp"
+#include "solar_radiation_pressure_environment.hpp"
 
 class Logger;
 class SimTime;

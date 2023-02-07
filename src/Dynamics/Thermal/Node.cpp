@@ -1,7 +1,7 @@
 #include "Node.h"
 
-#include <environment/global/physical_constants.hpp>
 #include <cmath>
+#include <environment/global/physical_constants.hpp>
 
 using namespace std;
 using namespace libra;

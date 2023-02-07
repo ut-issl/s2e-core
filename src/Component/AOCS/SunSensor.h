@@ -6,13 +6,13 @@
 #ifndef __SunSensor_H__
 #define __SunSensor_H__
 
-#include <environment/local/local_celestial_information.hpp>
-#include <environment/local/solar_radiation_pressure_environment.hpp>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
+#include <environment/local/local_celestial_information.hpp>
+#include <environment/local/solar_radiation_pressure_environment.hpp>
 
 #include "../Abstract/ComponentBase.h"
 

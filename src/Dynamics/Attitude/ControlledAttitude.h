@@ -6,7 +6,6 @@
 #define __controlled_attitude_H__
 
 #include <environment/local/local_celestial_information.hpp>
-
 #include <string>
 
 #include "../Orbit/Orbit.h"
