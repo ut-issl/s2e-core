@@ -5,7 +5,7 @@
 #ifndef __attitude_rk4_H__
 #define __attitude_rk4_H__
 
-#include "Attitude.h"
+#include "attitude.hpp"
 
 /**
  * @class AttitudeRK4

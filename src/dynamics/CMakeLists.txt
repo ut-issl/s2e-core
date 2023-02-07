@@ -15,7 +15,7 @@ add_library(${PROJECT_NAME} STATIC
   thermal/InitNode.cpp
   thermal/InitTemperature.cpp
 
-  attitude/Attitude.cpp
+  attitude/attitude.cpp
   attitude/AttitudeRK4.cpp
   attitude/ControlledAttitude.cpp
   attitude/InitAttitude.cpp

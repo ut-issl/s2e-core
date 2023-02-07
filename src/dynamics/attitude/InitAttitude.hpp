@@ -4,9 +4,9 @@
  */
 #pragma once
 
-#include "Attitude.h"
 #include "AttitudeRK4.h"
 #include "ControlledAttitude.h"
+#include "attitude.hpp"
 
 /**
  * @fn InitAttitude

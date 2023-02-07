@@ -9,7 +9,7 @@
 #include <string>
 
 #include "../orbit/Orbit.h"
-#include "Attitude.h"
+#include "attitude.hpp"
 
 /**
  * @enum AttCtrlMode

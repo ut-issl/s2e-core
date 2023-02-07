@@ -1,9 +1,10 @@
 /**
- * @file Attitude.h
+ * @file attitude.hpp
  * @brief Base class for attitude of spacecraft
  */
-#ifndef __attitude_H__
-#define __attitude_H__
+
+#ifndef S2E_DYNAMICS_ATTITUDE_ATTITUDE_H_
+#define S2E_DYNAMICS_ATTITUDE_ATTITUDE_H_
 
 #include <Interface/LogOutput/ILoggable.h>
 
@@ -177,4 +178,4 @@ class Attitude : public ILoggable, public SimulationObject {
   void CalcSatRotationalKineticEnergy(void);
 };
 
-#endif  //__attitude_H__
+#endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_H_

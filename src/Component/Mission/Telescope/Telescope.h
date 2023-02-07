@@ -6,10 +6,10 @@
 #pragma once
 #include <Abstract/ComponentBase.h>
 #include <Interface/LogOutput/ILoggable.h>
-#include <dynamics/attitude/Attitude.h>
 
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
+#include <dynamics/attitude/attitude.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
 #include <environment/local/local_celestial_information.hpp>
 #include <vector>
