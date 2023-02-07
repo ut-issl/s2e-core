@@ -1,9 +1,9 @@
 /**
- * @file SampleCase.cpp
+ * @file sample_case.cpp
  * @brief Example of user defined simulation case
  */
 
-#include "SampleCase.h"
+#include "sample_case.hpp"
 
 #include "../spacecraft/sample_spacecraft/sample_spacecraft.hpp"
 

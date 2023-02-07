@@ -18,7 +18,7 @@
 #include "Interface/LogOutput/Logger.h"
 
 // Add custom include files
-#include "simulation/case/SampleCase.h"
+#include "simulation/case/sample_case.hpp"
 // #include "simulation/monte_carlo_simulation/monte_carlo_simulation_executor.hpp"
 // #include "Interface/HilsInOut/COSMOSWrapper.h"
 // #include "Interface/HilsInOut/HardwareMessage.h"

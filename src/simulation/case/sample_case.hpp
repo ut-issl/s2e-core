@@ -1,9 +1,10 @@
 /**
- * @file SampleCase.h
+ * @file sample_case.hpp
  * @brief Example of user defined simulation case
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_CASE_SAMPLE_CASE_H_
+#define S2E_SIMULATION_CASE_SAMPLE_CASE_H_
 
 #include "../ground_station/sample_ground_station/sample_ground_station.hpp"
 #include "../spacecraft/sample_spacecraft/sample_spacecraft.hpp"
@@ -54,3 +55,5 @@ class SampleCase : public SimulationCase {
   SampleSat* sample_sat_;  //!< Instance of spacecraft
   SampleGS* sample_gs_;    //!< Instance of ground station
 };
+
+#endif  // S2E_SIMULATION_CASE_SAMPLE_CASE_H_
