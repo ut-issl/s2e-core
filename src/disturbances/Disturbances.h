@@ -9,8 +9,8 @@
 
 #include "../Environment/Global/SimTime.h"
 #include "../simulation/spacecraft/structure/structure.hpp"
-#include "AccelerationDisturbance.h"
 #include "SimpleDisturbance.h"
+#include "acceleration_disturbance.hpp"
 
 class Logger;
 

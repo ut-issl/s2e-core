@@ -11,7 +11,7 @@
 #include "../Library/math/MatVec.hpp"
 #include "../Library/math/Matrix.hpp"
 #include "../Library/math/Vector.hpp"
-#include "AccelerationDisturbance.h"
+#include "acceleration_disturbance.hpp"
 
 using libra::Matrix;
 using libra::Vector;

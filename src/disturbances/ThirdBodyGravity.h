@@ -10,7 +10,7 @@
 
 #include "../Interface/LogOutput/ILoggable.h"
 #include "../Library/math/Vector.hpp"
-#include "AccelerationDisturbance.h"
+#include "acceleration_disturbance.hpp"
 
 /**
  * @class ThirdBodyGravity
