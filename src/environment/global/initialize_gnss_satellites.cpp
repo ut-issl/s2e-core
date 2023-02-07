@@ -1,9 +1,9 @@
 /**
- *@file InitGnssSatellites.cpp
+ *@file initialize_gnss_satellites.cpp
  *@brief Initialize functions for GnssSatellites class
  */
 
-#include "InitGnssSatellites.hpp"
+#include "initialize_gnss_satellites.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 

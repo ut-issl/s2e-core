@@ -10,7 +10,7 @@ add_library(${PROJECT_NAME} STATIC
   clock_generator.cpp
   celestial_rotation.cpp
   initialize_global_environment.cpp
-  InitGnssSatellites.cpp
+  initialize_gnss_satellites.cpp
 )
 
 include(../../../common.cmake)
