@@ -6,7 +6,7 @@
 #define __attitude_H__
 
 #include <Interface/LogOutput/ILoggable.h>
-#include <simulation/MCSim/SimulationObject.h>
+#include <simulation/monte_carlo_simulation/SimulationObject.h>
 
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Quaternion.hpp>

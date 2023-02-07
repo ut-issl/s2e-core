@@ -4,10 +4,10 @@ cmake_minimum_required(VERSION 3.13)
 add_library(${PROJECT_NAME} STATIC
   Case/SimulationCase.cpp
   
-  MCSim/InitParameter.cpp
-  MCSim/MCSimExecutor.cpp
-  MCSim/SimulationObject.cpp
-  MCSim/InitMcSim.cpp
+  monte_carlo_simulation/InitParameter.cpp
+  monte_carlo_simulation/MCSimExecutor.cpp
+  monte_carlo_simulation/SimulationObject.cpp
+  monte_carlo_simulation/InitMcSim.cpp
 
   spacecraft/spacecraft.cpp
   spacecraft/installed_components.cpp
