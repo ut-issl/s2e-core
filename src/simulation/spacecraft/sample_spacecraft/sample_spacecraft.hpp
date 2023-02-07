@@ -3,7 +3,8 @@
  * @brief An example of user side spacecraft class
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_H_
+#define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_H_
 
 #include "../spacecraft.hpp"
 #include "sample_components.hpp"
@@ -31,3 +32,5 @@ class SampleSat : public Spacecraft {
  private:
   SampleComponents* sample_components_;
 };
+
+#endif  // S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_H_
