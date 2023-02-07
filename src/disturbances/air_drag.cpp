@@ -5,9 +5,9 @@
 
 #include "air_drag.hpp"
 
-#include <environment/global/physical_constants.hpp>
 #include <Library/math/Constant.hpp>
 #include <cmath>
+#include <environment/global/physical_constants.hpp>
 #include <iostream>
 
 #include "../Interface/LogOutput/LogUtility.h"

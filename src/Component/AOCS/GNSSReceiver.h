@@ -6,12 +6,12 @@
 #pragma once
 
 #include <Dynamics/Dynamics.h>
-#include <environment/global/gnss_satellites.hpp>
-#include <environment/global/simulation_time.hpp>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
+#include <environment/global/gnss_satellites.hpp>
+#include <environment/global/simulation_time.hpp>
 
 #include "../Abstract/ComponentBase.h"
 

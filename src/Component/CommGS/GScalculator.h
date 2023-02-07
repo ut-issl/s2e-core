@@ -6,13 +6,13 @@
 
 #pragma once
 #include <Dynamics/Dynamics.h>
-#include <environment/global/global_environment.hpp>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Component/CommGS/Antenna.hpp>
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Matrix.hpp>
 #include <Library/math/Vector.hpp>
+#include <environment/global/global_environment.hpp>
 #include <simulation/ground_station/ground_station.hpp>
 
 using libra::Matrix;

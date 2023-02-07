@@ -10,8 +10,8 @@
 
 #include "../environment/global/simulation_time.hpp"
 #include "../simulation/spacecraft/structure/structure.hpp"
-#include "simple_disturbance.hpp"
 #include "acceleration_disturbance.hpp"
+#include "simple_disturbance.hpp"
 
 class Logger;
 

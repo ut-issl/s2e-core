@@ -8,9 +8,9 @@
 
 #include <Component/CommGS/GScalculator.h>
 #include <Dynamics/Dynamics.h>
-#include <environment/global/global_environment.hpp>
 
 #include <Component/CommGS/Antenna.hpp>
+#include <environment/global/global_environment.hpp>
 
 #include "../../spacecraft/sample_spacecraft/sample_spacecraft.hpp"
 #include "../ground_station.hpp"

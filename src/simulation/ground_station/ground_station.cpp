@@ -9,9 +9,9 @@
 #include <Interface/LogOutput/LogUtility.h>
 #include <Interface/LogOutput/Logger.h>
 
-#include <environment/global/physical_constants.hpp>
 #include <Library/math/Constant.hpp>
 #include <Library/utils/Macros.hpp>
+#include <environment/global/physical_constants.hpp>
 #include <string>
 
 GroundStation::GroundStation(SimulationConfig* config, int gs_id) : gs_id_(gs_id) {

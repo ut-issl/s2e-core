@@ -9,13 +9,13 @@
 #define __STT_H__
 
 #include <Dynamics/Attitude/Attitude.h>
-#include <environment/local/local_environment.hpp>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Ran1.hpp>
 #include <Library/math/Vector.hpp>
+#include <environment/local/local_environment.hpp>
 #include <vector>
 
 #include "../Abstract/ComponentBase.h"

@@ -6,7 +6,6 @@
 #ifndef MTQ_H_
 #define MTQ_H_
 
-#include <environment/local/local_environment.hpp>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/Matrix.hpp>
@@ -14,6 +13,7 @@
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/RandomWalk.hpp>
 #include <Library/math/Vector.hpp>
+#include <environment/local/local_environment.hpp>
 
 #include "../Abstract/ComponentBase.h"
 
