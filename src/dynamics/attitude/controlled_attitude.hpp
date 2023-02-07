@@ -1,9 +1,10 @@
 /**
- * @file ControlledAttitude.h
+ * @file controlled_attitude.hpp
  * @brief Class to calculate spacecraft attitude with Controlled Attitude mode
  */
-#ifndef __controlled_attitude_H__
-#define __controlled_attitude_H__
+
+#ifndef S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_H_
+#define S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_H_
 
 #include <environment/local/local_celestial_information.hpp>
 #include <string>
@@ -141,4 +142,4 @@ class ControlledAttitude : public Attitude {
   Matrix<3, 3> CalcDCM(const Vector<3> main_direction, const Vector<3> sub_direction);
 };
 
-#endif  //__controlled_attitude_H__
+#endif  // S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_H_

@@ -1,8 +1,8 @@
 /**
- * @file InitAttitude.hpp
+ * @file initialize_attitude.hpp
  * @brief Initialize function for attitude
  */
-#include "InitAttitude.hpp"
+#include "initialize_attitude.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 

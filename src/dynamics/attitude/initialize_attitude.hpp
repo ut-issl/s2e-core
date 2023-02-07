@@ -1,12 +1,14 @@
 /**
- * @file InitAttitude.hpp
+ * @file initialize_attitude.hpp
  * @brief Initialize function for attitude
  */
-#pragma once
 
-#include "ControlledAttitude.h"
+#ifndef S2E_DYNAMICS_ATTITUDE_INITIALIZE_ATTITUDE_H_
+#define S2E_DYNAMICS_ATTITUDE_INITIALIZE_ATTITUDE_H_
+
 #include "attitude.hpp"
 #include "attitude_rk4.hpp"
+#include "controlled_attitude.hpp"
 
 /**
  * @fn InitAttitude
@@ -20,3 +22,5 @@
  */
 Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info, const double step_sec,
                        const Matrix<3, 3> inertia_tensor, const int sat_id);
+
+#endif  // S2E_DYNAMICS_ATTITUDE_INITIALIZE_ATTITUDE_H_

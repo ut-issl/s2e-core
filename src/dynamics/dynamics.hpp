@@ -10,7 +10,7 @@
 #include "../Library/math/Vector.hpp"
 using libra::Vector;
 
-#include <dynamics/attitude/InitAttitude.hpp>
+#include <dynamics/attitude/initialize_attitude.hpp>
 #include <dynamics/orbit/InitOrbit.hpp>
 #include <dynamics/thermal/InitNode.hpp>
 #include <dynamics/thermal/InitTemperature.hpp>

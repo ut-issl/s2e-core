@@ -1,8 +1,8 @@
 /**
- * @file ControlledAttitude.h
+ * @file controlled_attitude.hpp
  * @brief Class to calculate spacecraft attitude with Controlled Attitude mode
  */
-#include "ControlledAttitude.h"
+#include "controlled_attitude.hpp"
 
 #include <Interface/LogOutput/LogUtility.h>
 
