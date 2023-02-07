@@ -9,7 +9,7 @@
 
 #include "geopotential.hpp"
 #include "gravity_gradient.hpp"
-#include "InitDisturbance.hpp"
+#include "initialize_disturbances.hpp"
 #include "MagDisturbance.h"
 #include "SolarRadiation.h"
 #include "ThirdBodyGravity.h"

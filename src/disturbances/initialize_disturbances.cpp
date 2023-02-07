@@ -1,9 +1,9 @@
 /**
- * @file InitDisturbance.cpp
+ * @file initialize_disturbances.cpp
  * @brief Define initialize functions for disturbances
  */
 
-#include "InitDisturbance.hpp"
+#include "initialize_disturbances.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 

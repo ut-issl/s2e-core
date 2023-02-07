@@ -1,16 +1,17 @@
 /**
- * @file InitDisturbance.hpp
+ * @file initialize_disturbances.hpp
  * @brief Define initialize functions for disturbances
  */
 
-#pragma once
+#ifndef S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_H_
+#define S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_H_
 
-#include <disturbances/air_drag.hpp>
-#include <disturbances/geopotential.hpp>
 #include <disturbances/MagDisturbance.h>
 #include <disturbances/SolarRadiation.h>
 #include <disturbances/ThirdBodyGravity.h>
 
+#include <disturbances/air_drag.hpp>
+#include <disturbances/geopotential.hpp>
 #include <disturbances/gravity_gradient.hpp>
 
 /**
@@ -64,3 +65,5 @@ GeoPotential InitGeoPotential(std::string ini_path);
  * @param [in] ini_path_celes: Initialize file path for the celestial information
  */
 ThirdBodyGravity InitThirdBodyGravity(std::string ini_path, std::string ini_path_celes);
+
+#endif  // S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_H_
