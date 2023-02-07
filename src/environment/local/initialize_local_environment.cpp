@@ -1,9 +1,9 @@
 /**
- * @file InitLocalEnvironment.cpp
+ * @file initialize_local_environment.cpp
  * @brief Initialize functions for local environment classes
  */
 
-#include "InitLocalEnvironment.hpp"
+#include "initialize_local_environment.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 

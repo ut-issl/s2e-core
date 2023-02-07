@@ -8,7 +8,7 @@
 #include <Dynamics/Orbit/Orbit.h>
 #include <Interface/InitInput/IniAccess.h>
 
-#include "InitLocalEnvironment.hpp"
+#include "initialize_local_environment.hpp"
 
 LocalEnvironment::LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) {
   Initialize(sim_config, glo_env, sat_id);
