@@ -3,7 +3,8 @@
  * @brief Definition of spacecraft surface
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_STRUCTURE_H_
+#define S2E_SIMULATION_SPACECRAFT_STRUCTURE_STRUCTURE_H_
 
 #include <Library/math/Vector.hpp>
 using libra::Vector;
@@ -114,3 +115,5 @@ class Surface {
   double specularity_;      //!< Ratio of specular reflection in the total reflected light
   double air_specularity_;  //!< Specularity for air drag
 };
+
+#endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_STRUCTURE_H_
