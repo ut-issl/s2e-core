@@ -1,9 +1,9 @@
 /**
- * @file InterSatComm.cpp
+ * @file inter_spacecraft_communication.cpp
  * @brief Base class of inter satellite communication
  */
 
-#include "InterSatComm.h"
+#include "inter_spacecraft_communication.hpp"
 
 #include <Library/utils/Macros.hpp>
 

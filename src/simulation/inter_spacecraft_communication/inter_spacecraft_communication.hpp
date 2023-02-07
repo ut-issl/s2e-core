@@ -1,9 +1,10 @@
 /**
- * @file InterSatComm.h
+ * @file inter_spacecraft_communication.h
  * @brief Base class of inter satellite communication
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_INTER_SPACECRAFT_COMMUNICATION_INTER_SPACECRAFT_COMMUNICATION_H_
+#define S2E_SIMULATION_INTER_SPACECRAFT_COMMUNICATION_INTER_SPACECRAFT_COMMUNICATION_H_
 
 #include "../simulation_configuration.hpp"
 
@@ -26,3 +27,5 @@ class InterSatComm {
 
  private:
 };
+
+#endif  // S2E_SIMULATION_INTER_SPACECRAFT_COMMUNICATION_INTER_SPACECRAFT_COMMUNICATION_H_
