@@ -3,7 +3,9 @@
  * @brief An example of user side components management installed on a spacecraft
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
+#define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
+
 #include <Component/CDH/OBC.h>
 #include <Component/Power/PCU.h>
 #include <Dynamics/Dynamics.h>
@@ -116,3 +118,5 @@ class SampleComponents : public InstalledComponents {
   const LocalEnvironment* local_env_;  //!< Local environment information around the spacecraft
   const GlobalEnvironment* glo_env_;   //!< Global environment information
 };
+
+#endif  // S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
