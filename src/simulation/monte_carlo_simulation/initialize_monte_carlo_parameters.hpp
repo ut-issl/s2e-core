@@ -3,7 +3,8 @@
  * @brief Initialized parameters for Monte-Carlo simulation
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_MONTE_CARLO_SIMULATION_INITIALIZE_MONTE_CARLO_PARAMETERS_H_
+#define S2E_SIMULATION_MONTE_CARLO_SIMULATION_INITIALIZE_MONTE_CARLO_PARAMETERS_H_
 
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
@@ -231,3 +232,5 @@ void InitParameter::GetVec(Vector<NumElement>& dst_vec) const {
     }
   }
 }
+
+#endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_INITIALIZE_MONTE_CARLO_PARAMETERS_H_
