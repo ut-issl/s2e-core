@@ -1,9 +1,9 @@
 /**
- * @file Sgp4OrbitPropagation.cpp
+ * @file sgp4_orbit_propagation.cpp
  * @brief Class to propagate spacecraft orbit with SGP4 method with TLE
  */
 
-#include "Sgp4OrbitPropagation.h"
+#include "sgp4_orbit_propagation.hpp"
 
 #include <Library/utils/Macros.hpp>
 #include <iostream>

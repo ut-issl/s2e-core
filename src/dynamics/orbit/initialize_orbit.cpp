@@ -6,11 +6,11 @@
 
 #include <Interface/InitInput/IniAccess.h>
 
-#include "Sgp4OrbitPropagation.h"
 #include "encke_orbit_propagation.hpp"
 #include "kepler_orbit_propagation.hpp"
 #include "relative_orbit.hpp"
 #include "rk4_orbit_propagation.hpp"
+#include "sgp4_orbit_propagation.hpp"
 
 Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, double stepSec, double current_jd, double gravity_constant,
                  std::string section, RelativeInformation* rel_info) {
