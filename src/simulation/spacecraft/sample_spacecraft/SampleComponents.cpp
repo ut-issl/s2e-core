@@ -7,7 +7,7 @@
 
 #include <Interface/InitInput/IniAccess.h>
 
-#include "Sample_PortConfig.h"
+#include "sample_port_configuration.hpp"
 
 SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_env,
                                    const GlobalEnvironment* glo_env, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id)

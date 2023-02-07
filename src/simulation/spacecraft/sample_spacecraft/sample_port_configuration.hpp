@@ -1,5 +1,5 @@
 /**
- * @file Sample_PortConfig.h
+ * @file sample_port_configuration.hpp
  * @brief An example of port configuration management
  */
 
