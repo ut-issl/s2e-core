@@ -5,13 +5,13 @@
 
 #pragma once
 
-#include <Disturbance/AirDrag.h>
-#include <Disturbance/GeoPotential.h>
-#include <Disturbance/MagDisturbance.h>
-#include <Disturbance/SolarRadiation.h>
-#include <Disturbance/ThirdBodyGravity.h>
+#include <disturbances/AirDrag.h>
+#include <disturbances/GeoPotential.h>
+#include <disturbances/MagDisturbance.h>
+#include <disturbances/SolarRadiation.h>
+#include <disturbances/ThirdBodyGravity.h>
 
-#include <Disturbance/GravityGradient.hpp>
+#include <disturbances/GravityGradient.hpp>
 
 /**
  * @fn InitAirDrag

@@ -6,10 +6,10 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_SPACECRAFT_H_
 #define S2E_SIMULATION_SPACECRAFT_SPACECRAFT_H_
 
-#include <Disturbance/Disturbances.h>
 #include <Dynamics/Dynamics.h>
 #include <Environment/Global/ClockGenerator.h>
 #include <Environment/Local/LocalEnvironment.h>
+#include <disturbances/Disturbances.h>
 
 #include <relative_information/relative_information.hpp>
 
