@@ -90,7 +90,7 @@ set(SOURCE_FILES
   src/simulation/Case/SampleCase.cpp
   src/simulation/spacecraft/sample_spacecraft/sample_spacecraft.cpp
   src/simulation/spacecraft/sample_spacecraft/sample_components.cpp
-  src/simulation/ground_station/sample_ground_station/SampleGSComponents.cpp
+  src/simulation/ground_station/sample_ground_station/sample_ground_station_components.cpp
   src/simulation/ground_station/sample_ground_station/sample_ground_station.cpp
 )
 

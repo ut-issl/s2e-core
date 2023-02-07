@@ -5,7 +5,7 @@
 
 #include "sample_ground_station.hpp"
 
-#include "SampleGSComponents.h"
+#include "sample_ground_station_components.hpp"
 
 SampleGS::SampleGS(SimulationConfig* config, int gs_id) : GroundStation(config, gs_id) { Initialize(config); }
 

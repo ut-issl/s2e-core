@@ -1,9 +1,10 @@
 /**
- * @file SampleGSComponents.h
+ * @file sample_ground_station_components.hpp
  * @brief An example of ground station related components list
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_COMPONENTS_H_
+#define S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_COMPONENTS_H_
 
 #include <Component/CommGS/InitAntenna.hpp>
 #include <Component/CommGS/InitGsCalculator.hpp>
@@ -47,3 +48,5 @@ class SampleGSComponents {
   GScalculator* gs_calculator_;     //!< Ground station calculation algorithm
   const SimulationConfig* config_;  //!< Simulation setting
 };
+
+#endif  // S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_COMPONENTS_H_
