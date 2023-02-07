@@ -3,7 +3,8 @@
  * @brief Base class to define simulation scenario
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_CASE_SIMULATION_CASE_H_
+#define S2E_SIMULATION_CASE_SIMULATION_CASE_H_
 
 #include <Environment/Global/GlobalEnvironment.h>
 #include <Interface/LogOutput/ILoggable.h>
@@ -74,3 +75,5 @@ class SimulationCase : public ILoggable {
   SimulationConfig sim_config_;  //!< Simulation setting
   GlobalEnvironment* glo_env_;   //!< Global Environment
 };
+
+#endif  // S2E_SIMULATION_CASE_SIMULATION_CASE_H_
