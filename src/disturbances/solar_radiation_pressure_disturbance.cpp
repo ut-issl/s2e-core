@@ -1,9 +1,9 @@
 /**
- * @file SolarRadiation.cpp
+ * @file solar_radiation_pressure_disturbance.cpp
  * @brief Class to calculate the solar radiation pressure disturbance force and torque
  */
 
-#include "SolarRadiation.h"
+#include "solar_radiation_pressure_disturbance.hpp"
 
 #include <cmath>
 

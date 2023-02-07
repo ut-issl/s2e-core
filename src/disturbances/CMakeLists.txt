@@ -7,7 +7,7 @@ add_library(${PROJECT_NAME} STATIC
   geopotential.cpp
   gravity_gradient.cpp
   magnetic_disturbance.cpp
-  SolarRadiation.cpp
+  solar_radiation_pressure_disturbance.cpp
   SurfaceForce.cpp
   ThirdBodyGravity.cpp
   initialize_disturbances.cpp

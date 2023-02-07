@@ -6,7 +6,7 @@
 #ifndef S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_H_
 #define S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_H_
 
-#include <disturbances/SolarRadiation.h>
+#include <disturbances/solar_radiation_pressure_disturbance.hpp>
 #include <disturbances/ThirdBodyGravity.h>
 
 #include <disturbances/air_drag.hpp>

@@ -7,7 +7,7 @@
 
 #include <Interface/InitInput/IniAccess.h>
 
-#include "SolarRadiation.h"
+#include "solar_radiation_pressure_disturbance.hpp"
 #include "ThirdBodyGravity.h"
 #include "air_drag.hpp"
 #include "geopotential.hpp"
