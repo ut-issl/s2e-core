@@ -1,10 +1,10 @@
 /**
- * @file CelestialInformation.cpp
+ * @file celestial_information.cpp
  * @brief Class to manage the information related with the celestial bodies
  * @details This class uses SPICE to get the information of celestial bodies
  */
 
-#include "CelestialInformation.h"
+#include "celestial_information.hpp"
 
 #include <Interface/LogOutput/LogUtility.h>
 #include <SpiceUsr.h>

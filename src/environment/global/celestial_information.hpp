@@ -1,11 +1,11 @@
 /**
- * @file CelestialInformation.h
+ * @file celestial_information.hpp
  * @brief Class to manage the information related with the celestial bodies
  * @details This class uses SPICE to get the information of celestial bodies
  */
 
-#ifndef __celestial_information_H__
-#define __celestial_information_H__
+#ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_H_
+#define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_H_
 
 #include <cstring>
 #include <string>
@@ -199,4 +199,4 @@ class CelestialInformation : public ILoggable {
   void GetPlanetOrbit(const char* planet_name, double et, double orbit[6]);
 };
 
-#endif  //__celestial_information_H__
+#endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_H_

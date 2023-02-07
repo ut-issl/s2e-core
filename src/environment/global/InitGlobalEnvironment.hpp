@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <environment/global/CelestialInformation.h>
+#include <environment/global/celestial_information.hpp>
 #include <environment/global/HipparcosCatalogue.h>
 #include <environment/global/SimTime.h>
 

@@ -6,7 +6,7 @@
 #ifndef __local_celestial_information_H__
 #define __local_celestial_information_H__
 
-#include "../global/CelestialInformation.h"
+#include "../global/celestial_information.hpp"
 
 /**
  * @class LocalCelestialInformation
