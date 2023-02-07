@@ -6,7 +6,7 @@
 
 #include <Library/math/Constant.hpp>
 
-#include "interface/initialize/IniAccess.h"
+#include "interface/initialize/initialize_file_access.hpp"
 
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, const std::string fname, const Structure* structure,
                                   const Dynamics* dynamics) {

@@ -7,7 +7,7 @@
 
 #include <string.h>
 
-#include "interface/initialize/IniAccess.h"
+#include "interface/initialize/initialize_file_access.hpp"
 
 SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp,
             const LocalCelestialInformation* local_celes_info, double compo_step_time) {

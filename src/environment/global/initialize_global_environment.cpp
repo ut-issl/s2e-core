@@ -4,7 +4,7 @@
  */
 #include "initialize_global_environment.hpp"
 
-#include <interface/initialize/IniAccess.h>
+#include <interface/initialize/initialize_file_access.hpp>
 #include <SpiceUsr.h>
 
 #include <cassert>

@@ -5,7 +5,7 @@
 
 #include "global_environment.hpp"
 
-#include <interface/initialize/IniAccess.h>
+#include <interface/initialize/initialize_file_access.hpp>
 
 #include "initialize_global_environment.hpp"
 #include "initialize_gnss_satellites.hpp"

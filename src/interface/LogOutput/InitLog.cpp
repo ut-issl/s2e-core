@@ -5,7 +5,7 @@
 
 #include "InitLog.hpp"
 
-#include <interface/initialize/IniAccess.h>
+#include <interface/initialize/initialize_file_access.hpp>
 
 Logger* InitLog(std::string file_name) {
   IniAccess ini_file(file_name);

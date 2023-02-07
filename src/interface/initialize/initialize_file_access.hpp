@@ -1,10 +1,11 @@
 /**
- * @file IniAccess.h
+ * @file initialize_file_access.hpp
  * @brief Class to read and get parameters for the `ini` format file
  */
 
-#ifndef __IniAccess_H__
-#define __IniAccess_H__
+#ifndef S2E_INTERFACE_INITIALIZE_INITIALIZE_FILE_ACCESS_H_
+#define S2E_INTERFACE_INITIALIZE_INITIALIZE_FILE_ACCESS_H_
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #ifdef WIN32
@@ -168,4 +169,4 @@ void IniAccess::ReadVector(const char* section_name, const char* key_name, Vecto
   }
 }
 
-#endif  //__IniAccess_H__
+#endif  // S2E_INTERFACE_INITIALIZE_INITIALIZE_FILE_ACCESS_H_

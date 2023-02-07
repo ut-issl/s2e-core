@@ -4,7 +4,7 @@
  */
 #include "initialize_orbit.hpp"
 
-#include <interface/initialize/IniAccess.h>
+#include <interface/initialize/initialize_file_access.hpp>
 
 #include "encke_orbit_propagation.hpp"
 #include "kepler_orbit_propagation.hpp"

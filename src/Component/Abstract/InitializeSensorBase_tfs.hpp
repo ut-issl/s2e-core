@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include "interface/initialize/IniAccess.h"
+#include "interface/initialize/initialize_file_access.hpp"
 
 template <size_t N>
 SensorBase<N> ReadSensorBaseInformation(const std::string file_name, const double step_width_s, const std::string component_name,

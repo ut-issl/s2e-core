@@ -5,7 +5,7 @@
 
 #include "simulation_case.hpp"
 
-#include <interface/initialize/IniAccess.h>
+#include <interface/initialize/initialize_file_access.hpp>
 
 #include <interface/LogOutput/InitLog.hpp>
 #include <string>

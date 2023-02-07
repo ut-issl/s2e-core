@@ -1,9 +1,9 @@
 /**
- * @file IniAccess.cpp
+ * @file initialize_file_access.cpp
  * @brief Class to read and get parameters for the `ini` format file
  */
 
-#include "IniAccess.h"
+#include "initialize_file_access.hpp"
 
 #include <string.h>
 

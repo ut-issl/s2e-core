@@ -5,7 +5,7 @@
 
 #include "disturbances.hpp"
 
-#include <interface/initialize/IniAccess.h>
+#include <interface/initialize/initialize_file_access.hpp>
 
 #include "air_drag.hpp"
 #include "geopotential.hpp"

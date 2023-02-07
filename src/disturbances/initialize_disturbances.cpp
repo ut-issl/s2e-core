@@ -5,7 +5,7 @@
 
 #include "initialize_disturbances.hpp"
 
-#include <interface/initialize/IniAccess.h>
+#include <interface/initialize/initialize_file_access.hpp>
 
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"

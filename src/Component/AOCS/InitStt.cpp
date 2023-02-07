@@ -6,7 +6,7 @@
 
 #include <Library/math/Constant.hpp>
 
-#include "interface/initialize/IniAccess.h"
+#include "interface/initialize/initialize_file_access.hpp"
 
 using namespace std;
 
