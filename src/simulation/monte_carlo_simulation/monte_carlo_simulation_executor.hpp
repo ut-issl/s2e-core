@@ -3,7 +3,8 @@
  * @brief Monte-Carlo Simulation Executor class
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_MONTE_CARLO_SIMULATION_MONTE_CARLO_SIMULATION_EXECUTOR_H_
+#define S2E_SIMULATION_MONTE_CARLO_SIMULATION_MONTE_CARLO_SIMULATION_EXECUTOR_H_
 
 #include <Library/math/Vector.hpp>
 #include <map>
@@ -174,3 +175,5 @@ void MCSimExecutor::AddInitParameter(std::string so_name, std::string ip_name, c
     throw "More than one definition of one InitParameter.";
   }
 }
+
+#endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_MONTE_CARLO_SIMULATION_EXECUTOR_H_
