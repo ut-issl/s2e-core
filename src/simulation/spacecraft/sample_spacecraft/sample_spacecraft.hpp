@@ -1,5 +1,5 @@
 /**
- * @file SampleSat.h
+ * @file sample_spacecraft.hpp
  * @brief An example of user side spacecraft class
  */
 
