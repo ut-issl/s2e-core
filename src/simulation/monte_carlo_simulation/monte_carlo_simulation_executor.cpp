@@ -1,9 +1,9 @@
 /**
- * @file MCSimExecutor.cpp
+ * @file monte_carlo_simulation_executor.cpp
  * @brief Monte-Carlo Simulation Executor class
  */
 
-#include "MCSimExecutor.h"
+#include "monte_carlo_simulation_executor.hpp"
 
 using std::string;
 

@@ -1,5 +1,5 @@
 /**
- * @file MCSimExecutor.h
+ * @file monte_carlo_simulation_executor.hpp
  * @brief Monte-Carlo Simulation Executor class
  */
 

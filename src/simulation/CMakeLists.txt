@@ -5,7 +5,7 @@ add_library(${PROJECT_NAME} STATIC
   Case/SimulationCase.cpp
   
   monte_carlo_simulation/InitParameter.cpp
-  monte_carlo_simulation/MCSimExecutor.cpp
+  monte_carlo_simulation/monte_carlo_simulation_executor.cpp
   monte_carlo_simulation/simulation_object.cpp
   monte_carlo_simulation/InitMcSim.cpp
 
