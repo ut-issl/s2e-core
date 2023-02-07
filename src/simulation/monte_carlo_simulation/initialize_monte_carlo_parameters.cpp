@@ -1,9 +1,9 @@
 /**
- * @file InitParameter.cpp
+ * @file initialize_monte_carlo_parameters.cpp
  * @brief Initialized parameters for Monte-Carlo simulation
  */
 
-#include "InitParameter.h"
+#include "initialize_monte_carlo_parameters.hpp"
 
 #include <Library/math/Constant.hpp>
 

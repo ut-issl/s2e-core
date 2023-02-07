@@ -1,5 +1,5 @@
 /**
- * @file InitParameter.h
+ * @file initialize_monte_carlo_parameters.h
  * @brief Initialized parameters for Monte-Carlo simulation
  */
 

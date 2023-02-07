@@ -10,7 +10,7 @@
 #include <map>
 #include <string>
 // #include "simulation_object.hpp"
-#include "InitParameter.h"
+#include "initialize_monte_carlo_parameters.hpp"
 
 using libra::Vector;
 

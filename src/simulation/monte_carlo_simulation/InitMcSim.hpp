@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "InitParameter.h"
+#include "initialize_monte_carlo_parameters.hpp"
 #include "monte_carlo_simulation_executor.hpp"
 
 /**
