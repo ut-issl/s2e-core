@@ -1,4 +1,4 @@
-#include "InitTemperature.hpp"
+#include "initialize_temperature.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 

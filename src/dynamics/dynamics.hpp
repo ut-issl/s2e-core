@@ -12,8 +12,8 @@ using libra::Vector;
 
 #include <dynamics/attitude/initialize_attitude.hpp>
 #include <dynamics/orbit/initialize_orbit.hpp>
-#include <dynamics/thermal/InitTemperature.hpp>
 #include <dynamics/thermal/initialize_node.hpp>
+#include <dynamics/thermal/initialize_temperature.hpp>
 
 #include "../environment/global/simulation_time.hpp"
 #include "../environment/local/local_celestial_information.hpp"
