@@ -1,5 +1,5 @@
 /**
- * @file InitStructure.hpp
+ * @file initialize_structure.hpp
  * @brief Initialize functions for spacecraft structure
  */
 

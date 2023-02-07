@@ -7,7 +7,7 @@
 
 #include <Interface/InitInput/IniAccess.h>
 
-#include <simulation/spacecraft/structure/InitStructure.hpp>
+#include <simulation/spacecraft/structure/initialize_structure.hpp>
 
 Structure::Structure(SimulationConfig* sim_config, const int sat_id) { Initialize(sim_config, sat_id); }
 

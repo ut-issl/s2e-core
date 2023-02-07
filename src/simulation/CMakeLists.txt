@@ -15,7 +15,7 @@ add_library(${PROJECT_NAME} STATIC
   spacecraft/structure/kinematics_parameters.cpp
   spacecraft/structure/residual_magnetic_moment.cpp
   spacecraft/structure/surface.cpp
-  spacecraft/structure/InitStructure.cpp
+  spacecraft/structure/initialize_structure.cpp
   
   GroundStation/GroundStation.cpp
   
