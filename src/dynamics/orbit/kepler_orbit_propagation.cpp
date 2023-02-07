@@ -1,8 +1,8 @@
 /**
- * @file KeplerOrbitPropagation.cpp
+ * @file kepler_orbit_propagation.cpp
  * @brief Class to propagate spacecraft orbit with Kepler equation
  */
-#include "KeplerOrbitPropagation.h"
+#include "kepler_orbit_propagation.hpp"
 
 #include <Library/utils/Macros.hpp>
 
