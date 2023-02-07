@@ -1,5 +1,5 @@
 ﻿/**
- * @file CelestialRotation.cpp
+ * @file celestial_rotation.cpp
  * @brief Class to calculate the celestial rotation
  * @note Support earth rotation only now (TODO: add other planets)
  *       Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
@@ -7,7 +7,7 @@
  *             IERS Conventions 2003
  */
 
-#include "CelestialRotation.h"
+#include "celestial_rotation.hpp"
 
 #include <Library/sgp4/sgp4ext.h>   // for jday()
 #include <Library/sgp4/sgp4unit.h>  // for gstime()

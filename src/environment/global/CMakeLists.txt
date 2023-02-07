@@ -8,7 +8,7 @@ add_library(${PROJECT_NAME} STATIC
   GnssSatellites.cpp
   SimTime.cpp
   ClockGenerator.cpp
-  CelestialRotation.cpp
+  celestial_rotation.cpp
   InitGlobalEnvironment.cpp
   InitGnssSatellites.cpp
 )

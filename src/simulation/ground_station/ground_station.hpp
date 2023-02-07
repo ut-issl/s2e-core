@@ -6,7 +6,7 @@
 #ifndef S2E_SIMULATION_GROUND_STATION_GROUND_STATION_H_
 #define S2E_SIMULATION_GROUND_STATION_GROUND_STATION_H_
 
-#include <environment/global/CelestialRotation.h>
+#include <environment/global/celestial_rotation.hpp>
 
 #include <Library/Geodesy/GeodeticPosition.hpp>
 #include <Library/math/Vector.hpp>

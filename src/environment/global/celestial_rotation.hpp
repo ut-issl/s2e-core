@@ -1,5 +1,5 @@
 ﻿/**
- * @file CelestialRotation.h
+ * @file celestial_rotation.hpp
  * @brief Class to calculate the celestial rotation
  * @note Support earth rotation only now (TODO: add other planets)
  *       Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
@@ -7,8 +7,8 @@
  *             IERS Conventions 2003
  */
 
-#ifndef __celestial_rotation_H__
-#define __celestial_rotation_H__
+#ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_H_
+#define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_H_
 
 #include <Interface/LogOutput/ILoggable.h>
 
@@ -112,4 +112,4 @@ class CelestialRotation {
   const double kDayJulianCentury = 36525;            //!< Conversion constant from Julian century to day [day/century]
 };
 
-#endif  //__celestial_rotation_H__
+#endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_H_

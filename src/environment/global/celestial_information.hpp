@@ -10,12 +10,12 @@
 #include <cstring>
 #include <string>
 
-#include "CelestialRotation.h"
 #include "Interface/LogOutput/ILoggable.h"
 #include "Library/math/MatVec.hpp"
 #include "Library/math/Matrix.hpp"
 #include "Library/math/Quaternion.hpp"
 #include "Library/math/Vector.hpp"
+#include "celestial_rotation.hpp"
 
 using libra::Quaternion;
 using libra::Vector;
