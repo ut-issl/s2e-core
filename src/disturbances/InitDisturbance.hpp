@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <disturbances/AirDrag.h>
+#include <disturbances/air_drag.hpp>
 #include <disturbances/GeoPotential.h>
 #include <disturbances/MagDisturbance.h>
 #include <disturbances/SolarRadiation.h>

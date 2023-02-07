@@ -1,10 +1,10 @@
 /**
- * @file AirDrag.h
+ * @file air_drag.hpp
  * @brief Class to calculate the air drag disturbance force and torque
  */
 
-#ifndef __AirDrag_H__
-#define __AirDrag_H__
+#ifndef S2E_DISTURBANCES_AIR_DRAG_H_
+#define S2E_DISTURBANCES_AIR_DRAG_H_
 
 #include <string>
 #include <vector>
@@ -86,4 +86,5 @@ class AirDrag : public SurfaceForce {
    */
   double funcChi(double s);
 };
-#endif
+
+#endif  // S2E_DISTURBANCES_AIR_DRAG_H_

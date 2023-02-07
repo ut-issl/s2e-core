@@ -1,9 +1,9 @@
 /**
- * @file AirDrag.cpp
+ * @file air_drag.cpp
  * @brief Class to calculate the air drag disturbance force and torque
  */
 
-#include "AirDrag.h"
+#include "air_drag.hpp"
 
 #include <Environment/Global/PhysicalConstants.hpp>
 #include <Library/math/Constant.hpp>

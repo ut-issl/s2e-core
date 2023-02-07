@@ -7,7 +7,7 @@
 
 #include <Interface/InitInput/IniAccess.h>
 
-#include "AirDrag.h"
+#include "air_drag.hpp"
 #include "GeoPotential.h"
 #include "GravityGradient.hpp"
 #include "InitDisturbance.hpp"
