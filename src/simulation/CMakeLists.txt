@@ -6,7 +6,7 @@ add_library(${PROJECT_NAME} STATIC
   
   monte_carlo_simulation/InitParameter.cpp
   monte_carlo_simulation/MCSimExecutor.cpp
-  monte_carlo_simulation/SimulationObject.cpp
+  monte_carlo_simulation/simulation_object.cpp
   monte_carlo_simulation/InitMcSim.cpp
 
   spacecraft/spacecraft.cpp

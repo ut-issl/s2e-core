@@ -1,9 +1,9 @@
 /**
- * @file SimulationObject.cpp
+ * @file simulation_object.cpp
  * @brief Class to manage randomization of variables for Monte-Carlo simulation
  */
 
-#include "SimulationObject.h"
+#include "simulation_object.hpp"
 
 std::map<std::string, SimulationObject*> SimulationObject::so_list_;
 

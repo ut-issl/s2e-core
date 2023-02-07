@@ -8,7 +8,7 @@
 #include <Library/math/Vector.hpp>
 #include <map>
 #include <string>
-//#include "SimulationObject.h"
+// #include "simulation_object.hpp"
 #include "InitParameter.h"
 
 using libra::Vector;

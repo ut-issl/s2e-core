@@ -1,5 +1,5 @@
 /**
- * @file SimulationObject.h
+ * @file simulation_object.h
  * @brief Class to manage randomization of variables for Monte-Carlo simulation
  */
 
