@@ -1,5 +1,5 @@
 /**
- * @file InstalledComponents.hpp
+ * @file installed_components.hpp
  * @brief Definition of InstalledComponents class
  */
 

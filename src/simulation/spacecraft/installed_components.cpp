@@ -1,9 +1,9 @@
 /**
- * @file InstalledComponents.cpp
+ * @file installed_components.cpp
  * @brief Definition of InstalledComponents class
  */
 
-#include "InstalledComponents.hpp"
+#include "installed_components.hpp"
 
 #include <Library/utils/Macros.hpp>
 

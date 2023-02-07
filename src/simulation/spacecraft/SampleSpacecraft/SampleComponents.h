@@ -27,7 +27,7 @@
 #include <Component/examples/example_serial_communication_for_hils.hpp>
 #include <Library/math/Vector.hpp>
 
-#include "../InstalledComponents.hpp"
+#include "../installed_components.hpp"
 
 class OBC;
 class PCU;
