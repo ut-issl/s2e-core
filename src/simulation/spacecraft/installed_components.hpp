@@ -3,7 +3,9 @@
  * @brief Definition of InstalledComponents class
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_SPACECRAFT_INSTALLED_COMPONENTS_H_
+#define S2E_SIMULATION_SPACECRAFT_INSTALLED_COMPONENTS_H_
+
 #include <Interface/LogOutput/Logger.h>
 
 #include <Library/math/Vector.hpp>
@@ -41,3 +43,5 @@ class InstalledComponents {
    */
   virtual void LogSetup(Logger& logger);
 };
+
+#endif  // S2E_SIMULATION_SPACECRAFT_INSTALLED_COMPONENTS_H_
