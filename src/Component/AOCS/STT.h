@@ -9,7 +9,7 @@
 #define __STT_H__
 
 #include <Interface/LogOutput/ILoggable.h>
-#include <dynamics/Attitude/Attitude.h>
+#include <dynamics/attitude/Attitude.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>

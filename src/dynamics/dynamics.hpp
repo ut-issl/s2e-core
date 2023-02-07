@@ -10,17 +10,17 @@
 #include "../Library/math/Vector.hpp"
 using libra::Vector;
 
-#include <dynamics/Attitude/InitAttitude.hpp>
-#include <dynamics/Orbit/InitOrbit.hpp>
-#include <dynamics/Thermal/InitNode.hpp>
-#include <dynamics/Thermal/InitTemperature.hpp>
+#include <dynamics/attitude/InitAttitude.hpp>
+#include <dynamics/orbit/InitOrbit.hpp>
+#include <dynamics/thermal/InitNode.hpp>
+#include <dynamics/thermal/InitTemperature.hpp>
 
 #include "../environment/global/simulation_time.hpp"
 #include "../environment/local/local_celestial_information.hpp"
 #include "../simulation/simulation_configuration.hpp"
 #include "../simulation/spacecraft/structure/structure.hpp"
-#include "./Orbit/Orbit.h"
-#include "./Thermal/Temperature.h"
+#include "./orbit/Orbit.h"
+#include "./thermal/Temperature.h"
 
 class RelativeInformation;
 

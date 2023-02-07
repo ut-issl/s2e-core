@@ -8,7 +8,7 @@
 #include <environment/local/local_celestial_information.hpp>
 #include <string>
 
-#include "../Orbit/Orbit.h"
+#include "../orbit/Orbit.h"
 #include "Attitude.h"
 
 /**

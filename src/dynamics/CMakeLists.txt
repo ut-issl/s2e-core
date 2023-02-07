@@ -2,23 +2,23 @@ project(DYNAMICS)
 cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
-  Orbit/Orbit.cpp
-  Orbit/Sgp4OrbitPropagation.cpp
-  Orbit/Rk4OrbitPropagation.cpp
-  Orbit/RelativeOrbit.cpp
-  Orbit/KeplerOrbitPropagation.cpp
-  Orbit/EnckeOrbitPropagation.cpp
-  Orbit/InitOrbit.cpp
+  orbit/Orbit.cpp
+  orbit/Sgp4OrbitPropagation.cpp
+  orbit/Rk4OrbitPropagation.cpp
+  orbit/RelativeOrbit.cpp
+  orbit/KeplerOrbitPropagation.cpp
+  orbit/EnckeOrbitPropagation.cpp
+  orbit/InitOrbit.cpp
 
-  Thermal/Node.cpp
-  Thermal/Temperature.cpp
-  Thermal/InitNode.cpp
-  Thermal/InitTemperature.cpp
+  thermal/Node.cpp
+  thermal/Temperature.cpp
+  thermal/InitNode.cpp
+  thermal/InitTemperature.cpp
 
-  Attitude/Attitude.cpp
-  Attitude/AttitudeRK4.cpp
-  Attitude/ControlledAttitude.cpp
-  Attitude/InitAttitude.cpp
+  attitude/Attitude.cpp
+  attitude/AttitudeRK4.cpp
+  attitude/ControlledAttitude.cpp
+  attitude/InitAttitude.cpp
 
   dynamics.cpp
 )
