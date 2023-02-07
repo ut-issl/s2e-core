@@ -1,7 +1,10 @@
-#pragma once
+/**
+ * @file temperature.hpp
+ * @brief Initialize temperature
+ */
 
-#ifndef __temperature_H__
-#define __temperature_H__
+#ifndef S2E_DYNAMICS_THERMAL_TEMPERATURE_H_
+#define S2E_DYNAMICS_THERMAL_TEMPERATURE_H_
 
 #include <Interface/LogOutput/ILoggable.h>
 
@@ -31,11 +34,12 @@ class Temperature : public ILoggable {
   Temperature();
   virtual ~Temperature();
   void Propagate(Vector<3> sun_direction,
-                 const double endtime);  //太陽入熱量計算のため, 太陽方向の情報を入手
+                 const double endtime);  // 太陽入熱量計算のため, 太陽方向の情報を入手
   std::vector<Node> GetVnodes() const;
   void AddHeaterPower(std::vector<double> heater_power);
   std::string GetLogHeader() const;
   std::string GetLogValue() const;
-  void PrintParams(void);  //デバッグ出力
+  void PrintParams(void);  // デバッグ出力
 };
-#endif  //__temperature_H__
+
+#endif  // S2E_DYNAMICS_THERMAL_TEMPERATURE_H_

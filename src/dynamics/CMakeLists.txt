@@ -11,7 +11,7 @@ add_library(${PROJECT_NAME} STATIC
   orbit/initialize_orbit.cpp
 
   thermal/node.cpp
-  thermal/Temperature.cpp
+  thermal/temperature.cpp
   thermal/initialize_node.cpp
   thermal/initialize_temperature.cpp
 

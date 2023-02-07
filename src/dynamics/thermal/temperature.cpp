@@ -1,4 +1,9 @@
-#include "Temperature.h"
+/**
+ * @file temperature.hpp
+ * @brief Initialize temperature
+ */
+
+#include "temperature.hpp"
 
 #include <Library/utils/Macros.hpp>
 #include <cmath>
