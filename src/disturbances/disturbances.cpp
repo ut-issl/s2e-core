@@ -1,19 +1,19 @@
 /**
- * @file Disturbances.cpp
+ * @file disturbances.cpp
  * @brief Class to manage all disturbances
  */
 
-#include "Disturbances.h"
+#include "disturbances.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 
-#include "air_drag.hpp"
 #include "GeoPotential.h"
 #include "GravityGradient.hpp"
 #include "InitDisturbance.hpp"
 #include "MagDisturbance.h"
 #include "SolarRadiation.h"
 #include "ThirdBodyGravity.h"
+#include "air_drag.hpp"
 
 Disturbances::Disturbances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env) {
   InitializeInstances(sim_config, sat_id, structure, glo_env);

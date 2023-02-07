@@ -9,8 +9,8 @@
 #include <Dynamics/Dynamics.h>
 #include <Environment/Global/ClockGenerator.h>
 #include <Environment/Local/LocalEnvironment.h>
-#include <disturbances/Disturbances.h>
 
+#include <disturbances/disturbances.hpp>
 #include <relative_information/relative_information.hpp>
 
 #include "installed_components.hpp"
