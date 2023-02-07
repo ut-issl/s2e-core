@@ -1,10 +1,10 @@
 /**
- * @file GnssSatellites.h
+ * @file gnss_satellites.hpp
  * @brief Class to calculate GNSS satellite position and related states
  */
 
-#ifndef __gnss_satellites_h__
-#define __gnss_satellites_h__
+#ifndef S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_H_
+#define S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_H_
 
 #include <Interface/LogOutput/ILoggable.h>
 
@@ -509,4 +509,5 @@ class GnssSatellites : public ILoggable {
   ofstream ofs_sa;    //!< Debug output for difference between true and estimated value
 #endif
 };
-#endif
+
+#endif  // S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_H_

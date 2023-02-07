@@ -6,7 +6,7 @@
 #pragma once
 
 #include <Dynamics/Dynamics.h>
-#include <environment/global/GnssSatellites.h>
+#include <environment/global/gnss_satellites.hpp>
 #include <environment/global/SimTime.h>
 #include <Interface/LogOutput/ILoggable.h>
 

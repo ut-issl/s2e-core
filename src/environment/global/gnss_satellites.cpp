@@ -1,18 +1,18 @@
 /**
- * @file GnssSatellites
+ * @file gnss_satellites.cpp
  * @brief Class to calculate GNSS satellite position and related states
  */
 
-#include "GnssSatellites.h"
+#include "gnss_satellites.hpp"
 
 #include <Interface/LogOutput/LogUtility.h>
 #include <Library/sgp4/sgp4ext.h>   //for jday()
 #include <Library/sgp4/sgp4unit.h>  //for gstime()
 
-#include <environment/global/PhysicalConstants.hpp>
 #include <Library/math/Constant.hpp>
 #include <Library/utils/Macros.hpp>
 #include <algorithm>
+#include <environment/global/PhysicalConstants.hpp>
 #include <iostream>
 #include <sstream>
 #include <vector>
