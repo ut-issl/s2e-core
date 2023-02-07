@@ -4,7 +4,7 @@
  */
 #include "local_environment.hpp"
 
-#include <interface/InitInput/IniAccess.h>
+#include <interface/initialize/IniAccess.h>
 #include <dynamics/orbit/orbit.hpp>
 
 #include <dynamics/attitude/attitude.hpp>

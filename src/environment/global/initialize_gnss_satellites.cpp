@@ -5,7 +5,7 @@
 
 #include "initialize_gnss_satellites.hpp"
 
-#include <interface/InitInput/IniAccess.h>
+#include <interface/initialize/IniAccess.h>
 
 #include <iostream>
 #include <string>

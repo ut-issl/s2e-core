@@ -5,7 +5,7 @@
 
 #include "AntennaRadiationPattern.hpp"
 
-#include <interface/InitInput/IniAccess.h>
+#include <interface/initialize/IniAccess.h>
 
 #include <Library/math/s2e_math.hpp>
 #include <algorithm>

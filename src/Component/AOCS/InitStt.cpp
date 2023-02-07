@@ -6,7 +6,7 @@
 
 #include <Library/math/Constant.hpp>
 
-#include "interface/InitInput/IniAccess.h"
+#include "interface/initialize/IniAccess.h"
 
 using namespace std;
 

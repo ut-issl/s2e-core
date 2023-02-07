@@ -5,7 +5,7 @@
 
 #include "geomagnetic_field.hpp"
 
-#include <interface/InitInput/IniAccess.h>
+#include <interface/initialize/IniAccess.h>
 #include <Library/igrf/igrf.h>
 #include <Library/math/GlobalRand.h>
 

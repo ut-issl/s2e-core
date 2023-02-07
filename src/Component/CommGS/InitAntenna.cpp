@@ -10,7 +10,7 @@
 
 #include <Library/math/Vector.hpp>
 
-#include "interface/InitInput/IniAccess.h"
+#include "interface/initialize/IniAccess.h"
 
 using libra::Vector;
 

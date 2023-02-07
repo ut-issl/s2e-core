@@ -8,7 +8,7 @@
 
 #include <string.h>
 
-#include "interface/InitInput/IniAccess.h"
+#include "interface/initialize/IniAccess.h"
 
 GScalculator InitGScalculator(const std::string fname) {
   IniAccess gs_conf(fname);

@@ -5,7 +5,7 @@
 
 #include "initialize_local_environment.hpp"
 
-#include <interface/InitInput/IniAccess.h>
+#include <interface/initialize/IniAccess.h>
 
 #include <string>
 

@@ -5,7 +5,7 @@
 
 #include "PowerPort.h"
 
-#include <interface/InitInput/IniAccess.h>
+#include <interface/initialize/IniAccess.h>
 
 #include <cfloat>
 

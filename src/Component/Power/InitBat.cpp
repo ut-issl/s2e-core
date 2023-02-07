@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "interface/InitInput/IniAccess.h"
+#include "interface/initialize/IniAccess.h"
 
 BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname, double compo_step_time) {
   IniAccess bat_conf(fname);

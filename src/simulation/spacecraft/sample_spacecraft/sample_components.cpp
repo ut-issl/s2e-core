@@ -5,7 +5,7 @@
 
 #include "sample_components.hpp"
 
-#include <interface/InitInput/IniAccess.h>
+#include <interface/initialize/IniAccess.h>
 
 #include "sample_port_configuration.hpp"
 

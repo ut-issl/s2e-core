@@ -5,7 +5,7 @@
 
 #include "ground_station.hpp"
 
-#include <interface/InitInput/IniAccess.h>
+#include <interface/initialize/IniAccess.h>
 #include <interface/LogOutput/LogUtility.h>
 #include <interface/LogOutput/Logger.h>
 

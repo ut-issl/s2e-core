@@ -4,7 +4,7 @@
  */
 #include "InitMagTorquer.hpp"
 
-#include "interface/InitInput/IniAccess.h"
+#include "interface/initialize/IniAccess.h"
 
 MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const std::string fname, double compo_step_time,
                           const MagEnvironment* mag_env) {

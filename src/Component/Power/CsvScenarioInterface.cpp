@@ -5,7 +5,7 @@
 
 #include "CsvScenarioInterface.h"
 
-#include <interface/InitInput/IniAccess.h>
+#include <interface/initialize/IniAccess.h>
 
 bool CsvScenarioInterface::is_csv_senario_enabled_;
 std::map<std::string, unsigned int> CsvScenarioInterface::buffer_line_id_;
