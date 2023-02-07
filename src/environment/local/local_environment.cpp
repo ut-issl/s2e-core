@@ -1,8 +1,8 @@
 /**
- * @file LocalEnvironment.cpp
+ * @file local_environment.cpp
  * @brief Class to manage local environments
  */
-#include "LocalEnvironment.h"
+#include "local_environment.hpp"
 
 #include <Dynamics/Attitude/Attitude.h>
 #include <Dynamics/Orbit/Orbit.h>

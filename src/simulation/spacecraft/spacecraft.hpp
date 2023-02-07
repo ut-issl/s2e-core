@@ -8,7 +8,7 @@
 
 #include <Dynamics/Dynamics.h>
 #include <environment/global/clock_generator.hpp>
-#include <environment/local/LocalEnvironment.h>
+#include <environment/local/local_environment.hpp>
 
 #include <disturbances/disturbances.hpp>
 #include <relative_information/relative_information.hpp>

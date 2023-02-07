@@ -1,16 +1,19 @@
 /**
- * @file LocalEnvironment.h
+ * @file local_environment.hpp
  * @brief Class to manage local environments
  */
-#pragma once
+
+#ifndef S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_H_
+#define S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_H_
 
 #include <Dynamics/Dynamics.h>
+
 #include <environment/global/global_environment.hpp>
 
-#include "atmosphere.hpp"
-#include "local_celestial_information.hpp"
 #include "MagEnvironment.h"
 #include "SRPEnvironment.h"
+#include "atmosphere.hpp"
+#include "local_celestial_information.hpp"
 #include "simulation/simulation_configuration.hpp"
 
 class Logger;
@@ -85,3 +88,5 @@ class LocalEnvironment {
   SRPEnvironment* srp_;                    //!< Solar radiation pressure
   LocalCelestialInformation* celes_info_;  //!< Celestial information
 };
+
+#endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_H_

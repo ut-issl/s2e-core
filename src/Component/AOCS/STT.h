@@ -9,7 +9,7 @@
 #define __STT_H__
 
 #include <Dynamics/Attitude/Attitude.h>
-#include <environment/local/LocalEnvironment.h>
+#include <environment/local/local_environment.hpp>
 #include <Interface/LogOutput/ILoggable.h>
 
 #include <Library/math/NormalRand.hpp>

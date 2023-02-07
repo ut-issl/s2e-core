@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
   atmosphere.cpp
-  LocalEnvironment.cpp
+  local_environment.cpp
   MagEnvironment.cpp
   SRPEnvironment.cpp
   local_celestial_information.cpp
