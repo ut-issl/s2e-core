@@ -1,9 +1,9 @@
 /**
- * @file Spacecraft.cpp
+ * @file spacecraft.cpp
  * @brief Definition of Spacecraft class
  */
 
-#include "Spacecraft.h"
+#include "spacecraft.hpp"
 
 #include <Interface/LogOutput/LogUtility.h>
 #include <Interface/LogOutput/Logger.h>

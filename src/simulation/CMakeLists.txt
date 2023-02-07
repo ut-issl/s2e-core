@@ -9,7 +9,7 @@ add_library(${PROJECT_NAME} STATIC
   MCSim/SimulationObject.cpp
   MCSim/InitMcSim.cpp
 
-  spacecraft/Spacecraft.cpp
+  spacecraft/spacecraft.cpp
   spacecraft/InstalledComponents.cpp
   spacecraft/Structure/Structure.cpp
   spacecraft/Structure/KinematicsParams.cpp

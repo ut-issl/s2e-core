@@ -1,5 +1,5 @@
 /**
- * @file Spacecraft.h
+ * @file spacecraft.hpp
  * @brief Definition of Spacecraft class
  */
 
