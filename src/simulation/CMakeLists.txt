@@ -17,7 +17,7 @@ add_library(${PROJECT_NAME} STATIC
   spacecraft/structure/surface.cpp
   spacecraft/structure/initialize_structure.cpp
   
-  GroundStation/GroundStation.cpp
+  ground_station/GroundStation.cpp
   
   inter_spacecraft_communication/inter_spacecraft_communication.cpp
 )

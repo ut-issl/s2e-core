@@ -90,8 +90,8 @@ set(SOURCE_FILES
   src/simulation/Case/SampleCase.cpp
   src/simulation/spacecraft/sample_spacecraft/sample_spacecraft.cpp
   src/simulation/spacecraft/sample_spacecraft/sample_components.cpp
-  src/simulation/GroundStation/SampleGroundStation/SampleGSComponents.cpp
-  src/simulation/GroundStation/SampleGroundStation/SampleGS.cpp
+  src/simulation/ground_station/SampleGroundStation/SampleGSComponents.cpp
+  src/simulation/ground_station/SampleGroundStation/SampleGS.cpp
 )
 
 ## Create executable file
