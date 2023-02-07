@@ -5,7 +5,7 @@
 #include <environment/global/simulation_time.hpp>
 #include <string>
 
-#include "InitNode.hpp"
+#include "initialize_node.hpp"
 
 /* Import node properties and Cij/Rij Datas by reading CSV File (node.csv,
 cij.csv, rij.csv) Detailed process of reading node properties from CSV File, and

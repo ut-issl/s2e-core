@@ -1,4 +1,9 @@
-#include "InitNode.hpp"
+/**
+ * @file initialize_node.cpp
+ * @brief Initialize function for node
+ */
+
+#include "initialize_node.hpp"
 
 #include <Interface/InitInput/IniAccess.h>
 
@@ -7,7 +12,7 @@
 #include <typeinfo>
 #include <vector>
 
-/* Import node properties and Cij/Rij Datas by reading CSV File (Node.csv,
+/* Import node properties and Cij/Rij Data by reading CSV File (Node.csv,
 Cij.csv, Rij.csv) Detailed process of reading node properties from CSV File, and
 CSV file formats of node properties is written in Init_Node.cpp
 
