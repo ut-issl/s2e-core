@@ -1,9 +1,9 @@
 /**
- * @file RelativeInformation.cpp
+ * @file relative_information.cpp
  * @brief Base class to manage relative information between spacecraft
  */
 
-#include "RelativeInformation.h"
+#include "relative_information.hpp"
 
 RelativeInformation::RelativeInformation() {}
 

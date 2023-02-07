@@ -4,9 +4,9 @@
  */
 #pragma once
 #include <Library/RelativeOrbit/RelativeOrbitModels.h>
-#include <RelativeInformation/RelativeInformation.h>
 
 #include <Library/math/ODE.hpp>
+#include <relative_information/relative_information.hpp>
 #include <string>
 
 #include "Orbit.h"

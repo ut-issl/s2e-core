@@ -1,9 +1,11 @@
 /**
- * @file RelativeInformation.h
+ * @file relative_information.hpp
  * @brief Base class to manage relative information between spacecraft
  */
 
-#pragma once
+#ifndef S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_H_
+#define S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_H_
+
 #include <string>
 
 #include "../Dynamics/Dynamics.h"
@@ -168,3 +170,5 @@ class RelativeInformation : public ILoggable {
    */
   void ResizeLists();
 };
+
+#endif  // S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_H_

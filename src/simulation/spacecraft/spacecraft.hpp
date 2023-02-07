@@ -10,7 +10,8 @@
 #include <Dynamics/Dynamics.h>
 #include <Environment/Global/ClockGenerator.h>
 #include <Environment/Local/LocalEnvironment.h>
-#include <RelativeInformation/RelativeInformation.h>
+
+#include <relative_information/relative_information.hpp>
 
 #include "installed_components.hpp"
 #include "structure/structure.hpp"

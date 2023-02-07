@@ -5,7 +5,7 @@
 
 #include "Dynamics.h"
 
-#include "../RelativeInformation/RelativeInformation.h"
+#include "../relative_information/relative_information.hpp"
 
 using namespace std;
 
