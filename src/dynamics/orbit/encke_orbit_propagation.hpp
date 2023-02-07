@@ -1,8 +1,11 @@
 /**
- * @file EnckeOrbitPropagation.h
+ * @file encke_orbit_propagation.hpp
  * @brief Class to propagate spacecraft orbit with Encke's method
  */
-#pragma once
+
+#ifndef S2E_DYNAMICS_ORBIT_ENCKE_ORBIT_PROPAGATION_H_
+#define S2E_DYNAMICS_ORBIT_ENCKE_ORBIT_PROPAGATION_H_
+
 #include "../../Library/Orbit/KeplerOrbit.h"
 #include "../../Library/math/ODE.hpp"
 #include "Orbit.h"
@@ -88,3 +91,5 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
    */
   double CalcQFunction(Vector<3> diff_pos_i);
 };
+
+#endif  // S2E_DYNAMICS_ORBIT_ENCKE_ORBIT_PROPAGATION_H_
