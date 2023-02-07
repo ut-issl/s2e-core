@@ -1,9 +1,11 @@
 /**
- * @file ClockGenerator.h
+ * @file clock_generator.hpp
  * @brief Class to generate clock for classes which have ITickable
  */
 
-#pragma once
+#ifndef S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_H_
+#define S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_H_
+
 #include <Component/Abstract/ITickable.h>
 
 #include <vector>
@@ -57,3 +59,5 @@ class ClockGenerator {
   std::vector<ITickable*> components_;  //!< Component list fot tick
   int timer_count_;                     //!< Timer count TODO: consider size, unsigned
 };
+
+#endif  // S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_H_

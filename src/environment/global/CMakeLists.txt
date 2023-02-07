@@ -7,7 +7,7 @@ add_library(${PROJECT_NAME} STATIC
   HipparcosCatalogue.cpp
   GnssSatellites.cpp
   SimTime.cpp
-  ClockGenerator.cpp
+  clock_generator.cpp
   celestial_rotation.cpp
   InitGlobalEnvironment.cpp
   InitGnssSatellites.cpp

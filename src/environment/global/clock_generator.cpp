@@ -1,9 +1,9 @@
 /**
- * @file ClockGenerator.cpp
+ * @file clock_generator.cpp
  * @brief Class to generate clock for classes which have ITickable
  */
 
-#include "ClockGenerator.h"
+#include "clock_generator.hpp"
 
 ClockGenerator::~ClockGenerator() {}
 
