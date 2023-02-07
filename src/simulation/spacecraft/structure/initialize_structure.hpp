@@ -3,6 +3,9 @@
  * @brief Initialize functions for spacecraft structure
  */
 
+#ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_INITIALIZE_STRUCTURE_H_
+#define S2E_SIMULATION_SPACECRAFT_STRUCTURE_INITIALIZE_STRUCTURE_H_
+
 #pragma once
 
 #include <simulation/spacecraft/structure/structure.hpp>
@@ -22,3 +25,5 @@ vector<Surface> InitSurfaces(std::string ini_path);
  * @brief Initialize the RMM(Residual Magnetic Moment) parameters with an ini file
  */
 RMMParams InitRMMParams(std::string ini_path);
+
+#endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_INITIALIZE_STRUCTURE_H_
