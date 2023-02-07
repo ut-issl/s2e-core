@@ -5,7 +5,7 @@ add_library(${PROJECT_NAME} STATIC
   orbit/orbit.cpp
   orbit/Sgp4OrbitPropagation.cpp
   orbit/Rk4OrbitPropagation.cpp
-  orbit/RelativeOrbit.cpp
+  orbit/relative_orbit.cpp
   orbit/kepler_orbit_propagation.cpp
   orbit/encke_orbit_propagation.cpp
   orbit/initialize_orbit.cpp

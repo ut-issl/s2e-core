@@ -1,8 +1,8 @@
 /**
- * @file RelativeOrbit.cpp
+ * @file relative_orbit.cpp
  * @brief Class to propagate relative orbit
  */
-#include "RelativeOrbit.h"
+#include "relative_orbit.hpp"
 
 #include <Library/utils/Macros.hpp>
 

@@ -1,8 +1,11 @@
 /**
- * @file RelativeOrbit.h
+ * @file relative_orbit.hpp
  * @brief Class to propagate relative orbit
  */
-#pragma once
+
+#ifndef S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_H_
+#define S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_H_
+
 #include <Library/RelativeOrbit/RelativeOrbitModels.h>
 
 #include <Library/math/ODE.hpp>
@@ -121,3 +124,5 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    */
   void PropagateSTM(double elapsed_sec);
 };
+
+#endif  // S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_H_
