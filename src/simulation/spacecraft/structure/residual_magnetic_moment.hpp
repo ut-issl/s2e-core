@@ -3,7 +3,9 @@
  * @brief Definition of Residual Magnetic Moment (RMM)
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_H_
+#define S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_H_
+
 #include <Library/math/Vector.hpp>
 using libra::Vector;
 
@@ -66,3 +68,5 @@ class RMMParams {
   double rmm_rwlimit_;     //!< Random walk limit of RMM [Am2]
   double rmm_wnvar_;       //!< Standard deviation of white noise of RMM [Am2]
 };
+
+#endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_H_
