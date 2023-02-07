@@ -3,7 +3,8 @@
  * @brief Base class of ground station
  */
 
-#pragma once
+#ifndef S2E_SIMULATION_GROUND_STATION_GROUND_STATION_H_
+#define S2E_SIMULATION_GROUND_STATION_GROUND_STATION_H_
 
 #include <Environment/Global/CelestialRotation.h>
 
@@ -109,3 +110,5 @@ class GroundStation : public ILoggable {
    */
   bool CalcIsVisible(const Vector<3> sc_pos_ecef_m);
 };
+
+#endif  // S2E_SIMULATION_GROUND_STATION_GROUND_STATION_H_
