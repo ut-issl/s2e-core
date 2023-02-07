@@ -1,9 +1,9 @@
 /**
- * @file MagDisturbance.cpp
+ * @file magnetic_disturbances.cpp
  * @brief Class to calculate the magnetic disturbance torque
  */
 
-#include "MagDisturbance.h"
+#include "magnetic_disturbance.hpp"
 
 #include "../Library/math/NormalRand.hpp"
 using libra::NormalRand;

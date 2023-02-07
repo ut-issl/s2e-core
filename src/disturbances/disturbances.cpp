@@ -7,13 +7,13 @@
 
 #include <Interface/InitInput/IniAccess.h>
 
-#include "geopotential.hpp"
-#include "gravity_gradient.hpp"
-#include "initialize_disturbances.hpp"
-#include "MagDisturbance.h"
 #include "SolarRadiation.h"
 #include "ThirdBodyGravity.h"
 #include "air_drag.hpp"
+#include "geopotential.hpp"
+#include "gravity_gradient.hpp"
+#include "initialize_disturbances.hpp"
+#include "magnetic_disturbance.hpp"
 
 Disturbances::Disturbances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env) {
   InitializeInstances(sim_config, sat_id, structure, glo_env);

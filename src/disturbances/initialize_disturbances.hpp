@@ -6,13 +6,13 @@
 #ifndef S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_H_
 #define S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_H_
 
-#include <disturbances/MagDisturbance.h>
 #include <disturbances/SolarRadiation.h>
 #include <disturbances/ThirdBodyGravity.h>
 
 #include <disturbances/air_drag.hpp>
 #include <disturbances/geopotential.hpp>
 #include <disturbances/gravity_gradient.hpp>
+#include <disturbances/magnetic_disturbance.hpp>
 
 /**
  * @fn InitAirDrag
