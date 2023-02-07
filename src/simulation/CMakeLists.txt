@@ -13,7 +13,7 @@ add_library(${PROJECT_NAME} STATIC
   spacecraft/installed_components.cpp
   spacecraft/structure/structure.cpp
   spacecraft/structure/KinematicsParams.cpp
-  spacecraft/structure/RMMParams.cpp
+  spacecraft/structure/residual_magnetic_moment.cpp
   spacecraft/structure/surface.cpp
   spacecraft/structure/InitStructure.cpp
   

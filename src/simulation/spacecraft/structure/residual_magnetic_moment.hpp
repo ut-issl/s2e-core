@@ -1,6 +1,6 @@
 /**
- * @file RMMParams.h
- * @brief Definition of RMM (Residual Magnetic Moment)
+ * @file residual_magnetic_moment.hpp
+ * @brief Definition of Residual Magnetic Moment (RMM)
  */
 
 #pragma once

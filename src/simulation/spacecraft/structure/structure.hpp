@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "KinematicsParams.h"
-#include "RMMParams.h"
+#include "residual_magnetic_moment.hpp"
 #include "surface.hpp"
 using std::vector;
 
