@@ -1,9 +1,9 @@
 /**
- * @file RingBuffer.cpp
+ * @file ring_buffer.cpp
  * @brief Class to emulate ring buffer
  */
 
-#include "RingBuffer.h"
+#include "ring_buffer.hpp"
 
 #include <stdlib.h>
 

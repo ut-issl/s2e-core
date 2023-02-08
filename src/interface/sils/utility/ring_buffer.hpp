@@ -1,9 +1,10 @@
 /**
- * @file RingBuffer.h
+ * @file ring_buffer.hpp
  * @brief Class to emulate ring buffer
  */
 
-#pragma once
+#ifndef S2E_INTERFACE_SILS_UTILITY_RING_BUFFER_H_
+#define S2E_INTERFACE_SILS_UTILITY_RING_BUFFER_H_
 
 typedef unsigned char byte;
 
@@ -50,3 +51,5 @@ class RingBuffer {
   int rp_;                //!< Read pointer
   int wp_;                //!< Write pointer
 };
+
+#endif  // S2E_INTERFACE_SILS_UTILITY_RING_BUFFER_H_
