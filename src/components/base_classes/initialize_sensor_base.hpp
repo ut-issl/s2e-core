@@ -1,9 +1,10 @@
 /**
- * @file InitializeSensorBase.hpp
+ * @file initialize_sensor_base.hpp
  * @brief Initialize functions for SensorBase class
  */
 
-#pragma once
+#ifndef S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_H_
+#define S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_H_
 
 #include "SensorBase.h"
 
@@ -20,4 +21,6 @@ template <size_t N>
 SensorBase<N> ReadSensorBaseInformation(const std::string file_name, const double step_width_s, const std::string component_name,
                                         const std::string unit = "");
 
-#include "InitializeSensorBase_tfs.hpp"
+#include "initialize_sensor_base_tfs.hpp"
+
+#endif  // S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_H_
