@@ -1,10 +1,10 @@
 /**
- * @file ODE_ifs.hpp
+ * @file ordinary_differential_equation_ifs.hpp
  * @brief Class for Ordinary Difference Equation (inline functions)
  */
 
-#ifndef ODE_IFS_HPP_
-#define ODE_IFS_HPP_
+#ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_IFS_H_
+#define S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_IFS_H_
 
 namespace libra {
 
@@ -43,4 +43,4 @@ libra::Vector<N>& ODE<N>::state() {
 
 }  // namespace libra
 
-#endif  // ODE_IFS_HPP_
+#endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_IFS_H_

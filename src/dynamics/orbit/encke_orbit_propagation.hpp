@@ -7,7 +7,7 @@
 #define S2E_DYNAMICS_ORBIT_ENCKE_ORBIT_PROPAGATION_H_
 
 #include "../../library/orbit/kepler_orbit.hpp"
-#include "../../library/math/ODE.hpp"
+#include "../../library/math/ordinary_differential_equation.hpp"
 #include "orbit.hpp"
 
 /**

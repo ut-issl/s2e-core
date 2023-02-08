@@ -1,13 +1,14 @@
-/*!
 /**
- * @file ODE_impl.hpp
- * @brief Class for Ordinary Difference Equation
+ * @file ordinary_differential_equation_tfs.hpp
+ * @brief Class for Ordinary Difference Equation (template functions)
  */
+#ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TFS_H_
+#define S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TFS_H_
 
 namespace libra {
 
 template <size_t N>
-ODE<N>::ODE(double step_width) : Logger(), x_(0.0), state_(0.0), rhs_(0.0), step_width_(step_width) {}
+ODE<N>::ODE(double step_width) : x_(0.0), state_(0.0), rhs_(0.0), step_width_(step_width) {}
 
 template <size_t N>
 void ODE<N>::setup(double init_x, const Vector<N>& init_cond) {
@@ -17,8 +18,13 @@ void ODE<N>::setup(double init_x, const Vector<N>& init_cond) {
 
 template <size_t N>
 ODE<N>& ODE<N>::operator++() {
-  RHS(x_, state_, rhs_);  // Calculation of current derivative
-  write_log();            // Write log
+  Update();
+  return *this;
+}
+
+template <size_t N>
+void ODE<N>::Update() {
+  RHS(x_, state_, rhs_);  // Current derivative calculation
 
   // 4th order Runge-Kutta method
   Vector<N> k1(rhs_);
@@ -35,7 +41,12 @@ ODE<N>& ODE<N>::operator++() {
 
   state_ += (1.0 / 6.0) * (k1 + 2.0 * (k2 + k3) + k4);  // Update state vector
   x_ += step_width_;                                    // Update independent variable
-  return *this;
 }
 
+template <size_t N>
+void ODE<N>::setStepWidth(double new_step) {
+  step_width_ = new_step;
+}
 }  // namespace libra
+
+#endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TFS_H_

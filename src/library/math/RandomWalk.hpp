@@ -6,7 +6,7 @@
 #pragma once
 
 #include "./normal_randomization.hpp"
-#include "./ODE.hpp"
+#include "./ordinary_differential_equation.hpp"
 #include "./Vector.hpp"
 
 /**

@@ -1,9 +1,10 @@
 /**
- * @file ODE.hpp
+ * @file ordinary_differential_equation.hpp
  * @brief Class for Ordinary Difference Equation
  */
-#ifndef ODE_HPP_
-#define ODE_HPP_
+
+#ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_H_
+#define S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_H_
 
 #include "./Vector.hpp"
 
@@ -110,7 +111,7 @@ class ODE {
 
 }  // namespace libra
 
-#include "./ODE_ifs.hpp"  // inline function definisions.
-#include "./ODE_tfs.hpp"  // template function definisions.
+#include "./ordinary_differential_equation_ifs.hpp"  // inline function definisions.
+#include "./ordinary_differential_equation_tfs.hpp"  // template function definisions.
 
-#endif  // ODE_HPP_
+#endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_H_
