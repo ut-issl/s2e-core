@@ -1,9 +1,11 @@
 /**
- * @file IGPIOCompo.h
+ * @file interface_gpio_component.hpp
  * @brief Interface class for components which have GPIO port
  */
 
-#pragma once
+#ifndef S2E_COMPONENTS_BASE_CLASSES_INTERFACE_GPIO_COMPONENT_H_
+#define S2E_COMPONENTS_BASE_CLASSES_INTERFACE_GPIO_COMPONENT_H_
+
 /**
  * @class IGPIOCompo
  * @brief Interface class for components which have GPIO port
@@ -24,3 +26,5 @@ class IGPIOCompo {
    */
   virtual void GPIOStateChanged(int port_id, bool isPosedge) = 0;
 };
+
+#endif  // S2E_COMPONENTS_BASE_CLASSES_INTERFACE_GPIO_COMPONENT_H_
