@@ -211,7 +211,7 @@ if(GOOGLE_TEST)
   # Unit test
   set(TEST_PROJECT_NAME ${PROJECT_NAME}_TEST)
   set(TEST_FILES
-    src/library/math/Testquaternion.cpp
+    src/library/math/test_quaternion.cpp
   )
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)

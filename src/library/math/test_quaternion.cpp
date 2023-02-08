@@ -1,5 +1,5 @@
 /**
- * @file Testquaternion.cpp
+ * @file test_quaternion.cpp
  * @brief Test codes for Quaternion class with GoogleTest
  */
 #include <gtest/gtest.h>
