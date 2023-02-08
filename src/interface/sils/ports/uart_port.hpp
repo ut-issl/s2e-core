@@ -1,9 +1,11 @@
 /**
- * @file SCIPort.h
- * @brief Class to emulate SCI(Serial Communication Interface) communication port
+ * @file uart_port.hpp
+ * @brief Class to emulate UART communication port
  */
 
-#pragma once
+#ifndef S2E_INTERFACE_SILS_PORTS_UART_PORT_H_
+#define S2E_INTERFACE_SILS_PORTS_UART_PORT_H_
+
 #include "../utility/RingBuffer.h"
 
 /**
@@ -76,3 +78,5 @@ class SCIPort {
   RingBuffer* rxb_;  //!< Receive buffer (Component -> OBC)
   RingBuffer* txb_;  //!< Transmit buffer (OBC -> Component)
 };
+
+#endif  // S2E_INTERFACE_SILS_PORTS_UART_PORT_H_

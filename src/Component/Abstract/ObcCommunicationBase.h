@@ -92,7 +92,7 @@ class ObcCommunicationBase {
   std::vector<unsigned char> rx_buffer_;
 
  private:
-  const int kDefaultBufferSize = 1024;  //!< Default buffer size Fixme: The magic number. This is depending on SCIPort.h.
+  const int kDefaultBufferSize = 1024;  //!< Default buffer size Fixme: The magic number. This is depending on uart_port.hpp.
 
   int sils_port_id_;           //!< Port ID for SILS
   int hils_port_id_;           //!< Port ID for HILS

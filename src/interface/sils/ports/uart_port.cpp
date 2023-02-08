@@ -1,9 +1,9 @@
 /**
- * @file SCIPort.cpp
- * @brief Class to emulate SCI(Serial Communication Interface) communication port
+ * @file uart_port.cpp
+ * @brief Class to emulate UART communication port
  */
 
-#include "SCIPort.h"
+#include "uart_port.hpp"
 
 SCIPort::SCIPort() : SCIPort(kDefaultBufferSize, kDefaultBufferSize) {}
 
