@@ -1,13 +1,14 @@
 /**
- * @file ComponentBase.h
+ * @file component_base.hpp
  * @brief Base class for component emulation. All components have to inherit this.
  */
 
-#pragma once
-#include <interface/sils/ports/power_port.hpp>
+#ifndef S2E_COMPONENTS_BASE_CLASSES_COMPONENT_BASE_H_
+#define S2E_COMPONENTS_BASE_CLASSES_COMPONENT_BASE_H_
 
 #include <Library/utils/Macros.hpp>
 #include <environment/global/clock_generator.hpp>
+#include <interface/sils/ports/power_port.hpp>
 
 #include "ITickable.h"
 
@@ -86,3 +87,5 @@ class ComponentBase : public ITickable {
   ClockGenerator* clock_gen_;  //!< Clock generator
   PowerPort* power_port_;      //!< Power port
 };
+
+#endif  // S2E_COMPONENTS_BASE_CLASSES_COMPONENT_BASE_H_

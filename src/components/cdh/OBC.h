@@ -9,7 +9,7 @@
 
 #include <map>
 
-#include "../base_classes/ComponentBase.h"
+#include "../base_classes/component_base.hpp"
 
 /*
  * @class OBC

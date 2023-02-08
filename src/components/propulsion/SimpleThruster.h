@@ -12,7 +12,7 @@
 #include <Library/math/Vector.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
-#include "../base_classes/ComponentBase.h"
+#include "../base_classes/component_base.hpp"
 
 /*
  * @class SimpleThruster

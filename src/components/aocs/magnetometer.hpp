@@ -10,7 +10,7 @@
 #include <environment/local/local_environment.hpp>
 #include <interface/log_output/loggable.hpp>
 
-#include "../base_classes/ComponentBase.h"
+#include "../base_classes/component_base.hpp"
 #include "../base_classes/SensorBase.h"
 
 const size_t kMagDim = 3;  //!< Dimension of magnetometer

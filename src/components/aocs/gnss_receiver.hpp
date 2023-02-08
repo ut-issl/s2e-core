@@ -13,7 +13,7 @@
 #include <environment/global/simulation_time.hpp>
 #include <interface/log_output/loggable.hpp>
 
-#include "../base_classes/ComponentBase.h"
+#include "../base_classes/component_base.hpp"
 
 using libra::Vector;
 

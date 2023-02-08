@@ -10,7 +10,7 @@
 #include <dynamics/dynamics.hpp>
 #include <interface/log_output/loggable.hpp>
 
-#include "../base_classes/ComponentBase.h"
+#include "../base_classes/component_base.hpp"
 #include "../base_classes/SensorBase.h"
 
 const size_t kGyroDim = 3;  //!< Dimension of gyro sensor

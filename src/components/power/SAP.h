@@ -10,7 +10,7 @@
 #include <environment/local/local_celestial_information.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
 
-#include "../base_classes/ComponentBase.h"
+#include "../base_classes/component_base.hpp"
 
 class SAP : public ComponentBase, public ILoggable {
  public:

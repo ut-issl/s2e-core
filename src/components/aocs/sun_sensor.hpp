@@ -13,7 +13,7 @@
 #include <environment/local/solar_radiation_pressure_environment.hpp>
 #include <interface/log_output/loggable.hpp>
 
-#include "../base_classes/ComponentBase.h"
+#include "../base_classes/component_base.hpp"
 
 /*
  * @class SunSensor

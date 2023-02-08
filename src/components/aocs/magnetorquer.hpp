@@ -14,7 +14,7 @@
 #include <environment/local/local_environment.hpp>
 #include <interface/log_output/loggable.hpp>
 
-#include "../base_classes/ComponentBase.h"
+#include "../base_classes/component_base.hpp"
 
 const size_t kMtqDim = 3;  //!< Dimension of magnetorquer
 

@@ -15,7 +15,7 @@
 #include <interface/log_output/loggable.hpp>
 #include <vector>
 
-#include "../base_classes/ComponentBase.h"
+#include "../base_classes/component_base.hpp"
 #include "dynamics/dynamics.hpp"
 
 /*
