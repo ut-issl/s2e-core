@@ -1,9 +1,9 @@
 /**
- * @file Vector.cpp
+ * @file vector.cpp
  * @brief Class for mathematical vector
  */
 
-#include "Vector.hpp"
+#include "vector.hpp"
 
 #include "constants.hpp"
 

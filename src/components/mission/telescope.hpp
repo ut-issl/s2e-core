@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_MISSION_TELESCOPE_H_
 
 #include <library/math/quaternion.hpp>
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 #include <base_classes/component_base.hpp>
 #include <dynamics/attitude/attitude.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>

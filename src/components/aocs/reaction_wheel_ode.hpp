@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_AOCS_REACTION_WHEEL_ODE_H_
 
 #include <library/math/ordinary_differential_equation.hpp>
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 #include <vector>
 
 /*

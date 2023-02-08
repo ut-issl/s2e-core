@@ -9,7 +9,7 @@
 #include <library/math/matrix.hpp>
 #include <library/math/normal_randomization.hpp>
 #include <library/math/random_walk.hpp>
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 
 /**
  * @class SensorBase

@@ -8,7 +8,7 @@ add_library(${PROJECT_NAME} STATIC
   quaternion.cpp
   Ran0.cpp
   Ran1.cpp
-  Vector.cpp
+  vector.cpp
   s2e_math.cpp
 )
 

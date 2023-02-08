@@ -8,7 +8,7 @@
 
 #include <library/math/normal_randomization.hpp>
 #include <library/math/quaternion.hpp>
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 #include <dynamics/dynamics.hpp>
 #include <interface/log_output/logger.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>

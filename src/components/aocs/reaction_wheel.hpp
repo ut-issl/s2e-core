@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_AOCS_REACTION_WHEEL_H_
 #define S2E_COMPONENTS_AOCS_REACTION_WHEEL_H_
 
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 #include <interface/log_output/loggable.hpp>
 #include <interface/log_output/logger.hpp>
 #include <limits>

@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_H_
 #define S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_H_
 
-#include "./Vector.hpp"
+#include "./vector.hpp"
 
 namespace libra {
 

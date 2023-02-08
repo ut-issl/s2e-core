@@ -1,9 +1,10 @@
 /**
- * @file Vector_tfs.hpp
+ * @file vector_tfs.hpp
  * @brief Class for mathematical vector (template functions)
  */
-#ifndef VECTOR_HPP_TFS_HPP_
-#define VECTOR_HPP_TFS_HPP_
+
+#ifndef S2E_LIBRARY_MATH_VECTOR_TFS_H_
+#define S2E_LIBRARY_MATH_VECTOR_TFS_H_
 
 #include <cmath>
 
@@ -145,4 +146,4 @@ double angle(const Vector<N, double>& v1, const Vector<N, double>& v2) {
 
 }  // namespace libra
 
-#endif  // VECTOR_HPP_TFS_HPP_
+#endif  // S2E_LIBRARY_MATH_VECTOR_TFS_H_

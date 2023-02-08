@@ -8,7 +8,7 @@
 
 #pragma once
 #include <library/math/quaternion.hpp>
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 #include <vector>
 
 /*

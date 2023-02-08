@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_MATH_QUATERNION_H_
 #define S2E_LIBRARY_MATH_QUATERNION_H_
 
-#include "Vector.hpp"
+#include "vector.hpp"
 #include "matrix.hpp"
 
 namespace libra {

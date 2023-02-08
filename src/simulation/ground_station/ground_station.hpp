@@ -7,7 +7,7 @@
 #define S2E_SIMULATION_GROUND_STATION_GROUND_STATION_H_
 
 #include <library/geodesy/geodetic_position.hpp>
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 #include <environment/global/celestial_rotation.hpp>
 #include <simulation/spacecraft/spacecraft.hpp>
 

@@ -9,7 +9,7 @@
 
 #include <library/math/normal_randomization.hpp>
 #include <library/math/random_walk.hpp>
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 #include <interface/log_output/log_utility.hpp>
 
 using libra::NormalRand;

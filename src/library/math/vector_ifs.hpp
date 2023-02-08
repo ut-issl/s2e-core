@@ -1,9 +1,10 @@
 /**
- * @file Vector_ifs.hpp
+ * @file vector_ifs.hpp
  * @brief Class for mathematical vector (inline functions)
  */
-#ifndef VECTOR_IFS_HPP_
-#define VECTOR_IFS_HPP_
+
+#ifndef S2E_LIBRARY_MATH_VECTOR_IFS_H_
+#define S2E_LIBRARY_MATH_VECTOR_IFS_H_
 
 #include <stdexcept>  // for invalid_argument.
 
@@ -45,4 +46,4 @@ T Vector<N, T>::operator()(std::size_t pos) const {
 
 }  // namespace libra
 
-#endif  // VECTOR_IFS_HPP_
+#endif  // S2E_LIBRARY_MATH_VECTOR_IFS_H_

@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "../library/math/Vector.hpp"
+#include "../library/math/vector.hpp"
 using libra::Vector;
 
 #include "../interface/log_output/loggable.hpp"

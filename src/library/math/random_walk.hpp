@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_MATH_RANDOM_WALK_H_
 #define S2E_LIBRARY_MATH_RANDOM_WALK_H_
 
-#include "./Vector.hpp"
+#include "./vector.hpp"
 #include "./normal_randomization.hpp"
 #include "./ordinary_differential_equation.hpp"
 

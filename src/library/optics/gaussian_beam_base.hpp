@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_OPTICS_GAUSSIAN_BEAM_BASE_H_
 #define S2E_LIBRARY_OPTICS_GAUSSIAN_BEAM_BASE_H_
 
-#include "../math/Vector.hpp"
+#include "../math/vector.hpp"
 
 /**
  * @class GaussianBeamBase

@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_H_
 #define S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_H_
 
-#include "../math/Vector.hpp"
+#include "../math/vector.hpp"
 
 /**
  * @class OrbitalElements

@@ -6,7 +6,7 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
 #define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
 
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 #include <components/aocs/initialize_gnss_receiver.hpp>
 #include <components/aocs/initialize_gyro_sensor.hpp>
 #include <components/aocs/initialize_magnetometer.hpp>

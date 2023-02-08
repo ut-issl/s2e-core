@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_COMMUNICATION_ANTENNA_H_
 
 #include <library/math/quaternion.hpp>
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 using libra::Quaternion;
 using libra::Vector;
 #include <vector>

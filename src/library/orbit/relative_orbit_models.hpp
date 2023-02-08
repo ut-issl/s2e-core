@@ -7,7 +7,7 @@
 #define S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_H_
 
 #include "../math/matrix.hpp"
-#include "../math/Vector.hpp"
+#include "../math/vector.hpp"
 
 /**
  * @enum RelativeOrbitModel

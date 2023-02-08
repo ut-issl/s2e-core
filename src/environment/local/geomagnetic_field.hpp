@@ -6,7 +6,7 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_H_
 #define S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_H_
 
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 using libra::Vector;
 #include <library/math/quaternion.hpp>
 using libra::Quaternion;

@@ -8,7 +8,7 @@
 
 #include <library/math/normal_randomization.hpp>
 #include <library/math/quaternion.hpp>
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 #include <environment/local/local_celestial_information.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
 #include <interface/log_output/loggable.hpp>

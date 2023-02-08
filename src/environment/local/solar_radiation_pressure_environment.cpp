@@ -5,7 +5,7 @@
 #include "solar_radiation_pressure_environment.hpp"
 
 #include <library/math/constants.hpp>
-#include <library/math/Vector.hpp>
+#include <library/math/vector.hpp>
 #include <algorithm>
 #include <cassert>
 #include <environment/global/physical_constants.hpp>
