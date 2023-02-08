@@ -1,9 +1,9 @@
 ﻿/**
- * @file HilsI2cTargetPort.cpp
+ * @file hils_i2c_target_port.cpp
  * @brief Class to control I2C-USB converter for the target(device) side from COM port
  */
 
-#include "HilsI2cTargetPort.h"
+#include "hils_i2c_target_port.hpp"
 
 // #define HILS_I2C_TARGET_PORT_SHOW_DEBUG_DATA //!< Remove comment when you want to show the debug message
 
