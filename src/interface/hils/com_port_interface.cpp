@@ -1,11 +1,11 @@
 /**
- * @file ComPortInterface.cpp
+ * @file com_port_interface.cpp
  * @brief Class to manage PC's COM port
  * @details Currently, this feature supports Windows Visual Studio only.(FIXME)
  * Reference: https://docs.microsoft.com/ja-jp/dotnet/api/system.io.ports.serialport?view=netframework-4.7.2
  */
 
-#include "ComPortInterface.h"
+#include "com_port_interface.hpp"
 
 ComPortInterface::ComPortInterface(int port_id, int baudrate, unsigned int tx_buffer_size, unsigned int rx_buffer_size)
     : kPortId(port_id), kPortName(PortName(port_id)), kBaudRate(baudrate), kTxBufferSize(tx_buffer_size), kRxBufferSize(rx_buffer_size) {

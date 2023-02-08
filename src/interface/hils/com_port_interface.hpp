@@ -1,11 +1,13 @@
 /**
- * @file ComPortInterface.h
+ * @file com_port_interface.hpp
  * @brief Class to manage PC's COM port
  * @details Currently, this feature supports Windows Visual Studio only.(FIXME)
  * Reference: https://docs.microsoft.com/ja-jp/dotnet/api/system.io.ports.serialport?view=netframework-4.7.2
  */
 
-#pragma once
+#ifndef S2E_INTERFACE_HILS_COM_PORT_INTERFACE_H_
+#define S2E_INTERFACE_HILS_COM_PORT_INTERFACE_H_
+
 #include <Component/Abstract/ITickable.h>
 #include <msclr/gcroot.h>
 #include <msclr/marshal_cppstd.h>
@@ -101,3 +103,5 @@ class ComPortInterface {
   msclr::gcroot<bytearray ^> tx_buf_;  //!< TX Buffer
   msclr::gcroot<bytearray ^> rx_buf_;  //!< RX Buffer
 };
+
+#endif  // S2E_INTERFACE_HILS_COM_PORT_INTERFACE_H_
