@@ -1,9 +1,9 @@
 ﻿/*
- * @file InitSap.cpp
+ * @file initialize_solar_array_paddle.cpp
  * @brief Initialize function of SAP (Solar Array Panel)
  */
 #define _CRT_SECURE_NO_WARNINGS
-#include "InitSap.hpp"
+#include "initialize_solar_array_paddle.hpp"
 
 #include <string.h>
 

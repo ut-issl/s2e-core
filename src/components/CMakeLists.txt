@@ -54,7 +54,7 @@ add_library(${PROJECT_NAME} STATIC
   power/PCU_InitialStudy.cpp
   power/initialize_pcu_initial_study.cpp
   power/SAP.cpp
-  power/InitSap.cpp
+  power/initialize_solar_array_paddle.cpp
   power/csv_scenario_interface.cpp
 
   propulsion/SimpleThruster.cpp
