@@ -36,8 +36,8 @@
 
 #include "sgp4unit.h"
 
-#include <library/utilities/macros.hpp>
 #include <iostream>
+#include <library/utilities/macros.hpp>
 
 const char help = 'n';
 FILE* dbgfile;
@@ -251,7 +251,7 @@ static void dpper(double e3, double ee2, double peo, double pgho, double pho, do
     }
   }  // if init == 'n'
 
-  //#include "debug1.cpp"
+  // #include "debug1.cpp"
 }  // end dpper
 
 /*-----------------------------------------------------------------------------
@@ -498,7 +498,7 @@ static void dscom(double epoch, double ep, double argpp, double tc, double inclp
   xh2 = -2.0 * s2 * z22;
   xh3 = -2.0 * s2 * (z23 - z21);
 
-  //#include "debug2.cpp"
+  // #include "debug2.cpp"
 }  // end dscom
 
 /*-----------------------------------------------------------------------------
@@ -764,7 +764,7 @@ static void dsinit(gravconsttype whichconst, double cosim, double emsq, double a
     nm = no + dndt;
   }
 
-  //#include "debug3.cpp"
+  // #include "debug3.cpp"
 }  // end dsinit
 
 /*-----------------------------------------------------------------------------
@@ -966,7 +966,7 @@ static void dspace(int irez, double d2201, double d2211, double d3210, double d3
     nm = no + dndt;
   }
 
-  //#include "debug4.cpp"
+  // #include "debug4.cpp"
 }  // end dsspace
 
 /*-----------------------------------------------------------------------------
@@ -1083,7 +1083,7 @@ static void initl(int satn, gravconsttype whichconst, double ecco, double epoch,
   gsto = fmod(thgr70 + c1 * ids70 + c1p2p * tfrac + ts70 * ts70 * fk5r, twopi);
   if (gsto < 0.0) gsto = gsto + twopi;
 
-  //#include "debug5.cpp"
+  // #include "debug5.cpp"
 }  // end initl
 
 /*-----------------------------------------------------------------------------
@@ -1406,7 +1406,7 @@ int sgp4init(gravconsttype whichconst, const int satn, const double epoch, const
 
   satrec.init = 'n';
 
-  //#include "debug6.cpp"
+  // #include "debug6.cpp"
   return satrec.error;
 }  // end sgp4init
 
@@ -1523,7 +1523,7 @@ int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
   satrec.error = 0;
 
   /* ------- update for secular gravity and atmospheric drag ----- */
-  //永続的な重力と大気抵抗のアップデート
+  // 永続的な重力と大気抵抗のアップデート
   xmdf = satrec.mo + satrec.mdot * satrec.t;
   argpdf = satrec.argpo + satrec.argpdot * satrec.t;
   nodedf = satrec.nodeo + satrec.nodedot * satrec.t;
@@ -1628,7 +1628,7 @@ int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
   xl = mp + argpp + nodep + temp * satrec.xlcof * axnl;
 
   /* --------------------- solve kepler's equation --------------- */
-  //ケプラー方程式を解く
+  // ケプラー方程式を解く
   u = fmod(xl - nodep, twopi);
   eo1 = u;
   tem5 = 9999.9;
@@ -1710,13 +1710,13 @@ int sgp4(gravconsttype whichconst, elsetrec& satrec, double tsince, double r[3],
   }  // if pl > 0
 
   // sgp4fix for decaying satellites
-  if (mrt < 1.0)  //地球に激突して破壊？
+  if (mrt < 1.0)  // 地球に激突して破壊？
   {
     //         printf("# decay condition %11.6f \n",mrt);
     satrec.error = 6;
   }
 
-  //#include "debug7.cpp"
+  // #include "debug7.cpp"
   return satrec.error;
 }  // end sgp4
 

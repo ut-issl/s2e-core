@@ -37,8 +37,8 @@
 #define X3PIO2 4.71238898038468967 /* 3*Pi/2 */
 #define TWOPI 6.28318530717958623  /* 2*Pi  */
 
-//座標変換用
-//回転関数x軸周り[rad]
+// 座標変換用
+// 回転関数x軸周り[rad]
 int RotationX(const double* bfr, double* aft, double theta) {
   double temp[3];
 
@@ -53,8 +53,8 @@ int RotationX(const double* bfr, double* aft, double theta) {
   return 0;
 }
 
-//座標変換用
-//回転関数Y軸周り[rad]
+// 座標変換用
+// 回転関数Y軸周り[rad]
 int RotationY(const double* bfr, double* aft, double theta) {
   double temp[3];
 
@@ -69,8 +69,8 @@ int RotationY(const double* bfr, double* aft, double theta) {
   return 0;
 }
 
-//座標変換用
-//回転関数Z軸周り[rad]
+// 座標変換用
+// 回転関数Z軸周り[rad]
 int RotationZ(const double* bfr, double* aft, double theta) {
   double temp[3];
 
@@ -85,7 +85,7 @@ int RotationZ(const double* bfr, double* aft, double theta) {
   return 0;
 }
 
-//座標変換用
+// 座標変換用
 double AcTan(double sinx, double cosx) {
   /* Four-quadrant arctan function */
 
@@ -109,7 +109,7 @@ double AcTan(double sinx, double cosx) {
   }
 }
 
-//座標変換用
+// 座標変換用
 double FMod2p(double x) {
   /* Returns mod 2PI of argument */
 
@@ -505,7 +505,7 @@ void rv2coe(double r[3], double v[3], double mu, double& p, double& a, double& e
       nu = undefined;
 
     // ----  find argument of latitude - circular inclined -----
-    //緯度の計算（円の/傾斜面の)
+    // 緯度の計算（円の/傾斜面の)
     if (strcmp(typeorbit, "ci") == 0) {
       arglat = angle(nbar, r);
       if (r[2] < 0.0) arglat = twopi - arglat;
@@ -524,7 +524,7 @@ void rv2coe(double r[3], double v[3], double mu, double& p, double& a, double& e
       lonper = undefined;
 
     // -------- find true longitude - circular equatorial ------
-    //真の経度の計算(円の/赤道の)
+    // 真の経度の計算(円の/赤道の)
     if ((magr > small) && (strcmp(typeorbit, "ce") == 0)) {
       temp = r[0] / magr;
       if (fabs(temp) > 1.0) temp = sgn(temp);  // sgn()は符号関数
@@ -729,7 +729,7 @@ void invjday(double jd, int& year, int& mon, int& day, int& hr, int& minute, dou
   sec = sec - 0.00000086400;
 }  // end invjday
 
-//ユリウス日からDecimalYear(yearの小数点表記)の計算
+// ユリウス日からDecimalYear(yearの小数点表記)の計算
 void JdToDecyear(double jd, double* decyear) {
   int leapyrs, year;
   double days, tu, temp;
