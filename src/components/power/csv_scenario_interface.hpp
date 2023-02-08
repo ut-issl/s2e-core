@@ -1,8 +1,10 @@
 ﻿/*
- * @file CsvScenarioInterface.h
+ * @file csv_scenario_interface.hpp
  * @brief Interface to read power related scenario in CSV file
  */
-#pragma once
+
+#ifndef S2E_COMPONENTS_POWER_CSV_SCENARIO_INTERFACE_H_
+#define S2E_COMPONENTS_POWER_CSV_SCENARIO_INTERFACE_H_
 
 #include <Library/math/Vector.hpp>
 #include <map>
@@ -75,3 +77,5 @@ class CsvScenarioInterface {
   static std::map<std::string, unsigned int> buffer_line_id_;  //!< Buffer line ID
   static std::map<std::string, DoubleBuffer> buffers_;         //!< Buffer
 };
+
+#endif  // S2E_COMPONENTS_POWER_CSV_SCENARIO_INTERFACE_H_

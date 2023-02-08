@@ -1,9 +1,9 @@
 ﻿/*
- * @file CsvScenarioInterface.cpp
+ * @file csv_scenario_interface.cpp
  * @brief Interface to read power related scenario in CSV file
  */
 
-#include "CsvScenarioInterface.h"
+#include "csv_scenario_interface.hpp"
 
 #include <interface/initialize/initialize_file_access.hpp>
 

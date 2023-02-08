@@ -55,7 +55,7 @@ add_library(${PROJECT_NAME} STATIC
   power/InitPcu_InitialStudy.cpp
   power/SAP.cpp
   power/InitSap.cpp
-  power/CsvScenarioInterface.cpp
+  power/csv_scenario_interface.cpp
 
   propulsion/SimpleThruster.cpp
   propulsion/InitSimpleThruster.cpp
