@@ -6,9 +6,9 @@
 #ifndef S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_H_
 #define S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_H_
 
-#include <components/CommGS/GScalculator.h>
+#include <components/communication/GScalculator.h>
 
-#include <components/CommGS/Antenna.hpp>
+#include <components/communication/Antenna.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/global_environment.hpp>
 

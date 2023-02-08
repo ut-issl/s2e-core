@@ -6,8 +6,8 @@
 #ifndef S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_COMPONENTS_H_
 #define S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_COMPONENTS_H_
 
-#include <components/CommGS/InitAntenna.hpp>
-#include <components/CommGS/InitGsCalculator.hpp>
+#include <components/communication/InitAntenna.hpp>
+#include <components/communication/InitGsCalculator.hpp>
 
 /**
  * @class SampleGSComponents

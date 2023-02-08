@@ -28,11 +28,11 @@ add_library(${PROJECT_NAME} STATIC
   cdh/OBC.cpp
   cdh/OBC_C2A.cpp
 
-  CommGS/Antenna.cpp
-  CommGS/AntennaRadiationPattern.cpp
-  CommGS/InitAntenna.cpp
-  CommGS/GScalculator.cpp
-  CommGS/InitGsCalculator.cpp
+  communication/Antenna.cpp
+  communication/AntennaRadiationPattern.cpp
+  communication/InitAntenna.cpp
+  communication/GScalculator.cpp
+  communication/InitGsCalculator.cpp
 
   examples/example_change_structure.cpp
   examples/example_serial_communication_with_obc.cpp
