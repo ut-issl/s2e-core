@@ -3,7 +3,9 @@
  * @brief Math functions
  */
 
-#pragma once
+#ifndef S2E_LIBRARY_MATH_S2E_MATH_H_
+#define S2E_LIBRARY_MATH_S2E_MATH_H_
+
 #include <cmath>
 
 namespace libra {
@@ -16,3 +18,5 @@ namespace libra {
 double WrapTo2Pi(const double angle);
 
 }  // namespace libra
+
+#endif  // S2E_LIBRARY_MATH_S2E_MATH_H_
