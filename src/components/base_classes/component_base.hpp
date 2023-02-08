@@ -10,7 +10,7 @@
 #include <environment/global/clock_generator.hpp>
 #include <interface/sils/ports/power_port.hpp>
 
-#include "ITickable.h"
+#include "interface_tickable.hpp"
 
 /**
  * @class ComponentBase

@@ -8,7 +8,7 @@
 #ifndef S2E_INTERFACE_HILS_COM_PORT_INTERFACE_H_
 #define S2E_INTERFACE_HILS_COM_PORT_INTERFACE_H_
 
-#include <components/base_classes/ITickable.h>
+#include <components/base_classes/interface_tickable.hpp>
 #include <msclr/gcroot.h>
 #include <msclr/marshal_cppstd.h>
 

@@ -1,9 +1,11 @@
 /**
- * @file ITickable.h
+ * @file interface_tickable.hpp
  * @brief Interface class for time update of components
  */
 
-#pragma once
+#ifndef S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_H_
+#define S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_H_
+
 /**
  * @class ITickable
  * @brief Interface class for time update of components
@@ -37,3 +39,5 @@ class ITickable {
  protected:
   bool needs_fast_update_ = false;  //!< Whether or not high-frequency disturbances need to be calculated
 };
+
+#endif  // S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_H_
