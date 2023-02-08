@@ -6,7 +6,7 @@
 #ifndef S2E_INTERFACE_LOG_OUTPUT_INITIALIZE_LOG_H_
 #define S2E_INTERFACE_LOG_OUTPUT_INITIALIZE_LOG_H_
 
-#include <interface/log_output/Logger.h>
+#include <interface/log_output/logger.hpp>
 
 /**
  * @fn InitLog

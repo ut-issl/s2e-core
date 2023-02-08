@@ -5,7 +5,7 @@
 #pragma once
 
 #include <dynamics/dynamics.hpp>
-#include <interface/log_output/Logger.h>
+#include <interface/log_output/logger.hpp>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>

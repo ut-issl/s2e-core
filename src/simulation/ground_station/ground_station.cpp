@@ -7,7 +7,7 @@
 
 #include <interface/initialize/initialize_file_access.hpp>
 #include <interface/log_output/LogUtility.h>
-#include <interface/log_output/Logger.h>
+#include <interface/log_output/logger.hpp>
 
 #include <Library/math/Constant.hpp>
 #include <Library/utils/Macros.hpp>

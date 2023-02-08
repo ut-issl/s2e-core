@@ -1,9 +1,9 @@
 /**
- * @file Logger.cpp
+ * @file logger.cpp
  * @brief Class to manage log output file
  */
 
-#include "Logger.h"
+#include "logger.hpp"
 
 #include <ctime>
 #include <sstream>

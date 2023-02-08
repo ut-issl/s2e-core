@@ -1,10 +1,11 @@
 /**
- * @file Logger.h
+ * @file logger.hpp
  * @brief Class to manage log output file
  */
 
-#ifndef __LOGGER_H__
-#define __LOGGER_H__
+#ifndef S2E_INTERFACE_LOG_OUTPUT_LOGGER_H_
+#define S2E_INTERFACE_LOG_OUTPUT_LOGGER_H_
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <fstream>
@@ -129,4 +130,4 @@ void Logger::Enable(bool enable) { is_enabled_ = enable; }
 
 std::string Logger::GetLogPath() const { return directory_path_; }
 
-#endif  //__Logger_H__
+#endif  // S2E_INTERFACE_LOG_OUTPUT_LOGGER_H_
