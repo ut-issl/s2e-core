@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETOMETER_H_
 #define S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETOMETER_H_
 
-#include <components/aocs/MagSensor.h>
+#include <components/aocs/magnetometer.hpp>
 
 /**
  * @fn InitMagSensor
