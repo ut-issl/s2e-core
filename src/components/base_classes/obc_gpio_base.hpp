@@ -1,9 +1,12 @@
 /**
- * @file ObcGpioBase.h
+ * @file obc_gpio_base.hpp
  * @brief Base class for GPIO communication with OBC flight software
  *        TODO: consider relation with IGPIOCompo
  */
-#pragma once
+
+#ifndef S2E_COMPONENTS_BASE_CLASSES_OBC_GPIO_BASE_H_
+#define S2E_COMPONENTS_BASE_CLASSES_OBC_GPIO_BASE_H_
+
 #include "../cdh/OBC.h"
 
 /**
@@ -46,3 +49,5 @@ class ObcGpioBase {
   std::vector<int> port_id_;  //!< Port ID GPIO line
   OBC* obc_;                  //!< The communication target OBC
 };
+
+#endif  // S2E_COMPONENTS_BASE_CLASSES_OBC_GPIO_BASE_H_

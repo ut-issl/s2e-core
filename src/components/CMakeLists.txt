@@ -6,7 +6,7 @@ add_library(${PROJECT_NAME} STATIC
   base_classes/obc_communication_base.cpp
   base_classes/i2c_controller_communication_base.cpp
   base_classes/ObcI2cTargetCommunicationBase.cpp
-  base_classes/ObcGpioBase.cpp
+  base_classes/obc_gpio_base.cpp
 
   aocs/gyro_sensor.cpp
   aocs/initialize_gyro_sensor.cpp

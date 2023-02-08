@@ -1,10 +1,10 @@
 /**
- * @file ObcGpioBase.cpp
+ * @file obc_gpio_base.cpp
  * @brief Base class for GPIO communication with OBC flight software
  *        TODO: consider relation with IGPIOCompo
  */
 
-#include "ObcGpioBase.h"
+#include "obc_gpio_base.hpp"
 
 ObcGpioBase::ObcGpioBase(const std::vector<int> port_id, OBC* obc) : port_id_(port_id), obc_(obc) {
   for (size_t i = 0; i < port_id_.size(); i++) {
