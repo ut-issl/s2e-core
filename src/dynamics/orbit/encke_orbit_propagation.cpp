@@ -7,7 +7,7 @@
 
 #include <library/utilities/macros.hpp>
 
-#include "../../library/orbit/OrbitalElements.h"
+#include "../../library/orbit/orbital_elements.hpp"
 
 EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celes_info, const double mu_m3_s2, const double prop_step_s,
                                              const double current_jd, const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s,

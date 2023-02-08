@@ -6,7 +6,7 @@
 #ifndef S2E_DYNAMICS_ORBIT_INITIALIZE_ORBIT_H_
 #define S2E_DYNAMICS_ORBIT_INITIALIZE_ORBIT_H_
 
-#include <library/orbit/OrbitalElements.h>
+#include <library/orbit/orbital_elements.hpp>
 
 #include "orbit.hpp"
 

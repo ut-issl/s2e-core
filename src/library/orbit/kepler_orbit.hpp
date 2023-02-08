@@ -8,7 +8,7 @@
 
 #include "../math/Matrix.hpp"
 #include "../math/Vector.hpp"
-#include "./OrbitalElements.h"
+#include "./orbital_elements.hpp"
 
 /**
  * @class KeplerOrbit
