@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_H_
 
 #include <library/math/matrix.hpp>
-#include <library/math/NormalRand.hpp>
+#include <library/math/normal_randomization.hpp>
 #include <library/math/RandomWalk.hpp>
 #include <library/math/Vector.hpp>
 

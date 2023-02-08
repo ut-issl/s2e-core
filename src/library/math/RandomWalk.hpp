@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "./NormalRand.hpp"
+#include "./normal_randomization.hpp"
 #include "./ODE.hpp"
 #include "./Vector.hpp"
 

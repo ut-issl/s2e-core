@@ -5,7 +5,7 @@
 
 #include "sample_spacecraft.hpp"
 
-#include <library/math/NormalRand.hpp>
+#include <library/math/normal_randomization.hpp>
 #include <environment/global/clock_generator.hpp>
 
 #include "sample_components.hpp"

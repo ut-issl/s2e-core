@@ -1,10 +1,11 @@
 /**
- * @file NormalRand.hpp
+ * @file normal_randomization.hpp
  * @brief Class to generate random value with normal distribution with Box-Muller method
  * @note Ref: NUMERICAL RECIPES in C, p.216-p.217
  */
-#ifndef NORMAL_RAND_HPP_
-#define NORMAL_RAND_HPP_
+
+#ifndef S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_H_
+#define S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_H_
 
 #include "Ran1.hpp"
 using libra::Ran1;
@@ -100,6 +101,6 @@ class NormalRand {
 
 }  // namespace libra
 
-#include "NormalRand_ifs.hpp"  // inline function definisions.
+#include "normal_randomization_ifs.hpp"  // inline function definisions.
 
-#endif  // NORMAL_RAND_HPP_
+#endif  // S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_H_

@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_AOCS_GNSS_RECEIVER_H_
 #define S2E_COMPONENTS_AOCS_GNSS_RECEIVER_H_
 
-#include <library/math/NormalRand.hpp>
+#include <library/math/normal_randomization.hpp>
 #include <library/math/Quaternion.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/gnss_satellites.hpp>

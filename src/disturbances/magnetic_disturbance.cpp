@@ -5,7 +5,7 @@
 
 #include "magnetic_disturbance.hpp"
 
-#include "../library/math/NormalRand.hpp"
+#include "../library/math/normal_randomization.hpp"
 using libra::NormalRand;
 #include <library/utilities/macros.hpp>
 

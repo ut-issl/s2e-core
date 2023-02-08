@@ -1,10 +1,10 @@
 /**
- * @file NormalRand_ifs.hpp
+ * @file normal_randomization_ifs.hpp
  * @brief Class to generate random value with normal distribution with Box-Muller method
  * @note Inline functions
  */
-#ifndef NORMAL_RAND_IFS_HPP_
-#define NORMAL_RAND_IFS_HPP_
+#ifndef S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_IFS_H_
+#define S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_IFS_H_
 
 namespace libra {
 
@@ -29,4 +29,4 @@ void NormalRand::set_param(double avg, double stddev, long seed) {
 
 }  // namespace libra
 
-#endif  // NORMAL_RAND_IFS_HPP_
+#endif  // S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_IFS_H_

@@ -8,7 +8,7 @@
 #include <library/igrf/igrf.h>
 #include <library/math/global_randomization.hpp>
 
-#include <library/math/NormalRand.hpp>
+#include <library/math/normal_randomization.hpp>
 #include <library/math/RandomWalk.hpp>
 #include <interface/initialize/initialize_file_access.hpp>
 

@@ -1,9 +1,9 @@
 /**
- * @file NormalRand.cpp
+ * @file normal_randomization.cpp
  * @brief Class to generate random value with normal distribution with Box-Muller method
  * @note Ref: NUMERICAL RECIPES in C, p.216-p.217
  */
-#include "NormalRand.hpp"
+#include "normal_randomization.hpp"
 using libra::NormalRand;
 
 #include <cfloat>  //DBL_EPSILON

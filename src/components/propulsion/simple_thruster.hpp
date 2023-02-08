@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_H_
 #define S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_H_
 
-#include <library/math/NormalRand.hpp>
+#include <library/math/normal_randomization.hpp>
 #include <library/math/Quaternion.hpp>
 #include <library/math/Vector.hpp>
 #include <dynamics/dynamics.hpp>

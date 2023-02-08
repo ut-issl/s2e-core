@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_IDEAL_COMPONENTS_FORCE_GENERATOR_H_
 #define S2E_COMPONENTS_IDEAL_COMPONENTS_FORCE_GENERATOR_H_
 
-#include <library/math/NormalRand.hpp>
+#include <library/math/normal_randomization.hpp>
 #include <library/math/Vector.hpp>
 #include <components/base_classes/component_base.hpp>
 #include <dynamics/dynamics.hpp>
