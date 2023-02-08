@@ -1,8 +1,11 @@
 /**
- * @file ObcI2cTargetCommunicationBase.h
+ * @file obc_i2c_target_communication_base.hpp
  * @brief Base class for I2C communication as target side with OBC flight software
  */
-#pragma once
+
+#ifndef S2E_COMPONENTS_BASE_CLASSES_OBC_I2C_TARGET_COMMUNICATION_BASE_H_
+#define S2E_COMPONENTS_BASE_CLASSES_OBC_I2C_TARGET_COMMUNICATION_BASE_H_
+
 #include "../../interface/hils/hils_port_manager.hpp"
 #include "../cdh/OBC.h"
 #include "obc_communication_base.hpp"
@@ -117,3 +120,5 @@ class ObcI2cTargetCommunicationBase {
   OBC* obc_;                            //!< Communication target OBC
   HilsPortManager* hils_port_manager_;  //!< HILS port manager
 };
+
+#endif  // S2E_COMPONENTS_BASE_CLASSES_OBC_I2C_TARGET_COMMUNICATION_BASE_H_

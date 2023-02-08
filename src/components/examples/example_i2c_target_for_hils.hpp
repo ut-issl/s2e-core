@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "../base_classes/component_base.hpp"
-#include "../base_classes/ObcI2cTargetCommunicationBase.h"
+#include "../base_classes/obc_i2c_target_communication_base.hpp"
 
 /**
  * @class ExampleI2cTargetForHils

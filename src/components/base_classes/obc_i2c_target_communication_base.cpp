@@ -1,8 +1,8 @@
 /**
- * @file ObcI2cTargetCommunicationBase.cpp
+ * @file obc_i2c_target_communication_base.cpp
  * @brief Base class for I2C communication as target side with OBC flight software
  */
-#include "ObcI2cTargetCommunicationBase.h"
+#include "obc_i2c_target_communication_base.hpp"
 
 #include <iostream>
 
