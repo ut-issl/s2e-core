@@ -16,7 +16,7 @@
 #include <components/propulsion/InitSimpleThruster.hpp>
 #include <components/aocs/initialize_gnss_receiver.hpp>
 #include <components/aocs/initialize_gyro_sensor.hpp>
-#include <components/aocs/InitMagSensor.hpp>
+#include <components/aocs/initialize_magnetometer.hpp>
 #include <components/aocs/InitMagTorquer.hpp>
 #include <components/aocs/InitRwModel.hpp>
 #include <components/aocs/InitStt.hpp>

@@ -1,8 +1,10 @@
 /**
- * @file InitMagSensor.hpp
+ * @file initialize_magnetometer.hpp
  * @brief Initialize functions for magnetometer
  */
-#pragma once
+
+#ifndef S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETOMETER_H_
+#define S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETOMETER_H_
 
 #include <components/aocs/MagSensor.h>
 
@@ -28,3 +30,5 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::str
  */
 MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
                         const MagEnvironment* magnet);
+
+#endif  // S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETOMETER_H_

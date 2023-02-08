@@ -11,7 +11,7 @@ add_library(${PROJECT_NAME} STATIC
   aocs/gyro_sensor.cpp
   aocs/initialize_gyro_sensor.cpp
   aocs/MagSensor.cpp
-  aocs/InitMagSensor.cpp
+  aocs/initialize_magnetometer.cpp
   aocs/MagTorquer.cpp
   aocs/InitMagTorquer.cpp
   aocs/rw_ode.cpp

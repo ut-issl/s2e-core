@@ -1,8 +1,8 @@
 /**
- * @file InitMagSensor.cpp
+ * @file initialize_magnetometer.cpp
  * @brief Initialize functions for magnetometer
  */
-#include "InitMagSensor.hpp"
+#include "initialize_magnetometer.hpp"
 
 #include "../base_classes/InitializeSensorBase.hpp"
 #include "interface/initialize/initialize_file_access.hpp"
