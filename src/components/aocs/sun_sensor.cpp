@@ -5,7 +5,7 @@
 
 #include "sun_sensor.hpp"
 
-#include <library/math/Constant.hpp>
+#include <library/math/constants.hpp>
 #include <library/math/NormalRand.hpp>
 using libra::NormalRand;
 #include <library/math/GlobalRand.h>

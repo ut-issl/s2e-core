@@ -7,7 +7,7 @@
 
 #include <string.h>
 
-#include <library/math/Constant.hpp>
+#include <library/math/constants.hpp>
 
 #include "interface/initialize/initialize_file_access.hpp"
 

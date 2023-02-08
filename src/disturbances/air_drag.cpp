@@ -5,7 +5,7 @@
 
 #include "air_drag.hpp"
 
-#include <library/math/Constant.hpp>
+#include <library/math/constants.hpp>
 #include <cmath>
 #include <environment/global/physical_constants.hpp>
 #include <iostream>

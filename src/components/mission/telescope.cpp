@@ -5,7 +5,7 @@
 
 #include "telescope.hpp"
 
-#include <library/math/Constant.hpp>
+#include <library/math/constants.hpp>
 #include <cassert>
 
 using namespace std;

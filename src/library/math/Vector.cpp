@@ -5,7 +5,7 @@
 
 #include "Vector.hpp"
 
-#include "Constant.hpp"
+#include "constants.hpp"
 
 namespace libra {
 Vector<3, double> ortho2spher(const Vector<3, double>& ortho) {

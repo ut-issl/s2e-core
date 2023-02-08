@@ -5,7 +5,7 @@
 
 #include "ground_station_calculator.hpp"
 
-#include <library/math/Constant.hpp>
+#include <library/math/constants.hpp>
 #include <environment/global/physical_constants.hpp>
 
 GScalculator::GScalculator(const double loss_polarization, const double loss_atmosphere, const double loss_rainfall, const double loss_others,

@@ -1,10 +1,10 @@
 /**
- * @file
+ * @file constants.hpp
  * @brief header for math constant values
  */
 
-#ifndef CONSTANT_HPP_
-#define CONSTANT_HPP_
+#ifndef S2E_LIBRARY_MATH_CONSTANTS_H_
+#define S2E_LIBRARY_MATH_CONSTANTS_H_
 
 #include <type_traits>  // std::is_floating_point_v
 
@@ -45,4 +45,4 @@ DEFINE_MATH_CONSTANT(arcsec_to_rad, deg_to_rad / 3600.0L) /* arcsecond to radian
 
 }  // namespace libra
 
-#endif  // CONSTANT_HPP_
+#endif  // S2E_LIBRARY_MATH_CONSTANTS_H_

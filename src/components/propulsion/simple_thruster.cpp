@@ -6,7 +6,7 @@
 
 #include <library/math/GlobalRand.h>
 
-#include <library/math/Constant.hpp>
+#include <library/math/constants.hpp>
 #include <cfloat>
 
 // Constructor

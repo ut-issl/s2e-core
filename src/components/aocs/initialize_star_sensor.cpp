@@ -4,7 +4,7 @@
  */
 #include "initialize_star_sensor.hpp"
 
-#include <library/math/Constant.hpp>
+#include <library/math/constants.hpp>
 
 #include "interface/initialize/initialize_file_access.hpp"
 

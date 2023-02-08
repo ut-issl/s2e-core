@@ -8,7 +8,7 @@
 #include <library/sgp4/sgp4ext.h>   //for jday()
 #include <library/sgp4/sgp4unit.h>  //for gstime()
 
-#include <library/math/Constant.hpp>
+#include <library/math/constants.hpp>
 #include <library/utilities/macros.hpp>
 #include <algorithm>
 #include <environment/global/physical_constants.hpp>
@@ -1052,7 +1052,7 @@ double GnssSatellites::AddIonosphericDelay(const int sat_id, const libra::Vector
   // sat_id is wrong or not validate
   if (sat_id >= GetNumOfSatellites() || !GetWhetherValid(sat_id)) return 0.0;
 
-  const double Earth_hemisphere = 6378.1;  //[km] FIXME: Use Constant.hpp
+  const double Earth_hemisphere = 6378.1;  //[km] FIXME: Use constants.hpp
 
   double altitude = 0.0;
   for (int i = 0; i < 3; ++i) altitude += pow(rec_position[i], 2.0);

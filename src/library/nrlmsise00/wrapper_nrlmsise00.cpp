@@ -12,7 +12,7 @@ extern "C" {
 }
 #include <stdlib.h> /* for malloc/free */
 
-#include <library/math/Constant.hpp>
+#include <library/math/constants.hpp>
 #include <algorithm>
 #include <cctype>
 #include <cmath> /* maths functions */
