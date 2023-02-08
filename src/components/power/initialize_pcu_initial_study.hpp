@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_POWER_INITIALIZE_PCU_INITIAL_STUDY_H_
 #define S2E_COMPONENTS_POWER_INITIALIZE_PCU_INITIAL_STUDY_H_
 
-#include <components/power/PCU_InitialStudy.h>
+#include <components/power/pcu_initial_study.hpp>
 
 /*
  * @fn InitPCU_InitialStudy

@@ -51,7 +51,7 @@ add_library(${PROJECT_NAME} STATIC
   power/PCU.cpp
   power/battery.cpp
   power/initialize_battery.cpp
-  power/PCU_InitialStudy.cpp
+  power/pcu_initial_study.cpp
   power/initialize_pcu_initial_study.cpp
   power/SAP.cpp
   power/initialize_solar_array_paddle.cpp

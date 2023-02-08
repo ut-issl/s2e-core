@@ -1,9 +1,9 @@
 ﻿/*
- * @file PCU_InitialStudy.cpp
+ * @file pcu_initial_study.cpp
  * @brief Component emulation of Power Control Unit for initial study of spacecraft project
  */
 
-#include "PCU_InitialStudy.h"
+#include "pcu_initial_study.hpp"
 
 #include <components/power/csv_scenario_interface.hpp>
 
