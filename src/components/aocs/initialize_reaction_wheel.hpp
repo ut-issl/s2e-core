@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_AOCS_INITIALIZE_REACTION_WHEEL_H_
 #define S2E_COMPONENTS_AOCS_INITIALIZE_REACTION_WHEEL_H_
 
-#include <components/aocs/RWModel.h>
+#include <components/aocs/reaction_wheel.hpp>
 
 /**
  * @fn InitRWModel

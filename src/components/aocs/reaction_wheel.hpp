@@ -1,14 +1,14 @@
 /*
- * @file RWModel.h
+ * @file reaction_wheel.hpp
  * @brief Class to emulate Reaction Wheel
  */
 
-#ifndef __RWModel_H__
-#define __RWModel_H__
-#include <interface/log_output/loggable.hpp>
-#include <interface/log_output/logger.hpp>
+#ifndef S2E_COMPONENTS_AOCS_REACTION_WHEEL_H_
+#define S2E_COMPONENTS_AOCS_REACTION_WHEEL_H_
 
 #include <Library/math/Vector.hpp>
+#include <interface/log_output/loggable.hpp>
+#include <interface/log_output/logger.hpp>
 #include <limits>
 #include <string>
 #include <vector>
@@ -234,4 +234,5 @@ class RWModel : public ComponentBase, public ILoggable {
    */
   void Initialize();
 };
-#endif  //__RWModel_H__
+
+#endif  // S2E_COMPONENTS_AOCS_REACTION_WHEEL_H_

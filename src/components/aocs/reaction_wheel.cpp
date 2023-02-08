@@ -1,8 +1,8 @@
 /*
- * @file RWModel.cpp
+ * @file reaction_wheel.cpp
  * @brief Class to emulate Reaction Wheel
  */
-#include "RWModel.h"
+#include "reaction_wheel.hpp"
 
 #include <Library/math/Constant.hpp>
 #include <Library/math/Vector.hpp>

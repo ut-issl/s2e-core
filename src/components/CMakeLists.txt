@@ -15,7 +15,7 @@ add_library(${PROJECT_NAME} STATIC
   aocs/magnetorquer.cpp
   aocs/initialize_magnetorquer.cpp
   aocs/reaction_wheel_ode.cpp
-  aocs/RWModel.cpp
+  aocs/reaction_wheel.cpp
   aocs/initialize_reaction_wheel.cpp
   aocs/reaction_wheel_jitter.cpp
   aocs/STT.cpp
