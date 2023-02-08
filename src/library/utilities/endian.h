@@ -3,7 +3,8 @@
  * @brief Function to consider the endian
  */
 
-#pragma once
+#ifndef S2E_LIBRARY_UTILITIES_ENDIAN_H_
+#define S2E_LIBRARY_UTILITIES_ENDIAN_H_
 
 #include <stddef.h>
 #include <stdint.h>
@@ -18,3 +19,5 @@
  * @param [in] count: Copy data size
  */
 void *endian_memcpy(void *dst, const void *src, size_t count);
+
+#endif  // S2E_LIBRARY_UTILITIES_ENDIAN_H_

@@ -3,7 +3,8 @@
  * @brief Functions for SLIP(Serial Line Internet Protocol) encoding
  */
 
-#pragma once
+#ifndef S2E_LIBRARY_UTILITIES_SLIP_H_
+#define S2E_LIBRARY_UTILITIES_SLIP_H_
 
 #include <stdint.h>
 
@@ -38,3 +39,5 @@ std::vector<uint8_t> encode_slip(std::vector<uint8_t> in);
  * @return Encoded data
  */
 std::vector<uint8_t> encode_slip_with_header(std::vector<uint8_t> in);
+
+#endif  // S2E_LIBRARY_UTILITIES_SLIP_H_
