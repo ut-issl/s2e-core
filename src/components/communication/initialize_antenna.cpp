@@ -1,10 +1,10 @@
 /*
- * @file InitAntenna.cpp
+ * @file initialize_antenna.cpp
  * @brief Initialize function for Antenna
  */
 
 #define _CRT_SECURE_NO_WARNINGS
-#include "InitAntenna.hpp"
+#include "initialize_antenna.hpp"
 
 #include <string.h>
 

@@ -10,7 +10,7 @@
 #include <components/power/PCU.h>
 
 #include <Library/math/Vector.hpp>
-#include <components/communication/InitAntenna.hpp>
+#include <components/communication/initialize_antenna.hpp>
 #include <components/ideal_components/InitializeForceGenerator.hpp>
 #include <components/ideal_components/InitializeTorqueGenerator.hpp>
 #include <components/propulsion/InitSimpleThruster.hpp>

@@ -1,8 +1,10 @@
 /*
- * @file InitAntenna.hpp
+ * @file initialize_antenna.hpp
  * @brief Initialize function for Antenna
  */
-#pragma once
+
+#ifndef S2E_COMPONENTS_COMMUNICATION_INITIALIZE_ANTENNA_H_
+#define S2E_COMPONENTS_COMMUNICATION_INITIALIZE_ANTENNA_H_
 
 #include <components/communication/antenna.hpp>
 
@@ -13,3 +15,5 @@
  * @param [in] file_name: Path to initialize file
  */
 Antenna InitAntenna(const int antenna_id, const std::string file_name);
+
+#endif  // S2E_COMPONENTS_COMMUNICATION_INITIALIZE_ANTENNA_H_
