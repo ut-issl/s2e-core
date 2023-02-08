@@ -1,8 +1,10 @@
 /**
- * @file SensorBase.h
+ * @file sensor_base.hpp
  * @brief Base class for sensor emulation to add noises
  */
-#pragma once
+
+#ifndef S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_H_
+#define S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_H_
 
 #include <Library/math/Matrix.hpp>
 #include <Library/math/NormalRand.hpp>
@@ -69,4 +71,6 @@ class SensorBase {
   void RangeCheck(void);
 };
 
-#include "./SensorBase_tfs.hpp"  // template function definisions.
+#include "./sensor_base_tfs.hpp"  // template function definisions.
+
+#endif  // S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_H_

@@ -1,9 +1,10 @@
 /**
- * @file SensorBase.cpp
+ * @file sensor_base_tfs.hpp
  * @brief Base class for sensor emulation to add noises
  */
 
-#pragma once
+#ifndef S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_TFS_H_
+#define S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_TFS_H_
 
 #include <Library/math/GlobalRand.h>
 
@@ -71,3 +72,5 @@ void SensorBase<N>::RangeCheck(void) {
     }
   }
 }
+
+#endif  // S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_TFS_H_
