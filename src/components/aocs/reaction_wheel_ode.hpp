@@ -1,9 +1,11 @@
 /*
- * @file rw_ode.hpp
+ * @file reaction_wheel_ode.hpp
  * @brief Ordinary differential equation of angular velocity of reaction wheel with first-order lag
  */
-#ifndef __RW_ODE_H__
-#define __RW_ODE_H__
+
+#ifndef S2E_COMPONENTS_AOCS_REACTION_WHEEL_ODE_H_
+#define S2E_COMPONENTS_AOCS_REACTION_WHEEL_ODE_H_
+
 #include <Library/math/ODE.hpp>
 #include <Library/math/Vector.hpp>
 #include <vector>
@@ -68,4 +70,4 @@ class RwOde : public libra::ODE<1> {
   double target_angular_velocity_;     //!< Target angular velocity [rad/s]
 };
 
-#endif  //__RW_ODE_H__
+#endif  // S2E_COMPONENTS_AOCS_REACTION_WHEEL_ODE_H_

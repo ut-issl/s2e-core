@@ -15,7 +15,7 @@
 
 #include "../base_classes/ComponentBase.h"
 #include "RWJitter.h"
-#include "rw_ode.hpp"
+#include "reaction_wheel_ode.hpp"
 
 /*
  * @class RWModel

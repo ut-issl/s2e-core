@@ -1,8 +1,8 @@
 /*
- * @file rw_ode.cpp
+ * @file reaction_wheel_ode.cpp
  * @brief Ordinary differential equation of angular velocity of reaction wheel with first-order lag
  */
-#include "rw_ode.hpp"
+#include "reaction_wheel_ode.hpp"
 
 #include <Library/utils/Macros.hpp>
 
