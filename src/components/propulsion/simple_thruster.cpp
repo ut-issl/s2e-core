@@ -4,7 +4,7 @@
  */
 #include "simple_thruster.hpp"
 
-#include <library/math/GlobalRand.h>
+#include <library/math/global_randomization.hpp>
 
 #include <library/math/constants.hpp>
 #include <cfloat>

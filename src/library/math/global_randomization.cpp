@@ -1,9 +1,9 @@
 /**
- * @class GlobalRand.cpp
+ * @class global_randomization.cpp
  * @brief Class to manage global randomization
  */
 
-#include "GlobalRand.h"
+#include "global_randomization.hpp"
 
 GlobalRand g_rand;
 

@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <library/math/GlobalRand.h>
+#include <library/math/global_randomization.hpp>
 
 #include <library/utilities/macros.hpp>
 

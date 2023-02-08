@@ -1,14 +1,15 @@
 /**
- * @file GlobalRand.h
+ * @file global_randomization.hpp
  * @brief Class to manage global randomization
  */
 
-#ifndef GLOBALRAND_HPP_
-#define GLOBALRAND_HPP_
+#ifndef S2E_LIBRARY_MATH_GLOBAL_RANDOMIZATION_H_
+#define S2E_LIBRARY_MATH_GLOBAL_RANDOMIZATION_H_
+
 #include "./Ran0.hpp"
 
 /**
- * @class GlobalRand.h
+ * @class global_randomization.hpp
  * @brief Class to manage global randomization
  * @note Used to make randomized seed for other randomization
  */
@@ -38,4 +39,4 @@ class GlobalRand {
 
 extern GlobalRand g_rand;  //!< Global randomization
 
-#endif
+#endif  // S2E_LIBRARY_MATH_GLOBAL_RANDOMIZATION_H_

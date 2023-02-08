@@ -2,7 +2,7 @@ project(MATH)
 cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
-  GlobalRand.cpp
+  global_randomization.cpp
   NormalRand.cpp
   Quantization.cpp
   Quaternion.cpp
