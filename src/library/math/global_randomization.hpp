@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_MATH_GLOBAL_RANDOMIZATION_H_
 #define S2E_LIBRARY_MATH_GLOBAL_RANDOMIZATION_H_
 
-#include "./Ran0.hpp"
+#include "./randomize0.hpp"
 
 /**
  * @class global_randomization.hpp

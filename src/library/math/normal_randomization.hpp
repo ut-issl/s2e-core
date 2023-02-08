@@ -7,7 +7,7 @@
 #ifndef S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_H_
 #define S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_H_
 
-#include "Ran1.hpp"
+#include "randomize1.hpp"
 using libra::Ran1;
 
 namespace libra {

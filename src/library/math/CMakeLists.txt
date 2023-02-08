@@ -6,8 +6,8 @@ add_library(${PROJECT_NAME} STATIC
   normal_randomization.cpp
   quantization.cpp
   quaternion.cpp
-  Ran0.cpp
-  Ran1.cpp
+  randomize0.cpp
+  randomize1.cpp
   vector.cpp
   s2e_math.cpp
 )

@@ -1,10 +1,10 @@
 /**
- * @file Ran1.cpp
+ * @file randomize1.cpp
  * @brief Randomization with Park and Miller's multiplicative congruential method combined with mixed method
  * @note ran1 function in "NUMERICAL RECIPES in C, p.207-208"
  */
 
-#include "Ran1.hpp"
+#include "randomize1.hpp"
 using libra::Ran1;
 
 Ran1::Ran1() : y_(0) { init_(); }

@@ -1,10 +1,10 @@
 /**
- * @file Ran0.cpp
+ * @file randomize0.cpp
  * @brief Randomization with Park and Miller's multiplicative congruential method
  * @note ran0 function in "NUMERICAL RECIPES in C, p.206"
  */
 
-#include "Ran0.hpp"
+#include "randomize0.hpp"
 using libra::Ran0;
 
 #include <stdexcept>

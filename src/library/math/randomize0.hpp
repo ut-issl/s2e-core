@@ -1,11 +1,11 @@
 /**
- * @file Ran0.hpp
+ * @file randomize0.hpp
  * @brief Randomization with Park and Miller's multiplicative congruential method
  * @note ran0 function in "NUMERICAL RECIPES in C, p.206"
  */
 
-#ifndef RAN0_HPP_
-#define RAN0_HPP_
+#ifndef S2E_LIBRARY_MATH_RANDOMIZE0_H_
+#define S2E_LIBRARY_MATH_RANDOMIZE0_H_
 
 namespace libra {
 
@@ -53,4 +53,5 @@ class Ran0 {
 };
 
 }  // namespace libra
-#endif  // RAN0_HPP_
+
+#endif  // S2E_LIBRARY_MATH_RANDOMIZE0_H_

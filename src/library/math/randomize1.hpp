@@ -1,15 +1,15 @@
 /**
- * @file Ran1.hpp
+ * @file randomize1.hpp
  * @brief Randomization with Park and Miller's multiplicative congruential method combined with mixed method
  * @note ran1 function in "NUMERICAL RECIPES in C, p.207-208"
  */
 
-#ifndef RAN1_HPP_
-#define RAN1_HPP_
+#ifndef S2E_LIBRARY_MATH_RANDOMIZE1_H_
+#define S2E_LIBRARY_MATH_RANDOMIZE1_H_
 
 #include <cstddef>  // size_t
 
-#include "Ran0.hpp"
+#include "randomize0.hpp"
 
 namespace libra {
 
@@ -61,4 +61,4 @@ class Ran1 {
 
 }  // namespace libra
 
-#endif  // RAN1_HPP_
+#endif  // S2E_LIBRARY_MATH_RANDOMIZE1_H_

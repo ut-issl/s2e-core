@@ -8,7 +8,7 @@
 
 #include <library/math/normal_randomization.hpp>
 #include <library/math/quaternion.hpp>
-#include <library/math/Ran1.hpp>
+#include <library/math/randomize1.hpp>
 #include <library/math/vector.hpp>
 #include <dynamics/attitude/attitude.hpp>
 #include <environment/local/local_environment.hpp>
