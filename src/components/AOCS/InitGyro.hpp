@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Component/AOCS/Gyro.h>
+#include <components/AOCS/Gyro.h>
 
 /**
  * @fn InitGyro

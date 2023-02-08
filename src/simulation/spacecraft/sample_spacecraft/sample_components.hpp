@@ -6,26 +6,26 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
 #define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
 
-#include <Component/CDH/OBC.h>
-#include <Component/Power/PCU.h>
+#include <components/CDH/OBC.h>
+#include <components/Power/PCU.h>
 #include <dynamics/dynamics.hpp>
 #include <interface/hils/hils_port_manager.hpp>
 
-#include <Component/AOCS/InitGnssReceiver.hpp>
-#include <Component/AOCS/InitGyro.hpp>
-#include <Component/AOCS/InitMagSensor.hpp>
-#include <Component/AOCS/InitMagTorquer.hpp>
-#include <Component/AOCS/InitRwModel.hpp>
-#include <Component/AOCS/InitStt.hpp>
-#include <Component/AOCS/InitSunSensor.hpp>
-#include <Component/CommGS/InitAntenna.hpp>
-#include <Component/IdealComponents/InitializeForceGenerator.hpp>
-#include <Component/IdealComponents/InitializeTorqueGenerator.hpp>
-#include <Component/Propulsion/InitSimpleThruster.hpp>
-#include <Component/examples/example_change_structure.hpp>
-#include <Component/examples/example_i2c_controller_for_hils.hpp>
-#include <Component/examples/example_i2c_target_for_hils.hpp>
-#include <Component/examples/example_serial_communication_for_hils.hpp>
+#include <components/AOCS/InitGnssReceiver.hpp>
+#include <components/AOCS/InitGyro.hpp>
+#include <components/AOCS/InitMagSensor.hpp>
+#include <components/AOCS/InitMagTorquer.hpp>
+#include <components/AOCS/InitRwModel.hpp>
+#include <components/AOCS/InitStt.hpp>
+#include <components/AOCS/InitSunSensor.hpp>
+#include <components/CommGS/InitAntenna.hpp>
+#include <components/IdealComponents/InitializeForceGenerator.hpp>
+#include <components/IdealComponents/InitializeTorqueGenerator.hpp>
+#include <components/Propulsion/InitSimpleThruster.hpp>
+#include <components/examples/example_change_structure.hpp>
+#include <components/examples/example_i2c_controller_for_hils.hpp>
+#include <components/examples/example_i2c_target_for_hils.hpp>
+#include <components/examples/example_serial_communication_for_hils.hpp>
 #include <Library/math/Vector.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 

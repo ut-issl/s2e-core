@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Component/Power/SAP.h>
+#include <components/Power/SAP.h>
 
 /*
  * @fn InitSAP

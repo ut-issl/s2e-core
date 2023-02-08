@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Component/CommGS/GScalculator.h>
+#include <components/CommGS/GScalculator.h>
 
 /*
  * @fn InitGscalculator

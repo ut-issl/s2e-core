@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Component/Abstract/ComponentBase.h>
+#include <components/Abstract/ComponentBase.h>
 #include <interface/log_output/logger.hpp>
 
 #include <Library/math/NormalRand.hpp>

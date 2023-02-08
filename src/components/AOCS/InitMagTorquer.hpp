@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Component/AOCS/MagTorquer.h>
+#include <components/AOCS/MagTorquer.h>
 
 /**
  * @fn InitMagTorquer

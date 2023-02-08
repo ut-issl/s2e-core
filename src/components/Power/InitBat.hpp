@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Component/Power/BAT.h>
+#include <components/Power/BAT.h>
 
 /*
  * @fn InitBAT

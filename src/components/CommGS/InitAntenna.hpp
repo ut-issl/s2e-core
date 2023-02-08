@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Component/CommGS/Antenna.hpp>
+#include <components/CommGS/Antenna.hpp>
 
 /*
  * @fn InitAntenna

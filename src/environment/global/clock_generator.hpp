@@ -6,7 +6,7 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_H_
 #define S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_H_
 
-#include <Component/Abstract/ITickable.h>
+#include <components/Abstract/ITickable.h>
 
 #include <vector>
 

@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Component/Mission/Telescope/Telescope.h>
+#include <components/Mission/Telescope/Telescope.h>
 
 /*
  * @fn InitTelescope

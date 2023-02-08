@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Component/Propulsion/SimpleThruster.h>
+#include <components/Propulsion/SimpleThruster.h>
 
 /**
  * @fn InitSimpleThruster
