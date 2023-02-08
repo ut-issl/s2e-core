@@ -1,10 +1,10 @@
 /**
- * @file Quantization.h
+ * @file quantization.hpp
  * @brief Functions for quantization
  */
 
-#ifndef QUANTIZATION_H_
-#define QUANTIZATION_H_
+#ifndef S2E_LIBRARY_MATH_QUANTIZATION_H_
+#define S2E_LIBRARY_MATH_QUANTIZATION_H_
 
 /**
  * @fn quantization
@@ -24,4 +24,4 @@ double quantization(double continuous_num, double resolution);
  */
 float quantization_f(double continuous_num, double resolution);
 
-#endif  // QUANTIZATION_H_
+#endif  // S2E_LIBRARY_MATH_QUANTIZATION_H_

@@ -1,9 +1,9 @@
 /**
- * @file Quantization.cpp
+ * @file quantization.cpp
  * @brief Functions for quantization
  */
 
-#include "Quantization.h"
+#include "quantization.hpp"
 
 double quantization(double continuous_num, double resolution) {
   int bin_num = (int)((double)continuous_num / resolution);
