@@ -1,8 +1,8 @@
 /**
- * @file KeplerOrbit.cpp
+ * @file kepler_orbit.cpp
  * @brief Class to calculate Kepler orbit calculation
  */
-#include "KeplerOrbit.h"
+#include "kepler_orbit.hpp"
 
 #include "../math/MatVec.hpp"
 #include "../math/s2e_math.hpp"

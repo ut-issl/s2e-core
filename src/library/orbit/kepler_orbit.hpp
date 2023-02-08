@@ -1,8 +1,11 @@
 /**
- * @file KeplerOrbit.h
+ * @file kepler_orbit.hpp
  * @brief Class to calculate Kepler orbit calculation
  */
-#pragma once
+
+#ifndef S2E_LIBRARY_ORBIT_KEPLER_ORBIT_H_
+#define S2E_LIBRARY_ORBIT_KEPLER_ORBIT_H_
+
 #include "../math/Matrix.hpp"
 #include "../math/Vector.hpp"
 #include "./OrbitalElements.h"
@@ -74,3 +77,5 @@ class KeplerOrbit {
    */
   double SolveKeplerFirstOrder(const double eccentricity, const double mean_anomaly_rad, const double angle_limit_rad, const int iteration_limit);
 };
+
+#endif  // S2E_LIBRARY_ORBIT_KEPLER_ORBIT_H_

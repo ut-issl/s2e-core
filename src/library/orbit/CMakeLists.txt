@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 
 add_library(${PROJECT_NAME} STATIC
   OrbitalElements.cpp
-  KeplerOrbit.cpp
+  kepler_orbit.cpp
 )
 
 include(../../../common.cmake)
