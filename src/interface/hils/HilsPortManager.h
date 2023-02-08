@@ -5,8 +5,8 @@
 
 #pragma once
 #ifdef USE_HILS
-#include "Ports/HilsI2cTargetPort.h"
-#include "Ports/HilsUartPort.h"
+#include "ports/HilsI2cTargetPort.h"
+#include "ports/HilsUartPort.h"
 #endif
 #include <map>
 
