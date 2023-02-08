@@ -5,7 +5,7 @@
 #pragma once
 
 #include <interface/log_output/loggable.hpp>
-#include <interface/SpacecraftInOut/Ports/PowerPort.h>
+#include <interface/sils/Ports/PowerPort.h>
 
 #include <map>
 

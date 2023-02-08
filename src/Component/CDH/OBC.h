@@ -3,9 +3,9 @@
  * @brief Class to emulate on board computer
  */
 #pragma once
-#include <interface/SpacecraftInOut/Ports/GPIOPort.h>
-#include <interface/SpacecraftInOut/Ports/I2CPort.h>
-#include <interface/SpacecraftInOut/Ports/SCIPort.h>
+#include <interface/sils/Ports/GPIOPort.h>
+#include <interface/sils/Ports/I2CPort.h>
+#include <interface/sils/Ports/SCIPort.h>
 
 #include <map>
 
