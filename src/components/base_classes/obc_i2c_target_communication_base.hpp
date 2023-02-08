@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_BASE_CLASSES_OBC_I2C_TARGET_COMMUNICATION_BASE_H_
 
 #include "../../interface/hils/hils_port_manager.hpp"
-#include "../cdh/OBC.h"
+#include "../cdh/obc.hpp"
 #include "obc_communication_base.hpp"
 
 /**

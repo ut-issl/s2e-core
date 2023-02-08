@@ -8,7 +8,7 @@
 
 #include <interface/hils/hils_port_manager.hpp>
 
-#include "../cdh/OBC.h"
+#include "../cdh/obc.hpp"
 
 /**
  * @enum OBC_COM_UART_MODE

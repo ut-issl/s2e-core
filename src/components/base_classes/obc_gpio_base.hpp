@@ -7,7 +7,7 @@
 #ifndef S2E_COMPONENTS_BASE_CLASSES_OBC_GPIO_BASE_H_
 #define S2E_COMPONENTS_BASE_CLASSES_OBC_GPIO_BASE_H_
 
-#include "../cdh/OBC.h"
+#include "../cdh/obc.hpp"
 
 /**
  * @class ObcGpioBase

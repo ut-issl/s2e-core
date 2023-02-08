@@ -6,7 +6,7 @@
 #pragma once
 #include <interface/sils/ports/gpio_port.hpp>
 
-#include "OBC.h"
+#include "obc.hpp"
 
 /*
  * @class OBC_C2A

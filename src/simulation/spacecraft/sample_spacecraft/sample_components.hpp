@@ -6,7 +6,7 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
 #define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
 
-#include <components/cdh/OBC.h>
+#include <components/cdh/obc.hpp>
 #include <components/power/PCU.h>
 
 #include <Library/math/Vector.hpp>
