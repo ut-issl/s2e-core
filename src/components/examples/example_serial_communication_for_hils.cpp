@@ -4,7 +4,7 @@
  */
 #include "example_serial_communication_for_hils.hpp"
 
-#include <library/utilities/Macros.hpp>
+#include <library/utilities/macros.hpp>
 
 ExampleSerialCommunicationForHils::ExampleSerialCommunicationForHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc,
                                                                      const unsigned int hils_port_id, const unsigned int baud_rate,

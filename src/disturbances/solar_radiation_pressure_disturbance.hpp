@@ -6,7 +6,7 @@
 #ifndef S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_H_
 #define S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_H_
 
-#include <library/utilities/Macros.hpp>
+#include <library/utilities/macros.hpp>
 #include <string>
 
 #include "../library/math/Vector.hpp"

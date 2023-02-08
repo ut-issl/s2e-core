@@ -7,7 +7,7 @@
 
 #include "../library/math/NormalRand.hpp"
 using libra::NormalRand;
-#include <library/utilities/Macros.hpp>
+#include <library/utilities/macros.hpp>
 
 #include "../library/math/GlobalRand.h"
 #include "../library/math/RandomWalk.hpp"

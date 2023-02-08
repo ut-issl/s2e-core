@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_BASE_CLASSES_COMPONENT_BASE_H_
 #define S2E_COMPONENTS_BASE_CLASSES_COMPONENT_BASE_H_
 
-#include <library/utilities/Macros.hpp>
+#include <library/utilities/macros.hpp>
 #include <environment/global/clock_generator.hpp>
 #include <interface/sils/ports/power_port.hpp>
 

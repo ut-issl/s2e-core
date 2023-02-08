@@ -4,7 +4,7 @@
  */
 #include "kepler_orbit_propagation.hpp"
 
-#include <library/utilities/Macros.hpp>
+#include <library/utilities/macros.hpp>
 
 #include "../../library/math/s2e_math.hpp"
 

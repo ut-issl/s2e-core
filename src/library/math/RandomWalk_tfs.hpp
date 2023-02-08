@@ -7,7 +7,7 @@
 
 #include <library/math/GlobalRand.h>
 
-#include <library/utilities/Macros.hpp>
+#include <library/utilities/macros.hpp>
 
 template <size_t N>
 RandomWalk<N>::RandomWalk(double step_width, const libra::Vector<N>& stddev, const libra::Vector<N>& limit)

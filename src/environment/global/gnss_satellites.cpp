@@ -9,7 +9,7 @@
 #include <library/sgp4/sgp4unit.h>  //for gstime()
 
 #include <library/math/Constant.hpp>
-#include <library/utilities/Macros.hpp>
+#include <library/utilities/macros.hpp>
 #include <algorithm>
 #include <environment/global/physical_constants.hpp>
 #include <interface/log_output/log_utility.hpp>

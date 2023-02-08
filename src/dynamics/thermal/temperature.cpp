@@ -5,7 +5,7 @@
 
 #include "temperature.hpp"
 
-#include <library/utilities/Macros.hpp>
+#include <library/utilities/macros.hpp>
 #include <cmath>
 #include <iostream>
 #include <vector>

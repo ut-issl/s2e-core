@@ -5,7 +5,7 @@
 
 #include "inter_spacecraft_communication.hpp"
 
-#include <library/utilities/Macros.hpp>
+#include <library/utilities/macros.hpp>
 
 InterSatComm::InterSatComm(const SimulationConfig* sim_config) { UNUSED(sim_config); }
 
