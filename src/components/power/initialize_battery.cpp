@@ -1,9 +1,9 @@
 ﻿/*
- * @file InitBAT.cpp
+ * @file initialize_battery.cpp
  * @brief Initialize function of BAT
  */
 #define _CRT_SECURE_NO_WARNINGS
-#include "InitBat.hpp"
+#include "initialize_battery.hpp"
 
 #include <string>
 #include <vector>

@@ -50,7 +50,7 @@ add_library(${PROJECT_NAME} STATIC
 
   power/PCU.cpp
   power/battery.cpp
-  power/InitBat.cpp
+  power/initialize_battery.cpp
   power/PCU_InitialStudy.cpp
   power/InitPcu_InitialStudy.cpp
   power/SAP.cpp
