@@ -15,7 +15,7 @@
 /**
  * @class ComponentBase
  * @brief Base class for component emulation. All components have to inherit this.
- * @details CompoentBase ha clock and power on/off features
+ * @details ComponentBase ha clock and power on/off features
  */
 class ComponentBase : public ITickable {
  public:
