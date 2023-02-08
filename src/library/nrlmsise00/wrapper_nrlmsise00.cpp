@@ -1,5 +1,5 @@
 /**
- * @file Wrapper_nrlmsise00.cpp
+ * @file wrapper_nrlmsise00.cpp
  * @brief Functions to wrap NRLMSISE-00 air density model in the Externallibrary
  */
 
@@ -19,7 +19,7 @@ extern "C" {
 #include <environment/global/physical_constants.hpp>
 #include <numeric>
 
-#include "Wrapper_nrlmsise00.h" /* header for nrlmsise-00.h */
+#include "wrapper_nrlmsise00.hpp" /* header for nrlmsise-00.h */
 
 using namespace std;
 

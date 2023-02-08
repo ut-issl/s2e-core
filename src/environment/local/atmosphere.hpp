@@ -7,7 +7,7 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_H_
 #define S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_H_
 
-#include <library/nrlmsise00/Wrapper_nrlmsise00.h>
+#include <library/nrlmsise00/wrapper_nrlmsise00.hpp>
 
 #include <library/math/Quaternion.hpp>
 #include <library/math/Vector.hpp>
