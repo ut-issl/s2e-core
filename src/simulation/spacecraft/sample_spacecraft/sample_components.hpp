@@ -11,8 +11,8 @@
 
 #include <Library/math/Vector.hpp>
 #include <components/communication/InitAntenna.hpp>
-#include <components/IdealComponents/InitializeForceGenerator.hpp>
-#include <components/IdealComponents/InitializeTorqueGenerator.hpp>
+#include <components/ideal_components/InitializeForceGenerator.hpp>
+#include <components/ideal_components/InitializeTorqueGenerator.hpp>
 #include <components/Propulsion/InitSimpleThruster.hpp>
 #include <components/aocs/InitGnssReceiver.hpp>
 #include <components/aocs/InitGyro.hpp>
