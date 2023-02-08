@@ -1,12 +1,10 @@
 /**
- * @file MagTorquer.h
+ * @file magnetorquer.hpp
  * @brief Class to emulate magnetorquer
  */
 
-#ifndef MTQ_H_
-#define MTQ_H_
-
-#include <interface/log_output/loggable.hpp>
+#ifndef S2E_COMPONENTS_AOCS_MAGNETORQUER_H_
+#define S2E_COMPONENTS_AOCS_MAGNETORQUER_H_
 
 #include <Library/math/Matrix.hpp>
 #include <Library/math/NormalRand.hpp>
@@ -14,6 +12,7 @@
 #include <Library/math/RandomWalk.hpp>
 #include <Library/math/Vector.hpp>
 #include <environment/local/local_environment.hpp>
+#include <interface/log_output/loggable.hpp>
 
 #include "../base_classes/ComponentBase.h"
 
@@ -135,4 +134,4 @@ class MagTorquer : public ComponentBase, public ILoggable {
   libra::Vector<kMtqDim> CalcOutputTorque(void);
 };
 
-#endif  // MTQ_H_
+#endif  // S2E_COMPONENTS_AOCS_MAGNETORQUER_H_

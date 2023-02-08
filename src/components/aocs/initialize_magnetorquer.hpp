@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETORQUER_H_
 #define S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETORQUER_H_
 
-#include <components/aocs/MagTorquer.h>
+#include <components/aocs/magnetorquer.hpp>
 
 /**
  * @fn InitMagTorquer

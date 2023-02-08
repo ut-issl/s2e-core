@@ -1,9 +1,9 @@
 /**
- * @file MagTorquer.cpp
+ * @file magnetorquer.cpp
  * @brief Class to emulate magnetorquer
  */
 
-#include "MagTorquer.h"
+#include "magnetorquer.hpp"
 
 #include <interface/log_output/logger.hpp>
 #include <Library/math/GlobalRand.h>
