@@ -1,9 +1,9 @@
 /**
- * @file InitLog.cpp
+ * @file initialize_log.cpp
  * @brief Initialize function for Log output
  */
 
-#include "InitLog.hpp"
+#include "initialize_log.hpp"
 
 #include <interface/initialize/initialize_file_access.hpp>
 
