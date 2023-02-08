@@ -9,7 +9,7 @@
 #include <library/math/global_randomization.hpp>
 
 #include <library/math/normal_randomization.hpp>
-#include <library/math/RandomWalk.hpp>
+#include <library/math/random_walk.hpp>
 #include <interface/initialize/initialize_file_access.hpp>
 
 using libra::NormalRand;

@@ -1,13 +1,14 @@
 /**
- * @file RandomWalk.hpp
+ * @file random_walk.hpp
  * @brief Class to calculate random wark value
  */
 
-#pragma once
+#ifndef S2E_LIBRARY_MATH_RANDOM_WALK_H_
+#define S2E_LIBRARY_MATH_RANDOM_WALK_H_
 
+#include "./Vector.hpp"
 #include "./normal_randomization.hpp"
 #include "./ordinary_differential_equation.hpp"
-#include "./Vector.hpp"
 
 /**
  * @class RandomWalk
@@ -39,4 +40,6 @@ class RandomWalk : public libra::ODE<N> {
   libra::NormalRand nrs_[N];  //!< Random walk excitation noise
 };
 
-#include "./RandomWalk_tfs.hpp"  // template function definisions.
+#include "./random_walk_tfs.hpp"  // template function definisions.
+
+#endif  // S2E_LIBRARY_MATH_RANDOM_WALK_H_

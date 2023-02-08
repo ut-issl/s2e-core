@@ -9,7 +9,7 @@
 #include <library/math/matrix.hpp>
 #include <library/math/normal_randomization.hpp>
 #include <library/math/quaternion.hpp>
-#include <library/math/RandomWalk.hpp>
+#include <library/math/random_walk.hpp>
 #include <library/math/Vector.hpp>
 #include <environment/local/local_environment.hpp>
 #include <interface/log_output/loggable.hpp>

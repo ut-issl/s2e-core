@@ -1,12 +1,12 @@
 /**
- * @file RandomWalk_tfs.hpp
+ * @file random_walk_tfs.hpp
  * @brief Class to calculate random wark value (template functions)
  */
 
-#pragma once
+#ifndef S2E_LIBRARY_MATH_RANDOM_WALK_TFS_H_
+#define S2E_LIBRARY_MATH_RANDOM_WALK_TFS_H_
 
 #include <library/math/global_randomization.hpp>
-
 #include <library/utilities/macros.hpp>
 
 template <size_t N>
@@ -31,3 +31,5 @@ void RandomWalk<N>::RHS(double x, const libra::Vector<N>& state, libra::Vector<N
       rhs[i] = nrs_[i];
   }
 }
+
+#endif  // S2E_LIBRARY_MATH_RANDOM_WALK_TFS_H_
