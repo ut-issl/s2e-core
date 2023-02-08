@@ -1,8 +1,8 @@
 /**
- * @file InitRwModel.cpp
+ * @file initialize_reaction_wheel.cpp
  * @brief Initialize functions for Reaction Wheel
  */
-#include "InitRwModel.hpp"
+#include "initialize_reaction_wheel.hpp"
 
 #include <vector>
 

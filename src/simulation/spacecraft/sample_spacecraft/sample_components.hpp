@@ -18,7 +18,7 @@
 #include <components/aocs/initialize_gyro_sensor.hpp>
 #include <components/aocs/initialize_magnetometer.hpp>
 #include <components/aocs/initialize_magnetorquer.hpp>
-#include <components/aocs/InitRwModel.hpp>
+#include <components/aocs/initialize_reaction_wheel.hpp>
 #include <components/aocs/InitStt.hpp>
 #include <components/aocs/InitSunSensor.hpp>
 #include <components/examples/example_change_structure.hpp>
