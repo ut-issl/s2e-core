@@ -1,14 +1,13 @@
 /*
- * @file antenna.cpp
- * @brief Component emulation: RF antenna
+ * @file antenna_radiation_pattern.cpp
+ * @brief Class to manage antenna radiation pattern
  */
 
-#include "AntennaRadiationPattern.hpp"
-
-#include <interface/initialize/initialize_file_access.hpp>
+#include "antenna_radiation_pattern.hpp"
 
 #include <Library/math/s2e_math.hpp>
 #include <algorithm>
+#include <interface/initialize/initialize_file_access.hpp>
 
 AntennaRadiationPattern::AntennaRadiationPattern() { gain_dBi_.assign(length_theta_, std::vector<double>(length_phi_, 0.0)); }
 

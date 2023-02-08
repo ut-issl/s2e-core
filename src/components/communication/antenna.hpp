@@ -12,7 +12,7 @@ using libra::Quaternion;
 using libra::Vector;
 #include <vector>
 
-#include "./AntennaRadiationPattern.hpp"
+#include "./antenna_radiation_pattern.hpp"
 
 /*
  * @enum AntennaGainModel
