@@ -1,10 +1,10 @@
 ﻿/*
- * @file InitPCU_InitialStudy.cpp
+ * @file initialize_pcu_initial_study.cpp
  * @brief Initialize function of PCU_InitialStudy
  */
 
 #define _CRT_SECURE_NO_WARNINGS
-#include "InitPcu_InitialStudy.hpp"
+#include "initialize_pcu_initial_study.hpp"
 
 #include <string>
 #include <vector>

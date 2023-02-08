@@ -52,7 +52,7 @@ add_library(${PROJECT_NAME} STATIC
   power/battery.cpp
   power/initialize_battery.cpp
   power/PCU_InitialStudy.cpp
-  power/InitPcu_InitialStudy.cpp
+  power/initialize_pcu_initial_study.cpp
   power/SAP.cpp
   power/InitSap.cpp
   power/csv_scenario_interface.cpp
