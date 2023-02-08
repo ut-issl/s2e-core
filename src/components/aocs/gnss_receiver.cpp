@@ -1,9 +1,9 @@
 /**
- * @file GNSSReceiver.cpp
+ * @file gnss_receiver.cpp
  * @brief Class to emulate GNSS receiver
  */
 
-#include "GNSSReceiver.h"
+#include "gnss_receiver.hpp"
 
 #include <Library/math/GlobalRand.h>
 

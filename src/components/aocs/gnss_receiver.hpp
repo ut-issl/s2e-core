@@ -1,9 +1,10 @@
 /**
- * @file GNSSReceiver.h
+ * @file gnss_receiver.hpp
  * @brief Class to emulate GNSS receiver
  */
 
-#pragma once
+#ifndef S2E_COMPONENTS_AOCS_GNSS_RECEIVER_H_
+#define S2E_COMPONENTS_AOCS_GNSS_RECEIVER_H_
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
@@ -212,3 +213,5 @@ class GNSSReceiver : public ComponentBase, public ILoggable {
    */
   void ConvertJulianDayToGPSTime(const double JulianDay);
 };
+
+#endif  // S2E_COMPONENTS_AOCS_GNSS_RECEIVER_H_
