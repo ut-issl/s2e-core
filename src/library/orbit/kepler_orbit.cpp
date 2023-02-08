@@ -4,7 +4,7 @@
  */
 #include "kepler_orbit.hpp"
 
-#include "../math/MatVec.hpp"
+#include "../math/matrix_vector.hpp"
 #include "../math/s2e_math.hpp"
 
 KeplerOrbit::KeplerOrbit() {}

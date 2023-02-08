@@ -7,7 +7,7 @@
 #define S2E_DYNAMICS_ORBIT_ORBIT_H_
 
 #include <library/math/constants.hpp>
-#include <library/math/MatVec.hpp>
+#include <library/math/matrix_vector.hpp>
 #include <library/math/matrix.hpp>
 #include <library/math/Quaternion.hpp>
 #include <library/math/Vector.hpp>

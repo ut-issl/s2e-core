@@ -10,7 +10,7 @@
 #include <cstring>
 #include <string>
 
-#include "library/math/MatVec.hpp"
+#include "library/math/matrix_vector.hpp"
 #include "library/math/matrix.hpp"
 #include "library/math/Quaternion.hpp"
 #include "library/math/Vector.hpp"

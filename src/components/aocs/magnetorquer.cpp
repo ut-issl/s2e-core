@@ -7,7 +7,7 @@
 
 #include <library/math/global_randomization.hpp>
 
-#include <library/math/MatVec.hpp>
+#include <library/math/matrix_vector.hpp>
 #include <library/math/Quaternion.hpp>
 #include <interface/log_output/logger.hpp>
 

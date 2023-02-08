@@ -1,10 +1,11 @@
 /**
- * @file MatVec_impl.hpp
+ * @file matrix_vector_impl.hpp
  * @brief Template library for Matrix-Vector calculation
  */
 
-#ifndef MAT_VEC_IMPL_HPP_
-#define MAT_VEC_IMPL_HPP_
+#ifndef S2E_LIBRARY_MATH_MATRIX_VECTOR_IMPL_H_
+#define S2E_LIBRARY_MATH_MATRIX_VECTOR_IMPL_H_
+
 #include <stdexcept>  // for invalid_argument.
 
 namespace libra {
@@ -139,4 +140,5 @@ Vector<N>& lubksb(const Matrix<N, N>& a, const unsigned int index[], Vector<N>& 
 }
 
 }  // namespace libra
-#endif
+
+#endif  // S2E_LIBRARY_MATH_MATRIX_VECTOR_IMPL_H_
