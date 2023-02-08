@@ -3,8 +3,6 @@
  * @brief Class to emulate star tracker
  */
 
-#pragma once
-
 #ifndef S2E_COMPONENTS_AOCS_STAR_SENSOR_H_
 #define S2E_COMPONENTS_AOCS_STAR_SENSOR_H_
 

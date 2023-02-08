@@ -1,9 +1,9 @@
 /*
- * @file SunSensor.cpp
+ * @file sun_sensor.cpp
  * @brief Class to emulate sun sensor
  */
 
-#include "SunSensor.h"
+#include "sun_sensor.hpp"
 
 #include <Library/math/Constant.hpp>
 #include <Library/math/NormalRand.hpp>

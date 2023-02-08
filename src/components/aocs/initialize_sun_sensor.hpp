@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_AOCS_INITIALIZE_SUN_SENSOR_H_
 #define S2E_COMPONENTS_AOCS_INITIALIZE_SUN_SENSOR_H_
 
-#include <components/aocs/SunSensor.h>
+#include <components/aocs/sun_sensor.hpp>
 
 /**
  * @fn InitSunSensor

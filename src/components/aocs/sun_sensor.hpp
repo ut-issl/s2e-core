@@ -1,18 +1,17 @@
 /*
- * @file SunSensor.h
+ * @file sun_sensor.hpp
  * @brief Class to emulate sun sensor
  */
 
-#ifndef __SunSensor_H__
-#define __SunSensor_H__
-
-#include <interface/log_output/loggable.hpp>
+#ifndef S2E_COMPONENTS_AOCS_SUN_SENSOR_H_
+#define S2E_COMPONENTS_AOCS_SUN_SENSOR_H_
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
 #include <environment/local/local_celestial_information.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
+#include <interface/log_output/loggable.hpp>
 
 #include "../base_classes/ComponentBase.h"
 
@@ -140,4 +139,4 @@ class SunSensor : public ComponentBase, public ILoggable {
   void CalcSolarIlluminance();
 };
 
-#endif  //__SunSensor_H__
+#endif  // S2E_COMPONENTS_AOCS_SUN_SENSOR_H_
