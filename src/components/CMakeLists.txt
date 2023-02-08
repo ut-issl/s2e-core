@@ -26,7 +26,7 @@ add_library(${PROJECT_NAME} STATIC
   aocs/initialize_gnss_receiver.cpp
 
   cdh/obc.cpp
-  cdh/OBC_C2A.cpp
+  cdh/obc_c2a.cpp
 
   communication/Antenna.cpp
   communication/AntennaRadiationPattern.cpp
