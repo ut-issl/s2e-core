@@ -1,9 +1,9 @@
 /**
- * @file HilsPortManager.cpp
+ * @file hils_port_manager.cpp
  * @brief Class to manage COM ports for HILS test
  */
 
-#include "HilsPortManager.h"
+#include "hils_port_manager.hpp"
 
 #include <Library/utils/Macros.hpp>
 

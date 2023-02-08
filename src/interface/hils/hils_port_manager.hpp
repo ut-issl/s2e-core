@@ -1,9 +1,11 @@
 /**
- * @file HilsPortManager.h
+ * @file hils_port_manager.hpp
  * @brief Class to manage COM ports for HILS test
  */
 
-#pragma once
+#ifndef S2E_INTERFACE_HILS_HILS_PORT_MANAGER_H_
+#define S2E_INTERFACE_HILS_HILS_PORT_MANAGER_H_
+
 #ifdef USE_HILS
 #include "ports/hils_i2c_target_port.hpp"
 #include "ports/hils_uart_port.hpp"
@@ -164,3 +166,5 @@ class HilsPortManager {
   std::map<int, HilsI2cTargetPort*> i2c_com_ports_;  //!< I2C ports
 #endif
 };
+
+#endif  // S2E_INTERFACE_HILS_HILS_PORT_MANAGER_H_

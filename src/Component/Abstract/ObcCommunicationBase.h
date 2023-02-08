@@ -3,7 +3,7 @@
  * @brief Base class for serial communication (e.g., UART) with OBC flight software
  */
 #pragma once
-#include <interface/hils/HilsPortManager.h>
+#include <interface/hils/hils_port_manager.hpp>
 
 #include "../CDH/OBC.h"
 
