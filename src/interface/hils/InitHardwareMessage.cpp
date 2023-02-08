@@ -3,7 +3,7 @@
  * @brief Initialize function for HardwareMessage
  */
 
-#include "../HilsInOut/HardwareMessage.h"
+#include "../hils/HardwareMessage.h"
 #include "Initialize.h"
 
 /**

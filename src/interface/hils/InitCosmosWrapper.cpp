@@ -3,7 +3,7 @@
  * @brief Initialize function for COSMOSWrapper
  */
 
-#include "../HilsInOut/COSMOSWrapper.h"
+#include "../hils/COSMOSWrapper.h"
 #include "Initialize.h"
 
 /**

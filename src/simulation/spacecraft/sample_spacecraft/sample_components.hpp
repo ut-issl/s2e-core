@@ -9,7 +9,7 @@
 #include <Component/CDH/OBC.h>
 #include <Component/Power/PCU.h>
 #include <dynamics/dynamics.hpp>
-#include <interface/HilsInOut/HilsPortManager.h>
+#include <interface/hils/HilsPortManager.h>
 
 #include <Component/AOCS/InitGnssReceiver.hpp>
 #include <Component/AOCS/InitGyro.hpp>

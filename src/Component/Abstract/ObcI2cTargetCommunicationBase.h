@@ -3,7 +3,7 @@
  * @brief Base class for I2C communication as target side with OBC flight software
  */
 #pragma once
-#include "../../interface/HilsInOut/HilsPortManager.h"
+#include "../../interface/hils/HilsPortManager.h"
 #include "../CDH/OBC.h"
 #include "ObcCommunicationBase.h"
 

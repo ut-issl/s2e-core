@@ -20,8 +20,8 @@
 // Add custom include files
 #include "simulation/case/sample_case.hpp"
 // #include "simulation/monte_carlo_simulation/monte_carlo_simulation_executor.hpp"
-// #include "interface/HilsInOut/COSMOSWrapper.h"
-// #include "interface/HilsInOut/HardwareMessage.h"
+// #include "interface/hils/COSMOSWrapper.h"
+// #include "interface/hils/HardwareMessage.h"
 
 void print_path(std::string path) {
 #ifdef WIN32
