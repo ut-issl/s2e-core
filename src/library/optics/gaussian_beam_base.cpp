@@ -1,9 +1,9 @@
 /**
- * @file GaussianBeamBase.cpp
+ * @file gaussian_beam_base.cpp
  * @brief Class to express gaussian beam laser
  */
 
-#include "GaussianBeamBase.h"
+#include "gaussian_beam_base.hpp"
 
 #include <library/math/Constant.hpp>
 #include <cassert>
