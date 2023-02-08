@@ -6,7 +6,7 @@ add_library(${PROJECT_NAME} STATIC
   ports/PowerPort.cpp
   ports/SCIPort.cpp
   ports/I2CPort.cpp
-  Utils/RingBuffer.cpp
+  utility/RingBuffer.cpp
 )
 
 include(../../../common.cmake)

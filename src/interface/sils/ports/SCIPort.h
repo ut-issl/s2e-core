@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include "../Utils/RingBuffer.h"
+#include "../utility/RingBuffer.h"
 
 /**
  * @class SCIPort
