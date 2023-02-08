@@ -1,15 +1,16 @@
 /*
- * @file SimpleThruster.h
+ * @file simple_thruster.hpp
  * @brief Component emulation of simple thruster
  */
-#pragma once
 
-#include <dynamics/dynamics.hpp>
-#include <interface/log_output/logger.hpp>
+#ifndef S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_H_
+#define S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_H_
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
+#include <dynamics/dynamics.hpp>
+#include <interface/log_output/logger.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
 #include "../base_classes/component_base.hpp"
@@ -150,3 +151,5 @@ class SimpleThruster : public ComponentBase, public ILoggable {
   const Structure* structure_;  //!< Spacecraft structure information
   const Dynamics* dynamics_;    //!< Spacecraft dynamics information
 };
+
+#endif  // S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_H_

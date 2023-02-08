@@ -57,8 +57,8 @@ add_library(${PROJECT_NAME} STATIC
   power/initialize_solar_array_panel.cpp
   power/csv_scenario_interface.cpp
 
-  propulsion/SimpleThruster.cpp
-  propulsion/InitSimpleThruster.cpp
+  propulsion/simple_thruster.cpp
+  propulsion/initialize_simple_thruster.cpp
 
 )
 

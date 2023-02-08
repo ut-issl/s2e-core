@@ -1,8 +1,8 @@
 /*
- * @file InitSimpleThruster.cpp
+ * @file initialize_simple_thruster.cpp
  * @brief Initialize function os SimpleThruster
  */
-#include "InitSimpleThruster.hpp"
+#include "initialize_simple_thruster.hpp"
 
 #include <Library/math/Constant.hpp>
 
