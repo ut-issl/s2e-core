@@ -7,7 +7,7 @@
 
 #include <string>
 
-#include "../Library/math/Vector.hpp"
+#include "../library/math/Vector.hpp"
 using libra::Vector;
 
 #include <dynamics/attitude/initialize_attitude.hpp>

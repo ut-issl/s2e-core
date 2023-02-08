@@ -6,10 +6,10 @@
 #ifndef S2E_COMPONENTS_AOCS_STAR_SENSOR_H_
 #define S2E_COMPONENTS_AOCS_STAR_SENSOR_H_
 
-#include <Library/math/NormalRand.hpp>
-#include <Library/math/Quaternion.hpp>
-#include <Library/math/Ran1.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/NormalRand.hpp>
+#include <library/math/Quaternion.hpp>
+#include <library/math/Ran1.hpp>
+#include <library/math/Vector.hpp>
 #include <dynamics/attitude/attitude.hpp>
 #include <environment/local/local_environment.hpp>
 #include <interface/log_output/loggable.hpp>

@@ -5,7 +5,7 @@
 
 #include "gnss_receiver.hpp"
 
-#include <Library/math/GlobalRand.h>
+#include <library/math/GlobalRand.h>
 
 #include <environment/global/physical_constants.hpp>
 #include <string>

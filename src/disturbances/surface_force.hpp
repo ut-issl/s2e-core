@@ -8,8 +8,8 @@
 #ifndef S2E_DISTURBANCES_SURFACE_FORCE_H_
 #define S2E_DISTURBANCES_SURFACE_FORCE_H_
 
-#include "../Library/math/Quaternion.hpp"
-#include "../Library/math/Vector.hpp"
+#include "../library/math/Quaternion.hpp"
+#include "../library/math/Vector.hpp"
 #include "../simulation/spacecraft/structure/surface.hpp"
 #include "simple_disturbance.hpp"
 using libra::Quaternion;

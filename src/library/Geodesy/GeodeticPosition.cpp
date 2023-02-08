@@ -4,10 +4,10 @@
  */
 #include "GeodeticPosition.hpp"
 
-#include <Library/sgp4/sgp4ext.h>  // TODO: do not to use the functions in SGP4 library
+#include <library/sgp4/sgp4ext.h>  // TODO: do not to use the functions in SGP4 library
 
-#include <Library/math/Constant.hpp>
-#include <Library/math/Matrix.hpp>
+#include <library/math/Constant.hpp>
+#include <library/math/Matrix.hpp>
 #include <environment/global/physical_constants.hpp>
 
 GeodeticPosition::GeodeticPosition() {

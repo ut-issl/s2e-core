@@ -5,7 +5,7 @@
 
 #include "antenna_radiation_pattern.hpp"
 
-#include <Library/math/s2e_math.hpp>
+#include <library/math/s2e_math.hpp>
 #include <algorithm>
 #include <interface/initialize/initialize_file_access.hpp>
 

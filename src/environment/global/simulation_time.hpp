@@ -12,9 +12,9 @@
 
 #include <string>
 // #include <time.h>
-#include <Library/sgp4/sgp4ext.h>
-#include <Library/sgp4/sgp4io.h>
-#include <Library/sgp4/sgp4unit.h>
+#include <library/sgp4/sgp4ext.h>
+#include <library/sgp4/sgp4io.h>
+#include <library/sgp4/sgp4unit.h>
 
 #include <chrono>
 #include <interface/log_output/loggable.hpp>

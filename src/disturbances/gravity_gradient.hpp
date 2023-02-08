@@ -8,9 +8,9 @@
 
 #include <string>
 
-#include "../Library/math/MatVec.hpp"
-#include "../Library/math/Matrix.hpp"
-#include "../Library/math/Vector.hpp"
+#include "../library/math/MatVec.hpp"
+#include "../library/math/Matrix.hpp"
+#include "../library/math/Vector.hpp"
 #include "../interface/log_output/loggable.hpp"
 #include "simple_disturbance.hpp"
 

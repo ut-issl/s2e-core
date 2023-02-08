@@ -6,9 +6,9 @@
 #ifndef S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_H_
 #define S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_H_
 
-#include <Library/math/NormalRand.hpp>
-#include <Library/math/Quaternion.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/NormalRand.hpp>
+#include <library/math/Quaternion.hpp>
+#include <library/math/Vector.hpp>
 #include <dynamics/dynamics.hpp>
 #include <interface/log_output/logger.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>

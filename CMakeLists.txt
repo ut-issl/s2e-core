@@ -74,16 +74,16 @@ add_subdirectory(src/interface/initialize)
 add_subdirectory(src/interface/log_output)
 add_subdirectory(src/interface/sils)
 add_subdirectory(src/interface/hils)
-add_subdirectory(src/Library/igrf)
-add_subdirectory(src/Library/inih)
-add_subdirectory(src/Library/math)
-add_subdirectory(src/Library/nrlmsise00)
-add_subdirectory(src/Library/sgp4)
-add_subdirectory(src/Library/utils)
-add_subdirectory(src/Library/optics)
-add_subdirectory(src/Library/RelativeOrbit)
-add_subdirectory(src/Library/Orbit)
-add_subdirectory(src/Library/Geodesy)
+add_subdirectory(src/library/igrf)
+add_subdirectory(src/library/inih)
+add_subdirectory(src/library/math)
+add_subdirectory(src/library/nrlmsise00)
+add_subdirectory(src/library/sgp4)
+add_subdirectory(src/library/utils)
+add_subdirectory(src/library/optics)
+add_subdirectory(src/library/RelativeOrbit)
+add_subdirectory(src/library/Orbit)
+add_subdirectory(src/library/Geodesy)
 
 set(SOURCE_FILES
   src/s2e.cpp
@@ -212,7 +212,7 @@ if(GOOGLE_TEST)
   # Unit test
   set(TEST_PROJECT_NAME ${PROJECT_NAME}_TEST)
   set(TEST_FILES
-    src/Library/math/TestQuaternion.cpp
+    src/library/math/TestQuaternion.cpp
   )
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)

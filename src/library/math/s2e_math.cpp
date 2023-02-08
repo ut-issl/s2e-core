@@ -5,7 +5,7 @@
 
 #include "s2e_math.hpp"
 
-#include <Library/math/Constant.hpp>
+#include <library/math/Constant.hpp>
 
 namespace libra {
 double WrapTo2Pi(const double angle) {

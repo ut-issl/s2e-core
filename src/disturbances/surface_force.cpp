@@ -5,7 +5,7 @@
 
 #include "surface_force.hpp"
 
-#include "../Library/math/Vector.hpp"
+#include "../library/math/Vector.hpp"
 using libra::Quaternion;
 using libra::Vector;
 

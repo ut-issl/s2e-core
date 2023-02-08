@@ -6,7 +6,7 @@
 #ifndef S2E_DYNAMICS_ORBIT_KEPLER_ORBIT_PROPAGATION_H_
 #define S2E_DYNAMICS_ORBIT_KEPLER_ORBIT_PROPAGATION_H_
 
-#include "../../Library/Orbit/KeplerOrbit.h"
+#include "../../library/Orbit/KeplerOrbit.h"
 #include "orbit.hpp"
 
 /**

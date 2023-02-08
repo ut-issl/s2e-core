@@ -6,8 +6,8 @@
 #ifndef S2E_DYNAMICS_ATTITUDE_ATTITUDE_H_
 #define S2E_DYNAMICS_ATTITUDE_ATTITUDE_H_
 
-#include <Library/math/MatVec.hpp>
-#include <Library/math/Quaternion.hpp>
+#include <library/math/MatVec.hpp>
+#include <library/math/Quaternion.hpp>
 #include <interface/log_output/loggable.hpp>
 #include <simulation/monte_carlo_simulation/simulation_object.hpp>
 #include <string>

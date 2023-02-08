@@ -6,10 +6,10 @@
 #ifndef S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_H_
 #define S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_H_
 
-#include <Library/utils/Macros.hpp>
+#include <library/utils/Macros.hpp>
 #include <string>
 
-#include "../Library/math/Vector.hpp"
+#include "../library/math/Vector.hpp"
 #include "../interface/log_output/loggable.hpp"
 #include "surface_force.hpp"
 using libra::Vector;

@@ -5,10 +5,10 @@
 
 #include "sun_sensor.hpp"
 
-#include <Library/math/Constant.hpp>
-#include <Library/math/NormalRand.hpp>
+#include <library/math/Constant.hpp>
+#include <library/math/NormalRand.hpp>
 using libra::NormalRand;
-#include <Library/math/GlobalRand.h>
+#include <library/math/GlobalRand.h>
 
 #include <interface/log_output/log_utility.hpp>
 

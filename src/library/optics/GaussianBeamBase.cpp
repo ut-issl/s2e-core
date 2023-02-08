@@ -5,7 +5,7 @@
 
 #include "GaussianBeamBase.h"
 
-#include <Library/math/Constant.hpp>
+#include <library/math/Constant.hpp>
 #include <cassert>
 
 GaussianBeamBase::GaussianBeamBase(double wavelength_m, double r_beam_waist_m, double total_power_watt)

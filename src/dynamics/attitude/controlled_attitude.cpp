@@ -4,8 +4,8 @@
  */
 #include "controlled_attitude.hpp"
 
-#include <Library/math/Constant.hpp>
-#include <Library/utils/Macros.hpp>
+#include <library/math/Constant.hpp>
+#include <library/utils/Macros.hpp>
 #include <interface/log_output/log_utility.hpp>
 
 using namespace std;

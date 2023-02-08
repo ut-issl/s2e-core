@@ -5,11 +5,11 @@
 
 #include "gnss_satellites.hpp"
 
-#include <Library/sgp4/sgp4ext.h>   //for jday()
-#include <Library/sgp4/sgp4unit.h>  //for gstime()
+#include <library/sgp4/sgp4ext.h>   //for jday()
+#include <library/sgp4/sgp4unit.h>  //for gstime()
 
-#include <Library/math/Constant.hpp>
-#include <Library/utils/Macros.hpp>
+#include <library/math/Constant.hpp>
+#include <library/utils/Macros.hpp>
 #include <algorithm>
 #include <environment/global/physical_constants.hpp>
 #include <interface/log_output/log_utility.hpp>

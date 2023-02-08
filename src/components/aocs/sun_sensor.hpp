@@ -6,9 +6,9 @@
 #ifndef S2E_COMPONENTS_AOCS_SUN_SENSOR_H_
 #define S2E_COMPONENTS_AOCS_SUN_SENSOR_H_
 
-#include <Library/math/NormalRand.hpp>
-#include <Library/math/Quaternion.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/NormalRand.hpp>
+#include <library/math/Quaternion.hpp>
+#include <library/math/Vector.hpp>
 #include <environment/local/local_celestial_information.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
 #include <interface/log_output/loggable.hpp>

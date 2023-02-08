@@ -6,8 +6,8 @@
 #ifndef S2E_SIMULATION_MONTE_CARLO_SIMULATION_SIMULATION_OBJECT_H_
 #define S2E_SIMULATION_MONTE_CARLO_SIMULATION_SIMULATION_OBJECT_H_
 
-#include <Library/math/Quaternion.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/Quaternion.hpp>
+#include <library/math/Vector.hpp>
 #include <functional>
 #include <map>
 #include <string>

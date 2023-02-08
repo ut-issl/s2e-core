@@ -5,7 +5,7 @@
 
 #include "reaction_wheel_jitter.hpp"
 
-#include <Library/math/Constant.hpp>
+#include <library/math/Constant.hpp>
 #include <random>
 
 RWJitter::RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coef, std::vector<std::vector<double>> radial_torque_harmonics_coef,

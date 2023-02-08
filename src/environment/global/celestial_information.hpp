@@ -10,10 +10,10 @@
 #include <cstring>
 #include <string>
 
-#include "Library/math/MatVec.hpp"
-#include "Library/math/Matrix.hpp"
-#include "Library/math/Quaternion.hpp"
-#include "Library/math/Vector.hpp"
+#include "library/math/MatVec.hpp"
+#include "library/math/Matrix.hpp"
+#include "library/math/Quaternion.hpp"
+#include "library/math/Vector.hpp"
 #include "celestial_rotation.hpp"
 #include "interface/log_output/loggable.hpp"
 

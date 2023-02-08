@@ -4,8 +4,8 @@
  */
 #pragma once
 
-#include <Library/math/Quaternion.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/Quaternion.hpp>
+#include <library/math/Vector.hpp>
 
 /**
  * @class GeodeticPosition

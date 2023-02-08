@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_AOCS_GYRO_SENSOR_H_
 #define S2E_COMPONENTS_AOCS_GYRO_SENSOR_H_
 
-#include <Library/math/Quaternion.hpp>
+#include <library/math/Quaternion.hpp>
 #include <dynamics/dynamics.hpp>
 #include <interface/log_output/loggable.hpp>
 

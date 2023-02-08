@@ -4,8 +4,8 @@
  */
 #include "reaction_wheel.hpp"
 
-#include <Library/math/Constant.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/Constant.hpp>
+#include <library/math/Vector.hpp>
 #include <fstream>
 #include <iostream>
 #include <random>

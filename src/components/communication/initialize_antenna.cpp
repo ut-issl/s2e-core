@@ -8,7 +8,7 @@
 
 #include <string.h>
 
-#include <Library/math/Vector.hpp>
+#include <library/math/Vector.hpp>
 
 #include "interface/initialize/initialize_file_access.hpp"
 

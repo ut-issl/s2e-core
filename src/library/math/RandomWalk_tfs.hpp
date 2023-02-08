@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include <Library/math/GlobalRand.h>
+#include <library/math/GlobalRand.h>
 
-#include <Library/utils/Macros.hpp>
+#include <library/utils/Macros.hpp>
 
 template <size_t N>
 RandomWalk<N>::RandomWalk(double step_width, const libra::Vector<N>& stddev, const libra::Vector<N>& limit)

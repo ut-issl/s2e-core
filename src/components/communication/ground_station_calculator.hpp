@@ -7,9 +7,9 @@
 #ifndef S2E_COMPONENTS_COMMUNICATION_GROUND_STATION_CALCULATOR_H_
 #define S2E_COMPONENTS_COMMUNICATION_GROUND_STATION_CALCULATOR_H_
 
-#include <Library/math/MatVec.hpp>
-#include <Library/math/Matrix.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/MatVec.hpp>
+#include <library/math/Matrix.hpp>
+#include <library/math/Vector.hpp>
 #include <components/communication/antenna.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/global_environment.hpp>

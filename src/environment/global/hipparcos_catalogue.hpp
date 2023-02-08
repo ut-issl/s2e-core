@@ -6,8 +6,8 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_H_
 #define S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_H_
 
-#include <Library/math/Quaternion.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/Quaternion.hpp>
+#include <library/math/Vector.hpp>
 #include <interface/log_output/loggable.hpp>
 #include <vector>
 

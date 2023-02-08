@@ -1,6 +1,6 @@
 /**
  * @file Wrapper_nrlmsise00.cpp
- * @brief Functions to wrap NRLMSISE-00 air density model in the ExternalLibrary
+ * @brief Functions to wrap NRLMSISE-00 air density model in the Externallibrary
  */
 
 /* ------------------------------------------------------------------- */
@@ -12,7 +12,7 @@ extern "C" {
 }
 #include <stdlib.h> /* for malloc/free */
 
-#include <Library/math/Constant.hpp>
+#include <library/math/Constant.hpp>
 #include <algorithm>
 #include <cctype>
 #include <cmath> /* maths functions */

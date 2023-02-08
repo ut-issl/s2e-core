@@ -6,8 +6,8 @@
 #ifndef S2E_INTERFACE_LOG_OUTPUT_LOG_UTILITY_H_
 #define S2E_INTERFACE_LOG_OUTPUT_LOG_UTILITY_H_
 
-#include <Library/math/MatVec.hpp>
-#include <Library/math/Quaternion.hpp>
+#include <library/math/MatVec.hpp>
+#include <library/math/Quaternion.hpp>
 #include <iomanip>
 #include <sstream>
 #include <string>

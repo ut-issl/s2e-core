@@ -4,9 +4,9 @@
  */
 #include "simple_thruster.hpp"
 
-#include <Library/math/GlobalRand.h>
+#include <library/math/GlobalRand.h>
 
-#include <Library/math/Constant.hpp>
+#include <library/math/Constant.hpp>
 #include <cfloat>
 
 // Constructor

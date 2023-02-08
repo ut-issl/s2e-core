@@ -9,8 +9,8 @@
 #include <string>
 #include <vector>
 
-#include "../Library/math/Quaternion.hpp"
-#include "../Library/math/Vector.hpp"
+#include "../library/math/Quaternion.hpp"
+#include "../library/math/Vector.hpp"
 #include "../environment/local/atmosphere.hpp"
 #include "../interface/log_output/loggable.hpp"
 #include "surface_force.hpp"

@@ -4,7 +4,7 @@
  */
 #include "reaction_wheel_ode.hpp"
 
-#include <Library/utils/Macros.hpp>
+#include <library/utils/Macros.hpp>
 
 using namespace libra;
 

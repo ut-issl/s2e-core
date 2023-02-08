@@ -4,7 +4,7 @@
  */
 #include "magnetometer.hpp"
 
-#include <Library/math/Quaternion.hpp>
+#include <library/math/Quaternion.hpp>
 
 MagSensor::MagSensor(int prescaler, ClockGenerator* clock_gen, SensorBase& sensor_base, const int sensor_id, const Quaternion& q_b2c,
                      const MagEnvironment* magnet)

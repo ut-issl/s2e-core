@@ -6,7 +6,7 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_H_
 #define S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_H_
 
-#include <Library/math/Vector.hpp>
+#include <library/math/Vector.hpp>
 using libra::Vector;
 
 /**

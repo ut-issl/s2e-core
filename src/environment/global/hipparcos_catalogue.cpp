@@ -4,7 +4,7 @@
  */
 #include "hipparcos_catalogue.hpp"
 
-#include <Library/math/Constant.hpp>
+#include <library/math/Constant.hpp>
 #include <algorithm>
 #include <fstream>
 #include <iostream>

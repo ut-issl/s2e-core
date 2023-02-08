@@ -5,10 +5,10 @@
 
 #include "star_sensor.hpp"
 
-#include <Library/math/GlobalRand.h>
+#include <library/math/GlobalRand.h>
 
-#include <Library/math/Constant.hpp>
-#include <Library/math/Matrix.hpp>
+#include <library/math/Constant.hpp>
+#include <library/math/Matrix.hpp>
 #include <environment/global/physical_constants.hpp>
 #include <interface/log_output/log_utility.hpp>
 #include <string>

@@ -6,9 +6,9 @@
 #ifndef S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_H_
 #define S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_H_
 
-#include <Library/RelativeOrbit/RelativeOrbitModels.h>
+#include <library/RelativeOrbit/RelativeOrbitModels.h>
 
-#include <Library/math/ODE.hpp>
+#include <library/math/ODE.hpp>
 #include <relative_information/relative_information.hpp>
 #include <string>
 

@@ -5,10 +5,10 @@
 
 #include "magnetorquer.hpp"
 
-#include <Library/math/GlobalRand.h>
+#include <library/math/GlobalRand.h>
 
-#include <Library/math/MatVec.hpp>
-#include <Library/math/Quaternion.hpp>
+#include <library/math/MatVec.hpp>
+#include <library/math/Quaternion.hpp>
 #include <interface/log_output/logger.hpp>
 
 MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, const int id, const Quaternion& q_b2c,

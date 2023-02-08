@@ -13,10 +13,10 @@
 #include <tchar.h>
 #include <windows.h>
 #else
-#include <Library/inih/cpp/INIReader.h>
+#include <library/inih/cpp/INIReader.h>
 #endif
-#include <Library/math/Quaternion.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/Quaternion.hpp>
+#include <library/math/Vector.hpp>
 #include <fstream>
 #include <sstream>
 #include <string>

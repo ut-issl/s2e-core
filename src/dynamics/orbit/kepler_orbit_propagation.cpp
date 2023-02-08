@@ -4,9 +4,9 @@
  */
 #include "kepler_orbit_propagation.hpp"
 
-#include <Library/utils/Macros.hpp>
+#include <library/utils/Macros.hpp>
 
-#include "../../Library/math/s2e_math.hpp"
+#include "../../library/math/s2e_math.hpp"
 
 KeplerOrbitPropagation::KeplerOrbitPropagation(const CelestialInformation* celes_info, const double current_jd, KeplerOrbit kepler_orbit)
     : Orbit(celes_info), KeplerOrbit(kepler_orbit) {

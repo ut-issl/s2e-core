@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_TFS_H_
 #define S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_TFS_H_
 
-#include <Library/math/GlobalRand.h>
+#include <library/math/GlobalRand.h>
 
 template <size_t N>
 SensorBase<N>::SensorBase(const libra::Matrix<N, N>& scale_factor, const libra::Vector<N>& range_to_const_c, const libra::Vector<N>& range_to_zero_c,

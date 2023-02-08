@@ -6,17 +6,17 @@
 #ifndef S2E_DYNAMICS_ORBIT_ORBIT_H_
 #define S2E_DYNAMICS_ORBIT_ORBIT_H_
 
-#include <Library/math/Constant.hpp>
-#include <Library/math/MatVec.hpp>
-#include <Library/math/Matrix.hpp>
-#include <Library/math/Quaternion.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/Constant.hpp>
+#include <library/math/MatVec.hpp>
+#include <library/math/Matrix.hpp>
+#include <library/math/Quaternion.hpp>
+#include <library/math/Vector.hpp>
 
 using libra::Matrix;
 using libra::Quaternion;
 using libra::Vector;
 
-#include <Library/Geodesy/GeodeticPosition.hpp>
+#include <library/Geodesy/GeodeticPosition.hpp>
 #include <environment/global/celestial_information.hpp>
 #include <environment/global/physical_constants.hpp>
 #include <interface/log_output/loggable.hpp>

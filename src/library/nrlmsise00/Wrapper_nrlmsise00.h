@@ -1,6 +1,6 @@
 /**
  * @file Wrapper_nrlmsise00.h
- * @brief Functions to wrap NRLMSISE-00 air density model in the ExternalLibrary
+ * @brief Functions to wrap NRLMSISE-00 air density model in the Externallibrary
  */
 #pragma once
 

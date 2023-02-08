@@ -6,8 +6,8 @@
 #ifndef S2E_COMPONENTS_AOCS_GNSS_RECEIVER_H_
 #define S2E_COMPONENTS_AOCS_GNSS_RECEIVER_H_
 
-#include <Library/math/NormalRand.hpp>
-#include <Library/math/Quaternion.hpp>
+#include <library/math/NormalRand.hpp>
+#include <library/math/Quaternion.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/gnss_satellites.hpp>
 #include <environment/global/simulation_time.hpp>

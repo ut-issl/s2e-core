@@ -4,7 +4,7 @@
  */
 #include "initialize_simple_thruster.hpp"
 
-#include <Library/math/Constant.hpp>
+#include <library/math/Constant.hpp>
 
 #include "interface/initialize/initialize_file_access.hpp"
 

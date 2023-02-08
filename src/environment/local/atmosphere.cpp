@@ -5,11 +5,11 @@
 
 #include "atmosphere.hpp"
 
-#include <Library/math/GlobalRand.h>
+#include <library/math/GlobalRand.h>
 
-#include <Library/math/NormalRand.hpp>
-#include <Library/math/RandomWalk.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/NormalRand.hpp>
+#include <library/math/RandomWalk.hpp>
+#include <library/math/Vector.hpp>
 #include <interface/log_output/log_utility.hpp>
 
 using libra::NormalRand;

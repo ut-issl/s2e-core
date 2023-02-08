@@ -6,10 +6,10 @@
 #ifndef S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_H_
 #define S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_H_
 
-#include <Library/math/Matrix.hpp>
-#include <Library/math/NormalRand.hpp>
-#include <Library/math/RandomWalk.hpp>
-#include <Library/math/Vector.hpp>
+#include <library/math/Matrix.hpp>
+#include <library/math/NormalRand.hpp>
+#include <library/math/RandomWalk.hpp>
+#include <library/math/Vector.hpp>
 
 /**
  * @class SensorBase

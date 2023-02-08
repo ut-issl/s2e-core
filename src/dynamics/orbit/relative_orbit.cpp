@@ -4,7 +4,7 @@
  */
 #include "relative_orbit.hpp"
 
-#include <Library/utils/Macros.hpp>
+#include <library/utils/Macros.hpp>
 
 #include "rk4_orbit_propagation.hpp"
 

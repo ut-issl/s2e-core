@@ -6,7 +6,7 @@
 #ifndef S2E_DISTURBANCES_DISTURBANCE_H_
 #define S2E_DISTURBANCES_DISTURBANCE_H_
 
-#include "../Library/math/Vector.hpp"
+#include "../library/math/Vector.hpp"
 using libra::Vector;
 
 /**

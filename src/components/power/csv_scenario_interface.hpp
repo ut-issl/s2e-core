@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_POWER_CSV_SCENARIO_INTERFACE_H_
 #define S2E_COMPONENTS_POWER_CSV_SCENARIO_INTERFACE_H_
 
-#include <Library/math/Vector.hpp>
+#include <library/math/Vector.hpp>
 #include <map>
 #include <string>
 #include <vector>
