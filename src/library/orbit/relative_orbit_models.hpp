@@ -1,9 +1,11 @@
 /**
- * @file RelativeOrbitModels.h
+ * @file relative_orbit_models.hpp
  * @brief Functions for relative orbit
  */
 
-#pragma once
+#ifndef S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_H_
+#define S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_H_
+
 #include "../math/Matrix.hpp"
 #include "../math/Vector.hpp"
 
@@ -39,3 +41,5 @@ libra::Matrix<6, 6> CalculateHillSystemMatrix(double orbit_radius, double mu);
  * @return State Transition Matrix
  */
 libra::Matrix<6, 6> CalculateHCWSTM(double orbit_radius, double mu, double elapsed_sec);
+
+#endif  // S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_H_

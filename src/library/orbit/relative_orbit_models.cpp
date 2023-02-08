@@ -1,8 +1,8 @@
 /**
- * @file RelativeOrbitModels.cpp
+ * @file relative_orbit_models.cpp
  * @brief Functions for relative orbit
  */
-#include "RelativeOrbitModels.h"
+#include "relative_orbit_models.hpp"
 
 libra::Matrix<6, 6> CalculateHillSystemMatrix(double orbit_radius, double mu) {
   libra::Matrix<6, 6> system_matrix;
