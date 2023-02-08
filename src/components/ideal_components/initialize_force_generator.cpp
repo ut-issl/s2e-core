@@ -1,8 +1,8 @@
 /*
- * @file InitializeForceGenerator.cpp
+ * @file initialize_force_generator.cpp
  * @brief Initialize function for ForceGenerator
  */
-#include "InitializeForceGenerator.hpp"
+#include "initialize_force_generator.hpp"
 
 #include <interface/initialize/initialize_file_access.hpp>
 
