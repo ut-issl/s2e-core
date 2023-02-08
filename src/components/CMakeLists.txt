@@ -9,7 +9,7 @@ add_library(${PROJECT_NAME} STATIC
   base_classes/ObcGpioBase.cpp
 
   aocs/gyro_sensor.cpp
-  aocs/InitGyro.cpp
+  aocs/initialize_gyro_sensor.cpp
   aocs/MagSensor.cpp
   aocs/InitMagSensor.cpp
   aocs/MagTorquer.cpp

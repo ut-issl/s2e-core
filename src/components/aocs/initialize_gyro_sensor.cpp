@@ -1,8 +1,8 @@
 /**
- * @file InitGyro.cpp
+ * @file initialize_gyro_sensor.cpp
  * @brief Initialize functions for gyro sensor
  */
-#include "InitGyro.hpp"
+#include "initialize_gyro_sensor.hpp"
 
 #include <interface/initialize/initialize_file_access.hpp>
 
