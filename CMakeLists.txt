@@ -83,7 +83,7 @@ add_subdirectory(src/library/utils)
 add_subdirectory(src/library/optics)
 add_subdirectory(src/library/RelativeOrbit)
 add_subdirectory(src/library/Orbit)
-add_subdirectory(src/library/Geodesy)
+add_subdirectory(src/library/geodesy)
 
 set(SOURCE_FILES
   src/s2e.cpp
