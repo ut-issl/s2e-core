@@ -1,9 +1,9 @@
 /*
- * @file TorqueGenerator.cpp
+ * @file torque_generator.cpp
  * @brief Ideal component which can generate torque for control algorithm test
  */
 
-#include "TorqueGenerator.hpp"
+#include "torque_generator.hpp"
 
 #include <cfloat>
 

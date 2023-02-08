@@ -1,15 +1,16 @@
 /*
- * @file TorqueGenerator.hpp
+ * @file torque_generator.hpp
  * @brief Ideal component which can generate torque for control algorithm test
  */
-#pragma once
 
-#include <components/base_classes/component_base.hpp>
-#include <interface/log_output/logger.hpp>
+#ifndef S2E_COMPONENTS_IDEAL_COMPONENTS_TORQUE_GENERATOR_H_
+#define S2E_COMPONENTS_IDEAL_COMPONENTS_TORQUE_GENERATOR_H_
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Vector.hpp>
+#include <components/base_classes/component_base.hpp>
 #include <dynamics/dynamics.hpp>
+#include <interface/log_output/logger.hpp>
 
 /*
  * @class TorqueGenerator
@@ -91,3 +92,5 @@ class TorqueGenerator : public ComponentBase, public ILoggable {
 
   const Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };
+
+#endif  // S2E_COMPONENTS_IDEAL_COMPONENTS_TORQUE_GENERATOR_H_

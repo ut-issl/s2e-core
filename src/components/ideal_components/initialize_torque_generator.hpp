@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_IDEAL_COMPONENTS_INITIALIZE_TORQUE_GENERATOR_H_
 #define S2E_COMPONENTS_IDEAL_COMPONENTS_INITIALIZE_TORQUE_GENERATOR_H_
 
-#include "TorqueGenerator.hpp"
+#include "torque_generator.hpp"
 
 /**
  * @fn InitializeTorqueGenerator
