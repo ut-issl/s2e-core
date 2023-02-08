@@ -3,8 +3,8 @@
  * @brief Base class for a disturbance
  */
 
-#ifndef S2E_DISTURBANCES_DISTURBANCE_H_
-#define S2E_DISTURBANCES_DISTURBANCE_H_
+#ifndef S2E_DISTURBANCES_DISTURBANCE_HPP_
+#define S2E_DISTURBANCES_DISTURBANCE_HPP_
 
 #include "../library/math/vector.hpp"
 using libra::Vector;
@@ -56,4 +56,4 @@ class Disturbance {
   Vector<3> acceleration_i_;  //!< Disturbance acceleration in the inertial frame [m/s2]
 };
 
-#endif  // S2E_DISTURBANCES_DISTURBANCE_H_
+#endif  // S2E_DISTURBANCES_DISTURBANCE_HPP_

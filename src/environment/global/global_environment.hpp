@@ -3,8 +3,8 @@
  * @brief Class to manage the global environment
  */
 
-#ifndef S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_H_
-#define S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_H_
+#ifndef S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_HPP_
+#define S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_HPP_
 
 #include <interface/log_output/logger.hpp>
 #include <simulation/simulation_configuration.hpp>
@@ -83,4 +83,4 @@ class GlobalEnvironment {
   GnssSatellites* gnss_satellites_;   //!< GNSS satellites
 };
 
-#endif  // S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_H_
+#endif  // S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_HPP_

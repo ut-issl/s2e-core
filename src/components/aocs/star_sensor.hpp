@@ -3,16 +3,16 @@
  * @brief Class to emulate star tracker
  */
 
-#ifndef S2E_COMPONENTS_AOCS_STAR_SENSOR_H_
-#define S2E_COMPONENTS_AOCS_STAR_SENSOR_H_
+#ifndef S2E_COMPONENTS_AOCS_STAR_SENSOR_HPP_
+#define S2E_COMPONENTS_AOCS_STAR_SENSOR_HPP_
 
+#include <dynamics/attitude/attitude.hpp>
+#include <environment/local/local_environment.hpp>
+#include <interface/log_output/loggable.hpp>
 #include <library/math/normal_randomization.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/math/randomize1.hpp>
 #include <library/math/vector.hpp>
-#include <dynamics/attitude/attitude.hpp>
-#include <environment/local/local_environment.hpp>
-#include <interface/log_output/loggable.hpp>
 #include <vector>
 
 #include "../base_classes/component_base.hpp"
@@ -203,4 +203,4 @@ class STT : public ComponentBase, public ILoggable {
   void Initialize();
 };
 
-#endif  // S2E_COMPONENTS_AOCS_STAR_SENSOR_H_
+#endif  // S2E_COMPONENTS_AOCS_STAR_SENSOR_HPP_

@@ -3,8 +3,8 @@
  * @brief Class for mathematical vector
  */
 
-#ifndef S2E_LIBRARY_MATH_VECTOR_H_
-#define S2E_LIBRARY_MATH_VECTOR_H_
+#ifndef S2E_LIBRARY_MATH_VECTOR_HPP_
+#define S2E_LIBRARY_MATH_VECTOR_HPP_
 
 #include <cstddef>   // for size_t
 #include <iostream>  // for ostream, cout
@@ -248,4 +248,4 @@ Vector<3, double> GenerateOrthoUnitVector(const Vector<3, double>& v);
 #include "vector_ifs.hpp"  // inline function definisions.
 #include "vector_tfs.hpp"  // template function definisions.
 
-#endif  // S2E_LIBRARY_MATH_VECTOR_H_
+#endif  // S2E_LIBRARY_MATH_VECTOR_HPP_

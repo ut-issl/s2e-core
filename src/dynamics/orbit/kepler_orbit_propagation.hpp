@@ -3,8 +3,8 @@
  * @brief Class to propagate spacecraft orbit with Kepler equation
  */
 
-#ifndef S2E_DYNAMICS_ORBIT_KEPLER_ORBIT_PROPAGATION_H_
-#define S2E_DYNAMICS_ORBIT_KEPLER_ORBIT_PROPAGATION_H_
+#ifndef S2E_DYNAMICS_ORBIT_KEPLER_ORBIT_PROPAGATION_HPP_
+#define S2E_DYNAMICS_ORBIT_KEPLER_ORBIT_PROPAGATION_HPP_
 
 #include "../../library/orbit/kepler_orbit.hpp"
 #include "orbit.hpp"
@@ -48,4 +48,4 @@ class KeplerOrbitPropagation : public Orbit, public KeplerOrbit {
   void UpdateState(const double current_jd);
 };
 
-#endif  // S2E_DYNAMICS_ORBIT_KEPLER_ORBIT_PROPAGATION_H_
+#endif  // S2E_DYNAMICS_ORBIT_KEPLER_ORBIT_PROPAGATION_HPP_

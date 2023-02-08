@@ -3,8 +3,8 @@
  * @brief Class to calculate magnetic field of the earth
  */
 
-#ifndef S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_H_
-#define S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_H_
+#ifndef S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
+#define S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
 
 #include <library/math/vector.hpp>
 using libra::Vector;
@@ -85,4 +85,4 @@ class MagEnvironment : public ILoggable {
   void AddNoise(double* mag_i_array);
 };
 
-#endif  // S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_H_
+#endif  // S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_

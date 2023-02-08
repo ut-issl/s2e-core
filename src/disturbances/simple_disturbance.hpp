@@ -5,8 +5,8 @@
  * In the difficult case, users need to use the Disturbance class directory.
  */
 
-#ifndef S2E_DISTURBANCES_SIMPLE_DISTURBANCE_H_
-#define S2E_DISTURBANCES_SIMPLE_DISTURBANCE_H_
+#ifndef S2E_DISTURBANCES_SIMPLE_DISTURBANCE_HPP_
+#define S2E_DISTURBANCES_SIMPLE_DISTURBANCE_HPP_
 
 #include "../dynamics/dynamics.hpp"
 #include "../environment/local/local_environment.hpp"
@@ -44,4 +44,4 @@ class SimpleDisturbance : public Disturbance, public ILoggable {
   virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics) = 0;
 };
 
-#endif  // S2E_DISTURBANCES_SIMPLE_DISTURBANCE_H_
+#endif  // S2E_DISTURBANCES_SIMPLE_DISTURBANCE_HPP_

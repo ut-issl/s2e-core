@@ -3,8 +3,8 @@
  * @brief Class to calculate the high-order earth gravity acceleration
  */
 
-#ifndef S2E_DISTURBANCES_GEOPOTENTIAL_H_
-#define S2E_DISTURBANCES_GEOPOTENTIAL_H_
+#ifndef S2E_DISTURBANCES_GEOPOTENTIAL_HPP_
+#define S2E_DISTURBANCES_GEOPOTENTIAL_HPP_
 
 #include <string>
 
@@ -87,4 +87,4 @@ class GeoPotential : public AccelerationDisturbance {
   double time_ = 0.0;         //!< Calculation time [ms]
 };
 
-#endif  // S2E_DISTURBANCES_GEOPOTENTIAL_H_
+#endif  // S2E_DISTURBANCES_GEOPOTENTIAL_HPP_

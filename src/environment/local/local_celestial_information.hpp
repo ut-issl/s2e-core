@@ -3,8 +3,8 @@
  * @brief Class to manage celestial body information in the spacecraft body frame
  */
 
-#ifndef S2E_ENVIRONMENT_LOCAL_LOCAL_CELESTIAL_INFORMATION_H_
-#define S2E_ENVIRONMENT_LOCAL_LOCAL_CELESTIAL_INFORMATION_H_
+#ifndef S2E_ENVIRONMENT_LOCAL_LOCAL_CELESTIAL_INFORMATION_HPP_
+#define S2E_ENVIRONMENT_LOCAL_LOCAL_CELESTIAL_INFORMATION_HPP_
 
 #include "../global/celestial_information.hpp"
 
@@ -117,4 +117,4 @@ void Convert_i2b(const double* src_i, double* dst_b, const Quaternion q_i2b);
  */
 void Convert_i2b_velocity(const double* r_i, const double* v_i, double* v_b, const Quaternion q_i2b, const Vector<3> bodyrate_b);
 
-#endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_CELESTIAL_INFORMATION_H_
+#endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_CELESTIAL_INFORMATION_HPP_

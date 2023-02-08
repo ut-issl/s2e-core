@@ -3,8 +3,8 @@
  * @brief Class to calculate random wark value
  */
 
-#ifndef S2E_LIBRARY_MATH_RANDOM_WALK_H_
-#define S2E_LIBRARY_MATH_RANDOM_WALK_H_
+#ifndef S2E_LIBRARY_MATH_RANDOM_WALK_HPP_
+#define S2E_LIBRARY_MATH_RANDOM_WALK_HPP_
 
 #include "./vector.hpp"
 #include "./normal_randomization.hpp"
@@ -42,4 +42,4 @@ class RandomWalk : public libra::ODE<N> {
 
 #include "./random_walk_tfs.hpp"  // template function definisions.
 
-#endif  // S2E_LIBRARY_MATH_RANDOM_WALK_H_
+#endif  // S2E_LIBRARY_MATH_RANDOM_WALK_HPP_

@@ -3,8 +3,8 @@
  * @brief Function to consider the endian
  */
 
-#ifndef S2E_LIBRARY_UTILITIES_ENDIAN_H_
-#define S2E_LIBRARY_UTILITIES_ENDIAN_H_
+#ifndef S2E_LIBRARY_UTILITIES_ENDIAN_HPP_
+#define S2E_LIBRARY_UTILITIES_ENDIAN_HPP_
 
 #include <stddef.h>
 #include <stdint.h>
@@ -20,4 +20,4 @@
  */
 void *endian_memcpy(void *dst, const void *src, size_t count);
 
-#endif  // S2E_LIBRARY_UTILITIES_ENDIAN_H_
+#endif  // S2E_LIBRARY_UTILITIES_ENDIAN_HPP_

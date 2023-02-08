@@ -3,8 +3,8 @@
  * @brief Abstract class for a disturbance which generate acceleration only (not force)
  */
 
-#ifndef S2E_DISTURBANCES_ACCELERATION_DISTURBANCE_H_
-#define S2E_DISTURBANCES_ACCELERATION_DISTURBANCE_H_
+#ifndef S2E_DISTURBANCES_ACCELERATION_DISTURBANCE_HPP_
+#define S2E_DISTURBANCES_ACCELERATION_DISTURBANCE_HPP_
 
 #include "../dynamics/dynamics.hpp"
 #include "../environment/local/local_environment.hpp"
@@ -42,4 +42,4 @@ class AccelerationDisturbance : public Disturbance, public ILoggable {
   virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics) = 0;
 };
 
-#endif  // S2E_DISTURBANCES_ACCELERATION_DISTURBANCE_H_
+#endif  // S2E_DISTURBANCES_ACCELERATION_DISTURBANCE_HPP_

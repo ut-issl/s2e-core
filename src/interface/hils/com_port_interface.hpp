@@ -5,8 +5,8 @@
  * Reference: https://docs.microsoft.com/ja-jp/dotnet/api/system.io.ports.serialport?view=netframework-4.7.2
  */
 
-#ifndef S2E_INTERFACE_HILS_COM_PORT_INTERFACE_H_
-#define S2E_INTERFACE_HILS_COM_PORT_INTERFACE_H_
+#ifndef S2E_INTERFACE_HILS_COM_PORT_INTERFACE_HPP_
+#define S2E_INTERFACE_HILS_COM_PORT_INTERFACE_HPP_
 
 #include <msclr/gcroot.h>
 #include <msclr/marshal_cppstd.h>
@@ -104,4 +104,4 @@ class ComPortInterface {
   msclr::gcroot<bytearray ^> rx_buf_;  //!< RX Buffer
 };
 
-#endif  // S2E_INTERFACE_HILS_COM_PORT_INTERFACE_H_
+#endif  // S2E_INTERFACE_HILS_COM_PORT_INTERFACE_HPP_

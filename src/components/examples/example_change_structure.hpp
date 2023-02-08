@@ -3,8 +3,8 @@
  * @brief Class to show an example to change satellite structure information
  */
 
-#ifndef S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_H_
-#define S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_H_
+#ifndef S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_HPP_
+#define S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_HPP_
 
 #include <interface/log_output/loggable.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
@@ -53,4 +53,4 @@ class ExampleChangeStructure : public ComponentBase, public ILoggable {
   Structure* structure_;  //!< Structure information
 };
 
-#endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_H_
+#endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_HPP_

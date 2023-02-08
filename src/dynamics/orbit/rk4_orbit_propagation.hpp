@@ -3,8 +3,8 @@
  * @brief Class to propagate spacecraft orbit with Runge-Kutta-4 method
  */
 
-#ifndef S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_H_
-#define S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_H_
+#ifndef S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_
+#define S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_
 
 #include <library/math/ordinary_differential_equation.hpp>
 #include <environment/global/celestial_information.hpp>
@@ -80,4 +80,4 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
   void Initialize(Vector<3> init_position, Vector<3> init_velocity, double init_time = 0);
 };
 
-#endif  // S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_H_
+#endif  // S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_

@@ -3,8 +3,8 @@
  * @brief Base class for sensor emulation to add noises
  */
 
-#ifndef S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_H_
-#define S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_H_
+#ifndef S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_HPP_
+#define S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_HPP_
 
 #include <library/math/matrix.hpp>
 #include <library/math/normal_randomization.hpp>
@@ -73,4 +73,4 @@ class SensorBase {
 
 #include "./sensor_base_tfs.hpp"  // template function definisions.
 
-#endif  // S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_H_
+#endif  // S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_HPP_

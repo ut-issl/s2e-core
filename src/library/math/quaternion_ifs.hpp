@@ -3,8 +3,8 @@
  * @brief Class for Quaternion (Inline functions)
  */
 
-#ifndef S2E_LIBRARY_MATH_QUATERNION_IFS_H_
-#define S2E_LIBRARY_MATH_QUATERNION_IFS_H_
+#ifndef S2E_LIBRARY_MATH_QUATERNION_IFS_HPP_
+#define S2E_LIBRARY_MATH_QUATERNION_IFS_HPP_
 
 namespace libra {
 
@@ -32,4 +32,4 @@ Quaternion::operator const Vector<4>&() const { return q_; }
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_MATH_QUATERNION_IFS_H_
+#endif  // S2E_LIBRARY_MATH_QUATERNION_IFS_HPP_

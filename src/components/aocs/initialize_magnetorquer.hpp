@@ -3,8 +3,8 @@
  * @brief Initialize functions for magnetorquer
  */
 
-#ifndef S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETORQUER_H_
-#define S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETORQUER_H_
+#ifndef S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETORQUER_HPP_
+#define S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETORQUER_HPP_
 
 #include <components/aocs/magnetorquer.hpp>
 
@@ -31,4 +31,4 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const std:
 MagTorquer InitMagTorquer(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, const std::string fname, double compo_step_time,
                           const MagEnvironment* mag_env);
 
-#endif  // S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETORQUER_H_
+#endif  // S2E_COMPONENTS_AOCS_INITIALIZE_MAGNETORQUER_HPP_

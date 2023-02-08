@@ -3,8 +3,8 @@
  * @brief Class to emulate on board computer
  */
 
-#ifndef S2E_COMPONENTS_CDH_OBC_H_
-#define S2E_COMPONENTS_CDH_OBC_H_
+#ifndef S2E_COMPONENTS_CDH_OBC_HPP_
+#define S2E_COMPONENTS_CDH_OBC_HPP_
 
 #include <interface/sils/ports/gpio_port.hpp>
 #include <interface/sils/ports/i2c_port.hpp>
@@ -206,4 +206,4 @@ class OBC : public ComponentBase {
   std::map<int, GPIOPort*> gpio_ports_;    //!< GPIO ports
 };
 
-#endif  // S2E_COMPONENTS_CDH_OBC_H_
+#endif  // S2E_COMPONENTS_CDH_OBC_HPP_

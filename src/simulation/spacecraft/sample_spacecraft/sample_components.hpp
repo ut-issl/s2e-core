@@ -3,8 +3,8 @@
  * @brief An example of user side components management installed on a spacecraft
  */
 
-#ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
-#define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
+#ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
+#define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
 
 #include <library/math/vector.hpp>
 #include <components/aocs/initialize_gnss_receiver.hpp>
@@ -118,4 +118,4 @@ class SampleComponents : public InstalledComponents {
   const GlobalEnvironment* glo_env_;   //!< Global environment information
 };
 
-#endif  // S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
+#endif  // S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_

@@ -3,8 +3,8 @@
  * @brief Class to express gaussian beam laser
  */
 
-#ifndef S2E_LIBRARY_OPTICS_GAUSSIAN_BEAM_BASE_H_
-#define S2E_LIBRARY_OPTICS_GAUSSIAN_BEAM_BASE_H_
+#ifndef S2E_LIBRARY_OPTICS_GAUSSIAN_BEAM_BASE_HPP_
+#define S2E_LIBRARY_OPTICS_GAUSSIAN_BEAM_BASE_HPP_
 
 #include "../math/vector.hpp"
 
@@ -107,4 +107,4 @@ class GaussianBeamBase {
   libra::Vector<3> pos_beamwaist_i_{0.0};    //!< Position of beam waist in the inertial frame [m] (Not used?)
 };
 
-#endif  // S2E_LIBRARY_OPTICS_GAUSSIAN_BEAM_BASE_H_
+#endif  // S2E_LIBRARY_OPTICS_GAUSSIAN_BEAM_BASE_HPP_

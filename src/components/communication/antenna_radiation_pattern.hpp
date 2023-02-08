@@ -3,8 +3,8 @@
  * @brief Class to manage antenna radiation pattern
  */
 
-#ifndef S2E_COMPONENTS_COMMUNICATION_ANTENNA_RADIATION_PATTERN_H_
-#define S2E_COMPONENTS_COMMUNICATION_ANTENNA_RADIATION_PATTERN_H_
+#ifndef S2E_COMPONENTS_COMMUNICATION_ANTENNA_RADIATION_PATTERN_HPP_
+#define S2E_COMPONENTS_COMMUNICATION_ANTENNA_RADIATION_PATTERN_HPP_
 
 #include <library/math/constants.hpp>
 #include <string>
@@ -62,4 +62,4 @@ class AntennaRadiationPattern {
   std::vector<std::vector<double>> gain_dBi_;  //!< Antenna gain table [dBi]
 };
 
-#endif  // S2E_COMPONENTS_COMMUNICATION_ANTENNA_RADIATION_PATTERN_H_
+#endif  // S2E_COMPONENTS_COMMUNICATION_ANTENNA_RADIATION_PATTERN_HPP_

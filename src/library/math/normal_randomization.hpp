@@ -4,8 +4,8 @@
  * @note Ref: NUMERICAL RECIPES in C, p.216-p.217
  */
 
-#ifndef S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_H_
-#define S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_H_
+#ifndef S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_HPP_
+#define S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_HPP_
 
 #include "randomize1.hpp"
 using libra::Ran1;
@@ -103,4 +103,4 @@ class NormalRand {
 
 #include "normal_randomization_ifs.hpp"  // inline function definisions.
 
-#endif  // S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_H_
+#endif  // S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_HPP_

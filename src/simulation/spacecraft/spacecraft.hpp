@@ -3,8 +3,8 @@
  * @brief Definition of Spacecraft class
  */
 
-#ifndef S2E_SIMULATION_SPACECRAFT_SPACECRAFT_H_
-#define S2E_SIMULATION_SPACECRAFT_SPACECRAFT_H_
+#ifndef S2E_SIMULATION_SPACECRAFT_SPACECRAFT_HPP_
+#define S2E_SIMULATION_SPACECRAFT_SPACECRAFT_HPP_
 
 #include <disturbances/disturbances.hpp>
 #include <dynamics/dynamics.hpp>
@@ -115,4 +115,4 @@ class Spacecraft {
   const int sat_id_;                 //!< ID of the spacecraft
 };
 
-#endif  // S2E_SIMULATION_SPACECRAFT_SPACECRAFT_H_
+#endif  // S2E_SIMULATION_SPACECRAFT_SPACECRAFT_HPP_

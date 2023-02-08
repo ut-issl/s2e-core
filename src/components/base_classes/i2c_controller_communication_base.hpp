@@ -3,8 +3,8 @@
  * @brief This class simulates the I2C Controller communication with the I2C Target.
  */
 
-#ifndef S2E_COMPONENTS_BASE_CLASSES_I2C_CONTROLLER_COMMUNICATION_BASE_H_
-#define S2E_COMPONENTS_BASE_CLASSES_I2C_CONTROLLER_COMMUNICATION_BASE_H_
+#ifndef S2E_COMPONENTS_BASE_CLASSES_I2C_CONTROLLER_COMMUNICATION_BASE_HPP_
+#define S2E_COMPONENTS_BASE_CLASSES_I2C_CONTROLLER_COMMUNICATION_BASE_HPP_
 
 #include "../../interface/hils/hils_port_manager.hpp"
 #include "obc_communication_base.hpp"
@@ -64,4 +64,4 @@ class I2cControllerCommunicationBase {
   HilsPortManager* hils_port_manager_;  //!< HILS port manager
 };
 
-#endif  // S2E_COMPONENTS_BASE_CLASSES_I2C_CONTROLLER_COMMUNICATION_BASE_H_
+#endif  // S2E_COMPONENTS_BASE_CLASSES_I2C_CONTROLLER_COMMUNICATION_BASE_HPP_

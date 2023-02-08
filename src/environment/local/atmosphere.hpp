@@ -4,8 +4,8 @@
  */
 #pragma once
 
-#ifndef S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_H_
-#define S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_H_
+#ifndef S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_
+#define S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_
 
 #include <library/nrlmsise00/wrapper_nrlmsise00.hpp>
 
@@ -113,4 +113,4 @@ class Atmosphere : public ILoggable {
   double AddNoise(double rho);
 };
 
-#endif  // S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_H_
+#endif  // S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_

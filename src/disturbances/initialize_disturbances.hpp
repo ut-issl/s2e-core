@@ -3,8 +3,8 @@
  * @brief Define initialize functions for disturbances
  */
 
-#ifndef S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_H_
-#define S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_H_
+#ifndef S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_HPP_
+#define S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_HPP_
 
 #include <disturbances/air_drag.hpp>
 #include <disturbances/geopotential.hpp>
@@ -65,4 +65,4 @@ GeoPotential InitGeoPotential(std::string ini_path);
  */
 ThirdBodyGravity InitThirdBodyGravity(std::string ini_path, std::string ini_path_celes);
 
-#endif  // S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_H_
+#endif  // S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_HPP_

@@ -3,12 +3,12 @@
  * @brief Base class for component emulation. All components have to inherit this.
  */
 
-#ifndef S2E_COMPONENTS_BASE_CLASSES_COMPONENT_BASE_H_
-#define S2E_COMPONENTS_BASE_CLASSES_COMPONENT_BASE_H_
+#ifndef S2E_COMPONENTS_BASE_CLASSES_COMPONENT_BASE_HPP_
+#define S2E_COMPONENTS_BASE_CLASSES_COMPONENT_BASE_HPP_
 
-#include <library/utilities/macros.hpp>
 #include <environment/global/clock_generator.hpp>
 #include <interface/sils/ports/power_port.hpp>
+#include <library/utilities/macros.hpp>
 
 #include "interface_tickable.hpp"
 
@@ -88,4 +88,4 @@ class ComponentBase : public ITickable {
   PowerPort* power_port_;      //!< Power port
 };
 
-#endif  // S2E_COMPONENTS_BASE_CLASSES_COMPONENT_BASE_H_
+#endif  // S2E_COMPONENTS_BASE_CLASSES_COMPONENT_BASE_HPP_

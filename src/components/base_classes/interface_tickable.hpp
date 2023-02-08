@@ -3,8 +3,8 @@
  * @brief Interface class for time update of components
  */
 
-#ifndef S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_H_
-#define S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_H_
+#ifndef S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_HPP_
+#define S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_HPP_
 
 /**
  * @class ITickable
@@ -40,4 +40,4 @@ class ITickable {
   bool needs_fast_update_ = false;  //!< Whether or not high-frequency disturbances need to be calculated
 };
 
-#endif  // S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_H_
+#endif  // S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_HPP_

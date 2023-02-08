@@ -3,8 +3,8 @@
  * @brief Initialize function for Log output
  */
 
-#ifndef S2E_INTERFACE_LOG_OUTPUT_INITIALIZE_LOG_H_
-#define S2E_INTERFACE_LOG_OUTPUT_INITIALIZE_LOG_H_
+#ifndef S2E_INTERFACE_LOG_OUTPUT_INITIALIZE_LOG_HPP_
+#define S2E_INTERFACE_LOG_OUTPUT_INITIALIZE_LOG_HPP_
 
 #include <interface/log_output/logger.hpp>
 
@@ -23,4 +23,4 @@ Logger* InitLog(std::string file_name);
  */
 Logger* InitLogMC(std::string file_name, bool enable);
 
-#endif  // S2E_INTERFACE_LOG_OUTPUT_INITIALIZE_LOG_H_
+#endif  // S2E_INTERFACE_LOG_OUTPUT_INITIALIZE_LOG_HPP_

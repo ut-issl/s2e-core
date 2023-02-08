@@ -3,8 +3,8 @@
  * @brief Class to calculate the magnetic disturbance torque
  */
 
-#ifndef S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_H_
-#define S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_H_
+#ifndef S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_HPP_
+#define S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_HPP_
 
 #include <string>
 
@@ -68,4 +68,4 @@ class MagDisturbance : public SimpleDisturbance {
   const RMMParams& rmm_params_;  //!< RMM parameters
 };
 
-#endif  // S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_H_
+#endif  // S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_HPP_

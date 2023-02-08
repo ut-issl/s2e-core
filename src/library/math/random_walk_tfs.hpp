@@ -3,8 +3,8 @@
  * @brief Class to calculate random wark value (template functions)
  */
 
-#ifndef S2E_LIBRARY_MATH_RANDOM_WALK_TFS_H_
-#define S2E_LIBRARY_MATH_RANDOM_WALK_TFS_H_
+#ifndef S2E_LIBRARY_MATH_RANDOM_WALK_TFS_HPP_
+#define S2E_LIBRARY_MATH_RANDOM_WALK_TFS_HPP_
 
 #include <library/math/global_randomization.hpp>
 #include <library/utilities/macros.hpp>
@@ -32,4 +32,4 @@ void RandomWalk<N>::RHS(double x, const libra::Vector<N>& state, libra::Vector<N
   }
 }
 
-#endif  // S2E_LIBRARY_MATH_RANDOM_WALK_TFS_H_
+#endif  // S2E_LIBRARY_MATH_RANDOM_WALK_TFS_HPP_

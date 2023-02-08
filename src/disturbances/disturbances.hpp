@@ -3,8 +3,8 @@
  * @brief Class to manage all disturbances
  */
 
-#ifndef S2E_DISTURBANCES_DISTURBANCES_H_
-#define S2E_DISTURBANCES_DISTURBANCES_H_
+#ifndef S2E_DISTURBANCES_DISTURBANCES_HPP_
+#define S2E_DISTURBANCES_DISTURBANCES_HPP_
 
 #include <vector>
 
@@ -85,4 +85,4 @@ class Disturbances {
   void InitializeAcceleration();
 };
 
-#endif  // S2E_DISTURBANCES_DISTURBANCES_H_
+#endif  // S2E_DISTURBANCES_DISTURBANCES_HPP_

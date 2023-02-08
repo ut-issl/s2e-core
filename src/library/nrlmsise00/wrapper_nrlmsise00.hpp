@@ -3,8 +3,8 @@
  * @brief Functions to wrap NRLMSISE-00 air density model in the Externallibrary
  */
 
-#ifndef S2E_LIBRARY_NRLMSISE00_WRAPPER_NRLMSISE00__H_
-#define S2E_LIBRARY_NRLMSISE00_WRAPPER_NRLMSISE00__H_
+#ifndef S2E_LIBRARY_NRLMSISE00_WRAPPER_NRLMSISE00__HPP_
+#define S2E_LIBRARY_NRLMSISE00_WRAPPER_NRLMSISE00__HPP_
 
 #include <fstream>
 #include <iostream>
@@ -74,4 +74,4 @@ int GetSpaceWeatherTable_(double decyear, double endsec, const std::string& file
 #define __inline_double double
 #endif
 
-#endif  // S2E_LIBRARY_NRLMSISE00_WRAPPER_NRLMSISE00__H_
+#endif  // S2E_LIBRARY_NRLMSISE00_WRAPPER_NRLMSISE00__HPP_

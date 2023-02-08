@@ -3,8 +3,8 @@
  * @brief Class to manage COM ports for HILS test
  */
 
-#ifndef S2E_INTERFACE_HILS_HILS_PORT_MANAGER_H_
-#define S2E_INTERFACE_HILS_HILS_PORT_MANAGER_H_
+#ifndef S2E_INTERFACE_HILS_HILS_PORT_MANAGER_HPP_
+#define S2E_INTERFACE_HILS_HILS_PORT_MANAGER_HPP_
 
 #ifdef USE_HILS
 #include "ports/hils_i2c_target_port.hpp"
@@ -167,4 +167,4 @@ class HilsPortManager {
 #endif
 };
 
-#endif  // S2E_INTERFACE_HILS_HILS_PORT_MANAGER_H_
+#endif  // S2E_INTERFACE_HILS_HILS_PORT_MANAGER_HPP_

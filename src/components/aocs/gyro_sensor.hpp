@@ -3,12 +3,12 @@
  * @brief Class to emulate gyro sensor (angular velocity sensor)
  */
 
-#ifndef S2E_COMPONENTS_AOCS_GYRO_SENSOR_H_
-#define S2E_COMPONENTS_AOCS_GYRO_SENSOR_H_
+#ifndef S2E_COMPONENTS_AOCS_GYRO_SENSOR_HPP_
+#define S2E_COMPONENTS_AOCS_GYRO_SENSOR_HPP_
 
-#include <library/math/quaternion.hpp>
 #include <dynamics/dynamics.hpp>
 #include <interface/log_output/loggable.hpp>
+#include <library/math/quaternion.hpp>
 
 #include "../base_classes/component_base.hpp"
 #include "../base_classes/sensor_base.hpp"
@@ -85,4 +85,4 @@ class Gyro : public ComponentBase, public SensorBase<kGyroDim>, public ILoggable
   const Dynamics* dynamics_;  //!< Dynamics information
 };
 
-#endif  // S2E_COMPONENTS_AOCS_GYRO_SENSOR_H_
+#endif  // S2E_COMPONENTS_AOCS_GYRO_SENSOR_HPP_

@@ -3,8 +3,8 @@
  * @brief Initialize functions for local environment classes
  */
 
-#ifndef S2E_ENVIRONMENT_LOCAL_INITIALIZE_LOCAL_ENVIRONMENT_H_
-#define S2E_ENVIRONMENT_LOCAL_INITIALIZE_LOCAL_ENVIRONMENT_H_
+#ifndef S2E_ENVIRONMENT_LOCAL_INITIALIZE_LOCAL_ENVIRONMENT_HPP_
+#define S2E_ENVIRONMENT_LOCAL_INITIALIZE_LOCAL_ENVIRONMENT_HPP_
 
 #include <environment/local/atmosphere.hpp>
 #include <environment/local/geomagnetic_field.hpp>
@@ -30,4 +30,4 @@ SRPEnvironment InitSRPEnvironment(std::string ini_path, LocalCelestialInformatio
  */
 Atmosphere InitAtmosphere(std::string ini_path);
 
-#endif  // S2E_ENVIRONMENT_LOCAL_INITIALIZE_LOCAL_ENVIRONMENT_H_
+#endif  // S2E_ENVIRONMENT_LOCAL_INITIALIZE_LOCAL_ENVIRONMENT_HPP_

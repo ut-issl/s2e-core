@@ -3,8 +3,8 @@
  * @brief Template library for Matrix-Vector calculation
  */
 
-#ifndef S2E_LIBRARY_MATH_MATRIX_VECTOR_IMPL_H_
-#define S2E_LIBRARY_MATH_MATRIX_VECTOR_IMPL_H_
+#ifndef S2E_LIBRARY_MATH_MATRIX_VECTOR_IMPL_HPP_
+#define S2E_LIBRARY_MATH_MATRIX_VECTOR_IMPL_HPP_
 
 #include <stdexcept>  // for invalid_argument.
 
@@ -141,4 +141,4 @@ Vector<N>& lubksb(const Matrix<N, N>& a, const unsigned int index[], Vector<N>& 
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_MATH_MATRIX_VECTOR_IMPL_H_
+#endif  // S2E_LIBRARY_MATH_MATRIX_VECTOR_IMPL_HPP_

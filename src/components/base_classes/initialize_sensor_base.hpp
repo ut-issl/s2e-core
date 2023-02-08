@@ -3,8 +3,8 @@
  * @brief Initialize functions for SensorBase class
  */
 
-#ifndef S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_H_
-#define S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_H_
+#ifndef S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_HPP_
+#define S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_HPP_
 
 #include "sensor_base.hpp"
 
@@ -23,4 +23,4 @@ SensorBase<N> ReadSensorBaseInformation(const std::string file_name, const doubl
 
 #include "initialize_sensor_base_tfs.hpp"
 
-#endif  // S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_H_
+#endif  // S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_HPP_

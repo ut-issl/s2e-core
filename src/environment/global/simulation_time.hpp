@@ -3,8 +3,8 @@
  *@brief Class to manage simulation time related information
  */
 
-#ifndef S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_H_
-#define S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_H_
+#ifndef S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_HPP_
+#define S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_HPP_
 
 #ifdef WIN32
 #define _WINSOCKAPI_  // stops windows.h including winsock.h
@@ -320,4 +320,4 @@ class SimTime : public ILoggable {
    */
   void ConvJDtoCalndarDay(const double JD);
 };
-#endif  // S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_H_
+#endif  // S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_HPP_

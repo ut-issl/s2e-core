@@ -3,8 +3,8 @@
  * @brief Class to manage global randomization
  */
 
-#ifndef S2E_LIBRARY_MATH_GLOBAL_RANDOMIZATION_H_
-#define S2E_LIBRARY_MATH_GLOBAL_RANDOMIZATION_H_
+#ifndef S2E_LIBRARY_MATH_GLOBAL_RANDOMIZATION_HPP_
+#define S2E_LIBRARY_MATH_GLOBAL_RANDOMIZATION_HPP_
 
 #include "./randomize0.hpp"
 
@@ -39,4 +39,4 @@ class GlobalRand {
 
 extern GlobalRand g_rand;  //!< Global randomization
 
-#endif  // S2E_LIBRARY_MATH_GLOBAL_RANDOMIZATION_H_
+#endif  // S2E_LIBRARY_MATH_GLOBAL_RANDOMIZATION_HPP_

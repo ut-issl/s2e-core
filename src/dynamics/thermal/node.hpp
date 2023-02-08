@@ -3,8 +3,8 @@
  * @brief thermal calculation node
  */
 
-#ifndef S2E_DYNAMICS_THERMAL_NODE_H_
-#define S2E_DYNAMICS_THERMAL_NODE_H_
+#ifndef S2E_DYNAMICS_THERMAL_NODE_HPP_
+#define S2E_DYNAMICS_THERMAL_NODE_HPP_
 
 #include <interface/log_output/logger.hpp>
 #include <string>
@@ -51,4 +51,4 @@ class Node {
   void PrintParam(void);
 };
 
-#endif  // S2E_DYNAMICS_THERMAL_NODE_H_
+#endif  // S2E_DYNAMICS_THERMAL_NODE_HPP_

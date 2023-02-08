@@ -3,8 +3,8 @@
  * @brief Math functions
  */
 
-#ifndef S2E_LIBRARY_MATH_S2E_MATH_H_
-#define S2E_LIBRARY_MATH_S2E_MATH_H_
+#ifndef S2E_LIBRARY_MATH_S2E_MATH_HPP_
+#define S2E_LIBRARY_MATH_S2E_MATH_HPP_
 
 #include <cmath>
 
@@ -19,4 +19,4 @@ double WrapTo2Pi(const double angle);
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_MATH_S2E_MATH_H_
+#endif  // S2E_LIBRARY_MATH_S2E_MATH_HPP_

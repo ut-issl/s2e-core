@@ -3,8 +3,8 @@
  * @brief Example of user defined simulation case
  */
 
-#ifndef S2E_SIMULATION_CASE_SAMPLE_CASE_H_
-#define S2E_SIMULATION_CASE_SAMPLE_CASE_H_
+#ifndef S2E_SIMULATION_CASE_SAMPLE_CASE_HPP_
+#define S2E_SIMULATION_CASE_SAMPLE_CASE_HPP_
 
 #include "../ground_station/sample_ground_station/sample_ground_station.hpp"
 #include "../spacecraft/sample_spacecraft/sample_spacecraft.hpp"
@@ -56,4 +56,4 @@ class SampleCase : public SimulationCase {
   SampleGS* sample_gs_;    //!< Instance of ground station
 };
 
-#endif  // S2E_SIMULATION_CASE_SAMPLE_CASE_H_
+#endif  // S2E_SIMULATION_CASE_SAMPLE_CASE_HPP_

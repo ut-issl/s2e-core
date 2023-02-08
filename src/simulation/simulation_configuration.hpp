@@ -3,8 +3,8 @@
  * @brief Definition of struct for simulation setting information
  */
 
-#ifndef S2E_SIMULATION_SIMULATION_CONFIGURATION_H_
-#define S2E_SIMULATION_SIMULATION_CONFIGURATION_H_
+#ifndef S2E_SIMULATION_SIMULATION_CONFIGURATION_HPP_
+#define S2E_SIMULATION_SIMULATION_CONFIGURATION_HPP_
 
 #include <string>
 #include <vector>
@@ -31,4 +31,4 @@ struct SimulationConfig {
   ~SimulationConfig() { delete main_logger_; }
 };
 
-#endif  // S2E_SIMULATION_SIMULATION_CONFIGURATION_H_
+#endif  // S2E_SIMULATION_SIMULATION_CONFIGURATION_HPP_

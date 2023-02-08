@@ -3,8 +3,8 @@
  * @brief Functions for quantization
  */
 
-#ifndef S2E_LIBRARY_MATH_QUANTIZATION_H_
-#define S2E_LIBRARY_MATH_QUANTIZATION_H_
+#ifndef S2E_LIBRARY_MATH_QUANTIZATION_HPP_
+#define S2E_LIBRARY_MATH_QUANTIZATION_HPP_
 
 /**
  * @fn quantization
@@ -24,4 +24,4 @@ double quantization(double continuous_num, double resolution);
  */
 float quantization_f(double continuous_num, double resolution);
 
-#endif  // S2E_LIBRARY_MATH_QUANTIZATION_H_
+#endif  // S2E_LIBRARY_MATH_QUANTIZATION_HPP_

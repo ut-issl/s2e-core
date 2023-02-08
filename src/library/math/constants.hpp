@@ -3,8 +3,8 @@
  * @brief header for math constant values
  */
 
-#ifndef S2E_LIBRARY_MATH_CONSTANTS_H_
-#define S2E_LIBRARY_MATH_CONSTANTS_H_
+#ifndef S2E_LIBRARY_MATH_CONSTANTS_HPP_
+#define S2E_LIBRARY_MATH_CONSTANTS_HPP_
 
 #include <type_traits>  // std::is_floating_point_v
 
@@ -45,4 +45,4 @@ DEFINE_MATH_CONSTANT(arcsec_to_rad, deg_to_rad / 3600.0L) /* arcsecond to radian
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_MATH_CONSTANTS_H_
+#endif  // S2E_LIBRARY_MATH_CONSTANTS_HPP_

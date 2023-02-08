@@ -3,8 +3,8 @@
  * @brief Base class to define simulation scenario
  */
 
-#ifndef S2E_SIMULATION_CASE_SIMULATION_CASE_H_
-#define S2E_SIMULATION_CASE_SIMULATION_CASE_H_
+#ifndef S2E_SIMULATION_CASE_SIMULATION_CASE_HPP_
+#define S2E_SIMULATION_CASE_SIMULATION_CASE_HPP_
 
 #include <environment/global/global_environment.hpp>
 #include <interface/log_output/loggable.hpp>
@@ -75,4 +75,4 @@ class SimulationCase : public ILoggable {
   GlobalEnvironment* glo_env_;   //!< Global Environment
 };
 
-#endif  // S2E_SIMULATION_CASE_SIMULATION_CASE_H_
+#endif  // S2E_SIMULATION_CASE_SIMULATION_CASE_HPP_

@@ -3,8 +3,8 @@
  * @brief Base class to manage relative information between spacecraft
  */
 
-#ifndef S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_H_
-#define S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_H_
+#ifndef S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_HPP_
+#define S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_HPP_
 
 #include <string>
 
@@ -171,4 +171,4 @@ class RelativeInformation : public ILoggable {
   void ResizeLists();
 };
 
-#endif  // S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_H_
+#endif  // S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_HPP_

@@ -3,8 +3,8 @@
  * @brief Class for mathematical vector (inline functions)
  */
 
-#ifndef S2E_LIBRARY_MATH_VECTOR_IFS_H_
-#define S2E_LIBRARY_MATH_VECTOR_IFS_H_
+#ifndef S2E_LIBRARY_MATH_VECTOR_IFS_HPP_
+#define S2E_LIBRARY_MATH_VECTOR_IFS_HPP_
 
 #include <stdexcept>  // for invalid_argument.
 
@@ -46,4 +46,4 @@ T Vector<N, T>::operator()(std::size_t pos) const {
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_MATH_VECTOR_IFS_H_
+#endif  // S2E_LIBRARY_MATH_VECTOR_IFS_HPP_

@@ -3,8 +3,8 @@
  * @brief An example of user defined ground station class
  */
 
-#ifndef S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_H_
-#define S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_H_
+#ifndef S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_HPP_
+#define S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_HPP_
 
 #include <components/communication/antenna.hpp>
 #include <components/communication/ground_station_calculator.hpp>
@@ -53,4 +53,4 @@ class SampleGS : public GroundStation {
   SampleGSComponents* components_;  //!< Ground station related components
 };
 
-#endif  // S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_H_
+#endif  // S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_HPP_

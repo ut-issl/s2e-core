@@ -3,8 +3,8 @@
  * @brief Class for Ordinary Difference Equation
  */
 
-#ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_H_
-#define S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_H_
+#ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_HPP_
+#define S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_HPP_
 
 #include "./vector.hpp"
 
@@ -114,4 +114,4 @@ class ODE {
 #include "./ordinary_differential_equation_ifs.hpp"  // inline function definisions.
 #include "./ordinary_differential_equation_tfs.hpp"  // template function definisions.
 
-#endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_H_
+#endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_HPP_

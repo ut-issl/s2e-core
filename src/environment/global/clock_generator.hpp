@@ -3,8 +3,8 @@
  * @brief Class to generate clock for classes which have ITickable
  */
 
-#ifndef S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_H_
-#define S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_H_
+#ifndef S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_HPP_
+#define S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_HPP_
 
 #include <components/base_classes/interface_tickable.hpp>
 #include <vector>
@@ -59,4 +59,4 @@ class ClockGenerator {
   int timer_count_;                     //!< Timer count TODO: consider size, unsigned
 };
 
-#endif  // S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_H_
+#endif  // S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_HPP_

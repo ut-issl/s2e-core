@@ -3,8 +3,8 @@
  * @brief Base class for attitude of spacecraft
  */
 
-#ifndef S2E_DYNAMICS_ATTITUDE_ATTITUDE_H_
-#define S2E_DYNAMICS_ATTITUDE_ATTITUDE_H_
+#ifndef S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_
+#define S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_
 
 #include <library/math/matrix_vector.hpp>
 #include <library/math/quaternion.hpp>
@@ -177,4 +177,4 @@ class Attitude : public ILoggable, public SimulationObject {
   void CalcSatRotationalKineticEnergy(void);
 };
 
-#endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_H_
+#endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_

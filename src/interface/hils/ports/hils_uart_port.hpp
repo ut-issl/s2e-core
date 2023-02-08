@@ -6,8 +6,8 @@
  * @note TODO :We need to clarify the difference with ComPortInterface
  */
 
-#ifndef S2E_INTERFACE_HILS_PORTS_HILS_UART_PORT_H_
-#define S2E_INTERFACE_HILS_PORTS_HILS_UART_PORT_H_
+#ifndef S2E_INTERFACE_HILS_PORTS_HILS_UART_PORT_HPP_
+#define S2E_INTERFACE_HILS_PORTS_HILS_UART_PORT_HPP_
 
 #include <msclr/gcroot.h>
 #include <msclr/marshal_cppstd.h>
@@ -111,4 +111,4 @@ class HilsUartPort {
   int DiscardOutBuffer();
 };
 
-#endif  // S2E_INTERFACE_HILS_PORTS_HILS_UART_PORT_H_
+#endif  // S2E_INTERFACE_HILS_PORTS_HILS_UART_PORT_HPP_

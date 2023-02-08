@@ -5,8 +5,8 @@
 
 #pragma once
 
-#ifndef S2E_DISTURBANCES_SURFACE_FORCE_H_
-#define S2E_DISTURBANCES_SURFACE_FORCE_H_
+#ifndef S2E_DISTURBANCES_SURFACE_FORCE_HPP_
+#define S2E_DISTURBANCES_SURFACE_FORCE_HPP_
 
 #include "../library/math/quaternion.hpp"
 #include "../library/math/vector.hpp"
@@ -70,4 +70,4 @@ class SurfaceForce : public SimpleDisturbance {
   virtual void CalcCoef(Vector<3>& input_b, double item) = 0;
 };
 
-#endif  // S2E_DISTURBANCES_SURFACE_FORCE_H_
+#endif  // S2E_DISTURBANCES_SURFACE_FORCE_HPP_

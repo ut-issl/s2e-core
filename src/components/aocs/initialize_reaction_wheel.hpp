@@ -3,8 +3,8 @@
  * @brief Initialize functions for Reaction Wheel
  */
 
-#ifndef S2E_COMPONENTS_AOCS_INITIALIZE_REACTION_WHEEL_H_
-#define S2E_COMPONENTS_AOCS_INITIALIZE_REACTION_WHEEL_H_
+#ifndef S2E_COMPONENTS_AOCS_INITIALIZE_REACTION_WHEEL_HPP_
+#define S2E_COMPONENTS_AOCS_INITIALIZE_REACTION_WHEEL_HPP_
 
 #include <components/aocs/reaction_wheel.hpp>
 
@@ -31,4 +31,4 @@ RWModel InitRWModel(ClockGenerator* clock_gen, int actuator_id, std::string file
 RWModel InitRWModel(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, std::string file_name, double prop_step,
                     double compo_update_step);
 
-#endif  // S2E_COMPONENTS_AOCS_INITIALIZE_REACTION_WHEEL_H_
+#endif  // S2E_COMPONENTS_AOCS_INITIALIZE_REACTION_WHEEL_HPP_

@@ -3,8 +3,8 @@
  * @brief Component emulation: Telescope
  */
 
-#ifndef S2E_COMPONENTS_MISSION_TELESCOPE_H_
-#define S2E_COMPONENTS_MISSION_TELESCOPE_H_
+#ifndef S2E_COMPONENTS_MISSION_TELESCOPE_HPP_P_
+#define S2E_COMPONENTS_MISSION_TELESCOPE_HPP_P_
 
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
@@ -123,4 +123,4 @@ class Telescope : public ComponentBase, public ILoggable {
   //*************************************************************
 };
 
-#endif  // S2E_COMPONENTS_MISSION_TELESCOPE_H_
+#endif  // S2E_COMPONENTS_MISSION_TELESCOPE_HPP_P_

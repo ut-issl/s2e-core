@@ -4,8 +4,8 @@
  * @note ran0 function in "NUMERICAL RECIPES in C, p.206"
  */
 
-#ifndef S2E_LIBRARY_MATH_RANDOMIZE0_H_
-#define S2E_LIBRARY_MATH_RANDOMIZE0_H_
+#ifndef S2E_LIBRARY_MATH_RANDOMIZE0_HPP_
+#define S2E_LIBRARY_MATH_RANDOMIZE0_HPP_
 
 namespace libra {
 
@@ -54,4 +54,4 @@ class Ran0 {
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_MATH_RANDOMIZE0_H_
+#endif  // S2E_LIBRARY_MATH_RANDOMIZE0_HPP_

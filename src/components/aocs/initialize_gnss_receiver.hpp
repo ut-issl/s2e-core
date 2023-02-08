@@ -3,8 +3,8 @@
  * @brief Initialize functions for GNSS Receiver
  */
 
-#ifndef S2E_COMPONENTS_AOCS_INITIALIZE_GNSS_RECEIVER_H_
-#define S2E_COMPONENTS_AOCS_INITIALIZE_GNSS_RECEIVER_H_
+#ifndef S2E_COMPONENTS_AOCS_INITIALIZE_GNSS_RECEIVER_HPP_
+#define S2E_COMPONENTS_AOCS_INITIALIZE_GNSS_RECEIVER_HPP_
 
 #include <components/aocs/gnss_receiver.hpp>
 
@@ -34,4 +34,4 @@ GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const std::stri
 GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const std::string fname, const Dynamics* dynamics,
                               const GnssSatellites* gnss_satellites, const SimTime* simtime);
 
-#endif  // S2E_COMPONENTS_AOCS_INITIALIZE_GNSS_RECEIVER_H_
+#endif  // S2E_COMPONENTS_AOCS_INITIALIZE_GNSS_RECEIVER_HPP_

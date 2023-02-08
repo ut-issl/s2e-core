@@ -3,8 +3,8 @@
  * @brief Base class of ground station
  */
 
-#ifndef S2E_SIMULATION_GROUND_STATION_GROUND_STATION_H_
-#define S2E_SIMULATION_GROUND_STATION_GROUND_STATION_H_
+#ifndef S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_
+#define S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_
 
 #include <library/geodesy/geodetic_position.hpp>
 #include <library/math/vector.hpp>
@@ -110,4 +110,4 @@ class GroundStation : public ILoggable {
   bool CalcIsVisible(const Vector<3> sc_pos_ecef_m);
 };
 
-#endif  // S2E_SIMULATION_GROUND_STATION_GROUND_STATION_H_
+#endif  // S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_

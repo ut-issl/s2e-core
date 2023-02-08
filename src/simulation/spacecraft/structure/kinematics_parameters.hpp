@@ -3,8 +3,8 @@
  * @brief Definition of Kinematics information
  */
 
-#ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_H_
-#define S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_H_
+#ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_HPP_
+#define S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_HPP_
 
 #include <library/math/matrix.hpp>
 #include <library/math/vector.hpp>
@@ -86,4 +86,4 @@ class KinematicsParams {
   Matrix<3, 3> inertia_tensor_;  //!< Inertia tensor at body frame [kgm2]
 };
 
-#endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_H_
+#endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_HPP_

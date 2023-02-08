@@ -3,8 +3,8 @@
  * @brief Class to propagate spacecraft orbit with SGP4 method with TLE
  */
 
-#ifndef S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_H_
-#define S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_H_
+#ifndef S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_
+#define S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_
 
 #include <library/sgp4/sgp4io.h>
 #include <library/sgp4/sgp4unit.h>
@@ -52,4 +52,4 @@ class Sgp4OrbitPropagation : public Orbit {
   const CelestialInformation* celes_info_;  //!< Celestial information
 };
 
-#endif  // S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_H_
+#endif  // S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_

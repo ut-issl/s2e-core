@@ -3,8 +3,8 @@
  * @brief Class to calculate the solar radiation pressure disturbance force and torque
  */
 
-#ifndef S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_H_
-#define S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_H_
+#ifndef S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_HPP_
+#define S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_HPP_
 
 #include <library/utilities/macros.hpp>
 #include <string>
@@ -54,4 +54,4 @@ class SolarRadiation : public SurfaceForce {
   virtual void CalcCoef(Vector<3>& input_b, double item);
 };
 
-#endif  // S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_H_
+#endif  // S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_HPP_

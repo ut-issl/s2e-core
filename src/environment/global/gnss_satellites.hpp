@@ -3,8 +3,8 @@
  * @brief Class to calculate GNSS satellite position and related states
  */
 
-#ifndef S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_H_
-#define S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_H_
+#ifndef S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
+#define S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
 
 #include <library/math/vector.hpp>
 #include <cmath>
@@ -509,4 +509,4 @@ class GnssSatellites : public ILoggable {
 #endif
 };
 
-#endif  // S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_H_
+#endif  // S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_

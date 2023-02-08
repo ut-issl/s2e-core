@@ -7,8 +7,8 @@
  *             IERS Conventions 2003
  */
 
-#ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_H_
-#define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_H_
+#ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_
+#define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_
 
 #include <library/math/matrix_vector.hpp>
 #include <library/math/matrix.hpp>
@@ -111,4 +111,4 @@ class CelestialRotation {
   const double kDayJulianCentury = 36525;            //!< Conversion constant from Julian century to day [day/century]
 };
 
-#endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_H_
+#endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_

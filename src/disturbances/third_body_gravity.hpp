@@ -3,8 +3,8 @@
  * @brief Class to calculate third body gravity disturbance
  */
 
-#ifndef S2E_DISTURBANCES_THIRD_BODY_GRAVITY_H_
-#define S2E_DISTURBANCES_THIRD_BODY_GRAVITY_H_
+#ifndef S2E_DISTURBANCES_THIRD_BODY_GRAVITY_HPP_
+#define S2E_DISTURBANCES_THIRD_BODY_GRAVITY_HPP_
 
 #include <cassert>
 #include <set>
@@ -64,4 +64,4 @@ class ThirdBodyGravity : public AccelerationDisturbance {
   libra::Vector<3> thirdbody_acc_i_{0};    //!< Calculated third body disturbance acceleration in the inertial frame [m/s2]
 };
 
-#endif  // S2E_DISTURBANCES_THIRD_BODY_GRAVITY_H_
+#endif  // S2E_DISTURBANCES_THIRD_BODY_GRAVITY_HPP_

@@ -3,8 +3,8 @@
  * @brief Component emulation of Power Control Unit
  */
 
-#ifndef S2E_COMPONENTS_POWER_POWER_CONTROL_UNIT_H_
-#define S2E_COMPONENTS_POWER_POWER_CONTROL_UNIT_H_
+#ifndef S2E_COMPONENTS_POWER_POWER_CONTROL_UNIT_HPP_
+#define S2E_COMPONENTS_POWER_POWER_CONTROL_UNIT_HPP_
 
 #include <interface/log_output/loggable.hpp>
 #include <interface/sils/ports/power_port.hpp>
@@ -94,4 +94,4 @@ class PCU : public ComponentBase, public ILoggable {
   std::map<int, PowerPort*> ports_;  //!< Power port list
 };
 
-#endif  // S2E_COMPONENTS_POWER_POWER_CONTROL_UNIT_H_
+#endif  // S2E_COMPONENTS_POWER_POWER_CONTROL_UNIT_HPP_

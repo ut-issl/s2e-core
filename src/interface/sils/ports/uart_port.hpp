@@ -3,8 +3,8 @@
  * @brief Class to emulate UART communication port
  */
 
-#ifndef S2E_INTERFACE_SILS_PORTS_UART_PORT_H_
-#define S2E_INTERFACE_SILS_PORTS_UART_PORT_H_
+#ifndef S2E_INTERFACE_SILS_PORTS_UART_PORT_HPP_
+#define S2E_INTERFACE_SILS_PORTS_UART_PORT_HPP_
 
 #include "../utility/ring_buffer.hpp"
 
@@ -79,4 +79,4 @@ class SCIPort {
   RingBuffer* txb_;  //!< Transmit buffer (OBC -> Component)
 };
 
-#endif  // S2E_INTERFACE_SILS_PORTS_UART_PORT_H_
+#endif  // S2E_INTERFACE_SILS_PORTS_UART_PORT_HPP_

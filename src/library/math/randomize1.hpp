@@ -4,8 +4,8 @@
  * @note ran1 function in "NUMERICAL RECIPES in C, p.207-208"
  */
 
-#ifndef S2E_LIBRARY_MATH_RANDOMIZE1_H_
-#define S2E_LIBRARY_MATH_RANDOMIZE1_H_
+#ifndef S2E_LIBRARY_MATH_RANDOMIZE1_HPP_
+#define S2E_LIBRARY_MATH_RANDOMIZE1_HPP_
 
 #include <cstddef>  // size_t
 
@@ -61,4 +61,4 @@ class Ran1 {
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_MATH_RANDOMIZE1_H_
+#endif  // S2E_LIBRARY_MATH_RANDOMIZE1_HPP_

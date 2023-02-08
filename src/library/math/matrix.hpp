@@ -3,8 +3,8 @@
  * @brief Matrix class to handle math matrix with template
  */
 
-#ifndef S2E_LIBRARY_MATH_MATRIX_H_
-#define S2E_LIBRARY_MATH_MATRIX_H_
+#ifndef S2E_LIBRARY_MATH_MATRIX_HPP_
+#define S2E_LIBRARY_MATH_MATRIX_HPP_
 
 #include <cstddef>   // for size_t
 #include <iostream>  // for ostream, cout
@@ -256,4 +256,4 @@ Matrix<R, R, T> rotz(const double& theta);
 #include "matrix_ifs.hpp"  // inline function definisions.
 #include "matrix_tfs.hpp"  // template function definisions.
 
-#endif  // S2E_LIBRARY_MATH_MATRIX_H_
+#endif  // S2E_LIBRARY_MATH_MATRIX_HPP_

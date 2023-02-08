@@ -3,8 +3,8 @@
  * @brief Component emulation of simple thruster
  */
 
-#ifndef S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_H_
-#define S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_H_
+#ifndef S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_HPP_
+#define S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_HPP_
 
 #include <library/math/normal_randomization.hpp>
 #include <library/math/quaternion.hpp>
@@ -152,4 +152,4 @@ class SimpleThruster : public ComponentBase, public ILoggable {
   const Dynamics* dynamics_;    //!< Spacecraft dynamics information
 };
 
-#endif  // S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_H_
+#endif  // S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_HPP_

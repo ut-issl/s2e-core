@@ -3,8 +3,8 @@
  * @brief Initialize temperature
  */
 
-#ifndef S2E_DYNAMICS_THERMAL_TEMPERATURE_H_
-#define S2E_DYNAMICS_THERMAL_TEMPERATURE_H_
+#ifndef S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_
+#define S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_
 
 #include <interface/log_output/loggable.hpp>
 #include <string>
@@ -41,4 +41,4 @@ class Temperature : public ILoggable {
   void PrintParams(void);  // デバッグ出力
 };
 
-#endif  // S2E_DYNAMICS_THERMAL_TEMPERATURE_H_
+#endif  // S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_

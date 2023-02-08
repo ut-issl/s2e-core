@@ -3,8 +3,8 @@
  * @brief Class to manage log output file
  */
 
-#ifndef S2E_INTERFACE_LOG_OUTPUT_LOGGER_H_
-#define S2E_INTERFACE_LOG_OUTPUT_LOGGER_H_
+#ifndef S2E_INTERFACE_LOG_OUTPUT_LOGGER_HPP_
+#define S2E_INTERFACE_LOG_OUTPUT_LOGGER_HPP_
 
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -130,4 +130,4 @@ void Logger::Enable(bool enable) { is_enabled_ = enable; }
 
 std::string Logger::GetLogPath() const { return directory_path_; }
 
-#endif  // S2E_INTERFACE_LOG_OUTPUT_LOGGER_H_
+#endif  // S2E_INTERFACE_LOG_OUTPUT_LOGGER_HPP_

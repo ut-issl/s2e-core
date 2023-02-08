@@ -3,8 +3,8 @@
  *@brief Initialize functions for classes in global environment
  */
 
-#ifndef S2E_ENVIRONMENT_GLOBAL_INITIALIZE_GLOBAL_ENVIRONMENT_H_
-#define S2E_ENVIRONMENT_GLOBAL_INITIALIZE_GLOBAL_ENVIRONMENT_H_
+#ifndef S2E_ENVIRONMENT_GLOBAL_INITIALIZE_GLOBAL_ENVIRONMENT_HPP_
+#define S2E_ENVIRONMENT_GLOBAL_INITIALIZE_GLOBAL_ENVIRONMENT_HPP_
 
 #include <environment/global/celestial_information.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
@@ -31,4 +31,4 @@ HipparcosCatalogue* InitHipCatalogue(std::string file_name);
  */
 CelestialInformation* InitCelesInfo(std::string file_name);
 
-#endif  // S2E_ENVIRONMENT_GLOBAL_INITIALIZE_GLOBAL_ENVIRONMENT_H_
+#endif  // S2E_ENVIRONMENT_GLOBAL_INITIALIZE_GLOBAL_ENVIRONMENT_HPP_

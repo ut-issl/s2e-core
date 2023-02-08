@@ -3,8 +3,8 @@
  * @brief Definition of spacecraft surface
  */
 
-#ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_H_
-#define S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_H_
+#ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_HPP_
+#define S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_HPP_
 
 #include <library/math/vector.hpp>
 using libra::Vector;
@@ -116,4 +116,4 @@ class Surface {
   double air_specularity_;  //!< Specularity for air drag
 };
 
-#endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_H_
+#endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_HPP_

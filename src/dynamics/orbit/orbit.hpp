@@ -3,8 +3,8 @@
  * @brief Base class of orbit propagation
  */
 
-#ifndef S2E_DYNAMICS_ORBIT_ORBIT_H_
-#define S2E_DYNAMICS_ORBIT_ORBIT_H_
+#ifndef S2E_DYNAMICS_ORBIT_ORBIT_HPP_
+#define S2E_DYNAMICS_ORBIT_ORBIT_HPP_
 
 #include <library/math/constants.hpp>
 #include <library/math/matrix_vector.hpp>
@@ -227,4 +227,4 @@ class Orbit : public ILoggable {
 
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode);
 
-#endif  // S2E_DYNAMICS_ORBIT_ORBIT_H_
+#endif  // S2E_DYNAMICS_ORBIT_ORBIT_HPP_

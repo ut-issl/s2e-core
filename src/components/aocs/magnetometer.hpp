@@ -3,12 +3,12 @@
  * @brief Class to emulate magnetometer
  */
 
-#ifndef S2E_COMPONENTS_AOCS_MAGNETOMETER_H_
-#define S2E_COMPONENTS_AOCS_MAGNETOMETER_H_
+#ifndef S2E_COMPONENTS_AOCS_MAGNETOMETER_HPP_
+#define S2E_COMPONENTS_AOCS_MAGNETOMETER_HPP_
 
-#include <library/math/quaternion.hpp>
 #include <environment/local/local_environment.hpp>
 #include <interface/log_output/loggable.hpp>
+#include <library/math/quaternion.hpp>
 
 #include "../base_classes/component_base.hpp"
 #include "../base_classes/sensor_base.hpp"
@@ -85,4 +85,4 @@ class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILogg
   const MagEnvironment* magnet_;  //!< Geomagnetic environment
 };
 
-#endif  // S2E_COMPONENTS_AOCS_MAGNETOMETER_H_
+#endif  // S2E_COMPONENTS_AOCS_MAGNETOMETER_HPP_

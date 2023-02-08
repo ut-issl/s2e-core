@@ -3,8 +3,8 @@
  * @brief Class to propagate relative orbit
  */
 
-#ifndef S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_H_
-#define S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_H_
+#ifndef S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_HPP_
+#define S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_HPP_
 
 #include <library/math/ordinary_differential_equation.hpp>
 #include <library/orbit/relative_orbit_models.hpp>
@@ -124,4 +124,4 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
   void PropagateSTM(double elapsed_sec);
 };
 
-#endif  // S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_H_
+#endif  // S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_HPP_

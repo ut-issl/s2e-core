@@ -3,8 +3,8 @@
  * @brief Class for mathematical vector (template functions)
  */
 
-#ifndef S2E_LIBRARY_MATH_VECTOR_TFS_H_
-#define S2E_LIBRARY_MATH_VECTOR_TFS_H_
+#ifndef S2E_LIBRARY_MATH_VECTOR_TFS_HPP_
+#define S2E_LIBRARY_MATH_VECTOR_TFS_HPP_
 
 #include <cmath>
 
@@ -146,4 +146,4 @@ double angle(const Vector<N, double>& v1, const Vector<N, double>& v2) {
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_MATH_VECTOR_TFS_H_
+#endif  // S2E_LIBRARY_MATH_VECTOR_TFS_HPP_

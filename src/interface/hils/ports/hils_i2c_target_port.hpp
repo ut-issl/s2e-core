@@ -3,8 +3,8 @@
  * @brief Class to control I2C-USB converter for the target(device) side from COM port
  */
 
-#ifndef S2E_INTERFACE_HILS_PORTS_HILS_I2C_TARGET_PORT_H_
-#define S2E_INTERFACE_HILS_PORTS_HILS_I2C_TARGET_PORT_H_
+#ifndef S2E_INTERFACE_HILS_PORTS_HILS_I2C_TARGET_PORT_HPP_
+#define S2E_INTERFACE_HILS_PORTS_HILS_I2C_TARGET_PORT_HPP_
 
 #include <map>
 
@@ -107,4 +107,4 @@ class HilsI2cTargetPort : public HilsUartPort {
   std::map<unsigned char, unsigned char> cmd_buffer_;
 };
 
-#endif  // S2E_INTERFACE_HILS_PORTS_HILS_I2C_TARGET_PORT_H_
+#endif  // S2E_INTERFACE_HILS_PORTS_HILS_I2C_TARGET_PORT_HPP_

@@ -3,8 +3,8 @@
  * @brief Define macro to change the endian definition
  */
 
-#ifndef S2E_LIBRARY_UTILITIES_ENDIAN_DEFINE_H_
-#define S2E_LIBRARY_UTILITIES_ENDIAN_DEFINE_H_
+#ifndef S2E_LIBRARY_UTILITIES_ENDIAN_DEFINE_HPP_
+#define S2E_LIBRARY_UTILITIES_ENDIAN_DEFINE_HPP_
 
 #ifndef IS_LITTLE_ENDIAN
 
@@ -12,4 +12,4 @@
 
 #endif  // IS_LITTLE_ENDIAN
 
-#endif  // #ifndef S2E_LIBRARY_UTILITIES_ENDIAN_DEFINE_H_
+#endif  // #ifndef S2E_LIBRARY_UTILITIES_ENDIAN_DEFINE_HPP_

@@ -3,8 +3,8 @@
  * @brief Class for Quaternion
  */
 
-#ifndef S2E_LIBRARY_MATH_QUATERNION_H_
-#define S2E_LIBRARY_MATH_QUATERNION_H_
+#ifndef S2E_LIBRARY_MATH_QUATERNION_HPP_
+#define S2E_LIBRARY_MATH_QUATERNION_HPP_
 
 #include "vector.hpp"
 #include "matrix.hpp"
@@ -209,4 +209,4 @@ Quaternion operator*(const double& lhs, const Quaternion& rhs);
 
 #include "quaternion_ifs.hpp"  // inline function definisions.
 
-#endif  // S2E_LIBRARY_MATH_QUATERNION_H_
+#endif  // S2E_LIBRARY_MATH_QUATERNION_HPP_

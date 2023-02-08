@@ -3,8 +3,8 @@
  * @brief Initialize function for Antenna
  */
 
-#ifndef S2E_COMPONENTS_COMMUNICATION_INITIALIZE_ANTENNA_H_
-#define S2E_COMPONENTS_COMMUNICATION_INITIALIZE_ANTENNA_H_
+#ifndef S2E_COMPONENTS_COMMUNICATION_INITIALIZE_ANTENNA_HPP_
+#define S2E_COMPONENTS_COMMUNICATION_INITIALIZE_ANTENNA_HPP_
 
 #include <components/communication/antenna.hpp>
 
@@ -16,4 +16,4 @@
  */
 Antenna InitAntenna(const int antenna_id, const std::string file_name);
 
-#endif  // S2E_COMPONENTS_COMMUNICATION_INITIALIZE_ANTENNA_H_
+#endif  // S2E_COMPONENTS_COMMUNICATION_INITIALIZE_ANTENNA_HPP_

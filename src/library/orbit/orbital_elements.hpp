@@ -3,8 +3,8 @@
  * @brief Class for classical orbital elements
  */
 
-#ifndef S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_H_
-#define S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_H_
+#ifndef S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_HPP_
+#define S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_HPP_
 
 #include "../math/vector.hpp"
 
@@ -95,4 +95,4 @@ class OrbitalElements {
   void CalcOeFromPosVel(const double mu_m3_s2, const double time_jday, const libra::Vector<3> r_i_m, const libra::Vector<3> v_i_m_s);
 };
 
-#endif  // S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_H_
+#endif  // S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_HPP_

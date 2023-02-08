@@ -3,8 +3,8 @@
  * @brief Class to calculate the gravity gradient torque
  */
 
-#ifndef S2E_DISTURBANCES_GRAVITY_GRADIENT_H_
-#define S2E_DISTURBANCES_GRAVITY_GRADIENT_H_
+#ifndef S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_
+#define S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_
 
 #include <string>
 
@@ -66,4 +66,4 @@ class GravityGradient : public SimpleDisturbance {
   double mu_m3_s2_;  //!< Gravitational constant [m3/s2]
 };
 
-#endif  // S2E_DISTURBANCES_GRAVITY_GRADIENT_H_
+#endif  // S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_

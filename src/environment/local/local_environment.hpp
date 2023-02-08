@@ -3,8 +3,8 @@
  * @brief Class to manage local environments
  */
 
-#ifndef S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_H_
-#define S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_H_
+#ifndef S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_HPP_
+#define S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_HPP_
 
 #include <dynamics/dynamics.hpp>
 #include <environment/global/global_environment.hpp>
@@ -88,4 +88,4 @@ class LocalEnvironment {
   LocalCelestialInformation* celes_info_;  //!< Celestial information
 };
 
-#endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_H_
+#endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_HPP_
