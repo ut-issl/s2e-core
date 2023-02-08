@@ -19,7 +19,7 @@ add_library(${PROJECT_NAME} STATIC
   aocs/initialize_reaction_wheel.cpp
   aocs/RWJitter.cpp
   aocs/STT.cpp
-  aocs/InitStt.cpp
+  aocs/initialize_star_sensor.cpp
   aocs/SunSensor.cpp
   aocs/InitSunSensor.cpp
   aocs/gnss_receiver.cpp
