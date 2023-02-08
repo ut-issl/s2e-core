@@ -23,7 +23,7 @@ add_library(${PROJECT_NAME} STATIC
   aocs/SunSensor.cpp
   aocs/InitSunSensor.cpp
   aocs/gnss_receiver.cpp
-  aocs/InitGnssReceiver.cpp
+  aocs/initialize_gnss_receiver.cpp
 
   cdh/OBC.cpp
   cdh/OBC_C2A.cpp

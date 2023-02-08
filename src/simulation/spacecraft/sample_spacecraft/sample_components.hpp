@@ -14,7 +14,7 @@
 #include <components/ideal_components/InitializeForceGenerator.hpp>
 #include <components/ideal_components/InitializeTorqueGenerator.hpp>
 #include <components/propulsion/InitSimpleThruster.hpp>
-#include <components/aocs/InitGnssReceiver.hpp>
+#include <components/aocs/initialize_gnss_receiver.hpp>
 #include <components/aocs/InitGyro.hpp>
 #include <components/aocs/InitMagSensor.hpp>
 #include <components/aocs/InitMagTorquer.hpp>
