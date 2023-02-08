@@ -13,7 +13,7 @@ add_library(${PROJECT_NAME} STATIC
   aocs/MagSensor.cpp
   aocs/initialize_magnetometer.cpp
   aocs/MagTorquer.cpp
-  aocs/InitMagTorquer.cpp
+  aocs/initialize_magnetorquer.cpp
   aocs/rw_ode.cpp
   aocs/RWModel.cpp
   aocs/InitRwModel.cpp

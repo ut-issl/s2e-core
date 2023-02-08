@@ -1,8 +1,8 @@
 /**
- * @file InitMagTorquer.cpp
+ * @file initialize_magnetorquer.cpp
  * @brief Initialize functions for magnetorquer
  */
-#include "InitMagTorquer.hpp"
+#include "initialize_magnetorquer.hpp"
 
 #include "interface/initialize/initialize_file_access.hpp"
 
