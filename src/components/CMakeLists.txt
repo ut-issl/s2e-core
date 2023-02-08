@@ -8,7 +8,7 @@ add_library(${PROJECT_NAME} STATIC
   base_classes/ObcI2cTargetCommunicationBase.cpp
   base_classes/ObcGpioBase.cpp
 
-  aocs/Gyro.cpp
+  aocs/gyro_sensor.cpp
   aocs/InitGyro.cpp
   aocs/MagSensor.cpp
   aocs/InitMagSensor.cpp
