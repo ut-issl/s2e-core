@@ -11,7 +11,7 @@
 #define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_H_
 
 #include <library/math/MatVec.hpp>
-#include <library/math/Matrix.hpp>
+#include <library/math/matrix.hpp>
 #include <library/math/Quaternion.hpp>
 #include <library/math/Vector.hpp>
 #include <cstring>

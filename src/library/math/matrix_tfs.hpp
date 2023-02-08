@@ -1,5 +1,5 @@
 /**
- * @file Matrix_tfs.hpp
+ * @file matrix_tfs.hpp
  * @brief Matrix class to handle math matrix with template
  */
 

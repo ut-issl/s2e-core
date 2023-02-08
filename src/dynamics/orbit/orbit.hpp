@@ -8,7 +8,7 @@
 
 #include <library/math/constants.hpp>
 #include <library/math/MatVec.hpp>
-#include <library/math/Matrix.hpp>
+#include <library/math/matrix.hpp>
 #include <library/math/Quaternion.hpp>
 #include <library/math/Vector.hpp>
 

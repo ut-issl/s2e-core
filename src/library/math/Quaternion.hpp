@@ -6,7 +6,7 @@
 #ifndef QUATERNION_HPP_
 #define QUATERNION_HPP_
 
-#include "Matrix.hpp"
+#include "matrix.hpp"
 #include "Vector.hpp"
 
 namespace libra {

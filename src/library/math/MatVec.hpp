@@ -6,7 +6,7 @@
 #ifndef MAT_VEC_HPP_
 #define MAT_VEC_HPP_
 
-#include "Matrix.hpp"
+#include "matrix.hpp"
 #include "Vector.hpp"
 
 namespace libra {

@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_H_
 #define S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_H_
 
-#include "../math/Matrix.hpp"
+#include "../math/matrix.hpp"
 #include "../math/Vector.hpp"
 
 /**

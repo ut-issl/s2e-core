@@ -6,7 +6,7 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_H_
 #define S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_H_
 
-#include <library/math/Matrix.hpp>
+#include <library/math/matrix.hpp>
 #include <library/math/Vector.hpp>
 using libra::Matrix;
 using libra::Vector;

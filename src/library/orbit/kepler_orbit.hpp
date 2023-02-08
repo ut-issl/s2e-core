@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_ORBIT_KEPLER_ORBIT_H_
 #define S2E_LIBRARY_ORBIT_KEPLER_ORBIT_H_
 
-#include "../math/Matrix.hpp"
+#include "../math/matrix.hpp"
 #include "../math/Vector.hpp"
 #include "./orbital_elements.hpp"
 

@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_AOCS_MAGNETORQUER_H_
 #define S2E_COMPONENTS_AOCS_MAGNETORQUER_H_
 
-#include <library/math/Matrix.hpp>
+#include <library/math/matrix.hpp>
 #include <library/math/NormalRand.hpp>
 #include <library/math/Quaternion.hpp>
 #include <library/math/RandomWalk.hpp>
