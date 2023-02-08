@@ -82,7 +82,7 @@ add_subdirectory(src/library/sgp4)
 add_subdirectory(src/library/utilities)
 add_subdirectory(src/library/optics)
 add_subdirectory(src/library/RelativeOrbit)
-add_subdirectory(src/library/Orbit)
+add_subdirectory(src/library/orbit)
 add_subdirectory(src/library/geodesy)
 
 set(SOURCE_FILES
