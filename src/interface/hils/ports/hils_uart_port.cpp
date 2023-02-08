@@ -1,12 +1,12 @@
 ﻿/**
- * @file HilsUartPort.h
+ * @file hils_uart_port.cpp
  * @brief Class to manage PC's COM port
  * @details Currently, this feature supports Windows Visual Studio only.(FIXME)
  * Reference: https://docs.microsoft.com/en-us/dotnet/api/system.io.ports.serialport?view=netframework-4.7.2
  * @note TODO :We need to clarify the difference with ComPortInterface
  */
 
-#include "HilsUartPort.h"
+#include "hils_uart_port.hpp"
 
 // # define HILS_UART_PORT_SHOW_DEBUG_DATA
 

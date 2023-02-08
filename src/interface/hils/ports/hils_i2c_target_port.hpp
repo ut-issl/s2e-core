@@ -8,7 +8,7 @@
 
 #include <map>
 
-#include "HilsUartPort.h"
+#include "hils_uart_port.hpp"
 
 const int kDefaultCmdSize = 0xff;  //!< Default command size
 const int kDefaultTxSize = 0xff;   //!< Default TX size
