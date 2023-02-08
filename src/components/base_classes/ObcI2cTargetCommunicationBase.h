@@ -4,7 +4,7 @@
  */
 #pragma once
 #include "../../interface/hils/hils_port_manager.hpp"
-#include "../CDH/OBC.h"
+#include "../cdh/OBC.h"
 #include "ObcCommunicationBase.h"
 
 /**

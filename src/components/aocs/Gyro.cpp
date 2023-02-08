@@ -5,7 +5,7 @@
 
 #include "Gyro.h"
 
-#include "../CDH/OBC_C2A.h"
+#include "../cdh/OBC_C2A.h"
 
 Gyro::Gyro(const int prescaler, ClockGenerator* clock_gen, SensorBase& sensor_base, const int sensor_id, const Quaternion& q_b2c,
            const Dynamics* dynamics)

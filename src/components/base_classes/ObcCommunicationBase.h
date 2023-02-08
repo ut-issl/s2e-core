@@ -5,7 +5,7 @@
 #pragma once
 #include <interface/hils/hils_port_manager.hpp>
 
-#include "../CDH/OBC.h"
+#include "../cdh/OBC.h"
 
 /**
  * @enum OBC_COM_UART_MODE

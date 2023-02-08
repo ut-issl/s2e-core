@@ -25,8 +25,8 @@ add_library(${PROJECT_NAME} STATIC
   aocs/GNSSReceiver.cpp
   aocs/InitGnssReceiver.cpp
 
-  CDH/OBC.cpp
-  CDH/OBC_C2A.cpp
+  cdh/OBC.cpp
+  cdh/OBC_C2A.cpp
 
   CommGS/Antenna.cpp
   CommGS/AntennaRadiationPattern.cpp
@@ -60,9 +60,6 @@ add_library(${PROJECT_NAME} STATIC
   Propulsion/SimpleThruster.cpp
   Propulsion/InitSimpleThruster.cpp
 
-
-## C++/CLI related codes
-#  CDH/TMTCInterface.cpp
 )
 
 include(../../common.cmake)

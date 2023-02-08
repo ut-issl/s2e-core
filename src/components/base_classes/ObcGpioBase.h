@@ -4,7 +4,7 @@
  *        TODO: consider relation with IGPIOCompo
  */
 #pragma once
-#include "../CDH/OBC.h"
+#include "../cdh/OBC.h"
 
 /**
  * @class ObcGpioBase
