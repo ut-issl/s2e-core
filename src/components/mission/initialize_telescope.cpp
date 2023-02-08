@@ -1,9 +1,9 @@
 /*
- * @file InitTelescope.cpp
+ * @file initialize_telescope.cpp
  * @brief Initialize function of Telescope
  */
 
-#include "InitTelescope.hpp"
+#include "initialize_telescope.hpp"
 
 #include <string.h>
 

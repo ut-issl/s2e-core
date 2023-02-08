@@ -1,17 +1,18 @@
 /*
- * @file Telescope.h
+ * @file telescope.hpp
  * @brief Component emulation: Telescope
  */
 
-#pragma once
-#include <base_classes/component_base.hpp>
-#include <interface/log_output/loggable.hpp>
+#ifndef S2E_COMPONENTS_MISSION_TELESCOPE_H_
+#define S2E_COMPONENTS_MISSION_TELESCOPE_H_
 
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
+#include <base_classes/component_base.hpp>
 #include <dynamics/attitude/attitude.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
 #include <environment/local/local_celestial_information.hpp>
+#include <interface/log_output/loggable.hpp>
 #include <vector>
 
 /*
@@ -121,3 +122,5 @@ class Telescope : public ComponentBase, public ILoggable {
   //  double angle_moon;
   //*************************************************************
 };
+
+#endif  // S2E_COMPONENTS_MISSION_TELESCOPE_H_

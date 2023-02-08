@@ -1,10 +1,12 @@
 /*
- * @file InitTelescope.hpp
+ * @file initialize_telescope.hpp
  * @brief Initialize function of Telescope
  */
-#pragma once
 
-#include <components/mission/Telescope.h>
+#ifndef S2E_COMPONENTS_MISSION_INITIALIZE_TELESCOPE_H_
+#define S2E_COMPONENTS_MISSION_INITIALIZE_TELESCOPE_H_
+
+#include <components/mission/telescope.hpp>
 
 /*
  * @fn InitTelescope
@@ -18,3 +20,5 @@
  */
 Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const std::string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
                         const LocalCelestialInformation* local_celes_info);
+
+#endif  // S2E_COMPONENTS_MISSION_INITIALIZE_TELESCOPE_H_

@@ -1,9 +1,9 @@
 /*
- * @file Telescope.cpp
+ * @file telescope.cpp
  * @brief Component emulation: Telescope
  */
 
-#include "Telescope.h"
+#include "telescope.hpp"
 
 #include <Library/math/Constant.hpp>
 #include <cassert>
