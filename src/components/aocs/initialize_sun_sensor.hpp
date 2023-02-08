@@ -1,8 +1,10 @@
 /**
- * @file InitSunSensor.hpp
+ * @file initialize_sun_sensor.hpp
  * @brief Initialize functions for sun sensor
  */
-#pragma once
+
+#ifndef S2E_COMPONENTS_AOCS_INITIALIZE_SUN_SENSOR_H_
+#define S2E_COMPONENTS_AOCS_INITIALIZE_SUN_SENSOR_H_
 
 #include <components/aocs/SunSensor.h>
 
@@ -29,3 +31,5 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int sensor_id, const std::str
  */
 SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, const SRPEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info);
+
+#endif  // S2E_COMPONENTS_AOCS_INITIALIZE_SUN_SENSOR_H_

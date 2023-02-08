@@ -20,7 +20,7 @@
 #include <components/aocs/initialize_magnetorquer.hpp>
 #include <components/aocs/initialize_reaction_wheel.hpp>
 #include <components/aocs/initialize_star_sensor.hpp>
-#include <components/aocs/InitSunSensor.hpp>
+#include <components/aocs/initialize_sun_sensor.hpp>
 #include <components/examples/example_change_structure.hpp>
 #include <components/examples/example_i2c_controller_for_hils.hpp>
 #include <components/examples/example_i2c_target_for_hils.hpp>

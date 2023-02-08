@@ -21,7 +21,7 @@ add_library(${PROJECT_NAME} STATIC
   aocs/STT.cpp
   aocs/initialize_star_sensor.cpp
   aocs/SunSensor.cpp
-  aocs/InitSunSensor.cpp
+  aocs/initialize_sun_sensor.cpp
   aocs/gnss_receiver.cpp
   aocs/initialize_gnss_receiver.cpp
 
