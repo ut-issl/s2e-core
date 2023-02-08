@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <components/Power/PCU_InitialStudy.h>
+#include <components/power/PCU_InitialStudy.h>
 
 /*
  * @fn InitPCU_InitialStudy

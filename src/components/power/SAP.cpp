@@ -1,6 +1,6 @@
 ﻿#include "SAP.h"
 
-#include <components/Power/CsvScenarioInterface.h>
+#include <components/power/CsvScenarioInterface.h>
 
 #include <environment/global/clock_generator.hpp>
 

@@ -7,7 +7,7 @@
 #define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_H_
 
 #include <components/cdh/OBC.h>
-#include <components/Power/PCU.h>
+#include <components/power/PCU.h>
 
 #include <Library/math/Vector.hpp>
 #include <components/communication/InitAntenna.hpp>

@@ -48,14 +48,14 @@ add_library(${PROJECT_NAME} STATIC
   mission/Telescope.cpp
   mission/InitTelescope.cpp
 
-  Power/PCU.cpp
-  Power/BAT.cpp
-  Power/InitBat.cpp
-  Power/PCU_InitialStudy.cpp
-  Power/InitPcu_InitialStudy.cpp
-  Power/SAP.cpp
-  Power/InitSap.cpp
-  Power/CsvScenarioInterface.cpp
+  power/PCU.cpp
+  power/BAT.cpp
+  power/InitBat.cpp
+  power/PCU_InitialStudy.cpp
+  power/InitPcu_InitialStudy.cpp
+  power/SAP.cpp
+  power/InitSap.cpp
+  power/CsvScenarioInterface.cpp
 
   Propulsion/SimpleThruster.cpp
   Propulsion/InitSimpleThruster.cpp
