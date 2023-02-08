@@ -1,9 +1,10 @@
 ﻿/**
- * @file LogUtility.h
+ * @file log_utility.hpp
  * @brief Utility functions to support logging for users
  */
 
-#pragma once
+#ifndef S2E_INTERFACE_LOG_OUTPUT_LOG_UTILITY_H_
+#define S2E_INTERFACE_LOG_OUTPUT_LOG_UTILITY_H_
 
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Quaternion.hpp>
@@ -157,3 +158,5 @@ std::string WriteQuaternion(std::string name, std::string frame) {
   }
   return str_tmp.str();
 }
+
+#endif  // S2E_INTERFACE_LOG_OUTPUT_LOG_UTILITY_H_

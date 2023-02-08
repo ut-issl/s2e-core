@@ -5,7 +5,7 @@
 
 #include "atmosphere.hpp"
 
-#include <interface/log_output/LogUtility.h>
+#include <interface/log_output/log_utility.hpp>
 #include <Library/math/GlobalRand.h>
 
 #include <Library/math/NormalRand.hpp>

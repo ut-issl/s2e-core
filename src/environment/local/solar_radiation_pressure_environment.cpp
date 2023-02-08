@@ -4,7 +4,7 @@
  */
 #include "solar_radiation_pressure_environment.hpp"
 
-#include <interface/log_output/LogUtility.h>
+#include <interface/log_output/log_utility.hpp>
 
 #include <Library/math/Constant.hpp>
 #include <Library/math/Vector.hpp>

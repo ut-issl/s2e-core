@@ -6,7 +6,7 @@
 #pragma once
 #include <string>
 
-#include "LogUtility.h"  // This is not necessary but include here for convenience
+#include "log_utility.hpp"  // This is not necessary but include here for convenience
 
 /**
  * @class ILoggable

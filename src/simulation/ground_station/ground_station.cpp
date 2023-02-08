@@ -6,7 +6,7 @@
 #include "ground_station.hpp"
 
 #include <interface/initialize/initialize_file_access.hpp>
-#include <interface/log_output/LogUtility.h>
+#include <interface/log_output/log_utility.hpp>
 #include <interface/log_output/logger.hpp>
 
 #include <Library/math/Constant.hpp>
