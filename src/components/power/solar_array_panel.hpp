@@ -6,10 +6,10 @@
 #ifndef S2E_COMPONENTS_POWER_SOLAR_ARRAY_PANEL_HPP_
 #define S2E_COMPONENTS_POWER_SOLAR_ARRAY_PANEL_HPP_
 
-#include <library/math/vector.hpp>
 #include <environment/local/local_celestial_information.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
 #include <interface/log_output/loggable.hpp>
+#include <library/math/vector.hpp>
 
 #include "../base_classes/component_base.hpp"
 

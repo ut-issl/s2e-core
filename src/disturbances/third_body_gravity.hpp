@@ -10,8 +10,8 @@
 #include <set>
 #include <string>
 
-#include "../library/math/vector.hpp"
 #include "../interface/log_output/loggable.hpp"
+#include "../library/math/vector.hpp"
 #include "acceleration_disturbance.hpp"
 
 /**

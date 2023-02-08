@@ -4,8 +4,8 @@
  */
 #include "attitude_rk4.hpp"
 
-#include <library/utilities/macros.hpp>
 #include <interface/log_output/log_utility.hpp>
+#include <library/utilities/macros.hpp>
 using namespace std;
 
 #include <iostream>

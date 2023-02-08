@@ -12,8 +12,8 @@
 #include <library/sgp4/sgp4ext.h>   // for jday()
 #include <library/sgp4/sgp4unit.h>  // for gstime()
 
-#include <library/math/constants.hpp>
 #include <iostream>
+#include <library/math/constants.hpp>
 #include <sstream>
 
 using namespace std;

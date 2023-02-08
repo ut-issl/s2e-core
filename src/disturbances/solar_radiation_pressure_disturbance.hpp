@@ -9,8 +9,8 @@
 #include <library/utilities/macros.hpp>
 #include <string>
 
-#include "../library/math/vector.hpp"
 #include "../interface/log_output/loggable.hpp"
+#include "../library/math/vector.hpp"
 #include "surface_force.hpp"
 using libra::Vector;
 

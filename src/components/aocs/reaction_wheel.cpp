@@ -4,10 +4,10 @@
  */
 #include "reaction_wheel.hpp"
 
-#include <library/math/constants.hpp>
-#include <library/math/vector.hpp>
 #include <fstream>
 #include <iostream>
+#include <library/math/constants.hpp>
+#include <library/math/vector.hpp>
 #include <random>
 
 using namespace libra;

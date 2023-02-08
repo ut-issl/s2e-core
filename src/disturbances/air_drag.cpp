@@ -5,10 +5,10 @@
 
 #include "air_drag.hpp"
 
-#include <library/math/constants.hpp>
 #include <cmath>
 #include <environment/global/physical_constants.hpp>
 #include <iostream>
+#include <library/math/constants.hpp>
 
 #include "../interface/log_output/log_utility.hpp"
 

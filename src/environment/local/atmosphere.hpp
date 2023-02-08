@@ -7,11 +7,10 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_
 #define S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_
 
-#include <library/nrlmsise00/wrapper_nrlmsise00.hpp>
-
+#include <interface/log_output/loggable.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
-#include <interface/log_output/loggable.hpp>
+#include <library/nrlmsise00/wrapper_nrlmsise00.hpp>
 #include <string>
 #include <vector>
 

@@ -6,13 +6,13 @@
 #ifndef S2E_COMPONENTS_MISSION_TELESCOPE_HPP_P_
 #define S2E_COMPONENTS_MISSION_TELESCOPE_HPP_P_
 
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
 #include <base_classes/component_base.hpp>
 #include <dynamics/attitude/attitude.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
 #include <environment/local/local_celestial_information.hpp>
 #include <interface/log_output/loggable.hpp>
+#include <library/math/quaternion.hpp>
+#include <library/math/vector.hpp>
 #include <vector>
 
 /*

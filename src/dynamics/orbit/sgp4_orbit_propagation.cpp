@@ -5,8 +5,8 @@
 
 #include "sgp4_orbit_propagation.hpp"
 
-#include <library/utilities/macros.hpp>
 #include <iostream>
+#include <library/utilities/macros.hpp>
 #include <sstream>
 using namespace std;
 

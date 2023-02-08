@@ -6,11 +6,11 @@
 #ifndef S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_HPP_
 #define S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_HPP_
 
+#include <dynamics/dynamics.hpp>
+#include <interface/log_output/logger.hpp>
 #include <library/math/normal_randomization.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
-#include <dynamics/dynamics.hpp>
-#include <interface/log_output/logger.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
 #include "../base_classes/component_base.hpp"

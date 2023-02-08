@@ -6,12 +6,12 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
 
-#include <library/math/vector.hpp>
 #include <cmath>
 #include <ctime>
 #include <fstream>
 #include <interface/log_output/loggable.hpp>
 #include <iomanip>
+#include <library/math/vector.hpp>
 #include <map>
 #include <vector>
 

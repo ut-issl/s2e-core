@@ -5,9 +5,9 @@
 
 #include "temperature.hpp"
 
-#include <library/utilities/macros.hpp>
 #include <cmath>
 #include <iostream>
+#include <library/utilities/macros.hpp>
 #include <vector>
 
 using namespace std;

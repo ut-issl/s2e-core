@@ -9,9 +9,9 @@
 using libra::NormalRand;
 #include <library/utilities/macros.hpp>
 
+#include "../interface/log_output/log_utility.hpp"
 #include "../library/math/global_randomization.hpp"
 #include "../library/math/random_walk.hpp"
-#include "../interface/log_output/log_utility.hpp"
 
 using namespace std;
 

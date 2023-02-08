@@ -6,11 +6,11 @@
 #include "geomagnetic_field.hpp"
 
 #include <library/igrf/igrf.h>
-#include <library/math/global_randomization.hpp>
 
+#include <interface/initialize/initialize_file_access.hpp>
+#include <library/math/global_randomization.hpp>
 #include <library/math/normal_randomization.hpp>
 #include <library/math/random_walk.hpp>
-#include <interface/initialize/initialize_file_access.hpp>
 
 using libra::NormalRand;
 using namespace std;

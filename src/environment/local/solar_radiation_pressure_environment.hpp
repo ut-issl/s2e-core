@@ -6,9 +6,9 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_
 #define S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_
 
-#include <library/math/vector.hpp>
 #include <environment/local/local_celestial_information.hpp>
 #include <interface/log_output/loggable.hpp>
+#include <library/math/vector.hpp>
 
 using libra::Vector;
 

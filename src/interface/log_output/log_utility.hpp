@@ -6,9 +6,9 @@
 #ifndef S2E_INTERFACE_LOG_OUTPUT_LOG_UTILITY_HPP_
 #define S2E_INTERFACE_LOG_OUTPUT_LOG_UTILITY_HPP_
 
+#include <iomanip>
 #include <library/math/matrix_vector.hpp>
 #include <library/math/quaternion.hpp>
-#include <iomanip>
 #include <sstream>
 #include <string>
 using libra::Matrix;

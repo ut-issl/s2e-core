@@ -6,7 +6,6 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
 #define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
 
-#include <library/math/vector.hpp>
 #include <components/aocs/initialize_gnss_receiver.hpp>
 #include <components/aocs/initialize_gyro_sensor.hpp>
 #include <components/aocs/initialize_magnetometer.hpp>
@@ -26,6 +25,7 @@
 #include <components/propulsion/initialize_simple_thruster.hpp>
 #include <dynamics/dynamics.hpp>
 #include <interface/hils/hils_port_manager.hpp>
+#include <library/math/vector.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
 #include "../installed_components.hpp"

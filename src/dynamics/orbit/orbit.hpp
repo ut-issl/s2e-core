@@ -7,8 +7,8 @@
 #define S2E_DYNAMICS_ORBIT_ORBIT_HPP_
 
 #include <library/math/constants.hpp>
-#include <library/math/matrix_vector.hpp>
 #include <library/math/matrix.hpp>
+#include <library/math/matrix_vector.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
 
@@ -16,10 +16,10 @@ using libra::Matrix;
 using libra::Quaternion;
 using libra::Vector;
 
-#include <library/geodesy/geodetic_position.hpp>
 #include <environment/global/celestial_information.hpp>
 #include <environment/global/physical_constants.hpp>
 #include <interface/log_output/loggable.hpp>
+#include <library/geodesy/geodetic_position.hpp>
 
 /**
  * @enum OrbitPropagateMode

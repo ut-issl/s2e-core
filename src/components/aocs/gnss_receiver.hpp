@@ -6,12 +6,12 @@
 #ifndef S2E_COMPONENTS_AOCS_GNSS_RECEIVER_HPP_
 #define S2E_COMPONENTS_AOCS_GNSS_RECEIVER_HPP_
 
-#include <library/math/normal_randomization.hpp>
-#include <library/math/quaternion.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/gnss_satellites.hpp>
 #include <environment/global/simulation_time.hpp>
 #include <interface/log_output/loggable.hpp>
+#include <library/math/normal_randomization.hpp>
+#include <library/math/quaternion.hpp>
 
 #include "../base_classes/component_base.hpp"
 

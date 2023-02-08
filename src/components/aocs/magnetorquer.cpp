@@ -5,11 +5,10 @@
 
 #include "magnetorquer.hpp"
 
+#include <interface/log_output/logger.hpp>
 #include <library/math/global_randomization.hpp>
-
 #include <library/math/matrix_vector.hpp>
 #include <library/math/quaternion.hpp>
-#include <interface/log_output/logger.hpp>
 
 MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, const int id, const Quaternion& q_b2c,
                        const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,

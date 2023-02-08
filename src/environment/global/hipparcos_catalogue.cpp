@@ -4,10 +4,10 @@
  */
 #include "hipparcos_catalogue.hpp"
 
-#include <library/math/constants.hpp>
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <library/math/constants.hpp>
 #include <sstream>
 #include <string>
 #include <vector>

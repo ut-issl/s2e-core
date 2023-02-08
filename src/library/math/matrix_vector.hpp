@@ -6,8 +6,8 @@
 #ifndef S2E_LIBRARY_MATH_MATRIX_VECTOR_HPP_
 #define S2E_LIBRARY_MATH_MATRIX_VECTOR_HPP_P
 
-#include "vector.hpp"
 #include "matrix.hpp"
+#include "vector.hpp"
 
 namespace libra {
 

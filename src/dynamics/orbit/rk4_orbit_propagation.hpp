@@ -6,8 +6,8 @@
 #ifndef S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_
 #define S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_
 
-#include <library/math/ordinary_differential_equation.hpp>
 #include <environment/global/celestial_information.hpp>
+#include <library/math/ordinary_differential_equation.hpp>
 
 #include "orbit.hpp"
 

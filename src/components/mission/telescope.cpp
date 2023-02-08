@@ -5,8 +5,8 @@
 
 #include "telescope.hpp"
 
-#include <library/math/constants.hpp>
 #include <cassert>
+#include <library/math/constants.hpp>
 
 using namespace std;
 using namespace libra;
