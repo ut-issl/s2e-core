@@ -9,7 +9,7 @@
 
 #include <simulation/spacecraft/structure/structure.hpp>
 
-#include "../Abstract/ComponentBase.h"
+#include "../base_classes/ComponentBase.h"
 
 /**
  * @class ExampleChangeStructure

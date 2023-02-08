@@ -6,8 +6,8 @@
 #pragma once
 #include <vector>
 
-#include "../Abstract/ComponentBase.h"
-#include "../Abstract/ObcI2cTargetCommunicationBase.h"
+#include "../base_classes/ComponentBase.h"
+#include "../base_classes/ObcI2cTargetCommunicationBase.h"
 
 /**
  * @class ExampleI2cTargetForHils

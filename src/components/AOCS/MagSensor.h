@@ -11,8 +11,8 @@
 #include <Library/math/Quaternion.hpp>
 #include <environment/local/local_environment.hpp>
 
-#include "../Abstract/ComponentBase.h"
-#include "../Abstract/SensorBase.h"
+#include "../base_classes/ComponentBase.h"
+#include "../base_classes/SensorBase.h"
 
 const size_t kMagDim = 3;  //!< Dimension of magnetometer
 

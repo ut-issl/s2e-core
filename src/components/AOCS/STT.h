@@ -18,7 +18,7 @@
 #include <environment/local/local_environment.hpp>
 #include <vector>
 
-#include "../Abstract/ComponentBase.h"
+#include "../base_classes/ComponentBase.h"
 #include "dynamics/dynamics.hpp"
 
 /*

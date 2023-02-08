@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-#include "../Abstract/ComponentBase.h"
+#include "../base_classes/ComponentBase.h"
 #include "RWJitter.h"
 #include "rw_ode.hpp"
 

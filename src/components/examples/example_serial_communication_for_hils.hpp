@@ -5,8 +5,8 @@
 #pragma once
 #include <vector>
 
-#include "../Abstract/ComponentBase.h"
-#include "../Abstract/ObcCommunicationBase.h"
+#include "../base_classes/ComponentBase.h"
+#include "../base_classes/ObcCommunicationBase.h"
 
 /**
  * @class ExampleSerialCommunicationForHils

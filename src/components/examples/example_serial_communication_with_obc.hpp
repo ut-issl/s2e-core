@@ -6,9 +6,9 @@
 #pragma once
 #include <vector>
 
-#include "../Abstract/ComponentBase.h"
-#include "../Abstract/IGPIOCompo.h"
-#include "../Abstract/ObcCommunicationBase.h"
+#include "../base_classes/ComponentBase.h"
+#include "../base_classes/IGPIOCompo.h"
+#include "../base_classes/ObcCommunicationBase.h"
 
 /**
  * @class ExampleSerialCommunicationWithObc

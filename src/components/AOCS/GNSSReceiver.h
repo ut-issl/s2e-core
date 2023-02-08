@@ -5,15 +5,14 @@
 
 #pragma once
 
-#include <interface/log_output/loggable.hpp>
-
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/gnss_satellites.hpp>
 #include <environment/global/simulation_time.hpp>
+#include <interface/log_output/loggable.hpp>
 
-#include "../Abstract/ComponentBase.h"
+#include "../base_classes/ComponentBase.h"
 
 using libra::Vector;
 

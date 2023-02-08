@@ -9,7 +9,7 @@
 #include <interface/log_output/loggable.hpp>
 #include <map>
 
-#include "../Abstract/ComponentBase.h"
+#include "../base_classes/ComponentBase.h"
 
 /*
  * @class PCU

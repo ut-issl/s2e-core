@@ -2,11 +2,11 @@ project(COMPONENT)
 cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
-  Abstract/ComponentBase.cpp
-  Abstract/ObcCommunicationBase.cpp
-  Abstract/I2cControllerCommunicationBase.cpp
-  Abstract/ObcI2cTargetCommunicationBase.cpp
-  Abstract/ObcGpioBase.cpp
+  base_classes/ComponentBase.cpp
+  base_classes/ObcCommunicationBase.cpp
+  base_classes/I2cControllerCommunicationBase.cpp
+  base_classes/ObcI2cTargetCommunicationBase.cpp
+  base_classes/ObcGpioBase.cpp
 
   AOCS/Gyro.cpp
   AOCS/InitGyro.cpp

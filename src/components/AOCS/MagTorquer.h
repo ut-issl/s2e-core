@@ -15,7 +15,7 @@
 #include <Library/math/Vector.hpp>
 #include <environment/local/local_environment.hpp>
 
-#include "../Abstract/ComponentBase.h"
+#include "../base_classes/ComponentBase.h"
 
 const size_t kMtqDim = 3;  //!< Dimension of magnetorquer
 

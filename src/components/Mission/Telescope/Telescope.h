@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include <Abstract/ComponentBase.h>
+#include <base_classes/ComponentBase.h>
 #include <interface/log_output/loggable.hpp>
 
 #include <Library/math/Quaternion.hpp>

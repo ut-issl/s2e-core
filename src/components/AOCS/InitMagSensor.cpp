@@ -4,7 +4,7 @@
  */
 #include "InitMagSensor.hpp"
 
-#include "../Abstract/InitializeSensorBase.hpp"
+#include "../base_classes/InitializeSensorBase.hpp"
 #include "interface/initialize/initialize_file_access.hpp"
 
 MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const MagEnvironment* magnet) {

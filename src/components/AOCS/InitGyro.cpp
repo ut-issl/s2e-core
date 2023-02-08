@@ -6,7 +6,7 @@
 
 #include <interface/initialize/initialize_file_access.hpp>
 
-#include "../Abstract/InitializeSensorBase.hpp"
+#include "../base_classes/InitializeSensorBase.hpp"
 
 Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const Dynamics* dynamics) {
   IniAccess gyro_conf(fname);

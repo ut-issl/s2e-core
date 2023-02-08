@@ -6,13 +6,12 @@
 #ifndef Gyro_H_
 #define Gyro_H_
 
-#include <interface/log_output/loggable.hpp>
-
 #include <Library/math/Quaternion.hpp>
 #include <dynamics/dynamics.hpp>
+#include <interface/log_output/loggable.hpp>
 
-#include "../Abstract/ComponentBase.h"
-#include "../Abstract/SensorBase.h"
+#include "../base_classes/ComponentBase.h"
+#include "../base_classes/SensorBase.h"
 
 const size_t kGyroDim = 3;  //!< Dimension of gyro sensor
 
