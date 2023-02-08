@@ -1,9 +1,9 @@
 /**
- * @file GPIOPort.cpp
+ * @file gpio_port.cpp
  * @brief Class to emulate GPIO(General Purpose Input and Output) port
  */
 
-#include "GPIOPort.h"
+#include "gpio_port.hpp"
 
 GPIOPort::GPIOPort(int port_id, IGPIOCompo* compo) : kPortId(port_id) {
   hl_state_ = GPIO_LOW;

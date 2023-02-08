@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include <interface/sils/ports/GPIOPort.h>
+#include <interface/sils/ports/gpio_port.hpp>
 
 #include "OBC.h"
 

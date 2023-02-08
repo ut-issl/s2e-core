@@ -3,7 +3,7 @@
  * @brief Class to emulate on board computer
  */
 #pragma once
-#include <interface/sils/ports/GPIOPort.h>
+#include <interface/sils/ports/gpio_port.hpp>
 #include <interface/sils/ports/I2CPort.h>
 #include <interface/sils/ports/SCIPort.h>
 

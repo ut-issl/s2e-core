@@ -1,9 +1,11 @@
 /**
- * @file GPIOPort.h
+ * @file gpio_port.hpp
  * @brief Class to emulate GPIO(General Purpose Input and Output) port
  */
 
-#pragma once
+#ifndef S2E_INTERFACE_SILS_PORTS_GPIO_PORT_H_
+#define S2E_INTERFACE_SILS_PORTS_GPIO_PORT_H_
+
 #include <Component/Abstract/IGPIOCompo.h>
 
 #define GPIO_HIGH true
@@ -48,3 +50,5 @@ class GPIOPort {
   IGPIOCompo* component_;  //!< Component which has the GPIO port
   bool hl_state_;          //!< GPIO High/Low state
 };
+
+#endif  // S2E_INTERFACE_SILS_PORTS_GPIO_PORT_H_
