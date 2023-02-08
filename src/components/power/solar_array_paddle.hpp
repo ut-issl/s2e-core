@@ -1,14 +1,15 @@
 ﻿/*
- * @file SAP.h
+ * @file solar_array_paddle.hpp
  * @brief Component emulation of Solar Array Panel
  */
-#pragma once
 
-#include <interface/log_output/loggable.hpp>
+#ifndef S2E_COMPONENTS_POWER_SOLAR_ARRAY_PADDLE_H_
+#define S2E_COMPONENTS_POWER_SOLAR_ARRAY_PADDLE_H_
 
 #include <Library/math/Vector.hpp>
 #include <environment/local/local_celestial_information.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
+#include <interface/log_output/loggable.hpp>
 
 #include "../base_classes/component_base.hpp"
 
@@ -127,3 +128,5 @@ class SAP : public ComponentBase, public ILoggable {
    */
   void MainRoutine(int time_count) override;
 };
+
+#endif  // S2E_COMPONENTS_POWER_SOLAR_ARRAY_PADDLE_H_

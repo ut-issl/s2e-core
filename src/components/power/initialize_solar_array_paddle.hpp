@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_POWER_INITIALIZE_SOLAR_ARRAY_PADDLE_H_
 #define S2E_COMPONENTS_POWER_INITIALIZE_SOLAR_ARRAY_PADDLE_H_
 
-#include <components/power/SAP.h>
+#include <components/power/solar_array_paddle.hpp>
 
 /*
  * @fn InitSAP

@@ -10,8 +10,8 @@
 #include <vector>
 
 #include "../base_classes/component_base.hpp"
-#include "SAP.h"
 #include "battery.hpp"
+#include "solar_array_paddle.hpp"
 
 class PCU_InitialStudy : public ComponentBase, public ILoggable {
  public:
