@@ -18,7 +18,7 @@ add_library(${PROJECT_NAME} STATIC
   aocs/reaction_wheel.cpp
   aocs/initialize_reaction_wheel.cpp
   aocs/reaction_wheel_jitter.cpp
-  aocs/STT.cpp
+  aocs/star_sensor.cpp
   aocs/initialize_star_sensor.cpp
   aocs/SunSensor.cpp
   aocs/initialize_sun_sensor.cpp

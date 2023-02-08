@@ -1,14 +1,12 @@
 /*
- * @file STT.h
+ * @file star_sensor.hpp
  * @brief Class to emulate star tracker
  */
 
 #pragma once
 
-#ifndef __STT_H__
-#define __STT_H__
-
-#include <interface/log_output/loggable.hpp>
+#ifndef S2E_COMPONENTS_AOCS_STAR_SENSOR_H_
+#define S2E_COMPONENTS_AOCS_STAR_SENSOR_H_
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>
@@ -16,6 +14,7 @@
 #include <Library/math/Vector.hpp>
 #include <dynamics/attitude/attitude.hpp>
 #include <environment/local/local_environment.hpp>
+#include <interface/log_output/loggable.hpp>
 #include <vector>
 
 #include "../base_classes/ComponentBase.h"
@@ -206,4 +205,4 @@ class STT : public ComponentBase, public ILoggable {
   void Initialize();
 };
 
-#endif
+#endif  // S2E_COMPONENTS_AOCS_STAR_SENSOR_H_

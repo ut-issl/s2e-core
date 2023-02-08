@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_AOCS_INITIALIZE_STAR_SENSOR_H_
 #define S2E_COMPONENTS_AOCS_INITIALIZE_STAR_SENSOR_H_
 
-#include <components/aocs/STT.h>
+#include <components/aocs/star_sensor.hpp>
 
 /**
  * @fn InitSTT

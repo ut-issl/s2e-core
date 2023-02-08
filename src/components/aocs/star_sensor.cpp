@@ -1,9 +1,9 @@
 /*
- * @file STT.cpp
+ * @file star_sensor.cpp
  * @brief Class to emulate star tracker
  */
 
-#include "STT.h"
+#include "star_sensor.hpp"
 
 #include <interface/log_output/log_utility.hpp>
 #include <Library/math/GlobalRand.h>
