@@ -4,7 +4,7 @@
  */
 #pragma once
 #include <interface/sils/ports/gpio_port.hpp>
-#include <interface/sils/ports/I2CPort.h>
+#include <interface/sils/ports/i2c_port.hpp>
 #include <interface/sils/ports/SCIPort.h>
 
 #include <map>

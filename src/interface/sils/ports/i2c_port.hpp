@@ -1,9 +1,11 @@
 /**
- * @file I2CPort.h
+ * @file i2c_port.hpp
  * @brief Class to emulate I2C(Inter-Integrated Circuit) communication port
  */
 
-#pragma once
+#ifndef S2E_INTERFACE_SILS_PORTS_I2C_PORT_H_
+#define S2E_INTERFACE_SILS_PORTS_I2C_PORT_H_
+
 #include <map>
 
 const int kDefaultCmdBufferSize = 0xff;  //!< Default command buffer size
@@ -106,3 +108,5 @@ class I2CPort {
   /** @brief Buffer for the command from OBC : <pair(i2c_address, cmd_buffer_length), value>  **/
   std::map<std::pair<unsigned char, unsigned char>, unsigned char> cmd_buffer_;
 };
+
+#endif  // S2E_INTERFACE_SILS_PORTS_I2C_PORT_H_

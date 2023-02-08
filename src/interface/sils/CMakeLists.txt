@@ -5,7 +5,7 @@ add_library(${PROJECT_NAME} STATIC
   ports/gpio_port.cpp
   ports/PowerPort.cpp
   ports/SCIPort.cpp
-  ports/I2CPort.cpp
+  ports/i2c_port.cpp
   utility/RingBuffer.cpp
 )
 

@@ -1,4 +1,9 @@
-#include "I2CPort.h"
+/**
+ * @file i2c_port.cpp
+ * @brief Class to emulate I2C(Inter-Integrated Circuit) communication port
+ */
+
+#include "i2c_port.hpp"
 
 #include <Library/utils/Macros.hpp>
 
