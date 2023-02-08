@@ -4,9 +4,9 @@
  */
 #pragma once
 
-#include <interface/log_output/loggable.hpp>
-#include <interface/sils/Ports/PowerPort.h>
+#include <interface/sils/ports/PowerPort.h>
 
+#include <interface/log_output/loggable.hpp>
 #include <map>
 
 #include "../Abstract/ComponentBase.h"
