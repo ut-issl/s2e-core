@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
   base_classes/component_base.cpp
-  base_classes/ObcCommunicationBase.cpp
+  base_classes/obc_communication_base.cpp
   base_classes/i2c_controller_communication_base.cpp
   base_classes/ObcI2cTargetCommunicationBase.cpp
   base_classes/ObcGpioBase.cpp

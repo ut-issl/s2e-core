@@ -5,7 +5,7 @@
 #pragma once
 #include "../../interface/hils/hils_port_manager.hpp"
 #include "../cdh/OBC.h"
-#include "ObcCommunicationBase.h"
+#include "obc_communication_base.hpp"
 
 /**
  * @class ObcI2cTargetCommunicationBase

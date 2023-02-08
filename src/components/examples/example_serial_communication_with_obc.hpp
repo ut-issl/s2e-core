@@ -8,7 +8,7 @@
 
 #include "../base_classes/component_base.hpp"
 #include "../base_classes/interface_gpio_component.hpp"
-#include "../base_classes/ObcCommunicationBase.h"
+#include "../base_classes/obc_communication_base.hpp"
 
 /**
  * @class ExampleSerialCommunicationWithObc
