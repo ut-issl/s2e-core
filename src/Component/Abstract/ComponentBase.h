@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include <interface/sils/ports/PowerPort.h>
+#include <interface/sils/ports/power_port.hpp>
 
 #include <Library/utils/Macros.hpp>
 #include <environment/global/clock_generator.hpp>

@@ -1,9 +1,9 @@
 /**
- * @file PowerPort.cpp
+ * @file power_port.cpp
  * @brief Class to emulate electrical power port
  */
 
-#include "PowerPort.h"
+#include "power_port.hpp"
 
 #include <interface/initialize/initialize_file_access.hpp>
 

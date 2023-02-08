@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <interface/sils/ports/PowerPort.h>
+#include <interface/sils/ports/power_port.hpp>
 
 #include <interface/log_output/loggable.hpp>
 #include <map>

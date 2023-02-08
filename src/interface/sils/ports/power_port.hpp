@@ -1,9 +1,10 @@
 /**
- * @file PowerPort.h
+ * @file power_port.hpp
  * @brief Class to emulate electrical power port
  */
 
-#pragma once
+#ifndef S2E_INTERFACE_SILS_PORTS_POWER_PORT_H_
+#define S2E_INTERFACE_SILS_PORTS_POWER_PORT_H_
 
 #include <string>
 
@@ -131,3 +132,5 @@ class PowerPort {
    */
   void Initialize(void);
 };
+
+#endif  // S2E_INTERFACE_SILS_PORTS_POWER_PORT_H_
