@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_AOCS_SUN_SENSOR_H_
 
 #include <library/math/normal_randomization.hpp>
-#include <library/math/Quaternion.hpp>
+#include <library/math/quaternion.hpp>
 #include <library/math/Vector.hpp>
 #include <environment/local/local_celestial_information.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>

@@ -12,7 +12,7 @@
 
 #include <library/math/matrix_vector.hpp>
 #include <library/math/matrix.hpp>
-#include <library/math/Quaternion.hpp>
+#include <library/math/quaternion.hpp>
 #include <library/math/Vector.hpp>
 #include <cstring>
 #include <interface/log_output/loggable.hpp>

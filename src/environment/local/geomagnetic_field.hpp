@@ -8,7 +8,7 @@
 
 #include <library/math/Vector.hpp>
 using libra::Vector;
-#include <library/math/Quaternion.hpp>
+#include <library/math/quaternion.hpp>
 using libra::Quaternion;
 
 #include <interface/log_output/loggable.hpp>

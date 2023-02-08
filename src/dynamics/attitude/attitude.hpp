@@ -7,7 +7,7 @@
 #define S2E_DYNAMICS_ATTITUDE_ATTITUDE_H_
 
 #include <library/math/matrix_vector.hpp>
-#include <library/math/Quaternion.hpp>
+#include <library/math/quaternion.hpp>
 #include <interface/log_output/loggable.hpp>
 #include <simulation/monte_carlo_simulation/simulation_object.hpp>
 #include <string>

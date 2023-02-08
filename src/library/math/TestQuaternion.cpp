@@ -1,10 +1,10 @@
 /**
- * @file TestQuaternion.cpp
+ * @file Testquaternion.cpp
  * @brief Test codes for Quaternion class with GoogleTest
  */
 #include <gtest/gtest.h>
 
-#include "Quaternion.hpp"
+#include "quaternion.hpp"
 
 TEST(Quaternion, ConstructorFourNumber) {
   libra::Quaternion q(0.5, 0.5, 0.5, 0.5);

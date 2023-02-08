@@ -1,13 +1,13 @@
 /**
- * @file Quaternion.hpp
+ * @file quaternion.hpp
  * @brief Class for Quaternion
  */
 
-#ifndef QUATERNION_HPP_
-#define QUATERNION_HPP_
+#ifndef S2E_LIBRARY_MATH_QUATERNION_H_
+#define S2E_LIBRARY_MATH_QUATERNION_H_
 
-#include "matrix.hpp"
 #include "Vector.hpp"
+#include "matrix.hpp"
 
 namespace libra {
 
@@ -207,6 +207,6 @@ Quaternion operator*(const Quaternion& lhs, const Vector<3>& rhs);
 Quaternion operator*(const double& lhs, const Quaternion& rhs);
 }  // namespace libra
 
-#include "Quaternion_ifs.hpp"  // inline function definisions.
+#include "quaternion_ifs.hpp"  // inline function definisions.
 
-#endif  // QUATERNION_HPP_
+#endif  // S2E_LIBRARY_MATH_QUATERNION_H_

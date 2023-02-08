@@ -5,7 +5,7 @@ add_library(${PROJECT_NAME} STATIC
   global_randomization.cpp
   normal_randomization.cpp
   quantization.cpp
-  Quaternion.cpp
+  quaternion.cpp
   Ran0.cpp
   Ran1.cpp
   Vector.cpp

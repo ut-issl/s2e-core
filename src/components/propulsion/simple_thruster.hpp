@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_H_
 
 #include <library/math/normal_randomization.hpp>
-#include <library/math/Quaternion.hpp>
+#include <library/math/quaternion.hpp>
 #include <library/math/Vector.hpp>
 #include <dynamics/dynamics.hpp>
 #include <interface/log_output/logger.hpp>

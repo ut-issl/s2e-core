@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_AOCS_GNSS_RECEIVER_H_
 
 #include <library/math/normal_randomization.hpp>
-#include <library/math/Quaternion.hpp>
+#include <library/math/quaternion.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/gnss_satellites.hpp>
 #include <environment/global/simulation_time.hpp>

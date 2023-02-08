@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_AOCS_REACTION_WHEEL_JITTER_H_
 
 #pragma once
-#include <library/math/Quaternion.hpp>
+#include <library/math/quaternion.hpp>
 #include <library/math/Vector.hpp>
 #include <vector>
 

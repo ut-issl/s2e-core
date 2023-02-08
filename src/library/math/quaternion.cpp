@@ -1,9 +1,9 @@
 /**
- * @file Quaternion.hpp
+ * @file quaternion.hpp
  * @brief Class for Quaternion
  */
 
-#include "Quaternion.hpp"
+#include "quaternion.hpp"
 
 #include <cassert>
 #include <cfloat>

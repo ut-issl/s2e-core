@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_AOCS_STAR_SENSOR_H_
 
 #include <library/math/normal_randomization.hpp>
-#include <library/math/Quaternion.hpp>
+#include <library/math/quaternion.hpp>
 #include <library/math/Ran1.hpp>
 #include <library/math/Vector.hpp>
 #include <dynamics/attitude/attitude.hpp>

@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_GEODESY_GEODETIC_POSITION_H_
 #define S2E_LIBRARY_GEODESY_GEODETIC_POSITION_H_
 
-#include <library/math/Quaternion.hpp>
+#include <library/math/quaternion.hpp>
 #include <library/math/Vector.hpp>
 
 /**
