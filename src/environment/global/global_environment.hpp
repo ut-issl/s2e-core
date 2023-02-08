@@ -7,7 +7,6 @@
 #define S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_H_
 
 #include <interface/log_output/logger.hpp>
-
 #include <simulation/simulation_configuration.hpp>
 
 #include "celestial_information.hpp"

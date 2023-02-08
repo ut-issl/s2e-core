@@ -7,7 +7,6 @@
 #define S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_H_
 
 #include <dynamics/dynamics.hpp>
-
 #include <environment/global/global_environment.hpp>
 
 #include "atmosphere.hpp"

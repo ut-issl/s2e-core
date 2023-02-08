@@ -10,13 +10,12 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_H_
 #define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_H_
 
-#include <interface/log_output/loggable.hpp>
-
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Matrix.hpp>
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
 #include <cstring>
+#include <interface/log_output/loggable.hpp>
 #include <string>
 
 using libra::Quaternion;

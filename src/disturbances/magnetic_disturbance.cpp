@@ -9,9 +9,9 @@
 using libra::NormalRand;
 #include <Library/utils/Macros.hpp>
 
-#include "../interface/log_output/log_utility.hpp"
 #include "../Library/math/GlobalRand.h"
 #include "../Library/math/RandomWalk.hpp"
+#include "../interface/log_output/log_utility.hpp"
 
 using namespace std;
 

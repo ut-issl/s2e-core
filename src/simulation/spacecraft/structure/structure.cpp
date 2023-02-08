@@ -6,7 +6,6 @@
 #include "structure.hpp"
 
 #include <interface/initialize/initialize_file_access.hpp>
-
 #include <simulation/spacecraft/structure/initialize_structure.hpp>
 
 Structure::Structure(SimulationConfig* sim_config, const int sat_id) { Initialize(sim_config, sat_id); }

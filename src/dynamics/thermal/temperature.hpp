@@ -7,7 +7,6 @@
 #define S2E_DYNAMICS_THERMAL_TEMPERATURE_H_
 
 #include <interface/log_output/loggable.hpp>
-
 #include <string>
 #include <vector>
 

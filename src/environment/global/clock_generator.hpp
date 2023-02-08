@@ -7,7 +7,6 @@
 #define S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_H_
 
 #include <components/base_classes/interface_tickable.hpp>
-
 #include <vector>
 
 #include "simulation_time.hpp"

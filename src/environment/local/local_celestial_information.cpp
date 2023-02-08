@@ -5,10 +5,10 @@
 
 #include "local_celestial_information.hpp"
 
-#include <interface/log_output/log_utility.hpp>
 #include <SpiceUsr.h>
 
 #include <algorithm>
+#include <interface/log_output/log_utility.hpp>
 #include <iostream>
 #include <sstream>
 

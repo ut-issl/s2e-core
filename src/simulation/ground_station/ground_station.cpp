@@ -5,13 +5,12 @@
 
 #include "ground_station.hpp"
 
-#include <interface/initialize/initialize_file_access.hpp>
-#include <interface/log_output/log_utility.hpp>
-#include <interface/log_output/logger.hpp>
-
 #include <Library/math/Constant.hpp>
 #include <Library/utils/Macros.hpp>
 #include <environment/global/physical_constants.hpp>
+#include <interface/initialize/initialize_file_access.hpp>
+#include <interface/log_output/log_utility.hpp>
+#include <interface/log_output/logger.hpp>
 #include <string>
 
 GroundStation::GroundStation(SimulationConfig* config, int gs_id) : gs_id_(gs_id) {

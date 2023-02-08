@@ -6,7 +6,6 @@
 #include "initialize_node.hpp"
 
 #include <interface/initialize/initialize_file_access.hpp>
-
 #include <iostream>
 #include <string>
 #include <typeinfo>

@@ -4,11 +4,11 @@
  */
 #include "initialize_global_environment.hpp"
 
-#include <interface/initialize/initialize_file_access.hpp>
 #include <SpiceUsr.h>
 
 #include <cassert>
 #include <environment/global/simulation_time.hpp>
+#include <interface/initialize/initialize_file_access.hpp>
 
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"

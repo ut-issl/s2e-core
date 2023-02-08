@@ -5,9 +5,8 @@
 
 #include "initialize_structure.hpp"
 
-#include <interface/initialize/initialize_file_access.hpp>
-
 #include <Library/math/Vector.hpp>
+#include <interface/initialize/initialize_file_access.hpp>
 
 #define MIN_VAL 1e-6
 KinematicsParams InitKinematicsParams(std::string ini_path) {

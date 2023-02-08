@@ -4,14 +4,13 @@
  */
 #include "solar_radiation_pressure_environment.hpp"
 
-#include <interface/log_output/log_utility.hpp>
-
 #include <Library/math/Constant.hpp>
 #include <Library/math/Vector.hpp>
 #include <algorithm>
 #include <cassert>
 #include <environment/global/physical_constants.hpp>
 #include <fstream>
+#include <interface/log_output/log_utility.hpp>
 
 using libra::Vector;
 using namespace std;

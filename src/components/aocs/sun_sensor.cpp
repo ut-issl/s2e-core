@@ -8,8 +8,9 @@
 #include <Library/math/Constant.hpp>
 #include <Library/math/NormalRand.hpp>
 using libra::NormalRand;
-#include <interface/log_output/log_utility.hpp>
 #include <Library/math/GlobalRand.h>
+
+#include <interface/log_output/log_utility.hpp>
 
 using namespace std;
 

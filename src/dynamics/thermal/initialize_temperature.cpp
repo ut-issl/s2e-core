@@ -5,9 +5,8 @@
 
 #include "initialize_temperature.hpp"
 
-#include <interface/initialize/initialize_file_access.hpp>
-
 #include <environment/global/simulation_time.hpp>
+#include <interface/initialize/initialize_file_access.hpp>
 #include <string>
 
 #include "initialize_node.hpp"

@@ -5,12 +5,12 @@
 
 #include "geomagnetic_field.hpp"
 
-#include <interface/initialize/initialize_file_access.hpp>
 #include <Library/igrf/igrf.h>
 #include <Library/math/GlobalRand.h>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/RandomWalk.hpp>
+#include <interface/initialize/initialize_file_access.hpp>
 
 using libra::NormalRand;
 using namespace std;
