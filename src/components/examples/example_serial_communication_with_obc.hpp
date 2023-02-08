@@ -3,7 +3,9 @@
  * @brief Example of component emulation with communication between OBC Flight software
  */
 
-#pragma once
+#ifndef S2E_COMPONENTS_EXAMPLES_EXAMPLE_SERIAL_COMMUNICATION_WITH_OBC_H_
+#define S2E_COMPONENTS_EXAMPLES_EXAMPLE_SERIAL_COMMUNICATION_WITH_OBC_H_
+
 #include <vector>
 
 #include "../base_classes/component_base.hpp"
@@ -89,3 +91,5 @@ class ExampleSerialCommunicationWithObc : public ComponentBase, public ObcCommun
    */
   int Initialize();
 };
+
+#endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_SERIAL_COMMUNICATION_WITH_OBC_H_

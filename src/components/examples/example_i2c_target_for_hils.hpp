@@ -3,7 +3,9 @@
  * @brief Example of component emulation for I2C target side communication in HILS environment
  */
 
-#pragma once
+#ifndef S2E_COMPONENTS_EXAMPLES_EXAMPLE_I2C_TARGET_FOR_HILS_H_
+#define S2E_COMPONENTS_EXAMPLES_EXAMPLE_I2C_TARGET_FOR_HILS_H_
+
 #include <vector>
 
 #include "../base_classes/component_base.hpp"
@@ -51,3 +53,5 @@ class ExampleI2cTargetForHils : public ComponentBase, public ObcI2cTargetCommuni
   const unsigned int kStoredFrameSize = 3;  //!< Frame size
   const unsigned char kNumAlphabet = 26;    //!< Number of alphabet
 };
+
+#endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_I2C_TARGET_FOR_HILS_H_

@@ -2,7 +2,10 @@
  * @file example_i2c_controller_for_hils.hpp
  * @brief Example of component emulation for I2C controller side communication in HILS environment
  */
-#pragma once
+
+#ifndef S2E_COMPONENTS_EXAMPLES_EXAMPLE_I2C_CONTROLLER_FOR_HILS_H_
+#define S2E_COMPONENTS_EXAMPLES_EXAMPLE_I2C_CONTROLLER_FOR_HILS_H_
+
 #include <vector>
 
 #include "../base_classes/component_base.hpp"
@@ -61,3 +64,5 @@ class ExampleI2cControllerForHils : public ComponentBase, public I2cControllerCo
   static const uint8_t kWriteCmd_ = 0x44;   //!< Write command for SC18IM700
   static const uint8_t kCmdFooter_ = 0x50;  //!< 'P' Footer for SC18IM700
 };
+
+#endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_I2C_CONTROLLER_FOR_HILS_H_

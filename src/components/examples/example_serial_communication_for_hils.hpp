@@ -2,7 +2,10 @@
  * @file example_serial_communication_for_hils.hpp
  * @brief Example of component emulation for UART communication in HILS environment
  */
-#pragma once
+
+#ifndef S2E_COMPONENTS_EXAMPLES_EXAMPLE_SERIAL_COMMUNICATION_FOR_HILS_H_
+#define S2E_COMPONENTS_EXAMPLES_EXAMPLE_SERIAL_COMMUNICATION_FOR_HILS_H_
+
 #include <vector>
 
 #include "../base_classes/component_base.hpp"
@@ -67,3 +70,5 @@ class ExampleSerialCommunicationForHils : public ComponentBase, public ObcCommun
    */
   int GenerateTelemetry() override;
 };
+
+#endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_SERIAL_COMMUNICATION_FOR_HILS_H_
