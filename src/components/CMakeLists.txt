@@ -48,7 +48,7 @@ add_library(${PROJECT_NAME} STATIC
   mission/telescope.cpp
   mission/initialize_telescope.cpp
 
-  power/PCU.cpp
+  power/power_control_unit.cpp
   power/battery.cpp
   power/initialize_battery.cpp
   power/pcu_initial_study.cpp
