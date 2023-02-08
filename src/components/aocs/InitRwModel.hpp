@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <components/AOCS/RWModel.h>
+#include <components/aocs/RWModel.h>
 
 /**
  * @fn InitRWModel

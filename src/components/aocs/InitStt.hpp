@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <components/AOCS/STT.h>
+#include <components/aocs/STT.h>
 
 /**
  * @fn InitSTT

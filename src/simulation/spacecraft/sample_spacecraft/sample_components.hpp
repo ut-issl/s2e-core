@@ -8,25 +8,25 @@
 
 #include <components/CDH/OBC.h>
 #include <components/Power/PCU.h>
-#include <dynamics/dynamics.hpp>
-#include <interface/hils/hils_port_manager.hpp>
 
-#include <components/AOCS/InitGnssReceiver.hpp>
-#include <components/AOCS/InitGyro.hpp>
-#include <components/AOCS/InitMagSensor.hpp>
-#include <components/AOCS/InitMagTorquer.hpp>
-#include <components/AOCS/InitRwModel.hpp>
-#include <components/AOCS/InitStt.hpp>
-#include <components/AOCS/InitSunSensor.hpp>
+#include <Library/math/Vector.hpp>
 #include <components/CommGS/InitAntenna.hpp>
 #include <components/IdealComponents/InitializeForceGenerator.hpp>
 #include <components/IdealComponents/InitializeTorqueGenerator.hpp>
 #include <components/Propulsion/InitSimpleThruster.hpp>
+#include <components/aocs/InitGnssReceiver.hpp>
+#include <components/aocs/InitGyro.hpp>
+#include <components/aocs/InitMagSensor.hpp>
+#include <components/aocs/InitMagTorquer.hpp>
+#include <components/aocs/InitRwModel.hpp>
+#include <components/aocs/InitStt.hpp>
+#include <components/aocs/InitSunSensor.hpp>
 #include <components/examples/example_change_structure.hpp>
 #include <components/examples/example_i2c_controller_for_hils.hpp>
 #include <components/examples/example_i2c_target_for_hils.hpp>
 #include <components/examples/example_serial_communication_for_hils.hpp>
-#include <Library/math/Vector.hpp>
+#include <dynamics/dynamics.hpp>
+#include <interface/hils/hils_port_manager.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
 #include "../installed_components.hpp"

@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <components/AOCS/SunSensor.h>
+#include <components/aocs/SunSensor.h>
 
 /**
  * @fn InitSunSensor

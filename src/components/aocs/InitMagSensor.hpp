@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <components/AOCS/MagSensor.h>
+#include <components/aocs/MagSensor.h>
 
 /**
  * @fn InitMagSensor

@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <components/AOCS/GNSSReceiver.h>
+#include <components/aocs/GNSSReceiver.h>
 
 /**
  * @fn InitGNSSReceiver

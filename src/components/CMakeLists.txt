@@ -8,22 +8,22 @@ add_library(${PROJECT_NAME} STATIC
   base_classes/ObcI2cTargetCommunicationBase.cpp
   base_classes/ObcGpioBase.cpp
 
-  AOCS/Gyro.cpp
-  AOCS/InitGyro.cpp
-  AOCS/MagSensor.cpp
-  AOCS/InitMagSensor.cpp
-  AOCS/MagTorquer.cpp
-  AOCS/InitMagTorquer.cpp
-  AOCS/rw_ode.cpp
-  AOCS/RWModel.cpp
-  AOCS/InitRwModel.cpp
-  AOCS/RWJitter.cpp
-  AOCS/STT.cpp
-  AOCS/InitStt.cpp
-  AOCS/SunSensor.cpp
-  AOCS/InitSunSensor.cpp
-  AOCS/GNSSReceiver.cpp
-  AOCS/InitGnssReceiver.cpp
+  aocs/Gyro.cpp
+  aocs/InitGyro.cpp
+  aocs/MagSensor.cpp
+  aocs/InitMagSensor.cpp
+  aocs/MagTorquer.cpp
+  aocs/InitMagTorquer.cpp
+  aocs/rw_ode.cpp
+  aocs/RWModel.cpp
+  aocs/InitRwModel.cpp
+  aocs/RWJitter.cpp
+  aocs/STT.cpp
+  aocs/InitStt.cpp
+  aocs/SunSensor.cpp
+  aocs/InitSunSensor.cpp
+  aocs/GNSSReceiver.cpp
+  aocs/InitGnssReceiver.cpp
 
   CDH/OBC.cpp
   CDH/OBC_C2A.cpp
