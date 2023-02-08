@@ -14,7 +14,7 @@
 #include <vector>
 
 #include "../base_classes/ComponentBase.h"
-#include "RWJitter.h"
+#include "reaction_wheel_jitter.hpp"
 #include "reaction_wheel_ode.hpp"
 
 /*

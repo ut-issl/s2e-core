@@ -1,9 +1,9 @@
 /*
- * @file RWJitter.cpp
+ * @file reaction_wheel_jitter.cpp
  * @brief Class to calculate RW high-frequency jitter effect
  */
 
-#include "RWJitter.h"
+#include "reaction_wheel_jitter.hpp"
 
 #include <Library/math/Constant.hpp>
 #include <random>

@@ -1,7 +1,10 @@
 /*
- * @file RWJitter.h
+ * @file reaction_wheel_jitter.hpp
  * @brief Class to calculate RW high-frequency jitter effect
  */
+
+#ifndef S2E_COMPONENTS_AOCS_REACTION_WHEEL_JITTER_H_
+#define S2E_COMPONENTS_AOCS_REACTION_WHEEL_JITTER_H_
 
 #pragma once
 #include <Library/math/Quaternion.hpp>
@@ -118,3 +121,5 @@ class RWJitter {
    */
   void CalcCoef();
 };
+
+#endif  // S2E_COMPONENTS_AOCS_REACTION_WHEEL_JITTER_H_
