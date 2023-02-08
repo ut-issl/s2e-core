@@ -31,7 +31,7 @@ add_library(${PROJECT_NAME} STATIC
   communication/antenna.cpp
   communication/antenna_radiation_pattern.cpp
   communication/InitAntenna.cpp
-  communication/GScalculator.cpp
+  communication/ground_station_calculator.cpp
   communication/InitGsCalculator.cpp
 
   examples/example_change_structure.cpp

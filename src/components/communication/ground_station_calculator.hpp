@@ -1,19 +1,19 @@
 /*
- * @file GScalculator.h
+ * @file ground_station_calculator.hpp
  * @brief Emulation of analysis and calculation for Ground Stations
  * @note TODO: This class is not `Component`. We need to move this to `Analysis` category and use this as library in future.
  */
 
-#pragma once
+#ifndef S2E_COMPONENTS_COMMUNICATION_GROUND_STATION_CALCULATOR_H_
+#define S2E_COMPONENTS_COMMUNICATION_GROUND_STATION_CALCULATOR_H_
 
-#include <interface/log_output/loggable.hpp>
-
-#include <components/communication/antenna.hpp>
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Matrix.hpp>
 #include <Library/math/Vector.hpp>
+#include <components/communication/antenna.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/global_environment.hpp>
+#include <interface/log_output/loggable.hpp>
 #include <simulation/ground_station/ground_station.hpp>
 
 using libra::Matrix;
@@ -137,3 +137,5 @@ class GScalculator : public ILoggable {
    */
   double CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
 };
+
+#endif  // S2E_COMPONENTS_COMMUNICATION_GROUND_STATION_CALCULATOR_H_

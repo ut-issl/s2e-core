@@ -6,7 +6,7 @@
 #ifndef S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_H_
 #define S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_H_
 
-#include <components/communication/GScalculator.h>
+#include <components/communication/ground_station_calculator.hpp>
 
 #include <components/communication/antenna.hpp>
 #include <dynamics/dynamics.hpp>

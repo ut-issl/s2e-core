@@ -1,9 +1,9 @@
 /*
- * @file GScalculator.cpp
+ * @file ground_station_calculator.cpp
  * @brief Emulation of analysis and calculation for Ground Stations
  */
 
-#include "GScalculator.h"
+#include "ground_station_calculator.hpp"
 
 #include <Library/math/Constant.hpp>
 #include <environment/global/physical_constants.hpp>
