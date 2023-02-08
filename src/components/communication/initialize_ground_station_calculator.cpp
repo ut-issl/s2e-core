@@ -1,10 +1,10 @@
 /*
- * @file InitGscalculator.cpp
+ * @file initialize_ground_station_calculator.hpp.cpp
  * @brief Initialize function for Ground Station Calculator
  */
 
 #define _CRT_SECURE_NO_WARNINGS
-#include "InitGsCalculator.hpp"
+#include "initialize_ground_station_calculator.hpp"
 
 #include <string.h>
 

@@ -1,9 +1,10 @@
 /*
- * @file InitGscalculator.hpp
+ * @file initialize_ground_station_calculator.hpp.hpp
  * @brief Initialize function for Ground Station Calculator
  */
 
-#pragma once
+#ifndef S2E_COMPONENTS_COMMUNICATION_INITIALIZE_GROUND_STATION_CALCULATOR_H_
+#define S2E_COMPONENTS_COMMUNICATION_INITIALIZE_GROUND_STATION_CALCULATOR_H_
 
 #include <components/communication/ground_station_calculator.hpp>
 
@@ -14,3 +15,5 @@
  */
 
 GScalculator InitGScalculator(const std::string fname);
+
+#endif  // S2E_COMPONENTS_COMMUNICATION_INITIALIZE_GROUND_STATION_CALCULATOR_H_

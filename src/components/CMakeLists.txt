@@ -32,7 +32,7 @@ add_library(${PROJECT_NAME} STATIC
   communication/antenna_radiation_pattern.cpp
   communication/initialize_antenna.cpp
   communication/ground_station_calculator.cpp
-  communication/InitGsCalculator.cpp
+  communication/initialize_ground_station_calculator.cpp
 
   examples/example_change_structure.cpp
   examples/example_serial_communication_with_obc.cpp
