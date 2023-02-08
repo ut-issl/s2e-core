@@ -1,5 +1,5 @@
 /*
- * @file Antenna.cpp
+ * @file antenna.cpp
  * @brief Component emulation: RF antenna
  */
 

@@ -28,7 +28,7 @@ add_library(${PROJECT_NAME} STATIC
   cdh/obc.cpp
   cdh/obc_c2a.cpp
 
-  communication/Antenna.cpp
+  communication/antenna.cpp
   communication/AntennaRadiationPattern.cpp
   communication/InitAntenna.cpp
   communication/GScalculator.cpp

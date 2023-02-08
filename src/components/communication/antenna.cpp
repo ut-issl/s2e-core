@@ -1,9 +1,9 @@
 /*
- * @file Antenna.cpp
+ * @file antenna.cpp
  * @brief Component emulation: RF antenna
  */
 
-#include "Antenna.hpp"
+#include "antenna.hpp"
 
 #include <Library/utils/Macros.hpp>
 #include <cmath>

@@ -8,7 +8,7 @@
 
 #include <interface/log_output/loggable.hpp>
 
-#include <components/communication/Antenna.hpp>
+#include <components/communication/antenna.hpp>
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Matrix.hpp>
 #include <Library/math/Vector.hpp>

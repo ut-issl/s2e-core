@@ -1,9 +1,11 @@
 /*
- * @file Antenna.hpp
+ * @file antenna.hpp
  * @brief Component emulation: RF antenna
  */
 
-#pragma once
+#ifndef S2E_COMPONENTS_COMMUNICATION_ANTENNA_H_
+#define S2E_COMPONENTS_COMMUNICATION_ANTENNA_H_
+
 #include <Library/math/Quaternion.hpp>
 #include <Library/math/Vector.hpp>
 using libra::Quaternion;
@@ -147,3 +149,5 @@ class Antenna {
 };
 
 AntennaGainModel SetAntennaGainModel(const std::string gain_model_name);
+
+#endif  // S2E_COMPONENTS_COMMUNICATION_ANTENNA_H_

@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <components/communication/Antenna.hpp>
+#include <components/communication/antenna.hpp>
 
 /*
  * @fn InitAntenna

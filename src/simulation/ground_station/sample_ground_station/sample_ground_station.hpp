@@ -8,7 +8,7 @@
 
 #include <components/communication/GScalculator.h>
 
-#include <components/communication/Antenna.hpp>
+#include <components/communication/antenna.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/global_environment.hpp>
 
