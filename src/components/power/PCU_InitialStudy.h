@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "../base_classes/component_base.hpp"
-#include "BAT.h"
+#include "battery.hpp"
 #include "SAP.h"
 
 class PCU_InitialStudy : public ComponentBase, public ILoggable {

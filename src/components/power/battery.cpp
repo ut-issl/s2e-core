@@ -1,9 +1,9 @@
 ﻿/*
- * @file BAT.cpp
+ * @file battery.cpp
  * @brief Component emulation of battery
  */
 
-#include "BAT.h"
+#include "battery.hpp"
 
 #include <cmath>
 
