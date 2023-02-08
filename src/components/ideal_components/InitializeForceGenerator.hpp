@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include "ForceGenerator.hpp"
+#include "force_generator.hpp"
 
 /**
  * @fn InitializeForceGenerator

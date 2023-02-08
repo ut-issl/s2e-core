@@ -40,7 +40,7 @@ add_library(${PROJECT_NAME} STATIC
   examples/example_i2c_controller_for_hils.cpp
   examples/example_i2c_target_for_hils.cpp
 
-  ideal_components/ForceGenerator.cpp
+  ideal_components/force_generator.cpp
   ideal_components/InitializeForceGenerator.cpp
   ideal_components/TorqueGenerator.cpp
   ideal_components/InitializeTorqueGenerator.cpp
