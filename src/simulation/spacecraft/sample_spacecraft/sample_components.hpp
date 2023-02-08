@@ -13,7 +13,7 @@
 #include <components/communication/InitAntenna.hpp>
 #include <components/ideal_components/InitializeForceGenerator.hpp>
 #include <components/ideal_components/InitializeTorqueGenerator.hpp>
-#include <components/Propulsion/InitSimpleThruster.hpp>
+#include <components/propulsion/InitSimpleThruster.hpp>
 #include <components/aocs/InitGnssReceiver.hpp>
 #include <components/aocs/InitGyro.hpp>
 #include <components/aocs/InitMagSensor.hpp>
