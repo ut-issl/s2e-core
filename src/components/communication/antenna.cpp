@@ -5,7 +5,7 @@
 
 #include "antenna.hpp"
 
-#include <library/utils/Macros.hpp>
+#include <library/utilities/Macros.hpp>
 #include <cmath>
 
 Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
