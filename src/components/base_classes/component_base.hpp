@@ -32,7 +32,7 @@ class ComponentBase : public ITickable {
    * @fn ComponentBase
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for normal update
-   * @param [in] clocl_gen: Clock generator
+   * @param [in] clock_gen: Clock generator
    * @param [in] power_port: Power port
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
