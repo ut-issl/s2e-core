@@ -1,8 +1,10 @@
 /**
- * @file GeodeticPosition.hpp
+ * @file geodetic_position.hpp
  * @brief Class to mange geodetic position expression
  */
-#pragma once
+
+#ifndef S2E_LIBRARY_GEODESY_GEODETIC_POSITION_H_
+#define S2E_LIBRARY_GEODESY_GEODETIC_POSITION_H_
 
 #include <library/math/Quaternion.hpp>
 #include <library/math/Vector.hpp>
@@ -75,3 +77,5 @@ class GeodeticPosition {
    */
   void CalcQuaternionXcxfToLtc();
 };
+
+#endif  // S2E_LIBRARY_GEODESY_GEODETIC_POSITION_H_

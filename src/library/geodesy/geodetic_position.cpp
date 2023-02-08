@@ -1,8 +1,8 @@
 /**
- * @file GeodeticPosition.cpp
+ * @file geodetic_position.cpp
  * @brief Class to mange geodetic position expression
  */
-#include "GeodeticPosition.hpp"
+#include "geodetic_position.hpp"
 
 #include <library/sgp4/sgp4ext.h>  // TODO: do not to use the functions in SGP4 library
 
