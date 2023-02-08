@@ -1,9 +1,11 @@
 /**
- * @file ILoggable.h
+ * @file loggable.hpp
  * @brief Abstract class to manage logging
  */
 
-#pragma once
+#ifndef S2E_INTERFACE_LOG_OUTPUT_LOGGABLE_H_
+#define S2E_INTERFACE_LOG_OUTPUT_LOGGABLE_H_
+
 #include <string>
 
 #include "log_utility.hpp"  // This is not necessary but include here for convenience
@@ -31,3 +33,5 @@ class ILoggable {
 
   bool IsLogEnabled = true;  //!< Log enable flag
 };
+
+#endif  // S2E_INTERFACE_LOG_OUTPUT_LOGGABLE_H_

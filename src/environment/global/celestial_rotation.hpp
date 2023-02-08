@@ -10,7 +10,7 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_H_
 #define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_H_
 
-#include <interface/log_output/ILoggable.h>
+#include <interface/log_output/loggable.hpp>
 
 #include <Library/math/MatVec.hpp>
 #include <Library/math/Matrix.hpp>

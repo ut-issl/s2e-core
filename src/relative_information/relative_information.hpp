@@ -9,7 +9,7 @@
 #include <string>
 
 #include "../dynamics/dynamics.hpp"
-#include "../interface/log_output/ILoggable.h"
+#include "../interface/log_output/loggable.hpp"
 #include "../interface/log_output/logger.hpp"
 
 /**

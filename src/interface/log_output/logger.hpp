@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-#include "ILoggable.h"
+#include "loggable.hpp"
 
 /**
  * @class Logger

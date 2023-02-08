@@ -6,7 +6,7 @@
 #ifndef __SunSensor_H__
 #define __SunSensor_H__
 
-#include <interface/log_output/ILoggable.h>
+#include <interface/log_output/loggable.hpp>
 
 #include <Library/math/NormalRand.hpp>
 #include <Library/math/Quaternion.hpp>

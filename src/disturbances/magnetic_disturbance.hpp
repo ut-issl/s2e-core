@@ -11,7 +11,7 @@
 #include "../Library/math/Vector.hpp"
 using libra::Vector;
 
-#include "../interface/log_output/ILoggable.h"
+#include "../interface/log_output/loggable.hpp"
 #include "../simulation/spacecraft/structure/residual_magnetic_moment.hpp"
 #include "simple_disturbance.hpp"
 

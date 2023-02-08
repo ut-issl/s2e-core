@@ -5,7 +5,7 @@
 
 #ifndef __RWModel_H__
 #define __RWModel_H__
-#include <interface/log_output/ILoggable.h>
+#include <interface/log_output/loggable.hpp>
 #include <interface/log_output/logger.hpp>
 
 #include <Library/math/Vector.hpp>

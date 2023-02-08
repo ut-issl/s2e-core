@@ -11,7 +11,7 @@ using libra::Vector;
 #include <Library/math/Quaternion.hpp>
 using libra::Quaternion;
 
-#include <interface/log_output/ILoggable.h>
+#include <interface/log_output/loggable.hpp>
 
 /**
  * @class MagEnvironment

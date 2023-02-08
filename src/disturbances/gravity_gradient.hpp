@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "../interface/log_output/ILoggable.h"
+#include "../interface/log_output/loggable.hpp"
 #include "../Library/math/MatVec.hpp"
 #include "../Library/math/Matrix.hpp"
 #include "../Library/math/Vector.hpp"

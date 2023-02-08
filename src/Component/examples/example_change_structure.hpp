@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <interface/log_output/ILoggable.h>
+#include <interface/log_output/loggable.hpp>
 
 #include <simulation/spacecraft/structure/structure.hpp>
 
