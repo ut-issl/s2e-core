@@ -95,5 +95,5 @@
 
 
 ## Publications
-1. S. Ikari, and et al., "Development of Compact and Highly Capable Integrated aocs Module for CubeSats", [2022-f-41](https://archive.ists.ne.jp/upload_pdf/F-9-05.pdf), 33rd ISTS, 2022.
+1. S. Ikari, and et al., "Development of Compact and Highly Capable Integrated AOCS Module for CubeSats", [2022-f-41](https://archive.ists.ne.jp/upload_pdf/F-9-05.pdf), 33rd ISTS, 2022.
 1. 五十里, 他, "宇宙開発の効率化・高度化を目指した東京大学中須賀・船瀬研のOSS活動", [UNISEC2022-04](http://unisec.jp/archives/7836), 12th UNISEC Space Takumi Conference, 2022.
