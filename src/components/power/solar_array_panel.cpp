@@ -1,9 +1,9 @@
 ﻿/*
- * @file solar_array_paddle.cpp
+ * @file solar_array_panel.cpp
  * @brief Component emulation of Solar Array Panel
  */
 
-#include "solar_array_paddle.hpp"
+#include "solar_array_panel.hpp"
 
 #include <components/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>

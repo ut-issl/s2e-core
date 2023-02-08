@@ -11,7 +11,7 @@
 
 #include "../base_classes/component_base.hpp"
 #include "battery.hpp"
-#include "solar_array_paddle.hpp"
+#include "solar_array_panel.hpp"
 
 class PCU_InitialStudy : public ComponentBase, public ILoggable {
  public:

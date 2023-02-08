@@ -1,12 +1,12 @@
 /*
- * @file initialize_solar_array_paddle.hpp
+ * @file initialize_solar_array_panel.hpp
  * @brief Initialize function of SAP (Solar Array Panel)
  */
 
-#ifndef S2E_COMPONENTS_POWER_INITIALIZE_SOLAR_ARRAY_PADDLE_H_
-#define S2E_COMPONENTS_POWER_INITIALIZE_SOLAR_ARRAY_PADDLE_H_
+#ifndef S2E_COMPONENTS_POWER_INITIALIZE_SOLAR_ARRAY_PANEL_H_
+#define S2E_COMPONENTS_POWER_INITIALIZE_SOLAR_ARRAY_PANEL_H_
 
-#include <components/power/solar_array_paddle.hpp>
+#include <components/power/solar_array_panel.hpp>
 
 /*
  * @fn InitSAP
@@ -32,4 +32,4 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
  */
 SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SRPEnvironment* srp, double compo_step_time);
 
-#endif  // S2E_COMPONENTS_POWER_INITIALIZE_SOLAR_ARRAY_PADDLE_H_
+#endif  // S2E_COMPONENTS_POWER_INITIALIZE_SOLAR_ARRAY_PANEL_H_
