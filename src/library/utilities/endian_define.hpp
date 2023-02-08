@@ -1,10 +1,10 @@
 /**
- * @file ENDIAN_DEFINE.h
+ * @file endian_define.hpp
  * @brief Define macro to change the endian definition
  */
 
-#ifndef ENDIAN_DEFINE_H_
-#define ENDIAN_DEFINE_H_
+#ifndef S2E_LIBRARY_UTILITIES_ENDIAN_DEFINE_H_
+#ifndef S2E_LIBRARY_UTILITIES_ENDIAN_DEFINE_H_
 
 #ifndef IS_LITTLE_ENDIAN
 
@@ -12,4 +12,4 @@
 
 #endif  // IS_LITTLE_ENDIAN
 
-#endif  // ENDIAN_DEFINE_H_
+#endif  // #ifndef S2E_LIBRARY_UTILITIES_ENDIAN_DEFINE_H_

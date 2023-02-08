@@ -8,7 +8,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "ENDIAN_DEFINE.h"  // for IS_LITTLE_ENDIAN
+#include "endian_define.hpp"  // for IS_LITTLE_ENDIAN
 
 /**
  * @fn endian_memcpy
