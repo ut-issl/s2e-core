@@ -1,8 +1,8 @@
 /*
- * @file InitializeTorqueGenerator.cpp
+ * @file initialize_torque_generator.cpp
  * @brief Initialize function for TorqueGenerator
  */
-#include "InitializeTorqueGenerator.hpp"
+#include "initialize_torque_generator.hpp"
 
 #include <interface/initialize/initialize_file_access.hpp>
 

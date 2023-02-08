@@ -43,7 +43,7 @@ add_library(${PROJECT_NAME} STATIC
   ideal_components/force_generator.cpp
   ideal_components/initialize_force_generator.cpp
   ideal_components/TorqueGenerator.cpp
-  ideal_components/InitializeTorqueGenerator.cpp
+  ideal_components/initialize_torque_generator.cpp
 
   mission/Telescope.cpp
   mission/InitTelescope.cpp
