@@ -10,7 +10,7 @@
 
 #include "../base/component.hpp"
 #include "../base/interface_gpio_component.hpp"
-#include "../base/obc_communication_base.hpp"
+#include "../base/uart_communication_with_obc.hpp"
 
 /**
  * @class ExampleSerialCommunicationWithObc

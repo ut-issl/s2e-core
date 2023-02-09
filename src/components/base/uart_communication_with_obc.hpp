@@ -1,10 +1,10 @@
 /**
- * @file obc_communication_base.hpp
+ * @file uart_communication_with_obc.hpp
  * @brief Base class for serial communication (e.g., UART) with OBC flight software
  */
 
-#ifndef S2E_COMPONENTS_BASE_CLASSES_OBC_COMMUNICATION_BASE_HPP_
-#define S2E_COMPONENTS_BASE_CLASSES_OBC_COMMUNICATION_BASE_HPP_
+#ifndef S2E_COMPONENTS_BASE_UART_COMMUNICATION_WITH_OBC_HPP_
+#define S2E_COMPONENTS_BASE_UART_COMMUNICATION_WITH_OBC_HPP_
 
 #include <interface/hils/hils_port_manager.hpp>
 
@@ -128,4 +128,4 @@ class ObcCommunicationBase {
   virtual int GenerateTelemetry() = 0;
 };
 
-#endif  // S2E_COMPONENTS_BASE_CLASSES_OBC_COMMUNICATION_BASE_HPP_
+#endif  // S2E_COMPONENTS_BASE_UART_COMMUNICATION_WITH_OBC_HPP_

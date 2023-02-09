@@ -8,7 +8,7 @@
 
 #include "../../interface/hils/hils_port_manager.hpp"
 #include "../cdh/obc.hpp"
-#include "obc_communication_base.hpp"
+#include "uart_communication_with_obc.hpp"
 
 /**
  * @class ObcI2cTargetCommunicationBase
