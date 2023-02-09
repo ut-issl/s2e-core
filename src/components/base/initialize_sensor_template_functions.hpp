@@ -1,10 +1,10 @@
 /**
- * @file initialize_sensor_base_tfs.hpp
+ * @file initialize_sensor_template_functions.hpp
  * @brief Initialize functions for SensorBase class (template functions)
  */
 
-#ifndef S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_TFS_HPP_
-#define S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_TFS_HPP_
+#ifndef S2E_COMPONENTS_BASE_INITIALIZE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
+#define S2E_COMPONENTS_BASE_INITIALIZE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 
 #include "interface/initialize/initialize_file_access.hpp"
 
@@ -51,4 +51,4 @@ SensorBase<N> ReadSensorBaseInformation(const std::string file_name, const doubl
   return sensor_base;
 }
 
-#endif  // S2E_COMPONENTS_BASE_CLASSES_INITIALIZE_SENSOR_BASE_TFS_HPP_
+#endif  // S2E_COMPONENTS_BASE_INITIALIZE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
