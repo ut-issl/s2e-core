@@ -4,6 +4,15 @@ cmake_minimum_required(VERSION 3.13)
 if(USE_HILS)
   add_library(${PROJECT_NAME} STATIC
     initialize_file_access.cpp
+
+    log_output/logger.cpp
+    log_output/initialize_log.cpp
+
+    sils/ports/gpio_port.cpp
+    sils/ports/power_port.cpp
+    sils/ports/uart_port.cpp
+    sils/ports/i2c_port.cpp
+    sils/utility/ring_buffer.cpp
     
     hils/hils_port_manager.cpp
     hils/ports/hils_uart_port.cpp
@@ -15,6 +24,12 @@ else()
     
     log_output/logger.cpp
     log_output/initialize_log.cpp
+
+    sils/ports/gpio_port.cpp
+    sils/ports/power_port.cpp
+    sils/ports/uart_port.cpp
+    sils/ports/i2c_port.cpp
+    sils/utility/ring_buffer.cpp
 
     hils/hils_port_manager.cpp
   )
