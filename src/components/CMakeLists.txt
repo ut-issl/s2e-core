@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.13)
 add_library(${PROJECT_NAME} STATIC
   base/component.cpp
   base/uart_communication_with_obc.cpp
-  base/i2c_controller_communication_base.cpp
+  base/i2c_controller.cpp
   base/obc_i2c_target_communication_base.cpp
   base/gpio_connection_with_obc.cpp
 

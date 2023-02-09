@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "../base/component.hpp"
-#include "../base/i2c_controller_communication_base.hpp"
+#include "../base/i2c_controller.hpp"
 
 /**
  * @class ExampleI2cControllerForHils
