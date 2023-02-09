@@ -11,7 +11,7 @@
 #include <msclr/gcroot.h>
 #include <msclr/marshal_cppstd.h>
 
-#include <components/base_classes/interface_tickable.hpp>
+#include <components/base/interface_tickable.hpp>
 #include <string>
 
 using namespace System;

@@ -9,7 +9,7 @@
 #include <interface/log_output/loggable.hpp>
 #include <vector>
 
-#include "../base_classes/component_base.hpp"
+#include "../base/component_base.hpp"
 
 /*
  * @class BAT

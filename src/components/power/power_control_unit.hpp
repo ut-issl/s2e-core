@@ -10,7 +10,7 @@
 #include <interface/sils/ports/power_port.hpp>
 #include <map>
 
-#include "../base_classes/component_base.hpp"
+#include "../base/component_base.hpp"
 
 /*
  * @class PCU

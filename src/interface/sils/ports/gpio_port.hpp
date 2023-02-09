@@ -6,7 +6,7 @@
 #ifndef S2E_INTERFACE_SILS_PORTS_GPIO_PORT_HPP_
 #define S2E_INTERFACE_SILS_PORTS_GPIO_PORT_HPP_
 
-#include <components/base_classes/interface_gpio_component.hpp>
+#include <components/base/interface_gpio_component.hpp>
 
 #define GPIO_HIGH true
 #define GPIO_LOW false

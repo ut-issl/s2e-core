@@ -13,7 +13,7 @@
 #include <library/math/normal_randomization.hpp>
 #include <library/math/quaternion.hpp>
 
-#include "../base_classes/component_base.hpp"
+#include "../base/component_base.hpp"
 
 using libra::Vector;
 

@@ -13,7 +13,7 @@
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
 
-#include "../base_classes/component_base.hpp"
+#include "../base/component_base.hpp"
 
 /*
  * @class SunSensor

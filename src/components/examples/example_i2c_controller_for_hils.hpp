@@ -8,8 +8,8 @@
 
 #include <vector>
 
-#include "../base_classes/component_base.hpp"
-#include "../base_classes/i2c_controller_communication_base.hpp"
+#include "../base/component_base.hpp"
+#include "../base/i2c_controller_communication_base.hpp"
 
 /**
  * @class ExampleI2cControllerForHils

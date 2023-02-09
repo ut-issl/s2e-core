@@ -2,11 +2,11 @@ project(COMPONENT)
 cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
-  base_classes/component_base.cpp
-  base_classes/obc_communication_base.cpp
-  base_classes/i2c_controller_communication_base.cpp
-  base_classes/obc_i2c_target_communication_base.cpp
-  base_classes/obc_gpio_base.cpp
+  base/component_base.cpp
+  base/obc_communication_base.cpp
+  base/i2c_controller_communication_base.cpp
+  base/obc_i2c_target_communication_base.cpp
+  base/obc_gpio_base.cpp
 
   aocs/gyro_sensor.cpp
   aocs/initialize_gyro_sensor.cpp
