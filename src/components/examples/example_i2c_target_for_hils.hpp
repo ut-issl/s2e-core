@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "../base/component.hpp"
-#include "../base/obc_i2c_target_communication_base.hpp"
+#include "../base/i2c_target_communication_with_obc.hpp"
 
 /**
  * @class ExampleI2cTargetForHils
