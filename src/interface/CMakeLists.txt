@@ -11,8 +11,11 @@ if(USE_HILS)
  )
 else()
   add_library(${PROJECT_NAME} STATIC
-    initialize_file_access.cpp
+    initialize/initialize_file_access.cpp
     
+    log_output/logger.cpp
+    log_output/initialize_log.cpp
+
     hils/hils_port_manager.cpp
   )
 endif()
