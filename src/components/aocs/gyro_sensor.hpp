@@ -11,7 +11,7 @@
 #include <library/math/quaternion.hpp>
 
 #include "../base/component.hpp"
-#include "../base/sensor_base.hpp"
+#include "../base/sensor.hpp"
 
 const size_t kGyroDim = 3;  //!< Dimension of gyro sensor
 

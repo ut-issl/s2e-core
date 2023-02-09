@@ -1,10 +1,10 @@
 /**
- * @file sensor_base_tfs.hpp
+ * @file sensor_template_functions.hpp
  * @brief Base class for sensor emulation to add noises
  */
 
-#ifndef S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_TFS_HPP_
-#define S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_TFS_HPP_
+#ifndef S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
+#define S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 
 #include <library/math/global_randomization.hpp>
 
@@ -73,4 +73,4 @@ void SensorBase<N>::RangeCheck(void) {
   }
 }
 
-#endif  // S2E_COMPONENTS_BASE_CLASSES_SENSOR_BASE_TFS_HPP_
+#endif  // S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_

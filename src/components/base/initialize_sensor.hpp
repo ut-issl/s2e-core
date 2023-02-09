@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_BASE_INITIALIZE_SENSOR_HPP_
 #define S2E_COMPONENTS_BASE_INITIALIZE_SENSOR_HPP_
 
-#include "sensor_base.hpp"
+#include "sensor.hpp"
 
 /**
  * @fn ReadSensorBaseInformation
