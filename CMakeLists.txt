@@ -70,10 +70,7 @@ add_subdirectory(src/dynamics)
 add_subdirectory(src/disturbances)
 add_subdirectory(src/components)
 add_subdirectory(src/relative_information)
-add_subdirectory(src/interface/initialize)
-add_subdirectory(src/interface/log_output)
-add_subdirectory(src/interface/sils)
-add_subdirectory(src/interface/hils)
+add_subdirectory(src/interface)
 add_subdirectory(src/library)
 
 set(SOURCE_FILES
@@ -143,7 +140,7 @@ endif()
 #target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
 
 # Initialize link
-target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SC_IO RELATIVE_INFO LIBRARY)
+target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT INTERFACE_ RELATIVE_INFO LIBRARY)
 target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION LIBRARY)
 target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
 target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE LIBRARY)
@@ -156,14 +153,12 @@ target_link_libraries(${PROJECT_NAME} DISTURBANCE)
 target_link_libraries(${PROJECT_NAME} SIMULATION)
 target_link_libraries(${PROJECT_NAME} GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT)
 target_link_libraries(${PROJECT_NAME} RELATIVE_INFO)
-target_link_libraries(${PROJECT_NAME} INI_ACC LOG_OUT SC_IO)
+target_link_libraries(${PROJECT_NAME} INTERFACE_)
 target_link_libraries(${PROJECT_NAME} COMPONENT)
-target_link_libraries(${PROJECT_NAME} HILS_IO)
 
 ## C2A integration
 if(USE_C2A)
   target_link_libraries(${PROJECT_NAME} C2A)
-  target_link_libraries(${PROJECT_NAME} SC_IO)
 endif()
 
 ## HILS
@@ -176,7 +171,7 @@ if(USE_HILS)
   set_target_properties(SIMULATION PROPERTIES COMMON_LANGUAGE_RUNTIME "")
   set_target_properties(GLOBAL_ENVIRONMENT PROPERTIES COMMON_LANGUAGE_RUNTIME "")
   set_target_properties(LOCAL_ENVIRONMENT PROPERTIES COMMON_LANGUAGE_RUNTIME "")
-  set_target_properties(HILS_IO PROPERTIES COMMON_LANGUAGE_RUNTIME "")
+  set_target_properties(INTERFACE_ PROPERTIES COMMON_LANGUAGE_RUNTIME "")
   set_target_properties(RELATIVE_INFO PROPERTIES COMMON_LANGUAGE_RUNTIME "")
 endif()
 

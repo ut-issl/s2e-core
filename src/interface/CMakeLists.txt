@@ -1,4 +1,4 @@
-project(INTERFACE)
+project(INTERFACE_) # INTERFACEだけだとCMakeの予約後に引っかかってしまうよう
 cmake_minimum_required(VERSION 3.13)
 
 if(USE_HILS)
@@ -13,7 +13,7 @@ if(USE_HILS)
     sils/ports/uart_port.cpp
     sils/ports/i2c_port.cpp
     sils/utility/ring_buffer.cpp
-    
+
     hils/hils_port_manager.cpp
     hils/ports/hils_uart_port.cpp
     hils/ports/hils_i2c_target_port.cpp
