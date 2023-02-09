@@ -14,7 +14,7 @@
 #include <library/math/random_walk.hpp>
 #include <library/math/vector.hpp>
 
-#include "../base/component_base.hpp"
+#include "../base/component.hpp"
 
 const size_t kMtqDim = 3;  //!< Dimension of magnetorquer
 

@@ -8,7 +8,7 @@
 
 #include <vector>
 
-#include "../base/component_base.hpp"
+#include "../base/component.hpp"
 #include "../base/obc_communication_base.hpp"
 
 /**

@@ -15,7 +15,7 @@
 #include <library/math/vector.hpp>
 #include <vector>
 
-#include "../base/component_base.hpp"
+#include "../base/component.hpp"
 #include "dynamics/dynamics.hpp"
 
 /*

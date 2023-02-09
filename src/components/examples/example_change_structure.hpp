@@ -9,7 +9,7 @@
 #include <interface/log_output/loggable.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
-#include "../base/component_base.hpp"
+#include "../base/component.hpp"
 
 /**
  * @class ExampleChangeStructure

@@ -8,7 +8,7 @@
 
 #include <vector>
 
-#include "../base/component_base.hpp"
+#include "../base/component.hpp"
 #include "../base/i2c_controller_communication_base.hpp"
 
 /**

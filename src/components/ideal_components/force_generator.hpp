@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_IDEAL_COMPONENTS_FORCE_GENERATOR_HPP_
 #define S2E_COMPONENTS_IDEAL_COMPONENTS_FORCE_GENERATOR_HPP_
 
-#include <components/base/component_base.hpp>
+#include <components/base/component.hpp>
 #include <dynamics/dynamics.hpp>
 #include <interface/log_output/logger.hpp>
 #include <library/math/normal_randomization.hpp>

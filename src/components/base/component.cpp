@@ -1,9 +1,9 @@
 /**
- * @file component_base.cpp
+ * @file component.cpp
  * @brief Base class for component emulation. All components have to inherit this.
  */
 
-#include "component_base.hpp"
+#include "component.hpp"
 
 ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen, int fast_prescaler) : clock_gen_(clock_gen) {
   power_port_ = new PowerPort();

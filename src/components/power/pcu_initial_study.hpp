@@ -9,7 +9,7 @@
 #include <interface/log_output/loggable.hpp>
 #include <vector>
 
-#include "../base/component_base.hpp"
+#include "../base/component.hpp"
 #include "battery.hpp"
 #include "solar_array_panel.hpp"
 

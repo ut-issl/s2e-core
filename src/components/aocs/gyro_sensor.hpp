@@ -10,7 +10,7 @@
 #include <interface/log_output/loggable.hpp>
 #include <library/math/quaternion.hpp>
 
-#include "../base/component_base.hpp"
+#include "../base/component.hpp"
 #include "../base/sensor_base.hpp"
 
 const size_t kGyroDim = 3;  //!< Dimension of gyro sensor
