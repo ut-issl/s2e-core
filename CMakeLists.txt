@@ -41,7 +41,7 @@ if(USE_C2A)
   add_definitions(-DSILS_FW)
   #include_directories
   include_directories(${C2A_DIR}/src)
-  include_directories(${S2E_CORE_DIR}/src/Interface/SpacecraftInOut)
+  include_directories(${S2E_CORE_DIR}/src/interface/sils)
   #add subdirectory
   add_subdirectory(${C2A_DIR} C2A)
 endif()
@@ -63,35 +63,34 @@ include_directories(${CSPICE_DIR}/include)
 include_directories(${NRLMSISE00_DIR}/src)
 
 ## add_subdirectories
-add_subdirectory(src/Simulation)
-add_subdirectory(src/Environment/Global)
-add_subdirectory(src/Environment/Local)
-add_subdirectory(src/Dynamics)
-add_subdirectory(src/Disturbance)
-add_subdirectory(src/Component)
-add_subdirectory(src/RelativeInformation)
-add_subdirectory(src/Interface/InitInput)
-add_subdirectory(src/Interface/LogOutput)
-add_subdirectory(src/Interface/SpacecraftInOut)
-add_subdirectory(src/Interface/HilsInOut)
-add_subdirectory(src/Library/igrf)
-add_subdirectory(src/Library/inih)
-add_subdirectory(src/Library/math)
-add_subdirectory(src/Library/nrlmsise00)
-add_subdirectory(src/Library/sgp4)
-add_subdirectory(src/Library/utils)
-add_subdirectory(src/Library/optics)
-add_subdirectory(src/Library/RelativeOrbit)
-add_subdirectory(src/Library/Orbit)
-add_subdirectory(src/Library/Geodesy)
+add_subdirectory(src/simulation)
+add_subdirectory(src/environment/global)
+add_subdirectory(src/environment/local)
+add_subdirectory(src/dynamics)
+add_subdirectory(src/disturbances)
+add_subdirectory(src/components)
+add_subdirectory(src/relative_information)
+add_subdirectory(src/interface/initialize)
+add_subdirectory(src/interface/log_output)
+add_subdirectory(src/interface/sils)
+add_subdirectory(src/interface/hils)
+add_subdirectory(src/library/igrf)
+add_subdirectory(src/library/inih)
+add_subdirectory(src/library/math)
+add_subdirectory(src/library/nrlmsise00)
+add_subdirectory(src/library/sgp4)
+add_subdirectory(src/library/utilities)
+add_subdirectory(src/library/optics)
+add_subdirectory(src/library/orbit)
+add_subdirectory(src/library/geodesy)
 
 set(SOURCE_FILES
-  src/S2E.cpp
-  src/Simulation/Case/SampleCase.cpp
-  src/Simulation/Spacecraft/SampleSpacecraft/SampleSat.cpp
-  src/Simulation/Spacecraft/SampleSpacecraft/SampleComponents.cpp
-  src/Simulation/GroundStation/SampleGroundStation/SampleGSComponents.cpp
-  src/Simulation/GroundStation/SampleGroundStation/SampleGS.cpp
+  src/s2e.cpp
+  src/simulation/case/sample_case.cpp
+  src/simulation/spacecraft/sample_spacecraft/sample_spacecraft.cpp
+  src/simulation/spacecraft/sample_spacecraft/sample_components.cpp
+  src/simulation/ground_station/sample_ground_station/sample_ground_station_components.cpp
+  src/simulation/ground_station/sample_ground_station/sample_ground_station.cpp
 )
 
 ## Create executable file
@@ -153,7 +152,7 @@ endif()
 
 ## Linking libraries
 set(S2E_LIBRARIES
-  IGRF WRAPPER_NRLMSISE00 INIH SGP4 UTIL OPTICS RELATIVE_ORBIT_MODELS ORBIT_MODELS GEODESY MATH
+  IGRF WRAPPER_NRLMSISE00 INIH SGP4 UTIL OPTICS ORBIT_MODELS GEODESY MATH
 )
 # Initialize link
 target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SC_IO RELATIVE_INFO ${S2E_LIBRARIES})
@@ -212,7 +211,7 @@ if(GOOGLE_TEST)
   # Unit test
   set(TEST_PROJECT_NAME ${PROJECT_NAME}_TEST)
   set(TEST_FILES
-    src/Library/math/TestQuaternion.cpp
+    src/library/math/test_quaternion.cpp
   )
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)
