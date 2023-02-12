@@ -73,4 +73,5 @@ class KeplerOrbit {
    * @param [in] iteration_limit: Limit of iteration
    */
   double SolveKeplerFirstOrder(const double eccentricity, const double mean_anomaly_rad, const double angle_limit_rad, const int iteration_limit);
+  double SolveKeplerNewtonMethod(const double eccentricity, const double mean_anomaly_rad, const double angle_limit_rad, const int iteration_limit);
 };
