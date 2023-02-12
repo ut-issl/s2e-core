@@ -8,8 +8,8 @@
 
 #include <vector>
 
-#include "../base_classes/component_base.hpp"
-#include "../base_classes/obc_i2c_target_communication_base.hpp"
+#include "../base/component.hpp"
+#include "../base/i2c_target_communication_with_obc.hpp"
 
 /**
  * @class ExampleI2cTargetForHils

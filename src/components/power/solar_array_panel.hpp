@@ -11,7 +11,7 @@
 #include <interface/log_output/loggable.hpp>
 #include <library/math/vector.hpp>
 
-#include "../base_classes/component_base.hpp"
+#include "../base/component.hpp"
 
 class SAP : public ComponentBase, public ILoggable {
  public:

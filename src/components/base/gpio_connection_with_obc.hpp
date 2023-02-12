@@ -1,11 +1,11 @@
 /**
- * @file obc_gpio_base.hpp
+ * @file gpio_connection_with_obc.hpp
  * @brief Base class for GPIO communication with OBC flight software
  *        TODO: consider relation with IGPIOCompo
  */
 
-#ifndef S2E_COMPONENTS_BASE_CLASSES_OBC_GPIO_BASE_HPP_
-#define S2E_COMPONENTS_BASE_CLASSES_OBC_GPIO_BASE_HPP_
+#ifndef S2E_COMPONENTS_GPIO_CONNECTION_WITH_OBC_HPP_
+#define S2E_COMPONENTS_GPIO_CONNECTION_WITH_OBC_HPP_
 
 #include "../cdh/obc.hpp"
 
@@ -50,4 +50,4 @@ class ObcGpioBase {
   OBC* obc_;                  //!< The communication target OBC
 };
 
-#endif  // S2E_COMPONENTS_BASE_CLASSES_OBC_GPIO_BASE_HPP_
+#endif  // S2E_COMPONENTS_GPIO_CONNECTION_WITH_OBC_HPP_

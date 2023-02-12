@@ -8,8 +8,8 @@
 
 #include <vector>
 
-#include "../base_classes/component_base.hpp"
-#include "../base_classes/obc_communication_base.hpp"
+#include "../base/component.hpp"
+#include "../base/uart_communication_with_obc.hpp"
 
 /**
  * @class ExampleSerialCommunicationForHils

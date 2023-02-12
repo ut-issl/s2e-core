@@ -11,7 +11,7 @@
 #include <interface/sils/ports/uart_port.hpp>
 #include <map>
 
-#include "../base_classes/component_base.hpp"
+#include "../base/component.hpp"
 
 /*
  * @class OBC

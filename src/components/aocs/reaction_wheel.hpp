@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-#include "../base_classes/component_base.hpp"
+#include "../base/component.hpp"
 #include "reaction_wheel_jitter.hpp"
 #include "reaction_wheel_ode.hpp"
 
