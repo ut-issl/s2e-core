@@ -6,10 +6,10 @@
 #include "atmosphere.hpp"
 
 #include <interface/log_output/log_utility.hpp>
+#include <library/math/vector.hpp>
 #include <library/randomization/global_randomization.hpp>
 #include <library/randomization/normal_randomization.hpp>
 #include <library/randomization/random_walk.hpp>
-#include <library/math/vector.hpp>
 
 using libra::NormalRand;
 using libra::Vector;

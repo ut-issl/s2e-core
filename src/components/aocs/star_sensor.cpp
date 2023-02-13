@@ -8,8 +8,8 @@
 #include <environment/global/physical_constants.hpp>
 #include <interface/log_output/log_utility.hpp>
 #include <library/math/constants.hpp>
-#include <library/randomization/global_randomization.hpp>
 #include <library/math/matrix.hpp>
+#include <library/randomization/global_randomization.hpp>
 #include <string>
 
 using namespace std;
