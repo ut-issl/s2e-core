@@ -54,6 +54,6 @@ Vector<N>& lubksb(const Matrix<N, N>& a, const unsigned int index[], Vector<N>& 
 
 }  // namespace libra
 
-#include "matrix_vector_impl.hpp"
+#include "matrix_vector_template_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_MATRIX_VECTOR_HPP_
