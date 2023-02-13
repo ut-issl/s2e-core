@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
   geodesy/geodetic_position.cpp
-  
-  igrf/igrf.cpp
 
   inih/ini.c
   inih/cpp/INIReader.cpp
@@ -26,9 +24,10 @@ add_library(${PROJECT_NAME} STATIC
   orbit/kepler_orbit.cpp
   orbit/relative_orbit_models.cpp
 
-  sgp4/sgp4ext.cpp
-  sgp4/sgp4io.cpp
-  sgp4/sgp4unit.cpp
+  external/sgp4/sgp4ext.cpp
+  external/sgp4/sgp4io.cpp
+  external/sgp4/sgp4unit.cpp
+  external/igrf/igrf.cpp
 
   utilities/endian.cpp
   utilities/slip.cpp

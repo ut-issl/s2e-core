@@ -5,7 +5,7 @@
 
 #include "geomagnetic_field.hpp"
 
-#include <library/igrf/igrf.h>
+#include <library/external/igrf/igrf.h>
 
 #include <interface/initialize/initialize_file_access.hpp>
 #include <library/math/global_randomization.hpp>

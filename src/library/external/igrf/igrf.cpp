@@ -297,12 +297,12 @@ void gigrf(int gen, double year) {
   // char file[]="igrf10.coef";
   // char path[] = "igrf11.coef";
   // char file[] = "igrf11.coef";
-  // char path[] = "src/library/igrf/igrf11.coef";
-  // char file[] = "src/library/igrf/igrf11.coef";
-  // char path[] = "../SatAttSim/src/library/igrf/igrf12.coef";
-  // char file[] = "../SatAttSim/src/library/igrf/igrf12.coef";
-  // char path[] = "../../SatAttSim/src/library/igrf/igrf13.coef"; //from 2020
-  // char file[] = "../../SatAttSim/src/library/igrf/igrf13.coef"; //from 2020
+  // char path[] = "src/library/external/igrf/igrf11.coef";
+  // char file[] = "src/library/external/igrf/igrf11.coef";
+  // char path[] = "../SatAttSim/src/library/external/igrf/igrf12.coef";
+  // char file[] = "../SatAttSim/src/library/external/igrf/igrf12.coef";
+  // char path[] = "../../SatAttSim/src/library/external/igrf/igrf13.coef"; //from 2020
+  // char file[] = "../../SatAttSim/src/library/external/igrf/igrf13.coef"; //from 2020
 
   char file[256];
 

@@ -6,8 +6,8 @@
 #ifndef S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_
 #define S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_
 
-#include <library/sgp4/sgp4io.h>
-#include <library/sgp4/sgp4unit.h>
+#include <library/external/sgp4/sgp4io.h>
+#include <library/external/sgp4/sgp4unit.h>
 
 #include <environment/global/celestial_information.hpp>
 

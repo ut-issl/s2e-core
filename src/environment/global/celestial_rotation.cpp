@@ -9,8 +9,8 @@
 
 #include "celestial_rotation.hpp"
 
-#include <library/sgp4/sgp4ext.h>   // for jday()
-#include <library/sgp4/sgp4unit.h>  // for gstime()
+#include <library/external/sgp4/sgp4ext.h>   // for jday()
+#include <library/external/sgp4/sgp4unit.h>  // for gstime()
 
 #include <iostream>
 #include <library/math/constants.hpp>
