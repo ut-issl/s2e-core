@@ -245,7 +245,7 @@ Vector<3, double> GenerateOrthoUnitVector(const Vector<3, double>& v);
 
 }  // namespace libra
 
-#include "vector_ifs.hpp"  // inline function definisions.
-#include "vector_tfs.hpp"  // template function definisions.
+#include "vector_inline_functions.hpp"
+#include "vector_template_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_VECTOR_HPP_
