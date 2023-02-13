@@ -6,7 +6,6 @@ add_library(${PROJECT_NAME} STATIC
 
   math/global_randomization.cpp
   math/normal_randomization.cpp
-  math/quantization.cpp
   math/quaternion.cpp
   math/randomize0.cpp
   math/randomize1.cpp
@@ -29,6 +28,7 @@ add_library(${PROJECT_NAME} STATIC
 
   utilities/endian.cpp
   utilities/slip.cpp
+  utilities/quantization.cpp
 )
 
 include(../../common.cmake)
