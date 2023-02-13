@@ -1,5 +1,5 @@
 /**
- * @file vector_ifs.hpp
+ * @file vector_inline_functions.hpp
  * @brief Class for mathematical vector (inline functions)
  */
 

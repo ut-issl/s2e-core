@@ -1,5 +1,5 @@
 /**
- * @file normal_randomization_ifs.hpp
+ * @file normal_randomization_inline_functions.hpp
  * @brief Class to generate random value with normal distribution with Box-Muller method
  * @note Inline functions
  */

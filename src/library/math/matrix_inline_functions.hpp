@@ -1,5 +1,5 @@
 /**
- * @file matrix_ifs.hpp
+ * @file matrix_inline_functions.hpp
  * @brief Matrix class to handle math matrix with template
  */
 

@@ -1,5 +1,5 @@
 /**
- * @file ordinary_differential_equation_ifs.hpp
+ * @file ordinary_differential_equation_inline_functions.hpp
  * @brief Class for Ordinary Difference Equation (inline functions)
  */
 

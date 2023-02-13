@@ -1,5 +1,5 @@
 /**
- * @file vector_tfs.hpp
+ * @file vector_template_functions.hpp
  * @brief Class for mathematical vector (template functions)
  */
 

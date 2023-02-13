@@ -1,5 +1,5 @@
 /**
- * @file quaternion_ifs.hpp
+ * @file quaternion_inline_functions.hpp
  * @brief Class for Quaternion (Inline functions)
  */
 

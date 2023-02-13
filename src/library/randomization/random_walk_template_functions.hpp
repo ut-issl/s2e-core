@@ -1,5 +1,5 @@
 /**
- * @file random_walk_tfs.hpp
+ * @file random_walk_template_functions.hpp
  * @brief Class to calculate random wark value (template functions)
  */
 
