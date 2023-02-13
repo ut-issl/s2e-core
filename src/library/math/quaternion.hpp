@@ -207,6 +207,6 @@ Quaternion operator*(const Quaternion& lhs, const Vector<3>& rhs);
 Quaternion operator*(const double& lhs, const Quaternion& rhs);
 }  // namespace libra
 
-#include "quaternion_ifs.hpp"  // inline function definisions.
+#include "quaternion_inline_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_QUATERNION_HPP_

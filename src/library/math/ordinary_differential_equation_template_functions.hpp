@@ -2,8 +2,8 @@
  * @file ordinary_differential_equation_tfs.hpp
  * @brief Class for Ordinary Difference Equation (template functions)
  */
-#ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TFS_HPP_
-#define S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TFS_HPP_
+#ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TEMPLATE_FUNCTIONS_HPP_
+#define S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TEMPLATE_FUNCTIONS_HPP_
 
 namespace libra {
 
@@ -49,4 +49,4 @@ void ODE<N>::setStepWidth(double new_step) {
 }
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TFS_HPP_
+#endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TEMPLATE_FUNCTIONS_HPP_
