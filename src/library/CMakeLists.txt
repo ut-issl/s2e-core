@@ -4,9 +4,6 @@ cmake_minimum_required(VERSION 3.13)
 add_library(${PROJECT_NAME} STATIC
   geodesy/geodetic_position.cpp
 
-  inih/ini.c
-  inih/cpp/INIReader.cpp
-
   math/global_randomization.cpp
   math/normal_randomization.cpp
   math/quantization.cpp
@@ -23,6 +20,8 @@ add_library(${PROJECT_NAME} STATIC
   orbit/relative_orbit_models.cpp
 
   external/igrf/igrf.cpp
+  external/inih/ini.c
+  external/inih/cpp/INIReader.cpp
   external/nrlmsise00/wrapper_nrlmsise00.cpp
   external/sgp4/sgp4ext.cpp
   external/sgp4/sgp4io.cpp

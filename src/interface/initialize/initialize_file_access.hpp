@@ -13,7 +13,7 @@
 #include <tchar.h>
 #include <windows.h>
 #else
-#include <library/inih/cpp/INIReader.h>
+#include <library/external/inih/cpp/INIReader.h>
 #endif
 #include <fstream>
 #include <library/math/quaternion.hpp>
