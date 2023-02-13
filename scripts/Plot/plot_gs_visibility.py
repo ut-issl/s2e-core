@@ -17,16 +17,15 @@ from configparser import ConfigParser
 # local function
 from make_miller_projection_map import make_miller_projection_map
 from common import find_latest_log_tag
+from common import add_log_file_arguments
 from common import read_scalar_from_csv
 # arguments
 import argparse
 
+# Arguments
 aparser = argparse.ArgumentParser()
-
-aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/sample/logs"', default='../../data/sample/logs')
-aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
+aparser = add_log_file_arguments(aparser)
 aparser.add_argument('--no-gui', action='store_true')
-
 args = aparser.parse_args()
 
 #

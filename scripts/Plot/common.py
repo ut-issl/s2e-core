@@ -2,6 +2,7 @@ import os
 import numpy as np
 from numpy.linalg import norm
 import pandas
+import argparse
 
 def find_latest_log_tag(logs_dir):
   dlist = sorted(os.listdir(logs_dir))
@@ -33,3 +34,8 @@ def read_scalar_from_csv(read_file_name, header_name):
   csv_data = pandas.read_csv(read_file_name, sep=',', usecols=[header_name])
   vector = np.array([csv_data[header_name].to_numpy()])
   return vector
+
+def add_log_file_arguments(aparser):
+  aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/sample/logs"', default='../../data/sample/logs')
+  aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
+  return aparser
