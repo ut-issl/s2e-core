@@ -86,7 +86,7 @@ double KeplerOrbit::SolveKeplerNewtonMethod(const double eccentricity, const dou
   double u_rad = 0.0;
 
   for (int i = 0; i < iteration_limit; i++) {
-    u_rad -= (u_prev_rad - eccentricity * sin(u_prev_rad) - mean_anomaly_rad) / (1 - eccentricity * cos(u_prev_rad));
+    u_rad -= (u_prev_rad - eccentricity * sin(u_prev_rad) - mean_anomaly_rad) / (1.0 - eccentricity * cos(u_prev_rad));
 
     double diff_abs_rad = std::abs(u_rad - u_prev_rad);
     if (diff_abs_rad < angle_limit_rad) break;
