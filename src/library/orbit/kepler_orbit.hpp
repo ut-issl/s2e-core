@@ -76,6 +76,15 @@ class KeplerOrbit {
    * @param [in] iteration_limit: Limit of iteration
    */
   double SolveKeplerFirstOrder(const double eccentricity, const double mean_anomaly_rad, const double angle_limit_rad, const int iteration_limit);
+  /**
+   * @fn SolveKeplerNewtonMethod
+   * @brief Solve Kepler Equation with the Newton Method
+   * @param [in] eccentricity: Eccentricity
+   * @param [in] mean_anomaly_rad: Mean motion of the orbit [rad/s]
+   * @param [in] angle_limit_rad: Limit of angle error for the approximation
+   * @param [in] iteration_limit: Limit of iteration
+   */
+  double SolveKeplerNewtonMethod(const double eccentricity, const double mean_anomaly_rad, const double angle_limit_rad, const int iteration_limit);
 };
 
 #endif  // S2E_LIBRARY_ORBIT_KEPLER_ORBIT_HPP_

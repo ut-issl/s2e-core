@@ -39,7 +39,7 @@ void KeplerOrbit::CalcPosVel(double time_jday) {
 
   // Solve Kepler Equation
   double eccentric_anomaly_rad;
-  eccentric_anomaly_rad = SolveKeplerFirstOrder(e, l_rad, 1.0e-5, 10);  // TODO: Implement Newton method
+  eccentric_anomaly_rad = SolveKeplerNewtonMethod(e, l_rad, 1.0e-5, 10);
   double u_rad = libra::WrapTo2Pi(eccentric_anomaly_rad);
 
   // Calc position and velocity in the plane
@@ -77,5 +77,21 @@ double KeplerOrbit::SolveKeplerFirstOrder(const double eccentricity, const doubl
     u_prev_rad = u_rad;
   }
 
+  return u_rad;
+}
+
+double KeplerOrbit::SolveKeplerNewtonMethod(const double eccentricity, const double mean_anomaly_rad, const double angle_limit_rad,
+                                            const int iteration_limit) {
+  double u_prev_rad = mean_anomaly_rad;
+  double u_rad = 0.0;
+
+  for (int i = 0; i < iteration_limit; i++) {
+    u_rad -= (u_prev_rad - eccentricity * sin(u_prev_rad) - mean_anomaly_rad) / (1.0 - eccentricity * cos(u_prev_rad));
+
+    double diff_abs_rad = std::abs(u_rad - u_prev_rad);
+    if (diff_abs_rad < angle_limit_rad) break;
+
+    u_prev_rad = u_rad;
+  }
   return u_rad;
 }
