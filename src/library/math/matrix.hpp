@@ -253,7 +253,7 @@ Matrix<R, R, T> rotz(const double& theta);
 
 }  // namespace libra
 
-#include "matrix_ifs.hpp"  // inline function definisions.
-#include "matrix_tfs.hpp"  // template function definisions.
+#include "matrix_inline_functions.hpp"
+#include "matrix_template_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_MATRIX_HPP_

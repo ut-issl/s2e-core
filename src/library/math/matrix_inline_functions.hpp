@@ -3,8 +3,8 @@
  * @brief Matrix class to handle math matrix with template
  */
 
-#ifndef S2E_LIBRARY_MATH_MATRIX_IFS_HPP_
-#define S2E_LIBRARY_MATH_MATRIX_IFS_HPP_
+#ifndef S2E_LIBRARY_MATH_MATRIX_INLINE_FUNCTIONS_HPP_
+#define S2E_LIBRARY_MATH_MATRIX_INLINE_FUNCTIONS_HPP_
 
 #include <stdexcept>  // for invalid_argument
 
@@ -56,4 +56,4 @@ bool Matrix<R, C, T>::is_valid_range_(size_t row, size_t column) {
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_MATH_MATRIX_IFS_HPP_
+#endif  // S2E_LIBRARY_MATH_MATRIX_INLINE_FUNCTIONS_HPP_
