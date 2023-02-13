@@ -6,7 +6,7 @@
 
 #include <cfloat>
 #include <library/math/constants.hpp>
-#include <library/math/global_randomization.hpp>
+#include <library/randomization/global_randomization.hpp>
 
 // Constructor
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen, const int id, const Vector<3> thruster_pos_b,

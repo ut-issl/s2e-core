@@ -5,13 +5,13 @@
 
 #include "magnetic_disturbance.hpp"
 
-#include "../library/math/normal_randomization.hpp"
+#include "../library/randomization/normal_randomization.hpp"
 using libra::NormalRand;
 #include <library/utilities/macros.hpp>
 
 #include "../interface/log_output/log_utility.hpp"
-#include "../library/math/global_randomization.hpp"
-#include "../library/math/random_walk.hpp"
+#include "../library/randomization/global_randomization.hpp"
+#include "../library/randomization/random_walk.hpp"
 
 using namespace std;
 

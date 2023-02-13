@@ -4,10 +4,10 @@
  * @note Ref: NUMERICAL RECIPES in C, p.216-p.217
  */
 
-#ifndef S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_HPP_
-#define S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_HPP_
+#ifndef S2E_LIBRARY_RANDOMIZATION_NORMAL_RANDOMIZATION_HPP_
+#define S2E_LIBRARY_RANDOMIZATION_NORMAL_RANDOMIZATION_HPP_
 
-#include "randomize1.hpp"
+#include "minimal_standard_linear_congruential_generator_with_shuffle.hpp"
 using libra::Ran1;
 
 namespace libra {
@@ -101,6 +101,6 @@ class NormalRand {
 
 }  // namespace libra
 
-#include "normal_randomization_ifs.hpp"  // inline function definisions.
+#include "normal_randomization_inline_functions.hpp"
 
-#endif  // S2E_LIBRARY_MATH_NORMAL_RANDOMIZATION_HPP_
+#endif  // S2E_LIBRARY_RANDOMIZATION_NORMAL_RANDOMIZATION_HPP_

@@ -10,7 +10,7 @@
 #include <environment/global/gnss_satellites.hpp>
 #include <environment/global/simulation_time.hpp>
 #include <interface/log_output/loggable.hpp>
-#include <library/math/normal_randomization.hpp>
+#include <library/randomization/normal_randomization.hpp>
 #include <library/math/quaternion.hpp>
 
 #include "../base/component.hpp"

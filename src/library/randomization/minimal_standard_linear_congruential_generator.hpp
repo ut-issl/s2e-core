@@ -1,5 +1,5 @@
 /**
- * @file randomize0.hpp
+ * @file minimal_standard_linear_congruential_generator.hpp
  * @brief Randomization with Park and Miller's multiplicative congruential method
  * @note ran0 function in "NUMERICAL RECIPES in C, p.206"
  */
