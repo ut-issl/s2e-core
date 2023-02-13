@@ -10,7 +10,7 @@
 #include <interface/log_output/loggable.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
-#include <library/nrlmsise00/wrapper_nrlmsise00.hpp>
+#include <library/external/nrlmsise00/wrapper_nrlmsise00.hpp>
 #include <string>
 #include <vector>
 

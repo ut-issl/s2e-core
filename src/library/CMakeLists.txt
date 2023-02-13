@@ -16,18 +16,17 @@ add_library(${PROJECT_NAME} STATIC
   math/vector.cpp
   math/s2e_math.cpp
 
-  nrlmsise00/wrapper_nrlmsise00.cpp
-
   optics/gaussian_beam_base.cpp
 
   orbit/orbital_elements.cpp
   orbit/kepler_orbit.cpp
   orbit/relative_orbit_models.cpp
 
+  external/igrf/igrf.cpp
+  external/nrlmsise00/wrapper_nrlmsise00.cpp
   external/sgp4/sgp4ext.cpp
   external/sgp4/sgp4io.cpp
   external/sgp4/sgp4unit.cpp
-  external/igrf/igrf.cpp
 
   utilities/endian.cpp
   utilities/slip.cpp
