@@ -39,7 +39,7 @@ void KeplerOrbit::CalcPosVel(double time_jday) {
 
   // Solve Kepler Equation
   double eccentric_anomaly_rad;
-  eccentric_anomaly_rad = SolveKeplerNewtonMethod(e, l_rad, 1.0e-5, 10);  // TODO: Implement Newton method
+  eccentric_anomaly_rad = SolveKeplerNewtonMethod(e, l_rad, 1.0e-5, 10);
   double u_rad = libra::WrapTo2Pi(eccentric_anomaly_rad);
 
   // Calc position and velocity in the plane
