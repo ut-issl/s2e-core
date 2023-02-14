@@ -17,6 +17,7 @@ from matplotlib.animation import FuncAnimation
 import pandas
 # local function
 from common import find_latest_log_tag
+from common import add_log_file_arguments
 from common import normalize_csv_read_vector
 from common import read_3d_vector_from_csv
 from common import read_scalar_from_csv
@@ -25,13 +26,11 @@ import argparse
 # math
 from numpy.linalg import norm
 
+# Arguments
 aparser = argparse.ArgumentParser()
-
-aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs')
-aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
+aparser = add_log_file_arguments(aparser)
 aparser.add_argument('--is-animation', type=bool, help='True: generate animation, False: generate plot', default=False)
 aparser.add_argument('--no-gui', action='store_true')
-
 args = aparser.parse_args()
 
 #

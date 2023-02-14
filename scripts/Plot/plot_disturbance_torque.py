@@ -11,18 +11,18 @@
 import matplotlib.pyplot as plt
 # local function
 from common import find_latest_log_tag
+from common import add_log_file_arguments
 from common import read_3d_vector_from_csv
 from common import read_scalar_from_csv
 # arguments
 import argparse
 
+# Arguments
 aparser = argparse.ArgumentParser()
-
-aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs')
-aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
+aparser = add_log_file_arguments(aparser)
 aparser.add_argument('--no-gui', action='store_true')
-
 args = aparser.parse_args()
+
 
 #
 # Read Arguments
@@ -46,7 +46,7 @@ read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file
 # Data read and edit
 #
 # Read S2E CSV
-time = read_scalar_from_csv(read_file_name, 'time[s]')
+time = read_scalar_from_csv(read_file_name, 'elapsed_time[s]')
 
 total_torque_b = read_3d_vector_from_csv(read_file_name, 'spacecraft_torque_b', 'Nm')
 gg_torque_b = read_3d_vector_from_csv(read_file_name, 'gravity_gradient_torque_b', 'Nm')
