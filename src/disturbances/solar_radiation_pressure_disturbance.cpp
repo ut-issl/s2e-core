@@ -9,8 +9,8 @@
 
 #include "../interface/log_output/log_utility.hpp"
 
-SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calc_enabled)
-    : SurfaceForce(surfaces, cg_b, is_calc_enabled) {}
+SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calculation_enabled)
+    : SurfaceForce(surfaces, cg_b, is_calculation_enabled) {}
 
 void SolarRadiation::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
   UNUSED(dynamics);

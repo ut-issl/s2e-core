@@ -17,8 +17,8 @@
 
 using namespace std;
 
-GeoPotential::GeoPotential(const int degree, const string file_path, const bool is_calc_enabled)
-    : AccelerationDisturbance(is_calc_enabled), degree_(degree) {
+GeoPotential::GeoPotential(const int degree, const string file_path, const bool is_calculation_enabled)
+    : AccelerationDisturbance(is_calculation_enabled), degree_(degree) {
   // Initialize
   acc_ecef_ = Vector<3>(0);
   debug_pos_ecef_ = Vector<3>(0);

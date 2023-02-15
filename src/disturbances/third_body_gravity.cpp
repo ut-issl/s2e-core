@@ -5,8 +5,8 @@
 
 #include "third_body_gravity.hpp"
 
-ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list, const bool is_calc_enabled)
-    : AccelerationDisturbance(is_calc_enabled), third_body_list_(third_body_list) {}
+ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list, const bool is_calculation_enabled)
+    : AccelerationDisturbance(is_calculation_enabled), third_body_list_(third_body_list) {}
 
 ThirdBodyGravity::~ThirdBodyGravity() {}
 

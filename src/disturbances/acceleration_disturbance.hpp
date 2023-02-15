@@ -19,9 +19,9 @@ class AccelerationDisturbance : public Disturbance, public ILoggable {
   /**
    * @fn AccelerationDisturbance
    * @brief Constructor
-   * @param [in] is_calc_enabled: Calculation flag
+   * @param [in] is_calculation_enabled: Calculation flag
    */
-  AccelerationDisturbance(const bool is_calc_enabled = true) : Disturbance(is_calc_enabled) {}
+  AccelerationDisturbance(const bool is_calculation_enabled = true) : Disturbance(is_calculation_enabled) {}
   /**
    * @fn ~AccelerationDisturbance
    * @brief Destructor
@@ -33,7 +33,7 @@ class AccelerationDisturbance : public Disturbance, public ILoggable {
    * @brief Update calculated disturbance when the calculation flag is true
    */
   virtual inline void UpdateIfEnabled(const LocalEnvironment& local_env, const Dynamics& dynamics) {
-    if (is_calc_enabled_) {
+    if (is_calculation_enabled_) {
       Update(local_env, dynamics);
     } else {
       acceleration_b_m_s2_ *= 0.0;

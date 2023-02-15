@@ -11,8 +11,8 @@ using libra::Vector;
 
 using namespace libra;
 
-SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calc_enabled)
-    : SimpleDisturbance(is_calc_enabled), surfaces_(surfaces), cg_b_(cg_b) {
+SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calculation_enabled)
+    : SimpleDisturbance(is_calculation_enabled), surfaces_(surfaces), cg_b_(cg_b) {
   // Initialize vectors
   int num = surfaces_.size();
   normal_coef_.assign(num, 0.0);

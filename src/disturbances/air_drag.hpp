@@ -27,10 +27,10 @@ class AirDrag : public SurfaceForce {
   /**
    * @fn AirDrag
    * @brief Constructor
-   * @param [in] is_calc_enabled: Calculation flag
+   * @param [in] is_calculation_enabled: Calculation flag
    */
   AirDrag(const vector<Surface>& surfaces, const Vector<3>& cg_b, const double t_w, const double t_m, const double molecular,
-          const bool is_calc_enabled = true);
+          const bool is_calculation_enabled = true);
 
   /**
    * @fn Update

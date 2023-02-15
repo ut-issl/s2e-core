@@ -26,9 +26,9 @@ class SurfaceForce : public SimpleDisturbance {
   /**
    * @fn SurfaceForce
    * @brief Constructor
-   * @param [in] is_calc_enabled: Calculation flag
+   * @param [in] is_calculation_enabled: Calculation flag
    */
-  SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calc_enabled = true);
+  SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calculation_enabled = true);
   /**
    * @fn ~SurfaceForce
    * @brief Destructor

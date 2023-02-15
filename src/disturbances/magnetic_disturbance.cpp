@@ -15,8 +15,8 @@ using libra::NormalRand;
 
 using namespace std;
 
-MagDisturbance::MagDisturbance(const RMMParams& rmm_params, const bool is_calc_enabled)
-    : SimpleDisturbance(is_calc_enabled), rmm_params_(rmm_params) {
+MagDisturbance::MagDisturbance(const RMMParams& rmm_params, const bool is_calculation_enabled)
+    : SimpleDisturbance(is_calculation_enabled), rmm_params_(rmm_params) {
   mag_unit_ = 1.0E-9;  // [nT] -> [T]
   rmm_b_ = rmm_params_.GetRMMConst_b();
 }

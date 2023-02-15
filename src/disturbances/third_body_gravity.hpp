@@ -23,9 +23,9 @@ class ThirdBodyGravity : public AccelerationDisturbance {
   /**
    * @fn ThirdBodyGravity
    * @brief Constructor
-   * @param [in] is_calc_enabled: Calculation flag
+   * @param [in] is_calculation_enabled: Calculation flag
    */
-  ThirdBodyGravity(std::set<std::string> third_body_list, const bool is_calc_enabled = true);
+  ThirdBodyGravity(std::set<std::string> third_body_list, const bool is_calculation_enabled = true);
   /**
    * @fn ~ThirdBodyGravity
    * @brief Destructor
