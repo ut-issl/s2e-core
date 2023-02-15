@@ -82,7 +82,7 @@ class GeoPotential : public AccelerationDisturbance {
 
   // debug
   libra::Vector<3> debug_pos_ecef_m_;  //!< Spacecraft position in ECEF frame [m]
-  double time_ = 0.0;                  //!< Calculation time [ms]
+  double time_ms_ = 0.0;               //!< Calculation time [ms]
 };
 
 #endif  // S2E_DISTURBANCES_GEOPOTENTIAL_HPP_

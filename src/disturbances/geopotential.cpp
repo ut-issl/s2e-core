@@ -18,8 +18,8 @@
 GeoPotential::GeoPotential(const int degree, const std::string file_path, const bool is_calculation_enabled)
     : AccelerationDisturbance(is_calculation_enabled), degree_(degree) {
   // Initialize
-  acc_ecef_ = libra::Vector<3>(0);
-  debug_pos_ecef_m_ = libra::Vector<3>(0);
+  acc_ecef_ = libra::Vector<3>(0.0);
+  debug_pos_ecef_m_ = libra::Vector<3>(0.0);
   // degree
   if (degree_ > 360) {
     degree_ = 360;
@@ -67,7 +67,7 @@ bool GeoPotential::ReadCoefficientsEGM96(std::string file_name) {
 
 void GeoPotential::Update(const LocalEnvironment &local_env, const Dynamics &dynamics) {
 #ifdef DEBUG_GEOPOTENTIAL
-  chrono::system_clock::time_point start, end;
+  chrono::system_clock::time_ms_point start, end;
   start = chrono::system_clock::now();
   debug_pos_ecef_m_ = spacecraft.dynamics_->orbit_->GetSatPosition_ecef();
 #endif
@@ -75,7 +75,7 @@ void GeoPotential::Update(const LocalEnvironment &local_env, const Dynamics &dyn
   CalcAccelerationECEF(dynamics.GetOrbit().GetSatPosition_ecef());
 #ifdef DEBUG_GEOPOTENTIAL
   end = chrono::system_clock::now();
-  time_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
+  time_ms_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
 #endif
 
   Matrix<3, 3> trans_eci2ecef_ = local_env.GetCelesInfo().GetGlobalInfo().GetEarthRotation().GetDCMJ2000toXCXF();
@@ -192,7 +192,7 @@ std::string GeoPotential::GetLogHeader() const {
 
 #ifdef DEBUG_GEOPOTENTIAL
   str_tmp += WriteVector("pos_", "ecef", "m", 3);
-  str_tmp += WriteScalar("time_geop", "ms");
+  str_tmp += WriteScalar("time_ms_geop", "ms");
 #endif
   str_tmp += WriteVector("geopotential_acceleration", "ecef", "m/s2", 3);
 
@@ -204,7 +204,7 @@ std::string GeoPotential::GetLogValue() const {
 
 #ifdef DEBUG_GEOPOTENTIAL
   str_tmp += WriteVector(debug_pos_ecef_m_, 15);
-  str_tmp += WriteScalar(time_);
+  str_tmp += WriteScalar(time_ms_);
 #endif
 
   str_tmp += WriteVector(acc_ecef_, 15);
