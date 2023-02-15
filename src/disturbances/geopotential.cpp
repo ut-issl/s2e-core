@@ -36,14 +36,14 @@ GeoPotential::GeoPotential(const int degree, const std::string file_path, const 
   // In S2E, 0 degree term is inside the SimpleCircularOrbit calculation
   c_[0][0] = 0.0;
   if (degree_ >= 2) {
-    if (!ReadCoefficientsEGM96(file_path)) {
+    if (!ReadCoefficientsEgm96(file_path)) {
       degree_ = 0;
       std::cout << "degree of GeoPotential set as " << degree_ << "\n";
     }
   }
 }
 
-bool GeoPotential::ReadCoefficientsEGM96(std::string file_name) {
+bool GeoPotential::ReadCoefficientsEgm96(std::string file_name) {
   std::ifstream coeff_file(file_name);
   if (!coeff_file.is_open()) {
     std::cerr << "file open error:Geopotential\n";
@@ -72,7 +72,7 @@ void GeoPotential::Update(const LocalEnvironment &local_environment, const Dynam
   debug_pos_ecef_m_ = spacecraft.dynamics_->orbit_->GetSatPosition_ecef();
 #endif
 
-  CalcAccelerationECEF(dynamics.GetOrbit().GetSatPosition_ecef());
+  CalcAccelerationEcef(dynamics.GetOrbit().GetSatPosition_ecef());
 #ifdef DEBUG_GEOPOTENTIAL
   end = chrono::system_clock::now();
   time_ms_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
@@ -83,7 +83,7 @@ void GeoPotential::Update(const LocalEnvironment &local_environment, const Dynam
   acceleration_i_m_s2_ = trans_ecef2eci * acceleration_ecef_m_s2_;
 }
 
-void GeoPotential::CalcAccelerationECEF(const Vector<3> &position_ecef_m) {
+void GeoPotential::CalcAccelerationEcef(const Vector<3> &position_ecef_m) {
   ecef_x_m_ = position_ecef_m[0], ecef_y_m_ = position_ecef_m[1], ecef_z_m_ = position_ecef_m[2];
   radius_m_ = sqrt(ecef_x_m_ * ecef_x_m_ + ecef_y_m_ * ecef_y_m_ + ecef_z_m_ * ecef_z_m_);
 

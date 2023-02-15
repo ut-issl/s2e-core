@@ -65,18 +65,18 @@ class GeoPotential : public AccelerationDisturbance {
   double time_ms_ = 0.0;               //!< Calculation time [ms]
 
   /**
-   * @fn CalcAccelerationECEF
+   * @fn CalcAccelerationEcef
    * @brief Calculate the high-order earth gravity in the ECEF frame
    * @param [in] position_ecef_m: Position of the spacecraft in the ECEF fram [m]
    */
-  void CalcAccelerationECEF(const Vector<3> &position_ecef_m);
+  void CalcAccelerationEcef(const Vector<3> &position_ecef_m);
 
   /**
-   * @fn ReadCoefficientsEGM96
+   * @fn ReadCoefficientsEgm96
    * @brief Read the geo-potential coefficients for the EGM96 model
    * @param [in] file_name: Coefficient file name
    */
-  bool ReadCoefficientsEGM96(std::string file_name);
+  bool ReadCoefficientsEgm96(std::string file_name);
 
   /**
    * @fn v_w_nn_update
