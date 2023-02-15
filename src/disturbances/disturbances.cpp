@@ -95,8 +95,8 @@ void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const
 }
 
 void Disturbances::InitializeForceAndTorque() {
-  sum_torque_ = Vector<3>(0);
-  sum_force_ = Vector<3>(0);
+  sum_torque_ = Vector<3>(0.0);
+  sum_force_ = Vector<3>(0.0);
 }
 
-void Disturbances::InitializeAcceleration() { sum_acceleration_i_ = Vector<3>(0); }
+void Disturbances::InitializeAcceleration() { sum_acceleration_i_ = Vector<3>(0.0); }
