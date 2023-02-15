@@ -57,11 +57,12 @@ class MagDisturbance : public SimpleDisturbance {
    */
   void CalcRMM();
   /**
-   * @fn CalcTorque
+   * @fn CalcTorque_b_Nm
    * @brief Calculate magnetic disturbance torque
    * @param [in] magnetic_field_b_nT: Magnetic field vector at the body frame [nT]
+   * @return Calculated disturbance torque in body frame [Nm]
    */
-  libra::Vector<3> CalcTorque(const libra::Vector<3>& magnetic_field_b_nT);
+  libra::Vector<3> CalcTorque_b_Nm(const libra::Vector<3>& magnetic_field_b_nT);
 };
 
 #endif  // S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_HPP_

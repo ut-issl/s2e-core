@@ -18,10 +18,11 @@ GravityGradient::GravityGradient(const double mu_m3_s2, const bool is_calculatio
 
 void GravityGradient::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   // TODO: use structure information to get inertia tensor
-  CalcTorque(local_environment.GetCelesInfo().GetCenterBodyPosFromSC_b(), dynamics.GetAttitude().GetInertiaTensor());
+  CalcTorque_b_Nm(local_environment.GetCelesInfo().GetCenterBodyPosFromSC_b(), dynamics.GetAttitude().GetInertiaTensor());
 }
 
-libra::Vector<3> GravityGradient::CalcTorque(const libra::Vector<3> earth_position_from_sc_b_m, const libra::Matrix<3, 3> inertia_tensor_b_kgm2) {
+libra::Vector<3> GravityGradient::CalcTorque_b_Nm(const libra::Vector<3> earth_position_from_sc_b_m,
+                                                  const libra::Matrix<3, 3> inertia_tensor_b_kgm2) {
   double r_norm_m = norm(earth_position_from_sc_b_m);
   libra::Vector<3> u_b = earth_position_from_sc_b_m;  // TODO: make undestructive normalize function for Vector
   u_b /= r_norm_m;

@@ -21,12 +21,12 @@ void ThirdBodyGravity::Update(const LocalEnvironment& local_environment, const D
     libra::Vector<3> third_body_pos_i_m = sc_position_i_m + third_body_position_from_sc_i_m;
     double gravity_constant = local_environment.GetCelesInfo().GetGlobalInfo().GetGravityConstant(third_body.c_str());
 
-    third_body_acceleration_i_m_s2_ = CalcAcceleration(third_body_pos_i_m, third_body_position_from_sc_i_m, gravity_constant);
+    third_body_acceleration_i_m_s2_ = CalcAcceleration_b_m_s2(third_body_pos_i_m, third_body_position_from_sc_i_m, gravity_constant);
     acceleration_i_m_s2_ += third_body_acceleration_i_m_s2_;
   }
 }
 
-libra::Vector<3> ThirdBodyGravity::CalcAcceleration(const libra::Vector<3> s, const libra::Vector<3> sr, const double gravity_constant_m_s2) {
+libra::Vector<3> ThirdBodyGravity::CalcAcceleration_b_m_s2(const libra::Vector<3> s, const libra::Vector<3> sr, const double gravity_constant_m_s2) {
   libra::Vector<3> acceleration_i_m_s2;
 
   double s_norm = libra::norm(s);

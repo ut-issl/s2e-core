@@ -64,7 +64,7 @@ class ThirdBodyGravity : public AccelerationDisturbance {
    * @param [in] GM: The gravitational constants of the third celestial body [m3/s2]
    * @return Third body disturbance acceleration in the inertial frame in unit [m/s2]
    */
-  libra::Vector<3> CalcAcceleration(const libra::Vector<3> s, const libra::Vector<3> sr, const double gravity_constant_m_s2);
+  libra::Vector<3> CalcAcceleration_b_m_s2(const libra::Vector<3> s, const libra::Vector<3> sr, const double gravity_constant_m_s2);
 };
 
 #endif  // S2E_DISTURBANCES_THIRD_BODY_GRAVITY_HPP_

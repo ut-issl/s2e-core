@@ -17,7 +17,7 @@ MagDisturbance::MagDisturbance(const RMMParams& rmm_params, const bool is_calcul
   rmm_b_Am2_ = rmm_params_.GetRMMConst_b();
 }
 
-Vector<3> MagDisturbance::CalcTorque(const Vector<3>& magnetic_field_b_nT) {
+Vector<3> MagDisturbance::CalcTorque_b_Nm(const Vector<3>& magnetic_field_b_nT) {
   CalcRMM();
   torque_b_Nm_ = kMagUnit_ * outer_product(rmm_b_Am2_, magnetic_field_b_nT);
   return torque_b_Nm_;
@@ -26,7 +26,7 @@ Vector<3> MagDisturbance::CalcTorque(const Vector<3>& magnetic_field_b_nT) {
 void MagDisturbance::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   UNUSED(dynamics);
 
-  CalcTorque(local_environment.GetMag().GetMag_b());
+  CalcTorque_b_Nm(local_environment.GetMag().GetMag_b());
 }
 
 void MagDisturbance::CalcRMM() {

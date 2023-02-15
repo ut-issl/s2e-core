@@ -63,7 +63,7 @@ class GravityGradient : public SimpleDisturbance {
    * @param [in] inertia_tensor_b_kgm2: Inertia Tensor at body frame [kg*m^2]
    * @return Calculated torque at body frame [Nm]
    */
-  libra::Vector<3> CalcTorque(const libra::Vector<3> earth_position_from_sc_b_m, const libra::Matrix<3, 3> inertia_tensor_b_kgm2);
+  libra::Vector<3> CalcTorque_b_Nm(const libra::Vector<3> earth_position_from_sc_b_m, const libra::Matrix<3, 3> inertia_tensor_b_kgm2);
 };
 
 #endif  // S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_
