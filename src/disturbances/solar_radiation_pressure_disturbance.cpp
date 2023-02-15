@@ -19,7 +19,7 @@ void SolarRadiation::Update(const LocalEnvironment& local_env, const Dynamics& d
   CalcTorqueForce(tmp, local_env.GetSrp().CalcTruePressure());
 }
 
-void SolarRadiation::CalcCoef(Vector<3>& input_b, double item) {
+void SolarRadiation::CalcCoefficients(Vector<3>& input_b, double item) {
   UNUSED(input_b);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {  // Calculate for each surface

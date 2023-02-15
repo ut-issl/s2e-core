@@ -19,7 +19,7 @@ SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const libra::Vector<
 
 libra::Vector<3> SurfaceForce::CalcTorqueForce(libra::Vector<3>& input_b, double item) {
   CalcTheta(input_b);
-  CalcCoef(input_b, item);
+  CalcCoefficients(input_b, item);
   libra::Vector<3> Force(0.0);
   libra::Vector<3> Trq(0.0);
   libra::Vector<3> input_b_normal(input_b);

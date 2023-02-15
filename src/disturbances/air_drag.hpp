@@ -68,7 +68,7 @@ class AirDrag : public SurfaceForce {
    * @param [in] vel_b: Spacecraft's velocity vector in the body frame [m/s]
    * @param [in] air_dens: Air density around the spacecraft [kg/m^3]
    */
-  void CalcCoef(Vector<3>& vel_b, double air_dens);
+  void CalcCoefficients(Vector<3>& vel_b, double air_dens);
 
   // internal function for calculation
   /**

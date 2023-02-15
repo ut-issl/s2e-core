@@ -33,7 +33,7 @@ void AirDrag::Update(const LocalEnvironment& local_env, const Dynamics& dynamics
   CalcTorqueForce(tmp, air_dens);
 }
 
-void AirDrag::CalcCoef(Vector<3>& vel_b, double air_dens) {
+void AirDrag::CalcCoefficients(Vector<3>& vel_b, double air_dens) {
   double vel_b_norm_m = norm(vel_b);
   rho_ = air_dens;
   CalCnCt(vel_b);

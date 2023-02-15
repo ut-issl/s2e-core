@@ -63,12 +63,12 @@ class SurfaceForce : public SimpleDisturbance {
   void CalcTheta(libra::Vector<3>& input_b);
 
   /**
-   * @fn CalcCoef
+   * @fn CalcCoefficients
    * @brief Pure virtual function to define the calculation of the disturbance coefficients
    * @param [in] input_b: Direction of disturbance source at the body frame
    * @param [in] item: Parameter which decide the magnitude of the disturbances (e.g., Solar flux, air density)
    */
-  virtual void CalcCoef(libra::Vector<3>& input_b, double item) = 0;
+  virtual void CalcCoefficients(libra::Vector<3>& input_b, double item) = 0;
 };
 
 #endif  // S2E_DISTURBANCES_SURFACE_FORCE_HPP_
