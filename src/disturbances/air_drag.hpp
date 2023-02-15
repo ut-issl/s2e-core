@@ -6,7 +6,6 @@
 #ifndef S2E_DISTURBANCES_AIR_DRAG_HPP_
 #define S2E_DISTURBANCES_AIR_DRAG_HPP_
 
-#include <string>
 #include <vector>
 
 #include "../environment/local/atmosphere.hpp"
