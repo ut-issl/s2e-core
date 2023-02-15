@@ -11,8 +11,8 @@ using libra::Vector;
 
 using namespace libra;
 
-SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calculation_enabled)
-    : SimpleDisturbance(is_calculation_enabled), surfaces_(surfaces), cg_b_(cg_b) {
+SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
+    : SimpleDisturbance(is_calculation_enabled), surfaces_(surfaces), center_of_gravity_b_m_(center_of_gravity_b_m) {
   // Initialize vectors
   int num = surfaces_.size();
   normal_coef_.assign(num, 0.0);
@@ -40,7 +40,7 @@ Vector<3> SurfaceForce::CalcTorqueForce(Vector<3>& input_b, double item) {
       Vector<3> Fs = -1.0 * normal_coef_[i] * normal + tangential_coef_[i] * s;
       Force += Fs;
       // calc torque
-      Vector<3> Ts = outer_product(surfaces_[i].GetPosition() - cg_b_, Fs);
+      Vector<3> Ts = outer_product(surfaces_[i].GetPosition() - center_of_gravity_b_m_, Fs);
       Trq += Ts;
     }
   }

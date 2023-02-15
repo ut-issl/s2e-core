@@ -26,9 +26,11 @@ class SurfaceForce : public SimpleDisturbance {
   /**
    * @fn SurfaceForce
    * @brief Constructor
+   * @param [in] surfaces: Surface information of the spacecraft
+   * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calculation_enabled = true);
+  SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled = true);
   /**
    * @fn ~SurfaceForce
    * @brief Destructor
@@ -37,8 +39,8 @@ class SurfaceForce : public SimpleDisturbance {
 
  protected:
   // Spacecraft Structure parameters
-  const vector<Surface>& surfaces_;  //!< List of surfaces
-  const Vector<3>& cg_b_;            //!< Position vector of the center of mass at body frame [m]
+  const vector<Surface>& surfaces_;         //!< List of surfaces
+  const Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass at body frame [m]
 
   // Internal calculated variables
   vector<double> normal_coef_;      //!< coefficients for out-plane force for each surface
