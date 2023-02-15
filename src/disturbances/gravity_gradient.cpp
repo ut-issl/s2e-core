@@ -7,12 +7,8 @@
 
 #include <cmath>
 #include <environment/global/physical_constants.hpp>
-#include <fstream>
-#include <iostream>
 
 #include "../interface/log_output/log_utility.hpp"
-
-using namespace std;
 
 GravityGradient::GravityGradient(const bool is_calculation_enabled)
     : GravityGradient(environment::earth_gravitational_constant_m3_s2, is_calculation_enabled) {}
@@ -25,9 +21,9 @@ void GravityGradient::Update(const LocalEnvironment& local_env, const Dynamics& 
              dynamics.GetAttitude().GetInertiaTensor());  // TODO: use structure information to get inertia tensor
 }
 
-Vector<3> GravityGradient::CalcTorque(const Vector<3> r_b_m, const Matrix<3, 3> I_b_kgm2) {
+libra::Vector<3> GravityGradient::CalcTorque(const libra::Vector<3> r_b_m, const libra::Matrix<3, 3> I_b_kgm2) {
   double r_norm_m = norm(r_b_m);
-  Vector<3> u_b = r_b_m;  // TODO: make undestructive normalize function for Vector
+  libra::Vector<3> u_b = r_b_m;  // TODO: make undestructive normalize function for Vector
   u_b /= r_norm_m;
 
   double coeff = 3.0 * mu_m3_s2_ / pow(r_norm_m, 3.0);
@@ -35,16 +31,16 @@ Vector<3> GravityGradient::CalcTorque(const Vector<3> r_b_m, const Matrix<3, 3> 
   return torque_b_Nm_;
 }
 
-string GravityGradient::GetLogHeader() const {
-  string str_tmp = "";
+std::string GravityGradient::GetLogHeader() const {
+  std::string str_tmp = "";
 
   str_tmp += WriteVector("gravity_gradient_torque", "b", "Nm", 3);
 
   return str_tmp;
 }
 
-string GravityGradient::GetLogValue() const {
-  string str_tmp = "";
+std::string GravityGradient::GetLogValue() const {
+  std::string str_tmp = "";
 
   str_tmp += WriteVector(torque_b_Nm_);
 

@@ -6,16 +6,11 @@
 #ifndef S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_
 #define S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_
 
-#include <string>
-
 #include "../interface/log_output/loggable.hpp"
 #include "../library/math/matrix.hpp"
 #include "../library/math/matrix_vector.hpp"
 #include "../library/math/vector.hpp"
 #include "simple_disturbance.hpp"
-
-using libra::Matrix;
-using libra::Vector;
 
 /**
  * @class GravityGradient
@@ -50,7 +45,7 @@ class GravityGradient : public SimpleDisturbance {
    * @param [in] r_b: Position vector of the earth at body frame [m]
    * @param [in] I_b: Inertia Tensor at body frame [kg*m^2]
    */
-  Vector<3> CalcTorque(const Vector<3> r_b, const Matrix<3, 3> I_b);
+  libra::Vector<3> CalcTorque(const libra::Vector<3> r_b, const libra::Matrix<3, 3> I_b);
 
   // Override ILoggable
   /**
