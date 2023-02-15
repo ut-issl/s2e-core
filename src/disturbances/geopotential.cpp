@@ -65,7 +65,7 @@ bool GeoPotential::ReadCoefficientsEGM96(std::string file_name) {
   return true;
 }
 
-void GeoPotential::Update(const LocalEnvironment &local_env, const Dynamics &dynamics) {
+void GeoPotential::Update(const LocalEnvironment &local_environment, const Dynamics &dynamics) {
 #ifdef DEBUG_GEOPOTENTIAL
   chrono::system_clock::time_ms_point start, end;
   start = chrono::system_clock::now();
@@ -78,13 +78,13 @@ void GeoPotential::Update(const LocalEnvironment &local_env, const Dynamics &dyn
   time_ms_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
 #endif
 
-  Matrix<3, 3> trans_eci2ecef_ = local_env.GetCelesInfo().GetGlobalInfo().GetEarthRotation().GetDCMJ2000toXCXF();
+  Matrix<3, 3> trans_eci2ecef_ = local_environment.GetCelesInfo().GetGlobalInfo().GetEarthRotation().GetDCMJ2000toXCXF();
   Matrix<3, 3> trans_ecef2eci = transpose(trans_eci2ecef_);
   acceleration_i_m_s2_ = trans_ecef2eci * acc_ecef_;
 }
 
-void GeoPotential::CalcAccelerationECEF(const Vector<3> &position_ecef) {
-  x = position_ecef[0], y = position_ecef[1], z = position_ecef[2];
+void GeoPotential::CalcAccelerationECEF(const Vector<3> &position_ecef_m) {
+  x = position_ecef_m[0], y = position_ecef_m[1], z = position_ecef_m[2];
   r = sqrt(x * x + y * y + z * z);
 
   // Calc V and W

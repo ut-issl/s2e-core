@@ -31,7 +31,7 @@ class GeoPotential : public AccelerationDisturbance {
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
    */
-  virtual void Update(const LocalEnvironment &local_env, const Dynamics &dynamics);
+  virtual void Update(const LocalEnvironment &local_environment, const Dynamics &dynamics);
 
   // Override ILoggable
   /**
@@ -48,9 +48,9 @@ class GeoPotential : public AccelerationDisturbance {
   /**
    * @fn CalcAccelerationECEF
    * @brief Calculate the high-order earth gravity in the ECEF frame
-   * @param [in] position_ecef: Position of the spacecraft in the ECEF fram [m]
+   * @param [in] position_ecef_m: Position of the spacecraft in the ECEF fram [m]
    */
-  void CalcAccelerationECEF(const Vector<3> &position_ecef);
+  void CalcAccelerationECEF(const Vector<3> &position_ecef_m);
 
   /**
    * @fn ReadCoefficientsEGM96
