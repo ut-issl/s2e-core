@@ -63,18 +63,18 @@ class AirDrag : public SurfaceForce {
   /**
    * @fn CalcCoefficients
    * @brief Override CalcCoefficients function of SurfaceForce
-   * @param [in] vel_b: Spacecraft's velocity vector in the body frame [m/s]
+   * @param [in] velocity_b_m_s: Spacecraft's velocity vector in the body frame [m/s]
    * @param [in] air_dens: Air density around the spacecraft [kg/m^3]
    */
-  void CalcCoefficients(libra::Vector<3>& vel_b, double air_dens);
+  void CalcCoefficients(libra::Vector<3>& velocity_b_m_s, double air_dens);
 
   // internal function for calculation
   /**
    * @fn CalCnCt
    * @brief Calculate the Cn and Ct
-   * @param [in] vel_b: Spacecraft's velocity vector in the body frame [m/s]
+   * @param [in] velocity_b_m_s: Spacecraft's velocity vector in the body frame [m/s]
    */
-  void CalCnCt(libra::Vector<3>& vel_b);
+  void CalCnCt(libra::Vector<3>& velocity_b_m_s);
   /**
    * @fn funcPi
    * @brief Calculate The Pi function in the algorithm

@@ -29,12 +29,12 @@ void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& 
   CalcTorqueForce(tmp, air_dens);
 }
 
-void AirDrag::CalcCoefficients(libra::Vector<3>& vel_b, double air_dens) {
-  double vel_b_norm_m = norm(vel_b);
+void AirDrag::CalcCoefficients(libra::Vector<3>& velocity_b_m_s, double air_dens) {
+  double velocity_norm_m_s = norm(velocity_b_m_s);
   rho_kg_m3_ = air_dens;
-  CalCnCt(vel_b);
+  CalCnCt(velocity_b_m_s);
   for (size_t i = 0; i < surfaces_.size(); i++) {
-    double k = 0.5 * rho_kg_m3_ * vel_b_norm_m * vel_b_norm_m * surfaces_[i].GetArea();
+    double k = 0.5 * rho_kg_m3_ * velocity_norm_m_s * velocity_norm_m_s * surfaces_[i].GetArea();
     normal_coefficients_[i] = k * Cn_[i];
     tangential_coefficients_[i] = k * Ct_[i];
   }
@@ -54,13 +54,11 @@ double AirDrag::funcChi(double s) {
   return x;
 }
 
-void AirDrag::CalCnCt(Vector<3>& vel_b) {
-  double S;
-  double vel_b_norm_m = norm(vel_b);
-  libra::Vector<3> vel_b_normal(vel_b);
-  normalize(vel_b_normal);
+void AirDrag::CalCnCt(Vector<3>& velocity_b_m_s) {
+  double velocity_norm_m_s = norm(velocity_b_m_s);
+
   // Re-emitting speed
-  S = sqrt(M_ * vel_b_norm_m * vel_b_norm_m / (2.0 * environment::boltzmann_constant_J_K * Tw_));
+  double S = sqrt(M_ * velocity_norm_m_s * velocity_norm_m_s / (2.0 * environment::boltzmann_constant_J_K * Tw_));
   // CalcTheta(vel_b);
   for (size_t i = 0; i < surfaces_.size(); i++) {
     double Sn = S * cos_theta_[i];
