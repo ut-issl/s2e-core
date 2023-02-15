@@ -14,9 +14,6 @@
 #include "../library/math/vector.hpp"
 #include "acceleration_disturbance.hpp"
 
-using libra::Matrix;
-using libra::Vector;
-
 /**
  * @class GeoPotential
  * @brief Class to calculate the high-order earth gravity acceleration
@@ -84,8 +81,8 @@ class GeoPotential : public AccelerationDisturbance {
   void v_w_nm_update(double *v_nm, double *w_nm, const double v_prev, const double w_prev, const double v_prev2, const double w_prev2);
 
   // debug
-  Vector<3> debug_pos_ecef_;  //!< Spacecraft position in ECEF frame [m]
-  double time_ = 0.0;         //!< Calculation time [ms]
+  libra::Vector<3> debug_pos_ecef_;  //!< Spacecraft position in ECEF frame [m]
+  double time_ = 0.0;                //!< Calculation time [ms]
 };
 
 #endif  // S2E_DISTURBANCES_GEOPOTENTIAL_HPP_

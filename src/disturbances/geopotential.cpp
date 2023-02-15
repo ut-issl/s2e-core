@@ -15,19 +15,17 @@
 
 // #define DEBUG_GEOPOTENTIAL
 
-using namespace std;
-
-GeoPotential::GeoPotential(const int degree, const string file_path, const bool is_calculation_enabled)
+GeoPotential::GeoPotential(const int degree, const std::string file_path, const bool is_calculation_enabled)
     : AccelerationDisturbance(is_calculation_enabled), degree_(degree) {
   // Initialize
-  acc_ecef_ = Vector<3>(0);
-  debug_pos_ecef_ = Vector<3>(0);
+  acc_ecef_ = libra::Vector<3>(0);
+  debug_pos_ecef_ = libra::Vector<3>(0);
   // degree
   if (degree_ > 360) {
     degree_ = 360;
-    cout << "Inputted degree of GeoPotential is too large for EGM96 "
-            "model(limit is 360)\n";
-    cout << "degree of GeoPotential set as " << degree_ << "\n";
+    std::cout << "Inputted degree of GeoPotential is too large for EGM96 "
+                 "model(limit is 360)\n";
+    std::cout << "degree of GeoPotential set as " << degree_ << "\n";
   } else if (degree_ <= 1) {
     degree_ = 0;
   }
@@ -40,15 +38,15 @@ GeoPotential::GeoPotential(const int degree, const string file_path, const bool 
   if (degree_ >= 2) {
     if (!ReadCoefficientsEGM96(file_path)) {
       degree_ = 0;
-      cout << "degree of GeoPotential set as " << degree_ << "\n";
+      std::cout << "degree of GeoPotential set as " << degree_ << "\n";
     }
   }
 }
 
-bool GeoPotential::ReadCoefficientsEGM96(string file_name) {
-  ifstream coeff_file(file_name);
+bool GeoPotential::ReadCoefficientsEGM96(std::string file_name) {
+  std::ifstream coeff_file(file_name);
   if (!coeff_file.is_open()) {
-    cerr << "file open error:Geopotential\n";
+    std::cerr << "file open error:Geopotential\n";
     return false;
   }
 
@@ -56,9 +54,9 @@ bool GeoPotential::ReadCoefficientsEGM96(string file_name) {
   for (int i = 0; i < num_coeff; i++) {
     int n_, m_;
     double c_nm_norm, s_nm_norm;
-    string line;
+    std::string line;
     getline(coeff_file, line);
-    istringstream streamline(line);
+    std::istringstream streamline(line);
     streamline >> n_ >> m_ >> c_nm_norm >> s_nm_norm;
 
     c_[n_][m_] = c_nm_norm;
@@ -189,8 +187,8 @@ void GeoPotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_prev
   return;
 }
 
-string GeoPotential::GetLogHeader() const {
-  string str_tmp = "";
+std::string GeoPotential::GetLogHeader() const {
+  std::string str_tmp = "";
 
 #ifdef DEBUG_GEOPOTENTIAL
   str_tmp += WriteVector("pos_", "ecef", "m", 3);
@@ -201,8 +199,8 @@ string GeoPotential::GetLogHeader() const {
   return str_tmp;
 }
 
-string GeoPotential::GetLogValue() const {
-  string str_tmp = "";
+std::string GeoPotential::GetLogValue() const {
+  std::string str_tmp = "";
 
 #ifdef DEBUG_GEOPOTENTIAL
   str_tmp += WriteVector(debug_pos_ecef_, 15);
