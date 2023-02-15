@@ -37,8 +37,8 @@ void Disturbances::Update(const LocalEnvironment& local_env, const Dynamics& dyn
     InitializeForceAndTorque();
     for (auto dist : disturbances_) {
       dist->UpdateIfEnabled(local_env, dynamics);
-      sum_torque_ += dist->GetTorque();
-      sum_force_ += dist->GetForce();
+      sum_torque_ += dist->GetTorque_b_Nm();
+      sum_force_ += dist->GetForce_b_N();
     }
   }
   // Update disturbances that depend only on the position
@@ -46,7 +46,7 @@ void Disturbances::Update(const LocalEnvironment& local_env, const Dynamics& dyn
     InitializeAcceleration();
     for (auto acc_dist : acc_disturbances_) {
       acc_dist->UpdateIfEnabled(local_env, dynamics);
-      sum_acceleration_i_ += acc_dist->GetAccelerationI();
+      sum_acceleration_i_ += acc_dist->GetAcceleration_i_m_s2();
     }
   }
 }

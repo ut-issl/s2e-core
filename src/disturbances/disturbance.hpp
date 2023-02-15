@@ -30,22 +30,22 @@ class Disturbance {
    * @fn GetTorque
    * @brief Return the disturbance torque in the body frame [Nm]
    */
-  virtual inline libra::Vector<3> GetTorque() { return torque_b_Nm_; }
+  virtual inline libra::Vector<3> GetTorque_b_Nm() { return torque_b_Nm_; }
   /**
    * @fn GetTorque
    * @brief Return the disturbance force in the body frame [N]
    */
-  virtual inline libra::Vector<3> GetForce() { return force_b_N_; }
+  virtual inline libra::Vector<3> GetForce_b_N() { return force_b_N_; }
   /**
    * @fn GetTorque
    * @brief Return the disturbance acceleration in the body frame [m/s2]
    */
-  virtual inline libra::Vector<3> GetAccelerationB() { return acceleration_b_m_s2_; }
+  virtual inline libra::Vector<3> GetAcceleration_b_m_s2() { return acceleration_b_m_s2_; }
   /**
    * @fn GetTorque
    * @brief Return the disturbance acceleration in the inertial frame [m/s2]
    */
-  virtual inline libra::Vector<3> GetAccelerationI() { return acceleration_i_m_s2_; }
+  virtual inline libra::Vector<3> GetAcceleration_i_m_s2() { return acceleration_i_m_s2_; }
 
  protected:
   bool is_calc_enabled_;                  //!< Flag to calculate the disturbance
