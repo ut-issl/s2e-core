@@ -81,12 +81,14 @@ class GeoPotential : public AccelerationDisturbance {
   /**
    * @fn v_w_nn_update
    * @brief Calculate V and W function for n = m
+   * @note FIXME: fix function name
    */
   void v_w_nn_update(double *v_nn, double *w_nn, const double v_prev, const double w_prev);
 
   /**
    * @fn v_w_nm_update
    * @brief Calculate V and W function for n not equal m
+   * @note FIXME: fix function name
    */
   void v_w_nm_update(double *v_nm, double *w_nm, const double v_prev, const double w_prev, const double v_prev2, const double w_prev2);
 };
