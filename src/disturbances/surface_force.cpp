@@ -17,13 +17,13 @@ SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const libra::Vector<
   sin_theta_.assign(num, 0.0);
 }
 
-libra::Vector<3> SurfaceForce::CalcTorqueForce(libra::Vector<3>& input_b, double item) {
-  CalcTheta(input_b);
-  CalcCoefficients(input_b, item);
+libra::Vector<3> SurfaceForce::CalcTorqueForce(libra::Vector<3>& input_direction_b, double item) {
+  CalcTheta(input_direction_b);
+  CalcCoefficients(input_direction_b, item);
 
   libra::Vector<3> force_b_N(0.0);
   libra::Vector<3> torque_b_Nm(0.0);
-  libra::Vector<3> input_b_normal(input_b);
+  libra::Vector<3> input_b_normal(input_direction_b);
   normalize(input_b_normal);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {
@@ -45,8 +45,8 @@ libra::Vector<3> SurfaceForce::CalcTorqueForce(libra::Vector<3>& input_b, double
   return torque_b_Nm_;
 }
 
-void SurfaceForce::CalcTheta(libra::Vector<3>& input_b) {
-  libra::Vector<3> input_b_normal(input_b);
+void SurfaceForce::CalcTheta(libra::Vector<3>& input_direction_b) {
+  libra::Vector<3> input_b_normal(input_direction_b);
   normalize(input_b_normal);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {

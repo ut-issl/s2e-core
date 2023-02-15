@@ -50,25 +50,25 @@ class SurfaceForce : public SimpleDisturbance {
   /**
    * @fn CalcTorqueForce
    * @brief Calculate the torque and force
-   * @param [in] input_b: Direction of disturbance source at the body frame
+   * @param [in] input_direction_b: Direction of disturbance source at the body frame
    * @param [in] item: Parameter which decide the magnitude of the disturbances (e.g., Solar flux, air density)
    * @return Calculated disturbance torque in body frame [Nm]
    */
-  libra::Vector<3> CalcTorqueForce(libra::Vector<3>& input_b, double item);
+  libra::Vector<3> CalcTorqueForce(libra::Vector<3>& input_direction_b, double item);
   /**
    * @fn CalcTheta
    * @brief Calculate cosX and sinX
-   * @param [in] input_b: Direction of disturbance source at the body frame
+   * @param [in] input_direction_b: Direction of disturbance source at the body frame
    */
-  void CalcTheta(libra::Vector<3>& input_b);
+  void CalcTheta(libra::Vector<3>& input_direction_b);
 
   /**
    * @fn CalcCoefficients
    * @brief Pure virtual function to define the calculation of the disturbance coefficients
-   * @param [in] input_b: Direction of disturbance source at the body frame
+   * @param [in] input_direction_b: Direction of disturbance source at the body frame
    * @param [in] item: Parameter which decide the magnitude of the disturbances (e.g., Solar flux, air density)
    */
-  virtual void CalcCoefficients(libra::Vector<3>& input_b, double item) = 0;
+  virtual void CalcCoefficients(libra::Vector<3>& input_direction_b, double item) = 0;
 };
 
 #endif  // S2E_DISTURBANCES_SURFACE_FORCE_HPP_
