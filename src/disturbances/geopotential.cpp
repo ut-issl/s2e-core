@@ -19,7 +19,7 @@ GeoPotential::GeoPotential(const int degree, const std::string file_path, const 
     : AccelerationDisturbance(is_calculation_enabled), degree_(degree) {
   // Initialize
   acc_ecef_ = libra::Vector<3>(0);
-  debug_pos_ecef_ = libra::Vector<3>(0);
+  debug_pos_ecef_m_ = libra::Vector<3>(0);
   // degree
   if (degree_ > 360) {
     degree_ = 360;
@@ -69,7 +69,7 @@ void GeoPotential::Update(const LocalEnvironment &local_env, const Dynamics &dyn
 #ifdef DEBUG_GEOPOTENTIAL
   chrono::system_clock::time_point start, end;
   start = chrono::system_clock::now();
-  debug_pos_ecef_ = spacecraft.dynamics_->orbit_->GetSatPosition_ecef();
+  debug_pos_ecef_m_ = spacecraft.dynamics_->orbit_->GetSatPosition_ecef();
 #endif
 
   CalcAccelerationECEF(dynamics.GetOrbit().GetSatPosition_ecef());
@@ -203,7 +203,7 @@ std::string GeoPotential::GetLogValue() const {
   std::string str_tmp = "";
 
 #ifdef DEBUG_GEOPOTENTIAL
-  str_tmp += WriteVector(debug_pos_ecef_, 15);
+  str_tmp += WriteVector(debug_pos_ecef_m_, 15);
   str_tmp += WriteScalar(time_);
 #endif
 
