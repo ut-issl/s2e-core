@@ -36,8 +36,8 @@ class AccelerationDisturbance : public Disturbance, public ILoggable {
     if (is_calc_enabled_) {
       Update(local_env, dynamics);
     } else {
-      acceleration_b_m_s2_ *= 0;
-      acceleration_i_m_s2_ *= 0;
+      acceleration_b_m_s2_ *= 0.0;
+      acceleration_i_m_s2_ *= 0.0;
     }
   }
 

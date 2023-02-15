@@ -39,8 +39,8 @@ class SimpleDisturbance : public Disturbance, public ILoggable {
     if (is_calc_enabled_) {
       Update(local_env, dynamics);
     } else {
-      force_b_N_ *= 0;
-      torque_b_Nm_ *= 0;
+      force_b_N_ *= 0.0;
+      torque_b_Nm_ *= 0.0;
     }
   }
 
