@@ -23,6 +23,8 @@ class GeoPotential : public AccelerationDisturbance {
   /**
    * @fn GeoPotential
    * @brief Constructor
+   * @param [in] degree: Maximum degree setting to calculate the geo-potential
+   * @param [in] file_path: EGM96 coefficients file path
    * @param [in] is_calculation_enabled: Calculation flag
    */
   GeoPotential(const int degree, const std::string file_path, const bool is_calculation_enabled = true);
@@ -30,6 +32,8 @@ class GeoPotential : public AccelerationDisturbance {
   /**
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
+   * @param [in] local_environment: Local environment information
+   * @param [in] dynamics: Dynamics information
    */
   virtual void Update(const LocalEnvironment &local_environment, const Dynamics &dynamics);
 

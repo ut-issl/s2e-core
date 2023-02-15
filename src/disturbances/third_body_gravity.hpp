@@ -35,6 +35,8 @@ class ThirdBodyGravity : public AccelerationDisturbance {
   /**
    * @fn Update
    * @brief Update third body disturbance
+   * @param [in] local_environment: Local environment information
+   * @param [in] dynamics: Dynamics information
    */
   virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
 
