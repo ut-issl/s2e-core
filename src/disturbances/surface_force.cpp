@@ -13,9 +13,6 @@ using namespace libra;
 
 SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calc_enabled)
     : SimpleDisturbance(is_calc_enabled), surfaces_(surfaces), cg_b_(cg_b) {
-  force_b_ = Vector<3>(0);
-  torque_b_ = Vector<3>(0);
-
   // Initialize vectors
   int num = surfaces_.size();
   normal_coef_.assign(num, 0.0);
@@ -47,9 +44,9 @@ Vector<3> SurfaceForce::CalcTorqueForce(Vector<3>& input_b, double item) {
       Trq += Ts;
     }
   }
-  force_b_ = Force;
-  torque_b_ = Trq;
-  return torque_b_;
+  force_b_N_ = Force;
+  torque_b_Nm_ = Trq;
+  return torque_b_Nm_;
 }
 
 void SurfaceForce::CalcTheta(Vector<3>& input_b) {

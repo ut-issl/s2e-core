@@ -44,8 +44,8 @@ std::string SolarRadiation::GetLogHeader() const {
 std::string SolarRadiation::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(torque_b_);
-  str_tmp += WriteVector(force_b_);
+  str_tmp += WriteVector(torque_b_Nm_);
+  str_tmp += WriteVector(force_b_N_);
 
   return str_tmp;
 }
