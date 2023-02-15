@@ -4,7 +4,7 @@
  * @note ran1 function in "NUMERICAL RECIPES in C, p.207-208"
  */
 
-#include "randomize1.hpp"
+#include "minimal_standard_linear_congruential_generator_with_shuffle.hpp"
 using libra::Ran1;
 
 Ran1::Ran1() : y_(0) { init_(); }

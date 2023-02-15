@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 #define S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 
-#include <library/math/global_randomization.hpp>
+#include <library/randomization/global_randomization.hpp>
 
 template <size_t N>
 SensorBase<N>::SensorBase(const libra::Matrix<N, N>& scale_factor, const libra::Vector<N>& range_to_const_c, const libra::Vector<N>& range_to_zero_c,

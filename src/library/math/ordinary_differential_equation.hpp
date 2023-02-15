@@ -111,7 +111,7 @@ class ODE {
 
 }  // namespace libra
 
-#include "./ordinary_differential_equation_ifs.hpp"  // inline function definisions.
-#include "./ordinary_differential_equation_tfs.hpp"  // template function definisions.
+#include "./ordinary_differential_equation_inline_functions.hpp"
+#include "./ordinary_differential_equation_template_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_HPP_

@@ -3,12 +3,12 @@
  * @brief Class to calculate random wark value
  */
 
-#ifndef S2E_LIBRARY_MATH_RANDOM_WALK_HPP_
-#define S2E_LIBRARY_MATH_RANDOM_WALK_HPP_
+#ifndef S2E_LIBRARY_RANDOMIZATION_RANDOM_WALK_HPP_
+#define S2E_LIBRARY_RANDOMIZATION_RANDOM_WALK_HPP_
 
+#include "../math/ordinary_differential_equation.hpp"
+#include "../math/vector.hpp"
 #include "./normal_randomization.hpp"
-#include "./ordinary_differential_equation.hpp"
-#include "./vector.hpp"
 
 /**
  * @class RandomWalk
@@ -40,6 +40,6 @@ class RandomWalk : public libra::ODE<N> {
   libra::NormalRand nrs_[N];  //!< Random walk excitation noise
 };
 
-#include "./random_walk_tfs.hpp"  // template function definisions.
+#include "random_walk_template_functions.hpp"  // template function definisions.
 
-#endif  // S2E_LIBRARY_MATH_RANDOM_WALK_HPP_
+#endif  // S2E_LIBRARY_RANDOMIZATION_RANDOM_WALK_HPP_

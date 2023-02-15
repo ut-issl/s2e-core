@@ -6,10 +6,10 @@
 #include "sun_sensor.hpp"
 
 #include <library/math/constants.hpp>
-#include <library/math/normal_randomization.hpp>
+#include <library/randomization/normal_randomization.hpp>
 using libra::NormalRand;
 #include <interface/log_output/log_utility.hpp>
-#include <library/math/global_randomization.hpp>
+#include <library/randomization/global_randomization.hpp>
 
 using namespace std;
 

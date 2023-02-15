@@ -4,7 +4,7 @@
  * @note ran0 function in "NUMERICAL RECIPES in C, p.206"
  */
 
-#include "randomize0.hpp"
+#include "minimal_standard_linear_congruential_generator.hpp"
 using libra::Ran0;
 
 #include <stdexcept>

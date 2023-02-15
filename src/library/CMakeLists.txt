@@ -3,22 +3,15 @@ cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
   geodesy/geodetic_position.cpp
-  
-  igrf/igrf.cpp
 
-  inih/ini.c
-  inih/cpp/INIReader.cpp
+  randomization/global_randomization.cpp
+  randomization/normal_randomization.cpp
+  randomization/minimal_standard_linear_congruential_generator.cpp
+  randomization/minimal_standard_linear_congruential_generator_with_shuffle.cpp
 
-  math/global_randomization.cpp
-  math/normal_randomization.cpp
-  math/quantization.cpp
   math/quaternion.cpp
-  math/randomize0.cpp
-  math/randomize1.cpp
   math/vector.cpp
   math/s2e_math.cpp
-
-  nrlmsise00/wrapper_nrlmsise00.cpp
 
   optics/gaussian_beam_base.cpp
 
@@ -26,12 +19,17 @@ add_library(${PROJECT_NAME} STATIC
   orbit/kepler_orbit.cpp
   orbit/relative_orbit_models.cpp
 
-  sgp4/sgp4ext.cpp
-  sgp4/sgp4io.cpp
-  sgp4/sgp4unit.cpp
+  external/igrf/igrf.cpp
+  external/inih/ini.c
+  external/inih/cpp/INIReader.cpp
+  external/nrlmsise00/wrapper_nrlmsise00.cpp
+  external/sgp4/sgp4ext.cpp
+  external/sgp4/sgp4io.cpp
+  external/sgp4/sgp4unit.cpp
 
   utilities/endian.cpp
   utilities/slip.cpp
+  utilities/quantization.cpp
 )
 
 include(../../common.cmake)

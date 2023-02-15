@@ -1,15 +1,15 @@
 /**
- * @file randomize1.hpp
+ * @file minimal_standard_linear_congruential_generator_with_shuffle.hpp
  * @brief Randomization with Park and Miller's multiplicative congruential method combined with mixed method
  * @note ran1 function in "NUMERICAL RECIPES in C, p.207-208"
  */
 
-#ifndef S2E_LIBRARY_MATH_RANDOMIZE1_HPP_
-#define S2E_LIBRARY_MATH_RANDOMIZE1_HPP_
+#ifndef S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_WITH_SHUFFLE_HPP_
+#define S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_WITH_SHUFFLE_HPP_
 
 #include <cstddef>  // size_t
 
-#include "randomize0.hpp"
+#include "minimal_standard_linear_congruential_generator.hpp"
 
 namespace libra {
 
@@ -61,4 +61,4 @@ class Ran1 {
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_MATH_RANDOMIZE1_HPP_
+#endif  // S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_WITH_SHUFFLE_HPP_

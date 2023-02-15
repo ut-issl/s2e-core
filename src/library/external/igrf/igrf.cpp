@@ -292,17 +292,17 @@ void gigrf(int gen, double year) {
   int i, n, m, l, k, ncol, nlin;
   double y1, y2, yr1 = 0.0, yr2 = 0.0;
   double dmy[3], cb[MxELM], cv[MxELM];
-  //係数表指定
-  // char path[]="igrf10.coef";
-  // char file[]="igrf10.coef";
-  // char path[] = "igrf11.coef";
-  // char file[] = "igrf11.coef";
-  // char path[] = "src/library/igrf/igrf11.coef";
-  // char file[] = "src/library/igrf/igrf11.coef";
-  // char path[] = "../SatAttSim/src/library/igrf/igrf12.coef";
-  // char file[] = "../SatAttSim/src/library/igrf/igrf12.coef";
-  // char path[] = "../../SatAttSim/src/library/igrf/igrf13.coef"; //from 2020
-  // char file[] = "../../SatAttSim/src/library/igrf/igrf13.coef"; //from 2020
+  // 係数表指定
+  //  char path[]="igrf10.coef";
+  //  char file[]="igrf10.coef";
+  //  char path[] = "igrf11.coef";
+  //  char file[] = "igrf11.coef";
+  //  char path[] = "src/library/external/igrf/igrf11.coef";
+  //  char file[] = "src/library/external/igrf/igrf11.coef";
+  //  char path[] = "../SatAttSim/src/library/external/igrf/igrf12.coef";
+  //  char file[] = "../SatAttSim/src/library/external/igrf/igrf12.coef";
+  //  char path[] = "../../SatAttSim/src/library/external/igrf/igrf13.coef"; //from 2020
+  //  char file[] = "../../SatAttSim/src/library/external/igrf/igrf13.coef"; //from 2020
 
   char file[256];
 
@@ -417,8 +417,8 @@ void gigrf(int gen, double year) {
     }
   }
   maxod = k;
-  //ジオイドに関わる定数?? field(double are, double aflat, double ara, int
-  // maxoda)
+  // ジオイドに関わる定数?? field(double are, double aflat, double ara, int
+  //  maxoda)
   field(6378.137, 298.25722, 6371.2, maxod);
   tcoef(vgh, vght, tzero, 0, dmy);
   tyear(year);
@@ -429,7 +429,7 @@ void igrfc(double fido, double fkeido, double hght, double *tf) {
   mfldg(fido, fkeido, hght / 1000., &fx, &fy, &fz, tf);
 }
 
-//地磁気要素（地心表現）をECI座標へ
+// 地磁気要素（地心表現）をECI座標へ
 int TransMagaxisToECI(const double *mag, double *pos, double lonrad, double thetarad, double gmst) {
   RotationY(mag, pos, 180 * DEG2RAD - thetarad);
   RotationZ(pos, pos, -lonrad);
@@ -450,9 +450,9 @@ void IgrfCalc(double decyear, double latrad, double lonrad, double alt, double s
     gigrf(13, decyear);
     first_flg = false;
   }
-  tyear(decyear);  //実行年の設定
+  tyear(decyear);  // 実行年の設定
   igrfc(latrad * RAD2DEG, lonrad * RAD2DEG, alt,
-        &f);  //実行位置の設定&Executeはこの中に含む
+        &f);  // 実行位置の設定&Executeはこの中に含む
 
   mag[0] = x;  // x,y,zはigrf.cppグローバル変数
   mag[1] = y;
