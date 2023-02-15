@@ -11,11 +11,8 @@
 
 #include "../environment/local/atmosphere.hpp"
 #include "../interface/log_output/loggable.hpp"
-#include "../library/math/quaternion.hpp"
 #include "../library/math/vector.hpp"
 #include "surface_force.hpp"
-using libra::Quaternion;
-using libra::Vector;
 
 #pragma once
 /**
@@ -29,7 +26,7 @@ class AirDrag : public SurfaceForce {
    * @brief Constructor
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  AirDrag(const vector<Surface>& surfaces, const Vector<3>& cg_b, const double t_w, const double t_m, const double molecular,
+  AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& cg_b, const double t_w, const double t_m, const double molecular,
           const bool is_calculation_enabled = true);
 
   /**
@@ -68,7 +65,7 @@ class AirDrag : public SurfaceForce {
    * @param [in] vel_b: Spacecraft's velocity vector in the body frame [m/s]
    * @param [in] air_dens: Air density around the spacecraft [kg/m^3]
    */
-  void CalcCoefficients(Vector<3>& vel_b, double air_dens);
+  void CalcCoefficients(libra::Vector<3>& vel_b, double air_dens);
 
   // internal function for calculation
   /**
@@ -76,7 +73,7 @@ class AirDrag : public SurfaceForce {
    * @brief Calculate the Cn and Ct
    * @param [in] vel_b: Spacecraft's velocity vector in the body frame [m/s]
    */
-  void CalCnCt(Vector<3>& vel_b);
+  void CalCnCt(libra::Vector<3>& vel_b);
   /**
    * @fn funcPi
    * @brief Calculate The Pi function in the algorithm

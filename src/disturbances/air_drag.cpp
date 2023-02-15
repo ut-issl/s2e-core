@@ -12,10 +12,7 @@
 
 #include "../interface/log_output/log_utility.hpp"
 
-using namespace std;
-using namespace libra;
-
-AirDrag::AirDrag(const vector<Surface>& surfaces, const Vector<3>& cg_b, const double t_w, const double t_m, const double molecular,
+AirDrag::AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& cg_b, const double t_w, const double t_m, const double molecular,
                  const bool is_calculation_enabled)
     : SurfaceForce(surfaces, cg_b, is_calculation_enabled) {
   int num = surfaces_.size();
@@ -33,7 +30,7 @@ void AirDrag::Update(const LocalEnvironment& local_env, const Dynamics& dynamics
   CalcTorqueForce(tmp, air_dens);
 }
 
-void AirDrag::CalcCoefficients(Vector<3>& vel_b, double air_dens) {
+void AirDrag::CalcCoefficients(libra::Vector<3>& vel_b, double air_dens) {
   double vel_b_norm_m = norm(vel_b);
   rho_ = air_dens;
   CalCnCt(vel_b);
@@ -61,7 +58,7 @@ double AirDrag::funcChi(double s) {
 void AirDrag::CalCnCt(Vector<3>& vel_b) {
   double S;
   double vel_b_norm_m = norm(vel_b);
-  Vector<3> vel_b_normal(vel_b);
+  libra::Vector<3> vel_b_normal(vel_b);
   normalize(vel_b_normal);
   // Re-emitting speed
   S = sqrt(M_ * vel_b_norm_m * vel_b_norm_m / (2.0 * environment::boltzmann_constant_J_K * Tw_));
@@ -79,14 +76,14 @@ void AirDrag::CalCnCt(Vector<3>& vel_b) {
 
 void AirDrag::PrintParams(void)  // for debug
 {
-  Vector<3> arms_b = surfaces_[0].GetPosition();
-  cout << "px_arm =(" << arms_b[0] << "," << arms_b[1] << "," << arms_b[2] << ") m \n";
-  cout << "area =(" << surfaces_[0].GetArea() << "," << surfaces_[1].GetArea() << "," << surfaces_[2].GetArea() << ") m^2 \n";
-  cout << "Temperature =(" << Tw_ << "," << Tm_ << ") K \n";
+  libra::Vector<3> arms_b = surfaces_[0].GetPosition();
+  std::cout << "px_arm =(" << arms_b[0] << "," << arms_b[1] << "," << arms_b[2] << ") m \n";
+  std::cout << "area =(" << surfaces_[0].GetArea() << "," << surfaces_[1].GetArea() << "," << surfaces_[2].GetArea() << ") m^2 \n";
+  std::cout << "Temperature =(" << Tw_ << "," << Tm_ << ") K \n";
 }
 
-string AirDrag::GetLogHeader() const {
-  string str_tmp = "";
+std::string AirDrag::GetLogHeader() const {
+  std::string str_tmp = "";
 
   str_tmp += WriteVector("air_drag_torque", "b", "Nm", 3);
   str_tmp += WriteVector("air_drag_force", "b", "N", 3);
@@ -94,8 +91,8 @@ string AirDrag::GetLogHeader() const {
   return str_tmp;
 }
 
-string AirDrag::GetLogValue() const {
-  string str_tmp = "";
+std::string AirDrag::GetLogValue() const {
+  std::string str_tmp = "";
 
   str_tmp += WriteVector(torque_b_Nm_);
   str_tmp += WriteVector(force_b_N_);
