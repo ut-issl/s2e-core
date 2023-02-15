@@ -23,17 +23,16 @@ AirDrag::AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& center
 }
 
 void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
-  double air_dens = local_environment.GetAtmosphere().GetAirDensity();
-  Vector<3> tmp = dynamics.GetOrbit().GetSatVelocity_b();
-  CalcTorqueForce(tmp, air_dens);
+  double air_density_kg_m3 = local_environment.GetAtmosphere().GetAirDensity();
+  Vector<3> velocity_b_m_s = dynamics.GetOrbit().GetSatVelocity_b();
+  CalcTorqueForce(velocity_b_m_s, air_density_kg_m3);
 }
 
-void AirDrag::CalcCoefficients(libra::Vector<3>& velocity_b_m_s, double air_dens) {
+void AirDrag::CalcCoefficients(libra::Vector<3>& velocity_b_m_s, double air_density_kg_m3) {
   double velocity_norm_m_s = norm(velocity_b_m_s);
-  rho_kg_m3_ = air_dens;
   CalCnCt(velocity_b_m_s);
   for (size_t i = 0; i < surfaces_.size(); i++) {
-    double k = 0.5 * rho_kg_m3_ * velocity_norm_m_s * velocity_norm_m_s * surfaces_[i].GetArea();
+    double k = 0.5 * air_density_kg_m3 * velocity_norm_m_s * velocity_norm_m_s * surfaces_[i].GetArea();
     normal_coefficients_[i] = k * cn_[i];
     tangential_coefficients_[i] = k * ct_[i];
   }

@@ -55,7 +55,6 @@ class AirDrag : public SurfaceForce {
  private:
   vector<double> cn_;               //!< Coefficients for out-plane force
   vector<double> ct_;               //!< Coefficients for in-plane force
-  double rho_kg_m3_;                //!< Air density [kg/m^3]
   double wall_temperature_K_;       //!< Temperature of surface [K]
   double molecular_temperature_K_;  //!< Temperature of atmosphere [K]
   double molecular_weight_g_mol_;   //!< Molecular weight [g/mol]
@@ -66,7 +65,7 @@ class AirDrag : public SurfaceForce {
    * @param [in] velocity_b_m_s: Spacecraft's velocity vector in the body frame [m/s]
    * @param [in] air_dens: Air density around the spacecraft [kg/m^3]
    */
-  void CalcCoefficients(libra::Vector<3>& velocity_b_m_s, double air_dens);
+  void CalcCoefficients(libra::Vector<3>& velocity_b_m_s, double air_density_kg_m3);
 
   // internal function for calculation
   /**
