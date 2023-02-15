@@ -14,38 +14,32 @@
 
 MagDisturbance::MagDisturbance(const RMMParams& rmm_params, const bool is_calculation_enabled)
     : SimpleDisturbance(is_calculation_enabled), rmm_params_(rmm_params) {
-  mag_unit_ = 1.0E-9;  // [nT] -> [T]
-  rmm_b_ = rmm_params_.GetRMMConst_b();
+  rmm_b_Am2_ = rmm_params_.GetRMMConst_b();
 }
 
-Vector<3> MagDisturbance::CalcTorque(const Vector<3>& mag_b) {
+Vector<3> MagDisturbance::CalcTorque(const Vector<3>& magnetic_field_b_nT) {
   CalcRMM();
-  torque_b_Nm_ = mag_unit_ * outer_product(rmm_b_, mag_b);
+  torque_b_Nm_ = kMagUnit_ * outer_product(rmm_b_Am2_, magnetic_field_b_nT);
   return torque_b_Nm_;
 }
 
-void MagDisturbance::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
+void MagDisturbance::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   UNUSED(dynamics);
 
-  CalcTorque(local_env.GetMag().GetMag_b());
+  CalcTorque(local_environment.GetMag().GetMag_b());
 }
 
 void MagDisturbance::CalcRMM() {
-  static libra::Vector<3> stddev(rmm_params_.GetRMMRWDev());
-  static libra::Vector<3> limit(rmm_params_.GetRMMRWLimit());
-  static RandomWalk<3> rw(0.1, stddev, limit);
-  static libra::NormalRand nr(0.0, rmm_params_.GetRMMWNVar(), g_rand.MakeSeed());
+  static libra::Vector<3> random_walk_std_dev(rmm_params_.GetRMMRWDev());
+  static libra::Vector<3> random_walk_limit(rmm_params_.GetRMMRWLimit());
+  static RandomWalk<3> random_walk(0.1, random_walk_std_dev, random_walk_limit);  // [FIXME] step width is constant
+  static libra::NormalRand normal_random(0.0, rmm_params_.GetRMMWNVar(), g_rand.MakeSeed());
 
-  rmm_b_ = rmm_params_.GetRMMConst_b();
+  rmm_b_Am2_ = rmm_params_.GetRMMConst_b();
   for (int i = 0; i < 3; ++i) {
-    rmm_b_[i] += rw[i] + nr;
+    rmm_b_Am2_[i] += random_walk[i] + normal_random;
   }
-  ++rw;  // Update random walk
-}
-
-void MagDisturbance::PrintTorque() {
-  std::cout << "MgDist_Torque_b =(" << torque_b_Nm_[0] << "," << torque_b_Nm_[1] << "," << torque_b_Nm_[2] << ") Nm";
-  std::cout << std::endl;
+  ++random_walk;  // Update random walk
 }
 
 std::string MagDisturbance::GetLogHeader() const {
@@ -60,7 +54,7 @@ std::string MagDisturbance::GetLogHeader() const {
 std::string MagDisturbance::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(rmm_b_);
+  str_tmp += WriteVector(rmm_b_Am2_);
   str_tmp += WriteVector(torque_b_Nm_);
 
   return str_tmp;
