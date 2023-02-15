@@ -15,6 +15,7 @@ from common import find_latest_log_tag
 from common import add_log_file_arguments
 from common import normalize_csv_read_vector
 from common import read_3d_vector_from_csv
+from common import add_stl_model
 
 # arguments
 import argparse
@@ -70,10 +71,12 @@ fig = plt.figure()
 ax = plt.axes(projection="3d")
 
 # Plot Spacecraft
-ax.plot(0,0,0, marker="*", c="black", markersize=10, label="Sat")
 ax.quiver(0, 0, 0, 0.5, 0, 0, color='r', label="X") # X-axis
 ax.quiver(0, 0, 0, 0, 0.5, 0, color='g', label="Y") # Y-axis
 ax.quiver(0, 0, 0, 0, 0, 0.5, color='b', label="Z") # Z-axis
+
+# ax.plot(0,0,0, marker="*", c="black", markersize=10, label="Sat") # Please use this when you don't have mesh data
+add_stl_model(ax, "./data/sample_6u_cubesat.stl") # Add Spacecraft mesh
 
 # Plot Celestial bodies
 ax.plot(sun_direction_b[0], sun_direction_b[1], sun_direction_b[2], marker="o", c="red", label="Sun")
