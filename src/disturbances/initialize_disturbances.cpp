@@ -16,7 +16,7 @@ AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Su
 
   const double wall_temperature_K = conf.ReadDouble(section, "wall_temperature_degC") + 273.0;
   const double molecular_temperature_K = conf.ReadDouble(section, "molecular_temperature_degC") + 273.0;
-  const double molecular_weight_g_mol = conf.ReadDouble(section, "molecular_weight");
+  const double molecular_weight_g_mol = conf.ReadDouble(section, "molecular_weight_g_mol");
 
   const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
   const bool is_log_enable = conf.ReadEnable(section, LOG_LABEL);
