@@ -8,14 +8,12 @@
 #ifndef S2E_DISTURBANCES_SURFACE_FORCE_HPP_
 #define S2E_DISTURBANCES_SURFACE_FORCE_HPP_
 
+#include <vector>
+
 #include "../library/math/quaternion.hpp"
 #include "../library/math/vector.hpp"
 #include "../simulation/spacecraft/structure/surface.hpp"
 #include "simple_disturbance.hpp"
-using libra::Quaternion;
-using libra::Vector;
-
-#include <vector>
 
 /**
  * @class ThirdBodyGravity
@@ -30,7 +28,7 @@ class SurfaceForce : public SimpleDisturbance {
    * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled = true);
+  SurfaceForce(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled = true);
   /**
    * @fn ~SurfaceForce
    * @brief Destructor
@@ -39,8 +37,8 @@ class SurfaceForce : public SimpleDisturbance {
 
  protected:
   // Spacecraft Structure parameters
-  const vector<Surface>& surfaces_;         //!< List of surfaces
-  const Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass at body frame [m]
+  const vector<Surface>& surfaces_;                //!< List of surfaces
+  const libra::Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass at body frame [m]
 
   // Internal calculated variables
   vector<double> normal_coefficients_;      //!< coefficients for out-plane force for each surface
@@ -56,13 +54,13 @@ class SurfaceForce : public SimpleDisturbance {
    * @param [in] item: Parameter which decide the magnitude of the disturbances (e.g., Solar flux, air density)
    * @return Calculated disturbance torque in body frame [Nm]
    */
-  Vector<3> CalcTorqueForce(Vector<3>& input_b, double item);
+  libra::Vector<3> CalcTorqueForce(libra::Vector<3>& input_b, double item);
   /**
    * @fn CalcTheta
    * @brief Calculate cosX and sinX
    * @param [in] input_b: Direction of disturbance source at the body frame
    */
-  void CalcTheta(Vector<3>& input_b);
+  void CalcTheta(libra::Vector<3>& input_b);
 
   /**
    * @fn CalcCoef
@@ -70,7 +68,7 @@ class SurfaceForce : public SimpleDisturbance {
    * @param [in] input_b: Direction of disturbance source at the body frame
    * @param [in] item: Parameter which decide the magnitude of the disturbances (e.g., Solar flux, air density)
    */
-  virtual void CalcCoef(Vector<3>& input_b, double item) = 0;
+  virtual void CalcCoef(libra::Vector<3>& input_b, double item) = 0;
 };
 
 #endif  // S2E_DISTURBANCES_SURFACE_FORCE_HPP_
