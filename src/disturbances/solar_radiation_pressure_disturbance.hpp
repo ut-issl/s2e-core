@@ -21,9 +21,11 @@ class SolarRadiation : public SurfaceForce {
   /**
    * @fn SolarRadiation
    * @brief Constructor
+   * @param [in] surfaces: Surface information of the spacecraft
+   * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  SolarRadiation(const std::vector<Surface>& surfaces, const libra::Vector<3>& cg_b, const bool is_calculation_enabled = true);
+  SolarRadiation(const std::vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled = true);
 
   /**
    * @fn Update

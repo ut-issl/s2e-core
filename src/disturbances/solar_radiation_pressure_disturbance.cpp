@@ -9,14 +9,14 @@
 
 #include "../interface/log_output/log_utility.hpp"
 
-SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const libra::Vector<3>& cg_b, const bool is_calculation_enabled)
-    : SurfaceForce(surfaces, cg_b, is_calculation_enabled) {}
+SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
+    : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled) {}
 
 void SolarRadiation::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
   UNUSED(dynamics);
 
-  libra::Vector<3> tmp = local_env.GetCelesInfo().GetPosFromSC_b("SUN");
-  CalcTorqueForce(tmp, local_env.GetSrp().CalcTruePressure());
+  libra::Vector<3> sun_position_from_sc_b_m = local_env.GetCelesInfo().GetPosFromSC_b("SUN");
+  CalcTorqueForce(sun_position_from_sc_b_m, local_env.GetSrp().CalcTruePressure());
 }
 
 void SolarRadiation::CalcCoefficients(libra::Vector<3>& input_b, double item) {
