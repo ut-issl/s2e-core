@@ -24,6 +24,10 @@ class Disturbances {
   /**
    * @fn Disturbances
    * @brief Constructor
+   * @param [in] sim_config: Simulation Configuration
+   * @param [in] sat_id: Satellite ID
+   * @param [in] structure: Structure information of spacecraft
+   * @param [in] global_environment: Global environment information
    */
   Disturbances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* global_environment);
   /**
@@ -35,11 +39,15 @@ class Disturbances {
   /**
    * @fn Update
    * @brief Update all disturbance calculation
+   * @param [in] local_environment: Local environment information
+   * @param [in] dynamics: Dynamics information
+   * @param [in] sim_time: Simulation time
    */
   void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimTime* sim_time);
   /**
    * @fn LogSetup
    * @brief log setup for all disturbances
+   * @param [in] logger: Logger
    */
   void LogSetup(Logger& logger);
 
@@ -74,8 +82,13 @@ class Disturbances {
   /**
    * @fn InitializeInstances
    * @brief Initialize all disturbance class
+   * @param [in] sim_config: Simulation Configuration
+   * @param [in] sat_id: Satellite ID
+   * @param [in] structure: Structure information of spacecraft
+   * @param [in] global_environment: Global environment information
    */
-  void InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env);
+  void InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure,
+                           const GlobalEnvironment* global_environment);
   /**
    * @fn InitializeForceAndTorque
    * @brief Initialize disturbance force and torque
