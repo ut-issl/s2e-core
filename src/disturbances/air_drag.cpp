@@ -32,10 +32,10 @@ void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& 
 
 void AirDrag::CalcCoefficients(libra::Vector<3>& vel_b, double air_dens) {
   double vel_b_norm_m = norm(vel_b);
-  rho_ = air_dens;
+  rho_kg_m3_ = air_dens;
   CalCnCt(vel_b);
   for (size_t i = 0; i < surfaces_.size(); i++) {
-    double k = 0.5 * rho_ * vel_b_norm_m * vel_b_norm_m * surfaces_[i].GetArea();
+    double k = 0.5 * rho_kg_m3_ * vel_b_norm_m * vel_b_norm_m * surfaces_[i].GetArea();
     normal_coefficients_[i] = k * Cn_[i];
     tangential_coefficients_[i] = k * Ct_[i];
   }

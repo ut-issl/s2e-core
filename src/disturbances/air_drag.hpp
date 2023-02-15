@@ -59,7 +59,7 @@ class AirDrag : public SurfaceForce {
  private:
   vector<double> Cn_;  //!< Coefficients for out-plane force
   vector<double> Ct_;  //!< Coefficients for in-plane force
-  double rho_;         //!< Air density [kg/m^3]
+  double rho_kg_m3_;   //!< Air density [kg/m^3]
   double Tw_;          //!< Temperature of surface [K]
   double Tm_;          //!< Temperature of atmosphere [K]
   double M_;           //!< Molecular weight [g/mol]
