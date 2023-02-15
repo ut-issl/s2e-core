@@ -84,7 +84,9 @@ void GeoPotential::Update(const LocalEnvironment &local_environment, const Dynam
 }
 
 void GeoPotential::CalcAccelerationEcef(const Vector<3> &position_ecef_m) {
-  ecef_x_m_ = position_ecef_m[0], ecef_y_m_ = position_ecef_m[1], ecef_z_m_ = position_ecef_m[2];
+  ecef_x_m_ = position_ecef_m[0];
+  ecef_y_m_ = position_ecef_m[1];
+  ecef_z_m_ = position_ecef_m[2];
   radius_m_ = sqrt(ecef_x_m_ * ecef_x_m_ + ecef_y_m_ * ecef_y_m_ + ecef_z_m_ * ecef_z_m_);
 
   // Calc V and W
