@@ -51,7 +51,7 @@ class GeoPotential : public AccelerationDisturbance {
 
  private:
   int degree_;                        //!< Maximum degree setting to calculate the geo-potential
-  int n = 0, m = 0;                   //!< Degree and order (FIXME: follow naming rule)
+  int n_ = 0, m_ = 0;                 //!< Degree and order (FIXME: follow naming rule)
   vector<vector<double>> c_;          //!< Cosine coefficients
   vector<vector<double>> s_;          //!< Sine coefficients
   Vector<3> acceleration_ecef_m_s2_;  //!< Calculated acceleration in the ECEF frame [m/s2]

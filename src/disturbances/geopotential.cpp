@@ -52,15 +52,15 @@ bool GeoPotential::ReadCoefficientsEgm96(std::string file_name) {
 
   int num_coeff = ((degree_ + 1) * (degree_ + 2) / 2) - 3;  //-3 for C00,C10,C11
   for (int i = 0; i < num_coeff; i++) {
-    int n_, m_;
+    int n, m;
     double c_nm_norm, s_nm_norm;
     std::string line;
     getline(coeff_file, line);
     std::istringstream streamline(line);
-    streamline >> n_ >> m_ >> c_nm_norm >> s_nm_norm;
+    streamline >> n >> m >> c_nm_norm >> s_nm_norm;
 
-    c_[n_][m_] = c_nm_norm;
-    s_[n_][m_] = s_nm_norm;
+    c_[n][m] = c_nm_norm;
+    s_[n][m] = s_nm_norm;
   }
   return true;
 }
@@ -94,49 +94,49 @@ void GeoPotential::CalcAccelerationEcef(const Vector<3> &position_ecef_m) {
   // n=m=0
   v[0][0] = environment::earth_equatorial_radius_m / radius_m_;
   w[0][0] = 0.0;
-  m = 0;
+  m_ = 0;
 
-  while (m < degree_vw) {
-    for (n = m + 1; n <= degree_vw; n++) {
-      if (n <= m + 1)
-        v_w_nm_update(&v[n][m], &w[n][m], v[n - 1][m], w[n - 1][m], 0.0, 0.0);
+  while (m_ < degree_vw) {
+    for (n_ = m_ + 1; n_ <= degree_vw; n_++) {
+      if (n_ <= m_ + 1)
+        v_w_nm_update(&v[n_][m_], &w[n_][m_], v[n_ - 1][m_], w[n_ - 1][m_], 0.0, 0.0);
       else
-        v_w_nm_update(&v[n][m], &w[n][m], v[n - 1][m], w[n - 1][m], v[n - 2][m], w[n - 2][m]);
+        v_w_nm_update(&v[n_][m_], &w[n_][m_], v[n_ - 1][m_], w[n_ - 1][m_], v[n_ - 2][m_], w[n_ - 2][m_]);
     }
     // next step
-    m++;
-    n = m;
-    v_w_nn_update(&v[n][m], &w[n][m], v[n - 1][m - 1], w[n - 1][m - 1]);
+    m_++;
+    n_ = m_;
+    v_w_nn_update(&v[n_][m_], &w[n_][m_], v[n_ - 1][m_ - 1], w[n_ - 1][m_ - 1]);
   }
 
   // Calc Acceleration
   acceleration_ecef_m_s2_ *= 0.0;
-  for (n = 0; n <= degree_; n++)  // this loop can integrate with previous loop
+  for (n_ = 0; n_ <= degree_; n_++)  // this loop can integrate with previous loop
   {
-    m = 0;
-    double n_d = (double)n;
+    m_ = 0;
+    double n_d = (double)n_;
     double normalize = sqrt((2.0 * n_d + 1.0) / (2.0 * n_d + 3.0));
     double normalize_xy = normalize * sqrt((n_d + 2.0) * (n_d + 1.0) / 2.0);
-    // m==0
-    acceleration_ecef_m_s2_[0] += -c_[n][0] * v[n + 1][1] * normalize_xy;
-    acceleration_ecef_m_s2_[1] += -c_[n][0] * w[n + 1][1] * normalize_xy;
-    acceleration_ecef_m_s2_[2] += (n + 1.0) * (-c_[n][0] * v[n + 1][0] - s_[n][0] * w[n + 1][0]) * normalize;
-    for (m = 1; m <= n; m++) {
-      double m_d = (double)m;
+    // m_==0
+    acceleration_ecef_m_s2_[0] += -c_[n_][0] * v[n_ + 1][1] * normalize_xy;
+    acceleration_ecef_m_s2_[1] += -c_[n_][0] * w[n_ + 1][1] * normalize_xy;
+    acceleration_ecef_m_s2_[2] += (n_ + 1.0) * (-c_[n_][0] * v[n_ + 1][0] - s_[n_][0] * w[n_ + 1][0]) * normalize;
+    for (m_ = 1; m_ <= n_; m_++) {
+      double m_d = (double)m_;
       double factorial = (n_d - m_d + 1.0) * (n_d - m_d + 2.0);
       double normalize_xy1 = normalize * sqrt((n_d + m_d + 1.0) * (n_d + m_d + 2.0));
       double normalize_xy2;
-      if (m == 1)
+      if (m_ == 1)
         normalize_xy2 = normalize * sqrt(factorial) * sqrt(2.0);
       else
         normalize_xy2 = normalize * sqrt(factorial);
       double normalize_z = normalize * sqrt((n_d + m_d + 1.0) / (n_d - m_d + 1.0));
 
-      acceleration_ecef_m_s2_[0] += 0.5 * (normalize_xy1 * (-c_[n][m] * v[n + 1][m + 1] - s_[n][m] * w[n + 1][m + 1]) +
-                                           normalize_xy2 * (c_[n][m] * v[n + 1][m - 1] + s_[n][m] * w[n + 1][m - 1]));
-      acceleration_ecef_m_s2_[1] += 0.5 * (normalize_xy1 * (-c_[n][m] * w[n + 1][m + 1] + s_[n][m] * v[n + 1][m + 1]) +
-                                           normalize_xy2 * (-c_[n][m] * w[n + 1][m - 1] + s_[n][m] * v[n + 1][m - 1]));
-      acceleration_ecef_m_s2_[2] += (n_d - m_d + 1.0) * (-c_[n][m] * v[n + 1][m] - s_[n][m] * w[n + 1][m]) * normalize_z;
+      acceleration_ecef_m_s2_[0] += 0.5 * (normalize_xy1 * (-c_[n_][m_] * v[n_ + 1][m_ + 1] - s_[n_][m_] * w[n_ + 1][m_ + 1]) +
+                                           normalize_xy2 * (c_[n_][m_] * v[n_ + 1][m_ - 1] + s_[n_][m_] * w[n_ + 1][m_ - 1]));
+      acceleration_ecef_m_s2_[1] += 0.5 * (normalize_xy1 * (-c_[n_][m_] * w[n_ + 1][m_ + 1] + s_[n_][m_] * v[n_ + 1][m_ + 1]) +
+                                           normalize_xy2 * (-c_[n_][m_] * w[n_ + 1][m_ - 1] + s_[n_][m_] * v[n_ + 1][m_ - 1]));
+      acceleration_ecef_m_s2_[2] += (n_d - m_d + 1.0) * (-c_[n_][m_] * v[n_ + 1][m_] - s_[n_][m_] * w[n_ + 1][m_]) * normalize_z;
     }
   }
   acceleration_ecef_m_s2_ *=
@@ -146,15 +146,15 @@ void GeoPotential::CalcAccelerationEcef(const Vector<3> &position_ecef_m) {
 }
 
 void GeoPotential::v_w_nn_update(double *v_nn, double *w_nn, const double v_prev, const double w_prev) {
-  if (n != m) return;
+  if (n_ != m_) return;
 
-  double n_d = (double)n;
+  double n_d = (double)n_;
 
   double tmp = environment::earth_equatorial_radius_m / (radius_m_ * radius_m_);
   double x_tmp = ecef_x_m_ * tmp;
   double y_tmp = ecef_y_m_ * tmp;
   double c_normalize;
-  if (n == 1)
+  if (n_ == 1)
     c_normalize = (2.0 * n_d - 1.0) * sqrt(2.0 * n_d + 1.0);
   else
     c_normalize = sqrt((2.0 * n_d + 1.0) / (2.0 * n_d));
@@ -165,10 +165,10 @@ void GeoPotential::v_w_nn_update(double *v_nn, double *w_nn, const double v_prev
 }
 
 void GeoPotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_prev, const double w_prev, const double v_prev2, const double w_prev2) {
-  if (n == m) return;
+  if (n_ == m_) return;
 
-  double m_d = (double)m;
-  double n_d = (double)n;
+  double m_d = (double)m_;
+  double n_d = (double)n_;
 
   double tmp = environment::earth_equatorial_radius_m / (radius_m_ * radius_m_);
   double z_tmp = ecef_z_m_ * tmp;
@@ -178,7 +178,7 @@ void GeoPotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_prev
   double c_normalize, c2_normalize;
 
   c_normalize = sqrt(((2.0 * n_d + 1.0) * (n_d - m_d)) / ((2.0 * n_d - 1.0) * (n_d + m_d)));
-  if (n <= 1)
+  if (n_ <= 1)
     c2_normalize = 1.0;
   else
     c2_normalize = sqrt(((2.0 * n_d - 1.0) * (n_d - m_d - 1.0)) / ((2.0 * n_d - 3.0) * (n_d + m_d - 1.0)));
