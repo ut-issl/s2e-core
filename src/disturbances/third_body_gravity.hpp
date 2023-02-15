@@ -25,7 +25,7 @@ class ThirdBodyGravity : public AccelerationDisturbance {
    * @brief Constructor
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  ThirdBodyGravity(std::set<std::string> third_body_list, const bool is_calculation_enabled = true);
+  ThirdBodyGravity(const std::set<std::string> third_body_list, const bool is_calculation_enabled = true);
   /**
    * @fn ~ThirdBodyGravity
    * @brief Destructor
@@ -36,9 +36,12 @@ class ThirdBodyGravity : public AccelerationDisturbance {
    * @fn Update
    * @brief Update third body disturbance
    */
-  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
+  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
 
  private:
+  std::set<std::string> third_body_list_;                 //!< List of celestial bodies to calculate the third body disturbances
+  libra::Vector<3> third_body_acceleration_i_m_s2_{0.0};  //!< Calculated third body disturbance acceleration in the inertial frame [m/s2]
+
   // Override classes for ILoggable
   /**
    * @fn GetLogHeader
@@ -59,10 +62,7 @@ class ThirdBodyGravity : public AccelerationDisturbance {
    * @param [in] GM: The gravitational constants of the third celestial body [m3/s2]
    * @return Third body disturbance acceleration in the inertial frame in unit [m/s2]
    */
-  libra::Vector<3> CalcAcceleration(libra::Vector<3> s, libra::Vector<3> sr, double GM);
-
-  std::set<std::string> third_body_list_;  //!< List of celestial bodies to calculate the third body disturbances
-  libra::Vector<3> thirdbody_acc_i_{0};    //!< Calculated third body disturbance acceleration in the inertial frame [m/s2]
+  libra::Vector<3> CalcAcceleration(const libra::Vector<3> s, const libra::Vector<3> sr, const double gravity_constant_m_s2);
 };
 
 #endif  // S2E_DISTURBANCES_THIRD_BODY_GRAVITY_HPP_
