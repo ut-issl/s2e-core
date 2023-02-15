@@ -12,16 +12,16 @@
 
 #include "../interface/log_output/log_utility.hpp"
 
-AirDrag::AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& cg_b, const double t_w, const double t_m, const double molecular,
-                 const bool is_calculation_enabled)
-    : SurfaceForce(surfaces, cg_b, is_calculation_enabled) {
+AirDrag::AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const double wall_temperature_degC,
+                 const double molecular_temperature_degC, const double molecular_weight, const bool is_calculation_enabled)
+    : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled) {
   int num = surfaces_.size();
   Ct_.assign(num, 1.0);
   Cn_.assign(num, 0.0);
   cnct.assign(num, 0.0);
-  Tw_ = t_w;
-  Tm_ = t_m;
-  M_ = molecular;
+  Tw_ = wall_temperature_degC;
+  Tm_ = molecular_temperature_degC;
+  M_ = molecular_weight;
 }
 
 void AirDrag::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {

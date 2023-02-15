@@ -24,10 +24,15 @@ class AirDrag : public SurfaceForce {
   /**
    * @fn AirDrag
    * @brief Constructor
+   * @param [in] surfaces: Surface information of the spacecraft
+   * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
+   * @param [in] wall_temperature_degC: Temperature of surfaces [degC]
+   * @param [in] molecular_temperature_degC: Temperature of air molecular [degC]
+   * @param [in] molecular_weight: Molecular weight
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& cg_b, const double t_w, const double t_m, const double molecular,
-          const bool is_calculation_enabled = true);
+  AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const double wall_temperature_degC,
+          const double molecular_temperature_degC, const double molecular_weight, const bool is_calculation_enabled = true);
 
   /**
    * @fn Update
