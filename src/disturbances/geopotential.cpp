@@ -67,7 +67,7 @@ bool GeoPotential::ReadCoefficientsEgm96(std::string file_name) {
 
 void GeoPotential::Update(const LocalEnvironment &local_environment, const Dynamics &dynamics) {
 #ifdef DEBUG_GEOPOTENTIAL
-  chrono::system_clock::time_ms_point start, end;
+  chrono::system_clock::time_point start, end;
   start = chrono::system_clock::now();
   debug_pos_ecef_m_ = spacecraft.dynamics_->orbit_->GetSatPosition_ecef();
 #endif
@@ -194,8 +194,8 @@ std::string GeoPotential::GetLogHeader() const {
   std::string str_tmp = "";
 
 #ifdef DEBUG_GEOPOTENTIAL
-  str_tmp += WriteVector("pos_", "ecef", "m", 3);
-  str_tmp += WriteScalar("time_ms_geop", "ms");
+  str_tmp += WriteVector("geopotential_calculation_position_", "ecef", "m", 3);
+  str_tmp += WriteScalar("geopotential_calculation_time", "ms");
 #endif
   str_tmp += WriteVector("geopotential_acceleration", "ecef", "m/s2", 3);
 
