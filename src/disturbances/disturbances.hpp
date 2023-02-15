@@ -25,7 +25,7 @@ class Disturbances {
    * @fn Disturbances
    * @brief Constructor
    */
-  Disturbances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env);
+  Disturbances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* global_environment);
   /**
    * @fn ~Disturbances
    * @brief Destructor
@@ -36,7 +36,7 @@ class Disturbances {
    * @fn Update
    * @brief Update all disturbance calculation
    */
-  void Update(const LocalEnvironment& local_env, const Dynamics& dynamics, const SimTime* sim_time);
+  void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimTime* sim_time);
   /**
    * @fn LogSetup
    * @brief log setup for all disturbances
@@ -62,7 +62,7 @@ class Disturbances {
   inline libra::Vector<3> GetAccelerationI() { return total_acceleration_i_m_s2_; }
 
  private:
-  std::string ini_fname_;  //!< Initialization file name
+  std::string initialize_file_name_;  //!< Initialization file name
 
   std::vector<SimpleDisturbance*> disturbances_list_;  //!< List of disturbances
   Vector<3> total_torque_b_Nm_;                        //!< Total disturbance torque in the body frame [Nm]
