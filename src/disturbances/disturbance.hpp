@@ -19,10 +19,10 @@ class Disturbance {
    * @brief Constructor
    */
   Disturbance() {
-    force_b_ = libra::Vector<3>(0);
-    torque_b_ = libra::Vector<3>(0);
-    acceleration_b_ = libra::Vector<3>(0);
-    acceleration_b_ = libra::Vector<3>(0);
+    force_b_ = libra::Vector<3>(0.0);
+    torque_b_ = libra::Vector<3>(0.0);
+    acceleration_b_ = libra::Vector<3>(0.0);
+    acceleration_b_ = libra::Vector<3>(0.0);
   }
 
   /**
