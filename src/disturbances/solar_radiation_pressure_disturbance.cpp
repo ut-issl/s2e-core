@@ -26,9 +26,9 @@ void SolarRadiation::CalcCoef(Vector<3>& input_b, double item) {
     double area = surfaces_[i].GetArea();
     double reflectivity = surfaces_[i].GetReflectivity();
     double specularity = surfaces_[i].GetSpecularity();
-    normal_coef_[i] =
-        area * item * ((1.0 + reflectivity * specularity) * pow(cosX[i], 2.0) + 2.0 / 3.0 * reflectivity * (1.0 - specularity) * cosX[i]);
-    tangential_coef_[i] = area * item * (1.0 - reflectivity * specularity) * cosX[i] * sinX[i];
+    normal_coefficients_[i] =
+        area * item * ((1.0 + reflectivity * specularity) * pow(cos_theta_[i], 2.0) + 2.0 / 3.0 * reflectivity * (1.0 - specularity) * cos_theta_[i]);
+    tangential_coefficients_[i] = area * item * (1.0 - reflectivity * specularity) * cos_theta_[i] * sin_theta_[i];
   }
 }
 

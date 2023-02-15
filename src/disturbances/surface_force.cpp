@@ -15,10 +15,10 @@ SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cen
     : SimpleDisturbance(is_calculation_enabled), surfaces_(surfaces), center_of_gravity_b_m_(center_of_gravity_b_m) {
   // Initialize vectors
   int num = surfaces_.size();
-  normal_coef_.assign(num, 0.0);
-  tangential_coef_.assign(num, 0.0);
-  cosX.assign(num, 0.0);
-  sinX.assign(num, 0.0);
+  normal_coefficients_.assign(num, 0.0);
+  tangential_coefficients_.assign(num, 0.0);
+  cos_theta_.assign(num, 0.0);
+  sin_theta_.assign(num, 0.0);
 }
 
 Vector<3> SurfaceForce::CalcTorqueForce(Vector<3>& input_b, double item) {
@@ -30,14 +30,14 @@ Vector<3> SurfaceForce::CalcTorqueForce(Vector<3>& input_b, double item) {
   normalize(input_b_normal);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {
-    if (cosX[i] > 0) {  // if the surface faces to the disturbance source (sun or air)
+    if (cos_theta_[i] > 0) {  // if the surface faces to the disturbance source (sun or air)
       // calc direction of in-plane force
       Vector<3> normal = surfaces_[i].GetNormal();
       Vector<3> ncu = outer_product(input_b_normal, normal);
       Vector<3> ncu_normalized = normalize(ncu);
       Vector<3> s = outer_product(ncu_normalized, normal);
       // calc force
-      Vector<3> Fs = -1.0 * normal_coef_[i] * normal + tangential_coef_[i] * s;
+      Vector<3> Fs = -1.0 * normal_coefficients_[i] * normal + tangential_coefficients_[i] * s;
       Force += Fs;
       // calc torque
       Vector<3> Ts = outer_product(surfaces_[i].GetPosition() - center_of_gravity_b_m_, Fs);
@@ -54,7 +54,7 @@ void SurfaceForce::CalcTheta(Vector<3>& input_b) {
   normalize(input_b_normal);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {
-    cosX[i] = inner_product(surfaces_[i].GetNormal(), input_b_normal);
-    sinX[i] = sqrt(1.0 - cosX[i] * cosX[i]);
+    cos_theta_[i] = inner_product(surfaces_[i].GetNormal(), input_b_normal);
+    sin_theta_[i] = sqrt(1.0 - cos_theta_[i] * cos_theta_[i]);
   }
 }

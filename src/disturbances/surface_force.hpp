@@ -43,10 +43,10 @@ class SurfaceForce : public SimpleDisturbance {
   const Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass at body frame [m]
 
   // Internal calculated variables
-  vector<double> normal_coef_;      //!< coefficients for out-plane force for each surface
-  vector<double> tangential_coef_;  //!< coefficients for in-plane force for each surface
-  vector<double> cosX;              //!< cos(X) for each surface (X is the angle b/w normal vector and the direction of disturbance source)
-  vector<double> sinX;              //!< sin(X) for each surface (X is the angle b/w normal vector and the direction of disturbance source)
+  vector<double> normal_coefficients_;      //!< coefficients for out-plane force for each surface
+  vector<double> tangential_coefficients_;  //!< coefficients for in-plane force for each surface
+  vector<double> cos_theta_;  //!< cos(theta) for each surface (theta is the angle b/w normal vector and the direction of disturbance source)
+  vector<double> sin_theta_;  //!< sin(theta) for each surface (theta is the angle b/w normal vector and the direction of disturbance source)
 
   // Functions
   /**
