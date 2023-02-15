@@ -34,6 +34,8 @@ class SimpleDisturbance : public Disturbance, public ILoggable {
   /**
    * @fn UpdateIfEnabled
    * @brief Update calculated disturbance when the calculation flag is true
+   * @param [in] local_environment: Local environment information
+   * @param [in] dynamics: Dynamics information
    */
   virtual inline void UpdateIfEnabled(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
     if (is_calculation_enabled_) {
@@ -47,6 +49,8 @@ class SimpleDisturbance : public Disturbance, public ILoggable {
   /**
    * @fn Update
    * @brief Pure virtual function to define the disturbance calculation
+   * @param [in] local_environment: Local environment information
+   * @param [in] dynamics: Dynamics information
    */
   virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) = 0;
 };

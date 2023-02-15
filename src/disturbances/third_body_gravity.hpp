@@ -23,6 +23,7 @@ class ThirdBodyGravity : public AccelerationDisturbance {
   /**
    * @fn ThirdBodyGravity
    * @brief Constructor
+   * @param [in] third_body_list: List of calculation target bodies
    * @param [in] is_calculation_enabled: Calculation flag
    */
   ThirdBodyGravity(const std::set<std::string> third_body_list, const bool is_calculation_enabled = true);
@@ -57,14 +58,14 @@ class ThirdBodyGravity : public AccelerationDisturbance {
   virtual std::string GetLogValue() const;
 
   /**
-   * @fn CalcAcceleration
+   * @fn CalcAcceleration_i_m_s2
    * @brief Calculate and return the third body disturbance acceleration
    * @param [in] s: Position vector of the third celestial body from the origin in the inertial frame in unit [m]
    * @param [in] sr: Position vector of the third celestial body from the spacecraft in the inertial frame in unit [m]
    * @param [in] GM: The gravitational constants of the third celestial body [m3/s2]
    * @return Third body disturbance acceleration in the inertial frame in unit [m/s2]
    */
-  libra::Vector<3> CalcAcceleration_b_m_s2(const libra::Vector<3> s, const libra::Vector<3> sr, const double gravity_constant_m_s2);
+  libra::Vector<3> CalcAcceleration_i_m_s2(const libra::Vector<3> s, const libra::Vector<3> sr, const double gravity_constant_m_s2);
 };
 
 #endif  // S2E_DISTURBANCES_THIRD_BODY_GRAVITY_HPP_
