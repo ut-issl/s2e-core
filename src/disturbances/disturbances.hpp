@@ -62,11 +62,12 @@ class Disturbances {
  private:
   std::string ini_fname_;  //!< Initialization file name
 
-  std::vector<SimpleDisturbance*> disturbances_;       //!< List of disturbances
-  Vector<3> sum_torque_;                               //!< Total disturbance torque in the body frame [Nm]
-  Vector<3> sum_force_;                                //!< Total disturbance force in the body frame [N]
+  std::vector<SimpleDisturbance*> disturbances_;  //!< List of disturbances
+  Vector<3> total_torque_b_Nm_;                   //!< Total disturbance torque in the body frame [Nm]
+  Vector<3> total_force_b_N_;                     //!< Total disturbance force in the body frame [N]
+
   vector<AccelerationDisturbance*> acc_disturbances_;  //!< List of acceleration disturbances
-  Vector<3> sum_acceleration_i_;                       //!< Total disturbance acceleration in the inertial frame [m/s2]
+  Vector<3> total_acceleration_i_m_s2_;                //!< Total disturbance acceleration in the inertial frame [m/s2]
 
   /**
    * @fn InitializeInstances

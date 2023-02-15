@@ -37,8 +37,8 @@ void Disturbances::Update(const LocalEnvironment& local_env, const Dynamics& dyn
     InitializeForceAndTorque();
     for (auto dist : disturbances_) {
       dist->UpdateIfEnabled(local_env, dynamics);
-      sum_torque_ += dist->GetTorque_b_Nm();
-      sum_force_ += dist->GetForce_b_N();
+      total_torque_b_Nm_ += dist->GetTorque_b_Nm();
+      total_force_b_N_ += dist->GetForce_b_N();
     }
   }
   // Update disturbances that depend only on the position
@@ -46,7 +46,7 @@ void Disturbances::Update(const LocalEnvironment& local_env, const Dynamics& dyn
     InitializeAcceleration();
     for (auto acc_dist : acc_disturbances_) {
       acc_dist->UpdateIfEnabled(local_env, dynamics);
-      sum_acceleration_i_ += acc_dist->GetAcceleration_i_m_s2();
+      total_acceleration_i_m_s2_ += acc_dist->GetAcceleration_i_m_s2();
     }
   }
 }
@@ -58,15 +58,14 @@ void Disturbances::LogSetup(Logger& logger) {
   for (auto acc_dist : acc_disturbances_) {
     logger.AddLoggable(acc_dist);
   }
-  // Log ini file
   logger.CopyFileToLogDir(ini_fname_);
 }
 
-Vector<3> Disturbances::GetTorque() { return sum_torque_; }
+Vector<3> Disturbances::GetTorque() { return total_torque_b_Nm_; }
 
-Vector<3> Disturbances::GetForce() { return sum_force_; }
+Vector<3> Disturbances::GetForce() { return total_force_b_N_; }
 
-Vector<3> Disturbances::GetAccelerationI() { return sum_acceleration_i_; }
+Vector<3> Disturbances::GetAccelerationI() { return total_acceleration_i_m_s2_; }
 
 void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure,
                                        const GlobalEnvironment* glo_env) {
@@ -79,8 +78,8 @@ void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const
   SolarRadiation* srp_dist = new SolarRadiation(InitSRDist(ini_fname_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   disturbances_.push_back(srp_dist);
 
-  ThirdBodyGravity* thirdbodygravity = new ThirdBodyGravity(InitThirdBodyGravity(ini_fname_, sim_config->ini_base_fname_));
-  acc_disturbances_.push_back(thirdbodygravity);
+  ThirdBodyGravity* third_body_gravity = new ThirdBodyGravity(InitThirdBodyGravity(ini_fname_, sim_config->ini_base_fname_));
+  acc_disturbances_.push_back(third_body_gravity);
 
   if (glo_env->GetCelesInfo().GetCenterBodyName() != "EARTH") return;
   // Earth only disturbances (TODO: implement disturbances for other center bodies)
@@ -95,8 +94,8 @@ void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const
 }
 
 void Disturbances::InitializeForceAndTorque() {
-  sum_torque_ = Vector<3>(0.0);
-  sum_force_ = Vector<3>(0.0);
+  total_torque_b_Nm_ = Vector<3>(0.0);
+  total_force_b_N_ = Vector<3>(0.0);
 }
 
-void Disturbances::InitializeAcceleration() { sum_acceleration_i_ = Vector<3>(0.0); }
+void Disturbances::InitializeAcceleration() { total_acceleration_i_m_s2_ = Vector<3>(0.0); }
