@@ -5,15 +5,12 @@
 
 #include "magnetic_disturbance.hpp"
 
-#include "../library/randomization/normal_randomization.hpp"
-using libra::NormalRand;
 #include <library/utilities/macros.hpp>
 
 #include "../interface/log_output/log_utility.hpp"
 #include "../library/randomization/global_randomization.hpp"
+#include "../library/randomization/normal_randomization.hpp"
 #include "../library/randomization/random_walk.hpp"
-
-using namespace std;
 
 MagDisturbance::MagDisturbance(const RMMParams& rmm_params, const bool is_calculation_enabled)
     : SimpleDisturbance(is_calculation_enabled), rmm_params_(rmm_params) {
@@ -34,10 +31,10 @@ void MagDisturbance::Update(const LocalEnvironment& local_env, const Dynamics& d
 }
 
 void MagDisturbance::CalcRMM() {
-  static Vector<3> stddev(rmm_params_.GetRMMRWDev());
-  static Vector<3> limit(rmm_params_.GetRMMRWLimit());
+  static libra::Vector<3> stddev(rmm_params_.GetRMMRWDev());
+  static libra::Vector<3> limit(rmm_params_.GetRMMRWLimit());
   static RandomWalk<3> rw(0.1, stddev, limit);
-  static NormalRand nr(0.0, rmm_params_.GetRMMWNVar(), g_rand.MakeSeed());
+  static libra::NormalRand nr(0.0, rmm_params_.GetRMMWNVar(), g_rand.MakeSeed());
 
   rmm_b_ = rmm_params_.GetRMMConst_b();
   for (int i = 0; i < 3; ++i) {
@@ -47,12 +44,12 @@ void MagDisturbance::CalcRMM() {
 }
 
 void MagDisturbance::PrintTorque() {
-  cout << "MgDist_Torque_b =(" << torque_b_Nm_[0] << "," << torque_b_Nm_[1] << "," << torque_b_Nm_[2] << ") Nm";
-  cout << endl;
+  std::cout << "MgDist_Torque_b =(" << torque_b_Nm_[0] << "," << torque_b_Nm_[1] << "," << torque_b_Nm_[2] << ") Nm";
+  std::cout << std::endl;
 }
 
-string MagDisturbance::GetLogHeader() const {
-  string str_tmp = "";
+std::string MagDisturbance::GetLogHeader() const {
+  std::string str_tmp = "";
 
   str_tmp += WriteVector("spacecraft_magnetic_moment", "b", "Am2", 3);
   str_tmp += WriteVector("magnetic_disturbance_torque", "b", "Nm", 3);
@@ -60,8 +57,8 @@ string MagDisturbance::GetLogHeader() const {
   return str_tmp;
 }
 
-string MagDisturbance::GetLogValue() const {
-  string str_tmp = "";
+std::string MagDisturbance::GetLogValue() const {
+  std::string str_tmp = "";
 
   str_tmp += WriteVector(rmm_b_);
   str_tmp += WriteVector(torque_b_Nm_);
