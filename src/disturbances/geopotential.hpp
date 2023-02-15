@@ -45,6 +45,21 @@ class GeoPotential : public AccelerationDisturbance {
    */
   virtual std::string GetLogValue() const;
 
+ private:
+  int degree_;                        //!< Maximum degree setting to calculate the geo-potential
+  int n = 0, m = 0;                   //!< Degree and order (FIXME: follow naming rule)
+  vector<vector<double>> c_;          //!< Cosine coefficients
+  vector<vector<double>> s_;          //!< Sine coefficients
+  Vector<3> acceleration_ecef_m_s2_;  //!< Calculated acceleration in the ECEF frame [m/s2]
+
+  // calculation
+  double radius_m_ = 0.0;                                    //!< Radius [m]
+  double ecef_x_m_ = 0.0, ecef_y_m_ = 0.0, ecef_z_m_ = 0.0;  //!< Spacecraft position in ECEF frame [m]
+
+  // debug
+  libra::Vector<3> debug_pos_ecef_m_;  //!< Spacecraft position in ECEF frame [m]
+  double time_ms_ = 0.0;               //!< Calculation time [ms]
+
   /**
    * @fn CalcAccelerationECEF
    * @brief Calculate the high-order earth gravity in the ECEF frame
@@ -59,30 +74,17 @@ class GeoPotential : public AccelerationDisturbance {
    */
   bool ReadCoefficientsEGM96(std::string file_name);
 
- private:
-  int degree_;                //!< Maximum degree setting to calculate the geo-potential
-  vector<vector<double>> c_;  //!< Cosine coefficients
-  vector<vector<double>> s_;  //!< Sine coefficients
-  Vector<3> acc_ecef_;        //!< Calculated acceleration in the ECEF frame [m/s2]
-  // calculation
-  double r = 0.0;                    //!< Radius [m]
-  double x = 0.0, y = 0.0, z = 0.0;  //!< Spacecraft position in ECEF frame [m]
-  int n = 0, m = 0;                  //!< Degree and order
-
   /**
    * @fn v_w_nn_update
    * @brief Calculate V and W function for n = m
    */
   void v_w_nn_update(double *v_nn, double *w_nn, const double v_prev, const double w_prev);
+
   /**
    * @fn v_w_nm_update
    * @brief Calculate V and W function for n not equal m
    */
   void v_w_nm_update(double *v_nm, double *w_nm, const double v_prev, const double w_prev, const double v_prev2, const double w_prev2);
-
-  // debug
-  libra::Vector<3> debug_pos_ecef_m_;  //!< Spacecraft position in ECEF frame [m]
-  double time_ms_ = 0.0;               //!< Calculation time [ms]
 };
 
 #endif  // S2E_DISTURBANCES_GEOPOTENTIAL_HPP_
