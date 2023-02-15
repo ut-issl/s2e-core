@@ -26,8 +26,9 @@ class GeoPotential : public AccelerationDisturbance {
   /**
    * @fn GeoPotential
    * @brief Constructor
+   * @param [in] is_calc_enabled: Calculation flag
    */
-  GeoPotential(const int degree, const std::string file_path);
+  GeoPotential(const int degree, const std::string file_path, const bool is_calc_enabled = true);
 
   /**
    * @fn Update

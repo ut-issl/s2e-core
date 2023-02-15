@@ -14,9 +14,11 @@
 
 using namespace std;
 
-GravityGradient::GravityGradient() : GravityGradient(environment::earth_gravitational_constant_m3_s2) {}
+GravityGradient::GravityGradient(const bool is_calc_enabled) : GravityGradient(environment::earth_gravitational_constant_m3_s2, is_calc_enabled) {}
 
-GravityGradient::GravityGradient(const double mu_m3_s2) : mu_m3_s2_(mu_m3_s2) { fill_up(torque_b_, 0.0); }
+GravityGradient::GravityGradient(const double mu_m3_s2, const bool is_calc_enabled) : SimpleDisturbance(is_calc_enabled), mu_m3_s2_(mu_m3_s2) {
+  fill_up(torque_b_, 0.0);
+}
 
 void GravityGradient::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
   CalcTorque(local_env.GetCelesInfo().GetCenterBodyPosFromSC_b(),

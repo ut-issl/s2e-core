@@ -15,7 +15,8 @@ using libra::NormalRand;
 
 using namespace std;
 
-MagDisturbance::MagDisturbance(const RMMParams& rmm_params) : rmm_params_(rmm_params) {
+MagDisturbance::MagDisturbance(const RMMParams& rmm_params, const bool is_calc_enabled)
+    : SimpleDisturbance(is_calc_enabled), rmm_params_(rmm_params) {
   for (int i = 0; i < 3; ++i) {
     torque_b_[i] = 0;
   }

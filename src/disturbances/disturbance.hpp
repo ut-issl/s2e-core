@@ -17,8 +17,9 @@ class Disturbance {
   /**
    * @fn Disturbance
    * @brief Constructor
+   * @param [in] is_calc_enabled: Calculation flag
    */
-  Disturbance() {
+  Disturbance(const bool is_calc_enabled = true) : is_calc_enabled_(is_calc_enabled) {
     force_b_ = libra::Vector<3>(0.0);
     torque_b_ = libra::Vector<3>(0.0);
     acceleration_b_ = libra::Vector<3>(0.0);
@@ -46,9 +47,8 @@ class Disturbance {
    */
   virtual inline libra::Vector<3> GetAccelerationI() { return acceleration_i_; }
 
-  bool IsCalcEnabled = true;  //!< Flag to calculate the disturbance
-
  protected:
+  bool is_calc_enabled_;             //!< Flag to calculate the disturbance
   libra::Vector<3> force_b_;         //!< Disturbance force in the body frame [N]
   libra::Vector<3> torque_b_;        //!< Disturbance torque in the body frame [Nm]
   libra::Vector<3> acceleration_b_;  //!< Disturbance acceleration in the body frame [m/s2]

@@ -23,8 +23,9 @@ class SolarRadiation : public SurfaceForce {
   /**
    * @fn SolarRadiation
    * @brief Constructor
+   * @param [in] is_calc_enabled: Calculation flag
    */
-  SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b);
+  SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calc_enabled = true);
 
   /**
    * @fn Update

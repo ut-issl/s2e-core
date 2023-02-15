@@ -22,8 +22,7 @@ AirDrag InitAirDrag(std::string ini_path, const std::vector<Surface>& surfaces, 
   bool calcen = conf.ReadEnable(section, CALC_LABEL);
   bool logen = conf.ReadEnable(section, LOG_LABEL);
 
-  AirDrag airdrag(surfaces, cg_b, t_w, t_m, molecular);
-  airdrag.IsCalcEnabled = calcen;
+  AirDrag airdrag(surfaces, cg_b, t_w, t_m, molecular, calcen);
   airdrag.IsLogEnabled = logen;
 
   return airdrag;
@@ -36,8 +35,7 @@ SolarRadiation InitSRDist(std::string ini_path, const std::vector<Surface>& surf
   bool calcen = conf.ReadEnable(section, CALC_LABEL);
   bool logen = conf.ReadEnable(section, LOG_LABEL);
 
-  SolarRadiation srdist(surfaces, cg_b);
-  srdist.IsCalcEnabled = calcen;
+  SolarRadiation srdist(surfaces, cg_b, calcen);
   srdist.IsLogEnabled = logen;
 
   return srdist;
@@ -47,8 +45,8 @@ GravityGradient InitGravityGradient(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "GRAVITY_GRADIENT";
 
-  GravityGradient ggdist;
-  ggdist.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
+  bool calcen = conf.ReadEnable(section, CALC_LABEL);
+  GravityGradient ggdist(calcen);
   ggdist.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
   return ggdist;
@@ -58,8 +56,8 @@ GravityGradient InitGravityGradient(std::string ini_path, const double mu_m3_s2)
   auto conf = IniAccess(ini_path);
   const char* section = "GRAVITY_GRADIENT";
 
-  GravityGradient ggdist(mu_m3_s2);
-  ggdist.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
+  bool calcen = conf.ReadEnable(section, CALC_LABEL);
+  GravityGradient ggdist(mu_m3_s2, calcen);
   ggdist.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
   return ggdist;
@@ -69,8 +67,8 @@ MagDisturbance InitMagDisturbance(std::string ini_path, const RMMParams& rmm_par
   auto conf = IniAccess(ini_path);
   const char* section = "MAGNETIC_DISTURBANCE";
 
-  MagDisturbance mag_dist(rmm_params);
-  mag_dist.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
+  bool calcen = conf.ReadEnable(section, CALC_LABEL);
+  MagDisturbance mag_dist(rmm_params, calcen);
   mag_dist.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
   return mag_dist;
@@ -82,8 +80,9 @@ GeoPotential InitGeoPotential(std::string ini_path) {
 
   int degree = conf.ReadInt(section, "degree");
   std::string file_path = conf.ReadString(section, "coefficients_file_path");
-  GeoPotential geop(degree, file_path);
-  geop.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
+  bool calcen = conf.ReadEnable(section, CALC_LABEL);
+
+  GeoPotential geop(degree, file_path, calcen);
   geop.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
   return geop;
@@ -126,8 +125,8 @@ ThirdBodyGravity InitThirdBodyGravity(std::string ini_path, std::string ini_path
     }
   }
 
-  ThirdBodyGravity thirdbodyg(third_body_list);
-  thirdbodyg.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
+  bool calcen = conf.ReadEnable(section, CALC_LABEL);
+  ThirdBodyGravity thirdbodyg(third_body_list, calcen);
   thirdbodyg.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
   return thirdbodyg;

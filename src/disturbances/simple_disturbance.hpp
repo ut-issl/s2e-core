@@ -19,6 +19,13 @@
 class SimpleDisturbance : public Disturbance, public ILoggable {
  public:
   /**
+   * @fn SimpleDisturbance
+   * @brief Constructor
+   * @param [in] is_calc_enabled: Calculation flag
+   */
+  SimpleDisturbance(const bool is_calc_enabled = true) : Disturbance(is_calc_enabled) {}
+
+  /**
    * @fn ~SimpleDisturbance
    * @brief Destructor
    */
@@ -29,7 +36,7 @@ class SimpleDisturbance : public Disturbance, public ILoggable {
    * @brief Update calculated disturbance when the calculation flag is true
    */
   virtual inline void UpdateIfEnabled(const LocalEnvironment& local_env, const Dynamics& dynamics) {
-    if (IsCalcEnabled) {
+    if (is_calc_enabled_) {
       Update(local_env, dynamics);
     } else {
       force_b_ *= 0;

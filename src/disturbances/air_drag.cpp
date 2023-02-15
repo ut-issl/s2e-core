@@ -15,8 +15,9 @@
 using namespace std;
 using namespace libra;
 
-AirDrag::AirDrag(const vector<Surface>& surfaces, const Vector<3>& cg_b, const double t_w, const double t_m, const double molecular)
-    : SurfaceForce(surfaces, cg_b) {
+AirDrag::AirDrag(const vector<Surface>& surfaces, const Vector<3>& cg_b, const double t_w, const double t_m, const double molecular,
+                 const bool is_calc_enabled)
+    : SurfaceForce(surfaces, cg_b, is_calc_enabled) {
   int num = surfaces_.size();
   Ct_.assign(num, 1.0);
   Cn_.assign(num, 0.0);

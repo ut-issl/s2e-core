@@ -11,7 +11,8 @@ using libra::Vector;
 
 using namespace libra;
 
-SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b) : surfaces_(surfaces), cg_b_(cg_b) {
+SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calc_enabled)
+    : SimpleDisturbance(is_calc_enabled), surfaces_(surfaces), cg_b_(cg_b) {
   force_b_ = Vector<3>(0);
   torque_b_ = Vector<3>(0);
 

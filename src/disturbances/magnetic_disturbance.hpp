@@ -24,8 +24,9 @@ class MagDisturbance : public SimpleDisturbance {
   /**
    * @fn MagDisturbance
    * @brief Constructor
+   * @param [in] is_calc_enabled: Calculation flag
    */
-  MagDisturbance(const RMMParams& rmm_params);
+  MagDisturbance(const RMMParams& rmm_params, const bool is_calc_enabled = true);
 
   /**
    * @fn CalcRMM
