@@ -7,12 +7,10 @@
 #define S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_HPP_
 
 #include <library/utilities/macros.hpp>
-#include <string>
 
 #include "../interface/log_output/loggable.hpp"
 #include "../library/math/vector.hpp"
 #include "surface_force.hpp"
-using libra::Vector;
 
 /**
  * @class SolarRadiation
@@ -25,7 +23,7 @@ class SolarRadiation : public SurfaceForce {
    * @brief Constructor
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calculation_enabled = true);
+  SolarRadiation(const std::vector<Surface>& surfaces, const libra::Vector<3>& cg_b, const bool is_calculation_enabled = true);
 
   /**
    * @fn Update
@@ -52,7 +50,7 @@ class SolarRadiation : public SurfaceForce {
    * @param [in] input_b: Direction vector of the sun at the body frame
    * @param [in] item: Solar pressure [N/m^2]
    */
-  void CalcCoefficients(Vector<3>& input_b, double item);
+  void CalcCoefficients(libra::Vector<3>& input_b, double item);
 };
 
 #endif  // S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_HPP_

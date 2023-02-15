@@ -9,17 +9,17 @@
 
 #include "../interface/log_output/log_utility.hpp"
 
-SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const Vector<3>& cg_b, const bool is_calculation_enabled)
+SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const libra::Vector<3>& cg_b, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, cg_b, is_calculation_enabled) {}
 
 void SolarRadiation::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
   UNUSED(dynamics);
 
-  Vector<3> tmp = local_env.GetCelesInfo().GetPosFromSC_b("SUN");
+  libra::Vector<3> tmp = local_env.GetCelesInfo().GetPosFromSC_b("SUN");
   CalcTorqueForce(tmp, local_env.GetSrp().CalcTruePressure());
 }
 
-void SolarRadiation::CalcCoefficients(Vector<3>& input_b, double item) {
+void SolarRadiation::CalcCoefficients(libra::Vector<3>& input_b, double item) {
   UNUSED(input_b);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {  // Calculate for each surface
