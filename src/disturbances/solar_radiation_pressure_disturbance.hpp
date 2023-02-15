@@ -47,8 +47,8 @@ class SolarRadiation : public SurfaceForce {
 
  private:
   /**
-   * @fn CalcCoef
-   * @brief Override CalcCoef function of SurfaceForce
+   * @fn CalcCoefficients
+   * @brief Override CalcCoefficients function of SurfaceForce
    * @param [in] input_b: Direction vector of the sun at the body frame
    * @param [in] item: Solar pressure [N/m^2]
    */

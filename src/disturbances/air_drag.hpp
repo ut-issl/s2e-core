@@ -63,8 +63,8 @@ class AirDrag : public SurfaceForce {
   double M_;           //!< Molecular weight [g/mol]
 
   /**
-   * @fn CalcCoef
-   * @brief Override CalcCoef function of SurfaceForce
+   * @fn CalcCoefficients
+   * @brief Override CalcCoefficients function of SurfaceForce
    * @param [in] vel_b: Spacecraft's velocity vector in the body frame [m/s]
    * @param [in] air_dens: Air density around the spacecraft [kg/m^3]
    */
