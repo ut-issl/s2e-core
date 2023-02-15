@@ -74,12 +74,12 @@ class AirDrag : public SurfaceForce {
    */
   void CalCnCt(libra::Vector<3>& velocity_b_m_s);
   /**
-   * @fn funcPi
+   * @fn CalcFuncPi
    * @brief Calculate The Pi function in the algorithm
    */
   double CalcFuncPi(double s);
   /**
-   * @fn funcChi
+   * @fn CalcFuncChi
    * @brief Calculate The Chi function in the algorithm
    */
   double CalcFuncChi(double s);
