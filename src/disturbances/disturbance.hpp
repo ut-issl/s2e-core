@@ -22,8 +22,8 @@ class Disturbance {
   Disturbance(const bool is_calc_enabled = true) : is_calc_enabled_(is_calc_enabled) {
     force_b_N_ = libra::Vector<3>(0.0);
     torque_b_Nm_ = libra::Vector<3>(0.0);
-    acceleration_b_ = libra::Vector<3>(0.0);
-    acceleration_b_ = libra::Vector<3>(0.0);
+    acceleration_b_m_s2_ = libra::Vector<3>(0.0);
+    acceleration_b_m_s2_ = libra::Vector<3>(0.0);
   }
 
   /**
@@ -40,19 +40,19 @@ class Disturbance {
    * @fn GetTorque
    * @brief Return the disturbance acceleration in the body frame [m/s2]
    */
-  virtual inline libra::Vector<3> GetAccelerationB() { return acceleration_b_; }
+  virtual inline libra::Vector<3> GetAccelerationB() { return acceleration_b_m_s2_; }
   /**
    * @fn GetTorque
    * @brief Return the disturbance acceleration in the inertial frame [m/s2]
    */
-  virtual inline libra::Vector<3> GetAccelerationI() { return acceleration_i_; }
+  virtual inline libra::Vector<3> GetAccelerationI() { return acceleration_i_m_s2_; }
 
  protected:
-  bool is_calc_enabled_;             //!< Flag to calculate the disturbance
-  libra::Vector<3> force_b_N_;       //!< Disturbance force in the body frame [N]
-  libra::Vector<3> torque_b_Nm_;     //!< Disturbance torque in the body frame [Nm]
-  libra::Vector<3> acceleration_b_;  //!< Disturbance acceleration in the body frame [m/s2]
-  libra::Vector<3> acceleration_i_;  //!< Disturbance acceleration in the inertial frame [m/s2]
+  bool is_calc_enabled_;                  //!< Flag to calculate the disturbance
+  libra::Vector<3> force_b_N_;            //!< Disturbance force in the body frame [N]
+  libra::Vector<3> torque_b_Nm_;          //!< Disturbance torque in the body frame [Nm]
+  libra::Vector<3> acceleration_b_m_s2_;  //!< Disturbance acceleration in the body frame [m/s2]
+  libra::Vector<3> acceleration_i_m_s2_;  //!< Disturbance acceleration in the inertial frame [m/s2]
 };
 
 #endif  // S2E_DISTURBANCES_DISTURBANCE_HPP_

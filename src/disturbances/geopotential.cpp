@@ -82,7 +82,7 @@ void GeoPotential::Update(const LocalEnvironment &local_env, const Dynamics &dyn
 
   Matrix<3, 3> trans_eci2ecef_ = local_env.GetCelesInfo().GetGlobalInfo().GetEarthRotation().GetDCMJ2000toXCXF();
   Matrix<3, 3> trans_ecef2eci = transpose(trans_eci2ecef_);
-  acceleration_i_ = trans_ecef2eci * acc_ecef_;
+  acceleration_i_m_s2_ = trans_ecef2eci * acc_ecef_;
 }
 
 void GeoPotential::CalcAccelerationECEF(const Vector<3> &position_ecef) {
