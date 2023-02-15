@@ -16,9 +16,9 @@ GravityGradient::GravityGradient(const bool is_calculation_enabled)
 GravityGradient::GravityGradient(const double mu_m3_s2, const bool is_calculation_enabled)
     : SimpleDisturbance(is_calculation_enabled), mu_m3_s2_(mu_m3_s2) {}
 
-void GravityGradient::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
-  CalcTorque(local_env.GetCelesInfo().GetCenterBodyPosFromSC_b(),
-             dynamics.GetAttitude().GetInertiaTensor());  // TODO: use structure information to get inertia tensor
+void GravityGradient::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+  // TODO: use structure information to get inertia tensor
+  CalcTorque(local_environment.GetCelesInfo().GetCenterBodyPosFromSC_b(), dynamics.GetAttitude().GetInertiaTensor());
 }
 
 libra::Vector<3> GravityGradient::CalcTorque(const libra::Vector<3> r_b_m, const libra::Matrix<3, 3> I_b_kgm2) {

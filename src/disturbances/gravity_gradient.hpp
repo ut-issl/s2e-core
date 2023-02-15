@@ -37,15 +37,7 @@ class GravityGradient : public SimpleDisturbance {
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
    */
-  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
-
-  /**
-   * @fn CalcTorque
-   * @brief Calculate gravity gradient torque
-   * @param [in] r_b: Position vector of the earth at body frame [m]
-   * @param [in] I_b: Inertia Tensor at body frame [kg*m^2]
-   */
-  libra::Vector<3> CalcTorque(const libra::Vector<3> r_b, const libra::Matrix<3, 3> I_b);
+  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
 
   // Override ILoggable
   /**
@@ -61,6 +53,15 @@ class GravityGradient : public SimpleDisturbance {
 
  private:
   double mu_m3_s2_;  //!< Gravitational constant [m3/s2]
+
+  /**
+   * @fn CalcTorque
+   * @brief Calculate gravity gradient torque
+   * @param [in] r_b_m: Position vector of the earth at body frame [m]
+   * @param [in] I_b_kgm2: Inertia Tensor at body frame [kg*m^2]
+   * @return Calculated torque at body frame [Nm]
+   */
+  libra::Vector<3> CalcTorque(const libra::Vector<3> r_b_m, const libra::Matrix<3, 3> I_b_kgm2);
 };
 
 #endif  // S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_
