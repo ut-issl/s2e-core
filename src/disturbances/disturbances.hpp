@@ -47,27 +47,29 @@ class Disturbances {
    * @fn GetTorque
    * @brief Return total disturbance torque in the body frame [Nm]
    */
-  Vector<3> GetTorque();
+  inline libra::Vector<3> GetTorque() { return total_torque_b_Nm_; }
+
   /**
    * @fn GetTorque
    * @brief Return total disturbance force in the body frame [N]
    */
-  Vector<3> GetForce();
+  inline libra::Vector<3> GetForce() { return total_force_b_N_; }
+
   /**
    * @fn GetTorque
    * @brief Return total disturbance acceleration in the inertial frame [m/s2]
    */
-  Vector<3> GetAccelerationI();
+  inline libra::Vector<3> GetAccelerationI() { return total_acceleration_i_m_s2_; }
 
  private:
   std::string ini_fname_;  //!< Initialization file name
 
-  std::vector<SimpleDisturbance*> disturbances_;  //!< List of disturbances
-  Vector<3> total_torque_b_Nm_;                   //!< Total disturbance torque in the body frame [Nm]
-  Vector<3> total_force_b_N_;                     //!< Total disturbance force in the body frame [N]
+  std::vector<SimpleDisturbance*> disturbances_list_;  //!< List of disturbances
+  Vector<3> total_torque_b_Nm_;                        //!< Total disturbance torque in the body frame [Nm]
+  Vector<3> total_force_b_N_;                          //!< Total disturbance force in the body frame [N]
 
-  vector<AccelerationDisturbance*> acc_disturbances_;  //!< List of acceleration disturbances
-  Vector<3> total_acceleration_i_m_s2_;                //!< Total disturbance acceleration in the inertial frame [m/s2]
+  vector<AccelerationDisturbance*> acceleration_disturbances_list_;  //!< List of acceleration disturbances
+  Vector<3> total_acceleration_i_m_s2_;                              //!< Total disturbance acceleration in the inertial frame [m/s2]
 
   /**
    * @fn InitializeInstances
