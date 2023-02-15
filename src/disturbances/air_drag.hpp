@@ -13,7 +13,6 @@
 #include "../library/math/vector.hpp"
 #include "surface_force.hpp"
 
-#pragma once
 /**
  * @class AirDrag
  * @brief Class to calculate the air drag disturbance force and torque
