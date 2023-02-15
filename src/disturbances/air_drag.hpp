@@ -79,12 +79,12 @@ class AirDrag : public SurfaceForce {
    * @fn funcPi
    * @brief Calculate The Pi function in the algorithm
    */
-  double funcPi(double s);
+  double CalcFuncPi(double s);
   /**
    * @fn funcChi
    * @brief Calculate The Chi function in the algorithm
    */
-  double funcChi(double s);
+  double CalcFuncChi(double s);
 };
 
 #endif  // S2E_DISTURBANCES_AIR_DRAG_HPP_
