@@ -52,10 +52,6 @@ class AirDrag : public SurfaceForce {
    */
   virtual std::string GetLogValue() const;
 
-  // for debug TODO: remove?
-  void PrintParams(void);
-  std::vector<double> cnct;
-
  private:
   vector<double> Cn_;  //!< Coefficients for out-plane force
   vector<double> Ct_;  //!< Coefficients for in-plane force

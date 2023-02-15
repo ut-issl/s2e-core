@@ -18,7 +18,6 @@ AirDrag::AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& center
   int num = surfaces_.size();
   Ct_.assign(num, 1.0);
   Cn_.assign(num, 0.0);
-  cnct.assign(num, 0.0);
   Tw_ = wall_temperature_degC;
   Tm_ = molecular_temperature_degC;
   M_ = molecular_weight;
@@ -69,17 +68,7 @@ void AirDrag::CalCnCt(Vector<3>& vel_b) {
     double diffuse = 1.0 - surfaces_[i].GetAirSpecularity();
     Cn_[i] = (2.0 - diffuse) / sqrt(libra::pi) * funcPi(Sn) / (S * S) + diffuse / 2.0 * funcChi(Sn) / (S * S) * sqrt(Tw_ / Tm_);
     Ct_[i] = diffuse * St * funcChi(Sn) / (sqrt(libra::pi) * S * S);
-    // for debug
-    cnct[i] = Ct_[i] / Cn_[i];
   }
-}
-
-void AirDrag::PrintParams(void)  // for debug
-{
-  libra::Vector<3> arms_b = surfaces_[0].GetPosition();
-  std::cout << "px_arm =(" << arms_b[0] << "," << arms_b[1] << "," << arms_b[2] << ") m \n";
-  std::cout << "area =(" << surfaces_[0].GetArea() << "," << surfaces_[1].GetArea() << "," << surfaces_[2].GetArea() << ") m^2 \n";
-  std::cout << "Temperature =(" << Tw_ << "," << Tm_ << ") K \n";
 }
 
 std::string AirDrag::GetLogHeader() const {
