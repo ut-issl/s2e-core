@@ -38,7 +38,7 @@ class AirDrag : public SurfaceForce {
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
    */
-  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
+  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
 
   // Override ILoggable
   /**

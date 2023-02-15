@@ -24,8 +24,8 @@ AirDrag::AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& center
   M_ = molecular_weight;
 }
 
-void AirDrag::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
-  double air_dens = local_env.GetAtmosphere().GetAirDensity();
+void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+  double air_dens = local_environment.GetAtmosphere().GetAirDensity();
   Vector<3> tmp = dynamics.GetOrbit().GetSatVelocity_b();
   CalcTorqueForce(tmp, air_dens);
 }
