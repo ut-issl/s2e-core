@@ -70,8 +70,8 @@ void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const
       new GravityGradient(InitGravityGradient(initialize_file_name_, global_environment->GetCelesInfo().GetCenterBodyGravityConstant_m3_s2()));
   disturbances_list_.push_back(gg_dist);
 
-  SolarRadiation* srp_dist =
-      new SolarRadiation(InitSRDist(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
+  SolarRadiation* srp_dist = new SolarRadiation(
+      InitSolarRadiationPressureDisturbance(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   disturbances_list_.push_back(srp_dist);
 
   ThirdBodyGravity* third_body_gravity = new ThirdBodyGravity(InitThirdBodyGravity(initialize_file_name_, sim_config->ini_base_fname_));
@@ -82,7 +82,7 @@ void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const
   AirDrag* air_dist = new AirDrag(InitAirDrag(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   disturbances_list_.push_back(air_dist);
 
-  MagDisturbance* mag_dist = new MagDisturbance(InitMagDisturbance(initialize_file_name_, structure->GetRMMParams()));
+  MagDisturbance* mag_dist = new MagDisturbance(InitMagneticDisturbance(initialize_file_name_, structure->GetRMMParams()));
   disturbances_list_.push_back(mag_dist);
 
   GeoPotential* geopotential = new GeoPotential(InitGeoPotential(initialize_file_name_));
