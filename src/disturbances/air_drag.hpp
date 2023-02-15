@@ -24,13 +24,13 @@ class AirDrag : public SurfaceForce {
    * @brief Constructor
    * @param [in] surfaces: Surface information of the spacecraft
    * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
-   * @param [in] wall_temperature_degC: Temperature of surfaces [degC]
-   * @param [in] molecular_temperature_degC: Temperature of air molecular [degC]
-   * @param [in] molecular_weight: Molecular weight
+   * @param [in] wall_temperature_K: Temperature of surfaces [K]
+   * @param [in] molecular_temperature_K: Temperature of air molecular [K]
+   * @param [in] molecular_weight_g_mol: Molecular weight [g/mol]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const double wall_temperature_degC,
-          const double molecular_temperature_degC, const double molecular_weight, const bool is_calculation_enabled = true);
+  AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
+          const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled = true);
 
   /**
    * @fn Update
@@ -51,12 +51,12 @@ class AirDrag : public SurfaceForce {
   virtual std::string GetLogValue() const;
 
  private:
-  vector<double> Cn_;  //!< Coefficients for out-plane force
-  vector<double> Ct_;  //!< Coefficients for in-plane force
-  double rho_kg_m3_;   //!< Air density [kg/m^3]
-  double Tw_;          //!< Temperature of surface [K]
-  double Tm_;          //!< Temperature of atmosphere [K]
-  double M_;           //!< Molecular weight [g/mol]
+  vector<double> cn_;               //!< Coefficients for out-plane force
+  vector<double> ct_;               //!< Coefficients for in-plane force
+  double rho_kg_m3_;                //!< Air density [kg/m^3]
+  double wall_temperature_K_;       //!< Temperature of surface [K]
+  double molecular_temperature_K_;  //!< Temperature of atmosphere [K]
+  double molecular_weight_g_mol_;   //!< Molecular weight [g/mol]
 
   /**
    * @fn CalcCoefficients
