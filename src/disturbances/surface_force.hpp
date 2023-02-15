@@ -68,7 +68,7 @@ class SurfaceForce : public SimpleDisturbance {
    * @param [in] input_direction_b: Direction of disturbance source at the body frame
    * @param [in] item: Parameter which decide the magnitude of the disturbances (e.g., Solar flux, air density)
    */
-  virtual void CalcCoefficients(libra::Vector<3>& input_direction_b, double item) = 0;
+  virtual void CalcCoefficients(const libra::Vector<3>& input_direction_b, const double item) = 0;
 };
 
 #endif  // S2E_DISTURBANCES_SURFACE_FORCE_HPP_

@@ -28,7 +28,7 @@ void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& 
   CalcTorqueForce(velocity_b_m_s, air_density_kg_m3);
 }
 
-void AirDrag::CalcCoefficients(libra::Vector<3>& velocity_b_m_s, double air_density_kg_m3) {
+void AirDrag::CalcCoefficients(const libra::Vector<3>& velocity_b_m_s, const double air_density_kg_m3) {
   double velocity_norm_m_s = norm(velocity_b_m_s);
   CalCnCt(velocity_b_m_s);
   for (size_t i = 0; i < surfaces_.size(); i++) {
@@ -38,21 +38,21 @@ void AirDrag::CalcCoefficients(libra::Vector<3>& velocity_b_m_s, double air_dens
   }
 }
 
-double AirDrag::CalcFuncPi(double s) {
+double AirDrag::CalcFuncPi(const double s) {
   double x;
   double erfs = erf(s);  // ERF function is defined in math standard library
   x = s * exp(-s * s) + sqrt(libra::pi) * (s * s + 0.5) * (1.0 + erfs);
   return x;
 }
 
-double AirDrag::CalcFuncChi(double s) {
+double AirDrag::CalcFuncChi(const double s) {
   double x;
   double erfs = erf(s);
   x = exp(-s * s) + sqrt(libra::pi) * s * (1.0 + erfs);
   return x;
 }
 
-void AirDrag::CalCnCt(Vector<3>& velocity_b_m_s) {
+void AirDrag::CalCnCt(const Vector<3>& velocity_b_m_s) {
   double velocity_norm_m_s = norm(velocity_b_m_s);
 
   // Re-emitting speed

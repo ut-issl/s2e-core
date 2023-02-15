@@ -65,7 +65,7 @@ class AirDrag : public SurfaceForce {
    * @param [in] velocity_b_m_s: Spacecraft's velocity vector in the body frame [m/s]
    * @param [in] air_dens: Air density around the spacecraft [kg/m^3]
    */
-  void CalcCoefficients(libra::Vector<3>& velocity_b_m_s, double air_density_kg_m3);
+  void CalcCoefficients(const libra::Vector<3>& velocity_b_m_s, const double air_density_kg_m3);
 
   // internal function for calculation
   /**
@@ -73,17 +73,17 @@ class AirDrag : public SurfaceForce {
    * @brief Calculate the Cn and Ct
    * @param [in] velocity_b_m_s: Spacecraft's velocity vector in the body frame [m/s]
    */
-  void CalCnCt(libra::Vector<3>& velocity_b_m_s);
+  void CalCnCt(const libra::Vector<3>& velocity_b_m_s);
   /**
    * @fn CalcFuncPi
    * @brief Calculate The Pi function in the algorithm
    */
-  double CalcFuncPi(double s);
+  double CalcFuncPi(const double s);
   /**
    * @fn CalcFuncChi
    * @brief Calculate The Chi function in the algorithm
    */
-  double CalcFuncChi(double s);
+  double CalcFuncChi(const double s);
 };
 
 #endif  // S2E_DISTURBANCES_AIR_DRAG_HPP_

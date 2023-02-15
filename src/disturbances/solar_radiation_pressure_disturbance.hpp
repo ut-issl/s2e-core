@@ -54,7 +54,7 @@ class SolarRadiation : public SurfaceForce {
    * @param [in] input_direction_b: Direction vector of the sun at the body frame
    * @param [in] item: Solar pressure [N/m^2]
    */
-  void CalcCoefficients(libra::Vector<3>& input_direction_b, double item);
+  void CalcCoefficients(const libra::Vector<3>& input_direction_b, const double item);
 };
 
 #endif  // S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_HPP_
