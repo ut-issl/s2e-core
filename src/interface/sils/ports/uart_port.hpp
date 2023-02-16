@@ -6,7 +6,7 @@
 #ifndef S2E_INTERFACE_SILS_PORTS_UART_PORT_HPP_
 #define S2E_INTERFACE_SILS_PORTS_UART_PORT_HPP_
 
-#include "../utility/ring_buffer.hpp"
+#include <library/utilities/ring_buffer.hpp>
 
 /**
  * @class SCIPort

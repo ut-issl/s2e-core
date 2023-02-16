@@ -3,8 +3,8 @@
  * @brief Class to emulate ring buffer
  */
 
-#ifndef S2E_INTERFACE_SILS_UTILITY_RING_BUFFER_HPP_
-#define S2E_INTERFACE_SILS_UTILITY_RING_BUFFER_HPP_
+#ifndef S2E_LIBRARY_UTILITIES_RING_BUFFER_HPP_
+#define S2E_LIBRARY_UTILITIES_RING_BUFFER_HPP_
 
 typedef unsigned char byte;
 
@@ -52,4 +52,4 @@ class RingBuffer {
   int wp_;                //!< Write pointer
 };
 
-#endif  // S2E_INTERFACE_SILS_UTILITY_RING_BUFFER_HPP_
+#endif  // S2E_LIBRARY_UTILITIES_RING_BUFFER_HPP_

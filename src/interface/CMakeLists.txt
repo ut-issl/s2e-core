@@ -7,8 +7,7 @@ set(SOURCE_FILES
   sils/ports/power_port.cpp
   sils/ports/uart_port.cpp
   sils/ports/i2c_port.cpp
-  sils/utility/ring_buffer.cpp
-
+  
   hils/hils_port_manager.cpp
 )
 

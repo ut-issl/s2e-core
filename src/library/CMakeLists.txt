@@ -35,6 +35,7 @@ add_library(${PROJECT_NAME} STATIC
   utilities/endian.cpp
   utilities/slip.cpp
   utilities/quantization.cpp
+  utilities/ring_buffer.cpp
 )
 
 include(../../common.cmake)
