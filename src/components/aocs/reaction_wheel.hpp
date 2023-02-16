@@ -6,8 +6,8 @@
 #ifndef S2E_COMPONENTS_AOCS_REACTION_WHEEL_HPP_
 #define S2E_COMPONENTS_AOCS_REACTION_WHEEL_HPP_
 
-#include <interface/log_output/loggable.hpp>
-#include <interface/log_output/logger.hpp>
+#include <library/logger/loggable.hpp>
+#include <library/logger/logger.hpp>
 #include <library/math/vector.hpp>
 #include <limits>
 #include <string>

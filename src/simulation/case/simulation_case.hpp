@@ -7,7 +7,7 @@
 #define S2E_SIMULATION_CASE_SIMULATION_CASE_HPP_
 
 #include <environment/global/global_environment.hpp>
-#include <interface/log_output/loggable.hpp>
+#include <library/logger/loggable.hpp>
 #include <simulation/monte_carlo_simulation/monte_carlo_simulation_executor.hpp>
 
 #include "../simulation_configuration.hpp"

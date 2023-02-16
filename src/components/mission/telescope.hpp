@@ -10,7 +10,7 @@
 #include <dynamics/attitude/attitude.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
 #include <environment/local/local_celestial_information.hpp>
-#include <interface/log_output/loggable.hpp>
+#include <library/logger/loggable.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
 #include <vector>

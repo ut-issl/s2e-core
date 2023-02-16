@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_POWER_BATTERY_HPP_P_
 #define S2E_COMPONENTS_POWER_BATTERY_HPP_P_
 
-#include <interface/log_output/loggable.hpp>
+#include <library/logger/loggable.hpp>
 #include <vector>
 
 #include "../base/component.hpp"

@@ -3,9 +3,6 @@ cmake_minimum_required(VERSION 3.13)
 
 set(SOURCE_FILES
 
-  log_output/logger.cpp
-  log_output/initialize_log.cpp
-
   sils/ports/gpio_port.cpp
   sils/ports/power_port.cpp
   sils/ports/uart_port.cpp
