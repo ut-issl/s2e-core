@@ -24,8 +24,8 @@
 #include <components/power/power_control_unit.hpp>
 #include <components/propulsion/initialize_simple_thruster.hpp>
 #include <dynamics/dynamics.hpp>
-#include <interface/hils/hils_port_manager.hpp>
 #include <library/math/vector.hpp>
+#include <simulation/hils/hils_port_manager.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
 #include "../installed_components.hpp"

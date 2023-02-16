@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_BASE_I2C_CONTROLLER_HPP_
 #define S2E_COMPONENTS_BASE_I2C_CONTROLLER_HPP_
 
-#include "../../interface/hils/hils_port_manager.hpp"
+#include "../../simulation/hils/hils_port_manager.hpp"
 #include "uart_communication_with_obc.hpp"
 
 /**
