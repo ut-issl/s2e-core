@@ -3,8 +3,8 @@
  * @brief Class to emulate I2C(Inter-Integrated Circuit) communication port
  */
 
-#ifndef S2E_INTERFACE_SILS_PORTS_I2C_PORT_HPP_
-#define S2E_INTERFACE_SILS_PORTS_I2C_PORT_HPP_
+#ifndef S2E_COMPONENTS_PORTS_I2C_PORT_HPP_
+#define S2E_COMPONENTS_PORTS_I2C_PORT_HPP_
 
 #include <map>
 
@@ -109,4 +109,4 @@ class I2CPort {
   std::map<std::pair<unsigned char, unsigned char>, unsigned char> cmd_buffer_;
 };
 
-#endif  // S2E_INTERFACE_SILS_PORTS_I2C_PORT_HPP_
+#endif  // S2E_COMPONENTS_PORTS_I2C_PORT_HPP_

@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_CDH_OBC_C2A_HPP_
 #define S2E_COMPONENTS_CDH_OBC_C2A_HPP_
 
-#include <interface/sils/ports/gpio_port.hpp>
+#include <components/ports/gpio_port.hpp>
 
 #include "obc.hpp"
 

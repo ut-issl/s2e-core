@@ -60,6 +60,10 @@ add_library(${PROJECT_NAME} STATIC
   propulsion/simple_thruster.cpp
   propulsion/initialize_simple_thruster.cpp
 
+  ports/gpio_port.cpp
+  ports/power_port.cpp
+  ports/uart_port.cpp
+  ports/i2c_port.cpp
 )
 
 include(../../common.cmake)

@@ -2,11 +2,6 @@ project(INTERFACE_) # INTERFACEだけだとCMakeの予約後に引っかかっ�
 cmake_minimum_required(VERSION 3.13)
 
 set(SOURCE_FILES
-
-  sils/ports/gpio_port.cpp
-  sils/ports/power_port.cpp
-  sils/ports/uart_port.cpp
-  sils/ports/i2c_port.cpp
   
   hils/hils_port_manager.cpp
 )
