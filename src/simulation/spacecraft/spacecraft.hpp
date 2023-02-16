@@ -10,7 +10,7 @@
 #include <dynamics/dynamics.hpp>
 #include <environment/global/clock_generator.hpp>
 #include <environment/local/local_environment.hpp>
-#include <relative_information/relative_information.hpp>
+#include <simulation/multiple_spacecraft/relative_information.hpp>
 
 #include "installed_components.hpp"
 #include "structure/structure.hpp"

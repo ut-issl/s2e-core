@@ -20,6 +20,7 @@ add_library(${PROJECT_NAME} STATIC
   ground_station/ground_station.cpp
   
   multiple_spacecraft/inter_spacecraft_communication.cpp
+  multiple_spacecraft/relative_information.cpp
 )
 
 include(../../common.cmake)

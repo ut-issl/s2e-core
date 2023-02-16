@@ -3,14 +3,14 @@
  * @brief Base class to manage relative information between spacecraft
  */
 
-#ifndef S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_HPP_
-#define S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_HPP_
+#ifndef S2E_MULTIPLE_SPACECRAFT_RELATIVE_INFORMATION_HPP_
+#define S2E_MULTIPLE_SPACECRAFT_RELATIVE_INFORMATION_HPP_
 
 #include <string>
 
-#include "../dynamics/dynamics.hpp"
-#include "../interface/log_output/loggable.hpp"
-#include "../interface/log_output/logger.hpp"
+#include "../../dynamics/dynamics.hpp"
+#include "../../interface/log_output/loggable.hpp"
+#include "../../interface/log_output/logger.hpp"
 
 /**
  * @class RelativeInformation
@@ -171,4 +171,4 @@ class RelativeInformation : public ILoggable {
   void ResizeLists();
 };
 
-#endif  // S2E_RELATIVE_INFORMATION_RELATIVE_INFORMATION_HPP_
+#endif  // S2E_MULTIPLE_SPACECRAFT_RELATIVE_INFORMATION_HPP_
