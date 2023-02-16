@@ -8,7 +8,7 @@
 
 #include <library/math/ordinary_differential_equation.hpp>
 #include <library/orbit/relative_orbit_models.hpp>
-#include <relative_information/relative_information.hpp>
+#include <simulation/multiple_spacecraft/relative_information.hpp>
 #include <string>
 
 #include "orbit.hpp"
