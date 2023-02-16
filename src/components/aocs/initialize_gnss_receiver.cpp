@@ -6,7 +6,7 @@
 
 #include <string.h>
 
-#include "interface/initialize/initialize_file_access.hpp"
+#include "library/initialize/initialize_file_access.hpp"
 
 typedef struct _gnssrecever_param {
   int prescaler;

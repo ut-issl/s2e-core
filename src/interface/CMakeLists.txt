@@ -2,7 +2,6 @@ project(INTERFACE_) # INTERFACEだけだとCMakeの予約後に引っかかっ�
 cmake_minimum_required(VERSION 3.13)
 
 set(SOURCE_FILES
-  initialize/initialize_file_access.cpp
 
   log_output/logger.cpp
   log_output/initialize_log.cpp

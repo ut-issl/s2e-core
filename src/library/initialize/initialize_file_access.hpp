@@ -3,8 +3,8 @@
  * @brief Class to read and get parameters for the `ini` format file
  */
 
-#ifndef S2E_INTERFACE_INITIALIZE_INITIALIZE_FILE_ACCESS_HPP_
-#define S2E_INTERFACE_INITIALIZE_INITIALIZE_FILE_ACCESS_HPP_
+#ifndef S2E_LIBRARY_INITIALIZE_INITIALIZE_FILE_ACCESS_HPP_
+#define S2E_LIBRARY_INITIALIZE_INITIALIZE_FILE_ACCESS_HPP_
 
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -169,4 +169,4 @@ void IniAccess::ReadVector(const char* section_name, const char* key_name, Vecto
   }
 }
 
-#endif  // S2E_INTERFACE_INITIALIZE_INITIALIZE_FILE_ACCESS_HPP_
+#endif  // S2E_LIBRARY_INITIALIZE_INITIALIZE_FILE_ACCESS_HPP_

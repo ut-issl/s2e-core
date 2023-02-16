@@ -4,7 +4,7 @@
  */
 #include "initialize_force_generator.hpp"
 
-#include <interface/initialize/initialize_file_access.hpp>
+#include <library/initialize/initialize_file_access.hpp>
 
 ForceGenerator InitializeForceGenerator(ClockGenerator* clock_gen, const std::string file_name, const Dynamics* dynamics) {
   // General

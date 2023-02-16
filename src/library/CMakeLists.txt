@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.13)
 add_library(${PROJECT_NAME} STATIC
   geodesy/geodetic_position.cpp
 
+  initialize/initialize_file_access.cpp
+
   randomization/global_randomization.cpp
   randomization/normal_randomization.cpp
   randomization/minimal_standard_linear_congruential_generator.cpp

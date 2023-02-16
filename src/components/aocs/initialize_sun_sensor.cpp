@@ -8,7 +8,7 @@
 
 #include <library/math/constants.hpp>
 
-#include "interface/initialize/initialize_file_access.hpp"
+#include "library/initialize/initialize_file_access.hpp"
 
 SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_name, const SRPEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info) {
