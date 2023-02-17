@@ -8,10 +8,8 @@
 
 #include <string>
 
-#include "../library/math/vector.hpp"
-using libra::Vector;
-
 #include "../library/logger/loggable.hpp"
+#include "../library/math/vector.hpp"
 #include "../simulation/spacecraft/structure/residual_magnetic_moment.hpp"
 #include "simple_disturbance.hpp"
 
