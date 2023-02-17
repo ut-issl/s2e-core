@@ -3,8 +3,8 @@
  * @brief Component emulation: RF antenna
  */
 
-#ifndef S2E_COMPONENTS_COMMUNICATION_ANTENNA_HPP_
-#define S2E_COMPONENTS_COMMUNICATION_ANTENNA_HPP_
+#ifndef S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_HPP_
+#define S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_HPP_
 
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
@@ -150,4 +150,4 @@ class Antenna {
 
 AntennaGainModel SetAntennaGainModel(const std::string gain_model_name);
 
-#endif  // S2E_COMPONENTS_COMMUNICATION_ANTENNA_HPP_
+#endif  // S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_HPP_

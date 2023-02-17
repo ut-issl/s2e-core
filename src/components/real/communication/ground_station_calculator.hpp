@@ -4,10 +4,10 @@
  * @note TODO: This class is not `Component`. We need to move this to `Analysis` category and use this as library in future.
  */
 
-#ifndef S2E_COMPONENTS_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_
-#define S2E_COMPONENTS_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_
+#ifndef S2E_COMPONENTS_REAL_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_
+#define S2E_COMPONENTS_REAL_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_
 
-#include <components/communication/antenna.hpp>
+#include <components/real/communication/antenna.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/global_environment.hpp>
 #include <library/logger/loggable.hpp>
@@ -138,4 +138,4 @@ class GScalculator : public ILoggable {
   double CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
 };
 
-#endif  // S2E_COMPONENTS_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_
+#endif  // S2E_COMPONENTS_REAL_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_

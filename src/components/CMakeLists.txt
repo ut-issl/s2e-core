@@ -28,11 +28,11 @@ real/aocs/initialize_gnss_receiver.cpp
 real/cdh/on_board_computer.cpp
 real/cdh/on_board_computer_with_c2a.cpp
 
-communication/antenna.cpp
-communication/antenna_radiation_pattern.cpp
-communication/initialize_antenna.cpp
-communication/ground_station_calculator.cpp
-communication/initialize_ground_station_calculator.cpp
+real/communication/antenna.cpp
+real/communication/antenna_radiation_pattern.cpp
+real/communication/initialize_antenna.cpp
+real/communication/ground_station_calculator.cpp
+real/communication/initialize_ground_station_calculator.cpp
 
 examples/example_change_structure.cpp
 examples/example_serial_communication_with_obc.cpp
