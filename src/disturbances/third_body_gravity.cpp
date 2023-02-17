@@ -5,37 +5,39 @@
 
 #include "third_body_gravity.hpp"
 
-ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list) : third_body_list_(third_body_list) { acceleration_i_ *= 0; }
+ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list, const bool is_calculation_enabled)
+    : AccelerationDisturbance(is_calculation_enabled), third_body_list_(third_body_list) {
+  acceleration_i_m_s2_ = libra::Vector<3>(0.0);
+}
 
 ThirdBodyGravity::~ThirdBodyGravity() {}
 
-void ThirdBodyGravity::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
-  acceleration_i_ = libra::Vector<3>(0);  // initialize
+void ThirdBodyGravity::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+  acceleration_i_m_s2_ = libra::Vector<3>(0.0);  // initialize
 
-  libra::Vector<3> sat_pos_i = dynamics.GetOrbit().GetSatPosition_i();  // position of the spacecraft
-                                                                        // from the center object
+  libra::Vector<3> sc_position_i_m = dynamics.GetOrbit().GetSatPosition_i();
   for (auto third_body : third_body_list_) {
-    libra::Vector<3> third_body_pos_from_sc_i =
-        local_env.GetCelesInfo().GetPosFromSC_i(third_body.c_str());           // position of the third body from the spacecraft
-    libra::Vector<3> third_body_pos_i = sat_pos_i + third_body_pos_from_sc_i;  // position of the third body
-                                                                               // from the center object
-    double gravity_constant = local_env.GetCelesInfo().GetGlobalInfo().GetGravityConstant(third_body.c_str());
+    libra::Vector<3> third_body_position_from_sc_i_m = local_environment.GetCelesInfo().GetPosFromSC_i(third_body.c_str());
+    libra::Vector<3> third_body_pos_i_m = sc_position_i_m + third_body_position_from_sc_i_m;
+    double gravity_constant = local_environment.GetCelesInfo().GetGlobalInfo().GetGravityConstant(third_body.c_str());
 
-    thirdbody_acc_i_ = CalcAcceleration(third_body_pos_i, third_body_pos_from_sc_i, gravity_constant);
-    acceleration_i_ += thirdbody_acc_i_;
+    third_body_acceleration_i_m_s2_ = CalcAcceleration_i_m_s2(third_body_pos_i_m, third_body_position_from_sc_i_m, gravity_constant);
+    acceleration_i_m_s2_ += third_body_acceleration_i_m_s2_;
   }
 }
 
-libra::Vector<3> ThirdBodyGravity::CalcAcceleration(libra::Vector<3> s, libra::Vector<3> sr, double GM) {
-  libra::Vector<3> acc;
-  double sr_norm = libra::norm(sr);
-  double sr_norm3 = sr_norm * sr_norm * sr_norm;
+libra::Vector<3> ThirdBodyGravity::CalcAcceleration_i_m_s2(const libra::Vector<3> s, const libra::Vector<3> sr, const double gravity_constant_m_s2) {
+  libra::Vector<3> acceleration_i_m_s2;
+
   double s_norm = libra::norm(s);
   double s_norm3 = s_norm * s_norm * s_norm;
 
-  acc = GM * (1.0 / sr_norm3 * sr - 1.0 / s_norm3 * s);
+  double sr_norm = libra::norm(sr);
+  double sr_norm3 = sr_norm * sr_norm * sr_norm;
 
-  return acc;
+  acceleration_i_m_s2 = gravity_constant_m_s2 * (1.0 / sr_norm3 * sr - 1.0 / s_norm3 * s);
+
+  return acceleration_i_m_s2;
 }
 
 std::string ThirdBodyGravity::GetLogHeader() const {
@@ -47,7 +49,7 @@ std::string ThirdBodyGravity::GetLogHeader() const {
 
 std::string ThirdBodyGravity::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteVector(acceleration_i_);
+  str_tmp += WriteVector(acceleration_i_m_s2_);
 
   return str_tmp;
 }

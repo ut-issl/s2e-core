@@ -6,7 +6,6 @@
 #ifndef S2E_DISTURBANCES_AIR_DRAG_HPP_
 #define S2E_DISTURBANCES_AIR_DRAG_HPP_
 
-#include <string>
 #include <vector>
 
 #include "../environment/local/atmosphere.hpp"
@@ -14,10 +13,7 @@
 #include "../library/math/quaternion.hpp"
 #include "../library/math/vector.hpp"
 #include "surface_force.hpp"
-using libra::Quaternion;
-using libra::Vector;
 
-#pragma once
 /**
  * @class AirDrag
  * @brief Class to calculate the air drag disturbance force and torque
@@ -27,14 +23,23 @@ class AirDrag : public SurfaceForce {
   /**
    * @fn AirDrag
    * @brief Constructor
+   * @param [in] surfaces: Surface information of the spacecraft
+   * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
+   * @param [in] wall_temperature_K: Temperature of surfaces [K]
+   * @param [in] molecular_temperature_K: Temperature of air molecular [K]
+   * @param [in] molecular_weight_g_mol: Molecular weight [g/mol]
+   * @param [in] is_calculation_enabled: Calculation flag
    */
-  AirDrag(const vector<Surface>& surfaces, const Vector<3>& cg_b, const double t_w, const double t_m, const double molecular);
+  AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
+          const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled = true);
 
   /**
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
+   * @param [in] local_environment: Local environment information
+   * @param [in] dynamics: Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
+  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
 
   // Override ILoggable
   /**
@@ -48,43 +53,40 @@ class AirDrag : public SurfaceForce {
    */
   virtual std::string GetLogValue() const;
 
-  // for debug TODO: remove?
-  void PrintParams(void);
-  std::vector<double> cnct;
-
  private:
-  vector<double> Cn_;  //!< Coefficients for out-plane force
-  vector<double> Ct_;  //!< Coefficients for in-plane force
-  double rho_;         //!< Air density [kg/m^3]
-  double Tw_;          //!< Temperature of surface [K]
-  double Tm_;          //!< Temperature of atmosphere [K]
-  double M_;           //!< Molecular weight [g/mol]
+  vector<double> cn_;               //!< Coefficients for out-plane force
+  vector<double> ct_;               //!< Coefficients for in-plane force
+  double wall_temperature_K_;       //!< Temperature of surface [K]
+  double molecular_temperature_K_;  //!< Temperature of atmosphere [K]
+  double molecular_weight_g_mol_;   //!< Molecular weight [g/mol]
 
   /**
-   * @fn CalcCoef
-   * @brief Override CalcCoef function of SurfaceForce
-   * @param [in] vel_b: Spacecraft's velocity vector in the body frame [m/s]
-   * @param [in] air_dens: Air density around the spacecraft [kg/m^3]
+   * @fn CalcCoefficients
+   * @brief Override CalcCoefficients function of SurfaceForce
+   * @param [in] velocity_b_m_s: Spacecraft's velocity vector in the body frame [m/s]
+   * @param [in] air_density_kg_m3: Air density around the spacecraft [kg/m^3]
    */
-  void CalcCoef(Vector<3>& vel_b, double air_dens);
+  void CalcCoefficients(const libra::Vector<3>& velocity_b_m_s, const double air_density_kg_m3);
 
   // internal function for calculation
   /**
    * @fn CalCnCt
    * @brief Calculate the Cn and Ct
-   * @param [in] vel_b: Spacecraft's velocity vector in the body frame [m/s]
+   * @param [in] velocity_b_m_s: Spacecraft's velocity vector in the body frame [m/s]
    */
-  void CalCnCt(Vector<3>& vel_b);
+  void CalCnCt(const libra::Vector<3>& velocity_b_m_s);
   /**
-   * @fn funcPi
+   * @fn CalcFuncPi
    * @brief Calculate The Pi function in the algorithm
+   * @param [in] s: Independent variable of the Pi function
    */
-  double funcPi(double s);
+  double CalcFuncPi(const double s);
   /**
-   * @fn funcChi
+   * @fn CalcFuncChi
    * @brief Calculate The Chi function in the algorithm
+   * @param [in] s: Independent variable of the Chi function
    */
-  double funcChi(double s);
+  double CalcFuncChi(const double s);
 };
 
 #endif  // S2E_DISTURBANCES_AIR_DRAG_HPP_

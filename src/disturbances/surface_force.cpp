@@ -6,57 +6,51 @@
 #include "surface_force.hpp"
 
 #include "../library/math/vector.hpp"
-using libra::Quaternion;
-using libra::Vector;
 
-using namespace libra;
-
-SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const Vector<3>& cg_b) : surfaces_(surfaces), cg_b_(cg_b) {
-  force_b_ = Vector<3>(0);
-  torque_b_ = Vector<3>(0);
-
+SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
+    : SimpleDisturbance(is_calculation_enabled), surfaces_(surfaces), center_of_gravity_b_m_(center_of_gravity_b_m) {
   // Initialize vectors
   int num = surfaces_.size();
-  normal_coef_.assign(num, 0.0);
-  tangential_coef_.assign(num, 0.0);
-  cosX.assign(num, 0.0);
-  sinX.assign(num, 0.0);
+  normal_coefficients_.assign(num, 0.0);
+  tangential_coefficients_.assign(num, 0.0);
+  cos_theta_.assign(num, 0.0);
+  sin_theta_.assign(num, 0.0);
 }
 
-Vector<3> SurfaceForce::CalcTorqueForce(Vector<3>& input_b, double item) {
-  CalcTheta(input_b);
-  CalcCoef(input_b, item);
-  Vector<3> Force(0.0);
-  Vector<3> Trq(0.0);
-  Vector<3> input_b_normal(input_b);
+libra::Vector<3> SurfaceForce::CalcTorqueForce(libra::Vector<3>& input_direction_b, double item) {
+  CalcTheta(input_direction_b);
+  CalcCoefficients(input_direction_b, item);
+
+  libra::Vector<3> force_b_N(0.0);
+  libra::Vector<3> torque_b_Nm(0.0);
+  libra::Vector<3> input_b_normal(input_direction_b);
   normalize(input_b_normal);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {
-    if (cosX[i] > 0) {  // if the surface faces to the disturbance source (sun or air)
+    if (cos_theta_[i] > 0.0) {  // if the surface faces to the disturbance source (sun or air)
       // calc direction of in-plane force
-      Vector<3> normal = surfaces_[i].GetNormal();
-      Vector<3> ncu = outer_product(input_b_normal, normal);
-      Vector<3> ncu_normalized = normalize(ncu);
-      Vector<3> s = outer_product(ncu_normalized, normal);
+      libra::Vector<3> normal = surfaces_[i].GetNormal();
+      libra::Vector<3> ncu = outer_product(input_b_normal, normal);
+      libra::Vector<3> ncu_normalized = normalize(ncu);
+      libra::Vector<3> in_plane_force_direction = outer_product(ncu_normalized, normal);
       // calc force
-      Vector<3> Fs = -1.0 * normal_coef_[i] * normal + tangential_coef_[i] * s;
-      Force += Fs;
+      libra::Vector<3> force_per_surface_b_N = -1.0 * normal_coefficients_[i] * normal + tangential_coefficients_[i] * in_plane_force_direction;
+      force_b_N += force_per_surface_b_N;
       // calc torque
-      Vector<3> Ts = outer_product(surfaces_[i].GetPosition() - cg_b_, Fs);
-      Trq += Ts;
+      torque_b_Nm += outer_product(surfaces_[i].GetPosition() - center_of_gravity_b_m_, force_per_surface_b_N);
     }
   }
-  force_b_ = Force;
-  torque_b_ = Trq;
-  return torque_b_;
+  force_b_N_ = force_b_N;
+  torque_b_Nm_ = torque_b_Nm;
+  return torque_b_Nm_;
 }
 
-void SurfaceForce::CalcTheta(Vector<3>& input_b) {
-  Vector<3> input_b_normal(input_b);
+void SurfaceForce::CalcTheta(libra::Vector<3>& input_direction_b) {
+  libra::Vector<3> input_b_normal(input_direction_b);
   normalize(input_b_normal);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {
-    cosX[i] = inner_product(surfaces_[i].GetNormal(), input_b_normal);
-    sinX[i] = sqrt(1.0 - cosX[i] * cosX[i]);
+    cos_theta_[i] = inner_product(surfaces_[i].GetNormal(), input_b_normal);
+    sin_theta_[i] = sqrt(1.0 - cos_theta_[i] * cos_theta_[i]);
   }
 }

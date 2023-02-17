@@ -24,8 +24,12 @@ class Disturbances {
   /**
    * @fn Disturbances
    * @brief Constructor
+   * @param [in] sim_config: Simulation Configuration
+   * @param [in] sat_id: Satellite ID
+   * @param [in] structure: Structure information of spacecraft
+   * @param [in] global_environment: Global environment information
    */
-  Disturbances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env);
+  Disturbances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* global_environment);
   /**
    * @fn ~Disturbances
    * @brief Destructor
@@ -35,11 +39,15 @@ class Disturbances {
   /**
    * @fn Update
    * @brief Update all disturbance calculation
+   * @param [in] local_environment: Local environment information
+   * @param [in] dynamics: Dynamics information
+   * @param [in] sim_time: Simulation time
    */
-  void Update(const LocalEnvironment& local_env, const Dynamics& dynamics, const SimTime* sim_time);
+  void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimTime* sim_time);
   /**
    * @fn LogSetup
    * @brief log setup for all disturbances
+   * @param [in] logger: Logger
    */
   void LogSetup(Logger& logger);
 
@@ -47,32 +55,40 @@ class Disturbances {
    * @fn GetTorque
    * @brief Return total disturbance torque in the body frame [Nm]
    */
-  Vector<3> GetTorque();
+  inline libra::Vector<3> GetTorque_b_Nm() { return total_torque_b_Nm_; }
+
   /**
    * @fn GetTorque
    * @brief Return total disturbance force in the body frame [N]
    */
-  Vector<3> GetForce();
+  inline libra::Vector<3> GetForce_b_N() { return total_force_b_N_; }
+
   /**
    * @fn GetTorque
    * @brief Return total disturbance acceleration in the inertial frame [m/s2]
    */
-  Vector<3> GetAccelerationI();
+  inline libra::Vector<3> GetAcceleration_i_m_s2() { return total_acceleration_i_m_s2_; }
 
  private:
-  std::string ini_fname_;  //!< Initialization file name
+  std::string initialize_file_name_;  //!< Initialization file name
 
-  std::vector<SimpleDisturbance*> disturbances_;       //!< List of disturbances
-  Vector<3> sum_torque_;                               //!< Total disturbance torque in the body frame [Nm]
-  Vector<3> sum_force_;                                //!< Total disturbance force in the body frame [N]
-  vector<AccelerationDisturbance*> acc_disturbances_;  //!< List of acceleration disturbances
-  Vector<3> sum_acceleration_i_;                       //!< Total disturbance acceleration in the inertial frame [m/s2]
+  std::vector<SimpleDisturbance*> disturbances_list_;  //!< List of disturbances
+  Vector<3> total_torque_b_Nm_;                        //!< Total disturbance torque in the body frame [Nm]
+  Vector<3> total_force_b_N_;                          //!< Total disturbance force in the body frame [N]
+
+  vector<AccelerationDisturbance*> acceleration_disturbances_list_;  //!< List of acceleration disturbances
+  Vector<3> total_acceleration_i_m_s2_;                              //!< Total disturbance acceleration in the inertial frame [m/s2]
 
   /**
    * @fn InitializeInstances
    * @brief Initialize all disturbance class
+   * @param [in] sim_config: Simulation Configuration
+   * @param [in] sat_id: Satellite ID
+   * @param [in] structure: Structure information of spacecraft
+   * @param [in] global_environment: Global environment information
    */
-  void InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env);
+  void InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure,
+                           const GlobalEnvironment* global_environment);
   /**
    * @fn InitializeForceAndTorque
    * @brief Initialize disturbance force and torque

@@ -19,6 +19,13 @@
 class SimpleDisturbance : public Disturbance, public ILoggable {
  public:
   /**
+   * @fn SimpleDisturbance
+   * @brief Constructor
+   * @param [in] is_calculation_enabled: Calculation flag
+   */
+  SimpleDisturbance(const bool is_calculation_enabled = true) : Disturbance(is_calculation_enabled) {}
+
+  /**
    * @fn ~SimpleDisturbance
    * @brief Destructor
    */
@@ -27,21 +34,25 @@ class SimpleDisturbance : public Disturbance, public ILoggable {
   /**
    * @fn UpdateIfEnabled
    * @brief Update calculated disturbance when the calculation flag is true
+   * @param [in] local_environment: Local environment information
+   * @param [in] dynamics: Dynamics information
    */
-  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_env, const Dynamics& dynamics) {
-    if (IsCalcEnabled) {
-      Update(local_env, dynamics);
+  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+    if (is_calculation_enabled_) {
+      Update(local_environment, dynamics);
     } else {
-      force_b_ *= 0;
-      torque_b_ *= 0;
+      force_b_N_ *= 0.0;
+      torque_b_Nm_ *= 0.0;
     }
   }
 
   /**
    * @fn Update
    * @brief Pure virtual function to define the disturbance calculation
+   * @param [in] local_environment: Local environment information
+   * @param [in] dynamics: Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics) = 0;
+  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) = 0;
 };
 
 #endif  // S2E_DISTURBANCES_SIMPLE_DISTURBANCE_HPP_

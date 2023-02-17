@@ -8,10 +8,8 @@
 
 #include <string>
 
-#include "../library/math/vector.hpp"
-using libra::Vector;
-
 #include "../library/logger/loggable.hpp"
+#include "../library/math/vector.hpp"
 #include "../simulation/spacecraft/structure/residual_magnetic_moment.hpp"
 #include "simple_disturbance.hpp"
 
@@ -24,30 +22,18 @@ class MagDisturbance : public SimpleDisturbance {
   /**
    * @fn MagDisturbance
    * @brief Constructor
+   * @param [in] rmm_parameters: RMM parameters of the spacecraft
+   * @param [in] is_calculation_enabled: Calculation flag
    */
-  MagDisturbance(const RMMParams& rmm_params);
+  MagDisturbance(const RMMParams& rmm_parameters, const bool is_calculation_enabled = true);
 
-  /**
-   * @fn CalcRMM
-   * @brief Calculate true RMM of the spacecraft
-   */
-  void CalcRMM();
-  /**
-   * @fn CalcTorque
-   * @brief Calculate magnetic disturbance torque
-   * @param [in] mag_b: Magnetic field vector at the body frame [nT]
-   */
-  Vector<3> CalcTorque(const Vector<3>& mag_b);
   /**
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
+   * @param [in] local_environment: Local environment information
+   * @param [in] dynamics: Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
-  /**
-   * @fn PrintTorque
-   * @brief Debug TODO: remove?
-   */
-  void PrintTorque();
+  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
 
   // Override ILoggable
   /**
@@ -62,10 +48,23 @@ class MagDisturbance : public SimpleDisturbance {
   virtual std::string GetLogValue() const;
 
  private:
-  double mag_unit_;  //!< Constant value to change the unit [nT] -> [T]
+  const double kMagUnit_ = 1.0e-9;  //!< Constant value to change the unit [nT] -> [T]
 
-  Vector<3> rmm_b_;              //!< True RMM of the spacecraft in the body frame [Am2]
+  libra::Vector<3> rmm_b_Am2_;   //!< True RMM of the spacecraft in the body frame [Am2]
   const RMMParams& rmm_params_;  //!< RMM parameters
+
+  /**
+   * @fn CalcRMM
+   * @brief Calculate true RMM of the spacecraft
+   */
+  void CalcRMM();
+  /**
+   * @fn CalcTorque_b_Nm
+   * @brief Calculate magnetic disturbance torque
+   * @param [in] magnetic_field_b_nT: Magnetic field vector at the body frame [nT]
+   * @return Calculated disturbance torque in body frame [Nm]
+   */
+  libra::Vector<3> CalcTorque_b_Nm(const libra::Vector<3>& magnetic_field_b_nT);
 };
 
 #endif  // S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_HPP_

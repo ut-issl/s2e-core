@@ -17,6 +17,12 @@
 class AccelerationDisturbance : public Disturbance, public ILoggable {
  public:
   /**
+   * @fn AccelerationDisturbance
+   * @brief Constructor
+   * @param [in] is_calculation_enabled: Calculation flag
+   */
+  AccelerationDisturbance(const bool is_calculation_enabled = true) : Disturbance(is_calculation_enabled) {}
+  /**
    * @fn ~AccelerationDisturbance
    * @brief Destructor
    */
@@ -26,12 +32,12 @@ class AccelerationDisturbance : public Disturbance, public ILoggable {
    * @fn UpdateIfEnabled
    * @brief Update calculated disturbance when the calculation flag is true
    */
-  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_env, const Dynamics& dynamics) {
-    if (IsCalcEnabled) {
-      Update(local_env, dynamics);
+  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+    if (is_calculation_enabled_) {
+      Update(local_environment, dynamics);
     } else {
-      acceleration_b_ *= 0;
-      acceleration_i_ *= 0;
+      acceleration_b_m_s2_ *= 0.0;
+      acceleration_i_m_s2_ *= 0.0;
     }
   }
 
@@ -39,7 +45,7 @@ class AccelerationDisturbance : public Disturbance, public ILoggable {
    * @fn Update
    * @brief Pure virtual function to define the disturbance calculation
    */
-  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics) = 0;
+  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) = 0;
 };
 
 #endif  // S2E_DISTURBANCES_ACCELERATION_DISTURBANCE_HPP_
