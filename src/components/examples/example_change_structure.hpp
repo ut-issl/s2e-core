@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_HPP_
 #define S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_HPP_
 
-#include <interface/log_output/loggable.hpp>
+#include <library/logger/loggable.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
 #include "../base/component.hpp"

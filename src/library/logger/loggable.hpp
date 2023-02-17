@@ -3,8 +3,8 @@
  * @brief Abstract class to manage logging
  */
 
-#ifndef S2E_INTERFACE_LOG_OUTPUT_LOGGABLE_HPP_
-#define S2E_INTERFACE_LOG_OUTPUT_LOGGABLE_HPP_
+#ifndef S2E_LIBRARY_LOGGER_LOGGABLE_HPP_
+#define S2E_LIBRARY_LOGGER_LOGGABLE_HPP_
 
 #include <string>
 
@@ -34,4 +34,4 @@ class ILoggable {
   bool IsLogEnabled = true;  //!< Log enable flag
 };
 
-#endif  // S2E_INTERFACE_LOG_OUTPUT_LOGGABLE_HPP_
+#endif  // S2E_LIBRARY_LOGGER_LOGGABLE_HPP_

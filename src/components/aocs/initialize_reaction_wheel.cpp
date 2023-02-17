@@ -6,7 +6,7 @@
 
 #include <vector>
 
-#include "interface/initialize/initialize_file_access.hpp"
+#include "library/initialize/initialize_file_access.hpp"
 
 // In order to share processing among initialization functions, variables should also be shared. These variables have internal linkages and cannot be
 // referenced from the outside.

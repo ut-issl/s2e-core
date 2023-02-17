@@ -6,8 +6,8 @@
 #ifndef S2E_COMPONENTS_BASE_COMPONENT_HPP_
 #define S2E_COMPONENTS_BASE_COMPONENT_HPP_
 
+#include <components/ports/power_port.hpp>
 #include <environment/global/clock_generator.hpp>
-#include <interface/sils/ports/power_port.hpp>
 #include <library/utilities/macros.hpp>
 
 #include "interface_tickable.hpp"

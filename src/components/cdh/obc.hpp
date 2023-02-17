@@ -6,9 +6,9 @@
 #ifndef S2E_COMPONENTS_CDH_OBC_HPP_
 #define S2E_COMPONENTS_CDH_OBC_HPP_
 
-#include <interface/sils/ports/gpio_port.hpp>
-#include <interface/sils/ports/i2c_port.hpp>
-#include <interface/sils/ports/uart_port.hpp>
+#include <components/ports/gpio_port.hpp>
+#include <components/ports/i2c_port.hpp>
+#include <components/ports/uart_port.hpp>
 #include <map>
 
 #include "../base/component.hpp"

@@ -5,8 +5,8 @@
 
 #include "simulation_case.hpp"
 
-#include <interface/initialize/initialize_file_access.hpp>
-#include <interface/log_output/initialize_log.hpp>
+#include <library/initialize/initialize_file_access.hpp>
+#include <library/logger/initialize_log.hpp>
 #include <string>
 
 SimulationCase::SimulationCase(std::string ini_base) {

@@ -3,8 +3,8 @@
  * @brief Class to emulate GPIO(General Purpose Input and Output) port
  */
 
-#ifndef S2E_INTERFACE_SILS_PORTS_GPIO_PORT_HPP_
-#define S2E_INTERFACE_SILS_PORTS_GPIO_PORT_HPP_
+#ifndef S2E_COMPONENTS_PORTS_GPIO_PORT_HPP_
+#define S2E_COMPONENTS_PORTS_GPIO_PORT_HPP_
 
 #include <components/base/interface_gpio_component.hpp>
 
@@ -51,4 +51,4 @@ class GPIOPort {
   bool hl_state_;          //!< GPIO High/Low state
 };
 
-#endif  // S2E_INTERFACE_SILS_PORTS_GPIO_PORT_HPP_
+#endif  // S2E_COMPONENTS_PORTS_GPIO_PORT_HPP_

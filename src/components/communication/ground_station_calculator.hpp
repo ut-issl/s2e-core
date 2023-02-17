@@ -10,7 +10,7 @@
 #include <components/communication/antenna.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/global_environment.hpp>
-#include <interface/log_output/loggable.hpp>
+#include <library/logger/loggable.hpp>
 #include <library/math/matrix.hpp>
 #include <library/math/matrix_vector.hpp>
 #include <library/math/vector.hpp>

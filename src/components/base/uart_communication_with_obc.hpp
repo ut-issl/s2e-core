@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_BASE_UART_COMMUNICATION_WITH_OBC_HPP_
 #define S2E_COMPONENTS_BASE_UART_COMMUNICATION_WITH_OBC_HPP_
 
-#include <interface/hils/hils_port_manager.hpp>
+#include <simulation/hils/hils_port_manager.hpp>
 
 #include "../cdh/obc.hpp"
 

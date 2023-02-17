@@ -11,7 +11,7 @@
 #define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_
 
 #include <cstring>
-#include <interface/log_output/loggable.hpp>
+#include <library/logger/loggable.hpp>
 #include <library/math/matrix.hpp>
 #include <library/math/matrix_vector.hpp>
 #include <library/math/quaternion.hpp>

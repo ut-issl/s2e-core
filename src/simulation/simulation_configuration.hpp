@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "../interface/log_output/logger.hpp"
+#include "../library/logger/logger.hpp"
 
 /**
  * @struct SimulationConfig

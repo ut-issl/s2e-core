@@ -69,7 +69,6 @@ add_subdirectory(src/environment/local)
 add_subdirectory(src/dynamics)
 add_subdirectory(src/disturbances)
 add_subdirectory(src/components)
-add_subdirectory(src/interface)
 add_subdirectory(src/library)
 
 set(SOURCE_FILES
@@ -139,7 +138,7 @@ endif()
 #target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
 
 # Initialize link
-target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT INTERFACE_ LIBRARY)
+target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
 target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION LIBRARY)
 target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
 target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE LIBRARY)
@@ -151,7 +150,6 @@ target_link_libraries(${PROJECT_NAME} DYNAMICS)
 target_link_libraries(${PROJECT_NAME} DISTURBANCE)
 target_link_libraries(${PROJECT_NAME} SIMULATION)
 target_link_libraries(${PROJECT_NAME} GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT)
-target_link_libraries(${PROJECT_NAME} INTERFACE_)
 target_link_libraries(${PROJECT_NAME} COMPONENT)
 
 ## C2A integration
@@ -169,7 +167,6 @@ if(USE_HILS)
   set_target_properties(SIMULATION PROPERTIES COMMON_LANGUAGE_RUNTIME "")
   set_target_properties(GLOBAL_ENVIRONMENT PROPERTIES COMMON_LANGUAGE_RUNTIME "")
   set_target_properties(LOCAL_ENVIRONMENT PROPERTIES COMMON_LANGUAGE_RUNTIME "")
-  set_target_properties(INTERFACE_ PROPERTIES COMMON_LANGUAGE_RUNTIME "")
 endif()
 
 ## GoogleTest settings

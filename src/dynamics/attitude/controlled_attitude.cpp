@@ -4,7 +4,7 @@
  */
 #include "controlled_attitude.hpp"
 
-#include <interface/log_output/log_utility.hpp>
+#include <library/logger/log_utility.hpp>
 #include <library/math/constants.hpp>
 #include <library/utilities/macros.hpp>
 

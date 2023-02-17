@@ -3,8 +3,8 @@
  * @brief Class to emulate electrical power port
  */
 
-#ifndef S2E_INTERFACE_SILS_PORTS_POWER_PORT_HPP_
-#define S2E_INTERFACE_SILS_PORTS_POWER_PORT_HPP_
+#ifndef S2E_COMPONENTS_PORTS_POWER_PORT_HPP_
+#define S2E_COMPONENTS_PORTS_POWER_PORT_HPP_
 
 #include <string>
 
@@ -133,4 +133,4 @@ class PowerPort {
   void Initialize(void);
 };
 
-#endif  // S2E_INTERFACE_SILS_PORTS_POWER_PORT_HPP_
+#endif  // S2E_COMPONENTS_PORTS_POWER_PORT_HPP_

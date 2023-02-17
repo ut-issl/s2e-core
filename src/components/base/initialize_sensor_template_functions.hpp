@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_BASE_INITIALIZE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 #define S2E_COMPONENTS_BASE_INITIALIZE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 
-#include "interface/initialize/initialize_file_access.hpp"
+#include "library/initialize/initialize_file_access.hpp"
 
 template <size_t N>
 SensorBase<N> ReadSensorBaseInformation(const std::string file_name, const double step_width_s, const std::string component_name,

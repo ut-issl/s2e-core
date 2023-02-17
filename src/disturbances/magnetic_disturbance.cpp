@@ -9,7 +9,7 @@
 using libra::NormalRand;
 #include <library/utilities/macros.hpp>
 
-#include "../interface/log_output/log_utility.hpp"
+#include "../library/logger/log_utility.hpp"
 #include "../library/randomization/global_randomization.hpp"
 #include "../library/randomization/random_walk.hpp"
 

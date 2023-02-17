@@ -6,7 +6,7 @@
 #include "power_port.hpp"
 
 #include <cfloat>
-#include <interface/initialize/initialize_file_access.hpp>
+#include <library/initialize/initialize_file_access.hpp>
 
 PowerPort::PowerPort() : kPortId(-1), current_limit_(10.0), minimum_voltage_(3.3), assumed_power_consumption_(0.0) {
   is_on_ = true;  // power on to work the component

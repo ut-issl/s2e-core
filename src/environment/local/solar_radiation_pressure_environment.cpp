@@ -8,7 +8,7 @@
 #include <cassert>
 #include <environment/global/physical_constants.hpp>
 #include <fstream>
-#include <interface/log_output/log_utility.hpp>
+#include <library/logger/log_utility.hpp>
 #include <library/math/constants.hpp>
 #include <library/math/vector.hpp>
 
