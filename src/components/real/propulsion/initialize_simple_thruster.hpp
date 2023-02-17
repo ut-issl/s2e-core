@@ -3,10 +3,10 @@
  * @brief Initialize function os SimpleThruster
  */
 
-#ifndef S2E_COMPONENTS_PROPULSION_INITIALIZE_SIMPLE_THRUSTER_HPP_
-#define S2E_COMPONENTS_PROPULSION_INITIALIZE_SIMPLE_THRUSTER_HPP_
+#ifndef S2E_COMPONENTS_REAL_PROPULSION_INITIALIZE_SIMPLE_THRUSTER_HPP_
+#define S2E_COMPONENTS_REAL_PROPULSION_INITIALIZE_SIMPLE_THRUSTER_HPP_
 
-#include <components/propulsion/simple_thruster.hpp>
+#include "simple_thruster.hpp"
 
 /**
  * @fn InitSimpleThruster
@@ -32,4 +32,4 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, int thruster_id, co
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_gen, PowerPort* power_port, int thruster_id, const std::string fname,
                                   const Structure* structure, const Dynamics* dynamics);
 
-#endif  // S2E_COMPONENTS_PROPULSION_INITIALIZE_SIMPLE_THRUSTER_HPP_
+#endif  // S2E_COMPONENTS_REAL_PROPULSION_INITIALIZE_SIMPLE_THRUSTER_HPP_

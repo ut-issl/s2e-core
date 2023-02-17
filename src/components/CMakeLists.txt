@@ -57,8 +57,8 @@ power/solar_array_panel.cpp
 power/initialize_solar_array_panel.cpp
 power/csv_scenario_interface.cpp
 
-propulsion/simple_thruster.cpp
-propulsion/initialize_simple_thruster.cpp
+real/propulsion/simple_thruster.cpp
+real/propulsion/initialize_simple_thruster.cpp
 
 ports/gpio_port.cpp
 ports/power_port.cpp

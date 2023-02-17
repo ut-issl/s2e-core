@@ -3,8 +3,8 @@
  * @brief Component emulation of simple thruster
  */
 
-#ifndef S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_HPP_
-#define S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_HPP_
+#ifndef S2E_COMPONENTS_REAL_PROPULSION_SIMPLE_THRUSTER_HPP_
+#define S2E_COMPONENTS_REAL_PROPULSION_SIMPLE_THRUSTER_HPP_
 
 #include <dynamics/dynamics.hpp>
 #include <library/logger/logger.hpp>
@@ -13,7 +13,7 @@
 #include <library/randomization/normal_randomization.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
-#include "../base/component.hpp"
+#include "../../base/component.hpp"
 
 /*
  * @class SimpleThruster
@@ -152,4 +152,4 @@ class SimpleThruster : public ComponentBase, public ILoggable {
   const Dynamics* dynamics_;    //!< Spacecraft dynamics information
 };
 
-#endif  // S2E_COMPONENTS_PROPULSION_SIMPLE_THRUSTER_HPP_
+#endif  // S2E_COMPONENTS_REAL_PROPULSION_SIMPLE_THRUSTER_HPP_
