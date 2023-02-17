@@ -45,8 +45,8 @@ ideal/initialize_force_generator.cpp
 ideal/torque_generator.cpp
 ideal/initialize_torque_generator.cpp
 
-mission/telescope.cpp
-mission/initialize_telescope.cpp
+real/mission/telescope.cpp
+real/mission/initialize_telescope.cpp
 
 power/power_control_unit.cpp
 power/battery.cpp

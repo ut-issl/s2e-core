@@ -3,8 +3,8 @@
  * @brief Component emulation: Telescope
  */
 
-#ifndef S2E_COMPONENTS_MISSION_TELESCOPE_HPP_P_
-#define S2E_COMPONENTS_MISSION_TELESCOPE_HPP_P_
+#ifndef S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_
+#define S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_
 
 #include <base/component.hpp>
 #include <dynamics/attitude/attitude.hpp>
@@ -123,4 +123,4 @@ class Telescope : public ComponentBase, public ILoggable {
   //*************************************************************
 };
 
-#endif  // S2E_COMPONENTS_MISSION_TELESCOPE_HPP_P_
+#endif  // S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_
