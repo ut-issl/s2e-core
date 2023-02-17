@@ -3,8 +3,8 @@
  * @brief Ideal component which can generate force for control algorithm test
  */
 
-#ifndef S2E_COMPONENTS_IDEAL_COMPONENTS_FORCE_GENERATOR_HPP_
-#define S2E_COMPONENTS_IDEAL_COMPONENTS_FORCE_GENERATOR_HPP_
+#ifndef S2E_COMPONENTS_IDEAL_FORCE_GENERATOR_HPP_
+#define S2E_COMPONENTS_IDEAL_FORCE_GENERATOR_HPP_
 
 #include <components/base/component.hpp>
 #include <dynamics/dynamics.hpp>
@@ -115,4 +115,4 @@ class ForceGenerator : public ComponentBase, public ILoggable {
   const Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };
 
-#endif  // S2E_COMPONENTS_IDEAL_COMPONENTS_FORCE_GENERATOR_HPP_
+#endif  // S2E_COMPONENTS_IDEAL_FORCE_GENERATOR_HPP_

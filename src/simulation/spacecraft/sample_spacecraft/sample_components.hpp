@@ -19,8 +19,8 @@
 #include <components/examples/example_i2c_controller_for_hils.hpp>
 #include <components/examples/example_i2c_target_for_hils.hpp>
 #include <components/examples/example_serial_communication_for_hils.hpp>
-#include <components/ideal_components/initialize_force_generator.hpp>
-#include <components/ideal_components/initialize_torque_generator.hpp>
+#include <components/ideal/initialize_force_generator.hpp>
+#include <components/ideal/initialize_torque_generator.hpp>
 #include <components/power/power_control_unit.hpp>
 #include <components/propulsion/initialize_simple_thruster.hpp>
 #include <dynamics/dynamics.hpp>

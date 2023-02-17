@@ -3,8 +3,8 @@
  * @brief Initialize function for ForceGenerator
  */
 
-#ifndef S2E_COMPONENTS_IDEAL_COMPONENTS_INITIALIZE_FORCE_GENERATOR_HPP_
-#define S2E_COMPONENTS_IDEAL_COMPONENTS_INITIALIZE_FORCE_GENERATOR_HPP_
+#ifndef S2E_COMPONENTS_IDEAL_INITIALIZE_FORCE_GENERATOR_HPP_
+#define S2E_COMPONENTS_IDEAL_INITIALIZE_FORCE_GENERATOR_HPP_
 
 #include "force_generator.hpp"
 
@@ -17,4 +17,4 @@
  */
 ForceGenerator InitializeForceGenerator(ClockGenerator* clock_gen, const std::string file_name, const Dynamics* dynamics);
 
-#endif  // S2E_COMPONENTS_IDEAL_COMPONENTS_INITIALIZE_FORCE_GENERATOR_HPP_
+#endif  // S2E_COMPONENTS_IDEAL_INITIALIZE_FORCE_GENERATOR_HPP_
