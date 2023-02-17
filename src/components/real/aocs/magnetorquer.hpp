@@ -3,8 +3,8 @@
  * @brief Class to emulate magnetorquer
  */
 
-#ifndef S2E_COMPONENTS_AOCS_MAGNETORQUER_HPP_
-#define S2E_COMPONENTS_AOCS_MAGNETORQUER_HPP_
+#ifndef S2E_COMPONENTS_REAL_AOCS_MAGNETORQUER_HPP_
+#define S2E_COMPONENTS_REAL_AOCS_MAGNETORQUER_HPP_
 
 #include <environment/local/local_environment.hpp>
 #include <library/logger/loggable.hpp>
@@ -14,7 +14,7 @@
 #include <library/randomization/normal_randomization.hpp>
 #include <library/randomization/random_walk.hpp>
 
-#include "../base/component.hpp"
+#include "../../base/component.hpp"
 
 const size_t kMtqDim = 3;  //!< Dimension of magnetorquer
 
@@ -134,4 +134,4 @@ class MagTorquer : public ComponentBase, public ILoggable {
   libra::Vector<kMtqDim> CalcOutputTorque(void);
 };
 
-#endif  // S2E_COMPONENTS_AOCS_MAGNETORQUER_HPP_
+#endif  // S2E_COMPONENTS_REAL_AOCS_MAGNETORQUER_HPP_

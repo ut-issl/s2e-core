@@ -3,8 +3,8 @@
  * @brief Class to emulate Reaction Wheel
  */
 
-#ifndef S2E_COMPONENTS_AOCS_REACTION_WHEEL_HPP_
-#define S2E_COMPONENTS_AOCS_REACTION_WHEEL_HPP_
+#ifndef S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_
+#define S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_
 
 #include <library/logger/loggable.hpp>
 #include <library/logger/logger.hpp>
@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-#include "../base/component.hpp"
+#include "../../base/component.hpp"
 #include "reaction_wheel_jitter.hpp"
 #include "reaction_wheel_ode.hpp"
 
@@ -235,4 +235,4 @@ class RWModel : public ComponentBase, public ILoggable {
   void Initialize();
 };
 
-#endif  // S2E_COMPONENTS_AOCS_REACTION_WHEEL_HPP_
+#endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_

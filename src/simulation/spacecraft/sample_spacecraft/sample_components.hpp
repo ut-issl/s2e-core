@@ -6,13 +6,13 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
 #define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
 
-#include <components/aocs/initialize_gnss_receiver.hpp>
-#include <components/aocs/initialize_gyro_sensor.hpp>
-#include <components/aocs/initialize_magnetometer.hpp>
-#include <components/aocs/initialize_magnetorquer.hpp>
-#include <components/aocs/initialize_reaction_wheel.hpp>
-#include <components/aocs/initialize_star_sensor.hpp>
-#include <components/aocs/initialize_sun_sensor.hpp>
+#include <components/real/aocs/initialize_gnss_receiver.hpp>
+#include <components/real/aocs/initialize_gyro_sensor.hpp>
+#include <components/real/aocs/initialize_magnetometer.hpp>
+#include <components/real/aocs/initialize_magnetorquer.hpp>
+#include <components/real/aocs/initialize_reaction_wheel.hpp>
+#include <components/real/aocs/initialize_star_sensor.hpp>
+#include <components/real/aocs/initialize_sun_sensor.hpp>
 #include <components/real/cdh/on_board_computer.hpp>
 #include <components/communication/initialize_antenna.hpp>
 #include <components/examples/example_change_structure.hpp>

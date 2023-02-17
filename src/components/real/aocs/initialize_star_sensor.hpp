@@ -3,10 +3,10 @@
  * @brief Initialize functions for star sensor
  */
 
-#ifndef S2E_COMPONENTS_AOCS_INITIALIZE_STAR_SENSOR_HPP_
-#define S2E_COMPONENTS_AOCS_INITIALIZE_STAR_SENSOR_HPP_
+#ifndef S2E_COMPONENTS_REAL_AOCS_INITIALIZE_STAR_SENSOR_HPP_
+#define S2E_COMPONENTS_REAL_AOCS_INITIALIZE_STAR_SENSOR_HPP_
 
-#include <components/aocs/star_sensor.hpp>
+#include <components/real/aocs/star_sensor.hpp>
 
 /**
  * @fn InitSTT
@@ -34,4 +34,4 @@ STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const std::string fname, d
 STT InitSTT(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
             const Dynamics* dynamics, const LocalEnvironment* local_env);
 
-#endif  // S2E_COMPONENTS_AOCS_INITIALIZE_STAR_SENSOR_HPP_
+#endif  // S2E_COMPONENTS_REAL_AOCS_INITIALIZE_STAR_SENSOR_HPP_

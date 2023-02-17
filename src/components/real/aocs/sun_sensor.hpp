@@ -3,8 +3,8 @@
  * @brief Class to emulate sun sensor
  */
 
-#ifndef S2E_COMPONENTS_AOCS_SUN_SENSOR_HPP_
-#define S2E_COMPONENTS_AOCS_SUN_SENSOR_HPP_
+#ifndef S2E_COMPONENTS_REAL_AOCS_SUN_SENSOR_HPP_
+#define S2E_COMPONENTS_REAL_AOCS_SUN_SENSOR_HPP_
 
 #include <environment/local/local_celestial_information.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
@@ -13,7 +13,7 @@
 #include <library/math/vector.hpp>
 #include <library/randomization/normal_randomization.hpp>
 
-#include "../base/component.hpp"
+#include "../../base/component.hpp"
 
 /*
  * @class SunSensor
@@ -139,4 +139,4 @@ class SunSensor : public ComponentBase, public ILoggable {
   void CalcSolarIlluminance();
 };
 
-#endif  // S2E_COMPONENTS_AOCS_SUN_SENSOR_HPP_
+#endif  // S2E_COMPONENTS_REAL_AOCS_SUN_SENSOR_HPP_

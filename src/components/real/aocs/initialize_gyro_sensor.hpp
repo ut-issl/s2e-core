@@ -3,10 +3,10 @@
  * @brief Initialize functions for gyro sensor
  */
 
-#ifndef S2E_COMPONENTS_AOCS_INITIALIZE_GYRO_SENSOR_HPP_
-#define S2E_COMPONENTS_AOCS_INITIALIZE_GYRO_SENSOR_HPP_
+#ifndef S2E_COMPONENTS_REAL_AOCS_INITIALIZE_GYRO_SENSOR_HPP_
+#define S2E_COMPONENTS_REAL_AOCS_INITIALIZE_GYRO_SENSOR_HPP_
 
-#include <components/aocs/gyro_sensor.hpp>
+#include <components/real/aocs/gyro_sensor.hpp>
 
 /**
  * @fn InitGyro
@@ -31,4 +31,4 @@ Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname,
 Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
               const Dynamics* dynamics);
 
-#endif  // S2E_COMPONENTS_AOCS_INITIALIZE_GYRO_SENSOR_HPP_
+#endif  // S2E_COMPONENTS_REAL_AOCS_INITIALIZE_GYRO_SENSOR_HPP_

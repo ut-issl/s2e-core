@@ -3,8 +3,8 @@
  * @brief Class to emulate GNSS receiver
  */
 
-#ifndef S2E_COMPONENTS_AOCS_GNSS_RECEIVER_HPP_
-#define S2E_COMPONENTS_AOCS_GNSS_RECEIVER_HPP_
+#ifndef S2E_COMPONENTS_REAL_AOCS_GNSS_RECEIVER_HPP_
+#define S2E_COMPONENTS_REAL_AOCS_GNSS_RECEIVER_HPP_
 
 #include <dynamics/dynamics.hpp>
 #include <environment/global/gnss_satellites.hpp>
@@ -13,7 +13,7 @@
 #include <library/math/quaternion.hpp>
 #include <library/randomization/normal_randomization.hpp>
 
-#include "../base/component.hpp"
+#include "../../base/component.hpp"
 
 using libra::Vector;
 
@@ -214,4 +214,4 @@ class GNSSReceiver : public ComponentBase, public ILoggable {
   void ConvertJulianDayToGPSTime(const double JulianDay);
 };
 
-#endif  // S2E_COMPONENTS_AOCS_GNSS_RECEIVER_HPP_
+#endif  // S2E_COMPONENTS_REAL_AOCS_GNSS_RECEIVER_HPP_

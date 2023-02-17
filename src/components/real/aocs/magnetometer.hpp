@@ -1,40 +1,40 @@
 /**
- * @file gyro_sensor.hpp
- * @brief Class to emulate gyro sensor (angular velocity sensor)
+ * @file magnetometer.hpp
+ * @brief Class to emulate magnetometer
  */
 
-#ifndef S2E_COMPONENTS_AOCS_GYRO_SENSOR_HPP_
-#define S2E_COMPONENTS_AOCS_GYRO_SENSOR_HPP_
+#ifndef S2E_COMPONENTS_REAL_AOCS_MAGNETOMETER_HPP_
+#define S2E_COMPONENTS_REAL_AOCS_MAGNETOMETER_HPP_
 
-#include <dynamics/dynamics.hpp>
+#include <environment/local/local_environment.hpp>
 #include <library/logger/loggable.hpp>
 #include <library/math/quaternion.hpp>
 
-#include "../base/component.hpp"
-#include "../base/sensor.hpp"
+#include "../../base/component.hpp"
+#include "../../base/sensor.hpp"
 
-const size_t kGyroDim = 3;  //!< Dimension of gyro sensor
+const size_t kMagDim = 3;  //!< Dimension of magnetometer
 
 /**
- * @class Gyro
- * @brief Class to emulate gyro sensor
+ * @class MagSensor
+ * @brief Class to emulate magnetometer
  */
-class Gyro : public ComponentBase, public SensorBase<kGyroDim>, public ILoggable {
+class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILoggable {
  public:
   /**
-   * @fn Gyro
+   * @fn MagSensor
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_gen: Clock generator
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
    * @param [in] q_b2c: Quaternion from body frame to component frame
-   * @param [in] dynamics: Dynamics information
+   * @param [in] magnet: Geomagnetic environment
    */
-  Gyro(const int prescaler, ClockGenerator* clock_gen, SensorBase& sensor_base, const int sensor_id, const libra::Quaternion& q_b2c,
-       const Dynamics* dynamics);
+  MagSensor(const int prescaler, ClockGenerator* clock_gen, SensorBase& sensor_base, const int sensor_id, const libra::Quaternion& q_b2c,
+            const MagEnvironment* magnet);
   /**
-   * @fn Gyro
+   * @fn MagSensor
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_gen: Clock generator
@@ -42,15 +42,15 @@ class Gyro : public ComponentBase, public SensorBase<kGyroDim>, public ILoggable
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
    * @param [in] q_b2c: Quaternion from body frame to component frame
-   * @param [in] dynamics: Dynamics information
+   * @param [in] magnet: Geomagnetic environment
    */
-  Gyro(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, SensorBase& sensor_base, const int sensor_id,
-       const libra::Quaternion& q_b2c, const Dynamics* dynamics);
+  MagSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, SensorBase& sensor_base, const int sensor_id,
+            const libra::Quaternion& q_b2c, const MagEnvironment* magnet);
   /**
-   * @fn ~Gyro
+   * @fn ~MagSensor
    * @brief Destructor
    */
-  ~Gyro();
+  ~MagSensor();
 
   // Override functions for ComponentBase
   /**
@@ -72,17 +72,17 @@ class Gyro : public ComponentBase, public SensorBase<kGyroDim>, public ILoggable
   virtual std::string GetLogValue() const;
 
   /**
-   * @fn GetOmegaC
-   * @brief Return observed angular velocity of the component frame with respect to the inertial frame
+   * @fn GetMagC
+   * @brief Return observed magnetic field on the component frame
    */
-  inline const libra::Vector<kGyroDim>& GetOmegaC(void) const { return omega_c_; }
+  inline const libra::Vector<kMagDim>& GetMagC(void) const { return mag_c_; }
 
  protected:
-  libra::Vector<kGyroDim> omega_c_{0.0};         //!< Observed angular velocity of the component frame with respect to the inertial frame [rad/s]
+  libra::Vector<kMagDim> mag_c_{0.0};            // observed magnetic field on the component frame [nT]
   int sensor_id_ = 0;                            //!< Sensor ID
   libra::Quaternion q_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
 
-  const Dynamics* dynamics_;  //!< Dynamics information
+  const MagEnvironment* magnet_;  //!< Geomagnetic environment
 };
 
-#endif  // S2E_COMPONENTS_AOCS_GYRO_SENSOR_HPP_
+#endif  // S2E_COMPONENTS_REAL_AOCS_MAGNETOMETER_HPP_
