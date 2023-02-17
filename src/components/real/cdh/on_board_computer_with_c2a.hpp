@@ -1,14 +1,14 @@
 /*
- * @file obc_c2a.hpp
+ * @file on_board_computer_with_c2a.hpp
  * @brief Class to emulate on board computer with C2A flight software
  */
 
-#ifndef S2E_COMPONENTS_CDH_OBC_C2A_HPP_
-#define S2E_COMPONENTS_CDH_OBC_C2A_HPP_
+#ifndef S2E_COMPONENTS_REAL_CDH_OBC_C2A_HPP_
+#define S2E_COMPONENTS_REAL_CDH_OBC_C2A_HPP_
 
 #include <components/ports/gpio_port.hpp>
 
-#include "obc.hpp"
+#include "on_board_computer.hpp"
 
 /*
  * @class OBC_C2A
@@ -287,4 +287,4 @@ int OBC_C2A_I2cReadRegister(int port_id, const unsigned char i2c_addr, unsigned 
 int OBC_C2A_GpioWrite(int port_id, const bool is_high);
 bool OBC_C2A_GpioRead(int port_id);  // return false when the port_id is not used
 
-#endif  // S2E_COMPONENTS_CDH_OBC_C2A_HPP_
+#endif  // S2E_COMPONENTS_REAL_CDH_OBC_C2A_HPP_

@@ -13,7 +13,7 @@
 #include <components/aocs/initialize_reaction_wheel.hpp>
 #include <components/aocs/initialize_star_sensor.hpp>
 #include <components/aocs/initialize_sun_sensor.hpp>
-#include <components/cdh/obc.hpp>
+#include <components/real/cdh/on_board_computer.hpp>
 #include <components/communication/initialize_antenna.hpp>
 #include <components/examples/example_change_structure.hpp>
 #include <components/examples/example_i2c_controller_for_hils.hpp>

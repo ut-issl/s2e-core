@@ -8,7 +8,7 @@
 
 #include <simulation/hils/hils_port_manager.hpp>
 
-#include "../cdh/obc.hpp"
+#include "../real/cdh/on_board_computer.hpp"
 
 /**
  * @enum OBC_COM_UART_MODE

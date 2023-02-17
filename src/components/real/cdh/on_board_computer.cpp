@@ -1,8 +1,8 @@
 /*
- * @file obc.cpp
+ * @file on_board_computer.cpp
  * @brief Class to emulate on board computer
  */
-#include "obc.hpp"
+#include "on_board_computer.hpp"
 
 OBC::OBC(ClockGenerator* clock_gen) : ComponentBase(1, clock_gen) { Initialize(); }
 

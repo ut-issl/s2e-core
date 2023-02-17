@@ -1,17 +1,17 @@
 /*
- * @file obc.hpp
+ * @file on_board_computer.hpp
  * @brief Class to emulate on board computer
  */
 
-#ifndef S2E_COMPONENTS_CDH_OBC_HPP_
-#define S2E_COMPONENTS_CDH_OBC_HPP_
+#ifndef S2E_COMPONENTS_REAL_CDH_OBC_HPP_
+#define S2E_COMPONENTS_REAL_CDH_OBC_HPP_
 
 #include <components/ports/gpio_port.hpp>
 #include <components/ports/i2c_port.hpp>
 #include <components/ports/uart_port.hpp>
 #include <map>
 
-#include "../base/component.hpp"
+#include "../../base/component.hpp"
 
 /*
  * @class OBC
@@ -206,4 +206,4 @@ class OBC : public ComponentBase {
   std::map<int, GPIOPort*> gpio_ports_;    //!< GPIO ports
 };
 
-#endif  // S2E_COMPONENTS_CDH_OBC_HPP_
+#endif  // S2E_COMPONENTS_REAL_CDH_OBC_HPP_

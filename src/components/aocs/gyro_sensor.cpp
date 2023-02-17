@@ -5,8 +5,6 @@
 
 #include "gyro_sensor.hpp"
 
-#include "../cdh/obc_c2a.hpp"
-
 Gyro::Gyro(const int prescaler, ClockGenerator* clock_gen, SensorBase& sensor_base, const int sensor_id, const Quaternion& q_b2c,
            const Dynamics* dynamics)
     : ComponentBase(prescaler, clock_gen), SensorBase(sensor_base), sensor_id_(sensor_id), q_b2c_(q_b2c), dynamics_(dynamics) {}

@@ -1,9 +1,9 @@
 /*
- * @file obc_c2a.cpp
+ * @file on_board_computer_with_c2a.cpp
  * @brief Class to emulate on board computer with C2A flight software
  */
 
-#include "obc_c2a.hpp"
+#include "on_board_computer_with_c2a.hpp"
 
 #ifdef USE_C2A
 #include "src_core/System/TaskManager/task_dispatcher.h"

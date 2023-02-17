@@ -25,8 +25,8 @@ aocs/initialize_sun_sensor.cpp
 aocs/gnss_receiver.cpp
 aocs/initialize_gnss_receiver.cpp
 
-cdh/obc.cpp
-cdh/obc_c2a.cpp
+real/cdh/on_board_computer.cpp
+real/cdh/on_board_computer_with_c2a.cpp
 
 communication/antenna.cpp
 communication/antenna_radiation_pattern.cpp
