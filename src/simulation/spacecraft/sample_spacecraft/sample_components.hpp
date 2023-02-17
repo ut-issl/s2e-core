@@ -21,7 +21,7 @@
 #include <components/examples/example_serial_communication_for_hils.hpp>
 #include <components/ideal/initialize_force_generator.hpp>
 #include <components/ideal/initialize_torque_generator.hpp>
-#include <components/power/power_control_unit.hpp>
+#include <components/real/power/power_control_unit.hpp>
 #include <components/real/propulsion/initialize_simple_thruster.hpp>
 #include <dynamics/dynamics.hpp>
 #include <library/math/vector.hpp>

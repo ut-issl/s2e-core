@@ -3,13 +3,13 @@
  * @brief Component emulation of battery
  */
 
-#ifndef S2E_COMPONENTS_POWER_BATTERY_HPP_P_
-#define S2E_COMPONENTS_POWER_BATTERY_HPP_P_
+#ifndef S2E_COMPONENTS_REAL_POWER_BATTERY_HPP_P_
+#define S2E_COMPONENTS_REAL_POWER_BATTERY_HPP_P_
 
 #include <library/logger/loggable.hpp>
 #include <vector>
 
-#include "../base/component.hpp"
+#include "../../base/component.hpp"
 
 /*
  * @class BAT
@@ -132,4 +132,4 @@ class BAT : public ComponentBase, public ILoggable {
   void UpdateBatVoltage();
 };
 
-#endif  // S2E_COMPONENTS_POWER_BATTERY_HPP_P_
+#endif  // S2E_COMPONENTS_REAL_POWER_BATTERY_HPP_P_

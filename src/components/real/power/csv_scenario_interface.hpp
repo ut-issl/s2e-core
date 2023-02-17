@@ -3,8 +3,8 @@
  * @brief Interface to read power related scenario in CSV file
  */
 
-#ifndef S2E_COMPONENTS_POWER_CSV_SCENARIO_INTERFACE_HPP_
-#define S2E_COMPONENTS_POWER_CSV_SCENARIO_INTERFACE_HPP_
+#ifndef S2E_COMPONENTS_REAL_POWER_CSV_SCENARIO_INTERFACE_HPP_
+#define S2E_COMPONENTS_REAL_POWER_CSV_SCENARIO_INTERFACE_HPP_
 
 #include <library/math/vector.hpp>
 #include <map>
@@ -78,4 +78,4 @@ class CsvScenarioInterface {
   static std::map<std::string, DoubleBuffer> buffers_;         //!< Buffer
 };
 
-#endif  // S2E_COMPONENTS_POWER_CSV_SCENARIO_INTERFACE_HPP_
+#endif  // S2E_COMPONENTS_REAL_POWER_CSV_SCENARIO_INTERFACE_HPP_

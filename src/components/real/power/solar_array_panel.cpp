@@ -5,7 +5,7 @@
 
 #include "solar_array_panel.hpp"
 
-#include <components/power/csv_scenario_interface.hpp>
+#include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
 
 SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,

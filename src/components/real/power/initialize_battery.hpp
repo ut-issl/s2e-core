@@ -3,10 +3,10 @@
  * @brief Initialize function of BAT
  */
 
-#ifndef S2E_COMPONENTS_POWER_INITIALIZE_BATTERY_HPP_
-#define S2E_COMPONENTS_POWER_INITIALIZE_BATTERY_HPP_
+#ifndef S2E_COMPONENTS_REAL_POWER_INITIALIZE_BATTERY_HPP_
+#define S2E_COMPONENTS_REAL_POWER_INITIALIZE_BATTERY_HPP_
 
-#include <components/power/battery.hpp>
+#include <components/real/power/battery.hpp>
 
 /*
  * @fn InitBAT
@@ -18,4 +18,4 @@
  */
 BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname, double compo_step_time);
 
-#endif  // S2E_COMPONENTS_POWER_INITIALIZE_BATTERY_HPP_
+#endif  // S2E_COMPONENTS_REAL_POWER_INITIALIZE_BATTERY_HPP_

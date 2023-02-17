@@ -48,14 +48,14 @@ ideal/initialize_torque_generator.cpp
 real/mission/telescope.cpp
 real/mission/initialize_telescope.cpp
 
-power/power_control_unit.cpp
-power/battery.cpp
-power/initialize_battery.cpp
-power/pcu_initial_study.cpp
-power/initialize_pcu_initial_study.cpp
-power/solar_array_panel.cpp
-power/initialize_solar_array_panel.cpp
-power/csv_scenario_interface.cpp
+real/power/power_control_unit.cpp
+real/power/battery.cpp
+real/power/initialize_battery.cpp
+real/power/pcu_initial_study.cpp
+real/power/initialize_pcu_initial_study.cpp
+real/power/solar_array_panel.cpp
+real/power/initialize_solar_array_panel.cpp
+real/power/csv_scenario_interface.cpp
 
 real/propulsion/simple_thruster.cpp
 real/propulsion/initialize_simple_thruster.cpp

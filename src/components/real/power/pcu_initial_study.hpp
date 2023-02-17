@@ -3,13 +3,13 @@
  * @brief Component emulation of Power Control Unit for initial study of spacecraft project
  */
 
-#ifndef S2E_COMPONENTS_POWER_PCU_INITIAL_STUDY_HPP_
-#define S2E_COMPONENTS_POWER_PCU_INITIAL_STUDY_HPP_
+#ifndef S2E_COMPONENTS_REAL_POWER_PCU_INITIAL_STUDY_HPP_
+#define S2E_COMPONENTS_REAL_POWER_PCU_INITIAL_STUDY_HPP_
 
 #include <library/logger/loggable.hpp>
 #include <vector>
 
-#include "../base/component.hpp"
+#include "../../base/component.hpp"
 #include "battery.hpp"
 #include "solar_array_panel.hpp"
 
@@ -81,4 +81,4 @@ class PCU_InitialStudy : public ComponentBase, public ILoggable {
   void UpdateChargeCurrentAndBusVoltage();
 };
 
-#endif  // S2E_COMPONENTS_POWER_PCU_INITIAL_STUDY_HPP_
+#endif  // S2E_COMPONENTS_REAL_POWER_PCU_INITIAL_STUDY_HPP_
