@@ -5,7 +5,7 @@
 
 #include "initialize_local_environment.hpp"
 
-#include <interface/initialize/initialize_file_access.hpp>
+#include <library/initialize/initialize_file_access.hpp>
 #include <string>
 
 #define CALC_LABEL "calculation"

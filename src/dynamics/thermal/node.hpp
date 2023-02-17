@@ -6,7 +6,7 @@
 #ifndef S2E_DYNAMICS_THERMAL_NODE_HPP_
 #define S2E_DYNAMICS_THERMAL_NODE_HPP_
 
-#include <interface/log_output/logger.hpp>
+#include <library/logger/logger.hpp>
 #include <string>
 #include <vector>
 

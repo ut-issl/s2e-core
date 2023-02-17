@@ -7,7 +7,7 @@
 
 #include <library/external/igrf/igrf.h>
 
-#include <interface/initialize/initialize_file_access.hpp>
+#include <library/initialize/initialize_file_access.hpp>
 #include <library/randomization/global_randomization.hpp>
 #include <library/randomization/normal_randomization.hpp>
 #include <library/randomization/random_walk.hpp>

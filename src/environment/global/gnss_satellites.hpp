@@ -9,8 +9,8 @@
 #include <cmath>
 #include <ctime>
 #include <fstream>
-#include <interface/log_output/loggable.hpp>
 #include <iomanip>
+#include <library/logger/loggable.hpp>
 #include <library/math/vector.hpp>
 #include <map>
 #include <vector>

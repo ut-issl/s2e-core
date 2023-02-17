@@ -8,7 +8,7 @@
 #include <cmath>
 #include <environment/global/physical_constants.hpp>
 
-#include "../interface/log_output/log_utility.hpp"
+#include "../library/logger/log_utility.hpp"
 
 GravityGradient::GravityGradient(const bool is_calculation_enabled)
     : GravityGradient(environment::earth_gravitational_constant_m3_s2, is_calculation_enabled) {}

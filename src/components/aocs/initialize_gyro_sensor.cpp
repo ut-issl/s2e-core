@@ -4,7 +4,7 @@
  */
 #include "initialize_gyro_sensor.hpp"
 
-#include <interface/initialize/initialize_file_access.hpp>
+#include <library/initialize/initialize_file_access.hpp>
 
 #include "../base/initialize_sensor.hpp"
 

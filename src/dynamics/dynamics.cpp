@@ -5,7 +5,7 @@
 
 #include "dynamics.hpp"
 
-#include "../relative_information/relative_information.hpp"
+#include "../simulation/multiple_spacecraft/relative_information.hpp"
 
 using namespace std;
 

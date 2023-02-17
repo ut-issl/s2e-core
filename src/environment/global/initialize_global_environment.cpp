@@ -8,7 +8,7 @@
 
 #include <cassert>
 #include <environment/global/simulation_time.hpp>
-#include <interface/initialize/initialize_file_access.hpp>
+#include <library/initialize/initialize_file_access.hpp>
 
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"

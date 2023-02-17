@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "interface/initialize/initialize_file_access.hpp"
+#include "library/initialize/initialize_file_access.hpp"
 
 PCU_InitialStudy InitPCU_InitialStudy(ClockGenerator* clock_gen, int pcu_id, const std::string fname, const std::vector<SAP*> saps, BAT* bat,
                                       double compo_step_time) {

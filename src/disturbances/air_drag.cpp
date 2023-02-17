@@ -9,7 +9,7 @@
 #include <environment/global/physical_constants.hpp>
 #include <library/math/constants.hpp>
 
-#include "../interface/log_output/log_utility.hpp"
+#include "../library/logger/log_utility.hpp"
 
 AirDrag::AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
                  const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled)

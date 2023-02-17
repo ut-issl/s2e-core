@@ -6,7 +6,7 @@
 #ifndef S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_
 #define S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_
 
-#include <interface/log_output/loggable.hpp>
+#include <library/logger/loggable.hpp>
 #include <string>
 #include <vector>
 

@@ -6,8 +6,12 @@
 #ifndef S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_HPP_
 #define S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_HPP_
 
-#include "../interface/log_output/loggable.hpp"
+#include <string>
+
 #include "../library/math/vector.hpp"
+using libra::Vector;
+
+#include "../library/logger/loggable.hpp"
 #include "../simulation/spacecraft/structure/residual_magnetic_moment.hpp"
 #include "simple_disturbance.hpp"
 

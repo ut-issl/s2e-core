@@ -6,8 +6,8 @@
 #ifndef S2E_COMPONENTS_POWER_POWER_CONTROL_UNIT_HPP_
 #define S2E_COMPONENTS_POWER_POWER_CONTROL_UNIT_HPP_
 
-#include <interface/log_output/loggable.hpp>
-#include <interface/sils/ports/power_port.hpp>
+#include <components/ports/power_port.hpp>
+#include <library/logger/loggable.hpp>
 #include <map>
 
 #include "../base/component.hpp"

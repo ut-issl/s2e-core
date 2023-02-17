@@ -7,7 +7,7 @@
 
 #include <cmath>
 
-#include "../interface/log_output/log_utility.hpp"
+#include "../library/logger/log_utility.hpp"
 
 SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled) {}

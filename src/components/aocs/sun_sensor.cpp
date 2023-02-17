@@ -8,7 +8,7 @@
 #include <library/math/constants.hpp>
 #include <library/randomization/normal_randomization.hpp>
 using libra::NormalRand;
-#include <interface/log_output/log_utility.hpp>
+#include <library/logger/log_utility.hpp>
 #include <library/randomization/global_randomization.hpp>
 
 using namespace std;

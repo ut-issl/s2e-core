@@ -6,7 +6,7 @@
 #include "initialize_temperature.hpp"
 
 #include <environment/global/simulation_time.hpp>
-#include <interface/initialize/initialize_file_access.hpp>
+#include <library/initialize/initialize_file_access.hpp>
 #include <string>
 
 #include "initialize_node.hpp"

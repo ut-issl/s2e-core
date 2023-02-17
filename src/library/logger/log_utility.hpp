@@ -3,8 +3,8 @@
  * @brief Utility functions to support logging for users
  */
 
-#ifndef S2E_INTERFACE_LOG_OUTPUT_LOG_UTILITY_HPP_
-#define S2E_INTERFACE_LOG_OUTPUT_LOG_UTILITY_HPP_
+#ifndef S2E_LIBRARY_LOGGER_LOG_UTILITY_HPP_
+#define S2E_LIBRARY_LOGGER_LOG_UTILITY_HPP_
 
 #include <iomanip>
 #include <library/math/matrix_vector.hpp>
@@ -159,4 +159,4 @@ std::string WriteQuaternion(std::string name, std::string frame) {
   return str_tmp.str();
 }
 
-#endif  // S2E_INTERFACE_LOG_OUTPUT_LOG_UTILITY_HPP_
+#endif  // S2E_LIBRARY_LOGGER_LOG_UTILITY_HPP_

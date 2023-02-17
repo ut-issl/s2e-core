@@ -2,6 +2,7 @@
  * @file com_port_interface.hpp
  * @brief Class to manage PC's COM port
  * @details Currently, this feature supports Windows Visual Studio only.(FIXME)
+ * @note This file is not included in the compile targets
  * Reference: https://docs.microsoft.com/ja-jp/dotnet/api/system.io.ports.serialport?view=netframework-4.7.2
  */
 
