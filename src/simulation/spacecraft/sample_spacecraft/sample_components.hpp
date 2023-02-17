@@ -6,6 +6,12 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
 #define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
 
+#include <components/examples/example_change_structure.hpp>
+#include <components/examples/example_i2c_controller_for_hils.hpp>
+#include <components/examples/example_i2c_target_for_hils.hpp>
+#include <components/examples/example_serial_communication_for_hils.hpp>
+#include <components/ideal/initialize_force_generator.hpp>
+#include <components/ideal/initialize_torque_generator.hpp>
 #include <components/real/aocs/initialize_gnss_receiver.hpp>
 #include <components/real/aocs/initialize_gyro_sensor.hpp>
 #include <components/real/aocs/initialize_magnetometer.hpp>
@@ -15,12 +21,6 @@
 #include <components/real/aocs/initialize_sun_sensor.hpp>
 #include <components/real/cdh/on_board_computer.hpp>
 #include <components/real/communication/initialize_antenna.hpp>
-#include <components/examples/example_change_structure.hpp>
-#include <components/examples/example_i2c_controller_for_hils.hpp>
-#include <components/examples/example_i2c_target_for_hils.hpp>
-#include <components/examples/example_serial_communication_for_hils.hpp>
-#include <components/ideal/initialize_force_generator.hpp>
-#include <components/ideal/initialize_torque_generator.hpp>
 #include <components/real/power/power_control_unit.hpp>
 #include <components/real/propulsion/initialize_simple_thruster.hpp>
 #include <dynamics/dynamics.hpp>
