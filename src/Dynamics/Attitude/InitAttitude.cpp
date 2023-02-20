@@ -14,8 +14,9 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
   Attitude* attitude;
 
   const std::string propagate_mode = ini_file.ReadString(section_, "propagate_mode");
+  const std::string initialize_mode = ini_file.ReadString(section_, "initialize_mode");
 
-  if (propagate_mode == "RK4") {
+  if (propagate_mode == "RK4" && initialize_mode == "MANUAL") {
     // RK4 propagator
     Vector<3> omega_b;
     ini_file.ReadVector(section_, "Omega_b", omega_b);
@@ -25,7 +26,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     ini_file.ReadVector(section_, "Torque_b", torque_b);
 
     attitude = new AttitudeRK4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, mc_name);
-  } else if (propagate_mode == "CONTROLLED") {
+  } else if (propagate_mode == "CONTROLLED" || initialize_mode == "SUN_POINTING") {
     // Controlled attitude
     IniAccess ini_file_ca(file_name);
     const char* section_ca_ = "ControlledAttitude";
@@ -42,8 +43,10 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     attitude =
         new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, pointing_t_b, pointing_sub_t_b, inertia_tensor, celes_info, orbit, mc_name);
   } else {
-    std::cerr << "ERROR: attitude propagation mode: " << propagate_mode << " is not defined!" << std::endl;
+    std::cerr << "ERROR: attitude propagation mode: " << propagate_mode << " or initialize attitude mode: " << initialize_mode << " is not defined!"
+              << std::endl;
     std::cerr << "The attitude mode is automatically set as RK4" << std::endl;
+    std::cerr << "The initialize mode is automatically set as MANUAL" << std::endl;
 
     Vector<3> omega_b;
     ini_file.ReadVector(section_, "Omega_b", omega_b);
