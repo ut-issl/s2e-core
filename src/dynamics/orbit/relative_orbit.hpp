@@ -39,8 +39,9 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    * @param [in] rel_info: Relative information
    */
   RelativeOrbit(const CelestialInformation* celestial_information, double mu_m3_s2, double timestep, int reference_spacecraft_id,
-                Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh, RelativeOrbitUpdateMethod update_method,
-                RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type, RelativeInformation* rel_info);
+                libra::Vector<3> initial_relative_position_lvlh, libra::Vector<3> initial_relative_velocity_lvlh,
+                RelativeOrbitUpdateMethod update_method, RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type,
+                RelativeInformation* rel_info);
   /**
    * @fn ~RelativeOrbit
    * @brief Destructor
@@ -72,12 +73,12 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
   double propagation_time_s_;             //!< Simulation current time for numerical integration by RK4 [sec]
   double propagation_step_s_;             //!< Step width for RK4 [sec]
 
-  Matrix<6, 6> system_matrix_;  //!< System matrix
-  Matrix<6, 6> stm_;            //!< State transition matrix
+  libra::Matrix<6, 6> system_matrix_;  //!< System matrix
+  libra::Matrix<6, 6> stm_;            //!< State transition matrix
 
-  Vector<6> initial_state_;               //!< Initial state (Position and Velocity)
-  Vector<3> relative_position_lvlh_m_;    //!< Relative position in the LVLH frame
-  Vector<3> relative_velocity_lvlh_m_s_;  //!< Relative velocity in the LVLH frame
+  libra::Vector<6> initial_state_;               //!< Initial state (Position and Velocity)
+  libra::Vector<3> relative_position_lvlh_m_;    //!< Relative position in the LVLH frame
+  libra::Vector<3> relative_velocity_lvlh_m_s_;  //!< Relative velocity in the LVLH frame
 
   RelativeOrbitUpdateMethod update_method_;          //!< Update method
   RelativeOrbitModel relative_dynamics_model_type_;  //!< Relative dynamics model type
@@ -92,7 +93,8 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    * @param [in] mu_m3_s2: Gravity constant of the center body [m3/s2]
    * @param [in] init_time: Initialize time [sec]
    */
-  void InitializeState(Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh, double mu_m3_s2, double init_time = 0);
+  void InitializeState(libra::Vector<3> initial_relative_position_lvlh, libra::Vector<3> initial_relative_velocity_lvlh, double mu_m3_s2,
+                       double init_time = 0);
   /**
    * @fn CalculateSystemMatrix
    * @brief Calculate system matrix
