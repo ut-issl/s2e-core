@@ -71,7 +71,7 @@ class Dynamics {
    */
   void AddForce_b(libra::Vector<3> force_b_N);
   /**
-   * @fn AddAcceleratione_i
+   * @fn AddAcceleration_i
    * @brief Add input acceleration for the orbit dynamics propagation
    * @param [in] acceleration_i_m_s2: Acceleration in the inertial fixed frame [N]
    */
@@ -102,18 +102,6 @@ class Dynamics {
    * @brief Return Attitude class to change the Attitude
    */
   inline Attitude& SetAttitude() const { return *attitude_; }
-
-  /**
-   * @fn GetPosition_i
-   * @brief Return spacecraft position in the inertial frame [m]
-   */
-  inline libra::Vector<3> GetPosition_i() const { return orbit_->GetSatPosition_i(); }
-
-  /**
-   * @fn GetQuaternion_i2b
-   * @brief Return spacecraft attitude quaternion from the inertial frame to the body fixed frame
-   */
-  inline libra::Quaternion GetQuaternion_i2b() const { return attitude_->GetQuaternion_i2b(); }
 
  private:
   Attitude* attitude_;          //!< Attitude dynamics

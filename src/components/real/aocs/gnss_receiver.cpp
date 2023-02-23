@@ -49,7 +49,7 @@ void GNSSReceiver::MainRoutine(int count) {
   UNUSED(count);
 
   Vector<3> pos_true_eci_ = dynamics_->GetOrbit().GetSatPosition_i();
-  Quaternion q_i2b = dynamics_->GetQuaternion_i2b();
+  Quaternion q_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
 
   CheckAntenna(pos_true_eci_, q_i2b);
 
