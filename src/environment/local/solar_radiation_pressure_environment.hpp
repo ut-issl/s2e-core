@@ -6,11 +6,8 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_
 #define S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_
 
-#include <environment/local/local_celestial_information.hpp>
-#include <library/logger/loggable.hpp>
-#include <library/math/vector.hpp>
-
-using libra::Vector;
+#include "environment/local/local_celestial_information.hpp"
+#include "library/logger/loggable.hpp"
 
 /**
  * @class SRPEnvironment
