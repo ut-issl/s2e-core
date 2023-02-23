@@ -84,13 +84,13 @@ class SRPEnvironment : public ILoggable {
   virtual std::string GetLogValue() const;
 
  private:
-  double pressure_;                  //!< Solar radiation pressure [N/m^2]
-  double solar_constant_;            //!< solar constant [W/m^2] TODO: We need to change the value depends on sun activity.
-  double shadow_coefficient_ = 1.0;  //!< shadow function
-  double sun_radius_m_;              //!< Sun radius [m]
-  std::string shadow_source_name_;   //!< Shadow source name
+  double solar_radiation_pressure_N_m2_;  //!< Solar radiation pressure [N/m^2]
+  double solar_constant_W_m2_;            //!< solar constant [W/m^2] TODO: We need to change the value depends on sun activity.
+  double shadow_coefficient_ = 1.0;       //!< shadow function
+  double sun_radius_m_;                   //!< Sun radius [m]
+  std::string shadow_source_name_;        //!< Shadow source name
 
-  LocalCelestialInformation* local_celes_info_;  //!< Local celestial information
+  LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
 
   /**
    * @fn CalcShadowCoefficient

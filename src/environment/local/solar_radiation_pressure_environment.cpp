@@ -13,11 +13,11 @@
 #include "library/math/constants.hpp"
 #include "library/math/vector.hpp"
 
-SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info) : local_celes_info_(local_celes_info) {
-  solar_constant_ = 1366.0;                                       // [W/m2]
-  pressure_ = solar_constant_ / environment::speed_of_light_m_s;  // [N/m2]
-  shadow_source_name_ = local_celes_info_->GetGlobalInformation().GetCenterBodyName();
-  sun_radius_m_ = local_celes_info_->GetGlobalInformation().GetMeanRadiusFromName_m("SUN");
+SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info) : local_celestial_information_(local_celes_info) {
+  solar_constant_W_m2_ = 1366.0;                                                            // [W/m2]
+  solar_radiation_pressure_N_m2_ = solar_constant_W_m2_ / environment::speed_of_light_m_s;  // [N/m2]
+  shadow_source_name_ = local_celestial_information_->GetGlobalInformation().GetCenterBodyName();
+  sun_radius_m_ = local_celestial_information_->GetGlobalInformation().GetMeanRadiusFromName_m("SUN");
 }
 
 void SRPEnvironment::UpdateAllStates() {
@@ -28,25 +28,26 @@ void SRPEnvironment::UpdateAllStates() {
 }
 
 void SRPEnvironment::UpdatePressure() {
-  const libra::Vector<3> r_sc2sun_eci = local_celes_info_->GetPositionFromSpacecraft_i_m("SUN");
+  const libra::Vector<3> r_sc2sun_eci = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
   const double distance_sat_to_sun = norm(r_sc2sun_eci);
-  pressure_ = solar_constant_ / environment::speed_of_light_m_s / pow(distance_sat_to_sun / environment::astronomical_unit_m, 2.0);
+  solar_radiation_pressure_N_m2_ =
+      solar_constant_W_m2_ / environment::speed_of_light_m_s / pow(distance_sat_to_sun / environment::astronomical_unit_m, 2.0);
 }
 
-double SRPEnvironment::CalcTruePressure() const { return pressure_ * shadow_coefficient_; }
+double SRPEnvironment::CalcTruePressure() const { return solar_radiation_pressure_N_m2_ * shadow_coefficient_; }
 
-double SRPEnvironment::CalcPowerDensity() const { return pressure_ * environment::speed_of_light_m_s * shadow_coefficient_; }
+double SRPEnvironment::CalcPowerDensity() const { return solar_radiation_pressure_N_m2_ * environment::speed_of_light_m_s * shadow_coefficient_; }
 
-double SRPEnvironment::GetPressure() const { return pressure_; }
+double SRPEnvironment::GetPressure() const { return solar_radiation_pressure_N_m2_; }
 
-double SRPEnvironment::GetSolarConstant() const { return solar_constant_; }
+double SRPEnvironment::GetSolarConstant() const { return solar_constant_W_m2_; }
 
 double SRPEnvironment::GetShadowCoefficient() const { return shadow_coefficient_; }
 
 std::string SRPEnvironment::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("solar_radiation_pressure_at_spacecraft_position", "N/m2");
+  str_tmp += WriteScalar("solar_radiation_solar_radiation_pressure_N_m2_at_spacecraft_position", "N/m2");
   str_tmp += WriteScalar("shadow_coefficient_at_spacecraft_position");
 
   return str_tmp;
@@ -55,7 +56,7 @@ std::string SRPEnvironment::GetLogHeader() const {
 std::string SRPEnvironment::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(pressure_ * shadow_coefficient_);
+  str_tmp += WriteScalar(solar_radiation_pressure_N_m2_ * shadow_coefficient_);
   str_tmp += WriteScalar(shadow_coefficient_);
 
   return str_tmp;
@@ -67,10 +68,10 @@ void SRPEnvironment::CalcShadowCoefficient(std::string shadow_source_name) {
     return;
   }
 
-  const libra::Vector<3> r_sc2sun_eci = local_celes_info_->GetPositionFromSpacecraft_i_m("SUN");
-  const libra::Vector<3> r_sc2source_eci = local_celes_info_->GetPositionFromSpacecraft_i_m(shadow_source_name.c_str());
+  const libra::Vector<3> r_sc2sun_eci = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
+  const libra::Vector<3> r_sc2source_eci = local_celestial_information_->GetPositionFromSpacecraft_i_m(shadow_source_name.c_str());
 
-  const double shadow_source_radius_m = local_celes_info_->GetGlobalInformation().GetMeanRadiusFromName_m(shadow_source_name.c_str());
+  const double shadow_source_radius_m = local_celestial_information_->GetGlobalInformation().GetMeanRadiusFromName_m(shadow_source_name.c_str());
 
   const double distance_sat_to_sun = norm(r_sc2sun_eci);
   const double sd_sun = asin(sun_radius_m_ / distance_sat_to_sun);                // Apparent radius of the sun
