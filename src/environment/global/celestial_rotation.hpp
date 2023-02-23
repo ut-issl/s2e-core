@@ -10,16 +10,8 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_
 
-#include <cstring>
 #include <library/logger/loggable.hpp>
 #include <library/math/matrix.hpp>
-#include <library/math/matrix_vector.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
-#include <string>
-
-using libra::Quaternion;
-using libra::Vector;
 
 /**
  * @enum RotationMode
@@ -58,13 +50,13 @@ class CelestialRotation {
    * @fn GetDCMJ2000toXCXF
    * @brief Return the DCM between J2000 inertial frame and the frame of fixed to the target object X (X-Centered X-Fixed)
    */
-  inline const Matrix<3, 3> GetDCMJ2000toXCXF() const { return DCM_J2000toXCXF_; };
+  inline const libra::Matrix<3, 3> GetDCMJ2000toXCXF() const { return DCM_J2000toXCXF_; };
 
   /**
    * @fn GetDCMJ2000toXCXF
    * @brief Return the DCM between TEME (Inertial frame used in SGP4) and the frame of fixed to the target object X (X-Centered X-Fixed)
    */
-  inline const Matrix<3, 3> GetDCMTEMEtoXCXF() const { return DCM_TEMEtoXCXF_; };
+  inline const libra::Matrix<3, 3> GetDCMTEMEtoXCXF() const { return DCM_TEMEtoXCXF_; };
 
  private:
   /**
@@ -76,18 +68,18 @@ class CelestialRotation {
    */
   void Init_CelestialRotation_As_Earth(const RotationMode rotation_mode, const std::string center_obj);
 
-  Matrix<3, 3> AxialRotation(const double GAST_rad);           //!< Movement of the coordinate axes due to rotation around the rotation axis
-  Matrix<3, 3> Nutation(const double (&tTT_century)[4]);       //!< Movement of the coordinate axes due to Nutation
-  Matrix<3, 3> Precession(const double (&tTT_century)[4]);     //!< Movement of the coordinate axes due to Precession
-  Matrix<3, 3> PolarMotion(const double Xp, const double Yp);  //!< Movement of the coordinate axes due to Polar Motion
+  libra::Matrix<3, 3> AxialRotation(const double GAST_rad);           //!< Movement of the coordinate axes due to rotation around the rotation axis
+  libra::Matrix<3, 3> Nutation(const double (&tTT_century)[4]);       //!< Movement of the coordinate axes due to Nutation
+  libra::Matrix<3, 3> Precession(const double (&tTT_century)[4]);     //!< Movement of the coordinate axes due to Precession
+  libra::Matrix<3, 3> PolarMotion(const double Xp, const double Yp);  //!< Movement of the coordinate axes due to Polar Motion
 
-  double dpsi_rad_;               //!< Nutation in obliquity [rad]
-  double depsilon_rad_;           //!< Nutation in longitude [rad]
-  double epsi_rad_;               //!< Mean obliquity of the ecliptic [rad]
-  Matrix<3, 3> DCM_J2000toXCXF_;  //!< Direction Cosine Matrix J2000 to XCXF(X-Centered X-Fixed)
-  Matrix<3, 3> DCM_TEMEtoXCXF_;   //!< Direction Cosine Matrix TEME to XCXF(X-Centered X-Fixed)
-  RotationMode rotation_mode_;    //!< Designation of dynamics model
-  std::string planet_name_;       //!< Designate which solar planet the instance should work as
+  double dpsi_rad_;                      //!< Nutation in obliquity [rad]
+  double depsilon_rad_;                  //!< Nutation in longitude [rad]
+  double epsi_rad_;                      //!< Mean obliquity of the ecliptic [rad]
+  libra::Matrix<3, 3> DCM_J2000toXCXF_;  //!< Direction Cosine Matrix J2000 to XCXF(X-Centered X-Fixed)
+  libra::Matrix<3, 3> DCM_TEMEtoXCXF_;   //!< Direction Cosine Matrix TEME to XCXF(X-Centered X-Fixed)
+  RotationMode rotation_mode_;           //!< Designation of dynamics model
+  std::string planet_name_;              //!< Designate which solar planet the instance should work as
 
   // Definitions of coefficeints
   // They are handling as constant values

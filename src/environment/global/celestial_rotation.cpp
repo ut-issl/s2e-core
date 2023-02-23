@@ -9,17 +9,15 @@
 
 #include "celestial_rotation.hpp"
 
-#include <library/external/sgp4/sgp4ext.h>   // for jday()
-#include <library/external/sgp4/sgp4unit.h>  // for gstime()
-
 #include <iostream>
-#include <library/math/constants.hpp>
 #include <sstream>
 
-using namespace std;
+#include "library/external/sgp4/sgp4ext.h"   // for jday()
+#include "library/external/sgp4/sgp4unit.h"  // for gstime()
+#include "library/math/constants.hpp"
 
 // Default constructor
-CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const string center_obj) {
+CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std::string center_obj) {
   planet_name_ = "Anonymous";
   rotation_mode_ = Idle;
   unitalize(DCM_J2000toXCXF_);
@@ -30,7 +28,7 @@ CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const str
 }
 
 // Initialize the class CelestialRotation instance as Earth
-void CelestialRotation::Init_CelestialRotation_As_Earth(const RotationMode rotation_mode, const string center_obj) {
+void CelestialRotation::Init_CelestialRotation_As_Earth(const RotationMode rotation_mode, const std::string center_obj) {
   planet_name_ = "EARTH";
   if (center_obj == planet_name_) {
     if (rotation_mode == Simple) {
@@ -140,10 +138,10 @@ void CelestialRotation::Update(const double JulianDate) {
       tTT_century[i + 1] = tTT_century[i] * tTT_century[0];
     }
 
-    Matrix<3, 3> P;
-    Matrix<3, 3> N;
-    Matrix<3, 3> R;
-    Matrix<3, 3> W;
+    libra::Matrix<3, 3> P;
+    libra::Matrix<3, 3> N;
+    libra::Matrix<3, 3> R;
+    libra::Matrix<3, 3> W;
     // Nutation + Precession
     P = Precession(tTT_century);
     N = Nutation(tTT_century);  // epsi_rad_, depsilon_rad_, dpsi_rad_ are
@@ -169,9 +167,9 @@ void CelestialRotation::Update(const double JulianDate) {
   }
 }
 
-Matrix<3, 3> CelestialRotation::AxialRotation(const double GAST_rad) { return libra::rotz(GAST_rad); }
+libra::Matrix<3, 3> CelestialRotation::AxialRotation(const double GAST_rad) { return libra::rotz(GAST_rad); }
 
-Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) {
+libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) {
   // Mean obliquity of the ecliptic
   epsi_rad_ = c_epsi_rad_[0];
   for (int i = 0; i < 3; i++) {
@@ -223,17 +221,17 @@ Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) {
                   c_depsilon_rad_[7] * cos(2 * L_rad + lm_rad) + c_depsilon_rad_[8] * cos(2 * Ld_rad - ls_rad);  // [rad]
 
   double epsi_mod_rad = epsi_rad_ + depsilon_rad_;
-  Matrix<3, 3> X_epsi_1st = libra::rotx(epsi_rad_);
-  Matrix<3, 3> Z_dpsi = libra::rotz(-dpsi_rad_);
-  Matrix<3, 3> X_epsi_2nd = libra::rotx(-epsi_mod_rad);
+  libra::Matrix<3, 3> X_epsi_1st = libra::rotx(epsi_rad_);
+  libra::Matrix<3, 3> Z_dpsi = libra::rotz(-dpsi_rad_);
+  libra::Matrix<3, 3> X_epsi_2nd = libra::rotx(-epsi_mod_rad);
 
-  Matrix<3, 3> N;
+  libra::Matrix<3, 3> N;
   N = X_epsi_2nd * Z_dpsi * X_epsi_1st;
 
   return N;
 }
 
-Matrix<3, 3> CelestialRotation::Precession(const double (&tTT_century)[4]) {
+libra::Matrix<3, 3> CelestialRotation::Precession(const double (&tTT_century)[4]) {
   // Compute precession angles(zeta, theta, z)
   double zeta_rad = 0.0;
   for (int i = 0; i < 3; i++) {
@@ -249,18 +247,18 @@ Matrix<3, 3> CelestialRotation::Precession(const double (&tTT_century)[4]) {
   }
 
   // Develop transformation matrix
-  Matrix<3, 3> Z_zeta = libra::rotz(-zeta_rad);
-  Matrix<3, 3> Y_theta = libra::roty(theta_rad);
-  Matrix<3, 3> Z_z = libra::rotz(-z_rad);
+  libra::Matrix<3, 3> Z_zeta = libra::rotz(-zeta_rad);
+  libra::Matrix<3, 3> Y_theta = libra::roty(theta_rad);
+  libra::Matrix<3, 3> Z_z = libra::rotz(-z_rad);
 
-  Matrix<3, 3> P;
+  libra::Matrix<3, 3> P;
   P = Z_z * Y_theta * Z_zeta;
 
   return P;
 }
 
-Matrix<3, 3> CelestialRotation::PolarMotion(const double Xp, const double Yp) {
-  Matrix<3, 3> W;
+libra::Matrix<3, 3> CelestialRotation::PolarMotion(const double Xp, const double Yp) {
+  libra::Matrix<3, 3> W;
 
   W[0][0] = 1.0;
   W[0][1] = 0.0;
