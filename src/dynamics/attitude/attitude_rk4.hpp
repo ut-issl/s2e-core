@@ -36,13 +36,13 @@ class AttitudeRK4 : public Attitude {
    * @fn GetPropTime
    * @brief Return propagation time (current time) [sec]
    */
-  inline double GetPropTime() const { return prop_time_s_; }
+  inline double GetPropTime() const { return current_propagation_time_s_; }
 
   /**
    * @fn SetTime
    * @brief Set propagation time (current time) [sec]
    */
-  inline void SetTime(double set) { prop_time_s_ = set; }
+  inline void SetTime(double set) { current_propagation_time_s_ = set; }
 
   /**
    * @fn Propagate
@@ -59,28 +59,28 @@ class AttitudeRK4 : public Attitude {
   virtual void SetParameters(const MCSimExecutor& mc_sim);
 
  private:
-  double prop_time_s_;  //!< current time [sec]
+  double current_propagation_time_s_;  //!< current time [sec]
 
   /**
-   * @fn Omega4Kinematics
+   * @fn CalcAngularVelocityMatrix
    * @brief Generate angular velocity matrix for kinematics calculation
-   * @param [in] omega: Angular velocity [rad/s]
+   * @param [in] angular_velocity_b_rad_s: Angular velocity [rad/s]
    */
-  Matrix<4, 4> Omega4Kinematics(Vector<3> omega);
+  Matrix<4, 4> CalcAngularVelocityMatrix(Vector<3> angular_velocity_b_rad_s);
   /**
-   * @fn DynamicsKinematics
+   * @fn AttitudeDynamicsAndKinematics
    * @brief Dynamics equation with kinematics
    * @param [in] x: State vector (angular velocity and quaternion)
    * @param [in] t: Unused TODO: remove?
    */
-  Vector<7> DynamicsKinematics(Vector<7> x, double t);
+  Vector<7> AttitudeDynamicsAndKinematics(Vector<7> x, double t);
   /**
-   * @fn RungeOneStep
+   * @fn RungeKuttaOneStep
    * @brief Equation for one step of Runge-Kutta method
    * @param [in] t: Unused TODO: remove?
    * @param [in] dt: Step width [sec]
    */
-  void RungeOneStep(double t, double dt);
+  void RungeKuttaOneStep(double t, double dt);
 };
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_RK4_HPP_

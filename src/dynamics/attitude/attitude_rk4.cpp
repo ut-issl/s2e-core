@@ -19,7 +19,7 @@ AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini, const Quaternion& quatern
   torque_b_Nm_ = torque_b_ini;
   inertia_tensor_kgm2_ = InertiaTensor_ini;
   propagation_step_s_ = prop_step_ini;
-  prop_time_s_ = 0.0;
+  current_propagation_time_s_ = 0.0;
   inv_inertia_tensor_ = invert(inertia_tensor_kgm2_);
   angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
   CalcAngularMomentum();
@@ -32,7 +32,7 @@ void AttitudeRK4::SetParameters(const MCSimExecutor& mc_sim) {
   GetInitParameterVec(mc_sim, "Omega_b", angular_velocity_b_rad_s_);
 
   // TODO: Consider the following calculation is needed here?
-  prop_time_s_ = 0.0;
+  current_propagation_time_s_ = 0.0;
   inv_inertia_tensor_ = libra::invert(inertia_tensor_kgm2_);
   angular_momentum_reaction_wheel_b_Nms_ = Vector<3>(0.0);  //!< Consider how to handle this variable
   CalcAngularMomentum();
@@ -40,40 +40,40 @@ void AttitudeRK4::SetParameters(const MCSimExecutor& mc_sim) {
 
 void AttitudeRK4::Propagate(const double endtime_s) {
   if (!is_calc_enabled_) return;
-  while (endtime_s - prop_time_s_ - propagation_step_s_ > 1.0e-6) {
-    RungeOneStep(prop_time_s_, propagation_step_s_);
-    prop_time_s_ += propagation_step_s_;
+  while (endtime_s - current_propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
+    RungeKuttaOneStep(current_propagation_time_s_, propagation_step_s_);
+    current_propagation_time_s_ += propagation_step_s_;
   }
-  RungeOneStep(prop_time_s_, endtime_s - prop_time_s_);
-  prop_time_s_ = endtime_s;
+  RungeKuttaOneStep(current_propagation_time_s_, endtime_s - current_propagation_time_s_);
+  current_propagation_time_s_ = endtime_s;
 
   CalcAngularMomentum();
 }
 
-Matrix<4, 4> AttitudeRK4::Omega4Kinematics(Vector<3> omega) {
-  Matrix<4, 4> OMEGA;
+Matrix<4, 4> AttitudeRK4::CalcAngularVelocityMatrix(Vector<3> angular_velocity_b_rad_s) {
+  Matrix<4, 4> angular_velocity_matrix;
 
-  OMEGA[0][0] = 0.0f;
-  OMEGA[0][1] = omega[2];
-  OMEGA[0][2] = -omega[1];
-  OMEGA[0][3] = omega[0];
-  OMEGA[1][0] = -omega[2];
-  OMEGA[1][1] = 0.0f;
-  OMEGA[1][2] = omega[0];
-  OMEGA[1][3] = omega[1];
-  OMEGA[2][0] = omega[1];
-  OMEGA[2][1] = -omega[0];
-  OMEGA[2][2] = 0.0f;
-  OMEGA[2][3] = omega[2];
-  OMEGA[3][0] = -omega[0];
-  OMEGA[3][1] = -omega[1];
-  OMEGA[3][2] = -omega[2];
-  OMEGA[3][3] = 0.0f;
+  angular_velocity_matrix[0][0] = 0.0f;
+  angular_velocity_matrix[0][1] = angular_velocity_b_rad_s[2];
+  angular_velocity_matrix[0][2] = -angular_velocity_b_rad_s[1];
+  angular_velocity_matrix[0][3] = angular_velocity_b_rad_s[0];
+  angular_velocity_matrix[1][0] = -angular_velocity_b_rad_s[2];
+  angular_velocity_matrix[1][1] = 0.0f;
+  angular_velocity_matrix[1][2] = angular_velocity_b_rad_s[0];
+  angular_velocity_matrix[1][3] = angular_velocity_b_rad_s[1];
+  angular_velocity_matrix[2][0] = angular_velocity_b_rad_s[1];
+  angular_velocity_matrix[2][1] = -angular_velocity_b_rad_s[0];
+  angular_velocity_matrix[2][2] = 0.0f;
+  angular_velocity_matrix[2][3] = angular_velocity_b_rad_s[2];
+  angular_velocity_matrix[3][0] = -angular_velocity_b_rad_s[0];
+  angular_velocity_matrix[3][1] = -angular_velocity_b_rad_s[1];
+  angular_velocity_matrix[3][2] = -angular_velocity_b_rad_s[2];
+  angular_velocity_matrix[3][3] = 0.0f;
 
-  return OMEGA;
+  return angular_velocity_matrix;
 }
 
-Vector<7> AttitudeRK4::DynamicsKinematics(Vector<7> x, double t) {
+Vector<7> AttitudeRK4::AttitudeDynamicsAndKinematics(Vector<7> x, double t) {
   UNUSED(t);
 
   Vector<7> dxdt;
@@ -94,7 +94,7 @@ Vector<7> AttitudeRK4::DynamicsKinematics(Vector<7> x, double t) {
     quaternion_i2b[i] = x[i + 3];
   }
 
-  Vector<4> d_quaternion = 0.5 * Omega4Kinematics(omega_b) * quaternion_i2b;
+  Vector<4> d_quaternion = 0.5 * CalcAngularVelocityMatrix(omega_b) * quaternion_i2b;
 
   for (int i = 0; i < 4; i++) {
     dxdt[i + 3] = d_quaternion[i];
@@ -103,7 +103,7 @@ Vector<7> AttitudeRK4::DynamicsKinematics(Vector<7> x, double t) {
   return dxdt;
 }
 
-void AttitudeRK4::RungeOneStep(double t, double dt) {
+void AttitudeRK4::RungeKuttaOneStep(double t, double dt) {
   Vector<7> x;
   for (int i = 0; i < 3; i++) {
     x[i] = angular_velocity_b_rad_s_[i];
@@ -115,16 +115,16 @@ void AttitudeRK4::RungeOneStep(double t, double dt) {
   Vector<7> k1, k2, k3, k4;
   Vector<7> xk2, xk3, xk4;
 
-  k1 = DynamicsKinematics(x, t);
+  k1 = AttitudeDynamicsAndKinematics(x, t);
   xk2 = x + (dt / 2.0) * k1;
 
-  k2 = DynamicsKinematics(xk2, (t + dt / 2.0));
+  k2 = AttitudeDynamicsAndKinematics(xk2, (t + dt / 2.0));
   xk3 = x + (dt / 2.0) * k2;
 
-  k3 = DynamicsKinematics(xk3, (t + dt / 2.0));
+  k3 = AttitudeDynamicsAndKinematics(xk3, (t + dt / 2.0));
   xk4 = x + dt * k3;
 
-  k4 = DynamicsKinematics(xk4, (t + dt));
+  k4 = AttitudeDynamicsAndKinematics(xk4, (t + dt));
 
   Vector<7> next_x = x + (dt / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
 
