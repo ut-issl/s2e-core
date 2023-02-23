@@ -5,10 +5,9 @@
 
 #include "global_environment.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
-
 #include "initialize_global_environment.hpp"
 #include "initialize_gnss_satellites.hpp"
+#include "library/initialize/initialize_file_access.hpp"
 
 GlobalEnvironment::GlobalEnvironment(SimulationConfig* sim_config) { Initialize(sim_config); }
 

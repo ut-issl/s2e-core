@@ -6,12 +6,11 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_HPP_
 
-#include <library/logger/logger.hpp>
-#include <simulation/simulation_configuration.hpp>
-
 #include "celestial_information.hpp"
 #include "gnss_satellites.hpp"
 #include "hipparcos_catalogue.hpp"
+#include "library/logger/logger.hpp"
+#include "simulation/simulation_configuration.hpp"
 #include "simulation_time.hpp"
 
 /**
