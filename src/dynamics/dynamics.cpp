@@ -20,8 +20,8 @@ Dynamics::~Dynamics() {
   delete temperature_;
 }
 
-void Dynamics::Initialize(SimulationConfig* sim_config, const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
-                          Structure* structure, RelativeInformation* rel_info) {
+void Dynamics::Initialize(SimulationConfig* sim_config, const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info,
+                          const int sat_id, Structure* structure, RelativeInformation* rel_info) {
   structure_ = structure;
 
   // Initialize
