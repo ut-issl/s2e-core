@@ -46,7 +46,7 @@ void LocalCelestialInformation::UpdateAllObjectsInfo(const libra::Vector<3> spac
                                                      const libra::Vector<3> spacecraft_velocity_from_center_i_m_s,
                                                      const libra::Quaternion quaternion_i2b,
                                                      const libra::Vector<3> spacecraft_angular_velocity_rad_s) {
-  Vector<3> celestial_body_position_i_m, celestial_body_velocity_i_m_s;
+  libra::Vector<3> celestial_body_position_i_m, celestial_body_velocity_i_m_s;
   for (int i = 0; i < global_celestial_information_->GetNumberOfSelectedBodies(); i++) {
     celestial_body_position_i_m = global_celestial_information_->GetPositionFromCenter_i_m(i);
     celestial_body_velocity_i_m_s = global_celestial_information_->GetVelocityFromCenter_i_m_s(i);
@@ -112,7 +112,7 @@ void LocalCelestialInformation::ConvertVelocityInertialToBody(const double* posi
   }
 
   // convert body rate vector into that in inertial coordinate
-  Vector<3> wb;
+  libra::Vector<3> wb;
   for (int i = 0; i < 3; i++) {
     wb[i] = angular_velocity_b[i];
   }
@@ -142,7 +142,7 @@ libra::Vector<3> LocalCelestialInformation::GetPosFromSC_i(const char* body_name
 
 Vector<3> LocalCelestialInformation::GetCenterBodyPosFromSC_i() const {
   std::string body_name = global_celestial_information_->GetCenterBodyName();
-  Vector<3> position = GetPosFromSC_i(body_name.c_str());
+  libra::Vector<3> position = GetPosFromSC_i(body_name.c_str());
   return position;
 }
 
