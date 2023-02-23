@@ -39,13 +39,6 @@ class Sgp4OrbitPropagation : public Orbit {
    */
   virtual void Propagate(double end_time_s, double current_time_jd);
 
-  /**
-   * @fn GetESIOmega
-   * @brief Calculate and return ?
-   * @note Is this function needed?
-   */
-  libra::Vector<3> GetESIOmega();
-
  private:
   gravconsttype whichconst_;                           //!< Gravity constant value type
   elsetrec satrec_;                                    //!< Structure data for SGP4 library

@@ -56,34 +56,3 @@ void Sgp4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) 
   TransformEciToEcef();
   TransformEcefToGeodetic();
 }
-
-libra::Vector<3> Sgp4OrbitPropagation::GetESIOmega() {
-  libra::Vector<3> omega_peri = libra::Vector<3>();
-  omega_peri[0] = 0.0;
-  omega_peri[1] = 0.0;
-  omega_peri[2] = satrec_.no / 60;
-
-  double i = satrec_.inclo;      // inclination
-  double OMEGA = satrec_.nodeo;  // raan
-  double omega = satrec_.argpo;  // argment of perigee
-
-  double comega = cos(omega);
-  double cOMEGA = cos(OMEGA);
-  double ci = cos(i);
-  double somega = sin(omega);
-  double sOMEGA = sin(OMEGA);
-  double si = sin(i);
-
-  libra::Matrix<3, 3> PERI2ECI = libra::Matrix<3, 3>();
-  PERI2ECI[0][0] = comega * cOMEGA - somega * ci * sOMEGA;
-  PERI2ECI[1][0] = -1.0 * somega * cOMEGA - 1.0 * comega * ci * sOMEGA;
-  PERI2ECI[2][0] = si * sOMEGA;
-  PERI2ECI[0][1] = comega * sOMEGA + somega * ci * cOMEGA;
-  PERI2ECI[1][1] = -1.0 * somega * sOMEGA + comega * ci * cOMEGA;
-  PERI2ECI[2][1] = -1.0 * si * cOMEGA;
-  PERI2ECI[0][2] = somega * si;
-  PERI2ECI[1][2] = comega * si;
-  PERI2ECI[2][2] = ci;
-
-  return PERI2ECI * omega_peri;
-}
