@@ -22,9 +22,9 @@ class GlobalEnvironment {
   /**
    * @fn ~GlobalEnvironment
    * @brief Constructor
-   * @param [in] sim_config: Simulation configuration
+   * @param [in] simulation_configuration: Simulation configuration
    */
-  GlobalEnvironment(SimulationConfig* sim_config);
+  GlobalEnvironment(SimulationConfig* simulation_configuration);
   /**
    * @fn ~GlobalEnvironment
    * @brief Destructor
@@ -34,9 +34,9 @@ class GlobalEnvironment {
   /**
    * @fn Initialize
    * @brief Initialize all global environment members
-   * @param [in] sim_config: Simulation configuration
+   * @param [in] simulation_configuration: Simulation configuration
    */
-  void Initialize(SimulationConfig* sim_config);
+  void Initialize(SimulationConfig* simulation_configuration);
   /**
    * @fn Update
    * @brief Update states of all global environment
@@ -58,17 +58,17 @@ class GlobalEnvironment {
    * @fn GetSimTime
    * @brief Return SimTime
    */
-  inline const SimTime& GetSimTime() const { return *sim_time_; }
+  inline const SimTime& GetSimTime() const { return *simulation_time_; }
   /**
    * @fn GetCelesInfo
    * @brief Return CelestialInformation
    */
-  inline const CelestialInformation& GetCelesInfo() const { return *celes_info_; }
+  inline const CelestialInformation& GetCelesInfo() const { return *celestial_information_; }
   /**
    * @fn GetHippCatalog
    * @brief Return HipparcosCatalogue
    */
-  inline const HipparcosCatalogue& GetHippCatalog() const { return *hipp_; }
+  inline const HipparcosCatalogue& GetHippCatalog() const { return *hipparcos_catalogue_; }
   /**
    * @fn GetGnssSatellites
    * @brief Return GnssSatellites
@@ -76,10 +76,10 @@ class GlobalEnvironment {
   inline const GnssSatellites& GetGnssSatellites() const { return *gnss_satellites_; }
 
  private:
-  SimTime* sim_time_;                 //!< Simulation time
-  CelestialInformation* celes_info_;  //!< Celestial bodies information
-  HipparcosCatalogue* hipp_;          //!< Hipparcos catalogue
-  GnssSatellites* gnss_satellites_;   //!< GNSS satellites
+  SimTime* simulation_time_;                     //!< Simulation time
+  CelestialInformation* celestial_information_;  //!< Celestial bodies information
+  HipparcosCatalogue* hipparcos_catalogue_;      //!< Hipparcos catalogue
+  GnssSatellites* gnss_satellites_;              //!< GNSS satellites
 };
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_HPP_
