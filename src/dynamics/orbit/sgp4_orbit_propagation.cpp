@@ -9,16 +9,16 @@
 #include <library/utilities/macros.hpp>
 #include <sstream>
 
-Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs,
+Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs_setting,
                                            const double current_time_jd)
     : Orbit(celestial_information) {
   propagate_mode_ = OrbitPropagateMode::kSgp4;
 
-  if (wgs == 0) {
+  if (wgs_setting == 0) {
     gravity_constant_setting_ = wgs72old;
-  } else if (wgs == 1) {
+  } else if (wgs_setting == 1) {
     gravity_constant_setting_ = wgs72;
-  } else if (wgs == 2) {
+  } else if (wgs_setting == 2) {
     gravity_constant_setting_ = wgs84;
   }
 

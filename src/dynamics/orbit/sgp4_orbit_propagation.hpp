@@ -25,10 +25,11 @@ class Sgp4OrbitPropagation : public Orbit {
    * @param [in] celestial_information: Celestial information
    * @param [in] tle1: The first line of TLE
    * @param [in] tle2: The second line of TLE
-   * @param [in] wgs: Wold Geodetic System
+   * @param [in] wgs_setting: Wold Geodetic System
    * @param [in] current_time_jd: Current Julian day [day]
    */
-  Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs, const double current_time_jd);
+  Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs_setting,
+                       const double current_time_jd);
 
   // Override Orbit
   /**

@@ -36,12 +36,12 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     orbit = new Rk4OrbitPropagation(celestial_information, mu_m3_s2, step_width_s, position_i_m, velocity_i_m_s);
   } else if (propagate_mode == "SGP4") {
     // Initialize SGP4 orbit propagator
-    int wgs = conf.ReadInt(section_, "wgs");
+    int wgs_setting = conf.ReadInt(section_, "wgs_setting");
     char tle1[80], tle2[80];
     conf.ReadChar(section_, "tle1", 80, tle1);
     conf.ReadChar(section_, "tle2", 80, tle2);
 
-    orbit = new Sgp4OrbitPropagation(celestial_information, tle1, tle2, wgs, current_time_jd);
+    orbit = new Sgp4OrbitPropagation(celestial_information, tle1, tle2, wgs_setting, current_time_jd);
   } else if (propagate_mode == "RELATIVE") {
     // initialize orbit for relative dynamics of formation flying
     RelativeOrbit::RelativeOrbitUpdateMethod update_method =
