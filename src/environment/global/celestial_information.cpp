@@ -11,8 +11,9 @@
 
 #include <algorithm>
 #include <iostream>
-#include <library/logger/log_utility.hpp>
 #include <sstream>
+
+#include "library/logger/log_utility.hpp"
 
 CelestialInformation::CelestialInformation(std::string inertial_frame, std::string aber_cor, std::string center_obj, RotationMode rotation_mode,
                                            int num_of_selected_body, int* selected_body)
