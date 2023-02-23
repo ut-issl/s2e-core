@@ -21,15 +21,15 @@ class CelestialInformation : public ILoggable {
   /**
    * @fn CelestialInformation
    * @brief Constructor
-   * @param [in] inertial_frame:  Definition of inertial frame
-   * @param [in] aber_cor: Stellar aberration correction
-   * @param [in] center_obj: Center object of inertial frame
+   * @param [in] inertial_frame_name:  Definition of inertial frame
+   * @param [in] aberration_correction_setting: Stellar aberration correction
+   * @param [in] center_body_name: Center body name of inertial frame
    * @param [in] rotation_mode: Designation of rotation model
-   * @param [in] num_of_selected_body: Number of selected body
-   * @param [in] selected_body: SPICE IDs of selected bodies
+   * @param [in] number_of_selected_body: Number of selected body
+   * @param [in] selected_body_id: SPICE IDs of selected bodies
    */
-  CelestialInformation(std::string inertial_frame, std::string aber_cor, std::string center_obj, RotationMode rotation_mode, int num_of_selected_body,
-                       int* selected_body);
+  CelestialInformation(std::string inertial_frame_name, std::string aberration_correction_setting, std::string center_body_name,
+                       RotationMode rotation_mode, unsigned int number_of_selected_body, int* selected_body_id);
   /**
    * @fn CelestialInformation
    * @brief Copy constructor
@@ -124,24 +124,24 @@ class CelestialInformation : public ILoggable {
    * @fn GetNumBody
    * @brief Return number of selected body
    */
-  inline int GetNumBody(void) const { return num_of_selected_body_; }
+  inline unsigned int GetNumBody(void) const { return number_of_selected_body_id_; }
   /**
    * @fn GetSelectedBody
    * @brief Return SPICE IDs of selected bodies
    */
-  inline int* GetSelectedBody(void) const { return selected_body_; }
+  inline int* GetSelectedBody(void) const { return selected_body_id_; }
   /**
    * @fn GetCenterBodyName
    * @brief Return name of the center body
    */
-  inline std::string GetCenterBodyName(void) const { return center_obj_; }
+  inline std::string GetCenterBodyName(void) const { return center_body_name_; }
 
   // Members
   /**
    * @fn GetEarthRotation
    * @brief Return EarthRotation information
    */
-  inline CelestialRotation GetEarthRotation(void) const { return *EarthRotation_; };
+  inline CelestialRotation GetEarthRotation(void) const { return *earth_rotation_; };
 
   // Calculation
   /**
@@ -159,31 +159,32 @@ class CelestialInformation : public ILoggable {
 
  private:
   // Setting parameters
-  int num_of_selected_body_;    //!< Number of selected body
-  int* selected_body_;          //!< SPICE IDs of selected bodies
-  std::string inertial_frame_;  //!< Definition of inertial frame
-  std::string aber_cor_;        //!< Stellar aberration correction （Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt）
-  std::string center_obj_;      //!< Center object of inertial frame
+  unsigned int number_of_selected_body_id_;    //!< Number of selected body
+  int* selected_body_id_;                      //!< SPICE IDs of selected bodies
+  std::string inertial_frame_name_;            //!< Definition of inertial frame
+  std::string center_body_name_;               //!< Center object name of inertial frame
+  std::string aberration_correction_setting_;  //!< Stellar aberration correction
+                                               //!< Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt
 
   // Calculated values
-  double* celes_objects_pos_from_center_i_;       //!< Position vector list at inertial frame [m]
-  double* celes_objects_vel_from_center_i_;       //!< Velocity vector list at inertial frame [m/s]
-  double* celes_objects_gravity_constant_;        //!< Gravity constant list [m^3/s^2]
-  double* celes_objects_mean_radius_m_;           //!< Mean radius list [m] r = (rx * ry * rz)^(1/3)
-  double* celes_objects_planetographic_radii_m_;  //!< 3 axis planetographic radii [m]
-                                                  // X-axis pass through the 0 degree latitude 0 degree longitude direction
-                                                  // Z-axis pass through the 90 degree latitude direction
-                                                  // Y-axis equal to the cross product of the unit Z-axis and X-axis vectors
+  double* celestial_body_position_from_center_i_m_;    //!< Position vector list at inertial frame [m]
+  double* celestial_body_velocity_from_center_i_m_s_;  //!< Velocity vector list at inertial frame [m/s]
+  double* celestial_body_gravity_constant_m3_s2_;      //!< Gravity constant list [m^3/s^2]
+  double* celestial_body_mean_radius_m_;               //!< Mean radius list [m] r = (rx * ry * rz)^(1/3)
+  double* celestial_body_planetographic_radii_m_;      //!< 3 axis planetographic radii [m]
+                                                       // X-axis pass through the 0 degree latitude 0 degree longitude direction
+                                                       // Z-axis pass through the 90 degree latitude direction
+                                                       // Y-axis equal to the cross product of the unit Z-axis and X-axis vectors
 
   // Rotational Motion of each planets
-  CelestialRotation* EarthRotation_;  //!< Instatnce of Earth rotation
-  RotationMode rotation_mode_;        //!< Designation of rotation model
+  CelestialRotation* earth_rotation_;  //!< Instance of Earth rotation
+  RotationMode rotation_mode_;         //!< Designation of rotation model
 
   /**
    * @fn GetPlanetOrbit
    * @brief Get position/velocity of planet.
    * @note This is an override function of SPICE's spkezr_c (https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkezr_c.html)
-   * @param [in] planet_name: Nama of planet defineed by SPICE
+   * @param [in] planet_name: Nama of planet defined by SPICE
    * @param [in] et: Ephemeris time
    * @param [out] orbit: Cartesian state vector representing the position and velocity of the target body relative to the specified observer.
    */
