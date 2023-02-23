@@ -33,18 +33,6 @@ class AttitudeRK4 : public Attitude {
   ~AttitudeRK4();
 
   /**
-   * @fn GetPropTime
-   * @brief Return propagation time (current time) [sec]
-   */
-  inline double GetPropTime() const { return current_propagation_time_s_; }
-
-  /**
-   * @fn SetTime
-   * @brief Set propagation time (current time) [sec]
-   */
-  inline void SetTime(double set) { current_propagation_time_s_ = set; }
-
-  /**
    * @fn Propagate
    * @brief Attitude propagation
    * @param [in] end_time_s: Propagation endtime [sec]
