@@ -25,9 +25,6 @@
 #undef MAX_PATH
 #define MAX_PATH 1024
 
-using libra::Quaternion;
-using libra::Vector;
-
 /**
  * @class IniAccess
  * @brief Class to read and get parameters for the `ini` format file
@@ -91,7 +88,7 @@ class IniAccess {
    * @param[out] data: Read vector type data
    */
   template <size_t NumElement>
-  void ReadVector(const char* section_name, const char* key_name, Vector<NumElement>& data);
+  void ReadVector(const char* section_name, const char* key_name, libra::Vector<NumElement>& data);
   /**
    * @fn ReadStrVector
    * @brief Read list of string type
@@ -107,7 +104,7 @@ class IniAccess {
    * @param[in] key_name: Key name
    * @param[out] data: Read quaternion data
    */
-  void ReadQuaternion(const char* section_name, const char* key_name, Quaternion& data);
+  void ReadQuaternion(const char* section_name, const char* key_name, libra::Quaternion& data);
   /**
    * @fn ReadChar
    * @brief Read characters data
@@ -161,7 +158,7 @@ class IniAccess {
 };
 
 template <size_t NumElement>
-void IniAccess::ReadVector(const char* section_name, const char* key_name, Vector<NumElement>& data) {
+void IniAccess::ReadVector(const char* section_name, const char* key_name, libra::Vector<NumElement>& data) {
   for (size_t i = 0; i < NumElement; i++) {
     std::stringstream c_name;
     c_name << key_name << "(" << i << ")";
