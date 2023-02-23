@@ -70,16 +70,16 @@ libra::Vector<3> GeodeticPosition::CalcEcefPosition() const {
 }
 
 void GeodeticPosition::CalcQuaternionXcxfToLtc() {
-  libra::Matrix<3, 3> trans_mat_xcxf_to_ltc;
-  trans_mat_xcxf_to_ltc[0][0] = -sin(longitude_rad_);
-  trans_mat_xcxf_to_ltc[0][1] = cos(longitude_rad_);
-  trans_mat_xcxf_to_ltc[0][2] = 0;
-  trans_mat_xcxf_to_ltc[1][0] = -sin(latitude_rad_) * cos(longitude_rad_);
-  trans_mat_xcxf_to_ltc[1][1] = -sin(latitude_rad_) * sin(longitude_rad_);
-  trans_mat_xcxf_to_ltc[1][2] = cos(latitude_rad_);
-  trans_mat_xcxf_to_ltc[2][0] = cos(latitude_rad_) * cos(longitude_rad_);
-  trans_mat_xcxf_to_ltc[2][1] = cos(latitude_rad_) * sin(longitude_rad_);
-  trans_mat_xcxf_to_ltc[2][2] = sin(latitude_rad_);
+  libra::Matrix<3, 3> dcm_xcxf_to_ltc;
+  dcm_xcxf_to_ltc[0][0] = -sin(longitude_rad_);
+  dcm_xcxf_to_ltc[0][1] = cos(longitude_rad_);
+  dcm_xcxf_to_ltc[0][2] = 0;
+  dcm_xcxf_to_ltc[1][0] = -sin(latitude_rad_) * cos(longitude_rad_);
+  dcm_xcxf_to_ltc[1][1] = -sin(latitude_rad_) * sin(longitude_rad_);
+  dcm_xcxf_to_ltc[1][2] = cos(latitude_rad_);
+  dcm_xcxf_to_ltc[2][0] = cos(latitude_rad_) * cos(longitude_rad_);
+  dcm_xcxf_to_ltc[2][1] = cos(latitude_rad_) * sin(longitude_rad_);
+  dcm_xcxf_to_ltc[2][2] = sin(latitude_rad_);
 
-  q_xcxf_to_ltc_ = q_xcxf_to_ltc_.fromDCM(trans_mat_xcxf_to_ltc);
+  quaternion_xcxf_to_ltc_ = quaternion_xcxf_to_ltc_.fromDCM(dcm_xcxf_to_ltc);
 }
