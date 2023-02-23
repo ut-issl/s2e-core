@@ -68,11 +68,3 @@ void Dynamics::LogSetup(Logger& logger) {
   logger.AddLoggable(attitude_);
   logger.AddLoggable(orbit_);
 }
-
-void Dynamics::AddTorque_b(libra::Vector<3> torque_b_Nm) { attitude_->AddTorque_b(torque_b_Nm); }
-
-void Dynamics::AddForce_b(libra::Vector<3> force_b_N) {
-  orbit_->AddForce_b(force_b_N, attitude_->GetQuaternion_i2b(), structure_->GetKinematicsParams().GetMass());
-}
-
-void Dynamics::AddAcceleration_i(libra::Vector<3> acceleration_i_m_s2) { orbit_->AddAcceleration_i(acceleration_i_m_s2); }
