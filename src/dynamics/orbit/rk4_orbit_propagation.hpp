@@ -23,12 +23,12 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    * @param [in] celestial_information: Celestial information
    * @param [in] mu_m3_s2: Gravity constant [m3/s2]
    * @param [in] time_step_s: Step width [sec]
-   * @param [in] init_position: Initial value of position in the inertial frame [m]
-   * @param [in] init_velocity: Initial value of velocity in the inertial frame [m/s]
-   * @param [in] init_time: Initial time [sec]
+   * @param [in] position_i_m: Initial value of position in the inertial frame [m]
+   * @param [in] velocity_i_m_s: Initial value of velocity in the inertial frame [m/s]
+   * @param [in] initiali_time_s: Initial time [sec]
    */
-  Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double time_step_s, Vector<3> init_position,
-                      Vector<3> init_velocity, double init_time = 0);
+  Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double time_step_s, Vector<3> position_i_m,
+                      Vector<3> velocity_i_m_s, double initiali_time_s = 0);
   /**
    * @fn ~Rk4OrbitPropagation
    * @brief Destructor
@@ -62,11 +62,11 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @param [in] init_position: Initial value of position in the inertial frame [m]
-   * @param [in] init_velocity: Initial value of velocity in the inertial frame [m/s]
-   * @param [in] init_time: Initial time [sec]
+   * @param [in] position_i_m: Initial value of position in the inertial frame [m]
+   * @param [in] velocity_i_m_s: Initial value of velocity in the inertial frame [m/s]
+   * @param [in] initiali_time_s: Initial time [sec]
    */
-  void Initialize(Vector<3> init_position, Vector<3> init_velocity, double init_time = 0);
+  void Initialize(Vector<3> position_i_m, Vector<3> velocity_i_m_s, double initiali_time_s = 0);
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_

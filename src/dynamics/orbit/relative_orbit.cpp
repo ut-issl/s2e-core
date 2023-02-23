@@ -31,7 +31,7 @@ RelativeOrbit::RelativeOrbit(const CelestialInformation* celestial_information, 
 RelativeOrbit::~RelativeOrbit() {}
 
 void RelativeOrbit::InitializeState(libra::Vector<3> relative_position_lvlh_m, libra::Vector<3> relative_velocity_lvlh_m_s, double mu_m3_s2,
-                                    double init_time) {
+                                    double initiali_time_s) {
   relative_position_lvlh_m_ = relative_position_lvlh_m;
   relative_velocity_lvlh_m_s_ = relative_velocity_lvlh_m_s;
 
@@ -54,7 +54,7 @@ void RelativeOrbit::InitializeState(libra::Vector<3> relative_position_lvlh_m, l
   initial_state_[5] = relative_velocity_lvlh_m_s[2];
 
   if (update_method_ == RK4) {
-    setup(init_time, initial_state_);
+    setup(initiali_time_s, initial_state_);
     CalculateSystemMatrix(relative_dynamics_model_type_, &(relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit()),
                           mu_m3_s2);
   } else  // update_method_ == STM
