@@ -17,13 +17,13 @@
 #include "library/math/constants.hpp"
 
 // Default constructor
-CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std::string center_obj) {
+CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std::string center_body_name) {
   planet_name_ = "Anonymous";
   rotation_mode_ = Idle;
   unitalize(dcm_j2000_to_xcxf_);
   dcm_teme_to_xcxf_ = dcm_j2000_to_xcxf_;
-  if (center_obj == "EARTH") {
-    InitCelestialRotationAsEarth(rotation_mode, center_obj);
+  if (center_body_name == "EARTH") {
+    InitCelestialRotationAsEarth(rotation_mode, center_body_name);
   }
 }
 

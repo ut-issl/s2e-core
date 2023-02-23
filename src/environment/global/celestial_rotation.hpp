@@ -35,9 +35,9 @@ class CelestialRotation {
    * @fn CelestialRotation
    * @brief Constructor
    * @param [in] rotation_mode: Designation of rotation model
-   * @param [in] center_obj: Center object of inertial frame
+   * @param [in] center_body_name: Center object of inertial frame
    */
-  CelestialRotation(const RotationMode rotation_mode, const std::string center_obj);
+  CelestialRotation(const RotationMode rotation_mode, const std::string center_body_name);
 
   /**
    * @fn Update
