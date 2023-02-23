@@ -36,9 +36,9 @@ SimTime::SimTime(const double end_sec, const double step_sec, const double attit
   display_period_ = (1.0 * end_sec / step_sec / 100);  // Update every 1%
   time_exceeds_continuously_limit_sec_ = 1.0;
 
-  //  sscanf_s(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_month_, &start_day_, &start_hour_, &start_min_, &start_sec_);
-  sscanf(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_month_, &start_day_, &start_hour_, &start_min_, &start_sec_);
-  jday(start_year_, start_month_, start_day_, start_hour_, start_min_, start_sec_, start_jd_);
+  //  sscanf_s(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_month_, &start_day_, &start_hour_, &start_minute_, &start_sec_);
+  sscanf(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_month_, &start_day_, &start_hour_, &start_minute_, &start_sec_);
+  jday(start_year_, start_month_, start_day_, start_hour_, start_minute_, start_sec_, start_jd_);
   current_jd_ = start_jd_;
   current_sidereal_ = gstime(current_jd_);
   JdToDecyear(current_jd_, &current_decyear_);
@@ -176,10 +176,10 @@ void SimTime::PrintStartDateTime(void) const {
   } else {
     s << sec_int;
   }
-  if (start_min_ < 10) {
-    m << 0 << start_min_;
+  if (start_minute_ < 10) {
+    m << 0 << start_minute_;
   } else {
-    m << start_min_;
+    m << start_minute_;
   }
   if (start_hour_ < 10) {
     h << 0 << start_hour_;
@@ -207,7 +207,7 @@ string SimTime::GetLogValue() const {
   const char kSize = 100;
   char ymdhms[kSize];
   snprintf(ymdhms, kSize, "%4d/%02d/%02d %02d:%02d:%.3lf,", current_utc_.year, current_utc_.month, current_utc_.day, current_utc_.hour,
-           current_utc_.min, current_utc_.sec);
+           current_utc_.minute, current_utc_.sec);
   str_tmp += ymdhms;
 
   return str_tmp;
@@ -222,13 +222,13 @@ void SimTime::InitializeState() {
 
 // wrapper function of invjday @ sgp4ext for interface adjustment
 void SimTime::ConvJDtoCalndarDay(const double JD) {
-  int year, mon, day, hr, min;
+  int year, mon, day, hr, minute;
   double sec;
-  invjday(JD, year, mon, day, hr, min, sec);
+  invjday(JD, year, mon, day, hr, minute, sec);
   current_utc_.year = (unsigned int)(year);
   current_utc_.month = (unsigned int)(mon);
   current_utc_.day = (unsigned int)(day);
   current_utc_.hour = (unsigned int)(hr);
-  current_utc_.min = (unsigned int)(min);
+  current_utc_.minute = (unsigned int)(minute);
   current_utc_.sec = sec;
 }

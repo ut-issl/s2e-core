@@ -39,7 +39,7 @@ struct UTC {
   unsigned int month = 1;
   unsigned int day = 1;
   unsigned int hour = 0;
-  unsigned int min = 0;
+  unsigned int minute = 0;
   double sec = 0.0;
 };
 
@@ -227,7 +227,7 @@ class SimTime : public ILoggable {
    *@fn GetStartMin
    *@brief Return start time minute [minute]
    */
-  inline int GetStartMin(void) const { return start_min_; };
+  inline int GetStartMin(void) const { return start_minute_; };
   /**
    *@fn GetStartSec
    *@brief Return start time second [sec]
@@ -297,7 +297,7 @@ class SimTime : public ILoggable {
   int start_month_;   //!< Simulation start month
   int start_day_;     //!< Simulation start day
   int start_hour_;    //!< Simulation start hour
-  int start_min_;     //!< Simulation start minute
+  int start_minute_;  //!< Simulation start minute
   double start_sec_;  //!< Simulation start seconds
 
   double simulation_speed_;  //!< The speed of the simulation relative to real time (if negative, real time is not taken into account)
