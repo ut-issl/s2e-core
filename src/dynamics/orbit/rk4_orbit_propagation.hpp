@@ -16,10 +16,6 @@
  * @brief Class to propagate spacecraft orbit with Runge-Kutta-4 method
  */
 class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
- private:
-  static const int N = 6;  //!< Degrees of freedom in 3D space
-  double mu_m3_s2;         //!< Gravity constant [m3/s2]
-
  public:
   /**
    * @fn Rk4OrbitPropagation
@@ -47,7 +43,7 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    * @param [in] state: Position and velocity as state vector
    * @param [out] rhs: Output of the function
    */
-  virtual void RHS(double t, const Vector<N>& state, Vector<N>& rhs);
+  virtual void RHS(double t, const Vector<6>& state, Vector<6>& rhs);
 
   // Override Orbit
   /**
@@ -78,6 +74,9 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    * @param [in] init_time: Initial time [sec]
    */
   void Initialize(Vector<3> init_position, Vector<3> init_velocity, double init_time = 0);
+
+ private:
+  double mu_m3_s2;  //!< Gravity constant [m3/s2]
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_

@@ -12,7 +12,7 @@ using std::string;
 
 Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double time_step_s,
                                          Vector<3> init_position, Vector<3> init_velocity, double init_time)
-    : Orbit(celestial_information), ODE<N>(time_step_s), mu_m3_s2(mu_m3_s2) {
+    : Orbit(celestial_information), ODE<6>(time_step_s), mu_m3_s2(mu_m3_s2) {
   propagate_mode_ = OrbitPropagateMode::kRk4;
 
   propagation_time_s_ = 0.0;
@@ -24,7 +24,7 @@ Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_i
 
 Rk4OrbitPropagation::~Rk4OrbitPropagation() {}
 
-void Rk4OrbitPropagation::RHS(double t, const Vector<N>& state, Vector<N>& rhs) {
+void Rk4OrbitPropagation::RHS(double t, const Vector<6>& state, Vector<6>& rhs) {
   double x = state[0], y = state[1], z = state[2];
   double vx = state[3], vy = state[4], vz = state[5];
 
@@ -42,7 +42,7 @@ void Rk4OrbitPropagation::RHS(double t, const Vector<N>& state, Vector<N>& rhs) 
 
 void Rk4OrbitPropagation::Initialize(Vector<3> init_position, Vector<3> init_velocity, double init_time) {
   // state vector [x,y,z,vx,vy,vz]
-  Vector<N> init_state;
+  Vector<6> init_state;
   init_state[0] = init_position[0];
   init_state[1] = init_position[1];
   init_state[2] = init_position[2];
