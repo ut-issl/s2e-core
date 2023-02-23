@@ -13,15 +13,15 @@ using namespace std;
 #define THRESHOLD_CA cos(30.0 / 180.0 * libra::pi)  // fix me
 
 ControlledAttitude::ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2b,
-                                       const Vector<3> pointing_t_b, const Vector<3> pointing_sub_t_b, const Matrix<3, 3>& inertia_tensor_kgm2,
-                                       const LocalCelestialInformation* local_celes_info, const Orbit* orbit,
-                                       const std::string& simulation_object_name)
+                                       const Vector<3> main_target_direction_b, const Vector<3> sub_target_direction_b,
+                                       const Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information,
+                                       const Orbit* orbit, const std::string& simulation_object_name)
     : Attitude(simulation_object_name),
       main_mode_(main_mode),
       sub_mode_(sub_mode),
-      pointing_t_b_(pointing_t_b),
-      pointing_sub_t_b_(pointing_sub_t_b),
-      local_celes_info_(local_celes_info),
+      main_target_direction_b_(main_target_direction_b),
+      sub_target_direction_b_(sub_target_direction_b),
+      local_celestial_information_(local_celestial_information),
       orbit_(orbit) {
   quaternion_i2b_ = quaternion_i2b;
   inertia_tensor_kgm2_ = inertia_tensor_kgm2;  // FIXME: inertia tensor should be initialized in the Attitude base class
@@ -46,9 +46,9 @@ void ControlledAttitude::Initialize(void) {
       return;
     }
     // pointing direction check
-    normalize(pointing_t_b_);
-    normalize(pointing_sub_t_b_);
-    double tmp = inner_product(pointing_t_b_, pointing_sub_t_b_);
+    normalize(main_target_direction_b_);
+    normalize(sub_target_direction_b_);
+    double tmp = inner_product(main_target_direction_b_, sub_target_direction_b_);
     tmp = std::abs(tmp);
     if (tmp > THRESHOLD_CA) {
       cout << "sub target direction should separate from the main target direction. \n";
@@ -82,9 +82,9 @@ void ControlledAttitude::Propagate(const double end_time_s) {
 Vector<3> ControlledAttitude::CalcTargetDirection(AttCtrlMode mode) {
   Vector<3> direction;
   if (mode == SUN_POINTING) {
-    direction = local_celes_info_->GetPositionFromSpacecraft_i_m("SUN");
+    direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
   } else if (mode == EARTH_CENTER_POINTING) {
-    direction = local_celes_info_->GetPositionFromSpacecraft_i_m("EARTH");
+    direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("EARTH");
   } else if (mode == VELOCITY_DIRECTION_POINTING) {
     direction = orbit_->GetSatVelocity_i();
   } else if (mode == ORBIT_NORMAL_POINTING) {
@@ -98,7 +98,7 @@ void ControlledAttitude::PointingCtrl(const Vector<3> main_direction_i, const Ve
   // Calc DCM ECI->Target
   Matrix<3, 3> DCM_t2i = CalcDCM(main_direction_i, sub_direction_i);
   // Calc DCM Target->body
-  Matrix<3, 3> DCM_t2b = CalcDCM(pointing_t_b_, pointing_sub_t_b_);
+  Matrix<3, 3> DCM_t2b = CalcDCM(main_target_direction_b_, sub_target_direction_b_);
   // Calc DCM ECI->body
   Matrix<3, 3> DCM_i2b = DCM_t2b * transpose(DCM_t2i);
   // Convert to Quaternion
@@ -146,14 +146,14 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
 
   if (previous_calc_time_s_ > 0.0) {
     double time_diff_sec = current_time_s - previous_calc_time_s_;
-    libra::Quaternion prev_q_b2i = prev_quaternion_i2b_.conjugate();
+    libra::Quaternion prev_q_b2i = previous_quaternion_i2b_.conjugate();
     libra::Quaternion q_diff = prev_q_b2i * quaternion_i2b_;
     q_diff = (2.0 / time_diff_sec) * q_diff;
 
     libra::Vector<3> angular_acc_b_rad_s2_;
     for (int i = 0; i < 3; i++) {
       angular_velocity_b_rad_s_[i] = q_diff[i];
-      angular_acc_b_rad_s2_[i] = (prev_omega_b_rad_s_[i] - angular_velocity_b_rad_s_[i]) / time_diff_sec;
+      angular_acc_b_rad_s2_[i] = (previous_omega_b_rad_s_[i] - angular_velocity_b_rad_s_[i]) / time_diff_sec;
     }
     controlled_torque_b_Nm = inv_inertia_tensor_ * angular_acc_b_rad_s2_;
   } else {
@@ -164,6 +164,6 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
   AddTorque_b_Nm(controlled_torque_b_Nm);
   // save previous values
   previous_calc_time_s_ = current_time_s;
-  prev_quaternion_i2b_ = quaternion_i2b_;
-  prev_omega_b_rad_s_ = angular_velocity_b_rad_s_;
+  previous_quaternion_i2b_ = quaternion_i2b_;
+  previous_omega_b_rad_s_ = angular_velocity_b_rad_s_;
 }

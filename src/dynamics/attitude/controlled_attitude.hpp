@@ -45,16 +45,17 @@ class ControlledAttitude : public Attitude {
    * @param [in] main_mode: Main control mode
    * @param [in] sub_mode: Sub control mode
    * @param [in] quaternion_i2b: Quaternion for INERTIAL_STABILIZE mode
-   * @param [in] pointing_t_b: Main target direction on the body fixed frame
-   * @param [in] pointing_sub_t_b: Sun target direction on the body fixed frame
+   * @param [in] main_target_direction_b: Main target direction on the body fixed frame
+   * @param [in] sub_target_direction_b: Sun target direction on the body fixed frame
    * @param [in] inertia_tensor_kgm2: Inertia tensor of the spacecraft [kg m^2]
-   * @param [in] local_celes_info: Local celestial information
+   * @param [in] local_celestial_information: Local celestial information
    * @param [in] orbit: Orbit
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2b, const Vector<3> pointing_t_b,
-                     const Vector<3> pointing_sub_t_b, const Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celes_info,
-                     const Orbit* orbit, const std::string& simulation_object_name = "Attitude");
+  ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2b,
+                     const Vector<3> main_target_direction_b, const Vector<3> sub_target_direction_b, const Matrix<3, 3>& inertia_tensor_kgm2,
+                     const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
+                     const std::string& simulation_object_name = "Attitude");
   /**
    * @fn ~ControlledAttitude
    * @brief Destructor
@@ -81,12 +82,12 @@ class ControlledAttitude : public Attitude {
    * @fn SetPointingTb
    * @brief Set main target direction on the body fixed frame
    */
-  inline void SetPointingTb(Vector<3> pointing_t_b) { pointing_t_b_ = pointing_t_b; }
+  inline void SetPointingTb(Vector<3> main_target_direction_b) { main_target_direction_b_ = main_target_direction_b; }
   /**
    * @fn SetPointingSubTb
    * @brief Set sub target direction on the body fixed frame
    */
-  inline void SetPointingSubTb(Vector<3> pointing_sub_t_b) { pointing_sub_t_b_ = pointing_sub_t_b; }
+  inline void SetPointingSubTb(Vector<3> sub_target_direction_b) { sub_target_direction_b_ = sub_target_direction_b; }
 
   /**
    * @fn Propagate
@@ -96,17 +97,17 @@ class ControlledAttitude : public Attitude {
   virtual void Propagate(const double end_time_s);
 
  private:
-  AttCtrlMode main_mode_;                  //!< Main control mode
-  AttCtrlMode sub_mode_;                   //!< Sub control mode
-  libra::Vector<3> pointing_t_b_;          //!< Main target direction on the body fixed frame
-  libra::Vector<3> pointing_sub_t_b_;      //!< Sub target direction on tge body fixed frame
-  double previous_calc_time_s_ = -1.0;     //!< Previous time of velocity calculation [sec]
-  libra::Quaternion prev_quaternion_i2b_;  //!< Previous quaternion
-  libra::Vector<3> prev_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
+  AttCtrlMode main_mode_;                      //!< Main control mode
+  AttCtrlMode sub_mode_;                       //!< Sub control mode
+  libra::Vector<3> main_target_direction_b_;   //!< Main target direction on the body fixed frame
+  libra::Vector<3> sub_target_direction_b_;    //!< Sub target direction on tge body fixed frame
+  double previous_calc_time_s_ = -1.0;         //!< Previous time of velocity calculation [sec]
+  libra::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
+  libra::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
 
   // Inputs
-  const LocalCelestialInformation* local_celes_info_;  //!< Local celestial information
-  const Orbit* orbit_;                                 //!< Orbit information
+  const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
+  const Orbit* orbit_;                                            //!< Orbit information
 
   // Local functions
   /**
@@ -137,7 +138,7 @@ class ControlledAttitude : public Attitude {
    * @fn CalcDCM
    * @brief Calculate direction cosine matrix with tow direction vectors
    * @param [in] main_direction: Main target direction
-   * @param [in] main_direction: Sub target direction
+   * @param [in] sub_direction: Sub target direction
    */
   Matrix<3, 3> CalcDCM(const Vector<3> main_direction, const Vector<3> sub_direction);
 };
