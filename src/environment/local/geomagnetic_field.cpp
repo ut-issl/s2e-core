@@ -26,9 +26,9 @@ void GeomagneticField::CalcMagneticField(const double decimal_year, const double
                                          const Quaternion quaternion_i2b) {
   if (!IsCalcEnabled) return;
 
-  const double lat_rad = position.GetLat_rad();
-  const double lon_rad = position.GetLon_rad();
-  const double alt_m = position.GetAlt_m();
+  const double lat_rad = position.GetLatitude_rad();
+  const double lon_rad = position.GetLongitude_rad();
+  const double alt_m = position.GetAltitude_m();
 
   double magnetic_field_array_i_nT[3];
   IgrfCalc(decimal_year, lat_rad, lon_rad, alt_m, sidereal_day, magnetic_field_array_i_nT);

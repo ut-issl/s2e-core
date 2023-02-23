@@ -75,9 +75,9 @@ std::string Orbit::GetLogValue() const {
   str_tmp += WriteVector(spacecraft_velocity_i_m_s_, 10);
   str_tmp += WriteVector(spacecraft_velocity_b_m_s_, 10);
   str_tmp += WriteVector(spacecraft_acceleration_i_m_s2_, 10);
-  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLat_rad());
-  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLon_rad());
-  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetAlt_m());
+  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLatitude_rad());
+  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLongitude_rad());
+  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetAltitude_m());
 
   return str_tmp;
 }

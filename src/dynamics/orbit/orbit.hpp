@@ -116,14 +116,14 @@ class Orbit : public ILoggable {
   inline GeodeticPosition GetGeodeticPosition() const { return spacecraft_geodetic_position_; }
 
   // TODO delete the following functions
-  inline double GetLat_rad() const { return spacecraft_geodetic_position_.GetLat_rad(); }
-  inline double GetLon_rad() const { return spacecraft_geodetic_position_.GetLon_rad(); }
-  inline double GetAlt_m() const { return spacecraft_geodetic_position_.GetAlt_m(); }
+  inline double GetLatitude_rad() const { return spacecraft_geodetic_position_.GetLatitude_rad(); }
+  inline double GetLongitude_rad() const { return spacecraft_geodetic_position_.GetLongitude_rad(); }
+  inline double GetAltitude_m() const { return spacecraft_geodetic_position_.GetAltitude_m(); }
   inline libra::Vector<3> GetLatLonAlt() const {
     libra::Vector<3> vec;
-    vec(0) = spacecraft_geodetic_position_.GetLat_rad();
-    vec(1) = spacecraft_geodetic_position_.GetLon_rad();
-    vec(2) = spacecraft_geodetic_position_.GetAlt_m();
+    vec(0) = spacecraft_geodetic_position_.GetLatitude_rad();
+    vec(1) = spacecraft_geodetic_position_.GetLongitude_rad();
+    vec(2) = spacecraft_geodetic_position_.GetAltitude_m();
     return vec;
   }
 
