@@ -18,10 +18,10 @@ HipparcosCatalogue::HipparcosCatalogue(double max_magnitude, std::string catalog
 
 HipparcosCatalogue::~HipparcosCatalogue() {}
 
-bool HipparcosCatalogue::ReadContents(const std::string& filename, const char delimiter = ',') {
+bool HipparcosCatalogue::ReadContents(const std::string& file_name, const char delimiter = ',') {
   if (!IsCalcEnabled) return false;
 
-  std::ifstream ifs(filename);
+  std::ifstream ifs(file_name);
   if (!ifs.is_open()) {
     std::cerr << "file open error(hip_main.csv)";
     return false;
@@ -30,45 +30,45 @@ bool HipparcosCatalogue::ReadContents(const std::string& filename, const char de
   std::string title;
   ifs >> title;  // Skip title
   while (!ifs.eof()) {
-    HipData hipdata;
+    HipparcosData hipparcos_data;
 
     std::string line;
     ifs >> line;
     std::replace(line.begin(), line.end(), delimiter, ' ');  // Convert delimiter as space for stringstream
     std::istringstream streamline(line);
 
-    streamline >> hipdata.hip_num >> hipdata.vmag >> hipdata.ra >> hipdata.de;
+    streamline >> hipparcos_data.hipparcos_id >> hipparcos_data.visible_magnitude >> hipparcos_data.right_ascension_deg >>
+        hipparcos_data.declination_deg;
 
-    if (hipdata.vmag > max_magnitude_) {
+    if (hipparcos_data.visible_magnitude > max_magnitude_) {
       return true;
     }  // Don't read stars darker than max_magnitude
-    hipparcos_catalogue_.push_back(hipdata);
+    hipparcos_catalogue_.push_back(hipparcos_data);
   }
 
   return true;
 }
 
 libra::Vector<3> HipparcosCatalogue::GetStarDirection_i(int rank) const {
-  libra::Vector<3> position;
-  // TODO: Check unit of ra and de
-  double ra = GetRA(rank) * libra::pi / 180;
-  double de = GetDE(rank) * libra::pi / 180;
+  libra::Vector<3> direction_i;
+  double ra_rad = GetRightAscension_deg(rank) * libra::deg_to_rad;
+  double de_rad = GetDeclination_deg(rank) * libra::deg_to_rad;
 
-  position[0] = cos(ra) * cos(de);
-  position[1] = sin(ra) * cos(de);
-  position[2] = sin(de);
+  direction_i[0] = cos(ra_rad) * cos(de_rad);
+  direction_i[1] = sin(ra_rad) * cos(de_rad);
+  direction_i[2] = sin(de_rad);
 
-  return position;
+  return direction_i;
 }
 
-libra::Vector<3> HipparcosCatalogue::GetStarDirection_b(int rank, Quaternion q_i2b) const {
-  libra::Vector<3> position_i;
-  libra::Vector<3> position_b;
+libra::Vector<3> HipparcosCatalogue::GetStarDirection_b(int rank, Quaternion quaternoin_i2b) const {
+  libra::Vector<3> direction_i;
+  libra::Vector<3> direction_b;
 
-  position_i = GetStarDirection_i(rank);
-  position_b = q_i2b.frame_conv(position_i);
+  direction_i = GetStarDirection_i(rank);
+  direction_b = quaternoin_i2b.frame_conv(direction_i);
 
-  return position_b;
+  return direction_b;
 }
 
 std::string HipparcosCatalogue::GetLogHeader() const {
