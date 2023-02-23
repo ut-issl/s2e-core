@@ -54,15 +54,8 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    */
   virtual void Propagate(double end_time_s, double current_time_jd);
 
-  /**
-   * @fn AddPositionOffset
-   * @brief Shift the position of the spacecraft
-   * @note Is this really needed?
-   * @param [in] offset_i: Offset vector in the inertial frame [m]
-   */
-  virtual void AddPositionOffset(Vector<3> offset_i);
-
  private:
+  double mu_m3_s2;             //!< Gravity constant [m3/s2]
   double propagation_time_s_;  //!< Simulation current time for numerical integration by RK4 [sec]
   double propagation_step_s_;  //!< Step width for RK4 [sec]
 
@@ -74,9 +67,6 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    * @param [in] init_time: Initial time [sec]
    */
   void Initialize(Vector<3> init_position, Vector<3> init_velocity, double init_time = 0);
-
- private:
-  double mu_m3_s2;  //!< Gravity constant [m3/s2]
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_

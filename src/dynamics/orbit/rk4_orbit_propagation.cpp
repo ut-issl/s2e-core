@@ -88,14 +88,3 @@ void Rk4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
   TransformEciToEcef();
   TransformEcefToGeodetic();
 }
-
-void Rk4OrbitPropagation::AddPositionOffset(Vector<3> offset_i) {
-  auto newstate = state();
-  for (auto i = 0; i < 3; i++) {
-    newstate[i] += offset_i[i];
-  }
-  setup(x(), newstate);
-  spacecraft_position_i_m_[0] = state()[0];
-  spacecraft_position_i_m_[1] = state()[1];
-  spacecraft_position_i_m_[2] = state()[2];
-}
