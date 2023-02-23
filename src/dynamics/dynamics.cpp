@@ -7,8 +7,6 @@
 
 #include "../simulation/multiple_spacecraft/relative_information.hpp"
 
-using namespace std;
-
 Dynamics::Dynamics(SimulationConfig* sim_config, const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
                    Structure* structure, RelativeInformation* rel_info) {
   Initialize(sim_config, sim_time, local_celes_info, sat_id, structure, rel_info);
@@ -58,7 +56,7 @@ void Dynamics::Update(const SimulationTime* sim_time, const LocalCelestialInform
 }
 
 void Dynamics::ClearForceTorque(void) {
-  Vector<3> zero(0.0);
+  libra::Vector<3> zero(0.0);
   attitude_->SetTorque_b(zero);
   orbit_->SetAcceleration_i(zero);
 }
@@ -68,14 +66,14 @@ void Dynamics::LogSetup(Logger& logger) {
   logger.AddLoggable(orbit_);
 }
 
-void Dynamics::AddTorque_b(Vector<3> torque_b) { attitude_->AddTorque_b(torque_b); }
+void Dynamics::AddTorque_b(libra::Vector<3> torque_b) { attitude_->AddTorque_b(torque_b); }
 
-void Dynamics::AddForce_b(Vector<3> force_b) {
+void Dynamics::AddForce_b(libra::Vector<3> force_b) {
   orbit_->AddForce_b(force_b, attitude_->GetQuaternion_i2b(), structure_->GetKinematicsParams().GetMass());
 }
 
-void Dynamics::AddAcceleration_i(Vector<3> acceleration_i) { orbit_->AddAcceleration_i(acceleration_i); }
+void Dynamics::AddAcceleration_i(libra::Vector<3> acceleration_i) { orbit_->AddAcceleration_i(acceleration_i); }
 
-Vector<3> Dynamics::GetPosition_i() const { return orbit_->GetSatPosition_i(); }
+libra::Vector<3> Dynamics::GetPosition_i() const { return orbit_->GetSatPosition_i(); }
 
-Quaternion Dynamics::GetQuaternion_i2b() const { return attitude_->GetQuaternion_i2b(); }
+libra::Quaternion Dynamics::GetQuaternion_i2b() const { return attitude_->GetQuaternion_i2b(); }
