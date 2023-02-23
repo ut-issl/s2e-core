@@ -59,20 +59,20 @@ Telescope::~Telescope() {}
 void Telescope::MainRoutine(int count) {
   UNUSED(count);
   // Check forbidden angle
-  is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("SUN"), sun_forbidden_angle_);
-  is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("EARTH"), earth_forbidden_angle_);
-  is_moon_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("MOON"), moon_forbidden_angle_);
+  is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("SUN"), sun_forbidden_angle_);
+  is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("EARTH"), earth_forbidden_angle_);
+  is_moon_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("MOON"), moon_forbidden_angle_);
   // Position calculation of celestial bodies from CelesInfo
-  Observe(sun_pos_imgsensor, local_celes_info_->GetPosFromSC_b("SUN"));
-  Observe(earth_pos_imgsensor, local_celes_info_->GetPosFromSC_b("EARTH"));
-  Observe(moon_pos_imgsensor, local_celes_info_->GetPosFromSC_b("MOON"));
+  Observe(sun_pos_imgsensor, local_celes_info_->GetPositionFromSpacecraft_b_m("SUN"));
+  Observe(earth_pos_imgsensor, local_celes_info_->GetPositionFromSpacecraft_b_m("EARTH"));
+  Observe(moon_pos_imgsensor, local_celes_info_->GetPositionFromSpacecraft_b_m("MOON"));
   // Position calculation of stars from Hipparcos Catalogue
   // No update when Hipparocos Catalogue was not readed
   if (hipp_->IsCalcEnabled) ObserveStars();
   // Debug ******************************************************************
-  //  sun_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPosFromSC_b("SUN"));
-  //  earth_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPosFromSC_b("EARTH"));
-  //  moon_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPosFromSC_b("MOON"));
+  //  sun_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("SUN"));
+  //  earth_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("EARTH"));
+  //  moon_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("MOON"));
   // angle_sun = angle(sight_, sun_pos_c) * 180/libra::pi;
   // angle_earth = angle(sight_, earth_pos_c) * 180 / libra::pi; angle_moon = angle(sight_, moon_pos_c) * 180 / libra::pi;
   //******************************************************************************

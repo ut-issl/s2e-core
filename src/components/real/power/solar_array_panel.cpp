@@ -104,7 +104,7 @@ void SAP::MainRoutine(int time_count) {
                         cell_area_ * number_of_parallel_ * number_of_series_ * inner_product(normal_vector_, normalized_sun_direction_body);
   } else {
     const auto power_density = srp_->CalcPowerDensity();
-    libra::Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
+    libra::Vector<3> sun_pos_b = local_celes_info_->GetPositionFromSpacecraft_b_m("SUN");
     libra::Vector<3> sun_dir_b = libra::normalize(sun_pos_b);
     power_generation_ = cell_efficiency_ * transmission_efficiency_ * power_density * cell_area_ * number_of_parallel_ * number_of_series_ *
                         inner_product(normal_vector_, sun_dir_b);

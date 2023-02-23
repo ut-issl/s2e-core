@@ -56,7 +56,7 @@ void SunSensor::MainRoutine(int count) {
 }
 
 void SunSensor::measure() {
-  Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
+  Vector<3> sun_pos_b = local_celes_info_->GetPositionFromSpacecraft_b_m("SUN");
   Vector<3> sun_dir_b = normalize(sun_pos_b);
 
   sun_c_ = q_b2c_.frame_conv(sun_dir_b);  // Frame conversion from body to component

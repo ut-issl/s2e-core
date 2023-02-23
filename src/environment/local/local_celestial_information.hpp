@@ -34,38 +34,39 @@ class LocalCelestialInformation : public ILoggable {
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    * @param [in] spacecraft_angular_velocity_rad_s: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
-  void UpdateAllObjectsInfo(const libra::Vector<3> spacecraft_position_from_center_i_m, const libra::Vector<3> spacecraft_velocity_from_center_i_m_s,
-                            const libra::Quaternion quaternion_i2b, const libra::Vector<3> spacecraft_angular_velocity_rad_s);
+  void UpdateAllObjectsInformation(const libra::Vector<3> spacecraft_position_from_center_i_m,
+                                   const libra::Vector<3> spacecraft_velocity_from_center_i_m_s, const libra::Quaternion quaternion_i2b,
+                                   const libra::Vector<3> spacecraft_angular_velocity_rad_s);
 
   /**
-   * @fn GetPosFromSC_i
+   * @fn GetPositionFromSpacecraft_i_m
    * @brief Return position of a selected body (Origin: Spacecraft, Frame: Inertial frame)
    * @param [in] body_name Celestial body name
    */
-  libra::Vector<3> GetPosFromSC_i(const char* body_name) const;
+  libra::Vector<3> GetPositionFromSpacecraft_i_m(const char* body_name) const;
   /**
-   * @fn GetCenterBodyPosFromSC_i
+   * @fn GetCenterBodyPositionFromSpacecraft_i_m
    * @brief Return position of the center body (Origin: Spacecraft, Frame: Inertial frame)
    */
-  libra::Vector<3> GetCenterBodyPosFromSC_i(void) const;
+  libra::Vector<3> GetCenterBodyPositionFromSpacecraft_i_m(void) const;
 
   /**
-   * @fn GetPosFromSC_b
+   * @fn GetPositionFromSpacecraft_b_m
    * @brief Return position of a selected body (Origin: Spacecraft, Frame: Body fixed frame)
    * @param [in] body_name Celestial body name
    */
-  libra::Vector<3> GetPosFromSC_b(const char* body_name) const;
+  libra::Vector<3> GetPositionFromSpacecraft_b_m(const char* body_name) const;
   /**
-   * @fn GetCenterBodyPosFromSC_b
+   * @fn GetCenterBodyPositionFromSpacecraft_b_m
    * @brief Return position of the center body (Origin: Spacecraft, Frame: Body fixed frame)
    */
-  libra::Vector<3> GetCenterBodyPosFromSC_b(void) const;
+  libra::Vector<3> GetCenterBodyPositionFromSpacecraft_b_m(void) const;
 
   /**
    * @fn GetGlobalInfo
    * @brief Return global celestial information
    */
-  inline const CelestialInformation& GetGlobalInfo() const { return *global_celestial_information_; }
+  inline const CelestialInformation& GetGlobalInformation() const { return *global_celestial_information_; }
 
   // Override ILoggable
   /**

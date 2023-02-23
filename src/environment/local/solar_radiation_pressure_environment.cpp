@@ -18,8 +18,8 @@ using namespace std;
 SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info) : local_celes_info_(local_celes_info) {
   solar_constant_ = 1366.0;                                       // [W/m2]
   pressure_ = solar_constant_ / environment::speed_of_light_m_s;  // [N/m2]
-  shadow_source_name_ = local_celes_info_->GetGlobalInfo().GetCenterBodyName();
-  sun_radius_m_ = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName_m("SUN");
+  shadow_source_name_ = local_celes_info_->GetGlobalInformation().GetCenterBodyName();
+  sun_radius_m_ = local_celes_info_->GetGlobalInformation().GetMeanRadiusFromName_m("SUN");
 }
 
 void SRPEnvironment::UpdateAllStates() {
@@ -30,7 +30,7 @@ void SRPEnvironment::UpdateAllStates() {
 }
 
 void SRPEnvironment::UpdatePressure() {
-  const Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
+  const Vector<3> r_sc2sun_eci = local_celes_info_->GetPositionFromSpacecraft_i_m("SUN");
   const double distance_sat_to_sun = norm(r_sc2sun_eci);
   pressure_ = solar_constant_ / environment::speed_of_light_m_s / pow(distance_sat_to_sun / environment::astronomical_unit_m, 2.0);
 }
@@ -69,10 +69,10 @@ void SRPEnvironment::CalcShadowCoefficient(string shadow_source_name) {
     return;
   }
 
-  const Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
-  const Vector<3> r_sc2source_eci = local_celes_info_->GetPosFromSC_i(shadow_source_name.c_str());
+  const Vector<3> r_sc2sun_eci = local_celes_info_->GetPositionFromSpacecraft_i_m("SUN");
+  const Vector<3> r_sc2source_eci = local_celes_info_->GetPositionFromSpacecraft_i_m(shadow_source_name.c_str());
 
-  const double shadow_source_radius_m = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName_m(shadow_source_name.c_str());
+  const double shadow_source_radius_m = local_celes_info_->GetGlobalInformation().GetMeanRadiusFromName_m(shadow_source_name.c_str());
 
   const double distance_sat_to_sun = norm(r_sc2sun_eci);
   const double sd_sun = asin(sun_radius_m_ / distance_sat_to_sun);                // Apparent radius of the sun
