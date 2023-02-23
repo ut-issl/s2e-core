@@ -11,7 +11,7 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-GeomagneticField InitMagEnvironment(std::string ini_path) {
+GeomagneticField InitGeomagneticField(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "MAGNETIC_FIELD_ENVIRONMENT";
 

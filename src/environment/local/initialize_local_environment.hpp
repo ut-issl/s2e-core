@@ -11,11 +11,11 @@
 #include <environment/local/solar_radiation_pressure_environment.hpp>
 
 /**
- * @fn InitMagEnvironment
+ * @fn InitGeomagneticField
  * @brief Initialize magnetic field of the earth
  * @param [in] ini_path: Path to initialize file
  */
-GeomagneticField InitMagEnvironment(std::string ini_path);
+GeomagneticField InitGeomagneticField(std::string ini_path);
 /**
  * @fn InitSRPEnvironment
  * @brief Initialize solar radiation pressure
