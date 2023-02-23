@@ -61,18 +61,8 @@ class Attitude : public ILoggable, public SimulationObject {
    * @brief Return inertia tensor [kg m^2]
    */
   inline libra::Matrix<3, 3> GetInertiaTensor() const { return inertia_tensor_kgm2_; }
-  /**
-   * @fn GetInvInertiaTensor
-   * @brief Return inverse matrix of inertia tensor
-   */
-  inline libra::Matrix<3, 3> GetInvInertiaTensor() const { return inv_inertia_tensor_; }
 
   // Setter
-  /**
-   * @fn SetPropStep
-   * @brief Set propagation step [sec]
-   */
-  inline void SetPropStep(double prop_step_s) { prop_step_s_ = prop_step_s; }
   /**
    * @fn SetOmega_b
    * @brief Set angular velocity of the body fixed frame with respect to the inertial frame [rad/s]
@@ -84,12 +74,6 @@ class Attitude : public ILoggable, public SimulationObject {
    */
   inline void SetQuaternion_i2b(const libra::Quaternion quaternion_i2b) { quaternion_i2b_ = quaternion_i2b; }
   /**
-   * @fn AddQuaternionOffset
-   * @brief Add quaternion offset rotation
-   */
-  inline void AddQuaternionOffset(const libra::Quaternion offset) { quaternion_i2b_ = quaternion_i2b_ * offset; }
-
-  /**
    * @fn SetTorque_b
    * @brief Set torque acting on the spacecraft on the body fixed frame [Nm]
    */
@@ -99,20 +83,11 @@ class Attitude : public ILoggable, public SimulationObject {
    * @brief Add torque acting on the spacecraft on the body fixed frame [Nm]
    */
   inline void AddTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { torque_b_Nm_ += torque_b_Nm; }
-
   /**
    * @fn SetAngMom_rw
    * @brief Set angular momentum of reaction wheel in the body fixed frame [Nms]
    */
   inline void SetAngMom_rw(const libra::Vector<3> h_rw_b_Nms) { h_rw_b_Nms_ = h_rw_b_Nms; }
-  /**
-   * @fn SetInertiaTensor
-   * @brief Set inertia tensor of the spacecraft [kg m2]
-   */
-  inline void SetInertiaTensor(const Matrix<3, 3>& inertia_tensor_kgm2) {
-    inertia_tensor_kgm2_ = inertia_tensor_kgm2;
-    inv_inertia_tensor_ = libra::invert(inertia_tensor_kgm2_);
-  }
 
   /**
    * @fn Propagate
