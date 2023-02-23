@@ -66,17 +66,17 @@ class HipparcosCatalogue : public ILoggable {
    */
   double GetVisibleMagnitude(int rank) const { return hipparcos_catalogue_[rank].visible_magnitude; }
   /**
-   *@fn GetRA
+   *@fn GetRightAscension_deg
    *@brief Return right ascension of a star
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  double GetRA(int rank) const { return hipparcos_catalogue_[rank].right_ascension_deg; }
+  double GetRightAscension_deg(int rank) const { return hipparcos_catalogue_[rank].right_ascension_deg; }
   /**
-   *@fn GetDE
+   *@fn GetDeclination_deg
    *@brief Return declination of a star
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  double GetDE(int rank) const { return hipparcos_catalogue_[rank].declination_deg; }
+  double GetDeclination_deg(int rank) const { return hipparcos_catalogue_[rank].declination_deg; }
   /**
    *@fn GetStarDir_i
    *@brief Return direction vector of a star in the inertial frame

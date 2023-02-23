@@ -119,8 +119,8 @@ void Telescope::ObserveStars() {
       Star star;
       star.hipdata.hipparcos_id = hipp_->GetHipparcosId(count);
       star.hipdata.visible_magnitude = hipp_->GetVisibleMagnitude(count);
-      star.hipdata.right_ascension_deg = hipp_->GetRA(count);
-      star.hipdata.declination_deg = hipp_->GetDE(count);
+      star.hipdata.right_ascension_deg = hipp_->GetRightAscension_deg(count);
+      star.hipdata.declination_deg = hipp_->GetDeclination_deg(count);
       star.pos_imgsensor[0] = x_num_of_pix_ / 2.0 * tan(arg_x) / tan(x_field_of_view_rad) + x_num_of_pix_ / 2.0;
       star.pos_imgsensor[1] = y_num_of_pix_ / 2.0 * tan(arg_y) / tan(y_field_of_view_rad) + y_num_of_pix_ / 2.0;
 

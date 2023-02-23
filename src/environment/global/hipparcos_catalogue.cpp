@@ -49,26 +49,25 @@ bool HipparcosCatalogue::ReadContents(const std::string& filename, const char de
 }
 
 libra::Vector<3> HipparcosCatalogue::GetStarDirection_i(int rank) const {
-  libra::Vector<3> position;
-  // TODO: Check unit of ra and de
-  double ra = GetRA(rank) * libra::pi / 180;
-  double de = GetDE(rank) * libra::pi / 180;
+  libra::Vector<3> direction_i;
+  double ra_rad = GetRightAscension_deg(rank) * libra::deg_to_rad;
+  double de_rad = GetDeclination_deg(rank) * libra::deg_to_rad;
 
-  position[0] = cos(ra) * cos(de);
-  position[1] = sin(ra) * cos(de);
-  position[2] = sin(de);
+  direction_i[0] = cos(ra_rad) * cos(de_rad);
+  direction_i[1] = sin(ra_rad) * cos(de_rad);
+  direction_i[2] = sin(de_rad);
 
-  return position;
+  return direction_i;
 }
 
 libra::Vector<3> HipparcosCatalogue::GetStarDirection_b(int rank, Quaternion q_i2b) const {
-  libra::Vector<3> position_i;
-  libra::Vector<3> position_b;
+  libra::Vector<3> direction_i;
+  libra::Vector<3> direction_b;
 
-  position_i = GetStarDirection_i(rank);
-  position_b = q_i2b.frame_conv(position_i);
+  direction_i = GetStarDirection_i(rank);
+  direction_b = q_i2b.frame_conv(direction_i);
 
-  return position_b;
+  return direction_b;
 }
 
 std::string HipparcosCatalogue::GetLogHeader() const {
