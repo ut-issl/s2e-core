@@ -52,13 +52,13 @@ HipparcosCatalogue* InitHipCatalogue(std::string file_name) {
   std::string catalogue_path = ini_file.ReadString(section, "catalogue_file_path");
   double max_magnitude = ini_file.ReadDouble(section, "max_magnitude");
 
-  HipparcosCatalogue* hip_catalogue;
-  hip_catalogue = new HipparcosCatalogue(max_magnitude, catalogue_path);
-  hip_catalogue->IsCalcEnabled = ini_file.ReadEnable(section, CALC_LABEL);
-  hip_catalogue->IsLogEnabled = ini_file.ReadEnable(section, LOG_LABEL);
-  hip_catalogue->ReadContents(catalogue_path, ',');
+  HipparcosCatalogue* hipparcos_catalogue_;
+  hipparcos_catalogue_ = new HipparcosCatalogue(max_magnitude, catalogue_path);
+  hipparcos_catalogue_->IsCalcEnabled = ini_file.ReadEnable(section, CALC_LABEL);
+  hipparcos_catalogue_->IsLogEnabled = ini_file.ReadEnable(section, LOG_LABEL);
+  hipparcos_catalogue_->ReadContents(catalogue_path, ',');
 
-  return hip_catalogue;
+  return hipparcos_catalogue_;
 }
 
 CelestialInformation* InitCelesInfo(std::string file_name) {

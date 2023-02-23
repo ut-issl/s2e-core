@@ -42,7 +42,7 @@ bool HipparcosCatalogue::ReadContents(const std::string& filename, const char de
     if (hipdata.vmag > max_magnitude_) {
       return true;
     }  // Don't read stars darker than max_magnitude
-    hip_catalogue.push_back(hipdata);
+    hipparcos_catalogue_.push_back(hipdata);
   }
 
   return true;
