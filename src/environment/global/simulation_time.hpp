@@ -159,17 +159,17 @@ class SimTime : public ILoggable {
    *@fn GetCompoStepSec
    *@brief Return component update step time [sec]
    */
-  inline double GetCompoStepSec(void) const { return compo_update_interval_sec_; };
+  inline double GetCompoStepSec(void) const { return component_update_interval_sec_; };
   /**
    *@fn GetCompoUpdateFlag
    *@brief Return component update flag
    */
-  inline bool GetCompoUpdateFlag() const { return compo_update_flag_; }
+  inline bool GetCompoUpdateFlag() const { return component_update_flag_; }
   /**
    *@fn GetCompoPropagateFrequency
    *@brief Return component propagate frequency [Hz]
    */
-  inline int GetCompoPropagateFrequency(void) const { return compo_propagate_frequency_; };
+  inline int GetCompoPropagateFrequency(void) const { return component_propagate_frequency_Hz_; };
 
   /**
    *@fn GetEndSec
@@ -212,7 +212,7 @@ class SimTime : public ILoggable {
    *@fn GetStartMon
    *@brief Return start time month [month]
    */
-  inline int GetStartMon(void) const { return start_mon_; };
+  inline int GetStartMon(void) const { return start_month_; };
   /**
    *@fn GetStartDay
    *@brief Return start time day [day]
@@ -222,7 +222,7 @@ class SimTime : public ILoggable {
    *@fn GetStartHr
    *@brief Return start time hour [hour]
    */
-  inline int GetStartHr(void) const { return start_hr_; };
+  inline int GetStartHr(void) const { return start_hour_; };
   /**
    *@fn GetStartMin
    *@brief Return start time minute [minute]
@@ -261,17 +261,17 @@ class SimTime : public ILoggable {
   UTC current_utc_;          //!< UTC calendar day
 
   // Timing controller
-  int attitude_update_counter_;  //!< Update counter for attitude calculation
-  bool attitude_update_flag_;    //!< Update flag for attitude calculation
-  int orbit_update_counter_;     //!< Update counter for orbit calculation
-  bool orbit_update_flag_;       //!< Update flag for orbit calculation
-  int thermal_update_counter_;   //!< Update counter for thermal calculation
-  bool thermal_update_flag_;     //!< Update flag for thermal calculation
-  int compo_update_counter_;     //!< Update counter for component calculation
-  bool compo_update_flag_;       //!< Update flag for component calculation
-  int log_counter_;              //!< Update counter for log output
-  int disp_counter_;             //!< Update counter for display output
-  TimeState state_;              //!< State of timing controller
+  int attitude_update_counter_;   //!< Update counter for attitude calculation
+  bool attitude_update_flag_;     //!< Update flag for attitude calculation
+  int orbit_update_counter_;      //!< Update counter for orbit calculation
+  bool orbit_update_flag_;        //!< Update flag for orbit calculation
+  int thermal_update_counter_;    //!< Update counter for thermal calculation
+  bool thermal_update_flag_;      //!< Update flag for thermal calculation
+  int component_update_counter_;  //!< Update counter for component calculation
+  bool component_update_flag_;    //!< Update flag for component calculation
+  int log_counter_;               //!< Update counter for log output
+  int display_counter_;           //!< Update counter for display output
+  TimeState state_;               //!< State of timing controller
 
   // Calculation time measure
   std::chrono::system_clock::time_point clock_start_time_millisec_;  //!< Simulation start time [ms]
@@ -279,28 +279,28 @@ class SimTime : public ILoggable {
   std::chrono::system_clock::time_point clock_last_time_completed_step_in_time_;  //!< Simulation finished time [ms]
 
   // Constants
-  double end_sec_;                       //!< Time from start of simulation to end [sec]
-  double step_sec_;                      //!< Simulation step width [sec]
-  double attitude_update_interval_sec_;  //!< Update intercal for attitude calculation [sec]
-  double attitude_rk_step_sec_;          //!< Runge-Kutta step width for attitude calculation [sec]
-  double orbit_update_interval_sec_;     //!< Update intercal for orbit calculation [sec]
-  double orbit_rk_step_sec_;             //!< Runge-Kutta step width for orbit calculation [sec]
-  double thermal_update_interval_sec_;   //!< Update intercal for thermal calculation [sec]
-  double thermal_rk_step_sec_;           //!< Runge-Kutta step width for thermal calculation [sec]
-  double compo_update_interval_sec_;     //!< Update intercal for component calculation [sec]
-  int compo_propagate_frequency_;        //!< Component propagation frequency [Hz]
-  double log_output_interval_sec_;       //!< Log output interval [sec]
-  double disp_period_;                   //!< Display output period [sec]
+  double end_sec_;                        //!< Time from start of simulation to end [sec]
+  double step_sec_;                       //!< Simulation step width [sec]
+  double attitude_update_interval_sec_;   //!< Update intercal for attitude calculation [sec]
+  double attitude_rk_step_sec_;           //!< Runge-Kutta step width for attitude calculation [sec]
+  double orbit_update_interval_sec_;      //!< Update intercal for orbit calculation [sec]
+  double orbit_rk_step_sec_;              //!< Runge-Kutta step width for orbit calculation [sec]
+  double thermal_update_interval_sec_;    //!< Update intercal for thermal calculation [sec]
+  double thermal_rk_step_sec_;            //!< Runge-Kutta step width for thermal calculation [sec]
+  double component_update_interval_sec_;  //!< Update intercal for component calculation [sec]
+  int component_propagate_frequency_Hz_;  //!< Component propagation frequency [Hz]
+  double log_output_interval_sec_;        //!< Log output interval [sec]
+  double display_period_;                 //!< Display output period [sec]
 
   double start_jd_;   //!< Simulation start Julian date [day]
   int start_year_;    //!< Simulation start year
-  int start_mon_;     //!< Simulation start month
+  int start_month_;   //!< Simulation start month
   int start_day_;     //!< Simulation start day
-  int start_hr_;      //!< Simulation start hour
+  int start_hour_;    //!< Simulation start hour
   int start_min_;     //!< Simulation start minute
   double start_sec_;  //!< Simulation start seconds
 
-  double sim_speed_;  //!< The speed of the simulation relative to real time (if negative, real time is not taken into account)
+  double simulation_speed_;  //!< The speed of the simulation relative to real time (if negative, real time is not taken into account)
   double time_exceeds_continuously_limit_sec_;  //!< Maximum duration to allow actual step_sec to be larger than specified continuously
 
   /**
