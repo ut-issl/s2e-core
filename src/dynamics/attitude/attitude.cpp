@@ -44,12 +44,12 @@ std::string Attitude::GetLogValue() const {
 
 void Attitude::SetParameters(const MCSimExecutor& mc_sim) { GetInitParameterQuaternion(mc_sim, "Q_i2b", quaternion_i2b_); }
 
-void Attitude::CalcAngMom(void) {
+void Attitude::CalcAngularMomentum(void) {
   h_sc_b_Nms_ = inertia_tensor_kgm2_ * omega_b_rad_s_;
   h_total_b_Nms_ = h_rw_b_Nms_ + h_sc_b_Nms_;
   Quaternion q_b2i = quaternion_i2b_.conjugate();
   h_total_i_Nms_ = q_b2i.frame_conv(h_total_b_Nms_);
   h_total_Nms_ = norm(h_total_i_Nms_);
-}
 
-void Attitude::CalcSatRotationalKineticEnergy(void) { k_sc_J_ = 0.5 * libra::inner_product(h_sc_b_Nms_, omega_b_rad_s_); }
+  k_sc_J_ = 0.5 * libra::inner_product(h_sc_b_Nms_, omega_b_rad_s_);
+}

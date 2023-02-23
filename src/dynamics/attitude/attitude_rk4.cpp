@@ -22,7 +22,7 @@ AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini, const Quaternion& quatern
   prop_time_s_ = 0.0;
   inv_inertia_tensor_ = invert(inertia_tensor_kgm2_);
   h_rw_b_Nms_ = libra::Vector<3>(0.0);
-  CalcAngMom();
+  CalcAngularMomentum();
 }
 
 AttitudeRK4::~AttitudeRK4() {}
@@ -35,8 +35,7 @@ void AttitudeRK4::SetParameters(const MCSimExecutor& mc_sim) {
   prop_time_s_ = 0.0;
   inv_inertia_tensor_ = libra::invert(inertia_tensor_kgm2_);
   h_rw_b_Nms_ = Vector<3>(0.0);  //!< Consider how to handle this variable
-  CalcAngMom();
-  CalcSatRotationalKineticEnergy();
+  CalcAngularMomentum();
 }
 
 void AttitudeRK4::Propagate(const double endtime_s) {
@@ -48,8 +47,7 @@ void AttitudeRK4::Propagate(const double endtime_s) {
   RungeOneStep(prop_time_s_, endtime_s - prop_time_s_);
   prop_time_s_ = endtime_s;
 
-  CalcAngMom();
-  CalcSatRotationalKineticEnergy();
+  CalcAngularMomentum();
 }
 
 Matrix<4, 4> AttitudeRK4::Omega4Kinematics(Vector<3> omega) {
