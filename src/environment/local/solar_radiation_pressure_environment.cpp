@@ -13,8 +13,7 @@
 #include "library/math/vector.hpp"
 
 SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celestial_information) : local_celestial_information_(local_celestial_information) {
-  solar_constant_W_m2_ = 1366.0;                                                            // [W/m2]
-  solar_radiation_pressure_N_m2_ = solar_constant_W_m2_ / environment::speed_of_light_m_s;  // [N/m2]
+  solar_radiation_pressure_N_m2_ = solar_constant_W_m2_ / environment::speed_of_light_m_s;
   shadow_source_name_ = local_celestial_information_->GetGlobalInformation().GetCenterBodyName();
   sun_radius_m_ = local_celestial_information_->GetGlobalInformation().GetMeanRadiusFromName_m("SUN");
 }
@@ -36,7 +35,7 @@ void SRPEnvironment::UpdatePressure() {
 std::string SRPEnvironment::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("solar_radiation_solar_radiation_pressure_N_m2_at_spacecraft_position", "N/m2");
+  str_tmp += WriteScalar("solar_radiation_pressure_at_spacecraft_position", "N/m2");
   str_tmp += WriteScalar("shadow_coefficient_at_spacecraft_position");
 
   return str_tmp;
