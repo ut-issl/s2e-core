@@ -56,9 +56,9 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
 
     // There is a possibility that the orbit of the reference sat is not initialized when RelativeOrbit initialization is called To ensure that
     // the orbit of the reference sat is initialized, create temporary initial orbit of the reference sat
-    int reference_sat_id = conf.ReadInt(section_, "reference_satellite_id");
+    int reference_spacecraft_id = conf.ReadInt(section_, "reference_satellite_id");
 
-    orbit = new RelativeOrbit(celestial_information, mu_m3_s2, step_width_s, reference_sat_id, init_relative_position_lvlh,
+    orbit = new RelativeOrbit(celestial_information, mu_m3_s2, step_width_s, reference_spacecraft_id, init_relative_position_lvlh,
                               init_relative_velocity_lvlh, update_method, relative_dynamics_model_type, stm_model_type, relative_information);
   } else if (propagate_mode == "KEPLER") {
     // initialize orbit for Kepler propagation

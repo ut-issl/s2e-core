@@ -18,21 +18,21 @@
 class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
  private:
   static const int N = 6;  //!< Degrees of freedom in 3D space
-  double mu;               //!< Gravity constant [m3/s2]
+  double mu_m3_s2;         //!< Gravity constant [m3/s2]
 
  public:
   /**
    * @fn Rk4OrbitPropagation
    * @brief Constructor
    * @param [in] celestial_information: Celestial information
-   * @param [in] mu: Gravity constant [m3/s2]
+   * @param [in] mu_m3_s2: Gravity constant [m3/s2]
    * @param [in] timestep: Step width [sec]
    * @param [in] init_position: Initial value of position in the inertial frame [m]
    * @param [in] init_velocity: Initial value of velocity in the inertial frame [m/s]
    * @param [in] init_time: Initial time [sec]
    */
-  Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu, double timestep, Vector<3> init_position, Vector<3> init_velocity,
-                      double init_time = 0);
+  Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double timestep, Vector<3> init_position,
+                      Vector<3> init_velocity, double init_time = 0);
   /**
    * @fn ~Rk4OrbitPropagation
    * @brief Destructor
@@ -67,8 +67,8 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
   virtual void AddPositionOffset(Vector<3> offset_i);
 
  private:
-  double prop_time_;  //!< Simulation current time for numerical integration by RK4 [sec]
-  double prop_step_;  //!< Step width for RK4 [sec]
+  double propagation_time_s_;  //!< Simulation current time for numerical integration by RK4 [sec]
+  double propagation_step_s_;  //!< Step width for RK4 [sec]
 
   /**
    * @fn Initialize

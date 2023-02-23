@@ -10,13 +10,13 @@
 
 using std::string;
 
-Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu, double timestep, Vector<3> init_position,
+Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double timestep, Vector<3> init_position,
                                          Vector<3> init_velocity, double init_time)
-    : Orbit(celestial_information), ODE<N>(timestep), mu(mu) {
+    : Orbit(celestial_information), ODE<N>(timestep), mu_m3_s2(mu_m3_s2) {
   propagate_mode_ = OrbitPropagateMode::kRk4;
 
-  prop_time_ = 0.0;
-  prop_step_ = timestep;
+  propagation_time_s_ = 0.0;
+  propagation_step_s_ = timestep;
   spacecraft_acceleration_i_m_s2_ *= 0;
 
   Initialize(init_position, init_velocity, init_time);
@@ -33,9 +33,9 @@ void Rk4OrbitPropagation::RHS(double t, const Vector<N>& state, Vector<N>& rhs) 
   rhs[0] = vx;
   rhs[1] = vy;
   rhs[2] = vz;
-  rhs[3] = spacecraft_acceleration_i_m_s2_[0] - mu / r3 * x;
-  rhs[4] = spacecraft_acceleration_i_m_s2_[1] - mu / r3 * y;
-  rhs[5] = spacecraft_acceleration_i_m_s2_[2] - mu / r3 * z;
+  rhs[3] = spacecraft_acceleration_i_m_s2_[0] - mu_m3_s2 / r3 * x;
+  rhs[4] = spacecraft_acceleration_i_m_s2_[1] - mu_m3_s2 / r3 * y;
+  rhs[5] = spacecraft_acceleration_i_m_s2_[2] - mu_m3_s2 / r3 * z;
 
   (void)t;
 }
@@ -69,14 +69,14 @@ void Rk4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
 
   if (!is_calc_enabled_) return;
 
-  setStepWidth(prop_step_);  // Re-set propagation Δt
-  while (end_time_s - prop_time_ - prop_step_ > 1.0e-6) {
+  setStepWidth(propagation_step_s_);  // Re-set propagation Δt
+  while (end_time_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     Update();  // Propagation methods of the ODE class
-    prop_time_ += prop_step_;
+    propagation_time_s_ += propagation_step_s_;
   }
-  setStepWidth(end_time_s - prop_time_);  // Adjust the last propagation Δt
+  setStepWidth(end_time_s - propagation_time_s_);  // Adjust the last propagation Δt
   Update();
-  prop_time_ = end_time_s;
+  propagation_time_s_ = end_time_s;
 
   spacecraft_position_i_m_[0] = state()[0];
   spacecraft_position_i_m_[1] = state()[1];
