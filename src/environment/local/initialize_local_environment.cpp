@@ -11,8 +11,8 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-GeomagneticField InitGeomagneticField(std::string ini_path) {
-  auto conf = IniAccess(ini_path);
+GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
+  auto conf = IniAccess(initialize_file_path);
   const char* section = "MAGNETIC_FIELD_ENVIRONMENT";
 
   std::string fname = conf.ReadString(section, "coefficient_file");
@@ -27,19 +27,19 @@ GeomagneticField InitGeomagneticField(std::string ini_path) {
   return mag_env;
 }
 
-SRPEnvironment InitSRPEnvironment(std::string ini_path, LocalCelestialInformation* local_celes_info) {
-  auto conf = IniAccess(ini_path);
+SRPEnvironment InitSRPEnvironment(std::string initialize_file_path, LocalCelestialInformation* local_celestial_information) {
+  auto conf = IniAccess(initialize_file_path);
   const char* section = "SOLAR_RADIATION_PRESSURE_ENVIRONMENT";
 
-  SRPEnvironment srp_env(local_celes_info);
+  SRPEnvironment srp_env(local_celestial_information);
   srp_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   srp_env.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
   return srp_env;
 }
 
-Atmosphere InitAtmosphere(std::string ini_path) {
-  auto conf = IniAccess(ini_path);
+Atmosphere InitAtmosphere(std::string initialize_file_path) {
+  auto conf = IniAccess(initialize_file_path);
   const char* section = "ATMOSPHERE";
   double f107_threshold = 50.0;
   double f107_default = 150.0;
