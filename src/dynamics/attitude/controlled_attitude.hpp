@@ -74,20 +74,20 @@ class ControlledAttitude : public Attitude {
    */
   inline void SetSubMode(const AttCtrlMode sub_mode) { sub_mode_ = sub_mode; }
   /**
-   * @fn SetQuaternionI2T
+   * @fn SetQuaternion_i2t
    * @brief Set quaternion for INERTIAL_STABILIZE mode
    */
-  inline void SetQuaternionI2T(const Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
+  inline void SetQuaternion_i2t(const Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
   /**
-   * @fn SetPointingTb
+   * @fn SetMainTargetDirection_b
    * @brief Set main target direction on the body fixed frame
    */
-  inline void SetPointingTb(Vector<3> main_target_direction_b) { main_target_direction_b_ = main_target_direction_b; }
+  inline void SetMainTargetDirection_b(Vector<3> main_target_direction_b) { main_target_direction_b_ = main_target_direction_b; }
   /**
-   * @fn SetPointingSubTb
+   * @fn SetSubTargetDirection_b
    * @brief Set sub target direction on the body fixed frame
    */
-  inline void SetPointingSubTb(Vector<3> sub_target_direction_b) { sub_target_direction_b_ = sub_target_direction_b; }
+  inline void SetSubTargetDirection_b(Vector<3> sub_target_direction_b) { sub_target_direction_b_ = sub_target_direction_b; }
 
   /**
    * @fn Propagate
@@ -116,18 +116,19 @@ class ControlledAttitude : public Attitude {
    */
   void Initialize(void);
   /**
-   * @fn CalcTargetDirection
+   * @fn CalcTargetDirection_i
    * @brief Calculate target direction from attitude control mode
    * @param [in] mode: Attitude control mode
+   * @return Target direction at the inertia frame0
    */
-  Vector<3> CalcTargetDirection(AttCtrlMode mode);
+  Vector<3> CalcTargetDirection_i(AttCtrlMode mode);
   /**
-   * @fn PointingCtrl
+   * @fn PointingControl
    * @brief Calculate attitude quaternion
    * @param [in] main_direction_i: Main target direction in the inertial frame
-   * @param [in] main_direction_i: Sub target direction in the inertial frame
+   * @param [in] sub_direction_i: Sub target direction in the inertial frame
    */
-  void PointingCtrl(const Vector<3> main_direction_i, const Vector<3> sub_direction_i);
+  void PointingControl(const Vector<3> main_direction_i, const Vector<3> sub_direction_i);
   /**
    * @fn CalcAngularVelocity
    * @brief Calculate angular velocity
@@ -135,12 +136,12 @@ class ControlledAttitude : public Attitude {
    */
   void CalcAngularVelocity(const double current_time_s);
   /**
-   * @fn CalcDCM
+   * @fn CalcDcm
    * @brief Calculate direction cosine matrix with tow direction vectors
    * @param [in] main_direction: Main target direction
    * @param [in] sub_direction: Sub target direction
    */
-  Matrix<3, 3> CalcDCM(const Vector<3> main_direction, const Vector<3> sub_direction);
+  Matrix<3, 3> CalcDcm(const Vector<3> main_direction, const Vector<3> sub_direction);
 };
 
 #endif  // S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_HPP_

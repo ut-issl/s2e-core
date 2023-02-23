@@ -69,17 +69,17 @@ void ControlledAttitude::Propagate(const double end_time_s) {
   }
 
   // Calc main target direction
-  main_direction_i = CalcTargetDirection(main_mode_);
+  main_direction_i = CalcTargetDirection_i(main_mode_);
   // Calc sub target direction
-  sub_direction_i = CalcTargetDirection(sub_mode_);
+  sub_direction_i = CalcTargetDirection_i(sub_mode_);
   // Calc attitude
-  PointingCtrl(main_direction_i, sub_direction_i);
+  PointingControl(main_direction_i, sub_direction_i);
   // Calc angular velocity
   CalcAngularVelocity(end_time_s);
   return;
 }
 
-Vector<3> ControlledAttitude::CalcTargetDirection(AttCtrlMode mode) {
+Vector<3> ControlledAttitude::CalcTargetDirection_i(AttCtrlMode mode) {
   Vector<3> direction;
   if (mode == SUN_POINTING) {
     direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
@@ -94,18 +94,18 @@ Vector<3> ControlledAttitude::CalcTargetDirection(AttCtrlMode mode) {
   return direction;
 }
 
-void ControlledAttitude::PointingCtrl(const Vector<3> main_direction_i, const Vector<3> sub_direction_i) {
+void ControlledAttitude::PointingControl(const Vector<3> main_direction_i, const Vector<3> sub_direction_i) {
   // Calc DCM ECI->Target
-  Matrix<3, 3> DCM_t2i = CalcDCM(main_direction_i, sub_direction_i);
+  Matrix<3, 3> DCM_t2i = CalcDcm(main_direction_i, sub_direction_i);
   // Calc DCM Target->body
-  Matrix<3, 3> DCM_t2b = CalcDCM(main_target_direction_b_, sub_target_direction_b_);
+  Matrix<3, 3> DCM_t2b = CalcDcm(main_target_direction_b_, sub_target_direction_b_);
   // Calc DCM ECI->body
   Matrix<3, 3> DCM_i2b = DCM_t2b * transpose(DCM_t2i);
   // Convert to Quaternion
   quaternion_i2b_ = Quaternion::fromDCM(DCM_i2b);
 }
 
-Matrix<3, 3> ControlledAttitude::CalcDCM(const Vector<3> main_direction, const Vector<3> sub_direction) {
+Matrix<3, 3> ControlledAttitude::CalcDcm(const Vector<3> main_direction, const Vector<3> sub_direction) {
   // Calc basis vectors
   Vector<3> ex, ey, ez;
   ex = main_direction;
