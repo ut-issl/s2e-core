@@ -212,7 +212,7 @@ Quaternion Quaternion::fromEuler(Vector<3> euler) {
   return Quaternion::fromDCM(dcm);
 }
 
-Vector<3> Quaternion::frame_conv(const Vector<3>& v) {
+Vector<3> Quaternion::frame_conv(const Vector<3>& v) const {
   Quaternion conj = conjugate();
   Quaternion temp1 = conj * v;
   Quaternion temp2 = temp1 * q_;
@@ -223,7 +223,7 @@ Vector<3> Quaternion::frame_conv(const Vector<3>& v) {
   return ans;
 }
 
-Vector<3> Quaternion::frame_conv_inv(const Vector<3>& cv) {
+Vector<3> Quaternion::frame_conv_inv(const Vector<3>& cv) const {
   Quaternion conj = conjugate();
   Quaternion temp1 = q_ * cv;
   Quaternion temp2 = temp1 * conj;

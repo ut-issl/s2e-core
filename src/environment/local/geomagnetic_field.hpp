@@ -27,8 +27,8 @@ class GeomagneticField : public ILoggable {
    * @param [in] random_walk_limit_nT: Limit of Random Walk [nT]
    * @param [in] white_noise_standard_deviation_nT: Standard deviation of white noise [nT]
    */
-  GeomagneticField(std::string igrf_file_name, double random_walk_srandard_deviation_nT, double random_walk_limit_nT,
-                   double white_noise_standard_deviation_nT);
+  GeomagneticField(const std::string igrf_file_name, const double random_walk_srandard_deviation_nT, const double random_walk_limit_nT,
+                   const double white_noise_standard_deviation_nT);
   /**
    * @fn ~GeomagneticField
    * @brief Destructor
@@ -43,7 +43,8 @@ class GeomagneticField : public ILoggable {
    * @param [in] position: Position of target point to calculate the magnetic field
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
-  void CalcMagneticField(double decimal_year, double sidereal_day, const GeodeticPosition position, libra::Quaternion quaternion_i2b);
+  void CalcMagneticField(const double decimal_year, const double sidereal_day, const GeodeticPosition position,
+                         const libra::Quaternion quaternion_i2b);
 
   /**
    * @fn GetMagneticField_i_nT

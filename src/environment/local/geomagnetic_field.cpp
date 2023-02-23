@@ -11,8 +11,8 @@
 #include "library/randomization/normal_randomization.hpp"
 #include "library/randomization/random_walk.hpp"
 
-GeomagneticField::GeomagneticField(std::string igrf_file_name, double random_walk_srandard_deviation_nT, double random_walk_limit_nT,
-                                   double white_noise_standard_deviation_nT)
+GeomagneticField::GeomagneticField(const std::string igrf_file_name, const double random_walk_srandard_deviation_nT,
+                                   const double random_walk_limit_nT, const double white_noise_standard_deviation_nT)
     : magnetic_field_i_nT_(0.0),
       magnetic_field_b_nT_(0.0),
       random_walk_standard_deviation_nT_(random_walk_srandard_deviation_nT),
@@ -22,7 +22,8 @@ GeomagneticField::GeomagneticField(std::string igrf_file_name, double random_wal
   set_file_path(igrf_file_name_.c_str());
 }
 
-void GeomagneticField::CalcMagneticField(double decimal_year, double sidereal_day, const GeodeticPosition position, Quaternion quaternion_i2b) {
+void GeomagneticField::CalcMagneticField(const double decimal_year, const double sidereal_day, const GeodeticPosition position,
+                                         const Quaternion quaternion_i2b) {
   if (!IsCalcEnabled) return;
 
   const double lat_rad = position.GetLat_rad();

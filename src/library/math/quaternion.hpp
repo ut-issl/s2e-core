@@ -140,7 +140,7 @@ class Quaternion {
    * @param [in] cv: Target vector
    * @return Converted vector
    */
-  Vector<3> frame_conv(const Vector<3>& cv);
+  Vector<3> frame_conv(const Vector<3>& cv) const;
 
   /**
    * @fn frame_conv_inv
@@ -148,7 +148,7 @@ class Quaternion {
    * @param [in] cv: Target vector
    * @return Converted vector
    */
-  Vector<3> frame_conv_inv(const Vector<3>& cv);
+  Vector<3> frame_conv_inv(const Vector<3>& cv) const;
 
   /**
    * @fn toVector
