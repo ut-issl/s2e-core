@@ -8,14 +8,13 @@
 #include <library/math/constants.hpp>
 #include <library/utilities/macros.hpp>
 
-using namespace std;
+#define THRESHOLD_CA cos(30.0 / 180.0 * libra::pi)  // FIXME
 
-#define THRESHOLD_CA cos(30.0 / 180.0 * libra::pi)  // fix me
-
-ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const Quaternion quaternion_i2b,
-                                       const Vector<3> main_target_direction_b, const Vector<3> sub_target_direction_b,
-                                       const Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information,
-                                       const Orbit* orbit, const std::string& simulation_object_name)
+ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode,
+                                       const libra::Quaternion quaternion_i2b, const libra::Vector<3> main_target_direction_b,
+                                       const libra::Vector<3> sub_target_direction_b, const libra::Matrix<3, 3>& inertia_tensor_kgm2,
+                                       const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
+                                       const std::string& simulation_object_name)
     : Attitude(simulation_object_name),
       main_mode_(main_mode),
       sub_mode_(sub_mode),
@@ -41,7 +40,7 @@ void ControlledAttitude::Initialize(void) {
   {
     // sub mode check
     if (main_mode_ == sub_mode_) {
-      cout << "sub mode should not equal to main mode. \n";
+      std::cout << "sub mode should not equal to main mode. \n";
       is_calc_enabled_ = false;
       return;
     }
@@ -51,7 +50,7 @@ void ControlledAttitude::Initialize(void) {
     double tmp = inner_product(main_target_direction_b_, sub_target_direction_b_);
     tmp = std::abs(tmp);
     if (tmp > THRESHOLD_CA) {
-      cout << "sub target direction should separate from the main target direction. \n";
+      std::cout << "sub target direction should separate from the main target direction. \n";
       is_calc_enabled_ = false;
       return;
     }
@@ -94,29 +93,29 @@ Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mode) {
   return direction;
 }
 
-void ControlledAttitude::PointingControl(const Vector<3> main_direction_i, const Vector<3> sub_direction_i) {
+void ControlledAttitude::PointingControl(const libra::Vector<3> main_direction_i, const libra::Vector<3> sub_direction_i) {
   // Calc DCM ECI->Target
-  Matrix<3, 3> dcm_t2i = CalcDcm(main_direction_i, sub_direction_i);
+  libra::Matrix<3, 3> dcm_t2i = CalcDcm(main_direction_i, sub_direction_i);
   // Calc DCM Target->body
-  Matrix<3, 3> dcm_t2b = CalcDcm(main_target_direction_b_, sub_target_direction_b_);
+  libra::Matrix<3, 3> dcm_t2b = CalcDcm(main_target_direction_b_, sub_target_direction_b_);
   // Calc DCM ECI->body
-  Matrix<3, 3> dcm_i2b = dcm_t2b * transpose(dcm_t2i);
+  libra::Matrix<3, 3> dcm_i2b = dcm_t2b * transpose(dcm_t2i);
   // Convert to Quaternion
   quaternion_i2b_ = Quaternion::fromDCM(dcm_i2b);
 }
 
-Matrix<3, 3> ControlledAttitude::CalcDcm(const Vector<3> main_direction, const Vector<3> sub_direction) {
+libra::Matrix<3, 3> ControlledAttitude::CalcDcm(const libra::Vector<3> main_direction, const libra::Vector<3> sub_direction) {
   // Calc basis vectors
-  Vector<3> ex, ey, ez;
+  libra::Vector<3> ex, ey, ez;
   ex = main_direction;
-  Vector<3> tmp1 = outer_product(ex, sub_direction);
-  Vector<3> tmp2 = outer_product(tmp1, ex);
+  libra::Vector<3> tmp1 = outer_product(ex, sub_direction);
+  libra::Vector<3> tmp2 = outer_product(tmp1, ex);
   ey = normalize(tmp2);
-  Vector<3> tmp3 = outer_product(ex, ey);
+  libra::Vector<3> tmp3 = outer_product(ex, ey);
   ez = normalize(tmp3);
 
   // Generate DCM
-  Matrix<3, 3> dcm;
+  libra::Matrix<3, 3> dcm;
   for (int i = 0; i < 3; i++) {
     dcm[i][0] = ex[i];
     dcm[i][1] = ey[i];
