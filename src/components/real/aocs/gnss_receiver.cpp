@@ -222,7 +222,7 @@ std::string GNSSReceiver::GetLogValue() const  // For logs
   str_tmp += WriteScalar(utc_.day);
   str_tmp += WriteScalar(utc_.hour);
   str_tmp += WriteScalar(utc_.minute);
-  str_tmp += WriteScalar(utc_.sec);
+  str_tmp += WriteScalar(utc_.second);
   str_tmp += WriteVector(position_eci_, 10);
   str_tmp += WriteVector(velocity_ecef_, 10);
   str_tmp += WriteScalar(position_llh_[0], 10);

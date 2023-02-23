@@ -40,7 +40,7 @@ struct UTC {
   unsigned int day = 1;
   unsigned int hour = 0;
   unsigned int minute = 0;
-  double sec = 0.0;
+  double second = 0.0;
 };
 
 /**

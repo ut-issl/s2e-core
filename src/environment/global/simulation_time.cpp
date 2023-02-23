@@ -207,7 +207,7 @@ string SimTime::GetLogValue() const {
   const char kSize = 100;
   char ymdhms[kSize];
   snprintf(ymdhms, kSize, "%4d/%02d/%02d %02d:%02d:%.3lf,", current_utc_.year, current_utc_.month, current_utc_.day, current_utc_.hour,
-           current_utc_.minute, current_utc_.sec);
+           current_utc_.minute, current_utc_.second);
   str_tmp += ymdhms;
 
   return str_tmp;
@@ -230,5 +230,5 @@ void SimTime::ConvJDtoCalndarDay(const double JD) {
   current_utc_.day = (unsigned int)(day);
   current_utc_.hour = (unsigned int)(hr);
   current_utc_.minute = (unsigned int)(minute);
-  current_utc_.sec = sec;
+  current_utc_.second = sec;
 }
