@@ -18,10 +18,10 @@ HipparcosCatalogue::HipparcosCatalogue(double max_magnitude, std::string catalog
 
 HipparcosCatalogue::~HipparcosCatalogue() {}
 
-bool HipparcosCatalogue::ReadContents(const std::string& filename, const char delimiter = ',') {
+bool HipparcosCatalogue::ReadContents(const std::string& file_name, const char delimiter = ',') {
   if (!IsCalcEnabled) return false;
 
-  std::ifstream ifs(filename);
+  std::ifstream ifs(file_name);
   if (!ifs.is_open()) {
     std::cerr << "file open error(hip_main.csv)";
     return false;
@@ -61,12 +61,12 @@ libra::Vector<3> HipparcosCatalogue::GetStarDirection_i(int rank) const {
   return direction_i;
 }
 
-libra::Vector<3> HipparcosCatalogue::GetStarDirection_b(int rank, Quaternion q_i2b) const {
+libra::Vector<3> HipparcosCatalogue::GetStarDirection_b(int rank, Quaternion quaternoin_i2b) const {
   libra::Vector<3> direction_i;
   libra::Vector<3> direction_b;
 
   direction_i = GetStarDirection_i(rank);
-  direction_b = q_i2b.frame_conv(direction_i);
+  direction_b = quaternoin_i2b.frame_conv(direction_i);
 
   return direction_b;
 }

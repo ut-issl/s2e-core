@@ -46,7 +46,7 @@ class HipparcosCatalogue : public ILoggable {
    *@param [in] file_name: Path to Hipparcos catalogue file
    *@param [in] delimiter: Delimiter for the catalogue file
    */
-  bool ReadContents(const std::string& filename, const char delimiter);
+  bool ReadContents(const std::string& file_name, const char delimiter);
 
   /**
    *@fn GetCatalogueSize
@@ -87,9 +87,9 @@ class HipparcosCatalogue : public ILoggable {
    *@fn GetStarDir_b
    *@brief Return direction vector of a star in the body-fixed frame
    *@param [in] rank: Rank of star magnitude in read catalogue
-   *@param [in] rank: Quaternion from the inertial frame to the body-fixed frame
+   *@param [in] quaternoin_i2b: Quaternion from the inertial frame to the body-fixed frame
    */
-  libra::Vector<3> GetStarDirection_b(int rank, Quaternion q_i2b) const;
+  libra::Vector<3> GetStarDirection_b(int rank, Quaternion quaternoin_i2b) const;
 
   // Override ILoggable
   /**
