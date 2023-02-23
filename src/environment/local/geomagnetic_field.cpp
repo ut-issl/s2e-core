@@ -5,17 +5,13 @@
 
 #include "geomagnetic_field.hpp"
 
-#include <library/external/igrf/igrf.h>
+#include "library/external/igrf/igrf.h"
+#include "library/initialize/initialize_file_access.hpp"
+#include "library/randomization/global_randomization.hpp"
+#include "library/randomization/normal_randomization.hpp"
+#include "library/randomization/random_walk.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/randomization/global_randomization.hpp>
-#include <library/randomization/normal_randomization.hpp>
-#include <library/randomization/random_walk.hpp>
-
-using libra::NormalRand;
-using namespace std;
-
-MagEnvironment::MagEnvironment(string fname, double mag_rwdev, double mag_rwlimit, double mag_wnvar)
+MagEnvironment::MagEnvironment(std::string fname, double mag_rwdev, double mag_rwlimit, double mag_wnvar)
     : mag_rwdev_(mag_rwdev), mag_rwlimit_(mag_rwlimit), mag_wnvar_(mag_wnvar), fname_(fname) {
   for (int i = 0; i < 3; ++i) {
     Mag_i_[i] = 0;
@@ -46,7 +42,7 @@ void MagEnvironment::AddNoise(double* mag_i_array) {
   static Vector<3> stddev(mag_rwdev_);
   static Vector<3> limit(mag_rwlimit_);
   static RandomWalk<3> rw(0.1, stddev, limit);
-  static NormalRand nr(0.0, mag_wnvar_, g_rand.MakeSeed());
+  static libra::NormalRand nr(0.0, mag_wnvar_, g_rand.MakeSeed());
   for (int i = 0; i < 3; ++i) {
     mag_i_array[i] += rw[i] + nr;
   }
@@ -57,8 +53,8 @@ Vector<3> MagEnvironment::GetMag_i() const { return Mag_i_; }
 
 Vector<3> MagEnvironment::GetMag_b() const { return Mag_b_; }
 
-string MagEnvironment::GetLogHeader() const {
-  string str_tmp = "";
+std::string MagEnvironment::GetLogHeader() const {
+  std::string str_tmp = "";
 
   str_tmp += WriteVector("geomagnetic_field_at_spacecraft_position", "i", "nT", 3);
   str_tmp += WriteVector("geomagnetic_field_at_spacecraft_position", "b", "nT", 3);
@@ -66,8 +62,8 @@ string MagEnvironment::GetLogHeader() const {
   return str_tmp;
 }
 
-string MagEnvironment::GetLogValue() const {
-  string str_tmp = "";
+std::string MagEnvironment::GetLogValue() const {
+  std::string str_tmp = "";
 
   str_tmp += WriteVector(Mag_i_);
   str_tmp += WriteVector(Mag_b_);

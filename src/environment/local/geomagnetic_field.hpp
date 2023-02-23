@@ -6,12 +6,9 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
 #define S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
 
-#include <library/math/vector.hpp>
-using libra::Vector;
-#include <library/math/quaternion.hpp>
-using libra::Quaternion;
-
-#include <library/logger/loggable.hpp>
+#include "library/logger/loggable.hpp"
+#include "library/math/quaternion.hpp"
+#include "library/math/vector.hpp"
 
 /**
  * @class MagEnvironment
@@ -44,18 +41,18 @@ class MagEnvironment : public ILoggable {
    * @param [in] lat_lon_alt: Latitude [rad], longitude [rad], and altitude [m]
    * @param [in] q_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
-  void CalcMag(double decyear, double side, Vector<3> lat_lon_alt, Quaternion q_i2b);
+  void CalcMag(double decyear, double side, libra::Vector<3> lat_lon_alt, libra::Quaternion q_i2b);
 
   /**
    * @fn GetMag_i
    * @brief Return magnetic field vector in the inertial frame [nT]
    */
-  Vector<3> GetMag_i() const;
+  libra::Vector<3> GetMag_i() const;
   /**
    * @fn GetMag_b
    * @brief Return magnetic field vector in the body fixed frame [nT]
    */
-  Vector<3> GetMag_b() const;
+  libra::Vector<3> GetMag_b() const;
 
   // Override ILoggable
   /**
@@ -70,12 +67,12 @@ class MagEnvironment : public ILoggable {
   virtual std::string GetLogValue() const;
 
  private:
-  Vector<3> Mag_i_;     //!< Magnetic field vector at the inertial frame
-  Vector<3> Mag_b_;     //!< Magnetic field vector at the spacecraft body fixed frame
-  double mag_rwdev_;    //!< Standard deviation of Random Walk [nT]
-  double mag_rwlimit_;  //!< Limit of Random Walk [nT]
-  double mag_wnvar_;    //!< Standard deviation of white noise [nT]
-  std::string fname_;   //!< Path to the initialize file
+  libra::Vector<3> Mag_i_;  //!< Magnetic field vector at the inertial frame
+  libra::Vector<3> Mag_b_;  //!< Magnetic field vector at the spacecraft body fixed frame
+  double mag_rwdev_;        //!< Standard deviation of Random Walk [nT]
+  double mag_rwlimit_;      //!< Limit of Random Walk [nT]
+  double mag_wnvar_;        //!< Standard deviation of white noise [nT]
+  std::string fname_;       //!< Path to the initialize file
 
   /**
    * @fn AddNoise
