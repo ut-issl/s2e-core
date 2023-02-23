@@ -34,11 +34,6 @@ class SRPEnvironment : public ILoggable {
    * @brief Update pressure and shadow coefficients
    */
   void UpdateAllStates();
-  /**
-   * @fn UpdatePressure
-   * @brief Update pressure with solar distance
-   */
-  void UpdatePressure();
 
   /**
    * @fn CalcTruePressure
@@ -93,6 +88,12 @@ class SRPEnvironment : public ILoggable {
   std::string shadow_source_name_;        //!< Shadow source name
 
   LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
+
+  /**
+   * @fn UpdatePressure
+   * @brief Update pressure with solar distance
+   */
+  void UpdatePressure();
 
   /**
    * @fn CalcShadowCoefficient
