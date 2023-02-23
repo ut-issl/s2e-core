@@ -52,8 +52,6 @@ class ClockGenerator {
    */
   inline void ClearTimerCount(void) { timer_count_ = 0; }
 
-  const int IntervalMillisecond = 1;  //!< Clock period [ms]. (Currenly, this is not used. TODO: Delete this.)
-
  private:
   std::vector<ITickable*> components_;  //!< Component list fot tick
   int timer_count_;                     //!< Timer count TODO: consider size, unsigned
