@@ -67,25 +67,42 @@ class CelestialInformation : public ILoggable {
    * @brief Return position from the center body in the inertial frame [m]
    * @param [in] id: ID of CelestialInformation list
    */
-  libra::Vector<3> GetPosFromCenter_i(const unsigned int id) const;
+  inline libra::Vector<3> GetPosFromCenter_i(const unsigned int id) const {
+    libra::Vector<3> pos(0.0);
+    if (id > number_of_selected_bodies_) return pos;
+    for (int i = 0; i < 3; i++) pos[i] = celestial_body_position_from_center_i_m_[id * 3 + i];
+    return pos;
+  }
   /**
    * @fn GetPosFromCenter_i
    * @brief Return position from the center body in the inertial frame [m]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  libra::Vector<3> GetPosFromCenter_i(const char* body_name) const;
+  inline libra::Vector<3> GetPosFromCenter_i(const char* body_name) const {
+    int id = CalcBodyIdFromName(body_name);
+    return GetPosFromCenter_i(id);
+  }
+
   /**
    * @fn GetVelFromCenter_i
    * @brief Return velocity from the center body in the inertial frame [m/s]
    * @param [in] id: ID of CelestialInformation list
    */
-  libra::Vector<3> GetVelFromCenter_i(const unsigned int id) const;
+  inline libra::Vector<3> GetVelFromCenter_i(const unsigned int id) const {
+    libra::Vector<3> vel(0.0);
+    if (id > number_of_selected_bodies_) return vel;
+    for (int i = 0; i < 3; i++) vel[i] = celestial_body_velocity_from_center_i_m_s_[id * 3 + i];
+    return vel;
+  }
   /**
    * @fn GetVelFromCenter_i
    * @brief Return velocity from the center body in the inertial frame [m/s]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  libra::Vector<3> GetVelFromCenter_i(const char* body_name) const;
+  inline libra::Vector<3> GetVelFromCenter_i(const char* body_name) const {
+    int id = CalcBodyIdFromName(body_name);
+    return GetVelFromCenter_i(id);
+  }
 
   // Gravity constants
   /**
@@ -93,12 +110,15 @@ class CelestialInformation : public ILoggable {
    * @brief Return gravity constant of the celestial body [m^3/s^2]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  double GetGravityConstant(const char* body_name) const;
+  inline double GetGravityConstant(const char* body_name) const {
+    int index = CalcBodyIdFromName(body_name);
+    return celestial_body_gravity_constant_m3_s2_[index];
+  }
   /**
    * @fn GetCenterBodyGravityConstant_m3_s2
    * @brief Return gravity constant of the center body [m^3/s^2]
    */
-  double GetCenterBodyGravityConstant_m3_s2(void) const;
+  inline double GetCenterBodyGravityConstant_m3_s2(void) const { return GetGravityConstant(center_body_name_.c_str()); }
 
   // Shape information
   /**
@@ -106,19 +126,30 @@ class CelestialInformation : public ILoggable {
    * @brief Return 3 axis planetographic radii of a celestial body [m]
    * @param [in] id: ID of CelestialInformation list
    */
-  libra::Vector<3> GetRadii(const unsigned int id) const;
+  inline libra::Vector<3> GetRadii(const unsigned int id) const {
+    libra::Vector<3> radii(0.0);
+    if (id > number_of_selected_bodies_) return radii;
+    for (int i = 0; i < 3; i++) radii[i] = celestial_body_planetographic_radii_m_[id * 3 + i];
+    return radii;
+  }
   /**
    * @fn GetRadiiFromName
    * @brief Return 3 axis planetographic radii of a celestial body [m]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  libra::Vector<3> GetRadiiFromName(const char* body_name) const;
+  inline libra::Vector<3> GetRadiiFromName(const char* body_name) const {
+    int id = CalcBodyIdFromName(body_name);
+    return GetRadii(id);
+  }
   /**
    * @fn GetMeanRadiusFromName
    * @brief Return mean radius of a celestial body [m]
    * @param [in] id: ID of CelestialInformation list
    */
-  double GetMeanRadiusFromName(const char* body_name) const;
+  inline double GetMeanRadiusFromName(const char* body_name) const {
+    int index = CalcBodyIdFromName(body_name);
+    return celestial_body_mean_radius_m_[index];
+  }
 
   // Parameters
   /**

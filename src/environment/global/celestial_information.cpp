@@ -129,55 +129,6 @@ void CelestialInformation::UpdateAllObjectsInfo(const double current_time_jd) {
   earth_rotation_->Update(current_time_jd);
 }
 
-// Getters
-libra::Vector<3> CelestialInformation::GetPosFromCenter_i(const unsigned int id) const {
-  libra::Vector<3> pos(0.0);
-  if (id > number_of_selected_bodies_) return pos;
-  for (int i = 0; i < 3; i++) pos[i] = celestial_body_position_from_center_i_m_[id * 3 + i];
-  return pos;
-}
-
-libra::Vector<3> CelestialInformation::GetVelFromCenter_i(const unsigned int id) const {
-  libra::Vector<3> vel(0.0);
-  if (id > number_of_selected_bodies_) return vel;
-  for (int i = 0; i < 3; i++) vel[i] = celestial_body_velocity_from_center_i_m_s_[id * 3 + i];
-  return vel;
-}
-
-libra::Vector<3> CelestialInformation::GetPosFromCenter_i(const char* body_name) const {
-  int id = CalcBodyIdFromName(body_name);
-  return GetPosFromCenter_i(id);
-}
-
-libra::Vector<3> CelestialInformation::GetVelFromCenter_i(const char* body_name) const {
-  int id = CalcBodyIdFromName(body_name);
-  return GetVelFromCenter_i(id);
-}
-
-double CelestialInformation::GetGravityConstant(const char* body_name) const {
-  int index = CalcBodyIdFromName(body_name);
-  return celestial_body_gravity_constant_m3_s2_[index];
-}
-
-double CelestialInformation::GetCenterBodyGravityConstant_m3_s2(void) const { return GetGravityConstant(center_body_name_.c_str()); }
-
-libra::Vector<3> CelestialInformation::GetRadii(const unsigned int id) const {
-  libra::Vector<3> radii(0.0);
-  if (id > number_of_selected_bodies_) return radii;
-  for (int i = 0; i < 3; i++) radii[i] = celestial_body_planetographic_radii_m_[id * 3 + i];
-  return radii;
-}
-
-libra::Vector<3> CelestialInformation::GetRadiiFromName(const char* body_name) const {
-  int id = CalcBodyIdFromName(body_name);
-  return GetRadii(id);
-}
-
-double CelestialInformation::GetMeanRadiusFromName(const char* body_name) const {
-  int index = CalcBodyIdFromName(body_name);
-  return celestial_body_mean_radius_m_[index];
-}
-
 int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {
   int index = 0;
   SpiceInt planet_id;
