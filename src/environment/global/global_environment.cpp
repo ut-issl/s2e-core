@@ -24,9 +24,9 @@ void GlobalEnvironment::Initialize(SimulationConfig* simulation_configuration) {
   std::string simulation_time_ini_path = simulation_configuration->ini_base_fname_;
 
   // Initialize
-  simulation_time_ = InitSimTime(simulation_time_ini_path);
-  celestial_information_ = InitCelesInfo(simulation_configuration->ini_base_fname_);
-  hipparcos_catalogue_ = InitHipCatalogue(simulation_configuration->ini_base_fname_);
+  simulation_time_ = InitSimulationTime(simulation_time_ini_path);
+  celestial_information_ = InitCelestialInformation(simulation_configuration->ini_base_fname_);
+  hipparcos_catalogue_ = InitHipparcosCatalogue(simulation_configuration->ini_base_fname_);
   gnss_satellites_ = InitGnssSatellites(simulation_configuration->gnss_file_);
 
   // Calc initial value

@@ -13,7 +13,7 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-SimTime* InitSimTime(std::string file_name) {
+SimTime* InitSimulationTime(std::string file_name) {
   IniAccess ini_file(file_name);
 
   const char* section = "TIME";
@@ -45,7 +45,7 @@ SimTime* InitSimTime(std::string file_name) {
   return simTime;
 }
 
-HipparcosCatalogue* InitHipCatalogue(std::string file_name) {
+HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name) {
   IniAccess ini_file(file_name);
   const char* section = "HIPPARCOS_CATALOGUE";
 
@@ -61,7 +61,7 @@ HipparcosCatalogue* InitHipCatalogue(std::string file_name) {
   return hipparcos_catalogue_;
 }
 
-CelestialInformation* InitCelesInfo(std::string file_name) {
+CelestialInformation* InitCelestialInformation(std::string file_name) {
   IniAccess ini_file(file_name);
   const char* section = "CELESTIAL_INFORMATION";
   const char* furnsh_section = "CSPICE_KERNELS";
