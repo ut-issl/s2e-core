@@ -11,16 +11,16 @@
 #include "library/randomization/normal_randomization.hpp"
 #include "library/randomization/random_walk.hpp"
 
-Atmosphere::Atmosphere(std::string model, std::string initialize_file_name, double gauss_standard_deviation_rate, bool is_manual_param_used,
-                       double manual_daily_f107, double manual_average_f107, double manual_ap)
+Atmosphere::Atmosphere(const std::string model, const std::string initialize_file_name, const double gauss_standard_deviation_rate,
+                       const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap)
     : model_(model),
       initialize_file_name_(initialize_file_name),
       air_density_kg_m3_(0.0),
       gauss_standard_deviation_rate_(gauss_standard_deviation_rate),
       is_space_weather_table_imported_(false),
-      is_manual_param_used_(is_manual_param_used),
-      manual_daily_f107_(manual_daily_f107),
-      manual_average_f107_(manual_average_f107),
+      is_manual_param_used_(is_manual_param),
+      manual_daily_f107_(manual_f107),
+      manual_average_f107_(manual_f107a),
       manual_ap_(manual_ap) {
   if (model_ == "STANDARD") {
     std::cerr << "Air density model : STANDARD" << std::endl;
@@ -37,7 +37,7 @@ int Atmosphere::GetSpaceWeatherTable(double decimal_year, double end_time_s) {
   return GetSpaceWeatherTable_(decimal_year, end_time_s, initialize_file_name_, space_weather_table_);
 }
 
-double Atmosphere::CalcAirDensity_kg_m3(double decimal_year, double end_time_s, const GeodeticPosition position) {
+double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const double end_time_s, const GeodeticPosition position) {
   if (!IsCalcEnabled) return 0;
 
   if (model_ == "STANDARD") {
@@ -69,7 +69,7 @@ double Atmosphere::CalcAirDensity_kg_m3(double decimal_year, double end_time_s, 
   return AddNoise(air_density_kg_m3_);
 }
 
-double Atmosphere::CalcStandard(double altitude_m) {
+double Atmosphere::CalcStandard(const double altitude_m) {
   double altitude_km = altitude_m / 1000.0;
   double scale_height_km;
   double base_height_km;
@@ -199,7 +199,7 @@ double Atmosphere::CalcStandard(double altitude_m) {
   return rho_kg_m3;
 }
 
-double Atmosphere::AddNoise(double rho_kg_m3) {
+double Atmosphere::AddNoise(const double rho_kg_m3) {
   // RandomWalk rw(rho_kg_m3*rw_stepwidth_,rho_kg_m3*rw_stddev_,rho_kg_m3*rw_limit_);
   libra::NormalRand nr(0.0, rho_kg_m3 * gauss_standard_deviation_rate_, g_rand.MakeSeed());
   double nrd = nr;

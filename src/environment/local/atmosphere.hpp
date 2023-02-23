@@ -34,8 +34,8 @@ class Atmosphere : public ILoggable {
    * @param [in] manual_f107a: Manual value of averaged F10.7 (3-month averaged value)
    * @param [in] manual_ap: Manual value of ap value
    */
-  Atmosphere(std::string model, std::string initialize_file_name, double gauss_standard_deviation_rate, bool is_manual_param, double manual_f107,
-             double manual_f107a, double manual_ap);
+  Atmosphere(const std::string model, const std::string initialize_file_name, const double gauss_standard_deviation_rate, const bool is_manual_param,
+             const double manual_f107, const double manual_f107a, const double manual_ap);
   /**
    * @fn ~Atmosphere
    * @brief Destructor
@@ -49,7 +49,7 @@ class Atmosphere : public ILoggable {
    * @param [in] position: Position of target point to calculate the air density
    * @return Atmospheric density [kg/m^3]
    */
-  double CalcAirDensity_kg_m3(double decimal_year, double end_time_s, const GeodeticPosition position);
+  double CalcAirDensity_kg_m3(const double decimal_year, const double end_time_s, const GeodeticPosition position);
   /**
    * @fn GetAirDensity
    * @brief Return Atmospheric density [kg/m^3]
@@ -93,14 +93,14 @@ class Atmosphere : public ILoggable {
    * @param [in] altitude_m: Altitude of spacecraft [m]
    * @return Atmospheric density [kg/m^3]
    */
-  double CalcStandard(double altitude_m);
+  double CalcStandard(const double altitude_m);
   /**
    * @fn GetSpaceWeatherTable
    * @param [in] decimal_year: Decimal year of simulation start [year]
    * @param [in] end_time_s: End time of simulation [sec]
    * @return Size of table
    */
-  int GetSpaceWeatherTable(double decimal_year, double end_time_s);
+  int GetSpaceWeatherTable(const double decimal_year, const double end_time_s);
 
   /**
    * @fn AddNoise
@@ -108,7 +108,7 @@ class Atmosphere : public ILoggable {
    * @param [in] rho_kg_m3: True atmospheric density [kg/m^3]
    * @return Atmospheric density with noise [kg/m^3]
    */
-  double AddNoise(double rho_kg_m3);
+  double AddNoise(const double rho_kg_m3);
 };
 
 #endif  // S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_
