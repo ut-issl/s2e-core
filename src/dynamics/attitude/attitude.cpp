@@ -47,7 +47,7 @@ void Attitude::SetParameters(const MCSimExecutor& mc_sim) { GetInitParameterQuat
 void Attitude::CalcAngularMomentum(void) {
   h_sc_b_Nms_ = inertia_tensor_kgm2_ * omega_b_rad_s_;
   h_total_b_Nms_ = h_rw_b_Nms_ + h_sc_b_Nms_;
-  Quaternion q_b2i = quaternion_i2b_.conjugate();
+  libra::Quaternion q_b2i = quaternion_i2b_.conjugate();
   h_total_i_Nms_ = q_b2i.frame_conv(h_total_b_Nms_);
   h_total_Nms_ = norm(h_total_i_Nms_);
 

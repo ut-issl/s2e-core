@@ -72,17 +72,17 @@ class Attitude : public ILoggable, public SimulationObject {
    * @fn SetPropStep
    * @brief Set propagation step [sec]
    */
-  inline void SetPropStep(double set) { prop_step_s_ = set; }
+  inline void SetPropStep(double prop_step_s) { prop_step_s_ = prop_step_s; }
   /**
    * @fn SetOmega_b
    * @brief Set angular velocity of the body fixed frame with respect to the inertial frame [rad/s]
    */
-  inline void SetOmega_b(const libra::Vector<3> set) { omega_b_rad_s_ = set; }
+  inline void SetOmega_b(const libra::Vector<3> omega_b_rad_s) { omega_b_rad_s_ = omega_b_rad_s; }
   /**
    * @fn SetQuaternion_i2b
    * @brief Set attitude quaternion from the inertial frame to the body frame
    */
-  inline void SetQuaternion_i2b(const libra::Quaternion set) { quaternion_i2b_ = set; }
+  inline void SetQuaternion_i2b(const libra::Quaternion quaternion_i2b) { quaternion_i2b_ = quaternion_i2b; }
   /**
    * @fn AddQuaternionOffset
    * @brief Add quaternion offset rotation
@@ -93,24 +93,24 @@ class Attitude : public ILoggable, public SimulationObject {
    * @fn SetTorque_b
    * @brief Set torque acting on the spacecraft on the body fixed frame [Nm]
    */
-  inline void SetTorque_b(const libra::Vector<3> set) { torque_b_Nm_ = set; }
+  inline void SetTorque_b(const libra::Vector<3> torque_b_Nm) { torque_b_Nm_ = torque_b_Nm; }
   /**
    * @fn AddTorque_b_Nm
    * @brief Add torque acting on the spacecraft on the body fixed frame [Nm]
    */
-  inline void AddTorque_b_Nm(const libra::Vector<3> set) { torque_b_Nm_ += set; }
+  inline void AddTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { torque_b_Nm_ += torque_b_Nm; }
 
   /**
    * @fn SetAngMom_rw
    * @brief Set angular momentum of reaction wheel in the body fixed frame [Nms]
    */
-  inline void SetAngMom_rw(const libra::Vector<3> set) { h_rw_b_Nms_ = set; }
+  inline void SetAngMom_rw(const libra::Vector<3> h_rw_b_Nms) { h_rw_b_Nms_ = h_rw_b_Nms; }
   /**
    * @fn SetInertiaTensor
    * @brief Set inertia tensor of the spacecraft [kg m2]
    */
-  inline void SetInertiaTensor(const Matrix<3, 3>& set) {
-    inertia_tensor_kgm2_ = set;
+  inline void SetInertiaTensor(const Matrix<3, 3>& inertia_tensor_kgm2) {
+    inertia_tensor_kgm2_ = inertia_tensor_kgm2;
     inv_inertia_tensor_ = libra::invert(inertia_tensor_kgm2_);
   }
 
