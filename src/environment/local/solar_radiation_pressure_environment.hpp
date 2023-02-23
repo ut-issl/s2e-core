@@ -6,8 +6,8 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_
 #define S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_
 
+#include "environment/global/physical_constants.hpp"
 #include "environment/local/local_celestial_information.hpp"
-#include "library/logger/loggable.hpp"
 
 /**
  * @class SRPEnvironment
@@ -44,27 +44,29 @@ class SRPEnvironment : public ILoggable {
    * @fn CalcTruePressure
    * @brief Calculate and return solar radiation pressure that takes into account eclipse [N/m^2]
    */
-  double CalcTruePressure() const;
+  inline double CalcTruePressure() const { return solar_radiation_pressure_N_m2_ * shadow_coefficient_; }
   /**
    * @fn CalcPowerDensity
    * @brief Calculate and return solar power per unit area considering eclipse [W/m^2]
    */
-  double CalcPowerDensity() const;
+  inline double CalcPowerDensity() const { return solar_radiation_pressure_N_m2_ * environment::speed_of_light_m_s * shadow_coefficient_; }
+
+  // Getter
   /**
    * @fn GetPressure
    * @brief Return solar pressure without eclipse effect [N/m^2]
    */
-  double GetPressure() const;
+  inline double GetPressure() const { return solar_radiation_pressure_N_m2_; }
   /**
    * @fn GetSolarConstant
    * @brief Return solar constant value [W/m^2]
    */
-  double GetSolarConstant() const;
+  inline double GetSolarConstant() const { return solar_constant_W_m2_; }
   /**
    * @fn GetShadowCoefficient
    * @brief Return shadow function
    */
-  double GetShadowCoefficient() const;
+  inline double GetShadowCoefficient() const { return shadow_coefficient_; }
   /**
    * @fn GetIsEclipsed
    * @brief Returns true if the shadow function is less than 1

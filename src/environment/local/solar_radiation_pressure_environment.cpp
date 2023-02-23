@@ -8,7 +8,6 @@
 #include <cassert>
 #include <fstream>
 
-#include "environment/global/physical_constants.hpp"
 #include "library/logger/log_utility.hpp"
 #include "library/math/constants.hpp"
 #include "library/math/vector.hpp"
@@ -33,16 +32,6 @@ void SRPEnvironment::UpdatePressure() {
   solar_radiation_pressure_N_m2_ =
       solar_constant_W_m2_ / environment::speed_of_light_m_s / pow(distance_sat_to_sun / environment::astronomical_unit_m, 2.0);
 }
-
-double SRPEnvironment::CalcTruePressure() const { return solar_radiation_pressure_N_m2_ * shadow_coefficient_; }
-
-double SRPEnvironment::CalcPowerDensity() const { return solar_radiation_pressure_N_m2_ * environment::speed_of_light_m_s * shadow_coefficient_; }
-
-double SRPEnvironment::GetPressure() const { return solar_radiation_pressure_N_m2_; }
-
-double SRPEnvironment::GetSolarConstant() const { return solar_constant_W_m2_; }
-
-double SRPEnvironment::GetShadowCoefficient() const { return shadow_coefficient_; }
 
 std::string SRPEnvironment::GetLogHeader() const {
   std::string str_tmp = "";
