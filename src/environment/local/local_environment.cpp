@@ -9,7 +9,8 @@
 #include "initialize_local_environment.hpp"
 #include "library/initialize/initialize_file_access.hpp"
 
-LocalEnvironment::LocalEnvironment(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id) {
+LocalEnvironment::LocalEnvironment(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
+                                   const int spacecraft_id) {
   Initialize(simulation_configuration, global_environment, spacecraft_id);
 }
 
@@ -20,7 +21,8 @@ LocalEnvironment::~LocalEnvironment() {
   delete celestial_information_;
 }
 
-void LocalEnvironment::Initialize(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id) {
+void LocalEnvironment::Initialize(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
+                                  const int spacecraft_id) {
   // Read file name
   IniAccess iniAccess = IniAccess(simulation_configuration->sat_file_[spacecraft_id]);
   std::string ini_fname = iniAccess.ReadString("SETTING_FILES", "local_environment_file");

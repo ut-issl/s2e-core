@@ -27,7 +27,7 @@ class LocalEnvironment {
    * @param [in] global_environment: Global environment
    * @param [in] spacecraft_id: Satellite ID
    */
-  LocalEnvironment(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
+  LocalEnvironment(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
   /**
    * @fn ~LocalEnvironment
    * @brief Destructor
@@ -40,7 +40,7 @@ class LocalEnvironment {
    * @param [in] global_environment: Global environment
    * @param [in] spacecraft_id: Satellite ID
    */
-  void Initialize(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
+  void Initialize(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
 
   /**
    * @fn Update
