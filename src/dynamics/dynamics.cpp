@@ -76,7 +76,3 @@ void Dynamics::AddForce_b(libra::Vector<3> force_b_N) {
 }
 
 void Dynamics::AddAcceleration_i(libra::Vector<3> acceleration_i_m_s2) { orbit_->AddAcceleration_i(acceleration_i_m_s2); }
-
-libra::Vector<3> Dynamics::GetPosition_i() const { return orbit_->GetSatPosition_i(); }
-
-libra::Quaternion Dynamics::GetQuaternion_i2b() const { return attitude_->GetQuaternion_i2b(); }

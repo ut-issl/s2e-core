@@ -107,13 +107,13 @@ class Dynamics {
    * @fn GetPosition_i
    * @brief Return spacecraft position in the inertial frame [m]
    */
-  virtual libra::Vector<3> GetPosition_i() const;
+  inline libra::Vector<3> GetPosition_i() const { return orbit_->GetSatPosition_i(); }
 
   /**
    * @fn GetQuaternion_i2b
    * @brief Return spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
-  virtual libra::Quaternion GetQuaternion_i2b() const;
+  inline libra::Quaternion GetQuaternion_i2b() const { return attitude_->GetQuaternion_i2b(); }
 
  private:
   Attitude* attitude_;          //!< Attitude dynamics
