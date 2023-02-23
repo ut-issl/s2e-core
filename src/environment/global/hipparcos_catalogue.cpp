@@ -7,36 +7,35 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <library/math/constants.hpp>
 #include <sstream>
 #include <string>
 #include <vector>
 
-using namespace std;
+#include "library/math/constants.hpp"
 
-HipparcosCatalogue::HipparcosCatalogue(double max_magnitude, string catalogue_path)
+HipparcosCatalogue::HipparcosCatalogue(double max_magnitude, std::string catalogue_path)
     : max_magnitude_(max_magnitude), catalogue_path_(catalogue_path) {}
 
 HipparcosCatalogue::~HipparcosCatalogue() {}
 
-bool HipparcosCatalogue::ReadContents(const string& filename, const char delimiter = ',') {
+bool HipparcosCatalogue::ReadContents(const std::string& filename, const char delimiter = ',') {
   if (!IsCalcEnabled) return false;
 
-  ifstream ifs(filename);
+  std::ifstream ifs(filename);
   if (!ifs.is_open()) {
-    cerr << "file open error(hip_main.csv)";
+    std::cerr << "file open error(hip_main.csv)";
     return false;
   }
 
-  string title;
+  std::string title;
   ifs >> title;  // Skip title
   while (!ifs.eof()) {
     HipData hipdata;
 
-    string line;
+    std::string line;
     ifs >> line;
-    replace(line.begin(), line.end(), delimiter, ' ');  // Convert delimiter as space for stringstream
-    istringstream streamline(line);
+    std::replace(line.begin(), line.end(), delimiter, ' ');  // Convert delimiter as space for stringstream
+    std::istringstream streamline(line);
 
     streamline >> hipdata.hip_num >> hipdata.vmag >> hipdata.ra >> hipdata.de;
 
@@ -71,14 +70,14 @@ libra::Vector<3> HipparcosCatalogue::GetStarDir_b(int rank, Quaternion q_i2b) co
   return position_b;
 }
 
-string HipparcosCatalogue::GetLogHeader() const {
-  string str_tmp = "";
+std::string HipparcosCatalogue::GetLogHeader() const {
+  std::string str_tmp = "";
 
   return str_tmp;
 }
 
-string HipparcosCatalogue::GetLogValue() const {
-  string str_tmp = "";
+std::string HipparcosCatalogue::GetLogValue() const {
+  std::string str_tmp = "";
 
   return str_tmp;
 }

@@ -6,10 +6,11 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_HPP_
 
-#include <library/logger/loggable.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
 #include <vector>
+
+#include "library/logger/loggable.hpp"
+#include "library/math/quaternion.hpp"
+#include "library/math/vector.hpp"
 
 /**
  *@struct HipData
