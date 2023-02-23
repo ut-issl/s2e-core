@@ -71,14 +71,6 @@ class Orbit : public ILoggable {
    */
   inline void UpdateAtt(libra::Quaternion quaternion_i2b) { spacecraft_velocity_b_m_s_ = quaternion_i2b.frame_conv(spacecraft_velocity_i_m_s_); }
 
-  /**
-   * @fn AddPositionOffset
-   * @brief Shift the position of the spacecraft
-   * @note Is this really needed?
-   * @param [in] offset_i: Offset vector in the inertial frame [m]
-   */
-  inline virtual void AddPositionOffset(libra::Vector<3> offset_i) { (void)offset_i; }
-
   // Getters
   /**
    * @fn GetIsCalcEnabled
