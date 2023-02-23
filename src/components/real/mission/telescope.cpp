@@ -109,7 +109,7 @@ void Telescope::ObserveStars() {
   int count = 0;          // Counter for while loop
 
   while (star_in_sight.size() < num_of_logged_stars_) {
-    Vector<3> target_b = hipp_->GetStarDir_b(count, q_i2b);
+    Vector<3> target_b = hipp_->GetStarDirection_b(count, q_i2b);
     Vector<3> target_c = q_b2c_.frame_conv(target_b);
 
     double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame
@@ -117,8 +117,8 @@ void Telescope::ObserveStars() {
 
     if (abs(arg_x) <= x_field_of_view_rad && abs(arg_y) <= y_field_of_view_rad) {
       Star star;
-      star.hipdata.hip_num = hipp_->GetHipID(count);
-      star.hipdata.vmag = hipp_->GetVmag(count);
+      star.hipdata.hip_num = hipp_->GetHipparcosId(count);
+      star.hipdata.vmag = hipp_->GetVisibleMagnitude(count);
       star.hipdata.ra = hipp_->GetRA(count);
       star.hipdata.de = hipp_->GetDE(count);
       star.pos_imgsensor[0] = x_num_of_pix_ / 2.0 * tan(arg_x) / tan(x_field_of_view_rad) + x_num_of_pix_ / 2.0;

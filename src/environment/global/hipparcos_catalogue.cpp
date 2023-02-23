@@ -48,8 +48,9 @@ bool HipparcosCatalogue::ReadContents(const std::string& filename, const char de
   return true;
 }
 
-libra::Vector<3> HipparcosCatalogue::GetStarDir_i(int rank) const {
+libra::Vector<3> HipparcosCatalogue::GetStarDirection_i(int rank) const {
   libra::Vector<3> position;
+  // TODO: Check unit of ra and de
   double ra = GetRA(rank) * libra::pi / 180;
   double de = GetDE(rank) * libra::pi / 180;
 
@@ -60,11 +61,11 @@ libra::Vector<3> HipparcosCatalogue::GetStarDir_i(int rank) const {
   return position;
 }
 
-libra::Vector<3> HipparcosCatalogue::GetStarDir_b(int rank, Quaternion q_i2b) const {
+libra::Vector<3> HipparcosCatalogue::GetStarDirection_b(int rank, Quaternion q_i2b) const {
   libra::Vector<3> position_i;
   libra::Vector<3> position_b;
 
-  position_i = GetStarDir_i(rank);
+  position_i = GetStarDirection_i(rank);
   position_b = q_i2b.frame_conv(position_i);
 
   return position_b;
