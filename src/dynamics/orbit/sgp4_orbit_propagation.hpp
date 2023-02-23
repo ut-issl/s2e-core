@@ -40,8 +40,8 @@ class Sgp4OrbitPropagation : public Orbit {
   virtual void Propagate(double end_time_s, double current_time_jd);
 
  private:
-  gravconsttype whichconst_;                           //!< Gravity constant value type
-  elsetrec satrec_;                                    //!< Structure data for SGP4 library
+  gravconsttype gravity_constant_setting_;             //!< Gravity constant value type
+  elsetrec sgp4_data_;                                 //!< Structure data for SGP4 library
   const CelestialInformation* celestial_information_;  //!< Celestial information
 };
 
