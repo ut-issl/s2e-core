@@ -100,10 +100,10 @@ CelestialInformation::~CelestialInformation() {
   delete earth_rotation_;
 }
 
-void CelestialInformation::UpdateAllObjectsInfo(const double current_jd) {
+void CelestialInformation::UpdateAllObjectsInfo(const double current_time_jd) {
   // Convert time
   SpiceDouble et;
-  std::string jd = "jd " + std::to_string(current_jd);
+  std::string jd = "jd " + std::to_string(current_time_jd);
   str2et_c(jd.c_str(), &et);
 
   for (unsigned int i = 0; i < number_of_selected_body_id_; i++) {
@@ -126,7 +126,7 @@ void CelestialInformation::UpdateAllObjectsInfo(const double current_jd) {
   }
 
   // Update CelesRot
-  earth_rotation_->Update(current_jd);
+  earth_rotation_->Update(current_time_jd);
 }
 
 // Getters

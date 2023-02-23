@@ -56,8 +56,9 @@ class CelestialInformation : public ILoggable {
   /**
    * @fn UpdateAllObjectsInfo
    * @brief Update the information of all selected celestial objects
+   * @param [in] current_time_jd: Current time [Julian day]
    */
-  void UpdateAllObjectsInfo(const double current_jd);
+  void UpdateAllObjectsInfo(const double current_time_jd);
 
   // Getters
   // Orbit information
