@@ -44,13 +44,13 @@ struct UTC {
 };
 
 /**
- *@class SimTime
+ *@class SimulationTime
  *@brief Class to manage simulation time related information
  */
-class SimTime : public ILoggable {
+class SimulationTime : public ILoggable {
  public:
   /**
-   *@fn SimTime
+   *@fn SimulationTime
    *@brief Constructor
    *@param [in] end_sec: Simulation duration [sec]
    *@param [in] step_sec: Simulation step [sec]
@@ -65,15 +65,15 @@ class SimTime : public ILoggable {
    *@param [in] start_ymdhms: Simulation start time in UTC [YYYYMMDD hh:mm:ss]
    *@param [in] sim_speed: Simulation speed setting
    */
-  SimTime(const double end_sec, const double step_sec, const double attitude_update_interval_sec, const double attitude_rk_step_sec,
-          const double orbit_update_interval_sec, const double orbit_rk_step_sec, const double thermal_update_interval_sec,
-          const double thermal_rk_step_sec, const double compo_propagate_step_sec, const double log_output_interval_sec, const char* start_ymdhms,
-          const double sim_speed);
+  SimulationTime(const double end_sec, const double step_sec, const double attitude_update_interval_sec, const double attitude_rk_step_sec,
+                 const double orbit_update_interval_sec, const double orbit_rk_step_sec, const double thermal_update_interval_sec,
+                 const double thermal_rk_step_sec, const double compo_propagate_step_sec, const double log_output_interval_sec,
+                 const char* start_ymdhms, const double sim_speed);
   /**
-   *@fn ~SimTime
+   *@fn ~SimulationTime
    *@brief Destructor
    */
-  virtual ~SimTime();
+  virtual ~SimulationTime();
 
   /**
    *@fn SetParameters

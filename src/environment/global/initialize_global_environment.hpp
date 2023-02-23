@@ -11,11 +11,11 @@
 #include <environment/global/simulation_time.hpp>
 
 /**
- *@fn InitSimTime
- *@brief Initialize function for SimTime class
+ *@fn InitSimulationTime
+ *@brief Initialize function for SimulationTime class
  *@param [in] file_name: Path to the initialize function
  */
-SimTime* InitSimulationTime(std::string file_name);
+SimulationTime* InitSimulationTime(std::string file_name);
 
 /**
  *@fn InitHipCatalogue

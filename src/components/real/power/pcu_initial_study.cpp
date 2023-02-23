@@ -50,7 +50,7 @@ std::string PCU_InitialStudy::GetLogValue() const {
 
 void PCU_InitialStudy::MainRoutine(int time_count) {
   double time_query = compo_step_time_ * time_count;
-  power_consumption_ = CalcPowerConsumption(time_query);  // Should use SimTime? time_count may over flow since it is int type,
+  power_consumption_ = CalcPowerConsumption(time_query);  // Should use SimulationTime? time_count may over flow since it is int type,
 
   UpdateChargeCurrentAndBusVoltage();
   for (auto sap : saps_) {

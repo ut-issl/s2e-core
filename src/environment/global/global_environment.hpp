@@ -49,16 +49,16 @@ class GlobalEnvironment {
   void LogSetup(Logger& logger);
   /**
    * @fn Reset
-   * @brief Reset clock of SimTime
+   * @brief Reset clock of SimulationTime
    */
   void Reset(void);
 
   // Getter
   /**
-   * @fn GetSimTime
-   * @brief Return SimTime
+   * @fn GetSimulationTime
+   * @brief Return SimulationTime
    */
-  inline const SimTime& GetSimulationTime() const { return *simulation_time_; }
+  inline const SimulationTime& GetSimulationTime() const { return *simulation_time_; }
   /**
    * @fn GetCelestialInformation
    * @brief Return CelestialInformation
@@ -76,7 +76,7 @@ class GlobalEnvironment {
   inline const GnssSatellites& GetGnssSatellites() const { return *gnss_satellites_; }
 
  private:
-  SimTime* simulation_time_;                     //!< Simulation time
+  SimulationTime* simulation_time_;              //!< Simulation time
   CelestialInformation* celestial_information_;  //!< Celestial bodies information
   HipparcosCatalogue* hipparcos_catalogue_;      //!< Hipparcos catalogue
   GnssSatellites* gnss_satellites_;              //!< GNSS satellites

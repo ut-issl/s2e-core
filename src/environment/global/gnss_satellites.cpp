@@ -858,7 +858,7 @@ void GnssSatellites::Init(vector<vector<string>>& true_position_file, int true_p
   return;
 }
 
-void GnssSatellites::SetUp(const SimTime* sim_time) {
+void GnssSatellites::SetUp(const SimulationTime* sim_time) {
   if (!IsCalcEnabled()) return;
 
   tm* start_tm = initilized_tm();
@@ -879,7 +879,7 @@ void GnssSatellites::SetUp(const SimTime* sim_time) {
   return;
 }
 
-void GnssSatellites::Update(const SimTime* sim_time) {
+void GnssSatellites::Update(const SimulationTime* sim_time) {
   if (!IsCalcEnabled()) return;
 
   double elapsed_sec = sim_time->GetElapsedTime_s();

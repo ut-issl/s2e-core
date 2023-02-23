@@ -40,7 +40,7 @@ class Dynamics {
    * @param [in] structure: Structure of the spacecraft
    * @param [in] rel_info: Relative information
    */
-  Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
+  Dynamics(SimulationConfig* sim_config, const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
            Structure* structure, RelativeInformation* rel_info = (RelativeInformation*)nullptr);
   /**
    * @fn ~Dynamics
@@ -58,7 +58,7 @@ class Dynamics {
    * @param [in] structure: Structure of the spacecraft
    * @param [in] rel_info: Relative information
    */
-  void Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
+  void Initialize(SimulationConfig* sim_config, const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
                   Structure* structure, RelativeInformation* rel_info = (RelativeInformation*)nullptr);
 
   /**
@@ -67,7 +67,7 @@ class Dynamics {
    * @param [in] sim_time: Simulation time
    * @param [in] local_celes_info: Local celestial information
    */
-  void Update(const SimTime* sim_time, const LocalCelestialInformation* local_celes_info);
+  void Update(const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info);
   /**
    * @fn LogSetup
    * @brief Log setup for dynamics calculation

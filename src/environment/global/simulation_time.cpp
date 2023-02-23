@@ -17,10 +17,10 @@
 
 using namespace std;
 
-SimTime::SimTime(const double end_sec, const double step_sec, const double attitude_update_interval_sec, const double attitude_rk_step_sec,
-                 const double orbit_update_interval_sec, const double orbit_rk_step_sec, const double thermal_update_interval_sec,
-                 const double thermal_rk_step_sec, const double compo_propagate_step_sec, const double log_output_interval_sec,
-                 const char* start_ymdhms, const double sim_speed) {
+SimulationTime::SimulationTime(const double end_sec, const double step_sec, const double attitude_update_interval_sec,
+                               const double attitude_rk_step_sec, const double orbit_update_interval_sec, const double orbit_rk_step_sec,
+                               const double thermal_update_interval_sec, const double thermal_rk_step_sec, const double compo_propagate_step_sec,
+                               const double log_output_interval_sec, const char* start_ymdhms, const double sim_speed) {
   end_sec_ = end_sec;
   step_sec_ = step_sec;
   attitude_update_interval_sec_ = attitude_update_interval_sec;
@@ -48,9 +48,9 @@ SimTime::SimTime(const double end_sec, const double step_sec, const double attit
   SetParameters();
 }
 
-SimTime::~SimTime() {}
+SimulationTime::~SimulationTime() {}
 
-void SimTime::AssertTimeStepParams() {
+void SimulationTime::AssertTimeStepParams() {
   // Runge-Kutta time step must be smaller than its update interval
   assert(attitude_rk_step_sec_ <= attitude_update_interval_sec_);
   assert(orbit_rk_step_sec_ <= orbit_update_interval_sec_);
@@ -64,7 +64,7 @@ void SimTime::AssertTimeStepParams() {
   assert(step_sec_ <= log_output_interval_sec_);
 }
 
-void SimTime::SetParameters(void) {
+void SimulationTime::SetParameters(void) {
   elapsed_time_sec_ = 0.0;
   attitude_update_counter_ = 1;
   attitude_update_flag_ = false;
@@ -79,7 +79,7 @@ void SimTime::SetParameters(void) {
   state_.log_output = true;
 }
 
-void SimTime::UpdateTime(void) {
+void SimulationTime::UpdateTime(void) {
   InitializeState();
   elapsed_time_sec_ += step_sec_;
   if (simulation_speed_ > 0) {
@@ -166,9 +166,9 @@ void SimTime::UpdateTime(void) {
   state_.running = true;
 }
 
-void SimTime::ResetClock(void) { clock_start_time_millisec_ = chrono::system_clock::now(); }
+void SimulationTime::ResetClock(void) { clock_start_time_millisec_ = chrono::system_clock::now(); }
 
-void SimTime::PrintStartDateTime(void) const {
+void SimulationTime::PrintStartDateTime(void) const {
   int sec_int = int(start_sec_ + 0.5);
   stringstream s, m, h;
   if (sec_int < 10) {
@@ -190,7 +190,7 @@ void SimTime::PrintStartDateTime(void) const {
   cout << " " << start_year_ << "/" << start_month_ << "/" << start_day_ << " " << h.str() << ":" << m.str() << ":" << s.str() << "\n";
 }
 
-string SimTime::GetLogHeader() const {
+string SimulationTime::GetLogHeader() const {
   string str_tmp = "";
 
   str_tmp += WriteScalar("elapsed_time", "s");
@@ -199,7 +199,7 @@ string SimTime::GetLogHeader() const {
   return str_tmp;
 }
 
-string SimTime::GetLogValue() const {
+string SimulationTime::GetLogValue() const {
   string str_tmp = "";
 
   str_tmp += WriteScalar(elapsed_time_sec_);
@@ -213,7 +213,7 @@ string SimTime::GetLogValue() const {
   return str_tmp;
 }
 
-void SimTime::InitializeState() {
+void SimulationTime::InitializeState() {
   state_.disp_output = false;
   state_.finish = false;
   state_.log_output = false;
@@ -221,7 +221,7 @@ void SimTime::InitializeState() {
 }
 
 // wrapper function of invjday @ sgp4ext for interface adjustment
-void SimTime::ConvJDtoCalndarDay(const double JD) {
+void SimulationTime::ConvJDtoCalndarDay(const double JD) {
   int year, mon, day, hr, minute;
   double sec;
   invjday(JD, year, mon, day, hr, minute, sec);

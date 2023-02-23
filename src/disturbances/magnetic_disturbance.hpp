@@ -14,18 +14,18 @@
 #include "simple_disturbance.hpp"
 
 /**
- * @class MagDisturbance
+ * @class MagneticDisturbance
  * @brief Class to calculate the magnetic disturbance torque
  */
-class MagDisturbance : public SimpleDisturbance {
+class MagneticDisturbance : public SimpleDisturbance {
  public:
   /**
-   * @fn MagDisturbance
+   * @fn MagneticDisturbance
    * @brief Constructor
    * @param [in] rmm_parameters: RMM parameters of the spacecraft
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  MagDisturbance(const RMMParams& rmm_parameters, const bool is_calculation_enabled = true);
+  MagneticDisturbance(const RMMParams& rmm_parameters, const bool is_calculation_enabled = true);
 
   /**
    * @fn Update

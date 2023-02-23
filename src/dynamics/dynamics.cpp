@@ -9,7 +9,7 @@
 
 using namespace std;
 
-Dynamics::Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
+Dynamics::Dynamics(SimulationConfig* sim_config, const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
                    Structure* structure, RelativeInformation* rel_info) {
   Initialize(sim_config, sim_time, local_celes_info, sat_id, structure, rel_info);
 }
@@ -20,7 +20,7 @@ Dynamics::~Dynamics() {
   delete temperature_;
 }
 
-void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
+void Dynamics::Initialize(SimulationConfig* sim_config, const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
                           Structure* structure, RelativeInformation* rel_info) {
   structure_ = structure;
 
@@ -35,7 +35,7 @@ void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time,
   orbit_->UpdateAtt(attitude_->GetQuaternion_i2b());
 }
 
-void Dynamics::Update(const SimTime* sim_time, const LocalCelestialInformation* local_celes_info) {
+void Dynamics::Update(const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info) {
   // Attitude propagation
   if (sim_time->GetAttitudePropagateFlag()) {
     attitude_->Propagate(sim_time->GetElapsedTime_s());

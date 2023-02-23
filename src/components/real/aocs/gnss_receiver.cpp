@@ -11,7 +11,7 @@
 
 GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const int id, const std::string gnss_id, const int ch_max,
                            const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
-                           const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime)
+                           const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       ch_max_(ch_max),
@@ -29,7 +29,7 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const
 GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const std::string gnss_id,
                            const int ch_max, const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c,
                            const double half_width, const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
-                           const SimTime* simtime)
+                           const SimulationTime* simtime)
     : ComponentBase(prescaler, clock_gen, power_port),
       id_(id),
       ch_max_(ch_max),

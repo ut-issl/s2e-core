@@ -350,13 +350,13 @@ class GnssSatellites : public ILoggable {
    * @brief Setup both true and estimated GNSS satellite information
    * @param [in] sim_time: Simulation time information
    */
-  void SetUp(const SimTime* sim_time);
+  void SetUp(const SimulationTime* sim_time);
   /**
    * @fn Update
    * @brief Update both true and estimated GNSS satellite information
    * @param [in] sim_time: Simulation time information
    */
-  void Update(const SimTime* sim_time);
+  void Update(const SimulationTime* sim_time);
 
   /**
    * @fn GetIndexFromID

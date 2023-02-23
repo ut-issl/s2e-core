@@ -27,15 +27,15 @@ AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Su
   return air_drag;
 }
 
-SolarRadiation InitSolarRadiationPressureDisturbance(const std::string initialize_file_path, const std::vector<Surface>& surfaces,
-                                                     const Vector<3>& center_of_gravity_b_m) {
+SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const std::string initialize_file_path, const std::vector<Surface>& surfaces,
+                                                                        const Vector<3>& center_of_gravity_b_m) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "SOLAR_RADIATION_PRESSURE_DISTURBANCE";
 
   const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
   const bool is_log_enable = conf.ReadEnable(section, LOG_LABEL);
 
-  SolarRadiation srp_disturbance(surfaces, center_of_gravity_b_m, is_calc_enable);
+  SolarRadiationPressureDisturbance srp_disturbance(surfaces, center_of_gravity_b_m, is_calc_enable);
   srp_disturbance.IsLogEnabled = is_log_enable;
 
   return srp_disturbance;
@@ -63,12 +63,12 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path, cons
   return gg_disturbance;
 }
 
-MagDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const RMMParams& rmm_params) {
+MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const RMMParams& rmm_params) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "MAGNETIC_DISTURBANCE";
 
   const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
-  MagDisturbance mag_disturbance(rmm_params, is_calc_enable);
+  MagneticDisturbance mag_disturbance(rmm_params, is_calc_enable);
   mag_disturbance.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
   return mag_disturbance;

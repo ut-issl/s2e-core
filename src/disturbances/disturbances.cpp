@@ -31,7 +31,7 @@ Disturbances::~Disturbances() {
   }
 }
 
-void Disturbances::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimTime* sim_time) {
+void Disturbances::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimulationTime* sim_time) {
   // Update disturbances that depend on the attitude (and the position)
   if (sim_time->GetAttitudePropagateFlag()) {
     InitializeForceAndTorque();
@@ -70,7 +70,7 @@ void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const
       InitGravityGradient(initialize_file_name_, global_environment->GetCelestialInformation().GetCenterBodyGravityConstant_m3_s2()));
   disturbances_list_.push_back(gg_dist);
 
-  SolarRadiation* srp_dist = new SolarRadiation(
+  SolarRadiationPressureDisturbance* srp_dist = new SolarRadiationPressureDisturbance(
       InitSolarRadiationPressureDisturbance(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   disturbances_list_.push_back(srp_dist);
 
@@ -82,7 +82,7 @@ void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const
   AirDrag* air_dist = new AirDrag(InitAirDrag(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   disturbances_list_.push_back(air_dist);
 
-  MagDisturbance* mag_dist = new MagDisturbance(InitMagneticDisturbance(initialize_file_name_, structure->GetRMMParams()));
+  MagneticDisturbance* mag_dist = new MagneticDisturbance(InitMagneticDisturbance(initialize_file_name_, structure->GetRMMParams()));
   disturbances_list_.push_back(mag_dist);
 
   GeoPotential* geopotential = new GeoPotential(InitGeoPotential(initialize_file_name_));

@@ -13,7 +13,7 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-SimTime* InitSimulationTime(std::string file_name) {
+SimulationTime* InitSimulationTime(std::string file_name) {
   IniAccess ini_file(file_name);
 
   const char* section = "TIME";
@@ -38,9 +38,9 @@ SimTime* InitSimulationTime(std::string file_name) {
 
   double sim_speed = ini_file.ReadDouble(section, "simulation_speed_setting");
 
-  SimTime* simTime = new SimTime(end_sec, step_sec, attitude_update_interval_sec, attitude_rk_step_sec, orbit_update_interval_sec, orbit_rk_step_sec,
-                                 thermal_update_interval_sec, thermal_rk_step_sec, compo_propagate_step_sec, log_output_interval_sec,
-                                 start_ymdhms.c_str(), sim_speed);
+  SimulationTime* simTime = new SimulationTime(end_sec, step_sec, attitude_update_interval_sec, attitude_rk_step_sec, orbit_update_interval_sec,
+                                               orbit_rk_step_sec, thermal_update_interval_sec, thermal_rk_step_sec, compo_propagate_step_sec,
+                                               log_output_interval_sec, start_ymdhms.c_str(), sim_speed);
 
   return simTime;
 }

@@ -33,7 +33,7 @@ void ClockGenerator::TickToComponents() {
   timer_count_++;  // TODO: Consider if "timer_count" is necessary
 }
 
-void ClockGenerator::UpdateComponents(const SimTime* sim_time) {
+void ClockGenerator::UpdateComponents(const SimulationTime* sim_time) {
   if (sim_time->GetCompoUpdateFlag()) {
     TickToComponents();
   }

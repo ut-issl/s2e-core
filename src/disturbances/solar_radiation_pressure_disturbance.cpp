@@ -9,17 +9,18 @@
 
 #include "../library/logger/log_utility.hpp"
 
-SolarRadiation::SolarRadiation(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
+SolarRadiationPressureDisturbance::SolarRadiationPressureDisturbance(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m,
+                                                                     const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled) {}
 
-void SolarRadiation::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
+void SolarRadiationPressureDisturbance::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
   UNUSED(dynamics);
 
   libra::Vector<3> sun_position_from_sc_b_m = local_env.GetCelestialInformation().GetPositionFromSpacecraft_b_m("SUN");
   CalcTorqueForce(sun_position_from_sc_b_m, local_env.GetSolarRadiationPressure().GetPressure_Nm2());
 }
 
-void SolarRadiation::CalcCoefficients(const libra::Vector<3>& input_direction_b, const double item) {
+void SolarRadiationPressureDisturbance::CalcCoefficients(const libra::Vector<3>& input_direction_b, const double item) {
   UNUSED(input_direction_b);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {  // Calculate for each surface
@@ -32,7 +33,7 @@ void SolarRadiation::CalcCoefficients(const libra::Vector<3>& input_direction_b,
   }
 }
 
-std::string SolarRadiation::GetLogHeader() const {
+std::string SolarRadiationPressureDisturbance::GetLogHeader() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector("srp_torque", "b", "Nm", 3);
@@ -41,7 +42,7 @@ std::string SolarRadiation::GetLogHeader() const {
   return str_tmp;
 }
 
-std::string SolarRadiation::GetLogValue() const {
+std::string SolarRadiationPressureDisturbance::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector(torque_b_Nm_);
