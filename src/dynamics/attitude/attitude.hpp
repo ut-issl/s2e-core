@@ -47,21 +47,6 @@ class Attitude : public ILoggable, public SimulationObject {
    */
   inline libra::Quaternion GetQuaternion_i2b() const { return quaternion_i2b_; }
   /**
-   * @fn GetDCM_b2i
-   * @brief Return attitude direction cosine matrix from the body fixed frame to the inertial frame
-   * @note TODO: Check correctness i2b? b2i?
-   */
-  inline libra::Matrix<3, 3> GetDCM_b2i() const { return quaternion_i2b_.toDCM(); }
-  /**
-   * @fn GetDCM_i2b
-   * @brief Return attitude direction cosine matrix from the inertial frame to the body fixed frame
-   * @note TODO: Check correctness i2b? b2i?
-   */
-  inline libra::Matrix<3, 3> GetDCM_i2b() const {
-    libra::Matrix<3, 3> DCM_b2i = quaternion_i2b_.toDCM();
-    return transpose(DCM_b2i);
-  }
-  /**
    * @fn GetTotalAngMomNorm
    * @brief Return norm of total angular momentum of the spacecraft [Nms]
    */
@@ -69,9 +54,8 @@ class Attitude : public ILoggable, public SimulationObject {
   /**
    * @fn GetEnergy
    * @brief Return rotational Kinetic Energy of Spacecraft [J]
-   * @note TODO: Consider to use k_sc_J_
    */
-  inline double GetEnergy() const { return 0.5f * libra::inner_product(omega_b_rad_s_, inertia_tensor_kgm2_ * omega_b_rad_s_); }
+  inline double GetEnergy() const { return k_sc_J_; }
   /**
    * @fn GetInertiaTensor
    * @brief Return inertia tensor [kg m^2]
