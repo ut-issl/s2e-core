@@ -21,12 +21,13 @@ class MagEnvironment : public ILoggable {
   /**
    * @fn MagEnvironment
    * @brief Constructor
-   * @param [in] fname: Path to initialize file
-   * @param [in] mag_rwdev: Standard deviation of Random Walk [nT]
-   * @param [in] mag_rwlimit: Limit of Random Walk [nT]
-   * @param [in] mag_wnvar: Standard deviation of white noise [nT]
+   * @param [in] igrf_file_name: Path to initialize file
+   * @param [in] random_walk_srandard_deviation_nT: Standard deviation of Random Walk [nT]
+   * @param [in] random_walk_limit_nT: Limit of Random Walk [nT]
+   * @param [in] white_noise_standard_deviation_nT: Standard deviation of white noise [nT]
    */
-  MagEnvironment(std::string fname, double mag_rwdev, double mag_rwlimit, double mag_wnvar);
+  MagEnvironment(std::string igrf_file_name, double random_walk_srandard_deviation_nT, double random_walk_limit_nT,
+                 double white_noise_standard_deviation_nT);
   /**
    * @fn ~MagEnvironment
    * @brief Destructor
@@ -67,12 +68,12 @@ class MagEnvironment : public ILoggable {
   virtual std::string GetLogValue() const;
 
  private:
-  libra::Vector<3> Mag_i_;  //!< Magnetic field vector at the inertial frame
-  libra::Vector<3> Mag_b_;  //!< Magnetic field vector at the spacecraft body fixed frame
-  double mag_rwdev_;        //!< Standard deviation of Random Walk [nT]
-  double mag_rwlimit_;      //!< Limit of Random Walk [nT]
-  double mag_wnvar_;        //!< Standard deviation of white noise [nT]
-  std::string fname_;       //!< Path to the initialize file
+  libra::Vector<3> magnetic_field_i_nT_;      //!< Magnetic field vector at the inertial frame [nT]
+  libra::Vector<3> magnetic_field_b_nT_;      //!< Magnetic field vector at the spacecraft body fixed frame [nT]
+  double random_walk_srandard_deviation_nT_;  //!< Standard deviation of Random Walk [nT]
+  double random_walk_limit_nT_;               //!< Limit of Random Walk [nT]
+  double white_noise_standard_deviation_nT_;  //!< Standard deviation of white noise [nT]
+  std::string igrf_file_name_;                //!< Path to the initialize file
 
   /**
    * @fn AddNoise

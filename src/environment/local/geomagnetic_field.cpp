@@ -11,15 +11,19 @@
 #include "library/randomization/normal_randomization.hpp"
 #include "library/randomization/random_walk.hpp"
 
-MagEnvironment::MagEnvironment(std::string fname, double mag_rwdev, double mag_rwlimit, double mag_wnvar)
-    : mag_rwdev_(mag_rwdev), mag_rwlimit_(mag_rwlimit), mag_wnvar_(mag_wnvar), fname_(fname) {
+MagEnvironment::MagEnvironment(std::string igrf_file_name, double random_walk_srandard_deviation_nT, double random_walk_limit_nT,
+                               double white_noise_standard_deviation_nT)
+    : random_walk_srandard_deviation_nT_(random_walk_srandard_deviation_nT),
+      random_walk_limit_nT_(random_walk_limit_nT),
+      white_noise_standard_deviation_nT_(white_noise_standard_deviation_nT),
+      igrf_file_name_(igrf_file_name) {
   for (int i = 0; i < 3; ++i) {
-    Mag_i_[i] = 0;
+    magnetic_field_i_nT_[i] = 0;
   }
   for (int i = 0; i < 3; ++i) {
-    Mag_b_[i] = 0;
+    magnetic_field_b_nT_[i] = 0;
   }
-  set_file_path(fname_.c_str());
+  set_file_path(igrf_file_name_.c_str());
 }
 
 void MagEnvironment::CalcMag(double decyear, double side, Vector<3> lat_lon_alt, Quaternion q_i2b) {
@@ -33,25 +37,25 @@ void MagEnvironment::CalcMag(double decyear, double side, Vector<3> lat_lon_alt,
   IgrfCalc(decyear, latrad, lonrad, alt, side, mag_i_array);
   AddNoise(mag_i_array);
   for (int i = 0; i < 3; ++i) {
-    Mag_i_[i] = mag_i_array[i];
+    magnetic_field_i_nT_[i] = mag_i_array[i];
   }
-  Mag_b_ = q_i2b.frame_conv(Mag_i_);
+  magnetic_field_b_nT_ = q_i2b.frame_conv(magnetic_field_i_nT_);
 }
 
 void MagEnvironment::AddNoise(double* mag_i_array) {
-  static Vector<3> stddev(mag_rwdev_);
-  static Vector<3> limit(mag_rwlimit_);
+  static Vector<3> stddev(random_walk_srandard_deviation_nT_);
+  static Vector<3> limit(random_walk_limit_nT_);
   static RandomWalk<3> rw(0.1, stddev, limit);
-  static libra::NormalRand nr(0.0, mag_wnvar_, g_rand.MakeSeed());
+  static libra::NormalRand nr(0.0, white_noise_standard_deviation_nT_, g_rand.MakeSeed());
   for (int i = 0; i < 3; ++i) {
     mag_i_array[i] += rw[i] + nr;
   }
   ++rw;  // Update random walk
 }
 
-Vector<3> MagEnvironment::GetMag_i() const { return Mag_i_; }
+Vector<3> MagEnvironment::GetMag_i() const { return magnetic_field_i_nT_; }
 
-Vector<3> MagEnvironment::GetMag_b() const { return Mag_b_; }
+Vector<3> MagEnvironment::GetMag_b() const { return magnetic_field_b_nT_; }
 
 std::string MagEnvironment::GetLogHeader() const {
   std::string str_tmp = "";
@@ -65,8 +69,8 @@ std::string MagEnvironment::GetLogHeader() const {
 std::string MagEnvironment::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(Mag_i_);
-  str_tmp += WriteVector(Mag_b_);
+  str_tmp += WriteVector(magnetic_field_i_nT_);
+  str_tmp += WriteVector(magnetic_field_b_nT_);
 
   return str_tmp;
 }
