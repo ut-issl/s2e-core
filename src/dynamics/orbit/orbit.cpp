@@ -33,11 +33,11 @@ void Orbit::TransformEciToEcef(void) {
   spacecraft_position_ecef_m_ = dcm_i_to_xcxf * spacecraft_position_i_m_;
 
   // convert velocity vector in ECI to the vector in ECEF
-  libra::Vector<3> OmegaE{0.0};
-  OmegaE[2] = environment::earth_mean_angular_velocity_rad_s;
-  libra::Vector<3> wExr = outer_product(OmegaE, spacecraft_position_i_m_);
-  libra::Vector<3> V_wExr = spacecraft_velocity_i_m_s_ - wExr;
-  spacecraft_velocity_ecef_m_s_ = dcm_i_to_xcxf * V_wExr;
+  libra::Vector<3> earth_angular_velocity_i_rad_s{0.0};
+  earth_angular_velocity_i_rad_s[2] = environment::earth_mean_angular_velocity_rad_s;
+  libra::Vector<3> we_cross_r = outer_product(earth_angular_velocity_i_rad_s, spacecraft_position_i_m_);
+  libra::Vector<3> velocity_we_cross_r = spacecraft_velocity_i_m_s_ - we_cross_r;
+  spacecraft_velocity_ecef_m_s_ = dcm_i_to_xcxf * velocity_we_cross_r;
 }
 
 void Orbit::TransformEcefToGeodetic(void) { spacecraft_geodetic_position_.UpdateFromEcef(spacecraft_position_ecef_m_); }
