@@ -117,7 +117,7 @@ void SunSensor::CalcSolarIlluminance() {
     return;
   }
 
-  double power_density = srp_->CalcPowerDensity_W_m2();
+  double power_density = srp_->GetPowerDensity_W_m2();
   solar_illuminance_ = power_density * cos(sun_angle_);
   // TODO: Take into account the effects of albedo.
 }
