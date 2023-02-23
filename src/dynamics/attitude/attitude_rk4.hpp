@@ -17,15 +17,15 @@ class AttitudeRK4 : public Attitude {
   /**
    * @fn AttitudeRK4
    * @brief Constructor
-   * @param [in] omega_b_ini: Initial value of spacecraft angular velocity of the body fixed frame [rad/s]
-   * @param [in] quaternion_i2b_ini: Initial value of attitude quaternion from the inertial frame to the body fixed frame
-   * @param [in] InertiaTensor_ini: Initial value of inertia tensor of the spacecraft [kg m^2]
-   * @param [in] torque_b_ini: Initial torque acting on the spacecraft in the body fixed frame [Nm]
-   * @param [in] prop_step_ini: Initial value of propagation step width [sec]
-   * @param [in] sim_object_name: Simulation object name for Monte-Carlo simulation
+   * @param [in] angular_velocity_b_rad_s: Initial value of spacecraft angular velocity of the body fixed frame [rad/s]
+   * @param [in] quaternion_i2b: Initial value of attitude quaternion from the inertial frame to the body fixed frame
+   * @param [in] inertia_tensor_kgm2: Initial value of inertia tensor of the spacecraft [kg m^2]
+   * @param [in] torque_b_Nm: Initial torque acting on the spacecraft in the body fixed frame [Nm]
+   * @param [in] propagation_step_s: Initial value of propagation step width [sec]
+   * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  AttitudeRK4(const Vector<3>& omega_b_ini, const Quaternion& quaternion_i2b_ini, const Matrix<3, 3>& InertiaTensor_ini,
-              const Vector<3>& torque_b_ini, const double prop_step_ini, const std::string& sim_object_name = "Attitude");
+  AttitudeRK4(const Vector<3>& angular_velocity_b_rad_s, const Quaternion& quaternion_i2b, const Matrix<3, 3>& inertia_tensor_kgm2,
+              const Vector<3>& torque_b_Nm, const double propagation_step_s, const std::string& simulation_object_name = "Attitude");
   /**
    * @fn ~AttitudeRK4
    * @brief Destructor
@@ -47,16 +47,16 @@ class AttitudeRK4 : public Attitude {
   /**
    * @fn Propagate
    * @brief Attitude propagation
-   * @param [in] endtime_s: Propagation endtime [sec]
+   * @param [in] end_time_s: Propagation endtime [sec]
    */
-  virtual void Propagate(const double endtime_s);
+  virtual void Propagate(const double end_time_s);
 
   /**
    * @fn SetParameters
    * @brief Set parameters for Monte-Carlo simulation
-   * @param [in] mc_sim: Monte-Carlo simulation executor
+   * @param [in] mc_simulator: Monte-Carlo simulation executor
    */
-  virtual void SetParameters(const MCSimExecutor& mc_sim);
+  virtual void SetParameters(const MCSimExecutor& mc_simulator);
 
  private:
   double current_propagation_time_s_;  //!< current time [sec]

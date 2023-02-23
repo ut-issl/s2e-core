@@ -6,7 +6,7 @@
 
 #include <library/logger/log_utility.hpp>
 
-Attitude::Attitude(const std::string& sim_object_name) : SimulationObject(sim_object_name) {
+Attitude::Attitude(const std::string& simulation_object_name) : SimulationObject(simulation_object_name) {
   angular_velocity_b_rad_s_ = libra::Vector<3>(0.0);
   quaternion_i2b_ = libra::Quaternion(0.0, 0.0, 0.0, 1.0);
   torque_b_Nm_ = libra::Vector<3>(0.0);
@@ -42,7 +42,7 @@ std::string Attitude::GetLogValue() const {
   return str_tmp;
 }
 
-void Attitude::SetParameters(const MCSimExecutor& mc_sim) { GetInitParameterQuaternion(mc_sim, "Q_i2b", quaternion_i2b_); }
+void Attitude::SetParameters(const MCSimExecutor& mc_simulator) { GetInitParameterQuaternion(mc_simulator, "Q_i2b", quaternion_i2b_); }
 
 void Attitude::CalcAngularMomentum(void) {
   angular_momentum_spacecraft_b_Nms_ = inertia_tensor_kgm2_ * angular_velocity_b_rad_s_;

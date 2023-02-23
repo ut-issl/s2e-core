@@ -11,14 +11,14 @@ using namespace std;
 #include <iostream>
 #include <sstream>
 
-AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini, const Quaternion& quaternion_i2b_ini, const Matrix<3, 3>& InertiaTensor_ini,
-                         const Vector<3>& torque_b_ini, const double prop_step_ini, const std::string& sim_object_name)
-    : Attitude(sim_object_name) {
-  angular_velocity_b_rad_s_ = omega_b_ini;
-  quaternion_i2b_ = quaternion_i2b_ini;
-  torque_b_Nm_ = torque_b_ini;
-  inertia_tensor_kgm2_ = InertiaTensor_ini;
-  propagation_step_s_ = prop_step_ini;
+AttitudeRK4::AttitudeRK4(const Vector<3>& angular_velocity_b_rad_s, const Quaternion& quaternion_i2b, const Matrix<3, 3>& inertia_tensor_kgm2,
+                         const Vector<3>& torque_b_Nm, const double propagation_step_s, const std::string& simulation_object_name)
+    : Attitude(simulation_object_name) {
+  angular_velocity_b_rad_s_ = angular_velocity_b_rad_s;
+  quaternion_i2b_ = quaternion_i2b;
+  torque_b_Nm_ = torque_b_Nm;
+  inertia_tensor_kgm2_ = inertia_tensor_kgm2;
+  propagation_step_s_ = propagation_step_s;
   current_propagation_time_s_ = 0.0;
   inv_inertia_tensor_ = invert(inertia_tensor_kgm2_);
   angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
@@ -27,9 +27,9 @@ AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini, const Quaternion& quatern
 
 AttitudeRK4::~AttitudeRK4() {}
 
-void AttitudeRK4::SetParameters(const MCSimExecutor& mc_sim) {
-  Attitude::SetParameters(mc_sim);
-  GetInitParameterVec(mc_sim, "Omega_b", angular_velocity_b_rad_s_);
+void AttitudeRK4::SetParameters(const MCSimExecutor& mc_simulator) {
+  Attitude::SetParameters(mc_simulator);
+  GetInitParameterVec(mc_simulator, "Omega_b", angular_velocity_b_rad_s_);
 
   // TODO: Consider the following calculation is needed here?
   current_propagation_time_s_ = 0.0;
@@ -38,14 +38,14 @@ void AttitudeRK4::SetParameters(const MCSimExecutor& mc_sim) {
   CalcAngularMomentum();
 }
 
-void AttitudeRK4::Propagate(const double endtime_s) {
+void AttitudeRK4::Propagate(const double end_time_s) {
   if (!is_calc_enabled_) return;
-  while (endtime_s - current_propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
+  while (end_time_s - current_propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     RungeKuttaOneStep(current_propagation_time_s_, propagation_step_s_);
     current_propagation_time_s_ += propagation_step_s_;
   }
-  RungeKuttaOneStep(current_propagation_time_s_, endtime_s - current_propagation_time_s_);
-  current_propagation_time_s_ = endtime_s;
+  RungeKuttaOneStep(current_propagation_time_s_, end_time_s - current_propagation_time_s_);
+  current_propagation_time_s_ = end_time_s;
 
   CalcAngularMomentum();
 }

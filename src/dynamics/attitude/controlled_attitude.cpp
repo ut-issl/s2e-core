@@ -14,8 +14,9 @@ using namespace std;
 
 ControlledAttitude::ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2b,
                                        const Vector<3> pointing_t_b, const Vector<3> pointing_sub_t_b, const Matrix<3, 3>& inertia_tensor_kgm2,
-                                       const LocalCelestialInformation* local_celes_info, const Orbit* orbit, const std::string& sim_object_name)
-    : Attitude(sim_object_name),
+                                       const LocalCelestialInformation* local_celes_info, const Orbit* orbit,
+                                       const std::string& simulation_object_name)
+    : Attitude(simulation_object_name),
       main_mode_(main_mode),
       sub_mode_(sub_mode),
       pointing_t_b_(pointing_t_b),
@@ -58,7 +59,7 @@ void ControlledAttitude::Initialize(void) {
   return;
 }
 
-void ControlledAttitude::Propagate(const double endtime_s) {
+void ControlledAttitude::Propagate(const double end_time_s) {
   Vector<3> main_direction_i, sub_direction_i;
   if (!is_calc_enabled_) return;
 
@@ -74,7 +75,7 @@ void ControlledAttitude::Propagate(const double endtime_s) {
   // Calc attitude
   PointingCtrl(main_direction_i, sub_direction_i);
   // Calc angular velocity
-  CalcAngularVelocity(endtime_s);
+  CalcAngularVelocity(end_time_s);
   return;
 }
 

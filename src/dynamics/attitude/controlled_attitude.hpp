@@ -50,11 +50,11 @@ class ControlledAttitude : public Attitude {
    * @param [in] inertia_tensor_kgm2: Inertia tensor of the spacecraft [kg m^2]
    * @param [in] local_celes_info: Local celestial information
    * @param [in] orbit: Orbit
-   * @param [in] sim_object_name: Simulation object name for Monte-Carlo simulation
+   * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
   ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2b, const Vector<3> pointing_t_b,
                      const Vector<3> pointing_sub_t_b, const Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celes_info,
-                     const Orbit* orbit, const std::string& sim_object_name = "Attitude");
+                     const Orbit* orbit, const std::string& simulation_object_name = "Attitude");
   /**
    * @fn ~ControlledAttitude
    * @brief Destructor
@@ -91,9 +91,9 @@ class ControlledAttitude : public Attitude {
   /**
    * @fn Propagate
    * @brief Attitude propagation
-   * @param [in] endtime_s: Propagation endtime [sec]
+   * @param [in] end_time_s: Propagation endtime [sec]
    */
-  virtual void Propagate(const double endtime_s);
+  virtual void Propagate(const double end_time_s);
 
  private:
   AttCtrlMode main_mode_;                  //!< Main control mode

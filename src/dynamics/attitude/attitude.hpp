@@ -21,9 +21,9 @@ class Attitude : public ILoggable, public SimulationObject {
   /**
    * @fn Attitude
    * @brief Constructor
-   * @param [in] sim_object_name: Simulation object name for Monte-Carlo simulation
+   * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  Attitude(const std::string& sim_object_name = "Attitude");
+  Attitude(const std::string& simulation_object_name = "Attitude");
   /**
    * @fn ~Attitude
    * @brief Destructor
@@ -92,9 +92,9 @@ class Attitude : public ILoggable, public SimulationObject {
   /**
    * @fn Propagate
    * @brief Pure virtual function of attitude propagation
-   * @param [in] endtime_s: Propagation endtime [sec]
+   * @param [in] end_time_s: Propagation endtime [sec]
    */
-  virtual void Propagate(const double endtime_s) = 0;
+  virtual void Propagate(const double end_time_s) = 0;
 
   // Override ILoggable
   /**
@@ -109,7 +109,7 @@ class Attitude : public ILoggable, public SimulationObject {
   virtual std::string GetLogValue() const;
 
   // SimulationObject for McSim
-  virtual void SetParameters(const MCSimExecutor& mc_sim);
+  virtual void SetParameters(const MCSimExecutor& mc_simulator);
 
  protected:
   bool is_calc_enabled_ = true;                //!< Calculation flag
