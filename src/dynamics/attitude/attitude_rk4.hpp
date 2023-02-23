@@ -9,13 +9,13 @@
 #include "attitude.hpp"
 
 /**
- * @class AttitudeRK4
+ * @class AttitudeRk4
  * @brief Class to calculate spacecraft attitude with Runge-Kutta method
  */
-class AttitudeRK4 : public Attitude {
+class AttitudeRk4 : public Attitude {
  public:
   /**
-   * @fn AttitudeRK4
+   * @fn AttitudeRk4
    * @brief Constructor
    * @param [in] angular_velocity_b_rad_s: Initial value of spacecraft angular velocity of the body fixed frame [rad/s]
    * @param [in] quaternion_i2b: Initial value of attitude quaternion from the inertial frame to the body fixed frame
@@ -24,13 +24,13 @@ class AttitudeRK4 : public Attitude {
    * @param [in] propagation_step_s: Initial value of propagation step width [sec]
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  AttitudeRK4(const Vector<3>& angular_velocity_b_rad_s, const Quaternion& quaternion_i2b, const Matrix<3, 3>& inertia_tensor_kgm2,
+  AttitudeRk4(const Vector<3>& angular_velocity_b_rad_s, const Quaternion& quaternion_i2b, const Matrix<3, 3>& inertia_tensor_kgm2,
               const Vector<3>& torque_b_Nm, const double propagation_step_s, const std::string& simulation_object_name = "Attitude");
   /**
-   * @fn ~AttitudeRK4
+   * @fn ~AttitudeRk4
    * @brief Destructor
    */
-  ~AttitudeRK4();
+  ~AttitudeRk4();
 
   /**
    * @fn Propagate

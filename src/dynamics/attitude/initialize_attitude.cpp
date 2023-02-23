@@ -24,7 +24,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     Vector<3> torque_b;
     ini_file.ReadVector(section_, "initial_torque_b_Nm", torque_b);
 
-    attitude = new AttitudeRK4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, mc_name);
+    attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, mc_name);
   } else if (propagate_mode == "CONTROLLED") {
     // Controlled attitude
     IniAccess ini_file_ca(file_name);
@@ -52,7 +52,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     Vector<3> torque_b;
     ini_file.ReadVector(section_, "initial_torque_b_Nm", torque_b);
 
-    attitude = new AttitudeRK4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, mc_name);
+    attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, mc_name);
   }
 
   return attitude;

@@ -11,7 +11,7 @@ using namespace std;
 #include <iostream>
 #include <sstream>
 
-AttitudeRK4::AttitudeRK4(const Vector<3>& angular_velocity_b_rad_s, const Quaternion& quaternion_i2b, const Matrix<3, 3>& inertia_tensor_kgm2,
+AttitudeRk4::AttitudeRk4(const Vector<3>& angular_velocity_b_rad_s, const Quaternion& quaternion_i2b, const Matrix<3, 3>& inertia_tensor_kgm2,
                          const Vector<3>& torque_b_Nm, const double propagation_step_s, const std::string& simulation_object_name)
     : Attitude(simulation_object_name) {
   angular_velocity_b_rad_s_ = angular_velocity_b_rad_s;
@@ -25,9 +25,9 @@ AttitudeRK4::AttitudeRK4(const Vector<3>& angular_velocity_b_rad_s, const Quater
   CalcAngularMomentum();
 }
 
-AttitudeRK4::~AttitudeRK4() {}
+AttitudeRk4::~AttitudeRk4() {}
 
-void AttitudeRK4::SetParameters(const MCSimExecutor& mc_simulator) {
+void AttitudeRk4::SetParameters(const MCSimExecutor& mc_simulator) {
   Attitude::SetParameters(mc_simulator);
   GetInitParameterVec(mc_simulator, "Omega_b", angular_velocity_b_rad_s_);
 
@@ -38,7 +38,7 @@ void AttitudeRK4::SetParameters(const MCSimExecutor& mc_simulator) {
   CalcAngularMomentum();
 }
 
-void AttitudeRK4::Propagate(const double end_time_s) {
+void AttitudeRk4::Propagate(const double end_time_s) {
   if (!is_calc_enabled_) return;
   while (end_time_s - current_propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     RungeKuttaOneStep(current_propagation_time_s_, propagation_step_s_);
@@ -50,7 +50,7 @@ void AttitudeRK4::Propagate(const double end_time_s) {
   CalcAngularMomentum();
 }
 
-Matrix<4, 4> AttitudeRK4::CalcAngularVelocityMatrix(Vector<3> angular_velocity_b_rad_s) {
+Matrix<4, 4> AttitudeRk4::CalcAngularVelocityMatrix(Vector<3> angular_velocity_b_rad_s) {
   Matrix<4, 4> angular_velocity_matrix;
 
   angular_velocity_matrix[0][0] = 0.0f;
@@ -73,7 +73,7 @@ Matrix<4, 4> AttitudeRK4::CalcAngularVelocityMatrix(Vector<3> angular_velocity_b
   return angular_velocity_matrix;
 }
 
-Vector<7> AttitudeRK4::AttitudeDynamicsAndKinematics(Vector<7> x, double t) {
+Vector<7> AttitudeRk4::AttitudeDynamicsAndKinematics(Vector<7> x, double t) {
   UNUSED(t);
 
   Vector<7> dxdt;
@@ -103,7 +103,7 @@ Vector<7> AttitudeRK4::AttitudeDynamicsAndKinematics(Vector<7> x, double t) {
   return dxdt;
 }
 
-void AttitudeRK4::RungeKuttaOneStep(double t, double dt) {
+void AttitudeRk4::RungeKuttaOneStep(double t, double dt) {
   Vector<7> x;
   for (int i = 0; i < 3; i++) {
     x[i] = angular_velocity_b_rad_s_[i];
