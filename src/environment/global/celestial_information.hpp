@@ -125,7 +125,7 @@ class CelestialInformation : public ILoggable {
    * @fn GetNumBody
    * @brief Return number of selected body
    */
-  inline int GetNumBody(void) const { return number_of_selected_body_ids_; }
+  inline int GetNumBody(void) const { return number_of_selected_bodies_; }
   /**
    * @fn GetSelectedBody
    * @brief Return SPICE IDs of selected bodies
@@ -160,7 +160,7 @@ class CelestialInformation : public ILoggable {
 
  private:
   // Setting parameters
-  unsigned int number_of_selected_body_ids_;   //!< Number of selected body
+  unsigned int number_of_selected_bodies_;     //!< Number of selected body
   int* selected_body_ids_;                     //!< SPICE IDs of selected bodies
   std::string inertial_frame_name_;            //!< Definition of inertial frame
   std::string center_body_name_;               //!< Center object name of inertial frame
