@@ -14,14 +14,14 @@ using namespace std;
 AttitudeRK4::AttitudeRK4(const Vector<3>& omega_b_ini, const Quaternion& quaternion_i2b_ini, const Matrix<3, 3>& InertiaTensor_ini,
                          const Vector<3>& torque_b_ini, const double prop_step_ini, const std::string& sim_object_name)
     : Attitude(sim_object_name) {
-  omega_b_rad_s_ = omega_b_ini;
+  angular_velocity_b_rad_s_ = omega_b_ini;
   quaternion_i2b_ = quaternion_i2b_ini;
   torque_b_Nm_ = torque_b_ini;
   inertia_tensor_kgm2_ = InertiaTensor_ini;
-  prop_step_s_ = prop_step_ini;
+  propagation_step_s_ = prop_step_ini;
   prop_time_s_ = 0.0;
   inv_inertia_tensor_ = invert(inertia_tensor_kgm2_);
-  h_rw_b_Nms_ = libra::Vector<3>(0.0);
+  angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
   CalcAngularMomentum();
 }
 
@@ -29,20 +29,20 @@ AttitudeRK4::~AttitudeRK4() {}
 
 void AttitudeRK4::SetParameters(const MCSimExecutor& mc_sim) {
   Attitude::SetParameters(mc_sim);
-  GetInitParameterVec(mc_sim, "Omega_b", omega_b_rad_s_);
+  GetInitParameterVec(mc_sim, "Omega_b", angular_velocity_b_rad_s_);
 
   // TODO: Consider the following calculation is needed here?
   prop_time_s_ = 0.0;
   inv_inertia_tensor_ = libra::invert(inertia_tensor_kgm2_);
-  h_rw_b_Nms_ = Vector<3>(0.0);  //!< Consider how to handle this variable
+  angular_momentum_reaction_wheel_b_Nms_ = Vector<3>(0.0);  //!< Consider how to handle this variable
   CalcAngularMomentum();
 }
 
 void AttitudeRK4::Propagate(const double endtime_s) {
   if (!is_calc_enabled_) return;
-  while (endtime_s - prop_time_s_ - prop_step_s_ > 1.0e-6) {
-    RungeOneStep(prop_time_s_, prop_step_s_);
-    prop_time_s_ += prop_step_s_;
+  while (endtime_s - prop_time_s_ - propagation_step_s_ > 1.0e-6) {
+    RungeOneStep(prop_time_s_, propagation_step_s_);
+    prop_time_s_ += propagation_step_s_;
   }
   RungeOneStep(prop_time_s_, endtime_s - prop_time_s_);
   prop_time_s_ = endtime_s;
@@ -82,8 +82,8 @@ Vector<7> AttitudeRK4::DynamicsKinematics(Vector<7> x, double t) {
   for (int i = 0; i < 3; i++) {
     omega_b[i] = x[i];
   }
-  h_total_b_Nms_ = (inertia_tensor_kgm2_ * omega_b) + h_rw_b_Nms_;
-  Vector<3> rhs = inv_inertia_tensor_ * (torque_b_Nm_ - libra::outer_product(omega_b, h_total_b_Nms_));
+  angular_momentum_total_b_Nms_ = (inertia_tensor_kgm2_ * omega_b) + angular_momentum_reaction_wheel_b_Nms_;
+  Vector<3> rhs = inv_inertia_tensor_ * (torque_b_Nm_ - libra::outer_product(omega_b, angular_momentum_total_b_Nms_));
 
   for (int i = 0; i < 3; ++i) {
     dxdt[i] = rhs[i];
@@ -106,7 +106,7 @@ Vector<7> AttitudeRK4::DynamicsKinematics(Vector<7> x, double t) {
 void AttitudeRK4::RungeOneStep(double t, double dt) {
   Vector<7> x;
   for (int i = 0; i < 3; i++) {
-    x[i] = omega_b_rad_s_[i];
+    x[i] = angular_velocity_b_rad_s_[i];
   }
   for (int i = 0; i < 4; i++) {
     x[i + 3] = quaternion_i2b_[i];
@@ -129,7 +129,7 @@ void AttitudeRK4::RungeOneStep(double t, double dt) {
   Vector<7> next_x = x + (dt / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
 
   for (int i = 0; i < 3; i++) {
-    omega_b_rad_s_[i] = next_x[i];
+    angular_velocity_b_rad_s_[i] = next_x[i];
   }
   for (int i = 0; i < 4; i++) {
     quaternion_i2b_[i] = next_x[i + 3];

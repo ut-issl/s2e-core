@@ -151,12 +151,12 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
 
     libra::Vector<3> angular_acc_b_rad_s2_;
     for (int i = 0; i < 3; i++) {
-      omega_b_rad_s_[i] = q_diff[i];
-      angular_acc_b_rad_s2_[i] = (prev_omega_b_rad_s_[i] - omega_b_rad_s_[i]) / time_diff_sec;
+      angular_velocity_b_rad_s_[i] = q_diff[i];
+      angular_acc_b_rad_s2_[i] = (prev_omega_b_rad_s_[i] - angular_velocity_b_rad_s_[i]) / time_diff_sec;
     }
     controlled_torque_b_Nm = inv_inertia_tensor_ * angular_acc_b_rad_s2_;
   } else {
-    omega_b_rad_s_ = libra::Vector<3>(0.0);
+    angular_velocity_b_rad_s_ = libra::Vector<3>(0.0);
     controlled_torque_b_Nm = libra::Vector<3>(0.0);
   }
   // Add torque with disturbances
@@ -164,5 +164,5 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
   // save previous values
   previous_calc_time_s_ = current_time_s;
   prev_quaternion_i2b_ = quaternion_i2b_;
-  prev_omega_b_rad_s_ = omega_b_rad_s_;
+  prev_omega_b_rad_s_ = angular_velocity_b_rad_s_;
 }
