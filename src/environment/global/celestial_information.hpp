@@ -28,8 +28,8 @@ class CelestialInformation : public ILoggable {
    * @param [in] number_of_selected_body: Number of selected body
    * @param [in] selected_body_id: SPICE IDs of selected bodies
    */
-  CelestialInformation(std::string inertial_frame_name, std::string aberration_correction_setting, std::string center_body_name,
-                       RotationMode rotation_mode, unsigned int number_of_selected_body, int* selected_body_id);
+  CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting, const std::string center_body_name,
+                       const RotationMode rotation_mode, const unsigned int number_of_selected_body, int* selected_body_id);
   /**
    * @fn CelestialInformation
    * @brief Copy constructor
@@ -66,7 +66,7 @@ class CelestialInformation : public ILoggable {
    * @brief Return position from the center body in the inertial frame [m]
    * @param [in] id: ID of CelestialInformation list
    */
-  libra::Vector<3> GetPosFromCenter_i(const int id) const;
+  libra::Vector<3> GetPosFromCenter_i(const unsigned int id) const;
   /**
    * @fn GetPosFromCenter_i
    * @brief Return position from the center body in the inertial frame [m]
@@ -78,7 +78,7 @@ class CelestialInformation : public ILoggable {
    * @brief Return velocity from the center body in the inertial frame [m/s]
    * @param [in] id: ID of CelestialInformation list
    */
-  libra::Vector<3> GetVelFromCenter_i(const int id) const;
+  libra::Vector<3> GetVelFromCenter_i(const unsigned int id) const;
   /**
    * @fn GetVelFromCenter_i
    * @brief Return velocity from the center body in the inertial frame [m/s]
@@ -105,7 +105,7 @@ class CelestialInformation : public ILoggable {
    * @brief Return 3 axis planetographic radii of a celestial body [m]
    * @param [in] id: ID of CelestialInformation list
    */
-  libra::Vector<3> GetRadii(const int id) const;
+  libra::Vector<3> GetRadii(const unsigned int id) const;
   /**
    * @fn GetRadiiFromName
    * @brief Return 3 axis planetographic radii of a celestial body [m]
@@ -124,12 +124,12 @@ class CelestialInformation : public ILoggable {
    * @fn GetNumBody
    * @brief Return number of selected body
    */
-  inline unsigned int GetNumBody(void) const { return number_of_selected_body_id_; }
+  inline int GetNumBody(void) const { return number_of_selected_body_id_; }
   /**
    * @fn GetSelectedBody
    * @brief Return SPICE IDs of selected bodies
    */
-  inline int* GetSelectedBody(void) const { return selected_body_id_; }
+  inline const int* GetSelectedBody(void) const { return selected_body_id_; }
   /**
    * @fn GetCenterBodyName
    * @brief Return name of the center body
@@ -188,7 +188,7 @@ class CelestialInformation : public ILoggable {
    * @param [in] et: Ephemeris time
    * @param [out] orbit: Cartesian state vector representing the position and velocity of the target body relative to the specified observer.
    */
-  void GetPlanetOrbit(const char* planet_name, double et, double orbit[6]);
+  void GetPlanetOrbit(const char* planet_name, const double et, double orbit[6]);
 };
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_HPP_
