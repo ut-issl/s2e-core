@@ -863,16 +863,16 @@ void GnssSatellites::SetUp(const SimTime* sim_time) {
 
   tm* start_tm = initilized_tm();
   start_tm->tm_year = sim_time->GetStartYear() - 1900;
-  start_tm->tm_mon = sim_time->GetStartMon() - 1;
+  start_tm->tm_mon = sim_time->GetStartMonth() - 1;
   start_tm->tm_mday = sim_time->GetStartDay();
-  start_tm->tm_hour = sim_time->GetStartHr();
-  start_tm->tm_min = sim_time->GetStartMin();
-  double start_sec = sim_time->GetStartSec();
+  start_tm->tm_hour = sim_time->GetStartHour();
+  start_tm->tm_min = sim_time->GetStartMinute();
+  double start_sec = sim_time->GetStartSecond();
   start_tm->tm_sec = (int)start_sec;
   double unix_time = (double)mktime(start_tm) + start_sec - floor(start_sec);
   std::free(start_tm);
-  true_info_.SetUp(unix_time, sim_time->GetStepSec());
-  estimate_info_.SetUp(unix_time, sim_time->GetStepSec());
+  true_info_.SetUp(unix_time, sim_time->GetSimulationStep_s());
+  estimate_info_.SetUp(unix_time, sim_time->GetSimulationStep_s());
 
   start_unix_time_ = unix_time;
 
@@ -882,7 +882,7 @@ void GnssSatellites::SetUp(const SimTime* sim_time) {
 void GnssSatellites::Update(const SimTime* sim_time) {
   if (!IsCalcEnabled()) return;
 
-  double elapsed_sec = sim_time->GetElapsedSec();
+  double elapsed_sec = sim_time->GetElapsedTime_s();
 
   true_info_.Update(elapsed_sec + start_unix_time_);
   estimate_info_.Update(elapsed_sec + start_unix_time_);

@@ -78,7 +78,7 @@ string SampleCase::GetLogValue() const {
   // auto omega_b = sample_sat->dynamics_->GetAttitude().GetOmega_b();
 
   // Need to match the contents of log with header setting above
-  str_tmp += WriteScalar(glo_env_->GetSimulationTime().GetElapsedSec());
+  str_tmp += WriteScalar(glo_env_->GetSimulationTime().GetElapsedTime_s());
   // str_tmp += WriteVector(pos_i, 16);
   // str_tmp += WriteVector(vel_i, 10);
   // str_tmp += WriteQuaternion(quat_i2b);

@@ -27,18 +27,19 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // Gyro
   std::string ini_path = iniAccess.ReadString("COMPONENT_FILES", "gyro_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
-  gyro_ = new Gyro(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimulationTime().GetCompoStepSec(), dynamics_));
+  gyro_ = new Gyro(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
 
   // MagSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetometer_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   mag_sensor_ = new MagSensor(
-      InitMagSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetCompoStepSec(), &(local_env_->GetMag())));
+      InitMagSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), &(local_env_->GetMag())));
 
   // STT
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "stt_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
-  stt_ = new STT(InitSTT(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetCompoStepSec(), dynamics_, local_env_));
+  stt_ =
+      new STT(InitSTT(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_, local_env_));
 
   // SunSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "ss_file");
@@ -55,13 +56,13 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetorquer_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   mag_torquer_ = new MagTorquer(
-      InitMagTorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetCompoStepSec(), &(local_env_->GetMag())));
+      InitMagTorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), &(local_env_->GetMag())));
 
   // RW
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "rw_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
   rw_ = new RWModel(InitRWModel(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_->GetAttitude().GetPropStep(),
-                                glo_env_->GetSimulationTime().GetCompoStepSec()));
+                                glo_env_->GetSimulationTime().GetComponentStepTime_s()));
 
   // Torque Generator
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "torque_generator_file");

@@ -59,13 +59,13 @@ void GNSSReceiver::MainRoutine(int count) {
     velocity_ecef_ = dynamics_->GetOrbit().GetSatVelocity_ecef();
     AddNoise(pos_true_eci_, position_ecef_);
 
-    utc_ = simtime_->GetCurrentUTC();
-    ConvertJulianDayToGPSTime(simtime_->GetCurrentJd());
+    utc_ = simtime_->GetCurrentUtc();
+    ConvertJulianDayToGPSTime(simtime_->GetCurrentTime_jd());
   } else {
     // position information will not be updated in this case
     // only time information will be updated in this case (according to the receiver's internal clock)
-    utc_ = simtime_->GetCurrentUTC();
-    ConvertJulianDayToGPSTime(simtime_->GetCurrentJd());
+    utc_ = simtime_->GetCurrentUtc();
+    ConvertJulianDayToGPSTime(simtime_->GetCurrentTime_jd());
   }
 }
 

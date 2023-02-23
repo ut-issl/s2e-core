@@ -98,84 +98,84 @@ class SimTime : public ILoggable {
    */
   inline const TimeState GetState(void) const { return state_; };
   /**
-   *@fn GetElapsedSec
+   *@fn GetElapsedTime_s
    *@brief Return simulation elapsed time [sec]
    */
-  inline double GetElapsedSec(void) const { return elapsed_time_sec_; };
+  inline double GetElapsedTime_s(void) const { return elapsed_time_sec_; };
   /**
-   *@fn GetStepSec
+   *@fn GetSimulationStep_s
    *@brief Return simulation step [sec]
    */
-  inline double GetStepSec(void) const { return step_sec_; };
+  inline double GetSimulationStep_s(void) const { return step_sec_; };
   /**
-   *@fn GetAttitudeUpdateIntervalSec
+   *@fn GetAttitudeUpdateInterval_s
    *@brief Return attitude update interval [sec]
    */
-  inline double GetAttitudeUpdateIntervalSec(void) const { return attitude_update_interval_sec_; };
+  inline double GetAttitudeUpdateInterval_s(void) const { return attitude_update_interval_sec_; };
   /**
    *@fn GetAttitudePropagateFlag
    *@brief Return attitude propagate flag
    */
   inline bool GetAttitudePropagateFlag(void) const { return attitude_update_flag_; };
   /**
-   *@fn GetAttitudeRKStepSec
+   *@fn GetAttitudeRkStepTime_s
    *@brief Return attitude Runge-Kutta step time [sec]
    */
-  inline double GetAttitudeRKStepSec() const { return attitude_rk_step_sec_; }
+  inline double GetAttitudeRkStepTime_s() const { return attitude_rk_step_sec_; }
 
   /**
-   *@fn GetOrbitUpdateIntervalSec
+   *@fn GetOrbitUpdateInterval_s
    *@brief Return orbit update interval [sec]
    */
-  inline double GetOrbitUpdateIntervalSec(void) const { return orbit_update_interval_sec_; };
+  inline double GetOrbitUpdateInterval_s(void) const { return orbit_update_interval_sec_; };
   /**
    *@fn GetOrbitPropagateFlag
    *@brief Return orbit propagate flag
    */
   inline bool GetOrbitPropagateFlag(void) const { return orbit_update_flag_; };
   /**
-   *@fn GetOrbitRKStepSec
+   *@fn GetOrbitRkStepTime_s
    *@brief Return orbit Runge-Kutta step time [sec]
    */
-  inline double GetOrbitRKStepSec() const { return orbit_rk_step_sec_; }
+  inline double GetOrbitRkStepTime_s() const { return orbit_rk_step_sec_; }
 
   /**
    *@fn GetThermalUpdateIntervalSec
    *@brief Return thermal update interval [sec]
    */
-  inline double GetThermalUpdateIntervalSec(void) const { return thermal_update_interval_sec_; };
+  inline double GetThermalUpdateInterval_s(void) const { return thermal_update_interval_sec_; };
   /**
    *@fn GetThermalPropagateFlag
    *@brief Return thermal propagate flag
    */
   inline bool GetThermalPropagateFlag(void) const { return thermal_update_flag_; };
   /**
-   *@fn GetThermalRKStepSec
+   *@fn GetThermalRkStepTime_s
    *@brief Return thermal Runge-Kutta step time [sec]
    */
-  inline double GetThermalRKStepSec() const { return thermal_rk_step_sec_; }
+  inline double GetThermalRkStepTime_s() const { return thermal_rk_step_sec_; }
 
   /**
-   *@fn GetCompoStepSec
+   *@fn GetComponentStepTime_s
    *@brief Return component update step time [sec]
    */
-  inline double GetCompoStepSec(void) const { return component_update_interval_sec_; };
+  inline double GetComponentStepTime_s(void) const { return component_update_interval_sec_; };
   /**
    *@fn GetCompoUpdateFlag
    *@brief Return component update flag
    */
   inline bool GetCompoUpdateFlag() const { return component_update_flag_; }
   /**
-   *@fn GetCompoPropagateFrequency
+   *@fn GetComponentPropagateFrequency_Hz
    *@brief Return component propagate frequency [Hz]
    */
-  inline int GetCompoPropagateFrequency(void) const { return component_propagate_frequency_Hz_; };
+  inline int GetComponentPropagateFrequency_Hz(void) const { return component_propagate_frequency_Hz_; };
 
   /**
-   *@fn GetEndSec
+   *@fn GetEndTime_s
    *@brief Return simulation end elapsed time [sec]
    */
-  inline double GetEndSec(void) const { return end_sec_; };
+  inline double GetEndTime_s(void) const { return end_sec_; };
   /**
    *@fn GetProgressionRate
    *@brief Return progression rate of the simulation [%]
@@ -183,25 +183,25 @@ class SimTime : public ILoggable {
   inline int GetProgressionRate(void) const { return (int)floor((elapsed_time_sec_ / end_sec_ * 100)); };
 
   /**
-   *@fn GetCurrentJd
+   *@fn GetCurrentTime_jd
    *@brief Return current Julian day [day]
    */
-  inline double GetCurrentJd(void) const { return current_jd_; };
+  inline double GetCurrentTime_jd(void) const { return current_jd_; };
   /**
-   *@fn GetCurrentSidereal
+   *@fn GetCurrentSiderealTime
    *@brief Return current sidereal day [day]
    */
-  inline double GetCurrentSidereal(void) const { return current_sidereal_; };
+  inline double GetCurrentSiderealTime(void) const { return current_sidereal_; };
   /**
-   *@fn GetCurrentDecyear
+   *@fn GetCurrentDecimalYear
    *@brief Return current decimal year [year]
    */
-  inline double GetCurrentDecyear(void) const { return current_decyear_; };
+  inline double GetCurrentDecimalYear(void) const { return current_decyear_; };
   /**
-   *@fn GetCurrentUTC
+   *@fn GetCurrentUtc
    *@brief Return current UTC calendar expression
    */
-  inline const UTC GetCurrentUTC(void) const { return current_utc_; };
+  inline const UTC GetCurrentUtc(void) const { return current_utc_; };
 
   /**
    *@fn GetStartYear
@@ -209,30 +209,30 @@ class SimTime : public ILoggable {
    */
   inline int GetStartYear(void) const { return start_year_; };
   /**
-   *@fn GetStartMon
+   *@fn GetStartMonth
    *@brief Return start time month [month]
    */
-  inline int GetStartMon(void) const { return start_month_; };
+  inline int GetStartMonth(void) const { return start_month_; };
   /**
    *@fn GetStartDay
    *@brief Return start time day [day]
    */
   inline int GetStartDay(void) const { return start_day_; };
   /**
-   *@fn GetStartHr
+   *@fn GetStartHour
    *@brief Return start time hour [hour]
    */
-  inline int GetStartHr(void) const { return start_hour_; };
+  inline int GetStartHour(void) const { return start_hour_; };
   /**
-   *@fn GetStartMin
+   *@fn GetStartMinute
    *@brief Return start time minute [minute]
    */
-  inline int GetStartMin(void) const { return start_minute_; };
+  inline int GetStartMinute(void) const { return start_minute_; };
   /**
-   *@fn GetStartSec
+   *@fn GetStartSecond
    *@brief Return start time second [sec]
    */
-  inline double GetStartSec(void) const { return start_sec_; };
+  inline double GetStartSecond(void) const { return start_sec_; };
 
   // Override ILoggable
   /**
