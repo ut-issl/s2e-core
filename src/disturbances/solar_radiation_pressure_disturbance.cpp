@@ -16,7 +16,7 @@ void SolarRadiation::Update(const LocalEnvironment& local_env, const Dynamics& d
   UNUSED(dynamics);
 
   libra::Vector<3> sun_position_from_sc_b_m = local_env.GetCelestialInformation().GetPositionFromSpacecraft_b_m("SUN");
-  CalcTorqueForce(sun_position_from_sc_b_m, local_env.GetSolarRadiationPressure().CalcTruePressure());
+  CalcTorqueForce(sun_position_from_sc_b_m, local_env.GetSolarRadiationPressure().GetPressure_Nm2());
 }
 
 void SolarRadiation::CalcCoefficients(const libra::Vector<3>& input_direction_b, const double item) {

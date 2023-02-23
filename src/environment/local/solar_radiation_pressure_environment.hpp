@@ -36,27 +36,27 @@ class SRPEnvironment : public ILoggable {
   void UpdateAllStates();
 
   /**
-   * @fn CalcTruePressure
-   * @brief Calculate and return solar radiation pressure that takes into account eclipse [N/m^2]
-   */
-  inline double CalcTruePressure() const { return solar_radiation_pressure_N_m2_ * shadow_coefficient_; }
-  /**
-   * @fn CalcPowerDensity
+   * @fn CalcPowerDensity_W_m2
    * @brief Calculate and return solar power per unit area considering eclipse [W/m^2]
    */
-  inline double CalcPowerDensity() const { return solar_radiation_pressure_N_m2_ * environment::speed_of_light_m_s * shadow_coefficient_; }
+  inline double CalcPowerDensity_W_m2() const { return solar_radiation_pressure_N_m2_ * environment::speed_of_light_m_s * shadow_coefficient_; }
 
   // Getter
   /**
-   * @fn GetPressure
+   * @fn GetPressure_Nm2
+   * @brief Calculate and return solar radiation pressure that takes into account eclipse [N/m^2]
+   */
+  inline double GetPressure_Nm2() const { return solar_radiation_pressure_N_m2_ * shadow_coefficient_; }
+  /**
+   * @fn GetPressureWithoutEclipse_Nm2
    * @brief Return solar pressure without eclipse effect [N/m^2]
    */
-  inline double GetPressure() const { return solar_radiation_pressure_N_m2_; }
+  inline double GetPressureWithoutEclipse_Nm2() const { return solar_radiation_pressure_N_m2_; }
   /**
-   * @fn GetSolarConstant
+   * @fn GetSolarConstant_W_m2
    * @brief Return solar constant value [W/m^2]
    */
-  inline double GetSolarConstant() const { return solar_constant_W_m2_; }
+  inline double GetSolarConstant_W_m2() const { return solar_constant_W_m2_; }
   /**
    * @fn GetShadowCoefficient
    * @brief Return shadow function

@@ -97,7 +97,7 @@ void SunSensor::SunDetectionJudgement() {
 
   double sun_angle_ = acos(sun_direction_c[2]);
 
-  if (solar_illuminance_ < intensity_lower_threshold_percent_ / 100.0 * srp_->GetSolarConstant()) {
+  if (solar_illuminance_ < intensity_lower_threshold_percent_ / 100.0 * srp_->GetSolarConstant_W_m2()) {
     sun_detected_flag_ = false;
   } else {
     if (sun_angle_ < detectable_angle_rad_) {
@@ -117,7 +117,7 @@ void SunSensor::CalcSolarIlluminance() {
     return;
   }
 
-  double power_density = srp_->CalcPowerDensity();
+  double power_density = srp_->CalcPowerDensity_W_m2();
   solar_illuminance_ = power_density * cos(sun_angle_);
   // TODO: Take into account the effects of albedo.
 }
