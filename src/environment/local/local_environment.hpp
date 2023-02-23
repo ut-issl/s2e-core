@@ -23,11 +23,11 @@ class LocalEnvironment {
   /**
    * @fn LocalEnvironment
    * @brief Constructor
-   * @param [in] sim_config: Simulation configuration
-   * @param [in] glo_env: Global environment
-   * @param [in] sat_id: Satellite ID
+   * @param [in] simulation_configuration: Simulation configuration
+   * @param [in] global_environment: Global environment
+   * @param [in] spacecraft_id: Satellite ID
    */
-  LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  LocalEnvironment(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
   /**
    * @fn ~LocalEnvironment
    * @brief Destructor
@@ -36,19 +36,19 @@ class LocalEnvironment {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @param [in] sim_config: Simulation configuration
-   * @param [in] glo_env: Global environment
-   * @param [in] sat_id: Satellite ID
+   * @param [in] simulation_configuration: Simulation configuration
+   * @param [in] global_environment: Global environment
+   * @param [in] spacecraft_id: Satellite ID
    */
-  void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  void Initialize(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
 
   /**
    * @fn Update
    * @brief Update all states
    * @param [in] dynamics: Dynamics information of the satellite
-   * @param [in] sim_time: Simulation time
+   * @param [in] simulation_time: Simulation time
    */
-  void Update(const Dynamics* dynamics, const SimTime* sim_time);
+  void Update(const Dynamics* dynamics, const SimTime* simulation_time);
 
   /**
    * @fn LogSetup
