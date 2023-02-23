@@ -17,9 +17,6 @@
 #include "library/math/quaternion.hpp"
 #include "library/math/vector.hpp"
 
-using libra::Quaternion;
-using libra::Vector;
-
 /**
  * @class CelestialInformation
  * @brief Class to manage the information related with the celestial bodies
@@ -75,25 +72,25 @@ class CelestialInformation : public ILoggable {
    * @brief Return position from the center body in the inertial frame [m]
    * @param [in] id: ID of CelestialInformation list
    */
-  Vector<3> GetPosFromCenter_i(const int id) const;
+  libra::Vector<3> GetPosFromCenter_i(const int id) const;
   /**
    * @fn GetPosFromCenter_i
    * @brief Return position from the center body in the inertial frame [m]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  Vector<3> GetPosFromCenter_i(const char* body_name) const;
+  libra::Vector<3> GetPosFromCenter_i(const char* body_name) const;
   /**
    * @fn GetVelFromCenter_i
    * @brief Return velocity from the center body in the inertial frame [m/s]
    * @param [in] id: ID of CelestialInformation list
    */
-  Vector<3> GetVelFromCenter_i(const int id) const;
+  libra::Vector<3> GetVelFromCenter_i(const int id) const;
   /**
    * @fn GetVelFromCenter_i
    * @brief Return velocity from the center body in the inertial frame [m/s]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  Vector<3> GetVelFromCenter_i(const char* body_name) const;
+  libra::Vector<3> GetVelFromCenter_i(const char* body_name) const;
 
   // Gravity constants
   /**
@@ -114,13 +111,13 @@ class CelestialInformation : public ILoggable {
    * @brief Return 3 axis planetographic radii of a celestial body [m]
    * @param [in] id: ID of CelestialInformation list
    */
-  Vector<3> GetRadii(const int id) const;
+  libra::Vector<3> GetRadii(const int id) const;
   /**
    * @fn GetRadiiFromName
    * @brief Return 3 axis planetographic radii of a celestial body [m]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  Vector<3> GetRadiiFromName(const char* body_name) const;
+  libra::Vector<3> GetRadiiFromName(const char* body_name) const;
   /**
    * @fn GetMeanRadiusFromName
    * @brief Return mean radius of a celestial body [m]

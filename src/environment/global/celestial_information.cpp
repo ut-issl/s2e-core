@@ -14,9 +14,7 @@
 #include <library/logger/log_utility.hpp>
 #include <sstream>
 
-using namespace std;
-
-CelestialInformation::CelestialInformation(string inertial_frame, string aber_cor, string center_obj, RotationMode rotation_mode,
+CelestialInformation::CelestialInformation(std::string inertial_frame, std::string aber_cor, std::string center_obj, RotationMode rotation_mode,
                                            int num_of_selected_body, int* selected_body)
     : num_of_selected_body_(num_of_selected_body),
       selected_body_(selected_body),
@@ -102,7 +100,7 @@ CelestialInformation::~CelestialInformation() {
 void CelestialInformation::UpdateAllObjectsInfo(const double current_jd) {
   // Convert time
   SpiceDouble et;
-  string jd = "jd " + to_string(current_jd);
+  std::string jd = "jd " + std::to_string(current_jd);
   str2et_c(jd.c_str(), &et);
 
   for (int i = 0; i < num_of_selected_body_; i++) {
@@ -129,26 +127,26 @@ void CelestialInformation::UpdateAllObjectsInfo(const double current_jd) {
 }
 
 // Getters
-Vector<3> CelestialInformation::GetPosFromCenter_i(const int id) const {
-  Vector<3> pos(0.0);
+libra::Vector<3> CelestialInformation::GetPosFromCenter_i(const int id) const {
+  libra::Vector<3> pos(0.0);
   if (id > num_of_selected_body_) return pos;
   for (int i = 0; i < 3; i++) pos[i] = celes_objects_pos_from_center_i_[id * 3 + i];
   return pos;
 }
 
-Vector<3> CelestialInformation::GetVelFromCenter_i(const int id) const {
-  Vector<3> vel(0.0);
+libra::Vector<3> CelestialInformation::GetVelFromCenter_i(const int id) const {
+  libra::Vector<3> vel(0.0);
   if (id > num_of_selected_body_) return vel;
   for (int i = 0; i < 3; i++) vel[i] = celes_objects_vel_from_center_i_[id * 3 + i];
   return vel;
 }
 
-Vector<3> CelestialInformation::GetPosFromCenter_i(const char* body_name) const {
+libra::Vector<3> CelestialInformation::GetPosFromCenter_i(const char* body_name) const {
   int id = CalcBodyIdFromName(body_name);
   return GetPosFromCenter_i(id);
 }
 
-Vector<3> CelestialInformation::GetVelFromCenter_i(const char* body_name) const {
+libra::Vector<3> CelestialInformation::GetVelFromCenter_i(const char* body_name) const {
   int id = CalcBodyIdFromName(body_name);
   return GetVelFromCenter_i(id);
 }
@@ -160,14 +158,14 @@ double CelestialInformation::GetGravityConstant(const char* body_name) const {
 
 double CelestialInformation::GetCenterBodyGravityConstant_m3_s2(void) const { return GetGravityConstant(center_obj_.c_str()); }
 
-Vector<3> CelestialInformation::GetRadii(const int id) const {
-  Vector<3> radii(0.0);
+libra::Vector<3> CelestialInformation::GetRadii(const int id) const {
+  libra::Vector<3> radii(0.0);
   if (id > num_of_selected_body_) return radii;
   for (int i = 0; i < 3; i++) radii[i] = celes_objects_planetographic_radii_m_[id * 3 + i];
   return radii;
 }
 
-Vector<3> CelestialInformation::GetRadiiFromName(const char* body_name) const {
+libra::Vector<3> CelestialInformation::GetRadiiFromName(const char* body_name) const {
   int id = CalcBodyIdFromName(body_name);
   return GetRadii(id);
 }
@@ -193,19 +191,19 @@ int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {
   return index;
 }
 
-string CelestialInformation::GetLogHeader() const {
+std::string CelestialInformation::GetLogHeader() const {
   SpiceBoolean found;
   const int maxlen = 100;
   char namebuf[maxlen];
-  string str_tmp = "";
+  std::string str_tmp = "";
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
     // Acquisition of body name from id
     bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
-    string name = namebuf;
+    std::string name = namebuf;
     std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-    string body_pos = name + "_position";
-    string body_vel = name + "_velocity";
+    std::string body_pos = name + "_position";
+    std::string body_vel = name + "_velocity";
 
     str_tmp += WriteVector(body_pos, "i", "m", 3);
     str_tmp += WriteVector(body_vel, "i", "m/s", 3);
@@ -213,8 +211,8 @@ string CelestialInformation::GetLogHeader() const {
   return str_tmp;
 }
 
-string CelestialInformation::GetLogValue() const {
-  string str_tmp = "";
+std::string CelestialInformation::GetLogValue() const {
+  std::string str_tmp = "";
   for (int i = 0; i < num_of_selected_body_; i++) {
     for (int j = 0; j < 3; j++) {
       str_tmp += WriteScalar(celes_objects_pos_from_center_i_[i * 3 + j]);
@@ -230,21 +228,21 @@ void CelestialInformation::DebugOutput(void) {
   SpiceBoolean found;
   const int maxlen = 100;
   char namebuf[maxlen];
-  cout << "BODY NAME, POSx,y,z[m], VELx,y,z[m/s] from CENTER;\nPOSx,y,z[m], "
-          "VELx,y,z[m/s] from SC";
+  std::cout << "BODY NAME, POSx,y,z[m], VELx,y,z[m/s] from CENTER;\nPOSx,y,z[m], "
+               "VELx,y,z[m/s] from SC";
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
     // Acquisition of body name from id
     bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
     //		cout<<namebuf<<
   }
-  cout << "GRAVITY CONSTASNT of\n";
+  std::cout << "GRAVITY CONSTASNT of\n";
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
     // Acquisition of body name from id
     bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
-    cout << namebuf << "is"
-         << ": " << celes_objects_gravity_constant_[i] << "\n";
+    std::cout << namebuf << "is"
+              << ": " << celes_objects_gravity_constant_[i] << "\n";
   }
 }
 
