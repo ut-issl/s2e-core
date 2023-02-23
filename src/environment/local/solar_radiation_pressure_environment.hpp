@@ -37,10 +37,10 @@ class SolarRadiationPressureEnvironment : public ILoggable {
 
   // Getter
   /**
-   * @fn GetPressure_Nm2
+   * @fn GetPressure_N_m2
    * @brief Calculate and return solar radiation pressure that takes into account eclipse [N/m^2]
    */
-  inline double GetPressure_Nm2() const { return solar_radiation_pressure_N_m2_ * shadow_coefficient_; }
+  inline double GetPressure_N_m2() const { return solar_radiation_pressure_N_m2_ * shadow_coefficient_; }
   /**
    * @fn GetPowerDensity_W_m2
    * @brief Calculate and return solar power per unit area considering eclipse [W/m^2]
