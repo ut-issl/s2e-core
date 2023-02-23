@@ -58,13 +58,13 @@ libra::Vector<3> GeodeticPosition::CalcEcefPosition() const {
 
   double theta = FMod2p(longitude_rad_);
   double e2 = flattening * (2.0 - flattening);
-  double c = 1 / sqrt(1.0 - e2 * sin(latitude_rad_) * sin(latitude_rad_));
-  double N = c * earth_radius_m;
+  double c = 1.0 / sqrt(1.0 - e2 * sin(latitude_rad_) * sin(latitude_rad_));
+  double n = c * earth_radius_m;
 
   libra::Vector<3> pos_ecef_m;
-  pos_ecef_m(0) = (N + altitude_m_) * cos(latitude_rad_) * cos(theta);
-  pos_ecef_m(1) = (N + altitude_m_) * cos(latitude_rad_) * sin(theta);
-  pos_ecef_m(2) = (N * (1 - e2) + altitude_m_) * sin(latitude_rad_);
+  pos_ecef_m(0) = (n + altitude_m_) * cos(latitude_rad_) * cos(theta);
+  pos_ecef_m(1) = (n + altitude_m_) * cos(latitude_rad_) * sin(theta);
+  pos_ecef_m(2) = (n * (1.0 - e2) + altitude_m_) * sin(latitude_rad_);
 
   return pos_ecef_m;
 }
