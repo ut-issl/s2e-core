@@ -37,12 +37,12 @@ class MagEnvironment : public ILoggable {
   /**
    * @fn CalcMag
    * @brief Calculate magnetic field vector
-   * @param [in] decyear: Decimal year [year]
-   * @param [in] side: Sidereal day [day]
+   * @param [in] decimal_year: Decimal year [year]
+   * @param [in] sidereal_day: Sidereal day [day]
    * @param [in] lat_lon_alt: Latitude [rad], longitude [rad], and altitude [m]
-   * @param [in] q_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
+   * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
-  void CalcMag(double decyear, double side, libra::Vector<3> lat_lon_alt, libra::Quaternion q_i2b);
+  void CalcMag(double decimal_year, double sidereal_day, libra::Vector<3> lat_lon_alt, libra::Quaternion quaternion_i2b);
 
   /**
    * @fn GetMag_i

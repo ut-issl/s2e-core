@@ -26,7 +26,7 @@ MagEnvironment::MagEnvironment(std::string igrf_file_name, double random_walk_sr
   set_file_path(igrf_file_name_.c_str());
 }
 
-void MagEnvironment::CalcMag(double decyear, double side, Vector<3> lat_lon_alt, Quaternion q_i2b) {
+void MagEnvironment::CalcMag(double decimal_year, double sidereal_day, Vector<3> lat_lon_alt, Quaternion quaternion_i2b) {
   if (!IsCalcEnabled) return;
 
   double latrad = lat_lon_alt(0);
@@ -34,12 +34,12 @@ void MagEnvironment::CalcMag(double decyear, double side, Vector<3> lat_lon_alt,
   double alt = lat_lon_alt(2);
 
   double mag_i_array[3];
-  IgrfCalc(decyear, latrad, lonrad, alt, side, mag_i_array);
+  IgrfCalc(decimal_year, latrad, lonrad, alt, sidereal_day, mag_i_array);
   AddNoise(mag_i_array);
   for (int i = 0; i < 3; ++i) {
     magnetic_field_i_nT_[i] = mag_i_array[i];
   }
-  magnetic_field_b_nT_ = q_i2b.frame_conv(magnetic_field_i_nT_);
+  magnetic_field_b_nT_ = quaternion_i2b.frame_conv(magnetic_field_i_nT_);
 }
 
 void MagEnvironment::AddNoise(double* mag_i_array) {
