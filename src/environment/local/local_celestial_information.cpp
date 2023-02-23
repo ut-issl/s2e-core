@@ -42,89 +42,90 @@ LocalCelestialInformation::~LocalCelestialInformation() {
   delete[] celestial_body_velocity_from_spacecraft_b_m_s_;
 }
 
-void LocalCelestialInformation::UpdateAllObjectsInfo(const libra::Vector<3> sc_pos_from_center_i, const libra::Vector<3> sc_vel_from_center_i,
-                                                     const libra::Quaternion q_i2b, const libra::Vector<3> sc_body_rate) {
-  Vector<3> pos_center_i, vel_center_i;
+void LocalCelestialInformation::UpdateAllObjectsInfo(const libra::Vector<3> sc_pos_from_centeposition_i,
+                                                     const libra::Vector<3> sc_vel_from_centeposition_i, const libra::Quaternion quaternion_i2b,
+                                                     const libra::Vector<3> sc_body_rate) {
+  Vector<3> pos_centeposition_i, vel_centeposition_i;
   for (int i = 0; i < global_celestial_information_->GetNumberOfSelectedBodies(); i++) {
-    pos_center_i = global_celestial_information_->GetPositionFromCenter_i_m(i);
-    vel_center_i = global_celestial_information_->GetVelocityFromCenter_i_m_s(i);
+    pos_centeposition_i = global_celestial_information_->GetPositionFromCenter_i_m(i);
+    vel_centeposition_i = global_celestial_information_->GetVelocityFromCenter_i_m_s(i);
     // Change origin of frame
     for (int j = 0; j < 3; j++) {
-      celestial_body_position_from_spacecraft_i_m_[i * 3 + j] = pos_center_i[j] - sc_pos_from_center_i[j];
-      celestial_body_velocity_from_spacecraft_i_m_s_[i * 3 + j] = vel_center_i[j] - sc_vel_from_center_i[j];
+      celestial_body_position_from_spacecraft_i_m_[i * 3 + j] = pos_centeposition_i[j] - sc_pos_from_centeposition_i[j];
+      celestial_body_velocity_from_spacecraft_i_m_s_[i * 3 + j] = vel_centeposition_i[j] - sc_vel_from_centeposition_i[j];
     }
   }
-  CalcAllPosVel_b(q_i2b, sc_body_rate);
+  CalcAllPosVel_b(quaternion_i2b, sc_body_rate);
 
   return;
 }
 
-void LocalCelestialInformation::CalcAllPosVel_b(const libra::Quaternion q_i2b, const libra::Vector<3> sc_body_rate) {
-  libra::Vector<3> pos_center_i, vel_center_i;
-  double r_buf1_i[3], v_buf1_i[3], r_buf1_b[3], v_buf1_b[3];
-  double r_buf2_i[3], v_buf2_i[3], r_buf2_b[3], v_buf2_b[3];
+void LocalCelestialInformation::CalcAllPosVel_b(const libra::Quaternion quaternion_i2b, const libra::Vector<3> sc_body_rate) {
+  libra::Vector<3> pos_centeposition_i, vel_centeposition_i;
+  double r_buf1_i[3], velocity_buf1_i[3], r_buf1_b[3], velocity_buf1_b[3];
+  double r_buf2_i[3], velocity_buf2_i[3], r_buf2_b[3], velocity_buf2_b[3];
   for (int i = 0; i < global_celestial_information_->GetNumberOfSelectedBodies(); i++) {
-    pos_center_i = global_celestial_information_->GetPositionFromCenter_i_m(i);
-    vel_center_i = global_celestial_information_->GetVelocityFromCenter_i_m_s(i);
+    pos_centeposition_i = global_celestial_information_->GetPositionFromCenter_i_m(i);
+    vel_centeposition_i = global_celestial_information_->GetVelocityFromCenter_i_m_s(i);
     for (int j = 0; j < 3; j++) {
-      r_buf1_i[j] = pos_center_i[j];
+      r_buf1_i[j] = pos_centeposition_i[j];
       r_buf2_i[j] = celestial_body_position_from_spacecraft_i_m_[i * 3 + j];
-      v_buf1_i[j] = vel_center_i[j];
-      v_buf2_i[j] = celestial_body_velocity_from_spacecraft_i_m_s_[i * 3 + j];
+      velocity_buf1_i[j] = vel_centeposition_i[j];
+      velocity_buf2_i[j] = celestial_body_velocity_from_spacecraft_i_m_s_[i * 3 + j];
     }
-    ConvertInertialToBody(r_buf1_i, r_buf1_b, q_i2b);
-    ConvertInertialToBody(r_buf2_i, r_buf2_b, q_i2b);
-    ConvertVelocityInertialToBody(r_buf1_i, v_buf1_i, v_buf1_b, q_i2b, sc_body_rate);
-    ConvertVelocityInertialToBody(r_buf2_i, v_buf2_i, v_buf2_b, q_i2b, sc_body_rate);
+    ConvertInertialToBody(r_buf1_i, r_buf1_b, quaternion_i2b);
+    ConvertInertialToBody(r_buf2_i, r_buf2_b, quaternion_i2b);
+    ConvertVelocityInertialToBody(r_buf1_i, velocity_buf1_i, velocity_buf1_b, quaternion_i2b, sc_body_rate);
+    ConvertVelocityInertialToBody(r_buf2_i, velocity_buf2_i, velocity_buf2_b, quaternion_i2b, sc_body_rate);
 
     for (int j = 0; j < 3; j++) {
       celestial_body_position_from_center_b_m_[i * 3 + j] = r_buf1_b[j];
       celestial_body_position_from_spacecraft_b_m_[i * 3 + j] = r_buf2_b[j];
-      celestial_body_velocity_from_center_b_m_s_[i * 3 + j] = v_buf1_b[j];
-      celestial_body_velocity_from_spacecraft_b_m_s_[i * 3 + j] = v_buf2_b[j];
+      celestial_body_velocity_from_center_b_m_s_[i * 3 + j] = velocity_buf1_b[j];
+      celestial_body_velocity_from_spacecraft_b_m_s_[i * 3 + j] = velocity_buf2_b[j];
     }
   }
 }
 
-void LocalCelestialInformation::ConvertInertialToBody(const double* src_i, double* dst_b, libra::Quaternion q_i2b) {
+void LocalCelestialInformation::ConvertInertialToBody(const double* input_i, double* output_b, libra::Quaternion quaternion_i2b) {
   libra::Vector<3> temp_i;
   for (int i = 0; i < 3; i++) {
-    temp_i[i] = src_i[i];
+    temp_i[i] = input_i[i];
   }
-  libra::Vector<3> temp_b = q_i2b.frame_conv(temp_i);
+  libra::Vector<3> temp_b = quaternion_i2b.frame_conv(temp_i);
   for (int i = 0; i < 3; i++) {
-    dst_b[i] = temp_b[i];
+    output_b[i] = temp_b[i];
   }
 }
 
-void LocalCelestialInformation::ConvertVelocityInertialToBody(const double* r_i, const double* v_i, double* v_b, libra::Quaternion q_i2b,
-                                                              const libra::Vector<3> bodyrate_b) {
+void LocalCelestialInformation::ConvertVelocityInertialToBody(const double* position_i, const double* velocity_i, double* velocity_b,
+                                                              libra::Quaternion quaternion_i2b, const libra::Vector<3> angular_velocity_b) {
   // copy input vector
   libra::Vector<3> vi;
   for (int i = 0; i < 3; i++) {
-    vi[i] = v_i[i];
+    vi[i] = velocity_i[i];
   }
   libra::Vector<3> ri;
   for (int i = 0; i < 3; i++) {
-    ri[i] = r_i[i];
+    ri[i] = position_i[i];
   }
 
   // convert body rate vector into that in inertial coordinate
   Vector<3> wb;
   for (int i = 0; i < 3; i++) {
-    wb[i] = bodyrate_b[i];
+    wb[i] = angular_velocity_b[i];
   }
 
   // compute cross term wxr
-  libra::Vector<3> wxr_i = outer_product(wb, ri);
+  libra::Vector<3> wxposition_i = outer_product(wb, ri);
   // compute dr/dt + wxr
   for (int i = 0; i < 3; i++) {
-    vi[i] = vi[i] - wxr_i[i];
+    vi[i] = vi[i] - wxposition_i[i];
   }
   // convert vector in inertial coordinate into that in body coordinate
-  libra::Vector<3> temp_b = q_i2b.frame_conv(vi);
+  libra::Vector<3> temp_b = quaternion_i2b.frame_conv(vi);
   for (int i = 0; i < 3; i++) {
-    v_b[i] = temp_b[i];
+    velocity_b[i] = temp_b[i];
   }
 }
 

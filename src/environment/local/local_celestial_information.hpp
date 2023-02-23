@@ -29,20 +29,20 @@ class LocalCelestialInformation : public ILoggable {
   /**
    * @fn UpdateAllObjectsInfo
    * @brief Update the all selected celestial object local information
-   * @param [in] sc_pos_from_center_i: Spacecraft position from the center body in the inertial frame [m]
-   * @param [in] sc_vel_from_center_i: Spacecraft velocity from the center body in the inertial frame [m/s]
-   * @param [in] q_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
+   * @param [in] sc_pos_from_centeposition_i: Spacecraft position from the center body in the inertial frame [m]
+   * @param [in] sc_vel_from_centeposition_i: Spacecraft velocity from the center body in the inertial frame [m/s]
+   * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    * @param [in] sc_body_rate: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
-  void UpdateAllObjectsInfo(const libra::Vector<3> sc_pos_from_center_i, const libra::Vector<3> sc_vel_from_center_i, libra::Quaternion q_i2b,
-                            const libra::Vector<3> sc_body_rate);
+  void UpdateAllObjectsInfo(const libra::Vector<3> sc_pos_from_centeposition_i, const libra::Vector<3> sc_vel_from_centeposition_i,
+                            libra::Quaternion quaternion_i2b, const libra::Vector<3> sc_body_rate);
   /**
    * @fn CalcAllPosVel_b
    * @brief Frame conversion to the body frame for all selected celestial bodies
-   * @param [in] q_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
+   * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    * @param [in] sc_body_rate: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
-  void CalcAllPosVel_b(libra::Quaternion q_i2b, const libra::Vector<3> sc_body_rate);
+  void CalcAllPosVel_b(libra::Quaternion quaternion_i2b, const libra::Vector<3> sc_body_rate);
 
   /**
    * @fn GetPosFromSC_i
@@ -99,23 +99,23 @@ class LocalCelestialInformation : public ILoggable {
   /**
    * @fn ConvertInertialToBody
    * @brief Convert position vector in the inertial frame to the body fixed frame
-   * @param [in] src_i: Source vector in the inertial frame
-   * @param [out] dst_b: Output vector in the body fixed frame
-   * @param [in] q_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
+   * @param [in] input_i: Source vector in the inertial frame
+   * @param [out] output_b: Output vector in the body fixed frame
+   * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
-  void ConvertInertialToBody(const double* src_i, double* dst_b, const libra::Quaternion q_i2b);
+  void ConvertInertialToBody(const double* input_i, double* output_b, const libra::Quaternion quaternion_i2b);
 
   /**
    * @fn ConvertVelocityInertialToBody
    * @brief Convert velocity vector in the inertial frame to the body fixed frame
-   * @param [in] r_i: Position vector in the inertial frame
-   * @param [in] v_i: Velocity vector in the inertial frame
-   * @param [out] v_b: Output Velocity vector in the body fixed frame
-   * @param [in] q_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
-   * @param [in] sc_body_rate: Spacecraft angular velocity with respect to the inertial frame [rad/s]
+   * @param [in] position_i: Position vector in the inertial frame
+   * @param [in] velocity_i: Velocity vector in the inertial frame
+   * @param [out] velocity_b: Output Velocity vector in the body fixed frame
+   * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
+   * @param [in] angular_velocity_b: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
-  void ConvertVelocityInertialToBody(const double* r_i, const double* v_i, double* v_b, const libra::Quaternion q_i2b,
-                                     const libra::Vector<3> bodyrate_b);
+  void ConvertVelocityInertialToBody(const double* position_i, const double* velocity_i, double* velocity_b, const libra::Quaternion quaternion_i2b,
+                                     const libra::Vector<3> angular_velocity_b);
 };
 
 #endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_CELESTIAL_INFORMATION_HPP_
