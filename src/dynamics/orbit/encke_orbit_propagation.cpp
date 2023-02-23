@@ -10,40 +10,40 @@
 #include "../../library/orbit/orbital_elements.hpp"
 
 EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double mu_m3_s2, const double prop_step_s,
-                                             const double current_jd, const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s,
+                                             const double current_time_jd, const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s,
                                              const double error_tolerance)
     : Orbit(celestial_information), libra::ODE<6>(prop_step_s), mu_m3_s2_(mu_m3_s2), error_tolerance_(error_tolerance), prop_step_s_(prop_step_s) {
   prop_time_s_ = 0.0;
-  Initialize(current_jd, init_position_i_m, init_velocity_i_m_s);
+  Initialize(current_time_jd, init_position_i_m, init_velocity_i_m_s);
 }
 
 EnckeOrbitPropagation::~EnckeOrbitPropagation() {}
 
 // Functions for Orbit
-void EnckeOrbitPropagation::Propagate(double endtime, double current_jd) {
+void EnckeOrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
   if (!is_calc_enabled_) return;
 
   // Rectification
   double norm_sat_position_m = norm(spacecraft_position_i_m_);
   double norm_diff_position_m = norm(diff_position_i_m_);
   if (norm_diff_position_m / norm_sat_position_m > error_tolerance_) {
-    Initialize(current_jd, spacecraft_position_i_m_, spacecraft_velocity_i_m_s_);
+    Initialize(current_time_jd, spacecraft_position_i_m_, spacecraft_velocity_i_m_s_);
   }
 
   // Update reference orbit
-  ref_kepler_orbit.CalcPosVel(current_jd);
+  ref_kepler_orbit.CalcPosVel(current_time_jd);
   ref_position_i_m_ = ref_kepler_orbit.GetPosition_i_m();
   ref_velocity_i_m_s_ = ref_kepler_orbit.GetVelocity_i_m_s();
 
   // Propagate difference orbit
   setStepWidth(prop_step_s_);  // Re-set propagation Δt
-  while (endtime - prop_time_s_ - prop_step_s_ > 1.0e-6) {
+  while (end_time_s - prop_time_s_ - prop_step_s_ > 1.0e-6) {
     Update();  // Propagation methods of the ODE class
     prop_time_s_ += prop_step_s_;
   }
-  setStepWidth(endtime - prop_time_s_);  // Adjust the last propagation Δt
+  setStepWidth(end_time_s - prop_time_s_);  // Adjust the last propagation Δt
   Update();
-  prop_time_s_ = endtime;
+  prop_time_s_ = end_time_s;
 
   diff_position_i_m_[0] = state()[0];
   diff_position_i_m_[1] = state()[1];
@@ -78,14 +78,14 @@ void EnckeOrbitPropagation::RHS(double t, const Vector<6>& state, Vector<6>& rhs
 }
 
 // Private Functions
-void EnckeOrbitPropagation::Initialize(double current_jd, Vector<3> init_ref_position_i_m, Vector<3> init_ref_velocity_i_m_s) {
+void EnckeOrbitPropagation::Initialize(double current_time_jd, Vector<3> init_ref_position_i_m, Vector<3> init_ref_velocity_i_m_s) {
   // General
   fill_up(spacecraft_acceleration_i_m_s2_, 0.0);
 
   // reference orbit
   ref_position_i_m_ = init_ref_position_i_m;
   ref_velocity_i_m_s_ = init_ref_velocity_i_m_s;
-  OrbitalElements oe_ref(mu_m3_s2_, current_jd, init_ref_position_i_m, init_ref_velocity_i_m_s);
+  OrbitalElements oe_ref(mu_m3_s2_, current_time_jd, init_ref_position_i_m, init_ref_velocity_i_m_s);
   ref_kepler_orbit = KeplerOrbit(mu_m3_s2_, oe_ref);
 
   // difference orbit

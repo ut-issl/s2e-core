@@ -51,10 +51,10 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
   /**
    * @fn Propagate
    * @brief Propagate orbit
-   * @param [in] endtime: End time of simulation [sec]
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] end_time_s: End time of simulation [sec]
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  virtual void Propagate(double endtime, double current_jd);
+  virtual void Propagate(double end_time_s, double current_time_jd);
 
   // Override ODE
   /**

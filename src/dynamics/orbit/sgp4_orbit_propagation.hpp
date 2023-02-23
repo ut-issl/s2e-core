@@ -26,18 +26,18 @@ class Sgp4OrbitPropagation : public Orbit {
    * @param [in] tle1: The first line of TLE
    * @param [in] tle2: The second line of TLE
    * @param [in] wgs: Wold Geodetic System
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, int wgs, double current_jd);
+  Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, int wgs, double current_time_jd);
 
   // Override Orbit
   /**
    * @fn Propagate
    * @brief Propagate orbit
-   * @param [in] endtime: End time of simulation [sec]
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] end_time_s: End time of simulation [sec]
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  virtual void Propagate(double endtime, double current_jd);
+  virtual void Propagate(double end_time_s, double current_time_jd);
 
   /**
    * @fn GetESIOmega

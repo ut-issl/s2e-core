@@ -59,17 +59,17 @@ class Orbit : public ILoggable {
   /**
    * @fn Propagate
    * @brief Pure virtual function for orbit propagation
-   * @param [in] endtime: End time of simulation [sec]
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] end_time_s: End time of simulation [sec]
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  virtual void Propagate(double endtime, double current_jd) = 0;
+  virtual void Propagate(double end_time_s, double current_time_jd) = 0;
 
   /**
    * @fn UpdateAtt
    * @brief Update attitude information
-   * @param [in] q_i2b: End time of simulation [sec]
+   * @param [in] quaternion_i2b: End time of simulation [sec]
    */
-  inline void UpdateAtt(libra::Quaternion q_i2b) { spacecraft_velocity_b_m_s_ = q_i2b.frame_conv(spacecraft_velocity_i_m_s_); }
+  inline void UpdateAtt(libra::Quaternion quaternion_i2b) { spacecraft_velocity_b_m_s_ = quaternion_i2b.frame_conv(spacecraft_velocity_i_m_s_); }
 
   /**
    * @fn AddPositionOffset
@@ -143,32 +143,32 @@ class Orbit : public ILoggable {
    * @fn SetAcceleration_i
    * @brief Set acceleration in the inertial frame [m/s2]
    */
-  inline void SetAcceleration_i(libra::Vector<3> acceleration_i) { spacecraft_acceleration_i_m_s2_ = acceleration_i; }
+  inline void SetAcceleration_i(libra::Vector<3> acceleration_i_m_s2) { spacecraft_acceleration_i_m_s2_ = acceleration_i_m_s2; }
   /**
    * @fn AddForce_i
    * @brief Add force
    * @param [in] force_i: Force in the inertial frame [N]
-   * @param [in] spacecraft_mass: Mass of spacecraft [kg]
+   * @param [in] spacecraft_mass_kg: Mass of spacecraft [kg]
    */
-  inline void AddForce_i(libra::Vector<3> force_i, double spacecraft_mass) {
-    force_i /= spacecraft_mass;
+  inline void AddForce_i(libra::Vector<3> force_i, double spacecraft_mass_kg) {
+    force_i /= spacecraft_mass_kg;
     spacecraft_acceleration_i_m_s2_ += force_i;
   }
   /**
    * @fn AddAcceleration_i_m_s2
    * @brief Add acceleration in the inertial frame [m/s2]
    */
-  inline void AddAcceleration_i_m_s2(libra::Vector<3> acceleration_i) { spacecraft_acceleration_i_m_s2_ += acceleration_i; }
+  inline void AddAcceleration_i_m_s2(libra::Vector<3> acceleration_i_m_s2) { spacecraft_acceleration_i_m_s2_ += acceleration_i_m_s2; }
   /**
    * @fn AddForce_i
    * @brief Add force
-   * @param [in] force_b: Force in the body fixed frame [N]
-   * @param [in] q_i2b: Quaternion from the inertial frame to the body fixed frame
-   * @param [in] spacecraft_mass: Mass of spacecraft [kg]
+   * @param [in] force_b_N: Force in the body fixed frame [N]
+   * @param [in] quaternion_i2b: Quaternion from the inertial frame to the body fixed frame
+   * @param [in] spacecraft_mass_kg: Mass of spacecraft [kg]
    */
-  inline void AddForce_b_N(libra::Vector<3> force_b, libra::Quaternion q_i2b, double spacecraft_mass) {
-    auto force_i = q_i2b.frame_conv_inv(force_b);
-    AddForce_i(force_i, spacecraft_mass);
+  inline void AddForce_b_N(libra::Vector<3> force_b_N, libra::Quaternion quaternion_i2b, double spacecraft_mass_kg) {
+    auto force_i = quaternion_i2b.frame_conv_inv(force_b_N);
+    AddForce_i(force_i, spacecraft_mass_kg);
   }
 
   /**

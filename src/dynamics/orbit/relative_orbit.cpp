@@ -89,18 +89,18 @@ void RelativeOrbit::CalculateSTM(STMModel stm_model_type, const Orbit* reference
   }
 }
 
-void RelativeOrbit::Propagate(double endtime, double current_jd) {
-  UNUSED(current_jd);
+void RelativeOrbit::Propagate(double end_time_s, double current_time_jd) {
+  UNUSED(current_time_jd);
 
   if (!is_calc_enabled_) return;
 
   spacecraft_acceleration_i_m_s2_ *= 0;  // Disturbance acceleration are not considered in relative orbit propagation
 
   if (update_method_ == RK4) {
-    PropagateRK4(endtime);
+    PropagateRK4(end_time_s);
   } else  // update_method_ == STM
   {
-    PropagateSTM(endtime);
+    PropagateSTM(end_time_s);
   }
 
   Vector<3> reference_sat_position_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetSatPosition_i();

@@ -64,19 +64,19 @@ void Rk4OrbitPropagation::Initialize(Vector<3> init_position, Vector<3> init_vel
   TransformEcefToGeodetic();
 }
 
-void Rk4OrbitPropagation::Propagate(double endtime, double current_jd) {
-  UNUSED(current_jd);
+void Rk4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
+  UNUSED(current_time_jd);
 
   if (!is_calc_enabled_) return;
 
   setStepWidth(prop_step_);  // Re-set propagation Δt
-  while (endtime - prop_time_ - prop_step_ > 1.0e-6) {
+  while (end_time_s - prop_time_ - prop_step_ > 1.0e-6) {
     Update();  // Propagation methods of the ODE class
     prop_time_ += prop_step_;
   }
-  setStepWidth(endtime - prop_time_);  // Adjust the last propagation Δt
+  setStepWidth(end_time_s - prop_time_);  // Adjust the last propagation Δt
   Update();
-  prop_time_ = endtime;
+  prop_time_ = end_time_s;
 
   spacecraft_position_i_m_[0] = state()[0];
   spacecraft_position_i_m_[1] = state()[1];

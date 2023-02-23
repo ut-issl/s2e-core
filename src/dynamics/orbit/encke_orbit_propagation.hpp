@@ -22,13 +22,14 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
    * @param [in] celestial_information: Celestial information
    * @param [in] mu_m3_s2: Gravity constant of the center body [m3/s2]
    * @param [in] prop_step_s: Propagation step width [sec]
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] current_time_jd: Current Julian day [day]
    * @param [in] init_position_i_m: Initial value of position in the inertial frame [m]
    * @param [in] init_velocity_i_m_s: Initial value of velocity in the inertial frame [m/s]
    * @param [in] error_tolerance: Error tolerance threshold
    */
-  EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double mu_m3_s2, const double prop_step_s, const double current_jd,
-                        const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s, const double error_tolerance);
+  EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double mu_m3_s2, const double prop_step_s,
+                        const double current_time_jd, const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s,
+                        const double error_tolerance);
   /**
    * @fn ~EnckeOrbitPropagation
    * @brief Destructor
@@ -39,10 +40,10 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
   /**
    * @fn Propagate
    * @brief Propagate orbit
-   * @param [in] endtime: End time of simulation [sec]
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] end_time_s: End time of simulation [sec]
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  virtual void Propagate(double endtime, double current_jd);
+  virtual void Propagate(double end_time_s, double current_time_jd);
 
   // Override ODE
   /**
@@ -74,11 +75,11 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] current_time_jd: Current Julian day [day]
    * @param [in] init_ref_position_i_m: Initial value of reference orbit position in the inertial frame [m]
    * @param [in] init_ref_velocity_i_m_s: Initial value of reference orbit position in the inertial frame [m]
    */
-  void Initialize(double current_jd, Vector<3> init_ref_position_i_m, Vector<3> init_ref_velocity_i_m_s);
+  void Initialize(double current_time_jd, Vector<3> init_ref_position_i_m, Vector<3> init_ref_velocity_i_m_s);
   /**
    * @fn UpdateSatOrbit
    * @brief Update satellite orbit

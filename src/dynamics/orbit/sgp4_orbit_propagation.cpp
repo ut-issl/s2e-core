@@ -10,7 +10,7 @@
 #include <sstream>
 using namespace std;
 
-Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, int wgs, double current_jd)
+Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, int wgs, double current_time_jd)
     : Orbit(celestial_information) {
   propagate_mode_ = OrbitPropagateMode::kSgp4;
 
@@ -31,15 +31,15 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial
 
   // To calculate initial position and velocity
   is_calc_enabled_ = true;
-  Propagate(0.0, current_jd);
+  Propagate(0.0, current_time_jd);
   is_calc_enabled_ = false;
 }
 
-void Sgp4OrbitPropagation::Propagate(double endtime, double current_jd) {
-  UNUSED(endtime);
+void Sgp4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
+  UNUSED(end_time_s);
 
   if (!is_calc_enabled_) return;
-  double elapse_time_min = (current_jd - satrec_.jdsatepoch) * (24.0 * 60.0);
+  double elapse_time_min = (current_time_jd - satrec_.jdsatepoch) * (24.0 * 60.0);
 
   double r[3];
   double v[3];
