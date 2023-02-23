@@ -45,7 +45,7 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
 void GroundStation::LogSetup(Logger& logger) { logger.AddLoggable(this); }
 
 void GroundStation::Update(const CelestialRotation& celes_rotation, const Spacecraft& spacecraft) {
-  Matrix<3, 3> dcm_ecef2eci = transpose(celes_rotation.GetDCMJ2000toXCXF());
+  Matrix<3, 3> dcm_ecef2eci = transpose(celes_rotation.GetDcmJ2000ToXcxf());
   gs_position_i_ = dcm_ecef2eci * gs_position_ecef_;
 
   is_visible_[spacecraft.GetSatID()] = CalcIsVisible(spacecraft.GetDynamics().GetOrbit().GetSatPosition_ecef());

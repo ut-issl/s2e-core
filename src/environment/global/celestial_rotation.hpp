@@ -47,16 +47,16 @@ class CelestialRotation {
   void Update(const double JulianDate);
 
   /**
-   * @fn GetDCMJ2000toXCXF
+   * @fn GetDcmJ2000ToXcxf
    * @brief Return the DCM between J2000 inertial frame and the frame of fixed to the target object X (X-Centered X-Fixed)
    */
-  inline const libra::Matrix<3, 3> GetDCMJ2000toXCXF() const { return dcm_j2000_to_xcxf_; };
+  inline const libra::Matrix<3, 3> GetDcmJ2000ToXcxf() const { return dcm_j2000_to_xcxf_; };
 
   /**
-   * @fn GetDCMJ2000toXCXF
+   * @fn GetDcmJ2000ToXcxf
    * @brief Return the DCM between TEME (Inertial frame used in SGP4) and the frame of fixed to the target object X (X-Centered X-Fixed)
    */
-  inline const libra::Matrix<3, 3> GetDCMTEMEtoXCXF() const { return dcm_teme_to_xcxf_; };
+  inline const libra::Matrix<3, 3> GetDcmTemeToXcxf() const { return dcm_teme_to_xcxf_; };
 
  private:
   double d_psi_rad_;                       //!< Nutation in obliquity [rad]
@@ -97,6 +97,8 @@ class CelestialRotation {
    * @param [in] center_body_name: Name of center body
    */
   void InitCelestialRotationAsEarth(const RotationMode rotation_mode, const std::string center_body_name);
+
+  // TODO: Add doxygen comments for the private functions and fix argument name
 
   libra::Matrix<3, 3> AxialRotation(const double GAST_rad);           //!< Movement of the coordinate axes due to rotation around the rotation axis
   libra::Matrix<3, 3> Nutation(const double (&tTT_century)[4]);       //!< Movement of the coordinate axes due to Nutation
