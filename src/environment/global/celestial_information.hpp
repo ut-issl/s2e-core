@@ -106,7 +106,7 @@ class CelestialInformation : public ILoggable {
 
   // Gravity constants
   /**
-   * @fn GetGravityConstant
+   * @fn GetGravityConstant_m3_s2
    * @brief Return gravity constant of the celestial body [m^3/s^2]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
@@ -122,7 +122,7 @@ class CelestialInformation : public ILoggable {
 
   // Shape information
   /**
-   * @fn GetRadii
+   * @fn GetRadii_m
    * @brief Return 3 axis planetographic radii of a celestial body [m]
    * @param [in] id: ID of CelestialInformation list
    */
@@ -133,7 +133,7 @@ class CelestialInformation : public ILoggable {
     return radii;
   }
   /**
-   * @fn GetRadiiFromName
+   * @fn GetRadiiFromName_m
    * @brief Return 3 axis planetographic radii of a celestial body [m]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
@@ -142,7 +142,7 @@ class CelestialInformation : public ILoggable {
     return GetRadii_m(id);
   }
   /**
-   * @fn GetMeanRadiusFromName
+   * @fn GetMeanRadiusFromName_m
    * @brief Return mean radius of a celestial body [m]
    * @param [in] id: ID of CelestialInformation list
    */
