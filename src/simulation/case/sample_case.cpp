@@ -48,7 +48,7 @@ void SampleCase::Main() {
     // Spacecraft Update
     sample_sat_->Update(&(glo_env_->GetSimTime()));
     // Ground Station Update
-    sample_gs_->Update(glo_env_->GetCelesInfo().GetEarthRotation(), *sample_sat_);
+    sample_gs_->Update(glo_env_->GetCelestialInformation().GetEarthRotation(), *sample_sat_);
 
     // Debug output
     if (glo_env_->GetSimTime().GetState().disp_output) {

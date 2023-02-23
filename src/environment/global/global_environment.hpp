@@ -63,12 +63,12 @@ class GlobalEnvironment {
    * @fn GetCelesInfo
    * @brief Return CelestialInformation
    */
-  inline const CelestialInformation& GetCelesInfo() const { return *celestial_information_; }
+  inline const CelestialInformation& GetCelestialInformation() const { return *celestial_information_; }
   /**
    * @fn GetHippCatalog
    * @brief Return HipparcosCatalogue
    */
-  inline const HipparcosCatalogue& GetHippCatalog() const { return *hipparcos_catalogue_; }
+  inline const HipparcosCatalogue& GetHipparcosCatalog() const { return *hipparcos_catalogue_; }
   /**
    * @fn GetGnssSatellites
    * @brief Return GnssSatellites

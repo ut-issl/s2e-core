@@ -66,8 +66,8 @@ void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const
   IniAccess ini_access = IniAccess(sim_config->sat_file_[sat_id]);
   initialize_file_name_ = ini_access.ReadString("SETTING_FILES", "disturbance_file");
 
-  GravityGradient* gg_dist =
-      new GravityGradient(InitGravityGradient(initialize_file_name_, global_environment->GetCelesInfo().GetCenterBodyGravityConstant_m3_s2()));
+  GravityGradient* gg_dist = new GravityGradient(
+      InitGravityGradient(initialize_file_name_, global_environment->GetCelestialInformation().GetCenterBodyGravityConstant_m3_s2()));
   disturbances_list_.push_back(gg_dist);
 
   SolarRadiation* srp_dist = new SolarRadiation(
@@ -77,7 +77,7 @@ void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const
   ThirdBodyGravity* third_body_gravity = new ThirdBodyGravity(InitThirdBodyGravity(initialize_file_name_, sim_config->ini_base_fname_));
   acceleration_disturbances_list_.push_back(third_body_gravity);
 
-  if (global_environment->GetCelesInfo().GetCenterBodyName() != "EARTH") return;
+  if (global_environment->GetCelestialInformation().GetCenterBodyName() != "EARTH") return;
   // Earth only disturbances (TODO: implement disturbances for other center bodies)
   AirDrag* air_dist = new AirDrag(InitAirDrag(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   disturbances_list_.push_back(air_dist);
