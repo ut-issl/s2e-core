@@ -22,12 +22,12 @@ MagEnvironment::MagEnvironment(std::string igrf_file_name, double random_walk_sr
   set_file_path(igrf_file_name_.c_str());
 }
 
-void MagEnvironment::CalcMagneticField(double decimal_year, double sidereal_day, Vector<3> lat_lon_alt, Quaternion quaternion_i2b) {
+void MagEnvironment::CalcMagneticField(double decimal_year, double sidereal_day, const GeodeticPosition position, Quaternion quaternion_i2b) {
   if (!IsCalcEnabled) return;
 
-  double lat_rad = lat_lon_alt(0);
-  double lon_rad = lat_lon_alt(1);
-  double alt_m = lat_lon_alt(2);
+  const double lat_rad = position.GetLat_rad();
+  const double lon_rad = position.GetLon_rad();
+  const double alt_m = position.GetAlt_m();
 
   double magnetic_field_array_i_nT[3];
   IgrfCalc(decimal_year, lat_rad, lon_rad, alt_m, sidereal_day, magnetic_field_array_i_nT);

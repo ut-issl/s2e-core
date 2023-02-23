@@ -6,6 +6,7 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
 #define S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
 
+#include "library/geodesy/geodetic_position.hpp"
 #include "library/logger/loggable.hpp"
 #include "library/math/quaternion.hpp"
 #include "library/math/vector.hpp"
@@ -39,10 +40,10 @@ class MagEnvironment : public ILoggable {
    * @brief Calculate magnetic field vector
    * @param [in] decimal_year: Decimal year [year]
    * @param [in] sidereal_day: Sidereal day [day]
-   * @param [in] lat_lon_alt: Latitude [rad], longitude [rad], and altitude [m]
+   * @param [in] position: Position of target point to calculate the magnetic field
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
-  void CalcMagneticField(double decimal_year, double sidereal_day, libra::Vector<3> lat_lon_alt, libra::Quaternion quaternion_i2b);
+  void CalcMagneticField(double decimal_year, double sidereal_day, const GeodeticPosition position, libra::Quaternion quaternion_i2b);
 
   /**
    * @fn GetMagneticField_i_nT
