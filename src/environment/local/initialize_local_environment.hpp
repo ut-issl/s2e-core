@@ -17,12 +17,13 @@
  */
 GeomagneticField InitGeomagneticField(std::string initialize_file_path);
 /**
- * @fn InitSRPEnvironment
+ * @fn InitSolarRadiationPressureEnvironment
  * @brief Initialize solar radiation pressure
  * @param [in] initialize_file_path: Path to initialize file
  * @param [in] local_celestial_information: Local celestial information
  */
-SRPEnvironment InitSRPEnvironment(std::string initialize_file_path, LocalCelestialInformation* local_celestial_information);
+SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::string initialize_file_path,
+                                                                        LocalCelestialInformation* local_celestial_information);
 /**
  * @fn InitAtmosphere
  * @brief Initialize atmospheric density of the earth

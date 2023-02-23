@@ -27,11 +27,12 @@ GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
   return mag_env;
 }
 
-SRPEnvironment InitSRPEnvironment(std::string initialize_file_path, LocalCelestialInformation* local_celestial_information) {
+SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::string initialize_file_path,
+                                                                        LocalCelestialInformation* local_celestial_information) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "SOLAR_RADIATION_PRESSURE_ENVIRONMENT";
 
-  SRPEnvironment srp_env(local_celestial_information);
+  SolarRadiationPressureEnvironment srp_env(local_celestial_information);
   srp_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   srp_env.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 

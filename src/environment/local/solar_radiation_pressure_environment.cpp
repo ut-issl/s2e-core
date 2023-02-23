@@ -12,27 +12,28 @@
 #include "library/math/constants.hpp"
 #include "library/math/vector.hpp"
 
-SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celestial_information) : local_celestial_information_(local_celestial_information) {
+SolarRadiationPressureEnvironment::SolarRadiationPressureEnvironment(LocalCelestialInformation* local_celestial_information)
+    : local_celestial_information_(local_celestial_information) {
   solar_radiation_pressure_N_m2_ = solar_constant_W_m2_ / environment::speed_of_light_m_s;
   shadow_source_name_ = local_celestial_information_->GetGlobalInformation().GetCenterBodyName();
   sun_radius_m_ = local_celestial_information_->GetGlobalInformation().GetMeanRadiusFromName_m("SUN");
 }
 
-void SRPEnvironment::UpdateAllStates() {
+void SolarRadiationPressureEnvironment::UpdateAllStates() {
   if (!IsCalcEnabled) return;
 
   UpdatePressure();
   CalcShadowCoefficient(shadow_source_name_);
 }
 
-void SRPEnvironment::UpdatePressure() {
+void SolarRadiationPressureEnvironment::UpdatePressure() {
   const libra::Vector<3> r_sc2sun_eci = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
   const double distance_sat_to_sun = norm(r_sc2sun_eci);
   solar_radiation_pressure_N_m2_ =
       solar_constant_W_m2_ / environment::speed_of_light_m_s / pow(distance_sat_to_sun / environment::astronomical_unit_m, 2.0);
 }
 
-std::string SRPEnvironment::GetLogHeader() const {
+std::string SolarRadiationPressureEnvironment::GetLogHeader() const {
   std::string str_tmp = "";
 
   str_tmp += WriteScalar("solar_radiation_pressure_at_spacecraft_position", "N/m2");
@@ -41,7 +42,7 @@ std::string SRPEnvironment::GetLogHeader() const {
   return str_tmp;
 }
 
-std::string SRPEnvironment::GetLogValue() const {
+std::string SolarRadiationPressureEnvironment::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteScalar(solar_radiation_pressure_N_m2_ * shadow_coefficient_);
@@ -50,7 +51,7 @@ std::string SRPEnvironment::GetLogValue() const {
   return str_tmp;
 }
 
-void SRPEnvironment::CalcShadowCoefficient(std::string shadow_source_name) {
+void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow_source_name) {
   if (shadow_source_name == "SUN") {
     shadow_coefficient_ = 1.0;
     return;

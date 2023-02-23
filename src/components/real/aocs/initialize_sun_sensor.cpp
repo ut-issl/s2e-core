@@ -10,7 +10,7 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_name, const SRPEnvironment* srp,
+SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_name, const SolarRadiationPressureEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info) {
   IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
@@ -43,7 +43,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_n
   return ss;
 }
 
-SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss_id, std::string file_name, const SRPEnvironment* srp,
+SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss_id, std::string file_name, const SolarRadiationPressureEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info) {
   IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";

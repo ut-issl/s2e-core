@@ -10,24 +10,24 @@
 #include "environment/local/local_celestial_information.hpp"
 
 /**
- * @class SRPEnvironment
+ * @class SolarRadiationPressureEnvironment
  * @brief Class to calculate Solar Radiation Pressure
  */
-class SRPEnvironment : public ILoggable {
+class SolarRadiationPressureEnvironment : public ILoggable {
  public:
   bool IsCalcEnabled = true;  //!< Calculation flag
 
   /**
-   * @fn SRPEnvironment
+   * @fn SolarRadiationPressureEnvironment
    * @brief Constructor
    * @param [in] local_celestial_information: Local celestial information
    */
-  SRPEnvironment(LocalCelestialInformation* local_celestial_information);
+  SolarRadiationPressureEnvironment(LocalCelestialInformation* local_celestial_information);
   /**
-   * @fn ~SRPEnvironment
+   * @fn ~SolarRadiationPressureEnvironment
    * @brief Destructor
    */
-  virtual ~SRPEnvironment() {}
+  virtual ~SolarRadiationPressureEnvironment() {}
 
   /**
    * @fn UpdateAllStates

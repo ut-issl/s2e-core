@@ -34,7 +34,8 @@ void LocalEnvironment::Initialize(const SimulationConfig* simulation_configurati
   geomagnetic_field_ = new GeomagneticField(InitGeomagneticField(ini_fname));
   atmosphere_ = new Atmosphere(InitAtmosphere(ini_fname));
   celestial_information_ = new LocalCelestialInformation(&(global_environment->GetCelestialInformation()));
-  solar_radiation_pressure_environment_ = new SRPEnvironment(InitSRPEnvironment(ini_fname, celestial_information_));
+  solar_radiation_pressure_environment_ =
+      new SolarRadiationPressureEnvironment(InitSolarRadiationPressureEnvironment(ini_fname, celestial_information_));
 
   // Force to disable when the center body is not the Earth
   if (global_environment->GetCelestialInformation().GetCenterBodyName() != "EARTH") {
