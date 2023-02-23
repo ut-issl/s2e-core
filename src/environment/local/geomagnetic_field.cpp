@@ -22,7 +22,7 @@ MagEnvironment::MagEnvironment(std::string igrf_file_name, double random_walk_sr
   set_file_path(igrf_file_name_.c_str());
 }
 
-void MagEnvironment::CalcMag(double decimal_year, double sidereal_day, Vector<3> lat_lon_alt, Quaternion quaternion_i2b) {
+void MagEnvironment::CalcMagneticField(double decimal_year, double sidereal_day, Vector<3> lat_lon_alt, Quaternion quaternion_i2b) {
   if (!IsCalcEnabled) return;
 
   double lat_rad = lat_lon_alt(0);

@@ -74,7 +74,7 @@ libra::Vector<kMtqDim> MagTorquer::CalcOutputTorque(void) {
   // Frame conversion component to body
   mag_moment_b_ = q_c2b_.frame_conv(mag_moment_c_);
   // Calc magnetic torque [Nm]
-  torque_b_ = outer_product(mag_moment_b_, knT2T * mag_env_->GetMag_b());
+  torque_b_ = outer_product(mag_moment_b_, knT2T * mag_env_->GetMagneticField_b_nT());
   // Update Random Walk
   ++n_rw_c_;
 

@@ -35,25 +35,25 @@ class MagEnvironment : public ILoggable {
   virtual ~MagEnvironment() {}
 
   /**
-   * @fn CalcMag
+   * @fn CalcMagneticField
    * @brief Calculate magnetic field vector
    * @param [in] decimal_year: Decimal year [year]
    * @param [in] sidereal_day: Sidereal day [day]
    * @param [in] lat_lon_alt: Latitude [rad], longitude [rad], and altitude [m]
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
-  void CalcMag(double decimal_year, double sidereal_day, libra::Vector<3> lat_lon_alt, libra::Quaternion quaternion_i2b);
+  void CalcMagneticField(double decimal_year, double sidereal_day, libra::Vector<3> lat_lon_alt, libra::Quaternion quaternion_i2b);
 
   /**
-   * @fn GetMag_i
+   * @fn GetMagneticField_i_nT
    * @brief Return magnetic field vector in the inertial frame [nT]
    */
-  inline libra::Vector<3> GetMag_i() const { return magnetic_field_i_nT_; }
+  inline libra::Vector<3> GetMagneticField_i_nT() const { return magnetic_field_i_nT_; }
   /**
-   * @fn GetMag_b
+   * @fn GetMagneticField_b_nT
    * @brief Return magnetic field vector in the body fixed frame [nT]
    */
-  inline libra::Vector<3> GetMag_b() const { return magnetic_field_b_nT_; }
+  inline libra::Vector<3> GetMagneticField_b_nT() const { return magnetic_field_b_nT_; }
 
   // Override ILoggable
   /**
