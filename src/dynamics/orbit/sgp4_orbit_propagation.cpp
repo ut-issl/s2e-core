@@ -8,7 +8,6 @@
 #include <iostream>
 #include <library/utilities/macros.hpp>
 #include <sstream>
-using namespace std;
 
 Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, int wgs, double current_time_jd)
     : Orbit(celestial_information) {
@@ -58,8 +57,8 @@ void Sgp4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) 
   TransformEcefToGeodetic();
 }
 
-Vector<3> Sgp4OrbitPropagation::GetESIOmega() {
-  Vector<3> omega_peri = Vector<3>();
+libra::Vector<3> Sgp4OrbitPropagation::GetESIOmega() {
+  libra::Vector<3> omega_peri = libra::Vector<3>();
   omega_peri[0] = 0.0;
   omega_peri[1] = 0.0;
   omega_peri[2] = satrec_.no / 60;
@@ -75,7 +74,7 @@ Vector<3> Sgp4OrbitPropagation::GetESIOmega() {
   double sOMEGA = sin(OMEGA);
   double si = sin(i);
 
-  Matrix<3, 3> PERI2ECI = Matrix<3, 3>();
+  libra::Matrix<3, 3> PERI2ECI = libra::Matrix<3, 3>();
   PERI2ECI[0][0] = comega * cOMEGA - somega * ci * sOMEGA;
   PERI2ECI[1][0] = -1.0 * somega * cOMEGA - 1.0 * comega * ci * sOMEGA;
   PERI2ECI[2][0] = si * sOMEGA;

@@ -44,7 +44,7 @@ class Sgp4OrbitPropagation : public Orbit {
    * @brief Calculate and return ?
    * @note Is this function needed?
    */
-  Vector<3> GetESIOmega();
+  libra::Vector<3> GetESIOmega();
 
  private:
   gravconsttype whichconst_;                           //!< Gravity constant value type
