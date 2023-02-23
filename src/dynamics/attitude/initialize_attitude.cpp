@@ -6,11 +6,11 @@
 
 #include <library/initialize/initialize_file_access.hpp>
 
-Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* celes_info, const double step_sec,
-                       const Matrix<3, 3> inertia_tensor, const int sat_id) {
+Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
+                       const double step_width_s, const Matrix<3, 3> inertia_tensor_kgm2, const int spacecraft_id) {
   IniAccess ini_file(file_name);
   const char* section_ = "ATTITUDE";
-  std::string mc_name = section_ + std::to_string(sat_id);  // FIXME
+  std::string mc_name = section_ + std::to_string(spacecraft_id);  // FIXME
   Attitude* attitude;
 
   const std::string propagate_mode = ini_file.ReadString(section_, "propagate_mode");
@@ -24,7 +24,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     Vector<3> torque_b;
     ini_file.ReadVector(section_, "initial_torque_b_Nm", torque_b);
 
-    attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, mc_name);
+    attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor_kgm2, torque_b, step_width_s, mc_name);
   } else if (propagate_mode == "CONTROLLED") {
     // Controlled attitude
     IniAccess ini_file_ca(file_name);
@@ -39,8 +39,8 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     Vector<3> main_target_direction_b, sub_target_direction_b;
     ini_file_ca.ReadVector(section_ca_, "main_pointing_direction_b", main_target_direction_b);
     ini_file_ca.ReadVector(section_ca_, "sub_pointing_direction_b", sub_target_direction_b);
-    attitude = new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, main_target_direction_b, sub_target_direction_b, inertia_tensor,
-                                      celes_info, orbit, mc_name);
+    attitude = new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, main_target_direction_b, sub_target_direction_b, inertia_tensor_kgm2,
+                                      local_celestial_information, orbit, mc_name);
   } else {
     std::cerr << "ERROR: attitude propagation mode: " << propagate_mode << " is not defined!" << std::endl;
     std::cerr << "The attitude mode is automatically set as RK4" << std::endl;
@@ -52,7 +52,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     Vector<3> torque_b;
     ini_file.ReadVector(section_, "initial_torque_b_Nm", torque_b);
 
-    attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor, torque_b, step_sec, mc_name);
+    attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor_kgm2, torque_b, step_width_s, mc_name);
   }
 
   return attitude;
