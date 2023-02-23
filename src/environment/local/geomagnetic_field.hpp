@@ -70,7 +70,7 @@ class MagEnvironment : public ILoggable {
  private:
   libra::Vector<3> magnetic_field_i_nT_;      //!< Magnetic field vector at the inertial frame [nT]
   libra::Vector<3> magnetic_field_b_nT_;      //!< Magnetic field vector at the spacecraft body fixed frame [nT]
-  double random_walk_srandard_deviation_nT_;  //!< Standard deviation of Random Walk [nT]
+  double random_walk_standard_deviation_nT_;  //!< Standard deviation of Random Walk [nT]
   double random_walk_limit_nT_;               //!< Limit of Random Walk [nT]
   double white_noise_standard_deviation_nT_;  //!< Standard deviation of white noise [nT]
   std::string igrf_file_name_;                //!< Path to the initialize file
@@ -78,9 +78,9 @@ class MagEnvironment : public ILoggable {
   /**
    * @fn AddNoise
    * @brief Add magnetic field noise
-   * @param [in/out] mag_i_array: input true magnetic field, output magnetic field with noise
+   * @param [in/out] magnetic_field_array_i_nT: input true magnetic field, output magnetic field with noise
    */
-  void AddNoise(double* mag_i_array);
+  void AddNoise(double* magnetic_field_array_i_nT);
 };
 
 #endif  // S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
