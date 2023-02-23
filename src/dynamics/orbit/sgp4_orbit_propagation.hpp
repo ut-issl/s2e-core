@@ -22,13 +22,13 @@ class Sgp4OrbitPropagation : public Orbit {
   /**
    * @fn Sgp4OrbitPropagation
    * @brief Constructor
-   * @param [in] celes_info: Celestial information
+   * @param [in] celestial_information: Celestial information
    * @param [in] tle1: The first line of TLE
    * @param [in] tle2: The second line of TLE
    * @param [in] wgs: Wold Geodetic System
    * @param [in] current_jd: Current Julian day [day]
    */
-  Sgp4OrbitPropagation(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd);
+  Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, int wgs, double current_jd);
 
   // Override Orbit
   /**
@@ -47,9 +47,9 @@ class Sgp4OrbitPropagation : public Orbit {
   Vector<3> GetESIOmega();
 
  private:
-  gravconsttype whichconst_;                //!< Gravity constant value type
-  elsetrec satrec_;                         //!< Structure data for SGP4 library
-  const CelestialInformation* celes_info_;  //!< Celestial information
+  gravconsttype whichconst_;                           //!< Gravity constant value type
+  elsetrec satrec_;                                    //!< Structure data for SGP4 library
+  const CelestialInformation* celestial_information_;  //!< Celestial information
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_

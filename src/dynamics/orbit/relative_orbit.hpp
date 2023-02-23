@@ -28,7 +28,7 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
   /**
    * @fn RelativeOrbit
    * @brief Constructor
-   * @param [in] celes_info: Celestial information
+   * @param [in] celestial_information: Celestial information
    * @param [in] timestep: Time step [sec]
    * @param [in] reference_sat_id: Reference satellite ID
    * @param [in] initial_relative_position_lvlh: Initial value of relative position at the LVLH frame of reference satellite
@@ -38,9 +38,9 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    * @param [in] stm_model_type: State transition matrix type
    * @param [in] rel_info: Relative information
    */
-  RelativeOrbit(const CelestialInformation* celes_info, double mu, double timestep, int reference_sat_id, Vector<3> initial_relative_position_lvlh,
-                Vector<3> initial_relative_velocity_lvlh, RelativeOrbitUpdateMethod update_method, RelativeOrbitModel relative_dynamics_model_type,
-                STMModel stm_model_type, RelativeInformation* rel_info);
+  RelativeOrbit(const CelestialInformation* celestial_information, double mu, double timestep, int reference_sat_id,
+                Vector<3> initial_relative_position_lvlh, Vector<3> initial_relative_velocity_lvlh, RelativeOrbitUpdateMethod update_method,
+                RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type, RelativeInformation* rel_info);
   /**
    * @fn ~RelativeOrbit
    * @brief Destructor

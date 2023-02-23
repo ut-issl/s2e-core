@@ -12,7 +12,7 @@
 #include "rk4_orbit_propagation.hpp"
 #include "sgp4_orbit_propagation.hpp"
 
-Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, double stepSec, double current_jd, double gravity_constant,
+Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string ini_path, double stepSec, double current_jd, double gravity_constant,
                  std::string section, RelativeInformation* rel_info) {
   auto conf = IniAccess(ini_path);
   const char* section_ = section.c_str();
@@ -33,7 +33,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
       position_i_m[i] = pos_vel[i];
       velocity_i_m_s[i] = pos_vel[i + 3];
     }
-    orbit = new Rk4OrbitPropagation(celes_info, gravity_constant, stepSec, position_i_m, velocity_i_m_s);
+    orbit = new Rk4OrbitPropagation(celestial_information, gravity_constant, stepSec, position_i_m, velocity_i_m_s);
   } else if (propagate_mode == "SGP4") {
     // Initialize SGP4 orbit propagator
     int wgs = conf.ReadInt(section_, "wgs");
@@ -41,7 +41,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     conf.ReadChar(section_, "tle1", 80, tle1);
     conf.ReadChar(section_, "tle2", 80, tle2);
 
-    orbit = new Sgp4OrbitPropagation(celes_info, tle1, tle2, wgs, current_jd);
+    orbit = new Sgp4OrbitPropagation(celestial_information, tle1, tle2, wgs, current_jd);
   } else if (propagate_mode == "RELATIVE") {
     // initialize orbit for relative dynamics of formation flying
     RelativeOrbit::RelativeOrbitUpdateMethod update_method =
@@ -58,7 +58,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     // the orbit of the reference sat is initialized, create temporary initial orbit of the reference sat
     int reference_sat_id = conf.ReadInt(section_, "reference_satellite_id");
 
-    orbit = new RelativeOrbit(celes_info, gravity_constant, stepSec, reference_sat_id, init_relative_position_lvlh, init_relative_velocity_lvlh,
+    orbit = new RelativeOrbit(celestial_information, gravity_constant, stepSec, reference_sat_id, init_relative_position_lvlh, init_relative_velocity_lvlh,
                               update_method, relative_dynamics_model_type, stm_model_type, rel_info);
   } else if (propagate_mode == "KEPLER") {
     // initialize orbit for Kepler propagation
@@ -83,7 +83,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
       oe = OrbitalElements(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
     }
     KeplerOrbit kepler_orbit(mu_m3_s2, oe);
-    orbit = new KeplerOrbitPropagation(celes_info, current_jd, kepler_orbit);
+    orbit = new KeplerOrbitPropagation(celestial_information, current_jd, kepler_orbit);
   } else if (propagate_mode == "ENCKE") {
     // initialize orbit for Encke's method
     Vector<3> position_i_m;
@@ -95,7 +95,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
     }
 
     double error_tolerance = conf.ReadDouble(section_, "error_tolerance");
-    orbit = new EnckeOrbitPropagation(celes_info, gravity_constant, stepSec, current_jd, position_i_m, velocity_i_m_s, error_tolerance);
+    orbit = new EnckeOrbitPropagation(celestial_information, gravity_constant, stepSec, current_jd, position_i_m, velocity_i_m_s, error_tolerance);
   } else {
     std::cerr << "ERROR: orbit propagation mode: " << propagate_mode << " is not defined!" << std::endl;
     std::cerr << "The orbit mode is automatically set as RK4" << std::endl;
@@ -107,7 +107,7 @@ Orbit* InitOrbit(const CelestialInformation* celes_info, std::string ini_path, d
       position_i_m[i] = pos_vel[i];
       velocity_i_m_s[i] = pos_vel[i + 3];
     }
-    orbit = new Rk4OrbitPropagation(celes_info, gravity_constant, stepSec, position_i_m, velocity_i_m_s);
+    orbit = new Rk4OrbitPropagation(celestial_information, gravity_constant, stepSec, position_i_m, velocity_i_m_s);
   }
 
   orbit->SetIsCalcEnabled(conf.ReadEnable(section_, "calculation"));

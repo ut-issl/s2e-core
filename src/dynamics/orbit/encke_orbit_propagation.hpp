@@ -19,7 +19,7 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
   /**
    * @fn EnckeOrbitPropagation
    * @brief Constructor
-   * @param [in] celes_info: Celestial information
+   * @param [in] celestial_information: Celestial information
    * @param [in] mu_m3_s2: Gravity constant of the center body [m3/s2]
    * @param [in] prop_step_s: Propagation step width [sec]
    * @param [in] current_jd: Current Julian day [day]
@@ -27,7 +27,7 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
    * @param [in] init_velocity_i_m_s: Initial value of velocity in the inertial frame [m/s]
    * @param [in] error_tolerance: Error tolerance threshold
    */
-  EnckeOrbitPropagation(const CelestialInformation* celes_info, const double mu_m3_s2, const double prop_step_s, const double current_jd,
+  EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double mu_m3_s2, const double prop_step_s, const double current_jd,
                         const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s, const double error_tolerance);
   /**
    * @fn ~EnckeOrbitPropagation

@@ -28,7 +28,7 @@ Quaternion Orbit::CalcQuaternionI2LVLH() const {
 }
 
 void Orbit::TransEciToEcef(void) {
-  libra::Matrix<3, 3> dcm_i_to_xcxf = celes_info_->GetEarthRotation().GetDcmJ2000ToXcxf();
+  libra::Matrix<3, 3> dcm_i_to_xcxf = celestial_information_->GetEarthRotation().GetDcmJ2000ToXcxf();
   sat_position_ecef_ = dcm_i_to_xcxf * sat_position_i_;
 
   // convert velocity vector in ECI to the vector in ECEF

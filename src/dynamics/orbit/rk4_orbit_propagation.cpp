@@ -10,9 +10,9 @@
 
 using std::string;
 
-Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, Vector<3> init_position,
+Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu, double timestep, Vector<3> init_position,
                                          Vector<3> init_velocity, double init_time)
-    : Orbit(celes_info), ODE<N>(timestep), mu(mu) {
+    : Orbit(celestial_information), ODE<N>(timestep), mu(mu) {
   propagate_mode_ = OrbitPropagateMode::kRk4;
 
   prop_time_ = 0.0;

@@ -19,11 +19,11 @@ class KeplerOrbitPropagation : public Orbit, public KeplerOrbit {
   /**
    * @fn KeplerOrbitPropagation
    * @brief Constructor
-   * @param [in] celes_info: Celestial information
+   * @param [in] celestial_information: Celestial information
    * @param [in] current_jd: Current Julian day [day]
    * @param [in] kepler_orbit: Kepler orbit
    */
-  KeplerOrbitPropagation(const CelestialInformation* celes_info, const double current_jd, KeplerOrbit kepler_orbit);
+  KeplerOrbitPropagation(const CelestialInformation* celestial_information, const double current_jd, KeplerOrbit kepler_orbit);
   /**
    * @fn ~KeplerOrbitPropagation
    * @brief Destructor

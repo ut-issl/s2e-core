@@ -47,9 +47,9 @@ class Orbit : public ILoggable {
   /**
    * @fn Orbit
    * @brief Constructor
-   * @param [in] celes_info: Celestial information
+   * @param [in] celestial_information: Celestial information
    */
-  Orbit(const CelestialInformation* celes_info) : celes_info_(celes_info) {}
+  Orbit(const CelestialInformation* celestial_information) : celestial_information_(celestial_information) {}
   /**
    * @fn ~Orbit
    * @brief Destructor
@@ -190,7 +190,7 @@ class Orbit : public ILoggable {
   virtual std::string GetLogValue() const;
 
  protected:
-  const CelestialInformation* celes_info_;  //!< Celestial information
+  const CelestialInformation* celestial_information_;  //!< Celestial information
 
   // Settings
   bool is_calc_enabled_ = false;       //!< Calculate flag

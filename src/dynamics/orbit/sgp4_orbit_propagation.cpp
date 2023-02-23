@@ -10,8 +10,8 @@
 #include <sstream>
 using namespace std;
 
-Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd)
-    : Orbit(celes_info) {
+Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, int wgs, double current_jd)
+    : Orbit(celestial_information) {
   propagate_mode_ = OrbitPropagateMode::kSgp4;
 
   if (wgs == 0) {
