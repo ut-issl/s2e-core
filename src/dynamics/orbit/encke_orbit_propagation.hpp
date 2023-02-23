@@ -59,27 +59,27 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
   // General
   const double mu_m3_s2_;         //!< Gravity constant of the center body [m3/s2]
   const double error_tolerance_;  //!< Error tolerance ratio
-  double prop_step_s_;            //!< Propagation step width for RK4
-  double prop_time_s_;            //!< Simulation current time for numerical integration by RK4
+  double propagation_step_s_;     //!< Propagation step width for RK4
+  double propagation_time_s_;     //!< Simulation current time for numerical integration by RK4
 
   // reference orbit
-  libra::Vector<3> ref_position_i_m_;    //!< Reference orbit position in the inertial frame [m]
-  libra::Vector<3> ref_velocity_i_m_s_;  //!< Reference orbit velocity in the inertial frame [m/s]
-  KeplerOrbit ref_kepler_orbit;          //!< Reference Kepler orbital element
+  libra::Vector<3> reference_position_i_m_;    //!< Reference orbit position in the inertial frame [m]
+  libra::Vector<3> reference_velocity_i_m_s_;  //!< Reference orbit velocity in the inertial frame [m/s]
+  KeplerOrbit reference_kepler_orbit;          //!< Reference Kepler orbital element
 
   // difference orbit
-  libra::Vector<3> diff_position_i_m_;    //!< Difference orbit position in the inertial frame [m]
-  libra::Vector<3> diff_velocity_i_m_s_;  //!< Difference orbit velocity in the inertial frame [m/s]
+  libra::Vector<3> difference_position_i_m_;    //!< Difference orbit position in the inertial frame [m]
+  libra::Vector<3> difference_velocity_i_m_s_;  //!< Difference orbit velocity in the inertial frame [m/s]
 
   // functions
   /**
    * @fn Initialize
    * @brief Initialize function
    * @param [in] current_time_jd: Current Julian day [day]
-   * @param [in] init_ref_position_i_m: Initial value of reference orbit position in the inertial frame [m]
-   * @param [in] init_ref_velocity_i_m_s: Initial value of reference orbit position in the inertial frame [m]
+   * @param [in] reference_position_i_m: Initial value of reference orbit position in the inertial frame [m]
+   * @param [in] reference_velocity_i_m_s: Initial value of reference orbit position in the inertial frame [m]
    */
-  void Initialize(const double current_time_jd, const libra::Vector<3> init_ref_position_i_m, const libra::Vector<3> init_ref_velocity_i_m_s);
+  void Initialize(const double current_time_jd, const libra::Vector<3> reference_position_i_m, const libra::Vector<3> reference_velocity_i_m_s);
   /**
    * @fn UpdateSatOrbit
    * @brief Update satellite orbit
@@ -88,9 +88,9 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
   /**
    * @fn CalcQFunction
    * @brief Calculate Q function
-   * @param [in] diff_pos_i: Difference of position in the inertial frame [m]
+   * @param [in] difference_position_i_m: Difference of position in the inertial frame [m]
    */
-  double CalcQFunction(const libra::Vector<3> diff_pos_i);
+  double CalcQFunction(const libra::Vector<3> difference_position_i_m);
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_ENCKE_ORBIT_PROPAGATION_HPP_
