@@ -33,7 +33,7 @@ void Dynamics::Initialize(SimulationConfig* simulation_configuration, const Simu
   temperature_ = InitTemperature(simulation_configuration->sat_file_[spacecraft_id], simulation_time->GetThermalRkStepTime_s());
 
   // To get initial value
-  orbit_->UpdateAtt(attitude_->GetQuaternion_i2b());
+  orbit_->UpdateByAttitude(attitude_->GetQuaternion_i2b());
 }
 
 void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestialInformation* local_celestial_information) {
@@ -46,7 +46,7 @@ void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestia
     orbit_->Propagate(simulation_time->GetElapsedTime_s(), simulation_time->GetCurrentTime_jd());
   }
   // Attitude dependent update
-  orbit_->UpdateAtt(attitude_->GetQuaternion_i2b());
+  orbit_->UpdateByAttitude(attitude_->GetQuaternion_i2b());
 
   // Thermal
   if (simulation_time->GetThermalPropagateFlag()) {
@@ -61,7 +61,7 @@ void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestia
 void Dynamics::ClearForceTorque(void) {
   libra::Vector<3> zero(0.0);
   attitude_->SetTorque_b(zero);
-  orbit_->SetAcceleration_i(zero);
+  orbit_->SetAcceleration_i_m_s2(zero);
 }
 
 void Dynamics::LogSetup(Logger& logger) {

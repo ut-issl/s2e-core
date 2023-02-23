@@ -85,9 +85,9 @@ Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mode) {
   } else if (mode == EARTH_CENTER_POINTING) {
     direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("EARTH");
   } else if (mode == VELOCITY_DIRECTION_POINTING) {
-    direction = orbit_->GetSatVelocity_i();
+    direction = orbit_->GetVelocity_i_m_s();
   } else if (mode == ORBIT_NORMAL_POINTING) {
-    direction = outer_product(orbit_->GetSatPosition_i(), orbit_->GetSatVelocity_i());
+    direction = outer_product(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
   }
   normalize(direction);
   return direction;

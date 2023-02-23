@@ -37,9 +37,9 @@ void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh, Ve
   // Disturbance acceleration are not considered in relative orbit propagation
   spacecraft_acceleration_i_m_s2_ *= 0;
 
-  Vector<3> reference_sat_position_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetSatPosition_i();
-  Vector<3> reference_sat_velocity_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetSatVelocity_i();
-  Quaternion q_i2lvlh = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().CalcQuaternionI2LVLH();
+  Vector<3> reference_sat_position_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetPosition_i_m();
+  Vector<3> reference_sat_velocity_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetVelocity_i_m_s();
+  Quaternion q_i2lvlh = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().CalcQuaternion_i2lvlh();
   Quaternion q_lvlh2i = q_i2lvlh.conjugate();
   spacecraft_position_i_m_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
   spacecraft_velocity_i_m_s_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
@@ -66,7 +66,7 @@ void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh, Ve
 void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit, double mu) {
   switch (relative_dynamics_model_type) {
     case RelativeOrbitModel::Hill: {
-      double reference_sat_orbit_radius = libra::norm(reference_sat_orbit->GetSatPosition_i());
+      double reference_sat_orbit_radius = libra::norm(reference_sat_orbit->GetPosition_i_m());
       system_matrix_ = CalculateHillSystemMatrix(reference_sat_orbit_radius, mu);
     }
     default: {
@@ -79,7 +79,7 @@ void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_m
 void RelativeOrbit::CalculateSTM(STMModel stm_model_type, const Orbit* reference_sat_orbit, double mu, double elapsed_sec) {
   switch (stm_model_type) {
     case STMModel::HCW: {
-      double reference_sat_orbit_radius = libra::norm(reference_sat_orbit->GetSatPosition_i());
+      double reference_sat_orbit_radius = libra::norm(reference_sat_orbit->GetPosition_i_m());
       stm_ = CalculateHCWSTM(reference_sat_orbit_radius, mu, elapsed_sec);
     }
     default: {
@@ -103,9 +103,9 @@ void RelativeOrbit::Propagate(double end_time_s, double current_time_jd) {
     PropagateSTM(end_time_s);
   }
 
-  Vector<3> reference_sat_position_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetSatPosition_i();
-  Vector<3> reference_sat_velocity_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetSatVelocity_i();
-  Quaternion q_i2lvlh = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().CalcQuaternionI2LVLH();
+  Vector<3> reference_sat_position_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetPosition_i_m();
+  Vector<3> reference_sat_velocity_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetVelocity_i_m_s();
+  Quaternion q_i2lvlh = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().CalcQuaternion_i2lvlh();
   Quaternion q_lvlh2i = q_i2lvlh.conjugate();
 
   spacecraft_position_i_m_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;

@@ -48,15 +48,15 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, Power
 void GNSSReceiver::MainRoutine(int count) {
   UNUSED(count);
 
-  Vector<3> pos_true_eci_ = dynamics_->GetOrbit().GetSatPosition_i();
+  Vector<3> pos_true_eci_ = dynamics_->GetOrbit().GetPosition_i_m();
   Quaternion q_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
 
   CheckAntenna(pos_true_eci_, q_i2b);
 
   if (is_gnss_sats_visible_ == 1) {  // Antenna of GNSS-R can detect GNSS signal
-    position_ecef_ = dynamics_->GetOrbit().GetSatPosition_ecef();
+    position_ecef_ = dynamics_->GetOrbit().GetPosition_ecef_m();
     position_llh_ = dynamics_->GetOrbit().GetLatLonAlt();
-    velocity_ecef_ = dynamics_->GetOrbit().GetSatVelocity_ecef();
+    velocity_ecef_ = dynamics_->GetOrbit().GetVelocity_ecef_m_s();
     AddNoise(pos_true_eci_, position_ecef_);
 
     utc_ = simtime_->GetCurrentUtc();

@@ -15,7 +15,7 @@ ThirdBodyGravity::~ThirdBodyGravity() {}
 void ThirdBodyGravity::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   acceleration_i_m_s2_ = libra::Vector<3>(0.0);  // initialize
 
-  libra::Vector<3> sc_position_i_m = dynamics.GetOrbit().GetSatPosition_i();
+  libra::Vector<3> sc_position_i_m = dynamics.GetOrbit().GetPosition_i_m();
   for (auto third_body : third_body_list_) {
     libra::Vector<3> third_body_position_from_sc_i_m = local_environment.GetCelestialInformation().GetPositionFromSpacecraft_i_m(third_body.c_str());
     libra::Vector<3> third_body_pos_i_m = sc_position_i_m + third_body_position_from_sc_i_m;

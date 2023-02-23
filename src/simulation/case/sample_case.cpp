@@ -72,8 +72,8 @@ string SampleCase::GetLogHeader() const {
 string SampleCase::GetLogValue() const {
   string str_tmp = "";
 
-  // auto pos_i = sample_sat->dynamics_->GetOrbit().GetSatPosition_i();
-  // auto vel_i = sample_sat->dynamics_->GetOrbit().GetSatVelocity_i();
+  // auto pos_i = sample_sat->dynamics_->GetOrbit().GetPosition_i_m();
+  // auto vel_i = sample_sat->dynamics_->GetOrbit().GetVelocity_i_m_s();
   // auto quat_i2b = sample_sat->dynamics_->GetAttitude().GetQuaternion_i2b();
   // auto omega_b = sample_sat->dynamics_->GetAttitude().GetOmega_b();
 
