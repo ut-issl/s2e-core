@@ -28,15 +28,16 @@ class Dynamics {
   /**
    * @fn Dynamics
    * @brief Constructor
-   * @param [in] sim_config: Simulation config
-   * @param [in] sim_time: Simulation time
-   * @param [in] local_celes_info: Local celestial information
-   * @param [in] sat_id: Spacecraft ID of the spacecraft
+   * @param [in] simulation_configuration: Simulation config
+   * @param [in] simulation_time: Simulation time
+   * @param [in] local_celestial_information: Local celestial information
+   * @param [in] spacecraft_id: Spacecraft ID of the spacecraft
    * @param [in] structure: Structure of the spacecraft
-   * @param [in] rel_info: Relative information
+   * @param [in] relative_information: Relative information
    */
-  Dynamics(SimulationConfig* sim_config, const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
-           Structure* structure, RelativeInformation* rel_info = (RelativeInformation*)nullptr);
+  Dynamics(SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
+           const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
+           RelativeInformation* relative_information = (RelativeInformation*)nullptr);
   /**
    * @fn ~Dynamics
    * @brief Destructor
@@ -46,10 +47,10 @@ class Dynamics {
   /**
    * @fn Update
    * @brief Update states of all dynamics calculations
-   * @param [in] sim_time: Simulation time
-   * @param [in] local_celes_info: Local celestial information
+   * @param [in] simulation_time: Simulation time
+   * @param [in] local_celestial_information: Local celestial information
    */
-  void Update(const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info);
+  void Update(const SimulationTime* simulation_time, const LocalCelestialInformation* local_celestial_information);
 
   /**
    * @fn LogSetup
@@ -60,21 +61,21 @@ class Dynamics {
   /**
    * @fn AddTorque_b
    * @brief Add input torque for the attitude dynamics propagation
-   * @param [in] torue_b: Torque in the body fixed frame [Nm]
+   * @param [in] torque_b_Nm: Torque in the body fixed frame [Nm]
    */
-  void AddTorque_b(libra::Vector<3> torque_b);
+  void AddTorque_b(libra::Vector<3> torque_b_Nm);
   /**
    * @fn AddForce_b
    * @brief Add input force for the orbit dynamics propagation
-   * @param [in] force_b: Force in the body fixed frame [N]
+   * @param [in] force_b_N: Force in the body fixed frame [N]
    */
-  void AddForce_b(libra::Vector<3> force_b);
+  void AddForce_b(libra::Vector<3> force_b_N);
   /**
-   * @fn AddAcceleratione_b
+   * @fn AddAcceleratione_i
    * @brief Add input acceleration for the orbit dynamics propagation
-   * @param [in] acceleration_b: Force in the body fixed frame [N]
+   * @param [in] acceleration_i_m_s2: Acceleration in the inertial fixed frame [N]
    */
-  void AddAcceleration_i(libra::Vector<3> acceleration_i);
+  void AddAcceleration_i(libra::Vector<3> acceleration_i_m_s2);
   /**
    * @fn ClearForceTorque
    * @brief Clear force, acceleration, and torque for the dynamics propagation
@@ -123,15 +124,16 @@ class Dynamics {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @param [in] sim_config: Simulation config
-   * @param [in] sim_time: Simulation time
-   * @param [in] local_celes_info: Local celestial information
-   * @param [in] sat_id: Spacecraft ID of the spacecraft
+   * @param [in] simulation_configuration: Simulation config
+   * @param [in] simulation_time: Simulation time
+   * @param [in] local_celestial_information: Local celestial information
+   * @param [in] spacecraft_id: Spacecraft ID of the spacecraft
    * @param [in] structure: Structure of the spacecraft
-   * @param [in] rel_info: Relative information
+   * @param [in] relative_information: Relative information
    */
-  void Initialize(SimulationConfig* sim_config, const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
-                  Structure* structure, RelativeInformation* rel_info = (RelativeInformation*)nullptr);
+  void Initialize(SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
+                  const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
+                  RelativeInformation* relative_information = (RelativeInformation*)nullptr);
 };
 
 #endif  // S2E_DYNAMICS_DYNAMICS_HPP_
