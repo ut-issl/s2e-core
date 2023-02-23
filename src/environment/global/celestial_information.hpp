@@ -122,10 +122,10 @@ class CelestialInformation : public ILoggable {
 
   // Parameters
   /**
-   * @fn GetNumBody
+   * @fn GetNumberOfSelectedBodies
    * @brief Return number of selected body
    */
-  inline int GetNumBody(void) const { return number_of_selected_bodies_; }
+  inline int GetNumberOfSelectedBodies(void) const { return number_of_selected_bodies_; }
   /**
    * @fn GetSelectedBody
    * @brief Return SPICE IDs of selected bodies

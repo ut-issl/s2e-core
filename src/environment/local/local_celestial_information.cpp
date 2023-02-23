@@ -15,7 +15,7 @@
 using namespace std;
 
 LocalCelestialInformation::LocalCelestialInformation(const CelestialInformation* glo_celes_info) : glo_celes_info_(glo_celes_info) {
-  int num_of_state = glo_celes_info_->GetNumBody() * 3;
+  int num_of_state = glo_celes_info_->GetNumberOfSelectedBodies() * 3;
   celes_objects_pos_from_center_b_ = new double[num_of_state];
   celes_objects_vel_from_center_b_ = new double[num_of_state];
   celes_objects_pos_from_sc_i_ = new double[num_of_state];
@@ -45,7 +45,7 @@ LocalCelestialInformation::~LocalCelestialInformation() {
 void LocalCelestialInformation::UpdateAllObjectsInfo(const Vector<3> sc_pos_from_center_i, const Vector<3> sc_vel_from_center_i,
                                                      const Quaternion q_i2b, const Vector<3> sc_body_rate) {
   Vector<3> pos_center_i, vel_center_i;
-  for (int i = 0; i < glo_celes_info_->GetNumBody(); i++) {
+  for (int i = 0; i < glo_celes_info_->GetNumberOfSelectedBodies(); i++) {
     pos_center_i = glo_celes_info_->GetPosFromCenter_i(i);
     vel_center_i = glo_celes_info_->GetVelFromCenter_i(i);
     // Change origin of frame
@@ -63,7 +63,7 @@ void LocalCelestialInformation::CalcAllPosVel_b(const Quaternion q_i2b, const Ve
   Vector<3> pos_center_i, vel_center_i;
   double r_buf1_i[3], v_buf1_i[3], r_buf1_b[3], v_buf1_b[3];
   double r_buf2_i[3], v_buf2_i[3], r_buf2_b[3], v_buf2_b[3];
-  for (int i = 0; i < glo_celes_info_->GetNumBody(); i++) {
+  for (int i = 0; i < glo_celes_info_->GetNumberOfSelectedBodies(); i++) {
     pos_center_i = glo_celes_info_->GetPosFromCenter_i(i);
     vel_center_i = glo_celes_info_->GetVelFromCenter_i(i);
     for (int j = 0; j < 3; j++) {
@@ -164,7 +164,7 @@ string LocalCelestialInformation::GetLogHeader() const {
   const int maxlen = 100;
   char namebuf[maxlen];
   string str_tmp = "";
-  for (int i = 0; i < glo_celes_info_->GetNumBody(); i++) {
+  for (int i = 0; i < glo_celes_info_->GetNumberOfSelectedBodies(); i++) {
     SpiceInt planet_id = glo_celes_info_->GetSelectedBodyIds()[i];
     // Acquisition of body name from id
     bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
@@ -180,7 +180,7 @@ string LocalCelestialInformation::GetLogHeader() const {
 
 string LocalCelestialInformation::GetLogValue() const {
   string str_tmp = "";
-  for (int i = 0; i < glo_celes_info_->GetNumBody(); i++) {
+  for (int i = 0; i < glo_celes_info_->GetNumberOfSelectedBodies(); i++) {
     for (int j = 0; j < 3; j++) {
       str_tmp += WriteScalar(celes_objects_pos_from_sc_b_[i * 3 + j]);
     }
