@@ -59,20 +59,6 @@ class CelestialRotation {
   inline const libra::Matrix<3, 3> GetDCMTEMEtoXCXF() const { return dcm_teme_to_xcxf_; };
 
  private:
-  /**
-   * @fn Init_CelestialRotation_As_Earth
-   * @brief Initialize CelestialRotation as earth rotation
-   * @note TODO: Make functions for other planets?
-   * @param [in] rotation_mode: Rotation mode
-   * @param [in] center_obj: Name of center body
-   */
-  void Init_CelestialRotation_As_Earth(const RotationMode rotation_mode, const std::string center_obj);
-
-  libra::Matrix<3, 3> AxialRotation(const double GAST_rad);           //!< Movement of the coordinate axes due to rotation around the rotation axis
-  libra::Matrix<3, 3> Nutation(const double (&tTT_century)[4]);       //!< Movement of the coordinate axes due to Nutation
-  libra::Matrix<3, 3> Precession(const double (&tTT_century)[4]);     //!< Movement of the coordinate axes due to Precession
-  libra::Matrix<3, 3> PolarMotion(const double Xp, const double Yp);  //!< Movement of the coordinate axes due to Polar Motion
-
   double d_psi_rad_;                       //!< Nutation in obliquity [rad]
   double d_epsilon_rad_;                   //!< Nutation in longitude [rad]
   double epsilon_rad_;                     //!< Mean obliquity of the ecliptic [rad]
@@ -102,6 +88,20 @@ class CelestialRotation {
   const double kSec2Day_ = 1.0 / (24.0 * 60.0 * 60.0);  //!< Conversion constant from sec to day
   const double kJulianDateJ2000_ = 2451545.0;           //!< Julian date of J2000 [day]
   const double kDayJulianCentury_ = 36525.0;            //!< Conversion constant from Julian century to day [day/century]
+
+  /**
+   * @fn InitCelestialRotationAsEarth
+   * @brief Initialize CelestialRotation as earth rotation
+   * @note TODO: Make functions for other planets?
+   * @param [in] rotation_mode: Rotation mode
+   * @param [in] center_body_name: Name of center body
+   */
+  void InitCelestialRotationAsEarth(const RotationMode rotation_mode, const std::string center_body_name);
+
+  libra::Matrix<3, 3> AxialRotation(const double GAST_rad);           //!< Movement of the coordinate axes due to rotation around the rotation axis
+  libra::Matrix<3, 3> Nutation(const double (&tTT_century)[4]);       //!< Movement of the coordinate axes due to Nutation
+  libra::Matrix<3, 3> Precession(const double (&tTT_century)[4]);     //!< Movement of the coordinate axes due to Precession
+  libra::Matrix<3, 3> PolarMotion(const double Xp, const double Yp);  //!< Movement of the coordinate axes due to Polar Motion
 };
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_

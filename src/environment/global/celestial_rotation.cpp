@@ -23,14 +23,14 @@ CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std
   unitalize(dcm_j2000_to_xcxf_);
   dcm_teme_to_xcxf_ = dcm_j2000_to_xcxf_;
   if (center_obj == "EARTH") {
-    Init_CelestialRotation_As_Earth(rotation_mode, center_obj);
+    InitCelestialRotationAsEarth(rotation_mode, center_obj);
   }
 }
 
 // Initialize the class CelestialRotation instance as Earth
-void CelestialRotation::Init_CelestialRotation_As_Earth(const RotationMode rotation_mode, const std::string center_obj) {
+void CelestialRotation::InitCelestialRotationAsEarth(const RotationMode rotation_mode, const std::string center_body_name) {
   planet_name_ = "EARTH";
-  if (center_obj == planet_name_) {
+  if (center_body_name == planet_name_) {
     if (rotation_mode == Simple) {
       rotation_mode_ = Simple;
       // For Simple mode, we don't need initialization of the coefficients
