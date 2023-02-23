@@ -46,14 +46,14 @@ void LocalCelestialInformation::UpdateAllObjectsInfo(const libra::Vector<3> spac
                                                      const libra::Vector<3> spacecraft_velocity_from_center_i_m_s,
                                                      const libra::Quaternion quaternion_i2b,
                                                      const libra::Vector<3> spacecraft_angular_velocity_rad_s) {
-  Vector<3> pos_centeposition_i, vel_centeposition_i;
+  Vector<3> celestial_body_position_i_m, celestial_body_velocity_i_m_s;
   for (int i = 0; i < global_celestial_information_->GetNumberOfSelectedBodies(); i++) {
-    pos_centeposition_i = global_celestial_information_->GetPositionFromCenter_i_m(i);
-    vel_centeposition_i = global_celestial_information_->GetVelocityFromCenter_i_m_s(i);
+    celestial_body_position_i_m = global_celestial_information_->GetPositionFromCenter_i_m(i);
+    celestial_body_velocity_i_m_s = global_celestial_information_->GetVelocityFromCenter_i_m_s(i);
     // Change origin of frame
     for (int j = 0; j < 3; j++) {
-      celestial_body_position_from_spacecraft_i_m_[i * 3 + j] = pos_centeposition_i[j] - spacecraft_position_from_center_i_m[j];
-      celestial_body_velocity_from_spacecraft_i_m_s_[i * 3 + j] = vel_centeposition_i[j] - spacecraft_velocity_from_center_i_m_s[j];
+      celestial_body_position_from_spacecraft_i_m_[i * 3 + j] = celestial_body_position_i_m[j] - spacecraft_position_from_center_i_m[j];
+      celestial_body_velocity_from_spacecraft_i_m_s_[i * 3 + j] = celestial_body_velocity_i_m_s[j] - spacecraft_velocity_from_center_i_m_s[j];
     }
   }
   CalcAllPosVel_b(quaternion_i2b, spacecraft_angular_velocity_rad_s);
@@ -62,16 +62,16 @@ void LocalCelestialInformation::UpdateAllObjectsInfo(const libra::Vector<3> spac
 }
 
 void LocalCelestialInformation::CalcAllPosVel_b(const libra::Quaternion quaternion_i2b, const libra::Vector<3> spacecraft_angular_velocity_rad_s) {
-  libra::Vector<3> pos_centeposition_i, vel_centeposition_i;
+  libra::Vector<3> celestial_body_position_i_m, celestial_body_velocity_i_m_s;
   double r_buf1_i[3], velocity_buf1_i[3], r_buf1_b[3], velocity_buf1_b[3];
   double r_buf2_i[3], velocity_buf2_i[3], r_buf2_b[3], velocity_buf2_b[3];
   for (int i = 0; i < global_celestial_information_->GetNumberOfSelectedBodies(); i++) {
-    pos_centeposition_i = global_celestial_information_->GetPositionFromCenter_i_m(i);
-    vel_centeposition_i = global_celestial_information_->GetVelocityFromCenter_i_m_s(i);
+    celestial_body_position_i_m = global_celestial_information_->GetPositionFromCenter_i_m(i);
+    celestial_body_velocity_i_m_s = global_celestial_information_->GetVelocityFromCenter_i_m_s(i);
     for (int j = 0; j < 3; j++) {
-      r_buf1_i[j] = pos_centeposition_i[j];
+      r_buf1_i[j] = celestial_body_position_i_m[j];
       r_buf2_i[j] = celestial_body_position_from_spacecraft_i_m_[i * 3 + j];
-      velocity_buf1_i[j] = vel_centeposition_i[j];
+      velocity_buf1_i[j] = celestial_body_velocity_i_m_s[j];
       velocity_buf2_i[j] = celestial_body_velocity_from_spacecraft_i_m_s_[i * 3 + j];
     }
     ConvertInertialToBody(r_buf1_i, r_buf1_b, quaternion_i2b);
