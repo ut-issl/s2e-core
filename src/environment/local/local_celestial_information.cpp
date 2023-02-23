@@ -46,8 +46,8 @@ void LocalCelestialInformation::UpdateAllObjectsInfo(const Vector<3> sc_pos_from
                                                      const Quaternion q_i2b, const Vector<3> sc_body_rate) {
   Vector<3> pos_center_i, vel_center_i;
   for (int i = 0; i < glo_celes_info_->GetNumberOfSelectedBodies(); i++) {
-    pos_center_i = glo_celes_info_->GetPosFromCenter_i(i);
-    vel_center_i = glo_celes_info_->GetVelFromCenter_i(i);
+    pos_center_i = glo_celes_info_->GetPositionFromCenter_i_m(i);
+    vel_center_i = glo_celes_info_->GetVelocityFromCenter_i_m_s(i);
     // Change origin of frame
     for (int j = 0; j < 3; j++) {
       celes_objects_pos_from_sc_i_[i * 3 + j] = pos_center_i[j] - sc_pos_from_center_i[j];
@@ -64,8 +64,8 @@ void LocalCelestialInformation::CalcAllPosVel_b(const Quaternion q_i2b, const Ve
   double r_buf1_i[3], v_buf1_i[3], r_buf1_b[3], v_buf1_b[3];
   double r_buf2_i[3], v_buf2_i[3], r_buf2_b[3], v_buf2_b[3];
   for (int i = 0; i < glo_celes_info_->GetNumberOfSelectedBodies(); i++) {
-    pos_center_i = glo_celes_info_->GetPosFromCenter_i(i);
-    vel_center_i = glo_celes_info_->GetVelFromCenter_i(i);
+    pos_center_i = glo_celes_info_->GetPositionFromCenter_i_m(i);
+    vel_center_i = glo_celes_info_->GetVelocityFromCenter_i_m_s(i);
     for (int j = 0; j < 3; j++) {
       r_buf1_i[j] = pos_center_i[j];
       r_buf2_i[j] = celes_objects_pos_from_sc_i_[i * 3 + j];

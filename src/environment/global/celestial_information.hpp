@@ -63,45 +63,45 @@ class CelestialInformation : public ILoggable {
   // Getters
   // Orbit information
   /**
-   * @fn GetPosFromCenter_i
+   * @fn GetPositionFromCenter_i_m
    * @brief Return position from the center body in the inertial frame [m]
    * @param [in] id: ID of CelestialInformation list
    */
-  inline libra::Vector<3> GetPosFromCenter_i(const unsigned int id) const {
+  inline libra::Vector<3> GetPositionFromCenter_i_m(const unsigned int id) const {
     libra::Vector<3> pos(0.0);
     if (id > number_of_selected_bodies_) return pos;
     for (int i = 0; i < 3; i++) pos[i] = celestial_body_position_from_center_i_m_[id * 3 + i];
     return pos;
   }
   /**
-   * @fn GetPosFromCenter_i
+   * @fn GetPositionFromCenter_i_m
    * @brief Return position from the center body in the inertial frame [m]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  inline libra::Vector<3> GetPosFromCenter_i(const char* body_name) const {
+  inline libra::Vector<3> GetPositionFromCenter_i_m(const char* body_name) const {
     int id = CalcBodyIdFromName(body_name);
-    return GetPosFromCenter_i(id);
+    return GetPositionFromCenter_i_m(id);
   }
 
   /**
-   * @fn GetVelFromCenter_i
+   * @fn GetVelocityFromCenter_i_m_s
    * @brief Return velocity from the center body in the inertial frame [m/s]
    * @param [in] id: ID of CelestialInformation list
    */
-  inline libra::Vector<3> GetVelFromCenter_i(const unsigned int id) const {
+  inline libra::Vector<3> GetVelocityFromCenter_i_m_s(const unsigned int id) const {
     libra::Vector<3> vel(0.0);
     if (id > number_of_selected_bodies_) return vel;
     for (int i = 0; i < 3; i++) vel[i] = celestial_body_velocity_from_center_i_m_s_[id * 3 + i];
     return vel;
   }
   /**
-   * @fn GetVelFromCenter_i
+   * @fn GetVelocityFromCenter_i_m_s
    * @brief Return velocity from the center body in the inertial frame [m/s]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  inline libra::Vector<3> GetVelFromCenter_i(const char* body_name) const {
+  inline libra::Vector<3> GetVelocityFromCenter_i_m_s(const char* body_name) const {
     int id = CalcBodyIdFromName(body_name);
-    return GetVelFromCenter_i(id);
+    return GetVelocityFromCenter_i_m_s(id);
   }
 
   // Gravity constants
