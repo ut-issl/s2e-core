@@ -86,7 +86,7 @@ void LocalCelestialInformation::CalcAllPosVel_b(const libra::Quaternion q_i2b, c
   }
 }
 
-void Convert_i2b(const double* src_i, double* dst_b, libra::Quaternion q_i2b) {
+void LocalCelestialInformation::Convert_i2b(const double* src_i, double* dst_b, libra::Quaternion q_i2b) {
   libra::Vector<3> temp_i;
   for (int i = 0; i < 3; i++) {
     temp_i[i] = src_i[i];
@@ -97,7 +97,8 @@ void Convert_i2b(const double* src_i, double* dst_b, libra::Quaternion q_i2b) {
   }
 }
 
-void Convert_i2b_velocity(const double* r_i, const double* v_i, double* v_b, libra::Quaternion q_i2b, const libra::Vector<3> bodyrate_b) {
+void LocalCelestialInformation::Convert_i2b_velocity(const double* r_i, const double* v_i, double* v_b, libra::Quaternion q_i2b,
+                                                     const libra::Vector<3> bodyrate_b) {
   // copy input vector
   libra::Vector<3> vi;
   for (int i = 0; i < 3; i++) {
