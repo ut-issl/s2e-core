@@ -43,10 +43,10 @@ Telescope::Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double
   // Set 0 when t=0
   for (size_t i = 0; i < num_of_logged_stars_; i++) {
     Star star;
-    star.hipdata.hip_num = -1;
-    star.hipdata.vmag = -1;
-    star.hipdata.ra = -1;
-    star.hipdata.de = -1;
+    star.hipdata.hipparcos_id = -1;
+    star.hipdata.visible_magnitude = -1;
+    star.hipdata.right_ascension_deg = -1;
+    star.hipdata.declination_deg = -1;
     star.pos_imgsensor[0] = -1;
     star.pos_imgsensor[1] = -1;
 
@@ -117,10 +117,10 @@ void Telescope::ObserveStars() {
 
     if (abs(arg_x) <= x_field_of_view_rad && abs(arg_y) <= y_field_of_view_rad) {
       Star star;
-      star.hipdata.hip_num = hipp_->GetHipparcosId(count);
-      star.hipdata.vmag = hipp_->GetVisibleMagnitude(count);
-      star.hipdata.ra = hipp_->GetRA(count);
-      star.hipdata.de = hipp_->GetDE(count);
+      star.hipdata.hipparcos_id = hipp_->GetHipparcosId(count);
+      star.hipdata.visible_magnitude = hipp_->GetVisibleMagnitude(count);
+      star.hipdata.right_ascension_deg = hipp_->GetRA(count);
+      star.hipdata.declination_deg = hipp_->GetDE(count);
       star.pos_imgsensor[0] = x_num_of_pix_ / 2.0 * tan(arg_x) / tan(x_field_of_view_rad) + x_num_of_pix_ / 2.0;
       star.pos_imgsensor[1] = y_num_of_pix_ / 2.0 * tan(arg_y) / tan(y_field_of_view_rad) + y_num_of_pix_ / 2.0;
 
@@ -133,10 +133,10 @@ void Telescope::ObserveStars() {
     if (count >= hipp_->GetCatalogueSize()) {
       while (star_in_sight.size() < num_of_logged_stars_) {
         Star star;
-        star.hipdata.hip_num = -1;
-        star.hipdata.vmag = -1;
-        star.hipdata.ra = -1;
-        star.hipdata.de = -1;
+        star.hipdata.hipparcos_id = -1;
+        star.hipdata.visible_magnitude = -1;
+        star.hipdata.right_ascension_deg = -1;
+        star.hipdata.declination_deg = -1;
         star.pos_imgsensor[0] = -1;
         star.pos_imgsensor[1] = -1;
 
@@ -187,8 +187,8 @@ string Telescope::GetLogValue() const {
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipp_->IsCalcEnabled) {
     for (size_t i = 0; i < num_of_logged_stars_; i++) {
-      str_tmp += WriteScalar(star_in_sight[i].hipdata.hip_num);
-      str_tmp += WriteScalar(star_in_sight[i].hipdata.vmag);
+      str_tmp += WriteScalar(star_in_sight[i].hipdata.hipparcos_id);
+      str_tmp += WriteScalar(star_in_sight[i].hipdata.visible_magnitude);
       str_tmp += WriteVector(star_in_sight[i].pos_imgsensor);
     }
   }

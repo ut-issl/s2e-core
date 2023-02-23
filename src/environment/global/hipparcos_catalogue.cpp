@@ -30,16 +30,16 @@ bool HipparcosCatalogue::ReadContents(const std::string& filename, const char de
   std::string title;
   ifs >> title;  // Skip title
   while (!ifs.eof()) {
-    HipData hipdata;
+    HipparcosData hipdata;
 
     std::string line;
     ifs >> line;
     std::replace(line.begin(), line.end(), delimiter, ' ');  // Convert delimiter as space for stringstream
     std::istringstream streamline(line);
 
-    streamline >> hipdata.hip_num >> hipdata.vmag >> hipdata.ra >> hipdata.de;
+    streamline >> hipdata.hipparcos_id >> hipdata.visible_magnitude >> hipdata.right_ascension_deg >> hipdata.declination_deg;
 
-    if (hipdata.vmag > max_magnitude_) {
+    if (hipdata.visible_magnitude > max_magnitude_) {
       return true;
     }  // Don't read stars darker than max_magnitude
     hipparcos_catalogue_.push_back(hipdata);
