@@ -26,12 +26,12 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    * @brief Constructor
    * @param [in] celestial_information: Celestial information
    * @param [in] mu_m3_s2: Gravity constant [m3/s2]
-   * @param [in] timestep: Step width [sec]
+   * @param [in] time_step_s: Step width [sec]
    * @param [in] init_position: Initial value of position in the inertial frame [m]
    * @param [in] init_velocity: Initial value of velocity in the inertial frame [m/s]
    * @param [in] init_time: Initial time [sec]
    */
-  Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double timestep, Vector<3> init_position,
+  Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double time_step_s, Vector<3> init_position,
                       Vector<3> init_velocity, double init_time = 0);
   /**
    * @fn ~Rk4OrbitPropagation

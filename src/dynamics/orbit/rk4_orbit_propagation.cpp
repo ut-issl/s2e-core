@@ -10,13 +10,13 @@
 
 using std::string;
 
-Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double timestep, Vector<3> init_position,
-                                         Vector<3> init_velocity, double init_time)
-    : Orbit(celestial_information), ODE<N>(timestep), mu_m3_s2(mu_m3_s2) {
+Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double time_step_s,
+                                         Vector<3> init_position, Vector<3> init_velocity, double init_time)
+    : Orbit(celestial_information), ODE<N>(time_step_s), mu_m3_s2(mu_m3_s2) {
   propagate_mode_ = OrbitPropagateMode::kRk4;
 
   propagation_time_s_ = 0.0;
-  propagation_step_s_ = timestep;
+  propagation_step_s_ = time_step_s;
   spacecraft_acceleration_i_m_s2_ *= 0;
 
   Initialize(init_position, init_velocity, init_time);
