@@ -5,17 +5,17 @@
 
 #include "gnss_satellites.hpp"
 
-#include <library/external/sgp4/sgp4ext.h>   //for jday()
-#include <library/external/sgp4/sgp4unit.h>  //for gstime()
-
 #include <algorithm>
-#include <environment/global/physical_constants.hpp>
 #include <iostream>
-#include <library/logger/log_utility.hpp>
-#include <library/math/constants.hpp>
-#include <library/utilities/macros.hpp>
 #include <sstream>
 #include <vector>
+
+#include "environment/global/physical_constants.hpp"
+#include "library/external/sgp4/sgp4ext.h"   //for jday()
+#include "library/external/sgp4/sgp4unit.h"  //for gstime()
+#include "library/logger/log_utility.hpp"
+#include "library/math/constants.hpp"
+#include "library/utilities/macros.hpp"
 
 const double nan99 = 999999.999999;
 
