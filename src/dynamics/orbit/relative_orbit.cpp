@@ -59,8 +59,8 @@ void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh, Ve
     CalculateSTM(stm_model_type_, &(rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit()), mu, 0.0);
   }
 
-  TransEciToEcef();
-  TransEcefToGeo();
+  TransformEciToEcef();
+  TransformEcefToGeodetic();
 }
 
 void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit, double mu) {
@@ -110,8 +110,8 @@ void RelativeOrbit::Propagate(double endtime, double current_jd) {
 
   spacecraft_position_i_m_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
   spacecraft_velocity_i_m_s_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
-  TransEciToEcef();
-  TransEcefToGeo();
+  TransformEciToEcef();
+  TransformEcefToGeodetic();
 }
 
 void RelativeOrbit::PropagateRK4(double elapsed_sec) {

@@ -209,15 +209,15 @@ class Orbit : public ILoggable {
 
   // Frame Conversion TODO: consider other planet
   /**
-   * @fn TransEciToEcef
+   * @fn TransformEciToEcef
    * @brief Transform states from the ECI frame to ECEF frame
    */
-  void TransEciToEcef(void);
+  void TransformEciToEcef(void);
   /**
-   * @fn TransEcefToGeo
+   * @fn TransformEcefToGeodetic
    * @brief Transform states from the ECEF frame to the geodetic frame
    */
-  void TransEcefToGeo(void);
+  void TransformEcefToGeodetic(void);
 };
 
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode);

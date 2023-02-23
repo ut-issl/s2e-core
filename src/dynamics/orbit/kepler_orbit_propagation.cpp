@@ -28,6 +28,6 @@ void KeplerOrbitPropagation::UpdateState(const double current_jd) {
   CalcPosVel(current_jd);
   spacecraft_position_i_m_ = position_i_m_;
   spacecraft_velocity_i_m_s_ = velocity_i_m_s_;
-  TransEciToEcef();
-  TransEcefToGeo();
+  TransformEciToEcef();
+  TransformEcefToGeodetic();
 }

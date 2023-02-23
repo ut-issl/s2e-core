@@ -28,7 +28,7 @@ Quaternion Orbit::CalcQuaternionI2LVLH() const {
   return q_i2lvlh.normalize();
 }
 
-void Orbit::TransEciToEcef(void) {
+void Orbit::TransformEciToEcef(void) {
   libra::Matrix<3, 3> dcm_i_to_xcxf = celestial_information_->GetEarthRotation().GetDcmJ2000ToXcxf();
   spacecraft_position_ecef_m_ = dcm_i_to_xcxf * spacecraft_position_i_m_;
 
@@ -40,7 +40,7 @@ void Orbit::TransEciToEcef(void) {
   spacecraft_velocity_ecef_m_s_ = dcm_i_to_xcxf * V_wExr;
 }
 
-void Orbit::TransEcefToGeo(void) { spacecraft_geodetic_position_.UpdateFromEcef(spacecraft_position_ecef_m_); }
+void Orbit::TransformEcefToGeodetic(void) { spacecraft_geodetic_position_.UpdateFromEcef(spacecraft_position_ecef_m_); }
 
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode) {
   if (initialize_mode == "DEFAULT") {

@@ -54,8 +54,8 @@ void Sgp4OrbitPropagation::Propagate(double endtime, double current_jd) {
     spacecraft_velocity_i_m_s_[i] = v[i] * 1000;
   }
 
-  TransEciToEcef();
-  TransEcefToGeo();
+  TransformEciToEcef();
+  TransformEcefToGeodetic();
 }
 
 Vector<3> Sgp4OrbitPropagation::GetESIOmega() {
