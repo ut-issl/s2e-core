@@ -93,10 +93,10 @@ class MagTorquer : public ComponentBase, public ILoggable {
   virtual std::string GetLogValue() const;
 
   /**
-   * @fn GetMagMoment_b
+   * @fn GetGeomagneticFieldMoment_b
    * @brief Return output magnetic moment in the body fixed frame [Am2]
    */
-  inline const libra::Vector<kMtqDim>& GetMagMoment_b(void) const { return mag_moment_b_; };
+  inline const libra::Vector<kMtqDim>& GetGeomagneticFieldMoment_b(void) const { return mag_moment_b_; };
   /**
    * @fn GetTorque_b
    * @brief Return output torque in the body fixed frame [Nm]

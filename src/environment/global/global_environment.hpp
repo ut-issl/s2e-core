@@ -60,7 +60,7 @@ class GlobalEnvironment {
    */
   inline const SimTime& GetSimulationTime() const { return *simulation_time_; }
   /**
-   * @fn GetCelesInfo
+   * @fn GetCelestialInformation
    * @brief Return CelestialInformation
    */
   inline const CelestialInformation& GetCelestialInformation() const { return *celestial_information_; }

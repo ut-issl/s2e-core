@@ -72,10 +72,10 @@ class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILogg
   virtual std::string GetLogValue() const;
 
   /**
-   * @fn GetMagC
+   * @fn GetGeomagneticFieldC
    * @brief Return observed magnetic field on the component frame
    */
-  inline const libra::Vector<kMagDim>& GetMagC(void) const { return mag_c_; }
+  inline const libra::Vector<kMagDim>& GetGeomagneticFieldC(void) const { return mag_c_; }
 
  protected:
   libra::Vector<kMagDim> mag_c_{0.0};            // observed magnetic field on the component frame [nT]

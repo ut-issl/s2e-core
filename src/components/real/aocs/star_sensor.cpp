@@ -207,5 +207,5 @@ double STT::CalAngleVect_rad(const Vector<3>& vect1, const Vector<3>& vect2) {
 void STT::MainRoutine(int count) {
   UNUSED(count);
 
-  measure(&(local_env_->GetCelesInfo()), &(dynamics_->GetAttitude()));
+  measure(&(local_env_->GetCelestialInformation()), &(dynamics_->GetAttitude()));
 }

@@ -32,8 +32,8 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // MagSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetometer_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
-  mag_sensor_ = new MagSensor(
-      InitMagSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), &(local_env_->GetMag())));
+  mag_sensor_ = new MagSensor(InitMagSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
+                                            &(local_env_->GetGeomagneticField())));
 
   // STT
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "stt_file");
@@ -44,7 +44,8 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // SunSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "ss_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
-  sun_sensor_ = new SunSensor(InitSunSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, &(local_env_->GetSrp()), &(local_env_->GetCelesInfo())));
+  sun_sensor_ = new SunSensor(InitSunSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, &(local_env_->GetSolarRadiationPressure()),
+                                            &(local_env_->GetCelestialInformation())));
 
   // GNSS-R
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "gnss_file");
@@ -55,8 +56,8 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // MagTorquer
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetorquer_file");
   config_->main_logger_->CopyFileToLogDir(ini_path);
-  mag_torquer_ = new MagTorquer(
-      InitMagTorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), &(local_env_->GetMag())));
+  mag_torquer_ = new MagTorquer(InitMagTorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
+                                               &(local_env_->GetGeomagneticField())));
 
   // RW
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "rw_file");

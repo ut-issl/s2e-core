@@ -32,7 +32,7 @@ void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironmen
   clock_gen_.ClearTimerCount();
   structure_ = new Structure(sim_config, sat_id);
   local_env_ = new LocalEnvironment(sim_config, glo_env, sat_id);
-  dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimulationTime()), &(local_env_->GetCelesInfo()), sat_id, structure_);
+  dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimulationTime()), &(local_env_->GetCelestialInformation()), sat_id, structure_);
   disturbances_ = new Disturbances(sim_config, sat_id, structure_, glo_env);
 
   sim_config->main_logger_->CopyFileToLogDir(sim_config->sat_file_[sat_id]);
@@ -44,7 +44,7 @@ void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironmen
   clock_gen_.ClearTimerCount();
   structure_ = new Structure(sim_config, sat_id);
   local_env_ = new LocalEnvironment(sim_config, glo_env, sat_id);
-  dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimulationTime()), &(local_env_->GetCelesInfo()), sat_id, structure_, rel_info);
+  dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimulationTime()), &(local_env_->GetCelestialInformation()), sat_id, structure_, rel_info);
   disturbances_ = new Disturbances(sim_config, sat_id, structure_, glo_env);
 
   sim_config->main_logger_->CopyFileToLogDir(sim_config->sat_file_[sat_id]);
@@ -80,7 +80,7 @@ void Spacecraft::Update(const SimTime* sim_time) {
   dynamics_->AddForce_b(components_->GenerateForce_N_b());
 
   // Propagate dynamics
-  dynamics_->Update(sim_time, &(local_env_->GetCelesInfo()));
+  dynamics_->Update(sim_time, &(local_env_->GetCelestialInformation()));
 }
 
 void Spacecraft::Clear(void) { dynamics_->ClearForceTorque(); }

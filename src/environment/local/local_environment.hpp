@@ -62,20 +62,20 @@ class LocalEnvironment {
    */
   inline const Atmosphere& GetAtmosphere() const { return *atmosphere_; }
   /**
-   * @fn GetMag
+   * @fn GetGeomagneticField
    * @brief Return GeomagneticField class
    */
-  inline const GeomagneticField& GetMag() const { return *geomagnetic_field_; }
+  inline const GeomagneticField& GetGeomagneticField() const { return *geomagnetic_field_; }
   /**
-   * @fn GetSrp
+   * @fn GetSolarRadiationPressure
    * @brief Return SRPEnvironment class
    */
-  inline const SRPEnvironment& GetSrp() const { return *solar_radiation_pressure_environment_; }
+  inline const SRPEnvironment& GetSolarRadiationPressure() const { return *solar_radiation_pressure_environment_; }
   /**
-   * @fn GetCelesInfo
+   * @fn GetCelestialInformation
    * @brief Return LocalCelestialInformation class
    */
-  inline const LocalCelestialInformation& GetCelesInfo() const { return *celestial_information_; }
+  inline const LocalCelestialInformation& GetCelestialInformation() const { return *celestial_information_; }
 
  private:
   Atmosphere* atmosphere_;                                //!< Atmospheric density of the earth
