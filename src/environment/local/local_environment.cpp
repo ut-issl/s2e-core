@@ -56,7 +56,7 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimTime* sim_time)
   // Update local environments that depend only on the position
   if (sim_time->GetOrbitPropagateFlag()) {
     srp_->UpdateAllStates();
-    atmosphere_->CalcAirDensity(sim_time->GetCurrentDecimalYear(), sim_time->GetEndTime_s(), orbit.GetLatLonAlt());
+    atmosphere_->CalcAirDensity_kg_m3(sim_time->GetCurrentDecimalYear(), sim_time->GetEndTime_s(), orbit.GetGeodeticPosition());
   }
 }
 

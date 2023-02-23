@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "library/external/nrlmsise00/wrapper_nrlmsise00.hpp"
+#include "library/geodesy/geodetic_position.hpp"
 #include "library/logger/loggable.hpp"
 #include "library/math/vector.hpp"
 
@@ -45,10 +46,10 @@ class Atmosphere : public ILoggable {
    * @brief Calculate atmospheric density
    * @param [in] decimal_year: Decimal year of simulation start [year]
    * @param [in] end_time_s: End time of simulation [sec]
-   * @param [in] lat_lon_alt: Latitude[rad], longitude[rad], and altitude[m] TODO: change to use geodetic position
+   * @param [in] position: Position of target point to calculate the air density
    * @return Atmospheric density [kg/m^3]
    */
-  double CalcAirDensity(double decimal_year, double end_time_s, libra::Vector<3> lat_lon_alt);
+  double CalcAirDensity_kg_m3(double decimal_year, double end_time_s, const GeodeticPosition position);
   /**
    * @fn GetAirDensity
    * @brief Return Atmospheric density [kg/m^3]

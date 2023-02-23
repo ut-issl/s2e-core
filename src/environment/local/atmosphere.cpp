@@ -37,11 +37,11 @@ int Atmosphere::GetSpaceWeatherTable(double decimal_year, double end_time_s) {
   return GetSpaceWeatherTable_(decimal_year, end_time_s, initialize_file_name_, space_weather_table_);
 }
 
-double Atmosphere::CalcAirDensity(double decimal_year, double end_time_s, libra::Vector<3> lat_lon_alt) {
+double Atmosphere::CalcAirDensity_kg_m3(double decimal_year, double end_time_s, const GeodeticPosition position) {
   if (!IsCalcEnabled) return 0;
 
   if (model_ == "STANDARD") {
-    double altitude_m = lat_lon_alt(2);
+    double altitude_m = position.GetAlt_m();
     air_density_kg_m3_ = CalcStandard(altitude_m);
   } else if (model_ == "NRLMSISE00")  // NRLMSISE00 model
   {
@@ -56,10 +56,10 @@ double Atmosphere::CalcAirDensity(double decimal_year, double end_time_s, libra:
       }
     }
 
-    double latrad = lat_lon_alt(0);
-    double lonrad = lat_lon_alt(1);
-    double alt = lat_lon_alt(2);
-    air_density_kg_m3_ = CalcNRLMSISE00(decimal_year, latrad, lonrad, alt, space_weather_table_, is_manual_param_used_, manual_daily_f107_,
+    double lat_rad = position.GetLat_rad();
+    double lon_rad = position.GetLon_rad();
+    double alt_m = position.GetAlt_m();
+    air_density_kg_m3_ = CalcNRLMSISE00(decimal_year, lat_rad, lon_rad, alt_m, space_weather_table_, is_manual_param_used_, manual_daily_f107_,
                                         manual_average_f107_, manual_ap_);
   } else {
     // No suitable model
