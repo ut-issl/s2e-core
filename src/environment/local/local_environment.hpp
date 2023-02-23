@@ -6,17 +6,13 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_HPP_
 #define S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_HPP_
 
-#include <dynamics/dynamics.hpp>
-#include <environment/global/global_environment.hpp>
-
 #include "atmosphere.hpp"
+#include "dynamics/dynamics.hpp"
+#include "environment/global/global_environment.hpp"
 #include "geomagnetic_field.hpp"
 #include "local_celestial_information.hpp"
 #include "simulation/simulation_configuration.hpp"
 #include "solar_radiation_pressure_environment.hpp"
-
-class Logger;
-class SimTime;
 
 /**
  * @class LocalEnvironment

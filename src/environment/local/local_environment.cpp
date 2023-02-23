@@ -4,11 +4,10 @@
  */
 #include "local_environment.hpp"
 
-#include <dynamics/attitude/attitude.hpp>
-#include <dynamics/orbit/orbit.hpp>
-#include <library/initialize/initialize_file_access.hpp>
-
+#include "dynamics/attitude/attitude.hpp"
+#include "dynamics/orbit/orbit.hpp"
 #include "initialize_local_environment.hpp"
+#include "library/initialize/initialize_file_access.hpp"
 
 LocalEnvironment::LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) {
   Initialize(sim_config, glo_env, sat_id);
