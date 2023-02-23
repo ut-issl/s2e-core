@@ -26,10 +26,10 @@ class CelestialInformation : public ILoggable {
    * @param [in] center_body_name: Center body name of inertial frame
    * @param [in] rotation_mode: Designation of rotation model
    * @param [in] number_of_selected_body: Number of selected body
-   * @param [in] selected_body_id: SPICE IDs of selected bodies
+   * @param [in] selected_body_ids: SPICE IDs of selected bodies
    */
   CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting, const std::string center_body_name,
-                       const RotationMode rotation_mode, const unsigned int number_of_selected_body, int* selected_body_id);
+                       const RotationMode rotation_mode, const unsigned int number_of_selected_body, int* selected_body_ids);
   /**
    * @fn CelestialInformation
    * @brief Copy constructor
@@ -125,12 +125,12 @@ class CelestialInformation : public ILoggable {
    * @fn GetNumBody
    * @brief Return number of selected body
    */
-  inline int GetNumBody(void) const { return number_of_selected_body_id_; }
+  inline int GetNumBody(void) const { return number_of_selected_body_ids_; }
   /**
    * @fn GetSelectedBody
    * @brief Return SPICE IDs of selected bodies
    */
-  inline const int* GetSelectedBody(void) const { return selected_body_id_; }
+  inline const int* GetSelectedBodyIds(void) const { return selected_body_ids_; }
   /**
    * @fn GetCenterBodyName
    * @brief Return name of the center body
@@ -160,8 +160,8 @@ class CelestialInformation : public ILoggable {
 
  private:
   // Setting parameters
-  unsigned int number_of_selected_body_id_;    //!< Number of selected body
-  int* selected_body_id_;                      //!< SPICE IDs of selected bodies
+  unsigned int number_of_selected_body_ids_;   //!< Number of selected body
+  int* selected_body_ids_;                     //!< SPICE IDs of selected bodies
   std::string inertial_frame_name_;            //!< Definition of inertial frame
   std::string center_body_name_;               //!< Center object name of inertial frame
   std::string aberration_correction_setting_;  //!< Stellar aberration correction

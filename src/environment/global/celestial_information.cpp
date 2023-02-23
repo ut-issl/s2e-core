@@ -17,24 +17,24 @@
 
 CelestialInformation::CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting,
                                            const std::string center_body_name, const RotationMode rotation_mode,
-                                           const unsigned int number_of_selected_body, int* selected_body_id)
-    : number_of_selected_body_id_(number_of_selected_body),
-      selected_body_id_(selected_body_id),
+                                           const unsigned int number_of_selected_body, int* selected_body_ids)
+    : number_of_selected_body_ids_(number_of_selected_body),
+      selected_body_ids_(selected_body_ids),
       inertial_frame_name_(inertial_frame_name),
       center_body_name_(center_body_name),
       aberration_correction_setting_(aberration_correction_setting),
       rotation_mode_(rotation_mode) {
   // Initialize list
-  unsigned int num_of_state = number_of_selected_body_id_ * 3;
+  unsigned int num_of_state = number_of_selected_body_ids_ * 3;
   celestial_body_position_from_center_i_m_ = new double[num_of_state];
   celestial_body_velocity_from_center_i_m_s_ = new double[num_of_state];
-  celestial_body_gravity_constant_m3_s2_ = new double[number_of_selected_body_id_];
-  celestial_body_mean_radius_m_ = new double[number_of_selected_body_id_];
+  celestial_body_gravity_constant_m3_s2_ = new double[number_of_selected_body_ids_];
+  celestial_body_mean_radius_m_ = new double[number_of_selected_body_ids_];
   celestial_body_planetographic_radii_m_ = new double[num_of_state];
 
   // Acquisition of gravity constant
-  for (unsigned int i = 0; i < number_of_selected_body_id_; i++) {
-    SpiceInt planet_id = selected_body_id_[i];
+  for (unsigned int i = 0; i < number_of_selected_body_ids_; i++) {
+    SpiceInt planet_id = selected_body_ids_[i];
     SpiceInt dim;
     SpiceDouble gravity_constant_km3_s2;
     bodvcd_c(planet_id, "GM", 1, &dim, &gravity_constant_km3_s2);
@@ -43,8 +43,8 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
   }
 
   // Acquisition of radius
-  for (unsigned int i = 0; i < number_of_selected_body_id_; i++) {
-    SpiceInt planet_id = selected_body_id_[i];
+  for (unsigned int i = 0; i < number_of_selected_body_ids_; i++) {
+    SpiceInt planet_id = selected_body_ids_[i];
     SpiceInt dim;
     SpiceDouble radii_km[3];
 
@@ -65,28 +65,28 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
 }
 
 CelestialInformation::CelestialInformation(const CelestialInformation& obj)
-    : number_of_selected_body_id_(obj.number_of_selected_body_id_),
+    : number_of_selected_body_ids_(obj.number_of_selected_body_ids_),
       inertial_frame_name_(obj.inertial_frame_name_),
       center_body_name_(obj.center_body_name_),
       aberration_correction_setting_(obj.aberration_correction_setting_),
       rotation_mode_(obj.rotation_mode_) {
-  unsigned int num_of_state = number_of_selected_body_id_ * 3;
+  unsigned int num_of_state = number_of_selected_body_ids_ * 3;
 
-  selected_body_id_ = new int[number_of_selected_body_id_];
+  selected_body_ids_ = new int[number_of_selected_body_ids_];
   celestial_body_position_from_center_i_m_ = new double[num_of_state];
   celestial_body_velocity_from_center_i_m_s_ = new double[num_of_state];
-  celestial_body_gravity_constant_m3_s2_ = new double[number_of_selected_body_id_];
-  celestial_body_mean_radius_m_ = new double[number_of_selected_body_id_];
+  celestial_body_gravity_constant_m3_s2_ = new double[number_of_selected_body_ids_];
+  celestial_body_mean_radius_m_ = new double[number_of_selected_body_ids_];
   celestial_body_planetographic_radii_m_ = new double[num_of_state];
 
   size_t size_i = sizeof(int);
-  memcpy(selected_body_id_, obj.selected_body_id_, size_i * number_of_selected_body_id_);
+  memcpy(selected_body_ids_, obj.selected_body_ids_, size_i * number_of_selected_body_ids_);
 
   size_t size_d = sizeof(double);
   memcpy(celestial_body_position_from_center_i_m_, obj.celestial_body_position_from_center_i_m_, size_d * num_of_state);
   memcpy(celestial_body_velocity_from_center_i_m_s_, obj.celestial_body_velocity_from_center_i_m_s_, size_d * num_of_state);
-  memcpy(celestial_body_gravity_constant_m3_s2_, obj.celestial_body_gravity_constant_m3_s2_, size_d * number_of_selected_body_id_);
-  memcpy(celestial_body_mean_radius_m_, obj.celestial_body_mean_radius_m_, size_d * number_of_selected_body_id_);
+  memcpy(celestial_body_gravity_constant_m3_s2_, obj.celestial_body_gravity_constant_m3_s2_, size_d * number_of_selected_body_ids_);
+  memcpy(celestial_body_mean_radius_m_, obj.celestial_body_mean_radius_m_, size_d * number_of_selected_body_ids_);
   memcpy(celestial_body_planetographic_radii_m_, obj.celestial_body_planetographic_radii_m_, size_d * num_of_state);
 }
 
@@ -96,7 +96,7 @@ CelestialInformation::~CelestialInformation() {
   delete[] celestial_body_gravity_constant_m3_s2_;
   delete[] celestial_body_mean_radius_m_;
   delete[] celestial_body_planetographic_radii_m_;
-  delete[] selected_body_id_;
+  delete[] selected_body_ids_;
   delete earth_rotation_;
 }
 
@@ -106,8 +106,8 @@ void CelestialInformation::UpdateAllObjectsInfo(const double current_time_jd) {
   std::string jd = "jd " + std::to_string(current_time_jd);
   str2et_c(jd.c_str(), &et);
 
-  for (unsigned int i = 0; i < number_of_selected_body_id_; i++) {
-    SpiceInt planet_id = selected_body_id_[i];
+  for (unsigned int i = 0; i < number_of_selected_body_ids_; i++) {
+    SpiceInt planet_id = selected_body_ids_[i];
 
     // Acquisition of body name from id
     SpiceBoolean found;
@@ -132,14 +132,14 @@ void CelestialInformation::UpdateAllObjectsInfo(const double current_time_jd) {
 // Getters
 libra::Vector<3> CelestialInformation::GetPosFromCenter_i(const unsigned int id) const {
   libra::Vector<3> pos(0.0);
-  if (id > number_of_selected_body_id_) return pos;
+  if (id > number_of_selected_body_ids_) return pos;
   for (int i = 0; i < 3; i++) pos[i] = celestial_body_position_from_center_i_m_[id * 3 + i];
   return pos;
 }
 
 libra::Vector<3> CelestialInformation::GetVelFromCenter_i(const unsigned int id) const {
   libra::Vector<3> vel(0.0);
-  if (id > number_of_selected_body_id_) return vel;
+  if (id > number_of_selected_body_ids_) return vel;
   for (int i = 0; i < 3; i++) vel[i] = celestial_body_velocity_from_center_i_m_s_[id * 3 + i];
   return vel;
 }
@@ -163,7 +163,7 @@ double CelestialInformation::GetCenterBodyGravityConstant_m3_s2(void) const { re
 
 libra::Vector<3> CelestialInformation::GetRadii(const unsigned int id) const {
   libra::Vector<3> radii(0.0);
-  if (id > number_of_selected_body_id_) return radii;
+  if (id > number_of_selected_body_ids_) return radii;
   for (int i = 0; i < 3; i++) radii[i] = celestial_body_planetographic_radii_m_[id * 3 + i];
   return radii;
 }
@@ -185,8 +185,8 @@ int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {
 
   // Acquisition of ID from body name
   bodn2c_c(body_name, (SpiceInt*)&planet_id, (SpiceBoolean*)&found);
-  for (unsigned int i = 0; i < number_of_selected_body_id_; i++) {
-    if (selected_body_id_[i] == planet_id) {
+  for (unsigned int i = 0; i < number_of_selected_body_ids_; i++) {
+    if (selected_body_ids_[i] == planet_id) {
       index = i;
       break;
     }
@@ -199,8 +199,8 @@ std::string CelestialInformation::GetLogHeader() const {
   const int maxlen = 100;
   char namebuf[maxlen];
   std::string str_tmp = "";
-  for (unsigned int i = 0; i < number_of_selected_body_id_; i++) {
-    SpiceInt planet_id = selected_body_id_[i];
+  for (unsigned int i = 0; i < number_of_selected_body_ids_; i++) {
+    SpiceInt planet_id = selected_body_ids_[i];
     // Acquisition of body name from id
     bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
     std::string name = namebuf;
@@ -216,7 +216,7 @@ std::string CelestialInformation::GetLogHeader() const {
 
 std::string CelestialInformation::GetLogValue() const {
   std::string str_tmp = "";
-  for (unsigned int i = 0; i < number_of_selected_body_id_; i++) {
+  for (unsigned int i = 0; i < number_of_selected_body_ids_; i++) {
     for (int j = 0; j < 3; j++) {
       str_tmp += WriteScalar(celestial_body_position_from_center_i_m_[i * 3 + j]);
     }
@@ -233,15 +233,15 @@ void CelestialInformation::DebugOutput(void) {
   char namebuf[maxlen];
   std::cout << "BODY NAME, POSx,y,z[m], VELx,y,z[m/s] from CENTER;\nPOSx,y,z[m], "
                "VELx,y,z[m/s] from SC";
-  for (unsigned int i = 0; i < number_of_selected_body_id_; i++) {
-    SpiceInt planet_id = selected_body_id_[i];
+  for (unsigned int i = 0; i < number_of_selected_body_ids_; i++) {
+    SpiceInt planet_id = selected_body_ids_[i];
     // Acquisition of body name from id
     bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
     //		cout<<namebuf<<
   }
   std::cout << "GRAVITY CONSTASNT of\n";
-  for (unsigned int i = 0; i < number_of_selected_body_id_; i++) {
-    SpiceInt planet_id = selected_body_id_[i];
+  for (unsigned int i = 0; i < number_of_selected_body_ids_; i++) {
+    SpiceInt planet_id = selected_body_ids_[i];
     // Acquisition of body name from id
     bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
     std::cout << namebuf << "is"

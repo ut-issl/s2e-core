@@ -165,7 +165,7 @@ string LocalCelestialInformation::GetLogHeader() const {
   char namebuf[maxlen];
   string str_tmp = "";
   for (int i = 0; i < glo_celes_info_->GetNumBody(); i++) {
-    SpiceInt planet_id = glo_celes_info_->GetSelectedBody()[i];
+    SpiceInt planet_id = glo_celes_info_->GetSelectedBodyIds()[i];
     // Acquisition of body name from id
     bodc2n_c(planet_id, maxlen, namebuf, (SpiceBoolean*)&found);
     string name = namebuf;
