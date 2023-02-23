@@ -28,7 +28,7 @@ void LocalEnvironment::Initialize(SimulationConfig* sim_config, const GlobalEnvi
   // Save ini file
   sim_config->main_logger_->CopyFileToLogDir(ini_fname);
   // Initialize
-  mag_ = new MagEnvironment(InitMagEnvironment(ini_fname));
+  mag_ = new GeomagneticField(InitMagEnvironment(ini_fname));
   atmosphere_ = new Atmosphere(InitAtmosphere(ini_fname));
   celes_info_ = new LocalCelestialInformation(&(glo_env->GetCelestialInformation()));
   srp_ = new SRPEnvironment(InitSRPEnvironment(ini_fname, celes_info_));

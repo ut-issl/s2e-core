@@ -12,28 +12,28 @@
 #include "library/math/vector.hpp"
 
 /**
- * @class MagEnvironment
+ * @class GeomagneticField
  * @brief Class to calculate magnetic field of the earth
  */
-class MagEnvironment : public ILoggable {
+class GeomagneticField : public ILoggable {
  public:
   bool IsCalcEnabled = true;  //!< Calculation flag
 
   /**
-   * @fn MagEnvironment
+   * @fn GeomagneticField
    * @brief Constructor
    * @param [in] igrf_file_name: Path to initialize file
    * @param [in] random_walk_srandard_deviation_nT: Standard deviation of Random Walk [nT]
    * @param [in] random_walk_limit_nT: Limit of Random Walk [nT]
    * @param [in] white_noise_standard_deviation_nT: Standard deviation of white noise [nT]
    */
-  MagEnvironment(std::string igrf_file_name, double random_walk_srandard_deviation_nT, double random_walk_limit_nT,
-                 double white_noise_standard_deviation_nT);
+  GeomagneticField(std::string igrf_file_name, double random_walk_srandard_deviation_nT, double random_walk_limit_nT,
+                   double white_noise_standard_deviation_nT);
   /**
-   * @fn ~MagEnvironment
+   * @fn ~GeomagneticField
    * @brief Destructor
    */
-  virtual ~MagEnvironment() {}
+  virtual ~GeomagneticField() {}
 
   /**
    * @fn CalcMagneticField

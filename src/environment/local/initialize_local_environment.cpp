@@ -11,7 +11,7 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-MagEnvironment InitMagEnvironment(std::string ini_path) {
+GeomagneticField InitMagEnvironment(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "MAGNETIC_FIELD_ENVIRONMENT";
 
@@ -20,7 +20,7 @@ MagEnvironment InitMagEnvironment(std::string ini_path) {
   double mag_rwlimit = conf.ReadDouble(section, "magnetic_field_random_walk_limit_nT");
   double mag_wnvar = conf.ReadDouble(section, "magnetic_field_white_noise_standard_deviation_nT");
 
-  MagEnvironment mag_env(fname, mag_rwdev, mag_rwlimit, mag_wnvar);
+  GeomagneticField mag_env(fname, mag_rwdev, mag_rwlimit, mag_wnvar);
   mag_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   mag_env.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 

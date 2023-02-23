@@ -44,7 +44,7 @@ class MagTorquer : public ComponentBase, public ILoggable {
   MagTorquer(const int prescaler, ClockGenerator* clock_gen, const int id, const libra::Quaternion& q_b2c,
              const libra::Matrix<kMtqDim, kMtqDim>& scale_facter, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
              const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
-             const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const MagEnvironment* mag_env);
+             const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env);
   /**
    * @fn MagTorquer
    * @brief Constructor with power port
@@ -66,7 +66,7 @@ class MagTorquer : public ComponentBase, public ILoggable {
   MagTorquer(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
              const libra::Matrix<kMtqDim, kMtqDim>& scale_facter, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
              const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
-             const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const MagEnvironment* mag_env);
+             const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env);
 
   // Override functions for ComponentBase
   /**
@@ -124,7 +124,7 @@ class MagTorquer : public ComponentBase, public ILoggable {
   RandomWalk<kMtqDim> n_rw_c_;                    //!< Random walk noise
   libra::NormalRand nrs_c_[kMtqDim];              //!< Normal random noise
 
-  const MagEnvironment* mag_env_;  //!< Geomagnetic environment
+  const GeomagneticField* mag_env_;  //!< Geomagnetic environment
 
   /**
    * @fn CalcOutputTorque

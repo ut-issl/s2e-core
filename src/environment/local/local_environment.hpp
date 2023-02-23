@@ -67,9 +67,9 @@ class LocalEnvironment {
   inline const Atmosphere& GetAtmosphere() const { return *atmosphere_; }
   /**
    * @fn GetMag
-   * @brief Return MagEnvironment class
+   * @brief Return GeomagneticField class
    */
-  inline const MagEnvironment& GetMag() const { return *mag_; }
+  inline const GeomagneticField& GetMag() const { return *mag_; }
   /**
    * @fn GetSrp
    * @brief Return SRPEnvironment class
@@ -83,7 +83,7 @@ class LocalEnvironment {
 
  private:
   Atmosphere* atmosphere_;                 //!< Atmospheric density of the earth
-  MagEnvironment* mag_;                    //!< Magnetic field of the earth
+  GeomagneticField* mag_;                  //!< Magnetic field of the earth
   SRPEnvironment* srp_;                    //!< Solar radiation pressure
   LocalCelestialInformation* celes_info_;  //!< Celestial information
 };

@@ -15,7 +15,7 @@
  * @brief Initialize magnetic field of the earth
  * @param [in] ini_path: Path to initialize file
  */
-MagEnvironment InitMagEnvironment(std::string ini_path);
+GeomagneticField InitMagEnvironment(std::string ini_path);
 /**
  * @fn InitSRPEnvironment
  * @brief Initialize solar radiation pressure
