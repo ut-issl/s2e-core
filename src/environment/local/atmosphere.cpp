@@ -11,13 +11,13 @@
 #include "library/randomization/normal_randomization.hpp"
 #include "library/randomization/random_walk.hpp"
 
-Atmosphere::Atmosphere(std::string model, std::string fname, double gauss_stddev, bool is_manual_param_used, double manual_daily_f107,
-                       double manual_average_f107, double manual_ap)
+Atmosphere::Atmosphere(std::string model, std::string initialize_file_name, double gauss_standard_deviation_rate, bool is_manual_param_used,
+                       double manual_daily_f107, double manual_average_f107, double manual_ap)
     : model_(model),
-      fname_(fname),
-      air_density_(0.0),
-      gauss_stddev_(gauss_stddev),
-      is_table_imported_(false),
+      initialize_file_name_(initialize_file_name),
+      air_density_kg_m3_(0.0),
+      gauss_standard_deviation_rate_(gauss_standard_deviation_rate),
+      is_space_weather_table_imported_(false),
       is_manual_param_used_(is_manual_param_used),
       manual_daily_f107_(manual_daily_f107),
       manual_average_f107_(manual_average_f107),
@@ -32,25 +32,25 @@ Atmosphere::Atmosphere(std::string model, std::string fname, double gauss_stddev
   }
 }
 
-int Atmosphere::GetSpaceWeatherTable(double decyear, double endsec) {
+int Atmosphere::GetSpaceWeatherTable(double decimal_year, double end_time_s) {
   // Get table of simulation duration only to decrease memory
-  return GetSpaceWeatherTable_(decyear, endsec, fname_, table_);
+  return GetSpaceWeatherTable_(decimal_year, end_time_s, initialize_file_name_, space_weather_table_);
 }
 
-double Atmosphere::GetAirDensity() const { return air_density_; }
+double Atmosphere::GetAirDensity() const { return air_density_kg_m3_; }
 
-double Atmosphere::CalcAirDensity(double decyear, double endsec, libra::Vector<3> lat_lon_alt) {
+double Atmosphere::CalcAirDensity(double decimal_year, double end_time_s, libra::Vector<3> lat_lon_alt) {
   if (!IsCalcEnabled) return 0;
 
   if (model_ == "STANDARD") {
     double altitude_m = lat_lon_alt(2);
-    air_density_ = CalcStandard(altitude_m);
+    air_density_kg_m3_ = CalcStandard(altitude_m);
   } else if (model_ == "NRLMSISE00")  // NRLMSISE00 model
   {
     if (!is_manual_param_used_) {
-      if (!is_table_imported_) {
-        if (GetSpaceWeatherTable(decyear, endsec)) {
-          is_table_imported_ = true;
+      if (!is_space_weather_table_imported_) {
+        if (GetSpaceWeatherTable(decimal_year, end_time_s)) {
+          is_space_weather_table_imported_ = true;
         } else {
           std::cerr << "Air density is switched to STANDARD model" << std::endl;
           model_ = "STANDARD";
@@ -61,13 +61,14 @@ double Atmosphere::CalcAirDensity(double decyear, double endsec, libra::Vector<3
     double latrad = lat_lon_alt(0);
     double lonrad = lat_lon_alt(1);
     double alt = lat_lon_alt(2);
-    air_density_ = CalcNRLMSISE00(decyear, latrad, lonrad, alt, table_, is_manual_param_used_, manual_daily_f107_, manual_average_f107_, manual_ap_);
+    air_density_kg_m3_ = CalcNRLMSISE00(decimal_year, latrad, lonrad, alt, space_weather_table_, is_manual_param_used_, manual_daily_f107_,
+                                        manual_average_f107_, manual_ap_);
   } else {
     // No suitable model
-    return air_density_ = 0.0;
+    return air_density_kg_m3_ = 0.0;
   }
 
-  return AddNoise(air_density_);
+  return AddNoise(air_density_kg_m3_);
 }
 
 double Atmosphere::CalcStandard(double altitude_m) {
@@ -197,21 +198,21 @@ double Atmosphere::CalcStandard(double altitude_m) {
     return 0.0;
   }
 
-  double rho = baseRho * exp(-(altitude - baseHeight) / scaleHeight);
-  return rho;
+  double rho_kg_m3 = baseRho * exp(-(altitude - baseHeight) / scaleHeight);
+  return rho_kg_m3;
 }
 
-double Atmosphere::AddNoise(double rho) {
-  // RandomWalk rw(rho*rw_stepwidth_,rho*rw_stddev_,rho*rw_limit_);
-  libra::NormalRand nr(0.0, rho * gauss_stddev_, g_rand.MakeSeed());
+double Atmosphere::AddNoise(double rho_kg_m3) {
+  // RandomWalk rw(rho_kg_m3*rw_stepwidth_,rho_kg_m3*rw_stddev_,rho_kg_m3*rw_limit_);
+  libra::NormalRand nr(0.0, rho_kg_m3 * gauss_standard_deviation_rate_, g_rand.MakeSeed());
   double nrd = nr;
 
-  return rho + nrd;
+  return rho_kg_m3 + nrd;
 }
 
 std::string Atmosphere::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar(air_density_);
+  str_tmp += WriteScalar(air_density_kg_m3_);
 
   return str_tmp;
 }
@@ -219,7 +220,7 @@ std::string Atmosphere::GetLogValue() const {
 std::string Atmosphere::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("air_density_at_spacecraft_position", "kg/m3");
+  str_tmp += WriteScalar("air_density_kg_m3_at_spacecraft_position", "kg/m3");
 
   return str_tmp;
 }
