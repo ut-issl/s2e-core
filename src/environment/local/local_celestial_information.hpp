@@ -36,13 +36,6 @@ class LocalCelestialInformation : public ILoggable {
    */
   void UpdateAllObjectsInfo(const libra::Vector<3> spacecraft_position_from_center_i_m, const libra::Vector<3> spacecraft_velocity_from_center_i_m_s,
                             libra::Quaternion quaternion_i2b, const libra::Vector<3> spacecraft_angular_velocity_rad_s);
-  /**
-   * @fn CalcAllPosVel_b
-   * @brief Frame conversion to the body frame for all selected celestial bodies
-   * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
-   * @param [in] spacecraft_angular_velocity_rad_s: Spacecraft angular velocity with respect to the inertial frame [rad/s]
-   */
-  void CalcAllPosVel_b(libra::Quaternion quaternion_i2b, const libra::Vector<3> spacecraft_angular_velocity_rad_s);
 
   /**
    * @fn GetPosFromSC_i
@@ -95,6 +88,14 @@ class LocalCelestialInformation : public ILoggable {
   double* celestial_body_position_from_spacecraft_b_m_;    //!< Celestial body position from the spacecraft in the spacecraft body fixed frame [m]
   double* celestial_body_velocity_from_center_b_m_s_;      //!< Celestial body velocity from the center body in the spacecraft body fixed frame [m/s]
   double* celestial_body_velocity_from_spacecraft_b_m_s_;  //!< Celestial body velocity from the spacecraft in the spacecraft body fixed frame [m/s]
+
+  /**
+   * @fn CalcAllPosVel_b
+   * @brief Frame conversion to the body frame for all selected celestial bodies
+   * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
+   * @param [in] spacecraft_angular_velocity_rad_s: Spacecraft angular velocity with respect to the inertial frame [rad/s]
+   */
+  void CalcAllPosVel_b(libra::Quaternion quaternion_i2b, const libra::Vector<3> spacecraft_angular_velocity_rad_s);
 
   /**
    * @fn ConvertInertialToBody
