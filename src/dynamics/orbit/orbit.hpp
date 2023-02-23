@@ -160,10 +160,10 @@ class Orbit : public ILoggable {
     acc_i_ += force_i;
   }
   /**
-   * @fn AddAcceleration_i
+   * @fn AddAcceleration_i_m_s2
    * @brief Add acceleration in the inertial frame [m/s2]
    */
-  inline void AddAcceleration_i(Vector<3> acceleration_i) { acc_i_ += acceleration_i; }
+  inline void AddAcceleration_i_m_s2(Vector<3> acceleration_i) { acc_i_ += acceleration_i; }
   /**
    * @fn AddForce_i
    * @brief Add force
@@ -171,7 +171,7 @@ class Orbit : public ILoggable {
    * @param [in] q_i2b: Quaternion from the inertial frame to the body fixed frame
    * @param [in] spacecraft_mass: Mass of spacecraft [kg]
    */
-  inline void AddForce_b(Vector<3> force_b, Quaternion q_i2b, double spacecraft_mass) {
+  inline void AddForce_b_N(Vector<3> force_b, Quaternion q_i2b, double spacecraft_mass) {
     auto force_i = q_i2b.frame_conv_inv(force_b);
     AddForce_i(force_i, spacecraft_mass);
   }

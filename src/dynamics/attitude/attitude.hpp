@@ -110,10 +110,10 @@ class Attitude : public ILoggable, public SimulationObject {
    */
   inline void SetTorque_b(const libra::Vector<3> set) { torque_b_Nm_ = set; }
   /**
-   * @fn AddTorque_b
+   * @fn AddTorque_b_Nm
    * @brief Add torque acting on the spacecraft on the body fixed frame [Nm]
    */
-  inline void AddTorque_b(const libra::Vector<3> set) { torque_b_Nm_ += set; }
+  inline void AddTorque_b_Nm(const libra::Vector<3> set) { torque_b_Nm_ += set; }
   /**
    * @fn SetAngMom_rw
    * @brief Set angular momentum of reaction wheel in the body fixed frame [Nms]

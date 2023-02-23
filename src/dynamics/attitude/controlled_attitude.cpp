@@ -160,7 +160,7 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
     controlled_torque_b_Nm = libra::Vector<3>(0.0);
   }
   // Add torque with disturbances
-  AddTorque_b(controlled_torque_b_Nm);
+  AddTorque_b_Nm(controlled_torque_b_Nm);
   // save previous values
   previous_calc_time_s_ = current_time_s;
   prev_quaternion_i2b_ = quaternion_i2b_;
