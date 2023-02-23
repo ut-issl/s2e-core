@@ -110,7 +110,7 @@ class CelestialInformation : public ILoggable {
    * @brief Return gravity constant of the celestial body [m^3/s^2]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  inline double GetGravityConstant(const char* body_name) const {
+  inline double GetGravityConstant_m3_s2(const char* body_name) const {
     int index = CalcBodyIdFromName(body_name);
     return celestial_body_gravity_constant_m3_s2_[index];
   }
@@ -118,7 +118,7 @@ class CelestialInformation : public ILoggable {
    * @fn GetCenterBodyGravityConstant_m3_s2
    * @brief Return gravity constant of the center body [m^3/s^2]
    */
-  inline double GetCenterBodyGravityConstant_m3_s2(void) const { return GetGravityConstant(center_body_name_.c_str()); }
+  inline double GetCenterBodyGravityConstant_m3_s2(void) const { return GetGravityConstant_m3_s2(center_body_name_.c_str()); }
 
   // Shape information
   /**
@@ -126,7 +126,7 @@ class CelestialInformation : public ILoggable {
    * @brief Return 3 axis planetographic radii of a celestial body [m]
    * @param [in] id: ID of CelestialInformation list
    */
-  inline libra::Vector<3> GetRadii(const unsigned int id) const {
+  inline libra::Vector<3> GetRadii_m(const unsigned int id) const {
     libra::Vector<3> radii(0.0);
     if (id > number_of_selected_bodies_) return radii;
     for (int i = 0; i < 3; i++) radii[i] = celestial_body_planetographic_radii_m_[id * 3 + i];
@@ -137,16 +137,16 @@ class CelestialInformation : public ILoggable {
    * @brief Return 3 axis planetographic radii of a celestial body [m]
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  inline libra::Vector<3> GetRadiiFromName(const char* body_name) const {
+  inline libra::Vector<3> GetRadiiFromName_m(const char* body_name) const {
     int id = CalcBodyIdFromName(body_name);
-    return GetRadii(id);
+    return GetRadii_m(id);
   }
   /**
    * @fn GetMeanRadiusFromName
    * @brief Return mean radius of a celestial body [m]
    * @param [in] id: ID of CelestialInformation list
    */
-  inline double GetMeanRadiusFromName(const char* body_name) const {
+  inline double GetMeanRadiusFromName_m(const char* body_name) const {
     int index = CalcBodyIdFromName(body_name);
     return celestial_body_mean_radius_m_[index];
   }

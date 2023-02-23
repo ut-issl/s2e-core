@@ -19,7 +19,7 @@ SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info) : lo
   solar_constant_ = 1366.0;                                       // [W/m2]
   pressure_ = solar_constant_ / environment::speed_of_light_m_s;  // [N/m2]
   shadow_source_name_ = local_celes_info_->GetGlobalInfo().GetCenterBodyName();
-  sun_radius_m_ = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName("SUN");
+  sun_radius_m_ = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName_m("SUN");
 }
 
 void SRPEnvironment::UpdateAllStates() {
@@ -72,7 +72,7 @@ void SRPEnvironment::CalcShadowCoefficient(string shadow_source_name) {
   const Vector<3> r_sc2sun_eci = local_celes_info_->GetPosFromSC_i("SUN");
   const Vector<3> r_sc2source_eci = local_celes_info_->GetPosFromSC_i(shadow_source_name.c_str());
 
-  const double shadow_source_radius_m = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName(shadow_source_name.c_str());
+  const double shadow_source_radius_m = local_celes_info_->GetGlobalInfo().GetMeanRadiusFromName_m(shadow_source_name.c_str());
 
   const double distance_sat_to_sun = norm(r_sc2sun_eci);
   const double sd_sun = asin(sun_radius_m_ / distance_sat_to_sun);                // Apparent radius of the sun
