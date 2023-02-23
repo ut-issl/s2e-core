@@ -33,14 +33,6 @@ class LocalEnvironment {
    * @brief Destructor
    */
   ~LocalEnvironment();
-  /**
-   * @fn Initialize
-   * @brief Initialize function
-   * @param [in] simulation_configuration: Simulation configuration
-   * @param [in] global_environment: Global environment
-   * @param [in] spacecraft_id: Satellite ID
-   */
-  void Initialize(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
 
   /**
    * @fn Update
@@ -82,6 +74,15 @@ class LocalEnvironment {
   GeomagneticField* geomagnetic_field_;                   //!< Magnetic field of the earth
   SRPEnvironment* solar_radiation_pressure_environment_;  //!< Solar radiation pressure
   LocalCelestialInformation* celestial_information_;      //!< Celestial information
+
+  /**
+   * @fn Initialize
+   * @brief Initialize function
+   * @param [in] simulation_configuration: Simulation configuration
+   * @param [in] global_environment: Global environment
+   * @param [in] spacecraft_id: Satellite ID
+   */
+  void Initialize(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
 };
 
 #endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_HPP_
