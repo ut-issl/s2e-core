@@ -48,12 +48,12 @@ class MagEnvironment : public ILoggable {
    * @fn GetMag_i
    * @brief Return magnetic field vector in the inertial frame [nT]
    */
-  libra::Vector<3> GetMag_i() const;
+  inline libra::Vector<3> GetMag_i() const { return magnetic_field_i_nT_; }
   /**
    * @fn GetMag_b
    * @brief Return magnetic field vector in the body fixed frame [nT]
    */
-  libra::Vector<3> GetMag_b() const;
+  inline libra::Vector<3> GetMag_b() const { return magnetic_field_b_nT_; }
 
   // Override ILoggable
   /**

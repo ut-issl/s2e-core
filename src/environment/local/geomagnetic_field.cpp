@@ -53,10 +53,6 @@ void MagEnvironment::AddNoise(double* mag_i_array) {
   ++rw;  // Update random walk
 }
 
-Vector<3> MagEnvironment::GetMag_i() const { return magnetic_field_i_nT_; }
-
-Vector<3> MagEnvironment::GetMag_b() const { return magnetic_field_b_nT_; }
-
 std::string MagEnvironment::GetLogHeader() const {
   std::string str_tmp = "";
 
