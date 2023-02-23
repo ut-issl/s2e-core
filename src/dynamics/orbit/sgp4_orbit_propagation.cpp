@@ -22,12 +22,12 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial
     gravity_constant_setting_ = wgs84;
   }
 
-  char typerun = 'c', typeinput = 0;
-  double startmfe, stopmfe, deltamin;
+  char type_run = 'c', type_input = 0;
+  double start_mfe, stop_mfe, delta_min;
 
-  twoline2rv(tle1, tle2, typerun, typeinput, gravity_constant_setting_, startmfe, stopmfe, deltamin, sgp4_data_);
+  twoline2rv(tle1, tle2, type_run, type_input, gravity_constant_setting_, start_mfe, stop_mfe, delta_min, sgp4_data_);
 
-  spacecraft_acceleration_i_m_s2_ *= 0;
+  spacecraft_acceleration_i_m_s2_ *= 0.0;
 
   // To calculate initial position and velocity
   is_calc_enabled_ = true;
@@ -41,17 +41,17 @@ void Sgp4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) 
   if (!is_calc_enabled_) return;
   double elapse_time_min = (current_time_jd - sgp4_data_.jdsatepoch) * (24.0 * 60.0);
 
-  double r[3];
-  double v[3];
+  double position_i_km[3];
+  double velocity_i_km_s[3];
 
-  sgp4(gravity_constant_setting_, sgp4_data_, elapse_time_min, r, v);
+  sgp4(gravity_constant_setting_, sgp4_data_, elapse_time_min, position_i_km, velocity_i_km_s);
 
   // Error in SGP4
   if (sgp4_data_.error > 0) printf("# *** error: time:= %f *** code = %3d\n", sgp4_data_.t, sgp4_data_.error);
 
   for (int i = 0; i < 3; ++i) {
-    spacecraft_position_i_m_[i] = r[i] * 1000;
-    spacecraft_velocity_i_m_s_[i] = v[i] * 1000;
+    spacecraft_position_i_m_[i] = position_i_km[i] * 1000.0;
+    spacecraft_velocity_i_m_s_[i] = velocity_i_km_s[i] * 1000.0;
   }
 
   TransformEciToEcef();
