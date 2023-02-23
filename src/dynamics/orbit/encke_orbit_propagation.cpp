@@ -9,16 +9,16 @@
 
 #include "../../library/orbit/orbital_elements.hpp"
 
-EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double mu_m3_s2, const double prop_step_s,
-                                             const double current_time_jd, const libra::Vector<3> init_position_i_m,
-                                             const libra::Vector<3> init_velocity_i_m_s, const double error_tolerance)
+EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double mu_m3_s2,
+                                             const double propagation_step_s, const double current_time_jd, const libra::Vector<3> position_i_m,
+                                             const libra::Vector<3> velocity_i_m_s, const double error_tolerance)
     : Orbit(celestial_information),
-      libra::ODE<6>(prop_step_s),
+      libra::ODE<6>(propagation_step_s),
       mu_m3_s2_(mu_m3_s2),
       error_tolerance_(error_tolerance),
-      propagation_step_s_(prop_step_s) {
+      propagation_step_s_(propagation_step_s) {
   propagation_time_s_ = 0.0;
-  Initialize(current_time_jd, init_position_i_m, init_velocity_i_m_s);
+  Initialize(current_time_jd, position_i_m, velocity_i_m_s);
 }
 
 EnckeOrbitPropagation::~EnckeOrbitPropagation() {}
