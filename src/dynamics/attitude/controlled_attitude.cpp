@@ -96,13 +96,13 @@ Vector<3> ControlledAttitude::CalcTargetDirection_i(AttCtrlMode mode) {
 
 void ControlledAttitude::PointingControl(const Vector<3> main_direction_i, const Vector<3> sub_direction_i) {
   // Calc DCM ECI->Target
-  Matrix<3, 3> DCM_t2i = CalcDcm(main_direction_i, sub_direction_i);
+  Matrix<3, 3> dcm_t2i = CalcDcm(main_direction_i, sub_direction_i);
   // Calc DCM Target->body
-  Matrix<3, 3> DCM_t2b = CalcDcm(main_target_direction_b_, sub_target_direction_b_);
+  Matrix<3, 3> dcm_t2b = CalcDcm(main_target_direction_b_, sub_target_direction_b_);
   // Calc DCM ECI->body
-  Matrix<3, 3> DCM_i2b = DCM_t2b * transpose(DCM_t2i);
+  Matrix<3, 3> dcm_i2b = dcm_t2b * transpose(dcm_t2i);
   // Convert to Quaternion
-  quaternion_i2b_ = Quaternion::fromDCM(DCM_i2b);
+  quaternion_i2b_ = Quaternion::fromDCM(dcm_i2b);
 }
 
 Matrix<3, 3> ControlledAttitude::CalcDcm(const Vector<3> main_direction, const Vector<3> sub_direction) {
@@ -116,13 +116,13 @@ Matrix<3, 3> ControlledAttitude::CalcDcm(const Vector<3> main_direction, const V
   ez = normalize(tmp3);
 
   // Generate DCM
-  Matrix<3, 3> DCM_;
+  Matrix<3, 3> dcm;
   for (int i = 0; i < 3; i++) {
-    DCM_[i][0] = ex[i];
-    DCM_[i][1] = ey[i];
-    DCM_[i][2] = ez[i];
+    dcm[i][0] = ex[i];
+    dcm[i][1] = ey[i];
+    dcm[i][2] = ez[i];
   }
-  return DCM_;
+  return dcm;
 }
 
 AttCtrlMode ConvertStringToCtrlMode(const std::string mode) {
