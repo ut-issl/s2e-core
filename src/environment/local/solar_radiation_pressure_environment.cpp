@@ -12,7 +12,7 @@
 #include "library/math/constants.hpp"
 #include "library/math/vector.hpp"
 
-SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celes_info) : local_celestial_information_(local_celes_info) {
+SRPEnvironment::SRPEnvironment(LocalCelestialInformation* local_celestial_information) : local_celestial_information_(local_celestial_information) {
   solar_constant_W_m2_ = 1366.0;                                                            // [W/m2]
   solar_radiation_pressure_N_m2_ = solar_constant_W_m2_ / environment::speed_of_light_m_s;  // [N/m2]
   shadow_source_name_ = local_celestial_information_->GetGlobalInformation().GetCenterBodyName();

@@ -20,9 +20,9 @@ class SRPEnvironment : public ILoggable {
   /**
    * @fn SRPEnvironment
    * @brief Constructor
-   * @param [in] local_celes_info: Local celestial information
+   * @param [in] local_celestial_information: Local celestial information
    */
-  SRPEnvironment(LocalCelestialInformation* local_celes_info);
+  SRPEnvironment(LocalCelestialInformation* local_celestial_information);
   /**
    * @fn ~SRPEnvironment
    * @brief Destructor
