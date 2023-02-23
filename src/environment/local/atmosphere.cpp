@@ -5,21 +5,13 @@
 
 #include "atmosphere.hpp"
 
-#include <library/logger/log_utility.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/global_randomization.hpp>
-#include <library/randomization/normal_randomization.hpp>
-#include <library/randomization/random_walk.hpp>
+#include "library/logger/log_utility.hpp"
+#include "library/math/vector.hpp"
+#include "library/randomization/global_randomization.hpp"
+#include "library/randomization/normal_randomization.hpp"
+#include "library/randomization/random_walk.hpp"
 
-using libra::NormalRand;
-using libra::Vector;
-
-using std::cerr;
-using std::endl;
-using std::string;
-using namespace libra;
-
-Atmosphere::Atmosphere(string model, string fname, double gauss_stddev, bool is_manual_param_used, double manual_daily_f107,
+Atmosphere::Atmosphere(std::string model, std::string fname, double gauss_stddev, bool is_manual_param_used, double manual_daily_f107,
                        double manual_average_f107, double manual_ap)
     : model_(model),
       fname_(fname),
@@ -47,7 +39,7 @@ int Atmosphere::GetSpaceWeatherTable(double decyear, double endsec) {
 
 double Atmosphere::GetAirDensity() const { return air_density_; }
 
-double Atmosphere::CalcAirDensity(double decyear, double endsec, Vector<3> lat_lon_alt) {
+double Atmosphere::CalcAirDensity(double decyear, double endsec, libra::Vector<3> lat_lon_alt) {
   if (!IsCalcEnabled) return 0;
 
   if (model_ == "STANDARD") {
@@ -211,21 +203,21 @@ double Atmosphere::CalcStandard(double altitude_m) {
 
 double Atmosphere::AddNoise(double rho) {
   // RandomWalk rw(rho*rw_stepwidth_,rho*rw_stddev_,rho*rw_limit_);
-  NormalRand nr(0.0, rho * gauss_stddev_, g_rand.MakeSeed());
+  libra::NormalRand nr(0.0, rho * gauss_stddev_, g_rand.MakeSeed());
   double nrd = nr;
 
   return rho + nrd;
 }
 
-string Atmosphere::GetLogValue() const {
-  string str_tmp = "";
+std::string Atmosphere::GetLogValue() const {
+  std::string str_tmp = "";
   str_tmp += WriteScalar(air_density_);
 
   return str_tmp;
 }
 
-string Atmosphere::GetLogHeader() const {
-  string str_tmp = "";
+std::string Atmosphere::GetLogHeader() const {
+  std::string str_tmp = "";
 
   str_tmp += WriteScalar("air_density_at_spacecraft_position", "kg/m3");
 

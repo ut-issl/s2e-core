@@ -7,15 +7,12 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_
 #define S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_
 
-#include <library/external/nrlmsise00/wrapper_nrlmsise00.hpp>
-#include <library/logger/loggable.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
 #include <string>
 #include <vector>
 
-using libra::Quaternion;
-using libra::Vector;
+#include "library/external/nrlmsise00/wrapper_nrlmsise00.hpp"
+#include "library/logger/loggable.hpp"
+#include "library/math/vector.hpp"
 
 /**
  * @class Atmosphere
@@ -51,7 +48,7 @@ class Atmosphere : public ILoggable {
    * @param [in] lat_lon_alt: Latitude[rad], longitude[rad], and altitude[m]
    * @return Atmospheric density [kg/m^3]
    */
-  double CalcAirDensity(double decyear, double endsec, Vector<3> lat_lon_alt);
+  double CalcAirDensity(double decyear, double endsec, libra::Vector<3> lat_lon_alt);
   /**
    * @fn GetAirDensity
    * @brief Return Atmospheric density [kg/m^3]
