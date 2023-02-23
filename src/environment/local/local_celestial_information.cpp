@@ -100,7 +100,7 @@ void LocalCelestialInformation::ConvertInertialToBody(const double* input_i, dou
 }
 
 void LocalCelestialInformation::ConvertVelocityInertialToBody(const double* position_i, const double* velocity_i, double* velocity_b,
-                                                              libra::Quaternion quaternion_i2b, const libra::Vector<3> angular_velocity_b) {
+                                                              const libra::Quaternion quaternion_i2b, const libra::Vector<3> angular_velocity_b) {
   // copy input vector
   libra::Vector<3> vi;
   for (int i = 0; i < 3; i++) {
