@@ -29,20 +29,20 @@ class LocalCelestialInformation : public ILoggable {
   /**
    * @fn UpdateAllObjectsInfo
    * @brief Update the all selected celestial object local information
-   * @param [in] sc_pos_from_centeposition_i: Spacecraft position from the center body in the inertial frame [m]
-   * @param [in] sc_vel_from_centeposition_i: Spacecraft velocity from the center body in the inertial frame [m/s]
+   * @param [in] spacecraft_position_from_center_i_m: Spacecraft position from the center body in the inertial frame [m]
+   * @param [in] spacecraft_velocity_from_center_i_m_s: Spacecraft velocity from the center body in the inertial frame [m/s]
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
-   * @param [in] sc_body_rate: Spacecraft angular velocity with respect to the inertial frame [rad/s]
+   * @param [in] spacecraft_angular_velocity_rad_s: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
-  void UpdateAllObjectsInfo(const libra::Vector<3> sc_pos_from_centeposition_i, const libra::Vector<3> sc_vel_from_centeposition_i,
-                            libra::Quaternion quaternion_i2b, const libra::Vector<3> sc_body_rate);
+  void UpdateAllObjectsInfo(const libra::Vector<3> spacecraft_position_from_center_i_m, const libra::Vector<3> spacecraft_velocity_from_center_i_m_s,
+                            libra::Quaternion quaternion_i2b, const libra::Vector<3> spacecraft_angular_velocity_rad_s);
   /**
    * @fn CalcAllPosVel_b
    * @brief Frame conversion to the body frame for all selected celestial bodies
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
-   * @param [in] sc_body_rate: Spacecraft angular velocity with respect to the inertial frame [rad/s]
+   * @param [in] spacecraft_angular_velocity_rad_s: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
-  void CalcAllPosVel_b(libra::Quaternion quaternion_i2b, const libra::Vector<3> sc_body_rate);
+  void CalcAllPosVel_b(libra::Quaternion quaternion_i2b, const libra::Vector<3> spacecraft_angular_velocity_rad_s);
 
   /**
    * @fn GetPosFromSC_i
