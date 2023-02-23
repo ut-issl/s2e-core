@@ -90,10 +90,10 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    * @param [in] relative_position_lvlh_m: Initial value of relative position at the LVLH frame of reference satellite
    * @param [in] relative_velocity_lvlh_m_s: Initial value of relative velocity at the LVLH frame of reference satellite
    * @param [in] mu_m3_s2: Gravity constant of the center body [m3/s2]
-   * @param [in] initiali_time_s: Initialize time [sec]
+   * @param [in] initial_time_s: Initialize time [sec]
    */
   void InitializeState(libra::Vector<3> relative_position_lvlh_m, libra::Vector<3> relative_velocity_lvlh_m_s, double mu_m3_s2,
-                       double initiali_time_s = 0);
+                       double initial_time_s = 0);
   /**
    * @fn CalculateSystemMatrix
    * @brief Calculate system matrix

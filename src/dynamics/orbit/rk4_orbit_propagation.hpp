@@ -25,10 +25,10 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    * @param [in] time_step_s: Step width [sec]
    * @param [in] position_i_m: Initial value of position in the inertial frame [m]
    * @param [in] velocity_i_m_s: Initial value of velocity in the inertial frame [m/s]
-   * @param [in] initiali_time_s: Initial time [sec]
+   * @param [in] initial_time_s: Initial time [sec]
    */
-  Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double time_step_s, Vector<3> position_i_m,
-                      Vector<3> velocity_i_m_s, double initiali_time_s = 0);
+  Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double time_step_s, libra::Vector<3> position_i_m,
+                      libra::Vector<3> velocity_i_m_s, double initial_time_s = 0);
   /**
    * @fn ~Rk4OrbitPropagation
    * @brief Destructor
@@ -43,7 +43,7 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    * @param [in] state: Position and velocity as state vector
    * @param [out] rhs: Output of the function
    */
-  virtual void RHS(double t, const Vector<6>& state, Vector<6>& rhs);
+  virtual void RHS(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs);
 
   // Override Orbit
   /**
@@ -64,9 +64,9 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    * @brief Initialize function
    * @param [in] position_i_m: Initial value of position in the inertial frame [m]
    * @param [in] velocity_i_m_s: Initial value of velocity in the inertial frame [m/s]
-   * @param [in] initiali_time_s: Initial time [sec]
+   * @param [in] initial_time_s: Initial time [sec]
    */
-  void Initialize(Vector<3> position_i_m, Vector<3> velocity_i_m_s, double initiali_time_s = 0);
+  void Initialize(libra::Vector<3> position_i_m, libra::Vector<3> velocity_i_m_s, double initial_time_s = 0);
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_
