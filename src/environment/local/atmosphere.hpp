@@ -53,7 +53,7 @@ class Atmosphere : public ILoggable {
    * @fn GetAirDensity
    * @brief Return Atmospheric density [kg/m^3]
    */
-  double GetAirDensity() const;
+  inline double GetAirDensity_kg_m3() const { return air_density_kg_m3_; }
 
   // Override ILoggable
   /**
