@@ -32,8 +32,8 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     const std::string main_mode_in = ini_file.ReadString(section_ca_, "main_mode");
     const std::string sub_mode_in = ini_file.ReadString(section_ca_, "sub_mode");
 
-    AttCtrlMode main_mode = ConvertStringToCtrlMode(main_mode_in);
-    AttCtrlMode sub_mode = ConvertStringToCtrlMode(sub_mode_in);
+    AttitudeControlMode main_mode = ConvertStringToCtrlMode(main_mode_in);
+    AttitudeControlMode sub_mode = ConvertStringToCtrlMode(sub_mode_in);
     Quaternion quaternion_i2b;
     ini_file_ca.ReadQuaternion(section_, "initial_quaternion_i2b", quaternion_i2b);
     Vector<3> main_target_direction_b, sub_target_direction_b;

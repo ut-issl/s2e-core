@@ -12,7 +12,7 @@ using namespace std;
 
 #define THRESHOLD_CA cos(30.0 / 180.0 * libra::pi)  // fix me
 
-ControlledAttitude::ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2b,
+ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const Quaternion quaternion_i2b,
                                        const Vector<3> main_target_direction_b, const Vector<3> sub_target_direction_b,
                                        const Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information,
                                        const Orbit* orbit, const std::string& simulation_object_name)
@@ -79,7 +79,7 @@ void ControlledAttitude::Propagate(const double end_time_s) {
   return;
 }
 
-Vector<3> ControlledAttitude::CalcTargetDirection_i(AttCtrlMode mode) {
+Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mode) {
   Vector<3> direction;
   if (mode == SUN_POINTING) {
     direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
@@ -125,7 +125,7 @@ Matrix<3, 3> ControlledAttitude::CalcDcm(const Vector<3> main_direction, const V
   return dcm;
 }
 
-AttCtrlMode ConvertStringToCtrlMode(const std::string mode) {
+AttitudeControlMode ConvertStringToCtrlMode(const std::string mode) {
   if (mode == "INERTIAL_STABILIZE") {
     return INERTIAL_STABILIZE;
   } else if (mode == "SUN_POINTING") {

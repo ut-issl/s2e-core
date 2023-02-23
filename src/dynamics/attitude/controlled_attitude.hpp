@@ -13,10 +13,10 @@
 #include "attitude.hpp"
 
 /**
- * @enum AttCtrlMode
+ * @enum AttitudeControlMode
  * @brief Attitude control mode
  */
-enum AttCtrlMode {
+enum AttitudeControlMode {
   INERTIAL_STABILIZE,           //!< Inertial stabilize
   SUN_POINTING,                 //!< Sun pointing
   EARTH_CENTER_POINTING,        //!< Earth center pointing
@@ -27,11 +27,11 @@ enum AttCtrlMode {
 
 /**
  * @fn ConvertStringToCtrlMode
- * @brief Convert string to AttCtrlMode
+ * @brief Convert string to AttitudeControlMode
  * @param [in] mode: Control mode in string
  * @return Attitude control mode
  */
-AttCtrlMode ConvertStringToCtrlMode(const std::string mode);
+AttitudeControlMode ConvertStringToCtrlMode(const std::string mode);
 
 /**
  * @class ControlledAttitude
@@ -52,7 +52,7 @@ class ControlledAttitude : public Attitude {
    * @param [in] orbit: Orbit
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  ControlledAttitude(const AttCtrlMode main_mode, const AttCtrlMode sub_mode, const Quaternion quaternion_i2b,
+  ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const Quaternion quaternion_i2b,
                      const Vector<3> main_target_direction_b, const Vector<3> sub_target_direction_b, const Matrix<3, 3>& inertia_tensor_kgm2,
                      const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
                      const std::string& simulation_object_name = "Attitude");
@@ -67,12 +67,12 @@ class ControlledAttitude : public Attitude {
    * @fn SetMainMode
    * @brief Set main control mode
    */
-  inline void SetMainMode(const AttCtrlMode main_mode) { main_mode_ = main_mode; }
+  inline void SetMainMode(const AttitudeControlMode main_mode) { main_mode_ = main_mode; }
   /**
    * @fn SetSubMode
    * @brief Set sub control mode
    */
-  inline void SetSubMode(const AttCtrlMode sub_mode) { sub_mode_ = sub_mode; }
+  inline void SetSubMode(const AttitudeControlMode sub_mode) { sub_mode_ = sub_mode; }
   /**
    * @fn SetQuaternion_i2t
    * @brief Set quaternion for INERTIAL_STABILIZE mode
@@ -97,8 +97,8 @@ class ControlledAttitude : public Attitude {
   virtual void Propagate(const double end_time_s);
 
  private:
-  AttCtrlMode main_mode_;                      //!< Main control mode
-  AttCtrlMode sub_mode_;                       //!< Sub control mode
+  AttitudeControlMode main_mode_;              //!< Main control mode
+  AttitudeControlMode sub_mode_;               //!< Sub control mode
   libra::Vector<3> main_target_direction_b_;   //!< Main target direction on the body fixed frame
   libra::Vector<3> sub_target_direction_b_;    //!< Sub target direction on tge body fixed frame
   double previous_calc_time_s_ = -1.0;         //!< Previous time of velocity calculation [sec]
@@ -121,7 +121,7 @@ class ControlledAttitude : public Attitude {
    * @param [in] mode: Attitude control mode
    * @return Target direction at the inertia frame0
    */
-  Vector<3> CalcTargetDirection_i(AttCtrlMode mode);
+  Vector<3> CalcTargetDirection_i(AttitudeControlMode mode);
   /**
    * @fn PointingControl
    * @brief Calculate attitude quaternion
