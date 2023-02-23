@@ -8,31 +8,31 @@ base/i2c_controller.cpp
 base/i2c_target_communication_with_obc.cpp
 base/gpio_connection_with_obc.cpp
 
-aocs/gyro_sensor.cpp
-aocs/initialize_gyro_sensor.cpp
-aocs/magnetometer.cpp
-aocs/initialize_magnetometer.cpp
-aocs/magnetorquer.cpp
-aocs/initialize_magnetorquer.cpp
-aocs/reaction_wheel_ode.cpp
-aocs/reaction_wheel.cpp
-aocs/initialize_reaction_wheel.cpp
-aocs/reaction_wheel_jitter.cpp
-aocs/star_sensor.cpp
-aocs/initialize_star_sensor.cpp
-aocs/sun_sensor.cpp
-aocs/initialize_sun_sensor.cpp
-aocs/gnss_receiver.cpp
-aocs/initialize_gnss_receiver.cpp
+real/aocs/gyro_sensor.cpp
+real/aocs/initialize_gyro_sensor.cpp
+real/aocs/magnetometer.cpp
+real/aocs/initialize_magnetometer.cpp
+real/aocs/magnetorquer.cpp
+real/aocs/initialize_magnetorquer.cpp
+real/aocs/reaction_wheel_ode.cpp
+real/aocs/reaction_wheel.cpp
+real/aocs/initialize_reaction_wheel.cpp
+real/aocs/reaction_wheel_jitter.cpp
+real/aocs/star_sensor.cpp
+real/aocs/initialize_star_sensor.cpp
+real/aocs/sun_sensor.cpp
+real/aocs/initialize_sun_sensor.cpp
+real/aocs/gnss_receiver.cpp
+real/aocs/initialize_gnss_receiver.cpp
 
-cdh/obc.cpp
-cdh/obc_c2a.cpp
+real/cdh/on_board_computer.cpp
+real/cdh/on_board_computer_with_c2a.cpp
 
-communication/antenna.cpp
-communication/antenna_radiation_pattern.cpp
-communication/initialize_antenna.cpp
-communication/ground_station_calculator.cpp
-communication/initialize_ground_station_calculator.cpp
+real/communication/antenna.cpp
+real/communication/antenna_radiation_pattern.cpp
+real/communication/initialize_antenna.cpp
+real/communication/ground_station_calculator.cpp
+real/communication/initialize_ground_station_calculator.cpp
 
 examples/example_change_structure.cpp
 examples/example_serial_communication_with_obc.cpp
@@ -40,25 +40,25 @@ examples/example_serial_communication_for_hils.cpp
 examples/example_i2c_controller_for_hils.cpp
 examples/example_i2c_target_for_hils.cpp
 
-ideal_components/force_generator.cpp
-ideal_components/initialize_force_generator.cpp
-ideal_components/torque_generator.cpp
-ideal_components/initialize_torque_generator.cpp
+ideal/force_generator.cpp
+ideal/initialize_force_generator.cpp
+ideal/torque_generator.cpp
+ideal/initialize_torque_generator.cpp
 
-mission/telescope.cpp
-mission/initialize_telescope.cpp
+real/mission/telescope.cpp
+real/mission/initialize_telescope.cpp
 
-power/power_control_unit.cpp
-power/battery.cpp
-power/initialize_battery.cpp
-power/pcu_initial_study.cpp
-power/initialize_pcu_initial_study.cpp
-power/solar_array_panel.cpp
-power/initialize_solar_array_panel.cpp
-power/csv_scenario_interface.cpp
+real/power/power_control_unit.cpp
+real/power/battery.cpp
+real/power/initialize_battery.cpp
+real/power/pcu_initial_study.cpp
+real/power/initialize_pcu_initial_study.cpp
+real/power/solar_array_panel.cpp
+real/power/initialize_solar_array_panel.cpp
+real/power/csv_scenario_interface.cpp
 
-propulsion/simple_thruster.cpp
-propulsion/initialize_simple_thruster.cpp
+real/propulsion/simple_thruster.cpp
+real/propulsion/initialize_simple_thruster.cpp
 
 ports/gpio_port.cpp
 ports/power_port.cpp

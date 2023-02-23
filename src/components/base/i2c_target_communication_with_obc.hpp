@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_BASE_I2C_TARGET_COMMUNICATION_WITH_OBC_HPP_
 
 #include "../../simulation/hils/hils_port_manager.hpp"
-#include "../cdh/obc.hpp"
+#include "../real/cdh/on_board_computer.hpp"
 #include "uart_communication_with_obc.hpp"
 
 /**

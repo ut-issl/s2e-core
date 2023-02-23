@@ -7,7 +7,7 @@
 #ifndef S2E_COMPONENTS_GPIO_CONNECTION_WITH_OBC_HPP_
 #define S2E_COMPONENTS_GPIO_CONNECTION_WITH_OBC_HPP_
 
-#include "../cdh/obc.hpp"
+#include "../real/cdh/on_board_computer.hpp"
 
 /**
  * @class ObcGpioBase
