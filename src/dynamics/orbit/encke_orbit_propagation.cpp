@@ -24,10 +24,10 @@ void EnckeOrbitPropagation::Propagate(double endtime, double current_jd) {
   if (!is_calc_enabled_) return;
 
   // Rectification
-  double norm_sat_position_m = norm(sat_position_i_);
+  double norm_sat_position_m = norm(spacecraft_position_i_m_);
   double norm_diff_position_m = norm(diff_position_i_m_);
   if (norm_diff_position_m / norm_sat_position_m > error_tolerance_) {
-    Initialize(current_jd, sat_position_i_, sat_velocity_i_);
+    Initialize(current_jd, spacecraft_position_i_m_, spacecraft_velocity_i_m_s_);
   }
 
   // Update reference orbit
@@ -67,7 +67,7 @@ void EnckeOrbitPropagation::RHS(double t, const Vector<6>& state, Vector<6>& rhs
   double r_m = norm(ref_position_i_m_);
   double r_m3 = pow(r_m, 3.0);
 
-  diff_acc_i_m_s2 = -(mu_m3_s2_ / r_m3) * (q_func * sat_position_i_ + diff_pos_i_m) + acc_i_;
+  diff_acc_i_m_s2 = -(mu_m3_s2_ / r_m3) * (q_func * spacecraft_position_i_m_ + diff_pos_i_m) + spacecraft_acceleration_i_m_s2_;
 
   rhs[0] = state[3];
   rhs[1] = state[4];
@@ -80,7 +80,7 @@ void EnckeOrbitPropagation::RHS(double t, const Vector<6>& state, Vector<6>& rhs
 // Private Functions
 void EnckeOrbitPropagation::Initialize(double current_jd, Vector<3> init_ref_position_i_m, Vector<3> init_ref_velocity_i_m_s) {
   // General
-  fill_up(acc_i_, 0.0);
+  fill_up(spacecraft_acceleration_i_m_s2_, 0.0);
 
   // reference orbit
   ref_position_i_m_ = init_ref_position_i_m;
@@ -99,8 +99,8 @@ void EnckeOrbitPropagation::Initialize(double current_jd, Vector<3> init_ref_pos
 }
 
 void EnckeOrbitPropagation::UpdateSatOrbit() {
-  sat_position_i_ = ref_position_i_m_ + diff_position_i_m_;
-  sat_velocity_i_ = ref_velocity_i_m_s_ + diff_velocity_i_m_s_;
+  spacecraft_position_i_m_ = ref_position_i_m_ + diff_position_i_m_;
+  spacecraft_velocity_i_m_s_ = ref_velocity_i_m_s_ + diff_velocity_i_m_s_;
 
   TransEciToEcef();
   TransEcefToGeo();
@@ -108,10 +108,10 @@ void EnckeOrbitPropagation::UpdateSatOrbit() {
 
 double EnckeOrbitPropagation::CalcQFunction(Vector<3> diff_pos_i) {
   double r2;
-  r2 = inner_product(sat_position_i_, sat_position_i_);
+  r2 = inner_product(spacecraft_position_i_m_, spacecraft_position_i_m_);
 
   Vector<3> dr_2r;
-  dr_2r = diff_pos_i - 2.0 * sat_position_i_;
+  dr_2r = diff_pos_i - 2.0 * spacecraft_position_i_m_;
 
   double q = inner_product(diff_pos_i, dr_2r) / r2;
 

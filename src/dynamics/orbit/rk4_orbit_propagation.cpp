@@ -17,7 +17,7 @@ Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_i
 
   prop_time_ = 0.0;
   prop_step_ = timestep;
-  acc_i_ *= 0;
+  spacecraft_acceleration_i_m_s2_ *= 0;
 
   Initialize(init_position, init_velocity, init_time);
 }
@@ -33,9 +33,9 @@ void Rk4OrbitPropagation::RHS(double t, const Vector<N>& state, Vector<N>& rhs) 
   rhs[0] = vx;
   rhs[1] = vy;
   rhs[2] = vz;
-  rhs[3] = acc_i_[0] - mu / r3 * x;
-  rhs[4] = acc_i_[1] - mu / r3 * y;
-  rhs[5] = acc_i_[2] - mu / r3 * z;
+  rhs[3] = spacecraft_acceleration_i_m_s2_[0] - mu / r3 * x;
+  rhs[4] = spacecraft_acceleration_i_m_s2_[1] - mu / r3 * y;
+  rhs[5] = spacecraft_acceleration_i_m_s2_[2] - mu / r3 * z;
 
   (void)t;
 }
@@ -52,13 +52,13 @@ void Rk4OrbitPropagation::Initialize(Vector<3> init_position, Vector<3> init_vel
   setup(init_time, init_state);
 
   // initialize
-  acc_i_ *= 0;
-  sat_position_i_[0] = init_state[0];
-  sat_position_i_[1] = init_state[1];
-  sat_position_i_[2] = init_state[2];
-  sat_velocity_i_[0] = init_state[3];
-  sat_velocity_i_[1] = init_state[4];
-  sat_velocity_i_[2] = init_state[5];
+  spacecraft_acceleration_i_m_s2_ *= 0;
+  spacecraft_position_i_m_[0] = init_state[0];
+  spacecraft_position_i_m_[1] = init_state[1];
+  spacecraft_position_i_m_[2] = init_state[2];
+  spacecraft_velocity_i_m_s_[0] = init_state[3];
+  spacecraft_velocity_i_m_s_[1] = init_state[4];
+  spacecraft_velocity_i_m_s_[2] = init_state[5];
 
   TransEciToEcef();
   TransEcefToGeo();
@@ -78,12 +78,12 @@ void Rk4OrbitPropagation::Propagate(double endtime, double current_jd) {
   Update();
   prop_time_ = endtime;
 
-  sat_position_i_[0] = state()[0];
-  sat_position_i_[1] = state()[1];
-  sat_position_i_[2] = state()[2];
-  sat_velocity_i_[0] = state()[3];
-  sat_velocity_i_[1] = state()[4];
-  sat_velocity_i_[2] = state()[5];
+  spacecraft_position_i_m_[0] = state()[0];
+  spacecraft_position_i_m_[1] = state()[1];
+  spacecraft_position_i_m_[2] = state()[2];
+  spacecraft_velocity_i_m_s_[0] = state()[3];
+  spacecraft_velocity_i_m_s_[1] = state()[4];
+  spacecraft_velocity_i_m_s_[2] = state()[5];
 
   TransEciToEcef();
   TransEcefToGeo();
@@ -95,7 +95,7 @@ void Rk4OrbitPropagation::AddPositionOffset(Vector<3> offset_i) {
     newstate[i] += offset_i[i];
   }
   setup(x(), newstate);
-  sat_position_i_[0] = state()[0];
-  sat_position_i_[1] = state()[1];
-  sat_position_i_[2] = state()[2];
+  spacecraft_position_i_m_[0] = state()[0];
+  spacecraft_position_i_m_[1] = state()[1];
+  spacecraft_position_i_m_[2] = state()[2];
 }

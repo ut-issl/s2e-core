@@ -5,9 +5,10 @@
 #include "orbit.hpp"
 
 Quaternion Orbit::CalcQuaternionI2LVLH() const {
-  libra::Vector<3> lvlh_x = sat_position_i_;  // x-axis in LVLH frame is position vector direction from geocenter to satellite
+  libra::Vector<3> lvlh_x = spacecraft_position_i_m_;  // x-axis in LVLH frame is position vector direction from geocenter to satellite
   libra::Vector<3> lvlh_ex = normalize(lvlh_x);
-  libra::Vector<3> lvlh_z = outer_product(sat_position_i_, sat_velocity_i_);  // z-axis in LVLH frame is angular momentum vector direction of orbit
+  libra::Vector<3> lvlh_z =
+      outer_product(spacecraft_position_i_m_, spacecraft_velocity_i_m_s_);  // z-axis in LVLH frame is angular momentum vector direction of orbit
   libra::Vector<3> lvlh_ez = normalize(lvlh_z);
   libra::Vector<3> lvlh_y = outer_product(lvlh_z, lvlh_x);
   libra::Vector<3> lvlh_ey = normalize(lvlh_y);
@@ -29,17 +30,17 @@ Quaternion Orbit::CalcQuaternionI2LVLH() const {
 
 void Orbit::TransEciToEcef(void) {
   libra::Matrix<3, 3> dcm_i_to_xcxf = celestial_information_->GetEarthRotation().GetDcmJ2000ToXcxf();
-  sat_position_ecef_ = dcm_i_to_xcxf * sat_position_i_;
+  spacecraft_position_ecef_m_ = dcm_i_to_xcxf * spacecraft_position_i_m_;
 
   // convert velocity vector in ECI to the vector in ECEF
   libra::Vector<3> OmegaE{0.0};
   OmegaE[2] = environment::earth_mean_angular_velocity_rad_s;
-  libra::Vector<3> wExr = outer_product(OmegaE, sat_position_i_);
-  libra::Vector<3> V_wExr = sat_velocity_i_ - wExr;
-  sat_velocity_ecef_ = dcm_i_to_xcxf * V_wExr;
+  libra::Vector<3> wExr = outer_product(OmegaE, spacecraft_position_i_m_);
+  libra::Vector<3> V_wExr = spacecraft_velocity_i_m_s_ - wExr;
+  spacecraft_velocity_ecef_m_s_ = dcm_i_to_xcxf * V_wExr;
 }
 
-void Orbit::TransEcefToGeo(void) { sat_position_geo_.UpdateFromEcef(sat_position_ecef_); }
+void Orbit::TransEcefToGeo(void) { spacecraft_geodetic_position_.UpdateFromEcef(spacecraft_position_ecef_m_); }
 
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode) {
   if (initialize_mode == "DEFAULT") {
@@ -70,13 +71,13 @@ std::string Orbit::GetLogHeader() const {
 std::string Orbit::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(sat_position_i_, 16);
-  str_tmp += WriteVector(sat_velocity_i_, 10);
-  str_tmp += WriteVector(sat_velocity_b_, 10);
-  str_tmp += WriteVector(acc_i_, 10);
-  str_tmp += WriteScalar(sat_position_geo_.GetLat_rad());
-  str_tmp += WriteScalar(sat_position_geo_.GetLon_rad());
-  str_tmp += WriteScalar(sat_position_geo_.GetAlt_m());
+  str_tmp += WriteVector(spacecraft_position_i_m_, 16);
+  str_tmp += WriteVector(spacecraft_velocity_i_m_s_, 10);
+  str_tmp += WriteVector(spacecraft_velocity_b_m_s_, 10);
+  str_tmp += WriteVector(spacecraft_acceleration_i_m_s2_, 10);
+  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLat_rad());
+  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLon_rad());
+  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetAlt_m());
 
   return str_tmp;
 }

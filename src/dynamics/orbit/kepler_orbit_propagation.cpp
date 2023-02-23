@@ -26,8 +26,8 @@ void KeplerOrbitPropagation::Propagate(double endtime, double current_jd) {
 // Private Function
 void KeplerOrbitPropagation::UpdateState(const double current_jd) {
   CalcPosVel(current_jd);
-  sat_position_i_ = position_i_m_;
-  sat_velocity_i_ = velocity_i_m_s_;
+  spacecraft_position_i_m_ = position_i_m_;
+  spacecraft_velocity_i_m_s_ = velocity_i_m_s_;
   TransEciToEcef();
   TransEcefToGeo();
 }

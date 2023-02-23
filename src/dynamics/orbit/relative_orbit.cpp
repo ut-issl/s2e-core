@@ -35,14 +35,14 @@ void RelativeOrbit::InitializeState(Vector<3> initial_relative_position_lvlh, Ve
   relative_velocity_lvlh_ = initial_relative_velocity_lvlh;
 
   // Disturbance acceleration are not considered in relative orbit propagation
-  acc_i_ *= 0;
+  spacecraft_acceleration_i_m_s2_ *= 0;
 
   Vector<3> reference_sat_position_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetSatPosition_i();
   Vector<3> reference_sat_velocity_i = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().GetSatVelocity_i();
   Quaternion q_i2lvlh = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().CalcQuaternionI2LVLH();
   Quaternion q_lvlh2i = q_i2lvlh.conjugate();
-  sat_position_i_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
-  sat_velocity_i_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
+  spacecraft_position_i_m_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
+  spacecraft_velocity_i_m_s_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
 
   initial_state_[0] = initial_relative_position_lvlh[0];
   initial_state_[1] = initial_relative_position_lvlh[1];
@@ -94,7 +94,7 @@ void RelativeOrbit::Propagate(double endtime, double current_jd) {
 
   if (!is_calc_enabled_) return;
 
-  acc_i_ *= 0;  // Disturbance acceleration are not considered in relative orbit propagation
+  spacecraft_acceleration_i_m_s2_ *= 0;  // Disturbance acceleration are not considered in relative orbit propagation
 
   if (update_method_ == RK4) {
     PropagateRK4(endtime);
@@ -108,8 +108,8 @@ void RelativeOrbit::Propagate(double endtime, double current_jd) {
   Quaternion q_i2lvlh = rel_info_->GetReferenceSatDynamics(reference_sat_id_)->GetOrbit().CalcQuaternionI2LVLH();
   Quaternion q_lvlh2i = q_i2lvlh.conjugate();
 
-  sat_position_i_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
-  sat_velocity_i_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
+  spacecraft_position_i_m_ = q_lvlh2i.frame_conv(relative_position_lvlh_) + reference_sat_position_i;
+  spacecraft_velocity_i_m_s_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_) + reference_sat_velocity_i;
   TransEciToEcef();
   TransEcefToGeo();
 }

@@ -27,7 +27,7 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial
 
   twoline2rv(tle1, tle2, typerun, typeinput, whichconst_, startmfe, stopmfe, deltamin, satrec_);
 
-  acc_i_ *= 0;
+  spacecraft_acceleration_i_m_s2_ *= 0;
 
   // To calculate initial position and velocity
   is_calc_enabled_ = true;
@@ -50,8 +50,8 @@ void Sgp4OrbitPropagation::Propagate(double endtime, double current_jd) {
   if (satrec_.error > 0) printf("# *** error: time:= %f *** code = %3d\n", satrec_.t, satrec_.error);
 
   for (int i = 0; i < 3; ++i) {
-    sat_position_i_[i] = r[i] * 1000;
-    sat_velocity_i_[i] = v[i] * 1000;
+    spacecraft_position_i_m_[i] = r[i] * 1000;
+    spacecraft_velocity_i_m_s_[i] = v[i] * 1000;
   }
 
   TransEciToEcef();
