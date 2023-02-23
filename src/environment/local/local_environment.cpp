@@ -14,10 +14,10 @@ LocalEnvironment::LocalEnvironment(SimulationConfig* sim_config, const GlobalEnv
 }
 
 LocalEnvironment::~LocalEnvironment() {
-  delete mag_;
-  delete srp_;
+  delete geomagnetic_field_;
+  delete solar_radiation_pressure_environment_;
   delete atmosphere_;
-  delete celes_info_;
+  delete celestial_information_;
 }
 
 void LocalEnvironment::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) {
@@ -27,19 +27,19 @@ void LocalEnvironment::Initialize(SimulationConfig* sim_config, const GlobalEnvi
   // Save ini file
   sim_config->main_logger_->CopyFileToLogDir(ini_fname);
   // Initialize
-  mag_ = new GeomagneticField(InitGeomagneticField(ini_fname));
+  geomagnetic_field_ = new GeomagneticField(InitGeomagneticField(ini_fname));
   atmosphere_ = new Atmosphere(InitAtmosphere(ini_fname));
-  celes_info_ = new LocalCelestialInformation(&(glo_env->GetCelestialInformation()));
-  srp_ = new SRPEnvironment(InitSRPEnvironment(ini_fname, celes_info_));
+  celestial_information_ = new LocalCelestialInformation(&(glo_env->GetCelestialInformation()));
+  solar_radiation_pressure_environment_ = new SRPEnvironment(InitSRPEnvironment(ini_fname, celestial_information_));
   // Force to disable when the center body is not the Earth
   if (glo_env->GetCelestialInformation().GetCenterBodyName() != "EARTH") {
-    mag_->IsCalcEnabled = false;
+    geomagnetic_field_->IsCalcEnabled = false;
     atmosphere_->IsCalcEnabled = false;
   }
 
   // Log setting for Local celestial information
   IniAccess conf = IniAccess(ini_fname);
-  celes_info_->IsLogEnabled = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", "logging");
+  celestial_information_->IsLogEnabled = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", "logging");
 }
 
 void LocalEnvironment::Update(const Dynamics* dynamics, const SimTime* sim_time) {
@@ -48,21 +48,22 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimTime* sim_time)
 
   // Update local environments that depend on the attitude (and the position)
   if (sim_time->GetAttitudePropagateFlag()) {
-    celes_info_->UpdateAllObjectsInformation(orbit.GetSatPosition_i(), orbit.GetSatVelocity_i(), attitude.GetQuaternion_i2b(), attitude.GetOmega_b());
-    mag_->CalcMagneticField(sim_time->GetCurrentDecimalYear(), sim_time->GetCurrentSiderealTime(), orbit.GetGeodeticPosition(),
-                            attitude.GetQuaternion_i2b());
+    celestial_information_->UpdateAllObjectsInformation(orbit.GetSatPosition_i(), orbit.GetSatVelocity_i(), attitude.GetQuaternion_i2b(),
+                                                        attitude.GetOmega_b());
+    geomagnetic_field_->CalcMagneticField(sim_time->GetCurrentDecimalYear(), sim_time->GetCurrentSiderealTime(), orbit.GetGeodeticPosition(),
+                                          attitude.GetQuaternion_i2b());
   }
 
   // Update local environments that depend only on the position
   if (sim_time->GetOrbitPropagateFlag()) {
-    srp_->UpdateAllStates();
+    solar_radiation_pressure_environment_->UpdateAllStates();
     atmosphere_->CalcAirDensity_kg_m3(sim_time->GetCurrentDecimalYear(), sim_time->GetEndTime_s(), orbit.GetGeodeticPosition());
   }
 }
 
 void LocalEnvironment::LogSetup(Logger& logger) {
-  logger.AddLoggable(mag_);
-  logger.AddLoggable(srp_);
+  logger.AddLoggable(geomagnetic_field_);
+  logger.AddLoggable(solar_radiation_pressure_environment_);
   logger.AddLoggable(atmosphere_);
-  logger.AddLoggable(celes_info_);
+  logger.AddLoggable(celestial_information_);
 }
