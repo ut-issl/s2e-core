@@ -103,31 +103,3 @@ void SRPEnvironment::CalcShadowCoefficient(std::string shadow_source_name) {
     shadow_coefficient_ = 1.0;
   }
 }
-
-/*int main(){
-    Vector<3> ep;
-    Vector<3> sp;
-    ofstream log1;//ファイル書き込み用
-    log1.open("log1.csv",ios::trunc);
-    ofstream log2;//ファイル書き込み用
-    log2.open("log2.csv",ios::trunc);
-    sp[0] = 149597870700.0;
-    sp[1] = 0;
-    sp[2] = 0;
-    ep[0] = 6400000;
-    ep[1] = 0;
-    ep[2] = 0;
-    SRPEnvironment srp;
-    for(long i = 6400000;i < 4200000000; i = i + 10000000){
-        sp[0] = 149597870700.0 + double(i);
-        ep[0] = double(i);
-        srp.Update(ep,sp);
-        log1 << srp.GetP() << ",";
-    }
-    for(int i = 0;i < 360; i++){
-        ep[0] = 6400000 * cos(libra::pi * i / 180);
-        ep[1] = 6400000 * sin(libra::pi * i / 180);
-        srp.Update(ep,sp);
-        log2 << srp.GetP() << ",";
-    }
-}*/
