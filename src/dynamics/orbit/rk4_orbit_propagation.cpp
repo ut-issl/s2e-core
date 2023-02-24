@@ -38,7 +38,7 @@ void Rk4OrbitPropagation::RHS(double t, const libra::Vector<6>& state, libra::Ve
   (void)t;
 }
 
-void Rk4OrbitPropagation::Initialize(Vector<3> position_i_m, libra::Vector<3> velocity_i_m_s, double initial_time_s) {
+void Rk4OrbitPropagation::Initialize(libra::Vector<3> position_i_m, libra::Vector<3> velocity_i_m_s, double initial_time_s) {
   // state vector [x,y,z,vx,vy,vz]
   libra::Vector<6> init_state;
   init_state[0] = position_i_m[0];

@@ -51,7 +51,7 @@ Node InitNode(const std::vector<std::string>& node_str) {
   capacity = stod(node_str[3]);        // column 4
   alpha = stod(node_str[4]);           // column 5
   area = stod(node_str[5]);            // column 6
-  Vector<3> normal_v_b;                // column 7-9
+  libra::Vector<3> normal_v_b;         // column 7-9
   for (int i = 0; i < 3; i++) {
     normal_v_b[i] = stod(node_str[6 + i]);
   }                                   // body frame

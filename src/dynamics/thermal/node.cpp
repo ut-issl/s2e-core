@@ -12,7 +12,7 @@ using namespace std;
 using namespace libra;
 
 Node::Node(const int node_id, const string node_label, const int heater_node_id, const double temperature_ini, const double capacity_ini,
-           const double internal_heat_ini, const double alpha, const double area, Vector<3> normal_v_b)
+           const double internal_heat_ini, const double alpha, const double area, libra::Vector<3> normal_v_b)
     : node_id_(node_id),
       node_label_(node_label),
       heater_node_id_(heater_node_id),
@@ -57,7 +57,7 @@ void Node::SetInternalHeat(double heat_power) {
   internal_heat_ = heat_power;  // [W]
 }
 
-double Node::CalcSolarRadiation(Vector<3> sun_direction) {
+double Node::CalcSolarRadiation(libra::Vector<3> sun_direction) {
   // FIXME: constants
   double R = 6.96E+8;                              // Distance from sun
   double T = 5778;                                 // sun surface temperature [K]

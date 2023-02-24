@@ -4,7 +4,7 @@
  */
 #include "orbit.hpp"
 
-Quaternion Orbit::CalcQuaternion_i2lvlh() const {
+libra::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
   libra::Vector<3> lvlh_x = spacecraft_position_i_m_;  // x-axis in LVLH frame is position vector direction from geocenter to satellite
   libra::Vector<3> lvlh_ex = normalize(lvlh_x);
   libra::Vector<3> lvlh_z =
