@@ -30,7 +30,7 @@ class Logger {
    * @param [in] enable: Enable flag for logging
    */
   Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool enable_ini_file_save,
-         bool enable = true);
+         const bool enable = true);
   /**
    * @fn ~Logger
    * @brief Destructor
@@ -38,13 +38,13 @@ class Logger {
   ~Logger(void);
 
   /**
-   * @fn AddLoggable
+   * @fn AddLogList
    * @brief Add a loggable into the log list
    * @param [in] loggable: loggable
    */
-  void AddLoggable(ILoggable *loggable);
+  void AddLogList(ILoggable *loggable);
   /**
-   * @fn ClearLoggable
+   * @fn ClearLogList
    * @brief Clear the log list
    */
   void ClearLogList();
@@ -54,19 +54,19 @@ class Logger {
    * @brief Write all headers in the log list
    * @param add_newline: Add newline or not
    */
-  void WriteHeaders(bool add_newline = true);
+  void WriteHeaders(const bool add_newline = true);
   /**
    * @fn WriteValues
    * @brief Write all values in the log list
    * @param add_newline: Add newline or not
    */
-  void WriteValues(bool add_newline = true);
+  void WriteValues(const bool add_newline = true);
 
   /**
    * @fn Enabled
    * @brief Set enable flag of the log
    */
-  inline void Enable(bool enable) { is_enabled_ = enable; }
+  inline void Enable(const bool enable) { is_enabled_ = enable; }
   /**
    * @fn CopyFileToLogDir
    * @brief Copy a file (e.g., ini file) into the log directory
@@ -87,10 +87,10 @@ class Logger {
   inline std::string GetLogPath() const { return directory_path_; }
 
  private:
-  std::ofstream csv_file_;              //!< CSV file stream
-  bool is_enabled_;                     //!< Enable flag for logging
-  bool is_file_opened_;                 //!< Is the CSV file opened?
-  std::vector<ILoggable *> loggables_;  //!< Log list
+  std::ofstream csv_file_;             //!< CSV file stream
+  bool is_enabled_;                    //!< Enable flag for logging
+  bool is_file_opened_;                //!< Is the CSV file opened?
+  std::vector<ILoggable *> log_list_;  //!< Log list
 
   bool is_ini_save_enabled_;    //!< Enable flag to save ini files
   std::string directory_path_;  //!< Path to the directory for log files
@@ -101,7 +101,7 @@ class Logger {
    * @param [in] log: Write target
    * @param [in] flag: Enable flag to write
    */
-  void Write(std::string log, bool flag = true);
+  void Write(const std::string log, const bool flag = true);
 
   /**
    * @fn WriteNewline

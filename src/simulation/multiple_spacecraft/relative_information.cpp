@@ -101,7 +101,7 @@ std::string RelativeInformation::GetLogValue() const {
   return str_tmp;
 }
 
-void RelativeInformation::LogSetup(Logger& logger) { logger.AddLoggable(this); }
+void RelativeInformation::LogSetup(Logger& logger) { logger.AddLogList(this); }
 
 libra::Quaternion RelativeInformation::CalcRelativeAttitudeQuaternion(const int target_sat_id, const int reference_sat_id) {
   // Observer SC Body frame(obs_sat) -> ECI frame(i)

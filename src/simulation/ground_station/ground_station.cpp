@@ -42,7 +42,7 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
   config->main_logger_->CopyFileToLogDir(gs_ini_path);
 }
 
-void GroundStation::LogSetup(Logger& logger) { logger.AddLoggable(this); }
+void GroundStation::LogSetup(Logger& logger) { logger.AddLogList(this); }
 
 void GroundStation::Update(const CelestialRotation& celes_rotation, const Spacecraft& spacecraft) {
   Matrix<3, 3> dcm_ecef2eci = transpose(celes_rotation.GetDcmJ2000ToXcxf());

@@ -68,8 +68,8 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* si
 }
 
 void LocalEnvironment::LogSetup(Logger& logger) {
-  logger.AddLoggable(geomagnetic_field_);
-  logger.AddLoggable(solar_radiation_pressure_environment_);
-  logger.AddLoggable(atmosphere_);
-  logger.AddLoggable(celestial_information_);
+  logger.AddLogList(geomagnetic_field_);
+  logger.AddLogList(solar_radiation_pressure_environment_);
+  logger.AddLogList(atmosphere_);
+  logger.AddLogList(celestial_information_);
 }

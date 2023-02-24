@@ -23,6 +23,6 @@ SampleGSComponents::~SampleGSComponents() {
 }
 
 void SampleGSComponents::CompoLogSetUp(Logger& logger) {
-  // logger.AddLoggable(ant_);
-  logger.AddLoggable(gs_calculator_);
+  // logger.AddLogList(ant_);
+  logger.AddLogList(gs_calculator_);
 }

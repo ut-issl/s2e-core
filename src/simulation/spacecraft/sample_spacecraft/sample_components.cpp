@@ -166,14 +166,14 @@ libra::Vector<3> SampleComponents::GenerateTorque_Nm_b() {
 }
 
 void SampleComponents::LogSetup(Logger& logger) {
-  logger.AddLoggable(gyro_);
-  logger.AddLoggable(mag_sensor_);
-  logger.AddLoggable(stt_);
-  logger.AddLoggable(sun_sensor_);
-  logger.AddLoggable(gnss_);
-  logger.AddLoggable(mag_torquer_);
-  logger.AddLoggable(rw_);
-  logger.AddLoggable(thruster_);
-  logger.AddLoggable(force_generator_);
-  logger.AddLoggable(torque_generator_);
+  logger.AddLogList(gyro_);
+  logger.AddLogList(mag_sensor_);
+  logger.AddLogList(stt_);
+  logger.AddLogList(sun_sensor_);
+  logger.AddLogList(gnss_);
+  logger.AddLogList(mag_torquer_);
+  logger.AddLogList(rw_);
+  logger.AddLogList(thruster_);
+  logger.AddLogList(force_generator_);
+  logger.AddLogList(torque_generator_);
 }

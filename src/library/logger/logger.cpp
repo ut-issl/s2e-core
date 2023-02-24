@@ -13,10 +13,10 @@
 #include <sys/stat.h>
 #endif
 
-std::vector<ILoggable *> loggables_;
+std::vector<ILoggable *> log_list_;
 
 Logger::Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool enable_ini_file_save,
-               bool enable) {
+               const bool enable) {
   is_enabled_ = enable;
   is_file_opened_ = false;
   is_ini_save_enabled_ = enable_ini_file_save;
@@ -52,16 +52,16 @@ Logger::~Logger(void) {
   }
 }
 
-void Logger::WriteHeaders(bool add_newline) {
-  for (auto itr = loggables_.begin(); itr != loggables_.end(); ++itr) {
+void Logger::WriteHeaders(const bool add_newline) {
+  for (auto itr = log_list_.begin(); itr != log_list_.end(); ++itr) {
     if (!((*itr)->is_log_enabled_)) continue;
     Write((*itr)->GetLogHeader());
   }
   if (add_newline) WriteNewLine();
 }
 
-void Logger::WriteValues(bool add_newline) {
-  for (auto itr = loggables_.begin(); itr != loggables_.end(); ++itr) {
+void Logger::WriteValues(const bool add_newline) {
+  for (auto itr = log_list_.begin(); itr != log_list_.end(); ++itr) {
     if (!((*itr)->is_log_enabled_)) continue;
     Write((*itr)->GetLogValue());
   }
@@ -70,15 +70,15 @@ void Logger::WriteValues(bool add_newline) {
 
 void Logger::WriteNewLine() { Write("\n"); }
 
-void Logger::Write(std::string log, bool flag) {
+void Logger::Write(const std::string log, const bool flag) {
   if (flag && is_enabled_) {
     csv_file_ << log;
   }
 }
 
-void Logger::AddLoggable(ILoggable *loggable) { loggables_.push_back(loggable); }
+void Logger::AddLogList(ILoggable *loggable) { log_list_.push_back(loggable); }
 
-void Logger::ClearLogList() { loggables_.clear(); }
+void Logger::ClearLogList() { log_list_.clear(); }
 
 std::string Logger::CreateDirectory(const std::string &data_path, const std::string &time) {
   std::string directory_path_tmp_ = data_path + "/logs_" + time + "/";

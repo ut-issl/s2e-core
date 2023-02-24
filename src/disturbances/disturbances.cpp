@@ -53,10 +53,10 @@ void Disturbances::Update(const LocalEnvironment& local_environment, const Dynam
 
 void Disturbances::LogSetup(Logger& logger) {
   for (auto dist : disturbances_list_) {
-    logger.AddLoggable(dist);
+    logger.AddLogList(dist);
   }
   for (auto acc_dist : acceleration_disturbances_list_) {
-    logger.AddLoggable(acc_dist);
+    logger.AddLogList(acc_dist);
   }
   logger.CopyFileToLogDir(initialize_file_name_);
 }
