@@ -40,7 +40,7 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    */
   RelativeOrbit(const CelestialInformation* celestial_information, double mu_m3_s2, double time_step_s, int reference_spacecraft_id,
                 libra::Vector<3> relative_position_lvlh_m, libra::Vector<3> relative_velocity_lvlh_m_s, RelativeOrbitUpdateMethod update_method,
-                RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type, RelativeInformation* relative_information);
+                RelativeOrbitModel relative_dynamics_model_type, StmModel stm_model_type, RelativeInformation* relative_information);
   /**
    * @fn ~RelativeOrbit
    * @brief Destructor
@@ -81,7 +81,7 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
 
   RelativeOrbitUpdateMethod update_method_;          //!< Update method
   RelativeOrbitModel relative_dynamics_model_type_;  //!< Relative dynamics model type
-  STMModel stm_model_type_;                          //!< State Transition Matrix model type
+  StmModel stm_model_type_;                          //!< State Transition Matrix model type
   RelativeInformation* relative_information_;        //!< Relative information
 
   /**
@@ -110,7 +110,7 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    * @param [in] mu_m3_s2: Gravity constant of the center body [m3/s2]
    * @param [in] elapsed_sec: Elapsed time [sec]
    */
-  void CalculateStm(STMModel stm_model_type, const Orbit* reference_sat_orbit, double mu_m3_s2, double elapsed_sec);
+  void CalculateStm(StmModel stm_model_type, const Orbit* reference_sat_orbit, double mu_m3_s2, double elapsed_sec);
   /**
    * @fn PropagateRk4
    * @brief Propagate relative orbit with RK4

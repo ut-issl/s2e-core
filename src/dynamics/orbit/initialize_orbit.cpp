@@ -47,7 +47,7 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     RelativeOrbit::RelativeOrbitUpdateMethod update_method =
         (RelativeOrbit::RelativeOrbitUpdateMethod)(conf.ReadInt(section_, "relative_orbit_update_method"));
     RelativeOrbitModel relative_dynamics_model_type = (RelativeOrbitModel)(conf.ReadInt(section_, "relative_dynamics_model_type"));
-    STMModel stm_model_type = (STMModel)(conf.ReadInt(section_, "stm_model_type"));
+    StmModel stm_model_type = (StmModel)(conf.ReadInt(section_, "stm_model_type"));
 
     libra::Vector<3> init_relative_position_lvlh;
     conf.ReadVector<3>(section_, "initial_relative_position_lvlh_m", init_relative_position_lvlh);

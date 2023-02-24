@@ -10,7 +10,7 @@
 
 RelativeOrbit::RelativeOrbit(const CelestialInformation* celestial_information, double mu_m3_s2, double time_step_s, int reference_spacecraft_id,
                              libra::Vector<3> relative_position_lvlh_m, libra::Vector<3> relative_velocity_lvlh_m_s,
-                             RelativeOrbitUpdateMethod update_method, RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type,
+                             RelativeOrbitUpdateMethod update_method, RelativeOrbitModel relative_dynamics_model_type, StmModel stm_model_type,
                              RelativeInformation* relative_information)
     : Orbit(celestial_information),
       libra::ODE<6>(time_step_s),
@@ -79,9 +79,9 @@ void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_m
   }
 }
 
-void RelativeOrbit::CalculateStm(STMModel stm_model_type, const Orbit* reference_sat_orbit, double mu_m3_s2, double elapsed_sec) {
+void RelativeOrbit::CalculateStm(StmModel stm_model_type, const Orbit* reference_sat_orbit, double mu_m3_s2, double elapsed_sec) {
   switch (stm_model_type) {
-    case STMModel::HCW: {
+    case StmModel::HCW: {
       double reference_sat_orbit_radius = libra::norm(reference_sat_orbit->GetPosition_i_m());
       stm_ = CalculateHCWSTM(reference_sat_orbit_radius, mu_m3_s2, elapsed_sec);
     }
