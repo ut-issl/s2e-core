@@ -18,10 +18,10 @@ class GaussianBeamBase {
    * @fn GaussianBeamBase
    * @brief Constructor
    * @param [in] wavelength_m: Wavelength [m]
-   * @param [in] r_beam_waist_m: Radius of beam waist [m]
-   * @param [in] total_power_watt: Total power [W]
+   * @param [in] radius_beam_waist_m: Radius of beam waist [m]
+   * @param [in] total_power_W: Total power [W]
    */
-  GaussianBeamBase(double wavelength_m, double r_beam_waist_m, double total_power_watt);
+  GaussianBeamBase(double wavelength_m, double radius_beam_waist_m, double total_power_W);
   /**
    * @fn ~GaussianBeamBase
    * @brief Destructor
@@ -38,12 +38,12 @@ class GaussianBeamBase {
    * @fn SetBeamWaistRadius
    * @brief Set radius of beam waist [m]
    */
-  void SetBeamWaistRadius(const double r_beam_waist_m);
+  void SetBeamWaistRadius(const double radius_beam_waist_m);
   /**
    * @fn SetTotalPower
    * @brief Set total power [W]
    */
-  void SetTotalPower(const double total_power_watt);
+  void SetTotalPower(const double total_power_W);
   /**
    * @fn SetPointingVector_i
    * @brief Set pointing direction vector in the inertial frame
@@ -53,7 +53,7 @@ class GaussianBeamBase {
    * @fn SetBeamWaistPos_i
    * @brief Set position of beam waist in the inertial frame [m] (Not used?)
    */
-  void SetBeamWaistPos_i(const libra::Vector<3> pos_beamwaist_i);
+  void SetBeamWaistPos_i(const libra::Vector<3> position_beam_waist_i_m);
 
   // Getter
   /**
@@ -86,18 +86,18 @@ class GaussianBeamBase {
   /**
    * @fn CalcBeamWidthRadius
    * @brief
-   * @param [in] distance_from_beamwaist_m: Distance from beamwaist [m]
+   * @param [in] distance_from_beam_waist_m: Distance from beam waist [m]
    * @return Beam width radius
    */
-  double CalcBeamWidthRadius(double distance_from_beamwaist_m);
+  double CalcBeamWidthRadius(double distance_from_beam_waist_m);
   /**
    * @fn CalcIntensity
    * @brief
-   * @param [in] distance_from_beamwaist_m: Distance from beamwaist [m]
+   * @param [in] distance_from_beam_waist_m: Distance from beam waist [m]
    * @param [in] deviation_from_optical_axis_m: Deviation from optical axis [m]
    * @return Intensity
    */
-  double CalcIntensity(double distance_from_beamwaist_m, double deviation_from_optical_axis_m);
+  double CalcIntensity(double distance_from_beam_waist_m, double deviation_from_optical_axis_m);
 
  private:
   double wavelength_m_;                            //!< Wavelength [m]
