@@ -47,7 +47,7 @@ class Logger {
    * @fn ClearLoggable
    * @brief Clear the log list
    */
-  void ClearLoggables();
+  void ClearLogList();
 
   /**
    * @fn WriteHeaders

@@ -78,7 +78,7 @@ void Logger::Write(std::string log, bool flag) {
 
 void Logger::AddLoggable(ILoggable *loggable) { loggables_.push_back(loggable); }
 
-void Logger::ClearLoggables() { loggables_.clear(); }
+void Logger::ClearLogList() { loggables_.clear(); }
 
 std::string Logger::CreateDirectory(const std::string &data_path, const std::string &time) {
   std::string directory_path_tmp_ = data_path + "/logs_" + time + "/";
