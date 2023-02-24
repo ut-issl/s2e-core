@@ -31,11 +31,11 @@ inline std::string WriteScalar(std::string name, std::string unit);
 /**
  * @fn WriteVector
  * @brief Write Vector value
- * @param [in] vec: vector value
+ * @param [in] vector: vector value
  * @param [in] precision: precision for the value (number of digit)
  */
 template <size_t NUM>
-inline std::string WriteVector(libra::Vector<NUM, double> vec, int precision = 6);
+inline std::string WriteVector(libra::Vector<NUM, double> vector, int precision = 6);
 /**
  * @fn WriteVector
  * @brief Write header for vector value
@@ -49,11 +49,10 @@ inline std::string WriteVector(std::string name, std::string frame, std::string 
 /**
  * @fn WriteMatrix
  * @brief Write Matrix value
- * @param [in] mat: matrix value
- * @note TODO: add precision?
+ * @param [in] matrix: matrix value
  */
 template <size_t ROW, size_t COLUMN>
-inline std::string WriteMatrix(libra::Matrix<ROW, COLUMN, double> mat);
+inline std::string WriteMatrix(libra::Matrix<ROW, COLUMN, double> matrix, int precision = 6);
 /**
  * @fn WriteMatrix
  * @brief Write header for matrix value
@@ -68,10 +67,9 @@ inline std::string WriteMatrix(std::string name, std::string frame, std::string 
 /**
  * @fn WriteQuaternion
  * @brief Write quaternion value
- * @param [in] quat: Quaternion
- * @note TODO: add function for headers?
+ * @param [in] quaternion: Quaternion
  */
-inline std::string WriteQuaternion(libra::Quaternion quat);
+inline std::string WriteQuaternion(libra::Quaternion quaternion, int precision = 6);
 /**
  * @fn WriteQuaternion
  * @brief Write header for quaternion
@@ -92,11 +90,11 @@ std::string WriteScalar(T scalar, int precision) {
 std::string WriteScalar(std::string name, std::string unit) { return name + "[" + unit + "],"; }
 
 template <size_t NUM>
-std::string WriteVector(libra::Vector<NUM, double> vec, int precision) {
+std::string WriteVector(libra::Vector<NUM, double> vector, int precision) {
   std::stringstream str_tmp;
 
   for (size_t n = 0; n < NUM; n++) {
-    str_tmp << std::setprecision(precision) << vec[n] << ",";
+    str_tmp << std::setprecision(precision) << vector[n] << ",";
   }
   return str_tmp.str();
 }
@@ -116,12 +114,12 @@ std::string WriteVector(std::string name, std::string frame, std::string unit, s
 }
 
 template <size_t ROW, size_t COLUMN>
-std::string WriteMatrix(libra::Matrix<ROW, COLUMN, double> mat) {
+std::string WriteMatrix(libra::Matrix<ROW, COLUMN, double> matrix, int precision) {
   std::stringstream str_tmp;
 
   for (size_t n = 0; n < ROW; n++) {
     for (size_t m = 0; m < COLUMN; m++) {
-      str_tmp << mat[n][m] << ",";
+      str_tmp << std::setprecision(precision) << matrix[n][m] << ",";
     }
   }
   return str_tmp.str();
@@ -138,11 +136,11 @@ std::string WriteMatrix(std::string name, std::string frame, std::string unit, s
   return str_tmp.str();
 }
 
-std::string WriteQuaternion(libra::Quaternion quat) {
+std::string WriteQuaternion(libra::Quaternion quaternion, int precision) {
   std::stringstream str_tmp;
 
   for (size_t i = 0; i < 4; i++) {
-    str_tmp << quat[i] << ",";
+    str_tmp << std::setprecision(precision) << quaternion[i] << ",";
   }
   return str_tmp.str();
 }
