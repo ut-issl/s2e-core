@@ -30,12 +30,13 @@ OrbitalElements::OrbitalElements(const double mu_m3_s2, const double time_jday, 
 OrbitalElements::~OrbitalElements() {}
 
 // Private Function
-void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_jday, const libra::Vector<3> r_i_m, const libra::Vector<3> v_i_m_s) {
+void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
+                                       const libra::Vector<3> velocity_i_m_s) {
   // common variables
-  double r_m = norm(r_i_m);
-  double v2_m2_s2 = inner_product(v_i_m_s, v_i_m_s);
+  double r_m = norm(position_i_m);
+  double v2_m2_s2 = inner_product(velocity_i_m_s, velocity_i_m_s);
   libra::Vector<3> h;
-  h = outer_product(r_i_m, v_i_m_s);
+  h = outer_product(position_i_m, velocity_i_m_s);
   double h_norm = norm(h);
 
   // semi major axis
@@ -55,14 +56,14 @@ void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_
     raan_rad_ = asin(h[0] / sqrt(h[0] * h[0] + h[1] * h[1]));
   }
   // position in plane
-  double x_p_m = r_i_m[0] * cos(raan_rad_) + r_i_m[1] * sin(raan_rad_);
-  double tmp_m = -r_i_m[0] * sin(raan_rad_) + r_i_m[1] * cos(raan_rad_);
-  double y_p_m = tmp_m * cos(inclination_rad_) + r_i_m[2] * sin(inclination_rad_);
+  double x_p_m = position_i_m[0] * cos(raan_rad_) + position_i_m[1] * sin(raan_rad_);
+  double tmp_m = -position_i_m[0] * sin(raan_rad_) + position_i_m[1] * cos(raan_rad_);
+  double y_p_m = tmp_m * cos(inclination_rad_) + position_i_m[2] * sin(inclination_rad_);
 
   // velocity in plane
-  double dx_p_m_s = v_i_m_s[0] * cos(raan_rad_) + v_i_m_s[1] * sin(raan_rad_);
-  double dtmp_m_s = -v_i_m_s[0] * sin(raan_rad_) + v_i_m_s[1] * cos(raan_rad_);
-  double dy_p_m_s = dtmp_m_s * cos(inclination_rad_) + v_i_m_s[2] * sin(inclination_rad_);
+  double dx_p_m_s = velocity_i_m_s[0] * cos(raan_rad_) + velocity_i_m_s[1] * sin(raan_rad_);
+  double dtmp_m_s = -velocity_i_m_s[0] * sin(raan_rad_) + velocity_i_m_s[1] * cos(raan_rad_);
+  double dy_p_m_s = dtmp_m_s * cos(inclination_rad_) + velocity_i_m_s[2] * sin(inclination_rad_);
 
   // eccentricity
   double t1 = (h_norm / mu_m3_s2) * dy_p_m_s - x_p_m / r_m;
