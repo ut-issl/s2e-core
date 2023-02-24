@@ -29,11 +29,11 @@
 class IniAccess {
  private:
   static const size_t kMaxCharLength = 1024;
-  std::string file_path_;         //!< File path in string
-  char strPath_[kMaxCharLength];  //!< File path in char
-  char strText_[kMaxCharLength];  //!< buffer
+  std::string file_path_;                //!< File path in string
+  char file_path_char_[kMaxCharLength];  //!< File path in char
+  char text_buffer_[kMaxCharLength];     //!< buffer
 #ifndef WIN32
-  INIReader reader;  //!< ini reader
+  INIReader ini_reader_;  //!< ini ini_reader_
 #endif
 
  public:
