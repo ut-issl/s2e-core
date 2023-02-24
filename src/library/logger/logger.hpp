@@ -74,26 +74,28 @@ class Logger {
   void WriteNewLine();
 
   /**
-   * @fn IsEnabled
-   * @brief Return enable flag of the log
-   */
-  inline bool IsEnabled();
-  /**
    * @fn Enabled
    * @brief Set enable flag of the log
    */
-  inline void Enable(bool enable);
+  inline void Enable(bool enable) { is_enabled_ = enable; }
   /**
    * @fn CopyFileToLogDir
    * @brief Copy a file (e.g., ini file) into the log directory
    * @param [in] ini_file_name: The path to the target file to copy
    */
   void CopyFileToLogDir(const std::string &ini_file_name);
+
+  // Getter
+  /**
+   * @fn IsEnabled
+   * @brief Return enable flag of the log
+   */
+  inline bool IsEnabled() const { return is_enabled_; }
   /**
    * @fn GetLogPath
    * @brief Return the path to the directory for log files
    */
-  inline std::string GetLogPath() const;
+  inline std::string GetLogPath() const { return directory_path_; }
 
  private:
   std::ofstream csv_file_;              //!< CSV file stream
@@ -122,11 +124,5 @@ class Logger {
    */
   std::string GetFileName(const std::string &path);
 };
-
-bool Logger::IsEnabled() { return is_enabled_; }
-
-void Logger::Enable(bool enable) { is_enabled_ = enable; }
-
-std::string Logger::GetLogPath() const { return directory_path_; }
 
 #endif  // S2E_LIBRARY_LOGGER_LOGGER_HPP_
