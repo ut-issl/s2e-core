@@ -15,6 +15,7 @@
 #else
 #include <library/external/inih/cpp/INIReader.h>
 #endif
+
 #include <fstream>
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>

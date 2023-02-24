@@ -38,7 +38,7 @@ double IniAccess::ReadDouble(const char* section_name, const char* key_name) {
   stringstream value;
   double temp = 0;
 
-  GetPrivateProfileStringA(section_name, key_name, 0, text_buffer_, 1024, file_path_char_);
+  GetPrivateProfileStringA(section_name, key_name, 0, text_buffer_, kMaxCharLength, file_path_char_);
 
   value << text_buffer_;  // input string
   value >> temp;          // return as double
@@ -77,9 +77,9 @@ bool IniAccess::ReadBoolean(const char* section_name, const char* key_name) {
 
 void IniAccess::ReadDoubleArray(const char* section_name, const char* key_name, const int id, const int num, double* data) {
   for (int i = 0; i < num; i++) {
-    std::stringstream c_name;
-    c_name << key_name << id << "(" << i << ")";
-    data[i] = ReadDouble(section_name, c_name.str().c_str());
+    std::stringstream edited_key_name;
+    edited_key_name << key_name << id << "(" << i << ")";
+    data[i] = ReadDouble(section_name, edited_key_name.str().c_str());
   }
 }
 
@@ -88,16 +88,16 @@ void IniAccess::ReadQuaternion(const char* section_name, const char* key_name, l
   double norm = 0.0;
 
   for (int i = 0; i < 4; i++) {  // Read Quaternion as new format
-    std::stringstream c_name;
-    c_name << key_name << "_(" << i << ")";
-    temp[i] = ReadDouble(section_name, c_name.str().c_str());
+    std::stringstream edited_key_name;
+    edited_key_name << key_name << "_(" << i << ")";
+    temp[i] = ReadDouble(section_name, edited_key_name.str().c_str());
     norm += temp[i] * temp[i];
   }
   if (norm == 0.0) {  // If it is not new format, try to read old format
     for (int i = 0; i < 4; i++) {
-      std::stringstream c_name;
-      c_name << key_name << "(" << i << ")";
-      data[i] = ReadDouble(section_name, c_name.str().c_str());
+      std::stringstream edited_key_name;
+      edited_key_name << key_name << "(" << i << ")";
+      data[i] = ReadDouble(section_name, edited_key_name.str().c_str());
     }
   } else {
     data[0] = temp[0];
@@ -111,15 +111,15 @@ void IniAccess::ReadChar(const char* section_name, const char* key_name, const i
 #ifdef WIN32
   GetPrivateProfileStringA(section_name, key_name, 0, data, size, file_path_char_);
 #else
-  std::string sdata = ReadString(section_name, key_name);
-  strncpy(data, sdata.c_str(), size);
+  std::string string_data = ReadString(section_name, key_name);
+  strncpy(data, string_data.c_str(), size);
 #endif
 }
 
 std::string IniAccess::ReadString(const char* section_name, const char* key_name) {
 #ifdef WIN32
-  char temp[1024];
-  ReadChar(section_name, key_name, 1024, temp);
+  char temp[kMaxCharLength];
+  ReadChar(section_name, key_name, kMaxCharLength, temp);
   return string(temp);
 #else
   std::string value = ini_reader_.GetString(section_name, key_name, "NULL");
@@ -128,21 +128,20 @@ std::string IniAccess::ReadString(const char* section_name, const char* key_name
 }
 
 bool IniAccess::ReadEnable(const char* section_name, const char* key_name) {
-  std::string enablestr = ReadString(section_name, key_name);
-  if (enablestr.compare("ENABLE") == 0) return true;
-  if (enablestr.compare("1") == 0) return true;
+  std::string enable_string = ReadString(section_name, key_name);
+  if (enable_string.compare("ENABLE") == 0) return true;
+  if (enable_string.compare("1") == 0) return true;
   return false;
 }
 
 std::vector<std::string> IniAccess::ReadStrVector(const char* section_name, const char* key_name) {
-  const static unsigned int buf_size = 1024;
   std::vector<std::string> data;
-  char temp[buf_size];
+  char temp[kMaxCharLength];
   unsigned int i = 0;
   while (true) {
     std::stringstream c_name;
     c_name << key_name << "(" << i << ")";
-    ReadChar(section_name, c_name.str().c_str(), buf_size, temp);
+    ReadChar(section_name, c_name.str().c_str(), kMaxCharLength, temp);
 #ifdef WIN32
     if (temp[0] == NULL) {
 #else
@@ -176,13 +175,13 @@ void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, co
   int line_num = 0;
   output_value.reserve(node_num);
   while (getline(ifs, line)) {
-    std::vector<std::string> strvec = Split(line, ',');
-    std::vector<double> tempdoublevec;
-    tempdoublevec.reserve(node_num);
-    for (size_t i = 0; i < strvec.size(); i++) {
-      tempdoublevec.push_back(std::stod(strvec.at(i)));
+    std::vector<std::string> string_vector = Split(line, ',');
+    std::vector<double> temp;
+    temp.reserve(node_num);
+    for (size_t i = 0; i < string_vector.size(); i++) {
+      temp.push_back(std::stod(string_vector.at(i)));
     }
-    output_value.push_back(tempdoublevec);
+    output_value.push_back(temp);
     line_num++;
   }
 }
@@ -196,9 +195,9 @@ void IniAccess::ReadCsvString(std::vector<std::vector<std::string>>& output_valu
   int line_num = 0;
   output_value.reserve(node_num);
   while (getline(ifs, line)) {
-    std::vector<std::string> tempstrvec = Split(line, ',');
-    tempstrvec.reserve(node_num);
-    output_value.push_back(tempstrvec);
+    std::vector<std::string> temp = Split(line, ',');
+    temp.reserve(node_num);
+    output_value.push_back(temp);
     line_num++;
   }
 }
