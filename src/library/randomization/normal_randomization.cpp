@@ -9,18 +9,19 @@ using libra::NormalRand;
 #include <cfloat>  //DBL_EPSILON
 #include <cmath>   //sqrt, log;
 
-NormalRand::NormalRand() : avg_(0.0), stddev_(1.0), holder_(0.0), is_empty_(true) {}
+NormalRand::NormalRand() : average_(0.0), standard_deviation_(1.0), holder_(0.0), is_empty_(true) {}
 
-NormalRand::NormalRand(double avg, double stddev) : avg_(avg), stddev_(stddev), holder_(0.0), is_empty_(true) {}
+NormalRand::NormalRand(double avg, double stddev) : average_(avg), standard_deviation_(stddev), holder_(0.0), is_empty_(true) {}
 
-NormalRand::NormalRand(double avg, double stddev, long seed) throw() : avg_(avg), stddev_(stddev), rand_(seed), holder_(0.0), is_empty_(true) {}
+NormalRand::NormalRand(double avg, double stddev, long seed) throw()
+    : average_(avg), standard_deviation_(stddev), randomizer_(seed), holder_(0.0), is_empty_(true) {}
 
 NormalRand::operator double() {
   if (is_empty_) {
     double v1, v2, rsq;
     do {
-      v1 = 2.0 * double(rand_) - 1.0;
-      v2 = 2.0 * rand_ - 1.0;
+      v1 = 2.0 * double(randomizer_) - 1.0;
+      v2 = 2.0 * randomizer_ - 1.0;
       rsq = v1 * v1 + v2 * v2;
     } while (rsq >= 1.0 || rsq < DBL_EPSILON);
     double fac = std::sqrt(-2.0 * std::log(rsq) / rsq);
@@ -28,9 +29,9 @@ NormalRand::operator double() {
     holder_ = v1 * fac;
     is_empty_ = false;
 
-    return v2 * fac * stddev_ + avg_;
+    return v2 * fac * standard_deviation_ + average_;
   } else {
     is_empty_ = true;
-    return holder_ * stddev_ + avg_;
+    return holder_ * standard_deviation_ + average_;
   }
 }

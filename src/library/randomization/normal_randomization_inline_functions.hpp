@@ -8,23 +8,23 @@
 
 namespace libra {
 
-double NormalRand::avg() const { return avg_; }
+double NormalRand::avg() const { return average_; }
 
-void NormalRand::avg(double avg) { avg_ = avg; }
+void NormalRand::avg(double avg) { average_ = avg; }
 
-double NormalRand::stddev() const { return stddev_; }
+double NormalRand::stddev() const { return standard_deviation_; }
 
-void NormalRand::stddev(double stddev) { stddev_ = stddev; }
+void NormalRand::stddev(double stddev) { standard_deviation_ = stddev; }
 
 void NormalRand::set_param(double avg, double stddev) {
-  avg_ = avg;
-  stddev_ = stddev;
+  average_ = avg;
+  standard_deviation_ = stddev;
 }
 
 void NormalRand::set_param(double avg, double stddev, long seed) {
-  avg_ = avg;
-  stddev_ = stddev;
-  rand_.InitSeed(seed);
+  average_ = avg;
+  standard_deviation_ = stddev;
+  randomizer_.InitSeed(seed);
 }
 
 }  // namespace libra

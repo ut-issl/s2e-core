@@ -90,13 +90,13 @@ class NormalRand {
   inline void set_param(double avg, double stddev, long seed);
 
  private:
-  double avg_;                          //!< Average
-  double stddev_;                       //!< Standard deviation
-  MinimalStandardLcgWithShuffle rand_;  //!< Randomized origin to use Box-Muller method
-  double holder_;                       //!< Second random value. Box-Muller method generates two value at once.
-                                        //!< The second value is stored and used in the next call.
-                                        //!< It means that Box-Muller method is executed once per two call
-  bool is_empty_;                       //!< Flag to show the holder_ has available value
+  double average_;                            //!< Average
+  double standard_deviation_;                 //!< Standard deviation
+  MinimalStandardLcgWithShuffle randomizer_;  //!< Randomized origin to use Box-Muller method
+  double holder_;                             //!< Second random value. Box-Muller method generates two value at once.
+                                              //!< The second value is stored and used in the next call.
+                                              //!< It means that Box-Muller method is executed once per two call
+  bool is_empty_;                             //!< Flag to show the holder_ has available value
 };
 
 }  // namespace libra
