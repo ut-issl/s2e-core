@@ -61,11 +61,6 @@ class Logger {
    * @param add_newline: Add newline or not
    */
   void WriteValues(bool add_newline = true);
-  /**
-   * @fn WriteNewline
-   * @brief Write newline
-   */
-  void WriteNewLine();
 
   /**
    * @fn Enabled
@@ -107,6 +102,12 @@ class Logger {
    * @param [in] flag: Enable flag to write
    */
   void Write(std::string log, bool flag = true);
+
+  /**
+   * @fn WriteNewline
+   * @brief Write newline
+   */
+  void WriteNewLine();
 
   /**
    * @fn CreateDirectory
