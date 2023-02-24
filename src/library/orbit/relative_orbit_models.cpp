@@ -4,7 +4,7 @@
  */
 #include "relative_orbit_models.hpp"
 
-libra::Matrix<6, 6> CalculateHillSystemMatrix(double orbit_radius, double mu) {
+libra::Matrix<6, 6> CalcHillSystemMatrix(double orbit_radius, double mu) {
   libra::Matrix<6, 6> system_matrix;
 
   double n = sqrt(mu / pow(orbit_radius, 3));
@@ -48,7 +48,7 @@ libra::Matrix<6, 6> CalculateHillSystemMatrix(double orbit_radius, double mu) {
   return system_matrix;
 }
 
-libra::Matrix<6, 6> CalculateHCWSTM(double orbit_radius, double mu, double elapsed_sec) {
+libra::Matrix<6, 6> CalcHcwStm(double orbit_radius, double mu, double elapsed_sec) {
   libra::Matrix<6, 6> stm;
 
   double n = sqrt(mu / pow(orbit_radius, 3));

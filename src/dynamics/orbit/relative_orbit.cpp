@@ -70,7 +70,7 @@ void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_m
   switch (relative_dynamics_model_type) {
     case RelativeOrbitModel::Hill: {
       double reference_sat_orbit_radius = libra::norm(reference_sat_orbit->GetPosition_i_m());
-      system_matrix_ = CalculateHillSystemMatrix(reference_sat_orbit_radius, mu_m3_s2);
+      system_matrix_ = CalcHillSystemMatrix(reference_sat_orbit_radius, mu_m3_s2);
     }
     default: {
       // NOT REACHED
@@ -83,7 +83,7 @@ void RelativeOrbit::CalculateStm(StmModel stm_model_type, const Orbit* reference
   switch (stm_model_type) {
     case StmModel::HCW: {
       double reference_sat_orbit_radius = libra::norm(reference_sat_orbit->GetPosition_i_m());
-      stm_ = CalculateHCWSTM(reference_sat_orbit_radius, mu_m3_s2, elapsed_sec);
+      stm_ = CalcHcwStm(reference_sat_orbit_radius, mu_m3_s2, elapsed_sec);
     }
     default: {
       // NOT REACHED
