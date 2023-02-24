@@ -100,7 +100,7 @@ Quaternion operator*(const double& lhs, const Quaternion& rhs) {
   return temp;
 }
 
-Quaternion Quaternion::normalize(void) {
+Quaternion Quaternion::Normalize(void) {
   double n = 0.0;
   for (int i = 0; i < 4; ++i) {
     n += pow(q_[i], 2.0);
@@ -117,7 +117,7 @@ Quaternion Quaternion::normalize(void) {
   return q_;
 }
 
-Quaternion Quaternion::conjugate(void) const {
+Quaternion Quaternion::Conjugate(void) const {
   Quaternion temp(q_);
   for (int i = 0; i < 3; ++i) {
     temp[i] *= -1.0;
@@ -125,7 +125,7 @@ Quaternion Quaternion::conjugate(void) const {
   return temp;
 }
 
-Matrix<3, 3> Quaternion::toDCM(void) const {
+Matrix<3, 3> Quaternion::ConvertToDcm(void) const {
   Matrix<3, 3> dcm;
 
   dcm[0][0] = q_[3] * q_[3] + q_[0] * q_[0] - q_[1] * q_[1] - q_[2] * q_[2];
@@ -143,7 +143,7 @@ Matrix<3, 3> Quaternion::toDCM(void) const {
   return dcm;
 }
 
-Quaternion Quaternion::fromDCM(Matrix<3, 3> dcm) {
+Quaternion Quaternion::ConvertFromDcm(Matrix<3, 3> dcm) {
   Quaternion q;
   q[0] = sqrt(1 + dcm[0][0] - dcm[1][1] - dcm[2][2]) / 2;
   q[1] = sqrt(1 - dcm[0][0] + dcm[1][1] - dcm[2][2]) / 2;
@@ -184,8 +184,8 @@ Quaternion Quaternion::fromDCM(Matrix<3, 3> dcm) {
   return q;
 }
 
-Vector<3> Quaternion::toEuler(void) const {
-  auto dcm = this->toDCM();
+Vector<3> Quaternion::ConvertToEuler(void) const {
+  auto dcm = this->ConvertToDcm();
   Vector<3> eul;
   eul[0] = atan2(dcm[1][2], dcm[2][2]);
   eul[1] = atan2(-dcm[0][2], sqrt(dcm[1][2] * dcm[1][2] + dcm[2][2] * dcm[2][2]));
@@ -193,7 +193,7 @@ Vector<3> Quaternion::toEuler(void) const {
   return eul;
 }
 
-Quaternion Quaternion::fromEuler(Vector<3> euler) {
+Quaternion Quaternion::ConvertFromEuler(Vector<3> euler) {
   double esin[3], ecos[3];
   for (int i = 0; i < 3; i++) {
     esin[i] = sin(euler[i]);
@@ -209,11 +209,11 @@ Quaternion Quaternion::fromEuler(Vector<3> euler) {
   dcm[2][0] = esin[0] * esin[2] + ecos[0] * esin[1] * ecos[2];
   dcm[2][1] = -esin[0] * ecos[2] + ecos[0] * esin[1] * esin[2];
   dcm[2][2] = ecos[0] * ecos[1];
-  return Quaternion::fromDCM(dcm);
+  return Quaternion::ConvertFromDcm(dcm);
 }
 
-Vector<3> Quaternion::frame_conv(const Vector<3>& vector) const {
-  Quaternion conj = conjugate();
+Vector<3> Quaternion::FrameConversion(const Vector<3>& vector) const {
+  Quaternion conj = Conjugate();
   Quaternion temp1 = conj * vector;
   Quaternion temp2 = temp1 * q_;
   Vector<3> ans;
@@ -223,8 +223,8 @@ Vector<3> Quaternion::frame_conv(const Vector<3>& vector) const {
   return ans;
 }
 
-Vector<3> Quaternion::frame_conv_inv(const Vector<3>& vector) const {
-  Quaternion conj = conjugate();
+Vector<3> Quaternion::InverseFrameConversion(const Vector<3>& vector) const {
+  Quaternion conj = Conjugate();
   Quaternion temp1 = q_ * vector;
   Quaternion temp2 = temp1 * conj;
   Vector<3> ans;
@@ -234,6 +234,6 @@ Vector<3> Quaternion::frame_conv_inv(const Vector<3>& vector) const {
   return ans;
 }
 
-Vector<4> Quaternion::toVector() { return q_; }
+Vector<4> Quaternion::ConvertToVector() { return q_; }
 
 }  // namespace libra

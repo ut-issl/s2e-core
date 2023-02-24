@@ -93,7 +93,7 @@ void LocalCelestialInformation::ConvertInertialToBody(const double* input_i, dou
   for (int i = 0; i < 3; i++) {
     temp_i[i] = input_i[i];
   }
-  libra::Vector<3> temp_b = quaternion_i2b.frame_conv(temp_i);
+  libra::Vector<3> temp_b = quaternion_i2b.FrameConversion(temp_i);
   for (int i = 0; i < 3; i++) {
     output_b[i] = temp_b[i];
   }
@@ -124,7 +124,7 @@ void LocalCelestialInformation::ConvertVelocityInertialToBody(const double* posi
     vi[i] = vi[i] - wxposition_i[i];
   }
   // convert vector in inertial coordinate into that in body coordinate
-  libra::Vector<3> temp_b = quaternion_i2b.frame_conv(vi);
+  libra::Vector<3> temp_b = quaternion_i2b.FrameConversion(vi);
   for (int i = 0; i < 3; i++) {
     velocity_b[i] = temp_b[i];
   }

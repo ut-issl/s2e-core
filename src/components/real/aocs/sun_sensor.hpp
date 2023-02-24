@@ -80,7 +80,7 @@ class SunSensor : public ComponentBase, public ILoggable {
   // Getter
   inline bool GetSunDetectedFlag() const { return sun_detected_flag_; };
   inline const libra::Vector<3> GetMeasuredSun_c() const { return measured_sun_c_; };
-  inline const libra::Vector<3> GetMeasuredSun_b() const { return q_b2c_.conjugate().frame_conv(measured_sun_c_); };
+  inline const libra::Vector<3> GetMeasuredSun_b() const { return q_b2c_.Conjugate().FrameConversion(measured_sun_c_); };
   inline double GetSunAngleAlpha() const { return alpha_; };
   inline double GetSunAngleBeta() const { return beta_; };
   inline double GetSolarIlluminance() const { return solar_illuminance_; };

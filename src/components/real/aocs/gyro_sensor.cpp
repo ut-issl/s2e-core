@@ -18,8 +18,8 @@ Gyro::~Gyro() {}
 void Gyro::MainRoutine(int count) {
   UNUSED(count);
 
-  omega_c_ = q_b2c_.frame_conv(dynamics_->GetAttitude().GetOmega_b());  // Convert frame
-  omega_c_ = Measure(omega_c_);                                         // Add noises
+  omega_c_ = q_b2c_.FrameConversion(dynamics_->GetAttitude().GetOmega_b());  // Convert frame
+  omega_c_ = Measure(omega_c_);                                              // Add noises
 }
 
 std::string Gyro::GetLogHeader() const {

@@ -30,7 +30,7 @@ void ForceGenerator::MainRoutine(int count) {
     // Add noise only when the force is generated
     libra::Vector<3> true_direction = normalize(generated_force_b_N_);
     libra::Quaternion error_quaternion = GenerateDirectionNoiseQuaternion(true_direction, direction_error_standard_deviation_rad_);
-    libra::Vector<3> converted_direction = error_quaternion.frame_conv(generated_force_b_N_);
+    libra::Vector<3> converted_direction = error_quaternion.FrameConversion(generated_force_b_N_);
     double force_norm_with_error = norm_ordered_force + magnitude_noise_;
     generated_force_b_N_ = force_norm_with_error * converted_direction;
   }
@@ -38,8 +38,8 @@ void ForceGenerator::MainRoutine(int count) {
   // Convert frame
   libra::Quaternion q_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
   libra::Quaternion q_i2rtn = dynamics_->GetOrbit().CalcQuaternion_i2lvlh();
-  generated_force_i_N_ = q_i2b.frame_conv_inv(generated_force_b_N_);
-  generated_force_rtn_N_ = q_i2rtn.frame_conv(generated_force_i_N_);
+  generated_force_i_N_ = q_i2b.InverseFrameConversion(generated_force_b_N_);
+  generated_force_rtn_N_ = q_i2rtn.FrameConversion(generated_force_i_N_);
 }
 
 void ForceGenerator::PowerOffRoutine() {
@@ -50,15 +50,15 @@ void ForceGenerator::PowerOffRoutine() {
 
 void ForceGenerator::SetForce_i_N(const libra::Vector<3> force_i_N) {
   libra::Quaternion q_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
-  ordered_force_b_N_ = q_i2b.frame_conv(force_i_N);
+  ordered_force_b_N_ = q_i2b.FrameConversion(force_i_N);
 }
 
 void ForceGenerator::SetForce_rtn_N(const libra::Vector<3> force_rtn_N) {
   libra::Quaternion q_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
   libra::Quaternion q_i2rtn = dynamics_->GetOrbit().CalcQuaternion_i2lvlh();
 
-  libra::Vector<3> force_i_N = q_i2rtn.frame_conv_inv(force_rtn_N);
-  ordered_force_b_N_ = q_i2b.frame_conv(force_i_N);
+  libra::Vector<3> force_i_N = q_i2rtn.InverseFrameConversion(force_rtn_N);
+  ordered_force_b_N_ = q_i2b.FrameConversion(force_i_N);
 }
 
 std::string ForceGenerator::GetLogHeader() const {

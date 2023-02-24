@@ -36,7 +36,7 @@ void GeomagneticField::CalcMagneticField(const double decimal_year, const double
   for (int i = 0; i < 3; ++i) {
     magnetic_field_i_nT_[i] = magnetic_field_array_i_nT[i];
   }
-  magnetic_field_b_nT_ = quaternion_i2b.frame_conv(magnetic_field_i_nT_);
+  magnetic_field_b_nT_ = quaternion_i2b.FrameConversion(magnetic_field_i_nT_);
 }
 
 void GeomagneticField::AddNoise(double* magnetic_field_array_i_nT) {

@@ -101,7 +101,7 @@ void ControlledAttitude::PointingControl(const libra::Vector<3> main_direction_i
   // Calc DCM ECI->body
   libra::Matrix<3, 3> dcm_i2b = dcm_t2b * transpose(dcm_t2i);
   // Convert to Quaternion
-  quaternion_i2b_ = Quaternion::fromDCM(dcm_i2b);
+  quaternion_i2b_ = Quaternion::ConvertFromDcm(dcm_i2b);
 }
 
 libra::Matrix<3, 3> ControlledAttitude::CalcDcm(const libra::Vector<3> main_direction, const libra::Vector<3> sub_direction) {
@@ -145,7 +145,7 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
 
   if (previous_calc_time_s_ > 0.0) {
     double time_diff_sec = current_time_s - previous_calc_time_s_;
-    libra::Quaternion prev_q_b2i = previous_quaternion_i2b_.conjugate();
+    libra::Quaternion prev_q_b2i = previous_quaternion_i2b_.Conjugate();
     libra::Quaternion q_diff = prev_q_b2i * quaternion_i2b_;
     q_diff = (2.0 / time_diff_sec) * q_diff;
 

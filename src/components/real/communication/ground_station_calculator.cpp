@@ -74,7 +74,7 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
   Vector<3> sc_to_gs_i = gs_pos_i - sc_pos_i;
   sc_to_gs_i = libra::normalize(sc_to_gs_i);
   Quaternion q_i_to_sc_ant = sc_tx_ant.GetQuaternion_b2c() * dynamics.GetAttitude().GetQuaternion_i2b();
-  Vector<3> gs_direction_on_sc_frame = q_i_to_sc_ant.frame_conv(sc_to_gs_i);
+  Vector<3> gs_direction_on_sc_frame = q_i_to_sc_ant.FrameConversion(sc_to_gs_i);
   double theta_on_sc_ant_rad = acos(gs_direction_on_sc_frame[2]);
   double phi_on_sc_ant_rad = acos(gs_direction_on_sc_frame[0] / sin(theta_on_sc_ant_rad));
 
@@ -82,7 +82,7 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
   Vector<3> gs_to_sc_ecef = dynamics.GetOrbit().GetPosition_ecef_m() - ground_station.GetGSPosition_ecef();
   gs_to_sc_ecef = libra::normalize(gs_to_sc_ecef);
   Quaternion q_ecef_to_gs_ant = gs_rx_ant.GetQuaternion_b2c() * ground_station.GetGSPosition_geo().GetQuaternionXcxfToLtc();
-  Vector<3> sc_direction_on_gs_frame = q_ecef_to_gs_ant.frame_conv(gs_to_sc_ecef);
+  Vector<3> sc_direction_on_gs_frame = q_ecef_to_gs_ant.FrameConversion(gs_to_sc_ecef);
   double theta_on_gs_ant_rad = acos(sc_direction_on_gs_frame[2]);
   double phi_on_gs_ant_rad = acos(sc_direction_on_gs_frame[0] / sin(theta_on_gs_ant_rad));
 

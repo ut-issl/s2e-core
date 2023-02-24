@@ -64,7 +64,7 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
     libra::Vector<3> direction_c(0.0);
     direction_c[2] = 1.0;
     libra::Quaternion q(direction_b, direction_c);
-    q_b2c = q.conjugate();
+    q_b2c = q.Conjugate();
   }
 
   rwmodel_conf.ReadVector(RWsection, "position_b_m", pos_b);

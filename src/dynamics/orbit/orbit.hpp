@@ -70,7 +70,7 @@ class Orbit : public ILoggable {
    * @param [in] quaternion_i2b: End time of simulation [sec]
    */
   inline void UpdateByAttitude(const libra::Quaternion quaternion_i2b) {
-    spacecraft_velocity_b_m_s_ = quaternion_i2b.frame_conv(spacecraft_velocity_i_m_s_);
+    spacecraft_velocity_b_m_s_ = quaternion_i2b.FrameConversion(spacecraft_velocity_i_m_s_);
   }
 
   // Getters
@@ -162,7 +162,7 @@ class Orbit : public ILoggable {
    * @param [in] spacecraft_mass_kg: Mass of spacecraft [kg]
    */
   inline void AddForce_b_N(const libra::Vector<3> force_b_N, const libra::Quaternion quaternion_i2b, const double spacecraft_mass_kg) {
-    auto force_i = quaternion_i2b.frame_conv_inv(force_b_N);
+    auto force_i = quaternion_i2b.InverseFrameConversion(force_b_N);
     AddForce_i_N(force_i, spacecraft_mass_kg);
   }
 

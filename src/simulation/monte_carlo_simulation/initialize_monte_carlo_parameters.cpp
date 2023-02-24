@@ -57,7 +57,7 @@ void InitParameter::GetQuaternion(Quaternion& dst_quat) const {
     }
   }
 
-  dst_quat.normalize();
+  dst_quat.Normalize();
 }
 
 void InitParameter::Randomize() {
@@ -203,11 +203,11 @@ void InitParameter::get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& m
 
   double rotation_angle_of_normal_unit_vec = InitParameter::Uniform_1d(0.0, libra::tau);
   Quaternion rotation_of_normal_unit_vec(mean_vec_dir, -rotation_angle_of_normal_unit_vec);  // Use opposite sign to rotate the vector (not the frame)
-  Vector<3> rotation_axis = rotation_of_normal_unit_vec.frame_conv(normal_unit_vec);         // Axis of mean vector rotation
+  Vector<3> rotation_axis = rotation_of_normal_unit_vec.FrameConversion(normal_unit_vec);    // Axis of mean vector rotation
 
   double rotation_angle_of_mean_vec = InitParameter::Normal_1d(0.0, sigma_or_max_[1]);
   Quaternion rotation_of_mean_vec(rotation_axis, -rotation_angle_of_mean_vec);  // Use opposite sign to rotate the vector (not the frame)
-  Vector<3> ret_vec = rotation_of_mean_vec.frame_conv(mean_vec_dir);            // Complete calculation of the direction
+  Vector<3> ret_vec = rotation_of_mean_vec.FrameConversion(mean_vec_dir);       // Complete calculation of the direction
 
   ret_vec = InitParameter::Normal_1d(norm(mean_vec), sigma_or_max_[0]) * ret_vec;  // multiply norm
 

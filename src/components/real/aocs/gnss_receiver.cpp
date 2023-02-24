@@ -82,8 +82,8 @@ void GNSSReceiver::CheckAntennaSimple(const Vector<3> pos_true_eci_, Quaternion 
   // antenna normal vector at inertial frame
   Vector<3> antenna_direction_c(0.0);
   antenna_direction_c[2] = 1.0;
-  Vector<3> antenna_direction_b = q_b2c_.frame_conv_inv(antenna_direction_c);
-  Vector<3> antenna_direction_i = q_i2b.frame_conv_inv(antenna_direction_b);
+  Vector<3> antenna_direction_b = q_b2c_.InverseFrameConversion(antenna_direction_c);
+  Vector<3> antenna_direction_i = q_i2b.InverseFrameConversion(antenna_direction_b);
 
   double inner = inner_product(pos_true_eci_, antenna_direction_i);
   if (inner <= 0)
@@ -100,10 +100,10 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_
   // antenna normal vector at inertial frame
   Vector<3> antenna_direction_c(0.0);
   antenna_direction_c[2] = 1.0;
-  Vector<3> antenna_direction_b = q_b2c_.frame_conv_inv(antenna_direction_c);
-  Vector<3> antenna_direction_i = q_i2b.frame_conv_inv(antenna_direction_b);
+  Vector<3> antenna_direction_b = q_b2c_.InverseFrameConversion(antenna_direction_c);
+  Vector<3> antenna_direction_i = q_i2b.InverseFrameConversion(antenna_direction_b);
 
-  sat2ant_i = q_i2b.frame_conv_inv(antenna_position_b_);
+  sat2ant_i = q_i2b.InverseFrameConversion(antenna_position_b_);
   ant_pos_i = pos_true_eci_ + sat2ant_i;
 
   // initialize
@@ -155,8 +155,8 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_
 void GNSSReceiver::SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, std::string gnss_id) {
   Vector<3> ant2gnss_b, ant2gnss_c;
 
-  ant2gnss_b = q_i2b.frame_conv(ant2gnss_i);
-  ant2gnss_c = q_b2c_.frame_conv(ant2gnss_b);
+  ant2gnss_b = q_i2b.FrameConversion(ant2gnss_i);
+  ant2gnss_c = q_b2c_.FrameConversion(ant2gnss_b);
 
   double dist = norm(ant2gnss_c);
   double lon = AcTan(ant2gnss_c[1], ant2gnss_c[0]);

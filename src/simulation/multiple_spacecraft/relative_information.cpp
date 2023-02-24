@@ -106,7 +106,7 @@ void RelativeInformation::LogSetup(Logger& logger) { logger.AddLogList(this); }
 libra::Quaternion RelativeInformation::CalcRelativeAttitudeQuaternion(const int target_sat_id, const int reference_sat_id) {
   // Observer SC Body frame(obs_sat) -> ECI frame(i)
   Quaternion q_reference_i2b = dynamics_database_.at(reference_sat_id)->GetAttitude().GetQuaternion_i2b();
-  Quaternion q_reference_b2i = q_reference_i2b.conjugate();
+  Quaternion q_reference_b2i = q_reference_i2b.Conjugate();
 
   // ECI frame(i) -> Target SC body frame(main_sat)
   Quaternion q_target_i2b = dynamics_database_.at(target_sat_id)->GetAttitude().GetQuaternion_i2b();
@@ -122,7 +122,7 @@ libra::Vector<3> RelativeInformation::CalcRelativePosition_rtn_m(const int targe
   // RTN frame for the reference satellite
   libra::Quaternion q_i2rtn = dynamics_database_.at(reference_sat_id)->GetOrbit().CalcQuaternion_i2lvlh();
 
-  libra::Vector<3> relative_pos_rtn = q_i2rtn.frame_conv(relative_pos_i);
+  libra::Vector<3> relative_pos_rtn = q_i2rtn.FrameConversion(relative_pos_i);
   return relative_pos_rtn;
 }
 
@@ -142,7 +142,7 @@ libra::Vector<3> RelativeInformation::CalcRelativeVelocity_rtn_m_s(const int tar
   rot_vec_rtn_i /= r2_ref;
   libra::Vector<3> relative_vel_i = target_sat_vel_i - reference_sat_vel_i - cross(rot_vec_rtn_i, relative_pos_i);
 
-  libra::Vector<3> relative_vel_rtn = q_i2rtn.frame_conv(relative_vel_i);
+  libra::Vector<3> relative_vel_rtn = q_i2rtn.FrameConversion(relative_vel_i);
   return relative_vel_rtn;
 }
 

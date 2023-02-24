@@ -71,11 +71,11 @@ void RWJitter::CalcJitter(double angular_velocity_rad) {
   // Add structural resonance
   if (considers_structural_resonance_) {
     AddStructuralResonance();
-    jitter_force_b_ = q_b2c_.frame_conv_inv(filtered_jitter_force_n_c_);
-    jitter_torque_b_ = q_b2c_.frame_conv_inv(filtered_jitter_torque_n_c_);
+    jitter_force_b_ = q_b2c_.InverseFrameConversion(filtered_jitter_force_n_c_);
+    jitter_torque_b_ = q_b2c_.InverseFrameConversion(filtered_jitter_torque_n_c_);
   } else {
-    jitter_force_b_ = q_b2c_.frame_conv_inv(unfiltered_jitter_force_n_c_);
-    jitter_torque_b_ = q_b2c_.frame_conv_inv(unfiltered_jitter_torque_n_c_);
+    jitter_force_b_ = q_b2c_.InverseFrameConversion(unfiltered_jitter_force_n_c_);
+    jitter_torque_b_ = q_b2c_.InverseFrameConversion(unfiltered_jitter_torque_n_c_);
   }
 }
 

@@ -133,5 +133,5 @@ void AttitudeRk4::RungeKuttaOneStep(double t, double dt) {
   for (int i = 0; i < 4; i++) {
     quaternion_i2b_[i] = next_x[i + 3];
   }
-  quaternion_i2b_.normalize();
+  quaternion_i2b_.Normalize();
 }

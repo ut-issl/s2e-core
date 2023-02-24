@@ -81,71 +81,71 @@ class Quaternion {
   inline operator const double*() const;
 
   /**
-   * @fn normalize
+   * @fn Normalize
    * @brief Normalize the quaternion
    * @return Normalized quaternion
    */
-  Quaternion normalize(void);
+  Quaternion Normalize(void);
 
   /**
-   * @fn conjugate
-   * @brief Calculate conjugate quaternion
+   * @fn Conjugate
+   * @brief Calculate Conjugate quaternion
    * @return Conjugated quaternion
    */
-  Quaternion conjugate(void) const;
+  Quaternion Conjugate(void) const;
 
   /**
-   * @fn toDCM
+   * @fn ConvertToDcm
    * @brief Convert quaternion to Direction Cosine Matrix
    * @return DCM
    */
-  Matrix<3, 3> toDCM(void) const;
+  Matrix<3, 3> ConvertToDcm(void) const;
 
   /**
-   * @fn fromDCM
+   * @fn ConvertFromDcm
    * @brief Convert Direction Cosine Matrix to quaternion
    * @param [in] dcm: DCM
    * @return Quaternion
    */
-  static Quaternion fromDCM(Matrix<3, 3> dcm);
+  static Quaternion ConvertFromDcm(Matrix<3, 3> dcm);
 
   /**
-   * @fn toEuler
+   * @fn ConvertToEuler
    * @brief Convert quaternion to 3-2-1 Euler angles
    * @return Euler angle (1, 2, 3 order)
    */
-  Vector<3> toEuler(void) const;
+  Vector<3> ConvertToEuler(void) const;
 
   /**
-   * @fn fromEuler
+   * @fn ConvertFromEuler
    * @brief Convert Euler angle to quaternion
    * @param [in] euler: 3-2-1 Euler angle (1, 2, 3 order)
    * @return Quaternion
    */
-  static Quaternion fromEuler(Vector<3> euler);
+  static Quaternion ConvertFromEuler(Vector<3> euler);
 
   /**
-   * @fn frame_conv
+   * @fn FrameConversion
    * @brief Frame conversion for the given target vector with the quaternion
    * @param [in] vector: Target vector
    * @return Converted vector
    */
-  Vector<3> frame_conv(const Vector<3>& vector) const;
+  Vector<3> FrameConversion(const Vector<3>& vector) const;
 
   /**
-   * @fn frame_conv_inv
+   * @fn InverseFrameConversion
    * @brief Frame conversion for the given target vector with the inverse quaternion
    * @param [in] vector: Target vector
    * @return Converted vector
    */
-  Vector<3> frame_conv_inv(const Vector<3>& vector) const;
+  Vector<3> InverseFrameConversion(const Vector<3>& vector) const;
 
   /**
-   * @fn toVector
+   * @fn ConvertToVector
    * @brief Convert quaternion to Vector<4>
    * @return Vector<4>
    */
-  Vector<4> toVector();
+  Vector<4> ConvertToVector();
 
  private:
   Vector<4> q_;  //!< Vector to store the element of quaternion

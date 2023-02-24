@@ -42,9 +42,9 @@ void RelativeOrbit::InitializeState(libra::Vector<3> relative_position_lvlh_m, l
   libra::Vector<3> reference_sat_velocity_i =
       relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetVelocity_i_m_s();
   libra::Quaternion q_i2lvlh = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().CalcQuaternion_i2lvlh();
-  libra::Quaternion q_lvlh2i = q_i2lvlh.conjugate();
-  spacecraft_position_i_m_ = q_lvlh2i.frame_conv(relative_position_lvlh_m_) + reference_sat_position_i;
-  spacecraft_velocity_i_m_s_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_m_s_) + reference_sat_velocity_i;
+  libra::Quaternion q_lvlh2i = q_i2lvlh.Conjugate();
+  spacecraft_position_i_m_ = q_lvlh2i.FrameConversion(relative_position_lvlh_m_) + reference_sat_position_i;
+  spacecraft_velocity_i_m_s_ = q_lvlh2i.FrameConversion(relative_velocity_lvlh_m_s_) + reference_sat_velocity_i;
 
   initial_state_[0] = relative_position_lvlh_m[0];
   initial_state_[1] = relative_position_lvlh_m[1];
@@ -110,10 +110,10 @@ void RelativeOrbit::Propagate(double end_time_s, double current_time_jd) {
   libra::Vector<3> reference_sat_velocity_i =
       relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetVelocity_i_m_s();
   libra::Quaternion q_i2lvlh = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().CalcQuaternion_i2lvlh();
-  libra::Quaternion q_lvlh2i = q_i2lvlh.conjugate();
+  libra::Quaternion q_lvlh2i = q_i2lvlh.Conjugate();
 
-  spacecraft_position_i_m_ = q_lvlh2i.frame_conv(relative_position_lvlh_m_) + reference_sat_position_i;
-  spacecraft_velocity_i_m_s_ = q_lvlh2i.frame_conv(relative_velocity_lvlh_m_s_) + reference_sat_velocity_i;
+  spacecraft_position_i_m_ = q_lvlh2i.FrameConversion(relative_position_lvlh_m_) + reference_sat_position_i;
+  spacecraft_velocity_i_m_s_ = q_lvlh2i.FrameConversion(relative_velocity_lvlh_m_s_) + reference_sat_velocity_i;
   TransformEciToEcef();
   TransformEcefToGeodetic();
 }

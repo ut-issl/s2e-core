@@ -108,10 +108,10 @@ Vector<3> SimpleThruster::CalcThrustDir() {
     }
 
     Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);
-    Vector<3> axis_rot = make_axis_rot.frame_conv(ex);
+    Vector<3> axis_rot = make_axis_rot.FrameConversion(ex);
 
-    Quaternion err_rot(axis_rot, dir_nr_);                      // Generate error quaternion
-    thrust_dir_b_true = err_rot.frame_conv(thrust_dir_b_true);  // Add error
+    Quaternion err_rot(axis_rot, dir_nr_);                           // Generate error quaternion
+    thrust_dir_b_true = err_rot.FrameConversion(thrust_dir_b_true);  // Add error
   }
 
   return thrust_dir_b_true;

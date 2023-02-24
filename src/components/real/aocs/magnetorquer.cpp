@@ -17,7 +17,7 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, const int
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       q_b2c_(q_b2c),
-      q_c2b_(q_b2c_.conjugate()),
+      q_c2b_(q_b2c_.Conjugate()),
       scale_factor_(scale_factor),
       max_c_(max_c),
       min_c_(min_c),
@@ -36,7 +36,7 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, PowerPort
     : ComponentBase(prescaler, clock_gen, power_port),
       id_(id),
       q_b2c_(q_b2c),
-      q_c2b_(q_b2c_.conjugate()),
+      q_c2b_(q_b2c_.Conjugate()),
       scale_factor_(scale_factor),
       max_c_(max_c),
       min_c_(min_c),
@@ -72,7 +72,7 @@ libra::Vector<kMtqDim> MagTorquer::CalcOutputTorque(void) {
   mag_moment_c_ = scale_factor_ * mag_moment_c_;
 
   // Frame conversion component to body
-  mag_moment_b_ = q_c2b_.frame_conv(mag_moment_c_);
+  mag_moment_b_ = q_c2b_.FrameConversion(mag_moment_c_);
   // Calc magnetic torque [Nm]
   torque_b_ = outer_product(mag_moment_b_, knT2T * mag_env_->GetGeomagneticFieldneticField_b_nT());
   // Update Random Walk

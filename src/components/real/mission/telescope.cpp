@@ -70,17 +70,17 @@ void Telescope::MainRoutine(int count) {
   // No update when Hipparocos Catalogue was not readed
   if (hipp_->IsCalcEnabled) ObserveStars();
   // Debug ******************************************************************
-  //  sun_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("SUN"));
-  //  earth_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("EARTH"));
-  //  moon_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("MOON"));
+  //  sun_pos_c = q_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("SUN"));
+  //  earth_pos_c = q_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("EARTH"));
+  //  moon_pos_c = q_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("MOON"));
   // angle_sun = angle(sight_, sun_pos_c) * 180/libra::pi;
   // angle_earth = angle(sight_, earth_pos_c) * 180 / libra::pi; angle_moon = angle(sight_, moon_pos_c) * 180 / libra::pi;
   //******************************************************************************
 }
 
 bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle) {
-  Quaternion q_c2b = q_b2c_.conjugate();
-  Vector<3> sight_b = q_c2b.frame_conv(sight_);
+  Quaternion q_c2b = q_b2c_.Conjugate();
+  Vector<3> sight_b = q_c2b.FrameConversion(sight_);
   double angle_rad = libra::angle(target_b, sight_b);
   if (angle_rad < forbidden_angle) {
     return true;
@@ -89,7 +89,7 @@ bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b, const doub
 }
 
 void Telescope::Observe(Vector<2>& pos_imgsensor, const Vector<3, double> target_b) {
-  Vector<3, double> target_c = q_b2c_.frame_conv(target_b);
+  Vector<3, double> target_c = q_b2c_.FrameConversion(target_b);
   double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame
   double arg_y = atan2(target_c[1], target_c[0]);  // Angle from X-axis on XY plane in the component frame
 
@@ -110,7 +110,7 @@ void Telescope::ObserveStars() {
 
   while (star_in_sight.size() < num_of_logged_stars_) {
     Vector<3> target_b = hipp_->GetStarDirection_b(count, q_i2b);
-    Vector<3> target_c = q_b2c_.frame_conv(target_b);
+    Vector<3> target_c = q_b2c_.FrameConversion(target_b);
 
     double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame
     double arg_y = atan2(target_c[1], target_c[0]);  // Angle from X-axis on XY plane in the component frame

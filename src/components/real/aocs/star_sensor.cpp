@@ -134,8 +134,8 @@ void STT::AllJudgement(const LocalCelestialInformation* local_celes_info, const 
 }
 
 int STT::SunJudgement(const libra::Vector<3>& sun_b) {
-  Quaternion q_c2b = q_b2c_.conjugate();
-  Vector<3> sight_b = q_c2b.frame_conv(sight_);
+  Quaternion q_c2b = q_b2c_.Conjugate();
+  Vector<3> sight_b = q_c2b.FrameConversion(sight_);
   double sun_angle_rad = CalAngleVect_rad(sun_b, sight_b);
   if (sun_angle_rad < sun_forbidden_angle_)
     return 1;
@@ -144,8 +144,8 @@ int STT::SunJudgement(const libra::Vector<3>& sun_b) {
 }
 
 int STT::EarthJudgement(const libra::Vector<3>& earth_b) {
-  Quaternion q_c2b = q_b2c_.conjugate();
-  Vector<3> sight_b = q_c2b.frame_conv(sight_);
+  Quaternion q_c2b = q_b2c_.Conjugate();
+  Vector<3> sight_b = q_c2b.FrameConversion(sight_);
   double earth_size_rad = atan2(environment::earth_equatorial_radius_m,
                                 norm(earth_b));                           // angles between sat<->earth_center & sat<->earth_edge
   double earth_center_angle_rad = CalAngleVect_rad(earth_b, sight_b);     // angles between sat<->earth_center & sat_sight
@@ -157,8 +157,8 @@ int STT::EarthJudgement(const libra::Vector<3>& earth_b) {
 }
 
 int STT::MoonJudgement(const libra::Vector<3>& moon_b) {
-  Quaternion q_c2b = q_b2c_.conjugate();
-  Vector<3> sight_b = q_c2b.frame_conv(sight_);
+  Quaternion q_c2b = q_b2c_.Conjugate();
+  Vector<3> sight_b = q_c2b.FrameConversion(sight_);
   double moon_angle_rad = CalAngleVect_rad(moon_b, sight_b);
   if (moon_angle_rad < moon_forbidden_angle_)
     return 1;

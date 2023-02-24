@@ -75,7 +75,7 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, P
 void RWModel::Initialize() {
   direction_c_ = libra::Vector<3>(0.0);
   direction_c_[2] = 1.0;
-  direction_b_ = q_b2c_.frame_conv_inv(direction_c_);
+  direction_b_ = q_b2c_.InverseFrameConversion(direction_c_);
 
   velocity_limit_rpm_ = max_velocity_rpm_;
   output_torque_b_ = libra::Vector<3>(0.0);

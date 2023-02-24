@@ -81,5 +81,5 @@ void GeodeticPosition::CalcQuaternionXcxfToLtc() {
   dcm_xcxf_to_ltc[2][1] = cos(latitude_rad_) * sin(longitude_rad_);
   dcm_xcxf_to_ltc[2][2] = sin(latitude_rad_);
 
-  quaternion_xcxf_to_ltc_ = quaternion_xcxf_to_ltc_.fromDCM(dcm_xcxf_to_ltc);
+  quaternion_xcxf_to_ltc_ = quaternion_xcxf_to_ltc_.ConvertFromDcm(dcm_xcxf_to_ltc);
 }
