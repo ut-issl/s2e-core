@@ -20,7 +20,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_n
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Quaternion q_b2c;
+  libra::Quaternion q_b2c;
   ss_conf.ReadQuaternion(Section, "quaternion_b2c", q_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
@@ -53,7 +53,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Quaternion q_b2c;
+  libra::Quaternion q_b2c;
   ss_conf.ReadQuaternion(Section, "quaternion_b2c", q_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;

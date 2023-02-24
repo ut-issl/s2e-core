@@ -59,11 +59,11 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
     rwmodel_conf.ReadQuaternion(RWsection, "quaternion_b2c", q_b2c);
   } else  // direction_determination_mode == "DIRECTION"
   {
-    Vector<3> direction_b;
+    libra::Vector<3> direction_b;
     rwmodel_conf.ReadVector(RWsection, "direction_b", direction_b);
-    Vector<3> direction_c(0.0);
+    libra::Vector<3> direction_c(0.0);
     direction_c[2] = 1.0;
-    Quaternion q(direction_b, direction_c);
+    libra::Quaternion q(direction_b, direction_c);
     q_b2c = q.conjugate();
   }
 

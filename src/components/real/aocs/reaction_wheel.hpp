@@ -56,8 +56,8 @@ class RWModel : public ComponentBase, public ILoggable {
    */
   RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_gen, const int id, const double step_width,
           const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
-          const double max_velocity_rpm, const Quaternion q_b2c, const Vector<3> pos_b, const double dead_time, const Vector<3> driving_lag_coef,
-          const Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
+          const double max_velocity_rpm, const libra::Quaternion q_b2c, const libra::Vector<3> pos_b, const double dead_time,
+          const libra::Vector<3> driving_lag_coef, const libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
           std::vector<std::vector<double>> radial_force_harmonics_coef, std::vector<std::vector<double>> radial_torque_harmonics_coef,
           double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance,
           const bool drive_flag = false, const double init_velocity = 0.0);
@@ -93,8 +93,8 @@ class RWModel : public ComponentBase, public ILoggable {
    */
   RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_gen, PowerPort *power_port, const int id, const double step_width,
           const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
-          const double max_velocity_rpm, const Quaternion q_b2c, const Vector<3> pos_b, const double dead_time, const Vector<3> driving_lag_coef,
-          const Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
+          const double max_velocity_rpm, const libra::Quaternion q_b2c, const libra::Vector<3> pos_b, const double dead_time,
+          const libra::Vector<3> driving_lag_coef, const libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
           std::vector<std::vector<double>> radial_force_harmonics_coef, std::vector<std::vector<double>> radial_torque_harmonics_coef,
           double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance,
           const bool drive_flag = false, const double init_velocity = 0.0);
@@ -227,7 +227,7 @@ class RWModel : public ComponentBase, public ILoggable {
    * @fn CalcTorque
    * @brief Calculation of generated torque
    */
-  Vector<3> CalcTorque();
+  libra::Vector<3> CalcTorque();
   /**
    * @fn Initialize
    * @brief Initialize function
