@@ -25,7 +25,7 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, const int
       n_rw_c_(rw_stepwidth, rw_stddev_c, rw_limit_c),
       mag_env_(mag_env) {
   for (size_t i = 0; i < kMtqDim; i++) {
-    nrs_c_[i].set_param(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
+    nrs_c_[i].SetParameters(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
   }
 }
 
@@ -44,7 +44,7 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, PowerPort
       n_rw_c_(rw_stepwidth, rw_stddev_c, rw_limit_c),
       mag_env_(mag_env) {
   for (size_t i = 0; i < kMtqDim; i++) {
-    nrs_c_[i].set_param(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
+    nrs_c_[i].SetParameters(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
   }
 }
 

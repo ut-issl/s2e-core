@@ -47,8 +47,8 @@ void SunSensor::Initialize(const double nr_stddev_c, const double nr_bias_stddev
   bias_beta_ += nr;
 
   // Normal Random
-  nrs_alpha_.set_param(0.0, nr_stddev_c);  // global_randomization.MakeSeed()
-  nrs_beta_.set_param(0.0, nr_stddev_c);   // global_randomization.MakeSeed()
+  nrs_alpha_.SetParameters(0.0, nr_stddev_c);  // global_randomization.MakeSeed()
+  nrs_beta_.SetParameters(0.0, nr_stddev_c);   // global_randomization.MakeSeed()
 }
 void SunSensor::MainRoutine(int count) {
   UNUSED(count);

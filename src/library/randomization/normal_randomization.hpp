@@ -50,44 +50,51 @@ class NormalRand {
   operator double();
 
   /**
-   * @fn average
+   * @fn GetAverage
    * @brief Return average
    */
-  inline double average() const;
+  inline double GetAverage() const { return average_; }
 
   /**
-   * @fn average
-   * @brief Set average
-   */
-  inline void average(double average);
-
-  /**
-   * @fn standard_deviation
+   * @fn GetStandardDeviation
    * @brief Return standard deviation
    */
-  inline double standard_deviation() const;
+  inline double GetStandardDeviation() const { return standard_deviation_; }
 
   /**
-   * @fn standard_deviation
+   * @fn SetAverage
+   * @brief Set average
+   */
+  inline void SetAverage(const double average) { average_ = average; }
+
+  /**
+   * @fn SetStandardDeviation
    * @brief Set standard deviation
    */
-  inline void standard_deviation(double standard_deviation);
+  inline void SetStandardDeviation(const double standard_deviation) { standard_deviation_ = standard_deviation; }
 
   /**
-   * @fn set_param
+   * @fn SetParameter
    * @brief Set parameters
    * @param average: Average of normal distribution
    * @param standard_deviation: Standard deviation of normal distribution
    */
-  inline void set_param(double average, double standard_deviation);
+  inline void SetParameters(const double average, const double standard_deviation) {
+    average_ = average;
+    standard_deviation_ = standard_deviation;
+  }
   /**
-   * @fn set_param
+   * @fn SetParameter
    * @brief Set parameters
    * @param average: Average of normal distribution
    * @param standard_deviation: Standard deviation of normal distribution
    * @param seed: Seed of randomization
    */
-  inline void set_param(double average, double standard_deviation, long seed);
+  inline void SetParameters(const double average, const double standard_deviation, const long seed) {
+    average_ = average;
+    standard_deviation_ = standard_deviation;
+    randomizer_.InitSeed(seed);
+  }
 
  private:
   double average_;                            //!< Average

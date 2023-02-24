@@ -40,8 +40,8 @@ SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen, P
 SimpleThruster::~SimpleThruster() {}
 
 void SimpleThruster::Initialize(const double mag_err, const double dir_err) {
-  mag_nr_.set_param(0.0, mag_err);
-  dir_nr_.set_param(0.0, dir_err);
+  mag_nr_.SetParameters(0.0, mag_err);
+  dir_nr_.SetParameters(0.0, dir_err);
   thrust_dir_b_ = normalize(thrust_dir_b_);
 }
 

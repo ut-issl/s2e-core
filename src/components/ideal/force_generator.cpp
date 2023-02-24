@@ -14,7 +14,7 @@ ForceGenerator::ForceGenerator(const int prescaler, ClockGenerator* clock_gen, c
       magnitude_noise_(0.0, magnitude_error_standard_deviation_N),
       direction_error_standard_deviation_rad_(direction_error_standard_deviation_rad),
       dynamics_(dynamics) {
-  direction_noise_.set_param(0.0, 1.0);
+  direction_noise_.SetParameters(0.0, 1.0);
 }
 
 ForceGenerator::~ForceGenerator() {}
