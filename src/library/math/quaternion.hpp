@@ -69,16 +69,6 @@ class Quaternion {
   inline operator const Vector<4>&() const;
 
   /**
-   * @fn set
-   * @brief Set the quaternion elements
-   * @param [in] q_x: The first element of Quaternion (X)
-   * @param [in] q_y: The second element of Quaternion (Y)
-   * @param [in] q_z: The third element of Quaternion (Z)
-   * @param [in] q_w: The fourth element of Quaternion (W)
-   */
-  void set(double q_x = 0.0, double q_y = 0.0, double q_z = 0.0, double q_w = 1.0);
-
-  /**
    * @fn Cast operator
    * @brief Operator to directly access the element like array with [] operator
    */
