@@ -18,7 +18,7 @@ Logger* InitLog(std::string file_name) {
   return log;
 }
 
-Logger* InitLogMC(std::string file_name, bool enable) {
+Logger* InitMonteCarloLog(std::string file_name, bool enable) {
   IniAccess ini_file(file_name);
 
   std::string log_file_path = ini_file.ReadString("SIMULATION_SETTINGS", "log_file_save_directory");
