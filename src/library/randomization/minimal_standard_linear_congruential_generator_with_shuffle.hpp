@@ -4,8 +4,8 @@
  * @note ran1 function in "NUMERICAL RECIPES in C, p.207-208"
  */
 
-#ifndef S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_WITH_SHUFFLE_HPP_
-#define S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_WITH_SHUFFLE_HPP_
+#ifndef S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAr_CONGRUENTIAL_GENERATOr_WITH_SHUFFLE_HPP_
+#define S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAr_CONGRUENTIAL_GENERATOr_WITH_SHUFFLE_HPP_
 
 #include <cstddef>  // size_t
 
@@ -52,13 +52,13 @@ class Ran1 {
    */
   void init_();
 
-  Ran0 ran0_;                             //!< Randomization with Park and Miller's multiplicative congruential method
-  static const std::size_t V_SIZE_ = 32;  //!< Number of elements for mixing table
-  double v_[V_SIZE_];                     //!< Mixing table (Not used now)
-  std::size_t y_;                         //!< Position of mixing table
-  double vec_[V_SIZE_];                   //!< Mixing table
+  Ran0 minimal_lcg_;                         //!< Randomization with Park and Miller's multiplicative congruential method
+  static const std::size_t kTableSize = 32;  //!< Number of elements for mixing table
+  double v_[kTableSize];                     //!< Mixing table (Not used now)
+  std::size_t table_position_;               //!< Position of mixing table
+  double mixing_table_[kTableSize];          //!< Mixing table
 };
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_WITH_SHUFFLE_HPP_
+#endif  // S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAr_CONGRUENTIAL_GENERATOr_WITH_SHUFFLE_HPP_

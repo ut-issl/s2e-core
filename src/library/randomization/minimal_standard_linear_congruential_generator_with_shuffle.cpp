@@ -7,33 +7,33 @@
 #include "minimal_standard_linear_congruential_generator_with_shuffle.hpp"
 using libra::Ran1;
 
-Ran1::Ran1() : y_(0) { init_(); }
+Ran1::Ran1() : table_position_(0) { init_(); }
 
-Ran1::Ran1(long seed) : ran0_(seed), y_(0) { init_(); }
+Ran1::Ran1(long seed) : minimal_lcg_(seed), table_position_(0) { init_(); }
 
 void Ran1::init_seed(long seed) {
-  ran0_.init(seed);
+  minimal_lcg_.init(seed);
   init_();
 }
 
 void Ran1::init_() {
-  // Warmup of ran0_
+  // Warmup of minimal_lcg_
   for (int i = 0; i < 8; i++) {
-    double temp = ran0_;
+    double temp = minimal_lcg_;
     static_cast<void>(temp);
   }
   // Fill mixing table
-  for (size_t i = 0; i < V_SIZE_; i++) {
-    vec_[i] = ran0_;
+  for (size_t i = 0; i < kTableSize; i++) {
+    mixing_table_[i] = minimal_lcg_;
   }
-  //    for(size_t i=0; i<V_SIZE_; i++){ v_[i] = ran0_; }
+  //    for(size_t i=0; i<kTableSize; i++){ v_[i] = minimal_lcg_; }
 }
 
 Ran1::operator double() {
-  double out = vec_[y_];
-  vec_[y_] = ran0_;  // Compensate next random value
-  y_ = (size_t)out * Ran0::M;
-  y_ %= V_SIZE_;  // y <- [0 : V_SIZE_-1]
+  double out = mixing_table_[table_position_];
+  mixing_table_[table_position_] = minimal_lcg_;  // Compensate next random value
+  table_position_ = (size_t)out * Ran0::m_;
+  table_position_ %= kTableSize;  // y <- [0 : kTableSize-1]
 
   return out;
 }

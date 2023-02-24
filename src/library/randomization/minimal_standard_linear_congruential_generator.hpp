@@ -4,8 +4,8 @@
  * @note ran0 function in "NUMERICAL RECIPES in C, p.206"
  */
 
-#ifndef S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_HPP_
-#define S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_HPP_
+#ifndef S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAr_CONGRUENTIAL_GENERATOr_HPP_
+#define S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAr_CONGRUENTIAL_GENERATOr_HPP_
 
 namespace libra {
 
@@ -15,8 +15,8 @@ namespace libra {
  */
 class Ran0 {
  public:
-  static const long A = 16807;       //!< Coefficient a for multiplication
-  static const long M = 2147483647;  //!< Divisor for modulo
+  static const long a_ = 16807;       //!< Coefficient a for multiplication
+  static const long m_ = 2147483647;  //!< Divisor for modulo
 
   /**
    * @fn Ran0
@@ -45,13 +45,13 @@ class Ran0 {
   operator double();
 
  private:
-  static const double AM_;        //!< A/M
-  static const long Q_ = 127773;  //!< Integer part of A/M
-  static const long R_ = 2836;    //!< m mod a
+  static const double a_m_;       //!< A/M
+  static const long q_ = 127773;  //!< Integer part of A/M
+  static const long r_ = 2836;    //!< m mod a
 
   long seed_;  //!< Seed of randomization
 };
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_HPP_
+#endif  // S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAr_CONGRUENTIAL_GENERATOr_HPP_
