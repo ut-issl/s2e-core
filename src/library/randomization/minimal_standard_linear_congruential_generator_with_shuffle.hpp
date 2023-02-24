@@ -54,7 +54,6 @@ class Ran1 {
 
   Ran0 minimal_lcg_;                         //!< Randomization with Park and Miller's multiplicative congruential method
   static const std::size_t kTableSize = 32;  //!< Number of elements for mixing table
-  double v_[kTableSize];                     //!< Mixing table (Not used now)
   std::size_t table_position_;               //!< Position of mixing table
   double mixing_table_[kTableSize];          //!< Mixing table
 };
