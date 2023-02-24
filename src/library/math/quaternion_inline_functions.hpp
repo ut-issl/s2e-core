@@ -17,10 +17,10 @@ Quaternion::Quaternion(double q_x, double q_y, double q_z, double q_w) {
   q_[3] = q_w;
 }
 
-Quaternion::Quaternion(const Vector<4>& q) : q_(q) {}
+Quaternion::Quaternion(const Vector<4>& quaternion_vector) : q_(quaternion_vector) {}
 
-Quaternion& Quaternion::operator=(const Vector<4>& q) {
-  q_ = q;
+Quaternion& Quaternion::operator=(const Vector<4>& quaternion_vector) {
+  q_ = quaternion_vector;
   return *this;
 }
 

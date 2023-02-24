@@ -137,18 +137,18 @@ class Quaternion {
   /**
    * @fn frame_conv
    * @brief Frame conversion for the given target vector with the quaternion
-   * @param [in] quaternion_vector: Target vector
+   * @param [in] vector: Target vector
    * @return Converted vector
    */
-  Vector<3> frame_conv(const Vector<3>& quaternion_vector) const;
+  Vector<3> frame_conv(const Vector<3>& vector) const;
 
   /**
    * @fn frame_conv_inv
    * @brief Frame conversion for the given target vector with the inverse quaternion
-   * @param [in] quaternion_vector: Target vector
+   * @param [in] vector: Target vector
    * @return Converted vector
    */
-  Vector<3> frame_conv_inv(const Vector<3>& quaternion_vector) const;
+  Vector<3> frame_conv_inv(const Vector<3>& vector) const;
 
   /**
    * @fn toVector
