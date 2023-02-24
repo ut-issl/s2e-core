@@ -15,10 +15,11 @@
 
 std::vector<ILoggable *> loggables_;
 
-Logger::Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool enable_inilog, bool enable) {
+Logger::Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool enable_ini_file_save,
+               bool enable) {
   is_enabled_ = enable;
   is_file_opened_ = false;
-  is_ini_save_enabled_ = enable_inilog;
+  is_ini_save_enabled_ = enable_ini_file_save;
 
   // Get current time to append it to the filename
   time_t timer = time(NULL);
