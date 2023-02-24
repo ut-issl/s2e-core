@@ -42,9 +42,9 @@ inline std::string WriteVector(const libra::Vector<NUM, double> vector, const in
  * @param [in] name: Name of the vector value
  * @param [in] frame: Frame of the vector value
  * @param [in] unit: Unit of the vector value
- * @param [in] n: Number of elements
+ * @param [in] length: Number of elements
  */
-inline std::string WriteVector(const std::string name, const std::string frame, const std::string unit, const size_t n);
+inline std::string WriteVector(const std::string name, const std::string frame, const std::string unit, const size_t length);
 
 /**
  * @fn WriteMatrix
@@ -59,10 +59,11 @@ inline std::string WriteMatrix(const libra::Matrix<ROW, COLUMN, double> matrix, 
  * @param [in] name: Name of the matrix value
  * @param [in] frame: Frame of the matrix value
  * @param [in] unit: Unit of the matrix value
- * @param [in] r: Row length
- * @param [in] c: Column length
+ * @param [in] row_length: Row length
+ * @param [in] column_length: Column length
  */
-inline std::string WriteMatrix(const std::string name, const std::string frame, const std::string unit, const size_t r, const size_t c);
+inline std::string WriteMatrix(const std::string name, const std::string frame, const std::string unit, const size_t row_length,
+                               const size_t column_length);
 
 /**
  * @fn WriteQuaternion
@@ -98,12 +99,12 @@ std::string WriteVector(const libra::Vector<NUM, double> vector, const int preci
   }
   return str_tmp.str();
 }
-std::string WriteVector(const std::string name, const std::string frame, const std::string unit, const size_t n) {
+std::string WriteVector(const std::string name, const std::string frame, const std::string unit, const size_t length) {
   std::stringstream str_tmp;
   std::string axis[3] = {"_x", "_y", "_z"};
 
-  for (size_t i = 0; i < n; i++) {
-    if (n == 3) {
+  for (size_t i = 0; i < length; i++) {
+    if (length == 3) {
       str_tmp << name << "_" << frame << axis[i] << "[" << unit << "],";
     } else {
       str_tmp << name << "_" << frame << "(" << i << ")"
@@ -124,11 +125,12 @@ std::string WriteMatrix(const libra::Matrix<ROW, COLUMN, double> matrix, const i
   }
   return str_tmp.str();
 }
-std::string WriteMatrix(const std::string name, const std::string frame, const std::string unit, const size_t r, const size_t c) {
+std::string WriteMatrix(const std::string name, const std::string frame, const std::string unit, const size_t row_length,
+                        const size_t column_length) {
   std::stringstream str_tmp;
 
-  for (size_t i = 0; i < r; i++) {
-    for (size_t j = 0; j < c; j++) {
+  for (size_t i = 0; i < row_length; i++) {
+    for (size_t j = 0; j < column_length; j++) {
       str_tmp << name << "_" << frame << "(" << i << j << ")"
               << "[" << unit << "],";
     }
