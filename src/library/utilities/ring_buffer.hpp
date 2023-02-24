@@ -46,10 +46,10 @@ class RingBuffer {
   int Read(byte* buffer, int offset, int count);
 
  private:
-  const int kBufferSize;  //!< Buffer size
-  byte* buf_;             //!< Buffer
-  int rp_;                //!< Read pointer
-  int wp_;                //!< Write pointer
+  int buffer_size_;   //!< Buffer size
+  byte* buffer_;      //!< Buffer
+  int read_pointer;   //!< Read pointer
+  int write_pointer;  //!< Write pointer
 };
 
 #endif  // S2E_LIBRARY_UTILITIES_RING_BUFFER_HPP_
