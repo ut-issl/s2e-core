@@ -36,7 +36,7 @@ Temperature::Temperature() {
 
 Temperature::~Temperature() {}
 
-void Temperature::Propagate(Vector<3> sun_direction, const double endtime) {
+void Temperature::Propagate(libra::Vector<3> sun_direction, const double endtime) {
   if (!is_calc_enabled_) return;
   while (endtime - prop_time_ - prop_step_ > 1.0e-6) {
     RungeOneStep(prop_time_, prop_step_, sun_direction, node_num_);
@@ -64,7 +64,7 @@ void Temperature::Propagate(Vector<3> sun_direction, const double endtime) {
   }
 }
 
-void Temperature::RungeOneStep(double t, double dt, Vector<3> sun_direction, int node_num) {
+void Temperature::RungeOneStep(double t, double dt, libra::Vector<3> sun_direction, int node_num) {
   vector<double> x(node_num);
   for (int i = 0; i < node_num; i++) {
     x[i] = vnodes_[i].GetTemperature_K();
@@ -100,7 +100,7 @@ void Temperature::RungeOneStep(double t, double dt, Vector<3> sun_direction, int
   }
 }
 
-vector<double> Temperature::OdeTemperature(vector<double> x, double t, Vector<3> sun_direction, int node_num) {
+vector<double> Temperature::OdeTemperature(vector<double> x, double t, libra::Vector<3> sun_direction, int node_num) {
   // TODO: consider the following unused arguments are really needed
   UNUSED(x);
   UNUSED(t);

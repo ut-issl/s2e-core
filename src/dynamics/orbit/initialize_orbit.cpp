@@ -62,7 +62,6 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
                               init_relative_velocity_lvlh, update_method, relative_dynamics_model_type, stm_model_type, relative_information);
   } else if (propagate_mode == "KEPLER") {
     // initialize orbit for Kepler propagation
-    double mu_m3_s2 = mu_m3_s2;
     OrbitalElements oe;
     // TODO: init_mode_kepler should be removed in the next major update
     if (initialize_mode == OrbitInitializeMode::kInertialPositionAndVelocity) {
