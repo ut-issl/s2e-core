@@ -33,7 +33,7 @@ void MagneticDisturbance::CalcRMM() {
   static libra::Vector<3> random_walk_std_dev(rmm_params_.GetRMMRWDev());
   static libra::Vector<3> random_walk_limit(rmm_params_.GetRMMRWLimit());
   static RandomWalk<3> random_walk(0.1, random_walk_std_dev, random_walk_limit);  // [FIXME] step width is constant
-  static libra::NormalRand normal_random(0.0, rmm_params_.GetRMMWNVar(), g_rand.MakeSeed());
+  static libra::NormalRand normal_random(0.0, rmm_params_.GetRMMWNVar(), global_randomization.MakeSeed());
 
   rmm_b_Am2_ = rmm_params_.GetRMMConst_b();
   for (int i = 0; i < 3; ++i) {

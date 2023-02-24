@@ -5,18 +5,18 @@
 
 #include "global_randomization.hpp"
 
-GlobalRand g_rand;
+GlobalRandomization global_randomization;
 
-GlobalRand::GlobalRand() { seed_ = 0xdeadbeef; }
+GlobalRandomization::GlobalRandomization() { seed_ = 0xdeadbeef; }
 
-void GlobalRand::SetSeed(long seed) {
-  base_rand_.init(seed);
-  // double dl = base_rand_;
+void GlobalRandomization::SetSeed(long seed) {
+  base_randomizer_.init(seed);
+  // double dl = base_randomizer_;
 }
 
-long GlobalRand::MakeSeed() {
-  double rand = base_rand_;
-  long seed = (long)((rand - 0.5) * MAX_SEED);
+long GlobalRandomization::MakeSeed() {
+  double rand = base_randomizer_;
+  long seed = (long)((rand - 0.5) * kMaxSeed);
   if (seed == 0) {
     seed = 0xdeadbeef;
   }

@@ -14,7 +14,7 @@ RandomWalk<N>::RandomWalk(double step_width, const libra::Vector<N>& stddev, con
     : libra::ODE<N>(step_width), limit_(limit) {
   // Set standard deviation
   for (size_t i = 0; i < N; ++i) {
-    nrs_[i].set_param(0.0, stddev[i], g_rand.MakeSeed());
+    nrs_[i].set_param(0.0, stddev[i], global_randomization.MakeSeed());
   }
 }
 

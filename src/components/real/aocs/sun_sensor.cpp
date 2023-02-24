@@ -42,13 +42,13 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* 
 
 void SunSensor::Initialize(const double nr_stddev_c, const double nr_bias_stddev_c) {
   // Bias
-  NormalRand nr(0.0, nr_bias_stddev_c, g_rand.MakeSeed());
+  NormalRand nr(0.0, nr_bias_stddev_c, global_randomization.MakeSeed());
   bias_alpha_ += nr;
   bias_beta_ += nr;
 
   // Normal Random
-  nrs_alpha_.set_param(0.0, nr_stddev_c);  // g_rand.MakeSeed()
-  nrs_beta_.set_param(0.0, nr_stddev_c);   // g_rand.MakeSeed()
+  nrs_alpha_.set_param(0.0, nr_stddev_c);  // global_randomization.MakeSeed()
+  nrs_beta_.set_param(0.0, nr_stddev_c);   // global_randomization.MakeSeed()
 }
 void SunSensor::MainRoutine(int count) {
   UNUSED(count);
