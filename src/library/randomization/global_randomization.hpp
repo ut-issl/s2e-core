@@ -24,7 +24,7 @@ class GlobalRandomization {
    * @fn SetSeed
    * @brief Set randomized seed value
    */
-  void SetSeed(long seed);
+  void SetSeed(const long seed);
   /**
    * @fn MakeSeed
    * @brief Set randomized seed value

@@ -24,7 +24,7 @@ void NormalRand::set_param(double avg, double stddev) {
 void NormalRand::set_param(double avg, double stddev, long seed) {
   avg_ = avg;
   stddev_ = stddev;
-  rand_.init_seed(seed);
+  rand_.InitSeed(seed);
 }
 
 }  // namespace libra

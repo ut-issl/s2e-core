@@ -29,7 +29,7 @@ class Ran1 {
    * @brief Default constructor with seed value
    * @param [in] seed: Seed of randomization
    */
-  explicit Ran1(long seed);
+  explicit Ran1(const long seed);
 
   /**
    * @fn Cast operator of double type
@@ -39,18 +39,18 @@ class Ran1 {
   operator double();
 
   /**
-   * @fn init_seed
+   * @fn InitSeed
    * @brief Set seed value
    * @param [in] seed: Seed of randomization
    */
-  void init_seed(long seed);
+  void InitSeed(const long seed);
 
  private:
   /**
-   * @fn init_
+   * @fn Initialize
    * @brief Initialize function
    */
-  void init_();
+  void Initialize();
 
   Ran0 minimal_lcg_;                         //!< Randomization with Park and Miller's multiplicative congruential method
   static const std::size_t kTableSize = 32;  //!< Number of elements for mixing table

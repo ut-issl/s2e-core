@@ -13,12 +13,12 @@ const double Ran0::a_m_ = 1.0 / Ran0::kM;
 
 Ran0::Ran0() : seed_(0xdeadbeef) {}
 
-Ran0::Ran0(long seed) : seed_(seed) {
+Ran0::Ran0(const long seed) : seed_(seed) {
   if (seed == 0) {
     throw std::invalid_argument("Ran0:: seed is 0.");
   }
 }
-void Ran0::init(long seed) {
+void Ran0::Initialize(const long seed) {
   if (seed == 0) {
     throw std::invalid_argument("Ran0:: seed is 0.");
   }

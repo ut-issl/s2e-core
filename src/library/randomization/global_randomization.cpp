@@ -9,8 +9,8 @@ GlobalRandomization global_randomization;
 
 GlobalRandomization::GlobalRandomization() { seed_ = 0xdeadbeef; }
 
-void GlobalRandomization::SetSeed(long seed) {
-  base_randomizer_.init(seed);
+void GlobalRandomization::SetSeed(const long seed) {
+  base_randomizer_.Initialize(seed);
   // double dl = base_randomizer_;
 }
 

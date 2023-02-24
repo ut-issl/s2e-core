@@ -28,14 +28,14 @@ class Ran0 {
    * @brief Default constructor with seed value
    * @param [in] seed: Seed of randomization
    */
-  explicit Ran0(long seed);
+  explicit Ran0(const long seed);
 
   /**
-   * @fn init
+   * @fn Initialize
    * @brief Set seed value
    * @param [in] seed: Seed of randomization
    */
-  void init(long seed);
+  void Initialize(const long seed);
 
   /**
    * @fn Cast operator of double type
