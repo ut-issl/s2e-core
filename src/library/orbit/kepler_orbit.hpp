@@ -35,11 +35,11 @@ class KeplerOrbit {
   ~KeplerOrbit();
 
   /**
-   * @fn CalcPosVel
+   * @fn CalcOrbit
    * @brief Calculate position and velocity with Kepler orbit propagation
    * @param [in] time_jday: Time expressed as Julian day [day]
    */
-  void CalcPosVel(double time_jday);
+  void CalcOrbit(double time_jday);
 
   /**
    * @fn GetPosition_i_m

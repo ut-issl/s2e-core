@@ -132,7 +132,7 @@ libra::Vector<6> InitializePosVel(std::string initialize_file, double current_ti
     OrbitalElements oe(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
     KeplerOrbit kepler_orbit(mu_m3_s2, oe);
 
-    kepler_orbit.CalcPosVel(current_time_jd);
+    kepler_orbit.CalcOrbit(current_time_jd);
     position_i_m = kepler_orbit.GetPosition_i_m();
     velocity_i_m_s = kepler_orbit.GetVelocity_i_m_s();
   } else if (initialize_mode == OrbitInitializeMode::kInertialPositionAndVelocity) {

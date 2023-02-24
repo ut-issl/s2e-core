@@ -35,7 +35,7 @@ void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_
   // common variables
   double r_m = norm(position_i_m);
   double v2_m2_s2 = inner_product(velocity_i_m_s, velocity_i_m_s);
-  libra::Vector<3> h;
+  libra::Vector<3> h;  //!< angular momentum vector
   h = outer_product(position_i_m, velocity_i_m_s);
   double h_norm = norm(h);
 

@@ -27,7 +27,7 @@ void KeplerOrbit::CalcConstKeplerMotion() {
   dcm_inplane_to_i_ = dcm_raan * dcm_inc_arg;
 }
 
-void KeplerOrbit::CalcPosVel(double time_jday) {
+void KeplerOrbit::CalcOrbit(double time_jday) {
   // replace to short name variables
   double a_m = oe_.GetSemiMajorAxis_m();
   double e = oe_.GetEccentricity();

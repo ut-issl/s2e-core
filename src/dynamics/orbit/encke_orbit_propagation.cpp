@@ -35,7 +35,7 @@ void EnckeOrbitPropagation::Propagate(double end_time_s, double current_time_jd)
   }
 
   // Update reference orbit
-  reference_kepler_orbit.CalcPosVel(current_time_jd);
+  reference_kepler_orbit.CalcOrbit(current_time_jd);
   reference_position_i_m_ = reference_kepler_orbit.GetPosition_i_m();
   reference_velocity_i_m_s_ = reference_kepler_orbit.GetVelocity_i_m_s();
 
