@@ -97,7 +97,6 @@ class Logger {
 
  private:
   std::ofstream csv_file_;              //!< CSV file stream
-  char registered_num_;                 //!< Number of registered log? (Not used now. TODO: delete?)
   bool is_enabled_;                     //!< Enable flag for logging
   bool is_open_;                        //!< Is the CSV file opened?
   std::vector<ILoggable *> loggables_;  //!< Log list

@@ -40,7 +40,6 @@ Logger::Logger(const std::string &file_name, const std::string &data_path, const
     is_open_ = csv_file_.is_open();
     if (!is_open_) std::cerr << "Error opening log file: " << file_path.str() << std::endl;
   }
-  registered_num_ = 0;
 
   // Copy SimBase.ini
   CopyFileToLogDir(ini_file_name);
