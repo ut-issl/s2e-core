@@ -108,6 +108,4 @@ class NormalRand {
 
 }  // namespace libra
 
-#include "normal_randomization_inline_functions.hpp"
-
 #endif  // S2E_LIBRARY_RANDOMIZATION_NORMAL_RANDOMIZATION_HPP_
