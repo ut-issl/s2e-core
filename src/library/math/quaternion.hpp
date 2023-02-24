@@ -25,40 +25,40 @@ class Quaternion {
   /**
    * @fn Quaternion
    * @brief Constructor with initialization
-   * @param [in] q0: The first element of Quaternion (X)
-   * @param [in] q1: The second element of Quaternion (Y)
-   * @param [in] q2: The third element of Quaternion (Z)
-   * @param [in] q3: The fourth element of Quaternion (W)
+   * @param [in] q_x: The first element of Quaternion (X)
+   * @param [in] q_y: The second element of Quaternion (Y)
+   * @param [in] q_z: The third element of Quaternion (Z)
+   * @param [in] q_w: The fourth element of Quaternion (W)
    */
-  inline Quaternion(double q0, double q1, double q2, double q3);
+  inline Quaternion(double q_x, double q_y, double q_z, double q_w);
   /**
    * @fn Quaternion
    * @brief Constructor initialized with vector
-   * @param [in] cv: Vector storing quaternion
+   * @param [in] quaternion_vector: Vector storing quaternion
    */
-  inline Quaternion(const Vector<4>& cv);
+  inline Quaternion(const Vector<4>& quaternion_vector);
   /**
    * @fn Quaternion
    * @brief Constructor initialized with rotation expression
-   * @param [in] axis: Rotation axis normalized vector
-   * @param [in] rot: Rotation angle [rad]
+   * @param [in] rotation_axis: Rotation axis normalized vector
+   * @param [in] rotation_angle_rad: Rotation angle [rad]
    */
-  Quaternion(const Vector<3>& axis, double rot);
+  Quaternion(const Vector<3>& rotation_axis, double rotation_angle_rad);
   /**
    * @fn Quaternion
-   * @brief Constructor initialized with rotates v_before to match v_after
-   * @param [in] v_before: Vector before rotation
-   * @param [in] v_after: Vector after rotation
+   * @brief Constructor initialized with rotates vector_before to match vector_after
+   * @param [in] vector_before: Vector before rotation
+   * @param [in] vector_after: Vector after rotation
    */
-  Quaternion(const Vector<3>& v_before, const Vector<3>& v_after);
+  Quaternion(const Vector<3>& vector_before, const Vector<3>& vector_after);
 
   /**
    * @fn Operator =
    * @brief Substitute Vector value to Quaternion
-   * @param [in] cv: Vector
+   * @param [in] quaternion_vector: Vector
    * @return Quaternion
    */
-  inline Quaternion& operator=(const Vector<4>& cv);
+  inline Quaternion& operator=(const Vector<4>& quaternion_vector);
 
   /**
    * @fn Cast operator to const Vector<4>
@@ -71,12 +71,12 @@ class Quaternion {
   /**
    * @fn set
    * @brief Set the quaternion elements
-   * @param [in] q0: The first element of Quaternion (X)
-   * @param [in] q1: The second element of Quaternion (Y)
-   * @param [in] q2: The third element of Quaternion (Z)
-   * @param [in] q3: The fourth element of Quaternion (W)
+   * @param [in] q_x: The first element of Quaternion (X)
+   * @param [in] q_y: The second element of Quaternion (Y)
+   * @param [in] q_z: The third element of Quaternion (Z)
+   * @param [in] q_w: The fourth element of Quaternion (W)
    */
-  void set(double q0 = 0.0, double q1 = 0.0, double q2 = 0.0, double q3 = 1.0);
+  void set(double q_x = 0.0, double q_y = 0.0, double q_z = 0.0, double q_w = 1.0);
 
   /**
    * @fn Cast operator
@@ -137,18 +137,18 @@ class Quaternion {
   /**
    * @fn frame_conv
    * @brief Frame conversion for the given target vector with the quaternion
-   * @param [in] cv: Target vector
+   * @param [in] quaternion_vector: Target vector
    * @return Converted vector
    */
-  Vector<3> frame_conv(const Vector<3>& cv) const;
+  Vector<3> frame_conv(const Vector<3>& quaternion_vector) const;
 
   /**
    * @fn frame_conv_inv
    * @brief Frame conversion for the given target vector with the inverse quaternion
-   * @param [in] cv: Target vector
+   * @param [in] quaternion_vector: Target vector
    * @return Converted vector
    */
-  Vector<3> frame_conv_inv(const Vector<3>& cv) const;
+  Vector<3> frame_conv_inv(const Vector<3>& quaternion_vector) const;
 
   /**
    * @fn toVector
