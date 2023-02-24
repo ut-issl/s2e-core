@@ -10,25 +10,25 @@
 namespace libra {
 
 /**
- * @class Ran0
+ * @class MinimalStandardLcg
  * @brief Randomization with Park and Miller's multiplicative congruential and mixed method
  */
-class Ran0 {
+class MinimalStandardLcg {
  public:
   static const long kA = 16807;       //!< Coefficient a for multiplication
   static const long kM = 2147483647;  //!< Divisor for modulo
 
   /**
-   * @fn Ran0
+   * @fn MinimalStandardLcg
    * @brief Default constructor with default seed value
    */
-  Ran0();
+  MinimalStandardLcg();
   /**
-   * @fn Ran0
+   * @fn MinimalStandardLcg
    * @brief Default constructor with seed value
    * @param [in] seed: Seed of randomization
    */
-  explicit Ran0(const long seed);
+  explicit MinimalStandardLcg(const long seed);
 
   /**
    * @fn Initialize

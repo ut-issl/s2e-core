@@ -8,7 +8,7 @@
 #define S2E_LIBRARY_RANDOMIZATION_NORMAL_RANDOMIZATION_HPP_
 
 #include "minimal_standard_linear_congruential_generator_with_shuffle.hpp"
-using libra::Ran1;
+using libra::MinimalStandardLcgWithShuffle;
 
 namespace libra {
 
@@ -90,13 +90,13 @@ class NormalRand {
   inline void set_param(double avg, double stddev, long seed);
 
  private:
-  double avg_;     //!< Average
-  double stddev_;  //!< Standard deviation
-  Ran1 rand_;      //!< Randomized origin to use Box-Muller method
-  double holder_;  //!< Second random value. Box-Muller method generates two value at once.
-                   //!< The second value is stored and used in the next call.
-                   //!< It means that Box-Muller method is executed once per two call
-  bool is_empty_;  //!< Flag to show the holder_ has available value
+  double avg_;                          //!< Average
+  double stddev_;                       //!< Standard deviation
+  MinimalStandardLcgWithShuffle rand_;  //!< Randomized origin to use Box-Muller method
+  double holder_;                       //!< Second random value. Box-Muller method generates two value at once.
+                                        //!< The second value is stored and used in the next call.
+                                        //!< It means that Box-Muller method is executed once per two call
+  bool is_empty_;                       //!< Flag to show the holder_ has available value
 };
 
 }  // namespace libra

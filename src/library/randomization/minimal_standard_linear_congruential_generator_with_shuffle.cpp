@@ -5,18 +5,18 @@
  */
 
 #include "minimal_standard_linear_congruential_generator_with_shuffle.hpp"
-using libra::Ran1;
+using libra::MinimalStandardLcgWithShuffle;
 
-Ran1::Ran1() : table_position_(0) { Initialize(); }
+MinimalStandardLcgWithShuffle::MinimalStandardLcgWithShuffle() : table_position_(0) { Initialize(); }
 
-Ran1::Ran1(const long seed) : minimal_lcg_(seed), table_position_(0) { Initialize(); }
+MinimalStandardLcgWithShuffle::MinimalStandardLcgWithShuffle(const long seed) : minimal_lcg_(seed), table_position_(0) { Initialize(); }
 
-void Ran1::InitSeed(const long seed) {
+void MinimalStandardLcgWithShuffle::InitSeed(const long seed) {
   minimal_lcg_.Initialize(seed);
   Initialize();
 }
 
-void Ran1::Initialize() {
+void MinimalStandardLcgWithShuffle::Initialize() {
   // Warmup of minimal_lcg_
   for (int i = 0; i < 8; i++) {
     double temp = minimal_lcg_;
@@ -28,10 +28,10 @@ void Ran1::Initialize() {
   }
 }
 
-Ran1::operator double() {
+MinimalStandardLcgWithShuffle::operator double() {
   double out = mixing_table_[table_position_];
   mixing_table_[table_position_] = minimal_lcg_;  // Compensate next random value
-  table_position_ = (size_t)out * Ran0::kM;
+  table_position_ = (size_t)out * MinimalStandardLcg::kM;
   table_position_ %= kTableSize;  // y <- [0 : kTableSize-1]
 
   return out;

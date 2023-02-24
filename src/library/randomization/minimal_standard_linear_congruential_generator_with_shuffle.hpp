@@ -14,22 +14,22 @@
 namespace libra {
 
 /**
- * @class Ran1
+ * @class MinimalStandardLcgWithShuffle
  * @brief Randomization with Park and Miller's multiplicative congruential method combined with mixed method
  */
-class Ran1 {
+class MinimalStandardLcgWithShuffle {
  public:
   /**
-   * @fn Ran1
+   * @fn MinimalStandardLcgWithShuffle
    * @brief Default constructor with default seed value
    */
-  Ran1();
+  MinimalStandardLcgWithShuffle();
   /**
-   * @fn Ran1
+   * @fn MinimalStandardLcgWithShuffle
    * @brief Default constructor with seed value
    * @param [in] seed: Seed of randomization
    */
-  explicit Ran1(const long seed);
+  explicit MinimalStandardLcgWithShuffle(const long seed);
 
   /**
    * @fn Cast operator of double type
@@ -52,7 +52,7 @@ class Ran1 {
    */
   void Initialize();
 
-  Ran0 minimal_lcg_;                         //!< Randomization with Park and Miller's multiplicative congruential method
+  MinimalStandardLcg minimal_lcg_;           //!< Randomization with Park and Miller's multiplicative congruential method
   static const std::size_t kTableSize = 32;  //!< Number of elements for mixing table
   std::size_t table_position_;               //!< Position of mixing table
   double mixing_table_[kTableSize];          //!< Mixing table
