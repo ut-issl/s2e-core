@@ -24,8 +24,9 @@ class AttitudeRk4 : public Attitude {
    * @param [in] propagation_step_s: Initial value of propagation step width [sec]
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  AttitudeRk4(const Vector<3>& angular_velocity_b_rad_s, const Quaternion& quaternion_i2b, const Matrix<3, 3>& inertia_tensor_kgm2,
-              const Vector<3>& torque_b_Nm, const double propagation_step_s, const std::string& simulation_object_name = "Attitude");
+  AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b,
+              const libra::Matrix<3, 3>& inertia_tensor_kgm2, const libra::Vector<3>& torque_b_Nm, const double propagation_step_s,
+              const std::string& simulation_object_name = "Attitude");
   /**
    * @fn ~AttitudeRk4
    * @brief Destructor
@@ -54,14 +55,14 @@ class AttitudeRk4 : public Attitude {
    * @brief Generate angular velocity matrix for kinematics calculation
    * @param [in] angular_velocity_b_rad_s: Angular velocity [rad/s]
    */
-  Matrix<4, 4> CalcAngularVelocityMatrix(Vector<3> angular_velocity_b_rad_s);
+  libra::Matrix<4, 4> CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s);
   /**
    * @fn AttitudeDynamicsAndKinematics
    * @brief Dynamics equation with kinematics
    * @param [in] x: State vector (angular velocity and quaternion)
    * @param [in] t: Unused TODO: remove?
    */
-  Vector<7> AttitudeDynamicsAndKinematics(Vector<7> x, double t);
+  libra::Vector<7> AttitudeDynamicsAndKinematics(libra::Vector<7> x, double t);
   /**
    * @fn RungeKuttaOneStep
    * @brief Equation for one step of Runge-Kutta method
