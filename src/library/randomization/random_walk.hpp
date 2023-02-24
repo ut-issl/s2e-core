@@ -21,10 +21,10 @@ class RandomWalk : public libra::ODE<N> {
    * @fn RandomWalk
    * @brief Constructor
    * @param step_width: Step width
-   * @param stddev: Standard deviation of random walk excitation noise
+   * @param standard_deviation: Standard deviation of random walk excitation noise
    * @param limit: Limit of random walk
    */
-  RandomWalk(double step_width, const libra::Vector<N>& stddev, const libra::Vector<N>& limit);
+  RandomWalk(double step_width, const libra::Vector<N>& standard_deviation, const libra::Vector<N>& limit);
 
   /**
    * @fn RHS

@@ -10,11 +10,11 @@
 #include <library/utilities/macros.hpp>
 
 template <size_t N>
-RandomWalk<N>::RandomWalk(double step_width, const libra::Vector<N>& stddev, const libra::Vector<N>& limit)
+RandomWalk<N>::RandomWalk(double step_width, const libra::Vector<N>& standard_deviation, const libra::Vector<N>& limit)
     : libra::ODE<N>(step_width), limit_(limit) {
   // Set standard deviation
   for (size_t i = 0; i < N; ++i) {
-    nrs_[i].set_param(0.0, stddev[i], global_randomization.MakeSeed());
+    nrs_[i].set_param(0.0, standard_deviation[i], global_randomization.MakeSeed());
   }
 }
 

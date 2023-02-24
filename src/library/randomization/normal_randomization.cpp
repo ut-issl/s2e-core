@@ -11,10 +11,11 @@ using libra::NormalRand;
 
 NormalRand::NormalRand() : average_(0.0), standard_deviation_(1.0), holder_(0.0), is_empty_(true) {}
 
-NormalRand::NormalRand(double avg, double stddev) : average_(avg), standard_deviation_(stddev), holder_(0.0), is_empty_(true) {}
+NormalRand::NormalRand(double average, double standard_deviation)
+    : average_(average), standard_deviation_(standard_deviation), holder_(0.0), is_empty_(true) {}
 
-NormalRand::NormalRand(double avg, double stddev, long seed) throw()
-    : average_(avg), standard_deviation_(stddev), randomizer_(seed), holder_(0.0), is_empty_(true) {}
+NormalRand::NormalRand(double average, double standard_deviation, long seed) throw()
+    : average_(average), standard_deviation_(standard_deviation), randomizer_(seed), holder_(0.0), is_empty_(true) {}
 
 NormalRand::operator double() {
   if (is_empty_) {

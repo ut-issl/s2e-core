@@ -28,19 +28,19 @@ class NormalRand {
   /**
    * @fn NormalRand
    * @brief Constructor
-   * @param avg: Average of normal distribution
-   * @param stddev: Standard deviation of normal distribution
+   * @param average: Average of normal distribution
+   * @param standard_deviation: Standard deviation of normal distribution
    */
-  NormalRand(double avg, double stddev);
+  NormalRand(double average, double standard_deviation);
 
   /**
    * @fn NormalRand
    * @brief Constructor
-   * @param avg: Average of normal distribution
-   * @param stddev: Standard deviation of normal distribution
+   * @param average: Average of normal distribution
+   * @param standard_deviation: Standard deviation of normal distribution
    * @param seed: Seed of randomization
    */
-  NormalRand(double avg, double stddev, long seed) throw();
+  NormalRand(double average, double standard_deviation, long seed) throw();
 
   /**
    * @fn Cast operator to double type
@@ -50,44 +50,44 @@ class NormalRand {
   operator double();
 
   /**
-   * @fn avg
+   * @fn average
    * @brief Return average
    */
-  inline double avg() const;
+  inline double average() const;
 
   /**
-   * @fn avg
+   * @fn average
    * @brief Set average
    */
-  inline void avg(double avg);
+  inline void average(double average);
 
   /**
-   * @fn stddev
+   * @fn standard_deviation
    * @brief Return standard deviation
    */
-  inline double stddev() const;
+  inline double standard_deviation() const;
 
   /**
-   * @fn stddev
+   * @fn standard_deviation
    * @brief Set standard deviation
    */
-  inline void stddev(double stddev);
+  inline void standard_deviation(double standard_deviation);
 
   /**
    * @fn set_param
    * @brief Set parameters
-   * @param avg: Average of normal distribution
-   * @param stddev: Standard deviation of normal distribution
+   * @param average: Average of normal distribution
+   * @param standard_deviation: Standard deviation of normal distribution
    */
-  inline void set_param(double avg, double stddev);
+  inline void set_param(double average, double standard_deviation);
   /**
    * @fn set_param
    * @brief Set parameters
-   * @param avg: Average of normal distribution
-   * @param stddev: Standard deviation of normal distribution
+   * @param average: Average of normal distribution
+   * @param standard_deviation: Standard deviation of normal distribution
    * @param seed: Seed of randomization
    */
-  inline void set_param(double avg, double stddev, long seed);
+  inline void set_param(double average, double standard_deviation, long seed);
 
  private:
   double average_;                            //!< Average
