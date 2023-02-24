@@ -55,7 +55,7 @@ HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name) {
   HipparcosCatalogue* hipparcos_catalogue_;
   hipparcos_catalogue_ = new HipparcosCatalogue(max_magnitude, catalogue_path);
   hipparcos_catalogue_->IsCalcEnabled = ini_file.ReadEnable(section, CALC_LABEL);
-  hipparcos_catalogue_->IsLogEnabled = ini_file.ReadEnable(section, LOG_LABEL);
+  hipparcos_catalogue_->is_log_enabled_ = ini_file.ReadEnable(section, LOG_LABEL);
   hipparcos_catalogue_->ReadContents(catalogue_path, ',');
 
   return hipparcos_catalogue_;
@@ -114,7 +114,7 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
   celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body);
 
   // log setting
-  celestial_info->IsLogEnabled = ini_file.ReadEnable(section, LOG_LABEL);
+  celestial_info->is_log_enabled_ = ini_file.ReadEnable(section, LOG_LABEL);
 
   return celestial_info;
 }

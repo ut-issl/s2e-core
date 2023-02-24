@@ -110,7 +110,7 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
   }
 
   orbit->SetIsCalcEnabled(conf.ReadEnable(section_, "calculation"));
-  orbit->IsLogEnabled = conf.ReadEnable(section_, "logging");
+  orbit->is_log_enabled_ = conf.ReadEnable(section_, "logging");
   return orbit;
 }
 

@@ -22,7 +22,7 @@ AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Su
   const bool is_log_enable = conf.ReadEnable(section, LOG_LABEL);
 
   AirDrag air_drag(surfaces, center_of_gravity_b_m, wall_temperature_K, molecular_temperature_K, molecular_weight_g_mol, is_calc_enable);
-  air_drag.IsLogEnabled = is_log_enable;
+  air_drag.is_log_enabled_ = is_log_enable;
 
   return air_drag;
 }
@@ -36,7 +36,7 @@ SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const st
   const bool is_log_enable = conf.ReadEnable(section, LOG_LABEL);
 
   SolarRadiationPressureDisturbance srp_disturbance(surfaces, center_of_gravity_b_m, is_calc_enable);
-  srp_disturbance.IsLogEnabled = is_log_enable;
+  srp_disturbance.is_log_enabled_ = is_log_enable;
 
   return srp_disturbance;
 }
@@ -47,7 +47,7 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path) {
 
   const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
   GravityGradient gg_disturbance(is_calc_enable);
-  gg_disturbance.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
+  gg_disturbance.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 
   return gg_disturbance;
 }
@@ -58,7 +58,7 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path, cons
 
   const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
   GravityGradient gg_disturbance(mu_m3_s2, is_calc_enable);
-  gg_disturbance.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
+  gg_disturbance.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 
   return gg_disturbance;
 }
@@ -69,7 +69,7 @@ MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_pa
 
   const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
   MagneticDisturbance mag_disturbance(rmm_params, is_calc_enable);
-  mag_disturbance.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
+  mag_disturbance.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 
   return mag_disturbance;
 }
@@ -83,7 +83,7 @@ GeoPotential InitGeoPotential(const std::string initialize_file_path) {
 
   const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
   GeoPotential geopotential_disturbance(degree, coefficients_file_path, is_calc_enable);
-  geopotential_disturbance.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
+  geopotential_disturbance.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 
   return geopotential_disturbance;
 }
@@ -127,7 +127,7 @@ ThirdBodyGravity InitThirdBodyGravity(const std::string initialize_file_path, co
 
   const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
   ThirdBodyGravity third_body_disturbance(third_body_list, is_calc_enable);
-  third_body_disturbance.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
+  third_body_disturbance.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 
   return third_body_disturbance;
 }

@@ -54,7 +54,7 @@ Logger::~Logger(void) {
 
 void Logger::WriteHeaders(bool add_newline) {
   for (auto itr = loggables_.begin(); itr != loggables_.end(); ++itr) {
-    if (!((*itr)->IsLogEnabled)) continue;
+    if (!((*itr)->is_log_enabled_)) continue;
     Write((*itr)->GetLogHeader());
   }
   if (add_newline) WriteNewLine();
@@ -62,7 +62,7 @@ void Logger::WriteHeaders(bool add_newline) {
 
 void Logger::WriteValues(bool add_newline) {
   for (auto itr = loggables_.begin(); itr != loggables_.end(); ++itr) {
-    if (!((*itr)->IsLogEnabled)) continue;
+    if (!((*itr)->is_log_enabled_)) continue;
     Write((*itr)->GetLogValue());
   }
   if (add_newline) WriteNewLine();

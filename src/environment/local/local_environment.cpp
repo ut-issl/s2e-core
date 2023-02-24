@@ -45,7 +45,7 @@ void LocalEnvironment::Initialize(const SimulationConfig* simulation_configurati
 
   // Log setting for Local celestial information
   IniAccess conf = IniAccess(ini_fname);
-  celestial_information_->IsLogEnabled = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", "logging");
+  celestial_information_->is_log_enabled_ = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", "logging");
 }
 
 void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* simulation_time) {
