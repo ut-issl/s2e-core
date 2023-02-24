@@ -27,15 +27,6 @@
  * @brief Class to read and get parameters for the `ini` format file
  */
 class IniAccess {
- private:
-  static const size_t kMaxCharLength = 1024;
-  std::string file_path_;                //!< File path in string
-  char file_path_char_[kMaxCharLength];  //!< File path in char
-  char text_buffer_[kMaxCharLength];     //!< buffer
-#ifndef WIN32
-  INIReader ini_reader_;  //!< ini ini_reader_
-#endif
-
  public:
   /**
    * @fn IniAccess
@@ -154,6 +145,15 @@ class IniAccess {
    * @param[in] node_num: Number of node. When reading n * m matrix, please substitute bigger number.
    */
   void ReadCsvString(std::vector<std::vector<std::string>>& output_value, const int node_num);
+
+ private:
+  static const size_t kMaxCharLength = 1024;
+  std::string file_path_;                //!< File path in string
+  char file_path_char_[kMaxCharLength];  //!< File path in char
+  char text_buffer_[kMaxCharLength];     //!< buffer
+#ifndef WIN32
+  INIReader ini_reader_;  //!< ini ini_reader_
+#endif
 };
 
 template <size_t NumElement>
