@@ -36,8 +36,8 @@ class RandomWalk : public libra::ODE<N> {
   virtual void RHS(double x, const libra::Vector<N>& state, libra::Vector<N>& rhs);
 
  private:
-  libra::Vector<N> limit_;    //!< Limit of random walk
-  libra::NormalRand nrs_[N];  //!< Random walk excitation noise
+  libra::Vector<N> limit_;                  //!< Limit of random walk
+  libra::NormalRand normal_randomizer_[N];  //!< Random walk excitation noise
 };
 
 #include "random_walk_template_functions.hpp"  // template function definisions.

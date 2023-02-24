@@ -14,7 +14,7 @@ RandomWalk<N>::RandomWalk(double step_width, const libra::Vector<N>& standard_de
     : libra::ODE<N>(step_width), limit_(limit) {
   // Set standard deviation
   for (size_t i = 0; i < N; ++i) {
-    nrs_[i].SetParameters(0.0, standard_deviation[i], global_randomization.MakeSeed());
+    normal_randomizer_[i].SetParameters(0.0, standard_deviation[i], global_randomization.MakeSeed());
   }
 }
 
@@ -24,11 +24,11 @@ void RandomWalk<N>::RHS(double x, const libra::Vector<N>& state, libra::Vector<N
 
   for (size_t i = 0; i < N; ++i) {
     if (state[i] > limit_[i])
-      rhs[i] = -fabs(nrs_[i]);
+      rhs[i] = -fabs(normal_randomizer_[i]);
     else if (state[i] < -limit_[i])
-      rhs[i] = fabs(nrs_[i]);
+      rhs[i] = fabs(normal_randomizer_[i]);
     else
-      rhs[i] = nrs_[i];
+      rhs[i] = normal_randomizer_[i];
   }
 }
 
