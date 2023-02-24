@@ -17,8 +17,8 @@ std::vector<ILoggable *> loggables_;
 
 Logger::Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool enable_inilog, bool enable) {
   is_enabled_ = enable;
-  is_open_ = false;
-  is_enabled_inilog_ = enable_inilog;
+  is_file_opened_ = false;
+  is_ini_save_enabled_ = enable_inilog;
 
   // Get current time to append it to the filename
   time_t timer = time(NULL);
@@ -28,7 +28,7 @@ Logger::Logger(const std::string &file_name, const std::string &data_path, const
   strftime(start_time_c, 64, "%y%m%d_%H%M%S", now);
 
   // Create directory
-  if (is_enabled_inilog_ == true)
+  if (is_ini_save_enabled_ == true)
     directory_path_ = CreateDirectory(data_path, start_time_c);
   else
     directory_path_ = data_path;
@@ -37,8 +37,8 @@ Logger::Logger(const std::string &file_name, const std::string &data_path, const
   file_path << directory_path_ << start_time_c << "_" << file_name;
   if (is_enabled_) {
     csv_file_.open(file_path.str());
-    is_open_ = csv_file_.is_open();
-    if (!is_open_) std::cerr << "Error opening log file: " << file_path.str() << std::endl;
+    is_file_opened_ = csv_file_.is_open();
+    if (!is_file_opened_) std::cerr << "Error opening log file: " << file_path.str() << std::endl;
   }
 
   // Copy SimBase.ini
@@ -46,7 +46,7 @@ Logger::Logger(const std::string &file_name, const std::string &data_path, const
 }
 
 Logger::~Logger(void) {
-  if (is_open_) {
+  if (is_file_opened_) {
     csv_file_.close();
   }
 }
@@ -99,7 +99,7 @@ std::string Logger::CreateDirectory(const std::string &data_path, const std::str
 void Logger::CopyFileToLogDir(const std::string &ini_file_name) {
   using std::ios;
 
-  if (is_enabled_inilog_ == false) return;
+  if (is_ini_save_enabled_ == false) return;
   // Copy files to the directory
   std::string file_name = GetFileName(ini_file_name);
   std::string to_file_name = directory_path_ + file_name;

@@ -100,12 +100,11 @@ class Logger {
  private:
   std::ofstream csv_file_;              //!< CSV file stream
   bool is_enabled_;                     //!< Enable flag for logging
-  bool is_open_;                        //!< Is the CSV file opened?
+  bool is_file_opened_;                 //!< Is the CSV file opened?
   std::vector<ILoggable *> loggables_;  //!< Log list
 
-  bool is_enabled_inilog_;            //!< Enable flag to save ini files
-  bool is_success_make_dir_ = false;  //!< Is success making a directory for log files
-  std::string directory_path_;        //!< Path to the directory for log files
+  bool is_ini_save_enabled_;    //!< Enable flag to save ini files
+  std::string directory_path_;  //!< Path to the directory for log files
 
   /**
    * @fn CreateDirectory
