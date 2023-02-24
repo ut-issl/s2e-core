@@ -24,7 +24,7 @@ libra::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
   dcm_i2lvlh[2][1] = lvlh_ez[1];
   dcm_i2lvlh[2][2] = lvlh_ez[2];
 
-  libra::Quaternion q_i2lvlh = Quaternion::fromDCM(dcm_i2lvlh);
+  libra::Quaternion q_i2lvlh = libra::Quaternion::fromDCM(dcm_i2lvlh);
   return q_i2lvlh.normalize();
 }
 
