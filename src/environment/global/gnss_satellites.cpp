@@ -82,10 +82,11 @@ double get_unixtime_from_timestamp_line(std::vector<string>& s) {
 }
 
 template <size_t N>
-Vector<N> GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<Vector<N>>& values, double time) const {
+libra::Vector<N> GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<libra::Vector<N>>& values,
+                                                                double time) const {
   int n = time_vector.size();
   double w = libra::tau / (24.0 * 60.0 * 60.0) * 1.03;  // coefficient of a day long
-  Vector<N> res(0.0);
+  libra::Vector<N> res(0.0);
 
   for (int i = 0; i < n; ++i) {
     double t_k = 1.0;
@@ -119,9 +120,10 @@ double GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time
 }
 
 template <size_t N>
-Vector<N> GnssSat_coordinate::LagrangeInterpolation(const vector<double>& time_vector, const vector<Vector<N>>& values, double time) const {
+libra::Vector<N> GnssSat_coordinate::LagrangeInterpolation(const vector<double>& time_vector, const vector<libra::Vector<N>>& values,
+                                                           double time) const {
   int n = time_vector.size();
-  Vector<N> res(0.0);
+  libra::Vector<N> res(0.0);
 
   for (int i = 0; i < n; ++i) {
     double l_i = 1.0;
@@ -357,8 +359,8 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
 void GnssSat_position::SetUp(const double start_unix_time, const double step_sec) {
   step_sec_ = step_sec;
 
-  gnss_sat_ecef_.assign(all_sat_num_, Vector<3>(0.0));
-  gnss_sat_eci_.assign(all_sat_num_, Vector<3>(0.0));
+  gnss_sat_ecef_.assign(all_sat_num_, libra::Vector<3>(0.0));
+  gnss_sat_eci_.assign(all_sat_num_, libra::Vector<3>(0.0));
   validate_.assign(all_sat_num_, false);
 
   nearest_index_.resize(all_sat_num_);
@@ -491,12 +493,12 @@ void GnssSat_position::Update(const double now_unix_time) {
 }
 
 libra::Vector<3> GnssSat_position::GetSatEcef(int sat_id) const {
-  if (sat_id >= all_sat_num_) return Vector<3>(0.0);
+  if (sat_id >= all_sat_num_) return libra::Vector<3>(0.0);
   return gnss_sat_ecef_.at(sat_id);
 }
 
 libra::Vector<3> GnssSat_position::GetSatEci(int sat_id) const {
-  if (sat_id >= all_sat_num_) return Vector<3>(0.0);
+  if (sat_id >= all_sat_num_) return libra::Vector<3>(0.0);
   return gnss_sat_eci_.at(sat_id);
 }
 

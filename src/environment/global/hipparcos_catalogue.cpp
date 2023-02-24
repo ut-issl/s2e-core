@@ -61,12 +61,12 @@ libra::Vector<3> HipparcosCatalogue::GetStarDirection_i(int rank) const {
   return direction_i;
 }
 
-libra::Vector<3> HipparcosCatalogue::GetStarDirection_b(int rank, Quaternion quaternoin_i2b) const {
+libra::Vector<3> HipparcosCatalogue::GetStarDirection_b(int rank, libra::Quaternion quaternion_i2b) const {
   libra::Vector<3> direction_i;
   libra::Vector<3> direction_b;
 
   direction_i = GetStarDirection_i(rank);
-  direction_b = quaternoin_i2b.frame_conv(direction_i);
+  direction_b = quaternion_i2b.frame_conv(direction_i);
 
   return direction_b;
 }
