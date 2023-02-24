@@ -48,35 +48,35 @@ class OrbitalElements {
 
   // Getter
   /**
-   * @fn GetSemiMajor
+   * @fn GetSemiMajorAxis_m
    * @brief Return semi major axis [m]
    */
-  inline double GetSemiMajor() const { return semi_major_axis_m_; }
+  inline double GetSemiMajorAxis_m() const { return semi_major_axis_m_; }
   /**
    * @fn GetEccentricity
    * @brief Return eccentricity
    */
   inline double GetEccentricity() const { return eccentricity_; }
   /**
-   * @fn GetInclination
+   * @fn GetInclination_rad
    * @brief Return inclination [rad]
    */
-  inline double GetInclination() const { return inclination_rad_; }
+  inline double GetInclination_rad() const { return inclination_rad_; }
   /**
-   * @fn GetRaan
+   * @fn GetRaan_rad
    * @brief Return Right Ascension of the Ascending Node [rad]
    */
-  inline double GetRaan() const { return raan_rad_; }
+  inline double GetRaan_rad() const { return raan_rad_; }
   /**
-   * @fn GetArgPerigee
+   * @fn GetArgPerigee_rad
    * @brief Return argument of Perigee [rad]
    */
-  inline double GetArgPerigee() const { return arg_perigee_rad_; }
+  inline double GetArgPerigee_rad() const { return arg_perigee_rad_; }
   /**
-   * @fn GetEpoch
+   * @fn GetEpoch_jday
    * @brief Return epoch (time at the perigee) [julian day]
    */
-  inline double GetEpoch() const { return epoch_jday_; }
+  inline double GetEpoch_jday() const { return epoch_jday_; }
 
  private:
   // Common Variables
