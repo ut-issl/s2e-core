@@ -34,6 +34,6 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
  * @param [in] mu_m3_s2: Gravity constant [m3/s2]
  * @param [in] section: Section name
  */
-Vector<6> InitializePosVel(std::string initialize_file, double current_time_jd, double mu_m3_s2, std::string section = "ORBIT");
+libra::Vector<6> InitializePosVel(std::string initialize_file, double current_time_jd, double mu_m3_s2, std::string section = "ORBIT");
 
 #endif  // S2E_DYNAMICS_ORBIT_INITIALIZE_ORBIT_HPP_

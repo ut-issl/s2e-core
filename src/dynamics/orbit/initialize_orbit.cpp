@@ -26,9 +26,9 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
 
   if (propagate_mode == "RK4") {
     // initialize RK4 orbit propagator
-    Vector<3> position_i_m;
-    Vector<3> velocity_i_m_s;
-    Vector<6> pos_vel = InitializePosVel(initialize_file, current_time_jd, mu_m3_s2);
+    libra::Vector<3> position_i_m;
+    libra::Vector<3> velocity_i_m_s;
+    libra::Vector<6> pos_vel = InitializePosVel(initialize_file, current_time_jd, mu_m3_s2);
     for (size_t i = 0; i < 3; i++) {
       position_i_m[i] = pos_vel[i];
       velocity_i_m_s[i] = pos_vel[i + 3];
@@ -49,9 +49,9 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     RelativeOrbitModel relative_dynamics_model_type = (RelativeOrbitModel)(conf.ReadInt(section_, "relative_dynamics_model_type"));
     STMModel stm_model_type = (STMModel)(conf.ReadInt(section_, "stm_model_type"));
 
-    Vector<3> init_relative_position_lvlh;
+    libra::Vector<3> init_relative_position_lvlh;
     conf.ReadVector<3>(section_, "initial_relative_position_lvlh_m", init_relative_position_lvlh);
-    Vector<3> init_relative_velocity_lvlh;
+    libra::Vector<3> init_relative_velocity_lvlh;
     conf.ReadVector<3>(section_, "initial_relative_velocity_lvlh_m_s", init_relative_velocity_lvlh);
 
     // There is a possibility that the orbit of the reference sat is not initialized when RelativeOrbit initialization is called To ensure that
@@ -67,9 +67,9 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     // TODO: init_mode_kepler should be removed in the next major update
     if (initialize_mode == OrbitInitializeMode::kInertialPositionAndVelocity) {
       // initialize with position and velocity
-      Vector<3> init_pos_m;
+      libra::Vector<3> init_pos_m;
       conf.ReadVector<3>(section_, "initial_position_i_m", init_pos_m);
-      Vector<3> init_vel_m_s;
+      libra::Vector<3> init_vel_m_s;
       conf.ReadVector<3>(section_, "initial_velocity_i_m_s", init_vel_m_s);
       oe = OrbitalElements(mu_m3_s2, current_time_jd, init_pos_m, init_vel_m_s);
     } else {
@@ -86,9 +86,9 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     orbit = new KeplerOrbitPropagation(celestial_information, current_time_jd, kepler_orbit);
   } else if (propagate_mode == "ENCKE") {
     // initialize orbit for Encke's method
-    Vector<3> position_i_m;
-    Vector<3> velocity_i_m_s;
-    Vector<6> pos_vel = InitializePosVel(initialize_file, current_time_jd, mu_m3_s2);
+    libra::Vector<3> position_i_m;
+    libra::Vector<3> velocity_i_m_s;
+    libra::Vector<6> pos_vel = InitializePosVel(initialize_file, current_time_jd, mu_m3_s2);
     for (size_t i = 0; i < 3; i++) {
       position_i_m[i] = pos_vel[i];
       velocity_i_m_s[i] = pos_vel[i + 3];
@@ -100,9 +100,9 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     std::cerr << "ERROR: orbit propagation mode: " << propagate_mode << " is not defined!" << std::endl;
     std::cerr << "The orbit mode is automatically set as RK4" << std::endl;
 
-    Vector<3> position_i_m;
-    Vector<3> velocity_i_m_s;
-    Vector<6> pos_vel = InitializePosVel(initialize_file, current_time_jd, mu_m3_s2);
+    libra::Vector<3> position_i_m;
+    libra::Vector<3> velocity_i_m_s;
+    libra::Vector<6> pos_vel = InitializePosVel(initialize_file, current_time_jd, mu_m3_s2);
     for (size_t i = 0; i < 3; i++) {
       position_i_m[i] = pos_vel[i];
       velocity_i_m_s[i] = pos_vel[i + 3];
@@ -115,12 +115,12 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
   return orbit;
 }
 
-Vector<6> InitializePosVel(std::string initialize_file, double current_time_jd, double mu_m3_s2, std::string section) {
+libra::Vector<6> InitializePosVel(std::string initialize_file, double current_time_jd, double mu_m3_s2, std::string section) {
   auto conf = IniAccess(initialize_file);
   const char* section_ = section.c_str();
-  Vector<3> position_i_m;
-  Vector<3> velocity_i_m_s;
-  Vector<6> pos_vel;
+  libra::Vector<3> position_i_m;
+  libra::Vector<3> velocity_i_m_s;
+  libra::Vector<6> pos_vel;
 
   OrbitInitializeMode initialize_mode = SetOrbitInitializeMode(conf.ReadString(section_, "initialize_mode"));
   if (initialize_mode == OrbitInitializeMode::kOrbitalElements) {

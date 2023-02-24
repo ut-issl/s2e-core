@@ -40,8 +40,8 @@ void GeomagneticField::CalcMagneticField(const double decimal_year, const double
 }
 
 void GeomagneticField::AddNoise(double* magnetic_field_array_i_nT) {
-  static Vector<3> standard_deviation(random_walk_standard_deviation_nT_);
-  static Vector<3> limit(random_walk_limit_nT_);
+  static libra::Vector<3> standard_deviation(random_walk_standard_deviation_nT_);
+  static libra::Vector<3> limit(random_walk_limit_nT_);
   static RandomWalk<3> random_walk(0.1, standard_deviation, limit);
 
   static libra::NormalRand white_noise(0.0, white_noise_standard_deviation_nT_, g_rand.MakeSeed());
