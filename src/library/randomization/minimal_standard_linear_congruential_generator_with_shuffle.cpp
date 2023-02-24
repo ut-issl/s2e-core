@@ -32,7 +32,7 @@ void Ran1::init_() {
 Ran1::operator double() {
   double out = mixing_table_[table_position_];
   mixing_table_[table_position_] = minimal_lcg_;  // Compensate next random value
-  table_position_ = (size_t)out * Ran0::m_;
+  table_position_ = (size_t)out * Ran0::kM;
   table_position_ %= kTableSize;  // y <- [0 : kTableSize-1]
 
   return out;

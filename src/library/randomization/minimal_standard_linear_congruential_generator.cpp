@@ -9,7 +9,7 @@ using libra::Ran0;
 
 #include <stdexcept>
 
-const double Ran0::a_m_ = 1.0 / Ran0::m_;
+const double Ran0::a_m_ = 1.0 / Ran0::kM;
 
 Ran0::Ran0() : seed_(0xdeadbeef) {}
 
@@ -27,9 +27,9 @@ void Ran0::init(long seed) {
 
 Ran0::operator double() {
   long k = seed_ / q_;
-  seed_ = a_ * (seed_ - k * q_) - r_ * k;
+  seed_ = kA * (seed_ - k * q_) - r_ * k;
   if (seed_ < 0) {
-    seed_ += m_;
+    seed_ += kM;
   }
   return a_m_ * seed_;
 }

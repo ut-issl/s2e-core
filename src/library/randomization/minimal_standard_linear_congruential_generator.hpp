@@ -15,8 +15,8 @@ namespace libra {
  */
 class Ran0 {
  public:
-  static const long a_ = 16807;       //!< Coefficient a for multiplication
-  static const long m_ = 2147483647;  //!< Divisor for modulo
+  static const long kA = 16807;       //!< Coefficient a for multiplication
+  static const long kM = 2147483647;  //!< Divisor for modulo
 
   /**
    * @fn Ran0
