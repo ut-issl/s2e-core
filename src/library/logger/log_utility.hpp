@@ -11,9 +11,6 @@
 #include <library/math/quaternion.hpp>
 #include <sstream>
 #include <string>
-using libra::Matrix;
-using libra::Quaternion;
-using libra::Vector;
 
 /**
  * @fn WriteScalar
@@ -38,7 +35,7 @@ inline std::string WriteScalar(std::string name, std::string unit);
  * @param [in] precision: precision for the value (number of digit)
  */
 template <size_t NUM>
-inline std::string WriteVector(Vector<NUM, double> vec, int precision = 6);
+inline std::string WriteVector(libra::Vector<NUM, double> vec, int precision = 6);
 /**
  * @fn WriteVector
  * @brief Write header for vector value
@@ -56,7 +53,7 @@ inline std::string WriteVector(std::string name, std::string frame, std::string 
  * @note TODO: add precision?
  */
 template <size_t ROW, size_t COLUMN>
-inline std::string WriteMatrix(Matrix<ROW, COLUMN, double> mat);
+inline std::string WriteMatrix(libra::Matrix<ROW, COLUMN, double> mat);
 /**
  * @fn WriteMatrix
  * @brief Write header for matrix value
@@ -74,7 +71,7 @@ inline std::string WriteMatrix(std::string name, std::string frame, std::string 
  * @param [in] quat: Quaternion
  * @note TODO: add function for headers?
  */
-inline std::string WriteQuaternion(Quaternion quat);
+inline std::string WriteQuaternion(libra::Quaternion quat);
 /**
  * @fn WriteQuaternion
  * @brief Write header for quaternion
@@ -95,7 +92,7 @@ std::string WriteScalar(T scalar, int precision) {
 std::string WriteScalar(std::string name, std::string unit) { return name + "[" + unit + "],"; }
 
 template <size_t NUM>
-std::string WriteVector(Vector<NUM, double> vec, int precision) {
+std::string WriteVector(libra::Vector<NUM, double> vec, int precision) {
   std::stringstream str_tmp;
 
   for (size_t n = 0; n < NUM; n++) {
@@ -119,7 +116,7 @@ std::string WriteVector(std::string name, std::string frame, std::string unit, s
 }
 
 template <size_t ROW, size_t COLUMN>
-std::string WriteMatrix(Matrix<ROW, COLUMN, double> mat) {
+std::string WriteMatrix(libra::Matrix<ROW, COLUMN, double> mat) {
   std::stringstream str_tmp;
 
   for (size_t n = 0; n < ROW; n++) {
@@ -141,7 +138,7 @@ std::string WriteMatrix(std::string name, std::string frame, std::string unit, s
   return str_tmp.str();
 }
 
-std::string WriteQuaternion(Quaternion quat) {
+std::string WriteQuaternion(libra::Quaternion quat) {
   std::stringstream str_tmp;
 
   for (size_t i = 0; i < 4; i++) {
