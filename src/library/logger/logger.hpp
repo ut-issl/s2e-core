@@ -68,11 +68,11 @@ class Logger {
    */
   inline void Enable(const bool enable) { is_enabled_ = enable; }
   /**
-   * @fn CopyFileToLogDir
+   * @fn CopyFileToLogDirectory
    * @brief Copy a file (e.g., ini file) into the log directory
    * @param [in] ini_file_name: The path to the target file to copy
    */
-  void CopyFileToLogDir(const std::string &ini_file_name);
+  void CopyFileToLogDirectory(const std::string &ini_file_name);
 
   // Getter
   /**

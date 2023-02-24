@@ -58,7 +58,7 @@ void Disturbances::LogSetup(Logger& logger) {
   for (auto acc_dist : acceleration_disturbances_list_) {
     logger.AddLogList(acc_dist);
   }
-  logger.CopyFileToLogDir(initialize_file_name_);
+  logger.CopyFileToLogDirectory(initialize_file_name_);
 }
 
 void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure,

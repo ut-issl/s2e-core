@@ -43,7 +43,7 @@ Logger::Logger(const std::string &file_name, const std::string &data_path, const
   }
 
   // Copy SimBase.ini
-  CopyFileToLogDir(ini_file_name);
+  CopyFileToLogDirectory(ini_file_name);
 }
 
 Logger::~Logger(void) {
@@ -97,7 +97,7 @@ std::string Logger::CreateDirectory(const std::string &data_path, const std::str
   return directory_path_tmp_;
 }
 
-void Logger::CopyFileToLogDir(const std::string &ini_file_name) {
+void Logger::CopyFileToLogDirectory(const std::string &ini_file_name) {
   using std::ios;
 
   if (is_ini_save_enabled_ == false) return;

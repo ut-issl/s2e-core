@@ -39,7 +39,7 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
 
   elevation_limit_angle_deg_ = conf.ReadDouble(Section, "elevation_limit_angle_deg");
 
-  config->main_logger_->CopyFileToLogDir(gs_ini_path);
+  config->main_logger_->CopyFileToLogDirectory(gs_ini_path);
 }
 
 void GroundStation::LogSetup(Logger& logger) { logger.AddLogList(this); }

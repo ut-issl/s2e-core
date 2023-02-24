@@ -28,7 +28,7 @@ void LocalEnvironment::Initialize(const SimulationConfig* simulation_configurati
   std::string ini_fname = iniAccess.ReadString("SETTING_FILES", "local_environment_file");
 
   // Save ini file
-  simulation_configuration->main_logger_->CopyFileToLogDir(ini_fname);
+  simulation_configuration->main_logger_->CopyFileToLogDirectory(ini_fname);
 
   // Initialize
   geomagnetic_field_ = new GeomagneticField(InitGeomagneticField(ini_fname));
