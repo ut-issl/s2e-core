@@ -40,8 +40,9 @@ class IniAccess {
   /**
    * @fn IniAccess
    * @brief Constructor
+   * @param[in] file_path: File path of ini file
    */
-  IniAccess(std::string path);
+  IniAccess(const std::string file_path);
 
   // Read functions
   /**
@@ -77,7 +78,7 @@ class IniAccess {
    * @param[in] num: Number of elements of the array
    * @param[out] data: Read array data
    */
-  void ReadDoubleArray(const char* section_name, const char* key_name, int id, int num, double* data);
+  void ReadDoubleArray(const char* section_name, const char* key_name, const int id, const int num, double* data);
   /**
    * @fn ReadVector
    * @brief Read Vector type number
@@ -111,7 +112,7 @@ class IniAccess {
    * @param [in] size: Length of the character
    * @param[out] data: Read character data
    */
-  void ReadChar(const char* section_name, const char* key_name, int size, char* data);
+  void ReadChar(const char* section_name, const char* key_name, const int size, char* data);
   /**
    * @fn ReadString
    * @brief Read string data
@@ -138,21 +139,21 @@ class IniAccess {
    * @param[in] delimiter: Delimiter to split the string
    * @return List of string splitted by the delimiter
    */
-  std::vector<std::string> Split(std::string& input, char delimiter);
+  std::vector<std::string> Split(const std::string& input, const char delimiter);
   /**
    * @fn ReadCsvDouble
    * @brief Read matrix value in CSV file
-   * @param[out] doublevec: Read double matrix value
+   * @param[out] output_value: Read double matrix value
    * @param[in] node_num: Number of node. When reading n * m matrix, please substitute bigger number.
    */
-  void ReadCsvDouble(std::vector<std::vector<double>>& doublevec, int node_num);
+  void ReadCsvDouble(std::vector<std::vector<double>>& output_value, const int node_num);
   /**
    * @fn ReadCsvString
    * @brief Read matrix of string in CSV file
-   * @param[out] stringvec: Read matrix of string
+   * @param[out] output_value: Read matrix of string
    * @param[in] node_num: Number of node. When reading n * m matrix, please substitute bigger number.
    */
-  void ReadCsvString(std::vector<std::vector<std::string>>& stringvec, int node_num);
+  void ReadCsvString(std::vector<std::vector<std::string>>& output_value, const int node_num);
 };
 
 template <size_t NumElement>

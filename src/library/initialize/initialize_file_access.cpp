@@ -12,21 +12,21 @@
 #include <limits>
 
 #ifdef WIN32
-IniAccess::IniAccess(string path) : file_path_(path) {
+IniAccess::IniAccess(const std::string file_path) : file_path_(file_path) {
   // strcpy_s(file_path_char_, (size_t)_countof(file_path_char_), file_path_.c_str());
   strncpy(file_path_char_, file_path_.c_str(), kMaxCharLength);
 }
 #else
-IniAccess::IniAccess(std::string path) : file_path_(path), ini_reader_(path) {
+IniAccess::IniAccess(const std::string file_path) : file_path_(file_path), ini_reader_(file_path) {
   strncpy(file_path_char_, file_path_.c_str(), kMaxCharLength);
 
   std::string ext = ".ini";
-  if (path.size() < 4 || !std::equal(std::rbegin(ext), std::rend(ext), std::rbegin(path))) {
+  if (file_path_.size() < 4 || !std::equal(std::rbegin(ext), std::rend(ext), std::rbegin(file_path_))) {
     // this is not ini file(csv)
     return;
   }
   if (ini_reader_.ParseError() != 0) {
-    std::cerr << "Error reading INI file : " << path << std::endl;
+    std::cerr << "Error reading INI file : " << file_path_ << std::endl;
     std::cerr << "\t error code: " << ini_reader_.ParseError() << std::endl;
     throw std::runtime_error("Error reading INI file");
   }
@@ -75,7 +75,7 @@ bool IniAccess::ReadBoolean(const char* section_name, const char* key_name) {
 #endif
 }
 
-void IniAccess::ReadDoubleArray(const char* section_name, const char* key_name, int id, int num, double* data) {
+void IniAccess::ReadDoubleArray(const char* section_name, const char* key_name, const int id, const int num, double* data) {
   for (int i = 0; i < num; i++) {
     std::stringstream c_name;
     c_name << key_name << id << "(" << i << ")";
@@ -107,7 +107,7 @@ void IniAccess::ReadQuaternion(const char* section_name, const char* key_name, l
   }
 }
 
-void IniAccess::ReadChar(const char* section_name, const char* key_name, int size, char* data) {
+void IniAccess::ReadChar(const char* section_name, const char* key_name, const int size, char* data) {
 #ifdef WIN32
   GetPrivateProfileStringA(section_name, key_name, 0, data, size, file_path_char_);
 #else
@@ -157,7 +157,7 @@ std::vector<std::string> IniAccess::ReadStrVector(const char* section_name, cons
   return data;
 }
 
-std::vector<std::string> IniAccess::Split(std::string& input, char delimiter) {
+std::vector<std::string> IniAccess::Split(const std::string& input, const char delimiter) {
   std::istringstream stream(input);
   std::string field;
   std::vector<std::string> result;
@@ -167,14 +167,14 @@ std::vector<std::string> IniAccess::Split(std::string& input, char delimiter) {
   return result;
 }
 
-void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& doublevec, int node_num) {
+void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, const int node_num) {
   std::ifstream ifs(file_path_char_);
   if (!ifs.is_open()) {
     std::cerr << "file open error. filename = " << file_path_char_ << std::endl;
   }
   std::string line;
   int line_num = 0;
-  doublevec.reserve(node_num);
+  output_value.reserve(node_num);
   while (getline(ifs, line)) {
     std::vector<std::string> strvec = Split(line, ',');
     std::vector<double> tempdoublevec;
@@ -182,23 +182,23 @@ void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& doublevec, int n
     for (size_t i = 0; i < strvec.size(); i++) {
       tempdoublevec.push_back(std::stod(strvec.at(i)));
     }
-    doublevec.push_back(tempdoublevec);
+    output_value.push_back(tempdoublevec);
     line_num++;
   }
 }
 
-void IniAccess::ReadCsvString(std::vector<std::vector<std::string>>& stringvec, int node_num) {
+void IniAccess::ReadCsvString(std::vector<std::vector<std::string>>& output_value, const int node_num) {
   std::ifstream ifs(file_path_char_);
   if (!ifs.is_open()) {
     std::cerr << "file open error. filename = " << file_path_char_ << std::endl;
   }
   std::string line;
   int line_num = 0;
-  stringvec.reserve(node_num);
+  output_value.reserve(node_num);
   while (getline(ifs, line)) {
     std::vector<std::string> tempstrvec = Split(line, ',');
     tempstrvec.reserve(node_num);
-    stringvec.push_back(tempstrvec);
+    output_value.push_back(tempstrvec);
     line_num++;
   }
 }
