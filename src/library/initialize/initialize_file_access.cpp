@@ -14,11 +14,11 @@
 #ifdef WIN32
 IniAccess::IniAccess(string path) : file_path_(path) {
   // strcpy_s(strPath_, (size_t)_countof(strPath_), file_path_.c_str());
-  strncpy(strPath_, file_path_.c_str(), MAX_PATH);
+  strncpy(strPath_, file_path_.c_str(), kMaxCharLength);
 }
 #else
 IniAccess::IniAccess(std::string path) : file_path_(path), reader(path) {
-  strncpy(strPath_, file_path_.c_str(), MAX_PATH);
+  strncpy(strPath_, file_path_.c_str(), kMaxCharLength);
 
   std::string ext = ".ini";
   if (path.size() < 4 || !std::equal(std::rbegin(ext), std::rend(ext), std::rbegin(path))) {

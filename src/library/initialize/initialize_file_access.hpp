@@ -22,18 +22,16 @@
 #include <string>
 #include <vector>
 
-#undef MAX_PATH
-#define MAX_PATH 1024
-
 /**
  * @class IniAccess
  * @brief Class to read and get parameters for the `ini` format file
  */
 class IniAccess {
  private:
-  std::string file_path_;   //!< File path in string
-  char strPath_[MAX_PATH];  //!< File path in char
-  char strText_[1024];      //!< buffer
+  static const size_t kMaxCharLength = 1024;
+  std::string file_path_;         //!< File path in string
+  char strPath_[kMaxCharLength];  //!< File path in char
+  char strText_[kMaxCharLength];  //!< buffer
 #ifndef WIN32
   INIReader reader;  //!< ini reader
 #endif
