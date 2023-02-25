@@ -56,28 +56,28 @@ class Vector {
    * @fn Operator ()
    * @brief Operator to access the element value
    * @details This operator has assertion to detect range over
-   * @param [in] pos: Target element number
+   * @param [in] position: Target element number
    * @return Value of the target element
    */
-  inline T& operator()(std::size_t pos) {
-    if (N <= pos) {
+  inline T& operator()(std::size_t position) {
+    if (N <= position) {
       throw std::invalid_argument("Argument exceeds Vector's dimension.");
     }
-    return vector_[pos];
+    return vector_[position];
   }
 
   /**
    * @fn Operator ()
    * @brief Operator to access the element value (const ver.)
    * @details This operator has assertion to detect range over
-   * @param [in] pos: Target element number
+   * @param [in] position: Target element number
    * @return Value of the target element
    */
-  inline T operator()(std::size_t pos) const {
-    if (N <= pos) {
+  inline T operator()(std::size_t position) const {
+    if (N <= position) {
       throw std::invalid_argument("Argument exceeds Vector's dimension.");
     }
-    return vector_[pos];
+    return vector_[position];
   }
 
   /**
