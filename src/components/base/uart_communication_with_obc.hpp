@@ -101,8 +101,8 @@ class ObcCommunicationBase {
   int hils_port_id_;           //!< Port ID for HILS
   int baud_rate_;              //!< Baudrate for HILS ex. 9600, 115200
   int tx_buffer_size_;         //!< TX (Component to OBC) buffer size
-  int rx_buffer_size_;            //!< RX (OBC to Component) buffer size
-  bool is_connected_ = false;  // Connection flag
+  int rx_buffer_size_;         //!< RX (OBC to Component) buffer size
+  bool is_connected_ = false;  //!< Connection flag
 
   OBC_COM_UART_MODE simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode
 
