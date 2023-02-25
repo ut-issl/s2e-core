@@ -146,16 +146,16 @@ class Matrix {
  * @param [in] t: Scalar value to fill up
  */
 template <size_t R, size_t C, typename T>
-void fill_up(Matrix<R, C, T>& m, const T& t);
+void FillUp(Matrix<R, C, T>& m, const T& t);
 
 /**
- * @fn trace
- * @brief Calculate and return the trace of matrix
+ * @fn CalcTrace
+ * @brief Calculate and return the CalcTrace of matrix
  * @param [in] m: Target matrix
  * @return Trace of the matrix
  */
 template <size_t N, typename T>
-T trace(const Matrix<N, N, T>& m);
+T CalcTrace(const Matrix<N, N, T>& m);
 
 /**
  * @fn print
@@ -165,7 +165,7 @@ T trace(const Matrix<N, N, T>& m);
  * @param [out] stream: Output target(Default: cout)
  */
 template <size_t R, size_t C, typename T>
-void print(const Matrix<R, C, T>& m, char delimiter = '\t', std::ostream& stream = std::cout);
+void Print(const Matrix<R, C, T>& m, char delimiter = '\t', std::ostream& stream = std::cout);
 
 /**
  * @fn operator +
@@ -208,58 +208,58 @@ template <size_t R, size_t C1, size_t C2, typename T>
 const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs, const Matrix<C1, C2, T>& rhs);
 
 /**
- * @fn transpose
+ * @fn Transpose
  * @brief Calculate and return transposed matrix
  * @param [in] m: Target matrix
  * @return Result of transposed matrix
  */
 template <size_t R, size_t C, typename T>
-const Matrix<C, R, T> transpose(const Matrix<R, C, T>& m);
+const Matrix<C, R, T> Transpose(const Matrix<R, C, T>& m);
 
 /**
- * @fn unitalize
+ * @fn Unitalize
  * @brief Rewrite the input matrix as the identity matrix
  * @note Warning: m is overwritten.
  * @param [in/out] m: Target matrix
  * @return The identity matrix
  */
 template <size_t R, typename T>
-Matrix<R, R, T>& unitalize(Matrix<R, R, T>& m);
+Matrix<R, R, T>& Unitalize(Matrix<R, R, T>& m);
 
 /**
- * @fn eye
+ * @fn MakeIdentityMatrix
  * @brief Generate identity matrix
  * @return The identity matrix
  */
 template <size_t R, typename T = double>
-Matrix<R, R, T> eye();
+Matrix<R, R, T> MakeIdentityMatrix();
 
 /**
- * @fn rotx
+ * @fn MakeRotationMatrixX
  * @brief Generate 3*3 rotation matrix around X-axis
  * @param [in] theta: Rotation angle [rad]
  * @return Rotation matrix
  */
 template <size_t R = 3, typename T = double>
-Matrix<R, R, T> rotx(const double& theta);
+Matrix<R, R, T> MakeRotationMatrixX(const double& theta);
 
 /**
- * @fn roty
+ * @fn MakeRotationMatrixY
  * @brief Generate 3*3 rotation matrix around Y-axis
  * @param [in] theta: Rotation angle [rad]
  * @return Rotation matrix
  */
 template <size_t R = 3, typename T = double>
-Matrix<R, R, T> roty(const double& theta);
+Matrix<R, R, T> MakeRotationMatrixY(const double& theta);
 
 /**
- * @fn rotz
+ * @fn MakeRotationMatrixZ
  * @brief Generate 3*3 rotation matrix around Z-axis
  * @param [in] theta: Rotation angle [rad]
  * @return Rotation matrix
  */
 template <size_t R = 3, typename T = double>
-Matrix<R, R, T> rotz(const double& theta);
+Matrix<R, R, T> MakeRotationMatrixZ(const double& theta);
 
 }  // namespace libra
 

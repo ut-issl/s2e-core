@@ -96,7 +96,7 @@ void ControlledAttitude::PointingControl(const libra::Vector<3> main_direction_i
   // Calc DCM Target->body
   libra::Matrix<3, 3> dcm_t2b = CalcDcm(main_target_direction_b_, sub_target_direction_b_);
   // Calc DCM ECI->body
-  libra::Matrix<3, 3> dcm_i2b = dcm_t2b * transpose(dcm_t2i);
+  libra::Matrix<3, 3> dcm_i2b = dcm_t2b * Transpose(dcm_t2i);
   // Convert to Quaternion
   quaternion_i2b_ = Quaternion::ConvertFromDcm(dcm_i2b);
 }

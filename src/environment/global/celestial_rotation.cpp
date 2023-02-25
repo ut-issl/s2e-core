@@ -20,7 +20,7 @@
 CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std::string center_body_name) {
   planet_name_ = "Anonymous";
   rotation_mode_ = Idle;
-  unitalize(dcm_j2000_to_xcxf_);
+  Unitalize(dcm_j2000_to_xcxf_);
   dcm_teme_to_xcxf_ = dcm_j2000_to_xcxf_;
   if (center_body_name == "EARTH") {
     InitCelestialRotationAsEarth(rotation_mode, center_body_name);
@@ -115,12 +115,12 @@ void CelestialRotation::InitCelestialRotationAsEarth(const RotationMode rotation
     } else {
       // If the rotation mode is neither Simple nor Full, disable the rotation calculation and make the DCM a unit matrix
       rotation_mode_ = Idle;
-      unitalize(dcm_j2000_to_xcxf_);
+      Unitalize(dcm_j2000_to_xcxf_);
     }
   } else {
     // If the center object is not the Earth, disable the Earth's rotation calculation and make the DCM a unit matrix
     rotation_mode_ = Idle;
-    unitalize(dcm_j2000_to_xcxf_);
+    Unitalize(dcm_j2000_to_xcxf_);
   }
 }
 
@@ -167,7 +167,7 @@ void CelestialRotation::Update(const double JulianDate) {
   }
 }
 
-libra::Matrix<3, 3> CelestialRotation::AxialRotation(const double GAST_rad) { return libra::rotz(GAST_rad); }
+libra::Matrix<3, 3> CelestialRotation::AxialRotation(const double GAST_rad) { return libra::MakeRotationMatrixZ(GAST_rad); }
 
 libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) {
   // Mean obliquity of the ecliptic
@@ -221,9 +221,9 @@ libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) 
                    c_d_epsilon_rad_[7] * cos(2 * L_rad + lm_rad) + c_d_epsilon_rad_[8] * cos(2 * Ld_rad - ls_rad);  // [rad]
 
   double epsi_mod_rad = epsilon_rad_ + d_epsilon_rad_;
-  libra::Matrix<3, 3> X_epsi_1st = libra::rotx(epsilon_rad_);
-  libra::Matrix<3, 3> Z_dpsi = libra::rotz(-d_psi_rad_);
-  libra::Matrix<3, 3> X_epsi_2nd = libra::rotx(-epsi_mod_rad);
+  libra::Matrix<3, 3> X_epsi_1st = libra::MakeRotationMatrixX(epsilon_rad_);
+  libra::Matrix<3, 3> Z_dpsi = libra::MakeRotationMatrixZ(-d_psi_rad_);
+  libra::Matrix<3, 3> X_epsi_2nd = libra::MakeRotationMatrixX(-epsi_mod_rad);
 
   libra::Matrix<3, 3> N;
   N = X_epsi_2nd * Z_dpsi * X_epsi_1st;
@@ -247,9 +247,9 @@ libra::Matrix<3, 3> CelestialRotation::Precession(const double (&tTT_century)[4]
   }
 
   // Develop transformation matrix
-  libra::Matrix<3, 3> Z_zeta = libra::rotz(-zeta_rad);
-  libra::Matrix<3, 3> Y_theta = libra::roty(theta_rad);
-  libra::Matrix<3, 3> Z_z = libra::rotz(-z_rad);
+  libra::Matrix<3, 3> Z_zeta = libra::MakeRotationMatrixZ(-zeta_rad);
+  libra::Matrix<3, 3> Y_theta = libra::MakeRotationMatrixY(theta_rad);
+  libra::Matrix<3, 3> Z_z = libra::MakeRotationMatrixZ(-z_rad);
 
   libra::Matrix<3, 3> P;
   P = Z_z * Y_theta * Z_zeta;

@@ -20,9 +20,9 @@ void KeplerOrbit::CalcConstKeplerMotion() {
   mean_motion_rad_s_ = sqrt(mu_m3_s2_ / a_m3);
 
   // DCM
-  libra::Matrix<3, 3> dcm_arg_perigee = libra::rotz(-1.0 * oe_.GetArgPerigee_rad());
-  libra::Matrix<3, 3> dcm_inclination = libra::rotx(-1.0 * oe_.GetInclination_rad());
-  libra::Matrix<3, 3> dcm_raan = libra::rotz(-1.0 * oe_.GetRaan_rad());
+  libra::Matrix<3, 3> dcm_arg_perigee = libra::MakeRotationMatrixZ(-1.0 * oe_.GetArgPerigee_rad());
+  libra::Matrix<3, 3> dcm_inclination = libra::MakeRotationMatrixX(-1.0 * oe_.GetInclination_rad());
+  libra::Matrix<3, 3> dcm_raan = libra::MakeRotationMatrixZ(-1.0 * oe_.GetRaan_rad());
   libra::Matrix<3, 3> dcm_inc_arg = dcm_inclination * dcm_arg_perigee;
   dcm_inplane_to_i_ = dcm_raan * dcm_inc_arg;
 }
