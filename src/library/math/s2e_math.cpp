@@ -8,8 +8,8 @@
 #include <library/math/constants.hpp>
 
 namespace libra {
-double WrapTo2Pi(const double angle) {
-  double angle_out = angle;
+double WrapTo2Pi(const double angle_rad) {
+  double angle_out = angle_rad;
   if (angle_out < 0.0) {
     while (angle_out < 0.0) {
       angle_out += libra::tau;

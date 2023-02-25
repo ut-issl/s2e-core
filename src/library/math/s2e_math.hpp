@@ -13,9 +13,9 @@ namespace libra {
 /**
  * @fn WrapTo2Pi
  * @brief Wrap angle value into [0, 2pi]
- * @param angle: Angle [rad]
+ * @param angle_rad: Angle [rad]
  */
-double WrapTo2Pi(const double angle);
+double WrapTo2Pi(const double angle_rad);
 
 }  // namespace libra
 
