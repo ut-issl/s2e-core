@@ -22,7 +22,7 @@ class Matrix {
    * @fn Matrix
    * @brief Default constructor without any initialization
    */
-  inline Matrix();
+  inline Matrix() {}
 
   /**
    * @fn Matrix
@@ -38,27 +38,27 @@ class Matrix {
    * @fn row
    * @brief Return row number
    */
-  inline size_t row() const;
+  inline size_t row() const { return R; }
 
   /**
    * @fn row
    * @brief Return column number
    */
-  inline size_t column() const;
+  inline size_t column() const { return C; }
 
   /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 2D-array using `[]`
    * @return Pointer to the data storing array
    */
-  inline operator TP();
+  inline operator TP() { return matrix_; }
 
   /**
    * @fn Cast operator to directly access the elements (const ver.)
    * @brief Operator to access the elements similar with the 2D-array using `[]`
    * @return Const pointer to the data storing array
    */
-  inline operator CTP() const;
+  inline operator CTP() const { return matrix_; }
 
   /**
    * @fn Operator ()
@@ -68,7 +68,12 @@ class Matrix {
    * @param [in] column: Target column number
    * @return Value of the target element
    */
-  inline T& operator()(size_t row, size_t column);
+  inline T& operator()(size_t row, size_t column) {
+    if (!ISValidRange(row, column)) {
+      throw std::invalid_argument("Argument exceeds the range of matrix.");
+    }
+    return matrix_[row][column];
+  }
 
   /**
    * @fn Operator ()
@@ -78,7 +83,12 @@ class Matrix {
    * @param [in] column: Target column number
    * @return Value of the target element
    */
-  inline const T& operator()(size_t row, size_t column) const;
+  inline const T& operator()(size_t row, size_t column) const {
+    if (!ISValidRange(row, column)) {
+      throw std::invalid_argument("Argument exceeds the range of matrix.");
+    }
+    return matrix_[row][column];
+  }
 
   /**
    * @fn Operator +=
@@ -126,7 +136,7 @@ class Matrix {
    * @param [in] column: Target column number
    * @return True: row/column number is in the range
    */
-  inline bool ISValidRange(size_t row, size_t column);
+  inline bool ISValidRange(size_t row, size_t column) { return (row < R && column < C); }
 };
 
 /**
@@ -253,7 +263,6 @@ Matrix<R, R, T> rotz(const double& theta);
 
 }  // namespace libra
 
-#include "matrix_inline_functions.hpp"
 #include "matrix_template_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_MATRIX_HPP_
