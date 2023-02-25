@@ -24,24 +24,24 @@ class ComponentBase : public ITickable {
    * @brief Constructor without power port
    * @note Power port is used as power on state
    * @param [in] prescaler: Frequency scale factor for normal update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  ComponentBase(const int prescaler, ClockGenerator* clock_gen, const int fast_prescaler = 1);
+  ComponentBase(const int prescaler, ClockGenerator* clock_generator, const int fast_prescaler = 1);
   /**
    * @fn ComponentBase
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for normal update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  ComponentBase(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int fast_prescaler = 1);
+  ComponentBase(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int fast_prescaler = 1);
   /**
    * @fn ComponentBase
    * @brief Copy constructor
    */
-  ComponentBase(const ComponentBase& obj);
+  ComponentBase(const ComponentBase& object);
   /**
    * @fn ~ComponentBase
    * @brief Destructor
@@ -58,7 +58,7 @@ class ComponentBase : public ITickable {
    * @fn FastTick
    * @brief The methods to input fast clock. This will be called periodically.
    */
-  virtual void FastTick(const int fast_count);
+  virtual void FastTick(const int count);
 
  protected:
   int prescaler_;           //!< Frequency scale factor for normal update
