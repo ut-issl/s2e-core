@@ -35,7 +35,7 @@ Matrix<R, C, T>::operator CTP() const {
 
 template <size_t R, size_t C, typename T>
 T& Matrix<R, C, T>::operator()(size_t row, size_t column) {
-  if (!is_valid_range_(row, column)) {
+  if (!ISValidRange(row, column)) {
     throw std::invalid_argument("Argument exceeds the range of matrix.");
   }
   return matrix_[row][column];
@@ -43,14 +43,14 @@ T& Matrix<R, C, T>::operator()(size_t row, size_t column) {
 
 template <size_t R, size_t C, typename T>
 const T& Matrix<R, C, T>::operator()(size_t row, size_t column) const {
-  if (!is_valid_range_(row, column)) {
+  if (!ISValidRange(row, column)) {
     throw std::invalid_argument("Argument exceeds the range of matrix.");
   }
   return matrix_[row][column];
 }
 
 template <size_t R, size_t C, typename T>
-bool Matrix<R, C, T>::is_valid_range_(size_t row, size_t column) {
+bool Matrix<R, C, T>::ISValidRange(size_t row, size_t column) {
   return (row < R && column < C);
 }
 

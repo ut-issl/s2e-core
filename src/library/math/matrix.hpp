@@ -120,13 +120,13 @@ class Matrix {
   T matrix_[R][C];  //!< Array to save the elements
 
   /**
-   * @fn is_valid_range_
+   * @fn ISValidRange
    * @brief Judge the target row/column number is in the range
    * @param [in] row: Target row number
    * @param [in] column: Target column number
    * @return True: row/column number is in the range
    */
-  inline bool is_valid_range_(size_t row, size_t column);
+  inline bool ISValidRange(size_t row, size_t column);
 };
 
 /**
