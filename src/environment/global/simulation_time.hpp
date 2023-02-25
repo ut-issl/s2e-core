@@ -314,10 +314,10 @@ class SimulationTime : public ILoggable {
    */
   void AssertTimeStepParams();
   /**
-   * @fn ConvJDtoCalndarDay
+   * @fn ConvJDtoCalendarDay
    * @brief Convert Julian date to UTC Calendar date
    * @note wrapper function of invjday @ sgp4ext for interface adjustment
    */
-  void ConvJDtoCalndarDay(const double JD);
+  void ConvJDtoCalendarDay(const double JD);
 };
 #endif  // S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_HPP_

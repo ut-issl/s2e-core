@@ -140,7 +140,7 @@ libra::Vector<3> LocalCelestialInformation::GetPositionFromSpacecraft_i_m(const 
   return position;
 }
 
-Vector<3> LocalCelestialInformation::GetCenterBodyPositionFromSpacecraft_i_m() const {
+libra::Vector<3> LocalCelestialInformation::GetCenterBodyPositionFromSpacecraft_i_m() const {
   std::string body_name = global_celestial_information_->GetCenterBodyName();
   libra::Vector<3> position = GetPositionFromSpacecraft_i_m(body_name.c_str());
   return position;
