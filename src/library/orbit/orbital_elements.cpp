@@ -22,15 +22,15 @@ OrbitalElements::OrbitalElements(const double epoch_jday, const double semi_majo
       epoch_jday_(epoch_jday) {}
 
 // initialize with position and velocity
-OrbitalElements::OrbitalElements(const double mu_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
+OrbitalElements::OrbitalElements(const double gravity_constant_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
                                  const libra::Vector<3> velocity_i_m_s) {
-  CalcOeFromPosVel(mu_m3_s2, time_jday, position_i_m, velocity_i_m_s);
+  CalcOeFromPosVel(gravity_constant_m3_s2, time_jday, position_i_m, velocity_i_m_s);
 }
 
 OrbitalElements::~OrbitalElements() {}
 
 // Private Function
-void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
+void OrbitalElements::CalcOeFromPosVel(const double gravity_constant_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
                                        const libra::Vector<3> velocity_i_m_s) {
   // common variables
   double r_m = CalcNorm(position_i_m);
@@ -40,7 +40,7 @@ void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_
   double h_norm = CalcNorm(h);
 
   // semi major axis
-  semi_major_axis_m_ = mu_m3_s2 / (2.0 * mu_m3_s2 / r_m - v2_m2_s2);
+  semi_major_axis_m_ = gravity_constant_m3_s2 / (2.0 * gravity_constant_m3_s2 / r_m - v2_m2_s2);
 
   // inclination
   libra::Vector<3> h_direction = h;
@@ -66,8 +66,8 @@ void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_
   double dy_p_m_s = dtmp_m_s * cos(inclination_rad_) + velocity_i_m_s[2] * sin(inclination_rad_);
 
   // eccentricity
-  double t1 = (h_norm / mu_m3_s2) * dy_p_m_s - x_p_m / r_m;
-  double t2 = -(h_norm / mu_m3_s2) * dx_p_m_s - y_p_m / r_m;
+  double t1 = (h_norm / gravity_constant_m3_s2) * dy_p_m_s - x_p_m / r_m;
+  double t2 = -(h_norm / gravity_constant_m3_s2) * dx_p_m_s - y_p_m / r_m;
   eccentricity_ = sqrt(t1 * t1 + t2 * t2);
 
   // arg perigee
@@ -82,7 +82,7 @@ void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_
   u_rad = libra::WrapTo2Pi(u_rad);
 
   // epoch t0
-  double n_rad_s = sqrt(mu_m3_s2 / pow(semi_major_axis_m_, 3.0));
+  double n_rad_s = sqrt(gravity_constant_m3_s2 / pow(semi_major_axis_m_, 3.0));
   double dt_s = (u_rad - eccentricity_ * sin(u_rad)) / n_rad_s;
   epoch_jday_ = time_jday - dt_s / (24.0 * 60.0 * 60.0);
 }

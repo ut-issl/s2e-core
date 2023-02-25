@@ -34,12 +34,12 @@ class OrbitalElements {
   /**
    * @fn OrbitalElements
    * @brief Constructor: Initialize with position and velocity
-   * @param[in] mu_m3_s2: Gravity constant [m3/s2]
+   * @param[in] gravity_constant_m3_s2: Gravity constant [m3/s2]
    * @param[in] time_jday: Time expressed as Julian day
    * @param[in] position_i_m: Position vector in the inertial frame [m]
    * @param[in] velocity_i_m_s: Velocity vector in the inertial frame [m/s]
    */
-  OrbitalElements(const double mu_m3_s2, const double time_jday, const libra::Vector<3> position_i_m, const libra::Vector<3> velocity_i_m_s);
+  OrbitalElements(const double gravity_constant_m3_s2, const double time_jday, const libra::Vector<3> position_i_m, const libra::Vector<3> velocity_i_m_s);
   /**
    * @fn ~OrbitalElements
    * @brief Destructor
@@ -94,12 +94,12 @@ class OrbitalElements {
   /**
    * @fn CalcOeFromPosVel
    * @brief Calculation of Orbital Elements from Position and Velocity
-   * @param[in] mu_m3_s2: Gravity Constant of the center body
+   * @param[in] gravity_constant_m3_s2: Gravity Constant of the center body
    * @param[in] time_jday: Time expressed as Julian day
    * @param[in] position_i_m: Position vector in the inertial frame [m]
    * @param[in] velocity_i_m_s: Velocity vector in the inertial frame [m/s]
    */
-  void CalcOeFromPosVel(const double mu_m3_s2, const double time_jday, const libra::Vector<3> position_i_m, const libra::Vector<3> velocity_i_m_s);
+  void CalcOeFromPosVel(const double gravity_constant_m3_s2, const double time_jday, const libra::Vector<3> position_i_m, const libra::Vector<3> velocity_i_m_s);
 };
 
 #endif  // S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_HPP_

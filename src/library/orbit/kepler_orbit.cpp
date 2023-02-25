@@ -9,7 +9,9 @@
 
 KeplerOrbit::KeplerOrbit() {}
 // Initialize with orbital elements
-KeplerOrbit::KeplerOrbit(const double mu_m3_s2, const OrbitalElements oe) : mu_m3_s2_(mu_m3_s2), oe_(oe) { CalcConstKeplerMotion(); }
+KeplerOrbit::KeplerOrbit(const double gravity_constant_m3_s2, const OrbitalElements oe) : gravity_constant_m3_s2_(gravity_constant_m3_s2), oe_(oe) {
+  CalcConstKeplerMotion();
+}
 
 KeplerOrbit::~KeplerOrbit() {}
 
@@ -17,7 +19,7 @@ KeplerOrbit::~KeplerOrbit() {}
 void KeplerOrbit::CalcConstKeplerMotion() {
   // mean motion
   double a_m3 = pow(oe_.GetSemiMajorAxis_m(), 3.0);
-  mean_motion_rad_s_ = sqrt(mu_m3_s2_ / a_m3);
+  mean_motion_rad_s_ = sqrt(gravity_constant_m3_s2_ / a_m3);
 
   // DCM
   libra::Matrix<3, 3> dcm_arg_perigee = libra::MakeRotationMatrixZ(-1.0 * oe_.GetArgPerigee_rad());
