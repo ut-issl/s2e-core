@@ -56,8 +56,8 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
 
  private:
   double gravity_constant_m3_s2_;  //!< Gravity constant [m3/s2]
-  double propagation_time_s_;     //!< Simulation current time for numerical integration by RK4 [sec]
-  double propagation_step_s_;     //!< Step width for RK4 [sec]
+  double propagation_time_s_;      //!< Simulation current time for numerical integration by RK4 [sec]
+  double propagation_step_s_;      //!< Step width for RK4 [sec]
 
   /**
    * @fn Initialize

@@ -107,7 +107,7 @@ class ControlledAttitude : public Attitude {
   libra::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
 
   const double kMinDirectionAngle_rad = 30.0 * libra::deg_to_rad;  //!< Minimum angle b/w main and sub direction
-                                                                               // TODO Change with ini file
+                                                                   // TODO Change with ini file
 
   // Inputs
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
