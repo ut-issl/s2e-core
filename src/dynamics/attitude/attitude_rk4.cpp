@@ -19,7 +19,7 @@ AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const
   inertia_tensor_kgm2_ = inertia_tensor_kgm2;
   propagation_step_s_ = propagation_step_s;
   current_propagation_time_s_ = 0.0;
-  inv_inertia_tensor_ = invert(inertia_tensor_kgm2_);
+  inv_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
   angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
   CalcAngularMomentum();
 }
@@ -32,7 +32,7 @@ void AttitudeRk4::SetParameters(const MCSimExecutor& mc_simulator) {
 
   // TODO: Consider the following calculation is needed here?
   current_propagation_time_s_ = 0.0;
-  inv_inertia_tensor_ = libra::invert(inertia_tensor_kgm2_);
+  inv_inertia_tensor_ = libra::CalcInverseMatrix(inertia_tensor_kgm2_);
   angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);  //!< Consider how to handle this variable
   CalcAngularMomentum();
 }

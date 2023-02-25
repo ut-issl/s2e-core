@@ -21,7 +21,7 @@ ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, cons
       orbit_(orbit) {
   quaternion_i2b_ = quaternion_i2b;
   inertia_tensor_kgm2_ = inertia_tensor_kgm2;  // FIXME: inertia tensor should be initialized in the Attitude base class
-  inv_inertia_tensor_ = invert(inertia_tensor_kgm2_);
+  inv_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
 
   Initialize();
 }
