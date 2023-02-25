@@ -43,10 +43,6 @@ void ODE<N>::Update() {
   independent_variable_ += step_width_;                 // Update independent variable
 }
 
-template <size_t N>
-void ODE<N>::setStepWidth(double step_width) {
-  step_width_ = step_width;
-}
 }  // namespace libra
 
 #endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TEMPLATE_FUNCTIONS_HPP_

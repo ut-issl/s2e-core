@@ -50,7 +50,7 @@ class ODE {
    * @brief Initialize the state vector
    * @param [in] step_width: Step width
    */
-  void setStepWidth(double step_width);
+  inline void setStepWidth(double step_width) { step_width_ = step_width; }
 
   /**
    * @fn step_width
