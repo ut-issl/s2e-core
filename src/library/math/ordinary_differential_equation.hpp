@@ -27,7 +27,7 @@ class ODE {
    * @fn ~ODE
    * @brief Destructor
    */
-  inline virtual ~ODE();
+  inline virtual ~ODE() {}
 
   /**
    * @fn RHS
@@ -111,7 +111,6 @@ class ODE {
 
 }  // namespace libra
 
-#include "./ordinary_differential_equation_inline_functions.hpp"
 #include "./ordinary_differential_equation_template_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_HPP_
