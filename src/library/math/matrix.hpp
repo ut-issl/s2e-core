@@ -237,29 +237,29 @@ Matrix<R, R, T> MakeIdentityMatrix();
 /**
  * @fn MakeRotationMatrixX
  * @brief Generate 3*3 rotation matrix around X-axis
- * @param [in] theta: Rotation angle [rad]
+ * @param [in] theta_rad: Rotation angle [rad]
  * @return Rotation matrix
  */
 template <size_t R = 3, typename T = double>
-Matrix<R, R, T> MakeRotationMatrixX(const double& theta);
+Matrix<R, R, T> MakeRotationMatrixX(const double& theta_rad);
 
 /**
  * @fn MakeRotationMatrixY
  * @brief Generate 3*3 rotation matrix around Y-axis
- * @param [in] theta: Rotation angle [rad]
+ * @param [in] theta_rad: Rotation angle [rad]
  * @return Rotation matrix
  */
 template <size_t R = 3, typename T = double>
-Matrix<R, R, T> MakeRotationMatrixY(const double& theta);
+Matrix<R, R, T> MakeRotationMatrixY(const double& theta_rad);
 
 /**
  * @fn MakeRotationMatrixZ
  * @brief Generate 3*3 rotation matrix around Z-axis
- * @param [in] theta: Rotation angle [rad]
+ * @param [in] theta_rad: Rotation angle [rad]
  * @return Rotation matrix
  */
 template <size_t R = 3, typename T = double>
-Matrix<R, R, T> MakeRotationMatrixZ(const double& theta);
+Matrix<R, R, T> MakeRotationMatrixZ(const double& theta_rad);
 
 }  // namespace libra
 

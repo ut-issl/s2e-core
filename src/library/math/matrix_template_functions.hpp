@@ -158,35 +158,35 @@ Matrix<R, R, T> MakeIdentityMatrix() {
 }
 
 template <size_t R, typename T>
-Matrix<R, R, T> MakeRotationMatrixX(const double& theta) {
+Matrix<R, R, T> MakeRotationMatrixX(const double& theta_rad) {
   Matrix<R, R, T> m;
   Unitalize(m);
-  m[1][1] = cos(theta);
-  m[1][2] = sin(theta);
-  m[2][1] = -sin(theta);
-  m[2][2] = cos(theta);
+  m[1][1] = cos(theta_rad);
+  m[1][2] = sin(theta_rad);
+  m[2][1] = -sin(theta_rad);
+  m[2][2] = cos(theta_rad);
   return m;
 }
 
 template <size_t R, typename T>
-Matrix<R, R, T> MakeRotationMatrixY(const double& theta) {
+Matrix<R, R, T> MakeRotationMatrixY(const double& theta_rad) {
   Matrix<R, R, T> m;
   Unitalize(m);
-  m[0][0] = cos(theta);
-  m[0][2] = -sin(theta);
-  m[2][0] = sin(theta);
-  m[2][2] = cos(theta);
+  m[0][0] = cos(theta_rad);
+  m[0][2] = -sin(theta_rad);
+  m[2][0] = sin(theta_rad);
+  m[2][2] = cos(theta_rad);
   return m;
 }
 
 template <size_t R, typename T>
-Matrix<R, R, T> MakeRotationMatrixZ(const double& theta) {
+Matrix<R, R, T> MakeRotationMatrixZ(const double& theta_rad) {
   Matrix<R, R, T> m;
   Unitalize(m);
-  m[0][0] = cos(theta);
-  m[0][1] = sin(theta);
-  m[1][0] = -sin(theta);
-  m[1][1] = cos(theta);
+  m[0][0] = cos(theta_rad);
+  m[0][1] = sin(theta_rad);
+  m[1][0] = -sin(theta_rad);
+  m[1][1] = cos(theta_rad);
   return m;
 }
 
