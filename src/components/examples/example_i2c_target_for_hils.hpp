@@ -19,7 +19,7 @@
  *          Telemetry size = 5 bytes(ASCII)
  *          Telemetry changes; ABCDE, BCDEF, ..., VWXYZ, ABCDE, ...
  */
-class ExampleI2cTargetForHils : public Component, public ObcI2cTargetCommunicationBase {
+class ExampleI2cTargetForHils : public Component, public I2cTargetCommunicationWithObc {
  public:
   /**
    * @fn ExampleI2cTargetForHils

@@ -11,30 +11,30 @@
 #include "uart_communication_with_obc.hpp"
 
 /**
- * @class ObcI2cTargetCommunicationBase
+ * @class I2cTargetCommunicationWithObc
  * @brief Base class for I2C communication as target side with OBC flight software
  * @note Generally, components are the target side of I2C (OBC is the controller side).
  */
-class ObcI2cTargetCommunicationBase {
+class I2cTargetCommunicationWithObc {
  public:
   /**
-   * @fn ObcI2cTargetCommunicationBase
+   * @fn I2cTargetCommunicationWithObc
    * @brief Constructor for SILS mode
    * @param [in] sils_port_id: Port ID for communication line b/w OBC in the SILS mode
    * @param [in] i2c_address: I2C address for the target
    * @param [in] obc: The communication target OBC
    */
-  ObcI2cTargetCommunicationBase(const unsigned int sils_port_id, const unsigned char i2c_address, OBC* obc);
+  I2cTargetCommunicationWithObc(const unsigned int sils_port_id, const unsigned char i2c_address, OBC* obc);
   /**
-   * @fn ObcI2cTargetCommunicationBase
+   * @fn I2cTargetCommunicationWithObc
    * @brief Constructor for HILS mode
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] i2c_address: I2C address for the target
    * @param [in] hils_port_manager: HILS port manager
    */
-  ObcI2cTargetCommunicationBase(const unsigned int hils_port_id, const unsigned char i2c_address, HilsPortManager* hils_port_manager);
+  I2cTargetCommunicationWithObc(const unsigned int hils_port_id, const unsigned char i2c_address, HilsPortManager* hils_port_manager);
   /**
-   * @fn ObcI2cTargetCommunicationBase
+   * @fn I2cTargetCommunicationWithObc
    * @brief Constructor for both SILS and HILS mode
    * @param [in] sils_port_id: Port ID for communication line b/w OBC in the SILS mode
    * @param [in] hils_port_id: ID of HILS communication port
@@ -42,18 +42,18 @@ class ObcI2cTargetCommunicationBase {
    * @param [in] obc: The communication target OBC
    * @param [in] hils_port_manager: HILS port manager
    */
-  ObcI2cTargetCommunicationBase(const unsigned int sils_port_id, const unsigned int hils_port_id, const unsigned char i2c_address, OBC* obc,
+  I2cTargetCommunicationWithObc(const unsigned int sils_port_id, const unsigned int hils_port_id, const unsigned char i2c_address, OBC* obc,
                                 HilsPortManager* hils_port_manager);
   /**
-   * @fn ObcI2cTargetCommunicationBase
+   * @fn I2cTargetCommunicationWithObc
    * @brief Prevent double freeing of memory when this class is copied
    */
-  ObcI2cTargetCommunicationBase(ObcI2cTargetCommunicationBase&& object) noexcept;
+  I2cTargetCommunicationWithObc(I2cTargetCommunicationWithObc&& object) noexcept;
   /**
-   * @fn ~ObcI2cTargetCommunicationBase
+   * @fn ~I2cTargetCommunicationWithObc
    * @brief Destructor
    */
-  ~ObcI2cTargetCommunicationBase();
+  ~I2cTargetCommunicationWithObc();
 
  protected:
   /**
