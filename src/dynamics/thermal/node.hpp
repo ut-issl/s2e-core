@@ -19,19 +19,19 @@ class Node {
   double capacity_;         // 熱容量[J/K]
   double internal_heat_;    // 内部生成熱[J]
   double alpha_;
-  double area_;             // 太陽熱が入射する面の面積[m^2]
-  Vector<3> normal_v_b_;    // 太陽熱が入射する面の法線ベクトル(機体固定座標系)
-  double solar_radiation_;  // 入射する太陽輻射熱[W]([J]に変換するためには時間をかけないといけないことに注意
+  double area_;                  // 太陽熱が入射する面の面積[m^2]
+  libra::Vector<3> normal_v_b_;  // 太陽熱が入射する面の法線ベクトル(機体固定座標系)
+  double solar_radiation_;       // 入射する太陽輻射熱[W]([J]に変換するためには時間をかけないといけないことに注意
 
   double K2deg(double kelvin) const;  // 絶対温度からdegCに変換
 
  public:
   Node(const int node_id, const std::string node_label, const int heater_node_id, const double temperature_ini, const double capacity_ini,
-       const double internal_heat_ini, const double alpha, const double area, Vector<3> normal_v_b);
+       const double internal_heat_ini, const double alpha, const double area, libra::Vector<3> normal_v_b);
   virtual ~Node();
 
   // 熱計算用関数
-  double CalcSolarRadiation(Vector<3> sun_direction);  // 太陽入射熱を計算
+  double CalcSolarRadiation(libra::Vector<3> sun_direction);  // 太陽入射熱を計算
 
   // Output from this class
   int GetNodeId(void) const;

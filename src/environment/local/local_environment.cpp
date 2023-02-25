@@ -54,7 +54,7 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* si
 
   // Update local environments that depend on the attitude (and the position)
   if (simulation_time->GetAttitudePropagateFlag()) {
-    celestial_information_->UpdateAllObjectsInformation(orbit.GetSatPosition_i(), orbit.GetSatVelocity_i(), attitude.GetQuaternion_i2b(),
+    celestial_information_->UpdateAllObjectsInformation(orbit.GetPosition_i_m(), orbit.GetVelocity_i_m_s(), attitude.GetQuaternion_i2b(),
                                                         attitude.GetOmega_b());
     geomagnetic_field_->CalcMagneticField(simulation_time->GetCurrentDecimalYear(), simulation_time->GetCurrentSiderealTime(),
                                           orbit.GetGeodeticPosition(), attitude.GetQuaternion_i2b());

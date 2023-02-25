@@ -23,8 +23,8 @@ class Temperature : public ILoggable {
   bool is_calc_enabled_;                  // 温度更新をするかどうかのブーリアン
   bool debug_;
 
-  void RungeOneStep(double t, double dt, Vector<3> sun_direction, int node_num);
-  std::vector<double> OdeTemperature(std::vector<double> x, double t, const Vector<3> sun_direction,
+  void RungeOneStep(double t, double dt, libra::Vector<3> sun_direction, int node_num);
+  std::vector<double> OdeTemperature(std::vector<double> x, double t, const libra::Vector<3> sun_direction,
                                      int node_num);  // 温度に関する常微分方程式, xはnodeの温度をならべたもの
 
  public:
@@ -32,7 +32,7 @@ class Temperature : public ILoggable {
               const double propstep, const bool is_calc_enabled, const bool debug);
   Temperature();
   virtual ~Temperature();
-  void Propagate(Vector<3> sun_direction,
+  void Propagate(libra::Vector<3> sun_direction,
                  const double endtime);  // 太陽入熱量計算のため, 太陽方向の情報を入手
   std::vector<Node> GetVnodes() const;
   void AddHeaterPower(std::vector<double> heater_power);

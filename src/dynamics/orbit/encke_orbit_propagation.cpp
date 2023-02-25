@@ -9,111 +9,116 @@
 
 #include "../../library/orbit/orbital_elements.hpp"
 
-EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celes_info, const double mu_m3_s2, const double prop_step_s,
-                                             const double current_jd, const Vector<3> init_position_i_m, const Vector<3> init_velocity_i_m_s,
-                                             const double error_tolerance)
-    : Orbit(celes_info), libra::ODE<6>(prop_step_s), mu_m3_s2_(mu_m3_s2), error_tolerance_(error_tolerance), prop_step_s_(prop_step_s) {
-  prop_time_s_ = 0.0;
-  Initialize(current_jd, init_position_i_m, init_velocity_i_m_s);
+EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double gravity_constant_m3_s2,
+                                             const double propagation_step_s, const double current_time_jd, const libra::Vector<3> position_i_m,
+                                             const libra::Vector<3> velocity_i_m_s, const double error_tolerance)
+    : Orbit(celestial_information),
+      libra::ODE<6>(propagation_step_s),
+      gravity_constant_m3_s2_(gravity_constant_m3_s2),
+      error_tolerance_(error_tolerance),
+      propagation_step_s_(propagation_step_s) {
+  propagation_time_s_ = 0.0;
+  Initialize(current_time_jd, position_i_m, velocity_i_m_s);
 }
 
 EnckeOrbitPropagation::~EnckeOrbitPropagation() {}
 
 // Functions for Orbit
-void EnckeOrbitPropagation::Propagate(double endtime, double current_jd) {
+void EnckeOrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
   if (!is_calc_enabled_) return;
 
   // Rectification
-  double norm_sat_position_m = norm(sat_position_i_);
-  double norm_diff_position_m = norm(diff_position_i_m_);
-  if (norm_diff_position_m / norm_sat_position_m > error_tolerance_) {
-    Initialize(current_jd, sat_position_i_, sat_velocity_i_);
+  double norm_sat_position_m = norm(spacecraft_position_i_m_);
+  double norm_difference_position_m = norm(difference_position_i_m_);
+  if (norm_difference_position_m / norm_sat_position_m > error_tolerance_) {
+    Initialize(current_time_jd, spacecraft_position_i_m_, spacecraft_velocity_i_m_s_);
   }
 
   // Update reference orbit
-  ref_kepler_orbit.CalcPosVel(current_jd);
-  ref_position_i_m_ = ref_kepler_orbit.GetPosition_i_m();
-  ref_velocity_i_m_s_ = ref_kepler_orbit.GetVelocity_i_m_s();
+  reference_kepler_orbit.CalcPosVel(current_time_jd);
+  reference_position_i_m_ = reference_kepler_orbit.GetPosition_i_m();
+  reference_velocity_i_m_s_ = reference_kepler_orbit.GetVelocity_i_m_s();
 
   // Propagate difference orbit
-  setStepWidth(prop_step_s_);  // Re-set propagation Δt
-  while (endtime - prop_time_s_ - prop_step_s_ > 1.0e-6) {
+  setStepWidth(propagation_step_s_);  // Re-set propagation Δt
+  while (end_time_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     Update();  // Propagation methods of the ODE class
-    prop_time_s_ += prop_step_s_;
+    propagation_time_s_ += propagation_step_s_;
   }
-  setStepWidth(endtime - prop_time_s_);  // Adjust the last propagation Δt
+  setStepWidth(end_time_s - propagation_time_s_);  // Adjust the last propagation Δt
   Update();
-  prop_time_s_ = endtime;
+  propagation_time_s_ = end_time_s;
 
-  diff_position_i_m_[0] = state()[0];
-  diff_position_i_m_[1] = state()[1];
-  diff_position_i_m_[2] = state()[2];
-  diff_velocity_i_m_s_[0] = state()[3];
-  diff_velocity_i_m_s_[1] = state()[4];
-  diff_velocity_i_m_s_[2] = state()[5];
+  difference_position_i_m_[0] = state()[0];
+  difference_position_i_m_[1] = state()[1];
+  difference_position_i_m_[2] = state()[2];
+  difference_velocity_i_m_s_[0] = state()[3];
+  difference_velocity_i_m_s_[1] = state()[4];
+  difference_velocity_i_m_s_[2] = state()[5];
 
   UpdateSatOrbit();
 }
 
 // Functions for ODE
-void EnckeOrbitPropagation::RHS(double t, const Vector<6>& state, Vector<6>& rhs) {
+void EnckeOrbitPropagation::RHS(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs) {
   UNUSED(t);
-  Vector<3> diff_pos_i_m, diff_acc_i_m_s2;
+  libra::Vector<3> difference_position_i_m_m, difference_acc_i_m_s2;
   for (int i = 0; i < 3; i++) {
-    diff_pos_i_m[i] = state[i];
+    difference_position_i_m_m[i] = state[i];
   }
 
-  double q_func = CalcQFunction(diff_pos_i_m);
-  double r_m = norm(ref_position_i_m_);
+  double q_func = CalcQFunction(difference_position_i_m_m);
+  double r_m = norm(reference_position_i_m_);
   double r_m3 = pow(r_m, 3.0);
 
-  diff_acc_i_m_s2 = -(mu_m3_s2_ / r_m3) * (q_func * sat_position_i_ + diff_pos_i_m) + acc_i_;
+  difference_acc_i_m_s2 =
+      -(gravity_constant_m3_s2_ / r_m3) * (q_func * spacecraft_position_i_m_ + difference_position_i_m_m) + spacecraft_acceleration_i_m_s2_;
 
   rhs[0] = state[3];
   rhs[1] = state[4];
   rhs[2] = state[5];
-  rhs[3] = diff_acc_i_m_s2[0];
-  rhs[4] = diff_acc_i_m_s2[1];
-  rhs[5] = diff_acc_i_m_s2[2];
+  rhs[3] = difference_acc_i_m_s2[0];
+  rhs[4] = difference_acc_i_m_s2[1];
+  rhs[5] = difference_acc_i_m_s2[2];
 }
 
 // Private Functions
-void EnckeOrbitPropagation::Initialize(double current_jd, Vector<3> init_ref_position_i_m, Vector<3> init_ref_velocity_i_m_s) {
+void EnckeOrbitPropagation::Initialize(double current_time_jd, libra::Vector<3> reference_position_i_m, libra::Vector<3> reference_velocity_i_m_s) {
   // General
-  fill_up(acc_i_, 0.0);
+  fill_up(spacecraft_acceleration_i_m_s2_, 0.0);
 
   // reference orbit
-  ref_position_i_m_ = init_ref_position_i_m;
-  ref_velocity_i_m_s_ = init_ref_velocity_i_m_s;
-  OrbitalElements oe_ref(mu_m3_s2_, current_jd, init_ref_position_i_m, init_ref_velocity_i_m_s);
-  ref_kepler_orbit = KeplerOrbit(mu_m3_s2_, oe_ref);
+  reference_position_i_m_ = reference_position_i_m;
+  reference_velocity_i_m_s_ = reference_velocity_i_m_s;
+  OrbitalElements oe_ref(gravity_constant_m3_s2_, current_time_jd, reference_position_i_m, reference_velocity_i_m_s);
+  reference_kepler_orbit = KeplerOrbit(gravity_constant_m3_s2_, oe_ref);
 
   // difference orbit
-  fill_up(diff_position_i_m_, 0.0);
-  fill_up(diff_velocity_i_m_s_, 0.0);
+  fill_up(difference_position_i_m_, 0.0);
+  fill_up(difference_velocity_i_m_s_, 0.0);
 
-  Vector<6> zero(0.0f);
+  libra::Vector<6> zero(0.0f);
   setup(0.0, zero);
 
   UpdateSatOrbit();
 }
 
 void EnckeOrbitPropagation::UpdateSatOrbit() {
-  sat_position_i_ = ref_position_i_m_ + diff_position_i_m_;
-  sat_velocity_i_ = ref_velocity_i_m_s_ + diff_velocity_i_m_s_;
+  spacecraft_position_i_m_ = reference_position_i_m_ + difference_position_i_m_;
+  spacecraft_velocity_i_m_s_ = reference_velocity_i_m_s_ + difference_velocity_i_m_s_;
 
-  TransEciToEcef();
-  TransEcefToGeo();
+  TransformEciToEcef();
+  TransformEcefToGeodetic();
 }
 
-double EnckeOrbitPropagation::CalcQFunction(Vector<3> diff_pos_i) {
+double EnckeOrbitPropagation::CalcQFunction(libra::Vector<3> difference_position_i_m) {
   double r2;
-  r2 = inner_product(sat_position_i_, sat_position_i_);
+  r2 = inner_product(spacecraft_position_i_m_, spacecraft_position_i_m_);
 
-  Vector<3> dr_2r;
-  dr_2r = diff_pos_i - 2.0 * sat_position_i_;
+  libra::Vector<3> dr_2r;
+  dr_2r = difference_position_i_m - 2.0 * spacecraft_position_i_m_;
 
-  double q = inner_product(diff_pos_i, dr_2r) / r2;
+  double q = inner_product(difference_position_i_m, dr_2r) / r2;
 
   double q_func = q * (q * q + 3.0 * q + 3.0) / (pow(1.0 + q, 1.5) + 1.0);
 

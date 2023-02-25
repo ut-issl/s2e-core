@@ -8,23 +8,21 @@
 #include <library/utilities/macros.hpp>
 #include <sstream>
 
-using std::string;
-
-Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celes_info, double mu, double timestep, Vector<3> init_position,
-                                         Vector<3> init_velocity, double init_time)
-    : Orbit(celes_info), ODE<N>(timestep), mu(mu) {
+Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
+                                         libra::Vector<3> position_i_m, libra::Vector<3> velocity_i_m_s, double initial_time_s)
+    : Orbit(celestial_information), ODE<6>(time_step_s), gravity_constant_m3_s2_(gravity_constant_m3_s2) {
   propagate_mode_ = OrbitPropagateMode::kRk4;
 
-  prop_time_ = 0.0;
-  prop_step_ = timestep;
-  acc_i_ *= 0;
+  propagation_time_s_ = 0.0;
+  propagation_step_s_ = time_step_s;
+  spacecraft_acceleration_i_m_s2_ *= 0;
 
-  Initialize(init_position, init_velocity, init_time);
+  Initialize(position_i_m, velocity_i_m_s, initial_time_s);
 }
 
 Rk4OrbitPropagation::~Rk4OrbitPropagation() {}
 
-void Rk4OrbitPropagation::RHS(double t, const Vector<N>& state, Vector<N>& rhs) {
+void Rk4OrbitPropagation::RHS(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs) {
   double x = state[0], y = state[1], z = state[2];
   double vx = state[3], vy = state[4], vz = state[5];
 
@@ -33,69 +31,58 @@ void Rk4OrbitPropagation::RHS(double t, const Vector<N>& state, Vector<N>& rhs) 
   rhs[0] = vx;
   rhs[1] = vy;
   rhs[2] = vz;
-  rhs[3] = acc_i_[0] - mu / r3 * x;
-  rhs[4] = acc_i_[1] - mu / r3 * y;
-  rhs[5] = acc_i_[2] - mu / r3 * z;
+  rhs[3] = spacecraft_acceleration_i_m_s2_[0] - gravity_constant_m3_s2_ / r3 * x;
+  rhs[4] = spacecraft_acceleration_i_m_s2_[1] - gravity_constant_m3_s2_ / r3 * y;
+  rhs[5] = spacecraft_acceleration_i_m_s2_[2] - gravity_constant_m3_s2_ / r3 * z;
 
   (void)t;
 }
 
-void Rk4OrbitPropagation::Initialize(Vector<3> init_position, Vector<3> init_velocity, double init_time) {
+void Rk4OrbitPropagation::Initialize(libra::Vector<3> position_i_m, libra::Vector<3> velocity_i_m_s, double initial_time_s) {
   // state vector [x,y,z,vx,vy,vz]
-  Vector<N> init_state;
-  init_state[0] = init_position[0];
-  init_state[1] = init_position[1];
-  init_state[2] = init_position[2];
-  init_state[3] = init_velocity[0];
-  init_state[4] = init_velocity[1];
-  init_state[5] = init_velocity[2];
-  setup(init_time, init_state);
+  libra::Vector<6> init_state;
+  init_state[0] = position_i_m[0];
+  init_state[1] = position_i_m[1];
+  init_state[2] = position_i_m[2];
+  init_state[3] = velocity_i_m_s[0];
+  init_state[4] = velocity_i_m_s[1];
+  init_state[5] = velocity_i_m_s[2];
+  setup(initial_time_s, init_state);
 
   // initialize
-  acc_i_ *= 0;
-  sat_position_i_[0] = init_state[0];
-  sat_position_i_[1] = init_state[1];
-  sat_position_i_[2] = init_state[2];
-  sat_velocity_i_[0] = init_state[3];
-  sat_velocity_i_[1] = init_state[4];
-  sat_velocity_i_[2] = init_state[5];
+  spacecraft_acceleration_i_m_s2_ *= 0;
+  spacecraft_position_i_m_[0] = init_state[0];
+  spacecraft_position_i_m_[1] = init_state[1];
+  spacecraft_position_i_m_[2] = init_state[2];
+  spacecraft_velocity_i_m_s_[0] = init_state[3];
+  spacecraft_velocity_i_m_s_[1] = init_state[4];
+  spacecraft_velocity_i_m_s_[2] = init_state[5];
 
-  TransEciToEcef();
-  TransEcefToGeo();
+  TransformEciToEcef();
+  TransformEcefToGeodetic();
 }
 
-void Rk4OrbitPropagation::Propagate(double endtime, double current_jd) {
-  UNUSED(current_jd);
+void Rk4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
+  UNUSED(current_time_jd);
 
   if (!is_calc_enabled_) return;
 
-  setStepWidth(prop_step_);  // Re-set propagation Δt
-  while (endtime - prop_time_ - prop_step_ > 1.0e-6) {
+  setStepWidth(propagation_step_s_);  // Re-set propagation Δt
+  while (end_time_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     Update();  // Propagation methods of the ODE class
-    prop_time_ += prop_step_;
+    propagation_time_s_ += propagation_step_s_;
   }
-  setStepWidth(endtime - prop_time_);  // Adjust the last propagation Δt
+  setStepWidth(end_time_s - propagation_time_s_);  // Adjust the last propagation Δt
   Update();
-  prop_time_ = endtime;
+  propagation_time_s_ = end_time_s;
 
-  sat_position_i_[0] = state()[0];
-  sat_position_i_[1] = state()[1];
-  sat_position_i_[2] = state()[2];
-  sat_velocity_i_[0] = state()[3];
-  sat_velocity_i_[1] = state()[4];
-  sat_velocity_i_[2] = state()[5];
+  spacecraft_position_i_m_[0] = state()[0];
+  spacecraft_position_i_m_[1] = state()[1];
+  spacecraft_position_i_m_[2] = state()[2];
+  spacecraft_velocity_i_m_s_[0] = state()[3];
+  spacecraft_velocity_i_m_s_[1] = state()[4];
+  spacecraft_velocity_i_m_s_[2] = state()[5];
 
-  TransEciToEcef();
-  TransEcefToGeo();
-}
-
-void Rk4OrbitPropagation::AddPositionOffset(Vector<3> offset_i) {
-  auto newstate = state();
-  for (auto i = 0; i < 3; i++) {
-    newstate[i] += offset_i[i];
-  }
-  setup(x(), newstate);
-  sat_position_i_[0] = state()[0];
-  sat_position_i_[1] = state()[1];
-  sat_position_i_[2] = state()[2];
+  TransformEciToEcef();
+  TransformEcefToGeodetic();
 }

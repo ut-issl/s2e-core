@@ -13,8 +13,8 @@ void RelativeInformation::Update() {
   for (size_t target_sat_id = 0; target_sat_id < dynamics_database_.size(); target_sat_id++) {
     for (size_t reference_sat_id = 0; reference_sat_id < dynamics_database_.size(); reference_sat_id++) {
       // Position
-      libra::Vector<3> target_sat_pos_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetSatPosition_i();
-      libra::Vector<3> reference_sat_pos_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetSatPosition_i();
+      libra::Vector<3> target_sat_pos_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetPosition_i_m();
+      libra::Vector<3> reference_sat_pos_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetPosition_i_m();
       rel_pos_list_i_m_[target_sat_id][reference_sat_id] = target_sat_pos_i - reference_sat_pos_i;
       rel_pos_list_rtn_m_[target_sat_id][reference_sat_id] = CalcRelativePosition_rtn_m(target_sat_id, reference_sat_id);
 
@@ -22,8 +22,8 @@ void RelativeInformation::Update() {
       rel_distance_list_m_[target_sat_id][reference_sat_id] = norm(rel_pos_list_i_m_[target_sat_id][reference_sat_id]);
 
       // Velocity
-      libra::Vector<3> target_sat_vel_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetSatVelocity_i();
-      libra::Vector<3> reference_sat_vel_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetSatVelocity_i();
+      libra::Vector<3> target_sat_vel_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetVelocity_i_m_s();
+      libra::Vector<3> reference_sat_vel_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetVelocity_i_m_s();
       rel_vel_list_i_m_s_[target_sat_id][reference_sat_id] = target_sat_vel_i - reference_sat_vel_i;
       rel_vel_list_rtn_m_s_[target_sat_id][reference_sat_id] = CalcRelativeVelocity_rtn_m_s(target_sat_id, reference_sat_id);
 
@@ -115,28 +115,28 @@ libra::Quaternion RelativeInformation::CalcRelativeAttitudeQuaternion(const int 
 }
 
 libra::Vector<3> RelativeInformation::CalcRelativePosition_rtn_m(const int target_sat_id, const int reference_sat_id) {
-  libra::Vector<3> target_sat_pos_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetSatPosition_i();
-  libra::Vector<3> reference_sat_pos_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetSatPosition_i();
+  libra::Vector<3> target_sat_pos_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetPosition_i_m();
+  libra::Vector<3> reference_sat_pos_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetPosition_i_m();
   libra::Vector<3> relative_pos_i = target_sat_pos_i - reference_sat_pos_i;
 
   // RTN frame for the reference satellite
-  libra::Quaternion q_i2rtn = dynamics_database_.at(reference_sat_id)->GetOrbit().CalcQuaternionI2LVLH();
+  libra::Quaternion q_i2rtn = dynamics_database_.at(reference_sat_id)->GetOrbit().CalcQuaternion_i2lvlh();
 
   libra::Vector<3> relative_pos_rtn = q_i2rtn.frame_conv(relative_pos_i);
   return relative_pos_rtn;
 }
 
 libra::Vector<3> RelativeInformation::CalcRelativeVelocity_rtn_m_s(const int target_sat_id, const int reference_sat_id) {
-  libra::Vector<3> target_sat_pos_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetSatPosition_i();
-  libra::Vector<3> reference_sat_pos_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetSatPosition_i();
+  libra::Vector<3> target_sat_pos_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetPosition_i_m();
+  libra::Vector<3> reference_sat_pos_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetPosition_i_m();
   libra::Vector<3> relative_pos_i = target_sat_pos_i - reference_sat_pos_i;
 
   // RTN frame for the reference satellite
-  libra::Quaternion q_i2rtn = dynamics_database_.at(reference_sat_id)->GetOrbit().CalcQuaternionI2LVLH();
+  libra::Quaternion q_i2rtn = dynamics_database_.at(reference_sat_id)->GetOrbit().CalcQuaternion_i2lvlh();
 
   // Rotation vector of RTN frame
-  libra::Vector<3> reference_sat_vel_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetSatVelocity_i();
-  libra::Vector<3> target_sat_vel_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetSatVelocity_i();
+  libra::Vector<3> reference_sat_vel_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetVelocity_i_m_s();
+  libra::Vector<3> target_sat_vel_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetVelocity_i_m_s();
   libra::Vector<3> rot_vec_rtn_i = cross(reference_sat_pos_i, reference_sat_vel_i);
   double r2_ref = norm(reference_sat_pos_i) * norm(reference_sat_pos_i);
   rot_vec_rtn_i /= r2_ref;

@@ -69,10 +69,10 @@ void GeoPotential::Update(const LocalEnvironment &local_environment, const Dynam
 #ifdef DEBUG_GEOPOTENTIAL
   chrono::system_clock::time_point start, end;
   start = chrono::system_clock::now();
-  debug_pos_ecef_m_ = spacecraft.dynamics_->orbit_->GetSatPosition_ecef();
+  debug_pos_ecef_m_ = spacecraft.dynamics_->orbit_->GetPosition_ecef_m();
 #endif
 
-  CalcAccelerationEcef(dynamics.GetOrbit().GetSatPosition_ecef());
+  CalcAccelerationEcef(dynamics.GetOrbit().GetPosition_ecef_m());
 #ifdef DEBUG_GEOPOTENTIAL
   end = chrono::system_clock::now();
   time_ms_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);

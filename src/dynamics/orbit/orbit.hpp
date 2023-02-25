@@ -6,20 +6,15 @@
 #ifndef S2E_DYNAMICS_ORBIT_ORBIT_HPP_
 #define S2E_DYNAMICS_ORBIT_ORBIT_HPP_
 
+#include <environment/global/celestial_information.hpp>
+#include <environment/global/physical_constants.hpp>
+#include <library/geodesy/geodetic_position.hpp>
+#include <library/logger/loggable.hpp>
 #include <library/math/constants.hpp>
 #include <library/math/matrix.hpp>
 #include <library/math/matrix_vector.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
-
-using libra::Matrix;
-using libra::Quaternion;
-using libra::Vector;
-
-#include <environment/global/celestial_information.hpp>
-#include <environment/global/physical_constants.hpp>
-#include <library/geodesy/geodetic_position.hpp>
-#include <library/logger/loggable.hpp>
 
 /**
  * @enum OrbitPropagateMode
@@ -52,9 +47,9 @@ class Orbit : public ILoggable {
   /**
    * @fn Orbit
    * @brief Constructor
-   * @param [in] celes_info: Celestial information
+   * @param [in] celestial_information: Celestial information
    */
-  Orbit(const CelestialInformation* celes_info) : celes_info_(celes_info) {}
+  Orbit(const CelestialInformation* celestial_information) : celestial_information_(celestial_information) {}
   /**
    * @fn ~Orbit
    * @brief Destructor
@@ -64,25 +59,19 @@ class Orbit : public ILoggable {
   /**
    * @fn Propagate
    * @brief Pure virtual function for orbit propagation
-   * @param [in] endtime: End time of simulation [sec]
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] end_time_s: End time of simulation [sec]
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  virtual void Propagate(double endtime, double current_jd) = 0;
+  virtual void Propagate(const double end_time_s, const double current_time_jd) = 0;
 
   /**
-   * @fn UpdateAtt
+   * @fn UpdateByAttitude
    * @brief Update attitude information
-   * @param [in] q_i2b: End time of simulation [sec]
+   * @param [in] quaternion_i2b: End time of simulation [sec]
    */
-  inline void UpdateAtt(Quaternion q_i2b) { sat_velocity_b_ = q_i2b.frame_conv(sat_velocity_i_); }
-
-  /**
-   * @fn AddPositionOffset
-   * @brief Shift the position of the spacecraft
-   * @note Is this really needed?
-   * @param [in] offset_i: Offset vector in the inertial frame [m]
-   */
-  inline virtual void AddPositionOffset(Vector<3> offset_i) { (void)offset_i; }
+  inline void UpdateByAttitude(const libra::Quaternion quaternion_i2b) {
+    spacecraft_velocity_b_m_s_ = quaternion_i2b.frame_conv(spacecraft_velocity_i_m_s_);
+  }
 
   // Getters
   /**
@@ -96,45 +85,45 @@ class Orbit : public ILoggable {
    */
   inline OrbitPropagateMode GetPropagateMode() const { return propagate_mode_; }
   /**
-   * @fn GetSatPosition_i
+   * @fn GetPosition_i_m
    * @brief Return spacecraft position in the inertial frame [m]
    */
-  inline Vector<3> GetSatPosition_i() const { return sat_position_i_; }
+  inline libra::Vector<3> GetPosition_i_m() const { return spacecraft_position_i_m_; }
   /**
-   * @fn GetSatPosition_ecef
+   * @fn GetPosition_ecef_m
    * @brief Return spacecraft position in the ECEF frame [m]
    */
-  inline Vector<3> GetSatPosition_ecef() const { return sat_position_ecef_; }
+  inline libra::Vector<3> GetPosition_ecef_m() const { return spacecraft_position_ecef_m_; }
   /**
-   * @fn GetSatVelocity_i
+   * @fn GetVelocity_i_m_s
    * @brief Return spacecraft velocity in the inertial frame [m/s]
    */
-  inline Vector<3> GetSatVelocity_i() const { return sat_velocity_i_; }
+  inline libra::Vector<3> GetVelocity_i_m_s() const { return spacecraft_velocity_i_m_s_; }
   /**
-   * @fn GetSatVelocity_b
+   * @fn GetVelocity_b_m_s
    * @brief Return spacecraft velocity in the body fixed frame [m/s]
    */
-  inline Vector<3> GetSatVelocity_b() const { return sat_velocity_b_; }
+  inline libra::Vector<3> GetVelocity_b_m_s() const { return spacecraft_velocity_b_m_s_; }
   /**
-   * @fn GetSatVelocity_ecef
+   * @fn GetVelocity_ecef_m_s
    * @brief Return spacecraft velocity in the ECEF frame [m/s]
    */
-  inline Vector<3> GetSatVelocity_ecef() const { return sat_velocity_ecef_; }
+  inline libra::Vector<3> GetVelocity_ecef_m_s() const { return spacecraft_velocity_ecef_m_s_; }
   /**
    * @fn GetGeodeticPosition
    * @brief Return spacecraft position in the geodetic frame [m]
    */
-  inline GeodeticPosition GetGeodeticPosition() const { return sat_position_geo_; }
+  inline GeodeticPosition GetGeodeticPosition() const { return spacecraft_geodetic_position_; }
 
   // TODO delete the following functions
-  inline double GetLat_rad() const { return sat_position_geo_.GetLat_rad(); }
-  inline double GetLon_rad() const { return sat_position_geo_.GetLon_rad(); }
-  inline double GetAlt_m() const { return sat_position_geo_.GetAlt_m(); }
-  inline Vector<3> GetLatLonAlt() const {
-    Vector<3> vec;
-    vec(0) = sat_position_geo_.GetLat_rad();
-    vec(1) = sat_position_geo_.GetLon_rad();
-    vec(2) = sat_position_geo_.GetAlt_m();
+  inline double GetLat_rad() const { return spacecraft_geodetic_position_.GetLat_rad(); }
+  inline double GetLon_rad() const { return spacecraft_geodetic_position_.GetLon_rad(); }
+  inline double GetAlt_m() const { return spacecraft_geodetic_position_.GetAlt_m(); }
+  inline libra::Vector<3> GetLatLonAlt() const {
+    libra::Vector<3> vec;
+    vec(0) = spacecraft_geodetic_position_.GetLat_rad();
+    vec(1) = spacecraft_geodetic_position_.GetLon_rad();
+    vec(2) = spacecraft_geodetic_position_.GetAlt_m();
     return vec;
   }
 
@@ -143,44 +132,45 @@ class Orbit : public ILoggable {
    * @fn SetIsCalcEnabled
    * @brief Set calculate flag
    */
-  inline void SetIsCalcEnabled(bool is_calc_enabled) { is_calc_enabled_ = is_calc_enabled; }
+  inline void SetIsCalcEnabled(const bool is_calc_enabled) { is_calc_enabled_ = is_calc_enabled; }
   /**
-   * @fn SetAcceleration_i
+   * @fn SetAcceleration_i_m_s2
    * @brief Set acceleration in the inertial frame [m/s2]
    */
-  inline void SetAcceleration_i(Vector<3> acceleration_i) { acc_i_ = acceleration_i; }
+  inline void SetAcceleration_i_m_s2(const libra::Vector<3> acceleration_i_m_s2) { spacecraft_acceleration_i_m_s2_ = acceleration_i_m_s2; }
   /**
-   * @fn AddForce_i
+   * @fn AddForce_i_N
    * @brief Add force
    * @param [in] force_i: Force in the inertial frame [N]
-   * @param [in] spacecraft_mass: Mass of spacecraft [kg]
+   * @param [in] spacecraft_mass_kg: Mass of spacecraft [kg]
    */
-  inline void AddForce_i(Vector<3> force_i, double spacecraft_mass) {
-    force_i /= spacecraft_mass;
-    acc_i_ += force_i;
+  inline void AddForce_i_N(const libra::Vector<3> force_i_N, double spacecraft_mass_kg) {
+    libra::Vector<3> acceleration_i_m_s2 = force_i_N;
+    acceleration_i_m_s2 /= spacecraft_mass_kg;  // FIXME
+    spacecraft_acceleration_i_m_s2_ += acceleration_i_m_s2;
   }
   /**
-   * @fn AddAcceleration_i
+   * @fn AddAcceleration_i_m_s2
    * @brief Add acceleration in the inertial frame [m/s2]
    */
-  inline void AddAcceleration_i(Vector<3> acceleration_i) { acc_i_ += acceleration_i; }
+  inline void AddAcceleration_i_m_s2(const libra::Vector<3> acceleration_i_m_s2) { spacecraft_acceleration_i_m_s2_ += acceleration_i_m_s2; }
   /**
-   * @fn AddForce_i
+   * @fn AddForce_i_N
    * @brief Add force
-   * @param [in] force_b: Force in the body fixed frame [N]
-   * @param [in] q_i2b: Quaternion from the inertial frame to the body fixed frame
-   * @param [in] spacecraft_mass: Mass of spacecraft [kg]
+   * @param [in] force_b_N: Force in the body fixed frame [N]
+   * @param [in] quaternion_i2b: Quaternion from the inertial frame to the body fixed frame
+   * @param [in] spacecraft_mass_kg: Mass of spacecraft [kg]
    */
-  inline void AddForce_b(Vector<3> force_b, Quaternion q_i2b, double spacecraft_mass) {
-    auto force_i = q_i2b.frame_conv_inv(force_b);
-    AddForce_i(force_i, spacecraft_mass);
+  inline void AddForce_b_N(const libra::Vector<3> force_b_N, const libra::Quaternion quaternion_i2b, const double spacecraft_mass_kg) {
+    auto force_i = quaternion_i2b.frame_conv_inv(force_b_N);
+    AddForce_i_N(force_i, spacecraft_mass_kg);
   }
 
   /**
-   * @fn CalcQuaternionI2LVLH
-   * @brief Calculate quaternion from the inertial frame to the LVLH frame
+   * @fn CalcQuaternion_i2lvlh
+   * @brief Calculate and return quaternion from the inertial frame to the LVLH frame
    */
-  Quaternion CalcQuaternionI2LVLH() const;
+  libra::Quaternion CalcQuaternion_i2lvlh() const;
 
   // Override ILoggable
   /**
@@ -195,34 +185,34 @@ class Orbit : public ILoggable {
   virtual std::string GetLogValue() const;
 
  protected:
-  const CelestialInformation* celes_info_;  //!< Celestial information
+  const CelestialInformation* celestial_information_;  //!< Celestial information
 
   // Settings
   bool is_calc_enabled_ = false;       //!< Calculate flag
   OrbitPropagateMode propagate_mode_;  //!< Propagation mode
 
-  Vector<3> sat_position_i_;           //!< Spacecraft position in the inertial frame [m]
-  Vector<3> sat_position_ecef_;        //!< Spacecraft position in the ECEF frame [m]
-  GeodeticPosition sat_position_geo_;  //!< Spacecraft position in the Geodetic frame
+  libra::Vector<3> spacecraft_position_i_m_;       //!< Spacecraft position in the inertial frame [m]
+  libra::Vector<3> spacecraft_position_ecef_m_;    //!< Spacecraft position in the ECEF frame [m]
+  GeodeticPosition spacecraft_geodetic_position_;  //!< Spacecraft position in the Geodetic frame
 
-  Vector<3> sat_velocity_i_;     //!< Spacecraft velocity in the inertial frame [m/s]
-  Vector<3> sat_velocity_b_;     //!< Spacecraft velocity in the body frame [m/s]
-  Vector<3> sat_velocity_ecef_;  //!< Spacecraft velocity in the ECEF frame [m/s]
+  libra::Vector<3> spacecraft_velocity_i_m_s_;     //!< Spacecraft velocity in the inertial frame [m/s]
+  libra::Vector<3> spacecraft_velocity_b_m_s_;     //!< Spacecraft velocity in the body frame [m/s]
+  libra::Vector<3> spacecraft_velocity_ecef_m_s_;  //!< Spacecraft velocity in the ECEF frame [m/s]
 
-  Vector<3> acc_i_;  //!< Spacecraft acceleration in the inertial frame [m/s2]
-                     //!< NOTE: Clear to zero at the end of the Propagate function
+  libra::Vector<3> spacecraft_acceleration_i_m_s2_;  //!< Spacecraft acceleration in the inertial frame [m/s2]
+                                                     //!< NOTE: Clear to zero at the end of the Propagate function
 
   // Frame Conversion TODO: consider other planet
   /**
-   * @fn TransEciToEcef
+   * @fn TransformEciToEcef
    * @brief Transform states from the ECI frame to ECEF frame
    */
-  void TransEciToEcef(void);
+  void TransformEciToEcef(void);
   /**
-   * @fn TransEcefToGeo
+   * @fn TransformEcefToGeodetic
    * @brief Transform states from the ECEF frame to the geodetic frame
    */
-  void TransEcefToGeo(void);
+  void TransformEcefToGeodetic(void);
 };
 
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode);

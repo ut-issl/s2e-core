@@ -19,11 +19,11 @@ class KeplerOrbitPropagation : public Orbit, public KeplerOrbit {
   /**
    * @fn KeplerOrbitPropagation
    * @brief Constructor
-   * @param [in] celes_info: Celestial information
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] celestial_information: Celestial information
+   * @param [in] current_time_jd: Current Julian day [day]
    * @param [in] kepler_orbit: Kepler orbit
    */
-  KeplerOrbitPropagation(const CelestialInformation* celes_info, const double current_jd, KeplerOrbit kepler_orbit);
+  KeplerOrbitPropagation(const CelestialInformation* celestial_information, const double current_time_jd, KeplerOrbit kepler_orbit);
   /**
    * @fn ~KeplerOrbitPropagation
    * @brief Destructor
@@ -34,18 +34,18 @@ class KeplerOrbitPropagation : public Orbit, public KeplerOrbit {
   /**
    * @fn Propagate
    * @brief Propagate orbit
-   * @param [in] endtime: End time of simulation [sec]
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] end_time_s: End time of simulation [sec]
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  virtual void Propagate(double endtime, double current_jd);
+  virtual void Propagate(double end_time_s, double current_time_jd);
 
  private:
   /**
    * @fn UpdateState
    * @brief Propagate orbit
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  void UpdateState(const double current_jd);
+  void UpdateState(const double current_time_jd);
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_KEPLER_ORBIT_PROPAGATION_HPP_

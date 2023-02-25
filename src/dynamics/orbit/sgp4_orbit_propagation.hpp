@@ -22,34 +22,28 @@ class Sgp4OrbitPropagation : public Orbit {
   /**
    * @fn Sgp4OrbitPropagation
    * @brief Constructor
-   * @param [in] celes_info: Celestial information
+   * @param [in] celestial_information: Celestial information
    * @param [in] tle1: The first line of TLE
    * @param [in] tle2: The second line of TLE
-   * @param [in] wgs: Wold Geodetic System
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] wgs_setting: Wold Geodetic System
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  Sgp4OrbitPropagation(const CelestialInformation* celes_info, char* tle1, char* tle2, int wgs, double current_jd);
+  Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs_setting,
+                       const double current_time_jd);
 
   // Override Orbit
   /**
    * @fn Propagate
    * @brief Propagate orbit
-   * @param [in] endtime: End time of simulation [sec]
-   * @param [in] current_jd: Current Julian day [day]
+   * @param [in] end_time_s: End time of simulation [sec]
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  virtual void Propagate(double endtime, double current_jd);
-
-  /**
-   * @fn GetESIOmega
-   * @brief Calculate and return ?
-   * @note Is this function needed?
-   */
-  Vector<3> GetESIOmega();
+  virtual void Propagate(const double end_time_s, const double current_time_jd);
 
  private:
-  gravconsttype whichconst_;                //!< Gravity constant value type
-  elsetrec satrec_;                         //!< Structure data for SGP4 library
-  const CelestialInformation* celes_info_;  //!< Celestial information
+  gravconsttype gravity_constant_setting_;             //!< Gravity constant value type
+  elsetrec sgp4_data_;                                 //!< Structure data for SGP4 library
+  const CelestialInformation* celestial_information_;  //!< Celestial information
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_

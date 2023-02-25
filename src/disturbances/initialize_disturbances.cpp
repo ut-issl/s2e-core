@@ -52,12 +52,12 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path) {
   return gg_disturbance;
 }
 
-GravityGradient InitGravityGradient(const std::string initialize_file_path, const double mu_m3_s2) {
+GravityGradient InitGravityGradient(const std::string initialize_file_path, const double gravity_constant_m3_s2) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "GRAVITY_GRADIENT";
 
   const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
-  GravityGradient gg_disturbance(mu_m3_s2, is_calc_enable);
+  GravityGradient gg_disturbance(gravity_constant_m3_s2, is_calc_enable);
   gg_disturbance.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
   return gg_disturbance;

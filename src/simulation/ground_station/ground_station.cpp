@@ -48,7 +48,7 @@ void GroundStation::Update(const CelestialRotation& celes_rotation, const Spacec
   Matrix<3, 3> dcm_ecef2eci = transpose(celes_rotation.GetDcmJ2000ToXcxf());
   gs_position_i_ = dcm_ecef2eci * gs_position_ecef_;
 
-  is_visible_[spacecraft.GetSatID()] = CalcIsVisible(spacecraft.GetDynamics().GetOrbit().GetSatPosition_ecef());
+  is_visible_[spacecraft.GetSatID()] = CalcIsVisible(spacecraft.GetDynamics().GetOrbit().GetPosition_ecef_m());
 }
 
 bool GroundStation::CalcIsVisible(const Vector<3> sc_pos_ecef_m) {
