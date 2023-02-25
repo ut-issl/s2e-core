@@ -25,10 +25,10 @@ void TorqueGenerator::MainRoutine(int count) {
   generated_torque_b_Nm_ = ordered_torque_b_Nm_;
 
   // Add noise
-  double norm_ordered_torque = norm(ordered_torque_b_Nm_);
+  double norm_ordered_torque = CalcNorm(ordered_torque_b_Nm_);
   if (norm_ordered_torque > 0.0 + DBL_EPSILON) {
     // Add noise only when the torque is generated
-    libra::Vector<3> true_direction = normalize(generated_torque_b_Nm_);
+    libra::Vector<3> true_direction = Normalize(generated_torque_b_Nm_);
     libra::Quaternion error_quaternion = GenerateDirectionNoiseQuaternion(true_direction, direction_error_standard_deviation_rad_);
     libra::Vector<3> converted_direction = error_quaternion.FrameConversion(generated_torque_b_Nm_);
     double torque_norm_with_error = norm_ordered_torque + magnitude_noise_;
@@ -62,11 +62,11 @@ libra::Quaternion TorqueGenerator::GenerateDirectionNoiseQuaternion(libra::Vecto
   random_direction[0] = direction_noise_;
   random_direction[1] = direction_noise_;
   random_direction[2] = direction_noise_;
-  random_direction = normalize(random_direction);
+  random_direction = Normalize(random_direction);
 
   libra::Vector<3> rotation_axis;
-  rotation_axis = outer_product(true_direction, random_direction);
-  double norm_rotation_axis = norm(rotation_axis);
+  rotation_axis = OuterProduct(true_direction, random_direction);
+  double norm_rotation_axis = CalcNorm(rotation_axis);
   if (norm_rotation_axis < 0.0 + DBL_EPSILON) {
     // No rotation error if the randomized direction is parallel to the true direction
     rotation_axis = true_direction;

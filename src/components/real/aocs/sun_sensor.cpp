@@ -58,7 +58,7 @@ void SunSensor::MainRoutine(int count) {
 
 void SunSensor::measure() {
   libra::Vector<3> sun_pos_b = local_celes_info_->GetPositionFromSpacecraft_b_m("SUN");
-  libra::Vector<3> sun_dir_b = normalize(sun_pos_b);
+  libra::Vector<3> sun_dir_b = Normalize(sun_pos_b);
 
   sun_c_ = q_b2c_.FrameConversion(sun_dir_b);  // Frame conversion from body to component
 
@@ -83,7 +83,7 @@ void SunSensor::measure() {
     measured_sun_c_[1] = tan(beta_);
     measured_sun_c_[2] = 1.0;
 
-    measured_sun_c_ = normalize(measured_sun_c_);
+    measured_sun_c_ = Normalize(measured_sun_c_);
   } else {
     measured_sun_c_ = libra::Vector<3>(0);
     alpha_ = 0.0;
@@ -94,7 +94,7 @@ void SunSensor::measure() {
 }
 
 void SunSensor::SunDetectionJudgement() {
-  libra::Vector<3> sun_direction_c = normalize(sun_c_);
+  libra::Vector<3> sun_direction_c = Normalize(sun_c_);
 
   double sun_angle_ = acos(sun_direction_c[2]);
 
@@ -110,7 +110,7 @@ void SunSensor::SunDetectionJudgement() {
 }
 
 void SunSensor::CalcSolarIlluminance() {
-  libra::Vector<3> sun_direction_c = normalize(sun_c_);
+  libra::Vector<3> sun_direction_c = Normalize(sun_c_);
   double sun_angle_ = acos(sun_direction_c[2]);
 
   if (sun_angle_ > libra::pi_2) {

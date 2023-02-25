@@ -1068,7 +1068,7 @@ double GnssSatellites::AddIonosphericDelay(const int sat_id, const libra::Vector
   else if (flag == ECI)
     gnss_position = true_info_.GetSatellitePositionEci(sat_id);
 
-  double angle_rad = angle(rec_position, gnss_position - rec_position);
+  double angle_rad = CalcAngleTwoVectors_rad(rec_position, gnss_position - rec_position);
   const double default_delay = 20.0;                                             //[m] default delay
   double delay = default_delay * (1000.0 - altitude) / 1000.0 / cos(angle_rad);  // set the maximum height as 1000.0. Divide by
                                                                                  // cos because the slope makes it longer.

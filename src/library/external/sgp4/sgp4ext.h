@@ -40,7 +40,7 @@ void cross(double[], double[], double[]);
 
 double dot(double[], double[]);
 
-double angle(double[], double[]);
+double CalcAngleTwoVectors_rad(double[], double[]);
 
 void newtonnu(double ecc, double nu, double& e0, double& m);
 

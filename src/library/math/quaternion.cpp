@@ -15,7 +15,7 @@ Quaternion::Quaternion(const Vector<3>& rotation_axis, const double rotation_ang
   double half_rotation_angle_rad = rotation_angle_rad * 0.5;
   quaternion_[3] = cos(half_rotation_angle_rad);
 
-  // Vector<3> norm = normalize(rotation_axis);
+  // Vector<3> norm = Normalize(rotation_axis);
   // for(size_t i=0; i<3; ++i){ quaternion_[i] = norm[i]*sin(rotation_angle_rad); }
   for (size_t i = 0; i < 3; ++i) {
     quaternion_[i] = rotation_axis[i] * sin(half_rotation_angle_rad);
@@ -24,15 +24,15 @@ Quaternion::Quaternion(const Vector<3>& rotation_axis, const double rotation_ang
 
 Quaternion::Quaternion(const Vector<3>& vector_before, const Vector<3>& vector_after) {
   // Assert for zero vector
-  assert(norm(vector_before) > DBL_EPSILON);
-  assert(norm(vector_after) > DBL_EPSILON);
+  assert(CalcNorm(vector_before) > DBL_EPSILON);
+  assert(CalcNorm(vector_after) > DBL_EPSILON);
   // Normalize
-  Vector<3> normalized_v_before = 1.0 / norm(vector_before) * vector_before;
-  Vector<3> normalized_v_after = 1.0 / norm(vector_after) * vector_after;
-  // inner product (=cosine of the angle(theta) between two vectors)
-  double ip = inner_product(normalized_v_before, normalized_v_after);
+  Vector<3> normalized_v_before = 1.0 / CalcNorm(vector_before) * vector_before;
+  Vector<3> normalized_v_after = 1.0 / CalcNorm(vector_after) * vector_after;
+  // inner product (=cosine of the CalcAngleTwoVectors_rad(theta) between two vectors)
+  double ip = InnerProduct(normalized_v_before, normalized_v_after);
   // outer product (rotation rotation_axis for converting vector_before to vector_after)
-  Vector<3> op = outer_product(normalized_v_before, normalized_v_after);
+  Vector<3> op = OuterProduct(normalized_v_before, normalized_v_after);
 
   if (ip > 1.0 - DBL_EPSILON) {  // if theta=0, then rotation is not need
     quaternion_[0] = 0.0;
@@ -41,11 +41,11 @@ Quaternion::Quaternion(const Vector<3>& vector_before, const Vector<3>& vector_a
     quaternion_[3] = 1.0;
   } else if (ip < -1.0 + DBL_EPSILON) {
     // if theta=180deg, the rotation rotation_axis can't be defined, so rotate vector_before manually
-    Vector<3> rotation_axis = GenerateOrthoUnitVector(vector_before);
+    Vector<3> rotation_axis = GenerateOrthogonalUnitVector(vector_before);
     quaternion_[0] = rotation_axis[0], quaternion_[1] = rotation_axis[1], quaternion_[2] = rotation_axis[2], quaternion_[3] = 0.0;
   } else {
-    assert(norm(op) > 0.0);
-    Vector<3> rotation_axis = 1.0 / norm(op) * op;
+    assert(CalcNorm(op) > 0.0);
+    Vector<3> rotation_axis = 1.0 / CalcNorm(op) * op;
     double rotation_angle = acos(ip);
     quaternion_[0] = rotation_axis[0] * sin(0.5 * rotation_angle);
     quaternion_[1] = rotation_axis[1] * sin(0.5 * rotation_angle);

@@ -42,9 +42,9 @@ void ControlledAttitude::Initialize(void) {
       return;
     }
     // pointing direction check
-    normalize(main_target_direction_b_);
-    normalize(sub_target_direction_b_);
-    double tmp = inner_product(main_target_direction_b_, sub_target_direction_b_);
+    Normalize(main_target_direction_b_);
+    Normalize(sub_target_direction_b_);
+    double tmp = InnerProduct(main_target_direction_b_, sub_target_direction_b_);
     tmp = std::abs(tmp);
     if (tmp > cos(kMinDirectionAngle_rad)) {
       std::cout << "sub target direction should separate from the main target direction. \n";
@@ -84,9 +84,9 @@ Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mode) {
   } else if (mode == VELOCITY_DIRECTION_POINTING) {
     direction = orbit_->GetVelocity_i_m_s();
   } else if (mode == ORBIT_NORMAL_POINTING) {
-    direction = outer_product(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
+    direction = OuterProduct(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
   }
-  normalize(direction);
+  Normalize(direction);
   return direction;
 }
 
@@ -105,11 +105,11 @@ libra::Matrix<3, 3> ControlledAttitude::CalcDcm(const libra::Vector<3> main_dire
   // Calc basis vectors
   libra::Vector<3> ex, ey, ez;
   ex = main_direction;
-  libra::Vector<3> tmp1 = outer_product(ex, sub_direction);
-  libra::Vector<3> tmp2 = outer_product(tmp1, ex);
-  ey = normalize(tmp2);
-  libra::Vector<3> tmp3 = outer_product(ex, ey);
-  ez = normalize(tmp3);
+  libra::Vector<3> tmp1 = OuterProduct(ex, sub_direction);
+  libra::Vector<3> tmp2 = OuterProduct(tmp1, ex);
+  ey = Normalize(tmp2);
+  libra::Vector<3> tmp3 = OuterProduct(ex, ey);
+  ez = Normalize(tmp3);
 
   // Generate DCM
   libra::Matrix<3, 3> dcm;

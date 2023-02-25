@@ -6,12 +6,12 @@
 
 libra::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
   libra::Vector<3> lvlh_x = spacecraft_position_i_m_;  // x-axis in LVLH frame is position vector direction from geocenter to satellite
-  libra::Vector<3> lvlh_ex = normalize(lvlh_x);
+  libra::Vector<3> lvlh_ex = Normalize(lvlh_x);
   libra::Vector<3> lvlh_z =
-      outer_product(spacecraft_position_i_m_, spacecraft_velocity_i_m_s_);  // z-axis in LVLH frame is angular momentum vector direction of orbit
-  libra::Vector<3> lvlh_ez = normalize(lvlh_z);
-  libra::Vector<3> lvlh_y = outer_product(lvlh_z, lvlh_x);
-  libra::Vector<3> lvlh_ey = normalize(lvlh_y);
+      OuterProduct(spacecraft_position_i_m_, spacecraft_velocity_i_m_s_);  // z-axis in LVLH frame is angular momentum vector direction of orbit
+  libra::Vector<3> lvlh_ez = Normalize(lvlh_z);
+  libra::Vector<3> lvlh_y = OuterProduct(lvlh_z, lvlh_x);
+  libra::Vector<3> lvlh_ey = Normalize(lvlh_y);
 
   libra::Matrix<3, 3> dcm_i2lvlh;
   dcm_i2lvlh[0][0] = lvlh_ex[0];
@@ -35,7 +35,7 @@ void Orbit::TransformEciToEcef(void) {
   // convert velocity vector in ECI to the vector in ECEF
   libra::Vector<3> earth_angular_velocity_i_rad_s{0.0};
   earth_angular_velocity_i_rad_s[2] = environment::earth_mean_angular_velocity_rad_s;
-  libra::Vector<3> we_cross_r = outer_product(earth_angular_velocity_i_rad_s, spacecraft_position_i_m_);
+  libra::Vector<3> we_cross_r = OuterProduct(earth_angular_velocity_i_rad_s, spacecraft_position_i_m_);
   libra::Vector<3> velocity_we_cross_r = spacecraft_velocity_i_m_s_ - we_cross_r;
   spacecraft_velocity_ecef_m_s_ = dcm_i_to_xcxf * velocity_we_cross_r;
 }

@@ -147,7 +147,7 @@ int STT::EarthJudgement(const libra::Vector<3>& earth_b) {
   Quaternion q_c2b = q_b2c_.Conjugate();
   Vector<3> sight_b = q_c2b.FrameConversion(sight_);
   double earth_size_rad = atan2(environment::earth_equatorial_radius_m,
-                                norm(earth_b));                           // angles between sat<->earth_center & sat<->earth_edge
+                                CalcNorm(earth_b));                       // angles between sat<->earth_center & sat<->earth_edge
   double earth_center_angle_rad = CalAngleVect_rad(earth_b, sight_b);     // angles between sat<->earth_center & sat_sight
   double earth_edge_angle_rad = earth_center_angle_rad - earth_size_rad;  // angles between sat<->earth_edge & sat_sight
   if (earth_edge_angle_rad < earth_forbidden_angle_)
@@ -167,7 +167,7 @@ int STT::MoonJudgement(const libra::Vector<3>& moon_b) {
 }
 
 int STT::CaptureRateJudgement(const libra::Vector<3>& omega_b) {
-  double omega_norm = norm(omega_b);
+  double omega_norm = CalcNorm(omega_b);
   if (omega_norm > capture_rate_)
     return 1;
   else
@@ -196,10 +196,10 @@ std::string STT::GetLogValue() const {
 
 double STT::CalAngleVect_rad(const Vector<3>& vect1, const Vector<3>& vect2) {
   Vector<3> vect1_normal(vect1);
-  normalize(vect1_normal);  // Normalize Vector1
+  Normalize(vect1_normal);  // Normalize Vector1
   Vector<3> vect2_normal(vect2);
-  normalize(vect2_normal);                                      // Normalize Vector2
-  double cosTheta = inner_product(vect1_normal, vect2_normal);  // Calc cos value
+  Normalize(vect2_normal);                                     // Normalize Vector2
+  double cosTheta = InnerProduct(vect1_normal, vect2_normal);  // Calc cos value
   double theta_rad = acos(cosTheta);
   return theta_rad;
 }

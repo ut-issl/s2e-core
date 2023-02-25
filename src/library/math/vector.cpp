@@ -8,10 +8,10 @@
 #include "constants.hpp"
 
 namespace libra {
-Vector<3, double> ortho2spher(const Vector<3, double>& ortho) {
+Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& ortho) {
   Vector<3, double> spher;  // vector on the polar coordinate
-  fill_up(spher, 0.0);
-  spher[0] = norm(ortho);
+  FillUp(spher, 0.0);
+  spher[0] = CalcNorm(ortho);
   // Skip when zero vector
   if (spher[0] == 0.0) {
     return spher;
@@ -31,8 +31,8 @@ Vector<3, double> ortho2spher(const Vector<3, double>& ortho) {
 
 Vector<3, double> ortho2lonlat(const Vector<3, double>& ortho) {
   Vector<3, double> lonlat;
-  fill_up(lonlat, 0.0);
-  lonlat[0] = norm(ortho);
+  FillUp(lonlat, 0.0);
+  lonlat[0] = CalcNorm(ortho);
   // Skip when zero vector
   if (lonlat[0] == 0.0) {
     return lonlat;
@@ -47,25 +47,25 @@ Vector<3, double> ortho2lonlat(const Vector<3, double>& ortho) {
   return lonlat;
 }
 
-Vector<3, double> GenerateOrthoUnitVector(const Vector<3, double>& v) {
+Vector<3, double> GenerateOrthogonalUnitVector(const Vector<3, double>& v) {
   Vector<3> v_ortho;
   if (v[0] * v[0] <= v[1] * v[1] && v[0] * v[0] <= v[1] * v[1]) {
     v_ortho[0] = 0.0;
     v_ortho[1] = v[2];
     v_ortho[2] = -v[1];
-    v_ortho = normalize(v_ortho);
+    v_ortho = Normalize(v_ortho);
     return (v_ortho);
   } else if (v[1] * v[1] <= v[0] * v[0] && v[1] * v[1] <= v[2] * v[2]) {
     v_ortho[0] = -v[2];
     v_ortho[1] = 0.0;
     v_ortho[2] = v[0];
-    v_ortho = normalize(v_ortho);
+    v_ortho = Normalize(v_ortho);
     return (v_ortho);
   } else {
     v_ortho[0] = v[1];
     v_ortho[1] = -v[0];
     v_ortho[2] = 0.0;
-    v_ortho = normalize(v_ortho);
+    v_ortho = Normalize(v_ortho);
     return (v_ortho);
   }
 }

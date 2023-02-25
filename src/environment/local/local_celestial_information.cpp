@@ -118,7 +118,7 @@ void LocalCelestialInformation::ConvertVelocityInertialToBody(const double* posi
   }
 
   // compute cross term wxr
-  libra::Vector<3> wxposition_i = outer_product(wb, ri);
+  libra::Vector<3> wxposition_i = OuterProduct(wb, ri);
   // compute dr/dt + wxr
   for (int i = 0; i < 3; i++) {
     vi[i] = vi[i] - wxposition_i[i];

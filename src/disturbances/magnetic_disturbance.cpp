@@ -19,7 +19,7 @@ MagneticDisturbance::MagneticDisturbance(const RMMParams& rmm_params, const bool
 
 Vector<3> MagneticDisturbance::CalcTorque_b_Nm(const Vector<3>& magnetic_field_b_nT) {
   CalcRMM();
-  torque_b_Nm_ = kMagUnit_ * outer_product(rmm_b_Am2_, magnetic_field_b_nT);
+  torque_b_Nm_ = kMagUnit_ * OuterProduct(rmm_b_Am2_, magnetic_field_b_nT);
   return torque_b_Nm_;
 }
 

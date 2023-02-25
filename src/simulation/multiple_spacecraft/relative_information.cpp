@@ -19,7 +19,7 @@ void RelativeInformation::Update() {
       rel_pos_list_rtn_m_[target_sat_id][reference_sat_id] = CalcRelativePosition_rtn_m(target_sat_id, reference_sat_id);
 
       // Distance
-      rel_distance_list_m_[target_sat_id][reference_sat_id] = norm(rel_pos_list_i_m_[target_sat_id][reference_sat_id]);
+      rel_distance_list_m_[target_sat_id][reference_sat_id] = CalcNorm(rel_pos_list_i_m_[target_sat_id][reference_sat_id]);
 
       // Velocity
       libra::Vector<3> target_sat_vel_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetVelocity_i_m_s();
@@ -138,7 +138,7 @@ libra::Vector<3> RelativeInformation::CalcRelativeVelocity_rtn_m_s(const int tar
   libra::Vector<3> reference_sat_vel_i = dynamics_database_.at(reference_sat_id)->GetOrbit().GetVelocity_i_m_s();
   libra::Vector<3> target_sat_vel_i = dynamics_database_.at(target_sat_id)->GetOrbit().GetVelocity_i_m_s();
   libra::Vector<3> rot_vec_rtn_i = cross(reference_sat_pos_i, reference_sat_vel_i);
-  double r2_ref = norm(reference_sat_pos_i) * norm(reference_sat_pos_i);
+  double r2_ref = CalcNorm(reference_sat_pos_i) * CalcNorm(reference_sat_pos_i);
   rot_vec_rtn_i /= r2_ref;
   libra::Vector<3> relative_vel_i = target_sat_vel_i - reference_sat_vel_i - cross(rot_vec_rtn_i, relative_pos_i);
 

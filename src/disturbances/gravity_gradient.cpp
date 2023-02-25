@@ -23,12 +23,12 @@ void GravityGradient::Update(const LocalEnvironment& local_environment, const Dy
 
 libra::Vector<3> GravityGradient::CalcTorque_b_Nm(const libra::Vector<3> earth_position_from_sc_b_m,
                                                   const libra::Matrix<3, 3> inertia_tensor_b_kgm2) {
-  double r_norm_m = norm(earth_position_from_sc_b_m);
+  double r_norm_m = CalcNorm(earth_position_from_sc_b_m);
   libra::Vector<3> u_b = earth_position_from_sc_b_m;  // TODO: make undestructive normalize function for Vector
   u_b /= r_norm_m;
 
   double coeff = 3.0 * gravity_constant_m3_s2_ / pow(r_norm_m, 3.0);
-  torque_b_Nm_ = coeff * outer_product(u_b, inertia_tensor_b_kgm2 * u_b);
+  torque_b_Nm_ = coeff * OuterProduct(u_b, inertia_tensor_b_kgm2 * u_b);
   return torque_b_Nm_;
 }
 

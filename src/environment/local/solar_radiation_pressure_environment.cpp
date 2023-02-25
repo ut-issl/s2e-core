@@ -28,7 +28,7 @@ void SolarRadiationPressureEnvironment::UpdateAllStates() {
 
 void SolarRadiationPressureEnvironment::UpdatePressure() {
   const libra::Vector<3> r_sc2sun_eci = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
-  const double distance_sat_to_sun = norm(r_sc2sun_eci);
+  const double distance_sat_to_sun = CalcNorm(r_sc2sun_eci);
   solar_radiation_pressure_N_m2_ =
       solar_constant_W_m2_ / environment::speed_of_light_m_s / pow(distance_sat_to_sun / environment::astronomical_unit_m, 2.0);
 }
@@ -62,13 +62,13 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
 
   const double shadow_source_radius_m = local_celestial_information_->GetGlobalInformation().GetMeanRadiusFromName_m(shadow_source_name.c_str());
 
-  const double distance_sat_to_sun = norm(r_sc2sun_eci);
-  const double sd_sun = asin(sun_radius_m_ / distance_sat_to_sun);                // Apparent radius of the sun
-  const double sd_source = asin(shadow_source_radius_m / norm(r_sc2source_eci));  // Apparent radius of the shadow source
+  const double distance_sat_to_sun = CalcNorm(r_sc2sun_eci);
+  const double sd_sun = asin(sun_radius_m_ / distance_sat_to_sun);                    // Apparent radius of the sun
+  const double sd_source = asin(shadow_source_radius_m / CalcNorm(r_sc2source_eci));  // Apparent radius of the shadow source
 
   // Angle of deviation from shadow source center to sun center
   const double delta =
-      acos(inner_product(r_sc2source_eci, r_sc2sun_eci - r_sc2source_eci) / norm(r_sc2source_eci) / norm(r_sc2sun_eci - r_sc2source_eci));
+      acos(InnerProduct(r_sc2source_eci, r_sc2sun_eci - r_sc2source_eci) / CalcNorm(r_sc2source_eci) / CalcNorm(r_sc2sun_eci - r_sc2source_eci));
   // The angle between the center of the sun and the common chord
   const double x = (delta * delta + sd_sun * sd_sun - sd_source * sd_source) / (2.0 * delta);
   // The length of the common chord of the apparent solar disk and apparent telestial disk

@@ -189,17 +189,17 @@ void InitParameter::gen_SphericalNormalUniformUniform() {
 void InitParameter::get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& mean_vec) {
   // r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
   Vector<3> mean_vec_dir;
-  mean_vec_dir = 1.0 / norm(mean_vec) * mean_vec;  // Unit vector of mean vector direction
+  mean_vec_dir = 1.0 / CalcNorm(mean_vec) * mean_vec;  // Unit vector of mean vector direction
 
   Vector<3> x_axis(0.0), y_axis(0.0);
   x_axis[0] = 1.0;
   y_axis[1] = 1.0;
-  Vector<3> op_x = outer_product(mean_vec_dir, x_axis);
-  Vector<3> op_y = outer_product(mean_vec_dir, y_axis);
+  Vector<3> op_x = OuterProduct(mean_vec_dir, x_axis);
+  Vector<3> op_y = OuterProduct(mean_vec_dir, y_axis);
 
   // An unit vector perpendicular with the mean vector
   // In case of the mean vector is parallel with X or Y axis, selecting the axis depend on the norm of outer product
-  Vector<3> normal_unit_vec = norm(op_x) > norm(op_y) ? normalize(op_x) : normalize(op_y);
+  Vector<3> normal_unit_vec = CalcNorm(op_x) > CalcNorm(op_y) ? Normalize(op_x) : Normalize(op_y);
 
   double rotation_angle_of_normal_unit_vec = InitParameter::Uniform_1d(0.0, libra::tau);
   Quaternion rotation_of_normal_unit_vec(mean_vec_dir, -rotation_angle_of_normal_unit_vec);  // Use opposite sign to rotate the vector (not the frame)
@@ -209,7 +209,7 @@ void InitParameter::get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& m
   Quaternion rotation_of_mean_vec(rotation_axis, -rotation_angle_of_mean_vec);  // Use opposite sign to rotate the vector (not the frame)
   Vector<3> ret_vec = rotation_of_mean_vec.FrameConversion(mean_vec_dir);       // Complete calculation of the direction
 
-  ret_vec = InitParameter::Normal_1d(norm(mean_vec), sigma_or_max_[0]) * ret_vec;  // multiply norm
+  ret_vec = InitParameter::Normal_1d(CalcNorm(mean_vec), sigma_or_max_[0]) * ret_vec;  // multiply norm
 
   for (int i = 0; i < 3; i++) {
     dst[i] = ret_vec[i];
@@ -247,8 +247,8 @@ void InitParameter::get_QuaternionUniform(Quaternion& dst) {
   x_axis_cnvd[1] = sin(theta) * sin(phi);
   x_axis_cnvd[2] = cos(theta);
 
-  double cos_angle_between = inner_product(x_axis, x_axis_cnvd);
-  Vector<3> op = outer_product(x_axis, x_axis_cnvd);
+  double cos_angle_between = InnerProduct(x_axis, x_axis_cnvd);
+  Vector<3> op = OuterProduct(x_axis, x_axis_cnvd);
   for (int i = 0; i < 3; i++) {
     first_cnv[i] = op[i];
   }

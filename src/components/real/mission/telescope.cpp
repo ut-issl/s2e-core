@@ -73,15 +73,15 @@ void Telescope::MainRoutine(int count) {
   //  sun_pos_c = q_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("SUN"));
   //  earth_pos_c = q_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("EARTH"));
   //  moon_pos_c = q_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("MOON"));
-  // angle_sun = angle(sight_, sun_pos_c) * 180/libra::pi;
-  // angle_earth = angle(sight_, earth_pos_c) * 180 / libra::pi; angle_moon = angle(sight_, moon_pos_c) * 180 / libra::pi;
+  // angle_sun = CalcAngleTwoVectors_rad(sight_, sun_pos_c) * 180/libra::pi;
+  // angle_earth = CalcAngleTwoVectors_rad(sight_, earth_pos_c) * 180 / libra::pi; angle_moon = CalcAngleTwoVectors_rad(sight_, moon_pos_c) * 180 / libra::pi;
   //******************************************************************************
 }
 
 bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle) {
   Quaternion q_c2b = q_b2c_.Conjugate();
   Vector<3> sight_b = q_c2b.FrameConversion(sight_);
-  double angle_rad = libra::angle(target_b, sight_b);
+  double angle_rad = libra::CalcAngleTwoVectors_rad(target_b, sight_b);
   if (angle_rad < forbidden_angle) {
     return true;
   } else

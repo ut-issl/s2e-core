@@ -9,8 +9,8 @@
 #include <cstddef>   // for size_t
 #include <iostream>  // for ostream, cout
 
-#define dot inner_product
-#define cross outer_product
+#define dot InnerProduct
+#define cross OuterProduct
 
 namespace libra {
 /**
@@ -36,7 +36,7 @@ class Vector {
    * @fn dim
    * @brief Return number of elements
    */
-  inline size_t dim() const { return N; }
+  inline size_t GetLength() const { return N; }
 
   /**
    * @fn Cast operator to directly access the elements
@@ -128,23 +128,23 @@ class Vector {
 };
 
 /**
- * @fn fill_up
+ * @fn FillUp
  * @brief Fill up all elements with same value
  * @param [in] v: Target vector
  * @param [in] n: Scalar value to fill up
  */
 template <size_t N, typename T>
-void fill_up(Vector<N, T>& v, const T& n);
+void FillUp(Vector<N, T>& v, const T& n);
 
 /**
- * @fn print
+ * @fn Print
  * @brief Generate all elements to outstream
  * @param [in] v: Target vector
  * @param [in] delimiter: Delimiter (Default: tab)
  * @param [out] stream: Output target(Default: cout)
  */
 template <size_t N, typename T>
-void print(const Vector<N, T>& v, char delimiter = '\t', std::ostream& stream = std::cout);
+void Print(const Vector<N, T>& v, char delimiter = '\t', std::ostream& stream = std::cout);
 
 /**
  * @fn operator +
@@ -177,63 +177,63 @@ template <size_t N, typename T>
 const Vector<N, T> operator*(const T& lhs, const Vector<N, T>& rhs);
 
 /**
- * @fn inner_product
+ * @fn InnerProduct
  * @brief Inner product of two vectors
  * @param [in] lhs: Left hand side vector
  * @param [in] rhs: Right hand side vector
  * @return Result of scalar value
  */
 template <size_t N, typename T>
-const T inner_product(const Vector<N, T>& lhs, const Vector<N, T>& rhs);
+const T InnerProduct(const Vector<N, T>& lhs, const Vector<N, T>& rhs);
 
 /**
- * @fn outer_product
+ * @fn OuterProduct
  * @brief Outer product of two vectors
  * @param [in] lhs: Left hand side vector
  * @param [in] rhs: Right hand side vector
  * @return Result vector
  */
 template <typename T>
-const Vector<3, T> outer_product(const Vector<3, T>& lhs, const Vector<3, T>& rhs);
+const Vector<3, T> OuterProduct(const Vector<3, T>& lhs, const Vector<3, T>& rhs);
 
 /**
- * @fn norm
+ * @fn CalcNorm
  * @brief Calculate norm of vector
  * @param [in] v: Target vector
  * @return Norm of the vector
  */
 template <size_t N>
-double norm(const Vector<N, double>& v);
+double CalcNorm(const Vector<N, double>& v);
 
 /**
- * @fn normalize
+ * @fn Normalize
  * @brief Normalize the target vector
  * @note Warning: v is overwritten.
  * @param [in/out] v: Target vector
  * @return Normalized vector
  */
 template <size_t N>
-Vector<N, double>& normalize(Vector<N, double>& v);
+Vector<N, double>& Normalize(Vector<N, double>& v);
 
 /**
- * @fn angle
+ * @fn CalcAngleTwoVectors_rad
  * @brief Calculate angle between two vectors
  * @param [in] v1: First vector
  * @param [in] v2: Second vector
  * @return Angle between v1 and v2 [rad]
  */
 template <size_t N>
-double angle(const Vector<N, double>& v1, const Vector<N, double>& v2);
+double CalcAngleTwoVectors_rad(const Vector<N, double>& v1, const Vector<N, double>& v2);
 
 /**
- * @fn ortho2spher
+ * @fn ConvertFrameOrthogonal2Polar
  * @brief Convert orthogonal coordinate (x, y, z) to Polar coordinate (r, theta, phi)
  * @note 0 <= theta < pi and 0 <= phi < 2pi
  *       Return zero vector when input is zero vector. Return phi = 0 when input vector is on the Z-axis
  * @param [in] ortho: Vector in orthogonal coordinate
  * @return Vector in Polar coordinate
  */
-Vector<3, double> ortho2spher(const Vector<3, double>& ortho);
+Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& ortho);
 
 /**
  * @fn ortho2lonlat
@@ -245,13 +245,13 @@ Vector<3, double> ortho2spher(const Vector<3, double>& ortho);
 Vector<3, double> ortho2lonlat(const Vector<3, double>& ortho);
 
 /**
- * @fn GenerateOrthoUnitVector
+ * @fn GenerateOrthogonalUnitVector
  * @brief Generate one unit vector orthogonal to the given 3D vector
  * @note Vectors orthogonal to the other vector have rotational degree of freedom, which are determined arbitrarily in this function.
  * @param [in] v: Given vector
  * @return Generated unit vector that is orthogonal to v
  */
-Vector<3, double> GenerateOrthoUnitVector(const Vector<3, double>& v);
+Vector<3, double> GenerateOrthogonalUnitVector(const Vector<3, double>& v);
 
 }  // namespace libra
 

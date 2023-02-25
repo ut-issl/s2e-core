@@ -62,9 +62,9 @@ double Node::CalcSolarRadiation(libra::Vector<3> sun_direction) {
   double R = 6.96E+8;                              // Distance from sun
   double T = 5778;                                 // sun surface temperature [K]
   double sigma = 5.67E-8;                          // stephan-boltzman constant
-  double a = norm(sun_direction);                  // distance from sun
+  double a = CalcNorm(sun_direction);              // distance from sun
   double S = pow((R / a), 2) * sigma * pow(T, 4);  // Solar Constant at s/c position S[W/m^2]
-  double cos_theta = inner_product(sun_direction, normal_v_b_) / a / norm(normal_v_b_);
+  double cos_theta = InnerProduct(sun_direction, normal_v_b_) / a / CalcNorm(normal_v_b_);
 
   // calculate sun_power
   if (cos_theta > 0)

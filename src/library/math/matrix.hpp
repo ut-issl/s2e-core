@@ -140,7 +140,7 @@ class Matrix {
 };
 
 /**
- * @fn fill_up
+ * @fn FillUp
  * @brief Fill up all elements with same value
  * @param [in] m: Target matrix
  * @param [in] t: Scalar value to fill up

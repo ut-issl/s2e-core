@@ -50,7 +50,7 @@ class Attitude : public ILoggable, public SimulationObject {
    * @fn GetTotalAngMomNorm
    * @brief Return norm of total angular momentum of the spacecraft [Nms]
    */
-  inline double GetTotalAngMomNorm() const { return libra::norm(angular_momentum_total_b_Nms_); }
+  inline double GetTotalAngMomNorm() const { return libra::CalcNorm(angular_momentum_total_b_Nms_); }
   /**
    * @fn GetEnergy
    * @brief Return rotational Kinetic Energy of Spacecraft [J]

@@ -56,7 +56,7 @@ void Temperature::Propagate(libra::Vector<3> sun_direction, const double endtime
       cout << setprecision(4) << itr->GetSolarRadiation() << "  ";
     }
     cout << "SunDir:  ";
-    double norm_sund = norm(sun_direction);
+    double norm_sund = CalcNorm(sun_direction);
     for (int i = 0; i < 3; i++) {
       cout << setprecision(3) << sun_direction[i] / norm_sund << "  ";
     }
