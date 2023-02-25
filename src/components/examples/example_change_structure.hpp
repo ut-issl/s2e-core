@@ -15,7 +15,7 @@
  * @class ExampleChangeStructure
  * @brief Class to show an example to change satellite structure information
  */
-class ExampleChangeStructure : public ComponentBase, public ILoggable {
+class ExampleChangeStructure : public Component, public ILoggable {
  public:
   /**
    * @fn ExampleChangeStructure
@@ -30,7 +30,7 @@ class ExampleChangeStructure : public ComponentBase, public ILoggable {
    */
   ~ExampleChangeStructure();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine for sensor observation

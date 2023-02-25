@@ -22,7 +22,7 @@
  * @brief Class to emulate Reaction Wheel
  * @note For one reaction wheel
  */
-class RWModel : public ComponentBase, public ILoggable {
+class RWModel : public Component, public ILoggable {
  public:
   /**
    * @fn RWModel
@@ -99,7 +99,7 @@ class RWModel : public ComponentBase, public ILoggable {
           double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance,
           const bool drive_flag = false, const double init_velocity = 0.0);
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to output torque of normal RW

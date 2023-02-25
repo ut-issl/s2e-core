@@ -22,7 +22,7 @@
  * @class STT
  * @brief Class to emulate star tracker
  */
-class STT : public ComponentBase, public ILoggable {
+class STT : public Component, public ILoggable {
  public:
   /**
    * @fn STT
@@ -72,7 +72,7 @@ class STT : public ComponentBase, public ILoggable {
       const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
       const Dynamics* dynamics, const LocalEnvironment* local_env);
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine for sensor observation

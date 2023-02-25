@@ -22,7 +22,7 @@ const size_t kMtqDim = 3;  //!< Dimension of magnetorquer
  * @class MagTorquer
  * @brief Class to emulate magnetorquer
  */
-class MagTorquer : public ComponentBase, public ILoggable {
+class MagTorquer : public Component, public ILoggable {
  public:
   /**
    * @fn MagTorquer
@@ -68,7 +68,7 @@ class MagTorquer : public ComponentBase, public ILoggable {
              const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
              const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env);
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to output torque

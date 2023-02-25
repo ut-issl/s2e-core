@@ -18,7 +18,7 @@
  * @brief Class to emulate on board computer
  * @note OBC is connected with other components to communicate, and flight software is executed in OBC.
  */
-class OBC : public ComponentBase {
+class OBC : public Component {
  public:
   /**
    * @fn OBC
@@ -192,7 +192,7 @@ class OBC : public ComponentBase {
    */
   virtual void Initialize();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to execute flight software

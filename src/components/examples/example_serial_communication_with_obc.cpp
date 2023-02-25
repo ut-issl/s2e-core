@@ -8,11 +8,11 @@
 #include <string.h>
 
 ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, OBC* obc)
-    : ComponentBase(1000, clock_gen), ObcCommunicationBase(port_id, obc) {
+    : Component(1000, clock_gen), ObcCommunicationBase(port_id, obc) {
   Initialize();
 }
 ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc)
-    : ComponentBase(prescaler, clock_gen), ObcCommunicationBase(port_id, obc) {
+    : Component(prescaler, clock_gen), ObcCommunicationBase(port_id, obc) {
   Initialize();
 }
 

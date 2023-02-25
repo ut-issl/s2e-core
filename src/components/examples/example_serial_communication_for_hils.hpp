@@ -20,7 +20,7 @@
  *            - the last byte : \0
  *          The responder mode: ExpHils returns the message as received
  */
-class ExampleSerialCommunicationForHils : public ComponentBase, public ObcCommunicationBase {
+class ExampleSerialCommunicationForHils : public Component, public ObcCommunicationBase {
  public:
   /**
    * @fn ExampleSerialCommunicationForHils
@@ -43,7 +43,7 @@ class ExampleSerialCommunicationForHils : public ComponentBase, public ObcCommun
   ~ExampleSerialCommunicationForHils();
 
  protected:
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to receive command and send telemetry

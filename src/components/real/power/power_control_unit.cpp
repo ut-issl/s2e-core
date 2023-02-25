@@ -4,9 +4,9 @@
  */
 #include "power_control_unit.hpp"
 
-PCU::PCU(ClockGenerator* clock_gen) : ComponentBase(1, clock_gen) {}
+PCU::PCU(ClockGenerator* clock_gen) : Component(1, clock_gen) {}
 
-PCU::PCU(int prescaler, ClockGenerator* clock_gen) : ComponentBase(prescaler, clock_gen) {}
+PCU::PCU(int prescaler, ClockGenerator* clock_gen) : Component(prescaler, clock_gen) {}
 
 PCU::~PCU() {}
 

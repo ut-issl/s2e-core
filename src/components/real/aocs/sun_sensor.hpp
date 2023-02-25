@@ -19,7 +19,7 @@
  * @class SunSensor
  * @brief Class to emulate sun sensor
  */
-class SunSensor : public ComponentBase, public ILoggable {
+class SunSensor : public Component, public ILoggable {
  public:
   /**
    * @fn SunSensor
@@ -58,7 +58,7 @@ class SunSensor : public ComponentBase, public ILoggable {
             const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
             const LocalCelestialInformation* local_celes_info);
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine for sensor observation

@@ -19,7 +19,7 @@ const size_t kGyroDim = 3;  //!< Dimension of gyro sensor
  * @class Gyro
  * @brief Class to emulate gyro sensor
  */
-class Gyro : public ComponentBase, public SensorBase<kGyroDim>, public ILoggable {
+class Gyro : public Component, public SensorBase<kGyroDim>, public ILoggable {
  public:
   /**
    * @fn Gyro
@@ -52,7 +52,7 @@ class Gyro : public ComponentBase, public SensorBase<kGyroDim>, public ILoggable
    */
   ~Gyro();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine for sensor observation

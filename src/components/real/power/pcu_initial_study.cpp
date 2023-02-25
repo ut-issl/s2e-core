@@ -10,7 +10,7 @@
 #include <environment/global/clock_generator.hpp>
 
 PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat, double compo_step_time)
-    : ComponentBase(prescaler, clock_gen),
+    : Component(prescaler, clock_gen),
       saps_(saps),
       bat_(bat),
       cc_charge_current_(bat->GetCCChargeCurrent()),
@@ -21,7 +21,7 @@ PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_ge
 }
 
 PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat)
-    : ComponentBase(10, clock_gen),
+    : Component(10, clock_gen),
       saps_(saps),
       bat_(bat),
       cc_charge_current_(bat->GetCCChargeCurrent()),

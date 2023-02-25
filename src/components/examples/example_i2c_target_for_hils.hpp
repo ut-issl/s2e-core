@@ -19,7 +19,7 @@
  *          Telemetry size = 5 bytes(ASCII)
  *          Telemetry changes; ABCDE, BCDEF, ..., VWXYZ, ABCDE, ...
  */
-class ExampleI2cTargetForHils : public ComponentBase, public ObcI2cTargetCommunicationBase {
+class ExampleI2cTargetForHils : public Component, public ObcI2cTargetCommunicationBase {
  public:
   /**
    * @fn ExampleI2cTargetForHils
@@ -41,7 +41,7 @@ class ExampleI2cTargetForHils : public ComponentBase, public ObcI2cTargetCommuni
   ~ExampleI2cTargetForHils();
 
  protected:
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to receive command and send telemetry

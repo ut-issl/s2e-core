@@ -10,7 +10,7 @@
 // Constructor
 ForceGenerator::ForceGenerator(const int prescaler, ClockGenerator* clock_gen, const double magnitude_error_standard_deviation_N,
                                const double direction_error_standard_deviation_rad, const Dynamics* dynamics)
-    : ComponentBase(prescaler, clock_gen),
+    : Component(prescaler, clock_gen),
       magnitude_noise_(0.0, magnitude_error_standard_deviation_N),
       direction_error_standard_deviation_rad_(direction_error_standard_deviation_rad),
       dynamics_(dynamics) {

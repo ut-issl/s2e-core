@@ -16,7 +16,7 @@
  * @class ForceGenerator
  * @brief Ideal component which can generate for control algorithm test
  */
-class ForceGenerator : public ComponentBase, public ILoggable {
+class ForceGenerator : public Component, public ILoggable {
  public:
   /**
    * @fn ForceGenerator
@@ -35,7 +35,7 @@ class ForceGenerator : public ComponentBase, public ILoggable {
    */
   ~ForceGenerator();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation

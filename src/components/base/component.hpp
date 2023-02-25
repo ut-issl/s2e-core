@@ -13,40 +13,40 @@
 #include "interface_tickable.hpp"
 
 /**
- * @class ComponentBase
+ * @class Component
  * @brief Base class for component emulation. All components have to inherit this.
- * @details ComponentBase ha clock and power on/off features
+ * @details Component ha clock and power on/off features
  */
-class ComponentBase : public ITickable {
+class Component : public ITickable {
  public:
   /**
-   * @fn ComponentBase
+   * @fn Component
    * @brief Constructor without power port
    * @note Power port is used as power on state
    * @param [in] prescaler: Frequency scale factor for normal update
    * @param [in] clock_generator: Clock generator
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  ComponentBase(const unsigned int prescaler, ClockGenerator* clock_generator, const unsigned int fast_prescaler = 1);
+  Component(const unsigned int prescaler, ClockGenerator* clock_generator, const unsigned int fast_prescaler = 1);
   /**
-   * @fn ComponentBase
+   * @fn Component
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for normal update
    * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  ComponentBase(const unsigned int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const unsigned int fast_prescaler = 1);
+  Component(const unsigned int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const unsigned int fast_prescaler = 1);
   /**
-   * @fn ComponentBase
+   * @fn Component
    * @brief Copy constructor
    */
-  ComponentBase(const ComponentBase& object);
+  Component(const Component& object);
   /**
-   * @fn ~ComponentBase
+   * @fn ~Component
    * @brief Destructor
    */
-  virtual ~ComponentBase();
+  virtual ~Component();
 
   // Override functions for ITickable
   /**

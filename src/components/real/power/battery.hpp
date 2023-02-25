@@ -15,7 +15,7 @@
  * @class BAT
  * @brief Component emulation of battery
  */
-class BAT : public ComponentBase, public ILoggable {
+class BAT : public Component, public ILoggable {
  public:
   /**
    * @fn BAT
@@ -118,7 +118,7 @@ class BAT : public ComponentBase, public ILoggable {
   double bat_resistance_;                                  //!< Battery internal resistance [Ohm]
   double compo_step_time_;                                 //!< Component step time [sec]
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation

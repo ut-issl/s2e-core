@@ -10,7 +10,7 @@
 BAT::BAT(const int prescaler, ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
          const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
          double bat_resistance, double compo_step_time)
-    : ComponentBase(prescaler, clock_gen),
+    : Component(prescaler, clock_gen),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_capacity_(cell_capacity),
@@ -24,7 +24,7 @@ BAT::BAT(const int prescaler, ClockGenerator* clock_gen, int number_of_series, i
 BAT::BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
          const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
          double bat_resistance)
-    : ComponentBase(10, clock_gen),
+    : Component(10, clock_gen),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_capacity_(cell_capacity),
@@ -36,7 +36,7 @@ BAT::BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel
       compo_step_time_(0.1) {}
 
 BAT::BAT(const BAT& obj)
-    : ComponentBase(obj),
+    : Component(obj),
       number_of_series_(obj.number_of_series_),
       number_of_parallel_(obj.number_of_parallel_),
       cell_capacity_(obj.cell_capacity_),

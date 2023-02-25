@@ -19,7 +19,7 @@
  * @class SimpleThruster
  * @brief Component emulation of simple thruster
  */
-class SimpleThruster : public ComponentBase, public ILoggable {
+class SimpleThruster : public Component, public ILoggable {
  public:
   /**
    * @fn SimpleThruster
@@ -61,7 +61,7 @@ class SimpleThruster : public ComponentBase, public ILoggable {
    */
   ~SimpleThruster();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation

@@ -16,7 +16,7 @@
  * @class PCU
  * @brief Component emulation of Power Control Unit
  */
-class PCU : public ComponentBase, public ILoggable {
+class PCU : public Component, public ILoggable {
  public:
   /**
    * @fn PCU
@@ -37,7 +37,7 @@ class PCU : public ComponentBase, public ILoggable {
    */
   ~PCU();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation

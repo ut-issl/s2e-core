@@ -41,7 +41,7 @@ typedef struct _gnssinfo {
  * @class GNSSReceiver
  * @brief Class to emulate GNSS receiver
  */
-class GNSSReceiver : public ComponentBase, public ILoggable {
+class GNSSReceiver : public Component, public ILoggable {
  public:
   /**
    * @fn GNSSReceiver
@@ -83,7 +83,7 @@ class GNSSReceiver : public ComponentBase, public ILoggable {
                const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
                const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine for sensor observation

@@ -13,7 +13,7 @@
 
 #include "../../base/component.hpp"
 
-class SAP : public ComponentBase, public ILoggable {
+class SAP : public Component, public ILoggable {
  public:
   /**
    * @fn SAP
@@ -123,7 +123,7 @@ class SAP : public ComponentBase, public ILoggable {
   static const double light_speed_;     //!< Speed of light TODO: Use PhysicalConstant?
   double compo_step_time_;              //!< Component step time [sec]
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation

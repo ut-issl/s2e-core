@@ -19,7 +19,7 @@ const size_t kMagDim = 3;  //!< Dimension of magnetometer
  * @class MagSensor
  * @brief Class to emulate magnetometer
  */
-class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILoggable {
+class MagSensor : public Component, public SensorBase<kMagDim>, public ILoggable {
  public:
   /**
    * @fn MagSensor
@@ -52,7 +52,7 @@ class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILogg
    */
   ~MagSensor();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine for sensor observation

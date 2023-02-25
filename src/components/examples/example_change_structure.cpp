@@ -5,8 +5,7 @@
 
 #include "example_change_structure.hpp"
 
-ExampleChangeStructure::ExampleChangeStructure(ClockGenerator* clock_gen, Structure* structure)
-    : ComponentBase(1, clock_gen), structure_(structure) {}
+ExampleChangeStructure::ExampleChangeStructure(ClockGenerator* clock_gen, Structure* structure) : Component(1, clock_gen), structure_(structure) {}
 
 ExampleChangeStructure::~ExampleChangeStructure() {}
 

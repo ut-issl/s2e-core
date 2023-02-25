@@ -23,7 +23,7 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, c
                  bool is_calc_jitter_enabled, bool is_log_jitter_enabled, vector<vector<double>> radial_force_harmonics_coef,
                  vector<vector<double>> radial_torque_harmonics_coef, double structural_resonance_freq, double damping_factor, double bandwidth,
                  bool considers_structural_resonance, bool drive_flag, double init_velocity)
-    : ComponentBase(prescaler, clock_gen, fast_prescaler),
+    : Component(prescaler, clock_gen, fast_prescaler),
       id_(id),
       inertia_(inertia),
       max_torque_(max_torque),
@@ -51,7 +51,7 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, P
                  vector<vector<double>> radial_force_harmonics_coef, vector<vector<double>> radial_torque_harmonics_coef,
                  double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance, bool drive_flag,
                  double init_velocity)
-    : ComponentBase(prescaler, clock_gen, power_port, fast_prescaler),
+    : Component(prescaler, clock_gen, power_port, fast_prescaler),
       id_(id),
       inertia_(inertia),
       max_torque_(max_torque),

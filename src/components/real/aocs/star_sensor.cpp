@@ -19,7 +19,7 @@ STT::STT(const int prescaler, ClockGenerator* clock_gen, const int id, const lib
          const double sigma_sight, const double step_time, const unsigned int output_delay, const unsigned int output_interval,
          const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
          const Dynamics* dynamics, const LocalEnvironment* local_env)
-    : ComponentBase(prescaler, clock_gen),
+    : Component(prescaler, clock_gen),
       id_(id),
       q_b2c_(q_b2c),
       rot_(global_randomization.MakeSeed()),
@@ -42,7 +42,7 @@ STT::STT(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, 
          const double sigma_ortho, const double sigma_sight, const double step_time, const unsigned int output_delay,
          const unsigned int output_interval, const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle,
          const double capture_rate, const Dynamics* dynamics, const LocalEnvironment* local_env)
-    : ComponentBase(prescaler, clock_gen, power_port),
+    : Component(prescaler, clock_gen, power_port),
       id_(id),
       q_b2c_(q_b2c),
       rot_(global_randomization.MakeSeed()),

@@ -28,7 +28,7 @@ struct Star {
  * @class Telescope
  * @brief Component emulation: Telescope
  */
-class Telescope : public ComponentBase, public ILoggable {
+class Telescope : public Component, public ILoggable {
  public:
   Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double sun_forbidden_angle, double earth_forbidden_angle,
             double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix, size_t num_of_logged_stars,
@@ -77,7 +77,7 @@ class Telescope : public ComponentBase, public ILoggable {
    */
   bool JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle);
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation

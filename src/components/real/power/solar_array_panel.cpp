@@ -11,7 +11,7 @@
 SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
          libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
          const LocalCelestialInformation* local_celes_info, double compo_step_time)
-    : ComponentBase(prescaler, clock_gen),
+    : Component(prescaler, clock_gen),
       id_(id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
@@ -29,7 +29,7 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_s
 SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
          libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
          double compo_step_time)
-    : ComponentBase(prescaler, clock_gen),
+    : Component(prescaler, clock_gen),
       id_(id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
@@ -46,7 +46,7 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_s
 SAP::SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
          double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
          const LocalCelestialInformation* local_celes_info)
-    : ComponentBase(10, clock_gen),
+    : Component(10, clock_gen),
       id_(id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
@@ -62,7 +62,7 @@ SAP::SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_
 }
 
 SAP::SAP(const SAP& obj)
-    : ComponentBase(obj),
+    : Component(obj),
       id_(obj.id_),
       number_of_series_(obj.number_of_series_),
       number_of_parallel_(obj.number_of_parallel_),

@@ -13,7 +13,7 @@
 #include "battery.hpp"
 #include "solar_array_panel.hpp"
 
-class PCU_InitialStudy : public ComponentBase, public ILoggable {
+class PCU_InitialStudy : public Component, public ILoggable {
  public:
   /**
    * @fn PCU_InitialStudy
@@ -60,7 +60,7 @@ class PCU_InitialStudy : public ComponentBase, public ILoggable {
   double power_consumption_;        //!< Power consumption [W]
   double compo_step_time_;          //!< Component step time [sec]
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation

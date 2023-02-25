@@ -253,7 +253,7 @@ class OBC_C2A : public OBC {
   bool is_initialized = false;  //!< Is initialized flag
   const int timing_regulator_;  //!< Timing regulator to update flight software faster than the component update
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to execute C2A

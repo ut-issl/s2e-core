@@ -16,7 +16,7 @@
  * @class TorqueGenerator
  * @brief Ideal component which can generate for control algorithm test
  */
-class TorqueGenerator : public ComponentBase, public ILoggable {
+class TorqueGenerator : public Component, public ILoggable {
  public:
   /**
    * @fn TorqueGenerator
@@ -35,7 +35,7 @@ class TorqueGenerator : public ComponentBase, public ILoggable {
    */
   ~TorqueGenerator();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate torque generation

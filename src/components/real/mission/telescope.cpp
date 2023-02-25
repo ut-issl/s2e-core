@@ -15,7 +15,7 @@ Telescope::Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double
                      double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix,
                      size_t num_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipp,
                      const LocalCelestialInformation* local_celes_info)
-    : ComponentBase(1, clock_gen),
+    : Component(1, clock_gen),
       q_b2c_(q_b2c),
       sun_forbidden_angle_(sun_forbidden_angle),
       earth_forbidden_angle_(earth_forbidden_angle),

@@ -9,7 +9,7 @@
 ExampleSerialCommunicationForHils::ExampleSerialCommunicationForHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc,
                                                                      const unsigned int hils_port_id, const unsigned int baud_rate,
                                                                      HilsPortManager* hils_port_manager, const int mode_id)
-    : ComponentBase(300, clock_gen), ObcCommunicationBase(sils_port_id, obc, hils_port_id, baud_rate, hils_port_manager), mode_id_(mode_id) {}
+    : Component(300, clock_gen), ObcCommunicationBase(sils_port_id, obc, hils_port_id, baud_rate, hils_port_manager), mode_id_(mode_id) {}
 
 ExampleSerialCommunicationForHils::~ExampleSerialCommunicationForHils() {}
 

@@ -18,7 +18,7 @@
  *          SC18IM700 Data Sheet: https://www.nxp.com/docs/en/data-sheet/SC18IM700.pdf
  *          telemetry size = 5 bytes(ASCII)
  */
-class ExampleI2cControllerForHils : public ComponentBase, public I2cControllerCommunicationBase {
+class ExampleI2cControllerForHils : public Component, public I2cControllerCommunicationBase {
  public:
   /**
    * @fn ExampleI2cControllerForHils
@@ -40,7 +40,7 @@ class ExampleI2cControllerForHils : public ComponentBase, public I2cControllerCo
   ~ExampleI2cControllerForHils();
 
  protected:
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to receive command and send telemetry

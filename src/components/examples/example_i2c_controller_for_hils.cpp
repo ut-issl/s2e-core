@@ -7,7 +7,7 @@
 ExampleI2cControllerForHils::ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_gen, const unsigned int hils_port_id,
                                                          const unsigned int baud_rate, const unsigned int tx_buf_size, const unsigned int rx_buf_size,
                                                          HilsPortManager* hils_port_manager)
-    : ComponentBase(prescaler, clock_gen), I2cControllerCommunicationBase(hils_port_id, baud_rate, tx_buf_size, rx_buf_size, hils_port_manager) {}
+    : Component(prescaler, clock_gen), I2cControllerCommunicationBase(hils_port_id, baud_rate, tx_buf_size, rx_buf_size, hils_port_manager) {}
 
 ExampleI2cControllerForHils::~ExampleI2cControllerForHils() {}
 
