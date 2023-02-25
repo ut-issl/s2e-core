@@ -35,14 +35,14 @@ IniAccess::IniAccess(const std::string file_path) : file_path_(file_path), ini_r
 
 double IniAccess::ReadDouble(const char* section_name, const char* key_name) {
 #ifdef WIN32
-  stringstream value;
+  std::stringstream value;
   double temp = 0;
 
   GetPrivateProfileStringA(section_name, key_name, 0, text_buffer_, kMaxCharLength, file_path_char_);
 
   value << text_buffer_;  // input string
   value >> temp;          // return as double
-  //	cout << text_buffer_;
+  //	std::cout << text_buffer_;
 
   return temp;
 #else
@@ -120,7 +120,7 @@ std::string IniAccess::ReadString(const char* section_name, const char* key_name
 #ifdef WIN32
   char temp[kMaxCharLength];
   ReadChar(section_name, key_name, kMaxCharLength, temp);
-  return string(temp);
+  return std::string(temp);
 #else
   std::string value = ini_reader_.GetString(section_name, key_name, "NULL");
   return value;
