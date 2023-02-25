@@ -74,7 +74,8 @@ void Telescope::MainRoutine(int count) {
   //  earth_pos_c = q_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("EARTH"));
   //  moon_pos_c = q_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("MOON"));
   // angle_sun = CalcAngleTwoVectors_rad(sight_, sun_pos_c) * 180/libra::pi;
-  // angle_earth = CalcAngleTwoVectors_rad(sight_, earth_pos_c) * 180 / libra::pi; angle_moon = CalcAngleTwoVectors_rad(sight_, moon_pos_c) * 180 / libra::pi;
+  // angle_earth = CalcAngleTwoVectors_rad(sight_, earth_pos_c) * 180 / libra::pi; angle_moon = CalcAngleTwoVectors_rad(sight_, moon_pos_c) * 180 /
+  // libra::pi;
   //******************************************************************************
 }
 
