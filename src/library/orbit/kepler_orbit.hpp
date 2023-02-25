@@ -57,7 +57,7 @@ class KeplerOrbit {
   libra::Vector<3> velocity_i_m_s_;  //!< Velocity vector in the inertial frame [m/s]
 
  private:
-  double gravity_constant_m3_s2_;                       //!< Gravity constant of the center body [m3/s2]
+  double gravity_constant_m3_s2_;         //!< Gravity constant of the center body [m3/s2]
   OrbitalElements oe_;                    //!< Orbital elements
   double mean_motion_rad_s_;              //!< Mean motion of the orbit [rad/s]
   libra::Matrix<3, 3> dcm_inplane_to_i_;  //!< Direction cosine matrix from the in-plane frame to the inertial frame
