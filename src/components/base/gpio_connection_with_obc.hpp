@@ -10,24 +10,24 @@
 #include "../real/cdh/on_board_computer.hpp"
 
 /**
- * @class ObcGpioBase
+ * @class GpioConnectionWithObc
  * @brief Base class for GPIO communication with OBC flight software
  * @note Components which want to communicate with OBC using GPIO have to inherit this.
  */
-class ObcGpioBase {
+class GpioConnectionWithObc {
  public:
   /**
-   * @fn ObcGpioBase
+   * @fn GpioConnectionWithObc
    * @brief Constructor for SILS mode
    * @param [in] port_id: Port ID GPIO line
    * @param [in] obc: The communication target OBC
    */
-  ObcGpioBase(const std::vector<int> port_id, OBC* obc);
+  GpioConnectionWithObc(const std::vector<int> port_id, OBC* obc);
   /**
-   * @fn ~ObcGpioBase
+   * @fn ~GpioConnectionWithObc
    * @brief Destructor
    */
-  ~ObcGpioBase();
+  ~GpioConnectionWithObc();
 
  protected:
   /**
