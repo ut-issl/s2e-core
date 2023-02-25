@@ -30,6 +30,7 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    * @brief Constructor
    * @param [in] celestial_information: Celestial information
    * @param [in] time_step_s: Time step [sec]
+   * @param [in] gravity_constant_m3_s2: Gravity constant [m3/s2]
    * @param [in] reference_spacecraft_id: Reference satellite ID
    * @param [in] relative_position_lvlh_m: Initial value of relative position at the LVLH frame of reference satellite
    * @param [in] relative_velocity_lvlh_m_s: Initial value of relative velocity at the LVLH frame of reference satellite
@@ -38,7 +39,7 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    * @param [in] stm_model_type: State transition matrix type
    * @param [in] relative_information: Relative information
    */
-  RelativeOrbit(const CelestialInformation* celestial_information, double mu_m3_s2, double time_step_s, int reference_spacecraft_id,
+  RelativeOrbit(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s, int reference_spacecraft_id,
                 libra::Vector<3> relative_position_lvlh_m, libra::Vector<3> relative_velocity_lvlh_m_s, RelativeOrbitUpdateMethod update_method,
                 RelativeOrbitModel relative_dynamics_model_type, STMModel stm_model_type, RelativeInformation* relative_information);
   /**
@@ -67,7 +68,7 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
   virtual void RHS(double t, const Vector<6>& state, Vector<6>& rhs);
 
  private:
-  double mu_m3_s2_;                       //!< Gravity constant of the center body [m3/s2]
+  double gravity_constant_m3_s2_;         //!< Gravity constant of the center body [m3/s2]
   unsigned int reference_spacecraft_id_;  //!< Reference satellite ID
   double propagation_time_s_;             //!< Simulation current time for numerical integration by RK4 [sec]
   double propagation_step_s_;             //!< Step width for RK4 [sec]
@@ -89,28 +90,28 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    * @brief Initialize state variables
    * @param [in] relative_position_lvlh_m: Initial value of relative position at the LVLH frame of reference satellite
    * @param [in] relative_velocity_lvlh_m_s: Initial value of relative velocity at the LVLH frame of reference satellite
-   * @param [in] mu_m3_s2: Gravity constant of the center body [m3/s2]
+   * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
    * @param [in] initial_time_s: Initialize time [sec]
    */
-  void InitializeState(libra::Vector<3> relative_position_lvlh_m, libra::Vector<3> relative_velocity_lvlh_m_s, double mu_m3_s2,
+  void InitializeState(libra::Vector<3> relative_position_lvlh_m, libra::Vector<3> relative_velocity_lvlh_m_s, double gravity_constant_m3_s2,
                        double initial_time_s = 0);
   /**
    * @fn CalculateSystemMatrix
    * @brief Calculate system matrix
    * @param [in] relative_dynamics_model_type: Relative dynamics model type
    * @param [in] reference_sat_orbit: Orbit information of reference satellite
-   * @param [in] mu_m3_s2: Gravity constant of the center body [m3/s2]
+   * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
    */
-  void CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit, double mu_m3_s2);
+  void CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2);
   /**
    * @fn CalculateStm
    * @brief Calculate State Transition Matrix
    * @param [in] stm_model_type: STM model type
    * @param [in] reference_sat_orbit: Orbit information of reference satellite
-   * @param [in] mu_m3_s2: Gravity constant of the center body [m3/s2]
+   * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
    * @param [in] elapsed_sec: Elapsed time [sec]
    */
-  void CalculateStm(STMModel stm_model_type, const Orbit* reference_sat_orbit, double mu_m3_s2, double elapsed_sec);
+  void CalculateStm(STMModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2, double elapsed_sec);
   /**
    * @fn PropagateRk4
    * @brief Propagate relative orbit with RK4
