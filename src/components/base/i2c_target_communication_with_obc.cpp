@@ -47,16 +47,16 @@ ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(const unsigned int 
 #endif
 }
 
-ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(ObcI2cTargetCommunicationBase&& obj) noexcept
-    : sils_port_id_(obj.sils_port_id_),
-      hils_port_id_(obj.hils_port_id_),
-      i2c_address_(obj.i2c_address_),
-      simulation_mode_(obj.simulation_mode_),
-      obc_(obj.obc_),
-      hils_port_manager_(obj.hils_port_manager_) {
-  obj.is_moved_ = true;
-  obj.obc_ = nullptr;
-  obj.hils_port_manager_ = nullptr;
+ObcI2cTargetCommunicationBase::ObcI2cTargetCommunicationBase(ObcI2cTargetCommunicationBase&& object) noexcept
+    : sils_port_id_(object.sils_port_id_),
+      hils_port_id_(object.hils_port_id_),
+      i2c_address_(object.i2c_address_),
+      simulation_mode_(object.simulation_mode_),
+      obc_(object.obc_),
+      hils_port_manager_(object.hils_port_manager_) {
+  object.is_moved_ = true;
+  object.obc_ = nullptr;
+  object.hils_port_manager_ = nullptr;
 }
 
 ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase() {
@@ -88,15 +88,15 @@ ObcI2cTargetCommunicationBase::~ObcI2cTargetCommunicationBase() {
   }
 }
 
-void ObcI2cTargetCommunicationBase::ReadRegister(const unsigned char reg_addr, unsigned char* data, const unsigned char length) {
+void ObcI2cTargetCommunicationBase::ReadRegister(const unsigned char register_address, unsigned char* data, const unsigned char length) {
   switch (simulation_mode_) {
     case OBC_COM_UART_MODE::MODE_ERROR:
       break;
     case OBC_COM_UART_MODE::SILS:
-      obc_->I2cComponentReadRegister(sils_port_id_, i2c_address_, reg_addr, data, length);
+      obc_->I2cComponentReadRegister(sils_port_id_, i2c_address_, register_address, data, length);
       break;
     case OBC_COM_UART_MODE::HILS:
-      hils_port_manager_->I2cTargetReadRegister(hils_port_id_, reg_addr, data, length);
+      hils_port_manager_->I2cTargetReadRegister(hils_port_id_, register_address, data, length);
       break;
     default:
       // NOT REACHED
@@ -104,15 +104,15 @@ void ObcI2cTargetCommunicationBase::ReadRegister(const unsigned char reg_addr, u
   }
 }
 
-void ObcI2cTargetCommunicationBase::WriteRegister(const unsigned char reg_addr, const unsigned char* data, const unsigned char length) {
+void ObcI2cTargetCommunicationBase::WriteRegister(const unsigned char register_address, const unsigned char* data, const unsigned char length) {
   switch (simulation_mode_) {
     case OBC_COM_UART_MODE::MODE_ERROR:
       break;
     case OBC_COM_UART_MODE::SILS:
-      obc_->I2cComponentWriteRegister(sils_port_id_, i2c_address_, reg_addr, data, length);
+      obc_->I2cComponentWriteRegister(sils_port_id_, i2c_address_, register_address, data, length);
       break;
     case OBC_COM_UART_MODE::HILS:
-      hils_port_manager_->I2cTargetWriteRegister(hils_port_id_, reg_addr, data, length);
+      hils_port_manager_->I2cTargetWriteRegister(hils_port_id_, register_address, data, length);
       break;
     default:
       // NOT REACHED

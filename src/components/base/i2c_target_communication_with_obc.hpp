@@ -48,7 +48,7 @@ class ObcI2cTargetCommunicationBase {
    * @fn ObcI2cTargetCommunicationBase
    * @brief Prevent double freeing of memory when this class is copied
    */
-  ObcI2cTargetCommunicationBase(ObcI2cTargetCommunicationBase&& obj) noexcept;
+  ObcI2cTargetCommunicationBase(ObcI2cTargetCommunicationBase&& object) noexcept;
   /**
    * @fn ~ObcI2cTargetCommunicationBase
    * @brief Destructor
@@ -59,19 +59,19 @@ class ObcI2cTargetCommunicationBase {
   /**
    * @fn ReadRegister
    * @brief Read register of I2C port
-   * @param [in] reg_addr: Address of the target register
+   * @param [in] register_address: Address of the target register
    * @param [out] data: Buffer to store the read data
    * @param [in] length: Length of the data
    */
-  void ReadRegister(const unsigned char reg_addr, unsigned char* data, const unsigned char length);
+  void ReadRegister(const unsigned char register_address, unsigned char* data, const unsigned char length);
   /**
    * @fn WriteRegister
    * @brief Read register of I2C port
-   * @param [in] reg_addr: Address of the target register
+   * @param [in] register_address: Address of the target register
    * @param [in] data: Write data
    * @param [in] length: Length of the data
    */
-  void WriteRegister(const unsigned char reg_addr, const unsigned char* data, const unsigned char length);
+  void WriteRegister(const unsigned char register_address, const unsigned char* data, const unsigned char length);
   /**
    * @fn ReadCommand
    * @brief Read command from I2C controller
