@@ -36,7 +36,7 @@ void RwOde::RHS(double x, const Vector<1> &state, Vector<1> &rhs) {
   // lag_coef_[1] * (target_angular_velocity_ - this->state()[0]) +
   // lag_coef_[0];
   // First-order-lag
-  rhs[0] = (target_angular_velocity_ - this->state()[0]) / (lag_coef_[0]);
+  rhs[0] = (target_angular_velocity_ - this->GetState()[0]) / (lag_coef_[0]);
   // Only target
   // rhs[0]   = (target_angular_velocity_);
 }

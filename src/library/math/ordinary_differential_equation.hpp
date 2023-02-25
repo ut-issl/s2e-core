@@ -99,10 +99,10 @@ class ODE {
 
  protected:
   /**
-   * @fn state
+   * @fn GetState
    * @brief Return current state vector for inheriting class
    */
-  inline libra::Vector<N>& state() { return state_; }
+  inline libra::Vector<N>& GetState() { return state_; }
 
  private:
   double independent_variable_;  //!< Latest value of independent variable

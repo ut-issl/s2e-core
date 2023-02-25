@@ -76,12 +76,12 @@ void Rk4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
   Update();
   propagation_time_s_ = end_time_s;
 
-  spacecraft_position_i_m_[0] = state()[0];
-  spacecraft_position_i_m_[1] = state()[1];
-  spacecraft_position_i_m_[2] = state()[2];
-  spacecraft_velocity_i_m_s_[0] = state()[3];
-  spacecraft_velocity_i_m_s_[1] = state()[4];
-  spacecraft_velocity_i_m_s_[2] = state()[5];
+  spacecraft_position_i_m_[0] = GetState()[0];
+  spacecraft_position_i_m_[1] = GetState()[1];
+  spacecraft_position_i_m_[2] = GetState()[2];
+  spacecraft_velocity_i_m_s_[0] = GetState()[3];
+  spacecraft_velocity_i_m_s_[1] = GetState()[4];
+  spacecraft_velocity_i_m_s_[2] = GetState()[5];
 
   TransformEciToEcef();
   TransformEcefToGeodetic();

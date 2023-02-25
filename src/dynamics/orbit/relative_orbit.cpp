@@ -130,12 +130,12 @@ void RelativeOrbit::PropagateRk4(double elapsed_sec) {
   Update();
   propagation_time_s_ = elapsed_sec;
 
-  relative_position_lvlh_m_[0] = state()[0];
-  relative_position_lvlh_m_[1] = state()[1];
-  relative_position_lvlh_m_[2] = state()[2];
-  relative_velocity_lvlh_m_s_[0] = state()[3];
-  relative_velocity_lvlh_m_s_[1] = state()[4];
-  relative_velocity_lvlh_m_s_[2] = state()[5];
+  relative_position_lvlh_m_[0] = GetState()[0];
+  relative_position_lvlh_m_[1] = GetState()[1];
+  relative_position_lvlh_m_[2] = GetState()[2];
+  relative_velocity_lvlh_m_s_[0] = GetState()[3];
+  relative_velocity_lvlh_m_s_[1] = GetState()[4];
+  relative_velocity_lvlh_m_s_[2] = GetState()[5];
 }
 
 void RelativeOrbit::PropagateStm(double elapsed_sec) {
