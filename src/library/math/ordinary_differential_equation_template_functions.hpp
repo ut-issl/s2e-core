@@ -1,6 +1,6 @@
 /**
  * @file ordinary_differential_equation_template_functions.hpp
- * @brief Class for Ordinary Difference Equation (template functions)
+ * @brief Class for Ordinary Differential Equation (template functions)
  */
 #ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TEMPLATE_FUNCTIONS_HPP_
 #define S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TEMPLATE_FUNCTIONS_HPP_

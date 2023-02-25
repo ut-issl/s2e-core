@@ -1,6 +1,6 @@
 /**
  * @file ordinary_differential_equation.hpp
- * @brief Class for Ordinary Difference Equation
+ * @brief Class for Ordinary Differential Equation
  */
 
 #ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_HPP_
@@ -12,7 +12,7 @@ namespace libra {
 
 /**
  * @class ODE
- * @brief Class for Ordinary Difference Equation
+ * @brief Class for Ordinary Differential Equation
  */
 template <size_t N>
 class ODE {
