@@ -27,7 +27,7 @@ class ComponentBase : public ITickable {
    * @param [in] clock_generator: Clock generator
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  ComponentBase(const int prescaler, ClockGenerator* clock_generator, const int fast_prescaler = 1);
+  ComponentBase(const unsigned int prescaler, ClockGenerator* clock_generator, const unsigned int fast_prescaler = 1);
   /**
    * @fn ComponentBase
    * @brief Constructor with power port
@@ -36,7 +36,7 @@ class ComponentBase : public ITickable {
    * @param [in] power_port: Power port
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  ComponentBase(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int fast_prescaler = 1);
+  ComponentBase(const unsigned int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const unsigned int fast_prescaler = 1);
   /**
    * @fn ComponentBase
    * @brief Copy constructor
@@ -61,8 +61,8 @@ class ComponentBase : public ITickable {
   virtual void FastTick(const int fast_count);
 
  protected:
-  int prescaler_;           //!< Frequency scale factor for normal update
-  int fast_prescaler_ = 1;  //!< Frequency scale factor for fast update
+  unsigned int prescaler_;           //!< Frequency scale factor for normal update
+  unsigned int fast_prescaler_ = 1;  //!< Frequency scale factor for fast update
 
   /**
    * @fn MainRoutine
