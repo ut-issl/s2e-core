@@ -236,15 +236,6 @@ double CalcAngleTwoVectors_rad(const Vector<N, double>& v1, const Vector<N, doub
 Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& ortho);
 
 /**
- * @fn ortho2lonlat
- * @brief Convert orthogonal coordinate (x, y, z) to Geodetic coordinate (altitude, latitude, longitude)
- * @note TODO: Consider merge with GeodeticPosition class
- * @param [in] ortho: Vector in orthogonal coordinate
- * @return Vector in Geodetic coordinate
- */
-Vector<3, double> ortho2lonlat(const Vector<3, double>& ortho);
-
-/**
  * @fn GenerateOrthogonalUnitVector
  * @brief Generate one unit vector orthogonal to the given 3D vector
  * @note Vectors orthogonal to the other vector have rotational degree of freedom, which are determined arbitrarily in this function.
