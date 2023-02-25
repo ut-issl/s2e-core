@@ -127,9 +127,8 @@ Vector<N, double>& Normalize(Vector<N, double>& v) {
   double n = CalcNorm(v);
   if (n == 0.0) {
     return v;
-  }  // 零ベクトル
+  }
 
-  // 正規化
   n = 1.0 / n;
   for (size_t i = 0; i < N; ++i) {
     v[i] *= n;
