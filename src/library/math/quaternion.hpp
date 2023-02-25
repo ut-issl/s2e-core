@@ -21,7 +21,7 @@ class Quaternion {
    * @fn Quaternion
    * @brief Default constructor without any initialization
    */
-  inline Quaternion();
+  inline Quaternion() {}
   /**
    * @fn Quaternion
    * @brief Constructor with initialization
@@ -30,13 +30,18 @@ class Quaternion {
    * @param [in] quaternion_z: The third element of Quaternion (Z)
    * @param [in] quaternion_w: The fourth element of Quaternion (W)
    */
-  inline Quaternion(const double quaternion_x, const double quaternion_y, const double quaternion_z, const double quaternion_w);
+  inline Quaternion(const double quaternion_x, const double quaternion_y, const double quaternion_z, const double quaternion_w) {
+    quaternion_[0] = quaternion_x;
+    quaternion_[1] = quaternion_y;
+    quaternion_[2] = quaternion_z;
+    quaternion_[3] = quaternion_w;
+  }
   /**
    * @fn Quaternion
    * @brief Constructor initialized with vector
    * @param [in] quaternion_vector: Vector storing quaternion
    */
-  inline Quaternion(const Vector<4>& quaternion_vector);
+  inline Quaternion(const Vector<4>& quaternion_vector) : quaternion_(quaternion_vector) {}
   /**
    * @fn Quaternion
    * @brief Constructor initialized with rotation expression
@@ -58,7 +63,10 @@ class Quaternion {
    * @param [in] quaternion_vector: Vector
    * @return Quaternion
    */
-  inline Quaternion& operator=(const Vector<4>& quaternion_vector);
+  inline Quaternion& operator=(const Vector<4>& quaternion_vector) {
+    quaternion_ = quaternion_vector;
+    return *this;
+  }
 
   /**
    * @fn Cast operator to const Vector<4>
@@ -66,19 +74,19 @@ class Quaternion {
    * @note Users can use Quaternion as Vector<4> object
    * @return Const reference to the internal Vector<4>
    */
-  inline operator const Vector<4>&() const;
+  inline operator const Vector<4>&() const { return quaternion_; }
 
   /**
    * @fn Cast operator
    * @brief Operator to directly access the element like array with [] operator
    */
-  inline operator double*();
+  inline operator double*() { return quaternion_; }
 
   /**
    * @fn Cast operator (const ver.)
    * @brief Operator to directly access the element like array with [] operator
    */
-  inline operator const double*() const;
+  inline operator const double*() const { return quaternion_; }
 
   /**
    * @fn Normalize
@@ -196,7 +204,5 @@ Quaternion operator*(const Quaternion& lhs, const Vector<3>& rhs);
  */
 Quaternion operator*(const double& lhs, const Quaternion& rhs);
 }  // namespace libra
-
-#include "quaternion_inline_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_QUATERNION_HPP_
