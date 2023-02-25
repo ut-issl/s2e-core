@@ -56,32 +56,32 @@ class ODE {
    * @fn step_width
    * @brief Return step width
    */
-  inline double step_width() const;
+  inline double step_width() const { return step_width_; }
 
   /**
    * @fn x
    * @brief Return current independent variable
    */
-  inline double x() const;
+  inline double x() const { return x_; }
 
   /**
    * @fn state
    * @brief Return current state vector
    */
-  inline const Vector<N>& state() const;
+  inline const Vector<N>& state() const { return state_; }
 
   /**
    * @fn operator []
    * @brief Return element of current state vector
    * @param [in] n: Target element number
    */
-  inline double operator[](int n) const;
+  inline double operator[](int n) const { return state_[n]; }
 
   /**
    * @fn rhs
    * @brief Return const reference of differentiate state vector
    */
-  inline const Vector<N>& rhs() const;
+  inline const Vector<N>& rhs() const { return rhs_; }
 
   /**
    * @fn operator ++
@@ -100,7 +100,7 @@ class ODE {
    * @fn state
    * @brief Return current state vector for inheriting class
    */
-  inline libra::Vector<N>& state();
+  inline libra::Vector<N>& state() { return state_; }
 
  private:
   double x_;           //!< Latest value of independent variable
