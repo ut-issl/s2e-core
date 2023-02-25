@@ -25,12 +25,12 @@ class Quaternion {
   /**
    * @fn Quaternion
    * @brief Constructor with initialization
-   * @param [in] q_x: The first element of Quaternion (X)
-   * @param [in] q_y: The second element of Quaternion (Y)
-   * @param [in] q_z: The third element of Quaternion (Z)
-   * @param [in] q_w: The fourth element of Quaternion (W)
+   * @param [in] quaternion_x: The first element of Quaternion (X)
+   * @param [in] quaternion_y: The second element of Quaternion (Y)
+   * @param [in] quaternion_z: The third element of Quaternion (Z)
+   * @param [in] quaternion_w: The fourth element of Quaternion (W)
    */
-  inline Quaternion(double q_x, double q_y, double q_z, double q_w);
+  inline Quaternion(const double quaternion_x, const double quaternion_y, const double quaternion_z, const double quaternion_w);
   /**
    * @fn Quaternion
    * @brief Constructor initialized with vector
@@ -43,7 +43,7 @@ class Quaternion {
    * @param [in] rotation_axis: Rotation axis normalized vector
    * @param [in] rotation_angle_rad: Rotation angle [rad]
    */
-  Quaternion(const Vector<3>& rotation_axis, double rotation_angle_rad);
+  Quaternion(const Vector<3>& rotation_axis, const double rotation_angle_rad);
   /**
    * @fn Quaternion
    * @brief Constructor initialized with rotates vector_before to match vector_after
@@ -107,7 +107,7 @@ class Quaternion {
    * @param [in] dcm: DCM
    * @return Quaternion
    */
-  static Quaternion ConvertFromDcm(Matrix<3, 3> dcm);
+  static Quaternion ConvertFromDcm(const Matrix<3, 3> dcm);
 
   /**
    * @fn ConvertToEuler
@@ -122,7 +122,7 @@ class Quaternion {
    * @param [in] euler: 3-2-1 Euler angle (1, 2, 3 order)
    * @return Quaternion
    */
-  static Quaternion ConvertFromEuler(Vector<3> euler);
+  static Quaternion ConvertFromEuler(const Vector<3> euler);
 
   /**
    * @fn FrameConversion

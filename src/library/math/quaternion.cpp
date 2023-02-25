@@ -11,14 +11,14 @@
 
 namespace libra {
 
-Quaternion::Quaternion(const Vector<3>& rotation_axis, double rotation_angle_rad) {
-  rotation_angle_rad *= 0.5;
-  quaternion_[3] = cos(rotation_angle_rad);
+Quaternion::Quaternion(const Vector<3>& rotation_axis, const double rotation_angle_rad) {
+  double half_rotation_angle_rad = rotation_angle_rad * 0.5;
+  quaternion_[3] = cos(half_rotation_angle_rad);
 
   // Vector<3> norm = normalize(rotation_axis);
   // for(size_t i=0; i<3; ++i){ quaternion_[i] = norm[i]*sin(rotation_angle_rad); }
   for (size_t i = 0; i < 3; ++i) {
-    quaternion_[i] = rotation_axis[i] * sin(rotation_angle_rad);
+    quaternion_[i] = rotation_axis[i] * sin(half_rotation_angle_rad);
   }
 }
 
@@ -143,7 +143,7 @@ Matrix<3, 3> Quaternion::ConvertToDcm(void) const {
   return dcm;
 }
 
-Quaternion Quaternion::ConvertFromDcm(Matrix<3, 3> dcm) {
+Quaternion Quaternion::ConvertFromDcm(const Matrix<3, 3> dcm) {
   Quaternion q;
   q[0] = sqrt(1 + dcm[0][0] - dcm[1][1] - dcm[2][2]) / 2;
   q[1] = sqrt(1 - dcm[0][0] + dcm[1][1] - dcm[2][2]) / 2;
@@ -193,7 +193,7 @@ Vector<3> Quaternion::ConvertToEuler(void) const {
   return eul;
 }
 
-Quaternion Quaternion::ConvertFromEuler(Vector<3> euler) {
+Quaternion Quaternion::ConvertFromEuler(const Vector<3> euler) {
   double esin[3], ecos[3];
   for (int i = 0; i < 3; i++) {
     esin[i] = sin(euler[i]);

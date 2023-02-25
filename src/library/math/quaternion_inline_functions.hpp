@@ -10,11 +10,11 @@ namespace libra {
 
 Quaternion::Quaternion() {}
 
-Quaternion::Quaternion(double q_x, double q_y, double q_z, double q_w) {
-  quaternion_[0] = q_x;
-  quaternion_[1] = q_y;
-  quaternion_[2] = q_z;
-  quaternion_[3] = q_w;
+Quaternion::Quaternion(const double quaternion_x, const double quaternion_y, const double quaternion_z, const double quaternion_w) {
+  quaternion_[0] = quaternion_x;
+  quaternion_[1] = quaternion_y;
+  quaternion_[2] = quaternion_z;
+  quaternion_[3] = quaternion_w;
 }
 
 Quaternion::Quaternion(const Vector<4>& quaternion_vector) : quaternion_(quaternion_vector) {}
