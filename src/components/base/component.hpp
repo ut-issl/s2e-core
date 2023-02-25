@@ -84,8 +84,8 @@ class ComponentBase : public ITickable {
    */
   virtual void PowerOffRoutine(){};
 
-  ClockGenerator* clock_gen_;  //!< Clock generator
-  PowerPort* power_port_;      //!< Power port
+  ClockGenerator* clock_generator_;  //!< Clock generator
+  PowerPort* power_port_;            //!< Power port
 };
 
 #endif  // S2E_COMPONENTS_BASE_COMPONENT_HPP_
