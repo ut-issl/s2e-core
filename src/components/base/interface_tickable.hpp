@@ -16,13 +16,13 @@ class ITickable {
    * @fn Tick
    * @brief Pure virtual function to update clock of components
    */
-  virtual void Tick(const int count) = 0;
+  virtual void Tick(const unsigned int count) = 0;
   /**
    * @fn FastTick
    * @brief Pure virtual function to update clock faster than the base component update period of components
    * @note Usec ase: Calculate high-frequency disturbances
    */
-  virtual void FastTick(const int fast_count) = 0;
+  virtual void FastTick(const unsigned int fast_count) = 0;
 
   // Whether or not high-frequency disturbances need to be calculated
   /**

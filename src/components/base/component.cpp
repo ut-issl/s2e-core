@@ -31,7 +31,7 @@ ComponentBase::ComponentBase(const ComponentBase& object) {
 
 ComponentBase::~ComponentBase() { clock_generator_->RemoveComponent(this); }
 
-void ComponentBase::Tick(const int count) {
+void ComponentBase::Tick(const unsigned int count) {
   if (count % prescaler_ > 0) return;
   if (power_port_->GetIsOn()) {
     MainRoutine(count);
@@ -40,7 +40,7 @@ void ComponentBase::Tick(const int count) {
   }
 }
 
-void ComponentBase::FastTick(const int fast_count) {
+void ComponentBase::FastTick(const unsigned int fast_count) {
   if (fast_count % fast_prescaler_ > 0) return;
   if (power_port_->GetIsOn()) {
     FastUpdate();
