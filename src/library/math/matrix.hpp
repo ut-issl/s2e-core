@@ -35,16 +35,16 @@ class Matrix {
   typedef const T (*CTP)[C];  //!< Define the const pointer of the array as CTP type
 
   /**
-   * @fn row
+   * @fn GetRowLength
    * @brief Return row number
    */
-  inline size_t row() const { return R; }
+  inline size_t GetRowLength() const { return R; }
 
   /**
-   * @fn row
+   * @fn GetColumnLength
    * @brief Return column number
    */
-  inline size_t column() const { return C; }
+  inline size_t GetColumnLength() const { return C; }
 
   /**
    * @fn Cast operator to directly access the elements
