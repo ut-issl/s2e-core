@@ -43,9 +43,9 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path);
  * @fn InitGravityGradient
  * @brief Initialize GravityGradient class with earth gravitational constant
  * @param [in] initialize_file_path: Initialize file path
- * @param [in] mu_m3_s2: Gravitational constant [m3/s2]
+ * @param [in] gravity_constant_m3_s2: Gravitational constant [m3/s2]
  */
-GravityGradient InitGravityGradient(const std::string initialize_file_path, const double mu_m3_s2);
+GravityGradient InitGravityGradient(const std::string initialize_file_path, const double gravity_constant_m3_s2);
 
 /**
  * @fn InitMagneticDisturbance

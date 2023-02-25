@@ -8,9 +8,9 @@
 #include <library/utilities/macros.hpp>
 #include <sstream>
 
-Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double mu_m3_s2, double time_step_s,
+Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
                                          libra::Vector<3> position_i_m, libra::Vector<3> velocity_i_m_s, double initial_time_s)
-    : Orbit(celestial_information), ODE<6>(time_step_s), mu_m3_s2(mu_m3_s2) {
+    : Orbit(celestial_information), ODE<6>(time_step_s), gravity_constant_m3_s2_(gravity_constant_m3_s2) {
   propagate_mode_ = OrbitPropagateMode::kRk4;
 
   propagation_time_s_ = 0.0;
@@ -31,9 +31,9 @@ void Rk4OrbitPropagation::RHS(double t, const libra::Vector<6>& state, libra::Ve
   rhs[0] = vx;
   rhs[1] = vy;
   rhs[2] = vz;
-  rhs[3] = spacecraft_acceleration_i_m_s2_[0] - mu_m3_s2 / r3 * x;
-  rhs[4] = spacecraft_acceleration_i_m_s2_[1] - mu_m3_s2 / r3 * y;
-  rhs[5] = spacecraft_acceleration_i_m_s2_[2] - mu_m3_s2 / r3 * z;
+  rhs[3] = spacecraft_acceleration_i_m_s2_[0] - gravity_constant_m3_s2_ / r3 * x;
+  rhs[4] = spacecraft_acceleration_i_m_s2_[1] - gravity_constant_m3_s2_ / r3 * y;
+  rhs[5] = spacecraft_acceleration_i_m_s2_[2] - gravity_constant_m3_s2_ / r3 * z;
 
   (void)t;
 }

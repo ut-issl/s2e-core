@@ -5,10 +5,7 @@
 #include "controlled_attitude.hpp"
 
 #include <library/logger/log_utility.hpp>
-#include <library/math/constants.hpp>
 #include <library/utilities/macros.hpp>
-
-#define THRESHOLD_CA cos(30.0 / 180.0 * libra::pi)  // FIXME
 
 ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode,
                                        const libra::Quaternion quaternion_i2b, const libra::Vector<3> main_target_direction_b,
@@ -49,7 +46,7 @@ void ControlledAttitude::Initialize(void) {
     normalize(sub_target_direction_b_);
     double tmp = inner_product(main_target_direction_b_, sub_target_direction_b_);
     tmp = std::abs(tmp);
-    if (tmp > THRESHOLD_CA) {
+    if (tmp > cos(kMinDirectionAngle_rad)) {
       std::cout << "sub target direction should separate from the main target direction. \n";
       is_calc_enabled_ = false;
       return;
