@@ -5,14 +5,14 @@
 
 #include "component.hpp"
 
-ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen, int fast_prescaler) : clock_generator_(clock_gen) {
+ComponentBase::ComponentBase(const int prescaler, ClockGenerator* clock_gen, const int fast_prescaler) : clock_generator_(clock_gen) {
   power_port_ = new PowerPort();
   clock_generator_->RegisterComponent(this);
   prescaler_ = (prescaler > 0) ? prescaler : 1;
   fast_prescaler_ = (fast_prescaler > 0) ? fast_prescaler : 1;
 }
 
-ComponentBase::ComponentBase(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, int fast_prescaler)
+ComponentBase::ComponentBase(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int fast_prescaler)
     : clock_generator_(clock_gen), power_port_(power_port) {
   clock_generator_->RegisterComponent(this);
   prescaler_ = (prescaler > 0) ? prescaler : 1;
@@ -30,7 +30,7 @@ ComponentBase::ComponentBase(const ComponentBase& obj) {
 
 ComponentBase::~ComponentBase() { clock_generator_->RemoveComponent(this); }
 
-void ComponentBase::Tick(int count) {
+void ComponentBase::Tick(const int count) {
   if (count % prescaler_ > 0) return;
   if (power_port_->GetIsOn()) {
     MainRoutine(count);
@@ -39,7 +39,7 @@ void ComponentBase::Tick(int count) {
   }
 }
 
-void ComponentBase::FastTick(int count) {
+void ComponentBase::FastTick(const int count) {
   if (count % fast_prescaler_ > 0) return;
   if (power_port_->GetIsOn()) {
     FastUpdate();

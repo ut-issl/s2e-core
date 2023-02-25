@@ -24,10 +24,10 @@ class ComponentBase : public ITickable {
    * @brief Constructor without power port
    * @note Power port is used as power on state
    * @param [in] prescaler: Frequency scale factor for normal update
-   * @param [in] clocl_gen: Clock generator
+   * @param [in] clock_gen: Clock generator
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  ComponentBase(int prescaler, ClockGenerator* clock_gen, int fast_prescaler = 1);
+  ComponentBase(const int prescaler, ClockGenerator* clock_gen, const int fast_prescaler = 1);
   /**
    * @fn ComponentBase
    * @brief Constructor with power port
@@ -36,7 +36,7 @@ class ComponentBase : public ITickable {
    * @param [in] power_port: Power port
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  ComponentBase(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, int fast_prescaler = 1);
+  ComponentBase(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int fast_prescaler = 1);
   /**
    * @fn ComponentBase
    * @brief Copy constructor
@@ -53,12 +53,12 @@ class ComponentBase : public ITickable {
    * @fn Tick
    * @brief The methods to input clock. This will be called periodically.
    */
-  virtual void Tick(int count);
+  virtual void Tick(const int count);
   /**
    * @fn FastTick
    * @brief The methods to input fast clock. This will be called periodically.
    */
-  virtual void FastTick(int fast_count);
+  virtual void FastTick(const int fast_count);
 
  protected:
   int prescaler_;           //!< Frequency scale factor for normal update
@@ -69,7 +69,7 @@ class ComponentBase : public ITickable {
    * @brief Pure virtual function periodically executed when the power switch is on.
    * @note The period is decided with the prescaler_ and the base clock.
    */
-  virtual void MainRoutine(int time_count) = 0;
+  virtual void MainRoutine(const int time_count) = 0;
 
   /**
    * @fn FastUpdate
