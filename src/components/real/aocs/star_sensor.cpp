@@ -123,9 +123,9 @@ void STT::update(const LocalCelestialInformation* local_celes_info, const Attitu
 
 void STT::AllJudgement(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo) {
   int judgement = 0;
-  judgement = SunJudgement(local_celes_info->GetPosFromSC_b("SUN"));
-  judgement += EarthJudgement(local_celes_info->GetPosFromSC_b("EARTH"));
-  judgement += MoonJudgement(local_celes_info->GetPosFromSC_b("MOON"));
+  judgement = SunJudgement(local_celes_info->GetPositionFromSpacecraft_b_m("SUN"));
+  judgement += EarthJudgement(local_celes_info->GetPositionFromSpacecraft_b_m("EARTH"));
+  judgement += MoonJudgement(local_celes_info->GetPositionFromSpacecraft_b_m("MOON"));
   judgement += CaptureRateJudgement(attinfo->GetOmega_b());
   if (judgement > 0)
     error_flag_ = true;
@@ -207,5 +207,5 @@ double STT::CalAngleVect_rad(const Vector<3>& vect1, const Vector<3>& vect2) {
 void STT::MainRoutine(int count) {
   UNUSED(count);
 
-  measure(&(local_env_->GetCelesInfo()), &(dynamics_->GetAttitude()));
+  measure(&(local_env_->GetCelestialInformation()), &(dynamics_->GetAttitude()));
 }

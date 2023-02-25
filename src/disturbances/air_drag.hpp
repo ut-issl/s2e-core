@@ -70,23 +70,23 @@ class AirDrag : public SurfaceForce {
 
   // internal function for calculation
   /**
-   * @fn CalCnCt
+   * @fn CalcCnCt
    * @brief Calculate the Cn and Ct
    * @param [in] velocity_b_m_s: Spacecraft's velocity vector in the body frame [m/s]
    */
-  void CalCnCt(const libra::Vector<3>& velocity_b_m_s);
+  void CalcCnCt(const libra::Vector<3>& velocity_b_m_s);
   /**
-   * @fn CalcFuncPi
+   * @fn CalcFunctionPi
    * @brief Calculate The Pi function in the algorithm
    * @param [in] s: Independent variable of the Pi function
    */
-  double CalcFuncPi(const double s);
+  double CalcFunctionPi(const double s);
   /**
-   * @fn CalcFuncChi
+   * @fn CalcFunctionChi
    * @brief Calculate The Chi function in the algorithm
    * @param [in] s: Independent variable of the Chi function
    */
-  double CalcFuncChi(const double s);
+  double CalcFunctionChi(const double s);
 };
 
 #endif  // S2E_DISTURBANCES_AIR_DRAG_HPP_

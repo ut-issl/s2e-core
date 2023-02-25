@@ -43,7 +43,7 @@ class Disturbances {
    * @param [in] dynamics: Dynamics information
    * @param [in] sim_time: Simulation time
    */
-  void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimTime* sim_time);
+  void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimulationTime* sim_time);
   /**
    * @fn LogSetup
    * @brief log setup for all disturbances

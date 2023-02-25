@@ -58,7 +58,7 @@ class Spacecraft {
    * @fn Update
    * @brief Update all states related with the spacecraft
    */
-  virtual void Update(const SimTime* sim_time);
+  virtual void Update(const SimulationTime* sim_time);
 
   /**
    * @fn Clear

@@ -19,7 +19,7 @@
  * @param [in] simtime: Simulation time information
  */
 GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const std::string fname, const Dynamics* dynamics,
-                              const GnssSatellites* gnss_satellites, const SimTime* simtime);
+                              const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
 /**
  * @fn InitGNSSReceiver
  * @brief Initialize functions for GNSS Receiver with power port
@@ -32,6 +32,6 @@ GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const std::stri
  * @param [in] simtime: Simulation time information
  */
 GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const std::string fname, const Dynamics* dynamics,
-                              const GnssSatellites* gnss_satellites, const SimTime* simtime);
+                              const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_INITIALIZE_GNSS_RECEIVER_HPP_

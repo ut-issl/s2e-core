@@ -43,10 +43,10 @@ Telescope::Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double
   // Set 0 when t=0
   for (size_t i = 0; i < num_of_logged_stars_; i++) {
     Star star;
-    star.hipdata.hip_num = -1;
-    star.hipdata.vmag = -1;
-    star.hipdata.ra = -1;
-    star.hipdata.de = -1;
+    star.hipdata.hipparcos_id = -1;
+    star.hipdata.visible_magnitude = -1;
+    star.hipdata.right_ascension_deg = -1;
+    star.hipdata.declination_deg = -1;
     star.pos_imgsensor[0] = -1;
     star.pos_imgsensor[1] = -1;
 
@@ -59,20 +59,20 @@ Telescope::~Telescope() {}
 void Telescope::MainRoutine(int count) {
   UNUSED(count);
   // Check forbidden angle
-  is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("SUN"), sun_forbidden_angle_);
-  is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("EARTH"), earth_forbidden_angle_);
-  is_moon_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPosFromSC_b("MOON"), moon_forbidden_angle_);
+  is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("SUN"), sun_forbidden_angle_);
+  is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("EARTH"), earth_forbidden_angle_);
+  is_moon_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("MOON"), moon_forbidden_angle_);
   // Position calculation of celestial bodies from CelesInfo
-  Observe(sun_pos_imgsensor, local_celes_info_->GetPosFromSC_b("SUN"));
-  Observe(earth_pos_imgsensor, local_celes_info_->GetPosFromSC_b("EARTH"));
-  Observe(moon_pos_imgsensor, local_celes_info_->GetPosFromSC_b("MOON"));
+  Observe(sun_pos_imgsensor, local_celes_info_->GetPositionFromSpacecraft_b_m("SUN"));
+  Observe(earth_pos_imgsensor, local_celes_info_->GetPositionFromSpacecraft_b_m("EARTH"));
+  Observe(moon_pos_imgsensor, local_celes_info_->GetPositionFromSpacecraft_b_m("MOON"));
   // Position calculation of stars from Hipparcos Catalogue
   // No update when Hipparocos Catalogue was not readed
   if (hipp_->IsCalcEnabled) ObserveStars();
   // Debug ******************************************************************
-  //  sun_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPosFromSC_b("SUN"));
-  //  earth_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPosFromSC_b("EARTH"));
-  //  moon_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPosFromSC_b("MOON"));
+  //  sun_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("SUN"));
+  //  earth_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("EARTH"));
+  //  moon_pos_c = q_b2c_.frame_conv(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("MOON"));
   // angle_sun = angle(sight_, sun_pos_c) * 180/libra::pi;
   // angle_earth = angle(sight_, earth_pos_c) * 180 / libra::pi; angle_moon = angle(sight_, moon_pos_c) * 180 / libra::pi;
   //******************************************************************************
@@ -109,7 +109,7 @@ void Telescope::ObserveStars() {
   int count = 0;          // Counter for while loop
 
   while (star_in_sight.size() < num_of_logged_stars_) {
-    Vector<3> target_b = hipp_->GetStarDir_b(count, q_i2b);
+    Vector<3> target_b = hipp_->GetStarDirection_b(count, q_i2b);
     Vector<3> target_c = q_b2c_.frame_conv(target_b);
 
     double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame
@@ -117,10 +117,10 @@ void Telescope::ObserveStars() {
 
     if (abs(arg_x) <= x_field_of_view_rad && abs(arg_y) <= y_field_of_view_rad) {
       Star star;
-      star.hipdata.hip_num = hipp_->GetHipID(count);
-      star.hipdata.vmag = hipp_->GetVmag(count);
-      star.hipdata.ra = hipp_->GetRA(count);
-      star.hipdata.de = hipp_->GetDE(count);
+      star.hipdata.hipparcos_id = hipp_->GetHipparcosId(count);
+      star.hipdata.visible_magnitude = hipp_->GetVisibleMagnitude(count);
+      star.hipdata.right_ascension_deg = hipp_->GetRightAscension_deg(count);
+      star.hipdata.declination_deg = hipp_->GetDeclination_deg(count);
       star.pos_imgsensor[0] = x_num_of_pix_ / 2.0 * tan(arg_x) / tan(x_field_of_view_rad) + x_num_of_pix_ / 2.0;
       star.pos_imgsensor[1] = y_num_of_pix_ / 2.0 * tan(arg_y) / tan(y_field_of_view_rad) + y_num_of_pix_ / 2.0;
 
@@ -133,10 +133,10 @@ void Telescope::ObserveStars() {
     if (count >= hipp_->GetCatalogueSize()) {
       while (star_in_sight.size() < num_of_logged_stars_) {
         Star star;
-        star.hipdata.hip_num = -1;
-        star.hipdata.vmag = -1;
-        star.hipdata.ra = -1;
-        star.hipdata.de = -1;
+        star.hipdata.hipparcos_id = -1;
+        star.hipdata.visible_magnitude = -1;
+        star.hipdata.right_ascension_deg = -1;
+        star.hipdata.declination_deg = -1;
         star.pos_imgsensor[0] = -1;
         star.pos_imgsensor[1] = -1;
 
@@ -187,8 +187,8 @@ string Telescope::GetLogValue() const {
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipp_->IsCalcEnabled) {
     for (size_t i = 0; i < num_of_logged_stars_; i++) {
-      str_tmp += WriteScalar(star_in_sight[i].hipdata.hip_num);
-      str_tmp += WriteScalar(star_in_sight[i].hipdata.vmag);
+      str_tmp += WriteScalar(star_in_sight[i].hipdata.hipparcos_id);
+      str_tmp += WriteScalar(star_in_sight[i].hipdata.visible_magnitude);
       str_tmp += WriteVector(star_in_sight[i].pos_imgsensor);
     }
   }

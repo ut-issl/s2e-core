@@ -81,9 +81,9 @@ void ControlledAttitude::Propagate(const double endtime_s) {
 Vector<3> ControlledAttitude::CalcTargetDirection(AttCtrlMode mode) {
   Vector<3> direction;
   if (mode == SUN_POINTING) {
-    direction = local_celes_info_->GetPosFromSC_i("SUN");
+    direction = local_celes_info_->GetPositionFromSpacecraft_i_m("SUN");
   } else if (mode == EARTH_CENTER_POINTING) {
-    direction = local_celes_info_->GetPosFromSC_i("EARTH");
+    direction = local_celes_info_->GetPositionFromSpacecraft_i_m("EARTH");
   } else if (mode == VELOCITY_DIRECTION_POINTING) {
     direction = orbit_->GetSatVelocity_i();
   } else if (mode == ORBIT_NORMAL_POINTING) {

@@ -5,60 +5,55 @@
 
 #include "geomagnetic_field.hpp"
 
-#include <library/external/igrf/igrf.h>
+#include "library/external/igrf/igrf.h"
+#include "library/initialize/initialize_file_access.hpp"
+#include "library/randomization/global_randomization.hpp"
+#include "library/randomization/normal_randomization.hpp"
+#include "library/randomization/random_walk.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/randomization/global_randomization.hpp>
-#include <library/randomization/normal_randomization.hpp>
-#include <library/randomization/random_walk.hpp>
-
-using libra::NormalRand;
-using namespace std;
-
-MagEnvironment::MagEnvironment(string fname, double mag_rwdev, double mag_rwlimit, double mag_wnvar)
-    : mag_rwdev_(mag_rwdev), mag_rwlimit_(mag_rwlimit), mag_wnvar_(mag_wnvar), fname_(fname) {
-  for (int i = 0; i < 3; ++i) {
-    Mag_i_[i] = 0;
-  }
-  for (int i = 0; i < 3; ++i) {
-    Mag_b_[i] = 0;
-  }
-  set_file_path(fname_.c_str());
+GeomagneticField::GeomagneticField(const std::string igrf_file_name, const double random_walk_srandard_deviation_nT,
+                                   const double random_walk_limit_nT, const double white_noise_standard_deviation_nT)
+    : magnetic_field_i_nT_(0.0),
+      magnetic_field_b_nT_(0.0),
+      random_walk_standard_deviation_nT_(random_walk_srandard_deviation_nT),
+      random_walk_limit_nT_(random_walk_limit_nT),
+      white_noise_standard_deviation_nT_(white_noise_standard_deviation_nT),
+      igrf_file_name_(igrf_file_name) {
+  set_file_path(igrf_file_name_.c_str());
 }
 
-void MagEnvironment::CalcMag(double decyear, double side, Vector<3> lat_lon_alt, Quaternion q_i2b) {
+void GeomagneticField::CalcMagneticField(const double decimal_year, const double sidereal_day, const GeodeticPosition position,
+                                         const libra::Quaternion quaternion_i2b) {
   if (!IsCalcEnabled) return;
 
-  double latrad = lat_lon_alt(0);
-  double lonrad = lat_lon_alt(1);
-  double alt = lat_lon_alt(2);
+  const double lat_rad = position.GetLat_rad();
+  const double lon_rad = position.GetLon_rad();
+  const double alt_m = position.GetAlt_m();
 
-  double mag_i_array[3];
-  IgrfCalc(decyear, latrad, lonrad, alt, side, mag_i_array);
-  AddNoise(mag_i_array);
+  double magnetic_field_array_i_nT[3];
+  IgrfCalc(decimal_year, lat_rad, lon_rad, alt_m, sidereal_day, magnetic_field_array_i_nT);
+  AddNoise(magnetic_field_array_i_nT);
   for (int i = 0; i < 3; ++i) {
-    Mag_i_[i] = mag_i_array[i];
+    magnetic_field_i_nT_[i] = magnetic_field_array_i_nT[i];
   }
-  Mag_b_ = q_i2b.frame_conv(Mag_i_);
+  magnetic_field_b_nT_ = quaternion_i2b.frame_conv(magnetic_field_i_nT_);
 }
 
-void MagEnvironment::AddNoise(double* mag_i_array) {
-  static Vector<3> stddev(mag_rwdev_);
-  static Vector<3> limit(mag_rwlimit_);
-  static RandomWalk<3> rw(0.1, stddev, limit);
-  static NormalRand nr(0.0, mag_wnvar_, g_rand.MakeSeed());
+void GeomagneticField::AddNoise(double* magnetic_field_array_i_nT) {
+  static libra::Vector<3> standard_deviation(random_walk_standard_deviation_nT_);
+  static libra::Vector<3> limit(random_walk_limit_nT_);
+  static RandomWalk<3> random_walk(0.1, standard_deviation, limit);
+
+  static libra::NormalRand white_noise(0.0, white_noise_standard_deviation_nT_, g_rand.MakeSeed());
+
   for (int i = 0; i < 3; ++i) {
-    mag_i_array[i] += rw[i] + nr;
+    magnetic_field_array_i_nT[i] += random_walk[i] + white_noise;
   }
-  ++rw;  // Update random walk
+  ++random_walk;  // Update random walk
 }
 
-Vector<3> MagEnvironment::GetMag_i() const { return Mag_i_; }
-
-Vector<3> MagEnvironment::GetMag_b() const { return Mag_b_; }
-
-string MagEnvironment::GetLogHeader() const {
-  string str_tmp = "";
+std::string GeomagneticField::GetLogHeader() const {
+  std::string str_tmp = "";
 
   str_tmp += WriteVector("geomagnetic_field_at_spacecraft_position", "i", "nT", 3);
   str_tmp += WriteVector("geomagnetic_field_at_spacecraft_position", "b", "nT", 3);
@@ -66,11 +61,11 @@ string MagEnvironment::GetLogHeader() const {
   return str_tmp;
 }
 
-string MagEnvironment::GetLogValue() const {
-  string str_tmp = "";
+std::string GeomagneticField::GetLogValue() const {
+  std::string str_tmp = "";
 
-  str_tmp += WriteVector(Mag_i_);
-  str_tmp += WriteVector(Mag_b_);
+  str_tmp += WriteVector(magnetic_field_i_nT_);
+  str_tmp += WriteVector(magnetic_field_b_nT_);
 
   return str_tmp;
 }

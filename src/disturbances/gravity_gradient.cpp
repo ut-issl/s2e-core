@@ -18,7 +18,7 @@ GravityGradient::GravityGradient(const double mu_m3_s2, const bool is_calculatio
 
 void GravityGradient::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   // TODO: use structure information to get inertia tensor
-  CalcTorque_b_Nm(local_environment.GetCelesInfo().GetCenterBodyPosFromSC_b(), dynamics.GetAttitude().GetInertiaTensor());
+  CalcTorque_b_Nm(local_environment.GetCelestialInformation().GetCenterBodyPositionFromSpacecraft_b_m(), dynamics.GetAttitude().GetInertiaTensor());
 }
 
 libra::Vector<3> GravityGradient::CalcTorque_b_Nm(const libra::Vector<3> earth_position_from_sc_b_m,

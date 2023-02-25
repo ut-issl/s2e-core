@@ -50,7 +50,7 @@ GNSSReceiverParam ReadGNSSReceiverIni(const std::string fname, const GnssSatelli
 }
 
 GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const std::string fname, const Dynamics* dynamics,
-                              const GnssSatellites* gnss_satellites, const SimTime* simtime) {
+                              const GnssSatellites* gnss_satellites, const SimulationTime* simtime) {
   GNSSReceiverParam gr_param = ReadGNSSReceiverIni(fname, gnss_satellites, id);
 
   GNSSReceiver gnss_r(gr_param.prescaler, clock_gen, id, gr_param.gnss_id, gr_param.ch_max, gr_param.antenna_model, gr_param.antenna_pos_b,
@@ -59,7 +59,7 @@ GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const std::stri
 }
 
 GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const std::string fname, const Dynamics* dynamics,
-                              const GnssSatellites* gnss_satellites, const SimTime* simtime) {
+                              const GnssSatellites* gnss_satellites, const SimulationTime* simtime) {
   GNSSReceiverParam gr_param = ReadGNSSReceiverIni(fname, gnss_satellites, id);
 
   // PowerPort

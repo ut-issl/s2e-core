@@ -12,12 +12,12 @@
 
 #include <string>
 // #include <time.h>
-#include <library/external/sgp4/sgp4ext.h>
-#include <library/external/sgp4/sgp4io.h>
-#include <library/external/sgp4/sgp4unit.h>
-
 #include <chrono>
-#include <library/logger/loggable.hpp>
+
+#include "library/external/sgp4/sgp4ext.h"
+#include "library/external/sgp4/sgp4io.h"
+#include "library/external/sgp4/sgp4unit.h"
+#include "library/logger/loggable.hpp"
 
 /**
  *@struct TimeState
@@ -39,18 +39,18 @@ struct UTC {
   unsigned int month = 1;
   unsigned int day = 1;
   unsigned int hour = 0;
-  unsigned int min = 0;
-  double sec = 0.0;
+  unsigned int minute = 0;
+  double second = 0.0;
 };
 
 /**
- *@class SimTime
+ *@class SimulationTime
  *@brief Class to manage simulation time related information
  */
-class SimTime : public ILoggable {
+class SimulationTime : public ILoggable {
  public:
   /**
-   *@fn SimTime
+   *@fn SimulationTime
    *@brief Constructor
    *@param [in] end_sec: Simulation duration [sec]
    *@param [in] step_sec: Simulation step [sec]
@@ -65,15 +65,15 @@ class SimTime : public ILoggable {
    *@param [in] start_ymdhms: Simulation start time in UTC [YYYYMMDD hh:mm:ss]
    *@param [in] sim_speed: Simulation speed setting
    */
-  SimTime(const double end_sec, const double step_sec, const double attitude_update_interval_sec, const double attitude_rk_step_sec,
-          const double orbit_update_interval_sec, const double orbit_rk_step_sec, const double thermal_update_interval_sec,
-          const double thermal_rk_step_sec, const double compo_propagate_step_sec, const double log_output_interval_sec, const char* start_ymdhms,
-          const double sim_speed);
+  SimulationTime(const double end_sec, const double step_sec, const double attitude_update_interval_sec, const double attitude_rk_step_sec,
+                 const double orbit_update_interval_sec, const double orbit_rk_step_sec, const double thermal_update_interval_sec,
+                 const double thermal_rk_step_sec, const double compo_propagate_step_sec, const double log_output_interval_sec,
+                 const char* start_ymdhms, const double sim_speed);
   /**
-   *@fn ~SimTime
+   *@fn ~SimulationTime
    *@brief Destructor
    */
-  virtual ~SimTime();
+  virtual ~SimulationTime();
 
   /**
    *@fn SetParameters
@@ -98,84 +98,84 @@ class SimTime : public ILoggable {
    */
   inline const TimeState GetState(void) const { return state_; };
   /**
-   *@fn GetElapsedSec
+   *@fn GetElapsedTime_s
    *@brief Return simulation elapsed time [sec]
    */
-  inline double GetElapsedSec(void) const { return elapsed_time_sec_; };
+  inline double GetElapsedTime_s(void) const { return elapsed_time_sec_; };
   /**
-   *@fn GetStepSec
+   *@fn GetSimulationStep_s
    *@brief Return simulation step [sec]
    */
-  inline double GetStepSec(void) const { return step_sec_; };
+  inline double GetSimulationStep_s(void) const { return step_sec_; };
   /**
-   *@fn GetAttitudeUpdateIntervalSec
+   *@fn GetAttitudeUpdateInterval_s
    *@brief Return attitude update interval [sec]
    */
-  inline double GetAttitudeUpdateIntervalSec(void) const { return attitude_update_interval_sec_; };
+  inline double GetAttitudeUpdateInterval_s(void) const { return attitude_update_interval_sec_; };
   /**
    *@fn GetAttitudePropagateFlag
    *@brief Return attitude propagate flag
    */
   inline bool GetAttitudePropagateFlag(void) const { return attitude_update_flag_; };
   /**
-   *@fn GetAttitudeRKStepSec
+   *@fn GetAttitudeRkStepTime_s
    *@brief Return attitude Runge-Kutta step time [sec]
    */
-  inline double GetAttitudeRKStepSec() const { return attitude_rk_step_sec_; }
+  inline double GetAttitudeRkStepTime_s() const { return attitude_rk_step_sec_; }
 
   /**
-   *@fn GetOrbitUpdateIntervalSec
+   *@fn GetOrbitUpdateInterval_s
    *@brief Return orbit update interval [sec]
    */
-  inline double GetOrbitUpdateIntervalSec(void) const { return orbit_update_interval_sec_; };
+  inline double GetOrbitUpdateInterval_s(void) const { return orbit_update_interval_sec_; };
   /**
    *@fn GetOrbitPropagateFlag
    *@brief Return orbit propagate flag
    */
   inline bool GetOrbitPropagateFlag(void) const { return orbit_update_flag_; };
   /**
-   *@fn GetOrbitRKStepSec
+   *@fn GetOrbitRkStepTime_s
    *@brief Return orbit Runge-Kutta step time [sec]
    */
-  inline double GetOrbitRKStepSec() const { return orbit_rk_step_sec_; }
+  inline double GetOrbitRkStepTime_s() const { return orbit_rk_step_sec_; }
 
   /**
    *@fn GetThermalUpdateIntervalSec
    *@brief Return thermal update interval [sec]
    */
-  inline double GetThermalUpdateIntervalSec(void) const { return thermal_update_interval_sec_; };
+  inline double GetThermalUpdateInterval_s(void) const { return thermal_update_interval_sec_; };
   /**
    *@fn GetThermalPropagateFlag
    *@brief Return thermal propagate flag
    */
   inline bool GetThermalPropagateFlag(void) const { return thermal_update_flag_; };
   /**
-   *@fn GetThermalRKStepSec
+   *@fn GetThermalRkStepTime_s
    *@brief Return thermal Runge-Kutta step time [sec]
    */
-  inline double GetThermalRKStepSec() const { return thermal_rk_step_sec_; }
+  inline double GetThermalRkStepTime_s() const { return thermal_rk_step_sec_; }
 
   /**
-   *@fn GetCompoStepSec
+   *@fn GetComponentStepTime_s
    *@brief Return component update step time [sec]
    */
-  inline double GetCompoStepSec(void) const { return compo_update_interval_sec_; };
+  inline double GetComponentStepTime_s(void) const { return component_update_interval_sec_; };
   /**
    *@fn GetCompoUpdateFlag
    *@brief Return component update flag
    */
-  inline bool GetCompoUpdateFlag() const { return compo_update_flag_; }
+  inline bool GetCompoUpdateFlag() const { return component_update_flag_; }
   /**
-   *@fn GetCompoPropagateFrequency
+   *@fn GetComponentPropagateFrequency_Hz
    *@brief Return component propagate frequency [Hz]
    */
-  inline int GetCompoPropagateFrequency(void) const { return compo_propagate_frequency_; };
+  inline int GetComponentPropagateFrequency_Hz(void) const { return component_propagate_frequency_Hz_; };
 
   /**
-   *@fn GetEndSec
+   *@fn GetEndTime_s
    *@brief Return simulation end elapsed time [sec]
    */
-  inline double GetEndSec(void) const { return end_sec_; };
+  inline double GetEndTime_s(void) const { return end_sec_; };
   /**
    *@fn GetProgressionRate
    *@brief Return progression rate of the simulation [%]
@@ -183,25 +183,25 @@ class SimTime : public ILoggable {
   inline int GetProgressionRate(void) const { return (int)floor((elapsed_time_sec_ / end_sec_ * 100)); };
 
   /**
-   *@fn GetCurrentJd
+   *@fn GetCurrentTime_jd
    *@brief Return current Julian day [day]
    */
-  inline double GetCurrentJd(void) const { return current_jd_; };
+  inline double GetCurrentTime_jd(void) const { return current_jd_; };
   /**
-   *@fn GetCurrentSidereal
+   *@fn GetCurrentSiderealTime
    *@brief Return current sidereal day [day]
    */
-  inline double GetCurrentSidereal(void) const { return current_sidereal_; };
+  inline double GetCurrentSiderealTime(void) const { return current_sidereal_; };
   /**
-   *@fn GetCurrentDecyear
+   *@fn GetCurrentDecimalYear
    *@brief Return current decimal year [year]
    */
-  inline double GetCurrentDecyear(void) const { return current_decyear_; };
+  inline double GetCurrentDecimalYear(void) const { return current_decyear_; };
   /**
-   *@fn GetCurrentUTC
+   *@fn GetCurrentUtc
    *@brief Return current UTC calendar expression
    */
-  inline const UTC GetCurrentUTC(void) const { return current_utc_; };
+  inline const UTC GetCurrentUtc(void) const { return current_utc_; };
 
   /**
    *@fn GetStartYear
@@ -209,30 +209,30 @@ class SimTime : public ILoggable {
    */
   inline int GetStartYear(void) const { return start_year_; };
   /**
-   *@fn GetStartMon
+   *@fn GetStartMonth
    *@brief Return start time month [month]
    */
-  inline int GetStartMon(void) const { return start_mon_; };
+  inline int GetStartMonth(void) const { return start_month_; };
   /**
    *@fn GetStartDay
    *@brief Return start time day [day]
    */
   inline int GetStartDay(void) const { return start_day_; };
   /**
-   *@fn GetStartHr
+   *@fn GetStartHour
    *@brief Return start time hour [hour]
    */
-  inline int GetStartHr(void) const { return start_hr_; };
+  inline int GetStartHour(void) const { return start_hour_; };
   /**
-   *@fn GetStartMin
+   *@fn GetStartMinute
    *@brief Return start time minute [minute]
    */
-  inline int GetStartMin(void) const { return start_min_; };
+  inline int GetStartMinute(void) const { return start_minute_; };
   /**
-   *@fn GetStartSec
+   *@fn GetStartSecond
    *@brief Return start time second [sec]
    */
-  inline double GetStartSec(void) const { return start_sec_; };
+  inline double GetStartSecond(void) const { return start_sec_; };
 
   // Override ILoggable
   /**
@@ -261,17 +261,17 @@ class SimTime : public ILoggable {
   UTC current_utc_;          //!< UTC calendar day
 
   // Timing controller
-  int attitude_update_counter_;  //!< Update counter for attitude calculation
-  bool attitude_update_flag_;    //!< Update flag for attitude calculation
-  int orbit_update_counter_;     //!< Update counter for orbit calculation
-  bool orbit_update_flag_;       //!< Update flag for orbit calculation
-  int thermal_update_counter_;   //!< Update counter for thermal calculation
-  bool thermal_update_flag_;     //!< Update flag for thermal calculation
-  int compo_update_counter_;     //!< Update counter for component calculation
-  bool compo_update_flag_;       //!< Update flag for component calculation
-  int log_counter_;              //!< Update counter for log output
-  int disp_counter_;             //!< Update counter for display output
-  TimeState state_;              //!< State of timing controller
+  int attitude_update_counter_;   //!< Update counter for attitude calculation
+  bool attitude_update_flag_;     //!< Update flag for attitude calculation
+  int orbit_update_counter_;      //!< Update counter for orbit calculation
+  bool orbit_update_flag_;        //!< Update flag for orbit calculation
+  int thermal_update_counter_;    //!< Update counter for thermal calculation
+  bool thermal_update_flag_;      //!< Update flag for thermal calculation
+  int component_update_counter_;  //!< Update counter for component calculation
+  bool component_update_flag_;    //!< Update flag for component calculation
+  int log_counter_;               //!< Update counter for log output
+  int display_counter_;           //!< Update counter for display output
+  TimeState state_;               //!< State of timing controller
 
   // Calculation time measure
   std::chrono::system_clock::time_point clock_start_time_millisec_;  //!< Simulation start time [ms]
@@ -279,28 +279,28 @@ class SimTime : public ILoggable {
   std::chrono::system_clock::time_point clock_last_time_completed_step_in_time_;  //!< Simulation finished time [ms]
 
   // Constants
-  double end_sec_;                       //!< Time from start of simulation to end [sec]
-  double step_sec_;                      //!< Simulation step width [sec]
-  double attitude_update_interval_sec_;  //!< Update intercal for attitude calculation [sec]
-  double attitude_rk_step_sec_;          //!< Runge-Kutta step width for attitude calculation [sec]
-  double orbit_update_interval_sec_;     //!< Update intercal for orbit calculation [sec]
-  double orbit_rk_step_sec_;             //!< Runge-Kutta step width for orbit calculation [sec]
-  double thermal_update_interval_sec_;   //!< Update intercal for thermal calculation [sec]
-  double thermal_rk_step_sec_;           //!< Runge-Kutta step width for thermal calculation [sec]
-  double compo_update_interval_sec_;     //!< Update intercal for component calculation [sec]
-  int compo_propagate_frequency_;        //!< Component propagation frequency [Hz]
-  double log_output_interval_sec_;       //!< Log output interval [sec]
-  double disp_period_;                   //!< Display output period [sec]
+  double end_sec_;                        //!< Time from start of simulation to end [sec]
+  double step_sec_;                       //!< Simulation step width [sec]
+  double attitude_update_interval_sec_;   //!< Update intercal for attitude calculation [sec]
+  double attitude_rk_step_sec_;           //!< Runge-Kutta step width for attitude calculation [sec]
+  double orbit_update_interval_sec_;      //!< Update intercal for orbit calculation [sec]
+  double orbit_rk_step_sec_;              //!< Runge-Kutta step width for orbit calculation [sec]
+  double thermal_update_interval_sec_;    //!< Update intercal for thermal calculation [sec]
+  double thermal_rk_step_sec_;            //!< Runge-Kutta step width for thermal calculation [sec]
+  double component_update_interval_sec_;  //!< Update intercal for component calculation [sec]
+  int component_propagate_frequency_Hz_;  //!< Component propagation frequency [Hz]
+  double log_output_interval_sec_;        //!< Log output interval [sec]
+  double display_period_;                 //!< Display output period [sec]
 
   double start_jd_;   //!< Simulation start Julian date [day]
   int start_year_;    //!< Simulation start year
-  int start_mon_;     //!< Simulation start month
+  int start_month_;   //!< Simulation start month
   int start_day_;     //!< Simulation start day
-  int start_hr_;      //!< Simulation start hour
-  int start_min_;     //!< Simulation start minute
+  int start_hour_;    //!< Simulation start hour
+  int start_minute_;  //!< Simulation start minute
   double start_sec_;  //!< Simulation start seconds
 
-  double sim_speed_;  //!< The speed of the simulation relative to real time (if negative, real time is not taken into account)
+  double simulation_speed_;  //!< The speed of the simulation relative to real time (if negative, real time is not taken into account)
   double time_exceeds_continuously_limit_sec_;  //!< Maximum duration to allow actual step_sec to be larger than specified continuously
 
   /**
@@ -314,10 +314,10 @@ class SimTime : public ILoggable {
    */
   void AssertTimeStepParams();
   /**
-   * @fn ConvJDtoCalndarDay
+   * @fn ConvJDtoCalendarDay
    * @brief Convert Julian date to UTC Calendar date
    * @note wrapper function of invjday @ sgp4ext for interface adjustment
    */
-  void ConvJDtoCalndarDay(const double JD);
+  void ConvJDtoCalendarDay(const double JD);
 };
 #endif  // S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_HPP_

@@ -5,17 +5,17 @@
 
 #include "gnss_satellites.hpp"
 
-#include <library/external/sgp4/sgp4ext.h>   //for jday()
-#include <library/external/sgp4/sgp4unit.h>  //for gstime()
-
 #include <algorithm>
-#include <environment/global/physical_constants.hpp>
 #include <iostream>
-#include <library/logger/log_utility.hpp>
-#include <library/math/constants.hpp>
-#include <library/utilities/macros.hpp>
 #include <sstream>
 #include <vector>
+
+#include "environment/global/physical_constants.hpp"
+#include "library/external/sgp4/sgp4ext.h"   //for jday()
+#include "library/external/sgp4/sgp4unit.h"  //for gstime()
+#include "library/logger/log_utility.hpp"
+#include "library/math/constants.hpp"
+#include "library/utilities/macros.hpp"
 
 const double nan99 = 999999.999999;
 
@@ -82,10 +82,11 @@ double get_unixtime_from_timestamp_line(std::vector<string>& s) {
 }
 
 template <size_t N>
-Vector<N> GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<Vector<N>>& values, double time) const {
+libra::Vector<N> GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<libra::Vector<N>>& values,
+                                                                double time) const {
   int n = time_vector.size();
   double w = libra::tau / (24.0 * 60.0 * 60.0) * 1.03;  // coefficient of a day long
-  Vector<N> res(0.0);
+  libra::Vector<N> res(0.0);
 
   for (int i = 0; i < n; ++i) {
     double t_k = 1.0;
@@ -119,9 +120,10 @@ double GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time
 }
 
 template <size_t N>
-Vector<N> GnssSat_coordinate::LagrangeInterpolation(const vector<double>& time_vector, const vector<Vector<N>>& values, double time) const {
+libra::Vector<N> GnssSat_coordinate::LagrangeInterpolation(const vector<double>& time_vector, const vector<libra::Vector<N>>& values,
+                                                           double time) const {
   int n = time_vector.size();
-  Vector<N> res(0.0);
+  libra::Vector<N> res(0.0);
 
   for (int i = 0; i < n; ++i) {
     double l_i = 1.0;
@@ -357,8 +359,8 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
 void GnssSat_position::SetUp(const double start_unix_time, const double step_sec) {
   step_sec_ = step_sec;
 
-  gnss_sat_ecef_.assign(all_sat_num_, Vector<3>(0.0));
-  gnss_sat_eci_.assign(all_sat_num_, Vector<3>(0.0));
+  gnss_sat_ecef_.assign(all_sat_num_, libra::Vector<3>(0.0));
+  gnss_sat_eci_.assign(all_sat_num_, libra::Vector<3>(0.0));
   validate_.assign(all_sat_num_, false);
 
   nearest_index_.resize(all_sat_num_);
@@ -491,12 +493,12 @@ void GnssSat_position::Update(const double now_unix_time) {
 }
 
 libra::Vector<3> GnssSat_position::GetSatEcef(int sat_id) const {
-  if (sat_id >= all_sat_num_) return Vector<3>(0.0);
+  if (sat_id >= all_sat_num_) return libra::Vector<3>(0.0);
   return gnss_sat_ecef_.at(sat_id);
 }
 
 libra::Vector<3> GnssSat_position::GetSatEci(int sat_id) const {
-  if (sat_id >= all_sat_num_) return Vector<3>(0.0);
+  if (sat_id >= all_sat_num_) return libra::Vector<3>(0.0);
   return gnss_sat_eci_.at(sat_id);
 }
 
@@ -858,31 +860,31 @@ void GnssSatellites::Init(vector<vector<string>>& true_position_file, int true_p
   return;
 }
 
-void GnssSatellites::SetUp(const SimTime* sim_time) {
+void GnssSatellites::SetUp(const SimulationTime* sim_time) {
   if (!IsCalcEnabled()) return;
 
   tm* start_tm = initilized_tm();
   start_tm->tm_year = sim_time->GetStartYear() - 1900;
-  start_tm->tm_mon = sim_time->GetStartMon() - 1;
+  start_tm->tm_mon = sim_time->GetStartMonth() - 1;
   start_tm->tm_mday = sim_time->GetStartDay();
-  start_tm->tm_hour = sim_time->GetStartHr();
-  start_tm->tm_min = sim_time->GetStartMin();
-  double start_sec = sim_time->GetStartSec();
+  start_tm->tm_hour = sim_time->GetStartHour();
+  start_tm->tm_min = sim_time->GetStartMinute();
+  double start_sec = sim_time->GetStartSecond();
   start_tm->tm_sec = (int)start_sec;
   double unix_time = (double)mktime(start_tm) + start_sec - floor(start_sec);
   std::free(start_tm);
-  true_info_.SetUp(unix_time, sim_time->GetStepSec());
-  estimate_info_.SetUp(unix_time, sim_time->GetStepSec());
+  true_info_.SetUp(unix_time, sim_time->GetSimulationStep_s());
+  estimate_info_.SetUp(unix_time, sim_time->GetSimulationStep_s());
 
   start_unix_time_ = unix_time;
 
   return;
 }
 
-void GnssSatellites::Update(const SimTime* sim_time) {
+void GnssSatellites::Update(const SimulationTime* sim_time) {
   if (!IsCalcEnabled()) return;
 
-  double elapsed_sec = sim_time->GetElapsedSec();
+  double elapsed_sec = sim_time->GetElapsedTime_s();
 
   true_info_.Update(elapsed_sec + start_unix_time_);
   estimate_info_.Update(elapsed_sec + start_unix_time_);

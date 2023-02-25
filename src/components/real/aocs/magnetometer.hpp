@@ -32,7 +32,7 @@ class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILogg
    * @param [in] magnet: Geomagnetic environment
    */
   MagSensor(const int prescaler, ClockGenerator* clock_gen, SensorBase& sensor_base, const int sensor_id, const libra::Quaternion& q_b2c,
-            const MagEnvironment* magnet);
+            const GeomagneticField* magnet);
   /**
    * @fn MagSensor
    * @brief Constructor with power port
@@ -45,7 +45,7 @@ class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILogg
    * @param [in] magnet: Geomagnetic environment
    */
   MagSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, SensorBase& sensor_base, const int sensor_id,
-            const libra::Quaternion& q_b2c, const MagEnvironment* magnet);
+            const libra::Quaternion& q_b2c, const GeomagneticField* magnet);
   /**
    * @fn ~MagSensor
    * @brief Destructor
@@ -82,7 +82,7 @@ class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILogg
   int sensor_id_ = 0;                            //!< Sensor ID
   libra::Quaternion q_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
 
-  const MagEnvironment* magnet_;  //!< Geomagnetic environment
+  const GeomagneticField* magnet_;  //!< Geomagnetic environment
 };
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MAGNETOMETER_HPP_

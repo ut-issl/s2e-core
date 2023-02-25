@@ -6,56 +6,56 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
 #define S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
 
-#include <library/math/vector.hpp>
-using libra::Vector;
-#include <library/math/quaternion.hpp>
-using libra::Quaternion;
-
-#include <library/logger/loggable.hpp>
+#include "library/geodesy/geodetic_position.hpp"
+#include "library/logger/loggable.hpp"
+#include "library/math/quaternion.hpp"
+#include "library/math/vector.hpp"
 
 /**
- * @class MagEnvironment
+ * @class GeomagneticField
  * @brief Class to calculate magnetic field of the earth
  */
-class MagEnvironment : public ILoggable {
+class GeomagneticField : public ILoggable {
  public:
   bool IsCalcEnabled = true;  //!< Calculation flag
 
   /**
-   * @fn MagEnvironment
+   * @fn GeomagneticField
    * @brief Constructor
-   * @param [in] fname: Path to initialize file
-   * @param [in] mag_rwdev: Standard deviation of Random Walk [nT]
-   * @param [in] mag_rwlimit: Limit of Random Walk [nT]
-   * @param [in] mag_wnvar: Standard deviation of white noise [nT]
+   * @param [in] igrf_file_name: Path to initialize file
+   * @param [in] random_walk_srandard_deviation_nT: Standard deviation of Random Walk [nT]
+   * @param [in] random_walk_limit_nT: Limit of Random Walk [nT]
+   * @param [in] white_noise_standard_deviation_nT: Standard deviation of white noise [nT]
    */
-  MagEnvironment(std::string fname, double mag_rwdev, double mag_rwlimit, double mag_wnvar);
+  GeomagneticField(const std::string igrf_file_name, const double random_walk_srandard_deviation_nT, const double random_walk_limit_nT,
+                   const double white_noise_standard_deviation_nT);
   /**
-   * @fn ~MagEnvironment
+   * @fn ~GeomagneticField
    * @brief Destructor
    */
-  virtual ~MagEnvironment() {}
+  virtual ~GeomagneticField() {}
 
   /**
-   * @fn CalcMag
+   * @fn CalcMagneticField
    * @brief Calculate magnetic field vector
-   * @param [in] decyear: Decimal year [year]
-   * @param [in] side: Sidereal day [day]
-   * @param [in] lat_lon_alt: Latitude [rad], longitude [rad], and altitude [m]
-   * @param [in] q_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
+   * @param [in] decimal_year: Decimal year [year]
+   * @param [in] sidereal_day: Sidereal day [day]
+   * @param [in] position: Position of target point to calculate the magnetic field
+   * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
-  void CalcMag(double decyear, double side, Vector<3> lat_lon_alt, Quaternion q_i2b);
+  void CalcMagneticField(const double decimal_year, const double sidereal_day, const GeodeticPosition position,
+                         const libra::Quaternion quaternion_i2b);
 
   /**
-   * @fn GetMag_i
+   * @fn GetGeomagneticFieldneticField_i_nT
    * @brief Return magnetic field vector in the inertial frame [nT]
    */
-  Vector<3> GetMag_i() const;
+  inline libra::Vector<3> GetGeomagneticFieldneticField_i_nT() const { return magnetic_field_i_nT_; }
   /**
-   * @fn GetMag_b
+   * @fn GetGeomagneticFieldneticField_b_nT
    * @brief Return magnetic field vector in the body fixed frame [nT]
    */
-  Vector<3> GetMag_b() const;
+  inline libra::Vector<3> GetGeomagneticFieldneticField_b_nT() const { return magnetic_field_b_nT_; }
 
   // Override ILoggable
   /**
@@ -70,19 +70,19 @@ class MagEnvironment : public ILoggable {
   virtual std::string GetLogValue() const;
 
  private:
-  Vector<3> Mag_i_;     //!< Magnetic field vector at the inertial frame
-  Vector<3> Mag_b_;     //!< Magnetic field vector at the spacecraft body fixed frame
-  double mag_rwdev_;    //!< Standard deviation of Random Walk [nT]
-  double mag_rwlimit_;  //!< Limit of Random Walk [nT]
-  double mag_wnvar_;    //!< Standard deviation of white noise [nT]
-  std::string fname_;   //!< Path to the initialize file
+  libra::Vector<3> magnetic_field_i_nT_;      //!< Magnetic field vector at the inertial frame [nT]
+  libra::Vector<3> magnetic_field_b_nT_;      //!< Magnetic field vector at the spacecraft body fixed frame [nT]
+  double random_walk_standard_deviation_nT_;  //!< Standard deviation of Random Walk [nT]
+  double random_walk_limit_nT_;               //!< Limit of Random Walk [nT]
+  double white_noise_standard_deviation_nT_;  //!< Standard deviation of white noise [nT]
+  std::string igrf_file_name_;                //!< Path to the initialize file
 
   /**
    * @fn AddNoise
    * @brief Add magnetic field noise
-   * @param [in/out] mag_i_array: input true magnetic field, output magnetic field with noise
+   * @param [in/out] magnetic_field_array_i_nT: input true magnetic field, output magnetic field with noise
    */
-  void AddNoise(double* mag_i_array);
+  void AddNoise(double* magnetic_field_array_i_nT);
 };
 
 #endif  // S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_

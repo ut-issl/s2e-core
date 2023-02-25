@@ -9,7 +9,7 @@
 #include <environment/global/clock_generator.hpp>
 
 SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
-         libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp,
+         libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
          const LocalCelestialInformation* local_celes_info, double compo_step_time)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
@@ -27,7 +27,8 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_s
 }
 
 SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
-         libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, double compo_step_time)
+         libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
+         double compo_step_time)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       number_of_series_(number_of_series),
@@ -43,7 +44,8 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_s
 }
 
 SAP::SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
-         double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info)
+         double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
+         const LocalCelestialInformation* local_celes_info)
     : ComponentBase(10, clock_gen),
       id_(id),
       number_of_series_(number_of_series),
@@ -97,14 +99,14 @@ std::string SAP::GetLogValue() const {
 void SAP::MainRoutine(int time_count) {
   if (CsvScenarioInterface::IsCsvScenarioEnabled()) {
     double time_query = compo_step_time_ * time_count;
-    const auto solar_constant = srp_->GetSolarConstant();
+    const auto solar_constant = srp_->GetSolarConstant_W_m2();
     libra::Vector<3> sun_direction_body = CsvScenarioInterface::GetSunDirectionBody(time_query);
     libra::Vector<3> normalized_sun_direction_body = libra::normalize(sun_direction_body);
     power_generation_ = cell_efficiency_ * transmission_efficiency_ * solar_constant * (int)CsvScenarioInterface::GetSunFlag(time_query) *
                         cell_area_ * number_of_parallel_ * number_of_series_ * inner_product(normal_vector_, normalized_sun_direction_body);
   } else {
-    const auto power_density = srp_->CalcPowerDensity();
-    libra::Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
+    const auto power_density = srp_->GetPowerDensity_W_m2();
+    libra::Vector<3> sun_pos_b = local_celes_info_->GetPositionFromSpacecraft_b_m("SUN");
     libra::Vector<3> sun_dir_b = libra::normalize(sun_pos_b);
     power_generation_ = cell_efficiency_ * transmission_efficiency_ * power_density * cell_area_ * number_of_parallel_ * number_of_series_ *
                         inner_product(normal_vector_, sun_dir_b);

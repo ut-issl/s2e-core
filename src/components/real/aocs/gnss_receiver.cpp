@@ -11,7 +11,7 @@
 
 GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const int id, const std::string gnss_id, const int ch_max,
                            const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
-                           const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime)
+                           const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       ch_max_(ch_max),
@@ -29,7 +29,7 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const
 GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const std::string gnss_id,
                            const int ch_max, const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c,
                            const double half_width, const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
-                           const SimTime* simtime)
+                           const SimulationTime* simtime)
     : ComponentBase(prescaler, clock_gen, power_port),
       id_(id),
       ch_max_(ch_max),
@@ -59,13 +59,13 @@ void GNSSReceiver::MainRoutine(int count) {
     velocity_ecef_ = dynamics_->GetOrbit().GetSatVelocity_ecef();
     AddNoise(pos_true_eci_, position_ecef_);
 
-    utc_ = simtime_->GetCurrentUTC();
-    ConvertJulianDayToGPSTime(simtime_->GetCurrentJd());
+    utc_ = simtime_->GetCurrentUtc();
+    ConvertJulianDayToGPSTime(simtime_->GetCurrentTime_jd());
   } else {
     // position information will not be updated in this case
     // only time information will be updated in this case (according to the receiver's internal clock)
-    utc_ = simtime_->GetCurrentUTC();
-    ConvertJulianDayToGPSTime(simtime_->GetCurrentJd());
+    utc_ = simtime_->GetCurrentUtc();
+    ConvertJulianDayToGPSTime(simtime_->GetCurrentTime_jd());
   }
 }
 
@@ -221,8 +221,8 @@ std::string GNSSReceiver::GetLogValue() const  // For logs
   str_tmp += WriteScalar(utc_.month);
   str_tmp += WriteScalar(utc_.day);
   str_tmp += WriteScalar(utc_.hour);
-  str_tmp += WriteScalar(utc_.min);
-  str_tmp += WriteScalar(utc_.sec);
+  str_tmp += WriteScalar(utc_.minute);
+  str_tmp += WriteScalar(utc_.second);
   str_tmp += WriteVector(position_eci_, 10);
   str_tmp += WriteVector(velocity_ecef_, 10);
   str_tmp += WriteScalar(position_llh_[0], 10);

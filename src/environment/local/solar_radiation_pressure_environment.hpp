@@ -6,68 +6,61 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_
 #define S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_
 
-#include <environment/local/local_celestial_information.hpp>
-#include <library/logger/loggable.hpp>
-#include <library/math/vector.hpp>
-
-using libra::Vector;
+#include "environment/global/physical_constants.hpp"
+#include "environment/local/local_celestial_information.hpp"
 
 /**
- * @class SRPEnvironment
+ * @class SolarRadiationPressureEnvironment
  * @brief Class to calculate Solar Radiation Pressure
  */
-class SRPEnvironment : public ILoggable {
+class SolarRadiationPressureEnvironment : public ILoggable {
  public:
   bool IsCalcEnabled = true;  //!< Calculation flag
 
   /**
-   * @fn SRPEnvironment
+   * @fn SolarRadiationPressureEnvironment
    * @brief Constructor
-   * @param [in] local_celes_info: Local celestial information
+   * @param [in] local_celestial_information: Local celestial information
    */
-  SRPEnvironment(LocalCelestialInformation* local_celes_info);
+  SolarRadiationPressureEnvironment(LocalCelestialInformation* local_celestial_information);
   /**
-   * @fn ~SRPEnvironment
+   * @fn ~SolarRadiationPressureEnvironment
    * @brief Destructor
    */
-  virtual ~SRPEnvironment() {}
+  virtual ~SolarRadiationPressureEnvironment() {}
 
   /**
    * @fn UpdateAllStates
    * @brief Update pressure and shadow coefficients
    */
   void UpdateAllStates();
-  /**
-   * @fn UpdatePressure
-   * @brief Update pressure with solar distance
-   */
-  void UpdatePressure();
 
+  // Getter
   /**
-   * @fn CalcTruePressure
+   * @fn GetPressure_N_m2
    * @brief Calculate and return solar radiation pressure that takes into account eclipse [N/m^2]
    */
-  double CalcTruePressure() const;
+  inline double GetPressure_N_m2() const { return solar_radiation_pressure_N_m2_ * shadow_coefficient_; }
   /**
-   * @fn CalcPowerDensity
+   * @fn GetPowerDensity_W_m2
    * @brief Calculate and return solar power per unit area considering eclipse [W/m^2]
    */
-  double CalcPowerDensity() const;
+  inline double GetPowerDensity_W_m2() const { return solar_radiation_pressure_N_m2_ * environment::speed_of_light_m_s * shadow_coefficient_; }
   /**
-   * @fn GetPressure
+   * @fn GetPressureWithoutEclipse_Nm2
    * @brief Return solar pressure without eclipse effect [N/m^2]
    */
-  double GetPressure() const;
+  inline double GetPressureWithoutEclipse_Nm2() const { return solar_radiation_pressure_N_m2_; }
   /**
-   * @fn GetSolarConstant
+   * @fn GetSolarConstant_W_m2
    * @brief Return solar constant value [W/m^2]
    */
-  double GetSolarConstant() const;
+  inline double GetSolarConstant_W_m2() const { return solar_constant_W_m2_; }
   /**
    * @fn GetShadowCoefficient
    * @brief Return shadow function
    */
-  double GetShadowCoefficient() const;
+  inline double GetShadowCoefficient() const { return shadow_coefficient_; }
   /**
    * @fn GetIsEclipsed
    * @brief Returns true if the shadow function is less than 1
@@ -87,13 +80,19 @@ class SRPEnvironment : public ILoggable {
   virtual std::string GetLogValue() const;
 
  private:
-  double pressure_;                  //!< Solar radiation pressure [N/m^2]
-  double solar_constant_;            //!< solar constant [W/m^2] TODO: We need to change the value depends on sun activity.
-  double shadow_coefficient_ = 1.0;  //!< shadow function
-  double sun_radius_m_;              //!< Sun radius [m]
-  std::string shadow_source_name_;   //!< Shadow source name
+  double solar_radiation_pressure_N_m2_;  //!< Solar radiation pressure [N/m^2]
+  double solar_constant_W_m2_ = 1366.0;   //!< Solar constant [W/m^2] TODO: We need to change the value depends on sun activity.
+  double shadow_coefficient_ = 1.0;       //!< Shadow function
+  double sun_radius_m_;                   //!< Sun radius [m]
+  std::string shadow_source_name_;        //!< Shadow source name
 
-  LocalCelestialInformation* local_celes_info_;  //!< Local celestial information
+  LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
+
+  /**
+   * @fn UpdatePressure
+   * @brief Update pressure with solar distance
+   */
+  void UpdatePressure();
 
   /**
    * @fn CalcShadowCoefficient

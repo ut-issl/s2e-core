@@ -32,27 +32,27 @@ void SampleCase::Initialize() {
 
   // Start the simulation
   cout << "\nSimulationDateTime \n";
-  glo_env_->GetSimTime().PrintStartDateTime();
+  glo_env_->GetSimulationTime().PrintStartDateTime();
 }
 
 void SampleCase::Main() {
   glo_env_->Reset();  // for MonteCarlo Sim
-  while (!glo_env_->GetSimTime().GetState().finish) {
+  while (!glo_env_->GetSimulationTime().GetState().finish) {
     // Logging
-    if (glo_env_->GetSimTime().GetState().log_output) {
+    if (glo_env_->GetSimulationTime().GetState().log_output) {
       sim_config_.main_logger_->WriteValues();
     }
 
     // Global Environment Update
     glo_env_->Update();
     // Spacecraft Update
-    sample_sat_->Update(&(glo_env_->GetSimTime()));
+    sample_sat_->Update(&(glo_env_->GetSimulationTime()));
     // Ground Station Update
-    sample_gs_->Update(glo_env_->GetCelesInfo().GetEarthRotation(), *sample_sat_);
+    sample_gs_->Update(glo_env_->GetCelestialInformation().GetEarthRotation(), *sample_sat_);
 
     // Debug output
-    if (glo_env_->GetSimTime().GetState().disp_output) {
-      cout << "Progresss: " << glo_env_->GetSimTime().GetProgressionRate() << "%\r";
+    if (glo_env_->GetSimulationTime().GetState().disp_output) {
+      cout << "Progresss: " << glo_env_->GetSimulationTime().GetProgressionRate() << "%\r";
     }
   }
 }
@@ -78,7 +78,7 @@ string SampleCase::GetLogValue() const {
   // auto omega_b = sample_sat->dynamics_->GetAttitude().GetOmega_b();
 
   // Need to match the contents of log with header setting above
-  str_tmp += WriteScalar(glo_env_->GetSimTime().GetElapsedSec());
+  str_tmp += WriteScalar(glo_env_->GetSimulationTime().GetElapsedTime_s());
   // str_tmp += WriteVector(pos_i, 16);
   // str_tmp += WriteVector(vel_i, 10);
   // str_tmp += WriteQuaternion(quat_i2b);

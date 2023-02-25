@@ -12,24 +12,24 @@
 #include "../library/randomization/normal_randomization.hpp"
 #include "../library/randomization/random_walk.hpp"
 
-MagDisturbance::MagDisturbance(const RMMParams& rmm_params, const bool is_calculation_enabled)
+MagneticDisturbance::MagneticDisturbance(const RMMParams& rmm_params, const bool is_calculation_enabled)
     : SimpleDisturbance(is_calculation_enabled), rmm_params_(rmm_params) {
   rmm_b_Am2_ = rmm_params_.GetRMMConst_b();
 }
 
-Vector<3> MagDisturbance::CalcTorque_b_Nm(const Vector<3>& magnetic_field_b_nT) {
+Vector<3> MagneticDisturbance::CalcTorque_b_Nm(const Vector<3>& magnetic_field_b_nT) {
   CalcRMM();
   torque_b_Nm_ = kMagUnit_ * outer_product(rmm_b_Am2_, magnetic_field_b_nT);
   return torque_b_Nm_;
 }
 
-void MagDisturbance::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+void MagneticDisturbance::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   UNUSED(dynamics);
 
-  CalcTorque_b_Nm(local_environment.GetMag().GetMag_b());
+  CalcTorque_b_Nm(local_environment.GetGeomagneticField().GetGeomagneticFieldneticField_b_nT());
 }
 
-void MagDisturbance::CalcRMM() {
+void MagneticDisturbance::CalcRMM() {
   static libra::Vector<3> random_walk_std_dev(rmm_params_.GetRMMRWDev());
   static libra::Vector<3> random_walk_limit(rmm_params_.GetRMMRWLimit());
   static RandomWalk<3> random_walk(0.1, random_walk_std_dev, random_walk_limit);  // [FIXME] step width is constant
@@ -42,7 +42,7 @@ void MagDisturbance::CalcRMM() {
   ++random_walk;  // Update random walk
 }
 
-std::string MagDisturbance::GetLogHeader() const {
+std::string MagneticDisturbance::GetLogHeader() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector("spacecraft_magnetic_moment", "b", "Am2", 3);
@@ -51,7 +51,7 @@ std::string MagDisturbance::GetLogHeader() const {
   return str_tmp;
 }
 
-std::string MagDisturbance::GetLogValue() const {
+std::string MagneticDisturbance::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector(rmm_b_Am2_);

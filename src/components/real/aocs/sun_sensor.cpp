@@ -15,7 +15,7 @@ using namespace std;
 
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen, const int id, const libra::Quaternion& q_b2c, const double detectable_angle_rad,
                      const double nr_stddev_c, const double nr_bias_stddev_c, const double intensity_lower_threshold_percent,
-                     const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info)
+                     const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celes_info)
     : ComponentBase(prescaler, clock_gen),
       id_(id),
       q_b2c_(q_b2c),
@@ -28,7 +28,8 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen, const int i
 
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
                      const double detectable_angle_rad, const double nr_stddev_c, const double nr_bias_stddev_c,
-                     const double intensity_lower_threshold_percent, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info)
+                     const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
+                     const LocalCelestialInformation* local_celes_info)
     : ComponentBase(prescaler, clock_gen, power_port),
       id_(id),
       q_b2c_(q_b2c),
@@ -56,7 +57,7 @@ void SunSensor::MainRoutine(int count) {
 }
 
 void SunSensor::measure() {
-  Vector<3> sun_pos_b = local_celes_info_->GetPosFromSC_b("SUN");
+  Vector<3> sun_pos_b = local_celes_info_->GetPositionFromSpacecraft_b_m("SUN");
   Vector<3> sun_dir_b = normalize(sun_pos_b);
 
   sun_c_ = q_b2c_.frame_conv(sun_dir_b);  // Frame conversion from body to component
@@ -97,7 +98,7 @@ void SunSensor::SunDetectionJudgement() {
 
   double sun_angle_ = acos(sun_direction_c[2]);
 
-  if (solar_illuminance_ < intensity_lower_threshold_percent_ / 100.0 * srp_->GetSolarConstant()) {
+  if (solar_illuminance_ < intensity_lower_threshold_percent_ / 100.0 * srp_->GetSolarConstant_W_m2()) {
     sun_detected_flag_ = false;
   } else {
     if (sun_angle_ < detectable_angle_rad_) {
@@ -117,7 +118,7 @@ void SunSensor::CalcSolarIlluminance() {
     return;
   }
 
-  double power_density = srp_->CalcPowerDensity();
+  double power_density = srp_->GetPowerDensity_W_m2();
   solar_illuminance_ = power_density * cos(sun_angle_);
   // TODO: Take into account the effects of albedo.
 }

@@ -9,30 +9,28 @@
 
 #include "celestial_rotation.hpp"
 
-#include <library/external/sgp4/sgp4ext.h>   // for jday()
-#include <library/external/sgp4/sgp4unit.h>  // for gstime()
-
 #include <iostream>
-#include <library/math/constants.hpp>
 #include <sstream>
 
-using namespace std;
+#include "library/external/sgp4/sgp4ext.h"   // for jday()
+#include "library/external/sgp4/sgp4unit.h"  // for gstime()
+#include "library/math/constants.hpp"
 
 // Default constructor
-CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const string center_obj) {
+CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std::string center_body_name) {
   planet_name_ = "Anonymous";
   rotation_mode_ = Idle;
-  unitalize(DCM_J2000toXCXF_);
-  DCM_TEMEtoXCXF_ = DCM_J2000toXCXF_;
-  if (center_obj == "EARTH") {
-    Init_CelestialRotation_As_Earth(rotation_mode, center_obj);
+  unitalize(dcm_j2000_to_xcxf_);
+  dcm_teme_to_xcxf_ = dcm_j2000_to_xcxf_;
+  if (center_body_name == "EARTH") {
+    InitCelestialRotationAsEarth(rotation_mode, center_body_name);
   }
 }
 
 // Initialize the class CelestialRotation instance as Earth
-void CelestialRotation::Init_CelestialRotation_As_Earth(const RotationMode rotation_mode, const string center_obj) {
+void CelestialRotation::InitCelestialRotationAsEarth(const RotationMode rotation_mode, const std::string center_body_name) {
   planet_name_ = "EARTH";
-  if (center_obj == planet_name_) {
+  if (center_body_name == planet_name_) {
     if (rotation_mode == Simple) {
       rotation_mode_ = Simple;
       // For Simple mode, we don't need initialization of the coefficients
@@ -43,10 +41,10 @@ void CelestialRotation::Init_CelestialRotation_As_Earth(const RotationMode rotat
 
       // Coefficients to compute mean obliquity of the ecliptic
       // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
-      c_epsi_rad_[0] = 23.4392911 * libra::deg_to_rad;      // [rad]
-      c_epsi_rad_[1] = -46.8150000 * libra::arcsec_to_rad;  // [rad/century]
-      c_epsi_rad_[2] = -5.9000e-4 * libra::arcsec_to_rad;   // [rad/century^2]
-      c_epsi_rad_[3] = 1.8130e-3 * libra::arcsec_to_rad;    // [rad/century^3]
+      c_epsilon_rad_[0] = 23.4392911 * libra::deg_to_rad;      // [rad]
+      c_epsilon_rad_[1] = -46.8150000 * libra::arcsec_to_rad;  // [rad/century]
+      c_epsilon_rad_[2] = -5.9000e-4 * libra::arcsec_to_rad;   // [rad/century^2]
+      c_epsilon_rad_[3] = 1.8130e-3 * libra::arcsec_to_rad;    // [rad/century^3]
 
       // Coefficients to compute delauney angles
       // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
@@ -62,44 +60,44 @@ void CelestialRotation::Init_CelestialRotation_As_Earth(const RotationMode rotat
       c_ls_rad_[3] = 0.00013600 * libra::arcsec_to_rad;          // [rad/century^3]
       c_ls_rad_[4] = -0.00001149 * libra::arcsec_to_rad;         // [rad/century^4]
 
-      c_F_rad_[0] = 93.27209062 * libra::deg_to_rad;             // [rad]
-      c_F_rad_[1] = 1739527262.84780000 * libra::arcsec_to_rad;  // [rad/century]
-      c_F_rad_[2] = -12.75120000 * libra::arcsec_to_rad;         // [rad/century^2]
-      c_F_rad_[3] = -0.00103700 * libra::arcsec_to_rad;          // [rad/century^3]
-      c_F_rad_[4] = 0.00000417 * libra::arcsec_to_rad;           // [rad/century^4]
+      c_f_rad_[0] = 93.27209062 * libra::deg_to_rad;             // [rad]
+      c_f_rad_[1] = 1739527262.84780000 * libra::arcsec_to_rad;  // [rad/century]
+      c_f_rad_[2] = -12.75120000 * libra::arcsec_to_rad;         // [rad/century^2]
+      c_f_rad_[3] = -0.00103700 * libra::arcsec_to_rad;          // [rad/century^3]
+      c_f_rad_[4] = 0.00000417 * libra::arcsec_to_rad;           // [rad/century^4]
 
-      c_D_rad_[0] = 297.85019547 * libra::deg_to_rad;            // [rad]
-      c_D_rad_[1] = 1602961601.20900000 * libra::arcsec_to_rad;  // [rad/century]
-      c_D_rad_[2] = -6.37060000 * libra::arcsec_to_rad;          // [rad/century^2]
-      c_D_rad_[3] = 0.00659300 * libra::arcsec_to_rad;           // [rad/century^3]
-      c_D_rad_[4] = -0.00003169 * libra::arcsec_to_rad;          // [rad/century^4]
+      c_d_rad_[0] = 297.85019547 * libra::deg_to_rad;            // [rad]
+      c_d_rad_[1] = 1602961601.20900000 * libra::arcsec_to_rad;  // [rad/century]
+      c_d_rad_[2] = -6.37060000 * libra::arcsec_to_rad;          // [rad/century^2]
+      c_d_rad_[3] = 0.00659300 * libra::arcsec_to_rad;           // [rad/century^3]
+      c_d_rad_[4] = -0.00003169 * libra::arcsec_to_rad;          // [rad/century^4]
 
-      c_O_rad_[0] = 125.04455501 * libra::deg_to_rad;          // [rad]
-      c_O_rad_[1] = -6962890.54310000 * libra::arcsec_to_rad;  // [rad/century]
-      c_O_rad_[2] = 7.47220000 * libra::arcsec_to_rad;         // [rad/century^2]
-      c_O_rad_[3] = 0.00770200 * libra::arcsec_to_rad;         // [rad/century^3]
-      c_O_rad_[4] = -0.00005939 * libra::arcsec_to_rad;        // [rad/century^4]
+      c_o_rad_[0] = 125.04455501 * libra::deg_to_rad;          // [rad]
+      c_o_rad_[1] = -6962890.54310000 * libra::arcsec_to_rad;  // [rad/century]
+      c_o_rad_[2] = 7.47220000 * libra::arcsec_to_rad;         // [rad/century^2]
+      c_o_rad_[3] = 0.00770200 * libra::arcsec_to_rad;         // [rad/century^3]
+      c_o_rad_[4] = -0.00005939 * libra::arcsec_to_rad;        // [rad/century^4]
 
       // Coefficients to compute nutation angles
-      c_depsilon_rad_[0] = 9.2050 * libra::arcsec_to_rad;   // [rad]
-      c_depsilon_rad_[1] = 0.5730 * libra::arcsec_to_rad;   // [rad]
-      c_depsilon_rad_[2] = -0.0900 * libra::arcsec_to_rad;  // [rad]
-      c_depsilon_rad_[3] = 0.0980 * libra::arcsec_to_rad;   // [rad]
-      c_depsilon_rad_[4] = 0.0070 * libra::arcsec_to_rad;   // [rad]
-      c_depsilon_rad_[5] = -0.0010 * libra::arcsec_to_rad;  // [rad]
-      c_depsilon_rad_[6] = 0.0220 * libra::arcsec_to_rad;   // [rad]
-      c_depsilon_rad_[7] = 0.0130 * libra::arcsec_to_rad;   // [rad]
-      c_depsilon_rad_[8] = -0.0100 * libra::arcsec_to_rad;  // [rad]
+      c_d_epsilon_rad_[0] = 9.2050 * libra::arcsec_to_rad;   // [rad]
+      c_d_epsilon_rad_[1] = 0.5730 * libra::arcsec_to_rad;   // [rad]
+      c_d_epsilon_rad_[2] = -0.0900 * libra::arcsec_to_rad;  // [rad]
+      c_d_epsilon_rad_[3] = 0.0980 * libra::arcsec_to_rad;   // [rad]
+      c_d_epsilon_rad_[4] = 0.0070 * libra::arcsec_to_rad;   // [rad]
+      c_d_epsilon_rad_[5] = -0.0010 * libra::arcsec_to_rad;  // [rad]
+      c_d_epsilon_rad_[6] = 0.0220 * libra::arcsec_to_rad;   // [rad]
+      c_d_epsilon_rad_[7] = 0.0130 * libra::arcsec_to_rad;   // [rad]
+      c_d_epsilon_rad_[8] = -0.0100 * libra::arcsec_to_rad;  // [rad]
 
-      c_dpsi_rad_[0] = -17.2060 * libra::arcsec_to_rad;  // [rad]
-      c_dpsi_rad_[1] = -1.3170 * libra::arcsec_to_rad;   // [rad]
-      c_dpsi_rad_[2] = 0.2070 * libra::arcsec_to_rad;    // [rad]
-      c_dpsi_rad_[3] = -0.2280 * libra::arcsec_to_rad;   // [rad]
-      c_dpsi_rad_[4] = 0.1480 * libra::arcsec_to_rad;    // [rad]
-      c_dpsi_rad_[5] = 0.0710 * libra::arcsec_to_rad;    // [rad]
-      c_dpsi_rad_[6] = -0.0520 * libra::arcsec_to_rad;   // [rad]
-      c_dpsi_rad_[7] = -0.0300 * libra::arcsec_to_rad;   // [rad]
-      c_dpsi_rad_[8] = 0.0220 * libra::arcsec_to_rad;    // [rad]
+      c_d_psi_rad_[0] = -17.2060 * libra::arcsec_to_rad;  // [rad]
+      c_d_psi_rad_[1] = -1.3170 * libra::arcsec_to_rad;   // [rad]
+      c_d_psi_rad_[2] = 0.2070 * libra::arcsec_to_rad;    // [rad]
+      c_d_psi_rad_[3] = -0.2280 * libra::arcsec_to_rad;   // [rad]
+      c_d_psi_rad_[4] = 0.1480 * libra::arcsec_to_rad;    // [rad]
+      c_d_psi_rad_[5] = 0.0710 * libra::arcsec_to_rad;    // [rad]
+      c_d_psi_rad_[6] = -0.0520 * libra::arcsec_to_rad;   // [rad]
+      c_d_psi_rad_[7] = -0.0300 * libra::arcsec_to_rad;   // [rad]
+      c_d_psi_rad_[8] = 0.0220 * libra::arcsec_to_rad;    // [rad]
 
       // Coefficients to compute precession angle
       // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
@@ -117,12 +115,12 @@ void CelestialRotation::Init_CelestialRotation_As_Earth(const RotationMode rotat
     } else {
       // If the rotation mode is neither Simple nor Full, disable the rotation calculation and make the DCM a unit matrix
       rotation_mode_ = Idle;
-      unitalize(DCM_J2000toXCXF_);
+      unitalize(dcm_j2000_to_xcxf_);
     }
   } else {
     // If the center object is not the Earth, disable the Earth's rotation calculation and make the DCM a unit matrix
     rotation_mode_ = Idle;
-    unitalize(DCM_J2000toXCXF_);
+    unitalize(dcm_j2000_to_xcxf_);
   }
 }
 
@@ -131,27 +129,27 @@ void CelestialRotation::Update(const double JulianDate) {
 
   if (rotation_mode_ == Full) {
     // Compute Julian date for terestrial time
-    double jdTT_day = JulianDate + dtUT1UTC_ * kSec2Day;  // TODO: Check the correctness. Problem is thtat S2E doesn't have Gregorian calendar.
+    double jdTT_day = JulianDate + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is thtat S2E doesn't have Gregorian calendar.
 
     // Compute nth power of julian century for terrestrial time the actual unit of tTT_century is [century^(i+1)], i is the index of the array
     double tTT_century[4];
-    tTT_century[0] = (jdTT_day - kJulianDateJ2000) / kDayJulianCentury;
+    tTT_century[0] = (jdTT_day - kJulianDateJ2000_) / kDayJulianCentury_;
     for (int i = 0; i < 3; i++) {
       tTT_century[i + 1] = tTT_century[i] * tTT_century[0];
     }
 
-    Matrix<3, 3> P;
-    Matrix<3, 3> N;
-    Matrix<3, 3> R;
-    Matrix<3, 3> W;
+    libra::Matrix<3, 3> P;
+    libra::Matrix<3, 3> N;
+    libra::Matrix<3, 3> R;
+    libra::Matrix<3, 3> W;
     // Nutation + Precession
     P = Precession(tTT_century);
-    N = Nutation(tTT_century);  // epsi_rad_, depsilon_rad_, dpsi_rad_ are
+    N = Nutation(tTT_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are
                                 // updated in this proccedure
 
     // Axial Rotation
-    double Eq_rad = dpsi_rad_ * cos(epsi_rad_ + depsilon_rad_);  // Equation of equinoxes [rad]
-    double gast_rad = gmst_rad + Eq_rad;                         // Greenwitch 'Appearent' Sidereal Time [rad]
+    double Eq_rad = d_psi_rad_ * cos(epsilon_rad_ + d_epsilon_rad_);  // Equation of equinoxes [rad]
+    double gast_rad = gmst_rad + Eq_rad;                              // Greenwitch 'Appearent' Sidereal Time [rad]
     R = AxialRotation(gast_rad);
     // Polar motion (isnot considered so far, even without polar motion, the result agrees well with the matlab reference)
     double Xp = 0.0;
@@ -159,23 +157,23 @@ void CelestialRotation::Update(const double JulianDate) {
     W = PolarMotion(Xp, Yp);
 
     // Total orientation
-    DCM_J2000toXCXF_ = W * R * N * P;
+    dcm_j2000_to_xcxf_ = W * R * N * P;
   } else if (rotation_mode_ == Simple) {
     // In this case, only Axial Rotation is executed, with its argument replaced from G'A'ST to G'M'ST
-    DCM_J2000toXCXF_ = AxialRotation(gmst_rad);
+    dcm_j2000_to_xcxf_ = AxialRotation(gmst_rad);
   } else {
     // Leave the DCM as unit Matrix(diag{1,1,1})
     return;
   }
 }
 
-Matrix<3, 3> CelestialRotation::AxialRotation(const double GAST_rad) { return libra::rotz(GAST_rad); }
+libra::Matrix<3, 3> CelestialRotation::AxialRotation(const double GAST_rad) { return libra::rotz(GAST_rad); }
 
-Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) {
+libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) {
   // Mean obliquity of the ecliptic
-  epsi_rad_ = c_epsi_rad_[0];
+  epsilon_rad_ = c_epsilon_rad_[0];
   for (int i = 0; i < 3; i++) {
-    epsi_rad_ += c_epsi_rad_[i + 1] * tTT_century[i];
+    epsilon_rad_ += c_epsilon_rad_[i + 1] * tTT_century[i];
   }
 
   // Compute five delauney angles(l=lm,l'=ls,F,D,Ω=O)
@@ -190,19 +188,19 @@ Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) {
     ls_rad += c_ls_rad_[i + 1] * tTT_century[i];
   }
   // Mean longitude of the moon - mean longitude of ascending node of the moon
-  double F_rad = c_F_rad_[0];
+  double F_rad = c_f_rad_[0];
   for (int i = 0; i < 4; i++) {
-    F_rad += c_F_rad_[i + 1] * tTT_century[i];
+    F_rad += c_f_rad_[i + 1] * tTT_century[i];
   }
   // Mean elogation of the moon from the sun
-  double D_rad = c_D_rad_[0];
+  double D_rad = c_d_rad_[0];
   for (int i = 0; i < 4; i++) {
-    D_rad += c_D_rad_[i + 1] * tTT_century[i];
+    D_rad += c_d_rad_[i + 1] * tTT_century[i];
   }
   // Mean longitude of ascending node of the moon
-  double O_rad = c_O_rad_[0];
+  double O_rad = c_o_rad_[0];
   for (int i = 0; i < 4; i++) {
-    O_rad += c_O_rad_[i + 1] * tTT_century[i];
+    O_rad += c_o_rad_[i + 1] * tTT_century[i];
   }
 
   // Additional angles
@@ -211,29 +209,29 @@ Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) {
 
   // Compute luni-solar nutation
   // Nutation in obliquity
-  dpsi_rad_ = c_dpsi_rad_[0] * sin(O_rad) + c_dpsi_rad_[1] * sin(2 * Ld_rad) + c_dpsi_rad_[2] * sin(2 * O_rad) + c_dpsi_rad_[3] * sin(2 * L_rad) +
-              c_dpsi_rad_[4] * sin(ls_rad);  // [rad]
-  dpsi_rad_ = dpsi_rad_ + c_dpsi_rad_[5] * sin(lm_rad) + c_dpsi_rad_[6] * sin(2 * Ld_rad + ls_rad) + c_dpsi_rad_[7] * sin(2 * L_rad + lm_rad) +
-              c_dpsi_rad_[8] * sin(2 * Ld_rad - ls_rad);  // [rad]
+  d_psi_rad_ = c_d_psi_rad_[0] * sin(O_rad) + c_d_psi_rad_[1] * sin(2 * Ld_rad) + c_d_psi_rad_[2] * sin(2 * O_rad) +
+               c_d_psi_rad_[3] * sin(2 * L_rad) + c_d_psi_rad_[4] * sin(ls_rad);  // [rad]
+  d_psi_rad_ = d_psi_rad_ + c_d_psi_rad_[5] * sin(lm_rad) + c_d_psi_rad_[6] * sin(2 * Ld_rad + ls_rad) + c_d_psi_rad_[7] * sin(2 * L_rad + lm_rad) +
+               c_d_psi_rad_[8] * sin(2 * Ld_rad - ls_rad);  // [rad]
 
   // Nutation in longitude
-  depsilon_rad_ = c_depsilon_rad_[0] * cos(O_rad) + c_depsilon_rad_[1] * cos(2 * Ld_rad) + c_depsilon_rad_[2] * cos(2 * O_rad) +
-                  c_depsilon_rad_[3] * cos(2 * L_rad) + c_depsilon_rad_[4] * cos(ls_rad);  // [rad]
-  depsilon_rad_ = depsilon_rad_ + c_depsilon_rad_[5] * cos(lm_rad) + c_depsilon_rad_[6] * cos(2 * Ld_rad + ls_rad) +
-                  c_depsilon_rad_[7] * cos(2 * L_rad + lm_rad) + c_depsilon_rad_[8] * cos(2 * Ld_rad - ls_rad);  // [rad]
+  d_epsilon_rad_ = c_d_epsilon_rad_[0] * cos(O_rad) + c_d_epsilon_rad_[1] * cos(2 * Ld_rad) + c_d_epsilon_rad_[2] * cos(2 * O_rad) +
+                   c_d_epsilon_rad_[3] * cos(2 * L_rad) + c_d_epsilon_rad_[4] * cos(ls_rad);  // [rad]
+  d_epsilon_rad_ = d_epsilon_rad_ + c_d_epsilon_rad_[5] * cos(lm_rad) + c_d_epsilon_rad_[6] * cos(2 * Ld_rad + ls_rad) +
+                   c_d_epsilon_rad_[7] * cos(2 * L_rad + lm_rad) + c_d_epsilon_rad_[8] * cos(2 * Ld_rad - ls_rad);  // [rad]
 
-  double epsi_mod_rad = epsi_rad_ + depsilon_rad_;
-  Matrix<3, 3> X_epsi_1st = libra::rotx(epsi_rad_);
-  Matrix<3, 3> Z_dpsi = libra::rotz(-dpsi_rad_);
-  Matrix<3, 3> X_epsi_2nd = libra::rotx(-epsi_mod_rad);
+  double epsi_mod_rad = epsilon_rad_ + d_epsilon_rad_;
+  libra::Matrix<3, 3> X_epsi_1st = libra::rotx(epsilon_rad_);
+  libra::Matrix<3, 3> Z_dpsi = libra::rotz(-d_psi_rad_);
+  libra::Matrix<3, 3> X_epsi_2nd = libra::rotx(-epsi_mod_rad);
 
-  Matrix<3, 3> N;
+  libra::Matrix<3, 3> N;
   N = X_epsi_2nd * Z_dpsi * X_epsi_1st;
 
   return N;
 }
 
-Matrix<3, 3> CelestialRotation::Precession(const double (&tTT_century)[4]) {
+libra::Matrix<3, 3> CelestialRotation::Precession(const double (&tTT_century)[4]) {
   // Compute precession angles(zeta, theta, z)
   double zeta_rad = 0.0;
   for (int i = 0; i < 3; i++) {
@@ -249,18 +247,18 @@ Matrix<3, 3> CelestialRotation::Precession(const double (&tTT_century)[4]) {
   }
 
   // Develop transformation matrix
-  Matrix<3, 3> Z_zeta = libra::rotz(-zeta_rad);
-  Matrix<3, 3> Y_theta = libra::roty(theta_rad);
-  Matrix<3, 3> Z_z = libra::rotz(-z_rad);
+  libra::Matrix<3, 3> Z_zeta = libra::rotz(-zeta_rad);
+  libra::Matrix<3, 3> Y_theta = libra::roty(theta_rad);
+  libra::Matrix<3, 3> Z_z = libra::rotz(-z_rad);
 
-  Matrix<3, 3> P;
+  libra::Matrix<3, 3> P;
   P = Z_z * Y_theta * Z_zeta;
 
   return P;
 }
 
-Matrix<3, 3> CelestialRotation::PolarMotion(const double Xp, const double Yp) {
-  Matrix<3, 3> W;
+libra::Matrix<3, 3> CelestialRotation::PolarMotion(const double Xp, const double Yp) {
+  libra::Matrix<3, 3> W;
 
   W[0][0] = 1.0;
   W[0][1] = 0.0;

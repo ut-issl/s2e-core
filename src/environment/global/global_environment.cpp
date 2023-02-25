@@ -5,45 +5,44 @@
 
 #include "global_environment.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
-
 #include "initialize_global_environment.hpp"
 #include "initialize_gnss_satellites.hpp"
+#include "library/initialize/initialize_file_access.hpp"
 
-GlobalEnvironment::GlobalEnvironment(SimulationConfig* sim_config) { Initialize(sim_config); }
+GlobalEnvironment::GlobalEnvironment(SimulationConfig* simulation_configuration) { Initialize(simulation_configuration); }
 
 GlobalEnvironment::~GlobalEnvironment() {
-  delete sim_time_;
-  delete celes_info_;
-  delete hipp_;
+  delete simulation_time_;
+  delete celestial_information_;
+  delete hipparcos_catalogue_;
   delete gnss_satellites_;
 }
 
-void GlobalEnvironment::Initialize(SimulationConfig* sim_config) {
+void GlobalEnvironment::Initialize(SimulationConfig* simulation_configuration) {
   // Get ini file path
-  IniAccess iniAccess = IniAccess(sim_config->ini_base_fname_);
-  std::string sim_time_ini_path = sim_config->ini_base_fname_;
+  IniAccess iniAccess = IniAccess(simulation_configuration->ini_base_fname_);
+  std::string simulation_time_ini_path = simulation_configuration->ini_base_fname_;
 
   // Initialize
-  sim_time_ = InitSimTime(sim_time_ini_path);
-  celes_info_ = InitCelesInfo(sim_config->ini_base_fname_);
-  hipp_ = InitHipCatalogue(sim_config->ini_base_fname_);
-  gnss_satellites_ = InitGnssSatellites(sim_config->gnss_file_);
+  simulation_time_ = InitSimulationTime(simulation_time_ini_path);
+  celestial_information_ = InitCelestialInformation(simulation_configuration->ini_base_fname_);
+  hipparcos_catalogue_ = InitHipparcosCatalogue(simulation_configuration->ini_base_fname_);
+  gnss_satellites_ = InitGnssSatellites(simulation_configuration->gnss_file_);
 
   // Calc initial value
-  celes_info_->UpdateAllObjectsInfo(sim_time_->GetCurrentJd());
-  gnss_satellites_->SetUp(sim_time_);
+  celestial_information_->UpdateAllObjectsInfo(simulation_time_->GetCurrentTime_jd());
+  gnss_satellites_->SetUp(simulation_time_);
 }
 
 void GlobalEnvironment::Update() {
-  sim_time_->UpdateTime();
-  celes_info_->UpdateAllObjectsInfo(sim_time_->GetCurrentJd());
-  gnss_satellites_->Update(sim_time_);
+  simulation_time_->UpdateTime();
+  celestial_information_->UpdateAllObjectsInfo(simulation_time_->GetCurrentTime_jd());
+  gnss_satellites_->Update(simulation_time_);
 }
 
 void GlobalEnvironment::LogSetup(Logger& logger) {
-  logger.AddLoggable(sim_time_);
-  logger.AddLoggable(celes_info_);
+  logger.AddLoggable(simulation_time_);
+  logger.AddLoggable(celestial_information_);
 }
 
-void GlobalEnvironment::Reset(void) { sim_time_->ResetClock(); }
+void GlobalEnvironment::Reset(void) { simulation_time_->ResetClock(); }

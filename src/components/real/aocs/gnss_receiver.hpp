@@ -61,7 +61,7 @@ class GNSSReceiver : public ComponentBase, public ILoggable {
    */
   GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const int id, const std::string gnss_id, const int ch_max,
                const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
-               const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime);
+               const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
   /**
    * @fn GNSSReceiver
    * @brief Constructor with power port
@@ -81,7 +81,7 @@ class GNSSReceiver : public ComponentBase, public ILoggable {
    */
   GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, std::string gnss_id, const int ch_max,
                const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
-               const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimTime* simtime);
+               const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
 
   // Override functions for ComponentBase
   /**
@@ -164,7 +164,7 @@ class GNSSReceiver : public ComponentBase, public ILoggable {
   // References
   const Dynamics* dynamics_;               //!< Dynamics of spacecraft
   const GnssSatellites* gnss_satellites_;  //!< Information of GNSS satellites
-  const SimTime* simtime_;                 //!< Simulation time
+  const SimulationTime* simtime_;          //!< Simulation time
 
   // Internal Functions
   /**

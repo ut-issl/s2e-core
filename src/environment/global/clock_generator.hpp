@@ -45,14 +45,12 @@ class ClockGenerator {
    * @brief Execute TickToComponents when component update timing
    * @param [in] sim_time: Simulation time
    */
-  void UpdateComponents(const SimTime* sim_time);
+  void UpdateComponents(const SimulationTime* sim_time);
   /**
    * @fn ClearTimerCount
    * @brief Clear time count
    */
   inline void ClearTimerCount(void) { timer_count_ = 0; }
-
-  const int IntervalMillisecond = 1;  //!< Clock period [ms]. (Currenly, this is not used. TODO: Delete this.)
 
  private:
   std::vector<ITickable*> components_;  //!< Component list fot tick

@@ -36,8 +36,8 @@ class SunSensor : public ComponentBase, public ILoggable {
    * @param [in] local_celes_info: Local celestial information
    */
   SunSensor(const int prescaler, ClockGenerator* clock_gen, const int id, const libra::Quaternion& q_b2c, const double detectable_angle_rad,
-            const double nr_stddev_c, const double nr_bias_stddev_c, const double intensity_lower_threshold_percent, const SRPEnvironment* srp,
-            const LocalCelestialInformation* local_celes_info);
+            const double nr_stddev_c, const double nr_bias_stddev_c, const double intensity_lower_threshold_percent,
+            const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celes_info);
   /**
    * @fn SunSensor
    * @brief Constructor with power port
@@ -55,7 +55,8 @@ class SunSensor : public ComponentBase, public ILoggable {
    */
   SunSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
             const double detectable_angle_rad, const double nr_stddev_c, const double nr_bias_stddev_c,
-            const double intensity_lower_threshold_percent, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info);
+            const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
+            const LocalCelestialInformation* local_celes_info);
 
   // Override functions for ComponentBase
   /**
@@ -104,7 +105,7 @@ class SunSensor : public ComponentBase, public ILoggable {
   double bias_beta_ = 0.0;       //!< Constant bias for beta angle (Value is calculated by random number generator)
 
   // Measured variables
-  const SRPEnvironment* srp_;                          //!< Solar Radiation Pressure environment
+  const SolarRadiationPressureEnvironment* srp_;       //!< Solar Radiation Pressure environment
   const LocalCelestialInformation* local_celes_info_;  //!< Local celestial information
 
   // functions

@@ -6,17 +6,13 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_HPP_
 #define S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_HPP_
 
-#include <dynamics/dynamics.hpp>
-#include <environment/global/global_environment.hpp>
-
 #include "atmosphere.hpp"
+#include "dynamics/dynamics.hpp"
+#include "environment/global/global_environment.hpp"
 #include "geomagnetic_field.hpp"
 #include "local_celestial_information.hpp"
 #include "simulation/simulation_configuration.hpp"
 #include "solar_radiation_pressure_environment.hpp"
-
-class Logger;
-class SimTime;
 
 /**
  * @class LocalEnvironment
@@ -27,32 +23,24 @@ class LocalEnvironment {
   /**
    * @fn LocalEnvironment
    * @brief Constructor
-   * @param [in] sim_config: Simulation configuration
-   * @param [in] glo_env: Global environment
-   * @param [in] sat_id: Satellite ID
+   * @param [in] simulation_configuration: Simulation configuration
+   * @param [in] global_environment: Global environment
+   * @param [in] spacecraft_id: Satellite ID
    */
-  LocalEnvironment(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  LocalEnvironment(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
   /**
    * @fn ~LocalEnvironment
    * @brief Destructor
    */
   ~LocalEnvironment();
-  /**
-   * @fn Initialize
-   * @brief Initialize function
-   * @param [in] sim_config: Simulation configuration
-   * @param [in] glo_env: Global environment
-   * @param [in] sat_id: Satellite ID
-   */
-  void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
 
   /**
    * @fn Update
    * @brief Update all states
    * @param [in] dynamics: Dynamics information of the satellite
-   * @param [in] sim_time: Simulation time
+   * @param [in] simulation_time: Simulation time
    */
-  void Update(const Dynamics* dynamics, const SimTime* sim_time);
+  void Update(const Dynamics* dynamics, const SimulationTime* simulation_time);
 
   /**
    * @fn LogSetup
@@ -66,26 +54,35 @@ class LocalEnvironment {
    */
   inline const Atmosphere& GetAtmosphere() const { return *atmosphere_; }
   /**
-   * @fn GetMag
-   * @brief Return MagEnvironment class
+   * @fn GetGeomagneticField
+   * @brief Return GeomagneticField class
    */
-  inline const MagEnvironment& GetMag() const { return *mag_; }
+  inline const GeomagneticField& GetGeomagneticField() const { return *geomagnetic_field_; }
   /**
-   * @fn GetSrp
-   * @brief Return SRPEnvironment class
+   * @fn GetSolarRadiationPressure
+   * @brief Return SolarRadiationPressureEnvironment class
    */
-  inline const SRPEnvironment& GetSrp() const { return *srp_; }
+  inline const SolarRadiationPressureEnvironment& GetSolarRadiationPressure() const { return *solar_radiation_pressure_environment_; }
   /**
-   * @fn GetCelesInfo
+   * @fn GetCelestialInformation
    * @brief Return LocalCelestialInformation class
    */
-  inline const LocalCelestialInformation& GetCelesInfo() const { return *celes_info_; }
+  inline const LocalCelestialInformation& GetCelestialInformation() const { return *celestial_information_; }
 
  private:
-  Atmosphere* atmosphere_;                 //!< Atmospheric density of the earth
-  MagEnvironment* mag_;                    //!< Magnetic field of the earth
-  SRPEnvironment* srp_;                    //!< Solar radiation pressure
-  LocalCelestialInformation* celes_info_;  //!< Celestial information
+  Atmosphere* atmosphere_;                                                   //!< Atmospheric density of the earth
+  GeomagneticField* geomagnetic_field_;                                      //!< Magnetic field of the earth
+  SolarRadiationPressureEnvironment* solar_radiation_pressure_environment_;  //!< Solar radiation pressure
+  LocalCelestialInformation* celestial_information_;                         //!< Celestial information
+
+  /**
+   * @fn Initialize
+   * @brief Initialize function
+   * @param [in] simulation_configuration: Simulation configuration
+   * @param [in] global_environment: Global environment
+   * @param [in] spacecraft_id: Satellite ID
+   */
+  void Initialize(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
 };
 
 #endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_HPP_

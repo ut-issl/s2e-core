@@ -10,11 +10,11 @@
 #include <ctime>
 #include <fstream>
 #include <iomanip>
-#include <library/logger/loggable.hpp>
-#include <library/math/vector.hpp>
 #include <map>
 #include <vector>
 
+#include "library/logger/loggable.hpp"
+#include "library/math/vector.hpp"
 #include "simulation_time.hpp"
 
 extern const double nan99;  //!< Not at Number TODO: Should be moved to another place
@@ -350,13 +350,13 @@ class GnssSatellites : public ILoggable {
    * @brief Setup both true and estimated GNSS satellite information
    * @param [in] sim_time: Simulation time information
    */
-  void SetUp(const SimTime* sim_time);
+  void SetUp(const SimulationTime* sim_time);
   /**
    * @fn Update
    * @brief Update both true and estimated GNSS satellite information
    * @param [in] sim_time: Simulation time information
    */
-  void Update(const SimTime* sim_time);
+  void Update(const SimulationTime* sim_time);
 
   /**
    * @fn GetIndexFromID

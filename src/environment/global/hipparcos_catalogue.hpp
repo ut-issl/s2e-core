@@ -6,22 +6,22 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_HPP_
 
-#include <library/logger/loggable.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
 #include <vector>
 
+#include "library/logger/loggable.hpp"
+#include "library/math/quaternion.hpp"
+#include "library/math/vector.hpp"
+
 /**
- *@struct HipData
+ *@struct HipparcosData
  *@brief Hipparcos catalogue data
  */
-struct HipData {
-  int hip_num;  //!< Hipparcos number
-  double vmag;  //!< Visible magnitude
-  double ra;    //!< Right ascention [rad]
-  double de;    //!< Declination [rad]
+struct HipparcosData {
+  int hipparcos_id;            //!< Hipparcos number
+  double visible_magnitude;    //!< Visible magnitude
+  double right_ascension_deg;  //!< Right ascension [deg]
+  double declination_deg;      //!< Declination [deg]
 };
-
 /**
  *@class HipparcosCatalogue
  *@brief Class to calculate star direction with Hipparcos catalogue
@@ -46,50 +46,50 @@ class HipparcosCatalogue : public ILoggable {
    *@param [in] file_name: Path to Hipparcos catalogue file
    *@param [in] delimiter: Delimiter for the catalogue file
    */
-  bool ReadContents(const std::string& filename, const char delimiter);
+  bool ReadContents(const std::string& file_name, const char delimiter);
 
   /**
    *@fn GetCatalogueSize
    *@brief Return read catalogue size
    */
-  int GetCatalogueSize() const { return hip_catalogue.size(); }
+  int GetCatalogueSize() const { return hipparcos_catalogue_.size(); }
   /**
-   *@fn GetHipID
+   *@fn GetHipparcosId
    *@brief Return Hipparcos ID of a star
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  int GetHipID(int rank) const { return hip_catalogue[rank].hip_num; }
+  int GetHipparcosId(int rank) const { return hipparcos_catalogue_[rank].hipparcos_id; }
   /**
-   *@fn GetVmag
+   *@fn GetVisibleMagnitude
    *@brief Return magnitude in visible wave length of a star
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  double GetVmag(int rank) const { return hip_catalogue[rank].vmag; }
+  double GetVisibleMagnitude(int rank) const { return hipparcos_catalogue_[rank].visible_magnitude; }
   /**
-   *@fn GetRA
+   *@fn GetRightAscension_deg
    *@brief Return right ascension of a star
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  double GetRA(int rank) const { return hip_catalogue[rank].ra; }
+  double GetRightAscension_deg(int rank) const { return hipparcos_catalogue_[rank].right_ascension_deg; }
   /**
-   *@fn GetDE
+   *@fn GetDeclination_deg
    *@brief Return declination of a star
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  double GetDE(int rank) const { return hip_catalogue[rank].de; }
+  double GetDeclination_deg(int rank) const { return hipparcos_catalogue_[rank].declination_deg; }
   /**
    *@fn GetStarDir_i
    *@brief Return direction vector of a star in the inertial frame
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  libra::Vector<3> GetStarDir_i(int rank) const;
+  libra::Vector<3> GetStarDirection_i(int rank) const;
   /**
    *@fn GetStarDir_b
    *@brief Return direction vector of a star in the body-fixed frame
    *@param [in] rank: Rank of star magnitude in read catalogue
-   *@param [in] rank: Quaternion from the inertial frame to the body-fixed frame
+   *@param [in] quaternion_i2b: Quaternion from the inertial frame to the body-fixed frame
    */
-  libra::Vector<3> GetStarDir_b(int rank, Quaternion q_i2b) const;
+  libra::Vector<3> GetStarDirection_b(int rank, libra::Quaternion quaternion_i2b) const;
 
   // Override ILoggable
   /**
@@ -106,9 +106,9 @@ class HipparcosCatalogue : public ILoggable {
   bool IsCalcEnabled = true;  //!< Calculation enable flag
 
  private:
-  std::vector<HipData> hip_catalogue;  //!< Data base of the read Hipparcos catalogue
-  double max_magnitude_;               //!< Maximum magnitude in the data base
-  std::string catalogue_path_;         //!< Path to Hipparcos catalog file
+  std::vector<HipparcosData> hipparcos_catalogue_;  //!< Data base of the read Hipparcos catalogue
+  double max_magnitude_;                            //!< Maximum magnitude in the data base
+  std::string catalogue_path_;                      //!< Path to Hipparcos catalog file
 };
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_HPP_

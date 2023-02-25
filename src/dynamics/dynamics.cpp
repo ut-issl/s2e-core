@@ -9,7 +9,7 @@
 
 using namespace std;
 
-Dynamics::Dynamics(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
+Dynamics::Dynamics(SimulationConfig* sim_config, const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
                    Structure* structure, RelativeInformation* rel_info) {
   Initialize(sim_config, sim_time, local_celes_info, sat_id, structure, rel_info);
 }
@@ -20,29 +20,29 @@ Dynamics::~Dynamics() {
   delete temperature_;
 }
 
-void Dynamics::Initialize(SimulationConfig* sim_config, const SimTime* sim_time, const LocalCelestialInformation* local_celes_info, const int sat_id,
-                          Structure* structure, RelativeInformation* rel_info) {
+void Dynamics::Initialize(SimulationConfig* sim_config, const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info,
+                          const int sat_id, Structure* structure, RelativeInformation* rel_info) {
   structure_ = structure;
 
   // Initialize
-  orbit_ = InitOrbit(&(local_celes_info->GetGlobalInfo()), sim_config->sat_file_[sat_id], sim_time->GetOrbitRKStepSec(), sim_time->GetCurrentJd(),
-                     local_celes_info->GetGlobalInfo().GetCenterBodyGravityConstant_m3_s2(), "ORBIT", rel_info);
-  attitude_ = InitAttitude(sim_config->sat_file_[sat_id], orbit_, local_celes_info, sim_time->GetAttitudeRKStepSec(),
+  orbit_ = InitOrbit(&(local_celes_info->GetGlobalInformation()), sim_config->sat_file_[sat_id], sim_time->GetOrbitRkStepTime_s(),
+                     sim_time->GetCurrentTime_jd(), local_celes_info->GetGlobalInformation().GetCenterBodyGravityConstant_m3_s2(), "ORBIT", rel_info);
+  attitude_ = InitAttitude(sim_config->sat_file_[sat_id], orbit_, local_celes_info, sim_time->GetAttitudeRkStepTime_s(),
                            structure->GetKinematicsParams().GetInertiaTensor(), sat_id);
-  temperature_ = InitTemperature(sim_config->sat_file_[sat_id], sim_time->GetThermalRKStepSec());
+  temperature_ = InitTemperature(sim_config->sat_file_[sat_id], sim_time->GetThermalRkStepTime_s());
 
   // To get initial value
   orbit_->UpdateAtt(attitude_->GetQuaternion_i2b());
 }
 
-void Dynamics::Update(const SimTime* sim_time, const LocalCelestialInformation* local_celes_info) {
+void Dynamics::Update(const SimulationTime* sim_time, const LocalCelestialInformation* local_celes_info) {
   // Attitude propagation
   if (sim_time->GetAttitudePropagateFlag()) {
-    attitude_->Propagate(sim_time->GetElapsedSec());
+    attitude_->Propagate(sim_time->GetElapsedTime_s());
   }
   // Orbit Propagation
   if (sim_time->GetOrbitPropagateFlag()) {
-    orbit_->Propagate(sim_time->GetElapsedSec(), sim_time->GetCurrentJd());
+    orbit_->Propagate(sim_time->GetElapsedTime_s(), sim_time->GetCurrentTime_jd());
   }
   // Attitude dependent update
   orbit_->UpdateAtt(attitude_->GetQuaternion_i2b());
@@ -52,7 +52,7 @@ void Dynamics::Update(const SimTime* sim_time, const LocalCelestialInformation* 
     std::string sun_str = "SUN";
     char* c_sun = new char[sun_str.size() + 1];
     std::char_traits<char>::copy(c_sun, sun_str.c_str(), sun_str.size() + 1);  // string -> char*
-    temperature_->Propagate(local_celes_info->GetPosFromSC_b(c_sun), sim_time->GetElapsedSec());
+    temperature_->Propagate(local_celes_info->GetPositionFromSpacecraft_b_m(c_sun), sim_time->GetElapsedTime_s());
     delete[] c_sun;
   }
 }

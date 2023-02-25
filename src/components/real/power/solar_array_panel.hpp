@@ -32,7 +32,7 @@ class SAP : public ComponentBase, public ILoggable {
    * @param [in] compo_step_time: Component step time [sec]
    */
   SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
-      libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp,
+      libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
       const LocalCelestialInformation* local_celes_info, double compo_step_time);
   /**
    * @fn SAP
@@ -50,7 +50,8 @@ class SAP : public ComponentBase, public ILoggable {
    * @param [in] compo_step_time: Component step time [sec]
    */
   SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
-      libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, double compo_step_time);
+      libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
+      double compo_step_time);
   /**
    * @fn SAP
    * @brief Constructor without prescaler
@@ -67,7 +68,8 @@ class SAP : public ComponentBase, public ILoggable {
    * @param [in] local_celes_info: Local celestial information
    */
   SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
-      double cell_efficiency, double transmission_efficiency, const SRPEnvironment* srp, const LocalCelestialInformation* local_celes_info);
+      double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
+      const LocalCelestialInformation* local_celes_info);
   /**
    * @fn SAP
    * @brief Copy constructor
@@ -111,13 +113,13 @@ class SAP : public ComponentBase, public ILoggable {
   const double cell_efficiency_;          //!< Power generation efficiency of solar cell
   const double transmission_efficiency_;  //!< Efficiency of transmission to PCU
 
-  const SRPEnvironment* const srp_;                    //!< Solar Radiation Pressure environment
-  const LocalCelestialInformation* local_celes_info_;  //!< Local celestial information
+  const SolarRadiationPressureEnvironment* const srp_;  //!< Solar Radiation Pressure environment
+  const LocalCelestialInformation* local_celes_info_;   //!< Local celestial information
 
   double voltage_;           //!< Voltage [V]
   double power_generation_;  //!< Generated power [W]
 
-  static const double solar_constant_;  //!< Solar constant TODO: Use SRPEnvironment?
+  static const double solar_constant_;  //!< Solar constant TODO: Use SolarRadiationPressureEnvironment?
   static const double light_speed_;     //!< Speed of light TODO: Use PhysicalConstant?
   double compo_step_time_;              //!< Component step time [sec]
 

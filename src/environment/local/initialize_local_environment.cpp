@@ -11,8 +11,8 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-MagEnvironment InitMagEnvironment(std::string ini_path) {
-  auto conf = IniAccess(ini_path);
+GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
+  auto conf = IniAccess(initialize_file_path);
   const char* section = "MAGNETIC_FIELD_ENVIRONMENT";
 
   std::string fname = conf.ReadString(section, "coefficient_file");
@@ -20,26 +20,27 @@ MagEnvironment InitMagEnvironment(std::string ini_path) {
   double mag_rwlimit = conf.ReadDouble(section, "magnetic_field_random_walk_limit_nT");
   double mag_wnvar = conf.ReadDouble(section, "magnetic_field_white_noise_standard_deviation_nT");
 
-  MagEnvironment mag_env(fname, mag_rwdev, mag_rwlimit, mag_wnvar);
+  GeomagneticField mag_env(fname, mag_rwdev, mag_rwlimit, mag_wnvar);
   mag_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   mag_env.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
   return mag_env;
 }
 
-SRPEnvironment InitSRPEnvironment(std::string ini_path, LocalCelestialInformation* local_celes_info) {
-  auto conf = IniAccess(ini_path);
+SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::string initialize_file_path,
+                                                                        LocalCelestialInformation* local_celestial_information) {
+  auto conf = IniAccess(initialize_file_path);
   const char* section = "SOLAR_RADIATION_PRESSURE_ENVIRONMENT";
 
-  SRPEnvironment srp_env(local_celes_info);
+  SolarRadiationPressureEnvironment srp_env(local_celestial_information);
   srp_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   srp_env.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
 
   return srp_env;
 }
 
-Atmosphere InitAtmosphere(std::string ini_path) {
-  auto conf = IniAccess(ini_path);
+Atmosphere InitAtmosphere(std::string initialize_file_path) {
+  auto conf = IniAccess(initialize_file_path);
   const char* section = "ATMOSPHERE";
   double f107_threshold = 50.0;
   double f107_default = 150.0;

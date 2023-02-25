@@ -13,7 +13,7 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-SimTime* InitSimTime(std::string file_name) {
+SimulationTime* InitSimulationTime(std::string file_name) {
   IniAccess ini_file(file_name);
 
   const char* section = "TIME";
@@ -38,30 +38,30 @@ SimTime* InitSimTime(std::string file_name) {
 
   double sim_speed = ini_file.ReadDouble(section, "simulation_speed_setting");
 
-  SimTime* simTime = new SimTime(end_sec, step_sec, attitude_update_interval_sec, attitude_rk_step_sec, orbit_update_interval_sec, orbit_rk_step_sec,
-                                 thermal_update_interval_sec, thermal_rk_step_sec, compo_propagate_step_sec, log_output_interval_sec,
-                                 start_ymdhms.c_str(), sim_speed);
+  SimulationTime* simTime = new SimulationTime(end_sec, step_sec, attitude_update_interval_sec, attitude_rk_step_sec, orbit_update_interval_sec,
+                                               orbit_rk_step_sec, thermal_update_interval_sec, thermal_rk_step_sec, compo_propagate_step_sec,
+                                               log_output_interval_sec, start_ymdhms.c_str(), sim_speed);
 
   return simTime;
 }
 
-HipparcosCatalogue* InitHipCatalogue(std::string file_name) {
+HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name) {
   IniAccess ini_file(file_name);
   const char* section = "HIPPARCOS_CATALOGUE";
 
   std::string catalogue_path = ini_file.ReadString(section, "catalogue_file_path");
   double max_magnitude = ini_file.ReadDouble(section, "max_magnitude");
 
-  HipparcosCatalogue* hip_catalogue;
-  hip_catalogue = new HipparcosCatalogue(max_magnitude, catalogue_path);
-  hip_catalogue->IsCalcEnabled = ini_file.ReadEnable(section, CALC_LABEL);
-  hip_catalogue->IsLogEnabled = ini_file.ReadEnable(section, LOG_LABEL);
-  hip_catalogue->ReadContents(catalogue_path, ',');
+  HipparcosCatalogue* hipparcos_catalogue_;
+  hipparcos_catalogue_ = new HipparcosCatalogue(max_magnitude, catalogue_path);
+  hipparcos_catalogue_->IsCalcEnabled = ini_file.ReadEnable(section, CALC_LABEL);
+  hipparcos_catalogue_->IsLogEnabled = ini_file.ReadEnable(section, LOG_LABEL);
+  hipparcos_catalogue_->ReadContents(catalogue_path, ',');
 
-  return hip_catalogue;
+  return hipparcos_catalogue_;
 }
 
-CelestialInformation* InitCelesInfo(std::string file_name) {
+CelestialInformation* InitCelestialInformation(std::string file_name) {
   IniAccess ini_file(file_name);
   const char* section = "CELESTIAL_INFORMATION";
   const char* furnsh_section = "CSPICE_KERNELS";
