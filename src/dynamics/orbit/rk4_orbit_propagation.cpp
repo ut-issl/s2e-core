@@ -47,7 +47,7 @@ void Rk4OrbitPropagation::Initialize(libra::Vector<3> position_i_m, libra::Vecto
   init_state[3] = velocity_i_m_s[0];
   init_state[4] = velocity_i_m_s[1];
   init_state[5] = velocity_i_m_s[2];
-  setup(initial_time_s, init_state);
+  Setup(initial_time_s, init_state);
 
   // initialize
   spacecraft_acceleration_i_m_s2_ *= 0;
@@ -67,12 +67,12 @@ void Rk4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
 
   if (!is_calc_enabled_) return;
 
-  setStepWidth(propagation_step_s_);  // Re-set propagation Δt
+  SetStepWidth(propagation_step_s_);  // Re-set propagation Δt
   while (end_time_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     Update();  // Propagation methods of the ODE class
     propagation_time_s_ += propagation_step_s_;
   }
-  setStepWidth(end_time_s - propagation_time_s_);  // Adjust the last propagation Δt
+  SetStepWidth(end_time_s - propagation_time_s_);  // Adjust the last propagation Δt
   Update();
   propagation_time_s_ = end_time_s;
 

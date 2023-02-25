@@ -40,12 +40,12 @@ void EnckeOrbitPropagation::Propagate(double end_time_s, double current_time_jd)
   reference_velocity_i_m_s_ = reference_kepler_orbit.GetVelocity_i_m_s();
 
   // Propagate difference orbit
-  setStepWidth(propagation_step_s_);  // Re-set propagation Δt
+  SetStepWidth(propagation_step_s_);  // Re-set propagation Δt
   while (end_time_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     Update();  // Propagation methods of the ODE class
     propagation_time_s_ += propagation_step_s_;
   }
-  setStepWidth(end_time_s - propagation_time_s_);  // Adjust the last propagation Δt
+  SetStepWidth(end_time_s - propagation_time_s_);  // Adjust the last propagation Δt
   Update();
   propagation_time_s_ = end_time_s;
 
@@ -98,7 +98,7 @@ void EnckeOrbitPropagation::Initialize(double current_time_jd, libra::Vector<3> 
   fill_up(difference_velocity_i_m_s_, 0.0);
 
   libra::Vector<6> zero(0.0f);
-  setup(0.0, zero);
+  Setup(0.0, zero);
 
   UpdateSatOrbit();
 }

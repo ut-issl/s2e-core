@@ -51,19 +51,19 @@ class ODE {
   void Update();
 
   /**
-   * @fn setup
+   * @fn Setup
    * @brief Initialize the state vector
    * @param [in] initial_independent_variable: Initial value of independent variable
    * @param [in] initial_state: Initial condition of the state vector
    */
-  void setup(double initial_independent_variable, const Vector<N>& initial_state);
+  void Setup(const double initial_independent_variable, const Vector<N>& initial_state);
 
   /**
-   * @fn setStepWidth
+   * @fn SetStepWidth
    * @brief Initialize the state vector
    * @param [in] step_width: Step width
    */
-  inline void setStepWidth(double step_width) { step_width_ = step_width; }
+  inline void SetStepWidth(const double step_width) { step_width_ = step_width; }
 
   // Getter
   /**

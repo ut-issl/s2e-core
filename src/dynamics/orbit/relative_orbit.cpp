@@ -54,7 +54,7 @@ void RelativeOrbit::InitializeState(libra::Vector<3> relative_position_lvlh_m, l
   initial_state_[5] = relative_velocity_lvlh_m_s[2];
 
   if (update_method_ == RK4) {
-    setup(initial_time_s, initial_state_);
+    Setup(initial_time_s, initial_state_);
     CalculateSystemMatrix(relative_dynamics_model_type_, &(relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit()),
                           gravity_constant_m3_s2);
   } else  // update_method_ == STM
@@ -121,12 +121,12 @@ void RelativeOrbit::Propagate(double end_time_s, double current_time_jd) {
 }
 
 void RelativeOrbit::PropagateRk4(double elapsed_sec) {
-  setStepWidth(propagation_step_s_);  // Re-set propagation dt
+  SetStepWidth(propagation_step_s_);  // Re-set propagation dt
   while (elapsed_sec - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     Update();  // Propagation methods of the ODE class
     propagation_time_s_ += propagation_step_s_;
   }
-  setStepWidth(elapsed_sec - propagation_time_s_);  // Adjust the last propagation dt
+  SetStepWidth(elapsed_sec - propagation_time_s_);  // Adjust the last propagation dt
   Update();
   propagation_time_s_ = elapsed_sec;
 
