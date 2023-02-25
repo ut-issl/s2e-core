@@ -14,7 +14,7 @@ RwOde::RwOde(double step_width, double init_angular_velocity, double target_angu
 }
 
 double RwOde::getAngularVelocity(void) const {
-  double angular_velocity = this->state()[0];
+  double angular_velocity = this->GetState()[0];
   return angular_velocity;
 }
 

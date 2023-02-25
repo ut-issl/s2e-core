@@ -39,51 +39,6 @@ class ODE {
   virtual void RHS(double x, const Vector<N>& state, Vector<N>& derivative) = 0;
 
   /**
-   * @fn setup
-   * @brief Initialize the state vector
-   * @param [in] initial_independent_variable: Initial value of independent variable
-   * @param [in] initial_state: Initial condition of the state vector
-   */
-  void setup(double initial_independent_variable, const Vector<N>& initial_state);
-  /**
-   * @fn setStepWidth
-   * @brief Initialize the state vector
-   * @param [in] step_width: Step width
-   */
-  inline void setStepWidth(double step_width) { step_width_ = step_width; }
-
-  /**
-   * @fn step_width
-   * @brief Return step width
-   */
-  inline double step_width() const { return step_width_; }
-
-  /**
-   * @fn x
-   * @brief Return current independent variable
-   */
-  inline double x() const { return independent_variable_; }
-
-  /**
-   * @fn state
-   * @brief Return current state vector
-   */
-  inline const Vector<N>& state() const { return state_; }
-
-  /**
-   * @fn operator []
-   * @brief Return element of current state vector
-   * @param [in] n: Target element number
-   */
-  inline double operator[](int n) const { return state_[n]; }
-
-  /**
-   * @fn rhs
-   * @brief Return const reference of differentiate state vector
-   */
-  inline const Vector<N>& rhs() const { return derivative_; }
-
-  /**
    * @fn operator ++
    * @brief Update the state
    */
@@ -94,6 +49,53 @@ class ODE {
    * @brief Update the state
    */
   void Update();
+
+  /**
+   * @fn setup
+   * @brief Initialize the state vector
+   * @param [in] initial_independent_variable: Initial value of independent variable
+   * @param [in] initial_state: Initial condition of the state vector
+   */
+  void setup(double initial_independent_variable, const Vector<N>& initial_state);
+
+  /**
+   * @fn setStepWidth
+   * @brief Initialize the state vector
+   * @param [in] step_width: Step width
+   */
+  inline void setStepWidth(double step_width) { step_width_ = step_width; }
+
+  // Getter
+  /**
+   * @fn GetStepWidth
+   * @brief Return step width
+   */
+  inline double GetStepWidth() const { return step_width_; }
+
+  /**
+   * @fn GetIndependentVariable
+   * @brief Return current independent variable
+   */
+  inline double GetIndependentVariable() const { return independent_variable_; }
+
+  /**
+   * @fn GetState
+   * @brief Return current state vector
+   */
+  inline const Vector<N>& GetState() const { return state_; }
+
+  /**
+   * @fn GetDerivative
+   * @brief Return const reference of differentiate state vector
+   */
+  inline const Vector<N>& GetDerivative() const { return derivative_; }
+
+  /**
+   * @fn operator []
+   * @brief Return element of current state vector
+   * @param [in] n: Target element number
+   */
+  inline double operator[](int n) const { return state_[n]; }
 
  protected:
   /**
