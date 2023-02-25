@@ -22,9 +22,9 @@ class IGPIOCompo {
    * @fn GPIOStateChanged
    * @brief Pure virtual function called at the GPIO state is changed like interrupt function.
    * @param[in] port_id: GPIO port ID
-   * @param[in] isPosedge: Flag to express positive edge or not
+   * @param[in] is_positive_edge: Flag to express positive edge or not
    */
-  virtual void GPIOStateChanged(int port_id, bool isPosedge) = 0;
+  virtual void GPIOStateChanged(const int port_id, const bool is_positive_edge) = 0;
 };
 
 #endif  // S2E_COMPONENTS_BASE_CLASSES_INTERFACE_GPIO_COMPONENT_HPP_
