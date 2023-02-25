@@ -148,7 +148,7 @@ class Quaternion {
   Vector<4> ConvertToVector();
 
  private:
-  Vector<4> q_;  //!< Vector to store the element of quaternion
+  Vector<4> quaternion_;  //!< Vector to store the element of quaternion
 };
 
 /**

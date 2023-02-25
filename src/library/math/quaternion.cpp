@@ -13,12 +13,12 @@ namespace libra {
 
 Quaternion::Quaternion(const Vector<3>& rotation_axis, double rotation_angle_rad) {
   rotation_angle_rad *= 0.5;
-  q_[3] = cos(rotation_angle_rad);
+  quaternion_[3] = cos(rotation_angle_rad);
 
   // Vector<3> norm = normalize(rotation_axis);
-  // for(size_t i=0; i<3; ++i){ q_[i] = norm[i]*sin(rotation_angle_rad); }
+  // for(size_t i=0; i<3; ++i){ quaternion_[i] = norm[i]*sin(rotation_angle_rad); }
   for (size_t i = 0; i < 3; ++i) {
-    q_[i] = rotation_axis[i] * sin(rotation_angle_rad);
+    quaternion_[i] = rotation_axis[i] * sin(rotation_angle_rad);
   }
 }
 
@@ -35,22 +35,22 @@ Quaternion::Quaternion(const Vector<3>& vector_before, const Vector<3>& vector_a
   Vector<3> op = outer_product(normalized_v_before, normalized_v_after);
 
   if (ip > 1.0 - DBL_EPSILON) {  // if theta=0, then rotation is not need
-    q_[0] = 0.0;
-    q_[1] = 0.0;
-    q_[2] = 0.0;
-    q_[3] = 1.0;
+    quaternion_[0] = 0.0;
+    quaternion_[1] = 0.0;
+    quaternion_[2] = 0.0;
+    quaternion_[3] = 1.0;
   } else if (ip < -1.0 + DBL_EPSILON) {
     // if theta=180deg, the rotation rotation_axis can't be defined, so rotate vector_before manually
     Vector<3> rotation_axis = GenerateOrthoUnitVector(vector_before);
-    q_[0] = rotation_axis[0], q_[1] = rotation_axis[1], q_[2] = rotation_axis[2], q_[3] = 0.0;
+    quaternion_[0] = rotation_axis[0], quaternion_[1] = rotation_axis[1], quaternion_[2] = rotation_axis[2], quaternion_[3] = 0.0;
   } else {
     assert(norm(op) > 0.0);
     Vector<3> rotation_axis = 1.0 / norm(op) * op;
     double rotation_angle = acos(ip);
-    q_[0] = rotation_axis[0] * sin(0.5 * rotation_angle);
-    q_[1] = rotation_axis[1] * sin(0.5 * rotation_angle);
-    q_[2] = rotation_axis[2] * sin(0.5 * rotation_angle);
-    q_[3] = cos(0.5 * rotation_angle);
+    quaternion_[0] = rotation_axis[0] * sin(0.5 * rotation_angle);
+    quaternion_[1] = rotation_axis[1] * sin(0.5 * rotation_angle);
+    quaternion_[2] = rotation_axis[2] * sin(0.5 * rotation_angle);
+    quaternion_[3] = cos(0.5 * rotation_angle);
   }
 }
 
@@ -103,22 +103,22 @@ Quaternion operator*(const double& lhs, const Quaternion& rhs) {
 Quaternion Quaternion::Normalize(void) {
   double n = 0.0;
   for (int i = 0; i < 4; ++i) {
-    n += pow(q_[i], 2.0);
+    n += pow(quaternion_[i], 2.0);
   }
   if (n == 0.0) {
-    return q_;
+    return quaternion_;
   }  // zero Quaternion
 
   n = 1.0 / sqrt(n);
   for (int i = 0; i < 4; ++i) {
-    q_[i] *= n;
+    quaternion_[i] *= n;
   }
 
-  return q_;
+  return quaternion_;
 }
 
 Quaternion Quaternion::Conjugate(void) const {
-  Quaternion temp(q_);
+  Quaternion temp(quaternion_);
   for (int i = 0; i < 3; ++i) {
     temp[i] *= -1.0;
   }
@@ -128,17 +128,17 @@ Quaternion Quaternion::Conjugate(void) const {
 Matrix<3, 3> Quaternion::ConvertToDcm(void) const {
   Matrix<3, 3> dcm;
 
-  dcm[0][0] = q_[3] * q_[3] + q_[0] * q_[0] - q_[1] * q_[1] - q_[2] * q_[2];
-  dcm[0][1] = 2.0 * (q_[0] * q_[1] + q_[3] * q_[2]);
-  dcm[0][2] = 2.0 * (q_[0] * q_[2] - q_[3] * q_[1]);
+  dcm[0][0] = quaternion_[3] * quaternion_[3] + quaternion_[0] * quaternion_[0] - quaternion_[1] * quaternion_[1] - quaternion_[2] * quaternion_[2];
+  dcm[0][1] = 2.0 * (quaternion_[0] * quaternion_[1] + quaternion_[3] * quaternion_[2]);
+  dcm[0][2] = 2.0 * (quaternion_[0] * quaternion_[2] - quaternion_[3] * quaternion_[1]);
 
-  dcm[1][0] = 2.0 * (q_[0] * q_[1] - q_[3] * q_[2]);
-  dcm[1][1] = q_[3] * q_[3] - q_[0] * q_[0] + q_[1] * q_[1] - q_[2] * q_[2];
-  dcm[1][2] = 2.0 * (q_[1] * q_[2] + q_[3] * q_[0]);
+  dcm[1][0] = 2.0 * (quaternion_[0] * quaternion_[1] - quaternion_[3] * quaternion_[2]);
+  dcm[1][1] = quaternion_[3] * quaternion_[3] - quaternion_[0] * quaternion_[0] + quaternion_[1] * quaternion_[1] - quaternion_[2] * quaternion_[2];
+  dcm[1][2] = 2.0 * (quaternion_[1] * quaternion_[2] + quaternion_[3] * quaternion_[0]);
 
-  dcm[2][0] = 2.0 * (q_[0] * q_[2] + q_[3] * q_[1]);
-  dcm[2][1] = 2.0 * (q_[1] * q_[2] - q_[3] * q_[0]);
-  dcm[2][2] = q_[3] * q_[3] - q_[0] * q_[0] - q_[1] * q_[1] + q_[2] * q_[2];
+  dcm[2][0] = 2.0 * (quaternion_[0] * quaternion_[2] + quaternion_[3] * quaternion_[1]);
+  dcm[2][1] = 2.0 * (quaternion_[1] * quaternion_[2] - quaternion_[3] * quaternion_[0]);
+  dcm[2][2] = quaternion_[3] * quaternion_[3] - quaternion_[0] * quaternion_[0] - quaternion_[1] * quaternion_[1] + quaternion_[2] * quaternion_[2];
 
   return dcm;
 }
@@ -215,7 +215,7 @@ Quaternion Quaternion::ConvertFromEuler(Vector<3> euler) {
 Vector<3> Quaternion::FrameConversion(const Vector<3>& vector) const {
   Quaternion conj = Conjugate();
   Quaternion temp1 = conj * vector;
-  Quaternion temp2 = temp1 * q_;
+  Quaternion temp2 = temp1 * quaternion_;
   Vector<3> ans;
   for (int i = 0; i < 3; ++i) {
     ans[i] = temp2[i];
@@ -225,7 +225,7 @@ Vector<3> Quaternion::FrameConversion(const Vector<3>& vector) const {
 
 Vector<3> Quaternion::InverseFrameConversion(const Vector<3>& vector) const {
   Quaternion conj = Conjugate();
-  Quaternion temp1 = q_ * vector;
+  Quaternion temp1 = quaternion_ * vector;
   Quaternion temp2 = temp1 * conj;
   Vector<3> ans;
   for (int i = 0; i < 3; ++i) {
@@ -234,6 +234,6 @@ Vector<3> Quaternion::InverseFrameConversion(const Vector<3>& vector) const {
   return ans;
 }
 
-Vector<4> Quaternion::ConvertToVector() { return q_; }
+Vector<4> Quaternion::ConvertToVector() { return quaternion_; }
 
 }  // namespace libra
