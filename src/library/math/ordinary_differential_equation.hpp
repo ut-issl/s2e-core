@@ -30,13 +30,13 @@ class ODE {
   inline virtual ~ODE() {}
 
   /**
-   * @fn RHS
+   * @fn DerivativeFunction
    * @brief Pure virtual function to define the difference equation
-   * @param [in] x: Independent variable (e.g. time)
+   * @param [in] independent_variable: Independent variable (e.g. time)
    * @param [in] state: State vector
    * @param [out] derivative: Differentiated value of state vector
    */
-  virtual void RHS(double x, const Vector<N>& state, Vector<N>& derivative) = 0;
+  virtual void DerivativeFunction(double independent_variable, const Vector<N>& state, Vector<N>& derivative) = 0;
 
   /**
    * @fn operator ++

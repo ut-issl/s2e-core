@@ -27,13 +27,13 @@ class RandomWalk : public libra::ODE<N> {
   RandomWalk(double step_width_s, const libra::Vector<N>& standard_deviation, const libra::Vector<N>& limit);
 
   /**
-   * @fn RHS
+   * @fn DerivativeFunction
    * @brief Override function of ODE to define the difference equation
    * @param [in] x: Independent variable (e.g. time)
    * @param [in] state: State vector
    * @param [out] rhs: Differentiated value of state vector
    */
-  virtual void RHS(double x, const libra::Vector<N>& state, libra::Vector<N>& rhs);
+  virtual void DerivativeFunction(double x, const libra::Vector<N>& state, libra::Vector<N>& rhs);
 
  private:
   libra::Vector<N> limit_;                  //!< Limit of random walk

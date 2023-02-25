@@ -19,7 +19,7 @@ RandomWalk<N>::RandomWalk(double step_width_s, const libra::Vector<N>& standard_
 }
 
 template <size_t N>
-void RandomWalk<N>::RHS(double x, const libra::Vector<N>& state, libra::Vector<N>& rhs) {
+void RandomWalk<N>::DerivativeFunction(double x, const libra::Vector<N>& state, libra::Vector<N>& rhs) {
   UNUSED(x);  // TODO: consider the x is really need for this function
 
   for (size_t i = 0; i < N; ++i) {

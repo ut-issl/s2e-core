@@ -59,13 +59,13 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
 
   // Override ODE
   /**
-   * @fn RHS
+   * @fn DerivativeFunction
    * @brief Right Hand Side of ordinary difference equation
    * @param [in] t: Time as independent variable
    * @param [in] state: Position and velocity as state vector
    * @param [out] rhs: Output of the function
    */
-  virtual void RHS(double t, const Vector<6>& state, Vector<6>& rhs);
+  virtual void DerivativeFunction(double t, const Vector<6>& state, Vector<6>& rhs);
 
  private:
   double gravity_constant_m3_s2_;         //!< Gravity constant of the center body [m3/s2]

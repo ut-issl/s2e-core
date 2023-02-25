@@ -27,13 +27,13 @@ class RwOde : public libra::ODE<1> {
   RwOde(double step_width, double init_angular_velocity, double target_angular_velocity, libra::Vector<3> lag_coef);
 
   /**
-   * @fn RHS
+   * @fn DerivativeFunction
    * @brief Definition of the difference equation (Override function of ODE class)
    * @param [in] x: Independent variable (e.g. time)
    * @param [in] state: State vector
    * @param [out] rhs: Differentiated value of state vector
    */
-  void RHS(double x, const libra::Vector<1>& state, libra::Vector<1>& rhs) override;
+  void DerivativeFunction(double x, const libra::Vector<1>& state, libra::Vector<1>& rhs) override;
 
   /**
    * @fn getAngularVelocity

@@ -24,19 +24,19 @@ ODE<N>& ODE<N>::operator++() {
 
 template <size_t N>
 void ODE<N>::Update() {
-  RHS(independent_variable_, state_, derivative_);  // Current derivative calculation
+  DerivativeFunction(independent_variable_, state_, derivative_);  // Current derivative calculation
 
   // 4th order Runge-Kutta method
   Vector<N> k1(derivative_);
   k1 *= step_width_;
   Vector<N> k2(state_.dim());
-  RHS(independent_variable_ + 0.5 * step_width_, state_ + 0.5 * k1, k2);
+  DerivativeFunction(independent_variable_ + 0.5 * step_width_, state_ + 0.5 * k1, k2);
   k2 *= step_width_;
   Vector<N> k3(state_.dim());
-  RHS(independent_variable_ + 0.5 * step_width_, state_ + 0.5 * k2, k3);
+  DerivativeFunction(independent_variable_ + 0.5 * step_width_, state_ + 0.5 * k2, k3);
   k3 *= step_width_;
   Vector<N> k4(state_.dim());
-  RHS(independent_variable_ + step_width_, state_ + k3, k4);
+  DerivativeFunction(independent_variable_ + step_width_, state_ + k3, k4);
   k4 *= step_width_;
 
   state_ += (1.0 / 6.0) * (k1 + 2.0 * (k2 + k3) + k4);  // Update state vector

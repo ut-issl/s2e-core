@@ -22,7 +22,7 @@ Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_i
 
 Rk4OrbitPropagation::~Rk4OrbitPropagation() {}
 
-void Rk4OrbitPropagation::RHS(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs) {
+void Rk4OrbitPropagation::DerivativeFunction(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs) {
   double x = state[0], y = state[1], z = state[2];
   double vx = state[3], vy = state[4], vz = state[5];
 

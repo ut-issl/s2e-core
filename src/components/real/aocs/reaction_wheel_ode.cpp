@@ -18,7 +18,7 @@ double RwOde::getAngularVelocity(void) const {
   return angular_velocity;
 }
 
-void RwOde::RHS(double x, const Vector<1> &state, Vector<1> &rhs) {
+void RwOde::DerivativeFunction(double x, const Vector<1> &state, Vector<1> &rhs) {
   // FIXME: fix this function
   UNUSED(x);
   UNUSED(state);

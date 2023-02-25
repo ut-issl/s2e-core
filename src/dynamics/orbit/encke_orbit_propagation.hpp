@@ -47,13 +47,13 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
 
   // Override ODE
   /**
-   * @fn RHS
+   * @fn DerivativeFunction
    * @brief Right Hand Side of ordinary difference equation
    * @param [in] t: Time as independent variable
    * @param [in] state: Position and velocity as state vector
    * @param [out] rhs: Output of the function
    */
-  virtual void RHS(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs);
+  virtual void DerivativeFunction(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs);
 
  private:
   // General

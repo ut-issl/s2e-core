@@ -60,7 +60,7 @@ void EnckeOrbitPropagation::Propagate(double end_time_s, double current_time_jd)
 }
 
 // Functions for ODE
-void EnckeOrbitPropagation::RHS(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs) {
+void EnckeOrbitPropagation::DerivativeFunction(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs) {
   UNUSED(t);
   libra::Vector<3> difference_position_i_m_m, difference_acc_i_m_s2;
   for (int i = 0; i < 3; i++) {
