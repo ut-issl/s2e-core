@@ -14,6 +14,6 @@ ObcGpioBase::ObcGpioBase(const std::vector<int> port_id, OBC* obc) : port_id_(po
 
 ObcGpioBase::~ObcGpioBase() {}
 
-bool ObcGpioBase::Read(const int idx) { return obc_->GpioComponentRead(port_id_[idx]); }
+bool ObcGpioBase::Read(const int index) { return obc_->GpioComponentRead(port_id_[index]); }
 
-void ObcGpioBase::Write(const int idx, const bool is_high) { obc_->GpioComponentWrite(port_id_[idx], is_high); }
+void ObcGpioBase::Write(const int index, const bool is_high) { obc_->GpioComponentWrite(port_id_[index], is_high); }

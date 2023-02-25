@@ -33,17 +33,17 @@ class ObcGpioBase {
   /**
    * @fn Read
    * @brief Read the GPIO state
-   * @param [in] idx: element index for port_id_ vector, not the GPIO port ID for OBC.
+   * @param [in] index: element index for port_id_ vector, not the GPIO port ID for OBC.
    * @return High(True) or Low(False) of GPIO state
    */
-  bool Read(const int idx);
+  bool Read(const int index);
   /**
    * @fn Write
    * @brief Write the GPIO state
-   * @param [in] idx: element index for port_id_ vector, not the GPIO port ID for OBC.
+   * @param [in] index: element index for port_id_ vector, not the GPIO port ID for OBC.
    * @param [in] is_high: High(True) or Low(False) of GPIO state
    */
-  void Write(const int idx, const bool is_high);
+  void Write(const int index, const bool is_high);
 
  private:
   std::vector<int> port_id_;  //!< Port ID GPIO line
