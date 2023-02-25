@@ -241,7 +241,7 @@ double dot(double x[3], double y[3]) { return (x[0] * y[0] + x[1] * y[1] + x[2] 
  * ---------------------------------------------------------------------------
  */
 
-double CalcAngleTwoVectors_rad(double vec1[3], double vec2[3]) {
+double angle(double vec1[3], double vec2[3]) {
   double small, undefined, magv1, magv2, temp;
   small = 0.00000001;
   undefined = 999999.1;
@@ -492,14 +492,14 @@ void rv2coe(double r[3], double v[3], double mu, double& p, double& a, double& e
 
     // ---------------- find argument of perigee ---------------
     if (strcmp(typeorbit, "ei") == 0) {
-      argp = CalcAngleTwoVectors_rad(nbar, ebar);
+      argp = angle(nbar, ebar);
       if (ebar[2] < 0.0) argp = twopi - argp;
     } else
       argp = undefined;
 
     // ------------  find true anomaly at epoch    -------------
     if (typeorbit[0] == 'e') {
-      nu = CalcAngleTwoVectors_rad(ebar, r);
+      nu = angle(ebar, r);
       if (rdotv < 0.0) nu = twopi - nu;
     } else
       nu = undefined;
@@ -507,7 +507,7 @@ void rv2coe(double r[3], double v[3], double mu, double& p, double& a, double& e
     // ----  find argument of latitude - circular inclined -----
     // 緯度の計算（円の/傾斜面の)
     if (strcmp(typeorbit, "ci") == 0) {
-      arglat = CalcAngleTwoVectors_rad(nbar, r);
+      arglat = angle(nbar, r);
       if (r[2] < 0.0) arglat = twopi - arglat;
       m = arglat;
     } else

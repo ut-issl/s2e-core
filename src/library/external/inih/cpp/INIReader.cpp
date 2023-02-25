@@ -21,8 +21,8 @@ using std::string;
 
 INIReader::INIReader(const string& filename) { _error = ini_parse(filename.c_str(), ValueHandler, this); }
 
-INIReader::INIReader(const char* buffer, size_t buffer_size_) {
-  string content(buffer, buffer_size_);
+INIReader::INIReader(const char* buffer, size_t buffer_size) {
+  string content(buffer, buffer_size);
   _error = ini_parse_string(content.c_str(), ValueHandler, this);
 }
 
