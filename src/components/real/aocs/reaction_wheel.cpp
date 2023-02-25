@@ -134,7 +134,7 @@ libra::Vector<3> RWModel::CalcTorque() {
     delay_buffer_accl_.push_back(target_accl_);
     delay_buffer_accl_.erase(delay_buffer_accl_.begin());
   }
-  // Calc RW ODE
+  // Calc RW OrdinaryDifferentialEquation
   int itr_num = (int)ceil(dt_main_routine_ / step_width_);
   for (int i = 0; i < itr_num; i++) {
     ++ode_angular_velocity_;  // propagate()

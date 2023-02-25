@@ -10,7 +10,7 @@
 
 Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
                                          libra::Vector<3> position_i_m, libra::Vector<3> velocity_i_m_s, double initial_time_s)
-    : Orbit(celestial_information), ODE<6>(time_step_s), gravity_constant_m3_s2_(gravity_constant_m3_s2) {
+    : Orbit(celestial_information), OrdinaryDifferentialEquation<6>(time_step_s), gravity_constant_m3_s2_(gravity_constant_m3_s2) {
   propagate_mode_ = OrbitPropagateMode::kRk4;
 
   propagation_time_s_ = 0.0;
@@ -69,7 +69,7 @@ void Rk4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
 
   SetStepWidth(propagation_step_s_);  // Re-set propagation Δt
   while (end_time_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
-    Update();  // Propagation methods of the ODE class
+    Update();  // Propagation methods of the OrdinaryDifferentialEquation class
     propagation_time_s_ += propagation_step_s_;
   }
   SetStepWidth(end_time_s - propagation_time_s_);  // Adjust the last propagation Δt

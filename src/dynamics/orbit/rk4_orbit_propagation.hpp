@@ -15,7 +15,7 @@
  * @class Rk4OrbitPropagation
  * @brief Class to propagate spacecraft orbit with Runge-Kutta-4 method
  */
-class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
+class Rk4OrbitPropagation : public Orbit, public libra::OrdinaryDifferentialEquation<6> {
  public:
   /**
    * @fn Rk4OrbitPropagation
@@ -35,7 +35,7 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    */
   ~Rk4OrbitPropagation();
 
-  // Override ODE
+  // Override OrdinaryDifferentialEquation
   /**
    * @fn DerivativeFunction
    * @brief Right Hand Side of ordinary difference equation

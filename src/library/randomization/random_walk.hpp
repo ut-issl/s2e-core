@@ -15,7 +15,7 @@
  * @brief Class to calculate random wark value
  */
 template <size_t N>
-class RandomWalk : public libra::ODE<N> {
+class RandomWalk : public libra::OrdinaryDifferentialEquation<N> {
  public:
   /**
    * @fn RandomWalk
@@ -28,7 +28,7 @@ class RandomWalk : public libra::ODE<N> {
 
   /**
    * @fn DerivativeFunction
-   * @brief Override function of ODE to define the difference equation
+   * @brief Override function of OrdinaryDifferentialEquation to define the difference equation
    * @param [in] x: Independent variable (e.g. time)
    * @param [in] state: State vector
    * @param [out] rhs: Differentiated value of state vector

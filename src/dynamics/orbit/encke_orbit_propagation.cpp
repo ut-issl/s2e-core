@@ -13,7 +13,7 @@ EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celesti
                                              const double propagation_step_s, const double current_time_jd, const libra::Vector<3> position_i_m,
                                              const libra::Vector<3> velocity_i_m_s, const double error_tolerance)
     : Orbit(celestial_information),
-      libra::ODE<6>(propagation_step_s),
+      libra::OrdinaryDifferentialEquation<6>(propagation_step_s),
       gravity_constant_m3_s2_(gravity_constant_m3_s2),
       error_tolerance_(error_tolerance),
       propagation_step_s_(propagation_step_s) {
@@ -42,7 +42,7 @@ void EnckeOrbitPropagation::Propagate(double end_time_s, double current_time_jd)
   // Propagate difference orbit
   SetStepWidth(propagation_step_s_);  // Re-set propagation Δt
   while (end_time_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
-    Update();  // Propagation methods of the ODE class
+    Update();  // Propagation methods of the OrdinaryDifferentialEquation class
     propagation_time_s_ += propagation_step_s_;
   }
   SetStepWidth(end_time_s - propagation_time_s_);  // Adjust the last propagation Δt
@@ -59,7 +59,7 @@ void EnckeOrbitPropagation::Propagate(double end_time_s, double current_time_jd)
   UpdateSatOrbit();
 }
 
-// Functions for ODE
+// Functions for OrdinaryDifferentialEquation
 void EnckeOrbitPropagation::DerivativeFunction(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs) {
   UNUSED(t);
   libra::Vector<3> difference_position_i_m_m, difference_acc_i_m_s2;

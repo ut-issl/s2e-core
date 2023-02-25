@@ -14,7 +14,7 @@
  * @class EnckeOrbitPropagation
  * @brief Class to propagate spacecraft orbit with Encke's method
  */
-class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
+class EnckeOrbitPropagation : public Orbit, public libra::OrdinaryDifferentialEquation<6> {
  public:
   /**
    * @fn EnckeOrbitPropagation
@@ -45,7 +45,7 @@ class EnckeOrbitPropagation : public Orbit, public libra::ODE<6> {
    */
   virtual void Propagate(const double end_time_s, const double current_time_jd);
 
-  // Override ODE
+  // Override OrdinaryDifferentialEquation
   /**
    * @fn DerivativeFunction
    * @brief Right Hand Side of ordinary difference equation

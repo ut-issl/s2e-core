@@ -8,22 +8,23 @@
 namespace libra {
 
 template <size_t N>
-ODE<N>::ODE(double step_width) : independent_variable_(0.0), state_(0.0), derivative_(0.0), step_width_(step_width) {}
+OrdinaryDifferentialEquation<N>::OrdinaryDifferentialEquation(double step_width)
+    : independent_variable_(0.0), state_(0.0), derivative_(0.0), step_width_(step_width) {}
 
 template <size_t N>
-void ODE<N>::Setup(double initial_independent_variable, const Vector<N>& initial_state) {
+void OrdinaryDifferentialEquation<N>::Setup(double initial_independent_variable, const Vector<N>& initial_state) {
   independent_variable_ = initial_independent_variable;
   state_ = initial_state;
 }
 
 template <size_t N>
-ODE<N>& ODE<N>::operator++() {
+OrdinaryDifferentialEquation<N>& OrdinaryDifferentialEquation<N>::operator++() {
   Update();
   return *this;
 }
 
 template <size_t N>
-void ODE<N>::Update() {
+void OrdinaryDifferentialEquation<N>::Update() {
   DerivativeFunction(independent_variable_, state_, derivative_);  // Current derivative calculation
 
   // 4th order Runge-Kutta method

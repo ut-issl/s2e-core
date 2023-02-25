@@ -11,23 +11,23 @@
 namespace libra {
 
 /**
- * @class ODE
+ * @class OrdinaryDifferentialEquation
  * @brief Class for Ordinary Differential Equation
  */
 template <size_t N>
-class ODE {
+class OrdinaryDifferentialEquation {
  public:
   /**
-   * @fn ODE
+   * @fn OrdinaryDifferentialEquation
    * @brief Constructor
    * @param [in] step_width: Step width
    */
-  ODE(double step_width);
+  OrdinaryDifferentialEquation(double step_width);
   /**
-   * @fn ~ODE
+   * @fn ~OrdinaryDifferentialEquation
    * @brief Destructor
    */
-  inline virtual ~ODE() {}
+  inline virtual ~OrdinaryDifferentialEquation() {}
 
   /**
    * @fn DerivativeFunction
@@ -42,7 +42,7 @@ class ODE {
    * @fn operator ++
    * @brief Update the state
    */
-  ODE& operator++();
+  OrdinaryDifferentialEquation& operator++();
 
   /**
    * @fn Update

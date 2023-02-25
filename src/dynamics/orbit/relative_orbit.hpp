@@ -17,7 +17,7 @@
  * @class RelativeOrbit
  * @brief Class to propagate relative orbit
  */
-class RelativeOrbit : public Orbit, public libra::ODE<6> {
+class RelativeOrbit : public Orbit, public libra::OrdinaryDifferentialEquation<6> {
  public:
   /**
    * @enum RelativeOrbitUpdateMethod
@@ -57,7 +57,7 @@ class RelativeOrbit : public Orbit, public libra::ODE<6> {
    */
   virtual void Propagate(double end_time_s, double current_time_jd);
 
-  // Override ODE
+  // Override OrdinaryDifferentialEquation
   /**
    * @fn DerivativeFunction
    * @brief Right Hand Side of ordinary difference equation

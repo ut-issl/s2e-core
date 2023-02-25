@@ -14,12 +14,12 @@
  * @file RwOde
  * @brief Ordinary differential equation of angular velocity of reaction wheel with first-order lag
  */
-class RwOde : public libra::ODE<1> {
+class RwOde : public libra::OrdinaryDifferentialEquation<1> {
  public:
   /**
    * @fn RwOde
    * @brief Constructor
-   * @param [in] step_width: Step width for ODE calculation
+   * @param [in] step_width: Step width for OrdinaryDifferentialEquation calculation
    * @param [in] init_angular_velocity: Initial angular velocity [rad/s]
    * @param [in] target_angular_velocity: Target angular velocity [rad/s]
    * @param [in] lag_coef: coefficients for first order lag
@@ -28,7 +28,7 @@ class RwOde : public libra::ODE<1> {
 
   /**
    * @fn DerivativeFunction
-   * @brief Definition of the difference equation (Override function of ODE class)
+   * @brief Definition of the difference equation (Override function of OrdinaryDifferentialEquation class)
    * @param [in] x: Independent variable (e.g. time)
    * @param [in] state: State vector
    * @param [out] rhs: Differentiated value of state vector

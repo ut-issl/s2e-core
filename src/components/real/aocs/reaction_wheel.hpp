@@ -217,7 +217,7 @@ class RWModel : public ComponentBase, public ILoggable {
   libra::Vector<3> output_torque_b_{0.0};     //!< Output torque in the body fixed frame [Nm]
   libra::Vector<3> angular_momentum_b_{0.0};  //!< Angular momentum of RW [Nms]
 
-  RwOde ode_angular_velocity_;         //!< Reaction Wheel ODE
+  RwOde ode_angular_velocity_;         //!< Reaction Wheel OrdinaryDifferentialEquation
   RWJitter rw_jitter_;                 //!< RW jitter
   bool is_calculated_jitter_ = false;  //!< Flag for calculation of jitter
   bool is_logged_jitter_ = false;      //!< Flag for log output of jitter
