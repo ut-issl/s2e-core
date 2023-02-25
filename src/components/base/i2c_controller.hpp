@@ -56,7 +56,7 @@ class I2cControllerCommunicationBase {
 
  private:
   unsigned int hils_port_id_;                                          //!< ID of HILS communication port
-  int baud_rate_;                                                      //!< Baud rate of HILS communication port ex. 9600, 115200
+  unsigned int baud_rate_;                                             //!< Baud rate of HILS communication port ex. 9600, 115200
   unsigned int tx_buffer_size_;                                        //!< TX (Controller to Target) buffer size
   unsigned int rx_buffer_size_;                                        //!< RX (Target to Controller) buffer size
   OBC_COM_UART_MODE simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode (SILS or HILS)
