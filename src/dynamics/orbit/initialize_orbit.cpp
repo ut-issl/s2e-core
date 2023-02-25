@@ -94,7 +94,8 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     }
 
     double error_tolerance = conf.ReadDouble(section_, "error_tolerance");
-    orbit = new EnckeOrbitPropagation(celestial_information, gravity_constant_m3_s2, step_width_s, current_time_jd, position_i_m, velocity_i_m_s, error_tolerance);
+    orbit = new EnckeOrbitPropagation(celestial_information, gravity_constant_m3_s2, step_width_s, current_time_jd, position_i_m, velocity_i_m_s,
+                                      error_tolerance);
   } else {
     std::cerr << "ERROR: orbit propagation mode: " << propagate_mode << " is not defined!" << std::endl;
     std::cerr << "The orbit mode is automatically set as RK4" << std::endl;

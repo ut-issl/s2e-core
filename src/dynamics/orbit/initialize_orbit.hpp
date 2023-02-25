@@ -24,7 +24,8 @@ class RelativeInformation;
  * @param [in] relative_information: Relative information
  */
 Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string initialize_file, double step_width_s, double current_time_jd,
-                 double gravity_constant_m3_s2, std::string section = "ORBIT", RelativeInformation* relative_information = (RelativeInformation*)nullptr);
+                 double gravity_constant_m3_s2, std::string section = "ORBIT",
+                 RelativeInformation* relative_information = (RelativeInformation*)nullptr);
 
 /**
  * @fn InitializePosVel

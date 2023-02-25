@@ -9,12 +9,12 @@
 
 #include "../../library/orbit/orbital_elements.hpp"
 
-EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double mu_m3_s2,
+EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double gravity_constant_m3_s2,
                                              const double propagation_step_s, const double current_time_jd, const libra::Vector<3> position_i_m,
                                              const libra::Vector<3> velocity_i_m_s, const double error_tolerance)
     : Orbit(celestial_information),
       libra::ODE<6>(propagation_step_s),
-      mu_m3_s2_(mu_m3_s2),
+      gravity_constant_m3_s2_(gravity_constant_m3_s2),
       error_tolerance_(error_tolerance),
       propagation_step_s_(propagation_step_s) {
   propagation_time_s_ = 0.0;
@@ -71,7 +71,8 @@ void EnckeOrbitPropagation::RHS(double t, const libra::Vector<6>& state, libra::
   double r_m = norm(reference_position_i_m_);
   double r_m3 = pow(r_m, 3.0);
 
-  difference_acc_i_m_s2 = -(mu_m3_s2_ / r_m3) * (q_func * spacecraft_position_i_m_ + difference_position_i_m_m) + spacecraft_acceleration_i_m_s2_;
+  difference_acc_i_m_s2 =
+      -(gravity_constant_m3_s2_ / r_m3) * (q_func * spacecraft_position_i_m_ + difference_position_i_m_m) + spacecraft_acceleration_i_m_s2_;
 
   rhs[0] = state[3];
   rhs[1] = state[4];
@@ -89,8 +90,8 @@ void EnckeOrbitPropagation::Initialize(double current_time_jd, libra::Vector<3> 
   // reference orbit
   reference_position_i_m_ = reference_position_i_m;
   reference_velocity_i_m_s_ = reference_velocity_i_m_s;
-  OrbitalElements oe_ref(mu_m3_s2_, current_time_jd, reference_position_i_m, reference_velocity_i_m_s);
-  reference_kepler_orbit = KeplerOrbit(mu_m3_s2_, oe_ref);
+  OrbitalElements oe_ref(gravity_constant_m3_s2_, current_time_jd, reference_position_i_m, reference_velocity_i_m_s);
+  reference_kepler_orbit = KeplerOrbit(gravity_constant_m3_s2_, oe_ref);
 
   // difference orbit
   fill_up(difference_position_i_m_, 0.0);
