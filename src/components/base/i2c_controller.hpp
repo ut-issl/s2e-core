@@ -10,16 +10,16 @@
 #include "uart_communication_with_obc.hpp"
 
 /**
- * @class I2cControllerCommunicationBase
+ * @class I2cController
  * @brief This class simulates the I2C Controller communication with the I2C Target.
  * @note Generally, I2C controller side is OBC, and components are target side.
  *       The main purpose is to validate the emulated I2C Target component in the HILS test.
  *       This class works only HILS mode
  */
-class I2cControllerCommunicationBase {
+class I2cController {
  public:
   /**
-   * @fn I2cControllerCommunicationBase
+   * @fn I2cController
    * @brief Constructor
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] baud_rate: Baud rate of HILS communication port
@@ -27,13 +27,13 @@ class I2cControllerCommunicationBase {
    * @param [in] rx_buffer_size: RX (Target to Controller) buffer size
    * @param [in] hils_port_manager: HILS port manager
    */
-  I2cControllerCommunicationBase(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
-                                 const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager);
+  I2cController(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size,
+                HilsPortManager* hils_port_manager);
   /**
-   * @fn ~I2cControllerCommunicationBase
+   * @fn ~I2cController
    * @brief Destructor
    */
-  ~I2cControllerCommunicationBase();
+  ~I2cController();
 
  protected:
   /**

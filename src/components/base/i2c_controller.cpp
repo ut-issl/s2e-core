@@ -6,9 +6,8 @@
 
 #include <iostream>
 
-I2cControllerCommunicationBase::I2cControllerCommunicationBase(const unsigned int hils_port_id, const unsigned int baud_rate,
-                                                               const unsigned int tx_buffer_size, const unsigned int rx_buffer_size,
-                                                               HilsPortManager* hils_port_manager)
+I2cController::I2cController(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
+                             const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)
     : hils_port_id_(hils_port_id),
       baud_rate_(baud_rate),
       tx_buffer_size_(tx_buffer_size),
@@ -26,7 +25,7 @@ I2cControllerCommunicationBase::I2cControllerCommunicationBase(const unsigned in
 #endif
 }
 
-I2cControllerCommunicationBase::~I2cControllerCommunicationBase() {
+I2cController::~I2cController() {
   if (simulation_mode_ != OBC_COM_UART_MODE::HILS) return;
 
   int ret = hils_port_manager_->I2cControllerCloseComPort(hils_port_id_);
@@ -35,12 +34,12 @@ I2cControllerCommunicationBase::~I2cControllerCommunicationBase() {
   }
 }
 
-int I2cControllerCommunicationBase::ReceiveTelemetry(const unsigned char length) {
+int I2cController::ReceiveTelemetry(const unsigned char length) {
   if (simulation_mode_ != OBC_COM_UART_MODE::HILS) return -1;
   return hils_port_manager_->I2cControllerReceive(hils_port_id_, &rx_buffer_.front(), 0, length);
 }
 
-int I2cControllerCommunicationBase::SendCommand(const unsigned char length) {
+int I2cController::SendCommand(const unsigned char length) {
   if (simulation_mode_ != OBC_COM_UART_MODE::HILS) return -1;
   return hils_port_manager_->I2cControllerSend(hils_port_id_, &tx_buffer_.front(), 0, length);
 }

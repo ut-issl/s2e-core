@@ -18,7 +18,7 @@
  *          SC18IM700 Data Sheet: https://www.nxp.com/docs/en/data-sheet/SC18IM700.pdf
  *          telemetry size = 5 bytes(ASCII)
  */
-class ExampleI2cControllerForHils : public Component, public I2cControllerCommunicationBase {
+class ExampleI2cControllerForHils : public Component, public I2cController {
  public:
   /**
    * @fn ExampleI2cControllerForHils
