@@ -24,7 +24,7 @@ class Vector {
    * @fn Vector
    * @brief Constructor without any initialization
    */
-  inline Vector();
+  inline Vector() {}
   /**
    * @fn Vector
    * @brief Constructor with initialize the elements as all same value
@@ -36,21 +36,21 @@ class Vector {
    * @fn dim
    * @brief Return number of elements
    */
-  inline size_t dim() const;
+  inline size_t dim() const { return N; }
 
   /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 1D-array using `[]`
    * @return Pointer to the data storing array
    */
-  inline operator T*();
+  inline operator T*() { return vector_; }
 
   /**
    * @fn Cast operator to directly access the elements (const ver.)
    * @brief Operator to access the elements similar with the 1D-array using `[]`
    * @return Pointer to the data storing array
    */
-  inline operator const T*() const;
+  inline operator const T*() const { return vector_; }
 
   /**
    * @fn Operator ()
@@ -59,7 +59,12 @@ class Vector {
    * @param [in] pos: Target element number
    * @return Value of the target element
    */
-  inline T& operator()(std::size_t pos);
+  inline T& operator()(std::size_t pos) {
+    if (N <= pos) {
+      throw std::invalid_argument("Argument exceeds Vector's dimension.");
+    }
+    return vector_[pos];
+  }
 
   /**
    * @fn Operator ()
@@ -68,7 +73,12 @@ class Vector {
    * @param [in] pos: Target element number
    * @return Value of the target element
    */
-  inline T operator()(std::size_t pos) const;
+  inline T operator()(std::size_t pos) const {
+    if (N <= pos) {
+      throw std::invalid_argument("Argument exceeds Vector's dimension.");
+    }
+    return vector_[pos];
+  }
 
   /**
    * @fn Operator +=
@@ -245,7 +255,6 @@ Vector<3, double> GenerateOrthoUnitVector(const Vector<3, double>& v);
 
 }  // namespace libra
 
-#include "vector_inline_functions.hpp"
 #include "vector_template_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_VECTOR_HPP_
