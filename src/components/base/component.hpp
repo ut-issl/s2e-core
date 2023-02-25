@@ -58,7 +58,7 @@ class ComponentBase : public ITickable {
    * @fn FastTick
    * @brief The methods to input fast clock. This will be called periodically.
    */
-  virtual void FastTick(const int count);
+  virtual void FastTick(const int fast_count);
 
  protected:
   int prescaler_;           //!< Frequency scale factor for normal update
