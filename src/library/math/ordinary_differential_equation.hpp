@@ -62,7 +62,7 @@ class ODE {
    * @fn x
    * @brief Return current independent variable
    */
-  inline double x() const { return x_; }
+  inline double x() const { return independent_variable_; }
 
   /**
    * @fn state
@@ -81,7 +81,7 @@ class ODE {
    * @fn rhs
    * @brief Return const reference of differentiate state vector
    */
-  inline const Vector<N>& rhs() const { return rhs_; }
+  inline const Vector<N>& rhs() const { return derivative_; }
 
   /**
    * @fn operator ++
@@ -103,10 +103,10 @@ class ODE {
   inline libra::Vector<N>& state() { return state_; }
 
  private:
-  double x_;           //!< Latest value of independent variable
-  Vector<N> state_;    //!< Latest state vector
-  Vector<N> rhs_;      //!< Latest differentiate of the state vector
-  double step_width_;  //!< Step width
+  double independent_variable_;  //!< Latest value of independent variable
+  Vector<N> state_;              //!< Latest state vector
+  Vector<N> derivative_;         //!< Latest differentiate of the state vector
+  double step_width_;            //!< Step width
 };
 
 }  // namespace libra
