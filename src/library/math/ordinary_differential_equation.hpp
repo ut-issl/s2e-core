@@ -34,23 +34,23 @@ class ODE {
    * @brief Pure virtual function to define the difference equation
    * @param [in] x: Independent variable (e.g. time)
    * @param [in] state: State vector
-   * @param [out] rhs: Differentiated value of state vector
+   * @param [out] derivative: Differentiated value of state vector
    */
-  virtual void RHS(double x, const Vector<N>& state, Vector<N>& rhs) = 0;
+  virtual void RHS(double x, const Vector<N>& state, Vector<N>& derivative) = 0;
 
   /**
    * @fn setup
    * @brief Initialize the state vector
-   * @param [in] init_x: Initial value of independent variable
-   * @param [in] init_cond: Initial condition of the state vector
+   * @param [in] initial_independent_variable: Initial value of independent variable
+   * @param [in] initial_state: Initial condition of the state vector
    */
-  void setup(double init_x, const Vector<N>& init_cond);
+  void setup(double initial_independent_variable, const Vector<N>& initial_state);
   /**
    * @fn setStepWidth
    * @brief Initialize the state vector
-   * @param [in] new_step: Initial value of independent variable
+   * @param [in] step_width: Step width
    */
-  void setStepWidth(double new_step);
+  void setStepWidth(double step_width);
 
   /**
    * @fn step_width
