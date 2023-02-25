@@ -61,24 +61,24 @@ class ObcI2cTargetCommunicationBase {
    * @brief Read register of I2C port
    * @param [in] reg_addr: Address of the target register
    * @param [out] data: Buffer to store the read data
-   * @param [in] len: Length of the data
+   * @param [in] length: Length of the data
    */
-  void ReadRegister(const unsigned char reg_addr, unsigned char* data, const unsigned char len);
+  void ReadRegister(const unsigned char reg_addr, unsigned char* data, const unsigned char length);
   /**
    * @fn WriteRegister
    * @brief Read register of I2C port
    * @param [in] reg_addr: Address of the target register
    * @param [in] data: Write data
-   * @param [in] len: Length of the data
+   * @param [in] length: Length of the data
    */
-  void WriteRegister(const unsigned char reg_addr, const unsigned char* data, const unsigned char len);
+  void WriteRegister(const unsigned char reg_addr, const unsigned char* data, const unsigned char length);
   /**
    * @fn ReadCommand
    * @brief Read command from I2C controller
    * @param [out] data: Buffer to store the read command data
-   * @param [in] len: Length of the data
+   * @param [in] length: Length of the data
    */
-  void ReadCommand(unsigned char* data, const unsigned char len);
+  void ReadCommand(unsigned char* data, const unsigned char length);
   /**
    * @fn ReceiveCommand
    * @brief Receive command (HILS only)
@@ -88,10 +88,10 @@ class ObcI2cTargetCommunicationBase {
   /**
    * @fn SendTelemetry
    * @brief Send Telemetry (HILS only)
-   * @param [in] len: Data length to write
+   * @param [in] length: Data length to write
    * @note This wraps I2cTargetSend in HilsPortManager
    */
-  int SendTelemetry(const unsigned char len);
+  int SendTelemetry(const unsigned char length);
   /**
    * @fn GetStoredFrameCounter
    * @brief Return stored frame count (HILS only)
@@ -115,7 +115,7 @@ class ObcI2cTargetCommunicationBase {
   unsigned char i2c_address_;  //!< I2C address for the target
   bool is_moved_ = false;      //!< Flag to show the object is copied or not
 
-  OBC_COM_UART_MODE sim_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode
+  OBC_COM_UART_MODE simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode
 
   OBC* obc_;                            //!< Communication target OBC
   HilsPortManager* hils_port_manager_;  //!< HILS port manager

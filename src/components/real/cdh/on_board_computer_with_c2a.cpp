@@ -61,12 +61,12 @@ void OBC_C2A::MainRoutine(int count) {
 }
 
 // Override functions
-int OBC_C2A::ConnectComPort(int port_id, int tx_buf_size, int rx_buf_size) {
+int OBC_C2A::ConnectComPort(int port_id, int tx_buffer_size, int rx_buffer_size) {
   if (com_ports_c2a_[port_id] != nullptr) {
     // Port already used
     return -1;
   }
-  com_ports_c2a_[port_id] = new SCIPort(tx_buf_size, rx_buf_size);
+  com_ports_c2a_[port_id] = new SCIPort(tx_buffer_size, rx_buffer_size);
   return 0;
 }
 

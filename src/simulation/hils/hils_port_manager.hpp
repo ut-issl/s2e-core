@@ -35,10 +35,10 @@ class HilsPortManager {
    * @brief Connect UART port
    * @param [in] port_id: COM port ID
    * @param [in] baud_rate: Baud rate ex 9600, 115200
-   * @param [in] tx_buf_size: TX buffer size
-   * @param [in] rx_buf_size: RX buffer size
+   * @param [in] tx_buffer_size: TX buffer size
+   * @param [in] rx_buffer_size: RX buffer size
    */
-  virtual int UartConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buf_size, unsigned int rx_buf_size);
+  virtual int UartConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buffer_size, unsigned int rx_buffer_size);
   /**
    * @fn UartCloseComPort
    * @brief Close UART port
@@ -131,10 +131,10 @@ class HilsPortManager {
    * @brief Connect I2C controller side device on the COM port
    * @param [in] port_id: COM port ID
    * @param [in] baud_rate: Baud rate ex 9600, 115200
-   * @param [in] tx_buf_size: TX buffer size
-   * @param [in] rx_buf_size: RX buffer size
+   * @param [in] tx_buffer_size: TX buffer size
+   * @param [in] rx_buffer_size: RX buffer size
    */
-  virtual int I2cControllerConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buf_size, unsigned int rx_buf_size);
+  virtual int I2cControllerConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buffer_size, unsigned int rx_buffer_size);
   /**
    * @fn I2cControllerCloseComPort
    * @brief Close I2C controller side device on the COM port

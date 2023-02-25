@@ -7,11 +7,11 @@
 
 SCIPort::SCIPort() : SCIPort(kDefaultBufferSize, kDefaultBufferSize) {}
 
-SCIPort::SCIPort(int rx_buf_size, int tx_buf_size) {
-  if (rx_buf_size <= 0) rx_buf_size = kDefaultBufferSize;
-  if (tx_buf_size <= 0) tx_buf_size = kDefaultBufferSize;
-  rxb_ = new RingBuffer(rx_buf_size);
-  txb_ = new RingBuffer(tx_buf_size);
+SCIPort::SCIPort(int rx_buffer_size, int tx_buffer_size) {
+  if (rx_buffer_size <= 0) rx_buffer_size = kDefaultBufferSize;
+  if (tx_buffer_size <= 0) tx_buffer_size = kDefaultBufferSize;
+  rxb_ = new RingBuffer(rx_buffer_size);
+  txb_ = new RingBuffer(tx_buffer_size);
 }
 
 SCIPort::~SCIPort() {

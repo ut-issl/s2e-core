@@ -49,11 +49,11 @@ class OBC_C2A : public OBC {
    * @fn ConnectComPort
    * @brief Connect UART communication port between OBC and a component
    * @param [in] port_id: Port ID
-   * @param [in] tx_buf_size: TX (OBC -> Component) buffer size
-   * @param [in] rx_buf_size: RX (Component -> OBC) buffer size
+   * @param [in] tx_buffer_size: TX (OBC -> Component) buffer size
+   * @param [in] rx_buffer_size: RX (Component -> OBC) buffer size
    * @return -1: error, 0: success
    */
-  int ConnectComPort(int port_id, int tx_buf_size, int rx_buf_size) override;
+  int ConnectComPort(int port_id, int tx_buffer_size, int rx_buffer_size) override;
   /**
    * @fn ConnectComPort
    * @brief Close UART communication port between OBC and a component

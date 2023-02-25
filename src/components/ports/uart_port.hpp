@@ -24,10 +24,10 @@ class SCIPort {
   /**
    * @fn SCIPort
    * @brief Constructor
-   * @param [in] rx_buf_size: RX(Component -> OBC) buffer size
-   * @param [in] tx_buf_size: TX(OBC -> Component) buffer size
+   * @param [in] rx_buffer_size: RX(Component -> OBC) buffer size
+   * @param [in] tx_buffer_size: TX(OBC -> Component) buffer size
    */
-  SCIPort(int rx_buf_size, int tx_buf_size);
+  SCIPort(int rx_buffer_size, int tx_buffer_size);
   /**
    * @fn ~SCIPort
    * @brief Destructor

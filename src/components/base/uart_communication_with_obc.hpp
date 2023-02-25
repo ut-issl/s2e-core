@@ -40,11 +40,11 @@ class ObcCommunicationBase {
    * @fn ObcCommunicationBase
    * @brief Constructor for SILS mode
    * @param [in] sils_port_id: Port ID for communication line b/w OBC in the SILS mode
-   * @param [in] tx_buf_size: TX (Component to OBC) buffer size
-   * @param [in] rx_buf_size: RX (OBC to Component) buffer size
+   * @param [in] tx_buffer_size: TX (Component to OBC) buffer size
+   * @param [in] rx_buffer_size: RX (OBC to Component) buffer size
    * @param [in] obc: The communication target OBC
    */
-  ObcCommunicationBase(const int sils_port_id, const int tx_buf_size, const int rx_buf_size, OBC* obc);
+  ObcCommunicationBase(const int sils_port_id, const int tx_buffer_size, const int rx_buffer_size, OBC* obc);
   /**
    * @fn ObcCommunicationBase
    * @brief Constructor for HILS mode
@@ -59,11 +59,11 @@ class ObcCommunicationBase {
    * @brief Constructor for HILS mode
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] baud_rate: Baud rate of HILS communication port
-   * @param [in] tx_buf_size: TX (Component to OBC) buffer size
-   * @param [in] rx_buf_size: RX (OBC to Component) buffer size
+   * @param [in] tx_buffer_size: TX (Component to OBC) buffer size
+   * @param [in] rx_buffer_size: RX (OBC to Component) buffer size
    * @param [in] hils_port_manager: HILS port manager
    */
-  ObcCommunicationBase(const unsigned int hils_port_id, const unsigned int baud_rate, const int tx_buf_size, const int rx_buf_size,
+  ObcCommunicationBase(const unsigned int hils_port_id, const unsigned int baud_rate, const int tx_buffer_size, const int rx_buffer_size,
                        HilsPortManager* hils_port_manager);
   /**
    * @fn ObcCommunicationBase
@@ -100,11 +100,11 @@ class ObcCommunicationBase {
   int sils_port_id_;           //!< Port ID for SILS
   int hils_port_id_;           //!< Port ID for HILS
   int baud_rate_;              //!< Baudrate for HILS ex. 9600, 115200
-  int tx_buf_size_;            //!< TX (Component to OBC) buffer size
-  int rx_buf_size_;            //!< RX (OBC to Component) buffer size
+  int tx_buffer_size_;         //!< TX (Component to OBC) buffer size
+  int rx_buffer_size_;            //!< RX (OBC to Component) buffer size
   bool is_connected_ = false;  // Connection flag
 
-  OBC_COM_UART_MODE sim_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode
+  OBC_COM_UART_MODE simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode
 
   OBC* obc_;                            //!< Communication target OBC
   HilsPortManager* hils_port_manager_;  //!< HILS port manager
