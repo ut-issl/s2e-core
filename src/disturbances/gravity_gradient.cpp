@@ -13,8 +13,8 @@
 GravityGradient::GravityGradient(const bool is_calculation_enabled)
     : GravityGradient(environment::earth_gravitational_constant_m3_s2, is_calculation_enabled) {}
 
-GravityGradient::GravityGradient(const double mu_m3_s2, const bool is_calculation_enabled)
-    : SimpleDisturbance(is_calculation_enabled), mu_m3_s2_(mu_m3_s2) {}
+GravityGradient::GravityGradient(const double gravity_constant_m3_s2, const bool is_calculation_enabled)
+    : SimpleDisturbance(is_calculation_enabled), gravity_constant_m3_s2_(gravity_constant_m3_s2) {}
 
 void GravityGradient::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   // TODO: use structure information to get inertia tensor
@@ -27,7 +27,7 @@ libra::Vector<3> GravityGradient::CalcTorque_b_Nm(const libra::Vector<3> earth_p
   libra::Vector<3> u_b = earth_position_from_sc_b_m;  // TODO: make undestructive normalize function for Vector
   u_b /= r_norm_m;
 
-  double coeff = 3.0 * mu_m3_s2_ / pow(r_norm_m, 3.0);
+  double coeff = 3.0 * gravity_constant_m3_s2_ / pow(r_norm_m, 3.0);
   torque_b_Nm_ = coeff * outer_product(u_b, inertia_tensor_b_kgm2 * u_b);
   return torque_b_Nm_;
 }

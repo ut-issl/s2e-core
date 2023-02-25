@@ -30,10 +30,10 @@ class GravityGradient : public SimpleDisturbance {
   /**
    * @fn GeoPotential
    * @brief Constructor
-   * @param [in] mu_m3_s2: Gravitational constant [m3/s2]
+   * @param [in] gravity_constant_m3_s2: Gravitational constant [m3/s2]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  GravityGradient(const double mu_m3_s2, const bool is_calculation_enabled = true);
+  GravityGradient(const double gravity_constant_m3_s2, const bool is_calculation_enabled = true);
 
   /**
    * @fn Update
@@ -56,7 +56,7 @@ class GravityGradient : public SimpleDisturbance {
   virtual std::string GetLogValue() const;
 
  private:
-  double mu_m3_s2_;  //!< Gravitational constant [m3/s2]
+  double gravity_constant_m3_s2_;  //!< Gravitational constant [m3/s2]
 
   /**
    * @fn CalcTorque
