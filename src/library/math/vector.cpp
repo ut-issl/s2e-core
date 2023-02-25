@@ -8,65 +8,47 @@
 #include "constants.hpp"
 
 namespace libra {
-Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& ortho) {
-  Vector<3, double> spher;  // vector on the polar coordinate
-  FillUp(spher, 0.0);
-  spher[0] = CalcNorm(ortho);
+Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& orthogonal) {
+  Vector<3, double> polar;  // vector on the polar coordinate
+  FillUp(polar, 0.0);
+  polar[0] = CalcNorm(orthogonal);
   // Skip when zero vector
-  if (spher[0] == 0.0) {
-    return spher;
+  if (polar[0] == 0.0) {
+    return polar;
   }
-  spher[1] = acos(ortho[2] / spher[0]);
-  // Skip phi calculation when the ortho is on the Z-axis
-  if ((ortho[0] == 0.0) && (ortho[1] == 0.0)) {
-    return spher;
+  polar[1] = acos(orthogonal[2] / polar[0]);
+  // Skip phi calculation when the orthogonal is on the Z-axis
+  if ((orthogonal[0] == 0.0) && (orthogonal[1] == 0.0)) {
+    return polar;
   }
-  spher[2] = atan2(ortho[1], ortho[0]);
-  if (spher[2] < 0.0) {
-    spher[2] += numbers::tau;
+  polar[2] = atan2(orthogonal[1], orthogonal[0]);
+  if (polar[2] < 0.0) {
+    polar[2] += numbers::tau;
   }
 
-  return spher;
-}
-
-Vector<3, double> ortho2lonlat(const Vector<3, double>& ortho) {
-  Vector<3, double> lonlat;
-  FillUp(lonlat, 0.0);
-  lonlat[0] = CalcNorm(ortho);
-  // Skip when zero vector
-  if (lonlat[0] == 0.0) {
-    return lonlat;
-  }
-  lonlat[1] = numbers::pi_2 - acos(ortho[2] / lonlat[0]);
-  // Skip phi calculation when the ortho is on the Z-axis
-  if ((ortho[0] == 0.0) && (ortho[1] == 0.0)) {
-    return lonlat;
-  }
-  lonlat[2] = atan2(ortho[1], ortho[0]);
-
-  return lonlat;
+  return polar;
 }
 
 Vector<3, double> GenerateOrthogonalUnitVector(const Vector<3, double>& v) {
-  Vector<3> v_ortho;
+  Vector<3> orthogonal_vector;
   if (v[0] * v[0] <= v[1] * v[1] && v[0] * v[0] <= v[1] * v[1]) {
-    v_ortho[0] = 0.0;
-    v_ortho[1] = v[2];
-    v_ortho[2] = -v[1];
-    v_ortho = Normalize(v_ortho);
-    return (v_ortho);
+    orthogonal_vector[0] = 0.0;
+    orthogonal_vector[1] = v[2];
+    orthogonal_vector[2] = -v[1];
+    orthogonal_vector = Normalize(orthogonal_vector);
+    return (orthogonal_vector);
   } else if (v[1] * v[1] <= v[0] * v[0] && v[1] * v[1] <= v[2] * v[2]) {
-    v_ortho[0] = -v[2];
-    v_ortho[1] = 0.0;
-    v_ortho[2] = v[0];
-    v_ortho = Normalize(v_ortho);
-    return (v_ortho);
+    orthogonal_vector[0] = -v[2];
+    orthogonal_vector[1] = 0.0;
+    orthogonal_vector[2] = v[0];
+    orthogonal_vector = Normalize(orthogonal_vector);
+    return (orthogonal_vector);
   } else {
-    v_ortho[0] = v[1];
-    v_ortho[1] = -v[0];
-    v_ortho[2] = 0.0;
-    v_ortho = Normalize(v_ortho);
-    return (v_ortho);
+    orthogonal_vector[0] = v[1];
+    orthogonal_vector[1] = -v[0];
+    orthogonal_vector[2] = 0.0;
+    orthogonal_vector = Normalize(orthogonal_vector);
+    return (orthogonal_vector);
   }
 }
 }  // namespace libra

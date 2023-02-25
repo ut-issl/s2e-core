@@ -230,10 +230,10 @@ double CalcAngleTwoVectors_rad(const Vector<N, double>& v1, const Vector<N, doub
  * @brief Convert orthogonal coordinate (x, y, z) to Polar coordinate (r, theta, phi)
  * @note 0 <= theta < pi and 0 <= phi < 2pi
  *       Return zero vector when input is zero vector. Return phi = 0 when input vector is on the Z-axis
- * @param [in] ortho: Vector in orthogonal coordinate
+ * @param [in] orthogonal: Vector in orthogonal coordinate
  * @return Vector in Polar coordinate
  */
-Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& ortho);
+Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& orthogonal);
 
 /**
  * @fn GenerateOrthogonalUnitVector
