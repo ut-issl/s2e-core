@@ -149,17 +149,17 @@ Quaternion Quaternion::ConvertFromDcm(const Matrix<3, 3> dcm) {
   q[1] = sqrt(1 - dcm[0][0] + dcm[1][1] - dcm[2][2]) / 2;
   q[2] = sqrt(1 - dcm[0][0] - dcm[1][1] + dcm[2][2]) / 2;
   q[3] = sqrt(1 + dcm[0][0] + dcm[1][1] + dcm[2][2]) / 2;
-  double maxval = 0;
-  int maxidx = 0;
+  double max_value = 0;
+  int max_index = 0;
   for (int i = 0; i < 4; i++) {
     // Scan maximum value index
-    if (std::abs(q[i]) > maxval) {
-      maxval = std::abs(q[i]);
-      maxidx = i;
+    if (std::abs(q[i]) > max_value) {
+      max_value = std::abs(q[i]);
+      max_index = i;
     }
   }
   // Use the maximum value as denominator
-  switch (maxidx) {
+  switch (max_index) {
     case 0:
       q[1] = (dcm[0][1] + dcm[1][0]) / (4 * q[0]);
       q[2] = (dcm[0][2] + dcm[2][0]) / (4 * q[0]);
@@ -186,11 +186,11 @@ Quaternion Quaternion::ConvertFromDcm(const Matrix<3, 3> dcm) {
 
 Vector<3> Quaternion::ConvertToEuler(void) const {
   auto dcm = this->ConvertToDcm();
-  Vector<3> eul;
-  eul[0] = atan2(dcm[1][2], dcm[2][2]);
-  eul[1] = atan2(-dcm[0][2], sqrt(dcm[1][2] * dcm[1][2] + dcm[2][2] * dcm[2][2]));
-  eul[2] = atan2(dcm[0][1], dcm[0][0]);
-  return eul;
+  Vector<3> euler;
+  euler[0] = atan2(dcm[1][2], dcm[2][2]);
+  euler[1] = atan2(-dcm[0][2], sqrt(dcm[1][2] * dcm[1][2] + dcm[2][2] * dcm[2][2]));
+  euler[2] = atan2(dcm[0][1], dcm[0][0]);
+  return euler;
 }
 
 Quaternion Quaternion::ConvertFromEuler(const Vector<3> euler) {
@@ -213,25 +213,25 @@ Quaternion Quaternion::ConvertFromEuler(const Vector<3> euler) {
 }
 
 Vector<3> Quaternion::FrameConversion(const Vector<3>& vector) const {
-  Quaternion conj = Conjugate();
-  Quaternion temp1 = conj * vector;
+  Quaternion conjugate = Conjugate();
+  Quaternion temp1 = conjugate * vector;
   Quaternion temp2 = temp1 * quaternion_;
-  Vector<3> ans;
+  Vector<3> answer;
   for (int i = 0; i < 3; ++i) {
-    ans[i] = temp2[i];
+    answer[i] = temp2[i];
   }
-  return ans;
+  return answer;
 }
 
 Vector<3> Quaternion::InverseFrameConversion(const Vector<3>& vector) const {
-  Quaternion conj = Conjugate();
+  Quaternion conjugate = Conjugate();
   Quaternion temp1 = quaternion_ * vector;
-  Quaternion temp2 = temp1 * conj;
-  Vector<3> ans;
+  Quaternion temp2 = temp1 * conjugate;
+  Vector<3> answer;
   for (int i = 0; i < 3; ++i) {
-    ans[i] = temp2[i];
+    answer[i] = temp2[i];
   }
-  return ans;
+  return answer;
 }
 
 Vector<4> Quaternion::ConvertToVector() { return quaternion_; }
