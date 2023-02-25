@@ -7,6 +7,7 @@
 #define S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_HPP_
 
 #include <environment/local/local_celestial_information.hpp>
+#include <library/math/constants.hpp>
 #include <string>
 
 #include "../orbit/orbit.hpp"
@@ -104,6 +105,9 @@ class ControlledAttitude : public Attitude {
   double previous_calc_time_s_ = -1.0;         //!< Previous time of velocity calculation [sec]
   libra::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
   libra::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
+
+  const double kMinDirectionAngle_rad = 30.0 * libra::deg_to_rad;  //!< Minimum angle b/w main and sub direction
+                                                                               // TODO Change with ini file
 
   // Inputs
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
