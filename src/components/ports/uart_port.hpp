@@ -75,8 +75,8 @@ class SCIPort {
  private:
   const static int kDefaultBufferSize = 1024;  //!< Default buffer size
 
-  RingBuffer* rxb_;  //!< Receive buffer (Component -> OBC)
-  RingBuffer* txb_;  //!< Transmit buffer (OBC -> Component)
+  RingBuffer* rx_buffer_;  //!< Receive buffer (Component -> OBC)
+  RingBuffer* tx_buffer_;  //!< Transmit buffer (OBC -> Component)
 };
 
 #endif  // S2E_COMPONENTS_PORTS_UART_PORT_HPP_
