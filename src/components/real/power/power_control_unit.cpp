@@ -13,7 +13,7 @@ PCU::~PCU() {}
 void PCU::MainRoutine(int count) {
   UNUSED(count);
 
-  // double current_ = ports_[1]->GetCurrentConsumption();
+  // double current_ = ports_[1]->GetCurrentConsumption_A();
 }
 
 int PCU::ConnectPort(const int port_id, const double current_Limit) {

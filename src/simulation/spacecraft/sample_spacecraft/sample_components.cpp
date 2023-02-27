@@ -86,9 +86,9 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   antenna_ = new Antenna(InitAntenna(1, ini_path));
 
   // PCU power port initial control
-  pcu_->GetPowerPort(0)->SetVoltage(3.3);
-  pcu_->GetPowerPort(1)->SetVoltage(3.3);
-  pcu_->GetPowerPort(2)->SetVoltage(3.3);
+  pcu_->GetPowerPort(0)->SetVoltage_V(3.3);
+  pcu_->GetPowerPort(1)->SetVoltage_V(3.3);
+  pcu_->GetPowerPort(2)->SetVoltage_V(3.3);
 
   /**  Examples  **/
 

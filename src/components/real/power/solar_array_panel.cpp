@@ -81,7 +81,7 @@ SAP::~SAP() {}
 
 double SAP::GetPowerGeneration() const { return power_generation_; }
 
-void SAP::SetVoltage(const double voltage) { voltage_ = voltage; }
+void SAP::SetVoltage_V(const double voltage) { voltage_ = voltage; }
 
 std::string SAP::GetLogHeader() const {
   std::string str_tmp = "";

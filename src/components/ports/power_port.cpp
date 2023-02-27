@@ -13,16 +13,16 @@ PowerPort::PowerPort() : kPortId(-1), current_limit_A_(10.0), minimum_voltage_V_
   Initialize();
 }
 
-PowerPort::PowerPort(int port_id, double current_Limit)
-    : kPortId(port_id), current_limit_A_(current_Limit), minimum_voltage_V_(3.3), assumed_power_consumption_W_(0.0) {
+PowerPort::PowerPort(const int port_id, const double current_limit_A)
+    : kPortId(port_id), current_limit_A_(current_limit_A), minimum_voltage_V_(3.3), assumed_power_consumption_W_(0.0) {
   Initialize();
 }
 
-PowerPort::PowerPort(int port_id, double current_Limit, double minimum_voltage, double assumed_power_consumption)
+PowerPort::PowerPort(const int port_id, const double current_limit_A, const double minimum_voltage_V, const double assumed_power_consumption_W)
     : kPortId(port_id),
-      current_limit_A_(current_Limit),
-      minimum_voltage_V_(minimum_voltage),
-      assumed_power_consumption_W_(assumed_power_consumption) {
+      current_limit_A_(current_limit_A),
+      minimum_voltage_V_(minimum_voltage_V),
+      assumed_power_consumption_W_(assumed_power_consumption_W) {
   Initialize();
 }
 
@@ -51,13 +51,13 @@ bool PowerPort::Update(void) {
   return is_on_;
 }
 
-bool PowerPort::SetVoltage(const double voltage_V) {
+bool PowerPort::SetVoltage_V(const double voltage_V) {
   voltage_V_ = voltage_V;
   Update();
   return is_on_;
 }
 
-void PowerPort::SubtractAssumedPowerConsumption(const double power_W) {
+void PowerPort::SubtractAssumedPowerConsumption_W(const double power_W) {
   assumed_power_consumption_W_ -= power_W;
   if (assumed_power_consumption_W_ < 0.0) assumed_power_consumption_W_ = 0.0;
   return;
@@ -67,8 +67,8 @@ void PowerPort::InitializeWithInitializeFile(const std::string file_name) {
   IniAccess initialize_file(file_name);
   const std::string section_name = "POWER_PORT";
 
-  double minimum_voltage = initialize_file.ReadDouble(section_name.c_str(), "minimum_voltage_V");
-  this->SetMinimumVoltage(minimum_voltage);
-  double assumed_power_consumption = initialize_file.ReadDouble(section_name.c_str(), "assumed_power_consumption_W");
-  this->SetAssumedPowerConsumption(assumed_power_consumption);
+  double minimum_voltage_V = initialize_file.ReadDouble(section_name.c_str(), "minimum_voltage_V");
+  this->SetMinimumVoltage_V(minimum_voltage_V);
+  double assumed_power_consumption_W = initialize_file.ReadDouble(section_name.c_str(), "assumed_power_consumption_W");
+  this->SetAssumedPowerConsumption_W(assumed_power_consumption_W);
 }

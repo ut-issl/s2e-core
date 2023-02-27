@@ -87,10 +87,10 @@ class SAP : public Component, public ILoggable {
    */
   double GetPowerGeneration() const;
   /**
-   * @fn SetVoltage
+   * @fn SetVoltage_V
    * @brief Set voltage
    */
-  void SetVoltage(const double voltage);
+  void SetVoltage_V(const double voltage);
 
   // Override ILoggable
   /**

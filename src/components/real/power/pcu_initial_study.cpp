@@ -54,7 +54,7 @@ void PCU_InitialStudy::MainRoutine(int time_count) {
 
   UpdateChargeCurrentAndBusVoltage();
   for (auto sap : saps_) {
-    sap->SetVoltage(16.0);  // Assume MPPT control
+    sap->SetVoltage_V(16.0);  // Assume MPPT control
   }
 }
 
