@@ -89,13 +89,13 @@ class UartCommunicationWithObc {
   inline bool IsConnected() const { return is_connected_; }
 
  protected:
-  int ReceiveCommand(const int offset, const unsigned int rec_size);
-  int SendTelemetry(const int offset);
+  int ReceiveCommand(const unsigned int offset, const unsigned int rec_size);
+  int SendTelemetry(const unsigned int offset);
   std::vector<unsigned char> tx_buffer_;
   std::vector<unsigned char> rx_buffer_;
 
  private:
-  const int kDefaultBufferSize = 1024;  //!< Default buffer size Fixme: The magic number. This is depending on uart_port.hpp.
+  const unsigned int kDefaultBufferSize = 1024;  //!< Default buffer size Fixme: The magic number. This is depending on uart_port.hpp.
 
   unsigned int sils_port_id_;    //!< Port ID for SILS
   unsigned int hils_port_id_;    //!< Port ID for HILS

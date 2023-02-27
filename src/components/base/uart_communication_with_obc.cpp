@@ -131,7 +131,7 @@ void UartCommunicationWithObc::InitializeObcComBase() {
   }
 }
 
-int UartCommunicationWithObc::ReceiveCommand(const int offset, const unsigned int rec_size) {
+int UartCommunicationWithObc::ReceiveCommand(const unsigned int offset, const unsigned int rec_size) {
   if (simulation_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return -1;
   if (offset > rx_buffer_size_) return -1;
   if (offset + rec_size > rx_buffer_size_) return -1;
@@ -153,7 +153,7 @@ int UartCommunicationWithObc::ReceiveCommand(const int offset, const unsigned in
       ;
   }
 }
-int UartCommunicationWithObc::SendTelemetry(const int offset) {
+int UartCommunicationWithObc::SendTelemetry(const unsigned int offset) {
   if (simulation_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return -1;
   int tlm_size = GenerateTelemetry();
   if (offset > rx_buffer_size_) return -1;
