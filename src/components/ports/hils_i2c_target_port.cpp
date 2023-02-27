@@ -21,7 +21,7 @@ void HilsI2cTargetPort::RegisterDevice() {
     device_registers_[i] = 0x00;
   }
   for (unsigned char i = 0; i < kDefaultCmdSize; i++) {
-    cmd_buffer_[i] = 0x00;
+    command_buffer_[i] = 0x00;
   }
 }
 
@@ -50,7 +50,7 @@ int HilsI2cTargetPort::ReadCommand(unsigned char* rx_data, const unsigned int le
     return -1;
   }
   for (unsigned char i = 0; i < length; i++) {
-    rx_data[i] = cmd_buffer_[i];
+    rx_data[i] = command_buffer_[i];
   }
   return length;
 }
@@ -68,7 +68,7 @@ int HilsI2cTargetPort::Receive()  // from I2C-USB Target converter
   printf("\n");
 #endif
   for (unsigned char i = 0; i < received_bytes; i++) {
-    cmd_buffer_[i] = rx_buf[i];
+    command_buffer_[i] = rx_buf[i];
   }
 
   if (received_bytes == 1)  // length == 1 means setting of read register address

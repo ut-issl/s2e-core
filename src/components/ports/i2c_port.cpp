@@ -16,7 +16,7 @@ void I2CPort::RegisterDevice(const unsigned char i2c_addr) {
     device_registers_[std::make_pair(i2c_addr, i)] = 0x00;
   }
   for (unsigned char i = 0; i < kDefaultCmdBufferSize; i++) {
-    cmd_buffer_[std::make_pair(i2c_addr, i)] = 0x00;
+    command_buffer_[std::make_pair(i2c_addr, i)] = 0x00;
   }
 }
 
@@ -69,7 +69,7 @@ unsigned char I2CPort::WriteCommand(const unsigned char i2c_addr, const unsigned
     return 0;
   }
   for (unsigned char i = 0; i < length; i++) {
-    cmd_buffer_[std::make_pair(i2c_addr, i)] = tx_data[i];
+    command_buffer_[std::make_pair(i2c_addr, i)] = tx_data[i];
   }
 
   if (length == 1)  // length == 1 means setting of read register address
@@ -89,7 +89,7 @@ unsigned char I2CPort::ReadCommand(const unsigned char i2c_addr, unsigned char* 
     return 0;
   }
   for (unsigned char i = 0; i < length; i++) {
-    rx_data[i] = cmd_buffer_[std::make_pair(i2c_addr, i)];
+    rx_data[i] = command_buffer_[std::make_pair(i2c_addr, i)];
   }
   return length;
 }

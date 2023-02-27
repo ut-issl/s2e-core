@@ -104,7 +104,7 @@ class HilsI2cTargetPort : public HilsUartPort {
   std::map<unsigned char, unsigned char> device_registers_;
 
   /** @brief Buffer for the command from COM port : <cmd_buffer_length, value>  **/
-  std::map<unsigned char, unsigned char> cmd_buffer_;
+  std::map<unsigned char, unsigned char> command_buffer_;
 };
 
 #endif  // S2E_COMPONENTS_PORTS_HILS_I2C_TARGET_PORT_HPP_

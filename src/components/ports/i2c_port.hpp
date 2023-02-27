@@ -106,7 +106,7 @@ class I2CPort {
   std::map<std::pair<unsigned char, unsigned char>, unsigned char> device_registers_;
 
   /** @brief Buffer for the command from OBC : <pair(i2c_address, cmd_buffer_length), value>  **/
-  std::map<std::pair<unsigned char, unsigned char>, unsigned char> cmd_buffer_;
+  std::map<std::pair<unsigned char, unsigned char>, unsigned char> command_buffer_;
 };
 
 #endif  // S2E_COMPONENTS_PORTS_I2C_PORT_HPP_
