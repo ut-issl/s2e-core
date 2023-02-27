@@ -25,7 +25,7 @@ HilsUartPort::~HilsUartPort() {
 }
 
 // Static method to convert from com port number to com port name.
-std::string HilsUartPort::PortName(unsigned int port_id) { return "COM" + std::to_string(port_id); }
+std::string HilsUartPort::PortName(const unsigned int port_id) { return "COM" + std::to_string(port_id); }
 
 int HilsUartPort::Initialize() {
   try {
@@ -105,7 +105,7 @@ int HilsUartPort::OpenPort() {
   return 0;  // Success !!
 }
 
-int HilsUartPort::WriteTx(const unsigned char* buffer, int offset, int data_length) {
+int HilsUartPort::WriteTx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
   unsigned char* buffer_tmp = new unsigned char[data_length];
   memcpy(buffer_tmp, buffer + offset, data_length);  // const unsigned char* -> unsigned char*
   // Marshal::Copy : Copies data from an unmanaged memory pointer to a managed array.
@@ -123,7 +123,7 @@ int HilsUartPort::WriteTx(const unsigned char* buffer, int offset, int data_leng
   return 0;
 }
 
-int HilsUartPort::ReadRx(unsigned char* buffer, int offset, int data_length) {
+int HilsUartPort::ReadRx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
   try {
     int received_bytes = port_->Read(rx_buffer_, 0, data_length);
     // Marshal::Copy : Copies data from a managed array to an unmanaged memory pointer.

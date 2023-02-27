@@ -58,7 +58,7 @@ class HilsUartPort {
    * @param [in] data_length: Length of data to send
    * @return 0: success, -1: error
    */
-  int WriteTx(const unsigned char* buffer, int offset, int data_length);
+  int WriteTx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length);
   /**
    * @fn ReadRx
    * @brief Read data from COM port
@@ -67,7 +67,7 @@ class HilsUartPort {
    * @param [in] data_length: Length of data to read
    * @return received data length: success, negative value: error
    */
-  int ReadRx(unsigned char* buffer, int offset, int data_length);
+  int ReadRx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length);
   /**
    * @fn GetBytesToRead
    * @brief Get length of byte to read
@@ -93,7 +93,7 @@ class HilsUartPort {
    * @param [in] port_id: Port ID like 4
    * @return Port name like "COM4"
    */
-  static std::string PortName(unsigned int port_id);
+  static std::string PortName(const unsigned int port_id);
   /**
    * @fn Initialize
    * @brief Open and initialize the COM port
