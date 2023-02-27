@@ -10,9 +10,8 @@
 
 /**
  * @class UartPort
- * @brief Class to emulate SCI(Serial Communication Interface) communication port
- * @details Compatible with anything that performs data communication (UART, I2C, SPI).
- * The distinction of the area should be done where the upper port ID is assigned.
+ * @brief Class to emulate UART communication port
+ * @details The distinction of the area should be done where the upper port ID is assigned.
  */
 class UartPort {
  public:
