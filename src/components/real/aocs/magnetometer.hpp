@@ -28,10 +28,10 @@ class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
-   * @param [in] q_b2c: Quaternion from body frame to component frame
+   * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] magnet: Geomagnetic environment
    */
-  MagSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const libra::Quaternion& q_b2c,
+  MagSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const libra::Quaternion& quaternion_b2c,
             const GeomagneticField* magnet);
   /**
    * @fn MagSensor
@@ -41,11 +41,11 @@ class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
    * @param [in] power_port: Power port
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
-   * @param [in] q_b2c: Quaternion from body frame to component frame
+   * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] magnet: Geomagnetic environment
    */
   MagSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
-            const libra::Quaternion& q_b2c, const GeomagneticField* magnet);
+            const libra::Quaternion& quaternion_b2c, const GeomagneticField* magnet);
   /**
    * @fn ~MagSensor
    * @brief Destructor

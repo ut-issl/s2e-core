@@ -47,21 +47,21 @@ class Antenna {
    * @brief Constructor
    * @note TODO: This constructor will be removed.
    * @param [in] id: Antenna ID
-   * @param [in] q_b2c: Coordinate transform from body to component
+   * @param [in] quaternion_b2c: Coordinate transform from body to component
    * @param [in] is_transmitter: Antenna for transmitter or not
    * @param [in] is_receiver: Antenna for receiver or not
    * @param [in] frequency: Center Frequency [MHz]
    * @param [in] tx_params: output, gain, loss_feeder, loss_pointing for TX
    * @param [in] rx_params: gain, loss_feeder, loss_pointing, system_temperature for RX
    */
-  Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
+  Antenna(const int id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
           const Vector<4> tx_params, const Vector<4> rx_params);
 
   /**
    * @fn Antenna
    * @brief Constructor
    * @param [in] id: Antenna ID
-   * @param [in] q_b2c: Coordinate transform from body to component
+   * @param [in] quaternion_b2c: Coordinate transform from body to component
    * @param [in] is_transmitter: Antenna for transmitter or not
    * @param [in] is_receiver: Antenna for receiver or not
    * @param [in] frequency: Center Frequency [MHz]
@@ -70,7 +70,7 @@ class Antenna {
    * @param [in] rx_system_noise_temperature_K: Receive system noise temperature [K]
    * @param [in] rx_params: RX antenna parameters
    */
-  Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
+  Antenna(const int id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
           const double tx_output_power_W, const AntennaParameters tx_params, const double rx_system_noise_temperature_K,
           const AntennaParameters rx_params);
   /**

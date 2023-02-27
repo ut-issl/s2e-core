@@ -23,8 +23,8 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
   char Section[30] = "ANTENNA_";
   strcat(Section, cs);
 
-  Quaternion q_b2c;
-  antenna_conf.ReadQuaternion(Section, "quaternion_b2c", q_b2c);
+  Quaternion quaternion_b2c;
+  antenna_conf.ReadQuaternion(Section, "quaternion_b2c", quaternion_b2c);
 
   bool is_transmitter = antenna_conf.ReadBoolean(Section, "is_transmitter");
   bool is_receiver = antenna_conf.ReadBoolean(Section, "is_receiver");
@@ -72,6 +72,7 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
     rx_params.antenna_gain_model = AntennaGainModel::ISOTROPIC;
   }
 
-  Antenna antenna(antenna_id, q_b2c, is_transmitter, is_receiver, frequency, tx_output_power_W, tx_params, rx_system_noise_temperature_K, rx_params);
+  Antenna antenna(antenna_id, quaternion_b2c, is_transmitter, is_receiver, frequency, tx_output_power_W, tx_params, rx_system_noise_temperature_K,
+                  rx_params);
   return antenna;
 }

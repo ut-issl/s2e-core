@@ -6,12 +6,12 @@
 
 #include <library/math/quaternion.hpp>
 
-MagSensor::MagSensor(int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const Quaternion& q_b2c,
+MagSensor::MagSensor(int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const Quaternion& quaternion_b2c,
                      const GeomagneticField* magnet)
-    : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(q_b2c), magnet_(magnet) {}
+    : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(quaternion_b2c), magnet_(magnet) {}
 MagSensor::MagSensor(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
-                     const Quaternion& q_b2c, const GeomagneticField* magnet)
-    : Component(prescaler, clock_generator, power_port), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(q_b2c), magnet_(magnet) {}
+                     const Quaternion& quaternion_b2c, const GeomagneticField* magnet)
+    : Component(prescaler, clock_generator, power_port), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(quaternion_b2c), magnet_(magnet) {}
 MagSensor::~MagSensor() {}
 
 void MagSensor::MainRoutine(int count) {

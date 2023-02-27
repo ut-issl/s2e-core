@@ -28,8 +28,8 @@ Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const st
   strcat(TelescopeSection, cs);
 #endif
 
-  Quaternion q_b2c;
-  Telescope_conf.ReadQuaternion(TelescopeSection, "quaternion_b2c", q_b2c);
+  Quaternion quaternion_b2c;
+  Telescope_conf.ReadQuaternion(TelescopeSection, "quaternion_b2c", quaternion_b2c);
 
   double sun_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "sun_exclusion_angle_deg");
   double sun_forbidden_angle_rad = sun_forbidden_angle_deg * pi / 180;  // deg to rad
@@ -48,7 +48,7 @@ Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const st
 
   int num_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "number_of_stars_for_log");
 
-  Telescope telescope(clock_generator, q_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_num_of_pix,
+  Telescope telescope(clock_generator, quaternion_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_num_of_pix,
                       y_num_of_pix, x_fov_par_pix_rad, y_fov_par_pix_rad, num_of_logged_stars, attitude, hipp, local_celes_info);
   return telescope;
 }

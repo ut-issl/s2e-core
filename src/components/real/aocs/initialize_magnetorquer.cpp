@@ -25,8 +25,8 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, cons
     }
   }
 
-  Quaternion q_b2c;
-  magtorquer_conf.ReadQuaternion(MTSection, "quaternion_b2c", q_b2c);
+  Quaternion quaternion_b2c;
+  magtorquer_conf.ReadQuaternion(MTSection, "quaternion_b2c", quaternion_b2c);
 
   Vector<kMtqDim> max_c;
   magtorquer_conf.ReadVector(MTSection, "max_output_magnetic_moment_c_Am2", max_c);
@@ -45,8 +45,8 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, cons
   Vector<kMtqDim> nr_stddev_c;
   magtorquer_conf.ReadVector(MTSection, "white_noise_standard_deviation_c_Am2", nr_stddev_c);
 
-  MagTorquer magtorquer(prescaler, clock_generator, actuator_id, q_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth, rw_stddev_c, rw_limit_c,
-                        nr_stddev_c, mag_env);
+  MagTorquer magtorquer(prescaler, clock_generator, actuator_id, quaternion_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth, rw_stddev_c,
+                        rw_limit_c, nr_stddev_c, mag_env);
   return magtorquer;
 }
 
@@ -69,8 +69,8 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_port
     }
   }
 
-  Quaternion q_b2c;
-  magtorquer_conf.ReadQuaternion(MTSection, "quaternion_b2c", q_b2c);
+  Quaternion quaternion_b2c;
+  magtorquer_conf.ReadQuaternion(MTSection, "quaternion_b2c", quaternion_b2c);
 
   Vector<kMtqDim> max_c;
   magtorquer_conf.ReadVector(MTSection, "max_output_magnetic_moment_c_Am2", max_c);
@@ -92,7 +92,7 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_port
   // PowerPort
   power_port->InitializeWithInitializeFile(fname);
 
-  MagTorquer magtorquer(prescaler, clock_generator, power_port, actuator_id, q_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth, rw_stddev_c,
-                        rw_limit_c, nr_stddev_c, mag_env);
+  MagTorquer magtorquer(prescaler, clock_generator, power_port, actuator_id, quaternion_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth,
+                        rw_stddev_c, rw_limit_c, nr_stddev_c, mag_env);
   return magtorquer;
 }

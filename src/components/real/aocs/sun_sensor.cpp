@@ -13,12 +13,13 @@ using libra::NormalRand;
 
 using namespace std;
 
-SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int id, const libra::Quaternion& q_b2c, const double detectable_angle_rad,
-                     const double nr_stddev_c, const double nr_bias_stddev_c, const double intensity_lower_threshold_percent,
-                     const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celes_info)
+SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int id, const libra::Quaternion& quaternion_b2c,
+                     const double detectable_angle_rad, const double nr_stddev_c, const double nr_bias_stddev_c,
+                     const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
+                     const LocalCelestialInformation* local_celes_info)
     : Component(prescaler, clock_generator),
       id_(id),
-      q_b2c_(q_b2c),
+      q_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),
@@ -26,13 +27,13 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const
   Initialize(nr_stddev_c, nr_bias_stddev_c);
 }
 
-SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
-                     const double detectable_angle_rad, const double nr_stddev_c, const double nr_bias_stddev_c,
-                     const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
+SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id,
+                     const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double nr_stddev_c,
+                     const double nr_bias_stddev_c, const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
                      const LocalCelestialInformation* local_celes_info)
     : Component(prescaler, clock_generator, power_port),
       id_(id),
-      q_b2c_(q_b2c),
+      q_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),

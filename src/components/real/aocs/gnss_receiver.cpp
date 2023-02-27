@@ -10,41 +10,41 @@
 #include <string>
 
 GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, const int id, const std::string gnss_id, const int ch_max,
-                           const AntennaModel antenna_model, const libra::Vector<3> ant_pos_b, const libra::Quaternion q_b2c, const double half_width,
-                           const libra::Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
-                           const SimulationTime* simtime)
+                           const AntennaModel antenna_model, const libra::Vector<3> antenna_posision_b_m, const libra::Quaternion quaternion_b2c,
+                           const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
+                           const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
     : Component(prescaler, clock_generator),
       id_(id),
       ch_max_(ch_max),
-      antenna_position_b_(ant_pos_b),
-      q_b2c_(q_b2c),
-      nrs_eci_x_(0.0, noise_std[0], global_randomization.MakeSeed()),
-      nrs_eci_y_(0.0, noise_std[1], global_randomization.MakeSeed()),
-      nrs_eci_z_(0.0, noise_std[2], global_randomization.MakeSeed()),
-      half_width_(half_width),
+      antenna_position_b_(antenna_posision_b_m),
+      q_b2c_(quaternion_b2c),
+      nrs_eci_x_(0.0, noise_standard_deviation_m[0], global_randomization.MakeSeed()),
+      nrs_eci_y_(0.0, noise_standard_deviation_m[1], global_randomization.MakeSeed()),
+      nrs_eci_z_(0.0, noise_standard_deviation_m[2], global_randomization.MakeSeed()),
+      half_width_(half_width_rad),
       gnss_id_(gnss_id),
       antenna_model_(antenna_model),
       dynamics_(dynamics),
       gnss_satellites_(gnss_satellites),
-      simtime_(simtime) {}
+      simtime_(simulation_time) {}
 GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const std::string gnss_id,
-                           const int ch_max, const AntennaModel antenna_model, const libra::Vector<3> ant_pos_b, const libra::Quaternion q_b2c,
-                           const double half_width, const libra::Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
-                           const SimulationTime* simtime)
+                           const int ch_max, const AntennaModel antenna_model, const libra::Vector<3> antenna_posision_b_m,
+                           const libra::Quaternion quaternion_b2c, const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m,
+                           const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
     : Component(prescaler, clock_generator, power_port),
       id_(id),
       ch_max_(ch_max),
-      antenna_position_b_(ant_pos_b),
-      q_b2c_(q_b2c),
-      nrs_eci_x_(0.0, noise_std[0], global_randomization.MakeSeed()),
-      nrs_eci_y_(0.0, noise_std[1], global_randomization.MakeSeed()),
-      nrs_eci_z_(0.0, noise_std[2], global_randomization.MakeSeed()),
-      half_width_(half_width),
+      antenna_position_b_(antenna_posision_b_m),
+      q_b2c_(quaternion_b2c),
+      nrs_eci_x_(0.0, noise_standard_deviation_m[0], global_randomization.MakeSeed()),
+      nrs_eci_y_(0.0, noise_standard_deviation_m[1], global_randomization.MakeSeed()),
+      nrs_eci_z_(0.0, noise_standard_deviation_m[2], global_randomization.MakeSeed()),
+      half_width_(half_width_rad),
       gnss_id_(gnss_id),
       antenna_model_(antenna_model),
       dynamics_(dynamics),
       gnss_satellites_(gnss_satellites),
-      simtime_(simtime) {}
+      simtime_(simulation_time) {}
 
 void GNSSReceiver::MainRoutine(int count) {
   UNUSED(count);

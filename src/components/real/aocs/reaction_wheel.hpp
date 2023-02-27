@@ -38,7 +38,7 @@ class RWModel : public Component, public ILoggable {
    * @param [in] inertia: Moment of inertia of the RW [kgm2]
    * @param [in] max_torque: Maximum output torque [Nm]
    * @param [in] max_velocity_rpm: Maximum output angular velocity [RPM]
-   * @param [in] q_b2c: Quaternion from body frame to component frame
+   * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] pos_b: Position of RW on the body fixed frame [m]
    * @param [in] dead_time: Dead time of torque output [sec]
    * @param [in] driving_lag_coef: Driving lag coefficients
@@ -56,7 +56,7 @@ class RWModel : public Component, public ILoggable {
    */
   RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, const int id, const double step_width,
           const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
-          const double max_velocity_rpm, const libra::Quaternion q_b2c, const libra::Vector<3> pos_b, const double dead_time,
+          const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> pos_b, const double dead_time,
           const libra::Vector<3> driving_lag_coef, const libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
           std::vector<std::vector<double>> radial_force_harmonics_coef, std::vector<std::vector<double>> radial_torque_harmonics_coef,
           double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance,
@@ -75,7 +75,7 @@ class RWModel : public Component, public ILoggable {
    * @param [in] inertia: Moment of inertia of the RW [kgm2]
    * @param [in] max_torque: Maximum output torque [Nm]
    * @param [in] max_velocity_rpm: Maximum output angular velocity [RPM]
-   * @param [in] q_b2c: Quaternion from body frame to component frame
+   * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] pos_b: Position of RW on the body fixed frame [m]
    * @param [in] dead_time: Dead time of torque output [sec]
    * @param [in] driving_lag_coef: Driving lag coefficients
@@ -91,9 +91,9 @@ class RWModel : public Component, public ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity: Initial value of angular velocity of RW [rad/s]
    */
-  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int id, const double step_width,
-          const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
-          const double max_velocity_rpm, const libra::Quaternion q_b2c, const libra::Vector<3> pos_b, const double dead_time,
+  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int id,
+          const double step_width, const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
+          const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> pos_b, const double dead_time,
           const libra::Vector<3> driving_lag_coef, const libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
           std::vector<std::vector<double>> radial_force_harmonics_coef, std::vector<std::vector<double>> radial_torque_harmonics_coef,
           double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance,

@@ -20,8 +20,8 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, int ss_id, std::string 
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  libra::Quaternion q_b2c;
-  ss_conf.ReadQuaternion(Section, "quaternion_b2c", q_b2c);
+  libra::Quaternion quaternion_b2c;
+  ss_conf.ReadQuaternion(Section, "quaternion_b2c", quaternion_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
   detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
@@ -38,8 +38,8 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, int ss_id, std::string 
   double intensity_lower_threshold_percent;
   intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");
 
-  SunSensor ss(prescaler, clock_generator, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent, srp,
-               local_celes_info);
+  SunSensor ss(prescaler, clock_generator, ss_id, quaternion_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent,
+               srp, local_celes_info);
   return ss;
 }
 
@@ -53,8 +53,8 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, 
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  libra::Quaternion q_b2c;
-  ss_conf.ReadQuaternion(Section, "quaternion_b2c", q_b2c);
+  libra::Quaternion quaternion_b2c;
+  ss_conf.ReadQuaternion(Section, "quaternion_b2c", quaternion_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
   detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
@@ -73,7 +73,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, 
 
   power_port->InitializeWithInitializeFile(file_name);
 
-  SunSensor ss(prescaler, clock_generator, power_port, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev,
+  SunSensor ss(prescaler, clock_generator, power_port, ss_id, quaternion_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev,
                intensity_lower_threshold_percent, srp, local_celes_info);
   return ss;
 }

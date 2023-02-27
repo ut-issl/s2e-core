@@ -19,7 +19,7 @@ double jitter_update_interval;
 double inertia;
 double max_torque;
 double max_velocity;
-libra::Quaternion q_b2c;
+libra::Quaternion quaternion_b2c;
 libra::Vector<3> pos_b;
 double dead_time;
 libra::Vector<3> ordinary_lag_coef(1.0);
@@ -56,7 +56,7 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
   std::string direction_determination_mode;
   direction_determination_mode = rwmodel_conf.ReadString(RWsection, "direction_determination_mode");
   if (direction_determination_mode == "QUATERNION") {
-    rwmodel_conf.ReadQuaternion(RWsection, "quaternion_b2c", q_b2c);
+    rwmodel_conf.ReadQuaternion(RWsection, "quaternion_b2c", quaternion_b2c);
   } else  // direction_determination_mode == "DIRECTION"
   {
     libra::Vector<3> direction_b;
@@ -64,7 +64,7 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
     libra::Vector<3> direction_c(0.0);
     direction_c[2] = 1.0;
     libra::Quaternion q(direction_b, direction_c);
-    q_b2c = q.Conjugate();
+    quaternion_b2c = q.Conjugate();
   }
 
   rwmodel_conf.ReadVector(RWsection, "position_b_m", pos_b);
@@ -102,7 +102,7 @@ RWModel InitRWModel(ClockGenerator* clock_generator, int actuator_id, std::strin
   InitParams(actuator_id, file_name, prop_step, compo_update_step);
 
   RWModel rwmodel(prescaler, fast_prescaler, clock_generator, actuator_id, step_width, dt_main_routine, jitter_update_interval, inertia, max_torque,
-                  max_velocity, q_b2c, pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled, is_log_jitter_enabled,
+                  max_velocity, quaternion_b2c, pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled, is_log_jitter_enabled,
                   radial_force_harmonics_coef, radial_torque_harmonics_coef, structural_resonance_freq, damping_factor, bandwidth,
                   considers_structural_resonance, drive_flag, init_velocity);
 
@@ -116,7 +116,7 @@ RWModel InitRWModel(ClockGenerator* clock_generator, PowerPort* power_port, int 
   power_port->InitializeWithInitializeFile(file_name);
 
   RWModel rwmodel(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width, dt_main_routine, jitter_update_interval, inertia,
-                  max_torque, max_velocity, q_b2c, pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled,
+                  max_torque, max_velocity, quaternion_b2c, pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled,
                   is_log_jitter_enabled, radial_force_harmonics_coef, radial_torque_harmonics_coef, structural_resonance_freq, damping_factor,
                   bandwidth, considers_structural_resonance, drive_flag, init_velocity);
 

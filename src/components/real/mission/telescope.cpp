@@ -11,12 +11,12 @@
 using namespace std;
 using namespace libra;
 
-Telescope::Telescope(ClockGenerator* clock_generator, libra::Quaternion& q_b2c, double sun_forbidden_angle, double earth_forbidden_angle,
+Telescope::Telescope(ClockGenerator* clock_generator, libra::Quaternion& quaternion_b2c, double sun_forbidden_angle, double earth_forbidden_angle,
                      double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix,
                      size_t num_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipp,
                      const LocalCelestialInformation* local_celes_info)
     : Component(1, clock_generator),
-      q_b2c_(q_b2c),
+      q_b2c_(quaternion_b2c),
       sun_forbidden_angle_(sun_forbidden_angle),
       earth_forbidden_angle_(earth_forbidden_angle),
       moon_forbidden_angle_(moon_forbidden_angle),

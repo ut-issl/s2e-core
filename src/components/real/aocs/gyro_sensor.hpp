@@ -28,10 +28,10 @@ class Gyro : public Component, public Sensor<kGyroDim>, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
-   * @param [in] q_b2c: Quaternion from body frame to component frame
+   * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] dynamics: Dynamics information
    */
-  Gyro(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const libra::Quaternion& q_b2c,
+  Gyro(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const libra::Quaternion& quaternion_b2c,
        const Dynamics* dynamics);
   /**
    * @fn Gyro
@@ -41,11 +41,11 @@ class Gyro : public Component, public Sensor<kGyroDim>, public ILoggable {
    * @param [in] power_port: Power port
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
-   * @param [in] q_b2c: Quaternion from body frame to component frame
+   * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] dynamics: Dynamics information
    */
   Gyro(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
-       const libra::Quaternion& q_b2c, const Dynamics* dynamics);
+       const libra::Quaternion& quaternion_b2c, const Dynamics* dynamics);
   /**
    * @fn ~Gyro
    * @brief Destructor

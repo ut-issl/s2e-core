@@ -8,10 +8,10 @@
 #include <cmath>
 #include <library/utilities/macros.hpp>
 
-Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
+Antenna::Antenna(const int id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
                  const Vector<4> tx_params, const Vector<4> rx_params)
     : id_(id), is_transmitter_(is_transmitter), is_receiver_(is_receiver), frequency_(frequency) {
-  q_b2c_ = q_b2c;
+  q_b2c_ = quaternion_b2c;
 
   // Parameters
   tx_output_power_W_ = tx_params[0];
@@ -41,11 +41,11 @@ Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_tra
   }
 }
 
-Antenna::Antenna(const int id, const libra::Quaternion& q_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
+Antenna::Antenna(const int id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
                  const double tx_output_power_W, const AntennaParameters tx_params, const double rx_system_noise_temperature_K,
                  const AntennaParameters rx_params)
     : id_(id),
-      q_b2c_(q_b2c),
+      q_b2c_(quaternion_b2c),
       is_transmitter_(is_transmitter),
       is_receiver_(is_receiver),
       frequency_(frequency),

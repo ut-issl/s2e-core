@@ -20,8 +20,8 @@ STT InitSTT(ClockGenerator* clock_generator, int sensor_id, const string fname, 
   int prescaler = STT_conf.ReadInt(STTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
   double step_time = compo_step_time * prescaler;
-  Quaternion q_b2c;
-  STT_conf.ReadQuaternion(STTSection, "quaternion_b2c", q_b2c);
+  Quaternion quaternion_b2c;
+  STT_conf.ReadQuaternion(STTSection, "quaternion_b2c", quaternion_b2c);
   double sigma_ortho = STT_conf.ReadDouble(STTSection, "standard_deviation_orthogonal_direction_rad");
   double sigma_sight = STT_conf.ReadDouble(STTSection, "standard_deviation_sight_direction_rad");
   double output_delay_sec = STT_conf.ReadDouble(STTSection, "output_delay_s");
@@ -37,13 +37,13 @@ STT InitSTT(ClockGenerator* clock_generator, int sensor_id, const string fname, 
   double capture_rate_deg_s = STT_conf.ReadDouble(STTSection, "angular_rate_limit_deg_s");
   double capture_rate_rad_s = capture_rate_deg_s * libra::pi / 180.0;
 
-  STT stt(prescaler, clock_generator, sensor_id, q_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval, sun_forbidden_angle_rad,
-          earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_env);
+  STT stt(prescaler, clock_generator, sensor_id, quaternion_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval,
+          sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_env);
   return stt;
 }
 
-STT InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string fname, double compo_step_time, const Dynamics* dynamics,
-            const LocalEnvironment* local_env) {
+STT InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string fname, double compo_step_time,
+            const Dynamics* dynamics, const LocalEnvironment* local_env) {
   IniAccess STT_conf(fname);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
@@ -53,8 +53,8 @@ STT InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_i
   if (prescaler <= 1) prescaler = 1;
   double step_time = compo_step_time * prescaler;
 
-  Quaternion q_b2c;
-  STT_conf.ReadQuaternion(STTSection, "quaternion_b2c", q_b2c);
+  Quaternion quaternion_b2c;
+  STT_conf.ReadQuaternion(STTSection, "quaternion_b2c", quaternion_b2c);
   double sigma_ortho = STT_conf.ReadDouble(STTSection, "standard_deviation_orthogonal_direction_rad");
   double sigma_sight = STT_conf.ReadDouble(STTSection, "standard_deviation_sight_direction_rad");
   double output_delay_sec = STT_conf.ReadDouble(STTSection, "output_delay_s");
@@ -72,7 +72,7 @@ STT InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_i
 
   power_port->InitializeWithInitializeFile(fname);
 
-  STT stt(prescaler, clock_generator, power_port, sensor_id, q_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval,
+  STT stt(prescaler, clock_generator, power_port, sensor_id, quaternion_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval,
           sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_env);
   return stt;
 }

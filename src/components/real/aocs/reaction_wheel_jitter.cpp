@@ -9,12 +9,12 @@
 #include <random>
 
 RWJitter::RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coef, std::vector<std::vector<double>> radial_torque_harmonics_coef,
-                   const double jitter_update_interval, const libra::Quaternion q_b2c, const double structural_resonance_freq,
+                   const double jitter_update_interval, const libra::Quaternion quaternion_b2c, const double structural_resonance_freq,
                    const double damping_factor, const double bandwidth, const bool considers_structural_resonance)
     : radial_force_harmonics_coef_(radial_force_harmonics_coef),
       radial_torque_harmonics_coef_(radial_torque_harmonics_coef),
       jitter_update_interval_(jitter_update_interval),
-      q_b2c_(q_b2c),
+      q_b2c_(quaternion_b2c),
       structural_resonance_freq_(structural_resonance_freq),
       structural_resonance_angular_freq_(libra::tau * structural_resonance_freq),
       damping_factor_(damping_factor),

@@ -46,20 +46,22 @@ class GNSSReceiver : public Component, public ILoggable {
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
+   * @param [in] id: Component ID
    * @param [in] gnss_id: GNSS satellite number defined by GNSS system
    * @param [in] ch_max: Maximum number of channels
    * @param [in] antenna_model: Antenna model
-   * @param [in] ant_pos_b: GNSS antenna position at the body-fixed frame [m]
-   * @param [in] q_b2c: Quaternion from body frame to component frame (antenna frame)
-   * @param [in] half_width: Half width of the antenna cone model [rad]
-   * @param [in] noise_std: Standard deviation of normal random noise in the ECI frame [m]
+   * @param [in] antenna_posision_b_m: GNSS antenna position at the body-fixed frame [m]
+   * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
+   * @param [in] half_width_rad: Half width of the antenna cone model [rad]
+   * @param [in] noise_standard_deviation_m: Standard deviation of normal random noise in the ECI frame [m]
    * @param [in] dynamics: Dynamics information
    * @param [in] gnss_satellites: GNSS Satellites information
-   * @param [in] simtime: Simulation time information
+   * @param [in] simulation_time: Simulation time information
    */
   GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, const int id, const std::string gnss_id, const int ch_max,
-               const AntennaModel antenna_model, const libra::Vector<3> ant_pos_b, const libra::Quaternion q_b2c, const double half_width,
-               const libra::Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
+               const AntennaModel antenna_model, const libra::Vector<3> antenna_posision_b_m, const libra::Quaternion quaternion_b2c,
+               const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
+               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
   /**
    * @fn GNSSReceiver
    * @brief Constructor with power port
@@ -69,17 +71,18 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] gnss_id: GNSS satellite number defined by GNSS system
    * @param [in] ch_max: Maximum number of channels
    * @param [in] antenna_model: Antenna model
-   * @param [in] ant_pos_b: GNSS antenna position at the body-fixed frame [m]
-   * @param [in] q_b2c: Quaternion from body frame to component frame (antenna frame)
-   * @param [in] half_width: Half width of the antenna cone model [rad]
-   * @param [in] noise_std: Standard deviation of normal random noise in the ECI frame [m]
+   * @param [in] antenna_posision_b_m: GNSS antenna position at the body-fixed frame [m]
+   * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
+   * @param [in] half_width_rad: Half width of the antenna cone model [rad]
+   * @param [in] noise_standard_deviation_m: Standard deviation of normal random noise in the ECI frame [m]
    * @param [in] dynamics: Dynamics information
    * @param [in] gnss_satellites: GNSS Satellites information
-   * @param [in] simtime: Simulation time information
+   * @param [in] simulation_time: Simulation time information
    */
   GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, std::string gnss_id, const int ch_max,
-               const AntennaModel antenna_model, const libra::Vector<3> ant_pos_b, const libra::Quaternion q_b2c, const double half_width,
-               const libra::Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
+               const AntennaModel antenna_model, const libra::Vector<3> antenna_posision_b_m, const libra::Quaternion quaternion_b2c,
+               const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
+               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
 
   // Override functions for Component
   /**
