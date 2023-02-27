@@ -150,7 +150,7 @@ void FillUp(Matrix<R, C, T>& m, const T& t);
 
 /**
  * @fn CalcTrace
- * @brief Calculate and return the CalcTrace of matrix
+ * @brief Calculate and return the trace of matrix
  * @param [in] m: Target matrix
  * @return Trace of the matrix
  */
