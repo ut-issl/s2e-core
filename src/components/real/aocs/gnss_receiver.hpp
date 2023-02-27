@@ -201,7 +201,7 @@ class GNSSReceiver : public Component, public ILoggable {
   void SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, std::string gnss_id);
   /**
    * @fn AddNoise
-   * @brief Substitutional method for "Measure" in other sensor models inherited SensorBase class
+   * @brief Substitutional method for "Measure" in other sensor models inherited Sensor class
    * @param [in] location_true_eci: True position of the spacecraft in the ECI frame [m]
    * @param [in] location_true_ecef: True position of the spacecraft in the ECEF frame [m]
    */

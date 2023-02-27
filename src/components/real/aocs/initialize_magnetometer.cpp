@@ -19,8 +19,8 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::str
   Quaternion q_b2c;
   magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", q_b2c);
 
-  // SensorBase
-  SensorBase<kMagDim> sensor_base = ReadSensorBaseInformation<kMagDim>(fname, compo_step_time * (double)(prescaler), MSSection, "nT");
+  // Sensor
+  Sensor<kMagDim> sensor_base = ReadSensorInformation<kMagDim>(fname, compo_step_time * (double)(prescaler), MSSection, "nT");
 
   MagSensor magsensor(prescaler, clock_gen, sensor_base, sensor_id, q_b2c, magnet);
   return magsensor;
@@ -39,8 +39,8 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int se
   Quaternion q_b2c;
   magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", q_b2c);
 
-  // SensorBase
-  SensorBase<kMagDim> sensor_base = ReadSensorBaseInformation<kMagDim>(fname, compo_step_time * (double)(prescaler), MSSection, "nT");
+  // Sensor
+  Sensor<kMagDim> sensor_base = ReadSensorInformation<kMagDim>(fname, compo_step_time * (double)(prescaler), MSSection, "nT");
 
   // PowerPort
   power_port->InitializeWithInitializeFile(fname);

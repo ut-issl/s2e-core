@@ -12,15 +12,15 @@
 #include <library/randomization/random_walk.hpp>
 
 /**
- * @class SensorBase
+ * @class Sensor
  * @brief Base class for sensor emulation to add noises
  * @note All sensors should inherit this class
  */
 template <size_t N>
-class SensorBase {
+class Sensor {
  public:
   /**
-   * @fn SensorBase
+   * @fn Sensor
    * @brief Constructor
    * @param [in] scale_factor: Scale factor matrix
    * @param [in] range_to_const_c: Output range limit to be constant output value at the component frame
@@ -31,14 +31,14 @@ class SensorBase {
    * @param [in] random_walk_standard_deviation_c: Standard deviation of random wark at the component frame
    * @param [in] random_walk_limit_c: Limit of random walk at the component frame
    */
-  SensorBase(const libra::Matrix<N, N>& scale_factor, const libra::Vector<N>& range_to_const_c, const libra::Vector<N>& range_to_zero_c,
-             const libra::Vector<N>& bias_c, const libra::Vector<N>& normal_random_standard_deviation_c, const double random_walk_step_width_s,
-             const libra::Vector<N>& random_walk_standard_deviation_c, const libra::Vector<N>& random_walk_limit_c);
+  Sensor(const libra::Matrix<N, N>& scale_factor, const libra::Vector<N>& range_to_const_c, const libra::Vector<N>& range_to_zero_c,
+         const libra::Vector<N>& bias_c, const libra::Vector<N>& normal_random_standard_deviation_c, const double random_walk_step_width_s,
+         const libra::Vector<N>& random_walk_standard_deviation_c, const libra::Vector<N>& random_walk_limit_c);
   /**
-   * @fn ~SensorBase
+   * @fn ~Sensor
    * @brief Destructor
    */
-  ~SensorBase();
+  ~Sensor();
 
  protected:
   /**

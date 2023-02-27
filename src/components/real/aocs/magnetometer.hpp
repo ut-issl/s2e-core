@@ -19,7 +19,7 @@ const size_t kMagDim = 3;  //!< Dimension of magnetometer
  * @class MagSensor
  * @brief Class to emulate magnetometer
  */
-class MagSensor : public Component, public SensorBase<kMagDim>, public ILoggable {
+class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
  public:
   /**
    * @fn MagSensor
@@ -31,7 +31,7 @@ class MagSensor : public Component, public SensorBase<kMagDim>, public ILoggable
    * @param [in] q_b2c: Quaternion from body frame to component frame
    * @param [in] magnet: Geomagnetic environment
    */
-  MagSensor(const int prescaler, ClockGenerator* clock_gen, SensorBase& sensor_base, const int sensor_id, const libra::Quaternion& q_b2c,
+  MagSensor(const int prescaler, ClockGenerator* clock_gen, Sensor& sensor_base, const int sensor_id, const libra::Quaternion& q_b2c,
             const GeomagneticField* magnet);
   /**
    * @fn MagSensor
@@ -44,7 +44,7 @@ class MagSensor : public Component, public SensorBase<kMagDim>, public ILoggable
    * @param [in] q_b2c: Quaternion from body frame to component frame
    * @param [in] magnet: Geomagnetic environment
    */
-  MagSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, SensorBase& sensor_base, const int sensor_id,
+  MagSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
             const libra::Quaternion& q_b2c, const GeomagneticField* magnet);
   /**
    * @fn ~MagSensor

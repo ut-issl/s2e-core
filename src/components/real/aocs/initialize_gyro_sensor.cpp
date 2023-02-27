@@ -19,8 +19,8 @@ Gyro InitGyro(ClockGenerator* clock_gen, int sensor_id, const std::string fname,
   int prescaler = gyro_conf.ReadInt(GSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  // SensorBase
-  SensorBase<kGyroDim> sensor_base = ReadSensorBaseInformation<kGyroDim>(fname, compo_step_time * (double)(prescaler), GSection, "rad_s");
+  // Sensor
+  Sensor<kGyroDim> sensor_base = ReadSensorInformation<kGyroDim>(fname, compo_step_time * (double)(prescaler), GSection, "rad_s");
 
   Gyro gyro(prescaler, clock_gen, sensor_base, sensor_id, q_b2c, dynamics);
 
@@ -39,8 +39,8 @@ Gyro InitGyro(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, c
   int prescaler = gyro_conf.ReadInt(GSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  // SensorBase
-  SensorBase<kGyroDim> sensor_base = ReadSensorBaseInformation<kGyroDim>(fname, compo_step_time * (double)(prescaler), GSection, "rad_s");
+  // Sensor
+  Sensor<kGyroDim> sensor_base = ReadSensorInformation<kGyroDim>(fname, compo_step_time * (double)(prescaler), GSection, "rad_s");
 
   // PowerPort
   power_port->InitializeWithInitializeFile(fname);
