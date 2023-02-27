@@ -119,7 +119,7 @@ class UartCommunicationWithObc {
    * @brief Pure virtual function for parse command feature
    * @return Error code (ret<=0 means error, ret>0 means fine)
    */
-  virtual int ParseCommand(const int cmd_size) = 0;
+  virtual int ParseCommand(const int command_size) = 0;
   /**
    * @fn GenerateTelemetry
    * @brief Pure virtual function for generate telemetry feature

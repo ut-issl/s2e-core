@@ -78,7 +78,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @fn ParseCommand
    * @brief Parse command received from OBC
    */
-  int ParseCommand(const int cmd_size) override;
+  int ParseCommand(const int command_size) override;
   /**
    * @fn GenerateTelemetry
    * @brief Generate telemetry send to OBC

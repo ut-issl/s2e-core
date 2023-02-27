@@ -13,8 +13,8 @@ ExampleSerialCommunicationForHils::ExampleSerialCommunicationForHils(ClockGenera
 
 ExampleSerialCommunicationForHils::~ExampleSerialCommunicationForHils() {}
 
-int ExampleSerialCommunicationForHils::ParseCommand(const int cmd_size) {
-  UNUSED(cmd_size);
+int ExampleSerialCommunicationForHils::ParseCommand(const int command_size) {
+  UNUSED(command_size);
 
   if (mode_id_ == 1) {
     for (int i = 0; i < kMemorySize; i++) {

@@ -25,8 +25,8 @@ int ExampleSerialCommunicationWithObc::Initialize() {
 
 ExampleSerialCommunicationWithObc::~ExampleSerialCommunicationWithObc() {}
 
-int ExampleSerialCommunicationWithObc::ParseCommand(const int cmd_size) {
-  if (cmd_size < 4) {
+int ExampleSerialCommunicationWithObc::ParseCommand(const int command_size) {
+  if (command_size < 4) {
     return -1;
   }
   if (rx_buffer_[0] != 'S' || rx_buffer_[1] != 'E' || rx_buffer_[2] != 'T') {
