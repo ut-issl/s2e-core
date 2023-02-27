@@ -39,10 +39,10 @@ int ExampleSerialCommunicationWithObc::ParseCommand(const int command_size) {
 }
 int ExampleSerialCommunicationWithObc::GenerateTelemetry() {
   for (int i = 0; i < MAX_MEMORY_LEN; i++) {
-    tx_buff[i] = (unsigned char)memory[i];
+    tx_buffer[i] = (unsigned char)memory[i];
   }
-  tx_buffer_.assign(std::begin(tx_buff), std::end(tx_buff));
-  return sizeof(tx_buff);
+  tx_buffer_.assign(std::begin(tx_buffer), std::end(tx_buffer));
+  return sizeof(tx_buffer);
 }
 void ExampleSerialCommunicationWithObc::MainRoutine(const int time_count) {
   UNUSED(time_count);
