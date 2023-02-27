@@ -48,7 +48,7 @@ class GPIOPort {
  private:
   const unsigned int kPortId;  //!< Port ID
   IGPIOCompo* component_;      //!< Component which has the GPIO port
-  bool hl_state_;              //!< GPIO High/Low state
+  bool high_low_state_;        //!< GPIO High/Low state
 };
 
 #endif  // S2E_COMPONENTS_PORTS_GPIO_PORT_HPP_
