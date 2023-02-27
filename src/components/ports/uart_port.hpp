@@ -39,38 +39,38 @@ class SCIPort {
    * @brief Write data to the TX buffer from OBC to Component
    * @param [in] buffer: Data buffer to write
    * @param [in] offset: Start offset of the buffer to write (usually zero)
-   * @param [in] count: Length of the data to write
+   * @param [in] data_length: Length of the data to write
    * @return Number of written byte
    */
-  int WriteTx(unsigned char* buffer, int offset, int count);
+  int WriteTx(unsigned char* buffer, int offset, int data_length);
   /**
    * @fn WriteRx
    * @brief Write data to the RX buffer from Component to OBC
    * @param [in] buffer: Data buffer to write
    * @param [in] offset: Start offset of the buffer to write (usually zero)
-   * @param [in] count: Length of the data to write
+   * @param [in] data_length: Length of the data to write
    * @return Number of written byte
    */
-  int WriteRx(unsigned char* buffer, int offset, int count);
+  int WriteRx(unsigned char* buffer, int offset, int data_length);
 
   /**
    * @fn ReadTx
    * @brief Read data from the TX buffer by Component
    * @param [out] buffer: Data buffer to stored the read data
    * @param [in] offset: Start offset of the buffer to read (usually zero)
-   * @param [in] count: Length of the data to read
+   * @param [in] data_length: Length of the data to read
    * @return Number of read byte
    */
-  int ReadTx(unsigned char* buffer, int offset, int count);
+  int ReadTx(unsigned char* buffer, int offset, int data_length);
   /**
    * @fn ReadRx
    * @brief Read data from the TX buffer by OBC
    * @param [out] buffer: Data buffer to stored the read data
    * @param [in] offset: Start offset of the buffer to read (usually zero)
-   * @param [in] count: Length of the data to read
+   * @param [in] data_length: Length of the data to read
    * @return Number of read byte
    */
-  int ReadRx(unsigned char* buffer, int offset, int count);
+  int ReadRx(unsigned char* buffer, int offset, int data_length);
 
  private:
   const static int kDefaultBufferSize = 1024;  //!< Default buffer size

@@ -55,19 +55,19 @@ class HilsUartPort {
    * @brief Send data to COM port
    * @param [in] buffer: Data buffer to send
    * @param [in] offset: Start offset for the data buffer to send
-   * @param [in] count: Length of data to send
+   * @param [in] data_length: Length of data to send
    * @return 0: success, -1: error
    */
-  int WriteTx(const unsigned char* buffer, int offset, int count);
+  int WriteTx(const unsigned char* buffer, int offset, int data_length);
   /**
    * @fn ReadRx
    * @brief Read data from COM port
    * @param [out] buffer: Data buffer to store read data
    * @param [in] offset: Start offset for the data buffer to read
-   * @param [in] count: Length of data to read
+   * @param [in] data_length: Length of data to read
    * @return received data length: success, negative value: error
    */
-  int ReadRx(unsigned char* buffer, int offset, int count);
+  int ReadRx(unsigned char* buffer, int offset, int data_length);
   /**
    * @fn GetBytesToRead
    * @brief Get length of byte to read
