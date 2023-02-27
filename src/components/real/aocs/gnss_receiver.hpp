@@ -99,30 +99,30 @@ class GnssReceiver : public Component, public ILoggable {
    */
   inline const GnssInfo GetGnssInfo(int channel) const { return gnss_information_list_[channel]; };
   /**
-   * @fn GetPositionECI
+   * @fn GetMeasuredPosition_i_m
    * @brief Return Observed position in the ECI frame [m]
    */
-  inline const libra::Vector<3> GetPositionECI(void) const { return position_eci_m_; }
+  inline const libra::Vector<3> GetMeasuredPosition_i_m(void) const { return position_eci_m_; }
   /**
-   * @fn GetPositionECEF
+   * @fn GetMeasuredPosition_ecef_m
    * @brief Return Observed position in the ECEF frame [m]
    */
-  inline const libra::Vector<3> GetPositionECEF(void) const { return position_ecef_m_; }
+  inline const libra::Vector<3> GetMeasuredPosition_ecef_m(void) const { return position_ecef_m_; }
   /**
-   * @fn GetPositionLLH
+   * @fn GetMeasuredGeodeticPosition
    * @brief Return Observed position in the LLH frame [m]
    */
-  inline const libra::Vector<3> GetPositionLLH(void) const { return position_llh_; }
+  inline const libra::Vector<3> GetMeasuredGeodeticPosition(void) const { return position_llh_; }
   /**
-   * @fn GetVelocityECI
+   * @fn GetMeasuredVelocity_i_m_s
    * @brief Return Observed velocity in the ECI frame [m/s]
    */
-  inline const libra::Vector<3> GetVelocityECI(void) const { return velocity_eci_m_s_; }
+  inline const libra::Vector<3> GetMeasuredVelocity_i_m_s(void) const { return velocity_eci_m_s_; }
   /**
-   * @fn GetVelocityECEF
+   * @fn GetMeasuredVelocity_ecef_m_s
    * @brief Return Observed velocity in the ECEF frame [m/s]
    */
-  inline const libra::Vector<3> GetVelocityECEF(void) const { return velocity_ecef_m_s_; }
+  inline const libra::Vector<3> GetMeasuredVelocity_ecef_m_s(void) const { return velocity_ecef_m_s_; }
 
   // Override ILoggable
   /**
