@@ -67,10 +67,8 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
   void GpioStateChanged(int port_id, bool isPosedge);
 
  private:
-  const static int MAX_MEMORY_LEN = 100;    //!< Maximum memory length
-  std::vector<char> memory;                 //!< Memory for telemetry generation
-  unsigned char tx_buffer[MAX_MEMORY_LEN];  //!< TX (Telemetry send) buffer
-  unsigned char rx_buffer[MAX_MEMORY_LEN];  //!< RX (Command receive) buffer
+  const static int kMaxMemoryLength = 100;  //!< Maximum memory length
+  std::vector<char> memory_;                //!< Memory for telemetry generation
 
   // Override functions for ObcCommunication
   /**

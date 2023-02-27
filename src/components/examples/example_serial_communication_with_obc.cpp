@@ -17,8 +17,8 @@ ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenera
 }
 
 int ExampleSerialCommunicationWithObc::Initialize() {
-  for (int i = 0; i < MAX_MEMORY_LEN; i++) {
-    memory.push_back(0);
+  for (int i = 0; i < kMaxMemoryLength; i++) {
+    memory_.push_back(0);
   }
   return 0;
 }
@@ -32,17 +32,17 @@ int ExampleSerialCommunicationWithObc::ParseCommand(const int command_size) {
   if (rx_buffer_[0] != 'S' || rx_buffer_[1] != 'E' || rx_buffer_[2] != 'T') {
     return -1;
   }
-  memory.pop_back();
-  memory.insert(memory.begin(), rx_buffer_[3]);
-  memory[MAX_MEMORY_LEN - 1] = '\n';
+  memory_.pop_back();
+  memory_.insert(memory_.begin(), rx_buffer_[3]);
+  memory_[kMaxMemoryLength - 1] = '\n';
   return 0;
 }
 int ExampleSerialCommunicationWithObc::GenerateTelemetry() {
-  for (int i = 0; i < MAX_MEMORY_LEN; i++) {
-    tx_buffer[i] = (unsigned char)memory[i];
+  for (int i = 0; i < kMaxMemoryLength; i++) {
+    tx_buffer_[i] = (unsigned char)memory_[i];
   }
-  tx_buffer_.assign(std::begin(tx_buffer), std::end(tx_buffer));
-  return sizeof(tx_buffer);
+  tx_buffer_.assign(std::begin(tx_buffer_), std::end(tx_buffer_));
+  return sizeof(tx_buffer_);
 }
 void ExampleSerialCommunicationWithObc::MainRoutine(const int time_count) {
   UNUSED(time_count);
