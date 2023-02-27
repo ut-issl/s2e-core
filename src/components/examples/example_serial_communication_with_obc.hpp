@@ -57,7 +57,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @fn MainRoutine
    * @brief Main routine to receive command and send telemetry
    */
-  void MainRoutine(int count);
+  void MainRoutine(const int time_count);
 
   // Override functions for IGPIOCompo
   /**
@@ -73,7 +73,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
   unsigned char tx_buff[MAX_MEMORY_LEN];  //!< TX (Telemetry send) buffer
   unsigned char rx_buff[MAX_MEMORY_LEN];  //!< RX (Command receive) buffer
 
-  // Override functions for ObcComunication
+  // Override functions for ObcCommunication
   /**
    * @fn ParseCommand
    * @brief Parse command received from OBC

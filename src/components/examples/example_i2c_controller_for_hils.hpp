@@ -45,7 +45,7 @@ class ExampleI2cControllerForHils : public Component, public I2cController {
    * @fn MainRoutine
    * @brief Main routine to receive command and send telemetry
    */
-  void MainRoutine(int count);
+  void MainRoutine(const int time_count);
 
  private:
   /**

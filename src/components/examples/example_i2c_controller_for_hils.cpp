@@ -11,8 +11,8 @@ ExampleI2cControllerForHils::ExampleI2cControllerForHils(const int prescaler, Cl
 
 ExampleI2cControllerForHils::~ExampleI2cControllerForHils() {}
 
-void ExampleI2cControllerForHils::MainRoutine(int count) {
-  UNUSED(count);
+void ExampleI2cControllerForHils::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   RequestTlm();
   Receive();

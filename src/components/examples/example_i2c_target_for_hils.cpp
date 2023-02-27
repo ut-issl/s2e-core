@@ -12,8 +12,8 @@ ExampleI2cTargetForHils::ExampleI2cTargetForHils(const int prescaler, ClockGener
 
 ExampleI2cTargetForHils::~ExampleI2cTargetForHils() {}
 
-void ExampleI2cTargetForHils::MainRoutine(int count) {
-  UNUSED(count);
+void ExampleI2cTargetForHils::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   // update telemetry data
   const unsigned char kTlmSize = 5;

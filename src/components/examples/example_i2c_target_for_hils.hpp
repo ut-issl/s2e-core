@@ -46,7 +46,7 @@ class ExampleI2cTargetForHils : public Component, public I2cTargetCommunicationW
    * @fn MainRoutine
    * @brief Main routine to receive command and send telemetry
    */
-  void MainRoutine(int count);
+  void MainRoutine(const int time_count);
 
  private:
   unsigned char tlm_counter_ = 0;           //!< Telemetry counter

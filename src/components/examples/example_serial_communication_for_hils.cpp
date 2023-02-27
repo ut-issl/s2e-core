@@ -53,8 +53,8 @@ int ExampleSerialCommunicationForHils::GenerateTelemetry() {
   return 0;
 }
 
-void ExampleSerialCommunicationForHils::MainRoutine(int count) {
-  UNUSED(count);
+void ExampleSerialCommunicationForHils::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   ReceiveCommand(0, kMemorySize);
   SendTelemetry(0);

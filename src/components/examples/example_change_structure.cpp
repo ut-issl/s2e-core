@@ -10,8 +10,8 @@ ExampleChangeStructure::ExampleChangeStructure(ClockGenerator* clock_generator, 
 
 ExampleChangeStructure::~ExampleChangeStructure() {}
 
-void ExampleChangeStructure::MainRoutine(int count) {
-  if (count > 1000) {
+void ExampleChangeStructure::MainRoutine(const int time_count) {
+  if (time_count > 1000) {
     // Mass
     structure_->GetToSetKinematicsParams().SetMass_kg(100.0);
     // Center of gravity

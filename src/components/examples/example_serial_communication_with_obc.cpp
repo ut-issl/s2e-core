@@ -44,8 +44,8 @@ int ExampleSerialCommunicationWithObc::GenerateTelemetry() {
   tx_buffer_.assign(std::begin(tx_buff), std::end(tx_buff));
   return sizeof(tx_buff);
 }
-void ExampleSerialCommunicationWithObc::MainRoutine(int count) {
-  UNUSED(count);
+void ExampleSerialCommunicationWithObc::MainRoutine(const int time_count) {
+  UNUSED(time_count);
   ReceiveCommand(0, 5);
   SendTelemetry(0);
 }
