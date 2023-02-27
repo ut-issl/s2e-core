@@ -20,7 +20,7 @@ class SAP : public Component, public ILoggable {
    * @brief Constructor with prescaler
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
-   * @param [in] id: SAP ID
+   * @param [in] component_id: SAP ID
    * @param [in] number_of_series: Number of series connected solar cells
    * @param [in] number_of_parallel: Number of parallel connected solar cells
    * @param [in] cell_area: Area of a solar cell [m2]
@@ -31,7 +31,7 @@ class SAP : public Component, public ILoggable {
    * @param [in] local_celes_info: Local celestial information
    * @param [in] compo_step_time: Component step time [sec]
    */
-  SAP(const int prescaler, ClockGenerator* clock_generator, int id, int number_of_series, int number_of_parallel, double cell_area,
+  SAP(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area,
       libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
       const LocalCelestialInformation* local_celes_info, double compo_step_time);
   /**
@@ -39,7 +39,7 @@ class SAP : public Component, public ILoggable {
    * @brief Constructor with prescaler
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
-   * @param [in] id: SAP ID
+   * @param [in] component_id: SAP ID
    * @param [in] number_of_series: Number of series connected solar cells
    * @param [in] number_of_parallel: Number of parallel connected solar cells
    * @param [in] cell_area: Area of a solar cell [m2]
@@ -49,7 +49,7 @@ class SAP : public Component, public ILoggable {
    * @param [in] srp: Solar Radiation Pressure environment
    * @param [in] compo_step_time: Component step time [sec]
    */
-  SAP(const int prescaler, ClockGenerator* clock_generator, int id, int number_of_series, int number_of_parallel, double cell_area,
+  SAP(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area,
       libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
       double compo_step_time);
   /**
@@ -57,7 +57,7 @@ class SAP : public Component, public ILoggable {
    * @brief Constructor without prescaler
    * @note prescaler is set as 10, compo_step_sec is set as
    * @param [in] clock_generator: Clock generator
-   * @param [in] id: SAP ID
+   * @param [in] component_id: SAP ID
    * @param [in] number_of_series: Number of series connected solar cells
    * @param [in] number_of_parallel: Number of parallel connected solar cells
    * @param [in] cell_area: Area of a solar cell [m2]
@@ -67,8 +67,8 @@ class SAP : public Component, public ILoggable {
    * @param [in] srp: Solar Radiation Pressure environment
    * @param [in] local_celes_info: Local celestial information
    */
-  SAP(ClockGenerator* clock_generator, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
-      double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
+  SAP(ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area,
+      libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
       const LocalCelestialInformation* local_celes_info);
   /**
    * @fn SAP
@@ -105,7 +105,7 @@ class SAP : public Component, public ILoggable {
   std::string GetLogValue() const override;
 
  private:
-  const int component_id_;                          //!< SAP ID TODO: Use string?
+  const int component_id_;                //!< SAP ID TODO: Use string?
   const int number_of_series_;            //!< Number of series connected solar cells
   const int number_of_parallel_;          //!< Number of parallel connected solar cells
   const double cell_area_;                //!< Solar cell area [m^2]

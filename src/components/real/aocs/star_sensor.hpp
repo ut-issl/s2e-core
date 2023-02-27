@@ -29,7 +29,7 @@ class STT : public Component, public ILoggable {
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
-   * @param [in] id: Sensor ID
+   * @param [in] component_id: Sensor ID
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] sigma_ortho: Standard deviation for random noise in orthogonal direction of sight [rad]
    * @param [in] sigma_sight: Standard deviation for random noise in sight direction[rad]
@@ -43,7 +43,7 @@ class STT : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_env: Local environment information
    */
-  STT(const int prescaler, ClockGenerator* clock_generator, const int id, const libra::Quaternion& quaternion_b2c, const double sigma_ortho,
+  STT(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c, const double sigma_ortho,
       const double sigma_sight, const double step_time, const unsigned int output_delay, const unsigned int output_interval,
       const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
       const Dynamics* dynamics, const LocalEnvironment* local_env);
@@ -53,7 +53,7 @@ class STT : public Component, public ILoggable {
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
-   * @param [in] id: Sensor ID
+   * @param [in] component_id: Sensor ID
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] sigma_ortho: Standard deviation for random noise in orthogonal direction of sight [rad]
    * @param [in] sigma_sight: Standard deviation for random noise in sight direction[rad]
@@ -67,7 +67,7 @@ class STT : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_env: Local environment information
    */
-  STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const libra::Quaternion& quaternion_b2c,
+  STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const libra::Quaternion& quaternion_b2c,
       const double sigma_ortho, const double sigma_sight, const double step_time, const unsigned int output_delay, const unsigned int output_interval,
       const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
       const Dynamics* dynamics, const LocalEnvironment* local_env);
@@ -104,7 +104,7 @@ class STT : public Component, public ILoggable {
 
  protected:
   // STT general parameters
-  const int component_id_;                                        //!< Sensor ID
+  const int component_id_;                              //!< Sensor ID
   libra::Quaternion quaternion_b2c_;                    //!< Quaternion from body frame to component frame
   libra::Quaternion q_stt_i2c_ = {0.0, 0.0, 0.0, 1.0};  //!< STT observed quaternion
   libra::Vector<3> sight_;                              //!< Sight direction vector at component frame

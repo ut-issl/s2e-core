@@ -36,7 +36,7 @@ class Gyro;
 class MagSensor;
 class STT;
 class SunSensor;
-class GNSSReceiver;
+class GnssReceiver;
 class MagTorquer;
 class RWModel;
 class SimpleThruster;
@@ -91,7 +91,7 @@ class SampleComponents : public InstalledComponents {
   MagSensor* mag_sensor_;              //!< Magnetmeter
   STT* stt_;                           //!< Star sensor
   SunSensor* sun_sensor_;              //!< Sun sensor
-  GNSSReceiver* gnss_;                 //!< GNSS receiver
+  GnssReceiver* gnss_;                 //!< GNSS receiver
   MagTorquer* mag_torquer_;            //!< Magnetorquer
   RWModel* rw_;                        //!< Reaction Wheel
   SimpleThruster* thruster_;           //!< Thruster

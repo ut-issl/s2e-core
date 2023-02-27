@@ -50,8 +50,8 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // GNSS-R
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "gnss_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  gnss_ = new GNSSReceiver(
-      InitGNSSReceiver(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_, &(glo_env_->GetGnssSatellites()), &(glo_env_->GetSimulationTime())));
+  gnss_ = new GnssReceiver(
+      InitGnssReceiver(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_, &(glo_env_->GetGnssSatellites()), &(glo_env_->GetSimulationTime())));
 
   // MagTorquer
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetorquer_file");

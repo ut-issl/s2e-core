@@ -104,13 +104,13 @@ void Telescope::Observe(Vector<2>& pos_imgsensor, const Vector<3, double> target
 }
 
 void Telescope::ObserveStars() {
-  Quaternion q_i2b = attitude_->GetQuaternion_i2b();
+  Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
 
   star_in_sight.clear();  // Clear first
   int count = 0;          // Counter for while loop
 
   while (star_in_sight.size() < num_of_logged_stars_) {
-    Vector<3> target_b = hipp_->GetStarDirection_b(count, q_i2b);
+    Vector<3> target_b = hipp_->GetStarDirection_b(count, quaternion_i2b);
     Vector<3> target_c = quaternion_b2c_.FrameConversion(target_b);
 
     double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame

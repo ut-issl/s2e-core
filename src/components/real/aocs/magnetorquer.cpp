@@ -10,12 +10,12 @@
 #include <library/math/quaternion.hpp>
 #include <library/randomization/global_randomization.hpp>
 
-MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, const int id, const Quaternion& quaternion_b2c,
+MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Quaternion& quaternion_b2c,
                        const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
                        const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
                        const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env)
     : Component(prescaler, clock_generator),
-      component_id_(id),
+      component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       q_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),
@@ -29,12 +29,13 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, con
   }
 }
 
-MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const Quaternion& quaternion_b2c,
-                       const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
-                       const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
-                       const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env)
+MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+                       const Quaternion& quaternion_b2c, const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c,
+                       const libra::Vector<kMtqDim>& min_c, const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth,
+                       const libra::Vector<kMtqDim>& rw_stddev_c, const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c,
+                       const GeomagneticField* mag_env)
     : Component(prescaler, clock_generator, power_port),
-      component_id_(id),
+      component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       q_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),

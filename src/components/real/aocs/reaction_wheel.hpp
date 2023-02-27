@@ -31,7 +31,7 @@ class RWModel : public Component, public ILoggable {
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] fast_prescaler: Frequency scale factor for fast update
    * @param [in] clock_generator: Clock generator
-   * @param [in] id: Component ID
+   * @param [in] component_id: Component ID
    * @param [in] step_width: Step width of integration by reaction wheel ordinary differential equation [sec]
    * @param [in] dt_main_routine: Period of execution of main routine of RW [sec]
    * @param [in] jitter_update_interval: Update period of RW jitter [sec]
@@ -54,7 +54,7 @@ class RWModel : public Component, public ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity: Initial value of angular velocity of RW
    */
-  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, const int id, const double step_width,
+  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, const int component_id, const double step_width,
           const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
           const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> pos_b, const double dead_time,
           const libra::Vector<3> driving_lag_coef, const libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
@@ -68,7 +68,7 @@ class RWModel : public Component, public ILoggable {
    * @param [in] fast_prescaler: Frequency scale factor for fast update
    * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
-   * @param [in] id: Component ID
+   * @param [in] component_id: Component ID
    * @param [in] step_width: Step width of integration by reaction wheel ordinary differential equation [sec]
    * @param [in] dt_main_routine: Period of execution of main routine of RW [sec]
    * @param [in] jitter_update_interval: Update period of RW jitter [sec]
@@ -91,7 +91,7 @@ class RWModel : public Component, public ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity: Initial value of angular velocity of RW [rad/s]
    */
-  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int id,
+  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int component_id,
           const double step_width, const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
           const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> pos_b, const double dead_time,
           const libra::Vector<3> driving_lag_coef, const libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
@@ -184,7 +184,7 @@ class RWModel : public Component, public ILoggable {
 
  protected:
   // Fixed Parameters
-  const int component_id_;                      //!< Actuator ID
+  const int component_id_;            //!< Actuator ID
   const double inertia_;              //!< Inertia of RW rotor [kgm2]
   const double max_torque_;           //!< Maximum output torque [Nm]
   const double max_velocity_rpm_;     //!< Maximum angular velocity of rotor [rpm]

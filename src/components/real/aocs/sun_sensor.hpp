@@ -26,7 +26,7 @@ class SunSensor : public Component, public ILoggable {
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
-   * @param [in] id: Sensor ID
+   * @param [in] component_id: Sensor ID
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] detectable_angle_rad: Detectable angle threshold [rad]
    * @param [in] nr_stddev_c: Standard deviation of normal random noise in the component frame [rad]
@@ -35,7 +35,7 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] srp: Solar Radiation Pressure environment
    * @param [in] local_celes_info: Local celestial information
    */
-  SunSensor(const int prescaler, ClockGenerator* clock_generator, const int id, const libra::Quaternion& quaternion_b2c,
+  SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
             const double detectable_angle_rad, const double nr_stddev_c, const double nr_bias_stddev_c,
             const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
             const LocalCelestialInformation* local_celes_info);
@@ -45,7 +45,7 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
-   * @param [in] id: Sensor ID
+   * @param [in] component_id: Sensor ID
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] detectable_angle_rad: Detectable angle threshold [rad]
    * @param [in] nr_stddev_c: Standard deviation of normal random noise in the component frame [rad]
@@ -54,8 +54,8 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] srp: Solar Radiation Pressure environment
    * @param [in] local_celes_info: Local celestial information
    */
-  SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const libra::Quaternion& quaternion_b2c,
-            const double detectable_angle_rad, const double nr_stddev_c, const double nr_bias_stddev_c,
+  SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+            const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double nr_stddev_c, const double nr_bias_stddev_c,
             const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
             const LocalCelestialInformation* local_celes_info);
 

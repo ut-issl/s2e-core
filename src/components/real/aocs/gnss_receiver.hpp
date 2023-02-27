@@ -28,29 +28,29 @@ enum AntennaModel {
  * @struct GnssInfo
  * @brief Information of GNSS satellites
  */
-typedef struct _gnssinfo {
-  std::string ID;    //!< ID of GNSS satellites
-  double latitude;   //!< Latitude on the antenna frame [rad]
-  double longitude;  //!< Longitude on the antenna frame [rad]
-  double distance;   //!< Distance between the GNSS satellite and the GNSS receiver antenna [m]
+typedef struct _gnss_info {
+  std::string ID;        //!< ID of GNSS satellites
+  double latitude_rad;   //!< Latitude on the antenna frame [rad]
+  double longitude_rad;  //!< Longitude on the antenna frame [rad]
+  double distance_m;     //!< Distance between the GNSS satellite and the GNSS receiver antenna [m]
 } GnssInfo;
 
 /**
- * @class GNSSReceiver
+ * @class GnssReceiver
  * @brief Class to emulate GNSS receiver
  */
-class GNSSReceiver : public Component, public ILoggable {
+class GnssReceiver : public Component, public ILoggable {
  public:
   /**
-   * @fn GNSSReceiver
+   * @fn GnssReceiver
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
-   * @param [in] id: Component ID
+   * @param [in] component_id: Component ID
    * @param [in] gnss_id: GNSS satellite number defined by GNSS system
    * @param [in] ch_max: Maximum number of channels
    * @param [in] antenna_model: Antenna model
-   * @param [in] antenna_posision_b_m: GNSS antenna position at the body-fixed frame [m]
+   * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_rad: Half width of the antenna cone model [rad]
    * @param [in] noise_standard_deviation_m: Standard deviation of normal random noise in the ECI frame [m]
@@ -58,12 +58,12 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simulation_time: Simulation time information
    */
-  GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, const int id, const std::string gnss_id, const int ch_max,
-               const AntennaModel antenna_model, const libra::Vector<3> antenna_posision_b_m, const libra::Quaternion quaternion_b2c,
+  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const int component_id, const std::string gnss_id, const int ch_max,
+               const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c,
                const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
                const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
   /**
-   * @fn GNSSReceiver
+   * @fn GnssReceiver
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
@@ -71,7 +71,7 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] gnss_id: GNSS satellite number defined by GNSS system
    * @param [in] ch_max: Maximum number of channels
    * @param [in] antenna_model: Antenna model
-   * @param [in] antenna_posision_b_m: GNSS antenna position at the body-fixed frame [m]
+   * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_rad: Half width of the antenna cone model [rad]
    * @param [in] noise_standard_deviation_m: Standard deviation of normal random noise in the ECI frame [m]
@@ -79,10 +79,10 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simulation_time: Simulation time information
    */
-  GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, std::string gnss_id, const int ch_max,
-               const AntennaModel antenna_model, const libra::Vector<3> antenna_posision_b_m, const libra::Quaternion quaternion_b2c,
-               const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
-               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, std::string gnss_id,
+               const int ch_max, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
+               const libra::Quaternion quaternion_b2c, const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m,
+               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
 
   // Override functions for Component
   /**
@@ -172,47 +172,47 @@ class GNSSReceiver : public Component, public ILoggable {
    * @fn CheckAntenna
    * @brief Check the antenna can detect GNSS signal
    * @note This function just calls other check functions according to the antenna mode
-   * @param [in] location_true: True position of the spacecraft in the ECI frame [m]
-   * @param [in] q_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
+   * @param [in] position_true_i_m: True position of the spacecraft in the ECI frame [m]
+   * @param [in] quaternion_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    */
-  void CheckAntenna(libra::Vector<3> location_true, libra::Quaternion q_i2b);
+  void CheckAntenna(libra::Vector<3> position_true_i_m, libra::Quaternion quaternion_i2b);
   /**
    * @fn CheckAntennaSimple
    * @brief Check the antenna can detect GNSS signal with Simple mode
    * @note GNSS satellites are visible when antenna directs anti-earth direction
-   * @param [in] location_true: True position of the spacecraft in the ECI frame [m]
-   * @param [in] q_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
+   * @param [in] position_true_i_m: True position of the spacecraft in the ECI frame [m]
+   * @param [in] quaternion_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    */
-  void CheckAntennaSimple(libra::Vector<3> location_true, libra::Quaternion q_i2b);
+  void CheckAntennaSimple(libra::Vector<3> position_true_i_m, libra::Quaternion quaternion_i2b);
   /**
    * @fn CheckAntennaCone
    * @brief Check the antenna can detect GNSS signal with Cone mode
    * @note The visible GNSS satellites are counted by using GNSS satellite position and the antenna direction with cone antenna pattern
-   * @param [in] location_true: True position of the spacecraft in the ECI frame [m]
-   * @param [in] q_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
+   * @param [in] position_true_i_m: True position of the spacecraft in the ECI frame [m]
+   * @param [in] quaternion_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    */
-  void CheckAntennaCone(libra::Vector<3> location_true, libra::Quaternion q_i2b);
+  void CheckAntennaCone(libra::Vector<3> position_true_i_m, libra::Quaternion quaternion_i2b);
   /**
    * @fn SetGnssInfo
    * @brief Calculate and set the GnssInfo values of target GNSS satellite
    * @param [in] ant2gnss_i: Position vector from the antenna to the GNSS satellites in the ECI frame
-   * @param [in] q_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
+   * @param [in] quaternion_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    * @param [in] gnss_id: ID of target GNSS satellite
    */
-  void SetGnssInfo(libra::Vector<3> ant2gnss_i, libra::Quaternion q_i2b, std::string gnss_id);
+  void SetGnssInfo(libra::Vector<3> ant2gnss_i, libra::Quaternion quaternion_i2b, std::string gnss_id);
   /**
    * @fn AddNoise
    * @brief Substitutional method for "Measure" in other sensor models inherited Sensor class
-   * @param [in] location_true_eci: True position of the spacecraft in the ECI frame [m]
-   * @param [in] location_true_ecef: True position of the spacecraft in the ECEF frame [m]
+   * @param [in] position_true_i_m: True position of the spacecraft in the ECI frame [m]
+   * @param [in] position_true_ecef_m: True position of the spacecraft in the ECEF frame [m]
    */
-  void AddNoise(libra::Vector<3> location_true_eci, libra::Vector<3> location_true_ecef);
+  void AddNoise(libra::Vector<3> position_true_i_m, libra::Vector<3> position_true_ecef_m);
   /**
    * @fn ConvertJulianDayToGPSTime
    * @brief Convert Julian day to GPS time
-   * @param [in] JulianDay: Julian day
+   * @param [in] julian_day: Julian day
    */
-  void ConvertJulianDayToGPSTime(const double JulianDay);
+  void ConvertJulianDayToGPSTime(const double julian_day);
 };
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_GNSS_RECEIVER_HPP_

@@ -46,7 +46,7 @@ class Antenna {
    * @fn Antenna
    * @brief Constructor
    * @note TODO: This constructor will be removed.
-   * @param [in] id: Antenna ID
+   * @param [in] component_id: Antenna ID
    * @param [in] quaternion_b2c: Coordinate transform from body to component
    * @param [in] is_transmitter: Antenna for transmitter or not
    * @param [in] is_receiver: Antenna for receiver or not
@@ -54,13 +54,13 @@ class Antenna {
    * @param [in] tx_params: output, gain, loss_feeder, loss_pointing for TX
    * @param [in] rx_params: gain, loss_feeder, loss_pointing, system_temperature for RX
    */
-  Antenna(const int id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
+  Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
           const Vector<4> tx_params, const Vector<4> rx_params);
 
   /**
    * @fn Antenna
    * @brief Constructor
-   * @param [in] id: Antenna ID
+   * @param [in] component_id: Antenna ID
    * @param [in] quaternion_b2c: Coordinate transform from body to component
    * @param [in] is_transmitter: Antenna for transmitter or not
    * @param [in] is_receiver: Antenna for receiver or not
@@ -70,7 +70,7 @@ class Antenna {
    * @param [in] rx_system_noise_temperature_K: Receive system noise temperature [K]
    * @param [in] rx_params: RX antenna parameters
    */
-  Antenna(const int id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
+  Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
           const double tx_output_power_W, const AntennaParameters tx_params, const double rx_system_noise_temperature_K,
           const AntennaParameters rx_params);
   /**
@@ -121,7 +121,7 @@ class Antenna {
 
  protected:
   // General info
-  int component_id_;                     //!< Antenna ID
+  int component_id_;           //!< Antenna ID
   Quaternion quaternion_b2c_;  //!< Coordinate transform from body to component
   bool is_transmitter_;        //!< Antenna for transmitter or not
   bool is_receiver_;           //!< Antenna for receiver or not

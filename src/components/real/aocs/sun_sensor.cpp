@@ -13,12 +13,12 @@ using libra::NormalRand;
 
 using namespace std;
 
-SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int id, const libra::Quaternion& quaternion_b2c,
+SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
                      const double detectable_angle_rad, const double nr_stddev_c, const double nr_bias_stddev_c,
                      const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
                      const LocalCelestialInformation* local_celes_info)
     : Component(prescaler, clock_generator),
-      component_id_(id),
+      component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
@@ -27,12 +27,12 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const
   Initialize(nr_stddev_c, nr_bias_stddev_c);
 }
 
-SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id,
+SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                      const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double nr_stddev_c,
                      const double nr_bias_stddev_c, const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
                      const LocalCelestialInformation* local_celes_info)
     : Component(prescaler, clock_generator, power_port),
-      component_id_(id),
+      component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),

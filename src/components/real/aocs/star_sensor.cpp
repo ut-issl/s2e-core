@@ -15,12 +15,12 @@
 using namespace std;
 using namespace libra;
 
-STT::STT(const int prescaler, ClockGenerator* clock_generator, const int id, const libra::Quaternion& quaternion_b2c, const double sigma_ortho,
-         const double sigma_sight, const double step_time, const unsigned int output_delay, const unsigned int output_interval,
-         const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
-         const Dynamics* dynamics, const LocalEnvironment* local_env)
+STT::STT(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+         const double sigma_ortho, const double sigma_sight, const double step_time, const unsigned int output_delay,
+         const unsigned int output_interval, const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle,
+         const double capture_rate, const Dynamics* dynamics, const LocalEnvironment* local_env)
     : Component(prescaler, clock_generator),
-      component_id_(id),
+      component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       rot_(global_randomization.MakeSeed()),
       n_ortho_(0.0, sigma_ortho, global_randomization.MakeSeed()),
@@ -38,12 +38,12 @@ STT::STT(const int prescaler, ClockGenerator* clock_generator, const int id, con
       local_env_(local_env) {
   Initialize();
 }
-STT::STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const libra::Quaternion& quaternion_b2c,
+STT::STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const libra::Quaternion& quaternion_b2c,
          const double sigma_ortho, const double sigma_sight, const double step_time, const unsigned int output_delay,
          const unsigned int output_interval, const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle,
          const double capture_rate, const Dynamics* dynamics, const LocalEnvironment* local_env)
     : Component(prescaler, clock_generator, power_port),
-      component_id_(id),
+      component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       rot_(global_randomization.MakeSeed()),
       n_ortho_(0.0, sigma_ortho, global_randomization.MakeSeed()),
@@ -101,8 +101,8 @@ Quaternion STT::measure(const LocalCelestialInformation* local_celes_info, const
 }
 
 void STT::update(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo) {
-  Quaternion q_i2b = attinfo->GetQuaternion_i2b();  // Read true value
-  Quaternion q_stt_temp = q_i2b * quaternion_b2c_;  // Convert to component frame
+  Quaternion quaternion_i2b = attinfo->GetQuaternion_i2b();  // Read true value
+  Quaternion q_stt_temp = quaternion_i2b * quaternion_b2c_;  // Convert to component frame
   // Add noise on sight direction
   Quaternion q_sight(sight_, n_sight_);
   // Random noise on orthogonal direction of sight. Range [0:2pi]
