@@ -40,27 +40,27 @@ class I2CPort {
    * @fn WriteRegister
    * @brief Set the register address to write a value in the next step
    * @param [in] i2c_addr: I2C address of the target device
-   * @param [in] reg_addr: Register address to write a value in the next step
+   * @param [in] register_address: Register address to write a value in the next step
    * @return Return zero when an error is happened.
    */
-  int WriteRegister(const unsigned char i2c_addr, const unsigned char reg_addr);
+  int WriteRegister(const unsigned char i2c_addr, const unsigned char register_address);
   /**
    * @fn WriteRegister
    * @brief Write a value in the target device's register
    * @param [in] i2c_addr: I2C address of the target device
-   * @param [in] reg_addr: Register address of the target device
+   * @param [in] register_address: Register address of the target device
    * @param [in] value: 1 Byte value
    * @return Return zero when an error is happened.
    */
-  int WriteRegister(const unsigned char i2c_addr, const unsigned char reg_addr, const unsigned char value);
+  int WriteRegister(const unsigned char i2c_addr, const unsigned char register_address, const unsigned char value);
   /**
    * @fn WriteRegister
    * @brief Write a value in the target device's register
    * @param [in] i2c_addr: I2C address of the target device
-   * @param [in] reg_addr: Register address of the target device
+   * @param [in] register_address: Register address of the target device
    * @param [in] value: float value
    */
-  // int WriteRegister(const unsigned char i2c_addr, const unsigned char reg_addr, float value);  // TODO Check this works well
+  // int WriteRegister(const unsigned char i2c_addr, const unsigned char register_address, float value);  // TODO Check this works well
 
   /**
    * @fn ReadRegister
@@ -73,10 +73,10 @@ class I2CPort {
    * @fn ReadRegister
    * @brief Read the register value of the target device.
    * @param [in] i2c_addr: I2C address of the target device
-   * @param [in] reg_addr: Register address of the target device
+   * @param [in] register_address: Register address of the target device
    * @return Read data
    */
-  unsigned char ReadRegister(const unsigned char i2c_addr, const unsigned char reg_addr);
+  unsigned char ReadRegister(const unsigned char i2c_addr, const unsigned char register_address);
 
   // OBC->Component Command emulation
   /**

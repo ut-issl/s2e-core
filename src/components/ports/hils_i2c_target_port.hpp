@@ -49,24 +49,24 @@ class HilsI2cTargetPort : public HilsUartPort {
   /**
    * @fn WriteRegister
    * @brief Set the register address to write a value in the next step
-   * @param [in] reg_addr: Register address to write a value in the next step
+   * @param [in] register_address: Register address to write a value in the next step
    */
-  int WriteRegister(const unsigned char reg_addr);
+  int WriteRegister(const unsigned char register_address);
   /**
    * @fn WriteRegister
    * @brief Write a value in the register of this device
-   * @param [in] reg_addr: Register address of this device
+   * @param [in] register_address: Register address of this device
    * @param [in] value: 1 Byte value
    */
-  int WriteRegister(const unsigned char reg_addr, const unsigned char value);
+  int WriteRegister(const unsigned char register_address, const unsigned char value);
 
   /**
    * @fn ReadRegister
    * @brief Read the register value of the target device. The register address is used as the previous accessed address
-   * @param [in] reg_addr: Register address of the target device
+   * @param [in] register_address: Register address of the target device
    * @return Read data
    */
-  unsigned char ReadRegister(const unsigned char reg_addr);
+  unsigned char ReadRegister(const unsigned char register_address);
   /**
    * @fn ReadCommand
    * @brief Read command requested from the COM port to the component
@@ -85,10 +85,10 @@ class HilsI2cTargetPort : public HilsUartPort {
   /**
    * @fn Send
    * @brief Send data in the register to the I2C-USB converter.
-   * @param [in] len: Length of the data
+   * @param [in] data_length: Length of the data
    * @return -1: an error happened, others: length of sent data
    */
-  int Send(const unsigned char len);
+  int Send(const unsigned char data_length);
   /**
    * @fn GetStoredFrameCounter
    * @brief Receive stored frame counter
