@@ -15,8 +15,6 @@
 
 #include "../../base/component.hpp"
 
-using libra::Vector;
-
 /**
  * @enum AntennaModel
  * @brief Antenna pattern model to emulate GNSS antenna
@@ -60,8 +58,8 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] simtime: Simulation time information
    */
   GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, const int id, const std::string gnss_id, const int ch_max,
-               const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
-               const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
+               const AntennaModel antenna_model, const libra::Vector<3> ant_pos_b, const libra::Quaternion q_b2c, const double half_width,
+               const libra::Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
   /**
    * @fn GNSSReceiver
    * @brief Constructor with power port
@@ -80,8 +78,8 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] simtime: Simulation time information
    */
   GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, std::string gnss_id, const int ch_max,
-               const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
-               const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
+               const AntennaModel antenna_model, const libra::Vector<3> ant_pos_b, const libra::Quaternion q_b2c, const double half_width,
+               const libra::Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
 
   // Override functions for Component
   /**
@@ -101,27 +99,27 @@ class GNSSReceiver : public Component, public ILoggable {
    * @fn GetPositionECI
    * @brief Return Observed position in the ECI frame [m]
    */
-  inline const Vector<3> GetPositionECI(void) const { return position_eci_; }
+  inline const libra::Vector<3> GetPositionECI(void) const { return position_eci_; }
   /**
    * @fn GetPositionECEF
    * @brief Return Observed position in the ECEF frame [m]
    */
-  inline const Vector<3> GetPositionECEF(void) const { return position_ecef_; }
+  inline const libra::Vector<3> GetPositionECEF(void) const { return position_ecef_; }
   /**
    * @fn GetPositionLLH
    * @brief Return Observed position in the LLH frame [m]
    */
-  inline const Vector<3> GetPositionLLH(void) const { return position_llh_; }
+  inline const libra::Vector<3> GetPositionLLH(void) const { return position_llh_; }
   /**
    * @fn GetVelocityECI
    * @brief Return Observed velocity in the ECI frame [m/s]
    */
-  inline const Vector<3> GetVelocityECI(void) const { return velocity_eci_; }
+  inline const libra::Vector<3> GetVelocityECI(void) const { return velocity_eci_; }
   /**
    * @fn GetVelocityECEF
    * @brief Return Observed velocity in the ECEF frame [m/s]
    */
-  inline const Vector<3> GetVelocityECEF(void) const { return velocity_ecef_; }
+  inline const libra::Vector<3> GetVelocityECEF(void) const { return velocity_ecef_; }
 
   // Override ILoggable
   /**
@@ -137,10 +135,10 @@ class GNSSReceiver : public Component, public ILoggable {
 
  protected:
   // Parameters for receiver
-  const int id_;                  //!< Receiver ID
-  const int ch_max_;              //!< Maximum number of channels
-  Vector<3> antenna_position_b_;  //!< GNSS antenna position at the body-fixed frame [m]
-  Quaternion q_b2c_;              //!< Quaternion from body frame to component frame (antenna frame)
+  const int id_;                         //!< Receiver ID
+  const int ch_max_;                     //!< Maximum number of channels
+  libra::Vector<3> antenna_position_b_;  //!< GNSS antenna position at the body-fixed frame [m]
+  libra::Quaternion q_b2c_;              //!< Quaternion from body frame to component frame (antenna frame)
 
   libra::NormalRand nrs_eci_x_, nrs_eci_y_, nrs_eci_z_;  //!< Random noise for each axis
 
@@ -149,17 +147,17 @@ class GNSSReceiver : public Component, public ILoggable {
   AntennaModel antenna_model_;  //!< Antenna model
 
   // Calculated values
-  Vector<3> position_eci_{0.0};         //!< Observed position in the ECI frame [m]
-  Vector<3> velocity_eci_{0.0};         //!< Observed velocity in the ECI frame [m/s]
-  Vector<3> position_ecef_{0.0};        //!< Observed position in the ECEF frame [m]
-  Vector<3> velocity_ecef_{0.0};        //!< Observed velocity in the ECEF frame [m/s]
-  Vector<3> position_llh_{0.0};         //!< Observed position in the geodetic frame [rad,rad,m] TODO: use GeodeticPosition class
-  UTC utc_ = {2000, 1, 1, 0, 0, 0.0};   //!< Observed time in UTC [year, month, day, hour, min, sec]
-  unsigned int gpstime_week_ = 0;       //!< Observed GPS time week part
-  double gpstime_sec_ = 0.0;            //!< Observed GPS time second part
-  int is_gnss_sats_visible_ = 0;        //!< Flag for GNSS satellite is visible or not
-  int gnss_sats_visible_num_ = 0;       //!< Number of visible GNSS satellites
-  std::vector<GnssInfo> vec_gnssinfo_;  //!< Information List of visible GNSS satellites
+  libra::Vector<3> position_eci_{0.0};   //!< Observed position in the ECI frame [m]
+  libra::Vector<3> velocity_eci_{0.0};   //!< Observed velocity in the ECI frame [m/s]
+  libra::Vector<3> position_ecef_{0.0};  //!< Observed position in the ECEF frame [m]
+  libra::Vector<3> velocity_ecef_{0.0};  //!< Observed velocity in the ECEF frame [m/s]
+  libra::Vector<3> position_llh_{0.0};   //!< Observed position in the geodetic frame [rad,rad,m] TODO: use GeodeticPosition class
+  UTC utc_ = {2000, 1, 1, 0, 0, 0.0};    //!< Observed time in UTC [year, month, day, hour, min, sec]
+  unsigned int gpstime_week_ = 0;        //!< Observed GPS time week part
+  double gpstime_sec_ = 0.0;             //!< Observed GPS time second part
+  int is_gnss_sats_visible_ = 0;         //!< Flag for GNSS satellite is visible or not
+  int gnss_sats_visible_num_ = 0;        //!< Number of visible GNSS satellites
+  std::vector<GnssInfo> vec_gnssinfo_;   //!< Information List of visible GNSS satellites
 
   // References
   const Dynamics* dynamics_;               //!< Dynamics of spacecraft
@@ -174,7 +172,7 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] location_true: True position of the spacecraft in the ECI frame [m]
    * @param [in] q_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    */
-  void CheckAntenna(Vector<3> location_true, Quaternion q_i2b);
+  void CheckAntenna(libra::Vector<3> location_true, libra::Quaternion q_i2b);
   /**
    * @fn CheckAntennaSimple
    * @brief Check the antenna can detect GNSS signal with Simple mode
@@ -182,7 +180,7 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] location_true: True position of the spacecraft in the ECI frame [m]
    * @param [in] q_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    */
-  void CheckAntennaSimple(Vector<3> location_true, Quaternion q_i2b);
+  void CheckAntennaSimple(libra::Vector<3> location_true, libra::Quaternion q_i2b);
   /**
    * @fn CheckAntennaCone
    * @brief Check the antenna can detect GNSS signal with Cone mode
@@ -190,7 +188,7 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] location_true: True position of the spacecraft in the ECI frame [m]
    * @param [in] q_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    */
-  void CheckAntennaCone(Vector<3> location_true, Quaternion q_i2b);
+  void CheckAntennaCone(libra::Vector<3> location_true, libra::Quaternion q_i2b);
   /**
    * @fn SetGnssInfo
    * @brief Calculate and set the GnssInfo values of target GNSS satellite
@@ -198,14 +196,14 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] q_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    * @param [in] gnss_id: ID of target GNSS satellite
    */
-  void SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, std::string gnss_id);
+  void SetGnssInfo(libra::Vector<3> ant2gnss_i, libra::Quaternion q_i2b, std::string gnss_id);
   /**
    * @fn AddNoise
    * @brief Substitutional method for "Measure" in other sensor models inherited Sensor class
    * @param [in] location_true_eci: True position of the spacecraft in the ECI frame [m]
    * @param [in] location_true_ecef: True position of the spacecraft in the ECEF frame [m]
    */
-  void AddNoise(Vector<3> location_true_eci, Vector<3> location_true_ecef);
+  void AddNoise(libra::Vector<3> location_true_eci, libra::Vector<3> location_true_ecef);
   /**
    * @fn ConvertJulianDayToGPSTime
    * @brief Convert Julian day to GPS time

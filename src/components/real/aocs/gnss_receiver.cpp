@@ -10,8 +10,9 @@
 #include <string>
 
 GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, const int id, const std::string gnss_id, const int ch_max,
-                           const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
-                           const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime)
+                           const AntennaModel antenna_model, const libra::Vector<3> ant_pos_b, const libra::Quaternion q_b2c, const double half_width,
+                           const libra::Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
+                           const SimulationTime* simtime)
     : Component(prescaler, clock_generator),
       id_(id),
       ch_max_(ch_max),
@@ -27,8 +28,8 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_generator,
       gnss_satellites_(gnss_satellites),
       simtime_(simtime) {}
 GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const std::string gnss_id,
-                           const int ch_max, const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c,
-                           const double half_width, const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
+                           const int ch_max, const AntennaModel antenna_model, const libra::Vector<3> ant_pos_b, const libra::Quaternion q_b2c,
+                           const double half_width, const libra::Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
                            const SimulationTime* simtime)
     : Component(prescaler, clock_generator, power_port),
       id_(id),
@@ -48,7 +49,7 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_generator,
 void GNSSReceiver::MainRoutine(int count) {
   UNUSED(count);
 
-  Vector<3> pos_true_eci_ = dynamics_->GetOrbit().GetPosition_i_m();
+  libra::Vector<3> pos_true_eci_ = dynamics_->GetOrbit().GetPosition_i_m();
   Quaternion q_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
 
   CheckAntenna(pos_true_eci_, q_i2b);
@@ -69,21 +70,21 @@ void GNSSReceiver::MainRoutine(int count) {
   }
 }
 
-void GNSSReceiver::CheckAntenna(const Vector<3> pos_true_eci_, Quaternion q_i2b) {
+void GNSSReceiver::CheckAntenna(const libra::Vector<3> pos_true_eci_, libra::Quaternion q_i2b) {
   if (antenna_model_ == SIMPLE)
     CheckAntennaSimple(pos_true_eci_, q_i2b);
   else if (antenna_model_ == CONE)
     CheckAntennaCone(pos_true_eci_, q_i2b);
 }
 
-void GNSSReceiver::CheckAntennaSimple(const Vector<3> pos_true_eci_, Quaternion q_i2b) {
+void GNSSReceiver::CheckAntennaSimple(const libra::Vector<3> pos_true_eci_, libra::Quaternion q_i2b) {
   // Simplest model
   // GNSS sats are visible when antenna directs anti-earth direction
   // antenna normal vector at inertial frame
-  Vector<3> antenna_direction_c(0.0);
+  libra::Vector<3> antenna_direction_c(0.0);
   antenna_direction_c[2] = 1.0;
-  Vector<3> antenna_direction_b = q_b2c_.InverseFrameConversion(antenna_direction_c);
-  Vector<3> antenna_direction_i = q_i2b.InverseFrameConversion(antenna_direction_b);
+  libra::Vector<3> antenna_direction_b = q_b2c_.InverseFrameConversion(antenna_direction_c);
+  libra::Vector<3> antenna_direction_i = q_i2b.InverseFrameConversion(antenna_direction_b);
 
   double inner = InnerProduct(pos_true_eci_, antenna_direction_i);
   if (inner <= 0)
@@ -92,16 +93,16 @@ void GNSSReceiver::CheckAntennaSimple(const Vector<3> pos_true_eci_, Quaternion 
     is_gnss_sats_visible_ = 1;
 }
 
-void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_i2b) {
+void GNSSReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra::Quaternion q_i2b) {
   // Cone model
-  Vector<3> gnss_sat_pos_i, ant_pos_i, ant2gnss_i, ant2gnss_i_n, sat2ant_i;
+  libra::Vector<3> gnss_sat_pos_i, ant_pos_i, ant2gnss_i, ant2gnss_i_n, sat2ant_i;
   vec_gnssinfo_.clear();
 
   // antenna normal vector at inertial frame
-  Vector<3> antenna_direction_c(0.0);
+  libra::Vector<3> antenna_direction_c(0.0);
   antenna_direction_c[2] = 1.0;
-  Vector<3> antenna_direction_b = q_b2c_.InverseFrameConversion(antenna_direction_c);
-  Vector<3> antenna_direction_i = q_i2b.InverseFrameConversion(antenna_direction_b);
+  libra::Vector<3> antenna_direction_b = q_b2c_.InverseFrameConversion(antenna_direction_c);
+  libra::Vector<3> antenna_direction_i = q_i2b.InverseFrameConversion(antenna_direction_b);
 
   sat2ant_i = q_i2b.InverseFrameConversion(antenna_position_b_);
   ant_pos_i = pos_true_eci_ + sat2ant_i;
@@ -152,8 +153,8 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_
     is_gnss_sats_visible_ = 0;
 }
 
-void GNSSReceiver::SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, std::string gnss_id) {
-  Vector<3> ant2gnss_b, ant2gnss_c;
+void GNSSReceiver::SetGnssInfo(libra::Vector<3> ant2gnss_i, libra::Quaternion q_i2b, std::string gnss_id) {
+  libra::Vector<3> ant2gnss_b, ant2gnss_c;
 
   ant2gnss_b = q_i2b.FrameConversion(ant2gnss_i);
   ant2gnss_c = q_b2c_.FrameConversion(ant2gnss_b);
@@ -166,7 +167,7 @@ void GNSSReceiver::SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, std::stri
   vec_gnssinfo_.push_back(gnss_info_new);
 }
 
-void GNSSReceiver::AddNoise(Vector<3> location_true_eci, Vector<3> location_true_ecef) {
+void GNSSReceiver::AddNoise(libra::Vector<3> location_true_eci, libra::Vector<3> location_true_ecef) {
   // Simplest noise model
   position_eci_[0] = location_true_eci[0] + nrs_eci_x_;
   position_eci_[1] = location_true_eci[1] + nrs_eci_y_;
