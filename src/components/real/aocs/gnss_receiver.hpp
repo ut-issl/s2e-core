@@ -89,15 +89,15 @@ class GnssReceiver : public Component, public ILoggable {
    * @fn MainRoutine
    * @brief Main routine for sensor observation
    */
-  void MainRoutine(int count);
+  void MainRoutine(const int time_count);
 
   // Getter
   /**
    * @fn GetGnssInfo
    * @brief Return GNSS satellite information
-   * @param [in] ch: Channel number
+   * @param [in] channel: Channel number
    */
-  inline const GnssInfo GetGnssInfo(int ch) const { return gnss_information_list_[ch]; };
+  inline const GnssInfo GetGnssInfo(int channel) const { return gnss_information_list_[channel]; };
   /**
    * @fn GetPositionECI
    * @brief Return Observed position in the ECI frame [m]
@@ -143,7 +143,7 @@ class GnssReceiver : public Component, public ILoggable {
   libra::Vector<3> antenna_position_b_m_;  //!< GNSS antenna position at the body-fixed frame [m]
   libra::Quaternion quaternion_b2c_;       //!< Quaternion from body frame to component frame (antenna frame)
 
-  libra::NormalRand nrs_eci_x_, nrs_eci_y_, nrs_eci_z_;  //!< Random noise for each axis
+  libra::NormalRand random_noise_i_x_, random_noise_i_y_, random_noise_i_z_;  //!< Random noise for each axis
 
   double half_width_rad_ = 0.0;  //!< Half width of the antenna cone model [rad]
   std::string gnss_id_;          //!< GNSS satellite number defined by GNSS system
@@ -195,11 +195,11 @@ class GnssReceiver : public Component, public ILoggable {
   /**
    * @fn SetGnssInfo
    * @brief Calculate and set the GnssInfo values of target GNSS satellite
-   * @param [in] ant2gnss_i: Position vector from the antenna to the GNSS satellites in the ECI frame
+   * @param [in] antenna_to_satellite_i_m: Position vector from the antenna to the GNSS satellites in the ECI frame
    * @param [in] quaternion_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    * @param [in] gnss_id: ID of target GNSS satellite
    */
-  void SetGnssInfo(libra::Vector<3> ant2gnss_i, libra::Quaternion quaternion_i2b, std::string gnss_id);
+  void SetGnssInfo(libra::Vector<3> antenna_to_satellite_i_m, libra::Quaternion quaternion_i2b, std::string gnss_id);
   /**
    * @fn AddNoise
    * @brief Substitutional method for "Measure" in other sensor models inherited Sensor class
