@@ -8,16 +8,16 @@
 
 MagSensor::MagSensor(int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const Quaternion& quaternion_b2c,
                      const GeomagneticField* magnet)
-    : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(quaternion_b2c), magnet_(magnet) {}
+    : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), quaternion_b2c_(quaternion_b2c), magnet_(magnet) {}
 MagSensor::MagSensor(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
                      const Quaternion& quaternion_b2c, const GeomagneticField* magnet)
-    : Component(prescaler, clock_generator, power_port), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(quaternion_b2c), magnet_(magnet) {}
+    : Component(prescaler, clock_generator, power_port), Sensor(sensor_base), sensor_id_(sensor_id), quaternion_b2c_(quaternion_b2c), magnet_(magnet) {}
 MagSensor::~MagSensor() {}
 
 void MagSensor::MainRoutine(int count) {
   UNUSED(count);
 
-  mag_c_ = q_b2c_.FrameConversion(magnet_->GetGeomagneticField_b_nT());  // Convert frame
+  mag_c_ = quaternion_b2c_.FrameConversion(magnet_->GetGeomagneticField_b_nT());  // Convert frame
   mag_c_ = Measure(mag_c_);                                              // Add noises
 }
 

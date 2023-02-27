@@ -97,17 +97,17 @@ class GNSSReceiver : public Component, public ILoggable {
    * @brief Return GNSS satellite information
    * @param [in] ch: Channel number
    */
-  inline const GnssInfo GetGnssInfo(int ch) const { return vec_gnssinfo_[ch]; };
+  inline const GnssInfo GetGnssInfo(int ch) const { return gnss_information_list_[ch]; };
   /**
    * @fn GetPositionECI
    * @brief Return Observed position in the ECI frame [m]
    */
-  inline const libra::Vector<3> GetPositionECI(void) const { return position_eci_; }
+  inline const libra::Vector<3> GetPositionECI(void) const { return position_eci_m_; }
   /**
    * @fn GetPositionECEF
    * @brief Return Observed position in the ECEF frame [m]
    */
-  inline const libra::Vector<3> GetPositionECEF(void) const { return position_ecef_; }
+  inline const libra::Vector<3> GetPositionECEF(void) const { return position_ecef_m_; }
   /**
    * @fn GetPositionLLH
    * @brief Return Observed position in the LLH frame [m]
@@ -117,12 +117,12 @@ class GNSSReceiver : public Component, public ILoggable {
    * @fn GetVelocityECI
    * @brief Return Observed velocity in the ECI frame [m/s]
    */
-  inline const libra::Vector<3> GetVelocityECI(void) const { return velocity_eci_; }
+  inline const libra::Vector<3> GetVelocityECI(void) const { return velocity_eci_m_s_; }
   /**
    * @fn GetVelocityECEF
    * @brief Return Observed velocity in the ECEF frame [m/s]
    */
-  inline const libra::Vector<3> GetVelocityECEF(void) const { return velocity_ecef_; }
+  inline const libra::Vector<3> GetVelocityECEF(void) const { return velocity_ecef_m_s_; }
 
   // Override ILoggable
   /**
@@ -138,34 +138,34 @@ class GNSSReceiver : public Component, public ILoggable {
 
  protected:
   // Parameters for receiver
-  const int id_;                         //!< Receiver ID
-  const int ch_max_;                     //!< Maximum number of channels
-  libra::Vector<3> antenna_position_b_;  //!< GNSS antenna position at the body-fixed frame [m]
-  libra::Quaternion q_b2c_;              //!< Quaternion from body frame to component frame (antenna frame)
+  const int id_;                           //!< Receiver ID
+  const int max_channel_;                  //!< Maximum number of channels
+  libra::Vector<3> antenna_position_b_m_;  //!< GNSS antenna position at the body-fixed frame [m]
+  libra::Quaternion quaternion_b2c_;       //!< Quaternion from body frame to component frame (antenna frame)
 
   libra::NormalRand nrs_eci_x_, nrs_eci_y_, nrs_eci_z_;  //!< Random noise for each axis
 
-  double half_width_ = 0.0;     //!< Half width of the antenna cone model [rad]
-  std::string gnss_id_;         //!< GNSS satellite number defined by GNSS system
-  AntennaModel antenna_model_;  //!< Antenna model
+  double half_width_rad_ = 0.0;  //!< Half width of the antenna cone model [rad]
+  std::string gnss_id_;          //!< GNSS satellite number defined by GNSS system
+  AntennaModel antenna_model_;   //!< Antenna model
 
   // Calculated values
-  libra::Vector<3> position_eci_{0.0};   //!< Observed position in the ECI frame [m]
-  libra::Vector<3> velocity_eci_{0.0};   //!< Observed velocity in the ECI frame [m/s]
-  libra::Vector<3> position_ecef_{0.0};  //!< Observed position in the ECEF frame [m]
-  libra::Vector<3> velocity_ecef_{0.0};  //!< Observed velocity in the ECEF frame [m/s]
-  libra::Vector<3> position_llh_{0.0};   //!< Observed position in the geodetic frame [rad,rad,m] TODO: use GeodeticPosition class
-  UTC utc_ = {2000, 1, 1, 0, 0, 0.0};    //!< Observed time in UTC [year, month, day, hour, min, sec]
-  unsigned int gpstime_week_ = 0;        //!< Observed GPS time week part
-  double gpstime_sec_ = 0.0;             //!< Observed GPS time second part
-  int is_gnss_sats_visible_ = 0;         //!< Flag for GNSS satellite is visible or not
-  int gnss_sats_visible_num_ = 0;        //!< Number of visible GNSS satellites
-  std::vector<GnssInfo> vec_gnssinfo_;   //!< Information List of visible GNSS satellites
+  libra::Vector<3> position_eci_m_{0.0};         //!< Observed position in the ECI frame [m]
+  libra::Vector<3> velocity_eci_m_s_{0.0};       //!< Observed velocity in the ECI frame [m/s]
+  libra::Vector<3> position_ecef_m_{0.0};        //!< Observed position in the ECEF frame [m]
+  libra::Vector<3> velocity_ecef_m_s_{0.0};      //!< Observed velocity in the ECEF frame [m/s]
+  libra::Vector<3> position_llh_{0.0};           //!< Observed position in the geodetic frame [rad,rad,m] TODO: use GeodeticPosition class
+  UTC utc_ = {2000, 1, 1, 0, 0, 0.0};            //!< Observed time in UTC [year, month, day, hour, min, sec]
+  unsigned int gps_time_week_ = 0;               //!< Observed GPS time week part
+  double gps_time_s_ = 0.0;                      //!< Observed GPS time second part
+  int is_gnss_visible_ = 0;                      //!< Flag for GNSS satellite is visible or not
+  int visible_satellite_number_ = 0;             //!< Number of visible GNSS satellites
+  std::vector<GnssInfo> gnss_information_list_;  //!< Information List of visible GNSS satellites
 
   // References
   const Dynamics* dynamics_;               //!< Dynamics of spacecraft
   const GnssSatellites* gnss_satellites_;  //!< Information of GNSS satellites
-  const SimulationTime* simtime_;          //!< Simulation time
+  const SimulationTime* simulation_time_;  //!< Simulation time
 
   // Internal Functions
   /**

@@ -184,14 +184,14 @@ class RWModel : public Component, public ILoggable {
 
  protected:
   // Fixed Parameters
-  const int id_;                   //!< Actuator ID
-  const double inertia_;           //!< Inertia of RW rotor [kgm2]
-  const double max_torque_;        //!< Maximum output torque [Nm]
-  const double max_velocity_rpm_;  //!< Maximum angular velocity of rotor [rpm]
-  libra::Quaternion q_b2c_;        //!< Quaternion from body frame to component frame
-  const libra::Vector<3> pos_b_;   //!< Position of RW in the body fixed frame [m]
-  libra::Vector<3> direction_c_;   //!< Wheel rotation axis on the component frame. Constant as (0 0 1). (Output torque is minus direction)
-  libra::Vector<3> direction_b_;   //!< Wheel rotation vector in the body fixed frame.
+  const int id_;                      //!< Actuator ID
+  const double inertia_;              //!< Inertia of RW rotor [kgm2]
+  const double max_torque_;           //!< Maximum output torque [Nm]
+  const double max_velocity_rpm_;     //!< Maximum angular velocity of rotor [rpm]
+  libra::Quaternion quaternion_b2c_;  //!< Quaternion from body frame to component frame
+  const libra::Vector<3> pos_b_;      //!< Position of RW in the body fixed frame [m]
+  libra::Vector<3> direction_c_;      //!< Wheel rotation axis on the component frame. Constant as (0 0 1). (Output torque is minus direction)
+  libra::Vector<3> direction_b_;      //!< Wheel rotation vector in the body fixed frame.
 
   // Fixed Parameters for control delay
   const double step_width_;                   //!< step width for RwOde [sec]

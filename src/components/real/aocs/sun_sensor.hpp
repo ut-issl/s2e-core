@@ -81,14 +81,14 @@ class SunSensor : public Component, public ILoggable {
   // Getter
   inline bool GetSunDetectedFlag() const { return sun_detected_flag_; };
   inline const libra::Vector<3> GetMeasuredSun_c() const { return measured_sun_c_; };
-  inline const libra::Vector<3> GetMeasuredSun_b() const { return q_b2c_.Conjugate().FrameConversion(measured_sun_c_); };
+  inline const libra::Vector<3> GetMeasuredSun_b() const { return quaternion_b2c_.Conjugate().FrameConversion(measured_sun_c_); };
   inline double GetSunAngleAlpha() const { return alpha_; };
   inline double GetSunAngleBeta() const { return beta_; };
   inline double GetSolarIlluminance() const { return solar_illuminance_; };
 
  protected:
   const int id_;                              //!< Sensor ID
-  libra::Quaternion q_b2c_;                   //!< Quaternion from body frame to component frame (Z-axis of the component is sight direction)
+  libra::Quaternion quaternion_b2c_;                   //!< Quaternion from body frame to component frame (Z-axis of the component is sight direction)
   double intensity_lower_threshold_percent_;  //!< If the light intensity becomes smaller than this, it becomes impossible to get the sun direction
 
   libra::Vector<3> sun_c_{0.0};           //!< True value of sun vector in the component frame

@@ -78,9 +78,9 @@ class Gyro : public Component, public Sensor<kGyroDim>, public ILoggable {
   inline const libra::Vector<kGyroDim>& GetOmegaC(void) const { return omega_c_; }
 
  protected:
-  libra::Vector<kGyroDim> omega_c_{0.0};         //!< Observed angular velocity of the component frame with respect to the inertial frame [rad/s]
-  int sensor_id_ = 0;                            //!< Sensor ID
-  libra::Quaternion q_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
+  libra::Vector<kGyroDim> omega_c_{0.0};  //!< Observed angular velocity of the component frame with respect to the inertial frame [rad/s]
+  int sensor_id_ = 0;                     //!< Sensor ID
+  libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
 
   const Dynamics* dynamics_;  //!< Dynamics information
 };

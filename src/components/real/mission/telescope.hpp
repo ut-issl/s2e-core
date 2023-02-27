@@ -43,8 +43,8 @@ class Telescope : public Component, public ILoggable {
 
  protected:
  private:
-  libra::Quaternion q_b2c_;  //!< Quaternion from the body frame to component frame
-  libra::Vector<3> sight_;   //!< Sight direction vector in the component frame
+  libra::Quaternion quaternion_b2c_;  //!< Quaternion from the body frame to component frame
+  libra::Vector<3> sight_;            //!< Sight direction vector in the component frame
 
   double sun_forbidden_angle_;    //!< Sun forbidden angle [rad]
   double earth_forbidden_angle_;  //!< Earth forbidden angle [rad]

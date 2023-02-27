@@ -21,7 +21,7 @@ STT::STT(const int prescaler, ClockGenerator* clock_generator, const int id, con
          const Dynamics* dynamics, const LocalEnvironment* local_env)
     : Component(prescaler, clock_generator),
       id_(id),
-      q_b2c_(quaternion_b2c),
+      quaternion_b2c_(quaternion_b2c),
       rot_(global_randomization.MakeSeed()),
       n_ortho_(0.0, sigma_ortho, global_randomization.MakeSeed()),
       n_sight_(0.0, sigma_sight, global_randomization.MakeSeed()),
@@ -44,7 +44,7 @@ STT::STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_
          const double capture_rate, const Dynamics* dynamics, const LocalEnvironment* local_env)
     : Component(prescaler, clock_generator, power_port),
       id_(id),
-      q_b2c_(quaternion_b2c),
+      quaternion_b2c_(quaternion_b2c),
       rot_(global_randomization.MakeSeed()),
       n_ortho_(0.0, sigma_ortho, global_randomization.MakeSeed()),
       n_sight_(0.0, sigma_sight, global_randomization.MakeSeed()),
@@ -102,7 +102,7 @@ Quaternion STT::measure(const LocalCelestialInformation* local_celes_info, const
 
 void STT::update(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo) {
   Quaternion q_i2b = attinfo->GetQuaternion_i2b();  // Read true value
-  Quaternion q_stt_temp = q_i2b * q_b2c_;           // Convert to component frame
+  Quaternion q_stt_temp = q_i2b * quaternion_b2c_;  // Convert to component frame
   // Add noise on sight direction
   Quaternion q_sight(sight_, n_sight_);
   // Random noise on orthogonal direction of sight. Range [0:2pi]
@@ -134,7 +134,7 @@ void STT::AllJudgement(const LocalCelestialInformation* local_celes_info, const 
 }
 
 int STT::SunJudgement(const libra::Vector<3>& sun_b) {
-  Quaternion q_c2b = q_b2c_.Conjugate();
+  Quaternion q_c2b = quaternion_b2c_.Conjugate();
   Vector<3> sight_b = q_c2b.FrameConversion(sight_);
   double sun_angle_rad = CalAngleVect_rad(sun_b, sight_b);
   if (sun_angle_rad < sun_forbidden_angle_)
@@ -144,7 +144,7 @@ int STT::SunJudgement(const libra::Vector<3>& sun_b) {
 }
 
 int STT::EarthJudgement(const libra::Vector<3>& earth_b) {
-  Quaternion q_c2b = q_b2c_.Conjugate();
+  Quaternion q_c2b = quaternion_b2c_.Conjugate();
   Vector<3> sight_b = q_c2b.FrameConversion(sight_);
   double earth_size_rad = atan2(environment::earth_equatorial_radius_m,
                                 CalcNorm(earth_b));                       // angles between sat<->earth_center & sat<->earth_edge
@@ -157,7 +157,7 @@ int STT::EarthJudgement(const libra::Vector<3>& earth_b) {
 }
 
 int STT::MoonJudgement(const libra::Vector<3>& moon_b) {
-  Quaternion q_c2b = q_b2c_.Conjugate();
+  Quaternion q_c2b = quaternion_b2c_.Conjugate();
   Vector<3> sight_b = q_c2b.FrameConversion(sight_);
   double moon_angle_rad = CalAngleVect_rad(moon_b, sight_b);
   if (moon_angle_rad < moon_forbidden_angle_)

@@ -28,7 +28,7 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_genera
       inertia_(inertia),
       max_torque_(max_torque),
       max_velocity_rpm_(max_velocity_rpm),
-      q_b2c_(quaternion_b2c),
+      quaternion_b2c_(quaternion_b2c),
       pos_b_(pos_b),
       step_width_(step_width),
       dead_time_(dead_time),
@@ -56,7 +56,7 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_genera
       inertia_(inertia),
       max_torque_(max_torque),
       max_velocity_rpm_(max_velocity_rpm),
-      q_b2c_(quaternion_b2c),
+      quaternion_b2c_(quaternion_b2c),
       pos_b_(pos_b),
       step_width_(step_width),
       dead_time_(dead_time),
@@ -75,7 +75,7 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_genera
 void RWModel::Initialize() {
   direction_c_ = libra::Vector<3>(0.0);
   direction_c_[2] = 1.0;
-  direction_b_ = q_b2c_.InverseFrameConversion(direction_c_);
+  direction_b_ = quaternion_b2c_.InverseFrameConversion(direction_c_);
 
   velocity_limit_rpm_ = max_velocity_rpm_;
   output_torque_b_ = libra::Vector<3>(0.0);

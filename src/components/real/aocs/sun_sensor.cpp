@@ -19,7 +19,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const
                      const LocalCelestialInformation* local_celes_info)
     : Component(prescaler, clock_generator),
       id_(id),
-      q_b2c_(quaternion_b2c),
+      quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),
@@ -33,7 +33,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, Power
                      const LocalCelestialInformation* local_celes_info)
     : Component(prescaler, clock_generator, power_port),
       id_(id),
-      q_b2c_(quaternion_b2c),
+      quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),
@@ -61,7 +61,7 @@ void SunSensor::measure() {
   libra::Vector<3> sun_pos_b = local_celes_info_->GetPositionFromSpacecraft_b_m("SUN");
   libra::Vector<3> sun_dir_b = Normalize(sun_pos_b);
 
-  sun_c_ = q_b2c_.FrameConversion(sun_dir_b);  // Frame conversion from body to component
+  sun_c_ = quaternion_b2c_.FrameConversion(sun_dir_b);  // Frame conversion from body to component
 
   SunDetectionJudgement();  // Judge the sun is inside the FoV
 

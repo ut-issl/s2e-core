@@ -14,7 +14,7 @@ RWJitter::RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coef,
     : radial_force_harmonics_coef_(radial_force_harmonics_coef),
       radial_torque_harmonics_coef_(radial_torque_harmonics_coef),
       jitter_update_interval_(jitter_update_interval),
-      q_b2c_(quaternion_b2c),
+      quaternion_b2c_(quaternion_b2c),
       structural_resonance_freq_(structural_resonance_freq),
       structural_resonance_angular_freq_(libra::tau * structural_resonance_freq),
       damping_factor_(damping_factor),
@@ -71,11 +71,11 @@ void RWJitter::CalcJitter(double angular_velocity_rad) {
   // Add structural resonance
   if (considers_structural_resonance_) {
     AddStructuralResonance();
-    jitter_force_b_ = q_b2c_.InverseFrameConversion(filtered_jitter_force_n_c_);
-    jitter_torque_b_ = q_b2c_.InverseFrameConversion(filtered_jitter_torque_n_c_);
+    jitter_force_b_ = quaternion_b2c_.InverseFrameConversion(filtered_jitter_force_n_c_);
+    jitter_torque_b_ = quaternion_b2c_.InverseFrameConversion(filtered_jitter_torque_n_c_);
   } else {
-    jitter_force_b_ = q_b2c_.InverseFrameConversion(unfiltered_jitter_force_n_c_);
-    jitter_torque_b_ = q_b2c_.InverseFrameConversion(unfiltered_jitter_torque_n_c_);
+    jitter_force_b_ = quaternion_b2c_.InverseFrameConversion(unfiltered_jitter_force_n_c_);
+    jitter_torque_b_ = quaternion_b2c_.InverseFrameConversion(unfiltered_jitter_torque_n_c_);
   }
 }
 

@@ -16,7 +16,7 @@ Telescope::Telescope(ClockGenerator* clock_generator, libra::Quaternion& quatern
                      size_t num_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipp,
                      const LocalCelestialInformation* local_celes_info)
     : Component(1, clock_generator),
-      q_b2c_(quaternion_b2c),
+      quaternion_b2c_(quaternion_b2c),
       sun_forbidden_angle_(sun_forbidden_angle),
       earth_forbidden_angle_(earth_forbidden_angle),
       moon_forbidden_angle_(moon_forbidden_angle),
@@ -70,9 +70,9 @@ void Telescope::MainRoutine(int count) {
   // No update when Hipparocos Catalogue was not readed
   if (hipp_->IsCalcEnabled) ObserveStars();
   // Debug ******************************************************************
-  //  sun_pos_c = q_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("SUN"));
-  //  earth_pos_c = q_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("EARTH"));
-  //  moon_pos_c = q_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("MOON"));
+  //  sun_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("SUN"));
+  //  earth_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("EARTH"));
+  //  moon_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("MOON"));
   // angle_sun = CalcAngleTwoVectors_rad(sight_, sun_pos_c) * 180/libra::pi;
   // angle_earth = CalcAngleTwoVectors_rad(sight_, earth_pos_c) * 180 / libra::pi; angle_moon = CalcAngleTwoVectors_rad(sight_, moon_pos_c) * 180 /
   // libra::pi;
@@ -80,7 +80,7 @@ void Telescope::MainRoutine(int count) {
 }
 
 bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle) {
-  Quaternion q_c2b = q_b2c_.Conjugate();
+  Quaternion q_c2b = quaternion_b2c_.Conjugate();
   Vector<3> sight_b = q_c2b.FrameConversion(sight_);
   double angle_rad = libra::CalcAngleTwoVectors_rad(target_b, sight_b);
   if (angle_rad < forbidden_angle) {
@@ -90,7 +90,7 @@ bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b, const doub
 }
 
 void Telescope::Observe(Vector<2>& pos_imgsensor, const Vector<3, double> target_b) {
-  Vector<3, double> target_c = q_b2c_.FrameConversion(target_b);
+  Vector<3, double> target_c = quaternion_b2c_.FrameConversion(target_b);
   double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame
   double arg_y = atan2(target_c[1], target_c[0]);  // Angle from X-axis on XY plane in the component frame
 
@@ -111,7 +111,7 @@ void Telescope::ObserveStars() {
 
   while (star_in_sight.size() < num_of_logged_stars_) {
     Vector<3> target_b = hipp_->GetStarDirection_b(count, q_i2b);
-    Vector<3> target_c = q_b2c_.FrameConversion(target_b);
+    Vector<3> target_c = quaternion_b2c_.FrameConversion(target_b);
 
     double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame
     double arg_y = atan2(target_c[1], target_c[0]);  // Angle from X-axis on XY plane in the component frame

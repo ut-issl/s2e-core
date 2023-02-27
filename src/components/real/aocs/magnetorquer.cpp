@@ -16,8 +16,8 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, con
                        const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env)
     : Component(prescaler, clock_generator),
       id_(id),
-      q_b2c_(quaternion_b2c),
-      q_c2b_(q_b2c_.Conjugate()),
+      quaternion_b2c_(quaternion_b2c),
+      q_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),
       max_c_(max_c),
       min_c_(min_c),
@@ -35,8 +35,8 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, Pow
                        const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env)
     : Component(prescaler, clock_generator, power_port),
       id_(id),
-      q_b2c_(quaternion_b2c),
-      q_c2b_(q_b2c_.Conjugate()),
+      quaternion_b2c_(quaternion_b2c),
+      q_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),
       max_c_(max_c),
       min_c_(min_c),

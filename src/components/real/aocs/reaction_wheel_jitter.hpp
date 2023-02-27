@@ -75,7 +75,7 @@ class RWJitter {
   std::vector<std::vector<double>> radial_torque_harmonics_coef_;  //!< Coefficients for radial torque harmonics
 
   const double jitter_update_interval_;  //!< Jitter update interval [sec]
-  libra::Quaternion q_b2c_;              //!< Quaternion from body frame to component frame
+  libra::Quaternion quaternion_b2c_;     //!< Quaternion from body frame to component frame
 
   double structural_resonance_freq_;          //!< Frequency of structural resonance [Hz]
   double structural_resonance_angular_freq_;  //!< Angular Frequency of structural resonance

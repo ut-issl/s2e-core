@@ -7,19 +7,23 @@
 
 Gyro::Gyro(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const Quaternion& quaternion_b2c,
            const Dynamics* dynamics)
-    : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(quaternion_b2c), dynamics_(dynamics) {}
+    : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), quaternion_b2c_(quaternion_b2c), dynamics_(dynamics) {}
 
 Gyro::Gyro(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
            const libra::Quaternion& quaternion_b2c, const Dynamics* dynamics)
-    : Component(prescaler, clock_generator, power_port), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(quaternion_b2c), dynamics_(dynamics) {}
+    : Component(prescaler, clock_generator, power_port),
+      Sensor(sensor_base),
+      sensor_id_(sensor_id),
+      quaternion_b2c_(quaternion_b2c),
+      dynamics_(dynamics) {}
 
 Gyro::~Gyro() {}
 
 void Gyro::MainRoutine(int count) {
   UNUSED(count);
 
-  omega_c_ = q_b2c_.FrameConversion(dynamics_->GetAttitude().GetOmega_b());  // Convert frame
-  omega_c_ = Measure(omega_c_);                                              // Add noises
+  omega_c_ = quaternion_b2c_.FrameConversion(dynamics_->GetAttitude().GetOmega_b());  // Convert frame
+  omega_c_ = Measure(omega_c_);                                                       // Add noises
 }
 
 std::string Gyro::GetLogHeader() const {
