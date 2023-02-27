@@ -19,8 +19,8 @@ ForceGenerator::ForceGenerator(const int prescaler, ClockGenerator* clock_genera
 
 ForceGenerator::~ForceGenerator() {}
 
-void ForceGenerator::MainRoutine(int count) {
-  UNUSED(count);
+void ForceGenerator::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   generated_force_b_N_ = ordered_force_b_N_;
 

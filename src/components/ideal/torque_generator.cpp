@@ -19,8 +19,8 @@ TorqueGenerator::TorqueGenerator(const int prescaler, ClockGenerator* clock_gene
 
 TorqueGenerator::~TorqueGenerator() {}
 
-void TorqueGenerator::MainRoutine(int count) {
-  UNUSED(count);
+void TorqueGenerator::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   generated_torque_b_Nm_ = ordered_torque_b_Nm_;
 
