@@ -5,14 +5,14 @@
 
 #include "gpio_port.hpp"
 
-GPIOPort::GPIOPort(const unsigned int port_id, IGPIOCompo* component) : kPortId(port_id) {
+GpioPort::GpioPort(const unsigned int port_id, IGPIOCompo* component) : kPortId(port_id) {
   high_low_state_ = GPIO_LOW;
   component_ = component;
 }
 
-GPIOPort::~GPIOPort() {}
+GpioPort::~GpioPort() {}
 
-int GPIOPort::DigitalWrite(const bool is_high) {
+int GpioPort::DigitalWrite(const bool is_high) {
   if (high_low_state_ != is_high) {
     // Call interaction function when detecting the change of the HIGH/LOW state
     if (component_ != nullptr) {
@@ -23,4 +23,4 @@ int GPIOPort::DigitalWrite(const bool is_high) {
   return 0;
 }
 
-bool GPIOPort::DigitalRead() { return high_low_state_; }
+bool GpioPort::DigitalRead() { return high_low_state_; }

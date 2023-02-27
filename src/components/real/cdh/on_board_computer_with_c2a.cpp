@@ -14,7 +14,7 @@
 
 std::map<int, SCIPort*> OBC_C2A::com_ports_c2a_;
 std::map<int, I2CPort*> OBC_C2A::i2c_com_ports_c2a_;
-std::map<int, GPIOPort*> OBC_C2A::gpio_ports_c2a_;
+std::map<int, GpioPort*> OBC_C2A::gpio_ports_c2a_;
 
 OBC_C2A::OBC_C2A(ClockGenerator* clock_gen) : OBC(clock_gen), timing_regulator_(1) {
   // Initialize();
@@ -207,30 +207,30 @@ int OBC_C2A::GpioConnectPort(int port_id) {
     // Port already used
     return -1;
   }
-  gpio_ports_c2a_[port_id] = new GPIOPort(port_id);
+  gpio_ports_c2a_[port_id] = new GpioPort(port_id);
   return 0;
 }
 
 int OBC_C2A::GpioComponentWrite(int port_id, const bool is_high) {
-  GPIOPort* port = gpio_ports_c2a_[port_id];
+  GpioPort* port = gpio_ports_c2a_[port_id];
   if (port == nullptr) return -1;
   return port->DigitalWrite(is_high);
 }
 
 bool OBC_C2A::GpioComponentRead(int port_id) {
-  GPIOPort* port = gpio_ports_c2a_[port_id];
+  GpioPort* port = gpio_ports_c2a_[port_id];
   if (port == nullptr) return false;
   return port->DigitalRead();
 }
 
 int OBC_C2A::GpioWrite_C2A(int port_id, const bool is_high) {
-  GPIOPort* port = gpio_ports_c2a_[port_id];
+  GpioPort* port = gpio_ports_c2a_[port_id];
   if (port == nullptr) return -1;
   return port->DigitalWrite(is_high);
 }
 
 bool OBC_C2A::GpioRead_C2A(int port_id) {
-  GPIOPort* port = gpio_ports_c2a_[port_id];
+  GpioPort* port = gpio_ports_c2a_[port_id];
   if (port == nullptr) return false;
   return port->DigitalRead();
 }

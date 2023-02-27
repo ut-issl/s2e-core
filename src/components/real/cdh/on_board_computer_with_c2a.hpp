@@ -267,7 +267,7 @@ class OBC_C2A : public OBC {
 
   static std::map<int, SCIPort*> com_ports_c2a_;      //!< UART ports
   static std::map<int, I2CPort*> i2c_com_ports_c2a_;  //!< I2C ports
-  static std::map<int, GPIOPort*> gpio_ports_c2a_;    //!< GPIO ports
+  static std::map<int, GpioPort*> gpio_ports_c2a_;    //!< GPIO ports
 };
 
 // If the character encoding of C2A is UTF-8, the following functions are not necessary,

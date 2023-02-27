@@ -113,18 +113,18 @@ int OBC::GpioConnectPort(int port_id) {
     // Port already used
     return -1;
   }
-  gpio_ports_[port_id] = new GPIOPort(port_id);
+  gpio_ports_[port_id] = new GpioPort(port_id);
   return 0;
 }
 
 int OBC::GpioComponentWrite(int port_id, const bool is_high) {
-  GPIOPort* port = gpio_ports_[port_id];
+  GpioPort* port = gpio_ports_[port_id];
   if (port == nullptr) return -1;
   return port->DigitalWrite(is_high);
 }
 
 bool OBC::GpioComponentRead(int port_id) {
-  GPIOPort* port = gpio_ports_[port_id];
+  GpioPort* port = gpio_ports_[port_id];
   if (port == nullptr) return false;
   return port->DigitalRead();
 }

@@ -203,7 +203,7 @@ class OBC : public Component {
  private:
   std::map<int, SCIPort*> com_ports_;      //!< UART ports
   std::map<int, I2CPort*> i2c_com_ports_;  //!< I2C ports
-  std::map<int, GPIOPort*> gpio_ports_;    //!< GPIO ports
+  std::map<int, GpioPort*> gpio_ports_;    //!< GPIO ports
 };
 
 #endif  // S2E_COMPONENTS_REAL_CDH_OBC_HPP_

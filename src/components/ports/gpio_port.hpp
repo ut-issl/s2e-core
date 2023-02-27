@@ -12,23 +12,23 @@
 #define GPIO_LOW false
 
 /**
- * @class GPIOPort
+ * @class GpioPort
  * @brief Class to emulate GPIO(General Purpose Input and Output) port
  */
-class GPIOPort {
+class GpioPort {
  public:
   /**
-   * @fn GPIOPort
+   * @fn GpioPort
    * @brief Constructor
    * @param [in] port_id_: ID of the GPIO port
    * @param [in] component: Component which has the GPIO port
    */
-  GPIOPort(const unsigned int port_id_, IGPIOCompo* component = nullptr);
+  GpioPort(const unsigned int port_id_, IGPIOCompo* component = nullptr);
   /**
-   * @fn ~GPIOPort
+   * @fn ~GpioPort
    * @brief Destructor
    */
-  ~GPIOPort();
+  ~GpioPort();
 
   /**
    * @fn DigitalWrite
