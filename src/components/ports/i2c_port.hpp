@@ -9,23 +9,23 @@
 #include <map>
 
 /**
- * @class I2CPort
+ * @class I2cPort
  * @brief Class to emulate I2C(Inter-Integrated Circuit) communication port
  * @details The class has the register to store the parameters
  */
-class I2CPort {
+class I2cPort {
  public:
   /**
-   * @fn I2CPort
+   * @fn I2cPort
    * @brief Default Constructor. Nothing happened.
    */
-  I2CPort(void);
+  I2cPort(void);
   /**
-   * @fn I2CPort
+   * @fn I2cPort
    * @brief Constructor. Just set the max_register_number.
    * @param [in] max_register_number: Maximum register number
    */
-  I2CPort(const unsigned char max_register_number);
+  I2cPort(const unsigned char max_register_number);
 
   /**
    * @fn RegisterDevice

@@ -69,7 +69,7 @@ int OBC::I2cConnectPort(int port_id, const unsigned char i2c_addr) {
   if (i2c_com_ports_[port_id] != nullptr) {
     // Port already used
   } else {
-    i2c_com_ports_[port_id] = new I2CPort();
+    i2c_com_ports_[port_id] = new I2cPort();
   }
   i2c_com_ports_[port_id]->RegisterDevice(i2c_addr);
 
@@ -80,7 +80,7 @@ int OBC::I2cCloseComPort(int port_id) {
   // Port not used
   if (i2c_com_ports_[port_id] == nullptr) return -1;
 
-  I2CPort* port = i2c_com_ports_.at(port_id);
+  I2cPort* port = i2c_com_ports_.at(port_id);
   delete port;
   i2c_com_ports_.erase(port_id);
   return 0;
@@ -88,7 +88,7 @@ int OBC::I2cCloseComPort(int port_id) {
 
 int OBC::I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, const unsigned char* data,
                                    const unsigned char len) {
-  I2CPort* i2c_port = i2c_com_ports_[port_id];
+  I2cPort* i2c_port = i2c_com_ports_[port_id];
   for (int i = 0; i < len; i++) {
     i2c_port->WriteRegister(i2c_addr, reg_addr, data[i]);
   }
@@ -96,14 +96,14 @@ int OBC::I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr, co
 }
 int OBC::I2cComponentReadRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, unsigned char* data,
                                   const unsigned char len) {
-  I2CPort* i2c_port = i2c_com_ports_[port_id];
+  I2cPort* i2c_port = i2c_com_ports_[port_id];
   for (int i = 0; i < len; i++) {
     data[i] = i2c_port->ReadRegister(reg_addr, i2c_addr);
   }
   return 0;
 }
 int OBC::I2cComponentReadCommand(int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len) {
-  I2CPort* i2c_port = i2c_com_ports_[port_id];
+  I2cPort* i2c_port = i2c_com_ports_[port_id];
   i2c_port->ReadCommand(i2c_addr, data, len);
   return 0;
 }
