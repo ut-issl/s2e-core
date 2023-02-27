@@ -32,69 +32,69 @@ class I2cPort {
    * @brief Register the device as an I2C port.
    * @param [in] i2c_address: I2C address
    */
-  void RegisterDevice(const unsigned char i2c_addr);
+  void RegisterDevice(const unsigned char i2c_address);
 
   /**
    * @fn WriteRegister
    * @brief Set the register address to write a value in the next step
-   * @param [in] i2c_addr: I2C address of the target device
+   * @param [in] i2c_address: I2C address of the target device
    * @param [in] register_address: Register address to write a value in the next step
    * @return Return zero when an error is happened.
    */
-  int WriteRegister(const unsigned char i2c_addr, const unsigned char register_address);
+  int WriteRegister(const unsigned char i2c_address, const unsigned char register_address);
   /**
    * @fn WriteRegister
    * @brief Write a value in the target device's register
-   * @param [in] i2c_addr: I2C address of the target device
+   * @param [in] i2c_address: I2C address of the target device
    * @param [in] register_address: Register address of the target device
    * @param [in] value: 1 Byte value
    * @return Return zero when an error is happened.
    */
-  int WriteRegister(const unsigned char i2c_addr, const unsigned char register_address, const unsigned char value);
+  int WriteRegister(const unsigned char i2c_address, const unsigned char register_address, const unsigned char value);
   /**
    * @fn WriteRegister
    * @brief Write a value in the target device's register
-   * @param [in] i2c_addr: I2C address of the target device
+   * @param [in] i2c_address: I2C address of the target device
    * @param [in] register_address: Register address of the target device
    * @param [in] value: float value
    */
-  // int WriteRegister(const unsigned char i2c_addr, const unsigned char register_address, float value);  // TODO Check this works well
+  // int WriteRegister(const unsigned char i2c_address, const unsigned char register_address, float value);  // TODO Check this works well
 
   /**
    * @fn ReadRegister
    * @brief Read the register value of the target device. The register address is used as the previous accessed address
-   * @param [in] i2c_addr: I2C address of the target device
+   * @param [in] i2c_address: I2C address of the target device
    * @return Read data
    */
-  unsigned char ReadRegister(const unsigned char i2c_addr);
+  unsigned char ReadRegister(const unsigned char i2c_address);
   /**
    * @fn ReadRegister
    * @brief Read the register value of the target device.
-   * @param [in] i2c_addr: I2C address of the target device
+   * @param [in] i2c_address: I2C address of the target device
    * @param [in] register_address: Register address of the target device
    * @return Read data
    */
-  unsigned char ReadRegister(const unsigned char i2c_addr, const unsigned char register_address);
+  unsigned char ReadRegister(const unsigned char i2c_address, const unsigned char register_address);
 
   // OBC->Component Command emulation
   /**
    * @fn WriteCommand
    * @brief Write command requested from an OBC to the component
-   * @param [in] i2c_addr: I2C address of the target device
+   * @param [in] i2c_address: I2C address of the target device
    * @param [in] tx_data: data from the OBC
    * @param [in] length: length of the tx_data
    * @return Length or zero when an error happened
    */
-  unsigned char WriteCommand(const unsigned char i2c_addr, const unsigned char* tx_data, const unsigned char length);
+  unsigned char WriteCommand(const unsigned char i2c_address, const unsigned char* tx_data, const unsigned char length);
   /**
    * @fn ReadCommand
    * @brief Read command requested from an OBC to the component
-   * @param [in] i2c_addr: I2C address of the target device
+   * @param [in] i2c_address: I2C address of the target device
    * @param [out] rx_data: Data to the OBC
    * @param [in] length: Length of the tx_data
    * @return Length or zero when an error happened
    */
-  unsigned char ReadCommand(const unsigned char i2c_addr, unsigned char* rx_data, const unsigned char length);
+  unsigned char ReadCommand(const unsigned char i2c_address, unsigned char* rx_data, const unsigned char length);
 
  private:
   const int kDefaultCmdBufferSize = 0xff;        //!< Default command buffer size
