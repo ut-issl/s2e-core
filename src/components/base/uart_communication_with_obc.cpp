@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-ObcCommunicationBase::ObcCommunicationBase(int sils_port_id, OBC* obc) : sils_port_id_(sils_port_id), obc_(obc) {
+ObcCommunicationBase::ObcCommunicationBase(const unsigned int sils_port_id, OBC* obc) : sils_port_id_(sils_port_id), obc_(obc) {
 #ifdef USE_HILS
   simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
   printf("Error: USE_HILS:ON Check compo initialization\n");
@@ -19,7 +19,8 @@ ObcCommunicationBase::ObcCommunicationBase(int sils_port_id, OBC* obc) : sils_po
   InitializeObcComBase();
 }
 
-ObcCommunicationBase::ObcCommunicationBase(int sils_port_id, const int tx_buffer_size, const int rx_buffer_size, OBC* obc)
+ObcCommunicationBase::ObcCommunicationBase(const unsigned int sils_port_id, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size,
+                                           OBC* obc)
     : sils_port_id_(sils_port_id), tx_buffer_size_(tx_buffer_size), rx_buffer_size_(rx_buffer_size), obc_(obc) {
 #ifdef USE_HILS
   simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
@@ -45,8 +46,8 @@ ObcCommunicationBase::ObcCommunicationBase(const unsigned int hils_port_id, cons
   InitializeObcComBase();
 }
 
-ObcCommunicationBase::ObcCommunicationBase(const unsigned int hils_port_id, const unsigned int baud_rate, const int tx_buffer_size,
-                                           const int rx_buffer_size, HilsPortManager* hils_port_manager)
+ObcCommunicationBase::ObcCommunicationBase(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
+                                           const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)
     : hils_port_id_(hils_port_id),
       baud_rate_(baud_rate),
       tx_buffer_size_(tx_buffer_size),
@@ -130,7 +131,7 @@ void ObcCommunicationBase::InitializeObcComBase() {
   }
 }
 
-int ObcCommunicationBase::ReceiveCommand(const int offset, const int rec_size) {
+int ObcCommunicationBase::ReceiveCommand(const int offset, const unsigned int rec_size) {
   if (simulation_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return -1;
   if (offset > rx_buffer_size_) return -1;
   if (offset + rec_size > rx_buffer_size_) return -1;
