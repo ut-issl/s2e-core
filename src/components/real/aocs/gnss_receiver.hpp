@@ -9,6 +9,7 @@
 #include <dynamics/dynamics.hpp>
 #include <environment/global/gnss_satellites.hpp>
 #include <environment/global/simulation_time.hpp>
+#include <library/geodesy/geodetic_position.hpp>
 #include <library/logger/loggable.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/randomization/normal_randomization.hpp>
@@ -99,10 +100,10 @@ class GnssReceiver : public Component, public ILoggable {
    */
   inline const GnssInfo GetGnssInfo(int channel) const { return gnss_information_list_[channel]; };
   /**
-   * @fn GetMeasuredPosition_i_m
+   * @fn GetMeasuredPosition_eci_m
    * @brief Return Observed position in the ECI frame [m]
    */
-  inline const libra::Vector<3> GetMeasuredPosition_i_m(void) const { return position_eci_m_; }
+  inline const libra::Vector<3> GetMeasuredPosition_eci_m(void) const { return position_eci_m_; }
   /**
    * @fn GetMeasuredPosition_ecef_m
    * @brief Return Observed position in the ECEF frame [m]
@@ -112,12 +113,15 @@ class GnssReceiver : public Component, public ILoggable {
    * @fn GetMeasuredGeodeticPosition
    * @brief Return Observed position in the LLH frame [m]
    */
-  inline const libra::Vector<3> GetMeasuredGeodeticPosition(void) const { return position_llh_; }
+  inline const GeodeticPosition GetMeasuredGeodeticPosition(void) const {
+    GeodeticPosition geodetic_position(position_llh_[0], position_llh_[1], position_llh_[2]);
+    return geodetic_position;
+  }
   /**
-   * @fn GetMeasuredVelocity_i_m_s
+   * @fn GetMeasuredVelocity_eci_m_s
    * @brief Return Observed velocity in the ECI frame [m/s]
    */
-  inline const libra::Vector<3> GetMeasuredVelocity_i_m_s(void) const { return velocity_eci_m_s_; }
+  inline const libra::Vector<3> GetMeasuredVelocity_eci_m_s(void) const { return velocity_eci_m_s_; }
   /**
    * @fn GetMeasuredVelocity_ecef_m_s
    * @brief Return Observed velocity in the ECEF frame [m/s]
