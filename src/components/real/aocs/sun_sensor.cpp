@@ -18,7 +18,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const
                      const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
                      const LocalCelestialInformation* local_celes_info)
     : Component(prescaler, clock_generator),
-      id_(id),
+      component_id_(id),
       quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
@@ -32,7 +32,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, Power
                      const double nr_bias_stddev_c, const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
                      const LocalCelestialInformation* local_celes_info)
     : Component(prescaler, clock_generator, power_port),
-      id_(id),
+      component_id_(id),
       quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
@@ -132,7 +132,7 @@ double SunSensor::TanRange(double x) {
 
 string SunSensor::GetLogHeader() const {
   string str_tmp = "";
-  const string sensor_id = std::to_string(static_cast<long long>(id_));
+  const string sensor_id = std::to_string(static_cast<long long>(component_id_));
   std::string sensor_name = "sun_sensor" + sensor_id + "_";
 
   str_tmp += WriteVector(sensor_name + "measured_sun_direction", "c", "-", 3);

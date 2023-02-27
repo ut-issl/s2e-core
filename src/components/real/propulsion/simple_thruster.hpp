@@ -106,7 +106,7 @@ class SimpleThruster : public Component, public ILoggable {
 
  protected:
   // parameters
-  const int id_;                       //!< Thruster ID
+  const int component_id_;                       //!< Thruster ID
   Vector<3> thruster_pos_b_{0.0};      //!< Thruster position @ body frame [m]
   Vector<3> thrust_dir_b_{0.0};        //!< Thrust direction @ body frame
   double duty_ = 0.0;                  //!< PWM Duty [0.0 : 1.0]

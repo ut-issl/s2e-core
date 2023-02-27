@@ -20,7 +20,7 @@ STT::STT(const int prescaler, ClockGenerator* clock_generator, const int id, con
          const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
          const Dynamics* dynamics, const LocalEnvironment* local_env)
     : Component(prescaler, clock_generator),
-      id_(id),
+      component_id_(id),
       quaternion_b2c_(quaternion_b2c),
       rot_(global_randomization.MakeSeed()),
       n_ortho_(0.0, sigma_ortho, global_randomization.MakeSeed()),
@@ -43,7 +43,7 @@ STT::STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_
          const unsigned int output_interval, const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle,
          const double capture_rate, const Dynamics* dynamics, const LocalEnvironment* local_env)
     : Component(prescaler, clock_generator, power_port),
-      id_(id),
+      component_id_(id),
       quaternion_b2c_(quaternion_b2c),
       rot_(global_randomization.MakeSeed()),
       n_ortho_(0.0, sigma_ortho, global_randomization.MakeSeed()),
@@ -176,7 +176,7 @@ int STT::CaptureRateJudgement(const libra::Vector<3>& omega_b) {
 
 std::string STT::GetLogHeader() const {
   std::string str_tmp = "";
-  const std::string sensor_id = std::to_string(static_cast<long long>(id_));
+  const std::string sensor_id = std::to_string(static_cast<long long>(component_id_));
   std::string sensor_name = "stt" + sensor_id + "_";
 
   str_tmp += WriteQuaternion(sensor_name + "measured_quaternion", "i2c");

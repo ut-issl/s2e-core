@@ -14,7 +14,7 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_generator,
                            const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
                            const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
     : Component(prescaler, clock_generator),
-      id_(id),
+      component_id_(id),
       max_channel_(ch_max),
       antenna_position_b_m_(antenna_posision_b_m),
       quaternion_b2c_(quaternion_b2c),
@@ -32,7 +32,7 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_generator,
                            const libra::Quaternion quaternion_b2c, const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m,
                            const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
     : Component(prescaler, clock_generator, power_port),
-      id_(id),
+      component_id_(id),
       max_channel_(ch_max),
       antenna_position_b_m_(antenna_posision_b_m),
       quaternion_b2c_(quaternion_b2c),
@@ -195,7 +195,7 @@ void GNSSReceiver::ConvertJulianDayToGPSTime(const double JulianDay) {
 std::string GNSSReceiver::GetLogHeader() const  // For logs
 {
   std::string str_tmp = "";
-  const std::string sensor_id = std::to_string(static_cast<long long>(id_));
+  const std::string sensor_id = std::to_string(static_cast<long long>(component_id_));
   std::string sensor_name = "gnss_receiver" + sensor_id + "_";
 
   str_tmp += WriteScalar(sensor_name + "measured_utc_time_year");

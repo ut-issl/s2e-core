@@ -104,7 +104,7 @@ class STT : public Component, public ILoggable {
 
  protected:
   // STT general parameters
-  const int id_;                                        //!< Sensor ID
+  const int component_id_;                                        //!< Sensor ID
   libra::Quaternion quaternion_b2c_;                    //!< Quaternion from body frame to component frame
   libra::Quaternion q_stt_i2c_ = {0.0, 0.0, 0.0, 1.0};  //!< STT observed quaternion
   libra::Vector<3> sight_;                              //!< Sight direction vector at component frame

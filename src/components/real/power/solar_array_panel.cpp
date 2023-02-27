@@ -12,7 +12,7 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int id, int numbe
          libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
          const LocalCelestialInformation* local_celes_info, double compo_step_time)
     : Component(prescaler, clock_generator),
-      id_(id),
+      component_id_(id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_area_(cell_area),
@@ -30,7 +30,7 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int id, int numbe
          libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
          double compo_step_time)
     : Component(prescaler, clock_generator),
-      id_(id),
+      component_id_(id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_area_(cell_area),
@@ -47,7 +47,7 @@ SAP::SAP(ClockGenerator* clock_generator, int id, int number_of_series, int numb
          double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
          const LocalCelestialInformation* local_celes_info)
     : Component(10, clock_generator),
-      id_(id),
+      component_id_(id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_area_(cell_area),
@@ -63,7 +63,7 @@ SAP::SAP(ClockGenerator* clock_generator, int id, int number_of_series, int numb
 
 SAP::SAP(const SAP& obj)
     : Component(obj),
-      id_(obj.id_),
+      component_id_(obj.component_id_),
       number_of_series_(obj.number_of_series_),
       number_of_parallel_(obj.number_of_parallel_),
       cell_area_(obj.cell_area_),
@@ -85,7 +85,7 @@ void SAP::SetVoltage_V(const double voltage) { voltage_ = voltage; }
 
 std::string SAP::GetLogHeader() const {
   std::string str_tmp = "";
-  std::string component_name = "sap" + std::to_string(id_) + "_";
+  std::string component_name = "sap" + std::to_string(component_id_) + "_";
   str_tmp += WriteScalar(component_name + "generated_power", "W");
   return str_tmp;
 }

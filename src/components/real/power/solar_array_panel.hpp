@@ -105,7 +105,7 @@ class SAP : public Component, public ILoggable {
   std::string GetLogValue() const override;
 
  private:
-  const int id_;                          //!< SAP ID TODO: Use string?
+  const int component_id_;                          //!< SAP ID TODO: Use string?
   const int number_of_series_;            //!< Number of series connected solar cells
   const int number_of_parallel_;          //!< Number of parallel connected solar cells
   const double cell_area_;                //!< Solar cell area [m^2]

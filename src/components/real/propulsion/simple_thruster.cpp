@@ -13,7 +13,7 @@ SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_genera
                                const Vector<3> thrust_dir_b, const double max_mag, const double mag_err, const double dir_err,
                                const Structure* structure, const Dynamics* dynamics)
     : Component(prescaler, clock_generator),
-      id_(id),
+      component_id_(id),
       thruster_pos_b_(thruster_pos_b),
       thrust_dir_b_(thrust_dir_b),
       thrust_magnitude_max_(max_mag),
@@ -27,7 +27,7 @@ SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_genera
                                const Vector<3> thruster_pos_b, const Vector<3> thrust_dir_b, const double max_mag, const double mag_err,
                                const double dir_err, const Structure* structure, const Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
-      id_(id),
+      component_id_(id),
       thruster_pos_b_(thruster_pos_b),
       thrust_dir_b_(thrust_dir_b),
       thrust_magnitude_max_(max_mag),
@@ -73,7 +73,7 @@ void SimpleThruster::CalcTorque(Vector<3> center) {
 std::string SimpleThruster::GetLogHeader() const {
   std::string str_tmp = "";
 
-  std::string head = "simple_thruster" + std::to_string(id_) + "_";
+  std::string head = "simple_thruster" + std::to_string(component_id_) + "_";
   str_tmp += WriteVector(head + "output_thrust", "b", "N", 3);
   str_tmp += WriteVector(head + "output_torque", "b", "Nm", 3);
   str_tmp += WriteScalar(head + "output_thrust_norm", "N");

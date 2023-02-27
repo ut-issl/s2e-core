@@ -110,7 +110,7 @@ class MagTorquer : public Component, public ILoggable {
   inline void SetMagMomentC(const libra::Vector<kMtqDim> mag_moment_c) { mag_moment_c_ = mag_moment_c; };
 
  protected:
-  const int id_ = 0;                                      //!< Actuator ID
+  const int component_id_ = 0;                                      //!< Actuator ID
   const double knT2T = 1.0e-9;                            //!< Constant to convert nT to T
   libra::Vector<kMtqDim> torque_b_{0.0};                  //!< Output torque in the body fixed frame [Nm]
   libra::Vector<kMtqDim> mag_moment_c_{0.0};              //!< Output output magnetic moment in the component frame [Am2]

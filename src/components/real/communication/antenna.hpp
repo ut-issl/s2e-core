@@ -121,7 +121,7 @@ class Antenna {
 
  protected:
   // General info
-  int id_;                     //!< Antenna ID
+  int component_id_;                     //!< Antenna ID
   Quaternion quaternion_b2c_;  //!< Coordinate transform from body to component
   bool is_transmitter_;        //!< Antenna for transmitter or not
   bool is_receiver_;           //!< Antenna for receiver or not

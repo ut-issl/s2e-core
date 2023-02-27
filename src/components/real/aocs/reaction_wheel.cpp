@@ -24,7 +24,7 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_genera
                  vector<vector<double>> radial_torque_harmonics_coef, double structural_resonance_freq, double damping_factor, double bandwidth,
                  bool considers_structural_resonance, bool drive_flag, double init_velocity)
     : Component(prescaler, clock_generator, fast_prescaler),
-      id_(id),
+      component_id_(id),
       inertia_(inertia),
       max_torque_(max_torque),
       max_velocity_rpm_(max_velocity_rpm),
@@ -52,7 +52,7 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_genera
                  double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance, bool drive_flag,
                  double init_velocity)
     : Component(prescaler, clock_generator, power_port, fast_prescaler),
-      id_(id),
+      component_id_(id),
       inertia_(inertia),
       max_torque_(max_torque),
       max_velocity_rpm_(max_velocity_rpm),
@@ -183,7 +183,7 @@ void RWModel::SetVelocityLimitRpm(double velocity_limit_rpm) {
 
 std::string RWModel::GetLogHeader() const {
   std::string str_tmp = "";
-  std::string component_name = "rw" + std::to_string(static_cast<long long>(id_)) + "_";
+  std::string component_name = "rw" + std::to_string(static_cast<long long>(component_id_)) + "_";
 
   str_tmp += WriteScalar(component_name + "angular_velocity", "rad/s");
   str_tmp += WriteScalar(component_name + "angular_velocity", "rpm");

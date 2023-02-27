@@ -15,7 +15,7 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, con
                        const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
                        const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env)
     : Component(prescaler, clock_generator),
-      id_(id),
+      component_id_(id),
       quaternion_b2c_(quaternion_b2c),
       q_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),
@@ -34,7 +34,7 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, Pow
                        const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
                        const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env)
     : Component(prescaler, clock_generator, power_port),
-      id_(id),
+      component_id_(id),
       quaternion_b2c_(quaternion_b2c),
       q_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),
@@ -83,7 +83,7 @@ libra::Vector<kMtqDim> MagTorquer::CalcOutputTorque(void) {
 
 std::string MagTorquer::GetLogHeader() const {
   std::string str_tmp = "";
-  const std::string actuator_id = std::to_string(static_cast<long long>(id_));
+  const std::string actuator_id = std::to_string(static_cast<long long>(component_id_));
   std::string actuator_name = "magnetorquer" + actuator_id + "_";
 
   str_tmp += WriteVector(actuator_name + "output_magnetic_moment", "b", "Am2", kMtqDim);

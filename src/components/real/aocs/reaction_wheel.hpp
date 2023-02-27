@@ -184,7 +184,7 @@ class RWModel : public Component, public ILoggable {
 
  protected:
   // Fixed Parameters
-  const int id_;                      //!< Actuator ID
+  const int component_id_;                      //!< Actuator ID
   const double inertia_;              //!< Inertia of RW rotor [kgm2]
   const double max_torque_;           //!< Maximum output torque [Nm]
   const double max_velocity_rpm_;     //!< Maximum angular velocity of rotor [rpm]

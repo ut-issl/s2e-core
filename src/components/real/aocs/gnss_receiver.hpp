@@ -138,7 +138,7 @@ class GNSSReceiver : public Component, public ILoggable {
 
  protected:
   // Parameters for receiver
-  const int id_;                           //!< Receiver ID
+  const int component_id_;                 //!< Receiver ID
   const int max_channel_;                  //!< Maximum number of channels
   libra::Vector<3> antenna_position_b_m_;  //!< GNSS antenna position at the body-fixed frame [m]
   libra::Quaternion quaternion_b2c_;       //!< Quaternion from body frame to component frame (antenna frame)
