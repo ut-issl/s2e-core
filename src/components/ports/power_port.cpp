@@ -51,14 +51,14 @@ bool PowerPort::Update(void) {
   return is_on_;
 }
 
-bool PowerPort::SetVoltage(const double voltage) {
-  voltage_V_ = voltage;
+bool PowerPort::SetVoltage(const double voltage_V) {
+  voltage_V_ = voltage_V;
   Update();
   return is_on_;
 }
 
-void PowerPort::SubtractAssumedPowerConsumption(const double power) {
-  assumed_power_consumption_W_ -= power;
+void PowerPort::SubtractAssumedPowerConsumption(const double power_W) {
+  assumed_power_consumption_W_ -= power_W;
   if (assumed_power_consumption_W_ < 0.0) assumed_power_consumption_W_ = 0.0;
   return;
 }

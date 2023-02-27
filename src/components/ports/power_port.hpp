@@ -33,7 +33,7 @@ class PowerPort {
    * @brief Constructor
    * @param [in] port_id: ID of the power port
    * @param [in] current_Limit: Threshold to detect over current [A]
-   * @param [in] minimum_voltage: Minimum voltage to work the component [V]
+   * @param [in] minimum_voltage: Minimum voltage_V to work the component [V]
    * @param [in] assumed_power_consumption: Assumed power consumption of the component [W]
    */
   PowerPort(int port_id, double current_Limit, double minimum_voltage, double assumed_power_consumption);
@@ -53,7 +53,7 @@ class PowerPort {
   // Getters
   /**
    * @fn GetVoltage
-   * @brief Return the voltage of this power line [V]
+   * @brief Return the voltage_V of this power line [V]
    */
   inline double GetVoltage(void) const { return voltage_V_; }
   /**
@@ -75,38 +75,38 @@ class PowerPort {
   // Setters
   /**
    * @fn SetVoltage
-   * @brief Set voltage to control the power switch state
+   * @brief Set voltage_V to control the power switch state
    * @return Power switch state
    */
-  bool SetVoltage(const double voltage);
+  bool SetVoltage(const double voltage_V);
   /**
    * @fn SetAssumedPowerConsumption
    * @brief Set assumed power consumption [W]
    * @note Users can use this function to change the power consumption of the component depending on the execution state.
    */
-  inline void SetAssumedPowerConsumption(const double power) { assumed_power_consumption_W_ = power; }
+  inline void SetAssumedPowerConsumption(const double power_W) { assumed_power_consumption_W_ = power_W; }
   /**
    * @fn SetMinimumVoltage
    * @brief Set minimum voltage to work the component [V]
    */
-  inline void SetMinimumVoltage(const double minimum_voltage) { minimum_voltage_V_ = minimum_voltage; }
+  inline void SetMinimumVoltage(const double minimum_voltage_V) { minimum_voltage_V_ = minimum_voltage_V; }
   /**
    * @fn SetCurrentLimit
    * @brief Set threshold to detect over current [A]
    */
-  inline void SetCurrentLimit(const double current_limit) { current_limit_A_ = current_limit; }
+  inline void SetCurrentLimit(const double current_limit_A) { current_limit_A_ = current_limit_A; }
 
   // Others
   /**
    * @fn AddAssumedPowerConsumption
    * @brief Add assumed power consumption [W] to emulate power line which has multiple loads
    */
-  inline void AddAssumedPowerConsumption(const double power) { assumed_power_consumption_W_ += power; }
+  inline void AddAssumedPowerConsumption(const double power_W) { assumed_power_consumption_W_ += power_W; }
   /**
    * @fn SubtractAssumedPowerConsumption
    * @brief Subtract assumed power consumption [W] to emulate power line which has multiple loads
    */
-  void SubtractAssumedPowerConsumption(const double power);
+  void SubtractAssumedPowerConsumption(const double power_W);
   /**
    * @fn InitializeWithInitializeFile
    * @brief Initialize PowerPort class with initialize file
@@ -119,7 +119,7 @@ class PowerPort {
   double current_limit_A_;  //!< Threshold to detect over current [A]
 
   // Components setting parameters
-  double minimum_voltage_V_;            //!< Minimum voltage to work the component [V]
+  double minimum_voltage_V_;            //!< Minimum voltage_V to work the component [V]
   double assumed_power_consumption_W_;  //!< Assumed power consumption of the component [W]
 
   double voltage_V_;              //!< Voltage of the power line[V]
