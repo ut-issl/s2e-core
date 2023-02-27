@@ -21,9 +21,9 @@ class GPIOPort {
    * @fn GPIOPort
    * @brief Constructor
    * @param [in] port_id_: ID of the GPIO port
-   * @param [in] compo: Component which has the GPIO port
+   * @param [in] component: Component which has the GPIO port
    */
-  GPIOPort(const unsigned int port_id_, IGPIOCompo* compo = nullptr);
+  GPIOPort(const unsigned int port_id_, IGPIOCompo* component = nullptr);
   /**
    * @fn ~GPIOPort
    * @brief Destructor
@@ -33,10 +33,10 @@ class GPIOPort {
   /**
    * @fn DigitalWrite
    * @brief Change the GPIO state
-   * @param [in] isHigh: Use GPIO_HIGH or GPIO_LOW
+   * @param [in] is_high: Use GPIO_HIGH or GPIO_LOW
    * @return always zero
    */
-  int DigitalWrite(const bool isHigh);
+  int DigitalWrite(const bool is_high);
 
   /**
    * @fn DigitalRead
