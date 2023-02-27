@@ -26,63 +26,63 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
 
   // Gyro
   std::string ini_path = iniAccess.ReadString("COMPONENT_FILES", "gyro_file");
-  config_->main_logger_->CopyFileToLogDir(ini_path);
+  config_->main_logger_->CopyFileToLogDirectory(ini_path);
   gyro_ = new Gyro(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
 
   // MagSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetometer_file");
-  config_->main_logger_->CopyFileToLogDir(ini_path);
+  config_->main_logger_->CopyFileToLogDirectory(ini_path);
   mag_sensor_ = new MagSensor(InitMagSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
                                             &(local_env_->GetGeomagneticField())));
 
   // STT
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "stt_file");
-  config_->main_logger_->CopyFileToLogDir(ini_path);
+  config_->main_logger_->CopyFileToLogDirectory(ini_path);
   stt_ =
       new STT(InitSTT(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_, local_env_));
 
   // SunSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "ss_file");
-  config_->main_logger_->CopyFileToLogDir(ini_path);
+  config_->main_logger_->CopyFileToLogDirectory(ini_path);
   sun_sensor_ = new SunSensor(InitSunSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, &(local_env_->GetSolarRadiationPressure()),
                                             &(local_env_->GetCelestialInformation())));
 
   // GNSS-R
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "gnss_file");
-  config_->main_logger_->CopyFileToLogDir(ini_path);
+  config_->main_logger_->CopyFileToLogDirectory(ini_path);
   gnss_ = new GNSSReceiver(
       InitGNSSReceiver(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_, &(glo_env_->GetGnssSatellites()), &(glo_env_->GetSimulationTime())));
 
   // MagTorquer
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetorquer_file");
-  config_->main_logger_->CopyFileToLogDir(ini_path);
+  config_->main_logger_->CopyFileToLogDirectory(ini_path);
   mag_torquer_ = new MagTorquer(InitMagTorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
                                                &(local_env_->GetGeomagneticField())));
 
   // RW
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "rw_file");
-  config_->main_logger_->CopyFileToLogDir(ini_path);
+  config_->main_logger_->CopyFileToLogDirectory(ini_path);
   rw_ = new RWModel(InitRWModel(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_->GetAttitude().GetPropStep(),
                                 glo_env_->GetSimulationTime().GetComponentStepTime_s()));
 
   // Torque Generator
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "torque_generator_file");
-  config_->main_logger_->CopyFileToLogDir(ini_path);
+  config_->main_logger_->CopyFileToLogDirectory(ini_path);
   torque_generator_ = new TorqueGenerator(InitializeTorqueGenerator(clock_gen, ini_path, dynamics_));
 
   // Thruster
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "thruster_file");
-  config_->main_logger_->CopyFileToLogDir(ini_path);
+  config_->main_logger_->CopyFileToLogDirectory(ini_path);
   thruster_ = new SimpleThruster(InitSimpleThruster(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, structure_, dynamics));
 
   // Force Generator
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "force_generator_file");
-  config_->main_logger_->CopyFileToLogDir(ini_path);
+  config_->main_logger_->CopyFileToLogDirectory(ini_path);
   force_generator_ = new ForceGenerator(InitializeForceGenerator(clock_gen, ini_path, dynamics_));
 
   // Antenna
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "antenna_file");
-  config_->main_logger_->CopyFileToLogDir(ini_path);
+  config_->main_logger_->CopyFileToLogDirectory(ini_path);
   antenna_ = new Antenna(InitAntenna(1, ini_path));
 
   // PCU power port initial control
@@ -166,14 +166,14 @@ libra::Vector<3> SampleComponents::GenerateTorque_Nm_b() {
 }
 
 void SampleComponents::LogSetup(Logger& logger) {
-  logger.AddLoggable(gyro_);
-  logger.AddLoggable(mag_sensor_);
-  logger.AddLoggable(stt_);
-  logger.AddLoggable(sun_sensor_);
-  logger.AddLoggable(gnss_);
-  logger.AddLoggable(mag_torquer_);
-  logger.AddLoggable(rw_);
-  logger.AddLoggable(thruster_);
-  logger.AddLoggable(force_generator_);
-  logger.AddLoggable(torque_generator_);
+  logger.AddLogList(gyro_);
+  logger.AddLogList(mag_sensor_);
+  logger.AddLogList(stt_);
+  logger.AddLogList(sun_sensor_);
+  logger.AddLogList(gnss_);
+  logger.AddLogList(mag_torquer_);
+  logger.AddLogList(rw_);
+  logger.AddLogList(thruster_);
+  logger.AddLogList(force_generator_);
+  logger.AddLogList(torque_generator_);
 }

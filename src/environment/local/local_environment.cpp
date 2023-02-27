@@ -28,7 +28,7 @@ void LocalEnvironment::Initialize(const SimulationConfig* simulation_configurati
   std::string ini_fname = iniAccess.ReadString("SETTING_FILES", "local_environment_file");
 
   // Save ini file
-  simulation_configuration->main_logger_->CopyFileToLogDir(ini_fname);
+  simulation_configuration->main_logger_->CopyFileToLogDirectory(ini_fname);
 
   // Initialize
   geomagnetic_field_ = new GeomagneticField(InitGeomagneticField(ini_fname));
@@ -45,7 +45,7 @@ void LocalEnvironment::Initialize(const SimulationConfig* simulation_configurati
 
   // Log setting for Local celestial information
   IniAccess conf = IniAccess(ini_fname);
-  celestial_information_->IsLogEnabled = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", "logging");
+  celestial_information_->is_log_enabled_ = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", "logging");
 }
 
 void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* simulation_time) {
@@ -68,8 +68,8 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* si
 }
 
 void LocalEnvironment::LogSetup(Logger& logger) {
-  logger.AddLoggable(geomagnetic_field_);
-  logger.AddLoggable(solar_radiation_pressure_environment_);
-  logger.AddLoggable(atmosphere_);
-  logger.AddLoggable(celestial_information_);
+  logger.AddLogList(geomagnetic_field_);
+  logger.AddLogList(solar_radiation_pressure_environment_);
+  logger.AddLogList(atmosphere_);
+  logger.AddLogList(celestial_information_);
 }

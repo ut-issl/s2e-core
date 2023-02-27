@@ -35,7 +35,7 @@ void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironmen
   dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimulationTime()), &(local_env_->GetCelestialInformation()), sat_id, structure_);
   disturbances_ = new Disturbances(sim_config, sat_id, structure_, glo_env);
 
-  sim_config->main_logger_->CopyFileToLogDir(sim_config->sat_file_[sat_id]);
+  sim_config->main_logger_->CopyFileToLogDirectory(sim_config->sat_file_[sat_id]);
 
   rel_info_ = nullptr;
 }
@@ -47,7 +47,7 @@ void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironmen
   dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimulationTime()), &(local_env_->GetCelestialInformation()), sat_id, structure_, rel_info);
   disturbances_ = new Disturbances(sim_config, sat_id, structure_, glo_env);
 
-  sim_config->main_logger_->CopyFileToLogDir(sim_config->sat_file_[sat_id]);
+  sim_config->main_logger_->CopyFileToLogDirectory(sim_config->sat_file_[sat_id]);
 
   rel_info_ = rel_info;
   rel_info_->RegisterDynamicsInfo(sat_id, dynamics_);

@@ -29,10 +29,10 @@ void ThirdBodyGravity::Update(const LocalEnvironment& local_environment, const D
 libra::Vector<3> ThirdBodyGravity::CalcAcceleration_i_m_s2(const libra::Vector<3> s, const libra::Vector<3> sr, const double gravity_constant_m_s2) {
   libra::Vector<3> acceleration_i_m_s2;
 
-  double s_norm = libra::norm(s);
+  double s_norm = libra::CalcNorm(s);
   double s_norm3 = s_norm * s_norm * s_norm;
 
-  double sr_norm = libra::norm(sr);
+  double sr_norm = libra::CalcNorm(sr);
   double sr_norm3 = sr_norm * sr_norm * sr_norm;
 
   acceleration_i_m_s2 = gravity_constant_m_s2 * (1.0 / sr_norm3 * sr - 1.0 / s_norm3 * s);

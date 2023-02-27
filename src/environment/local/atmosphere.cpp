@@ -41,7 +41,7 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const double 
   if (!IsCalcEnabled) return 0;
 
   if (model_ == "STANDARD") {
-    double altitude_m = position.GetAlt_m();
+    double altitude_m = position.GetAltitude_m();
     air_density_kg_m3_ = CalcStandard(altitude_m);
   } else if (model_ == "NRLMSISE00")  // NRLMSISE00 model
   {
@@ -56,9 +56,9 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const double 
       }
     }
 
-    double lat_rad = position.GetLat_rad();
-    double lon_rad = position.GetLon_rad();
-    double alt_m = position.GetAlt_m();
+    double lat_rad = position.GetLatitude_rad();
+    double lon_rad = position.GetLongitude_rad();
+    double alt_m = position.GetAltitude_m();
     air_density_kg_m3_ = CalcNRLMSISE00(decimal_year, lat_rad, lon_rad, alt_m, space_weather_table_, is_manual_param_used_, manual_daily_f107_,
                                         manual_average_f107_, manual_ap_);
   } else {
@@ -201,7 +201,7 @@ double Atmosphere::CalcStandard(const double altitude_m) {
 
 double Atmosphere::AddNoise(const double rho_kg_m3) {
   // RandomWalk rw(rho_kg_m3*rw_stepwidth_,rho_kg_m3*rw_stddev_,rho_kg_m3*rw_limit_);
-  libra::NormalRand nr(0.0, rho_kg_m3 * gauss_standard_deviation_rate_, g_rand.MakeSeed());
+  libra::NormalRand nr(0.0, rho_kg_m3 * gauss_standard_deviation_rate_, global_randomization.MakeSeed());
   double nrd = nr;
 
   return rho_kg_m3 + nrd;

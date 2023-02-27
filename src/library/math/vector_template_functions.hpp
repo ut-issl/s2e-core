@@ -54,14 +54,14 @@ Vector<N, T> Vector<N, T>::operator-() const {
 }
 
 template <size_t N, typename T>
-void fill_up(Vector<N, T>& v, const T& n) {
+void FillUp(Vector<N, T>& v, const T& n) {
   for (size_t i = 0; i < N; ++i) {
     v[i] = n;
   }
 }
 
 template <size_t N, typename T>
-void print(const Vector<N, T>& v, char delimiter, std::ostream& stream) {
+void Print(const Vector<N, T>& v, char delimiter, std::ostream& stream) {
   stream << v[0];
   for (size_t i = 1; i < N; ++i) {
     stream << delimiter << v[i];
@@ -96,7 +96,7 @@ const Vector<N, T> operator*(const T& lhs, const Vector<N, T>& rhs) {
 }
 
 template <size_t N, typename T>
-const T inner_product(const Vector<N, T>& lhs, const Vector<N, T>& rhs) {
+const T InnerProduct(const Vector<N, T>& lhs, const Vector<N, T>& rhs) {
   T temp = 0;
   for (size_t i = 0; i < N; ++i) {
     temp += lhs[i] * rhs[i];
@@ -105,7 +105,7 @@ const T inner_product(const Vector<N, T>& lhs, const Vector<N, T>& rhs) {
 }
 
 template <typename T>
-const Vector<3, T> outer_product(const Vector<3, T>& lhs, const Vector<3, T>& rhs) {
+const Vector<3, T> OuterProduct(const Vector<3, T>& lhs, const Vector<3, T>& rhs) {
   Vector<3, T> temp;
   temp[0] = lhs[1] * rhs[2] - lhs[2] * rhs[1];
   temp[1] = lhs[2] * rhs[0] - lhs[0] * rhs[2];
@@ -114,7 +114,7 @@ const Vector<3, T> outer_product(const Vector<3, T>& lhs, const Vector<3, T>& rh
 }
 
 template <size_t N>
-double norm(const Vector<N, double>& v) {
+double CalcNorm(const Vector<N, double>& v) {
   double temp = 0.0;
   for (size_t i = 0; i < N; ++i) {
     temp += pow(v[i], 2.0);
@@ -123,13 +123,12 @@ double norm(const Vector<N, double>& v) {
 }
 
 template <size_t N>
-Vector<N, double>& normalize(Vector<N, double>& v) {
-  double n = norm(v);
+Vector<N, double>& Normalize(Vector<N, double>& v) {
+  double n = CalcNorm(v);
   if (n == 0.0) {
     return v;
-  }  // 零ベクトル
+  }
 
-  // 正規化
   n = 1.0 / n;
   for (size_t i = 0; i < N; ++i) {
     v[i] *= n;
@@ -139,8 +138,8 @@ Vector<N, double>& normalize(Vector<N, double>& v) {
 }
 
 template <size_t N>
-double angle(const Vector<N, double>& v1, const Vector<N, double>& v2) {
-  double cos = inner_product(v1, v2) / (norm(v1) * norm(v2));
+double CalcAngleTwoVectors_rad(const Vector<N, double>& v1, const Vector<N, double>& v2) {
+  double cos = InnerProduct(v1, v2) / (CalcNorm(v1) * CalcNorm(v2));
   return acos(cos);
 }
 

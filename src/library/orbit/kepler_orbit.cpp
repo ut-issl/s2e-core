@@ -9,30 +9,32 @@
 
 KeplerOrbit::KeplerOrbit() {}
 // Initialize with orbital elements
-KeplerOrbit::KeplerOrbit(const double mu_m3_s2, const OrbitalElements oe) : mu_m3_s2_(mu_m3_s2), oe_(oe) { CalcConstKeplerMotion(); }
+KeplerOrbit::KeplerOrbit(const double gravity_constant_m3_s2, const OrbitalElements oe) : gravity_constant_m3_s2_(gravity_constant_m3_s2), oe_(oe) {
+  CalcConstKeplerMotion();
+}
 
 KeplerOrbit::~KeplerOrbit() {}
 
 // Private Functions
 void KeplerOrbit::CalcConstKeplerMotion() {
   // mean motion
-  double a_m3 = pow(oe_.GetSemiMajor(), 3.0);
-  mean_motion_rad_s_ = sqrt(mu_m3_s2_ / a_m3);
+  double a_m3 = pow(oe_.GetSemiMajorAxis_m(), 3.0);
+  mean_motion_rad_s_ = sqrt(gravity_constant_m3_s2_ / a_m3);
 
   // DCM
-  libra::Matrix<3, 3> dcm_arg_perigee = libra::rotz(-1.0 * oe_.GetArgPerigee());
-  libra::Matrix<3, 3> dcm_inclination = libra::rotx(-1.0 * oe_.GetInclination());
-  libra::Matrix<3, 3> dcm_raan = libra::rotz(-1.0 * oe_.GetRaan());
+  libra::Matrix<3, 3> dcm_arg_perigee = libra::MakeRotationMatrixZ(-1.0 * oe_.GetArgPerigee_rad());
+  libra::Matrix<3, 3> dcm_inclination = libra::MakeRotationMatrixX(-1.0 * oe_.GetInclination_rad());
+  libra::Matrix<3, 3> dcm_raan = libra::MakeRotationMatrixZ(-1.0 * oe_.GetRaan_rad());
   libra::Matrix<3, 3> dcm_inc_arg = dcm_inclination * dcm_arg_perigee;
   dcm_inplane_to_i_ = dcm_raan * dcm_inc_arg;
 }
 
-void KeplerOrbit::CalcPosVel(double time_jday) {
+void KeplerOrbit::CalcOrbit(double time_jday) {
   // replace to short name variables
-  double a_m = oe_.GetSemiMajor();
+  double a_m = oe_.GetSemiMajorAxis_m();
   double e = oe_.GetEccentricity();
   double n_rad_s = mean_motion_rad_s_;
-  double dt_s = (time_jday - oe_.GetEpoch()) * (24.0 * 60.0 * 60.0);
+  double dt_s = (time_jday - oe_.GetEpoch_jday()) * (24.0 * 60.0 * 60.0);
 
   double mean_anomaly_rad = mean_motion_rad_s_ * dt_s;
   double l_rad = libra::WrapTo2Pi(mean_anomaly_rad);

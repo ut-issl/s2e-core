@@ -31,7 +31,7 @@ class ILoggable {
    */
   virtual std::string GetLogValue() const = 0;
 
-  bool IsLogEnabled = true;  //!< Log enable flag
+  bool is_log_enabled_ = true;  //!< Log enable flag
 };
 
 #endif  // S2E_LIBRARY_LOGGER_LOGGABLE_HPP_

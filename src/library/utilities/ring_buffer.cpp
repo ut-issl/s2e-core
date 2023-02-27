@@ -10,34 +10,35 @@
 #include <algorithm>
 #include <cstring>
 
-RingBuffer::RingBuffer(int bufSize) : kBufferSize(bufSize) {
-  buf_ = new byte[bufSize];
-  wp_ = 0;
-  rp_ = 0;
+RingBuffer::RingBuffer(int buffer_size) : buffer_size_(buffer_size) {
+  buffer_ = new byte[buffer_size];
+  write_pointer_ = 0;
+  read_pointer_ = 0;
 }
 
-RingBuffer::~RingBuffer() { delete[] buf_; }
+RingBuffer::~RingBuffer() { delete[] buffer_; }
 
-int RingBuffer::Write(byte* buffer, int offset, int count) {
+int RingBuffer::Write(byte* buffer, int offset, int data_length) {
   int write_count = 0;
-  while (write_count != count) {
-    int write_len = std::min(kBufferSize - wp_, count - write_count);
-    memcpy(&buf_[wp_], &buffer[offset + write_count], write_len);
-    wp_ = (wp_ + write_len == kBufferSize) ? 0 : wp_ + write_len;
+  while (write_count != data_length) {
+    int write_len = std::min(buffer_size_ - write_pointer_, data_length - write_count);
+    memcpy(&buffer_[write_pointer_], &buffer[offset + write_count], write_len);
+    write_pointer_ = (write_pointer_ + write_len == buffer_size_) ? 0 : write_pointer_ + write_len;
     write_count += write_len;
   }
 
   return write_count;
 }
 
-int RingBuffer::Read(byte* buffer, int offset, int count) {
+int RingBuffer::Read(byte* buffer, int offset, int data_length) {
   int read_count = 0;
   // There are four behaviors depending on whether the RP overtakes the WP, or
-  // whether all of the RP to the WP are requested by count.
-  while (read_count != count && wp_ != rp_) {
-    int read_len = (wp_ > rp_) ? std::min(wp_ - rp_, count - read_count) : std::min(kBufferSize - rp_, count - read_count);
-    memcpy(&buffer[offset + read_count], &buf_[rp_], read_len);
-    rp_ = (rp_ + read_len == kBufferSize) ? 0 : rp_ + read_len;
+  // whether all of the RP to the WP are requested by data_length.
+  while (read_count != data_length && write_pointer_ != read_pointer_) {
+    int read_len = (write_pointer_ > read_pointer_) ? std::min(write_pointer_ - read_pointer_, data_length - read_count)
+                                                    : std::min(buffer_size_ - read_pointer_, data_length - read_count);
+    memcpy(&buffer[offset + read_count], &buffer_[read_pointer_], read_len);
+    read_pointer_ = (read_pointer_ + read_len == buffer_size_) ? 0 : read_pointer_ + read_len;
     read_count += read_len;
   }
 

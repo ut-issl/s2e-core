@@ -9,19 +9,19 @@
 /**
  * @fn quantization
  * @brief Default constructor without any initialization
- * @param [in] continuous_num: Target number
+ * @param [in] continuous_number: Target number
  * @param [in] resolution: Resolution of the quantization
  * @return Quantized value (double)
  */
-double quantization(double continuous_num, double resolution);
+double quantization(const double continuous_number, const double resolution);
 
 /**
- * @fn quantization_f
+ * @fn quantization_float
  * @brief Default constructor without any initialization
- * @param [in] continuous_num: Target number
+ * @param [in] continuous_number: Target number
  * @param [in] resolution: Resolution of the quantization
  * @return Quantized value (float)
  */
-float quantization_f(double continuous_num, double resolution);
+float quantization_float(const double continuous_number, const double resolution);
 
 #endif  // S2E_LIBRARY_UTILITIES_QUANTIZATION_HPP_

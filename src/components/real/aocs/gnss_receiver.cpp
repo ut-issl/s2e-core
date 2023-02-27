@@ -17,9 +17,9 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const
       ch_max_(ch_max),
       antenna_position_b_(ant_pos_b),
       q_b2c_(q_b2c),
-      nrs_eci_x_(0.0, noise_std[0], g_rand.MakeSeed()),
-      nrs_eci_y_(0.0, noise_std[1], g_rand.MakeSeed()),
-      nrs_eci_z_(0.0, noise_std[2], g_rand.MakeSeed()),
+      nrs_eci_x_(0.0, noise_std[0], global_randomization.MakeSeed()),
+      nrs_eci_y_(0.0, noise_std[1], global_randomization.MakeSeed()),
+      nrs_eci_z_(0.0, noise_std[2], global_randomization.MakeSeed()),
       half_width_(half_width),
       gnss_id_(gnss_id),
       antenna_model_(antenna_model),
@@ -35,9 +35,9 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, Power
       ch_max_(ch_max),
       antenna_position_b_(ant_pos_b),
       q_b2c_(q_b2c),
-      nrs_eci_x_(0.0, noise_std[0], g_rand.MakeSeed()),
-      nrs_eci_y_(0.0, noise_std[1], g_rand.MakeSeed()),
-      nrs_eci_z_(0.0, noise_std[2], g_rand.MakeSeed()),
+      nrs_eci_x_(0.0, noise_std[0], global_randomization.MakeSeed()),
+      nrs_eci_y_(0.0, noise_std[1], global_randomization.MakeSeed()),
+      nrs_eci_z_(0.0, noise_std[2], global_randomization.MakeSeed()),
       half_width_(half_width),
       gnss_id_(gnss_id),
       antenna_model_(antenna_model),
@@ -82,10 +82,10 @@ void GNSSReceiver::CheckAntennaSimple(const Vector<3> pos_true_eci_, Quaternion 
   // antenna normal vector at inertial frame
   Vector<3> antenna_direction_c(0.0);
   antenna_direction_c[2] = 1.0;
-  Vector<3> antenna_direction_b = q_b2c_.frame_conv_inv(antenna_direction_c);
-  Vector<3> antenna_direction_i = q_i2b.frame_conv_inv(antenna_direction_b);
+  Vector<3> antenna_direction_b = q_b2c_.InverseFrameConversion(antenna_direction_c);
+  Vector<3> antenna_direction_i = q_i2b.InverseFrameConversion(antenna_direction_b);
 
-  double inner = inner_product(pos_true_eci_, antenna_direction_i);
+  double inner = InnerProduct(pos_true_eci_, antenna_direction_i);
   if (inner <= 0)
     is_gnss_sats_visible_ = 0;
   else
@@ -100,10 +100,10 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_
   // antenna normal vector at inertial frame
   Vector<3> antenna_direction_c(0.0);
   antenna_direction_c[2] = 1.0;
-  Vector<3> antenna_direction_b = q_b2c_.frame_conv_inv(antenna_direction_c);
-  Vector<3> antenna_direction_i = q_i2b.frame_conv_inv(antenna_direction_b);
+  Vector<3> antenna_direction_b = q_b2c_.InverseFrameConversion(antenna_direction_c);
+  Vector<3> antenna_direction_i = q_i2b.InverseFrameConversion(antenna_direction_b);
 
-  sat2ant_i = q_i2b.frame_conv_inv(antenna_position_b_);
+  sat2ant_i = q_i2b.InverseFrameConversion(antenna_position_b_);
   ant_pos_i = pos_true_eci_ + sat2ant_i;
 
   // initialize
@@ -119,18 +119,18 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_
     // compute direction from sat to gnss in body-fixed frame
     gnss_sat_pos_i = gnss_satellites_->GetSatellitePositionEci(i);
     ant2gnss_i = gnss_sat_pos_i - ant_pos_i;
-    double normalizer = 1 / norm(ant2gnss_i);
+    double normalizer = 1 / CalcNorm(ant2gnss_i);
     ant2gnss_i_n = normalizer * ant2gnss_i;
 
     // check gnss sats are visible from antenna
     double Re = environment::earth_equatorial_radius_m;
-    double inner1 = inner_product(ant_pos_i, gnss_sat_pos_i);
+    double inner1 = InnerProduct(ant_pos_i, gnss_sat_pos_i);
     int is_visible_ant2gnss = 0;
     if (inner1 > 0)
       is_visible_ant2gnss = 1;
     else {
-      Vector<3> tmp = ant_pos_i + inner_product(-ant_pos_i, ant2gnss_i_n) * ant2gnss_i;
-      if (norm(tmp) < Re)
+      Vector<3> tmp = ant_pos_i + InnerProduct(-ant_pos_i, ant2gnss_i_n) * ant2gnss_i;
+      if (CalcNorm(tmp) < Re)
         // There is earth between antenna and gnss
         is_visible_ant2gnss = 0;
       else
@@ -138,7 +138,7 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_
         is_visible_ant2gnss = 1;
     }
 
-    double inner2 = inner_product(antenna_direction_i, ant2gnss_i_n);
+    double inner2 = InnerProduct(antenna_direction_i, ant2gnss_i_n);
     if (inner2 > cos(half_width_ * libra::deg_to_rad) && is_visible_ant2gnss) {
       // is visible
       gnss_sats_visible_num_++;
@@ -155,10 +155,10 @@ void GNSSReceiver::CheckAntennaCone(const Vector<3> pos_true_eci_, Quaternion q_
 void GNSSReceiver::SetGnssInfo(Vector<3> ant2gnss_i, Quaternion q_i2b, std::string gnss_id) {
   Vector<3> ant2gnss_b, ant2gnss_c;
 
-  ant2gnss_b = q_i2b.frame_conv(ant2gnss_i);
-  ant2gnss_c = q_b2c_.frame_conv(ant2gnss_b);
+  ant2gnss_b = q_i2b.FrameConversion(ant2gnss_i);
+  ant2gnss_c = q_b2c_.FrameConversion(ant2gnss_b);
 
-  double dist = norm(ant2gnss_c);
+  double dist = CalcNorm(ant2gnss_c);
   double lon = AcTan(ant2gnss_c[1], ant2gnss_c[0]);
   double lat = AcTan(ant2gnss_c[2], sqrt(pow(ant2gnss_c[0], 2.0) + pow(ant2gnss_c[1], 2.0)));
 

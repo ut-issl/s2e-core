@@ -17,9 +17,9 @@ class RingBuffer {
   /**
    * @fn RingBuffer
    * @brief Constructor
-   * @param [in] bufSize: Buffer size
+   * @param [in] buffer_size: Buffer size
    */
-  RingBuffer(int bufSize);
+  RingBuffer(int buffer_size);
   /**
    * @fn ~RingBuffer
    * @brief Destructor
@@ -28,28 +28,28 @@ class RingBuffer {
 
   /**
    * @fn Write
-   * @brief Write data of (buffer[offset] to buffer[offset + count]) to the ring buffer's write pointer
+   * @brief Write data of (buffer[offset] to buffer[offset + data_length]) to the ring buffer's write pointer
    * @param [in] buffer: Data
    * @param [in] offset: Data offset for buffer
-   * @param [in] count:  Data length for buffer
+   * @param [in] data_length:  Data length for buffer
    * @return Number of bytes written
    */
-  int Write(byte* buffer, int offset, int count);
+  int Write(byte* buffer, int offset, int data_length);
   /**
    * @fn Read
-   * @brief Read data at the read pointer of the ring buffer and store the data to the buffer[offset] to buffer[offset + count]
+   * @brief Read data at the read pointer of the ring buffer and store the data to the buffer[offset] to buffer[offset + data_length]
    * @param [in] buffer: Data
    * @param [in] offset: Data offset for buffer
-   * @param [in] count:  Data length for buffer
+   * @param [in] data_length:  Data length for buffer
    * @return Number of bytes read
    */
-  int Read(byte* buffer, int offset, int count);
+  int Read(byte* buffer, int offset, int data_length);
 
  private:
-  const int kBufferSize;  //!< Buffer size
-  byte* buf_;             //!< Buffer
-  int rp_;                //!< Read pointer
-  int wp_;                //!< Write pointer
+  int buffer_size_;    //!< Buffer size
+  byte* buffer_;       //!< Buffer
+  int read_pointer_;   //!< Read pointer
+  int write_pointer_;  //!< Write pointer
 };
 
 #endif  // S2E_LIBRARY_UTILITIES_RING_BUFFER_HPP_

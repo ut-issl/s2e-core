@@ -24,10 +24,10 @@ class KeplerOrbit {
   /**
    * @fn KeplerOrbit
    * @brief Constructor
-   * @param [in] mu_m3_s2: Gravity constant of the center body [m3/s2]
+   * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
    * @param [in] oe: Orbital elements
    */
-  KeplerOrbit(const double mu_m3_s2, const OrbitalElements oe);
+  KeplerOrbit(const double gravity_constant_m3_s2, const OrbitalElements oe);
   /**
    * @fn ~KeplerOrbit
    * @brief Destructor
@@ -35,11 +35,11 @@ class KeplerOrbit {
   ~KeplerOrbit();
 
   /**
-   * @fn CalcPosVel
+   * @fn CalcOrbit
    * @brief Calculate position and velocity with Kepler orbit propagation
    * @param [in] time_jday: Time expressed as Julian day [day]
    */
-  void CalcPosVel(double time_jday);
+  void CalcOrbit(double time_jday);
 
   /**
    * @fn GetPosition_i_m
@@ -57,7 +57,7 @@ class KeplerOrbit {
   libra::Vector<3> velocity_i_m_s_;  //!< Velocity vector in the inertial frame [m/s]
 
  private:
-  double mu_m3_s2_;                       //!< Gravity constant of the center body [m3/s2]
+  double gravity_constant_m3_s2_;         //!< Gravity constant of the center body [m3/s2]
   OrbitalElements oe_;                    //!< Orbital elements
   double mean_motion_rad_s_;              //!< Mean motion of the orbit [rad/s]
   libra::Matrix<3, 3> dcm_inplane_to_i_;  //!< Direction cosine matrix from the in-plane frame to the inertial frame

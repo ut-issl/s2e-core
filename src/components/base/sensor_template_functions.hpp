@@ -18,7 +18,7 @@ SensorBase<N>::SensorBase(const libra::Matrix<N, N>& scale_factor, const libra::
       bias_c_(bias_c),
       n_rw_c_(rw_stepwidth, rw_stddev_c, rw_limit_c) {
   for (size_t i = 0; i < N; i++) {
-    nrs_c_[i].set_param(0.0, nr_stddev_c[i], g_rand.MakeSeed());
+    nrs_c_[i].SetParameters(0.0, nr_stddev_c[i], global_randomization.MakeSeed());
   }
   RangeCheck();
 }

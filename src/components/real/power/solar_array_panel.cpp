@@ -16,7 +16,7 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_s
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_area_(cell_area),
-      normal_vector_(libra::normalize(normal_vector)),
+      normal_vector_(libra::Normalize(normal_vector)),
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
       srp_(srp),
@@ -34,7 +34,7 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_s
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_area_(cell_area),
-      normal_vector_(libra::normalize(normal_vector)),
+      normal_vector_(libra::Normalize(normal_vector)),
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
       srp_(srp),
@@ -51,7 +51,7 @@ SAP::SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_area_(cell_area),
-      normal_vector_(libra::normalize(normal_vector)),
+      normal_vector_(libra::Normalize(normal_vector)),
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
       srp_(srp),
@@ -101,15 +101,15 @@ void SAP::MainRoutine(int time_count) {
     double time_query = compo_step_time_ * time_count;
     const auto solar_constant = srp_->GetSolarConstant_W_m2();
     libra::Vector<3> sun_direction_body = CsvScenarioInterface::GetSunDirectionBody(time_query);
-    libra::Vector<3> normalized_sun_direction_body = libra::normalize(sun_direction_body);
+    libra::Vector<3> normalized_sun_direction_body = libra::Normalize(sun_direction_body);
     power_generation_ = cell_efficiency_ * transmission_efficiency_ * solar_constant * (int)CsvScenarioInterface::GetSunFlag(time_query) *
-                        cell_area_ * number_of_parallel_ * number_of_series_ * inner_product(normal_vector_, normalized_sun_direction_body);
+                        cell_area_ * number_of_parallel_ * number_of_series_ * InnerProduct(normal_vector_, normalized_sun_direction_body);
   } else {
     const auto power_density = srp_->GetPowerDensity_W_m2();
     libra::Vector<3> sun_pos_b = local_celes_info_->GetPositionFromSpacecraft_b_m("SUN");
-    libra::Vector<3> sun_dir_b = libra::normalize(sun_pos_b);
+    libra::Vector<3> sun_dir_b = libra::Normalize(sun_pos_b);
     power_generation_ = cell_efficiency_ * transmission_efficiency_ * power_density * cell_area_ * number_of_parallel_ * number_of_series_ *
-                        inner_product(normal_vector_, sun_dir_b);
+                        InnerProduct(normal_vector_, sun_dir_b);
     // TODO: Improve implementation. For example, update IV curve with sun direction and calculate generated power
   }
   if (power_generation_ < 0) power_generation_ = 0.0;

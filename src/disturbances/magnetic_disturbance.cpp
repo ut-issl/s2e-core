@@ -19,21 +19,21 @@ MagneticDisturbance::MagneticDisturbance(const RMMParams& rmm_params, const bool
 
 Vector<3> MagneticDisturbance::CalcTorque_b_Nm(const Vector<3>& magnetic_field_b_nT) {
   CalcRMM();
-  torque_b_Nm_ = kMagUnit_ * outer_product(rmm_b_Am2_, magnetic_field_b_nT);
+  torque_b_Nm_ = kMagUnit_ * OuterProduct(rmm_b_Am2_, magnetic_field_b_nT);
   return torque_b_Nm_;
 }
 
 void MagneticDisturbance::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   UNUSED(dynamics);
 
-  CalcTorque_b_Nm(local_environment.GetGeomagneticField().GetGeomagneticFieldneticField_b_nT());
+  CalcTorque_b_Nm(local_environment.GetGeomagneticField().GetGeomagneticField_b_nT());
 }
 
 void MagneticDisturbance::CalcRMM() {
   static libra::Vector<3> random_walk_std_dev(rmm_params_.GetRMMRWDev());
   static libra::Vector<3> random_walk_limit(rmm_params_.GetRMMRWLimit());
   static RandomWalk<3> random_walk(0.1, random_walk_std_dev, random_walk_limit);  // [FIXME] step width is constant
-  static libra::NormalRand normal_random(0.0, rmm_params_.GetRMMWNVar(), g_rand.MakeSeed());
+  static libra::NormalRand normal_random(0.0, rmm_params_.GetRMMWNVar(), global_randomization.MakeSeed());
 
   rmm_b_Am2_ = rmm_params_.GetRMMConst_b();
   for (int i = 0; i < 3; ++i) {

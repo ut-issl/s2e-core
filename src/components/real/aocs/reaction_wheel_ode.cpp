@@ -9,16 +9,19 @@
 using namespace libra;
 
 RwOde::RwOde(double step_width, double init_angular_velocity, double target_angular_velocity, Vector<3> lag_coef)
-    : ODE<1>(step_width), lag_coef_(lag_coef), kInitAngularVelocity_(init_angular_velocity), target_angular_velocity_(target_angular_velocity) {
-  this->setup(0.0, Vector<1>(init_angular_velocity));
+    : OrdinaryDifferentialEquation<1>(step_width),
+      lag_coef_(lag_coef),
+      kInitAngularVelocity_(init_angular_velocity),
+      target_angular_velocity_(target_angular_velocity) {
+  this->Setup(0.0, Vector<1>(init_angular_velocity));
 }
 
 double RwOde::getAngularVelocity(void) const {
-  double angular_velocity = this->state()[0];
+  double angular_velocity = this->GetState()[0];
   return angular_velocity;
 }
 
-void RwOde::RHS(double x, const Vector<1> &state, Vector<1> &rhs) {
+void RwOde::DerivativeFunction(double x, const Vector<1> &state, Vector<1> &rhs) {
   // FIXME: fix this function
   UNUSED(x);
   UNUSED(state);
@@ -36,7 +39,7 @@ void RwOde::RHS(double x, const Vector<1> &state, Vector<1> &rhs) {
   // lag_coef_[1] * (target_angular_velocity_ - this->state()[0]) +
   // lag_coef_[0];
   // First-order-lag
-  rhs[0] = (target_angular_velocity_ - this->state()[0]) / (lag_coef_[0]);
+  rhs[0] = (target_angular_velocity_ - this->GetState()[0]) / (lag_coef_[0]);
   // Only target
   // rhs[0]   = (target_angular_velocity_);
 }

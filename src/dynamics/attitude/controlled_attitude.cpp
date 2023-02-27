@@ -21,7 +21,7 @@ ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, cons
       orbit_(orbit) {
   quaternion_i2b_ = quaternion_i2b;
   inertia_tensor_kgm2_ = inertia_tensor_kgm2;  // FIXME: inertia tensor should be initialized in the Attitude base class
-  inv_inertia_tensor_ = invert(inertia_tensor_kgm2_);
+  inv_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
 
   Initialize();
 }
@@ -42,9 +42,9 @@ void ControlledAttitude::Initialize(void) {
       return;
     }
     // pointing direction check
-    normalize(main_target_direction_b_);
-    normalize(sub_target_direction_b_);
-    double tmp = inner_product(main_target_direction_b_, sub_target_direction_b_);
+    Normalize(main_target_direction_b_);
+    Normalize(sub_target_direction_b_);
+    double tmp = InnerProduct(main_target_direction_b_, sub_target_direction_b_);
     tmp = std::abs(tmp);
     if (tmp > cos(kMinDirectionAngle_rad)) {
       std::cout << "sub target direction should separate from the main target direction. \n";
@@ -84,9 +84,9 @@ Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mode) {
   } else if (mode == VELOCITY_DIRECTION_POINTING) {
     direction = orbit_->GetVelocity_i_m_s();
   } else if (mode == ORBIT_NORMAL_POINTING) {
-    direction = outer_product(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
+    direction = OuterProduct(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
   }
-  normalize(direction);
+  Normalize(direction);
   return direction;
 }
 
@@ -96,20 +96,20 @@ void ControlledAttitude::PointingControl(const libra::Vector<3> main_direction_i
   // Calc DCM Target->body
   libra::Matrix<3, 3> dcm_t2b = CalcDcm(main_target_direction_b_, sub_target_direction_b_);
   // Calc DCM ECI->body
-  libra::Matrix<3, 3> dcm_i2b = dcm_t2b * transpose(dcm_t2i);
+  libra::Matrix<3, 3> dcm_i2b = dcm_t2b * Transpose(dcm_t2i);
   // Convert to Quaternion
-  quaternion_i2b_ = Quaternion::fromDCM(dcm_i2b);
+  quaternion_i2b_ = Quaternion::ConvertFromDcm(dcm_i2b);
 }
 
 libra::Matrix<3, 3> ControlledAttitude::CalcDcm(const libra::Vector<3> main_direction, const libra::Vector<3> sub_direction) {
   // Calc basis vectors
   libra::Vector<3> ex, ey, ez;
   ex = main_direction;
-  libra::Vector<3> tmp1 = outer_product(ex, sub_direction);
-  libra::Vector<3> tmp2 = outer_product(tmp1, ex);
-  ey = normalize(tmp2);
-  libra::Vector<3> tmp3 = outer_product(ex, ey);
-  ez = normalize(tmp3);
+  libra::Vector<3> tmp1 = OuterProduct(ex, sub_direction);
+  libra::Vector<3> tmp2 = OuterProduct(tmp1, ex);
+  ey = Normalize(tmp2);
+  libra::Vector<3> tmp3 = OuterProduct(ex, ey);
+  ez = Normalize(tmp3);
 
   // Generate DCM
   libra::Matrix<3, 3> dcm;
@@ -142,7 +142,7 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
 
   if (previous_calc_time_s_ > 0.0) {
     double time_diff_sec = current_time_s - previous_calc_time_s_;
-    libra::Quaternion prev_q_b2i = previous_quaternion_i2b_.conjugate();
+    libra::Quaternion prev_q_b2i = previous_quaternion_i2b_.Conjugate();
     libra::Quaternion q_diff = prev_q_b2i * quaternion_i2b_;
     q_diff = (2.0 / time_diff_sec) * q_diff;
 

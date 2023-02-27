@@ -14,43 +14,43 @@ namespace libra {
 /**
  * @fn operator*
  * @brief Multiply matrix and vector
- * @param [in] m: Target matrix
- * @param [in] m: Target vector
+ * @param [in] matrix: Target matrix
+ * @param [in] vector: Target vector
  * @return Result of multiplied matrix
  */
 template <size_t R, size_t C, typename TM, typename TC>
-Vector<R, TC> operator*(const Matrix<R, C, TM>& m, const Vector<C, TC>& v);
+Vector<R, TC> operator*(const Matrix<R, C, TM>& matrix, const Vector<C, TC>& vector);
 
 /**
- * @fn invert
+ * @fn CalcInverseMatrix
  * @brief Calculate inverse matrix
- * @param [in] a: Target matrix
- * @return Result of invert matrix
+ * @param [in] matrix: Target matrix
+ * @return Inverse matrix
  */
 template <std::size_t N>
-Matrix<N, N> invert(const Matrix<N, N>& a);
+Matrix<N, N> CalcInverseMatrix(const Matrix<N, N>& matrix);
 
 /**
- * @fn ludcmp
+ * @fn LuDecomposition
  * @brief LU decomposition
  * @note Warning: a is overwritten.
- * @param [in/out] a: Target matrix
+ * @param [in/out] matrix: Target matrix
  * @param [in] index: Array to store row/column switch information
  * @return Result of LU decomposed matrix
  */
 template <std::size_t N>
-Matrix<N, N>& ludcmp(Matrix<N, N>& a, unsigned int index[]);
+Matrix<N, N>& LuDecomposition(Matrix<N, N>& matrix, unsigned int index[]);
 
 /**
- * @fn lubksb
+ * @fn SolveLinearSystemWithLu
  * @brief Solve linear system of equation with LU decomposition
- * @param [in] a: LU decomposed coefficient matrix
+ * @param [in] matrix: LU decomposed coefficient matrix
  * @param [in] index: Array to store row/column switch information
- * @param [in] b: Right hand side vector of the linear system
+ * @param [in] vector: Right hand side vector of the linear system
  * @return Result vector
  */
 template <std::size_t N>
-Vector<N>& lubksb(const Matrix<N, N>& a, const unsigned int index[], Vector<N>& b);
+Vector<N>& SolveLinearSystemWithLu(const Matrix<N, N>& matrix, const unsigned int index[], Vector<N>& vector);
 
 }  // namespace libra
 

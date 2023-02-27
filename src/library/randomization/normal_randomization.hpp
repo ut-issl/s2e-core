@@ -8,7 +8,7 @@
 #define S2E_LIBRARY_RANDOMIZATION_NORMAL_RANDOMIZATION_HPP_
 
 #include "minimal_standard_linear_congruential_generator_with_shuffle.hpp"
-using libra::Ran1;
+using libra::MinimalStandardLcgWithShuffle;
 
 namespace libra {
 
@@ -28,19 +28,19 @@ class NormalRand {
   /**
    * @fn NormalRand
    * @brief Constructor
-   * @param avg: Average of normal distribution
-   * @param stddev: Standard deviation of normal distribution
+   * @param average: Average of normal distribution
+   * @param standard_deviation: Standard deviation of normal distribution
    */
-  NormalRand(double avg, double stddev);
+  NormalRand(double average, double standard_deviation);
 
   /**
    * @fn NormalRand
    * @brief Constructor
-   * @param avg: Average of normal distribution
-   * @param stddev: Standard deviation of normal distribution
+   * @param average: Average of normal distribution
+   * @param standard_deviation: Standard deviation of normal distribution
    * @param seed: Seed of randomization
    */
-  NormalRand(double avg, double stddev, long seed) throw();
+  NormalRand(double average, double standard_deviation, long seed) throw();
 
   /**
    * @fn Cast operator to double type
@@ -50,57 +50,62 @@ class NormalRand {
   operator double();
 
   /**
-   * @fn avg
+   * @fn GetAverage
    * @brief Return average
    */
-  inline double avg() const;
+  inline double GetAverage() const { return average_; }
 
   /**
-   * @fn avg
-   * @brief Set average
-   */
-  inline void avg(double avg);
-
-  /**
-   * @fn stddev
+   * @fn GetStandardDeviation
    * @brief Return standard deviation
    */
-  inline double stddev() const;
+  inline double GetStandardDeviation() const { return standard_deviation_; }
 
   /**
-   * @fn stddev
+   * @fn SetAverage
+   * @brief Set average
+   */
+  inline void SetAverage(const double average) { average_ = average; }
+
+  /**
+   * @fn SetStandardDeviation
    * @brief Set standard deviation
    */
-  inline void stddev(double stddev);
+  inline void SetStandardDeviation(const double standard_deviation) { standard_deviation_ = standard_deviation; }
 
   /**
-   * @fn set_param
+   * @fn SetParameter
    * @brief Set parameters
-   * @param avg: Average of normal distribution
-   * @param stddev: Standard deviation of normal distribution
+   * @param average: Average of normal distribution
+   * @param standard_deviation: Standard deviation of normal distribution
    */
-  inline void set_param(double avg, double stddev);
+  inline void SetParameters(const double average, const double standard_deviation) {
+    average_ = average;
+    standard_deviation_ = standard_deviation;
+  }
   /**
-   * @fn set_param
+   * @fn SetParameter
    * @brief Set parameters
-   * @param avg: Average of normal distribution
-   * @param stddev: Standard deviation of normal distribution
+   * @param average: Average of normal distribution
+   * @param standard_deviation: Standard deviation of normal distribution
    * @param seed: Seed of randomization
    */
-  inline void set_param(double avg, double stddev, long seed);
+  inline void SetParameters(const double average, const double standard_deviation, const long seed) {
+    average_ = average;
+    standard_deviation_ = standard_deviation;
+    randomizer_.InitSeed(seed);
+  }
 
  private:
-  double avg_;     //!< Average
-  double stddev_;  //!< Standard deviation
-  Ran1 rand_;      //!< Randomized origin to use Box-Muller method
-  double holder_;  //!< Second random value. Box-Muller method generates two value at once.
-                   //!< The second value is stored and used in the next call.
-                   //!< It means that Box-Muller method is executed once per two call
-  bool is_empty_;  //!< Flag to show the holder_ has available value
+  double average_;                            //!< Average
+  double standard_deviation_;                 //!< Standard deviation
+  MinimalStandardLcgWithShuffle randomizer_;  //!< Randomized origin to use Box-Muller method
+  double holder_;                             //!< Second random value. Box-Muller method generates two value at once.
+                                              //!< The second value is stored and used in the next call.
+                                              //!< It means that Box-Muller method is executed once per two call
+  bool is_empty_;                             //!< Flag to show the holder_ has available value
 };
 
 }  // namespace libra
-
-#include "normal_randomization_inline_functions.hpp"
 
 #endif  // S2E_LIBRARY_RANDOMIZATION_NORMAL_RANDOMIZATION_HPP_

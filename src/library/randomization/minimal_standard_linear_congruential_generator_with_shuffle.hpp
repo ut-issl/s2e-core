@@ -14,22 +14,22 @@
 namespace libra {
 
 /**
- * @class Ran1
+ * @class MinimalStandardLcgWithShuffle
  * @brief Randomization with Park and Miller's multiplicative congruential method combined with mixed method
  */
-class Ran1 {
+class MinimalStandardLcgWithShuffle {
  public:
   /**
-   * @fn Ran1
+   * @fn MinimalStandardLcgWithShuffle
    * @brief Default constructor with default seed value
    */
-  Ran1();
+  MinimalStandardLcgWithShuffle();
   /**
-   * @fn Ran1
+   * @fn MinimalStandardLcgWithShuffle
    * @brief Default constructor with seed value
    * @param [in] seed: Seed of randomization
    */
-  explicit Ran1(long seed);
+  explicit MinimalStandardLcgWithShuffle(const long seed);
 
   /**
    * @fn Cast operator of double type
@@ -39,24 +39,23 @@ class Ran1 {
   operator double();
 
   /**
-   * @fn init_seed
+   * @fn InitSeed
    * @brief Set seed value
    * @param [in] seed: Seed of randomization
    */
-  void init_seed(long seed);
+  void InitSeed(const long seed);
 
  private:
   /**
-   * @fn init_
+   * @fn Initialize
    * @brief Initialize function
    */
-  void init_();
+  void Initialize();
 
-  Ran0 ran0_;                             //!< Randomization with Park and Miller's multiplicative congruential method
-  static const std::size_t V_SIZE_ = 32;  //!< Number of elements for mixing table
-  double v_[V_SIZE_];                     //!< Mixing table (Not used now)
-  std::size_t y_;                         //!< Position of mixing table
-  double vec_[V_SIZE_];                   //!< Mixing table
+  MinimalStandardLcg minimal_lcg_;           //!< Randomization with Park and Miller's multiplicative congruential method
+  static const std::size_t kTableSize = 32;  //!< Number of elements for mixing table
+  std::size_t table_position_;               //!< Position of mixing table
+  double mixing_table_[kTableSize];          //!< Mixing table
 };
 
 }  // namespace libra

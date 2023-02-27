@@ -16,11 +16,11 @@
 Logger* InitLog(std::string file_name);
 
 /**
- * @fn InitLogMC
+ * @fn InitMonteCarloLog
  * @brief Initialize logger for Monte-Carlo simulation (mont.csv)
  * @param [in] file_name: File name of the log file
  * @param [in] enable: Enable flag for logging
  */
-Logger* InitLogMC(std::string file_name, bool enable);
+Logger* InitMonteCarloLog(std::string file_name, bool enable);
 
 #endif  // S2E_LIBRARY_LOGGER_INITIALIZE_LOG_HPP_

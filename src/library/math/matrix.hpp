@@ -22,7 +22,7 @@ class Matrix {
    * @fn Matrix
    * @brief Default constructor without any initialization
    */
-  inline Matrix();
+  inline Matrix() {}
 
   /**
    * @fn Matrix
@@ -35,30 +35,30 @@ class Matrix {
   typedef const T (*CTP)[C];  //!< Define the const pointer of the array as CTP type
 
   /**
-   * @fn row
+   * @fn GetRowLength
    * @brief Return row number
    */
-  inline size_t row() const;
+  inline size_t GetRowLength() const { return R; }
 
   /**
-   * @fn row
+   * @fn GetColumnLength
    * @brief Return column number
    */
-  inline size_t column() const;
+  inline size_t GetColumnLength() const { return C; }
 
   /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 2D-array using `[]`
    * @return Pointer to the data storing array
    */
-  inline operator TP();
+  inline operator TP() { return matrix_; }
 
   /**
    * @fn Cast operator to directly access the elements (const ver.)
    * @brief Operator to access the elements similar with the 2D-array using `[]`
    * @return Const pointer to the data storing array
    */
-  inline operator CTP() const;
+  inline operator CTP() const { return matrix_; }
 
   /**
    * @fn Operator ()
@@ -68,7 +68,12 @@ class Matrix {
    * @param [in] column: Target column number
    * @return Value of the target element
    */
-  inline T& operator()(size_t row, size_t column);
+  inline T& operator()(size_t row, size_t column) {
+    if (!IsValidRange(row, column)) {
+      throw std::invalid_argument("Argument exceeds the range of matrix.");
+    }
+    return matrix_[row][column];
+  }
 
   /**
    * @fn Operator ()
@@ -78,7 +83,12 @@ class Matrix {
    * @param [in] column: Target column number
    * @return Value of the target element
    */
-  inline const T& operator()(size_t row, size_t column) const;
+  inline const T& operator()(size_t row, size_t column) const {
+    if (!IsValidRange(row, column)) {
+      throw std::invalid_argument("Argument exceeds the range of matrix.");
+    }
+    return matrix_[row][column];
+  }
 
   /**
    * @fn Operator +=
@@ -120,32 +130,32 @@ class Matrix {
   T matrix_[R][C];  //!< Array to save the elements
 
   /**
-   * @fn is_valid_range_
+   * @fn IsValidRange
    * @brief Judge the target row/column number is in the range
    * @param [in] row: Target row number
    * @param [in] column: Target column number
    * @return True: row/column number is in the range
    */
-  inline bool is_valid_range_(size_t row, size_t column);
+  inline bool IsValidRange(size_t row, size_t column) { return (row < R && column < C); }
 };
 
 /**
- * @fn fill_up
+ * @fn FillUp
  * @brief Fill up all elements with same value
  * @param [in] m: Target matrix
  * @param [in] t: Scalar value to fill up
  */
 template <size_t R, size_t C, typename T>
-void fill_up(Matrix<R, C, T>& m, const T& t);
+void FillUp(Matrix<R, C, T>& m, const T& t);
 
 /**
- * @fn trace
+ * @fn CalcTrace
  * @brief Calculate and return the trace of matrix
  * @param [in] m: Target matrix
  * @return Trace of the matrix
  */
 template <size_t N, typename T>
-T trace(const Matrix<N, N, T>& m);
+T CalcTrace(const Matrix<N, N, T>& m);
 
 /**
  * @fn print
@@ -155,7 +165,7 @@ T trace(const Matrix<N, N, T>& m);
  * @param [out] stream: Output target(Default: cout)
  */
 template <size_t R, size_t C, typename T>
-void print(const Matrix<R, C, T>& m, char delimiter = '\t', std::ostream& stream = std::cout);
+void Print(const Matrix<R, C, T>& m, char delimiter = '\t', std::ostream& stream = std::cout);
 
 /**
  * @fn operator +
@@ -198,62 +208,61 @@ template <size_t R, size_t C1, size_t C2, typename T>
 const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs, const Matrix<C1, C2, T>& rhs);
 
 /**
- * @fn transpose
+ * @fn Transpose
  * @brief Calculate and return transposed matrix
  * @param [in] m: Target matrix
  * @return Result of transposed matrix
  */
 template <size_t R, size_t C, typename T>
-const Matrix<C, R, T> transpose(const Matrix<R, C, T>& m);
+const Matrix<C, R, T> Transpose(const Matrix<R, C, T>& m);
 
 /**
- * @fn unitalize
+ * @fn Unitalize
  * @brief Rewrite the input matrix as the identity matrix
  * @note Warning: m is overwritten.
  * @param [in/out] m: Target matrix
  * @return The identity matrix
  */
 template <size_t R, typename T>
-Matrix<R, R, T>& unitalize(Matrix<R, R, T>& m);
+Matrix<R, R, T>& Unitalize(Matrix<R, R, T>& m);
 
 /**
- * @fn eye
+ * @fn MakeIdentityMatrix
  * @brief Generate identity matrix
  * @return The identity matrix
  */
 template <size_t R, typename T = double>
-Matrix<R, R, T> eye();
+Matrix<R, R, T> MakeIdentityMatrix();
 
 /**
- * @fn rotx
+ * @fn MakeRotationMatrixX
  * @brief Generate 3*3 rotation matrix around X-axis
- * @param [in] theta: Rotation angle [rad]
+ * @param [in] theta_rad: Rotation angle [rad]
  * @return Rotation matrix
  */
 template <size_t R = 3, typename T = double>
-Matrix<R, R, T> rotx(const double& theta);
+Matrix<R, R, T> MakeRotationMatrixX(const double& theta_rad);
 
 /**
- * @fn roty
+ * @fn MakeRotationMatrixY
  * @brief Generate 3*3 rotation matrix around Y-axis
- * @param [in] theta: Rotation angle [rad]
+ * @param [in] theta_rad: Rotation angle [rad]
  * @return Rotation matrix
  */
 template <size_t R = 3, typename T = double>
-Matrix<R, R, T> roty(const double& theta);
+Matrix<R, R, T> MakeRotationMatrixY(const double& theta_rad);
 
 /**
- * @fn rotz
+ * @fn MakeRotationMatrixZ
  * @brief Generate 3*3 rotation matrix around Z-axis
- * @param [in] theta: Rotation angle [rad]
+ * @param [in] theta_rad: Rotation angle [rad]
  * @return Rotation matrix
  */
 template <size_t R = 3, typename T = double>
-Matrix<R, R, T> rotz(const double& theta);
+Matrix<R, R, T> MakeRotationMatrixZ(const double& theta_rad);
 
 }  // namespace libra
 
-#include "matrix_inline_functions.hpp"
 #include "matrix_template_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_MATRIX_HPP_

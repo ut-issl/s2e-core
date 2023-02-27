@@ -22,28 +22,29 @@ OrbitalElements::OrbitalElements(const double epoch_jday, const double semi_majo
       epoch_jday_(epoch_jday) {}
 
 // initialize with position and velocity
-OrbitalElements::OrbitalElements(const double mu_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
+OrbitalElements::OrbitalElements(const double gravity_constant_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
                                  const libra::Vector<3> velocity_i_m_s) {
-  CalcOeFromPosVel(mu_m3_s2, time_jday, position_i_m, velocity_i_m_s);
+  CalcOeFromPosVel(gravity_constant_m3_s2, time_jday, position_i_m, velocity_i_m_s);
 }
 
 OrbitalElements::~OrbitalElements() {}
 
 // Private Function
-void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_jday, const libra::Vector<3> r_i_m, const libra::Vector<3> v_i_m_s) {
+void OrbitalElements::CalcOeFromPosVel(const double gravity_constant_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
+                                       const libra::Vector<3> velocity_i_m_s) {
   // common variables
-  double r_m = norm(r_i_m);
-  double v2_m2_s2 = inner_product(v_i_m_s, v_i_m_s);
-  libra::Vector<3> h;
-  h = outer_product(r_i_m, v_i_m_s);
-  double h_norm = norm(h);
+  double r_m = CalcNorm(position_i_m);
+  double v2_m2_s2 = InnerProduct(velocity_i_m_s, velocity_i_m_s);
+  libra::Vector<3> h;  //!< angular momentum vector
+  h = OuterProduct(position_i_m, velocity_i_m_s);
+  double h_norm = CalcNorm(h);
 
   // semi major axis
-  semi_major_axis_m_ = mu_m3_s2 / (2.0 * mu_m3_s2 / r_m - v2_m2_s2);
+  semi_major_axis_m_ = gravity_constant_m3_s2 / (2.0 * gravity_constant_m3_s2 / r_m - v2_m2_s2);
 
   // inclination
   libra::Vector<3> h_direction = h;
-  h_direction = normalize(h_direction);
+  h_direction = Normalize(h_direction);
   inclination_rad_ = acos(h_direction[2]);
 
   // RAAN
@@ -55,18 +56,18 @@ void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_
     raan_rad_ = asin(h[0] / sqrt(h[0] * h[0] + h[1] * h[1]));
   }
   // position in plane
-  double x_p_m = r_i_m[0] * cos(raan_rad_) + r_i_m[1] * sin(raan_rad_);
-  double tmp_m = -r_i_m[0] * sin(raan_rad_) + r_i_m[1] * cos(raan_rad_);
-  double y_p_m = tmp_m * cos(inclination_rad_) + r_i_m[2] * sin(inclination_rad_);
+  double x_p_m = position_i_m[0] * cos(raan_rad_) + position_i_m[1] * sin(raan_rad_);
+  double tmp_m = -position_i_m[0] * sin(raan_rad_) + position_i_m[1] * cos(raan_rad_);
+  double y_p_m = tmp_m * cos(inclination_rad_) + position_i_m[2] * sin(inclination_rad_);
 
   // velocity in plane
-  double dx_p_m_s = v_i_m_s[0] * cos(raan_rad_) + v_i_m_s[1] * sin(raan_rad_);
-  double dtmp_m_s = -v_i_m_s[0] * sin(raan_rad_) + v_i_m_s[1] * cos(raan_rad_);
-  double dy_p_m_s = dtmp_m_s * cos(inclination_rad_) + v_i_m_s[2] * sin(inclination_rad_);
+  double dx_p_m_s = velocity_i_m_s[0] * cos(raan_rad_) + velocity_i_m_s[1] * sin(raan_rad_);
+  double dtmp_m_s = -velocity_i_m_s[0] * sin(raan_rad_) + velocity_i_m_s[1] * cos(raan_rad_);
+  double dy_p_m_s = dtmp_m_s * cos(inclination_rad_) + velocity_i_m_s[2] * sin(inclination_rad_);
 
   // eccentricity
-  double t1 = (h_norm / mu_m3_s2) * dy_p_m_s - x_p_m / r_m;
-  double t2 = -(h_norm / mu_m3_s2) * dx_p_m_s - y_p_m / r_m;
+  double t1 = (h_norm / gravity_constant_m3_s2) * dy_p_m_s - x_p_m / r_m;
+  double t2 = -(h_norm / gravity_constant_m3_s2) * dx_p_m_s - y_p_m / r_m;
   eccentricity_ = sqrt(t1 * t1 + t2 * t2);
 
   // arg perigee
@@ -81,7 +82,7 @@ void OrbitalElements::CalcOeFromPosVel(const double mu_m3_s2, const double time_
   u_rad = libra::WrapTo2Pi(u_rad);
 
   // epoch t0
-  double n_rad_s = sqrt(mu_m3_s2 / pow(semi_major_axis_m_, 3.0));
+  double n_rad_s = sqrt(gravity_constant_m3_s2 / pow(semi_major_axis_m_, 3.0));
   double dt_s = (u_rad - eccentricity_ * sin(u_rad)) / n_rad_s;
   epoch_jday_ = time_jday - dt_s / (24.0 * 60.0 * 60.0);
 }

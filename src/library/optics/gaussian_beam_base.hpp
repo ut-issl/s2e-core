@@ -18,10 +18,10 @@ class GaussianBeamBase {
    * @fn GaussianBeamBase
    * @brief Constructor
    * @param [in] wavelength_m: Wavelength [m]
-   * @param [in] r_beam_waist_m: Radius of beam waist [m]
-   * @param [in] total_power_watt: Total power [W]
+   * @param [in] radius_beam_waist_m: Radius of beam waist [m]
+   * @param [in] total_power_W: Total power [W]
    */
-  GaussianBeamBase(double wavelength_m, double r_beam_waist_m, double total_power_watt);
+  GaussianBeamBase(double wavelength_m, double radius_beam_waist_m, double total_power_W);
   /**
    * @fn ~GaussianBeamBase
    * @brief Destructor
@@ -30,81 +30,81 @@ class GaussianBeamBase {
 
   // Setter
   /**
-   * @fn SetWaveLength
+   * @fn SetWaveLength_m
    * @brief Set wavelength [m]
    */
-  void SetWaveLength(const double wavelength_m);
+  void SetWaveLength_m(const double wavelength_m);
   /**
-   * @fn SetBeamWaistRadius
+   * @fn SetBeamWaistRadius_m
    * @brief Set radius of beam waist [m]
    */
-  void SetBeamWaistRadius(const double r_beam_waist_m);
+  void SetBeamWaistRadius_m(const double radius_beam_waist_m);
   /**
-   * @fn SetTotalPower
+   * @fn SetTotalPower_W
    * @brief Set total power [W]
    */
-  void SetTotalPower(const double total_power_watt);
+  void SetTotalPower_W(const double total_power_W);
   /**
    * @fn SetPointingVector_i
    * @brief Set pointing direction vector in the inertial frame
    */
   void SetPointingVector_i(const libra::Vector<3> pointing_vector_i);
   /**
-   * @fn SetBeamWaistPos_i
+   * @fn SetBeamWaistPosition_i_m
    * @brief Set position of beam waist in the inertial frame [m] (Not used?)
    */
-  void SetBeamWaistPos_i(const libra::Vector<3> pos_beamwaist_i);
+  void SetBeamWaistPosition_i_m(const libra::Vector<3> position_beam_waist_i_m);
 
   // Getter
   /**
-   * @fn GetWaveLength
+   * @fn GetWaveLength_m
    * @brief Return wavelength [m]
    */
-  inline double GetWaveLength() const { return wavelength_m_; }
+  inline double GetWaveLength_m() const { return wavelength_m_; }
   /**
-   * @fn GetBeamWaistRadius
+   * @fn GetBeamWaistRadius_m
    * @brief Return radius of beam waist [m]
    */
-  inline double GetBeamWaistRadius() const { return r_beam_waist_m_; }
+  inline double GetBeamWaistRadius_m() const { return radius_beam_waist_m_; }
   /**
-   * @fn GetTotalPower
+   * @fn GetTotalPower_W
    * @brief Return total power [W]
    */
-  inline double GetTotalPower() const { return total_power_watt_; }
+  inline double GetTotalPower_W() const { return total_power_W_; }
   /**
    * @fn GetPointingVector_i
    * @brief Return pointing direction vector in the inertial frame
    */
   inline const libra::Vector<3> GetPointingVector_i() const { return pointing_vector_i_; }
   /**
-   * @fn GetBeamWaistPos_i
+   * @fn GetBeamWaistPosition_i_m
    * @brief Return position of beam waist in the inertial frame [m] (Not used?)
    */
-  inline const libra::Vector<3> GetBeamWaistPos_i() const { return pos_beamwaist_i_; }
+  inline const libra::Vector<3> GetBeamWaistPosition_i_m() const { return position_beam_waist_i_m_; }
 
   // Calculate functions
   /**
-   * @fn CalcBeamWidthRadius
+   * @fn CalcBeamWidthRadius_m
    * @brief
-   * @param [in] distance_from_beamwaist_m: Distance from beamwaist [m]
-   * @return Beam width radius
+   * @param [in] distance_from_beam_waist_m: Distance from beam waist [m]
+   * @return Beam width radius [m]
    */
-  double CalcBeamWidthRadius(double distance_from_beamwaist_m);
+  double CalcBeamWidthRadius_m(double distance_from_beam_waist_m);
   /**
-   * @fn CalcIntensity
+   * @fn CalcIntensity_W_m2
    * @brief
-   * @param [in] distance_from_beamwaist_m: Distance from beamwaist [m]
+   * @param [in] distance_from_beam_waist_m: Distance from beam waist [m]
    * @param [in] deviation_from_optical_axis_m: Deviation from optical axis [m]
-   * @return Intensity
+   * @return Intensity [W/m2]
    */
-  double CalcIntensity(double distance_from_beamwaist_m, double deviation_from_optical_axis_m);
+  double CalcIntensity_W_m2(double distance_from_beam_waist_m, double deviation_from_optical_axis_m);
 
  private:
-  double wavelength_m_;                      //!< Wavelength [m]
-  double r_beam_waist_m_;                    //!< Radius of beam waist [m]
-  double total_power_watt_;                  //!< Total power [W]
-  libra::Vector<3> pointing_vector_i_{0.0};  //!< Pointing direction vector in the inertial frame
-  libra::Vector<3> pos_beamwaist_i_{0.0};    //!< Position of beam waist in the inertial frame [m] (Not used?)
+  double wavelength_m_;                            //!< Wavelength [m]
+  double radius_beam_waist_m_;                     //!< Radius of beam waist [m]
+  double total_power_W_;                           //!< Total power [W]
+  libra::Vector<3> pointing_vector_i_{0.0};        //!< Pointing direction vector in the inertial frame
+  libra::Vector<3> position_beam_waist_i_m_{0.0};  //!< Position of beam waist in the inertial frame [m] (Not used?)
 };
 
 #endif  // S2E_LIBRARY_OPTICS_GAUSSIAN_BEAM_BASE_HPP_

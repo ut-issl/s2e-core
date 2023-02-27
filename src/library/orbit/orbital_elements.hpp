@@ -34,12 +34,13 @@ class OrbitalElements {
   /**
    * @fn OrbitalElements
    * @brief Constructor: Initialize with position and velocity
-   * @param[in] mu_m3_s2: Gravity constant [m3/s2]
+   * @param[in] gravity_constant_m3_s2: Gravity constant [m3/s2]
    * @param[in] time_jday: Time expressed as Julian day
    * @param[in] position_i_m: Position vector in the inertial frame [m]
    * @param[in] velocity_i_m_s: Velocity vector in the inertial frame [m/s]
    */
-  OrbitalElements(const double mu_m3_s2, const double time_jday, const libra::Vector<3> position_i_m, const libra::Vector<3> velocity_i_m_s);
+  OrbitalElements(const double gravity_constant_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
+                  const libra::Vector<3> velocity_i_m_s);
   /**
    * @fn ~OrbitalElements
    * @brief Destructor
@@ -48,35 +49,35 @@ class OrbitalElements {
 
   // Getter
   /**
-   * @fn GetSemiMajor
+   * @fn GetSemiMajorAxis_m
    * @brief Return semi major axis [m]
    */
-  inline double GetSemiMajor() const { return semi_major_axis_m_; }
+  inline double GetSemiMajorAxis_m() const { return semi_major_axis_m_; }
   /**
    * @fn GetEccentricity
    * @brief Return eccentricity
    */
   inline double GetEccentricity() const { return eccentricity_; }
   /**
-   * @fn GetInclination
+   * @fn GetInclination_rad
    * @brief Return inclination [rad]
    */
-  inline double GetInclination() const { return inclination_rad_; }
+  inline double GetInclination_rad() const { return inclination_rad_; }
   /**
-   * @fn GetRaan
+   * @fn GetRaan_rad
    * @brief Return Right Ascension of the Ascending Node [rad]
    */
-  inline double GetRaan() const { return raan_rad_; }
+  inline double GetRaan_rad() const { return raan_rad_; }
   /**
-   * @fn GetArgPerigee
+   * @fn GetArgPerigee_rad
    * @brief Return argument of Perigee [rad]
    */
-  inline double GetArgPerigee() const { return arg_perigee_rad_; }
+  inline double GetArgPerigee_rad() const { return arg_perigee_rad_; }
   /**
-   * @fn GetEpoch
+   * @fn GetEpoch_jday
    * @brief Return epoch (time at the perigee) [julian day]
    */
-  inline double GetEpoch() const { return epoch_jday_; }
+  inline double GetEpoch_jday() const { return epoch_jday_; }
 
  private:
   // Common Variables
@@ -91,8 +92,16 @@ class OrbitalElements {
   double epoch_jday_;  //!< epoch (time at the perigee) [julian day]
 
   // Functions
-  // Calculation of Orbital Elements from Position and Velocity
-  void CalcOeFromPosVel(const double mu_m3_s2, const double time_jday, const libra::Vector<3> r_i_m, const libra::Vector<3> v_i_m_s);
+  /**
+   * @fn CalcOeFromPosVel
+   * @brief Calculation of Orbital Elements from Position and Velocity
+   * @param[in] gravity_constant_m3_s2: Gravity Constant of the center body
+   * @param[in] time_jday: Time expressed as Julian day
+   * @param[in] position_i_m: Position vector in the inertial frame [m]
+   * @param[in] velocity_i_m_s: Velocity vector in the inertial frame [m/s]
+   */
+  void CalcOeFromPosVel(const double gravity_constant_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
+                        const libra::Vector<3> velocity_i_m_s);
 };
 
 #endif  // S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_HPP_

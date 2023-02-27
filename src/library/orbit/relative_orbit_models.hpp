@@ -16,30 +16,30 @@
 enum class RelativeOrbitModel { Hill = 0 };
 
 /**
- * @enum STMModel
+ * @enum StmModel
  * @brief State Transition Matrix for the relative orbit
  */
-enum class STMModel { HCW = 0 };
+enum class StmModel { HCW = 0 };
 
 // Dynamics Models
 /**
- * @fn CalculateHillSystemMatrix
+ * @fn CalcHillSystemMatrix
  * @brief Calculate Hill System Matrix
- * @param [in] orbit_radius: Orbit radius [m]
- * @param [in] mu: Gravity constant of the center body [m3/s2]
+ * @param [in] orbit_radius_m: Orbit radius [m]
+ * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
  * @return System matrix
  */
-libra::Matrix<6, 6> CalculateHillSystemMatrix(double orbit_radius, double mu);
+libra::Matrix<6, 6> CalcHillSystemMatrix(const double orbit_radius_m, const double gravity_constant_m3_s2);
 
 // STMs
 /**
- * @fn CalculateHCWSTM
+ * @fn CalcHcwStm
  * @brief Calculate HCW State Transition Matrix
- * @param [in] orbit_radius: Orbit radius [m]
- * @param [in] mu: Gravity constant of the center body [m3/s2]
- * @param [in] mu: Elapsed time [s]
+ * @param [in] orbit_radius_m: Orbit radius [m]
+ * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
+ * @param [in] elapsed_time_s: Elapsed time [s]
  * @return State Transition Matrix
  */
-libra::Matrix<6, 6> CalculateHCWSTM(double orbit_radius, double mu, double elapsed_sec);
+libra::Matrix<6, 6> CalcHcwStm(const double orbit_radius_m, const double gravity_constant_m3_s2, const double elapsed_time_s);
 
 #endif  // S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_HPP_

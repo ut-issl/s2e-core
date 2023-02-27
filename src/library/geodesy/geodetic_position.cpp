@@ -58,28 +58,28 @@ libra::Vector<3> GeodeticPosition::CalcEcefPosition() const {
 
   double theta = FMod2p(longitude_rad_);
   double e2 = flattening * (2.0 - flattening);
-  double c = 1 / sqrt(1.0 - e2 * sin(latitude_rad_) * sin(latitude_rad_));
-  double N = c * earth_radius_m;
+  double c = 1.0 / sqrt(1.0 - e2 * sin(latitude_rad_) * sin(latitude_rad_));
+  double n = c * earth_radius_m;
 
   libra::Vector<3> pos_ecef_m;
-  pos_ecef_m(0) = (N + altitude_m_) * cos(latitude_rad_) * cos(theta);
-  pos_ecef_m(1) = (N + altitude_m_) * cos(latitude_rad_) * sin(theta);
-  pos_ecef_m(2) = (N * (1 - e2) + altitude_m_) * sin(latitude_rad_);
+  pos_ecef_m(0) = (n + altitude_m_) * cos(latitude_rad_) * cos(theta);
+  pos_ecef_m(1) = (n + altitude_m_) * cos(latitude_rad_) * sin(theta);
+  pos_ecef_m(2) = (n * (1.0 - e2) + altitude_m_) * sin(latitude_rad_);
 
   return pos_ecef_m;
 }
 
 void GeodeticPosition::CalcQuaternionXcxfToLtc() {
-  libra::Matrix<3, 3> trans_mat_xcxf_to_ltc;
-  trans_mat_xcxf_to_ltc[0][0] = -sin(longitude_rad_);
-  trans_mat_xcxf_to_ltc[0][1] = cos(longitude_rad_);
-  trans_mat_xcxf_to_ltc[0][2] = 0;
-  trans_mat_xcxf_to_ltc[1][0] = -sin(latitude_rad_) * cos(longitude_rad_);
-  trans_mat_xcxf_to_ltc[1][1] = -sin(latitude_rad_) * sin(longitude_rad_);
-  trans_mat_xcxf_to_ltc[1][2] = cos(latitude_rad_);
-  trans_mat_xcxf_to_ltc[2][0] = cos(latitude_rad_) * cos(longitude_rad_);
-  trans_mat_xcxf_to_ltc[2][1] = cos(latitude_rad_) * sin(longitude_rad_);
-  trans_mat_xcxf_to_ltc[2][2] = sin(latitude_rad_);
+  libra::Matrix<3, 3> dcm_xcxf_to_ltc;
+  dcm_xcxf_to_ltc[0][0] = -sin(longitude_rad_);
+  dcm_xcxf_to_ltc[0][1] = cos(longitude_rad_);
+  dcm_xcxf_to_ltc[0][2] = 0;
+  dcm_xcxf_to_ltc[1][0] = -sin(latitude_rad_) * cos(longitude_rad_);
+  dcm_xcxf_to_ltc[1][1] = -sin(latitude_rad_) * sin(longitude_rad_);
+  dcm_xcxf_to_ltc[1][2] = cos(latitude_rad_);
+  dcm_xcxf_to_ltc[2][0] = cos(latitude_rad_) * cos(longitude_rad_);
+  dcm_xcxf_to_ltc[2][1] = cos(latitude_rad_) * sin(longitude_rad_);
+  dcm_xcxf_to_ltc[2][2] = sin(latitude_rad_);
 
-  q_xcxf_to_ltc_ = q_xcxf_to_ltc_.fromDCM(trans_mat_xcxf_to_ltc);
+  quaternion_xcxf_to_ltc_ = quaternion_xcxf_to_ltc_.ConvertFromDcm(dcm_xcxf_to_ltc);
 }

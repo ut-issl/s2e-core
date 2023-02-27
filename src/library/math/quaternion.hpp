@@ -21,44 +21,52 @@ class Quaternion {
    * @fn Quaternion
    * @brief Default constructor without any initialization
    */
-  inline Quaternion();
+  inline Quaternion() {}
   /**
    * @fn Quaternion
    * @brief Constructor with initialization
-   * @param [in] q0: The first element of Quaternion (X)
-   * @param [in] q1: The second element of Quaternion (Y)
-   * @param [in] q2: The third element of Quaternion (Z)
-   * @param [in] q3: The fourth element of Quaternion (W)
+   * @param [in] quaternion_x: The first element of Quaternion (X)
+   * @param [in] quaternion_y: The second element of Quaternion (Y)
+   * @param [in] quaternion_z: The third element of Quaternion (Z)
+   * @param [in] quaternion_w: The fourth element of Quaternion (W)
    */
-  inline Quaternion(double q0, double q1, double q2, double q3);
+  inline Quaternion(const double quaternion_x, const double quaternion_y, const double quaternion_z, const double quaternion_w) {
+    quaternion_[0] = quaternion_x;
+    quaternion_[1] = quaternion_y;
+    quaternion_[2] = quaternion_z;
+    quaternion_[3] = quaternion_w;
+  }
   /**
    * @fn Quaternion
    * @brief Constructor initialized with vector
-   * @param [in] cv: Vector storing quaternion
+   * @param [in] quaternion_vector: Vector storing quaternion
    */
-  inline Quaternion(const Vector<4>& cv);
+  inline Quaternion(const Vector<4>& quaternion_vector) : quaternion_(quaternion_vector) {}
   /**
    * @fn Quaternion
    * @brief Constructor initialized with rotation expression
-   * @param [in] axis: Rotation axis normalized vector
-   * @param [in] rot: Rotation angle [rad]
+   * @param [in] rotation_axis: Rotation axis normalized vector
+   * @param [in] rotation_angle_rad: Rotation angle [rad]
    */
-  Quaternion(const Vector<3>& axis, double rot);
+  Quaternion(const Vector<3>& rotation_axis, const double rotation_angle_rad);
   /**
    * @fn Quaternion
-   * @brief Constructor initialized with rotates v_before to match v_after
-   * @param [in] v_before: Vector before rotation
-   * @param [in] v_after: Vector after rotation
+   * @brief Constructor initialized with rotates vector_before to match vector_after
+   * @param [in] vector_before: Vector before rotation
+   * @param [in] vector_after: Vector after rotation
    */
-  Quaternion(const Vector<3>& v_before, const Vector<3>& v_after);
+  Quaternion(const Vector<3>& vector_before, const Vector<3>& vector_after);
 
   /**
    * @fn Operator =
    * @brief Substitute Vector value to Quaternion
-   * @param [in] cv: Vector
+   * @param [in] quaternion_vector: Vector
    * @return Quaternion
    */
-  inline Quaternion& operator=(const Vector<4>& cv);
+  inline Quaternion& operator=(const Vector<4>& quaternion_vector) {
+    quaternion_ = quaternion_vector;
+    return *this;
+  }
 
   /**
    * @fn Cast operator to const Vector<4>
@@ -66,99 +74,89 @@ class Quaternion {
    * @note Users can use Quaternion as Vector<4> object
    * @return Const reference to the internal Vector<4>
    */
-  inline operator const Vector<4>&() const;
-
-  /**
-   * @fn set
-   * @brief Set the quaternion elements
-   * @param [in] q0: The first element of Quaternion (X)
-   * @param [in] q1: The second element of Quaternion (Y)
-   * @param [in] q2: The third element of Quaternion (Z)
-   * @param [in] q3: The fourth element of Quaternion (W)
-   */
-  void set(double q0 = 0.0, double q1 = 0.0, double q2 = 0.0, double q3 = 1.0);
+  inline operator const Vector<4>&() const { return quaternion_; }
 
   /**
    * @fn Cast operator
    * @brief Operator to directly access the element like array with [] operator
    */
-  inline operator double*();
+  inline operator double*() { return quaternion_; }
 
   /**
    * @fn Cast operator (const ver.)
    * @brief Operator to directly access the element like array with [] operator
    */
-  inline operator const double*() const;
+  inline operator const double*() const { return quaternion_; }
 
   /**
-   * @fn normalize
+   * @fn Normalize
    * @brief Normalize the quaternion
    * @return Normalized quaternion
    */
-  Quaternion normalize(void);
+  Quaternion Normalize(void);
 
   /**
-   * @fn conjugate
-   * @brief Calculate conjugate quaternion
+   * @fn Conjugate
+   * @brief Calculate Conjugate quaternion
    * @return Conjugated quaternion
    */
-  Quaternion conjugate(void) const;
+  Quaternion Conjugate(void) const;
 
   /**
-   * @fn toDCM
+   * @fn ConvertToDcm
    * @brief Convert quaternion to Direction Cosine Matrix
    * @return DCM
    */
-  Matrix<3, 3> toDCM(void) const;
+  Matrix<3, 3> ConvertToDcm(void) const;
 
   /**
-   * @fn fromDCM
+   * @fn ConvertFromDcm
    * @brief Convert Direction Cosine Matrix to quaternion
    * @param [in] dcm: DCM
    * @return Quaternion
    */
-  static Quaternion fromDCM(Matrix<3, 3> dcm);
+  static Quaternion ConvertFromDcm(const Matrix<3, 3> dcm);
 
   /**
-   * @fn toEuler
+   * @fn ConvertToEuler
    * @brief Convert quaternion to 3-2-1 Euler angles
    * @return Euler angle (1, 2, 3 order)
    */
-  Vector<3> toEuler(void) const;
+  Vector<3> ConvertToEuler(void) const;
 
   /**
-   * @fn fromEuler
+   * @fn ConvertFromEuler
    * @brief Convert Euler angle to quaternion
    * @param [in] euler: 3-2-1 Euler angle (1, 2, 3 order)
    * @return Quaternion
    */
-  static Quaternion fromEuler(Vector<3> euler);
+  static Quaternion ConvertFromEuler(const Vector<3> euler);
 
   /**
-   * @fn frame_conv
+   * @fn FrameConversion
    * @brief Frame conversion for the given target vector with the quaternion
-   * @param [in] cv: Target vector
+   * @param [in] vector: Target vector
    * @return Converted vector
    */
-  Vector<3> frame_conv(const Vector<3>& cv) const;
+  Vector<3> FrameConversion(const Vector<3>& vector) const;
 
   /**
-   * @fn frame_conv_inv
+   * @fn InverseFrameConversion
    * @brief Frame conversion for the given target vector with the inverse quaternion
-   * @param [in] cv: Target vector
+   * @param [in] vector: Target vector
    * @return Converted vector
    */
-  Vector<3> frame_conv_inv(const Vector<3>& cv) const;
+  Vector<3> InverseFrameConversion(const Vector<3>& vector) const;
 
   /**
-   * @fn toVector
+   * @fn ConvertToVector
    * @brief Convert quaternion to Vector<4>
    * @return Vector<4>
    */
-  Vector<4> toVector();
+  Vector<4> ConvertToVector();
 
  private:
-  Vector<4> q_;  //!< Vector to store the element of quaternion
+  Vector<4> quaternion_;  //!< Vector to store the element of quaternion
 };
 
 /**
@@ -206,7 +204,5 @@ Quaternion operator*(const Quaternion& lhs, const Vector<3>& rhs);
  */
 Quaternion operator*(const double& lhs, const Quaternion& rhs);
 }  // namespace libra
-
-#include "quaternion_inline_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_QUATERNION_HPP_

@@ -47,7 +47,7 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     RelativeOrbit::RelativeOrbitUpdateMethod update_method =
         (RelativeOrbit::RelativeOrbitUpdateMethod)(conf.ReadInt(section_, "relative_orbit_update_method"));
     RelativeOrbitModel relative_dynamics_model_type = (RelativeOrbitModel)(conf.ReadInt(section_, "relative_dynamics_model_type"));
-    STMModel stm_model_type = (STMModel)(conf.ReadInt(section_, "stm_model_type"));
+    StmModel stm_model_type = (StmModel)(conf.ReadInt(section_, "stm_model_type"));
 
     libra::Vector<3> init_relative_position_lvlh;
     conf.ReadVector<3>(section_, "initial_relative_position_lvlh_m", init_relative_position_lvlh);
@@ -111,7 +111,7 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
   }
 
   orbit->SetIsCalcEnabled(conf.ReadEnable(section_, "calculation"));
-  orbit->IsLogEnabled = conf.ReadEnable(section_, "logging");
+  orbit->is_log_enabled_ = conf.ReadEnable(section_, "logging");
   return orbit;
 }
 
@@ -133,7 +133,7 @@ libra::Vector<6> InitializePosVel(std::string initialize_file, double current_ti
     OrbitalElements oe(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
     KeplerOrbit kepler_orbit(gravity_constant_m3_s2, oe);
 
-    kepler_orbit.CalcPosVel(current_time_jd);
+    kepler_orbit.CalcOrbit(current_time_jd);
     position_i_m = kepler_orbit.GetPosition_i_m();
     velocity_i_m_s = kepler_orbit.GetVelocity_i_m_s();
   } else if (initialize_mode == OrbitInitializeMode::kInertialPositionAndVelocity) {

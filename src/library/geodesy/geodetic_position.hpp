@@ -44,32 +44,32 @@ class GeodeticPosition {
 
   // Getter
   /**
-   * @fn GetLat_rad
+   * @fn GetLatitude_rad
    * @brief Return latitude [rad]
    */
-  inline double GetLat_rad() const { return latitude_rad_; }
+  inline double GetLatitude_rad() const { return latitude_rad_; }
   /**
-   * @fn GetLon_rad
+   * @fn GetLongitude_rad
    * @brief Return longitude [rad]
    */
-  inline double GetLon_rad() const { return longitude_rad_; }
+  inline double GetLongitude_rad() const { return longitude_rad_; }
   /**
-   * @fn GetAlt_m
+   * @fn GetAltitude_m
    * @brief Return altitude [m]
    */
-  inline double GetAlt_m() const { return altitude_m_; }
+  inline double GetAltitude_m() const { return altitude_m_; }
   /**
    * @fn GetQuaternionXcxfToLtc
    * @brief Conversion quaternion from XCXF (e.g. ECEF) to LTC frame
    */
-  inline libra::Quaternion GetQuaternionXcxfToLtc() const { return q_xcxf_to_ltc_; }
+  inline libra::Quaternion GetQuaternionXcxfToLtc() const { return quaternion_xcxf_to_ltc_; }
 
  private:
   double latitude_rad_;   //!< Latitude [rad] South: -π/2 to 0, North: 0 to π/2
   double longitude_rad_;  //!< Longitude [rad] East: 0 to π, West: 2π to π (i.e., defined as 0 to 2π [rad] east of the Greenwich meridian)
   double altitude_m_;     //!< Altitude [m]
 
-  libra::Quaternion q_xcxf_to_ltc_;  //!< Conversion quaternion from XCXF (e.g. ECEF) to LTC (Local Topographic Coordinate)
+  libra::Quaternion quaternion_xcxf_to_ltc_;  //!< Conversion quaternion from XCXF (e.g. ECEF) to LTC (Local Topographic Coordinate)
 
   /**
    * @fn CalcQuaternionXcxfToLtc

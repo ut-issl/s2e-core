@@ -70,7 +70,7 @@ class Orbit : public ILoggable {
    * @param [in] quaternion_i2b: End time of simulation [sec]
    */
   inline void UpdateByAttitude(const libra::Quaternion quaternion_i2b) {
-    spacecraft_velocity_b_m_s_ = quaternion_i2b.frame_conv(spacecraft_velocity_i_m_s_);
+    spacecraft_velocity_b_m_s_ = quaternion_i2b.FrameConversion(spacecraft_velocity_i_m_s_);
   }
 
   // Getters
@@ -116,14 +116,14 @@ class Orbit : public ILoggable {
   inline GeodeticPosition GetGeodeticPosition() const { return spacecraft_geodetic_position_; }
 
   // TODO delete the following functions
-  inline double GetLat_rad() const { return spacecraft_geodetic_position_.GetLat_rad(); }
-  inline double GetLon_rad() const { return spacecraft_geodetic_position_.GetLon_rad(); }
-  inline double GetAlt_m() const { return spacecraft_geodetic_position_.GetAlt_m(); }
+  inline double GetLatitude_rad() const { return spacecraft_geodetic_position_.GetLatitude_rad(); }
+  inline double GetLongitude_rad() const { return spacecraft_geodetic_position_.GetLongitude_rad(); }
+  inline double GetAltitude_m() const { return spacecraft_geodetic_position_.GetAltitude_m(); }
   inline libra::Vector<3> GetLatLonAlt() const {
     libra::Vector<3> vec;
-    vec(0) = spacecraft_geodetic_position_.GetLat_rad();
-    vec(1) = spacecraft_geodetic_position_.GetLon_rad();
-    vec(2) = spacecraft_geodetic_position_.GetAlt_m();
+    vec(0) = spacecraft_geodetic_position_.GetLatitude_rad();
+    vec(1) = spacecraft_geodetic_position_.GetLongitude_rad();
+    vec(2) = spacecraft_geodetic_position_.GetAltitude_m();
     return vec;
   }
 
@@ -162,7 +162,7 @@ class Orbit : public ILoggable {
    * @param [in] spacecraft_mass_kg: Mass of spacecraft [kg]
    */
   inline void AddForce_b_N(const libra::Vector<3> force_b_N, const libra::Quaternion quaternion_i2b, const double spacecraft_mass_kg) {
-    auto force_i = quaternion_i2b.frame_conv_inv(force_b_N);
+    auto force_i = quaternion_i2b.InverseFrameConversion(force_b_N);
     AddForce_i_N(force_i, spacecraft_mass_kg);
   }
 

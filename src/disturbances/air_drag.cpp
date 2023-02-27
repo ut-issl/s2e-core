@@ -29,7 +29,7 @@ void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& 
 }
 
 void AirDrag::CalcCoefficients(const libra::Vector<3>& velocity_b_m_s, const double air_density_kg_m3) {
-  double velocity_norm_m_s = norm(velocity_b_m_s);
+  double velocity_norm_m_s = CalcNorm(velocity_b_m_s);
   CalcCnCt(velocity_b_m_s);
   for (size_t i = 0; i < surfaces_.size(); i++) {
     double k = 0.5 * air_density_kg_m3 * velocity_norm_m_s * velocity_norm_m_s * surfaces_[i].GetArea();
@@ -53,7 +53,7 @@ double AirDrag::CalcFunctionChi(const double s) {
 }
 
 void AirDrag::CalcCnCt(const Vector<3>& velocity_b_m_s) {
-  double velocity_norm_m_s = norm(velocity_b_m_s);
+  double velocity_norm_m_s = CalcNorm(velocity_b_m_s);
 
   // Re-emitting speed
   double speed =

@@ -31,7 +31,7 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
   double cell_area;
   cell_area = sap_conf.ReadDouble(Section, "cell_area_m2");
 
-  Vector<3> normal_vector;
+  libra::Vector<3> normal_vector;
   sap_conf.ReadVector(Section, "normal_vector_b", normal_vector);
 
   double cell_efficiency;
@@ -67,7 +67,7 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
   double cell_area;
   cell_area = sap_conf.ReadDouble(Section, "cell_area_m2");
 
-  Vector<3> normal_vector;
+  libra::Vector<3> normal_vector;
   sap_conf.ReadVector(Section, "normal_vector_b", normal_vector);
 
   double cell_efficiency;

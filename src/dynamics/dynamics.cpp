@@ -65,6 +65,6 @@ void Dynamics::ClearForceTorque(void) {
 }
 
 void Dynamics::LogSetup(Logger& logger) {
-  logger.AddLoggable(attitude_);
-  logger.AddLoggable(orbit_);
+  logger.AddLogList(attitude_);
+  logger.AddLogList(orbit_);
 }

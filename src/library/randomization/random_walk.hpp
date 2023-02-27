@@ -15,29 +15,29 @@
  * @brief Class to calculate random wark value
  */
 template <size_t N>
-class RandomWalk : public libra::ODE<N> {
+class RandomWalk : public libra::OrdinaryDifferentialEquation<N> {
  public:
   /**
    * @fn RandomWalk
    * @brief Constructor
-   * @param step_width: Step width
-   * @param stddev: Standard deviation of random walk excitation noise
+   * @param step_width_s: Step width
+   * @param standard_deviation: Standard deviation of random walk excitation noise
    * @param limit: Limit of random walk
    */
-  RandomWalk(double step_width, const libra::Vector<N>& stddev, const libra::Vector<N>& limit);
+  RandomWalk(double step_width_s, const libra::Vector<N>& standard_deviation, const libra::Vector<N>& limit);
 
   /**
-   * @fn RHS
-   * @brief Override function of ODE to define the difference equation
+   * @fn DerivativeFunction
+   * @brief Override function of OrdinaryDifferentialEquation to define the difference equation
    * @param [in] x: Independent variable (e.g. time)
    * @param [in] state: State vector
    * @param [out] rhs: Differentiated value of state vector
    */
-  virtual void RHS(double x, const libra::Vector<N>& state, libra::Vector<N>& rhs);
+  virtual void DerivativeFunction(double x, const libra::Vector<N>& state, libra::Vector<N>& rhs);
 
  private:
-  libra::Vector<N> limit_;    //!< Limit of random walk
-  libra::NormalRand nrs_[N];  //!< Random walk excitation noise
+  libra::Vector<N> limit_;                  //!< Limit of random walk
+  libra::NormalRand normal_randomizer_[N];  //!< Random walk excitation noise
 };
 
 #include "random_walk_template_functions.hpp"  // template function definisions.

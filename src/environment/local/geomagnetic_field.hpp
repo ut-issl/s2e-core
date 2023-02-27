@@ -47,15 +47,15 @@ class GeomagneticField : public ILoggable {
                          const libra::Quaternion quaternion_i2b);
 
   /**
-   * @fn GetGeomagneticFieldneticField_i_nT
+   * @fn GetGeomagneticField_i_nT
    * @brief Return magnetic field vector in the inertial frame [nT]
    */
-  inline libra::Vector<3> GetGeomagneticFieldneticField_i_nT() const { return magnetic_field_i_nT_; }
+  inline libra::Vector<3> GetGeomagneticField_i_nT() const { return magnetic_field_i_nT_; }
   /**
-   * @fn GetGeomagneticFieldneticField_b_nT
+   * @fn GetGeomagneticField_b_nT
    * @brief Return magnetic field vector in the body fixed frame [nT]
    */
-  inline libra::Vector<3> GetGeomagneticFieldneticField_b_nT() const { return magnetic_field_b_nT_; }
+  inline libra::Vector<3> GetGeomagneticField_b_nT() const { return magnetic_field_b_nT_; }
 
   // Override ILoggable
   /**

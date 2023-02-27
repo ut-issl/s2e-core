@@ -1,6 +1,6 @@
 /**
  * @file ordinary_differential_equation.hpp
- * @brief Class for Ordinary Difference Equation
+ * @brief Class for Ordinary Differential Equation
  */
 
 #ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_HPP_
@@ -11,83 +11,38 @@
 namespace libra {
 
 /**
- * @class ODE
- * @brief Class for Ordinary Difference Equation
+ * @class OrdinaryDifferentialEquation
+ * @brief Class for Ordinary Differential Equation
  */
 template <size_t N>
-class ODE {
+class OrdinaryDifferentialEquation {
  public:
   /**
-   * @fn ODE
+   * @fn OrdinaryDifferentialEquation
    * @brief Constructor
    * @param [in] step_width: Step width
    */
-  ODE(double step_width);
+  OrdinaryDifferentialEquation(double step_width);
   /**
-   * @fn ~ODE
+   * @fn ~OrdinaryDifferentialEquation
    * @brief Destructor
    */
-  inline virtual ~ODE();
+  inline virtual ~OrdinaryDifferentialEquation() {}
 
   /**
-   * @fn RHS
+   * @fn DerivativeFunction
    * @brief Pure virtual function to define the difference equation
-   * @param [in] x: Independent variable (e.g. time)
+   * @param [in] independent_variable: Independent variable (e.g. time)
    * @param [in] state: State vector
-   * @param [out] rhs: Differentiated value of state vector
+   * @param [out] derivative: Differentiated value of state vector
    */
-  virtual void RHS(double x, const Vector<N>& state, Vector<N>& rhs) = 0;
-
-  /**
-   * @fn setup
-   * @brief Initialize the state vector
-   * @param [in] init_x: Initial value of independent variable
-   * @param [in] init_cond: Initial condition of the state vector
-   */
-  void setup(double init_x, const Vector<N>& init_cond);
-  /**
-   * @fn setStepWidth
-   * @brief Initialize the state vector
-   * @param [in] new_step: Initial value of independent variable
-   */
-  void setStepWidth(double new_step);
-
-  /**
-   * @fn step_width
-   * @brief Return step width
-   */
-  inline double step_width() const;
-
-  /**
-   * @fn x
-   * @brief Return current independent variable
-   */
-  inline double x() const;
-
-  /**
-   * @fn state
-   * @brief Return current state vector
-   */
-  inline const Vector<N>& state() const;
-
-  /**
-   * @fn operator []
-   * @brief Return element of current state vector
-   * @param [in] n: Target element number
-   */
-  inline double operator[](int n) const;
-
-  /**
-   * @fn rhs
-   * @brief Return const reference of differentiate state vector
-   */
-  inline const Vector<N>& rhs() const;
+  virtual void DerivativeFunction(double independent_variable, const Vector<N>& state, Vector<N>& derivative) = 0;
 
   /**
    * @fn operator ++
    * @brief Update the state
    */
-  ODE& operator++();
+  OrdinaryDifferentialEquation& operator++();
 
   /**
    * @fn Update
@@ -95,23 +50,69 @@ class ODE {
    */
   void Update();
 
+  /**
+   * @fn Setup
+   * @brief Initialize the state vector
+   * @param [in] initial_independent_variable: Initial value of independent variable
+   * @param [in] initial_state: Initial condition of the state vector
+   */
+  void Setup(const double initial_independent_variable, const Vector<N>& initial_state);
+
+  /**
+   * @fn SetStepWidth
+   * @brief Initialize the state vector
+   * @param [in] step_width: Step width
+   */
+  inline void SetStepWidth(const double step_width) { step_width_ = step_width; }
+
+  // Getter
+  /**
+   * @fn GetStepWidth
+   * @brief Return step width
+   */
+  inline double GetStepWidth() const { return step_width_; }
+
+  /**
+   * @fn GetIndependentVariable
+   * @brief Return current independent variable
+   */
+  inline double GetIndependentVariable() const { return independent_variable_; }
+
+  /**
+   * @fn GetState
+   * @brief Return current state vector
+   */
+  inline const Vector<N>& GetState() const { return state_; }
+
+  /**
+   * @fn GetDerivative
+   * @brief Return const reference of differentiate state vector
+   */
+  inline const Vector<N>& GetDerivative() const { return derivative_; }
+
+  /**
+   * @fn operator []
+   * @brief Return element of current state vector
+   * @param [in] n: Target element number
+   */
+  inline double operator[](int n) const { return state_[n]; }
+
  protected:
   /**
-   * @fn state
+   * @fn GetState
    * @brief Return current state vector for inheriting class
    */
-  inline libra::Vector<N>& state();
+  inline libra::Vector<N>& GetState() { return state_; }
 
  private:
-  double x_;           //!< Latest value of independent variable
-  Vector<N> state_;    //!< Latest state vector
-  Vector<N> rhs_;      //!< Latest differentiate of the state vector
-  double step_width_;  //!< Step width
+  double independent_variable_;  //!< Latest value of independent variable
+  Vector<N> state_;              //!< Latest state vector
+  Vector<N> derivative_;         //!< Latest differentiate of the state vector
+  double step_width_;            //!< Step width
 };
 
 }  // namespace libra
 
-#include "./ordinary_differential_equation_inline_functions.hpp"
 #include "./ordinary_differential_equation_template_functions.hpp"
 
 #endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_HPP_

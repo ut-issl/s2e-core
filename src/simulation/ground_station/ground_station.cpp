@@ -39,13 +39,13 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
 
   elevation_limit_angle_deg_ = conf.ReadDouble(Section, "elevation_limit_angle_deg");
 
-  config->main_logger_->CopyFileToLogDir(gs_ini_path);
+  config->main_logger_->CopyFileToLogDirectory(gs_ini_path);
 }
 
-void GroundStation::LogSetup(Logger& logger) { logger.AddLoggable(this); }
+void GroundStation::LogSetup(Logger& logger) { logger.AddLogList(this); }
 
 void GroundStation::Update(const CelestialRotation& celes_rotation, const Spacecraft& spacecraft) {
-  Matrix<3, 3> dcm_ecef2eci = transpose(celes_rotation.GetDcmJ2000ToXcxf());
+  Matrix<3, 3> dcm_ecef2eci = Transpose(celes_rotation.GetDcmJ2000ToXcxf());
   gs_position_i_ = dcm_ecef2eci * gs_position_ecef_;
 
   is_visible_[spacecraft.GetSatID()] = CalcIsVisible(spacecraft.GetDynamics().GetOrbit().GetPosition_ecef_m());
@@ -54,8 +54,8 @@ void GroundStation::Update(const CelestialRotation& celes_rotation, const Spacec
 bool GroundStation::CalcIsVisible(const Vector<3> sc_pos_ecef_m) {
   Quaternion q_ecef_to_ltc = gs_position_geo_.GetQuaternionXcxfToLtc();
 
-  Vector<3> sc_pos_ltc = q_ecef_to_ltc.frame_conv(sc_pos_ecef_m - gs_position_ecef_);  // Satellite position in LTC frame [m]
-  normalize(sc_pos_ltc);
+  Vector<3> sc_pos_ltc = q_ecef_to_ltc.FrameConversion(sc_pos_ecef_m - gs_position_ecef_);  // Satellite position in LTC frame [m]
+  Normalize(sc_pos_ltc);
   Vector<3> dir_gs_to_zenith = Vector<3>(0);
   dir_gs_to_zenith[2] = 1;
 

@@ -112,9 +112,9 @@ class STT : public ComponentBase, public ILoggable {
   libra::Vector<3> ortho2_;                             //!< The second orthogonal direction of sight at component frame
 
   // Noise parameters
-  libra::Ran1 rot_;            //!< Randomize object for orthogonal direction
-  libra::NormalRand n_ortho_;  //!< Random noise for orthogonal direction of sight [rad]
-  libra::NormalRand n_sight_;  //!< Random noise for sight direction [rad]
+  libra::MinimalStandardLcgWithShuffle rot_;  //!< Randomize object for orthogonal direction
+  libra::NormalRand n_ortho_;                 //!< Random noise for orthogonal direction of sight [rad]
+  libra::NormalRand n_sight_;                 //!< Random noise for sight direction [rad]
 
   // Delay emulation parameters
   int MAX_DELAY;                      //!< Max delay

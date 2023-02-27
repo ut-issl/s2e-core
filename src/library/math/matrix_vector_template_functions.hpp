@@ -11,37 +11,37 @@
 namespace libra {
 
 template <size_t R, size_t C, typename TM, typename TC>
-Vector<R, TC> operator*(const Matrix<R, C, TM>& m, const Vector<C, TC>& v) {
+Vector<R, TC> operator*(const Matrix<R, C, TM>& matrix, const Vector<C, TC>& vector) {
   Vector<R, TC> temp(0.0);
   for (size_t i = 0; i < R; ++i) {
     for (size_t j = 0; j < C; ++j) {
-      temp[i] += m[i][j] * v[j];
+      temp[i] += matrix[i][j] * vector[j];
     }
   }
   return temp;
 }
 
 template <std::size_t N>
-Matrix<N, N> invert(const Matrix<N, N>& a) {
-  Matrix<N, N> temp(a);
+Matrix<N, N> CalcInverseMatrix(const Matrix<N, N>& matrix) {
+  Matrix<N, N> temp(matrix);
   unsigned int index[N];
-  ludcmp(temp, index);
+  LuDecomposition(temp, index);
 
-  Matrix<N, N> inv;
-  Vector<N> v;
+  Matrix<N, N> inverse;
+  Vector<N> vector;
   for (size_t i = 0; i < N; ++i) {
-    fill_up(v, 0.0);
-    v[i] = 1.0;
-    lubksb(temp, index, v);
+    FillUp(vector, 0.0);
+    vector[i] = 1.0;
+    SolveLinearSystemWithLu(temp, index, vector);
     for (size_t j = 0; j < N; ++j) {
-      inv[j][i] = v[j];
+      inverse[j][i] = vector[j];
     }
   }
-  return inv;
+  return inverse;
 }
 
 template <std::size_t N>
-Matrix<N, N>& ludcmp(Matrix<N, N>& a, unsigned int index[]) {
+Matrix<N, N>& LuDecomposition(Matrix<N, N>& a, unsigned int index[]) {
   double coef[N];
   for (size_t i = 0; i < N; ++i) {
     double biggest = 0.0;
@@ -109,7 +109,7 @@ Matrix<N, N>& ludcmp(Matrix<N, N>& a, unsigned int index[]) {
 }
 
 template <std::size_t N>
-Vector<N>& lubksb(const Matrix<N, N>& a, const unsigned int index[], Vector<N>& b) {
+Vector<N>& SolveLinearSystemWithLu(const Matrix<N, N>& a, const unsigned int index[], Vector<N>& b) {
   double sum;
   bool non_zero = false;
   unsigned int mark = 0;

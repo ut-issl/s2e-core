@@ -22,7 +22,7 @@ GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
 
   GeomagneticField mag_env(fname, mag_rwdev, mag_rwlimit, mag_wnvar);
   mag_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
-  mag_env.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
+  mag_env.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 
   return mag_env;
 }
@@ -34,7 +34,7 @@ SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::str
 
   SolarRadiationPressureEnvironment srp_env(local_celestial_information);
   srp_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
-  srp_env.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
+  srp_env.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 
   return srp_env;
 }
@@ -67,7 +67,7 @@ Atmosphere InitAtmosphere(std::string initialize_file_path) {
 
   Atmosphere atmosphere(model, table_path, rho_stddev, is_manual_param_used, manual_daily_f107, manual_average_f107, manual_ap);
   atmosphere.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
-  atmosphere.IsLogEnabled = conf.ReadEnable(section, LOG_LABEL);
+  atmosphere.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 
   return atmosphere;
 }

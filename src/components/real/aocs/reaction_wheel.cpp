@@ -18,11 +18,11 @@ static double rpm2angularVelocity(double rpm) { return rpm * libra::tau / 60.0; 
 static double angularVelocity2rpm(double angular_velocity) { return angular_velocity * 60.0 / libra::tau; }
 
 RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, const int id, double step_width, double dt_main_routine,
-                 double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm, Quaternion q_b2c, Vector<3> pos_b,
-                 double dead_time, Vector<3> driving_lag_coef, Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
-                 vector<vector<double>> radial_force_harmonics_coef, vector<vector<double>> radial_torque_harmonics_coef,
-                 double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance, bool drive_flag,
-                 double init_velocity)
+                 double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm, libra::Quaternion q_b2c,
+                 libra::Vector<3> pos_b, double dead_time, libra::Vector<3> driving_lag_coef, libra::Vector<3> coasting_lag_coef,
+                 bool is_calc_jitter_enabled, bool is_log_jitter_enabled, vector<vector<double>> radial_force_harmonics_coef,
+                 vector<vector<double>> radial_torque_harmonics_coef, double structural_resonance_freq, double damping_factor, double bandwidth,
+                 bool considers_structural_resonance, bool drive_flag, double init_velocity)
     : ComponentBase(prescaler, clock_gen, fast_prescaler),
       id_(id),
       inertia_(inertia),
@@ -45,9 +45,10 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, c
 }
 
 RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, PowerPort *power_port, const int id, double step_width,
-                 double dt_main_routine, double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm, Quaternion q_b2c,
-                 Vector<3> pos_b, double dead_time, Vector<3> driving_lag_coef, Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled,
-                 bool is_log_jitter_enabled, vector<vector<double>> radial_force_harmonics_coef, vector<vector<double>> radial_torque_harmonics_coef,
+                 double dt_main_routine, double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm,
+                 libra::Quaternion q_b2c, libra::Vector<3> pos_b, double dead_time, libra::Vector<3> driving_lag_coef,
+                 libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
+                 vector<vector<double>> radial_force_harmonics_coef, vector<vector<double>> radial_torque_harmonics_coef,
                  double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance, bool drive_flag,
                  double init_velocity)
     : ComponentBase(prescaler, clock_gen, power_port, fast_prescaler),
@@ -72,13 +73,13 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, P
 }
 
 void RWModel::Initialize() {
-  direction_c_ = Vector<3>(0.0);
+  direction_c_ = libra::Vector<3>(0.0);
   direction_c_[2] = 1.0;
-  direction_b_ = q_b2c_.frame_conv_inv(direction_c_);
+  direction_b_ = q_b2c_.InverseFrameConversion(direction_c_);
 
   velocity_limit_rpm_ = max_velocity_rpm_;
-  output_torque_b_ = Vector<3>(0.0);
-  angular_momentum_b_ = Vector<3>(0.0);
+  output_torque_b_ = libra::Vector<3>(0.0);
+  angular_momentum_b_ = libra::Vector<3>(0.0);
   target_accl_ = 0.0;
   int len_buffer = (int)floor(dead_time_ / dt_main_routine_) + 1;
   delay_buffer_accl_.assign(len_buffer, 0.0);
@@ -104,7 +105,7 @@ void RWModel::PowerOffRoutine() { drive_flag_ = 0; }
 // Jitter calculation
 void RWModel::FastUpdate() { rw_jitter_.CalcJitter(angular_velocity_rad_); }
 
-Vector<3> RWModel::CalcTorque() {
+libra::Vector<3> RWModel::CalcTorque() {
   double pre_angular_velocity_rad = angular_velocity_rad_;
   if (!drive_flag_)  // RW power off -> coasting mode
   {
@@ -133,7 +134,7 @@ Vector<3> RWModel::CalcTorque() {
     delay_buffer_accl_.push_back(target_accl_);
     delay_buffer_accl_.erase(delay_buffer_accl_.begin());
   }
-  // Calc RW ODE
+  // Calc RW OrdinaryDifferentialEquation
   int itr_num = (int)ceil(dt_main_routine_ / step_width_);
   for (int i = 0; i < itr_num; i++) {
     ++ode_angular_velocity_;  // propagate()
@@ -151,7 +152,7 @@ Vector<3> RWModel::CalcTorque() {
 const libra::Vector<3> RWModel::GetOutputTorqueB() const {
   if (is_calculated_jitter_) {
     // Add jitter_force_b_-derived torque and jitter_torque_b_ to output_torqur_b
-    return output_torque_b_ - libra::outer_product(pos_b_, rw_jitter_.GetJitterForceB()) - rw_jitter_.GetJitterTorqueB();
+    return output_torque_b_ - libra::OuterProduct(pos_b_, rw_jitter_.GetJitterForceB()) - rw_jitter_.GetJitterTorqueB();
   } else {
     return output_torque_b_;
   }

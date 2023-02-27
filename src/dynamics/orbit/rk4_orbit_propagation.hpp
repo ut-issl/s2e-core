@@ -15,7 +15,7 @@
  * @class Rk4OrbitPropagation
  * @brief Class to propagate spacecraft orbit with Runge-Kutta-4 method
  */
-class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
+class Rk4OrbitPropagation : public Orbit, public libra::OrdinaryDifferentialEquation<6> {
  public:
   /**
    * @fn Rk4OrbitPropagation
@@ -35,15 +35,15 @@ class Rk4OrbitPropagation : public Orbit, public libra::ODE<6> {
    */
   ~Rk4OrbitPropagation();
 
-  // Override ODE
+  // Override OrdinaryDifferentialEquation
   /**
-   * @fn RHS
+   * @fn DerivativeFunction
    * @brief Right Hand Side of ordinary difference equation
    * @param [in] t: Time as independent variable
    * @param [in] state: Position and velocity as state vector
    * @param [out] rhs: Output of the function
    */
-  virtual void RHS(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs);
+  virtual void DerivativeFunction(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs);
 
   // Override Orbit
   /**

@@ -40,9 +40,9 @@ SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen, P
 SimpleThruster::~SimpleThruster() {}
 
 void SimpleThruster::Initialize(const double mag_err, const double dir_err) {
-  mag_nr_.set_param(0.0, mag_err);
-  dir_nr_.set_param(0.0, dir_err);
-  thrust_dir_b_ = normalize(thrust_dir_b_);
+  mag_nr_.SetParameters(0.0, mag_err);
+  dir_nr_.SetParameters(0.0, dir_err);
+  thrust_dir_b_ = Normalize(thrust_dir_b_);
 }
 
 void SimpleThruster::MainRoutine(int count) {
@@ -65,7 +65,7 @@ void SimpleThruster::CalcThrust() {
 
 void SimpleThruster::CalcTorque(Vector<3> center) {
   Vector<3> vector_center2thruster = thruster_pos_b_ - center;
-  Vector<3> torque = outer_product(vector_center2thruster, thrust_b_);
+  Vector<3> torque = OuterProduct(vector_center2thruster, thrust_b_);
 
   torque_b_ = torque;
 }
@@ -85,7 +85,7 @@ std::string SimpleThruster::GetLogValue() const {
 
   str_tmp += WriteVector(thrust_b_);
   str_tmp += WriteVector(torque_b_);
-  str_tmp += WriteScalar(norm(thrust_b_));
+  str_tmp += WriteScalar(CalcNorm(thrust_b_));
 
   return str_tmp;
 }
@@ -108,10 +108,10 @@ Vector<3> SimpleThruster::CalcThrustDir() {
     }
 
     Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);
-    Vector<3> axis_rot = make_axis_rot.frame_conv(ex);
+    Vector<3> axis_rot = make_axis_rot.FrameConversion(ex);
 
-    Quaternion err_rot(axis_rot, dir_nr_);                      // Generate error quaternion
-    thrust_dir_b_true = err_rot.frame_conv(thrust_dir_b_true);  // Add error
+    Quaternion err_rot(axis_rot, dir_nr_);                           // Generate error quaternion
+    thrust_dir_b_true = err_rot.FrameConversion(thrust_dir_b_true);  // Add error
   }
 
   return thrust_dir_b_true;

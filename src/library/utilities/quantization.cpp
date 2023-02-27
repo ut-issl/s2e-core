@@ -5,9 +5,9 @@
 
 #include "quantization.hpp"
 
-double quantization(double continuous_num, double resolution) {
-  int bin_num = (int)((double)continuous_num / resolution);
+double quantization(const double continuous_number, const double resolution) {
+  int bin_num = (int)((double)continuous_number / resolution);
   return (double)bin_num * resolution;
 }
 
-float quantization_f(double continuous_num, double resolution) { return (float)quantization(continuous_num, resolution); }
+float quantization_float(const double continuous_number, const double resolution) { return (float)quantization(continuous_number, resolution); }

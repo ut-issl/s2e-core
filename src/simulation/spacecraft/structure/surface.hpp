@@ -72,7 +72,7 @@ class Surface {
    */
   inline void SetNormal_b(const Vector<3> normal_b) {
     normal_ = normal_b;
-    normal_ = normalize(normal_);
+    normal_ = Normalize(normal_);
   }
   /**
    * @fn SetArea

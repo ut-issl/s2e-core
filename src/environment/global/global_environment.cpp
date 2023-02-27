@@ -41,8 +41,8 @@ void GlobalEnvironment::Update() {
 }
 
 void GlobalEnvironment::LogSetup(Logger& logger) {
-  logger.AddLoggable(simulation_time_);
-  logger.AddLoggable(celestial_information_);
+  logger.AddLogList(simulation_time_);
+  logger.AddLogList(celestial_information_);
 }
 
 void GlobalEnvironment::Reset(void) { simulation_time_->ResetClock(); }

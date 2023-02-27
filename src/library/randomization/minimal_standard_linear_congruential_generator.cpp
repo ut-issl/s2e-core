@@ -5,31 +5,31 @@
  */
 
 #include "minimal_standard_linear_congruential_generator.hpp"
-using libra::Ran0;
+using libra::MinimalStandardLcg;
 
 #include <stdexcept>
 
-const double Ran0::AM_ = 1.0 / Ran0::M;
+const double MinimalStandardLcg::a_m_ = 1.0 / MinimalStandardLcg::kM;
 
-Ran0::Ran0() : seed_(0xdeadbeef) {}
+MinimalStandardLcg::MinimalStandardLcg() : seed_(0xdeadbeef) {}
 
-Ran0::Ran0(long seed) : seed_(seed) {
+MinimalStandardLcg::MinimalStandardLcg(const long seed) : seed_(seed) {
   if (seed == 0) {
-    throw std::invalid_argument("Ran0:: seed is 0.");
+    throw std::invalid_argument("MinimalStandardLcg:: seed is 0.");
   }
 }
-void Ran0::init(long seed) {
+void MinimalStandardLcg::Initialize(const long seed) {
   if (seed == 0) {
-    throw std::invalid_argument("Ran0:: seed is 0.");
+    throw std::invalid_argument("MinimalStandardLcg:: seed is 0.");
   }
   seed_ = seed;
 }
 
-Ran0::operator double() {
-  long k = seed_ / Q_;
-  seed_ = A * (seed_ - k * Q_) - R_ * k;
+MinimalStandardLcg::operator double() {
+  long k = seed_ / q_;
+  seed_ = kA * (seed_ - k * q_) - r_ * k;
   if (seed_ < 0) {
-    seed_ += M;
+    seed_ += kM;
   }
-  return AM_ * seed_;
+  return a_m_ * seed_;
 }

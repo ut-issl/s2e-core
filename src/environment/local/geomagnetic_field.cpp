@@ -26,9 +26,9 @@ void GeomagneticField::CalcMagneticField(const double decimal_year, const double
                                          const libra::Quaternion quaternion_i2b) {
   if (!IsCalcEnabled) return;
 
-  const double lat_rad = position.GetLat_rad();
-  const double lon_rad = position.GetLon_rad();
-  const double alt_m = position.GetAlt_m();
+  const double lat_rad = position.GetLatitude_rad();
+  const double lon_rad = position.GetLongitude_rad();
+  const double alt_m = position.GetAltitude_m();
 
   double magnetic_field_array_i_nT[3];
   IgrfCalc(decimal_year, lat_rad, lon_rad, alt_m, sidereal_day, magnetic_field_array_i_nT);
@@ -36,7 +36,7 @@ void GeomagneticField::CalcMagneticField(const double decimal_year, const double
   for (int i = 0; i < 3; ++i) {
     magnetic_field_i_nT_[i] = magnetic_field_array_i_nT[i];
   }
-  magnetic_field_b_nT_ = quaternion_i2b.frame_conv(magnetic_field_i_nT_);
+  magnetic_field_b_nT_ = quaternion_i2b.FrameConversion(magnetic_field_i_nT_);
 }
 
 void GeomagneticField::AddNoise(double* magnetic_field_array_i_nT) {
@@ -44,7 +44,7 @@ void GeomagneticField::AddNoise(double* magnetic_field_array_i_nT) {
   static libra::Vector<3> limit(random_walk_limit_nT_);
   static RandomWalk<3> random_walk(0.1, standard_deviation, limit);
 
-  static libra::NormalRand white_noise(0.0, white_noise_standard_deviation_nT_, g_rand.MakeSeed());
+  static libra::NormalRand white_noise(0.0, white_noise_standard_deviation_nT_, global_randomization.MakeSeed());
 
   for (int i = 0; i < 3; ++i) {
     magnetic_field_array_i_nT[i] += random_walk[i] + white_noise;

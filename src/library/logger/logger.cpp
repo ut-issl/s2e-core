@@ -13,12 +13,13 @@
 #include <sys/stat.h>
 #endif
 
-std::vector<ILoggable *> loggables_;
+std::vector<ILoggable *> log_list_;
 
-Logger::Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool enable_inilog, bool enable) {
+Logger::Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool enable_ini_file_save,
+               const bool enable) {
   is_enabled_ = enable;
-  is_open_ = false;
-  is_enabled_inilog_ = enable_inilog;
+  is_file_opened_ = false;
+  is_ini_save_enabled_ = enable_ini_file_save;
 
   // Get current time to append it to the filename
   time_t timer = time(NULL);
@@ -28,7 +29,7 @@ Logger::Logger(const std::string &file_name, const std::string &data_path, const
   strftime(start_time_c, 64, "%y%m%d_%H%M%S", now);
 
   // Create directory
-  if (is_enabled_inilog_ == true)
+  if (is_ini_save_enabled_ == true)
     directory_path_ = CreateDirectory(data_path, start_time_c);
   else
     directory_path_ = data_path;
@@ -37,32 +38,31 @@ Logger::Logger(const std::string &file_name, const std::string &data_path, const
   file_path << directory_path_ << start_time_c << "_" << file_name;
   if (is_enabled_) {
     csv_file_.open(file_path.str());
-    is_open_ = csv_file_.is_open();
-    if (!is_open_) std::cerr << "Error opening log file: " << file_path.str() << std::endl;
+    is_file_opened_ = csv_file_.is_open();
+    if (!is_file_opened_) std::cerr << "Error opening log file: " << file_path.str() << std::endl;
   }
-  registered_num_ = 0;
 
   // Copy SimBase.ini
-  CopyFileToLogDir(ini_file_name);
+  CopyFileToLogDirectory(ini_file_name);
 }
 
 Logger::~Logger(void) {
-  if (is_open_) {
+  if (is_file_opened_) {
     csv_file_.close();
   }
 }
 
-void Logger::WriteHeaders(bool add_newline) {
-  for (auto itr = loggables_.begin(); itr != loggables_.end(); ++itr) {
-    if (!((*itr)->IsLogEnabled)) continue;
+void Logger::WriteHeaders(const bool add_newline) {
+  for (auto itr = log_list_.begin(); itr != log_list_.end(); ++itr) {
+    if (!((*itr)->is_log_enabled_)) continue;
     Write((*itr)->GetLogHeader());
   }
   if (add_newline) WriteNewLine();
 }
 
-void Logger::WriteValues(bool add_newline) {
-  for (auto itr = loggables_.begin(); itr != loggables_.end(); ++itr) {
-    if (!((*itr)->IsLogEnabled)) continue;
+void Logger::WriteValues(const bool add_newline) {
+  for (auto itr = log_list_.begin(); itr != log_list_.end(); ++itr) {
+    if (!((*itr)->is_log_enabled_)) continue;
     Write((*itr)->GetLogValue());
   }
   if (add_newline) WriteNewLine();
@@ -70,15 +70,15 @@ void Logger::WriteValues(bool add_newline) {
 
 void Logger::WriteNewLine() { Write("\n"); }
 
-void Logger::Write(std::string log, bool flag) {
+void Logger::Write(const std::string log, const bool flag) {
   if (flag && is_enabled_) {
     csv_file_ << log;
   }
 }
 
-void Logger::AddLoggable(ILoggable *loggable) { loggables_.push_back(loggable); }
+void Logger::AddLogList(ILoggable *loggable) { log_list_.push_back(loggable); }
 
-void Logger::ClearLoggables() { loggables_.clear(); }
+void Logger::ClearLogList() { log_list_.clear(); }
 
 std::string Logger::CreateDirectory(const std::string &data_path, const std::string &time) {
   std::string directory_path_tmp_ = data_path + "/logs_" + time + "/";
@@ -97,10 +97,10 @@ std::string Logger::CreateDirectory(const std::string &data_path, const std::str
   return directory_path_tmp_;
 }
 
-void Logger::CopyFileToLogDir(const std::string &ini_file_name) {
+void Logger::CopyFileToLogDirectory(const std::string &ini_file_name) {
   using std::ios;
 
-  if (is_enabled_inilog_ == false) return;
+  if (is_ini_save_enabled_ == false) return;
   // Copy files to the directory
   std::string file_name = GetFileName(ini_file_name);
   std::string to_file_name = directory_path_ + file_name;

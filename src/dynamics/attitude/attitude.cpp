@@ -47,9 +47,9 @@ void Attitude::SetParameters(const MCSimExecutor& mc_simulator) { GetInitParamet
 void Attitude::CalcAngularMomentum(void) {
   angular_momentum_spacecraft_b_Nms_ = inertia_tensor_kgm2_ * angular_velocity_b_rad_s_;
   angular_momentum_total_b_Nms_ = angular_momentum_reaction_wheel_b_Nms_ + angular_momentum_spacecraft_b_Nms_;
-  libra::Quaternion q_b2i = quaternion_i2b_.conjugate();
-  angular_momentum_total_i_Nms_ = q_b2i.frame_conv(angular_momentum_total_b_Nms_);
-  angular_momentum_total_Nms_ = norm(angular_momentum_total_i_Nms_);
+  libra::Quaternion q_b2i = quaternion_i2b_.Conjugate();
+  angular_momentum_total_i_Nms_ = q_b2i.FrameConversion(angular_momentum_total_b_Nms_);
+  angular_momentum_total_Nms_ = CalcNorm(angular_momentum_total_i_Nms_);
 
-  kinetic_energy_J_ = 0.5 * libra::inner_product(angular_momentum_spacecraft_b_Nms_, angular_velocity_b_rad_s_);
+  kinetic_energy_J_ = 0.5 * libra::InnerProduct(angular_momentum_spacecraft_b_Nms_, angular_velocity_b_rad_s_);
 }
