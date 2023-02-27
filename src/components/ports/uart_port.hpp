@@ -9,30 +9,30 @@
 #include <library/utilities/ring_buffer.hpp>
 
 /**
- * @class SCIPort
+ * @class UartPort
  * @brief Class to emulate SCI(Serial Communication Interface) communication port
  * @details Compatible with anything that performs data communication (UART, I2C, SPI).
  * The distinction of the area should be done where the upper port ID is assigned.
  */
-class SCIPort {
+class UartPort {
  public:
   /**
-   * @fn SCIPort
+   * @fn UartPort
    * @brief Default Constructor. Initialized as default settings.
    */
-  SCIPort();
+  UartPort();
   /**
-   * @fn SCIPort
+   * @fn UartPort
    * @brief Constructor
    * @param [in] rx_buffer_size: RX(Component -> OBC) buffer size
    * @param [in] tx_buffer_size: TX(OBC -> Component) buffer size
    */
-  SCIPort(const unsigned int rx_buffer_size, const unsigned int tx_buffer_size);
+  UartPort(const unsigned int rx_buffer_size, const unsigned int tx_buffer_size);
   /**
-   * @fn ~SCIPort
+   * @fn ~UartPort
    * @brief Destructor
    */
-  ~SCIPort();
+  ~UartPort();
 
   /**
    * @fn WriteTx

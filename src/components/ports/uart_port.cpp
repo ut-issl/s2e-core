@@ -5,9 +5,9 @@
 
 #include "uart_port.hpp"
 
-SCIPort::SCIPort() : SCIPort(kDefaultBufferSize, kDefaultBufferSize) {}
+UartPort::UartPort() : UartPort(kDefaultBufferSize, kDefaultBufferSize) {}
 
-SCIPort::SCIPort(const unsigned int rx_buffer_size, const unsigned int tx_buffer_size) {
+UartPort::UartPort(const unsigned int rx_buffer_size, const unsigned int tx_buffer_size) {
   unsigned int checked_rx_buffer_size = rx_buffer_size;
   unsigned int checked_tx_buffer_size = tx_buffer_size;
   if (rx_buffer_size <= 0) checked_rx_buffer_size = kDefaultBufferSize;
@@ -16,23 +16,23 @@ SCIPort::SCIPort(const unsigned int rx_buffer_size, const unsigned int tx_buffer
   tx_buffer_ = new RingBuffer(checked_tx_buffer_size);
 }
 
-SCIPort::~SCIPort() {
+UartPort::~UartPort() {
   delete rx_buffer_;
   delete tx_buffer_;
 }
 
-int SCIPort::WriteTx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+int UartPort::WriteTx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
   return tx_buffer_->Write(buffer, offset, data_length);
 }
 
-int SCIPort::WriteRx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+int UartPort::WriteRx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
   return rx_buffer_->Write(buffer, offset, data_length);
 }
 
-int SCIPort::ReadTx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+int UartPort::ReadTx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
   return tx_buffer_->Read(buffer, offset, data_length);
 }
 
-int SCIPort::ReadRx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+int UartPort::ReadRx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
   return rx_buffer_->Read(buffer, offset, data_length);
 }

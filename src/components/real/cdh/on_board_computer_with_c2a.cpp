@@ -12,7 +12,7 @@
 #include "src_core/c2a_core_main.h"
 #endif
 
-std::map<int, SCIPort*> OBC_C2A::com_ports_c2a_;
+std::map<int, UartPort*> OBC_C2A::com_ports_c2a_;
 std::map<int, I2cPort*> OBC_C2A::i2c_com_ports_c2a_;
 std::map<int, GpioPort*> OBC_C2A::gpio_ports_c2a_;
 
@@ -66,7 +66,7 @@ int OBC_C2A::ConnectComPort(int port_id, int tx_buffer_size, int rx_buffer_size)
     // Port already used
     return -1;
   }
-  com_ports_c2a_[port_id] = new SCIPort(tx_buffer_size, rx_buffer_size);
+  com_ports_c2a_[port_id] = new UartPort(tx_buffer_size, rx_buffer_size);
   return 0;
 }
 
@@ -75,7 +75,7 @@ int OBC_C2A::CloseComPort(int port_id) {
   // Port not used
   if (com_ports_c2a_[port_id] == nullptr) return -1;
 
-  SCIPort* port = com_ports_c2a_.at(port_id);
+  UartPort* port = com_ports_c2a_.at(port_id);
   delete port;
   com_ports_c2a_.erase(port_id);
   return 0;
@@ -86,13 +86,13 @@ int OBC_C2A::SendFromObc(int port_id, unsigned char* buffer, int offset, int cou
 }
 
 int OBC_C2A::ReceivedByCompo(int port_id, unsigned char* buffer, int offset, int count) {
-  SCIPort* port = com_ports_c2a_[port_id];
+  UartPort* port = com_ports_c2a_[port_id];
   if (port == nullptr) return -1;
   return port->ReadTx(buffer, offset, count);
 }
 
 int OBC_C2A::SendFromCompo(int port_id, unsigned char* buffer, int offset, int count) {
-  SCIPort* port = com_ports_c2a_[port_id];
+  UartPort* port = com_ports_c2a_[port_id];
   if (port == nullptr) return -1;
   return port->WriteRx(buffer, offset, count);
 }
@@ -103,12 +103,12 @@ int OBC_C2A::ReceivedByObc(int port_id, unsigned char* buffer, int offset, int c
 
 // Static functions
 int OBC_C2A::SendFromObc_C2A(int port_id, unsigned char* buffer, int offset, int count) {
-  SCIPort* port = com_ports_c2a_[port_id];
+  UartPort* port = com_ports_c2a_[port_id];
   if (port == nullptr) return -1;
   return port->WriteTx(buffer, offset, count);
 }
 int OBC_C2A::ReceivedByObc_C2A(int port_id, unsigned char* buffer, int offset, int count) {
-  SCIPort* port = com_ports_c2a_[port_id];
+  UartPort* port = com_ports_c2a_[port_id];
   if (port == nullptr) return -1;
   return port->ReadRx(buffer, offset, count);
 }

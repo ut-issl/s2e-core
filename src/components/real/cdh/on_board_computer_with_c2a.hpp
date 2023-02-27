@@ -265,7 +265,7 @@ class OBC_C2A : public OBC {
    */
   void Initialize();
 
-  static std::map<int, SCIPort*> com_ports_c2a_;      //!< UART ports
+  static std::map<int, UartPort*> com_ports_c2a_;     //!< UART ports
   static std::map<int, I2cPort*> i2c_com_ports_c2a_;  //!< I2C ports
   static std::map<int, GpioPort*> gpio_ports_c2a_;    //!< GPIO ports
 };

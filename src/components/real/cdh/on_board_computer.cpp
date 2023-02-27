@@ -26,7 +26,7 @@ int OBC::ConnectComPort(int port_id, int tx_buffer_size, int rx_buffer_size) {
     // Port already used
     return -1;
   }
-  com_ports_[port_id] = new SCIPort(tx_buffer_size, rx_buffer_size);
+  com_ports_[port_id] = new UartPort(tx_buffer_size, rx_buffer_size);
   return 0;
 }
 
@@ -35,32 +35,32 @@ int OBC::CloseComPort(int port_id) {
   // Port not used
   if (com_ports_[port_id] == nullptr) return -1;
 
-  SCIPort* port = com_ports_.at(port_id);
+  UartPort* port = com_ports_.at(port_id);
   delete port;
   com_ports_.erase(port_id);
   return 0;
 }
 
 int OBC::SendFromObc(int port_id, unsigned char* buffer, int offset, int count) {
-  SCIPort* port = com_ports_[port_id];
+  UartPort* port = com_ports_[port_id];
   if (port == nullptr) return -1;
   return port->WriteTx(buffer, offset, count);
 }
 
 int OBC::ReceivedByCompo(int port_id, unsigned char* buffer, int offset, int count) {
-  SCIPort* port = com_ports_[port_id];
+  UartPort* port = com_ports_[port_id];
   if (port == nullptr) return -1;
   return port->ReadTx(buffer, offset, count);
 }
 
 int OBC::SendFromCompo(int port_id, unsigned char* buffer, int offset, int count) {
-  SCIPort* port = com_ports_[port_id];
+  UartPort* port = com_ports_[port_id];
   if (port == nullptr) return -1;
   return port->WriteRx(buffer, offset, count);
 }
 
 int OBC::ReceivedByObc(int port_id, unsigned char* buffer, int offset, int count) {
-  SCIPort* port = com_ports_[port_id];
+  UartPort* port = com_ports_[port_id];
   if (port == nullptr) return -1;
   return port->ReadRx(buffer, offset, count);
 }
