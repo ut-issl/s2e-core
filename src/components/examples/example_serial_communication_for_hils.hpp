@@ -20,7 +20,7 @@
  *            - the last byte : \0
  *          The responder mode: ExpHils returns the message as received
  */
-class ExampleSerialCommunicationForHils : public Component, public ObcCommunicationBase {
+class ExampleSerialCommunicationForHils : public Component, public UartCommunicationWithObc {
  public:
   /**
    * @fn ExampleSerialCommunicationForHils

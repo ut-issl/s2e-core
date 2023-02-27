@@ -25,7 +25,7 @@
  *          - The last byte: "\n"
  *          - The telemetry is automatically generated
  */
-class ExampleSerialCommunicationWithObc : public Component, public ObcCommunicationBase, public IGPIOCompo {
+class ExampleSerialCommunicationWithObc : public Component, public UartCommunicationWithObc, public IGPIOCompo {
  public:
   /**
    * @fn ExampleSerialCommunicationWithObc

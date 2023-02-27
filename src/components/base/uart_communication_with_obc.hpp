@@ -22,40 +22,40 @@ enum class OBC_COM_UART_MODE {
 };
 
 /**
- * @class ObcCommunicationBase
+ * @class UartCommunicationWithObc
  * @brief Base class for serial communication (e.g., UART) with OBC flight software
  * @note Components which want to communicate with OBC using serial communication have to inherit this.
  */
-class ObcCommunicationBase {
+class UartCommunicationWithObc {
  public:
   /**
-   * @fn ObcCommunicationBase
+   * @fn UartCommunicationWithObc
    * @brief Constructor for SILS mode
    * @note Default buffer size is used
    * @param [in] sils_port_id: Port ID for communication line b/w OBC in the SILS mode
    * @param [in] obc: The communication target OBC
    */
-  ObcCommunicationBase(const unsigned int sils_port_id, OBC* obc);
+  UartCommunicationWithObc(const unsigned int sils_port_id, OBC* obc);
   /**
-   * @fn ObcCommunicationBase
+   * @fn UartCommunicationWithObc
    * @brief Constructor for SILS mode
    * @param [in] sils_port_id: Port ID for communication line b/w OBC in the SILS mode
    * @param [in] tx_buffer_size: TX (Component to OBC) buffer size
    * @param [in] rx_buffer_size: RX (OBC to Component) buffer size
    * @param [in] obc: The communication target OBC
    */
-  ObcCommunicationBase(const unsigned int sils_port_id, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size, OBC* obc);
+  UartCommunicationWithObc(const unsigned int sils_port_id, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size, OBC* obc);
   /**
-   * @fn ObcCommunicationBase
+   * @fn UartCommunicationWithObc
    * @brief Constructor for HILS mode
    * @note Default buffer size is used
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] baud_rate: Baud rate of HILS communication port
    * @param [in] hils_port_manager: HILS port manager
    */
-  ObcCommunicationBase(const unsigned int hils_port_id, const unsigned int baud_rate, HilsPortManager* hils_port_manager);
+  UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate, HilsPortManager* hils_port_manager);
   /**
-   * @fn ObcCommunicationBase
+   * @fn UartCommunicationWithObc
    * @brief Constructor for HILS mode
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] baud_rate: Baud rate of HILS communication port
@@ -63,10 +63,10 @@ class ObcCommunicationBase {
    * @param [in] rx_buffer_size: RX (OBC to Component) buffer size
    * @param [in] hils_port_manager: HILS port manager
    */
-  ObcCommunicationBase(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
-                       const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager);
+  UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
+                           const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager);
   /**
-   * @fn ObcCommunicationBase
+   * @fn UartCommunicationWithObc
    * @brief Constructor for both SILS and HILS mode
    * @note Default buffer size is used
    * @param [in] sils_port_id: Port ID for communication line b/w OBC in the SILS mode
@@ -75,13 +75,13 @@ class ObcCommunicationBase {
    * @param [in] baud_rate: Baud rate of HILS communication port
    * @param [in] hils_port_manager: HILS port manager
    */
-  ObcCommunicationBase(const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
-                       HilsPortManager* hils_port_manager);
+  UartCommunicationWithObc(const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
+                           HilsPortManager* hils_port_manager);
   /**
-   * @fn ~ObcCommunicationBase
+   * @fn ~UartCommunicationWithObc
    * @brief Destructor
    */
-  ~ObcCommunicationBase();
+  ~UartCommunicationWithObc();
   /**
    * @fn IsConnected
    * @brief Return connection flag

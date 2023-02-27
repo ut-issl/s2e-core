@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-ObcCommunicationBase::ObcCommunicationBase(const unsigned int sils_port_id, OBC* obc) : sils_port_id_(sils_port_id), obc_(obc) {
+UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int sils_port_id, OBC* obc) : sils_port_id_(sils_port_id), obc_(obc) {
 #ifdef USE_HILS
   simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
   printf("Error: USE_HILS:ON Check compo initialization\n");
@@ -19,8 +19,8 @@ ObcCommunicationBase::ObcCommunicationBase(const unsigned int sils_port_id, OBC*
   InitializeObcComBase();
 }
 
-ObcCommunicationBase::ObcCommunicationBase(const unsigned int sils_port_id, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size,
-                                           OBC* obc)
+UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int sils_port_id, const unsigned int tx_buffer_size,
+                                                   const unsigned int rx_buffer_size, OBC* obc)
     : sils_port_id_(sils_port_id), tx_buffer_size_(tx_buffer_size), rx_buffer_size_(rx_buffer_size), obc_(obc) {
 #ifdef USE_HILS
   simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
@@ -33,7 +33,7 @@ ObcCommunicationBase::ObcCommunicationBase(const unsigned int sils_port_id, cons
   InitializeObcComBase();
 }
 
-ObcCommunicationBase::ObcCommunicationBase(const unsigned int hils_port_id, const unsigned int baud_rate, HilsPortManager* hils_port_manager)
+UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate, HilsPortManager* hils_port_manager)
     : hils_port_id_(hils_port_id), baud_rate_(baud_rate), hils_port_manager_(hils_port_manager) {
 #ifdef USE_HILS
   simulation_mode_ = OBC_COM_UART_MODE::HILS;
@@ -46,8 +46,8 @@ ObcCommunicationBase::ObcCommunicationBase(const unsigned int hils_port_id, cons
   InitializeObcComBase();
 }
 
-ObcCommunicationBase::ObcCommunicationBase(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
-                                           const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)
+UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
+                                                   const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)
     : hils_port_id_(hils_port_id),
       baud_rate_(baud_rate),
       tx_buffer_size_(tx_buffer_size),
@@ -64,8 +64,8 @@ ObcCommunicationBase::ObcCommunicationBase(const unsigned int hils_port_id, cons
   InitializeObcComBase();
 }
 
-ObcCommunicationBase::ObcCommunicationBase(const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
-                                           HilsPortManager* hils_port_manager)
+UartCommunicationWithObc::UartCommunicationWithObc(const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
+                                                   HilsPortManager* hils_port_manager)
     : sils_port_id_(sils_port_id), hils_port_id_(hils_port_id), baud_rate_(baud_rate), obc_(obc), hils_port_manager_(hils_port_manager) {
 #ifdef USE_HILS
   simulation_mode_ = OBC_COM_UART_MODE::HILS;
@@ -77,7 +77,7 @@ ObcCommunicationBase::ObcCommunicationBase(const int sils_port_id, OBC* obc, con
   InitializeObcComBase();
 }
 
-ObcCommunicationBase::~ObcCommunicationBase() {
+UartCommunicationWithObc::~UartCommunicationWithObc() {
   if (is_connected_ == false) return;
   int ret;
   switch (simulation_mode_) {
@@ -102,7 +102,7 @@ ObcCommunicationBase::~ObcCommunicationBase() {
   }
 }
 
-void ObcCommunicationBase::InitializeObcComBase() {
+void UartCommunicationWithObc::InitializeObcComBase() {
   int ret;
   switch (simulation_mode_) {
     case OBC_COM_UART_MODE::MODE_ERROR:
@@ -131,7 +131,7 @@ void ObcCommunicationBase::InitializeObcComBase() {
   }
 }
 
-int ObcCommunicationBase::ReceiveCommand(const int offset, const unsigned int rec_size) {
+int UartCommunicationWithObc::ReceiveCommand(const int offset, const unsigned int rec_size) {
   if (simulation_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return -1;
   if (offset > rx_buffer_size_) return -1;
   if (offset + rec_size > rx_buffer_size_) return -1;
@@ -153,7 +153,7 @@ int ObcCommunicationBase::ReceiveCommand(const int offset, const unsigned int re
       ;
   }
 }
-int ObcCommunicationBase::SendTelemetry(const int offset) {
+int UartCommunicationWithObc::SendTelemetry(const int offset) {
   if (simulation_mode_ == OBC_COM_UART_MODE::MODE_ERROR) return -1;
   int tlm_size = GenerateTelemetry();
   if (offset > rx_buffer_size_) return -1;
