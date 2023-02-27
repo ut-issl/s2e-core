@@ -27,7 +27,7 @@ class SCIPort {
    * @param [in] rx_buffer_size: RX(Component -> OBC) buffer size
    * @param [in] tx_buffer_size: TX(OBC -> Component) buffer size
    */
-  SCIPort(int rx_buffer_size, int tx_buffer_size);
+  SCIPort(const unsigned int rx_buffer_size, const unsigned int tx_buffer_size);
   /**
    * @fn ~SCIPort
    * @brief Destructor
@@ -42,7 +42,7 @@ class SCIPort {
    * @param [in] data_length: Length of the data to write
    * @return Number of written byte
    */
-  int WriteTx(unsigned char* buffer, int offset, int data_length);
+  int WriteTx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length);
   /**
    * @fn WriteRx
    * @brief Write data to the RX buffer from Component to OBC
@@ -51,7 +51,7 @@ class SCIPort {
    * @param [in] data_length: Length of the data to write
    * @return Number of written byte
    */
-  int WriteRx(unsigned char* buffer, int offset, int data_length);
+  int WriteRx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length);
 
   /**
    * @fn ReadTx
@@ -61,7 +61,7 @@ class SCIPort {
    * @param [in] data_length: Length of the data to read
    * @return Number of read byte
    */
-  int ReadTx(unsigned char* buffer, int offset, int data_length);
+  int ReadTx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length);
   /**
    * @fn ReadRx
    * @brief Read data from the TX buffer by OBC
@@ -70,10 +70,10 @@ class SCIPort {
    * @param [in] data_length: Length of the data to read
    * @return Number of read byte
    */
-  int ReadRx(unsigned char* buffer, int offset, int data_length);
+  int ReadRx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length);
 
  private:
-  const static int kDefaultBufferSize = 1024;  //!< Default buffer size
+  const static unsigned int kDefaultBufferSize = 1024;  //!< Default buffer size
 
   RingBuffer* rx_buffer_;  //!< Receive buffer (Component -> OBC)
   RingBuffer* tx_buffer_;  //!< Transmit buffer (OBC -> Component)

@@ -7,11 +7,13 @@
 
 SCIPort::SCIPort() : SCIPort(kDefaultBufferSize, kDefaultBufferSize) {}
 
-SCIPort::SCIPort(int rx_buffer_size, int tx_buffer_size) {
-  if (rx_buffer_size <= 0) rx_buffer_size = kDefaultBufferSize;
-  if (tx_buffer_size <= 0) tx_buffer_size = kDefaultBufferSize;
-  rx_buffer_ = new RingBuffer(rx_buffer_size);
-  tx_buffer_ = new RingBuffer(tx_buffer_size);
+SCIPort::SCIPort(const unsigned int rx_buffer_size, const unsigned int tx_buffer_size) {
+  unsigned int checked_rx_buffer_size = rx_buffer_size;
+  unsigned int checked_tx_buffer_size = tx_buffer_size;
+  if (rx_buffer_size <= 0) checked_rx_buffer_size = kDefaultBufferSize;
+  if (tx_buffer_size <= 0) checked_tx_buffer_size = kDefaultBufferSize;
+  rx_buffer_ = new RingBuffer(checked_rx_buffer_size);
+  tx_buffer_ = new RingBuffer(checked_tx_buffer_size);
 }
 
 SCIPort::~SCIPort() {
@@ -19,10 +21,18 @@ SCIPort::~SCIPort() {
   delete tx_buffer_;
 }
 
-int SCIPort::WriteTx(unsigned char* buffer, int offset, int data_length) { return tx_buffer_->Write(buffer, offset, data_length); }
+int SCIPort::WriteTx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+  return tx_buffer_->Write(buffer, offset, data_length);
+}
 
-int SCIPort::WriteRx(unsigned char* buffer, int offset, int data_length) { return rx_buffer_->Write(buffer, offset, data_length); }
+int SCIPort::WriteRx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+  return rx_buffer_->Write(buffer, offset, data_length);
+}
 
-int SCIPort::ReadTx(unsigned char* buffer, int offset, int data_length) { return tx_buffer_->Read(buffer, offset, data_length); }
+int SCIPort::ReadTx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+  return tx_buffer_->Read(buffer, offset, data_length);
+}
 
-int SCIPort::ReadRx(unsigned char* buffer, int offset, int data_length) { return rx_buffer_->Read(buffer, offset, data_length); }
+int SCIPort::ReadRx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+  return rx_buffer_->Read(buffer, offset, data_length);
+}
