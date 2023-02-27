@@ -8,8 +8,6 @@
 
 #include <map>
 
-const int kDefaultCmdBufferSize = 0xff;  //!< Default command buffer size
-
 /**
  * @class I2CPort
  * @brief Class to emulate I2C(Inter-Integrated Circuit) communication port
@@ -99,6 +97,7 @@ class I2CPort {
   unsigned char ReadCommand(const unsigned char i2c_addr, unsigned char* rx_data, const unsigned char length);
 
  private:
+  const int kDefaultCmdBufferSize = 0xff;        //!< Default command buffer size
   unsigned char max_register_number_ = 0xff;     //!< Maximum register number
   unsigned char saved_register_address_ = 0x00;  //!< Saved register address
 
