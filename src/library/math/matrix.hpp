@@ -69,7 +69,7 @@ class Matrix {
    * @return Value of the target element
    */
   inline T& operator()(size_t row, size_t column) {
-    if (!ISValidRange(row, column)) {
+    if (!IsValidRange(row, column)) {
       throw std::invalid_argument("Argument exceeds the range of matrix.");
     }
     return matrix_[row][column];
@@ -84,7 +84,7 @@ class Matrix {
    * @return Value of the target element
    */
   inline const T& operator()(size_t row, size_t column) const {
-    if (!ISValidRange(row, column)) {
+    if (!IsValidRange(row, column)) {
       throw std::invalid_argument("Argument exceeds the range of matrix.");
     }
     return matrix_[row][column];
@@ -130,13 +130,13 @@ class Matrix {
   T matrix_[R][C];  //!< Array to save the elements
 
   /**
-   * @fn ISValidRange
+   * @fn IsValidRange
    * @brief Judge the target row/column number is in the range
    * @param [in] row: Target row number
    * @param [in] column: Target column number
    * @return True: row/column number is in the range
    */
-  inline bool ISValidRange(size_t row, size_t column) { return (row < R && column < C); }
+  inline bool IsValidRange(size_t row, size_t column) { return (row < R && column < C); }
 };
 
 /**
@@ -150,7 +150,7 @@ void FillUp(Matrix<R, C, T>& m, const T& t);
 
 /**
  * @fn CalcTrace
- * @brief Calculate and return the CalcTrace of matrix
+ * @brief Calculate and return the trace of matrix
  * @param [in] m: Target matrix
  * @return Trace of the matrix
  */
