@@ -88,12 +88,12 @@ class HilsUartPort {
   msclr::gcroot<bytearray ^> rx_buffer_;                 //!< RX Buffer
 
   /**
-   * @fn PortName
+   * @fn GetPortName
    * @brief Convert port id to port name
    * @param [in] port_id: Port ID like 4
    * @return Port name like "COM4"
    */
-  static std::string PortName(const unsigned int port_id);
+  static std::string GetPortName(const unsigned int port_id);
   /**
    * @fn Initialize
    * @brief Open and initialize the COM port

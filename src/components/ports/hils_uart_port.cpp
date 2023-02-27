@@ -12,7 +12,7 @@
 
 HilsUartPort::HilsUartPort(const unsigned int port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
                            const unsigned int rx_buffer_size)
-    : kPortName(PortName(port_id)), baud_rate_(baud_rate), kTxBufferSize(tx_buffer_size), kRxBufferSize(rx_buffer_size) {
+    : kPortName(GetPortName(port_id)), baud_rate_(baud_rate), kTxBufferSize(tx_buffer_size), kRxBufferSize(rx_buffer_size) {
   // Allocate managed arrays.
   tx_buffer_ = gcnew bytearray(kTxBufferSize);
   rx_buffer_ = gcnew bytearray(kRxBufferSize);
@@ -25,7 +25,7 @@ HilsUartPort::~HilsUartPort() {
 }
 
 // Static method to convert from com port number to com port name.
-std::string HilsUartPort::PortName(const unsigned int port_id) { return "COM" + std::to_string(port_id); }
+std::string HilsUartPort::GetPortName(const unsigned int port_id) { return "COM" + std::to_string(port_id); }
 
 int HilsUartPort::Initialize() {
   try {
