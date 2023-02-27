@@ -5,9 +5,10 @@
 
 #include "example_i2c_target_for_hils.hpp"
 
-ExampleI2cTargetForHils::ExampleI2cTargetForHils(const int prescaler, ClockGenerator* clock_gen, const int sils_port_id, unsigned char i2c_address,
-                                                 OBC* obc, const unsigned int hils_port_id, HilsPortManager* hils_port_manager)
-    : Component(prescaler, clock_gen), I2cTargetCommunicationWithObc(sils_port_id, hils_port_id, i2c_address, obc, hils_port_manager) {}
+ExampleI2cTargetForHils::ExampleI2cTargetForHils(const int prescaler, ClockGenerator* clock_generator, const int sils_port_id,
+                                                 unsigned char i2c_address, OBC* obc, const unsigned int hils_port_id,
+                                                 HilsPortManager* hils_port_manager)
+    : Component(prescaler, clock_generator), I2cTargetCommunicationWithObc(sils_port_id, hils_port_id, i2c_address, obc, hils_port_manager) {}
 
 ExampleI2cTargetForHils::~ExampleI2cTargetForHils() {}
 

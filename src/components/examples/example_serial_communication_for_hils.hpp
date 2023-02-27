@@ -26,7 +26,7 @@ class ExampleSerialCommunicationForHils : public Component, public UartCommunica
    * @fn ExampleSerialCommunicationForHils
    * @brief Constructor
    * @note prescaler is set as 300.
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] sils_port_id: Port ID for communication line b/w OBC
    * @param [in] obc: The communication target OBC
    * @param [in] hils_port_id: ID of HILS communication port
@@ -34,7 +34,7 @@ class ExampleSerialCommunicationForHils : public Component, public UartCommunica
    * @param [in] hils_port_manager: HILS port manager
    * @param [in] mode_id: Mode ID to select sender(0) or responder(1)
    */
-  ExampleSerialCommunicationForHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc, const unsigned int hils_port_id,
+  ExampleSerialCommunicationForHils(ClockGenerator* clock_generator, const int sils_port_id, OBC* obc, const unsigned int hils_port_id,
                                     const unsigned int baud_rate, HilsPortManager* hils_port_manager, const int mode_id);
   /**
    * @fn ~ExampleSerialCommunicationForHils

@@ -4,10 +4,10 @@
  */
 #include "example_i2c_controller_for_hils.hpp"
 
-ExampleI2cControllerForHils::ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_gen, const unsigned int hils_port_id,
+ExampleI2cControllerForHils::ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_generator, const unsigned int hils_port_id,
                                                          const unsigned int baud_rate, const unsigned int tx_buffer_size,
                                                          const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)
-    : Component(prescaler, clock_gen), I2cController(hils_port_id, baud_rate, tx_buffer_size, rx_buffer_size, hils_port_manager) {}
+    : Component(prescaler, clock_generator), I2cController(hils_port_id, baud_rate, tx_buffer_size, rx_buffer_size, hils_port_manager) {}
 
 ExampleI2cControllerForHils::~ExampleI2cControllerForHils() {}
 

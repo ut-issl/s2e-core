@@ -19,25 +19,25 @@ class OBC_C2A : public OBC {
   /**
    * @fn OBC_C2A
    * @brief Constructor
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    */
-  OBC_C2A(ClockGenerator* clock_gen);
+  OBC_C2A(ClockGenerator* clock_generator);
   /**
    * @fn OBC_C2A
    * @brief Constructor
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] timing_regulator: Timing regulator to update flight software faster than the component update
    */
-  OBC_C2A(ClockGenerator* clock_gen, int timing_regulator);
+  OBC_C2A(ClockGenerator* clock_generator, int timing_regulator);
   /**
    * @fn OBC_C2A
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] timing_regulator: Timing regulator to update flight software faster than the component update
    * @param [in] power_port: Power port
    */
-  OBC_C2A(int prescaler, ClockGenerator* clock_gen, int timing_regulator, PowerPort* power_port);
+  OBC_C2A(int prescaler, ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port);
   /**
    * @fn ~OBC_C2A
    * @brief Destructor

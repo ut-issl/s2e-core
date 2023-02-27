@@ -25,7 +25,7 @@ class SunSensor : public Component, public ILoggable {
    * @fn SunSensor
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] id: Sensor ID
    * @param [in] q_b2c: Quaternion from body frame to component frame
    * @param [in] detectable_angle_rad: Detectable angle threshold [rad]
@@ -35,14 +35,14 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] srp: Solar Radiation Pressure environment
    * @param [in] local_celes_info: Local celestial information
    */
-  SunSensor(const int prescaler, ClockGenerator* clock_gen, const int id, const libra::Quaternion& q_b2c, const double detectable_angle_rad,
+  SunSensor(const int prescaler, ClockGenerator* clock_generator, const int id, const libra::Quaternion& q_b2c, const double detectable_angle_rad,
             const double nr_stddev_c, const double nr_bias_stddev_c, const double intensity_lower_threshold_percent,
             const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celes_info);
   /**
    * @fn SunSensor
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] id: Sensor ID
    * @param [in] q_b2c: Quaternion from body frame to component frame
@@ -53,7 +53,7 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] srp: Solar Radiation Pressure environment
    * @param [in] local_celes_info: Local celestial information
    */
-  SunSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
+  SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
             const double detectable_angle_rad, const double nr_stddev_c, const double nr_bias_stddev_c,
             const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
             const LocalCelestialInformation* local_celes_info);

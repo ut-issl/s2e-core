@@ -19,20 +19,20 @@ class PCU_InitialStudy : public Component, public ILoggable {
    * @fn PCU_InitialStudy
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] saps: Solar Array Panels
    * @param [in] bat: Battery
    * @param [in] compo_step_time: Component step time [sec]
    */
-  PCU_InitialStudy(const int prescaler, ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat, double compo_step_time);
+  PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, BAT* bat, double compo_step_time);
   /**
    * @fn PCU_InitialStudy
    * @brief Constructor
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] saps: Solar Array Panels
    * @param [in] bat: Battery
    */
-  PCU_InitialStudy(ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat);
+  PCU_InitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, BAT* bat);
   /**
    * @fn ~PCU_InitialStudy
    * @brief Destructor

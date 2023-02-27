@@ -25,7 +25,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @fn SimpleThruster
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] id: Thruster ID
    * @param [in] thruster_pos_b: Position of thruster on the body fixed frame [m]
    * @param [in] thrust_dir_b: Direction of thrust on the body fixed frame
@@ -35,13 +35,13 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] structure: Spacecraft structure information
    * @param [in] dynamics: Spacecraft dynamics information
    */
-  SimpleThruster(const int prescaler, ClockGenerator* clock_gen, const int id, const Vector<3> thruster_pos_b, const Vector<3> thrust_dir_b,
+  SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int id, const Vector<3> thruster_pos_b, const Vector<3> thrust_dir_b,
                  const double max_mag, const double mag_err, const double dir_err, const Structure* structure, const Dynamics* dynamics);
   /**
    * @fn SimpleThruster
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] id: Thruster ID
    * @param [in] thruster_pos_b: Position of thruster on the body fixed frame [m]
@@ -52,7 +52,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] structure: Spacecraft structure information
    * @param [in] dynamics: Spacecraft dynamics information
    */
-  SimpleThruster(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const Vector<3> thruster_pos_b,
+  SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const Vector<3> thruster_pos_b,
                  const Vector<3> thrust_dir_b, const double max_mag, const double mag_err, const double dir_err, const Structure* structure,
                  const Dynamics* dynamics);
   /**

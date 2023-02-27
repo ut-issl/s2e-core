@@ -47,7 +47,7 @@ class GNSSReceiver : public Component, public ILoggable {
    * @fn GNSSReceiver
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] gnss_id: GNSS satellite number defined by GNSS system
    * @param [in] ch_max: Maximum number of channels
    * @param [in] antenna_model: Antenna model
@@ -59,14 +59,14 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simtime: Simulation time information
    */
-  GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const int id, const std::string gnss_id, const int ch_max,
+  GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, const int id, const std::string gnss_id, const int ch_max,
                const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
                const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
   /**
    * @fn GNSSReceiver
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] gnss_id: GNSS satellite number defined by GNSS system
    * @param [in] ch_max: Maximum number of channels
@@ -79,7 +79,7 @@ class GNSSReceiver : public Component, public ILoggable {
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simtime: Simulation time information
    */
-  GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, std::string gnss_id, const int ch_max,
+  GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, std::string gnss_id, const int ch_max,
                const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
                const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
 

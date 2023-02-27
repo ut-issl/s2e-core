@@ -6,7 +6,7 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const std::string fname, double compo_step_time,
+MagTorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, const std::string fname, double compo_step_time,
                           const GeomagneticField* mag_env) {
   IniAccess magtorquer_conf(fname);
   const char* sensor_name = "MAGNETORQUER_";
@@ -45,12 +45,12 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const std:
   Vector<kMtqDim> nr_stddev_c;
   magtorquer_conf.ReadVector(MTSection, "white_noise_standard_deviation_c_Am2", nr_stddev_c);
 
-  MagTorquer magtorquer(prescaler, clock_gen, actuator_id, q_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth, rw_stddev_c, rw_limit_c,
+  MagTorquer magtorquer(prescaler, clock_generator, actuator_id, q_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth, rw_stddev_c, rw_limit_c,
                         nr_stddev_c, mag_env);
   return magtorquer;
 }
 
-MagTorquer InitMagTorquer(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, const std::string fname, double compo_step_time,
+MagTorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string fname, double compo_step_time,
                           const GeomagneticField* mag_env) {
   IniAccess magtorquer_conf(fname);
   const char* sensor_name = "MAGNETORQUER_";
@@ -92,7 +92,7 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_gen, PowerPort* power_port, int 
   // PowerPort
   power_port->InitializeWithInitializeFile(fname);
 
-  MagTorquer magtorquer(prescaler, clock_gen, power_port, actuator_id, q_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth, rw_stddev_c,
+  MagTorquer magtorquer(prescaler, clock_generator, power_port, actuator_id, q_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth, rw_stddev_c,
                         rw_limit_c, nr_stddev_c, mag_env);
   return magtorquer;
 }

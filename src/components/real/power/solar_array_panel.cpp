@@ -8,10 +8,10 @@
 #include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
 
-SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
+SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int id, int number_of_series, int number_of_parallel, double cell_area,
          libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
          const LocalCelestialInformation* local_celes_info, double compo_step_time)
-    : Component(prescaler, clock_gen),
+    : Component(prescaler, clock_generator),
       id_(id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
@@ -26,10 +26,10 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_s
   power_generation_ = 0.0;
 }
 
-SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
+SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int id, int number_of_series, int number_of_parallel, double cell_area,
          libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
          double compo_step_time)
-    : Component(prescaler, clock_gen),
+    : Component(prescaler, clock_generator),
       id_(id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
@@ -43,10 +43,10 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_s
   power_generation_ = 0.0;
 }
 
-SAP::SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
+SAP::SAP(ClockGenerator* clock_generator, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
          double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
          const LocalCelestialInformation* local_celes_info)
-    : Component(10, clock_gen),
+    : Component(10, clock_generator),
       id_(id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),

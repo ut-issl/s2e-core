@@ -20,10 +20,10 @@ class ExampleChangeStructure : public Component, public ILoggable {
   /**
    * @fn ExampleChangeStructure
    * @brief Constructor with power port
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] structure: Structure information
    */
-  ExampleChangeStructure(ClockGenerator* clock_gen, Structure* structure);
+  ExampleChangeStructure(ClockGenerator* clock_generator, Structure* structure);
   /**
    * @fn ~ChangeStructure
    * @brief Destructor

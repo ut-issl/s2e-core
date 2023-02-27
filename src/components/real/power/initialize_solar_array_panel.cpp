@@ -9,7 +9,7 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SolarRadiationPressureEnvironment* srp,
+SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string fname, const SolarRadiationPressureEnvironment* srp,
             const LocalCelestialInformation* local_celes_info, double compo_step_time) {
   IniAccess sap_conf(fname);
 
@@ -40,13 +40,14 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
   double transmission_efficiency;
   transmission_efficiency = sap_conf.ReadDouble(Section, "transmission_efficiency");
 
-  SAP sap(prescaler, clock_gen, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency, transmission_efficiency, srp,
-          local_celes_info, compo_step_time);
+  SAP sap(prescaler, clock_generator, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency,
+          transmission_efficiency, srp, local_celes_info, compo_step_time);
 
   return sap;
 }
 
-SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, const SolarRadiationPressureEnvironment* srp, double compo_step_time) {
+SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string fname, const SolarRadiationPressureEnvironment* srp,
+            double compo_step_time) {
   IniAccess sap_conf(fname);
 
   const std::string st_sap_id = std::to_string(sap_id);
@@ -76,8 +77,8 @@ SAP InitSAP(ClockGenerator* clock_gen, int sap_id, const std::string fname, cons
   double transmission_efficiency;
   transmission_efficiency = sap_conf.ReadDouble(Section, "transmission_efficiency");
 
-  SAP sap(prescaler, clock_gen, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency, transmission_efficiency, srp,
-          compo_step_time);
+  SAP sap(prescaler, clock_generator, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency,
+          transmission_efficiency, srp, compo_step_time);
 
   return sap;
 }

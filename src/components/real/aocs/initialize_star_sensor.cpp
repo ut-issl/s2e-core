@@ -10,7 +10,7 @@
 
 using namespace std;
 
-STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const string fname, double compo_step_time, const Dynamics* dynamics,
+STT InitSTT(ClockGenerator* clock_generator, int sensor_id, const string fname, double compo_step_time, const Dynamics* dynamics,
             const LocalEnvironment* local_env) {
   IniAccess STT_conf(fname);
   const char* sensor_name = "STAR_SENSOR_";
@@ -37,12 +37,12 @@ STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const string fname, double
   double capture_rate_deg_s = STT_conf.ReadDouble(STTSection, "angular_rate_limit_deg_s");
   double capture_rate_rad_s = capture_rate_deg_s * libra::pi / 180.0;
 
-  STT stt(prescaler, clock_gen, sensor_id, q_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval, sun_forbidden_angle_rad,
+  STT stt(prescaler, clock_generator, sensor_id, q_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval, sun_forbidden_angle_rad,
           earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_env);
   return stt;
 }
 
-STT InitSTT(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const string fname, double compo_step_time, const Dynamics* dynamics,
+STT InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string fname, double compo_step_time, const Dynamics* dynamics,
             const LocalEnvironment* local_env) {
   IniAccess STT_conf(fname);
   const char* sensor_name = "STAR_SENSOR_";
@@ -72,7 +72,7 @@ STT InitSTT(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, con
 
   power_port->InitializeWithInitializeFile(fname);
 
-  STT stt(prescaler, clock_gen, power_port, sensor_id, q_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval,
+  STT stt(prescaler, clock_generator, power_port, sensor_id, q_b2c, sigma_ortho, sigma_sight, step_time, output_delay, output_interval,
           sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_env);
   return stt;
 }

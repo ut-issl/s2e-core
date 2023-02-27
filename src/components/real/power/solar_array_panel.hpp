@@ -19,7 +19,7 @@ class SAP : public Component, public ILoggable {
    * @fn SAP
    * @brief Constructor with prescaler
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] id: SAP ID
    * @param [in] number_of_series: Number of series connected solar cells
    * @param [in] number_of_parallel: Number of parallel connected solar cells
@@ -31,14 +31,14 @@ class SAP : public Component, public ILoggable {
    * @param [in] local_celes_info: Local celestial information
    * @param [in] compo_step_time: Component step time [sec]
    */
-  SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
+  SAP(const int prescaler, ClockGenerator* clock_generator, int id, int number_of_series, int number_of_parallel, double cell_area,
       libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
       const LocalCelestialInformation* local_celes_info, double compo_step_time);
   /**
    * @fn SAP
    * @brief Constructor with prescaler
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] id: SAP ID
    * @param [in] number_of_series: Number of series connected solar cells
    * @param [in] number_of_parallel: Number of parallel connected solar cells
@@ -49,14 +49,14 @@ class SAP : public Component, public ILoggable {
    * @param [in] srp: Solar Radiation Pressure environment
    * @param [in] compo_step_time: Component step time [sec]
    */
-  SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
+  SAP(const int prescaler, ClockGenerator* clock_generator, int id, int number_of_series, int number_of_parallel, double cell_area,
       libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
       double compo_step_time);
   /**
    * @fn SAP
    * @brief Constructor without prescaler
    * @note prescaler is set as 10, compo_step_sec is set as
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] id: SAP ID
    * @param [in] number_of_series: Number of series connected solar cells
    * @param [in] number_of_parallel: Number of parallel connected solar cells
@@ -67,7 +67,7 @@ class SAP : public Component, public ILoggable {
    * @param [in] srp: Solar Radiation Pressure environment
    * @param [in] local_celes_info: Local celestial information
    */
-  SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
+  SAP(ClockGenerator* clock_generator, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
       double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
       const LocalCelestialInformation* local_celes_info);
   /**

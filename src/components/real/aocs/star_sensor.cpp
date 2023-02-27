@@ -15,11 +15,11 @@
 using namespace std;
 using namespace libra;
 
-STT::STT(const int prescaler, ClockGenerator* clock_gen, const int id, const libra::Quaternion& q_b2c, const double sigma_ortho,
+STT::STT(const int prescaler, ClockGenerator* clock_generator, const int id, const libra::Quaternion& q_b2c, const double sigma_ortho,
          const double sigma_sight, const double step_time, const unsigned int output_delay, const unsigned int output_interval,
          const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
          const Dynamics* dynamics, const LocalEnvironment* local_env)
-    : Component(prescaler, clock_gen),
+    : Component(prescaler, clock_generator),
       id_(id),
       q_b2c_(q_b2c),
       rot_(global_randomization.MakeSeed()),
@@ -38,11 +38,11 @@ STT::STT(const int prescaler, ClockGenerator* clock_gen, const int id, const lib
       local_env_(local_env) {
   Initialize();
 }
-STT::STT(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
+STT::STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c,
          const double sigma_ortho, const double sigma_sight, const double step_time, const unsigned int output_delay,
          const unsigned int output_interval, const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle,
          const double capture_rate, const Dynamics* dynamics, const LocalEnvironment* local_env)
-    : Component(prescaler, clock_gen, power_port),
+    : Component(prescaler, clock_generator, power_port),
       id_(id),
       q_b2c_(q_b2c),
       rot_(global_randomization.MakeSeed()),

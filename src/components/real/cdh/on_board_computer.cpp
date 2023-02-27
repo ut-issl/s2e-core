@@ -4,12 +4,12 @@
  */
 #include "on_board_computer.hpp"
 
-OBC::OBC(ClockGenerator* clock_gen) : Component(1, clock_gen) { Initialize(); }
+OBC::OBC(ClockGenerator* clock_generator) : Component(1, clock_generator) { Initialize(); }
 
-OBC::OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port) : Component(prescaler, clock_gen, power_port) { Initialize(); }
+OBC::OBC(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port) : Component(prescaler, clock_generator, power_port) { Initialize(); }
 
-OBC::OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const double minimum_voltage, const double assumed_power_consumption)
-    : Component(prescaler, clock_gen, power_port) {
+OBC::OBC(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const double minimum_voltage, const double assumed_power_consumption)
+    : Component(prescaler, clock_generator, power_port) {
   power_port_->SetMinimumVoltage_V(minimum_voltage);
   power_port_->SetAssumedPowerConsumption_W(assumed_power_consumption);
   Initialize();

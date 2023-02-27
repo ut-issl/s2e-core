@@ -10,7 +10,7 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_name, const SolarRadiationPressureEnvironment* srp,
+SunSensor InitSunSensor(ClockGenerator* clock_generator, int ss_id, std::string file_name, const SolarRadiationPressureEnvironment* srp,
                         const LocalCelestialInformation* local_celes_info) {
   IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
@@ -38,12 +38,12 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_n
   double intensity_lower_threshold_percent;
   intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");
 
-  SunSensor ss(prescaler, clock_gen, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent, srp,
+  SunSensor ss(prescaler, clock_generator, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent, srp,
                local_celes_info);
   return ss;
 }
 
-SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss_id, std::string file_name,
+SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, int ss_id, std::string file_name,
                         const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celes_info) {
   IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
@@ -73,7 +73,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss
 
   power_port->InitializeWithInitializeFile(file_name);
 
-  SunSensor ss(prescaler, clock_gen, power_port, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent,
-               srp, local_celes_info);
+  SunSensor ss(prescaler, clock_generator, power_port, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev,
+               intensity_lower_threshold_percent, srp, local_celes_info);
   return ss;
 }

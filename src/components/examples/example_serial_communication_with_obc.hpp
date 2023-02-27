@@ -31,20 +31,20 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @fn ExampleSerialCommunicationWithObc
    * @brief Constructor without prescaler
    * @note The prescaler is set as 1000
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] port_id: Port ID for communication line b/w OBC
    * @param [in] obc: The communication target OBC
    */
-  ExampleSerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, OBC* obc);
+  ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, OBC* obc);
   /**
    * @fn ExampleSerialCommunicationWithObc
    * @brief Constructor
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] port_id: Port ID for communication line b/w OBC
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] obc: The communication target OBC
    */
-  ExampleSerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc);
+  ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, int prescaler, OBC* obc);
   /**
    * @fn ~SerialCommunicationWithObc
    * @brief Destructor

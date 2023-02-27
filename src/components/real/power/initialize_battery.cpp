@@ -10,7 +10,7 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname, double compo_step_time) {
+BAT InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string fname, double compo_step_time) {
   IniAccess bat_conf(fname);
 
   const std::string st_bat_id = std::to_string(bat_id);
@@ -51,7 +51,7 @@ BAT InitBAT(ClockGenerator* clock_gen, int bat_id, const std::string fname, doub
   double bat_resistance;
   bat_resistance = bat_conf.ReadDouble(Section, "battery_resistance_Ohm");
 
-  BAT bat(prescaler, clock_gen, number_of_series, number_of_parallel, cell_capacity, cell_discharge_curve_coeffs, initial_dod, cc_charge_c_rate,
+  BAT bat(prescaler, clock_generator, number_of_series, number_of_parallel, cell_capacity, cell_discharge_curve_coeffs, initial_dod, cc_charge_c_rate,
           cv_charge_voltage, bat_resistance, compo_step_time);
 
   return bat;

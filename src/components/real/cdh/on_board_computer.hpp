@@ -23,27 +23,27 @@ class OBC : public Component {
   /**
    * @fn OBC
    * @brief Constructor
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    */
-  OBC(ClockGenerator* clock_gen);
+  OBC(ClockGenerator* clock_generator);
   /**
    * @fn OBC
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    */
-  OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port);
+  OBC(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port);
   /**
    * @fn OBC
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] minimum_voltage: Minimum voltage [V]
    * @param [in] assumed_power_consumption: Assumed power consumption [W]
    */
-  OBC(int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const double minimum_voltage, const double assumed_power_consumption);
+  OBC(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const double minimum_voltage, const double assumed_power_consumption);
   /**
    * @fn ~OBC
    * @brief Destructor

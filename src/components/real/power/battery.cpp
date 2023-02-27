@@ -7,10 +7,10 @@
 
 #include <cmath>
 
-BAT::BAT(const int prescaler, ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
+BAT::BAT(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity,
          const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
          double bat_resistance, double compo_step_time)
-    : Component(prescaler, clock_gen),
+    : Component(prescaler, clock_generator),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_capacity_(cell_capacity),
@@ -21,10 +21,10 @@ BAT::BAT(const int prescaler, ClockGenerator* clock_gen, int number_of_series, i
       bat_resistance_(bat_resistance),
       compo_step_time_(compo_step_time) {}
 
-BAT::BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
+BAT::BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity,
          const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
          double bat_resistance)
-    : Component(10, clock_gen),
+    : Component(10, clock_generator),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_capacity_(cell_capacity),

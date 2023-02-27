@@ -21,16 +21,16 @@ class PCU : public Component, public ILoggable {
   /**
    * @fn PCU
    * @brief Constructor
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    */
-  PCU(ClockGenerator* clock_gen);
+  PCU(ClockGenerator* clock_generator);
   /**
    * @fn PCU
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    */
-  PCU(int prescaler, ClockGenerator* clock_gen);
+  PCU(int prescaler, ClockGenerator* clock_generator);
   /**
    * @fn ~PCU
    * @brief Destructor

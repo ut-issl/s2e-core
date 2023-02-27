@@ -22,12 +22,12 @@ class TorqueGenerator : public Component, public ILoggable {
    * @fn TorqueGenerator
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] magnitude_error_standard_deviation_Nm: Standard deviation of magnitude error [Nm]
    * @param [in] direction_error_standard_deviation_rad: Standard deviation of direction error [rad]
    * @param [in] dynamics: Dynamics information
    */
-  TorqueGenerator(const int prescaler, ClockGenerator* clock_gen, const double magnitude_error_standard_deviation_Nm,
+  TorqueGenerator(const int prescaler, ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_Nm,
                   const double direction_error_standard_deviation_rad, const Dynamics* dynamics);
   /**
    * @fn ~TorqueGenerator

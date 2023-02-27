@@ -28,7 +28,7 @@ class STT : public Component, public ILoggable {
    * @fn STT
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] id: Sensor ID
    * @param [in] q_b2c: Quaternion from body frame to component frame
    * @param [in] sigma_ortho: Standard deviation for random noise in orthogonal direction of sight [rad]
@@ -43,7 +43,7 @@ class STT : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_env: Local environment information
    */
-  STT(const int prescaler, ClockGenerator* clock_gen, const int id, const libra::Quaternion& q_b2c, const double sigma_ortho,
+  STT(const int prescaler, ClockGenerator* clock_generator, const int id, const libra::Quaternion& q_b2c, const double sigma_ortho,
       const double sigma_sight, const double step_time, const unsigned int output_delay, const unsigned int output_interval,
       const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
       const Dynamics* dynamics, const LocalEnvironment* local_env);
@@ -51,7 +51,7 @@ class STT : public Component, public ILoggable {
    * @fn STT
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] id: Sensor ID
    * @param [in] q_b2c: Quaternion from body frame to component frame
@@ -67,7 +67,7 @@ class STT : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_env: Local environment information
    */
-  STT(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c, const double sigma_ortho,
+  STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const libra::Quaternion& q_b2c, const double sigma_ortho,
       const double sigma_sight, const double step_time, const unsigned int output_delay, const unsigned int output_interval,
       const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
       const Dynamics* dynamics, const LocalEnvironment* local_env);

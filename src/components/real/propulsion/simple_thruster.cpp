@@ -9,10 +9,10 @@
 #include <library/randomization/global_randomization.hpp>
 
 // Constructor
-SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen, const int id, const Vector<3> thruster_pos_b,
+SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int id, const Vector<3> thruster_pos_b,
                                const Vector<3> thrust_dir_b, const double max_mag, const double mag_err, const double dir_err,
                                const Structure* structure, const Dynamics* dynamics)
-    : Component(prescaler, clock_gen),
+    : Component(prescaler, clock_generator),
       id_(id),
       thruster_pos_b_(thruster_pos_b),
       thrust_dir_b_(thrust_dir_b),
@@ -23,10 +23,10 @@ SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen, c
   Initialize(mag_err, dir_err);
 }
 
-SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const Vector<3> thruster_pos_b,
-                               const Vector<3> thrust_dir_b, const double max_mag, const double mag_err, const double dir_err,
-                               const Structure* structure, const Dynamics* dynamics)
-    : Component(prescaler, clock_gen, power_port),
+SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id,
+                               const Vector<3> thruster_pos_b, const Vector<3> thrust_dir_b, const double max_mag, const double mag_err,
+                               const double dir_err, const Structure* structure, const Dynamics* dynamics)
+    : Component(prescaler, clock_generator, power_port),
       id_(id),
       thruster_pos_b_(thruster_pos_b),
       thrust_dir_b_(thrust_dir_b),

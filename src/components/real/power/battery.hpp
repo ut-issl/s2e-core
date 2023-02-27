@@ -21,7 +21,7 @@ class BAT : public Component, public ILoggable {
    * @fn BAT
    * @brief Constructor with prescaler
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] number_of_series: Number of series connected cells
    * @param [in] number_of_parallel: Number of parallel connected cells
    * @param [in] cell_capacity: Power capacity of a cell [Ah]
@@ -32,14 +32,14 @@ class BAT : public Component, public ILoggable {
    * @param [in] bat_resistance: Battery internal resistance [Ohm]
    * @param [in] compo_step_time: Component step time [sec]
    */
-  BAT(const int prescaler, ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
+  BAT(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity,
       const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
       double bat_resistance, double compo_step_time);
   /**
    * @fn BAT
    * @brief Constructor without prescaler
    * @note prescaler is set as 10
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] number_of_series: Number of series connected cells
    * @param [in] number_of_parallel: Number of parallel connected cells
    * @param [in] cell_capacity: Power capacity of a cell [Ah]
@@ -50,7 +50,7 @@ class BAT : public Component, public ILoggable {
    * @param [in] bat_resistance: Battery internal resistance [Ohm]
    * @param [in] compo_step_time: Component step time [sec]
    */
-  BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
+  BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity,
       const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
       double bat_resistance);
   /**

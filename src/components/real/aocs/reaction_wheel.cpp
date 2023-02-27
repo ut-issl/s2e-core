@@ -17,13 +17,13 @@ static double rpm2angularVelocity(double rpm) { return rpm * libra::tau / 60.0; 
 
 static double angularVelocity2rpm(double angular_velocity) { return angular_velocity * 60.0 / libra::tau; }
 
-RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, const int id, double step_width, double dt_main_routine,
+RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_generator, const int id, double step_width, double dt_main_routine,
                  double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm, libra::Quaternion q_b2c,
                  libra::Vector<3> pos_b, double dead_time, libra::Vector<3> driving_lag_coef, libra::Vector<3> coasting_lag_coef,
                  bool is_calc_jitter_enabled, bool is_log_jitter_enabled, vector<vector<double>> radial_force_harmonics_coef,
                  vector<vector<double>> radial_torque_harmonics_coef, double structural_resonance_freq, double damping_factor, double bandwidth,
                  bool considers_structural_resonance, bool drive_flag, double init_velocity)
-    : Component(prescaler, clock_gen, fast_prescaler),
+    : Component(prescaler, clock_generator, fast_prescaler),
       id_(id),
       inertia_(inertia),
       max_torque_(max_torque),
@@ -44,14 +44,14 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, c
   Initialize();
 }
 
-RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_gen, PowerPort *power_port, const int id, double step_width,
+RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int id, double step_width,
                  double dt_main_routine, double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm,
                  libra::Quaternion q_b2c, libra::Vector<3> pos_b, double dead_time, libra::Vector<3> driving_lag_coef,
                  libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
                  vector<vector<double>> radial_force_harmonics_coef, vector<vector<double>> radial_torque_harmonics_coef,
                  double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance, bool drive_flag,
                  double init_velocity)
-    : Component(prescaler, clock_gen, power_port, fast_prescaler),
+    : Component(prescaler, clock_generator, power_port, fast_prescaler),
       id_(id),
       inertia_(inertia),
       max_torque_(max_torque),

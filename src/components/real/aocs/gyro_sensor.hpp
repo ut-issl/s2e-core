@@ -25,26 +25,26 @@ class Gyro : public Component, public Sensor<kGyroDim>, public ILoggable {
    * @fn Gyro
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
    * @param [in] q_b2c: Quaternion from body frame to component frame
    * @param [in] dynamics: Dynamics information
    */
-  Gyro(const int prescaler, ClockGenerator* clock_gen, Sensor& sensor_base, const int sensor_id, const libra::Quaternion& q_b2c,
+  Gyro(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const libra::Quaternion& q_b2c,
        const Dynamics* dynamics);
   /**
    * @fn Gyro
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
    * @param [in] q_b2c: Quaternion from body frame to component frame
    * @param [in] dynamics: Dynamics information
    */
-  Gyro(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
+  Gyro(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
        const libra::Quaternion& q_b2c, const Dynamics* dynamics);
   /**
    * @fn ~Gyro

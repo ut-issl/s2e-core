@@ -10,11 +10,11 @@
 #include <library/math/quaternion.hpp>
 #include <library/randomization/global_randomization.hpp>
 
-MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, const int id, const Quaternion& q_b2c,
+MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, const int id, const Quaternion& q_b2c,
                        const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
                        const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
                        const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env)
-    : Component(prescaler, clock_gen),
+    : Component(prescaler, clock_generator),
       id_(id),
       q_b2c_(q_b2c),
       q_c2b_(q_b2c_.Conjugate()),
@@ -29,11 +29,11 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, const int
   }
 }
 
-MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const Quaternion& q_b2c,
+MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const Quaternion& q_b2c,
                        const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
                        const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
                        const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env)
-    : Component(prescaler, clock_gen, power_port),
+    : Component(prescaler, clock_generator, power_port),
       id_(id),
       q_b2c_(q_b2c),
       q_c2b_(q_b2c_.Conjugate()),

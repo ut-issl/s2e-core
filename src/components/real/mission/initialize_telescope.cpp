@@ -13,7 +13,7 @@
 
 using namespace std;
 
-Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
+Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
                         const LocalCelestialInformation* local_celes_info) {
   using libra::pi;
 
@@ -48,7 +48,7 @@ Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const string f
 
   int num_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "number_of_stars_for_log");
 
-  Telescope telescope(clock_gen, q_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_num_of_pix, y_num_of_pix,
-                      x_fov_par_pix_rad, y_fov_par_pix_rad, num_of_logged_stars, attitude, hipp, local_celes_info);
+  Telescope telescope(clock_generator, q_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_num_of_pix,
+                      y_num_of_pix, x_fov_par_pix_rad, y_fov_par_pix_rad, num_of_logged_stars, attitude, hipp, local_celes_info);
   return telescope;
 }

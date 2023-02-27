@@ -5,13 +5,13 @@
 
 #include "gyro_sensor.hpp"
 
-Gyro::Gyro(const int prescaler, ClockGenerator* clock_gen, Sensor& sensor_base, const int sensor_id, const Quaternion& q_b2c,
+Gyro::Gyro(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const Quaternion& q_b2c,
            const Dynamics* dynamics)
-    : Component(prescaler, clock_gen), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(q_b2c), dynamics_(dynamics) {}
+    : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(q_b2c), dynamics_(dynamics) {}
 
-Gyro::Gyro(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
+Gyro::Gyro(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
            const libra::Quaternion& q_b2c, const Dynamics* dynamics)
-    : Component(prescaler, clock_gen, power_port), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(q_b2c), dynamics_(dynamics) {}
+    : Component(prescaler, clock_generator, power_port), Sensor(sensor_base), sensor_id_(sensor_id), q_b2c_(q_b2c), dynamics_(dynamics) {}
 
 Gyro::~Gyro() {}
 

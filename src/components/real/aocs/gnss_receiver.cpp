@@ -9,10 +9,10 @@
 #include <library/randomization/global_randomization.hpp>
 #include <string>
 
-GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const int id, const std::string gnss_id, const int ch_max,
+GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, const int id, const std::string gnss_id, const int ch_max,
                            const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c, const double half_width,
                            const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simtime)
-    : Component(prescaler, clock_gen),
+    : Component(prescaler, clock_generator),
       id_(id),
       ch_max_(ch_max),
       antenna_position_b_(ant_pos_b),
@@ -26,11 +26,11 @@ GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, const
       dynamics_(dynamics),
       gnss_satellites_(gnss_satellites),
       simtime_(simtime) {}
-GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const std::string gnss_id,
+GNSSReceiver::GNSSReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int id, const std::string gnss_id,
                            const int ch_max, const AntennaModel antenna_model, const Vector<3> ant_pos_b, const Quaternion q_b2c,
                            const double half_width, const Vector<3> noise_std, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
                            const SimulationTime* simtime)
-    : Component(prescaler, clock_gen, power_port),
+    : Component(prescaler, clock_generator, power_port),
       id_(id),
       ch_max_(ch_max),
       antenna_position_b_(ant_pos_b),
