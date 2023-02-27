@@ -15,7 +15,7 @@ typedef struct _gnssrecever_param {
   Quaternion quaternion_b2c;
   double half_width_rad;
   std::string gnss_id;
-  int ch_max;
+  int max_channel;
   Vector<3> noise_standard_deviation_m;
 } GnssReceiverParam;
 
@@ -43,7 +43,7 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string fname, const GnssSatelli
   gnssr_conf.ReadQuaternion(GSection, "quaternion_b2c", gnssreceiver_param.quaternion_b2c);
   gnssreceiver_param.half_width_rad = gnssr_conf.ReadDouble(GSection, "antenna_half_width_deg");
   gnssreceiver_param.gnss_id = gnssr_conf.ReadString(GSection, "gnss_id");
-  gnssreceiver_param.ch_max = gnssr_conf.ReadInt(GSection, "maximum_channel");
+  gnssreceiver_param.max_channel = gnssr_conf.ReadInt(GSection, "maximum_channel");
   gnssr_conf.ReadVector(GSection, "white_noise_standard_deviation_eci_m", gnssreceiver_param.noise_standard_deviation_m);
 
   return gnssreceiver_param;
@@ -53,7 +53,7 @@ GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, int component_id,
                               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
   GnssReceiverParam gr_param = ReadGnssReceiverIni(fname, gnss_satellites, component_id);
 
-  GnssReceiver gnss_r(gr_param.prescaler, clock_generator, component_id, gr_param.gnss_id, gr_param.ch_max, gr_param.antenna_model,
+  GnssReceiver gnss_r(gr_param.prescaler, clock_generator, component_id, gr_param.gnss_id, gr_param.max_channel, gr_param.antenna_model,
                       gr_param.antenna_pos_b, gr_param.quaternion_b2c, gr_param.half_width_rad, gr_param.noise_standard_deviation_m, dynamics,
                       gnss_satellites, simulation_time);
   return gnss_r;
@@ -66,7 +66,7 @@ GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_
   // PowerPort
   power_port->InitializeWithInitializeFile(fname);
 
-  GnssReceiver gnss_r(gr_param.prescaler, clock_generator, power_port, component_id, gr_param.gnss_id, gr_param.ch_max, gr_param.antenna_model,
+  GnssReceiver gnss_r(gr_param.prescaler, clock_generator, power_port, component_id, gr_param.gnss_id, gr_param.max_channel, gr_param.antenna_model,
                       gr_param.antenna_pos_b, gr_param.quaternion_b2c, gr_param.half_width_rad, gr_param.noise_standard_deviation_m, dynamics,
                       gnss_satellites, simulation_time);
   return gnss_r;

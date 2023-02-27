@@ -9,13 +9,13 @@
 #include <library/randomization/global_randomization.hpp>
 #include <string>
 
-GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const int component_id, const std::string gnss_id, const int ch_max,
-                           const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c,
-                           const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
-                           const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
+GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const int component_id, const std::string gnss_id,
+                           const int max_channel, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
+                           const libra::Quaternion quaternion_b2c, const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m,
+                           const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
-      max_channel_(ch_max),
+      max_channel_(max_channel),
       antenna_position_b_m_(antenna_position_b_m),
       quaternion_b2c_(quaternion_b2c),
       nrs_eci_x_(0.0, noise_standard_deviation_m[0], global_randomization.MakeSeed()),
@@ -28,12 +28,13 @@ GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator,
       gnss_satellites_(gnss_satellites),
       simulation_time_(simulation_time) {}
 GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                           const std::string gnss_id, const int ch_max, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
-                           const libra::Quaternion quaternion_b2c, const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m,
-                           const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
+                           const std::string gnss_id, const int max_channel, const AntennaModel antenna_model,
+                           const libra::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c, const double half_width_rad,
+                           const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
+                           const SimulationTime* simulation_time)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
-      max_channel_(ch_max),
+      max_channel_(max_channel),
       antenna_position_b_m_(antenna_position_b_m),
       quaternion_b2c_(quaternion_b2c),
       nrs_eci_x_(0.0, noise_standard_deviation_m[0], global_randomization.MakeSeed()),

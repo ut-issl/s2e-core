@@ -48,7 +48,7 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] component_id: Component ID
    * @param [in] gnss_id: GNSS satellite number defined by GNSS system
-   * @param [in] ch_max: Maximum number of channels
+   * @param [in] max_channel: Maximum number of channels
    * @param [in] antenna_model: Antenna model
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
@@ -58,7 +58,7 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simulation_time: Simulation time information
    */
-  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const int component_id, const std::string gnss_id, const int ch_max,
+  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const int component_id, const std::string gnss_id, const int max_channel,
                const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c,
                const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
                const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
@@ -69,7 +69,7 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] gnss_id: GNSS satellite number defined by GNSS system
-   * @param [in] ch_max: Maximum number of channels
+   * @param [in] max_channel: Maximum number of channels
    * @param [in] antenna_model: Antenna model
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
@@ -80,7 +80,7 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] simulation_time: Simulation time information
    */
   GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, std::string gnss_id,
-               const int ch_max, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
+               const int max_channel, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
                const libra::Quaternion quaternion_b2c, const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m,
                const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
 
