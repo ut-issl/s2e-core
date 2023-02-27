@@ -16,7 +16,7 @@ int GPIOPort::DigitalWrite(bool isHigh) {
   if (hl_state_ != isHigh) {
     // Call interaction function when detecting the change of the HIGH/LOW state
     if (component_ != nullptr) {
-      component_->GPIOStateChanged(kPortId, isHigh);
+      component_->GpioStateChanged(kPortId, isHigh);
     }
   }
   hl_state_ = isHigh;

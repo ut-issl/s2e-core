@@ -61,10 +61,10 @@ class ExampleSerialCommunicationWithObc : public Component, public ObcCommunicat
 
   // Override functions for IGPIOCompo
   /**
-   * @fn GPIOStateChanged
+   * @fn GpioStateChanged
    * @brief Interrupt function for GPIO
    */
-  void GPIOStateChanged(int port_id, bool isPosedge);
+  void GpioStateChanged(int port_id, bool isPosedge);
 
  private:
   const static int MAX_MEMORY_LEN = 100;  //!< Maximum memory length
