@@ -17,8 +17,8 @@ MagSensor::~MagSensor() {}
 void MagSensor::MainRoutine(int count) {
   UNUSED(count);
 
-  mag_c_ = q_b2c_.FrameConversion(magnet_->GetGeomagneticFieldneticField_b_nT());  // Convert frame
-  mag_c_ = Measure(mag_c_);                                                        // Add noises
+  mag_c_ = q_b2c_.FrameConversion(magnet_->GetGeomagneticField_b_nT());  // Convert frame
+  mag_c_ = Measure(mag_c_);                                              // Add noises
 }
 
 std::string MagSensor::GetLogHeader() const {
