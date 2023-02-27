@@ -99,8 +99,8 @@ class I2CPort {
   unsigned char ReadCommand(const unsigned char i2c_addr, unsigned char* rx_data, const unsigned char length);
 
  private:
-  unsigned char max_register_number_ = 0xff;  //!< Maximum register number
-  unsigned char saved_reg_addr_ = 0x00;       //!< Saved register address
+  unsigned char max_register_number_ = 0xff;     //!< Maximum register number
+  unsigned char saved_register_address_ = 0x00;  //!< Saved register address
 
   /** @brief Device register: <pair(i2c_address, register_address), value>  **/
   std::map<std::pair<unsigned char, unsigned char>, unsigned char> device_registers_;

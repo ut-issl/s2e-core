@@ -27,20 +27,20 @@ void HilsI2cTargetPort::RegisterDevice() {
 
 int HilsI2cTargetPort::WriteRegister(const unsigned char reg_addr) {
   if (reg_addr >= max_register_number_) return 0;
-  saved_reg_addr_ = reg_addr;
+  saved_register_address_ = reg_addr;
   return 0;  // FIXME: return should be 1 when success
 }
 
 int HilsI2cTargetPort::WriteRegister(const unsigned char reg_addr, const unsigned char value) {
   if (reg_addr >= max_register_number_) return 0;
-  saved_reg_addr_ = reg_addr;
+  saved_register_address_ = reg_addr;
   device_registers_[reg_addr] = value;
   return 0;  // FIXME: return should be 1 when success
 }
 
 unsigned char HilsI2cTargetPort::ReadRegister(const unsigned char reg_addr) {
   if (reg_addr >= max_register_number_) return 0;
-  saved_reg_addr_ = reg_addr;
+  saved_register_address_ = reg_addr;
   unsigned char ret = device_registers_[reg_addr];
   return ret;
 }
@@ -88,10 +88,10 @@ int HilsI2cTargetPort::Receive()  // from I2C-USB Target converter
 
 int HilsI2cTargetPort::Send(const unsigned char len)  // to I2C-USB Target Converter
 {
-  if (saved_reg_addr_ + len > max_register_number_) return -1;
+  if (saved_register_address_ + len > max_register_number_) return -1;
   unsigned char tx_buf[kDefaultTxSize] = {0};
   for (unsigned char i = 0; i < len; i++) {
-    tx_buf[i] = device_registers_[saved_reg_addr_ + i];
+    tx_buf[i] = device_registers_[saved_register_address_ + i];
   }
 #ifdef HILS_I2C_TARGET_PORT_SHOW_DEBUG_DATA
   for (int i = 0; i < len; i++) {
