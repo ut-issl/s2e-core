@@ -84,8 +84,8 @@ class HilsUartPort {
   // gcroot is the type-safe wrapper template to refer to a CLR object from the c++ heap reference:
   // https://docs.microsoft.com/en-us/cpp/dotnet/how-to-declare-handles-in-native-types?view=msvc-160
   msclr::gcroot<System::IO::Ports::SerialPort ^> port_;  //!< Port
-  msclr::gcroot<bytearray ^> tx_buf_;                    //!< TX Buffer
-  msclr::gcroot<bytearray ^> rx_buf_;                    //!< RX Buffer
+  msclr::gcroot<bytearray ^> tx_buffer_;                 //!< TX Buffer
+  msclr::gcroot<bytearray ^> rx_buffer_;                 //!< RX Buffer
 
   /**
    * @fn PortName

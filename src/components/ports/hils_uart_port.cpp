@@ -14,8 +14,8 @@ HilsUartPort::HilsUartPort(const unsigned int port_id, const unsigned int baud_r
                            const unsigned int rx_buffer_size)
     : kPortName(PortName(port_id)), baud_rate_(baud_rate), kTxBufferSize(tx_buffer_size), kRxBufferSize(rx_buffer_size) {
   // Allocate managed arrays.
-  tx_buf_ = gcnew bytearray(kTxBufferSize);
-  rx_buf_ = gcnew bytearray(kRxBufferSize);
+  tx_buffer_ = gcnew bytearray(kTxBufferSize);
+  rx_buffer_ = gcnew bytearray(kRxBufferSize);
 
   Initialize();
 }
@@ -109,10 +109,10 @@ int HilsUartPort::WriteTx(const unsigned char* buffer, int offset, int count) {
   unsigned char* buffer_tmp = new unsigned char[count];
   memcpy(buffer_tmp, buffer + offset, count);  // const unsigned char* -> unsigned char*
   // Marshal::Copy : Copies data from an unmanaged memory pointer to a managed array.
-  System::Runtime::InteropServices::Marshal::Copy((System::IntPtr)(buffer_tmp), tx_buf_, 0, count);  // unsigned char* -> System::IntPtr
+  System::Runtime::InteropServices::Marshal::Copy((System::IntPtr)(buffer_tmp), tx_buffer_, 0, count);  // unsigned char* -> System::IntPtr
   delete[] buffer_tmp;
   try {
-    port_->Write(tx_buf_, 0, count);
+    port_->Write(tx_buffer_, 0, count);
   } catch (System::Exception ^ e) {
 #ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
@@ -125,9 +125,9 @@ int HilsUartPort::WriteTx(const unsigned char* buffer, int offset, int count) {
 
 int HilsUartPort::ReadRx(unsigned char* buffer, int offset, int count) {
   try {
-    int received_bytes = port_->Read(rx_buf_, 0, count);
+    int received_bytes = port_->Read(rx_buffer_, 0, count);
     // Marshal::Copy : Copies data from a managed array to an unmanaged memory pointer.
-    System::Runtime::InteropServices::Marshal::Copy(rx_buf_, 0, (System::IntPtr)(buffer + offset), count);
+    System::Runtime::InteropServices::Marshal::Copy(rx_buffer_, 0, (System::IntPtr)(buffer + offset), count);
     return received_bytes;
     // TODO: Add enum for exception
   } catch (System::TimeoutException ^ e) {
