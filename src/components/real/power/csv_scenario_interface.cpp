@@ -7,7 +7,7 @@
 
 #include <library/initialize/initialize_file_access.hpp>
 
-bool CsvScenarioInterface::is_csv_senario_enabled_;
+bool CsvScenarioInterface::is_csv_scenario_enabled_;
 std::map<std::string, unsigned int> CsvScenarioInterface::buffer_line_id_;
 std::map<std::string, DoubleBuffer> CsvScenarioInterface::buffers_;
 
@@ -15,7 +15,7 @@ void CsvScenarioInterface::Initialize(const std::string file_name) {
   IniAccess scenario_conf(file_name);
   char Section[30] = "SCENARIO";
 
-  CsvScenarioInterface::is_csv_senario_enabled_ = scenario_conf.ReadBoolean(Section, "is_csv_scenario_enabled");
+  CsvScenarioInterface::is_csv_scenario_enabled_ = scenario_conf.ReadBoolean(Section, "is_csv_scenario_enabled");
 
   std::string csv_path;
   csv_path = scenario_conf.ReadString(Section, "csv_path");
@@ -34,7 +34,7 @@ void CsvScenarioInterface::Initialize(const std::string file_name) {
   }
 }
 
-bool CsvScenarioInterface::IsCsvScenarioEnabled() { return CsvScenarioInterface::is_csv_senario_enabled_; }
+bool CsvScenarioInterface::IsCsvScenarioEnabled() { return CsvScenarioInterface::is_csv_scenario_enabled_; }
 
 libra::Vector<3> CsvScenarioInterface::GetSunDirectionBody(const double time_query) {
   libra::Vector<3> sun_dir_b;

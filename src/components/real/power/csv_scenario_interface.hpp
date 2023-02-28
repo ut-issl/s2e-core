@@ -73,7 +73,7 @@ class CsvScenarioInterface {
    */
   static double GetValueFromBuffer(const std::string buffer_name, const double time_query);
 
-  static bool is_csv_senario_enabled_;                         //!< Enable flag to use CSV scenario
+  static bool is_csv_scenario_enabled_;                        //!< Enable flag to use CSV scenario
   static std::map<std::string, unsigned int> buffer_line_id_;  //!< Buffer line ID
   static std::map<std::string, DoubleBuffer> buffers_;         //!< Buffer
 };
