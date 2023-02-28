@@ -38,18 +38,18 @@ class Telescope : public Component, public ILoggable {
    * @param [in] sun_forbidden_angle_rad: Sun forbidden angle [rad]
    * @param [in] earth_forbidden_angle_rad: Earth forbidden angle [rad]
    * @param [in] moon_forbidden_angle_rad: Moon forbidden angle [rad]
-   * @param [in] x_num_of_pix: Number of pixel on X-axis in the image plane
-   * @param [in] y_num_of_pix: Number of pixel on Y-axis in the image plane
-   * @param [in] x_fov_par_pix: Field of view per pixel of X-axis in the image plane [rad/pix]
-   * @param [in] y_fov_par_pix: Field of view per pixel of Y-axis in the image plane [rad/pix]
-   * @param [in] num_of_logged_stars: Number of logged stars
+   * @param [in] x_number_of_pix: Number of pixel on X-axis in the image plane
+   * @param [in] y_number_of_pix: Number of pixel on Y-axis in the image plane
+   * @param [in] x_fov_per_pix: Field of view per pixel of X-axis in the image plane [rad/pix]
+   * @param [in] y_fov_per_pix: Field of view per pixel of Y-axis in the image plane [rad/pix]
+   * @param [in] number_of_logged_stars: Number of logged stars
    * @param [in] attitude: Attitude Information
    * @param [in] hipparcos: Hipparcos catalogue information
    * @param [in] local_celestial_information: Local celestial information
    */
   Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
-            const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_num_of_pix, const int y_num_of_pix,
-            const double x_fov_par_pix, const double y_fov_par_pix, size_t num_of_logged_stars, const Attitude* attitude,
+            const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
+            const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const Attitude* attitude,
             const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information);
   /**
    * @fn ~Telescope
@@ -71,10 +71,10 @@ class Telescope : public Component, public ILoggable {
   double earth_forbidden_angle_rad_;  //!< Earth forbidden angle [rad]
   double moon_forbidden_angle_rad_;   //!< Moon forbidden angle [rad]
 
-  int x_num_of_pix_;           //!< Number of pixel on X-axis in the image plane
-  int y_num_of_pix_;           //!< Number of pixel on Y-axis in the image plane
-  double x_fov_par_pix_;       //!< Field of view per pixel of X-axis in the image plane [rad/pix]
-  double y_fov_par_pix_;       //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
+  int x_number_of_pix_;        //!< Number of pixel on X-axis in the image plane
+  int y_number_of_pix_;        //!< Number of pixel on Y-axis in the image plane
+  double x_fov_per_pix_;       //!< Field of view per pixel of X-axis in the image plane [rad/pix]
+  double y_fov_per_pix_;       //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
   double x_field_of_view_rad;  //!< Field of view of X-axis in the image plane [rad/pix]
   double y_field_of_view_rad;  //!< Field of view of Y-axis in the image plane [rad/pix]
 
@@ -82,7 +82,7 @@ class Telescope : public Component, public ILoggable {
   bool is_earth_in_forbidden_angle = false;  //!< Is the earth in the forbidden angle
   bool is_moon_in_forbidden_angle = false;   //!< Is the moon in the forbidden angle
 
-  size_t num_of_logged_stars_;  //!< Number of logged stars
+  size_t number_of_logged_stars_;  //!< Number of logged stars
 
   libra::Vector<2> sun_position_image_sensor{-1};    //!< Position of the sun on the image plane
   libra::Vector<2> earth_position_image_sensor{-1};  //!< Position of the earth on the image plane
@@ -119,7 +119,7 @@ class Telescope : public Component, public ILoggable {
   void ObserveStars();
 
   const Attitude* attitude_;                                      //!< Attitude information
-  const HipparcosCatalogue* hipp_;                                //!< Star information
+  const HipparcosCatalogue* hipparcos_;                           //!< Star information
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
 
   // Override ILoggable
