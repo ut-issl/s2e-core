@@ -27,7 +27,7 @@ void ExampleChangeStructure::MainRoutine(const int time_count) {
     rmm[2] = 0.2;
     structure_->GetToSetRMMParams().SetRmmConstant_b_Am2(rmm);
     // Surface
-    structure_->GetToSetSurfaces()[0].SetArea(0.5);
+    structure_->GetToSetSurfaces()[0].SetArea_m2(0.5);
   }
 }
 

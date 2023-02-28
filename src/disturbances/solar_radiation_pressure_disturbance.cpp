@@ -24,7 +24,7 @@ void SolarRadiationPressureDisturbance::CalcCoefficients(const libra::Vector<3>&
   UNUSED(input_direction_b);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {  // Calculate for each surface
-    double area = surfaces_[i].GetArea();
+    double area = surfaces_[i].GetArea_m2();
     double reflectivity = surfaces_[i].GetReflectivity();
     double specularity = surfaces_[i].GetSpecularity();
     normal_coefficients_[i] =

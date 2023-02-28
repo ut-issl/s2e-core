@@ -28,20 +28,20 @@ class Surface {
 
   // Getter
   /**
-   * @fn GetPosition
+   * @fn GetPosition_b_m
    * @brief Return position vector of geometric center of the surface in body frame and meter unit
    */
-  inline const libra::Vector<3>& GetPosition(void) const { return position_b_m_; }
+  inline const libra::Vector<3>& GetPosition_b_m(void) const { return position_b_m_; }
   /**
-   * @fn GetNormal
+   * @fn GetNormal_b
    * @brief Return normal vector of the surface in body frame
    */
-  inline const libra::Vector<3>& GetNormal(void) const { return normal_b_; }
+  inline const libra::Vector<3>& GetNormal_b(void) const { return normal_b_; }
   /**
-   * @fn GetArea
+   * @fn GetArea_m2
    * @brief Return area of the surface in meter^2 unit
    */
-  inline const double& GetArea(void) const { return area_m2_; }
+  inline const double& GetArea_m2(void) const { return area_m2_; }
   /**
    * @fn GetReflectivity
    * @brief Return reflectivity of the surface
@@ -75,11 +75,11 @@ class Surface {
     normal_b_ = Normalize(normal_b_);
   }
   /**
-   * @fn SetArea
+   * @fn SetArea_m2
    * @brief Set area of the surface
    * @param[in] area_m2: Area of the surface [m2]
    */
-  inline void SetArea(const double area_m2) {
+  inline void SetArea_m2(const double area_m2) {
     if (area_m2 > 0.0) area_m2_ = area_m2;
   }
   /**
