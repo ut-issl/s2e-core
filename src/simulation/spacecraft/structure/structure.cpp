@@ -8,14 +8,16 @@
 #include <library/initialize/initialize_file_access.hpp>
 #include <simulation/spacecraft/structure/initialize_structure.hpp>
 
-Structure::Structure(SimulationConfig* simulation_configuration, const int spacecraft_id) { Initialize(simulation_configuration, spacecraft_id); }
+Structure::Structure(const SimulationConfig* simulation_configuration, const int spacecraft_id) {
+  Initialize(simulation_configuration, spacecraft_id);
+}
 
 Structure::~Structure() {
   delete kinematics_parameters_;
   delete residual_magnetic_moment_;
 }
 
-void Structure::Initialize(SimulationConfig* simulation_configuration, const int spacecraft_id) {
+void Structure::Initialize(const SimulationConfig* simulation_configuration, const int spacecraft_id) {
   // Read file name
   IniAccess conf = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   std::string ini_fname = conf.ReadString("SETTING_FILES", "structure_file");

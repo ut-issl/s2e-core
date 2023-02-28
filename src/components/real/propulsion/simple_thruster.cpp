@@ -50,7 +50,7 @@ void SimpleThruster::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
   CalcThrust();
-  CalcTorque(structure_->GetKinematicsParams().GetCenterOfGravity_b_m());
+  CalcTorque(structure_->GetKinematicsParameters().GetCenterOfGravity_b_m());
 }
 
 void SimpleThruster::PowerOffRoutine() {

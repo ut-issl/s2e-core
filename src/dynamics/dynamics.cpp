@@ -29,7 +29,7 @@ void Dynamics::Initialize(SimulationConfig* simulation_configuration, const Simu
                      simulation_time->GetOrbitRkStepTime_s(), simulation_time->GetCurrentTime_jd(),
                      local_celestial_information->GetGlobalInformation().GetCenterBodyGravityConstant_m3_s2(), "ORBIT", relative_information);
   attitude_ = InitAttitude(simulation_configuration->spacecraft_file_list_[spacecraft_id], orbit_, local_celestial_information,
-                           simulation_time->GetAttitudeRkStepTime_s(), structure->GetKinematicsParams().GetInertiaTensor_b_kgm2(), spacecraft_id);
+                           simulation_time->GetAttitudeRkStepTime_s(), structure->GetKinematicsParameters().GetInertiaTensor_b_kgm2(), spacecraft_id);
   temperature_ = InitTemperature(simulation_configuration->spacecraft_file_list_[spacecraft_id], simulation_time->GetThermalRkStepTime_s());
 
   // To get initial value

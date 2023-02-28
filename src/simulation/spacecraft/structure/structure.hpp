@@ -24,7 +24,7 @@ class Structure {
    * @fn Structure
    * @brief Constructor
    */
-  Structure(SimulationConfig* simulation_configuration, const int spacecraft_id);
+  Structure(const SimulationConfig* simulation_configuration, const int spacecraft_id);
   /**
    * @fn ~Structure
    * @brief Destructor
@@ -34,7 +34,7 @@ class Structure {
    * @fn Initialize
    * @brief Initialize function
    */
-  void Initialize(SimulationConfig* simulation_configuration, const int spacecraft_id);
+  void Initialize(const SimulationConfig* simulation_configuration, const int spacecraft_id);
 
   // Getter
   /**
@@ -43,15 +43,15 @@ class Structure {
    */
   inline const vector<Surface>& GetSurfaces() const { return surfaces_; }
   /**
-   * @fn GetKinematicsParams
+   * @fn GetKinematicsParameters
    * @brief Return kinematics information
    */
-  inline const KinematicsParameters& GetKinematicsParams() const { return *kinematics_parameters_; }
+  inline const KinematicsParameters& GetKinematicsParameters() const { return *kinematics_parameters_; }
   /**
-   * @fn GetRMMParams
+   * @fn GetResidualMagneticMoment
    * @brief Return Residual Magnetic Moment information
    */
-  inline const ResidualMagneticMoment& GetRMMParams() const { return *residual_magnetic_moment_; }
+  inline const ResidualMagneticMoment& GetResidualMagneticMoment() const { return *residual_magnetic_moment_; }
 
   /**
    * @fn GetToSetSurfaces
@@ -59,15 +59,15 @@ class Structure {
    */
   inline vector<Surface>& GetToSetSurfaces() { return surfaces_; }
   /**
-   * @fn GetToSetKinematicsParams
+   * @fn GetToSetKinematicsParameters
    * @brief Return kinematics information
    */
-  inline KinematicsParameters& GetToSetKinematicsParams() { return *kinematics_parameters_; }
+  inline KinematicsParameters& GetToSetKinematicsParameters() { return *kinematics_parameters_; }
   /**
-   * @fn GetToSetRMMParams
+   * @fn GetToSetResidualMagneticMoment
    * @brief Return Residual Magnetic Moment information
    */
-  inline ResidualMagneticMoment& GetToSetRMMParams() { return *residual_magnetic_moment_; }
+  inline ResidualMagneticMoment& GetToSetResidualMagneticMoment() { return *residual_magnetic_moment_; }
 
  private:
   KinematicsParameters* kinematics_parameters_;       //!< Kinematics parameters
