@@ -28,7 +28,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] component_id: Thruster ID
    * @param [in] thruster_position_b_m: Position of thruster on the body fixed frame [m]
-   * @param [in] thrust_dirction_b: Direction of thrust on the body fixed frame
+   * @param [in] thrust_direction_b: Direction of thrust on the body fixed frame
    * @param [in] max_magnitude_N: Maximum thrust magnitude [N]
    * @param [in] magnitude_standard_deviation_N: Standard deviation of thrust magnitude error [N]
    * @param [in] direction_standard_deviation_rad: Standard deviation of thrust direction error [rad]
@@ -36,7 +36,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] dynamics: Spacecraft dynamics information
    */
   SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Vector<3> thruster_position_b_m,
-                 const Vector<3> thrust_dirction_b, const double max_magnitude_N, const double magnitude_standard_deviation_N,
+                 const Vector<3> thrust_direction_b, const double max_magnitude_N, const double magnitude_standard_deviation_N,
                  const double direction_standard_deviation_rad, const Structure* structure, const Dynamics* dynamics);
   /**
    * @fn SimpleThruster
@@ -46,7 +46,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] power_port: Power port
    * @param [in] component_id: Thruster ID
    * @param [in] thruster_position_b_m: Position of thruster on the body fixed frame [m]
-   * @param [in] thrust_dirction_b: Direction of thrust on the body fixed frame
+   * @param [in] thrust_direction_b: Direction of thrust on the body fixed frame
    * @param [in] max_magnitude_N: Maximum thrust magnitude [N]
    * @param [in] magnitude_standard_deviation_N: Standard deviation of thrust magnitude error [N]
    * @param [in] direction_standard_deviation_rad: Standard deviation of thrust direction error [rad]
@@ -54,7 +54,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] dynamics: Spacecraft dynamics information
    */
   SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                 const Vector<3> thruster_position_b_m, const Vector<3> thrust_dirction_b, const double max_magnitude_N,
+                 const Vector<3> thruster_position_b_m, const Vector<3> thrust_direction_b, const double max_magnitude_N,
                  const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
                  const Dynamics* dynamics);
   /**

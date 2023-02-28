@@ -10,12 +10,12 @@
 
 // Constructor
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Vector<3> thruster_position_b_m,
-                               const Vector<3> thrust_dirction_b, const double max_magnitude_N, const double magnitude_standard_deviation_N,
+                               const Vector<3> thrust_direction_b, const double max_magnitude_N, const double magnitude_standard_deviation_N,
                                const double direction_standard_deviation_rad, const Structure* structure, const Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       thruster_position_b_m_(thruster_position_b_m),
-      thrust_direction_b_(thrust_dirction_b),
+      thrust_direction_b_(thrust_direction_b),
       thrust_magnitude_max_N_(max_magnitude_N),
       direction_noise_standard_deviation_rad_(direction_standard_deviation_rad),
       structure_(structure),
@@ -24,13 +24,13 @@ SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_genera
 }
 
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                               const Vector<3> thruster_position_b_m, const Vector<3> thrust_dirction_b, const double max_magnitude_N,
+                               const Vector<3> thruster_position_b_m, const Vector<3> thrust_direction_b, const double max_magnitude_N,
                                const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
                                const Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       thruster_position_b_m_(thruster_position_b_m),
-      thrust_direction_b_(thrust_dirction_b),
+      thrust_direction_b_(thrust_direction_b),
       thrust_magnitude_max_N_(max_magnitude_N),
       direction_noise_standard_deviation_rad_(direction_standard_deviation_rad),
       structure_(structure),
