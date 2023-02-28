@@ -119,9 +119,7 @@ class SAP : public Component, public ILoggable {
   double voltage_V_;           //!< Voltage [V]
   double power_generation_W_;  //!< Generated power [W]
 
-  static const double solar_constant_;  //!< Solar constant TODO: Use SolarRadiationPressureEnvironment?
-  static const double light_speed_;     //!< Speed of light TODO: Use PhysicalConstant?
-  double compo_step_time_s_;            //!< Component step time [sec]
+  double compo_step_time_s_;  //!< Component step time [sec]
 
   // Override functions for Component
   /**
