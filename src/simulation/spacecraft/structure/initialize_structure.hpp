@@ -11,19 +11,19 @@
 #include <simulation/spacecraft/structure/structure.hpp>
 
 /**
- * @fn InitKinematicsParams
+ * @fn InitKinematicsParameters
  * @brief Initialize the kinematics parameters with an ini file
  */
-KinematicsParameters InitKinematicsParams(std::string ini_path);
+KinematicsParameters InitKinematicsParameters(std::string file_name);
 /**
  * @fn InitSurfaces
  * @brief Initialize the multiple surfaces with an ini file
  */
-std::vector<Surface> InitSurfaces(std::string ini_path);
+std::vector<Surface> InitSurfaces(std::string file_name);
 /**
- * @fn InitRMMParams
+ * @fn InitResidualMagneticMoment
  * @brief Initialize the RMM(Residual Magnetic Moment) parameters with an ini file
  */
-ResidualMagneticMoment InitRMMParams(std::string ini_path);
+ResidualMagneticMoment InitResidualMagneticMoment(std::string file_name);
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_INITIALIZE_STRUCTURE_HPP_

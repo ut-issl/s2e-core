@@ -24,7 +24,7 @@ void Structure::Initialize(const SimulationConfig* simulation_configuration, con
   // Save ini file
   simulation_configuration->main_logger_->CopyFileToLogDirectory(ini_fname);
   // Initialize
-  kinematics_parameters_ = new KinematicsParameters(InitKinematicsParams(ini_fname));
+  kinematics_parameters_ = new KinematicsParameters(InitKinematicsParameters(ini_fname));
   surfaces_ = InitSurfaces(ini_fname);
-  residual_magnetic_moment_ = new ResidualMagneticMoment(InitRMMParams(ini_fname));
+  residual_magnetic_moment_ = new ResidualMagneticMoment(InitResidualMagneticMoment(ini_fname));
 }

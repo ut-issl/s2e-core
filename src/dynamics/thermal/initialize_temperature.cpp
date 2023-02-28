@@ -48,8 +48,8 @@ First row is for Header, data begins from the second row
 using std::string;
 using std::vector;
 
-Temperature* InitTemperature(const std::string ini_path, const double rk_prop_step_sec) {
-  auto mainIni = IniAccess(ini_path);
+Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_sec) {
+  auto mainIni = IniAccess(file_name);
 
   vector<Node> vnodes;
   vector<vector<double>> cij;

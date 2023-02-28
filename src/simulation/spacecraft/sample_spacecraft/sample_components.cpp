@@ -26,68 +26,68 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   hils_port_manager_ = new HilsPortManager();
 
   // GyroSensor
-  std::string ini_path = iniAccess.ReadString("COMPONENT_FILES", "gyro_file");
-  config_->main_logger_->CopyFileToLogDirectory(ini_path);
+  std::string file_name = iniAccess.ReadString("COMPONENT_FILES", "gyro_file");
+  config_->main_logger_->CopyFileToLogDirectory(file_name);
   gyro_ = new GyroSensor(
-      InitGyroSensor(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
+      InitGyroSensor(clock_gen, pcu_->GetPowerPort(1), 1, file_name, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
 
   // Magnetometer
-  ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetometer_file");
-  config_->main_logger_->CopyFileToLogDirectory(ini_path);
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "magetometer_file");
+  config_->main_logger_->CopyFileToLogDirectory(file_name);
   mag_sensor_ =
-      new Magnetometer(InitMagetometer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
+      new Magnetometer(InitMagetometer(clock_gen, pcu_->GetPowerPort(2), 1, file_name, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
                                        &(local_environment_->GetGeomagneticField())));
 
   // StarSensor
-  ini_path = iniAccess.ReadString("COMPONENT_FILES", "stt_file");
-  config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  stt_ = new StarSensor(InitStarSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "stt_file");
+  config_->main_logger_->CopyFileToLogDirectory(file_name);
+  stt_ = new StarSensor(InitStarSensor(clock_gen, pcu_->GetPowerPort(2), 1, file_name, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
                                        dynamics_, local_environment_));
 
   // SunSensor
-  ini_path = iniAccess.ReadString("COMPONENT_FILES", "ss_file");
-  config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  sun_sensor_ = new SunSensor(InitSunSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, &(local_environment_->GetSolarRadiationPressure()),
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "ss_file");
+  config_->main_logger_->CopyFileToLogDirectory(file_name);
+  sun_sensor_ = new SunSensor(InitSunSensor(clock_gen, pcu_->GetPowerPort(2), 1, file_name, &(local_environment_->GetSolarRadiationPressure()),
                                             &(local_environment_->GetCelestialInformation())));
 
   // GNSS-R
-  ini_path = iniAccess.ReadString("COMPONENT_FILES", "gnss_file");
-  config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  gnss_ = new GnssReceiver(
-      InitGnssReceiver(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_, &(glo_env_->GetGnssSatellites()), &(glo_env_->GetSimulationTime())));
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "gnss_file");
+  config_->main_logger_->CopyFileToLogDirectory(file_name);
+  gnss_ = new GnssReceiver(InitGnssReceiver(clock_gen, pcu_->GetPowerPort(2), 1, file_name, dynamics_, &(glo_env_->GetGnssSatellites()),
+                                            &(glo_env_->GetSimulationTime())));
 
   // Magnetorquer
-  ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetorquer_file");
-  config_->main_logger_->CopyFileToLogDirectory(ini_path);
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "magetorquer_file");
+  config_->main_logger_->CopyFileToLogDirectory(file_name);
   mag_torquer_ =
-      new Magnetorquer(InitMagnetorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
+      new Magnetorquer(InitMagnetorquer(clock_gen, pcu_->GetPowerPort(2), 1, file_name, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
                                         &(local_environment_->GetGeomagneticField())));
 
   // RW
-  ini_path = iniAccess.ReadString("COMPONENT_FILES", "rw_file");
-  config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  rw_ = new ReactionWheel(InitReactionWheel(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_->GetAttitude().GetPropStep(),
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "rw_file");
+  config_->main_logger_->CopyFileToLogDirectory(file_name);
+  rw_ = new ReactionWheel(InitReactionWheel(clock_gen, pcu_->GetPowerPort(2), 1, file_name, dynamics_->GetAttitude().GetPropStep(),
                                             glo_env_->GetSimulationTime().GetComponentStepTime_s()));
 
   // Torque Generator
-  ini_path = iniAccess.ReadString("COMPONENT_FILES", "torque_generator_file");
-  config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  torque_generator_ = new TorqueGenerator(InitializeTorqueGenerator(clock_gen, ini_path, dynamics_));
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "torque_generator_file");
+  config_->main_logger_->CopyFileToLogDirectory(file_name);
+  torque_generator_ = new TorqueGenerator(InitializeTorqueGenerator(clock_gen, file_name, dynamics_));
 
   // Thruster
-  ini_path = iniAccess.ReadString("COMPONENT_FILES", "thruster_file");
-  config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  thruster_ = new SimpleThruster(InitSimpleThruster(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, structure_, dynamics));
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "thruster_file");
+  config_->main_logger_->CopyFileToLogDirectory(file_name);
+  thruster_ = new SimpleThruster(InitSimpleThruster(clock_gen, pcu_->GetPowerPort(2), 1, file_name, structure_, dynamics));
 
   // Force Generator
-  ini_path = iniAccess.ReadString("COMPONENT_FILES", "force_generator_file");
-  config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  force_generator_ = new ForceGenerator(InitializeForceGenerator(clock_gen, ini_path, dynamics_));
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "force_generator_file");
+  config_->main_logger_->CopyFileToLogDirectory(file_name);
+  force_generator_ = new ForceGenerator(InitializeForceGenerator(clock_gen, file_name, dynamics_));
 
   // Antenna
-  ini_path = iniAccess.ReadString("COMPONENT_FILES", "antenna_file");
-  config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  antenna_ = new Antenna(InitAntenna(1, ini_path));
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "antenna_file");
+  config_->main_logger_->CopyFileToLogDirectory(file_name);
+  antenna_ = new Antenna(InitAntenna(1, file_name));
 
   // PCU power port initial control
   pcu_->GetPowerPort(0)->SetVoltage_V(3.3);
