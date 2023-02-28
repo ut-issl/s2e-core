@@ -11,41 +11,44 @@
 #include <library/randomization/global_randomization.hpp>
 
 MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Quaternion& quaternion_b2c,
-                       const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
-                       const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
-                       const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env)
+                       const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_magnetic_moment_c_Am2,
+                       const libra::Vector<kMtqDim>& min_magnetic_moment_c_Am2, const libra::Vector<kMtqDim>& bias_noise_c_Am2_,
+                       double random_walk_step_width_s, const libra::Vector<kMtqDim>& random_walk_standard_deviation_c_Am2,
+                       const libra::Vector<kMtqDim>& random_walk_limit_c_Am2, const libra::Vector<kMtqDim>& normal_random_standard_deviation_c_Am2,
+                       const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       quaternion_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),
-      max_magnetic_moment_c_Am2_(max_c),
-      min_magnetic_moment_c_Am2_(min_c),
-      bias_c_Am2_(bias_c),
-      random_walk_c_Am2_(rw_stepwidth, rw_stddev_c, rw_limit_c),
-      geomagnetic_field_(mag_env) {
+      max_magnetic_moment_c_Am2_(max_magnetic_moment_c_Am2),
+      min_magnetic_moment_c_Am2_(min_magnetic_moment_c_Am2),
+      bias_noise_c_Am2_(bias_noise_c_Am2_),
+      random_walk_c_Am2_(random_walk_step_width_s, random_walk_standard_deviation_c_Am2, random_walk_limit_c_Am2),
+      geomagnetic_field_(geomagnetic_field) {
   for (size_t i = 0; i < kMtqDim; i++) {
-    random_noise_c_Am2_[i].SetParameters(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
+    random_noise_c_Am2_[i].SetParameters(0.0, normal_random_standard_deviation_c_Am2[i]);  // global_randomization.MakeSeed()
   }
 }
 
 MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                       const Quaternion& quaternion_b2c, const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c,
-                       const libra::Vector<kMtqDim>& min_c, const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth,
-                       const libra::Vector<kMtqDim>& rw_stddev_c, const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c,
-                       const GeomagneticField* mag_env)
+                       const Quaternion& quaternion_b2c, const libra::Matrix<kMtqDim, kMtqDim>& scale_factor,
+                       const libra::Vector<kMtqDim>& max_magnetic_moment_c_Am2, const libra::Vector<kMtqDim>& min_magnetic_moment_c_Am2,
+                       const libra::Vector<kMtqDim>& bias_noise_c_Am2_, double random_walk_step_width_s,
+                       const libra::Vector<kMtqDim>& random_walk_standard_deviation_c_Am2, const libra::Vector<kMtqDim>& random_walk_limit_c_Am2,
+                       const libra::Vector<kMtqDim>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       quaternion_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),
-      max_magnetic_moment_c_Am2_(max_c),
-      min_magnetic_moment_c_Am2_(min_c),
-      bias_c_Am2_(bias_c),
-      random_walk_c_Am2_(rw_stepwidth, rw_stddev_c, rw_limit_c),
-      geomagnetic_field_(mag_env) {
+      max_magnetic_moment_c_Am2_(max_magnetic_moment_c_Am2),
+      min_magnetic_moment_c_Am2_(min_magnetic_moment_c_Am2),
+      bias_noise_c_Am2_(bias_noise_c_Am2_),
+      random_walk_c_Am2_(random_walk_step_width_s, random_walk_standard_deviation_c_Am2, random_walk_limit_c_Am2),
+      geomagnetic_field_(geomagnetic_field) {
   for (size_t i = 0; i < kMtqDim; i++) {
-    random_noise_c_Am2_[i].SetParameters(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
+    random_noise_c_Am2_[i].SetParameters(0.0, normal_random_standard_deviation_c_Am2[i]);  // global_randomization.MakeSeed()
   }
 }
 
@@ -66,7 +69,7 @@ libra::Vector<kMtqDim> MagTorquer::CalcOutputTorque(void) {
       output_magnetic_moment_c_Am2_[i] = min_magnetic_moment_c_Am2_[i];
     }
     // Add noise
-    output_magnetic_moment_c_Am2_[i] += bias_c_Am2_[i];
+    output_magnetic_moment_c_Am2_[i] += bias_noise_c_Am2_[i];
     output_magnetic_moment_c_Am2_[i] += random_walk_c_Am2_[i];
     output_magnetic_moment_c_Am2_[i] += random_noise_c_Am2_[i];
   }

@@ -31,20 +31,22 @@ class MagTorquer : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] component_id : Actuator ID
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
-   * @param [in] scale_facter: Scale factor matrix
-   * @param [in] max_c : Maximum magnetic moment in the component frame [Am2]
-   * @param [in] min_c : Minimum magnetic moment in the component frame [Am2]
-   * @param [in] bias_c : Constant bias noise in the component frame [Am2]
-   * @param [in] rw_stepwidth_c : Step width for random walk dynamics [s]
-   * @param [in] rw_stddev_c: Standard deviation of random walk noise in the component frame [Am2]
-   * @param [in] rw_limit_c: Limit for random walk noise in the component frame [Am2]
-   * @param [in] nr_stddev_c: Standard deviation for the normal random noise in the component frame [Am2]
+   * @param [in] scale_factor: Scale factor matrix
+   * @param [in] max_magnetic_moment_c_Am2 : Maximum magnetic moment in the component frame [Am2]
+   * @param [in] min_magnetic_moment_c_Am2 : Minimum magnetic moment in the component frame [Am2]
+   * @param [in] bias_noise_c_Am2_ : Constant bias noise in the component frame [Am2]
+   * @param [in] random_walk_step_width_s : Step width for random walk dynamics [s]
+   * @param [in] random_walk_standard_deviation_c_Am2: Standard deviation of random walk noise in the component frame [Am2]
+   * @param [in] random_walk_limit_c_Am2: Limit for random walk noise in the component frame [Am2]
+   * @param [in] normal_random_standard_deviation_c_Am2: Standard deviation for the normal random noise in the component frame [Am2]
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
   MagTorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
-             const libra::Matrix<kMtqDim, kMtqDim>& scale_facter, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
-             const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
-             const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env);
+             const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_magnetic_moment_c_Am2,
+             const libra::Vector<kMtqDim>& min_magnetic_moment_c_Am2, const libra::Vector<kMtqDim>& bias_noise_c_Am2_,
+             double random_walk_step_width_s, const libra::Vector<kMtqDim>& random_walk_standard_deviation_c_Am2,
+             const libra::Vector<kMtqDim>& random_walk_limit_c_Am2, const libra::Vector<kMtqDim>& normal_random_standard_deviation_c_Am2,
+             const GeomagneticField* geomagnetic_field);
   /**
    * @fn MagTorquer
    * @brief Constructor with power port
@@ -53,21 +55,22 @@ class MagTorquer : public Component, public ILoggable {
    * @param [in] power_port: Power port
    * @param [in] component_id : Actuator ID
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
-   * @param [in] scale_facter: Scale factor matrix
-   * @param [in] max_c : Maximum magnetic moment in the component frame [Am2]
-   * @param [in] min_c : Minimum magnetic moment in the component frame [Am2]
-   * @param [in] bias_c : Constant bias noise in the component frame [Am2]
-   * @param [in] rw_stepwidth_c : Step width for random walk dynamics [s]
-   * @param [in] rw_stddev_c: Standard deviation of random walk noise in the component frame [Am2]
-   * @param [in] rw_limit_c: Limit for random walk noise in the component frame [Am2]
-   * @param [in] nr_stddev_c: Standard deviation for the normal random noise in the component frame [Am2]
+   * @param [in] scale_factor: Scale factor matrix
+   * @param [in] max_magnetic_moment_c_Am2 : Maximum magnetic moment in the component frame [Am2]
+   * @param [in] min_magnetic_moment_c_Am2 : Minimum magnetic moment in the component frame [Am2]
+   * @param [in] bias_noise_c_Am2_ : Constant bias noise in the component frame [Am2]
+   * @param [in] random_walk_step_width_s : Step width for random walk dynamics [s]
+   * @param [in] random_walk_standard_deviation_c_Am2: Standard deviation of random walk noise in the component frame [Am2]
+   * @param [in] random_walk_limit_c_Am2: Limit for random walk noise in the component frame [Am2]
+   * @param [in] normal_random_standard_deviation_c_Am2: Standard deviation for the normal random noise in the component frame [Am2]
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
   MagTorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-             const libra::Quaternion& quaternion_b2c, const libra::Matrix<kMtqDim, kMtqDim>& scale_facter, const libra::Vector<kMtqDim>& max_c,
-             const libra::Vector<kMtqDim>& min_c, const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth,
-             const libra::Vector<kMtqDim>& rw_stddev_c, const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c,
-             const GeomagneticField* mag_env);
+             const libra::Quaternion& quaternion_b2c, const libra::Matrix<kMtqDim, kMtqDim>& scale_factor,
+             const libra::Vector<kMtqDim>& max_magnetic_moment_c_Am2, const libra::Vector<kMtqDim>& min_magnetic_moment_c_Am2,
+             const libra::Vector<kMtqDim>& bias_noise_c_Am2_, double random_walk_step_width_s,
+             const libra::Vector<kMtqDim>& random_walk_standard_deviation_c_Am2, const libra::Vector<kMtqDim>& random_walk_limit_c_Am2,
+             const libra::Vector<kMtqDim>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field);
 
   // Override functions for Component
   /**
@@ -121,9 +124,10 @@ class MagTorquer : public Component, public ILoggable {
   libra::Matrix<kMtqDim, kMtqDim> scale_factor_;              //!< Scale factor matrix
   libra::Vector<kMtqDim> max_magnetic_moment_c_Am2_{100.0};   //!< Maximum magnetic moment in the component frame [Am2]
   libra::Vector<kMtqDim> min_magnetic_moment_c_Am2_{-100.0};  //!< Minimum magnetic moment in the component frame [Am2]
-  libra::Vector<kMtqDim> bias_c_Am2_{0.0};                    //!< Constant bias noise in the component frame [Am2]
-  RandomWalk<kMtqDim> random_walk_c_Am2_;                     //!< Random walk noise
-  libra::NormalRand random_noise_c_Am2_[kMtqDim];             //!< Normal random noise
+
+  libra::Vector<kMtqDim> bias_noise_c_Am2_{0.0};   //!< Constant bias noise in the component frame [Am2]
+  RandomWalk<kMtqDim> random_walk_c_Am2_;          //!< Random walk noise
+  libra::NormalRand random_noise_c_Am2_[kMtqDim];  //!< Normal random noise
 
   const GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
 

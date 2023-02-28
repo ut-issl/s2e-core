@@ -15,10 +15,10 @@
  * @param [in] actuator_id: Actuator ID
  * @param [in] fname: Path to the initialize file
  * @param [in] compo_step_time: Component step time [sec]
- * @param [in] mag_env: Geomegnetic environment
+ * @param [in] geomagnetic_field: Geomegnetic environment
  */
 MagTorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, const std::string fname, double compo_step_time,
-                          const GeomagneticField* mag_env);
+                          const GeomagneticField* geomagnetic_field);
 /**
  * @fn InitMagTorquer
  * @brief Initialize functions for magnetometer with power port
@@ -27,9 +27,9 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, cons
  * @param [in] actuator_id: Actuator ID
  * @param [in] fname: Path to the initialize file
  * @param [in] compo_step_time: Component step time [sec]
- * @param [in] mag_env: Geomegnetic environment
+ * @param [in] geomagnetic_field: Geomegnetic environment
  */
 MagTorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string fname, double compo_step_time,
-                          const GeomagneticField* mag_env);
+                          const GeomagneticField* geomagnetic_field);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_INITIALIZE_MAGNETORQUER_HPP_
