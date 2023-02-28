@@ -38,7 +38,7 @@ class SurfaceForce : public SimpleDisturbance {
  protected:
   // Spacecraft Structure parameters
   const vector<Surface>& surfaces_;                //!< List of surfaces
-  const libra::Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass at body frame [m]
+  const libra::Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass_kg at body frame [m]
 
   // Internal calculated variables
   vector<double> normal_coefficients_;      //!< coefficients for out-plane force for each surface

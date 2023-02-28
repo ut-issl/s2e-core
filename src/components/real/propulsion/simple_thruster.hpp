@@ -128,7 +128,7 @@ class SimpleThruster : public Component, public ILoggable {
   /**
    * @fn CalcTorque
    * @brief Calculate generated torque
-   * @param [in] center_of_mass_b_m: Center of mass position at body frame [m]
+   * @param [in] center_of_mass_b_m: Center of mass_kg position at body frame [m]
    */
   void CalcTorque(const Vector<3> center_of_mass_b_m);
   /**

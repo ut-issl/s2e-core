@@ -13,19 +13,19 @@ KinematicsParams InitKinematicsParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "KINEMATIC_PARAMETERS";
 
-  libra::Vector<3> cg_b;
-  conf.ReadVector(section, "center_of_gravity_b_m", cg_b);
-  double mass = conf.ReadDouble(section, "mass_kg");
+  libra::Vector<3> center_of_gravity_b_m;
+  conf.ReadVector(section, "center_of_gravity_b_m", center_of_gravity_b_m);
+  double mass_kg = conf.ReadDouble(section, "mass_kg");
   libra::Vector<9> inertia_vec;
-  libra::Matrix<3, 3> inertia_tensor;
+  libra::Matrix<3, 3> inertia_tensor_b_kgm2;
   conf.ReadVector(section, "inertia_tensor_kgm2", inertia_vec);
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      inertia_tensor[i][j] = inertia_vec[i * 3 + j];
+      inertia_tensor_b_kgm2[i][j] = inertia_vec[i * 3 + j];
     }
   }
 
-  KinematicsParams kinematics_params(cg_b, mass, inertia_tensor);
+  KinematicsParams kinematics_params(center_of_gravity_b_m, mass_kg, inertia_tensor_b_kgm2);
   return kinematics_params;
 }
 

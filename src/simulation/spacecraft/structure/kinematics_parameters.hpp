@@ -19,7 +19,7 @@ class KinematicsParams {
    * @fn KinematicsParams
    * @brief Constructor
    */
-  KinematicsParams(libra::Vector<3> cg_b, double mass, libra::Matrix<3, 3> inertia_tensor);
+  KinematicsParams(libra::Vector<3> center_of_gravity_b_m, double mass_kg, libra::Matrix<3, 3> inertia_tensor_b_kgm2);
   /**
    * @fn ~KinematicsParams
    * @brief Destructor
@@ -54,7 +54,7 @@ class KinematicsParams {
   }
   /**
    * @fn SetMass_kg
-   * @brief Set mass of the satellite
+   * @brief Set mass_kg of the satellite
    * @param [in] mass_kg: Mass of the satellite [kg]
    */
   inline void SetMass_kg(const double mass_kg) {
@@ -62,9 +62,9 @@ class KinematicsParams {
   }
   /**
    * @fn AddMass_kg
-   * @brief Add mass of the satellite
+   * @brief Add mass_kg of the satellite
    * @param [in] mass_kg: Mass of the satellite [kg]
-   * @note Normally, this function is used to decrease the mass due to the fuel consumption.
+   * @note Normally, this function is used to decrease the mass_kg due to the fuel consumption.
    */
   inline void AddMass_kg(const double mass_kg) {
     double temp_mass_kg = mass_kg_ + mass_kg;
