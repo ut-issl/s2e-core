@@ -30,11 +30,31 @@ struct Star {
  */
 class Telescope : public Component, public ILoggable {
  public:
-  Telescope(ClockGenerator* clock_generator, libra::Quaternion& quaternion_b2c, double sun_forbidden_angle_rad, double earth_forbidden_angle_rad,
-            double moon_forbidden_angle_rad, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix,
-            size_t num_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipp,
-            const LocalCelestialInformation* local_celestial_information);
-
+  /**
+   * @fn Telescope
+   * @brief Constructor
+   * @param [in] clock_generator: Clock Generator
+   * @param [in] quaternion_b2c: Frame conversion Quaternion from body to component frame
+   * @param [in] sun_forbidden_angle_rad: Sun forbidden angle [rad]
+   * @param [in] earth_forbidden_angle_rad: Earth forbidden angle [rad]
+   * @param [in] moon_forbidden_angle_rad: Moon forbidden angle [rad]
+   * @param [in] x_num_of_pix: Number of pixel on X-axis in the image plane
+   * @param [in] y_num_of_pix: Number of pixel on Y-axis in the image plane
+   * @param [in] x_fov_par_pix: Field of view per pixel of X-axis in the image plane [rad/pix]
+   * @param [in] y_fov_par_pix: Field of view per pixel of Y-axis in the image plane [rad/pix]
+   * @param [in] num_of_logged_stars: Number of logged stars
+   * @param [in] attitude: Attitude Information
+   * @param [in] hipparcos: Hipparcos catalogue information
+   * @param [in] local_celestial_information: Local celestial information
+   */
+  Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
+            const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_num_of_pix, const int y_num_of_pix,
+            const double x_fov_par_pix, const double y_fov_par_pix, size_t num_of_logged_stars, const Attitude* attitude,
+            const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information);
+  /**
+   * @fn ~Telescope
+   * @brief Destructor
+   */
   ~Telescope();
 
   // Getter
