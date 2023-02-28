@@ -28,7 +28,7 @@ GroundStationCalculator::~GroundStationCalculator() {}
 
 void GroundStationCalculator::Update(const Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
                                      const Antenna& ground_station_rx_antenna) {
-  bool is_visible = ground_station.IsVisible(spacecraft.GetSatID());
+  bool is_visible = ground_station.IsVisible(spacecraft.GetSpacecraftId());
   if (is_visible) {
     max_bitrate_Mbps_ = CalcMaxBitrate(spacecraft.GetDynamics(), spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
     receive_margin_dB_ = CalcReceiveMarginOnGs(spacecraft.GetDynamics(), spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);

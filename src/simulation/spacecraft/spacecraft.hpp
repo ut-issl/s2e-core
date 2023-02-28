@@ -81,10 +81,10 @@ class Spacecraft {
    */
   inline const Dynamics& GetDynamics() const { return *dynamics_; }
   /**
-   * @fn GetlocalEnv
+   * @fn GetLocalEnvironment
    * @brief Get local environment around the spacecraft
    */
-  inline const LocalEnvironment& GetLocalEnv() const { return *local_environment_; }
+  inline const LocalEnvironment& GetLocalEnvironment() const { return *local_environment_; }
   /**
    * @fn GetDisturbances
    * @brief Get disturbance acting of the spacecraft
@@ -101,10 +101,10 @@ class Spacecraft {
    */
   inline const InstalledComponents& GetInstalledComponents() const { return *components_; }
   /**
-   * @fn GetSatID
+   * @fn GetSpacecraftId
    * @brief Get ID of the spacecraft
    */
-  inline int GetSatID() const { return spacecraft_id_; }
+  inline unsigned int GetSpacecraftId() const { return spacecraft_id_; }
 
  protected:
   ClockGenerator clock_generator_;             //!< Origin of clock for the spacecraft
