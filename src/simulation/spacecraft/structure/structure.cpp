@@ -11,8 +11,8 @@
 Structure::Structure(SimulationConfig* simulation_configuration, const int spacecraft_id) { Initialize(simulation_configuration, spacecraft_id); }
 
 Structure::~Structure() {
-  delete kinnematics_params_;
-  delete rmm_params_;
+  delete kinematics_parameters_;
+  delete residual_magnetic_moment_;
 }
 
 void Structure::Initialize(SimulationConfig* simulation_configuration, const int spacecraft_id) {
@@ -22,7 +22,7 @@ void Structure::Initialize(SimulationConfig* simulation_configuration, const int
   // Save ini file
   simulation_configuration->main_logger_->CopyFileToLogDirectory(ini_fname);
   // Initialize
-  kinnematics_params_ = new KinematicsParameters(InitKinematicsParams(ini_fname));
+  kinematics_parameters_ = new KinematicsParameters(InitKinematicsParams(ini_fname));
   surfaces_ = InitSurfaces(ini_fname);
-  rmm_params_ = new ResidualMagneticMoment(InitRMMParams(ini_fname));
+  residual_magnetic_moment_ = new ResidualMagneticMoment(InitRMMParams(ini_fname));
 }

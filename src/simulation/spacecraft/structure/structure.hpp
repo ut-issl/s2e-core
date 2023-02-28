@@ -46,12 +46,12 @@ class Structure {
    * @fn GetKinematicsParams
    * @brief Return kinematics information
    */
-  inline const KinematicsParameters& GetKinematicsParams() const { return *kinnematics_params_; }
+  inline const KinematicsParameters& GetKinematicsParams() const { return *kinematics_parameters_; }
   /**
    * @fn GetRMMParams
    * @brief Return Residual Magnetic Moment information
    */
-  inline const ResidualMagneticMoment& GetRMMParams() const { return *rmm_params_; }
+  inline const ResidualMagneticMoment& GetRMMParams() const { return *residual_magnetic_moment_; }
 
   /**
    * @fn GetToSetSurfaces
@@ -62,17 +62,17 @@ class Structure {
    * @fn GetToSetKinematicsParams
    * @brief Return kinematics information
    */
-  inline KinematicsParameters& GetToSetKinematicsParams() { return *kinnematics_params_; }
+  inline KinematicsParameters& GetToSetKinematicsParams() { return *kinematics_parameters_; }
   /**
    * @fn GetToSetRMMParams
    * @brief Return Residual Magnetic Moment information
    */
-  inline ResidualMagneticMoment& GetToSetRMMParams() { return *rmm_params_; }
+  inline ResidualMagneticMoment& GetToSetRMMParams() { return *residual_magnetic_moment_; }
 
  private:
-  KinematicsParameters* kinnematics_params_;  //!< Kinematics parameters
-  vector<Surface> surfaces_;                  //!< Surface information
-  ResidualMagneticMoment* rmm_params_;        //!< Residual Magnetic Moment
+  KinematicsParameters* kinematics_parameters_;       //!< Kinematics parameters
+  vector<Surface> surfaces_;                          //!< Surface information
+  ResidualMagneticMoment* residual_magnetic_moment_;  //!< Residual Magnetic Moment
 };
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_STRUCTURE_HPP_
