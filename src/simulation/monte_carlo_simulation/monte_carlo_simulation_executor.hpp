@@ -155,7 +155,7 @@ void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name
     // Not registered in ip_list（Not defined in MCSim.ini）
     return;  // return without update the destination
   } else {
-    ip_list_.at(name)->GetVec(destination);  // cannot use operator[] since it is const map
+    ip_list_.at(name)->GetRandomizedVector(destination);  // cannot use operator[] since it is const map
   }
 }
 
@@ -166,7 +166,7 @@ void MCSimExecutor::AddInitParameter(std::string so_name, std::string ip_name, c
   if (ip_list_.find(name) == ip_list_.end()) {
     // Register the parameter in ip_list if it is not registered yet
     auto newparam = new InitParameter();
-    newparam->SetRandomConfig(mean_or_min, sigma_or_max, rnd_type);
+    newparam->SetRandomConfiguration(mean_or_min, sigma_or_max, rnd_type);
     ip_list_[name] = newparam;
   } else {
     // Throw error if the parameter is already registered

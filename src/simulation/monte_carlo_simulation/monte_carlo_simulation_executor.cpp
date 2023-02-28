@@ -39,7 +39,7 @@ void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name, doubl
       // Not registered in ip_list（Not defined in MCSim.ini）
       return;  // return without any update of destination
     } else {
-      ip_list_.at(name)->GetDouble(destination);  // cannot use operator[] since it is const map
+      ip_list_.at(name)->GetRandomizedScalar(destination);  // cannot use operator[] since it is const map
     }
   }
 }
@@ -52,7 +52,7 @@ void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name, l
       // Not registered in ip_list（Not defined in MCSim.ini）
       return;  // return without any update of destination
     } else {
-      ip_list_.at(name)->GetQuaternion(destination);  // cannot use operator[] since it is const map
+      ip_list_.at(name)->GetRandomizedQuaternion(destination);  // cannot use operator[] since it is const map
     }
   }
 }

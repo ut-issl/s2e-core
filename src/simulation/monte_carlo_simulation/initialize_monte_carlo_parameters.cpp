@@ -24,7 +24,7 @@ InitParameter::InitParameter() {
     initial_setup_done = true;
   }
 
-  // No randomization when SetRandomConfig is not called（No setting in MCSim.ini）
+  // No randomization when SetRandomConfiguration is not called（No setting in MCSim.ini）
   randomization_type_ = NoRandomization;
 }
 
@@ -36,7 +36,7 @@ void InitParameter::SetSeed(unsigned long seed, bool is_deterministic) {
   }
 }
 
-void InitParameter::GetDouble(double& destination) const {
+void InitParameter::GetRandomizedScalar(double& destination) const {
   if (randomization_type_ == NoRandomization) {
     ;
   } else if (1 > randomized_value_.size()) {
@@ -46,7 +46,7 @@ void InitParameter::GetDouble(double& destination) const {
   }
 }
 
-void InitParameter::GetQuaternion(libra::Quaternion& destination) const {
+void InitParameter::GetRandomizedQuaternion(libra::Quaternion& destination) const {
   if (randomization_type_ == NoRandomization) {
     ;
   } else if (4 > randomized_value_.size()) {

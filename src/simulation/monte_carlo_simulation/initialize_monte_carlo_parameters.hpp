@@ -48,29 +48,30 @@ class InitParameter {
    */
   static void SetSeed(unsigned long seed = 0, bool is_deterministic = false);
   /**
-   * @fn SetRandomConfig
+   * @fn SetRandomConfiguration
    * @brief Set randomization parameters
    */
   template <size_t NumElement1, size_t NumElement2>
-  void SetRandomConfig(const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max, RandomizationType rnd_type);
+  void SetRandomConfiguration(const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
+                              RandomizationType rnd_type);
 
   // Getter
   /**
-   * @fn GetVec
+   * @fn GetRandomizedVector
    * @brief Get randomized vector value results
    */
   template <size_t NumElement>
-  void GetVec(libra::Vector<NumElement>& destination) const;
+  void GetRandomizedVector(libra::Vector<NumElement>& destination) const;
   /**
-   * @fn GetQuaternion
+   * @fn GetRandomizedQuaternion
    * @brief Get randomized quaternion results
    */
-  void GetQuaternion(libra::Quaternion& destination) const;
+  void GetRandomizedQuaternion(libra::Quaternion& destination) const;
   /**
-   * @fn GetDouble
+   * @fn GetRandomizedScalar
    * @brief Get randomized value results
    */
-  void GetDouble(double& destination) const;
+  void GetRandomizedScalar(double& destination) const;
 
   // Calculation
   /**
@@ -204,8 +205,8 @@ class InitParameter {
 };
 
 template <size_t NumElement1, size_t NumElement2>
-void InitParameter::SetRandomConfig(const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
-                                    InitParameter::RandomizationType rnd_type) {
+void InitParameter::SetRandomConfiguration(const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
+                                           InitParameter::RandomizationType rnd_type) {
   randomization_type_ = rnd_type;
   mean_or_min_.clear();
   for (size_t i = 0; i < NumElement1; i++) {
@@ -218,7 +219,7 @@ void InitParameter::SetRandomConfig(const libra::Vector<NumElement1>& mean_or_mi
 }
 
 template <size_t NumElement>
-void InitParameter::GetVec(libra::Vector<NumElement>& destination) const {
+void InitParameter::GetRandomizedVector(libra::Vector<NumElement>& destination) const {
   if (randomization_type_ == NoRandomization) {
     ;
   } else if (NumElement > randomized_value_.size()) {
