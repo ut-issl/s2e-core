@@ -47,7 +47,7 @@ class HilsPortManager {
   virtual int UartCloseComPort(unsigned int port_id);
   /**
    * @fn UartReceive
-   * @brief UART data receive from COM port (ex. OnBoardComputer) to components in S2E
+   * @brief UART data receive from COM port (ex. OBC to components in S2E
    * @param [in] port_id: COM port ID
    * @param [out] buffer: Data buffer to receive
    * @param [in] offset: Start offset for the data buffer to receive
@@ -56,7 +56,7 @@ class HilsPortManager {
   virtual int UartReceive(unsigned int port_id, unsigned char* buffer, int offset, int count);
   /**
    * @fn UartSend
-   * @brief UART data send from components in S2E to COM port (ex. OnBoardComputer)
+   * @brief UART data send from components in S2E to COM port (ex. OBC)
    * @param [in] port_id: COM port ID
    * @param [in] buffer: Data buffer to send
    * @param [in] offset: Start offset for the data buffer to send
