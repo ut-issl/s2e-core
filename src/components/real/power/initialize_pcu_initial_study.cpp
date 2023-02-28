@@ -1,6 +1,6 @@
 ﻿/*
  * @file initialize_pcu_initial_study.cpp
- * @brief Initialize function of PCU_InitialStudy
+ * @brief Initialize function of PcuInitialStudy
  */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -11,8 +11,8 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-PCU_InitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id, const std::string file_name, const std::vector<SAP*> saps,
-                                      Battery* battery, double component_step_time_s) {
+PcuInitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id, const std::string file_name, const std::vector<SAP*> saps,
+                                     Battery* battery, double component_step_time_s) {
   IniAccess pcu_conf(file_name);
 
   const std::string st_pcu_id = std::to_string(pcu_id);
@@ -24,7 +24,7 @@ PCU_InitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_i
   int prescaler = pcu_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  PCU_InitialStudy pcu(prescaler, clock_generator, saps, battery, component_step_time_s);
+  PcuInitialStudy pcu(prescaler, clock_generator, saps, battery, component_step_time_s);
 
   return pcu;
 }

@@ -13,10 +13,10 @@
 #include "battery.hpp"
 #include "solar_array_panel.hpp"
 
-class PCU_InitialStudy : public Component, public ILoggable {
+class PcuInitialStudy : public Component, public ILoggable {
  public:
   /**
-   * @fn PCU_InitialStudy
+   * @fn PcuInitialStudy
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
@@ -24,21 +24,20 @@ class PCU_InitialStudy : public Component, public ILoggable {
    * @param [in] battery: Battery
    * @param [in] component_step_time_s: Component step time [sec]
    */
-  PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery,
-                   double component_step_time_s);
+  PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery, double component_step_time_s);
   /**
-   * @fn PCU_InitialStudy
+   * @fn PcuInitialStudy
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
    * @param [in] saps: Solar Array Panels
    * @param [in] battery: Battery
    */
-  PCU_InitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery);
+  PcuInitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery);
   /**
-   * @fn ~PCU_InitialStudy
+   * @fn ~PcuInitialStudy
    * @brief Destructor
    */
-  ~PCU_InitialStudy();
+  ~PcuInitialStudy();
 
   // Override ILoggable
   /**

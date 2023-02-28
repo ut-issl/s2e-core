@@ -1,6 +1,6 @@
 /*
  * @file initialize_pcu_initial_study.hpp
- * @brief Initialize function of PCU_InitialStudy
+ * @brief Initialize function of PcuInitialStudy
  */
 
 #ifndef S2E_COMPONENTS_REAL_POWER_INITIALIZE_PCU_INITIAL_STUDY_HPP_
@@ -18,7 +18,7 @@
  * @param [in] battery: Battery information
  * @param [in] component_step_time_s: Component step time [sec]
  */
-PCU_InitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id, const std::string file_name, const std::vector<SAP*> saps,
-                                      Battery* battery, double component_step_time_s);
+PcuInitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id, const std::string file_name, const std::vector<SAP*> saps,
+                                     Battery* battery, double component_step_time_s);
 
 #endif  // S2E_COMPONENTS_REAL_POWER_INITIALIZE_PCU_INITIAL_STUDY_HPP_

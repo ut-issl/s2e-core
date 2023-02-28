@@ -9,8 +9,8 @@
 #include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
 
-PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery,
-                                   double component_step_time_s)
+PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery,
+                                 double component_step_time_s)
     : Component(prescaler, clock_generator),
       saps_(saps),
       battery_(battery),
@@ -21,7 +21,7 @@ PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_ge
   power_consumption_W_ = 0.0;
 }
 
-PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery)
+PcuInitialStudy::PcuInitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery)
     : Component(10, clock_generator),
       saps_(saps),
       battery_(battery),
@@ -32,9 +32,9 @@ PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_generator, const std::v
   power_consumption_W_ = 0.0;
 }
 
-PCU_InitialStudy::~PCU_InitialStudy() {}
+PcuInitialStudy::~PcuInitialStudy() {}
 
-std::string PCU_InitialStudy::GetLogHeader() const {
+std::string PcuInitialStudy::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "pcu_initial_study_";
   str_tmp += WriteScalar(component_name + "power_consumption", "W");
@@ -42,14 +42,14 @@ std::string PCU_InitialStudy::GetLogHeader() const {
   return str_tmp;
 }
 
-std::string PCU_InitialStudy::GetLogValue() const {
+std::string PcuInitialStudy::GetLogValue() const {
   std::string str_tmp = "";
   str_tmp += WriteScalar(power_consumption_W_);
   str_tmp += WriteScalar(bus_voltage_V_);
   return str_tmp;
 }
 
-void PCU_InitialStudy::MainRoutine(int time_count) {
+void PcuInitialStudy::MainRoutine(int time_count) {
   double time_query = compo_step_time_s_ * time_count;
   power_consumption_W_ = CalcPowerConsumption(time_query);  // Should use SimulationTime? time_count may over flow since it is int type,
 
@@ -59,7 +59,7 @@ void PCU_InitialStudy::MainRoutine(int time_count) {
   }
 }
 
-double PCU_InitialStudy::CalcPowerConsumption(double time_query) const {
+double PcuInitialStudy::CalcPowerConsumption(double time_query) const {
   if (CsvScenarioInterface::IsCsvScenarioEnabled()) {
     return CsvScenarioInterface::GetPowerConsumption(time_query);
   } else {
@@ -77,7 +77,7 @@ double PCU_InitialStudy::CalcPowerConsumption(double time_query) const {
   }
 }
 
-void PCU_InitialStudy::UpdateChargeCurrentAndBusVoltage() {
+void PcuInitialStudy::UpdateChargeCurrentAndBusVoltage() {
   double bat_voltage = battery_->GetVoltage_V();
   const double battery_resistance_Ohm = battery_->GetResistance_Ohm();
   double power_generation = 0.0;
