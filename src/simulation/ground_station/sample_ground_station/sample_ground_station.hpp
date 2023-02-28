@@ -47,7 +47,7 @@ class SampleGroundStation : public GroundStation {
    * @fn Update
    * @brief Override function of Update in GroundStation class
    */
-  virtual void Update(const CelestialRotation& celestial_rotation, const SampleSat& spacecraft);
+  virtual void Update(const CelestialRotation& celestial_rotation, const SampleSpacecraft& spacecraft);
 
  private:
   SampleGsComponents* components_;  //!< Ground station related components

@@ -12,20 +12,20 @@ using std::string;
 
 SampleCase::SampleCase(string initialise_base_file) : SimulationCase(initialise_base_file) {}
 
-SampleCase::~SampleCase() { delete sample_sat_; }
+SampleCase::~SampleCase() { delete sample_spacecraft_; }
 
 void SampleCase::Initialize() {
   // Instantiate the target of the simulation
   // `spacecraft_id` corresponds to the index of `sat_file` in Simbase.ini
   const int spacecraft_id = 0;
-  sample_sat_ = new SampleSat(&simulation_configuration_, global_environment_, spacecraft_id);
+  sample_spacecraft_ = new SampleSpacecraft(&simulation_configuration_, global_environment_, spacecraft_id);
   const int ground_station_id = 0;
-  sample_gs_ = new SampleGroundStation(&simulation_configuration_, ground_station_id);
+  sample_ground_station_ = new SampleGroundStation(&simulation_configuration_, ground_station_id);
 
   // Register the log output
   global_environment_->LogSetup(*(simulation_configuration_.main_logger_));
-  sample_sat_->LogSetup(*(simulation_configuration_.main_logger_));
-  sample_gs_->LogSetup(*(simulation_configuration_.main_logger_));
+  sample_spacecraft_->LogSetup(*(simulation_configuration_.main_logger_));
+  sample_ground_station_->LogSetup(*(simulation_configuration_.main_logger_));
 
   // Write headers to the log
   simulation_configuration_.main_logger_->WriteHeaders();
@@ -46,9 +46,9 @@ void SampleCase::Main() {
     // Global Environment Update
     global_environment_->Update();
     // Spacecraft Update
-    sample_sat_->Update(&(global_environment_->GetSimulationTime()));
+    sample_spacecraft_->Update(&(global_environment_->GetSimulationTime()));
     // Ground Station Update
-    sample_gs_->Update(global_environment_->GetCelestialInformation().GetEarthRotation(), *sample_sat_);
+    sample_ground_station_->Update(global_environment_->GetCelestialInformation().GetEarthRotation(), *sample_spacecraft_);
 
     // Debug output
     if (global_environment_->GetSimulationTime().GetState().disp_output) {
