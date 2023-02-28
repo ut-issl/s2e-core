@@ -95,8 +95,8 @@ void RWModel::Initialize() {
   }
 }
 
-void RWModel::MainRoutine(int count) {
-  UNUSED(count);
+void RWModel::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   CalcTorque();
 }

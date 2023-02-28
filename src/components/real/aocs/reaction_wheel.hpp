@@ -104,7 +104,7 @@ class RWModel : public Component, public ILoggable {
    * @fn MainRoutine
    * @brief Main routine to output torque of normal RW
    */
-  void MainRoutine(int count) override;
+  void MainRoutine(const int time_count) override;
   /**
    * @fn PowerOffRoutine
    * @brief Power off routine to stop actuation
