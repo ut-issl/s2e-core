@@ -80,28 +80,28 @@ class Antenna {
   ~Antenna();
 
   /**
-   * @fn CalcTxEIRP
+   * @fn CalcTxEIRP_dBW
    * @brief Calculation of TX EIRP
    * @param [in] theta: Angle from PZ axis on the antenna frame [rad]
    * @param [in] phi: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
    * @return TX EIRP [dBW]
    */
-  double CalcTxEIRP(const double theta_rad, const double phi_rad = 0.0) const;
+  double CalcTxEIRP_dBW(const double theta_rad, const double phi_rad = 0.0) const;
   /**
-   * @fn CalcRxGT
+   * @fn CalcRxGT_dB_K
    * @brief Calculation of RX G/T
    * @param [in] theta: Angle from PZ axis on the antenna frame [rad]
    * @param [in] phi: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
    * @return RX G/T [dB/K]
    */
-  double CalcRxGT(const double theta_rad, const double phi_rad = 0.0) const;
+  double CalcRxGT_dB_K(const double theta_rad, const double phi_rad = 0.0) const;
 
   // Getter
   /**
-   * @fn GetFrequency
+   * @fn GetFrequency_MHz
    * @brief Return frequency_MHz [MHz]
    */
-  inline double GetFrequency() const { return frequency_MHz_; }
+  inline double GetFrequency_MHz() const { return frequency_MHz_; }
   /**
    * @fn GetQuaternion_b2c
    * @brief Return quaternion from body to component

@@ -68,7 +68,7 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
   Vector<3> sc_pos_i = dynamics.GetOrbit().GetPosition_i_m();
   Vector<3> gs_pos_i = ground_station.GetGSPosition_i();
   double dist_sc_gs_km = CalcNorm(sc_pos_i - gs_pos_i) / 1000.0;
-  double loss_space_dB = -20.0 * log10(4.0 * libra::pi * dist_sc_gs_km / (300.0 / sc_tx_ant.GetFrequency() / 1000.0));
+  double loss_space_dB = -20.0 * log10(4.0 * libra::pi * dist_sc_gs_km / (300.0 / sc_tx_ant.GetFrequency_MHz() / 1000.0));
 
   // GS direction on SC TX antenna frame
   Vector<3> sc_to_gs_i = gs_pos_i - sc_pos_i;
@@ -87,8 +87,8 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
   double phi_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[0] / sin(theta_on_gs_antenna_rad));
 
   // Calc CN0
-  double cn0_dBHz = sc_tx_ant.CalcTxEIRP(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) + loss_space_dB + loss_polarization_ + loss_atmosphere_ +
-                    loss_rainfall_ + loss_others_ + gs_rx_ant.CalcRxGT(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) -
+  double cn0_dBHz = sc_tx_ant.CalcTxEIRP_dBW(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) + loss_space_dB + loss_polarization_ + loss_atmosphere_ +
+                    loss_rainfall_ + loss_others_ + gs_rx_ant.CalcRxGT_dB_K(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) -
                     10.0 * log10(environment::boltzmann_constant_J_K);
   return cn0_dBHz;
 }
