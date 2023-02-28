@@ -135,10 +135,10 @@ class RWModel : public Component, public ILoggable {
    */
   const libra::Vector<3> GetOutputTorqueB() const;
   /**
-   * @fn GetJitterForceB
+   * @fn GetJitterForce_b_N
    * @brief Return output force by jitter in the body fixed frame [N]
    */
-  const libra::Vector<3> GetJitterForceB() const { return rw_jitter_.GetJitterForceB(); }
+  const libra::Vector<3> GetJitterForce_b_N() const { return rw_jitter_.GetJitterForce_b_N(); }
   /**
    * @fn isMotorDrove
    * @brief Return drive flag

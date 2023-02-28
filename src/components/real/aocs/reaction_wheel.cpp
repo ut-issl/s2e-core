@@ -153,7 +153,7 @@ libra::Vector<3> RWModel::CalcTorque() {
 const libra::Vector<3> RWModel::GetOutputTorqueB() const {
   if (is_calculated_jitter_) {
     // Add jitter_force_b_N_-derived torque and jitter_torque_b_Nm_ to output_torqur_b
-    return output_torque_b_ - libra::OuterProduct(pos_b_, rw_jitter_.GetJitterForceB()) - rw_jitter_.GetJitterTorqueB();
+    return output_torque_b_ - libra::OuterProduct(pos_b_, rw_jitter_.GetJitterForce_b_N()) - rw_jitter_.GetJitterTorque_b_Nm();
   } else {
     return output_torque_b_;
   }
@@ -208,8 +208,8 @@ std::string RWModel::GetLogValue() const {
   str_tmp += WriteScalar(angular_acceleration_);
 
   if (is_logged_jitter_) {
-    str_tmp += WriteVector(rw_jitter_.GetJitterForceC());
-    str_tmp += WriteVector(rw_jitter_.GetJitterTorqueC());
+    str_tmp += WriteVector(rw_jitter_.GetJitterForce_c_N());
+    str_tmp += WriteVector(rw_jitter_.GetJitterTorque_c_Nm());
   }
 
   return str_tmp;

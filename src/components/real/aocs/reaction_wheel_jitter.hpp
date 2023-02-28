@@ -47,27 +47,27 @@ class RWJitter {
   void CalcJitter(double angular_velocity_rad);
 
   /**
-   * @fn GetJitterForceB
+   * @fn GetJitterForce_b_N
    * @brief Return generated jitter force in the body fixed frame [N]
    */
-  const libra::Vector<3> GetJitterForceB() const { return jitter_force_b_N_; }
+  const libra::Vector<3> GetJitterForce_b_N() const { return jitter_force_b_N_; }
   /**
-   * @fn GetJitterTorqueB
+   * @fn GetJitterTorque_b_Nm
    * @brief Return generated jitter torque in the body fixed frame [Nm]
    */
-  const libra::Vector<3> GetJitterTorqueB() const { return jitter_torque_b_Nm_; }
+  const libra::Vector<3> GetJitterTorque_b_Nm() const { return jitter_torque_b_Nm_; }
   /**
-   * @fn GetJitterForceC
+   * @fn GetJitterForce_c_N
    * @brief Return generated jitter force in the components frame [N]
    */
-  const libra::Vector<3> GetJitterForceC() const {
+  const libra::Vector<3> GetJitterForce_c_N() const {
     return considers_structural_resonance_ ? filtered_jitter_force_n_c_ : unfiltered_jitter_force_n_c_;
   }
   /**
-   * @fn GetJitterTorqueC
+   * @fn GetJitterTorque_c_Nm
    * @brief Return generated jitter torque in the component frame [Nm]
    */
-  const libra::Vector<3> GetJitterTorqueC() const {
+  const libra::Vector<3> GetJitterTorque_c_Nm() const {
     return considers_structural_resonance_ ? filtered_jitter_torque_n_c_ : unfiltered_jitter_torque_n_c_;
   }
 
@@ -88,7 +88,7 @@ class RWJitter {
   std::vector<double> jitter_force_rotation_phase_;   //!< 2 * pi * h_i * Omega * t [rad]
   std::vector<double> jitter_torque_rotation_phase_;  //!< 2 * pi * h_i * Omega * t [rad]
 
-  // Variables for solving difference equations in compo frame
+  // Variables for solving difference equations in component frame
   libra::Vector<3> unfiltered_jitter_force_n_c_{0.0};
   libra::Vector<3> unfiltered_jitter_force_n_1_c_{0.0};
   libra::Vector<3> unfiltered_jitter_force_n_2_c_{0.0};
