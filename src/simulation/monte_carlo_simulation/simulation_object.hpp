@@ -70,7 +70,7 @@ class SimulationObject {
 
  private:
   std::string name_;  //!< Name to distinguish the target variable in initialize file for Monte-Carlo simulation
-  static std::map<std::string, SimulationObject*> ojbect_list_;  //!< list of objects with simulation parameters
+  static std::map<std::string, SimulationObject*> object_list_;  //!< list of objects with simulation parameters
 };
 
 /**

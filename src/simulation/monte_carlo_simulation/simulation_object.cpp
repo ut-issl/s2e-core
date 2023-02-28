@@ -5,15 +5,15 @@
 
 #include "simulation_object.hpp"
 
-std::map<std::string, SimulationObject*> SimulationObject::ojbect_list_;
+std::map<std::string, SimulationObject*> SimulationObject::object_list_;
 
 SimulationObject::SimulationObject(std::string name) : name_(name) {
   // Check the name is already registered in so_list
-  std::map<std::string, SimulationObject*>::iterator itr = SimulationObject::ojbect_list_.find(name);
+  std::map<std::string, SimulationObject*>::iterator itr = SimulationObject::object_list_.find(name);
 
-  if (itr == SimulationObject::ojbect_list_.end()) {
+  if (itr == SimulationObject::object_list_.end()) {
     // Register itself in so_list if it is not registered yet
-    SimulationObject::ojbect_list_[name] = this;
+    SimulationObject::object_list_[name] = this;
   } else {
     // If it is already registered in so_list, throw error. It should be deleted in the finalize phase of previous case.
     // Or there is a possibility that the same name SimulationObjects are registered in the list.
@@ -23,11 +23,11 @@ SimulationObject::SimulationObject(std::string name) : name_(name) {
 
 SimulationObject::~SimulationObject() {
   // Remove itself from so_list
-  SimulationObject::ojbect_list_.erase(name_);
+  SimulationObject::object_list_.erase(name_);
 }
 
 void SimulationObject::SetAllParameters(const MonteCarloSimulationExecutor& monte_carlo_simulator) {
-  for (auto so : SimulationObject::ojbect_list_) {
+  for (auto so : SimulationObject::object_list_) {
     so.second->SetParameters(monte_carlo_simulator);
   }
 }
