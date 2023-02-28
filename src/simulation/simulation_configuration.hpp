@@ -12,10 +12,10 @@
 #include "../library/logger/logger.hpp"
 
 /**
- * @struct SimulationConfig
+ * @struct SimulationConfiguration
  * @brief Simulation setting information
  */
-struct SimulationConfig {
+struct SimulationConfiguration {
   std::string initialize_base_file_name_;  //!< Base file name for initialization
   Logger* main_logger_;                    //!< Main logger
 
@@ -29,10 +29,10 @@ struct SimulationConfig {
   std::string gnss_file_;                    //!< File name for GNSS initialization
 
   /**
-   * @fn ~SimulationConfig
+   * @fn ~SimulationConfiguration
    * @brief Destructor
    */
-  ~SimulationConfig() { delete main_logger_; }
+  ~SimulationConfiguration() { delete main_logger_; }
 };
 
 #endif  // S2E_SIMULATION_SIMULATION_CONFIGURATION_HPP_

@@ -13,7 +13,8 @@
 #include <library/utilities/macros.hpp>
 #include <string>
 
-GroundStation::GroundStation(const SimulationConfig* configuration, const unsigned int ground_station_id) : ground_station_id_(ground_station_id) {
+GroundStation::GroundStation(const SimulationConfiguration* configuration, const unsigned int ground_station_id)
+    : ground_station_id_(ground_station_id) {
   Initialize(configuration, ground_station_id_);
   number_of_spacecraft_ = configuration->number_of_simulated_spacecraft_;
   for (unsigned int i = 0; i < number_of_spacecraft_; i++) {
@@ -23,7 +24,7 @@ GroundStation::GroundStation(const SimulationConfig* configuration, const unsign
 
 GroundStation::~GroundStation() {}
 
-void GroundStation::Initialize(const SimulationConfig* configuration, const unsigned int ground_station_id) {
+void GroundStation::Initialize(const SimulationConfiguration* configuration, const unsigned int ground_station_id) {
   std::string gs_ini_path = configuration->ground_station_file_list_[0];
   auto conf = IniAccess(gs_ini_path);
 

@@ -24,7 +24,7 @@ class GlobalEnvironment {
    * @brief Constructor
    * @param [in] simulation_configuration: Simulation configuration
    */
-  GlobalEnvironment(SimulationConfig* simulation_configuration);
+  GlobalEnvironment(SimulationConfiguration* simulation_configuration);
   /**
    * @fn ~GlobalEnvironment
    * @brief Destructor
@@ -36,7 +36,7 @@ class GlobalEnvironment {
    * @brief Initialize all global environment members
    * @param [in] simulation_configuration: Simulation configuration
    */
-  void Initialize(SimulationConfig* simulation_configuration);
+  void Initialize(SimulationConfiguration* simulation_configuration);
   /**
    * @fn Update
    * @brief Update states of all global environment

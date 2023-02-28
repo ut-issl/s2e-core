@@ -18,7 +18,7 @@ class InterSpacecraftCommunication {
    * @fn InterSpacecraftCommunication
    * @brief Constructor
    */
-  InterSpacecraftCommunication(const SimulationConfig* simulation_configuration);
+  InterSpacecraftCommunication(const SimulationConfiguration* simulation_configuration);
   /**
    * @fn ~InterSpacecraftCommunication
    * @brief Destructor

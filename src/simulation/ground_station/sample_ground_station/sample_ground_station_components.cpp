@@ -6,7 +6,7 @@
 
 #include <library/initialize/initialize_file_access.hpp>
 
-SampleGsComponents::SampleGsComponents(const SimulationConfig* configuration) : configuration_(configuration) {
+SampleGsComponents::SampleGsComponents(const SimulationConfiguration* configuration) : configuration_(configuration) {
   IniAccess iniAccess = IniAccess(configuration_->ground_station_file_list_[0]);
 
   std::string ant_ini_path = iniAccess.ReadString("COMPONENT_FILES", "ground_station_antenna_file");

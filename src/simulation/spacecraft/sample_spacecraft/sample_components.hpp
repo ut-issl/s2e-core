@@ -54,7 +54,7 @@ class SampleComponents : public InstalledComponents {
    * @brief Constructor
    */
   SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_environment,
-                   const GlobalEnvironment* global_environment, const SimulationConfig* configuration, ClockGenerator* clock_generator,
+                   const GlobalEnvironment* global_environment, const SimulationConfiguration* configuration, ClockGenerator* clock_generator,
                    const unsigned int spacecraft_id);
   /**
    * @fn ~SampleComponents
@@ -112,11 +112,11 @@ class SampleComponents : public InstalledComponents {
   */
 
   // States
-  const SimulationConfig* configuration_;        //!< Simulation settings
-  const Dynamics* dynamics_;                     //!< Dynamics information of the spacecraft
-  Structure* structure_;                         //!< Structure information of the spacecraft
-  const LocalEnvironment* local_environment_;    //!< Local environment information around the spacecraft
-  const GlobalEnvironment* global_environment_;  //!< Global environment information
+  const SimulationConfiguration* configuration_;  //!< Simulation settings
+  const Dynamics* dynamics_;                      //!< Dynamics information of the spacecraft
+  Structure* structure_;                          //!< Structure information of the spacecraft
+  const LocalEnvironment* local_environment_;     //!< Local environment information around the spacecraft
+  const GlobalEnvironment* global_environment_;   //!< Global environment information
 };
 
 #endif  // S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_

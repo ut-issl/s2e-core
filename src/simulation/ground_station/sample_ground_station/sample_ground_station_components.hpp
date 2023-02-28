@@ -19,7 +19,7 @@ class SampleGsComponents {
    * @fn SampleGsComponents
    * @brief Constructor
    */
-  SampleGsComponents(const SimulationConfig* configuration);
+  SampleGsComponents(const SimulationConfiguration* configuration);
   /**
    * @fn ~SampleGsComponents
    * @brief Destructor
@@ -44,9 +44,9 @@ class SampleGsComponents {
   inline GroundStationCalculator* GetGsCalculator() const { return gs_calculator_; }
 
  private:
-  Antenna* antenna_;                        //!< Antenna on ground station
-  GroundStationCalculator* gs_calculator_;  //!< Ground station calculation algorithm
-  const SimulationConfig* configuration_;   //!< Simulation setting
+  Antenna* antenna_;                              //!< Antenna on ground station
+  GroundStationCalculator* gs_calculator_;        //!< Ground station calculation algorithm
+  const SimulationConfiguration* configuration_;  //!< Simulation setting
 };
 
 #endif  // S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_COMPONENTS_HPP_

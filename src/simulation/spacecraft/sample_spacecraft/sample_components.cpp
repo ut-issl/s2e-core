@@ -10,7 +10,7 @@
 #include "sample_port_configuration.hpp"
 
 SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_environment,
-                                   const GlobalEnvironment* global_environment, const SimulationConfig* configuration,
+                                   const GlobalEnvironment* global_environment, const SimulationConfiguration* configuration,
                                    ClockGenerator* clock_generator, const unsigned int spacecraft_id)
     : configuration_(configuration),
       dynamics_(dynamics),

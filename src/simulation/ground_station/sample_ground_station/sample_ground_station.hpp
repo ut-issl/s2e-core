@@ -26,7 +26,7 @@ class SampleGroundStation : public GroundStation {
    * @fn SampleGroundStation
    * @brief Constructor
    */
-  SampleGroundStation(const SimulationConfig* configuration, const unsigned int ground_station_id);
+  SampleGroundStation(const SimulationConfiguration* configuration, const unsigned int ground_station_id);
   /**
    * @fn ~SampleGroundStation
    * @brief Destructor
@@ -37,7 +37,7 @@ class SampleGroundStation : public GroundStation {
    * @fn Initialize
    * @brief Override function of Initialize in GroundStation class
    */
-  virtual void Initialize(const SimulationConfig* configuration);
+  virtual void Initialize(const SimulationConfiguration* configuration);
   /**
    * @fn LogSetup
    * @brief Override function of LogSetup in GroundStation class

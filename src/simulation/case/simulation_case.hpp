@@ -63,7 +63,7 @@ class SimulationCase : public ILoggable {
    * @fn GetSimulationConfiguration
    * @brief Return simulation setting
    */
-  inline SimulationConfig& GetSimulationConfiguration() { return simulation_configuration_; }
+  inline SimulationConfiguration& GetSimulationConfiguration() { return simulation_configuration_; }
   /**
    * @fn GetGlobalEnvironment
    * @brief Return global environment
@@ -71,7 +71,7 @@ class SimulationCase : public ILoggable {
   inline const GlobalEnvironment& GetGlobalEnvironment() const { return *global_environment_; }
 
  protected:
-  SimulationConfig simulation_configuration_;  //!< Simulation setting
+  SimulationConfiguration simulation_configuration_;  //!< Simulation setting
   GlobalEnvironment* global_environment_;      //!< Global Environment
 };
 

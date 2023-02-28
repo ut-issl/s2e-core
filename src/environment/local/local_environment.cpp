@@ -9,7 +9,7 @@
 #include "initialize_local_environment.hpp"
 #include "library/initialize/initialize_file_access.hpp"
 
-LocalEnvironment::LocalEnvironment(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
+LocalEnvironment::LocalEnvironment(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
                                    const int spacecraft_id) {
   Initialize(simulation_configuration, global_environment, spacecraft_id);
 }
@@ -21,7 +21,7 @@ LocalEnvironment::~LocalEnvironment() {
   delete celestial_information_;
 }
 
-void LocalEnvironment::Initialize(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
+void LocalEnvironment::Initialize(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
                                   const int spacecraft_id) {
   // Read file name
   IniAccess iniAccess = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
