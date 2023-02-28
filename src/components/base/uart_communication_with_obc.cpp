@@ -1,6 +1,6 @@
 /**
  * @file uart_communication_with_obc.cpp
- * @brief Base class for serial communication (e.g., UART) with OnBoardComputer flight software
+ * @brief Base class for serial communication (e.g., UART) with OBC flight software
  */
 
 #include "uart_communication_with_obc.hpp"

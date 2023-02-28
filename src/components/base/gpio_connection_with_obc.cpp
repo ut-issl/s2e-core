@@ -1,6 +1,6 @@
 /**
  * @file gpio_connection_with_obc.cpp
- * @brief Base class for GPIO communication with OnBoardComputer flight software
+ * @brief Base class for GPIO communication with OBC flight software
  *        TODO: consider relation with IGPIOCompo
  */
 

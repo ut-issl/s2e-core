@@ -1,6 +1,6 @@
 /**
  * @file i2c_target_communication_with_obc.hpp
- * @brief Base class for I2C communication as target side with OnBoardComputer flight software
+ * @brief Base class for I2C communication as target side with OBC flight software
  */
 
 #ifndef S2E_COMPONENTS_BASE_I2C_TARGET_COMMUNICATION_WITH_OBC_HPP_
@@ -12,7 +12,7 @@
 
 /**
  * @class I2cTargetCommunicationWithObc
- * @brief Base class for I2C communication as target side with OnBoardComputer flight software
+ * @brief Base class for I2C communication as target side with OBC flight software
  * @note Generally, components are the target side of I2C (OnBoardComputer is the controller side).
  */
 class I2cTargetCommunicationWithObc {

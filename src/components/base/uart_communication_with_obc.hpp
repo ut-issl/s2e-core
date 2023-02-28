@@ -1,6 +1,6 @@
 /**
  * @file uart_communication_with_obc.hpp
- * @brief Base class for serial communication (e.g., UART) with OnBoardComputer flight software
+ * @brief Base class for serial communication (e.g., UART) with OBC flight software
  */
 
 #ifndef S2E_COMPONENTS_BASE_UART_COMMUNICATION_WITH_OBC_HPP_
@@ -23,7 +23,7 @@ enum class OBC_COM_UART_MODE {
 
 /**
  * @class UartCommunicationWithObc
- * @brief Base class for serial communication (e.g., UART) with OnBoardComputer flight software
+ * @brief Base class for serial communication (e.g., UART) with OBC flight software
  * @note Components which want to communicate with OnBoardComputer using serial communication have to inherit this.
  */
 class UartCommunicationWithObc {

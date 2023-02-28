@@ -1,6 +1,6 @@
 /**
  * @file i2c_target_communication_with_obc.cpp
- * @brief Base class for I2C communication as target side with OnBoardComputer flight software
+ * @brief Base class for I2C communication as target side with OBC flight software
  */
 #include "i2c_target_communication_with_obc.hpp"
 
