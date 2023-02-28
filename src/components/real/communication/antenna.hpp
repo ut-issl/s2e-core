@@ -19,8 +19,8 @@ using libra::Vector;
  * @brief Antenna gain model definition
  */
 enum class AntennaGainModel {
-  ISOTROPIC,              //!< Ideal isotropic antenna
-  RADIATION_PATTERN_CSV,  //!< Radiation pattern obtained by CSV file
+  kIsotropic,              //!< Ideal isotropic antenna
+  kRadiationPatternCsv,  //!< Radiation pattern obtained by CSV file
 };
 
 /*
@@ -28,7 +28,7 @@ enum class AntennaGainModel {
  * @brief Antenna parameters
  */
 struct AntennaParameters {
-  double gain_dBi_;                           /*!< Gain used in ISOTROPIC mode [dBi]
+  double gain_dBi_;                           /*!< Gain used in kIsotropic mode [dBi]
                                                    Generally, it is zero but users can set any value for ideal analysis */
   double loss_feeder_dB_;                     //!< Feeder loss [dB]
   double loss_pointing_dB_;                   //!< Pointing loss [dB]
