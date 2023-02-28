@@ -24,14 +24,14 @@ SimulationCase::SimulationCase(std::string ini_base) {
   sim_config_.gnss_file_ = simbase_ini.ReadString(section, "gnss_file");
   global_environment_ = new GlobalEnvironment(&sim_config_);
 }
-SimulationCase::SimulationCase(std::string ini_base, const MCSimExecutor& mc_sim, const std::string log_path) {
+SimulationCase::SimulationCase(std::string ini_base, const MCSimExecutor& monte_carlo_simulator, const std::string log_path) {
   IniAccess simbase_ini = IniAccess(ini_base);
   const char* section = "SIMULATION_SETTINGS";
   sim_config_.initialize_base_file_name_ = ini_base;
   // Log for Monte Carlo Simulation
-  std::string log_file_name = "default" + std::to_string(mc_sim.GetNumOfExecutionsDone()) + ".csv";
+  std::string log_file_name = "default" + std::to_string(monte_carlo_simulator.GetNumOfExecutionsDone()) + ".csv";
   // ToDo: Consider that `enable_inilog = false` is fine or not?
-  sim_config_.main_logger_ = new Logger(log_file_name, log_path, ini_base, false, mc_sim.LogHistory());
+  sim_config_.main_logger_ = new Logger(log_file_name, log_path, ini_base, false, monte_carlo_simulator.LogHistory());
   sim_config_.number_of_simulated_spacecraft_ = simbase_ini.ReadInt(section, "number_of_simulated_spacecraft");
   sim_config_.spacecraft_file_list_ = simbase_ini.ReadStrVector(section, "spacecraft_file");
 

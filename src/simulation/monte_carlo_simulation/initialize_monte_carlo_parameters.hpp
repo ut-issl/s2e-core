@@ -63,17 +63,17 @@ class InitParameter {
    * @brief Get randomized vector value results
    */
   template <size_t NumElement>
-  void GetVec(Vector<NumElement>& dst_vec) const;
+  void GetVec(Vector<NumElement>& destination) const;
   /**
    * @fn GetQuaternion
    * @brief Get randomized quaternion results
    */
-  void GetQuaternion(Quaternion& dst_quat) const;
+  void GetQuaternion(Quaternion& destination) const;
   /**
    * @fn GetDouble
    * @brief Get randomized value results
    */
-  void GetDouble(double& dst) const;
+  void GetDouble(double& destination) const;
 
   // Calculation
   /**
@@ -177,33 +177,33 @@ class InitParameter {
    * @fn get_CircularNormalUniform
    * @brief Calculate randomized value with CircularNormalUniform mode
    */
-  void get_CircularNormalUniform(Vector<2>& dst, double r_mean, double r_sigma, double theta_min, double theta_max);
+  void get_CircularNormalUniform(Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max);
   /**
    * @fn get_CircularNormalNormal
    * @brief Calculate randomized value with CircularNormalNormal mode
    */
-  void get_CircularNormalNormal(Vector<2>& dst, double r_mean, double r_sigma, double theta_mean, double theta_sigma);
+  void get_CircularNormalNormal(Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma);
   /**
    * @fn get_SphericalNormalUniformUniform
    * @brief Calculate randomized value with SphericalNormalUniformUniform mode
    */
-  void get_SphericalNormalUniformUniform(Vector<3>& dst, double r_mean, double r_sigma, double theta_min, double theta_max, double phi_min,
+  void get_SphericalNormalUniformUniform(Vector<3>& destination, double r_mean, double r_sigma, double theta_min, double theta_max, double phi_min,
                                          double phi_max);
   /**
    * @fn get_SphericalNormalNormal
    * @brief Calculate randomized value with SphericalNormalNormal mode
    */
-  void get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& mean_vec);
+  void get_SphericalNormalNormal(Vector<3>& destination, const Vector<3>& mean_vec);
   /**
    * @fn get_QuaternionUniform
    * @brief Calculate randomized value with QuaternionUniform mode
    */
-  void get_QuaternionUniform(Quaternion& dst);
+  void get_QuaternionUniform(Quaternion& destination);
   /**
    * @fn get_QuaternionNormal
    * @brief Calculate randomized value with QuaternionNormal mode
    */
-  void get_QuaternionNormal(Quaternion& dst, double theta_sigma);
+  void get_QuaternionNormal(Quaternion& destination, double theta_sigma);
 };
 
 template <size_t NumElement1, size_t NumElement2>
@@ -221,14 +221,14 @@ void InitParameter::SetRandomConfig(const Vector<NumElement1>& mean_or_min, cons
 }
 
 template <size_t NumElement>
-void InitParameter::GetVec(Vector<NumElement>& dst_vec) const {
+void InitParameter::GetVec(Vector<NumElement>& destination) const {
   if (rnd_type_ == NoRandomization) {
     ;
   } else if (NumElement > val_.size()) {
     throw "Too few randomization configuration parameters.";
   } else {
     for (size_t i = 0; i < NumElement; i++) {
-      dst_vec[i] = val_[i];
+      destination[i] = val_[i];
     }
   }
 }

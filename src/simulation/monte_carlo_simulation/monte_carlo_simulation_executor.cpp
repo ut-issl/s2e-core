@@ -31,28 +31,28 @@ void MCSimExecutor::AtTheEndOfEachCase() {
   num_of_executions_done_++;
 }
 
-void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name, double& dst) const {
+void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name, double& destination) const {
   if (!enabled_) return;
   {
     string name = so_name + MCSimExecutor::separator_ + ip_name;
     if (ip_list_.find(name) == ip_list_.end()) {
       // Not registered in ip_list（Not defined in MCSim.ini）
-      return;  // return without any update of dst
+      return;  // return without any update of destination
     } else {
-      ip_list_.at(name)->GetDouble(dst);  // cannot use operator[] since it is const map
+      ip_list_.at(name)->GetDouble(destination);  // cannot use operator[] since it is const map
     }
   }
 }
 
-void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name, Quaternion& dst_quat) const {
+void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name, Quaternion& destination) const {
   if (!enabled_) return;
   {
     string name = so_name + MCSimExecutor::separator_ + ip_name;
     if (ip_list_.find(name) == ip_list_.end()) {
       // Not registered in ip_list（Not defined in MCSim.ini）
-      return;  // return without any update of dst
+      return;  // return without any update of destination
     } else {
-      ip_list_.at(name)->GetQuaternion(dst_quat);  // cannot use operator[] since it is const map
+      ip_list_.at(name)->GetQuaternion(destination);  // cannot use operator[] since it is const map
     }
   }
 }

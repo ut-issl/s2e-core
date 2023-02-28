@@ -36,28 +36,28 @@ void InitParameter::SetSeed(unsigned long seed, bool is_deterministic) {
   }
 }
 
-void InitParameter::GetDouble(double& dst) const {
+void InitParameter::GetDouble(double& destination) const {
   if (rnd_type_ == NoRandomization) {
     ;
   } else if (1 > val_.size()) {
     throw "Too few randomization configuration parameters.";
   } else {
-    dst = val_[0];
+    destination = val_[0];
   }
 }
 
-void InitParameter::GetQuaternion(Quaternion& dst_quat) const {
+void InitParameter::GetQuaternion(Quaternion& destination) const {
   if (rnd_type_ == NoRandomization) {
     ;
   } else if (4 > val_.size()) {
     throw "Too few randomization configuration parameters.";
   } else {
     for (int i = 0; i < 4; i++) {
-      dst_quat[i] = val_[i];
+      destination[i] = val_[i];
     }
   }
 
-  dst_quat.Normalize();
+  destination.Normalize();
 }
 
 void InitParameter::Randomize() {
@@ -116,12 +116,12 @@ void InitParameter::gen_CartesianNormal() {
   }
 }
 
-void InitParameter::get_CircularNormalUniform(Vector<2>& dst, double r_mean, double r_sigma, double theta_min, double theta_max) {
+void InitParameter::get_CircularNormalUniform(Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max) {
   // r follows normal distribution, and θ follows uniform distribution in Circular frame
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
   double theta = InitParameter::Uniform_1d(theta_min, theta_max);
-  dst[0] = r * cos(theta);
-  dst[1] = r * sin(theta);
+  destination[0] = r * cos(theta);
+  destination[1] = r * sin(theta);
 }
 
 void InitParameter::gen_CircularNormalUniform() {
@@ -138,12 +138,12 @@ void InitParameter::gen_CircularNormalUniform() {
   }
 }
 
-void InitParameter::get_CircularNormalNormal(Vector<2>& dst, double r_mean, double r_sigma, double theta_mean, double theta_sigma) {
+void InitParameter::get_CircularNormalNormal(Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma) {
   // r and θ follow normal distribution in Circular frame
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
   double theta = InitParameter::Normal_1d(theta_mean, theta_sigma);
-  dst[0] = r * cos(theta);
-  dst[1] = r * sin(theta);
+  destination[0] = r * cos(theta);
+  destination[1] = r * sin(theta);
 }
 
 void InitParameter::gen_CircularNormalNormal() {
@@ -160,15 +160,15 @@ void InitParameter::gen_CircularNormalNormal() {
   }
 }
 
-void InitParameter::get_SphericalNormalUniformUniform(Vector<3>& dst, double r_mean, double r_sigma, double theta_min, double theta_max,
+void InitParameter::get_SphericalNormalUniformUniform(Vector<3>& destination, double r_mean, double r_sigma, double theta_min, double theta_max,
                                                       double phi_min, double phi_max) {
   // r follows normal distribution, and θ and φ follow uniform distribution in Spherical frame
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
   double theta = acos(cos(theta_min) - (cos(theta_min) - cos(theta_max)) * InitParameter::Uniform_1d(0.0, 1.0));
   double phi = InitParameter::Uniform_1d(phi_min, phi_max);
-  dst[0] = r * sin(theta) * cos(phi);
-  dst[1] = r * sin(theta) * sin(phi);
-  dst[2] = r * cos(theta);
+  destination[0] = r * sin(theta) * cos(phi);
+  destination[1] = r * sin(theta) * sin(phi);
+  destination[2] = r * cos(theta);
 }
 
 void InitParameter::gen_SphericalNormalUniformUniform() {
@@ -186,7 +186,7 @@ void InitParameter::gen_SphericalNormalUniformUniform() {
   }
 }
 
-void InitParameter::get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& mean_vec) {
+void InitParameter::get_SphericalNormalNormal(Vector<3>& destination, const Vector<3>& mean_vec) {
   // r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
   Vector<3> mean_vec_dir;
   mean_vec_dir = 1.0 / CalcNorm(mean_vec) * mean_vec;  // Unit vector of mean vector direction
@@ -212,7 +212,7 @@ void InitParameter::get_SphericalNormalNormal(Vector<3>& dst, const Vector<3>& m
   ret_vec = InitParameter::Normal_1d(CalcNorm(mean_vec), sigma_or_max_[0]) * ret_vec;  // multiply norm
 
   for (int i = 0; i < 3; i++) {
-    dst[i] = ret_vec[i];
+    destination[i] = ret_vec[i];
   }
 }
 
@@ -233,7 +233,7 @@ void InitParameter::gen_SphericalNormalNormal() {
   }
 }
 
-void InitParameter::get_QuaternionUniform(Quaternion& dst) {
+void InitParameter::get_QuaternionUniform(Quaternion& destination) {
   // Perfectly Randomized Quaternion
   Vector<3> x_axis(0.0);
   x_axis[0] = 1.0;
@@ -261,7 +261,7 @@ void InitParameter::get_QuaternionUniform(Quaternion& dst) {
   Quaternion ret_q = first_cnv * second_cnv;
 
   for (int i = 0; i < 4; i++) {
-    dst[i] = ret_q[i];
+    destination[i] = ret_q[i];
   }
 }
 
@@ -276,7 +276,7 @@ void InitParameter::gen_QuaternionUniform() {
   }
 }
 
-void InitParameter::get_QuaternionNormal(Quaternion& dst, double theta_sigma) {
+void InitParameter::get_QuaternionNormal(Quaternion& destination, double theta_sigma) {
   // Angle from the default quaternion θ follows normal distribution
   // The rotation axis follows uniform distribution on full sphere
   Vector<3> rot_axis;
@@ -290,7 +290,7 @@ void InitParameter::get_QuaternionNormal(Quaternion& dst, double theta_sigma) {
 
   Quaternion ret_q(rot_axis, rotation_angle);
   for (int i = 0; i < 4; i++) {
-    dst[i] = ret_q[i];
+    destination[i] = ret_q[i];
   }
 }
 

@@ -84,17 +84,17 @@ class MCSimExecutor {
    * @brief Get randomized vector value and store it in dest_vec
    */
   template <size_t NumElement>
-  void GetInitParameterVec(std::string so_name, std::string ip_name, Vector<NumElement>& dst_vec) const;
+  void GetInitParameterVec(std::string so_name, std::string ip_name, Vector<NumElement>& destination) const;
   /**
    * @fn GetInitParameterDouble
    * @brief Get randomized value and store it in dest
    */
-  void GetInitParameterDouble(std::string so_name, std::string ip_name, double& dst) const;
+  void GetInitParameterDouble(std::string so_name, std::string ip_name, double& destination) const;
   /**
    * @fn GetInitParameterQuaternion
    * @brief Get randomized quaternion and store it in dest_quat
    */
-  void GetInitParameterQuaternion(std::string so_name, std::string ip_name, Quaternion& dst_quat) const;
+  void GetInitParameterQuaternion(std::string so_name, std::string ip_name, Quaternion& destination) const;
 
   // Calculation
   /**
@@ -150,14 +150,14 @@ bool MCSimExecutor::LogHistory() const {
 void MCSimExecutor::LogHistory(bool set) { log_history_ = set; }
 
 template <size_t NumElement>
-void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name, Vector<NumElement>& dst_vec) const {
+void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name, Vector<NumElement>& destination) const {
   if (!enabled_) return;
   std::string name = so_name + MCSimExecutor::separator_ + ip_name;
   if (ip_list_.find(name) == ip_list_.end()) {
     // Not registered in ip_list（Not defined in MCSim.ini）
-    return;  // return without update the dst_vec
+    return;  // return without update the destination
   } else {
-    ip_list_.at(name)->GetVec(dst_vec);  // cannot use operator[] since it is const map
+    ip_list_.at(name)->GetVec(destination);  // cannot use operator[] since it is const map
   }
 }
 
