@@ -17,9 +17,9 @@ Telescope::Telescope(ClockGenerator* clock_generator, libra::Quaternion& quatern
                      const LocalCelestialInformation* local_celes_info)
     : Component(1, clock_generator),
       quaternion_b2c_(quaternion_b2c),
-      sun_forbidden_angle_(sun_forbidden_angle),
-      earth_forbidden_angle_(earth_forbidden_angle),
-      moon_forbidden_angle_(moon_forbidden_angle),
+      sun_forbidden_angle_rad_(sun_forbidden_angle),
+      earth_forbidden_angle_rad_(earth_forbidden_angle),
+      moon_forbidden_angle_rad_(moon_forbidden_angle),
       x_num_of_pix_(x_num_of_pix),
       y_num_of_pix_(y_num_of_pix),
       x_fov_par_pix_(x_fov_par_pix),
@@ -37,8 +37,8 @@ Telescope::Telescope(ClockGenerator* clock_generator, libra::Quaternion& quatern
   assert(x_field_of_view_rad < libra::pi_2);  // Avoid the case that the field of view is over 90 degrees
   assert(y_field_of_view_rad < libra::pi_2);
 
-  sight_ = Vector<3>(0);
-  sight_[0] = 1;  // (1,0,0) at component frame, Sight direction vector
+  sight_direction_c_ = Vector<3>(0);
+  sight_direction_c_[0] = 1;  // (1,0,0) at component frame, Sight direction vector
 
   // Set 0 when t=0
   for (size_t i = 0; i < num_of_logged_stars_; i++) {
@@ -59,9 +59,9 @@ Telescope::~Telescope() {}
 void Telescope::MainRoutine(int count) {
   UNUSED(count);
   // Check forbidden angle
-  is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("SUN"), sun_forbidden_angle_);
-  is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("EARTH"), earth_forbidden_angle_);
-  is_moon_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("MOON"), moon_forbidden_angle_);
+  is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("SUN"), sun_forbidden_angle_rad_);
+  is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("EARTH"), earth_forbidden_angle_rad_);
+  is_moon_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("MOON"), moon_forbidden_angle_rad_);
   // Position calculation of celestial bodies from CelesInfo
   Observe(sun_pos_imgsensor, local_celes_info_->GetPositionFromSpacecraft_b_m("SUN"));
   Observe(earth_pos_imgsensor, local_celes_info_->GetPositionFromSpacecraft_b_m("EARTH"));
@@ -73,15 +73,15 @@ void Telescope::MainRoutine(int count) {
   //  sun_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("SUN"));
   //  earth_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("EARTH"));
   //  moon_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("MOON"));
-  // angle_sun = CalcAngleTwoVectors_rad(sight_, sun_pos_c) * 180/libra::pi;
-  // angle_earth = CalcAngleTwoVectors_rad(sight_, earth_pos_c) * 180 / libra::pi; angle_moon = CalcAngleTwoVectors_rad(sight_, moon_pos_c) * 180 /
-  // libra::pi;
+  // angle_sun = CalcAngleTwoVectors_rad(sight_direction_c_, sun_pos_c) * 180/libra::pi;
+  // angle_earth = CalcAngleTwoVectors_rad(sight_direction_c_, earth_pos_c) * 180 / libra::pi; angle_moon =
+  // CalcAngleTwoVectors_rad(sight_direction_c_, moon_pos_c) * 180 / libra::pi;
   //******************************************************************************
 }
 
 bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle) {
   Quaternion q_c2b = quaternion_b2c_.Conjugate();
-  Vector<3> sight_b = q_c2b.FrameConversion(sight_);
+  Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double angle_rad = libra::CalcAngleTwoVectors_rad(target_b, sight_b);
   if (angle_rad < forbidden_angle) {
     return true;

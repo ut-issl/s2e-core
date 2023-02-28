@@ -34,7 +34,7 @@ class STT : public Component, public ILoggable {
    * @param [in] sigma_ortho: Standard deviation for random noise in orthogonal direction of sight [rad]
    * @param [in] sigma_sight: Standard deviation for random noise in sight direction[rad]
    * @param [in] step_time: Step time for delay calculation [sec]
-   * @param [in] output_delay: Output delay [0, MAX_DELAY] [step_sec]
+   * @param [in] output_delay: Output delay [0, max_delay_] [step_sec]
    * @param [in] output_interval: Output interval [step_sec]
    * @param [in] sun_forbidden_angle: Sun forbidden angle [rad]
    * @param [in] earth_forbidden_angle: Earth forbidden angle [rad]
@@ -58,7 +58,7 @@ class STT : public Component, public ILoggable {
    * @param [in] sigma_ortho: Standard deviation for random noise in orthogonal direction of sight [rad]
    * @param [in] sigma_sight: Standard deviation for random noise in sight direction[rad]
    * @param [in] step_time: Step time for delay calculation [sec]
-   * @param [in] output_delay: Output delay [0, MAX_DELAY] [step_sec]
+   * @param [in] output_delay: Output delay [0, max_delay_] [step_sec]
    * @param [in] output_interval: Output interval [step_sec]
    * @param [in] sun_forbidden_angle: Sun forbidden angle [rad]
    * @param [in] earth_forbidden_angle: Earth forbidden angle [rad]
@@ -95,7 +95,7 @@ class STT : public Component, public ILoggable {
    * @fn GetObsQuaternion
    * @brief Return observed quaternion from the inertial frame to the component frame
    */
-  inline const libra::Quaternion GetObsQuaternion() const { return q_stt_i2c_; };
+  inline const libra::Quaternion GetObsQuaternion() const { return measured_quaternion_i2c_; };
   /**
    * @fn GetErrorFlag
    * @brief Return error flag
@@ -104,37 +104,37 @@ class STT : public Component, public ILoggable {
 
  protected:
   // STT general parameters
-  const int component_id_;                              //!< Sensor ID
-  libra::Quaternion quaternion_b2c_;                    //!< Quaternion from body frame to component frame
-  libra::Quaternion q_stt_i2c_ = {0.0, 0.0, 0.0, 1.0};  //!< STT observed quaternion
-  libra::Vector<3> sight_;                              //!< Sight direction vector at component frame
-  libra::Vector<3> ortho1_;                             //!< The first orthogonal direction of sight at component frame
-  libra::Vector<3> ortho2_;                             //!< The second orthogonal direction of sight at component frame
+  const int component_id_;                                            //!< Sensor ID
+  libra::Quaternion quaternion_b2c_;                                  //!< Quaternion from body frame to component frame
+  libra::Quaternion measured_quaternion_i2c_ = {0.0, 0.0, 0.0, 1.0};  //!< STT observed quaternion
+  libra::Vector<3> sight_direction_c_;                                //!< Sight direction vector at component frame
+  libra::Vector<3> first_orthogonal_direction_c;                      //!< The first orthogonal direction of sight at component frame
+  libra::Vector<3> second_orthogonal_direction_c;                     //!< The second orthogonal direction of sight at component frame
 
   // Noise parameters
-  libra::MinimalStandardLcgWithShuffle rot_;  //!< Randomize object for orthogonal direction
-  libra::NormalRand n_ortho_;                 //!< Random noise for orthogonal direction of sight [rad]
-  libra::NormalRand n_sight_;                 //!< Random noise for sight direction [rad]
+  libra::MinimalStandardLcgWithShuffle rotation_noise_;  //!< Randomize object for orthogonal direction
+  libra::NormalRand orthogonal_direction_noise_;         //!< Random noise for orthogonal direction of sight
+  libra::NormalRand sight_direction_noise_;              //!< Random noise for sight direction
 
   // Delay emulation parameters
-  int MAX_DELAY;                      //!< Max delay
-  std::vector<Quaternion> q_buffer_;  //!< Buffer of quaternion for delay emulation
-  int pos_;                           //!< Buffer position
-  double step_time_;                  //!< Step time for delay calculation [sec]
-  unsigned int output_delay_;         //!< Output delay [0, MAX_DELAY] [step_sec]
-  unsigned int output_interval_;      //!< Output interval [step_sec]
-  std::size_t count_;                 //!< Output update counter
+  int max_delay_;                         //!< Max delay
+  std::vector<Quaternion> delay_buffer_;  //!< Buffer of quaternion for delay emulation
+  int buffer_position_;                   //!< Buffer position
+  double step_time_s_;                    //!< Step time for delay calculation [sec]
+  unsigned int output_delay_;             //!< Output delay [0, max_delay_] [step_sec]
+  unsigned int output_interval_;          //!< Output interval [step_sec]
+  std::size_t update_count_;              //!< Output update counter
 
   // observation error parameters
-  bool error_flag_;               //!< Error flag. true: Error, false: No error
-  double sun_forbidden_angle_;    //!< Sun forbidden angle [rad]
-  double earth_forbidden_angle_;  //!< Earth forbidden angle [rad]
-  double moon_forbidden_angle_;   //!< Moon forbidden angle [rad]
-  double capture_rate_;           //!< Angular rate limit to get correct attitude [rad/s]
+  bool error_flag_;                   //!< Error flag. true: Error, false: No error
+  double sun_forbidden_angle_rad_;    //!< Sun forbidden angle [rad]
+  double earth_forbidden_angle_rad_;  //!< Earth forbidden angle [rad]
+  double moon_forbidden_angle_rad_;   //!< Moon forbidden angle [rad]
+  double capture_rate_limit_rad_s_;   //!< Angular rate limit to get correct attitude [rad/s]
 
   // Observed variables
-  const Dynamics* dynamics_;           //!< Dynamics information
-  const LocalEnvironment* local_env_;  //!< Local environment information
+  const Dynamics* dynamics_;                   //!< Dynamics information
+  const LocalEnvironment* local_environment_;  //!< Local environment information
 
   // Internal functions
   /**

@@ -43,12 +43,12 @@ class Telescope : public Component, public ILoggable {
 
  protected:
  private:
-  libra::Quaternion quaternion_b2c_;  //!< Quaternion from the body frame to component frame
-  libra::Vector<3> sight_;            //!< Sight direction vector in the component frame
+  libra::Quaternion quaternion_b2c_;    //!< Quaternion from the body frame to component frame
+  libra::Vector<3> sight_direction_c_;  //!< Sight direction vector in the component frame
 
-  double sun_forbidden_angle_;    //!< Sun forbidden angle [rad]
-  double earth_forbidden_angle_;  //!< Earth forbidden angle [rad]
-  double moon_forbidden_angle_;   //!< Moon forbidden angle [rad]
+  double sun_forbidden_angle_rad_;    //!< Sun forbidden angle [rad]
+  double earth_forbidden_angle_rad_;  //!< Earth forbidden angle [rad]
+  double moon_forbidden_angle_rad_;   //!< Moon forbidden angle [rad]
 
   int x_num_of_pix_;           //!< Number of pixel on X-axis in the image plane
   int y_num_of_pix_;           //!< Number of pixel on Y-axis in the image plane
