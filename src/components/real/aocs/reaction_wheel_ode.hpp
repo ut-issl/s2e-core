@@ -64,10 +64,9 @@ class RwOde : public libra::OrdinaryDifferentialEquation<1> {
   void setLagCoef(libra::Vector<3> lag_coef);
 
  private:
-  RwOde(double step_width);            //!< Prohibit calling constructor
-  libra::Vector<3> lag_coef_;          //!< Coefficients for the first order lag
-  const double kInitAngularVelocity_;  //!< Initial angular velocity [rad/s]
-  double target_angular_velocity_;     //!< Target angular velocity [rad/s]
+  RwOde(double step_width);               //!< Prohibit calling constructor
+  libra::Vector<3> lag_coefficients_;     //!< Coefficients for the first order lag
+  double target_angular_velocity_rad_s_;  //!< Target angular velocity [rad/s]
 };
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_ODE_HPP_
