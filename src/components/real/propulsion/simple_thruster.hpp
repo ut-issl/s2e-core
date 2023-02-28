@@ -91,12 +91,12 @@ class SimpleThruster : public Component, public ILoggable {
    * @fn GetThrustB
    * @brief Return generated thrust on the body fixed frame [N]
    */
-  inline const Vector<3> GetThrustB() const { return thrust_b_; };
+  inline const Vector<3> GetThrustB() const { return output_thrust_b_N_; };
   /**
    * @fn GetTorqueB
    * @brief Return generated torque on the body fixed frame [Nm]
    */
-  inline const Vector<3> GetTorqueB() const { return torque_b_Nm_; };
+  inline const Vector<3> GetTorqueB() const { return output_torque_b_Nm_; };
 
   // Setter
   /**
@@ -107,17 +107,17 @@ class SimpleThruster : public Component, public ILoggable {
 
  protected:
   // parameters
-  const int component_id_;             //!< Thruster ID
-  Vector<3> thruster_pos_b_{0.0};      //!< Thruster position @ body frame [m]
-  Vector<3> thrust_dir_b_{0.0};        //!< Thrust direction @ body frame
-  double duty_ = 0.0;                  //!< PWM Duty [0.0 : 1.0]
-  double thrust_magnitude_max_ = 0.0;  //!< Maximum thrust magnitude [N]
-  double thrust_dir_err_ = 0.0;        //!< Standard deviation of thrust direction error [rad]
-  libra::NormalRand mag_nr_;           //!< Normal random for thrust magnitude error
-  libra::NormalRand dir_nr_;           //!< Normal random for thrust direction error
+  const int component_id_;                               //!< Thruster ID
+  Vector<3> thruster_position_b_m_{0.0};                 //!< Thruster position @ body frame [m]
+  Vector<3> thrust_direction_b_{0.0};                    //!< Thrust direction @ body frame
+  double duty_ = 0.0;                                    //!< PWM Duty [0.0 : 1.0]
+  double thrust_magnitude_max_N_ = 0.0;                  //!< Maximum thrust magnitude [N]
+  double direction_noise_standard_deviation_rad_ = 0.0;  //!< Standard deviation of thrust direction error [rad]
+  libra::NormalRand magnitude_random_noise_;             //!< Normal random for thrust magnitude error
+  libra::NormalRand direction_random_noise_;             //!< Normal random for thrust direction error
   // outputs
-  Vector<3> thrust_b_{0.0};     //!< Generated thrust on the body fixed frame [N]
-  Vector<3> torque_b_Nm_{0.0};  //!< Generated torque on the body fixed frame [N]
+  Vector<3> output_thrust_b_N_{0.0};   //!< Generated thrust on the body fixed frame [N]
+  Vector<3> output_torque_b_Nm_{0.0};  //!< Generated torque on the body fixed frame [Nm]
 
   /**
    * @fn CalcThrust
