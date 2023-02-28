@@ -7,32 +7,32 @@
 
 #include <cmath>
 
-BAT::BAT(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity,
-         const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
-         double bat_resistance, double component_step_time_s)
+BAT::BAT(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
+         const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
+         double battery_resistance_Ohm, double component_step_time_s)
     : Component(prescaler, clock_generator),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
-      cell_capacity_Ah_(cell_capacity),
-      cell_discharge_curve_coefficients_(cell_discharge_curve_coeffs),
-      cc_charge_current_A_C_(cc_charge_c_rate * cell_capacity * number_of_parallel),
-      cv_charge_voltage_V_(cv_charge_voltage),
+      cell_capacity_Ah_(cell_capacity_Ah),
+      cell_discharge_curve_coefficients_(cell_discharge_curve_coefficients),
+      cc_charge_current_C_(cc_charge_c_rate * cell_capacity_Ah * number_of_parallel),
+      cv_charge_voltage_V_(cv_charge_voltage_V),
       depth_of_discharge_percent_(initial_dod),
-      bat_resistance_Ohm_(bat_resistance),
+      bat_resistance_Ohm_(battery_resistance_Ohm),
       compo_step_time_s_(component_step_time_s) {}
 
-BAT::BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity,
-         const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
-         double bat_resistance)
+BAT::BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
+         const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
+         double battery_resistance_Ohm)
     : Component(10, clock_generator),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
-      cell_capacity_Ah_(cell_capacity),
-      cell_discharge_curve_coefficients_(cell_discharge_curve_coeffs),
-      cc_charge_current_A_C_(cc_charge_c_rate * cell_capacity * number_of_parallel),
-      cv_charge_voltage_V_(cv_charge_voltage),
+      cell_capacity_Ah_(cell_capacity_Ah),
+      cell_discharge_curve_coefficients_(cell_discharge_curve_coefficients),
+      cc_charge_current_C_(cc_charge_c_rate * cell_capacity_Ah * number_of_parallel),
+      cv_charge_voltage_V_(cv_charge_voltage_V),
       depth_of_discharge_percent_(initial_dod),
-      bat_resistance_Ohm_(bat_resistance),
+      bat_resistance_Ohm_(battery_resistance_Ohm),
       compo_step_time_s_(0.1) {}
 
 BAT::BAT(const BAT& obj)
@@ -41,7 +41,7 @@ BAT::BAT(const BAT& obj)
       number_of_parallel_(obj.number_of_parallel_),
       cell_capacity_Ah_(obj.cell_capacity_Ah_),
       cell_discharge_curve_coefficients_(obj.cell_discharge_curve_coefficients_),
-      cc_charge_current_A_C_(obj.cc_charge_current_A_C_),
+      cc_charge_current_C_(obj.cc_charge_current_C_),
       cv_charge_voltage_V_(obj.cv_charge_voltage_V_),
       depth_of_discharge_percent_(obj.depth_of_discharge_percent_),
       bat_resistance_Ohm_(obj.bat_resistance_Ohm_),
@@ -58,7 +58,7 @@ double BAT::GetBatVoltage() const { return battery_voltage_V_; }
 
 double BAT::GetBatResistance() const { return bat_resistance_Ohm_; }
 
-double BAT::GetCCChargeCurrent() const { return cc_charge_current_A_C_; }
+double BAT::GetCCChargeCurrent() const { return cc_charge_current_C_; }
 
 double BAT::GetCVChargeVoltage() const { return cv_charge_voltage_V_; }
 

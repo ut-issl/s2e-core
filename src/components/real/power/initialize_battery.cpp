@@ -28,15 +28,16 @@ BAT InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_
   int number_of_parallel;
   number_of_parallel = bat_conf.ReadInt(Section, "number_of_parallel");
 
-  double cell_capacity;
-  cell_capacity = bat_conf.ReadDouble(Section, "cell_capacity");
+  double cell_capacity_Ah;
+  cell_capacity_Ah = bat_conf.ReadDouble(Section, "cell_capacity_Ah");
 
   int approx_order;
   approx_order = bat_conf.ReadInt(Section, "approximation_order");
 
-  std::vector<double> cell_discharge_curve_coeffs;
+  std::vector<double> cell_discharge_curve_coefficients;
   for (int i = 0; i <= approx_order; ++i) {
-    cell_discharge_curve_coeffs.push_back(bat_conf.ReadDouble(Section, ("cell_discharge_curve_coefficients(" + std::to_string(i) + ")").c_str()));
+    cell_discharge_curve_coefficients.push_back(
+        bat_conf.ReadDouble(Section, ("cell_discharge_curve_coefficients(" + std::to_string(i) + ")").c_str()));
   }
 
   double initial_dod;
@@ -45,14 +46,14 @@ BAT InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_
   double cc_charge_c_rate;
   cc_charge_c_rate = bat_conf.ReadDouble(Section, "constant_charge_current_A_rate_C");
 
-  double cv_charge_voltage;
-  cv_charge_voltage = bat_conf.ReadDouble(Section, "constant_voltage_charge_voltage_V");
+  double cv_charge_voltage_V;
+  cv_charge_voltage_V = bat_conf.ReadDouble(Section, "constant_voltage_charge_voltage_V");
 
-  double bat_resistance;
-  bat_resistance = bat_conf.ReadDouble(Section, "battery_resistance_Ohm");
+  double battery_resistance_Ohm;
+  battery_resistance_Ohm = bat_conf.ReadDouble(Section, "battery_resistance_Ohm");
 
-  BAT bat(prescaler, clock_generator, number_of_series, number_of_parallel, cell_capacity, cell_discharge_curve_coeffs, initial_dod, cc_charge_c_rate,
-          cv_charge_voltage, bat_resistance, component_step_time_s);
+  BAT bat(prescaler, clock_generator, number_of_series, number_of_parallel, cell_capacity_Ah, cell_discharge_curve_coefficients, initial_dod,
+          cc_charge_c_rate, cv_charge_voltage_V, battery_resistance_Ohm, component_step_time_s);
 
   return bat;
 }

@@ -52,13 +52,13 @@ class PCU_InitialStudy : public Component, public ILoggable {
   std::string GetLogValue() const override;
 
  private:
-  const std::vector<SAP*> saps_;        //!< Solar Array Panels
-  BAT* const bat_;                      //!< Battery
-  const double cc_charge_current_A_C_;  //!< Constant charge current [C]
-  const double cv_charge_voltage_V_;    //!< Constant charge voltage [V]
-  double bus_voltage_;                  //!< Bus voltage [V]
-  double power_consumption_;            //!< Power consumption [W]
-  double compo_step_time_s_;            //!< Component step time [sec]
+  const std::vector<SAP*> saps_;      //!< Solar Array Panels
+  BAT* const bat_;                    //!< Battery
+  const double cc_charge_current_C_;  //!< Constant charge current [C]
+  const double cv_charge_voltage_V_;  //!< Constant charge voltage [V]
+  double bus_voltage_;                //!< Bus voltage [V]
+  double power_consumption_;          //!< Power consumption [W]
+  double compo_step_time_s_;          //!< Component step time [sec]
 
   // Override functions for Component
   /**
