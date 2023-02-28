@@ -8,8 +8,8 @@
 
 #include "../../base/initialize_sensor.hpp"
 
-GyroSensor InitGyro(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
-                    const Dynamics* dynamics) {
+GyroSensor InitGyroSensor(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
+                          const Dynamics* dynamics) {
   IniAccess gyro_conf(file_name);
   const char* sensor_name = "GYRO_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
@@ -29,8 +29,8 @@ GyroSensor InitGyro(ClockGenerator* clock_generator, int sensor_id, const std::s
   return gyro;
 }
 
-GyroSensor InitGyro(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name, double component_step_time_s,
-                    const Dynamics* dynamics) {
+GyroSensor InitGyroSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+                          double component_step_time_s, const Dynamics* dynamics) {
   IniAccess gyro_conf(file_name);
   const char* sensor_name = "GYRO_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));

@@ -7,8 +7,8 @@
 #include "../../base/initialize_sensor.hpp"
 #include "library/initialize/initialize_file_access.hpp"
 
-Magnetometer InitMagSensor(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
-                           const GeomagneticField* geomagnetic_field) {
+Magnetometer InitMagetometer(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
+                             const GeomagneticField* geomagnetic_field) {
   IniAccess magsensor_conf(file_name);
   const char* sensor_name = "MAGNETOMETER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
@@ -28,8 +28,8 @@ Magnetometer InitMagSensor(ClockGenerator* clock_generator, int sensor_id, const
   return magsensor;
 }
 
-Magnetometer InitMagSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
-                           double component_step_time_s, const GeomagneticField* geomagnetic_field) {
+Magnetometer InitMagetometer(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+                             double component_step_time_s, const GeomagneticField* geomagnetic_field) {
   IniAccess magsensor_conf(file_name);
   const char* sensor_name = "MAGNETOMETER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));

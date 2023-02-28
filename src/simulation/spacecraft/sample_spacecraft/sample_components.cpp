@@ -17,7 +17,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // PCU power port connection
   pcu_ = new PCU(clock_gen);
   pcu_->ConnectPort(0, 0.5, 3.3, 1.0);  // OBC: assumed power consumption is defined here
-  pcu_->ConnectPort(1, 1.0);            // GyroSensor: assumed power consumption is defined inside the InitGyro
+  pcu_->ConnectPort(1, 1.0);            // GyroSensor: assumed power consumption is defined inside the InitGyroSensor
   pcu_->ConnectPort(2, 1.0);            // for other all components
 
   // Components
@@ -27,19 +27,20 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // GyroSensor
   std::string ini_path = iniAccess.ReadString("COMPONENT_FILES", "gyro_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  gyro_ = new GyroSensor(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
+  gyro_ = new GyroSensor(
+      InitGyroSensor(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
 
   // Magnetometer
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetometer_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  mag_sensor_ = new Magnetometer(InitMagSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
-                                               &(local_env_->GetGeomagneticField())));
+  mag_sensor_ = new Magnetometer(InitMagetometer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path,
+                                                 glo_env_->GetSimulationTime().GetComponentStepTime_s(), &(local_env_->GetGeomagneticField())));
 
   // StarSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "stt_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
   stt_ = new StarSensor(
-      InitSTT(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_, local_env_));
+      InitStarSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_, local_env_));
 
   // SunSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "ss_file");
@@ -56,14 +57,14 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // Magnetorquer
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetorquer_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  mag_torquer_ = new Magnetorquer(InitMagTorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path,
-                                                 glo_env_->GetSimulationTime().GetComponentStepTime_s(), &(local_env_->GetGeomagneticField())));
+  mag_torquer_ = new Magnetorquer(InitMagnetorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path,
+                                                   glo_env_->GetSimulationTime().GetComponentStepTime_s(), &(local_env_->GetGeomagneticField())));
 
   // RW
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "rw_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  rw_ = new ReactionWheel(InitRWModel(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_->GetAttitude().GetPropStep(),
-                                      glo_env_->GetSimulationTime().GetComponentStepTime_s()));
+  rw_ = new ReactionWheel(InitReactionWheel(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_->GetAttitude().GetPropStep(),
+                                            glo_env_->GetSimulationTime().GetComponentStepTime_s()));
 
   // Torque Generator
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "torque_generator_file");

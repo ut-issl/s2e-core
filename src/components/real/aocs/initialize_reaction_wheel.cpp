@@ -98,7 +98,7 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
 }
 }  // namespace
 
-ReactionWheel InitRWModel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double prop_step, double compo_update_step) {
+ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double prop_step, double compo_update_step) {
   InitParams(actuator_id, file_name, prop_step, compo_update_step);
 
   ReactionWheel rwmodel(prescaler, fast_prescaler, clock_generator, actuator_id, step_width_s, main_routine_time_step_s, jitter_update_interval_s,
@@ -110,8 +110,8 @@ ReactionWheel InitRWModel(ClockGenerator* clock_generator, int actuator_id, std:
   return rwmodel;
 }
 
-ReactionWheel InitRWModel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name, double prop_step,
-                          double compo_update_step) {
+ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name, double prop_step,
+                                double compo_update_step) {
   InitParams(actuator_id, file_name, prop_step, compo_update_step);
 
   power_port->InitializeWithInitializeFile(file_name);

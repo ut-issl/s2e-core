@@ -10,8 +10,8 @@
 
 using namespace std;
 
-StarSensor InitSTT(ClockGenerator* clock_generator, int sensor_id, const string file_name, double component_step_time_s, const Dynamics* dynamics,
-                   const LocalEnvironment* local_environment) {
+StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const string file_name, double component_step_time_s,
+                          const Dynamics* dynamics, const LocalEnvironment* local_environment) {
   IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
@@ -43,8 +43,8 @@ StarSensor InitSTT(ClockGenerator* clock_generator, int sensor_id, const string 
   return stt;
 }
 
-StarSensor InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string file_name, double component_step_time_s,
-                   const Dynamics* dynamics, const LocalEnvironment* local_environment) {
+StarSensor InitStarSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string file_name, double component_step_time_s,
+                          const Dynamics* dynamics, const LocalEnvironment* local_environment) {
   IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));

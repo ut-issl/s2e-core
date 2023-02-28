@@ -9,7 +9,7 @@
 #include <components/real/aocs/magnetorquer.hpp>
 
 /**
- * @fn InitMagTorquer
+ * @fn InitMagnetorquer
  * @brief Initialize functions for magnetometer without power port
  * @param [in] clock_generator: Clock generator
  * @param [in] actuator_id: Actuator ID
@@ -17,10 +17,10 @@
  * @param [in] component_step_time_s: Component step time [sec]
  * @param [in] geomagnetic_field: Geomegnetic environment
  */
-Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
-                            const GeomagneticField* geomagnetic_field);
+Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
+                              const GeomagneticField* geomagnetic_field);
 /**
- * @fn InitMagTorquer
+ * @fn InitMagnetorquer
  * @brief Initialize functions for magnetometer with power port
  * @param [in] clock_generator: Clock generator
  * @param [in] power_port: Power port
@@ -29,7 +29,7 @@ Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, co
  * @param [in] component_step_time_s: Component step time [sec]
  * @param [in] geomagnetic_field: Geomegnetic environment
  */
-Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
-                            double component_step_time_s, const GeomagneticField* geomagnetic_field);
+Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
+                              double component_step_time_s, const GeomagneticField* geomagnetic_field);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_INITIALIZE_MAGNETORQUER_HPP_

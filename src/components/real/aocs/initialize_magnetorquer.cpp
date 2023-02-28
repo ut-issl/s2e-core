@@ -6,8 +6,8 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
-                            const GeomagneticField* geomagnetic_field) {
+Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
+                              const GeomagneticField* geomagnetic_field) {
   IniAccess magtorquer_conf(file_name);
   const char* sensor_name = "MAGNETORQUER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(actuator_id));
@@ -51,8 +51,8 @@ Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, co
   return magtorquer;
 }
 
-Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
-                            double component_step_time_s, const GeomagneticField* geomagnetic_field) {
+Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
+                              double component_step_time_s, const GeomagneticField* geomagnetic_field) {
   IniAccess magtorquer_conf(file_name);
   const char* sensor_name = "MAGNETORQUER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(actuator_id));
