@@ -85,17 +85,18 @@ class MonteCarloSimulationExecutor {
    * @brief Get randomized vector value and store it in dest_vec
    */
   template <size_t NumElement>
-  void GetInitMonteCarloParameterVector(std::string so_name, std::string ip_name, libra::Vector<NumElement>& destination) const;
+  void GetInitMonteCarloParameterVector(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                        libra::Vector<NumElement>& destination) const;
   /**
    * @fn GetInitMonteCarloParameterDouble
    * @brief Get randomized value and store it in dest
    */
-  void GetInitMonteCarloParameterDouble(std::string so_name, std::string ip_name, double& destination) const;
+  void GetInitMonteCarloParameterDouble(std::string so_name, std::string init_monte_carlo_parameter_name, double& destination) const;
   /**
    * @fn GetInitMonteCarloParameterQuaternion
    * @brief Get randomized quaternion and store it in dest_quat
    */
-  void GetInitMonteCarloParameterQuaternion(std::string so_name, std::string ip_name, libra::Quaternion& destination) const;
+  void GetInitMonteCarloParameterQuaternion(std::string so_name, std::string init_monte_carlo_parameter_name, libra::Quaternion& destination) const;
 
   // Calculation
   /**
@@ -123,7 +124,7 @@ class MonteCarloSimulationExecutor {
    * @fn AddInitMonteCarloParameter
    * @brief Add initialized parameter
    */
-  void AddInitMonteCarloParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
+  void AddInitMonteCarloParameter(std::string so_name, std::string init_monte_carlo_parameter_name, const libra::Vector<NumElement1>& mean_or_min,
                                   const libra::Vector<NumElement2>& sigma_or_max, InitMonteCarloParameters::RandomizationType random_type);
 
   /**
@@ -134,10 +135,10 @@ class MonteCarloSimulationExecutor {
 };
 
 template <size_t NumElement>
-void MonteCarloSimulationExecutor::GetInitMonteCarloParameterVector(std::string so_name, std::string ip_name,
+void MonteCarloSimulationExecutor::GetInitMonteCarloParameterVector(std::string so_name, std::string init_monte_carlo_parameter_name,
                                                                     libra::Vector<NumElement>& destination) const {
   if (!enabled_) return;
-  std::string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;
+  std::string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
   if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
     // Not registered in ip_list（Not defined in MCSim.ini）
     return;  // return without update the destination
@@ -147,10 +148,11 @@ void MonteCarloSimulationExecutor::GetInitMonteCarloParameterVector(std::string 
 }
 
 template <size_t NumElement1, size_t NumElement2>
-void MonteCarloSimulationExecutor::AddInitMonteCarloParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
+void MonteCarloSimulationExecutor::AddInitMonteCarloParameter(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                                              const libra::Vector<NumElement1>& mean_or_min,
                                                               const libra::Vector<NumElement2>& sigma_or_max,
                                                               InitMonteCarloParameters::RandomizationType random_type) {
-  std::string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;
+  std::string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
   if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
     // Register the parameter in ip_list if it is not registered yet
     auto newparam = new InitMonteCarloParameters();

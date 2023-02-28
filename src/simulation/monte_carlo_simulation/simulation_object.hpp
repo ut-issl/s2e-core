@@ -39,20 +39,21 @@ class SimulationObject {
    * @brief Get randomized vector value and store it in destination
    */
   template <size_t NumElement>
-  void GetInitMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string ip_name,
+  void GetInitMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string init_monte_carlo_parameter_name,
                                         libra::Vector<NumElement>& destination) const;
 
   /**
    * @fn GetInitMonteCarloParameterDouble
    * @brief Get randomized value and store it in destination
    */
-  void GetInitMonteCarloParameterDouble(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string ip_name, double& destination) const;
+  void GetInitMonteCarloParameterDouble(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string init_monte_carlo_parameter_name,
+                                        double& destination) const;
 
   /**
    * @fn GetInitMonteCarloParameterQuaternion
    * @brief Get randomized quaternion and store it in destination
    */
-  void GetInitMonteCarloParameterQuaternion(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string ip_name,
+  void GetInitMonteCarloParameterQuaternion(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string init_monte_carlo_parameter_name,
                                             libra::Quaternion& destination) const;
 
   /**
@@ -77,9 +78,9 @@ class SimulationObject {
  * @brief Return initialized parameters for vector
  */
 template <size_t NumElement>
-void SimulationObject::GetInitMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string ip_name,
-                                                        libra::Vector<NumElement>& destination) const {
-  monte_carlo_simulator.GetInitMonteCarloParameterVector(name_, ip_name, destination);
+void SimulationObject::GetInitMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator,
+                                                        std::string init_monte_carlo_parameter_name, libra::Vector<NumElement>& destination) const {
+  monte_carlo_simulator.GetInitMonteCarloParameterVector(name_, init_monte_carlo_parameter_name, destination);
 }
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_SIMULATION_OBJECT_HPP_

@@ -32,10 +32,11 @@ void MonteCarloSimulationExecutor::AtTheEndOfEachCase() {
   number_of_executions_done_++;
 }
 
-void MonteCarloSimulationExecutor::GetInitMonteCarloParameterDouble(string so_name, string ip_name, double& destination) const {
+void MonteCarloSimulationExecutor::GetInitMonteCarloParameterDouble(string so_name, string init_monte_carlo_parameter_name,
+                                                                    double& destination) const {
   if (!enabled_) return;
   {
-    string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;
+    string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
     if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
       // Not registered in ip_list（Not defined in MCSim.ini）
       return;  // return without any update of destination
@@ -45,10 +46,11 @@ void MonteCarloSimulationExecutor::GetInitMonteCarloParameterDouble(string so_na
   }
 }
 
-void MonteCarloSimulationExecutor::GetInitMonteCarloParameterQuaternion(string so_name, string ip_name, libra::Quaternion& destination) const {
+void MonteCarloSimulationExecutor::GetInitMonteCarloParameterQuaternion(string so_name, string init_monte_carlo_parameter_name,
+                                                                        libra::Quaternion& destination) const {
   if (!enabled_) return;
   {
-    string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;
+    string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
     if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
       // Not registered in ip_list（Not defined in MCSim.ini）
       return;  // return without any update of destination
