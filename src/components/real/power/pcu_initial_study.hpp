@@ -24,7 +24,8 @@ class PcuInitialStudy : public Component, public ILoggable {
    * @param [in] battery: Battery
    * @param [in] component_step_time_s: Component step time [sec]
    */
-  PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery, double component_step_time_s);
+  PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
+                  double component_step_time_s);
   /**
    * @fn PcuInitialStudy
    * @brief Constructor
@@ -32,7 +33,7 @@ class PcuInitialStudy : public Component, public ILoggable {
    * @param [in] saps: Solar Array Panels
    * @param [in] battery: Battery
    */
-  PcuInitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery);
+  PcuInitialStudy(ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery);
   /**
    * @fn ~PcuInitialStudy
    * @brief Destructor
@@ -52,13 +53,13 @@ class PcuInitialStudy : public Component, public ILoggable {
   std::string GetLogValue() const override;
 
  private:
-  const std::vector<SAP*> saps_;      //!< Solar Array Panels
-  Battery* const battery_;            //!< Battery
-  const double cc_charge_current_C_;  //!< Constant charge current [C]
-  const double cv_charge_voltage_V_;  //!< Constant charge voltage [V]
-  double bus_voltage_V_;              //!< Bus voltage [V]
-  double power_consumption_W_;        //!< Power consumption [W]
-  double compo_step_time_s_;          //!< Component step time [sec]
+  const std::vector<SolarArrayPanel*> saps_;  //!< Solar Array Panels
+  Battery* const battery_;                    //!< Battery
+  const double cc_charge_current_C_;          //!< Constant charge current [C]
+  const double cv_charge_voltage_V_;          //!< Constant charge voltage [V]
+  double bus_voltage_V_;                      //!< Bus voltage [V]
+  double power_consumption_W_;                //!< Power consumption [W]
+  double compo_step_time_s_;                  //!< Component step time [sec]
 
   // Override functions for Component
   /**

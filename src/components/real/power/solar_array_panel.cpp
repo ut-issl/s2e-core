@@ -8,60 +8,62 @@
 #include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
 
-SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area,
-         libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
-         const LocalCelestialInformation* local_celestial_information, double component_step_time_s)
+SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
+                                 double cell_area_m2, libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
+                                 const SolarRadiationPressureEnvironment* srp_environment,
+                                 const LocalCelestialInformation* local_celestial_information, double component_step_time_s)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
-      cell_area_m2_(cell_area),
+      cell_area_m2_(cell_area_m2),
       normal_vector_(libra::Normalize(normal_vector)),
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
-      srp_environment_(srp),
+      srp_environment_(srp_environment),
       local_celestial_information_(local_celestial_information),
       compo_step_time_s_(component_step_time_s) {
   voltage_V_ = 0.0;
   power_generation_W_ = 0.0;
 }
 
-SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area,
-         libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
-         double component_step_time_s)
+SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
+                                 double cell_area_m2, libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
+                                 const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
-      cell_area_m2_(cell_area),
+      cell_area_m2_(cell_area_m2),
       normal_vector_(libra::Normalize(normal_vector)),
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
-      srp_environment_(srp),
+      srp_environment_(srp_environment),
       compo_step_time_s_(component_step_time_s) {
   voltage_V_ = 0.0;
   power_generation_W_ = 0.0;
 }
 
-SAP::SAP(ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area,
-         libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
-         const LocalCelestialInformation* local_celestial_information)
+SolarArrayPanel::SolarArrayPanel(ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area_m2,
+                                 libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
+                                 const SolarRadiationPressureEnvironment* srp_environment,
+                                 const LocalCelestialInformation* local_celestial_information)
     : Component(10, clock_generator),
       component_id_(component_id),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
-      cell_area_m2_(cell_area),
+      cell_area_m2_(cell_area_m2),
       normal_vector_(libra::Normalize(normal_vector)),
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
-      srp_environment_(srp),
+      srp_environment_(srp_environment),
       local_celestial_information_(local_celestial_information),
       compo_step_time_s_(0.1) {
   voltage_V_ = 0.0;
   power_generation_W_ = 0.0;
 }
 
-SAP::SAP(const SAP& obj)
+SolarArrayPanel::SolarArrayPanel(const SolarArrayPanel& obj)
     : Component(obj),
       component_id_(obj.component_id_),
       number_of_series_(obj.number_of_series_),
@@ -77,26 +79,22 @@ SAP::SAP(const SAP& obj)
   power_generation_W_ = 0.0;
 }
 
-SAP::~SAP() {}
+SolarArrayPanel::~SolarArrayPanel() {}
 
-double SAP::GetPowerGeneration() const { return power_generation_W_; }
-
-void SAP::SetVoltage_V(const double voltage) { voltage_V_ = voltage; }
-
-std::string SAP::GetLogHeader() const {
+std::string SolarArrayPanel::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "sap" + std::to_string(component_id_) + "_";
   str_tmp += WriteScalar(component_name + "generated_power", "W");
   return str_tmp;
 }
 
-std::string SAP::GetLogValue() const {
+std::string SolarArrayPanel::GetLogValue() const {
   std::string str_tmp = "";
   str_tmp += WriteScalar(power_generation_W_);
   return str_tmp;
 }
 
-void SAP::MainRoutine(const int time_count) {
+void SolarArrayPanel::MainRoutine(const int time_count) {
   if (CsvScenarioInterface::IsCsvScenarioEnabled()) {
     double time_query = compo_step_time_s_ * time_count;
     const auto solar_constant = srp_environment_->GetSolarConstant_W_m2();

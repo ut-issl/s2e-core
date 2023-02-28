@@ -9,7 +9,7 @@
 #include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
 
-PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery,
+PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
                                  double component_step_time_s)
     : Component(prescaler, clock_generator),
       saps_(saps),
@@ -21,7 +21,7 @@ PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_gene
   power_consumption_W_ = 0.0;
 }
 
-PcuInitialStudy::PcuInitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery)
+PcuInitialStudy::PcuInitialStudy(ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery)
     : Component(10, clock_generator),
       saps_(saps),
       battery_(battery),
@@ -82,7 +82,7 @@ void PcuInitialStudy::UpdateChargeCurrentAndBusVoltage() {
   const double battery_resistance_Ohm = battery_->GetResistance_Ohm();
   double power_generation = 0.0;
   for (auto sap : saps_) {
-    power_generation += sap->GetPowerGeneration();
+    power_generation += sap->GetPowerGeneration_W();
   }
   double current_temp =
       (-bat_voltage + std::sqrt(bat_voltage * bat_voltage + 4.0 * battery_resistance_Ohm * (power_generation - power_consumption_W_))) /

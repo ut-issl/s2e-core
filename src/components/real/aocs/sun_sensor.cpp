@@ -16,13 +16,13 @@ using namespace std;
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
                      const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
-                     const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celestial_information)
+                     const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
-      srp_environment_(srp),
+      srp_environment_(srp_environment),
       local_celestial_information_(local_celestial_information) {
   Initialize(random_noise_standard_deviation_rad, bias_noise_standard_deviation_rad);
 }
@@ -30,13 +30,13 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                      const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
-                     const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celestial_information)
+                     const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
-      srp_environment_(srp),
+      srp_environment_(srp_environment),
       local_celestial_information_(local_celestial_information) {
   Initialize(random_noise_standard_deviation_rad, bias_noise_standard_deviation_rad);
 }
