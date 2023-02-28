@@ -31,8 +31,8 @@ class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] magnet: Geomagnetic environment
    */
-  MagSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const libra::Quaternion& quaternion_b2c,
-            const GeomagneticField* magnet);
+  MagSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
+            const libra::Quaternion& quaternion_b2c, const GeomagneticField* magnet);
   /**
    * @fn MagSensor
    * @brief Constructor with power port
@@ -44,7 +44,7 @@ class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] magnet: Geomagnetic environment
    */
-  MagSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
+  MagSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
             const libra::Quaternion& quaternion_b2c, const GeomagneticField* magnet);
   /**
    * @fn ~MagSensor
@@ -79,7 +79,7 @@ class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
 
  protected:
   libra::Vector<kMagDim> mag_c_{0.0};                     // observed magnetic field on the component frame [nT]
-  int sensor_id_ = 0;                                     //!< Sensor ID
+  unsigned int sensor_id_ = 0;                            //!< Sensor ID
   libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
 
   const GeomagneticField* magnet_;  //!< Geomagnetic environment
