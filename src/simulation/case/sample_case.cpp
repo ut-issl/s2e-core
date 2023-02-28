@@ -75,7 +75,7 @@ string SampleCase::GetLogValue() const {
   // auto pos_i = sample_sat->dynamics_->GetOrbit().GetPosition_i_m();
   // auto vel_i = sample_sat->dynamics_->GetOrbit().GetVelocity_i_m_s();
   // auto quat_i2b = sample_sat->dynamics_->GetAttitude().GetQuaternion_i2b();
-  // auto omega_b = sample_sat->dynamics_->GetAttitude().GetOmega_b();
+  // auto omega_b = sample_sat->dynamics_->GetAttitude().GetAngularVelocity_b_rad_s();
 
   // Need to match the contents of log with header setting above
   str_tmp += WriteScalar(global_environment_->GetSimulationTime().GetElapsedTime_s());

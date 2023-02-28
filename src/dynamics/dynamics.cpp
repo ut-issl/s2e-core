@@ -60,7 +60,7 @@ void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestia
 
 void Dynamics::ClearForceTorque(void) {
   libra::Vector<3> zero(0.0);
-  attitude_->SetTorque_b(zero);
+  attitude_->SetTorque_b_Nm(zero);
   orbit_->SetAcceleration_i_m_s2(zero);
 }
 

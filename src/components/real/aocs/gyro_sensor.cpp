@@ -22,7 +22,7 @@ GyroSensor::~GyroSensor() {}
 void GyroSensor::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
-  angular_velocity_c_rad_s_ = quaternion_b2c_.FrameConversion(dynamics_->GetAttitude().GetOmega_b());  // Convert frame
+  angular_velocity_c_rad_s_ = quaternion_b2c_.FrameConversion(dynamics_->GetAttitude().GetAngularVelocity_b_rad_s());  // Convert frame
   angular_velocity_c_rad_s_ = Measure(angular_velocity_c_rad_s_);                                      // Add noises
 }
 

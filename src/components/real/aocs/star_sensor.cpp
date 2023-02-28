@@ -129,7 +129,7 @@ void StarSensor::AllJudgement(const LocalCelestialInformation* local_celestial_i
   judgement = SunJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("SUN"));
   judgement += EarthJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH"));
   judgement += MoonJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("MOON"));
-  judgement += CaptureRateJudgement(attitude->GetOmega_b());
+  judgement += CaptureRateJudgement(attitude->GetAngularVelocity_b_rad_s());
   if (judgement > 0)
     error_flag_ = true;
   else
