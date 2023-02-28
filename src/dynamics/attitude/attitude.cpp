@@ -42,7 +42,7 @@ std::string Attitude::GetLogValue() const {
   return str_tmp;
 }
 
-void Attitude::SetParameters(const MCSimExecutor& mc_simulator) { GetInitParameterQuaternion(mc_simulator, "Q_i2b", quaternion_i2b_); }
+void Attitude::SetParameters(const MonteCarloSimulationExecutor& mc_simulator) { GetInitParameterQuaternion(mc_simulator, "Q_i2b", quaternion_i2b_); }
 
 void Attitude::CalcAngularMomentum(void) {
   angular_momentum_spacecraft_b_Nms_ = inertia_tensor_kgm2_ * angular_velocity_b_rad_s_;

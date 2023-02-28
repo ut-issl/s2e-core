@@ -39,31 +39,33 @@ class SimulationObject {
    * @brief Get randomized vector value and store it in destination
    */
   template <size_t NumElement>
-  void GetInitParameterVec(const MCSimExecutor& monte_carlo_simulator, std::string ip_name, libra::Vector<NumElement>& destination) const;
+  void GetInitParameterVec(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string ip_name,
+                           libra::Vector<NumElement>& destination) const;
 
   /**
    * @fn GetInitParameterDouble
    * @brief Get randomized value and store it in destination
    */
-  void GetInitParameterDouble(const MCSimExecutor& monte_carlo_simulator, std::string ip_name, double& destination) const;
+  void GetInitParameterDouble(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string ip_name, double& destination) const;
 
   /**
    * @fn GetInitParameterQuaternion
    * @brief Get randomized quaternion and store it in destination
    */
-  void GetInitParameterQuaternion(const MCSimExecutor& monte_carlo_simulator, std::string ip_name, libra::Quaternion& destination) const;
+  void GetInitParameterQuaternion(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string ip_name,
+                                  libra::Quaternion& destination) const;
 
   /**
    * @fn SetParameters
    * @brief Virtual function to set the randomized results to target variables
    */
-  virtual void SetParameters(const MCSimExecutor& monte_carlo_simulator) = 0;
+  virtual void SetParameters(const MonteCarloSimulationExecutor& monte_carlo_simulator) = 0;
 
   /**
    * @fn SetAllParameters
    * @brief Execute all SetParameter function for all SimulationObject instance
    */
-  static void SetAllParameters(const MCSimExecutor& monte_carlo_simulator);
+  static void SetAllParameters(const MonteCarloSimulationExecutor& monte_carlo_simulator);
 
  private:
   std::string name_;  //!< Name to distinguish the target variable in initialize file for Monte-Carlo simulation
@@ -75,7 +77,7 @@ class SimulationObject {
  * @brief Return initialized parameters for vector
  */
 template <size_t NumElement>
-void SimulationObject::GetInitParameterVec(const MCSimExecutor& monte_carlo_simulator, std::string ip_name,
+void SimulationObject::GetInitParameterVec(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string ip_name,
                                            libra::Vector<NumElement>& destination) const {
   monte_carlo_simulator.GetInitParameterVec(name_, ip_name, destination);
 }

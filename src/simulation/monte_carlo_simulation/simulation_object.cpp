@@ -26,17 +26,18 @@ SimulationObject::~SimulationObject() {
   SimulationObject::ojbect_list_.erase(name_);
 }
 
-void SimulationObject::SetAllParameters(const MCSimExecutor& monte_carlo_simulator) {
+void SimulationObject::SetAllParameters(const MonteCarloSimulationExecutor& monte_carlo_simulator) {
   for (auto so : SimulationObject::ojbect_list_) {
     so.second->SetParameters(monte_carlo_simulator);
   }
 }
 
-void SimulationObject::GetInitParameterDouble(const MCSimExecutor& monte_carlo_simulator, std::string ip_name, double& destination) const {
+void SimulationObject::GetInitParameterDouble(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string ip_name,
+                                              double& destination) const {
   monte_carlo_simulator.GetInitParameterDouble(name_, ip_name, destination);
 }
 
-void SimulationObject::GetInitParameterQuaternion(const MCSimExecutor& monte_carlo_simulator, std::string ip_name,
+void SimulationObject::GetInitParameterQuaternion(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string ip_name,
                                                   libra::Quaternion& destination) const {
   monte_carlo_simulator.GetInitParameterQuaternion(name_, ip_name, destination);
 }

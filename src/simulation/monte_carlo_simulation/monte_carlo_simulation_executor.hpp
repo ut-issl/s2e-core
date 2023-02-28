@@ -13,10 +13,10 @@
 #include "initialize_monte_carlo_parameters.hpp"
 
 /**
- * @class MCSimExecutor
+ * @class MonteCarloSimulationExecutor
  * @brief Monte-Carlo Simulation Executor class
  */
-class MCSimExecutor {
+class MonteCarloSimulationExecutor {
  private:
   unsigned long long total_number_of_executions_;  //!< Total number of execution simulation case
   unsigned long long number_of_executions_done_;   //!< Number of executed case
@@ -29,10 +29,10 @@ class MCSimExecutor {
   static const char separator_ = '.';  //!< Deliminator for name of SimulationObject and InitMonteCarloParameters in the initialization file
 
   /**
-   * @fn MCSimExecutor
+   * @fn MonteCarloSimulationExecutor
    * @brief Constructor
    */
-  MCSimExecutor(unsigned long long total_num_of_executions);
+  MonteCarloSimulationExecutor(unsigned long long total_num_of_executions);
 
   // Setter
   /**
@@ -134,9 +134,9 @@ class MCSimExecutor {
 };
 
 template <size_t NumElement>
-void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name, libra::Vector<NumElement>& destination) const {
+void MonteCarloSimulationExecutor::GetInitParameterVec(std::string so_name, std::string ip_name, libra::Vector<NumElement>& destination) const {
   if (!enabled_) return;
-  std::string name = so_name + MCSimExecutor::separator_ + ip_name;
+  std::string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;
   if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
     // Not registered in ip_list（Not defined in MCSim.ini）
     return;  // return without update the destination
@@ -146,9 +146,10 @@ void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name
 }
 
 template <size_t NumElement1, size_t NumElement2>
-void MCSimExecutor::AddInitParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
-                                     const libra::Vector<NumElement2>& sigma_or_max, InitMonteCarloParameters::RandomizationType random_type) {
-  std::string name = so_name + MCSimExecutor::separator_ + ip_name;
+void MonteCarloSimulationExecutor::AddInitParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
+                                                    const libra::Vector<NumElement2>& sigma_or_max,
+                                                    InitMonteCarloParameters::RandomizationType random_type) {
+  std::string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;
   if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
     // Register the parameter in ip_list if it is not registered yet
     auto newparam = new InitMonteCarloParameters();

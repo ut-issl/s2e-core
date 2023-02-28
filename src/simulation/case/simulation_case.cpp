@@ -24,7 +24,7 @@ SimulationCase::SimulationCase(std::string ini_base) {
   sim_config_.gnss_file_ = simbase_ini.ReadString(section, "gnss_file");
   global_environment_ = new GlobalEnvironment(&sim_config_);
 }
-SimulationCase::SimulationCase(std::string ini_base, const MCSimExecutor& monte_carlo_simulator, const std::string log_path) {
+SimulationCase::SimulationCase(std::string ini_base, const MonteCarloSimulationExecutor& monte_carlo_simulator, const std::string log_path) {
   IniAccess simbase_ini = IniAccess(ini_base);
   const char* section = "SIMULATION_SETTINGS";
   sim_config_.initialize_base_file_name_ = ini_base;

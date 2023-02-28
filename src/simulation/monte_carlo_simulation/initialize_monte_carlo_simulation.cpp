@@ -10,13 +10,13 @@
 
 #define MAX_CHAR_NUM 256
 
-MCSimExecutor* InitMCSim(std::string file_name) {
+MonteCarloSimulationExecutor* InitMCSim(std::string file_name) {
   IniAccess ini_file(file_name);
   const char* section = "MONTE_CARLO_EXECUTION";
 
   unsigned long long total_num_of_executions = ini_file.ReadInt(section, "number_of_executions");
 
-  MCSimExecutor* monte_carlo_simulator = new MCSimExecutor(total_num_of_executions);
+  MonteCarloSimulationExecutor* monte_carlo_simulator = new MonteCarloSimulationExecutor(total_num_of_executions);
 
   bool enable = ini_file.ReadEnable(section, "monte_carlo_enable");
   monte_carlo_simulator->Enable(enable);
@@ -34,7 +34,7 @@ MCSimExecutor* InitMCSim(std::string file_name) {
     Phase phase = FoundNothingYet;
     std::stringstream ss(so_dot_ip_str);
     std::string item, so_str, ip_str;
-    while (getline(ss, item, MCSimExecutor::separator_)) {
+    while (getline(ss, item, MonteCarloSimulationExecutor::separator_)) {
       if (!item.empty()) {
         if (phase == FoundNothingYet) {
           phase = FoundSimulationObjectStr;
@@ -53,7 +53,7 @@ MCSimExecutor* InitMCSim(std::string file_name) {
     InitMonteCarloParameters::RandomizationType random_type;
     const static unsigned int buf_size = 256;
     char rnd_type_str[buf_size];
-    std::string key_name = so_dot_ip_str + MCSimExecutor::separator_ + "randomization_type";
+    std::string key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "randomization_type";
 
     ini_file.ReadChar(section, key_name.c_str(), buf_size, rnd_type_str);
     if (!strcmp(rnd_type_str, "NoRandomization"))
@@ -78,12 +78,12 @@ MCSimExecutor* InitMCSim(std::string file_name) {
       random_type = InitMonteCarloParameters::NoRandomization;
 
     // Read mean_or_min vector
-    key_name = so_dot_ip_str + MCSimExecutor::separator_ + "mean_or_min";
+    key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "mean_or_min";
     libra::Vector<3> mean_or_min;
     ini_file.ReadVector(section, key_name.c_str(), mean_or_min);
 
     // Read sigma_or_max vector
-    key_name = so_dot_ip_str + MCSimExecutor::separator_ + "sigma_or_max";
+    key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "sigma_or_max";
     libra::Vector<3> sigma_or_max;
     ini_file.ReadVector(section, key_name.c_str(), sigma_or_max);
 

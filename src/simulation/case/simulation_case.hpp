@@ -28,7 +28,7 @@ class SimulationCase : public ILoggable {
    * @fn SimulationCase
    * @brief Constructor for Monte-Carlo Simulation
    */
-  SimulationCase(std::string ini_base, const MCSimExecutor& monte_carlo_simulator, std::string log_path);
+  SimulationCase(std::string ini_base, const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string log_path);
   /**
    * @fn ~SimulationCase
    * @brief Destructor

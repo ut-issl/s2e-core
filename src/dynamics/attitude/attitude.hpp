@@ -109,7 +109,7 @@ class Attitude : public ILoggable, public SimulationObject {
   virtual std::string GetLogValue() const;
 
   // SimulationObject for McSim
-  virtual void SetParameters(const MCSimExecutor& mc_simulator);
+  virtual void SetParameters(const MonteCarloSimulationExecutor& mc_simulator);
 
  protected:
   bool is_calc_enabled_ = true;                //!< Calculation flag

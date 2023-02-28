@@ -13,6 +13,6 @@
  * @fn InitMCSim
  * @brief Initialize function for Monte-Carlo Simulator
  */
-MCSimExecutor* InitMCSim(std::string file_name);
+MonteCarloSimulationExecutor* InitMCSim(std::string file_name);
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_INITIALIZE_MONTE_CARLO_SIMULATION_HPP_

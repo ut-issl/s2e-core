@@ -7,13 +7,14 @@
 
 using std::string;
 
-MCSimExecutor::MCSimExecutor(unsigned long long total_num_of_executions) : total_number_of_executions_(total_num_of_executions) {
+MonteCarloSimulationExecutor::MonteCarloSimulationExecutor(unsigned long long total_num_of_executions)
+    : total_number_of_executions_(total_num_of_executions) {
   number_of_executions_done_ = 0;
   enabled_ = total_number_of_executions_ > 1 ? true : false;
   save_log_history_flag_ = !enabled_;
 }
 
-bool MCSimExecutor::WillExecuteNextCase() {
+bool MonteCarloSimulationExecutor::WillExecuteNextCase() {
   if (!enabled_) {
     return (number_of_executions_done_ < 1);
   } else {
@@ -21,20 +22,20 @@ bool MCSimExecutor::WillExecuteNextCase() {
   }
 }
 
-void MCSimExecutor::AtTheBeginningOfEachCase() {
+void MonteCarloSimulationExecutor::AtTheBeginningOfEachCase() {
   // Write CSV output of the randomization results
   ;
 }
 
-void MCSimExecutor::AtTheEndOfEachCase() {
+void MonteCarloSimulationExecutor::AtTheEndOfEachCase() {
   // Write CSV output of the simulation results
   number_of_executions_done_++;
 }
 
-void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name, double& destination) const {
+void MonteCarloSimulationExecutor::GetInitParameterDouble(string so_name, string ip_name, double& destination) const {
   if (!enabled_) return;
   {
-    string name = so_name + MCSimExecutor::separator_ + ip_name;
+    string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;
     if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
       // Not registered in ip_list（Not defined in MCSim.ini）
       return;  // return without any update of destination
@@ -44,10 +45,10 @@ void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name, doubl
   }
 }
 
-void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name, libra::Quaternion& destination) const {
+void MonteCarloSimulationExecutor::GetInitParameterQuaternion(string so_name, string ip_name, libra::Quaternion& destination) const {
   if (!enabled_) return;
   {
-    string name = so_name + MCSimExecutor::separator_ + ip_name;
+    string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;
     if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
       // Not registered in ip_list（Not defined in MCSim.ini）
       return;  // return without any update of destination
@@ -57,10 +58,10 @@ void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name, l
   }
 }
 
-void MCSimExecutor::RandomizeAllParameters() {
+void MonteCarloSimulationExecutor::RandomizeAllParameters() {
   for (auto ip : init_parameter_list_) {
     ip.second->Randomize();
   }
 }
 
-void MCSimExecutor::SetSeed(unsigned long seed, bool is_deterministic) { InitMonteCarloParameters::SetSeed(seed, is_deterministic); }
+void MonteCarloSimulationExecutor::SetSeed(unsigned long seed, bool is_deterministic) { InitMonteCarloParameters::SetSeed(seed, is_deterministic); }
