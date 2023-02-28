@@ -16,16 +16,16 @@ std::map<int, UartPort*> OBC_C2A::com_ports_c2a_;
 std::map<int, I2cPort*> OBC_C2A::i2c_com_ports_c2a_;
 std::map<int, GpioPort*> OBC_C2A::gpio_ports_c2a_;
 
-OBC_C2A::OBC_C2A(ClockGenerator* clock_generator) : OBC(clock_generator), timing_regulator_(1) {
+OBC_C2A::OBC_C2A(ClockGenerator* clock_generator) : OnBoardComputer(clock_generator), timing_regulator_(1) {
   // Initialize();
 }
 
-OBC_C2A::OBC_C2A(ClockGenerator* clock_generator, int timing_regulator) : OBC(clock_generator), timing_regulator_(timing_regulator) {
+OBC_C2A::OBC_C2A(ClockGenerator* clock_generator, int timing_regulator) : OnBoardComputer(clock_generator), timing_regulator_(timing_regulator) {
   // Initialize();
 }
 
 OBC_C2A::OBC_C2A(int prescaler, ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port)
-    : OBC(prescaler, clock_generator, power_port), timing_regulator_(timing_regulator) {
+    : OnBoardComputer(prescaler, clock_generator, power_port), timing_regulator_(timing_regulator) {
   // Initialize();
 }
 

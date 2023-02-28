@@ -26,13 +26,13 @@ class ExampleI2cTargetForHils : public Component, public I2cTargetCommunicationW
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
-   * @param [in] sils_port_id: Port ID for communication line b/w OBC
+   * @param [in] sils_port_id: Port ID for communication line b/w OnBoardComputer
    * @param [in] i2c_address: I2C address of the target device (This value should be compatible with MFT200XD's setting)
-   * @param [in] obc: The communication target OBC
+   * @param [in] obc: The communication target OnBoardComputer
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] hils_port_manager: HILS port manager
    */
-  ExampleI2cTargetForHils(const int prescaler, ClockGenerator* clock_generator, const int sils_port_id, unsigned char i2c_address, OBC* obc,
+  ExampleI2cTargetForHils(const int prescaler, ClockGenerator* clock_generator, const int sils_port_id, unsigned char i2c_address, OnBoardComputer* obc,
                           const unsigned int hils_port_id, HilsPortManager* hils_port_manager);
   /**
    * @fn ~ExampleI2cTargetForHils

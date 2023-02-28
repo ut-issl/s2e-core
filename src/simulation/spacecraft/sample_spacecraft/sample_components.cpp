@@ -16,12 +16,12 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
 
   // PCU power port connection
   pcu_ = new PowerControlUnit(clock_gen);
-  pcu_->ConnectPort(0, 0.5, 3.3, 1.0);  // OBC: assumed power consumption is defined here
+  pcu_->ConnectPort(0, 0.5, 3.3, 1.0);  // OnBoardComputer: assumed power consumption is defined here
   pcu_->ConnectPort(1, 1.0);            // GyroSensor: assumed power consumption is defined inside the InitGyroSensor
   pcu_->ConnectPort(2, 1.0);            // for other all components
 
   // Components
-  obc_ = new OBC(1, clock_gen, pcu_->GetPowerPort(0));
+  obc_ = new OnBoardComputer(1, clock_gen, pcu_->GetPowerPort(0));
   hils_port_manager_ = new HilsPortManager();
 
   // GyroSensor

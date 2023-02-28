@@ -1,6 +1,6 @@
 /**
  * @file example_serial_communication_with_obc.hpp
- * @brief Example of component emulation with communication between OBC Flight software
+ * @brief Example of component emulation with communication between OnBoardComputer Flight software
  */
 
 #ifndef S2E_COMPONENTS_EXAMPLES_EXAMPLE_SERIAL_COMMUNICATION_WITH_OBC_HPP_P_
@@ -14,7 +14,7 @@
 
 /**
  * @class ExampleSerialCommunicationWithObc
- * @brief Example of component emulation with communication between OBC Flight software
+ * @brief Example of component emulation with communication between OnBoardComputer Flight software
  * @details Command to EXP is 5 bytes.
  *          - The first 3 bytes: "SET"
  *          - The Fourth byte: Set data (ASCII 0x21~0x7e)
@@ -32,19 +32,19 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @brief Constructor without prescaler
    * @note The prescaler is set as 1000
    * @param [in] clock_generator: Clock generator
-   * @param [in] port_id: Port ID for communication line b/w OBC
-   * @param [in] obc: The communication target OBC
+   * @param [in] port_id: Port ID for communication line b/w OnBoardComputer
+   * @param [in] obc: The communication target OnBoardComputer
    */
-  ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, OBC* obc);
+  ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, OnBoardComputer* obc);
   /**
    * @fn ExampleSerialCommunicationWithObc
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
-   * @param [in] port_id: Port ID for communication line b/w OBC
+   * @param [in] port_id: Port ID for communication line b/w OnBoardComputer
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] obc: The communication target OBC
+   * @param [in] obc: The communication target OnBoardComputer
    */
-  ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, int prescaler, OBC* obc);
+  ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, int prescaler, OnBoardComputer* obc);
   /**
    * @fn ~SerialCommunicationWithObc
    * @brief Destructor
@@ -73,12 +73,12 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
   // Override functions for ObcCommunication
   /**
    * @fn ParseCommand
-   * @brief Parse command received from OBC
+   * @brief Parse command received from OnBoardComputer
    */
   int ParseCommand(const int command_size) override;
   /**
    * @fn GenerateTelemetry
-   * @brief Generate telemetry send to OBC
+   * @brief Generate telemetry send to OnBoardComputer
    */
   int GenerateTelemetry() override;
 

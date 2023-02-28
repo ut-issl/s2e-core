@@ -1,17 +1,17 @@
 /**
  * @file example_serial_communication_with_obc.cpp
- * @brief Example of component emulation with communication between OBC Flight software
+ * @brief Example of component emulation with communication between OnBoardComputer Flight software
  */
 
 #include "example_serial_communication_with_obc.hpp"
 
 #include <string.h>
 
-ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, OBC* obc)
+ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, OnBoardComputer* obc)
     : Component(1000, clock_generator), UartCommunicationWithObc(port_id, obc) {
   Initialize();
 }
-ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, int prescaler, OBC* obc)
+ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, int prescaler, OnBoardComputer* obc)
     : Component(prescaler, clock_generator), UartCommunicationWithObc(port_id, obc) {
   Initialize();
 }

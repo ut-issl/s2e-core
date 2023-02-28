@@ -67,7 +67,7 @@ class HilsI2cTargetPort : public HilsUartPort {
   /**
    * @fn ReadCommand
    * @brief Read command requested from the COM port to the component
-   * @param [out] rx_data: Data to the OBC
+   * @param [out] rx_data: Data to the OnBoardComputer
    * @param [in] length: Length of the rx_data
    * @return Length or zero when an error happened
    */

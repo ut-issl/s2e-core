@@ -30,7 +30,7 @@
 
 #include "../installed_components.hpp"
 
-class OBC;
+class OnBoardComputer;
 class PowerControlUnit;
 class GyroSensor;
 class Magnetometer;
@@ -83,7 +83,7 @@ class SampleComponents : public InstalledComponents {
 
  private:
   PowerControlUnit* pcu_;               //!< Power Control Unit
-  OBC* obc_;                            //!< Onboard Computer
+  OnBoardComputer* obc_;                            //!< Onboard Computer
   HilsPortManager* hils_port_manager_;  //!< Port manager for HILS test
 
   // AOCS

@@ -1,12 +1,12 @@
 /**
  * @file gpio_connection_with_obc.cpp
- * @brief Base class for GPIO communication with OBC flight software
+ * @brief Base class for GPIO communication with OnBoardComputer flight software
  *        TODO: consider relation with IGPIOCompo
  */
 
 #include "gpio_connection_with_obc.hpp"
 
-GpioConnectionWithObc::GpioConnectionWithObc(const std::vector<int> port_id, OBC* obc) : port_id_(port_id), obc_(obc) {
+GpioConnectionWithObc::GpioConnectionWithObc(const std::vector<int> port_id, OnBoardComputer* obc) : port_id_(port_id), obc_(obc) {
   for (size_t i = 0; i < port_id_.size(); i++) {
     obc_->GpioConnectPort(port_id_[i]);
   }

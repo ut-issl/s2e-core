@@ -14,7 +14,7 @@
  * @class OBC_C2A
  * @brief Class to emulate on board computer with C2A flight software
  */
-class OBC_C2A : public OBC {
+class OBC_C2A : public OnBoardComputer {
  public:
   /**
    * @fn OBC_C2A
@@ -47,23 +47,23 @@ class OBC_C2A : public OBC {
   // UART Communication port functions. TODO:Rename the following functions to UartHogeHoge
   /**
    * @fn ConnectComPort
-   * @brief Connect UART communication port between OBC and a component
+   * @brief Connect UART communication port between OnBoardComputer and a component
    * @param [in] port_id: Port ID
-   * @param [in] tx_buffer_size: TX (OBC -> Component) buffer size
-   * @param [in] rx_buffer_size: RX (Component -> OBC) buffer size
+   * @param [in] tx_buffer_size: TX (OnBoardComputer -> Component) buffer size
+   * @param [in] rx_buffer_size: RX (Component -> OnBoardComputer) buffer size
    * @return -1: error, 0: success
    */
   int ConnectComPort(int port_id, int tx_buffer_size, int rx_buffer_size) override;
   /**
    * @fn ConnectComPort
-   * @brief Close UART communication port between OBC and a component
+   * @brief Close UART communication port between OnBoardComputer and a component
    * @param [in] port_id: Port ID
    * @return -1: error, 0: success
    */
   int CloseComPort(int port_id) override;
   /**
    * @fn SendFromObc
-   * @brief Send data from OBC to Components with UART used by OBC side.
+   * @brief Send data from OnBoardComputer to Components with UART used by OnBoardComputer side.
    * @param [in] port_id: Port ID
    * @param [in] buffer: Send data buffer
    * @param [in] offset: Data offset for the buffer
@@ -73,7 +73,7 @@ class OBC_C2A : public OBC {
   int SendFromObc(int port_id, unsigned char* buffer, int offset, int length) override;
   /**
    * @fn ReceivedByCompo
-   * @brief Read data from OBC to Components with UART used by component side.
+   * @brief Read data from OnBoardComputer to Components with UART used by component side.
    * @param [in] port_id: Port ID
    * @param [out] buffer: Read data buffer
    * @param [in] offset: Data offset for the buffer
@@ -84,7 +84,7 @@ class OBC_C2A : public OBC {
 
   /**
    * @fn SendFromComponent
-   * @brief Send data from component to OBC with UART used by component side.
+   * @brief Send data from component to OnBoardComputer with UART used by component side.
    * @param [in] port_id: Port ID
    * @param [in] buffer: Send data buffer
    * @param [in] offset: Data offset for the buffer
@@ -94,7 +94,7 @@ class OBC_C2A : public OBC {
   int SendFromCompo(int port_id, unsigned char* buffer, int offset, int length) override;
   /**
    * @fn ReceivedByObc
-   * @brief Read data from component to OBC with UART used by OBC side.
+   * @brief Read data from component to OnBoardComputer with UART used by OnBoardComputer side.
    * @param [in] port_id: Port ID
    * @param [out] buffer: Read data buffer
    * @param [in] offset: Data offset for the buffer
@@ -106,7 +106,7 @@ class OBC_C2A : public OBC {
   // Static function for C2A
   /**
    * @fn SendFromObc_C2A
-   * @brief Send data from OBC to Components with UART used by C2A flight software
+   * @brief Send data from OnBoardComputer to Components with UART used by C2A flight software
    * @param [in] port_id: Port ID
    * @param [in] buffer: Send data buffer
    * @param [in] offset: Data offset for the buffer
@@ -116,7 +116,7 @@ class OBC_C2A : public OBC {
   static int SendFromObc_C2A(int port_id, unsigned char* buffer, int offset, int length);
   /**
    * @fn ReceivedByObc_C2A
-   * @brief Read data from component to OBC with UART used by C2A flight software
+   * @brief Read data from component to OnBoardComputer with UART used by C2A flight software
    * @param [in] port_id: Port ID
    * @param [out] buffer: Read data buffer
    * @param [in] offset: Data offset for the buffer
@@ -128,7 +128,7 @@ class OBC_C2A : public OBC {
   // I2C
   /**
    * @fn I2cConnectPort
-   * @brief Connect I2C communication port between OBC (I2C controller) and a component (I2C target)
+   * @brief Connect I2C communication port between OnBoardComputer (I2C controller) and a component (I2C target)
    * @note Multiple target can be connected to one port ID
    * @param [in] port_id: Port ID
    * @param [in] i2c_address: I2C address of target device
@@ -138,7 +138,7 @@ class OBC_C2A : public OBC {
   int I2cConnectPort(int port_id, const unsigned char i2c_address) override;
   /**
    * @fn I2cCloseComPort
-   * @brief Close I2C communication port between OBC and a component
+   * @brief Close I2C communication port between OnBoardComputer and a component
    * @param [in] port_id: Port ID
    * @return -1: error, 0: success
    */
@@ -169,7 +169,7 @@ class OBC_C2A : public OBC {
                                const unsigned char length) override;
   /**
    * @fn I2cComponentReadCommand
-   * @brief Read command from OBC to target device's register
+   * @brief Read command from OnBoardComputer to target device's register
    * @param [in] port_id: Port ID
    * @param [in] i2c_address: I2C address of the target device
    * @param [out] data: Write data buffer
@@ -213,7 +213,7 @@ class OBC_C2A : public OBC {
   // GPIO
   /**
    * @fn GpioConnectPort
-   * @brief Connect GPIO communication port between OBC and a component
+   * @brief Connect GPIO communication port between OnBoardComputer and a component
    * @param [in] port_id: Port ID
    * @return -1: error, 0: success
    */

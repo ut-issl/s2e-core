@@ -1,13 +1,13 @@
 /**
  * @file uart_communication_with_obc.cpp
- * @brief Base class for serial communication (e.g., UART) with OBC flight software
+ * @brief Base class for serial communication (e.g., UART) with OnBoardComputer flight software
  */
 
 #include "uart_communication_with_obc.hpp"
 
 #include <iostream>
 
-UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int sils_port_id, OBC* obc) : sils_port_id_(sils_port_id), obc_(obc) {
+UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int sils_port_id, OnBoardComputer* obc) : sils_port_id_(sils_port_id), obc_(obc) {
 #ifdef USE_HILS
   simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
   printf("Error: USE_HILS:ON Check compo initialization\n");
@@ -20,7 +20,7 @@ UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int sils_port_
 }
 
 UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int sils_port_id, const unsigned int tx_buffer_size,
-                                                   const unsigned int rx_buffer_size, OBC* obc)
+                                                   const unsigned int rx_buffer_size, OnBoardComputer* obc)
     : sils_port_id_(sils_port_id), tx_buffer_size_(tx_buffer_size), rx_buffer_size_(rx_buffer_size), obc_(obc) {
 #ifdef USE_HILS
   simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;
@@ -64,7 +64,7 @@ UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int hils_port_
   InitializeObcComBase();
 }
 
-UartCommunicationWithObc::UartCommunicationWithObc(const int sils_port_id, OBC* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
+UartCommunicationWithObc::UartCommunicationWithObc(const int sils_port_id, OnBoardComputer* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
                                                    HilsPortManager* hils_port_manager)
     : sils_port_id_(sils_port_id), hils_port_id_(hils_port_id), baud_rate_(baud_rate), obc_(obc), hils_port_manager_(hils_port_manager) {
 #ifdef USE_HILS

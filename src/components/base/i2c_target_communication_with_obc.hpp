@@ -1,6 +1,6 @@
 /**
  * @file i2c_target_communication_with_obc.hpp
- * @brief Base class for I2C communication as target side with OBC flight software
+ * @brief Base class for I2C communication as target side with OnBoardComputer flight software
  */
 
 #ifndef S2E_COMPONENTS_BASE_I2C_TARGET_COMMUNICATION_WITH_OBC_HPP_
@@ -12,19 +12,19 @@
 
 /**
  * @class I2cTargetCommunicationWithObc
- * @brief Base class for I2C communication as target side with OBC flight software
- * @note Generally, components are the target side of I2C (OBC is the controller side).
+ * @brief Base class for I2C communication as target side with OnBoardComputer flight software
+ * @note Generally, components are the target side of I2C (OnBoardComputer is the controller side).
  */
 class I2cTargetCommunicationWithObc {
  public:
   /**
    * @fn I2cTargetCommunicationWithObc
    * @brief Constructor for SILS mode
-   * @param [in] sils_port_id: Port ID for communication line b/w OBC in the SILS mode
+   * @param [in] sils_port_id: Port ID for communication line b/w OnBoardComputer in the SILS mode
    * @param [in] i2c_address: I2C address for the target
-   * @param [in] obc: The communication target OBC
+   * @param [in] obc: The communication target OnBoardComputer
    */
-  I2cTargetCommunicationWithObc(const unsigned int sils_port_id, const unsigned char i2c_address, OBC* obc);
+  I2cTargetCommunicationWithObc(const unsigned int sils_port_id, const unsigned char i2c_address, OnBoardComputer* obc);
   /**
    * @fn I2cTargetCommunicationWithObc
    * @brief Constructor for HILS mode
@@ -36,13 +36,13 @@ class I2cTargetCommunicationWithObc {
   /**
    * @fn I2cTargetCommunicationWithObc
    * @brief Constructor for both SILS and HILS mode
-   * @param [in] sils_port_id: Port ID for communication line b/w OBC in the SILS mode
+   * @param [in] sils_port_id: Port ID for communication line b/w OnBoardComputer in the SILS mode
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] i2c_address: I2C address for the target
-   * @param [in] obc: The communication target OBC
+   * @param [in] obc: The communication target OnBoardComputer
    * @param [in] hils_port_manager: HILS port manager
    */
-  I2cTargetCommunicationWithObc(const unsigned int sils_port_id, const unsigned int hils_port_id, const unsigned char i2c_address, OBC* obc,
+  I2cTargetCommunicationWithObc(const unsigned int sils_port_id, const unsigned int hils_port_id, const unsigned char i2c_address, OnBoardComputer* obc,
                                 HilsPortManager* hils_port_manager);
   /**
    * @fn I2cTargetCommunicationWithObc
@@ -117,7 +117,7 @@ class I2cTargetCommunicationWithObc {
 
   OBC_COM_UART_MODE simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode
 
-  OBC* obc_;                            //!< Communication target OBC
+  OnBoardComputer* obc_;                            //!< Communication target OnBoardComputer
   HilsPortManager* hils_port_manager_;  //!< HILS port manager
 };
 

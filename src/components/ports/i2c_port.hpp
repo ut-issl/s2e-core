@@ -76,21 +76,21 @@ class I2cPort {
    */
   unsigned char ReadRegister(const unsigned char i2c_address, const unsigned char register_address);
 
-  // OBC->Component Command emulation
+  // OnBoardComputer->Component Command emulation
   /**
    * @fn WriteCommand
-   * @brief Write command requested from an OBC to the component
+   * @brief Write command requested from an OnBoardComputer to the component
    * @param [in] i2c_address: I2C address of the target device
-   * @param [in] tx_data: data from the OBC
+   * @param [in] tx_data: data from the OnBoardComputer
    * @param [in] length: length of the tx_data
    * @return Length or zero when an error happened
    */
   unsigned char WriteCommand(const unsigned char i2c_address, const unsigned char* tx_data, const unsigned char length);
   /**
    * @fn ReadCommand
-   * @brief Read command requested from an OBC to the component
+   * @brief Read command requested from an OnBoardComputer to the component
    * @param [in] i2c_address: I2C address of the target device
-   * @param [out] rx_data: Data to the OBC
+   * @param [out] rx_data: Data to the OnBoardComputer
    * @param [in] length: Length of the tx_data
    * @return Length or zero when an error happened
    */
@@ -104,7 +104,7 @@ class I2cPort {
   /** @brief Device register: <pair(i2c_address, register_address), value>  **/
   std::map<std::pair<unsigned char, unsigned char>, unsigned char> device_registers_;
 
-  /** @brief Buffer for the command from OBC : <pair(i2c_address, cmd_buffer_length), value>  **/
+  /** @brief Buffer for the command from OnBoardComputer : <pair(i2c_address, cmd_buffer_length), value>  **/
   std::map<std::pair<unsigned char, unsigned char>, unsigned char> command_buffer_;
 };
 

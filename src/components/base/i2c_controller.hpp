@@ -12,7 +12,7 @@
 /**
  * @class I2cController
  * @brief This class simulates the I2C Controller communication with the I2C Target.
- * @note Generally, I2C controller side is OBC, and components are target side.
+ * @note Generally, I2C controller side is OnBoardComputer, and components are target side.
  *       The main purpose is to validate the emulated I2C Target component in the HILS test.
  *       This class works only HILS mode
  */

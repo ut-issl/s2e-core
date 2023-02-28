@@ -27,14 +27,14 @@ class ExampleSerialCommunicationForHils : public Component, public UartCommunica
    * @brief Constructor
    * @note prescaler is set as 300.
    * @param [in] clock_generator: Clock generator
-   * @param [in] sils_port_id: Port ID for communication line b/w OBC
-   * @param [in] obc: The communication target OBC
+   * @param [in] sils_port_id: Port ID for communication line b/w OnBoardComputer
+   * @param [in] obc: The communication target OnBoardComputer
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] baud_rate: Baud rate of HILS communication port
    * @param [in] hils_port_manager: HILS port manager
    * @param [in] mode_id: Mode ID to select sender(0) or responder(1)
    */
-  ExampleSerialCommunicationForHils(ClockGenerator* clock_generator, const int sils_port_id, OBC* obc, const unsigned int hils_port_id,
+  ExampleSerialCommunicationForHils(ClockGenerator* clock_generator, const int sils_port_id, OnBoardComputer* obc, const unsigned int hils_port_id,
                                     const unsigned int baud_rate, HilsPortManager* hils_port_manager, const int mode_id);
   /**
    * @fn ~ExampleSerialCommunicationForHils
@@ -61,12 +61,12 @@ class ExampleSerialCommunicationForHils : public Component, public UartCommunica
   // Override functions for ObcComunication
   /**
    * @fn ParseCommand
-   * @brief Parse command received from OBC
+   * @brief Parse command received from OnBoardComputer
    */
   int ParseCommand(const int command_size) override;
   /**
    * @fn GenerateTelemetry
-   * @brief Generate telemetry send to OBC
+   * @brief Generate telemetry send to OnBoardComputer
    */
   int GenerateTelemetry() override;
 };
