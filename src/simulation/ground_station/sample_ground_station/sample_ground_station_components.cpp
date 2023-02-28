@@ -14,7 +14,7 @@ SampleGSComponents::SampleGSComponents(const SimulationConfig* config) : config_
   antenna_ = new Antenna(InitAntenna(1, ant_ini_path));
   std::string gscalculator_ini_path = iniAccess.ReadString("COMPONENT_FILES", "ground_station_calculator_file");
   config_->main_logger_->CopyFileToLogDirectory(gscalculator_ini_path);
-  gs_calculator_ = new GroundStationCalculator(InitGScalculator(gscalculator_ini_path));
+  gs_calculator_ = new GroundStationCalculator(InitGsCalculator(gscalculator_ini_path));
 }
 
 SampleGSComponents::~SampleGSComponents() {
