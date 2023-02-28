@@ -74,9 +74,7 @@ class Attitude : public ILoggable, public SimulationObject {
    */
   inline void SetQuaternion_i2b(const libra::Quaternion quaternion_i2b) { quaternion_i2b_ = quaternion_i2b; }
   /**
-   * @brief 
-   * 
-   */
+   * @fn SetTorque_b_Nm
    * @brief Set torque acting on the spacecraft on the body fixed frame [Nm]
    */
   inline void SetTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { torque_b_Nm_ = torque_b_Nm; }
