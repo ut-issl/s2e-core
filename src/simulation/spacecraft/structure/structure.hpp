@@ -51,7 +51,7 @@ class Structure {
    * @fn GetRMMParams
    * @brief Return Residual Magnetic Moment information
    */
-  inline const RMMParams& GetRMMParams() const { return *rmm_params_; }
+  inline const ResidualMagneticMoment& GetRMMParams() const { return *rmm_params_; }
 
   /**
    * @fn GetToSetSurfaces
@@ -67,12 +67,12 @@ class Structure {
    * @fn GetToSetRMMParams
    * @brief Return Residual Magnetic Moment information
    */
-  inline RMMParams& GetToSetRMMParams() { return *rmm_params_; }
+  inline ResidualMagneticMoment& GetToSetRMMParams() { return *rmm_params_; }
 
  private:
   KinematicsParameters* kinnematics_params_;  //!< Kinematics parameters
   vector<Surface> surfaces_;                  //!< Surface information
-  RMMParams* rmm_params_;                     //!< Residual Magnetic Moment
+  ResidualMagneticMoment* rmm_params_;        //!< Residual Magnetic Moment
 };
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_STRUCTURE_HPP_

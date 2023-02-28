@@ -106,7 +106,7 @@ vector<Surface> InitSurfaces(std::string ini_path) {
   return surfaces;
 }
 
-RMMParams InitRMMParams(std::string ini_path) {
+ResidualMagneticMoment InitRMMParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "RESIDUAL_MAGNETIC_MOMENT";
 
@@ -116,6 +116,6 @@ RMMParams InitRMMParams(std::string ini_path) {
   double random_walk_limit_Am2 = conf.ReadDouble(section, "rmm_random_walk_limit_Am2");
   double random_noise_standard_deviation_Am2 = conf.ReadDouble(section, "rmm_white_noise_standard_deviation_Am2");
 
-  RMMParams rmm_params(rmm_const_b, rmm_rwdev, random_walk_limit_Am2, random_noise_standard_deviation_Am2);
+  ResidualMagneticMoment rmm_params(rmm_const_b, rmm_rwdev, random_walk_limit_Am2, random_noise_standard_deviation_Am2);
   return rmm_params;
 }

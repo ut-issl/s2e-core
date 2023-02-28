@@ -12,7 +12,7 @@
 #include "../library/randomization/normal_randomization.hpp"
 #include "../library/randomization/random_walk.hpp"
 
-MagneticDisturbance::MagneticDisturbance(const RMMParams& rmm_params, const bool is_calculation_enabled)
+MagneticDisturbance::MagneticDisturbance(const ResidualMagneticMoment& rmm_params, const bool is_calculation_enabled)
     : SimpleDisturbance(is_calculation_enabled), rmm_params_(rmm_params) {
   rmm_b_Am2_ = rmm_params_.GetConstantValue_b_Am2();
 }

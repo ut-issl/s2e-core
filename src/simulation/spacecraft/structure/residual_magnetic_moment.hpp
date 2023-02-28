@@ -10,22 +10,22 @@
 using libra::Vector;
 
 /**
- * @class RMMParams
+ * @class ResidualMagneticMoment
  * @brief Class for spacecraft RMM (Residual Magnetic Moment)
  */
-class RMMParams {
+class ResidualMagneticMoment {
  public:
   /**
-   * @fn RMMParams
+   * @fn ResidualMagneticMoment
    * @brief Constructor
    */
-  RMMParams(const Vector<3> constant_value_b_Am2_, const double random_walk_standard_deviation_Am2, const double random_walk_limit_Am2,
-            const double random_noise_standard_deviation_Am2);
+  ResidualMagneticMoment(const Vector<3> constant_value_b_Am2_, const double random_walk_standard_deviation_Am2, const double random_walk_limit_Am2,
+                         const double random_noise_standard_deviation_Am2);
   /**
-   * @fn ~RMMParams
+   * @fn ~ResidualMagneticMoment
    * @brief Destructor
    */
-  ~RMMParams(){};
+  ~ResidualMagneticMoment(){};
 
   // Getter
   /**

@@ -24,6 +24,6 @@ vector<Surface> InitSurfaces(std::string ini_path);
  * @fn InitRMMParams
  * @brief Initialize the RMM(Residual Magnetic Moment) parameters with an ini file
  */
-RMMParams InitRMMParams(std::string ini_path);
+ResidualMagneticMoment InitRMMParams(std::string ini_path);
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_INITIALIZE_STRUCTURE_HPP_

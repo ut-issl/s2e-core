@@ -24,5 +24,5 @@ void Structure::Initialize(SimulationConfig* simulation_configuration, const int
   // Initialize
   kinnematics_params_ = new KinematicsParameters(InitKinematicsParams(ini_fname));
   surfaces_ = InitSurfaces(ini_fname);
-  rmm_params_ = new RMMParams(InitRMMParams(ini_fname));
+  rmm_params_ = new ResidualMagneticMoment(InitRMMParams(ini_fname));
 }

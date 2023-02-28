@@ -53,7 +53,7 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path, cons
  * @param [in] initialize_file_path: Initialize file path
  * @param [in] rmm_params: RMM parameters
  */
-MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const RMMParams& rmm_params);
+MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params);
 
 /**
  * @fn InitGeoPotential
