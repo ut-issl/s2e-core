@@ -22,7 +22,7 @@ void Structure::Initialize(SimulationConfig* simulation_configuration, const int
   // Save ini file
   simulation_configuration->main_logger_->CopyFileToLogDirectory(ini_fname);
   // Initialize
-  kinnematics_params_ = new KinematicsParams(InitKinematicsParams(ini_fname));
+  kinnematics_params_ = new KinematicsParameters(InitKinematicsParams(ini_fname));
   surfaces_ = InitSurfaces(ini_fname);
   rmm_params_ = new RMMParams(InitRMMParams(ini_fname));
 }

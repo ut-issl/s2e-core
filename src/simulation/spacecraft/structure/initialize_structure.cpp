@@ -9,7 +9,7 @@
 #include <library/math/vector.hpp>
 
 #define MIN_VAL 1e-6
-KinematicsParams InitKinematicsParams(std::string ini_path) {
+KinematicsParameters InitKinematicsParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "KINEMATIC_PARAMETERS";
 
@@ -25,7 +25,7 @@ KinematicsParams InitKinematicsParams(std::string ini_path) {
     }
   }
 
-  KinematicsParams kinematics_params(center_of_gravity_b_m, mass_kg, inertia_tensor_b_kgm2);
+  KinematicsParameters kinematics_params(center_of_gravity_b_m, mass_kg, inertia_tensor_b_kgm2);
   return kinematics_params;
 }
 

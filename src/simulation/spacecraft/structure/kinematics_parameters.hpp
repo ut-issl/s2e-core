@@ -10,21 +10,21 @@
 #include <library/math/vector.hpp>
 
 /**
- * @class KinematicsParams
+ * @class KinematicsParameters
  * @brief Class for spacecraft Kinematics information
  */
-class KinematicsParams {
+class KinematicsParameters {
  public:
   /**
-   * @fn KinematicsParams
+   * @fn KinematicsParameters
    * @brief Constructor
    */
-  KinematicsParams(libra::Vector<3> center_of_gravity_b_m, double mass_kg, libra::Matrix<3, 3> inertia_tensor_b_kgm2);
+  KinematicsParameters(libra::Vector<3> center_of_gravity_b_m, double mass_kg, libra::Matrix<3, 3> inertia_tensor_b_kgm2);
   /**
-   * @fn ~KinematicsParams
+   * @fn ~KinematicsParameters
    * @brief Destructor
    */
-  ~KinematicsParams(){};
+  ~KinematicsParameters(){};
 
   // Getter
   /**

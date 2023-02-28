@@ -14,7 +14,7 @@
  * @fn InitKinematicsParams
  * @brief Initialize the kinematics parameters with an ini file
  */
-KinematicsParams InitKinematicsParams(std::string ini_path);
+KinematicsParameters InitKinematicsParams(std::string ini_path);
 /**
  * @fn InitSurfaces
  * @brief Initialize the multiple surfaces with an ini file
