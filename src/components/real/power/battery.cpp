@@ -67,7 +67,7 @@ std::string BAT::GetLogValue() const {
   return str_tmp;
 }
 
-void BAT::MainRoutine(int time_count) {
+void BAT::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
   double delta_time_query = compo_step_time_s_ * prescaler_;

@@ -125,7 +125,7 @@ class BAT : public Component, public ILoggable {
    * @fn MainRoutine
    * @brief Main routine to calculate force generation
    */
-  void MainRoutine(int count) override;
+  void MainRoutine(const int time_count) override;
 
   /**
    * @fn UpdateBatVoltage
