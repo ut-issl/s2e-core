@@ -43,7 +43,7 @@ std::string Attitude::GetLogValue() const {
 }
 
 void Attitude::SetParameters(const MonteCarloSimulationExecutor& mc_simulator) {
-  GetInitMonteCarloParameterQuaternion(mc_simulator, "Q_i2b", quaternion_i2b_);
+  GetInitializedMonteCarloParameterQuaternion(mc_simulator, "Q_i2b", quaternion_i2b_);
 }
 
 void Attitude::CalcAngularMomentum(void) {

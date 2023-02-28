@@ -30,7 +30,7 @@ MonteCarloSimulationExecutor* InitMCSim(std::string file_name) {
 
   enum Phase { FoundNothingYet, FoundSimulationObjectStr, FoundInitParameterStr };
   for (auto so_dot_ip_str : so_dot_ip_str_vec) {
-    // Divide the string to SimulationObject and InitMonteCarloParameters
+    // Divide the string to SimulationObject and InitializedMonteCarloParameters
     Phase phase = FoundNothingYet;
     std::stringstream ss(so_dot_ip_str);
     std::string item, so_str, ip_str;
@@ -50,32 +50,32 @@ MonteCarloSimulationExecutor* InitMCSim(std::string file_name) {
     }
 
     // Read Randomization type
-    InitMonteCarloParameters::RandomizationType random_type;
+    InitializedMonteCarloParameters::RandomizationType random_type;
     const static unsigned int buf_size = 256;
     char rnd_type_str[buf_size];
     std::string key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "randomization_type";
 
     ini_file.ReadChar(section, key_name.c_str(), buf_size, rnd_type_str);
     if (!strcmp(rnd_type_str, "NoRandomization"))
-      random_type = InitMonteCarloParameters::NoRandomization;
+      random_type = InitializedMonteCarloParameters::NoRandomization;
     else if (!strcmp(rnd_type_str, "CartesianUniform"))
-      random_type = InitMonteCarloParameters::CartesianUniform;
+      random_type = InitializedMonteCarloParameters::CartesianUniform;
     else if (!strcmp(rnd_type_str, "CartesianNormal"))
-      random_type = InitMonteCarloParameters::CartesianNormal;
+      random_type = InitializedMonteCarloParameters::CartesianNormal;
     else if (!strcmp(rnd_type_str, "CircularNormalUniform"))
-      random_type = InitMonteCarloParameters::CircularNormalUniform;
+      random_type = InitializedMonteCarloParameters::CircularNormalUniform;
     else if (!strcmp(rnd_type_str, "CircularNormalNormal"))
-      random_type = InitMonteCarloParameters::CircularNormalNormal;
+      random_type = InitializedMonteCarloParameters::CircularNormalNormal;
     else if (!strcmp(rnd_type_str, "SphericalNormalUniformUniform"))
-      random_type = InitMonteCarloParameters::SphericalNormalUniformUniform;
+      random_type = InitializedMonteCarloParameters::SphericalNormalUniformUniform;
     else if (!strcmp(rnd_type_str, "SphericalNormalNormal"))
-      random_type = InitMonteCarloParameters::SphericalNormalNormal;
+      random_type = InitializedMonteCarloParameters::SphericalNormalNormal;
     else if (!strcmp(rnd_type_str, "QuaternionUniform"))
-      random_type = InitMonteCarloParameters::QuaternionUniform;
+      random_type = InitializedMonteCarloParameters::QuaternionUniform;
     else if (!strcmp(rnd_type_str, "QuaternionNormal"))
-      random_type = InitMonteCarloParameters::QuaternionNormal;
+      random_type = InitializedMonteCarloParameters::QuaternionNormal;
     else
-      random_type = InitMonteCarloParameters::NoRandomization;
+      random_type = InitializedMonteCarloParameters::NoRandomization;
 
     // Read mean_or_min vector
     key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "mean_or_min";
@@ -88,7 +88,7 @@ MonteCarloSimulationExecutor* InitMCSim(std::string file_name) {
     ini_file.ReadVector(section, key_name.c_str(), sigma_or_max);
 
     // Write randomize setting
-    monte_carlo_simulator->AddInitMonteCarloParameter(so_str, ip_str, mean_or_min, sigma_or_max, random_type);
+    monte_carlo_simulator->AddInitializedMonteCarloParameter(so_str, ip_str, mean_or_min, sigma_or_max, random_type);
   }
 
   return monte_carlo_simulator;

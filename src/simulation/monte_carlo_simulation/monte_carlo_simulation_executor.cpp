@@ -32,8 +32,8 @@ void MonteCarloSimulationExecutor::AtTheEndOfEachCase() {
   number_of_executions_done_++;
 }
 
-void MonteCarloSimulationExecutor::GetInitMonteCarloParameterDouble(string so_name, string init_monte_carlo_parameter_name,
-                                                                    double& destination) const {
+void MonteCarloSimulationExecutor::GetInitializedMonteCarloParameterDouble(string so_name, string init_monte_carlo_parameter_name,
+                                                                           double& destination) const {
   if (!enabled_) return;
   {
     string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
@@ -46,8 +46,8 @@ void MonteCarloSimulationExecutor::GetInitMonteCarloParameterDouble(string so_na
   }
 }
 
-void MonteCarloSimulationExecutor::GetInitMonteCarloParameterQuaternion(string so_name, string init_monte_carlo_parameter_name,
-                                                                        libra::Quaternion& destination) const {
+void MonteCarloSimulationExecutor::GetInitializedMonteCarloParameterQuaternion(string so_name, string init_monte_carlo_parameter_name,
+                                                                               libra::Quaternion& destination) const {
   if (!enabled_) return;
   {
     string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
@@ -66,4 +66,6 @@ void MonteCarloSimulationExecutor::RandomizeAllParameters() {
   }
 }
 
-void MonteCarloSimulationExecutor::SetSeed(unsigned long seed, bool is_deterministic) { InitMonteCarloParameters::SetSeed(seed, is_deterministic); }
+void MonteCarloSimulationExecutor::SetSeed(unsigned long seed, bool is_deterministic) {
+  InitializedMonteCarloParameters::SetSeed(seed, is_deterministic);
+}

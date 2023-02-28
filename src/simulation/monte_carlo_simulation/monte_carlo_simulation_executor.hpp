@@ -23,10 +23,10 @@ class MonteCarloSimulationExecutor {
   bool enabled_;                                   //!< Flag to execute Monte-Carlo Simulation or not
   bool save_log_history_flag_;                     //!< Flag to store the log for each case or not
 
-  std::map<std::string, InitMonteCarloParameters*> init_parameter_list_;  //!< List of InitMonteCarloParameters read from MCSim.ini
+  std::map<std::string, InitializedMonteCarloParameters*> init_parameter_list_;  //!< List of InitializedMonteCarloParameters read from MCSim.ini
 
  public:
-  static const char separator_ = '.';  //!< Deliminator for name of SimulationObject and InitMonteCarloParameters in the initialization file
+  static const char separator_ = '.';  //!< Deliminator for name of SimulationObject and InitializedMonteCarloParameters in the initialization file
 
   /**
    * @fn MonteCarloSimulationExecutor
@@ -81,22 +81,23 @@ class MonteCarloSimulationExecutor {
     return (!enabled_ || save_log_history_flag_);
   }
   /**
-   * @fn GetInitMonteCarloParameterVector
+   * @fn GetInitializedMonteCarloParameterVector
    * @brief Get randomized vector value and store it in dest_vec
    */
   template <size_t NumElement>
-  void GetInitMonteCarloParameterVector(std::string so_name, std::string init_monte_carlo_parameter_name,
-                                        libra::Vector<NumElement>& destination) const;
+  void GetInitializedMonteCarloParameterVector(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                               libra::Vector<NumElement>& destination) const;
   /**
-   * @fn GetInitMonteCarloParameterDouble
+   * @fn GetInitializedMonteCarloParameterDouble
    * @brief Get randomized value and store it in dest
    */
-  void GetInitMonteCarloParameterDouble(std::string so_name, std::string init_monte_carlo_parameter_name, double& destination) const;
+  void GetInitializedMonteCarloParameterDouble(std::string so_name, std::string init_monte_carlo_parameter_name, double& destination) const;
   /**
-   * @fn GetInitMonteCarloParameterQuaternion
+   * @fn GetInitializedMonteCarloParameterQuaternion
    * @brief Get randomized quaternion and store it in dest_quat
    */
-  void GetInitMonteCarloParameterQuaternion(std::string so_name, std::string init_monte_carlo_parameter_name, libra::Quaternion& destination) const;
+  void GetInitializedMonteCarloParameterQuaternion(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                                   libra::Quaternion& destination) const;
 
   // Calculation
   /**
@@ -121,11 +122,12 @@ class MonteCarloSimulationExecutor {
 
   template <size_t NumElement1, size_t NumElement2>
   /**
-   * @fn AddInitMonteCarloParameter
+   * @fn AddInitializedMonteCarloParameter
    * @brief Add initialized parameter
    */
-  void AddInitMonteCarloParameter(std::string so_name, std::string init_monte_carlo_parameter_name, const libra::Vector<NumElement1>& mean_or_min,
-                                  const libra::Vector<NumElement2>& sigma_or_max, InitMonteCarloParameters::RandomizationType random_type);
+  void AddInitializedMonteCarloParameter(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                         const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
+                                         InitializedMonteCarloParameters::RandomizationType random_type);
 
   /**
    * @fn RandomizeAllParameters
@@ -135,8 +137,8 @@ class MonteCarloSimulationExecutor {
 };
 
 template <size_t NumElement>
-void MonteCarloSimulationExecutor::GetInitMonteCarloParameterVector(std::string so_name, std::string init_monte_carlo_parameter_name,
-                                                                    libra::Vector<NumElement>& destination) const {
+void MonteCarloSimulationExecutor::GetInitializedMonteCarloParameterVector(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                                                           libra::Vector<NumElement>& destination) const {
   if (!enabled_) return;
   std::string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
   if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
@@ -148,19 +150,19 @@ void MonteCarloSimulationExecutor::GetInitMonteCarloParameterVector(std::string 
 }
 
 template <size_t NumElement1, size_t NumElement2>
-void MonteCarloSimulationExecutor::AddInitMonteCarloParameter(std::string so_name, std::string init_monte_carlo_parameter_name,
-                                                              const libra::Vector<NumElement1>& mean_or_min,
-                                                              const libra::Vector<NumElement2>& sigma_or_max,
-                                                              InitMonteCarloParameters::RandomizationType random_type) {
+void MonteCarloSimulationExecutor::AddInitializedMonteCarloParameter(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                                                     const libra::Vector<NumElement1>& mean_or_min,
+                                                                     const libra::Vector<NumElement2>& sigma_or_max,
+                                                                     InitializedMonteCarloParameters::RandomizationType random_type) {
   std::string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
   if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
     // Register the parameter in ip_list if it is not registered yet
-    auto newparam = new InitMonteCarloParameters();
+    auto newparam = new InitializedMonteCarloParameters();
     newparam->SetRandomConfiguration(mean_or_min, sigma_or_max, random_type);
     init_parameter_list_[name] = newparam;
   } else {
     // Throw error if the parameter is already registered
-    throw "More than one definition of one InitMonteCarloParameters.";
+    throw "More than one definition of one InitializedMonteCarloParameters.";
   }
 }
 

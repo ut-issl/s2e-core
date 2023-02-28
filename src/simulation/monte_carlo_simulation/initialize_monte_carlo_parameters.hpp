@@ -14,10 +14,10 @@
 #include <vector>
 
 /**
- * @class InitMonteCarloParameters
+ * @class InitializedMonteCarloParameters
  * @brief Initialized parameters for Monte-Carlo simulation
  */
-class InitMonteCarloParameters {
+class InitializedMonteCarloParameters {
  public:
   /**
    * @enum RandomizationType
@@ -36,10 +36,10 @@ class InitMonteCarloParameters {
   };
 
   /**
-   * @fn InitMonteCarloParameters
+   * @fn InitializedMonteCarloParameters
    * @brief Constructor
    */
-  InitMonteCarloParameters();
+  InitializedMonteCarloParameters();
 
   // Setter
   /**
@@ -205,8 +205,9 @@ class InitMonteCarloParameters {
 };
 
 template <size_t NumElement1, size_t NumElement2>
-void InitMonteCarloParameters::SetRandomConfiguration(const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
-                                                      InitMonteCarloParameters::RandomizationType random_type) {
+void InitializedMonteCarloParameters::SetRandomConfiguration(const libra::Vector<NumElement1>& mean_or_min,
+                                                             const libra::Vector<NumElement2>& sigma_or_max,
+                                                             InitializedMonteCarloParameters::RandomizationType random_type) {
   randomization_type_ = random_type;
   mean_or_min_.clear();
   for (size_t i = 0; i < NumElement1; i++) {
@@ -219,7 +220,7 @@ void InitMonteCarloParameters::SetRandomConfiguration(const libra::Vector<NumEle
 }
 
 template <size_t NumElement>
-void InitMonteCarloParameters::GetRandomizedVector(libra::Vector<NumElement>& destination) const {
+void InitializedMonteCarloParameters::GetRandomizedVector(libra::Vector<NumElement>& destination) const {
   if (randomization_type_ == NoRandomization) {
     ;
   } else if (NumElement > randomized_value_.size()) {

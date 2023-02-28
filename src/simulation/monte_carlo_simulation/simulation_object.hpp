@@ -35,26 +35,26 @@ class SimulationObject {
   virtual ~SimulationObject();
 
   /**
-   * @fn GetInitMonteCarloParameterVector
+   * @fn GetInitializedMonteCarloParameterVector
    * @brief Get randomized vector value and store it in destination
    */
   template <size_t NumElement>
-  void GetInitMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string init_monte_carlo_parameter_name,
-                                        libra::Vector<NumElement>& destination) const;
+  void GetInitializedMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string init_monte_carlo_parameter_name,
+                                               libra::Vector<NumElement>& destination) const;
 
   /**
-   * @fn GetInitMonteCarloParameterDouble
+   * @fn GetInitializedMonteCarloParameterDouble
    * @brief Get randomized value and store it in destination
    */
-  void GetInitMonteCarloParameterDouble(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string init_monte_carlo_parameter_name,
-                                        double& destination) const;
+  void GetInitializedMonteCarloParameterDouble(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string init_monte_carlo_parameter_name,
+                                               double& destination) const;
 
   /**
-   * @fn GetInitMonteCarloParameterQuaternion
+   * @fn GetInitializedMonteCarloParameterQuaternion
    * @brief Get randomized quaternion and store it in destination
    */
-  void GetInitMonteCarloParameterQuaternion(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string init_monte_carlo_parameter_name,
-                                            libra::Quaternion& destination) const;
+  void GetInitializedMonteCarloParameterQuaternion(const MonteCarloSimulationExecutor& monte_carlo_simulator,
+                                                   std::string init_monte_carlo_parameter_name, libra::Quaternion& destination) const;
 
   /**
    * @fn SetParameters
@@ -74,13 +74,14 @@ class SimulationObject {
 };
 
 /**
- * @fn GetInitMonteCarloParameterVector
+ * @fn GetInitializedMonteCarloParameterVector
  * @brief Return initialized parameters for vector
  */
 template <size_t NumElement>
-void SimulationObject::GetInitMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator,
-                                                        std::string init_monte_carlo_parameter_name, libra::Vector<NumElement>& destination) const {
-  monte_carlo_simulator.GetInitMonteCarloParameterVector(name_, init_monte_carlo_parameter_name, destination);
+void SimulationObject::GetInitializedMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator,
+                                                               std::string init_monte_carlo_parameter_name,
+                                                               libra::Vector<NumElement>& destination) const {
+  monte_carlo_simulator.GetInitializedMonteCarloParameterVector(name_, init_monte_carlo_parameter_name, destination);
 }
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_SIMULATION_OBJECT_HPP_

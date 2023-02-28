@@ -32,12 +32,13 @@ void SimulationObject::SetAllParameters(const MonteCarloSimulationExecutor& mont
   }
 }
 
-void SimulationObject::GetInitMonteCarloParameterDouble(const MonteCarloSimulationExecutor& monte_carlo_simulator,
-                                                        std::string init_monte_carlo_parameter_name, double& destination) const {
-  monte_carlo_simulator.GetInitMonteCarloParameterDouble(name_, init_monte_carlo_parameter_name, destination);
+void SimulationObject::GetInitializedMonteCarloParameterDouble(const MonteCarloSimulationExecutor& monte_carlo_simulator,
+                                                               std::string init_monte_carlo_parameter_name, double& destination) const {
+  monte_carlo_simulator.GetInitializedMonteCarloParameterDouble(name_, init_monte_carlo_parameter_name, destination);
 }
 
-void SimulationObject::GetInitMonteCarloParameterQuaternion(const MonteCarloSimulationExecutor& monte_carlo_simulator,
-                                                            std::string init_monte_carlo_parameter_name, libra::Quaternion& destination) const {
-  monte_carlo_simulator.GetInitMonteCarloParameterQuaternion(name_, init_monte_carlo_parameter_name, destination);
+void SimulationObject::GetInitializedMonteCarloParameterQuaternion(const MonteCarloSimulationExecutor& monte_carlo_simulator,
+                                                                   std::string init_monte_carlo_parameter_name,
+                                                                   libra::Quaternion& destination) const {
+  monte_carlo_simulator.GetInitializedMonteCarloParameterQuaternion(name_, init_monte_carlo_parameter_name, destination);
 }
