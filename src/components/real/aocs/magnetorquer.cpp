@@ -52,13 +52,17 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, Pow
   }
 }
 
-void MagTorquer::MainRoutine(int count) {
-  UNUSED(count);
+void MagTorquer::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   CalcOutputTorque();
 }
 
-void MagTorquer::PowerOffRoutine() { torque_b_Nm_ *= 0.0; }
+void MagTorquer::PowerOffRoutine() {
+  torque_b_Nm_ *= 0.0;
+  output_magnetic_moment_c_Am2_ *= 0.0;
+  output_magnetic_moment_b_Am2_ *= 0.0;
+}
 
 libra::Vector<kMtqDim> MagTorquer::CalcOutputTorque(void) {
   for (size_t i = 0; i < kMtqDim; ++i) {
