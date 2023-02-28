@@ -14,9 +14,9 @@ using libra::NormalRand;
 using namespace std;
 
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
-                     const double detectable_angle_rad, const double normal_random_standard_deviation_c_Am2, const double nr_bias_stddev_c,
-                     const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
-                     const LocalCelestialInformation* local_celestial_information)
+                     const double detectable_angle_rad, const double normal_random_standard_deviation_c_Am2,
+                     const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
+                     const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
@@ -24,13 +24,13 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const
       detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),
       local_celestial_information_(local_celestial_information) {
-  Initialize(normal_random_standard_deviation_c_Am2, nr_bias_stddev_c);
+  Initialize(normal_random_standard_deviation_c_Am2, bias_noise_standard_deviation_rad);
 }
 
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                      const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double normal_random_standard_deviation_c_Am2,
-                     const double nr_bias_stddev_c, const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
-                     const LocalCelestialInformation* local_celestial_information)
+                     const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
+                     const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
@@ -38,18 +38,18 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, Power
       detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),
       local_celestial_information_(local_celestial_information) {
-  Initialize(normal_random_standard_deviation_c_Am2, nr_bias_stddev_c);
+  Initialize(normal_random_standard_deviation_c_Am2, bias_noise_standard_deviation_rad);
 }
 
-void SunSensor::Initialize(const double normal_random_standard_deviation_c_Am2, const double nr_bias_stddev_c) {
+void SunSensor::Initialize(const double random_noise_standard_deviation_rad, const double bias_noise_standard_deviation_rad) {
   // Bias
-  NormalRand nr(0.0, nr_bias_stddev_c, global_randomization.MakeSeed());
+  NormalRand nr(0.0, bias_noise_standard_deviation_rad, global_randomization.MakeSeed());
   bias_noise_alpha_rad_ += nr;
   bias_noise_beta_rad_ += nr;
 
   // Normal Random
-  random_noise_alpha_.SetParameters(0.0, normal_random_standard_deviation_c_Am2);  // global_randomization.MakeSeed()
-  random_noise_beta_.SetParameters(0.0, normal_random_standard_deviation_c_Am2);   // global_randomization.MakeSeed()
+  random_noise_alpha_.SetParameters(0.0, random_noise_standard_deviation_rad);  // global_randomization.MakeSeed()
+  random_noise_beta_.SetParameters(0.0, random_noise_standard_deviation_rad);   // global_randomization.MakeSeed()
 }
 void SunSensor::MainRoutine(int count) {
   UNUSED(count);

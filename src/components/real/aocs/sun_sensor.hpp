@@ -30,13 +30,13 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] detectable_angle_rad: Detectable angle threshold [rad]
    * @param [in] normal_random_standard_deviation_c_Am2: Standard deviation of normal random noise in the component frame [rad]
-   * @param [in] nr_bias_stddev_c: Standard deviation of normal random noise for bias in the component frame [rad]
+   * @param [in] bias_noise_standard_deviation_rad: Standard deviation of normal random noise for bias in the component frame [rad]
    * @param [in] intensity_lower_threshold_percent: Solar intensity lower threshold [%]
    * @param [in] srp: Solar Radiation Pressure environment
    * @param [in] local_celestial_information: Local celestial information
    */
   SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
-            const double detectable_angle_rad, const double normal_random_standard_deviation_c_Am2, const double nr_bias_stddev_c,
+            const double detectable_angle_rad, const double normal_random_standard_deviation_c_Am2, const double bias_noise_standard_deviation_rad,
             const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
             const LocalCelestialInformation* local_celestial_information);
   /**
@@ -49,15 +49,15 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] detectable_angle_rad: Detectable angle threshold [rad]
    * @param [in] normal_random_standard_deviation_c_Am2: Standard deviation of normal random noise in the component frame [rad]
-   * @param [in] nr_bias_stddev_c: Standard deviation of normal random noise for bias in the component frame [rad]
+   * @param [in] bias_noise_standard_deviation_rad: Standard deviation of normal random noise for bias in the component frame [rad]
    * @param [in] intensity_lower_threshold_percent: Solar intensity lower threshold [%]
    * @param [in] srp: Solar Radiation Pressure environment
    * @param [in] local_celestial_information: Local celestial information
    */
   SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
             const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double normal_random_standard_deviation_c_Am2,
-            const double nr_bias_stddev_c, const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
-            const LocalCelestialInformation* local_celestial_information);
+            const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
+            const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celestial_information);
 
   // Override functions for Component
   /**
@@ -130,10 +130,10 @@ class SunSensor : public Component, public ILoggable {
   /**
    * @fn TanRange
    * @brief Clip angle as tangent range
-   * @param [in] normal_random_standard_deviation_c_Am2: Standard deviation of normal random noise in the component frame [rad]
-   * @param [in] nr_bias_stddev_c: Standard deviation of normal random noise for bias in the component frame [rad]
+   * @param [in] random_noise_standard_deviation_rad: Standard deviation of normal random noise in the component frame [rad]
+   * @param [in] bias_noise_standard_deviation_rad: Standard deviation of normal random noise for bias in the component frame [rad]
    */
-  void Initialize(const double normal_random_standard_deviation_c_Am2, const double nr_bias_stddev_c);
+  void Initialize(const double random_noise_standard_deviation_rad, const double bias_noise_standard_deviation_rad);
   /**
    * @fn CalcSolarIlluminance
    * @brief Calculate solar illuminance on the sun sensor surface
