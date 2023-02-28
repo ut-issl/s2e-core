@@ -71,8 +71,8 @@ void Disturbances::InitializeInstances(const SimulationConfig* simulation_config
       InitGravityGradient(initialize_file_name_, global_environment->GetCelestialInformation().GetCenterBodyGravityConstant_m3_s2()));
   disturbances_list_.push_back(gg_dist);
 
-  SolarRadiationPressureDisturbance* srp_dist = new SolarRadiationPressureDisturbance(
-      InitSolarRadiationPressureDisturbance(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
+  SolarRadiationPressureDisturbance* srp_dist = new SolarRadiationPressureDisturbance(InitSolarRadiationPressureDisturbance(
+      initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCenterOfGravity_b_m()));
   disturbances_list_.push_back(srp_dist);
 
   ThirdBodyGravity* third_body_gravity =
@@ -81,7 +81,8 @@ void Disturbances::InitializeInstances(const SimulationConfig* simulation_config
 
   if (global_environment->GetCelestialInformation().GetCenterBodyName() != "EARTH") return;
   // Earth only disturbances (TODO: implement disturbances for other center bodies)
-  AirDrag* air_dist = new AirDrag(InitAirDrag(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
+  AirDrag* air_dist =
+      new AirDrag(InitAirDrag(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCenterOfGravity_b_m()));
   disturbances_list_.push_back(air_dist);
 
   MagneticDisturbance* mag_dist = new MagneticDisturbance(InitMagneticDisturbance(initialize_file_name_, structure->GetRMMParams()));

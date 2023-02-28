@@ -57,10 +57,10 @@ class Attitude : public ILoggable, public SimulationObject {
    */
   inline double GetEnergy() const { return kinetic_energy_J_; }
   /**
-   * @fn GetInertiaTensor
+   * @fn GetInertiaTensor_b_kgm2
    * @brief Return inertia tensor [kg m^2]
    */
-  inline libra::Matrix<3, 3> GetInertiaTensor() const { return inertia_tensor_kgm2_; }
+  inline libra::Matrix<3, 3> GetInertiaTensor_b_kgm2() const { return inertia_tensor_kgm2_; }
 
   // Setter
   /**

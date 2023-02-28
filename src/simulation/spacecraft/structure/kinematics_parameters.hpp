@@ -28,20 +28,20 @@ class KinematicsParams {
 
   // Getter
   /**
-   * @fn GetCGb
+   * @fn GetCenterOfGravity_b_m
    * @brief Return Position vector of center of gravity at body frame [m]
    */
-  inline const libra::Vector<3>& GetCGb() const { return center_of_gravity_b_m_; }
+  inline const libra::Vector<3>& GetCenterOfGravity_b_m() const { return center_of_gravity_b_m_; }
   /**
-   * @fn GetMass
+   * @fn GetMass_kg
    * @brief Return Mass of the satellite [kg]
    */
-  inline const double& GetMass() const { return mass_kg_; }
+  inline const double& GetMass_kg() const { return mass_kg_; }
   /**
-   * @fn GetInertiaTensor
+   * @fn GetInertiaTensor_b_kgm2
    * @brief Return Inertia tensor at body frame [kgm2]
    */
-  inline const libra::Matrix<3, 3>& GetInertiaTensor() const { return inertia_tensor_b_kgm2_; }
+  inline const libra::Matrix<3, 3>& GetInertiaTensor_b_kgm2() const { return inertia_tensor_b_kgm2_; }
 
   // Setter
   /**

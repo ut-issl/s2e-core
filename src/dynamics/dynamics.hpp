@@ -70,7 +70,7 @@ class Dynamics {
    * @param [in] force_b_N: Force in the body fixed frame [N]
    */
   inline void AddForce_b_N(libra::Vector<3> force_b_N) {
-    orbit_->AddForce_b_N(force_b_N, attitude_->GetQuaternion_i2b(), structure_->GetKinematicsParams().GetMass());
+    orbit_->AddForce_b_N(force_b_N, attitude_->GetQuaternion_i2b(), structure_->GetKinematicsParams().GetMass_kg());
   }
   /**
    * @fn AddAcceleration_i_m_s2
