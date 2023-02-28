@@ -17,21 +17,21 @@
 class SampleGsComponents;
 
 /**
- * @class SampleGS
+ * @class SampleGroundStation
  * @brief An example of user defined ground station class
  */
-class SampleGS : public GroundStation {
+class SampleGroundStation : public GroundStation {
  public:
   /**
-   * @fn SampleGS
+   * @fn SampleGroundStation
    * @brief Constructor
    */
-  SampleGS(const SimulationConfig* configuration, const unsigned int ground_station_id);
+  SampleGroundStation(const SimulationConfig* configuration, const unsigned int ground_station_id);
   /**
-   * @fn ~SampleGS
+   * @fn ~SampleGroundStation
    * @brief Destructor
    */
-  ~SampleGS();
+  ~SampleGroundStation();
 
   /**
    * @fn Initialize

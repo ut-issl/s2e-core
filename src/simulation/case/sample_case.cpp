@@ -20,7 +20,7 @@ void SampleCase::Initialize() {
   const int spacecraft_id = 0;
   sample_sat_ = new SampleSat(&sim_config_, global_environment_, spacecraft_id);
   const int ground_station_id = 0;
-  sample_gs_ = new SampleGS(&sim_config_, ground_station_id);
+  sample_gs_ = new SampleGroundStation(&sim_config_, ground_station_id);
 
   // Register the log output
   global_environment_->LogSetup(*(sim_config_.main_logger_));

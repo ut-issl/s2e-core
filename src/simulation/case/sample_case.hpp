@@ -52,8 +52,8 @@ class SampleCase : public SimulationCase {
   virtual std::string GetLogValue() const;
 
  private:
-  SampleSat* sample_sat_;  //!< Instance of spacecraft
-  SampleGS* sample_gs_;    //!< Instance of ground station
+  SampleSat* sample_sat_;           //!< Instance of spacecraft
+  SampleGroundStation* sample_gs_;  //!< Instance of ground station
 };
 
 #endif  // S2E_SIMULATION_CASE_SAMPLE_CASE_HPP_
