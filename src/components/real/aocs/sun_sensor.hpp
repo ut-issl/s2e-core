@@ -64,7 +64,7 @@ class SunSensor : public Component, public ILoggable {
    * @fn MainRoutine
    * @brief Main routine for sensor observation
    */
-  void MainRoutine(int count) override;
+  void MainRoutine(const int time_count) override;
 
   // Override ILoggable
   /**
@@ -80,11 +80,11 @@ class SunSensor : public Component, public ILoggable {
 
   // Getter
   inline bool GetSunDetectedFlag() const { return sun_detected_flag_; };
-  inline const libra::Vector<3> GetMeasuredSun_c() const { return measured_sun_direction_c_; };
-  inline const libra::Vector<3> GetMeasuredSun_b() const { return quaternion_b2c_.Conjugate().FrameConversion(measured_sun_direction_c_); };
-  inline double GetSunAngleAlpha() const { return alpha_rad_; };
-  inline double GetSunAngleBeta() const { return beta_rad_; };
-  inline double GetSolarIlluminance() const { return solar_illuminance_W_m2_; };
+  inline const libra::Vector<3> GetMeasuredSunDirection_c() const { return measured_sun_direction_c_; };
+  inline const libra::Vector<3> GetMeasuredSunDirection_b() const { return quaternion_b2c_.Conjugate().FrameConversion(measured_sun_direction_c_); };
+  inline double GetSunAngleAlpha_rad() const { return alpha_rad_; };
+  inline double GetSunAngleBeta_rad() const { return beta_rad_; };
+  inline double GetSolarIlluminance_W_m2() const { return solar_illuminance_W_m2_; };
 
  protected:
   const int component_id_;                    //!< Sensor ID

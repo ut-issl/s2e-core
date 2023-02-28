@@ -51,8 +51,8 @@ void SunSensor::Initialize(const double random_noise_standard_deviation_rad, con
   random_noise_alpha_.SetParameters(0.0, random_noise_standard_deviation_rad);  // global_randomization.MakeSeed()
   random_noise_beta_.SetParameters(0.0, random_noise_standard_deviation_rad);   // global_randomization.MakeSeed()
 }
-void SunSensor::MainRoutine(int count) {
-  UNUSED(count);
+void SunSensor::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   Measure();
 }
