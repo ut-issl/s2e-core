@@ -82,7 +82,7 @@ class Spacecraft {
    * @fn GetlocalEnv
    * @brief Get local environment around the spacecraft
    */
-  inline const LocalEnvironment& GetLocalEnv() const { return *local_env_; }
+  inline const LocalEnvironment& GetLocalEnv() const { return *local_environment_; }
   /**
    * @fn GetDisturbances
    * @brief Get disturbance acting of the spacecraft
@@ -102,17 +102,17 @@ class Spacecraft {
    * @fn GetSatID
    * @brief Get ID of the spacecraft
    */
-  inline int GetSatID() const { return sat_id_; }
+  inline int GetSatID() const { return spacecraft_id_; }
 
  protected:
-  ClockGenerator clock_gen_;         //!< Origin of clock for the spacecraft
-  Dynamics* dynamics_;               //!< Dynamics information of the spacecraft
-  RelativeInformation* rel_info_;    //!< Relative information with respect to the other spacecraft
-  LocalEnvironment* local_env_;      //!< Local environment information around the spacecraft
-  Disturbances* disturbances_;       //!< Disturbance information acting on the spacecraft
-  Structure* structure_;             //!< Structure information of the spacecraft
-  InstalledComponents* components_;  //!< Components information installed on the spacecraft
-  const int sat_id_;                 //!< ID of the spacecraft
+  ClockGenerator clock_generator_;             //!< Origin of clock for the spacecraft
+  Dynamics* dynamics_;                         //!< Dynamics information of the spacecraft
+  RelativeInformation* relative_information_;  //!< Relative information with respect to the other spacecraft
+  LocalEnvironment* local_environment_;        //!< Local environment information around the spacecraft
+  Disturbances* disturbances_;                 //!< Disturbance information acting on the spacecraft
+  Structure* structure_;                       //!< Structure information of the spacecraft
+  InstalledComponents* components_;            //!< Components information installed on the spacecraft
+  const unsigned int spacecraft_id_;           //!< ID of the spacecraft
 };
 
 #endif  // S2E_SIMULATION_SPACECRAFT_SPACECRAFT_HPP_

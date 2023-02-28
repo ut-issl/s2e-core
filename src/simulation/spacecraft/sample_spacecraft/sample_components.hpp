@@ -111,11 +111,11 @@ class SampleComponents : public InstalledComponents {
   */
 
   // States
-  const SimulationConfig* config_;     //!< Simulation settings
-  const Dynamics* dynamics_;           //!< Dynamics information of the spacecraft
-  Structure* structure_;               //!< Structure information of the spacecraft
-  const LocalEnvironment* local_env_;  //!< Local environment information around the spacecraft
-  const GlobalEnvironment* glo_env_;   //!< Global environment information
+  const SimulationConfig* config_;             //!< Simulation settings
+  const Dynamics* dynamics_;                   //!< Dynamics information of the spacecraft
+  Structure* structure_;                       //!< Structure information of the spacecraft
+  const LocalEnvironment* local_environment_;  //!< Local environment information around the spacecraft
+  const GlobalEnvironment* glo_env_;           //!< Global environment information
 };
 
 #endif  // S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_

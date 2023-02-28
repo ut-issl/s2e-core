@@ -11,7 +11,7 @@
 
 SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_environment,
                                    const GlobalEnvironment* glo_env, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id)
-    : config_(config), dynamics_(dynamics), structure_(structure), local_env_(local_environment), glo_env_(glo_env) {
+    : config_(config), dynamics_(dynamics), structure_(structure), local_environment_(local_environment), glo_env_(glo_env) {
   IniAccess iniAccess = IniAccess(config_->spacecraft_file_list_[sat_id]);
 
   // PCU power port connection
@@ -33,20 +33,21 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // Magnetometer
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetometer_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  mag_sensor_ = new Magnetometer(InitMagetometer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path,
-                                                 glo_env_->GetSimulationTime().GetComponentStepTime_s(), &(local_env_->GetGeomagneticField())));
+  mag_sensor_ =
+      new Magnetometer(InitMagetometer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
+                                       &(local_environment_->GetGeomagneticField())));
 
   // StarSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "stt_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  stt_ = new StarSensor(
-      InitStarSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_, local_env_));
+  stt_ = new StarSensor(InitStarSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
+                                       dynamics_, local_environment_));
 
   // SunSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "ss_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  sun_sensor_ = new SunSensor(InitSunSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, &(local_env_->GetSolarRadiationPressure()),
-                                            &(local_env_->GetCelestialInformation())));
+  sun_sensor_ = new SunSensor(InitSunSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, &(local_environment_->GetSolarRadiationPressure()),
+                                            &(local_environment_->GetCelestialInformation())));
 
   // GNSS-R
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "gnss_file");
@@ -57,8 +58,9 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // Magnetorquer
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetorquer_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  mag_torquer_ = new Magnetorquer(InitMagnetorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path,
-                                                   glo_env_->GetSimulationTime().GetComponentStepTime_s(), &(local_env_->GetGeomagneticField())));
+  mag_torquer_ =
+      new Magnetorquer(InitMagnetorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
+                                        &(local_environment_->GetGeomagneticField())));
 
   // RW
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "rw_file");
