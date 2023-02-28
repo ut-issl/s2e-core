@@ -19,10 +19,10 @@ MonteCarloSimulationExecutor* InitMCSim(std::string file_name) {
   MonteCarloSimulationExecutor* monte_carlo_simulator = new MonteCarloSimulationExecutor(total_num_of_executions);
 
   bool enable = ini_file.ReadEnable(section, "monte_carlo_enable");
-  monte_carlo_simulator->Enable(enable);
+  monte_carlo_simulator->SetEnable(enable);
 
   bool log_history = ini_file.ReadEnable(section, "log_enable");
-  monte_carlo_simulator->LogHistory(log_history);
+  monte_carlo_simulator->SetSaveLogHistoryFlag(log_history);
 
   section = "MONTE_CARLO_RANDOMIZATION";
   std::vector<std::string> so_dot_ip_str_vec = ini_file.ReadStrVector(section, "parameter");
@@ -88,7 +88,7 @@ MonteCarloSimulationExecutor* InitMCSim(std::string file_name) {
     ini_file.ReadVector(section, key_name.c_str(), sigma_or_max);
 
     // Write randomize setting
-    monte_carlo_simulator->AddInitParameter(so_str, ip_str, mean_or_min, sigma_or_max, random_type);
+    monte_carlo_simulator->AddInitMonteCarloParameter(so_str, ip_str, mean_or_min, sigma_or_max, random_type);
   }
 
   return monte_carlo_simulator;

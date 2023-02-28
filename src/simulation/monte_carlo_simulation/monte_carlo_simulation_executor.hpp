@@ -39,17 +39,17 @@ class MonteCarloSimulationExecutor {
    * @fn Enable
    * @brief Set execute flag
    */
-  inline void Enable(bool enabled) { enabled_ = enabled; }
+  inline void SetEnable(bool enabled) { enabled_ = enabled; }
   /**
-   * @fn SetTotalNumOfExecutions
+   * @fn SetTotalNumberOfExecutions
    * @brief Set total number of execution simulation case
    */
-  inline void SetTotalNumOfExecutions(unsigned long long num_of_executions) { total_number_of_executions_ = num_of_executions; }
+  inline void SetTotalNumberOfExecutions(unsigned long long number_of_executions) { total_number_of_executions_ = number_of_executions; }
   /**
-   * @fn LogHistory
+   * @fn GetSaveLogHistoryFlag
    * @brief Set log history flag
    */
-  inline void LogHistory(bool set) { save_log_history_flag_ = set; }
+  inline void SetSaveLogHistoryFlag(bool set) { save_log_history_flag_ = set; }
   /**
    * @fn SetSeed
    * @brief Set seed of randomization. Use time infomation when is_deterministic = false.
@@ -63,39 +63,39 @@ class MonteCarloSimulationExecutor {
    */
   inline bool IsEnabled() const { return enabled_; }
   /**
-   * @fn GetTotalNumOfExecutions
+   * @fn GetTotalNumberOfExecutions
    * @brief Return total number of execution simulation case
    */
-  inline unsigned long long GetTotalNumOfExecutions() const { return total_number_of_executions_; }
+  inline unsigned long long GetTotalNumberOfExecutions() const { return total_number_of_executions_; }
   /**
-   * @fn GetNumOfExecutionsDone
+   * @fn GetNumberOfExecutionsDone
    * @brief Return number of executed case
    */
-  inline unsigned long long GetNumOfExecutionsDone() const { return number_of_executions_done_; }
+  inline unsigned long long GetNumberOfExecutionsDone() const { return number_of_executions_done_; }
   /**
-   * @fn LogHistory
+   * @fn GetSaveLogHistoryFlag
    * @brief Return log history flag
    */
-  inline bool LogHistory() const {
-    // Save log if MCSim is disabled or LogHistory=ENABLED
+  inline bool GetSaveLogHistoryFlag() const {
+    // Save log if MCSim is disabled or GetSaveLogHistoryFlag=ENABLED
     return (!enabled_ || save_log_history_flag_);
   }
   /**
-   * @fn GetInitParameterVec
+   * @fn GetInitMonteCarloParameterVector
    * @brief Get randomized vector value and store it in dest_vec
    */
   template <size_t NumElement>
-  void GetInitParameterVec(std::string so_name, std::string ip_name, libra::Vector<NumElement>& destination) const;
+  void GetInitMonteCarloParameterVector(std::string so_name, std::string ip_name, libra::Vector<NumElement>& destination) const;
   /**
-   * @fn GetInitParameterDouble
+   * @fn GetInitMonteCarloParameterDouble
    * @brief Get randomized value and store it in dest
    */
-  void GetInitParameterDouble(std::string so_name, std::string ip_name, double& destination) const;
+  void GetInitMonteCarloParameterDouble(std::string so_name, std::string ip_name, double& destination) const;
   /**
-   * @fn GetInitParameterQuaternion
+   * @fn GetInitMonteCarloParameterQuaternion
    * @brief Get randomized quaternion and store it in dest_quat
    */
-  void GetInitParameterQuaternion(std::string so_name, std::string ip_name, libra::Quaternion& destination) const;
+  void GetInitMonteCarloParameterQuaternion(std::string so_name, std::string ip_name, libra::Quaternion& destination) const;
 
   // Calculation
   /**
@@ -120,11 +120,11 @@ class MonteCarloSimulationExecutor {
 
   template <size_t NumElement1, size_t NumElement2>
   /**
-   * @fn AddInitParameter
+   * @fn AddInitMonteCarloParameter
    * @brief Add initialized parameter
    */
-  void AddInitParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
-                        const libra::Vector<NumElement2>& sigma_or_max, InitMonteCarloParameters::RandomizationType random_type);
+  void AddInitMonteCarloParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
+                                  const libra::Vector<NumElement2>& sigma_or_max, InitMonteCarloParameters::RandomizationType random_type);
 
   /**
    * @fn RandomizeAllParameters
@@ -134,7 +134,8 @@ class MonteCarloSimulationExecutor {
 };
 
 template <size_t NumElement>
-void MonteCarloSimulationExecutor::GetInitParameterVec(std::string so_name, std::string ip_name, libra::Vector<NumElement>& destination) const {
+void MonteCarloSimulationExecutor::GetInitMonteCarloParameterVector(std::string so_name, std::string ip_name,
+                                                                    libra::Vector<NumElement>& destination) const {
   if (!enabled_) return;
   std::string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;
   if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
@@ -146,9 +147,9 @@ void MonteCarloSimulationExecutor::GetInitParameterVec(std::string so_name, std:
 }
 
 template <size_t NumElement1, size_t NumElement2>
-void MonteCarloSimulationExecutor::AddInitParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
-                                                    const libra::Vector<NumElement2>& sigma_or_max,
-                                                    InitMonteCarloParameters::RandomizationType random_type) {
+void MonteCarloSimulationExecutor::AddInitMonteCarloParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
+                                                              const libra::Vector<NumElement2>& sigma_or_max,
+                                                              InitMonteCarloParameters::RandomizationType random_type) {
   std::string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;
   if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
     // Register the parameter in ip_list if it is not registered yet

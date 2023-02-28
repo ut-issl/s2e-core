@@ -32,7 +32,7 @@ void MonteCarloSimulationExecutor::AtTheEndOfEachCase() {
   number_of_executions_done_++;
 }
 
-void MonteCarloSimulationExecutor::GetInitParameterDouble(string so_name, string ip_name, double& destination) const {
+void MonteCarloSimulationExecutor::GetInitMonteCarloParameterDouble(string so_name, string ip_name, double& destination) const {
   if (!enabled_) return;
   {
     string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;
@@ -45,7 +45,7 @@ void MonteCarloSimulationExecutor::GetInitParameterDouble(string so_name, string
   }
 }
 
-void MonteCarloSimulationExecutor::GetInitParameterQuaternion(string so_name, string ip_name, libra::Quaternion& destination) const {
+void MonteCarloSimulationExecutor::GetInitMonteCarloParameterQuaternion(string so_name, string ip_name, libra::Quaternion& destination) const {
   if (!enabled_) return;
   {
     string name = so_name + MonteCarloSimulationExecutor::separator_ + ip_name;

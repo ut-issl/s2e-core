@@ -29,9 +29,9 @@ SimulationCase::SimulationCase(std::string ini_base, const MonteCarloSimulationE
   const char* section = "SIMULATION_SETTINGS";
   sim_config_.initialize_base_file_name_ = ini_base;
   // Log for Monte Carlo Simulation
-  std::string log_file_name = "default" + std::to_string(monte_carlo_simulator.GetNumOfExecutionsDone()) + ".csv";
+  std::string log_file_name = "default" + std::to_string(monte_carlo_simulator.GetNumberOfExecutionsDone()) + ".csv";
   // ToDo: Consider that `enable_inilog = false` is fine or not?
-  sim_config_.main_logger_ = new Logger(log_file_name, log_path, ini_base, false, monte_carlo_simulator.LogHistory());
+  sim_config_.main_logger_ = new Logger(log_file_name, log_path, ini_base, false, monte_carlo_simulator.GetSaveLogHistoryFlag());
   sim_config_.number_of_simulated_spacecraft_ = simbase_ini.ReadInt(section, "number_of_simulated_spacecraft");
   sim_config_.spacecraft_file_list_ = simbase_ini.ReadStrVector(section, "spacecraft_file");
 
