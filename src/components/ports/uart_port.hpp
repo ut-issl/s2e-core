@@ -23,8 +23,8 @@ class UartPort {
   /**
    * @fn UartPort
    * @brief Constructor
-   * @param [in] rx_buffer_size: RX(Component -> OnBoardComputer) buffer size
-   * @param [in] tx_buffer_size: TX(OnBoardComputer -> Component) buffer size
+   * @param [in] rx_buffer_size: RX(Component -> OBC) buffer size
+   * @param [in] tx_buffer_size: TX(OBC-> Component) buffer size
    */
   UartPort(const unsigned int rx_buffer_size, const unsigned int tx_buffer_size);
   /**
@@ -63,7 +63,7 @@ class UartPort {
   int ReadTx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length);
   /**
    * @fn ReadRx
-   * @brief Read data from the TX buffer by OnBoardComputer
+   * @brief Read data from the TX buffer ny OBC
    * @param [out] buffer: Data buffer to stored the read data
    * @param [in] offset: Start offset of the buffer to read (usually zero)
    * @param [in] data_length: Length of the data to read
@@ -74,8 +74,8 @@ class UartPort {
  private:
   const static unsigned int kDefaultBufferSize = 1024;  //!< Default buffer size
 
-  RingBuffer* rx_buffer_;  //!< Receive buffer (Component -> OnBoardComputer)
-  RingBuffer* tx_buffer_;  //!< Transmit buffer (OnBoardComputer -> Component)
+  RingBuffer* rx_buffer_;  //!< Receive buffer (Component -> OBC)
+  RingBuffer* tx_buffer_;  //!< Transmit buffer (OBC-> Component)
 };
 
 #endif  // S2E_COMPONENTS_PORTS_UART_PORT_HPP_

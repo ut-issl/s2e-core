@@ -56,8 +56,8 @@ class OnBoardComputer : public Component {
    * @fn ConnectComPort
    * @brief Connect UART communication port between OnBoardComputer and a component
    * @param [in] port_id: Port ID
-   * @param [in] tx_buffer_size: TX (OnBoardComputer -> Component) buffer size
-   * @param [in] rx_buffer_size: RX (Component -> OnBoardComputer) buffer size
+   * @param [in] tx_buffer_size: TX (OBC-> Component) buffer size
+   * @param [in] rx_buffer_size: RX (Component -> OBC) buffer size
    * @return -1: error, 0: success
    */
   virtual int ConnectComPort(int port_id, int tx_buffer_size, int rx_buffer_size);
@@ -70,7 +70,7 @@ class OnBoardComputer : public Component {
   virtual int CloseComPort(int port_id);
   /**
    * @fn SendFromObc
-   * @brief Send data from OBC to Components with UART used by OnBoardComputer side.
+   * @brief Send data from OBC to Components with UART used ny OBC side.
    * @param [in] port_id: Port ID
    * @param [in] buffer: Send data buffer
    * @param [in] offset: Data offset for the buffer
@@ -101,7 +101,7 @@ class OnBoardComputer : public Component {
   virtual int SendFromCompo(int port_id, unsigned char* buffer, int offset, int length);
   /**
    * @fn ReceivedByObc
-   * @brief Read data from component to OBC with UART used by OnBoardComputer side.
+   * @brief Read data from component to OBC with UART used ny OBC side.
    * @param [in] port_id: Port ID
    * @param [out] buffer: Read data buffer
    * @param [in] offset: Data offset for the buffer
