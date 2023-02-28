@@ -123,7 +123,7 @@ class ControlledAttitude : public Attitude {
    * @fn CalcTargetDirection_i
    * @brief Calculate target direction from attitude control mode
    * @param [in] mode: Attitude control mode
-   * @return Target direction at the inertia frame0
+   * @return Target direction at the rotor_inertia_kgm2 frame0
    */
   libra::Vector<3> CalcTargetDirection_i(AttitudeControlMode mode);
   /**

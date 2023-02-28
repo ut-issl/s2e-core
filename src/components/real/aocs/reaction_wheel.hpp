@@ -33,16 +33,16 @@ class RWModel : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] component_id: Component ID
    * @param [in] step_width_s: Step width of integration by reaction wheel ordinary differential equation [sec]
-   * @param [in] dt_main_routine: Period of execution of main routine of RW [sec]
-   * @param [in] jitter_update_interval: Update period of RW jitter [sec]
-   * @param [in] inertia: Moment of inertia of the RW [kgm2]
-   * @param [in] max_torque: Maximum output torque [Nm]
+   * @param [in] main_routine_time_step_s: Period of execution of main routine of RW [sec]
+   * @param [in] jitter_update_interval_s: Update period of RW jitter [sec]
+   * @param [in] rotor_inertia_kgm2: Moment of rotor_inertia_kgm2 of the RW [kgm2]
+   * @param [in] max_torque_Nm: Maximum output torque [Nm]
    * @param [in] max_velocity_rpm: Maximum output angular velocity [RPM]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
-   * @param [in] pos_b: Position of RW on the body fixed frame [m]
-   * @param [in] dead_time: Dead time of torque output [sec]
-   * @param [in] driving_lag_coef: Driving lag coefficients
-   * @param [in] coasting_lag_coef: Coasting lag coefficients
+   * @param [in] position_b_m: Position of RW on the body fixed frame [m]
+   * @param [in] dead_time_s: Dead time of torque output [sec]
+   * @param [in] driving_lag_coefficients: Driving lag coefficients
+   * @param [in] coasting_lag_coefficients: Coasting lag coefficients
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
    * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
@@ -52,15 +52,15 @@ class RWModel : public Component, public ILoggable {
    * @param [in] bandwidth: Bandwidth of structural resonance
    * @param [in] considers_structural_resonance: Flag to consider structural resonance
    * @param [in] drive_flag: RW drive flag
-   * @param [in] init_velocity: Initial value of angular velocity of RW
+   * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW
    */
   RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, const int component_id, const double step_width_s,
-          const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
-          const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> pos_b, const double dead_time,
-          const libra::Vector<3> driving_lag_coef, const libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
-          std::vector<std::vector<double>> radial_force_harmonics_coefficients, std::vector<std::vector<double>> radial_torque_harmonics_coefficients,
-          double structural_resonance_frequency_Hz, double damping_factor, double bandwidth, bool considers_structural_resonance,
-          const bool drive_flag = false, const double init_velocity = 0.0);
+          const double main_routine_time_step_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2, const double max_torque_Nm,
+          const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
+          const libra::Vector<3> driving_lag_coefficients, const libra::Vector<3> coasting_lag_coefficients, bool is_calc_jitter_enabled,
+          bool is_log_jitter_enabled, std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+          std::vector<std::vector<double>> radial_torque_harmonics_coefficients, double structural_resonance_frequency_Hz, double damping_factor,
+          double bandwidth, bool considers_structural_resonance, const bool drive_flag = false, const double init_velocity_rad_s = 0.0);
   /**
    * @fn RWModel
    * @brief Constructor with power port
@@ -70,16 +70,16 @@ class RWModel : public Component, public ILoggable {
    * @param [in] power_port: Power port
    * @param [in] component_id: Component ID
    * @param [in] step_width_s: Step width of integration by reaction wheel ordinary differential equation [sec]
-   * @param [in] dt_main_routine: Period of execution of main routine of RW [sec]
-   * @param [in] jitter_update_interval: Update period of RW jitter [sec]
-   * @param [in] inertia: Moment of inertia of the RW [kgm2]
-   * @param [in] max_torque: Maximum output torque [Nm]
+   * @param [in] main_routine_time_step_s: Period of execution of main routine of RW [sec]
+   * @param [in] jitter_update_interval_s: Update period of RW jitter [sec]
+   * @param [in] rotor_inertia_kgm2: Moment of rotor_inertia_kgm2 of the RW [kgm2]
+   * @param [in] max_torque_Nm: Maximum output torque [Nm]
    * @param [in] max_velocity_rpm: Maximum output angular velocity [RPM]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
-   * @param [in] pos_b: Position of RW on the body fixed frame [m]
-   * @param [in] dead_time: Dead time of torque output [sec]
-   * @param [in] driving_lag_coef: Driving lag coefficients
-   * @param [in] coasting_lag_coef: Coasting lag coefficients
+   * @param [in] position_b_m: Position of RW on the body fixed frame [m]
+   * @param [in] dead_time_s: Dead time of torque output [sec]
+   * @param [in] driving_lag_coefficients: Driving lag coefficients
+   * @param [in] coasting_lag_coefficients: Coasting lag coefficients
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
    * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
@@ -89,15 +89,15 @@ class RWModel : public Component, public ILoggable {
    * @param [in] bandwidth: Bandwidth of structural resonance
    * @param [in] considers_structural_resonance: Flag to consider structural resonance
    * @param [in] drive_flag: RW drive flag
-   * @param [in] init_velocity: Initial value of angular velocity of RW [rad/s]
+   * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW [rad/s]
    */
   RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int component_id,
-          const double step_width_s, const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
-          const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> pos_b, const double dead_time,
-          const libra::Vector<3> driving_lag_coef, const libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
-          std::vector<std::vector<double>> radial_force_harmonics_coefficients, std::vector<std::vector<double>> radial_torque_harmonics_coefficients,
-          double structural_resonance_frequency_Hz, double damping_factor, double bandwidth, bool considers_structural_resonance,
-          const bool drive_flag = false, const double init_velocity = 0.0);
+          const double step_width_s, const double main_routine_time_step_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2,
+          const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m,
+          const double dead_time_s, const libra::Vector<3> driving_lag_coefficients, const libra::Vector<3> coasting_lag_coefficients,
+          bool is_calc_jitter_enabled, bool is_log_jitter_enabled, std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+          std::vector<std::vector<double>> radial_torque_harmonics_coefficients, double structural_resonance_frequency_Hz, double damping_factor,
+          double bandwidth, bool considers_structural_resonance, const bool drive_flag = false, const double init_velocity_rad_s = 0.0);
 
   // Override functions for Component
   /**
@@ -206,7 +206,7 @@ class RWModel : public Component, public ILoggable {
 
   // Internal variables for control delay
   std::vector<double> acceleration_delay_buffer_;  //!< Delay buffer for acceleration
-  double main_routine_time_steo_s_;                //!< Period of execution of main routine [sec]
+  double main_routine_time_step_s_;                //!< Period of execution of main routine [sec]
 
   // Output at RW frame
   double angular_acceleration_rad_s2_ = 0.0;  //!< Output angular acceleration [rad/s2]

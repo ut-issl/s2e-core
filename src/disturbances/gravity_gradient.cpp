@@ -17,7 +17,7 @@ GravityGradient::GravityGradient(const double gravity_constant_m3_s2, const bool
     : SimpleDisturbance(is_calculation_enabled), gravity_constant_m3_s2_(gravity_constant_m3_s2) {}
 
 void GravityGradient::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
-  // TODO: use structure information to get inertia tensor
+  // TODO: use structure information to get rotor_inertia_kgm2 tensor
   CalcTorque_b_Nm(local_environment.GetCelestialInformation().GetCenterBodyPositionFromSpacecraft_b_m(), dynamics.GetAttitude().GetInertiaTensor());
 }
 
