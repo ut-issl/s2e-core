@@ -17,17 +17,17 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // PCU power port connection
   pcu_ = new PCU(clock_gen);
   pcu_->ConnectPort(0, 0.5, 3.3, 1.0);  // OBC: assumed power consumption is defined here
-  pcu_->ConnectPort(1, 1.0);            // Gyro: assumed power consumption is defined inside the InitGyro
+  pcu_->ConnectPort(1, 1.0);            // GyroSensor: assumed power consumption is defined inside the InitGyro
   pcu_->ConnectPort(2, 1.0);            // for other all components
 
   // Components
   obc_ = new OBC(1, clock_gen, pcu_->GetPowerPort(0));
   hils_port_manager_ = new HilsPortManager();
 
-  // Gyro
+  // GyroSensor
   std::string ini_path = iniAccess.ReadString("COMPONENT_FILES", "gyro_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  gyro_ = new Gyro(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
+  gyro_ = new GyroSensor(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
 
   // MagSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetometer_file");

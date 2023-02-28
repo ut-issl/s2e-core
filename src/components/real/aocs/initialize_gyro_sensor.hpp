@@ -17,7 +17,7 @@
  * @param [in] fname: Path to the initialize file
  * @param [in] dynamics: Dynamics information
  */
-Gyro InitGyro(ClockGenerator* clock_generator, int sensor_id, const std::string fname, double compo_step_time, const Dynamics* dynamics);
+GyroSensor InitGyro(ClockGenerator* clock_generator, int sensor_id, const std::string fname, double compo_step_time, const Dynamics* dynamics);
 /**
  * @fn InitGyro
  * @brief Initialize functions for gyro sensor with power port
@@ -28,7 +28,7 @@ Gyro InitGyro(ClockGenerator* clock_generator, int sensor_id, const std::string 
  * @param [in] fname: Path to the initialize file
  * @param [in] dynamics: Dynamics information
  */
-Gyro InitGyro(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
-              const Dynamics* dynamics);
+GyroSensor InitGyro(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
+                    const Dynamics* dynamics);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_INITIALIZE_GYRO_SENSOR_HPP_

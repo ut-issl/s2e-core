@@ -32,7 +32,7 @@
 
 class OBC;
 class PCU;
-class Gyro;
+class GyroSensor;
 class MagSensor;
 class STT;
 class SunSensor;
@@ -87,7 +87,7 @@ class SampleComponents : public InstalledComponents {
   HilsPortManager* hils_port_manager_;  //!< Port manager for HILS test
 
   // AOCS
-  Gyro* gyro_;                         //!< Gyro sensor
+  GyroSensor* gyro_;                   //!< GyroSensor sensor
   MagSensor* mag_sensor_;              //!< Magnetmeter
   STT* stt_;                           //!< Star sensor
   SunSensor* sun_sensor_;              //!< Sun sensor
