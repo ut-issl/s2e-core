@@ -75,20 +75,20 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
   sc_to_gs_i = libra::Normalize(sc_to_gs_i);
   Quaternion q_i_to_sc_ant = sc_tx_ant.GetQuaternion_b2c() * dynamics.GetAttitude().GetQuaternion_i2b();
   Vector<3> gs_direction_on_sc_frame = q_i_to_sc_ant.FrameConversion(sc_to_gs_i);
-  double theta_on_sc_ant_rad = acos(gs_direction_on_sc_frame[2]);
-  double phi_on_sc_ant_rad = acos(gs_direction_on_sc_frame[0] / sin(theta_on_sc_ant_rad));
+  double theta_on_sc_antenna_rad = acos(gs_direction_on_sc_frame[2]);
+  double phi_on_sc_antenna_rad = acos(gs_direction_on_sc_frame[0] / sin(theta_on_sc_antenna_rad));
 
   // SC direction on GS RX antenna frame
   Vector<3> gs_to_sc_ecef = dynamics.GetOrbit().GetPosition_ecef_m() - ground_station.GetGSPosition_ecef();
   gs_to_sc_ecef = libra::Normalize(gs_to_sc_ecef);
   Quaternion q_ecef_to_gs_ant = gs_rx_ant.GetQuaternion_b2c() * ground_station.GetGSPosition_geo().GetQuaternionXcxfToLtc();
   Vector<3> sc_direction_on_gs_frame = q_ecef_to_gs_ant.FrameConversion(gs_to_sc_ecef);
-  double theta_on_gs_ant_rad = acos(sc_direction_on_gs_frame[2]);
-  double phi_on_gs_ant_rad = acos(sc_direction_on_gs_frame[0] / sin(theta_on_gs_ant_rad));
+  double theta_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[2]);
+  double phi_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[0] / sin(theta_on_gs_antenna_rad));
 
   // Calc CN0
-  double cn0_dBHz = sc_tx_ant.CalcTxEIRP(theta_on_sc_ant_rad, phi_on_sc_ant_rad) + loss_space_dB + loss_polarization_ + loss_atmosphere_ +
-                    loss_rainfall_ + loss_others_ + gs_rx_ant.CalcRxGT(theta_on_gs_ant_rad, phi_on_gs_ant_rad) -
+  double cn0_dBHz = sc_tx_ant.CalcTxEIRP(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) + loss_space_dB + loss_polarization_ + loss_atmosphere_ +
+                    loss_rainfall_ + loss_others_ + gs_rx_ant.CalcRxGT(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) -
                     10.0 * log10(environment::boltzmann_constant_J_K);
   return cn0_dBHz;
 }

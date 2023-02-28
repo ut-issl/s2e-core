@@ -50,12 +50,12 @@ class Antenna {
    * @param [in] quaternion_b2c: Coordinate transform from body to component
    * @param [in] is_transmitter: Antenna for transmitter or not
    * @param [in] is_receiver: Antenna for receiver or not
-   * @param [in] frequency: Center Frequency [MHz]
-   * @param [in] tx_params: output, gain, loss_feeder, loss_pointing for TX
-   * @param [in] rx_params: gain, loss_feeder, loss_pointing, system_temperature for RX
+   * @param [in] frequency_MHz: Center Frequency [MHz]
+   * @param [in] tx_parameters: output, gain, loss_feeder, loss_pointing for TX
+   * @param [in] rx_parameters: gain, loss_feeder, loss_pointing, system_temperature for RX
    */
-  Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
-          const Vector<4> tx_params, const Vector<4> rx_params);
+  Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
+          const double frequency_MHz, const Vector<4> tx_parameters, const Vector<4> rx_parameters);
 
   /**
    * @fn Antenna
@@ -64,15 +64,15 @@ class Antenna {
    * @param [in] quaternion_b2c: Coordinate transform from body to component
    * @param [in] is_transmitter: Antenna for transmitter or not
    * @param [in] is_receiver: Antenna for receiver or not
-   * @param [in] frequency: Center Frequency [MHz]
+   * @param [in] frequency_MHz: Center Frequency [MHz]
    * @param [in] tx_output_power_W: Transmit output power [W]
-   * @param [in] tx_params: TX antenna parameters
+   * @param [in] tx_parameters: TX antenna parameters
    * @param [in] rx_system_noise_temperature_K: Receive system noise temperature [K]
-   * @param [in] rx_params: RX antenna parameters
+   * @param [in] rx_parameters: RX antenna parameters
    */
-  Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver, const double frequency,
-          const double tx_output_power_W, const AntennaParameters tx_params, const double rx_system_noise_temperature_K,
-          const AntennaParameters rx_params);
+  Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
+          const double frequency_MHz, const double tx_output_power_W, const AntennaParameters tx_parameters,
+          const double rx_system_noise_temperature_K, const AntennaParameters rx_parameters);
   /**
    * @fn ~Antenna
    * @brief Destructor
@@ -99,9 +99,9 @@ class Antenna {
   // Getter
   /**
    * @fn GetFrequency
-   * @brief Return frequency [MHz]
+   * @brief Return frequency_MHz [MHz]
    */
-  inline double GetFrequency() const { return frequency_; }
+  inline double GetFrequency() const { return frequency_MHz_; }
   /**
    * @fn GetQuaternion_b2c
    * @brief Return quaternion from body to component
@@ -125,27 +125,27 @@ class Antenna {
   Quaternion quaternion_b2c_;  //!< Coordinate transform from body to component
   bool is_transmitter_;        //!< Antenna for transmitter or not
   bool is_receiver_;           //!< Antenna for receiver or not
-  double frequency_;           //!< Center Frequency [MHz]
+  double frequency_MHz_;       //!< Center Frequency [MHz]
 
   // Tx info
-  double tx_output_power_W_;     //!< Transmit output power [W]
-  AntennaParameters tx_params_;  //!< Tx parameters
-  double tx_eirp_dBW_;           //!< Transmit EIRP(Equivalent Isotropic Radiated Power) [dBW]
+  double tx_output_power_W_;         //!< Transmit output power [W]
+  AntennaParameters tx_parameters_;  //!< Tx parameters
+  double tx_eirp_dBW_;               //!< Transmit EIRP(Equivalent Isotropic Radiated Power) [dBW]
 
   // Rx info
   double rx_system_noise_temperature_K_;  //!< Receive system noise temperature [K]
-  AntennaParameters rx_params_;           //!< RX parameters
+  AntennaParameters rx_parameters_;       //!< RX parameters
   double rx_gt_dBK_;                      //!< Receive G/T [dB/K]
 
   /**
    * @fn CalcAntennaGain
    * @brief Calculation antenna gain considering the target direction
-   * @param [in] ant_params: Antenna parameters
+   * @param [in] antenna_parameters: Antenna parameters
    * @param [in] theta_rad: Angle from PZ axis on the antenna frame [rad]
    * @param [in] phi_rad: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
    * @return Antenna gain [dBi]
    */
-  double CalcAntennaGain(const AntennaParameters ant_params, const double theta_rad, const double phi_rad = 0.0) const;
+  double CalcAntennaGain(const AntennaParameters antenna_parameters, const double theta_rad, const double phi_rad = 0.0) const;
 };
 
 AntennaGainModel SetAntennaGainModel(const std::string gain_model_name);
