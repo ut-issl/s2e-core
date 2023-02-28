@@ -96,7 +96,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @fn GetTorqueB
    * @brief Return generated torque on the body fixed frame [Nm]
    */
-  inline const Vector<3> GetTorqueB() const { return torque_b_; };
+  inline const Vector<3> GetTorqueB() const { return torque_b_Nm_; };
 
   // Setter
   /**
@@ -116,8 +116,8 @@ class SimpleThruster : public Component, public ILoggable {
   libra::NormalRand mag_nr_;           //!< Normal random for thrust magnitude error
   libra::NormalRand dir_nr_;           //!< Normal random for thrust direction error
   // outputs
-  Vector<3> thrust_b_{0.0};  //!< Generated thrust on the body fixed frame [N]
-  Vector<3> torque_b_{0.0};  //!< Generated torque on the body fixed frame [N]
+  Vector<3> thrust_b_{0.0};     //!< Generated thrust on the body fixed frame [N]
+  Vector<3> torque_b_Nm_{0.0};  //!< Generated torque on the body fixed frame [N]
 
   /**
    * @fn CalcThrust

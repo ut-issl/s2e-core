@@ -53,7 +53,7 @@ class Sensor {
   libra::Matrix<N, N> scale_factor_;            //!< Scale factor matrix
   libra::Vector<N> range_to_const_c_;           //!< Output range limit to be constant output value at the component frame
   libra::Vector<N> range_to_zero_c_;            //!< Output range limit to be zero output value at the component frame
-  libra::Vector<N> bias_c_;                     //!< Constant bias noise at the component frame
+  libra::Vector<N> bias_c_Am2_;                 //!< Constant bias noise at the component frame
   libra::NormalRand normal_random_noise_c_[N];  //!< Normal random
   RandomWalk<N> random_walk_noise_c_;           //!< Random Walk
 

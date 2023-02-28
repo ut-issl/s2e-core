@@ -97,35 +97,35 @@ class MagTorquer : public Component, public ILoggable {
    * @fn GetMagMoment_b
    * @brief Return output magnetic moment in the body fixed frame [Am2]
    */
-  inline const libra::Vector<kMtqDim>& GetMagMoment_b(void) const { return mag_moment_b_; };
+  inline const libra::Vector<kMtqDim>& GetMagMoment_b(void) const { return output_magnetic_moment_b_Am2_; };
   /**
    * @fn GetTorque_b
    * @brief Return output torque in the body fixed frame [Nm]
    */
-  inline const libra::Vector<kMtqDim>& GetTorque_b(void) const { return torque_b_; };
+  inline const libra::Vector<kMtqDim>& GetTorque_b(void) const { return torque_b_Nm_; };
 
   /**
    * @fn SetMagMomentC
    * @brief Set output magnetic moment in the component frame [Am2]
    */
-  inline void SetMagMomentC(const libra::Vector<kMtqDim> mag_moment_c) { mag_moment_c_ = mag_moment_c; };
+  inline void SetMagMomentC(const libra::Vector<kMtqDim> mag_moment_c) { output_magnetic_moment_c_Am2_ = mag_moment_c; };
 
  protected:
-  const int component_id_ = 0;                            //!< Actuator ID
-  const double knT2T = 1.0e-9;                            //!< Constant to convert nT to T
-  libra::Vector<kMtqDim> torque_b_{0.0};                  //!< Output torque in the body fixed frame [Nm]
-  libra::Vector<kMtqDim> mag_moment_c_{0.0};              //!< Output output magnetic moment in the component frame [Am2]
-  libra::Vector<kMtqDim> mag_moment_b_{0.0};              //!< Output output magnetic moment in the body fixed frame [Am2]
-  libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
-  libra::Quaternion q_c2b_{0.0, 0.0, 0.0, 1.0};           //!< Quaternion from component frame to body frame
-  libra::Matrix<kMtqDim, kMtqDim> scale_factor_;          //!< Scale factor matrix
-  libra::Vector<kMtqDim> max_c_{100.0};                   //!< Maximum magnetic moment in the component frame [Am2]
-  libra::Vector<kMtqDim> min_c_{-100.0};                  //!< Minimum magnetic moment in the component frame [Am2]
-  libra::Vector<kMtqDim> bias_c_{0.0};                    //!< Constant bias noise in the component frame [Am2]
-  RandomWalk<kMtqDim> n_rw_c_;                            //!< Random walk noise
-  libra::NormalRand nrs_c_[kMtqDim];                      //!< Normal random noise
+  const int component_id_ = 0;                                //!< Actuator ID
+  const double kConvertNanoT2T = 1.0e-9;                      //!< Constant to convert nT to T
+  libra::Vector<kMtqDim> torque_b_Nm_{0.0};                   //!< Output torque in the body fixed frame [Nm]
+  libra::Vector<kMtqDim> output_magnetic_moment_c_Am2_{0.0};  //!< Output output magnetic moment in the component frame [Am2]
+  libra::Vector<kMtqDim> output_magnetic_moment_b_Am2_{0.0};  //!< Output output magnetic moment in the body fixed frame [Am2]
+  libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};      //!< Quaternion from body frame to component frame
+  libra::Quaternion quaternion_c2b_{0.0, 0.0, 0.0, 1.0};      //!< Quaternion from component frame to body frame
+  libra::Matrix<kMtqDim, kMtqDim> scale_factor_;              //!< Scale factor matrix
+  libra::Vector<kMtqDim> max_magnetic_moment_c_Am2_{100.0};   //!< Maximum magnetic moment in the component frame [Am2]
+  libra::Vector<kMtqDim> min_magnetic_moment_c_Am2_{-100.0};  //!< Minimum magnetic moment in the component frame [Am2]
+  libra::Vector<kMtqDim> bias_c_Am2_{0.0};                    //!< Constant bias noise in the component frame [Am2]
+  RandomWalk<kMtqDim> random_walk_c_Am2_;                     //!< Random walk noise
+  libra::NormalRand random_noise_c_Am2_[kMtqDim];             //!< Normal random noise
 
-  const GeomagneticField* mag_env_;  //!< Geomagnetic environment
+  const GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
 
   /**
    * @fn CalcOutputTorque

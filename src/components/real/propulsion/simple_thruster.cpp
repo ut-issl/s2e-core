@@ -54,7 +54,7 @@ void SimpleThruster::MainRoutine(int count) {
 
 void SimpleThruster::PowerOffRoutine() {
   thrust_b_ *= 0.0;
-  torque_b_ *= 0.0;
+  torque_b_Nm_ *= 0.0;
 }
 
 void SimpleThruster::CalcThrust() {
@@ -67,7 +67,7 @@ void SimpleThruster::CalcTorque(Vector<3> center) {
   Vector<3> vector_center2thruster = thruster_pos_b_ - center;
   Vector<3> torque = OuterProduct(vector_center2thruster, thrust_b_);
 
-  torque_b_ = torque;
+  torque_b_Nm_ = torque;
 }
 
 std::string SimpleThruster::GetLogHeader() const {
@@ -84,7 +84,7 @@ std::string SimpleThruster::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector(thrust_b_);
-  str_tmp += WriteVector(torque_b_);
+  str_tmp += WriteVector(torque_b_Nm_);
   str_tmp += WriteScalar(CalcNorm(thrust_b_));
 
   return str_tmp;

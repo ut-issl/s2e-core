@@ -17,15 +17,15 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, con
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
-      q_c2b_(quaternion_b2c_.Conjugate()),
+      quaternion_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),
-      max_c_(max_c),
-      min_c_(min_c),
-      bias_c_(bias_c),
-      n_rw_c_(rw_stepwidth, rw_stddev_c, rw_limit_c),
-      mag_env_(mag_env) {
+      max_magnetic_moment_c_Am2_(max_c),
+      min_magnetic_moment_c_Am2_(min_c),
+      bias_c_Am2_(bias_c),
+      random_walk_c_Am2_(rw_stepwidth, rw_stddev_c, rw_limit_c),
+      geomagnetic_field_(mag_env) {
   for (size_t i = 0; i < kMtqDim; i++) {
-    nrs_c_[i].SetParameters(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
+    random_noise_c_Am2_[i].SetParameters(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
   }
 }
 
@@ -37,15 +37,15 @@ MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_generator, Pow
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
-      q_c2b_(quaternion_b2c_.Conjugate()),
+      quaternion_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),
-      max_c_(max_c),
-      min_c_(min_c),
-      bias_c_(bias_c),
-      n_rw_c_(rw_stepwidth, rw_stddev_c, rw_limit_c),
-      mag_env_(mag_env) {
+      max_magnetic_moment_c_Am2_(max_c),
+      min_magnetic_moment_c_Am2_(min_c),
+      bias_c_Am2_(bias_c),
+      random_walk_c_Am2_(rw_stepwidth, rw_stddev_c, rw_limit_c),
+      geomagnetic_field_(mag_env) {
   for (size_t i = 0; i < kMtqDim; i++) {
-    nrs_c_[i].SetParameters(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
+    random_noise_c_Am2_[i].SetParameters(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
   }
 }
 
@@ -55,31 +55,31 @@ void MagTorquer::MainRoutine(int count) {
   CalcOutputTorque();
 }
 
-void MagTorquer::PowerOffRoutine() { torque_b_ *= 0.0; }
+void MagTorquer::PowerOffRoutine() { torque_b_Nm_ *= 0.0; }
 
 libra::Vector<kMtqDim> MagTorquer::CalcOutputTorque(void) {
   for (size_t i = 0; i < kMtqDim; ++i) {
     // Limit Check
-    if (mag_moment_c_[i] > max_c_[i]) {
-      mag_moment_c_[i] = max_c_[i];
-    } else if (mag_moment_c_[i] < min_c_[i]) {
-      mag_moment_c_[i] = min_c_[i];
+    if (output_magnetic_moment_c_Am2_[i] > max_magnetic_moment_c_Am2_[i]) {
+      output_magnetic_moment_c_Am2_[i] = max_magnetic_moment_c_Am2_[i];
+    } else if (output_magnetic_moment_c_Am2_[i] < min_magnetic_moment_c_Am2_[i]) {
+      output_magnetic_moment_c_Am2_[i] = min_magnetic_moment_c_Am2_[i];
     }
     // Add noise
-    mag_moment_c_[i] += bias_c_[i];
-    mag_moment_c_[i] += n_rw_c_[i];
-    mag_moment_c_[i] += nrs_c_[i];
+    output_magnetic_moment_c_Am2_[i] += bias_c_Am2_[i];
+    output_magnetic_moment_c_Am2_[i] += random_walk_c_Am2_[i];
+    output_magnetic_moment_c_Am2_[i] += random_noise_c_Am2_[i];
   }
-  mag_moment_c_ = scale_factor_ * mag_moment_c_;
+  output_magnetic_moment_c_Am2_ = scale_factor_ * output_magnetic_moment_c_Am2_;
 
   // Frame conversion component to body
-  mag_moment_b_ = q_c2b_.FrameConversion(mag_moment_c_);
+  output_magnetic_moment_b_Am2_ = quaternion_c2b_.FrameConversion(output_magnetic_moment_c_Am2_);
   // Calc magnetic torque [Nm]
-  torque_b_ = OuterProduct(mag_moment_b_, knT2T * mag_env_->GetGeomagneticField_b_nT());
+  torque_b_Nm_ = OuterProduct(output_magnetic_moment_b_Am2_, kConvertNanoT2T * geomagnetic_field_->GetGeomagneticField_b_nT());
   // Update Random Walk
-  ++n_rw_c_;
+  ++random_walk_c_Am2_;
 
-  return torque_b_;
+  return torque_b_Nm_;
 }
 
 std::string MagTorquer::GetLogHeader() const {
@@ -95,8 +95,8 @@ std::string MagTorquer::GetLogHeader() const {
 
 std::string MagTorquer::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteVector(mag_moment_b_);
-  str_tmp += WriteVector(torque_b_);
+  str_tmp += WriteVector(output_magnetic_moment_b_Am2_);
+  str_tmp += WriteVector(torque_b_Nm_);
 
   return str_tmp;
 }
