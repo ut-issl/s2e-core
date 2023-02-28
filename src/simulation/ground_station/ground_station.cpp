@@ -15,7 +15,7 @@
 
 GroundStation::GroundStation(SimulationConfig* config, int gs_id) : gs_id_(gs_id) {
   Initialize(gs_id_, config);
-  num_sc_ = config->num_of_simulated_spacecraft_;
+  num_sc_ = config->number_of_simulated_spacecraft_;
   for (int i = 0; i < num_sc_; i++) {
     is_visible_[i] = false;
   }
@@ -24,7 +24,7 @@ GroundStation::GroundStation(SimulationConfig* config, int gs_id) : gs_id_(gs_id
 GroundStation::~GroundStation() {}
 
 void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
-  std::string gs_ini_path = config->gs_file_;
+  std::string gs_ini_path = config->ground_station_file_list_[0];
   auto conf = IniAccess(gs_ini_path);
 
   const char* section_base = "GROUND_STATION_";

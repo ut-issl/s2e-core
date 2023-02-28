@@ -24,7 +24,7 @@ LocalEnvironment::~LocalEnvironment() {
 void LocalEnvironment::Initialize(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
                                   const int spacecraft_id) {
   // Read file name
-  IniAccess iniAccess = IniAccess(simulation_configuration->sat_file_[spacecraft_id]);
+  IniAccess iniAccess = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   std::string ini_fname = iniAccess.ReadString("SETTING_FILES", "local_environment_file");
 
   // Save ini file

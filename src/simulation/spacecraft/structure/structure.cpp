@@ -17,7 +17,7 @@ Structure::~Structure() {
 
 void Structure::Initialize(SimulationConfig* sim_config, const int sat_id) {
   // Read file name
-  IniAccess conf = IniAccess(sim_config->sat_file_[sat_id]);
+  IniAccess conf = IniAccess(sim_config->spacecraft_file_list_[sat_id]);
   std::string ini_fname = conf.ReadString("SETTING_FILES", "structure_file");
   // Save ini file
   sim_config->main_logger_->CopyFileToLogDirectory(ini_fname);

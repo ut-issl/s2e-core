@@ -63,7 +63,7 @@ void Disturbances::LogSetup(Logger& logger) {
 
 void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure,
                                        const GlobalEnvironment* global_environment) {
-  IniAccess ini_access = IniAccess(sim_config->sat_file_[sat_id]);
+  IniAccess ini_access = IniAccess(sim_config->spacecraft_file_list_[sat_id]);
   initialize_file_name_ = ini_access.ReadString("SETTING_FILES", "disturbance_file");
 
   GravityGradient* gg_dist = new GravityGradient(
@@ -74,7 +74,7 @@ void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const
       InitSolarRadiationPressureDisturbance(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
   disturbances_list_.push_back(srp_dist);
 
-  ThirdBodyGravity* third_body_gravity = new ThirdBodyGravity(InitThirdBodyGravity(initialize_file_name_, sim_config->ini_base_fname_));
+  ThirdBodyGravity* third_body_gravity = new ThirdBodyGravity(InitThirdBodyGravity(initialize_file_name_, sim_config->initialize_base_file_name_));
   acceleration_disturbances_list_.push_back(third_body_gravity);
 
   if (global_environment->GetCelestialInformation().GetCenterBodyName() != "EARTH") return;

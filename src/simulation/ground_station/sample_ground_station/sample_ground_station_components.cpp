@@ -7,7 +7,7 @@
 #include <library/initialize/initialize_file_access.hpp>
 
 SampleGSComponents::SampleGSComponents(const SimulationConfig* config) : config_(config) {
-  IniAccess iniAccess = IniAccess(config_->gs_file_);
+  IniAccess iniAccess = IniAccess(config_->ground_station_file_list_[0]);
 
   std::string ant_ini_path = iniAccess.ReadString("COMPONENT_FILES", "ground_station_antenna_file");
   config_->main_logger_->CopyFileToLogDirectory(ant_ini_path);
