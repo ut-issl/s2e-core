@@ -81,8 +81,8 @@ void Spacecraft::Update(const SimulationTime* simulation_time) {
   dynamics_->AddForce_b_N(disturbances_->GetForce_b_N());
 
   // Add generated force and torque by components
-  dynamics_->AddTorque_b_Nm(components_->GenerateTorque_Nm_b());
-  dynamics_->AddForce_b_N(components_->GenerateForce_N_b());
+  dynamics_->AddTorque_b_Nm(components_->GenerateTorque_b_Nm());
+  dynamics_->AddForce_b_N(components_->GenerateForce_b_N());
 
   // Propagate dynamics
   dynamics_->Update(simulation_time, &(local_environment_->GetCelestialInformation()));

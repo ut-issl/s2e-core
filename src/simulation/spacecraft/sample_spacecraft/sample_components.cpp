@@ -153,20 +153,20 @@ SampleComponents::~SampleComponents() {
   delete hils_port_manager_;  // delete after exp_hils
 }
 
-libra::Vector<3> SampleComponents::GenerateForce_N_b() {
-  libra::Vector<3> force_N_b_(0.0);
-  force_N_b_ += thruster_->GetOutputThrust_b_N();
-  force_N_b_ += force_generator_->GetGeneratedForce_b_N();
-  return force_N_b_;
+libra::Vector<3> SampleComponents::GenerateForce_b_N() {
+  libra::Vector<3> force_b_N_(0.0);
+  force_b_N_ += thruster_->GetOutputThrust_b_N();
+  force_b_N_ += force_generator_->GetGeneratedForce_b_N();
+  return force_b_N_;
 }
 
-libra::Vector<3> SampleComponents::GenerateTorque_Nm_b() {
-  libra::Vector<3> torque_Nm_b_(0.0);
-  torque_Nm_b_ += mag_torquer_->GetOutputTorque_b_Nm();
-  torque_Nm_b_ += rw_->GetOutputTorque_b_Nm();
-  torque_Nm_b_ += thruster_->GetOutputTorque_b_Nm();
-  torque_Nm_b_ += torque_generator_->GetGeneratedTorque_b_Nm();
-  return torque_Nm_b_;
+libra::Vector<3> SampleComponents::GenerateTorque_b_Nm() {
+  libra::Vector<3> torque_b_Nm_(0.0);
+  torque_b_Nm_ += mag_torquer_->GetOutputTorque_b_Nm();
+  torque_b_Nm_ += rw_->GetOutputTorque_b_Nm();
+  torque_b_Nm_ += thruster_->GetOutputTorque_b_Nm();
+  torque_b_Nm_ += torque_generator_->GetGeneratedTorque_b_Nm();
+  return torque_b_Nm_;
 }
 
 void SampleComponents::LogSetup(Logger& logger) {
