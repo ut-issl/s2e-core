@@ -58,7 +58,7 @@ class Attitude : public ILoggable, public SimulationObject {
   inline double GetEnergy() const { return kinetic_energy_J_; }
   /**
    * @fn GetInertiaTensor
-   * @brief Return rotor_inertia_kgm2 tensor [kg m^2]
+   * @brief Return inertia tensor [kg m^2]
    */
   inline libra::Matrix<3, 3> GetInertiaTensor() const { return inertia_tensor_kgm2_; }
 
@@ -119,7 +119,7 @@ class Attitude : public ILoggable, public SimulationObject {
   libra::Vector<3> torque_b_Nm_;               //!< Torque in the body fixed frame [Nm]
 
   libra::Matrix<3, 3> inertia_tensor_kgm2_;  //!< Inertia tensor of the spacecraft [kg m^2] TODO: Move to Structure
-  libra::Matrix<3, 3> inv_inertia_tensor_;   //!< Inverse matrix of the rotor_inertia_kgm2 tensor
+  libra::Matrix<3, 3> inv_inertia_tensor_;   //!< Inverse matrix of the inertia tensor
 
   libra::Vector<3> angular_momentum_spacecraft_b_Nms_;      //!< Angular momentum of spacecraft in the body fixed frame [Nms]
   libra::Vector<3> angular_momentum_reaction_wheel_b_Nms_;  //!< Angular momentum of reaction wheel in the body fixed frame [Nms]
