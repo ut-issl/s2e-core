@@ -92,10 +92,10 @@ class STT : public Component, public ILoggable {
   virtual std::string GetLogValue() const;
 
   /**
-   * @fn GetObsQuaternion
+   * @fn GetMeasuredQuaternion_i2c
    * @brief Return observed quaternion from the inertial frame to the component frame
    */
-  inline const libra::Quaternion GetObsQuaternion() const { return measured_quaternion_i2c_; };
+  inline const libra::Quaternion GetMeasuredQuaternion_i2c() const { return measured_quaternion_i2c_; };
   /**
    * @fn GetErrorFlag
    * @brief Return error flag
