@@ -1,6 +1,6 @@
 /**
  * @file example_serial_communication_with_obc.cpp
- * @brief Example of component emulation with communication between OnBoardComputer Flight software
+ * @brief Example of component emulation with communication between OBC flight software
  */
 
 #include "example_serial_communication_with_obc.hpp"

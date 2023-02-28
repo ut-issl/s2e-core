@@ -1,6 +1,6 @@
 /**
  * @file example_serial_communication_with_obc.hpp
- * @brief Example of component emulation with communication between OnBoardComputer Flight software
+ * @brief Example of component emulation with communication between OBC flight software
  */
 
 #ifndef S2E_COMPONENTS_EXAMPLES_EXAMPLE_SERIAL_COMMUNICATION_WITH_OBC_HPP_P_
@@ -14,7 +14,7 @@
 
 /**
  * @class ExampleSerialCommunicationWithObc
- * @brief Example of component emulation with communication between OnBoardComputer Flight software
+ * @brief Example of component emulation with communication between OBC flight software
  * @details Command to EXP is 5 bytes.
  *          - The first 3 bytes: "SET"
  *          - The Fourth byte: Set data (ASCII 0x21~0x7e)
