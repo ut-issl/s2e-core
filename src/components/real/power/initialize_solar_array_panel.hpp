@@ -15,11 +15,11 @@
  * @param [in] sap_id: SAP ID
  * @param [in] fname: Path to initialize file
  * @param [in] srp: Solar Radiation Pressure environment
- * @param [in] local_celes_info: Local celestial information
+ * @param [in] local_celestial_information: Local celestial information
  * @param [in] compo_step_time: Component step time [sec]
  */
 SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string fname, const SolarRadiationPressureEnvironment* srp,
-            const LocalCelestialInformation* local_celes_info, double compo_step_time);
+            const LocalCelestialInformation* local_celestial_information, double compo_step_time);
 
 /*
  * @fn InitSAP

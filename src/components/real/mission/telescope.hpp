@@ -32,7 +32,7 @@ class Telescope : public Component, public ILoggable {
  public:
   Telescope(ClockGenerator* clock_generator, libra::Quaternion& quaternion_b2c, double sun_forbidden_angle, double earth_forbidden_angle,
             double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix, size_t num_of_logged_stars,
-            const Attitude* attitude, const HipparcosCatalogue* hipp, const LocalCelestialInformation* local_celes_info);
+            const Attitude* attitude, const HipparcosCatalogue* hipp, const LocalCelestialInformation* local_celestial_information);
 
   ~Telescope();
 

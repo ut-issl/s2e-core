@@ -33,12 +33,12 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] nr_bias_stddev_c: Standard deviation of normal random noise for bias in the component frame [rad]
    * @param [in] intensity_lower_threshold_percent: Solar intensity lower threshold [%]
    * @param [in] srp: Solar Radiation Pressure environment
-   * @param [in] local_celes_info: Local celestial information
+   * @param [in] local_celestial_information: Local celestial information
    */
   SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
             const double detectable_angle_rad, const double normal_random_standard_deviation_c_Am2, const double nr_bias_stddev_c,
             const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
-            const LocalCelestialInformation* local_celes_info);
+            const LocalCelestialInformation* local_celestial_information);
   /**
    * @fn SunSensor
    * @brief Constructor with power port
@@ -52,12 +52,12 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] nr_bias_stddev_c: Standard deviation of normal random noise for bias in the component frame [rad]
    * @param [in] intensity_lower_threshold_percent: Solar intensity lower threshold [%]
    * @param [in] srp: Solar Radiation Pressure environment
-   * @param [in] local_celes_info: Local celestial information
+   * @param [in] local_celestial_information: Local celestial information
    */
   SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
             const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double normal_random_standard_deviation_c_Am2,
             const double nr_bias_stddev_c, const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
-            const LocalCelestialInformation* local_celes_info);
+            const LocalCelestialInformation* local_celestial_information);
 
   // Override functions for Component
   /**

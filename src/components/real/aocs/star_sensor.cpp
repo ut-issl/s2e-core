@@ -84,8 +84,8 @@ void STT::Initialize() {
 
   error_flag_ = true;
 }
-Quaternion STT::measure(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo) {
-  update(local_celes_info, attinfo);  // update delay buffer
+Quaternion STT::measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+  update(local_celestial_information, attitude);  // update delay buffer
   if (update_count_ == 0) {
     int hist = buffer_position_ - output_delay_ - 1;
     if (hist < 0) {
@@ -100,9 +100,9 @@ Quaternion STT::measure(const LocalCelestialInformation* local_celes_info, const
   return measured_quaternion_i2c_;
 }
 
-void STT::update(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo) {
-  Quaternion quaternion_i2b = attinfo->GetQuaternion_i2b();  // Read true value
-  Quaternion q_stt_temp = quaternion_i2b * quaternion_b2c_;  // Convert to component frame
+void STT::update(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+  Quaternion quaternion_i2b = attitude->GetQuaternion_i2b();  // Read true value
+  Quaternion q_stt_temp = quaternion_i2b * quaternion_b2c_;   // Convert to component frame
   // Add noise on sight direction
   Quaternion q_sight(sight_direction_c_, sight_direction_noise_);
   // Random noise on orthogonal direction of sight. Range [0:2pi]
@@ -111,7 +111,7 @@ void STT::update(const LocalCelestialInformation* local_celes_info, const Attitu
   Vector<3> rot_axis = cos(rot) * first_orthogonal_direction_c + sin(rot) * second_orthogonal_direction_c;
   Quaternion q_ortho(rot_axis, orthogonal_direction_noise_);
   // Judge errors
-  AllJudgement(local_celes_info, attinfo);
+  AllJudgement(local_celestial_information, attitude);
 
   // Calc observed quaternion: Inertial frame → STT frame → Rotation around
   // sight →Rotation around orthogonal direction
@@ -121,12 +121,12 @@ void STT::update(const LocalCelestialInformation* local_celes_info, const Attitu
   buffer_position_ %= max_delay_;
 }
 
-void STT::AllJudgement(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo) {
+void STT::AllJudgement(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
   int judgement = 0;
-  judgement = SunJudgement(local_celes_info->GetPositionFromSpacecraft_b_m("SUN"));
-  judgement += EarthJudgement(local_celes_info->GetPositionFromSpacecraft_b_m("EARTH"));
-  judgement += MoonJudgement(local_celes_info->GetPositionFromSpacecraft_b_m("MOON"));
-  judgement += CaptureRateJudgement(attinfo->GetOmega_b());
+  judgement = SunJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("SUN"));
+  judgement += EarthJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH"));
+  judgement += MoonJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("MOON"));
+  judgement += CaptureRateJudgement(attitude->GetOmega_b());
   if (judgement > 0)
     error_flag_ = true;
   else
@@ -136,7 +136,7 @@ void STT::AllJudgement(const LocalCelestialInformation* local_celes_info, const 
 int STT::SunJudgement(const libra::Vector<3>& sun_b) {
   Quaternion q_c2b = quaternion_b2c_.Conjugate();
   Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
-  double sun_angle_rad = CalAngleVect_rad(sun_b, sight_b);
+  double sun_angle_rad = CalAngleVector_rad(sun_b, sight_b);
   if (sun_angle_rad < sun_forbidden_angle_rad_)
     return 1;
   else
@@ -148,7 +148,7 @@ int STT::EarthJudgement(const libra::Vector<3>& earth_b) {
   Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double earth_size_rad = atan2(environment::earth_equatorial_radius_m,
                                 CalcNorm(earth_b));                       // angles between sat<->earth_center & sat<->earth_edge
-  double earth_center_angle_rad = CalAngleVect_rad(earth_b, sight_b);     // angles between sat<->earth_center & sat_sight
+  double earth_center_angle_rad = CalAngleVector_rad(earth_b, sight_b);   // angles between sat<->earth_center & sat_sight
   double earth_edge_angle_rad = earth_center_angle_rad - earth_size_rad;  // angles between sat<->earth_edge & sat_sight
   if (earth_edge_angle_rad < earth_forbidden_angle_rad_)
     return 1;
@@ -159,15 +159,15 @@ int STT::EarthJudgement(const libra::Vector<3>& earth_b) {
 int STT::MoonJudgement(const libra::Vector<3>& moon_b) {
   Quaternion q_c2b = quaternion_b2c_.Conjugate();
   Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
-  double moon_angle_rad = CalAngleVect_rad(moon_b, sight_b);
+  double moon_angle_rad = CalAngleVector_rad(moon_b, sight_b);
   if (moon_angle_rad < moon_forbidden_angle_rad_)
     return 1;
   else
     return 0;
 }
 
-int STT::CaptureRateJudgement(const libra::Vector<3>& omega_b) {
-  double omega_norm = CalcNorm(omega_b);
+int STT::CaptureRateJudgement(const libra::Vector<3>& omega_b_rad_s) {
+  double omega_norm = CalcNorm(omega_b_rad_s);
   if (omega_norm > capture_rate_limit_rad_s_)
     return 1;
   else
@@ -194,10 +194,10 @@ std::string STT::GetLogValue() const {
   return str_tmp;
 }
 
-double STT::CalAngleVect_rad(const Vector<3>& vect1, const Vector<3>& vect2) {
-  Vector<3> vect1_normal(vect1);
+double STT::CalAngleVector_rad(const Vector<3>& vector1, const Vector<3>& vector2) {
+  Vector<3> vect1_normal(vector1);
   Normalize(vect1_normal);  // Normalize Vector1
-  Vector<3> vect2_normal(vect2);
+  Vector<3> vect2_normal(vector2);
   Normalize(vect2_normal);                                     // Normalize Vector2
   double cosTheta = InnerProduct(vect1_normal, vect2_normal);  // Calc cos value
   double theta_rad = acos(cosTheta);

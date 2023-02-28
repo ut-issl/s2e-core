@@ -10,7 +10,7 @@
 #include "library/initialize/initialize_file_access.hpp"
 
 SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string fname, const SolarRadiationPressureEnvironment* srp,
-            const LocalCelestialInformation* local_celes_info, double compo_step_time) {
+            const LocalCelestialInformation* local_celestial_information, double compo_step_time) {
   IniAccess sap_conf(fname);
 
   const std::string st_sap_id = std::to_string(sap_id);
@@ -41,7 +41,7 @@ SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string fname
   transmission_efficiency = sap_conf.ReadDouble(Section, "transmission_efficiency");
 
   SAP sap(prescaler, clock_generator, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency,
-          transmission_efficiency, srp, local_celes_info, compo_step_time);
+          transmission_efficiency, srp, local_celestial_information, compo_step_time);
 
   return sap;
 }

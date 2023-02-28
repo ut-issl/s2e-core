@@ -11,7 +11,7 @@
 #include "library/initialize/initialize_file_access.hpp"
 
 SunSensor InitSunSensor(ClockGenerator* clock_generator, int ss_id, std::string file_name, const SolarRadiationPressureEnvironment* srp,
-                        const LocalCelestialInformation* local_celes_info) {
+                        const LocalCelestialInformation* local_celestial_information) {
   IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
@@ -39,12 +39,12 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, int ss_id, std::string 
   intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");
 
   SunSensor ss(prescaler, clock_generator, ss_id, quaternion_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent,
-               srp, local_celes_info);
+               srp, local_celestial_information);
   return ss;
 }
 
 SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, int ss_id, std::string file_name,
-                        const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celes_info) {
+                        const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celestial_information) {
   IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
@@ -74,6 +74,6 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, 
   power_port->InitializeWithInitializeFile(file_name);
 
   SunSensor ss(prescaler, clock_generator, power_port, ss_id, quaternion_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev,
-               intensity_lower_threshold_percent, srp, local_celes_info);
+               intensity_lower_threshold_percent, srp, local_celestial_information);
   return ss;
 }

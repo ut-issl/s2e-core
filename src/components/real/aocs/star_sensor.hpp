@@ -140,25 +140,25 @@ class STT : public Component, public ILoggable {
   /**
    * @fn update
    * @brief Update delay buffer
-   * @param [in] local_celes_info: Local celestial information
-   * @param [in] attinfo: Attitude information
+   * @param [in] local_celestial_information: Local celestial information
+   * @param [in] attitude: Attitude information
    */
-  void update(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo);
+  void update(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
   /**
    * @fn measure
    * @brief Calculate measured quaternion
-   * @param [in] local_celes_info: Local celestial information
-   * @param [in] attinfo: Attitude information
+   * @param [in] local_celestial_information: Local celestial information
+   * @param [in] attitude: Attitude information
    */
-  libra::Quaternion measure(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo);
+  libra::Quaternion measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
 
   /**
    * @fn AllJudgement
    * @brief Calculate all error judgement
-   * @param [in] local_celes_info: Local celestial information
-   * @param [in] attinfo: Attitude information
+   * @param [in] local_celestial_information: Local celestial information
+   * @param [in] attitude: Attitude information
    */
-  void AllJudgement(const LocalCelestialInformation* local_celes_info, const Attitude* attinfo);
+  void AllJudgement(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
   /**
    * @fn SunJudgement
    * @brief Judge violation of sun forbidden angle
@@ -183,18 +183,18 @@ class STT : public Component, public ILoggable {
   /**
    * @fn CaptureRateJudgement
    * @brief Judge violation of angular velocity limit
-   * @param [in] omega_b: Angular velocity of spacecraft in the body fixed frame
+   * @param [in] omega_b_rad_s: Angular velocity of spacecraft in the body fixed frame
    * @return 1: violated, 0: not violated
    */
-  int CaptureRateJudgement(const libra::Vector<3>& omega_b);
+  int CaptureRateJudgement(const libra::Vector<3>& omega_b_rad_s);
   /**
-   * @fn CalAngleVect_rad
+   * @fn CalAngleVector_rad
    * @brief Calculate angle between two vectors
-   * @param [in] vect1: First vector
-   * @param [in] vect2: Second vector
+   * @param [in] vector1: First vector
+   * @param [in] vector2: Second vector
    * @return Angle between two vectors [rad]
    */
-  double CalAngleVect_rad(const libra::Vector<3>& vect1, const libra::Vector<3>& vect2);
+  double CalAngleVector_rad(const libra::Vector<3>& vector1, const libra::Vector<3>& vector2);
 
   /**
    * @fn Initialize

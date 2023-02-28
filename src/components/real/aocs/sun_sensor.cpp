@@ -16,28 +16,28 @@ using namespace std;
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
                      const double detectable_angle_rad, const double normal_random_standard_deviation_c_Am2, const double nr_bias_stddev_c,
                      const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
-                     const LocalCelestialInformation* local_celes_info)
+                     const LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),
-      local_celes_info_(local_celes_info) {
+      local_celes_info_(local_celestial_information) {
   Initialize(normal_random_standard_deviation_c_Am2, nr_bias_stddev_c);
 }
 
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                      const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double normal_random_standard_deviation_c_Am2,
                      const double nr_bias_stddev_c, const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp,
-                     const LocalCelestialInformation* local_celes_info)
+                     const LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),
-      local_celes_info_(local_celes_info) {
+      local_celes_info_(local_celestial_information) {
   Initialize(normal_random_standard_deviation_c_Am2, nr_bias_stddev_c);
 }
 

@@ -18,7 +18,7 @@
  * @param [in] local_env: Local environment information
  */
 SunSensor InitSunSensor(ClockGenerator* clock_generator, int sensor_id, const std::string fname, const SolarRadiationPressureEnvironment* srp,
-                        const LocalCelestialInformation* local_celes_info);
+                        const LocalCelestialInformation* local_celestial_information);
 /**
  * @fn InitSunSensor
  * @brief Initialize functions for sun sensor with power port
@@ -30,6 +30,6 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, int sensor_id, const st
  * @param [in] local_env: Local environment information
  */
 SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string fname,
-                        const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celes_info);
+                        const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celestial_information);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_INITIALIZE_SUN_SENSOR_HPP_

@@ -14,7 +14,7 @@ using namespace libra;
 Telescope::Telescope(ClockGenerator* clock_generator, libra::Quaternion& quaternion_b2c, double sun_forbidden_angle, double earth_forbidden_angle,
                      double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix,
                      size_t num_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipp,
-                     const LocalCelestialInformation* local_celes_info)
+                     const LocalCelestialInformation* local_celestial_information)
     : Component(1, clock_generator),
       quaternion_b2c_(quaternion_b2c),
       sun_forbidden_angle_rad_(sun_forbidden_angle),
@@ -27,7 +27,7 @@ Telescope::Telescope(ClockGenerator* clock_generator, libra::Quaternion& quatern
       num_of_logged_stars_(num_of_logged_stars),
       attitude_(attitude),
       hipp_(hipp),
-      local_celes_info_(local_celes_info) {
+      local_celes_info_(local_celestial_information) {
   is_sun_in_forbidden_angle = true;
   is_earth_in_forbidden_angle = true;
   is_moon_in_forbidden_angle = true;
