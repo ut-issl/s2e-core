@@ -16,8 +16,6 @@
 #include "initialize_monte_carlo_parameters.hpp"
 #include "monte_carlo_simulation_executor.hpp"
 
-using libra::Vector;
-
 /**
  * @class SimulationObject
  * @brief Class to manage randomization of variables for Monte-Carlo simulation
@@ -41,7 +39,7 @@ class SimulationObject {
    * @brief Get randomized vector value and store it in dst_vec
    */
   template <size_t NumElement>
-  void GetInitParameterVec(const MCSimExecutor& mc_sim, std::string ip_name, Vector<NumElement>& dst_vec) const;
+  void GetInitParameterVec(const MCSimExecutor& mc_sim, std::string ip_name, libra::Vector<NumElement>& dst_vec) const;
 
   /**
    * @fn GetInitParameterDouble
@@ -53,7 +51,7 @@ class SimulationObject {
    * @fn GetInitParameterQuaternion
    * @brief Get randomized quaternion and store it in dst_quat
    */
-  void GetInitParameterQuaternion(const MCSimExecutor& mc_sim, std::string ip_name, Quaternion& dst_quat) const;
+  void GetInitParameterQuaternion(const MCSimExecutor& mc_sim, std::string ip_name, libra::Quaternion& dst_quat) const;
 
   /**
    * @fn SetParameters
@@ -77,7 +75,7 @@ class SimulationObject {
  * @brief Return initialized parameters for vector
  */
 template <size_t NumElement>
-void SimulationObject::GetInitParameterVec(const MCSimExecutor& mc_sim, std::string ip_name, Vector<NumElement>& dst_vec) const {
+void SimulationObject::GetInitParameterVec(const MCSimExecutor& mc_sim, std::string ip_name, libra::Vector<NumElement>& dst_vec) const {
   mc_sim.GetInitParameterVec(name_, ip_name, dst_vec);
 }
 

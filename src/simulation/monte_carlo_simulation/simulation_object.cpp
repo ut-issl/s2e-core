@@ -36,6 +36,6 @@ void SimulationObject::GetInitParameterDouble(const MCSimExecutor& mc_sim, std::
   mc_sim.GetInitParameterDouble(name_, ip_name, dst);
 }
 
-void SimulationObject::GetInitParameterQuaternion(const MCSimExecutor& mc_sim, std::string ip_name, Quaternion& dst_quat) const {
+void SimulationObject::GetInitParameterQuaternion(const MCSimExecutor& mc_sim, std::string ip_name, libra::Quaternion& dst_quat) const {
   mc_sim.GetInitParameterQuaternion(name_, ip_name, dst_quat);
 }
