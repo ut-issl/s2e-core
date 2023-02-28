@@ -121,7 +121,7 @@ class MCSimExecutor {
    * @brief Add initialized parameter
    */
   void AddInitParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
-                        const libra::Vector<NumElement2>& sigma_or_max, InitMonteCarloParameters::RandomizationType rnd_type);
+                        const libra::Vector<NumElement2>& sigma_or_max, InitMonteCarloParameters::RandomizationType random_type);
 
   /**
    * @fn RandomizeAllParameters
@@ -161,12 +161,12 @@ void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name
 
 template <size_t NumElement1, size_t NumElement2>
 void MCSimExecutor::AddInitParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
-                                     const libra::Vector<NumElement2>& sigma_or_max, InitMonteCarloParameters::RandomizationType rnd_type) {
+                                     const libra::Vector<NumElement2>& sigma_or_max, InitMonteCarloParameters::RandomizationType random_type) {
   std::string name = so_name + MCSimExecutor::separator_ + ip_name;
   if (ip_list_.find(name) == ip_list_.end()) {
     // Register the parameter in ip_list if it is not registered yet
     auto newparam = new InitMonteCarloParameters();
-    newparam->SetRandomConfiguration(mean_or_min, sigma_or_max, rnd_type);
+    newparam->SetRandomConfiguration(mean_or_min, sigma_or_max, random_type);
     ip_list_[name] = newparam;
   } else {
     // Throw error if the parameter is already registered

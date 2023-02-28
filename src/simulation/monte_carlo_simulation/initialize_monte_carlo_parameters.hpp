@@ -53,7 +53,7 @@ class InitMonteCarloParameters {
    */
   template <size_t NumElement1, size_t NumElement2>
   void SetRandomConfiguration(const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
-                              RandomizationType rnd_type);
+                              RandomizationType random_type);
 
   // Getter
   /**
@@ -206,8 +206,8 @@ class InitMonteCarloParameters {
 
 template <size_t NumElement1, size_t NumElement2>
 void InitMonteCarloParameters::SetRandomConfiguration(const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
-                                                      InitMonteCarloParameters::RandomizationType rnd_type) {
-  randomization_type_ = rnd_type;
+                                                      InitMonteCarloParameters::RandomizationType random_type) {
+  randomization_type_ = random_type;
   mean_or_min_.clear();
   for (size_t i = 0; i < NumElement1; i++) {
     mean_or_min_.push_back(mean_or_min[i]);
