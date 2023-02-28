@@ -74,7 +74,9 @@ class Attitude : public ILoggable, public SimulationObject {
    */
   inline void SetQuaternion_i2b(const libra::Quaternion quaternion_i2b) { quaternion_i2b_ = quaternion_i2b; }
   /**
-   * @fn SetTorque_b_Nm
+   * @brief 
+   * 
+   */
    * @brief Set torque acting on the spacecraft on the body fixed frame [Nm]
    */
   inline void SetTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { torque_b_Nm_ = torque_b_Nm; }
@@ -87,7 +89,9 @@ class Attitude : public ILoggable, public SimulationObject {
    * @fn SetRwAngularMomentum_b_Nms
    * @brief Set angular momentum of reaction wheel in the body fixed frame [Nms]
    */
-  inline void SetRwAngularMomentum_b_Nms(const libra::Vector<3> angular_momentum_rw_b_Nms) { angular_momentum_reaction_wheel_b_Nms_ = angular_momentum_rw_b_Nms; }
+  inline void SetRwAngularMomentum_b_Nms(const libra::Vector<3> angular_momentum_rw_b_Nms) {
+    angular_momentum_reaction_wheel_b_Nms_ = angular_momentum_rw_b_Nms;
+  }
 
   /**
    * @fn Propagate
