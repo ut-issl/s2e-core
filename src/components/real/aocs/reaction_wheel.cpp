@@ -154,7 +154,7 @@ libra::Vector<3> RWModel::CalcTorque() {
   return output_torque_b_Nm_;
 }
 
-const libra::Vector<3> RWModel::GetOutputTorqueB() const {
+const libra::Vector<3> RWModel::GetOutputTorque_b_Nm() const {
   if (is_calculated_jitter_) {
     // Add jitter_force_b_N_-derived torque and jitter_torque_b_Nm_ to output_torque_b
     return output_torque_b_Nm_ - libra::OuterProduct(position_b_m_, rw_jitter_.GetJitterForce_b_N()) - rw_jitter_.GetJitterTorque_b_Nm();
@@ -163,7 +163,7 @@ const libra::Vector<3> RWModel::GetOutputTorqueB() const {
   }
 }
 
-void RWModel::SetTargetTorqueRw(const double torque_rw_Nm) {
+void RWModel::SetTargetTorque_rw_Nm(const double torque_rw_Nm) {
   // Check Torque Limit
   double sign;
   torque_rw_Nm > 0 ? sign = 1.0 : sign = -1.0;
@@ -173,9 +173,9 @@ void RWModel::SetTargetTorqueRw(const double torque_rw_Nm) {
     target_acceleration_rad_s2_ = sign * max_torque_Nm_ / rotor_inertia_kgm2_;
   }
 }
-void RWModel::SetTargetTorqueBody(const double torque_b_Nm) { SetTargetTorqueRw(-1.0 * torque_b_Nm); }
+void RWModel::SetTargetTorque_b_Nm(const double torque_b_Nm) { SetTargetTorque_rw_Nm(-1.0 * torque_b_Nm); }
 
-void RWModel::SetVelocityLimitRpm(const double velocity_limit_rpm) {
+void RWModel::SetVelocityLimit_rpm(const double velocity_limit_rpm) {
   if (velocity_limit_rpm > max_velocity_rpm_) {
     velocity_limit_rpm_ = max_velocity_rpm_;
   } else if (velocity_limit_rpm < -1.0 * max_velocity_rpm_) {

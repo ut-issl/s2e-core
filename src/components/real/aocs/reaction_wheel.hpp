@@ -133,52 +133,52 @@ class RWModel : public Component, public ILoggable {
 
   // Getter
   /**
-   * @fn GetOutputTorqueB
+   * @fn GetOutputTorque_b_Nm
    * @brief Return output torque in the body fixed frame [Nm]
    */
-  const libra::Vector<3> GetOutputTorqueB() const;
+  const libra::Vector<3> GetOutputTorque_b_Nm() const;
   /**
    * @fn GetJitterForce_b_N
    * @brief Return output force by jitter in the body fixed frame [N]
    */
   const libra::Vector<3> GetJitterForce_b_N() const { return rw_jitter_.GetJitterForce_b_N(); }
   /**
-   * @fn isMotorDrove
+   * @fn GetDriveFlag
    * @brief Return drive flag
    */
-  inline bool isMotorDrove() const { return drive_flag_; };
+  inline bool GetDriveFlag() const { return drive_flag_; };
   /**
-   * @fn GetVelocityRad
+   * @fn GetAngularVelocity_rad_s
    * @brief Return angular velocity of RW rotor [rad/s]
    */
-  inline double GetVelocityRad() const { return angular_velocity_rad_s_; };
+  inline double GetAngularVelocity_rad_s() const { return angular_velocity_rad_s_; };
   /**
-   * @fn GetVelocityRpm
+   * @fn GetAngularVelocity_rpm
    * @brief Return angular velocity of RW rotor [RPM]
    */
-  inline double GetVelocityRpm() const { return angular_velocity_rpm_; };
+  inline double GetAngularVelocity_rpm() const { return angular_velocity_rpm_; };
   /**
-   * @fn GetAngMomB
+   * @fn GetAngularMomentum_b_Nms
    * @brief Return angular momentum of RW [Nms]
    */
-  inline const libra::Vector<3> GetAngMomB() const { return angular_momentum_b_Nms_; };
+  inline const libra::Vector<3> GetAngularMomentum_b_Nms() const { return angular_momentum_b_Nms_; };
 
   // Setter
   /**
-   * @fn SetTargetTorqueRw
+   * @fn SetTargetTorque_rw_Nm
    * @brief Set target torque on RW frame [Nm]
    */
-  void SetTargetTorqueRw(const double torque_rw_Nm);
+  void SetTargetTorque_rw_Nm(const double torque_rw_Nm);
   /**
-   * @fn SetTargetTorqueBody
+   * @fn SetTargetTorque_b_Nm
    * @brief Set target torque on body frame (opposite of RW frame) [Nm]
    */
-  void SetTargetTorqueBody(const double torque_b_Nm);
+  void SetTargetTorque_b_Nm(const double torque_b_Nm);
   /**
-   * @fn SetVelocityLimitRpm
+   * @fn SetVelocityLimit_rpm
    * @brief Set velocity limit [RPM]
    */
-  void SetVelocityLimitRpm(const double velocity_limit_rpm);
+  void SetVelocityLimit_rpm(const double velocity_limit_rpm);
   /**
    * @fn SetDriveFlag
    * @brief Set drive flag
