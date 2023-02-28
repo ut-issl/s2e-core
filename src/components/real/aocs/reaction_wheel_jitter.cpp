@@ -8,15 +8,16 @@
 #include <library/math/constants.hpp>
 #include <random>
 
-RWJitter::RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coef, std::vector<std::vector<double>> radial_torque_harmonics_coef,
-                   const double jitter_update_interval, const libra::Quaternion quaternion_b2c, const double structural_resonance_freq,
-                   const double damping_factor, const double bandwidth, const bool considers_structural_resonance)
-    : radial_force_harmonics_coefficients_(radial_force_harmonics_coef),
-      radial_torque_harmonics_coefficients_(radial_torque_harmonics_coef),
-      update_interval_s_(jitter_update_interval),
+RWJitter::RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+                   std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double update_interval_s,
+                   const libra::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz, const double damping_factor,
+                   const double bandwidth, const bool considers_structural_resonance)
+    : radial_force_harmonics_coefficients_(radial_force_harmonics_coefficients),
+      radial_torque_harmonics_coefficients_(radial_torque_harmonics_coefficients),
+      update_interval_s_(update_interval_s),
       quaternion_b2c_(quaternion_b2c),
-      structural_resonance_frequency_Hz_(structural_resonance_freq),
-      structural_resonance_angular_frequency_Hz_(libra::tau * structural_resonance_freq),
+      structural_resonance_frequency_Hz_(structural_resonance_frequency_Hz),
+      structural_resonance_angular_frequency_Hz_(libra::tau * structural_resonance_frequency_Hz),
       damping_factor_(damping_factor),
       bandwidth_(bandwidth),
       considers_structural_resonance_(considers_structural_resonance) {

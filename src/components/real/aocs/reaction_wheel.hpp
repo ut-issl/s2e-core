@@ -45,9 +45,9 @@ class RWModel : public Component, public ILoggable {
    * @param [in] coasting_lag_coef: Coasting lag coefficients
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
-   * @param [in] radial_force_harmonics_coef: Coefficients for radial force harmonics
-   * @param [in] radial_torque_harmonics_coef: Coefficients for radial torque harmonics
-   * @param [in] structural_resonance_freq: Frequency of structural resonance [Hz]
+   * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
+   * @param [in] radial_torque_harmonics_coefficients: Coefficients for radial torque harmonics
+   * @param [in] structural_resonance_frequency_Hz: Frequency of structural resonance [Hz]
    * @param [in] damping_factor: Damping factor of structural resonance
    * @param [in] bandwidth: Bandwidth of structural resonance
    * @param [in] considers_structural_resonance: Flag to consider structural resonance
@@ -58,8 +58,8 @@ class RWModel : public Component, public ILoggable {
           const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
           const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> pos_b, const double dead_time,
           const libra::Vector<3> driving_lag_coef, const libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
-          std::vector<std::vector<double>> radial_force_harmonics_coef, std::vector<std::vector<double>> radial_torque_harmonics_coef,
-          double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance,
+          std::vector<std::vector<double>> radial_force_harmonics_coefficients, std::vector<std::vector<double>> radial_torque_harmonics_coefficients,
+          double structural_resonance_frequency_Hz, double damping_factor, double bandwidth, bool considers_structural_resonance,
           const bool drive_flag = false, const double init_velocity = 0.0);
   /**
    * @fn RWModel
@@ -82,9 +82,9 @@ class RWModel : public Component, public ILoggable {
    * @param [in] coasting_lag_coef: Coasting lag coefficients
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
-   * @param [in] radial_force_harmonics_coef: Coefficients for radial force harmonics
-   * @param [in] radial_torque_harmonics_coef: Coefficients for radial torque harmonics
-   * @param [in] structural_resonance_freq: Frequency of structural resonance [Hz]
+   * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
+   * @param [in] radial_torque_harmonics_coefficients: Coefficients for radial torque harmonics
+   * @param [in] structural_resonance_frequency_Hz: Frequency of structural resonance [Hz]
    * @param [in] damping_factor: Damping factor of structural resonance
    * @param [in] bandwidth: Bandwidth of structural resonance
    * @param [in] considers_structural_resonance: Flag to consider structural resonance
@@ -95,8 +95,8 @@ class RWModel : public Component, public ILoggable {
           const double step_width, const double dt_main_routine, const double jitter_update_interval, const double inertia, const double max_torque,
           const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> pos_b, const double dead_time,
           const libra::Vector<3> driving_lag_coef, const libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
-          std::vector<std::vector<double>> radial_force_harmonics_coef, std::vector<std::vector<double>> radial_torque_harmonics_coef,
-          double structural_resonance_freq, double damping_factor, double bandwidth, bool considers_structural_resonance,
+          std::vector<std::vector<double>> radial_force_harmonics_coefficients, std::vector<std::vector<double>> radial_torque_harmonics_coefficients,
+          double structural_resonance_frequency_Hz, double damping_factor, double bandwidth, bool considers_structural_resonance,
           const bool drive_flag = false, const double init_velocity = 0.0);
 
   // Override functions for Component

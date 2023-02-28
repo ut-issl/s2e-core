@@ -26,9 +26,9 @@ libra::Vector<3> ordinary_lag_coef(1.0);
 libra::Vector<3> coasting_lag_coef(1.0);
 bool is_calc_jitter_enabled;
 bool is_log_jitter_enabled;
-std::vector<std::vector<double>> radial_force_harmonics_coef;
-std::vector<std::vector<double>> radial_torque_harmonics_coef;
-double structural_resonance_freq;
+std::vector<std::vector<double>> radial_force_harmonics_coefficients;
+std::vector<std::vector<double>> radial_torque_harmonics_coefficients;
+double structural_resonance_frequency_Hz;
 double damping_factor;
 double bandwidth;
 bool considers_structural_resonance;
@@ -80,10 +80,10 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
   int harmonics_degree = rwmodel_conf.ReadInt(RWsection, "harmonics_degree");
   IniAccess conf_radial_force_harmonics(radial_force_harmonics_coef_path);
   IniAccess conf_radial_torque_harmonics(radial_torque_harmonics_coef_path);
-  conf_radial_force_harmonics.ReadCsvDouble(radial_force_harmonics_coef, harmonics_degree);
-  conf_radial_torque_harmonics.ReadCsvDouble(radial_torque_harmonics_coef, harmonics_degree);
+  conf_radial_force_harmonics.ReadCsvDouble(radial_force_harmonics_coefficients, harmonics_degree);
+  conf_radial_torque_harmonics.ReadCsvDouble(radial_torque_harmonics_coefficients, harmonics_degree);
 
-  structural_resonance_freq = rwmodel_conf.ReadDouble(RWsection, "structural_resonance_frequency_Hz");
+  structural_resonance_frequency_Hz = rwmodel_conf.ReadDouble(RWsection, "structural_resonance_frequency_Hz");
   damping_factor = rwmodel_conf.ReadDouble(RWsection, "damping_factor");
   bandwidth = rwmodel_conf.ReadDouble(RWsection, "bandwidth");
   considers_structural_resonance = rwmodel_conf.ReadEnable(RWsection, "considers_structural_resonance");
@@ -103,8 +103,8 @@ RWModel InitRWModel(ClockGenerator* clock_generator, int actuator_id, std::strin
 
   RWModel rwmodel(prescaler, fast_prescaler, clock_generator, actuator_id, step_width, dt_main_routine, jitter_update_interval, inertia, max_torque,
                   max_velocity, quaternion_b2c, pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled, is_log_jitter_enabled,
-                  radial_force_harmonics_coef, radial_torque_harmonics_coef, structural_resonance_freq, damping_factor, bandwidth,
-                  considers_structural_resonance, drive_flag, init_velocity);
+                  radial_force_harmonics_coefficients, radial_torque_harmonics_coefficients, structural_resonance_frequency_Hz, damping_factor,
+                  bandwidth, considers_structural_resonance, drive_flag, init_velocity);
 
   return rwmodel;
 }
@@ -117,8 +117,8 @@ RWModel InitRWModel(ClockGenerator* clock_generator, PowerPort* power_port, int 
 
   RWModel rwmodel(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width, dt_main_routine, jitter_update_interval, inertia,
                   max_torque, max_velocity, quaternion_b2c, pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled,
-                  is_log_jitter_enabled, radial_force_harmonics_coef, radial_torque_harmonics_coef, structural_resonance_freq, damping_factor,
-                  bandwidth, considers_structural_resonance, drive_flag, init_velocity);
+                  is_log_jitter_enabled, radial_force_harmonics_coefficients, radial_torque_harmonics_coefficients, structural_resonance_frequency_Hz,
+                  damping_factor, bandwidth, considers_structural_resonance, drive_flag, init_velocity);
 
   return rwmodel;
 }

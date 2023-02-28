@@ -20,18 +20,19 @@ class RWJitter {
   /**
    * @fn RWJitter
    * @brief Constructor
-   * @param [in] radial_force_harmonics_coef: Coefficients for radial force harmonics
-   * @param [in] radial_torque_harmonics_coef: Coefficients for radial torque harmonics
-   * @param [in] jitter_update_interval: Jitter update interval [sec]
+   * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
+   * @param [in] radial_torque_harmonics_coefficients: Coefficients for radial torque harmonics
+   * @param [in] update_interval_s: Jitter update interval [sec]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
-   * @param [in] structural_resonance_freq: Frequency of structural resonance [Hz]
+   * @param [in] structural_resonance_frequency_Hz: Frequency of structural resonance [Hz]
    * @param [in] damping_factor: Damping factor of structural resonance
    * @param [in] bandwidth: Bandwidth of structural resonance
    * @param [in] considers_structural_resonance: Flag to consider structural resonance
    */
-  RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coef, std::vector<std::vector<double>> radial_torque_harmonics_coef,
-           const double jitter_update_interval, const libra::Quaternion quaternion_b2c, const double structural_resonance_freq,
-           const double damping_factor, const double bandwidth, const bool considers_structural_resonance);
+  RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+           std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double update_interval_s,
+           const libra::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz, const double damping_factor,
+           const double bandwidth, const bool considers_structural_resonance);
   /**
    * @fn ~RWJitter
    * @brief Destructor
