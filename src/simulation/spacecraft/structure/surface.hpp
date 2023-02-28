@@ -19,7 +19,8 @@ class Surface {
    * @fn Surface
    * @brief Constructor
    */
-  Surface(Vector<3> position, Vector<3> normal, double area, double reflectivity, double specularity, double air_specularity);
+  Surface(const libra::Vector<3> position_b_m, const libra::Vector<3> normal_b, const double area_m2, const double reflectivity,
+          const double specularity, const double air_specularity);
   /**
    * @fn ~Surface
    * @brief Destructor
