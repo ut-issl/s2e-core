@@ -10,21 +10,21 @@
 #include <components/real/communication/initialize_ground_station_calculator.hpp>
 
 /**
- * @class SampleGSComponents
+ * @class SampleGsComponents
  * @brief An example of ground station related components list class
  */
-class SampleGSComponents {
+class SampleGsComponents {
  public:
   /**
-   * @fn SampleGSComponents
+   * @fn SampleGsComponents
    * @brief Constructor
    */
-  SampleGSComponents(const SimulationConfig* configuration);
+  SampleGsComponents(const SimulationConfig* configuration);
   /**
-   * @fn ~SampleGSComponents
+   * @fn ~SampleGsComponents
    * @brief Destructor
    */
-  ~SampleGSComponents();
+  ~SampleGsComponents();
   /**
    * @fn CompoLogSetUp
    * @brief Log setup for ground station components

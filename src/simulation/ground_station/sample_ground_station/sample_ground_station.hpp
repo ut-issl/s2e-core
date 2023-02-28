@@ -14,7 +14,7 @@
 #include "../../spacecraft/sample_spacecraft/sample_spacecraft.hpp"
 #include "../ground_station.hpp"
 
-class SampleGSComponents;
+class SampleGsComponents;
 
 /**
  * @class SampleGS
@@ -50,7 +50,7 @@ class SampleGS : public GroundStation {
   virtual void Update(const CelestialRotation& celestial_rotation, const SampleSat& spacecraft);
 
  private:
-  SampleGSComponents* components_;  //!< Ground station related components
+  SampleGsComponents* components_;  //!< Ground station related components
 };
 
 #endif  // S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_HPP_

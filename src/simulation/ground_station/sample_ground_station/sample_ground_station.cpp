@@ -13,7 +13,7 @@ SampleGS::SampleGS(SimulationConfig* configuration, int ground_station_id) : Gro
 
 SampleGS::~SampleGS() { delete components_; }
 
-void SampleGS::Initialize(SimulationConfig* configuration) { components_ = new SampleGSComponents(configuration); }
+void SampleGS::Initialize(SimulationConfig* configuration) { components_ = new SampleGsComponents(configuration); }
 
 void SampleGS::LogSetup(Logger& logger) {
   GroundStation::LogSetup(logger);
