@@ -6,14 +6,12 @@
 
 #include <library/utilities/macros.hpp>
 
-using namespace libra;
-
-RwOde::RwOde(double step_width, double init_angular_velocity, double target_angular_velocity, Vector<3> lag_coef)
+RwOde::RwOde(double step_width, double init_angular_velocity, double target_angular_velocity, libra::Vector<3> lag_coef)
     : OrdinaryDifferentialEquation<1>(step_width),
       lag_coef_(lag_coef),
       kInitAngularVelocity_(init_angular_velocity),
       target_angular_velocity_(target_angular_velocity) {
-  this->Setup(0.0, Vector<1>(init_angular_velocity));
+  this->Setup(0.0, libra::Vector<1>(init_angular_velocity));
 }
 
 double RwOde::getAngularVelocity(void) const {
@@ -21,7 +19,7 @@ double RwOde::getAngularVelocity(void) const {
   return angular_velocity;
 }
 
-void RwOde::DerivativeFunction(double x, const Vector<1> &state, Vector<1> &rhs) {
+void RwOde::DerivativeFunction(double x, const libra::Vector<1> &state, libra::Vector<1> &rhs) {
   // FIXME: fix this function
   UNUSED(x);
   UNUSED(state);
@@ -46,4 +44,4 @@ void RwOde::DerivativeFunction(double x, const Vector<1> &state, Vector<1> &rhs)
 
 void RwOde::setTargetAngularVelocity(double angular_velocity) { target_angular_velocity_ = angular_velocity; }
 
-void RwOde::setLagCoef(const Vector<3> lag_coef) { lag_coef_ = lag_coef; }
+void RwOde::setLagCoef(const libra::Vector<3> lag_coef) { lag_coef_ = lag_coef; }
