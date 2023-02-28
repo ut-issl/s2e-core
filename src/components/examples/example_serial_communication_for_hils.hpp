@@ -28,7 +28,7 @@ class ExampleSerialCommunicationForHils : public Component, public UartCommunica
    * @note prescaler is set as 300.
    * @param [in] clock_generator: Clock generator
    * @param [in] sils_port_id: Port ID for communication line b/w OnBoardComputer
-   * @param [in] obc: The communication target OnBoardComputer
+   * @param [in] obc: The communication target OBC
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] baud_rate: Baud rate of HILS communication port
    * @param [in] hils_port_manager: HILS port manager

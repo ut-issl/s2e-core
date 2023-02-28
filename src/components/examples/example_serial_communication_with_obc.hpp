@@ -33,7 +33,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @note The prescaler is set as 1000
    * @param [in] clock_generator: Clock generator
    * @param [in] port_id: Port ID for communication line b/w OnBoardComputer
-   * @param [in] obc: The communication target OnBoardComputer
+   * @param [in] obc: The communication target OBC
    */
   ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, OnBoardComputer* obc);
   /**
@@ -42,7 +42,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @param [in] clock_generator: Clock generator
    * @param [in] port_id: Port ID for communication line b/w OnBoardComputer
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] obc: The communication target OnBoardComputer
+   * @param [in] obc: The communication target OBC
    */
   ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, int prescaler, OnBoardComputer* obc);
   /**

@@ -33,7 +33,7 @@ class UartCommunicationWithObc {
    * @brief Constructor for SILS mode
    * @note Default buffer size is used
    * @param [in] sils_port_id: Port ID for communication line b/w OnBoardComputer in the SILS mode
-   * @param [in] obc: The communication target OnBoardComputer
+   * @param [in] obc: The communication target OBC
    */
   UartCommunicationWithObc(const unsigned int sils_port_id, OnBoardComputer* obc);
   /**
@@ -42,7 +42,7 @@ class UartCommunicationWithObc {
    * @param [in] sils_port_id: Port ID for communication line b/w OnBoardComputer in the SILS mode
    * @param [in] tx_buffer_size: TX (Component to OnBoardComputer) buffer size
    * @param [in] rx_buffer_size: RX (OnBoardComputer to Component) buffer size
-   * @param [in] obc: The communication target OnBoardComputer
+   * @param [in] obc: The communication target OBC
    */
   UartCommunicationWithObc(const unsigned int sils_port_id, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size,
                            OnBoardComputer* obc);
@@ -71,7 +71,7 @@ class UartCommunicationWithObc {
    * @brief Constructor for both SILS and HILS mode
    * @note Default buffer size is used
    * @param [in] sils_port_id: Port ID for communication line b/w OnBoardComputer in the SILS mode
-   * @param [in] obc: The communication target OnBoardComputer
+   * @param [in] obc: The communication target OBC
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] baud_rate: Baud rate of HILS communication port
    * @param [in] hils_port_manager: HILS port manager
@@ -107,7 +107,7 @@ class UartCommunicationWithObc {
 
   OBC_COM_UART_MODE simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode
 
-  OnBoardComputer* obc_;                //!< Communication target OnBoardComputer
+  OnBoardComputer* obc_;                //!< Communication target OBC
   HilsPortManager* hils_port_manager_;  //!< HILS port manager
 
   /**
