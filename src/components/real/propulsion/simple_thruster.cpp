@@ -10,38 +10,39 @@
 
 // Constructor
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Vector<3> thruster_pos_b,
-                               const Vector<3> thrust_dir_b, const double max_mag, const double mag_err, const double dir_err,
-                               const Structure* structure, const Dynamics* dynamics)
+                               const Vector<3> thrust_dir_b, const double max_mag, const double magnitude_standard_deviation_N,
+                               const double direction_standard_deviation_N, const Structure* structure, const Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       thruster_position_b_m_(thruster_pos_b),
       thrust_direction_b_(thrust_dir_b),
       thrust_magnitude_max_N_(max_mag),
-      direction_noise_standard_deviation_rad_(dir_err),
+      direction_noise_standard_deviation_rad_(direction_standard_deviation_N),
       structure_(structure),
       dynamics_(dynamics) {
-  Initialize(mag_err, dir_err);
+  Initialize(magnitude_standard_deviation_N, direction_standard_deviation_N);
 }
 
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                               const Vector<3> thruster_pos_b, const Vector<3> thrust_dir_b, const double max_mag, const double mag_err,
-                               const double dir_err, const Structure* structure, const Dynamics* dynamics)
+                               const Vector<3> thruster_pos_b, const Vector<3> thrust_dir_b, const double max_mag,
+                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_N, const Structure* structure,
+                               const Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       thruster_position_b_m_(thruster_pos_b),
       thrust_direction_b_(thrust_dir_b),
       thrust_magnitude_max_N_(max_mag),
-      direction_noise_standard_deviation_rad_(dir_err),
+      direction_noise_standard_deviation_rad_(direction_standard_deviation_N),
       structure_(structure),
       dynamics_(dynamics) {
-  Initialize(mag_err, dir_err);
+  Initialize(magnitude_standard_deviation_N, direction_standard_deviation_N);
 }
 
 SimpleThruster::~SimpleThruster() {}
 
-void SimpleThruster::Initialize(const double mag_err, const double dir_err) {
-  magnitude_random_noise_.SetParameters(0.0, mag_err);
-  direction_random_noise_.SetParameters(0.0, dir_err);
+void SimpleThruster::Initialize(const double magnitude_standard_deviation_N, const double direction_standard_deviation_N) {
+  magnitude_random_noise_.SetParameters(0.0, magnitude_standard_deviation_N);
+  direction_random_noise_.SetParameters(0.0, direction_standard_deviation_N);
   thrust_direction_b_ = Normalize(thrust_direction_b_);
 }
 
@@ -60,11 +61,11 @@ void SimpleThruster::PowerOffRoutine() {
 void SimpleThruster::CalcThrust() {
   double mag = CalcThrustMagnitude();
   if (duty_ > 0.0 + DBL_EPSILON) mag += magnitude_random_noise_;
-  output_thrust_b_N_ = mag * CalcThrustDir();
+  output_thrust_b_N_ = mag * CalcThrustDirection();
 }
 
-void SimpleThruster::CalcTorque(Vector<3> center) {
-  Vector<3> vector_center2thruster = thruster_position_b_m_ - center;
+void SimpleThruster::CalcTorque(const Vector<3> center_of_mass_b_m) {
+  Vector<3> vector_center2thruster = thruster_position_b_m_ - center_of_mass_b_m;
   Vector<3> torque = OuterProduct(vector_center2thruster, output_thrust_b_N_);
 
   output_torque_b_Nm_ = torque;
@@ -92,7 +93,7 @@ std::string SimpleThruster::GetLogValue() const {
 
 double SimpleThruster::CalcThrustMagnitude() { return duty_ * thrust_magnitude_max_N_; }
 
-Vector<3> SimpleThruster::CalcThrustDir() {
+Vector<3> SimpleThruster::CalcThrustDirection() {
   Vector<3> thrust_dir_b_true = thrust_direction_b_;
   if (direction_noise_standard_deviation_rad_ > 0.0 + DBL_EPSILON) {
     Vector<3> ex;  // Fixme: to use outer product to generate orthogonal vector

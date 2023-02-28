@@ -25,13 +25,14 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_
 
   double max_mag = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");
 
-  double mag_err;
-  mag_err = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
+  double magnitude_standard_deviation_N;
+  magnitude_standard_deviation_N = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
 
   double deg_err;
   deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * libra::pi / 180.0;
 
-  SimpleThruster thruster(prescaler, clock_generator, thruster_id, thruster_pos, thruster_dir, max_mag, mag_err, deg_err, structure, dynamics);
+  SimpleThruster thruster(prescaler, clock_generator, thruster_id, thruster_pos, thruster_dir, max_mag, magnitude_standard_deviation_N, deg_err,
+                          structure, dynamics);
   return thruster;
 }
 
@@ -52,15 +53,15 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* po
 
   double max_mag = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");
 
-  double mag_err;
-  mag_err = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
+  double magnitude_standard_deviation_N;
+  magnitude_standard_deviation_N = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
 
   double deg_err;
   deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * libra::pi / 180.0;
 
   power_port->InitializeWithInitializeFile(file_name);
 
-  SimpleThruster thruster(prescaler, clock_generator, power_port, thruster_id, thruster_pos, thruster_dir, max_mag, mag_err, deg_err, structure,
-                          dynamics);
+  SimpleThruster thruster(prescaler, clock_generator, power_port, thruster_id, thruster_pos, thruster_dir, max_mag, magnitude_standard_deviation_N,
+                          deg_err, structure, dynamics);
   return thruster;
 }

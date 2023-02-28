@@ -30,14 +30,14 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] thruster_pos_b: Position of thruster on the body fixed frame [m]
    * @param [in] thrust_dir_b: Direction of thrust on the body fixed frame
    * @param [in] max_mag: Maximum thrust magnitude [N]
-   * @param [in] mag_err: Standard deviation of thrust magnitude error [N]
-   * @param [in] dir_err: Standard deviation of thrust direction error [rad]
+   * @param [in] magnitude_standard_deviation_N: Standard deviation of thrust magnitude error [N]
+   * @param [in] direction_standard_deviation_N: Standard deviation of thrust direction error [rad]
    * @param [in] structure: Spacecraft structure information
    * @param [in] dynamics: Spacecraft dynamics information
    */
   SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Vector<3> thruster_pos_b,
-                 const Vector<3> thrust_dir_b, const double max_mag, const double mag_err, const double dir_err, const Structure* structure,
-                 const Dynamics* dynamics);
+                 const Vector<3> thrust_dir_b, const double max_mag, const double magnitude_standard_deviation_N,
+                 const double direction_standard_deviation_N, const Structure* structure, const Dynamics* dynamics);
   /**
    * @fn SimpleThruster
    * @brief Constructor with power port
@@ -48,14 +48,14 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] thruster_pos_b: Position of thruster on the body fixed frame [m]
    * @param [in] thrust_dir_b: Direction of thrust on the body fixed frame
    * @param [in] max_mag: Maximum thrust magnitude [N]
-   * @param [in] mag_err: Standard deviation of thrust magnitude error [N]
-   * @param [in] dir_err: Standard deviation of thrust direction error [rad]
+   * @param [in] magnitude_standard_deviation_N: Standard deviation of thrust magnitude error [N]
+   * @param [in] direction_standard_deviation_N: Standard deviation of thrust direction error [rad]
    * @param [in] structure: Spacecraft structure information
    * @param [in] dynamics: Spacecraft dynamics information
    */
   SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const Vector<3> thruster_pos_b,
-                 const Vector<3> thrust_dir_b, const double max_mag, const double mag_err, const double dir_err, const Structure* structure,
-                 const Dynamics* dynamics);
+                 const Vector<3> thrust_dir_b, const double max_mag, const double magnitude_standard_deviation_N,
+                 const double direction_standard_deviation_N, const Structure* structure, const Dynamics* dynamics);
   /**
    * @fn ~SimpleThruster
    * @brief Destructor
@@ -127,8 +127,9 @@ class SimpleThruster : public Component, public ILoggable {
   /**
    * @fn CalcTorque
    * @brief Calculate generated torque
+   * @param [in] center_of_mass_b_m: Center of mass position at body frame [m]
    */
-  void CalcTorque(Vector<3> center);
+  void CalcTorque(const Vector<3> center_of_mass_b_m);
   /**
    * @fn CalcThrustMagnitude
    * @brief Calculate thrust magnitude
@@ -136,18 +137,18 @@ class SimpleThruster : public Component, public ILoggable {
    */
   double CalcThrustMagnitude();
   /**
-   * @fn CalcThrustDir
+   * @fn CalcThrustDirection
    * @brief Calculate thrust direction
    * @return Thrust direction
    */
-  Vector<3> CalcThrustDir();
+  Vector<3> CalcThrustDirection();
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @param [in] mag_err: Standard deviation of thrust magnitude error [N]
-   * @param [in] dir_err: Standard deviation of thrust direction error [rad]
+   * @param [in] magnitude_standard_deviation_N: Standard deviation of thrust magnitude error [N]
+   * @param [in] direction_standard_deviation_N: Standard deviation of thrust direction error [rad]
    */
-  void Initialize(const double mag_err, const double dir_err);
+  void Initialize(const double magnitude_standard_deviation_N, const double direction_standard_deviation_N);
 
   const Structure* structure_;  //!< Spacecraft structure information
   const Dynamics* dynamics_;    //!< Spacecraft dynamics information
