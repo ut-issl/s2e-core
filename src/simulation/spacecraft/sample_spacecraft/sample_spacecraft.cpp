@@ -10,7 +10,9 @@
 
 #include "sample_components.hpp"
 
-SampleSat::SampleSat(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) : Spacecraft(sim_config, glo_env, sat_id) {
-  sample_components_ = new SampleComponents(dynamics_, structure_, local_environment_, glo_env, sim_config, &clock_generator_, sat_id);
+SampleSat::SampleSat(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id)
+    : Spacecraft(simulation_configuration, global_environment, spacecraft_id) {
+  sample_components_ =
+      new SampleComponents(dynamics_, structure_, local_environment_, global_environment, simulation_configuration, &clock_generator_, spacecraft_id);
   components_ = sample_components_;
 }

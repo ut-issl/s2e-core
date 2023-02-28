@@ -16,9 +16,9 @@ SampleCase::~SampleCase() { delete sample_sat_; }
 
 void SampleCase::Initialize() {
   // Instantiate the target of the simulation
-  // `sat_id` corresponds to the index of `sat_file` in Simbase.ini
-  const int sat_id = 0;
-  sample_sat_ = new SampleSat(&sim_config_, glo_env_, sat_id);
+  // `spacecraft_id` corresponds to the index of `sat_file` in Simbase.ini
+  const int spacecraft_id = 0;
+  sample_sat_ = new SampleSat(&sim_config_, glo_env_, spacecraft_id);
   const int gs_id = 0;
   sample_gs_ = new SampleGS(&sim_config_, gs_id);
 

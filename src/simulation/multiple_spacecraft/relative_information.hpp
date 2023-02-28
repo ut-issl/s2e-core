@@ -37,16 +37,16 @@ class RelativeInformation : public ILoggable {
   /**
    * @fn RegisterDynamicsInfo
    * @brief Register dynamics information of target spacecraft
-   * @param [in] sat_id: ID of target spacecraft
+   * @param [in] spacecraft_id: ID of target spacecraft
    * @param [in] dynamics: Dynamics information of the target spacecraft
    */
-  void RegisterDynamicsInfo(const int sat_id, const Dynamics* dynamics);
+  void RegisterDynamicsInfo(const int spacecraft_id, const Dynamics* dynamics);
   /**
    * @fn RegisterDynamicsInfo
    * @brief Remove dynamics information of target spacecraft
-   * @param [in] sat_id: ID of target spacecraft
+   * @param [in] spacecraft_id: ID of target spacecraft
    */
-  void RemoveDynamicsInfo(const int sat_id);
+  void RemoveDynamicsInfo(const int spacecraft_id);
 
   // Override classes for ILoggable
   /**

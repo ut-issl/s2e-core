@@ -8,19 +8,19 @@
 #include <library/initialize/initialize_file_access.hpp>
 #include <simulation/spacecraft/structure/initialize_structure.hpp>
 
-Structure::Structure(SimulationConfig* sim_config, const int sat_id) { Initialize(sim_config, sat_id); }
+Structure::Structure(SimulationConfig* simulation_configuration, const int spacecraft_id) { Initialize(simulation_configuration, spacecraft_id); }
 
 Structure::~Structure() {
   delete kinnematics_params_;
   delete rmm_params_;
 }
 
-void Structure::Initialize(SimulationConfig* sim_config, const int sat_id) {
+void Structure::Initialize(SimulationConfig* simulation_configuration, const int spacecraft_id) {
   // Read file name
-  IniAccess conf = IniAccess(sim_config->spacecraft_file_list_[sat_id]);
+  IniAccess conf = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   std::string ini_fname = conf.ReadString("SETTING_FILES", "structure_file");
   // Save ini file
-  sim_config->main_logger_->CopyFileToLogDirectory(ini_fname);
+  simulation_configuration->main_logger_->CopyFileToLogDirectory(ini_fname);
   // Initialize
   kinnematics_params_ = new KinematicsParams(InitKinematicsParams(ini_fname));
   surfaces_ = InitSurfaces(ini_fname);

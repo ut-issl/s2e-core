@@ -18,7 +18,7 @@ class InterSatComm {
    * @fn InterSatComm
    * @brief Constructor
    */
-  InterSatComm(const SimulationConfig* sim_config);
+  InterSatComm(const SimulationConfig* simulation_configuration);
   /**
    * @fn ~InterSatComm
    * @brief Destructor

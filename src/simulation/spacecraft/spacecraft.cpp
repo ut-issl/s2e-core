@@ -8,13 +8,15 @@
 #include <library/logger/log_utility.hpp>
 #include <library/logger/logger.hpp>
 
-Spacecraft::Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) : spacecraft_id_(sat_id) {
-  Initialize(sim_config, glo_env, sat_id);
+Spacecraft::Spacecraft(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id)
+    : spacecraft_id_(spacecraft_id) {
+  Initialize(simulation_configuration, global_environment, spacecraft_id);
 }
 
-Spacecraft::Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id)
-    : spacecraft_id_(sat_id) {
-  Initialize(sim_config, glo_env, rel_info, sat_id);
+Spacecraft::Spacecraft(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
+                       RelativeInformation* relative_information, const int spacecraft_id)
+    : spacecraft_id_(spacecraft_id) {
+  Initialize(simulation_configuration, global_environment, relative_information, spacecraft_id);
 }
 
 Spacecraft::~Spacecraft() {
@@ -28,30 +30,32 @@ Spacecraft::~Spacecraft() {
   delete components_;
 }
 
-void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id) {
+void Spacecraft::Initialize(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id) {
   clock_generator_.ClearTimerCount();
-  structure_ = new Structure(sim_config, sat_id);
-  local_environment_ = new LocalEnvironment(sim_config, glo_env, sat_id);
-  dynamics_ = new Dynamics(sim_config, &(glo_env->GetSimulationTime()), &(local_environment_->GetCelestialInformation()), sat_id, structure_);
-  disturbances_ = new Disturbances(sim_config, sat_id, structure_, glo_env);
+  structure_ = new Structure(simulation_configuration, spacecraft_id);
+  local_environment_ = new LocalEnvironment(simulation_configuration, global_environment, spacecraft_id);
+  dynamics_ = new Dynamics(simulation_configuration, &(global_environment->GetSimulationTime()), &(local_environment_->GetCelestialInformation()),
+                           spacecraft_id, structure_);
+  disturbances_ = new Disturbances(simulation_configuration, spacecraft_id, structure_, global_environment);
 
-  sim_config->main_logger_->CopyFileToLogDirectory(sim_config->spacecraft_file_list_[sat_id]);
+  simulation_configuration->main_logger_->CopyFileToLogDirectory(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
 
   relative_information_ = nullptr;
 }
 
-void Spacecraft::Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id) {
+void Spacecraft::Initialize(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
+                            RelativeInformation* relative_information, const int spacecraft_id) {
   clock_generator_.ClearTimerCount();
-  structure_ = new Structure(sim_config, sat_id);
-  local_environment_ = new LocalEnvironment(sim_config, glo_env, sat_id);
-  dynamics_ =
-      new Dynamics(sim_config, &(glo_env->GetSimulationTime()), &(local_environment_->GetCelestialInformation()), sat_id, structure_, rel_info);
-  disturbances_ = new Disturbances(sim_config, sat_id, structure_, glo_env);
+  structure_ = new Structure(simulation_configuration, spacecraft_id);
+  local_environment_ = new LocalEnvironment(simulation_configuration, global_environment, spacecraft_id);
+  dynamics_ = new Dynamics(simulation_configuration, &(global_environment->GetSimulationTime()), &(local_environment_->GetCelestialInformation()),
+                           spacecraft_id, structure_, relative_information);
+  disturbances_ = new Disturbances(simulation_configuration, spacecraft_id, structure_, global_environment);
 
-  sim_config->main_logger_->CopyFileToLogDirectory(sim_config->spacecraft_file_list_[sat_id]);
+  simulation_configuration->main_logger_->CopyFileToLogDirectory(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
 
-  relative_information_ = rel_info;
-  relative_information_->RegisterDynamicsInfo(sat_id, dynamics_);
+  relative_information_ = relative_information;
+  relative_information_->RegisterDynamicsInfo(spacecraft_id, dynamics_);
 }
 
 void Spacecraft::LogSetup(Logger& logger) {
@@ -61,15 +65,15 @@ void Spacecraft::LogSetup(Logger& logger) {
   components_->LogSetup(logger);
 }
 
-void Spacecraft::Update(const SimulationTime* sim_time) {
+void Spacecraft::Update(const SimulationTime* simulation_time) {
   dynamics_->ClearForceTorque();
 
   // Update local environment and disturbance
-  local_environment_->Update(dynamics_, sim_time);
-  disturbances_->Update(*local_environment_, *dynamics_, sim_time);
+  local_environment_->Update(dynamics_, simulation_time);
+  disturbances_->Update(*local_environment_, *dynamics_, simulation_time);
 
   // Update components
-  clock_generator_.UpdateComponents(sim_time);
+  clock_generator_.UpdateComponents(simulation_time);
 
   // Add generated force and torque by disturbances
   dynamics_->AddAcceleration_i_m_s2(disturbances_->GetAcceleration_i_m_s2());
@@ -81,7 +85,7 @@ void Spacecraft::Update(const SimulationTime* sim_time) {
   dynamics_->AddForce_b_N(components_->GenerateForce_N_b());
 
   // Propagate dynamics
-  dynamics_->Update(sim_time, &(local_environment_->GetCelestialInformation()));
+  dynamics_->Update(simulation_time, &(local_environment_->GetCelestialInformation()));
 }
 
 void Spacecraft::Clear(void) { dynamics_->ClearForceTorque(); }

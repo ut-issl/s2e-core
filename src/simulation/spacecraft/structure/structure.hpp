@@ -24,7 +24,7 @@ class Structure {
    * @fn Structure
    * @brief Constructor
    */
-  Structure(SimulationConfig* sim_config, const int sat_id);
+  Structure(SimulationConfig* simulation_configuration, const int spacecraft_id);
   /**
    * @fn ~Structure
    * @brief Destructor
@@ -34,7 +34,7 @@ class Structure {
    * @fn Initialize
    * @brief Initialize function
    */
-  void Initialize(SimulationConfig* sim_config, const int sat_id);
+  void Initialize(SimulationConfig* simulation_configuration, const int spacecraft_id);
 
   // Getter
   /**

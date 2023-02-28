@@ -33,13 +33,13 @@ void RelativeInformation::Update() {
   }
 }
 
-void RelativeInformation::RegisterDynamicsInfo(const int sat_id, const Dynamics* dynamics) {
-  dynamics_database_.emplace(sat_id, dynamics);
+void RelativeInformation::RegisterDynamicsInfo(const int spacecraft_id, const Dynamics* dynamics) {
+  dynamics_database_.emplace(spacecraft_id, dynamics);
   ResizeLists();
 }
 
-void RelativeInformation::RemoveDynamicsInfo(const int sat_id) {
-  dynamics_database_.erase(sat_id);
+void RelativeInformation::RemoveDynamicsInfo(const int spacecraft_id) {
+  dynamics_database_.erase(spacecraft_id);
   ResizeLists();
 }
 

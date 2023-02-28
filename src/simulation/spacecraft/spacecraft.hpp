@@ -25,12 +25,13 @@ class Spacecraft {
    * @fn Spacecraft
    * @brief Constructor for single satellite simulation
    */
-  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  Spacecraft(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
   /**
    * @fn Spacecraft
    * @brief Constructor for multiple satellite simulation
    */
-  Spacecraft(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id);
+  Spacecraft(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, RelativeInformation* relative_information,
+             const int spacecraft_id);
 
   /**
    * @fn ~Spacecraft
@@ -47,18 +48,19 @@ class Spacecraft {
    * @fn Initialize
    * @brief Initialize function for single spacecraft simulation
    */
-  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  virtual void Initialize(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
   /**
    * @fn Initialize
    * @brief Initialize function for multiple spacecraft simulation
    */
-  virtual void Initialize(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, RelativeInformation* rel_info, const int sat_id);
+  virtual void Initialize(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
+                          RelativeInformation* relative_information, const int spacecraft_id);
 
   /**
    * @fn Update
    * @brief Update all states related with the spacecraft
    */
-  virtual void Update(const SimulationTime* sim_time);
+  virtual void Update(const SimulationTime* simulation_time);
 
   /**
    * @fn Clear
