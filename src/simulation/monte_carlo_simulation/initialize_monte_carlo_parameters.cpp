@@ -46,7 +46,7 @@ void InitParameter::GetDouble(double& destination) const {
   }
 }
 
-void InitParameter::GetQuaternion(Quaternion& destination) const {
+void InitParameter::GetQuaternion(libra::Quaternion& destination) const {
   if (rnd_type_ == NoRandomization) {
     ;
   } else if (4 > val_.size()) {
@@ -116,7 +116,7 @@ void InitParameter::gen_CartesianNormal() {
   }
 }
 
-void InitParameter::get_CircularNormalUniform(Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max) {
+void InitParameter::get_CircularNormalUniform(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max) {
   // r follows normal distribution, and θ follows uniform distribution in Circular frame
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
   double theta = InitParameter::Uniform_1d(theta_min, theta_max);
@@ -129,7 +129,7 @@ void InitParameter::gen_CircularNormalUniform() {
   if (mean_or_min_.size() < dim || sigma_or_max_.size() < dim) {
     throw "Config parameters dimension unmatched.";
   }
-  Vector<dim> temp_vec;
+  libra::Vector<dim> temp_vec;
   get_CircularNormalUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1]);
 
   val_.clear();
@@ -138,7 +138,7 @@ void InitParameter::gen_CircularNormalUniform() {
   }
 }
 
-void InitParameter::get_CircularNormalNormal(Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma) {
+void InitParameter::get_CircularNormalNormal(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma) {
   // r and θ follow normal distribution in Circular frame
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
   double theta = InitParameter::Normal_1d(theta_mean, theta_sigma);
@@ -151,7 +151,7 @@ void InitParameter::gen_CircularNormalNormal() {
   if (mean_or_min_.size() < dim || sigma_or_max_.size() < dim) {
     throw "Config parameters dimension unmatched.";
   }
-  Vector<dim> temp_vec;
+  libra::Vector<dim> temp_vec;
   get_CircularNormalNormal(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1]);
 
   val_.clear();
@@ -160,8 +160,8 @@ void InitParameter::gen_CircularNormalNormal() {
   }
 }
 
-void InitParameter::get_SphericalNormalUniformUniform(Vector<3>& destination, double r_mean, double r_sigma, double theta_min, double theta_max,
-                                                      double phi_min, double phi_max) {
+void InitParameter::get_SphericalNormalUniformUniform(libra::Vector<3>& destination, double r_mean, double r_sigma, double theta_min,
+                                                      double theta_max, double phi_min, double phi_max) {
   // r follows normal distribution, and θ and φ follow uniform distribution in Spherical frame
   double r = InitParameter::Normal_1d(r_mean, r_sigma);
   double theta = acos(cos(theta_min) - (cos(theta_min) - cos(theta_max)) * InitParameter::Uniform_1d(0.0, 1.0));
@@ -176,7 +176,7 @@ void InitParameter::gen_SphericalNormalUniformUniform() {
   if (mean_or_min_.size() < dim || sigma_or_max_.size() < dim) {
     throw "Config parameters dimension unmatched.";
   }
-  Vector<dim> temp_vec;
+  libra::Vector<dim> temp_vec;
   get_SphericalNormalUniformUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1], mean_or_min_[2],
                                     sigma_or_max_[2]);
 
@@ -186,28 +186,29 @@ void InitParameter::gen_SphericalNormalUniformUniform() {
   }
 }
 
-void InitParameter::get_SphericalNormalNormal(Vector<3>& destination, const Vector<3>& mean_vec) {
+void InitParameter::get_SphericalNormalNormal(libra::Vector<3>& destination, const libra::Vector<3>& mean_vec) {
   // r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
-  Vector<3> mean_vec_dir;
+  libra::Vector<3> mean_vec_dir;
   mean_vec_dir = 1.0 / CalcNorm(mean_vec) * mean_vec;  // Unit vector of mean vector direction
 
-  Vector<3> x_axis(0.0), y_axis(0.0);
+  libra::Vector<3> x_axis(0.0), y_axis(0.0);
   x_axis[0] = 1.0;
   y_axis[1] = 1.0;
-  Vector<3> op_x = OuterProduct(mean_vec_dir, x_axis);
-  Vector<3> op_y = OuterProduct(mean_vec_dir, y_axis);
+  libra::Vector<3> op_x = OuterProduct(mean_vec_dir, x_axis);
+  libra::Vector<3> op_y = OuterProduct(mean_vec_dir, y_axis);
 
   // An unit vector perpendicular with the mean vector
   // In case of the mean vector is parallel with X or Y axis, selecting the axis depend on the norm of outer product
-  Vector<3> normal_unit_vec = CalcNorm(op_x) > CalcNorm(op_y) ? Normalize(op_x) : Normalize(op_y);
+  libra::Vector<3> normal_unit_vec = CalcNorm(op_x) > CalcNorm(op_y) ? Normalize(op_x) : Normalize(op_y);
 
   double rotation_angle_of_normal_unit_vec = InitParameter::Uniform_1d(0.0, libra::tau);
-  Quaternion rotation_of_normal_unit_vec(mean_vec_dir, -rotation_angle_of_normal_unit_vec);  // Use opposite sign to rotate the vector (not the frame)
-  Vector<3> rotation_axis = rotation_of_normal_unit_vec.FrameConversion(normal_unit_vec);    // Axis of mean vector rotation
+  libra::Quaternion rotation_of_normal_unit_vec(mean_vec_dir,
+                                                -rotation_angle_of_normal_unit_vec);  // Use opposite sign to rotate the vector (not the frame)
+  libra::Vector<3> rotation_axis = rotation_of_normal_unit_vec.FrameConversion(normal_unit_vec);  // Axis of mean vector rotation
 
   double rotation_angle_of_mean_vec = InitParameter::Normal_1d(0.0, sigma_or_max_[1]);
-  Quaternion rotation_of_mean_vec(rotation_axis, -rotation_angle_of_mean_vec);  // Use opposite sign to rotate the vector (not the frame)
-  Vector<3> ret_vec = rotation_of_mean_vec.FrameConversion(mean_vec_dir);       // Complete calculation of the direction
+  libra::Quaternion rotation_of_mean_vec(rotation_axis, -rotation_angle_of_mean_vec);  // Use opposite sign to rotate the vector (not the frame)
+  libra::Vector<3> ret_vec = rotation_of_mean_vec.FrameConversion(mean_vec_dir);       // Complete calculation of the direction
 
   ret_vec = InitParameter::Normal_1d(CalcNorm(mean_vec), sigma_or_max_[0]) * ret_vec;  // multiply norm
 
@@ -221,7 +222,7 @@ void InitParameter::gen_SphericalNormalNormal() {
   if (mean_or_min_.size() < dim || sigma_or_max_.size() < 2) {
     throw "Config parameters dimension unmatched.";
   }
-  Vector<dim> temp_vec, temp_mean_vec;
+  libra::Vector<dim> temp_vec, temp_mean_vec;
   for (int i = 0; i < dim; i++) {
     temp_mean_vec[i] = mean_or_min_[i];
   }
@@ -233,14 +234,14 @@ void InitParameter::gen_SphericalNormalNormal() {
   }
 }
 
-void InitParameter::get_QuaternionUniform(Quaternion& destination) {
-  // Perfectly Randomized Quaternion
-  Vector<3> x_axis(0.0);
+void InitParameter::get_QuaternionUniform(libra::Quaternion& destination) {
+  // Perfectly Randomized libra::Quaternion
+  libra::Vector<3> x_axis(0.0);
   x_axis[0] = 1.0;
 
   // A direction vector converted from the X-axis by a quaternion may follows the uniform distribution in full sphere.
-  Quaternion first_cnv;
-  Vector<3> x_axis_cnvd;
+  libra::Quaternion first_cnv;
+  libra::Vector<3> x_axis_cnvd;
   double theta = acos(1 - (1 - (-1)) * InitParameter::Uniform_1d(0.0, 1.0));
   double phi = InitParameter::Uniform_1d(0, libra::tau);
   x_axis_cnvd[0] = sin(theta) * cos(phi);
@@ -248,7 +249,7 @@ void InitParameter::get_QuaternionUniform(Quaternion& destination) {
   x_axis_cnvd[2] = cos(theta);
 
   double cos_angle_between = InnerProduct(x_axis, x_axis_cnvd);
-  Vector<3> op = OuterProduct(x_axis, x_axis_cnvd);
+  libra::Vector<3> op = OuterProduct(x_axis, x_axis_cnvd);
   for (int i = 0; i < 3; i++) {
     first_cnv[i] = op[i];
   }
@@ -256,9 +257,9 @@ void InitParameter::get_QuaternionUniform(Quaternion& destination) {
 
   // Generate randomized rotation angle around the X-axis
   double rotation_angle = InitParameter::Uniform_1d(0.0, libra::tau);
-  Quaternion second_cnv(x_axis, rotation_angle);
+  libra::Quaternion second_cnv(x_axis, rotation_angle);
 
-  Quaternion ret_q = first_cnv * second_cnv;
+  libra::Quaternion ret_q = first_cnv * second_cnv;
 
   for (int i = 0; i < 4; i++) {
     destination[i] = ret_q[i];
@@ -267,7 +268,7 @@ void InitParameter::get_QuaternionUniform(Quaternion& destination) {
 
 void InitParameter::gen_QuaternionUniform() {
   const static int dim = 4;
-  Quaternion temp_q;
+  libra::Quaternion temp_q;
   get_QuaternionUniform(temp_q);
 
   val_.clear();
@@ -276,10 +277,10 @@ void InitParameter::gen_QuaternionUniform() {
   }
 }
 
-void InitParameter::get_QuaternionNormal(Quaternion& destination, double theta_sigma) {
+void InitParameter::get_QuaternionNormal(libra::Quaternion& destination, double theta_sigma) {
   // Angle from the default quaternion θ follows normal distribution
   // The rotation axis follows uniform distribution on full sphere
-  Vector<3> rot_axis;
+  libra::Vector<3> rot_axis;
   double theta = acos(1 - (1 - (-1)) * InitParameter::Uniform_1d(0.0, 1.0));
   double phi = InitParameter::Uniform_1d(0, libra::tau);
   rot_axis[0] = sin(theta) * cos(phi);
@@ -288,7 +289,7 @@ void InitParameter::get_QuaternionNormal(Quaternion& destination, double theta_s
 
   double rotation_angle = InitParameter::Normal_1d(0.0, theta_sigma);
 
-  Quaternion ret_q(rot_axis, rotation_angle);
+  libra::Quaternion ret_q(rot_axis, rotation_angle);
   for (int i = 0; i < 4; i++) {
     destination[i] = ret_q[i];
   }
@@ -300,7 +301,7 @@ void InitParameter::gen_QuaternionNormal() {
   if (sigma_or_max_.size() < 1) {
     throw "Config parameters dimension unmatched.";
   }
-  Quaternion temp_q;
+  libra::Quaternion temp_q;
   get_QuaternionNormal(temp_q, sigma_or_max_[0]);
 
   val_.clear();

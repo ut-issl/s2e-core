@@ -53,7 +53,7 @@ class ControlledAttitude : public Attitude {
    * @param [in] orbit: Orbit
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const Quaternion quaternion_i2b,
+  ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const libra::Quaternion quaternion_i2b,
                      const libra::Vector<3> main_target_direction_b, const libra::Vector<3> sub_target_direction_b,
                      const libra::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
                      const std::string& simulation_object_name = "Attitude");
@@ -78,7 +78,7 @@ class ControlledAttitude : public Attitude {
    * @fn SetQuaternion_i2t
    * @brief Set quaternion for INERTIAL_STABILIZE mode
    */
-  inline void SetQuaternion_i2t(const Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
+  inline void SetQuaternion_i2t(const libra::Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
   /**
    * @fn SetMainTargetDirection_b
    * @brief Set main target direction on the body fixed frame

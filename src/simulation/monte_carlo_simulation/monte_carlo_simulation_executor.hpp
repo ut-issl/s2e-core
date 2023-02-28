@@ -12,8 +12,6 @@
 // #include "simulation_object.hpp"
 #include "initialize_monte_carlo_parameters.hpp"
 
-using libra::Vector;
-
 /**
  * @class MCSimExecutor
  * @brief Monte-Carlo Simulation Executor class
@@ -84,7 +82,7 @@ class MCSimExecutor {
    * @brief Get randomized vector value and store it in dest_vec
    */
   template <size_t NumElement>
-  void GetInitParameterVec(std::string so_name, std::string ip_name, Vector<NumElement>& destination) const;
+  void GetInitParameterVec(std::string so_name, std::string ip_name, libra::Vector<NumElement>& destination) const;
   /**
    * @fn GetInitParameterDouble
    * @brief Get randomized value and store it in dest
@@ -94,7 +92,7 @@ class MCSimExecutor {
    * @fn GetInitParameterQuaternion
    * @brief Get randomized quaternion and store it in dest_quat
    */
-  void GetInitParameterQuaternion(std::string so_name, std::string ip_name, Quaternion& destination) const;
+  void GetInitParameterQuaternion(std::string so_name, std::string ip_name, libra::Quaternion& destination) const;
 
   // Calculation
   /**
@@ -122,8 +120,8 @@ class MCSimExecutor {
    * @fn AddInitParameter
    * @brief Add initialized parameter
    */
-  void AddInitParameter(std::string so_name, std::string ip_name, const Vector<NumElement1>& mean_or_min, const Vector<NumElement2>& sigma_or_max,
-                        InitParameter::RandomizationType rnd_type);
+  void AddInitParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
+                        const libra::Vector<NumElement2>& sigma_or_max, InitParameter::RandomizationType rnd_type);
 
   /**
    * @fn RandomizeAllParameters
@@ -150,7 +148,7 @@ bool MCSimExecutor::LogHistory() const {
 void MCSimExecutor::LogHistory(bool set) { log_history_ = set; }
 
 template <size_t NumElement>
-void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name, Vector<NumElement>& destination) const {
+void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name, libra::Vector<NumElement>& destination) const {
   if (!enabled_) return;
   std::string name = so_name + MCSimExecutor::separator_ + ip_name;
   if (ip_list_.find(name) == ip_list_.end()) {
@@ -162,8 +160,8 @@ void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name
 }
 
 template <size_t NumElement1, size_t NumElement2>
-void MCSimExecutor::AddInitParameter(std::string so_name, std::string ip_name, const Vector<NumElement1>& mean_or_min,
-                                     const Vector<NumElement2>& sigma_or_max, InitParameter::RandomizationType rnd_type) {
+void MCSimExecutor::AddInitParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
+                                     const libra::Vector<NumElement2>& sigma_or_max, InitParameter::RandomizationType rnd_type) {
   std::string name = so_name + MCSimExecutor::separator_ + ip_name;
   if (ip_list_.find(name) == ip_list_.end()) {
     // Register the parameter in ip_list if it is not registered yet

@@ -111,11 +111,11 @@ void RelativeInformation::LogSetup(Logger& logger) { logger.AddLogList(this); }
 
 libra::Quaternion RelativeInformation::CalcRelativeAttitudeQuaternion(const int target_spacecraft_id, const int reference_spacecraft_id) {
   // Observer SC Body frame(obs_sat) -> ECI frame(i)
-  Quaternion q_reference_i2b = dynamics_database_.at(reference_spacecraft_id)->GetAttitude().GetQuaternion_i2b();
-  Quaternion q_reference_b2i = q_reference_i2b.Conjugate();
+  libra::Quaternion q_reference_i2b = dynamics_database_.at(reference_spacecraft_id)->GetAttitude().GetQuaternion_i2b();
+  libra::Quaternion q_reference_b2i = q_reference_i2b.Conjugate();
 
   // ECI frame(i) -> Target SC body frame(main_sat)
-  Quaternion q_target_i2b = dynamics_database_.at(target_spacecraft_id)->GetAttitude().GetQuaternion_i2b();
+  libra::Quaternion q_target_i2b = dynamics_database_.at(target_spacecraft_id)->GetAttitude().GetQuaternion_i2b();
 
   return q_target_i2b * q_reference_b2i;
 }

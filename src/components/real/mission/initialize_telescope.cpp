@@ -28,7 +28,7 @@ Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const st
   strcat(TelescopeSection, cs);
 #endif
 
-  Quaternion quaternion_b2c;
+  libra::Quaternion quaternion_b2c;
   Telescope_conf.ReadQuaternion(TelescopeSection, "quaternion_b2c", quaternion_b2c);
 
   double sun_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "sun_exclusion_angle_deg");

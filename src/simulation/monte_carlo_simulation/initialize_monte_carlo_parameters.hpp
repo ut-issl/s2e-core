@@ -13,9 +13,6 @@
 #include <string>
 #include <vector>
 
-using libra::Quaternion;
-using libra::Vector;
-
 /**
  * @class InitParameter
  * @brief Initialized parameters for Monte-Carlo simulation
@@ -34,7 +31,7 @@ class InitParameter {
     CircularNormalNormal,           //!< r and θ follow normal distribution in Circular frame
     SphericalNormalUniformUniform,  //!< r follows normal distribution, and θ and φ follow uniform distribution in Spherical frame
     SphericalNormalNormal,          //!< r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
-    QuaternionUniform,              //!< Perfectly Randomized Quaternion
+    QuaternionUniform,              //!< Perfectly Randomized libra::Quaternion
     QuaternionNormal,               //!< Angle from the default quaternion θ follows normal distribution
   };
 
@@ -55,7 +52,7 @@ class InitParameter {
    * @brief Set randomization parameters
    */
   template <size_t NumElement1, size_t NumElement2>
-  void SetRandomConfig(const Vector<NumElement1>& mean_or_min, const Vector<NumElement2>& sigma_or_max, RandomizationType rnd_type);
+  void SetRandomConfig(const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max, RandomizationType rnd_type);
 
   // Getter
   /**
@@ -63,12 +60,12 @@ class InitParameter {
    * @brief Get randomized vector value results
    */
   template <size_t NumElement>
-  void GetVec(Vector<NumElement>& destination) const;
+  void GetVec(libra::Vector<NumElement>& destination) const;
   /**
    * @fn GetQuaternion
    * @brief Get randomized quaternion results
    */
-  void GetQuaternion(Quaternion& destination) const;
+  void GetQuaternion(libra::Quaternion& destination) const;
   /**
    * @fn GetDouble
    * @brief Get randomized value results
@@ -177,37 +174,37 @@ class InitParameter {
    * @fn get_CircularNormalUniform
    * @brief Calculate randomized value with CircularNormalUniform mode
    */
-  void get_CircularNormalUniform(Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max);
+  void get_CircularNormalUniform(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max);
   /**
    * @fn get_CircularNormalNormal
    * @brief Calculate randomized value with CircularNormalNormal mode
    */
-  void get_CircularNormalNormal(Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma);
+  void get_CircularNormalNormal(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma);
   /**
    * @fn get_SphericalNormalUniformUniform
    * @brief Calculate randomized value with SphericalNormalUniformUniform mode
    */
-  void get_SphericalNormalUniformUniform(Vector<3>& destination, double r_mean, double r_sigma, double theta_min, double theta_max, double phi_min,
-                                         double phi_max);
+  void get_SphericalNormalUniformUniform(libra::Vector<3>& destination, double r_mean, double r_sigma, double theta_min, double theta_max,
+                                         double phi_min, double phi_max);
   /**
    * @fn get_SphericalNormalNormal
    * @brief Calculate randomized value with SphericalNormalNormal mode
    */
-  void get_SphericalNormalNormal(Vector<3>& destination, const Vector<3>& mean_vec);
+  void get_SphericalNormalNormal(libra::Vector<3>& destination, const libra::Vector<3>& mean_vec);
   /**
    * @fn get_QuaternionUniform
    * @brief Calculate randomized value with QuaternionUniform mode
    */
-  void get_QuaternionUniform(Quaternion& destination);
+  void get_QuaternionUniform(libra::Quaternion& destination);
   /**
    * @fn get_QuaternionNormal
    * @brief Calculate randomized value with QuaternionNormal mode
    */
-  void get_QuaternionNormal(Quaternion& destination, double theta_sigma);
+  void get_QuaternionNormal(libra::Quaternion& destination, double theta_sigma);
 };
 
 template <size_t NumElement1, size_t NumElement2>
-void InitParameter::SetRandomConfig(const Vector<NumElement1>& mean_or_min, const Vector<NumElement2>& sigma_or_max,
+void InitParameter::SetRandomConfig(const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
                                     InitParameter::RandomizationType rnd_type) {
   rnd_type_ = rnd_type;
   mean_or_min_.clear();
@@ -221,7 +218,7 @@ void InitParameter::SetRandomConfig(const Vector<NumElement1>& mean_or_min, cons
 }
 
 template <size_t NumElement>
-void InitParameter::GetVec(Vector<NumElement>& destination) const {
+void InitParameter::GetVec(libra::Vector<NumElement>& destination) const {
   if (rnd_type_ == NoRandomization) {
     ;
   } else if (NumElement > val_.size()) {

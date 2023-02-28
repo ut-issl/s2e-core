@@ -56,7 +56,7 @@ void ControlledAttitude::Initialize(void) {
 }
 
 void ControlledAttitude::Propagate(const double end_time_s) {
-  Vector<3> main_direction_i, sub_direction_i;
+  libra::Vector<3> main_direction_i, sub_direction_i;
   if (!is_calc_enabled_) return;
 
   if (main_mode_ == INERTIAL_STABILIZE) {
@@ -75,8 +75,8 @@ void ControlledAttitude::Propagate(const double end_time_s) {
   return;
 }
 
-Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mode) {
-  Vector<3> direction;
+libra::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mode) {
+  libra::Vector<3> direction;
   if (mode == SUN_POINTING) {
     direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
   } else if (mode == EARTH_CENTER_POINTING) {
@@ -98,7 +98,7 @@ void ControlledAttitude::PointingControl(const libra::Vector<3> main_direction_i
   // Calc DCM ECI->body
   libra::Matrix<3, 3> dcm_i2b = dcm_t2b * Transpose(dcm_t2i);
   // Convert to Quaternion
-  quaternion_i2b_ = Quaternion::ConvertFromDcm(dcm_i2b);
+  quaternion_i2b_ = libra::Quaternion::ConvertFromDcm(dcm_i2b);
 }
 
 libra::Matrix<3, 3> ControlledAttitude::CalcDcm(const libra::Vector<3> main_direction, const libra::Vector<3> sub_direction) {

@@ -120,13 +120,13 @@ class StarSensor : public Component, public ILoggable {
   libra::NormalRand sight_direction_noise_;              //!< Random noise for sight direction
 
   // Delay emulation parameters
-  int max_delay_;                         //!< Max delay
-  std::vector<Quaternion> delay_buffer_;  //!< Buffer of quaternion for delay emulation
-  int buffer_position_;                   //!< Buffer position
-  double step_time_s_;                    //!< Step time for delay calculation [sec]
-  unsigned int output_delay_;             //!< Output delay [0, max_delay_] [step_sec]
-  unsigned int output_interval_;          //!< Output interval [step_sec]
-  std::size_t update_count_;              //!< Output update counter
+  int max_delay_;                                //!< Max delay
+  std::vector<libra::Quaternion> delay_buffer_;  //!< Buffer of quaternion for delay emulation
+  int buffer_position_;                          //!< Buffer position
+  double step_time_s_;                           //!< Step time for delay calculation [sec]
+  unsigned int output_delay_;                    //!< Output delay [0, max_delay_] [step_sec]
+  unsigned int output_interval_;                 //!< Output interval [step_sec]
+  std::size_t update_count_;                     //!< Output update counter
 
   // observation error parameters
   bool error_flag_;                   //!< Error flag. true: Error, false: No error

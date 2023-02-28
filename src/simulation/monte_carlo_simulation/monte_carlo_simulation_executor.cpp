@@ -44,7 +44,7 @@ void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name, doubl
   }
 }
 
-void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name, Quaternion& destination) const {
+void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name, libra::Quaternion& destination) const {
   if (!enabled_) return;
   {
     string name = so_name + MCSimExecutor::separator_ + ip_name;

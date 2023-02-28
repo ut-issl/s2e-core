@@ -10,7 +10,7 @@
 #include <library/math/quaternion.hpp>
 #include <library/randomization/global_randomization.hpp>
 
-Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Quaternion& quaternion_b2c,
+Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
                            const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
                            const libra::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
                            const libra::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const libra::Vector<kMtqDimension>& bias_noise_c_Am2_,
@@ -33,7 +33,7 @@ Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator,
 }
 
 Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                           const Quaternion& quaternion_b2c, const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
+                           const libra::Quaternion& quaternion_b2c, const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
                            const libra::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
                            const libra::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const libra::Vector<kMtqDimension>& bias_noise_c_Am2_,
                            double random_walk_step_width_s, const libra::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
