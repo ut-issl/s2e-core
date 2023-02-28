@@ -107,7 +107,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
 
   // actuator debug output
   // libra::Vector<kMtqDim> mag_moment_c{0.01};
-  // mag_torquer_->SetMagMomentC(mag_moment_c);
+  // mag_torquer_->SetOutputMagneticMoment_c_Am2(mag_moment_c);
   // rw_->SetTargetTorqueRw(0.01);
   // rw_->SetDriveFlag(true);
   // thruster_->SetDuty(0.9);
@@ -158,7 +158,7 @@ libra::Vector<3> SampleComponents::GenerateForce_N_b() {
 
 libra::Vector<3> SampleComponents::GenerateTorque_Nm_b() {
   libra::Vector<3> torque_Nm_b_(0.0);
-  torque_Nm_b_ += mag_torquer_->GetTorque_b();
+  torque_Nm_b_ += mag_torquer_->GetOutputTorque_b_Nm();
   torque_Nm_b_ += rw_->GetOutputTorqueB();
   torque_Nm_b_ += thruster_->GetTorqueB();
   torque_Nm_b_ += torque_generator_->GetGeneratedTorque_b_Nm();

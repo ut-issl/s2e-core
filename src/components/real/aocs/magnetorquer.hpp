@@ -97,21 +97,22 @@ class MagTorquer : public Component, public ILoggable {
   virtual std::string GetLogValue() const;
 
   /**
-   * @fn GetMagMoment_b
-   * @brief Return output magnetic moment in the body fixed frame [Am2]
-   */
-  inline const libra::Vector<kMtqDim>& GetMagMoment_b(void) const { return output_magnetic_moment_b_Am2_; };
-  /**
-   * @fn GetTorque_b
+   * @fn GetOutputTorque_b_Nm
    * @brief Return output torque in the body fixed frame [Nm]
    */
-  inline const libra::Vector<kMtqDim>& GetTorque_b(void) const { return torque_b_Nm_; };
+  inline const libra::Vector<kMtqDim>& GetOutputTorque_b_Nm(void) const { return torque_b_Nm_; };
 
   /**
-   * @fn SetMagMomentC
+   * @fn SetOutputMagneticMoment_c_Am2
    * @brief Set output magnetic moment in the component frame [Am2]
    */
-  inline void SetMagMomentC(const libra::Vector<kMtqDim> mag_moment_c) { output_magnetic_moment_c_Am2_ = mag_moment_c; };
+  inline void SetOutputMagneticMoment_c_Am2(const libra::Vector<kMtqDim> mag_moment_c) { output_magnetic_moment_c_Am2_ = mag_moment_c; };
+
+  /**
+   * @fn SetOutputMagneticMoment_b_Am2
+   * @brief Return output magnetic moment in the body fixed frame [Am2]
+   */
+  inline const libra::Vector<kMtqDim>& SetOutputMagneticMoment_b_Am2(void) const { return output_magnetic_moment_b_Am2_; };
 
  protected:
   const int component_id_ = 0;                                //!< Actuator ID
