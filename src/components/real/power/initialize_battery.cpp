@@ -43,7 +43,7 @@ BAT InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_
   initial_dod = bat_conf.ReadDouble(Section, "initial_dod");
 
   double cc_charge_c_rate;
-  cc_charge_c_rate = bat_conf.ReadDouble(Section, "constant_charge_current_rate_C");
+  cc_charge_c_rate = bat_conf.ReadDouble(Section, "constant_charge_current_A_rate_C");
 
   double cv_charge_voltage;
   cv_charge_voltage = bat_conf.ReadDouble(Section, "constant_voltage_charge_voltage_V");

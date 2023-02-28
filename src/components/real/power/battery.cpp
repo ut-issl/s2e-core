@@ -13,13 +13,13 @@ BAT::BAT(const int prescaler, ClockGenerator* clock_generator, int number_of_ser
     : Component(prescaler, clock_generator),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
-      cell_capacity_(cell_capacity),
-      cell_discharge_curve_coeffs_(cell_discharge_curve_coeffs),
-      cc_charge_current_(cc_charge_c_rate * cell_capacity * number_of_parallel),
-      cv_charge_voltage_(cv_charge_voltage),
-      dod_(initial_dod),
-      bat_resistance_(bat_resistance),
-      compo_step_time_(component_step_time_s) {}
+      cell_capacity_Ah_(cell_capacity),
+      cell_discharge_curve_coefficients_(cell_discharge_curve_coeffs),
+      cc_charge_current_A_C_(cc_charge_c_rate * cell_capacity * number_of_parallel),
+      cv_charge_voltage_V_(cv_charge_voltage),
+      depth_of_discharge_percent_(initial_dod),
+      bat_resistance_Ohm_(bat_resistance),
+      compo_step_time_s_(component_step_time_s) {}
 
 BAT::BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity,
          const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
@@ -27,40 +27,40 @@ BAT::BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_pa
     : Component(10, clock_generator),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
-      cell_capacity_(cell_capacity),
-      cell_discharge_curve_coeffs_(cell_discharge_curve_coeffs),
-      cc_charge_current_(cc_charge_c_rate * cell_capacity * number_of_parallel),
-      cv_charge_voltage_(cv_charge_voltage),
-      dod_(initial_dod),
-      bat_resistance_(bat_resistance),
-      compo_step_time_(0.1) {}
+      cell_capacity_Ah_(cell_capacity),
+      cell_discharge_curve_coefficients_(cell_discharge_curve_coeffs),
+      cc_charge_current_A_C_(cc_charge_c_rate * cell_capacity * number_of_parallel),
+      cv_charge_voltage_V_(cv_charge_voltage),
+      depth_of_discharge_percent_(initial_dod),
+      bat_resistance_Ohm_(bat_resistance),
+      compo_step_time_s_(0.1) {}
 
 BAT::BAT(const BAT& obj)
     : Component(obj),
       number_of_series_(obj.number_of_series_),
       number_of_parallel_(obj.number_of_parallel_),
-      cell_capacity_(obj.cell_capacity_),
-      cell_discharge_curve_coeffs_(obj.cell_discharge_curve_coeffs_),
-      cc_charge_current_(obj.cc_charge_current_),
-      cv_charge_voltage_(obj.cv_charge_voltage_),
-      dod_(obj.dod_),
-      bat_resistance_(obj.bat_resistance_),
-      compo_step_time_(obj.compo_step_time_) {
-  charge_current_ = 0.0;
+      cell_capacity_Ah_(obj.cell_capacity_Ah_),
+      cell_discharge_curve_coefficients_(obj.cell_discharge_curve_coefficients_),
+      cc_charge_current_A_C_(obj.cc_charge_current_A_C_),
+      cv_charge_voltage_V_(obj.cv_charge_voltage_V_),
+      depth_of_discharge_percent_(obj.depth_of_discharge_percent_),
+      bat_resistance_Ohm_(obj.bat_resistance_Ohm_),
+      compo_step_time_s_(obj.compo_step_time_s_) {
+  charge_current_A_ = 0.0;
   UpdateBatVoltage();
 }
 
 BAT::~BAT() {}
 
-void BAT::SetChargeCurrent(const double current) { charge_current_ = current; }
+void BAT::SetChargeCurrent(const double current) { charge_current_A_ = current; }
 
-double BAT::GetBatVoltage() const { return bat_voltage_; }
+double BAT::GetBatVoltage() const { return battery_voltage_V_; }
 
-double BAT::GetBatResistance() const { return bat_resistance_; }
+double BAT::GetBatResistance() const { return bat_resistance_Ohm_; }
 
-double BAT::GetCCChargeCurrent() const { return cc_charge_current_; }
+double BAT::GetCCChargeCurrent() const { return cc_charge_current_A_C_; }
 
-double BAT::GetCVChargeVoltage() const { return cv_charge_voltage_; }
+double BAT::GetCVChargeVoltage() const { return cv_charge_voltage_V_; }
 
 std::string BAT::GetLogHeader() const {
   std::string str_tmp = "";
@@ -72,26 +72,26 @@ std::string BAT::GetLogHeader() const {
 
 std::string BAT::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar(bat_voltage_);
-  str_tmp += WriteScalar(dod_);
+  str_tmp += WriteScalar(battery_voltage_V_);
+  str_tmp += WriteScalar(depth_of_discharge_percent_);
   return str_tmp;
 }
 
 void BAT::MainRoutine(int time_count) {
   UNUSED(time_count);
 
-  double delta_time_query = compo_step_time_ * prescaler_;
-  dod_ -= charge_current_ * delta_time_query / 3600.0 / (cell_capacity_ * number_of_parallel_) * 100.0;
+  double delta_time_query = compo_step_time_s_ * prescaler_;
+  depth_of_discharge_percent_ -= charge_current_A_ * delta_time_query / 3600.0 / (cell_capacity_Ah_ * number_of_parallel_) * 100.0;
   UpdateBatVoltage();
 }
 
 void BAT::UpdateBatVoltage() {
-  double cell_discharge_capasity = dod_ / 100.0 * cell_capacity_;
+  double cell_discharge_capasity = depth_of_discharge_percent_ / 100.0 * cell_capacity_Ah_;
   double temp = 0.0;
   int index = 0;
-  for (auto coeff : cell_discharge_curve_coeffs_) {
+  for (auto coeff : cell_discharge_curve_coefficients_) {
     temp += coeff * std::pow(cell_discharge_capasity, index);
     ++index;
   }
-  bat_voltage_ = temp * number_of_series_;
+  battery_voltage_V_ = temp * number_of_series_;
 }

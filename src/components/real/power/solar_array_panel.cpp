@@ -21,7 +21,7 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int component_id,
       transmission_efficiency_(transmission_efficiency),
       srp_(srp),
       local_celestial_information_(local_celestial_information),
-      compo_step_time_(component_step_time_s) {
+      compo_step_time_s_(component_step_time_s) {
   voltage_ = 0.0;
   power_generation_ = 0.0;
 }
@@ -38,7 +38,7 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int component_id,
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
       srp_(srp),
-      compo_step_time_(component_step_time_s) {
+      compo_step_time_s_(component_step_time_s) {
   voltage_ = 0.0;
   power_generation_ = 0.0;
 }
@@ -56,7 +56,7 @@ SAP::SAP(ClockGenerator* clock_generator, int component_id, int number_of_series
       transmission_efficiency_(transmission_efficiency),
       srp_(srp),
       local_celestial_information_(local_celestial_information),
-      compo_step_time_(0.1) {
+      compo_step_time_s_(0.1) {
   voltage_ = 0.0;
   power_generation_ = 0.0;
 }
@@ -72,7 +72,7 @@ SAP::SAP(const SAP& obj)
       transmission_efficiency_(obj.transmission_efficiency_),
       srp_(obj.srp_),
       local_celestial_information_(obj.local_celestial_information_),
-      compo_step_time_(obj.compo_step_time_) {
+      compo_step_time_s_(obj.compo_step_time_s_) {
   voltage_ = 0.0;
   power_generation_ = 0.0;
 }
@@ -98,7 +98,7 @@ std::string SAP::GetLogValue() const {
 
 void SAP::MainRoutine(int time_count) {
   if (CsvScenarioInterface::IsCsvScenarioEnabled()) {
-    double time_query = compo_step_time_ * time_count;
+    double time_query = compo_step_time_s_ * time_count;
     const auto solar_constant = srp_->GetSolarConstant_W_m2();
     libra::Vector<3> sun_direction_body = CsvScenarioInterface::GetSunDirectionBody(time_query);
     libra::Vector<3> normalized_sun_direction_body = libra::Normalize(sun_direction_body);

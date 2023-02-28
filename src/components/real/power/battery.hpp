@@ -106,17 +106,17 @@ class BAT : public Component, public ILoggable {
   std::string GetLogValue() const override;
 
  private:
-  const int number_of_series_;                             //!< Number of series connected cells
-  const int number_of_parallel_;                           //!< Number of parallel connected cells
-  const double cell_capacity_;                             //!< Power capacity of a cell [Ah]
-  const std::vector<double> cell_discharge_curve_coeffs_;  //!< Discharge curve coefficients for a cell
-  const double cc_charge_current_;                         //!< Constant charge current [C]
-  const double cv_charge_voltage_;                         //!< Constant charge voltage [V]
-  double bat_voltage_;                                     //!< Battery voltage [V]
-  double dod_;                                             //!< Depth of discharge [%]
-  double charge_current_;                                  //!< Charge current [A]
-  double bat_resistance_;                                  //!< Battery internal resistance [Ohm]
-  double compo_step_time_;                                 //!< Component step time [sec]
+  const int number_of_series_;                                   //!< Number of series connected cells
+  const int number_of_parallel_;                                 //!< Number of parallel connected cells
+  const double cell_capacity_Ah_;                                //!< Power capacity of a cell [Ah]
+  const std::vector<double> cell_discharge_curve_coefficients_;  //!< Discharge curve coefficients for a cell
+  const double cc_charge_current_A_C_;                           //!< Constant charge current [C]
+  const double cv_charge_voltage_V_;                             //!< Constant charge voltage [V]
+  double battery_voltage_V_;                                     //!< Battery voltage [V]
+  double depth_of_discharge_percent_;                            //!< Depth of discharge [%]
+  double charge_current_A_;                                      //!< Charge current [A]
+  double bat_resistance_Ohm_;                                    //!< Battery internal resistance [Ohm]
+  double compo_step_time_s_;                                     //!< Component step time [sec]
 
   // Override functions for Component
   /**
