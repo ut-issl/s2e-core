@@ -9,40 +9,40 @@
 #include <library/randomization/global_randomization.hpp>
 
 // Constructor
-SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Vector<3> thruster_pos_b,
-                               const Vector<3> thrust_dir_b, const double max_mag, const double magnitude_standard_deviation_N,
-                               const double direction_standard_deviation_N, const Structure* structure, const Dynamics* dynamics)
+SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Vector<3> thruster_position_b_m,
+                               const Vector<3> thrust_dirction_b, const double max_magnitude_N, const double magnitude_standard_deviation_N,
+                               const double direction_standard_deviation_rad, const Structure* structure, const Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
-      thruster_position_b_m_(thruster_pos_b),
-      thrust_direction_b_(thrust_dir_b),
-      thrust_magnitude_max_N_(max_mag),
-      direction_noise_standard_deviation_rad_(direction_standard_deviation_N),
+      thruster_position_b_m_(thruster_position_b_m),
+      thrust_direction_b_(thrust_dirction_b),
+      thrust_magnitude_max_N_(max_magnitude_N),
+      direction_noise_standard_deviation_rad_(direction_standard_deviation_rad),
       structure_(structure),
       dynamics_(dynamics) {
-  Initialize(magnitude_standard_deviation_N, direction_standard_deviation_N);
+  Initialize(magnitude_standard_deviation_N, direction_standard_deviation_rad);
 }
 
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                               const Vector<3> thruster_pos_b, const Vector<3> thrust_dir_b, const double max_mag,
-                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_N, const Structure* structure,
+                               const Vector<3> thruster_position_b_m, const Vector<3> thrust_dirction_b, const double max_magnitude_N,
+                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
                                const Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
-      thruster_position_b_m_(thruster_pos_b),
-      thrust_direction_b_(thrust_dir_b),
-      thrust_magnitude_max_N_(max_mag),
-      direction_noise_standard_deviation_rad_(direction_standard_deviation_N),
+      thruster_position_b_m_(thruster_position_b_m),
+      thrust_direction_b_(thrust_dirction_b),
+      thrust_magnitude_max_N_(max_magnitude_N),
+      direction_noise_standard_deviation_rad_(direction_standard_deviation_rad),
       structure_(structure),
       dynamics_(dynamics) {
-  Initialize(magnitude_standard_deviation_N, direction_standard_deviation_N);
+  Initialize(magnitude_standard_deviation_N, direction_standard_deviation_rad);
 }
 
 SimpleThruster::~SimpleThruster() {}
 
-void SimpleThruster::Initialize(const double magnitude_standard_deviation_N, const double direction_standard_deviation_N) {
+void SimpleThruster::Initialize(const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad) {
   magnitude_random_noise_.SetParameters(0.0, magnitude_standard_deviation_N);
-  direction_random_noise_.SetParameters(0.0, direction_standard_deviation_N);
+  direction_random_noise_.SetParameters(0.0, direction_standard_deviation_rad);
   thrust_direction_b_ = Normalize(thrust_direction_b_);
 }
 

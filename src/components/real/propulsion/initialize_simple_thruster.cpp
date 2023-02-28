@@ -23,7 +23,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_
   Vector<3> thruster_dir;
   thruster_conf.ReadVector(Section, "thruster_direction_b", thruster_dir);
 
-  double max_mag = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");
+  double max_magnitude_N = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");
 
   double magnitude_standard_deviation_N;
   magnitude_standard_deviation_N = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
@@ -31,8 +31,8 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_
   double deg_err;
   deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * libra::pi / 180.0;
 
-  SimpleThruster thruster(prescaler, clock_generator, thruster_id, thruster_pos, thruster_dir, max_mag, magnitude_standard_deviation_N, deg_err,
-                          structure, dynamics);
+  SimpleThruster thruster(prescaler, clock_generator, thruster_id, thruster_pos, thruster_dir, max_magnitude_N, magnitude_standard_deviation_N,
+                          deg_err, structure, dynamics);
   return thruster;
 }
 
@@ -51,7 +51,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* po
   Vector<3> thruster_dir;
   thruster_conf.ReadVector(Section, "thruster_direction_b", thruster_dir);
 
-  double max_mag = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");
+  double max_magnitude_N = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");
 
   double magnitude_standard_deviation_N;
   magnitude_standard_deviation_N = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
@@ -61,7 +61,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* po
 
   power_port->InitializeWithInitializeFile(file_name);
 
-  SimpleThruster thruster(prescaler, clock_generator, power_port, thruster_id, thruster_pos, thruster_dir, max_mag, magnitude_standard_deviation_N,
-                          deg_err, structure, dynamics);
+  SimpleThruster thruster(prescaler, clock_generator, power_port, thruster_id, thruster_pos, thruster_dir, max_magnitude_N,
+                          magnitude_standard_deviation_N, deg_err, structure, dynamics);
   return thruster;
 }
