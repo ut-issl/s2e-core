@@ -70,7 +70,7 @@ class OnBoardComputer : public Component {
   virtual int CloseComPort(int port_id);
   /**
    * @fn SendFromObc
-   * @brief Send data from OnBoardComputer to Components with UART used by OnBoardComputer side.
+   * @brief Send data from OBC to Components with UART used by OnBoardComputer side.
    * @param [in] port_id: Port ID
    * @param [in] buffer: Send data buffer
    * @param [in] offset: Data offset for the buffer
@@ -80,7 +80,7 @@ class OnBoardComputer : public Component {
   virtual int SendFromObc(int port_id, unsigned char* buffer, int offset, int length);
   /**
    * @fn ReceivedByCompo
-   * @brief Read data from OnBoardComputer to Components with UART used by component side.
+   * @brief Read data from OBC to Components with UART used by component side.
    * @param [in] port_id: Port ID
    * @param [out] buffer: Read data buffer
    * @param [in] offset: Data offset for the buffer
@@ -91,7 +91,7 @@ class OnBoardComputer : public Component {
 
   /**
    * @fn SendFromComponent
-   * @brief Send data from component to OnBoardComputer with UART used by component side.
+   * @brief Send data from component to OBC with UART used by component side.
    * @param [in] port_id: Port ID
    * @param [in] buffer: Send data buffer
    * @param [in] offset: Data offset for the buffer
@@ -101,7 +101,7 @@ class OnBoardComputer : public Component {
   virtual int SendFromCompo(int port_id, unsigned char* buffer, int offset, int length);
   /**
    * @fn ReceivedByObc
-   * @brief Read data from component to OnBoardComputer with UART used by OnBoardComputer side.
+   * @brief Read data from component to OBC with UART used by OnBoardComputer side.
    * @param [in] port_id: Port ID
    * @param [out] buffer: Read data buffer
    * @param [in] offset: Data offset for the buffer
@@ -153,7 +153,7 @@ class OnBoardComputer : public Component {
                                        const unsigned char length);
   /**
    * @fn I2cComponentReadCommand
-   * @brief Read command from OnBoardComputer to target device's register
+   * @brief Read command from OBC to target device's register
    * @param [in] port_id: Port ID
    * @param [in] i2c_address: I2C address of the target device
    * @param [out] data: Write data buffer

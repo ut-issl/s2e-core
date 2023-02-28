@@ -40,8 +40,8 @@ class UartCommunicationWithObc {
    * @fn UartCommunicationWithObc
    * @brief Constructor for SILS mode
    * @param [in] sils_port_id: Port ID for communication line b/w OnBoardComputer in the SILS mode
-   * @param [in] tx_buffer_size: TX (Component to OnBoardComputer) buffer size
-   * @param [in] rx_buffer_size: RX (OnBoardComputer to Component) buffer size
+   * @param [in] tx_buffer_size: TX (Component to OBC) buffer size
+   * @param [in] rx_buffer_size: RX (OBC to Component) buffer size
    * @param [in] obc: The communication target OBC
    */
   UartCommunicationWithObc(const unsigned int sils_port_id, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size,
@@ -60,8 +60,8 @@ class UartCommunicationWithObc {
    * @brief Constructor for HILS mode
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] baud_rate: Baud rate of HILS communication port
-   * @param [in] tx_buffer_size: TX (Component to OnBoardComputer) buffer size
-   * @param [in] rx_buffer_size: RX (OnBoardComputer to Component) buffer size
+   * @param [in] tx_buffer_size: TX (Component to OBC) buffer size
+   * @param [in] rx_buffer_size: RX (OBC to Component) buffer size
    * @param [in] hils_port_manager: HILS port manager
    */
   UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
@@ -101,8 +101,8 @@ class UartCommunicationWithObc {
   unsigned int sils_port_id_;    //!< Port ID for SILS
   unsigned int hils_port_id_;    //!< Port ID for HILS
   unsigned int baud_rate_;       //!< Baudrate for HILS ex. 9600, 115200
-  unsigned int tx_buffer_size_;  //!< TX (Component to OnBoardComputer) buffer size
-  unsigned int rx_buffer_size_;  //!< RX (OnBoardComputer to Component) buffer size
+  unsigned int tx_buffer_size_;  //!< TX (Component to OBC) buffer size
+  unsigned int rx_buffer_size_;  //!< RX (OBC to Component) buffer size
   bool is_connected_ = false;    //!< Connection flag
 
   OBC_COM_UART_MODE simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode

@@ -35,7 +35,7 @@ class UartPort {
 
   /**
    * @fn WriteTx
-   * @brief Write data to the TX buffer from OnBoardComputer to Component
+   * @brief Write data to the TX buffer from OBC to Component
    * @param [in] buffer: Data buffer to write
    * @param [in] offset: Start offset of the buffer to write (usually zero)
    * @param [in] data_length: Length of the data to write
@@ -44,7 +44,7 @@ class UartPort {
   int WriteTx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length);
   /**
    * @fn WriteRx
-   * @brief Write data to the RX buffer from Component to OnBoardComputer
+   * @brief Write data to the RX buffer from Component to OBC
    * @param [in] buffer: Data buffer to write
    * @param [in] offset: Start offset of the buffer to write (usually zero)
    * @param [in] data_length: Length of the data to write

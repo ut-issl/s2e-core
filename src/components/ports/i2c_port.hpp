@@ -79,7 +79,7 @@ class I2cPort {
   // OnBoardComputer->Component Command emulation
   /**
    * @fn WriteCommand
-   * @brief Write command requested from an OnBoardComputer to the component
+   * @brief Write command requested from an OBC to the component
    * @param [in] i2c_address: I2C address of the target device
    * @param [in] tx_data: data from the OnBoardComputer
    * @param [in] length: length of the tx_data
@@ -88,7 +88,7 @@ class I2cPort {
   unsigned char WriteCommand(const unsigned char i2c_address, const unsigned char* tx_data, const unsigned char length);
   /**
    * @fn ReadCommand
-   * @brief Read command requested from an OnBoardComputer to the component
+   * @brief Read command requested from an OBC to the component
    * @param [in] i2c_address: I2C address of the target device
    * @param [out] rx_data: Data to the OnBoardComputer
    * @param [in] length: Length of the tx_data
