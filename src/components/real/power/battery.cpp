@@ -52,16 +52,6 @@ BAT::BAT(const BAT& obj)
 
 BAT::~BAT() {}
 
-void BAT::SetChargeCurrent(const double current) { charge_current_A_ = current; }
-
-double BAT::GetBatVoltage() const { return battery_voltage_V_; }
-
-double BAT::GetBatResistance() const { return bat_resistance_Ohm_; }
-
-double BAT::GetCCChargeCurrent() const { return cc_charge_current_C_; }
-
-double BAT::GetCVChargeVoltage() const { return cv_charge_voltage_V_; }
-
 std::string BAT::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "battery_";

@@ -67,30 +67,33 @@ class BAT : public Component, public ILoggable {
    * @fn SetChargeCurrent
    * @brief Set charge current [A]
    */
-  void SetChargeCurrent(const double current);
+  inline void SetChargeCurrent(const double current) { charge_current_A_ = current; }
 
   /**
    * @fn GetBatVoltage
    * @brief Return battery voltage [V]
    */
-  double GetBatVoltage() const;
+  inline double GetBatVoltage() const { return battery_voltage_V_; }
+
   /**
    * @fn GetBatResistance
    * @brief Return battery resistance [Ohm]
    */
-  double GetBatResistance() const;
+  inline double GetBatResistance() const { return bat_resistance_Ohm_; }
+
   /**
    * @fn GetCCChargeCurrent
    * @brief Return constant charge current [C]
    * @note TODO: Change implementation?
    */
-  double GetCCChargeCurrent() const;
+  inline double GetCCChargeCurrent() const { return cc_charge_current_C_; }
+
   /**
    * @fn GetCVChargeVoltage
    * @brief Return constant charge voltage [V]
    * @note TODO: Change implementation?
    */
-  double GetCVChargeVoltage() const;
+  inline double GetCVChargeVoltage() const { return cv_charge_voltage_V_; }
 
   // Override ILoggable
   /**
