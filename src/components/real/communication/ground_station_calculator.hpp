@@ -66,15 +66,15 @@ class GroundStationCalculator : public ILoggable {
 
   // Getter
   /**
-   * @fn GetMaxBitrate
+   * @fn GetMaxBitrate_Mbps
    * @brief Return max bitrate [Mbps]
    */
-  inline double GetMaxBitrate() const { return max_bitrate_Mbps_; }
+  inline double GetMaxBitrate_Mbps() const { return max_bitrate_Mbps_; }
   /**
-   * @fn GetReceiveMargin
+   * @fn GetReceiveMargin_dB
    * @brief Return receive margin [dB]
    */
-  inline double GetReceiveMargin() const { return receive_margin_dB_; }
+  inline double GetReceiveMargin_dB() const { return receive_margin_dB_; }
 
   // Setter
   /**
