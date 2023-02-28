@@ -10,9 +10,9 @@
 
 using namespace std;
 
-StarSensor InitSTT(ClockGenerator* clock_generator, int sensor_id, const string fname, double compo_step_time, const Dynamics* dynamics,
+StarSensor InitSTT(ClockGenerator* clock_generator, int sensor_id, const string file_name, double compo_step_time, const Dynamics* dynamics,
                    const LocalEnvironment* local_environment) {
-  IniAccess STT_conf(fname);
+  IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* STTSection = section_name.c_str();
@@ -43,9 +43,9 @@ StarSensor InitSTT(ClockGenerator* clock_generator, int sensor_id, const string 
   return stt;
 }
 
-StarSensor InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string fname, double compo_step_time,
+StarSensor InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string file_name, double compo_step_time,
                    const Dynamics* dynamics, const LocalEnvironment* local_environment) {
-  IniAccess STT_conf(fname);
+  IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* STTSection = section_name.c_str();
@@ -71,7 +71,7 @@ StarSensor InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int s
   double capture_rate_deg_s = STT_conf.ReadDouble(STTSection, "angular_rate_limit_deg_s");
   double capture_rate_rad_s = capture_rate_deg_s * libra::pi / 180.0;
 
-  power_port->InitializeWithInitializeFile(fname);
+  power_port->InitializeWithInitializeFile(file_name);
 
   StarSensor stt(prescaler, clock_generator, power_port, sensor_id, quaternion_b2c, standard_deviation_orthogonal_direction,
                  standard_deviation_sight_direction, step_time_s, output_delay, output_interval, sun_forbidden_angle_rad, earth_forbidden_angle_rad,

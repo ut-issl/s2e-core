@@ -8,8 +8,8 @@
 
 #include "../../base/initialize_sensor.hpp"
 
-GyroSensor InitGyro(ClockGenerator* clock_generator, int sensor_id, const std::string fname, double compo_step_time, const Dynamics* dynamics) {
-  IniAccess gyro_conf(fname);
+GyroSensor InitGyro(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double compo_step_time, const Dynamics* dynamics) {
+  IniAccess gyro_conf(file_name);
   const char* sensor_name = "GYRO_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* GSection = section_name.c_str();
@@ -20,16 +20,16 @@ GyroSensor InitGyro(ClockGenerator* clock_generator, int sensor_id, const std::s
   if (prescaler <= 1) prescaler = 1;
 
   // Sensor
-  Sensor<kGyroDimension> sensor_base = ReadSensorInformation<kGyroDimension>(fname, compo_step_time * (double)(prescaler), GSection, "rad_s");
+  Sensor<kGyroDimension> sensor_base = ReadSensorInformation<kGyroDimension>(file_name, compo_step_time * (double)(prescaler), GSection, "rad_s");
 
   GyroSensor gyro(prescaler, clock_generator, sensor_base, sensor_id, quaternion_b2c, dynamics);
 
   return gyro;
 }
 
-GyroSensor InitGyro(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
+GyroSensor InitGyro(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name, double compo_step_time,
                     const Dynamics* dynamics) {
-  IniAccess gyro_conf(fname);
+  IniAccess gyro_conf(file_name);
   const char* sensor_name = "GYRO_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* GSection = section_name.c_str();
@@ -40,10 +40,10 @@ GyroSensor InitGyro(ClockGenerator* clock_generator, PowerPort* power_port, int 
   if (prescaler <= 1) prescaler = 1;
 
   // Sensor
-  Sensor<kGyroDimension> sensor_base = ReadSensorInformation<kGyroDimension>(fname, compo_step_time * (double)(prescaler), GSection, "rad_s");
+  Sensor<kGyroDimension> sensor_base = ReadSensorInformation<kGyroDimension>(file_name, compo_step_time * (double)(prescaler), GSection, "rad_s");
 
   // PowerPort
-  power_port->InitializeWithInitializeFile(fname);
+  power_port->InitializeWithInitializeFile(file_name);
 
   GyroSensor gyro(prescaler, clock_generator, power_port, sensor_base, sensor_id, quaternion_b2c, dynamics);
   return gyro;

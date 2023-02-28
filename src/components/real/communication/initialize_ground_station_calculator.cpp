@@ -10,8 +10,8 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-GScalculator InitGScalculator(const std::string fname) {
-  IniAccess gs_conf(fname);
+GScalculator InitGScalculator(const std::string file_name) {
+  IniAccess gs_conf(file_name);
 
   char Section[30] = "GROUND_STATION_CALCULATOR";
 

@@ -10,8 +10,8 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-BAT InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string fname, double compo_step_time) {
-  IniAccess bat_conf(fname);
+BAT InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_name, double compo_step_time) {
+  IniAccess bat_conf(file_name);
 
   const std::string st_bat_id = std::to_string(bat_id);
   const char* cs = st_bat_id.data();

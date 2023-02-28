@@ -22,9 +22,9 @@ class CsvScenarioInterface {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @param [in] fname: Path to initialize file
+   * @param [in] file_name: Path to initialize file
    */
-  static void Initialize(const std::string fname);
+  static void Initialize(const std::string file_name);
 
   /**
    * @fn IsCsvScenarioEnabled

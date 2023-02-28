@@ -13,11 +13,11 @@
 
 using namespace std;
 
-Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
+Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const string file_name, const Attitude* attitude, const HipparcosCatalogue* hipp,
                         const LocalCelestialInformation* local_celestial_information) {
   using libra::pi;
 
-  IniAccess Telescope_conf(fname);
+  IniAccess Telescope_conf(file_name);
   const string st_sensor_id = std::to_string(static_cast<long long>(sensor_id));
   const char* cs = st_sensor_id.data();
 

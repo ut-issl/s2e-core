@@ -6,9 +6,9 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, const std::string fname, double compo_step_time,
+Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double compo_step_time,
                             const GeomagneticField* geomagnetic_field) {
-  IniAccess magtorquer_conf(fname);
+  IniAccess magtorquer_conf(file_name);
   const char* sensor_name = "MAGNETORQUER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(actuator_id));
   const char* MTSection = section_name.c_str();
@@ -51,9 +51,9 @@ Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, co
   return magtorquer;
 }
 
-Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string fname, double compo_step_time,
+Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name, double compo_step_time,
                             const GeomagneticField* geomagnetic_field) {
-  IniAccess magtorquer_conf(fname);
+  IniAccess magtorquer_conf(file_name);
   const char* sensor_name = "MAGNETORQUER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(actuator_id));
   const char* MTSection = section_name.c_str();
@@ -91,7 +91,7 @@ Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_po
   magtorquer_conf.ReadVector(MTSection, "white_noise_standard_deviation_c_Am2", normal_random_standard_deviation_c_Am2);
 
   // PowerPort
-  power_port->InitializeWithInitializeFile(fname);
+  power_port->InitializeWithInitializeFile(file_name);
 
   Magnetorquer magtorquer(prescaler, clock_generator, power_port, actuator_id, quaternion_b2c, scale_factor, max_magnetic_moment_c_Am2,
                           min_magnetic_moment_c_Am2, bias_noise_c_Am2_, random_walk_step_width_s, random_walk_standard_deviation_c_Am2,

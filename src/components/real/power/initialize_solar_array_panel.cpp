@@ -9,9 +9,9 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string fname, const SolarRadiationPressureEnvironment* srp,
+SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_name, const SolarRadiationPressureEnvironment* srp,
             const LocalCelestialInformation* local_celestial_information, double compo_step_time) {
-  IniAccess sap_conf(fname);
+  IniAccess sap_conf(file_name);
 
   const std::string st_sap_id = std::to_string(sap_id);
   const char* cs = st_sap_id.data();
@@ -46,9 +46,9 @@ SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string fname
   return sap;
 }
 
-SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string fname, const SolarRadiationPressureEnvironment* srp,
+SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_name, const SolarRadiationPressureEnvironment* srp,
             double compo_step_time) {
-  IniAccess sap_conf(fname);
+  IniAccess sap_conf(file_name);
 
   const std::string st_sap_id = std::to_string(sap_id);
   const char* cs = st_sap_id.data();

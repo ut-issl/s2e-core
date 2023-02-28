@@ -8,9 +8,9 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_id, const std::string fname, const Structure* structure,
+SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_id, const std::string file_name, const Structure* structure,
                                   const Dynamics* dynamics) {
-  IniAccess thruster_conf(fname);
+  IniAccess thruster_conf(file_name);
   std::string sectionstr = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = sectionstr.c_str();
 
@@ -35,9 +35,9 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_
   return thruster;
 }
 
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string fname,
+SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
                                   const Structure* structure, const Dynamics* dynamics) {
-  IniAccess thruster_conf(fname);
+  IniAccess thruster_conf(file_name);
   std::string sectionstr = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = sectionstr.c_str();
 
@@ -58,7 +58,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* po
   double deg_err;
   deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * libra::pi / 180.0;
 
-  power_port->InitializeWithInitializeFile(fname);
+  power_port->InitializeWithInitializeFile(file_name);
 
   SimpleThruster thruster(prescaler, clock_generator, power_port, thruster_id, thruster_pos, thruster_dir, max_mag, mag_err, deg_err, structure,
                           dynamics);

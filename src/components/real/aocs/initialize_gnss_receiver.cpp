@@ -19,10 +19,10 @@ typedef struct _gnssrecever_param {
   Vector<3> noise_standard_deviation_m;
 } GnssReceiverParam;
 
-GnssReceiverParam ReadGnssReceiverIni(const std::string fname, const GnssSatellites* gnss_satellites, const int component_id) {
+GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const GnssSatellites* gnss_satellites, const int component_id) {
   GnssReceiverParam gnssreceiver_param;
 
-  IniAccess gnssr_conf(fname);
+  IniAccess gnssr_conf(file_name);
   const char* sensor_name = "GNSS_RECEIVER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(component_id));
   const char* GSection = section_name.c_str();
@@ -49,9 +49,9 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string fname, const GnssSatelli
   return gnssreceiver_param;
 }
 
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, int component_id, const std::string fname, const Dynamics* dynamics,
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, int component_id, const std::string file_name, const Dynamics* dynamics,
                               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
-  GnssReceiverParam gr_param = ReadGnssReceiverIni(fname, gnss_satellites, component_id);
+  GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 
   GnssReceiver gnss_r(gr_param.prescaler, clock_generator, component_id, gr_param.gnss_id, gr_param.max_channel, gr_param.antenna_model,
                       gr_param.antenna_pos_b, gr_param.quaternion_b2c, gr_param.half_width_rad, gr_param.noise_standard_deviation_m, dynamics,
@@ -59,12 +59,12 @@ GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, int component_id,
   return gnss_r;
 }
 
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, int component_id, const std::string fname,
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, int component_id, const std::string file_name,
                               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
-  GnssReceiverParam gr_param = ReadGnssReceiverIni(fname, gnss_satellites, component_id);
+  GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 
   // PowerPort
-  power_port->InitializeWithInitializeFile(fname);
+  power_port->InitializeWithInitializeFile(file_name);
 
   GnssReceiver gnss_r(gr_param.prescaler, clock_generator, power_port, component_id, gr_param.gnss_id, gr_param.max_channel, gr_param.antenna_model,
                       gr_param.antenna_pos_b, gr_param.quaternion_b2c, gr_param.half_width_rad, gr_param.noise_standard_deviation_m, dynamics,
