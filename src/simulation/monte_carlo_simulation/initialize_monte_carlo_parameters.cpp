@@ -116,7 +116,7 @@ void InitParameter::GenerateCartesianNormal() {
   }
 }
 
-void InitParameter::get_CircularNormalUniform(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max) {
+void InitParameter::CalcCircularNormalUniform(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max) {
   // r follows normal distribution, and θ follows uniform distribution in Circular frame
   double r = InitParameter::Generate1dNormal(r_mean, r_sigma);
   double theta = InitParameter::Generate1dUniform(theta_min, theta_max);
@@ -130,7 +130,7 @@ void InitParameter::GenerateCircularNormalUniform() {
     throw "Config parameters dimension unmatched.";
   }
   libra::Vector<dim> temp_vec;
-  get_CircularNormalUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1]);
+  CalcCircularNormalUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1]);
 
   randomized_value_.clear();
   for (int i = 0; i < dim; i++) {
@@ -138,7 +138,7 @@ void InitParameter::GenerateCircularNormalUniform() {
   }
 }
 
-void InitParameter::get_CircularNormalNormal(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma) {
+void InitParameter::CalcCircularNormalNormal(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma) {
   // r and θ follow normal distribution in Circular frame
   double r = InitParameter::Generate1dNormal(r_mean, r_sigma);
   double theta = InitParameter::Generate1dNormal(theta_mean, theta_sigma);
@@ -152,7 +152,7 @@ void InitParameter::GenerateCircularNormalNormal() {
     throw "Config parameters dimension unmatched.";
   }
   libra::Vector<dim> temp_vec;
-  get_CircularNormalNormal(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1]);
+  CalcCircularNormalNormal(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1]);
 
   randomized_value_.clear();
   for (int i = 0; i < dim; i++) {
@@ -160,7 +160,7 @@ void InitParameter::GenerateCircularNormalNormal() {
   }
 }
 
-void InitParameter::get_SphericalNormalUniformUniform(libra::Vector<3>& destination, double r_mean, double r_sigma, double theta_min,
+void InitParameter::CalcSphericalNormalUniformUniform(libra::Vector<3>& destination, double r_mean, double r_sigma, double theta_min,
                                                       double theta_max, double phi_min, double phi_max) {
   // r follows normal distribution, and θ and φ follow uniform distribution in Spherical frame
   double r = InitParameter::Generate1dNormal(r_mean, r_sigma);
@@ -177,7 +177,7 @@ void InitParameter::GenerateSphericalNormalUniformUniform() {
     throw "Config parameters dimension unmatched.";
   }
   libra::Vector<dim> temp_vec;
-  get_SphericalNormalUniformUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1], mean_or_min_[2],
+  CalcSphericalNormalUniformUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1], mean_or_min_[2],
                                     sigma_or_max_[2]);
 
   randomized_value_.clear();
@@ -186,7 +186,7 @@ void InitParameter::GenerateSphericalNormalUniformUniform() {
   }
 }
 
-void InitParameter::get_SphericalNormalNormal(libra::Vector<3>& destination, const libra::Vector<3>& mean_vec) {
+void InitParameter::CalcSphericalNormalNormal(libra::Vector<3>& destination, const libra::Vector<3>& mean_vec) {
   // r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
   libra::Vector<3> mean_vec_dir;
   mean_vec_dir = 1.0 / CalcNorm(mean_vec) * mean_vec;  // Unit vector of mean vector direction
@@ -226,7 +226,7 @@ void InitParameter::GenerateSphericalNormalNormal() {
   for (int i = 0; i < dim; i++) {
     temp_mean_vec[i] = mean_or_min_[i];
   }
-  get_SphericalNormalNormal(temp_vec, temp_mean_vec);
+  CalcSphericalNormalNormal(temp_vec, temp_mean_vec);
 
   randomized_value_.clear();
   for (int i = 0; i < dim; i++) {
@@ -234,7 +234,7 @@ void InitParameter::GenerateSphericalNormalNormal() {
   }
 }
 
-void InitParameter::get_QuaternionUniform(libra::Quaternion& destination) {
+void InitParameter::CalcQuaternionUniform(libra::Quaternion& destination) {
   // Perfectly Randomized libra::Quaternion
   libra::Vector<3> x_axis(0.0);
   x_axis[0] = 1.0;
@@ -269,7 +269,7 @@ void InitParameter::get_QuaternionUniform(libra::Quaternion& destination) {
 void InitParameter::GenerateQuaternionUniform() {
   const static int dim = 4;
   libra::Quaternion temp_q;
-  get_QuaternionUniform(temp_q);
+  CalcQuaternionUniform(temp_q);
 
   randomized_value_.clear();
   for (int i = 0; i < dim; i++) {
@@ -277,7 +277,7 @@ void InitParameter::GenerateQuaternionUniform() {
   }
 }
 
-void InitParameter::get_QuaternionNormal(libra::Quaternion& destination, double theta_sigma) {
+void InitParameter::CalcQuaternionNormal(libra::Quaternion& destination, double theta_sigma) {
   // Angle from the default quaternion θ follows normal distribution
   // The rotation axis follows uniform distribution on full sphere
   libra::Vector<3> rot_axis;
@@ -302,7 +302,7 @@ void InitParameter::GenerateQuaternionNormal() {
     throw "Config parameters dimension unmatched.";
   }
   libra::Quaternion temp_q;
-  get_QuaternionNormal(temp_q, sigma_or_max_[0]);
+  CalcQuaternionNormal(temp_q, sigma_or_max_[0]);
 
   randomized_value_.clear();
   for (int i = 0; i < dim; i++) {

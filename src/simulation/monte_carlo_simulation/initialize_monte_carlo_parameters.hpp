@@ -171,36 +171,36 @@ class InitParameter {
 
   // Get randomized value
   /**
-   * @fn get_CircularNormalUniform
+   * @fn CalcCircularNormalUniform
    * @brief Calculate randomized value with CircularNormalUniform mode
    */
-  void get_CircularNormalUniform(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max);
+  void CalcCircularNormalUniform(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max);
   /**
-   * @fn get_CircularNormalNormal
+   * @fn CalcCircularNormalNormal
    * @brief Calculate randomized value with CircularNormalNormal mode
    */
-  void get_CircularNormalNormal(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma);
+  void CalcCircularNormalNormal(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma);
   /**
-   * @fn get_SphericalNormalUniformUniform
+   * @fn CalcSphericalNormalUniformUniform
    * @brief Calculate randomized value with SphericalNormalUniformUniform mode
    */
-  void get_SphericalNormalUniformUniform(libra::Vector<3>& destination, double r_mean, double r_sigma, double theta_min, double theta_max,
+  void CalcSphericalNormalUniformUniform(libra::Vector<3>& destination, double r_mean, double r_sigma, double theta_min, double theta_max,
                                          double phi_min, double phi_max);
   /**
-   * @fn get_SphericalNormalNormal
+   * @fn CalcSphericalNormalNormal
    * @brief Calculate randomized value with SphericalNormalNormal mode
    */
-  void get_SphericalNormalNormal(libra::Vector<3>& destination, const libra::Vector<3>& mean_vec);
+  void CalcSphericalNormalNormal(libra::Vector<3>& destination, const libra::Vector<3>& mean_vec);
   /**
-   * @fn get_QuaternionUniform
+   * @fn CalcQuaternionUniform
    * @brief Calculate randomized value with QuaternionUniform mode
    */
-  void get_QuaternionUniform(libra::Quaternion& destination);
+  void CalcQuaternionUniform(libra::Quaternion& destination);
   /**
-   * @fn get_QuaternionNormal
+   * @fn CalcQuaternionNormal
    * @brief Calculate randomized value with QuaternionNormal mode
    */
-  void get_QuaternionNormal(libra::Quaternion& destination, double theta_sigma);
+  void CalcQuaternionNormal(libra::Quaternion& destination, double theta_sigma);
 };
 
 template <size_t NumElement1, size_t NumElement2>
