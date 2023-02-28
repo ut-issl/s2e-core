@@ -11,14 +11,14 @@
 GScalculator::GScalculator(const double loss_polarization, const double loss_atmosphere, const double loss_rainfall, const double loss_others,
                            const double EbN0, const double hardware_deterioration, const double coding_gain, const double margin_req,
                            const double downlink_bitrate_bps)
-    : loss_polarization_(loss_polarization),
-      loss_atmosphere_(loss_atmosphere),
-      loss_rainfall_(loss_rainfall),
-      loss_others_(loss_others),
-      EbN0_(EbN0),
-      hardware_deterioration_(hardware_deterioration),
-      coding_gain_(coding_gain),
-      margin_req_(margin_req),
+    : loss_polarization_dB_(loss_polarization),
+      loss_atmosphere_dB_(loss_atmosphere),
+      loss_rainfall_dB_(loss_rainfall),
+      loss_others_dB_(loss_others),
+      ebn0_dB_(EbN0),
+      hardware_deterioration_dB_(hardware_deterioration),
+      coding_gain_dB_(coding_gain),
+      margin_requirement_dB_(margin_req),
       downlink_bitrate_bps_(downlink_bitrate_bps) {
   max_bitrate_Mbps_ = 0.0;
   receive_margin_dB_ = -10000.0;  // FIXME: which value is suitable?
@@ -42,7 +42,7 @@ double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_
                                     const Antenna& gs_rx_ant) {
   double cn0_dBHz = CalcCn0OnGs(dynamics, sc_tx_ant, ground_station, gs_rx_ant);
 
-  double margin_for_bitrate_dB = cn0_dBHz - (EbN0_ + hardware_deterioration_ + coding_gain_) - margin_req_;
+  double margin_for_bitrate_dB = cn0_dBHz - (ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_) - margin_requirement_dB_;
 
   if (margin_for_bitrate_dB > 0) {
     return pow(10.0, margin_for_bitrate_dB / 10.0) / 1000000.0;
@@ -54,7 +54,7 @@ double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_
 double GScalculator::CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station,
                                            const Antenna& gs_rx_ant) {
   double cn0_dB = CalcCn0OnGs(dynamics, sc_tx_ant, ground_station, gs_rx_ant);
-  double cn0_requirement_dB = EbN0_ + hardware_deterioration_ + coding_gain_ + 10.0 * log10(downlink_bitrate_bps_);
+  double cn0_requirement_dB = ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_ + 10.0 * log10(downlink_bitrate_bps_);
   return cn0_dB - cn0_requirement_dB;
 }
 
@@ -87,9 +87,9 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
   double phi_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[0] / sin(theta_on_gs_antenna_rad));
 
   // Calc CN0
-  double cn0_dBHz = sc_tx_ant.CalcTxEIRP_dBW(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) + loss_space_dB + loss_polarization_ + loss_atmosphere_ +
-                    loss_rainfall_ + loss_others_ + gs_rx_ant.CalcRxGT_dB_K(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) -
-                    10.0 * log10(environment::boltzmann_constant_J_K);
+  double cn0_dBHz = sc_tx_ant.CalcTxEIRP_dBW(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) + loss_space_dB + loss_polarization_dB_ +
+                    loss_atmosphere_dB_ + loss_rainfall_dB_ + loss_others_dB_ +
+                    gs_rx_ant.CalcRxGT_dB_K(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) - 10.0 * log10(environment::boltzmann_constant_J_K);
   return cn0_dBHz;
 }
 

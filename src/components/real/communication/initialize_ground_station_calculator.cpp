@@ -15,13 +15,13 @@ GScalculator InitGScalculator(const std::string file_name) {
 
   char Section[30] = "GROUND_STATION_CALCULATOR";
 
-  double loss_polarization = gs_conf.ReadDouble(Section, "loss_polarization_dB");
-  double loss_atmosphere = gs_conf.ReadDouble(Section, "loss_atmosphere_dB");
-  double loss_rainfall = gs_conf.ReadDouble(Section, "loss_rainfall_dB");
-  double loss_others = gs_conf.ReadDouble(Section, "loss_others_dB");
+  double loss_polarization = gs_conf.ReadDouble(Section, "loss_polarization_dB_dB");
+  double loss_atmosphere = gs_conf.ReadDouble(Section, "loss_atmosphere_dB_dB");
+  double loss_rainfall = gs_conf.ReadDouble(Section, "loss_rainfall_dB_dB");
+  double loss_others = gs_conf.ReadDouble(Section, "loss_others_dB_dB");
   double EbN0 = gs_conf.ReadDouble(Section, "ebn0_dB");
-  double hardware_deterioration = gs_conf.ReadDouble(Section, "hardware_deterioration_dB");
-  double coding_gain = gs_conf.ReadDouble(Section, "coding_gain_dB");
+  double hardware_deterioration = gs_conf.ReadDouble(Section, "hardware_deterioration_dB_dB");
+  double coding_gain = gs_conf.ReadDouble(Section, "coding_gain_dB_dB");
   double margin_req = gs_conf.ReadDouble(Section, "margin_requirement_dB");
   double downlink_bitrate_bps = gs_conf.ReadDouble(Section, "downlink_bitrate_bps");
 

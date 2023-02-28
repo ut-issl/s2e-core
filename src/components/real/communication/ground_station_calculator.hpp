@@ -84,16 +84,16 @@ class GScalculator : public ILoggable {
 
  protected:
   // Parameters
-  double loss_polarization_;       //!< Loss polarization [dB]
-  double loss_atmosphere_;         //!< Loss atmosphere [dB]
-  double loss_rainfall_;           //!< Loss rainfall [dB]
-  double loss_others_;             //!< Loss others [dB]
-  double EbN0_;                    //!< EbN0 [dB]
-  double hardware_deterioration_;  //!< Hardware deterioration [dB]
-  double coding_gain_;             //!< Coding gain [dB]
+  double loss_polarization_dB_;       //!< Loss polarization [dB]
+  double loss_atmosphere_dB_;         //!< Loss atmosphere [dB]
+  double loss_rainfall_dB_;           //!< Loss rainfall [dB]
+  double loss_others_dB_;             //!< Loss others [dB]
+  double ebn0_dB_;                    //!< EbN0 [dB]
+  double hardware_deterioration_dB_;  //!< Hardware deterioration [dB]
+  double coding_gain_dB_;             //!< Coding gain [dB]
   // Variables
-  double margin_req_;            //!< Required margin to calculate max bitrate [dB]
-  double downlink_bitrate_bps_;  //!< Downlink bitrate to calculate receive margin [bps]
+  double margin_requirement_dB_;  //!< Required margin to calculate max bitrate [dB]
+  double downlink_bitrate_bps_;   //!< Downlink bitrate to calculate receive margin [bps]
 
   // Calculated values
   double receive_margin_dB_;  //!< Receive margin [dB]
