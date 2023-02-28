@@ -5,12 +5,12 @@
 
 #include "gyro_sensor.hpp"
 
-GyroSensor::GyroSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const Quaternion& quaternion_b2c,
-           const Dynamics* dynamics)
+GyroSensor::GyroSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id,
+                       const Quaternion& quaternion_b2c, const Dynamics* dynamics)
     : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), quaternion_b2c_(quaternion_b2c), dynamics_(dynamics) {}
 
 GyroSensor::GyroSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
-           const libra::Quaternion& quaternion_b2c, const Dynamics* dynamics)
+                       const libra::Quaternion& quaternion_b2c, const Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
@@ -19,8 +19,8 @@ GyroSensor::GyroSensor(const int prescaler, ClockGenerator* clock_generator, Pow
 
 GyroSensor::~GyroSensor() {}
 
-void GyroSensor::MainRoutine(int count) {
-  UNUSED(count);
+void GyroSensor::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   angular_velocity_c_rad_s_ = quaternion_b2c_.FrameConversion(dynamics_->GetAttitude().GetOmega_b());  // Convert frame
   angular_velocity_c_rad_s_ = Measure(angular_velocity_c_rad_s_);                                      // Add noises
