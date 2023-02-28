@@ -201,9 +201,9 @@ class OBC : public Component {
   virtual void MainRoutine(int count);
 
  private:
-  std::map<int, UartPort*> com_ports_;     //!< UART ports
-  std::map<int, I2cPort*> i2c_com_ports_;  //!< I2C ports
-  std::map<int, GpioPort*> gpio_ports_;    //!< GPIO ports
+  std::map<int, UartPort*> uart_ports_;  //!< UART ports
+  std::map<int, I2cPort*> i2c_ports_;    //!< I2C ports
+  std::map<int, GpioPort*> gpio_ports_;  //!< GPIO ports
 };
 
 #endif  // S2E_COMPONENTS_REAL_CDH_OBC_HPP_

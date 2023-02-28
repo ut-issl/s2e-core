@@ -109,12 +109,12 @@ int HilsPortManager::UartSend(unsigned int port_id, const unsigned char* buffer,
 // I2C Target Communication port functions
 int HilsPortManager::I2cTargetConnectComPort(unsigned int port_id) {
 #ifdef USE_HILS
-  if (i2c_com_ports_[port_id] != nullptr) {
+  if (i2c_ports_[port_id] != nullptr) {
     printf("Error: Port is already used\n");
     return -1;
   }
-  i2c_com_ports_[port_id] = new HilsI2cTargetPort(port_id);
-  i2c_com_ports_[port_id]->RegisterDevice();
+  i2c_ports_[port_id] = new HilsI2cTargetPort(port_id);
+  i2c_ports_[port_id]->RegisterDevice();
   return 0;
 #else
   UNUSED(port_id);
@@ -125,14 +125,14 @@ int HilsPortManager::I2cTargetConnectComPort(unsigned int port_id) {
 
 int HilsPortManager::I2cTargetCloseComPort(unsigned int port_id) {
 #ifdef USE_HILS
-  if (i2c_com_ports_[port_id] == nullptr) {
+  if (i2c_ports_[port_id] == nullptr) {
     // Port not used
     return -1;
   }
-  i2c_com_ports_[port_id]->ClosePort();
-  HilsI2cTargetPort* port = i2c_com_ports_.at(port_id);
+  i2c_ports_[port_id]->ClosePort();
+  HilsI2cTargetPort* port = i2c_ports_.at(port_id);
   delete port;
-  i2c_com_ports_.erase(port_id);
+  i2c_ports_.erase(port_id);
   return 0;
 #else
   UNUSED(port_id);
@@ -143,7 +143,7 @@ int HilsPortManager::I2cTargetCloseComPort(unsigned int port_id) {
 
 int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_addr, const unsigned char* data, const unsigned char len) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_com_ports_[port_id];
+  HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   for (unsigned char i = 0; i < len; i++) {
     port->WriteRegister(reg_addr + i, data[i]);
@@ -161,7 +161,7 @@ int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned
 
 int HilsPortManager::I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_addr, unsigned char* data, const unsigned char len) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_com_ports_[port_id];
+  HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   for (unsigned char i = 0; i < len; i++) {
     data[i] = port->ReadRegister(reg_addr + i);
@@ -179,7 +179,7 @@ int HilsPortManager::I2cTargetReadRegister(unsigned int port_id, const unsigned 
 
 int HilsPortManager::I2cTargetReadCommand(unsigned int port_id, unsigned char* data, const unsigned char len) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_com_ports_[port_id];
+  HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   port->ReadCommand(data, len);
   return 0;
@@ -194,7 +194,7 @@ int HilsPortManager::I2cTargetReadCommand(unsigned int port_id, unsigned char* d
 
 int HilsPortManager::I2cTargetReceive(unsigned int port_id) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_com_ports_[port_id];
+  HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   int ret = port->Receive();
 #ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
@@ -212,7 +212,7 @@ int HilsPortManager::I2cTargetReceive(unsigned int port_id) {
 
 int HilsPortManager::I2cTargetSend(unsigned int port_id, const unsigned char len) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_com_ports_[port_id];
+  HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   int ret = port->Send(len);
 #ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
@@ -231,7 +231,7 @@ int HilsPortManager::I2cTargetSend(unsigned int port_id, const unsigned char len
 
 int HilsPortManager::I2cTargetGetStoredFrameCounter(unsigned int port_id) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_com_ports_[port_id];
+  HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   return port->GetStoredFrameCounter();
 #else
@@ -242,7 +242,8 @@ int HilsPortManager::I2cTargetGetStoredFrameCounter(unsigned int port_id) {
 }
 
 // I2C Controller Communication port functions
-int HilsPortManager::I2cControllerConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buffer_size, unsigned int rx_buffer_size) {
+int HilsPortManager::I2cControllerConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buffer_size,
+                                                 unsigned int rx_buffer_size) {
   return UartConnectComPort(port_id, baud_rate, tx_buffer_size, rx_buffer_size);
 }
 

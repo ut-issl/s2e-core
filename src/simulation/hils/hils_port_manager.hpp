@@ -162,8 +162,8 @@ class HilsPortManager {
 
  private:
 #ifdef USE_HILS
-  std::map<int, HilsUartPort*> uart_com_ports_;      //!< UART ports
-  std::map<int, HilsI2cTargetPort*> i2c_com_ports_;  //!< I2C ports
+  std::map<int, HilsUartPort*> uart_com_ports_;  //!< UART ports
+  std::map<int, HilsI2cTargetPort*> i2c_ports_;  //!< I2C ports
 #endif
 };
 
