@@ -10,7 +10,7 @@
 using std::cout;
 using std::string;
 
-SampleCase::SampleCase(string ini_base) : SimulationCase(ini_base) {}
+SampleCase::SampleCase(string initialise_base_file) : SimulationCase(initialise_base_file) {}
 
 SampleCase::~SampleCase() { delete sample_sat_; }
 
@@ -18,17 +18,17 @@ void SampleCase::Initialize() {
   // Instantiate the target of the simulation
   // `spacecraft_id` corresponds to the index of `sat_file` in Simbase.ini
   const int spacecraft_id = 0;
-  sample_sat_ = new SampleSat(&sim_config_, global_environment_, spacecraft_id);
+  sample_sat_ = new SampleSat(&simulation_configuration_, global_environment_, spacecraft_id);
   const int ground_station_id = 0;
-  sample_gs_ = new SampleGroundStation(&sim_config_, ground_station_id);
+  sample_gs_ = new SampleGroundStation(&simulation_configuration_, ground_station_id);
 
   // Register the log output
-  global_environment_->LogSetup(*(sim_config_.main_logger_));
-  sample_sat_->LogSetup(*(sim_config_.main_logger_));
-  sample_gs_->LogSetup(*(sim_config_.main_logger_));
+  global_environment_->LogSetup(*(simulation_configuration_.main_logger_));
+  sample_sat_->LogSetup(*(simulation_configuration_.main_logger_));
+  sample_gs_->LogSetup(*(simulation_configuration_.main_logger_));
 
   // Write headers to the log
-  sim_config_.main_logger_->WriteHeaders();
+  simulation_configuration_.main_logger_->WriteHeaders();
 
   // Start the simulation
   cout << "\nSimulationDateTime \n";
@@ -40,7 +40,7 @@ void SampleCase::Main() {
   while (!global_environment_->GetSimulationTime().GetState().finish) {
     // Logging
     if (global_environment_->GetSimulationTime().GetState().log_output) {
-      sim_config_.main_logger_->WriteValues();
+      simulation_configuration_.main_logger_->WriteValues();
     }
 
     // Global Environment Update

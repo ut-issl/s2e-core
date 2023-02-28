@@ -20,7 +20,7 @@ class SampleCase : public SimulationCase {
    * @fn SampleCase
    * @brief Constructor
    */
-  SampleCase(std::string ini_base);
+  SampleCase(std::string initialise_base_file);
 
   /**
    * @fn ~SampleCase
