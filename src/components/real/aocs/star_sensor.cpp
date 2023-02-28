@@ -207,8 +207,8 @@ double StarSensor::CalAngleVector_rad(const Vector<3>& vector1, const Vector<3>&
   return theta_rad;
 }
 
-void StarSensor::MainRoutine(int count) {
-  UNUSED(count);
+void StarSensor::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   measure(&(local_environment_->GetCelestialInformation()), &(dynamics_->GetAttitude()));
 }
