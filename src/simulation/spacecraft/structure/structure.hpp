@@ -12,7 +12,6 @@
 #include "kinematics_parameters.hpp"
 #include "residual_magnetic_moment.hpp"
 #include "surface.hpp"
-using std::vector;
 
 /**
  * @class Structure
@@ -41,7 +40,7 @@ class Structure {
    * @fn GetSurfaces
    * @brief Return surface information
    */
-  inline const vector<Surface>& GetSurfaces() const { return surfaces_; }
+  inline const std::vector<Surface>& GetSurfaces() const { return surfaces_; }
   /**
    * @fn GetKinematicsParameters
    * @brief Return kinematics information
@@ -57,7 +56,7 @@ class Structure {
    * @fn GetToSetSurfaces
    * @brief Return surface information
    */
-  inline vector<Surface>& GetToSetSurfaces() { return surfaces_; }
+  inline std::vector<Surface>& GetToSetSurfaces() { return surfaces_; }
   /**
    * @fn GetToSetKinematicsParameters
    * @brief Return kinematics information
@@ -71,7 +70,7 @@ class Structure {
 
  private:
   KinematicsParameters* kinematics_parameters_;       //!< Kinematics parameters
-  vector<Surface> surfaces_;                          //!< Surface information
+  std::vector<Surface> surfaces_;                     //!< Surface information
   ResidualMagneticMoment* residual_magnetic_moment_;  //!< Residual Magnetic Moment
 };
 

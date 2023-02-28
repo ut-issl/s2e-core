@@ -7,7 +7,7 @@
 
 #include "../library/math/vector.hpp"
 
-SurfaceForce::SurfaceForce(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
+SurfaceForce::SurfaceForce(const std::vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
     : SimpleDisturbance(is_calculation_enabled), surfaces_(surfaces), center_of_gravity_b_m_(center_of_gravity_b_m) {
   // Initialize vectors
   int num = surfaces_.size();

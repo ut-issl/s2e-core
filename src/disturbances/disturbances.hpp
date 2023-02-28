@@ -77,8 +77,8 @@ class Disturbances {
   Vector<3> total_torque_b_Nm_;                        //!< Total disturbance torque in the body frame [Nm]
   Vector<3> total_force_b_N_;                          //!< Total disturbance force in the body frame [N]
 
-  vector<AccelerationDisturbance*> acceleration_disturbances_list_;  //!< List of acceleration disturbances
-  Vector<3> total_acceleration_i_m_s2_;                              //!< Total disturbance acceleration in the inertial frame [m/s2]
+  std::vector<AccelerationDisturbance*> acceleration_disturbances_list_;  //!< List of acceleration disturbances
+  Vector<3> total_acceleration_i_m_s2_;                                   //!< Total disturbance acceleration in the inertial frame [m/s2]
 
   /**
    * @fn InitializeInstances

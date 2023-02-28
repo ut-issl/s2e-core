@@ -30,8 +30,8 @@ GeoPotential::GeoPotential(const int degree, const std::string file_path, const 
     degree_ = 0;
   }
   // coefficients
-  c_.assign(degree_ + 1, vector<double>(degree_ + 1, 0.0));
-  s_.assign(degree_ + 1, vector<double>(degree_ + 1, 0.0));
+  c_.assign(degree_ + 1, std::vector<double>(degree_ + 1, 0.0));
+  s_.assign(degree_ + 1, std::vector<double>(degree_ + 1, 0.0));
   // For actual EGM model, c_[0][0] should be 1.0
   // In S2E, 0 degree term is inside the SimpleCircularOrbit calculation
   c_[0][0] = 0.0;
@@ -91,8 +91,8 @@ void GeoPotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m)
 
   // Calc V and W
   int degree_vw = degree_ + 1;
-  vector<vector<double>> v(degree_vw + 1, vector<double>(degree_vw + 1, 0.0));
-  vector<vector<double>> w(degree_vw + 1, vector<double>(degree_vw + 1, 0.0));
+  std::vector<std::vector<double>> v(degree_vw + 1, std::vector<double>(degree_vw + 1, 0.0));
+  std::vector<std::vector<double>> w(degree_vw + 1, std::vector<double>(degree_vw + 1, 0.0));
   // n=m=0
   v[0][0] = environment::earth_equatorial_radius_m / radius_m_;
   w[0][0] = 0.0;

@@ -148,10 +148,10 @@ libra::Vector<3> RelativeInformation::CalcRelativeVelocity_rtn_m_s(const int tar
 
 void RelativeInformation::ResizeLists() {
   size_t size = dynamics_database_.size();
-  rel_pos_list_i_m_.assign(size, vector<libra::Vector<3>>(size, libra::Vector<3>(0)));
-  rel_vel_list_i_m_s_.assign(size, vector<libra::Vector<3>>(size, libra::Vector<3>(0)));
-  rel_distance_list_m_.assign(size, vector<double>(size, 0.0));
-  rel_pos_list_rtn_m_.assign(size, vector<libra::Vector<3>>(size, libra::Vector<3>(0)));
-  rel_vel_list_rtn_m_s_.assign(size, vector<libra::Vector<3>>(size, libra::Vector<3>(0)));
-  rel_att_quaternion_list_.assign(size, vector<libra::Quaternion>(size, libra::Quaternion(0, 0, 0, 1)));
+  rel_pos_list_i_m_.assign(size, std::vector<libra::Vector<3>>(size, libra::Vector<3>(0)));
+  rel_vel_list_i_m_s_.assign(size, std::vector<libra::Vector<3>>(size, libra::Vector<3>(0)));
+  rel_distance_list_m_.assign(size, std::vector<double>(size, 0.0));
+  rel_pos_list_rtn_m_.assign(size, std::vector<libra::Vector<3>>(size, libra::Vector<3>(0)));
+  rel_vel_list_rtn_m_s_.assign(size, std::vector<libra::Vector<3>>(size, libra::Vector<3>(0)));
+  rel_att_quaternion_list_.assign(size, std::vector<libra::Quaternion>(size, libra::Quaternion(0, 0, 0, 1)));
 }

@@ -29,14 +29,14 @@ KinematicsParameters InitKinematicsParams(std::string ini_path) {
   return kinematics_params;
 }
 
-vector<Surface> InitSurfaces(std::string ini_path) {
+std::vector<Surface> InitSurfaces(std::string ini_path) {
   using std::cout;
 
   auto conf = IniAccess(ini_path);
   const char* section = "SURFACES";
 
   const int num_surface = conf.ReadInt(section, "number_of_surfaces");
-  vector<Surface> surfaces;
+  std::vector<Surface> surfaces;
 
   for (int i = 0; i < num_surface; i++) {
     std::string idx = std::to_string(i);

@@ -19,7 +19,7 @@ KinematicsParameters InitKinematicsParams(std::string ini_path);
  * @fn InitSurfaces
  * @brief Initialize the multiple surfaces with an ini file
  */
-vector<Surface> InitSurfaces(std::string ini_path);
+std::vector<Surface> InitSurfaces(std::string ini_path);
 /**
  * @fn InitRMMParams
  * @brief Initialize the RMM(Residual Magnetic Moment) parameters with an ini file

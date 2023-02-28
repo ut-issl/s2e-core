@@ -50,11 +50,11 @@ class GeoPotential : public AccelerationDisturbance {
   virtual std::string GetLogValue() const;
 
  private:
-  int degree_;                        //!< Maximum degree setting to calculate the geo-potential
-  int n_ = 0, m_ = 0;                 //!< Degree and order (FIXME: follow naming rule)
-  vector<vector<double>> c_;          //!< Cosine coefficients
-  vector<vector<double>> s_;          //!< Sine coefficients
-  Vector<3> acceleration_ecef_m_s2_;  //!< Calculated acceleration in the ECEF frame [m/s2]
+  int degree_;                          //!< Maximum degree setting to calculate the geo-potential
+  int n_ = 0, m_ = 0;                   //!< Degree and order (FIXME: follow naming rule)
+  std::vector<std::vector<double>> c_;  //!< Cosine coefficients
+  std::vector<std::vector<double>> s_;  //!< Sine coefficients
+  Vector<3> acceleration_ecef_m_s2_;    //!< Calculated acceleration in the ECEF frame [m/s2]
 
   // calculation
   double radius_m_ = 0.0;                                    //!< Radius [m]
