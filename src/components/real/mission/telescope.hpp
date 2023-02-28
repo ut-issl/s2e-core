@@ -20,8 +20,8 @@
  * @brief Information of stars in the telescope's field of view
  */
 struct Star {
-  HipparcosData hipdata;           //!< Hipparcos data
-  libra::Vector<2> pos_imgsensor;  //!< Position of image sensor
+  HipparcosData hipparcos_data;            //!< Hipparcos data
+  libra::Vector<2> position_image_sensor;  //!< Position of image sensor
 };
 
 /*
@@ -64,11 +64,11 @@ class Telescope : public Component, public ILoggable {
 
   size_t num_of_logged_stars_;  //!< Number of logged stars
 
-  libra::Vector<2> sun_pos_imgsensor{-1};    //!< Position of the sun on the image plane
-  libra::Vector<2> earth_pos_imgsensor{-1};  //!< Position of the earth on the image plane
-  libra::Vector<2> moon_pos_imgsensor{-1};   //!< Position of the moon on the image plane
+  libra::Vector<2> sun_position_image_sensor{-1};    //!< Position of the sun on the image plane
+  libra::Vector<2> earth_position_image_sensor{-1};  //!< Position of the earth on the image plane
+  libra::Vector<2> moon_position_image_sensor{-1};   //!< Position of the moon on the image plane
 
-  std::vector<Star> star_in_sight;  //!< Star information in the field of view
+  std::vector<Star> star_list_in_sight;  //!< Star information in the field of view
 
   /**
    * @fn JudgeForbiddenAngle
@@ -88,10 +88,10 @@ class Telescope : public Component, public ILoggable {
   /**
    * @fn Observe
    * @brief Convert body fixed direction vector to position on image sensor plane
-   * @param [out] pos_imgsensor: Position on image sensor plane
+   * @param [out] position_image_sensor: Position on image sensor plane
    * @param [in] target_b: Direction vector of target on the body fixed frame
    */
-  void Observe(Vector<2>& pos_imgsensor, const Vector<3, double> target_b);
+  void Observe(Vector<2>& position_image_sensor, const Vector<3, double> target_b);
   /**
    * @fn ObserveStars
    * @brief Observe stars from Hipparcos catalogue
