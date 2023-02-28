@@ -54,17 +54,6 @@ class RwOde : public libra::OrdinaryDifferentialEquation<1> {
    */
   void setLagCoef(libra::Vector<3> lag_coefficients) { lag_coefficients_ = lag_coefficients; }
 
-  /**
-   * @fn setFirstOrderLag
-   * @brief Set first order lag coefficient (Currently not used)
-   */
-  void setFirstOrderLag(double first_order_lag);
-  /**
-   * @fn setSecondOrderCoef
-   * @brief Set second order lag coefficient (Currently not used)
-   */
-  void setSecondOrderCoef(double second_order_coef);
-
  private:
   RwOde(double step_width_s);             //!< Prohibit calling constructor
   libra::Vector<3> lag_coefficients_;     //!< Coefficients for the first order lag
