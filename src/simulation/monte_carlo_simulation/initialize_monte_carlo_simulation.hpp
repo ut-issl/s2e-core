@@ -10,9 +10,9 @@
 #include "monte_carlo_simulation_executor.hpp"
 
 /**
- * @fn InitMCSim
+ * @fn InitMonteCarloSimulation
  * @brief Initialize function for Monte-Carlo Simulator
  */
-MonteCarloSimulationExecutor* InitMCSim(std::string file_name);
+MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name);
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_INITIALIZE_MONTE_CARLO_SIMULATION_HPP_

@@ -10,7 +10,7 @@
 
 #define MAX_CHAR_NUM 256
 
-MonteCarloSimulationExecutor* InitMCSim(std::string file_name) {
+MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
   IniAccess ini_file(file_name);
   const char* section = "MONTE_CARLO_EXECUTION";
 
