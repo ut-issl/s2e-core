@@ -134,15 +134,15 @@ class Antenna {
 
   // Rx info
   double rx_system_noise_temperature_K_;  //!< Receive system noise temperature [K]
-  AntennaParameters rx_params_;           //!< Rx parameters
+  AntennaParameters rx_params_;           //!< RX parameters
   double rx_gt_dBK_;                      //!< Receive G/T [dB/K]
 
   /**
    * @fn CalcAntennaGain
    * @brief Calculation antenna gain considering the target direction
    * @param [in] ant_params: Antenna parameters
-   * @param [in] theta: Angle from PZ axis on the antenna frame [rad]
-   * @param [in] phi: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
+   * @param [in] theta_rad: Angle from PZ axis on the antenna frame [rad]
+   * @param [in] phi_rad: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
    * @return Antenna gain [dBi]
    */
   double CalcAntennaGain(const AntennaParameters ant_params, const double theta_rad, const double phi_rad = 0.0) const;
