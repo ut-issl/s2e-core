@@ -148,12 +148,12 @@ class StarSensor : public Component, public ILoggable {
    */
   void update(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
   /**
-   * @fn measure
+   * @fn Measure
    * @brief Calculate measured quaternion
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] attitude: Attitude information
    */
-  libra::Quaternion measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
+  libra::Quaternion Measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
 
   /**
    * @fn AllJudgement

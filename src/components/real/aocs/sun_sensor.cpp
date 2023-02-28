@@ -54,10 +54,10 @@ void SunSensor::Initialize(const double random_noise_standard_deviation_rad, con
 void SunSensor::MainRoutine(int count) {
   UNUSED(count);
 
-  measure();
+  Measure();
 }
 
-void SunSensor::measure() {
+void SunSensor::Measure() {
   libra::Vector<3> sun_pos_b = local_celestial_information_->GetPositionFromSpacecraft_b_m("SUN");
   libra::Vector<3> sun_dir_b = Normalize(sun_pos_b);
 

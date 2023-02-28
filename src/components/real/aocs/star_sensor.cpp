@@ -87,7 +87,7 @@ void StarSensor::Initialize() {
 
   error_flag_ = true;
 }
-Quaternion StarSensor::measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+Quaternion StarSensor::Measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
   update(local_celestial_information, attitude);  // update delay buffer
   if (update_count_ == 0) {
     int hist = buffer_position_ - output_delay_ - 1;
@@ -210,5 +210,5 @@ double StarSensor::CalAngleVector_rad(const Vector<3>& vector1, const Vector<3>&
 void StarSensor::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
-  measure(&(local_environment_->GetCelestialInformation()), &(dynamics_->GetAttitude()));
+  Measure(&(local_environment_->GetCelestialInformation()), &(dynamics_->GetAttitude()));
 }

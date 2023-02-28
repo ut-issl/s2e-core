@@ -116,10 +116,10 @@ class SunSensor : public Component, public ILoggable {
    */
   void SunDetectionJudgement();
   /**
-   * @fn measure
+   * @fn Measure
    * @brief Calculate observed sun angle
    */
-  void measure();
+  void Measure();
   /**
    * @fn TanRange
    * @brief Clip angle as tangent range
