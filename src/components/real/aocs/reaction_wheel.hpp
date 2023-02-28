@@ -18,14 +18,14 @@
 #include "reaction_wheel_ode.hpp"
 
 /*
- * @class RWModel
+ * @class ReactionWheel
  * @brief Class to emulate Reaction Wheel
  * @note For one reaction wheel
  */
-class RWModel : public Component, public ILoggable {
+class ReactionWheel : public Component, public ILoggable {
  public:
   /**
-   * @fn RWModel
+   * @fn ReactionWheel
    * @brief Constructor without power port
    * @note TODO: argument is too long
    * @param [in] prescaler: Frequency scale factor for update
@@ -54,16 +54,17 @@ class RWModel : public Component, public ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW
    */
-  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, const int component_id, const double step_width_s,
-          const double main_routine_time_step_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2, const double max_torque_Nm,
-          const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
-          const libra::Vector<3> driving_lag_coefficients, const libra::Vector<3> coasting_lag_coefficients, const bool is_calc_jitter_enabled,
-          const bool is_log_jitter_enabled, const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-          const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
-          const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag = false,
-          const double init_velocity_rad_s = 0.0);
+  ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, const int component_id, const double step_width_s,
+                const double main_routine_time_step_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2,
+                const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
+                const libra::Vector<3> position_b_m, const double dead_time_s, const libra::Vector<3> driving_lag_coefficients,
+                const libra::Vector<3> coasting_lag_coefficients, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
+                const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+                const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
+                const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag = false,
+                const double init_velocity_rad_s = 0.0);
   /**
-   * @fn RWModel
+   * @fn ReactionWheel
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] fast_prescaler: Frequency scale factor for fast update
@@ -92,15 +93,15 @@ class RWModel : public Component, public ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW [rad/s]
    */
-  RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int component_id,
-          const double step_width_s, const double main_routine_time_step_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2,
-          const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m,
-          const double dead_time_s, const libra::Vector<3> driving_lag_coefficients, const libra::Vector<3> coasting_lag_coefficients,
-          const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
-          const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-          const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
-          const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag = false,
-          const double init_velocity_rad_s = 0.0);
+  ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int component_id,
+                const double step_width_s, const double main_routine_time_step_s, const double jitter_update_interval_s,
+                const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
+                const libra::Vector<3> position_b_m, const double dead_time_s, const libra::Vector<3> driving_lag_coefficients,
+                const libra::Vector<3> coasting_lag_coefficients, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
+                const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+                const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
+                const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag = false,
+                const double init_velocity_rad_s = 0.0);
 
   // Override functions for Component
   /**

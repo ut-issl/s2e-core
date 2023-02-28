@@ -98,29 +98,29 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
 }
 }  // namespace
 
-RWModel InitRWModel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double prop_step, double compo_update_step) {
+ReactionWheel InitRWModel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double prop_step, double compo_update_step) {
   InitParams(actuator_id, file_name, prop_step, compo_update_step);
 
-  RWModel rwmodel(prescaler, fast_prescaler, clock_generator, actuator_id, step_width_s, main_routine_time_step_s, jitter_update_interval_s,
-                  rotor_inertia_kgm2, max_torque_Nm, max_velocity, quaternion_b2c, position_b_m, dead_time_s, ordinary_lag_coef,
-                  coasting_lag_coefficients, is_calc_jitter_enabled, is_log_jitter_enabled, radial_force_harmonics_coefficients,
-                  radial_torque_harmonics_coefficients, structural_resonance_frequency_Hz, damping_factor, bandwidth, considers_structural_resonance,
-                  drive_flag, init_velocity_rad_s);
+  ReactionWheel rwmodel(prescaler, fast_prescaler, clock_generator, actuator_id, step_width_s, main_routine_time_step_s, jitter_update_interval_s,
+                        rotor_inertia_kgm2, max_torque_Nm, max_velocity, quaternion_b2c, position_b_m, dead_time_s, ordinary_lag_coef,
+                        coasting_lag_coefficients, is_calc_jitter_enabled, is_log_jitter_enabled, radial_force_harmonics_coefficients,
+                        radial_torque_harmonics_coefficients, structural_resonance_frequency_Hz, damping_factor, bandwidth,
+                        considers_structural_resonance, drive_flag, init_velocity_rad_s);
 
   return rwmodel;
 }
 
-RWModel InitRWModel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name, double prop_step,
-                    double compo_update_step) {
+ReactionWheel InitRWModel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name, double prop_step,
+                          double compo_update_step) {
   InitParams(actuator_id, file_name, prop_step, compo_update_step);
 
   power_port->InitializeWithInitializeFile(file_name);
 
-  RWModel rwmodel(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width_s, main_routine_time_step_s,
-                  jitter_update_interval_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity, quaternion_b2c, position_b_m, dead_time_s,
-                  ordinary_lag_coef, coasting_lag_coefficients, is_calc_jitter_enabled, is_log_jitter_enabled, radial_force_harmonics_coefficients,
-                  radial_torque_harmonics_coefficients, structural_resonance_frequency_Hz, damping_factor, bandwidth, considers_structural_resonance,
-                  drive_flag, init_velocity_rad_s);
+  ReactionWheel rwmodel(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width_s, main_routine_time_step_s,
+                        jitter_update_interval_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity, quaternion_b2c, position_b_m, dead_time_s,
+                        ordinary_lag_coef, coasting_lag_coefficients, is_calc_jitter_enabled, is_log_jitter_enabled,
+                        radial_force_harmonics_coefficients, radial_torque_harmonics_coefficients, structural_resonance_frequency_Hz, damping_factor,
+                        bandwidth, considers_structural_resonance, drive_flag, init_velocity_rad_s);
 
   return rwmodel;
 }

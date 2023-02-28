@@ -17,7 +17,7 @@
  * @param [in] prop_step: Propagation step for RW dynamics [sec]
  * @param [in] compo_update_step: Component step time [sec]
  */
-RWModel InitRWModel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double prop_step, double compo_update_step);
+ReactionWheel InitRWModel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double prop_step, double compo_update_step);
 /**
  * @fn InitRWModel
  * @brief Initialize functions for reaction wheel with power port
@@ -28,7 +28,7 @@ RWModel InitRWModel(ClockGenerator* clock_generator, int actuator_id, std::strin
  * @param [in] prop_step: Propagation step for RW dynamics [sec]
  * @param [in] compo_update_step: Component step time [sec]
  */
-RWModel InitRWModel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name, double prop_step,
-                    double compo_update_step);
+ReactionWheel InitRWModel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name, double prop_step,
+                          double compo_update_step);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_INITIALIZE_REACTION_WHEEL_HPP_

@@ -62,8 +62,8 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // RW
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "rw_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  rw_ = new RWModel(InitRWModel(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_->GetAttitude().GetPropStep(),
-                                glo_env_->GetSimulationTime().GetComponentStepTime_s()));
+  rw_ = new ReactionWheel(InitRWModel(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_->GetAttitude().GetPropStep(),
+                                      glo_env_->GetSimulationTime().GetComponentStepTime_s()));
 
   // Torque Generator
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "torque_generator_file");

@@ -17,15 +17,16 @@ static double rpm2angularVelocity(double rpm) { return rpm * libra::tau / 60.0; 
 
 static double angularVelocity2rpm(double angular_velocity) { return angular_velocity * 60.0 / libra::tau; }
 
-RWModel::RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, const int component_id, const double step_width_s,
-                 const double main_routine_time_step_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2,
-                 const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
-                 const libra::Vector<3> position_b_m, const double dead_time_s, const libra::Vector<3> driving_lag_coefficients,
-                 const libra::Vector<3> coasting_lag_coefficients, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
-                 const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-                 const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
-                 const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag,
-                 const double init_velocity_rad_s)
+ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, const int component_id,
+                             const double step_width_s, const double main_routine_time_step_s, const double jitter_update_interval_s,
+                             const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
+                             const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
+                             const libra::Vector<3> driving_lag_coefficients, const libra::Vector<3> coasting_lag_coefficients,
+                             const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
+                             const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+                             const std::vector<std::vector<double>> radial_torque_harmonics_coefficients,
+                             const double structural_resonance_frequency_Hz, const double damping_factor, const double bandwidth,
+                             const bool considers_structural_resonance, const bool drive_flag, const double init_velocity_rad_s)
     : Component(prescaler, clock_generator, fast_prescaler),
       component_id_(component_id),
       rotor_inertia_kgm2_(rotor_inertia_kgm2),
@@ -47,15 +48,16 @@ RWModel::RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *
   Initialize();
 }
 
-RWModel::RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int component_id,
-                 const double step_width_s, const double main_routine_time_step_s, const double jitter_update_interval_s,
-                 const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
-                 const libra::Vector<3> position_b_m, const double dead_time_s, const libra::Vector<3> driving_lag_coefficients,
-                 const libra::Vector<3> coasting_lag_coefficients, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
-                 const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-                 const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
-                 const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag,
-                 const double init_velocity_rad_s)
+ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port,
+                             const int component_id, const double step_width_s, const double main_routine_time_step_s,
+                             const double jitter_update_interval_s, const double rotor_inertia_kgm2, const double max_torque_Nm,
+                             const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m,
+                             const double dead_time_s, const libra::Vector<3> driving_lag_coefficients,
+                             const libra::Vector<3> coasting_lag_coefficients, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
+                             const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+                             const std::vector<std::vector<double>> radial_torque_harmonics_coefficients,
+                             const double structural_resonance_frequency_Hz, const double damping_factor, const double bandwidth,
+                             const bool considers_structural_resonance, const bool drive_flag, const double init_velocity_rad_s)
     : Component(prescaler, clock_generator, power_port, fast_prescaler),
       component_id_(component_id),
       rotor_inertia_kgm2_(rotor_inertia_kgm2),
@@ -77,7 +79,7 @@ RWModel::RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *
   Initialize();
 }
 
-void RWModel::Initialize() {
+void ReactionWheel::Initialize() {
   rotation_axis_c_ = libra::Vector<3>(0.0);
   rotation_axis_c_[2] = 1.0;
   rotation_axis_b_ = quaternion_b2c_.InverseFrameConversion(rotation_axis_c_);
@@ -99,18 +101,18 @@ void RWModel::Initialize() {
   }
 }
 
-void RWModel::MainRoutine(const int time_count) {
+void ReactionWheel::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
   CalcTorque();
 }
 
-void RWModel::PowerOffRoutine() { drive_flag_ = 0; }
+void ReactionWheel::PowerOffRoutine() { drive_flag_ = 0; }
 
 // Jitter calculation
-void RWModel::FastUpdate() { rw_jitter_.CalcJitter(angular_velocity_rad_s_); }
+void ReactionWheel::FastUpdate() { rw_jitter_.CalcJitter(angular_velocity_rad_s_); }
 
-libra::Vector<3> RWModel::CalcTorque() {
+libra::Vector<3> ReactionWheel::CalcTorque() {
   double pre_angular_velocity_rad = angular_velocity_rad_s_;
   if (!drive_flag_)  // RW power off -> coasting mode
   {
@@ -154,7 +156,7 @@ libra::Vector<3> RWModel::CalcTorque() {
   return output_torque_b_Nm_;
 }
 
-const libra::Vector<3> RWModel::GetOutputTorque_b_Nm() const {
+const libra::Vector<3> ReactionWheel::GetOutputTorque_b_Nm() const {
   if (is_calculated_jitter_) {
     // Add jitter_force_b_N_-derived torque and jitter_torque_b_Nm_ to output_torque_b
     return output_torque_b_Nm_ - libra::OuterProduct(position_b_m_, rw_jitter_.GetJitterForce_b_N()) - rw_jitter_.GetJitterTorque_b_Nm();
@@ -163,7 +165,7 @@ const libra::Vector<3> RWModel::GetOutputTorque_b_Nm() const {
   }
 }
 
-void RWModel::SetTargetTorque_rw_Nm(const double torque_rw_Nm) {
+void ReactionWheel::SetTargetTorque_rw_Nm(const double torque_rw_Nm) {
   // Check Torque Limit
   double sign;
   torque_rw_Nm > 0 ? sign = 1.0 : sign = -1.0;
@@ -173,9 +175,9 @@ void RWModel::SetTargetTorque_rw_Nm(const double torque_rw_Nm) {
     target_acceleration_rad_s2_ = sign * max_torque_Nm_ / rotor_inertia_kgm2_;
   }
 }
-void RWModel::SetTargetTorque_b_Nm(const double torque_b_Nm) { SetTargetTorque_rw_Nm(-1.0 * torque_b_Nm); }
+void ReactionWheel::SetTargetTorque_b_Nm(const double torque_b_Nm) { SetTargetTorque_rw_Nm(-1.0 * torque_b_Nm); }
 
-void RWModel::SetVelocityLimit_rpm(const double velocity_limit_rpm) {
+void ReactionWheel::SetVelocityLimit_rpm(const double velocity_limit_rpm) {
   if (velocity_limit_rpm > max_velocity_rpm_) {
     velocity_limit_rpm_ = max_velocity_rpm_;
   } else if (velocity_limit_rpm < -1.0 * max_velocity_rpm_) {
@@ -186,7 +188,7 @@ void RWModel::SetVelocityLimit_rpm(const double velocity_limit_rpm) {
   return;
 }
 
-std::string RWModel::GetLogHeader() const {
+std::string ReactionWheel::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "rw" + std::to_string(static_cast<long long>(component_id_)) + "_";
 
@@ -203,7 +205,7 @@ std::string RWModel::GetLogHeader() const {
   return str_tmp;
 }
 
-std::string RWModel::GetLogValue() const {
+std::string ReactionWheel::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteScalar(angular_velocity_rad_s_);

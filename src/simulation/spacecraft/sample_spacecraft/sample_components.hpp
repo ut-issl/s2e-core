@@ -38,7 +38,7 @@ class STT;
 class SunSensor;
 class GnssReceiver;
 class Magnetorquer;
-class RWModel;
+class ReactionWheel;
 class SimpleThruster;
 class ForceGenerator;
 class TorqueGenerator;
@@ -93,7 +93,7 @@ class SampleComponents : public InstalledComponents {
   SunSensor* sun_sensor_;              //!< Sun sensor
   GnssReceiver* gnss_;                 //!< GNSS receiver
   Magnetorquer* mag_torquer_;          //!< Magnetorquer
-  RWModel* rw_;                        //!< Reaction Wheel
+  ReactionWheel* rw_;                  //!< Reaction Wheel
   SimpleThruster* thruster_;           //!< Thruster
   ForceGenerator* force_generator_;    //!< Ideal Force Generator
   TorqueGenerator* torque_generator_;  //!< Ideal Torque Generator
