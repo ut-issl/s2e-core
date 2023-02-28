@@ -42,8 +42,8 @@ class I2cTargetCommunicationWithObc {
    * @param [in] obc: The communication target OnBoardComputer
    * @param [in] hils_port_manager: HILS port manager
    */
-  I2cTargetCommunicationWithObc(const unsigned int sils_port_id, const unsigned int hils_port_id, const unsigned char i2c_address, OnBoardComputer* obc,
-                                HilsPortManager* hils_port_manager);
+  I2cTargetCommunicationWithObc(const unsigned int sils_port_id, const unsigned int hils_port_id, const unsigned char i2c_address,
+                                OnBoardComputer* obc, HilsPortManager* hils_port_manager);
   /**
    * @fn I2cTargetCommunicationWithObc
    * @brief Prevent double freeing of memory when this class is copied
@@ -117,7 +117,7 @@ class I2cTargetCommunicationWithObc {
 
   OBC_COM_UART_MODE simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode
 
-  OnBoardComputer* obc_;                            //!< Communication target OnBoardComputer
+  OnBoardComputer* obc_;                //!< Communication target OnBoardComputer
   HilsPortManager* hils_port_manager_;  //!< HILS port manager
 };
 

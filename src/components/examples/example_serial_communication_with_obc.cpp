@@ -11,7 +11,8 @@ ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenera
     : Component(1000, clock_generator), UartCommunicationWithObc(port_id, obc) {
   Initialize();
 }
-ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, int prescaler, OnBoardComputer* obc)
+ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, int prescaler,
+                                                                     OnBoardComputer* obc)
     : Component(prescaler, clock_generator), UartCommunicationWithObc(port_id, obc) {
   Initialize();
 }

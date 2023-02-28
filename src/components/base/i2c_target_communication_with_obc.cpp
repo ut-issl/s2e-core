@@ -33,7 +33,8 @@ I2cTargetCommunicationWithObc::I2cTargetCommunicationWithObc(const unsigned int 
 }
 
 I2cTargetCommunicationWithObc::I2cTargetCommunicationWithObc(const unsigned int sils_port_id, const unsigned int hils_port_id,
-                                                             const unsigned char i2c_address, OnBoardComputer* obc, HilsPortManager* hils_port_manager)
+                                                             const unsigned char i2c_address, OnBoardComputer* obc,
+                                                             HilsPortManager* hils_port_manager)
     : sils_port_id_(sils_port_id), hils_port_id_(hils_port_id), i2c_address_(i2c_address), obc_(obc), hils_port_manager_(hils_port_manager) {
 #ifdef USE_HILS
   simulation_mode_ = OBC_COM_UART_MODE::HILS;

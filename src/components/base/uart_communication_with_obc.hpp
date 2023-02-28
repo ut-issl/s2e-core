@@ -44,7 +44,8 @@ class UartCommunicationWithObc {
    * @param [in] rx_buffer_size: RX (OnBoardComputer to Component) buffer size
    * @param [in] obc: The communication target OnBoardComputer
    */
-  UartCommunicationWithObc(const unsigned int sils_port_id, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size, OnBoardComputer* obc);
+  UartCommunicationWithObc(const unsigned int sils_port_id, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size,
+                           OnBoardComputer* obc);
   /**
    * @fn UartCommunicationWithObc
    * @brief Constructor for HILS mode
@@ -106,7 +107,7 @@ class UartCommunicationWithObc {
 
   OBC_COM_UART_MODE simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode
 
-  OnBoardComputer* obc_;                            //!< Communication target OnBoardComputer
+  OnBoardComputer* obc_;                //!< Communication target OnBoardComputer
   HilsPortManager* hils_port_manager_;  //!< HILS port manager
 
   /**

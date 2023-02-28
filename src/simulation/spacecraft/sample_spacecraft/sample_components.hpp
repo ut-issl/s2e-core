@@ -83,7 +83,7 @@ class SampleComponents : public InstalledComponents {
 
  private:
   PowerControlUnit* pcu_;               //!< Power Control Unit
-  OnBoardComputer* obc_;                            //!< Onboard Computer
+  OnBoardComputer* obc_;                //!< Onboard Computer
   HilsPortManager* hils_port_manager_;  //!< Port manager for HILS test
 
   // AOCS

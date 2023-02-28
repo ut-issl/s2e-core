@@ -64,8 +64,8 @@ UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int hils_port_
   InitializeObcComBase();
 }
 
-UartCommunicationWithObc::UartCommunicationWithObc(const int sils_port_id, OnBoardComputer* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
-                                                   HilsPortManager* hils_port_manager)
+UartCommunicationWithObc::UartCommunicationWithObc(const int sils_port_id, OnBoardComputer* obc, const unsigned int hils_port_id,
+                                                   const unsigned int baud_rate, HilsPortManager* hils_port_manager)
     : sils_port_id_(sils_port_id), hils_port_id_(hils_port_id), baud_rate_(baud_rate), obc_(obc), hils_port_manager_(hils_port_manager) {
 #ifdef USE_HILS
   simulation_mode_ = OBC_COM_UART_MODE::HILS;
