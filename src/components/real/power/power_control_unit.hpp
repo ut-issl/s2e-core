@@ -68,20 +68,20 @@ class PCU : public Component, public ILoggable {
    * @fn ConnectPort
    * @brief Connect power port between components and PCU
    * @param port_id: Power port ID
-   * @param [in] current_Limit: Threshold to detect over current [A]
+   * @param [in] current_limit_A: Threshold to detect over current [A]
    * @return 0: Success, -1: Error
    */
-  int ConnectPort(const int port_id, const double current_Limit);
+  int ConnectPort(const int port_id, const double current_limit_A);
   /**
    * @fn ConnectPort
    * @brief Connect power port between components and PCU
    * @param port_id: Power port ID
-   * @param [in] current_Limit: Threshold to detect over current [A]
-   * @param [in] minimum_voltage: Minimum voltage to work the component [V]
-   * @param [in] assumed_power_consumption: Assumed power consumption of the component [W]
+   * @param [in] current_limit_A: Threshold to detect over current [A]
+   * @param [in] minimum_voltage_V: Minimum voltage to work the component [V]
+   * @param [in] assumed_power_consumption_W: Assumed power consumption of the component [W]
    * @return 0: Success, -1: Error
    */
-  int ConnectPort(const int port_id, const double current_Limit, const double minimum_voltage, const double assumed_power_consumption);
+  int ConnectPort(const int port_id, const double current_limit_A, const double minimum_voltage_V, const double assumed_power_consumption_W);
   /**
    * @fn ClosePort
    * @brief Close power port between components and PCU

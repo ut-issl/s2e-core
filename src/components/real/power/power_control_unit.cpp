@@ -16,19 +16,19 @@ void PCU::MainRoutine(const int time_count) {
   // double current_ = power_ports_[1]->GetCurrentConsumption_A();
 }
 
-int PCU::ConnectPort(const int port_id, const double current_Limit) {
+int PCU::ConnectPort(const int port_id, const double current_limit_A) {
   // The port is already used
   if (power_ports_[port_id] != nullptr) return -1;
 
-  power_ports_[port_id] = new PowerPort(port_id, current_Limit);
+  power_ports_[port_id] = new PowerPort(port_id, current_limit_A);
   return 0;
 }
 
-int PCU::ConnectPort(const int port_id, const double current_Limit, const double minimum_voltage, const double assumed_power_consumption) {
+int PCU::ConnectPort(const int port_id, const double current_limit_A, const double minimum_voltage_V, const double assumed_power_consumption_W) {
   // The port is already used
   if (power_ports_[port_id] != nullptr) return -1;
 
-  power_ports_[port_id] = new PowerPort(port_id, current_Limit, minimum_voltage, assumed_power_consumption);
+  power_ports_[port_id] = new PowerPort(port_id, current_limit_A, minimum_voltage_V, assumed_power_consumption_W);
   return 0;
 }
 

@@ -8,9 +8,10 @@ OBC::OBC(ClockGenerator* clock_generator) : Component(1, clock_generator) { Init
 
 OBC::OBC(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port) : Component(prescaler, clock_generator, power_port) { Initialize(); }
 
-OBC::OBC(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const double minimum_voltage, const double assumed_power_consumption)
+OBC::OBC(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const double minimum_voltage_V,
+         const double assumed_power_consumption)
     : Component(prescaler, clock_generator, power_port) {
-  power_port_->SetMinimumVoltage_V(minimum_voltage);
+  power_port_->SetMinimumVoltage_V(minimum_voltage_V);
   power_port_->SetAssumedPowerConsumption_W(assumed_power_consumption);
   Initialize();
 }
