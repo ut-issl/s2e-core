@@ -15,11 +15,11 @@
 using namespace std;
 using namespace libra;
 
-STT::STT(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
-         const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
-         const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
-         const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s,
-         const Dynamics* dynamics, const LocalEnvironment* local_environment)
+StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+                       const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction,
+                       const double step_time_s, const unsigned int output_delay, const unsigned int output_interval,
+                       const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad,
+                       const double capture_rate_limit_rad_s, const Dynamics* dynamics, const LocalEnvironment* local_environment)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
@@ -39,11 +39,12 @@ STT::STT(const int prescaler, ClockGenerator* clock_generator, const int compone
       local_environment_(local_environment) {
   Initialize();
 }
-STT::STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const libra::Quaternion& quaternion_b2c,
-         const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
-         const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
-         const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s,
-         const Dynamics* dynamics, const LocalEnvironment* local_environment)
+StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+                       const libra::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
+                       const double standard_deviation_sight_direction, const double step_time_s, const unsigned int output_delay,
+                       const unsigned int output_interval, const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad,
+                       const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
+                       const LocalEnvironment* local_environment)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
@@ -64,7 +65,7 @@ STT::STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_
   Initialize();
 }
 
-void STT::Initialize() {
+void StarSensor::Initialize() {
   measured_quaternion_i2c_ = Quaternion(0.0, 0.0, 0.0, 1.0);
 
   // Decide delay buffer size
@@ -86,7 +87,7 @@ void STT::Initialize() {
 
   error_flag_ = true;
 }
-Quaternion STT::measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+Quaternion StarSensor::measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
   update(local_celestial_information, attitude);  // update delay buffer
   if (update_count_ == 0) {
     int hist = buffer_position_ - output_delay_ - 1;
@@ -102,7 +103,7 @@ Quaternion STT::measure(const LocalCelestialInformation* local_celestial_informa
   return measured_quaternion_i2c_;
 }
 
-void STT::update(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+void StarSensor::update(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
   Quaternion quaternion_i2b = attitude->GetQuaternion_i2b();  // Read true value
   Quaternion q_stt_temp = quaternion_i2b * quaternion_b2c_;   // Convert to component frame
   // Add noise on sight direction
@@ -115,7 +116,7 @@ void STT::update(const LocalCelestialInformation* local_celestial_information, c
   // Judge errors
   AllJudgement(local_celestial_information, attitude);
 
-  // Calc observed quaternion: Inertial frame → STT frame → Rotation around
+  // Calc observed quaternion: Inertial frame → StarSensor frame → Rotation around
   // sight →Rotation around orthogonal direction
   delay_buffer_[buffer_position_] = q_stt_temp * q_sight * q_ortho;
   // Update delay buffer position
@@ -123,7 +124,7 @@ void STT::update(const LocalCelestialInformation* local_celestial_information, c
   buffer_position_ %= max_delay_;
 }
 
-void STT::AllJudgement(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+void StarSensor::AllJudgement(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
   int judgement = 0;
   judgement = SunJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("SUN"));
   judgement += EarthJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH"));
@@ -135,7 +136,7 @@ void STT::AllJudgement(const LocalCelestialInformation* local_celestial_informat
     error_flag_ = false;
 }
 
-int STT::SunJudgement(const libra::Vector<3>& sun_b) {
+int StarSensor::SunJudgement(const libra::Vector<3>& sun_b) {
   Quaternion q_c2b = quaternion_b2c_.Conjugate();
   Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double sun_angle_rad = CalAngleVector_rad(sun_b, sight_b);
@@ -145,7 +146,7 @@ int STT::SunJudgement(const libra::Vector<3>& sun_b) {
     return 0;
 }
 
-int STT::EarthJudgement(const libra::Vector<3>& earth_b) {
+int StarSensor::EarthJudgement(const libra::Vector<3>& earth_b) {
   Quaternion q_c2b = quaternion_b2c_.Conjugate();
   Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double earth_size_rad = atan2(environment::earth_equatorial_radius_m,
@@ -158,7 +159,7 @@ int STT::EarthJudgement(const libra::Vector<3>& earth_b) {
     return 0;
 }
 
-int STT::MoonJudgement(const libra::Vector<3>& moon_b) {
+int StarSensor::MoonJudgement(const libra::Vector<3>& moon_b) {
   Quaternion q_c2b = quaternion_b2c_.Conjugate();
   Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double moon_angle_rad = CalAngleVector_rad(moon_b, sight_b);
@@ -168,7 +169,7 @@ int STT::MoonJudgement(const libra::Vector<3>& moon_b) {
     return 0;
 }
 
-int STT::CaptureRateJudgement(const libra::Vector<3>& omega_b_rad_s) {
+int StarSensor::CaptureRateJudgement(const libra::Vector<3>& omega_b_rad_s) {
   double omega_norm = CalcNorm(omega_b_rad_s);
   if (omega_norm > capture_rate_limit_rad_s_)
     return 1;
@@ -176,7 +177,7 @@ int STT::CaptureRateJudgement(const libra::Vector<3>& omega_b_rad_s) {
     return 0;
 }
 
-std::string STT::GetLogHeader() const {
+std::string StarSensor::GetLogHeader() const {
   std::string str_tmp = "";
   const std::string sensor_id = std::to_string(static_cast<long long>(component_id_));
   std::string sensor_name = "stt" + sensor_id + "_";
@@ -187,7 +188,7 @@ std::string STT::GetLogHeader() const {
   return str_tmp;
 }
 
-std::string STT::GetLogValue() const {
+std::string StarSensor::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteQuaternion(measured_quaternion_i2c_);
@@ -196,7 +197,7 @@ std::string STT::GetLogValue() const {
   return str_tmp;
 }
 
-double STT::CalAngleVector_rad(const Vector<3>& vector1, const Vector<3>& vector2) {
+double StarSensor::CalAngleVector_rad(const Vector<3>& vector1, const Vector<3>& vector2) {
   Vector<3> vect1_normal(vector1);
   Normalize(vect1_normal);  // Normalize Vector1
   Vector<3> vect2_normal(vector2);
@@ -206,7 +207,7 @@ double STT::CalAngleVector_rad(const Vector<3>& vector1, const Vector<3>& vector
   return theta_rad;
 }
 
-void STT::MainRoutine(int count) {
+void StarSensor::MainRoutine(int count) {
   UNUSED(count);
 
   measure(&(local_environment_->GetCelestialInformation()), &(dynamics_->GetAttitude()));

@@ -10,8 +10,8 @@
 
 using namespace std;
 
-STT InitSTT(ClockGenerator* clock_generator, int sensor_id, const string fname, double compo_step_time, const Dynamics* dynamics,
-            const LocalEnvironment* local_environment) {
+StarSensor InitSTT(ClockGenerator* clock_generator, int sensor_id, const string fname, double compo_step_time, const Dynamics* dynamics,
+                   const LocalEnvironment* local_environment) {
   IniAccess STT_conf(fname);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
@@ -37,14 +37,14 @@ STT InitSTT(ClockGenerator* clock_generator, int sensor_id, const string fname, 
   double capture_rate_deg_s = STT_conf.ReadDouble(STTSection, "angular_rate_limit_deg_s");
   double capture_rate_rad_s = capture_rate_deg_s * libra::pi / 180.0;
 
-  STT stt(prescaler, clock_generator, sensor_id, quaternion_b2c, standard_deviation_orthogonal_direction, standard_deviation_sight_direction,
-          step_time_s, output_delay, output_interval, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad,
-          capture_rate_rad_s, dynamics, local_environment);
+  StarSensor stt(prescaler, clock_generator, sensor_id, quaternion_b2c, standard_deviation_orthogonal_direction, standard_deviation_sight_direction,
+                 step_time_s, output_delay, output_interval, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad,
+                 capture_rate_rad_s, dynamics, local_environment);
   return stt;
 }
 
-STT InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string fname, double compo_step_time,
-            const Dynamics* dynamics, const LocalEnvironment* local_environment) {
+StarSensor InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string fname, double compo_step_time,
+                   const Dynamics* dynamics, const LocalEnvironment* local_environment) {
   IniAccess STT_conf(fname);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
@@ -73,8 +73,8 @@ STT InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_i
 
   power_port->InitializeWithInitializeFile(fname);
 
-  STT stt(prescaler, clock_generator, power_port, sensor_id, quaternion_b2c, standard_deviation_orthogonal_direction,
-          standard_deviation_sight_direction, step_time_s, output_delay, output_interval, sun_forbidden_angle_rad, earth_forbidden_angle_rad,
-          moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_environment);
+  StarSensor stt(prescaler, clock_generator, power_port, sensor_id, quaternion_b2c, standard_deviation_orthogonal_direction,
+                 standard_deviation_sight_direction, step_time_s, output_delay, output_interval, sun_forbidden_angle_rad, earth_forbidden_angle_rad,
+                 moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_environment);
   return stt;
 }

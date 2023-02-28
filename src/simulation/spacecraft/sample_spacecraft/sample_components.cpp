@@ -35,11 +35,11 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   mag_sensor_ = new Magnetometer(InitMagSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
                                                &(local_env_->GetGeomagneticField())));
 
-  // STT
+  // StarSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "stt_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  stt_ =
-      new STT(InitSTT(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_, local_env_));
+  stt_ = new StarSensor(
+      InitSTT(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_, local_env_));
 
   // SunSensor
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "ss_file");

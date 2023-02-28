@@ -19,13 +19,13 @@
 #include "dynamics/dynamics.hpp"
 
 /*
- * @class STT
+ * @class StarSensor
  * @brief Class to emulate star tracker
  */
-class STT : public Component, public ILoggable {
+class StarSensor : public Component, public ILoggable {
  public:
   /**
-   * @fn STT
+   * @fn StarSensor
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
@@ -43,13 +43,13 @@ class STT : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_environment: Local environment information
    */
-  STT(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
-      const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
-      const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
-      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
-      const LocalEnvironment* local_environment);
+  StarSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+             const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
+             const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
+             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s,
+             const Dynamics* dynamics, const LocalEnvironment* local_environment);
   /**
-   * @fn STT
+   * @fn StarSensor
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
@@ -68,11 +68,12 @@ class STT : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_environment: Local environment information
    */
-  STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const libra::Quaternion& quaternion_b2c,
-      const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
-      const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
-      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
-      const LocalEnvironment* local_environment);
+  StarSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+             const libra::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
+             const double standard_deviation_sight_direction, const double step_time_s, const unsigned int output_delay,
+             const unsigned int output_interval, const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad,
+             const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
+             const LocalEnvironment* local_environment);
 
   // Override functions for Component
   /**
@@ -105,10 +106,10 @@ class STT : public Component, public ILoggable {
   inline bool GetErrorFlag() const { return error_flag_; }
 
  protected:
-  // STT general parameters
+  // StarSensor general parameters
   const int component_id_;                                            //!< Sensor ID
   libra::Quaternion quaternion_b2c_;                                  //!< Quaternion from body frame to component frame
-  libra::Quaternion measured_quaternion_i2c_ = {0.0, 0.0, 0.0, 1.0};  //!< STT observed quaternion
+  libra::Quaternion measured_quaternion_i2c_ = {0.0, 0.0, 0.0, 1.0};  //!< StarSensor observed quaternion
   libra::Vector<3> sight_direction_c_;                                //!< Sight direction vector at component frame
   libra::Vector<3> first_orthogonal_direction_c;                      //!< The first orthogonal direction of sight at component frame
   libra::Vector<3> second_orthogonal_direction_c;                     //!< The second orthogonal direction of sight at component frame
