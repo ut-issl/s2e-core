@@ -630,7 +630,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
         double unix_time = (double)mktime(time_tm);
         const double interval = 6 * 60 * 60;
         if (start_unix_time < 0) {
-          start_unix_time = unix_time + (ur_flag - UR_OBSERVE1) * interval;
+          start_unix_time = unix_time + (ur_flag - UR_OBSERVE1) * interval;  // Fix here to use enum class
           end_unix_time = start_unix_time + interval;
         }
 
