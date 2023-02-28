@@ -113,9 +113,9 @@ RMMParams InitRMMParams(std::string ini_path) {
   libra::Vector<3> rmm_const_b;
   conf.ReadVector(section, "rmm_constant_b_Am2", rmm_const_b);
   double rmm_rwdev = conf.ReadDouble(section, "rmm_random_walk_speed_Am2");
-  double rmm_rwlimit = conf.ReadDouble(section, "rmm_random_walk_limit_Am2");
-  double rmm_wnvar = conf.ReadDouble(section, "rmm_white_noise_standard_deviation_Am2");
+  double random_walk_limit_Am2 = conf.ReadDouble(section, "rmm_random_walk_limit_Am2");
+  double random_noise_standard_deviation_Am2 = conf.ReadDouble(section, "rmm_white_noise_standard_deviation_Am2");
 
-  RMMParams rmm_params(rmm_const_b, rmm_rwdev, rmm_rwlimit, rmm_wnvar);
+  RMMParams rmm_params(rmm_const_b, rmm_rwdev, random_walk_limit_Am2, random_noise_standard_deviation_Am2);
   return rmm_params;
 }
