@@ -9,7 +9,7 @@
 #include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
 
-PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, BAT* bat,
+PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* bat,
                                    double component_step_time_s)
     : Component(prescaler, clock_generator),
       saps_(saps),
@@ -21,7 +21,7 @@ PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_ge
   power_consumption_ = 0.0;
 }
 
-PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, BAT* bat)
+PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* bat)
     : Component(10, clock_generator),
       saps_(saps),
       bat_(bat),

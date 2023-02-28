@@ -1,6 +1,6 @@
 /*
  * @file initialize_battery.hpp
- * @brief Initialize function of BAT
+ * @brief Initialize function of Battery
  */
 
 #ifndef S2E_COMPONENTS_REAL_POWER_INITIALIZE_BATTERY_HPP_
@@ -10,12 +10,12 @@
 
 /*
  * @fn InitBAT
- * @brief Initialize function of BAT
+ * @brief Initialize function of Battery
  * @param [in] clock_generator: Clock generator
  * @param [in] bat_id: Battery ID
  * @param [in] file_name: Path to initialize file
  * @param [in] component_step_time_s: Component step time [sec]
  */
-BAT InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_name, double component_step_time_s);
+Battery InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_name, double component_step_time_s);
 
 #endif  // S2E_COMPONENTS_REAL_POWER_INITIALIZE_BATTERY_HPP_

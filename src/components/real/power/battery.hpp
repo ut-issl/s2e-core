@@ -12,13 +12,13 @@
 #include "../../base/component.hpp"
 
 /*
- * @class BAT
+ * @class Battery
  * @brief Component emulation of battery
  */
-class BAT : public Component, public ILoggable {
+class Battery : public Component, public ILoggable {
  public:
   /**
-   * @fn BAT
+   * @fn Battery
    * @brief Constructor with prescaler
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
@@ -32,11 +32,11 @@ class BAT : public Component, public ILoggable {
    * @param [in] battery_resistance_Ohm: Battery internal resistance [Ohm]
    * @param [in] component_step_time_s: Component step time [sec]
    */
-  BAT(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
-      const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
-      double battery_resistance_Ohm, double component_step_time_s);
+  Battery(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
+          const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
+          double battery_resistance_Ohm, double component_step_time_s);
   /**
-   * @fn BAT
+   * @fn Battery
    * @brief Constructor without prescaler
    * @note prescaler is set as 10
    * @param [in] clock_generator: Clock generator
@@ -49,19 +49,19 @@ class BAT : public Component, public ILoggable {
    * @param [in] cv_charge_voltage_V: Constant charge voltage [V]
    * @param [in] battery_resistance_Ohm: Battery internal resistance [Ohm]
    */
-  BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
-      const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
-      double battery_resistance_Ohm);
+  Battery(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
+          const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
+          double battery_resistance_Ohm);
   /**
-   * @fn BAT
+   * @fn Battery
    * @brief Copy constructor
    */
-  BAT(const BAT& obj);
+  Battery(const Battery& obj);
   /**
-   * @fn ~BAT
+   * @fn ~Battery
    * @brief Destructor
    */
-  ~BAT();
+  ~Battery();
 
   /**
    * @fn SetChargeCurrent

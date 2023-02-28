@@ -10,7 +10,7 @@
 
 /*
  * @fn InitSAP
- * @brief Initialize function of BAT
+ * @brief Initialize function of Battery
  * @param [in] clock_generator: Clock generator
  * @param [in] sap_id: SAP ID
  * @param [in] file_name: Path to initialize file
@@ -23,7 +23,7 @@ SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_
 
 /*
  * @fn InitSAP
- * @brief Initialize function of BAT
+ * @brief Initialize function of Battery
  * @param [in] clock_generator: Clock generator
  * @param [in] sap_id: SAP ID
  * @param [in] file_name: Path to initialize file

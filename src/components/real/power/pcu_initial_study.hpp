@@ -24,7 +24,7 @@ class PCU_InitialStudy : public Component, public ILoggable {
    * @param [in] bat: Battery
    * @param [in] component_step_time_s: Component step time [sec]
    */
-  PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, BAT* bat, double component_step_time_s);
+  PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* bat, double component_step_time_s);
   /**
    * @fn PCU_InitialStudy
    * @brief Constructor
@@ -32,7 +32,7 @@ class PCU_InitialStudy : public Component, public ILoggable {
    * @param [in] saps: Solar Array Panels
    * @param [in] bat: Battery
    */
-  PCU_InitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, BAT* bat);
+  PCU_InitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* bat);
   /**
    * @fn ~PCU_InitialStudy
    * @brief Destructor
@@ -53,7 +53,7 @@ class PCU_InitialStudy : public Component, public ILoggable {
 
  private:
   const std::vector<SAP*> saps_;      //!< Solar Array Panels
-  BAT* const bat_;                    //!< Battery
+  Battery* const bat_;                //!< Battery
   const double cc_charge_current_C_;  //!< Constant charge current [C]
   const double cv_charge_voltage_V_;  //!< Constant charge voltage [V]
   double bus_voltage_;                //!< Bus voltage [V]

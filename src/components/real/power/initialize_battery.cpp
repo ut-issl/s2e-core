@@ -1,6 +1,6 @@
 ﻿/*
  * @file initialize_battery.cpp
- * @brief Initialize function of BAT
+ * @brief Initialize function of Battery
  */
 #define _CRT_SECURE_NO_WARNINGS
 #include "initialize_battery.hpp"
@@ -10,7 +10,7 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-BAT InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_name, double component_step_time_s) {
+Battery InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_name, double component_step_time_s) {
   IniAccess bat_conf(file_name);
 
   const std::string st_bat_id = std::to_string(bat_id);
@@ -52,8 +52,8 @@ BAT InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_
   double battery_resistance_Ohm;
   battery_resistance_Ohm = bat_conf.ReadDouble(Section, "battery_resistance_Ohm");
 
-  BAT bat(prescaler, clock_generator, number_of_series, number_of_parallel, cell_capacity_Ah, cell_discharge_curve_coefficients, initial_dod,
-          cc_charge_c_rate, cv_charge_voltage_V, battery_resistance_Ohm, component_step_time_s);
+  Battery bat(prescaler, clock_generator, number_of_series, number_of_parallel, cell_capacity_Ah, cell_discharge_curve_coefficients, initial_dod,
+              cc_charge_c_rate, cv_charge_voltage_V, battery_resistance_Ohm, component_step_time_s);
 
   return bat;
 }

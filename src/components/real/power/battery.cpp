@@ -7,9 +7,9 @@
 
 #include <cmath>
 
-BAT::BAT(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
-         const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
-         double battery_resistance_Ohm, double component_step_time_s)
+Battery::Battery(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
+                 const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
+                 double battery_resistance_Ohm, double component_step_time_s)
     : Component(prescaler, clock_generator),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
@@ -21,9 +21,9 @@ BAT::BAT(const int prescaler, ClockGenerator* clock_generator, int number_of_ser
       battery_resistance_Ohm_(battery_resistance_Ohm),
       compo_step_time_s_(component_step_time_s) {}
 
-BAT::BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
-         const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
-         double battery_resistance_Ohm)
+Battery::Battery(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
+                 const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
+                 double battery_resistance_Ohm)
     : Component(10, clock_generator),
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
@@ -35,7 +35,7 @@ BAT::BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_pa
       battery_resistance_Ohm_(battery_resistance_Ohm),
       compo_step_time_s_(0.1) {}
 
-BAT::BAT(const BAT& obj)
+Battery::Battery(const Battery& obj)
     : Component(obj),
       number_of_series_(obj.number_of_series_),
       number_of_parallel_(obj.number_of_parallel_),
@@ -50,9 +50,9 @@ BAT::BAT(const BAT& obj)
   UpdateBatVoltage();
 }
 
-BAT::~BAT() {}
+Battery::~Battery() {}
 
-std::string BAT::GetLogHeader() const {
+std::string Battery::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "battery_";
   str_tmp += WriteScalar(component_name + "voltage", "V");
@@ -60,14 +60,14 @@ std::string BAT::GetLogHeader() const {
   return str_tmp;
 }
 
-std::string BAT::GetLogValue() const {
+std::string Battery::GetLogValue() const {
   std::string str_tmp = "";
   str_tmp += WriteScalar(battery_voltage_V_);
   str_tmp += WriteScalar(depth_of_discharge_percent_);
   return str_tmp;
 }
 
-void BAT::MainRoutine(const int time_count) {
+void Battery::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
   double delta_time_query = compo_step_time_s_ * prescaler_;
@@ -75,7 +75,7 @@ void BAT::MainRoutine(const int time_count) {
   UpdateBatVoltage();
 }
 
-void BAT::UpdateBatVoltage() {
+void Battery::UpdateBatVoltage() {
   double cell_discharge_capasity = depth_of_discharge_percent_ / 100.0 * cell_capacity_Ah_;
   double temp = 0.0;
   int index = 0;
