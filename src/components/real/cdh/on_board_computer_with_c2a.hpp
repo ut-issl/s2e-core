@@ -67,20 +67,20 @@ class OBC_C2A : public OBC {
    * @param [in] port_id: Port ID
    * @param [in] buffer: Send data buffer
    * @param [in] offset: Data offset for the buffer
-   * @param [in] count: Length of send data
+   * @param [in] length: Length of send data
    * @return Number of written byte
    */
-  int SendFromObc(int port_id, unsigned char* buffer, int offset, int count) override;
+  int SendFromObc(int port_id, unsigned char* buffer, int offset, int length) override;
   /**
    * @fn ReceivedByCompo
    * @brief Read data from OBC to Components with UART used by component side.
    * @param [in] port_id: Port ID
    * @param [out] buffer: Read data buffer
    * @param [in] offset: Data offset for the buffer
-   * @param [in] count: Length of read data
+   * @param [in] length: Length of read data
    * @return Number of read byte
    */
-  int ReceivedByCompo(int port_id, unsigned char* buffer, int offset, int count) override;
+  int ReceivedByCompo(int port_id, unsigned char* buffer, int offset, int length) override;
 
   /**
    * @fn SendFromComponent
@@ -88,20 +88,20 @@ class OBC_C2A : public OBC {
    * @param [in] port_id: Port ID
    * @param [in] buffer: Send data buffer
    * @param [in] offset: Data offset for the buffer
-   * @param [in] count: Length of send data
+   * @param [in] length: Length of send data
    * @return Number of written byte
    */
-  int SendFromCompo(int port_id, unsigned char* buffer, int offset, int count) override;
+  int SendFromCompo(int port_id, unsigned char* buffer, int offset, int length) override;
   /**
    * @fn ReceivedByObc
    * @brief Read data from component to OBC with UART used by OBC side.
    * @param [in] port_id: Port ID
    * @param [out] buffer: Read data buffer
    * @param [in] offset: Data offset for the buffer
-   * @param [in] count: Length of read data
+   * @param [in] length: Length of read data
    * @return Number of read byte
    */
-  int ReceivedByObc(int port_id, unsigned char* buffer, int offset, int count) override;
+  int ReceivedByObc(int port_id, unsigned char* buffer, int offset, int length) override;
 
   // Static function for C2A
   /**
@@ -110,20 +110,20 @@ class OBC_C2A : public OBC {
    * @param [in] port_id: Port ID
    * @param [in] buffer: Send data buffer
    * @param [in] offset: Data offset for the buffer
-   * @param [in] count: Length of send data
+   * @param [in] length: Length of send data
    * @return Number of written byte
    */
-  static int SendFromObc_C2A(int port_id, unsigned char* buffer, int offset, int count);
+  static int SendFromObc_C2A(int port_id, unsigned char* buffer, int offset, int length);
   /**
    * @fn ReceivedByObc_C2A
    * @brief Read data from component to OBC with UART used by C2A flight software
    * @param [in] port_id: Port ID
    * @param [out] buffer: Read data buffer
    * @param [in] offset: Data offset for the buffer
-   * @param [in] count: Length of read data
+   * @param [in] length: Length of read data
    * @return Number of read byte
    */
-  static int ReceivedByObc_C2A(int port_id, unsigned char* buffer, int offset, int count);
+  static int ReceivedByObc_C2A(int port_id, unsigned char* buffer, int offset, int length);
 
   // I2C
   /**
@@ -131,11 +131,11 @@ class OBC_C2A : public OBC {
    * @brief Connect I2C communication port between OBC (I2C controller) and a component (I2C target)
    * @note Multiple target can be connected to one port ID
    * @param [in] port_id: Port ID
-   * @param [in] i2c_addr: I2C address of target device
+   * @param [in] i2c_address: I2C address of target device
    * @return 0
    */
 
-  int I2cConnectPort(int port_id, const unsigned char i2c_addr) override;
+  int I2cConnectPort(int port_id, const unsigned char i2c_address) override;
   /**
    * @fn I2cCloseComPort
    * @brief Close I2C communication port between OBC and a component
@@ -147,68 +147,68 @@ class OBC_C2A : public OBC {
    * @fn I2cComponentWriteRegister
    * @brief Write value in the target device's register
    * @param [in] port_id: Port ID
-   * @param [in] i2c_addr: I2C address of the target device
-   * @param [in] reg_addr: Register address of the target device
+   * @param [in] i2c_address: I2C address of the target device
+   * @param [in] reg_address: Register address of the target device
    * @param [in] data: Write data buffer
-   * @param [in] len: Length of data
+   * @param [in] length: Length of data
    * @return 0
    */
-  int I2cComponentWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, const unsigned char* data,
-                                const unsigned char len) override;
+  int I2cComponentWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char reg_address, const unsigned char* data,
+                                const unsigned char length) override;
   /**
    * @fn I2cComponentReadRegister
    * @brief Read value in the target device's register
    * @param [in] port_id: Port ID
-   * @param [in] i2c_addr: I2C address of the target device
-   * @param [in] reg_addr: Register address of the target device
+   * @param [in] i2c_address: I2C address of the target device
+   * @param [in] reg_address: Register address of the target device
    * @param [out] data: Write data buffer
-   * @param [in] len: Length of data
+   * @param [in] length: Length of data
    * @return 0
    */
-  int I2cComponentReadRegister(int port_id, const unsigned char i2c_addr, const unsigned char reg_addr, unsigned char* data,
-                               const unsigned char len) override;
+  int I2cComponentReadRegister(int port_id, const unsigned char i2c_address, const unsigned char reg_address, unsigned char* data,
+                               const unsigned char length) override;
   /**
    * @fn I2cComponentReadCommand
    * @brief Read command from OBC to target device's register
    * @param [in] port_id: Port ID
-   * @param [in] i2c_addr: I2C address of the target device
+   * @param [in] i2c_address: I2C address of the target device
    * @param [out] data: Write data buffer
-   * @param [in] len: Length of data
+   * @param [in] length: Length of data
    * @return 0
    */
-  int I2cComponentReadCommand(int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len) override;
+  int I2cComponentReadCommand(int port_id, const unsigned char i2c_address, unsigned char* data, const unsigned char length) override;
 
   // Static function for C2A
   /**
    * @fn I2cWriteCommand
    * @brief Write command to target device used in C2A flight software
    * @param [in] port_id: Port ID
-   * @param [in] i2c_addr: I2C address of the target device
+   * @param [in] i2c_address: I2C address of the target device
    * @param [in] data: Write data buffer
-   * @param [in] len: Length of data
+   * @param [in] length: Length of data
    * @return 0
    */
-  static int I2cWriteCommand(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len);
+  static int I2cWriteCommand(int port_id, const unsigned char i2c_address, const unsigned char* data, const unsigned char length);
   /**
    * @fn I2cWriteRegister
    * @brief Write value in the target device's register used in C2A flight software
    * @param [in] port_id: Port ID
-   * @param [in] i2c_addr: I2C address of the target device
+   * @param [in] i2c_address: I2C address of the target device
    * @param [in] data: Write data buffer
-   * @param [in] len: Length of data
+   * @param [in] length: Length of data
    * @return 0
    */
-  static int I2cWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len);
+  static int I2cWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char* data, const unsigned char length);
   /**
    * @fn I2cComponentReadRegister
    * @brief Read value in the target device's register used in C2A flight software
    * @param [in] port_id: Port ID
-   * @param [in] i2c_addr: I2C address of the target device
+   * @param [in] i2c_address: I2C address of the target device
    * @param [out] data: Write data buffer
-   * @param [in] len: Length of data
+   * @param [in] length: Length of data
    * @return 0
    */
-  static int I2cReadRegister(int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len);
+  static int I2cReadRegister(int port_id, const unsigned char i2c_address, unsigned char* data, const unsigned char length);
 
   // GPIO
   /**
@@ -258,7 +258,7 @@ class OBC_C2A : public OBC {
    * @fn MainRoutine
    * @brief Main routine to execute C2A
    */
-  void MainRoutine(int count);
+  void MainRoutine(const int time_count);
   /**
    * @fn Initialize
    * @brief Initialize function
@@ -275,13 +275,13 @@ class OBC_C2A : public OBC {
 // TODO: Delete these functions since C2A is changed to use UTF-8
 
 // C2A communication functions
-int OBC_C2A_SendFromObc(int port_id, unsigned char* buffer, int offset, int count);
-int OBC_C2A_ReceivedByObc(int port_id, unsigned char* buffer, int offset, int count);
+int OBC_C2A_SendFromObc(int port_id, unsigned char* buffer, int offset, int length);
+int OBC_C2A_ReceivedByObc(int port_id, unsigned char* buffer, int offset, int length);
 
 // I2C
-int OBC_C2A_I2cWriteCommand(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len);
-int OBC_C2A_I2cWriteRegister(int port_id, const unsigned char i2c_addr, const unsigned char* data, const unsigned char len);
-int OBC_C2A_I2cReadRegister(int port_id, const unsigned char i2c_addr, unsigned char* data, const unsigned char len);
+int OBC_C2A_I2cWriteCommand(int port_id, const unsigned char i2c_address, const unsigned char* data, const unsigned char length);
+int OBC_C2A_I2cWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char* data, const unsigned char length);
+int OBC_C2A_I2cReadRegister(int port_id, const unsigned char i2c_address, unsigned char* data, const unsigned char length);
 
 // GPIO
 int OBC_C2A_GpioWrite(int port_id, const bool is_high);

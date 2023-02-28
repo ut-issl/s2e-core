@@ -81,28 +81,28 @@ class HilsPortManager {
    * @fn I2cTargetReadRegister
    * @brief Read I2C register in S2E
    * @param [in] port_id: COM port ID
-   * @param [in] reg_addr: Register address to read
+   * @param [in] reg_address: Register address to read
    * @param [out] data: Data buffer to store the read data
-   * @param [in] len: Read data length
+   * @param [in] length: Read data length
    */
-  virtual int I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_addr, unsigned char* data, const unsigned char len);
+  virtual int I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_address, unsigned char* data, const unsigned char length);
   /**
    * @fn I2cTargetWriteRegister
    * @brief Write data to I2C register in S2E
    * @param [in] port_id: COM port ID
-   * @param [in] reg_addr: Register address to write
+   * @param [in] reg_address: Register address to write
    * @param [in] data: Data to write
-   * @param [in] len: Write data length
+   * @param [in] length: Write data length
    */
-  virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_addr, const unsigned char* data, const unsigned char len);
+  virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_address, const unsigned char* data, const unsigned char length);
   /**
    * @fn I2cTargetReadCommand
    * @brief Read I2C command buffer in S2E
    * @param [in] port_id: COM port ID
    * @param [out] data: Data buffer to store the read data
-   * @param [in] len: Read data length
+   * @param [in] length: Read data length
    */
-  virtual int I2cTargetReadCommand(unsigned int port_id, unsigned char* data, const unsigned char len);
+  virtual int I2cTargetReadCommand(unsigned int port_id, unsigned char* data, const unsigned char length);
 
   /**
    * @fn I2cTargetReceive
@@ -114,9 +114,9 @@ class HilsPortManager {
    * @fn I2cTargetSend
    * @brief Send data to the I2C-USB converter
    * @param [in] port_id: COM port ID
-   * @param [in] len: Data length to write
+   * @param [in] length: Data length to write
    */
-  virtual int I2cTargetSend(unsigned int port_id, const unsigned char len);
+  virtual int I2cTargetSend(unsigned int port_id, const unsigned char length);
   /**
    * @fn I2cTargetGetStoredFrameCounter
    * @brief Get stored frame counter

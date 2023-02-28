@@ -141,52 +141,53 @@ int HilsPortManager::I2cTargetCloseComPort(unsigned int port_id) {
 #endif
 }
 
-int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_addr, const unsigned char* data, const unsigned char len) {
+int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_address, const unsigned char* data,
+                                            const unsigned char length) {
 #ifdef USE_HILS
   HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
-  for (unsigned char i = 0; i < len; i++) {
-    port->WriteRegister(reg_addr + i, data[i]);
+  for (unsigned char i = 0; i < length; i++) {
+    port->WriteRegister(reg_address + i, data[i]);
   }
   return 0;
 #else
   UNUSED(port_id);
-  UNUSED(reg_addr);
+  UNUSED(reg_address);
   UNUSED(data);
-  UNUSED(len);
+  UNUSED(length);
 
   return -1;
 #endif
 }
 
-int HilsPortManager::I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_addr, unsigned char* data, const unsigned char len) {
+int HilsPortManager::I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_address, unsigned char* data, const unsigned char length) {
 #ifdef USE_HILS
   HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
-  for (unsigned char i = 0; i < len; i++) {
-    data[i] = port->ReadRegister(reg_addr + i);
+  for (unsigned char i = 0; i < length; i++) {
+    data[i] = port->ReadRegister(reg_address + i);
   }
   return 0;
 #else
   UNUSED(port_id);
-  UNUSED(reg_addr);
+  UNUSED(reg_address);
   UNUSED(data);
-  UNUSED(len);
+  UNUSED(length);
 
   return -1;
 #endif
 }
 
-int HilsPortManager::I2cTargetReadCommand(unsigned int port_id, unsigned char* data, const unsigned char len) {
+int HilsPortManager::I2cTargetReadCommand(unsigned int port_id, unsigned char* data, const unsigned char length) {
 #ifdef USE_HILS
   HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
-  port->ReadCommand(data, len);
+  port->ReadCommand(data, length);
   return 0;
 #else
   UNUSED(port_id);
   UNUSED(data);
-  UNUSED(len);
+  UNUSED(length);
 
   return -1;
 #endif
@@ -210,20 +211,20 @@ int HilsPortManager::I2cTargetReceive(unsigned int port_id) {
 #endif
 }
 
-int HilsPortManager::I2cTargetSend(unsigned int port_id, const unsigned char len) {
+int HilsPortManager::I2cTargetSend(unsigned int port_id, const unsigned char length) {
 #ifdef USE_HILS
   HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
-  int ret = port->Send(len);
+  int ret = port->Send(length);
 #ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
-  if (len > 0) {
-    printf("I2C PORT ID: %d sent %d bytes\n", port_id, len);
+  if (length > 0) {
+    printf("I2C PORT ID: %d sent %d bytes\n", port_id, length);
   }
 #endif
   return ret;
 #else
   UNUSED(port_id);
-  UNUSED(len);
+  UNUSED(length);
 
   return -1;
 #endif
