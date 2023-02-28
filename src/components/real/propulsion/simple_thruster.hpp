@@ -89,15 +89,15 @@ class SimpleThruster : public Component, public ILoggable {
 
   // Getter
   /**
-   * @fn GetThrustB
+   * @fn GetOutputThrust_b_N
    * @brief Return generated thrust on the body fixed frame [N]
    */
-  inline const Vector<3> GetThrustB() const { return output_thrust_b_N_; };
+  inline const Vector<3> GetOutputThrust_b_N() const { return output_thrust_b_N_; };
   /**
-   * @fn GetTorqueB
+   * @fn GetOutputTorque_b_Nm
    * @brief Return generated torque on the body fixed frame [Nm]
    */
-  inline const Vector<3> GetTorqueB() const { return output_torque_b_Nm_; };
+  inline const Vector<3> GetOutputTorque_b_Nm() const { return output_torque_b_Nm_; };
 
   // Setter
   /**

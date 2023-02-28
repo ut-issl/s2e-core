@@ -152,7 +152,7 @@ SampleComponents::~SampleComponents() {
 
 libra::Vector<3> SampleComponents::GenerateForce_N_b() {
   libra::Vector<3> force_N_b_(0.0);
-  force_N_b_ += thruster_->GetThrustB();
+  force_N_b_ += thruster_->GetOutputThrust_b_N();
   force_N_b_ += force_generator_->GetGeneratedForce_b_N();
   return force_N_b_;
 }
@@ -161,7 +161,7 @@ libra::Vector<3> SampleComponents::GenerateTorque_Nm_b() {
   libra::Vector<3> torque_Nm_b_(0.0);
   torque_Nm_b_ += mag_torquer_->GetOutputTorque_b_Nm();
   torque_Nm_b_ += rw_->GetOutputTorque_b_Nm();
-  torque_Nm_b_ += thruster_->GetTorqueB();
+  torque_Nm_b_ += thruster_->GetOutputTorque_b_Nm();
   torque_Nm_b_ += torque_generator_->GetGeneratedTorque_b_Nm();
   return torque_Nm_b_;
 }
