@@ -6,23 +6,27 @@
 
 #include <library/math/quaternion.hpp>
 
-MagSensor::MagSensor(int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const int sensor_id, const Quaternion& quaternion_b2c,
-                     const GeomagneticField* magnet)
-    : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), quaternion_b2c_(quaternion_b2c), magnet_(magnet) {}
-MagSensor::MagSensor(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const int sensor_id,
+MagSensor::MagSensor(int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
+                     const Quaternion& quaternion_b2c, const GeomagneticField* magnet)
+    : Component(prescaler, clock_generator),
+      Sensor(sensor_base),
+      sensor_id_(sensor_id),
+      quaternion_b2c_(quaternion_b2c),
+      geomagnetic_field_(magnet) {}
+MagSensor::MagSensor(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
                      const Quaternion& quaternion_b2c, const GeomagneticField* magnet)
     : Component(prescaler, clock_generator, power_port),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
       quaternion_b2c_(quaternion_b2c),
-      magnet_(magnet) {}
+      geomagnetic_field_(magnet) {}
 MagSensor::~MagSensor() {}
 
 void MagSensor::MainRoutine(int count) {
   UNUSED(count);
 
-  mag_c_ = quaternion_b2c_.FrameConversion(magnet_->GetGeomagneticField_b_nT());  // Convert frame
-  mag_c_ = Measure(mag_c_);                                                       // Add noises
+  magnetic_field_c_nT_ = quaternion_b2c_.FrameConversion(geomagnetic_field_->GetGeomagneticField_b_nT());  // Convert frame
+  magnetic_field_c_nT_ = Measure(magnetic_field_c_nT_);                                                    // Add noises
 }
 
 std::string MagSensor::GetLogHeader() const {
@@ -37,7 +41,7 @@ std::string MagSensor::GetLogHeader() const {
 std::string MagSensor::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(mag_c_);
+  str_tmp += WriteVector(magnetic_field_c_nT_);
 
   return str_tmp;
 }
