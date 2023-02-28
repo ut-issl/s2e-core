@@ -33,7 +33,7 @@ std::string Magnetometer::GetLogHeader() const {
   std::string str_tmp = "";
   const std::string sensor_id = std::to_string(static_cast<long long>(sensor_id_));
   std::string sensor_name = "magnetometer" + sensor_id + "_";
-  str_tmp += WriteVector(sensor_name + "measured_magnetic_field", "c", "nT", kMagDim);
+  str_tmp += WriteVector(sensor_name + "measured_magnetic_field", "c", "nT", kMagnetometerDimension);
 
   return str_tmp;
 }

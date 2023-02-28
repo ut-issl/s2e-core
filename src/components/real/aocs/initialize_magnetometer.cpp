@@ -21,7 +21,8 @@ Magnetometer InitMagSensor(ClockGenerator* clock_generator, int sensor_id, const
   magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", quaternion_b2c);
 
   // Sensor
-  Sensor<kMagDim> sensor_base = ReadSensorInformation<kMagDim>(fname, compo_step_time * (double)(prescaler), MSSection, "nT");
+  Sensor<kMagnetometerDimension> sensor_base =
+      ReadSensorInformation<kMagnetometerDimension>(fname, compo_step_time * (double)(prescaler), MSSection, "nT");
 
   Magnetometer magsensor(prescaler, clock_generator, sensor_base, sensor_id, quaternion_b2c, geomagnetic_field);
   return magsensor;
@@ -41,7 +42,8 @@ Magnetometer InitMagSensor(ClockGenerator* clock_generator, PowerPort* power_por
   magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", quaternion_b2c);
 
   // Sensor
-  Sensor<kMagDim> sensor_base = ReadSensorInformation<kMagDim>(fname, compo_step_time * (double)(prescaler), MSSection, "nT");
+  Sensor<kMagnetometerDimension> sensor_base =
+      ReadSensorInformation<kMagnetometerDimension>(fname, compo_step_time * (double)(prescaler), MSSection, "nT");
 
   // PowerPort
   power_port->InitializeWithInitializeFile(fname);

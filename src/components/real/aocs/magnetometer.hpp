@@ -13,13 +13,13 @@
 #include "../../base/component.hpp"
 #include "../../base/sensor.hpp"
 
-const size_t kMagDim = 3;  //!< Dimension of magnetometer
+const size_t kMagnetometerDimension = 3;  //!< Dimension of magnetometer
 
 /**
  * @class Magnetometer
  * @brief Class to emulate magnetometer
  */
-class Magnetometer : public Component, public Sensor<kMagDim>, public ILoggable {
+class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, public ILoggable {
  public:
   /**
    * @fn Magnetometer
@@ -75,12 +75,12 @@ class Magnetometer : public Component, public Sensor<kMagDim>, public ILoggable 
    * @fn GetMeasuredMagneticField_c_nT
    * @brief Return observed magnetic field on the component frame
    */
-  inline const libra::Vector<kMagDim>& GetMeasuredMagneticField_c_nT(void) const { return magnetic_field_c_nT_; }
+  inline const libra::Vector<kMagnetometerDimension>& GetMeasuredMagneticField_c_nT(void) const { return magnetic_field_c_nT_; }
 
  protected:
-  libra::Vector<kMagDim> magnetic_field_c_nT_{0.0};       //!< Observed magnetic field on the component frame [nT]
-  unsigned int sensor_id_ = 0;                            //!< Sensor ID
-  libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
+  libra::Vector<kMagnetometerDimension> magnetic_field_c_nT_{0.0};  //!< Observed magnetic field on the component frame [nT]
+  unsigned int sensor_id_ = 0;                                      //!< Sensor ID
+  libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from body frame to component frame
 
   const GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
 };
