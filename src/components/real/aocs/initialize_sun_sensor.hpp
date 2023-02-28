@@ -15,7 +15,7 @@
  * @param [in] sensor_id: Sensor ID
  * @param [in] fname: Path to the initialize file
  * @param [in] srp: Solar radiation pressure environment
- * @param [in] local_env: Local environment information
+ * @param [in] local_environment: Local environment information
  */
 SunSensor InitSunSensor(ClockGenerator* clock_generator, int sensor_id, const std::string fname, const SolarRadiationPressureEnvironment* srp,
                         const LocalCelestialInformation* local_celestial_information);
@@ -27,7 +27,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, int sensor_id, const st
  * @param [in] sensor_id: Sensor ID
  * @param [in] fname: Path to the initialize file
  * @param [in] srp: Solar radiation pressure environment
- * @param [in] local_env: Local environment information
+ * @param [in] local_environment: Local environment information
  */
 SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string fname,
                         const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celestial_information);

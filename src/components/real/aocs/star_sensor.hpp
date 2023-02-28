@@ -31,22 +31,23 @@ class STT : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] component_id: Sensor ID
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
-   * @param [in] sigma_ortho: Standard deviation for random noise in orthogonal direction of sight [rad]
-   * @param [in] sigma_sight: Standard deviation for random noise in sight direction[rad]
-   * @param [in] step_time: Step time for delay calculation [sec]
+   * @param [in] standard_deviation_orthogonal_direction: Standard deviation for random noise in orthogonal direction of sight [rad]
+   * @param [in] standard_deviation_sight_direction: Standard deviation for random noise in sight direction[rad]
+   * @param [in] step_time_s: Step time for delay calculation [sec]
    * @param [in] output_delay: Output delay [0, max_delay_] [step_sec]
    * @param [in] output_interval: Output interval [step_sec]
-   * @param [in] sun_forbidden_angle: Sun forbidden angle [rad]
-   * @param [in] earth_forbidden_angle: Earth forbidden angle [rad]
-   * @param [in] moon_forbidden_angle: Moon forbidden angle [rad]
-   * @param [in] capture_rate: Angular rate limit to get correct attitude [rad/s]
+   * @param [in] sun_forbidden_angle_rad: Sun forbidden angle [rad]
+   * @param [in] earth_forbidden_angle_rad: Earth forbidden angle [rad]
+   * @param [in] moon_forbidden_angle_rad: Moon forbidden angle [rad]
+   * @param [in] capture_rate_limit_rad_s: Angular rate limit to get correct attitude [rad/s]
    * @param [in] dynamics: Dynamics information
-   * @param [in] local_env: Local environment information
+   * @param [in] local_environment: Local environment information
    */
-  STT(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c, const double sigma_ortho,
-      const double sigma_sight, const double step_time, const unsigned int output_delay, const unsigned int output_interval,
-      const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
-      const Dynamics* dynamics, const LocalEnvironment* local_env);
+  STT(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+      const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
+      const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
+      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
+      const LocalEnvironment* local_environment);
   /**
    * @fn STT
    * @brief Constructor with power port
@@ -55,22 +56,23 @@ class STT : public Component, public ILoggable {
    * @param [in] power_port: Power port
    * @param [in] component_id: Sensor ID
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
-   * @param [in] sigma_ortho: Standard deviation for random noise in orthogonal direction of sight [rad]
-   * @param [in] sigma_sight: Standard deviation for random noise in sight direction[rad]
-   * @param [in] step_time: Step time for delay calculation [sec]
+   * @param [in] standard_deviation_orthogonal_direction: Standard deviation for random noise in orthogonal direction of sight [rad]
+   * @param [in] standard_deviation_sight_direction: Standard deviation for random noise in sight direction[rad]
+   * @param [in] step_time_s: Step time for delay calculation [sec]
    * @param [in] output_delay: Output delay [0, max_delay_] [step_sec]
    * @param [in] output_interval: Output interval [step_sec]
-   * @param [in] sun_forbidden_angle: Sun forbidden angle [rad]
-   * @param [in] earth_forbidden_angle: Earth forbidden angle [rad]
-   * @param [in] moon_forbidden_angle: Moon forbidden angle [rad]
-   * @param [in] capture_rate: Angular rate limit to get correct attitude [rad/s]
+   * @param [in] sun_forbidden_angle_rad: Sun forbidden angle [rad]
+   * @param [in] earth_forbidden_angle_rad: Earth forbidden angle [rad]
+   * @param [in] moon_forbidden_angle_rad: Moon forbidden angle [rad]
+   * @param [in] capture_rate_limit_rad_s: Angular rate limit to get correct attitude [rad/s]
    * @param [in] dynamics: Dynamics information
-   * @param [in] local_env: Local environment information
+   * @param [in] local_environment: Local environment information
    */
   STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const libra::Quaternion& quaternion_b2c,
-      const double sigma_ortho, const double sigma_sight, const double step_time, const unsigned int output_delay, const unsigned int output_interval,
-      const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle, const double capture_rate,
-      const Dynamics* dynamics, const LocalEnvironment* local_env);
+      const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
+      const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
+      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
+      const LocalEnvironment* local_environment);
 
   // Override functions for Component
   /**

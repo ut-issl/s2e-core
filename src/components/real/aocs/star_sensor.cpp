@@ -16,49 +16,51 @@ using namespace std;
 using namespace libra;
 
 STT::STT(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
-         const double sigma_ortho, const double sigma_sight, const double step_time, const unsigned int output_delay,
-         const unsigned int output_interval, const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle,
-         const double capture_rate, const Dynamics* dynamics, const LocalEnvironment* local_env)
+         const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
+         const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
+         const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s,
+         const Dynamics* dynamics, const LocalEnvironment* local_environment)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       rotation_noise_(global_randomization.MakeSeed()),
-      orthogonal_direction_noise_(0.0, sigma_ortho, global_randomization.MakeSeed()),
-      sight_direction_noise_(0.0, sigma_sight, global_randomization.MakeSeed()),
+      orthogonal_direction_noise_(0.0, standard_deviation_orthogonal_direction, global_randomization.MakeSeed()),
+      sight_direction_noise_(0.0, standard_deviation_sight_direction, global_randomization.MakeSeed()),
       buffer_position_(0),
-      step_time_s_(step_time),
+      step_time_s_(step_time_s),
       output_delay_(output_delay),
       output_interval_(output_interval),
       update_count_(0),
-      sun_forbidden_angle_rad_(sun_forbidden_angle),
-      earth_forbidden_angle_rad_(earth_forbidden_angle),
-      moon_forbidden_angle_rad_(moon_forbidden_angle),
-      capture_rate_limit_rad_s_(capture_rate),
+      sun_forbidden_angle_rad_(sun_forbidden_angle_rad),
+      earth_forbidden_angle_rad_(earth_forbidden_angle_rad),
+      moon_forbidden_angle_rad_(moon_forbidden_angle_rad),
+      capture_rate_limit_rad_s_(capture_rate_limit_rad_s),
       dynamics_(dynamics),
-      local_environment_(local_env) {
+      local_environment_(local_environment) {
   Initialize();
 }
 STT::STT(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const libra::Quaternion& quaternion_b2c,
-         const double sigma_ortho, const double sigma_sight, const double step_time, const unsigned int output_delay,
-         const unsigned int output_interval, const double sun_forbidden_angle, const double earth_forbidden_angle, const double moon_forbidden_angle,
-         const double capture_rate, const Dynamics* dynamics, const LocalEnvironment* local_env)
+         const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
+         const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
+         const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s,
+         const Dynamics* dynamics, const LocalEnvironment* local_environment)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       rotation_noise_(global_randomization.MakeSeed()),
-      orthogonal_direction_noise_(0.0, sigma_ortho, global_randomization.MakeSeed()),
-      sight_direction_noise_(0.0, sigma_sight, global_randomization.MakeSeed()),
+      orthogonal_direction_noise_(0.0, standard_deviation_orthogonal_direction, global_randomization.MakeSeed()),
+      sight_direction_noise_(0.0, standard_deviation_sight_direction, global_randomization.MakeSeed()),
       buffer_position_(0),
-      step_time_s_(step_time),
+      step_time_s_(step_time_s),
       output_delay_(output_delay),
       output_interval_(output_interval),
       update_count_(0),
-      sun_forbidden_angle_rad_(sun_forbidden_angle),
-      earth_forbidden_angle_rad_(earth_forbidden_angle),
-      moon_forbidden_angle_rad_(moon_forbidden_angle),
-      capture_rate_limit_rad_s_(capture_rate),
+      sun_forbidden_angle_rad_(sun_forbidden_angle_rad),
+      earth_forbidden_angle_rad_(earth_forbidden_angle_rad),
+      moon_forbidden_angle_rad_(moon_forbidden_angle_rad),
+      capture_rate_limit_rad_s_(capture_rate_limit_rad_s),
       dynamics_(dynamics),
-      local_environment_(local_env) {
+      local_environment_(local_environment) {
   Initialize();
 }
 

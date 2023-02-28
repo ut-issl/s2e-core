@@ -9,9 +9,9 @@
 
 #include "sample_port_configuration.hpp"
 
-SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_env,
+SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_environment,
                                    const GlobalEnvironment* glo_env, const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id)
-    : config_(config), dynamics_(dynamics), structure_(structure), local_env_(local_env), glo_env_(glo_env) {
+    : config_(config), dynamics_(dynamics), structure_(structure), local_env_(local_environment), glo_env_(glo_env) {
   IniAccess iniAccess = IniAccess(config_->sat_file_[sat_id]);
 
   // PCU power port connection

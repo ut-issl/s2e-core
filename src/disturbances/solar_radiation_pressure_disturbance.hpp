@@ -34,7 +34,7 @@ class SolarRadiationPressureDisturbance : public SurfaceForce {
    * @param [in] local_environment: Local environment information
    * @param [in] dynamics: Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_env, const Dynamics& dynamics);
+  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
 
   // Override ILoggable
   /**

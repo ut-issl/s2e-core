@@ -53,7 +53,7 @@ class SampleComponents : public InstalledComponents {
    * @fn SampleComponents
    * @brief Constructor
    */
-  SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_env, const GlobalEnvironment* glo_env,
+  SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_environment, const GlobalEnvironment* glo_env,
                    const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id);
   /**
    * @fn ~SampleComponents

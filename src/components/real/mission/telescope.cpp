@@ -11,15 +11,15 @@
 using namespace std;
 using namespace libra;
 
-Telescope::Telescope(ClockGenerator* clock_generator, libra::Quaternion& quaternion_b2c, double sun_forbidden_angle, double earth_forbidden_angle,
-                     double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix,
-                     size_t num_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipp,
+Telescope::Telescope(ClockGenerator* clock_generator, libra::Quaternion& quaternion_b2c, double sun_forbidden_angle_rad,
+                     double earth_forbidden_angle_rad, double moon_forbidden_angle_rad, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix,
+                     double y_fov_par_pix, size_t num_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipp,
                      const LocalCelestialInformation* local_celestial_information)
     : Component(1, clock_generator),
       quaternion_b2c_(quaternion_b2c),
-      sun_forbidden_angle_rad_(sun_forbidden_angle),
-      earth_forbidden_angle_rad_(earth_forbidden_angle),
-      moon_forbidden_angle_rad_(moon_forbidden_angle),
+      sun_forbidden_angle_rad_(sun_forbidden_angle_rad),
+      earth_forbidden_angle_rad_(earth_forbidden_angle_rad),
+      moon_forbidden_angle_rad_(moon_forbidden_angle_rad),
       x_num_of_pix_(x_num_of_pix),
       y_num_of_pix_(y_num_of_pix),
       x_fov_par_pix_(x_fov_par_pix),

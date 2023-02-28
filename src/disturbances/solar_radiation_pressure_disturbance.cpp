@@ -13,11 +13,11 @@ SolarRadiationPressureDisturbance::SolarRadiationPressureDisturbance(const vecto
                                                                      const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled) {}
 
-void SolarRadiationPressureDisturbance::Update(const LocalEnvironment& local_env, const Dynamics& dynamics) {
+void SolarRadiationPressureDisturbance::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   UNUSED(dynamics);
 
-  libra::Vector<3> sun_position_from_sc_b_m = local_env.GetCelestialInformation().GetPositionFromSpacecraft_b_m("SUN");
-  CalcTorqueForce(sun_position_from_sc_b_m, local_env.GetSolarRadiationPressure().GetPressure_N_m2());
+  libra::Vector<3> sun_position_from_sc_b_m = local_environment.GetCelestialInformation().GetPositionFromSpacecraft_b_m("SUN");
+  CalcTorqueForce(sun_position_from_sc_b_m, local_environment.GetSolarRadiationPressure().GetPressure_N_m2());
 }
 
 void SolarRadiationPressureDisturbance::CalcCoefficients(const libra::Vector<3>& input_direction_b, const double item) {

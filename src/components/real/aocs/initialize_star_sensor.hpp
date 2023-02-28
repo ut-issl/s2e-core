@@ -16,10 +16,10 @@
  * @param [in] fname: Path to the initialize file
  * @param [in] compo_step_time: Component step time [sec]
  * @param [in] dynamics: Dynamics information
- * @param [in] local_env: Local environment information
+ * @param [in] local_environment: Local environment information
  */
 STT InitSTT(ClockGenerator* clock_generator, int sensor_id, const std::string fname, double compo_step_time, const Dynamics* dynamics,
-            const LocalEnvironment* local_env);
+            const LocalEnvironment* local_environment);
 /**
  * @fn InitSTT
  * @brief Initialize functions for STT with power port
@@ -29,9 +29,9 @@ STT InitSTT(ClockGenerator* clock_generator, int sensor_id, const std::string fn
  * @param [in] fname: Path to the initialize file
  * @param [in] compo_step_time: Component step time [sec]
  * @param [in] dynamics: Dynamics information
- * @param [in] local_env: Local environment information
+ * @param [in] local_environment: Local environment information
  */
 STT InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
-            const Dynamics* dynamics, const LocalEnvironment* local_env);
+            const Dynamics* dynamics, const LocalEnvironment* local_environment);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_INITIALIZE_STAR_SENSOR_HPP_
