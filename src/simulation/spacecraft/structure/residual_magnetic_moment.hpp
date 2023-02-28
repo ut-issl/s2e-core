@@ -29,25 +29,25 @@ class RMMParams {
 
   // Getter
   /**
-   * @fn GetRMMConst_b
+   * @fn GetConstantValue_b_Am2
    * @brief Return Constant value of RMM at body frame [Am2]
    */
-  inline const Vector<3>& GetRMMConst_b(void) const { return constant_value_b_Am2_; }
+  inline const Vector<3>& GetConstantValue_b_Am2(void) const { return constant_value_b_Am2_; }
   /**
-   * @fn GetRMMRWDev
+   * @fn GetRandomWalkStandardDeviation_Am2
    * @brief Return Random walk standard deviation of RMM [Am2]
    */
-  inline const double& GetRMMRWDev(void) const { return random_walk_standard_deviation_Am2_; }
+  inline const double& GetRandomWalkStandardDeviation_Am2(void) const { return random_walk_standard_deviation_Am2_; }
   /**
-   * @fn GetRMMRWDev
+   * @fn GetRandomWalkLimit_Am2
    * @brief Random walk limit of RMM [Am2]
    */
-  inline const double& GetRMMRWLimit(void) const { return random_walk_limit_Am2_; }
+  inline const double& GetRandomWalkLimit_Am2(void) const { return random_walk_limit_Am2_; }
   /**
-   * @fn GetRMMRWDev
+   * @fn GetRandomNoiseStandardDeviation_Am2
    * @brief Standard deviation of white noise of RMM [Am2]
    */
-  inline const double& GetRMMWNVar(void) const { return random_noise_standard_deviation_Am2_; }
+  inline const double& GetRandomNoiseStandardDeviation_Am2(void) const { return random_noise_standard_deviation_Am2_; }
 
   // Setter
   /**
