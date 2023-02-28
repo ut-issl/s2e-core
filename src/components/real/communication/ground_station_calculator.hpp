@@ -14,13 +14,13 @@
 #include <simulation/ground_station/ground_station.hpp>
 
 /*
- * @class GScalculator
+ * @class GroundStationCalculator
  * @brief Emulation of analysis and calculation for Ground Stations
  */
-class GScalculator : public ILoggable {
+class GroundStationCalculator : public ILoggable {
  public:
   /**
-   * @fn GScalculator
+   * @fn GroundStationCalculator
    * @brief Constructor
    * @param [in] loss_polarization_dB: Loss polarization [dB]
    * @param [in] loss_atmosphere_dB: Loss atmosphere [dB]
@@ -32,19 +32,18 @@ class GScalculator : public ILoggable {
    * @param [in] margin_requirement_dB: Required margin to calculate max bitrate [dB]
    * @param [in] downlink_bitrate_bps: Downlink bitrate to calculate receive margin [bps]
    */
-  GScalculator(const double loss_polarization_dB, const double loss_atmosphere_dB, const double loss_rainfall_dB, const double loss_others_dB,
-               const double EbN0, const double hardware_deterioration_dB, const double coding_gain_dB, const double margin_requirement_dB,
-               const double downlink_bitrate_bps = 1000);
+  GroundStationCalculator(const double loss_polarization_dB, const double loss_atmosphere_dB, const double loss_rainfall_dB,
+                          const double loss_others_dB, const double EbN0, const double hardware_deterioration_dB, const double coding_gain_dB,
+                          const double margin_requirement_dB, const double downlink_bitrate_bps = 1000);
   /**
-   * @fn ~GScalculator
+   * @fn ~GroundStationCalculator
    * @brief Destructor
    */
-  virtual ~GScalculator();
+  virtual ~GroundStationCalculator();
 
   /**
    * @fn Update
    * @brief Update maximum bitrate calculation
-   * @note TODO: fix function name
    * @param [in] spacecraft: Spacecraft information
    * @param [in] spacecraft_tx_antenna: Antenna mounted on spacecraft
    * @param [in] ground_station: Ground station information

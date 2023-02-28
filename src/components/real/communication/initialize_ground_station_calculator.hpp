@@ -14,6 +14,6 @@
  * @param [in] file_name: Path to initialize file
  */
 
-GScalculator InitGScalculator(const std::string file_name);
+GroundStationCalculator InitGScalculator(const std::string file_name);
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_INITIALIZE_GROUND_STATION_CALCULATOR_HPP_
