@@ -82,8 +82,8 @@ class InitParameter {
  private:
   std::vector<double> randomized_value_;  //!< Randomized value
 
-  std::vector<double> mean_or_min_;   //!< mean or minimum value. Refer comment in gen_[RandomizationType] function.
-  std::vector<double> sigma_or_max_;  //!< standard deviation or maximum value. Refer comment in gen_[RandomizationType] function.
+  std::vector<double> mean_or_min_;   //!< mean or minimum value. Refer comment in Generate[RandomizationType] function.
+  std::vector<double> sigma_or_max_;  //!< standard deviation or maximum value. Refer comment in Generate[RandomizationType] function.
 
   // For randomization
   RandomizationType randomization_type_;                           //!< Randomization type
@@ -93,81 +93,81 @@ class InitParameter {
   static std::normal_distribution<>* normal_distribution_;         //!< Normal random number generator
 
   /**
-   * @fn Uniform_1d
+   * @fn Generate1dUniform
    * @brief Generate 1-dimensional uniform distribution random number
    */
-  static double Uniform_1d(double lb, double ub);
+  static double Generate1dUniform(double lb, double ub);
   /**
-   * @fn Normal_1d
+   * @fn Generate1dNormal
    * @brief Generate 1-dimensional normal distribution random number
    */
-  static double Normal_1d(double mean, double std);
+  static double Generate1dNormal(double mean, double std);
 
   // Generate randomized value
   /**
-   * @fn gen_NoRandomization
+   * @fn GenerateNoRandomization
    * @brief Generate randomized value with NoRandomization mode
    */
-  void gen_NoRandomization();
+  void GenerateNoRandomization();
   /**
-   * @fn gen_CartesianUniform
+   * @fn GenerateCartesianUniform
    * @brief Generate randomized value with CartesianUniform mode
    * @note Support up to three dimensional value
    * @note mean_or_min_[0]: minimum of x   sigma_or_max_[0]: maximum of x
    *       mean_or_min_[1]: minimum of y   sigma_or_max_[1]: maximum of y
    *       mean_or_min_[2]: minimum of z   sigma_or_max_[2]: maximum of z
    */
-  void gen_CartesianUniform();
+  void GenerateCartesianUniform();
   /**
-   * @fn gen_CartesianNormal
+   * @fn GenerateCartesianNormal
    * @brief Generate randomized value with CartesianNormal mode
    * @note Support up to three dimensional value
    * @note mean_or_min_[0]: average of x   sigma_or_max_[0]: sigma of x
    *       mean_or_min_[1]: average of y   sigma_or_max_[1]: sigma of y
    *       mean_or_min_[2]: average of z   sigma_or_max_[2]: sigma of z
    */
-  void gen_CartesianNormal();
+  void GenerateCartesianNormal();
   /**
-   * @fn gen_CircularNormalUniform
+   * @fn GenerateCircularNormalUniform
    * @brief Generate randomized value with CircularNormalUniform mode
    * @note mean_or_min_[0]: average of r   sigma_or_max_[0]: sigma of r
    *       mean_or_min_[1]: minimum of θ   sigma_or_max_[1]: maximum of θ
    */
-  void gen_CircularNormalUniform();
+  void GenerateCircularNormalUniform();
   /**
-   * @fn gen_CircularNormalNormal
+   * @fn GenerateCircularNormalNormal
    * @brief Generate randomized value with CircularNormalNormal mode
    * @details mean_or_min_[0]: average of r   sigma_or_max_[0]: sigma of r
    * @details mean_or_min_[1]: average of θ   sigma_or_max_[1]: sigma of θ
    */
-  void gen_CircularNormalNormal();
+  void GenerateCircularNormalNormal();
   /**
-   * @fn gen_SphericalNormalUniformUniform
+   * @fn GenerateSphericalNormalUniformUniform
    * @brief Generate randomized value with SphericalNormalUniformUniform mode
    * @note mean_or_min_[0]: average of r   sigma_or_max_[0]: sigma of r
    *       mean_or_min_[1]: minimum of θ   sigma_or_max_[1]: maximum of θ
    *       mean_or_min_[2]: minimum of φ   sigma_or_max_[2]: maximum of φ
    */
-  void gen_SphericalNormalUniformUniform();
+  void GenerateSphericalNormalUniformUniform();
   /**
-   * @fn gen_SphericalNormalNormal
+   * @fn GenerateSphericalNormalNormal
    * @brief Generate randomized value with SphericalNormalNormal mode
    * @note mean_or_min_[0]: average of X    sigma_or_max_[0]: sigma of r
    *       mean_or_min_[1]: average of Y    sigma_or_max_[1]: sigma of θ
    *       mean_or_min_[2]: average of Z    sigma_or_max_[2]: なし
    */
-  void gen_SphericalNormalNormal();
+  void GenerateSphericalNormalNormal();
   /**
-   * @fn gen_QuaternionUniform
+   * @fn GenerateQuaternionUniform
    * @brief Generate randomized value with QuaternionUniform mode
    */
-  void gen_QuaternionUniform();
+  void GenerateQuaternionUniform();
   /**
-   * @fn gen_QuaternionNormal
+   * @fn GenerateQuaternionNormal
    * @brief Generate randomized value with QuaternionNormal mode
    * @note mean_or_min_[0]: NA   sigma_or_max_[0]: standard deviation of θ [rad]
    */
-  void gen_QuaternionNormal();
+  void GenerateQuaternionNormal();
 
   // Get randomized value
   /**
