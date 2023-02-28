@@ -83,10 +83,10 @@ double Antenna::CalcAntennaGain(const AntennaParameters antenna_parameters, cons
   return gain_dBi;
 }
 
-double Antenna::CalcTxEIRP_dBW(const double theta_rad, const double phi_rad) const {
+double Antenna::CalcTxEirp_dBW(const double theta_rad, const double phi_rad) const {
   return tx_eirp_dBW_ + CalcAntennaGain(tx_parameters_, theta_rad, phi_rad);
 }
-double Antenna::CalcRxGT_dB_K(const double theta_rad, const double phi_rad) const {
+double Antenna::CalcRxGt_dB_K(const double theta_rad, const double phi_rad) const {
   return rx_gt_dBK_ + CalcAntennaGain(rx_parameters_, theta_rad, phi_rad);
 }
 

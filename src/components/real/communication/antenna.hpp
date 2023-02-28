@@ -80,21 +80,21 @@ class Antenna {
   ~Antenna();
 
   /**
-   * @fn CalcTxEIRP_dBW
+   * @fn CalcTxEirp_dBW
    * @brief Calculation of TX EIRP
    * @param [in] theta: Angle from PZ axis on the antenna frame [rad]
    * @param [in] phi: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
    * @return TX EIRP [dBW]
    */
-  double CalcTxEIRP_dBW(const double theta_rad, const double phi_rad = 0.0) const;
+  double CalcTxEirp_dBW(const double theta_rad, const double phi_rad = 0.0) const;
   /**
-   * @fn CalcRxGT_dB_K
+   * @fn CalcRxGt_dB_K
    * @brief Calculation of RX G/T
    * @param [in] theta: Angle from PZ axis on the antenna frame [rad]
    * @param [in] phi: from PX axis on the antenna frame [rad] (Set zero for axial symmetry pattern)
    * @return RX G/T [dB/K]
    */
-  double CalcRxGT_dB_K(const double theta_rad, const double phi_rad = 0.0) const;
+  double CalcRxGt_dB_K(const double theta_rad, const double phi_rad = 0.0) const;
 
   // Getter
   /**
