@@ -70,7 +70,7 @@ void RelativeOrbit::InitializeState(libra::Vector<3> relative_position_lvlh_m, l
 void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit,
                                           double gravity_constant_m3_s2) {
   switch (relative_dynamics_model_type) {
-    case RelativeOrbitModel::Hill: {
+    case RelativeOrbitModel::kHill: {
       double reference_sat_orbit_radius = libra::CalcNorm(reference_sat_orbit->GetPosition_i_m());
       system_matrix_ = CalcHillSystemMatrix(reference_sat_orbit_radius, gravity_constant_m3_s2);
     }
@@ -83,7 +83,7 @@ void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_m
 
 void RelativeOrbit::CalculateStm(StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2, double elapsed_sec) {
   switch (stm_model_type) {
-    case StmModel::HCW: {
+    case StmModel::kHcw: {
       double reference_sat_orbit_radius = libra::CalcNorm(reference_sat_orbit->GetPosition_i_m());
       stm_ = CalcHcwStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec);
     }
