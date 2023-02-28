@@ -4,19 +4,19 @@
  */
 #include "power_control_unit.hpp"
 
-PCU::PCU(ClockGenerator* clock_generator) : Component(1, clock_generator) {}
+PowerControlUnit::PowerControlUnit(ClockGenerator* clock_generator) : Component(1, clock_generator) {}
 
-PCU::PCU(int prescaler, ClockGenerator* clock_generator) : Component(prescaler, clock_generator) {}
+PowerControlUnit::PowerControlUnit(int prescaler, ClockGenerator* clock_generator) : Component(prescaler, clock_generator) {}
 
-PCU::~PCU() {}
+PowerControlUnit::~PowerControlUnit() {}
 
-void PCU::MainRoutine(const int time_count) {
+void PowerControlUnit::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
   // double current_ = power_ports_[1]->GetCurrentConsumption_A();
 }
 
-int PCU::ConnectPort(const int port_id, const double current_limit_A) {
+int PowerControlUnit::ConnectPort(const int port_id, const double current_limit_A) {
   // The port is already used
   if (power_ports_[port_id] != nullptr) return -1;
 
@@ -24,7 +24,8 @@ int PCU::ConnectPort(const int port_id, const double current_limit_A) {
   return 0;
 }
 
-int PCU::ConnectPort(const int port_id, const double current_limit_A, const double minimum_voltage_V, const double assumed_power_consumption_W) {
+int PowerControlUnit::ConnectPort(const int port_id, const double current_limit_A, const double minimum_voltage_V,
+                                  const double assumed_power_consumption_W) {
   // The port is already used
   if (power_ports_[port_id] != nullptr) return -1;
 
@@ -32,7 +33,7 @@ int PCU::ConnectPort(const int port_id, const double current_limit_A, const doub
   return 0;
 }
 
-int PCU::ClosePort(const int port_id) {
+int PowerControlUnit::ClosePort(const int port_id) {
   // The port not used
   if (power_ports_[port_id] == nullptr) return -1;
 
@@ -42,12 +43,12 @@ int PCU::ClosePort(const int port_id) {
   return 0;
 }
 
-std::string PCU::GetLogHeader() const {
+std::string PowerControlUnit::GetLogHeader() const {
   std::string str_tmp = "";
   return str_tmp;
 }
 
-std::string PCU::GetLogValue() const {
+std::string PowerControlUnit::GetLogValue() const {
   std::string str_tmp = "";
   return str_tmp;
 }

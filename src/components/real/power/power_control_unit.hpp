@@ -13,29 +13,29 @@
 #include "../../base/component.hpp"
 
 /*
- * @class PCU
+ * @class PowerControlUnit
  * @brief Component emulation of Power Control Unit
  */
-class PCU : public Component, public ILoggable {
+class PowerControlUnit : public Component, public ILoggable {
  public:
   /**
-   * @fn PCU
+   * @fn PowerControlUnit
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
    */
-  PCU(ClockGenerator* clock_generator);
+  PowerControlUnit(ClockGenerator* clock_generator);
   /**
-   * @fn PCU
+   * @fn PowerControlUnit
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
    */
-  PCU(int prescaler, ClockGenerator* clock_generator);
+  PowerControlUnit(int prescaler, ClockGenerator* clock_generator);
   /**
-   * @fn ~PCU
+   * @fn ~PowerControlUnit
    * @brief Destructor
    */
-  ~PCU();
+  ~PowerControlUnit();
 
   // Override functions for Component
   /**
@@ -61,12 +61,12 @@ class PCU : public Component, public ILoggable {
    * @brief Return power port information
    * @param port_id: Power port ID
    */
-  inline PowerPort* GetPowerPort(int port_id) { return power_ports_[port_id]; };
+  inline PowerPort* GetPowerPort(const int port_id) { return power_ports_[port_id]; };
 
   // Port control functions
   /**
    * @fn ConnectPort
-   * @brief Connect power port between components and PCU
+   * @brief Connect power port between components and PowerControlUnit
    * @param port_id: Power port ID
    * @param [in] current_limit_A: Threshold to detect over current [A]
    * @return 0: Success, -1: Error
@@ -74,7 +74,7 @@ class PCU : public Component, public ILoggable {
   int ConnectPort(const int port_id, const double current_limit_A);
   /**
    * @fn ConnectPort
-   * @brief Connect power port between components and PCU
+   * @brief Connect power port between components and PowerControlUnit
    * @param port_id: Power port ID
    * @param [in] current_limit_A: Threshold to detect over current [A]
    * @param [in] minimum_voltage_V: Minimum voltage to work the component [V]
@@ -84,7 +84,7 @@ class PCU : public Component, public ILoggable {
   int ConnectPort(const int port_id, const double current_limit_A, const double minimum_voltage_V, const double assumed_power_consumption_W);
   /**
    * @fn ClosePort
-   * @brief Close power port between components and PCU
+   * @brief Close power port between components and PowerControlUnit
    * @param port_id: Power port ID
    * @return 0: Success, -1: Error
    */

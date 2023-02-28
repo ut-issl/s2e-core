@@ -31,7 +31,7 @@
 #include "../installed_components.hpp"
 
 class OBC;
-class PCU;
+class PowerControlUnit;
 class GyroSensor;
 class Magnetometer;
 class StarSensor;
@@ -82,7 +82,7 @@ class SampleComponents : public InstalledComponents {
   inline Antenna& GetAntenna() const { return *antenna_; }
 
  private:
-  PCU* pcu_;                            //!< Power Control Unit
+  PowerControlUnit* pcu_;               //!< Power Control Unit
   OBC* obc_;                            //!< Onboard Computer
   HilsPortManager* hils_port_manager_;  //!< Port manager for HILS test
 
