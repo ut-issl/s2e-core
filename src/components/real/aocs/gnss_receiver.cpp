@@ -72,9 +72,9 @@ void GnssReceiver::MainRoutine(const int time_count) {
 }
 
 void GnssReceiver::CheckAntenna(const libra::Vector<3> pos_true_eci_, libra::Quaternion quaternion_i2b) {
-  if (antenna_model_ == SIMPLE)
+  if (antenna_model_ == AntennaModel::kSimple)
     CheckAntennaSimple(pos_true_eci_, quaternion_i2b);
-  else if (antenna_model_ == CONE)
+  else if (antenna_model_ == AntennaModel::kCone)
     CheckAntennaCone(pos_true_eci_, quaternion_i2b);
 }
 

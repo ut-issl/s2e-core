@@ -115,7 +115,7 @@ class I2cTargetCommunicationWithObc {
   unsigned char i2c_address_;  //!< I2C address for the target
   bool is_moved_ = false;      //!< Flag to show the object is copied or not
 
-  OBC_COM_UART_MODE simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode
+  SimulationMode simulation_mode_ = SimulationMode::kError;  //!< Simulation mode
 
   OnBoardComputer* obc_;                //!< Communication target OBC
   HilsPortManager* hils_port_manager_;  //!< HILS port manager
