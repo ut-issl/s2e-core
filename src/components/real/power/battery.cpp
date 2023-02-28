@@ -18,7 +18,7 @@ BAT::BAT(const int prescaler, ClockGenerator* clock_generator, int number_of_ser
       cc_charge_current_C_(cc_charge_c_rate * cell_capacity_Ah * number_of_parallel),
       cv_charge_voltage_V_(cv_charge_voltage_V),
       depth_of_discharge_percent_(initial_dod),
-      bat_resistance_Ohm_(battery_resistance_Ohm),
+      battery_resistance_Ohm_(battery_resistance_Ohm),
       compo_step_time_s_(component_step_time_s) {}
 
 BAT::BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
@@ -32,7 +32,7 @@ BAT::BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_pa
       cc_charge_current_C_(cc_charge_c_rate * cell_capacity_Ah * number_of_parallel),
       cv_charge_voltage_V_(cv_charge_voltage_V),
       depth_of_discharge_percent_(initial_dod),
-      bat_resistance_Ohm_(battery_resistance_Ohm),
+      battery_resistance_Ohm_(battery_resistance_Ohm),
       compo_step_time_s_(0.1) {}
 
 BAT::BAT(const BAT& obj)
@@ -44,7 +44,7 @@ BAT::BAT(const BAT& obj)
       cc_charge_current_C_(obj.cc_charge_current_C_),
       cv_charge_voltage_V_(obj.cv_charge_voltage_V_),
       depth_of_discharge_percent_(obj.depth_of_discharge_percent_),
-      bat_resistance_Ohm_(obj.bat_resistance_Ohm_),
+      battery_resistance_Ohm_(obj.battery_resistance_Ohm_),
       compo_step_time_s_(obj.compo_step_time_s_) {
   charge_current_A_ = 0.0;
   UpdateBatVoltage();

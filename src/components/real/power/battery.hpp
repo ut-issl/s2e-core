@@ -67,33 +67,33 @@ class BAT : public Component, public ILoggable {
    * @fn SetChargeCurrent
    * @brief Set charge current [A]
    */
-  inline void SetChargeCurrent(const double current) { charge_current_A_ = current; }
+  inline void SetChargeCurrent(const double current_A) { charge_current_A_ = current_A; }
 
   /**
-   * @fn GetBatVoltage
+   * @fn GetVoltage_V
    * @brief Return battery voltage [V]
    */
-  inline double GetBatVoltage() const { return battery_voltage_V_; }
+  inline double GetVoltage_V() const { return battery_voltage_V_; }
 
   /**
-   * @fn GetBatResistance
+   * @fn GetResistance_Ohm
    * @brief Return battery resistance [Ohm]
    */
-  inline double GetBatResistance() const { return bat_resistance_Ohm_; }
+  inline double GetResistance_Ohm() const { return battery_resistance_Ohm_; }
 
   /**
-   * @fn GetCCChargeCurrent
+   * @fn GetCcChargeCurrent_C
    * @brief Return constant charge current [C]
    * @note TODO: Change implementation?
    */
-  inline double GetCCChargeCurrent() const { return cc_charge_current_C_; }
+  inline double GetCcChargeCurrent_C() const { return cc_charge_current_C_; }
 
   /**
-   * @fn GetCVChargeVoltage
+   * @fn GetCvChargeVoltage_V
    * @brief Return constant charge voltage [V]
    * @note TODO: Change implementation?
    */
-  inline double GetCVChargeVoltage() const { return cv_charge_voltage_V_; }
+  inline double GetCvChargeVoltage_V() const { return cv_charge_voltage_V_; }
 
   // Override ILoggable
   /**
@@ -117,7 +117,7 @@ class BAT : public Component, public ILoggable {
   double battery_voltage_V_;                                     //!< Battery voltage [V]
   double depth_of_discharge_percent_;                            //!< Depth of discharge [%]
   double charge_current_A_;                                      //!< Charge current [A]
-  double bat_resistance_Ohm_;                                    //!< Battery internal resistance [Ohm]
+  double battery_resistance_Ohm_;                                //!< Battery internal resistance [Ohm]
   double compo_step_time_s_;                                     //!< Component step time [sec]
 
   // Override functions for Component

@@ -14,8 +14,8 @@ PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_ge
     : Component(prescaler, clock_generator),
       saps_(saps),
       bat_(bat),
-      cc_charge_current_C_(bat->GetCCChargeCurrent()),
-      cv_charge_voltage_V_(bat->GetCVChargeVoltage()),
+      cc_charge_current_C_(bat->GetCcChargeCurrent_C()),
+      cv_charge_voltage_V_(bat->GetCvChargeVoltage_V()),
       compo_step_time_s_(component_step_time_s) {
   bus_voltage_ = 0.0;
   power_consumption_ = 0.0;
@@ -25,8 +25,8 @@ PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_generator, const std::v
     : Component(10, clock_generator),
       saps_(saps),
       bat_(bat),
-      cc_charge_current_C_(bat->GetCCChargeCurrent()),
-      cv_charge_voltage_V_(bat->GetCVChargeVoltage()),
+      cc_charge_current_C_(bat->GetCcChargeCurrent_C()),
+      cv_charge_voltage_V_(bat->GetCvChargeVoltage_V()),
       compo_step_time_s_(0.1) {
   bus_voltage_ = 0.0;
   power_consumption_ = 0.0;
@@ -78,8 +78,8 @@ double PCU_InitialStudy::CalcPowerConsumption(double time_query) const {
 }
 
 void PCU_InitialStudy::UpdateChargeCurrentAndBusVoltage() {
-  double bat_voltage = bat_->GetBatVoltage();
-  const double battery_resistance_Ohm = bat_->GetBatResistance();
+  double bat_voltage = bat_->GetVoltage_V();
+  const double battery_resistance_Ohm = bat_->GetResistance_Ohm();
   double power_generation = 0.0;
   for (auto sap : saps_) {
     power_generation += sap->GetPowerGeneration();
