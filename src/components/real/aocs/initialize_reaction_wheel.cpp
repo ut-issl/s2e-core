@@ -13,7 +13,7 @@
 namespace {
 int prescaler;
 int fast_prescaler;
-double step_width;
+double step_width_s;
 double dt_main_routine;
 double jitter_update_interval;
 double inertia;
@@ -92,7 +92,7 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
   init_velocity = rwmodel_conf.ReadDouble(RWsection, "initial_angular_velocity_rad_s");
 
   // Calc periods
-  step_width = prop_step;
+  step_width_s = prop_step;
   dt_main_routine = prescaler * compo_update_step;
   jitter_update_interval = fast_prescaler * compo_update_step;
 }
@@ -101,7 +101,7 @@ void InitParams(int actuator_id, std::string file_name, double prop_step, double
 RWModel InitRWModel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double prop_step, double compo_update_step) {
   InitParams(actuator_id, file_name, prop_step, compo_update_step);
 
-  RWModel rwmodel(prescaler, fast_prescaler, clock_generator, actuator_id, step_width, dt_main_routine, jitter_update_interval, inertia, max_torque,
+  RWModel rwmodel(prescaler, fast_prescaler, clock_generator, actuator_id, step_width_s, dt_main_routine, jitter_update_interval, inertia, max_torque,
                   max_velocity, quaternion_b2c, pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled, is_log_jitter_enabled,
                   radial_force_harmonics_coefficients, radial_torque_harmonics_coefficients, structural_resonance_frequency_Hz, damping_factor,
                   bandwidth, considers_structural_resonance, drive_flag, init_velocity);
@@ -115,7 +115,7 @@ RWModel InitRWModel(ClockGenerator* clock_generator, PowerPort* power_port, int 
 
   power_port->InitializeWithInitializeFile(file_name);
 
-  RWModel rwmodel(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width, dt_main_routine, jitter_update_interval, inertia,
+  RWModel rwmodel(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width_s, dt_main_routine, jitter_update_interval, inertia,
                   max_torque, max_velocity, quaternion_b2c, pos_b, dead_time, ordinary_lag_coef, coasting_lag_coef, is_calc_jitter_enabled,
                   is_log_jitter_enabled, radial_force_harmonics_coefficients, radial_torque_harmonics_coefficients, structural_resonance_frequency_Hz,
                   damping_factor, bandwidth, considers_structural_resonance, drive_flag, init_velocity);

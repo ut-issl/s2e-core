@@ -17,7 +17,7 @@ static double rpm2angularVelocity(double rpm) { return rpm * libra::tau / 60.0; 
 
 static double angularVelocity2rpm(double angular_velocity) { return angular_velocity * 60.0 / libra::tau; }
 
-RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_generator, const int component_id, double step_width,
+RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_generator, const int component_id, double step_width_s,
                  double dt_main_routine, double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm,
                  libra::Quaternion quaternion_b2c, libra::Vector<3> pos_b, double dead_time, libra::Vector<3> driving_lag_coef,
                  libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
@@ -31,7 +31,7 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_genera
       max_velocity_rpm_(max_velocity_rpm),
       quaternion_b2c_(quaternion_b2c),
       pos_b_(pos_b),
-      step_width_(step_width),
+      step_width_(step_width_s),
       dead_time_(dead_time),
       driving_lag_coef_(driving_lag_coef),
       coasting_lag_coef_(coasting_lag_coef),
@@ -45,10 +45,10 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_genera
   Initialize();
 }
 
-RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int component_id, double step_width,
-                 double dt_main_routine, double jitter_update_interval, double inertia, double max_torque, double max_velocity_rpm,
-                 libra::Quaternion quaternion_b2c, libra::Vector<3> pos_b, double dead_time, libra::Vector<3> driving_lag_coef,
-                 libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
+RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int component_id,
+                 double step_width_s, double dt_main_routine, double jitter_update_interval, double inertia, double max_torque,
+                 double max_velocity_rpm, libra::Quaternion quaternion_b2c, libra::Vector<3> pos_b, double dead_time,
+                 libra::Vector<3> driving_lag_coef, libra::Vector<3> coasting_lag_coef, bool is_calc_jitter_enabled, bool is_log_jitter_enabled,
                  vector<vector<double>> radial_force_harmonics_coefficients, vector<vector<double>> radial_torque_harmonics_coefficients,
                  double structural_resonance_frequency_Hz, double damping_factor, double bandwidth, bool considers_structural_resonance,
                  bool drive_flag, double init_velocity)
@@ -59,7 +59,7 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_genera
       max_velocity_rpm_(max_velocity_rpm),
       quaternion_b2c_(quaternion_b2c),
       pos_b_(pos_b),
-      step_width_(step_width),
+      step_width_(step_width_s),
       dead_time_(dead_time),
       driving_lag_coef_(driving_lag_coef),
       coasting_lag_coef_(coasting_lag_coef),

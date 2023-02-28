@@ -8,8 +8,8 @@
 namespace libra {
 
 template <size_t N>
-OrdinaryDifferentialEquation<N>::OrdinaryDifferentialEquation(double step_width)
-    : independent_variable_(0.0), state_(0.0), derivative_(0.0), step_width_(step_width) {}
+OrdinaryDifferentialEquation<N>::OrdinaryDifferentialEquation(double step_width_s)
+    : independent_variable_(0.0), state_(0.0), derivative_(0.0), step_width_(step_width_s) {}
 
 template <size_t N>
 void OrdinaryDifferentialEquation<N>::Setup(double initial_independent_variable, const Vector<N>& initial_state) {

@@ -20,9 +20,9 @@ class OrdinaryDifferentialEquation {
   /**
    * @fn OrdinaryDifferentialEquation
    * @brief Constructor
-   * @param [in] step_width: Step width
+   * @param [in] step_width_s: Step width
    */
-  OrdinaryDifferentialEquation(double step_width);
+  OrdinaryDifferentialEquation(double step_width_s);
   /**
    * @fn ~OrdinaryDifferentialEquation
    * @brief Destructor
@@ -61,9 +61,9 @@ class OrdinaryDifferentialEquation {
   /**
    * @fn SetStepWidth
    * @brief Initialize the state vector
-   * @param [in] step_width: Step width
+   * @param [in] step_width_s: Step width
    */
-  inline void SetStepWidth(const double step_width) { step_width_ = step_width; }
+  inline void SetStepWidth(const double step_width_s) { step_width_ = step_width_s; }
 
   // Getter
   /**
