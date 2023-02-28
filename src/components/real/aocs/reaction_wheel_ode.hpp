@@ -37,22 +37,22 @@ class RwOde : public libra::OrdinaryDifferentialEquation<1> {
   void DerivativeFunction(double x, const libra::Vector<1>& state, libra::Vector<1>& rhs) override;
 
   /**
-   * @fn getAngularVelocity
+   * @fn GetAngularVelocity_rad_s
    * @brief Return current angular velocity of RW rotor [rad/s]
    */
-  double getAngularVelocity(void) const { return this->GetState()[0]; }
+  double GetAngularVelocity_rad_s(void) const { return this->GetState()[0]; }
 
   /**
-   * @fn setTargetAngularVelocity
+   * @fn SetTargetAngularVelocity_rad_s
    * @brief Set target angular velocity [rad/s]
    */
-  void setTargetAngularVelocity(double angular_velocity) { target_angular_velocity_rad_s_ = angular_velocity; }
+  void SetTargetAngularVelocity_rad_s(double angular_velocity) { target_angular_velocity_rad_s_ = angular_velocity; }
 
   /**
-   * @fn setLagCoef
+   * @fn SetLagCoefficients
    * @brief Set lag coefficients
    */
-  void setLagCoef(libra::Vector<3> lag_coefficients) { lag_coefficients_ = lag_coefficients; }
+  void SetLagCoefficients(libra::Vector<3> lag_coefficients) { lag_coefficients_ = lag_coefficients; }
 
  private:
   RwOde(double step_width_s);             //!< Prohibit calling constructor

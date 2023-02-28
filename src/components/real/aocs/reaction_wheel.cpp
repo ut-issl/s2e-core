@@ -111,15 +111,15 @@ libra::Vector<3> RWModel::CalcTorque() {
   if (!drive_flag_)  // RW power off -> coasting mode
   {
     // Set lag coefficient
-    ode_angular_velocity_.setLagCoef(coasting_lag_coef_);
+    ode_angular_velocity_.SetLagCoefficients(coasting_lag_coef_);
     // Set target velocity
-    ode_angular_velocity_.setTargetAngularVelocity(0.0);
+    ode_angular_velocity_.SetTargetAngularVelocity_rad_s(0.0);
     // Clear delay buffer
     std::fill(delay_buffer_accl_.begin(), delay_buffer_accl_.end(), 0.0);
   } else  // RW power on
   {
     // Set lag coefficient
-    ode_angular_velocity_.setLagCoef(driving_lag_coef_);
+    ode_angular_velocity_.SetLagCoefficients(driving_lag_coef_);
     // Set target velocity from target torque
     double angular_accl = delay_buffer_accl_.front();
     double target_angular_velocity_rad = pre_angular_velocity_rad + angular_accl;
@@ -130,7 +130,7 @@ libra::Vector<3> RWModel::CalcTorque() {
     else if (target_angular_velocity_rad < -1.0 * velocity_limit_rad)
       target_angular_velocity_rad = -1.0 * velocity_limit_rad;
     // Set target velocity
-    ode_angular_velocity_.setTargetAngularVelocity(target_angular_velocity_rad);
+    ode_angular_velocity_.SetTargetAngularVelocity_rad_s(target_angular_velocity_rad);
     // Update delay buffer
     delay_buffer_accl_.push_back(target_accl_);
     delay_buffer_accl_.erase(delay_buffer_accl_.begin());
@@ -141,7 +141,7 @@ libra::Vector<3> RWModel::CalcTorque() {
     ++ode_angular_velocity_;  // propagate()
   }
   // Substitution
-  angular_velocity_rad_ = ode_angular_velocity_.getAngularVelocity();
+  angular_velocity_rad_ = ode_angular_velocity_.GetAngularVelocity_rad_s();
   angular_velocity_rpm_ = angularVelocity2rpm(angular_velocity_rad_);
   angular_acceleration_ = (angular_velocity_rad_ - pre_angular_velocity_rad) / dt_main_routine_;
   // Component frame -> Body frame
