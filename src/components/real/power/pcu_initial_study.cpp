@@ -9,27 +9,27 @@
 #include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
 
-PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* bat,
+PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery,
                                    double component_step_time_s)
     : Component(prescaler, clock_generator),
       saps_(saps),
-      bat_(bat),
-      cc_charge_current_C_(bat->GetCcChargeCurrent_C()),
-      cv_charge_voltage_V_(bat->GetCvChargeVoltage_V()),
+      battery_(battery),
+      cc_charge_current_C_(battery->GetCcChargeCurrent_C()),
+      cv_charge_voltage_V_(battery->GetCvChargeVoltage_V()),
       compo_step_time_s_(component_step_time_s) {
-  bus_voltage_ = 0.0;
-  power_consumption_ = 0.0;
+  bus_voltage_V_ = 0.0;
+  power_consumption_W_ = 0.0;
 }
 
-PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* bat)
+PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery)
     : Component(10, clock_generator),
       saps_(saps),
-      bat_(bat),
-      cc_charge_current_C_(bat->GetCcChargeCurrent_C()),
-      cv_charge_voltage_V_(bat->GetCvChargeVoltage_V()),
+      battery_(battery),
+      cc_charge_current_C_(battery->GetCcChargeCurrent_C()),
+      cv_charge_voltage_V_(battery->GetCvChargeVoltage_V()),
       compo_step_time_s_(0.1) {
-  bus_voltage_ = 0.0;
-  power_consumption_ = 0.0;
+  bus_voltage_V_ = 0.0;
+  power_consumption_W_ = 0.0;
 }
 
 PCU_InitialStudy::~PCU_InitialStudy() {}
@@ -44,14 +44,14 @@ std::string PCU_InitialStudy::GetLogHeader() const {
 
 std::string PCU_InitialStudy::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar(power_consumption_);
-  str_tmp += WriteScalar(bus_voltage_);
+  str_tmp += WriteScalar(power_consumption_W_);
+  str_tmp += WriteScalar(bus_voltage_V_);
   return str_tmp;
 }
 
 void PCU_InitialStudy::MainRoutine(int time_count) {
   double time_query = compo_step_time_s_ * time_count;
-  power_consumption_ = CalcPowerConsumption(time_query);  // Should use SimulationTime? time_count may over flow since it is int type,
+  power_consumption_W_ = CalcPowerConsumption(time_query);  // Should use SimulationTime? time_count may over flow since it is int type,
 
   UpdateChargeCurrentAndBusVoltage();
   for (auto sap : saps_) {
@@ -78,34 +78,34 @@ double PCU_InitialStudy::CalcPowerConsumption(double time_query) const {
 }
 
 void PCU_InitialStudy::UpdateChargeCurrentAndBusVoltage() {
-  double bat_voltage = bat_->GetVoltage_V();
-  const double battery_resistance_Ohm = bat_->GetResistance_Ohm();
+  double bat_voltage = battery_->GetVoltage_V();
+  const double battery_resistance_Ohm = battery_->GetResistance_Ohm();
   double power_generation = 0.0;
   for (auto sap : saps_) {
     power_generation += sap->GetPowerGeneration();
   }
   double current_temp =
-      (-bat_voltage + std::sqrt(bat_voltage * bat_voltage + 4.0 * battery_resistance_Ohm * (power_generation - power_consumption_))) /
+      (-bat_voltage + std::sqrt(bat_voltage * bat_voltage + 4.0 * battery_resistance_Ohm * (power_generation - power_consumption_W_))) /
       (2.0 * battery_resistance_Ohm);
   if (current_temp >= cc_charge_current_C_) {
     if (bat_voltage + cc_charge_current_C_ * battery_resistance_Ohm < cv_charge_voltage_V_) {
       // CC Charge
-      bat_->SetChargeCurrent(cc_charge_current_C_);
-      bus_voltage_ = bat_voltage + battery_resistance_Ohm * cc_charge_current_C_;
+      battery_->SetChargeCurrent(cc_charge_current_C_);
+      bus_voltage_V_ = bat_voltage + battery_resistance_Ohm * cc_charge_current_C_;
     } else {
       // CV Charge
-      bat_->SetChargeCurrent((cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm);
-      bus_voltage_ = bat_voltage + battery_resistance_Ohm * (cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm;
+      battery_->SetChargeCurrent((cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm);
+      bus_voltage_V_ = bat_voltage + battery_resistance_Ohm * (cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm;
     }
   } else {
     if (bat_voltage + current_temp * battery_resistance_Ohm < cv_charge_voltage_V_) {
       // Natural charge or discharge
-      bat_->SetChargeCurrent(current_temp);
-      bus_voltage_ = bat_voltage + battery_resistance_Ohm * current_temp;
+      battery_->SetChargeCurrent(current_temp);
+      bus_voltage_V_ = bat_voltage + battery_resistance_Ohm * current_temp;
     } else {
       // CV Charge
-      bat_->SetChargeCurrent((cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm);
-      bus_voltage_ = bat_voltage + battery_resistance_Ohm * (cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm;
+      battery_->SetChargeCurrent((cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm);
+      bus_voltage_V_ = bat_voltage + battery_resistance_Ohm * (cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm;
     }
   }
 }

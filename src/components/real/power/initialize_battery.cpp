@@ -52,8 +52,8 @@ Battery InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string f
   double battery_resistance_Ohm;
   battery_resistance_Ohm = bat_conf.ReadDouble(Section, "battery_resistance_Ohm");
 
-  Battery bat(prescaler, clock_generator, number_of_series, number_of_parallel, cell_capacity_Ah, cell_discharge_curve_coefficients, initial_dod,
-              cc_charge_c_rate, cv_charge_voltage_V, battery_resistance_Ohm, component_step_time_s);
+  Battery battery(prescaler, clock_generator, number_of_series, number_of_parallel, cell_capacity_Ah, cell_discharge_curve_coefficients, initial_dod,
+                  cc_charge_c_rate, cv_charge_voltage_V, battery_resistance_Ohm, component_step_time_s);
 
-  return bat;
+  return battery;
 }

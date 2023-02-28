@@ -21,18 +21,19 @@ class PCU_InitialStudy : public Component, public ILoggable {
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
    * @param [in] saps: Solar Array Panels
-   * @param [in] bat: Battery
+   * @param [in] battery: Battery
    * @param [in] component_step_time_s: Component step time [sec]
    */
-  PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* bat, double component_step_time_s);
+  PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery,
+                   double component_step_time_s);
   /**
    * @fn PCU_InitialStudy
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
    * @param [in] saps: Solar Array Panels
-   * @param [in] bat: Battery
+   * @param [in] battery: Battery
    */
-  PCU_InitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* bat);
+  PCU_InitialStudy(ClockGenerator* clock_generator, const std::vector<SAP*> saps, Battery* battery);
   /**
    * @fn ~PCU_InitialStudy
    * @brief Destructor
@@ -53,11 +54,11 @@ class PCU_InitialStudy : public Component, public ILoggable {
 
  private:
   const std::vector<SAP*> saps_;      //!< Solar Array Panels
-  Battery* const bat_;                //!< Battery
+  Battery* const battery_;            //!< Battery
   const double cc_charge_current_C_;  //!< Constant charge current [C]
   const double cv_charge_voltage_V_;  //!< Constant charge voltage [V]
-  double bus_voltage_;                //!< Bus voltage [V]
-  double power_consumption_;          //!< Power consumption [W]
+  double bus_voltage_V_;              //!< Bus voltage [V]
+  double power_consumption_W_;        //!< Power consumption [W]
   double compo_step_time_s_;          //!< Component step time [sec]
 
   // Override functions for Component

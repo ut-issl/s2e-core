@@ -12,7 +12,7 @@
 #include "library/initialize/initialize_file_access.hpp"
 
 PCU_InitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id, const std::string file_name, const std::vector<SAP*> saps,
-                                      Battery* bat, double component_step_time_s) {
+                                      Battery* battery, double component_step_time_s) {
   IniAccess pcu_conf(file_name);
 
   const std::string st_pcu_id = std::to_string(pcu_id);
@@ -24,7 +24,7 @@ PCU_InitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_i
   int prescaler = pcu_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  PCU_InitialStudy pcu(prescaler, clock_generator, saps, bat, component_step_time_s);
+  PCU_InitialStudy pcu(prescaler, clock_generator, saps, battery, component_step_time_s);
 
   return pcu;
 }
