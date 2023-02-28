@@ -53,11 +53,11 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   gnss_ = new GnssReceiver(
       InitGnssReceiver(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, dynamics_, &(glo_env_->GetGnssSatellites()), &(glo_env_->GetSimulationTime())));
 
-  // MagTorquer
+  // Magnetorquer
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetorquer_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  mag_torquer_ = new MagTorquer(InitMagTorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
-                                               &(local_env_->GetGeomagneticField())));
+  mag_torquer_ = new Magnetorquer(InitMagTorquer(clock_gen, pcu_->GetPowerPort(2), 1, ini_path,
+                                                 glo_env_->GetSimulationTime().GetComponentStepTime_s(), &(local_env_->GetGeomagneticField())));
 
   // RW
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "rw_file");
@@ -106,7 +106,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   /**************/
 
   // actuator debug output
-  // libra::Vector<kMtqDim> mag_moment_c{0.01};
+  // libra::Vector<kMtqDimension> mag_moment_c{0.01};
   // mag_torquer_->SetOutputMagneticMoment_c_Am2(mag_moment_c);
   // rw_->SetTargetTorqueRw(0.01);
   // rw_->SetDriveFlag(true);

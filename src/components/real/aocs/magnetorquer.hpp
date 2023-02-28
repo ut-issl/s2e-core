@@ -16,16 +16,16 @@
 
 #include "../../base/component.hpp"
 
-const size_t kMtqDim = 3;  //!< Dimension of magnetorquer
+const size_t kMtqDimension = 3;  //!< Dimension of magnetorquer
 
 /**
- * @class MagTorquer
+ * @class Magnetorquer
  * @brief Class to emulate magnetorquer
  */
-class MagTorquer : public Component, public ILoggable {
+class Magnetorquer : public Component, public ILoggable {
  public:
   /**
-   * @fn MagTorquer
+   * @fn Magnetorquer
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
@@ -41,14 +41,14 @@ class MagTorquer : public Component, public ILoggable {
    * @param [in] normal_random_standard_deviation_c_Am2: Standard deviation for the normal random noise in the component frame [Am2]
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  MagTorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
-             const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_magnetic_moment_c_Am2,
-             const libra::Vector<kMtqDim>& min_magnetic_moment_c_Am2, const libra::Vector<kMtqDim>& bias_noise_c_Am2_,
-             double random_walk_step_width_s, const libra::Vector<kMtqDim>& random_walk_standard_deviation_c_Am2,
-             const libra::Vector<kMtqDim>& random_walk_limit_c_Am2, const libra::Vector<kMtqDim>& normal_random_standard_deviation_c_Am2,
-             const GeomagneticField* geomagnetic_field);
+  Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+               const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor, const libra::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
+               const libra::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const libra::Vector<kMtqDimension>& bias_noise_c_Am2_,
+               double random_walk_step_width_s, const libra::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
+               const libra::Vector<kMtqDimension>& random_walk_limit_c_Am2,
+               const libra::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field);
   /**
-   * @fn MagTorquer
+   * @fn Magnetorquer
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
@@ -65,12 +65,12 @@ class MagTorquer : public Component, public ILoggable {
    * @param [in] normal_random_standard_deviation_c_Am2: Standard deviation for the normal random noise in the component frame [Am2]
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  MagTorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-             const libra::Quaternion& quaternion_b2c, const libra::Matrix<kMtqDim, kMtqDim>& scale_factor,
-             const libra::Vector<kMtqDim>& max_magnetic_moment_c_Am2, const libra::Vector<kMtqDim>& min_magnetic_moment_c_Am2,
-             const libra::Vector<kMtqDim>& bias_noise_c_Am2_, double random_walk_step_width_s,
-             const libra::Vector<kMtqDim>& random_walk_standard_deviation_c_Am2, const libra::Vector<kMtqDim>& random_walk_limit_c_Am2,
-             const libra::Vector<kMtqDim>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field);
+  Magnetorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+               const libra::Quaternion& quaternion_b2c, const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
+               const libra::Vector<kMtqDimension>& max_magnetic_moment_c_Am2, const libra::Vector<kMtqDimension>& min_magnetic_moment_c_Am2,
+               const libra::Vector<kMtqDimension>& bias_noise_c_Am2_, double random_walk_step_width_s,
+               const libra::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2, const libra::Vector<kMtqDimension>& random_walk_limit_c_Am2,
+               const libra::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field);
 
   // Override functions for Component
   /**
@@ -100,35 +100,35 @@ class MagTorquer : public Component, public ILoggable {
    * @fn GetOutputTorque_b_Nm
    * @brief Return output torque in the body fixed frame [Nm]
    */
-  inline const libra::Vector<kMtqDim>& GetOutputTorque_b_Nm(void) const { return torque_b_Nm_; };
+  inline const libra::Vector<kMtqDimension>& GetOutputTorque_b_Nm(void) const { return torque_b_Nm_; };
 
   /**
    * @fn SetOutputMagneticMoment_c_Am2
    * @brief Set output magnetic moment in the component frame [Am2]
    */
-  inline void SetOutputMagneticMoment_c_Am2(const libra::Vector<kMtqDim> mag_moment_c) { output_magnetic_moment_c_Am2_ = mag_moment_c; };
+  inline void SetOutputMagneticMoment_c_Am2(const libra::Vector<kMtqDimension> mag_moment_c) { output_magnetic_moment_c_Am2_ = mag_moment_c; };
 
   /**
    * @fn SetOutputMagneticMoment_b_Am2
    * @brief Return output magnetic moment in the body fixed frame [Am2]
    */
-  inline const libra::Vector<kMtqDim>& SetOutputMagneticMoment_b_Am2(void) const { return output_magnetic_moment_b_Am2_; };
+  inline const libra::Vector<kMtqDimension>& SetOutputMagneticMoment_b_Am2(void) const { return output_magnetic_moment_b_Am2_; };
 
  protected:
-  const int component_id_ = 0;                                //!< Actuator ID
-  const double kConvertNanoT2T = 1.0e-9;                      //!< Constant to convert nT to T
-  libra::Vector<kMtqDim> torque_b_Nm_{0.0};                   //!< Output torque in the body fixed frame [Nm]
-  libra::Vector<kMtqDim> output_magnetic_moment_c_Am2_{0.0};  //!< Output output magnetic moment in the component frame [Am2]
-  libra::Vector<kMtqDim> output_magnetic_moment_b_Am2_{0.0};  //!< Output output magnetic moment in the body fixed frame [Am2]
-  libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};      //!< Quaternion from body frame to component frame
-  libra::Quaternion quaternion_c2b_{0.0, 0.0, 0.0, 1.0};      //!< Quaternion from component frame to body frame
-  libra::Matrix<kMtqDim, kMtqDim> scale_factor_;              //!< Scale factor matrix
-  libra::Vector<kMtqDim> max_magnetic_moment_c_Am2_{100.0};   //!< Maximum magnetic moment in the component frame [Am2]
-  libra::Vector<kMtqDim> min_magnetic_moment_c_Am2_{-100.0};  //!< Minimum magnetic moment in the component frame [Am2]
+  const int component_id_ = 0;                                      //!< Actuator ID
+  const double kConvertNanoT2T = 1.0e-9;                            //!< Constant to convert nT to T
+  libra::Vector<kMtqDimension> torque_b_Nm_{0.0};                   //!< Output torque in the body fixed frame [Nm]
+  libra::Vector<kMtqDimension> output_magnetic_moment_c_Am2_{0.0};  //!< Output output magnetic moment in the component frame [Am2]
+  libra::Vector<kMtqDimension> output_magnetic_moment_b_Am2_{0.0};  //!< Output output magnetic moment in the body fixed frame [Am2]
+  libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from body frame to component frame
+  libra::Quaternion quaternion_c2b_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from component frame to body frame
+  libra::Matrix<kMtqDimension, kMtqDimension> scale_factor_;        //!< Scale factor matrix
+  libra::Vector<kMtqDimension> max_magnetic_moment_c_Am2_{100.0};   //!< Maximum magnetic moment in the component frame [Am2]
+  libra::Vector<kMtqDimension> min_magnetic_moment_c_Am2_{-100.0};  //!< Minimum magnetic moment in the component frame [Am2]
 
-  libra::Vector<kMtqDim> bias_noise_c_Am2_{0.0};   //!< Constant bias noise in the component frame [Am2]
-  RandomWalk<kMtqDim> random_walk_c_Am2_;          //!< Random walk noise
-  libra::NormalRand random_noise_c_Am2_[kMtqDim];  //!< Normal random noise
+  libra::Vector<kMtqDimension> bias_noise_c_Am2_{0.0};   //!< Constant bias noise in the component frame [Am2]
+  RandomWalk<kMtqDimension> random_walk_c_Am2_;          //!< Random walk noise
+  libra::NormalRand random_noise_c_Am2_[kMtqDimension];  //!< Normal random noise
 
   const GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
 
@@ -137,7 +137,7 @@ class MagTorquer : public Component, public ILoggable {
    * @brief Calculate output torque
    * @return Output torque in the body fixed frame [Nm]
    */
-  libra::Vector<kMtqDim> CalcOutputTorque(void);
+  libra::Vector<kMtqDimension> CalcOutputTorque(void);
 };
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MAGNETORQUER_HPP_
