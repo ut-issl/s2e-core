@@ -8,17 +8,17 @@
 #include <environment/global/physical_constants.hpp>
 #include <library/math/constants.hpp>
 
-GScalculator::GScalculator(const double loss_polarization, const double loss_atmosphere, const double loss_rainfall, const double loss_others,
-                           const double EbN0, const double hardware_deterioration, const double coding_gain, const double margin_req,
-                           const double downlink_bitrate_bps)
-    : loss_polarization_dB_(loss_polarization),
-      loss_atmosphere_dB_(loss_atmosphere),
-      loss_rainfall_dB_(loss_rainfall),
-      loss_others_dB_(loss_others),
-      ebn0_dB_(EbN0),
-      hardware_deterioration_dB_(hardware_deterioration),
-      coding_gain_dB_(coding_gain),
-      margin_requirement_dB_(margin_req),
+GScalculator::GScalculator(const double loss_polarization_dB, const double loss_atmosphere_dB, const double loss_rainfall_dB,
+                           const double loss_others_dB, const double ebn0_dB, const double hardware_deterioration_dB, const double coding_gain_dB,
+                           const double margin_requirement_dB, const double downlink_bitrate_bps)
+    : loss_polarization_dB_dB_(loss_polarization_dB),
+      loss_atmosphere_dB_dB_(loss_atmosphere_dB),
+      loss_rainfall_dB_dB_(loss_rainfall_dB),
+      loss_others_dB_dB_(loss_others_dB),
+      ebn0_dB_(ebn0_dB),
+      hardware_deterioration_dB_dB_(hardware_deterioration_dB),
+      coding_gain_dB_dB_(coding_gain_dB),
+      margin_requirement_dBuirement_dB_(margin_requirement_dB),
       downlink_bitrate_bps_(downlink_bitrate_bps) {
   max_bitrate_Mbps_ = 0.0;
   receive_margin_dB_ = -10000.0;  // FIXME: which value is suitable?
@@ -26,11 +26,12 @@ GScalculator::GScalculator(const double loss_polarization, const double loss_atm
 
 GScalculator::~GScalculator() {}
 
-void GScalculator::Update(const Spacecraft& spacecraft, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant) {
+void GScalculator::Update(const Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+                          const Antenna& ground_station_rx_antenna) {
   bool is_visible = ground_station.IsVisible(spacecraft.GetSatID());
   if (is_visible) {
-    max_bitrate_Mbps_ = CalcMaxBitrate(spacecraft.GetDynamics(), sc_tx_ant, ground_station, gs_rx_ant);
-    receive_margin_dB_ = CalcReceiveMarginOnGs(spacecraft.GetDynamics(), sc_tx_ant, ground_station, gs_rx_ant);
+    max_bitrate_Mbps_ = CalcMaxBitrate(spacecraft.GetDynamics(), spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
+    receive_margin_dB_ = CalcReceiveMarginOnGs(spacecraft.GetDynamics(), spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
   } else {
     max_bitrate_Mbps_ = 0.0;
     receive_margin_dB_ = -10000.0;  // FIXME: which value is suitable?
@@ -38,11 +39,11 @@ void GScalculator::Update(const Spacecraft& spacecraft, const Antenna& sc_tx_ant
 }
 
 // Private functions
-double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station,
-                                    const Antenna& gs_rx_ant) {
-  double cn0_dBHz = CalcCn0OnGs(dynamics, sc_tx_ant, ground_station, gs_rx_ant);
+double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+                                    const Antenna& ground_station_rx_antenna) {
+  double cn0_dBHz = CalcCn0OnGs(dynamics, spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
 
-  double margin_for_bitrate_dB = cn0_dBHz - (ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_) - margin_requirement_dB_;
+  double margin_for_bitrate_dB = cn0_dBHz - (ebn0_dB_ + hardware_deterioration_dB_dB_ + coding_gain_dB_dB_) - margin_requirement_dBuirement_dB_;
 
   if (margin_for_bitrate_dB > 0) {
     return pow(10.0, margin_for_bitrate_dB / 10.0) / 1000000.0;
@@ -51,15 +52,16 @@ double GScalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_
   }
 }
 
-double GScalculator::CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station,
-                                           const Antenna& gs_rx_ant) {
-  double cn0_dB = CalcCn0OnGs(dynamics, sc_tx_ant, ground_station, gs_rx_ant);
-  double cn0_requirement_dB = ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_ + 10.0 * log10(downlink_bitrate_bps_);
+double GScalculator::CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+                                           const Antenna& ground_station_rx_antenna) {
+  double cn0_dB = CalcCn0OnGs(dynamics, spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
+  double cn0_requirement_dB = ebn0_dB_ + hardware_deterioration_dB_dB_ + coding_gain_dB_dB_ + 10.0 * log10(downlink_bitrate_bps_);
   return cn0_dB - cn0_requirement_dB;
 }
 
-double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant) {
-  if (!sc_tx_ant.IsTransmitter() || !gs_rx_ant.IsReceiver()) {
+double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+                                 const Antenna& ground_station_rx_antenna) {
+  if (!spacecraft_tx_antenna.IsTransmitter() || !ground_station_rx_antenna.IsReceiver()) {
     // Check compatibility of transmitter and receiver
     return 0.0f;
   }
@@ -68,12 +70,12 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
   Vector<3> sc_pos_i = dynamics.GetOrbit().GetPosition_i_m();
   Vector<3> gs_pos_i = ground_station.GetGSPosition_i();
   double dist_sc_gs_km = CalcNorm(sc_pos_i - gs_pos_i) / 1000.0;
-  double loss_space_dB = -20.0 * log10(4.0 * libra::pi * dist_sc_gs_km / (300.0 / sc_tx_ant.GetFrequency_MHz() / 1000.0));
+  double loss_space_dB = -20.0 * log10(4.0 * libra::pi * dist_sc_gs_km / (300.0 / spacecraft_tx_antenna.GetFrequency_MHz() / 1000.0));
 
   // GS direction on SC TX antenna frame
   Vector<3> sc_to_gs_i = gs_pos_i - sc_pos_i;
   sc_to_gs_i = libra::Normalize(sc_to_gs_i);
-  Quaternion q_i_to_sc_ant = sc_tx_ant.GetQuaternion_b2c() * dynamics.GetAttitude().GetQuaternion_i2b();
+  Quaternion q_i_to_sc_ant = spacecraft_tx_antenna.GetQuaternion_b2c() * dynamics.GetAttitude().GetQuaternion_i2b();
   Vector<3> gs_direction_on_sc_frame = q_i_to_sc_ant.FrameConversion(sc_to_gs_i);
   double theta_on_sc_antenna_rad = acos(gs_direction_on_sc_frame[2]);
   double phi_on_sc_antenna_rad = acos(gs_direction_on_sc_frame[0] / sin(theta_on_sc_antenna_rad));
@@ -81,15 +83,16 @@ double GScalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_
   // SC direction on GS RX antenna frame
   Vector<3> gs_to_sc_ecef = dynamics.GetOrbit().GetPosition_ecef_m() - ground_station.GetGSPosition_ecef();
   gs_to_sc_ecef = libra::Normalize(gs_to_sc_ecef);
-  Quaternion q_ecef_to_gs_ant = gs_rx_ant.GetQuaternion_b2c() * ground_station.GetGSPosition_geo().GetQuaternionXcxfToLtc();
+  Quaternion q_ecef_to_gs_ant = ground_station_rx_antenna.GetQuaternion_b2c() * ground_station.GetGSPosition_geo().GetQuaternionXcxfToLtc();
   Vector<3> sc_direction_on_gs_frame = q_ecef_to_gs_ant.FrameConversion(gs_to_sc_ecef);
   double theta_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[2]);
   double phi_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[0] / sin(theta_on_gs_antenna_rad));
 
   // Calc CN0
-  double cn0_dBHz = sc_tx_ant.CalcTxEIRP_dBW(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) + loss_space_dB + loss_polarization_dB_ +
-                    loss_atmosphere_dB_ + loss_rainfall_dB_ + loss_others_dB_ +
-                    gs_rx_ant.CalcRxGT_dB_K(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) - 10.0 * log10(environment::boltzmann_constant_J_K);
+  double cn0_dBHz = spacecraft_tx_antenna.CalcTxEIRP_dBW(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) + loss_space_dB + loss_polarization_dB_dB_ +
+                    loss_atmosphere_dB_dB_ + loss_rainfall_dB_dB_ + loss_others_dB_dB_ +
+                    ground_station_rx_antenna.CalcRxGT_dB_K(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) -
+                    10.0 * log10(environment::boltzmann_constant_J_K);
   return cn0_dBHz;
 }
 
