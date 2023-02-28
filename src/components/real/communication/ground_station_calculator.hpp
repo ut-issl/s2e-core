@@ -16,9 +16,6 @@
 #include <library/math/vector.hpp>
 #include <simulation/ground_station/ground_station.hpp>
 
-using libra::Matrix;
-using libra::Vector;
-
 /*
  * @class GScalculator
  * @brief Emulation of analysis and calculation for Ground Stations
