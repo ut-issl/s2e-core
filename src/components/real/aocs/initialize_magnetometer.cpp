@@ -7,7 +7,7 @@
 #include "../../base/initialize_sensor.hpp"
 #include "library/initialize/initialize_file_access.hpp"
 
-Magnetometer InitMagSensor(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double compo_step_time,
+Magnetometer InitMagSensor(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
                            const GeomagneticField* geomagnetic_field) {
   IniAccess magsensor_conf(file_name);
   const char* sensor_name = "MAGNETOMETER_";
@@ -22,14 +22,14 @@ Magnetometer InitMagSensor(ClockGenerator* clock_generator, int sensor_id, const
 
   // Sensor
   Sensor<kMagnetometerDimension> sensor_base =
-      ReadSensorInformation<kMagnetometerDimension>(file_name, compo_step_time * (double)(prescaler), MSSection, "nT");
+      ReadSensorInformation<kMagnetometerDimension>(file_name, component_step_time_s * (double)(prescaler), MSSection, "nT");
 
   Magnetometer magsensor(prescaler, clock_generator, sensor_base, sensor_id, quaternion_b2c, geomagnetic_field);
   return magsensor;
 }
 
-Magnetometer InitMagSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name, double compo_step_time,
-                           const GeomagneticField* geomagnetic_field) {
+Magnetometer InitMagSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+                           double component_step_time_s, const GeomagneticField* geomagnetic_field) {
   IniAccess magsensor_conf(file_name);
   const char* sensor_name = "MAGNETOMETER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
@@ -43,7 +43,7 @@ Magnetometer InitMagSensor(ClockGenerator* clock_generator, PowerPort* power_por
 
   // Sensor
   Sensor<kMagnetometerDimension> sensor_base =
-      ReadSensorInformation<kMagnetometerDimension>(file_name, compo_step_time * (double)(prescaler), MSSection, "nT");
+      ReadSensorInformation<kMagnetometerDimension>(file_name, component_step_time_s * (double)(prescaler), MSSection, "nT");
 
   // PowerPort
   power_port->InitializeWithInitializeFile(file_name);

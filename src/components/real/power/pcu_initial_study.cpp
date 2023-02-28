@@ -10,13 +10,13 @@
 #include <environment/global/clock_generator.hpp>
 
 PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SAP*> saps, BAT* bat,
-                                   double compo_step_time)
+                                   double component_step_time_s)
     : Component(prescaler, clock_generator),
       saps_(saps),
       bat_(bat),
       cc_charge_current_(bat->GetCCChargeCurrent()),
       cv_charge_voltage_(bat->GetCVChargeVoltage()),
-      compo_step_time_(compo_step_time) {
+      compo_step_time_(component_step_time_s) {
   bus_voltage_ = 0.0;
   power_consumption_ = 0.0;
 }

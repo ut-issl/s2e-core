@@ -10,7 +10,7 @@
 
 SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area,
          libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
-         const LocalCelestialInformation* local_celestial_information, double compo_step_time)
+         const LocalCelestialInformation* local_celestial_information, double component_step_time_s)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       number_of_series_(number_of_series),
@@ -21,14 +21,14 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int component_id,
       transmission_efficiency_(transmission_efficiency),
       srp_(srp),
       local_celestial_information_(local_celestial_information),
-      compo_step_time_(compo_step_time) {
+      compo_step_time_(component_step_time_s) {
   voltage_ = 0.0;
   power_generation_ = 0.0;
 }
 
 SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area,
          libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
-         double compo_step_time)
+         double component_step_time_s)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       number_of_series_(number_of_series),
@@ -38,7 +38,7 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int component_id,
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
       srp_(srp),
-      compo_step_time_(compo_step_time) {
+      compo_step_time_(component_step_time_s) {
   voltage_ = 0.0;
   power_generation_ = 0.0;
 }

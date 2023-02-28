@@ -6,7 +6,7 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double compo_step_time,
+Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
                             const GeomagneticField* geomagnetic_field) {
   IniAccess magtorquer_conf(file_name);
   const char* sensor_name = "MAGNETORQUER_";
@@ -37,7 +37,7 @@ Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, co
   Vector<kMtqDimension> bias_noise_c_Am2_;
   magtorquer_conf.ReadVector(MTSection, "constant_bias_noise_c_Am2", bias_noise_c_Am2_);
 
-  double random_walk_step_width_s = compo_step_time * (double)prescaler;
+  double random_walk_step_width_s = component_step_time_s * (double)prescaler;
   Vector<kMtqDimension> random_walk_standard_deviation_c_Am2;
   magtorquer_conf.ReadVector(MTSection, "random_walk_standard_deviation_c_Am2", random_walk_standard_deviation_c_Am2);
   Vector<kMtqDimension> random_walk_limit_c_Am2;
@@ -51,8 +51,8 @@ Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, int actuator_id, co
   return magtorquer;
 }
 
-Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name, double compo_step_time,
-                            const GeomagneticField* geomagnetic_field) {
+Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
+                            double component_step_time_s, const GeomagneticField* geomagnetic_field) {
   IniAccess magtorquer_conf(file_name);
   const char* sensor_name = "MAGNETORQUER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(actuator_id));
@@ -82,7 +82,7 @@ Magnetorquer InitMagTorquer(ClockGenerator* clock_generator, PowerPort* power_po
   Vector<kMtqDimension> bias_noise_c_Am2_;
   magtorquer_conf.ReadVector(MTSection, "constant_bias_noise_c_Am2", bias_noise_c_Am2_);
 
-  double random_walk_step_width_s = compo_step_time * (double)prescaler;
+  double random_walk_step_width_s = component_step_time_s * (double)prescaler;
   Vector<kMtqDimension> random_walk_standard_deviation_c_Am2;
   magtorquer_conf.ReadVector(MTSection, "random_walk_standard_deviation_c_Am2", random_walk_standard_deviation_c_Am2);
   Vector<kMtqDimension> random_walk_limit_c_Am2;

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-StarSensor InitSTT(ClockGenerator* clock_generator, int sensor_id, const string file_name, double compo_step_time, const Dynamics* dynamics,
+StarSensor InitSTT(ClockGenerator* clock_generator, int sensor_id, const string file_name, double component_step_time_s, const Dynamics* dynamics,
                    const LocalEnvironment* local_environment) {
   IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
@@ -19,7 +19,7 @@ StarSensor InitSTT(ClockGenerator* clock_generator, int sensor_id, const string 
 
   int prescaler = STT_conf.ReadInt(STTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
-  double step_time_s = compo_step_time * prescaler;
+  double step_time_s = component_step_time_s * prescaler;
   Quaternion quaternion_b2c;
   STT_conf.ReadQuaternion(STTSection, "quaternion_b2c", quaternion_b2c);
   double standard_deviation_orthogonal_direction = STT_conf.ReadDouble(STTSection, "standard_deviation_orthogonal_direction_rad");
@@ -43,7 +43,7 @@ StarSensor InitSTT(ClockGenerator* clock_generator, int sensor_id, const string 
   return stt;
 }
 
-StarSensor InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string file_name, double compo_step_time,
+StarSensor InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string file_name, double component_step_time_s,
                    const Dynamics* dynamics, const LocalEnvironment* local_environment) {
   IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
@@ -52,7 +52,7 @@ StarSensor InitSTT(ClockGenerator* clock_generator, PowerPort* power_port, int s
 
   int prescaler = STT_conf.ReadInt(STTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
-  double step_time_s = compo_step_time * prescaler;
+  double step_time_s = component_step_time_s * prescaler;
 
   Quaternion quaternion_b2c;
   STT_conf.ReadQuaternion(STTSection, "quaternion_b2c", quaternion_b2c);

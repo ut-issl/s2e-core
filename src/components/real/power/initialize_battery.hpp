@@ -14,8 +14,8 @@
  * @param [in] clock_generator: Clock generator
  * @param [in] bat_id: Battery ID
  * @param [in] file_name: Path to initialize file
- * @param [in] compo_step_time: Component step time [sec]
+ * @param [in] component_step_time_s: Component step time [sec]
  */
-BAT InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_name, double compo_step_time);
+BAT InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_name, double component_step_time_s);
 
 #endif  // S2E_COMPONENTS_REAL_POWER_INITIALIZE_BATTERY_HPP_

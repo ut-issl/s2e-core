@@ -10,7 +10,7 @@
 #include "library/initialize/initialize_file_access.hpp"
 
 SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_name, const SolarRadiationPressureEnvironment* srp,
-            const LocalCelestialInformation* local_celestial_information, double compo_step_time) {
+            const LocalCelestialInformation* local_celestial_information, double component_step_time_s) {
   IniAccess sap_conf(file_name);
 
   const std::string st_sap_id = std::to_string(sap_id);
@@ -41,13 +41,13 @@ SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_
   transmission_efficiency = sap_conf.ReadDouble(Section, "transmission_efficiency");
 
   SAP sap(prescaler, clock_generator, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency,
-          transmission_efficiency, srp, local_celestial_information, compo_step_time);
+          transmission_efficiency, srp, local_celestial_information, component_step_time_s);
 
   return sap;
 }
 
 SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_name, const SolarRadiationPressureEnvironment* srp,
-            double compo_step_time) {
+            double component_step_time_s) {
   IniAccess sap_conf(file_name);
 
   const std::string st_sap_id = std::to_string(sap_id);
@@ -78,7 +78,7 @@ SAP InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_
   transmission_efficiency = sap_conf.ReadDouble(Section, "transmission_efficiency");
 
   SAP sap(prescaler, clock_generator, sap_id, number_of_series, number_of_parallel, cell_area, normal_vector, cell_efficiency,
-          transmission_efficiency, srp, compo_step_time);
+          transmission_efficiency, srp, component_step_time_s);
 
   return sap;
 }

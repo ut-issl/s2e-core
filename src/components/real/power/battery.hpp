@@ -30,11 +30,11 @@ class BAT : public Component, public ILoggable {
    * @param [in] cc_charge_c_rate: Constant charge current [C]
    * @param [in] cv_charge_voltage: Constant charge voltage [V]
    * @param [in] bat_resistance: Battery internal resistance [Ohm]
-   * @param [in] compo_step_time: Component step time [sec]
+   * @param [in] component_step_time_s: Component step time [sec]
    */
   BAT(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity,
       const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
-      double bat_resistance, double compo_step_time);
+      double bat_resistance, double component_step_time_s);
   /**
    * @fn BAT
    * @brief Constructor without prescaler
@@ -48,7 +48,7 @@ class BAT : public Component, public ILoggable {
    * @param [in] cc_charge_c_rate: Constant charge current [C]
    * @param [in] cv_charge_voltage: Constant charge voltage [V]
    * @param [in] bat_resistance: Battery internal resistance [Ohm]
-   * @param [in] compo_step_time: Component step time [sec]
+   * @param [in] component_step_time_s: Component step time [sec]
    */
   BAT(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity,
       const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
