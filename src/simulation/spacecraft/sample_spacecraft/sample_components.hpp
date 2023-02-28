@@ -33,7 +33,7 @@
 class OBC;
 class PCU;
 class GyroSensor;
-class MagSensor;
+class Magnetometer;
 class STT;
 class SunSensor;
 class GnssReceiver;
@@ -88,7 +88,7 @@ class SampleComponents : public InstalledComponents {
 
   // AOCS
   GyroSensor* gyro_;                   //!< GyroSensor sensor
-  MagSensor* mag_sensor_;              //!< Magnetmeter
+  Magnetometer* mag_sensor_;           //!< Magnetmeter
   STT* stt_;                           //!< Star sensor
   SunSensor* sun_sensor_;              //!< Sun sensor
   GnssReceiver* gnss_;                 //!< GNSS receiver

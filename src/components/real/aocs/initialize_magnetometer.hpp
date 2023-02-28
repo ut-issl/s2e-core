@@ -17,7 +17,8 @@
  * @param [in] compo_step_time: Component step time [sec]
  * @param [in] mgnet: Geomegnetic environment
  */
-MagSensor InitMagSensor(ClockGenerator* clock_generator, int sensor_id, const std::string fname, double compo_step_time, const GeomagneticField* geomagnetic_field);
+Magnetometer InitMagSensor(ClockGenerator* clock_generator, int sensor_id, const std::string fname, double compo_step_time,
+                           const GeomagneticField* geomagnetic_field);
 /**
  * @fn InitMagSensor
  * @brief Initialize functions for magnetometer with power port
@@ -28,7 +29,7 @@ MagSensor InitMagSensor(ClockGenerator* clock_generator, int sensor_id, const st
  * @param [in] compo_step_time: Component step time [sec]
  * @param [in] mgnet: Geomegnetic environment
  */
-MagSensor InitMagSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
-                        const GeomagneticField* geomagnetic_field);
+Magnetometer InitMagSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
+                           const GeomagneticField* geomagnetic_field);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_INITIALIZE_MAGNETOMETER_HPP_

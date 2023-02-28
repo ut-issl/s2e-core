@@ -16,13 +16,13 @@
 const size_t kMagDim = 3;  //!< Dimension of magnetometer
 
 /**
- * @class MagSensor
+ * @class Magnetometer
  * @brief Class to emulate magnetometer
  */
-class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
+class Magnetometer : public Component, public Sensor<kMagDim>, public ILoggable {
  public:
   /**
-   * @fn MagSensor
+   * @fn Magnetometer
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
@@ -31,10 +31,10 @@ class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  MagSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
-            const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
+  Magnetometer(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
+               const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
   /**
-   * @fn MagSensor
+   * @fn Magnetometer
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
@@ -44,13 +44,13 @@ class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  MagSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-            const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
+  Magnetometer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
+               const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
   /**
-   * @fn ~MagSensor
+   * @fn ~Magnetometer
    * @brief Destructor
    */
-  ~MagSensor();
+  ~Magnetometer();
 
   // Override functions for Component
   /**
@@ -72,10 +72,10 @@ class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
   virtual std::string GetLogValue() const;
 
   /**
-   * @fn GetMagC
+   * @fn GetMeasuredMagneticField_c_nT
    * @brief Return observed magnetic field on the component frame
    */
-  inline const libra::Vector<kMagDim>& GetMagC(void) const { return magnetic_field_c_nT_; }
+  inline const libra::Vector<kMagDim>& GetMeasuredMagneticField_c_nT(void) const { return magnetic_field_c_nT_; }
 
  protected:
   libra::Vector<kMagDim> magnetic_field_c_nT_{0.0};       //!< Observed magnetic field on the component frame [nT]

@@ -29,11 +29,11 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
   gyro_ = new GyroSensor(InitGyro(clock_gen, pcu_->GetPowerPort(1), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
 
-  // MagSensor
+  // Magnetometer
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "magetometer_file");
   config_->main_logger_->CopyFileToLogDirectory(ini_path);
-  mag_sensor_ = new MagSensor(InitMagSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
-                                            &(local_env_->GetGeomagneticField())));
+  mag_sensor_ = new Magnetometer(InitMagSensor(clock_gen, pcu_->GetPowerPort(2), 1, ini_path, glo_env_->GetSimulationTime().GetComponentStepTime_s(),
+                                               &(local_env_->GetGeomagneticField())));
 
   // STT
   ini_path = iniAccess.ReadString("COMPONENT_FILES", "stt_file");
