@@ -19,13 +19,10 @@
 
 extern const double nan99;  //!< Not at Number TODO: Should be moved to another place
 
-// TODO: Use enum
-#define ECEF 0  //!< Use ECEF frame for GNSS satellite position frame in Add_IonosphericDelay
-#define ECI 1   //!< Use ECI frame for GNSS satellite position frame in Add_IonosphericDelay
-
-// TODO: Not used now. Remove? Use enum?
-#define Lagrange 0       //!< Use Lagrange interpolation
-#define Trigonometric 1  //!< Use Trigonometric interpolation
+enum class GnssFrameDefinition {
+  kEcef = 0,  //!< Use ECEF frame for GNSS satellite position frame in Add_IonosphericDelay
+  kEci = 1    //!< Use ECI frame for GNSS satellite position frame in Add_IonosphericDelay
+};
 
 // #define GNSS_SATELLITES_DEBUG_OUTPUT //!< For debug output, uncomment this
 
@@ -33,9 +30,9 @@ extern const double nan99;  //!< Not at Number TODO: Should be moved to another 
  * @enum UltraRapidMode
  * @brief Ultra Rapid mode
  * @details When Using Ultra Rapid ephemerides, decide to use which 6 hours in each observe and predict 24 hours
- * @note TODO: change to class
+ * @note TODO: change to enum class
  */
-enum UltraRapidMode{
+enum UltraRapidMode {
   kNotUse,  //!< Don't use ultra rapid
 
   kObserve1,  //!< the most oldest observe 6 hours (most precise)
@@ -138,7 +135,8 @@ class GnssSat_position : public GnssSat_coordinate {
    * @param[in] ur_flag: Ultra Rapid flag for position calculation
    * @return Start unix time and end unix time
    */
-  std::pair<double, double> Init(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number, UltraRapidMode ur_flag);
+  std::pair<double, double> Init(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number,
+                                 UltraRapidMode ur_flag);
 
   /**
    * @fn Setup
@@ -498,7 +496,8 @@ class GnssSatellites : public ILoggable {
    * @param [in] flag: The frame definition of the receiver position (ECI or ECEF)
    * @return Ionospheric delay [m]
    */
-  double AddIonosphericDelay(const int gnss_satellite_id, const libra::Vector<3> rec_position, const double frequency, const bool flag) const;
+  double AddIonosphericDelay(const int gnss_satellite_id, const libra::Vector<3> rec_position, const double frequency,
+                             const GnssFrameDefinition flag) const;
 
   bool is_calc_enabled_ = true;  //!< Flag to manage the GNSS satellite position calculation
   GnssSat_Info true_info_;       //!< True information of GNSS satellites
