@@ -13,11 +13,11 @@ KinematicsParams InitKinematicsParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "KINEMATIC_PARAMETERS";
 
-  Vector<3> cg_b;
+  libra::Vector<3> cg_b;
   conf.ReadVector(section, "center_of_gravity_b_m", cg_b);
   double mass = conf.ReadDouble(section, "mass_kg");
-  Vector<9> inertia_vec;
-  Matrix<3, 3> inertia_tensor;
+  libra::Vector<9> inertia_vec;
+  libra::Matrix<3, 3> inertia_tensor;
   conf.ReadVector(section, "inertia_tensor_kgm2", inertia_vec);
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
@@ -110,7 +110,7 @@ RMMParams InitRMMParams(std::string ini_path) {
   auto conf = IniAccess(ini_path);
   const char* section = "RESIDUAL_MAGNETIC_MOMENT";
 
-  Vector<3> rmm_const_b;
+  libra::Vector<3> rmm_const_b;
   conf.ReadVector(section, "rmm_constant_b_Am2", rmm_const_b);
   double rmm_rwdev = conf.ReadDouble(section, "rmm_random_walk_speed_Am2");
   double rmm_rwlimit = conf.ReadDouble(section, "rmm_random_walk_limit_Am2");

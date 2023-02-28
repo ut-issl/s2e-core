@@ -16,9 +16,9 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, 
   int prescaler = magtorquer_conf.ReadInt(MTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Vector<kMtqDimension * kMtqDimension> sf_vec;
+  libra::Vector<kMtqDimension * kMtqDimension> sf_vec;
   magtorquer_conf.ReadVector(MTSection, "scale_factor_c", sf_vec);
-  Matrix<kMtqDimension, kMtqDimension> scale_factor;
+  libra::Matrix<kMtqDimension, kMtqDimension> scale_factor;
   for (size_t i = 0; i < kMtqDimension; i++) {
     for (size_t j = 0; j < kMtqDimension; j++) {
       scale_factor[i][j] = sf_vec[i * kMtqDimension + j];
@@ -63,7 +63,7 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_
 
   Vector<kMtqDimension * kMtqDimension> sf_vec;
   magtorquer_conf.ReadVector(MTSection, "scale_factor_c", sf_vec);
-  Matrix<kMtqDimension, kMtqDimension> scale_factor;
+  libra::Matrix<kMtqDimension, kMtqDimension> scale_factor;
   for (size_t i = 0; i < kMtqDimension; i++) {
     for (size_t j = 0; j < kMtqDimension; j++) {
       scale_factor[i][j] = sf_vec[i * kMtqDimension + j];

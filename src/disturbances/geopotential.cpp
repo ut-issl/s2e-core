@@ -78,12 +78,12 @@ void GeoPotential::Update(const LocalEnvironment &local_environment, const Dynam
   time_ms_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
 #endif
 
-  Matrix<3, 3> trans_eci2ecef_ = local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf();
-  Matrix<3, 3> trans_ecef2eci = Transpose(trans_eci2ecef_);
+  libra::Matrix<3, 3> trans_eci2ecef_ = local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf();
+  libra::Matrix<3, 3> trans_ecef2eci = Transpose(trans_eci2ecef_);
   acceleration_i_m_s2_ = trans_ecef2eci * acceleration_ecef_m_s2_;
 }
 
-void GeoPotential::CalcAccelerationEcef(const Vector<3> &position_ecef_m) {
+void GeoPotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m) {
   ecef_x_m_ = position_ecef_m[0];
   ecef_y_m_ = position_ecef_m[1];
   ecef_z_m_ = position_ecef_m[2];
