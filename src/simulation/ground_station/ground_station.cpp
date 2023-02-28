@@ -13,9 +13,9 @@
 #include <library/utilities/macros.hpp>
 #include <string>
 
-GroundStation::GroundStation(SimulationConfig* config, int gs_id) : gs_id_(gs_id) {
-  Initialize(gs_id_, config);
-  num_sc_ = config->number_of_simulated_spacecraft_;
+GroundStation::GroundStation(SimulationConfig* configuration, int gs_id) : gs_id_(gs_id) {
+  Initialize(gs_id_, configuration);
+  num_sc_ = configuration->number_of_simulated_spacecraft_;
   for (int i = 0; i < num_sc_; i++) {
     is_visible_[i] = false;
   }
@@ -23,8 +23,8 @@ GroundStation::GroundStation(SimulationConfig* config, int gs_id) : gs_id_(gs_id
 
 GroundStation::~GroundStation() {}
 
-void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
-  std::string gs_ini_path = config->ground_station_file_list_[0];
+void GroundStation::Initialize(int gs_id, SimulationConfig* configuration) {
+  std::string gs_ini_path = configuration->ground_station_file_list_[0];
   auto conf = IniAccess(gs_ini_path);
 
   const char* section_base = "GROUND_STATION_";
@@ -39,7 +39,7 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* config) {
 
   elevation_limit_angle_deg_ = conf.ReadDouble(Section, "elevation_limit_angle_deg");
 
-  config->main_logger_->CopyFileToLogDirectory(gs_ini_path);
+  configuration->main_logger_->CopyFileToLogDirectory(gs_ini_path);
 }
 
 void GroundStation::LogSetup(Logger& logger) { logger.AddLogList(this); }

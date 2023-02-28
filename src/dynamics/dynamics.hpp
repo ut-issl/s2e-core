@@ -28,7 +28,7 @@ class Dynamics {
   /**
    * @fn Dynamics
    * @brief Constructor
-   * @param [in] simulation_configuration: Simulation config
+   * @param [in] simulation_configuration: Simulation configuration
    * @param [in] simulation_time: Simulation time
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] spacecraft_id: Spacecraft ID of the spacecraft
@@ -115,7 +115,7 @@ class Dynamics {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @param [in] simulation_configuration: Simulation config
+   * @param [in] simulation_configuration: Simulation configuration
    * @param [in] simulation_time: Simulation time
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] spacecraft_id: Spacecraft ID of the spacecraft

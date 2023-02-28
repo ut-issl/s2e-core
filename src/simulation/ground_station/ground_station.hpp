@@ -23,7 +23,7 @@ class GroundStation : public ILoggable {
    * @fn GroundStation
    * @brief Constructor
    */
-  GroundStation(SimulationConfig* config, int gs_id_);
+  GroundStation(SimulationConfig* configuration, int gs_id_);
   /**
    * @fn ~GroundStation
    * @brief Destructor
@@ -34,7 +34,7 @@ class GroundStation : public ILoggable {
    * @fn Initialize
    * @brief Virtual function to initialize the ground station
    */
-  virtual void Initialize(int gs_id, SimulationConfig* config);
+  virtual void Initialize(int gs_id, SimulationConfig* configuration);
   /**
    * @fn LogSetup
    * @brief Virtual function to log output setting for ground station related components

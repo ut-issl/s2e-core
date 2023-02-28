@@ -7,11 +7,11 @@
 
 #include "sample_ground_station_components.hpp"
 
-SampleGS::SampleGS(SimulationConfig* config, int gs_id) : GroundStation(config, gs_id) { Initialize(config); }
+SampleGS::SampleGS(SimulationConfig* configuration, int gs_id) : GroundStation(configuration, gs_id) { Initialize(configuration); }
 
 SampleGS::~SampleGS() { delete components_; }
 
-void SampleGS::Initialize(SimulationConfig* config) { components_ = new SampleGSComponents(config); }
+void SampleGS::Initialize(SimulationConfig* configuration) { components_ = new SampleGSComponents(configuration); }
 
 void SampleGS::LogSetup(Logger& logger) {
   GroundStation::LogSetup(logger);

@@ -6,14 +6,14 @@
 
 #include <library/initialize/initialize_file_access.hpp>
 
-SampleGSComponents::SampleGSComponents(const SimulationConfig* config) : config_(config) {
-  IniAccess iniAccess = IniAccess(config_->ground_station_file_list_[0]);
+SampleGSComponents::SampleGSComponents(const SimulationConfig* configuration) : configuration_(configuration) {
+  IniAccess iniAccess = IniAccess(configuration_->ground_station_file_list_[0]);
 
   std::string ant_ini_path = iniAccess.ReadString("COMPONENT_FILES", "ground_station_antenna_file");
-  config_->main_logger_->CopyFileToLogDirectory(ant_ini_path);
+  configuration_->main_logger_->CopyFileToLogDirectory(ant_ini_path);
   antenna_ = new Antenna(InitAntenna(1, ant_ini_path));
   std::string gscalculator_ini_path = iniAccess.ReadString("COMPONENT_FILES", "ground_station_calculator_file");
-  config_->main_logger_->CopyFileToLogDirectory(gscalculator_ini_path);
+  configuration_->main_logger_->CopyFileToLogDirectory(gscalculator_ini_path);
   gs_calculator_ = new GroundStationCalculator(InitGsCalculator(gscalculator_ini_path));
 }
 

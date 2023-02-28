@@ -22,7 +22,7 @@ SimulationCase::SimulationCase(std::string ini_base) {
 
   sim_config_.inter_sc_communication_file_ = simbase_ini.ReadString(section, "inter_sat_comm_file");
   sim_config_.gnss_file_ = simbase_ini.ReadString(section, "gnss_file");
-  glo_env_ = new GlobalEnvironment(&sim_config_);
+  global_environment_ = new GlobalEnvironment(&sim_config_);
 }
 SimulationCase::SimulationCase(std::string ini_base, const MCSimExecutor& mc_sim, const std::string log_path) {
   IniAccess simbase_ini = IniAccess(ini_base);
@@ -41,6 +41,6 @@ SimulationCase::SimulationCase(std::string ini_base, const MCSimExecutor& mc_sim
   sim_config_.inter_sc_communication_file_ = simbase_ini.ReadString(section, "inter_sat_comm_file");
   sim_config_.gnss_file_ = simbase_ini.ReadString(section, "gnss_file");
   // Global Environment
-  glo_env_ = new GlobalEnvironment(&sim_config_);
+  global_environment_ = new GlobalEnvironment(&sim_config_);
 }
-SimulationCase::~SimulationCase() { delete glo_env_; }
+SimulationCase::~SimulationCase() { delete global_environment_; }

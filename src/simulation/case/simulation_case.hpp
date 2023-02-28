@@ -68,11 +68,11 @@ class SimulationCase : public ILoggable {
    * @fn GetGlobalEnvironment
    * @brief Return global environment
    */
-  inline const GlobalEnvironment& GetGlobalEnvironment() const { return *glo_env_; }
+  inline const GlobalEnvironment& GetGlobalEnvironment() const { return *global_environment_; }
 
  protected:
-  SimulationConfig sim_config_;  //!< Simulation setting
-  GlobalEnvironment* glo_env_;   //!< Global Environment
+  SimulationConfig sim_config_;            //!< Simulation setting
+  GlobalEnvironment* global_environment_;  //!< Global Environment
 };
 
 #endif  // S2E_SIMULATION_CASE_SIMULATION_CASE_HPP_

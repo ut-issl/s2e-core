@@ -54,7 +54,8 @@ class SampleComponents : public InstalledComponents {
    * @brief Constructor
    */
   SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_environment,
-                   const GlobalEnvironment* global_environment, const SimulationConfig* config, ClockGenerator* clock_gen, const int spacecraft_id);
+                   const GlobalEnvironment* global_environment, const SimulationConfig* configuration, ClockGenerator* clock_generator,
+                   const int spacecraft_id);
   /**
    * @fn ~SampleComponents
    * @brief Destructor
@@ -87,13 +88,13 @@ class SampleComponents : public InstalledComponents {
   HilsPortManager* hils_port_manager_;  //!< Port manager for HILS test
 
   // AOCS
-  GyroSensor* gyro_;                   //!< GyroSensor sensor
-  Magnetometer* mag_sensor_;           //!< Magnetmeter
-  StarSensor* stt_;                    //!< Star sensor
+  GyroSensor* gyro_sensor_;            //!< GyroSensor sensor
+  Magnetometer* magnetometer_;         //!< Magnetometer
+  StarSensor* star_sensor_;            //!< Star sensor
   SunSensor* sun_sensor_;              //!< Sun sensor
-  GnssReceiver* gnss_;                 //!< GNSS receiver
-  Magnetorquer* mag_torquer_;          //!< Magnetorquer
-  ReactionWheel* rw_;                  //!< Reaction Wheel
+  GnssReceiver* gnss_receiver_;        //!< GNSS receiver
+  Magnetorquer* magnetorquer_;         //!< Magnetorquer
+  ReactionWheel* reaction_wheel_;      //!< Reaction Wheel
   SimpleThruster* thruster_;           //!< Thruster
   ForceGenerator* force_generator_;    //!< Ideal Force Generator
   TorqueGenerator* torque_generator_;  //!< Ideal Torque Generator
@@ -111,11 +112,11 @@ class SampleComponents : public InstalledComponents {
   */
 
   // States
-  const SimulationConfig* config_;             //!< Simulation settings
-  const Dynamics* dynamics_;                   //!< Dynamics information of the spacecraft
-  Structure* structure_;                       //!< Structure information of the spacecraft
-  const LocalEnvironment* local_environment_;  //!< Local environment information around the spacecraft
-  const GlobalEnvironment* glo_env_;           //!< Global environment information
+  const SimulationConfig* configuration_;        //!< Simulation settings
+  const Dynamics* dynamics_;                     //!< Dynamics information of the spacecraft
+  Structure* structure_;                         //!< Structure information of the spacecraft
+  const LocalEnvironment* local_environment_;    //!< Local environment information around the spacecraft
+  const GlobalEnvironment* global_environment_;  //!< Global environment information
 };
 
 #endif  // S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
