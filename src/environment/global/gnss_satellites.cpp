@@ -224,7 +224,7 @@ bool GnssSat_coordinate::GetWhetherValid(int gnss_satellite_id) const {
   return validate_.at(gnss_satellite_id);
 }
 
-pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int interpolation_method, int interpolation_number, UR_KINDS ur_flag) {
+pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int interpolation_method, int interpolation_number, UltraRapidMode ur_flag) {
   UNUSED(interpolation_method);
 
   interpolation_number_ = interpolation_number;
@@ -274,11 +274,11 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
     while (file.at(page).at(line).front() != '*') ++line;
 
     int start_line, end_line;
-    if (ur_flag == UR_NOT_UR) {
+    if (ur_flag == kNotUse) {
       start_line = line;
       end_line = line + (num_of_sat + 1) * num_of_time_stamps;
     } else {
-      int offset = (int)ur_flag - (int)UR_OBSERVE1;
+      int offset = (int)ur_flag - (int)kObserve1;
       start_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * offset;
       end_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * (offset + 1);
     }
@@ -505,7 +505,7 @@ libra::Vector<3> GnssSat_position::GetSatEci(int gnss_satellite_id) const {
   return gnss_sat_eci_.at(gnss_satellite_id);
 }
 
-void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, int interpolation_number, UR_KINDS ur_flag,
+void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, int interpolation_number, UltraRapidMode ur_flag,
                          pair<double, double> unix_time_period) {
   interpolation_number_ = interpolation_number;
   gnss_sat_clock_table_.resize(all_sat_num_);  // first vector size is the sat num
@@ -548,11 +548,11 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
       while (file.at(page).at(line).front() != '*') ++line;
 
       int start_line, end_line;
-      if (ur_flag == UR_NOT_UR) {
+      if (ur_flag == kNotUse) {
         start_line = line;
         end_line = line + (num_of_sat + 1) * num_of_time_stamps;
       } else {
-        int offset = (int)ur_flag - (int)UR_OBSERVE1;
+        int offset = (int)ur_flag - (int)kObserve1;
         start_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * offset;
         end_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * (offset + 1);
       }
@@ -594,7 +594,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
       }
     }
   } else {  // .clk30s
-    if (UR_PREDICT1 <= ur_flag && ur_flag <= UR_PREDICT4) {
+    if (kPredict1 <= ur_flag && ur_flag <= kPredict4) {
       cout << "clock settings has something wrong" << endl;
       exit(1);
     }
@@ -602,7 +602,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
 
     for (int page = 0; page < (int)file.size(); ++page) {
       double start_unix_time, end_unix_time;
-      if (ur_flag == UR_NOT_UR) {
+      if (ur_flag == kNotUse) {
         start_unix_time = unix_time_period.first;
         end_unix_time = unix_time_period.second + 30;
       } else {
@@ -630,7 +630,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
         double unix_time = (double)mktime(time_tm);
         const double interval = 6 * 60 * 60;
         if (start_unix_time < 0) {
-          start_unix_time = unix_time + (ur_flag - UR_OBSERVE1) * interval;  // Fix here to use enum class
+          start_unix_time = unix_time + (ur_flag - kObserve1) * interval;  // Fix here to use enum class
           end_unix_time = start_unix_time + interval;
         }
 
@@ -792,8 +792,8 @@ double GnssSat_clock::GetSatClock(int gnss_satellite_id) const {
 
 GnssSat_Info::GnssSat_Info() {}
 void GnssSat_Info::Init(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                        UR_KINDS position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number,
-                        UR_KINDS clock_ur_flag) {
+                        UltraRapidMode position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number,
+                        UltraRapidMode clock_ur_flag) {
   auto unix_time_period = position_.Init(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag);
   clock_.Init(clock_file, clock_file_extension, clock_interpolation_number, clock_ur_flag, unix_time_period);
 }
@@ -845,16 +845,16 @@ GnssSatellites::GnssSatellites(bool is_calc_enabled)
 bool GnssSatellites::IsCalcEnabled() const { return is_calc_enabled_; }
 
 void GnssSatellites::Init(vector<vector<string>>& true_position_file, int true_position_interpolation_method, int true_position_interpolation_number,
-                          UR_KINDS true_position_ur_flag,
+                          UltraRapidMode true_position_ur_flag,
 
                           vector<vector<string>>& true_clock_file, string true_clock_file_extension, int true_clock_interpolation_number,
-                          UR_KINDS true_clock_ur_flag,
+                          UltraRapidMode true_clock_ur_flag,
 
                           vector<vector<string>>& estimate_position_file, int estimate_position_interpolation_method,
-                          int estimate_position_interpolation_number, UR_KINDS estimate_position_ur_flag,
+                          int estimate_position_interpolation_number, UltraRapidMode estimate_position_ur_flag,
 
                           vector<vector<string>>& estimate_clock_file, string estimate_clock_file_extension, int estimate_clock_interpolation_number,
-                          UR_KINDS estimate_clock_ur_flag) {
+                          UltraRapidMode estimate_clock_ur_flag) {
   true_info_.Init(true_position_file, true_position_interpolation_method, true_position_interpolation_number, true_position_ur_flag,
 
                   true_clock_file, true_clock_file_extension, true_clock_interpolation_number, true_clock_ur_flag);

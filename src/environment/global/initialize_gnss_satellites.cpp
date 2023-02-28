@@ -65,9 +65,9 @@ void get_raw_contents(std::string directory_path, std::string file_name, std::ve
 }
 
 void get_sp3_file_contents(std::string directory_path, std::string file_sort, std::string first, std::string last,
-                           std::vector<std::vector<std::string>>& file_contents, UR_KINDS& ur_flag) {
+                           std::vector<std::vector<std::string>>& file_contents, UltraRapidMode& ur_flag) {
   std::string all_directory_path = directory_path + return_dirctory_path(file_sort);
-  ur_flag = UR_NOT_UR;
+  ur_flag = kNotUse;
 
   if (first.substr(0, 3) == "COD") {
     std::string file_header = "COD0MGXFIN_";
@@ -100,7 +100,7 @@ void get_sp3_file_contents(std::string directory_path, std::string file_sort, st
       ++day;
     }
   } else if (file_sort.substr(0, 3) == "IGU" || file_sort.find("Ultra") != std::string::npos) {  // In case of UR
-    ur_flag = UR_UNKNOWN;
+    ur_flag = kUnknown;
     std::string file_header, file_footer;
     int gps_week = 0, day = 0;
     int hour = 0;
@@ -265,14 +265,14 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   std::string directory_path = ini_file.ReadString(section, "directory_path");
 
   std::vector<std::vector<std::string>> true_position_file;
-  UR_KINDS true_position_ur_flag = UR_NOT_UR;
+  UltraRapidMode true_position_ur_flag = kNotUse;
   get_sp3_file_contents(directory_path, ini_file.ReadString(section, "true_position_file_sort"), ini_file.ReadString(section, "true_position_first"),
                         ini_file.ReadString(section, "true_position_last"), true_position_file, true_position_ur_flag);
   int true_position_interpolation_method = ini_file.ReadInt(section, "true_position_interpolation_method");
   int true_position_interpolation_number = ini_file.ReadInt(section, "true_position_interpolation_number");
 
   std::vector<std::vector<std::string>> true_clock_file;
-  UR_KINDS true_clock_ur_flag = UR_NOT_UR;
+  UltraRapidMode true_clock_ur_flag = kNotUse;
   std::string true_clock_file_extension = ini_file.ReadString(section, "true_clock_file_extension");
   if (true_clock_file_extension == ".sp3") {
     get_sp3_file_contents(directory_path, ini_file.ReadString(section, "true_clock_file_sort"), ini_file.ReadString(section, "true_clock_first"),
@@ -284,23 +284,23 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   int true_clock_interpolation_number = ini_file.ReadInt(section, "true_clock_interpolation_number");
 
   std::vector<std::vector<std::string>> estimate_position_file;
-  UR_KINDS estimate_position_ur_flag = UR_NOT_UR;
+  UltraRapidMode estimate_position_ur_flag = kNotUse;
   get_sp3_file_contents(directory_path, ini_file.ReadString(section, "estimate_position_file_sort"),
                         ini_file.ReadString(section, "estimate_position_first"), ini_file.ReadString(section, "estimate_position_last"),
                         estimate_position_file, estimate_position_ur_flag);
   int estimate_position_interpolation_method = ini_file.ReadInt(section, "estimate_position_interpolation_method");
   int estimate_position_interpolation_number = ini_file.ReadInt(section, "estimate_position_interpolation_number");
-  if (estimate_position_ur_flag != UR_NOT_UR) {
+  if (estimate_position_ur_flag != kNotUse) {
     std::string ur_flag = ini_file.ReadString(section, "estimate_ur_observe_or_predict");
     if (ur_flag.find("observe") != std::string::npos) {
-      estimate_position_ur_flag = (UR_KINDS)((int)UR_OBSERVE1 + (ur_flag.back() - '1'));
+      estimate_position_ur_flag = (UltraRapidMode)((int)kObserve1 + (ur_flag.back() - '1'));
     } else {
-      estimate_position_ur_flag = (UR_KINDS)((int)UR_PREDICT1 + (ur_flag.back() - '1'));
+      estimate_position_ur_flag = (UltraRapidMode)((int)kPredict1 + (ur_flag.back() - '1'));
     }
   }
 
   std::vector<std::vector<std::string>> estimate_clock_file;
-  UR_KINDS estimate_clock_ur_flag = estimate_position_ur_flag;
+  UltraRapidMode estimate_clock_ur_flag = estimate_position_ur_flag;
   std::string estimate_clock_file_extension = ini_file.ReadString(section, "estimate_clock_file_extension");
   if (estimate_clock_file_extension == ".sp3") {
     get_sp3_file_contents(directory_path, ini_file.ReadString(section, "estimate_clock_file_sort"),
