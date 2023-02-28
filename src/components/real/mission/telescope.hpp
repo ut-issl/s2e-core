@@ -98,9 +98,9 @@ class Telescope : public Component, public ILoggable {
    */
   void ObserveStars();
 
-  const Attitude* attitude_;                           //!< Attitude information
-  const HipparcosCatalogue* hipp_;                     //!< Star information
-  const LocalCelestialInformation* local_celes_info_;  //!< Local celestial information
+  const Attitude* attitude_;                                      //!< Attitude information
+  const HipparcosCatalogue* hipp_;                                //!< Star information
+  const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
 
   // Override ILoggable
   /**

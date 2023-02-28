@@ -113,8 +113,8 @@ class SAP : public Component, public ILoggable {
   const double cell_efficiency_;          //!< Power generation efficiency of solar cell
   const double transmission_efficiency_;  //!< Efficiency of transmission to PCU
 
-  const SolarRadiationPressureEnvironment* const srp_;  //!< Solar Radiation Pressure environment
-  const LocalCelestialInformation* local_celes_info_;   //!< Local celestial information
+  const SolarRadiationPressureEnvironment* const srp_;            //!< Solar Radiation Pressure environment
+  const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
 
   double voltage_;           //!< Voltage [V]
   double power_generation_;  //!< Generated power [W]

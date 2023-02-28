@@ -19,7 +19,7 @@ Node::Node(const int node_id, const string node_label, const int heater_node_id,
       temperature_(temperature_ini),
       capacity_(capacity_ini),
       internal_heat_(internal_heat_ini),
-      alpha_(alpha),
+      alpha_rad_(alpha),
       area_(area),
       normal_v_b_(normal_v_b) {
   solar_radiation_ = 0;
@@ -68,7 +68,7 @@ double Node::CalcSolarRadiation(libra::Vector<3> sun_direction) {
 
   // calculate sun_power
   if (cos_theta > 0)
-    solar_radiation_ = S * area_ * alpha_ * cos_theta;
+    solar_radiation_ = S * area_ * alpha_rad_ * cos_theta;
   else
     solar_radiation_ = 0;
   return solar_radiation_;  //[W]
@@ -78,7 +78,7 @@ void Node::PrintParam(void) {
   cout << "node_id: " << node_id_ << endl;
   cout << "  node_label   : " << node_label_ << endl;
   cout << "  temperature  : " << temperature_ << endl;
-  cout << "  alpha        : " << alpha_ << endl;
+  cout << "  alpha        : " << alpha_rad_ << endl;
   cout << "  capacity     : " << capacity_ << endl;
   cout << "  internal heat; " << internal_heat_ << endl;
   cout << "  Normal Vector: ";

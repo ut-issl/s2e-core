@@ -18,7 +18,7 @@ class Node {
   double temperature_;      // 温度[K]
   double capacity_;         // 熱容量[J/K]
   double internal_heat_;    // 内部生成熱[J]
-  double alpha_;
+  double alpha_rad_;
   double area_;                  // 太陽熱が入射する面の面積[m^2]
   libra::Vector<3> normal_v_b_;  // 太陽熱が入射する面の法線ベクトル(機体固定座標系)
   double solar_radiation_;       // 入射する太陽輻射熱[W]([J]に変換するためには時間をかけないといけないことに注意

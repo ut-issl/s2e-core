@@ -23,7 +23,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),
-      local_celes_info_(local_celestial_information) {
+      local_celestial_information_(local_celestial_information) {
   Initialize(normal_random_standard_deviation_c_Am2, nr_bias_stddev_c);
 }
 
@@ -37,19 +37,19 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, Power
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
       srp_(srp),
-      local_celes_info_(local_celestial_information) {
+      local_celestial_information_(local_celestial_information) {
   Initialize(normal_random_standard_deviation_c_Am2, nr_bias_stddev_c);
 }
 
 void SunSensor::Initialize(const double normal_random_standard_deviation_c_Am2, const double nr_bias_stddev_c) {
   // Bias
   NormalRand nr(0.0, nr_bias_stddev_c, global_randomization.MakeSeed());
-  bias_alpha_ += nr;
-  bias_beta_ += nr;
+  bias_noise_alpha_rad_ += nr;
+  bias_noise_beta_rad_ += nr;
 
   // Normal Random
-  nrs_alpha_.SetParameters(0.0, normal_random_standard_deviation_c_Am2);  // global_randomization.MakeSeed()
-  nrs_beta_.SetParameters(0.0, normal_random_standard_deviation_c_Am2);   // global_randomization.MakeSeed()
+  random_noise_alpha_.SetParameters(0.0, normal_random_standard_deviation_c_Am2);  // global_randomization.MakeSeed()
+  random_noise_beta_.SetParameters(0.0, normal_random_standard_deviation_c_Am2);   // global_randomization.MakeSeed()
 }
 void SunSensor::MainRoutine(int count) {
   UNUSED(count);
@@ -58,48 +58,48 @@ void SunSensor::MainRoutine(int count) {
 }
 
 void SunSensor::measure() {
-  libra::Vector<3> sun_pos_b = local_celes_info_->GetPositionFromSpacecraft_b_m("SUN");
+  libra::Vector<3> sun_pos_b = local_celestial_information_->GetPositionFromSpacecraft_b_m("SUN");
   libra::Vector<3> sun_dir_b = Normalize(sun_pos_b);
 
-  sun_c_ = quaternion_b2c_.FrameConversion(sun_dir_b);  // Frame conversion from body to component
+  sun_direction_true_c_ = quaternion_b2c_.FrameConversion(sun_dir_b);  // Frame conversion from body to component
 
   SunDetectionJudgement();  // Judge the sun is inside the FoV
 
   if (sun_detected_flag_) {
-    alpha_ = atan2(sun_c_[0], sun_c_[2]);
-    beta_ = atan2(sun_c_[1], sun_c_[2]);
+    alpha_rad_ = atan2(sun_direction_true_c_[0], sun_direction_true_c_[2]);
+    beta_rad_ = atan2(sun_direction_true_c_[1], sun_direction_true_c_[2]);
     // Add constant bias noise
-    alpha_ += bias_alpha_;
-    beta_ += bias_beta_;
+    alpha_rad_ += bias_noise_alpha_rad_;
+    beta_rad_ += bias_noise_beta_rad_;
 
     // Add Normal random noise
-    alpha_ += nrs_alpha_;
-    beta_ += nrs_beta_;
+    alpha_rad_ += random_noise_alpha_;
+    beta_rad_ += random_noise_beta_;
 
     // Range [-π/2:π/2]
-    alpha_ = TanRange(alpha_);
-    beta_ = TanRange(beta_);
+    alpha_rad_ = TanRange(alpha_rad_);
+    beta_rad_ = TanRange(beta_rad_);
 
-    measured_sun_c_[0] = tan(alpha_);
-    measured_sun_c_[1] = tan(beta_);
-    measured_sun_c_[2] = 1.0;
+    measured_sun_direction_c_[0] = tan(alpha_rad_);
+    measured_sun_direction_c_[1] = tan(beta_rad_);
+    measured_sun_direction_c_[2] = 1.0;
 
-    measured_sun_c_ = Normalize(measured_sun_c_);
+    measured_sun_direction_c_ = Normalize(measured_sun_direction_c_);
   } else {
-    measured_sun_c_ = libra::Vector<3>(0);
-    alpha_ = 0.0;
-    beta_ = 0.0;
+    measured_sun_direction_c_ = libra::Vector<3>(0);
+    alpha_rad_ = 0.0;
+    beta_rad_ = 0.0;
   }
 
   CalcSolarIlluminance();
 }
 
 void SunSensor::SunDetectionJudgement() {
-  libra::Vector<3> sun_direction_c = Normalize(sun_c_);
+  libra::Vector<3> sun_direction_c = Normalize(sun_direction_true_c_);
 
   double sun_angle_ = acos(sun_direction_c[2]);
 
-  if (solar_illuminance_ < intensity_lower_threshold_percent_ / 100.0 * srp_->GetSolarConstant_W_m2()) {
+  if (solar_illuminance_W_m2_ < intensity_lower_threshold_percent_ / 100.0 * srp_->GetSolarConstant_W_m2()) {
     sun_detected_flag_ = false;
   } else {
     if (sun_angle_ < detectable_angle_rad_) {
@@ -111,16 +111,16 @@ void SunSensor::SunDetectionJudgement() {
 }
 
 void SunSensor::CalcSolarIlluminance() {
-  libra::Vector<3> sun_direction_c = Normalize(sun_c_);
+  libra::Vector<3> sun_direction_c = Normalize(sun_direction_true_c_);
   double sun_angle_ = acos(sun_direction_c[2]);
 
   if (sun_angle_ > libra::pi_2) {
-    solar_illuminance_ = 0.0;
+    solar_illuminance_W_m2_ = 0.0;
     return;
   }
 
   double power_density = srp_->GetPowerDensity_W_m2();
-  solar_illuminance_ = power_density * cos(sun_angle_);
+  solar_illuminance_W_m2_ = power_density * cos(sun_angle_);
   // TODO: Take into account the effects of albedo.
 }
 
@@ -144,7 +144,7 @@ string SunSensor::GetLogHeader() const {
 string SunSensor::GetLogValue() const {
   string str_tmp = "";
 
-  str_tmp += WriteVector(measured_sun_c_);
+  str_tmp += WriteVector(measured_sun_direction_c_);
   str_tmp += WriteScalar(double(sun_detected_flag_));
 
   return str_tmp;

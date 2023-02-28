@@ -27,7 +27,7 @@ Telescope::Telescope(ClockGenerator* clock_generator, libra::Quaternion& quatern
       num_of_logged_stars_(num_of_logged_stars),
       attitude_(attitude),
       hipp_(hipp),
-      local_celes_info_(local_celestial_information) {
+      local_celestial_information_(local_celestial_information) {
   is_sun_in_forbidden_angle = true;
   is_earth_in_forbidden_angle = true;
   is_moon_in_forbidden_angle = true;
@@ -59,13 +59,13 @@ Telescope::~Telescope() {}
 void Telescope::MainRoutine(int count) {
   UNUSED(count);
   // Check forbidden angle
-  is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("SUN"), sun_forbidden_angle_rad_);
-  is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("EARTH"), earth_forbidden_angle_rad_);
-  is_moon_in_forbidden_angle = JudgeForbiddenAngle(local_celes_info_->GetPositionFromSpacecraft_b_m("MOON"), moon_forbidden_angle_rad_);
+  is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celestial_information_->GetPositionFromSpacecraft_b_m("SUN"), sun_forbidden_angle_rad_);
+  is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celestial_information_->GetPositionFromSpacecraft_b_m("EARTH"), earth_forbidden_angle_rad_);
+  is_moon_in_forbidden_angle = JudgeForbiddenAngle(local_celestial_information_->GetPositionFromSpacecraft_b_m("MOON"), moon_forbidden_angle_rad_);
   // Position calculation of celestial bodies from CelesInfo
-  Observe(sun_pos_imgsensor, local_celes_info_->GetPositionFromSpacecraft_b_m("SUN"));
-  Observe(earth_pos_imgsensor, local_celes_info_->GetPositionFromSpacecraft_b_m("EARTH"));
-  Observe(moon_pos_imgsensor, local_celes_info_->GetPositionFromSpacecraft_b_m("MOON"));
+  Observe(sun_pos_imgsensor, local_celestial_information_->GetPositionFromSpacecraft_b_m("SUN"));
+  Observe(earth_pos_imgsensor, local_celestial_information_->GetPositionFromSpacecraft_b_m("EARTH"));
+  Observe(moon_pos_imgsensor, local_celestial_information_->GetPositionFromSpacecraft_b_m("MOON"));
   // Position calculation of stars from Hipparcos Catalogue
   // No update when Hipparocos Catalogue was not readed
   if (hipp_->IsCalcEnabled) ObserveStars();

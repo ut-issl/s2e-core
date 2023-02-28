@@ -20,7 +20,7 @@ SAP::SAP(const int prescaler, ClockGenerator* clock_generator, int component_id,
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
       srp_(srp),
-      local_celes_info_(local_celestial_information),
+      local_celestial_information_(local_celestial_information),
       compo_step_time_(compo_step_time) {
   voltage_ = 0.0;
   power_generation_ = 0.0;
@@ -55,7 +55,7 @@ SAP::SAP(ClockGenerator* clock_generator, int component_id, int number_of_series
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
       srp_(srp),
-      local_celes_info_(local_celestial_information),
+      local_celestial_information_(local_celestial_information),
       compo_step_time_(0.1) {
   voltage_ = 0.0;
   power_generation_ = 0.0;
@@ -71,7 +71,7 @@ SAP::SAP(const SAP& obj)
       cell_efficiency_(obj.cell_efficiency_),
       transmission_efficiency_(obj.transmission_efficiency_),
       srp_(obj.srp_),
-      local_celes_info_(obj.local_celes_info_),
+      local_celestial_information_(obj.local_celestial_information_),
       compo_step_time_(obj.compo_step_time_) {
   voltage_ = 0.0;
   power_generation_ = 0.0;
@@ -106,7 +106,7 @@ void SAP::MainRoutine(int time_count) {
                         cell_area_ * number_of_parallel_ * number_of_series_ * InnerProduct(normal_vector_, normalized_sun_direction_body);
   } else {
     const auto power_density = srp_->GetPowerDensity_W_m2();
-    libra::Vector<3> sun_pos_b = local_celes_info_->GetPositionFromSpacecraft_b_m("SUN");
+    libra::Vector<3> sun_pos_b = local_celestial_information_->GetPositionFromSpacecraft_b_m("SUN");
     libra::Vector<3> sun_dir_b = libra::Normalize(sun_pos_b);
     power_generation_ = cell_efficiency_ * transmission_efficiency_ * power_density * cell_area_ * number_of_parallel_ * number_of_series_ *
                         InnerProduct(normal_vector_, sun_dir_b);
