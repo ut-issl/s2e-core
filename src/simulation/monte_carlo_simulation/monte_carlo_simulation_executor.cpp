@@ -7,17 +7,17 @@
 
 using std::string;
 
-MCSimExecutor::MCSimExecutor(unsigned long long total_num_of_executions) : total_num_of_executions_(total_num_of_executions) {
-  num_of_executions_done_ = 0;
-  enabled_ = total_num_of_executions_ > 1 ? true : false;
-  log_history_ = !enabled_;
+MCSimExecutor::MCSimExecutor(unsigned long long total_num_of_executions) : total_number_of_executions_(total_num_of_executions) {
+  number_of_executions_done_ = 0;
+  enabled_ = total_number_of_executions_ > 1 ? true : false;
+  save_log_history_flag_ = !enabled_;
 }
 
 bool MCSimExecutor::WillExecuteNextCase() {
   if (!enabled_) {
-    return (num_of_executions_done_ < 1);
+    return (number_of_executions_done_ < 1);
   } else {
-    return (num_of_executions_done_ < total_num_of_executions_);
+    return (number_of_executions_done_ < total_number_of_executions_);
   }
 }
 
@@ -28,18 +28,18 @@ void MCSimExecutor::AtTheBeginningOfEachCase() {
 
 void MCSimExecutor::AtTheEndOfEachCase() {
   // Write CSV output of the simulation results
-  num_of_executions_done_++;
+  number_of_executions_done_++;
 }
 
 void MCSimExecutor::GetInitParameterDouble(string so_name, string ip_name, double& destination) const {
   if (!enabled_) return;
   {
     string name = so_name + MCSimExecutor::separator_ + ip_name;
-    if (ip_list_.find(name) == ip_list_.end()) {
+    if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
       // Not registered in ip_list（Not defined in MCSim.ini）
       return;  // return without any update of destination
     } else {
-      ip_list_.at(name)->GetRandomizedScalar(destination);  // cannot use operator[] since it is const map
+      init_parameter_list_.at(name)->GetRandomizedScalar(destination);  // cannot use operator[] since it is const map
     }
   }
 }
@@ -48,17 +48,17 @@ void MCSimExecutor::GetInitParameterQuaternion(string so_name, string ip_name, l
   if (!enabled_) return;
   {
     string name = so_name + MCSimExecutor::separator_ + ip_name;
-    if (ip_list_.find(name) == ip_list_.end()) {
+    if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
       // Not registered in ip_list（Not defined in MCSim.ini）
       return;  // return without any update of destination
     } else {
-      ip_list_.at(name)->GetRandomizedQuaternion(destination);  // cannot use operator[] since it is const map
+      init_parameter_list_.at(name)->GetRandomizedQuaternion(destination);  // cannot use operator[] since it is const map
     }
   }
 }
 
 void MCSimExecutor::RandomizeAllParameters() {
-  for (auto ip : ip_list_) {
+  for (auto ip : init_parameter_list_) {
     ip.second->Randomize();
   }
 }
