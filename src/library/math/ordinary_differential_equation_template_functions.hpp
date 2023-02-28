@@ -9,7 +9,7 @@ namespace libra {
 
 template <size_t N>
 OrdinaryDifferentialEquation<N>::OrdinaryDifferentialEquation(double step_width_s)
-    : independent_variable_(0.0), state_(0.0), derivative_(0.0), step_width_(step_width_s) {}
+    : independent_variable_(0.0), state_(0.0), derivative_(0.0), step_width_s_(step_width_s) {}
 
 template <size_t N>
 void OrdinaryDifferentialEquation<N>::Setup(double initial_independent_variable, const Vector<N>& initial_state) {
@@ -29,19 +29,19 @@ void OrdinaryDifferentialEquation<N>::Update() {
 
   // 4th order Runge-Kutta method
   Vector<N> k1(derivative_);
-  k1 *= step_width_;
+  k1 *= step_width_s_;
   Vector<N> k2(state_.GetLength());
-  DerivativeFunction(independent_variable_ + 0.5 * step_width_, state_ + 0.5 * k1, k2);
-  k2 *= step_width_;
+  DerivativeFunction(independent_variable_ + 0.5 * step_width_s_, state_ + 0.5 * k1, k2);
+  k2 *= step_width_s_;
   Vector<N> k3(state_.GetLength());
-  DerivativeFunction(independent_variable_ + 0.5 * step_width_, state_ + 0.5 * k2, k3);
-  k3 *= step_width_;
+  DerivativeFunction(independent_variable_ + 0.5 * step_width_s_, state_ + 0.5 * k2, k3);
+  k3 *= step_width_s_;
   Vector<N> k4(state_.GetLength());
-  DerivativeFunction(independent_variable_ + step_width_, state_ + k3, k4);
-  k4 *= step_width_;
+  DerivativeFunction(independent_variable_ + step_width_s_, state_ + k3, k4);
+  k4 *= step_width_s_;
 
   state_ += (1.0 / 6.0) * (k1 + 2.0 * (k2 + k3) + k4);  // Update state vector
-  independent_variable_ += step_width_;                 // Update independent variable
+  independent_variable_ += step_width_s_;               // Update independent variable
 }
 
 }  // namespace libra
