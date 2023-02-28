@@ -13,29 +13,29 @@
 #include <library/utilities/macros.hpp>
 #include <string>
 
-GroundStation::GroundStation(SimulationConfig* configuration, int gs_id) : gs_id_(gs_id) {
-  Initialize(gs_id_, configuration);
-  num_sc_ = configuration->number_of_simulated_spacecraft_;
-  for (int i = 0; i < num_sc_; i++) {
+GroundStation::GroundStation(const SimulationConfig* configuration, const unsigned int ground_station_id) : ground_station_id_(ground_station_id) {
+  Initialize(configuration, ground_station_id_);
+  number_of_spacecraft_ = configuration->number_of_simulated_spacecraft_;
+  for (unsigned int i = 0; i < number_of_spacecraft_; i++) {
     is_visible_[i] = false;
   }
 }
 
 GroundStation::~GroundStation() {}
 
-void GroundStation::Initialize(int gs_id, SimulationConfig* configuration) {
+void GroundStation::Initialize(const SimulationConfig* configuration, const unsigned int ground_station_id) {
   std::string gs_ini_path = configuration->ground_station_file_list_[0];
   auto conf = IniAccess(gs_ini_path);
 
   const char* section_base = "GROUND_STATION_";
-  const std::string section_tmp = section_base + std::to_string(static_cast<long long>(gs_id));
+  const std::string section_tmp = section_base + std::to_string(static_cast<long long>(ground_station_id));
   const char* Section = section_tmp.data();
 
   double latitude_deg = conf.ReadDouble(Section, "latitude_deg");
   double longitude_deg = conf.ReadDouble(Section, "longitude_deg");
   double height_m = conf.ReadDouble(Section, "height_m");
-  gs_position_geo_ = GeodeticPosition(latitude_deg * libra::deg_to_rad, longitude_deg * libra::deg_to_rad, height_m);
-  gs_position_ecef_ = gs_position_geo_.CalcEcefPosition();
+  geodetic_position_ = GeodeticPosition(latitude_deg * libra::deg_to_rad, longitude_deg * libra::deg_to_rad, height_m);
+  position_ecef_m_ = geodetic_position_.CalcEcefPosition();
 
   elevation_limit_angle_deg_ = conf.ReadDouble(Section, "elevation_limit_angle_deg");
 
@@ -44,17 +44,17 @@ void GroundStation::Initialize(int gs_id, SimulationConfig* configuration) {
 
 void GroundStation::LogSetup(Logger& logger) { logger.AddLogList(this); }
 
-void GroundStation::Update(const CelestialRotation& celes_rotation, const Spacecraft& spacecraft) {
-  libra::Matrix<3, 3> dcm_ecef2eci = Transpose(celes_rotation.GetDcmJ2000ToXcxf());
-  gs_position_i_ = dcm_ecef2eci * gs_position_ecef_;
+void GroundStation::Update(const CelestialRotation& celestial_rotation, const Spacecraft& spacecraft) {
+  libra::Matrix<3, 3> dcm_ecef2eci = Transpose(celestial_rotation.GetDcmJ2000ToXcxf());
+  position_i_m_ = dcm_ecef2eci * position_ecef_m_;
 
   is_visible_[spacecraft.GetSpacecraftId()] = CalcIsVisible(spacecraft.GetDynamics().GetOrbit().GetPosition_ecef_m());
 }
 
-bool GroundStation::CalcIsVisible(const libra::Vector<3> sc_pos_ecef_m) {
-  libra::Quaternion q_ecef_to_ltc = gs_position_geo_.GetQuaternionXcxfToLtc();
+bool GroundStation::CalcIsVisible(const libra::Vector<3> spacecraft_position_ecef_m) {
+  libra::Quaternion q_ecef_to_ltc = geodetic_position_.GetQuaternionXcxfToLtc();
 
-  libra::Vector<3> sc_pos_ltc = q_ecef_to_ltc.FrameConversion(sc_pos_ecef_m - gs_position_ecef_);  // Satellite position in LTC frame [m]
+  libra::Vector<3> sc_pos_ltc = q_ecef_to_ltc.FrameConversion(spacecraft_position_ecef_m - position_ecef_m_);  // Satellite position in LTC frame [m]
   Normalize(sc_pos_ltc);
   libra::Vector<3> dir_gs_to_zenith = libra::Vector<3>(0);
   dir_gs_to_zenith[2] = 1;
@@ -71,8 +71,8 @@ bool GroundStation::CalcIsVisible(const libra::Vector<3> sc_pos_ecef_m) {
 std::string GroundStation::GetLogHeader() const {
   std::string str_tmp = "";
 
-  std::string head = "ground_station" + std::to_string(gs_id_) + "_";
-  for (int i = 0; i < num_sc_; i++) {
+  std::string head = "ground_station" + std::to_string(ground_station_id_) + "_";
+  for (unsigned int i = 0; i < number_of_spacecraft_; i++) {
     std::string legend = head + "sc" + std::to_string(i) + "_visible_flag";
     str_tmp += WriteScalar(legend);
   }
@@ -82,7 +82,7 @@ std::string GroundStation::GetLogHeader() const {
 std::string GroundStation::GetLogValue() const {
   std::string str_tmp = "";
 
-  for (int i = 0; i < num_sc_; i++) {
+  for (unsigned int i = 0; i < number_of_spacecraft_; i++) {
     str_tmp += WriteScalar(is_visible_.at(i));
   }
   return str_tmp;

@@ -68,7 +68,7 @@ double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Ante
 
   // Free space path loss
   Vector<3> sc_pos_i = dynamics.GetOrbit().GetPosition_i_m();
-  Vector<3> gs_pos_i = ground_station.GetGSPosition_i();
+  Vector<3> gs_pos_i = ground_station.GetPosition_i_m();
   double dist_sc_gs_km = CalcNorm(sc_pos_i - gs_pos_i) / 1000.0;
   double loss_space_dB = -20.0 * log10(4.0 * libra::pi * dist_sc_gs_km / (300.0 / spacecraft_tx_antenna.GetFrequency_MHz() / 1000.0));
 
@@ -81,9 +81,9 @@ double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Ante
   double phi_on_sc_antenna_rad = acos(gs_direction_on_sc_frame[0] / sin(theta_on_sc_antenna_rad));
 
   // SC direction on GS RX antenna frame
-  Vector<3> gs_to_sc_ecef = dynamics.GetOrbit().GetPosition_ecef_m() - ground_station.GetGSPosition_ecef();
+  Vector<3> gs_to_sc_ecef = dynamics.GetOrbit().GetPosition_ecef_m() - ground_station.GetPosition_ecef_m();
   gs_to_sc_ecef = libra::Normalize(gs_to_sc_ecef);
-  Quaternion q_ecef_to_gs_ant = ground_station_rx_antenna.GetQuaternion_b2c() * ground_station.GetGSPosition_geo().GetQuaternionXcxfToLtc();
+  Quaternion q_ecef_to_gs_ant = ground_station_rx_antenna.GetQuaternion_b2c() * ground_station.GetGeodeticPosition().GetQuaternionXcxfToLtc();
   Vector<3> sc_direction_on_gs_frame = q_ecef_to_gs_ant.FrameConversion(gs_to_sc_ecef);
   double theta_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[2]);
   double phi_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[0] / sin(theta_on_gs_antenna_rad));

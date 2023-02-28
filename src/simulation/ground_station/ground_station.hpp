@@ -23,7 +23,7 @@ class GroundStation : public ILoggable {
    * @fn GroundStation
    * @brief Constructor
    */
-  GroundStation(SimulationConfig* configuration, int gs_id_);
+  GroundStation(const SimulationConfig* configuration, const unsigned int ground_station_id_);
   /**
    * @fn ~GroundStation
    * @brief Destructor
@@ -34,7 +34,7 @@ class GroundStation : public ILoggable {
    * @fn Initialize
    * @brief Virtual function to initialize the ground station
    */
-  virtual void Initialize(int gs_id, SimulationConfig* configuration);
+  virtual void Initialize(const SimulationConfig* configuration, const unsigned int ground_station_id);
   /**
    * @fn LogSetup
    * @brief Virtual function to log output setting for ground station related components
@@ -44,7 +44,7 @@ class GroundStation : public ILoggable {
    * @fn Update
    * @brief Virtual function of main routine
    */
-  virtual void Update(const CelestialRotation& celes_rotation, const Spacecraft& spacecraft);
+  virtual void Update(const CelestialRotation& celestial_rotation, const Spacecraft& spacecraft);
 
   // Override functions for ILoggable
   /**
@@ -60,25 +60,25 @@ class GroundStation : public ILoggable {
 
   // Getters
   /**
-   * @fn GetGsId
+   * @fn GetGroundStationId
    * @brief Return ground station ID
    */
-  int GetGsId() const { return gs_id_; }
+  int GetGroundStationId() const { return ground_station_id_; }
   /**
-   * @fn GetGSPosition_geo
+   * @fn GetGeodeticPosition
    * @brief Return ground station position in the geodetic frame
    */
-  GeodeticPosition GetGSPosition_geo() const { return gs_position_geo_; }
+  GeodeticPosition GetGeodeticPosition() const { return geodetic_position_; }
   /**
-   * @fn GetGSPosition_ecef
+   * @fn GetPosition_ecef_m
    * @brief Return ground station position in the ECEF frame [m]
    */
-  Vector<3> GetGSPosition_ecef() const { return gs_position_ecef_; }
+  Vector<3> GetPosition_ecef_m() const { return position_ecef_m_; }
   /**
-   * @fn GetGSPosition_i
+   * @fn GetPosition_i_m
    * @brief Return ground station position in the inertial frame [m]
    */
-  Vector<3> GetGSPosition_i() const { return gs_position_i_; }
+  Vector<3> GetPosition_i_m() const { return position_i_m_; }
   /**
    * @fn GetElevationLimitAngle_deg
    * @brief Return ground station elevation limit angle [deg]
@@ -87,27 +87,27 @@ class GroundStation : public ILoggable {
   /**
    * @fn IsVisible
    * @brief Return visible flag for the target spacecraft
-   * @param [in] sc_id: target spacecraft ID
+   * @param [in] spacecraft_id: target spacecraft ID
    */
-  bool IsVisible(const int sc_id) const { return is_visible_.at(sc_id); }
+  bool IsVisible(const unsigned int spacecraft_id) const { return is_visible_.at(spacecraft_id); }
 
  protected:
-  int gs_id_;                         //!< Ground station ID
-  GeodeticPosition gs_position_geo_;  //!< Ground Station Position in the geodetic frame
-  Vector<3> gs_position_ecef_;        //!< Ground Station Position in the ECEF frame [m]
-  Vector<3> gs_position_i_;           //!< Ground Station Position in the inertial frame [m]
-  double elevation_limit_angle_deg_;  //!< Minimum elevation angle to work the ground station [deg]
+  unsigned int ground_station_id_;      //!< Ground station ID
+  GeodeticPosition geodetic_position_;  //!< Ground Station Position in the geodetic frame
+  Vector<3> position_ecef_m_;           //!< Ground Station Position in the ECEF frame [m]
+  Vector<3> position_i_m_;              //!< Ground Station Position in the inertial frame [m]
+  double elevation_limit_angle_deg_;    //!< Minimum elevation angle to work the ground station [deg]
 
-  std::map<int, bool> is_visible_;  //!< Visible flag for each spacecraft ID (not care antenna)
-  int num_sc_;                      //!< Number of spacecraft in the simulation
+  std::map<int, bool> is_visible_;     //!< Visible flag for each spacecraft ID (not care antenna)
+  unsigned int number_of_spacecraft_;  //!< Number of spacecraft in the simulation
 
   /**
    * @fn CalcIsVisible
    * @brief Calculate the visibility for the target spacecraft
-   * @param [in] sc_pos_ecef_m: spacecraft position in ECEF frame [m]
+   * @param [in] spacecraft_position_ecef_m: spacecraft position in ECEF frame [m]
    * @return True when the satellite is visible from the ground station
    */
-  bool CalcIsVisible(const Vector<3> sc_pos_ecef_m);
+  bool CalcIsVisible(const Vector<3> spacecraft_position_ecef_m);
 };
 
 #endif  // S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_

@@ -19,8 +19,8 @@ void SampleCase::Initialize() {
   // `spacecraft_id` corresponds to the index of `sat_file` in Simbase.ini
   const int spacecraft_id = 0;
   sample_sat_ = new SampleSat(&sim_config_, global_environment_, spacecraft_id);
-  const int gs_id = 0;
-  sample_gs_ = new SampleGS(&sim_config_, gs_id);
+  const int ground_station_id = 0;
+  sample_gs_ = new SampleGS(&sim_config_, ground_station_id);
 
   // Register the log output
   global_environment_->LogSetup(*(sim_config_.main_logger_));

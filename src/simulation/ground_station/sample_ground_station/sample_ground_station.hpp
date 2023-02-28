@@ -26,7 +26,7 @@ class SampleGS : public GroundStation {
    * @fn SampleGS
    * @brief Constructor
    */
-  SampleGS(SimulationConfig* configuration, int gs_id);
+  SampleGS(SimulationConfig* configuration, int ground_station_id);
   /**
    * @fn ~SampleGS
    * @brief Destructor
@@ -47,7 +47,7 @@ class SampleGS : public GroundStation {
    * @fn Update
    * @brief Override function of Update in GroundStation class
    */
-  virtual void Update(const CelestialRotation& celes_rotation, const SampleSat& spacecraft);
+  virtual void Update(const CelestialRotation& celestial_rotation, const SampleSat& spacecraft);
 
  private:
   SampleGSComponents* components_;  //!< Ground station related components
