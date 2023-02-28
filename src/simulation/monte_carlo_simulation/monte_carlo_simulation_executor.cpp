@@ -63,4 +63,4 @@ void MCSimExecutor::RandomizeAllParameters() {
   }
 }
 
-void MCSimExecutor::SetSeed(unsigned long seed, bool is_deterministic) { InitParameter::SetSeed(seed, is_deterministic); }
+void MCSimExecutor::SetSeed(unsigned long seed, bool is_deterministic) { InitMonteCarloParameters::SetSeed(seed, is_deterministic); }

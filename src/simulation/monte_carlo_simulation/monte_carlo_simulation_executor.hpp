@@ -23,10 +23,10 @@ class MCSimExecutor {
   bool enabled_;                                //!< Flag to execute Monte-Carlo Simulation or not
   bool log_history_;                            //!< Flag to store the log for each case or not
 
-  std::map<std::string, InitParameter*> ip_list_;  //!< List of InitParameters read from MCSim.ini
+  std::map<std::string, InitMonteCarloParameters*> ip_list_;  //!< List of InitParameters read from MCSim.ini
 
  public:
-  static const char separator_ = '.';  //!< Deliminator for name of SimulationObject and InitParameter in the initialization file
+  static const char separator_ = '.';  //!< Deliminator for name of SimulationObject and InitMonteCarloParameters in the initialization file
 
   /**
    * @fn MCSimExecutor
@@ -121,7 +121,7 @@ class MCSimExecutor {
    * @brief Add initialized parameter
    */
   void AddInitParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
-                        const libra::Vector<NumElement2>& sigma_or_max, InitParameter::RandomizationType rnd_type);
+                        const libra::Vector<NumElement2>& sigma_or_max, InitMonteCarloParameters::RandomizationType rnd_type);
 
   /**
    * @fn RandomizeAllParameters
@@ -161,16 +161,16 @@ void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name
 
 template <size_t NumElement1, size_t NumElement2>
 void MCSimExecutor::AddInitParameter(std::string so_name, std::string ip_name, const libra::Vector<NumElement1>& mean_or_min,
-                                     const libra::Vector<NumElement2>& sigma_or_max, InitParameter::RandomizationType rnd_type) {
+                                     const libra::Vector<NumElement2>& sigma_or_max, InitMonteCarloParameters::RandomizationType rnd_type) {
   std::string name = so_name + MCSimExecutor::separator_ + ip_name;
   if (ip_list_.find(name) == ip_list_.end()) {
     // Register the parameter in ip_list if it is not registered yet
-    auto newparam = new InitParameter();
+    auto newparam = new InitMonteCarloParameters();
     newparam->SetRandomConfiguration(mean_or_min, sigma_or_max, rnd_type);
     ip_list_[name] = newparam;
   } else {
     // Throw error if the parameter is already registered
-    throw "More than one definition of one InitParameter.";
+    throw "More than one definition of one InitMonteCarloParameters.";
   }
 }
 
