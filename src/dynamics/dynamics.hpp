@@ -35,7 +35,7 @@ class Dynamics {
    * @param [in] structure: Structure of the spacecraft
    * @param [in] relative_information: Relative information
    */
-  Dynamics(SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
+  Dynamics(const SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
            const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
            RelativeInformation* relative_information = (RelativeInformation*)nullptr);
   /**
@@ -122,7 +122,7 @@ class Dynamics {
    * @param [in] structure: Structure of the spacecraft
    * @param [in] relative_information: Relative information
    */
-  void Initialize(SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
+  void Initialize(const SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
                   const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
                   RelativeInformation* relative_information = (RelativeInformation*)nullptr);
 };

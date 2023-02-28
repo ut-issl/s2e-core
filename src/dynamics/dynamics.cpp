@@ -7,7 +7,7 @@
 
 #include "../simulation/multiple_spacecraft/relative_information.hpp"
 
-Dynamics::Dynamics(SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
+Dynamics::Dynamics(const SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
                    const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
                    RelativeInformation* relative_information) {
   Initialize(simulation_configuration, simulation_time, local_celestial_information, spacecraft_id, structure, relative_information);
@@ -19,7 +19,7 @@ Dynamics::~Dynamics() {
   delete temperature_;
 }
 
-void Dynamics::Initialize(SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
+void Dynamics::Initialize(const SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
                           const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
                           RelativeInformation* relative_information) {
   structure_ = structure;

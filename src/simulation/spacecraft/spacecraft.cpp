@@ -8,12 +8,12 @@
 #include <library/logger/log_utility.hpp>
 #include <library/logger/logger.hpp>
 
-Spacecraft::Spacecraft(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id)
+Spacecraft::Spacecraft(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id)
     : spacecraft_id_(spacecraft_id) {
   Initialize(simulation_configuration, global_environment, spacecraft_id);
 }
 
-Spacecraft::Spacecraft(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
+Spacecraft::Spacecraft(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
                        RelativeInformation* relative_information, const int spacecraft_id)
     : spacecraft_id_(spacecraft_id) {
   Initialize(simulation_configuration, global_environment, relative_information, spacecraft_id);
@@ -30,7 +30,7 @@ Spacecraft::~Spacecraft() {
   delete components_;
 }
 
-void Spacecraft::Initialize(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id) {
+void Spacecraft::Initialize(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id) {
   clock_generator_.ClearTimerCount();
   structure_ = new Structure(simulation_configuration, spacecraft_id);
   local_environment_ = new LocalEnvironment(simulation_configuration, global_environment, spacecraft_id);
@@ -43,7 +43,7 @@ void Spacecraft::Initialize(SimulationConfig* simulation_configuration, const Gl
   relative_information_ = nullptr;
 }
 
-void Spacecraft::Initialize(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
+void Spacecraft::Initialize(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
                             RelativeInformation* relative_information, const int spacecraft_id) {
   clock_generator_.ClearTimerCount();
   structure_ = new Structure(simulation_configuration, spacecraft_id);
