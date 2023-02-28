@@ -12,11 +12,6 @@ RwOde::RwOde(const double step_width_s, const double initial_angular_velocity, c
   this->Setup(0.0, libra::Vector<1>(initial_angular_velocity));
 }
 
-double RwOde::getAngularVelocity(void) const {
-  double angular_velocity = this->GetState()[0];
-  return angular_velocity;
-}
-
 void RwOde::DerivativeFunction(double x, const libra::Vector<1> &state, libra::Vector<1> &rhs) {
   // FIXME: fix this function
   UNUSED(x);
@@ -39,7 +34,3 @@ void RwOde::DerivativeFunction(double x, const libra::Vector<1> &state, libra::V
   // Only target
   // rhs[0]   = (target_angular_velocity_rad_s_);
 }
-
-void RwOde::setTargetAngularVelocity(double angular_velocity) { target_angular_velocity_rad_s_ = angular_velocity; }
-
-void RwOde::setLagCoef(const libra::Vector<3> lag_coefficients) { lag_coefficients_ = lag_coefficients; }

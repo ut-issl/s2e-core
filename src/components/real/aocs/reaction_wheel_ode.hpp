@@ -40,13 +40,19 @@ class RwOde : public libra::OrdinaryDifferentialEquation<1> {
    * @fn getAngularVelocity
    * @brief Return current angular velocity of RW rotor [rad/s]
    */
-  double getAngularVelocity(void) const;
+  double getAngularVelocity(void) const { return this->GetState()[0]; }
 
   /**
    * @fn setTargetAngularVelocity
    * @brief Set target angular velocity [rad/s]
    */
-  void setTargetAngularVelocity(double angular_velocity);
+  void setTargetAngularVelocity(double angular_velocity) { target_angular_velocity_rad_s_ = angular_velocity; }
+
+  /**
+   * @fn setLagCoef
+   * @brief Set lag coefficients
+   */
+  void setLagCoef(libra::Vector<3> lag_coefficients) { lag_coefficients_ = lag_coefficients; }
 
   /**
    * @fn setFirstOrderLag
@@ -58,11 +64,6 @@ class RwOde : public libra::OrdinaryDifferentialEquation<1> {
    * @brief Set second order lag coefficient (Currently not used)
    */
   void setSecondOrderCoef(double second_order_coef);
-  /**
-   * @fn setLagCoef
-   * @brief Set lag coefficients
-   */
-  void setLagCoef(libra::Vector<3> lag_coefficients);
 
  private:
   RwOde(double step_width_s);             //!< Prohibit calling constructor
