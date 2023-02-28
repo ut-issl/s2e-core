@@ -31,17 +31,17 @@ class KinematicsParams {
    * @fn GetCGb
    * @brief Return Position vector of center of gravity at body frame [m]
    */
-  inline const libra::Vector<3>& GetCGb() const { return cg_b_; }
+  inline const libra::Vector<3>& GetCGb() const { return center_of_gravity_b_m_; }
   /**
    * @fn GetMass
    * @brief Return Mass of the satellite [kg]
    */
-  inline const double& GetMass() const { return mass_; }
+  inline const double& GetMass() const { return mass_kg_; }
   /**
    * @fn GetInertiaTensor
    * @brief Return Inertia tensor at body frame [kgm2]
    */
-  inline const libra::Matrix<3, 3>& GetInertiaTensor() const { return inertia_tensor_; }
+  inline const libra::Matrix<3, 3>& GetInertiaTensor() const { return inertia_tensor_b_kgm2_; }
 
   // Setter
   /**
@@ -49,14 +49,16 @@ class KinematicsParams {
    * @brief Set center of gravity vector at the body frame [m]
    * @param [in] center_of_gravity_vector_b_m: Center of gravity vector at the body frame [m]
    */
-  inline void SetCenterOfGravityVector_b_m(const libra::Vector<3> center_of_gravity_vector_b_m) { cg_b_ = center_of_gravity_vector_b_m; }
+  inline void SetCenterOfGravityVector_b_m(const libra::Vector<3> center_of_gravity_vector_b_m) {
+    center_of_gravity_b_m_ = center_of_gravity_vector_b_m;
+  }
   /**
    * @fn SetMass_kg
    * @brief Set mass of the satellite
    * @param [in] mass_kg: Mass of the satellite [kg]
    */
   inline void SetMass_kg(const double mass_kg) {
-    if (mass_kg > 0.0) mass_ = mass_kg;
+    if (mass_kg > 0.0) mass_kg_ = mass_kg;
   }
   /**
    * @fn AddMass_kg
@@ -65,7 +67,7 @@ class KinematicsParams {
    * @note Normally, this function is used to decrease the mass due to the fuel consumption.
    */
   inline void AddMass_kg(const double mass_kg) {
-    double temp_mass_kg = mass_ + mass_kg;
+    double temp_mass_kg = mass_kg_ + mass_kg;
     SetMass_kg(temp_mass_kg);
   }
   /**
@@ -75,13 +77,13 @@ class KinematicsParams {
    */
   inline void SetInertiaTensor_b_kgm2(const libra::Matrix<3, 3> inertia_tensor_b_kgm2) {
     // TODO add assertion check
-    inertia_tensor_ = inertia_tensor_b_kgm2;
+    inertia_tensor_b_kgm2_ = inertia_tensor_b_kgm2;
   }
 
  private:
-  libra::Vector<3> cg_b_;               //!< Position vector of center of gravity at body frame [m]
-  double mass_;                         //!< Mass of the satellite [kg]
-  libra::Matrix<3, 3> inertia_tensor_;  //!< Inertia tensor at body frame [kgm2]
+  libra::Vector<3> center_of_gravity_b_m_;     //!< Position vector of center of gravity at body frame [m]
+  double mass_kg_;                             //!< Mass of the satellite [kg]
+  libra::Matrix<3, 3> inertia_tensor_b_kgm2_;  //!< Inertia tensor at body frame [kgm2]
 };
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_HPP_
