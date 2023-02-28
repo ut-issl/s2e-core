@@ -12,13 +12,13 @@
 #include <vector>
 
 /*
- * @class RWJitter
+ * @class ReactionWheelJitter
  * @brief Class to calculate RW high-frequency jitter effect
  */
-class RWJitter {
+class ReactionWheelJitter {
  public:
   /**
-   * @fn RWJitter
+   * @fn ReactionWheelJitter
    * @brief Constructor
    * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
    * @param [in] radial_torque_harmonics_coefficients: Coefficients for radial torque harmonics
@@ -29,15 +29,15 @@ class RWJitter {
    * @param [in] bandwidth: Bandwidth of structural resonance
    * @param [in] considers_structural_resonance: Flag to consider structural resonance
    */
-  RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-           std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double update_interval_s,
-           const libra::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz, const double damping_factor,
-           const double bandwidth, const bool considers_structural_resonance);
+  ReactionWheelJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+                      std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double update_interval_s,
+                      const libra::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz, const double damping_factor,
+                      const double bandwidth, const bool considers_structural_resonance);
   /**
-   * @fn ~RWJitter
+   * @fn ~ReactionWheelJitter
    * @brief Destructor
    */
-  ~RWJitter();
+  ~ReactionWheelJitter();
 
   /**
    * @fn CalcJitter

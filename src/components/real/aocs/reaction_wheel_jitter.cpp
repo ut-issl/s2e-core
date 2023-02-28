@@ -8,10 +8,10 @@
 #include <library/math/constants.hpp>
 #include <random>
 
-RWJitter::RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-                   std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double update_interval_s,
-                   const libra::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz, const double damping_factor,
-                   const double bandwidth, const bool considers_structural_resonance)
+ReactionWheelJitter::ReactionWheelJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+                                         std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double update_interval_s,
+                                         const libra::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz,
+                                         const double damping_factor, const double bandwidth, const bool considers_structural_resonance)
     : radial_force_harmonics_coefficients_(radial_force_harmonics_coefficients),
       radial_torque_harmonics_coefficients_(radial_torque_harmonics_coefficients),
       update_interval_s_(update_interval_s),
@@ -38,9 +38,9 @@ RWJitter::RWJitter(std::vector<std::vector<double>> radial_force_harmonics_coeff
   }
 }
 
-RWJitter::~RWJitter() {}
+ReactionWheelJitter::~ReactionWheelJitter() {}
 
-void RWJitter::CalcJitter(double angular_velocity_rad) {
+void ReactionWheelJitter::CalcJitter(double angular_velocity_rad) {
   // Clear jitter in component frame
   unfiltered_jitter_force_n_c_ *= 0.0;
   unfiltered_jitter_torque_n_c_ *= 0.0;
@@ -80,7 +80,7 @@ void RWJitter::CalcJitter(double angular_velocity_rad) {
   }
 }
 
-void RWJitter::AddStructuralResonance() {
+void ReactionWheelJitter::AddStructuralResonance() {
   // Solve difference equations
   for (int i = 0; i < 3; i++) {
     filtered_jitter_force_n_c_[i] = (-coefficients_[1] * filtered_jitter_force_n_1_c_[i] - coefficients_[2] * filtered_jitter_force_n_2_c_[i] +
@@ -97,7 +97,7 @@ void RWJitter::AddStructuralResonance() {
   ShiftTimeStep();
 }
 
-void RWJitter::ShiftTimeStep() {
+void ReactionWheelJitter::ShiftTimeStep() {
   unfiltered_jitter_force_n_2_c_ = unfiltered_jitter_force_n_1_c_;
   unfiltered_jitter_force_n_1_c_ = unfiltered_jitter_force_n_c_;
   filtered_jitter_force_n_2_c_ = filtered_jitter_force_n_1_c_;
@@ -109,7 +109,7 @@ void RWJitter::ShiftTimeStep() {
   filtered_jitter_torque_n_1_c_ = filtered_jitter_torque_n_c_;
 }
 
-void RWJitter::CalcCoefficients() {
+void ReactionWheelJitter::CalcCoefficients() {
   // Pre-warping
   structural_resonance_angular_frequency_Hz_ = 2.0 / update_interval_s_ * tan(structural_resonance_angular_frequency_Hz_ * update_interval_s_ / 2.0);
   // Calculate coefficients of difference equation
