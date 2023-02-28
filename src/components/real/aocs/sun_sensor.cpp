@@ -22,7 +22,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const
       quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
-      srp_(srp),
+      srp_environment_(srp),
       local_celestial_information_(local_celestial_information) {
   Initialize(random_noise_standard_deviation_rad, bias_noise_standard_deviation_rad);
 }
@@ -36,7 +36,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, Power
       quaternion_b2c_(quaternion_b2c),
       intensity_lower_threshold_percent_(intensity_lower_threshold_percent),
       detectable_angle_rad_(detectable_angle_rad),
-      srp_(srp),
+      srp_environment_(srp),
       local_celestial_information_(local_celestial_information) {
   Initialize(random_noise_standard_deviation_rad, bias_noise_standard_deviation_rad);
 }
@@ -99,7 +99,7 @@ void SunSensor::SunDetectionJudgement() {
 
   double sun_angle_ = acos(sun_direction_c[2]);
 
-  if (solar_illuminance_W_m2_ < intensity_lower_threshold_percent_ / 100.0 * srp_->GetSolarConstant_W_m2()) {
+  if (solar_illuminance_W_m2_ < intensity_lower_threshold_percent_ / 100.0 * srp_environment_->GetSolarConstant_W_m2()) {
     sun_detected_flag_ = false;
   } else {
     if (sun_angle_ < detectable_angle_rad_) {
@@ -119,7 +119,7 @@ void SunSensor::CalcSolarIlluminance() {
     return;
   }
 
-  double power_density = srp_->GetPowerDensity_W_m2();
+  double power_density = srp_environment_->GetPowerDensity_W_m2();
   solar_illuminance_W_m2_ = power_density * cos(sun_angle_);
   // TODO: Take into account the effects of albedo.
 }

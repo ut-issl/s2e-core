@@ -106,7 +106,7 @@ class SunSensor : public Component, public ILoggable {
   double bias_noise_beta_rad_ = 0.0;      //!< Constant bias for beta angle (Value is calculated by random number generator)
 
   // Measured variables
-  const SolarRadiationPressureEnvironment* srp_;                  //!< Solar Radiation Pressure environment
+  const SolarRadiationPressureEnvironment* srp_environment_;      //!< Solar Radiation Pressure environment
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
 
   // functions

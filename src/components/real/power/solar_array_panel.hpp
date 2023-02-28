@@ -108,27 +108,27 @@ class SAP : public Component, public ILoggable {
   const int component_id_;                //!< SAP ID TODO: Use string?
   const int number_of_series_;            //!< Number of series connected solar cells
   const int number_of_parallel_;          //!< Number of parallel connected solar cells
-  const double cell_area_;                //!< Solar cell area [m^2]
+  const double cell_area_m2_;             //!< Solar cell area [m^2]
   const libra::Vector<3> normal_vector_;  //!< Normal vector of SAP on the body fixed frame
   const double cell_efficiency_;          //!< Power generation efficiency of solar cell
   const double transmission_efficiency_;  //!< Efficiency of transmission to PCU
 
-  const SolarRadiationPressureEnvironment* const srp_;            //!< Solar Radiation Pressure environment
-  const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
+  const SolarRadiationPressureEnvironment* const srp_environment_;  //!< Solar Radiation Pressure environment
+  const LocalCelestialInformation* local_celestial_information_;    //!< Local celestial information
 
-  double voltage_;           //!< Voltage [V]
-  double power_generation_;  //!< Generated power [W]
+  double voltage_V_;           //!< Voltage [V]
+  double power_generation_W_;  //!< Generated power [W]
 
   static const double solar_constant_;  //!< Solar constant TODO: Use SolarRadiationPressureEnvironment?
   static const double light_speed_;     //!< Speed of light TODO: Use PhysicalConstant?
-  double compo_step_time_s_;              //!< Component step time [sec]
+  double compo_step_time_s_;            //!< Component step time [sec]
 
   // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation
    */
-  void MainRoutine(int time_count) override;
+  void MainRoutine(const int time_count) override;
 };
 
 #endif  // S2E_COMPONENTS_REAL_POWER_SOLAR_ARRAY_PANEL_HPP_
