@@ -16,7 +16,7 @@ HilsPortManager::~HilsPortManager() {}
 // UART Communication port functions
 int HilsPortManager::UartConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buffer_size, unsigned int rx_buffer_size) {
 #ifdef USE_HILS
-  if (uart_com_ports_[port_id] != nullptr) {
+  if (uart_ports_[port_id] != nullptr) {
     printf("Error: Port is already used\n");
     return -1;
   }
@@ -24,7 +24,7 @@ int HilsPortManager::UartConnectComPort(unsigned int port_id, unsigned int baud_
     printf("Error: Illegal parameter\n");
     return -1;
   }
-  uart_com_ports_[port_id] = new HilsUartPort(port_id, baud_rate, tx_buffer_size, rx_buffer_size);
+  uart_ports_[port_id] = new HilsUartPort(port_id, baud_rate, tx_buffer_size, rx_buffer_size);
   return 0;
 #else
   UNUSED(port_id);
@@ -39,15 +39,15 @@ int HilsPortManager::UartConnectComPort(unsigned int port_id, unsigned int baud_
 // Close port and free resources
 int HilsPortManager::UartCloseComPort(unsigned int port_id) {
 #ifdef USE_HILS
-  if (uart_com_ports_[port_id] == nullptr) {
+  if (uart_ports_[port_id] == nullptr) {
     // Port not used
     return -1;
   }
 
-  uart_com_ports_[port_id]->ClosePort();
-  HilsUartPort* port = uart_com_ports_.at(port_id);
+  uart_ports_[port_id]->ClosePort();
+  HilsUartPort* port = uart_ports_.at(port_id);
   delete port;
-  uart_com_ports_.erase(port_id);
+  uart_ports_.erase(port_id);
   return 0;
 #else
   UNUSED(port_id);
@@ -56,11 +56,11 @@ int HilsPortManager::UartCloseComPort(unsigned int port_id) {
 #endif
 }
 
-int HilsPortManager::UartReceive(unsigned int port_id, unsigned char* buffer, int offset, int count) {
+int HilsPortManager::UartReceive(unsigned int port_id, unsigned char* buffer, int offset, int length) {
 #ifdef USE_HILS
-  HilsUartPort* port = uart_com_ports_[port_id];
+  HilsUartPort* port = uart_ports_[port_id];
   if (port == nullptr) return -1;
-  int ret = port->ReadRx(buffer, offset, count);
+  int ret = port->ReadRx(buffer, offset, length);
 #ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
   if (ret > 0) {
     printf("UART PORT ID: %d received %d bytes\n", port_id, ret);
@@ -75,21 +75,21 @@ int HilsPortManager::UartReceive(unsigned int port_id, unsigned char* buffer, in
   UNUSED(port_id);
   UNUSED(buffer);
   UNUSED(offset);
-  UNUSED(count);
+  UNUSED(length);
 
   return -1;
 #endif
 }
 
-int HilsPortManager::UartSend(unsigned int port_id, const unsigned char* buffer, int offset, int count) {
+int HilsPortManager::UartSend(unsigned int port_id, const unsigned char* buffer, int offset, int length) {
 #ifdef USE_HILS
-  HilsUartPort* port = uart_com_ports_[port_id];
+  HilsUartPort* port = uart_ports_[port_id];
   if (port == nullptr) return -1;
-  int ret = port->WriteTx(buffer, offset, count);
+  int ret = port->WriteTx(buffer, offset, length);
 #ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
-  if (count > 0) {
-    printf("UART PORT ID: %d sent %d bytes\n", port_id, count);
-    for (int i = 0; i < count; i++) {
+  if (length > 0) {
+    printf("UART PORT ID: %d sent %d bytes\n", port_id, length);
+    for (int i = 0; i < length; i++) {
       printf("%02x ", buffer[i]);
     }
     printf("\n");
@@ -100,7 +100,7 @@ int HilsPortManager::UartSend(unsigned int port_id, const unsigned char* buffer,
   UNUSED(port_id);
   UNUSED(buffer);
   UNUSED(offset);
-  UNUSED(count);
+  UNUSED(length);
 
   return -1;
 #endif
@@ -141,18 +141,18 @@ int HilsPortManager::I2cTargetCloseComPort(unsigned int port_id) {
 #endif
 }
 
-int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_address, const unsigned char* data,
+int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned char register_address, const unsigned char* data,
                                             const unsigned char length) {
 #ifdef USE_HILS
   HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   for (unsigned char i = 0; i < length; i++) {
-    port->WriteRegister(reg_address + i, data[i]);
+    port->WriteRegister(register_address + i, data[i]);
   }
   return 0;
 #else
   UNUSED(port_id);
-  UNUSED(reg_address);
+  UNUSED(register_address);
   UNUSED(data);
   UNUSED(length);
 
@@ -160,17 +160,18 @@ int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned
 #endif
 }
 
-int HilsPortManager::I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_address, unsigned char* data, const unsigned char length) {
+int HilsPortManager::I2cTargetReadRegister(unsigned int port_id, const unsigned char register_address, unsigned char* data,
+                                           const unsigned char length) {
 #ifdef USE_HILS
   HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   for (unsigned char i = 0; i < length; i++) {
-    data[i] = port->ReadRegister(reg_address + i);
+    data[i] = port->ReadRegister(register_address + i);
   }
   return 0;
 #else
   UNUSED(port_id);
-  UNUSED(reg_address);
+  UNUSED(register_address);
   UNUSED(data);
   UNUSED(length);
 
@@ -250,10 +251,10 @@ int HilsPortManager::I2cControllerConnectComPort(unsigned int port_id, unsigned 
 
 int HilsPortManager::I2cControllerCloseComPort(unsigned int port_id) { return UartCloseComPort(port_id); }
 
-int HilsPortManager::I2cControllerReceive(unsigned int port_id, unsigned char* buffer, int offset, int count) {
-  return UartReceive(port_id, buffer, offset, count);
+int HilsPortManager::I2cControllerReceive(unsigned int port_id, unsigned char* buffer, int offset, int length) {
+  return UartReceive(port_id, buffer, offset, length);
 }
 
-int HilsPortManager::I2cControllerSend(unsigned int port_id, const unsigned char* buffer, int offset, int count) {
-  return UartSend(port_id, buffer, offset, count);
+int HilsPortManager::I2cControllerSend(unsigned int port_id, const unsigned char* buffer, int offset, int length) {
+  return UartSend(port_id, buffer, offset, length);
 }

@@ -51,18 +51,18 @@ class HilsPortManager {
    * @param [in] port_id: COM port ID
    * @param [out] buffer: Data buffer to receive
    * @param [in] offset: Start offset for the data buffer to receive
-   * @param [in] count: Length of data to receive
+   * @param [in] length: Length of data to receive
    */
-  virtual int UartReceive(unsigned int port_id, unsigned char* buffer, int offset, int count);
+  virtual int UartReceive(unsigned int port_id, unsigned char* buffer, int offset, int length);
   /**
    * @fn UartSend
    * @brief UART data send from components in S2E to COM port (ex. OBC)
    * @param [in] port_id: COM port ID
    * @param [in] buffer: Data buffer to send
    * @param [in] offset: Start offset for the data buffer to send
-   * @param [in] count: Length of data to send
+   * @param [in] length: Length of data to send
    */
-  virtual int UartSend(unsigned int port_id, const unsigned char* buffer, int offset, int count);
+  virtual int UartSend(unsigned int port_id, const unsigned char* buffer, int offset, int length);
 
   // I2C Target Communication port functions
   /**
@@ -81,20 +81,21 @@ class HilsPortManager {
    * @fn I2cTargetReadRegister
    * @brief Read I2C register in S2E
    * @param [in] port_id: COM port ID
-   * @param [in] reg_address: Register address to read
+   * @param [in] register_address: Register address to read
    * @param [out] data: Data buffer to store the read data
    * @param [in] length: Read data length
    */
-  virtual int I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_address, unsigned char* data, const unsigned char length);
+  virtual int I2cTargetReadRegister(unsigned int port_id, const unsigned char register_address, unsigned char* data, const unsigned char length);
   /**
    * @fn I2cTargetWriteRegister
    * @brief Write data to I2C register in S2E
    * @param [in] port_id: COM port ID
-   * @param [in] reg_address: Register address to write
+   * @param [in] register_address: Register address to write
    * @param [in] data: Data to write
    * @param [in] length: Write data length
    */
-  virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_address, const unsigned char* data, const unsigned char length);
+  virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char register_address, const unsigned char* data,
+                                     const unsigned char length);
   /**
    * @fn I2cTargetReadCommand
    * @brief Read I2C command buffer in S2E
@@ -147,22 +148,22 @@ class HilsPortManager {
    * @param [in] port_id: COM port ID
    * @param [out] buffer: Data buffer to receive
    * @param [in] offset: Start offset for the data buffer to receive
-   * @param [in] count: Length of data to receive
+   * @param [in] length: Length of data to receive
    */
-  virtual int I2cControllerReceive(unsigned int port_id, unsigned char* buffer, int offset, int count);
+  virtual int I2cControllerReceive(unsigned int port_id, unsigned char* buffer, int offset, int length);
   /**
    * @fn I2cControllerSend
    * @brief Data send to I2C controller device connected a COM port
    * @param [in] port_id: COM port ID
    * @param [in] buffer: Data buffer to send
    * @param [in] offset: Start offset for the data buffer to send
-   * @param [in] count: Length of data to send
+   * @param [in] length: Length of data to send
    */
-  virtual int I2cControllerSend(unsigned int port_id, const unsigned char* buffer, int offset, int count);
+  virtual int I2cControllerSend(unsigned int port_id, const unsigned char* buffer, int offset, int length);
 
  private:
 #ifdef USE_HILS
-  std::map<int, HilsUartPort*> uart_com_ports_;  //!< UART ports
+  std::map<int, HilsUartPort*> uart_ports_;      //!< UART ports
   std::map<int, HilsI2cTargetPort*> i2c_ports_;  //!< I2C ports
 #endif
 };
