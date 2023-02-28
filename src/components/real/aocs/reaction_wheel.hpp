@@ -194,7 +194,7 @@ class RWModel : public Component, public ILoggable {
   libra::Vector<3> direction_b_;      //!< Wheel rotation vector in the body fixed frame.
 
   // Fixed Parameters for control delay
-  const double step_width_;                   //!< step width for RwOde [sec]
+  const double step_width_;                   //!< step width for ReactionWheelOde [sec]
   const double dead_time_;                    //!< dead time [sec]
   const libra::Vector<3> driving_lag_coef_;   //!< delay coefficient for normal drive
   const libra::Vector<3> coasting_lag_coef_;  //!< delay coefficient for coasting drive(Power off)
@@ -217,10 +217,10 @@ class RWModel : public Component, public ILoggable {
   libra::Vector<3> output_torque_b_{0.0};     //!< Output torque in the body fixed frame [Nm]
   libra::Vector<3> angular_momentum_b_{0.0};  //!< Angular momentum of RW [Nms]
 
-  RwOde ode_angular_velocity_;         //!< Reaction Wheel OrdinaryDifferentialEquation
-  ReactionWheelJitter rw_jitter_;      //!< RW jitter
-  bool is_calculated_jitter_ = false;  //!< Flag for calculation of jitter
-  bool is_logged_jitter_ = false;      //!< Flag for log output of jitter
+  ReactionWheelOde ode_angular_velocity_;  //!< Reaction Wheel OrdinaryDifferentialEquation
+  ReactionWheelJitter rw_jitter_;          //!< RW jitter
+  bool is_calculated_jitter_ = false;      //!< Flag for calculation of jitter
+  bool is_logged_jitter_ = false;          //!< Flag for log output of jitter
 
   // Local functions
   /**

@@ -6,13 +6,13 @@
 
 #include <library/utilities/macros.hpp>
 
-RwOde::RwOde(const double step_width_s, const double initial_angular_velocity, const double target_angular_velocity,
-             const libra::Vector<3> lag_coefficients)
+ReactionWheelOde::ReactionWheelOde(const double step_width_s, const double initial_angular_velocity, const double target_angular_velocity,
+                                   const libra::Vector<3> lag_coefficients)
     : OrdinaryDifferentialEquation<1>(step_width_s), lag_coefficients_(lag_coefficients), target_angular_velocity_rad_s_(target_angular_velocity) {
   this->Setup(0.0, libra::Vector<1>(initial_angular_velocity));
 }
 
-void RwOde::DerivativeFunction(double x, const libra::Vector<1> &state, libra::Vector<1> &rhs) {
+void ReactionWheelOde::DerivativeFunction(double x, const libra::Vector<1> &state, libra::Vector<1> &rhs) {
   // FIXME: fix this function
   UNUSED(x);
   UNUSED(state);
