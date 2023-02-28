@@ -9,51 +9,51 @@
 
 using namespace std;
 
-random_device InitParameter::rnd_;
+random_device InitParameter::randomizer_;
 mt19937 InitParameter::mt_;
-uniform_real_distribution<>* InitParameter::uniform_dist_;
-normal_distribution<>* InitParameter::normal_dist_;
+uniform_real_distribution<>* InitParameter::uniform_distribution_;
+normal_distribution<>* InitParameter::normal_distribution_;
 
 InitParameter::InitParameter() {
   // Generate object when the first execution
   static bool initial_setup_done = false;
   if (!initial_setup_done) {
     SetSeed();
-    InitParameter::uniform_dist_ = new uniform_real_distribution<>(0.0, 1.0);
-    InitParameter::normal_dist_ = new normal_distribution<>(0.0, 1.0);
+    InitParameter::uniform_distribution_ = new uniform_real_distribution<>(0.0, 1.0);
+    InitParameter::normal_distribution_ = new normal_distribution<>(0.0, 1.0);
     initial_setup_done = true;
   }
 
   // No randomization when SetRandomConfig is not called（No setting in MCSim.ini）
-  rnd_type_ = NoRandomization;
+  randomization_type_ = NoRandomization;
 }
 
 void InitParameter::SetSeed(unsigned long seed, bool is_deterministic) {
   if (is_deterministic) {
     InitParameter::mt_.seed(seed);
   } else {
-    InitParameter::mt_.seed(InitParameter::rnd_());
+    InitParameter::mt_.seed(InitParameter::randomizer_());
   }
 }
 
 void InitParameter::GetDouble(double& destination) const {
-  if (rnd_type_ == NoRandomization) {
+  if (randomization_type_ == NoRandomization) {
     ;
-  } else if (1 > val_.size()) {
+  } else if (1 > randomized_value_.size()) {
     throw "Too few randomization configuration parameters.";
   } else {
-    destination = val_[0];
+    destination = randomized_value_[0];
   }
 }
 
 void InitParameter::GetQuaternion(libra::Quaternion& destination) const {
-  if (rnd_type_ == NoRandomization) {
+  if (randomization_type_ == NoRandomization) {
     ;
-  } else if (4 > val_.size()) {
+  } else if (4 > randomized_value_.size()) {
     throw "Too few randomization configuration parameters.";
   } else {
     for (int i = 0; i < 4; i++) {
-      destination[i] = val_[i];
+      destination[i] = randomized_value_[i];
     }
   }
 
@@ -61,7 +61,7 @@ void InitParameter::GetQuaternion(libra::Quaternion& destination) const {
 }
 
 void InitParameter::Randomize() {
-  switch (rnd_type_) {
+  switch (randomization_type_) {
     case NoRandomization:
       gen_NoRandomization();
       break;
@@ -94,25 +94,25 @@ void InitParameter::Randomize() {
   }
 }
 
-double InitParameter::Uniform_1d(double lb, double ub) { return lb + (*InitParameter::uniform_dist_)(InitParameter::mt_) * (ub - lb); }
+double InitParameter::Uniform_1d(double lb, double ub) { return lb + (*InitParameter::uniform_distribution_)(InitParameter::mt_) * (ub - lb); }
 
-double InitParameter::Normal_1d(double mean, double std) { return mean + (*InitParameter::normal_dist_)(InitParameter::mt_) * (std); }
+double InitParameter::Normal_1d(double mean, double std) { return mean + (*InitParameter::normal_distribution_)(InitParameter::mt_) * (std); }
 
-void InitParameter::gen_NoRandomization() { val_.clear(); }
+void InitParameter::gen_NoRandomization() { randomized_value_.clear(); }
 
 void InitParameter::gen_CartesianUniform() {
   // Random variables following a uniform distribution in Cartesian frame
-  val_.clear();
+  randomized_value_.clear();
   for (unsigned int i = 0; i < mean_or_min_.size(); i++) {
-    val_.push_back(InitParameter::Uniform_1d(mean_or_min_[i], sigma_or_max_[i]));
+    randomized_value_.push_back(InitParameter::Uniform_1d(mean_or_min_[i], sigma_or_max_[i]));
   }
 }
 
 void InitParameter::gen_CartesianNormal() {
   // Random variables following a normal distribution in Cartesian frame
-  val_.clear();
+  randomized_value_.clear();
   for (unsigned int i = 0; i < mean_or_min_.size(); i++) {
-    val_.push_back(InitParameter::Normal_1d(mean_or_min_[i], sigma_or_max_[i]));
+    randomized_value_.push_back(InitParameter::Normal_1d(mean_or_min_[i], sigma_or_max_[i]));
   }
 }
 
@@ -132,9 +132,9 @@ void InitParameter::gen_CircularNormalUniform() {
   libra::Vector<dim> temp_vec;
   get_CircularNormalUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1]);
 
-  val_.clear();
+  randomized_value_.clear();
   for (int i = 0; i < dim; i++) {
-    val_.push_back(temp_vec[i]);
+    randomized_value_.push_back(temp_vec[i]);
   }
 }
 
@@ -154,9 +154,9 @@ void InitParameter::gen_CircularNormalNormal() {
   libra::Vector<dim> temp_vec;
   get_CircularNormalNormal(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1]);
 
-  val_.clear();
+  randomized_value_.clear();
   for (int i = 0; i < dim; i++) {
-    val_.push_back(temp_vec[i]);
+    randomized_value_.push_back(temp_vec[i]);
   }
 }
 
@@ -180,9 +180,9 @@ void InitParameter::gen_SphericalNormalUniformUniform() {
   get_SphericalNormalUniformUniform(temp_vec, mean_or_min_[0], sigma_or_max_[0], mean_or_min_[1], sigma_or_max_[1], mean_or_min_[2],
                                     sigma_or_max_[2]);
 
-  val_.clear();
+  randomized_value_.clear();
   for (int i = 0; i < dim; i++) {
-    val_.push_back(temp_vec[i]);
+    randomized_value_.push_back(temp_vec[i]);
   }
 }
 
@@ -228,9 +228,9 @@ void InitParameter::gen_SphericalNormalNormal() {
   }
   get_SphericalNormalNormal(temp_vec, temp_mean_vec);
 
-  val_.clear();
+  randomized_value_.clear();
   for (int i = 0; i < dim; i++) {
-    val_.push_back(temp_vec[i]);
+    randomized_value_.push_back(temp_vec[i]);
   }
 }
 
@@ -271,9 +271,9 @@ void InitParameter::gen_QuaternionUniform() {
   libra::Quaternion temp_q;
   get_QuaternionUniform(temp_q);
 
-  val_.clear();
+  randomized_value_.clear();
   for (int i = 0; i < dim; i++) {
-    val_.push_back(temp_q[i]);
+    randomized_value_.push_back(temp_q[i]);
   }
 }
 
@@ -304,8 +304,8 @@ void InitParameter::gen_QuaternionNormal() {
   libra::Quaternion temp_q;
   get_QuaternionNormal(temp_q, sigma_or_max_[0]);
 
-  val_.clear();
+  randomized_value_.clear();
   for (int i = 0; i < dim; i++) {
-    val_.push_back(temp_q[i]);
+    randomized_value_.push_back(temp_q[i]);
   }
 }

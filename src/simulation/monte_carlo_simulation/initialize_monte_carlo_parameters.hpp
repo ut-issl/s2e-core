@@ -80,17 +80,17 @@ class InitParameter {
   void Randomize();
 
  private:
-  std::vector<double> val_;  //!< Randomized value
+  std::vector<double> randomized_value_;  //!< Randomized value
 
   std::vector<double> mean_or_min_;   //!< mean or minimum value. Refer comment in gen_[RandomizationType] function.
   std::vector<double> sigma_or_max_;  //!< standard deviation or maximum value. Refer comment in gen_[RandomizationType] function.
 
   // For randomization
-  RandomizationType rnd_type_;                             //!< Randomization type
-  static std::random_device rnd_;                          //!< Non-deterministic random number generator with time information
-  static std::mt19937 mt_;                                 //!< Deterministic random number generator
-  static std::uniform_real_distribution<>* uniform_dist_;  //!< Uniform random number generator
-  static std::normal_distribution<>* normal_dist_;         //!< Normal random number generator
+  RandomizationType randomization_type_;                           //!< Randomization type
+  static std::random_device randomizer_;                           //!< Non-deterministic random number generator with time information
+  static std::mt19937 mt_;                                         //!< Deterministic random number generator
+  static std::uniform_real_distribution<>* uniform_distribution_;  //!< Uniform random number generator
+  static std::normal_distribution<>* normal_distribution_;         //!< Normal random number generator
 
   /**
    * @fn Uniform_1d
@@ -206,7 +206,7 @@ class InitParameter {
 template <size_t NumElement1, size_t NumElement2>
 void InitParameter::SetRandomConfig(const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
                                     InitParameter::RandomizationType rnd_type) {
-  rnd_type_ = rnd_type;
+  randomization_type_ = rnd_type;
   mean_or_min_.clear();
   for (size_t i = 0; i < NumElement1; i++) {
     mean_or_min_.push_back(mean_or_min[i]);
@@ -219,13 +219,13 @@ void InitParameter::SetRandomConfig(const libra::Vector<NumElement1>& mean_or_mi
 
 template <size_t NumElement>
 void InitParameter::GetVec(libra::Vector<NumElement>& destination) const {
-  if (rnd_type_ == NoRandomization) {
+  if (randomization_type_ == NoRandomization) {
     ;
-  } else if (NumElement > val_.size()) {
+  } else if (NumElement > randomized_value_.size()) {
     throw "Too few randomization configuration parameters.";
   } else {
     for (size_t i = 0; i < NumElement; i++) {
-      destination[i] = val_[i];
+      destination[i] = randomized_value_[i];
     }
   }
 }
