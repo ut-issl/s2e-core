@@ -42,7 +42,7 @@ class PCU : public Component, public ILoggable {
    * @fn MainRoutine
    * @brief Main routine to calculate force generation
    */
-  void MainRoutine(int count) override;
+  void MainRoutine(const int time_count) override;
 
   // Override ILoggable
   /**
@@ -61,7 +61,7 @@ class PCU : public Component, public ILoggable {
    * @brief Return power port information
    * @param port_id: Power port ID
    */
-  inline PowerPort* GetPowerPort(int port_id) { return ports_[port_id]; };
+  inline PowerPort* GetPowerPort(int port_id) { return power_ports_[port_id]; };
 
   // Port control functions
   /**
@@ -91,7 +91,7 @@ class PCU : public Component, public ILoggable {
   int ClosePort(const int port_id);
 
  private:
-  std::map<int, PowerPort*> ports_;  //!< Power port list
+  std::map<int, PowerPort*> power_ports_;  //!< Power port list
 };
 
 #endif  // S2E_COMPONENTS_REAL_POWER_POWER_CONTROL_UNIT_HPP_
