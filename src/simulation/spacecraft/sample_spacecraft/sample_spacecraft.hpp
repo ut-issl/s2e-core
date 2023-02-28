@@ -21,7 +21,7 @@ class SampleSat : public Spacecraft {
    * @fn SampleSat
    * @brief Constructor
    */
-  SampleSat(SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
+  SampleSat(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment, const unsigned int spacecraft_id);
 
   /**
    * @fn GetInstalledComponents

@@ -55,7 +55,7 @@ class SampleComponents : public InstalledComponents {
    */
   SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_environment,
                    const GlobalEnvironment* global_environment, const SimulationConfig* configuration, ClockGenerator* clock_generator,
-                   const int spacecraft_id);
+                   const unsigned int spacecraft_id);
   /**
    * @fn ~SampleComponents
    * @brief Destructor
