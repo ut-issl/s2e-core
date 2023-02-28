@@ -19,7 +19,7 @@ class AttitudeRk4 : public Attitude {
    * @brief Constructor
    * @param [in] angular_velocity_b_rad_s: Initial value of spacecraft angular velocity of the body fixed frame [rad/s]
    * @param [in] quaternion_i2b: Initial value of attitude quaternion from the inertial frame to the body fixed frame
-   * @param [in] inertia_tensor_kgm2: Initial value of rotor_inertia_kgm2 tensor of the spacecraft [kg m^2]
+   * @param [in] inertia_tensor_kgm2: Initial value of inertia tensor of the spacecraft [kg m^2]
    * @param [in] torque_b_Nm: Initial torque acting on the spacecraft in the body fixed frame [Nm]
    * @param [in] propagation_step_s: Initial value of propagation step width [sec]
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
