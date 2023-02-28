@@ -17,13 +17,15 @@ static double rpm2angularVelocity(double rpm) { return rpm * libra::tau / 60.0; 
 
 static double angularVelocity2rpm(double angular_velocity) { return angular_velocity * 60.0 / libra::tau; }
 
-RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_generator, const int component_id, double step_width_s,
-                 double main_routine_time_step_s, double jitter_update_interval_s, double rotor_inertia_kgm2, double max_torque_Nm,
-                 double max_velocity_rpm, libra::Quaternion quaternion_b2c, libra::Vector<3> position_b_m, double dead_time_s,
-                 libra::Vector<3> driving_lag_coefficients, libra::Vector<3> coasting_lag_coefficients, bool is_calc_jitter_enabled,
-                 bool is_log_jitter_enabled, vector<vector<double>> radial_force_harmonics_coefficients,
-                 vector<vector<double>> radial_torque_harmonics_coefficients, double structural_resonance_frequency_Hz, double damping_factor,
-                 double bandwidth, bool considers_structural_resonance, bool drive_flag, double init_velocity_rad_s)
+RWModel::RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, const int component_id, const double step_width_s,
+                 const double main_routine_time_step_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2,
+                 const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
+                 const libra::Vector<3> position_b_m, const double dead_time_s, const libra::Vector<3> driving_lag_coefficients,
+                 const libra::Vector<3> coasting_lag_coefficients, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
+                 const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+                 const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
+                 const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag,
+                 const double init_velocity_rad_s)
     : Component(prescaler, clock_generator, fast_prescaler),
       component_id_(component_id),
       rotor_inertia_kgm2_(rotor_inertia_kgm2),
@@ -45,13 +47,15 @@ RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_genera
   Initialize();
 }
 
-RWModel::RWModel(int prescaler, int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int component_id,
-                 double step_width_s, double main_routine_time_step_s, double jitter_update_interval_s, double rotor_inertia_kgm2,
-                 double max_torque_Nm, double max_velocity_rpm, libra::Quaternion quaternion_b2c, libra::Vector<3> position_b_m, double dead_time_s,
-                 libra::Vector<3> driving_lag_coefficients, libra::Vector<3> coasting_lag_coefficients, bool is_calc_jitter_enabled,
-                 bool is_log_jitter_enabled, vector<vector<double>> radial_force_harmonics_coefficients,
-                 vector<vector<double>> radial_torque_harmonics_coefficients, double structural_resonance_frequency_Hz, double damping_factor,
-                 double bandwidth, bool considers_structural_resonance, bool drive_flag, double init_velocity_rad_s)
+RWModel::RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int component_id,
+                 const double step_width_s, const double main_routine_time_step_s, const double jitter_update_interval_s,
+                 const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
+                 const libra::Vector<3> position_b_m, const double dead_time_s, const libra::Vector<3> driving_lag_coefficients,
+                 const libra::Vector<3> coasting_lag_coefficients, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
+                 const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+                 const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
+                 const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag,
+                 const double init_velocity_rad_s)
     : Component(prescaler, clock_generator, power_port, fast_prescaler),
       component_id_(component_id),
       rotor_inertia_kgm2_(rotor_inertia_kgm2),
@@ -159,19 +163,19 @@ const libra::Vector<3> RWModel::GetOutputTorqueB() const {
   }
 }
 
-void RWModel::SetTargetTorqueRw(double torque_rw) {
+void RWModel::SetTargetTorqueRw(const double torque_rw_Nm) {
   // Check Torque Limit
   double sign;
-  torque_rw > 0 ? sign = 1.0 : sign = -1.0;
-  if (abs(torque_rw) < max_torque_Nm_) {
-    target_acceleration_rad_s2_ = torque_rw / rotor_inertia_kgm2_;
+  torque_rw_Nm > 0 ? sign = 1.0 : sign = -1.0;
+  if (abs(torque_rw_Nm) < max_torque_Nm_) {
+    target_acceleration_rad_s2_ = torque_rw_Nm / rotor_inertia_kgm2_;
   } else {
     target_acceleration_rad_s2_ = sign * max_torque_Nm_ / rotor_inertia_kgm2_;
   }
 }
-void RWModel::SetTargetTorqueBody(double torque_body) { SetTargetTorqueRw(-1.0 * torque_body); }
+void RWModel::SetTargetTorqueBody(const double torque_b_Nm) { SetTargetTorqueRw(-1.0 * torque_b_Nm); }
 
-void RWModel::SetVelocityLimitRpm(double velocity_limit_rpm) {
+void RWModel::SetVelocityLimitRpm(const double velocity_limit_rpm) {
   if (velocity_limit_rpm > max_velocity_rpm_) {
     velocity_limit_rpm_ = max_velocity_rpm_;
   } else if (velocity_limit_rpm < -1.0 * max_velocity_rpm_) {

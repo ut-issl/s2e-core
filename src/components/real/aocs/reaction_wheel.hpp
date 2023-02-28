@@ -57,10 +57,11 @@ class RWModel : public Component, public ILoggable {
   RWModel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, const int component_id, const double step_width_s,
           const double main_routine_time_step_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2, const double max_torque_Nm,
           const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
-          const libra::Vector<3> driving_lag_coefficients, const libra::Vector<3> coasting_lag_coefficients, bool is_calc_jitter_enabled,
-          bool is_log_jitter_enabled, std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-          std::vector<std::vector<double>> radial_torque_harmonics_coefficients, double structural_resonance_frequency_Hz, double damping_factor,
-          double bandwidth, bool considers_structural_resonance, const bool drive_flag = false, const double init_velocity_rad_s = 0.0);
+          const libra::Vector<3> driving_lag_coefficients, const libra::Vector<3> coasting_lag_coefficients, const bool is_calc_jitter_enabled,
+          const bool is_log_jitter_enabled, const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+          const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
+          const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag = false,
+          const double init_velocity_rad_s = 0.0);
   /**
    * @fn RWModel
    * @brief Constructor with power port
@@ -95,9 +96,11 @@ class RWModel : public Component, public ILoggable {
           const double step_width_s, const double main_routine_time_step_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2,
           const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m,
           const double dead_time_s, const libra::Vector<3> driving_lag_coefficients, const libra::Vector<3> coasting_lag_coefficients,
-          bool is_calc_jitter_enabled, bool is_log_jitter_enabled, std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-          std::vector<std::vector<double>> radial_torque_harmonics_coefficients, double structural_resonance_frequency_Hz, double damping_factor,
-          double bandwidth, bool considers_structural_resonance, const bool drive_flag = false, const double init_velocity_rad_s = 0.0);
+          const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
+          const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+          const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
+          const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag = false,
+          const double init_velocity_rad_s = 0.0);
 
   // Override functions for Component
   /**
@@ -165,22 +168,22 @@ class RWModel : public Component, public ILoggable {
    * @fn SetTargetTorqueRw
    * @brief Set target torque on RW frame [Nm]
    */
-  void SetTargetTorqueRw(double torque_rw);
+  void SetTargetTorqueRw(const double torque_rw_Nm);
   /**
    * @fn SetTargetTorqueBody
    * @brief Set target torque on body frame (opposite of RW frame) [Nm]
    */
-  void SetTargetTorqueBody(double torque_body);
+  void SetTargetTorqueBody(const double torque_b_Nm);
   /**
    * @fn SetVelocityLimitRpm
    * @brief Set velocity limit [RPM]
    */
-  void SetVelocityLimitRpm(double velocity_limit_rpm);
+  void SetVelocityLimitRpm(const double velocity_limit_rpm);
   /**
    * @fn SetDriveFlag
    * @brief Set drive flag
    */
-  inline void SetDriveFlag(bool flag) { drive_flag_ = flag; };
+  inline void SetDriveFlag(const bool flag) { drive_flag_ = flag; };
 
  protected:
   // Fixed Parameters
