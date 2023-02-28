@@ -152,7 +152,7 @@ libra::Vector<3> RWModel::CalcTorque() {
 
 const libra::Vector<3> RWModel::GetOutputTorqueB() const {
   if (is_calculated_jitter_) {
-    // Add jitter_force_b_-derived torque and jitter_torque_b_ to output_torqur_b
+    // Add jitter_force_b_N_-derived torque and jitter_torque_b_Nm_ to output_torqur_b
     return output_torque_b_ - libra::OuterProduct(pos_b_, rw_jitter_.GetJitterForceB()) - rw_jitter_.GetJitterTorqueB();
   } else {
     return output_torque_b_;
