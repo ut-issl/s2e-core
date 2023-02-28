@@ -55,10 +55,10 @@ class I2cController {
   std::vector<unsigned char> rx_buffer_;  //!< RX (Target to Controller) buffer
 
  private:
-  unsigned int hils_port_id_;                                          //!< ID of HILS communication port
-  unsigned int baud_rate_;                                             //!< Baud rate of HILS communication port ex. 9600, 115200
-  unsigned int tx_buffer_size_;                                        //!< TX (Controller to Target) buffer size
-  unsigned int rx_buffer_size_;                                        //!< RX (Target to Controller) buffer size
+  unsigned int hils_port_id_;                                //!< ID of HILS communication port
+  unsigned int baud_rate_;                                   //!< Baud rate of HILS communication port ex. 9600, 115200
+  unsigned int tx_buffer_size_;                              //!< TX (Controller to Target) buffer size
+  unsigned int rx_buffer_size_;                              //!< RX (Target to Controller) buffer size
   SimulationMode simulation_mode_ = SimulationMode::kError;  //!< Simulation mode (SILS or HILS)
 
   HilsPortManager* hils_port_manager_;  //!< HILS port manager

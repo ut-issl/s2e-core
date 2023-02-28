@@ -224,7 +224,8 @@ bool GnssSat_coordinate::GetWhetherValid(int gnss_satellite_id) const {
   return validate_.at(gnss_satellite_id);
 }
 
-pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int interpolation_method, int interpolation_number, UltraRapidMode ur_flag) {
+pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int interpolation_method, int interpolation_number,
+                                            UltraRapidMode ur_flag) {
   UNUSED(interpolation_method);
 
   interpolation_number_ = interpolation_number;
@@ -792,8 +793,8 @@ double GnssSat_clock::GetSatClock(int gnss_satellite_id) const {
 
 GnssSat_Info::GnssSat_Info() {}
 void GnssSat_Info::Init(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                        UltraRapidMode position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number,
-                        UltraRapidMode clock_ur_flag) {
+                        UltraRapidMode position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension,
+                        int clock_interpolation_number, UltraRapidMode clock_ur_flag) {
   auto unix_time_period = position_.Init(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag);
   clock_.Init(clock_file, clock_file_extension, clock_interpolation_number, clock_ur_flag, unix_time_period);
 }

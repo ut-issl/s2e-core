@@ -19,7 +19,7 @@ using libra::Vector;
  * @brief Antenna gain model definition
  */
 enum class AntennaGainModel {
-  kIsotropic,              //!< Ideal isotropic antenna
+  kIsotropic,            //!< Ideal isotropic antenna
   kRadiationPatternCsv,  //!< Radiation pattern obtained by CSV file
 };
 
