@@ -7,23 +7,23 @@
 #include <library/math/quaternion.hpp>
 
 MagSensor::MagSensor(int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
-                     const Quaternion& quaternion_b2c, const GeomagneticField* magnet)
+                     const Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
       quaternion_b2c_(quaternion_b2c),
-      geomagnetic_field_(magnet) {}
+      geomagnetic_field_(geomagnetic_field) {}
 MagSensor::MagSensor(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-                     const Quaternion& quaternion_b2c, const GeomagneticField* magnet)
+                     const Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator, power_port),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
       quaternion_b2c_(quaternion_b2c),
-      geomagnetic_field_(magnet) {}
+      geomagnetic_field_(geomagnetic_field) {}
 MagSensor::~MagSensor() {}
 
-void MagSensor::MainRoutine(int count) {
-  UNUSED(count);
+void MagSensor::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   magnetic_field_c_nT_ = quaternion_b2c_.FrameConversion(geomagnetic_field_->GetGeomagneticField_b_nT());  // Convert frame
   magnetic_field_c_nT_ = Measure(magnetic_field_c_nT_);                                                    // Add noises

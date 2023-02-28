@@ -39,7 +39,7 @@ class MagTorquer : public Component, public ILoggable {
    * @param [in] rw_stddev_c: Standard deviation of random walk noise in the component frame [Am2]
    * @param [in] rw_limit_c: Limit for random walk noise in the component frame [Am2]
    * @param [in] nr_stddev_c: Standard deviation for the normal random noise in the component frame [Am2]
-   * @param [in] magnet: Geomagnetic environment
+   * @param [in] geomagnetic_field: Geomagnetic environment
    */
   MagTorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
              const libra::Matrix<kMtqDim, kMtqDim>& scale_facter, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
@@ -61,7 +61,7 @@ class MagTorquer : public Component, public ILoggable {
    * @param [in] rw_stddev_c: Standard deviation of random walk noise in the component frame [Am2]
    * @param [in] rw_limit_c: Limit for random walk noise in the component frame [Am2]
    * @param [in] nr_stddev_c: Standard deviation for the normal random noise in the component frame [Am2]
-   * @param [in] magnet: Geomagnetic environment
+   * @param [in] geomagnetic_field: Geomagnetic environment
    */
   MagTorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
              const libra::Quaternion& quaternion_b2c, const libra::Matrix<kMtqDim, kMtqDim>& scale_facter, const libra::Vector<kMtqDim>& max_c,

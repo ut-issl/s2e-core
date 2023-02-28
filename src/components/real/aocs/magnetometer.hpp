@@ -29,10 +29,10 @@ class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
-   * @param [in] magnet: Geomagnetic environment
+   * @param [in] geomagnetic_field: Geomagnetic environment
    */
   MagSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
-            const libra::Quaternion& quaternion_b2c, const GeomagneticField* magnet);
+            const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
   /**
    * @fn MagSensor
    * @brief Constructor with power port
@@ -42,10 +42,10 @@ class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
-   * @param [in] magnet: Geomagnetic environment
+   * @param [in] geomagnetic_field: Geomagnetic environment
    */
   MagSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-            const libra::Quaternion& quaternion_b2c, const GeomagneticField* magnet);
+            const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
   /**
    * @fn ~MagSensor
    * @brief Destructor
@@ -57,7 +57,7 @@ class MagSensor : public Component, public Sensor<kMagDim>, public ILoggable {
    * @fn MainRoutine
    * @brief Main routine for sensor observation
    */
-  void MainRoutine(int count) override;
+  void MainRoutine(const int time_count) override;
 
   // Override ILoggable
   /**
