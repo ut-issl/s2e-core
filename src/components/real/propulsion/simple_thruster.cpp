@@ -46,8 +46,8 @@ void SimpleThruster::Initialize(const double magnitude_standard_deviation_N, con
   thrust_direction_b_ = Normalize(thrust_direction_b_);
 }
 
-void SimpleThruster::MainRoutine(int count) {
-  UNUSED(count);
+void SimpleThruster::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   CalcThrust();
   CalcTorque(structure_->GetKinematicsParams().GetCGb());
