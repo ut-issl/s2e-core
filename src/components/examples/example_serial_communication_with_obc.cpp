@@ -51,6 +51,6 @@ void ExampleSerialCommunicationWithObc::MainRoutine(const int time_count) {
   SendTelemetry(0);
 }
 
-void ExampleSerialCommunicationWithObc::GpioStateChanged(int port_id, bool isPosedge) {
-  printf("interrupted. portid = %d, isPosedge = %d./n", port_id, isPosedge);
+void ExampleSerialCommunicationWithObc::GpioStateChanged(int port_id, bool is_positive_edge) {
+  printf("interrupted. portid = %d, isPosedge = %d./n", port_id, is_positive_edge);
 }

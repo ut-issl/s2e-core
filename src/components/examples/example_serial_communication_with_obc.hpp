@@ -64,7 +64,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @fn GpioStateChanged
    * @brief Interrupt function for GPIO
    */
-  void GpioStateChanged(int port_id, bool isPosedge);
+  void GpioStateChanged(int port_id, bool is_positive_edge);
 
  private:
   const static int kMaxMemoryLength = 100;  //!< Maximum memory length
