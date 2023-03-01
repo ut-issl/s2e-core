@@ -196,6 +196,12 @@ if(GOOGLE_TEST)
   include_directories(${TEST_PROJECT_NAME})
   add_test(NAME s2e-test COMMAND ${TEST_PROJECT_NAME})
   enable_testing()
+
+  # Settings
+  set_target_properties(${TEST_PROJECT_NAME} PROPERTIES LANGUAGE CXX)
+  set_target_properties(${TEST_PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
+  set_target_properties(${TEST_PROJECT_NAME} PROPERTIES CXX_EXTENSIONS FALSE)
+
 endif()
 
 
