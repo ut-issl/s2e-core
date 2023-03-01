@@ -71,7 +71,7 @@ plt.plot(time[0], sun_velocity_i_m_s[1], marker=".", c="green",  label="Y")
 plt.plot(time[0], sun_velocity_i_m_s[2], marker=".", c="blue",   label="Z")
 plt.title("Sun Velocity @ the inertial frame")
 plt.xlabel("Time [s]")
-plt.ylabel("Velocity [m]")
+plt.ylabel("Velocity [m/s]")
 plt.legend()
 
 plt.figure(2)
@@ -89,7 +89,7 @@ plt.plot(time[0], moon_velocity_i_m_s[1], marker=".", c="green",  label="Y")
 plt.plot(time[0], moon_velocity_i_m_s[2], marker=".", c="blue",   label="Z")
 plt.title("Moon Velocity @ the inertial frame")
 plt.xlabel("Time [s]")
-plt.ylabel("Velocity [m]")
+plt.ylabel("Velocity [m/s]")
 plt.legend()
 
 
