@@ -66,7 +66,7 @@ axis2.legend()
 axis2.set_ylim(0, 2)
 
 plt.title("Solar radiation pressure environment")
-plt.xlabel("Time [s]")
+axis1.set_xlabel("Time [s]")
 
 # Data save
 if args.no_gui:
