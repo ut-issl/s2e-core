@@ -186,3 +186,41 @@ TEST(Quaternion, ConstructorTwoVectorsZ) {
   EXPECT_NEAR(sin(theta_rad/2.0), q[2], 1e-5);
   EXPECT_NEAR(cos(theta_rad/2.0), q[3], 1e-5);
 }
+
+/**
+ * @brief Test for Normalize
+ * @note TODO: Fix to nondestructive function
+ */
+TEST(Quaternion, Normalize) {
+  libra::Quaternion q(1.0, 1.0, 1.0, 1.0);
+  EXPECT_DOUBLE_EQ(1.0, q[0]);
+  EXPECT_DOUBLE_EQ(1.0, q[1]);
+  EXPECT_DOUBLE_EQ(1.0, q[2]);
+  EXPECT_DOUBLE_EQ(1.0, q[3]);
+
+  q.Normalize();
+  EXPECT_DOUBLE_EQ(0.5, q[0]);
+  EXPECT_DOUBLE_EQ(0.5, q[1]);
+  EXPECT_DOUBLE_EQ(0.5, q[2]);
+  EXPECT_DOUBLE_EQ(0.5, q[3]);
+}
+
+/**
+ * @brief Test for Conjugate
+ */
+TEST(Quaternion, Conjugate) {
+  libra::Quaternion q(0.5, 0.5, 0.5, 0.5);
+
+  libra::Quaternion q_conjugate = q.Conjugate();
+
+  // Check nondestructive function
+  EXPECT_DOUBLE_EQ(0.5, q[0]);
+  EXPECT_DOUBLE_EQ(0.5, q[1]);
+  EXPECT_DOUBLE_EQ(0.5, q[2]);
+  EXPECT_DOUBLE_EQ(0.5, q[3]);
+
+  EXPECT_DOUBLE_EQ(-0.5, q_conjugate[0]);
+  EXPECT_DOUBLE_EQ(-0.5, q_conjugate[1]);
+  EXPECT_DOUBLE_EQ(-0.5, q_conjugate[2]);
+  EXPECT_DOUBLE_EQ(0.5, q_conjugate[3]);
+}
