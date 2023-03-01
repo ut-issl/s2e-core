@@ -224,3 +224,236 @@ TEST(Quaternion, Conjugate) {
   EXPECT_DOUBLE_EQ(-0.5, q_conjugate[2]);
   EXPECT_DOUBLE_EQ(0.5, q_conjugate[3]);
 }
+
+/**
+ * @brief Test for ConvertToDcm Y rotation
+ */
+TEST(Quaternion, ConvertToDcmY) {
+  libra::Quaternion q(0.0, 1.0, 0.0, 1.0);
+  q.Normalize();
+
+  libra::Matrix<3, 3> dcm = q.ConvertToDcm();
+
+  // Check nondestructive function
+  EXPECT_DOUBLE_EQ(0.0, q[0]);
+  EXPECT_DOUBLE_EQ(1.0 / sqrt(2.0), q[1]);
+  EXPECT_DOUBLE_EQ(0.0, q[2]);
+  EXPECT_DOUBLE_EQ(1.0 / sqrt(2.0), q[3]);
+
+  // Check nondestructive function
+  const double accuracy = 1.0e-7;
+  EXPECT_NEAR(0.0, dcm[0][0], accuracy);
+  EXPECT_NEAR(0.0, dcm[0][1], accuracy);
+  EXPECT_NEAR(-1.0, dcm[0][2], accuracy);
+  EXPECT_NEAR(0.0, dcm[1][0], accuracy);
+  EXPECT_NEAR(1.0, dcm[1][1], accuracy);
+  EXPECT_NEAR(0.0, dcm[1][2], accuracy);
+  EXPECT_NEAR(1.0, dcm[2][0], accuracy);
+  EXPECT_NEAR(0.0, dcm[2][1], accuracy);
+  EXPECT_NEAR(0.0, dcm[2][2], accuracy);
+
+  // Inverse Conversion
+  libra::Quaternion q_from_dcm = libra::Quaternion::ConvertFromDcm(dcm);
+  for (size_t i = 0; i < 4; i++) {
+    EXPECT_NEAR(q[i], q_from_dcm[i], accuracy);
+  }
+}
+
+/**
+ * @brief Test for ConvertToDcm
+ */
+TEST(Quaternion, ConvertToDcm) {
+  libra::Quaternion q(0.5, 0.3, 0.1, 1.0);
+  q.Normalize();
+
+  libra::Matrix<3, 3> dcm = q.ConvertToDcm();
+
+  // Check nondestructive function
+  const double accuracy = 1.0e-5;
+  EXPECT_NEAR(0.8518519, dcm[0][0], accuracy);
+  EXPECT_NEAR(0.3703704, dcm[0][1], accuracy);
+  EXPECT_NEAR(-0.3703704, dcm[0][2], accuracy);
+  EXPECT_NEAR(0.0740741, dcm[1][0], accuracy);
+  EXPECT_NEAR(0.6148148, dcm[1][1], accuracy);
+  EXPECT_NEAR(0.7851851, dcm[1][2], accuracy);
+  EXPECT_NEAR(0.5185185, dcm[2][0], accuracy);
+  EXPECT_NEAR(-0.696296, dcm[2][1], accuracy);
+  EXPECT_NEAR(0.4962963, dcm[2][2], accuracy);
+
+  // Inverse Conversion
+  libra::Quaternion q_from_dcm = libra::Quaternion::ConvertFromDcm(dcm);
+  for (size_t i = 0; i < 4; i++) {
+    EXPECT_NEAR(q[i], q_from_dcm[i], accuracy);
+  }
+}
+
+/**
+ * @brief Test for ConvertToEuler X rotation
+ */
+TEST(Quaternion, ConvertToEulerX) {
+  libra::Quaternion q(1.0, 0.0, 0.0, 1.0);
+  q.Normalize();
+
+  libra::Vector<3> euler = q.ConvertToEuler();
+
+  // Check nondestructive function
+  EXPECT_DOUBLE_EQ(1.0 / sqrt(2.0), q[0]);
+  EXPECT_DOUBLE_EQ(0.0, q[1]);
+  EXPECT_DOUBLE_EQ(0.0, q[2]);
+  EXPECT_DOUBLE_EQ(1.0 / sqrt(2.0), q[3]);
+
+  // Check nondestructive function
+  const double accuracy = 1.0e-7;
+  EXPECT_NEAR(90 * libra::deg_to_rad, euler[0], accuracy);
+  EXPECT_NEAR(0.0, euler[1], accuracy);
+  EXPECT_NEAR(0.0, euler[2], accuracy);
+
+  // Inverse Conversion
+  libra::Quaternion q_from_euler = libra::Quaternion::ConvertFromEuler(euler);
+  for (size_t i = 0; i < 4; i++) {
+    EXPECT_NEAR(q[i], q_from_euler[i], accuracy);
+  }
+}
+
+/**
+ * @brief Test for ConvertToEuler
+ */
+TEST(Quaternion, ConvertToEuler) {
+  libra::Quaternion q(0.5, 0.3, 0.1, 1.0);
+  q.Normalize();
+
+  libra::Vector<3> euler = q.ConvertToEuler();
+
+  // Check nondestructive function
+  const double accuracy = 1.0e-7;
+  EXPECT_NEAR(1.00712520, euler[0], accuracy);
+  EXPECT_NEAR(0.37940772, euler[1], accuracy);
+  EXPECT_NEAR(0.41012734, euler[2], accuracy);
+
+  // Inverse Conversion
+  libra::Quaternion q_from_euler = libra::Quaternion::ConvertFromEuler(euler);
+  for (size_t i = 0; i < 4; i++) {
+    EXPECT_NEAR(q[i], q_from_euler[i], accuracy);
+  }
+}
+
+/**
+ * @brief Test for FrameConversion Z rotation
+ */
+TEST(Quaternion, FrameConversionZ) {
+  libra::Quaternion q(0.0, 0.0, 1.0, 1.0);
+  q.Normalize();
+
+  libra::Vector<3> v;
+  v[0] = 1.0;
+  v[1] = 0.0;
+  v[2] = 0.0;
+
+  libra::Vector<3> v_frame_conv = q.FrameConversion(v);
+
+  const double accuracy = 1.0e-7;
+  EXPECT_NEAR(0.0, v_frame_conv[0], accuracy);
+  EXPECT_NEAR(-1.0, v_frame_conv[1], accuracy);
+  EXPECT_NEAR(0.0, v_frame_conv[2], accuracy);
+
+  libra::Vector<3> v_frame_conv_inv = q.InverseFrameConversion(v_frame_conv);
+
+  for (size_t i = 0; i < 3; i++) {
+    EXPECT_NEAR(v[i], v_frame_conv_inv[i], accuracy);
+  }
+}
+
+/**
+ * @brief Test for FrameConversion
+ */
+TEST(Quaternion, FrameConversion) {
+  libra::Quaternion q(0.5, 0.3, 0.1, 1.0);
+  q.Normalize();
+  libra::Vector<3> v;
+  v[0] = 1.0;
+  v[1] = 0.0;
+  v[2] = 0.0;
+
+  libra::Vector<3> v_frame_conv = q.FrameConversion(v);
+  libra::Vector<3> v_frame_conv_inv = q.InverseFrameConversion(v_frame_conv);
+
+  const double accuracy = 1.0e-7;
+  for (size_t i = 0; i < 3; i++) {
+    EXPECT_NEAR(v[i], v_frame_conv_inv[i], accuracy);
+  }
+}
+
+/**
+ * @brief Test for ConvertToVector
+ */
+TEST(Quaternion, ConvertToVector) {
+  libra::Quaternion q(0.5, 0.3, 0.1, 1.0);
+
+  libra::Vector<4> v = q.ConvertToVector();
+
+  for (size_t i = 0; i < 4; i++) {
+    EXPECT_DOUBLE_EQ(q[i], v[i]);
+  }
+}
+
+/**
+ * @brief Test for operator+
+ */
+TEST(Quaternion, OperatorPlus) {
+  libra::Quaternion q1(0.5, 0.3, 0.1, 1.0);
+  libra::Quaternion q2(-0.3, 0.1, -1.0, 0.4);
+
+  libra::Quaternion result = q1 + q2;
+
+  EXPECT_DOUBLE_EQ(0.2, result[0]);
+  EXPECT_DOUBLE_EQ(0.4, result[1]);
+  EXPECT_DOUBLE_EQ(-0.9, result[2]);
+  EXPECT_DOUBLE_EQ(1.4, result[3]);
+}
+
+/**
+ * @brief Test for operator-
+ */
+TEST(Quaternion, OperatorMinus) {
+  libra::Quaternion q1(0.5, 0.3, 0.1, 1.0);
+  libra::Quaternion q2(-0.3, 0.1, -1.0, 0.4);
+
+  libra::Quaternion result = q1 - q2;
+
+  EXPECT_DOUBLE_EQ(0.8, result[0]);
+  EXPECT_DOUBLE_EQ(0.2, result[1]);
+  EXPECT_DOUBLE_EQ(1.1, result[2]);
+  EXPECT_DOUBLE_EQ(0.6, result[3]);
+}
+
+/**
+ * @brief Test for operator* quaternion
+ */
+TEST(Quaternion, OperatorQuaternionMultiply) {
+  libra::Quaternion q1(0.289271, -0.576012, -0.420972, 0.638212);
+  libra::Quaternion q2(-0.0821846, 0.501761, 0.721995, -0.469259);
+
+  libra::Quaternion result = q1 * q2;
+
+  const double accuracy = 1.0e-7;
+  EXPECT_NEAR(-0.3928446703722, result[0], accuracy);
+  EXPECT_NEAR(0.4162739062262, result[1], accuracy);
+  EXPECT_NEAR(0.7561363631038, result[2], accuracy);
+  EXPECT_NEAR(0.3172469327906, result[3], accuracy);
+}
+
+/**
+ * @brief Test for operator* scalar
+ */
+TEST(Quaternion, OperatorScalarMultiply) {
+  libra::Quaternion q(0.289271, -0.576012, -0.420972, 0.638212);
+  double scalar = 2.3;
+
+  libra::Quaternion result = scalar * q;
+
+  const double accuracy = 1.0e-7;
+  EXPECT_NEAR(q[0] * 2.3, result[0], accuracy);
+  EXPECT_NEAR(q[1] * 2.3, result[1], accuracy);
+  EXPECT_NEAR(q[2] * 2.3, result[2], accuracy);
+  EXPECT_NEAR(q[3] * 2.3, result[3], accuracy);
+}
