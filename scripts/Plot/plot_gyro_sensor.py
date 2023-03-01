@@ -50,29 +50,40 @@ time = read_scalar_from_csv(read_file_name, 'elapsed_time[s]')
 measured_angular_velocity_c_rad_s = read_3d_vector_from_csv(read_file_name, 'gyro_sensor1_measured_angular_velocity_c', 'rad/s')
 true_angular_velocity_b_rad_s = read_3d_vector_from_csv(read_file_name, 'spacecraft_angular_velocity_b', 'rad/s')
 
+# Statistics
+# We assume that the component frame and the body frame is same
+error_rad_s = measured_angular_velocity_c_rad_s - true_angular_velocity_b_rad_s
+average = [0.0, 0.0, 0.0]
+standard_deviation = [0.0, 0.0, 0.0]
+for i in range(3):
+  average[i] = error_rad_s[i].mean()
+  standard_deviation[i] = error_rad_s[i].std()
+
 #
 # Plot
 #
-plt.figure(0)
+fig, axis = plt.subplots(3, 1, squeeze = False, tight_layout = True, sharex = True)
+axis[0, 0].plot(time[0], measured_angular_velocity_c_rad_s[0], marker=".", c="red",    label="GYRO-X")
+axis[0, 0].plot(time[0], true_angular_velocity_b_rad_s[0], marker=".", c="orange",  label="TRUE-X")
+axis[0, 0].legend()
+axis[0, 0].text(0.01, 0.99, "average:" + format(average[0], '+.2e'), verticalalignment = 'top', transform = axis[0, 0].transAxes)
+axis[0, 0].text(0.01, 0.89, "standard deviation:" + format(standard_deviation[0], '+.2e'), verticalalignment = 'top', transform = axis[0, 0].transAxes)
 
-plt.subplot(3, 1, 1)
-plt.plot(time[0], measured_angular_velocity_c_rad_s[0], marker=".", c="red",    label="GYRO-X")
-plt.plot(time[0], true_angular_velocity_b_rad_s[0], marker=".", c="orange",  label="TRUE-X")
-plt.legend()
+axis[1, 0].plot(time[0], measured_angular_velocity_c_rad_s[1], marker=".", c="green",  label="GYRO-Y")
+axis[1, 0].plot(time[0], true_angular_velocity_b_rad_s[1], marker=".", c="yellow",  label="TRUE-Y")
+axis[1, 0].legend()
+axis[1, 0].text(0.01, 0.99, "average:" + format(average[1], '+.2e'), verticalalignment = 'top', transform = axis[1, 0].transAxes)
+axis[1, 0].text(0.01, 0.89, "standard deviation:" + format(standard_deviation[1], '+.2e'), verticalalignment = 'top', transform = axis[1, 0].transAxes)
 
-plt.subplot(3, 1, 2)
-plt.plot(time[0], measured_angular_velocity_c_rad_s[1], marker=".", c="green",  label="GYRO-Y")
-plt.plot(time[0], true_angular_velocity_b_rad_s[1], marker=".", c="yellow",  label="TRUE-Y")
-plt.ylabel("Angular Velocity [rad/s]")
-plt.legend()
+axis[2, 0].plot(time[0], measured_angular_velocity_c_rad_s[2], marker=".", c="blue",   label="GYRO-Z")
+axis[2, 0].plot(time[0], true_angular_velocity_b_rad_s[2], marker=".", c="purple",  label="TRUE-Z")
+axis[2, 0].legend()
+axis[2, 0].text(0.01, 0.99, "average:" + format(average[2], '+.2e'), verticalalignment = 'top', transform = axis[2, 0].transAxes)
+axis[2, 0].text(0.01, 0.89, "standard deviation:" + format(standard_deviation[2], '+.2e'), verticalalignment = 'top', transform = axis[2, 0].transAxes)
 
-plt.subplot(3, 1, 3)
-plt.plot(time[0], measured_angular_velocity_c_rad_s[2], marker=".", c="blue",   label="GYRO-Z")
-plt.plot(time[0], true_angular_velocity_b_rad_s[2], marker=".", c="purple",  label="TRUE-Z")
-plt.legend()
-plt.xlabel("Time [s]")
-
-plt.suptitle("Gyro Sensor Angular Velocity")
+fig.suptitle("Gyro Sensor Angular Velocity")
+fig.supylabel("Angular Velocity [rad/s]")
+fig.supxlabel("Time [s]")
 
 # Data save
 if args.no_gui:
