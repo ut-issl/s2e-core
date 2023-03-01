@@ -4,8 +4,8 @@
  */
 #include <gtest/gtest.h>
 
-#include "quaternion.hpp"
 #include "constants.hpp"
+#include "quaternion.hpp"
 
 /**
  * @brief Test for constructor from four numbers
@@ -43,10 +43,10 @@ TEST(Quaternion, ConstructorAxisAndAngleX) {
   double theta_rad = 90 * libra::deg_to_rad;
   libra::Quaternion q(axis, theta_rad);
 
-  EXPECT_NEAR(axis[0] * sin(theta_rad/2.0), q[0], 1e-5);
-  EXPECT_NEAR(axis[1] * sin(theta_rad/2.0), q[1], 1e-5);
-  EXPECT_NEAR(axis[2] * sin(theta_rad/2.0), q[2], 1e-5);
-  EXPECT_NEAR(cos(theta_rad/2.0), q[3], 1e-5);
+  EXPECT_NEAR(axis[0] * sin(theta_rad / 2.0), q[0], 1e-5);
+  EXPECT_NEAR(axis[1] * sin(theta_rad / 2.0), q[1], 1e-5);
+  EXPECT_NEAR(axis[2] * sin(theta_rad / 2.0), q[2], 1e-5);
+  EXPECT_NEAR(cos(theta_rad / 2.0), q[3], 1e-5);
 }
 
 /**
@@ -60,10 +60,10 @@ TEST(Quaternion, ConstructorAxisAndAngleY) {
   double theta_rad = 45 * libra::deg_to_rad;
   libra::Quaternion q(axis, theta_rad);
 
-  EXPECT_NEAR(axis[0] * sin(theta_rad/2.0), q[0], 1e-5);
-  EXPECT_NEAR(axis[1] * sin(theta_rad/2.0), q[1], 1e-5);
-  EXPECT_NEAR(axis[2] * sin(theta_rad/2.0), q[2], 1e-5);
-  EXPECT_NEAR(cos(theta_rad/2.0), q[3], 1e-5);
+  EXPECT_NEAR(axis[0] * sin(theta_rad / 2.0), q[0], 1e-5);
+  EXPECT_NEAR(axis[1] * sin(theta_rad / 2.0), q[1], 1e-5);
+  EXPECT_NEAR(axis[2] * sin(theta_rad / 2.0), q[2], 1e-5);
+  EXPECT_NEAR(cos(theta_rad / 2.0), q[3], 1e-5);
 }
 
 /**
@@ -77,10 +77,10 @@ TEST(Quaternion, ConstructorAxisAndAngleZ) {
   double theta_rad = -60 * libra::deg_to_rad;
   libra::Quaternion q(axis, theta_rad);
 
-  EXPECT_NEAR(axis[0] * sin(theta_rad/2.0), q[0], 1e-5);
-  EXPECT_NEAR(axis[1] * sin(theta_rad/2.0), q[1], 1e-5);
-  EXPECT_NEAR(axis[2] * sin(theta_rad/2.0), q[2], 1e-5);
-  EXPECT_NEAR(cos(theta_rad/2.0), q[3], 1e-5);
+  EXPECT_NEAR(axis[0] * sin(theta_rad / 2.0), q[0], 1e-5);
+  EXPECT_NEAR(axis[1] * sin(theta_rad / 2.0), q[1], 1e-5);
+  EXPECT_NEAR(axis[2] * sin(theta_rad / 2.0), q[2], 1e-5);
+  EXPECT_NEAR(cos(theta_rad / 2.0), q[3], 1e-5);
 }
 
 /**
@@ -94,10 +94,10 @@ TEST(Quaternion, ConstructorAxisAndAngleAll) {
   double theta_rad = 180 * libra::deg_to_rad;
   libra::Quaternion q(axis, theta_rad);
 
-  EXPECT_NEAR(axis[0] * sin(theta_rad/2.0), q[0], 1e-5);
-  EXPECT_NEAR(axis[1] * sin(theta_rad/2.0), q[1], 1e-5);
-  EXPECT_NEAR(axis[2] * sin(theta_rad/2.0), q[2], 1e-5);
-  EXPECT_NEAR(cos(theta_rad/2.0), q[3], 1e-5);
+  EXPECT_NEAR(axis[0] * sin(theta_rad / 2.0), q[0], 1e-5);
+  EXPECT_NEAR(axis[1] * sin(theta_rad / 2.0), q[1], 1e-5);
+  EXPECT_NEAR(axis[2] * sin(theta_rad / 2.0), q[2], 1e-5);
+  EXPECT_NEAR(cos(theta_rad / 2.0), q[3], 1e-5);
 }
 
 /**
@@ -107,7 +107,7 @@ TEST(Quaternion, ConstructorTwoVectorsNoRotation) {
   libra::Vector<3> before;
   before[0] = 0.0;
   before[1] = 0.0;
-  before[2] = 2.0; // To check normalization
+  before[2] = 2.0;  // To check normalization
   libra::Vector<3> after;
   after[0] = 0.0;
   after[1] = 0.0;
@@ -137,10 +137,10 @@ TEST(Quaternion, ConstructorTwoVectorsX) {
   libra::Quaternion q(before, after);
 
   double theta_rad = -90 * libra::deg_to_rad;
-  EXPECT_NEAR(sin(theta_rad/2.0), q[0], 1e-5);
+  EXPECT_NEAR(sin(theta_rad / 2.0), q[0], 1e-5);
   EXPECT_NEAR(0.0, q[1], 1e-5);
   EXPECT_NEAR(0.0, q[2], 1e-5);
-  EXPECT_NEAR(cos(theta_rad/2.0), q[3], 1e-5);
+  EXPECT_NEAR(cos(theta_rad / 2.0), q[3], 1e-5);
 }
 
 /**
@@ -160,9 +160,9 @@ TEST(Quaternion, ConstructorTwoVectorsY) {
 
   double theta_rad = 90 * libra::deg_to_rad;
   EXPECT_NEAR(0.0, q[0], 1e-5);
-  EXPECT_NEAR(sin(theta_rad/2.0), q[1], 1e-5);
+  EXPECT_NEAR(sin(theta_rad / 2.0), q[1], 1e-5);
   EXPECT_NEAR(0.0, q[2], 1e-5);
-  EXPECT_NEAR(cos(theta_rad/2.0), q[3], 1e-5);
+  EXPECT_NEAR(cos(theta_rad / 2.0), q[3], 1e-5);
 }
 
 /**
@@ -183,8 +183,8 @@ TEST(Quaternion, ConstructorTwoVectorsZ) {
   double theta_rad = 90 * libra::deg_to_rad;
   EXPECT_NEAR(0.0, q[0], 1e-5);
   EXPECT_NEAR(0.0, q[1], 1e-5);
-  EXPECT_NEAR(sin(theta_rad/2.0), q[2], 1e-5);
-  EXPECT_NEAR(cos(theta_rad/2.0), q[3], 1e-5);
+  EXPECT_NEAR(sin(theta_rad / 2.0), q[2], 1e-5);
+  EXPECT_NEAR(cos(theta_rad / 2.0), q[3], 1e-5);
 }
 
 /**

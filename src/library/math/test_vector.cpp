@@ -117,7 +117,7 @@ TEST(Vector, OperatorDivideEqual) {
   EXPECT_DOUBLE_EQ(3.0, dividing);
   for (size_t i = 0; i < N; i++) {
     // Check divided value
-    EXPECT_DOUBLE_EQ(double(i)/dividing, v[i]);
+    EXPECT_DOUBLE_EQ(double(i) / dividing, v[i]);
   }
 }
 
@@ -227,7 +227,7 @@ TEST(Vector, InnerProduct) {
   }
 
   double result = InnerProduct(a, b);
-  EXPECT_DOUBLE_EQ(double(N), result);  
+  EXPECT_DOUBLE_EQ(double(N), result);
 }
 
 /**
@@ -247,7 +247,7 @@ TEST(Vector, InnerProductZero) {
   b[2] = 0.0;
 
   double result = InnerProduct(a, b);
-  EXPECT_DOUBLE_EQ(0.0, result);  
+  EXPECT_DOUBLE_EQ(0.0, result);
 }
 
 /**
@@ -370,9 +370,9 @@ TEST(Vector, Normalize) {
 
   for (size_t i = 0; i < N; i++) {
     // Check nondestructive (Currently, it is destructive)
-    EXPECT_DOUBLE_EQ(1.0/sqrt(double(N)), v[i]);
+    EXPECT_DOUBLE_EQ(1.0 / sqrt(double(N)), v[i]);
     // Check nondestructive
-    EXPECT_DOUBLE_EQ(1.0/sqrt(double(N)), normalized[i]);
+    EXPECT_DOUBLE_EQ(1.0 / sqrt(double(N)), normalized[i]);
   }
 }
 
