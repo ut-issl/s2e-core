@@ -192,6 +192,7 @@ if(GOOGLE_TEST)
     src/library/math/test_vector.cpp
     src/library/math/test_matrix.cpp
     src/library/math/test_matrix_vector.cpp
+    src/library/math/test_s2e_math.cpp
   )
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)
