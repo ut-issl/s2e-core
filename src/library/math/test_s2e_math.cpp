@@ -12,7 +12,7 @@
  */
 TEST(S2eMath, WrapTo2Pi) {
   const double accuracy = 1.0e-7;
-  
+
   double input_angle_rad = 0.0;
   double wrapped_angle_rad = libra::WrapTo2Pi(input_angle_rad);
   EXPECT_NEAR(0.0, wrapped_angle_rad, accuracy);
