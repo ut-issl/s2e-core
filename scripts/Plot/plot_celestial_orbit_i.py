@@ -95,6 +95,6 @@ plt.legend()
 
 # Data save
 if args.no_gui:
-  plt.savefig(read_file_tag + "_disturbance_torque.png") # save last figure only
+  plt.savefig(read_file_tag + "_celestial_orbit_i.png") # save last figure only
 else:
   plt.show()
