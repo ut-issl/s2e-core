@@ -62,27 +62,29 @@ for i in range(3):
 #
 # Plot
 #
+unit = ' nT'
+
 fig, axis = plt.subplots(3, 1, squeeze = False, tight_layout = True, sharex = True)
 axis[0, 0].plot(time[0], measured_magnetic_field_c_nT[0], marker=".", c="red",    label="MEASURED-X")
 axis[0, 0].plot(time[0], true_magnetic_field_b_nT[0], marker=".", c="orange",  label="TRUE-X")
 axis[0, 0].legend(loc = 'upper right')
-axis[0, 0].text(0.01, 0.99, "Error average:" + format(average[0], '+.2e'), verticalalignment = 'top', transform = axis[0, 0].transAxes)
-axis[0, 0].text(0.01, 0.89, "Standard deviation:" + format(standard_deviation[0], '+.2e'), verticalalignment = 'top', transform = axis[0, 0].transAxes)
+axis[0, 0].text(0.01, 0.99, "Error average:" + format(average[0], '+.2e') + unit, verticalalignment = 'top', transform = axis[0, 0].transAxes)
+axis[0, 0].text(0.01, 0.89, "Standard deviation:" + format(standard_deviation[0], '+.2e') + unit, verticalalignment = 'top', transform = axis[0, 0].transAxes)
 
 axis[1, 0].plot(time[0], measured_magnetic_field_c_nT[1], marker=".", c="green",  label="MEASURED-Y")
 axis[1, 0].plot(time[0], true_magnetic_field_b_nT[1], marker=".", c="yellow",  label="TRUE-Y")
 axis[1, 0].legend(loc = 'upper right')
-axis[1, 0].text(0.01, 0.99, "Error average:" + format(average[1], '+.2e'), verticalalignment = 'top', transform = axis[1, 0].transAxes)
-axis[1, 0].text(0.01, 0.89, "Standard deviation:" + format(standard_deviation[1], '+.2e'), verticalalignment = 'top', transform = axis[1, 0].transAxes)
+axis[1, 0].text(0.01, 0.99, "Error average:" + format(average[1], '+.2e') + unit, verticalalignment = 'top', transform = axis[1, 0].transAxes)
+axis[1, 0].text(0.01, 0.89, "Standard deviation:" + format(standard_deviation[1], '+.2e') + unit, verticalalignment = 'top', transform = axis[1, 0].transAxes)
 
 axis[2, 0].plot(time[0], measured_magnetic_field_c_nT[2], marker=".", c="blue",   label="MEASURED-Z")
 axis[2, 0].plot(time[0], true_magnetic_field_b_nT[2], marker=".", c="purple",  label="TRUE-Z")
 axis[2, 0].legend(loc = 'upper right')
-axis[2, 0].text(0.01, 0.99, "Error average:" + format(average[2], '+.2e'), verticalalignment = 'top', transform = axis[2, 0].transAxes)
-axis[2, 0].text(0.01, 0.89, "Standard deviation:" + format(standard_deviation[2], '+.2e'), verticalalignment = 'top', transform = axis[2, 0].transAxes)
+axis[2, 0].text(0.01, 0.99, "Error average:" + format(average[2], '+.2e') + unit, verticalalignment = 'top', transform = axis[2, 0].transAxes)
+axis[2, 0].text(0.01, 0.89, "Standard deviation:" + format(standard_deviation[2], '+.2e') + unit, verticalalignment = 'top', transform = axis[2, 0].transAxes)
 
 fig.suptitle("Magnetometer Magnetic field")
-fig.supylabel("Magnetic Field [nT]")
+fig.supylabel("Magnetic Field" + unit)
 fig.supxlabel("Time [s]")
 
 # Data save
