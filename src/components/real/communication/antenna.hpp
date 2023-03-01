@@ -135,7 +135,7 @@ class Antenna {
   // Rx info
   double rx_system_noise_temperature_K_;  //!< Receive system noise temperature [K]
   AntennaParameters rx_parameters_;       //!< RX parameters
-  double rx_gt_dBK_;                      //!< Receive G/T [dB/K]
+  double rx_gt_dBK_;                      //!< Receive G/T(Gain/Temperature) [dB/K]
 
   /**
    * @fn CalcAntennaGain
