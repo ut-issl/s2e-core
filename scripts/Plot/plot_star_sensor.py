@@ -9,14 +9,12 @@
 #
 # plots
 import matplotlib.pyplot as plt
-# quaternion
-import numpy as np
-import quaternion
 # local function
 from common import find_latest_log_tag
 from common import add_log_file_arguments
 from common import read_quaternion_from_csv
 from common import read_scalar_from_csv
+from common import calc_error_angle_from_quaternions
 # arguments
 import argparse
 
@@ -53,6 +51,11 @@ time = read_scalar_from_csv(read_file_name, 'elapsed_time[s]')
 measured_quaternion_i2c = read_quaternion_from_csv(read_file_name, 'stt1_measured_quaternion_i2c')
 true_quaternion_i2b = read_quaternion_from_csv(read_file_name, 'spacecraft_quaternion_i2b')
 
+# Statistics
+error_angle_rad = calc_error_angle_from_quaternions(measured_quaternion_i2c, true_quaternion_i2b)
+error_average = error_angle_rad.mean()
+standard_deviation = error_angle_rad.std()
+
 #
 # Plot
 #
@@ -77,6 +80,13 @@ axis[3, 0].legend(loc = 'upper right')
 fig.suptitle("Star Sensor Quaternion")
 fig.supylabel("Quaternion")
 fig.supxlabel("Time [s]")
+
+unit = 'rad'
+plt.figure(0)
+plt.plot(time[0], error_angle_rad, marker=".", c="red")
+plt.title("Error angle \n" + "Error average:" + format(error_average, '+.2e') + unit + "\n Standard deviation:" + format(standard_deviation, '+.2e') + unit)
+plt.xlabel("Time [s]")
+plt.ylabel("Angle [rad]")
 
 # Data save
 if args.no_gui:

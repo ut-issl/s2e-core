@@ -1,6 +1,7 @@
 import os
 import numpy as np
 from numpy.linalg import norm
+import quaternion
 import pandas
 import argparse
 
@@ -62,3 +63,14 @@ def add_stl_model(plot_axis, file_name, alpha=0.7, color='orange'):
   scale = 0.7 / sc_size_max
   plot_axis.add_collection3d(mpl_toolkits.mplot3d.art3d.Poly3DCollection(sc_mesh.vectors * scale, alpha=alpha, color=color))
 
+def calc_error_angle_from_quaternions(q1, q2):
+  # definition of input quaternion is (x, y, z, w)
+  np_q1 = quaternion.as_quat_array(np.transpose(q1[[3, 0, 1, 2], :]))
+  np_q2 = quaternion.as_quat_array(np.transpose(q2[[3, 0, 1, 2], :]))
+  error_np_quaternion = np_q2 * np_q1.conjugate()
+
+  error_angle_rad = np.zeros(shape=(len(error_np_quaternion), 1))
+  for i in range(len(error_np_quaternion)):
+    error_angle_rad[i] = error_np_quaternion[i].angle() # FIXME: error_np_quaternion.angle() didn't work...
+
+  return error_angle_rad
