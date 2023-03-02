@@ -34,6 +34,18 @@ def read_3d_vector_from_csv(read_file_name, header_name, unit):
                      csv_data[name_z].to_numpy()])
   return vector
 
+def read_quaternion_from_csv(read_file_name, header_name):
+  name_x = header_name + "_x"
+  name_y = header_name + "_y"
+  name_z = header_name + "_z"
+  name_w = header_name + "_w"
+  csv_data = pandas.read_csv(read_file_name, sep=',', usecols=[name_x, name_y, name_z, name_w])
+  quaternion = np.array([csv_data[name_x].to_numpy(), 
+                         csv_data[name_y].to_numpy(),
+                         csv_data[name_z].to_numpy(),
+                         csv_data[name_w].to_numpy()])
+  return quaternion
+
 def read_scalar_from_csv(read_file_name, header_name):
   csv_data = pandas.read_csv(read_file_name, sep=',', usecols=[header_name])
   vector = np.array([csv_data[header_name].to_numpy()])
