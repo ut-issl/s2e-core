@@ -49,6 +49,8 @@ time = read_scalar_from_csv(read_file_name, 'elapsed_time[s]')
 
 ordered_force_b_N = read_3d_vector_from_csv(read_file_name, 'ideal_force_generator_ordered_force_b', 'N')
 generated_force_b_N = read_3d_vector_from_csv(read_file_name, 'ideal_force_generator_generated_force_b', 'N')
+generated_force_i_N = read_3d_vector_from_csv(read_file_name, 'ideal_force_generator_generated_force_i', 'N')
+generated_force_rtn_N = read_3d_vector_from_csv(read_file_name, 'ideal_force_generator_generated_force_rtn', 'N')
 
 # Statistics
 # We assume that the component frame and the body frame is same
@@ -62,6 +64,25 @@ for i in range(3):
 #
 # Plot
 #
+
+plt.figure(0)
+plt.plot(time[0], generated_force_i_N[0], marker=".", c="red",    label="X")
+plt.plot(time[0], generated_force_i_N[1], marker=".", c="green",  label="Y")
+plt.plot(time[0], generated_force_i_N[2], marker=".", c="blue",   label="Z")
+plt.title("Generated Force @ Inertial frame")
+plt.xlabel("Time [s]")
+plt.ylabel("Force [N]")
+plt.legend()
+
+plt.figure(1)
+plt.plot(time[0], generated_force_rtn_N[0], marker=".", c="red",    label="X")
+plt.plot(time[0], generated_force_rtn_N[1], marker=".", c="green",  label="Y")
+plt.plot(time[0], generated_force_rtn_N[2], marker=".", c="blue",   label="Z")
+plt.title("Generated Force @ RTN frame")
+plt.xlabel("Time [s]")
+plt.ylabel("Force [N]")
+plt.legend()
+
 unit = ' N'
 
 fig, axis = plt.subplots(3, 1, squeeze = False, tight_layout = True, sharex = True)
