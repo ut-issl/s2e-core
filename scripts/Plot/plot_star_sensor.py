@@ -9,6 +9,9 @@
 #
 # plots
 import matplotlib.pyplot as plt
+# quaternion
+import numpy as np
+import quaternion
 # local function
 from common import find_latest_log_tag
 from common import add_log_file_arguments
