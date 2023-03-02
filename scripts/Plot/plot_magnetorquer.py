@@ -55,7 +55,6 @@ output_torque_b_Nm = read_3d_vector_from_csv(read_file_name, 'magnetorquer1_outp
 #
 # Plot
 #
-unit = ' m'
 fig, axis = plt.subplots(2, 1, squeeze = False, tight_layout = True, sharex = True)
 axis[0, 0].plot(time[0], output_magnetic_moment_b_Am2[0], marker=".", c="red",    label="X")
 axis[0, 0].plot(time[0], output_magnetic_moment_b_Am2[1], marker=".", c="green",  label="Y")
