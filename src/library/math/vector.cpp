@@ -35,19 +35,19 @@ Vector<3, double> GenerateOrthogonalUnitVector(const Vector<3, double>& v) {
     orthogonal_vector[0] = 0.0;
     orthogonal_vector[1] = v[2];
     orthogonal_vector[2] = -v[1];
-    orthogonal_vector = Normalize(orthogonal_vector);
+    orthogonal_vector = orthogonal_vector.CalcNormalizedVector();
     return (orthogonal_vector);
   } else if (v[1] * v[1] <= v[0] * v[0] && v[1] * v[1] <= v[2] * v[2]) {
     orthogonal_vector[0] = -v[2];
     orthogonal_vector[1] = 0.0;
     orthogonal_vector[2] = v[0];
-    orthogonal_vector = Normalize(orthogonal_vector);
+    orthogonal_vector = orthogonal_vector.CalcNormalizedVector();
     return (orthogonal_vector);
   } else {
     orthogonal_vector[0] = v[1];
     orthogonal_vector[1] = -v[0];
     orthogonal_vector[2] = 0.0;
-    orthogonal_vector = Normalize(orthogonal_vector);
+    orthogonal_vector = orthogonal_vector.CalcNormalizedVector();
     return (orthogonal_vector);
   }
 }

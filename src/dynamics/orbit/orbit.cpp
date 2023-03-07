@@ -6,12 +6,12 @@
 
 libra::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
   libra::Vector<3> lvlh_x = spacecraft_position_i_m_;  // x-axis in LVLH frame is position vector direction from geocenter to satellite
-  libra::Vector<3> lvlh_ex = Normalize(lvlh_x);
+  libra::Vector<3> lvlh_ex = lvlh_x.CalcNormalizedVector();
   libra::Vector<3> lvlh_z =
       OuterProduct(spacecraft_position_i_m_, spacecraft_velocity_i_m_s_);  // z-axis in LVLH frame is angular momentum vector direction of orbit
-  libra::Vector<3> lvlh_ez = Normalize(lvlh_z);
+  libra::Vector<3> lvlh_ez = lvlh_z.CalcNormalizedVector();
   libra::Vector<3> lvlh_y = OuterProduct(lvlh_z, lvlh_x);
-  libra::Vector<3> lvlh_ey = Normalize(lvlh_y);
+  libra::Vector<3> lvlh_ey = lvlh_y.CalcNormalizedVector();
 
   libra::Matrix<3, 3> dcm_i2lvlh;
   dcm_i2lvlh[0][0] = lvlh_ex[0];

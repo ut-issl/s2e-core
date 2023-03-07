@@ -43,8 +43,7 @@ void OrbitalElements::CalcOeFromPosVel(const double gravity_constant_m3_s2, cons
   semi_major_axis_m_ = gravity_constant_m3_s2 / (2.0 * gravity_constant_m3_s2 / r_m - v2_m2_s2);
 
   // inclination
-  libra::Vector<3> h_direction = h;
-  h_direction = Normalize(h_direction);
+  libra::Vector<3> h_direction = h.CalcNormalizedVector();
   inclination_rad_ = acos(h_direction[2]);
 
   // RAAN

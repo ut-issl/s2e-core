@@ -122,19 +122,22 @@ double Vector<N, T>::CalcNorm() const {
   return sqrt(temp);
 }
 
-template <size_t N>
-Vector<N, double>& Normalize(Vector<N, double>& v) {
-  double n = v.CalcNorm();
-  if (n == 0.0) {
-    return v;
-  }
+template <size_t N, typename T>
+Vector<N, double> Vector<N, T>::CalcNormalizedVector() const {
+  Vector<N, double> normalized;
 
-  n = 1.0 / n;
   for (size_t i = 0; i < N; ++i) {
-    v[i] *= n;
+    normalized[i] = (double)(this->vector_[i]);
   }
 
-  return v;
+  double n = normalized.CalcNorm();
+  if (n == 0.0) {
+    return normalized;
+  }
+
+  normalized /= n;
+
+  return normalized;
 }
 
 template <size_t N>

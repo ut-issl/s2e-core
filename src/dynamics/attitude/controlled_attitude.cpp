@@ -42,8 +42,8 @@ void ControlledAttitude::Initialize(void) {
       return;
     }
     // pointing direction check
-    Normalize(main_target_direction_b_);
-    Normalize(sub_target_direction_b_);
+    main_target_direction_b_ = main_target_direction_b_.CalcNormalizedVector();
+    sub_target_direction_b_ = sub_target_direction_b_.CalcNormalizedVector();
     double tmp = InnerProduct(main_target_direction_b_, sub_target_direction_b_);
     tmp = std::abs(tmp);
     if (tmp > cos(kMinDirectionAngle_rad)) {
@@ -86,7 +86,7 @@ libra::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode m
   } else if (mode == ORBIT_NORMAL_POINTING) {
     direction = OuterProduct(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
   }
-  Normalize(direction);
+  direction = direction.CalcNormalizedVector();
   return direction;
 }
 
@@ -107,9 +107,9 @@ libra::Matrix<3, 3> ControlledAttitude::CalcDcm(const libra::Vector<3> main_dire
   ex = main_direction;
   libra::Vector<3> tmp1 = OuterProduct(ex, sub_direction);
   libra::Vector<3> tmp2 = OuterProduct(tmp1, ex);
-  ey = Normalize(tmp2);
+  ey = tmp2.CalcNormalizedVector();
   libra::Vector<3> tmp3 = OuterProduct(ex, ey);
-  ez = Normalize(tmp3);
+  ez = tmp3.CalcNormalizedVector();
 
   // Generate DCM
   libra::Matrix<3, 3> dcm;

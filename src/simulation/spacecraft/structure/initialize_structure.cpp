@@ -97,7 +97,7 @@ std::vector<Surface> InitSurfaces(std::string file_name) {
     {
       cout << "Surface Warning! " << keyword << ": norm is larger than 1.0.";
       cout << "The vector is normalized.\n";
-      normal = Normalize(normal);
+      normal = normal.CalcNormalizedVector();
     }
 
     // Add a surface

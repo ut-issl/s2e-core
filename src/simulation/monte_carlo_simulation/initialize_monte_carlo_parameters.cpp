@@ -205,7 +205,7 @@ void InitializedMonteCarloParameters::CalcSphericalNormalNormal(libra::Vector<3>
 
   // An unit vector perpendicular with the mean vector
   // In case of the mean vector is parallel with X or Y axis, selecting the axis depend on the norm of outer product
-  libra::Vector<3> normal_unit_vec = op_x.CalcNorm() > op_y.CalcNorm() ? Normalize(op_x) : Normalize(op_y);
+  libra::Vector<3> normal_unit_vec = op_x.CalcNorm() > op_y.CalcNorm() ? op_x = op_x.CalcNormalizedVector() : op_y = op_y.CalcNormalizedVector();
 
   double rotation_angle_of_normal_unit_vec = InitializedMonteCarloParameters::Generate1dUniform(0.0, libra::tau);
   libra::Quaternion rotation_of_normal_unit_vec(mean_vec_dir,

@@ -56,7 +56,7 @@ bool GroundStation::CalcIsVisible(const libra::Vector<3> spacecraft_position_ece
   libra::Quaternion q_ecef_to_ltc = geodetic_position_.GetQuaternionXcxfToLtc();
 
   libra::Vector<3> sc_pos_ltc = q_ecef_to_ltc.FrameConversion(spacecraft_position_ecef_m - position_ecef_m_);  // Satellite position in LTC frame [m]
-  Normalize(sc_pos_ltc);
+  sc_pos_ltc = sc_pos_ltc.CalcNormalizedVector();
   libra::Vector<3> dir_gs_to_zenith = libra::Vector<3>(0);
   dir_gs_to_zenith[2] = 1;
 

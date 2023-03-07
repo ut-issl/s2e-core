@@ -61,6 +61,15 @@ class Vector {
   double CalcNorm() const;
 
   /**
+   * @fn CalcNormalizedVector
+   * @brief Normalize the target vector
+   * @note Warning: v is overwritten.
+   * @param [in/out] v: Target vector
+   * @return Normalized vector
+   */
+  Vector<N, double> CalcNormalizedVector() const;
+
+  /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 1D-array using `[]`
    * @return Pointer to the data storing array
@@ -198,16 +207,6 @@ const T InnerProduct(const Vector<N, T>& lhs, const Vector<N, T>& rhs);
  */
 template <typename T>
 const Vector<3, T> OuterProduct(const Vector<3, T>& lhs, const Vector<3, T>& rhs);
-
-/**
- * @fn Normalize
- * @brief Normalize the target vector
- * @note Warning: v is overwritten.
- * @param [in/out] v: Target vector
- * @return Normalized vector
- */
-template <size_t N>
-Vector<N, double>& Normalize(Vector<N, double>& v);
 
 /**
  * @fn CalcAngleTwoVectors_rad

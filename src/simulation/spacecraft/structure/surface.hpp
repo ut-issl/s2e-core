@@ -70,10 +70,7 @@ class Surface {
    * @brief Set normal vector of the surface in body frame
    * @param[in] normal_b: Normal vector of the surface in body frame
    */
-  inline void SetNormal_b(const libra::Vector<3> normal_b) {
-    normal_b_ = normal_b;
-    normal_b_ = Normalize(normal_b_);
-  }
+  inline void SetNormal_b(const libra::Vector<3> normal_b) { normal_b_ = normal_b.CalcNormalizedVector(); }
   /**
    * @fn SetArea_m2
    * @brief Set area of the surface

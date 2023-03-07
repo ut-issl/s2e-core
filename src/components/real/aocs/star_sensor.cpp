@@ -198,10 +198,9 @@ std::string StarSensor::GetLogValue() const {
 }
 
 double StarSensor::CalAngleVector_rad(const Vector<3>& vector1, const Vector<3>& vector2) {
-  libra::Vector<3> vect1_normal(vector1);
-  Normalize(vect1_normal);  // Normalize Vector1
-  libra::Vector<3> vect2_normal(vector2);
-  Normalize(vect2_normal);                                     // Normalize Vector2
+  libra::Vector<3> vect1_normal = vector1.CalcNormalizedVector();
+  libra::Vector<3> vect2_normal = vector2.CalcNormalizedVector();
+
   double cosTheta = InnerProduct(vect1_normal, vect2_normal);  // Calc cos value
   double theta_rad = acos(cosTheta);
   return theta_rad;
