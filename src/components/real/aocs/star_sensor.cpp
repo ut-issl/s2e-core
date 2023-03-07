@@ -150,7 +150,7 @@ int StarSensor::EarthJudgement(const libra::Vector<3>& earth_b) {
   libra::Quaternion q_c2b = quaternion_b2c_.Conjugate();
   libra::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double earth_size_rad = atan2(environment::earth_equatorial_radius_m,
-                                CalcNorm(earth_b));                       // angles between sat<->earth_center & sat<->earth_edge
+                                earth_b.CalcNorm());                      // angles between sat<->earth_center & sat<->earth_edge
   double earth_center_angle_rad = CalAngleVector_rad(earth_b, sight_b);   // angles between sat<->earth_center & sat_sight
   double earth_edge_angle_rad = earth_center_angle_rad - earth_size_rad;  // angles between sat<->earth_edge & sat_sight
   if (earth_edge_angle_rad < earth_forbidden_angle_rad_)
@@ -170,7 +170,7 @@ int StarSensor::MoonJudgement(const libra::Vector<3>& moon_b) {
 }
 
 int StarSensor::CaptureRateJudgement(const libra::Vector<3>& omega_b_rad_s) {
-  double omega_norm = CalcNorm(omega_b_rad_s);
+  double omega_norm = omega_b_rad_s.CalcNorm();
   if (omega_norm > capture_rate_limit_rad_s_)
     return 1;
   else

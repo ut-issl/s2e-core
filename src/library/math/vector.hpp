@@ -56,6 +56,14 @@ class Vector {
   void Print(char delimiter = '\t', std::ostream& stream = std::cout);
 
   /**
+   * @fn CalcNorm
+   * @brief Calculate norm of vector
+   * @param [in] v: Target vector
+   * @return Norm of the vector
+   */
+  double CalcNorm() const;
+
+  /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 1D-array using `[]`
    * @return Pointer to the data storing array
@@ -193,15 +201,6 @@ const T InnerProduct(const Vector<N, T>& lhs, const Vector<N, T>& rhs);
  */
 template <typename T>
 const Vector<3, T> OuterProduct(const Vector<3, T>& lhs, const Vector<3, T>& rhs);
-
-/**
- * @fn CalcNorm
- * @brief Calculate norm of vector
- * @param [in] v: Target vector
- * @return Norm of the vector
- */
-template <size_t N>
-double CalcNorm(const Vector<N, double>& v);
 
 /**
  * @fn Normalize

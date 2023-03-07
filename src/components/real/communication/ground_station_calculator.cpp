@@ -69,7 +69,9 @@ double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Ante
   // Free space path loss
   Vector<3> sc_pos_i = dynamics.GetOrbit().GetPosition_i_m();
   Vector<3> gs_pos_i = ground_station.GetPosition_i_m();
-  double dist_sc_gs_km = CalcNorm(sc_pos_i - gs_pos_i) / 1000.0;
+  Vector<3> pos_gs2sc_i = sc_pos_i - gs_pos_i;
+
+  double dist_sc_gs_km = pos_gs2sc_i.CalcNorm() / 1000.0;
   double loss_space_dB = -20.0 * log10(4.0 * libra::pi * dist_sc_gs_km / (300.0 / spacecraft_tx_antenna.GetFrequency_MHz() / 1000.0));
 
   // GS direction on SC TX antenna frame

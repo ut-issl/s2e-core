@@ -195,7 +195,7 @@ void InitializedMonteCarloParameters::GenerateSphericalNormalUniformUniform() {
 void InitializedMonteCarloParameters::CalcSphericalNormalNormal(libra::Vector<3>& destination, const libra::Vector<3>& mean_vec) {
   // r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
   libra::Vector<3> mean_vec_dir;
-  mean_vec_dir = 1.0 / CalcNorm(mean_vec) * mean_vec;  // Unit vector of mean vector direction
+  mean_vec_dir = 1.0 / mean_vec.CalcNorm() * mean_vec;  // Unit vector of mean vector direction
 
   libra::Vector<3> x_axis(0.0), y_axis(0.0);
   x_axis[0] = 1.0;
@@ -205,7 +205,7 @@ void InitializedMonteCarloParameters::CalcSphericalNormalNormal(libra::Vector<3>
 
   // An unit vector perpendicular with the mean vector
   // In case of the mean vector is parallel with X or Y axis, selecting the axis depend on the norm of outer product
-  libra::Vector<3> normal_unit_vec = CalcNorm(op_x) > CalcNorm(op_y) ? Normalize(op_x) : Normalize(op_y);
+  libra::Vector<3> normal_unit_vec = op_x.CalcNorm() > op_y.CalcNorm() ? Normalize(op_x) : Normalize(op_y);
 
   double rotation_angle_of_normal_unit_vec = InitializedMonteCarloParameters::Generate1dUniform(0.0, libra::tau);
   libra::Quaternion rotation_of_normal_unit_vec(mean_vec_dir,
@@ -216,7 +216,7 @@ void InitializedMonteCarloParameters::CalcSphericalNormalNormal(libra::Vector<3>
   libra::Quaternion rotation_of_mean_vec(rotation_axis, -rotation_angle_of_mean_vec);  // Use opposite sign to rotate the vector (not the frame)
   libra::Vector<3> ret_vec = rotation_of_mean_vec.FrameConversion(mean_vec_dir);       // Complete calculation of the direction
 
-  ret_vec = InitializedMonteCarloParameters::Generate1dNormal(CalcNorm(mean_vec), sigma_or_max_[0]) * ret_vec;  // multiply norm
+  ret_vec = InitializedMonteCarloParameters::Generate1dNormal(mean_vec.CalcNorm(), sigma_or_max_[0]) * ret_vec;  // multiply norm
 
   for (int i = 0; i < 3; i++) {
     destination[i] = ret_vec[i];

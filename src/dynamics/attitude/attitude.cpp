@@ -51,7 +51,7 @@ void Attitude::CalcAngularMomentum(void) {
   angular_momentum_total_b_Nms_ = angular_momentum_reaction_wheel_b_Nms_ + angular_momentum_spacecraft_b_Nms_;
   libra::Quaternion q_b2i = quaternion_i2b_.Conjugate();
   angular_momentum_total_i_Nms_ = q_b2i.FrameConversion(angular_momentum_total_b_Nms_);
-  angular_momentum_total_Nms_ = CalcNorm(angular_momentum_total_i_Nms_);
+  angular_momentum_total_Nms_ = angular_momentum_total_i_Nms_.CalcNorm();
 
   kinetic_energy_J_ = 0.5 * libra::InnerProduct(angular_momentum_spacecraft_b_Nms_, angular_velocity_b_rad_s_);
 }

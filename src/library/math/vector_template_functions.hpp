@@ -113,18 +113,18 @@ const Vector<3, T> OuterProduct(const Vector<3, T>& lhs, const Vector<3, T>& rhs
   return temp;
 }
 
-template <size_t N>
-double CalcNorm(const Vector<N, double>& v) {
+template <size_t N, typename T>
+double Vector<N, T>::CalcNorm() const {
   double temp = 0.0;
   for (size_t i = 0; i < N; ++i) {
-    temp += pow(v[i], 2.0);
+    temp += pow((double)vector_[i], 2.0);
   }
   return sqrt(temp);
 }
 
 template <size_t N>
 Vector<N, double>& Normalize(Vector<N, double>& v) {
-  double n = CalcNorm(v);
+  double n = v.CalcNorm();
   if (n == 0.0) {
     return v;
   }
@@ -139,7 +139,7 @@ Vector<N, double>& Normalize(Vector<N, double>& v) {
 
 template <size_t N>
 double CalcAngleTwoVectors_rad(const Vector<N, double>& v1, const Vector<N, double>& v2) {
-  double cos = InnerProduct(v1, v2) / (CalcNorm(v1) * CalcNorm(v2));
+  double cos = InnerProduct(v1, v2) / (v1.CalcNorm() * v2.CalcNorm());
   return acos(cos);
 }
 

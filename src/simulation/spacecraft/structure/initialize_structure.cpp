@@ -93,7 +93,7 @@ std::vector<Surface> InitSurfaces(std::string file_name) {
 
     keyword = "normal_vector" + idx + "_b";
     conf.ReadVector(section, keyword.c_str(), normal);
-    if (CalcNorm(normal) > 1.0 + MIN_VAL)  // Fixme: magic word
+    if (normal.CalcNorm() > 1.0 + MIN_VAL)  // Fixme: magic word
     {
       cout << "Surface Warning! " << keyword << ": norm is larger than 1.0.";
       cout << "The vector is normalized.\n";

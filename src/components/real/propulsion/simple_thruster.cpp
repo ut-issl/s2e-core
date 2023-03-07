@@ -87,7 +87,7 @@ std::string SimpleThruster::GetLogValue() const {
 
   str_tmp += WriteVector(output_thrust_b_N_);
   str_tmp += WriteVector(output_torque_b_Nm_);
-  str_tmp += WriteScalar(CalcNorm(output_thrust_b_N_));
+  str_tmp += WriteScalar(output_thrust_b_N_.CalcNorm());
 
   return str_tmp;
 }

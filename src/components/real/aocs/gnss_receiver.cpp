@@ -121,7 +121,7 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra:
     // compute direction from sat to gnss in body-fixed frame
     gnss_sat_pos_i = gnss_satellites_->GetSatellitePositionEci(i);
     antenna_to_satellite_i_m = gnss_sat_pos_i - ant_pos_i;
-    double normalizer = 1 / CalcNorm(antenna_to_satellite_i_m);
+    double normalizer = 1 / antenna_to_satellite_i_m.CalcNorm();
     ant2gnss_i_n = normalizer * antenna_to_satellite_i_m;
 
     // check gnss sats are visible from antenna
@@ -132,7 +132,7 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra:
       is_visible_ant2gnss = 1;
     else {
       Vector<3> tmp = ant_pos_i + InnerProduct(-ant_pos_i, ant2gnss_i_n) * antenna_to_satellite_i_m;
-      if (CalcNorm(tmp) < Re)
+      if (tmp.CalcNorm() < Re)
         // There is earth between antenna and gnss
         is_visible_ant2gnss = 0;
       else
@@ -160,7 +160,7 @@ void GnssReceiver::SetGnssInfo(libra::Vector<3> antenna_to_satellite_i_m, libra:
   ant2gnss_b = quaternion_i2b.FrameConversion(antenna_to_satellite_i_m);
   ant2gnss_c = quaternion_b2c_.FrameConversion(ant2gnss_b);
 
-  double dist = CalcNorm(ant2gnss_c);
+  double dist = ant2gnss_c.CalcNorm();
   double lon = AcTan(ant2gnss_c[1], ant2gnss_c[0]);
   double lat = AcTan(ant2gnss_c[2], sqrt(pow(ant2gnss_c[0], 2.0) + pow(ant2gnss_c[1], 2.0)));
 
