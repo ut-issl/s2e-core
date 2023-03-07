@@ -69,6 +69,13 @@ class Matrix {
   void Print(char delimiter = '\t', std::ostream& stream = std::cout);
 
   /**
+   * @fn Transpose
+   * @brief Calculate and return transposed matrix
+   * @return Result of transposed matrix
+   */
+  const Matrix<C, R, T> Transpose() const;
+
+  /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 2D-array using `[]`
    * @return Pointer to the data storing array
@@ -200,15 +207,6 @@ const Matrix<R, C, T> operator*(const T& lhs, const Matrix<R, C, T>& rhs);
  */
 template <size_t R, size_t C1, size_t C2, typename T>
 const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs, const Matrix<C1, C2, T>& rhs);
-
-/**
- * @fn Transpose
- * @brief Calculate and return transposed matrix
- * @param [in] m: Target matrix
- * @return Result of transposed matrix
- */
-template <size_t R, size_t C, typename T>
-const Matrix<C, R, T> Transpose(const Matrix<R, C, T>& m);
 
 /**
  * @fn Unitalize

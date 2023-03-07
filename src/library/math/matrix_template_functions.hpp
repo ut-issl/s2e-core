@@ -134,11 +134,11 @@ const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs, const Matrix<C1, C
 }
 
 template <size_t R, size_t C, typename T>
-const Matrix<C, R, T> Transpose(const Matrix<R, C, T>& m) {
+const Matrix<C, R, T> Matrix<R, C, T>::Transpose() const {
   Matrix<C, R, T> temp;
   for (size_t i = 0; i < R; ++i) {
     for (size_t j = 0; j < C; ++j) {
-      temp[j][i] = m[i][j];
+      temp[j][i] = matrix_[i][j];
     }
   }
   return temp;

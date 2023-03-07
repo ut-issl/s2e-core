@@ -79,7 +79,7 @@ void GeoPotential::Update(const LocalEnvironment &local_environment, const Dynam
 #endif
 
   libra::Matrix<3, 3> trans_eci2ecef_ = local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf();
-  libra::Matrix<3, 3> trans_ecef2eci = Transpose(trans_eci2ecef_);
+  libra::Matrix<3, 3> trans_ecef2eci = trans_eci2ecef_.Transpose();
   acceleration_i_m_s2_ = trans_ecef2eci * acceleration_ecef_m_s2_;
 }
 
