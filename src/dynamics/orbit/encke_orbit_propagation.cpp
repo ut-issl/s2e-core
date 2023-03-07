@@ -85,7 +85,7 @@ void EnckeOrbitPropagation::DerivativeFunction(double t, const libra::Vector<6>&
 // Private Functions
 void EnckeOrbitPropagation::Initialize(double current_time_jd, libra::Vector<3> reference_position_i_m, libra::Vector<3> reference_velocity_i_m_s) {
   // General
-  FillUp(spacecraft_acceleration_i_m_s2_, 0.0);
+  spacecraft_acceleration_i_m_s2_.FillUp(0.0);
 
   // reference orbit
   reference_position_i_m_ = reference_position_i_m;
@@ -94,8 +94,8 @@ void EnckeOrbitPropagation::Initialize(double current_time_jd, libra::Vector<3> 
   reference_kepler_orbit = KeplerOrbit(gravity_constant_m3_s2_, oe_ref);
 
   // difference orbit
-  FillUp(difference_position_i_m_, 0.0);
-  FillUp(difference_velocity_i_m_s_, 0.0);
+  difference_position_i_m_.FillUp(0.0);
+  difference_velocity_i_m_s_.FillUp(0.0);
 
   libra::Vector<6> zero(0.0f);
   Setup(0.0, zero);

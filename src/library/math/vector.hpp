@@ -39,6 +39,14 @@ class Vector {
   inline size_t GetLength() const { return N; }
 
   /**
+   * @fn FillUp
+   * @brief Fill up all elements with same value
+   * @param [in] v: Target vector
+   * @param [in] n: Scalar value to fill up
+   */
+  void FillUp(const T& n);
+
+  /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 1D-array using `[]`
    * @return Pointer to the data storing array
@@ -126,15 +134,6 @@ class Vector {
  private:
   T vector_[N];  //!< Array to store elements
 };
-
-/**
- * @fn FillUp
- * @brief Fill up all elements with same value
- * @param [in] v: Target vector
- * @param [in] n: Scalar value to fill up
- */
-template <size_t N, typename T>
-void FillUp(Vector<N, T>& v, const T& n);
 
 /**
  * @fn Print

@@ -54,9 +54,9 @@ Vector<N, T> Vector<N, T>::operator-() const {
 }
 
 template <size_t N, typename T>
-void FillUp(Vector<N, T>& v, const T& n) {
+void Vector<N, T>::FillUp(const T& n) {
   for (size_t i = 0; i < N; ++i) {
-    v[i] = n;
+    vector_[i] = n;
   }
 }
 

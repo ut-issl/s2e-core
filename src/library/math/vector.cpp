@@ -10,7 +10,7 @@
 namespace libra {
 Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& orthogonal) {
   Vector<3, double> polar;  // vector on the polar coordinate
-  FillUp(polar, 0.0);
+  polar.FillUp(0.0);
   polar[0] = CalcNorm(orthogonal);
   // Skip when zero vector
   if (polar[0] == 0.0) {
