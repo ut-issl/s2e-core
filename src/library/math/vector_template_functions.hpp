@@ -61,10 +61,10 @@ void Vector<N, T>::FillUp(const T& n) {
 }
 
 template <size_t N, typename T>
-void Print(const Vector<N, T>& v, char delimiter, std::ostream& stream) {
-  stream << v[0];
+void Vector<N, T>::Print(char delimiter, std::ostream& stream) {
+  stream << vector_[0];
   for (size_t i = 1; i < N; ++i) {
-    stream << delimiter << v[i];
+    stream << delimiter << vector_[i];
   }
 }
 

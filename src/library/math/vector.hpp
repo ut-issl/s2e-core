@@ -47,6 +47,15 @@ class Vector {
   void FillUp(const T& n);
 
   /**
+   * @fn Print
+   * @brief Generate all elements to outstream
+   * @param [in] v: Target vector
+   * @param [in] delimiter: Delimiter (Default: tab)
+   * @param [out] stream: Output target(Default: cout)
+   */
+  void Print(char delimiter = '\t', std::ostream& stream = std::cout);
+
+  /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 1D-array using `[]`
    * @return Pointer to the data storing array
@@ -134,16 +143,6 @@ class Vector {
  private:
   T vector_[N];  //!< Array to store elements
 };
-
-/**
- * @fn Print
- * @brief Generate all elements to outstream
- * @param [in] v: Target vector
- * @param [in] delimiter: Delimiter (Default: tab)
- * @param [out] stream: Output target(Default: cout)
- */
-template <size_t N, typename T>
-void Print(const Vector<N, T>& v, char delimiter = '\t', std::ostream& stream = std::cout);
 
 /**
  * @fn operator +
