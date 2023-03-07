@@ -47,6 +47,13 @@ class Matrix {
   inline size_t GetColumnLength() const { return C; }
 
   /**
+   * @fn FillUp
+   * @brief Fill up all elements with same value
+   * @param [in] t: Scalar value to fill up
+   */
+  void FillUp(const T& t);
+
+  /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 2D-array using `[]`
    * @return Pointer to the data storing array
@@ -138,15 +145,6 @@ class Matrix {
    */
   inline bool IsValidRange(size_t row, size_t column) { return (row < R && column < C); }
 };
-
-/**
- * @fn FillUp
- * @brief Fill up all elements with same value
- * @param [in] m: Target matrix
- * @param [in] t: Scalar value to fill up
- */
-template <size_t R, size_t C, typename T>
-void FillUp(Matrix<R, C, T>& m, const T& t);
 
 /**
  * @fn CalcTrace

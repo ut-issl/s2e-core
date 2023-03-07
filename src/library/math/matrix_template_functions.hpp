@@ -56,10 +56,10 @@ const Matrix<R, C, T>& Matrix<R, C, T>::operator-=(const Matrix<R, C, T>& m) {
 }
 
 template <size_t R, size_t C, typename T>
-void FillUp(Matrix<R, C, T>& m, const T& t) {
+void Matrix<R, C, T>::FillUp(const T& t) {
   for (size_t i = 0; i < R; ++i) {
     for (size_t j = 0; j < C; ++j) {
-      m[i][j] = t;
+      matrix_[i][j] = t;
     }
   }
 }
@@ -143,7 +143,7 @@ const Matrix<C, R, T> Transpose(const Matrix<R, C, T>& m) {
 
 template <size_t R, typename T>
 Matrix<R, R, T>& Unitalize(Matrix<R, R, T>& m) {
-  FillUp(m, 0.0);
+  m.FillUp(0.0);
   for (size_t i = 0; i < R; ++i) {
     m[i][i] = 1.0;
   }
