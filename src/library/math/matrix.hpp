@@ -54,6 +54,13 @@ class Matrix {
   void FillUp(const T& t);
 
   /**
+   * @fn CalcTrace
+   * @brief Calculate and return the trace of matrix
+   * @return Trace of the matrix
+   */
+  T CalcTrace() const;
+
+  /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 2D-array using `[]`
    * @return Pointer to the data storing array
@@ -145,15 +152,6 @@ class Matrix {
    */
   inline bool IsValidRange(size_t row, size_t column) { return (row < R && column < C); }
 };
-
-/**
- * @fn CalcTrace
- * @brief Calculate and return the trace of matrix
- * @param [in] m: Target matrix
- * @return Trace of the matrix
- */
-template <size_t N, typename T>
-T CalcTrace(const Matrix<N, N, T>& m);
 
 /**
  * @fn print

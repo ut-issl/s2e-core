@@ -64,11 +64,14 @@ void Matrix<R, C, T>::FillUp(const T& t) {
   }
 }
 
-template <size_t N, typename T>
-T CalcTrace(const Matrix<N, N, T>& m) {
+template <size_t R, size_t C, typename T>
+T Matrix<R, C, T>::CalcTrace() const {
   T trace = 0.0;
-  for (size_t i = 0; i < N; ++i) {
-    trace += m[i][i];
+
+  if (R != C) return trace;
+
+  for (size_t i = 0; i < R; ++i) {
+    trace += matrix_[i][i];
   }
   return trace;
 }
