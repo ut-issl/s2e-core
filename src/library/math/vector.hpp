@@ -33,7 +33,7 @@ class Vector {
   explicit Vector(const T& n);
 
   /**
-   * @fn dim
+   * @fn GetLength
    * @brief Return number of elements
    */
   inline size_t GetLength() const { return N; }
@@ -41,7 +41,6 @@ class Vector {
   /**
    * @fn FillUp
    * @brief Fill up all elements with same value
-   * @param [in] v: Target vector
    * @param [in] n: Scalar value to fill up
    */
   void FillUp(const T& n);
@@ -49,7 +48,6 @@ class Vector {
   /**
    * @fn Print
    * @brief Generate all elements to outstream
-   * @param [in] v: Target vector
    * @param [in] delimiter: Delimiter (Default: tab)
    * @param [out] stream: Output target(Default: cout)
    */
@@ -58,7 +56,6 @@ class Vector {
   /**
    * @fn CalcNorm
    * @brief Calculate norm of vector
-   * @param [in] v: Target vector
    * @return Norm of the vector
    */
   double CalcNorm() const;
