@@ -145,8 +145,8 @@ const Matrix<C, R, T> Matrix<R, C, T>::Transpose() const {
 }
 
 template <size_t R, typename T>
-Matrix<R, R, T>& Unitalize(Matrix<R, R, T>& m) {
-  m.FillUp(0.0);
+Matrix<R, R, T> MakeIdentityMatrix() {
+  Matrix<R, R, T> m(0.0);
   for (size_t i = 0; i < R; ++i) {
     m[i][i] = 1.0;
   }
@@ -154,16 +154,9 @@ Matrix<R, R, T>& Unitalize(Matrix<R, R, T>& m) {
 }
 
 template <size_t R, typename T>
-Matrix<R, R, T> MakeIdentityMatrix() {
-  Matrix<R, R, T> m;
-  Unitalize(m);
-  return m;
-}
-
-template <size_t R, typename T>
 Matrix<R, R, T> MakeRotationMatrixX(const double& theta_rad) {
-  Matrix<R, R, T> m;
-  Unitalize(m);
+  Matrix<R, R, T> m = MakeIdentityMatrix<R, T>();
+
   m[1][1] = cos(theta_rad);
   m[1][2] = sin(theta_rad);
   m[2][1] = -sin(theta_rad);
@@ -173,8 +166,8 @@ Matrix<R, R, T> MakeRotationMatrixX(const double& theta_rad) {
 
 template <size_t R, typename T>
 Matrix<R, R, T> MakeRotationMatrixY(const double& theta_rad) {
-  Matrix<R, R, T> m;
-  Unitalize(m);
+  Matrix<R, R, T> m = MakeIdentityMatrix<R, T>();
+
   m[0][0] = cos(theta_rad);
   m[0][2] = -sin(theta_rad);
   m[2][0] = sin(theta_rad);
@@ -184,8 +177,8 @@ Matrix<R, R, T> MakeRotationMatrixY(const double& theta_rad) {
 
 template <size_t R, typename T>
 Matrix<R, R, T> MakeRotationMatrixZ(const double& theta_rad) {
-  Matrix<R, R, T> m;
-  Unitalize(m);
+  Matrix<R, R, T> m = MakeIdentityMatrix<R, T>();
+
   m[0][0] = cos(theta_rad);
   m[0][1] = sin(theta_rad);
   m[1][0] = -sin(theta_rad);

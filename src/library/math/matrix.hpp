@@ -209,16 +209,6 @@ template <size_t R, size_t C1, size_t C2, typename T>
 const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs, const Matrix<C1, C2, T>& rhs);
 
 /**
- * @fn Unitalize
- * @brief Rewrite the input matrix as the identity matrix
- * @note Warning: m is overwritten.
- * @param [in/out] m: Target matrix
- * @return The identity matrix
- */
-template <size_t R, typename T>
-Matrix<R, R, T>& Unitalize(Matrix<R, R, T>& m);
-
-/**
  * @fn MakeIdentityMatrix
  * @brief Generate identity matrix
  * @return The identity matrix

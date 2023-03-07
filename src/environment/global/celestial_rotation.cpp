@@ -20,7 +20,7 @@
 CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std::string center_body_name) {
   planet_name_ = "Anonymous";
   rotation_mode_ = Idle;
-  Unitalize(dcm_j2000_to_xcxf_);
+  dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
   dcm_teme_to_xcxf_ = dcm_j2000_to_xcxf_;
   if (center_body_name == "EARTH") {
     InitCelestialRotationAsEarth(rotation_mode, center_body_name);
@@ -115,12 +115,12 @@ void CelestialRotation::InitCelestialRotationAsEarth(const RotationMode rotation
     } else {
       // If the rotation mode is neither Simple nor Full, disable the rotation calculation and make the DCM a unit matrix
       rotation_mode_ = Idle;
-      Unitalize(dcm_j2000_to_xcxf_);
+      dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
     }
   } else {
     // If the center object is not the Earth, disable the Earth's rotation calculation and make the DCM a unit matrix
     rotation_mode_ = Idle;
-    Unitalize(dcm_j2000_to_xcxf_);
+    dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
   }
 }
 
