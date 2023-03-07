@@ -61,6 +61,14 @@ class Matrix {
   T CalcTrace() const;
 
   /**
+   * @fn Print
+   * @brief Generate all elements to outstream
+   * @param [in] delimiter: Delimiter (Default: tab)
+   * @param [out] stream: Output target(Default: cout)
+   */
+  void Print(char delimiter = '\t', std::ostream& stream = std::cout);
+
+  /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 2D-array using `[]`
    * @return Pointer to the data storing array
@@ -152,16 +160,6 @@ class Matrix {
    */
   inline bool IsValidRange(size_t row, size_t column) { return (row < R && column < C); }
 };
-
-/**
- * @fn print
- * @brief Generate all elements to outstream
- * @param [in] m: Target matrix
- * @param [in] delimiter: Delimiter (Default: tab)
- * @param [out] stream: Output target(Default: cout)
- */
-template <size_t R, size_t C, typename T>
-void Print(const Matrix<R, C, T>& m, char delimiter = '\t', std::ostream& stream = std::cout);
 
 /**
  * @fn operator +
