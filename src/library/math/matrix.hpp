@@ -57,6 +57,7 @@ class Matrix {
    * @fn CalcTrace
    * @brief Calculate and return the trace of matrix
    * @return Trace of the matrix
+   * @note When the matrix is not a square matrix, 0.0 is returned
    */
   T CalcTrace() const;
 
