@@ -67,7 +67,7 @@ class Matrix {
    * @param [in] delimiter: Delimiter (Default: tab)
    * @param [out] stream: Output target(Default: cout)
    */
-  void Print(char delimiter = '\t', std::ostream& stream = std::cout);
+  void Print(char delimiter = '\t', std::ostream& stream = std::cout) const;
 
   /**
    * @fn Transpose

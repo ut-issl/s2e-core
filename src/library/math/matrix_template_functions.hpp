@@ -77,7 +77,7 @@ T Matrix<R, C, T>::CalcTrace() const {
 }
 
 template <size_t R, size_t C, typename T>
-void Matrix<R, C, T>::Print(char delimiter, std::ostream& stream) {
+void Matrix<R, C, T>::Print(char delimiter, std::ostream& stream) const {
   for (size_t i = 0; i < R; ++i) {
     stream << matrix_[i][0];
     for (size_t j = 1; j < C; ++j) {
