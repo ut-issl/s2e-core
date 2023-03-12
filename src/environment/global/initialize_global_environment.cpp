@@ -100,14 +100,14 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
   RotationMode rotation_mode;
   std::string rotation_mode_temp = ini_file.ReadString(section, "rotation_mode");
   if (rotation_mode_temp == "Idle") {
-    rotation_mode = Idle;
+    rotation_mode = RotationMode::kIdle;
   } else if (rotation_mode_temp == "Simple") {
-    rotation_mode = Simple;
+    rotation_mode = RotationMode::kSimple;
   } else if (rotation_mode_temp == "Full") {
-    rotation_mode = Full;
+    rotation_mode = RotationMode::kFull;
   } else  // if rotation_mode is neither Idle, Simple, nor Full, set rotation_mode to Idle
   {
-    rotation_mode = Idle;
+    rotation_mode = RotationMode::kIdle;
   }
 
   CelestialInformation* celestial_info;

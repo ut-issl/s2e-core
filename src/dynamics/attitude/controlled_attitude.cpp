@@ -30,9 +30,9 @@ ControlledAttitude::~ControlledAttitude() {}
 
 // Main function
 void ControlledAttitude::Initialize(void) {
-  if (main_mode_ >= NO_CTRL) is_calc_enabled_ = false;
-  if (sub_mode_ >= NO_CTRL) is_calc_enabled_ = false;
-  if (main_mode_ == INERTIAL_STABILIZE) {
+  if (main_mode_ >= AttitudeControlMode::kNoControl) is_calc_enabled_ = false;
+  if (sub_mode_ >= AttitudeControlMode::kNoControl) is_calc_enabled_ = false;
+  if (main_mode_ == AttitudeControlMode::kInertialStabilize) {
   } else  // Pointing control
   {
     // sub mode check
@@ -59,7 +59,7 @@ void ControlledAttitude::Propagate(const double end_time_s) {
   libra::Vector<3> main_direction_i, sub_direction_i;
   if (!is_calc_enabled_) return;
 
-  if (main_mode_ == INERTIAL_STABILIZE) {
+  if (main_mode_ == AttitudeControlMode::kInertialStabilize) {
     // quaternion_i2b_ = quaternion_i2t_;
     return;
   }
@@ -77,13 +77,13 @@ void ControlledAttitude::Propagate(const double end_time_s) {
 
 libra::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mode) {
   libra::Vector<3> direction;
-  if (mode == SUN_POINTING) {
+  if (mode == AttitudeControlMode::kSunPointing) {
     direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
-  } else if (mode == EARTH_CENTER_POINTING) {
+  } else if (mode == AttitudeControlMode::kEarthCenterPointing) {
     direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("EARTH");
-  } else if (mode == VELOCITY_DIRECTION_POINTING) {
+  } else if (mode == AttitudeControlMode::kVelocityDirectionPointing) {
     direction = orbit_->GetVelocity_i_m_s();
-  } else if (mode == ORBIT_NORMAL_POINTING) {
+  } else if (mode == AttitudeControlMode::kOrbitNormalPointing) {
     direction = OuterProduct(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
   }
   Normalize(direction);
@@ -123,17 +123,17 @@ libra::Matrix<3, 3> ControlledAttitude::CalcDcm(const libra::Vector<3> main_dire
 
 AttitudeControlMode ConvertStringToCtrlMode(const std::string mode) {
   if (mode == "INERTIAL_STABILIZE") {
-    return INERTIAL_STABILIZE;
+    return AttitudeControlMode::kInertialStabilize;
   } else if (mode == "SUN_POINTING") {
-    return SUN_POINTING;
+    return AttitudeControlMode::kSunPointing;
   } else if (mode == "EARTH_CENTER_POINTING") {
-    return EARTH_CENTER_POINTING;
+    return AttitudeControlMode::kEarthCenterPointing;
   } else if (mode == "VELOCITY_DIRECTION_POINTING") {
-    return VELOCITY_DIRECTION_POINTING;
+    return AttitudeControlMode::kVelocityDirectionPointing;
   } else if (mode == "ORBIT_NORMAL_POINTING") {
-    return ORBIT_NORMAL_POINTING;
+    return AttitudeControlMode::kOrbitNormalPointing;
   } else {
-    return NO_CTRL;
+    return AttitudeControlMode::kNoControl;
   }
 }
 

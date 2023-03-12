@@ -23,7 +23,7 @@ class RelativeOrbit : public Orbit, public libra::OrdinaryDifferentialEquation<6
    * @enum RelativeOrbitUpdateMethod
    * @brief Relative orbit update method
    */
-  typedef enum { RK4 = 0, STM = 1 } RelativeOrbitUpdateMethod;
+  typedef enum { kRk4 = 0, kStm = 1 } RelativeOrbitUpdateMethod;
 
   /**
    * @fn RelativeOrbit

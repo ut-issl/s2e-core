@@ -19,36 +19,34 @@
 
 extern const double nan99;  //!< Not at Number TODO: Should be moved to another place
 
-// TODO: Use enum
-#define ECEF 0  //!< Use ECEF frame for GNSS satellite position frame in Add_IonosphericDelay
-#define ECI 1   //!< Use ECI frame for GNSS satellite position frame in Add_IonosphericDelay
-
-// TODO: Not used now. Remove? Use enum?
-#define Lagrange 0       //!< Use Lagrange interpolation
-#define Trigonometric 1  //!< Use Trigonometric interpolation
+enum class GnssFrameDefinition {
+  kEcef = 0,  //!< Use ECEF frame for GNSS satellite position frame in Add_IonosphericDelay
+  kEci = 1    //!< Use ECI frame for GNSS satellite position frame in Add_IonosphericDelay
+};
 
 // #define GNSS_SATELLITES_DEBUG_OUTPUT //!< For debug output, uncomment this
 
 /**
- * @enum UR_KINDS
+ * @enum UltraRapidMode
  * @brief Ultra Rapid mode
  * @details When Using Ultra Rapid ephemerides, decide to use which 6 hours in each observe and predict 24 hours
+ * @note TODO: change to enum class
  */
-typedef enum {
-  UR_NOT_UR,  //!< Don't use ultra rapid
+enum UltraRapidMode {
+  kNotUse,  //!< Don't use ultra rapid
 
-  UR_OBSERVE1,  //!< the most oldest observe 6 hours (most precise)
-  UR_OBSERVE2,  //!< the second oldest observe 6 hours (6 ~ 12)
-  UR_OBSERVE3,
-  UR_OBSERVE4,
+  kObserve1,  //!< the most oldest observe 6 hours (most precise)
+  kObserve2,  //!< the second oldest observe 6 hours (6 ~ 12)
+  kObserve3,
+  kObserve4,
 
-  UR_PREDICT1,  //!< the most oldest preserve 6 hours (most precise)
-  UR_PREDICT2,
-  UR_PREDICT3,
-  UR_PREDICT4,
+  kPredict1,  //!< the most oldest preserve 6 hours (most precise)
+  kPredict2,
+  kPredict3,
+  kPredict4,
 
-  UR_UNKNOWN
-} UR_KINDS;
+  kUnknown
+};
 
 /**
  * @class GnssSat_coordinate
@@ -137,7 +135,8 @@ class GnssSat_position : public GnssSat_coordinate {
    * @param[in] ur_flag: Ultra Rapid flag for position calculation
    * @return Start unix time and end unix time
    */
-  std::pair<double, double> Init(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number, UR_KINDS ur_flag);
+  std::pair<double, double> Init(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number,
+                                 UltraRapidMode ur_flag);
 
   /**
    * @fn Setup
@@ -196,7 +195,7 @@ class GnssSat_clock : public GnssSat_coordinate {
    * @param[in] interpolation_number: Interpolation number for clock calculation
    * @param[in] ur_flag: Ultra Rapid flag for clock calculation
    */
-  void Init(std::vector<std::vector<std::string>>& file, std::string file_extension, int interpolation_number, UR_KINDS ur_flag,
+  void Init(std::vector<std::vector<std::string>>& file, std::string file_extension, int interpolation_number, UltraRapidMode ur_flag,
             std::pair<double, double> unix_time_period);
   /**
    * @fn SetUp
@@ -248,8 +247,8 @@ class GnssSat_Info {
    * @param[in] clock_ur_flag: Ultra Rapid flag for clock calculation
    */
   void Init(std::vector<std::vector<std::string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-            UR_KINDS position_ur_flag, std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension,
-            int clock_interpolation_number, UR_KINDS clock_ur_flag);
+            UltraRapidMode position_ur_flag, std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension,
+            int clock_interpolation_number, UltraRapidMode clock_ur_flag);
   /**
    * @fn SetUp
    * @brief Setup GNSS satellite position and clock information
@@ -334,11 +333,11 @@ class GnssSatellites : public ILoggable {
    * @note Parameters are defined in GNSSSat_Info for true and estimated information
    */
   void Init(std::vector<std::vector<std::string>>& true_position_file, int true_position_interpolation_method, int true_position_interpolation_number,
-            UR_KINDS true_position_ur_flag, std::vector<std::vector<std::string>>& true_clock_file, std::string true_clock_file_extension,
-            int true_clock_interpolation_number, UR_KINDS true_clock_ur_flag, std::vector<std::vector<std::string>>& estimate_position_file,
-            int estimate_position_interpolation_method, int estimate_position_interpolation_number, UR_KINDS estimate_position_ur_flag,
+            UltraRapidMode true_position_ur_flag, std::vector<std::vector<std::string>>& true_clock_file, std::string true_clock_file_extension,
+            int true_clock_interpolation_number, UltraRapidMode true_clock_ur_flag, std::vector<std::vector<std::string>>& estimate_position_file,
+            int estimate_position_interpolation_method, int estimate_position_interpolation_number, UltraRapidMode estimate_position_ur_flag,
             std::vector<std::vector<std::string>>& estimate_clock_file, std::string estimate_clock_file_extension,
-            int estimate_clock_interpolation_number, UR_KINDS estimate_clock_ur_flag);
+            int estimate_clock_interpolation_number, UltraRapidMode estimate_clock_ur_flag);
   /**
    * @fn IsCalcEnabled
    * @brief Return calculated enabled flag
@@ -497,7 +496,8 @@ class GnssSatellites : public ILoggable {
    * @param [in] flag: The frame definition of the receiver position (ECI or ECEF)
    * @return Ionospheric delay [m]
    */
-  double AddIonosphericDelay(const int gnss_satellite_id, const libra::Vector<3> rec_position, const double frequency, const bool flag) const;
+  double AddIonosphericDelay(const int gnss_satellite_id, const libra::Vector<3> rec_position, const double frequency,
+                             const GnssFrameDefinition flag) const;
 
   bool is_calc_enabled_ = true;  //!< Flag to manage the GNSS satellite position calculation
   GnssSat_Info true_info_;       //!< True information of GNSS satellites

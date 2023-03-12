@@ -11,14 +11,14 @@
 #include "../real/cdh/on_board_computer.hpp"
 
 /**
- * @enum OBC_COM_UART_MODE
+ * @enum SimulationMode
  * @brief Simulation mode (SILS or HILS)
  * @details In the SILS mode, S2E does not need to communicate with OnBoardComputer in S2E
  */
-enum class OBC_COM_UART_MODE {
-  SILS,        //!< Software In the Loop Simulation
-  HILS,        //!< Hardware In the Loop Simulation
-  MODE_ERROR,  //!< Error
+enum class SimulationMode {
+  kSils,   //!< Software In the Loop Simulation
+  kHils,   //!< Hardware In the Loop Simulation
+  kError,  //!< Error
 };
 
 /**
@@ -105,7 +105,7 @@ class UartCommunicationWithObc {
   unsigned int rx_buffer_size_;  //!< RX (OBC to Component) buffer size
   bool is_connected_ = false;    //!< Connection flag
 
-  OBC_COM_UART_MODE simulation_mode_ = OBC_COM_UART_MODE::MODE_ERROR;  //!< Simulation mode
+  SimulationMode simulation_mode_ = SimulationMode::kError;  //!< Simulation mode
 
   OnBoardComputer* obc_;                //!< Communication target OBC
   HilsPortManager* hils_port_manager_;  //!< HILS port manager

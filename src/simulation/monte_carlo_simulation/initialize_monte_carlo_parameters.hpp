@@ -24,15 +24,15 @@ class InitializedMonteCarloParameters {
    * @brief Randomization type
    */
   enum RandomizationType {
-    NoRandomization,                //!< Output default value
-    CartesianUniform,               //!< Random variables following a uniform distribution in Cartesian frame
-    CartesianNormal,                //!< Random variables following a normal distribution in Cartesian frame
-    CircularNormalUniform,          //!< r follows normal distribution, and θ follows uniform distribution in Circular frame
-    CircularNormalNormal,           //!< r and θ follow normal distribution in Circular frame
-    SphericalNormalUniformUniform,  //!< r follows normal distribution, and θ and φ follow uniform distribution in Spherical frame
-    SphericalNormalNormal,          //!< r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
-    QuaternionUniform,              //!< Perfectly Randomized libra::Quaternion
-    QuaternionNormal,               //!< Angle from the default quaternion θ follows normal distribution
+    kNoRandomization,                //!< Output default value
+    kCartesianUniform,               //!< Random variables following a uniform distribution in Cartesian frame
+    kCartesianNormal,                //!< Random variables following a normal distribution in Cartesian frame
+    kCircularNormalUniform,          //!< r follows normal distribution, and θ follows uniform distribution in Circular frame
+    kCircularNormalNormal,           //!< r and θ follow normal distribution in Circular frame
+    kSphericalNormalUniformUniform,  //!< r follows normal distribution, and θ and φ follow uniform distribution in Spherical frame
+    kSphericalNormalNormal,          //!< r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
+    kQuaternionUniform,              //!< Perfectly Randomized libra::Quaternion
+    kQuaternionNormal,               //!< Angle from the default quaternion θ follows normal distribution
   };
 
   /**
@@ -221,7 +221,7 @@ void InitializedMonteCarloParameters::SetRandomConfiguration(const libra::Vector
 
 template <size_t NumElement>
 void InitializedMonteCarloParameters::GetRandomizedVector(libra::Vector<NumElement>& destination) const {
-  if (randomization_type_ == NoRandomization) {
+  if (randomization_type_ == kNoRandomization) {
     ;
   } else if (NumElement > randomized_value_.size()) {
     throw "Too few randomization configuration parameters.";

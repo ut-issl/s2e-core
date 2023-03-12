@@ -28,20 +28,20 @@ MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
   std::vector<std::string> so_dot_ip_str_vec = ini_file.ReadStrVector(section, "parameter");
   std::vector<std::string> so_str_vec, ip_str_vec;
 
-  enum Phase { FoundNothingYet, FoundSimulationObjectStr, FoundInitParameterStr };
+  enum Phase { kFoundNothingYet, kFoundSimulationObjectStr, kFoundInitParameterStr };
   for (auto so_dot_ip_str : so_dot_ip_str_vec) {
     // Divide the string to SimulationObject and InitializedMonteCarloParameters
-    Phase phase = FoundNothingYet;
+    Phase phase = kFoundNothingYet;
     std::stringstream ss(so_dot_ip_str);
     std::string item, so_str, ip_str;
     while (getline(ss, item, MonteCarloSimulationExecutor::separator_)) {
       if (!item.empty()) {
-        if (phase == FoundNothingYet) {
-          phase = FoundSimulationObjectStr;
+        if (phase == kFoundNothingYet) {
+          phase = kFoundSimulationObjectStr;
           so_str = item;
           so_str_vec.push_back(so_str);
-        } else if (phase == FoundSimulationObjectStr) {
-          phase = FoundInitParameterStr;
+        } else if (phase == kFoundSimulationObjectStr) {
+          phase = kFoundInitParameterStr;
           ip_str = item;
           ip_str_vec.push_back(ip_str);
           break;
@@ -57,25 +57,25 @@ MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
 
     ini_file.ReadChar(section, key_name.c_str(), buf_size, rnd_type_str);
     if (!strcmp(rnd_type_str, "NoRandomization"))
-      random_type = InitializedMonteCarloParameters::NoRandomization;
+      random_type = InitializedMonteCarloParameters::kNoRandomization;
     else if (!strcmp(rnd_type_str, "CartesianUniform"))
-      random_type = InitializedMonteCarloParameters::CartesianUniform;
+      random_type = InitializedMonteCarloParameters::kCartesianUniform;
     else if (!strcmp(rnd_type_str, "CartesianNormal"))
-      random_type = InitializedMonteCarloParameters::CartesianNormal;
+      random_type = InitializedMonteCarloParameters::kCartesianNormal;
     else if (!strcmp(rnd_type_str, "CircularNormalUniform"))
-      random_type = InitializedMonteCarloParameters::CircularNormalUniform;
+      random_type = InitializedMonteCarloParameters::kCircularNormalUniform;
     else if (!strcmp(rnd_type_str, "CircularNormalNormal"))
-      random_type = InitializedMonteCarloParameters::CircularNormalNormal;
+      random_type = InitializedMonteCarloParameters::kCircularNormalNormal;
     else if (!strcmp(rnd_type_str, "SphericalNormalUniformUniform"))
-      random_type = InitializedMonteCarloParameters::SphericalNormalUniformUniform;
+      random_type = InitializedMonteCarloParameters::kSphericalNormalUniformUniform;
     else if (!strcmp(rnd_type_str, "SphericalNormalNormal"))
-      random_type = InitializedMonteCarloParameters::SphericalNormalNormal;
+      random_type = InitializedMonteCarloParameters::kSphericalNormalNormal;
     else if (!strcmp(rnd_type_str, "QuaternionUniform"))
-      random_type = InitializedMonteCarloParameters::QuaternionUniform;
+      random_type = InitializedMonteCarloParameters::kQuaternionUniform;
     else if (!strcmp(rnd_type_str, "QuaternionNormal"))
-      random_type = InitializedMonteCarloParameters::QuaternionNormal;
+      random_type = InitializedMonteCarloParameters::kQuaternionNormal;
     else
-      random_type = InitializedMonteCarloParameters::NoRandomization;
+      random_type = InitializedMonteCarloParameters::kNoRandomization;
 
     // Read mean_or_min vector
     key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "mean_or_min";
