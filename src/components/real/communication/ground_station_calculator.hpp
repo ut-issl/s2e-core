@@ -89,7 +89,7 @@ class GroundStationCalculator : public ILoggable {
   double loss_atmosphere_dB_;         //!< Loss atmosphere [dB]
   double loss_rainfall_dB_;           //!< Loss rainfall [dB]
   double loss_others_dB_;             //!< Loss others [dB]
-  double ebn0_dB_;                    //!< EbN0 [dB]
+  double ebn0_dB_;                    //!< EbN0 (Energy per bit to Noise density ratio) [dB]
   double hardware_deterioration_dB_;  //!< Hardware deterioration [dB]
   double coding_gain_dB_;             //!< Coding gain [dB]
   // Variables

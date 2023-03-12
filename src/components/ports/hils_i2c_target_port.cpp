@@ -20,7 +20,7 @@ void HilsI2cTargetPort::RegisterDevice() {
   for (unsigned char i = 0; i < max_register_number_; i++) {
     device_registers_[i] = 0x00;
   }
-  for (unsigned char i = 0; i < kDefaultCmdSize; i++) {
+  for (unsigned char i = 0; i < kDefaultCommandSize; i++) {
     command_buffer_[i] = 0x00;
   }
 }
@@ -46,7 +46,7 @@ unsigned char HilsI2cTargetPort::ReadRegister(const unsigned char register_addre
 }
 
 int HilsI2cTargetPort::ReadCommand(unsigned char* rx_data, const unsigned int length) {
-  if (length > kDefaultCmdSize) {
+  if (length > kDefaultCommandSize) {
     return -1;
   }
   for (unsigned char i = 0; i < length; i++) {
@@ -57,10 +57,10 @@ int HilsI2cTargetPort::ReadCommand(unsigned char* rx_data, const unsigned int le
 
 int HilsI2cTargetPort::Receive()  // from I2C-USB Target converter
 {
-  unsigned char rx_buf[kDefaultCmdSize];
+  unsigned char rx_buf[kDefaultCommandSize];
   if (GetBytesToRead() <= 0) return -1;  // No bytes were available to read.
-  int received_bytes = ReadRx(rx_buf, 0, kDefaultCmdSize);
-  if (received_bytes > kDefaultCmdSize) return -1;
+  int received_bytes = ReadRx(rx_buf, 0, kDefaultCommandSize);
+  if (received_bytes > kDefaultCommandSize) return -1;
 #ifdef HILS_I2C_TARGET_PORT_SHOW_DEBUG_DATA
   for (int i = 0; i < received_bytes; i++) {
     printf("%02x ", rx_buf[i]);

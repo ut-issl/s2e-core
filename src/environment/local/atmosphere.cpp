@@ -217,7 +217,7 @@ std::string Atmosphere::GetLogValue() const {
 std::string Atmosphere::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("air_density_kg_m3_at_spacecraft_position", "kg/m3");
+  str_tmp += WriteScalar("air_density_at_spacecraft_position", "kg/m3");
 
   return str_tmp;
 }

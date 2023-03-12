@@ -128,7 +128,7 @@ class SunSensor : public Component, public ILoggable {
    */
   double TanRange(double x);
   /**
-   * @fn TanRange
+   * @fn Initialize
    * @brief Clip angle as tangent range
    * @param [in] random_noise_standard_deviation_rad: Standard deviation of normal random noise in the component frame [rad]
    * @param [in] bias_noise_standard_deviation_rad: Standard deviation of normal random noise for bias in the component frame [rad]
