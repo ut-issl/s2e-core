@@ -20,9 +20,9 @@ class OrdinaryDifferentialEquation {
   /**
    * @fn OrdinaryDifferentialEquation
    * @brief Constructor
-   * @param [in] step_width: Step width
+   * @param [in] step_width_s: Step width
    */
-  OrdinaryDifferentialEquation(double step_width);
+  OrdinaryDifferentialEquation(double step_width_s);
   /**
    * @fn ~OrdinaryDifferentialEquation
    * @brief Destructor
@@ -61,16 +61,16 @@ class OrdinaryDifferentialEquation {
   /**
    * @fn SetStepWidth
    * @brief Initialize the state vector
-   * @param [in] step_width: Step width
+   * @param [in] step_width_s: Step width
    */
-  inline void SetStepWidth(const double step_width) { step_width_ = step_width; }
+  inline void SetStepWidth(const double step_width_s) { step_width_s_ = step_width_s; }
 
   // Getter
   /**
    * @fn GetStepWidth
    * @brief Return step width
    */
-  inline double GetStepWidth() const { return step_width_; }
+  inline double GetStepWidth() const { return step_width_s_; }
 
   /**
    * @fn GetIndependentVariable
@@ -108,7 +108,7 @@ class OrdinaryDifferentialEquation {
   double independent_variable_;  //!< Latest value of independent variable
   Vector<N> state_;              //!< Latest state vector
   Vector<N> derivative_;         //!< Latest differentiate of the state vector
-  double step_width_;            //!< Step width
+  double step_width_s_;          //!< Step width
 };
 
 }  // namespace libra

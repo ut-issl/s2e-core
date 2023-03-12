@@ -9,29 +9,29 @@
 #include <components/real/aocs/gnss_receiver.hpp>
 
 /**
- * @fn InitGNSSReceiver
+ * @fn InitGnssReceiver
  * @brief Initialize functions for GNSS Receiver without power port
- * @param [in] clock_gen: Clock generator
- * @param [in] id: Sensor ID
- * @param [in] fname: Path to the initialize file
+ * @param [in] clock_generator: Clock generator
+ * @param [in] component_id: Sensor ID
+ * @param [in] file_name: Path to the initialize file
  * @param [in] dynamics: Dynamics information
  * @param [in] gnss_satellites: GNSS satellites information
- * @param [in] simtime: Simulation time information
+ * @param [in] simulation_time: Simulation time information
  */
-GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, int id, const std::string fname, const Dynamics* dynamics,
-                              const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, int component_id, const std::string file_name, const Dynamics* dynamics,
+                              const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
 /**
- * @fn InitGNSSReceiver
+ * @fn InitGnssReceiver
  * @brief Initialize functions for GNSS Receiver with power port
- * @param [in] clock_gen: Clock generator
- * @param [in] id: Sensor ID
+ * @param [in] clock_generator: Clock generator
+ * @param [in] component_id: Sensor ID
  * @param [in] power_port: Power port
- * @param [in] fname: Path to the initialize file
+ * @param [in] file_name: Path to the initialize file
  * @param [in] dynamics: Dynamics information
  * @param [in] gnss_satellites: GNSS satellites information
- * @param [in] simtime: Simulation time information
+ * @param [in] simulation_time: Simulation time information
  */
-GNSSReceiver InitGNSSReceiver(ClockGenerator* clock_gen, PowerPort* power_port, int id, const std::string fname, const Dynamics* dynamics,
-                              const GnssSatellites* gnss_satellites, const SimulationTime* simtime);
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, int component_id, const std::string file_name,
+                              const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_INITIALIZE_GNSS_RECEIVER_HPP_

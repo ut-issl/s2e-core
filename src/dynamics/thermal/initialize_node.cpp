@@ -29,7 +29,7 @@ First row is for Header, data begins from the second row
 Ex.
 Node_id,Node_label,capacity,solar_radiation,internal_heat,temperature
 1,BUS,2.5,0,0,293
-2,SAP,3.2,10,30,288
+2,SolarArrayPanel,3.2,10,30,288
 */
 
 Node InitNode(const std::vector<std::string>& node_str) {

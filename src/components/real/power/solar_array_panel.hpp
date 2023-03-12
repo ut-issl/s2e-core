@@ -13,84 +13,86 @@
 
 #include "../../base/component.hpp"
 
-class SAP : public ComponentBase, public ILoggable {
+class SolarArrayPanel : public Component, public ILoggable {
  public:
   /**
-   * @fn SAP
+   * @fn SolarArrayPanel
    * @brief Constructor with prescaler
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
-   * @param [in] id: SAP ID
+   * @param [in] clock_generator: Clock generator
+   * @param [in] component_id: SolarArrayPanel ID
    * @param [in] number_of_series: Number of series connected solar cells
    * @param [in] number_of_parallel: Number of parallel connected solar cells
-   * @param [in] cell_area: Area of a solar cell [m2]
-   * @param [in] normal_vector: Normal vector of SAP on the body fixed frame
+   * @param [in] cell_area_m2: Area of a solar cell [m2]
+   * @param [in] normal_vector: Normal vector of SolarArrayPanel on the body fixed frame
    * @param [in] cell_efficiency: Power generation efficiency of solar cell
    * @param [in] transmission_efficiency: Efficiency of transmission to PCU
-   * @param [in] srp: Solar Radiation Pressure environment
-   * @param [in] local_celes_info: Local celestial information
-   * @param [in] compo_step_time: Component step time [sec]
+   * @param [in] srp_environment: Solar Radiation Pressure environment
+   * @param [in] local_celestial_information: Local celestial information
+   * @param [in] component_step_time_s: Component step time [sec]
    */
-  SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
-      libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
-      const LocalCelestialInformation* local_celes_info, double compo_step_time);
+  SolarArrayPanel(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
+                  double cell_area_m2, libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
+                  const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information,
+                  double component_step_time_s);
   /**
-   * @fn SAP
+   * @fn SolarArrayPanel
    * @brief Constructor with prescaler
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
-   * @param [in] id: SAP ID
+   * @param [in] clock_generator: Clock generator
+   * @param [in] component_id: SolarArrayPanel ID
    * @param [in] number_of_series: Number of series connected solar cells
    * @param [in] number_of_parallel: Number of parallel connected solar cells
-   * @param [in] cell_area: Area of a solar cell [m2]
-   * @param [in] normal_vector: Normal vector of SAP on the body fixed frame
+   * @param [in] cell_area_m2: Area of a solar cell [m2]
+   * @param [in] normal_vector: Normal vector of SolarArrayPanel on the body fixed frame
    * @param [in] cell_efficiency: Power generation efficiency of solar cell
    * @param [in] transmission_efficiency: Efficiency of transmission to PCU
-   * @param [in] srp: Solar Radiation Pressure environment
-   * @param [in] compo_step_time: Component step time [sec]
+   * @param [in] srp_environment: Solar Radiation Pressure environment
+   * @param [in] component_step_time_s: Component step time [sec]
    */
-  SAP(const int prescaler, ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area,
-      libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
-      double compo_step_time);
+  SolarArrayPanel(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
+                  double cell_area_m2, libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
+                  const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s);
   /**
-   * @fn SAP
+   * @fn SolarArrayPanel
    * @brief Constructor without prescaler
    * @note prescaler is set as 10, compo_step_sec is set as
-   * @param [in] clock_gen: Clock generator
-   * @param [in] id: SAP ID
+   * @param [in] clock_generator: Clock generator
+   * @param [in] component_id: SolarArrayPanel ID
    * @param [in] number_of_series: Number of series connected solar cells
    * @param [in] number_of_parallel: Number of parallel connected solar cells
-   * @param [in] cell_area: Area of a solar cell [m2]
-   * @param [in] normal_vector: Normal vector of SAP on the body fixed frame
+   * @param [in] cell_area_m2: Area of a solar cell [m2]
+   * @param [in] normal_vector: Normal vector of SolarArrayPanel on the body fixed frame
    * @param [in] cell_efficiency: Power generation efficiency of solar cell
    * @param [in] transmission_efficiency: Efficiency of transmission to PCU
-   * @param [in] srp: Solar Radiation Pressure environment
-   * @param [in] local_celes_info: Local celestial information
+   * @param [in] srp_environment: Solar Radiation Pressure environment
+   * @param [in] local_celestial_information: Local celestial information
    */
-  SAP(ClockGenerator* clock_gen, int id, int number_of_series, int number_of_parallel, double cell_area, libra::Vector<3> normal_vector,
-      double cell_efficiency, double transmission_efficiency, const SolarRadiationPressureEnvironment* srp,
-      const LocalCelestialInformation* local_celes_info);
+  SolarArrayPanel(ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area_m2,
+                  libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
+                  const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information);
   /**
-   * @fn SAP
+   * @fn SolarArrayPanel
    * @brief Copy constructor
    */
-  SAP(const SAP& obj);
+  SolarArrayPanel(const SolarArrayPanel& obj);
   /**
-   * @fn ~SAP
+   * @fn ~SolarArrayPanel
    * @brief Destructor
    */
-  ~SAP();
+  ~SolarArrayPanel();
 
   /**
-   * @fn GetPowerGeneration
+   * @fn GetPowerGeneration_W
    * @brief Return power generation [W]
    */
-  double GetPowerGeneration() const;
+  double GetPowerGeneration_W() const { return power_generation_W_; }
+
   /**
-   * @fn SetVoltage
+   * @fn SetVoltage_V
    * @brief Set voltage
    */
-  void SetVoltage(const double voltage);
+  void SetVoltage_V(const double voltage_V) { voltage_V_ = voltage_V; }
 
   // Override ILoggable
   /**
@@ -105,30 +107,28 @@ class SAP : public ComponentBase, public ILoggable {
   std::string GetLogValue() const override;
 
  private:
-  const int id_;                          //!< SAP ID TODO: Use string?
+  const int component_id_;                //!< SolarArrayPanel ID TODO: Use string?
   const int number_of_series_;            //!< Number of series connected solar cells
   const int number_of_parallel_;          //!< Number of parallel connected solar cells
-  const double cell_area_;                //!< Solar cell area [m^2]
-  const libra::Vector<3> normal_vector_;  //!< Normal vector of SAP on the body fixed frame
+  const double cell_area_m2_;             //!< Solar cell area [m^2]
+  const libra::Vector<3> normal_vector_;  //!< Normal vector of SolarArrayPanel on the body fixed frame
   const double cell_efficiency_;          //!< Power generation efficiency of solar cell
   const double transmission_efficiency_;  //!< Efficiency of transmission to PCU
 
-  const SolarRadiationPressureEnvironment* const srp_;  //!< Solar Radiation Pressure environment
-  const LocalCelestialInformation* local_celes_info_;   //!< Local celestial information
+  const SolarRadiationPressureEnvironment* const srp_environment_;  //!< Solar Radiation Pressure environment
+  const LocalCelestialInformation* local_celestial_information_;    //!< Local celestial information
 
-  double voltage_;           //!< Voltage [V]
-  double power_generation_;  //!< Generated power [W]
+  double voltage_V_;           //!< Voltage [V]
+  double power_generation_W_;  //!< Generated power [W]
 
-  static const double solar_constant_;  //!< Solar constant TODO: Use SolarRadiationPressureEnvironment?
-  static const double light_speed_;     //!< Speed of light TODO: Use PhysicalConstant?
-  double compo_step_time_;              //!< Component step time [sec]
+  double compo_step_time_s_;  //!< Component step time [sec]
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation
    */
-  void MainRoutine(int time_count) override;
+  void MainRoutine(const int time_count) override;
 };
 
 #endif  // S2E_COMPONENTS_REAL_POWER_SOLAR_ARRAY_PANEL_HPP_

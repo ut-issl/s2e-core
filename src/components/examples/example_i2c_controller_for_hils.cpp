@@ -4,15 +4,15 @@
  */
 #include "example_i2c_controller_for_hils.hpp"
 
-ExampleI2cControllerForHils::ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_gen, const unsigned int hils_port_id,
-                                                         const unsigned int baud_rate, const unsigned int tx_buf_size, const unsigned int rx_buf_size,
-                                                         HilsPortManager* hils_port_manager)
-    : ComponentBase(prescaler, clock_gen), I2cControllerCommunicationBase(hils_port_id, baud_rate, tx_buf_size, rx_buf_size, hils_port_manager) {}
+ExampleI2cControllerForHils::ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_generator, const unsigned int hils_port_id,
+                                                         const unsigned int baud_rate, const unsigned int tx_buffer_size,
+                                                         const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)
+    : Component(prescaler, clock_generator), I2cController(hils_port_id, baud_rate, tx_buffer_size, rx_buffer_size, hils_port_manager) {}
 
 ExampleI2cControllerForHils::~ExampleI2cControllerForHils() {}
 
-void ExampleI2cControllerForHils::MainRoutine(int count) {
-  UNUSED(count);
+void ExampleI2cControllerForHils::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   RequestTlm();
   Receive();

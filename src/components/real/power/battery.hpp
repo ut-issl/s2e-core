@@ -12,86 +12,88 @@
 #include "../../base/component.hpp"
 
 /*
- * @class BAT
+ * @class Battery
  * @brief Component emulation of battery
  */
-class BAT : public ComponentBase, public ILoggable {
+class Battery : public Component, public ILoggable {
  public:
   /**
-   * @fn BAT
+   * @fn Battery
    * @brief Constructor with prescaler
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] number_of_series: Number of series connected cells
    * @param [in] number_of_parallel: Number of parallel connected cells
-   * @param [in] cell_capacity: Power capacity of a cell [Ah]
-   * @param [in] cell_discharge_curve_coeffs: Discharge curve coefficients for a cell
+   * @param [in] cell_capacity_Ah: Power capacity of a cell [Ah]
+   * @param [in] cell_discharge_curve_coefficients: Discharge curve coefficients for a cell
    * @param [in] initial_dod: Initial depth of discharge
-   * @param [in] cc_charge_c_rate: Constant charge current [C]
-   * @param [in] cv_charge_voltage: Constant charge voltage [V]
-   * @param [in] bat_resistance: Battery internal resistance [Ohm]
-   * @param [in] compo_step_time: Component step time [sec]
+   * @param [in] cc_charge_c_rate: Constant charge rate [C]
+   * @param [in] cv_charge_voltage_V: Constant charge voltage [V]
+   * @param [in] battery_resistance_Ohm: Battery internal resistance [Ohm]
+   * @param [in] component_step_time_s: Component step time [sec]
    */
-  BAT(const int prescaler, ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
-      const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
-      double bat_resistance, double compo_step_time);
+  Battery(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
+          const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
+          double battery_resistance_Ohm, double component_step_time_s);
   /**
-   * @fn BAT
+   * @fn Battery
    * @brief Constructor without prescaler
    * @note prescaler is set as 10
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] number_of_series: Number of series connected cells
    * @param [in] number_of_parallel: Number of parallel connected cells
-   * @param [in] cell_capacity: Power capacity of a cell [Ah]
-   * @param [in] cell_discharge_curve_coeffs: Discharge curve coefficients for a cell
+   * @param [in] cell_capacity_Ah: Power capacity of a cell [Ah]
+   * @param [in] cell_discharge_curve_coefficients: Discharge curve coefficients for a cell
    * @param [in] initial_dod: Initial depth of discharge
    * @param [in] cc_charge_c_rate: Constant charge current [C]
-   * @param [in] cv_charge_voltage: Constant charge voltage [V]
-   * @param [in] bat_resistance: Battery internal resistance [Ohm]
-   * @param [in] compo_step_time: Component step time [sec]
+   * @param [in] cv_charge_voltage_V: Constant charge voltage [V]
+   * @param [in] battery_resistance_Ohm: Battery internal resistance [Ohm]
    */
-  BAT(ClockGenerator* clock_gen, int number_of_series, int number_of_parallel, double cell_capacity,
-      const std::vector<double> cell_discharge_curve_coeffs, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage,
-      double bat_resistance);
+  Battery(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
+          const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
+          double battery_resistance_Ohm);
   /**
-   * @fn BAT
+   * @fn Battery
    * @brief Copy constructor
    */
-  BAT(const BAT& obj);
+  Battery(const Battery& obj);
   /**
-   * @fn ~BAT
+   * @fn ~Battery
    * @brief Destructor
    */
-  ~BAT();
+  ~Battery();
 
   /**
    * @fn SetChargeCurrent
    * @brief Set charge current [A]
    */
-  void SetChargeCurrent(const double current);
+  inline void SetChargeCurrent(const double current_A) { charge_current_A_ = current_A; }
 
   /**
-   * @fn GetBatVoltage
+   * @fn GetVoltage_V
    * @brief Return battery voltage [V]
    */
-  double GetBatVoltage() const;
+  inline double GetVoltage_V() const { return battery_voltage_V_; }
+
   /**
-   * @fn GetBatResistance
+   * @fn GetResistance_Ohm
    * @brief Return battery resistance [Ohm]
    */
-  double GetBatResistance() const;
+  inline double GetResistance_Ohm() const { return battery_resistance_Ohm_; }
+
   /**
-   * @fn GetCCChargeCurrent
+   * @fn GetCcChargeCurrent_C
    * @brief Return constant charge current [C]
    * @note TODO: Change implementation?
    */
-  double GetCCChargeCurrent() const;
+  inline double GetCcChargeCurrent_C() const { return cc_charge_current_C_; }
+
   /**
-   * @fn GetCVChargeVoltage
+   * @fn GetCvChargeVoltage_V
    * @brief Return constant charge voltage [V]
    * @note TODO: Change implementation?
    */
-  double GetCVChargeVoltage() const;
+  inline double GetCvChargeVoltage_V() const { return cv_charge_voltage_V_; }
 
   // Override ILoggable
   /**
@@ -106,24 +108,24 @@ class BAT : public ComponentBase, public ILoggable {
   std::string GetLogValue() const override;
 
  private:
-  const int number_of_series_;                             //!< Number of series connected cells
-  const int number_of_parallel_;                           //!< Number of parallel connected cells
-  const double cell_capacity_;                             //!< Power capacity of a cell [Ah]
-  const std::vector<double> cell_discharge_curve_coeffs_;  //!< Discharge curve coefficients for a cell
-  const double cc_charge_current_;                         //!< Constant charge current [C]
-  const double cv_charge_voltage_;                         //!< Constant charge voltage [V]
-  double bat_voltage_;                                     //!< Battery voltage [V]
-  double dod_;                                             //!< Depth of discharge [%]
-  double charge_current_;                                  //!< Charge current [A]
-  double bat_resistance_;                                  //!< Battery internal resistance [Ohm]
-  double compo_step_time_;                                 //!< Component step time [sec]
+  const int number_of_series_;                                   //!< Number of series connected cells
+  const int number_of_parallel_;                                 //!< Number of parallel connected cells
+  const double cell_capacity_Ah_;                                //!< Power capacity of a cell [Ah]
+  const std::vector<double> cell_discharge_curve_coefficients_;  //!< Discharge curve coefficients for a cell
+  const double cc_charge_current_C_;                             //!< Constant charge current [C]
+  const double cv_charge_voltage_V_;                             //!< Constant charge voltage [V]
+  double battery_voltage_V_;                                     //!< Battery voltage [V]
+  double depth_of_discharge_percent_;                            //!< Depth of discharge [%]
+  double charge_current_A_;                                      //!< Charge current [A]
+  double battery_resistance_Ohm_;                                //!< Battery internal resistance [Ohm]
+  double compo_step_time_s_;                                     //!< Component step time [sec]
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation
    */
-  void MainRoutine(int count) override;
+  void MainRoutine(const int time_count) override;
 
   /**
    * @fn UpdateBatVoltage

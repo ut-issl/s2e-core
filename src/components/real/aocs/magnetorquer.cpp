@@ -10,92 +10,102 @@
 #include <library/math/quaternion.hpp>
 #include <library/randomization/global_randomization.hpp>
 
-MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, const int id, const Quaternion& q_b2c,
-                       const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
-                       const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
-                       const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env)
-    : ComponentBase(prescaler, clock_gen),
-      id_(id),
-      q_b2c_(q_b2c),
-      q_c2b_(q_b2c_.Conjugate()),
+Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Quaternion& quaternion_b2c,
+                           const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
+                           const libra::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
+                           const libra::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const libra::Vector<kMtqDimension>& bias_noise_c_Am2_,
+                           double random_walk_step_width_s, const libra::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
+                           const libra::Vector<kMtqDimension>& random_walk_limit_c_Am2,
+                           const libra::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field)
+    : Component(prescaler, clock_generator),
+      component_id_(component_id),
+      quaternion_b2c_(quaternion_b2c),
+      quaternion_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),
-      max_c_(max_c),
-      min_c_(min_c),
-      bias_c_(bias_c),
-      n_rw_c_(rw_stepwidth, rw_stddev_c, rw_limit_c),
-      mag_env_(mag_env) {
-  for (size_t i = 0; i < kMtqDim; i++) {
-    nrs_c_[i].SetParameters(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
+      max_magnetic_moment_c_Am2_(max_magnetic_moment_c_Am2),
+      min_magnetic_moment_c_Am2_(min_magnetic_moment_c_Am2),
+      bias_noise_c_Am2_(bias_noise_c_Am2_),
+      random_walk_c_Am2_(random_walk_step_width_s, random_walk_standard_deviation_c_Am2, random_walk_limit_c_Am2),
+      geomagnetic_field_(geomagnetic_field) {
+  for (size_t i = 0; i < kMtqDimension; i++) {
+    random_noise_c_Am2_[i].SetParameters(0.0, normal_random_standard_deviation_c_Am2[i]);  // global_randomization.MakeSeed()
   }
 }
 
-MagTorquer::MagTorquer(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, const int id, const Quaternion& q_b2c,
-                       const libra::Matrix<kMtqDim, kMtqDim>& scale_factor, const libra::Vector<kMtqDim>& max_c, const libra::Vector<kMtqDim>& min_c,
-                       const libra::Vector<kMtqDim>& bias_c, double rw_stepwidth, const libra::Vector<kMtqDim>& rw_stddev_c,
-                       const libra::Vector<kMtqDim>& rw_limit_c, const libra::Vector<kMtqDim>& nr_stddev_c, const GeomagneticField* mag_env)
-    : ComponentBase(prescaler, clock_gen, power_port),
-      id_(id),
-      q_b2c_(q_b2c),
-      q_c2b_(q_b2c_.Conjugate()),
+Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+                           const Quaternion& quaternion_b2c, const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
+                           const libra::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
+                           const libra::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const libra::Vector<kMtqDimension>& bias_noise_c_Am2_,
+                           double random_walk_step_width_s, const libra::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
+                           const libra::Vector<kMtqDimension>& random_walk_limit_c_Am2,
+                           const libra::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field)
+    : Component(prescaler, clock_generator, power_port),
+      component_id_(component_id),
+      quaternion_b2c_(quaternion_b2c),
+      quaternion_c2b_(quaternion_b2c_.Conjugate()),
       scale_factor_(scale_factor),
-      max_c_(max_c),
-      min_c_(min_c),
-      bias_c_(bias_c),
-      n_rw_c_(rw_stepwidth, rw_stddev_c, rw_limit_c),
-      mag_env_(mag_env) {
-  for (size_t i = 0; i < kMtqDim; i++) {
-    nrs_c_[i].SetParameters(0.0, nr_stddev_c[i]);  // global_randomization.MakeSeed()
+      max_magnetic_moment_c_Am2_(max_magnetic_moment_c_Am2),
+      min_magnetic_moment_c_Am2_(min_magnetic_moment_c_Am2),
+      bias_noise_c_Am2_(bias_noise_c_Am2_),
+      random_walk_c_Am2_(random_walk_step_width_s, random_walk_standard_deviation_c_Am2, random_walk_limit_c_Am2),
+      geomagnetic_field_(geomagnetic_field) {
+  for (size_t i = 0; i < kMtqDimension; i++) {
+    random_noise_c_Am2_[i].SetParameters(0.0, normal_random_standard_deviation_c_Am2[i]);  // global_randomization.MakeSeed()
   }
 }
 
-void MagTorquer::MainRoutine(int count) {
-  UNUSED(count);
+void Magnetorquer::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   CalcOutputTorque();
 }
 
-void MagTorquer::PowerOffRoutine() { torque_b_ *= 0.0; }
-
-libra::Vector<kMtqDim> MagTorquer::CalcOutputTorque(void) {
-  for (size_t i = 0; i < kMtqDim; ++i) {
-    // Limit Check
-    if (mag_moment_c_[i] > max_c_[i]) {
-      mag_moment_c_[i] = max_c_[i];
-    } else if (mag_moment_c_[i] < min_c_[i]) {
-      mag_moment_c_[i] = min_c_[i];
-    }
-    // Add noise
-    mag_moment_c_[i] += bias_c_[i];
-    mag_moment_c_[i] += n_rw_c_[i];
-    mag_moment_c_[i] += nrs_c_[i];
-  }
-  mag_moment_c_ = scale_factor_ * mag_moment_c_;
-
-  // Frame conversion component to body
-  mag_moment_b_ = q_c2b_.FrameConversion(mag_moment_c_);
-  // Calc magnetic torque [Nm]
-  torque_b_ = OuterProduct(mag_moment_b_, knT2T * mag_env_->GetGeomagneticField_b_nT());
-  // Update Random Walk
-  ++n_rw_c_;
-
-  return torque_b_;
+void Magnetorquer::PowerOffRoutine() {
+  torque_b_Nm_ *= 0.0;
+  output_magnetic_moment_c_Am2_ *= 0.0;
+  output_magnetic_moment_b_Am2_ *= 0.0;
 }
 
-std::string MagTorquer::GetLogHeader() const {
+libra::Vector<kMtqDimension> Magnetorquer::CalcOutputTorque(void) {
+  for (size_t i = 0; i < kMtqDimension; ++i) {
+    // Limit Check
+    if (output_magnetic_moment_c_Am2_[i] > max_magnetic_moment_c_Am2_[i]) {
+      output_magnetic_moment_c_Am2_[i] = max_magnetic_moment_c_Am2_[i];
+    } else if (output_magnetic_moment_c_Am2_[i] < min_magnetic_moment_c_Am2_[i]) {
+      output_magnetic_moment_c_Am2_[i] = min_magnetic_moment_c_Am2_[i];
+    }
+    // Add noise
+    output_magnetic_moment_c_Am2_[i] += bias_noise_c_Am2_[i];
+    output_magnetic_moment_c_Am2_[i] += random_walk_c_Am2_[i];
+    output_magnetic_moment_c_Am2_[i] += random_noise_c_Am2_[i];
+  }
+  output_magnetic_moment_c_Am2_ = scale_factor_ * output_magnetic_moment_c_Am2_;
+
+  // Frame conversion component to body
+  output_magnetic_moment_b_Am2_ = quaternion_c2b_.FrameConversion(output_magnetic_moment_c_Am2_);
+  // Calc magnetic torque [Nm]
+  torque_b_Nm_ = OuterProduct(output_magnetic_moment_b_Am2_, kConvertNanoT2T * geomagnetic_field_->GetGeomagneticField_b_nT());
+  // Update Random Walk
+  ++random_walk_c_Am2_;
+
+  return torque_b_Nm_;
+}
+
+std::string Magnetorquer::GetLogHeader() const {
   std::string str_tmp = "";
-  const std::string actuator_id = std::to_string(static_cast<long long>(id_));
+  const std::string actuator_id = std::to_string(static_cast<long long>(component_id_));
   std::string actuator_name = "magnetorquer" + actuator_id + "_";
 
-  str_tmp += WriteVector(actuator_name + "output_magnetic_moment", "b", "Am2", kMtqDim);
-  str_tmp += WriteVector(actuator_name + "output_torque", "b", "Nm", kMtqDim);
+  str_tmp += WriteVector(actuator_name + "output_magnetic_moment", "b", "Am2", kMtqDimension);
+  str_tmp += WriteVector(actuator_name + "output_torque", "b", "Nm", kMtqDimension);
 
   return str_tmp;
 }
 
-std::string MagTorquer::GetLogValue() const {
+std::string Magnetorquer::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteVector(mag_moment_b_);
-  str_tmp += WriteVector(torque_b_);
+  str_tmp += WriteVector(output_magnetic_moment_b_Am2_);
+  str_tmp += WriteVector(torque_b_Nm_);
 
   return str_tmp;
 }

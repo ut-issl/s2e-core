@@ -11,9 +11,9 @@
 /*
  * @fn InitGscalculator
  * @brief Initialize function for Ground Station Calculator
- * @param [in] fname: Path to initialize file
+ * @param [in] file_name: Path to initialize file
  */
 
-GScalculator InitGScalculator(const std::string fname);
+GroundStationCalculator InitGsCalculator(const std::string file_name);
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_INITIALIZE_GROUND_STATION_CALCULATOR_HPP_

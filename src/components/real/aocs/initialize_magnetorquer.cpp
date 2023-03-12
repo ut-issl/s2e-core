@@ -6,9 +6,9 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const std::string fname, double compo_step_time,
-                          const GeomagneticField* mag_env) {
-  IniAccess magtorquer_conf(fname);
+Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
+                              const GeomagneticField* geomagnetic_field) {
+  IniAccess magtorquer_conf(file_name);
   const char* sensor_name = "MAGNETORQUER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(actuator_id));
   const char* MTSection = section_name.c_str();
@@ -16,43 +16,44 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_gen, int actuator_id, const std:
   int prescaler = magtorquer_conf.ReadInt(MTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Vector<kMtqDim * kMtqDim> sf_vec;
+  Vector<kMtqDimension * kMtqDimension> sf_vec;
   magtorquer_conf.ReadVector(MTSection, "scale_factor_c", sf_vec);
-  Matrix<kMtqDim, kMtqDim> scale_factor;
-  for (size_t i = 0; i < kMtqDim; i++) {
-    for (size_t j = 0; j < kMtqDim; j++) {
-      scale_factor[i][j] = sf_vec[i * kMtqDim + j];
+  Matrix<kMtqDimension, kMtqDimension> scale_factor;
+  for (size_t i = 0; i < kMtqDimension; i++) {
+    for (size_t j = 0; j < kMtqDimension; j++) {
+      scale_factor[i][j] = sf_vec[i * kMtqDimension + j];
     }
   }
 
-  Quaternion q_b2c;
-  magtorquer_conf.ReadQuaternion(MTSection, "quaternion_b2c", q_b2c);
+  Quaternion quaternion_b2c;
+  magtorquer_conf.ReadQuaternion(MTSection, "quaternion_b2c", quaternion_b2c);
 
-  Vector<kMtqDim> max_c;
-  magtorquer_conf.ReadVector(MTSection, "max_output_magnetic_moment_c_Am2", max_c);
+  Vector<kMtqDimension> max_magnetic_moment_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "max_output_magnetic_moment_c_Am2", max_magnetic_moment_c_Am2);
 
-  Vector<kMtqDim> min_c;
-  magtorquer_conf.ReadVector(MTSection, "min_output_magnetic_moment_c_Am2", min_c);
+  Vector<kMtqDimension> min_magnetic_moment_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "min_output_magnetic_moment_c_Am2", min_magnetic_moment_c_Am2);
 
-  Vector<kMtqDim> bias_c;
-  magtorquer_conf.ReadVector(MTSection, "constant_bias_noise_c_Am2", bias_c);
+  Vector<kMtqDimension> bias_noise_c_Am2_;
+  magtorquer_conf.ReadVector(MTSection, "constant_bias_noise_c_Am2", bias_noise_c_Am2_);
 
-  double rw_stepwidth = compo_step_time * (double)prescaler;
-  Vector<kMtqDim> rw_stddev_c;
-  magtorquer_conf.ReadVector(MTSection, "random_walk_standard_deviation_c_Am2", rw_stddev_c);
-  Vector<kMtqDim> rw_limit_c;
-  magtorquer_conf.ReadVector(MTSection, "random_walk_limit_c_Am2", rw_limit_c);
-  Vector<kMtqDim> nr_stddev_c;
-  magtorquer_conf.ReadVector(MTSection, "white_noise_standard_deviation_c_Am2", nr_stddev_c);
+  double random_walk_step_width_s = component_step_time_s * (double)prescaler;
+  Vector<kMtqDimension> random_walk_standard_deviation_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "random_walk_standard_deviation_c_Am2", random_walk_standard_deviation_c_Am2);
+  Vector<kMtqDimension> random_walk_limit_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "random_walk_limit_c_Am2", random_walk_limit_c_Am2);
+  Vector<kMtqDimension> normal_random_standard_deviation_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "white_noise_standard_deviation_c_Am2", normal_random_standard_deviation_c_Am2);
 
-  MagTorquer magtorquer(prescaler, clock_gen, actuator_id, q_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth, rw_stddev_c, rw_limit_c,
-                        nr_stddev_c, mag_env);
+  Magnetorquer magtorquer(prescaler, clock_generator, actuator_id, quaternion_b2c, scale_factor, max_magnetic_moment_c_Am2, min_magnetic_moment_c_Am2,
+                          bias_noise_c_Am2_, random_walk_step_width_s, random_walk_standard_deviation_c_Am2, random_walk_limit_c_Am2,
+                          normal_random_standard_deviation_c_Am2, geomagnetic_field);
   return magtorquer;
 }
 
-MagTorquer InitMagTorquer(ClockGenerator* clock_gen, PowerPort* power_port, int actuator_id, const std::string fname, double compo_step_time,
-                          const GeomagneticField* mag_env) {
-  IniAccess magtorquer_conf(fname);
+Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
+                              double component_step_time_s, const GeomagneticField* geomagnetic_field) {
+  IniAccess magtorquer_conf(file_name);
   const char* sensor_name = "MAGNETORQUER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(actuator_id));
   const char* MTSection = section_name.c_str();
@@ -60,39 +61,40 @@ MagTorquer InitMagTorquer(ClockGenerator* clock_gen, PowerPort* power_port, int 
   int prescaler = magtorquer_conf.ReadInt(MTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Vector<kMtqDim * kMtqDim> sf_vec;
+  Vector<kMtqDimension * kMtqDimension> sf_vec;
   magtorquer_conf.ReadVector(MTSection, "scale_factor_c", sf_vec);
-  Matrix<kMtqDim, kMtqDim> scale_factor;
-  for (size_t i = 0; i < kMtqDim; i++) {
-    for (size_t j = 0; j < kMtqDim; j++) {
-      scale_factor[i][j] = sf_vec[i * kMtqDim + j];
+  Matrix<kMtqDimension, kMtqDimension> scale_factor;
+  for (size_t i = 0; i < kMtqDimension; i++) {
+    for (size_t j = 0; j < kMtqDimension; j++) {
+      scale_factor[i][j] = sf_vec[i * kMtqDimension + j];
     }
   }
 
-  Quaternion q_b2c;
-  magtorquer_conf.ReadQuaternion(MTSection, "quaternion_b2c", q_b2c);
+  Quaternion quaternion_b2c;
+  magtorquer_conf.ReadQuaternion(MTSection, "quaternion_b2c", quaternion_b2c);
 
-  Vector<kMtqDim> max_c;
-  magtorquer_conf.ReadVector(MTSection, "max_output_magnetic_moment_c_Am2", max_c);
+  Vector<kMtqDimension> max_magnetic_moment_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "max_output_magnetic_moment_c_Am2", max_magnetic_moment_c_Am2);
 
-  Vector<kMtqDim> min_c;
-  magtorquer_conf.ReadVector(MTSection, "min_output_magnetic_moment_c_Am2", min_c);
+  Vector<kMtqDimension> min_magnetic_moment_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "min_output_magnetic_moment_c_Am2", min_magnetic_moment_c_Am2);
 
-  Vector<kMtqDim> bias_c;
-  magtorquer_conf.ReadVector(MTSection, "constant_bias_noise_c_Am2", bias_c);
+  Vector<kMtqDimension> bias_noise_c_Am2_;
+  magtorquer_conf.ReadVector(MTSection, "constant_bias_noise_c_Am2", bias_noise_c_Am2_);
 
-  double rw_stepwidth = compo_step_time * (double)prescaler;
-  Vector<kMtqDim> rw_stddev_c;
-  magtorquer_conf.ReadVector(MTSection, "random_walk_standard_deviation_c_Am2", rw_stddev_c);
-  Vector<kMtqDim> rw_limit_c;
-  magtorquer_conf.ReadVector(MTSection, "random_walk_limit_c_Am2", rw_limit_c);
-  Vector<kMtqDim> nr_stddev_c;
-  magtorquer_conf.ReadVector(MTSection, "white_noise_standard_deviation_c_Am2", nr_stddev_c);
+  double random_walk_step_width_s = component_step_time_s * (double)prescaler;
+  Vector<kMtqDimension> random_walk_standard_deviation_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "random_walk_standard_deviation_c_Am2", random_walk_standard_deviation_c_Am2);
+  Vector<kMtqDimension> random_walk_limit_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "random_walk_limit_c_Am2", random_walk_limit_c_Am2);
+  Vector<kMtqDimension> normal_random_standard_deviation_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "white_noise_standard_deviation_c_Am2", normal_random_standard_deviation_c_Am2);
 
   // PowerPort
-  power_port->InitializeWithInitializeFile(fname);
+  power_port->InitializeWithInitializeFile(file_name);
 
-  MagTorquer magtorquer(prescaler, clock_gen, power_port, actuator_id, q_b2c, scale_factor, max_c, min_c, bias_c, rw_stepwidth, rw_stddev_c,
-                        rw_limit_c, nr_stddev_c, mag_env);
+  Magnetorquer magtorquer(prescaler, clock_generator, power_port, actuator_id, quaternion_b2c, scale_factor, max_magnetic_moment_c_Am2,
+                          min_magnetic_moment_c_Am2, bias_noise_c_Am2_, random_walk_step_width_s, random_walk_standard_deviation_c_Am2,
+                          random_walk_limit_c_Am2, normal_random_standard_deviation_c_Am2, geomagnetic_field);
   return magtorquer;
 }

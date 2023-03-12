@@ -1,6 +1,6 @@
 /**
  * @file initialize_sensor_template_functions.hpp
- * @brief Initialize functions for SensorBase class (template functions)
+ * @brief Initialize functions for Sensor class (template functions)
  */
 
 #ifndef S2E_COMPONENTS_BASE_INITIALIZE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
@@ -9,8 +9,7 @@
 #include "library/initialize/initialize_file_access.hpp"
 
 template <size_t N>
-SensorBase<N> ReadSensorBaseInformation(const std::string file_name, const double step_width_s, const std::string component_name,
-                                        const std::string unit) {
+Sensor<N> ReadSensorInformation(const std::string file_name, const double step_width_s, const std::string component_name, const std::string unit) {
   IniAccess ini_file(file_name);
   std::string section = "SENSOR_BASE_" + component_name;
 
@@ -45,8 +44,8 @@ SensorBase<N> ReadSensorBaseInformation(const std::string file_name, const doubl
   double range_to_zero = ini_file.ReadDouble(section.c_str(), key_name.c_str());
   libra::Vector<N> range_to_zero_c{range_to_zero};
 
-  SensorBase<N> sensor_base(scale_factor_c, range_to_const_c, range_to_zero_c, constant_bias_c, normal_random_standard_deviation_c, step_width_s,
-                            random_walk_standard_deviation_c, random_walk_limit_c);
+  Sensor<N> sensor_base(scale_factor_c, range_to_const_c, range_to_zero_c, constant_bias_c, normal_random_standard_deviation_c, step_width_s,
+                        random_walk_standard_deviation_c, random_walk_limit_c);
 
   return sensor_base;
 }

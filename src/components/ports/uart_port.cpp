@@ -5,24 +5,34 @@
 
 #include "uart_port.hpp"
 
-SCIPort::SCIPort() : SCIPort(kDefaultBufferSize, kDefaultBufferSize) {}
+UartPort::UartPort() : UartPort(kDefaultBufferSize, kDefaultBufferSize) {}
 
-SCIPort::SCIPort(int rx_buf_size, int tx_buf_size) {
-  if (rx_buf_size <= 0) rx_buf_size = kDefaultBufferSize;
-  if (tx_buf_size <= 0) tx_buf_size = kDefaultBufferSize;
-  rxb_ = new RingBuffer(rx_buf_size);
-  txb_ = new RingBuffer(tx_buf_size);
+UartPort::UartPort(const unsigned int rx_buffer_size, const unsigned int tx_buffer_size) {
+  unsigned int checked_rx_buffer_size = rx_buffer_size;
+  unsigned int checked_tx_buffer_size = tx_buffer_size;
+  if (rx_buffer_size <= 0) checked_rx_buffer_size = kDefaultBufferSize;
+  if (tx_buffer_size <= 0) checked_tx_buffer_size = kDefaultBufferSize;
+  rx_buffer_ = new RingBuffer(checked_rx_buffer_size);
+  tx_buffer_ = new RingBuffer(checked_tx_buffer_size);
 }
 
-SCIPort::~SCIPort() {
-  delete rxb_;
-  delete txb_;
+UartPort::~UartPort() {
+  delete rx_buffer_;
+  delete tx_buffer_;
 }
 
-int SCIPort::WriteTx(unsigned char* buffer, int offset, int count) { return txb_->Write(buffer, offset, count); }
+int UartPort::WriteTx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+  return tx_buffer_->Write(buffer, offset, data_length);
+}
 
-int SCIPort::WriteRx(unsigned char* buffer, int offset, int count) { return rxb_->Write(buffer, offset, count); }
+int UartPort::WriteRx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+  return rx_buffer_->Write(buffer, offset, data_length);
+}
 
-int SCIPort::ReadTx(unsigned char* buffer, int offset, int count) { return txb_->Read(buffer, offset, count); }
+int UartPort::ReadTx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+  return tx_buffer_->Read(buffer, offset, data_length);
+}
 
-int SCIPort::ReadRx(unsigned char* buffer, int offset, int count) { return rxb_->Read(buffer, offset, count); }
+int UartPort::ReadRx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+  return rx_buffer_->Read(buffer, offset, data_length);
+}

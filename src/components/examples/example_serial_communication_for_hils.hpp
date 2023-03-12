@@ -20,21 +20,21 @@
  *            - the last byte : \0
  *          The responder mode: ExpHils returns the message as received
  */
-class ExampleSerialCommunicationForHils : public ComponentBase, public ObcCommunicationBase {
+class ExampleSerialCommunicationForHils : public Component, public UartCommunicationWithObc {
  public:
   /**
    * @fn ExampleSerialCommunicationForHils
    * @brief Constructor
    * @note prescaler is set as 300.
-   * @param [in] clock_gen: Clock generator
-   * @param [in] sils_port_id: Port ID for communication line b/w OBC
+   * @param [in] clock_generator: Clock generator
+   * @param [in] sils_port_id: Port ID for communication line b/w OnBoardComputer
    * @param [in] obc: The communication target OBC
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] baud_rate: Baud rate of HILS communication port
    * @param [in] hils_port_manager: HILS port manager
    * @param [in] mode_id: Mode ID to select sender(0) or responder(1)
    */
-  ExampleSerialCommunicationForHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc, const unsigned int hils_port_id,
+  ExampleSerialCommunicationForHils(ClockGenerator* clock_generator, const int sils_port_id, OnBoardComputer* obc, const unsigned int hils_port_id,
                                     const unsigned int baud_rate, HilsPortManager* hils_port_manager, const int mode_id);
   /**
    * @fn ~ExampleSerialCommunicationForHils
@@ -43,12 +43,12 @@ class ExampleSerialCommunicationForHils : public ComponentBase, public ObcCommun
   ~ExampleSerialCommunicationForHils();
 
  protected:
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to receive command and send telemetry
    */
-  void MainRoutine(int count);
+  void MainRoutine(const int time_count);
 
  private:
   const static int kMemorySize = 4;             //!< Memory size
@@ -61,9 +61,9 @@ class ExampleSerialCommunicationForHils : public ComponentBase, public ObcCommun
   // Override functions for ObcComunication
   /**
    * @fn ParseCommand
-   * @brief Parse command received from OBC
+   * @brief Parse command received from OnBoardComputer
    */
-  int ParseCommand(const int cmd_size) override;
+  int ParseCommand(const int command_size) override;
   /**
    * @fn GenerateTelemetry
    * @brief Generate telemetry send to OBC

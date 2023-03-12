@@ -26,13 +26,13 @@ class ClockGenerator {
   /**
    * @fn RegisterComponent
    * @brief Register component which has ITickable
-   * @param [in] ticlable: Component class
+   * @param [in] tickable: Component class
    */
   void RegisterComponent(ITickable* tickable);
   /**
    * @fn RemoveComponent
    * @brief Removed registered component
-   * @param [in] ticlable: Registered component class
+   * @param [in] tickable: Registered component class
    */
   void RemoveComponent(ITickable* tickable);
   /**
@@ -54,7 +54,7 @@ class ClockGenerator {
 
  private:
   std::vector<ITickable*> components_;  //!< Component list fot tick
-  int timer_count_;                     //!< Timer count TODO: consider size, unsigned
+  unsigned int timer_count_;            //!< Timer count TODO: change to long?
 };
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_HPP_

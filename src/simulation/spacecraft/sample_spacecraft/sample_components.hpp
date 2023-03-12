@@ -30,15 +30,15 @@
 
 #include "../installed_components.hpp"
 
-class OBC;
-class PCU;
-class Gyro;
-class MagSensor;
-class STT;
+class OnBoardComputer;
+class PowerControlUnit;
+class GyroSensor;
+class Magnetometer;
+class StarSensor;
 class SunSensor;
-class GNSSReceiver;
-class MagTorquer;
-class RWModel;
+class GnssReceiver;
+class Magnetorquer;
+class ReactionWheel;
 class SimpleThruster;
 class ForceGenerator;
 class TorqueGenerator;
@@ -53,7 +53,7 @@ class SampleComponents : public InstalledComponents {
    * @fn SampleComponents
    * @brief Constructor
    */
-  SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_env, const GlobalEnvironment* glo_env,
+  SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_environment, const GlobalEnvironment* glo_env,
                    const SimulationConfig* config, ClockGenerator* clock_gen, const int sat_id);
   /**
    * @fn ~SampleComponents
@@ -82,18 +82,18 @@ class SampleComponents : public InstalledComponents {
   inline Antenna& GetAntenna() const { return *antenna_; }
 
  private:
-  PCU* pcu_;                            //!< Power Control Unit
-  OBC* obc_;                            //!< Onboard Computer
+  PowerControlUnit* pcu_;               //!< Power Control Unit
+  OnBoardComputer* obc_;                //!< Onboard Computer
   HilsPortManager* hils_port_manager_;  //!< Port manager for HILS test
 
   // AOCS
-  Gyro* gyro_;                         //!< Gyro sensor
-  MagSensor* mag_sensor_;              //!< Magnetmeter
-  STT* stt_;                           //!< Star sensor
+  GyroSensor* gyro_;                   //!< GyroSensor sensor
+  Magnetometer* mag_sensor_;           //!< Magnetmeter
+  StarSensor* stt_;                    //!< Star sensor
   SunSensor* sun_sensor_;              //!< Sun sensor
-  GNSSReceiver* gnss_;                 //!< GNSS receiver
-  MagTorquer* mag_torquer_;            //!< Magnetorquer
-  RWModel* rw_;                        //!< Reaction Wheel
+  GnssReceiver* gnss_;                 //!< GNSS receiver
+  Magnetorquer* mag_torquer_;          //!< Magnetorquer
+  ReactionWheel* rw_;                  //!< Reaction Wheel
   SimpleThruster* thruster_;           //!< Thruster
   ForceGenerator* force_generator_;    //!< Ideal Force Generator
   TorqueGenerator* torque_generator_;  //!< Ideal Torque Generator

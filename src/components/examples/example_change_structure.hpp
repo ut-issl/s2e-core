@@ -15,27 +15,27 @@
  * @class ExampleChangeStructure
  * @brief Class to show an example to change satellite structure information
  */
-class ExampleChangeStructure : public ComponentBase, public ILoggable {
+class ExampleChangeStructure : public Component, public ILoggable {
  public:
   /**
    * @fn ExampleChangeStructure
    * @brief Constructor with power port
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] structure: Structure information
    */
-  ExampleChangeStructure(ClockGenerator* clock_gen, Structure* structure);
+  ExampleChangeStructure(ClockGenerator* clock_generator, Structure* structure);
   /**
    * @fn ~ChangeStructure
    * @brief Destructor
    */
   ~ExampleChangeStructure();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine for sensor observation
    */
-  void MainRoutine(int count) override;
+  void MainRoutine(const int time_count) override;
 
   // Override ILoggable
   /**

@@ -4,50 +4,51 @@
  */
 #include "power_control_unit.hpp"
 
-PCU::PCU(ClockGenerator* clock_gen) : ComponentBase(1, clock_gen) {}
+PowerControlUnit::PowerControlUnit(ClockGenerator* clock_generator) : Component(1, clock_generator) {}
 
-PCU::PCU(int prescaler, ClockGenerator* clock_gen) : ComponentBase(prescaler, clock_gen) {}
+PowerControlUnit::PowerControlUnit(int prescaler, ClockGenerator* clock_generator) : Component(prescaler, clock_generator) {}
 
-PCU::~PCU() {}
+PowerControlUnit::~PowerControlUnit() {}
 
-void PCU::MainRoutine(int count) {
-  UNUSED(count);
+void PowerControlUnit::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
-  // double current_ = ports_[1]->GetCurrentConsumption();
+  // double current_ = power_ports_[1]->GetCurrentConsumption_A();
 }
 
-int PCU::ConnectPort(const int port_id, const double current_Limit) {
+int PowerControlUnit::ConnectPort(const int port_id, const double current_limit_A) {
   // The port is already used
-  if (ports_[port_id] != nullptr) return -1;
+  if (power_ports_[port_id] != nullptr) return -1;
 
-  ports_[port_id] = new PowerPort(port_id, current_Limit);
+  power_ports_[port_id] = new PowerPort(port_id, current_limit_A);
   return 0;
 }
 
-int PCU::ConnectPort(const int port_id, const double current_Limit, const double minimum_voltage, const double assumed_power_consumption) {
+int PowerControlUnit::ConnectPort(const int port_id, const double current_limit_A, const double minimum_voltage_V,
+                                  const double assumed_power_consumption_W) {
   // The port is already used
-  if (ports_[port_id] != nullptr) return -1;
+  if (power_ports_[port_id] != nullptr) return -1;
 
-  ports_[port_id] = new PowerPort(port_id, current_Limit, minimum_voltage, assumed_power_consumption);
+  power_ports_[port_id] = new PowerPort(port_id, current_limit_A, minimum_voltage_V, assumed_power_consumption_W);
   return 0;
 }
 
-int PCU::ClosePort(const int port_id) {
+int PowerControlUnit::ClosePort(const int port_id) {
   // The port not used
-  if (ports_[port_id] == nullptr) return -1;
+  if (power_ports_[port_id] == nullptr) return -1;
 
-  PowerPort* port = ports_.at(port_id);
+  PowerPort* port = power_ports_.at(port_id);
   delete port;
-  ports_.erase(port_id);
+  power_ports_.erase(port_id);
   return 0;
 }
 
-std::string PCU::GetLogHeader() const {
+std::string PowerControlUnit::GetLogHeader() const {
   std::string str_tmp = "";
   return str_tmp;
 }
 
-std::string PCU::GetLogValue() const {
+std::string PowerControlUnit::GetLogValue() const {
   std::string str_tmp = "";
   return str_tmp;
 }

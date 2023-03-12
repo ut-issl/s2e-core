@@ -35,10 +35,10 @@ class HilsPortManager {
    * @brief Connect UART port
    * @param [in] port_id: COM port ID
    * @param [in] baud_rate: Baud rate ex 9600, 115200
-   * @param [in] tx_buf_size: TX buffer size
-   * @param [in] rx_buf_size: RX buffer size
+   * @param [in] tx_buffer_size: TX buffer size
+   * @param [in] rx_buffer_size: RX buffer size
    */
-  virtual int UartConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buf_size, unsigned int rx_buf_size);
+  virtual int UartConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buffer_size, unsigned int rx_buffer_size);
   /**
    * @fn UartCloseComPort
    * @brief Close UART port
@@ -47,7 +47,7 @@ class HilsPortManager {
   virtual int UartCloseComPort(unsigned int port_id);
   /**
    * @fn UartReceive
-   * @brief UART data receive from COM port (ex. OBC) to components in S2E
+   * @brief UART data receive from COM port (ex. OBC to components in S2E
    * @param [in] port_id: COM port ID
    * @param [out] buffer: Data buffer to receive
    * @param [in] offset: Start offset for the data buffer to receive
@@ -81,28 +81,29 @@ class HilsPortManager {
    * @fn I2cTargetReadRegister
    * @brief Read I2C register in S2E
    * @param [in] port_id: COM port ID
-   * @param [in] reg_addr: Register address to read
+   * @param [in] register_address: Register address to read
    * @param [out] data: Data buffer to store the read data
-   * @param [in] len: Read data length
+   * @param [in] length: Read data length
    */
-  virtual int I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_addr, unsigned char* data, const unsigned char len);
+  virtual int I2cTargetReadRegister(unsigned int port_id, const unsigned char register_address, unsigned char* data, const unsigned char length);
   /**
-   * @fn I2cTargetWriteRegister
+   * @brief
    * @brief Write data to I2C register in S2E
    * @param [in] port_id: COM port ID
-   * @param [in] reg_addr: Register address to write
+   * @param [in] register_address: Register address to write
    * @param [in] data: Data to write
-   * @param [in] len: Write data length
+   * @param [in] length: Write data length
    */
-  virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_addr, const unsigned char* data, const unsigned char len);
+  virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char register_address, const unsigned char* data,
+                                     const unsigned char length);
   /**
    * @fn I2cTargetReadCommand
    * @brief Read I2C command buffer in S2E
    * @param [in] port_id: COM port ID
    * @param [out] data: Data buffer to store the read data
-   * @param [in] len: Read data length
+   * @param [in] length: Read data length
    */
-  virtual int I2cTargetReadCommand(unsigned int port_id, unsigned char* data, const unsigned char len);
+  virtual int I2cTargetReadCommand(unsigned int port_id, unsigned char* data, const unsigned char length);
 
   /**
    * @fn I2cTargetReceive
@@ -114,9 +115,9 @@ class HilsPortManager {
    * @fn I2cTargetSend
    * @brief Send data to the I2C-USB converter
    * @param [in] port_id: COM port ID
-   * @param [in] len: Data length to write
+   * @param [in] length: Data length to write
    */
-  virtual int I2cTargetSend(unsigned int port_id, const unsigned char len);
+  virtual int I2cTargetSend(unsigned int port_id, const unsigned char length);
   /**
    * @fn I2cTargetGetStoredFrameCounter
    * @brief Get stored frame counter
@@ -131,10 +132,10 @@ class HilsPortManager {
    * @brief Connect I2C controller side device on the COM port
    * @param [in] port_id: COM port ID
    * @param [in] baud_rate: Baud rate ex 9600, 115200
-   * @param [in] tx_buf_size: TX buffer size
-   * @param [in] rx_buf_size: RX buffer size
+   * @param [in] tx_buffer_size: TX buffer size
+   * @param [in] rx_buffer_size: RX buffer size
    */
-  virtual int I2cControllerConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buf_size, unsigned int rx_buf_size);
+  virtual int I2cControllerConnectComPort(unsigned int port_id, unsigned int baud_rate, unsigned int tx_buffer_size, unsigned int rx_buffer_size);
   /**
    * @fn I2cControllerCloseComPort
    * @brief Close I2C controller side device on the COM port
@@ -162,8 +163,8 @@ class HilsPortManager {
 
  private:
 #ifdef USE_HILS
-  std::map<int, HilsUartPort*> uart_com_ports_;      //!< UART ports
-  std::map<int, HilsI2cTargetPort*> i2c_com_ports_;  //!< I2C ports
+  std::map<int, HilsUartPort*> uart_com_ports_;  //!< UART ports
+  std::map<int, HilsI2cTargetPort*> i2c_ports_;  //!< I2C ports
 #endif
 };
 

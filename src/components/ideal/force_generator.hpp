@@ -16,18 +16,18 @@
  * @class ForceGenerator
  * @brief Ideal component which can generate for control algorithm test
  */
-class ForceGenerator : public ComponentBase, public ILoggable {
+class ForceGenerator : public Component, public ILoggable {
  public:
   /**
    * @fn ForceGenerator
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] magnitude_error_standard_deviation_N: Standard deviation of magnitude error [N]
    * @param [in] direction_error_standard_deviation_rad: Standard deviation of direction error [rad]
    * @param [in] dynamics: Dynamics information
    */
-  ForceGenerator(const int prescaler, ClockGenerator* clock_gen, const double magnitude_error_standard_deviation_N,
+  ForceGenerator(const int prescaler, ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_N,
                  const double direction_error_standard_deviation_rad, const Dynamics* dynamics);
   /**
    * @fn ~ForceGenerator
@@ -35,12 +35,12 @@ class ForceGenerator : public ComponentBase, public ILoggable {
    */
   ~ForceGenerator();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation
    */
-  void MainRoutine(int count);
+  void MainRoutine(const int time_count);
   /**
    * @fn PowerOffRoutine
    * @brief Power off routine to stop force generation

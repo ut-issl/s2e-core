@@ -13,36 +13,36 @@
 #include "../../base/component.hpp"
 
 /*
- * @class PCU
+ * @class PowerControlUnit
  * @brief Component emulation of Power Control Unit
  */
-class PCU : public ComponentBase, public ILoggable {
+class PowerControlUnit : public Component, public ILoggable {
  public:
   /**
-   * @fn PCU
+   * @fn PowerControlUnit
    * @brief Constructor
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    */
-  PCU(ClockGenerator* clock_gen);
+  PowerControlUnit(ClockGenerator* clock_generator);
   /**
-   * @fn PCU
+   * @fn PowerControlUnit
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    */
-  PCU(int prescaler, ClockGenerator* clock_gen);
+  PowerControlUnit(int prescaler, ClockGenerator* clock_generator);
   /**
-   * @fn ~PCU
+   * @fn ~PowerControlUnit
    * @brief Destructor
    */
-  ~PCU();
+  ~PowerControlUnit();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation
    */
-  void MainRoutine(int count) override;
+  void MainRoutine(const int time_count) override;
 
   // Override ILoggable
   /**
@@ -61,37 +61,37 @@ class PCU : public ComponentBase, public ILoggable {
    * @brief Return power port information
    * @param port_id: Power port ID
    */
-  inline PowerPort* GetPowerPort(int port_id) { return ports_[port_id]; };
+  inline PowerPort* GetPowerPort(const int port_id) { return power_ports_[port_id]; };
 
   // Port control functions
   /**
    * @fn ConnectPort
-   * @brief Connect power port between components and PCU
+   * @brief Connect power port between components and PowerControlUnit
    * @param port_id: Power port ID
-   * @param [in] current_Limit: Threshold to detect over current [A]
+   * @param [in] current_limit_A: Threshold to detect over current [A]
    * @return 0: Success, -1: Error
    */
-  int ConnectPort(const int port_id, const double current_Limit);
+  int ConnectPort(const int port_id, const double current_limit_A);
   /**
    * @fn ConnectPort
-   * @brief Connect power port between components and PCU
+   * @brief Connect power port between components and PowerControlUnit
    * @param port_id: Power port ID
-   * @param [in] current_Limit: Threshold to detect over current [A]
-   * @param [in] minimum_voltage: Minimum voltage to work the component [V]
-   * @param [in] assumed_power_consumption: Assumed power consumption of the component [W]
+   * @param [in] current_limit_A: Threshold to detect over current [A]
+   * @param [in] minimum_voltage_V: Minimum voltage to work the component [V]
+   * @param [in] assumed_power_consumption_W: Assumed power consumption of the component [W]
    * @return 0: Success, -1: Error
    */
-  int ConnectPort(const int port_id, const double current_Limit, const double minimum_voltage, const double assumed_power_consumption);
+  int ConnectPort(const int port_id, const double current_limit_A, const double minimum_voltage_V, const double assumed_power_consumption_W);
   /**
    * @fn ClosePort
-   * @brief Close power port between components and PCU
+   * @brief Close power port between components and PowerControlUnit
    * @param port_id: Power port ID
    * @return 0: Success, -1: Error
    */
   int ClosePort(const int port_id);
 
  private:
-  std::map<int, PowerPort*> ports_;  //!< Power port list
+  std::map<int, PowerPort*> power_ports_;  //!< Power port list
 };
 
 #endif  // S2E_COMPONENTS_REAL_POWER_POWER_CONTROL_UNIT_HPP_
