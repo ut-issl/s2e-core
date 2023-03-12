@@ -81,20 +81,21 @@ class HilsPortManager {
    * @fn I2cTargetReadRegister
    * @brief Read I2C register in S2E
    * @param [in] port_id: COM port ID
-   * @param [in] reg_address: Register address to read
+   * @param [in] register_address: Register address to read
    * @param [out] data: Data buffer to store the read data
    * @param [in] length: Read data length
    */
-  virtual int I2cTargetReadRegister(unsigned int port_id, const unsigned char reg_address, unsigned char* data, const unsigned char length);
+  virtual int I2cTargetReadRegister(unsigned int port_id, const unsigned char register_address, unsigned char* data, const unsigned char length);
   /**
-   * @fn I2cTargetWriteRegister
+   * @brief
    * @brief Write data to I2C register in S2E
    * @param [in] port_id: COM port ID
-   * @param [in] reg_address: Register address to write
+   * @param [in] register_address: Register address to write
    * @param [in] data: Data to write
    * @param [in] length: Write data length
    */
-  virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char reg_address, const unsigned char* data, const unsigned char length);
+  virtual int I2cTargetWriteRegister(unsigned int port_id, const unsigned char register_address, const unsigned char* data,
+                                     const unsigned char length);
   /**
    * @fn I2cTargetReadCommand
    * @brief Read I2C command buffer in S2E
