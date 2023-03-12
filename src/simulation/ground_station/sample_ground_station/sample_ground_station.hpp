@@ -14,30 +14,30 @@
 #include "../../spacecraft/sample_spacecraft/sample_spacecraft.hpp"
 #include "../ground_station.hpp"
 
-class SampleGSComponents;
+class SampleGsComponents;
 
 /**
- * @class SampleGS
+ * @class SampleGroundStation
  * @brief An example of user defined ground station class
  */
-class SampleGS : public GroundStation {
+class SampleGroundStation : public GroundStation {
  public:
   /**
-   * @fn SampleGS
+   * @fn SampleGroundStation
    * @brief Constructor
    */
-  SampleGS(SimulationConfig* config, int gs_id);
+  SampleGroundStation(const SimulationConfiguration* configuration, const unsigned int ground_station_id);
   /**
-   * @fn ~SampleGS
+   * @fn ~SampleGroundStation
    * @brief Destructor
    */
-  ~SampleGS();
+  ~SampleGroundStation();
 
   /**
    * @fn Initialize
    * @brief Override function of Initialize in GroundStation class
    */
-  virtual void Initialize(SimulationConfig* config);
+  virtual void Initialize(const SimulationConfiguration* configuration);
   /**
    * @fn LogSetup
    * @brief Override function of LogSetup in GroundStation class
@@ -47,10 +47,10 @@ class SampleGS : public GroundStation {
    * @fn Update
    * @brief Override function of Update in GroundStation class
    */
-  virtual void Update(const CelestialRotation& celes_rotation, const SampleSat& spacecraft);
+  virtual void Update(const CelestialRotation& celestial_rotation, const SampleSpacecraft& spacecraft);
 
  private:
-  SampleGSComponents* components_;  //!< Ground station related components
+  SampleGsComponents* components_;  //!< Ground station related components
 };
 
 #endif  // S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_HPP_

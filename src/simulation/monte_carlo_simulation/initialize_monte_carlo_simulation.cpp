@@ -10,19 +10,19 @@
 
 #define MAX_CHAR_NUM 256
 
-MCSimExecutor* InitMCSim(std::string file_name) {
+MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
   IniAccess ini_file(file_name);
   const char* section = "MONTE_CARLO_EXECUTION";
 
   unsigned long long total_num_of_executions = ini_file.ReadInt(section, "number_of_executions");
 
-  MCSimExecutor* mc_sim = new MCSimExecutor(total_num_of_executions);
+  MonteCarloSimulationExecutor* monte_carlo_simulator = new MonteCarloSimulationExecutor(total_num_of_executions);
 
   bool enable = ini_file.ReadEnable(section, "monte_carlo_enable");
-  mc_sim->Enable(enable);
+  monte_carlo_simulator->SetEnable(enable);
 
   bool log_history = ini_file.ReadEnable(section, "log_enable");
-  mc_sim->LogHistory(log_history);
+  monte_carlo_simulator->SetSaveLogHistoryFlag(log_history);
 
   section = "MONTE_CARLO_RANDOMIZATION";
   std::vector<std::string> so_dot_ip_str_vec = ini_file.ReadStrVector(section, "parameter");
@@ -30,11 +30,11 @@ MCSimExecutor* InitMCSim(std::string file_name) {
 
   enum Phase { FoundNothingYet, FoundSimulationObjectStr, FoundInitParameterStr };
   for (auto so_dot_ip_str : so_dot_ip_str_vec) {
-    // Divide the string to SimulationObject and InitParameter
+    // Divide the string to SimulationObject and InitializedMonteCarloParameters
     Phase phase = FoundNothingYet;
     std::stringstream ss(so_dot_ip_str);
     std::string item, so_str, ip_str;
-    while (getline(ss, item, MCSimExecutor::separator_)) {
+    while (getline(ss, item, MonteCarloSimulationExecutor::separator_)) {
       if (!item.empty()) {
         if (phase == FoundNothingYet) {
           phase = FoundSimulationObjectStr;
@@ -50,46 +50,46 @@ MCSimExecutor* InitMCSim(std::string file_name) {
     }
 
     // Read Randomization type
-    InitParameter::RandomizationType rnd_type;
+    InitializedMonteCarloParameters::RandomizationType random_type;
     const static unsigned int buf_size = 256;
     char rnd_type_str[buf_size];
-    std::string key_name = so_dot_ip_str + MCSimExecutor::separator_ + "randomization_type";
+    std::string key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "randomization_type";
 
     ini_file.ReadChar(section, key_name.c_str(), buf_size, rnd_type_str);
     if (!strcmp(rnd_type_str, "NoRandomization"))
-      rnd_type = InitParameter::NoRandomization;
+      random_type = InitializedMonteCarloParameters::NoRandomization;
     else if (!strcmp(rnd_type_str, "CartesianUniform"))
-      rnd_type = InitParameter::CartesianUniform;
+      random_type = InitializedMonteCarloParameters::CartesianUniform;
     else if (!strcmp(rnd_type_str, "CartesianNormal"))
-      rnd_type = InitParameter::CartesianNormal;
+      random_type = InitializedMonteCarloParameters::CartesianNormal;
     else if (!strcmp(rnd_type_str, "CircularNormalUniform"))
-      rnd_type = InitParameter::CircularNormalUniform;
+      random_type = InitializedMonteCarloParameters::CircularNormalUniform;
     else if (!strcmp(rnd_type_str, "CircularNormalNormal"))
-      rnd_type = InitParameter::CircularNormalNormal;
+      random_type = InitializedMonteCarloParameters::CircularNormalNormal;
     else if (!strcmp(rnd_type_str, "SphericalNormalUniformUniform"))
-      rnd_type = InitParameter::SphericalNormalUniformUniform;
+      random_type = InitializedMonteCarloParameters::SphericalNormalUniformUniform;
     else if (!strcmp(rnd_type_str, "SphericalNormalNormal"))
-      rnd_type = InitParameter::SphericalNormalNormal;
+      random_type = InitializedMonteCarloParameters::SphericalNormalNormal;
     else if (!strcmp(rnd_type_str, "QuaternionUniform"))
-      rnd_type = InitParameter::QuaternionUniform;
+      random_type = InitializedMonteCarloParameters::QuaternionUniform;
     else if (!strcmp(rnd_type_str, "QuaternionNormal"))
-      rnd_type = InitParameter::QuaternionNormal;
+      random_type = InitializedMonteCarloParameters::QuaternionNormal;
     else
-      rnd_type = InitParameter::NoRandomization;
+      random_type = InitializedMonteCarloParameters::NoRandomization;
 
     // Read mean_or_min vector
-    key_name = so_dot_ip_str + MCSimExecutor::separator_ + "mean_or_min";
-    Vector<3> mean_or_min;
+    key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "mean_or_min";
+    libra::Vector<3> mean_or_min;
     ini_file.ReadVector(section, key_name.c_str(), mean_or_min);
 
     // Read sigma_or_max vector
-    key_name = so_dot_ip_str + MCSimExecutor::separator_ + "sigma_or_max";
-    Vector<3> sigma_or_max;
+    key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "sigma_or_max";
+    libra::Vector<3> sigma_or_max;
     ini_file.ReadVector(section, key_name.c_str(), sigma_or_max);
 
     // Write randomize setting
-    mc_sim->AddInitParameter(so_str, ip_str, mean_or_min, sigma_or_max, rnd_type);
+    monte_carlo_simulator->AddInitializedMonteCarloParameter(so_str, ip_str, mean_or_min, sigma_or_max, random_type);
   }
 
-  return mc_sim;
+  return monte_carlo_simulator;
 }

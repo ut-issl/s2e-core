@@ -28,7 +28,7 @@ class SurfaceForce : public SimpleDisturbance {
    * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  SurfaceForce(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled = true);
+  SurfaceForce(const std::vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled = true);
   /**
    * @fn ~SurfaceForce
    * @brief Destructor
@@ -37,14 +37,14 @@ class SurfaceForce : public SimpleDisturbance {
 
  protected:
   // Spacecraft Structure parameters
-  const vector<Surface>& surfaces_;                //!< List of surfaces
-  const libra::Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass at body frame [m]
+  const std::vector<Surface>& surfaces_;           //!< List of surfaces
+  const libra::Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass_kg at body frame [m]
 
   // Internal calculated variables
-  vector<double> normal_coefficients_;      //!< coefficients for out-plane force for each surface
-  vector<double> tangential_coefficients_;  //!< coefficients for in-plane force for each surface
-  vector<double> cos_theta_;  //!< cos(theta) for each surface (theta is the angle b/w normal vector and the direction of disturbance source)
-  vector<double> sin_theta_;  //!< sin(theta) for each surface (theta is the angle b/w normal vector and the direction of disturbance source)
+  std::vector<double> normal_coefficients_;      //!< coefficients for out-plane force for each surface
+  std::vector<double> tangential_coefficients_;  //!< coefficients for in-plane force for each surface
+  std::vector<double> cos_theta_;  //!< cos(theta) for each surface (theta is the angle b/w normal vector and the direction of disturbance source)
+  std::vector<double> sin_theta_;  //!< sin(theta) for each surface (theta is the angle b/w normal vector and the direction of disturbance source)
 
   // Functions
   /**

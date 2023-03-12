@@ -63,7 +63,7 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path, cons
   return gg_disturbance;
 }
 
-MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const RMMParams& rmm_params) {
+MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "MAGNETIC_DISTURBANCE";
 

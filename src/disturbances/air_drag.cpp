@@ -11,7 +11,7 @@
 
 #include "../library/logger/log_utility.hpp"
 
-AirDrag::AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
+AirDrag::AirDrag(const std::vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
                  const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled),
       wall_temperature_K_(wall_temperature_K),
@@ -32,7 +32,7 @@ void AirDrag::CalcCoefficients(const libra::Vector<3>& velocity_b_m_s, const dou
   double velocity_norm_m_s = CalcNorm(velocity_b_m_s);
   CalcCnCt(velocity_b_m_s);
   for (size_t i = 0; i < surfaces_.size(); i++) {
-    double k = 0.5 * air_density_kg_m3 * velocity_norm_m_s * velocity_norm_m_s * surfaces_[i].GetArea();
+    double k = 0.5 * air_density_kg_m3 * velocity_norm_m_s * velocity_norm_m_s * surfaces_[i].GetArea_m2();
     normal_coefficients_[i] = k * cn_[i];
     tangential_coefficients_[i] = k * ct_[i];
   }

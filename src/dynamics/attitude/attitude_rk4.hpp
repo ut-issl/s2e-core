@@ -45,7 +45,7 @@ class AttitudeRk4 : public Attitude {
    * @brief Set parameters for Monte-Carlo simulation
    * @param [in] mc_simulator: Monte-Carlo simulation executor
    */
-  virtual void SetParameters(const MCSimExecutor& mc_simulator);
+  virtual void SetParameters(const MonteCarloSimulationExecutor& mc_simulator);
 
  private:
   double current_propagation_time_s_;  //!< current time [sec]

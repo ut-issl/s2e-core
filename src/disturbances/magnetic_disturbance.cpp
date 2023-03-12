@@ -12,9 +12,9 @@
 #include "../library/randomization/normal_randomization.hpp"
 #include "../library/randomization/random_walk.hpp"
 
-MagneticDisturbance::MagneticDisturbance(const RMMParams& rmm_params, const bool is_calculation_enabled)
-    : SimpleDisturbance(is_calculation_enabled), rmm_params_(rmm_params) {
-  rmm_b_Am2_ = rmm_params_.GetRMMConst_b();
+MagneticDisturbance::MagneticDisturbance(const ResidualMagneticMoment& rmm_params, const bool is_calculation_enabled)
+    : SimpleDisturbance(is_calculation_enabled), residual_magnetic_moment_(rmm_params) {
+  rmm_b_Am2_ = residual_magnetic_moment_.GetConstantValue_b_Am2();
 }
 
 Vector<3> MagneticDisturbance::CalcTorque_b_Nm(const Vector<3>& magnetic_field_b_nT) {
@@ -30,12 +30,12 @@ void MagneticDisturbance::Update(const LocalEnvironment& local_environment, cons
 }
 
 void MagneticDisturbance::CalcRMM() {
-  static libra::Vector<3> random_walk_std_dev(rmm_params_.GetRMMRWDev());
-  static libra::Vector<3> random_walk_limit(rmm_params_.GetRMMRWLimit());
+  static libra::Vector<3> random_walk_std_dev(residual_magnetic_moment_.GetRandomWalkStandardDeviation_Am2());
+  static libra::Vector<3> random_walk_limit(residual_magnetic_moment_.GetRandomWalkLimit_Am2());
   static RandomWalk<3> random_walk(0.1, random_walk_std_dev, random_walk_limit);  // [FIXME] step width is constant
-  static libra::NormalRand normal_random(0.0, rmm_params_.GetRMMWNVar(), global_randomization.MakeSeed());
+  static libra::NormalRand normal_random(0.0, residual_magnetic_moment_.GetRandomNoiseStandardDeviation_Am2(), global_randomization.MakeSeed());
 
-  rmm_b_Am2_ = rmm_params_.GetRMMConst_b();
+  rmm_b_Am2_ = residual_magnetic_moment_.GetConstantValue_b_Am2();
   for (int i = 0; i < 3; ++i) {
     rmm_b_Am2_[i] += random_walk[i] + normal_random;
   }

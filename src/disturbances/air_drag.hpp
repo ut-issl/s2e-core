@@ -30,7 +30,7 @@ class AirDrag : public SurfaceForce {
    * @param [in] molecular_weight_g_mol: Molecular weight [g/mol]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  AirDrag(const vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
+  AirDrag(const std::vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
           const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled = true);
 
   /**
@@ -54,8 +54,8 @@ class AirDrag : public SurfaceForce {
   virtual std::string GetLogValue() const;
 
  private:
-  vector<double> cn_;               //!< Coefficients for out-plane force
-  vector<double> ct_;               //!< Coefficients for in-plane force
+  std::vector<double> cn_;          //!< Coefficients for out-plane force
+  std::vector<double> ct_;          //!< Coefficients for in-plane force
   double wall_temperature_K_;       //!< Temperature of surface [K]
   double molecular_temperature_K_;  //!< Temperature of atmosphere [K]
   double molecular_weight_g_mol_;   //!< Molecular weight [g/mol]

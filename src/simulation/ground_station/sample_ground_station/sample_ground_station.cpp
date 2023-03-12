@@ -7,18 +7,21 @@
 
 #include "sample_ground_station_components.hpp"
 
-SampleGS::SampleGS(SimulationConfig* config, int gs_id) : GroundStation(config, gs_id) { Initialize(config); }
+SampleGroundStation::SampleGroundStation(const SimulationConfiguration* configuration, const unsigned int ground_station_id)
+    : GroundStation(configuration, ground_station_id) {
+  Initialize(configuration);
+}
 
-SampleGS::~SampleGS() { delete components_; }
+SampleGroundStation::~SampleGroundStation() { delete components_; }
 
-void SampleGS::Initialize(SimulationConfig* config) { components_ = new SampleGSComponents(config); }
+void SampleGroundStation::Initialize(const SimulationConfiguration* configuration) { components_ = new SampleGsComponents(configuration); }
 
-void SampleGS::LogSetup(Logger& logger) {
+void SampleGroundStation::LogSetup(Logger& logger) {
   GroundStation::LogSetup(logger);
   components_->CompoLogSetUp(logger);
 }
 
-void SampleGS::Update(const CelestialRotation& celes_rotation, const SampleSat& spacecraft) {
-  GroundStation::Update(celes_rotation, spacecraft);
+void SampleGroundStation::Update(const CelestialRotation& celestial_rotation, const SampleSpacecraft& spacecraft) {
+  GroundStation::Update(celestial_rotation, spacecraft);
   components_->GetGsCalculator()->Update(spacecraft, spacecraft.GetInstalledComponents().GetAntenna(), *this, *(components_->GetAntenna()));
 }

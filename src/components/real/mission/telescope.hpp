@@ -111,7 +111,7 @@ class Telescope : public Component, public ILoggable {
    * @param [out] position_image_sensor: Position on image sensor plane
    * @param [in] target_b: Direction vector of target on the body fixed frame
    */
-  void Observe(Vector<2>& position_image_sensor, const Vector<3, double> target_b);
+  void Observe(libra::Vector<2>& position_image_sensor, const libra::Vector<3, double> target_b);
   /**
    * @fn ObserveStars
    * @brief Observe stars from Hipparcos catalogue
@@ -135,9 +135,9 @@ class Telescope : public Component, public ILoggable {
   virtual std::string GetLogValue() const;
 
   // For debug **********************************************
-  //  Vector<3> sun_pos_c;
-  //  Vector<3> earth_pos_c;
-  //  Vector<3> moon_pos_c;
+  //  libra::Vector<3> sun_pos_c;
+  //  libra::Vector<3> earth_pos_c;
+  //  libra::Vector<3> moon_pos_c;
   //  double angle_sun;
   //  double angle_earth;
   //  double angle_moon;

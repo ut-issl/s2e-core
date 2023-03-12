@@ -20,7 +20,7 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const 
   int prescaler = STT_conf.ReadInt(STTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
   double step_time_s = component_step_time_s * prescaler;
-  Quaternion quaternion_b2c;
+  libra::Quaternion quaternion_b2c;
   STT_conf.ReadQuaternion(STTSection, "quaternion_b2c", quaternion_b2c);
   double standard_deviation_orthogonal_direction = STT_conf.ReadDouble(STTSection, "standard_deviation_orthogonal_direction_rad");
   double standard_deviation_sight_direction = STT_conf.ReadDouble(STTSection, "standard_deviation_sight_direction_rad");
@@ -54,7 +54,7 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, PowerPort* power_port
   if (prescaler <= 1) prescaler = 1;
   double step_time_s = component_step_time_s * prescaler;
 
-  Quaternion quaternion_b2c;
+  libra::Quaternion quaternion_b2c;
   STT_conf.ReadQuaternion(STTSection, "quaternion_b2c", quaternion_b2c);
   double standard_deviation_orthogonal_direction = STT_conf.ReadDouble(STTSection, "standard_deviation_orthogonal_direction_rad");
   double standard_deviation_sight_direction = STT_conf.ReadDouble(STTSection, "standard_deviation_sight_direction_rad");

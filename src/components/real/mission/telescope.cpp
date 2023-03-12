@@ -80,8 +80,8 @@ void Telescope::MainRoutine(int count) {
 }
 
 bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle) {
-  Quaternion q_c2b = quaternion_b2c_.Conjugate();
-  Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
+  libra::Quaternion q_c2b = quaternion_b2c_.Conjugate();
+  libra::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double angle_rad = libra::CalcAngleTwoVectors_rad(target_b, sight_b);
   if (angle_rad < forbidden_angle) {
     return true;
@@ -89,8 +89,8 @@ bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b, const doub
     return false;
 }
 
-void Telescope::Observe(Vector<2>& position_image_sensor, const Vector<3, double> target_b) {
-  Vector<3, double> target_c = quaternion_b2c_.FrameConversion(target_b);
+void Telescope::Observe(libra::Vector<2>& position_image_sensor, const libra::Vector<3, double> target_b) {
+  libra::Vector<3, double> target_c = quaternion_b2c_.FrameConversion(target_b);
   double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame
   double arg_y = atan2(target_c[1], target_c[0]);  // Angle from X-axis on XY plane in the component frame
 
@@ -110,8 +110,8 @@ void Telescope::ObserveStars() {
   int count = 0;               // Counter for while loop
 
   while (star_list_in_sight.size() < number_of_logged_stars_) {
-    Vector<3> target_b = hipparcos_->GetStarDirection_b(count, quaternion_i2b);
-    Vector<3> target_c = quaternion_b2c_.FrameConversion(target_b);
+    libra::Vector<3> target_b = hipparcos_->GetStarDirection_b(count, quaternion_i2b);
+    libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(target_b);
 
     double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame
     double arg_y = atan2(target_c[1], target_c[0]);  // Angle from X-axis on XY plane in the component frame

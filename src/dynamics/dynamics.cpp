@@ -7,7 +7,7 @@
 
 #include "../simulation/multiple_spacecraft/relative_information.hpp"
 
-Dynamics::Dynamics(SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
+Dynamics::Dynamics(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time,
                    const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
                    RelativeInformation* relative_information) {
   Initialize(simulation_configuration, simulation_time, local_celestial_information, spacecraft_id, structure, relative_information);
@@ -19,18 +19,18 @@ Dynamics::~Dynamics() {
   delete temperature_;
 }
 
-void Dynamics::Initialize(SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
+void Dynamics::Initialize(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time,
                           const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
                           RelativeInformation* relative_information) {
   structure_ = structure;
 
   // Initialize
-  orbit_ = InitOrbit(&(local_celestial_information->GetGlobalInformation()), simulation_configuration->sat_file_[spacecraft_id],
+  orbit_ = InitOrbit(&(local_celestial_information->GetGlobalInformation()), simulation_configuration->spacecraft_file_list_[spacecraft_id],
                      simulation_time->GetOrbitRkStepTime_s(), simulation_time->GetCurrentTime_jd(),
                      local_celestial_information->GetGlobalInformation().GetCenterBodyGravityConstant_m3_s2(), "ORBIT", relative_information);
-  attitude_ = InitAttitude(simulation_configuration->sat_file_[spacecraft_id], orbit_, local_celestial_information,
-                           simulation_time->GetAttitudeRkStepTime_s(), structure->GetKinematicsParams().GetInertiaTensor(), spacecraft_id);
-  temperature_ = InitTemperature(simulation_configuration->sat_file_[spacecraft_id], simulation_time->GetThermalRkStepTime_s());
+  attitude_ = InitAttitude(simulation_configuration->spacecraft_file_list_[spacecraft_id], orbit_, local_celestial_information,
+                           simulation_time->GetAttitudeRkStepTime_s(), structure->GetKinematicsParameters().GetInertiaTensor_b_kgm2(), spacecraft_id);
+  temperature_ = InitTemperature(simulation_configuration->spacecraft_file_list_[spacecraft_id], simulation_time->GetThermalRkStepTime_s());
 
   // To get initial value
   orbit_->UpdateByAttitude(attitude_->GetQuaternion_i2b());
@@ -60,7 +60,7 @@ void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestia
 
 void Dynamics::ClearForceTorque(void) {
   libra::Vector<3> zero(0.0);
-  attitude_->SetTorque_b(zero);
+  attitude_->SetTorque_b_Nm(zero);
   orbit_->SetAcceleration_i_m_s2(zero);
 }
 

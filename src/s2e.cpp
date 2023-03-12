@@ -68,9 +68,9 @@ int main(int argc, char *argv[])
   std::cout << "\tIni file: ";
   print_path(ini_file);
 
-  auto simcase = SampleCase(ini_file);
-  simcase.Initialize();
-  simcase.Main();
+  auto simulation_case = SampleCase(ini_file);
+  simulation_case.Initialize();
+  simulation_case.Main();
 
   end = system_clock::now();
   double time = static_cast<double>(duration_cast<microseconds>(end - start).count() / 1000000.0);

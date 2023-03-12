@@ -30,8 +30,8 @@ GeoPotential::GeoPotential(const int degree, const std::string file_path, const 
     degree_ = 0;
   }
   // coefficients
-  c_.assign(degree_ + 1, vector<double>(degree_ + 1, 0.0));
-  s_.assign(degree_ + 1, vector<double>(degree_ + 1, 0.0));
+  c_.assign(degree_ + 1, std::vector<double>(degree_ + 1, 0.0));
+  s_.assign(degree_ + 1, std::vector<double>(degree_ + 1, 0.0));
   // For actual EGM model, c_[0][0] should be 1.0
   // In S2E, 0 degree term is inside the SimpleCircularOrbit calculation
   c_[0][0] = 0.0;
@@ -78,12 +78,12 @@ void GeoPotential::Update(const LocalEnvironment &local_environment, const Dynam
   time_ms_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
 #endif
 
-  Matrix<3, 3> trans_eci2ecef_ = local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf();
-  Matrix<3, 3> trans_ecef2eci = Transpose(trans_eci2ecef_);
+  libra::Matrix<3, 3> trans_eci2ecef_ = local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf();
+  libra::Matrix<3, 3> trans_ecef2eci = Transpose(trans_eci2ecef_);
   acceleration_i_m_s2_ = trans_ecef2eci * acceleration_ecef_m_s2_;
 }
 
-void GeoPotential::CalcAccelerationEcef(const Vector<3> &position_ecef_m) {
+void GeoPotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m) {
   ecef_x_m_ = position_ecef_m[0];
   ecef_y_m_ = position_ecef_m[1];
   ecef_z_m_ = position_ecef_m[2];
@@ -91,8 +91,8 @@ void GeoPotential::CalcAccelerationEcef(const Vector<3> &position_ecef_m) {
 
   // Calc V and W
   int degree_vw = degree_ + 1;
-  vector<vector<double>> v(degree_vw + 1, vector<double>(degree_vw + 1, 0.0));
-  vector<vector<double>> w(degree_vw + 1, vector<double>(degree_vw + 1, 0.0));
+  std::vector<std::vector<double>> v(degree_vw + 1, std::vector<double>(degree_vw + 1, 0.0));
+  std::vector<std::vector<double>> w(degree_vw + 1, std::vector<double>(degree_vw + 1, 0.0));
   // n=m=0
   v[0][0] = environment::earth_equatorial_radius_m / radius_m_;
   w[0][0] = 0.0;

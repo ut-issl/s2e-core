@@ -20,7 +20,7 @@ class SampleCase : public SimulationCase {
    * @fn SampleCase
    * @brief Constructor
    */
-  SampleCase(std::string ini_base);
+  SampleCase(std::string initialise_base_file);
 
   /**
    * @fn ~SampleCase
@@ -52,8 +52,8 @@ class SampleCase : public SimulationCase {
   virtual std::string GetLogValue() const;
 
  private:
-  SampleSat* sample_sat_;  //!< Instance of spacecraft
-  SampleGS* sample_gs_;    //!< Instance of ground station
+  SampleSpacecraft* sample_spacecraft_;         //!< Instance of spacecraft
+  SampleGroundStation* sample_ground_station_;  //!< Instance of ground station
 };
 
 #endif  // S2E_SIMULATION_CASE_SAMPLE_CASE_HPP_

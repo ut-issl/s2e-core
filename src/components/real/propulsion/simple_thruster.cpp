@@ -9,9 +9,10 @@
 #include <library/randomization/global_randomization.hpp>
 
 // Constructor
-SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Vector<3> thruster_position_b_m,
-                               const Vector<3> thrust_direction_b, const double max_magnitude_N, const double magnitude_standard_deviation_N,
-                               const double direction_standard_deviation_rad, const Structure* structure, const Dynamics* dynamics)
+SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id,
+                               const libra::Vector<3> thruster_position_b_m, const libra::Vector<3> thrust_direction_b, const double max_magnitude_N,
+                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
+                               const Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       thruster_position_b_m_(thruster_position_b_m),
@@ -24,7 +25,7 @@ SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_genera
 }
 
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                               const Vector<3> thruster_position_b_m, const Vector<3> thrust_direction_b, const double max_magnitude_N,
+                               const libra::Vector<3> thruster_position_b_m, const libra::Vector<3> thrust_direction_b, const double max_magnitude_N,
                                const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
                                const Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
@@ -50,7 +51,7 @@ void SimpleThruster::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
   CalcThrust();
-  CalcTorque(structure_->GetKinematicsParams().GetCGb());
+  CalcTorque(structure_->GetKinematicsParameters().GetCenterOfGravity_b_m());
 }
 
 void SimpleThruster::PowerOffRoutine() {
@@ -64,9 +65,9 @@ void SimpleThruster::CalcThrust() {
   output_thrust_b_N_ = mag * CalcThrustDirection();
 }
 
-void SimpleThruster::CalcTorque(const Vector<3> center_of_mass_b_m) {
-  Vector<3> vector_center2thruster = thruster_position_b_m_ - center_of_mass_b_m;
-  Vector<3> torque = OuterProduct(vector_center2thruster, output_thrust_b_N_);
+void SimpleThruster::CalcTorque(const libra::Vector<3> center_of_mass_b_m) {
+  libra::Vector<3> vector_center2thruster = thruster_position_b_m_ - center_of_mass_b_m;
+  libra::Vector<3> torque = OuterProduct(vector_center2thruster, output_thrust_b_N_);
 
   output_torque_b_Nm_ = torque;
 }
@@ -93,10 +94,10 @@ std::string SimpleThruster::GetLogValue() const {
 
 double SimpleThruster::CalcThrustMagnitude() { return duty_ * thrust_magnitude_max_N_; }
 
-Vector<3> SimpleThruster::CalcThrustDirection() {
-  Vector<3> thrust_dir_b_true = thrust_direction_b_;
+libra::Vector<3> SimpleThruster::CalcThrustDirection() {
+  libra::Vector<3> thrust_dir_b_true = thrust_direction_b_;
   if (direction_noise_standard_deviation_rad_ > 0.0 + DBL_EPSILON) {
-    Vector<3> ex;  // Fixme: to use outer product to generate orthogonal vector
+    libra::Vector<3> ex;  // Fixme: to use outer product to generate orthogonal vector
     ex[0] = 1.0;
     ex[1] = 0.0;
     ex[2] = 0.0;
@@ -108,10 +109,10 @@ Vector<3> SimpleThruster::CalcThrustDirection() {
       make_axis_rot_rad = -libra::pi * (double)rand() / RAND_MAX;
     }
 
-    Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);
-    Vector<3> axis_rot = make_axis_rot.FrameConversion(ex);
+    libra::Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);
+    libra::Vector<3> axis_rot = make_axis_rot.FrameConversion(ex);
 
-    Quaternion err_rot(axis_rot, direction_random_noise_);           // Generate error quaternion
+    libra::Quaternion err_rot(axis_rot, direction_random_noise_);    // Generate error quaternion
     thrust_dir_b_true = err_rot.FrameConversion(thrust_dir_b_true);  // Add error
   }
 

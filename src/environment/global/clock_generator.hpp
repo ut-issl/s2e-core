@@ -43,9 +43,9 @@ class ClockGenerator {
   /**
    * @fn UpdateComponents
    * @brief Execute TickToComponents when component update timing
-   * @param [in] sim_time: Simulation time
+   * @param [in] simulation_time: Simulation time
    */
-  void UpdateComponents(const SimulationTime* sim_time);
+  void UpdateComponents(const SimulationTime* simulation_time);
   /**
    * @fn ClearTimerCount
    * @brief Clear time count

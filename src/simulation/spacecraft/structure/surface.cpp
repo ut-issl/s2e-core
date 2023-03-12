@@ -5,5 +5,11 @@
 
 #include "surface.hpp"
 
-Surface::Surface(Vector<3> position, Vector<3> normal, double area, double reflectivity, double specularity, double air_specularity)
-    : position_(position), normal_(normal), area_(area), reflectivity_(reflectivity), specularity_(specularity), air_specularity_(air_specularity) {}
+Surface::Surface(const libra::Vector<3> position_b_m, const libra::Vector<3> normal_b, const double area_m2, const double reflectivity,
+                 const double specularity, const double air_specularity)
+    : position_b_m_(position_b_m),
+      normal_b_(normal_b),
+      area_m2_(area_m2),
+      reflectivity_(reflectivity),
+      specularity_(specularity),
+      air_specularity_(air_specularity) {}

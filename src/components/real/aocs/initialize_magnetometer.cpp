@@ -17,7 +17,7 @@ Magnetometer InitMagetometer(ClockGenerator* clock_generator, int sensor_id, con
   int prescaler = magsensor_conf.ReadInt(MSSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Quaternion quaternion_b2c;
+  libra::Quaternion quaternion_b2c;
   magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", quaternion_b2c);
 
   // Sensor
@@ -38,7 +38,7 @@ Magnetometer InitMagetometer(ClockGenerator* clock_generator, PowerPort* power_p
   int prescaler = magsensor_conf.ReadInt(MSSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Quaternion quaternion_b2c;
+  libra::Quaternion quaternion_b2c;
   magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", quaternion_b2c);
 
   // Sensor

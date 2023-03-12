@@ -11,12 +11,12 @@
 typedef struct _gnssrecever_param {
   int prescaler;
   AntennaModel antenna_model;
-  Vector<3> antenna_pos_b;
-  Quaternion quaternion_b2c;
+  libra::Vector<3> antenna_pos_b;
+  libra::Quaternion quaternion_b2c;
   double half_width_rad;
   std::string gnss_id;
   int max_channel;
-  Vector<3> noise_standard_deviation_m;
+  libra::Vector<3> noise_standard_deviation_m;
 } GnssReceiverParam;
 
 GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const GnssSatellites* gnss_satellites, const int component_id) {

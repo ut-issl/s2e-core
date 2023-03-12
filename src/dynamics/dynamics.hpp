@@ -28,14 +28,14 @@ class Dynamics {
   /**
    * @fn Dynamics
    * @brief Constructor
-   * @param [in] simulation_configuration: Simulation config
+   * @param [in] simulation_configuration: Simulation configuration
    * @param [in] simulation_time: Simulation time
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] spacecraft_id: Spacecraft ID of the spacecraft
    * @param [in] structure: Structure of the spacecraft
    * @param [in] relative_information: Relative information
    */
-  Dynamics(SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
+  Dynamics(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time,
            const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
            RelativeInformation* relative_information = (RelativeInformation*)nullptr);
   /**
@@ -70,7 +70,7 @@ class Dynamics {
    * @param [in] force_b_N: Force in the body fixed frame [N]
    */
   inline void AddForce_b_N(libra::Vector<3> force_b_N) {
-    orbit_->AddForce_b_N(force_b_N, attitude_->GetQuaternion_i2b(), structure_->GetKinematicsParams().GetMass());
+    orbit_->AddForce_b_N(force_b_N, attitude_->GetQuaternion_i2b(), structure_->GetKinematicsParameters().GetMass_kg());
   }
   /**
    * @fn AddAcceleration_i_m_s2
@@ -115,14 +115,14 @@ class Dynamics {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @param [in] simulation_configuration: Simulation config
+   * @param [in] simulation_configuration: Simulation configuration
    * @param [in] simulation_time: Simulation time
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] spacecraft_id: Spacecraft ID of the spacecraft
    * @param [in] structure: Structure of the spacecraft
    * @param [in] relative_information: Relative information
    */
-  void Initialize(SimulationConfig* simulation_configuration, const SimulationTime* simulation_time,
+  void Initialize(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time,
                   const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
                   RelativeInformation* relative_information = (RelativeInformation*)nullptr);
 };

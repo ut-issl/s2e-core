@@ -23,12 +23,12 @@ class SimulationCase : public ILoggable {
    * @fn SimulationCase
    * @brief Constructor
    */
-  SimulationCase(std::string ini_base);
+  SimulationCase(const std::string initialise_base_file);
   /**
    * @fn SimulationCase
    * @brief Constructor for Monte-Carlo Simulation
    */
-  SimulationCase(std::string ini_base, const MCSimExecutor& mc_sim, std::string log_path);
+  SimulationCase(const std::string initialise_base_file, const MonteCarloSimulationExecutor& monte_carlo_simulator, const std::string log_path);
   /**
    * @fn ~SimulationCase
    * @brief Destructor
@@ -60,19 +60,19 @@ class SimulationCase : public ILoggable {
 
   // Getter
   /**
-   * @fn GetSimConfig
+   * @fn GetSimulationConfiguration
    * @brief Return simulation setting
    */
-  inline SimulationConfig& GetSimConfig() { return sim_config_; }
+  inline SimulationConfiguration& GetSimulationConfiguration() { return simulation_configuration_; }
   /**
    * @fn GetGlobalEnvironment
    * @brief Return global environment
    */
-  inline const GlobalEnvironment& GetGlobalEnvironment() const { return *glo_env_; }
+  inline const GlobalEnvironment& GetGlobalEnvironment() const { return *global_environment_; }
 
  protected:
-  SimulationConfig sim_config_;  //!< Simulation setting
-  GlobalEnvironment* glo_env_;   //!< Global Environment
+  SimulationConfiguration simulation_configuration_;  //!< Simulation setting
+  GlobalEnvironment* global_environment_;             //!< Global Environment
 };
 
 #endif  // S2E_SIMULATION_CASE_SIMULATION_CASE_HPP_

@@ -51,7 +51,7 @@ void GnssReceiver::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
   libra::Vector<3> pos_true_eci_ = dynamics_->GetOrbit().GetPosition_i_m();
-  Quaternion quaternion_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
+  libra::Quaternion quaternion_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
 
   CheckAntenna(pos_true_eci_, quaternion_i2b);
 

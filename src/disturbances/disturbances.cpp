@@ -15,8 +15,9 @@
 #include "solar_radiation_pressure_disturbance.hpp"
 #include "third_body_gravity.hpp"
 
-Disturbances::Disturbances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure, const GlobalEnvironment* glo_env) {
-  InitializeInstances(sim_config, sat_id, structure, glo_env);
+Disturbances::Disturbances(const SimulationConfiguration* simulation_configuration, const int spacecraft_id, const Structure* structure,
+                           const GlobalEnvironment* global_environment) {
+  InitializeInstances(simulation_configuration, spacecraft_id, structure, global_environment);
   InitializeForceAndTorque();
   InitializeAcceleration();
 }
@@ -31,9 +32,9 @@ Disturbances::~Disturbances() {
   }
 }
 
-void Disturbances::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimulationTime* sim_time) {
+void Disturbances::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimulationTime* simulation_time) {
   // Update disturbances that depend on the attitude (and the position)
-  if (sim_time->GetAttitudePropagateFlag()) {
+  if (simulation_time->GetAttitudePropagateFlag()) {
     InitializeForceAndTorque();
     for (auto dist : disturbances_list_) {
       dist->UpdateIfEnabled(local_environment, dynamics);
@@ -42,7 +43,7 @@ void Disturbances::Update(const LocalEnvironment& local_environment, const Dynam
     }
   }
   // Update disturbances that depend only on the position
-  if (sim_time->GetOrbitPropagateFlag()) {
+  if (simulation_time->GetOrbitPropagateFlag()) {
     InitializeAcceleration();
     for (auto acc_dist : acceleration_disturbances_list_) {
       acc_dist->UpdateIfEnabled(local_environment, dynamics);
@@ -61,28 +62,30 @@ void Disturbances::LogSetup(Logger& logger) {
   logger.CopyFileToLogDirectory(initialize_file_name_);
 }
 
-void Disturbances::InitializeInstances(const SimulationConfig* sim_config, const int sat_id, const Structure* structure,
+void Disturbances::InitializeInstances(const SimulationConfiguration* simulation_configuration, const int spacecraft_id, const Structure* structure,
                                        const GlobalEnvironment* global_environment) {
-  IniAccess ini_access = IniAccess(sim_config->sat_file_[sat_id]);
+  IniAccess ini_access = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   initialize_file_name_ = ini_access.ReadString("SETTING_FILES", "disturbance_file");
 
   GravityGradient* gg_dist = new GravityGradient(
       InitGravityGradient(initialize_file_name_, global_environment->GetCelestialInformation().GetCenterBodyGravityConstant_m3_s2()));
   disturbances_list_.push_back(gg_dist);
 
-  SolarRadiationPressureDisturbance* srp_dist = new SolarRadiationPressureDisturbance(
-      InitSolarRadiationPressureDisturbance(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
+  SolarRadiationPressureDisturbance* srp_dist = new SolarRadiationPressureDisturbance(InitSolarRadiationPressureDisturbance(
+      initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParameters().GetCenterOfGravity_b_m()));
   disturbances_list_.push_back(srp_dist);
 
-  ThirdBodyGravity* third_body_gravity = new ThirdBodyGravity(InitThirdBodyGravity(initialize_file_name_, sim_config->ini_base_fname_));
+  ThirdBodyGravity* third_body_gravity =
+      new ThirdBodyGravity(InitThirdBodyGravity(initialize_file_name_, simulation_configuration->initialize_base_file_name_));
   acceleration_disturbances_list_.push_back(third_body_gravity);
 
   if (global_environment->GetCelestialInformation().GetCenterBodyName() != "EARTH") return;
   // Earth only disturbances (TODO: implement disturbances for other center bodies)
-  AirDrag* air_dist = new AirDrag(InitAirDrag(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParams().GetCGb()));
+  AirDrag* air_dist =
+      new AirDrag(InitAirDrag(initialize_file_name_, structure->GetSurfaces(), structure->GetKinematicsParameters().GetCenterOfGravity_b_m()));
   disturbances_list_.push_back(air_dist);
 
-  MagneticDisturbance* mag_dist = new MagneticDisturbance(InitMagneticDisturbance(initialize_file_name_, structure->GetRMMParams()));
+  MagneticDisturbance* mag_dist = new MagneticDisturbance(InitMagneticDisturbance(initialize_file_name_, structure->GetResidualMagneticMoment()));
   disturbances_list_.push_back(mag_dist);
 
   GeoPotential* geopotential = new GeoPotential(InitGeoPotential(initialize_file_name_));

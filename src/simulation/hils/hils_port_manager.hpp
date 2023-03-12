@@ -51,18 +51,18 @@ class HilsPortManager {
    * @param [in] port_id: COM port ID
    * @param [out] buffer: Data buffer to receive
    * @param [in] offset: Start offset for the data buffer to receive
-   * @param [in] count: Length of data to receive
+   * @param [in] length: Length of data to receive
    */
-  virtual int UartReceive(unsigned int port_id, unsigned char* buffer, int offset, int count);
+  virtual int UartReceive(unsigned int port_id, unsigned char* buffer, int offset, int length);
   /**
    * @fn UartSend
    * @brief UART data send from components in S2E to COM port (ex. OBC)
    * @param [in] port_id: COM port ID
    * @param [in] buffer: Data buffer to send
    * @param [in] offset: Start offset for the data buffer to send
-   * @param [in] count: Length of data to send
+   * @param [in] length: Length of data to send
    */
-  virtual int UartSend(unsigned int port_id, const unsigned char* buffer, int offset, int count);
+  virtual int UartSend(unsigned int port_id, const unsigned char* buffer, int offset, int length);
 
   // I2C Target Communication port functions
   /**
@@ -148,22 +148,22 @@ class HilsPortManager {
    * @param [in] port_id: COM port ID
    * @param [out] buffer: Data buffer to receive
    * @param [in] offset: Start offset for the data buffer to receive
-   * @param [in] count: Length of data to receive
+   * @param [in] length: Length of data to receive
    */
-  virtual int I2cControllerReceive(unsigned int port_id, unsigned char* buffer, int offset, int count);
+  virtual int I2cControllerReceive(unsigned int port_id, unsigned char* buffer, int offset, int length);
   /**
    * @fn I2cControllerSend
    * @brief Data send to I2C controller device connected a COM port
    * @param [in] port_id: COM port ID
    * @param [in] buffer: Data buffer to send
    * @param [in] offset: Start offset for the data buffer to send
-   * @param [in] count: Length of data to send
+   * @param [in] length: Length of data to send
    */
-  virtual int I2cControllerSend(unsigned int port_id, const unsigned char* buffer, int offset, int count);
+  virtual int I2cControllerSend(unsigned int port_id, const unsigned char* buffer, int offset, int length);
 
  private:
 #ifdef USE_HILS
-  std::map<int, HilsUartPort*> uart_com_ports_;  //!< UART ports
+  std::map<int, HilsUartPort*> uart_ports_;      //!< UART ports
   std::map<int, HilsI2cTargetPort*> i2c_ports_;  //!< I2C ports
 #endif
 };

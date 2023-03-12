@@ -15,7 +15,7 @@ GyroSensor InitGyroSensor(ClockGenerator* clock_generator, int sensor_id, const 
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* GSection = section_name.c_str();
 
-  Quaternion quaternion_b2c;
+  libra::Quaternion quaternion_b2c;
   gyro_conf.ReadQuaternion(GSection, "quaternion_b2c", quaternion_b2c);
   int prescaler = gyro_conf.ReadInt(GSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
@@ -36,7 +36,7 @@ GyroSensor InitGyroSensor(ClockGenerator* clock_generator, PowerPort* power_port
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* GSection = section_name.c_str();
 
-  Quaternion quaternion_b2c;
+  libra::Quaternion quaternion_b2c;
   gyro_conf.ReadQuaternion(GSection, "quaternion_b2c", quaternion_b2c);
   int prescaler = gyro_conf.ReadInt(GSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
