@@ -25,8 +25,8 @@ Antenna::Antenna(const int component_id, const libra::Quaternion& quaternion_b2c
   rx_system_noise_temperature_K_ = rx_parameters[3];
 
   // Antenna gain
-  tx_parameters_.antenna_gain_model = AntennaGainModel::ISOTROPIC;
-  rx_parameters_.antenna_gain_model = AntennaGainModel::ISOTROPIC;
+  tx_parameters_.antenna_gain_model = AntennaGainModel::kIsotropic;
+  rx_parameters_.antenna_gain_model = AntennaGainModel::kIsotropic;
 
   // Calculate the EIRP or GT for the maximum gain
   if (is_transmitter_) {
@@ -71,10 +71,10 @@ Antenna::~Antenna() {}
 double Antenna::CalcAntennaGain(const AntennaParameters antenna_parameters, const double theta_rad, const double phi_rad) const {
   double gain_dBi = 0.0;
   switch (antenna_parameters.antenna_gain_model) {
-    case AntennaGainModel::ISOTROPIC:
+    case AntennaGainModel::kIsotropic:
       gain_dBi = antenna_parameters.gain_dBi_;
       break;
-    case AntennaGainModel::RADIATION_PATTERN_CSV:
+    case AntennaGainModel::kRadiationPatternCsv:
       gain_dBi = antenna_parameters.radiation_pattern.GetGain_dBi(theta_rad, phi_rad);
       break;
     default:
@@ -91,11 +91,11 @@ double Antenna::CalcRxGt_dB_K(const double theta_rad, const double phi_rad) cons
 }
 
 AntennaGainModel SetAntennaGainModel(const std::string gain_model_name) {
-  if (gain_model_name == "ISOTROPIC") {
-    return AntennaGainModel::ISOTROPIC;
-  } else if (gain_model_name == "RADIATION_PATTERN_CSV") {
-    return AntennaGainModel::RADIATION_PATTERN_CSV;
+  if (gain_model_name == "kIsotropic") {
+    return AntennaGainModel::kIsotropic;
+  } else if (gain_model_name == "kRadiationPatternCsv") {
+    return AntennaGainModel::kRadiationPatternCsv;
   } else {
-    return AntennaGainModel::ISOTROPIC;
+    return AntennaGainModel::kIsotropic;
   }
 }

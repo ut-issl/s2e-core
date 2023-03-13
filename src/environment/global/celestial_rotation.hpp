@@ -17,10 +17,10 @@
  * @enum RotationMode
  * @brief Definition of calculation mode of celestial rotation
  */
-enum RotationMode {
-  Idle,    //!< No Rotation calculation
-  Simple,  //!< Z axis rotation only
-  Full,    //!< Rotation including precession and nutation
+enum class RotationMode {
+  kIdle,    //!< No Rotation calculation
+  kSimple,  //!< Z axis rotation only
+  kFull,    //!< Rotation including precession and nutation
 };
 
 /**

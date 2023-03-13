@@ -53,7 +53,7 @@ void RelativeOrbit::InitializeState(libra::Vector<3> relative_position_lvlh_m, l
   initial_state_[4] = relative_velocity_lvlh_m_s[1];
   initial_state_[5] = relative_velocity_lvlh_m_s[2];
 
-  if (update_method_ == RK4) {
+  if (update_method_ == kRk4) {
     Setup(initial_time_s, initial_state_);
     CalculateSystemMatrix(relative_dynamics_model_type_, &(relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit()),
                           gravity_constant_m3_s2);
@@ -70,7 +70,7 @@ void RelativeOrbit::InitializeState(libra::Vector<3> relative_position_lvlh_m, l
 void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit,
                                           double gravity_constant_m3_s2) {
   switch (relative_dynamics_model_type) {
-    case RelativeOrbitModel::Hill: {
+    case RelativeOrbitModel::kHill: {
       double reference_sat_orbit_radius = reference_sat_orbit->GetPosition_i_m().CalcNorm();
       system_matrix_ = CalcHillSystemMatrix(reference_sat_orbit_radius, gravity_constant_m3_s2);
     }
@@ -83,7 +83,7 @@ void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_m
 
 void RelativeOrbit::CalculateStm(StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2, double elapsed_sec) {
   switch (stm_model_type) {
-    case StmModel::HCW: {
+    case StmModel::kHcw: {
       double reference_sat_orbit_radius = reference_sat_orbit->GetPosition_i_m().CalcNorm();
       stm_ = CalcHcwStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec);
     }
@@ -101,7 +101,7 @@ void RelativeOrbit::Propagate(double end_time_s, double current_time_jd) {
 
   spacecraft_acceleration_i_m_s2_ *= 0.0;  // Disturbance acceleration are not considered in relative orbit propagation
 
-  if (update_method_ == RK4) {
+  if (update_method_ == kRk4) {
     PropagateRk4(end_time_s);
   } else  // update_method_ == STM
   {
@@ -152,7 +152,8 @@ void RelativeOrbit::PropagateStm(double elapsed_sec) {
   relative_velocity_lvlh_m_s_[2] = current_state[5];
 }
 
-void RelativeOrbit::DerivativeFunction(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs)  // only for RK4 relative dynamics propagation
+void RelativeOrbit::DerivativeFunction(double t, const libra::Vector<6>& state,
+                                       libra::Vector<6>& rhs)  // only for RK4 relative dynamics propagation
 {
   rhs = system_matrix_ * state;
   (void)t;
