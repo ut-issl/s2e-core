@@ -4,8 +4,8 @@
  *        TODO: consider relation with IGPIOCompo
  */
 
-#ifndef S2E_COMPONENTS_GPIO_CONNECTION_WITH_OBC_HPP_
-#define S2E_COMPONENTS_GPIO_CONNECTION_WITH_OBC_HPP_
+#ifndef S2E_COMPONENTS_BASE_GPIO_CONNECTION_WITH_OBC_HPP_
+#define S2E_COMPONENTS_BASE_GPIO_CONNECTION_WITH_OBC_HPP_
 
 #include "../real/cdh/on_board_computer.hpp"
 
@@ -50,4 +50,4 @@ class GpioConnectionWithObc {
   OnBoardComputer* obc_;      //!< The communication target OBC
 };
 
-#endif  // S2E_COMPONENTS_GPIO_CONNECTION_WITH_OBC_HPP_
+#endif  // S2E_COMPONENTS_BASE_GPIO_CONNECTION_WITH_OBC_HPP_
