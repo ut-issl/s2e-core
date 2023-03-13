@@ -19,7 +19,8 @@ class Disturbance {
    * @brief Constructor
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  Disturbance(const bool is_calculation_enabled = true) : is_calculation_enabled_(is_calculation_enabled) {
+  Disturbance(const bool is_calculation_enabled = true, const bool is_attitude_dependent = true)
+      : is_calculation_enabled_(is_calculation_enabled), is_attitude_dependent_(is_attitude_dependent) {
     force_b_N_ = libra::Vector<3>(0.0);
     torque_b_Nm_ = libra::Vector<3>(0.0);
     acceleration_b_m_s2_ = libra::Vector<3>(0.0);
@@ -46,9 +47,15 @@ class Disturbance {
    * @brief Return the disturbance acceleration in the inertial frame [m/s2]
    */
   virtual inline libra::Vector<3> GetAcceleration_i_m_s2() { return acceleration_i_m_s2_; }
+  /**
+   * @fn GetAcceleration_i_m_s2
+   * @brief Return the attitude dependent flag
+   */
+  virtual inline bool IsAttitudeDependent() { return is_attitude_dependent_; }
 
  protected:
   bool is_calculation_enabled_;           //!< Flag to calculate the disturbance
+  bool is_attitude_dependent_;            //!< Flag to show the disturbance depends on attitude information
   libra::Vector<3> force_b_N_;            //!< Disturbance force in the body frame [N]
   libra::Vector<3> torque_b_Nm_;          //!< Disturbance torque in the body frame [Nm]
   libra::Vector<3> acceleration_b_m_s2_;  //!< Disturbance acceleration in the body frame [m/s2]
