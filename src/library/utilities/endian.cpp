@@ -1,9 +1,9 @@
 /**
- * @file endian.h
+ * @file endian.cpp
  * @brief Function to consider the endian
  */
 
-#include "endian.h"
+#include "endian.hpp"
 
 #include <stdlib.h>
 
