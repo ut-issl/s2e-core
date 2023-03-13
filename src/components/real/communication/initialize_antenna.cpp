@@ -49,7 +49,7 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
     tx_parameters.gain_dBi_ = 0.0;
     tx_parameters.loss_feeder_dB_ = 0.0;
     tx_parameters.loss_pointing_dB_ = 0.0;
-    tx_parameters.antenna_gain_model = AntennaGainModel::ISOTROPIC;
+    tx_parameters.antenna_gain_model = AntennaGainModel::kIsotropic;
   }
 
   AntennaParameters rx_parameters;
@@ -69,7 +69,7 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
     rx_parameters.gain_dBi_ = 0.0;
     rx_parameters.loss_feeder_dB_ = 0.0;
     rx_parameters.loss_pointing_dB_ = 0.0;
-    rx_parameters.antenna_gain_model = AntennaGainModel::ISOTROPIC;
+    rx_parameters.antenna_gain_model = AntennaGainModel::kIsotropic;
   }
 
   Antenna antenna(antenna_id, quaternion_b2c, is_transmitter, is_receiver, frequency_MHz, tx_output_power_W, tx_parameters,

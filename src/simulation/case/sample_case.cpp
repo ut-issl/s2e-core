@@ -52,7 +52,7 @@ void SampleCase::Main() {
 
     // Debug output
     if (global_environment_->GetSimulationTime().GetState().disp_output) {
-      cout << "Progresss: " << global_environment_->GetSimulationTime().GetProgressionRate() << "%\r";
+      cout << "Progress: " << global_environment_->GetSimulationTime().GetProgressionRate() << "%\r";
     }
   }
 }

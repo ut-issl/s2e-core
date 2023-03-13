@@ -20,9 +20,9 @@
  * @enum AntennaModel
  * @brief Antenna pattern model to emulate GNSS antenna
  */
-enum AntennaModel {
-  SIMPLE,  //!< Simple model which can get navigation data when the antenna points anti-earth direction
-  CONE,    //!< Cone antenna pattern
+enum class AntennaModel {
+  kSimple,  //!< Simple model which can get navigation data when the antenna points anti-earth direction
+  kCone,    //!< Cone antenna pattern
 };
 
 /**

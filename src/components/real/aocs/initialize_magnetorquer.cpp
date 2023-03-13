@@ -34,8 +34,8 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, 
   libra::Vector<kMtqDimension> min_magnetic_moment_c_Am2;
   magtorquer_conf.ReadVector(MTSection, "min_output_magnetic_moment_c_Am2", min_magnetic_moment_c_Am2);
 
-  libra::Vector<kMtqDimension> bias_noise_c_Am2_;
-  magtorquer_conf.ReadVector(MTSection, "constant_bias_noise_c_Am2", bias_noise_c_Am2_);
+  libra::Vector<kMtqDimension> bias_noise_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "constant_bias_noise_c_Am2", bias_noise_c_Am2);
 
   double random_walk_step_width_s = component_step_time_s * (double)prescaler;
   libra::Vector<kMtqDimension> random_walk_standard_deviation_c_Am2;
@@ -46,7 +46,7 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, 
   magtorquer_conf.ReadVector(MTSection, "white_noise_standard_deviation_c_Am2", normal_random_standard_deviation_c_Am2);
 
   Magnetorquer magtorquer(prescaler, clock_generator, actuator_id, quaternion_b2c, scale_factor, max_magnetic_moment_c_Am2, min_magnetic_moment_c_Am2,
-                          bias_noise_c_Am2_, random_walk_step_width_s, random_walk_standard_deviation_c_Am2, random_walk_limit_c_Am2,
+                          bias_noise_c_Am2, random_walk_step_width_s, random_walk_standard_deviation_c_Am2, random_walk_limit_c_Am2,
                           normal_random_standard_deviation_c_Am2, geomagnetic_field);
   return magtorquer;
 }
@@ -79,8 +79,8 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_
   libra::Vector<kMtqDimension> min_magnetic_moment_c_Am2;
   magtorquer_conf.ReadVector(MTSection, "min_output_magnetic_moment_c_Am2", min_magnetic_moment_c_Am2);
 
-  libra::Vector<kMtqDimension> bias_noise_c_Am2_;
-  magtorquer_conf.ReadVector(MTSection, "constant_bias_noise_c_Am2", bias_noise_c_Am2_);
+  libra::Vector<kMtqDimension> bias_noise_c_Am2;
+  magtorquer_conf.ReadVector(MTSection, "constant_bias_noise_c_Am2", bias_noise_c_Am2);
 
   double random_walk_step_width_s = component_step_time_s * (double)prescaler;
   libra::Vector<kMtqDimension> random_walk_standard_deviation_c_Am2;
@@ -94,7 +94,7 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_
   power_port->InitializeWithInitializeFile(file_name);
 
   Magnetorquer magtorquer(prescaler, clock_generator, power_port, actuator_id, quaternion_b2c, scale_factor, max_magnetic_moment_c_Am2,
-                          min_magnetic_moment_c_Am2, bias_noise_c_Am2_, random_walk_step_width_s, random_walk_standard_deviation_c_Am2,
+                          min_magnetic_moment_c_Am2, bias_noise_c_Am2, random_walk_step_width_s, random_walk_standard_deviation_c_Am2,
                           random_walk_limit_c_Am2, normal_random_standard_deviation_c_Am2, geomagnetic_field);
   return magtorquer;
 }

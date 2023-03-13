@@ -68,10 +68,10 @@ class TorqueGenerator : public Component, public ILoggable {
 
   // Setter
   /**
-   * @fn SetTorque_b_Nm_Nm
+   * @fn SetTorque_b_Nm
    * @brief Set ordered torque in the body fixed frame [Nm]
    */
-  inline void SetTorque_b_Nm_Nm(const libra::Vector<3> torque_b_Nm) { ordered_torque_b_Nm_ = torque_b_Nm; };
+  inline void SetTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { ordered_torque_b_Nm_ = torque_b_Nm; };
 
  protected:
   libra::Vector<3> ordered_torque_b_Nm_{0.0};    //!< Ordered torque in the body fixed frame [Nm]

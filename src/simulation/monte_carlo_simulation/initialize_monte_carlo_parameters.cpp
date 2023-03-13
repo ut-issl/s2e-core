@@ -25,7 +25,7 @@ InitializedMonteCarloParameters::InitializedMonteCarloParameters() {
   }
 
   // No randomization when SetRandomConfiguration is not called（No setting in MCSim.ini）
-  randomization_type_ = NoRandomization;
+  randomization_type_ = kNoRandomization;
 }
 
 void InitializedMonteCarloParameters::SetSeed(unsigned long seed, bool is_deterministic) {
@@ -37,7 +37,7 @@ void InitializedMonteCarloParameters::SetSeed(unsigned long seed, bool is_determ
 }
 
 void InitializedMonteCarloParameters::GetRandomizedScalar(double& destination) const {
-  if (randomization_type_ == NoRandomization) {
+  if (randomization_type_ == kNoRandomization) {
     ;
   } else if (1 > randomized_value_.size()) {
     throw "Too few randomization configuration parameters.";
@@ -47,7 +47,7 @@ void InitializedMonteCarloParameters::GetRandomizedScalar(double& destination) c
 }
 
 void InitializedMonteCarloParameters::GetRandomizedQuaternion(libra::Quaternion& destination) const {
-  if (randomization_type_ == NoRandomization) {
+  if (randomization_type_ == kNoRandomization) {
     ;
   } else if (4 > randomized_value_.size()) {
     throw "Too few randomization configuration parameters.";
@@ -62,31 +62,31 @@ void InitializedMonteCarloParameters::GetRandomizedQuaternion(libra::Quaternion&
 
 void InitializedMonteCarloParameters::Randomize() {
   switch (randomization_type_) {
-    case NoRandomization:
+    case kNoRandomization:
       GenerateNoRandomization();
       break;
-    case CartesianUniform:
+    case kCartesianUniform:
       GenerateCartesianUniform();
       break;
-    case CartesianNormal:
+    case kCartesianNormal:
       GenerateCartesianNormal();
       break;
-    case CircularNormalUniform:
+    case kCircularNormalUniform:
       GenerateCircularNormalUniform();
       break;
-    case CircularNormalNormal:
+    case kCircularNormalNormal:
       GenerateCircularNormalNormal();
       break;
-    case SphericalNormalUniformUniform:
+    case kSphericalNormalUniformUniform:
       GenerateSphericalNormalUniformUniform();
       break;
-    case SphericalNormalNormal:
+    case kSphericalNormalNormal:
       GenerateSphericalNormalNormal();
       break;
-    case QuaternionUniform:
+    case kQuaternionUniform:
       GenerateQuaternionUniform();
       break;
-    case QuaternionNormal:
+    case kQuaternionNormal:
       GenerateQuaternionNormal();
       break;
     default:

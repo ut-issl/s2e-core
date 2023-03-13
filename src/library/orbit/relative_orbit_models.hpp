@@ -13,13 +13,13 @@
  * @enum RelativeOrbitModel
  * @brief Relative orbit model
  */
-enum class RelativeOrbitModel { Hill = 0 };
+enum class RelativeOrbitModel { kHill = 0 };
 
 /**
  * @enum StmModel
  * @brief State Transition Matrix for the relative orbit
  */
-enum class StmModel { HCW = 0 };
+enum class StmModel { kHcw = 0 };
 
 // Dynamics Models
 /**

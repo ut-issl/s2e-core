@@ -148,24 +148,24 @@ class ObcWithC2a : public OnBoardComputer {
    * @brief Write value in the target device's register
    * @param [in] port_id: Port ID
    * @param [in] i2c_address: I2C address of the target device
-   * @param [in] reg_address: Register address of the target device
+   * @param [in] register_address: Register address of the target device
    * @param [in] data: Write data buffer
    * @param [in] length: Length of data
    * @return 0
    */
-  int I2cComponentWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char reg_address, const unsigned char* data,
+  int I2cComponentWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char rregister_address, const unsigned char* data,
                                 const unsigned char length) override;
   /**
    * @fn I2cComponentReadRegister
    * @brief Read value in the target device's register
    * @param [in] port_id: Port ID
    * @param [in] i2c_address: I2C address of the target device
-   * @param [in] reg_address: Register address of the target device
+   * @param [in] register_address: Register address of the target device
    * @param [out] data: Write data buffer
    * @param [in] length: Length of data
    * @return 0
    */
-  int I2cComponentReadRegister(int port_id, const unsigned char i2c_address, const unsigned char reg_address, unsigned char* data,
+  int I2cComponentReadRegister(int port_id, const unsigned char i2c_address, const unsigned char register_address, unsigned char* data,
                                const unsigned char length) override;
   /**
    * @fn I2cComponentReadCommand

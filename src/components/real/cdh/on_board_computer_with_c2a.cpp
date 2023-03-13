@@ -171,19 +171,19 @@ int ObcWithC2a::I2cReadRegister(int port_id, const unsigned char i2c_address, un
   return 0;
 }
 
-int ObcWithC2a::I2cComponentWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char reg_address, const unsigned char* data,
-                                          const unsigned char length) {
+int ObcWithC2a::I2cComponentWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char register_address,
+                                          const unsigned char* data, const unsigned char length) {
   I2cPort* i2c_port = i2c_com_ports_c2a_[port_id];
   for (unsigned char i = 0; i < length; i++) {
-    i2c_port->WriteRegister(i2c_address, reg_address + i, data[i]);
+    i2c_port->WriteRegister(i2c_address, register_address + i, data[i]);
   }
   return 0;
 }
-int ObcWithC2a::I2cComponentReadRegister(int port_id, const unsigned char i2c_address, const unsigned char reg_address, unsigned char* data,
+int ObcWithC2a::I2cComponentReadRegister(int port_id, const unsigned char i2c_address, const unsigned char register_address, unsigned char* data,
                                          const unsigned char length) {
   I2cPort* i2c_port = i2c_com_ports_c2a_[port_id];
   for (unsigned char i = 0; i < length; i++) {
-    data[i] = i2c_port->ReadRegister(i2c_address, reg_address + i);
+    data[i] = i2c_port->ReadRegister(i2c_address, register_address + i);
   }
   return 0;
 }

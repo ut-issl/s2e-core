@@ -19,7 +19,7 @@
 // Default constructor
 CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std::string center_body_name) {
   planet_name_ = "Anonymous";
-  rotation_mode_ = Idle;
+  rotation_mode_ = RotationMode::kIdle;
   dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
   dcm_teme_to_xcxf_ = dcm_j2000_to_xcxf_;
   if (center_body_name == "EARTH") {
@@ -31,11 +31,11 @@ CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std
 void CelestialRotation::InitCelestialRotationAsEarth(const RotationMode rotation_mode, const std::string center_body_name) {
   planet_name_ = "EARTH";
   if (center_body_name == planet_name_) {
-    if (rotation_mode == Simple) {
-      rotation_mode_ = Simple;
+    if (rotation_mode == RotationMode::kSimple) {
+      rotation_mode_ = RotationMode::kSimple;
       // For Simple mode, we don't need initialization of the coefficients
-    } else if (rotation_mode == Full) {
-      rotation_mode_ = Full;
+    } else if (rotation_mode == RotationMode::kFull) {
+      rotation_mode_ = RotationMode::kFull;
       // For Full mode, initialize the coefficients
       // The hard coded values are consistent with the reference document. The unit deg and rad are mixed.
 
@@ -114,12 +114,12 @@ void CelestialRotation::InitCelestialRotationAsEarth(const RotationMode rotation
       c_z_rad_[2] = 0.018203 * libra::arcsec_to_rad;     // [rad/century^3]
     } else {
       // If the rotation mode is neither Simple nor Full, disable the rotation calculation and make the DCM a unit matrix
-      rotation_mode_ = Idle;
+      rotation_mode_ = RotationMode::kIdle;
       dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
     }
   } else {
     // If the center object is not the Earth, disable the Earth's rotation calculation and make the DCM a unit matrix
-    rotation_mode_ = Idle;
+    rotation_mode_ = RotationMode::kIdle;
     dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
   }
 }
@@ -127,7 +127,7 @@ void CelestialRotation::InitCelestialRotationAsEarth(const RotationMode rotation
 void CelestialRotation::Update(const double JulianDate) {
   double gmst_rad = gstime(JulianDate);  // It is a bit different with 長沢(Nagasawa)'s algorithm. TODO: Check the correctness
 
-  if (rotation_mode_ == Full) {
+  if (rotation_mode_ == RotationMode::kFull) {
     // Compute Julian date for terestrial time
     double jdTT_day = JulianDate + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is thtat S2E doesn't have Gregorian calendar.
 
@@ -158,7 +158,7 @@ void CelestialRotation::Update(const double JulianDate) {
 
     // Total orientation
     dcm_j2000_to_xcxf_ = W * R * N * P;
-  } else if (rotation_mode_ == Simple) {
+  } else if (rotation_mode_ == RotationMode::kSimple) {
     // In this case, only Axial Rotation is executed, with its argument replaced from G'A'ST to G'M'ST
     dcm_j2000_to_xcxf_ = AxialRotation(gmst_rad);
   } else {

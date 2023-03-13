@@ -17,13 +17,13 @@
  * @enum AttitudeControlMode
  * @brief Attitude control mode
  */
-enum AttitudeControlMode {
-  INERTIAL_STABILIZE,           //!< Inertial stabilize
-  SUN_POINTING,                 //!< Sun pointing
-  EARTH_CENTER_POINTING,        //!< Earth center pointing
-  VELOCITY_DIRECTION_POINTING,  //!< Spacecraft velocity direction pointing
-  ORBIT_NORMAL_POINTING,        //!< Orbit normal direction pointing
-  NO_CTRL,                      // No Control
+enum class AttitudeControlMode {
+  kInertialStabilize,          //!< Inertial stabilize
+  kSunPointing,                //!< Sun pointing
+  kEarthCenterPointing,        //!< Earth center pointing
+  kVelocityDirectionPointing,  //!< Spacecraft velocity direction pointing
+  kOrbitNormalPointing,        //!< Orbit normal direction pointing
+  kNoControl,                  // No Control
 };
 
 /**
