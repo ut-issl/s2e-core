@@ -28,6 +28,27 @@ class Disturbance {
   }
 
   /**
+   * @fn UpdateIfEnabled
+   * @brief Update calculated disturbance when the calculation flag is true
+   */
+  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+    if (is_calculation_enabled_) {
+      Update(local_environment, dynamics);
+    } else {
+      force_b_N_ *= 0.0;
+      torque_b_Nm_ *= 0.0;
+      acceleration_b_m_s2_ *= 0.0;
+      acceleration_i_m_s2_ *= 0.0;
+    }
+  }
+
+  /**
+   * @fn Update
+   * @brief Pure virtual function to define the disturbance calculation
+   */
+  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) = 0;
+
+  /**
    * @fn GetTorque_b_Nm
    * @brief Return the disturbance torque in the body frame [Nm]
    */
