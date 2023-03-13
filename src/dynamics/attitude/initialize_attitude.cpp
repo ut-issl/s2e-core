@@ -19,7 +19,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     // RK4 propagator
     libra::Vector<3> omega_b;
     ini_file.ReadVector(section_, "initial_angular_velocity_b_rad_s", omega_b);
-    Quaternion quaternion_i2b;
+    libra::Quaternion quaternion_i2b;
     ini_file.ReadQuaternion(section_, "initial_quaternion_i2b", quaternion_i2b);
     libra::Vector<3> torque_b;
     ini_file.ReadVector(section_, "initial_torque_b_Nm", torque_b);
@@ -34,7 +34,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
 
     AttitudeControlMode main_mode = ConvertStringToCtrlMode(main_mode_in);
     AttitudeControlMode sub_mode = ConvertStringToCtrlMode(sub_mode_in);
-    Quaternion quaternion_i2b;
+    libra::Quaternion quaternion_i2b;
     ini_file_ca.ReadQuaternion(section_, "initial_quaternion_i2b", quaternion_i2b);
     libra::Vector<3> main_target_direction_b, sub_target_direction_b;
     ini_file_ca.ReadVector(section_ca_, "main_pointing_direction_b", main_target_direction_b);
@@ -47,7 +47,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
 
     libra::Vector<3> omega_b;
     ini_file.ReadVector(section_, "initial_angular_velocity_b_rad_s", omega_b);
-    Quaternion quaternion_i2b;
+    libra::Quaternion quaternion_i2b;
     ini_file.ReadQuaternion(section_, "initial_quaternion_i2b", quaternion_i2b);
     libra::Vector<3> torque_b;
     ini_file.ReadVector(section_, "initial_torque_b_Nm", torque_b);

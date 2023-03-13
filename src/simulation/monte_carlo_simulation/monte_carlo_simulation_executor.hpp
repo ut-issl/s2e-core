@@ -12,46 +12,44 @@
 // #include "simulation_object.hpp"
 #include "initialize_monte_carlo_parameters.hpp"
 
-using libra::Vector;
-
 /**
- * @class MCSimExecutor
+ * @class MonteCarloSimulationExecutor
  * @brief Monte-Carlo Simulation Executor class
  */
-class MCSimExecutor {
+class MonteCarloSimulationExecutor {
  private:
-  unsigned long long total_num_of_executions_;  //!< Total number of execution simulation case
-  unsigned long long num_of_executions_done_;   //!< Number of executed case
-  bool enabled_;                                //!< Flag to execute Monte-Carlo Simulation or not
-  bool log_history_;                            //!< Flag to store the log for each case or not
+  unsigned long long total_number_of_executions_;  //!< Total number of execution simulation case
+  unsigned long long number_of_executions_done_;   //!< Number of executed case
+  bool enabled_;                                   //!< Flag to execute Monte-Carlo Simulation or not
+  bool save_log_history_flag_;                     //!< Flag to store the log for each case or not
 
-  std::map<std::string, InitParameter*> ip_list_;  //!< List of InitParameters read from MCSim.ini
+  std::map<std::string, InitializedMonteCarloParameters*> init_parameter_list_;  //!< List of InitializedMonteCarloParameters read from MCSim.ini
 
  public:
-  static const char separator_ = '.';  //!< Deliminator for name of SimulationObject and InitParameter in the initialization file
+  static const char separator_ = '.';  //!< Deliminator for name of SimulationObject and InitializedMonteCarloParameters in the initialization file
 
   /**
-   * @fn MCSimExecutor
+   * @fn MonteCarloSimulationExecutor
    * @brief Constructor
    */
-  MCSimExecutor(unsigned long long total_num_of_executions);
+  MonteCarloSimulationExecutor(unsigned long long total_num_of_executions);
 
   // Setter
   /**
    * @fn Enable
    * @brief Set execute flag
    */
-  inline void Enable(bool enabled);
+  inline void SetEnable(bool enabled) { enabled_ = enabled; }
   /**
-   * @fn SetTotalNumOfExecutions
+   * @fn SetTotalNumberOfExecutions
    * @brief Set total number of execution simulation case
    */
-  inline void SetTotalNumOfExecutions(unsigned long long num_of_executions);
+  inline void SetTotalNumberOfExecutions(unsigned long long number_of_executions) { total_number_of_executions_ = number_of_executions; }
   /**
-   * @fn LogHistory
+   * @fn GetSaveLogHistoryFlag
    * @brief Set log history flag
    */
-  inline void LogHistory(bool set);
+  inline void SetSaveLogHistoryFlag(bool set) { save_log_history_flag_ = set; }
   /**
    * @fn SetSeed
    * @brief Set seed of randomization. Use time infomation when is_deterministic = false.
@@ -63,38 +61,43 @@ class MCSimExecutor {
    * @fn ISEnabled
    * @brief Return execute flag
    */
-  inline bool IsEnabled() const;
+  inline bool IsEnabled() const { return enabled_; }
   /**
-   * @fn GetTotalNumOfExecutions
+   * @fn GetTotalNumberOfExecutions
    * @brief Return total number of execution simulation case
    */
-  inline unsigned long long GetTotalNumOfExecutions() const;
+  inline unsigned long long GetTotalNumberOfExecutions() const { return total_number_of_executions_; }
   /**
-   * @fn GetNumOfExecutionsDone
+   * @fn GetNumberOfExecutionsDone
    * @brief Return number of executed case
    */
-  inline unsigned long long GetNumOfExecutionsDone() const;
+  inline unsigned long long GetNumberOfExecutionsDone() const { return number_of_executions_done_; }
   /**
-   * @fn LogHistory
+   * @fn GetSaveLogHistoryFlag
    * @brief Return log history flag
    */
-  inline bool LogHistory() const;
+  inline bool GetSaveLogHistoryFlag() const {
+    // Save log if MCSim is disabled or GetSaveLogHistoryFlag=ENABLED
+    return (!enabled_ || save_log_history_flag_);
+  }
   /**
-   * @fn GetInitParameterVec
+   * @fn GetInitializedMonteCarloParameterVector
    * @brief Get randomized vector value and store it in dest_vec
    */
   template <size_t NumElement>
-  void GetInitParameterVec(std::string so_name, std::string ip_name, Vector<NumElement>& dst_vec) const;
+  void GetInitializedMonteCarloParameterVector(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                               libra::Vector<NumElement>& destination) const;
   /**
-   * @fn GetInitParameterDouble
+   * @fn GetInitializedMonteCarloParameterDouble
    * @brief Get randomized value and store it in dest
    */
-  void GetInitParameterDouble(std::string so_name, std::string ip_name, double& dst) const;
+  void GetInitializedMonteCarloParameterDouble(std::string so_name, std::string init_monte_carlo_parameter_name, double& destination) const;
   /**
-   * @fn GetInitParameterQuaternion
+   * @fn GetInitializedMonteCarloParameterQuaternion
    * @brief Get randomized quaternion and store it in dest_quat
    */
-  void GetInitParameterQuaternion(std::string so_name, std::string ip_name, Quaternion& dst_quat) const;
+  void GetInitializedMonteCarloParameterQuaternion(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                                   libra::Quaternion& destination) const;
 
   // Calculation
   /**
@@ -119,11 +122,12 @@ class MCSimExecutor {
 
   template <size_t NumElement1, size_t NumElement2>
   /**
-   * @fn AddInitParameter
+   * @fn AddInitializedMonteCarloParameter
    * @brief Add initialized parameter
    */
-  void AddInitParameter(std::string so_name, std::string ip_name, const Vector<NumElement1>& mean_or_min, const Vector<NumElement2>& sigma_or_max,
-                        InitParameter::RandomizationType rnd_type);
+  void AddInitializedMonteCarloParameter(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                         const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
+                                         InitializedMonteCarloParameters::RandomizationType random_type);
 
   /**
    * @fn RandomizeAllParameters
@@ -132,47 +136,33 @@ class MCSimExecutor {
   void RandomizeAllParameters();
 };
 
-void MCSimExecutor::Enable(bool enabled) { enabled_ = enabled; }
-
-bool MCSimExecutor::IsEnabled() const { return enabled_; }
-
-void MCSimExecutor::SetTotalNumOfExecutions(unsigned long long num_of_executions) { total_num_of_executions_ = num_of_executions; }
-
-unsigned long long MCSimExecutor::GetTotalNumOfExecutions() const { return total_num_of_executions_; }
-
-inline unsigned long long MCSimExecutor::GetNumOfExecutionsDone() const { return num_of_executions_done_; }
-
-bool MCSimExecutor::LogHistory() const {
-  // Save log if MCSim is disabled or LogHistory=ENABLED
-  return (!enabled_ || log_history_);
-}
-
-void MCSimExecutor::LogHistory(bool set) { log_history_ = set; }
-
 template <size_t NumElement>
-void MCSimExecutor::GetInitParameterVec(std::string so_name, std::string ip_name, Vector<NumElement>& dst_vec) const {
+void MonteCarloSimulationExecutor::GetInitializedMonteCarloParameterVector(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                                                           libra::Vector<NumElement>& destination) const {
   if (!enabled_) return;
-  std::string name = so_name + MCSimExecutor::separator_ + ip_name;
-  if (ip_list_.find(name) == ip_list_.end()) {
+  std::string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
+  if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
     // Not registered in ip_list（Not defined in MCSim.ini）
-    return;  // return without update the dst_vec
+    return;  // return without update the destination
   } else {
-    ip_list_.at(name)->GetVec(dst_vec);  // cannot use operator[] since it is const map
+    init_parameter_list_.at(name)->GetRandomizedVector(destination);  // cannot use operator[] since it is const map
   }
 }
 
 template <size_t NumElement1, size_t NumElement2>
-void MCSimExecutor::AddInitParameter(std::string so_name, std::string ip_name, const Vector<NumElement1>& mean_or_min,
-                                     const Vector<NumElement2>& sigma_or_max, InitParameter::RandomizationType rnd_type) {
-  std::string name = so_name + MCSimExecutor::separator_ + ip_name;
-  if (ip_list_.find(name) == ip_list_.end()) {
+void MonteCarloSimulationExecutor::AddInitializedMonteCarloParameter(std::string so_name, std::string init_monte_carlo_parameter_name,
+                                                                     const libra::Vector<NumElement1>& mean_or_min,
+                                                                     const libra::Vector<NumElement2>& sigma_or_max,
+                                                                     InitializedMonteCarloParameters::RandomizationType random_type) {
+  std::string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
+  if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
     // Register the parameter in ip_list if it is not registered yet
-    auto newparam = new InitParameter();
-    newparam->SetRandomConfig(mean_or_min, sigma_or_max, rnd_type);
-    ip_list_[name] = newparam;
+    auto newparam = new InitializedMonteCarloParameters();
+    newparam->SetRandomConfiguration(mean_or_min, sigma_or_max, random_type);
+    init_parameter_list_[name] = newparam;
   } else {
     // Throw error if the parameter is already registered
-    throw "More than one definition of one InitParameter.";
+    throw "More than one definition of one InitializedMonteCarloParameters.";
   }
 }
 

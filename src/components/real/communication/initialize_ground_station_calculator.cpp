@@ -10,22 +10,22 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-GScalculator InitGScalculator(const std::string fname) {
-  IniAccess gs_conf(fname);
+GroundStationCalculator InitGsCalculator(const std::string file_name) {
+  IniAccess gs_conf(file_name);
 
   char Section[30] = "GROUND_STATION_CALCULATOR";
 
-  double loss_polarization = gs_conf.ReadDouble(Section, "loss_polarization_dB");
-  double loss_atmosphere = gs_conf.ReadDouble(Section, "loss_atmosphere_dB");
-  double loss_rainfall = gs_conf.ReadDouble(Section, "loss_rainfall_dB");
-  double loss_others = gs_conf.ReadDouble(Section, "loss_others_dB");
-  double EbN0 = gs_conf.ReadDouble(Section, "ebn0_dB");
-  double hardware_deterioration = gs_conf.ReadDouble(Section, "hardware_deterioration_dB");
-  double coding_gain = gs_conf.ReadDouble(Section, "coding_gain_dB");
-  double margin_req = gs_conf.ReadDouble(Section, "margin_requirement_dB");
+  double loss_polarization_dB = gs_conf.ReadDouble(Section, "loss_polarization_dB");
+  double loss_atmosphere_dB = gs_conf.ReadDouble(Section, "loss_atmosphere_dB");
+  double loss_rainfall_dB = gs_conf.ReadDouble(Section, "loss_rainfall_dB");
+  double loss_others_dB = gs_conf.ReadDouble(Section, "loss_others_dB");
+  double ebn0_dB = gs_conf.ReadDouble(Section, "ebn0_dB");
+  double hardware_deterioration_dB = gs_conf.ReadDouble(Section, "hardware_deterioration_dB");
+  double coding_gain_dB = gs_conf.ReadDouble(Section, "coding_gain_dB");
+  double margin_requirement_dB = gs_conf.ReadDouble(Section, "margin_requirement_dB");
   double downlink_bitrate_bps = gs_conf.ReadDouble(Section, "downlink_bitrate_bps");
 
-  GScalculator gs_calculator(loss_polarization, loss_atmosphere, loss_rainfall, loss_others, EbN0, hardware_deterioration, coding_gain, margin_req,
-                             downlink_bitrate_bps);
+  GroundStationCalculator gs_calculator(loss_polarization_dB, loss_atmosphere_dB, loss_rainfall_dB, loss_others_dB, ebn0_dB,
+                                        hardware_deterioration_dB, coding_gain_dB, margin_requirement_dB, downlink_bitrate_bps);
   return gs_calculator;
 }

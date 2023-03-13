@@ -6,15 +6,15 @@
 
 #include <library/utilities/macros.hpp>
 
-ExampleSerialCommunicationForHils::ExampleSerialCommunicationForHils(ClockGenerator* clock_gen, const int sils_port_id, OBC* obc,
+ExampleSerialCommunicationForHils::ExampleSerialCommunicationForHils(ClockGenerator* clock_generator, const int sils_port_id, OnBoardComputer* obc,
                                                                      const unsigned int hils_port_id, const unsigned int baud_rate,
                                                                      HilsPortManager* hils_port_manager, const int mode_id)
-    : ComponentBase(300, clock_gen), ObcCommunicationBase(sils_port_id, obc, hils_port_id, baud_rate, hils_port_manager), mode_id_(mode_id) {}
+    : Component(300, clock_generator), UartCommunicationWithObc(sils_port_id, obc, hils_port_id, baud_rate, hils_port_manager), mode_id_(mode_id) {}
 
 ExampleSerialCommunicationForHils::~ExampleSerialCommunicationForHils() {}
 
-int ExampleSerialCommunicationForHils::ParseCommand(const int cmd_size) {
-  UNUSED(cmd_size);
+int ExampleSerialCommunicationForHils::ParseCommand(const int command_size) {
+  UNUSED(command_size);
 
   if (mode_id_ == 1) {
     for (int i = 0; i < kMemorySize; i++) {
@@ -53,8 +53,8 @@ int ExampleSerialCommunicationForHils::GenerateTelemetry() {
   return 0;
 }
 
-void ExampleSerialCommunicationForHils::MainRoutine(int count) {
-  UNUSED(count);
+void ExampleSerialCommunicationForHils::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   ReceiveCommand(0, kMemorySize);
   SendTelemetry(0);

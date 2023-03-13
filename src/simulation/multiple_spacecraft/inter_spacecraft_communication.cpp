@@ -7,6 +7,8 @@
 
 #include <library/utilities/macros.hpp>
 
-InterSatComm::InterSatComm(const SimulationConfig* sim_config) { UNUSED(sim_config); }
+InterSpacecraftCommunication::InterSpacecraftCommunication(const SimulationConfiguration* simulation_configuration) {
+  UNUSED(simulation_configuration);
+}
 
-InterSatComm::~InterSatComm() {}
+InterSpacecraftCommunication::~InterSpacecraftCommunication() {}

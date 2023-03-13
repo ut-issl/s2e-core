@@ -9,21 +9,21 @@
 #include "../simulation_configuration.hpp"
 
 /**
- * @class InterSatComm
+ * @class InterSpacecraftCommunication
  * @brief Base class of inter satellite communication
  */
-class InterSatComm {
+class InterSpacecraftCommunication {
  public:
   /**
-   * @fn InterSatComm
+   * @fn InterSpacecraftCommunication
    * @brief Constructor
    */
-  InterSatComm(const SimulationConfig* sim_config);
+  InterSpacecraftCommunication(const SimulationConfiguration* simulation_configuration);
   /**
-   * @fn ~InterSatComm
+   * @fn ~InterSpacecraftCommunication
    * @brief Destructor
    */
-  ~InterSatComm();
+  ~InterSpacecraftCommunication();
 
  private:
 };

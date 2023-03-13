@@ -13,11 +13,11 @@
 
 using namespace std;
 
-Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const string fname, const Attitude* attitude, const HipparcosCatalogue* hipp,
-                        const LocalCelestialInformation* local_celes_info) {
+Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const string file_name, const Attitude* attitude,
+                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information) {
   using libra::pi;
 
-  IniAccess Telescope_conf(fname);
+  IniAccess Telescope_conf(file_name);
   const string st_sensor_id = std::to_string(static_cast<long long>(sensor_id));
   const char* cs = st_sensor_id.data();
 
@@ -28,8 +28,8 @@ Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const string f
   strcat(TelescopeSection, cs);
 #endif
 
-  Quaternion q_b2c;
-  Telescope_conf.ReadQuaternion(TelescopeSection, "quaternion_b2c", q_b2c);
+  libra::Quaternion quaternion_b2c;
+  Telescope_conf.ReadQuaternion(TelescopeSection, "quaternion_b2c", quaternion_b2c);
 
   double sun_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "sun_exclusion_angle_deg");
   double sun_forbidden_angle_rad = sun_forbidden_angle_deg * pi / 180;  // deg to rad
@@ -38,17 +38,18 @@ Telescope InitTelescope(ClockGenerator* clock_gen, int sensor_id, const string f
   double moon_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "moon_exclusion_angle_deg");
   double moon_forbidden_angle_rad = moon_forbidden_angle_deg * pi / 180;  // deg to rad
 
-  int x_num_of_pix = Telescope_conf.ReadInt(TelescopeSection, "x_number_of_pixel");
-  int y_num_of_pix = Telescope_conf.ReadInt(TelescopeSection, "y_number_of_pixel");
+  int x_number_of_pix = Telescope_conf.ReadInt(TelescopeSection, "x_number_of_pixel");
+  int y_number_of_pix = Telescope_conf.ReadInt(TelescopeSection, "y_number_of_pixel");
 
-  double x_fov_par_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "x_fov_deg_per_pixel");
-  double x_fov_par_pix_rad = x_fov_par_pix_deg * pi / 180;  // deg to rad
-  double y_fov_par_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "y_fov_deg_per_pixel");
-  double y_fov_par_pix_rad = y_fov_par_pix_deg * pi / 180;  // deg to rad
+  double x_fov_per_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "x_fov_deg_per_pixel");
+  double x_fov_per_pix_rad = x_fov_per_pix_deg * pi / 180;  // deg to rad
+  double y_fov_per_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "y_fov_deg_per_pixel");
+  double y_fov_per_pix_rad = y_fov_per_pix_deg * pi / 180;  // deg to rad
 
-  int num_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "number_of_stars_for_log");
+  int number_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "number_of_stars_for_log");
 
-  Telescope telescope(clock_gen, q_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_num_of_pix, y_num_of_pix,
-                      x_fov_par_pix_rad, y_fov_par_pix_rad, num_of_logged_stars, attitude, hipp, local_celes_info);
+  Telescope telescope(clock_generator, quaternion_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_number_of_pix,
+                      y_number_of_pix, x_fov_per_pix_rad, y_fov_per_pix_rad, number_of_logged_stars, attitude, hipparcos,
+                      local_celestial_information);
   return telescope;
 }

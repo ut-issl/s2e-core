@@ -1,55 +1,56 @@
 /**
  * @file example_serial_communication_with_obc.cpp
- * @brief Example of component emulation with communication between OBC Flight software
+ * @brief Example of component emulation with communication between OBC flight software
  */
 
 #include "example_serial_communication_with_obc.hpp"
 
 #include <string.h>
 
-ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, OBC* obc)
-    : ComponentBase(1000, clock_gen), ObcCommunicationBase(port_id, obc) {
+ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, OnBoardComputer* obc)
+    : Component(1000, clock_generator), UartCommunicationWithObc(port_id, obc) {
   Initialize();
 }
-ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_gen, int port_id, int prescaler, OBC* obc)
-    : ComponentBase(prescaler, clock_gen), ObcCommunicationBase(port_id, obc) {
+ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, int prescaler,
+                                                                     OnBoardComputer* obc)
+    : Component(prescaler, clock_generator), UartCommunicationWithObc(port_id, obc) {
   Initialize();
 }
 
 int ExampleSerialCommunicationWithObc::Initialize() {
-  for (int i = 0; i < MAX_MEMORY_LEN; i++) {
-    memory.push_back(0);
+  for (int i = 0; i < kMaxMemoryLength; i++) {
+    memory_.push_back(0);
   }
   return 0;
 }
 
 ExampleSerialCommunicationWithObc::~ExampleSerialCommunicationWithObc() {}
 
-int ExampleSerialCommunicationWithObc::ParseCommand(const int cmd_size) {
-  if (cmd_size < 4) {
+int ExampleSerialCommunicationWithObc::ParseCommand(const int command_size) {
+  if (command_size < 4) {
     return -1;
   }
   if (rx_buffer_[0] != 'S' || rx_buffer_[1] != 'E' || rx_buffer_[2] != 'T') {
     return -1;
   }
-  memory.pop_back();
-  memory.insert(memory.begin(), rx_buffer_[3]);
-  memory[MAX_MEMORY_LEN - 1] = '\n';
+  memory_.pop_back();
+  memory_.insert(memory_.begin(), rx_buffer_[3]);
+  memory_[kMaxMemoryLength - 1] = '\n';
   return 0;
 }
 int ExampleSerialCommunicationWithObc::GenerateTelemetry() {
-  for (int i = 0; i < MAX_MEMORY_LEN; i++) {
-    tx_buff[i] = (unsigned char)memory[i];
+  for (int i = 0; i < kMaxMemoryLength; i++) {
+    tx_buffer_[i] = (unsigned char)memory_[i];
   }
-  tx_buffer_.assign(std::begin(tx_buff), std::end(tx_buff));
-  return sizeof(tx_buff);
+  tx_buffer_.assign(std::begin(tx_buffer_), std::end(tx_buffer_));
+  return sizeof(tx_buffer_);
 }
-void ExampleSerialCommunicationWithObc::MainRoutine(int count) {
-  UNUSED(count);
+void ExampleSerialCommunicationWithObc::MainRoutine(const int time_count) {
+  UNUSED(time_count);
   ReceiveCommand(0, 5);
   SendTelemetry(0);
 }
 
-void ExampleSerialCommunicationWithObc::GPIOStateChanged(int port_id, bool isPosedge) {
-  printf("interrupted. portid = %d, isPosedge = %d./n", port_id, isPosedge);
+void ExampleSerialCommunicationWithObc::GpioStateChanged(int port_id, bool is_positive_edge) {
+  printf("interrupted. portid = %d, isPosedge = %d./n", port_id, is_positive_edge);
 }

@@ -10,8 +10,8 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_name, const SolarRadiationPressureEnvironment* srp,
-                        const LocalCelestialInformation* local_celes_info) {
+SunSensor InitSunSensor(ClockGenerator* clock_generator, int ss_id, std::string file_name, const SolarRadiationPressureEnvironment* srp_environment,
+                        const LocalCelestialInformation* local_celestial_information) {
   IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
@@ -20,8 +20,8 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_n
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  libra::Quaternion q_b2c;
-  ss_conf.ReadQuaternion(Section, "quaternion_b2c", q_b2c);
+  libra::Quaternion quaternion_b2c;
+  ss_conf.ReadQuaternion(Section, "quaternion_b2c", quaternion_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
   detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
@@ -38,13 +38,13 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, int ss_id, std::string file_n
   double intensity_lower_threshold_percent;
   intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");
 
-  SunSensor ss(prescaler, clock_gen, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent, srp,
-               local_celes_info);
+  SunSensor ss(prescaler, clock_generator, ss_id, quaternion_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent,
+               srp_environment, local_celestial_information);
   return ss;
 }
 
-SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss_id, std::string file_name,
-                        const SolarRadiationPressureEnvironment* srp, const LocalCelestialInformation* local_celes_info) {
+SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, int ss_id, std::string file_name,
+                        const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information) {
   IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
@@ -53,8 +53,8 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  libra::Quaternion q_b2c;
-  ss_conf.ReadQuaternion(Section, "quaternion_b2c", q_b2c);
+  libra::Quaternion quaternion_b2c;
+  ss_conf.ReadQuaternion(Section, "quaternion_b2c", quaternion_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
   detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
@@ -73,7 +73,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_gen, PowerPort* power_port, int ss
 
   power_port->InitializeWithInitializeFile(file_name);
 
-  SunSensor ss(prescaler, clock_gen, power_port, ss_id, q_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev, intensity_lower_threshold_percent,
-               srp, local_celes_info);
+  SunSensor ss(prescaler, clock_generator, power_port, ss_id, quaternion_b2c, detectable_angle_rad, nr_stddev, nr_bias_stddev,
+               intensity_lower_threshold_percent, srp_environment, local_celestial_information);
   return ss;
 }

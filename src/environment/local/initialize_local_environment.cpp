@@ -20,11 +20,11 @@ GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
   double mag_rwlimit = conf.ReadDouble(section, "magnetic_field_random_walk_limit_nT");
   double mag_wnvar = conf.ReadDouble(section, "magnetic_field_white_noise_standard_deviation_nT");
 
-  GeomagneticField mag_env(fname, mag_rwdev, mag_rwlimit, mag_wnvar);
-  mag_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
-  mag_env.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
+  GeomagneticField geomagnetic_field(fname, mag_rwdev, mag_rwlimit, mag_wnvar);
+  geomagnetic_field.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
+  geomagnetic_field.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 
-  return mag_env;
+  return geomagnetic_field;
 }
 
 SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::string initialize_file_path,

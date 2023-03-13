@@ -19,36 +19,34 @@
 
 extern const double nan99;  //!< Not at Number TODO: Should be moved to another place
 
-// TODO: Use enum
-#define ECEF 0  //!< Use ECEF frame for GNSS satellite position frame in Add_IonosphericDelay
-#define ECI 1   //!< Use ECI frame for GNSS satellite position frame in Add_IonosphericDelay
-
-// TODO: Not used now. Remove? Use enum?
-#define Lagrange 0       //!< Use Lagrange interpolation
-#define Trigonometric 1  //!< Use Trigonometric interpolation
+enum class GnssFrameDefinition {
+  kEcef = 0,  //!< Use ECEF frame for GNSS satellite position frame in Add_IonosphericDelay
+  kEci = 1    //!< Use ECI frame for GNSS satellite position frame in Add_IonosphericDelay
+};
 
 // #define GNSS_SATELLITES_DEBUG_OUTPUT //!< For debug output, uncomment this
 
 /**
- * @enum UR_KINDS
+ * @enum UltraRapidMode
  * @brief Ultra Rapid mode
  * @details When Using Ultra Rapid ephemerides, decide to use which 6 hours in each observe and predict 24 hours
+ * @note TODO: change to enum class
  */
-typedef enum {
-  UR_NOT_UR,  //!< Don't use ultra rapid
+enum UltraRapidMode {
+  kNotUse,  //!< Don't use ultra rapid
 
-  UR_OBSERVE1,  //!< the most oldest observe 6 hours (most precise)
-  UR_OBSERVE2,  //!< the second oldest observe 6 hours (6 ~ 12)
-  UR_OBSERVE3,
-  UR_OBSERVE4,
+  kObserve1,  //!< the most oldest observe 6 hours (most precise)
+  kObserve2,  //!< the second oldest observe 6 hours (6 ~ 12)
+  kObserve3,
+  kObserve4,
 
-  UR_PREDICT1,  //!< the most oldest preserve 6 hours (most precise)
-  UR_PREDICT2,
-  UR_PREDICT3,
-  UR_PREDICT4,
+  kPredict1,  //!< the most oldest preserve 6 hours (most precise)
+  kPredict2,
+  kPredict3,
+  kPredict4,
 
-  UR_UNKNOWN
-} UR_KINDS;
+  kUnknown
+};
 
 /**
  * @class GnssSat_coordinate
@@ -76,9 +74,9 @@ class GnssSat_coordinate {
   /**
    * @fn GetWhetherValid
    * @brief Return true the GNSS satellite information is available
-   * @param [in] sat_id: Index of GNSS satellite
+   * @param [in] gnss_satellite_id: Index of GNSS satellite
    */
-  bool GetWhetherValid(int sat_id) const;
+  bool GetWhetherValid(int gnss_satellite_id) const;
 
  protected:
   /**
@@ -137,7 +135,8 @@ class GnssSat_position : public GnssSat_coordinate {
    * @param[in] ur_flag: Ultra Rapid flag for position calculation
    * @return Start unix time and end unix time
    */
-  std::pair<double, double> Init(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number, UR_KINDS ur_flag);
+  std::pair<double, double> Init(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number,
+                                 UltraRapidMode ur_flag);
 
   /**
    * @fn Setup
@@ -156,15 +155,15 @@ class GnssSat_position : public GnssSat_coordinate {
   /**
    * @fn GetSatEcef
    * @brief Return GNSS satellite position vector in the ECEF frame [m]
-   * @param [in] sat_id: GNSS satellite ID defined in this class
+   * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetSatEcef(int sat_id) const;
+  libra::Vector<3> GetSatEcef(int gnss_satellite_id) const;
   /**
    * @fn GetSatEci
    * @brief Return GNSS satellite position vector in the ECI frame [m]
-   * @param [in] sat_id: GNSS satellite ID defined in this class
+   * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetSatEci(int sat_id) const;
+  libra::Vector<3> GetSatEci(int gnss_satellite_id) const;
 
  private:
   std::vector<libra::Vector<3>> gnss_sat_ecef_;  //!< List of GNSS satellite position at specific time in the ECEF frame [m]
@@ -196,7 +195,7 @@ class GnssSat_clock : public GnssSat_coordinate {
    * @param[in] interpolation_number: Interpolation number for clock calculation
    * @param[in] ur_flag: Ultra Rapid flag for clock calculation
    */
-  void Init(std::vector<std::vector<std::string>>& file, std::string file_extension, int interpolation_number, UR_KINDS ur_flag,
+  void Init(std::vector<std::vector<std::string>>& file, std::string file_extension, int interpolation_number, UltraRapidMode ur_flag,
             std::pair<double, double> unix_time_period);
   /**
    * @fn SetUp
@@ -214,9 +213,9 @@ class GnssSat_clock : public GnssSat_coordinate {
   /**
    * @fn GetSatClock
    * @brief Return GNSS satellite clock in distance expression [m]
-   * @param [in] sat_id: GNSS satellite ID defined in this class
+   * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  double GetSatClock(int sat_id) const;
+  double GetSatClock(int gnss_satellite_id) const;
 
  private:
   std::vector<double> gnss_sat_clock_;                     //!< List of clock bias of all GNSS satellites at specific time expressed in distance [m]
@@ -248,8 +247,8 @@ class GnssSat_Info {
    * @param[in] clock_ur_flag: Ultra Rapid flag for clock calculation
    */
   void Init(std::vector<std::vector<std::string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-            UR_KINDS position_ur_flag, std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension,
-            int clock_interpolation_number, UR_KINDS clock_ur_flag);
+            UltraRapidMode position_ur_flag, std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension,
+            int clock_interpolation_number, UltraRapidMode clock_ur_flag);
   /**
    * @fn SetUp
    * @brief Setup GNSS satellite position and clock information
@@ -273,27 +272,27 @@ class GnssSat_Info {
   /**
    * @fn GetWhetherValid
    * @brief Return true the GNSS satellite information is available for both position and clock information
-   * @param [in] sat_id: Index of GNSS satellite
+   * @param [in] gnss_satellite_id: Index of GNSS satellite
    */
-  bool GetWhetherValid(int sat_id) const;
+  bool GetWhetherValid(int gnss_satellite_id) const;
   /**
    * @fn GetSatellitePositionEcef
    * @brief Return GNSS satellite position vector in the ECEF frame [m]
-   * @param [in] sat_id: GNSS satellite ID defined in this class
+   * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetSatellitePositionEcef(int sat_id) const;
+  libra::Vector<3> GetSatellitePositionEcef(int gnss_satellite_id) const;
   /**
    * @fn GetSatellitePositionEci
    * @brief Return GNSS satellite position vector in the ECEF frame [m]
-   * @param [in] sat_id: GNSS satellite ID defined in this class
+   * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetSatellitePositionEci(int sat_id) const;
+  libra::Vector<3> GetSatellitePositionEci(int gnss_satellite_id) const;
   /**
    * @fn GetSatelliteClock
    * @brief Return GNSS satellite clock in distance expression [m]
-   * @param [in] sat_id: GNSS satellite ID defined in this class
+   * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  double GetSatelliteClock(int sat_id) const;
+  double GetSatelliteClock(int gnss_satellite_id) const;
   /**
    * @fn GetGnssSatPos
    * @brief Return GNSS satellite position information class
@@ -334,11 +333,11 @@ class GnssSatellites : public ILoggable {
    * @note Parameters are defined in GNSSSat_Info for true and estimated information
    */
   void Init(std::vector<std::vector<std::string>>& true_position_file, int true_position_interpolation_method, int true_position_interpolation_number,
-            UR_KINDS true_position_ur_flag, std::vector<std::vector<std::string>>& true_clock_file, std::string true_clock_file_extension,
-            int true_clock_interpolation_number, UR_KINDS true_clock_ur_flag, std::vector<std::vector<std::string>>& estimate_position_file,
-            int estimate_position_interpolation_method, int estimate_position_interpolation_number, UR_KINDS estimate_position_ur_flag,
+            UltraRapidMode true_position_ur_flag, std::vector<std::vector<std::string>>& true_clock_file, std::string true_clock_file_extension,
+            int true_clock_interpolation_number, UltraRapidMode true_clock_ur_flag, std::vector<std::vector<std::string>>& estimate_position_file,
+            int estimate_position_interpolation_method, int estimate_position_interpolation_number, UltraRapidMode estimate_position_ur_flag,
             std::vector<std::vector<std::string>>& estimate_clock_file, std::string estimate_clock_file_extension,
-            int estimate_clock_interpolation_number, UR_KINDS estimate_clock_ur_flag);
+            int estimate_clock_interpolation_number, UltraRapidMode estimate_clock_ur_flag);
   /**
    * @fn IsCalcEnabled
    * @brief Return calculated enabled flag
@@ -348,15 +347,15 @@ class GnssSatellites : public ILoggable {
   /**
    * @fn SetUp
    * @brief Setup both true and estimated GNSS satellite information
-   * @param [in] sim_time: Simulation time information
+   * @param [in] simulation_time: Simulation time information
    */
-  void SetUp(const SimulationTime* sim_time);
+  void SetUp(const SimulationTime* simulation_time);
   /**
    * @fn Update
    * @brief Update both true and estimated GNSS satellite information
-   * @param [in] sim_time: Simulation time information
+   * @param [in] simulation_time: Simulation time information
    */
-  void Update(const SimulationTime* sim_time);
+  void Update(const SimulationTime* simulation_time);
 
   /**
    * @fn GetIndexFromID
@@ -381,9 +380,9 @@ class GnssSatellites : public ILoggable {
   /**
    * @fn GetWhetherValid
    * @brief Return true the GNSS satellite information is available for both position and clock for both true and estimated value
-   * @param [in] sat_id: Index of GNSS satellite
+   * @param [in] gnss_satellite_id: Index of GNSS satellite
    */
-  bool GetWhetherValid(int sat_id) const;
+  bool GetWhetherValid(int gnss_satellite_id) const;
   /**
    * @fn GetStartUnixTime
    * @brief Return start unix time
@@ -403,62 +402,64 @@ class GnssSatellites : public ILoggable {
   /**
    * @fn GetSatellitePositionEcef
    * @brief Return GNSS satellite position in the ECEF frame [m]
-   * @param [in] sat_id: GNSS satellite ID
+   * @param [in] gnss_satellite_id: GNSS satellite ID
    */
-  libra::Vector<3> GetSatellitePositionEcef(const int sat_id) const;
+  libra::Vector<3> GetSatellitePositionEcef(const int gnss_satellite_id) const;
   /**
    * @fn GetSatellitePositionEci
    * @brief Return GNSS satellite position in the ECI frame [m]
-   * @param [in] sat_id: GNSS satellite ID
+   * @param [in] gnss_satellite_id: GNSS satellite ID
    */
-  libra::Vector<3> GetSatellitePositionEci(const int sat_id) const;
+  libra::Vector<3> GetSatellitePositionEci(const int gnss_satellite_id) const;
   /**
    * @fn GetSatelliteClock
    * @brief Return GNSS satellite clock
-   * @param [in] sat_id: GNSS satellite ID
+   * @param [in] gnss_satellite_id: GNSS satellite ID
    */
-  double GetSatelliteClock(const int sat_id) const;
+  double GetSatelliteClock(const int gnss_satellite_id) const;
 
   /**
    * @fn GetPseudoRangeECEF
    * @brief Calculate pseudo range between receiver and a GNSS satellite
-   * @param [in] sat_id: GNSS satellite ID
+   * @param [in] gnss_satellite_id: GNSS satellite ID
    * @param [in] rec_position: Receiver position vector in the ECEF frame [m]
    * @param [in] rec_clock: Receiver clock
    * @param [in] frequency: Frequency of the signal [MHz]
    * @return Pseudo range [m]
    */
-  double GetPseudoRangeECEF(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
+  double GetPseudoRangeECEF(const int gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
   /**
    * @fn GetPseudoRangeECI
    * @brief Calculate pseudo range between receiver and a GNSS satellite
-   * @param [in] sat_id: GNSS satellite ID
+   * @param [in] gnss_satellite_id: GNSS satellite ID
    * @param [in] rec_position: Receiver position vector in the ECI frame [m]
    * @param [in] rec_clock: Receiver clock
    * @param [in] frequency: Frequency of the signal [MHz]
    * @return Pseudo range [m]
    */
-  double GetPseudoRangeECI(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
+  double GetPseudoRangeECI(const int gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
   /**
    * @fn GetCarrierPhaseECEF
    * @brief Calculate carrier phase observed by a receiver for a GNSS satellite
-   * @param [in] sat_id: GNSS satellite ID
+   * @param [in] gnss_satellite_id: GNSS satellite ID
    * @param [in] rec_position: Receiver position vector in the ECEF frame [m]
    * @param [in] rec_clock: Receiver clock
    * @param [in] frequency: Frequency of the signal [MHz]
    * @return Carrier phase cycle and bias [-]
    */
-  std::pair<double, double> GetCarrierPhaseECEF(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
+  std::pair<double, double> GetCarrierPhaseECEF(const int gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
+                                                const double frequency) const;
   /**
    * @fn GetCarrierPhaseECI
    * @brief Calculate carrier phase observed by a receiver for a GNSS satellite
-   * @param [in] sat_id: GNSS satellite ID
+   * @param [in] gnss_satellite_id: GNSS satellite ID
    * @param [in] rec_position: Receiver position vector in the ECI frame [m]
    * @param [in] rec_clock: Receiver clock
    * @param [in] frequency: Frequency of the signal [MHz]
    * @return Carrier phase cycle and bias [-]
    */
-  std::pair<double, double> GetCarrierPhaseECI(const int sat_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
+  std::pair<double, double> GetCarrierPhaseECI(const int gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
+                                               const double frequency) const;
 
   // Override ILoggable
   /**
@@ -489,13 +490,14 @@ class GnssSatellites : public ILoggable {
    * @fn AddIonosphericDelay
    * @brief Calculation of ionospheric delay
    * @note  TODO: Ionospheric delay very Miscellaneous need to fix
-   * @param [in] sat_id: GNSS satellite ID
+   * @param [in] gnss_satellite_id: GNSS satellite ID
    * @param [in] rec_position: Receiver position [m]
    * @param [in] frequency: Frequency [MHz]
    * @param [in] flag: The frame definition of the receiver position (ECI or ECEF)
    * @return Ionospheric delay [m]
    */
-  double AddIonosphericDelay(const int sat_id, const libra::Vector<3> rec_position, const double frequency, const bool flag) const;
+  double AddIonosphericDelay(const int gnss_satellite_id, const libra::Vector<3> rec_position, const double frequency,
+                             const GnssFrameDefinition flag) const;
 
   bool is_calc_enabled_ = true;  //!< Flag to manage the GNSS satellite position calculation
   GnssSat_Info true_info_;       //!< True information of GNSS satellites

@@ -10,43 +10,44 @@
 using libra::Vector;
 
 /**
- * @class RMMParams
+ * @class ResidualMagneticMoment
  * @brief Class for spacecraft RMM (Residual Magnetic Moment)
  */
-class RMMParams {
+class ResidualMagneticMoment {
  public:
   /**
-   * @fn RMMParams
+   * @fn ResidualMagneticMoment
    * @brief Constructor
    */
-  RMMParams(Vector<3> rmm_const_b, double rmm_rwdev, double rmm_rwlimit, double rmm_wnvar);
+  ResidualMagneticMoment(const Vector<3> constant_value_b_Am2_, const double random_walk_standard_deviation_Am2, const double random_walk_limit_Am2,
+                         const double random_noise_standard_deviation_Am2);
   /**
-   * @fn ~RMMParams
+   * @fn ~ResidualMagneticMoment
    * @brief Destructor
    */
-  ~RMMParams(){};
+  ~ResidualMagneticMoment(){};
 
   // Getter
   /**
-   * @fn GetRMMConst_b
+   * @fn GetConstantValue_b_Am2
    * @brief Return Constant value of RMM at body frame [Am2]
    */
-  inline const Vector<3>& GetRMMConst_b(void) const { return rmm_const_b_; }
+  inline const Vector<3>& GetConstantValue_b_Am2(void) const { return constant_value_b_Am2_; }
   /**
-   * @fn GetRMMRWDev
+   * @fn GetRandomWalkStandardDeviation_Am2
    * @brief Return Random walk standard deviation of RMM [Am2]
    */
-  inline const double& GetRMMRWDev(void) const { return rmm_rwdev_; }
+  inline const double& GetRandomWalkStandardDeviation_Am2(void) const { return random_walk_standard_deviation_Am2_; }
   /**
-   * @fn GetRMMRWDev
+   * @fn GetRandomWalkLimit_Am2
    * @brief Random walk limit of RMM [Am2]
    */
-  inline const double& GetRMMRWLimit(void) const { return rmm_rwlimit_; }
+  inline const double& GetRandomWalkLimit_Am2(void) const { return random_walk_limit_Am2_; }
   /**
-   * @fn GetRMMRWDev
+   * @fn GetRandomNoiseStandardDeviation_Am2
    * @brief Standard deviation of white noise of RMM [Am2]
    */
-  inline const double& GetRMMWNVar(void) const { return rmm_wnvar_; }
+  inline const double& GetRandomNoiseStandardDeviation_Am2(void) const { return random_noise_standard_deviation_Am2_; }
 
   // Setter
   /**
@@ -54,19 +55,19 @@ class RMMParams {
    * @brief Set Constant value of RMM at body frame [Am2]
    * @param [in] rmm_const_b_Am2: Constant value of RMM at the body frame [Am2]
    */
-  inline void SetRmmConstant_b_Am2(const Vector<3> rmm_const_b_Am2) { rmm_const_b_ = rmm_const_b_Am2; }
+  inline void SetRmmConstant_b_Am2(const Vector<3> rmm_const_b_Am2) { constant_value_b_Am2_ = rmm_const_b_Am2; }
   /**
    * @fn AddRMMConst_b_Am2
    * @brief Add Constant value of RMM at body frame [Am2]
    * @param [in] rmm_const_b_Am2: Constant value of RMM at the body frame [Am2]
    */
-  inline void AddRmmConstant_b_Am2(const Vector<3> rmm_const_b_Am2) { rmm_const_b_ += rmm_const_b_Am2; }
+  inline void AddRmmConstant_b_Am2(const Vector<3> rmm_const_b_Am2) { constant_value_b_Am2_ += rmm_const_b_Am2; }
 
  private:
-  Vector<3> rmm_const_b_;  //!< Constant value of RMM at body frame [Am2]
-  double rmm_rwdev_;       //!< Random walk standard deviation of RMM [Am2]
-  double rmm_rwlimit_;     //!< Random walk limit of RMM [Am2]
-  double rmm_wnvar_;       //!< Standard deviation of white noise of RMM [Am2]
+  Vector<3> constant_value_b_Am2_;              //!< Constant value of RMM at body frame [Am2]
+  double random_walk_standard_deviation_Am2_;   //!< Random walk standard deviation of RMM [Am2]
+  double random_walk_limit_Am2_;                //!< Random walk limit of RMM [Am2]
+  double random_noise_standard_deviation_Am2_;  //!< Standard deviation of white noise of RMM [Am2]
 };
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_HPP_

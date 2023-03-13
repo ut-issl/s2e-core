@@ -9,31 +9,32 @@
 #include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
 
-PCU_InitialStudy::PCU_InitialStudy(const int prescaler, ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat, double compo_step_time)
-    : ComponentBase(prescaler, clock_gen),
+PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
+                                 double component_step_time_s)
+    : Component(prescaler, clock_generator),
       saps_(saps),
-      bat_(bat),
-      cc_charge_current_(bat->GetCCChargeCurrent()),
-      cv_charge_voltage_(bat->GetCVChargeVoltage()),
-      compo_step_time_(compo_step_time) {
-  bus_voltage_ = 0.0;
-  power_consumption_ = 0.0;
+      battery_(battery),
+      cc_charge_current_C_(battery->GetCcChargeCurrent_C()),
+      cv_charge_voltage_V_(battery->GetCvChargeVoltage_V()),
+      compo_step_time_s_(component_step_time_s) {
+  bus_voltage_V_ = 0.0;
+  power_consumption_W_ = 0.0;
 }
 
-PCU_InitialStudy::PCU_InitialStudy(ClockGenerator* clock_gen, const std::vector<SAP*> saps, BAT* bat)
-    : ComponentBase(10, clock_gen),
+PcuInitialStudy::PcuInitialStudy(ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery)
+    : Component(10, clock_generator),
       saps_(saps),
-      bat_(bat),
-      cc_charge_current_(bat->GetCCChargeCurrent()),
-      cv_charge_voltage_(bat->GetCVChargeVoltage()),
-      compo_step_time_(0.1) {
-  bus_voltage_ = 0.0;
-  power_consumption_ = 0.0;
+      battery_(battery),
+      cc_charge_current_C_(battery->GetCcChargeCurrent_C()),
+      cv_charge_voltage_V_(battery->GetCvChargeVoltage_V()),
+      compo_step_time_s_(0.1) {
+  bus_voltage_V_ = 0.0;
+  power_consumption_W_ = 0.0;
 }
 
-PCU_InitialStudy::~PCU_InitialStudy() {}
+PcuInitialStudy::~PcuInitialStudy() {}
 
-std::string PCU_InitialStudy::GetLogHeader() const {
+std::string PcuInitialStudy::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "pcu_initial_study_";
   str_tmp += WriteScalar(component_name + "power_consumption", "W");
@@ -41,24 +42,24 @@ std::string PCU_InitialStudy::GetLogHeader() const {
   return str_tmp;
 }
 
-std::string PCU_InitialStudy::GetLogValue() const {
+std::string PcuInitialStudy::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar(power_consumption_);
-  str_tmp += WriteScalar(bus_voltage_);
+  str_tmp += WriteScalar(power_consumption_W_);
+  str_tmp += WriteScalar(bus_voltage_V_);
   return str_tmp;
 }
 
-void PCU_InitialStudy::MainRoutine(int time_count) {
-  double time_query = compo_step_time_ * time_count;
-  power_consumption_ = CalcPowerConsumption(time_query);  // Should use SimulationTime? time_count may over flow since it is int type,
+void PcuInitialStudy::MainRoutine(int time_count) {
+  double time_query = compo_step_time_s_ * time_count;
+  power_consumption_W_ = CalcPowerConsumption(time_query);  // Should use SimulationTime? time_count may over flow since it is int type,
 
   UpdateChargeCurrentAndBusVoltage();
   for (auto sap : saps_) {
-    sap->SetVoltage(16.0);  // Assume MPPT control
+    sap->SetVoltage_V(16.0);  // Assume MPPT control
   }
 }
 
-double PCU_InitialStudy::CalcPowerConsumption(double time_query) const {
+double PcuInitialStudy::CalcPowerConsumption(double time_query) const {
   if (CsvScenarioInterface::IsCsvScenarioEnabled()) {
     return CsvScenarioInterface::GetPowerConsumption(time_query);
   } else {
@@ -76,34 +77,35 @@ double PCU_InitialStudy::CalcPowerConsumption(double time_query) const {
   }
 }
 
-void PCU_InitialStudy::UpdateChargeCurrentAndBusVoltage() {
-  double bat_voltage = bat_->GetBatVoltage();
-  const double bat_resistance = bat_->GetBatResistance();
+void PcuInitialStudy::UpdateChargeCurrentAndBusVoltage() {
+  double bat_voltage = battery_->GetVoltage_V();
+  const double battery_resistance_Ohm = battery_->GetResistance_Ohm();
   double power_generation = 0.0;
   for (auto sap : saps_) {
-    power_generation += sap->GetPowerGeneration();
+    power_generation += sap->GetPowerGeneration_W();
   }
   double current_temp =
-      (-bat_voltage + std::sqrt(bat_voltage * bat_voltage + 4.0 * bat_resistance * (power_generation - power_consumption_))) / (2.0 * bat_resistance);
-  if (current_temp >= cc_charge_current_) {
-    if (bat_voltage + cc_charge_current_ * bat_resistance < cv_charge_voltage_) {
+      (-bat_voltage + std::sqrt(bat_voltage * bat_voltage + 4.0 * battery_resistance_Ohm * (power_generation - power_consumption_W_))) /
+      (2.0 * battery_resistance_Ohm);
+  if (current_temp >= cc_charge_current_C_) {
+    if (bat_voltage + cc_charge_current_C_ * battery_resistance_Ohm < cv_charge_voltage_V_) {
       // CC Charge
-      bat_->SetChargeCurrent(cc_charge_current_);
-      bus_voltage_ = bat_voltage + bat_resistance * cc_charge_current_;
+      battery_->SetChargeCurrent(cc_charge_current_C_);
+      bus_voltage_V_ = bat_voltage + battery_resistance_Ohm * cc_charge_current_C_;
     } else {
       // CV Charge
-      bat_->SetChargeCurrent((cv_charge_voltage_ - bat_voltage) / bat_resistance);
-      bus_voltage_ = bat_voltage + bat_resistance * (cv_charge_voltage_ - bat_voltage) / bat_resistance;
+      battery_->SetChargeCurrent((cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm);
+      bus_voltage_V_ = bat_voltage + battery_resistance_Ohm * (cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm;
     }
   } else {
-    if (bat_voltage + current_temp * bat_resistance < cv_charge_voltage_) {
+    if (bat_voltage + current_temp * battery_resistance_Ohm < cv_charge_voltage_V_) {
       // Natural charge or discharge
-      bat_->SetChargeCurrent(current_temp);
-      bus_voltage_ = bat_voltage + bat_resistance * current_temp;
+      battery_->SetChargeCurrent(current_temp);
+      bus_voltage_V_ = bat_voltage + battery_resistance_Ohm * current_temp;
     } else {
       // CV Charge
-      bat_->SetChargeCurrent((cv_charge_voltage_ - bat_voltage) / bat_resistance);
-      bus_voltage_ = bat_voltage + bat_resistance * (cv_charge_voltage_ - bat_voltage) / bat_resistance;
+      battery_->SetChargeCurrent((cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm);
+      bus_voltage_V_ = bat_voltage + battery_resistance_Ohm * (cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm;
     }
   }
 }

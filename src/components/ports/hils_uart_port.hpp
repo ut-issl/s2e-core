@@ -55,19 +55,19 @@ class HilsUartPort {
    * @brief Send data to COM port
    * @param [in] buffer: Data buffer to send
    * @param [in] offset: Start offset for the data buffer to send
-   * @param [in] count: Length of data to send
+   * @param [in] data_length: Length of data to send
    * @return 0: success, -1: error
    */
-  int WriteTx(const unsigned char* buffer, int offset, int count);
+  int WriteTx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length);
   /**
    * @fn ReadRx
    * @brief Read data from COM port
    * @param [out] buffer: Data buffer to store read data
    * @param [in] offset: Start offset for the data buffer to read
-   * @param [in] count: Length of data to read
+   * @param [in] data_length: Length of data to read
    * @return received data length: success, negative value: error
    */
-  int ReadRx(unsigned char* buffer, int offset, int count);
+  int ReadRx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length);
   /**
    * @fn GetBytesToRead
    * @brief Get length of byte to read
@@ -84,16 +84,16 @@ class HilsUartPort {
   // gcroot is the type-safe wrapper template to refer to a CLR object from the c++ heap reference:
   // https://docs.microsoft.com/en-us/cpp/dotnet/how-to-declare-handles-in-native-types?view=msvc-160
   msclr::gcroot<System::IO::Ports::SerialPort ^> port_;  //!< Port
-  msclr::gcroot<bytearray ^> tx_buf_;                    //!< TX Buffer
-  msclr::gcroot<bytearray ^> rx_buf_;                    //!< RX Buffer
+  msclr::gcroot<bytearray ^> tx_buffer_;                 //!< TX Buffer
+  msclr::gcroot<bytearray ^> rx_buffer_;                 //!< RX Buffer
 
   /**
-   * @fn PortName
+   * @fn GetPortName
    * @brief Convert port id to port name
    * @param [in] port_id: Port ID like 4
    * @return Port name like "COM4"
    */
-  static std::string PortName(unsigned int port_id);
+  static std::string GetPortName(const unsigned int port_id);
   /**
    * @fn Initialize
    * @brief Open and initialize the COM port

@@ -12,16 +12,17 @@
 class SampleComponents;
 
 /**
- * @class SampleSat
+ * @class SampleSpacecraft
  * @brief An example of user side spacecraft class
  */
-class SampleSat : public Spacecraft {
+class SampleSpacecraft : public Spacecraft {
  public:
   /**
-   * @fn SampleSat
+   * @fn SampleSpacecraft
    * @brief Constructor
    */
-  SampleSat(SimulationConfig* sim_config, const GlobalEnvironment* glo_env, const int sat_id);
+  SampleSpacecraft(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
+                   const unsigned int spacecraft_id);
 
   /**
    * @fn GetInstalledComponents

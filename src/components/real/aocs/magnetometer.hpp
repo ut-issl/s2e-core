@@ -13,51 +13,51 @@
 #include "../../base/component.hpp"
 #include "../../base/sensor.hpp"
 
-const size_t kMagDim = 3;  //!< Dimension of magnetometer
+const size_t kMagnetometerDimension = 3;  //!< Dimension of magnetometer
 
 /**
- * @class MagSensor
+ * @class Magnetometer
  * @brief Class to emulate magnetometer
  */
-class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILoggable {
+class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, public ILoggable {
  public:
   /**
-   * @fn MagSensor
+   * @fn Magnetometer
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
-   * @param [in] q_b2c: Quaternion from body frame to component frame
-   * @param [in] magnet: Geomagnetic environment
+   * @param [in] quaternion_b2c: Quaternion from body frame to component frame
+   * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  MagSensor(const int prescaler, ClockGenerator* clock_gen, SensorBase& sensor_base, const int sensor_id, const libra::Quaternion& q_b2c,
-            const GeomagneticField* magnet);
+  Magnetometer(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
+               const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
   /**
-   * @fn MagSensor
+   * @fn Magnetometer
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] clock_gen: Clock generator
+   * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] sensor_base: Sensor base information
    * @param [in] sensor_id: Sensor ID
-   * @param [in] q_b2c: Quaternion from body frame to component frame
-   * @param [in] magnet: Geomagnetic environment
+   * @param [in] quaternion_b2c: Quaternion from body frame to component frame
+   * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  MagSensor(const int prescaler, ClockGenerator* clock_gen, PowerPort* power_port, SensorBase& sensor_base, const int sensor_id,
-            const libra::Quaternion& q_b2c, const GeomagneticField* magnet);
+  Magnetometer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
+               const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
   /**
-   * @fn ~MagSensor
+   * @fn ~Magnetometer
    * @brief Destructor
    */
-  ~MagSensor();
+  ~Magnetometer();
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine for sensor observation
    */
-  void MainRoutine(int count) override;
+  void MainRoutine(const int time_count) override;
 
   // Override ILoggable
   /**
@@ -72,17 +72,17 @@ class MagSensor : public ComponentBase, public SensorBase<kMagDim>, public ILogg
   virtual std::string GetLogValue() const;
 
   /**
-   * @fn GetMagC
+   * @fn GetMeasuredMagneticField_c_nT
    * @brief Return observed magnetic field on the component frame
    */
-  inline const libra::Vector<kMagDim>& GetMagC(void) const { return mag_c_; }
+  inline const libra::Vector<kMagnetometerDimension>& GetMeasuredMagneticField_c_nT(void) const { return magnetic_field_c_nT_; }
 
  protected:
-  libra::Vector<kMagDim> mag_c_{0.0};            // observed magnetic field on the component frame [nT]
-  int sensor_id_ = 0;                            //!< Sensor ID
-  libra::Quaternion q_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
+  libra::Vector<kMagnetometerDimension> magnetic_field_c_nT_{0.0};  //!< Observed magnetic field on the component frame [nT]
+  unsigned int sensor_id_ = 0;                                      //!< Sensor ID
+  libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from body frame to component frame
 
-  const GeomagneticField* magnet_;  //!< Geomagnetic environment
+  const GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
 };
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MAGNETOMETER_HPP_

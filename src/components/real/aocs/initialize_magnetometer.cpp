@@ -7,8 +7,9 @@
 #include "../../base/initialize_sensor.hpp"
 #include "library/initialize/initialize_file_access.hpp"
 
-MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::string fname, double compo_step_time, const GeomagneticField* magnet) {
-  IniAccess magsensor_conf(fname);
+Magnetometer InitMagetometer(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
+                             const GeomagneticField* geomagnetic_field) {
+  IniAccess magsensor_conf(file_name);
   const char* sensor_name = "MAGNETOMETER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* MSSection = section_name.c_str();
@@ -16,19 +17,20 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, int sensor_id, const std::str
   int prescaler = magsensor_conf.ReadInt(MSSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Quaternion q_b2c;
-  magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", q_b2c);
+  libra::Quaternion quaternion_b2c;
+  magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", quaternion_b2c);
 
-  // SensorBase
-  SensorBase<kMagDim> sensor_base = ReadSensorBaseInformation<kMagDim>(fname, compo_step_time * (double)(prescaler), MSSection, "nT");
+  // Sensor
+  Sensor<kMagnetometerDimension> sensor_base =
+      ReadSensorInformation<kMagnetometerDimension>(file_name, component_step_time_s * (double)(prescaler), MSSection, "nT");
 
-  MagSensor magsensor(prescaler, clock_gen, sensor_base, sensor_id, q_b2c, magnet);
+  Magnetometer magsensor(prescaler, clock_generator, sensor_base, sensor_id, quaternion_b2c, geomagnetic_field);
   return magsensor;
 }
 
-MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int sensor_id, const std::string fname, double compo_step_time,
-                        const GeomagneticField* magnet) {
-  IniAccess magsensor_conf(fname);
+Magnetometer InitMagetometer(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+                             double component_step_time_s, const GeomagneticField* geomagnetic_field) {
+  IniAccess magsensor_conf(file_name);
   const char* sensor_name = "MAGNETOMETER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* MSSection = section_name.c_str();
@@ -36,15 +38,16 @@ MagSensor InitMagSensor(ClockGenerator* clock_gen, PowerPort* power_port, int se
   int prescaler = magsensor_conf.ReadInt(MSSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Quaternion q_b2c;
-  magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", q_b2c);
+  libra::Quaternion quaternion_b2c;
+  magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", quaternion_b2c);
 
-  // SensorBase
-  SensorBase<kMagDim> sensor_base = ReadSensorBaseInformation<kMagDim>(fname, compo_step_time * (double)(prescaler), MSSection, "nT");
+  // Sensor
+  Sensor<kMagnetometerDimension> sensor_base =
+      ReadSensorInformation<kMagnetometerDimension>(file_name, component_step_time_s * (double)(prescaler), MSSection, "nT");
 
   // PowerPort
-  power_port->InitializeWithInitializeFile(fname);
+  power_port->InitializeWithInitializeFile(file_name);
 
-  MagSensor magsensor(prescaler, clock_gen, power_port, sensor_base, sensor_id, q_b2c, magnet);
+  Magnetometer magsensor(prescaler, clock_generator, power_port, sensor_base, sensor_id, quaternion_b2c, geomagnetic_field);
   return magsensor;
 }

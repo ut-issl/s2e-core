@@ -5,5 +5,5 @@
 
 #include "kinematics_parameters.hpp"
 
-KinematicsParams::KinematicsParams(Vector<3> cg_b, double mass, Matrix<3, 3> inertia_tensor)
-    : cg_b_(cg_b), mass_(mass), inertia_tensor_(inertia_tensor) {}
+KinematicsParameters::KinematicsParameters(libra::Vector<3> center_of_gravity_b_m, double mass_kg, libra::Matrix<3, 3> inertia_tensor_b_kgm2)
+    : center_of_gravity_b_m_(center_of_gravity_b_m), mass_kg_(mass_kg), inertia_tensor_b_kgm2_(inertia_tensor_b_kgm2) {}

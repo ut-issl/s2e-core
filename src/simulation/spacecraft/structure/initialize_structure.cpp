@@ -9,34 +9,34 @@
 #include <library/math/vector.hpp>
 
 #define MIN_VAL 1e-6
-KinematicsParams InitKinematicsParams(std::string ini_path) {
-  auto conf = IniAccess(ini_path);
+KinematicsParameters InitKinematicsParameters(std::string file_name) {
+  auto conf = IniAccess(file_name);
   const char* section = "KINEMATIC_PARAMETERS";
 
-  Vector<3> cg_b;
-  conf.ReadVector(section, "center_of_gravity_b_m", cg_b);
-  double mass = conf.ReadDouble(section, "mass_kg");
-  Vector<9> inertia_vec;
-  Matrix<3, 3> inertia_tensor;
+  libra::Vector<3> center_of_gravity_b_m;
+  conf.ReadVector(section, "center_of_gravity_b_m", center_of_gravity_b_m);
+  double mass_kg = conf.ReadDouble(section, "mass_kg");
+  libra::Vector<9> inertia_vec;
+  libra::Matrix<3, 3> inertia_tensor_b_kgm2;
   conf.ReadVector(section, "inertia_tensor_kgm2", inertia_vec);
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      inertia_tensor[i][j] = inertia_vec[i * 3 + j];
+      inertia_tensor_b_kgm2[i][j] = inertia_vec[i * 3 + j];
     }
   }
 
-  KinematicsParams kinematics_params(cg_b, mass, inertia_tensor);
+  KinematicsParameters kinematics_params(center_of_gravity_b_m, mass_kg, inertia_tensor_b_kgm2);
   return kinematics_params;
 }
 
-vector<Surface> InitSurfaces(std::string ini_path) {
+std::vector<Surface> InitSurfaces(std::string file_name) {
   using std::cout;
 
-  auto conf = IniAccess(ini_path);
+  auto conf = IniAccess(file_name);
   const char* section = "SURFACES";
 
   const int num_surface = conf.ReadInt(section, "number_of_surfaces");
-  vector<Surface> surfaces;
+  std::vector<Surface> surfaces;
 
   for (int i = 0; i < num_surface; i++) {
     std::string idx = std::to_string(i);
@@ -106,16 +106,16 @@ vector<Surface> InitSurfaces(std::string ini_path) {
   return surfaces;
 }
 
-RMMParams InitRMMParams(std::string ini_path) {
-  auto conf = IniAccess(ini_path);
+ResidualMagneticMoment InitResidualMagneticMoment(std::string file_name) {
+  auto conf = IniAccess(file_name);
   const char* section = "RESIDUAL_MAGNETIC_MOMENT";
 
-  Vector<3> rmm_const_b;
+  libra::Vector<3> rmm_const_b;
   conf.ReadVector(section, "rmm_constant_b_Am2", rmm_const_b);
   double rmm_rwdev = conf.ReadDouble(section, "rmm_random_walk_speed_Am2");
-  double rmm_rwlimit = conf.ReadDouble(section, "rmm_random_walk_limit_Am2");
-  double rmm_wnvar = conf.ReadDouble(section, "rmm_white_noise_standard_deviation_Am2");
+  double random_walk_limit_Am2 = conf.ReadDouble(section, "rmm_random_walk_limit_Am2");
+  double random_noise_standard_deviation_Am2 = conf.ReadDouble(section, "rmm_white_noise_standard_deviation_Am2");
 
-  RMMParams rmm_params(rmm_const_b, rmm_rwdev, rmm_rwlimit, rmm_wnvar);
+  ResidualMagneticMoment rmm_params(rmm_const_b, rmm_rwdev, random_walk_limit_Am2, random_noise_standard_deviation_Am2);
   return rmm_params;
 }

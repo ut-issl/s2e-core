@@ -32,62 +32,64 @@ class Attitude : public ILoggable, public SimulationObject {
 
   // Getter
   /**
-   * @fn GetPropStep
+   * @fn GetPropStep_s
    * @brief Return propagation step [sec]
    */
-  inline double GetPropStep() const { return propagation_step_s_; }
+  inline double GetPropStep_s() const { return propagation_step_s_; }
   /**
-   * @fn GetOmega_b
+   * @fn GetAngularVelocity_b_rad_s
    * @brief Return angular velocity of spacecraft body-fixed frame with respect to the inertial frame [rad/s]
    */
-  inline libra::Vector<3> GetOmega_b() const { return angular_velocity_b_rad_s_; }
+  inline libra::Vector<3> GetAngularVelocity_b_rad_s() const { return angular_velocity_b_rad_s_; }
   /**
    * @fn GetQuaternion_i2b
    * @brief Return attitude quaternion from the inertial frame to the body fixed frame
    */
   inline libra::Quaternion GetQuaternion_i2b() const { return quaternion_i2b_; }
   /**
-   * @fn GetTotalAngMomNorm
+   * @fn GetTotalAngularMomentNorm_Nms
    * @brief Return norm of total angular momentum of the spacecraft [Nms]
    */
-  inline double GetTotalAngMomNorm() const { return libra::CalcNorm(angular_momentum_total_b_Nms_); }
+  inline double GetTotalAngularMomentNorm_Nms() const { return libra::CalcNorm(angular_momentum_total_b_Nms_); }
   /**
-   * @fn GetEnergy
+   * @fn GetKineticEnergy_J
    * @brief Return rotational Kinetic Energy of Spacecraft [J]
    */
-  inline double GetEnergy() const { return kinetic_energy_J_; }
+  inline double GetKineticEnergy_J() const { return kinetic_energy_J_; }
   /**
-   * @fn GetInertiaTensor
+   * @fn GetInertiaTensor_b_kgm2
    * @brief Return inertia tensor [kg m^2]
    */
-  inline libra::Matrix<3, 3> GetInertiaTensor() const { return inertia_tensor_kgm2_; }
+  inline libra::Matrix<3, 3> GetInertiaTensor_b_kgm2() const { return inertia_tensor_kgm2_; }
 
   // Setter
   /**
-   * @fn SetOmega_b
+   * @fn SetAngularVelocity_b_rad_s
    * @brief Set angular velocity of the body fixed frame with respect to the inertial frame [rad/s]
    */
-  inline void SetOmega_b(const libra::Vector<3> omega_b_rad_s) { angular_velocity_b_rad_s_ = omega_b_rad_s; }
+  inline void SetAngularVelocity_b_rad_s(const libra::Vector<3> angular_velocity_b_rad_s) { angular_velocity_b_rad_s_ = angular_velocity_b_rad_s; }
   /**
    * @fn SetQuaternion_i2b
    * @brief Set attitude quaternion from the inertial frame to the body frame
    */
   inline void SetQuaternion_i2b(const libra::Quaternion quaternion_i2b) { quaternion_i2b_ = quaternion_i2b; }
   /**
-   * @fn SetTorque_b
+   * @fn SetTorque_b_Nm
    * @brief Set torque acting on the spacecraft on the body fixed frame [Nm]
    */
-  inline void SetTorque_b(const libra::Vector<3> torque_b_Nm) { torque_b_Nm_ = torque_b_Nm; }
+  inline void SetTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { torque_b_Nm_ = torque_b_Nm; }
   /**
    * @fn AddTorque_b_Nm
    * @brief Add torque acting on the spacecraft on the body fixed frame [Nm]
    */
   inline void AddTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { torque_b_Nm_ += torque_b_Nm; }
   /**
-   * @fn SetAngMom_rw
+   * @fn SetRwAngularMomentum_b_Nms
    * @brief Set angular momentum of reaction wheel in the body fixed frame [Nms]
    */
-  inline void SetAngMom_rw(const libra::Vector<3> angular_momentum_rw_b_Nms) { angular_momentum_reaction_wheel_b_Nms_ = angular_momentum_rw_b_Nms; }
+  inline void SetRwAngularMomentum_b_Nms(const libra::Vector<3> angular_momentum_rw_b_Nms) {
+    angular_momentum_reaction_wheel_b_Nms_ = angular_momentum_rw_b_Nms;
+  }
 
   /**
    * @fn Propagate
@@ -109,7 +111,7 @@ class Attitude : public ILoggable, public SimulationObject {
   virtual std::string GetLogValue() const;
 
   // SimulationObject for McSim
-  virtual void SetParameters(const MCSimExecutor& mc_simulator);
+  virtual void SetParameters(const MonteCarloSimulationExecutor& mc_simulator);
 
  protected:
   bool is_calc_enabled_ = true;                //!< Calculation flag

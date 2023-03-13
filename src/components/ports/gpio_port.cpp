@@ -5,22 +5,22 @@
 
 #include "gpio_port.hpp"
 
-GPIOPort::GPIOPort(int port_id, IGPIOCompo* compo) : kPortId(port_id) {
-  hl_state_ = GPIO_LOW;
-  component_ = compo;
+GpioPort::GpioPort(const unsigned int port_id, IGPIOCompo* component) : kPortId(port_id) {
+  high_low_state_ = GPIO_LOW;
+  component_ = component;
 }
 
-GPIOPort::~GPIOPort() {}
+GpioPort::~GpioPort() {}
 
-int GPIOPort::DigitalWrite(bool isHigh) {
-  if (hl_state_ != isHigh) {
+int GpioPort::DigitalWrite(const bool is_high) {
+  if (high_low_state_ != is_high) {
     // Call interaction function when detecting the change of the HIGH/LOW state
     if (component_ != nullptr) {
-      component_->GPIOStateChanged(kPortId, isHigh);
+      component_->GpioStateChanged(kPortId, is_high);
     }
   }
-  hl_state_ = isHigh;
+  high_low_state_ = is_high;
   return 0;
 }
 
-bool GPIOPort::DigitalRead() { return hl_state_; }
+bool GpioPort::DigitalRead() { return high_low_state_; }

@@ -17,13 +17,13 @@
  * @enum AttitudeControlMode
  * @brief Attitude control mode
  */
-enum AttitudeControlMode {
-  INERTIAL_STABILIZE,           //!< Inertial stabilize
-  SUN_POINTING,                 //!< Sun pointing
-  EARTH_CENTER_POINTING,        //!< Earth center pointing
-  VELOCITY_DIRECTION_POINTING,  //!< Spacecraft velocity direction pointing
-  ORBIT_NORMAL_POINTING,        //!< Orbit normal direction pointing
-  NO_CTRL,                      // No Control
+enum class AttitudeControlMode {
+  kInertialStabilize,          //!< Inertial stabilize
+  kSunPointing,                //!< Sun pointing
+  kEarthCenterPointing,        //!< Earth center pointing
+  kVelocityDirectionPointing,  //!< Spacecraft velocity direction pointing
+  kOrbitNormalPointing,        //!< Orbit normal direction pointing
+  kNoControl,                  // No Control
 };
 
 /**
@@ -53,7 +53,7 @@ class ControlledAttitude : public Attitude {
    * @param [in] orbit: Orbit
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const Quaternion quaternion_i2b,
+  ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const libra::Quaternion quaternion_i2b,
                      const libra::Vector<3> main_target_direction_b, const libra::Vector<3> sub_target_direction_b,
                      const libra::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
                      const std::string& simulation_object_name = "Attitude");
@@ -78,7 +78,7 @@ class ControlledAttitude : public Attitude {
    * @fn SetQuaternion_i2t
    * @brief Set quaternion for INERTIAL_STABILIZE mode
    */
-  inline void SetQuaternion_i2t(const Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
+  inline void SetQuaternion_i2t(const libra::Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
   /**
    * @fn SetMainTargetDirection_b
    * @brief Set main target direction on the body fixed frame
@@ -123,7 +123,7 @@ class ControlledAttitude : public Attitude {
    * @fn CalcTargetDirection_i
    * @brief Calculate target direction from attitude control mode
    * @param [in] mode: Attitude control mode
-   * @return Target direction at the inertia frame0
+   * @return Target direction at the inertia frame
    */
   libra::Vector<3> CalcTargetDirection_i(AttitudeControlMode mode);
   /**

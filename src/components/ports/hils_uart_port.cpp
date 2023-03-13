@@ -12,10 +12,10 @@
 
 HilsUartPort::HilsUartPort(const unsigned int port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
                            const unsigned int rx_buffer_size)
-    : kPortName(PortName(port_id)), baud_rate_(baud_rate), kTxBufferSize(tx_buffer_size), kRxBufferSize(rx_buffer_size) {
+    : kPortName(GetPortName(port_id)), baud_rate_(baud_rate), kTxBufferSize(tx_buffer_size), kRxBufferSize(rx_buffer_size) {
   // Allocate managed arrays.
-  tx_buf_ = gcnew bytearray(kTxBufferSize);
-  rx_buf_ = gcnew bytearray(kRxBufferSize);
+  tx_buffer_ = gcnew bytearray(kTxBufferSize);
+  rx_buffer_ = gcnew bytearray(kRxBufferSize);
 
   Initialize();
 }
@@ -25,7 +25,7 @@ HilsUartPort::~HilsUartPort() {
 }
 
 // Static method to convert from com port number to com port name.
-std::string HilsUartPort::PortName(unsigned int port_id) { return "COM" + std::to_string(port_id); }
+std::string HilsUartPort::GetPortName(const unsigned int port_id) { return "COM" + std::to_string(port_id); }
 
 int HilsUartPort::Initialize() {
   try {
@@ -105,14 +105,14 @@ int HilsUartPort::OpenPort() {
   return 0;  // Success !!
 }
 
-int HilsUartPort::WriteTx(const unsigned char* buffer, int offset, int count) {
-  unsigned char* buffer_tmp = new unsigned char[count];
-  memcpy(buffer_tmp, buffer + offset, count);  // const unsigned char* -> unsigned char*
+int HilsUartPort::WriteTx(const unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
+  unsigned char* buffer_tmp = new unsigned char[data_length];
+  memcpy(buffer_tmp, buffer + offset, data_length);  // const unsigned char* -> unsigned char*
   // Marshal::Copy : Copies data from an unmanaged memory pointer to a managed array.
-  System::Runtime::InteropServices::Marshal::Copy((System::IntPtr)(buffer_tmp), tx_buf_, 0, count);  // unsigned char* -> System::IntPtr
+  System::Runtime::InteropServices::Marshal::Copy((System::IntPtr)(buffer_tmp), tx_buffer_, 0, data_length);  // unsigned char* -> System::IntPtr
   delete[] buffer_tmp;
   try {
-    port_->Write(tx_buf_, 0, count);
+    port_->Write(tx_buffer_, 0, data_length);
   } catch (System::Exception ^ e) {
 #ifdef HILS_UART_PORT_SHOW_DEBUG_DATA
     System::Console::Write(e->Message);
@@ -123,11 +123,11 @@ int HilsUartPort::WriteTx(const unsigned char* buffer, int offset, int count) {
   return 0;
 }
 
-int HilsUartPort::ReadRx(unsigned char* buffer, int offset, int count) {
+int HilsUartPort::ReadRx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
   try {
-    int received_bytes = port_->Read(rx_buf_, 0, count);
+    int received_bytes = port_->Read(rx_buffer_, 0, data_length);
     // Marshal::Copy : Copies data from a managed array to an unmanaged memory pointer.
-    System::Runtime::InteropServices::Marshal::Copy(rx_buf_, 0, (System::IntPtr)(buffer + offset), count);
+    System::Runtime::InteropServices::Marshal::Copy(rx_buffer_, 0, (System::IntPtr)(buffer + offset), data_length);
     return received_bytes;
     // TODO: Add enum for exception
   } catch (System::TimeoutException ^ e) {

@@ -7,7 +7,6 @@
 #define S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_HPP_
 
 #include <library/math/vector.hpp>
-using libra::Vector;
 
 /**
  * @class Surface
@@ -19,7 +18,8 @@ class Surface {
    * @fn Surface
    * @brief Constructor
    */
-  Surface(Vector<3> position, Vector<3> normal, double area, double reflectivity, double specularity, double air_specularity);
+  Surface(const libra::Vector<3> position_b_m, const libra::Vector<3> normal_b, const double area_m2, const double reflectivity,
+          const double specularity, const double air_specularity);
   /**
    * @fn ~Surface
    * @brief Destructor
@@ -28,20 +28,20 @@ class Surface {
 
   // Getter
   /**
-   * @fn GetPosition
+   * @fn GetPosition_b_m
    * @brief Return position vector of geometric center of the surface in body frame and meter unit
    */
-  inline const Vector<3>& GetPosition(void) const { return position_; }
+  inline const libra::Vector<3>& GetPosition_b_m(void) const { return position_b_m_; }
   /**
-   * @fn GetNormal
+   * @fn GetNormal_b
    * @brief Return normal vector of the surface in body frame
    */
-  inline const Vector<3>& GetNormal(void) const { return normal_; }
+  inline const libra::Vector<3>& GetNormal_b(void) const { return normal_b_; }
   /**
-   * @fn GetArea
+   * @fn GetArea_m2
    * @brief Return area of the surface in meter^2 unit
    */
-  inline const double& GetArea(void) const { return area_; }
+  inline const double& GetArea_m2(void) const { return area_m2_; }
   /**
    * @fn GetReflectivity
    * @brief Return reflectivity of the surface
@@ -64,23 +64,23 @@ class Surface {
    * @brief Set position vector of geometric center of the surface in body frame [m]
    * @param[in] position_b_m: Position vector of geometric center of the surface in body frame [m]
    */
-  inline void SetPosition_b_m(const Vector<3> position_b_m) { position_ = position_b_m; }
+  inline void SetPosition_b_m(const libra::Vector<3> position_b_m) { position_b_m_ = position_b_m; }
   /**
    * @fn SetNormal
    * @brief Set normal vector of the surface in body frame
    * @param[in] normal_b: Normal vector of the surface in body frame
    */
-  inline void SetNormal_b(const Vector<3> normal_b) {
-    normal_ = normal_b;
-    normal_ = Normalize(normal_);
+  inline void SetNormal_b(const libra::Vector<3> normal_b) {
+    normal_b_ = normal_b;
+    normal_b_ = Normalize(normal_b_);
   }
   /**
-   * @fn SetArea
+   * @fn SetArea_m2
    * @brief Set area of the surface
    * @param[in] area_m2: Area of the surface [m2]
    */
-  inline void SetArea(const double area_m2) {
-    if (area_m2 > 0.0) area_ = area_m2;
+  inline void SetArea_m2(const double area_m2) {
+    if (area_m2 > 0.0) area_m2_ = area_m2;
   }
   /**
    * @fn SetReflectivity
@@ -108,12 +108,12 @@ class Surface {
   }
 
  private:
-  Vector<3> position_;      //!< Position vector of the surface @ Body Frame [m]
-  Vector<3> normal_;        //!< Normal unit vector of the surface @ Body Frame [-]
-  double area_;             //!< Area of the surface [m2]
-  double reflectivity_;     //!< Total reflectivity for solar wavelength (1.0 - solar absorption)
-  double specularity_;      //!< Ratio of specular reflection in the total reflected light
-  double air_specularity_;  //!< Specularity for air drag
+  libra::Vector<3> position_b_m_;  //!< Position vector of the surface @ Body Frame [m]
+  libra::Vector<3> normal_b_;      //!< Normal unit vector of the surface @ Body Frame [-]
+  double area_m2_;                 //!< Area of the surface [m2]
+  double reflectivity_;            //!< Total reflectivity for solar wavelength (1.0 - solar absorption)
+  double specularity_;             //!< Ratio of specular reflection in the total reflected light
+  double air_specularity_;         //!< Specularity for air drag
 };
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_HPP_

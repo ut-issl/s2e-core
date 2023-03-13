@@ -11,51 +11,46 @@
 #include <dynamics/dynamics.hpp>
 #include <environment/global/global_environment.hpp>
 #include <library/logger/loggable.hpp>
-#include <library/math/matrix.hpp>
-#include <library/math/matrix_vector.hpp>
-#include <library/math/vector.hpp>
 #include <simulation/ground_station/ground_station.hpp>
 
-using libra::Matrix;
-using libra::Vector;
-
 /*
- * @class GScalculator
+ * @class GroundStationCalculator
  * @brief Emulation of analysis and calculation for Ground Stations
  */
-class GScalculator : public ILoggable {
+class GroundStationCalculator : public ILoggable {
  public:
   /**
-   * @fn GScalculator
+   * @fn GroundStationCalculator
    * @brief Constructor
-   * @param [in] loss_polarization: Loss polarization [dB]
-   * @param [in] loss_atmosphere: Loss atmosphere [dB]
-   * @param [in] loss_rainfall: Loss rainfall [dB]
-   * @param [in] loss_others: Loss others [dB]
-   * @param [in] EbN0: EbN0 [dB]
-   * @param [in] hardware_deterioration: Hardware deterioration [dB]
-   * @param [in] coding_gain: Coding gain [dB]
-   * @param [in] margin_req: Required margin to calculate max bitrate [dB]
+   * @param [in] loss_polarization_dB: Loss polarization [dB]
+   * @param [in] loss_atmosphere_dB: Loss atmosphere [dB]
+   * @param [in] loss_rainfall_dB: Loss rainfall [dB]
+   * @param [in] loss_others_dB: Loss others [dB]
+   * @param [in] ebn0_dB: ebn0_dB [dB]
+   * @param [in] hardware_deterioration_dB: Hardware deterioration [dB]
+   * @param [in] coding_gain_dB: Coding gain [dB]
+   * @param [in] margin_requirement_dB: Required margin to calculate max bitrate [dB]
    * @param [in] downlink_bitrate_bps: Downlink bitrate to calculate receive margin [bps]
    */
-  GScalculator(const double loss_polarization, const double loss_atmosphere, const double loss_rainfall, const double loss_others, const double EbN0,
-               const double hardware_deterioration, const double coding_gain, const double margin_req, const double downlink_bitrate_bps = 1000);
+  GroundStationCalculator(const double loss_polarization_dB, const double loss_atmosphere_dB, const double loss_rainfall_dB,
+                          const double loss_others_dB, const double EbN0, const double hardware_deterioration_dB, const double coding_gain_dB,
+                          const double margin_requirement_dB, const double downlink_bitrate_bps = 1000);
   /**
-   * @fn ~GScalculator
+   * @fn ~GroundStationCalculator
    * @brief Destructor
    */
-  virtual ~GScalculator();
+  virtual ~GroundStationCalculator();
 
   /**
    * @fn Update
    * @brief Update maximum bitrate calculation
-   * @note TODO: fix function name
    * @param [in] spacecraft: Spacecraft information
-   * @param [in] sc_tx_ant: Antenna mounted on spacecraft
+   * @param [in] spacecraft_tx_antenna: Antenna mounted on spacecraft
    * @param [in] ground_station: Ground station information
-   * @param [in] gs_rx_ant: Antenna mounted on ground station
+   * @param [in] ground_station_rx_antenna: Antenna mounted on ground station
    */
-  void Update(const Spacecraft& spacecraft, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
+  void Update(const Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+              const Antenna& ground_station_rx_antenna);
 
   // Override ILoggable TODO: Maybe we don't need logabble, and this class should be used as library.
   /**
@@ -71,15 +66,15 @@ class GScalculator : public ILoggable {
 
   // Getter
   /**
-   * @fn GetMaxBitrate
+   * @fn GetMaxBitrate_Mbps
    * @brief Return max bitrate [Mbps]
    */
-  inline double GetMaxBitrate() const { return max_bitrate_Mbps_; }
+  inline double GetMaxBitrate_Mbps() const { return max_bitrate_Mbps_; }
   /**
-   * @fn GetReceiveMargin
+   * @fn GetReceiveMargin_dB
    * @brief Return receive margin [dB]
    */
-  inline double GetReceiveMargin() const { return receive_margin_dB_; }
+  inline double GetReceiveMargin_dB() const { return receive_margin_dB_; }
 
   // Setter
   /**
@@ -90,16 +85,16 @@ class GScalculator : public ILoggable {
 
  protected:
   // Parameters
-  double loss_polarization_;       //!< Loss polarization [dB]
-  double loss_atmosphere_;         //!< Loss atmosphere [dB]
-  double loss_rainfall_;           //!< Loss rainfall [dB]
-  double loss_others_;             //!< Loss others [dB]
-  double EbN0_;                    //!< EbN0 [dB]
-  double hardware_deterioration_;  //!< Hardware deterioration [dB]
-  double coding_gain_;             //!< Coding gain [dB]
+  double loss_polarization_dB_;       //!< Loss polarization [dB]
+  double loss_atmosphere_dB_;         //!< Loss atmosphere [dB]
+  double loss_rainfall_dB_;           //!< Loss rainfall [dB]
+  double loss_others_dB_;             //!< Loss others [dB]
+  double ebn0_dB_;                    //!< EbN0 (Energy per bit to Noise density ratio) [dB]
+  double hardware_deterioration_dB_;  //!< Hardware deterioration [dB]
+  double coding_gain_dB_;             //!< Coding gain [dB]
   // Variables
-  double margin_req_;            //!< Required margin to calculate max bitrate [dB]
-  double downlink_bitrate_bps_;  //!< Downlink bitrate to calculate receive margin [bps]
+  double margin_requirement_dB_;  //!< Required margin to calculate max bitrate [dB]
+  double downlink_bitrate_bps_;   //!< Downlink bitrate to calculate receive margin [bps]
 
   // Calculated values
   double receive_margin_dB_;  //!< Receive margin [dB]
@@ -109,33 +104,36 @@ class GScalculator : public ILoggable {
    * @fn CalcMaxBitrate
    * @brief Calculate the maximum bitrate
    * @param [in] dynamics: Spacecraft dynamics information
-   * @param [in] sc_tx_ant: Tx Antenna mounted on spacecraft
+   * @param [in] spacecraft_tx_antenna: Tx Antenna mounted on spacecraft
    * @param [in] ground_station: Ground station information
-   * @param [in] gs_rx_ant: Rx Antenna mounted on ground station
+   * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
    * @return Max bitrate [Mbps]
    */
-  double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
+  double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+                        const Antenna& ground_station_rx_antenna);
   /**
    * @fn CalcReceiveMarginOnGs
    * @brief Calculate receive margin at the ground station
    * @param [in] dynamics: Spacecraft dynamics information
-   * @param [in] sc_tx_ant: Tx Antenna mounted on spacecraft
+   * @param [in] spacecraft_tx_antenna: Tx Antenna mounted on spacecraft
    * @param [in] ground_station: Ground station information
-   * @param [in] gs_rx_ant: Rx Antenna mounted on ground station
+   * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
    * @return Receive margin [dB]
    */
-  double CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
+  double CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+                               const Antenna& ground_station_rx_antenna);
 
   /**
    * @fn CalcCn0
    * @brief Calculate CN0 (Carrier to Noise density ratio) of received signal at the ground station
    * @param [in] dynamics: Spacecraft dynamics information
-   * @param [in] sc_tx_ant: Tx Antenna mounted on spacecraft
+   * @param [in] spacecraft_tx_antenna: Tx Antenna mounted on spacecraft
    * @param [in] ground_station: Ground station information
-   * @param [in] gs_rx_ant: Rx Antenna mounted on ground station
+   * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
    * @return CN0 [dB]
    */
-  double CalcCn0OnGs(const Dynamics& dynamics, const Antenna& sc_tx_ant, const GroundStation& ground_station, const Antenna& gs_rx_ant);
+  double CalcCn0OnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+                     const Antenna& ground_station_rx_antenna);
 };
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_

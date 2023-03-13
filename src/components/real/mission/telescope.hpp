@@ -20,20 +20,41 @@
  * @brief Information of stars in the telescope's field of view
  */
 struct Star {
-  HipparcosData hipdata;           //!< Hipparcos data
-  libra::Vector<2> pos_imgsensor;  //!< Position of image sensor
+  HipparcosData hipparcos_data;            //!< Hipparcos data
+  libra::Vector<2> position_image_sensor;  //!< Position of image sensor
 };
 
 /*
  * @class Telescope
  * @brief Component emulation: Telescope
  */
-class Telescope : public ComponentBase, public ILoggable {
+class Telescope : public Component, public ILoggable {
  public:
-  Telescope(ClockGenerator* clock_gen, libra::Quaternion& q_b2c, double sun_forbidden_angle, double earth_forbidden_angle,
-            double moon_forbidden_angle, int x_num_of_pix, int y_num_of_pix, double x_fov_par_pix, double y_fov_par_pix, size_t num_of_logged_stars,
-            const Attitude* attitude, const HipparcosCatalogue* hipp, const LocalCelestialInformation* local_celes_info);
-
+  /**
+   * @fn Telescope
+   * @brief Constructor
+   * @param [in] clock_generator: Clock Generator
+   * @param [in] quaternion_b2c: Frame conversion Quaternion from body to component frame
+   * @param [in] sun_forbidden_angle_rad: Sun forbidden angle [rad]
+   * @param [in] earth_forbidden_angle_rad: Earth forbidden angle [rad]
+   * @param [in] moon_forbidden_angle_rad: Moon forbidden angle [rad]
+   * @param [in] x_number_of_pix: Number of pixel on X-axis in the image plane
+   * @param [in] y_number_of_pix: Number of pixel on Y-axis in the image plane
+   * @param [in] x_fov_per_pix: Field of view per pixel of X-axis in the image plane [rad/pix]
+   * @param [in] y_fov_per_pix: Field of view per pixel of Y-axis in the image plane [rad/pix]
+   * @param [in] number_of_logged_stars: Number of logged stars
+   * @param [in] attitude: Attitude Information
+   * @param [in] hipparcos: Hipparcos catalogue information
+   * @param [in] local_celestial_information: Local celestial information
+   */
+  Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
+            const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
+            const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const Attitude* attitude,
+            const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information);
+  /**
+   * @fn ~Telescope
+   * @brief Destructor
+   */
   ~Telescope();
 
   // Getter
@@ -43,17 +64,17 @@ class Telescope : public ComponentBase, public ILoggable {
 
  protected:
  private:
-  libra::Quaternion q_b2c_;  //!< Quaternion from the body frame to component frame
-  libra::Vector<3> sight_;   //!< Sight direction vector in the component frame
+  libra::Quaternion quaternion_b2c_;    //!< Quaternion from the body frame to component frame
+  libra::Vector<3> sight_direction_c_;  //!< Sight direction vector in the component frame
 
-  double sun_forbidden_angle_;    //!< Sun forbidden angle [rad]
-  double earth_forbidden_angle_;  //!< Earth forbidden angle [rad]
-  double moon_forbidden_angle_;   //!< Moon forbidden angle [rad]
+  double sun_forbidden_angle_rad_;    //!< Sun forbidden angle [rad]
+  double earth_forbidden_angle_rad_;  //!< Earth forbidden angle [rad]
+  double moon_forbidden_angle_rad_;   //!< Moon forbidden angle [rad]
 
-  int x_num_of_pix_;           //!< Number of pixel on X-axis in the image plane
-  int y_num_of_pix_;           //!< Number of pixel on Y-axis in the image plane
-  double x_fov_par_pix_;       //!< Field of view per pixel of X-axis in the image plane [rad/pix]
-  double y_fov_par_pix_;       //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
+  int x_number_of_pix_;        //!< Number of pixel on X-axis in the image plane
+  int y_number_of_pix_;        //!< Number of pixel on Y-axis in the image plane
+  double x_fov_per_pix_;       //!< Field of view per pixel of X-axis in the image plane [rad/pix]
+  double y_fov_per_pix_;       //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
   double x_field_of_view_rad;  //!< Field of view of X-axis in the image plane [rad/pix]
   double y_field_of_view_rad;  //!< Field of view of Y-axis in the image plane [rad/pix]
 
@@ -61,13 +82,13 @@ class Telescope : public ComponentBase, public ILoggable {
   bool is_earth_in_forbidden_angle = false;  //!< Is the earth in the forbidden angle
   bool is_moon_in_forbidden_angle = false;   //!< Is the moon in the forbidden angle
 
-  size_t num_of_logged_stars_;  //!< Number of logged stars
+  size_t number_of_logged_stars_;  //!< Number of logged stars
 
-  libra::Vector<2> sun_pos_imgsensor{-1};    //!< Position of the sun on the image plane
-  libra::Vector<2> earth_pos_imgsensor{-1};  //!< Position of the earth on the image plane
-  libra::Vector<2> moon_pos_imgsensor{-1};   //!< Position of the moon on the image plane
+  libra::Vector<2> sun_position_image_sensor{-1};    //!< Position of the sun on the image plane
+  libra::Vector<2> earth_position_image_sensor{-1};  //!< Position of the earth on the image plane
+  libra::Vector<2> moon_position_image_sensor{-1};   //!< Position of the moon on the image plane
 
-  std::vector<Star> star_in_sight;  //!< Star information in the field of view
+  std::vector<Star> star_list_in_sight;  //!< Star information in the field of view
 
   /**
    * @fn JudgeForbiddenAngle
@@ -77,7 +98,7 @@ class Telescope : public ComponentBase, public ILoggable {
    */
   bool JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle);
 
-  // Override functions for ComponentBase
+  // Override functions for Component
   /**
    * @fn MainRoutine
    * @brief Main routine to calculate force generation
@@ -87,19 +108,19 @@ class Telescope : public ComponentBase, public ILoggable {
   /**
    * @fn Observe
    * @brief Convert body fixed direction vector to position on image sensor plane
-   * @param [out] pos_imgsensor: Position on image sensor plane
+   * @param [out] position_image_sensor: Position on image sensor plane
    * @param [in] target_b: Direction vector of target on the body fixed frame
    */
-  void Observe(Vector<2>& pos_imgsensor, const Vector<3, double> target_b);
+  void Observe(libra::Vector<2>& position_image_sensor, const libra::Vector<3, double> target_b);
   /**
    * @fn ObserveStars
    * @brief Observe stars from Hipparcos catalogue
    */
   void ObserveStars();
 
-  const Attitude* attitude_;                           //!< Attitude information
-  const HipparcosCatalogue* hipp_;                     //!< Star information
-  const LocalCelestialInformation* local_celes_info_;  //!< Local celestial information
+  const Attitude* attitude_;                                      //!< Attitude information
+  const HipparcosCatalogue* hipparcos_;                           //!< Star information
+  const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
 
   // Override ILoggable
   /**
@@ -114,9 +135,9 @@ class Telescope : public ComponentBase, public ILoggable {
   virtual std::string GetLogValue() const;
 
   // For debug **********************************************
-  //  Vector<3> sun_pos_c;
-  //  Vector<3> earth_pos_c;
-  //  Vector<3> moon_pos_c;
+  //  libra::Vector<3> sun_pos_c;
+  //  libra::Vector<3> earth_pos_c;
+  //  libra::Vector<3> moon_pos_c;
   //  double angle_sun;
   //  double angle_earth;
   //  double angle_moon;

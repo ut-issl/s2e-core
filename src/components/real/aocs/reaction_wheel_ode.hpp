@@ -11,20 +11,21 @@
 #include <vector>
 
 /*
- * @file RwOde
+ * @file ReactionWheelOde
  * @brief Ordinary differential equation of angular velocity of reaction wheel with first-order lag
  */
-class RwOde : public libra::OrdinaryDifferentialEquation<1> {
+class ReactionWheelOde : public libra::OrdinaryDifferentialEquation<1> {
  public:
   /**
-   * @fn RwOde
+   * @fn ReactionWheelOde
    * @brief Constructor
-   * @param [in] step_width: Step width for OrdinaryDifferentialEquation calculation
-   * @param [in] init_angular_velocity: Initial angular velocity [rad/s]
+   * @param [in] step_width_s: Step width for OrdinaryDifferentialEquation calculation
+   * @param [in] initial_angular_velocity: Initial angular velocity [rad/s]
    * @param [in] target_angular_velocity: Target angular velocity [rad/s]
-   * @param [in] lag_coef: coefficients for first order lag
+   * @param [in] lag_coefficients: coefficients for first order lag
    */
-  RwOde(double step_width, double init_angular_velocity, double target_angular_velocity, libra::Vector<3> lag_coef);
+  ReactionWheelOde(const double step_width_s, const double initial_angular_velocity, const double target_angular_velocity,
+                   const libra::Vector<3> lag_coefficients);
 
   /**
    * @fn DerivativeFunction
@@ -36,38 +37,27 @@ class RwOde : public libra::OrdinaryDifferentialEquation<1> {
   void DerivativeFunction(double x, const libra::Vector<1>& state, libra::Vector<1>& rhs) override;
 
   /**
-   * @fn getAngularVelocity
+   * @fn GetAngularVelocity_rad_s
    * @brief Return current angular velocity of RW rotor [rad/s]
    */
-  double getAngularVelocity(void) const;
+  double GetAngularVelocity_rad_s(void) const { return this->GetState()[0]; }
 
   /**
-   * @fn setTargetAngularVelocity
+   * @fn SetTargetAngularVelocity_rad_s
    * @brief Set target angular velocity [rad/s]
    */
-  void setTargetAngularVelocity(double angular_velocity);
+  void SetTargetAngularVelocity_rad_s(double angular_velocity) { target_angular_velocity_rad_s_ = angular_velocity; }
 
   /**
-   * @fn setFirstOrderLag
-   * @brief Set first order lag coefficient (Currently not used)
-   */
-  void setFirstOrderLag(double first_order_lag);
-  /**
-   * @fn setSecondOrderCoef
-   * @brief Set second order lag coefficient (Currently not used)
-   */
-  void setSecondOrderCoef(double second_order_coef);
-  /**
-   * @fn setLagCoef
+   * @fn SetLagCoefficients
    * @brief Set lag coefficients
    */
-  void setLagCoef(libra::Vector<3> lag_coef);
+  void SetLagCoefficients(libra::Vector<3> lag_coefficients) { lag_coefficients_ = lag_coefficients; }
 
  private:
-  RwOde(double step_width);            //!< Prohibit calling constructor
-  libra::Vector<3> lag_coef_;          //!< Coefficients for the first order lag
-  const double kInitAngularVelocity_;  //!< Initial angular velocity [rad/s]
-  double target_angular_velocity_;     //!< Target angular velocity [rad/s]
+  ReactionWheelOde(double step_width_s);  //!< Prohibit calling constructor
+  libra::Vector<3> lag_coefficients_;     //!< Coefficients for the first order lag
+  double target_angular_velocity_rad_s_;  //!< Target angular velocity [rad/s]
 };
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_ODE_HPP_

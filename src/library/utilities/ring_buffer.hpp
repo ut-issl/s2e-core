@@ -34,7 +34,7 @@ class RingBuffer {
    * @param [in] data_length:  Data length for buffer
    * @return Number of bytes written
    */
-  int Write(byte* buffer, int offset, int data_length);
+  int Write(const byte* buffer, const unsigned int offset, const unsigned int data_length);
   /**
    * @fn Read
    * @brief Read data at the read pointer of the ring buffer and store the data to the buffer[offset] to buffer[offset + data_length]
@@ -43,13 +43,13 @@ class RingBuffer {
    * @param [in] data_length:  Data length for buffer
    * @return Number of bytes read
    */
-  int Read(byte* buffer, int offset, int data_length);
+  int Read(byte* buffer, const unsigned int offset, const unsigned int data_length);
 
  private:
-  int buffer_size_;    //!< Buffer size
-  byte* buffer_;       //!< Buffer
-  int read_pointer_;   //!< Read pointer
-  int write_pointer_;  //!< Write pointer
+  unsigned int buffer_size_;    //!< Buffer size
+  byte* buffer_;                //!< Buffer
+  unsigned int read_pointer_;   //!< Read pointer
+  unsigned int write_pointer_;  //!< Write pointer
 };
 
 #endif  // S2E_LIBRARY_UTILITIES_RING_BUFFER_HPP_

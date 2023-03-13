@@ -10,21 +10,21 @@
 #include <components/real/communication/initialize_ground_station_calculator.hpp>
 
 /**
- * @class SampleGSComponents
+ * @class SampleGsComponents
  * @brief An example of ground station related components list class
  */
-class SampleGSComponents {
+class SampleGsComponents {
  public:
   /**
-   * @fn SampleGSComponents
+   * @fn SampleGsComponents
    * @brief Constructor
    */
-  SampleGSComponents(const SimulationConfig* config);
+  SampleGsComponents(const SimulationConfiguration* configuration);
   /**
-   * @fn ~SampleGSComponents
+   * @fn ~SampleGsComponents
    * @brief Destructor
    */
-  ~SampleGSComponents();
+  ~SampleGsComponents();
   /**
    * @fn CompoLogSetUp
    * @brief Log setup for ground station components
@@ -41,12 +41,12 @@ class SampleGSComponents {
    * @fn GetGsCalculator
    * @brief Return ground station calculator
    */
-  inline GScalculator* GetGsCalculator() const { return gs_calculator_; }
+  inline GroundStationCalculator* GetGsCalculator() const { return gs_calculator_; }
 
  private:
-  Antenna* antenna_;                //!< Antenna on ground station
-  GScalculator* gs_calculator_;     //!< Ground station calculation algorithm
-  const SimulationConfig* config_;  //!< Simulation setting
+  Antenna* antenna_;                              //!< Antenna on ground station
+  GroundStationCalculator* gs_calculator_;        //!< Ground station calculation algorithm
+  const SimulationConfiguration* configuration_;  //!< Simulation setting
 };
 
 #endif  // S2E_SIMULATION_GROUND_STATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_COMPONENTS_HPP_

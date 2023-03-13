@@ -12,31 +12,31 @@
 #define GPIO_LOW false
 
 /**
- * @class GPIOPort
+ * @class GpioPort
  * @brief Class to emulate GPIO(General Purpose Input and Output) port
  */
-class GPIOPort {
+class GpioPort {
  public:
   /**
-   * @fn GPIOPort
+   * @fn GpioPort
    * @brief Constructor
    * @param [in] port_id_: ID of the GPIO port
-   * @param [in] compo: Component which has the GPIO port
+   * @param [in] component: Component which has the GPIO port
    */
-  GPIOPort(int port_id_, IGPIOCompo* compo = nullptr);
+  GpioPort(const unsigned int port_id_, IGPIOCompo* component = nullptr);
   /**
-   * @fn ~GPIOPort
+   * @fn ~GpioPort
    * @brief Destructor
    */
-  ~GPIOPort();
+  ~GpioPort();
 
   /**
    * @fn DigitalWrite
    * @brief Change the GPIO state
-   * @param [in] isHigh: Use GPIO_HIGH or GPIO_LOW
+   * @param [in] is_high: Use GPIO_HIGH or GPIO_LOW
    * @return always zero
    */
-  int DigitalWrite(bool isHigh);
+  int DigitalWrite(const bool is_high);
 
   /**
    * @fn DigitalRead
@@ -46,9 +46,9 @@ class GPIOPort {
   bool DigitalRead();
 
  private:
-  const int kPortId;       //!< Port ID
-  IGPIOCompo* component_;  //!< Component which has the GPIO port
-  bool hl_state_;          //!< GPIO High/Low state
+  const unsigned int kPortId;  //!< Port ID
+  IGPIOCompo* component_;      //!< Component which has the GPIO port
+  bool high_low_state_;        //!< GPIO High/Low state
 };
 
 #endif  // S2E_COMPONENTS_PORTS_GPIO_PORT_HPP_

@@ -5,29 +5,29 @@
 
 #include "example_change_structure.hpp"
 
-ExampleChangeStructure::ExampleChangeStructure(ClockGenerator* clock_gen, Structure* structure)
-    : ComponentBase(1, clock_gen), structure_(structure) {}
+ExampleChangeStructure::ExampleChangeStructure(ClockGenerator* clock_generator, Structure* structure)
+    : Component(1, clock_generator), structure_(structure) {}
 
 ExampleChangeStructure::~ExampleChangeStructure() {}
 
-void ExampleChangeStructure::MainRoutine(int count) {
-  if (count > 1000) {
+void ExampleChangeStructure::MainRoutine(const int time_count) {
+  if (time_count > 1000) {
     // Mass
-    structure_->GetToSetKinematicsParams().SetMass_kg(100.0);
+    structure_->GetToSetKinematicsParameters().SetMass_kg(100.0);
     // Center of gravity
     Vector<3> cg(0.0);
     cg[0] = 0.01;
     cg[1] = -0.01;
     cg[2] = 0.02;
-    structure_->GetToSetKinematicsParams().SetCenterOfGravityVector_b_m(cg);
+    structure_->GetToSetKinematicsParameters().SetCenterOfGravityVector_b_m(cg);
     // RMM
     Vector<3> rmm(0.0);
     rmm[0] = 0.1;
     rmm[1] = -0.1;
     rmm[2] = 0.2;
-    structure_->GetToSetRMMParams().SetRmmConstant_b_Am2(rmm);
+    structure_->GetToSetResidualMagneticMoment().SetRmmConstant_b_Am2(rmm);
     // Surface
-    structure_->GetToSetSurfaces()[0].SetArea(0.5);
+    structure_->GetToSetSurfaces()[0].SetArea_m2(0.5);
   }
 }
 

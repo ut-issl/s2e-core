@@ -8,9 +8,9 @@
 #include <cfloat>
 
 // Constructor
-ForceGenerator::ForceGenerator(const int prescaler, ClockGenerator* clock_gen, const double magnitude_error_standard_deviation_N,
+ForceGenerator::ForceGenerator(const int prescaler, ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_N,
                                const double direction_error_standard_deviation_rad, const Dynamics* dynamics)
-    : ComponentBase(prescaler, clock_gen),
+    : Component(prescaler, clock_generator),
       magnitude_noise_(0.0, magnitude_error_standard_deviation_N),
       direction_error_standard_deviation_rad_(direction_error_standard_deviation_rad),
       dynamics_(dynamics) {
@@ -19,8 +19,8 @@ ForceGenerator::ForceGenerator(const int prescaler, ClockGenerator* clock_gen, c
 
 ForceGenerator::~ForceGenerator() {}
 
-void ForceGenerator::MainRoutine(int count) {
-  UNUSED(count);
+void ForceGenerator::MainRoutine(const int time_count) {
+  UNUSED(time_count);
 
   generated_force_b_N_ = ordered_force_b_N_;
 

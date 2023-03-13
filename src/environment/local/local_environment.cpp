@@ -9,7 +9,7 @@
 #include "initialize_local_environment.hpp"
 #include "library/initialize/initialize_file_access.hpp"
 
-LocalEnvironment::LocalEnvironment(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
+LocalEnvironment::LocalEnvironment(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
                                    const int spacecraft_id) {
   Initialize(simulation_configuration, global_environment, spacecraft_id);
 }
@@ -21,10 +21,10 @@ LocalEnvironment::~LocalEnvironment() {
   delete celestial_information_;
 }
 
-void LocalEnvironment::Initialize(const SimulationConfig* simulation_configuration, const GlobalEnvironment* global_environment,
+void LocalEnvironment::Initialize(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
                                   const int spacecraft_id) {
   // Read file name
-  IniAccess iniAccess = IniAccess(simulation_configuration->sat_file_[spacecraft_id]);
+  IniAccess iniAccess = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   std::string ini_fname = iniAccess.ReadString("SETTING_FILES", "local_environment_file");
 
   // Save ini file
@@ -55,7 +55,7 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* si
   // Update local environments that depend on the attitude (and the position)
   if (simulation_time->GetAttitudePropagateFlag()) {
     celestial_information_->UpdateAllObjectsInformation(orbit.GetPosition_i_m(), orbit.GetVelocity_i_m_s(), attitude.GetQuaternion_i2b(),
-                                                        attitude.GetOmega_b());
+                                                        attitude.GetAngularVelocity_b_rad_s());
     geomagnetic_field_->CalcMagneticField(simulation_time->GetCurrentDecimalYear(), simulation_time->GetCurrentSiderealTime(),
                                           orbit.GetGeodeticPosition(), attitude.GetQuaternion_i2b());
   }
