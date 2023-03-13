@@ -57,10 +57,10 @@ MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_pa
 
 /**
  * @fn InitGeoPotential
- * @brief Initialize GeoPotential class with earth gravitational constant
+ * @brief Initialize Geopotential class with earth gravitational constant
  * @param [in] initialize_file_path: Initialize file path
  */
-GeoPotential InitGeoPotential(const std::string initialize_file_path);
+Geopotential InitGeoPotential(const std::string initialize_file_path);
 
 /**
  * @fn InitThirdBodyGravity
