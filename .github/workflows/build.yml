@@ -200,7 +200,7 @@ jobs:
           ../../S2E
 
       - name: generate graph
-        working-directory: ./data/sample
+        working-directory: ./scripts/Plot
         run: |
           sudo apt-get install -y gnuplot
           pip3 install yq
