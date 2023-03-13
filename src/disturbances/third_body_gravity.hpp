@@ -12,13 +12,13 @@
 
 #include "../library/logger/loggable.hpp"
 #include "../library/math/vector.hpp"
-#include "acceleration_disturbance.hpp"
+#include "disturbance.hpp"
 
 /**
  * @class ThirdBodyGravity
  * @brief Class to calculate third body gravity disturbance
  */
-class ThirdBodyGravity : public AccelerationDisturbance {
+class ThirdBodyGravity : public Disturbance {
  public:
   /**
    * @fn ThirdBodyGravity

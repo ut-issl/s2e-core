@@ -16,7 +16,7 @@
 // #define DEBUG_GEOPOTENTIAL
 
 GeoPotential::GeoPotential(const int degree, const std::string file_path, const bool is_calculation_enabled)
-    : AccelerationDisturbance(is_calculation_enabled), degree_(degree) {
+    : Disturbance(is_calculation_enabled, false), degree_(degree) {
   // Initialize
   acceleration_ecef_m_s2_ = libra::Vector<3>(0.0);
   debug_pos_ecef_m_ = libra::Vector<3>(0.0);

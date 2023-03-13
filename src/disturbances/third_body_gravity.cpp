@@ -6,7 +6,7 @@
 #include "third_body_gravity.hpp"
 
 ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list, const bool is_calculation_enabled)
-    : AccelerationDisturbance(is_calculation_enabled), third_body_list_(third_body_list) {
+    : Disturbance(is_calculation_enabled, false), third_body_list_(third_body_list) {
   acceleration_i_m_s2_ = libra::Vector<3>(0.0);
 }
 

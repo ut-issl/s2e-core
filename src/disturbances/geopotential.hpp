@@ -12,13 +12,13 @@
 #include "../library/math/matrix.hpp"
 #include "../library/math/matrix_vector.hpp"
 #include "../library/math/vector.hpp"
-#include "acceleration_disturbance.hpp"
+#include "disturbance.hpp"
 
 /**
  * @class GeoPotential
  * @brief Class to calculate the high-order earth gravity acceleration
  */
-class GeoPotential : public AccelerationDisturbance {
+class GeoPotential : public Disturbance {
  public:
   /**
    * @fn GeoPotential

@@ -14,7 +14,7 @@ GravityGradient::GravityGradient(const bool is_calculation_enabled)
     : GravityGradient(environment::earth_gravitational_constant_m3_s2, is_calculation_enabled) {}
 
 GravityGradient::GravityGradient(const double gravity_constant_m3_s2, const bool is_calculation_enabled)
-    : SimpleDisturbance(is_calculation_enabled), gravity_constant_m3_s2_(gravity_constant_m3_s2) {}
+    : Disturbance(is_calculation_enabled, true), gravity_constant_m3_s2_(gravity_constant_m3_s2) {}
 
 void GravityGradient::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   // TODO: use structure information to get inertia tensor

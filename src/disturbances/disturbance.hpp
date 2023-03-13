@@ -6,26 +6,34 @@
 #ifndef S2E_DISTURBANCES_DISTURBANCE_HPP_
 #define S2E_DISTURBANCES_DISTURBANCE_HPP_
 
+#include "../environment/local/local_environment.hpp"
 #include "../library/math/vector.hpp"
 
 /**
  * @class Disturbance
  * @brief Base class for a disturbance
  */
-class Disturbance {
+class Disturbance : public ILoggable {
  public:
   /**
    * @fn Disturbance
    * @brief Constructor
    * @param [in] is_calculation_enabled: Calculation flag
+   * @param [in] is_attitude_dependent: Attitude dependent flag
    */
   Disturbance(const bool is_calculation_enabled = true, const bool is_attitude_dependent = true)
       : is_calculation_enabled_(is_calculation_enabled), is_attitude_dependent_(is_attitude_dependent) {
     force_b_N_ = libra::Vector<3>(0.0);
     torque_b_Nm_ = libra::Vector<3>(0.0);
-    acceleration_b_m_s2_ = libra::Vector<3>(0.0);
+    acceleration_i_m_s2_ = libra::Vector<3>(0.0);
     acceleration_b_m_s2_ = libra::Vector<3>(0.0);
   }
+
+  /**
+   * @fn ~Disturbance
+   * @brief Destructor
+   */
+  virtual ~Disturbance() {}
 
   /**
    * @fn UpdateIfEnabled

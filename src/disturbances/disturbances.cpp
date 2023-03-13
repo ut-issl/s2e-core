@@ -23,41 +23,34 @@ Disturbances::Disturbances(const SimulationConfiguration* simulation_configurati
 }
 
 Disturbances::~Disturbances() {
-  for (auto dist : disturbances_list_) {
-    delete dist;
-  }
-
-  for (auto acc_dist : acceleration_disturbances_list_) {
-    delete acc_dist;
+  for (auto disturbance : disturbances_list_) {
+    delete disturbance;
   }
 }
 
 void Disturbances::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimulationTime* simulation_time) {
-  // Update disturbances that depend on the attitude (and the position)
-  if (simulation_time->GetAttitudePropagateFlag()) {
-    InitializeForceAndTorque();
-    for (auto dist : disturbances_list_) {
-      dist->UpdateIfEnabled(local_environment, dynamics);
-      total_torque_b_Nm_ += dist->GetTorque_b_Nm();
-      total_force_b_N_ += dist->GetForce_b_N();
+  InitializeForceAndTorque();
+  InitializeAcceleration();
+
+  for (auto disturbance : disturbances_list_) {
+    if (simulation_time->GetOrbitPropagateFlag()) {
+      // Update disturbances that depend only on the position
+      disturbance->UpdateIfEnabled(local_environment, dynamics);
+    } else if (simulation_time->GetAttitudePropagateFlag()) {
+      // Update disturbances that depend on the attitude (and the position)
+      if (disturbance->IsAttitudeDependent() == true) {
+        disturbance->UpdateIfEnabled(local_environment, dynamics);
+      }
     }
-  }
-  // Update disturbances that depend only on the position
-  if (simulation_time->GetOrbitPropagateFlag()) {
-    InitializeAcceleration();
-    for (auto acc_dist : acceleration_disturbances_list_) {
-      acc_dist->UpdateIfEnabled(local_environment, dynamics);
-      total_acceleration_i_m_s2_ += acc_dist->GetAcceleration_i_m_s2();
-    }
+    total_torque_b_Nm_ += disturbance->GetTorque_b_Nm();
+    total_force_b_N_ += disturbance->GetForce_b_N();
+    total_acceleration_i_m_s2_ += disturbance->GetAcceleration_i_m_s2();
   }
 }
 
 void Disturbances::LogSetup(Logger& logger) {
-  for (auto dist : disturbances_list_) {
-    logger.AddLogList(dist);
-  }
-  for (auto acc_dist : acceleration_disturbances_list_) {
-    logger.AddLogList(acc_dist);
+  for (auto disturbance : disturbances_list_) {
+    logger.AddLogList(disturbance);
   }
   logger.CopyFileToLogDirectory(initialize_file_name_);
 }
@@ -77,7 +70,7 @@ void Disturbances::InitializeInstances(const SimulationConfiguration* simulation
 
   ThirdBodyGravity* third_body_gravity =
       new ThirdBodyGravity(InitThirdBodyGravity(initialize_file_name_, simulation_configuration->initialize_base_file_name_));
-  acceleration_disturbances_list_.push_back(third_body_gravity);
+  disturbances_list_.push_back(third_body_gravity);
 
   if (global_environment->GetCelestialInformation().GetCenterBodyName() != "EARTH") return;
   // Earth only disturbances (TODO: implement disturbances for other center bodies)
@@ -89,7 +82,7 @@ void Disturbances::InitializeInstances(const SimulationConfiguration* simulation
   disturbances_list_.push_back(mag_dist);
 
   GeoPotential* geopotential = new GeoPotential(InitGeoPotential(initialize_file_name_));
-  acceleration_disturbances_list_.push_back(geopotential);
+  disturbances_list_.push_back(geopotential);
 }
 
 void Disturbances::InitializeForceAndTorque() {

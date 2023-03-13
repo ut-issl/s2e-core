@@ -12,13 +12,13 @@
 #include "../library/math/matrix.hpp"
 #include "../library/math/matrix_vector.hpp"
 #include "../library/math/vector.hpp"
-#include "simple_disturbance.hpp"
+#include "disturbance.hpp"
 
 /**
  * @class GravityGradient
  * @brief Class to calculate the gravity gradient torque
  */
-class GravityGradient : public SimpleDisturbance {
+class GravityGradient : public Disturbance {
  public:
   /**
    * @fn GeoPotential
