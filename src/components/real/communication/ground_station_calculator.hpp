@@ -45,12 +45,12 @@ class GroundStationCalculator : public ILoggable {
    * @fn Update
    * @brief Update maximum bitrate calculation
    * @param [in] spacecraft: Spacecraft information
-   * @param [in] spacecraft_tx_antenna: Antenna mounted on spacecraft
+   * @param [in] spacecraft_antenna: Antenna mounted on spacecraft
    * @param [in] ground_station: Ground station information
-   * @param [in] ground_station_rx_antenna: Antenna mounted on ground station
+   * @param [in] ground_station_antenna: Antenna mounted on ground station
    */
-  void Update(const Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
-              const Antenna& ground_station_rx_antenna);
+  void Update(const Spacecraft& spacecraft, const Antenna& spacecraft_antenna, const GroundStation& ground_station,
+              const Antenna& ground_station_antenna);
 
   // Override ILoggable TODO: Maybe we don't need logabble, and this class should be used as library.
   /**
@@ -104,36 +104,36 @@ class GroundStationCalculator : public ILoggable {
    * @fn CalcMaxBitrate
    * @brief Calculate the maximum bitrate
    * @param [in] dynamics: Spacecraft dynamics information
-   * @param [in] spacecraft_tx_antenna: Tx Antenna mounted on spacecraft
+   * @param [in] spacecraft_antenna: Tx Antenna mounted on spacecraft
    * @param [in] ground_station: Ground station information
-   * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
+   * @param [in] ground_station_antenna: Rx Antenna mounted on ground station
    * @return Max bitrate [Mbps]
    */
-  double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
-                        const Antenna& ground_station_rx_antenna);
+  double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& spacecraft_antenna, const GroundStation& ground_station,
+                        const Antenna& ground_station_antenna);
   /**
    * @fn CalcReceiveMarginOnGs
    * @brief Calculate receive margin at the ground station
    * @param [in] dynamics: Spacecraft dynamics information
-   * @param [in] spacecraft_tx_antenna: Tx Antenna mounted on spacecraft
+   * @param [in] spacecraft_antenna: Tx Antenna mounted on spacecraft
    * @param [in] ground_station: Ground station information
-   * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
+   * @param [in] ground_station_antenna: Rx Antenna mounted on ground station
    * @return Receive margin [dB]
    */
-  double CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
-                               const Antenna& ground_station_rx_antenna);
+  double CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& spacecraft_antenna, const GroundStation& ground_station,
+                               const Antenna& ground_station_antenna);
 
   /**
    * @fn CalcCn0
    * @brief Calculate CN0 (Carrier to Noise density ratio) of received signal at the ground station
    * @param [in] dynamics: Spacecraft dynamics information
-   * @param [in] spacecraft_tx_antenna: Tx Antenna mounted on spacecraft
+   * @param [in] spacecraft_antenna: Tx Antenna mounted on spacecraft
    * @param [in] ground_station: Ground station information
-   * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
+   * @param [in] ground_station_antenna: Rx Antenna mounted on ground station
    * @return CN0 [dB]
    */
-  double CalcCn0OnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
-                     const Antenna& ground_station_rx_antenna);
+  double CalcCn0OnGs(const Dynamics& dynamics, const Antenna& spacecraft_antenna, const GroundStation& ground_station,
+                     const Antenna& ground_station_antenna);
 };
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_

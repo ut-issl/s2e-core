@@ -55,7 +55,7 @@ class Antenna {
    * @param [in] rx_parameters: gain, loss_feeder, loss_pointing, system_temperature for RX
    */
   Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
-          const double frequency_MHz, const Vector<4> tx_parameters, const Vector<4> rx_parameters);
+          const double frequency_MHz, const Vector<5> tx_parameters, const Vector<4> rx_parameters);
 
   /**
    * @fn Antenna
@@ -65,13 +65,14 @@ class Antenna {
    * @param [in] is_transmitter: Antenna for transmitter or not
    * @param [in] is_receiver: Antenna for receiver or not
    * @param [in] frequency_MHz: Center Frequency [MHz]
+   * @param [in] tx_bitrate_bps: Transmit bitrate [bps]
    * @param [in] tx_output_power_W: Transmit output power [W]
    * @param [in] tx_parameters: TX antenna parameters
    * @param [in] rx_system_noise_temperature_K: Receive system noise temperature [K]
    * @param [in] rx_parameters: RX antenna parameters
    */
   Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
-          const double frequency_MHz, const double tx_output_power_W, const AntennaParameters tx_parameters,
+          const double frequency_MHz, const double tx_bitrate_bps, const double tx_output_power_W, const AntennaParameters tx_parameters,
           const double rx_system_noise_temperature_K, const AntennaParameters rx_parameters);
   /**
    * @fn ~Antenna
@@ -103,6 +104,12 @@ class Antenna {
    */
   inline double GetFrequency_MHz() const { return frequency_MHz_; }
   /**
+   * @fn GetBitrate
+   * @brief Return bitrate [bps]
+   */
+  inline double GetBitrate() const { return tx_bitrate_bps_; }
+  /**
+   *
    * @fn GetQuaternion_b2c
    * @brief Return quaternion from body to component
    */
@@ -128,6 +135,7 @@ class Antenna {
   double frequency_MHz_;       //!< Center Frequency [MHz]
 
   // Tx info
+  double tx_bitrate_bps_;            //!< Transmit bitrate [bps]
   double tx_output_power_W_;         //!< Transmit output power [W]
   AntennaParameters tx_parameters_;  //!< Tx parameters
   double tx_eirp_dBW_;               //!< Transmit EIRP(Equivalent Isotropic Radiated Power) [dBW]
