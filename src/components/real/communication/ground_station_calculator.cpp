@@ -55,7 +55,7 @@ double GroundStationCalculator::CalcMaxBitrate(const Dynamics& dynamics, const A
 double GroundStationCalculator::CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& spacecraft_antenna,
                                                       const GroundStation& ground_station, const Antenna& ground_station_antenna) {
   double cn0_dB = CalcCn0OnGs(dynamics, spacecraft_antenna, ground_station, ground_station_antenna);
-  double cn0_requirement_dB = ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_ + 10.0 * log10(downlink_bitrate_bps_);
+  double cn0_requirement_dB = ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_ + 10.0 * log10(spacecraft_antenna.GetBitrate());
   return cn0_dB - cn0_requirement_dB;
 }
 
