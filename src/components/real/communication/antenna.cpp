@@ -93,9 +93,9 @@ double Antenna::CalcRxGt_dB_K(const double theta_rad, const double phi_rad) cons
 }
 
 AntennaGainModel SetAntennaGainModel(const std::string gain_model_name) {
-  if (gain_model_name == "ISOTROPIC") {
+  if (gain_model_name == "kIsotropic") {
     return AntennaGainModel::kIsotropic;
-  } else if (gain_model_name == "RADIATION_PATTERN_CSV") {
+  } else if (gain_model_name == "kRadiationPatternCsv") {
     return AntennaGainModel::kRadiationPatternCsv;
   } else {
     return AntennaGainModel::kIsotropic;
