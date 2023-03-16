@@ -61,11 +61,6 @@ double GroundStationCalculator::CalcReceiveMarginOnGs(const Dynamics& dynamics, 
 
 double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& spacecraft_antenna, const GroundStation& ground_station,
                                             const Antenna& ground_station_antenna) {
-  if (!spacecraft_antenna.IsTransmitter() || !ground_station_antenna.IsReceiver()) {
-    // Check compatibility of transmitter and receiver
-    return 0.0f;
-  }
-
   // Free space path loss
   Vector<3> sc_pos_i = dynamics.GetOrbit().GetPosition_i_m();
   Vector<3> gs_pos_i = ground_station.GetPosition_i_m();
@@ -97,6 +92,8 @@ double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Ante
     return cn0_dBHz;
   } else {
     // Calc CN0
+    double testA = ground_station_antenna.CalcTxEirp_dBW(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad);
+    double testB = spacecraft_antenna.CalcRxGt_dB_K(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad);
     double cn0_dBHz = ground_station_antenna.CalcTxEirp_dBW(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) + loss_space_dB + loss_polarization_dB_ +
                       loss_atmosphere_dB_ + loss_rainfall_dB_ + loss_others_dB_ +
                       spacecraft_antenna.CalcRxGt_dB_K(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) -
