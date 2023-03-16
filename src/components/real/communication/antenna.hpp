@@ -107,7 +107,7 @@ class Antenna {
    * @fn GetBitrate
    * @brief Return bitrate [bps]
    */
-  inline double GetBitrate() const { return tx_bitrate_bps_; }
+  inline double GetBitrate_bps() const { return tx_bitrate_bps_; }
   /**
    *
    * @fn GetQuaternion_b2c
