@@ -43,7 +43,7 @@ Antenna::Antenna(const int component_id, const libra::Quaternion& quaternion_b2c
 }
 
 Antenna::Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
-                 const double tx_bitrate_bps, const double frequency_MHz, const double tx_output_power_W, const AntennaParameters tx_parameters,
+                 const double frequency_MHz, const double tx_bitrate_bps, const double tx_output_power_W, const AntennaParameters tx_parameters,
                  const double rx_system_noise_temperature_K, const AntennaParameters rx_parameters)
     : component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
