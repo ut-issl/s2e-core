@@ -92,8 +92,6 @@ double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Ante
     return cn0_dBHz;
   } else {
     // Calc CN0
-    double testA = ground_station_antenna.CalcTxEirp_dBW(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad);
-    double testB = spacecraft_antenna.CalcRxGt_dB_K(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad);
     double cn0_dBHz = ground_station_antenna.CalcTxEirp_dBW(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) + loss_space_dB + loss_polarization_dB_ +
                       loss_atmosphere_dB_ + loss_rainfall_dB_ + loss_others_dB_ +
                       spacecraft_antenna.CalcRxGt_dB_K(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) -
