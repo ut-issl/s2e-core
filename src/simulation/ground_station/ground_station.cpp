@@ -77,7 +77,7 @@ std::string GroundStation::GetLogHeader() const {
     std::string legend = head + "sc" + std::to_string(i) + "_visible_flag";
     str_tmp += WriteScalar(legend);
   }
-  str_tmp += WriteVector("gs_pos", "eci", "m", 3);
+  str_tmp += WriteVector("ground_station_position", "eci", "m", 3);
   return str_tmp;
 }
 
