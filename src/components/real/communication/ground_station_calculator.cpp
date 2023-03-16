@@ -61,6 +61,10 @@ double GroundStationCalculator::CalcReceiveMarginOnGs(const Dynamics& dynamics, 
 
 double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
                                             const Antenna& ground_station_rx_antenna) {
+  if (!spacecraft_tx_antenna.IsTransmitter() || !ground_station_rx_antenna.IsReceiver()) {
+    // Check compatibility of transmitter and receiver
+    return 0.0f;
+  }
   // Free space path loss
   Vector<3> sc_pos_i = dynamics.GetOrbit().GetPosition_i_m();
   Vector<3> gs_pos_i = ground_station.GetPosition_i_m();
@@ -83,21 +87,12 @@ double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Ante
   double theta_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[2]);
   double phi_on_gs_antenna_rad = atan2(sc_direction_on_gs_frame[1], sc_direction_on_gs_frame[0]);
 
-  if (spacecraft_tx_antenna.IsTransmitter()) {
-    // Calc CN0
-    double cn0_dBHz = spacecraft_tx_antenna.CalcTxEirp_dBW(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) + loss_space_dB + loss_polarization_dB_ +
-                      loss_atmosphere_dB_ + loss_rainfall_dB_ + loss_others_dB_ +
-                      ground_station_rx_antenna.CalcRxGt_dB_K(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) -
-                      10.0 * log10(environment::boltzmann_constant_J_K);
-    return cn0_dBHz;
-  } else {
-    // Calc CN0
-    double cn0_dBHz = ground_station_rx_antenna.CalcTxEirp_dBW(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) + loss_space_dB +
-                      loss_polarization_dB_ + loss_atmosphere_dB_ + loss_rainfall_dB_ + loss_others_dB_ +
-                      spacecraft_tx_antenna.CalcRxGt_dB_K(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) -
-                      10.0 * log10(environment::boltzmann_constant_J_K);
-    return cn0_dBHz;
-  }
+  // Calc CN0
+  double cn0_dBHz = spacecraft_tx_antenna.CalcTxEirp_dBW(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) + loss_space_dB + loss_polarization_dB_ +
+                    loss_atmosphere_dB_ + loss_rainfall_dB_ + loss_others_dB_ +
+                    ground_station_rx_antenna.CalcRxGt_dB_K(theta_on_gs_antenna_rad, phi_on_gs_antenna_rad) -
+                    10.0 * log10(environment::boltzmann_constant_J_K);
+  return cn0_dBHz;
 }
 
 std::string GroundStationCalculator::GetLogHeader() const {
