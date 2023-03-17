@@ -189,6 +189,10 @@ if(GOOGLE_TEST)
   set(TEST_PROJECT_NAME ${PROJECT_NAME}_TEST)
   set(TEST_FILES
     src/library/math/test_quaternion.cpp
+    src/library/math/test_vector.cpp
+    src/library/math/test_matrix.cpp
+    src/library/math/test_matrix_vector.cpp
+    src/library/math/test_s2e_math.cpp
   )
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)
@@ -196,6 +200,12 @@ if(GOOGLE_TEST)
   include_directories(${TEST_PROJECT_NAME})
   add_test(NAME s2e-test COMMAND ${TEST_PROJECT_NAME})
   enable_testing()
+
+  # Settings
+  set_target_properties(${TEST_PROJECT_NAME} PROPERTIES LANGUAGE CXX)
+  set_target_properties(${TEST_PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
+  set_target_properties(${TEST_PROJECT_NAME} PROPERTIES CXX_EXTENSIONS FALSE)
+
 endif()
 
 

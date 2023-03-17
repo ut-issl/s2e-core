@@ -81,7 +81,7 @@ void Disturbances::InitializeInstances(const SimulationConfiguration* simulation
   MagneticDisturbance* mag_dist = new MagneticDisturbance(InitMagneticDisturbance(initialize_file_name_, structure->GetResidualMagneticMoment()));
   disturbances_list_.push_back(mag_dist);
 
-  GeoPotential* geopotential = new GeoPotential(InitGeoPotential(initialize_file_name_));
+  Geopotential* geopotential = new Geopotential(InitGeopotential(initialize_file_name_));
   disturbances_list_.push_back(geopotential);
 }
 
