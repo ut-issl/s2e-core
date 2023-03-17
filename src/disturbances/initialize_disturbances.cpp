@@ -74,7 +74,7 @@ MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_pa
   return mag_disturbance;
 }
 
-GeoPotential InitGeoPotential(const std::string initialize_file_path) {
+Geopotential InitGeopotential(const std::string initialize_file_path) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "GEOPOTENTIAL";
 
@@ -82,7 +82,7 @@ GeoPotential InitGeoPotential(const std::string initialize_file_path) {
   const std::string coefficients_file_path = conf.ReadString(section, "coefficients_file_path");
 
   const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
-  GeoPotential geopotential_disturbance(degree, coefficients_file_path, is_calc_enable);
+  Geopotential geopotential_disturbance(degree, coefficients_file_path, is_calc_enable);
   geopotential_disturbance.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 
   return geopotential_disturbance;

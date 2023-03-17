@@ -15,19 +15,19 @@
 #include "acceleration_disturbance.hpp"
 
 /**
- * @class GeoPotential
+ * @class Geopotential
  * @brief Class to calculate the high-order earth gravity acceleration
  */
-class GeoPotential : public AccelerationDisturbance {
+class Geopotential : public AccelerationDisturbance {
  public:
   /**
-   * @fn GeoPotential
+   * @fn Geopotential
    * @brief Constructor
    * @param [in] degree: Maximum degree setting to calculate the geo-potential
    * @param [in] file_path: EGM96 coefficients file path
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  GeoPotential(const int degree, const std::string file_path, const bool is_calculation_enabled = true);
+  Geopotential(const int degree, const std::string file_path, const bool is_calculation_enabled = true);
 
   /**
    * @fn Update
