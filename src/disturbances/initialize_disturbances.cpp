@@ -74,7 +74,7 @@ MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_pa
   return mag_disturbance;
 }
 
-Geopotential InitGeoPotential(const std::string initialize_file_path) {
+Geopotential InitGeopotential(const std::string initialize_file_path) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "GEOPOTENTIAL";
 
