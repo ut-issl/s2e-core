@@ -21,14 +21,14 @@
 class GravityGradient : public SimpleDisturbance {
  public:
   /**
-   * @fn GeoPotential
+   * @fn GravityGradient
    * @brief Default Constructor
    * @param [in] is_calculation_enabled: Calculation flag
    * @note mu is automatically set as earth's gravitational constant
    */
   GravityGradient(const bool is_calculation_enabled = true);
   /**
-   * @fn GeoPotential
+   * @fn GravityGradient
    * @brief Constructor
    * @param [in] gravity_constant_m3_s2: Gravitational constant [m3/s2]
    * @param [in] is_calculation_enabled: Calculation flag

@@ -15,7 +15,7 @@
 
 // #define DEBUG_GEOPOTENTIAL
 
-GeoPotential::GeoPotential(const int degree, const std::string file_path, const bool is_calculation_enabled)
+Geopotential::Geopotential(const int degree, const std::string file_path, const bool is_calculation_enabled)
     : AccelerationDisturbance(is_calculation_enabled), degree_(degree) {
   // Initialize
   acceleration_ecef_m_s2_ = libra::Vector<3>(0.0);
@@ -23,9 +23,9 @@ GeoPotential::GeoPotential(const int degree, const std::string file_path, const 
   // degree
   if (degree_ > 360) {
     degree_ = 360;
-    std::cout << "Inputted degree of GeoPotential is too large for EGM96 "
+    std::cout << "Inputted degree of Geopotential is too large for EGM96 "
                  "model(limit is 360)\n";
-    std::cout << "degree of GeoPotential set as " << degree_ << "\n";
+    std::cout << "degree of Geopotential set as " << degree_ << "\n";
   } else if (degree_ <= 1) {
     degree_ = 0;
   }
@@ -38,12 +38,12 @@ GeoPotential::GeoPotential(const int degree, const std::string file_path, const 
   if (degree_ >= 2) {
     if (!ReadCoefficientsEgm96(file_path)) {
       degree_ = 0;
-      std::cout << "degree of GeoPotential set as " << degree_ << "\n";
+      std::cout << "degree of Geopotential set as " << degree_ << "\n";
     }
   }
 }
 
-bool GeoPotential::ReadCoefficientsEgm96(std::string file_name) {
+bool Geopotential::ReadCoefficientsEgm96(std::string file_name) {
   std::ifstream coeff_file(file_name);
   if (!coeff_file.is_open()) {
     std::cerr << "file open error:Geopotential\n";
@@ -65,7 +65,7 @@ bool GeoPotential::ReadCoefficientsEgm96(std::string file_name) {
   return true;
 }
 
-void GeoPotential::Update(const LocalEnvironment &local_environment, const Dynamics &dynamics) {
+void Geopotential::Update(const LocalEnvironment &local_environment, const Dynamics &dynamics) {
 #ifdef DEBUG_GEOPOTENTIAL
   chrono::system_clock::time_point start, end;
   start = chrono::system_clock::now();
@@ -83,7 +83,7 @@ void GeoPotential::Update(const LocalEnvironment &local_environment, const Dynam
   acceleration_i_m_s2_ = trans_ecef2eci * acceleration_ecef_m_s2_;
 }
 
-void GeoPotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m) {
+void Geopotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m) {
   ecef_x_m_ = position_ecef_m[0];
   ecef_y_m_ = position_ecef_m[1];
   ecef_z_m_ = position_ecef_m[2];
@@ -147,7 +147,7 @@ void GeoPotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m)
   return;
 }
 
-void GeoPotential::v_w_nn_update(double *v_nn, double *w_nn, const double v_prev, const double w_prev) {
+void Geopotential::v_w_nn_update(double *v_nn, double *w_nn, const double v_prev, const double w_prev) {
   if (n_ != m_) return;
 
   double n_d = (double)n_;
@@ -166,7 +166,7 @@ void GeoPotential::v_w_nn_update(double *v_nn, double *w_nn, const double v_prev
   return;
 }
 
-void GeoPotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_prev, const double w_prev, const double v_prev2, const double w_prev2) {
+void Geopotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_prev, const double w_prev, const double v_prev2, const double w_prev2) {
   if (n_ == m_) return;
 
   double m_d = (double)m_;
@@ -190,7 +190,7 @@ void GeoPotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_prev
   return;
 }
 
-std::string GeoPotential::GetLogHeader() const {
+std::string Geopotential::GetLogHeader() const {
   std::string str_tmp = "";
 
 #ifdef DEBUG_GEOPOTENTIAL
@@ -202,7 +202,7 @@ std::string GeoPotential::GetLogHeader() const {
   return str_tmp;
 }
 
-std::string GeoPotential::GetLogValue() const {
+std::string Geopotential::GetLogValue() const {
   std::string str_tmp = "";
 
 #ifdef DEBUG_GEOPOTENTIAL
