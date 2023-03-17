@@ -158,7 +158,7 @@ TEST(Vector, FillUp) {
   }
 
   double fill_up_value = 0.1;
-  FillUp(v, fill_up_value);
+  v.FillUp(fill_up_value);
 
   for (size_t i = 0; i < N; i++) {
     EXPECT_DOUBLE_EQ(fill_up_value, v[i]);
@@ -349,7 +349,7 @@ TEST(Vector, CalcNorm) {
   const size_t N = 10;
   libra::Vector<N> v(1.0);
 
-  double norm = CalcNorm(v);
+  double norm = v.CalcNorm();
 
   // Check nondestructive
   for (size_t i = 0; i < N; i++) {
@@ -366,11 +366,11 @@ TEST(Vector, Normalize) {
   const size_t N = 5;
   libra::Vector<N> v(1.0);
 
-  libra::Vector<N> normalized = Normalize(v);
+  libra::Vector<N> normalized = v.CalcNormalizedVector();
 
   for (size_t i = 0; i < N; i++) {
-    // Check nondestructive (Currently, it is destructive)
-    EXPECT_DOUBLE_EQ(1.0 / sqrt(double(N)), v[i]);
+    // Check nondestructive
+    EXPECT_DOUBLE_EQ(1.0, v[i]);
     // Check nondestructive
     EXPECT_DOUBLE_EQ(1.0 / sqrt(double(N)), normalized[i]);
   }
