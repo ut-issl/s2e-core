@@ -17,7 +17,7 @@ SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_gene
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_area_m2_(cell_area_m2),
-      normal_vector_(libra::Normalize(normal_vector)),
+      normal_vector_(normal_vector.CalcNormalizedVector()),
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
       srp_environment_(srp_environment),
@@ -35,7 +35,7 @@ SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_gene
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_area_m2_(cell_area_m2),
-      normal_vector_(libra::Normalize(normal_vector)),
+      normal_vector_(normal_vector.CalcNormalizedVector()),
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
       srp_environment_(srp_environment),
@@ -53,7 +53,7 @@ SolarArrayPanel::SolarArrayPanel(ClockGenerator* clock_generator, int component_
       number_of_series_(number_of_series),
       number_of_parallel_(number_of_parallel),
       cell_area_m2_(cell_area_m2),
-      normal_vector_(libra::Normalize(normal_vector)),
+      normal_vector_(normal_vector.CalcNormalizedVector()),
       cell_efficiency_(cell_efficiency),
       transmission_efficiency_(transmission_efficiency),
       srp_environment_(srp_environment),
@@ -99,13 +99,13 @@ void SolarArrayPanel::MainRoutine(const int time_count) {
     double time_query = compo_step_time_s_ * time_count;
     const auto solar_constant = srp_environment_->GetSolarConstant_W_m2();
     libra::Vector<3> sun_direction_body = CsvScenarioInterface::GetSunDirectionBody(time_query);
-    libra::Vector<3> normalized_sun_direction_body = libra::Normalize(sun_direction_body);
+    libra::Vector<3> normalized_sun_direction_body = sun_direction_body.CalcNormalizedVector();
     power_generation_W_ = cell_efficiency_ * transmission_efficiency_ * solar_constant * (int)CsvScenarioInterface::GetSunFlag(time_query) *
                           cell_area_m2_ * number_of_parallel_ * number_of_series_ * InnerProduct(normal_vector_, normalized_sun_direction_body);
   } else {
     const auto power_density = srp_environment_->GetPowerDensity_W_m2();
     libra::Vector<3> sun_pos_b = local_celestial_information_->GetPositionFromSpacecraft_b_m("SUN");
-    libra::Vector<3> sun_dir_b = libra::Normalize(sun_pos_b);
+    libra::Vector<3> sun_dir_b = sun_pos_b.CalcNormalizedVector();
     power_generation_W_ = cell_efficiency_ * transmission_efficiency_ * power_density * cell_area_m2_ * number_of_parallel_ * number_of_series_ *
                           InnerProduct(normal_vector_, sun_dir_b);
     // TODO: Improve implementation. For example, update IV curve with sun direction and calculate generated power

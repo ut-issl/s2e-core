@@ -28,8 +28,8 @@ void EnckeOrbitPropagation::Propagate(double end_time_s, double current_time_jd)
   if (!is_calc_enabled_) return;
 
   // Rectification
-  double norm_sat_position_m = CalcNorm(spacecraft_position_i_m_);
-  double norm_difference_position_m = CalcNorm(difference_position_i_m_);
+  double norm_sat_position_m = spacecraft_position_i_m_.CalcNorm();
+  double norm_difference_position_m = difference_position_i_m_.CalcNorm();
   if (norm_difference_position_m / norm_sat_position_m > error_tolerance_) {
     Initialize(current_time_jd, spacecraft_position_i_m_, spacecraft_velocity_i_m_s_);
   }
@@ -68,7 +68,7 @@ void EnckeOrbitPropagation::DerivativeFunction(double t, const libra::Vector<6>&
   }
 
   double q_func = CalcQFunction(difference_position_i_m_m);
-  double r_m = CalcNorm(reference_position_i_m_);
+  double r_m = reference_position_i_m_.CalcNorm();
   double r_m3 = pow(r_m, 3.0);
 
   difference_acc_i_m_s2 =
@@ -85,7 +85,7 @@ void EnckeOrbitPropagation::DerivativeFunction(double t, const libra::Vector<6>&
 // Private Functions
 void EnckeOrbitPropagation::Initialize(double current_time_jd, libra::Vector<3> reference_position_i_m, libra::Vector<3> reference_velocity_i_m_s) {
   // General
-  FillUp(spacecraft_acceleration_i_m_s2_, 0.0);
+  spacecraft_acceleration_i_m_s2_.FillUp(0.0);
 
   // reference orbit
   reference_position_i_m_ = reference_position_i_m;
@@ -94,8 +94,8 @@ void EnckeOrbitPropagation::Initialize(double current_time_jd, libra::Vector<3> 
   reference_kepler_orbit = KeplerOrbit(gravity_constant_m3_s2_, oe_ref);
 
   // difference orbit
-  FillUp(difference_position_i_m_, 0.0);
-  FillUp(difference_velocity_i_m_s_, 0.0);
+  difference_position_i_m_.FillUp(0.0);
+  difference_velocity_i_m_s_.FillUp(0.0);
 
   libra::Vector<6> zero(0.0f);
   Setup(0.0, zero);

@@ -44,7 +44,7 @@ SimpleThruster::~SimpleThruster() {}
 void SimpleThruster::Initialize(const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad) {
   magnitude_random_noise_.SetParameters(0.0, magnitude_standard_deviation_N);
   direction_random_noise_.SetParameters(0.0, direction_standard_deviation_rad);
-  thrust_direction_b_ = Normalize(thrust_direction_b_);
+  thrust_direction_b_ = thrust_direction_b_.CalcNormalizedVector();
 }
 
 void SimpleThruster::MainRoutine(const int time_count) {
@@ -87,7 +87,7 @@ std::string SimpleThruster::GetLogValue() const {
 
   str_tmp += WriteVector(output_thrust_b_N_);
   str_tmp += WriteVector(output_torque_b_Nm_);
-  str_tmp += WriteScalar(CalcNorm(output_thrust_b_N_));
+  str_tmp += WriteScalar(output_thrust_b_N_.CalcNorm());
 
   return str_tmp;
 }

@@ -21,7 +21,7 @@ void RelativeInformation::Update() {
 
       // Distance
       relative_distance_list_m_[target_spacecraft_id][reference_spacecraft_id] =
-          CalcNorm(relative_position_list_i_m_[target_spacecraft_id][reference_spacecraft_id]);
+          relative_position_list_i_m_[target_spacecraft_id][reference_spacecraft_id].CalcNorm();
 
       // Velocity
       libra::Vector<3> target_sat_vel_i = dynamics_database_.at(target_spacecraft_id)->GetOrbit().GetVelocity_i_m_s();
@@ -144,7 +144,7 @@ libra::Vector<3> RelativeInformation::CalcRelativeVelocity_rtn_m_s(const int tar
   libra::Vector<3> reference_sat_vel_i = dynamics_database_.at(reference_spacecraft_id)->GetOrbit().GetVelocity_i_m_s();
   libra::Vector<3> target_sat_vel_i = dynamics_database_.at(target_spacecraft_id)->GetOrbit().GetVelocity_i_m_s();
   libra::Vector<3> rot_vec_rtn_i = cross(reference_sat_pos_i, reference_sat_vel_i);
-  double r2_ref = CalcNorm(reference_sat_pos_i) * CalcNorm(reference_sat_pos_i);
+  double r2_ref = reference_sat_pos_i.CalcNorm() * reference_sat_pos_i.CalcNorm();
   rot_vec_rtn_i /= r2_ref;
   libra::Vector<3> relative_vel_i = target_sat_vel_i - reference_sat_vel_i - cross(rot_vec_rtn_i, relative_pos_i);
 

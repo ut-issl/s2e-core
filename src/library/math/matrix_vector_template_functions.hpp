@@ -30,7 +30,7 @@ Matrix<N, N> CalcInverseMatrix(const Matrix<N, N>& matrix) {
   Matrix<N, N> inverse;
   Vector<N> vector;
   for (size_t i = 0; i < N; ++i) {
-    FillUp(vector, 0.0);
+    vector.FillUp(0.0);
     vector[i] = 1.0;
     SolveLinearSystemWithLu(temp, index, vector);
     for (size_t j = 0; j < N; ++j) {

@@ -54,17 +54,17 @@ Vector<N, T> Vector<N, T>::operator-() const {
 }
 
 template <size_t N, typename T>
-void FillUp(Vector<N, T>& v, const T& n) {
+void Vector<N, T>::FillUp(const T& n) {
   for (size_t i = 0; i < N; ++i) {
-    v[i] = n;
+    vector_[i] = n;
   }
 }
 
 template <size_t N, typename T>
-void Print(const Vector<N, T>& v, char delimiter, std::ostream& stream) {
-  stream << v[0];
+void Vector<N, T>::Print(char delimiter, std::ostream& stream) {
+  stream << vector_[0];
   for (size_t i = 1; i < N; ++i) {
-    stream << delimiter << v[i];
+    stream << delimiter << vector_[i];
   }
 }
 
@@ -113,33 +113,36 @@ const Vector<3, T> OuterProduct(const Vector<3, T>& lhs, const Vector<3, T>& rhs
   return temp;
 }
 
-template <size_t N>
-double CalcNorm(const Vector<N, double>& v) {
+template <size_t N, typename T>
+double Vector<N, T>::CalcNorm() const {
   double temp = 0.0;
   for (size_t i = 0; i < N; ++i) {
-    temp += pow(v[i], 2.0);
+    temp += pow((double)vector_[i], 2.0);
   }
   return sqrt(temp);
 }
 
-template <size_t N>
-Vector<N, double>& Normalize(Vector<N, double>& v) {
-  double n = CalcNorm(v);
-  if (n == 0.0) {
-    return v;
-  }
+template <size_t N, typename T>
+Vector<N, double> Vector<N, T>::CalcNormalizedVector() const {
+  Vector<N, double> normalized;
 
-  n = 1.0 / n;
   for (size_t i = 0; i < N; ++i) {
-    v[i] *= n;
+    normalized[i] = (double)(this->vector_[i]);
   }
 
-  return v;
+  double n = normalized.CalcNorm();
+  if (n == 0.0) {
+    return normalized;
+  }
+
+  normalized /= n;
+
+  return normalized;
 }
 
 template <size_t N>
 double CalcAngleTwoVectors_rad(const Vector<N, double>& v1, const Vector<N, double>& v2) {
-  double cos = InnerProduct(v1, v2) / (CalcNorm(v1) * CalcNorm(v2));
+  double cos = InnerProduct(v1, v2) / (v1.CalcNorm() * v2.CalcNorm());
   return acos(cos);
 }
 

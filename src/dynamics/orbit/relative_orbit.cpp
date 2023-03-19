@@ -71,7 +71,7 @@ void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_m
                                           double gravity_constant_m3_s2) {
   switch (relative_dynamics_model_type) {
     case RelativeOrbitModel::kHill: {
-      double reference_sat_orbit_radius = libra::CalcNorm(reference_sat_orbit->GetPosition_i_m());
+      double reference_sat_orbit_radius = reference_sat_orbit->GetPosition_i_m().CalcNorm();
       system_matrix_ = CalcHillSystemMatrix(reference_sat_orbit_radius, gravity_constant_m3_s2);
     }
     default: {
@@ -84,7 +84,7 @@ void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_m
 void RelativeOrbit::CalculateStm(StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2, double elapsed_sec) {
   switch (stm_model_type) {
     case StmModel::kHcw: {
-      double reference_sat_orbit_radius = libra::CalcNorm(reference_sat_orbit->GetPosition_i_m());
+      double reference_sat_orbit_radius = reference_sat_orbit->GetPosition_i_m().CalcNorm();
       stm_ = CalcHcwStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec);
     }
     default: {
@@ -152,7 +152,8 @@ void RelativeOrbit::PropagateStm(double elapsed_sec) {
   relative_velocity_lvlh_m_s_[2] = current_state[5];
 }
 
-void RelativeOrbit::DerivativeFunction(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs)  // only for RK4 relative dynamics propagation
+void RelativeOrbit::DerivativeFunction(double t, const libra::Vector<6>& state,
+                                       libra::Vector<6>& rhs)  // only for RK4 relative dynamics propagation
 {
   rhs = system_matrix_ * state;
   (void)t;

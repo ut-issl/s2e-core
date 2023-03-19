@@ -25,10 +25,10 @@ void ForceGenerator::MainRoutine(const int time_count) {
   generated_force_b_N_ = ordered_force_b_N_;
 
   // Add noise
-  double norm_ordered_force = CalcNorm(ordered_force_b_N_);
+  double norm_ordered_force = ordered_force_b_N_.CalcNorm();
   if (norm_ordered_force > 0.0 + DBL_EPSILON) {
     // Add noise only when the force is generated
-    libra::Vector<3> true_direction = Normalize(generated_force_b_N_);
+    libra::Vector<3> true_direction = generated_force_b_N_.CalcNormalizedVector();
     libra::Quaternion error_quaternion = GenerateDirectionNoiseQuaternion(true_direction, direction_error_standard_deviation_rad_);
     libra::Vector<3> converted_direction = error_quaternion.FrameConversion(generated_force_b_N_);
     double force_norm_with_error = norm_ordered_force + magnitude_noise_;
@@ -89,11 +89,11 @@ libra::Quaternion ForceGenerator::GenerateDirectionNoiseQuaternion(libra::Vector
   random_direction[0] = direction_noise_;
   random_direction[1] = direction_noise_;
   random_direction[2] = direction_noise_;
-  random_direction = Normalize(random_direction);
+  random_direction = random_direction.CalcNormalizedVector();
 
   libra::Vector<3> rotation_axis;
   rotation_axis = OuterProduct(true_direction, random_direction);
-  double norm_rotation_axis = CalcNorm(rotation_axis);
+  double norm_rotation_axis = rotation_axis.CalcNorm();
   if (norm_rotation_axis < 0.0 + DBL_EPSILON) {
     // No rotation error if the randomized direction is parallel to the true direction
     rotation_axis = true_direction;

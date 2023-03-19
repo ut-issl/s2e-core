@@ -33,10 +33,41 @@ class Vector {
   explicit Vector(const T& n);
 
   /**
-   * @fn dim
+   * @fn GetLength
    * @brief Return number of elements
    */
   inline size_t GetLength() const { return N; }
+
+  /**
+   * @fn FillUp
+   * @brief Fill up all elements with same value
+   * @param [in] n: Scalar value to fill up
+   */
+  void FillUp(const T& n);
+
+  /**
+   * @fn Print
+   * @brief Generate all elements to outstream
+   * @param [in] delimiter: Delimiter (Default: tab)
+   * @param [out] stream: Output target(Default: cout)
+   */
+  void Print(char delimiter = '\t', std::ostream& stream = std::cout);
+
+  /**
+   * @fn CalcNorm
+   * @brief Calculate norm of vector
+   * @return Norm of the vector
+   */
+  double CalcNorm() const;
+
+  /**
+   * @fn CalcNormalizedVector
+   * @brief Normalize the target vector
+   * @note Warning: v is overwritten.
+   * @param [in/out] v: Target vector
+   * @return Normalized vector
+   */
+  Vector<N, double> CalcNormalizedVector() const;
 
   /**
    * @fn Cast operator to directly access the elements
@@ -128,25 +159,6 @@ class Vector {
 };
 
 /**
- * @fn FillUp
- * @brief Fill up all elements with same value
- * @param [in] v: Target vector
- * @param [in] n: Scalar value to fill up
- */
-template <size_t N, typename T>
-void FillUp(Vector<N, T>& v, const T& n);
-
-/**
- * @fn Print
- * @brief Generate all elements to outstream
- * @param [in] v: Target vector
- * @param [in] delimiter: Delimiter (Default: tab)
- * @param [out] stream: Output target(Default: cout)
- */
-template <size_t N, typename T>
-void Print(const Vector<N, T>& v, char delimiter = '\t', std::ostream& stream = std::cout);
-
-/**
  * @fn operator +
  * @brief Add two vectors
  * @param [in] lhs: Left hand side vector
@@ -195,25 +207,6 @@ const T InnerProduct(const Vector<N, T>& lhs, const Vector<N, T>& rhs);
  */
 template <typename T>
 const Vector<3, T> OuterProduct(const Vector<3, T>& lhs, const Vector<3, T>& rhs);
-
-/**
- * @fn CalcNorm
- * @brief Calculate norm of vector
- * @param [in] v: Target vector
- * @return Norm of the vector
- */
-template <size_t N>
-double CalcNorm(const Vector<N, double>& v);
-
-/**
- * @fn Normalize
- * @brief Normalize the target vector
- * @note Warning: v is overwritten.
- * @param [in/out] v: Target vector
- * @return Normalized vector
- */
-template <size_t N>
-Vector<N, double>& Normalize(Vector<N, double>& v);
 
 /**
  * @fn CalcAngleTwoVectors_rad

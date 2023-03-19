@@ -24,11 +24,11 @@ Quaternion::Quaternion(const Vector<3>& rotation_axis, const double rotation_ang
 
 Quaternion::Quaternion(const Vector<3>& vector_before, const Vector<3>& vector_after) {
   // Assert for zero vector
-  assert(CalcNorm(vector_before) > DBL_EPSILON);
-  assert(CalcNorm(vector_after) > DBL_EPSILON);
+  assert(vector_before.CalcNorm() > DBL_EPSILON);
+  assert(vector_after.CalcNorm() > DBL_EPSILON);
   // Normalize
-  Vector<3> normalized_v_before = 1.0 / CalcNorm(vector_before) * vector_before;
-  Vector<3> normalized_v_after = 1.0 / CalcNorm(vector_after) * vector_after;
+  Vector<3> normalized_v_before = 1.0 / vector_before.CalcNorm() * vector_before;
+  Vector<3> normalized_v_after = 1.0 / vector_after.CalcNorm() * vector_after;
   // inner product (=cosine of the CalcAngleTwoVectors_rad(theta) between two vectors)
   double ip = InnerProduct(normalized_v_before, normalized_v_after);
   // outer product (rotation rotation_axis for converting vector_before to vector_after)
@@ -44,8 +44,8 @@ Quaternion::Quaternion(const Vector<3>& vector_before, const Vector<3>& vector_a
     Vector<3> rotation_axis = GenerateOrthogonalUnitVector(vector_before);
     quaternion_[0] = rotation_axis[0], quaternion_[1] = rotation_axis[1], quaternion_[2] = rotation_axis[2], quaternion_[3] = 0.0;
   } else {
-    assert(CalcNorm(op) > 0.0);
-    Vector<3> rotation_axis = 1.0 / CalcNorm(op) * op;
+    assert(op.CalcNorm() > 0.0);
+    Vector<3> rotation_axis = 1.0 / op.CalcNorm() * op;
     double rotation_angle = acos(ip);
     quaternion_[0] = rotation_axis[0] * sin(0.5 * rotation_angle);
     quaternion_[1] = rotation_axis[1] * sin(0.5 * rotation_angle);

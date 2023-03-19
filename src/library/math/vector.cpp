@@ -10,8 +10,8 @@
 namespace libra {
 Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& orthogonal) {
   Vector<3, double> polar;  // vector on the polar coordinate
-  FillUp(polar, 0.0);
-  polar[0] = CalcNorm(orthogonal);
+  polar.FillUp(0.0);
+  polar[0] = orthogonal.CalcNorm();
   // Skip when zero vector
   if (polar[0] == 0.0) {
     return polar;
@@ -35,19 +35,19 @@ Vector<3, double> GenerateOrthogonalUnitVector(const Vector<3, double>& v) {
     orthogonal_vector[0] = 0.0;
     orthogonal_vector[1] = v[2];
     orthogonal_vector[2] = -v[1];
-    orthogonal_vector = Normalize(orthogonal_vector);
+    orthogonal_vector = orthogonal_vector.CalcNormalizedVector();
     return (orthogonal_vector);
   } else if (v[1] * v[1] <= v[0] * v[0] && v[1] * v[1] <= v[2] * v[2]) {
     orthogonal_vector[0] = -v[2];
     orthogonal_vector[1] = 0.0;
     orthogonal_vector[2] = v[0];
-    orthogonal_vector = Normalize(orthogonal_vector);
+    orthogonal_vector = orthogonal_vector.CalcNormalizedVector();
     return (orthogonal_vector);
   } else {
     orthogonal_vector[0] = v[1];
     orthogonal_vector[1] = -v[0];
     orthogonal_vector[2] = 0.0;
-    orthogonal_vector = Normalize(orthogonal_vector);
+    orthogonal_vector = orthogonal_vector.CalcNormalizedVector();
     return (orthogonal_vector);
   }
 }
