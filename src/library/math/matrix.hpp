@@ -47,6 +47,36 @@ class Matrix {
   inline size_t GetColumnLength() const { return C; }
 
   /**
+   * @fn FillUp
+   * @brief Fill up all elements with same value
+   * @param [in] t: Scalar value to fill up
+   */
+  void FillUp(const T& t);
+
+  /**
+   * @fn CalcTrace
+   * @brief Calculate and return the trace of matrix
+   * @return Trace of the matrix
+   * @note When the matrix is not a square matrix, 0.0 is returned
+   */
+  T CalcTrace() const;
+
+  /**
+   * @fn Print
+   * @brief Generate all elements to outstream
+   * @param [in] delimiter: Delimiter (Default: tab)
+   * @param [out] stream: Output target(Default: cout)
+   */
+  void Print(char delimiter = '\t', std::ostream& stream = std::cout) const;
+
+  /**
+   * @fn Transpose
+   * @brief Calculate and return transposed matrix
+   * @return Result of transposed matrix
+   */
+  const Matrix<C, R, T> Transpose() const;
+
+  /**
    * @fn Cast operator to directly access the elements
    * @brief Operator to access the elements similar with the 2D-array using `[]`
    * @return Pointer to the data storing array
@@ -140,34 +170,6 @@ class Matrix {
 };
 
 /**
- * @fn FillUp
- * @brief Fill up all elements with same value
- * @param [in] m: Target matrix
- * @param [in] t: Scalar value to fill up
- */
-template <size_t R, size_t C, typename T>
-void FillUp(Matrix<R, C, T>& m, const T& t);
-
-/**
- * @fn CalcTrace
- * @brief Calculate and return the trace of matrix
- * @param [in] m: Target matrix
- * @return Trace of the matrix
- */
-template <size_t N, typename T>
-T CalcTrace(const Matrix<N, N, T>& m);
-
-/**
- * @fn print
- * @brief Generate all elements to outstream
- * @param [in] m: Target matrix
- * @param [in] delimiter: Delimiter (Default: tab)
- * @param [out] stream: Output target(Default: cout)
- */
-template <size_t R, size_t C, typename T>
-void Print(const Matrix<R, C, T>& m, char delimiter = '\t', std::ostream& stream = std::cout);
-
-/**
  * @fn operator +
  * @brief Add two matrices
  * @param [in] lhs: Left hand side matrix
@@ -206,25 +208,6 @@ const Matrix<R, C, T> operator*(const T& lhs, const Matrix<R, C, T>& rhs);
  */
 template <size_t R, size_t C1, size_t C2, typename T>
 const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs, const Matrix<C1, C2, T>& rhs);
-
-/**
- * @fn Transpose
- * @brief Calculate and return transposed matrix
- * @param [in] m: Target matrix
- * @return Result of transposed matrix
- */
-template <size_t R, size_t C, typename T>
-const Matrix<C, R, T> Transpose(const Matrix<R, C, T>& m);
-
-/**
- * @fn Unitalize
- * @brief Rewrite the input matrix as the identity matrix
- * @note Warning: m is overwritten.
- * @param [in/out] m: Target matrix
- * @return The identity matrix
- */
-template <size_t R, typename T>
-Matrix<R, R, T>& Unitalize(Matrix<R, R, T>& m);
 
 /**
  * @fn MakeIdentityMatrix

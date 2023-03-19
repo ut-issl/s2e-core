@@ -154,7 +154,7 @@ TEST(Matrix, FillUp) {
 
   libra::Matrix<R, C> m;
 
-  FillUp(m, value);
+  m.FillUp(value);
 
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
@@ -177,7 +177,7 @@ TEST(Matrix, CalcTrace) {
     }
   }
 
-  double trace = CalcTrace(m);
+  double trace = m.CalcTrace();
 
   // Check nondestructive
   for (size_t r = 0; r < N; r++) {
@@ -326,7 +326,7 @@ TEST(Matrix, Transpose) {
     }
   }
 
-  libra::Matrix<C, R> transposed = Transpose(m);
+  libra::Matrix<C, R> transposed = m.Transpose();
 
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
@@ -334,39 +334,6 @@ TEST(Matrix, Transpose) {
       EXPECT_DOUBLE_EQ(r * c, m[r][c]);
       // Check result
       EXPECT_DOUBLE_EQ(r * c, transposed[c][r]);
-    }
-  }
-}
-
-/**
- * @brief Test for Unitalize
- */
-TEST(Matrix, Unitalize) {
-  const size_t N = 6;
-
-  libra::Matrix<N, N> m;
-  for (size_t r = 0; r < N; r++) {
-    for (size_t c = 0; c < N; c++) {
-      m[r][c] = r * c;
-    }
-  }
-
-  libra::Matrix<N, N> unitalized = Unitalize(m);
-
-  for (size_t r = 0; r < N; r++) {
-    for (size_t c = 0; c < N; c++) {
-      // Check nondestructive (Currently, this is destructive)
-      if (r == c) {
-        EXPECT_DOUBLE_EQ(1.0, m[r][c]);
-      } else {
-        EXPECT_DOUBLE_EQ(0.0, m[r][c]);
-      }
-      // Check result
-      if (r == c) {
-        EXPECT_DOUBLE_EQ(1.0, unitalized[r][c]);
-      } else {
-        EXPECT_DOUBLE_EQ(0.0, unitalized[r][c]);
-      }
     }
   }
 }

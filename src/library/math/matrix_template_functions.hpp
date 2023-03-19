@@ -56,29 +56,32 @@ const Matrix<R, C, T>& Matrix<R, C, T>::operator-=(const Matrix<R, C, T>& m) {
 }
 
 template <size_t R, size_t C, typename T>
-void FillUp(Matrix<R, C, T>& m, const T& t) {
+void Matrix<R, C, T>::FillUp(const T& t) {
   for (size_t i = 0; i < R; ++i) {
     for (size_t j = 0; j < C; ++j) {
-      m[i][j] = t;
+      matrix_[i][j] = t;
     }
   }
 }
 
-template <size_t N, typename T>
-T CalcTrace(const Matrix<N, N, T>& m) {
+template <size_t R, size_t C, typename T>
+T Matrix<R, C, T>::CalcTrace() const {
   T trace = 0.0;
-  for (size_t i = 0; i < N; ++i) {
-    trace += m[i][i];
+
+  if (R != C) return trace;
+
+  for (size_t i = 0; i < R; ++i) {
+    trace += matrix_[i][i];
   }
   return trace;
 }
 
 template <size_t R, size_t C, typename T>
-void Print(const Matrix<R, C, T>& m, char delimiter, std::ostream& stream) {
+void Matrix<R, C, T>::Print(char delimiter, std::ostream& stream) const {
   for (size_t i = 0; i < R; ++i) {
-    stream << m[i][0];
+    stream << matrix_[i][0];
     for (size_t j = 1; j < C; ++j) {
-      stream << delimiter << m[i][j];
+      stream << delimiter << matrix_[i][j];
     }
     stream << std::endl;
   }
@@ -131,19 +134,19 @@ const Matrix<R, C2, T> operator*(const Matrix<R, C1, T>& lhs, const Matrix<C1, C
 }
 
 template <size_t R, size_t C, typename T>
-const Matrix<C, R, T> Transpose(const Matrix<R, C, T>& m) {
+const Matrix<C, R, T> Matrix<R, C, T>::Transpose() const {
   Matrix<C, R, T> temp;
   for (size_t i = 0; i < R; ++i) {
     for (size_t j = 0; j < C; ++j) {
-      temp[j][i] = m[i][j];
+      temp[j][i] = matrix_[i][j];
     }
   }
   return temp;
 }
 
 template <size_t R, typename T>
-Matrix<R, R, T>& Unitalize(Matrix<R, R, T>& m) {
-  FillUp(m, 0.0);
+Matrix<R, R, T> MakeIdentityMatrix() {
+  Matrix<R, R, T> m(0.0);
   for (size_t i = 0; i < R; ++i) {
     m[i][i] = 1.0;
   }
@@ -151,16 +154,9 @@ Matrix<R, R, T>& Unitalize(Matrix<R, R, T>& m) {
 }
 
 template <size_t R, typename T>
-Matrix<R, R, T> MakeIdentityMatrix() {
-  Matrix<R, R, T> m;
-  Unitalize(m);
-  return m;
-}
-
-template <size_t R, typename T>
 Matrix<R, R, T> MakeRotationMatrixX(const double& theta_rad) {
-  Matrix<R, R, T> m;
-  Unitalize(m);
+  Matrix<R, R, T> m = MakeIdentityMatrix<R, T>();
+
   m[1][1] = cos(theta_rad);
   m[1][2] = sin(theta_rad);
   m[2][1] = -sin(theta_rad);
@@ -170,8 +166,8 @@ Matrix<R, R, T> MakeRotationMatrixX(const double& theta_rad) {
 
 template <size_t R, typename T>
 Matrix<R, R, T> MakeRotationMatrixY(const double& theta_rad) {
-  Matrix<R, R, T> m;
-  Unitalize(m);
+  Matrix<R, R, T> m = MakeIdentityMatrix<R, T>();
+
   m[0][0] = cos(theta_rad);
   m[0][2] = -sin(theta_rad);
   m[2][0] = sin(theta_rad);
@@ -181,8 +177,8 @@ Matrix<R, R, T> MakeRotationMatrixY(const double& theta_rad) {
 
 template <size_t R, typename T>
 Matrix<R, R, T> MakeRotationMatrixZ(const double& theta_rad) {
-  Matrix<R, R, T> m;
-  Unitalize(m);
+  Matrix<R, R, T> m = MakeIdentityMatrix<R, T>();
+
   m[0][0] = cos(theta_rad);
   m[0][1] = sin(theta_rad);
   m[1][0] = -sin(theta_rad);
