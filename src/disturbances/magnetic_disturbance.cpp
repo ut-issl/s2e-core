@@ -13,7 +13,7 @@
 #include "../library/randomization/random_walk.hpp"
 
 MagneticDisturbance::MagneticDisturbance(const ResidualMagneticMoment& rmm_params, const bool is_calculation_enabled)
-    : SimpleDisturbance(is_calculation_enabled), residual_magnetic_moment_(rmm_params) {
+    : Disturbance(is_calculation_enabled, true), residual_magnetic_moment_(rmm_params) {
   rmm_b_Am2_ = residual_magnetic_moment_.GetConstantValue_b_Am2();
 }
 

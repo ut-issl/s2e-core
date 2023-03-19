@@ -13,13 +13,13 @@
 #include "../library/math/quaternion.hpp"
 #include "../library/math/vector.hpp"
 #include "../simulation/spacecraft/structure/surface.hpp"
-#include "simple_disturbance.hpp"
+#include "disturbance.hpp"
 
 /**
  * @class ThirdBodyGravity
  * @brief Class to calculate third body gravity disturbance
  */
-class SurfaceForce : public SimpleDisturbance {
+class SurfaceForce : public Disturbance {
  public:
   /**
    * @fn SurfaceForce

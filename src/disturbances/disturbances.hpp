@@ -10,8 +10,7 @@
 
 #include "../environment/global/simulation_time.hpp"
 #include "../simulation/spacecraft/structure/structure.hpp"
-#include "acceleration_disturbance.hpp"
-#include "simple_disturbance.hpp"
+#include "disturbance.hpp"
 
 class Logger;
 
@@ -73,12 +72,10 @@ class Disturbances {
  private:
   std::string initialize_file_name_;  //!< Initialization file name
 
-  std::vector<SimpleDisturbance*> disturbances_list_;  //!< List of disturbances
-  Vector<3> total_torque_b_Nm_;                        //!< Total disturbance torque in the body frame [Nm]
-  Vector<3> total_force_b_N_;                          //!< Total disturbance force in the body frame [N]
-
-  std::vector<AccelerationDisturbance*> acceleration_disturbances_list_;  //!< List of acceleration disturbances
-  Vector<3> total_acceleration_i_m_s2_;                                   //!< Total disturbance acceleration in the inertial frame [m/s2]
+  std::vector<Disturbance*> disturbances_list_;  //!< List of disturbances
+  Vector<3> total_torque_b_Nm_;                  //!< Total disturbance torque in the body frame [Nm]
+  Vector<3> total_force_b_N_;                    //!< Total disturbance force in the body frame [N]
+  Vector<3> total_acceleration_i_m_s2_;          //!< Total disturbance acceleration in the inertial frame [m/s2]
 
   /**
    * @fn InitializeInstances

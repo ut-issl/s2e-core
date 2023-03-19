@@ -11,13 +11,13 @@
 #include "../library/logger/loggable.hpp"
 #include "../library/math/vector.hpp"
 #include "../simulation/spacecraft/structure/residual_magnetic_moment.hpp"
-#include "simple_disturbance.hpp"
+#include "disturbance.hpp"
 
 /**
  * @class MagneticDisturbance
  * @brief Class to calculate the magnetic disturbance torque
  */
-class MagneticDisturbance : public SimpleDisturbance {
+class MagneticDisturbance : public Disturbance {
  public:
   /**
    * @fn MagneticDisturbance
