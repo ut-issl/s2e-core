@@ -77,7 +77,7 @@ class Disturbance : public ILoggable {
    */
   virtual inline libra::Vector<3> GetAcceleration_i_m_s2() { return acceleration_i_m_s2_; }
   /**
-   * @fn GetAcceleration_i_m_s2
+   * @fn IsAttitudeDependent
    * @brief Return the attitude dependent flag
    */
   virtual inline bool IsAttitudeDependent() { return is_attitude_dependent_; }
