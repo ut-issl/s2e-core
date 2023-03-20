@@ -54,11 +54,11 @@ class CelestialInformation : public ILoggable {
   virtual std::string GetLogValue() const;
 
   /**
-   * @fn UpdateAllObjectsInfo
+   * @fn UpdateAllObjectsInformation
    * @brief Update the information of all selected celestial objects
    * @param [in] current_time_jd: Current time [Julian day]
    */
-  void UpdateAllObjectsInfo(const double current_time_jd);
+  void UpdateAllObjectsInformation(const double current_time_jd);
 
   // Getters
   // Orbit information

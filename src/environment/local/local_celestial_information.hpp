@@ -27,7 +27,7 @@ class LocalCelestialInformation : public ILoggable {
   virtual ~LocalCelestialInformation();
 
   /**
-   * @fn UpdateAllObjectsInfo
+   * @fn UpdateAllObjectsInformation
    * @brief Update the all selected celestial object local information
    * @param [in] spacecraft_position_from_center_i_m: Spacecraft position from the center body in the inertial frame [m]
    * @param [in] spacecraft_velocity_from_center_i_m_s: Spacecraft velocity from the center body in the inertial frame [m/s]
