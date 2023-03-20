@@ -199,7 +199,7 @@ class OnBoardComputer : public Component {
    * @brief Main routine to execute flight software
    * @note Users need to write flight software
    */
-  virtual void MainRoutine(int time_count);
+  virtual void MainRoutine(const int time_count);
 
  private:
   std::map<int, UartPort*> uart_ports_;  //!< UART ports

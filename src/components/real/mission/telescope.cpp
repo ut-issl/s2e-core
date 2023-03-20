@@ -56,8 +56,8 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
 
 Telescope::~Telescope() {}
 
-void Telescope::MainRoutine(int count) {
-  UNUSED(count);
+void Telescope::MainRoutine(const int time_count) {
+  UNUSED(time_count);
   // Check forbidden angle
   is_sun_in_forbidden_angle = JudgeForbiddenAngle(local_celestial_information_->GetPositionFromSpacecraft_b_m("SUN"), sun_forbidden_angle_rad_);
   is_earth_in_forbidden_angle = JudgeForbiddenAngle(local_celestial_information_->GetPositionFromSpacecraft_b_m("EARTH"), earth_forbidden_angle_rad_);
