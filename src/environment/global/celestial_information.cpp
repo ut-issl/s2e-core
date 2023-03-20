@@ -181,7 +181,6 @@ std::string CelestialInformation::GetLogValue() const {
 
 void CelestialInformation::GetPlanetOrbit(const char* planet_name, const double et, double orbit[6]) {
   // Add `BARYCENTER` if needed
-  const int kMaxNameLength = 100;
   std::string planet_name_string = planet_name;
   if (strcmp(planet_name, "MARS") == 0 || strcmp(planet_name, "JUPITER") == 0 || strcmp(planet_name, "SATURN") == 0 ||
       strcmp(planet_name, "URANUS") == 0 || strcmp(planet_name, "NEPTUNE") == 0 || strcmp(planet_name, "PLUTO") == 0) {
