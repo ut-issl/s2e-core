@@ -35,7 +35,7 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial
   is_calc_enabled_ = false;
 }
 
-void Sgp4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
+void Sgp4OrbitPropagation::Propagate(const double end_time_s, const double current_time_jd) {
   UNUSED(end_time_s);
 
   if (!is_calc_enabled_) return;
