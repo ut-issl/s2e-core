@@ -182,16 +182,15 @@ std::string CelestialInformation::GetLogValue() const {
 void CelestialInformation::GetPlanetOrbit(const char* planet_name, const double et, double orbit[6]) {
   // Add `BARYCENTER` if needed
   const int kMaxNameLength = 100;
-  char planet_name_[kMaxNameLength];
-  strcpy(planet_name_, planet_name);
+  std::string planet_name_string = planet_name;
   if (strcmp(planet_name, "MARS") == 0 || strcmp(planet_name, "JUPITER") == 0 || strcmp(planet_name, "SATURN") == 0 ||
       strcmp(planet_name, "URANUS") == 0 || strcmp(planet_name, "NEPTUNE") == 0 || strcmp(planet_name, "PLUTO") == 0) {
-    strcat(planet_name_, "_BARYCENTER");
+    planet_name_string += "_BARYCENTER";
   }
 
   // Get orbit
   SpiceDouble lt;
-  spkezr_c((ConstSpiceChar*)planet_name_, (SpiceDouble)et, (ConstSpiceChar*)inertial_frame_name_.c_str(),
+  spkezr_c((ConstSpiceChar*)planet_name_string.c_str(), (SpiceDouble)et, (ConstSpiceChar*)inertial_frame_name_.c_str(),
            (ConstSpiceChar*)aberration_correction_setting_.c_str(), (ConstSpiceChar*)center_body_name_.c_str(), (SpiceDouble*)orbit,
            (SpiceDouble*)&lt);
   return;
