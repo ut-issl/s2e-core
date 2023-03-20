@@ -1,5 +1,5 @@
 /**
- * @file slip.h
+ * @file slip.hpp
  * @brief Functions for SLIP(Serial Line Internet Protocol) encoding
  */
 

@@ -3,7 +3,7 @@
  * @brief Functions for SLIP(Serial Line Internet Protocol) encoding
  */
 
-#include "slip.h"
+#include "slip.hpp"
 
 #include <algorithm>
 #include <iterator>

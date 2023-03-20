@@ -1,5 +1,5 @@
 /**
- * @file endian.h
+ * @file endian.hpp
  * @brief Function to consider the endian
  */
 
