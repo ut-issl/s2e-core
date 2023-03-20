@@ -200,11 +200,11 @@ jobs:
           ../../S2E
 
       - name: generate graph
-        working-directory: ./data/sample
+        working-directory: ./scripts/Plot
         run: |
           sudo apt-get install -y gnuplot
           pip3 install yq
-          LOG=$(ls logs/logs_*/*.csv)
+          LOG=$(ls ../../data/sample/logs/logs_*/*.csv)
           echo "plot $LOG"
           ./gen_graph.sh "${LOG}"
           ls
