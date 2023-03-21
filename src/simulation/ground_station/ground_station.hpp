@@ -1,5 +1,5 @@
 /**
- * @file ground_station.h
+ * @file ground_station.hpp
  * @brief Base class of ground station
  */
 
