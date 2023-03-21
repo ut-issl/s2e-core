@@ -55,7 +55,7 @@ double GroundStationCalculator::CalcMaxBitrate(const Dynamics& dynamics, const A
 double GroundStationCalculator::CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna,
                                                       const GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
   double cn0_dB = CalcCn0OnGs(dynamics, spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
-  double cn0_requirement_dB = ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_ + 10.0 * log10(downlink_bitrate_bps_);
+  double cn0_requirement_dB = ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_ + 10.0 * log10(spacecraft_tx_antenna.GetBitrate_bps());
   return cn0_dB - cn0_requirement_dB;
 }
 
@@ -65,7 +65,6 @@ double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Ante
     // Check compatibility of transmitter and receiver
     return 0.0f;
   }
-
   // Free space path loss
   Vector<3> sc_pos_i = dynamics.GetOrbit().GetPosition_i_m();
   Vector<3> gs_pos_i = ground_station.GetPosition_i_m();
@@ -80,7 +79,7 @@ double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Ante
   Quaternion q_i_to_sc_ant = spacecraft_tx_antenna.GetQuaternion_b2c() * dynamics.GetAttitude().GetQuaternion_i2b();
   Vector<3> gs_direction_on_sc_frame = q_i_to_sc_ant.FrameConversion(sc_to_gs_i);
   double theta_on_sc_antenna_rad = acos(gs_direction_on_sc_frame[2]);
-  double phi_on_sc_antenna_rad = acos(gs_direction_on_sc_frame[0] / sin(theta_on_sc_antenna_rad));
+  double phi_on_sc_antenna_rad = atan2(gs_direction_on_sc_frame[1], gs_direction_on_sc_frame[0]);
 
   // SC direction on GS RX antenna frame
   Vector<3> gs_to_sc_ecef = dynamics.GetOrbit().GetPosition_ecef_m() - ground_station.GetPosition_ecef_m();
@@ -88,7 +87,7 @@ double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Ante
   Quaternion q_ecef_to_gs_ant = ground_station_rx_antenna.GetQuaternion_b2c() * ground_station.GetGeodeticPosition().GetQuaternionXcxfToLtc();
   Vector<3> sc_direction_on_gs_frame = q_ecef_to_gs_ant.FrameConversion(gs_to_sc_ecef);
   double theta_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[2]);
-  double phi_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[0] / sin(theta_on_gs_antenna_rad));
+  double phi_on_gs_antenna_rad = atan2(sc_direction_on_gs_frame[1], sc_direction_on_gs_frame[0]);
 
   // Calc CN0
   double cn0_dBHz = spacecraft_tx_antenna.CalcTxEirp_dBW(theta_on_sc_antenna_rad, phi_on_sc_antenna_rad) + loss_space_dB + loss_polarization_dB_ +
