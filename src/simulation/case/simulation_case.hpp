@@ -51,12 +51,12 @@ class SimulationCase : public ILoggable {
    * @fn GetLogHeader
    * @brief Virtual function of Log header settings for Monte-Carlo Simulation result
    */
-  virtual std::string GetLogHeader() const = 0;
+  virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
    * @brief Virtual function of Log value settings for Monte-Carlo Simulation result
    */
-  virtual std::string GetLogValue() const = 0;
+  virtual std::string GetLogValue() const;
 
   // Getter
   /**

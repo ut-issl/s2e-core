@@ -32,6 +32,18 @@ SimulationCase::SimulationCase(const std::string initialize_base_file, const Mon
 
 SimulationCase::~SimulationCase() { delete global_environment_; }
 
+std::string SimulationCase::GetLogHeader() const {
+  std::string str_tmp = "";
+
+  return str_tmp;
+}
+
+std::string SimulationCase::GetLogValue() const {
+  std::string str_tmp = "";
+
+  return str_tmp;
+}
+
 void SimulationCase::InitializeSimulationConfiguration(const std::string initialize_base_file) {
   // Initialize
   IniAccess simulation_base_ini = IniAccess(initialize_base_file);
