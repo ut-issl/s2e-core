@@ -12,7 +12,7 @@
 
 /**
  * @class SampleCase
- * @brief An example of user side spacecraft class
+ * @brief An example of user defined simulation class
  */
 class SampleCase : public SimulationCase {
  public:
