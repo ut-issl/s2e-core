@@ -73,6 +73,8 @@ class SimulationCase : public ILoggable {
  protected:
   SimulationConfiguration simulation_configuration_;  //!< Simulation setting
   GlobalEnvironment* global_environment_;             //!< Global Environment
+
+  void InitializeSimulationConfiguration(const std::string initialise_base_file);
 };
 
 #endif  // S2E_SIMULATION_CASE_SIMULATION_CASE_HPP_
