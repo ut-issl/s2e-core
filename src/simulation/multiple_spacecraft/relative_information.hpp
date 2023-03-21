@@ -70,8 +70,8 @@ class RelativeInformation : public ILoggable {
   /**
    * @fn GetRelativeAttitudeQuaternion
    * @brief Return relative attitude quaternion of the target spacecraft with respect to the reference spacecraft
-   * @params [in] target_spacecraft_id: ID of target spacecraft
-   * @params [in] reference_spacecraft_id: ID of reference spacecraft
+   * @param [in] target_spacecraft_id: ID of target spacecraft
+   * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
   inline libra::Quaternion GetRelativeAttitudeQuaternion(const int target_spacecraft_id, const int reference_spacecraft_id) const {
     return relative_attitude_quaternion_list_[target_spacecraft_id][reference_spacecraft_id];
@@ -79,8 +79,8 @@ class RelativeInformation : public ILoggable {
   /**
    * @fn GetRelativePosition_i_m
    * @brief Return relative position of the target spacecraft with respect to the reference spacecraft in the inertial frame and unit [m]
-   * @params [in] target_spacecraft_id: ID of target spacecraft
-   * @params [in] reference_spacecraft_id: ID of reference spacecraft
+   * @param [in] target_spacecraft_id: ID of target spacecraft
+   * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
   inline libra::Vector<3> GetRelativePosition_i_m(const int target_spacecraft_id, const int reference_spacecraft_id) const {
     return relative_position_list_i_m_[target_spacecraft_id][reference_spacecraft_id];
@@ -88,8 +88,8 @@ class RelativeInformation : public ILoggable {
   /**
    * @fn GetRelativeVelocity_i_m
    * @brief Return relative velocity of the target spacecraft with respect to the reference spacecraft in the inertial frame and unit [m]
-   * @params [in] target_spacecraft_id: ID of target spacecraft
-   * @params [in] reference_spacecraft_id: ID of reference spacecraft
+   * @param [in] target_spacecraft_id: ID of target spacecraft
+   * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
   inline libra::Vector<3> GetRelativeVelocity_i_m_s(const int target_spacecraft_id, const int reference_spacecraft_id) const {
     return relative_velocity_list_i_m_s_[target_spacecraft_id][reference_spacecraft_id];
@@ -97,8 +97,8 @@ class RelativeInformation : public ILoggable {
   /**
    * @fn GetRelativeDistance_m
    * @brief Return relative distance between the target spacecraft and the reference spacecraft in unit [m]
-   * @params [in] target_spacecraft_id: ID of target spacecraft
-   * @params [in] reference_spacecraft_id: ID of reference spacecraft
+   * @param [in] target_spacecraft_id: ID of target spacecraft
+   * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
   inline double GetRelativeDistance_m(const int target_spacecraft_id, const int reference_spacecraft_id) const {
     return relative_distance_list_m_[target_spacecraft_id][reference_spacecraft_id];
@@ -106,9 +106,8 @@ class RelativeInformation : public ILoggable {
   /**
    * @fn GetRelativePosition_rtn_m
    * @brief Return relative position of the target spacecraft with respect to the reference spacecraft in the RTN frame of the reference spacecraft
-   * and unit [m]
-   * @params [in] target_spacecraft_id: ID of target spacecraft
-   * @params [in] reference_spacecraft_id: ID of reference spacecraft
+   * @param [in] target_spacecraft_id: ID of target spacecraft
+   * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
   inline libra::Vector<3> GetRelativePosition_rtn_m(const int target_spacecraft_id, const int reference_spacecraft_id) const {
     return relative_position_list_rtn_m_[target_spacecraft_id][reference_spacecraft_id];
@@ -116,9 +115,8 @@ class RelativeInformation : public ILoggable {
   /**
    * @fn GetRelativeVelocity_rtn_m_s
    * @brief Return relative velocity of the target spacecraft with respect to the reference spacecraft in the RTN frame of the reference spacecraft
-   * and unit [m]
-   * @params [in] target_spacecraft_id: ID of target spacecraft
-   * @params [in] reference_spacecraft_id: ID of reference spacecraft
+   * @param [in] target_spacecraft_id: ID of target spacecraft
+   * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
   inline libra::Vector<3> GetRelativeVelocity_rtn_m_s(const int target_spacecraft_id, const int reference_spacecraft_id) const {
     return relative_velocity_list_rtn_m_s_[target_spacecraft_id][reference_spacecraft_id];
@@ -127,8 +125,7 @@ class RelativeInformation : public ILoggable {
   /**
    * @fn GetReferenceSatDynamics
    * @brief Return the dynamics information of a spacecraft
-   * and unit [m]
-   * @params [in] target_spacecraft_id: ID of the spacecraft
+   * @param [in] target_spacecraft_id: ID of the spacecraft
    */
   inline const Dynamics* GetReferenceSatDynamics(const int reference_spacecraft_id) const { return dynamics_database_.at(reference_spacecraft_id); };
 
@@ -145,22 +142,22 @@ class RelativeInformation : public ILoggable {
   /**
    * @fn CalcRelativeAttitudeQuaternion
    * @brief Calculate and return the relative attitude quaternion
-   * @params [in] target_spacecraft_id: ID of the spacecraft
-   * @params [in] reference_spacecraft_id: ID of reference spacecraft
+   * @param [in] target_spacecraft_id: ID of the spacecraft
+   * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
   libra::Quaternion CalcRelativeAttitudeQuaternion(const int target_spacecraft_id, const int reference_spacecraft_id);
   /**
    * @fn CalcRelativePosition_rtn_m
    * @brief Calculate and return the relative position in RTN frame
-   * @params [in] target_spacecraft_id: ID of the spacecraft
-   * @params [in] reference_spacecraft_id: ID of reference spacecraft
+   * @param [in] target_spacecraft_id: ID of the spacecraft
+   * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
   libra::Vector<3> CalcRelativePosition_rtn_m(const int target_spacecraft_id, const int reference_spacecraft_id);
   /**
    * @fn CalcRelativeVelocity_rtn_m_s
    * @brief Calculate and return the relative velocity in RTN frame
-   * @params [in] target_spacecraft_id: ID of the spacecraft
-   * @params [in] reference_spacecraft_id: ID of reference spacecraft
+   * @param [in] target_spacecraft_id: ID of the spacecraft
+   * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
   libra::Vector<3> CalcRelativeVelocity_rtn_m_s(const int target_spacecraft_id, const int reference_spacecraft_id);
 

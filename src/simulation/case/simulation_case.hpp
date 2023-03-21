@@ -88,7 +88,6 @@ class SimulationCase : public ILoggable {
   /**
    * @fn InitializeTargetObjects
    * @brief Virtual function to initialize target objects(spacecraft and ground station) for the simulation
-   * @param[in] initialize_base_file: File path to initialize base file
    */
   virtual void InitializeTargetObjects() = 0;
 
