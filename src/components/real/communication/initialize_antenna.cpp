@@ -30,6 +30,7 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
   bool is_receiver = antenna_conf.ReadBoolean(Section, "is_receiver");
   double frequency_MHz = antenna_conf.ReadDouble(Section, "frequency_MHz");
 
+  double tx_bitrate_bps = antenna_conf.ReadDouble(Section, "tx_bitrate_bps");
   double tx_output_power_W = antenna_conf.ReadDouble(Section, "tx_output_W");
   double rx_system_noise_temperature_K = antenna_conf.ReadDouble(Section, "rx_system_noise_temperature_K");
 
@@ -72,7 +73,7 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
     rx_parameters.antenna_gain_model = AntennaGainModel::kIsotropic;
   }
 
-  Antenna antenna(antenna_id, quaternion_b2c, is_transmitter, is_receiver, frequency_MHz, tx_output_power_W, tx_parameters,
+  Antenna antenna(antenna_id, quaternion_b2c, is_transmitter, is_receiver, frequency_MHz, tx_bitrate_bps, tx_output_power_W, tx_parameters,
                   rx_system_noise_temperature_K, rx_parameters);
   return antenna;
 }

@@ -77,6 +77,7 @@ std::string GroundStation::GetLogHeader() const {
     std::string legend = head + "sc" + std::to_string(i) + "_visible_flag";
     str_tmp += WriteScalar(legend);
   }
+  str_tmp += WriteVector("ground_station_position", "eci", "m", 3);
   return str_tmp;
 }
 
@@ -86,5 +87,6 @@ std::string GroundStation::GetLogValue() const {
   for (unsigned int i = 0; i < number_of_spacecraft_; i++) {
     str_tmp += WriteScalar(is_visible_.at(i));
   }
+  str_tmp += WriteVector(position_i_m_);
   return str_tmp;
 }

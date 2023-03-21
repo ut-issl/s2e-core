@@ -9,7 +9,7 @@
 #include <library/utilities/macros.hpp>
 
 Antenna::Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
-                 const double frequency_MHz, const Vector<4> tx_parameters, const Vector<4> rx_parameters)
+                 const double frequency_MHz, const Vector<5> tx_parameters, const Vector<4> rx_parameters)
     : component_id_(component_id), is_transmitter_(is_transmitter), is_receiver_(is_receiver), frequency_MHz_(frequency_MHz) {
   quaternion_b2c_ = quaternion_b2c;
 
@@ -18,6 +18,7 @@ Antenna::Antenna(const int component_id, const libra::Quaternion& quaternion_b2c
   tx_parameters_.gain_dBi_ = tx_parameters[1];
   tx_parameters_.loss_feeder_dB_ = tx_parameters[2];
   tx_parameters_.loss_pointing_dB_ = tx_parameters[3];
+  tx_bitrate_bps_ = tx_parameters[4];
 
   rx_parameters_.gain_dBi_ = rx_parameters[0];
   rx_parameters_.loss_feeder_dB_ = rx_parameters[1];
@@ -42,13 +43,14 @@ Antenna::Antenna(const int component_id, const libra::Quaternion& quaternion_b2c
 }
 
 Antenna::Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
-                 const double frequency_MHz, const double tx_output_power_W, const AntennaParameters tx_parameters,
+                 const double frequency_MHz, const double tx_bitrate_bps, const double tx_output_power_W, const AntennaParameters tx_parameters,
                  const double rx_system_noise_temperature_K, const AntennaParameters rx_parameters)
     : component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
       is_transmitter_(is_transmitter),
       is_receiver_(is_receiver),
       frequency_MHz_(frequency_MHz),
+      tx_bitrate_bps_(tx_bitrate_bps),
       tx_output_power_W_(tx_output_power_W),
       tx_parameters_(tx_parameters),
       rx_system_noise_temperature_K_(rx_system_noise_temperature_K),
@@ -91,9 +93,9 @@ double Antenna::CalcRxGt_dB_K(const double theta_rad, const double phi_rad) cons
 }
 
 AntennaGainModel SetAntennaGainModel(const std::string gain_model_name) {
-  if (gain_model_name == "kIsotropic") {
+  if (gain_model_name == "ISOTROPIC") {
     return AntennaGainModel::kIsotropic;
-  } else if (gain_model_name == "kRadiationPatternCsv") {
+  } else if (gain_model_name == "RADIATION_PATTERN_CSV") {
     return AntennaGainModel::kRadiationPatternCsv;
   } else {
     return AntennaGainModel::kIsotropic;
