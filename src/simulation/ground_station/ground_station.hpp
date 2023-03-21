@@ -94,8 +94,8 @@ class GroundStation : public ILoggable {
  protected:
   unsigned int ground_station_id_;      //!< Ground station ID
   GeodeticPosition geodetic_position_;  //!< Ground Station Position in the geodetic frame
-  Vector<3> position_ecef_m_;           //!< Ground Station Position in the ECEF frame [m]
-  Vector<3> position_i_m_;              //!< Ground Station Position in the inertial frame [m]
+  Vector<3> position_ecef_m_{0.0};      //!< Ground Station Position in the ECEF frame [m]
+  Vector<3> position_i_m_{0.0};         //!< Ground Station Position in the inertial frame [m]
   double elevation_limit_angle_deg_;    //!< Minimum elevation angle to work the ground station [deg]
 
   std::map<int, bool> is_visible_;     //!< Visible flag for each spacecraft ID (not care antenna)
