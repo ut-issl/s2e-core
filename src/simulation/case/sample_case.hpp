@@ -20,19 +20,13 @@ class SampleCase : public SimulationCase {
    * @fn SampleCase
    * @brief Constructor
    */
-  SampleCase(std::string initialise_base_file);
+  SampleCase(const std::string initialise_base_file);
 
   /**
    * @fn ~SampleCase
    * @brief Destructor
    */
   virtual ~SampleCase();
-
-  /**
-   * @fn Main
-   * @brief Override function of Main in SimulationCase
-   */
-  void Main();
 
   /**
    * @fn GetLogHeader
@@ -50,10 +44,16 @@ class SampleCase : public SimulationCase {
   SampleGroundStation* sample_ground_station_;  //!< Instance of ground station
 
   /**
-   * @fn Initialize
-   * @brief Override function of Initialize in SimulationCase
+   * @fn InitializeTargetObjects
+   * @brief Override function of InitializeTargetObjects in SimulationCase
    */
   void InitializeTargetObjects();
+
+  /**
+   * @fn UpdateTargetObjects
+   * @brief Override function of Main in SimulationCase
+   */
+  void UpdateTargetObjects();
 };
 
 #endif  // S2E_SIMULATION_CASE_SAMPLE_CASE_HPP_

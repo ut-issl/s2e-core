@@ -33,6 +33,7 @@ SimulationCase::SimulationCase(const std::string initialize_base_file, const Mon
 SimulationCase::~SimulationCase() { delete global_environment_; }
 
 void SimulationCase::Initialize() {
+  // Target Objects Initialize
   InitializeTargetObjects();
 
   // Write headers to the log
@@ -41,6 +42,27 @@ void SimulationCase::Initialize() {
   // Start the simulation
   std::cout << "\nSimulationDateTime \n";
   global_environment_->GetSimulationTime().PrintStartDateTime();
+}
+
+void SimulationCase::Main() {
+  global_environment_->Reset();  // for MonteCarlo Simulation
+  while (!global_environment_->GetSimulationTime().GetState().finish) {
+    // Logging
+    if (global_environment_->GetSimulationTime().GetState().log_output) {
+      simulation_configuration_.main_logger_->WriteValues();
+    }
+
+    // Global Environment Update
+    global_environment_->Update();
+
+    // Target Objects Update
+    UpdateTargetObjects();
+
+    // Debug output
+    if (global_environment_->GetSimulationTime().GetState().disp_output) {
+      std::cout << "Progress: " << global_environment_->GetSimulationTime().GetProgressionRate() << "%\r";
+    }
+  }
 }
 
 std::string SimulationCase::GetLogHeader() const {

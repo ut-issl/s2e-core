@@ -49,7 +49,7 @@ class SimulationCase : public ILoggable {
    * @fn Main
    * @brief Virtual function of main routine of the simulation scenario
    */
-  virtual void Main() = 0;
+  virtual void Main();
 
   /**
    * @fn GetLogHeader
@@ -91,6 +91,12 @@ class SimulationCase : public ILoggable {
    * @param[in] initialize_base_file: File path to initialize base file
    */
   virtual void InitializeTargetObjects() = 0;
+
+  /**
+   * @fn UpdateTargetObjects
+   * @brief Virtual function to update target objects(spacecraft and ground station)
+   */
+  virtual void UpdateTargetObjects() = 0;
 };
 
 #endif  // S2E_SIMULATION_CASE_SIMULATION_CASE_HPP_
