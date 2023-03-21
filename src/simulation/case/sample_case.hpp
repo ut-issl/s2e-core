@@ -29,12 +29,6 @@ class SampleCase : public SimulationCase {
   virtual ~SampleCase();
 
   /**
-   * @fn Initialize
-   * @brief Override function of Initialize in SimulationCase
-   */
-  void Initialize();
-
-  /**
    * @fn Main
    * @brief Override function of Main in SimulationCase
    */
@@ -54,6 +48,12 @@ class SampleCase : public SimulationCase {
  private:
   SampleSpacecraft* sample_spacecraft_;         //!< Instance of spacecraft
   SampleGroundStation* sample_ground_station_;  //!< Instance of ground station
+
+  /**
+   * @fn Initialize
+   * @brief Override function of Initialize in SimulationCase
+   */
+  void InitializeTargetObjects();
 };
 
 #endif  // S2E_SIMULATION_CASE_SAMPLE_CASE_HPP_

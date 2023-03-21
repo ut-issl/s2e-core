@@ -32,6 +32,17 @@ SimulationCase::SimulationCase(const std::string initialize_base_file, const Mon
 
 SimulationCase::~SimulationCase() { delete global_environment_; }
 
+void SimulationCase::Initialize() {
+  InitializeTargetObjects();
+
+  // Write headers to the log
+  simulation_configuration_.main_logger_->WriteHeaders();
+
+  // Start the simulation
+  std::cout << "\nSimulationDateTime \n";
+  global_environment_->GetSimulationTime().PrintStartDateTime();
+}
+
 std::string SimulationCase::GetLogHeader() const {
   std::string str_tmp = "";
 
@@ -64,4 +75,5 @@ void SimulationCase::InitializeSimulationConfiguration(const std::string initial
 
   // Global Environment
   global_environment_ = new GlobalEnvironment(&simulation_configuration_);
+  global_environment_->LogSetup(*(simulation_configuration_.main_logger_));
 }

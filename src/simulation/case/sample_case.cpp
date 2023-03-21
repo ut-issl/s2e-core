@@ -17,7 +17,7 @@ SampleCase::~SampleCase() {
   delete sample_ground_station_;
 }
 
-void SampleCase::Initialize() {
+void SampleCase::InitializeTargetObjects() {
   // Instantiate the target of the simulation
   // `spacecraft_id` corresponds to the index of `spacecraft_file` in simulation_base.ini
   const int spacecraft_id = 0;
@@ -26,16 +26,8 @@ void SampleCase::Initialize() {
   sample_ground_station_ = new SampleGroundStation(&simulation_configuration_, ground_station_id);
 
   // Register the log output
-  global_environment_->LogSetup(*(simulation_configuration_.main_logger_));
   sample_spacecraft_->LogSetup(*(simulation_configuration_.main_logger_));
   sample_ground_station_->LogSetup(*(simulation_configuration_.main_logger_));
-
-  // Write headers to the log
-  simulation_configuration_.main_logger_->WriteHeaders();
-
-  // Start the simulation
-  cout << "\nSimulationDateTime \n";
-  global_environment_->GetSimulationTime().PrintStartDateTime();
 }
 
 void SampleCase::Main() {
