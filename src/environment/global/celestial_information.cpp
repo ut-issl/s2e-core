@@ -156,7 +156,10 @@ std::string CelestialInformation::GetLogHeader() const {
     // Acquisition of body name from id
     bodc2n_c(planet_id, kMaxNameLength, name_buffer, (SpiceBoolean*)&found);
     std::string name = name_buffer;
-    std::transform(name.begin(), name.end(), name.begin(), [](unsigned char c) { return (char)std::tolower(c); });
+
+    std::locale loc = std::locale::classic();
+    std::transform(name.begin(), name.end(), name.begin(), [loc](char c) { return std::tolower(c, loc); });
+
     std::string body_pos = name + "_position";
     std::string body_vel = name + "_velocity";
 
