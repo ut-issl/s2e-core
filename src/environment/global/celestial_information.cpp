@@ -100,7 +100,7 @@ CelestialInformation::~CelestialInformation() {
   delete earth_rotation_;
 }
 
-void CelestialInformation::UpdateAllObjectsInfo(const double current_time_jd) {
+void CelestialInformation::UpdateAllObjectsInformation(const double current_time_jd) {
   // Convert time
   SpiceDouble ephemeris_time;
   std::string julian_date = "jd " + std::to_string(current_time_jd);
