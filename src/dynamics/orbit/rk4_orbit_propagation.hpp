@@ -52,7 +52,7 @@ class Rk4OrbitPropagation : public Orbit, public libra::OrdinaryDifferentialEqua
    * @param [in] end_time_s: End time of simulation [sec]
    * @param [in] current_time_jd: Current Julian day [day]
    */
-  virtual void Propagate(double end_time_s, double current_time_jd);
+  virtual void Propagate(const double end_time_s, const double current_time_jd);
 
  private:
   double gravity_constant_m3_s2_;  //!< Gravity constant [m3/s2]

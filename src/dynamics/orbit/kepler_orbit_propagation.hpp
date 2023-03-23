@@ -37,7 +37,7 @@ class KeplerOrbitPropagation : public Orbit, public KeplerOrbit {
    * @param [in] end_time_s: End time of simulation [sec]
    * @param [in] current_time_jd: Current Julian day [day]
    */
-  virtual void Propagate(double end_time_s, double current_time_jd);
+  virtual void Propagate(const double end_time_s, const double current_time_jd);
 
  private:
   /**

@@ -103,7 +103,7 @@ class Telescope : public Component, public ILoggable {
    * @fn MainRoutine
    * @brief Main routine to calculate force generation
    */
-  void MainRoutine(int count);
+  void MainRoutine(const int time_count);
 
   /**
    * @fn Observe

@@ -24,7 +24,7 @@ EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celesti
 EnckeOrbitPropagation::~EnckeOrbitPropagation() {}
 
 // Functions for Orbit
-void EnckeOrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
+void EnckeOrbitPropagation::Propagate(const double end_time_s, const double current_time_jd) {
   if (!is_calc_enabled_) return;
 
   // Rectification

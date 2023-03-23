@@ -62,7 +62,7 @@ void Rk4OrbitPropagation::Initialize(libra::Vector<3> position_i_m, libra::Vecto
   TransformEcefToGeodetic();
 }
 
-void Rk4OrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
+void Rk4OrbitPropagation::Propagate(const double end_time_s, const double current_time_jd) {
   UNUSED(current_time_jd);
 
   if (!is_calc_enabled_) return;

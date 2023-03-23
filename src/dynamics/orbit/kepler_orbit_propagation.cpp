@@ -16,7 +16,7 @@ KeplerOrbitPropagation::KeplerOrbitPropagation(const CelestialInformation* celes
 
 KeplerOrbitPropagation::~KeplerOrbitPropagation() {}
 
-void KeplerOrbitPropagation::Propagate(double end_time_s, double current_time_jd) {
+void KeplerOrbitPropagation::Propagate(const double end_time_s, const double current_time_jd) {
   UNUSED(end_time_s);
 
   if (!is_calc_enabled_) return;

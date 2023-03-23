@@ -94,7 +94,7 @@ void RelativeOrbit::CalculateStm(StmModel stm_model_type, const Orbit* reference
   }
 }
 
-void RelativeOrbit::Propagate(double end_time_s, double current_time_jd) {
+void RelativeOrbit::Propagate(const double end_time_s, const double current_time_jd) {
   UNUSED(current_time_jd);
 
   if (!is_calc_enabled_) return;
