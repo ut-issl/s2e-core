@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <locale>
 #include <sstream>
 
 #include "library/logger/log_utility.hpp"
