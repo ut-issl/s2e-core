@@ -5,8 +5,6 @@
 
 #include "sample_case.hpp"
 
-#include "../spacecraft/sample_spacecraft/sample_spacecraft.hpp"
-
 SampleCase::SampleCase(std::string initialise_base_file) : SimulationCase(initialise_base_file) {}
 
 SampleCase::~SampleCase() {

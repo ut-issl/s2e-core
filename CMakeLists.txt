@@ -73,11 +73,11 @@ add_subdirectory(src/library)
 
 set(SOURCE_FILES
   src/s2e.cpp
-  src/simulation/case/sample_case.cpp
-  src/simulation/spacecraft/sample_spacecraft/sample_spacecraft.cpp
-  src/simulation/spacecraft/sample_spacecraft/sample_components.cpp
-  src/simulation/ground_station/sample_ground_station/sample_ground_station_components.cpp
-  src/simulation/ground_station/sample_ground_station/sample_ground_station.cpp
+  src/simulation_sample/case/sample_case.cpp
+  src/simulation_sample/spacecraft/sample_spacecraft.cpp
+  src/simulation_sample/spacecraft/sample_components.cpp
+  src/simulation_sample/ground_station/sample_ground_station_components.cpp
+  src/simulation_sample/ground_station/sample_ground_station.cpp
 )
 
 ## Create executable file

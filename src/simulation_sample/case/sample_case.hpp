@@ -3,12 +3,13 @@
  * @brief Example of user defined simulation case
  */
 
-#ifndef S2E_SIMULATION_CASE_SAMPLE_CASE_HPP_
-#define S2E_SIMULATION_CASE_SAMPLE_CASE_HPP_
+#ifndef S2E_SIMULATION_SAMPLE_CASE_SAMPLE_CASE_HPP_
+#define S2E_SIMULATION_SAMPLE_CASE_SAMPLE_CASE_HPP_
 
-#include "../ground_station/sample_ground_station/sample_ground_station.hpp"
-#include "../spacecraft/sample_spacecraft/sample_spacecraft.hpp"
-#include "./simulation_case.hpp"
+#include <src/simulation/case/simulation_case.hpp>
+
+#include "../ground_station/sample_ground_station.hpp"
+#include "../spacecraft/sample_spacecraft.hpp"
 
 /**
  * @class SampleCase
@@ -56,4 +57,4 @@ class SampleCase : public SimulationCase {
   void UpdateTargetObjects();
 };
 
-#endif  // S2E_SIMULATION_CASE_SAMPLE_CASE_HPP_
+#endif  // S2E_SIMULATION_SAMPLE_CASE_SAMPLE_CASE_HPP_
