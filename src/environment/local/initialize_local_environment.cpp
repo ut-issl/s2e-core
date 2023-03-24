@@ -16,7 +16,7 @@ GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
   const char* section = "MAGNETIC_FIELD_ENVIRONMENT";
 
   std::string fname = conf.ReadString(section, "coefficient_file");
-  double mag_rwdev = conf.ReadDouble(section, "magnetic_field_random_walk_speed_nT");
+  double mag_rwdev = conf.ReadDouble(section, "magnetic_field_random_walk_standard_deviation_nT");
   double mag_rwlimit = conf.ReadDouble(section, "magnetic_field_random_walk_limit_nT");
   double mag_wnvar = conf.ReadDouble(section, "magnetic_field_white_noise_standard_deviation_nT");
 
