@@ -1,5 +1,5 @@
 /**
- * @file sample_ground_station.h
+ * @file sample_ground_station.hpp
  * @brief An example of user defined ground station class
  */
 
