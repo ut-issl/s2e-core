@@ -9,7 +9,7 @@
 #include "initialize_gnss_satellites.hpp"
 #include "library/initialize/initialize_file_access.hpp"
 
-GlobalEnvironment::GlobalEnvironment(SimulationConfiguration* simulation_configuration) { Initialize(simulation_configuration); }
+GlobalEnvironment::GlobalEnvironment(const SimulationConfiguration* simulation_configuration) { Initialize(simulation_configuration); }
 
 GlobalEnvironment::~GlobalEnvironment() {
   delete simulation_time_;
@@ -18,7 +18,7 @@ GlobalEnvironment::~GlobalEnvironment() {
   delete gnss_satellites_;
 }
 
-void GlobalEnvironment::Initialize(SimulationConfiguration* simulation_configuration) {
+void GlobalEnvironment::Initialize(const SimulationConfiguration* simulation_configuration) {
   // Get ini file path
   IniAccess iniAccess = IniAccess(simulation_configuration->initialize_base_file_name_);
   std::string simulation_time_ini_path = simulation_configuration->initialize_base_file_name_;

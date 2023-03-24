@@ -8,15 +8,10 @@
 #include <library/logger/log_utility.hpp>
 #include <library/logger/logger.hpp>
 
-Spacecraft::Spacecraft(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id)
+Spacecraft::Spacecraft(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id,
+                       RelativeInformation* relative_information)
     : spacecraft_id_(spacecraft_id) {
-  Initialize(simulation_configuration, global_environment, spacecraft_id);
-}
-
-Spacecraft::Spacecraft(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
-                       RelativeInformation* relative_information, const int spacecraft_id)
-    : spacecraft_id_(spacecraft_id) {
-  Initialize(simulation_configuration, global_environment, relative_information, spacecraft_id);
+  Initialize(simulation_configuration, global_environment, spacecraft_id, relative_information);
 }
 
 Spacecraft::~Spacecraft() {
@@ -31,21 +26,7 @@ Spacecraft::~Spacecraft() {
 }
 
 void Spacecraft::Initialize(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
-                            const int spacecraft_id) {
-  clock_generator_.ClearTimerCount();
-  structure_ = new Structure(simulation_configuration, spacecraft_id);
-  local_environment_ = new LocalEnvironment(simulation_configuration, global_environment, spacecraft_id);
-  dynamics_ = new Dynamics(simulation_configuration, &(global_environment->GetSimulationTime()), &(local_environment_->GetCelestialInformation()),
-                           spacecraft_id, structure_);
-  disturbances_ = new Disturbances(simulation_configuration, spacecraft_id, structure_, global_environment);
-
-  simulation_configuration->main_logger_->CopyFileToLogDirectory(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
-
-  relative_information_ = nullptr;
-}
-
-void Spacecraft::Initialize(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
-                            RelativeInformation* relative_information, const int spacecraft_id) {
+                            const int spacecraft_id, RelativeInformation* relative_information) {
   clock_generator_.ClearTimerCount();
   structure_ = new Structure(simulation_configuration, spacecraft_id);
   local_environment_ = new LocalEnvironment(simulation_configuration, global_environment, spacecraft_id);
@@ -56,7 +37,9 @@ void Spacecraft::Initialize(const SimulationConfiguration* simulation_configurat
   simulation_configuration->main_logger_->CopyFileToLogDirectory(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
 
   relative_information_ = relative_information;
-  relative_information_->RegisterDynamicsInfo(spacecraft_id, dynamics_);
+  if (relative_information_ != nullptr) {
+    relative_information_->RegisterDynamicsInfo(spacecraft_id, dynamics_);
+  }
 }
 
 void Spacecraft::LogSetup(Logger& logger) {

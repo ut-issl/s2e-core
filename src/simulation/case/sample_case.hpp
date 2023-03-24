@@ -20,25 +20,13 @@ class SampleCase : public SimulationCase {
    * @fn SampleCase
    * @brief Constructor
    */
-  SampleCase(std::string initialise_base_file);
+  SampleCase(const std::string initialise_base_file);
 
   /**
    * @fn ~SampleCase
    * @brief Destructor
    */
   virtual ~SampleCase();
-
-  /**
-   * @fn Initialize
-   * @brief Override function of Initialize in SimulationCase
-   */
-  void Initialize();
-
-  /**
-   * @fn Main
-   * @brief Override function of Main in SimulationCase
-   */
-  void Main();
 
   /**
    * @fn GetLogHeader
@@ -54,6 +42,18 @@ class SampleCase : public SimulationCase {
  private:
   SampleSpacecraft* sample_spacecraft_;         //!< Instance of spacecraft
   SampleGroundStation* sample_ground_station_;  //!< Instance of ground station
+
+  /**
+   * @fn InitializeTargetObjects
+   * @brief Override function of InitializeTargetObjects in SimulationCase
+   */
+  void InitializeTargetObjects();
+
+  /**
+   * @fn UpdateTargetObjects
+   * @brief Override function of Main in SimulationCase
+   */
+  void UpdateTargetObjects();
 };
 
 #endif  // S2E_SIMULATION_CASE_SAMPLE_CASE_HPP_
