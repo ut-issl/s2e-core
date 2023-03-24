@@ -118,4 +118,4 @@ class SampleComponents : public InstalledComponents {
   const GlobalEnvironment* global_environment_;   //!< Global environment information
 };
 
-#endif  // S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
+#endif  // S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_

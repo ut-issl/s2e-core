@@ -35,4 +35,4 @@ class SampleSpacecraft : public Spacecraft {
   SampleComponents* sample_components_;
 };
 
-#endif  // SS2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_
+#endif  // S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_
