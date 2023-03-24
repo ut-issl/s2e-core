@@ -3,10 +3,11 @@
  * @brief An example of user side spacecraft class
  */
 
-#ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_
-#define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_
+#ifndef S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_
+#define S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_
 
-#include "../spacecraft.hpp"
+#include <src/simulation/spacecraft/spacecraft.hpp>
+
 #include "sample_components.hpp"
 
 class SampleComponents;
@@ -34,4 +35,4 @@ class SampleSpacecraft : public Spacecraft {
   SampleComponents* sample_components_;
 };
 
-#endif  // S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_
+#endif  // S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_

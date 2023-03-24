@@ -3,8 +3,8 @@
  * @brief An example of user side components management installed on a spacecraft
  */
 
-#ifndef S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
-#define S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
+#ifndef S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
+#define S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
 
 #include <components/examples/example_change_structure.hpp>
 #include <components/examples/example_i2c_controller_for_hils.hpp>
@@ -26,9 +26,8 @@
 #include <dynamics/dynamics.hpp>
 #include <library/math/vector.hpp>
 #include <simulation/hils/hils_port_manager.hpp>
+#include <simulation/spacecraft/installed_components.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
-
-#include "../installed_components.hpp"
 
 class OnBoardComputer;
 class PowerControlUnit;
@@ -119,4 +118,4 @@ class SampleComponents : public InstalledComponents {
   const GlobalEnvironment* global_environment_;   //!< Global environment information
 };
 
-#endif  // S2E_SIMULATION_SPACECRAFT_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
+#endif  // S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_
