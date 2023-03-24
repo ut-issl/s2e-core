@@ -6,7 +6,6 @@
 #ifndef S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_
 #define S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_
 
-#include <base/component.hpp>
 #include <dynamics/attitude/attitude.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
 #include <environment/local/local_celestial_information.hpp>
@@ -14,6 +13,8 @@
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
 #include <vector>
+
+#include "../../base/component.hpp"
 
 /*
  * @struct Star
