@@ -12,7 +12,6 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
   const char* section_ = "ATTITUDE";
   std::string mc_name = section_ + std::to_string(spacecraft_id);  // FIXME
   Attitude* attitude;
-  Attitude* attitude_tmp;
 
   const std::string propagate_mode = ini_file.ReadString(section_, "propagate_mode");
   const std::string initialize_mode = ini_file.ReadString(section_, "initialize_mode");
@@ -41,13 +40,13 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     libra::Vector<3> main_target_direction_b, sub_target_direction_b;
     ini_file_ca.ReadVector(section_ca_, "main_pointing_direction_b", main_target_direction_b);
     ini_file_ca.ReadVector(section_ca_, "sub_pointing_direction_b", sub_target_direction_b);
-
-    attitude_tmp = new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, main_target_direction_b, sub_target_direction_b, inertia_tensor_kgm2,
-                                          local_celestial_information, orbit, mc_name);
-    attitude_tmp->Propagate(step_width_s);
-    quaternion_i2b = attitude_tmp->GetQuaternion_i2b();
-    libra::Vector<3> omega_b = libra::Vector<3>(0);
-    libra::Vector<3> torque_b = libra::Vector<3>(0);
+    std::string mc_name_temp = section_ + std::to_string(spacecraft_id) + "_TEMP";
+    Attitude* attitude_temp = new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, main_target_direction_b, sub_target_direction_b,
+                                                     inertia_tensor_kgm2, local_celestial_information, orbit, mc_name_temp);
+    attitude_temp->Propagate(step_width_s);
+    quaternion_i2b = attitude_temp->GetQuaternion_i2b();
+    libra::Vector<3> omega_b = libra::Vector<3>(0.0);
+    libra::Vector<3> torque_b = libra::Vector<3>(0.0);
 
     attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor_kgm2, torque_b, step_width_s, mc_name);
   } else if (propagate_mode == "CONTROLLED") {
