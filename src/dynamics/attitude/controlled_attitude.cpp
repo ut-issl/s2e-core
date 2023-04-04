@@ -79,8 +79,20 @@ libra::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode m
   libra::Vector<3> direction;
   if (mode == AttitudeControlMode::kSunPointing) {
     direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
+    // When the local_celestial_information is not initialized. FIXME: This is temporary codes for attitude initialize.
+    if (direction.CalcNorm() == 0.0) {
+      libra::Vector<3> sun_position_i_m = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN");
+      libra::Vector<3> spacecraft_position_i_m = orbit_->GetPosition_i_m();
+      direction = sun_position_i_m - spacecraft_position_i_m;
+    }
   } else if (mode == AttitudeControlMode::kEarthCenterPointing) {
     direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("EARTH");
+    // When the local_celestial_information is not initialized. FIXME: This is temporary codes for attitude initialize.
+    if (direction.CalcNorm() == 0.0) {
+      libra::Vector<3> earth_position_i_m = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("EARTH");
+      libra::Vector<3> spacecraft_position_i_m = orbit_->GetPosition_i_m();
+      direction = earth_position_i_m - spacecraft_position_i_m;
+    }
   } else if (mode == AttitudeControlMode::kVelocityDirectionPointing) {
     direction = orbit_->GetVelocity_i_m_s();
   } else if (mode == AttitudeControlMode::kOrbitNormalPointing) {
