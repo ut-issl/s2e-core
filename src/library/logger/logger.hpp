@@ -90,6 +90,7 @@ class Logger {
   std::ofstream csv_file_;             //!< CSV file stream
   bool is_enabled_;                    //!< Enable flag for logging
   bool is_file_opened_;                //!< Is the CSV file opened?
+  static bool is_directory_created_;   //!< Is the log output directory is created in the scenario
   std::vector<ILoggable *> log_list_;  //!< Log list
 
   bool is_ini_save_enabled_;    //!< Enable flag to save ini files
