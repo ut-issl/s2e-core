@@ -28,8 +28,8 @@ class RwOde : public libra::ODE<1> {
    * @fn RHS
    * @brief Definition of the difference equation (Override function of ODE class)
    * @param [in] x: Independent variable (e.g. time)
-   * @param [in] state: State vector
-   * @param [out] rhs: Differentiated value of state vector
+   * @param [in] state: angular velocity [m/s]
+   * @param [out] rhs: Differentiated value of state vector [m/s^2]
    */
   void RHS(double x, const libra::Vector<1>& state, libra::Vector<1>& rhs) override;
 
