@@ -26,11 +26,11 @@ class Logger {
    * @param [in] file_name: File name of the log output
    * @param [in] data_path: Path to `data` directory
    * @param [in] ini_file_name: Initialize file name
-   * @param [in] enable_ini_file_save: Enable flag to save ini files
-   * @param [in] enable: Enable flag for logging
+   * @param [in] is_ini_save_enabled: Enable flag to save ini files
+   * @param [in] is_enabled: Enable flag for logging
    */
-  Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool enable_ini_file_save,
-         const bool enable = true);
+  Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool is_ini_save_enabled,
+         const bool is_enabled = true);
   /**
    * @fn ~Logger
    * @brief Destructor

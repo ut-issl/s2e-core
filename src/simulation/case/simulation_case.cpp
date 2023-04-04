@@ -19,13 +19,19 @@ SimulationCase::SimulationCase(const std::string initialize_base_file) {
 
 SimulationCase::SimulationCase(const std::string initialize_base_file, const MonteCarloSimulationExecutor& monte_carlo_simulator,
                                const std::string log_path) {
-  // Initialize Log
-  // Log for Monte Carlo Simulation
-  std::string log_file_name = "default" + std::to_string(monte_carlo_simulator.GetNumberOfExecutionsDone()) + ".csv";
-  // TODO: Consider that `enable_inilog = false` is fine or not?
-  simulation_configuration_.main_logger_ =
-      new Logger(log_file_name, log_path, initialize_base_file, false, monte_carlo_simulator.GetSaveLogHistoryFlag());
+  if (monte_carlo_simulator.IsEnabled() == false) {
+    // Monte Carlo simulation is disabled
+    simulation_configuration_.main_logger_ = InitLog(initialize_base_file);
+  } else {
+    // Monte Carlo Simulation is enabled
+    std::string log_file_name = "default" + std::to_string(monte_carlo_simulator.GetNumberOfExecutionsDone()) + ".csv";
 
+    IniAccess ini_file(initialize_base_file);
+    bool save_ini_files = ini_file.ReadEnable("SIMULATION_SETTINGS", "save_initialize_files");
+
+    simulation_configuration_.main_logger_ =
+        new Logger(log_file_name, log_path, initialize_base_file, save_ini_files, monte_carlo_simulator.GetSaveLogHistoryFlag());
+  }
   // Initialize Simulation Configuration
   InitializeSimulationConfiguration(initialize_base_file);
 }
