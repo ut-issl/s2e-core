@@ -23,7 +23,7 @@ class Attitude : public ILoggable, public SimulationObject {
    * @brief Constructor
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  Attitude(const std::string& simulation_object_name = "Attitude");
+  Attitude(const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~Attitude
    * @brief Destructor

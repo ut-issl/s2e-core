@@ -56,7 +56,7 @@ class ControlledAttitude : public Attitude {
   ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const libra::Quaternion quaternion_i2b,
                      const libra::Vector<3> main_target_direction_b, const libra::Vector<3> sub_target_direction_b,
                      const libra::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
-                     const std::string& simulation_object_name = "Attitude");
+                     const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~ControlledAttitude
    * @brief Destructor
