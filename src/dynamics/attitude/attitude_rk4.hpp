@@ -26,7 +26,7 @@ class AttitudeRk4 : public Attitude {
    */
   AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b,
               const libra::Matrix<3, 3>& inertia_tensor_kgm2, const libra::Vector<3>& torque_b_Nm, const double propagation_step_s,
-              const std::string& simulation_object_name = "Attitude");
+              const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~AttitudeRk4
    * @brief Destructor

@@ -10,7 +10,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
                        const double step_width_s, const libra::Matrix<3, 3> inertia_tensor_kgm2, const int spacecraft_id) {
   IniAccess ini_file(file_name);
   const char* section_ = "ATTITUDE";
-  std::string mc_name = section_ + std::to_string(spacecraft_id);  // FIXME
+  std::string mc_name = "attitude" + std::to_string(spacecraft_id);
   Attitude* attitude;
 
   const std::string propagate_mode = ini_file.ReadString(section_, "propagate_mode");
