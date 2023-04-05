@@ -14,12 +14,13 @@
 #endif
 
 std::vector<ILoggable *> log_list_;
+bool Logger::is_directory_created_ = false;
 
-Logger::Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool enable_ini_file_save,
-               const bool enable) {
-  is_enabled_ = enable;
+Logger::Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool is_ini_save_enabled,
+               const bool is_enabled)
+    : is_enabled_(is_enabled), is_ini_save_enabled_(is_ini_save_enabled) {
   is_file_opened_ = false;
-  is_ini_save_enabled_ = enable_ini_file_save;
+  if (is_enabled_ == false) return;
 
   // Get current time to append it to the filename
   time_t timer = time(NULL);
@@ -29,10 +30,11 @@ Logger::Logger(const std::string &file_name, const std::string &data_path, const
   strftime(start_time_c, 64, "%y%m%d_%H%M%S", now);
 
   // Create directory
-  if (is_ini_save_enabled_ == true)
+  if (is_ini_save_enabled_ == true || is_directory_created_ == false) {
     directory_path_ = CreateDirectory(data_path, start_time_c);
-  else
+  } else {
     directory_path_ = data_path;
+  }
   // Create File
   std::stringstream file_path;
   file_path << directory_path_ << start_time_c << "_" << file_name;
@@ -94,6 +96,7 @@ std::string Logger::CreateDirectory(const std::string &data_path, const std::str
     std::cerr << "Error making directory: " << directory_path_tmp_ << std::endl;
     return data_path;
   }
+  is_directory_created_ = true;
   return directory_path_tmp_;
 }
 
