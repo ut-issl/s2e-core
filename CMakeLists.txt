@@ -41,7 +41,6 @@ if(USE_C2A)
   add_definitions(-DSILS_FW)
   #include_directories
   include_directories(${C2A_DIR}/src)
-  include_directories(${S2E_CORE_DIR}/src/interface/sils)
   #add subdirectory
   add_subdirectory(${C2A_DIR} C2A)
 endif()
