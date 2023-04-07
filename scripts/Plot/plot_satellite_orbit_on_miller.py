@@ -8,23 +8,19 @@
 # Import
 #
 # plots
-import numpy as np
-from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
-# csv read
-import pandas
 # local function
 from make_miller_projection_map import make_miller_projection_map
 from common import find_latest_log_tag
+from common import add_log_file_arguments
+from common import read_scalar_from_csv
 # arguments
 import argparse
 
+# Arguments
 aparser = argparse.ArgumentParser()
-
-aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs')
-aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
+aparser = add_log_file_arguments(aparser)
 aparser.add_argument('--no-gui', action='store_true')
-
 args = aparser.parse_args()
 
 #
@@ -55,10 +51,8 @@ map = make_miller_projection_map()
 # Data read and edit
 #
 # Read S2E CSV
-df = pandas.read_csv(read_file_name, sep=',', usecols=['lat[rad]', 'lon[rad]'])
-# satellite position data
-sc_lat_deg = df['lat[rad]'].to_numpy() * 180/3.14
-sc_lon_deg = df['lon[rad]'].to_numpy() * 180/3.14
+sc_lat_deg = read_scalar_from_csv(read_file_name, 'spacecraft_latitude[rad]') * 180/3.14
+sc_lon_deg = read_scalar_from_csv(read_file_name, 'spacecraft_longitude[rad]') * 180/3.14
 sc_map_lon, sc_map_lat = map(sc_lon_deg, sc_lat_deg)
 
 #

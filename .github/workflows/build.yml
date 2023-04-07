@@ -17,7 +17,7 @@ on:
 
 env:
   # datasource=github-releases depName=ut-issl/c2a-core
-  C2A_CORE_VERSION: v3.7.0
+  C2A_CORE_VERSION: v3.8.0
 
 jobs:
   build_s2e_win:
@@ -101,12 +101,12 @@ jobs:
 
       - name: fix simulation config
         shell: bash
-        working-directory: ./data/SampleSat/ini
+        working-directory: ./data/sample/initialize_files
         run: |
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
 
       - name: run simulation(SampleSat)
-        working-directory: ./data/SampleSat
+        working-directory: ./data/sample
         run: |
           ..\..\Debug\S2E.exe
 
@@ -190,21 +190,21 @@ jobs:
           cmake --build .
 
       - name: fix simulation config
-        working-directory: ./data/SampleSat/ini
+        working-directory: ./data/sample/initialize_files
         run: |
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
 
       - name: run simulation(SampleSat)
-        working-directory: ./data/SampleSat
+        working-directory: ./data/sample
         run: |
           ../../S2E
 
       - name: generate graph
-        working-directory: ./data/SampleSat
+        working-directory: ./scripts/Plot
         run: |
           sudo apt-get install -y gnuplot
           pip3 install yq
-          LOG=$(ls logs/logs_*/*.csv)
+          LOG=$(ls ../../data/sample/logs/logs_*/*.csv)
           echo "plot $LOG"
           ./gen_graph.sh "${LOG}"
           ls

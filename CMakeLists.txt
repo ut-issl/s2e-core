@@ -2,7 +2,7 @@ cmake_policy(SET CMP0048 NEW)
 project(S2E
   LANGUAGES CXX
   DESCRIPTION "S2E: Spacecraft Simulation Environment"
-  VERSION 5.3.0
+  VERSION 6.0.0
 )
 
 cmake_minimum_required(VERSION 3.13)
@@ -41,7 +41,6 @@ if(USE_C2A)
   add_definitions(-DSILS_FW)
   #include_directories
   include_directories(${C2A_DIR}/src)
-  include_directories(${S2E_CORE_DIR}/src/Interface/SpacecraftInOut)
   #add subdirectory
   add_subdirectory(${C2A_DIR} C2A)
 endif()
@@ -63,35 +62,21 @@ include_directories(${CSPICE_DIR}/include)
 include_directories(${NRLMSISE00_DIR}/src)
 
 ## add_subdirectories
-add_subdirectory(src/Simulation)
-add_subdirectory(src/Environment/Global)
-add_subdirectory(src/Environment/Local)
-add_subdirectory(src/Dynamics)
-add_subdirectory(src/Disturbance)
-add_subdirectory(src/Component)
-add_subdirectory(src/RelativeInformation)
-add_subdirectory(src/Interface/InitInput)
-add_subdirectory(src/Interface/LogOutput)
-add_subdirectory(src/Interface/SpacecraftInOut)
-add_subdirectory(src/Interface/HilsInOut)
-add_subdirectory(src/Library/igrf)
-add_subdirectory(src/Library/inih)
-add_subdirectory(src/Library/math)
-add_subdirectory(src/Library/nrlmsise00)
-add_subdirectory(src/Library/sgp4)
-add_subdirectory(src/Library/utils)
-add_subdirectory(src/Library/optics)
-add_subdirectory(src/Library/RelativeOrbit)
-add_subdirectory(src/Library/Orbit)
-add_subdirectory(src/Library/Geodesy)
+add_subdirectory(src/simulation)
+add_subdirectory(src/environment/global)
+add_subdirectory(src/environment/local)
+add_subdirectory(src/dynamics)
+add_subdirectory(src/disturbances)
+add_subdirectory(src/components)
+add_subdirectory(src/library)
 
 set(SOURCE_FILES
-  src/S2E.cpp
-  src/Simulation/Case/SampleCase.cpp
-  src/Simulation/Spacecraft/SampleSpacecraft/SampleSat.cpp
-  src/Simulation/Spacecraft/SampleSpacecraft/SampleComponents.cpp
-  src/Simulation/GroundStation/SampleGroundStation/SampleGSComponents.cpp
-  src/Simulation/GroundStation/SampleGroundStation/SampleGS.cpp
+  src/s2e.cpp
+  src/simulation_sample/case/sample_case.cpp
+  src/simulation_sample/spacecraft/sample_spacecraft.cpp
+  src/simulation_sample/spacecraft/sample_components.cpp
+  src/simulation_sample/ground_station/sample_ground_station_components.cpp
+  src/simulation_sample/ground_station/sample_ground_station.cpp
 )
 
 ## Create executable file
@@ -151,32 +136,24 @@ if(NOT NRLMSISE00_LIB)
 endif()
 #target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
 
-## Linking libraries
-set(S2E_LIBRARIES
-  IGRF WRAPPER_NRLMSISE00 INIH SGP4 UTIL OPTICS RELATIVE_ORBIT_MODELS ORBIT_MODELS GEODESY MATH
-)
 # Initialize link
-target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SC_IO RELATIVE_INFO ${S2E_LIBRARIES})
-target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION ${S2E_LIBRARIES})
-target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT ${S2E_LIBRARIES})
-target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE ${S2E_LIBRARIES})
-target_link_libraries(GLOBAL_ENVIRONMENT ${CSPICE_LIB} ${S2E_LIBRARIES})
-target_link_libraries(LOCAL_ENVIRONMENT GLOBAL_ENVIRONMENT ${CSPICE_LIB} ${S2E_LIBRARIES})
-target_link_libraries(WRAPPER_NRLMSISE00 ${NRLMSISE00_LIB})
+target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
+target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION LIBRARY)
+target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
+target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE LIBRARY)
+target_link_libraries(GLOBAL_ENVIRONMENT ${CSPICE_LIB} LIBRARY)
+target_link_libraries(LOCAL_ENVIRONMENT GLOBAL_ENVIRONMENT ${CSPICE_LIB} LIBRARY)
+target_link_libraries(LIBRARY ${NRLMSISE00_LIB})
 
 target_link_libraries(${PROJECT_NAME} DYNAMICS)
 target_link_libraries(${PROJECT_NAME} DISTURBANCE)
 target_link_libraries(${PROJECT_NAME} SIMULATION)
 target_link_libraries(${PROJECT_NAME} GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT)
-target_link_libraries(${PROJECT_NAME} RELATIVE_INFO)
-target_link_libraries(${PROJECT_NAME} INI_ACC LOG_OUT SC_IO)
 target_link_libraries(${PROJECT_NAME} COMPONENT)
-target_link_libraries(${PROJECT_NAME} HILS_IO)
 
 ## C2A integration
 if(USE_C2A)
   target_link_libraries(${PROJECT_NAME} C2A)
-  target_link_libraries(${PROJECT_NAME} SC_IO)
 endif()
 
 ## HILS
@@ -189,8 +166,6 @@ if(USE_HILS)
   set_target_properties(SIMULATION PROPERTIES COMMON_LANGUAGE_RUNTIME "")
   set_target_properties(GLOBAL_ENVIRONMENT PROPERTIES COMMON_LANGUAGE_RUNTIME "")
   set_target_properties(LOCAL_ENVIRONMENT PROPERTIES COMMON_LANGUAGE_RUNTIME "")
-  set_target_properties(HILS_IO PROPERTIES COMMON_LANGUAGE_RUNTIME "")
-  set_target_properties(RELATIVE_INFO PROPERTIES COMMON_LANGUAGE_RUNTIME "")
 endif()
 
 ## GoogleTest settings
@@ -212,14 +187,24 @@ if(GOOGLE_TEST)
   # Unit test
   set(TEST_PROJECT_NAME ${PROJECT_NAME}_TEST)
   set(TEST_FILES
-    src/Library/math/TestQuaternion.cpp
+    src/library/math/test_quaternion.cpp
+    src/library/math/test_vector.cpp
+    src/library/math/test_matrix.cpp
+    src/library/math/test_matrix_vector.cpp
+    src/library/math/test_s2e_math.cpp
   )
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)
-  target_link_libraries(${TEST_PROJECT_NAME} MATH)
+  target_link_libraries(${TEST_PROJECT_NAME} LIBRARY)
   include_directories(${TEST_PROJECT_NAME})
   add_test(NAME s2e-test COMMAND ${TEST_PROJECT_NAME})
   enable_testing()
+
+  # Settings
+  set_target_properties(${TEST_PROJECT_NAME} PROPERTIES LANGUAGE CXX)
+  set_target_properties(${TEST_PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
+  set_target_properties(${TEST_PROJECT_NAME} PROPERTIES CXX_EXTENSIONS FALSE)
+
 endif()
 
 
