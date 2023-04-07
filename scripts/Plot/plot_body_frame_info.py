@@ -10,20 +10,20 @@
 # plots
 import numpy as np
 import matplotlib.pyplot as plt
-# csv read
-import pandas
 # local function
 from common import find_latest_log_tag
+from common import add_log_file_arguments
 from common import normalize_csv_read_vector
+from common import read_3d_vector_from_csv
+from common import add_stl_model
+
 # arguments
 import argparse
 
+# Arguments
 aparser = argparse.ArgumentParser()
-
-aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/SampleSat/logs"', default='../../data/SampleSat/logs')
-aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
+aparser = add_log_file_arguments(aparser)
 aparser.add_argument('--no-gui', action='store_true')
-
 args = aparser.parse_args()
 
 #
@@ -48,32 +48,20 @@ read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file
 # Data read and edit
 #
 # Read S2E CSV for Sun
-csv_data = pandas.read_csv(read_file_name, sep=',', usecols=['SUN_pos_b(X)[m]', 'SUN_pos_b(Y)[m]', 'SUN_pos_b(Z)[m]'])
-sun_position_b = np.transpose(np.array([csv_data['SUN_pos_b(X)[m]'].to_numpy(), 
-                                        csv_data['SUN_pos_b(Y)[m]'].to_numpy(),
-                                        csv_data['SUN_pos_b(Z)[m]'].to_numpy()]))
-sun_direction_b = normalize_csv_read_vector(sun_position_b)
+sun_position_b = read_3d_vector_from_csv(read_file_name, 'sun_position_from_spacecraft_b', 'm')
+sun_direction_b = normalize_csv_read_vector(np.transpose(sun_position_b))
 
 # Read S2E CSV for Earth
-csv_data = pandas.read_csv(read_file_name, sep=',', usecols=['EARTH_pos_b(X)[m]', 'EARTH_pos_b(Y)[m]', 'EARTH_pos_b(Z)[m]'])
-earth_position_b = np.transpose(np.array([csv_data['EARTH_pos_b(X)[m]'].to_numpy(), 
-                                          csv_data['EARTH_pos_b(Y)[m]'].to_numpy(),
-                                          csv_data['EARTH_pos_b(Z)[m]'].to_numpy()]))
-earth_direction_b = normalize_csv_read_vector(earth_position_b)
+earth_position_b = read_3d_vector_from_csv(read_file_name, 'earth_position_from_spacecraft_b', 'm')
+earth_direction_b = normalize_csv_read_vector(np.transpose(earth_position_b))
 
 # Read S2E CSV for Moon
-csv_data = pandas.read_csv(read_file_name, sep=',', usecols=['MOON_pos_b(X)[m]', 'MOON_pos_b(Y)[m]', 'MOON_pos_b(Z)[m]'])
-moon_position_b = np.transpose(np.array([csv_data['MOON_pos_b(X)[m]'].to_numpy(), 
-                                          csv_data['MOON_pos_b(Y)[m]'].to_numpy(),
-                                          csv_data['MOON_pos_b(Z)[m]'].to_numpy()]))
-moon_direction_b = normalize_csv_read_vector(moon_position_b)
+moon_position_b = read_3d_vector_from_csv(read_file_name, 'moon_position_from_spacecraft_b', 'm')
+moon_direction_b = normalize_csv_read_vector(np.transpose(moon_position_b))
 
 # Read S2E CSV for velocity vector
-csv_data = pandas.read_csv(read_file_name, sep=',', usecols=['sat_velocity_b(X)[m/s]', 'sat_velocity_b(Y)[m/s]', 'sat_velocity_b(Z)[m/s]'])
-velocity_vector_b = np.transpose(np.array([csv_data['sat_velocity_b(X)[m/s]'].to_numpy(), 
-                                           csv_data['sat_velocity_b(Y)[m/s]'].to_numpy(),
-                                           csv_data['sat_velocity_b(Z)[m/s]'].to_numpy()]))
-velocity_direction_b = normalize_csv_read_vector(velocity_vector_b)
+velocity_vector_b = read_3d_vector_from_csv(read_file_name, 'spacecraft_velocity_b', 'm/s')
+velocity_direction_b = normalize_csv_read_vector(np.transpose(velocity_vector_b))
 
 #
 # Plot
@@ -83,10 +71,12 @@ fig = plt.figure()
 ax = plt.axes(projection="3d")
 
 # Plot Spacecraft
-ax.plot(0,0,0, marker="*", c="black", markersize=10, label="Sat")
 ax.quiver(0, 0, 0, 0.5, 0, 0, color='r', label="X") # X-axis
 ax.quiver(0, 0, 0, 0, 0.5, 0, color='g', label="Y") # Y-axis
 ax.quiver(0, 0, 0, 0, 0, 0.5, color='b', label="Z") # Z-axis
+
+# ax.plot(0,0,0, marker="*", c="black", markersize=10, label="Sat") # Please use this when you don't have mesh data
+add_stl_model(ax, "./data/sample_6u_cubesat.stl") # Add Spacecraft mesh
 
 # Plot Celestial bodies
 ax.plot(sun_direction_b[0], sun_direction_b[1], sun_direction_b[2], marker="o", c="red", label="Sun")
