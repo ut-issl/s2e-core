@@ -103,6 +103,8 @@ UartCommunicationWithObc::~UartCommunicationWithObc() {
 }
 
 void UartCommunicationWithObc::InitializeObcComBase() {
+  tx_buffer_.resize(tx_buffer_size_);
+  rx_buffer_.resize(rx_buffer_size_);
   int ret;
   switch (simulation_mode_) {
     case SimulationMode::kError:
