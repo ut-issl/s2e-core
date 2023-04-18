@@ -21,6 +21,6 @@ add_library(${PROJECT_NAME} STATIC
   attitude/initialize_attitude.cpp
 
   dynamics.cpp
-)
+ "thermal/heater.cpp" "thermal/initialize_heater.cpp" "thermal/heatload.cpp" "thermal/initialize_heatload.cpp")
 
 include(../../common.cmake)

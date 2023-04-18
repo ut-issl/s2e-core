@@ -11,16 +11,16 @@
 using namespace std;
 using namespace libra;
 
-Node::Node(const int node_id, const string node_label, const int heater_node_id, const double temperature_ini, const double capacity_ini,
-           const double internal_heat_ini, const double alpha, const double area, libra::Vector<3> normal_v_b)
+Node::Node(const int node_id, const string node_label, const int node_type, const int heater_node_id, const double temperature_ini,
+           const double capacity_ini, const double alpha, const double area, libra::Vector<3> normal_v_b)
     : node_id_(node_id),
       node_label_(node_label),
       heater_node_id_(heater_node_id),
       temperature_(temperature_ini),
       capacity_(capacity_ini),
-      internal_heat_(internal_heat_ini),
       alpha_rad_(alpha),
       area_(area),
+      node_type_(node_type),
       normal_v_b_(normal_v_b) {
   solar_radiation_ = 0;
 }
@@ -47,15 +47,11 @@ double Node::GetTemperature_deg(void) const {
 
 double Node::GetCapacity(void) const { return capacity_; }
 
-double Node::GetInternalHeat(void) const { return internal_heat_; }
-
 double Node::GetSolarRadiation(void) const { return solar_radiation_; }
 
-void Node::SetTemperature_K(double temp_K) { temperature_ = temp_K; }
+int Node::GetNodeType(void) const { return node_type_; }
 
-void Node::SetInternalHeat(double heat_power) {
-  internal_heat_ = heat_power;  // [W]
-}
+void Node::SetTemperature_K(double temp_K) { temperature_ = temp_K; }
 
 double Node::CalcSolarRadiation(libra::Vector<3> sun_direction) {
   // FIXME: constants
@@ -80,7 +76,8 @@ void Node::PrintParam(void) {
   cout << "  temperature  : " << temperature_ << endl;
   cout << "  alpha        : " << alpha_rad_ << endl;
   cout << "  capacity     : " << capacity_ << endl;
-  cout << "  internal heat; " << internal_heat_ << endl;
+  cout << "  node type    : " << node_type_ << endl;
+  cout << "  heater id    : " << heater_node_id_ << endl;
   cout << "  Normal Vector: ";
   for (int i = 0; i < 3; i++) {
     cout << normal_v_b_[i] << " ";

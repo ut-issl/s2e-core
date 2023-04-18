@@ -12,14 +12,18 @@
 
 using namespace std;
 
-Temperature::Temperature(const vector<vector<double>> cij, const vector<vector<double>> rij, vector<Node> vnodes, const int node_num,
-                         const double propstep, const bool is_calc_enabled, const bool debug)
+Temperature::Temperature(const vector<vector<double>> cij, const vector<vector<double>> rij, vector<Node> vnodes, 
+                         vector<Heatload> vheatloads, vector<Heater> vheaters, const int node_num,
+                         const double propstep, const bool is_calc_enabled, const int heat_input_setting, const bool debug)
     : cij_(cij),
       rij_(rij),
       vnodes_(vnodes),
+      vheatloads_(vheatloads),
+      vheaters_(vheaters),
       node_num_(node_num),
       prop_step_(propstep),  // ルンゲクッタ積分時間刻み幅
       is_calc_enabled_(is_calc_enabled),
+      heat_input_setting_(heat_input_setting),
       debug_(debug) {
   prop_time_ = 0;
   if (debug_) {
@@ -42,6 +46,7 @@ void Temperature::Propagate(libra::Vector<3> sun_direction, const double endtime
     RungeOneStep(prop_time_, prop_step_, sun_direction, node_num_);
     prop_time_ += prop_step_;
   }
+  UpdateHeaterStatus();
   RungeOneStep(prop_time_, endtime - prop_time_, sun_direction, node_num_);
   prop_time_ = endtime;
 
@@ -59,6 +64,10 @@ void Temperature::Propagate(libra::Vector<3> sun_direction, const double endtime
     double norm_sund = sun_direction.CalcNorm();
     for (int i = 0; i < 3; i++) {
       cout << setprecision(3) << sun_direction[i] / norm_sund << "  ";
+    }
+    cout << "Heatload:  ";
+    for (auto itr = vheatloads_.begin(); itr != vheatloads_.end(); ++itr) {
+      cout << setprecision(3) << itr->GetTotalHeatload() << "  ";
     }
     cout << endl;
   }
@@ -103,31 +112,60 @@ void Temperature::RungeOneStep(double t, double dt, libra::Vector<3> sun_directi
 vector<double> Temperature::OdeTemperature(vector<double> x, double t, libra::Vector<3> sun_direction, int node_num) {
   // TODO: consider the following unused arguments are really needed
   UNUSED(x);
-  UNUSED(t);
 
   vector<double> dTdt(node_num);
   for (int i = 0; i < node_num; i++) {
-    double solar = vnodes_[i].CalcSolarRadiation(sun_direction);  // solar radiation[W]
-    double internal = vnodes_[i].GetInternalHeat();               // internal(generated) heat[W]
+    vheatloads_[i].SetTime(t);
+    if (vnodes_[i].GetNodeType() == 0) {
+      if (heat_input_setting_ == 0) {
+        double solar = vnodes_[i].CalcSolarRadiation(sun_direction);  // solar radiation[W]
+        vheatloads_[i].SetSolarHeatload(solar);
+      }
+      double heater = GetHeaterPower(i);
+      vheatloads_[i].SetHeaterHeatload(heater);
+      vheatloads_[i].CalcInternalHeatload();
+      vheatloads_[i].UpdateTotalHeatload();
+      double heatload = vheatloads_[i].GetTotalHeatload();  // Total heatload (solar + internal + heater)[W]
 
-    double coupling_heat = 0;      // Coupling of node i and j by heat transfer
-    double radiation_heat = 0;     // Coupling of node i and j by thermal radiation
-    double const sigma = 5.67E-8;  // Stefan-Boltzmann Constant
-    for (int j = 0; j < node_num; j++) {
-      coupling_heat += cij_[i][j] * (vnodes_[j].GetTemperature_K() - vnodes_[i].GetTemperature_K());
-      radiation_heat += sigma * rij_[i][j] * (pow(vnodes_[j].GetTemperature_K(), 4) - pow(vnodes_[i].GetTemperature_K(), 4));
+      double coupling_heat = 0;      // Coupling of node i and j by heat transfer
+      double radiation_heat = 0;     // Coupling of node i and j by thermal radiation
+      double const sigma = 5.67E-8;  // Stefan-Boltzmann Constant
+      for (int j = 0; j < node_num; j++) {
+        coupling_heat += cij_[i][j] * (vnodes_[j].GetTemperature_K() - vnodes_[i].GetTemperature_K());
+        radiation_heat += sigma * rij_[i][j] * (pow(vnodes_[j].GetTemperature_K(), 4) - pow(vnodes_[i].GetTemperature_K(), 4));
+      }
+      double heat_input = coupling_heat + radiation_heat + heatload;
+      dTdt[i] = heat_input / vnodes_[i].GetCapacity();
+    } else if (vnodes_[i].GetNodeType() == 1) {
+      dTdt[i] = 0;
     }
-    dTdt[i] = (coupling_heat + radiation_heat + solar + internal) / vnodes_[i].GetCapacity();
   }
   return dTdt;
 }
 
-void Temperature::AddHeaterPower(vector<double> heater_power) {
+double Temperature::GetHeaterPower(int node_id) {
+  int heater_id = vnodes_[node_id].GetHeaterNodeId();
+  double heater_power = 0.0;
+  if (heater_id > 0) {
+    heater_power = vheaters_[heater_id - 1].GetPowerOutput();
+  }
+  return heater_power;
+}
+
+void Temperature::UpdateHeaterStatus(void) {
   for (auto itr = vnodes_.begin(); itr != vnodes_.end(); ++itr) {
-    if ((itr->GetHeaterNodeId()) > 0) {
-      itr->SetInternalHeat(heater_power[itr->GetHeaterNodeId()]);  // Set internal heat
-    } else {
-      itr->SetInternalHeat(0.0);  // Nodes without heater
+    int heater_id = itr->GetHeaterNodeId();
+    if (heater_id > 0) {
+      bool status = vheaters_[heater_id - 1].GetStatus();
+      if (status) {
+        if (itr->GetTemperature_deg() > vheaters_[heater_id - 1].GetUpperThreshold_deg()) {
+          vheaters_[heater_id - 1].SetStatus(false);
+        }
+      } else {
+        if (itr->GetTemperature_deg() < vheaters_[heater_id - 1].GetLowerThreshold_deg()) {
+          vheaters_[heater_id - 1].SetStatus(true);
+        }
+      }
     }
   }
 }
@@ -137,8 +175,18 @@ vector<Node> Temperature::GetVnodes() const { return vnodes_; }
 string Temperature::GetLogHeader() const {
   string str_tmp = "";
   for (int i = 0; i < node_num_; i++) {
-    string str_node = "temp_" + to_string(vnodes_[i].GetNodeId()) + " (" + vnodes_[i].GetNodeLabel() + ")";
-    str_tmp += WriteScalar(str_node, "deg");
+    // Do not retrieve boundary node values
+    if (vnodes_[i].GetNodeType() != 1) {
+      string str_node = "temp_" + to_string(vnodes_[i].GetNodeId()) + " (" + vnodes_[i].GetNodeLabel() + ")";
+      str_tmp += WriteScalar(str_node, "deg");
+    }
+  }
+  for (int i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (vnodes_[i].GetNodeType() != 1) {
+      string str_node = "heat_" + to_string(vnodes_[i].GetNodeId()) + " (" + vnodes_[i].GetNodeLabel() + ")";
+      str_tmp += WriteScalar(str_node, "W");
+    }
   }
   /*
   下記のコードのようにiteratorでアクセスすると,
@@ -155,7 +203,16 @@ string Temperature::GetLogHeader() const {
 string Temperature::GetLogValue() const {
   string str_tmp = "";
   for (int i = 0; i < node_num_; i++) {
-    str_tmp += WriteScalar(vnodes_[i].GetTemperature_deg());
+    // Do not retrieve boundary node values
+    if (vnodes_[i].GetNodeType() != 1) {
+      str_tmp += WriteScalar(vnodes_[i].GetTemperature_deg());
+    }
+  }
+  for (int i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (vnodes_[i].GetNodeType() != 1) {
+      str_tmp += WriteScalar(vheatloads_[i].GetTotalHeatload());
+    }
   }
   return str_tmp;
 }
@@ -167,17 +224,21 @@ void Temperature::PrintParams(void) {
   for (auto itr = vnodes_.begin(); itr != vnodes_.end(); ++itr) {
     itr->PrintParam();
   }
+  cout << "Vheaters:" << endl;
+  for (auto itr = vheaters_.begin(); itr != vheaters_.end(); ++itr) {
+    itr->PrintParam();
+  }
   cout << std::fixed;
   cout << "Cij:" << endl;
-  for (int i = 0; i < (node_num_ + 1); i++) {
-    for (int j = 0; j < (node_num_ + 1); j++) {
+  for (int i = 0; i < (node_num_); i++) {
+    for (int j = 0; j < (node_num_); j++) {
       cout << std::setprecision(4) << cij_[i][j] << "  ";
     }
     cout << endl;
   }
   cout << "Rij:" << endl;
-  for (int i = 0; i < (node_num_ + 1); i++) {
-    for (int j = 0; j < (node_num_ + 1); j++) {
+  for (int i = 0; i < (node_num_); i++) {
+    for (int j = 0; j < (node_num_); j++) {
       cout << std::setprecision(4) << rij_[i][j] << "  ";
     }
     cout << endl;
