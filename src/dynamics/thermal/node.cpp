@@ -11,7 +11,7 @@
 using namespace std;
 using namespace libra;
 
-Node::Node(const int node_id, const string node_label, const int node_type, const int heater_node_id, const double temperature_ini,
+Node::Node(const int node_id, const string node_label, const NodeType node_type, const int heater_node_id, const double temperature_ini,
            const double capacity_ini, const double alpha, const double area, libra::Vector<3> normal_v_b)
     : node_id_(node_id),
       node_label_(node_label),
@@ -50,7 +50,7 @@ void Node::PrintParam(void) {
   cout << "  temperature  : " << temperature_ << endl;
   cout << "  alpha        : " << alpha_rad_ << endl;
   cout << "  capacity     : " << capacity_ << endl;
-  cout << "  node type    : " << node_type_ << endl;
+  cout << "  node type    : " << static_cast<int>(node_type_) << endl;
   cout << "  heater id    : " << heater_node_id_ << endl;
   cout << "  Normal Vector: ";
   for (int i = 0; i < 3; i++) {

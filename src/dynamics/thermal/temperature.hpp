@@ -14,6 +14,11 @@
 #include "heatload.hpp"
 #include "node.hpp"
 
+enum class SolarCalcSetting {
+  kEnable,
+  kDisable,
+};
+
 class Temperature : public ILoggable {
  protected:
   std::vector<std::vector<double>> cij_;  // Coupling of node i and node j by heat conduction
@@ -22,10 +27,10 @@ class Temperature : public ILoggable {
   std::vector<Heatload> vheatloads_;      // vector of heatloads
   std::vector<Heater> vheaters_;          // vector of heaters
   int node_num_;                          // number of nodes
-  double prop_step_;                      // 積分刻み幅[sec]
-  double prop_time_;                      // Temperatureクラス内での累積積分時間(end_timeに等しくなるまで積分する)
+  double propagation_step_;                      // 積分刻み幅[sec]
+  double propagation_time_;                      // Temperatureクラス内での累積積分時間(end_timeに等しくなるまで積分する)
   bool is_calc_enabled_;                  // 温度更新をするかどうかのブーリアン
-  int heat_input_setting_;  // 各ノードの入熱量の計算方法 (0: csvは内部発熱のみ、1: csvは太陽入熱含めた総量)
+  SolarCalcSetting solar_calc_setting_;  // setting for solar calculation
   bool debug_;
 
   void RungeOneStep(double t, double dt, libra::Vector<3> sun_direction, int node_num);
@@ -35,7 +40,7 @@ class Temperature : public ILoggable {
  public:
   Temperature(const std::vector<std::vector<double>> cij_, const std::vector<std::vector<double>> rij, std::vector<Node> vnodes,
               std::vector<Heatload> vheatloads, std::vector<Heater> vheaters, const int node_num, const double propstep, const bool is_calc_enabled,
-              const int heat_input_setting, const bool debug);
+              const SolarCalcSetting solar_calc_setting, const bool debug);
   Temperature();
   virtual ~Temperature();
   void Propagate(libra::Vector<3> sun_direction,

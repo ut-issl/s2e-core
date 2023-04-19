@@ -81,7 +81,15 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   // read ini-file settings
   string file_path = mainIni.ReadString("THERMAL", "thermal_file_directory");
-  int heat_input_setting = mainIni.ReadInt("THERMAL", "heat_input_setting");
+  string solar_calc_setting_str = mainIni.ReadString("THERMAL", "solar_calc_setting");
+  SolarCalcSetting solar_calc_setting;
+
+  if (solar_calc_setting_str == "ENABLE") {
+    solar_calc_setting = SolarCalcSetting::kEnable;
+  } else {
+    solar_calc_setting = SolarCalcSetting::kDisable;
+  }
+
   bool debug = mainIni.ReadBoolean("THERMAL", "debug");
 
   // Read Heatloads from CSV File
@@ -131,6 +139,6 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   conf_rij.ReadCsvDouble(rij, nodes_num);
 
   Temperature* temperature;
-  temperature = new Temperature(cij, rij, vnodes, vheatloads, vheaters, nodes_num, rk_prop_step_sec, is_calc_enabled, heat_input_setting, debug);
+  temperature = new Temperature(cij, rij, vnodes, vheatloads, vheaters, nodes_num, rk_prop_step_sec, is_calc_enabled, solar_calc_setting, debug);
   return temperature;
 }

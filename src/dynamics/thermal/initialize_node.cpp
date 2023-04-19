@@ -40,7 +40,7 @@ Node InitNode(const std::vector<std::string>& node_str) {
 
   int node_id = 0;                  // node number
   std::string node_label = "temp";  // node name
-  int node_type = 0;                // node type
+  int node_type_int = 0;            // node type
   int heater_node_id = 0;           // heater node index
   double temperature = 0;           // [K]
   double capacity = 0;              // [J/K]
@@ -49,7 +49,7 @@ Node InitNode(const std::vector<std::string>& node_str) {
 
   node_id = stoi(node_str[0]);         // column 1
   node_label = node_str[1];            // column 2
-  node_type = stoi(node_str[2]);       // column 3
+  node_type_int = stoi(node_str[2]);   // column 3
   heater_node_id = stoi(node_str[3]);  // column 4
   capacity = stod(node_str[4]);        // column 5
   alpha = stod(node_str[5]);           // column 6
@@ -59,6 +59,8 @@ Node InitNode(const std::vector<std::string>& node_str) {
     normal_v_b[i] = stod(node_str[7 + i]);
   }                                  // body frame
   temperature = stod(node_str[10]);  // column 11
+
+  NodeType node_type = static_cast<NodeType>(node_type_int);
 
   Node node(node_id, node_label, node_type, heater_node_id, temperature, capacity, alpha, area, normal_v_b);
   return node;

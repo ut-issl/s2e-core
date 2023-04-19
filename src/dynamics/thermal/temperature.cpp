@@ -13,19 +13,19 @@
 using namespace std;
 
 Temperature::Temperature(const vector<vector<double>> cij, const vector<vector<double>> rij, vector<Node> vnodes, vector<Heatload> vheatloads,
-                         vector<Heater> vheaters, const int node_num, const double propstep, const bool is_calc_enabled, const int heat_input_setting,
-                         const bool debug)
+                         vector<Heater> vheaters, const int node_num, const double propstep, const bool is_calc_enabled,
+                         const SolarCalcSetting solar_calc_setting, const bool debug)
     : cij_(cij),
       rij_(rij),
       vnodes_(vnodes),
       vheatloads_(vheatloads),
       vheaters_(vheaters),
       node_num_(node_num),
-      prop_step_(propstep),  // ルンゲクッタ積分時間刻み幅
+      propagation_step_(propstep),  // ルンゲクッタ積分時間刻み幅
       is_calc_enabled_(is_calc_enabled),
-      heat_input_setting_(heat_input_setting),
+      solar_calc_setting_(solar_calc_setting),
       debug_(debug) {
-  prop_time_ = 0;
+  propagation_time_ = 0;
   if (debug_) {
     PrintParams();
   }
@@ -33,7 +33,7 @@ Temperature::Temperature(const vector<vector<double>> cij, const vector<vector<d
 
 Temperature::Temperature() {
   node_num_ = 0;
-  prop_step_ = 0.0;
+  propagation_step_ = 0.0;
   is_calc_enabled_ = false;
   debug_ = false;
 }
@@ -42,13 +42,13 @@ Temperature::~Temperature() {}
 
 void Temperature::Propagate(libra::Vector<3> sun_direction, const double endtime) {
   if (!is_calc_enabled_) return;
-  while (endtime - prop_time_ - prop_step_ > 1.0e-6) {
-    RungeOneStep(prop_time_, prop_step_, sun_direction, node_num_);
-    prop_time_ += prop_step_;
+  while (endtime - propagation_time_ - propagation_step_ > 1.0e-6) {
+    RungeOneStep(propagation_time_, propagation_step_, sun_direction, node_num_);
+    propagation_time_ += propagation_step_;
   }
   UpdateHeaterStatus();
-  RungeOneStep(prop_time_, endtime - prop_time_, sun_direction, node_num_);
-  prop_time_ = endtime;
+  RungeOneStep(propagation_time_, endtime - propagation_time_, sun_direction, node_num_);
+  propagation_time_ = endtime;
 
   if (debug_) {
     cout << fixed;
@@ -116,8 +116,8 @@ vector<double> Temperature::OdeTemperature(vector<double> x, double t, libra::Ve
   vector<double> dTdt(node_num);
   for (int i = 0; i < node_num; i++) {
     vheatloads_[i].SetTime(t);
-    if (vnodes_[i].GetNodeType() == 0) {
-      if (heat_input_setting_ == 0) {
+    if (vnodes_[i].GetNodeType() == NodeType::kDiffusive) {
+      if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
         double solar = vnodes_[i].CalcSolarRadiation(sun_direction);  // solar radiation[W]
         vheatloads_[i].SetSolarHeatload(solar);
       }
@@ -136,7 +136,7 @@ vector<double> Temperature::OdeTemperature(vector<double> x, double t, libra::Ve
       }
       double heat_input = coupling_heat + radiation_heat + heatload;
       dTdt[i] = heat_input / vnodes_[i].GetCapacity();
-    } else if (vnodes_[i].GetNodeType() == 1) {
+    } else if (vnodes_[i].GetNodeType() == NodeType::kBoundary) {
       dTdt[i] = 0;
     }
   }
@@ -174,27 +174,18 @@ string Temperature::GetLogHeader() const {
   string str_tmp = "";
   for (int i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
-    if (vnodes_[i].GetNodeType() != 1) {
+    if (vnodes_[i].GetNodeType() != NodeType::kBoundary) {
       string str_node = "temp_" + to_string(vnodes_[i].GetNodeId()) + " (" + vnodes_[i].GetNodeLabel() + ")";
       str_tmp += WriteScalar(str_node, "deg");
     }
   }
   for (int i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
-    if (vnodes_[i].GetNodeType() != 1) {
+    if (vnodes_[i].GetNodeType() != NodeType::kBoundary) {
       string str_node = "heat_" + to_string(vnodes_[i].GetNodeId()) + " (" + vnodes_[i].GetNodeLabel() + ")";
       str_tmp += WriteScalar(str_node, "W");
     }
   }
-  /*
-  下記のコードのようにiteratorでアクセスすると,
-  インスタンス化されていないメンバ関数のアドレスを取っていることになり
-  うまくいかない
-  for (auto itr = vnodes_.cbegin() + 1; itr != vnodes_.cend(); ++itr) {
-          string str_node = "temp_" + to_string((*itr->GetNodeId)()) + " (" +
-  to_string((*itr->GetNodeLabel)()) + ")"; str_tmp += WriteScalar(str_node,
-  "[deg]");
-  }*/
   return str_tmp;
 }
 
@@ -202,13 +193,13 @@ string Temperature::GetLogValue() const {
   string str_tmp = "";
   for (int i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
-    if (vnodes_[i].GetNodeType() != 1) {
+    if (vnodes_[i].GetNodeType() != NodeType::kBoundary) {
       str_tmp += WriteScalar(vnodes_[i].GetTemperature_deg());
     }
   }
   for (int i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
-    if (vnodes_[i].GetNodeType() != 1) {
+    if (vnodes_[i].GetNodeType() != NodeType::kBoundary) {
       str_tmp += WriteScalar(vheatloads_[i].GetTotalHeatload());
     }
   }

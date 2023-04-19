@@ -6,14 +6,16 @@
 #ifndef S2E_DYNAMICS_THERMAL_NODE_HPP_
 #define S2E_DYNAMICS_THERMAL_NODE_HPP_
 
+#include <environment/global/physical_constants.hpp>
 #include <library/logger/logger.hpp>
 #include <string>
 #include <vector>
-#include <environment/global/physical_constants.hpp>
+
+enum class NodeType { kDiffusive, kBoundary, kArithmetic };
 
 class Node {
  protected:
-  int node_id_;             // node番号
+  int node_id_;             // node id
   std::string node_label_;  // node name
   int heater_node_id_;      // heater node番号
   double temperature_;      // 温度[K]
@@ -22,10 +24,10 @@ class Node {
   double area_;                  // 太陽熱が入射する面の面積[m^2]
   libra::Vector<3> normal_v_b_;  // 太陽熱が入射する面の法線ベクトル(機体固定座標系)
   double solar_radiation_;       // 入射する太陽輻射熱[W]([J]に変換するためには時間をかけないといけないことに注意
-  int node_type_;                // ノードの種類 (0: diffusive, 1: boundary, 2: arithmetic)
+  NodeType node_type_;           // ノードの種類 (0: diffusive, 1: boundary, 2: arithmetic)
 
  public:
-  Node(const int node_id, const std::string node_label, const int node_type, const int heater_node_id, const double temperature_ini,
+  Node(const int node_id, const std::string node_label, const NodeType node_type, const int heater_node_id, const double temperature_ini,
        const double capacity_ini, const double alpha, const double area, libra::Vector<3> normal_v_b);
   virtual ~Node();
 
@@ -40,7 +42,7 @@ class Node {
   inline double GetTemperature_deg(void) const { return K2degC(temperature_); }
   inline double GetCapacity(void) const { return capacity_; }
   inline double GetSolarRadiation(void) const { return solar_radiation_; }
-  inline int GetNodeType(void) const { return node_type_; }
+  inline NodeType GetNodeType(void) const { return node_type_; }
 
   // Setter
   inline void SetTemperature_K(double temp_K) { temperature_ = temp_K; }
