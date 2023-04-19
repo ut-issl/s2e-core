@@ -1,7 +1,6 @@
 #include "heater.hpp"
 
 #include <cmath>
-#include <environment/global/physical_constants.hpp>
 
 using namespace std;
 
@@ -17,11 +16,6 @@ Heater::Heater(const int heater_id, const std::string heater_label, const double
 }
 
 Heater::~Heater() {}
-
-double Heater::deg2K(double degC) const {
-  double temp = degC - environment::absolute_zero_degC;
-  return temp;
-}
 
 void Heater::PrintParam(void) {
   cout << "heater_id: " << heater_id_ << endl;

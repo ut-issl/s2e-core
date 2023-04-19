@@ -27,11 +27,6 @@ Node::Node(const int node_id, const string node_label, const int node_type, cons
 
 Node::~Node() {}
 
-double Node::K2deg(double kelvin) const {
-  double temp = kelvin + environment::absolute_zero_degC;
-  return temp;
-}
-
 double Node::CalcSolarRadiation(libra::Vector<3> sun_direction) {
   // FIXME: constants
   double R = 6.96E+8;                              // Distance from sun

@@ -9,6 +9,7 @@
 #include <library/logger/logger.hpp>
 #include <string>
 #include <vector>
+#include <environment/global/physical_constants.hpp>
 
 class Node {
  protected:
@@ -23,8 +24,6 @@ class Node {
   double solar_radiation_;       // 入射する太陽輻射熱[W]([J]に変換するためには時間をかけないといけないことに注意
   int node_type_;                // ノードの種類 (0: diffusive, 1: boundary, 2: arithmetic)
 
-  double K2deg(double kelvin) const;  // 絶対温度からdegCに変換
-
  public:
   Node(const int node_id, const std::string node_label, const int node_type, const int heater_node_id, const double temperature_ini,
        const double capacity_ini, const double alpha, const double area, libra::Vector<3> normal_v_b);
@@ -38,7 +37,7 @@ class Node {
   inline std::string GetNodeLabel(void) const { return node_label_; }
   inline int GetHeaterNodeId(void) const { return heater_node_id_; }
   inline double GetTemperature_K(void) const { return temperature_; }
-  inline double GetTemperature_deg(void) const { return K2deg(temperature_); }
+  inline double GetTemperature_deg(void) const { return K2degC(temperature_); }
   inline double GetCapacity(void) const { return capacity_; }
   inline double GetSolarRadiation(void) const { return solar_radiation_; }
   inline int GetNodeType(void) const { return node_type_; }

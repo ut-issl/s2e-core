@@ -6,6 +6,7 @@
 #ifndef S2E_DYNAMICS_THERMAL_HEATER_HPP_
 #define S2E_DYNAMICS_THERMAL_HEATER_HPP_
 
+#include <environment/global/physical_constants.hpp>
 #include <library/logger/logger.hpp>
 #include <string>
 #include <vector>
@@ -23,11 +24,8 @@ class Heater {
   double lower_threshold_;    // Lower Threshold of Heater Control [degC]
   double upper_threshold_;    // Upper Threshold of Heater Control [degC]
 
-  double K2deg(double kelvin) const;  // Convert Kelvin to degC
-  double deg2K(double degC) const;    // Convert degC to Kelvin
-
-  HeaterStatus heater_status_;          // Power Status of Heater
-  double power_output_;  // Power Output of Heater [W]
+  HeaterStatus heater_status_;  // Power Status of Heater
+  double power_output_;         // Power Output of Heater [W]
 
  public:
   Heater(const int heater_id, const std::string heater_label, const double power_rating, const double lower_threshold, const double upper_threshold);
@@ -39,8 +37,8 @@ class Heater {
   inline double GetPowerRating(void) const { return power_rating_; }
   inline double GetLowerThreshold_deg(void) const { return lower_threshold_; }
   inline double GetUpperThreshold_deg(void) const { return upper_threshold_; }
-  inline double GetLowerThreshold_K(void) const { return deg2K(lower_threshold_); }
-  inline double GetUpperThreshold_K(void) const { return deg2K(upper_threshold_); }
+  inline double GetLowerThreshold_K(void) const { return degC2K(lower_threshold_); }
+  inline double GetUpperThreshold_K(void) const { return degC2K(upper_threshold_); }
   inline HeaterStatus GetHeaterStatus(void) const { return heater_status_; }
   inline double GetPowerOutput(void) const { return power_output_; }
 
