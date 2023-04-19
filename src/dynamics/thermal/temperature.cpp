@@ -12,9 +12,9 @@
 
 using namespace std;
 
-Temperature::Temperature(const vector<vector<double>> cij, const vector<vector<double>> rij, vector<Node> vnodes, 
-                         vector<Heatload> vheatloads, vector<Heater> vheaters, const int node_num,
-                         const double propstep, const bool is_calc_enabled, const int heat_input_setting, const bool debug)
+Temperature::Temperature(const vector<vector<double>> cij, const vector<vector<double>> rij, vector<Node> vnodes, vector<Heatload> vheatloads,
+                         vector<Heater> vheaters, const int node_num, const double propstep, const bool is_calc_enabled, const int heat_input_setting,
+                         const bool debug)
     : cij_(cij),
       rij_(rij),
       vnodes_(vnodes),
@@ -169,8 +169,6 @@ void Temperature::UpdateHeaterStatus(void) {
     }
   }
 }
-
-vector<Node> Temperature::GetVnodes() const { return vnodes_; }
 
 string Temperature::GetLogHeader() const {
   string str_tmp = "";

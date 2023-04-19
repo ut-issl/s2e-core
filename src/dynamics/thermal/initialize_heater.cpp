@@ -5,7 +5,7 @@
 
 #include "initialize_heater.hpp"
 
-Heater InitHeater(const std::vector<std::string>& heater_str) { 
+Heater InitHeater(const std::vector<std::string>& heater_str) {
   using std::stod;
   using std::stoi;
 

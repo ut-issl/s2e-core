@@ -57,8 +57,8 @@ Node InitNode(const std::vector<std::string>& node_str) {
   libra::Vector<3> normal_v_b;         // column 8-10
   for (int i = 0; i < 3; i++) {
     normal_v_b[i] = stod(node_str[7 + i]);
-  }                                   // body frame
-  temperature = stod(node_str[10]);   // column 11
+  }                                  // body frame
+  temperature = stod(node_str[10]);  // column 11
 
   Node node(node_id, node_label, node_type, heater_node_id, temperature, capacity, alpha, area, normal_v_b);
   return node;

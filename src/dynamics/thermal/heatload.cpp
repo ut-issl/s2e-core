@@ -7,9 +7,7 @@ using namespace std;
 using namespace libra;
 
 Heatload::Heatload(int node_id, std::vector<double> times, std::vector<double> internal_values)
-  : node_id_(node_id),
-    times_(times),
-    internal_values_(internal_values) {
+    : node_id_(node_id), times_(times), internal_values_(internal_values) {
   t_ = 0;
   idx_ = 0;
   solar_ = 0.0;
@@ -23,11 +21,11 @@ Heatload::Heatload(int node_id, std::vector<double> times, std::vector<double> i
 
 Heatload::~Heatload() {}
 
-void Heatload::CalcInternalHeatload(void) { 
+void Heatload::CalcInternalHeatload(void) {
   // Linear Interpolation to Calculate Internal Heat Load
   double t_lower = times_[idx_];
   double t_upper = times_[idx_ + 1];
-  
+
   double heat_lower = internal_values_[idx_];
   double heat_upper = internal_values_[idx_ + 1];
 
@@ -36,17 +34,7 @@ void Heatload::CalcInternalHeatload(void) {
   internal_ = heat;
 }
 
-void Heatload::UpdateTotalHeatload(void) { total_ = solar_ + internal_ + heater_; }
-
-double Heatload::GetSolarHeatload(void) const { return solar_; }
-
-double Heatload::GetInternalHeatload(void) const { return internal_; }
-
-double Heatload::GetHeaterHeatload(void) const { return heater_; }
-
-double Heatload::GetTotalHeatload(void) const { return total_; }
-
-void Heatload::SetTime(double t) { 
+void Heatload::SetTime(double t) {
   t_ = t;
   t_mod_ = fmod(t_, time_end_);
 
@@ -57,9 +45,3 @@ void Heatload::SetTime(double t) {
     }
   }
 }
-
-void Heatload::SetInternalHeatload(double internal) { internal_ = internal; }
-
-void Heatload::SetSolarHeatload(double solar) { solar_ = solar; }
-
-void Heatload::SetHeaterHeatload(double heater) { heater_ = heater; }

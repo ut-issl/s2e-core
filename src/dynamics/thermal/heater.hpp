@@ -12,36 +12,36 @@
 
 class Heater {
  protected:
-  int heater_id_;                  // heater番号 (1から始めること)
-  std::string heater_label_;       // heater name
-  double power_rating_;            // 電力定格[W]
-  double lower_threshold_;         // 制御閾値下限[degC]
-  double upper_threshold_;         // 制御閾値上限[degC]
+  unsigned int heater_id_;    // heater id (Use values over 1)
+  std::string heater_label_;  // heater name
+  double power_rating_;       // Power Rating (100% Duty) [W]
+  double lower_threshold_;    // Lower Threshold of Heater Control [degC]
+  double upper_threshold_;    // Upper Threshold of Heater Control [degC]
 
-  double K2deg(double kelvin) const;  // 絶対温度からdegCに変換
-  double deg2K(double degC) const;    // degCから絶対温度に変換
+  double K2deg(double kelvin) const;  // Convert Kelvin to degC
+  double deg2K(double degC) const;    // Convert degC to Kelvin
 
-  bool status_;          // ヒーター状態 (1: ON, 0: OFF)
-  double power_output_;  // 現在のヒーター出力[W]
+  bool status_;          // Power Status of Heater (True: ON, False: OFF)
+  double power_output_;  // Power Output of Heater [W]
 
  public:
   Heater(const int heater_id, const std::string heater_label, const double power_rating, const double lower_threshold, const double upper_threshold);
   virtual ~Heater();
 
   // Output from this class
-  int GetHeaterId(void) const;
-  std::string GetHeaterLabel(void) const;
-  double GetPowerRating(void) const;
-  double GetLowerThreshold_deg(void) const;
-  double GetUpperThreshold_deg(void) const;
-  double GetLowerThreshold_K(void) const;
-  double GetUpperThreshold_K(void) const;
-  double GetStatus(void) const;
-  double GetPowerOutput(void) const;
+  inline int Heater::GetHeaterId(void) const { return heater_id_; }
+  inline std::string Heater::GetHeaterLabel(void) const { return std::string(); }
+  inline double Heater::GetPowerRating(void) const { return power_rating_; }
+  inline double Heater::GetLowerThreshold_deg(void) const { return lower_threshold_; }
+  inline double Heater::GetUpperThreshold_deg(void) const { return upper_threshold_; }
+  inline double Heater::GetLowerThreshold_K(void) const { return deg2K(lower_threshold_); }
+  inline double Heater::GetUpperThreshold_K(void) const { return deg2K(upper_threshold_); }
+  inline double Heater::GetStatus(void) const { return status_; }
+  inline double Heater::GetPowerOutput(void) const { return power_output_; }
 
   // Setter
-  void SetLowerThreshold(double lower_threshold_deg);
-  void SetUpperThreshold(double upper_threshold_deg);
+  inline void Heater::SetLowerThreshold(double lower_threshold_deg) { lower_threshold_ = lower_threshold_deg; }
+  inline void Heater::SetUpperThreshold(double upper_threshold_deg) { upper_threshold_ = upper_threshold_deg; }
   void SetStatus(bool status);
 
   // for debug

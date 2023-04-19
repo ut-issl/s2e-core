@@ -32,27 +32,6 @@ double Node::K2deg(double kelvin) const {
   return temp;
 }
 
-int Node::GetNodeId(void) const { return node_id_; }
-
-string Node::GetNodeLabel(void) const { return node_label_; }
-
-int Node::GetHeaterNodeId(void) const { return heater_node_id_; }
-
-double Node::GetTemperature_K(void) const { return temperature_; }
-
-double Node::GetTemperature_deg(void) const {
-  double temp = K2deg(temperature_);
-  return temp;
-}
-
-double Node::GetCapacity(void) const { return capacity_; }
-
-double Node::GetSolarRadiation(void) const { return solar_radiation_; }
-
-int Node::GetNodeType(void) const { return node_type_; }
-
-void Node::SetTemperature_K(double temp_K) { temperature_ = temp_K; }
-
 double Node::CalcSolarRadiation(libra::Vector<3> sun_direction) {
   // FIXME: constants
   double R = 6.96E+8;                              // Distance from sun

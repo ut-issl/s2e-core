@@ -7,7 +7,6 @@
 #define S2E_DYNAMICS_THERMAL_INITIALIZE_HEATER_HPP_
 
 #include "heater.hpp"
-class Heater;
 
 Heater InitHeater(const std::vector<std::string>& heater_str);
 

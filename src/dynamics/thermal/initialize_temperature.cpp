@@ -9,9 +9,9 @@
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
 
-#include "initialize_node.hpp"
 #include "initialize_heater.hpp"
 #include "initialize_heatload.hpp"
+#include "initialize_node.hpp"
 
 /* Import node properties, heatloads and Cij/Rij Datas by reading CSV File (node.csv,
 heatload.csv, cij.csv, rij.csv) Detailed process of reading node properties from CSV File, and
@@ -65,8 +65,8 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   vector<Heatload> vheatloads;
   vector<vector<double>> cij;
   vector<vector<double>> rij;
-  vector<vector<string>> vnodestr;  // string vector of node property data
-  vector<vector<string>> vheaterstr;  // string vector of heater property data
+  vector<vector<string>> vnodestr;      // string vector of node property data
+  vector<vector<string>> vheaterstr;    // string vector of heater property data
   vector<vector<string>> vheatloadstr;  // string vector of heatload property data
   int nodes_num = 1;
   int heater_num = 1;
@@ -95,7 +95,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   for (auto itr = vheatloadstr.begin() + 1; itr != vheatloadstr.end(); ++itr) {
     vheatloads.push_back(InitHeatload(*times_itr, *itr));
   }
-  
+
   // Read Node Properties from CSV File
   string filepath_node = file_path + "node.csv";
   IniAccess conf_node(filepath_node);
@@ -116,8 +116,8 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   /*since we don't know the number of heaters yet, set heater_num=100 temporary.
     Recall that heater_num are given to this function only to reseve memory*/
 
-  heater_num = vheaterstr.size() - 1;                                    // First Row is for Header(not data)
-  vheaters.reserve(heater_num);                                          // reserve memory
+  heater_num = vheaterstr.size() - 1;                                        // First Row is for Header(not data)
+  vheaters.reserve(heater_num);                                              // reserve memory
   for (auto itr = vheaterstr.begin() + 1; itr != vheaterstr.end(); ++itr) {  // first row is for labels
     vheaters.push_back(InitHeater(*itr));
   }
