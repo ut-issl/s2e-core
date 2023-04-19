@@ -32,19 +32,19 @@ class Heatload {
 
   void CalcInternalHeatload(void);
 
-  void Heatload::UpdateTotalHeatload(void) { total_ = solar_ + internal_ + heater_; }
+  void UpdateTotalHeatload(void) { total_ = solar_ + internal_ + heater_; }
 
   // Getter
-  inline double Heatload::GetSolarHeatload(void) const { return solar_; }
-  inline double Heatload::GetInternalHeatload(void) const { return internal_; }
-  inline double Heatload::GetHeaterHeatload(void) const { return heater_; }
-  inline double Heatload::GetTotalHeatload(void) const { return total_; }
+  inline double GetSolarHeatload(void) const { return solar_; }
+  inline double GetInternalHeatload(void) const { return internal_; }
+  inline double GetHeaterHeatload(void) const { return heater_; }
+  inline double GetTotalHeatload(void) const { return total_; }
 
   // Setter
   void SetTime(double t);
-  inline void Heatload::SetInternalHeatload(double internal) { internal_ = internal; }
-  inline void Heatload::SetSolarHeatload(double solar) { solar_ = solar; }
-  inline void Heatload::SetHeaterHeatload(double heater) { heater_ = heater; }
+  inline void SetInternalHeatload(double internal) { internal_ = internal; }
+  inline void SetSolarHeatload(double solar) { solar_ = solar; }
+  inline void SetHeaterHeatload(double heater) { heater_ = heater; }
 };
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATLOAD_HPP_

@@ -34,17 +34,17 @@ class Node {
   double CalcSolarRadiation(libra::Vector<3> sun_direction);  // 太陽入射熱を計算
 
   // Output from this class
-  inline int Node::GetNodeId(void) const { return node_id_; }
-  inline std::string Node::GetNodeLabel(void) const { return node_label_; }
-  inline int Node::GetHeaterNodeId(void) const { return heater_node_id_; }
-  inline double Node::GetTemperature_K(void) const { return temperature_; }
-  inline double Node::GetTemperature_deg(void) const { return K2deg(temperature_); }
-  inline double Node::GetCapacity(void) const { return capacity_; }
-  inline double Node::GetSolarRadiation(void) const { return solar_radiation_; }
-  inline int Node::GetNodeType(void) const { return node_type_; }
+  inline int GetNodeId(void) const { return node_id_; }
+  inline std::string GetNodeLabel(void) const { return node_label_; }
+  inline int GetHeaterNodeId(void) const { return heater_node_id_; }
+  inline double GetTemperature_K(void) const { return temperature_; }
+  inline double GetTemperature_deg(void) const { return K2deg(temperature_); }
+  inline double GetCapacity(void) const { return capacity_; }
+  inline double GetSolarRadiation(void) const { return solar_radiation_; }
+  inline int GetNodeType(void) const { return node_type_; }
 
   // Setter
-  inline void Node::SetTemperature_K(double temp_K) { temperature_ = temp_K; }
+  inline void SetTemperature_K(double temp_K) { temperature_ = temp_K; }
 
   // for debug
   void PrintParam(void);

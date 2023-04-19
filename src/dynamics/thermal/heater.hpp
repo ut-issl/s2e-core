@@ -29,19 +29,19 @@ class Heater {
   virtual ~Heater();
 
   // Output from this class
-  inline int Heater::GetHeaterId(void) const { return heater_id_; }
-  inline std::string Heater::GetHeaterLabel(void) const { return std::string(); }
-  inline double Heater::GetPowerRating(void) const { return power_rating_; }
-  inline double Heater::GetLowerThreshold_deg(void) const { return lower_threshold_; }
-  inline double Heater::GetUpperThreshold_deg(void) const { return upper_threshold_; }
-  inline double Heater::GetLowerThreshold_K(void) const { return deg2K(lower_threshold_); }
-  inline double Heater::GetUpperThreshold_K(void) const { return deg2K(upper_threshold_); }
-  inline double Heater::GetStatus(void) const { return status_; }
-  inline double Heater::GetPowerOutput(void) const { return power_output_; }
+  inline int GetHeaterId(void) const { return heater_id_; }
+  inline std::string GetHeaterLabel(void) const { return std::string(); }
+  inline double GetPowerRating(void) const { return power_rating_; }
+  inline double GetLowerThreshold_deg(void) const { return lower_threshold_; }
+  inline double GetUpperThreshold_deg(void) const { return upper_threshold_; }
+  inline double GetLowerThreshold_K(void) const { return deg2K(lower_threshold_); }
+  inline double GetUpperThreshold_K(void) const { return deg2K(upper_threshold_); }
+  inline double GetStatus(void) const { return status_; }
+  inline double GetPowerOutput(void) const { return power_output_; }
 
   // Setter
-  inline void Heater::SetLowerThreshold(double lower_threshold_deg) { lower_threshold_ = lower_threshold_deg; }
-  inline void Heater::SetUpperThreshold(double upper_threshold_deg) { upper_threshold_ = upper_threshold_deg; }
+  inline void SetLowerThreshold(double lower_threshold_deg) { lower_threshold_ = lower_threshold_deg; }
+  inline void SetUpperThreshold(double upper_threshold_deg) { upper_threshold_ = upper_threshold_deg; }
   void SetStatus(bool status);
 
   // for debug
