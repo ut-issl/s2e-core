@@ -17,7 +17,7 @@ class Heatload {
   std::vector<double> times_;
   std::vector<double> internal_values_;
 
-  int idx_;
+  unsigned int idx_;
   double solar_;
   double internal_;
   double heater_;

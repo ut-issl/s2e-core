@@ -14,7 +14,7 @@ Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vecto
 
   int node_id = stoi(heatload_str[0]);  // First data is node id
 
-  for (int i = 0; i < time_str.size() - 1; ++i) {
+  for (unsigned int i = 0; i < time_str.size() - 1; ++i) {
     times[i] = stod(time_str[i + 1]);
     heatloads[i] = stod(heatload_str[i + 1]);
   }
