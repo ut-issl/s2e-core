@@ -14,7 +14,6 @@ Heater InitHeater(const std::vector<std::string>& heater_str) {
   double power = 0;                     // [W]
   double lower_thershold = 0;           // [degC]
   double upper_threshold = 0;           // [degC]
-  double area = 0;
 
   heater_id = stoi(heater_str[0]);        // column 1
   heater_label = heater_str[1];           // column 2

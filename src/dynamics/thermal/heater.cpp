@@ -12,7 +12,7 @@ Heater::Heater(const int heater_id, const std::string heater_label, const double
       power_rating_(power_rating),
       lower_threshold_(lower_threshold),
       upper_threshold_(upper_threshold) {
-  status_ = false;
+  heater_status_ = HeaterStatus::kOff;
   power_output_ = 0;
 }
 
@@ -23,21 +23,12 @@ double Heater::deg2K(double degC) const {
   return temp;
 }
 
-void Heater::SetStatus(bool status) {
-  status_ = status;
-  if (status_) {
-    power_output_ = power_rating_;
-  } else {
-    power_output_ = 0;
-  }
-}
-
 void Heater::PrintParam(void) {
   cout << "heater_id: " << heater_id_ << endl;
   cout << "  heater_label      : " << heater_label_ << endl;
   cout << "  power rating      : " << power_rating_ << endl;
   cout << "  lower threshold   : " << lower_threshold_ << endl;
   cout << "  upper threshold   : " << upper_threshold_ << endl;
-  cout << "  status            : " << status_ << endl;
+  cout << "  status            : " << static_cast<int>(heater_status_) << endl;
   cout << "  power output      : " << power_output_ << endl;
 }

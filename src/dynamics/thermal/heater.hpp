@@ -10,6 +10,11 @@
 #include <string>
 #include <vector>
 
+enum class HeaterStatus {
+  kOff,
+  kOn,
+};
+
 class Heater {
  protected:
   unsigned int heater_id_;    // heater id (Use values over 1)
@@ -21,7 +26,7 @@ class Heater {
   double K2deg(double kelvin) const;  // Convert Kelvin to degC
   double deg2K(double degC) const;    // Convert degC to Kelvin
 
-  bool status_;          // Power Status of Heater (True: ON, False: OFF)
+  HeaterStatus heater_status_;          // Power Status of Heater
   double power_output_;  // Power Output of Heater [W]
 
  public:
@@ -36,13 +41,13 @@ class Heater {
   inline double GetUpperThreshold_deg(void) const { return upper_threshold_; }
   inline double GetLowerThreshold_K(void) const { return deg2K(lower_threshold_); }
   inline double GetUpperThreshold_K(void) const { return deg2K(upper_threshold_); }
-  inline double GetStatus(void) const { return status_; }
+  inline HeaterStatus GetHeaterStatus(void) const { return heater_status_; }
   inline double GetPowerOutput(void) const { return power_output_; }
 
   // Setter
   inline void SetLowerThreshold(double lower_threshold_deg) { lower_threshold_ = lower_threshold_deg; }
   inline void SetUpperThreshold(double upper_threshold_deg) { upper_threshold_ = upper_threshold_deg; }
-  void SetStatus(bool status);
+  inline void SetHeaterStatus(HeaterStatus heater_status) { heater_status_ = heater_status; };
 
   // for debug
   void PrintParam(void);

@@ -156,14 +156,14 @@ void Temperature::UpdateHeaterStatus(void) {
   for (auto itr = vnodes_.begin(); itr != vnodes_.end(); ++itr) {
     int heater_id = itr->GetHeaterNodeId();
     if (heater_id > 0) {
-      bool status = vheaters_[heater_id - 1].GetStatus();
-      if (status) {
+      HeaterStatus heater_status = vheaters_[heater_id - 1].GetHeaterStatus();
+      if (heater_status == HeaterStatus::kOn) {
         if (itr->GetTemperature_deg() > vheaters_[heater_id - 1].GetUpperThreshold_deg()) {
-          vheaters_[heater_id - 1].SetStatus(false);
+          vheaters_[heater_id - 1].SetHeaterStatus(HeaterStatus::kOff);
         }
       } else {
         if (itr->GetTemperature_deg() < vheaters_[heater_id - 1].GetLowerThreshold_deg()) {
-          vheaters_[heater_id - 1].SetStatus(true);
+          vheaters_[heater_id - 1].SetHeaterStatus(HeaterStatus::kOn);
         }
       }
     }
