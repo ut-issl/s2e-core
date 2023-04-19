@@ -12,22 +12,22 @@
 
 class Heatload {
  protected:
-  double t_;
+  double time_now_;
   int node_id_;
-  std::vector<double> times_;
-  std::vector<double> internal_values_;
+  std::vector<double> time_table_;
+  std::vector<double> heatload_table_;
 
-  unsigned int idx_;
+  unsigned int time_now_idx_;
   double solar_;
   double internal_;
   double heater_;
   double total_;
 
-  double time_end_;
-  double t_mod_;
+  double time_table_end_;
+  double time_now_mod_;
 
  public:
-  Heatload(const int node_id, const std::vector<double> times, const std::vector<double> internal_values);
+  Heatload(const int node_id, const std::vector<double> time_table, const std::vector<double> heatload_table);
   virtual ~Heatload();
 
   void CalcInternalHeatload(void);
