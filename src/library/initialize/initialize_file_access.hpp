@@ -140,6 +140,15 @@ class IniAccess {
    */
   void ReadCsvDouble(std::vector<std::vector<double>>& output_value, const int node_num);
   /**
+   * @fn ReadCsvDouble
+   * @brief Read matrix value in CSV file
+   * @param[out] output_value: Read double matrix value
+   * @param[in] node_num: Number of node. When reading n * m matrix, please substitute bigger number.
+   * @param[in] row_header_num: Number of rows of header
+   * @param[in] column_header_num: Number of columns of header
+   */
+  void ReadCsvDouble(std::vector<std::vector<double>>& output_value, const int node_num, const int row_header_num, const int column_header_num);
+  /**
    * @fn ReadCsvString
    * @brief Read matrix of string in CSV file
    * @param[out] output_value: Read matrix of string
