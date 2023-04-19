@@ -34,6 +34,8 @@ Temperature::Temperature(const vector<vector<double>> conductance_matrix, const 
 Temperature::Temperature() {
   node_num_ = 0;
   propagation_step_ = 0.0;
+  propagation_time_ = 0.0;
+  solar_calc_setting_ = SolarCalcSetting::kDisable;
   is_calc_enabled_ = false;
   debug_ = false;
 }
