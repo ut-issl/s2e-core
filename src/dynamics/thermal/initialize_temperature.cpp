@@ -135,8 +135,8 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   string filepath_rij = file_path + "rij.csv";
   IniAccess conf_cij(filepath_cij);
   IniAccess conf_rij(filepath_rij);
-  conf_cij.ReadCsvDouble(cij, nodes_num, 1, 1);
-  conf_rij.ReadCsvDouble(rij, nodes_num, 1, 1);
+  conf_cij.ReadCsvDoubleWithHeader(cij, nodes_num, 1, 1);
+  conf_rij.ReadCsvDoubleWithHeader(rij, nodes_num, 1, 1);
 
   Temperature* temperature;
   temperature = new Temperature(cij, rij, vnodes, vheatloads, vheaters, nodes_num, rk_prop_step_sec, is_calc_enabled, solar_calc_setting, debug);

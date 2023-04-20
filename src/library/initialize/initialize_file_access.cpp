@@ -186,21 +186,21 @@ void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, co
   }
 }
 
-void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, const int node_num, const int row_header_num,
-                              const int column_header_num) {
+void IniAccess::ReadCsvDoubleWithHeader(std::vector<std::vector<double>>& output_value, const size_t node_num, const size_t row_header_num,
+                                        const size_t column_header_num) {
   std::ifstream ifs(file_path_char_);
   if (!ifs.is_open()) {
     std::cerr << "file open error. filename = " << file_path_char_ << std::endl;
   }
   std::string line;
-  int line_num = 0;
+  size_t line_num = 0;
   output_value.reserve(node_num);
   while (getline(ifs, line)) {
     if (line_num >= row_header_num) {
       std::vector<std::string> string_vector = Split(line, ',');
       std::vector<double> temp;
       temp.reserve(node_num);
-      for (int i = 0; i < (int)string_vector.size(); i++) {
+      for (size_t i = 0; i < string_vector.size(); i++) {
         if (i >= column_header_num) {
           temp.push_back(std::stod(string_vector.at(i)));
         }
