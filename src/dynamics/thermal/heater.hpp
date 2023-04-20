@@ -18,22 +18,20 @@ enum class HeaterStatus {
 
 class Heater {
  protected:
-  unsigned int heater_id_;    // heater id (Use values over 1)
-  std::string heater_label_;  // heater name
-  double power_rating_;       // Power Rating (100% Duty) [W]
-  double lower_threshold_;    // Lower Threshold of Heater Control [degC]
-  double upper_threshold_;    // Upper Threshold of Heater Control [degC]
+  unsigned int heater_id_;  // heater id (Use values over 1)
+  double power_rating_;     // Power Rating (100% Duty) [W]
+  double lower_threshold_;  // Lower Threshold of Heater Control [degC]
+  double upper_threshold_;  // Upper Threshold of Heater Control [degC]
 
   HeaterStatus heater_status_;  // Power Status of Heater
   double power_output_;         // Power Output of Heater [W]
 
  public:
-  Heater(const int heater_id, const std::string heater_label, const double power_rating, const double lower_threshold, const double upper_threshold);
+  Heater(const int heater_id, const double power_rating, const double lower_threshold, const double upper_threshold);
   virtual ~Heater();
 
   // Output from this class
   inline int GetHeaterId(void) const { return heater_id_; }
-  inline std::string GetHeaterLabel(void) const { return std::string(); }
   inline double GetPowerRating(void) const { return power_rating_; }
   inline double GetLowerThreshold_deg(void) const { return lower_threshold_; }
   inline double GetUpperThreshold_deg(void) const { return upper_threshold_; }

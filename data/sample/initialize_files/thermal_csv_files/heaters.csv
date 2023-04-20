@@ -1,2 +1,2 @@
-id,label,power_rating[W],lower_threshold[degC],upper_threshold[degC]
-1,heater0,30,20,25
+id,power_rating[W],lower_threshold[degC],upper_threshold[degC]
+1,30,20,25
