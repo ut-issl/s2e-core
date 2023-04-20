@@ -19,9 +19,10 @@ using enable_if_float = std::enable_if_t<std::is_floating_point_v<T>, T>;
   inline constexpr double name = name##_v<double>;
 
 inline namespace physics {
-DEFINE_PHYSICAL_CONSTANT(speed_of_light_m_s, 299792458.0L)       //!< Speed of light in vacuum [m/s]
-DEFINE_PHYSICAL_CONSTANT(boltzmann_constant_J_K, 1.380649e-23L)  //!< Boltzmann constant [J/K]
-DEFINE_PHYSICAL_CONSTANT(absolute_zero_degC, -273.15L)           //!< Absolute zero [degC]
+DEFINE_PHYSICAL_CONSTANT(speed_of_light_m_s, 299792458.0L)                   //!< Speed of light in vacuum [m/s]
+DEFINE_PHYSICAL_CONSTANT(boltzmann_constant_J_K, 1.380649e-23L)              //!< Boltzmann constant [J/K]
+DEFINE_PHYSICAL_CONSTANT(stefan_boltzmann_constant_W_m2K4, 5.670374419e-8L)  //!< Stefan-Boltzmann constant [W/m2K4]
+DEFINE_PHYSICAL_CONSTANT(absolute_zero_degC, -273.15L)                       //!< Absolute zero [degC]
 }  // namespace physics
 
 inline namespace astronomy {

@@ -6,6 +6,7 @@
 #include "temperature.hpp"
 
 #include <cmath>
+#include <environment/global/physical_constants.hpp>
 #include <iostream>
 #include <library/utilities/macros.hpp>
 #include <vector>
@@ -129,12 +130,12 @@ vector<double> Temperature::OdeTemperature(vector<double> x, double t, libra::Ve
       heatloads_[i].UpdateTotalHeatload();
       double heatload = heatloads_[i].GetTotalHeatload();  // Total heatload (solar + internal + heater)[W]
 
-      double coupling_heat = 0;      // Coupling of node i and j by heat transfer
-      double radiation_heat = 0;     // Coupling of node i and j by thermal radiation
-      double const sigma = 5.67E-8;  // Stefan-Boltzmann Constant
+      double coupling_heat = 0;   // Coupling of node i and j by heat transfer
+      double radiation_heat = 0;  // Coupling of node i and j by thermal radiation
       for (int j = 0; j < node_num; j++) {
         coupling_heat += conductance_matrix_[i][j] * (nodes_[j].GetTemperature_K() - nodes_[i].GetTemperature_K());
-        radiation_heat += sigma * radiation_matrix_[i][j] * (pow(nodes_[j].GetTemperature_K(), 4) - pow(nodes_[i].GetTemperature_K(), 4));
+        radiation_heat += environment::stefan_boltzmann_constant_W_m2K4 * radiation_matrix_[i][j] *
+                          (pow(nodes_[j].GetTemperature_K(), 4) - pow(nodes_[i].GetTemperature_K(), 4));
       }
       double heat_input = coupling_heat + radiation_heat + heatload;
       dTdt[i] = heat_input / nodes_[i].GetCapacity();
