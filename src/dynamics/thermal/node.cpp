@@ -11,10 +11,10 @@
 using namespace std;
 using namespace libra;
 
-Node::Node(const int node_id, const string node_label, const NodeType node_type, const int heater_node_id, const double temperature_ini,
+Node::Node(const int node_id, const string node_name, const NodeType node_type, const int heater_node_id, const double temperature_ini,
            const double capacity_ini, const double alpha, const double area, libra::Vector<3> normal_v_b)
     : node_id_(node_id),
-      node_label_(node_label),
+      node_name_(node_name),
       heater_node_id_(heater_node_id),
       temperature_(temperature_ini),
       capacity_(capacity_ini),
@@ -46,7 +46,7 @@ double Node::CalcSolarRadiation(libra::Vector<3> sun_direction) {
 
 void Node::PrintParam(void) {
   cout << "node_id: " << node_id_ << endl;
-  cout << "  node_label   : " << node_label_ << endl;
+  cout << "  node_name    : " << node_name_ << endl;
   cout << "  temperature  : " << temperature_ << endl;
   cout << "  alpha        : " << alpha_rad_ << endl;
   cout << "  capacity     : " << capacity_ << endl;
