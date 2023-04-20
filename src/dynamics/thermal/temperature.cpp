@@ -13,14 +13,14 @@
 
 using namespace std;
 
-Temperature::Temperature(const vector<vector<double>> conductance_matrix, const vector<vector<double>> radiation_matrix, vector<Node> vnodes,
-                         vector<Heatload> vheatloads, vector<Heater> vheaters, const int node_num, const double propagation_step,
+Temperature::Temperature(const vector<vector<double>> conductance_matrix, const vector<vector<double>> radiation_matrix, vector<Node> nodes,
+                         vector<Heatload> heatloads, vector<Heater> heaters, const int node_num, const double propagation_step,
                          const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug)
     : conductance_matrix_(conductance_matrix),
       radiation_matrix_(radiation_matrix),
-      nodes_(vnodes),
-      heatloads_(vheatloads),
-      heaters_(vheaters),
+      nodes_(nodes),
+      heatloads_(heatloads),
+      heaters_(heaters),
       node_num_(node_num),
       propagation_step_(propagation_step),  // ルンゲクッタ積分時間刻み幅
       is_calc_enabled_(is_calc_enabled),
