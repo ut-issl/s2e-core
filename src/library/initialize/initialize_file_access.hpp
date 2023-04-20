@@ -147,7 +147,8 @@ class IniAccess {
    * @param[in] row_header_num: Number of rows of header
    * @param[in] column_header_num: Number of columns of header
    */
-  void ReadCsvDoubleWithHeader(std::vector<std::vector<double>>& output_value, const int node_num, const int row_header_num, const int column_header_num);
+  void ReadCsvDoubleWithHeader(std::vector<std::vector<double>>& output_value, const size_t node_num, const size_t row_header_num,
+                               const size_t column_header_num);
   /**
    * @fn ReadCsvString
    * @brief Read matrix of string in CSV file
