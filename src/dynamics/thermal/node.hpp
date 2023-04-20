@@ -27,7 +27,7 @@ class Node {
   NodeType node_type_;           // ノードの種類 (0: diffusive, 1: boundary, 2: arithmetic)
 
  public:
-  Node(const int node_id, const std::string node_label, const NodeType node_type, const int heater_node_id, const double temperature_ini,
+  Node(const int node_id, const std::string node_name, const NodeType node_type, const int heater_node_id, const double temperature_ini,
        const double capacity_ini, const double alpha, const double area, libra::Vector<3> normal_v_b);
   virtual ~Node();
 
