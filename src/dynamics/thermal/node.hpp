@@ -15,11 +15,11 @@ enum class NodeType { kDiffusive, kBoundary, kArithmetic };
 
 class Node {
  protected:
-  int node_id_;
+  unsigned int node_id_;
   std::string node_name_;
-  int heater_node_id_;  // heater node番号
-  double temperature_;  // 温度[K]
-  double capacity_;     // 熱容量[J/K]
+  unsigned int heater_node_id_;  // heater node番号
+  double temperature_;           // 温度[K]
+  double capacity_;              // 熱容量[J/K]
   double alpha_rad_;
   double area_;                  // 太陽熱が入射する面の面積[m^2]
   libra::Vector<3> normal_v_b_;  // 太陽熱が入射する面の法線ベクトル(機体固定座標系)

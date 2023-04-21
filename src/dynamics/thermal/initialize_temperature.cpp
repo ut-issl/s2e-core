@@ -60,14 +60,15 @@ using std::vector;
 Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_sec) {
   auto mainIni = IniAccess(file_name);
 
-  vector<Node> vnodes;
-  vector<Heater> vheaters;
-  vector<Heatload> vheatloads;
-  vector<vector<double>> cij;
-  vector<vector<double>> rij;
-  vector<vector<string>> vnodestr;      // string vector of node property data
-  vector<vector<string>> vheaterstr;    // string vector of heater property data
-  vector<vector<string>> vheatloadstr;  // string vector of heatload property data
+  vector<Node> nodes;
+  vector<Heater> heaters;
+  vector<HeaterController> heater_controllers;
+  vector<Heatload> heatloads;
+  vector<vector<double>> conductance_matrix;
+  vector<vector<double>> radiation_matrix;
+  vector<vector<string>> nodestrs;      // string vector of node property data
+  vector<vector<string>> heaterstrs;    // string vector of heater property data
+  vector<vector<string>> heatloadstrs;  // string vector of heatload property data
   int nodes_num = 1;
   int heater_num = 1;
 
@@ -95,39 +96,41 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   // Read Heatloads from CSV File
   string filepath_heatload = file_path + "heatload.csv";
   IniAccess conf_heatload(filepath_heatload);
-  conf_heatload.ReadCsvString(vheatloadstr, 100);
+  conf_heatload.ReadCsvString(heatloadstrs, 100);
   /*since we don't know the number of nodes yet, set nodes_num=100 temporary.
     Recall that Nodes_num are given to this function only to reseve memory*/
 
-  auto times_itr = vheatloadstr.begin();  // First Row is Time Data
-  for (auto itr = vheatloadstr.begin() + 1; itr != vheatloadstr.end(); ++itr) {
-    vheatloads.push_back(InitHeatload(*times_itr, *itr));
+  auto times_itr = heatloadstrs.begin();  // First Row is Time Data
+  for (auto itr = heatloadstrs.begin() + 1; itr != heatloadstrs.end(); ++itr) {
+    heatloads.push_back(InitHeatload(*times_itr, *itr));
   }
 
   // Read Node Properties from CSV File
   string filepath_node = file_path + "node.csv";
   IniAccess conf_node(filepath_node);
-  conf_node.ReadCsvString(vnodestr, 100);
+  conf_node.ReadCsvString(nodestrs, 100);
   /*since we don't know the number of nodes yet, set nodes_num=100 temporary.
     Recall that Nodes_num are given to this function only to reseve memory*/
 
-  nodes_num = vnodestr.size() - 1;                                       // First Row is for Header(not data)
-  vnodes.reserve(nodes_num);                                             // reserve memory
-  for (auto itr = vnodestr.begin() + 1; itr != vnodestr.end(); ++itr) {  // first row is for labels
-    vnodes.push_back(InitNode(*itr));
+  nodes_num = nodestrs.size() - 1;                                       // First Row is for Header(not data)
+  nodes.reserve(nodes_num);                                              // reserve memory
+  for (auto itr = nodestrs.begin() + 1; itr != nodestrs.end(); ++itr) {  // first row is for labels
+    nodes.push_back(InitNode(*itr));
   }
 
   // Read Heater Properties from CSV File
   string filepath_heater = file_path + "heaters.csv";
   IniAccess conf_heater(filepath_heater);
-  conf_heater.ReadCsvString(vheaterstr, 100);
+  conf_heater.ReadCsvString(heaterstrs, 100);
   /*since we don't know the number of heaters yet, set heater_num=100 temporary.
     Recall that heater_num are given to this function only to reseve memory*/
 
-  heater_num = vheaterstr.size() - 1;                                        // First Row is for Header(not data)
-  vheaters.reserve(heater_num);                                              // reserve memory
-  for (auto itr = vheaterstr.begin() + 1; itr != vheaterstr.end(); ++itr) {  // first row is for labels
-    vheaters.push_back(InitHeater(*itr));
+  heater_num = heaterstrs.size() - 1;  // First Row is for Header(not data)
+  heaters.reserve(heater_num);         // reserve memory
+  heater_controllers.reserve(heater_num);
+  for (auto itr = heaterstrs.begin() + 1; itr != heaterstrs.end(); ++itr) {  // first row is for labels
+    heaters.push_back(InitHeater(*itr));
+    heater_controllers.push_back(InitHeaterController(*itr));
   }
 
   // Read Cij,Rij data from CSV File
@@ -135,10 +138,11 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   string filepath_rij = file_path + "rij.csv";
   IniAccess conf_cij(filepath_cij);
   IniAccess conf_rij(filepath_rij);
-  conf_cij.ReadCsvDoubleWithHeader(cij, nodes_num, 1, 1);
-  conf_rij.ReadCsvDoubleWithHeader(rij, nodes_num, 1, 1);
+  conf_cij.ReadCsvDoubleWithHeader(conductance_matrix, nodes_num, 1, 1);
+  conf_rij.ReadCsvDoubleWithHeader(radiation_matrix, nodes_num, 1, 1);
 
   Temperature* temperature;
-  temperature = new Temperature(cij, rij, vnodes, vheatloads, vheaters, nodes_num, rk_prop_step_sec, is_calc_enabled, solar_calc_setting, debug);
+  temperature = new Temperature(conductance_matrix, radiation_matrix, nodes, heatloads, heaters, heater_controllers, nodes_num, rk_prop_step_sec,
+                                is_calc_enabled, solar_calc_setting, debug);
   return temperature;
 }

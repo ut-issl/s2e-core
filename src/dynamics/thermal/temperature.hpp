@@ -26,6 +26,7 @@ class Temperature : public ILoggable {
   std::vector<Node> nodes_;                              // vector of nodes
   std::vector<Heatload> heatloads_;                      // vector of heatloads
   std::vector<Heater> heaters_;                          // vector of heaters
+  std::vector<HeaterController> heater_controllers_;     // vector of heater controllers
   int node_num_;                                         // number of nodes
   double propagation_step_;                              // 積分刻み幅[sec]
   double propagation_time_;              // Temperatureクラス内での累積積分時間(end_timeに等しくなるまで積分する)
@@ -39,8 +40,8 @@ class Temperature : public ILoggable {
 
  public:
   Temperature(const std::vector<std::vector<double>> conductance_matrix, const std::vector<std::vector<double>> radiation_matrix,
-              std::vector<Node> nodes, std::vector<Heatload> heatloads, std::vector<Heater> heaters, const int node_num, const double propstep,
-              const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug);
+              std::vector<Node> nodes, std::vector<Heatload> heatloads, std::vector<Heater> heaters, std::vector<HeaterController> heater_controllers,
+              const int node_num, const double propstep, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug);
   Temperature();
   virtual ~Temperature();
   void Propagate(libra::Vector<3> sun_direction,

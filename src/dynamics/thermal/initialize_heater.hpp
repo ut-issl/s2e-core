@@ -9,5 +9,6 @@
 #include "heater.hpp"
 
 Heater InitHeater(const std::vector<std::string>& heater_str);
+HeaterController InitHeaterController(const std::vector<std::string>& heater_str);
 
 #endif  // S2E_DYNAMICS_THERMAL_INITIALIZE_HEATER_HPP_

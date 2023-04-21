@@ -14,13 +14,14 @@
 using namespace std;
 
 Temperature::Temperature(const vector<vector<double>> conductance_matrix, const vector<vector<double>> radiation_matrix, vector<Node> nodes,
-                         vector<Heatload> heatloads, vector<Heater> heaters, const int node_num, const double propagation_step,
-                         const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug)
+                         vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const int node_num,
+                         const double propagation_step, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug)
     : conductance_matrix_(conductance_matrix),
       radiation_matrix_(radiation_matrix),
       nodes_(nodes),
       heatloads_(heatloads),
       heaters_(heaters),
+      heater_controllers_(heater_controllers),
       node_num_(node_num),
       propagation_step_(propagation_step),  // ルンゲクッタ積分時間刻み幅
       is_calc_enabled_(is_calc_enabled),
@@ -156,19 +157,12 @@ double Temperature::GetHeaterPower(int node_id) {
 }
 
 void Temperature::UpdateHeaterStatus(void) {
+  // [FIXME] ヒーター状態が閾値に応じて変更されるはずがされない…
   for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
     int heater_id = itr->GetHeaterNodeId();
     if (heater_id > 0) {
-      HeaterStatus heater_status = heaters_[heater_id - 1].GetHeaterStatus();
-      if (heater_status == HeaterStatus::kOn) {
-        if (itr->GetTemperature_deg() > heaters_[heater_id - 1].GetUpperThreshold_deg()) {
-          heaters_[heater_id - 1].SetHeaterStatus(HeaterStatus::kOff);
-        }
-      } else {
-        if (itr->GetTemperature_deg() < heaters_[heater_id - 1].GetLowerThreshold_deg()) {
-          heaters_[heater_id - 1].SetHeaterStatus(HeaterStatus::kOn);
-        }
-      }
+      double temperature_degC = itr->GetTemperature_deg();
+      heater_controllers_[heater_id - 1].ControlHeater(heaters_[heater_id - 1], temperature_degC);
     }
   }
 }

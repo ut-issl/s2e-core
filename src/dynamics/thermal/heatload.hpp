@@ -13,7 +13,7 @@
 class Heatload {
  protected:
   double time_now_;
-  int node_id_;
+  unsigned int node_id_;
   std::vector<double> time_table_;
   std::vector<double> heatload_table_;
 
