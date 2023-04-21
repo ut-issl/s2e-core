@@ -51,27 +51,29 @@ std::string RelativeInformation::GetLogHeader() const {
   std::string str_tmp = "";
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp += WriteVector("sat" + std::to_string(target_spacecraft_id) + " pos from sat" + std::to_string(reference_spacecraft_id), "i", "m", 3);
+      str_tmp += WriteVector(
+          "satellite" + std::to_string(target_spacecraft_id) + "_position_from_satellite" + std::to_string(reference_spacecraft_id), "i", "m", 3);
     }
   }
 
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp +=
-          WriteVector("sat" + std::to_string(target_spacecraft_id) + " velocity from sat" + std::to_string(reference_spacecraft_id), "i", "m/s", 3);
+      str_tmp += WriteVector(
+          "satellite" + std::to_string(target_spacecraft_id) + "_velocity_from_satellite" + std::to_string(reference_spacecraft_id), "i", "m/s", 3);
     }
   }
 
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp += WriteVector("sat" + std::to_string(target_spacecraft_id) + " pos from sat" + std::to_string(reference_spacecraft_id), "rtn", "m", 3);
+      str_tmp += WriteVector(
+          "satellite" + std::to_string(target_spacecraft_id) + "_position_from_satellite" + std::to_string(reference_spacecraft_id), "rtn", "m", 3);
     }
   }
 
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp +=
-          WriteVector("sat" + std::to_string(target_spacecraft_id) + " velocity from sat" + std::to_string(reference_spacecraft_id), "rtn", "m/s", 3);
+      str_tmp += WriteVector(
+          "satellite" + std::to_string(target_spacecraft_id) + "_velocity_from_satellite" + std::to_string(reference_spacecraft_id), "rtn", "m/s", 3);
     }
   }
 
