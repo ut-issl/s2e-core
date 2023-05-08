@@ -12,7 +12,7 @@ ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, cons
                                        const libra::Vector<3> sub_target_direction_b, const libra::Matrix<3, 3>& inertia_tensor_kgm2,
                                        const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
                                        const std::string& simulation_object_name)
-    : Attitude(simulation_object_name),
+    : Attitude(inertia_tensor_kgm2, simulation_object_name),
       main_mode_(main_mode),
       sub_mode_(sub_mode),
       main_target_direction_b_(main_target_direction_b),
@@ -20,8 +20,6 @@ ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, cons
       local_celestial_information_(local_celestial_information),
       orbit_(orbit) {
   quaternion_i2b_ = quaternion_i2b;
-  inertia_tensor_kgm2_ = inertia_tensor_kgm2;  // FIXME: inertia tensor should be initialized in the Attitude base class
-  inv_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
 
   Initialize();
 }
