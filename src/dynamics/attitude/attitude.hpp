@@ -114,14 +114,13 @@ class Attitude : public ILoggable, public SimulationObject {
   virtual void SetParameters(const MonteCarloSimulationExecutor& mc_simulator);
 
  protected:
-  bool is_calc_enabled_ = true;                //!< Calculation flag
-  double propagation_step_s_;                  //!< Propagation step [sec]
-  libra::Vector<3> angular_velocity_b_rad_s_;  //!< Angular velocity of spacecraft body fixed frame with respect to the inertial frame [rad/s]
-  libra::Quaternion quaternion_i2b_;           //!< Attitude quaternion from the inertial frame to the body fixed frame
-  libra::Vector<3> torque_b_Nm_;               //!< Torque in the body fixed frame [Nm]
+  bool is_calc_enabled_ = true;                     //!< Calculation flag
+  double propagation_step_s_;                       //!< Propagation step [sec]
+  libra::Vector<3> angular_velocity_b_rad_s_;       //!< Angular velocity of spacecraft body fixed frame with respect to the inertial frame [rad/s]
+  libra::Quaternion quaternion_i2b_;                //!< Attitude quaternion from the inertial frame to the body fixed frame
+  libra::Vector<3> torque_b_Nm_;                    //!< Torque in the body fixed frame [Nm]
 
-  libra::Matrix<3, 3> inertia_tensor_kgm2_;    //!< Inertia tensor of the spacecraft [kg m^2] TODO: Move to Structure
-  libra::Matrix<3, 3> inv_inertia_tensor_;     //!< Inverse matrix of the inertia tensor
+  const libra::Matrix<3, 3>& inertia_tensor_kgm2_;  //!< Inertia tensor of the spacecraft [kg m^2] TODO: Move to Structure
 
   libra::Vector<3> angular_momentum_spacecraft_b_Nms_;      //!< Angular momentum of spacecraft in the body fixed frame [Nms]
   libra::Vector<3> angular_momentum_reaction_wheel_b_Nms_;  //!< Angular momentum of reaction wheel in the body fixed frame [Nms]

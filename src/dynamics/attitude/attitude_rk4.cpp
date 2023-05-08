@@ -30,7 +30,6 @@ void AttitudeRk4::SetParameters(const MonteCarloSimulationExecutor& mc_simulator
 
   // TODO: Consider the following calculation is needed here?
   current_propagation_time_s_ = 0.0;
-  inv_inertia_tensor_ = libra::CalcInverseMatrix(inertia_tensor_kgm2_);
   angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);  //!< Consider how to handle this variable
   CalcAngularMomentum();
 }
@@ -80,7 +79,8 @@ libra::Vector<7> AttitudeRk4::AttitudeDynamicsAndKinematics(libra::Vector<7> x, 
     omega_b[i] = x[i];
   }
   angular_momentum_total_b_Nms_ = (inertia_tensor_kgm2_ * omega_b) + angular_momentum_reaction_wheel_b_Nms_;
-  libra::Vector<3> rhs = inv_inertia_tensor_ * (torque_b_Nm_ - libra::OuterProduct(omega_b, angular_momentum_total_b_Nms_));
+  libra::Matrix<3, 3> inv_inertia_tensor = CalcInverseMatrix(inertia_tensor_kgm2_);
+  libra::Vector<3> rhs = inv_inertia_tensor * (torque_b_Nm_ - libra::OuterProduct(omega_b, angular_momentum_total_b_Nms_));
 
   for (int i = 0; i < 3; ++i) {
     dxdt[i] = rhs[i];

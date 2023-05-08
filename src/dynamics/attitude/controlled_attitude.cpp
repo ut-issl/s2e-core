@@ -161,7 +161,8 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
       angular_velocity_b_rad_s_[i] = q_diff[i];
       angular_acc_b_rad_s2_[i] = (previous_omega_b_rad_s_[i] - angular_velocity_b_rad_s_[i]) / time_diff_sec;
     }
-    controlled_torque_b_Nm = inv_inertia_tensor_ * angular_acc_b_rad_s2_;
+    libra::Matrix<3, 3> inv_inertia_tensor = CalcInverseMatrix(inertia_tensor_kgm2_);
+    controlled_torque_b_Nm = inv_inertia_tensor * angular_acc_b_rad_s2_;
   } else {
     angular_velocity_b_rad_s_ = libra::Vector<3>(0.0);
     controlled_torque_b_Nm = libra::Vector<3>(0.0);
