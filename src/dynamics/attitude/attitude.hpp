@@ -120,7 +120,7 @@ class Attitude : public ILoggable, public SimulationObject {
   libra::Quaternion quaternion_i2b_;                //!< Attitude quaternion from the inertial frame to the body fixed frame
   libra::Vector<3> torque_b_Nm_;                    //!< Torque in the body fixed frame [Nm]
 
-  const libra::Matrix<3, 3>& inertia_tensor_kgm2_;  //!< Inertia tensor of the spacecraft [kg m^2] TODO: Move to Structure
+  const libra::Matrix<3, 3>& inertia_tensor_kgm2_;  //!< Inertia tensor of the spacecraft [kg m^2]
 
   libra::Vector<3> angular_momentum_spacecraft_b_Nms_;      //!< Angular momentum of spacecraft in the body fixed frame [Nms]
   libra::Vector<3> angular_momentum_reaction_wheel_b_Nms_;  //!< Angular momentum of reaction wheel in the body fixed frame [Nms]
