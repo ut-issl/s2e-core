@@ -7,7 +7,7 @@
 #include <library/initialize/initialize_file_access.hpp>
 
 Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
-                       const double step_width_s, const libra::Matrix<3, 3> inertia_tensor_kgm2, const int spacecraft_id) {
+                       const double step_width_s, const libra::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id) {
   IniAccess ini_file(file_name);
   const char* section_ = "ATTITUDE";
   std::string mc_name = "attitude" + std::to_string(spacecraft_id);
