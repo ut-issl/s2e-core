@@ -12,15 +12,15 @@
 AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b,
                          const libra::Matrix<3, 3>& inertia_tensor_kgm2, const libra::Vector<3>& torque_b_Nm, const double propagation_step_s,
                          const std::string& simulation_object_name)
-    : Attitude(simulation_object_name) {
+    : Attitude(inertia_tensor_kgm2, simulation_object_name) {
   angular_velocity_b_rad_s_ = angular_velocity_b_rad_s;
   quaternion_i2b_ = quaternion_i2b;
   torque_b_Nm_ = torque_b_Nm;
-  inertia_tensor_kgm2_ = inertia_tensor_kgm2;
   propagation_step_s_ = propagation_step_s;
   current_propagation_time_s_ = 0.0;
-  inv_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
   angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
+  previous_inertia_tensor_kgm2_ = inertia_tensor_kgm2_;
+  inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
   CalcAngularMomentum();
 }
 
@@ -32,20 +32,27 @@ void AttitudeRk4::SetParameters(const MonteCarloSimulationExecutor& mc_simulator
 
   // TODO: Consider the following calculation is needed here?
   current_propagation_time_s_ = 0.0;
-  inv_inertia_tensor_ = libra::CalcInverseMatrix(inertia_tensor_kgm2_);
   angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);  //!< Consider how to handle this variable
   CalcAngularMomentum();
 }
 
 void AttitudeRk4::Propagate(const double end_time_s) {
   if (!is_calc_enabled_) return;
+
+  libra::Matrix<3, 3> dot_inertia_tensor =
+      (1.0 / (end_time_s - current_propagation_time_s_)) * (inertia_tensor_kgm2_ - previous_inertia_tensor_kgm2_);
+  torque_inertia_tensor_change_b_Nm_ = dot_inertia_tensor * angular_velocity_b_rad_s_;
+  inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
+
   while (end_time_s - current_propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     RungeKuttaOneStep(current_propagation_time_s_, propagation_step_s_);
     current_propagation_time_s_ += propagation_step_s_;
   }
   RungeKuttaOneStep(current_propagation_time_s_, end_time_s - current_propagation_time_s_);
-  current_propagation_time_s_ = end_time_s;
 
+  // Update information
+  current_propagation_time_s_ = end_time_s;
+  previous_inertia_tensor_kgm2_ = inertia_tensor_kgm2_;
   CalcAngularMomentum();
 }
 
@@ -81,8 +88,9 @@ libra::Vector<7> AttitudeRk4::AttitudeDynamicsAndKinematics(libra::Vector<7> x, 
   for (int i = 0; i < 3; i++) {
     omega_b[i] = x[i];
   }
-  angular_momentum_total_b_Nms_ = (inertia_tensor_kgm2_ * omega_b) + angular_momentum_reaction_wheel_b_Nms_;
-  libra::Vector<3> rhs = inv_inertia_tensor_ * (torque_b_Nm_ - libra::OuterProduct(omega_b, angular_momentum_total_b_Nms_));
+  libra::Vector<3> angular_momentum_total_b_Nms = (previous_inertia_tensor_kgm2_ * omega_b) + angular_momentum_reaction_wheel_b_Nms_;
+  libra::Vector<3> rhs =
+      inverse_inertia_tensor_ * (torque_b_Nm_ - libra::OuterProduct(omega_b, angular_momentum_total_b_Nms) - torque_inertia_tensor_change_b_Nm_);
 
   for (int i = 0; i < 3; ++i) {
     dxdt[i] = rhs[i];
