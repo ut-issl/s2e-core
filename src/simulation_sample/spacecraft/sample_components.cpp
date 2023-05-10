@@ -36,11 +36,11 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
                                                global_environment_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
 
   // Magnetometer
-  file_name = iniAccess.ReadString("COMPONENT_FILES", "magetometer_file");
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "magnetometer_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
-  magnetometer_ = new Magnetometer(InitMagetometer(clock_generator, pcu_->GetPowerPort(2), 1, file_name,
-                                                   global_environment_->GetSimulationTime().GetComponentStepTime_s(),
-                                                   &(local_environment_->GetGeomagneticField())));
+  magnetometer_ = new Magnetometer(InitMagnetometer(clock_generator, pcu_->GetPowerPort(2), 1, file_name,
+                                                    global_environment_->GetSimulationTime().GetComponentStepTime_s(),
+                                                    &(local_environment_->GetGeomagneticField())));
 
   // StarSensor
   file_name = iniAccess.ReadString("COMPONENT_FILES", "stt_file");
