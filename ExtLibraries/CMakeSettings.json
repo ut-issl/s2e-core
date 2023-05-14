@@ -12,6 +12,19 @@
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
       "ctestCommandArgs": ""
+    },
+    {
+      "name": "Win64",
+      "generator": "Visual Studio 17 2022 Win64",
+      "configurationType": "Debug",
+      "inheritEnvironments": [
+        "msvc_x64"
+      ],
+      "buildRoot": "${thisFileDir}\\CMakeBuilds",
+      "installRoot": "${thisFileDir}\\CMakeBuilds",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": ""
     }
   ]
 }
