@@ -66,21 +66,21 @@ jobs:
           path: ./ExtLibraries
 
       - name: build extlib 32bit
-        if: steps.cache-extlib.outputs.cache-hit != 'true' && ${{ matrix.build_bit }} = 'BUILD_64BIT=OFF'
+        if: steps.cache-extlib.outputs.cache-hit != 'true' && ${{ matrix.build_bit }} == 'BUILD_64BIT=OFF'
         shell: powershell
         working-directory: ./ExtLibraries
         run: |
           $extlib_dir=(pwd).Path
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}"
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}" -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: build extlib 64bit
-        if: steps.cache-extlib.outputs.cache-hit != 'true' && ${{ matrix.build_bit }} = 'BUILD_64BIT=ON'
+        if: steps.cache-extlib.outputs.cache-hit != 'true' && ${{ matrix.build_bit }} == 'BUILD_64BIT=ON'
         shell: powershell
         working-directory: ./ExtLibraries
         run: |
           $extlib_dir=(pwd).Path
-          cmake -G "Visual Studio 17 2022" -A Win64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}"
+          cmake -G "Visual Studio 17 2022" -A Win64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}" -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: install extlib
@@ -104,19 +104,19 @@ jobs:
           ls nrlmsise00/src
 
       - name: build 32bit
-        if: ${{ matrix.build_bit }} = 'BUILD_64BIT=OFF'
+        if: ${{ matrix.build_bit }} == 'BUILD_64BIT=OFF'
         shell: cmd
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }}
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: build 64bit
-        if: ${{ matrix.build_bit }} = 'BUILD_64BIT=ON' && ${{ matrix.use_c2a }} = 'USE_C2A=OFF'
+        if: ${{ matrix.build_bit }} == 'BUILD_64BIT=ON' && ${{ matrix.use_c2a }} == 'USE_C2A=OFF'
         shell: cmd
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A Win64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }}
+          cmake -G "Visual Studio 17 2022" -A Win64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
