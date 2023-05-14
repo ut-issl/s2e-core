@@ -66,7 +66,7 @@ jobs:
           path: ./ExtLibraries
 
       - name: build extlib 32bit
-        if: steps.cache-extlib.outputs.cache-hit != 'true' && ${{ matrix.build_bit }} == 'BUILD_64BIT=OFF'
+        if: steps.cache-extlib.outputs.cache-hit != 'true' && matrix.build_bit == 'BUILD_64BIT=OFF'
         shell: powershell
         working-directory: ./ExtLibraries
         run: |
@@ -75,7 +75,7 @@ jobs:
           cmake --build .
 
       - name: build extlib 64bit
-        if: steps.cache-extlib.outputs.cache-hit != 'true' && ${{ matrix.build_bit }} == 'BUILD_64BIT=ON'
+        if: steps.cache-extlib.outputs.cache-hit != 'true' && matrix.build_bit == 'BUILD_64BIT=ON'
         shell: powershell
         working-directory: ./ExtLibraries
         run: |
@@ -104,7 +104,7 @@ jobs:
           ls nrlmsise00/src
 
       - name: build 32bit
-        if: ${{ matrix.build_bit }} == 'BUILD_64BIT=OFF'
+        if: matrix.build_bit == 'BUILD_64BIT=OFF'
         shell: cmd
         run: |
           cl.exe
@@ -112,7 +112,7 @@ jobs:
           cmake --build .
 
       - name: build 64bit
-        if: ${{ matrix.build_bit }} == 'BUILD_64BIT=ON' && ${{ matrix.use_c2a }} == 'USE_C2A=OFF'
+        if: matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF'
         shell: cmd
         run: |
           cl.exe
