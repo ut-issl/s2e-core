@@ -9,9 +9,16 @@ set(CSPICE_INSTALL_DIR ${EXT_LIB_DIR}/cspice)
 set(GENERIC_KERNEL_URL_BASE https://naif.jpl.nasa.gov/pub/naif/generic_kernels)
 
 if(WIN32)
-  set(CSPICE_URL http://naif.jpl.nasa.gov/pub/naif/toolkit/C/PC_Windows_VisualC_32bit/packages/cspice.zip)
-  set(CSPICE_SHA256 "bc566e6a975c888fc5fd89d76554329501446bda88c8bab937c0725faead170f")
-  set(CSPICE_BUILD_COMMAND "")
+  # Windows
+  if(BUILD_64BIT)
+    set(CSPICE_URL http://naif.jpl.nasa.gov/pub/naif/toolkit/C/PC_Windows_VisualC_64bit/packages/cspice.zip)
+    set(CSPICE_SHA256 "98D60B814B412FA55294AEAAEB7DAB46D849CC87A8B709FFE835D08DE17625DC")
+    set(CSPICE_BUILD_COMMAND "")
+  else()
+    set(CSPICE_URL http://naif.jpl.nasa.gov/pub/naif/toolkit/C/PC_Windows_VisualC_32bit/packages/cspice.zip)
+    set(CSPICE_SHA256 "bc566e6a975c888fc5fd89d76554329501446bda88c8bab937c0725faead170f")
+    set(CSPICE_BUILD_COMMAND "")
+  endif()
 else()
   # Linux
   if(BUILD_64BIT)
@@ -43,7 +50,12 @@ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/cspice/include
 )
 
 if(WIN32)
-  set(CSPICE_LIB_DEST "cspice_msvs")
+  # Windows
+  if(BUILD_64BIT)
+    set(CSPICE_LIB_DEST "cspice_msvs64")
+  else()
+    set(CSPICE_LIB_DEST "cspice_msvs")
+  endif()
 else()
   # Linux
   if(BUILD_64BIT)

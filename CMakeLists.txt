@@ -96,9 +96,15 @@ endif()
 
 if(WIN32)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
-  find_library(CSPICE_LIB
-    NAMES cspice.lib csupport.lib
-    PATHS ${CSPICE_DIR}/cspice_msvs/lib)
+  if(BUILD_64BIT)
+    find_library(CSPICE_LIB
+      NAMES cspice.lib csupport.lib
+      PATHS ${CSPICE_DIR}/cspice_msvs64/lib)
+  else()
+    find_library(CSPICE_LIB
+      NAMES cspice.lib csupport.lib
+      PATHS ${CSPICE_DIR}/cspice_msvs/lib)
+  endif()
 else()
   find_library(CSPICE_LIB
     NAMES cspice.a csupport.a
@@ -127,9 +133,15 @@ elseif(UNIX)
   endif()
 elseif(WIN32)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
-  find_library(NRLMSISE00_LIB 
-    NAMES libnrlmsise00.lib
-    PATHS ${NRLMSISE00_DIR}/lib)
+  if(BUILD_64BIT)
+    find_library(NRLMSISE00_LIB 
+      NAMES libnrlmsise00.lib
+      PATHS ${NRLMSISE00_DIR}/lib64)
+  else()
+    find_library(NRLMSISE00_LIB 
+      NAMES libnrlmsise00.lib
+      PATHS ${NRLMSISE00_DIR}/lib)
+  endif()
 endif()
 if(NOT NRLMSISE00_LIB)
   message(FATAL_ERROR "nrlmsise00 not found in ${EXT_LIB_DIR}")
