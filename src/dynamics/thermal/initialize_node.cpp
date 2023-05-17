@@ -26,7 +26,7 @@ column 11: initial temperature(K)
 
 First row is for Header, data begins from the second row
 Ex.
-Node_id,Node_label,node_type,heater_node_id,capacity,alpha,area,normal_v_b_x,normal_v_b_y,normal_v_b_z,initial_temperature
+Node_id,Node_label,node_type,heater_id,capacity,alpha,area,normal_v_b_x,normal_v_b_y,normal_v_b_z,initial_temperature
 0,BUS,0,1,880,0.2,0.06,1,0,0,300
 1,SAP,0,0,100,0,0.02,0,0,1,250
 2,SPACE,1,0,0,0,0,0,0,0,2.73
@@ -41,27 +41,42 @@ Node InitNode(const std::vector<std::string>& node_str) {
   int node_id = 0;                  // node number
   std::string node_label = "temp";  // node name
   int node_type_int = 0;            // node type
-  int heater_node_id = 0;           // heater node index
-  double temperature = 0;           // [K]
-  double capacity = 0;              // [J/K]
-  double alpha = 0;                 //[m^2]
-  double area = 0;
+  int heater_id = 0;                // heater node index
+  double temperature_K = 0;         // [K]
+  double capacity_J_K = 0;          // [J/K]
+  double alpha = 0;                 // []
+  double area_m2 = 0;               // [m^2]
 
-  node_id = stoi(node_str[0]);         // column 1
-  node_label = node_str[1];            // column 2
-  node_type_int = stoi(node_str[2]);   // column 3
-  heater_node_id = stoi(node_str[3]);  // column 4
-  capacity = stod(node_str[4]);        // column 5
-  alpha = stod(node_str[5]);           // column 6
-  area = stod(node_str[6]);            // column 7
-  libra::Vector<3> normal_v_b;         // column 8-10
+  // Index to read from node_str for each parameter
+  int index_node_id = 0;
+  int index_node_label = 1;
+  int index_node_type = 2;
+  int index_heater_id = 3;
+  int index_capacity = 4;
+  int index_alpha = 5;
+  int index_area = 6;
+  int index_normal_v_b_head = 7;
+  int index_temperature = 10;
+
+  node_id = stoi(node_str[index_node_id]);
+  node_label = node_str[index_node_label];
+  node_type_int = stoi(node_str[index_node_type]);
+  heater_id = stoi(node_str[index_heater_id]);
+  capacity_J_K = stod(node_str[index_capacity]);
+  alpha = stod(node_str[index_alpha]);
+  area_m2 = stod(node_str[index_area]);
+  libra::Vector<3> normal_v_b;
   for (int i = 0; i < 3; i++) {
-    normal_v_b[i] = stod(node_str[7 + i]);
-  }                                  // body frame
-  temperature = stod(node_str[10]);  // column 11
+    normal_v_b[i] = stod(node_str[index_normal_v_b_head + i]);
+  }
+  temperature_K = stod(node_str[index_temperature]);
 
-  NodeType node_type = static_cast<NodeType>(node_type_int);
-
-  Node node(node_id, node_label, node_type, heater_node_id, temperature, capacity, alpha, area, normal_v_b);
+  NodeType node_type = NodeType::kDiffusive;
+  if (node_type_int == 1) {
+    node_type = NodeType::kBoundary;
+  } else if (node_type_int == 2) {
+    node_type = NodeType::kArithmetic;
+  }
+  Node node(node_id, node_label, node_type, heater_id, temperature_K, capacity_J_K, alpha, area_m2, normal_v_b);
   return node;
 }

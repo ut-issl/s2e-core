@@ -13,7 +13,7 @@
 #include "initialize_heatload.hpp"
 #include "initialize_node.hpp"
 
-/* Import node properties, heatloads and Cij/Rij Datas by reading CSV File (node.csv,
+/* Import node properties, heatload_list and Cij/Rij Datas by reading CSV File (node.csv,
 heatload.csv, cij.csv, rij.csv) Detailed process of reading node properties from CSV File, and
 CSV file formats of node properties is written in Init_Node.cpp
 
@@ -57,19 +57,19 @@ First row is time data
 using std::string;
 using std::vector;
 
-Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_sec) {
+Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s) {
   auto mainIni = IniAccess(file_name);
 
-  vector<Node> nodes;
-  vector<Heater> heaters;
-  vector<HeaterController> heater_controllers;
-  vector<Heatload> heatloads;
+  vector<Node> node_list;
+  vector<Heater> heater_list;
+  vector<HeaterController> heater_controller_list;
+  vector<Heatload> heatload_list;
   vector<vector<double>> conductance_matrix;
   vector<vector<double>> radiation_matrix;
-  vector<vector<string>> nodestrs;      // string vector of node property data
-  vector<vector<string>> heaterstrs;    // string vector of heater property data
-  vector<vector<string>> heatloadstrs;  // string vector of heatload property data
-  int nodes_num = 1;
+  vector<vector<string>> node_str_list;      // string vector of node property data
+  vector<vector<string>> heater_str_list;    // string vector of heater property data
+  vector<vector<string>> heatload_str_list;  // string vector of heatload property data
+  int node_num = 1;
   int heater_num = 1;
 
   bool is_calc_enabled = mainIni.ReadEnable("THERMAL", "calculation");
@@ -96,41 +96,41 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   // Read Heatloads from CSV File
   string filepath_heatload = file_path + "heatload.csv";
   IniAccess conf_heatload(filepath_heatload);
-  conf_heatload.ReadCsvString(heatloadstrs, 100);
-  /*since we don't know the number of nodes yet, set nodes_num=100 temporary.
+  conf_heatload.ReadCsvString(heatload_str_list, 100);
+  /*since we don't know the number of node_list yet, set node_num=100 temporary.
     Recall that Nodes_num are given to this function only to reseve memory*/
 
-  auto times_itr = heatloadstrs.begin();  // First Row is Time Data
-  for (auto itr = heatloadstrs.begin() + 1; itr != heatloadstrs.end(); ++itr) {
-    heatloads.push_back(InitHeatload(*times_itr, *itr));
+  auto times_itr = heatload_str_list.begin();  // First Row is Time Data
+  for (auto itr = heatload_str_list.begin() + 1; itr != heatload_str_list.end(); ++itr) {
+    heatload_list.push_back(InitHeatload(*times_itr, *itr));
   }
 
   // Read Node Properties from CSV File
   string filepath_node = file_path + "node.csv";
   IniAccess conf_node(filepath_node);
-  conf_node.ReadCsvString(nodestrs, 100);
-  /*since we don't know the number of nodes yet, set nodes_num=100 temporary.
+  conf_node.ReadCsvString(node_str_list, 100);
+  /*since we don't know the number of node_list yet, set node_num=100 temporary.
     Recall that Nodes_num are given to this function only to reseve memory*/
 
-  nodes_num = nodestrs.size() - 1;                                       // First Row is for Header(not data)
-  nodes.reserve(nodes_num);                                              // reserve memory
-  for (auto itr = nodestrs.begin() + 1; itr != nodestrs.end(); ++itr) {  // first row is for labels
-    nodes.push_back(InitNode(*itr));
+  node_num = node_str_list.size() - 1;                                             // First Row is for Header(not data)
+  node_list.reserve(node_num);                                                     // reserve memory
+  for (auto itr = node_str_list.begin() + 1; itr != node_str_list.end(); ++itr) {  // first row is for labels
+    node_list.push_back(InitNode(*itr));
   }
 
   // Read Heater Properties from CSV File
   string filepath_heater = file_path + "heaters.csv";
   IniAccess conf_heater(filepath_heater);
-  conf_heater.ReadCsvString(heaterstrs, 100);
-  /*since we don't know the number of heaters yet, set heater_num=100 temporary.
+  conf_heater.ReadCsvString(heater_str_list, 100);
+  /*since we don't know the number of heater_list yet, set heater_num=100 temporary.
     Recall that heater_num are given to this function only to reseve memory*/
 
-  heater_num = heaterstrs.size() - 1;  // First Row is for Header(not data)
-  heaters.reserve(heater_num);         // reserve memory
-  heater_controllers.reserve(heater_num);
-  for (auto itr = heaterstrs.begin() + 1; itr != heaterstrs.end(); ++itr) {  // first row is for labels
-    heaters.push_back(InitHeater(*itr));
-    heater_controllers.push_back(InitHeaterController(*itr));
+  heater_num = heater_str_list.size() - 1;                                             // First Row is for Header(not data)
+  heater_list.reserve(heater_num);                                                     // reserve memory
+  heater_controller_list.reserve(heater_num);
+  for (auto itr = heater_str_list.begin() + 1; itr != heater_str_list.end(); ++itr) {  // first row is for labels
+    heater_list.push_back(InitHeater(*itr));
+    heater_controller_list.push_back(InitHeaterController(*itr));
   }
 
   // Read Cij,Rij data from CSV File
@@ -138,11 +138,11 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   string filepath_rij = file_path + "rij.csv";
   IniAccess conf_cij(filepath_cij);
   IniAccess conf_rij(filepath_rij);
-  conf_cij.ReadCsvDoubleWithHeader(conductance_matrix, nodes_num, 1, 1);
-  conf_rij.ReadCsvDoubleWithHeader(radiation_matrix, nodes_num, 1, 1);
+  conf_cij.ReadCsvDoubleWithHeader(conductance_matrix, node_num, 1, 1);
+  conf_rij.ReadCsvDoubleWithHeader(radiation_matrix, node_num, 1, 1);
 
   Temperature* temperature;
-  temperature = new Temperature(conductance_matrix, radiation_matrix, nodes, heatloads, heaters, heater_controllers, nodes_num, rk_prop_step_sec,
-                                is_calc_enabled, solar_calc_setting, debug);
+  temperature = new Temperature(conductance_matrix, radiation_matrix, node_list, heatload_list, heater_list, heater_controller_list, node_num,
+                                rk_prop_step_s, is_calc_enabled, solar_calc_setting, debug);
   return temperature;
 }

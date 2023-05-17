@@ -11,43 +11,131 @@
 #include <string>
 #include <vector>
 
-enum class NodeType { kDiffusive, kBoundary, kArithmetic };
+/**
+ * @enum NodeType
+ * @brief Type of node
+ */
+enum class NodeType {
+  //! Diffusive Node: Calculate temperature based on heat flow
+  kDiffusive,
+  //! Boundary Node: Fixed temperature
+  kBoundary,
+  //! Arithmetic Node: Node without heat capacity, calculate temperature after diffusive nodes
+  kArithmetic
+};
 
+/**
+ * @class Node
+ * @brief Class for managing each node of model
+ */
 class Node {
  protected:
   unsigned int node_id_;
   std::string node_name_;
-  unsigned int heater_node_id_;  // heater node番号
-  double temperature_;           // 温度[K]
-  double capacity_;              // 熱容量[J/K]
-  double alpha_rad_;
-  double area_;                  // 太陽熱が入射する面の面積[m^2]
-  libra::Vector<3> normal_v_b_;  // 太陽熱が入射する面の法線ベクトル(機体固定座標系)
-  double solar_radiation_;       // 入射する太陽輻射熱[W]([J]に変換するためには時間をかけないといけないことに注意
-  NodeType node_type_;           // ノードの種類 (0: diffusive, 1: boundary, 2: arithmetic)
+  unsigned int heater_id_;
+  double temperature_K_;
+  double capacity_J_K_;
+  double alpha_;
+  double area_m2_;
+  libra::Vector<3> normal_vector_b_;
+  double solar_radiation_W_;
+  NodeType node_type_;
 
  public:
-  Node(const int node_id, const std::string node_name, const NodeType node_type, const int heater_node_id, const double temperature_ini,
-       const double capacity_ini, const double alpha, const double area, libra::Vector<3> normal_v_b);
+  /**
+   * @fn Node
+   * @brief Construct a new Node object
+   *
+   * @param[in] node_id: ID of node
+   * @param[in] node_name: Name of node (used for logging/output)
+   * @param[in] node_type: NodeType
+   * @param[in] heater_id: ID of heater attached to this node (0 if no heater)
+   * @param[in] temperature_ini_K: Initial temperature of node [K]
+   * @param[in] capacity_J_K: Heat capacity of node [J/K]
+   * @param[in] alpha: Solar absorptivity of face with possibility of solar incidence
+   * @param[in] area_m2: Area of face with possibility of solar incidence [m^2]
+   * @param[in] normal_vector_b: Normal vector of face with possibility of solar incidence (Body frame)
+   */
+  Node(const int node_id, const std::string node_name, const NodeType node_type, const int heater_id, const double temperature_ini_K,
+       const double capacity_J_K, const double alpha, const double area_m2, libra::Vector<3> normal_vector_b);
+  /**
+   * @fn ~Node
+   * @brief Destroy the Node object
+   */
   virtual ~Node();
+  /**
+   * @fn CalcSolarRadiation_W
+   * @brief Calculate solar radiation [W] from sun direction, alpha, area, and normal vector
+   *
+   * @param sun_direction_b: Sun direction in body frame
+   * @return double: Solar Radiation [W]
+   */
+  double CalcSolarRadiation_W(libra::Vector<3> sun_direction_b);  // 太陽入射熱を計算
 
-  // 熱計算用関数
-  double CalcSolarRadiation(libra::Vector<3> sun_direction);  // 太陽入射熱を計算
-
-  // Output from this class
+  // Getter
+  /**
+   * @fn GetNodeId
+   * @brief Return Node Id
+   * @return int: Node ID
+   */
   inline int GetNodeId(void) const { return node_id_; }
-  inline std::string GetNodeLabel(void) const { return node_name_; }
-  inline int GetHeaterNodeId(void) const { return heater_node_id_; }
-  inline double GetTemperature_K(void) const { return temperature_; }
-  inline double GetTemperature_deg(void) const { return K2degC(temperature_); }
-  inline double GetCapacity(void) const { return capacity_; }
-  inline double GetSolarRadiation(void) const { return solar_radiation_; }
+  /**
+   * @fn GetNodeName
+   * @brief Return Node Name
+   * @return std::string: Node name
+   */
+  inline std::string GetNodeName(void) const { return node_name_; }
+  /**
+   * @fn GetHeaterID
+   * @brief Return Heater Id
+   * @return int: Heater ID
+   */
+  inline int GetHeaterId(void) const { return heater_id_; }
+  /**
+   * @fn GetTemperature_K
+   * @brief Get temperature of node in Kelvin
+   * @return double: temperature [K]
+   */
+  inline double GetTemperature_K(void) const { return temperature_K_; }
+  /**
+   * @fn GetTemperature_degC
+   * @brief Get temperature of node in degC
+   * @return double: temperature [degC]
+   */
+  inline double GetTemperature_degC(void) const { return K2degC(temperature_K_); }
+  /**
+   * @fn GetCapacity_J_K
+   * @brief Return heat capacity of node [J/K]
+   * @return double: heat capacity [J/K]
+   */
+  inline double GetCapacity_J_K(void) const { return capacity_J_K_; }
+  /**
+   * @fn GetSolarRadiation_W
+   * @brief Return Solar Radiation [W]
+   * @return double: Solar Radiation [W]
+   */
+  inline double GetSolarRadiation_W(void) const { return solar_radiation_W_; }
+  /**
+   * @fn GetNodeType
+   * @brief Return Node Type
+   * @return NodeType
+   */
   inline NodeType GetNodeType(void) const { return node_type_; }
 
   // Setter
-  inline void SetTemperature_K(double temp_K) { temperature_ = temp_K; }
+  /**
+   * @fn SetTemperature_K
+   * @brief Set the temperature of node in Kelvin
+   *
+   * @param temperature_K
+   */
+  inline void SetTemperature_K(double temperature_K) { temperature_K_ = temperature_K; }
 
   // for debug
+  /**
+   * @fn PrintParam
+   * @brief Print parameters of node in debug output
+   */
   void PrintParam(void);
 };
 

@@ -11,54 +11,139 @@
 #include <string>
 #include <vector>
 
+/**
+ * @enum HeaterStatus
+ * @brief Status of heater (On/Off)
+ *
+ */
 enum class HeaterStatus {
   kOff,
   kOn,
 };
 
+/**
+ * @class Heater
+ * @brief class for heater hardware
+ */
 class Heater {
  protected:
-  unsigned int heater_id_;  // heater id (Use values over 1)
-  double power_rating_;     // Power Rating (100% Duty) [W]
+  unsigned int heater_id_;      // heater id (Use values over 1)
+  double power_rating_W_;       // Power Rating (100% Duty) [W]
 
   HeaterStatus heater_status_;  // Power Status of Heater
-  double power_output_;         // Power Output of Heater [W]
+  double power_output_W_;       // Power Output of Heater [W]
 
  public:
-  Heater(const int heater_id, const double power_rating);
+  /**
+   * @fn Heater
+   * @brief Construct a new Heater object
+   *
+   * @param [in] heater_id
+   * @param [in] power_rating_W: Power Rating (100% Duty Output) of Heater [W]
+   */
+  Heater(const int heater_id, const double power_rating_W);
+  /**
+   * @fn ~Heater
+   * @brief Destroy the Heater object
+   */
   virtual ~Heater();
 
-  // Output from this class
+  // Getter
+  /**
+   * @fn GetHeaterID
+   * @brief Return Heater Id
+   */
   inline int GetHeaterId(void) const { return heater_id_; }
-  inline double GetPowerRating(void) const { return power_rating_; }
-
+  /**
+   * @fn GetPowerRating_W
+   * @brief Return power rating [W]
+   */
+  inline double GetPowerRating_W(void) const { return power_rating_W_; }
+  /**
+   * @fn GetHeaterStatus
+   * @brief Return HeaterStatus
+   */
   inline HeaterStatus GetHeaterStatus(void) const { return heater_status_; }
-  inline double GetPowerOutput(void) const { return power_output_; }
+  /**
+   * @fn GetPowerOutput_W
+   * @brief Return Power Output of Heater [W]
+   */
+  inline double GetPowerOutput_W(void) const { return power_output_W_; }
 
   // Setter
+  /**
+   * @fn SetHeaterStatus
+   * @brief Set the Heater Status
+   */
   void SetHeaterStatus(HeaterStatus heater_status);
 
   // for debug
+  /**
+   * @fn PrintParam
+   * @brief Print power_rating_W, heater_status_, power_output_W_
+   */
   void PrintParam(void);
 };
 
 class HeaterController {
  protected:
-  double lower_threshold_;  // Lower Threshold of Heater Control [degC]
-  double upper_threshold_;  // Upper Threshold of Heater Control [degC]
+  double lower_threshold_degC_;  // Lower Threshold of Heater Control [degC]
+  double upper_threshold_degC_;  // Upper Threshold of Heater Control [degC]
 
  public:
-  HeaterController(const double lower_threshold, const double upper_threshold);
+  /**
+   * @fn HeaterController
+   * @brief Construct a new Heater Controller object
+   * @param[in] lower_threshold_degC: Lower threshold of heater control [degC]
+   * @param[in] upper_threshold_degC: Upper threshold of heater control [degC]
+   */
+  HeaterController(const double lower_threshold_degC, const double upper_threshold_degC);
+  /**
+   * @fn ~HeaterController
+   * @brief Destroy the Heater Controller object
+   */
   virtual ~HeaterController();
 
-  inline double GetLowerThreshold_degC(void) const { return lower_threshold_; }
-  inline double GetUpperThreshold_degC(void) const { return upper_threshold_; }
-  inline double GetLowerThreshold_K(void) const { return degC2K(lower_threshold_); }
-  inline double GetUpperThreshold_K(void) const { return degC2K(upper_threshold_); }
+  // Getter
+  /**
+   * @fn GetLowerThreshold_degC
+   * @brief Return Lower Thershold [degC]
+   */
+  inline double GetLowerThreshold_degC(void) const { return lower_threshold_degC_; }
+  /**
+   * @fn GetUpperThreshold_degC
+   * @brief Return Upper Thershold [degC]
+   */
+  inline double GetUpperThreshold_degC(void) const { return upper_threshold_degC_; }
+  /**
+   * @fn GetLowerThreshold_K
+   * @brief Return Lower Thershold [K]
+   */
+  inline double GetLowerThreshold_K(void) const { return degC2K(lower_threshold_degC_); }
+  /**
+   * @fn GetUpperThreshold_K
+   * @brief Return Upper Thershold [K]
+   */
+  inline double GetUpperThreshold_K(void) const { return degC2K(upper_threshold_degC_); }
 
-  inline void SetLowerThreshold(double lower_threshold_degC) { lower_threshold_ = lower_threshold_degC; }
-  inline void SetUpperThreshold(double upper_threshold_degC) { upper_threshold_ = upper_threshold_degC; }
+  // Setter
+  /**
+   * @brief Set the Lower Threshold [degC]
+   * @param[in] lower_threshold_degC
+   */
+  inline void SetLowerThreshold(double lower_threshold_degC) { lower_threshold_degC_ = lower_threshold_degC; }
+  /**
+   * @brief Set the Upper Threshold [degC]
+   * @param[in] upper_threshold_degC
+   */
+  inline void SetUpperThreshold(double upper_threshold_degC) { upper_threshold_degC_ = upper_threshold_degC; }
 
+  /**
+   * @fn ControlHeater
+   * @brief Compare temperature_degC and lower_threshold_degC / upper_threshold_degC and switch HeaterStatus of heater depending on comparison results
+   * @param[in] heater
+   * @param[in] temperature_degC
+   */
   void ControlHeater(Heater heater, double temperature_degC);
 };
 
