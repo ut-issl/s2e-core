@@ -1,2 +1,2 @@
 id,power_rating[W],lower_threshold[degC],upper_threshold[degC]
-1,30,26,30
+1,30,26,27
