@@ -7,6 +7,7 @@
 #define S2E_DYNAMICS_THERMAL_INITIALIZE_HEATER_HPP_
 
 #include "heater.hpp"
+#include "heater_controller.hpp"
 
 /**
  * @fn InitHeater

@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "heater.hpp"
+#include "heater_controller.hpp"
 #include "heatload.hpp"
 #include "node.hpp"
 

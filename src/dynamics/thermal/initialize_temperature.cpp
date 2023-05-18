@@ -82,16 +82,16 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   // read ini-file settings
   string file_path = mainIni.ReadString("THERMAL", "thermal_file_directory");
-  string solar_calc_setting_str = mainIni.ReadString("THERMAL", "solar_calc_setting");
   SolarCalcSetting solar_calc_setting;
 
-  if (solar_calc_setting_str == "ENABLE") {
+  bool is_solar_calc_enabled = mainIni.ReadEnable("THERMAL", "solar_calc_setting");
+  if (is_solar_calc_enabled) {
     solar_calc_setting = SolarCalcSetting::kEnable;
   } else {
     solar_calc_setting = SolarCalcSetting::kDisable;
   }
 
-  bool debug = mainIni.ReadBoolean("THERMAL", "debug");
+  bool debug = mainIni.ReadEnable("THERMAL", "debug");
 
   // Read Heatloads from CSV File
   string filepath_heatload = file_path + "heatload.csv";
