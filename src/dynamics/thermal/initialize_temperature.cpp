@@ -69,8 +69,8 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   vector<vector<string>> node_str_list;      // string vector of node property data
   vector<vector<string>> heater_str_list;    // string vector of heater property data
   vector<vector<string>> heatload_str_list;  // string vector of heatload property data
-  int node_num = 1;
-  int heater_num = 1;
+  unsigned int node_num = 1;
+  unsigned int heater_num = 1;
 
   bool is_calc_enabled = mainIni.ReadEnable("THERMAL", "calculation");
   if (is_calc_enabled == false) {
