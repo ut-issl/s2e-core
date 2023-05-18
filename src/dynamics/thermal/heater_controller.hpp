@@ -71,7 +71,7 @@ class HeaterController {
    * @param[in] heater
    * @param[in] temperature_degC
    */
-  void ControlHeater(Heater heater, double temperature_degC);
+  void ControlHeater(Heater* p_heater, double temperature_degC);
 };
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATER_CONTROLLER_HPP_

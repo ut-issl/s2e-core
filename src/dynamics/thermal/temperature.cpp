@@ -50,9 +50,9 @@ void Temperature::Propagate(libra::Vector<3> sun_direction_b, const double time_
     CalcRungeOneStep(propagation_time_s_, propagation_step_s_, sun_direction_b, node_num_);
     propagation_time_s_ += propagation_step_s_;
   }
-  UpdateHeaterStatus();
   CalcRungeOneStep(propagation_time_s_, time_end_s - propagation_time_s_, sun_direction_b, node_num_);
   propagation_time_s_ = time_end_s;
+  UpdateHeaterStatus();
 
   if (debug_) {
     cout << fixed;
@@ -162,7 +162,8 @@ void Temperature::UpdateHeaterStatus(void) {
     int heater_id = itr->GetHeaterId();
     if (heater_id > 0) {
       double temperature_degC = itr->GetTemperature_degC();
-      heater_controllers_[heater_id - 1].ControlHeater(heaters_[heater_id - 1], temperature_degC);
+      Heater* p_heater = &heaters_[heater_id - 1];
+      heater_controllers_[heater_id - 1].ControlHeater(p_heater, temperature_degC);
     }
   }
 }

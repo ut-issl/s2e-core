@@ -9,15 +9,15 @@ HeaterController::HeaterController(const double lower_threshold_degC, const doub
 
 HeaterController::~HeaterController() {}
 
-void HeaterController::ControlHeater(Heater heater, double temperature_degC) {
-  HeaterStatus heater_status = heater.GetHeaterStatus();
+void HeaterController::ControlHeater(Heater* p_heater, double temperature_degC) {
+  HeaterStatus heater_status = p_heater->GetHeaterStatus();
   if (heater_status == HeaterStatus::kOn) {
     if (temperature_degC > upper_threshold_degC_) {
-      heater.SetHeaterStatus(HeaterStatus::kOff);
+      p_heater->SetHeaterStatus(HeaterStatus::kOff);
     }
   } else {
     if (temperature_degC < lower_threshold_degC_) {
-      heater.SetHeaterStatus(HeaterStatus::kOn);
+      p_heater->SetHeaterStatus(HeaterStatus::kOn);
     }
   }
 }
