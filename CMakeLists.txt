@@ -10,8 +10,8 @@ cmake_minimum_required(VERSION 3.13)
 # build config
 option(USE_HILS "Use HILS" OFF)
 option(USE_C2A "Use C2A" OFF)
-option(BUILD_64BIT "Build 64bit" OFF)
-option(GOOGLE_TEST "Execute GoogleTest" OFF)
+option(BUILD_64BIT "Build 64bit" ON)
+option(GOOGLE_TEST "Execute GoogleTest" ON)
 
 # preprocessor
 if(WIN32)
@@ -204,6 +204,7 @@ if(GOOGLE_TEST)
     src/library/math/test_matrix.cpp
     src/library/math/test_matrix_vector.cpp
     src/library/math/test_s2e_math.cpp
+    src/library/numerical_integration/test_runge_kutta.cpp
   )
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)
