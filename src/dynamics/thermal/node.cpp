@@ -20,8 +20,8 @@ Node::Node(const int node_id, const string node_name, const NodeType node_type, 
       capacity_J_K_(capacity_J_K),
       alpha_(alpha),
       area_m2_(area_m2),
-      node_type_(node_type),
-      normal_vector_b_(normal_vector_b) {
+      normal_vector_b_(normal_vector_b),
+      node_type_(node_type) {
   solar_radiation_W_ = 0;
 }
 
@@ -48,9 +48,9 @@ void Node::PrintParam(void) {
   string node_type_str = "";
   if (node_type_ == NodeType::kDiffusive) {
     node_type_str = "Diffusive";
-  } else if (node_type_ == NodeType::kBoundary){
+  } else if (node_type_ == NodeType::kBoundary) {
     node_type_str = "Boundary";
-  } else if (node_type_  == NodeType::kArithmetic) {
+  } else if (node_type_ == NodeType::kArithmetic) {
     node_type_str = "Arithmetic";
   }
   cout << "node_id: " << node_id_ << endl;
