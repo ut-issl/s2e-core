@@ -2,8 +2,8 @@
  * @file runge_kutta.cpp
  * @brief Class for General Runge-Kutta method
  */
-#ifndef S2E_LIBRARY_MATH_RUNGE_KUTTA_TEMPLATE_HPP_
-#define S2E_LIBRARY_MATH_RUNGE_KUTTA_TEMPLATE_HPP_
+#ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_TEMPLATE_HPP_
+#define S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_TEMPLATE_HPP_
 
 #include "./runge_kutta.hpp"
 
@@ -28,7 +28,7 @@ RungeKutta<N>::RungeKutta(const double step_width_s) : step_width_s_(step_width_
 }
 
 template <size_t N>
-Vector<N> RungeKutta<N>::DerivativeFunction(double independent_variable, const Vector<N>& state) {
+Vector<N> RungeKutta<N>::DerivativeFunction(const double time_s, const Vector<N>& state) {
   Vector<N> output(1.0);
 
   return output;
@@ -57,4 +57,4 @@ void RungeKutta<N>::CalcSlope() {
 
 }  // namespace libra
 
-#endif
+#endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_TEMPLATE_HPP_

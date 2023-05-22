@@ -3,8 +3,8 @@
  * @brief Class for General Runge-Kutta method
  */
 
-#ifndef S2E_LIBRARY_MATH_RUNGE_KUTTA_HPP_
-#define S2E_LIBRARY_MATH_RUNGE_KUTTA_HPP_
+#ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_HPP_
+#define S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_HPP_
 
 #include <vector>
 
@@ -34,11 +34,11 @@ class RungeKutta {
   /**
    * @fn DerivativeFunction
    * @brief Pure virtual function to define the difference equation
-   * @param [in] independent_variable: Independent variable (e.g. time)
+   * @param [in] time_s: Time as independent variable
    * @param [in] state: State vector
    * @return Differentiated value of state vector
    */
-  Vector<N> DerivativeFunction(double independent_variable, const Vector<N>& state);
+  Vector<N> DerivativeFunction(const double time_s, const Vector<N>& state);
 
   /**
    * @fn Integrate
@@ -79,4 +79,4 @@ class RungeKutta {
 
 #include "runge_kutta_template.hpp"
 
-#endif  // S2E_LIBRARY_MATH_NUMERICAL_INTEGRATOR_HPP_
+#endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_HPP_
