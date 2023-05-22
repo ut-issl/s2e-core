@@ -11,25 +11,27 @@
 #include <typeinfo>
 #include <vector>
 
-/* Import node properties and Cij/Rij Data by reading CSV File (Node.csv,
-Cij.csv, Rij.csv) Detailed process of reading node properties from CSV File, and
-CSV file formats of node properties is written in Init_Node.cpp
+/* Import node properties by reading CSV File (Node.csv)
 
 [File Formats of Node.csv]
 column 1: Node_id(int)
 column 2: Node_label(string)
-column 3: capacity
-column 4: alpha
-column 5: area
-column 6,7,8: normal vector of surface(body frame)
-column 9: initial internal heat(J)
-column 10: initial temperature(K)
+column 3: Node_type(int, 0: diffusive, 1: boundary), Arithmetic node to be implemented as future work
+column 4: Heater No
+column 5: capacity
+column 6: alpha
+column 7: area
+column 8,9,10: normal vector of surface(body frame)
+column 11: initial temperature(K)
 
 First row is for Header, data begins from the second row
 Ex.
-Node_id,Node_label,capacity,solar_radiation,internal_heat,temperature
-1,BUS,2.5,0,0,293
-2,SolarArrayPanel,3.2,10,30,288
+Node_id,Node_label,node_type,heater_id,capacity,alpha,area,normal_v_b_x,normal_v_b_y,normal_v_b_z,initial_temperature
+0,BUS,0,1,880,0.2,0.06,1,0,0,300
+1,SAP,0,0,100,0,0.02,0,0,1,250
+2,SPACE,1,0,0,0,0,0,0,0,2.73
+
+Be sure to include at least one boundary node to avoid divergence
 */
 
 Node InitNode(const std::vector<std::string>& node_str) {
@@ -38,26 +40,43 @@ Node InitNode(const std::vector<std::string>& node_str) {
 
   int node_id = 0;                  // node number
   std::string node_label = "temp";  // node name
-  int heater_node_id = 0;           // heater node index
-  double temperature = 0;           // [K]
-  double capacity = 0;              // [J/K]
-  double internal_heat = 0;         // generated heat[J]
-  double alpha = 0;                 //[m^2]
-  double area = 0;
+  int node_type_int = 0;            // node type
+  int heater_id = 0;                // heater node index
+  double temperature_K = 0;         // [K]
+  double capacity_J_K = 0;          // [J/K]
+  double alpha = 0;                 // []
+  double area_m2 = 0;               // [m^2]
 
-  node_id = stoi(node_str[0]);         // column 1
-  node_label = node_str[1];            // column 2
-  heater_node_id = stoi(node_str[2]);  // column 3
-  capacity = stod(node_str[3]);        // column 4
-  alpha = stod(node_str[4]);           // column 5
-  area = stod(node_str[5]);            // column 6
-  libra::Vector<3> normal_v_b;         // column 7-9
+  // Index to read from node_str for each parameter
+  int index_node_id = 0;
+  int index_node_label = 1;
+  int index_node_type = 2;
+  int index_heater_id = 3;
+  int index_capacity = 4;
+  int index_alpha = 5;
+  int index_area = 6;
+  int index_normal_v_b_head = 7;
+  int index_temperature = 10;
+
+  node_id = stoi(node_str[index_node_id]);
+  node_label = node_str[index_node_label];
+  node_type_int = stoi(node_str[index_node_type]);
+  heater_id = stoi(node_str[index_heater_id]);
+  capacity_J_K = stod(node_str[index_capacity]);
+  alpha = stod(node_str[index_alpha]);
+  area_m2 = stod(node_str[index_area]);
+  libra::Vector<3> normal_v_b;
   for (int i = 0; i < 3; i++) {
-    normal_v_b[i] = stod(node_str[6 + i]);
-  }                                   // body frame
-  internal_heat = stod(node_str[9]);  // column 10
-  temperature = stod(node_str[10]);   // column 11
+    normal_v_b[i] = stod(node_str[index_normal_v_b_head + i]);
+  }
+  temperature_K = stod(node_str[index_temperature]);
 
-  Node node(node_id, node_label, heater_node_id, temperature, capacity, internal_heat, alpha, area, normal_v_b);
+  NodeType node_type = NodeType::kDiffusive;
+  if (node_type_int == 1) {
+    node_type = NodeType::kBoundary;
+  } else if (node_type_int == 2) {
+    node_type = NodeType::kArithmetic;
+  }
+  Node node(node_id, node_label, node_type, heater_id, temperature_K, capacity_J_K, alpha, area_m2, normal_v_b);
   return node;
 }
