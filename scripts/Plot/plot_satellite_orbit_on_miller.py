@@ -60,7 +60,7 @@ sc_map_lon, sc_map_lat = map(sc_lon_deg, sc_lat_deg)
 #
 # Plot SC position with color
 for i in range(len(sc_map_lat)):
-  map.plot(sc_map_lon[i], sc_map_lat[i], color='blue', marker='o', markersize=3, linestyle='None')
+  map.plot(sc_map_lon[i], sc_map_lat[i], color='blue', marker='o', markersize=3)
 
 plt.title('Satellite Orbit on Miller Projection Map: logs_' + read_file_tag)
 plt.show()
