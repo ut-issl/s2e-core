@@ -1,6 +1,7 @@
 /**
  * @file runge_kutta.hpp
- * @brief Class for General Runge-Kutta method
+ * @brief Class for General Runge-Kutta method (explicit form)
+ * @note Ref: Montenbruck and Gill, Satellite Orbits, 4.1 Runge-Kutta Methods
  */
 
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_HPP_

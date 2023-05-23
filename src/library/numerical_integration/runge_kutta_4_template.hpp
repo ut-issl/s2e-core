@@ -18,11 +18,12 @@ RungeKutta4<N>::RungeKutta4(const double step_width_s) : RungeKutta<N>(step_widt
   this->b_.assign(this->stage_, 0.0);
   this->a_.assign(this->stage_, std::vector<double>(this->stage_, 0.0));
 
-  // Set coefficients
   this->c_[1] = this->c_[2] = 0.5;
   this->c_[3] = 1.0;
+
   this->b_[0] = this->b_[3] = 1.0 / 6.0;
   this->b_[1] = this->b_[2] = 1.0 / 3.0;
+
   this->a_[1][0] = this->a_[2][1] = 0.5;
   this->a_[3][2] = 1.0;
 }
