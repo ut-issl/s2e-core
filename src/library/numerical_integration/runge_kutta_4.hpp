@@ -24,19 +24,19 @@ class RungeKutta4 : public RungeKutta<N> {
    */
   RungeKutta4(const double step_width_s) : RungeKutta<N>(step_width_s) {
     // Classical 4th order Runge-Kutta
-    this->stage_ = 4;
-    this->c_.assign(this->stage_, 0.0);
-    this->b_.assign(this->stage_, 0.0);
-    this->a_.assign(this->stage_, std::vector<double>(this->stage_, 0.0));
+    this->number_of_stages_ = 4;
+    this->nodes_.assign(this->number_of_stages_, 0.0);
+    this->weights_.assign(this->number_of_stages_, 0.0);
+    this->rk_matrix_.assign(this->number_of_stages_, std::vector<double>(this->number_of_stages_, 0.0));
 
-    this->c_[1] = this->c_[2] = 0.5;
-    this->c_[3] = 1.0;
+    this->nodes_[1] = this->nodes_[2] = 0.5;
+    this->nodes_[3] = 1.0;
 
-    this->b_[0] = this->b_[3] = 1.0 / 6.0;
-    this->b_[1] = this->b_[2] = 1.0 / 3.0;
+    this->weights_[0] = this->weights_[3] = 1.0 / 6.0;
+    this->weights_[1] = this->weights_[2] = 1.0 / 3.0;
 
-    this->a_[1][0] = this->a_[2][1] = 0.5;
-    this->a_[3][2] = 1.0;
+    this->rk_matrix_[1][0] = this->rk_matrix_[2][1] = 0.5;
+    this->rk_matrix_[3][2] = 1.0;
   }
 };
 
