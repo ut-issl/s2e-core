@@ -4,13 +4,13 @@
  */
 #include <gtest/gtest.h>
 
-#include "runge_kutta.hpp"
+#include "runge_kutta_4.hpp"
 
 /**
  * @brief Test for constructor from four numbers
  */
 TEST(RUNGE_KUTTA, Constructor) {
-  libra::RungeKutta<1> rk(0.1);
+  libra::RungeKutta4<1> rk(0.1);
 
   libra::Vector<1> state = rk.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -21,7 +21,7 @@ TEST(RUNGE_KUTTA, Constructor) {
  */
 TEST(RUNGE_KUTTA, IntegrateLinear) {
   double step_width_s = 0.1;
-  libra::RungeKutta<1> rk(step_width_s);
+  libra::RungeKutta4<1> rk(step_width_s);
 
   libra::Vector<1> state = rk.GetState();
   EXPECT_DOUBLE_EQ(1.0, state[0]);
@@ -41,7 +41,7 @@ TEST(RUNGE_KUTTA, IntegrateLinear) {
  */
 TEST(RUNGE_KUTTA, IntegrateSin) {
   double step_width_s = 0.1;
-  libra::RungeKutta<1> rk(step_width_s);
+  libra::RungeKutta4<1> rk(step_width_s);
 
   libra::Vector<1> state = rk.GetState();
   EXPECT_DOUBLE_EQ(1.0, state[0]);

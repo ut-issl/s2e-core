@@ -32,15 +32,6 @@ class RungeKutta {
   inline virtual ~RungeKutta(){};
 
   /**
-   * @fn DerivativeFunction
-   * @brief Pure virtual function to define the difference equation
-   * @param [in] time_s: Time as independent variable
-   * @param [in] state: State vector
-   * @return Differentiated value of state vector
-   */
-  Vector<N> DerivativeFunction(const double time_s, const Vector<N>& state);
-
-  /**
    * @fn Integrate
    * @brief Update the state
    */
@@ -67,6 +58,21 @@ class RungeKutta {
   // States
   double current_time_s_;    //!< Latest value of independent variable
   Vector<N> current_state_;  //!< Latest state vector
+
+  /**
+   * @fn SetParameters
+   * @brief Pure virtual function of set parameters for RK
+   */
+  virtual void SetParameters();
+
+  /**
+   * @fn DerivativeFunction
+   * @brief Pure virtual function to define the difference equation
+   * @param [in] time_s: Time as independent variable
+   * @param [in] state: State vector
+   * @return Differentiated value of state vector
+   */
+  virtual Vector<N> DerivativeFunction(const double time_s, const Vector<N>& state);
 
   /**
    * @fn CalcSlope
