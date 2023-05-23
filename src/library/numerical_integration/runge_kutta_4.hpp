@@ -1,6 +1,6 @@
 /**
  * @file runge_kutta.hpp
- * @brief Class for Runge-Kutta-4 method
+ * @brief Class for Classical Runge-Kutta method
  */
 
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_4_HPP_
@@ -11,8 +11,8 @@
 namespace libra {
 
 /**
- * @class RungeKutta
- * @brief Class for General Runge-Kutta method
+ * @class RungeKutta4
+ * @brief Class for Classical Runge-Kutta method
  */
 template <size_t N>
 class RungeKutta4 : public RungeKutta<N> {

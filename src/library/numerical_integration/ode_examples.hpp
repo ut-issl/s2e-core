@@ -1,6 +1,6 @@
 /**
- * @file runge_kutta.hpp
- * @brief Class for Runge-Kutta-4 method
+ * @file ode_examples.hpp
+ * @brief Examples for implementation of Ordinary Differential Equations
  */
 
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_EXAMPLE_ODE_HPP_
@@ -9,6 +9,11 @@
 #include "runge_kutta_4.hpp"
 
 namespace libra {
+
+/**
+ * @class ExampleLinearOde
+ * @brief Class for simple linear ODE implementation example
+ */
 class ExampleLinearOde : public RungeKutta4<1> {
  public:
   /**

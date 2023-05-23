@@ -32,6 +32,7 @@ std::vector<Vector<N>> RungeKutta<N>::CalcSlope() {
     double time_s = current_time_s_ + c_[i] * step_width_s_;
     slope[i] = DerivativeFunction(time_s, state);
   }
+
   return slope;
 }
 
