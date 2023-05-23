@@ -24,13 +24,13 @@ class RungeKutta4 : public RungeKutta<N> {
    */
   RungeKutta4(const double step_width_s);
 
- protected:
   /**
    * @fn SetParameters
    * @brief Override function of set parameters for RK
    */
-  void SetParameters() override;
+  virtual void SetParameters();
 
+ protected:
   /**
    * @fn DerivativeFunction
    * @brief Override function to define the difference equation
@@ -38,7 +38,7 @@ class RungeKutta4 : public RungeKutta<N> {
    * @param [in] state: State vector
    * @return Differentiated value of state vector
    */
-  Vector<N> DerivativeFunction(const double time_s, const Vector<N>& state) override;
+  virtual Vector<N> DerivativeFunction(const double time_s, const Vector<N>& state);
 };
 
 }  // namespace libra

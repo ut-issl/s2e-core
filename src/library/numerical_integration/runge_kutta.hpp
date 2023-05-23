@@ -24,7 +24,7 @@ class RungeKutta {
    * @brief Constructor
    * @param [in] step_width_s: Step width
    */
-  RungeKutta(const double step_width_s);
+  inline RungeKutta(const double step_width_s) : step_width_s_(step_width_s), current_time_s_(0.0), current_state_(0.0) {}
   /**
    * @fn ~RungeKutta
    * @brief Destructor
@@ -36,6 +36,12 @@ class RungeKutta {
    * @brief Update the state
    */
   void Integrate();
+
+  /**
+   * @fn SetParameters
+   * @brief Pure virtual function to set parameters for RK
+   */
+  virtual void SetParameters() = 0;
 
   /**
    * @fn GetState
@@ -60,19 +66,13 @@ class RungeKutta {
   Vector<N> current_state_;  //!< Latest state vector
 
   /**
-   * @fn SetParameters
-   * @brief Pure virtual function of set parameters for RK
-   */
-  virtual void SetParameters();
-
-  /**
    * @fn DerivativeFunction
    * @brief Pure virtual function to define the difference equation
    * @param [in] time_s: Time as independent variable
    * @param [in] state: State vector
    * @return Differentiated value of state vector
    */
-  virtual Vector<N> DerivativeFunction(const double time_s, const Vector<N>& state);
+  virtual Vector<N> DerivativeFunction(const double time_s, const Vector<N>& state) = 0;
 
   /**
    * @fn CalcSlope

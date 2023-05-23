@@ -2,6 +2,7 @@
  * @file runge_kutta_4_template.hpp
  * @brief Class for Runge-Kutta-4 method
  */
+
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_4_TEMPLATE_HPP_
 #define S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_4_TEMPLATE_HPP_
 
@@ -39,4 +40,4 @@ Vector<N> RungeKutta4<N>::DerivativeFunction(const double time_s, const Vector<N
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_4_TEMPLATE_HPP_
+#endif
