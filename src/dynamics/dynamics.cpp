@@ -67,4 +67,5 @@ void Dynamics::ClearForceTorque(void) {
 void Dynamics::LogSetup(Logger& logger) {
   logger.AddLogList(attitude_);
   logger.AddLogList(orbit_);
+  logger.AddLogList(temperature_);
 }
