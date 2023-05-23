@@ -35,3 +35,23 @@ TEST(RUNGE_KUTTA, IntegrateLinear) {
 
   EXPECT_NEAR(estimated_result, state[0], 1e-6);
 }
+
+/**
+ * @brief Test for integration with quadratic function
+ */
+TEST(RUNGE_KUTTA, IntegrateQuadratic) {
+  double step_width_s = 0.1;
+  libra::ExampleQuadraticOde ode(0.1);
+
+  libra::Vector<1> state = ode.GetState();
+  EXPECT_DOUBLE_EQ(0.0, state[0]);
+
+  size_t step_num = 10000;
+  for (size_t i = 0; i < step_num; i++) {
+    ode.Integrate();
+  }
+  state = ode.GetState();
+  double estimated_result = (step_width_s * step_num) * (step_width_s * step_num);
+
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+}

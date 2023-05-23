@@ -16,6 +16,7 @@ void RungeKutta<N>::Integrate() {
   for (size_t i = 0; i < stage_; i++) {
     current_state_ = current_state_ + b_[i] * step_width_s_ * slope[i];
   }
+  current_time_s_ += step_width_s_;
 }
 
 template <size_t N>

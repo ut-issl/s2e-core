@@ -37,6 +37,34 @@ class ExampleLinearOde : public RungeKutta4<1> {
   }
 };
 
+/**
+ * @class ExampleQuadraticOde
+ * @brief Class for simple quadratic ODE implementation example
+ */
+class ExampleQuadraticOde : public RungeKutta4<1> {
+ public:
+  /**
+   * @fn ExampleQuadraticOde
+   * @brief Constructor
+   * @param [in] step_width_s: Step width
+   */
+  inline ExampleQuadraticOde(const double step_width_s) : RungeKutta4<1>(step_width_s) {}
+
+ protected:
+  /**
+   * @fn DerivativeFunction
+   * @brief Override function to define the difference equation
+   * @param [in] time_s: Time as independent variable
+   * @param [in] state: State vector
+   * @return Differentiated value of state vector
+   */
+  virtual Vector<1> DerivativeFunction(const double time_s, const Vector<1>& state) {
+    Vector<1> output(0.0);
+    output[0] = 2.0 * time_s;
+    return output;
+  }
+};
+
 }  // namespace libra
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_EXAMPLE_ODE_HPP_s
