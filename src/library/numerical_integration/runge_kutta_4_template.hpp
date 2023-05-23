@@ -14,8 +14,6 @@ template <size_t N>
 RungeKutta4<N>::RungeKutta4(const double step_width_s) : RungeKutta<N>(step_width_s) {
   // Classical 4th order Runge-Kutta
   this->stage_ = 4;
-  this->order_ = 4;
-  this->k_.assign(this->stage_, Vector<N>(0.0));
   this->c_.assign(this->stage_, 0.0);
   this->b_.assign(this->stage_, 0.0);
   this->a_.assign(this->stage_, std::vector<double>(this->stage_, 0.0));

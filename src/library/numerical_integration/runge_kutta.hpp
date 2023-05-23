@@ -45,12 +45,10 @@ class RungeKutta {
 
  protected:
   // Settings
-  size_t stage_;         //!< Number of stage for integration
-  size_t order_;         //!< Number of order for approximation
   double step_width_s_;  //!< Step width [s]
+  size_t stage_;         //!< Number of stage for integration
 
   // Coefficients
-  std::vector<Vector<N>> k_;            //!< Slope vector for general RK
   std::vector<double> c_;               //!< Nodes vector for general RK
   std::vector<double> b_;               //!< Weight vector for general RK
   std::vector<std::vector<double>> a_;  //!< Runge-Kutta matrix for general RK
@@ -70,9 +68,9 @@ class RungeKutta {
 
   /**
    * @fn CalcSlope
-   * @brief Calc slope
+   * @brief Calc slope vector (k in the RK equation)
    */
-  void CalcSlope();
+  std::vector<Vector<N>> CalcSlope();
 };
 
 }  // namespace libra
