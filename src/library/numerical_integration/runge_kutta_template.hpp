@@ -24,8 +24,7 @@ std::vector<Vector<N>> RungeKutta<N>::CalcSlope() {
   std::vector<Vector<N>> slope;
   slope.assign(number_of_stages_, Vector<N>(0.0));
 
-  slope[0] = DerivativeFunction(current_time_s_, current_state_);  // TODO: merge with for state
-  for (size_t i = 1; i < number_of_stages_; i++) {
+  for (size_t i = 0; i < number_of_stages_; i++) {
     Vector<N> state = current_state_;
     for (size_t j = 0; j < i; j++) {
       state = state + rk_matrix_[i][j] * step_width_s_ * slope[j];
