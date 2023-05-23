@@ -11,7 +11,7 @@ namespace libra {
 
 template <size_t N>
 void RungeKutta<N>::Integrate() {
-  std::vector<Vector<N>> slope = CalcSlope();
+  std::vector<Vector<N>> slope = CalcSlope();  //!< k vector in the equation
 
   for (size_t i = 0; i < number_of_stages_; i++) {
     current_state_ = current_state_ + weights_[i] * step_width_s_ * slope[i];

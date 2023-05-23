@@ -59,9 +59,9 @@ class RungeKutta {
   size_t number_of_stages_;  //!< Number of stage for integration
 
   // Coefficients
-  std::vector<double> nodes_;                   //!< Nodes vector for general RK (c vector in equation)
-  std::vector<double> weights_;                 //!< Weights vector for general RK (b vector in equation)
-  std::vector<std::vector<double>> rk_matrix_;  //!< Runge-Kutta matrix for general RK (a matrix in equation)
+  std::vector<double> nodes_;                   //!< Nodes vector for general RK (c vector in the equation)
+  std::vector<double> weights_;                 //!< Weights vector for general RK (b vector in the equation)
+  std::vector<std::vector<double>> rk_matrix_;  //!< Runge-Kutta matrix for general RK (a matrix in the equation)
 
   // States
   double current_time_s_;    //!< Latest value of independent variable
