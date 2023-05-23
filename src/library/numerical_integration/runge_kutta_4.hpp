@@ -23,16 +23,6 @@ class RungeKutta4 : public RungeKutta<N> {
    * @param [in] step_width_s: Step width
    */
   RungeKutta4(const double step_width_s);
-
- protected:
-  /**
-   * @fn DerivativeFunction
-   * @brief Override function to define the difference equation
-   * @param [in] time_s: Time as independent variable
-   * @param [in] state: State vector
-   * @return Differentiated value of state vector
-   */
-  virtual Vector<N> DerivativeFunction(const double time_s, const Vector<N>& state);
 };
 
 }  // namespace libra

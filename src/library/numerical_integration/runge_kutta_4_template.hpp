@@ -28,12 +28,6 @@ RungeKutta4<N>::RungeKutta4(const double step_width_s) : RungeKutta<N>(step_widt
   this->a_[3][2] = 1.0;
 }
 
-template <size_t N>
-Vector<N> RungeKutta4<N>::DerivativeFunction(const double time_s, const Vector<N>& state) {
-  Vector<N> output(1.0);
-  return output;
-}
-
 }  // namespace libra
 
 #endif
