@@ -65,6 +65,35 @@ class ExampleQuadraticOde : public RungeKutta4<1> {
   }
 };
 
+/**
+ * @class Example1dPositionVelocityOde
+ * @brief Class for simple quadratic ODE implementation example
+ */
+class Example1dPositionVelocityOde : public RungeKutta4<2> {
+ public:
+  /**
+   * @fn Example1dPositionVelocityOde
+   * @brief Constructor
+   * @param [in] step_width_s: Step width
+   */
+  inline Example1dPositionVelocityOde(const double step_width_s) : RungeKutta4<2>(step_width_s) {}
+
+ protected:
+  /**
+   * @fn DerivativeFunction
+   * @brief Override function to define the difference equation
+   * @param [in] time_s: Time as independent variable
+   * @param [in] state: State vector
+   * @return Differentiated value of state vector
+   */
+  virtual Vector<2> DerivativeFunction(const double time_s, const Vector<2>& state) {
+    Vector<2> output(0.0);
+    output[0] = state[1];
+    output[1] = 0.0;
+    return output;
+  }
+};
+
 }  // namespace libra
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_EXAMPLE_ODE_HPP_s

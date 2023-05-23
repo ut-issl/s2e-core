@@ -42,6 +42,15 @@ class RungeKutta {
    * @fn GetState
    * @brief Return current state vector
    */
+  inline void SetState(const double time_s, const Vector<N>& state) {
+    current_state_ = state;
+    current_time_s_ = time_s;
+  }
+
+  /**
+   * @fn GetState
+   * @brief Return current state vector
+   */
   inline const Vector<N>& GetState() const { return current_state_; }
 
  protected:

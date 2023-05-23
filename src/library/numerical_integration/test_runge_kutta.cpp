@@ -55,3 +55,31 @@ TEST(RUNGE_KUTTA, IntegrateQuadratic) {
 
   EXPECT_NEAR(estimated_result, state[0], 1e-6);
 }
+
+/**
+ * @brief Test for integration with 1D position and velocity function
+ */
+TEST(RUNGE_KUTTA, Integrate1dPositionVelocity) {
+  double step_width_s = 0.1;
+  libra::Example1dPositionVelocityOde ode(0.1);
+  libra::Vector<2> initial_state(0.0);
+  initial_state[0] = 0.0;
+  initial_state[1] = 0.1;
+  ode.SetState(0.0, initial_state);
+
+  libra::Vector<2> state = ode.GetState();
+  EXPECT_DOUBLE_EQ(initial_state[0], state[0]);
+  EXPECT_DOUBLE_EQ(initial_state[1], state[1]);
+
+  size_t step_num = 10000;
+  for (size_t i = 0; i < step_num; i++) {
+    ode.Integrate();
+  }
+  state = ode.GetState();
+  libra::Vector<2> estimated_result(0.0);
+  estimated_result[0] = (step_width_s * step_num) * initial_state[1] + initial_state[0];
+  estimated_result[1] = initial_state[1];
+
+  EXPECT_NEAR(estimated_result[0], state[0], 1e-6);
+  EXPECT_NEAR(estimated_result[1], state[1], 1e-6);
+}
