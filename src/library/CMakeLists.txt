@@ -18,8 +18,6 @@ add_library(${PROJECT_NAME} STATIC
   math/vector.cpp
   math/s2e_math.cpp
 
-  #numerical_integration/runge_kutta_4_template.cpp
-
   optics/gaussian_beam_base.cpp
 
   orbit/orbital_elements.cpp
