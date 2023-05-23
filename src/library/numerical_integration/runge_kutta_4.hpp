@@ -23,7 +23,7 @@ class RungeKutta4 : public RungeKutta<N> {
    * @param [in] step_width_s: Step width
    */
   RungeKutta4(const double step_width_s) : RungeKutta<N>(step_width_s) {
-    // Classical 4th order Runge-Kutta
+    // Classical 4th order Runge-Kutta (4-order, 4-stage)
     this->number_of_stages_ = 4;
     this->nodes_.assign(this->number_of_stages_, 0.0);
     this->weights_.assign(this->number_of_stages_, 0.0);

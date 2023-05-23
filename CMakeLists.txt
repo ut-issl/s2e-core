@@ -10,8 +10,8 @@ cmake_minimum_required(VERSION 3.13)
 # build config
 option(USE_HILS "Use HILS" OFF)
 option(USE_C2A "Use C2A" OFF)
-option(BUILD_64BIT "Build 64bit" ON)
-option(GOOGLE_TEST "Execute GoogleTest" ON)
+option(BUILD_64BIT "Build 64bit" OFF)
+option(GOOGLE_TEST "Execute GoogleTest" OFF)
 
 # preprocessor
 if(WIN32)
