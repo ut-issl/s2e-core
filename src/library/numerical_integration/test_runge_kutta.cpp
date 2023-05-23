@@ -22,7 +22,6 @@ TEST(RUNGE_KUTTA, Constructor) {
 TEST(RUNGE_KUTTA, IntegrateLinear) {
   double step_width_s = 0.1;
   libra::RungeKutta4<1> rk(step_width_s);
-  rk.SetParameters();
 
   libra::Vector<1> state = rk.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -43,7 +42,6 @@ TEST(RUNGE_KUTTA, IntegrateLinear) {
 TEST(RUNGE_KUTTA, IntegrateSin) {
   double step_width_s = 0.1;
   libra::RungeKutta4<1> rk(step_width_s);
-  rk.SetParameters();
 
   libra::Vector<1> state = rk.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);

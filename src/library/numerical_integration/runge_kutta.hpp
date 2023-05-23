@@ -22,7 +22,7 @@ class RungeKutta {
   /**
    * @fn RungeKutta
    * @brief Constructor
-   * @param [in] step_width_s: Step width
+   * @param [in] step_width_s: Step width [s]
    */
   inline RungeKutta(const double step_width_s) : step_width_s_(step_width_s), current_time_s_(0.0), current_state_(0.0) {}
   /**
@@ -33,15 +33,9 @@ class RungeKutta {
 
   /**
    * @fn Integrate
-   * @brief Update the state
+   * @brief Update the state vector with the numerical integration
    */
   void Integrate();
-
-  /**
-   * @fn SetParameters
-   * @brief Pure virtual function to set parameters for RK
-   */
-  virtual void SetParameters() = 0;
 
   /**
    * @fn GetState

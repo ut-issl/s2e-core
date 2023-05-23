@@ -11,10 +11,7 @@
 namespace libra {
 
 template <size_t N>
-RungeKutta4<N>::RungeKutta4(const double step_width_s) : RungeKutta<N>(step_width_s) {}
-
-template <size_t N>
-void RungeKutta4<N>::SetParameters() {
+RungeKutta4<N>::RungeKutta4(const double step_width_s) : RungeKutta<N>(step_width_s) {
   // Classical 4th order Runge-Kutta
   this->stage_ = 4;
   this->order_ = 4;

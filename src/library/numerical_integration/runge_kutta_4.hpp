@@ -24,12 +24,6 @@ class RungeKutta4 : public RungeKutta<N> {
    */
   RungeKutta4(const double step_width_s);
 
-  /**
-   * @fn SetParameters
-   * @brief Override function of set parameters for RK
-   */
-  virtual void SetParameters();
-
  protected:
   /**
    * @fn DerivativeFunction
