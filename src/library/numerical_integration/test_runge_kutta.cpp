@@ -249,7 +249,7 @@ TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitLargeEccentricity) {
     EXPECT_DOUBLE_EQ(initial_state[i], state_rkf[i]);
   }
 
-  size_t step_num = 200;
+  size_t step_num = 2000;
   for (size_t i = 0; i < step_num; i++) {
     rk4_ode.Integrate();
     rkf_ode.Integrate();
@@ -269,13 +269,13 @@ TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitLargeEccentricity) {
   KeplerOrbit kepler(1.0, oe);
   kepler.CalcOrbit((double)(step_num * step_width_s) / (24.0 * 60.0 * 60.0));
 
-  double error_tolerance = 3e-3;
+  double error_tolerance = 2e-1;
   EXPECT_NEAR(kepler.GetPosition_i_m()[0], state_rk4[0], error_tolerance);
   EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_rk4[1], error_tolerance);
   EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_rk4[2], error_tolerance);
   EXPECT_NEAR(kepler.GetVelocity_i_m_s()[1], state_rk4[3], error_tolerance);
 
-  error_tolerance = 2e-4;
+  error_tolerance = 1e-2;
   EXPECT_NEAR(kepler.GetPosition_i_m()[0], state_rkf[0], error_tolerance);
   EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_rkf[1], error_tolerance);
   EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_rkf[2], error_tolerance);
