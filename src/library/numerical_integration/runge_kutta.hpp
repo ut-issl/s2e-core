@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "../math/vector.hpp"
+#include "interface_ode.hpp"
 
 namespace libra {
 
@@ -25,7 +26,8 @@ class RungeKutta {
    * @brief Constructor
    * @param [in] step_width_s: Step width [s]
    */
-  inline RungeKutta(const double step_width_s) : step_width_s_(step_width_s), current_time_s_(0.0), current_state_(0.0) {}
+  inline RungeKutta(const double step_width_s, const InterfaceOde<N>& ode)
+      : step_width_s_(step_width_s), ode_(ode), current_time_s_(0.0), current_state_(0.0) {}
   /**
    * @fn ~RungeKutta
    * @brief Destructor
@@ -65,17 +67,9 @@ class RungeKutta {
   std::vector<std::vector<double>> rk_matrix_;  //!< Runge-Kutta matrix for general RK (a matrix in the equation)
 
   // States
-  double current_time_s_;    //!< Latest value of independent variable
-  Vector<N> current_state_;  //!< Latest state vector
-
-  /**
-   * @fn DerivativeFunction
-   * @brief Pure virtual function to define the difference equation
-   * @param [in] time_s: Time as independent variable
-   * @param [in] state: State vector
-   * @return Differentiated value of state vector
-   */
-  virtual Vector<N> DerivativeFunction(const double time_s, const Vector<N>& state) = 0;
+  const InterfaceOde<N>& ode_;  //!< Ordinary differential equation
+  double current_time_s_;       //!< Latest value of independent variable
+  Vector<N> current_state_;     //!< Latest state vector
 
   /**
    * @fn CalcSlope

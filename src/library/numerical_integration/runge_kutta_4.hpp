@@ -1,6 +1,6 @@
 /**
- * @file runge_kutta.hpp
- * @brief Class for Classical Runge-Kutta method
+ * @file runge_kutta_4.hpp
+ * @brief Class for Classical 4th order Runge-Kutta method
  */
 
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_4_HPP_
@@ -12,7 +12,7 @@ namespace libra {
 
 /**
  * @class RungeKutta4
- * @brief Class for Classical Runge-Kutta method
+ * @brief Class for Classical 4th order Runge-Kutta method
  */
 template <size_t N>
 class RungeKutta4 : public RungeKutta<N> {
@@ -22,7 +22,7 @@ class RungeKutta4 : public RungeKutta<N> {
    * @brief Constructor
    * @param [in] step_width_s: Step width
    */
-  RungeKutta4(const double step_width_s) : RungeKutta<N>(step_width_s) {
+  RungeKutta4(const double step_width_s, const InterfaceOde<N>& ode) : RungeKutta<N>(step_width_s, ode) {
     // Classical 4th order Runge-Kutta (4-order, 4-stage)
     this->number_of_stages_ = 4;
     this->approximation_order_ = 4;

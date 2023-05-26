@@ -1,5 +1,5 @@
 /**
- * @file runge_kutta.cpp
+ * @file runge_kutta_template.hpp
  * @brief Class for General Runge-Kutta method
  */
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_TEMPLATE_HPP_
@@ -30,7 +30,7 @@ std::vector<Vector<N>> RungeKutta<N>::CalcSlope() {
       state = state + rk_matrix_[i][j] * step_width_s_ * slope[j];
     }
     double time_s = current_time_s_ + nodes_[i] * step_width_s_;
-    slope[i] = DerivativeFunction(time_s, state);
+    slope[i] = ode_.DerivativeFunction(time_s, state);
   }
 
   return slope;
