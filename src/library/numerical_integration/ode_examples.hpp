@@ -52,6 +52,23 @@ class Example1dPositionVelocityOde : public InterfaceOde<2> {
   }
 };
 
+/**
+ * @class Example2dTwoBodyOrbit
+ * @brief Class for position/velocity equation of motion implementation example
+ */
+class Example2dTwoBodyOrbitOde : public InterfaceOde<4> {
+ public:
+  virtual Vector<4> DerivativeFunction(const double time_s, const Vector<4>& state) const {
+    Vector<4> output(0.0);
+    output[0] = state[2];
+    output[1] = state[3];
+    double inverse_square = 1.0 / pow(state[0] * state[0] + state[1] * state[1], 3.0 / 2.0);
+    output[2] = -1.0 * state[0] * inverse_square;
+    output[3] = -1.0 * state[1] * inverse_square;
+    return output;
+  }
+};
+
 }  // namespace libra
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_EXAMPLE_ODE_HPP_s

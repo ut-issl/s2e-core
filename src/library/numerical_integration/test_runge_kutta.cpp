@@ -4,6 +4,7 @@
  */
 #include <gtest/gtest.h>
 
+#include "../orbit/kepler_orbit.hpp"
 #include "ode_examples.hpp"
 #include "runge_kutta_4.hpp"
 #include "runge_kutta_fehlberg.hpp"
@@ -25,7 +26,7 @@ TEST(RUNGE_KUTTA, Constructor) {
 TEST(RUNGE_KUTTA, IntegrateLinearRk4) {
   double step_width_s = 0.1;
   libra::ExampleLinearOde ode;
-  libra::RungeKutta4<1> rk4_ode(0.1, ode);
+  libra::RungeKutta4<1> rk4_ode(step_width_s, ode);
 
   libra::Vector<1> state = rk4_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -46,7 +47,7 @@ TEST(RUNGE_KUTTA, IntegrateLinearRk4) {
 TEST(RUNGE_KUTTA, IntegrateLinearRkf) {
   double step_width_s = 0.1;
   libra::ExampleLinearOde ode;
-  libra::RungeKuttaFehlberg<1> rkf_ode(0.1, ode);
+  libra::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
 
   libra::Vector<1> state = rkf_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -67,7 +68,7 @@ TEST(RUNGE_KUTTA, IntegrateLinearRkf) {
 TEST(RUNGE_KUTTA, IntegrateQuadraticRk4) {
   double step_width_s = 0.1;
   libra::ExampleQuadraticOde ode;
-  libra::RungeKutta4<1> rk4_ode(0.1, ode);
+  libra::RungeKutta4<1> rk4_ode(step_width_s, ode);
 
   libra::Vector<1> state = rk4_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -88,7 +89,7 @@ TEST(RUNGE_KUTTA, IntegrateQuadraticRk4) {
 TEST(RUNGE_KUTTA, IntegrateQuadraticRkf) {
   double step_width_s = 0.1;
   libra::ExampleQuadraticOde ode;
-  libra::RungeKuttaFehlberg<1> rkf_ode(0.1, ode);
+  libra::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
 
   libra::Vector<1> state = rkf_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -109,7 +110,7 @@ TEST(RUNGE_KUTTA, IntegrateQuadraticRkf) {
 TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRk4) {
   double step_width_s = 0.1;
   libra::Example1dPositionVelocityOde ode;
-  libra::RungeKutta4<2> rk4_ode(0.1, ode);
+  libra::RungeKutta4<2> rk4_ode(step_width_s, ode);
 
   libra::Vector<2> initial_state(0.0);
   initial_state[0] = 0.0;
@@ -139,7 +140,7 @@ TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRk4) {
 TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRkf) {
   double step_width_s = 0.1;
   libra::Example1dPositionVelocityOde ode;
-  libra::RungeKuttaFehlberg<2> rkf_ode(0.1, ode);
+  libra::RungeKuttaFehlberg<2> rkf_ode(step_width_s, ode);
 
   libra::Vector<2> initial_state(0.0);
   initial_state[0] = 0.0;
@@ -161,4 +162,122 @@ TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRkf) {
 
   EXPECT_NEAR(estimated_result[0], state[0], 1e-6);
   EXPECT_NEAR(estimated_result[1], state[1], 1e-6);
+}
+
+/**
+ * @brief Accuracy comparison between RK4 and RKF for integration with 2D two body orbit with small eccentricity
+ */
+TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitSmallEccentricity) {
+  double step_width_s = 0.1;
+  libra::Example2dTwoBodyOrbitOde ode;
+  libra::RungeKutta4<4> rk4_ode(step_width_s, ode);
+  libra::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
+
+  libra::Vector<4> initial_state(0.0);
+  const double eccentricity = 0.1;
+  initial_state[0] = 1.0 - eccentricity;
+  initial_state[1] = 0.0;
+  initial_state[2] = 0.0;
+  initial_state[3] = sqrt((1.0 + eccentricity) / (1.0 - eccentricity));
+  rk4_ode.SetState(0.0, initial_state);
+  rkf_ode.SetState(0.0, initial_state);
+
+  libra::Vector<4> state_rk4 = rk4_ode.GetState();
+  libra::Vector<4> state_rkf = rkf_ode.GetState();
+  for (size_t i = 0; i < 4; i++)
+  {
+    EXPECT_DOUBLE_EQ(initial_state[i], state_rk4[i]);
+    EXPECT_DOUBLE_EQ(initial_state[i], state_rkf[i]);
+  }
+
+  size_t step_num = 200;
+  for (size_t i = 0; i < step_num; i++) {
+    rk4_ode.Integrate();
+    rkf_ode.Integrate();
+  }
+  state_rk4 = rk4_ode.GetState();
+  state_rkf = rkf_ode.GetState();
+
+  // Estimation by Kepler Orbit calculation
+  libra::Vector<3> initial_position(0.0);
+  libra::Vector<3> initial_velocity(0.0);
+
+  initial_position[0] = initial_state[0];
+  initial_position[1] = initial_state[1];
+  initial_velocity[0] = initial_state[2];
+  initial_velocity[1] = initial_state[3];
+  OrbitalElements oe(1.0, 0.0, initial_position, initial_velocity);
+  KeplerOrbit kepler(1.0, oe);
+  kepler.CalcOrbit((double)(step_num * step_width_s) / (24.0 * 60.0 * 60.0));
+
+  double error_tolerance = 2e-4;
+  EXPECT_NEAR(kepler.GetPosition_i_m()[0], state_rk4[0], error_tolerance);
+  EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_rk4[1], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_rk4[2], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[1], state_rk4[3], error_tolerance);
+
+  error_tolerance = 2e-5;
+  EXPECT_NEAR(kepler.GetPosition_i_m()[0], state_rkf[0], error_tolerance);
+  EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_rkf[1], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_rkf[2], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[1], state_rkf[3], error_tolerance);
+}
+
+/**
+ * @brief Accuracy comparison between RK4 and RKF for integration with 2D two body orbit with high eccentricity
+ */
+TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitLargeEccentricity) {
+  double step_width_s = 0.01;
+  libra::Example2dTwoBodyOrbitOde ode;
+  libra::RungeKutta4<4> rk4_ode(step_width_s, ode);
+  libra::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
+
+  libra::Vector<4> initial_state(0.0);
+  const double eccentricity = 0.9;
+  initial_state[0] = 1.0 - eccentricity;
+  initial_state[1] = 0.0;
+  initial_state[2] = 0.0;
+  initial_state[3] = sqrt((1.0 + eccentricity) / (1.0 - eccentricity));
+  rk4_ode.SetState(0.0, initial_state);
+  rkf_ode.SetState(0.0, initial_state);
+
+  libra::Vector<4> state_rk4 = rk4_ode.GetState();
+  libra::Vector<4> state_rkf = rkf_ode.GetState();
+  for (size_t i = 0; i < 4; i++)
+  {
+    EXPECT_DOUBLE_EQ(initial_state[i], state_rk4[i]);
+    EXPECT_DOUBLE_EQ(initial_state[i], state_rkf[i]);
+  }
+
+  size_t step_num = 200;
+  for (size_t i = 0; i < step_num; i++) {
+    rk4_ode.Integrate();
+    rkf_ode.Integrate();
+  }
+  state_rk4 = rk4_ode.GetState();
+  state_rkf = rkf_ode.GetState();
+
+  // Estimation by Kepler Orbit calculation
+  libra::Vector<3> initial_position(0.0);
+  libra::Vector<3> initial_velocity(0.0);
+
+  initial_position[0] = initial_state[0];
+  initial_position[1] = initial_state[1];
+  initial_velocity[0] = initial_state[2];
+  initial_velocity[1] = initial_state[3];
+  OrbitalElements oe(1.0, 0.0, initial_position, initial_velocity);
+  KeplerOrbit kepler(1.0, oe);
+  kepler.CalcOrbit((double)(step_num * step_width_s) / (24.0 * 60.0 * 60.0));
+
+  double error_tolerance = 3e-3;
+  EXPECT_NEAR(kepler.GetPosition_i_m()[0], state_rk4[0], error_tolerance);
+  EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_rk4[1], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_rk4[2], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[1], state_rk4[3], error_tolerance);
+
+  error_tolerance = 2e-4;
+  EXPECT_NEAR(kepler.GetPosition_i_m()[0], state_rkf[0], error_tolerance);
+  EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_rkf[1], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_rkf[2], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[1], state_rkf[3], error_tolerance);
 }
