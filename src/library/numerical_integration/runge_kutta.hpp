@@ -36,7 +36,7 @@ class RungeKutta {
    * @fn Integrate
    * @brief Update the state vector with the numerical integration
    */
-  void Integrate();
+  virtual void Integrate();
 
   /**
    * @fn GetState
@@ -55,8 +55,9 @@ class RungeKutta {
 
  protected:
   // Settings
-  double step_width_s_;      //!< Step width [s]
-  size_t number_of_stages_;  //!< Number of stage for integration
+  double step_width_s_;         //!< Step width [s]
+  size_t number_of_stages_;     //!< Number of stage for integration (s in the equation)
+  size_t approximation_order_;  //!< Order of approximation (p in the equation)
 
   // Coefficients
   std::vector<double> nodes_;                   //!< Nodes vector for general RK (c vector in the equation)
