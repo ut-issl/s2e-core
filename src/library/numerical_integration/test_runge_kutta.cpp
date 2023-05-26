@@ -5,6 +5,8 @@
 #include <gtest/gtest.h>
 
 #include "ode_examples.hpp"
+#include "runge_kutta_4.hpp"
+#include "runge_kutta_fehlberg.hpp"
 
 /**
  * @brief Test for constructor
@@ -18,7 +20,7 @@ TEST(RUNGE_KUTTA, Constructor) {
 }
 
 /**
- * @brief Test for integration with nominal linear function
+ * @brief Test for integration with nominal linear function with RK4
  */
 TEST(RUNGE_KUTTA, IntegrateLinearRk4) {
   double step_width_s = 0.1;
@@ -38,6 +40,26 @@ TEST(RUNGE_KUTTA, IntegrateLinearRk4) {
   EXPECT_NEAR(estimated_result, state[0], 1e-6);
 }
 
+/**
+ * @brief Test for integration with nominal linear function with RKF
+ */
+TEST(RUNGE_KUTTA, IntegrateLinearRkf) {
+  double step_width_s = 0.1;
+  libra::ExampleLinearOde ode;
+  libra::RungeKuttaFehlberg<1> rkf_ode(0.1, ode);
+
+  libra::Vector<1> state = rkf_ode.GetState();
+  EXPECT_DOUBLE_EQ(0.0, state[0]);
+
+  size_t step_num = 10000;
+  for (size_t i = 0; i < step_num; i++) {
+    rkf_ode.Integrate();
+  }
+  state = rkf_ode.GetState();
+  double estimated_result = step_width_s * step_num;
+
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+}
 /**
  * @brief Test for integration with quadratic function
  */

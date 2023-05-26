@@ -22,7 +22,7 @@ class EmbeddedRungeKutta : public RungeKutta<N> {
    * @brief Constructor
    * @param [in] step_width_s: Step width [s]
    */
-  EmbeddedRungeKutta(const double step_width_s) : RungeKutta<N>(step_width_s) {}
+  EmbeddedRungeKutta(const double step_width_s, const InterfaceOde<N>& ode) : RungeKutta<N>(step_width_s, ode) {}
 
   /**
    * @fn Integrate
@@ -35,7 +35,7 @@ class EmbeddedRungeKutta : public RungeKutta<N> {
    * @brief Step width control
    * @param[in] error_tolerance: Error tolerance (epsilon in the equation)
    */
-  void ControlStepWidth(double error_tolerance);
+  void ControlStepWidth(const double error_tolerance);
 
   /**
    * @fn GetLocalTruncationError
@@ -43,7 +43,7 @@ class EmbeddedRungeKutta : public RungeKutta<N> {
    */
   inline double GetLocalTruncationError() const { return local_truncation_error_; }
 
- private:
+ protected:
   // Parameters
   std::vector<double> higher_order_weights_;  //!< Weights vector for higher order approximation
 
@@ -52,5 +52,7 @@ class EmbeddedRungeKutta : public RungeKutta<N> {
 };
 
 }  // namespace libra
+
+#include "embedded_runge_kutta_template.hpp"
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_HPP_

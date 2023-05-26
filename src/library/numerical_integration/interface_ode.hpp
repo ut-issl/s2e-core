@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_INTERFACE_ODE_HPP_
 #define S2E_LIBRARY_NUMERICAL_INTEGRATION_INTERFACE_ODE_HPP_
 
-#include <cstddef>
+#include "../math/vector.hpp"
 
 namespace libra {
 

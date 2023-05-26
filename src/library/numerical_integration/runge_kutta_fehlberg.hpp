@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_FEHLBERG_HPP_
 #define S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_FEHLBERG_HPP_
 
-#include "runge_kutta.hpp"
+#include "embedded_runge_kutta.hpp"
 
 namespace libra {
 
@@ -22,12 +22,13 @@ class RungeKuttaFehlberg : public EmbeddedRungeKutta<N> {
    * @brief Constructor
    * @param [in] step_width_s: Step width
    */
-  RungeKuttaFehlberg(const double step_width_s) : EmbeddedRungeKutta<N>(step_width_s) {
+  RungeKuttaFehlberg(const double step_width_s, const InterfaceOde<N>& ode) : EmbeddedRungeKutta<N>(step_width_s, ode) {
     // p=4th/q=5th order Runge-Kutta-Fehlberg (6-stage)
     this->number_of_stages_ = 6;
     this->approximation_order_ = 4;
     this->nodes_.assign(this->number_of_stages_, 0.0);
     this->weights_.assign(this->number_of_stages_, 0.0);
+    this->higher_order_weights_.assign(this->number_of_stages_, 0.0);
     this->rk_matrix_.assign(this->number_of_stages_, std::vector<double>(this->number_of_stages_, 0.0));
 
     this->nodes_[1] = 1.0 / 4.0;

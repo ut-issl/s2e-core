@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_EXAMPLE_ODE_HPP_
 #define S2E_LIBRARY_NUMERICAL_INTEGRATION_EXAMPLE_ODE_HPP_
 
-#include "runge_kutta_4.hpp"
+#include "interface_ode.hpp"
 
 namespace libra {
 
