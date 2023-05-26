@@ -10,6 +10,30 @@
 
 namespace libra {
 
+class LinearOde {
+ public:
+  Vector<1> Ode(const double time_s, const Vector<1>& state) {
+    Vector<1> output(1.0);
+    return output;
+  }
+};
+
+class ExampleLinearOdeRk4 : public RungeKutta4<1> {
+ public:
+  /**
+   * @fn ExampleLinearOde
+   * @brief Constructor
+   * @param [in] step_width_s: Step width
+   */
+  inline ExampleLinearOdeRk4(const double step_width_s, LinearOde& ode) : RungeKutta4<1>(step_width_s), ode_(ode) {}
+
+ protected:
+  LinearOde& ode_;
+  virtual Vector<1> DerivativeFunction(const double time_s, const Vector<1>& state) {
+    return ode_.Ode(time_s, state);
+  }
+};
+
 /**
  * @class ExampleLinearOde
  * @brief Class for simple linear ODE implementation example
