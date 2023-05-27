@@ -13,6 +13,7 @@ template <size_t N>
 void RungeKutta<N>::Integrate() {
   CalcSlope();
 
+  previous_state_ = current_state_;
   for (size_t i = 0; i < number_of_stages_; i++) {
     current_state_ = current_state_ + weights_[i] * step_width_s_ * slope_[i];
   }

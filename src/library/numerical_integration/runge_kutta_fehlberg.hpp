@@ -71,6 +71,49 @@ class RungeKuttaFehlberg : public EmbeddedRungeKutta<N> {
     this->rk_matrix_[5][3] = 1859.0 / 4104.0;
     this->rk_matrix_[5][4] = -11.0 / 40.0;
   }
+
+  /**
+   * @fn CalcInterpolationState
+   * @brief Calculate interpolation state
+   * @param [in] sigma: Sigma value (0 < sigma < 1) for interpolation
+   * @return : interpolated state x(t0 + sigma * h)
+   */
+  Vector<N> CalcInterpolationState(const double sigma) {
+    // Calc k7 (slope after state update)
+    Vector<N> state_7 = this->previous_state_ + this->step_width_s_ * (this->slope_[0] / 6.0 + this->slope_[4] / 6.0 + this->slope_[5] * 2.0 / 3.0);
+    Vector<N> k7 = this->ode_.DerivativeFunction(this->current_time_s_, state_7);
+
+    std::vector<double> interpolation_weights = CalcInterpolationWeights(sigma);
+
+    Vector<N> interpolation_state = this->previous_state_;
+    for (size_t i = 0; i < this->number_of_stages_; i++) {
+      interpolation_state = interpolation_state + sigma * this->step_width_s_ * (interpolation_weights[i] * this->slope_);
+    }
+    interpolation_state = interpolation_state + sigma * this->step_width_s_ * (interpolation_weights[6] * k7);
+    return interpolation_state;
+  }
+
+ private:
+  /**
+   * @fn CalcInterpolationWeights
+   * @brief Calculate weights for interpolation
+   * @param [in] sigma: Sigma value (0 < sigma < 1) for interpolation
+   * @return : weights for interpolation
+   */
+  std::vector<double> CalcInterpolationWeights(const double sigma) {
+    std::vector<double> interpolation_weights;
+    interpolation_weights.assign(this->number_of_stages_ + 1, 0.0);
+
+    interpolation_weights[0] = 1.0 - sigma * (301.0 / 120.0 + sigma * (-269.0 / 108.0 + sigma * 311.0 / 360.0));
+    interpolation_weights[1] = 0.0;
+    interpolation_weights[2] = sigma * (7168.0 / 1425.0 + sigma * (-4096.0 / 513.0 + sigma * 14848.0 / 4275.0));
+    interpolation_weights[3] = sigma * (-28561.0 / 8360.0 + sigma * (199927.0 / 22572 - sigma * 371293.0 / 75240.0));
+    interpolation_weights[4] = sigma * (57.0 / 50.0 + sigma * (-3.0 + sigma * 42.0 / 25.0));
+    interpolation_weights[5] = sigma * (-96.0 / 55.0 + sigma * (40.0 / 11.0 - sigma * 102.0 / 55.0));
+    interpolation_weights[6] = sigma * (3.0 / 2.0 + sigma * (-4.0 + sigma * 5.0 / 2.0));
+
+    return interpolation_weights;
+  }
 };
 
 }  // namespace libra

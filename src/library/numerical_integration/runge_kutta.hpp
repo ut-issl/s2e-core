@@ -27,7 +27,7 @@ class RungeKutta {
    * @param [in] step_width_s: Step width [s]
    */
   inline RungeKutta(const double step_width_s, const InterfaceOde<N>& ode)
-      : step_width_s_(step_width_s), ode_(ode), current_time_s_(0.0), current_state_(0.0) {}
+      : step_width_s_(step_width_s), ode_(ode), current_time_s_(0.0), current_state_(0.0), previous_state_(0.0) {}
   /**
    * @fn ~RungeKutta
    * @brief Destructor
@@ -45,6 +45,7 @@ class RungeKutta {
    * @brief Return current state vector
    */
   inline void SetState(const double time_s, const Vector<N>& state) {
+    previous_state_ = current_state_;
     current_state_ = state;
     current_time_s_ = time_s;
   }
@@ -65,12 +66,13 @@ class RungeKutta {
   std::vector<double> nodes_;                   //!< Nodes vector for general RK (c vector in the equation)
   std::vector<double> weights_;                 //!< Weights vector for general RK (b vector in the equation)
   std::vector<std::vector<double>> rk_matrix_;  //!< Runge-Kutta matrix for general RK (a matrix in the equation)
-  std::vector<Vector<N>> slope_;                 //!< Slope vector for general RK (k vector in the equation)
+  std::vector<Vector<N>> slope_;                //!< Slope vector for general RK (k vector in the equation)
 
   // States
   const InterfaceOde<N>& ode_;  //!< Ordinary differential equation
   double current_time_s_;       //!< Latest value of independent variable
   Vector<N> current_state_;     //!< Latest state vector
+  Vector<N> previous_state_;    //!< Previous state vector
 
   /**
    * @fn CalcSlope
