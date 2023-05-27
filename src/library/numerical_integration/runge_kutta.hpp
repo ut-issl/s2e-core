@@ -65,6 +65,7 @@ class RungeKutta {
   std::vector<double> nodes_;                   //!< Nodes vector for general RK (c vector in the equation)
   std::vector<double> weights_;                 //!< Weights vector for general RK (b vector in the equation)
   std::vector<std::vector<double>> rk_matrix_;  //!< Runge-Kutta matrix for general RK (a matrix in the equation)
+  std::vector<Vector<N>> slope_;                 //!< Slope vector for general RK (k vector in the equation)
 
   // States
   const InterfaceOde<N>& ode_;  //!< Ordinary differential equation
@@ -75,7 +76,7 @@ class RungeKutta {
    * @fn CalcSlope
    * @brief Calc slope vector (k in the RK equation)
    */
-  std::vector<Vector<N>> CalcSlope();
+  void CalcSlope();
 };
 
 }  // namespace libra

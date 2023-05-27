@@ -11,13 +11,13 @@ namespace libra {
 
 template <size_t N>
 void EmbeddedRungeKutta<N>::Integrate() {
-  std::vector<Vector<N>> slope = this->CalcSlope();  //!< k vector in the equation
+  this->CalcSlope();
 
   Vector<N> lower_current_state = this->current_state_;   //!< eta in the equation
   Vector<N> higher_current_state = this->current_state_;  //!< eta_hat in the equation
   for (size_t i = 0; i < this->number_of_stages_; i++) {
-    lower_current_state = lower_current_state + this->weights_[i] * this->step_width_s_ * slope[i];
-    higher_current_state = higher_current_state + higher_order_weights_[i] * this->step_width_s_ * slope[i];
+    lower_current_state = lower_current_state + this->weights_[i] * this->step_width_s_ * this->slope_[i];
+    higher_current_state = higher_current_state + higher_order_weights_[i] * this->step_width_s_ * this->slope_[i];
   }
 
   // Error evaluation
