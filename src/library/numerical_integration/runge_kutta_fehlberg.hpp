@@ -56,20 +56,20 @@ class RungeKuttaFehlberg : public EmbeddedRungeKutta<N> {
     this->rk_matrix_[2][0] = 3.0 / 32.0;
     this->rk_matrix_[2][1] = 9.0 / 32.0;
 
-    this->rk_matrix_[3][0] = 1932.0/2197.0;
-    this->rk_matrix_[3][1] = -7200.0/2197.0;
-    this->rk_matrix_[3][2] = 7296.0/2197.0;
+    this->rk_matrix_[3][0] = 1932.0 / 2197.0;
+    this->rk_matrix_[3][1] = -7200.0 / 2197.0;
+    this->rk_matrix_[3][2] = 7296.0 / 2197.0;
 
-    this->rk_matrix_[4][0] = 439.0/216.0;
+    this->rk_matrix_[4][0] = 439.0 / 216.0;
     this->rk_matrix_[4][1] = -8.0;
-    this->rk_matrix_[4][2] = 3680.0/513.0;
-    this->rk_matrix_[4][3] = -845.0/4104.0;
+    this->rk_matrix_[4][2] = 3680.0 / 513.0;
+    this->rk_matrix_[4][3] = -845.0 / 4104.0;
 
-    this->rk_matrix_[5][0] = -8.0/27.0;
+    this->rk_matrix_[5][0] = -8.0 / 27.0;
     this->rk_matrix_[5][1] = 2.0;
-    this->rk_matrix_[5][2] = -3544.0/2565.0;
-    this->rk_matrix_[5][3] = 1859.0/4104.0;
-    this->rk_matrix_[5][4] = -11.0/40.0;
+    this->rk_matrix_[5][2] = -3544.0 / 2565.0;
+    this->rk_matrix_[5][3] = 1859.0 / 4104.0;
+    this->rk_matrix_[5][4] = -11.0 / 40.0;
   }
 };
 
