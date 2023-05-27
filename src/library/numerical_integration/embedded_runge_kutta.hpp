@@ -26,7 +26,7 @@ class EmbeddedRungeKutta : public RungeKutta<N> {
 
   /**
    * @fn Integrate
-   * @brief Update the state vector with the numerical integration
+   * @brief Update the state vector with the numerical integration with multiple order to evaluate the error
    */
   virtual void Integrate();
 
