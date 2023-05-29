@@ -3,8 +3,8 @@
  * @brief Abstract class for General numerical integrator
  */
 
-#ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_NUMRICAL_INTEGRATOR_HPP_
-#define S2E_LIBRARY_NUMERICAL_INTEGRATION_NUMRICAL_INTEGRATOR_HPP_
+#ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_NUMERICAL_INTEGRATOR_HPP_
+#define S2E_LIBRARY_NUMERICAL_INTEGRATION_NUMERICAL_INTEGRATOR_HPP_
 
 #include <vector>
 
@@ -58,7 +58,7 @@ class NumericalIntegrator {
 
  protected:
   // Settings
-  double step_width_s_;         //!< Step width [s]
+  double step_width_s_;  //!< Step width [s]
 
   // States
   const InterfaceOde<N>& ode_;  //!< Ordinary differential equation
@@ -69,4 +69,4 @@ class NumericalIntegrator {
 
 }  // namespace libra
 
-#endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_NUMRICAL_INTEGRATOR_HPP_
+#endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_NUMERICAL_INTEGRATOR_HPP_

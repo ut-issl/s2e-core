@@ -1,6 +1,6 @@
 /**
  * @file embedded_runge_kutta_template.hpp
- * @brief Class for Embedded Runge-Kutta method
+ * @brief Implementation of Embedded Runge-Kutta method
  */
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_TEMPLATE_HPP_
 #define S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_TEMPLATE_HPP_
@@ -31,8 +31,9 @@ void EmbeddedRungeKutta<N>::Integrate() {
 
 template <size_t N>
 void EmbeddedRungeKutta<N>::ControlStepWidth(const double error_tolerance) {
-  double updated_step_width_s = pow(error_tolerance / local_truncation_error_, 1.0 / ((double)(this->approximation_order_ + 1))) * this->step_width_s_;
-  if (updated_step_width_s <= 0.0) return; // TODO: Error handling
+  double updated_step_width_s =
+      pow(error_tolerance / local_truncation_error_, 1.0 / ((double)(this->approximation_order_ + 1))) * this->step_width_s_;
+  if (updated_step_width_s <= 0.0) return;  // TODO: Error handling
   this->step_width_s_ = updated_step_width_s;
 }
 

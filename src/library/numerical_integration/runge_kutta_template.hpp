@@ -1,6 +1,6 @@
 /**
  * @file runge_kutta_template.hpp
- * @brief Class for General Runge-Kutta method
+ * @brief Implementations for RungeKutta class
  */
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_TEMPLATE_HPP_
 #define S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_TEMPLATE_HPP_

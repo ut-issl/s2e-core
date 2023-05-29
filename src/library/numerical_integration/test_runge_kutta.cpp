@@ -184,8 +184,7 @@ TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitSmallEccentricity) {
 
   libra::Vector<4> state_rk4 = rk4_ode.GetState();
   libra::Vector<4> state_rkf = rkf_ode.GetState();
-  for (size_t i = 0; i < 4; i++)
-  {
+  for (size_t i = 0; i < 4; i++) {
     EXPECT_DOUBLE_EQ(initial_state[i], state_rk4[i]);
     EXPECT_DOUBLE_EQ(initial_state[i], state_rkf[i]);
   }
@@ -243,8 +242,7 @@ TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitLargeEccentricity) {
 
   libra::Vector<4> state_rk4 = rk4_ode.GetState();
   libra::Vector<4> state_rkf = rkf_ode.GetState();
-  for (size_t i = 0; i < 4; i++)
-  {
+  for (size_t i = 0; i < 4; i++) {
     EXPECT_DOUBLE_EQ(initial_state[i], state_rk4[i]);
     EXPECT_DOUBLE_EQ(initial_state[i], state_rkf[i]);
   }

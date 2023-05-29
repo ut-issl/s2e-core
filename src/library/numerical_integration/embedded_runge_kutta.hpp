@@ -1,6 +1,6 @@
 /**
  * @file embedded_runge_kutta.hpp
- * @brief Class for Embedded Runge-Kutta method
+ * @brief Base Class for Embedded Runge-Kutta method
  */
 
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_HPP_
@@ -44,7 +44,7 @@ class EmbeddedRungeKutta : public RungeKutta<N> {
   inline double GetLocalTruncationError() const { return local_truncation_error_; }
 
  protected:
-  // Parameters
+  // Parameters should be defined by child class
   std::vector<double> higher_order_weights_;  //!< Weights vector for higher order approximation
 
   // Error

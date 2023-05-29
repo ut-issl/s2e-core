@@ -1,6 +1,6 @@
 /**
  * @file runge_kutta.hpp
- * @brief Abstract Class for General Runge-Kutta method (explicit form)
+ * @brief Base Class for General Runge-Kutta method (explicit form)
  * @note Ref: Montenbruck and Gill, Satellite Orbits, 4.1 Runge-Kutta Methods
  */
 
@@ -13,7 +13,7 @@ namespace libra {
 
 /**
  * @class RungeKutta
- * @brief Abstract Class for General Runge-Kutta method
+ * @brief Base Class for General Runge-Kutta method
  */
 template <size_t N>
 class RungeKutta : public NumericalIntegrator<N> {
@@ -42,7 +42,7 @@ class RungeKutta : public NumericalIntegrator<N> {
   size_t number_of_stages_;     //!< Number of stage for integration (s in the equation)
   size_t approximation_order_;  //!< Order of approximation (p in the equation)
 
-  // Coefficients
+  // Coefficients should be defined by child class
   std::vector<double> nodes_;                   //!< Nodes vector for general RK (c vector in the equation)
   std::vector<double> weights_;                 //!< Weights vector for general RK (b vector in the equation)
   std::vector<std::vector<double>> rk_matrix_;  //!< Runge-Kutta matrix for general RK (a matrix in the equation)
