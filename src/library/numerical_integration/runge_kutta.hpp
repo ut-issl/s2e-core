@@ -45,7 +45,7 @@ class RungeKutta {
    * @brief Return current state vector
    */
   inline void SetState(const double time_s, const Vector<N>& state) {
-    previous_state_ = current_state_;
+    previous_state_ = state;
     current_state_ = state;
     current_time_s_ = time_s;
   }
