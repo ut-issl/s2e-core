@@ -13,11 +13,11 @@ template <size_t N>
 void RungeKutta<N>::Integrate() {
   CalcSlope();
 
-  previous_state_ = current_state_;
+  this->previous_state_ = this->current_state_;
   for (size_t i = 0; i < number_of_stages_; i++) {
-    current_state_ = current_state_ + weights_[i] * step_width_s_ * slope_[i];
+    this->current_state_ = this->current_state_ + weights_[i] * this->step_width_s_ * slope_[i];
   }
-  current_time_s_ += step_width_s_;
+  this->current_time_s_ += this->step_width_s_;
 }
 
 template <size_t N>
@@ -25,12 +25,12 @@ void RungeKutta<N>::CalcSlope() {
   slope_.assign(number_of_stages_, Vector<N>(0.0));
 
   for (size_t i = 0; i < number_of_stages_; i++) {
-    Vector<N> state = current_state_;
+    Vector<N> state = this->current_state_;
     for (size_t j = 0; j < i; j++) {
-      state = state + rk_matrix_[i][j] * step_width_s_ * slope_[j];
+      state = state + rk_matrix_[i][j] * this->step_width_s_ * slope_[j];
     }
-    double time_s = current_time_s_ + nodes_[i] * step_width_s_;
-    slope_[i] = ode_.DerivativeFunction(time_s, state);
+    double time_s = this->current_time_s_ + nodes_[i] * this->step_width_s_;
+    slope_[i] = this->ode_.DerivativeFunction(time_s, state);
   }
 }
 
