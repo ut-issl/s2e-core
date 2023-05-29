@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 
 #include "../orbit/kepler_orbit.hpp"
+#include "numerical_integrator_manager.hpp"
 #include "ode_examples.hpp"
 #include "runge_kutta_4.hpp"
 #include "runge_kutta_fehlberg.hpp"
@@ -57,6 +58,48 @@ TEST(RUNGE_KUTTA, IntegrateLinearRkf) {
     rkf_ode.Integrate();
   }
   state = rkf_ode.GetState();
+  double estimated_result = step_width_s * step_num;
+
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+}
+
+/**
+ * @brief Test for integration with nominal linear function with NumericalIntegratorManager/RK4
+ */
+TEST(RUNGE_KUTTA, IntegrateLinearNumericalIntegratorManagerRk4) {
+  double step_width_s = 0.1;
+  libra::ExampleLinearOde ode;
+  libra::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode);
+
+  libra::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
+  EXPECT_DOUBLE_EQ(0.0, state[0]);
+
+  size_t step_num = 10000;
+  for (size_t i = 0; i < step_num; i++) {
+    numerical_integrator.GetIntegrator()->Integrate();
+  }
+  state = numerical_integrator.GetIntegrator()->GetState();
+  double estimated_result = step_width_s * step_num;
+
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+}
+
+/**
+ * @brief Test for integration with nominal linear function with NumericalIntegratorManager/RK4
+ */
+TEST(RUNGE_KUTTA, IntegrateLinearNumericalIntegratorManagerRkf) {
+  double step_width_s = 0.1;
+  libra::ExampleLinearOde ode;
+  libra::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode, libra::NumericalIntegrationMethod::kRkf);
+
+  libra::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
+  EXPECT_DOUBLE_EQ(0.0, state[0]);
+
+  size_t step_num = 10000;
+  for (size_t i = 0; i < step_num; i++) {
+    numerical_integrator.GetIntegrator()->Integrate();
+  }
+  state = numerical_integrator.GetIntegrator()->GetState();
   double estimated_result = step_width_s * step_num;
 
   EXPECT_NEAR(estimated_result, state[0], 1e-6);
