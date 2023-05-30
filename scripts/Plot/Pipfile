@@ -10,6 +10,7 @@ numpy = "==1.24.3"
 pandas = "==2.0.2"
 numpy-stl = "==3.0.1"
 numpy-quaternion = "*"
+python-utils = "*"
 
 [dev-packages]
 
