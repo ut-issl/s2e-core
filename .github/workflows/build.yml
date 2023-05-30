@@ -14,6 +14,7 @@ on:
       - 'common.cmake'
       - 'CMakeSettings.json'
       - 'src/**'
+      - 'scripts/Plot/Pipfile'
 
 env:
   # datasource=github-releases depName=ut-issl/c2a-core
