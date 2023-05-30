@@ -21,7 +21,7 @@ template <size_t N>
 class NumericalIntegrator {
  public:
   /**
-   * @fn RungeKutta
+   * @fn NumericalIntegrator
    * @brief Constructor
    * @param [in] step_width_s: Step width [s]
    * @param [in] ode: Ordinary differential equation
