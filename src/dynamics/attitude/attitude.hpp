@@ -23,7 +23,7 @@ class Attitude : public ILoggable, public SimulationObject {
    * @brief Constructor
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  Attitude(const std::string& simulation_object_name = "attitude");
+  Attitude(const libra::Matrix<3, 3>& inertia_tensor_kgm2, const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~Attitude
    * @brief Destructor
@@ -120,8 +120,7 @@ class Attitude : public ILoggable, public SimulationObject {
   libra::Quaternion quaternion_i2b_;           //!< Attitude quaternion from the inertial frame to the body fixed frame
   libra::Vector<3> torque_b_Nm_;               //!< Torque in the body fixed frame [Nm]
 
-  libra::Matrix<3, 3> inertia_tensor_kgm2_;  //!< Inertia tensor of the spacecraft [kg m^2] TODO: Move to Structure
-  libra::Matrix<3, 3> inv_inertia_tensor_;   //!< Inverse matrix of the inertia tensor
+  const libra::Matrix<3, 3>& inertia_tensor_kgm2_;  //!< Inertia tensor of the spacecraft [kg m^2]
 
   libra::Vector<3> angular_momentum_spacecraft_b_Nms_;      //!< Angular momentum of spacecraft in the body fixed frame [Nms]
   libra::Vector<3> angular_momentum_reaction_wheel_b_Nms_;  //!< Angular momentum of reaction wheel in the body fixed frame [Nms]

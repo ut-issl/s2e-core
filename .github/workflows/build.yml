@@ -14,6 +14,7 @@ on:
       - 'common.cmake'
       - 'CMakeSettings.json'
       - 'src/**'
+      - 'scripts/Plot/Pipfile'
 
 env:
   # datasource=github-releases depName=ut-issl/c2a-core
@@ -28,6 +29,7 @@ jobs:
       fail-fast: false
       matrix:
         use_c2a: ['USE_C2A=OFF', 'USE_C2A=ON']
+        build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
 
     steps:
       - uses: actions/checkout@v3
@@ -61,17 +63,27 @@ jobs:
         id: cache-extlib
         uses: actions/cache@v3
         with:
-          key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}
+          key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}-${{ matrix.build_bit }}
           path: ./ExtLibraries
 
-      - name: build extlib
-        if: steps.cache-extlib.outputs.cache-hit != 'true'
+      - name: build extlib 32bit
+        if: steps.cache-extlib.outputs.cache-hit != 'true' && matrix.build_bit == 'BUILD_64BIT=OFF'
         shell: powershell
         working-directory: ./ExtLibraries
         run: |
           $extlib_dir=(pwd).Path
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}"
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}" -D${{ matrix.build_bit }}
           cmake --build .
+
+      - name: build extlib 64bit
+        if: steps.cache-extlib.outputs.cache-hit != 'true' && matrix.build_bit == 'BUILD_64BIT=ON'
+        shell: powershell
+        working-directory: ./ExtLibraries
+        run: |
+          $extlib_dir=(pwd).Path
+          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR="${extlib_dir}" -D${{ matrix.build_bit }}
+          cmake --build .
+
       - name: install extlib
         if: steps.cache-extlib.outputs.cache-hit != 'true'
         shell: powershell
@@ -83,20 +95,29 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           ls cspice
-          ls cspice/cspice_msvs/lib
+          ls cspice/cspice_msvs*/lib
           ls cspice/include
           ls cspice/generic_kernels
           ls nrlmsise00
           ls nrlmsise00/table
-          ls nrlmsise00/lib
-          ls nrlmsise00/lib/libnrlmsise00.lib
+          ls nrlmsise00/lib*
+          ls nrlmsise00/lib*/libnrlmsise00.lib
           ls nrlmsise00/src
 
-      - name: build
+      - name: build 32bit
+        if: matrix.build_bit == 'BUILD_64BIT=OFF'
         shell: cmd
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }}
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake --build .
+
+      - name: build 64bit
+        if: matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF'
+        shell: cmd
+        run: |
+          cl.exe
+          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
@@ -106,6 +127,7 @@ jobs:
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
 
       - name: run simulation(SampleSat)
+        if: matrix.build_bit == 'BUILD_64BIT=OFF' || (matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF')
         working-directory: ./data/sample
         run: |
           ..\..\Debug\S2E.exe
@@ -217,7 +239,7 @@ jobs:
           ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
           echo "version=$ver" >> "$GITHUB_OUTPUT"
       
-      - uses: actions/setup-python@v4.5.0
+      - uses: actions/setup-python@v4.6.1
         with:
           python-version: ${{ steps.python-version.outputs.version }}
 
@@ -243,7 +265,7 @@ jobs:
 
       - name: comment imgs
         if: contains(matrix.compiler, 'clang') && contains(matrix.build_bit, 'OFF') && contains(github.event.pull_request.labels.*.name, 'automation::comment-graph')
-        uses: actions/github-script@v6.4.0
+        uses: actions/github-script@v6.4.1
         with:
           script: |
             const output = `## \`position.png\`

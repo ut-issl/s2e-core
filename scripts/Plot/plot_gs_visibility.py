@@ -83,7 +83,7 @@ map.plot(gs_map_lon, gs_map_lat, color='red', marker='*', markersize=12)
 
 # Plot SC position with color
 for i in range(len(sc_map_lat)):
-  map.plot(sc_map_lon[i], sc_map_lat[i], color=visibility_color(gs_visibility[i]), marker='o', markersize=3)
+  map.plot(sc_map_lon[i], sc_map_lat[i], color=visibility_color(gs_visibility[i]), marker='o', markersize=3, linestyle='None')
 
 plt.title('GS Visibility Analysis: logs_' + read_file_tag)
 
