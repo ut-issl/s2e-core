@@ -5,15 +5,16 @@
 
 #include "initialize_node.hpp"
 
+#include <cassert>
 #include <iostream>
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
 #include <typeinfo>
 #include <vector>
 
-/* Import node properties by reading CSV File (Node.csv)
+/* Import node properties by reading CSV File (node.csv)
 
-[File Formats of Node.csv]
+[File Formats of node.csv]
 column 1: Node_id(int)
 column 2: Node_label(string)
 column 3: Node_type(int, 0: diffusive, 1: boundary), Arithmetic node to be implemented as future work
@@ -38,14 +39,17 @@ Node InitNode(const std::vector<std::string>& node_str) {
   using std::stod;
   using std::stoi;
 
-  int node_id = 0;                  // node number
-  std::string node_label = "temp";  // node name
-  int node_type_int = 0;            // node type
-  int heater_id = 0;                // heater node index
-  double temperature_K = 0;         // [K]
-  double capacity_J_K = 0;          // [J/K]
-  double alpha = 0;                 // []
-  double area_m2 = 0;               // [m^2]
+  size_t node_str_size_defined = 11;                 // Correct size of node_str
+  assert(node_str.size() == node_str_size_defined);  // Check if size of node_str is correct
+
+  int node_id = 0;                                   // node number
+  std::string node_label = "temp";                   // node name
+  int node_type_int = 0;                             // node type
+  int heater_id = 0;                                 // heater node index
+  double temperature_K = 0;                          // [K]
+  double capacity_J_K = 0;                           // [J/K]
+  double alpha = 0;                                  // []
+  double area_m2 = 0;                                // [m^2]
 
   // Index to read from node_str for each parameter
   int index_node_id = 0;

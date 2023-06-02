@@ -5,6 +5,7 @@
 
 #include "node.hpp"
 
+#include <cassert>
 #include <cmath>
 #include <environment/global/physical_constants.hpp>
 
@@ -20,25 +21,22 @@ Node::Node(const int node_id, const string node_name, const NodeType node_type, 
       capacity_J_K_(capacity_J_K),
       alpha_(alpha),
       area_m2_(area_m2),
-      normal_vector_b_(normal_vector_b),
-      node_type_(node_type) {
+      node_type_(node_type),
+      normal_vector_b_(normal_vector_b) {
+  AssertNodeParams();
   solar_radiation_W_ = 0;
 }
 
 Node::~Node() {}
 
-double Node::CalcSolarRadiation_W(libra::Vector<3> sun_direction_b) {
-  // FIXME: constants
-  double R = 6.96E+8;                              // Distance from sun
-  double T = 5778;                                 // sun surface temperature [K]
-  double sigma = 5.67E-8;                          // stephan-boltzman constant
-  double a = sun_direction_b.CalcNorm();           // distance from sun
-  double S = pow((R / a), 2) * sigma * pow(T, 4);  // Solar Constant at s/c position S[W/m^2]
-  double cos_theta = InnerProduct(sun_direction_b, normal_vector_b_) / a / normal_vector_b_.CalcNorm();
+double Node::CalcSolarRadiation_W(libra::Vector<3> sun_position_b_m) {
+  double sun_distance_m = sun_position_b_m.CalcNorm();
+  double solar_flux_W_m2 = environment::solar_constant_W_m2 * pow((environment::astronomical_unit_m / sun_distance_m), 2);
+  double cos_theta = InnerProduct(sun_position_b_m, normal_vector_b_) / sun_distance_m / normal_vector_b_.CalcNorm();
 
   // calculate sun_power
   if (cos_theta > 0)
-    solar_radiation_W_ = S * area_m2_ * alpha_ * cos_theta;
+    solar_radiation_W_ = solar_flux_W_m2 * area_m2_ * alpha_ * cos_theta;
   else
     solar_radiation_W_ = 0;
   return solar_radiation_W_;
@@ -65,4 +63,13 @@ void Node::PrintParam(void) {
     cout << normal_vector_b_[i] << " ";
   }
   cout << endl;
+}
+
+void Node::AssertNodeParams(void) {
+  assert(node_id_ >= 0);                                      // Node ID should be larger than 0
+  assert(heater_id_ >= 0);                                    // Heater ID should be larger than 0
+  assert(temperature_K_ >= environment::absolute_zero_degC);  // Temperature must be larger than zero kelvin
+  assert(capacity_J_K_ >= 0);                                 // Capacity must be larger than 0, use 0 when node is boundary or arithmetic
+  assert(0 <= alpha_ && alpha_ <= 1);                         // alpha must be between 0 and 1
+  assert(area_m2_ >= 0);                                      // Area must be larger than 0
 }

@@ -44,13 +44,13 @@ Temperature::Temperature() {
 
 Temperature::~Temperature() {}
 
-void Temperature::Propagate(libra::Vector<3> sun_direction_b, const double time_end_s) {
+void Temperature::Propagate(libra::Vector<3> sun_position_b_m, const double time_end_s) {
   if (!is_calc_enabled_) return;
   while (time_end_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
-    CalcRungeOneStep(propagation_time_s_, propagation_step_s_, sun_direction_b, node_num_);
+    CalcRungeOneStep(propagation_time_s_, propagation_step_s_, sun_position_b_m, node_num_);
     propagation_time_s_ += propagation_step_s_;
   }
-  CalcRungeOneStep(propagation_time_s_, time_end_s - propagation_time_s_, sun_direction_b, node_num_);
+  CalcRungeOneStep(propagation_time_s_, time_end_s - propagation_time_s_, sun_position_b_m, node_num_);
   propagation_time_s_ = time_end_s;
   UpdateHeaterStatus();
 
@@ -65,9 +65,9 @@ void Temperature::Propagate(libra::Vector<3> sun_direction_b, const double time_
       cout << setprecision(4) << itr->GetSolarRadiation_W() << "  ";
     }
     cout << "SunDir:  ";
-    double norm_sun_direction_b = sun_direction_b.CalcNorm();
+    double sun_distance_m = sun_position_b_m.CalcNorm();
     for (int i = 0; i < 3; i++) {
-      cout << setprecision(3) << sun_direction_b[i] / norm_sun_direction_b << "  ";
+      cout << setprecision(3) << sun_position_b_m[i] / sun_distance_m << "  ";
     }
     cout << "Heatload:  ";
     for (auto itr = heatloads_.begin(); itr != heatloads_.end(); ++itr) {
@@ -77,7 +77,7 @@ void Temperature::Propagate(libra::Vector<3> sun_direction_b, const double time_
   }
 }
 
-void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, libra::Vector<3> sun_direction_b, int node_num) {
+void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, libra::Vector<3> sun_position_b_m, int node_num) {
   vector<double> temperatures_now_K(node_num);
   for (int i = 0; i < node_num; i++) {
     temperatures_now_K[i] = nodes_[i].GetTemperature_K();
@@ -86,22 +86,22 @@ void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, libra:
   vector<double> k1(node_num), k2(node_num), k3(node_num), k4(node_num);
   vector<double> xk2(node_num), xk3(node_num), xk4(node_num);
 
-  k1 = CalcTemperatureDifferentials(temperatures_now_K, time_now_s, sun_direction_b, node_num);
+  k1 = CalcTemperatureDifferentials(temperatures_now_K, time_now_s, sun_position_b_m, node_num);
   for (int i = 0; i < node_num; i++) {
     xk2[i] = temperatures_now_K[i] + (time_step_s / 2.0) * k1[i];
   }
 
-  k2 = CalcTemperatureDifferentials(xk2, (time_now_s + time_step_s / 2.0), sun_direction_b, node_num);
+  k2 = CalcTemperatureDifferentials(xk2, (time_now_s + time_step_s / 2.0), sun_position_b_m, node_num);
   for (int i = 0; i < node_num; i++) {
     xk3[i] = temperatures_now_K[i] + (time_step_s / 2.0) * k2[i];
   }
 
-  k3 = CalcTemperatureDifferentials(xk3, (time_now_s + time_step_s / 2.0), sun_direction_b, node_num);
+  k3 = CalcTemperatureDifferentials(xk3, (time_now_s + time_step_s / 2.0), sun_position_b_m, node_num);
   for (int i = 0; i < node_num; i++) {
     xk4[i] = temperatures_now_K[i] + time_step_s * k3[i];
   }
 
-  k4 = CalcTemperatureDifferentials(xk4, (time_now_s + time_step_s), sun_direction_b, node_num);
+  k4 = CalcTemperatureDifferentials(xk4, (time_now_s + time_step_s), sun_position_b_m, node_num);
 
   vector<double> temperatures_next_K(node_num);
   for (int i = 0; i < node_num; i++) {
@@ -113,7 +113,7 @@ void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, libra:
   }
 }
 
-vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperatures_K, double t, libra::Vector<3> sun_direction, int node_num) {
+vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperatures_K, double t, libra::Vector<3> sun_position_b_m, int node_num) {
   // TODO: consider the following unused arguments are really needed
   UNUSED(temperatures_K);
 
@@ -122,7 +122,7 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
     heatloads_[i].SetElapsedTime_s(t);
     if (nodes_[i].GetNodeType() == NodeType::kDiffusive) {
       if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
-        double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction);
+        double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_position_b_m);
         heatloads_[i].SetSolarHeatload_W(solar_radiation_W);
       }
       double heater_power_W = GetHeaterPower_W(i);
@@ -157,7 +157,6 @@ double Temperature::GetHeaterPower_W(int node_id) {
 }
 
 void Temperature::UpdateHeaterStatus(void) {
-  // [FIXME] Heater status doesn't get updated...
   for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
     int heater_id = itr->GetHeaterId();
     if (heater_id > 0) {

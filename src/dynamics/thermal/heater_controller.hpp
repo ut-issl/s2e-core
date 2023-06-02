@@ -10,6 +10,7 @@
 #include <library/logger/logger.hpp>
 #include <string>
 #include <vector>
+
 #include "heater.hpp"
 
 class HeaterController {
@@ -72,6 +73,12 @@ class HeaterController {
    * @param[in] temperature_degC
    */
   void ControlHeater(Heater* p_heater, double temperature_degC);
+
+  /**
+   * @fn AssertHeaterControllerParams
+   * @brief Check Parameters of HeaterController
+   */
+  void AssertHeaterControllerParams(void);
 };
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATER_CONTROLLER_HPP_
