@@ -36,23 +36,23 @@ class NumericalIntegratorManager {
                              const NumericalIntegrationMethod method = NumericalIntegrationMethod::kRk4) {
     switch (method) {
       case NumericalIntegrationMethod::kRk4:
-        integrator_ = new RungeKutta4<N>(step_width_s, ode);
+        integrator_ = std::make_shared<RungeKutta4<N>>(step_width_s, ode);
         break;
       case NumericalIntegrationMethod::kRkf:
-        integrator_ = new RungeKuttaFehlberg<N>(step_width_s, ode);
+        integrator_ = std::make_shared<RungeKuttaFehlberg<N>>(step_width_s, ode);
         break;
       default:
-        integrator_ = new RungeKutta4<N>(step_width_s, ode);
+        integrator_ = std::make_shared<RungeKutta4<N>>(step_width_s, ode);
         break;
     }
   }
 
-  ~NumericalIntegratorManager() { delete integrator_; }
+  ~NumericalIntegratorManager() {}
 
-  inline NumericalIntegrator<N>* GetIntegrator() const { return integrator_; }
+  inline std::shared_ptr<NumericalIntegrator<N>> GetIntegrator() const { return integrator_; }
 
  private:
-  NumericalIntegrator<N>* integrator_;
+  std::shared_ptr<NumericalIntegrator<N>> integrator_;
 };
 
 }  // namespace libra::numerical_integrator
