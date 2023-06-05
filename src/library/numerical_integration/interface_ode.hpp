@@ -8,7 +8,7 @@
 
 #include "../math/vector.hpp"
 
-namespace libra::numerical_integrator {
+namespace libra::numerical_integration {
 
 /**
  * @class InterfaceOde
@@ -27,6 +27,6 @@ class InterfaceOde {
   virtual Vector<N> DerivativeFunction(const double time_s, const Vector<N>& state) const = 0;
 };
 
-}  // namespace libra::numerical_integrator
+}  // namespace libra::numerical_integration
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_INTERFACE_ODE_HPP_
