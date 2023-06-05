@@ -14,8 +14,8 @@
  * @brief Test for constructor
  */
 TEST(RUNGE_KUTTA, Constructor) {
-  libra::ExampleLinearOde ode;
-  libra::RungeKutta4<1> linear_ode(0.1, ode);
+  libra::numerical_integrator::ExampleLinearOde ode;
+  libra::numerical_integrator::RungeKutta4<1> linear_ode(0.1, ode);
 
   libra::Vector<1> state = linear_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -26,8 +26,8 @@ TEST(RUNGE_KUTTA, Constructor) {
  */
 TEST(RUNGE_KUTTA, IntegrateLinearRk4) {
   double step_width_s = 0.1;
-  libra::ExampleLinearOde ode;
-  libra::RungeKutta4<1> rk4_ode(step_width_s, ode);
+  libra::numerical_integrator::ExampleLinearOde ode;
+  libra::numerical_integrator::RungeKutta4<1> rk4_ode(step_width_s, ode);
 
   libra::Vector<1> state = rk4_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -47,8 +47,8 @@ TEST(RUNGE_KUTTA, IntegrateLinearRk4) {
  */
 TEST(RUNGE_KUTTA, IntegrateLinearRkf) {
   double step_width_s = 0.1;
-  libra::ExampleLinearOde ode;
-  libra::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
+  libra::numerical_integrator::ExampleLinearOde ode;
+  libra::numerical_integrator::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
 
   libra::Vector<1> state = rkf_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -68,8 +68,8 @@ TEST(RUNGE_KUTTA, IntegrateLinearRkf) {
  */
 TEST(RUNGE_KUTTA, IntegrateLinearNumericalIntegratorManagerRk4) {
   double step_width_s = 0.1;
-  libra::ExampleLinearOde ode;
-  libra::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode);
+  libra::numerical_integrator::ExampleLinearOde ode;
+  libra::numerical_integrator::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode);
 
   libra::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -89,8 +89,9 @@ TEST(RUNGE_KUTTA, IntegrateLinearNumericalIntegratorManagerRk4) {
  */
 TEST(RUNGE_KUTTA, IntegrateLinearNumericalIntegratorManagerRkf) {
   double step_width_s = 0.1;
-  libra::ExampleLinearOde ode;
-  libra::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode, libra::NumericalIntegrationMethod::kRkf);
+  libra::numerical_integrator::ExampleLinearOde ode;
+  libra::numerical_integrator::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode,
+                                                                                  libra::numerical_integrator::NumericalIntegrationMethod::kRkf);
 
   libra::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -110,8 +111,8 @@ TEST(RUNGE_KUTTA, IntegrateLinearNumericalIntegratorManagerRkf) {
  */
 TEST(RUNGE_KUTTA, IntegrateQuadraticRk4) {
   double step_width_s = 0.1;
-  libra::ExampleQuadraticOde ode;
-  libra::RungeKutta4<1> rk4_ode(step_width_s, ode);
+  libra::numerical_integrator::ExampleQuadraticOde ode;
+  libra::numerical_integrator::RungeKutta4<1> rk4_ode(step_width_s, ode);
 
   libra::Vector<1> state = rk4_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -131,8 +132,8 @@ TEST(RUNGE_KUTTA, IntegrateQuadraticRk4) {
  */
 TEST(RUNGE_KUTTA, IntegrateQuadraticRkf) {
   double step_width_s = 0.1;
-  libra::ExampleQuadraticOde ode;
-  libra::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
+  libra::numerical_integrator::ExampleQuadraticOde ode;
+  libra::numerical_integrator::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
 
   libra::Vector<1> state = rkf_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -152,8 +153,8 @@ TEST(RUNGE_KUTTA, IntegrateQuadraticRkf) {
  */
 TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRk4) {
   double step_width_s = 0.1;
-  libra::Example1dPositionVelocityOde ode;
-  libra::RungeKutta4<2> rk4_ode(step_width_s, ode);
+  libra::numerical_integrator::Example1dPositionVelocityOde ode;
+  libra::numerical_integrator::RungeKutta4<2> rk4_ode(step_width_s, ode);
 
   libra::Vector<2> initial_state(0.0);
   initial_state[0] = 0.0;
@@ -182,8 +183,8 @@ TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRk4) {
  */
 TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRkf) {
   double step_width_s = 0.1;
-  libra::Example1dPositionVelocityOde ode;
-  libra::RungeKuttaFehlberg<2> rkf_ode(step_width_s, ode);
+  libra::numerical_integrator::Example1dPositionVelocityOde ode;
+  libra::numerical_integrator::RungeKuttaFehlberg<2> rkf_ode(step_width_s, ode);
 
   libra::Vector<2> initial_state(0.0);
   initial_state[0] = 0.0;
@@ -212,9 +213,9 @@ TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRkf) {
  */
 TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitSmallEccentricity) {
   double step_width_s = 0.1;
-  libra::Example2dTwoBodyOrbitOde ode;
-  libra::RungeKutta4<4> rk4_ode(step_width_s, ode);
-  libra::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
+  libra::numerical_integrator::Example2dTwoBodyOrbitOde ode;
+  libra::numerical_integrator::RungeKutta4<4> rk4_ode(step_width_s, ode);
+  libra::numerical_integrator::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
 
   libra::Vector<4> initial_state(0.0);
   const double eccentricity = 0.1;
@@ -270,9 +271,9 @@ TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitSmallEccentricity) {
  */
 TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitLargeEccentricity) {
   double step_width_s = 0.01;
-  libra::Example2dTwoBodyOrbitOde ode;
-  libra::RungeKutta4<4> rk4_ode(step_width_s, ode);
-  libra::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
+  libra::numerical_integrator::Example2dTwoBodyOrbitOde ode;
+  libra::numerical_integrator::RungeKutta4<4> rk4_ode(step_width_s, ode);
+  libra::numerical_integrator::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
 
   libra::Vector<4> initial_state(0.0);
   const double eccentricity = 0.9;

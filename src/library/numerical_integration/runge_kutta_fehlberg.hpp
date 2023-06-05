@@ -8,7 +8,7 @@
 
 #include "embedded_runge_kutta.hpp"
 
-namespace libra {
+namespace libra::numerical_integrator {
 
 /**
  * @class RungeKuttaFehlberg
@@ -116,6 +116,6 @@ class RungeKuttaFehlberg : public EmbeddedRungeKutta<N> {
   }
 };
 
-}  // namespace libra
+}  // namespace libra::numerical_integrator
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_FEHLBERG_HPP_

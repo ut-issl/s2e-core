@@ -8,7 +8,7 @@
 
 #include "runge_kutta.hpp"
 
-namespace libra {
+namespace libra::numerical_integrator {
 
 /**
  * @class EmbeddedRungeKutta
@@ -51,7 +51,7 @@ class EmbeddedRungeKutta : public RungeKutta<N> {
   double local_truncation_error_;  //!< Norm of estimated local truncation error
 };
 
-}  // namespace libra
+}  // namespace libra::numerical_integrator
 
 #include "embedded_runge_kutta_template.hpp"
 

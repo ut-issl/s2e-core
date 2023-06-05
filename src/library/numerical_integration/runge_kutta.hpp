@@ -9,7 +9,7 @@
 
 #include "numerical_integrator.hpp"
 
-namespace libra {
+namespace libra::numerical_integrator {
 
 /**
  * @class RungeKutta
@@ -55,7 +55,7 @@ class RungeKutta : public NumericalIntegrator<N> {
   void CalcSlope();
 };
 
-}  // namespace libra
+}  // namespace libra::numerical_integrator
 
 #include "runge_kutta_template.hpp"
 

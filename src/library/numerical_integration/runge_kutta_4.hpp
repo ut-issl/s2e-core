@@ -8,7 +8,7 @@
 
 #include "runge_kutta.hpp"
 
-namespace libra {
+namespace libra::numerical_integrator {
 
 /**
  * @class RungeKutta4
@@ -41,6 +41,6 @@ class RungeKutta4 : public RungeKutta<N> {
   }
 };
 
-}  // namespace libra
+}  // namespace libra::numerical_integrator
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_4_HPP_

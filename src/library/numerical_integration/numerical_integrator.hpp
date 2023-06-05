@@ -11,7 +11,7 @@
 #include "../math/vector.hpp"
 #include "interface_ode.hpp"
 
-namespace libra {
+namespace libra::numerical_integrator {
 
 /**
  * @class NumericalIntegrator
@@ -67,6 +67,6 @@ class NumericalIntegrator {
   Vector<N> previous_state_;    //!< Previous state vector
 };
 
-}  // namespace libra
+}  // namespace libra::numerical_integrator
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_NUMERICAL_INTEGRATOR_HPP_

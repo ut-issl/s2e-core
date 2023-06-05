@@ -7,7 +7,7 @@
 
 #include "./runge_kutta.hpp"
 
-namespace libra {
+namespace libra::numerical_integrator {
 
 template <size_t N>
 void RungeKutta<N>::Integrate() {
@@ -34,6 +34,6 @@ void RungeKutta<N>::CalcSlope() {
   }
 }
 
-}  // namespace libra
+}  // namespace libra::numerical_integrator
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_TEMPLATE_HPP_

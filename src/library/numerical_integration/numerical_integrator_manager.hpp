@@ -9,7 +9,7 @@
 #include "runge_kutta_4.hpp"
 #include "runge_kutta_fehlberg.hpp"
 
-namespace libra {
+namespace libra::numerical_integrator {
 
 /**
  * @enum NumericalIntegrationMethod
@@ -55,6 +55,6 @@ class NumericalIntegratorManager {
   NumericalIntegrator<N>* integrator_;
 };
 
-}  // namespace libra
+}  // namespace libra::numerical_integrator
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_NUMERICAL_INTEGRATION_HPP_

@@ -8,7 +8,7 @@
 
 #include "interface_ode.hpp"
 
-namespace libra {
+namespace libra::numerical_integrator {
 
 class ExampleLinearOde : public InterfaceOde<1> {
  public:
@@ -69,6 +69,6 @@ class Example2dTwoBodyOrbitOde : public InterfaceOde<4> {
   }
 };
 
-}  // namespace libra
+}  // namespace libra::numerical_integrator
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_EXAMPLE_ODE_HPP_s
