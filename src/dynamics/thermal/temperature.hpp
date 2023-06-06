@@ -39,11 +39,11 @@ class Temperature : public ILoggable {
   std::vector<HeaterController> heater_controllers_;         // vector of heater controllers
   int node_num_;                                             // number of nodes
   double propagation_step_s_;                                // propagation step [s]
-  double propagation_time_s_;                           // Incremented time inside class Temperature [s], finish propagation when reaching end_time
+  double propagation_time_s_;  // Incremented time inside class Temperature [s], finish propagation when reaching end_time
   const SolarRadiationPressureEnvironment* srp_environment_;  // SolarRadiationPressureEnvironment for calculating solar flux
-  bool is_calc_enabled_;                                // Whether temperature calculation is enabled
-  SolarCalcSetting solar_calc_setting_;                 // setting for solar calculation
-  bool debug_;                                          // Activate debug output or not
+  bool is_calc_enabled_;                                      // Whether temperature calculation is enabled
+  SolarCalcSetting solar_calc_setting_;                       // setting for solar calculation
+  bool debug_;                                                // Activate debug output or not
 
   /**
    * @fn CalcRungeOneStep
@@ -87,8 +87,8 @@ class Temperature : public ILoggable {
    */
   Temperature(const std::vector<std::vector<double>> conductance_matrix_W_K, const std::vector<std::vector<double>> radiation_matrix_m2,
               std::vector<Node> nodes, std::vector<Heatload> heatloads, std::vector<Heater> heaters, std::vector<HeaterController> heater_controllers,
-              const int node_num, const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment, const bool is_calc_enabled,
-              const SolarCalcSetting solar_calc_setting, const bool debug);
+              const int node_num, const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment,
+              const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug);
   /**
    * @fn Temperature
    * @brief Construct a new Temperature object, used when thermal calculation is disabled.
