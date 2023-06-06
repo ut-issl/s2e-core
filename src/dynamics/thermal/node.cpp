@@ -29,9 +29,8 @@ Node::Node(const int node_id, const string node_name, const NodeType node_type, 
 
 Node::~Node() {}
 
-double Node::CalcSolarRadiation_W(libra::Vector<3> sun_position_b_m) {
+double Node::CalcSolarRadiation_W(libra::Vector<3> sun_position_b_m, double solar_flux_W_m2) {
   double sun_distance_m = sun_position_b_m.CalcNorm();
-  double solar_flux_W_m2 = environment::solar_constant_W_m2 * pow((environment::astronomical_unit_m / sun_distance_m), 2);
   double cos_theta = InnerProduct(sun_position_b_m, normal_vector_b_) / sun_distance_m / normal_vector_b_.CalcNorm();
 
   // calculate sun_power

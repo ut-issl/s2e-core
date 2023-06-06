@@ -58,7 +58,7 @@ First row is time data
 using std::string;
 using std::vector;
 
-Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s) {
+Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const SolarRadiationPressureEnvironment* srp_environment) {
   auto mainIni = IniAccess(file_name);
 
   vector<Node> node_list;
@@ -153,6 +153,6 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   Temperature* temperature;
   temperature = new Temperature(conductance_matrix, radiation_matrix, node_list, heatload_list, heater_list, heater_controller_list, node_num,
-                                rk_prop_step_s, is_calc_enabled, solar_calc_setting, debug);
+                                rk_prop_step_s, srp_environment, is_calc_enabled, solar_calc_setting, debug);
   return temperature;
 }

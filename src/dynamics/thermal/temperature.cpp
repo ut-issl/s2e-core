@@ -15,7 +15,8 @@ using namespace std;
 
 Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, const vector<vector<double>> radiation_matrix_m2, vector<Node> nodes,
                          vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const int node_num,
-                         const double propagation_step_s, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug)
+                         const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment, const bool is_calc_enabled,
+                         const SolarCalcSetting solar_calc_setting, const bool debug)
     : conductance_matrix_W_K_(conductance_matrix_W_K),
       radiation_matrix_m2_(radiation_matrix_m2),
       nodes_(nodes),
@@ -23,7 +24,8 @@ Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, co
       heaters_(heaters),
       heater_controllers_(heater_controllers),
       node_num_(node_num),
-      propagation_step_s_(propagation_step_s),  // ルンゲクッタ積分時間刻み幅
+      propagation_step_s_(propagation_step_s),
+      srp_environment_(srp_environment),
       is_calc_enabled_(is_calc_enabled),
       solar_calc_setting_(solar_calc_setting),
       debug_(debug) {
@@ -121,8 +123,9 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
   for (int i = 0; i < node_num; i++) {
     heatloads_[i].SetElapsedTime_s(t);
     if (nodes_[i].GetNodeType() == NodeType::kDiffusive) {
+      double solar_flux_W_m2 = srp_environment_->GetPowerDensity_W_m2();
       if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
-        double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_position_b_m);
+        double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_position_b_m, solar_flux_W_m2);
         heatloads_[i].SetSolarHeatload_W(solar_radiation_W);
       }
       double heater_power_W = GetHeaterPower_W(i);

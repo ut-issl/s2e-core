@@ -70,7 +70,7 @@ class Node {
    * @param sun_position_b_m: Sun position in body frame [m]
    * @return double: Solar Radiation [W]
    */
-  double CalcSolarRadiation_W(libra::Vector<3> sun_position_b_m);
+  double CalcSolarRadiation_W(libra::Vector<3> sun_position_b_m, double solar_flux_W_m2);
 
   // Getter
   /**
