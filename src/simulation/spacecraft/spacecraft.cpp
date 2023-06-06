@@ -30,8 +30,8 @@ void Spacecraft::Initialize(const SimulationConfiguration* simulation_configurat
   clock_generator_.ClearTimerCount();
   structure_ = new Structure(simulation_configuration, spacecraft_id);
   local_environment_ = new LocalEnvironment(simulation_configuration, global_environment, spacecraft_id);
-  dynamics_ = new Dynamics(simulation_configuration, &(global_environment->GetSimulationTime()), &(local_environment_->GetCelestialInformation()),
-                           spacecraft_id, structure_, relative_information);
+  dynamics_ = new Dynamics(simulation_configuration, &(global_environment->GetSimulationTime()), local_environment_, spacecraft_id, structure_,
+                           relative_information);
   disturbances_ = new Disturbances(simulation_configuration, spacecraft_id, structure_, global_environment);
 
   simulation_configuration->main_logger_->CopyFileToLogDirectory(simulation_configuration->spacecraft_file_list_[spacecraft_id]);

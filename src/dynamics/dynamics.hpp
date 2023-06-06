@@ -8,7 +8,7 @@
 #include <string>
 
 #include "../environment/global/simulation_time.hpp"
-#include "../environment/local/local_celestial_information.hpp"
+#include "../environment/local/local_environment.hpp"
 #include "../library/math/vector.hpp"
 #include "../simulation/simulation_configuration.hpp"
 #include "../simulation/spacecraft/structure/structure.hpp"
@@ -18,6 +18,7 @@
 #include "dynamics/thermal/initialize_temperature.hpp"
 
 class RelativeInformation;
+class LocalEnvironment;
 
 /**
  * @class Dynamics
@@ -35,9 +36,8 @@ class Dynamics {
    * @param [in] structure: Structure of the spacecraft
    * @param [in] relative_information: Relative information
    */
-  Dynamics(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time,
-           const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
-           RelativeInformation* relative_information = (RelativeInformation*)nullptr);
+  Dynamics(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time, const LocalEnvironment* local_environment,
+           const int spacecraft_id, Structure* structure, RelativeInformation* relative_information = (RelativeInformation*)nullptr);
   /**
    * @fn ~Dynamics
    * @brief Destructor
@@ -107,10 +107,11 @@ class Dynamics {
   inline Attitude& SetAttitude() const { return *attitude_; }
 
  private:
-  Attitude* attitude_;          //!< Attitude dynamics
-  Orbit* orbit_;                //!< Orbit dynamics
-  Temperature* temperature_;    //!< Thermal dynamics
-  const Structure* structure_;  //!< Structure information
+  Attitude* attitude_;                         //!< Attitude dynamics
+  Orbit* orbit_;                               //!< Orbit dynamics
+  Temperature* temperature_;                   //!< Thermal dynamics
+  const Structure* structure_;                 //!< Structure information
+  const LocalEnvironment* local_environment_;  //!< Local environment
 
   /**
    * @fn Initialize
@@ -122,9 +123,8 @@ class Dynamics {
    * @param [in] structure: Structure of the spacecraft
    * @param [in] relative_information: Relative information
    */
-  void Initialize(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time,
-                  const LocalCelestialInformation* local_celestial_information, const int spacecraft_id, Structure* structure,
-                  RelativeInformation* relative_information = (RelativeInformation*)nullptr);
+  void Initialize(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time, const int spacecraft_id,
+                  Structure* structure, RelativeInformation* relative_information = (RelativeInformation*)nullptr);
 };
 
 #endif  // S2E_DYNAMICS_DYNAMICS_HPP_
