@@ -111,9 +111,10 @@ download_generic_kernel(pck pck00010.tpc "59468328349aa730d18bf1f8d7e86efe6e40b7
 download_generic_kernel(spk/planets de430.bsp "6e1b277c5f07135a84950604b83e56b736be696a7f3560bcddb1d4aeb944fca1")
 
 # move generic kernel
-file(RENAME
+configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels/lsk/a_old_versions/naif0010.tls
   ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels/lsk/naif0010.tls
+  COPYONLY
 )
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels
