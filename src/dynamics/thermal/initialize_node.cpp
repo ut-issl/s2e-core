@@ -42,14 +42,14 @@ Node InitNode(const std::vector<std::string>& node_str) {
   size_t node_str_size_defined = 11;                 // Correct size of node_str
   assert(node_str.size() == node_str_size_defined);  // Check if size of node_str is correct
 
-  int node_id = 0;                                   // node number
-  std::string node_label = "temp";                   // node name
-  int node_type_int = 0;                             // node type
-  int heater_id = 0;                                 // heater node index
-  double temperature_K = 0;                          // [K]
-  double capacity_J_K = 0;                           // [J/K]
-  double alpha = 0;                                  // []
-  double area_m2 = 0;                                // [m^2]
+  int node_id = 0;                  // node number
+  std::string node_label = "temp";  // node name
+  int node_type_int = 0;            // node type
+  int heater_id = 0;                // heater node index
+  double temperature_K = 0;         // [K]
+  double capacity_J_K = 0;          // [J/K]
+  double alpha = 0;                 // []
+  double area_m2 = 0;               // [m^2]
 
   // Index to read from node_str for each parameter
   int index_node_id = 0;

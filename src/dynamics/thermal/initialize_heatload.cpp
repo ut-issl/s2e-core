@@ -31,14 +31,14 @@ Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vecto
   using std::stod;
   using std::stoi;
 
-  assert(time_str.size() >= 2);                                                     // Number of columns must be larger than 2
-  assert(internal_heatload_str.size() >= 2);                                        // Number of columns must be larger than 2
-  assert(time_str.size() == internal_heatload_str.size());                          // Number of columns must be same
+  assert(time_str.size() >= 2);                             // Number of columns must be larger than 2
+  assert(internal_heatload_str.size() >= 2);                // Number of columns must be larger than 2
+  assert(time_str.size() == internal_heatload_str.size());  // Number of columns must be same
 
   std::vector<double> time_table_s(time_str.size() - 1);                            // exclude index
   std::vector<double> internal_heatload_table_W(internal_heatload_str.size() - 1);  // exclude index
 
-  int node_id = stoi(internal_heatload_str[0]);                                     // First data of internal_heatload_str is node id
+  int node_id = stoi(internal_heatload_str[0]);  // First data of internal_heatload_str is node id
 
   // read table
   for (unsigned int i = 0; i < time_str.size() - 1; ++i) {
