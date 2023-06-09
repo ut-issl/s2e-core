@@ -87,11 +87,11 @@ class SolarRadiationPressureEnvironment : public ILoggable {
   virtual std::string GetLogValue() const;
 
  private:
-  double solar_radiation_pressure_N_m2_;                    //!< Solar radiation pressure [N/m^2]
-  double solar_constant_W_m2_ = 1366.0;                     //!< Solar constant [W/m^2] TODO: We need to change the value depends on sun activity.
-  double shadow_coefficient_ = 1.0;                         //!< Shadow function
-  double sun_radius_m_;                                     //!< Sun radius [m]
-  std::string shadow_source_name_;                          //!< Shadow source name
+  double solar_radiation_pressure_N_m2_;  //!< Solar radiation pressure [N/m^2]
+  double solar_constant_W_m2_ = 1366.0;   //!< Solar constant [W/m^2] TODO: We need to change the value depends on sun activity.
+  double shadow_coefficient_ = 1.0;       //!< Shadow function
+  double sun_radius_m_;                   //!< Sun radius [m]
+  std::string shadow_source_name_;        //!< Shadow source name
 
   LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
 

@@ -86,11 +86,11 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
   } else if (c < fabs(a - b) && a > b)  // The occultation is partial but maximum
   {
     shadow_coefficient_ = 1.0 - (b * b) / (a * a);
-  } else if (fabs(a - b) <= c && c <= (a + b))                           // spacecraft is in penumbra
+  } else if (fabs(a - b) <= c && c <= (a + b))  // spacecraft is in penumbra
   {
     double A = a * a * acos(x / a) + b * b * acos((c - x) / b) - c * y;  // The area of the occulted segment of the apparent solar disk
     shadow_coefficient_ = 1.0 - A / (libra::pi * a * a);
-  } else {                                                               // no occultation takes place
+  } else {  // no occultation takes place
     assert(c > (a + b));
     shadow_coefficient_ = 1.0;
   }
