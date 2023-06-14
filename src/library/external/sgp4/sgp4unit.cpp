@@ -39,7 +39,7 @@
 #include <iostream>
 #include <library/utilities/macros.hpp>
 
-const char help = 'n';
+// const char help = 'n'; // Remove to avoid unused warinings
 FILE* dbgfile;
 
 #define pi 3.14159265358979323846
