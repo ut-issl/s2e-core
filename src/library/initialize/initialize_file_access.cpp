@@ -4,6 +4,7 @@
  */
 
 #include "initialize_file_access.hpp"
+#include "../utilities/macros.hpp"
 
 #include <string.h>
 
@@ -46,6 +47,7 @@ double IniAccess::ReadDouble(const char* section_name, const char* key_name) {
 
   return temp;
 #else
+  UNUSED(text_buffer_);
   return ini_reader_.GetReal(section_name, key_name, 0);
 #endif
 }
