@@ -7,6 +7,7 @@
 
 #include <cfloat>
 #include <library/initialize/initialize_file_access.hpp>
+#include <library/utilities/macros.hpp>
 
 PowerPort::PowerPort() : kPortId(-1), current_limit_A_(10.0), minimum_voltage_V_(3.3), assumed_power_consumption_W_(0.0) {
   is_on_ = true;  // power on to work the component
@@ -29,6 +30,7 @@ PowerPort::PowerPort(const int port_id, const double current_limit_A, const doub
 PowerPort::~PowerPort() {}
 
 void PowerPort::Initialize(void) {
+  UNUSED(kPortId);  // TODO: consider delete this variable
   voltage_V_ = 0.0f;
   current_consumption_A_ = 0.0f;
 }
