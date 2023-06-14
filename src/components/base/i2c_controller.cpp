@@ -3,6 +3,7 @@
  * @brief This class simulates the I2C Controller communication with the I2C Target.
  */
 #include "i2c_controller.hpp"
+#include <library/utilities/macros.hpp>
 
 #include <iostream>
 
@@ -20,6 +21,10 @@ I2cController::I2cController(const unsigned int hils_port_id, const unsigned int
     std::cout << "Error: I2cCommunication ConnectComPort ID:" << hils_port_id_ << "\n";
   }
 #else
+  UNUSED(baud_rate_);
+  UNUSED(tx_buffer_size_);
+  UNUSED(rx_buffer_size_);
+  UNUSED(hils_port_manager_);
   simulation_mode_ = SimulationMode::kError;
   printf("Error: USE_HILS:OFF Check compo initialization");
 #endif
