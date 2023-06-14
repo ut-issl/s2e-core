@@ -73,6 +73,11 @@
 ## How to use S2E
 
 - Please see [s2e-documents' getting started page](https://github.com/ut-issl/s2e-documents/blob/develop/Tutorials/GettingStarted.md).
+- Support compiler
+  - The following compilers are supported. The details are shown in GitHub Actions' results.
+    - gcc/g++
+    - clang++
+    - Visual Studio C++s
 
 ## Examples of User side
 
