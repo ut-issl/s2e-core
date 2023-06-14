@@ -4,7 +4,7 @@
  */
 
 #ifndef S2E_LIBRARY_MATH_MATRIX_VECTOR_HPP_
-#define S2E_LIBRARY_MATH_MATRIX_VECTOR_HPP_P
+#define S2E_LIBRARY_MATH_MATRIX_VECTOR_HPP_
 
 #include "matrix.hpp"
 #include "vector.hpp"
