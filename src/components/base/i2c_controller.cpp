@@ -5,6 +5,7 @@
 #include "i2c_controller.hpp"
 
 #include <iostream>
+#include <library/utilities/macros.hpp>
 
 I2cController::I2cController(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
                              const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)
@@ -20,6 +21,10 @@ I2cController::I2cController(const unsigned int hils_port_id, const unsigned int
     std::cout << "Error: I2cCommunication ConnectComPort ID:" << hils_port_id_ << "\n";
   }
 #else
+  UNUSED(baud_rate_);
+  UNUSED(tx_buffer_size_);
+  UNUSED(rx_buffer_size_);
+  UNUSED(hils_port_manager_);
   simulation_mode_ = SimulationMode::kError;
   printf("Error: USE_HILS:OFF Check compo initialization");
 #endif

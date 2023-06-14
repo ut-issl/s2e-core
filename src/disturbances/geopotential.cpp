@@ -12,6 +12,7 @@
 #include <iostream>
 
 #include "../library/logger/log_utility.hpp"
+#include "../library/utilities/macros.hpp"
 
 // #define DEBUG_GEOPOTENTIAL
 
@@ -76,6 +77,8 @@ void Geopotential::Update(const LocalEnvironment &local_environment, const Dynam
 #ifdef DEBUG_GEOPOTENTIAL
   end = chrono::system_clock::now();
   time_ms_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
+#else
+  UNUSED(time_ms_);
 #endif
 
   libra::Matrix<3, 3> trans_eci2ecef_ = local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf();
