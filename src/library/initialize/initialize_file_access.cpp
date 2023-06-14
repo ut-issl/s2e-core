@@ -216,12 +216,10 @@ void IniAccess::ReadCsvString(std::vector<std::vector<std::string>>& output_valu
     std::cerr << "file open error. filename = " << file_path_char_ << std::endl;
   }
   std::string line;
-  int line_num = 0;
   output_value.reserve(node_num);
   while (getline(ifs, line)) {
     std::vector<std::string> temp = Split(line, ',');
     temp.reserve(node_num);
     output_value.push_back(temp);
-    line_num++;
   }
 }
