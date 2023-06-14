@@ -3,9 +3,9 @@
  * @brief This class simulates the I2C Controller communication with the I2C Target.
  */
 #include "i2c_controller.hpp"
-#include <library/utilities/macros.hpp>
 
 #include <iostream>
+#include <library/utilities/macros.hpp>
 
 I2cController::I2cController(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
                              const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)

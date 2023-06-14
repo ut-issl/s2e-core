@@ -22,7 +22,7 @@ ReactionWheelJitter::ReactionWheelJitter(std::vector<std::vector<double>> radial
       damping_factor_(damping_factor),
       bandwidth_(bandwidth),
       considers_structural_resonance_(considers_structural_resonance) {
-  UNUSED(structural_resonance_frequency_Hz_); // TODO: implement algorithm to use this variable
+  UNUSED(structural_resonance_frequency_Hz_);  // TODO: implement algorithm to use this variable
   // Generate random number for initial rotation phase
   std::random_device seed_gen;
   std::default_random_engine engine(seed_gen());
