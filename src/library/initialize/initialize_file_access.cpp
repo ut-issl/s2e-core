@@ -172,7 +172,7 @@ void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, co
     std::cerr << "file open error. filename = " << file_path_char_ << std::endl;
   }
   std::string line;
-  int line_num = 0;
+
   output_value.reserve(node_num);
   while (getline(ifs, line)) {
     std::vector<std::string> string_vector = Split(line, ',');
@@ -182,7 +182,6 @@ void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, co
       temp.push_back(std::stod(string_vector.at(i)));
     }
     output_value.push_back(temp);
-    line_num++;
   }
 }
 
