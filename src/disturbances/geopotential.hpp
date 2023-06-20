@@ -49,6 +49,14 @@ class Geopotential : public Disturbance {
    */
   virtual std::string GetLogValue() const;
 
+  // For single users
+  /**
+   * @fn CalcAccelerationEcef
+   * @brief Calculate the high-order earth gravity in the ECEF frame
+   * @param [in] position_ecef_m: Position of the spacecraft in the ECEF fram [m]
+   */
+  libra::Vector<3> CalcAcceleration_ecef_m_s2(const Vector<3> &position_ecef_m);
+
  private:
   int degree_;                          //!< Maximum degree setting to calculate the geo-potential
   int n_ = 0, m_ = 0;                   //!< Degree and order (FIXME: follow naming rule)
@@ -69,7 +77,7 @@ class Geopotential : public Disturbance {
    * @brief Calculate the high-order earth gravity in the ECEF frame
    * @param [in] position_ecef_m: Position of the spacecraft in the ECEF fram [m]
    */
-  void CalcAccelerationEcef(const Vector<3> &position_ecef_m);
+  // void CalcAccelerationEcef(const Vector<3> &position_ecef_m);
 
   /**
    * @fn ReadCoefficientsEgm96

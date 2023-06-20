@@ -72,7 +72,7 @@ void Geopotential::Update(const LocalEnvironment &local_environment, const Dynam
   debug_pos_ecef_m_ = spacecraft.dynamics_->orbit_->GetPosition_ecef_m();
 #endif
 
-  CalcAccelerationEcef(dynamics.GetOrbit().GetPosition_ecef_m());
+  acceleration_ecef_m_s2_ = CalcAcceleration_ecef_m_s2(dynamics.GetOrbit().GetPosition_ecef_m());
 #ifdef DEBUG_GEOPOTENTIAL
   end = chrono::system_clock::now();
   time_ms_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
@@ -83,7 +83,7 @@ void Geopotential::Update(const LocalEnvironment &local_environment, const Dynam
   acceleration_i_m_s2_ = trans_ecef2eci * acceleration_ecef_m_s2_;
 }
 
-void Geopotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m) {
+libra::Vector<3> Geopotential::CalcAcceleration_ecef_m_s2(const libra::Vector<3> &position_ecef_m) {
   ecef_x_m_ = position_ecef_m[0];
   ecef_y_m_ = position_ecef_m[1];
   ecef_z_m_ = position_ecef_m[2];
@@ -112,7 +112,7 @@ void Geopotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m)
   }
 
   // Calc Acceleration
-  acceleration_ecef_m_s2_ *= 0.0;
+  libra::Vector<3> acceleration_ecef_m_s2{0.0};
   for (n_ = 0; n_ <= degree_; n_++)  // this loop can integrate with previous loop
   {
     m_ = 0;
@@ -120,9 +120,9 @@ void Geopotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m)
     double normalize = sqrt((2.0 * n_d + 1.0) / (2.0 * n_d + 3.0));
     double normalize_xy = normalize * sqrt((n_d + 2.0) * (n_d + 1.0) / 2.0);
     // m_==0
-    acceleration_ecef_m_s2_[0] += -c_[n_][0] * v[n_ + 1][1] * normalize_xy;
-    acceleration_ecef_m_s2_[1] += -c_[n_][0] * w[n_ + 1][1] * normalize_xy;
-    acceleration_ecef_m_s2_[2] += (n_ + 1.0) * (-c_[n_][0] * v[n_ + 1][0] - s_[n_][0] * w[n_ + 1][0]) * normalize;
+    acceleration_ecef_m_s2[0] += -c_[n_][0] * v[n_ + 1][1] * normalize_xy;
+    acceleration_ecef_m_s2[1] += -c_[n_][0] * w[n_ + 1][1] * normalize_xy;
+    acceleration_ecef_m_s2[2] += (n_ + 1.0) * (-c_[n_][0] * v[n_ + 1][0] - s_[n_][0] * w[n_ + 1][0]) * normalize;
     for (m_ = 1; m_ <= n_; m_++) {
       double m_d = (double)m_;
       double factorial = (n_d - m_d + 1.0) * (n_d - m_d + 2.0);
@@ -134,17 +134,17 @@ void Geopotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m)
         normalize_xy2 = normalize * sqrt(factorial);
       double normalize_z = normalize * sqrt((n_d + m_d + 1.0) / (n_d - m_d + 1.0));
 
-      acceleration_ecef_m_s2_[0] += 0.5 * (normalize_xy1 * (-c_[n_][m_] * v[n_ + 1][m_ + 1] - s_[n_][m_] * w[n_ + 1][m_ + 1]) +
-                                           normalize_xy2 * (c_[n_][m_] * v[n_ + 1][m_ - 1] + s_[n_][m_] * w[n_ + 1][m_ - 1]));
-      acceleration_ecef_m_s2_[1] += 0.5 * (normalize_xy1 * (-c_[n_][m_] * w[n_ + 1][m_ + 1] + s_[n_][m_] * v[n_ + 1][m_ + 1]) +
-                                           normalize_xy2 * (-c_[n_][m_] * w[n_ + 1][m_ - 1] + s_[n_][m_] * v[n_ + 1][m_ - 1]));
-      acceleration_ecef_m_s2_[2] += (n_d - m_d + 1.0) * (-c_[n_][m_] * v[n_ + 1][m_] - s_[n_][m_] * w[n_ + 1][m_]) * normalize_z;
+      acceleration_ecef_m_s2[0] += 0.5 * (normalize_xy1 * (-c_[n_][m_] * v[n_ + 1][m_ + 1] - s_[n_][m_] * w[n_ + 1][m_ + 1]) +
+                                          normalize_xy2 * (c_[n_][m_] * v[n_ + 1][m_ - 1] + s_[n_][m_] * w[n_ + 1][m_ - 1]));
+      acceleration_ecef_m_s2[1] += 0.5 * (normalize_xy1 * (-c_[n_][m_] * w[n_ + 1][m_ + 1] + s_[n_][m_] * v[n_ + 1][m_ + 1]) +
+                                          normalize_xy2 * (-c_[n_][m_] * w[n_ + 1][m_ - 1] + s_[n_][m_] * v[n_ + 1][m_ - 1]));
+      acceleration_ecef_m_s2[2] += (n_d - m_d + 1.0) * (-c_[n_][m_] * v[n_ + 1][m_] - s_[n_][m_] * w[n_ + 1][m_]) * normalize_z;
     }
   }
-  acceleration_ecef_m_s2_ *=
+  acceleration_ecef_m_s2 *=
       environment::earth_gravitational_constant_m3_s2 / (environment::earth_equatorial_radius_m * environment::earth_equatorial_radius_m);
 
-  return;
+  return acceleration_ecef_m_s2;
 }
 
 void Geopotential::v_w_nn_update(double *v_nn, double *w_nn, const double v_prev, const double w_prev) {
