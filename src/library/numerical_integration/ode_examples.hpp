@@ -62,7 +62,13 @@ class Example2dTwoBodyOrbitOde : public InterfaceOde<4> {
     Vector<4> output(0.0);
     output[0] = state[2];
     output[1] = state[3];
-    double inverse_square = 1.0 / pow(state[0] * state[0] + state[1] * state[1], 3.0 / 2.0);
+    double denominator = pow(state[0] * state[0] + state[1] * state[1], 3.0 / 2.0);
+    double inverse_square;
+    if (abs(denominator) <= DBL_EPSILON) {
+      inverse_square = 0.0;  // singular
+    } else {
+      inverse_square = 1.0 / denominator;
+    }
     output[2] = -1.0 * state[0] * inverse_square;
     output[3] = -1.0 * state[1] * inverse_square;
     return output;

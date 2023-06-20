@@ -45,9 +45,9 @@ class NumericalIntegrator {
    * @brief Set state information
    */
   inline void SetState(const double time_s, const Vector<N>& state) {
-    previous_state_ = state;
-    current_state_ = state;
     current_time_s_ = time_s;
+    current_state_ = state;
+    previous_state_ = state;
   }
 
   /**
