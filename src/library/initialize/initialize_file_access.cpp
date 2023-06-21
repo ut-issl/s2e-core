@@ -11,6 +11,8 @@
 #include <cstring>
 #include <limits>
 
+#include "../utilities/macros.hpp"
+
 #ifdef WIN32
 IniAccess::IniAccess(const std::string file_path) : file_path_(file_path) {
   // strcpy_s(file_path_char_, (size_t)_countof(file_path_char_), file_path_.c_str());
@@ -46,6 +48,7 @@ double IniAccess::ReadDouble(const char* section_name, const char* key_name) {
 
   return temp;
 #else
+  UNUSED(text_buffer_);
   return ini_reader_.GetReal(section_name, key_name, 0);
 #endif
 }
@@ -172,7 +175,7 @@ void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, co
     std::cerr << "file open error. filename = " << file_path_char_ << std::endl;
   }
   std::string line;
-  int line_num = 0;
+
   output_value.reserve(node_num);
   while (getline(ifs, line)) {
     std::vector<std::string> string_vector = Split(line, ',');
@@ -182,7 +185,6 @@ void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, co
       temp.push_back(std::stod(string_vector.at(i)));
     }
     output_value.push_back(temp);
-    line_num++;
   }
 }
 
@@ -217,12 +219,10 @@ void IniAccess::ReadCsvString(std::vector<std::vector<std::string>>& output_valu
     std::cerr << "file open error. filename = " << file_path_char_ << std::endl;
   }
   std::string line;
-  int line_num = 0;
   output_value.reserve(node_num);
   while (getline(ifs, line)) {
     std::vector<std::string> temp = Split(line, ',');
     temp.reserve(node_num);
     output_value.push_back(temp);
-    line_num++;
   }
 }

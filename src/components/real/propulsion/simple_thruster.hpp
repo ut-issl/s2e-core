@@ -68,7 +68,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @fn MainRoutine
    * @brief Main routine to calculate force generation
    */
-  void MainRoutine(const int time_count);
+  void MainRoutine(const int time_count) override;
   /**
    * @fn PowerOffRoutine
    * @brief Power off routine to stop force generation
@@ -80,12 +80,12 @@ class SimpleThruster : public Component, public ILoggable {
    * @fn GetLogHeader
    * @brief Override GetLogHeader function of ILoggable
    */
-  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
    * @brief Override GetLogValue function of ILoggable
    */
-  virtual std::string GetLogValue() const;
+  virtual std::string GetLogValue() const override;
 
   // Getter
   /**

@@ -258,12 +258,12 @@ class ObcWithC2a : public OnBoardComputer {
    * @fn MainRoutine
    * @brief Main routine to execute C2A
    */
-  void MainRoutine(const int time_count);
+  void MainRoutine(const int time_count) override;
   /**
    * @fn Initialize
    * @brief Initialize function
    */
-  void Initialize();
+  void Initialize() override;
 
   static std::map<int, UartPort*> com_ports_c2a_;     //!< UART ports
   static std::map<int, I2cPort*> i2c_com_ports_c2a_;  //!< I2C ports
