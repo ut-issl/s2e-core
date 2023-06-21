@@ -41,6 +41,17 @@ class ThirdBodyGravity : public Disturbance {
    */
   virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
 
+  /**
+   * @fn CalcAccelerationWithOriginCentricInfo_i_m_s2
+   * @brief Calculate and return the third body disturbance acceleration
+   * @param [in] spacecraft_position_i_m: Position vector of the spacecraft from the origin in the inertial frame [m]
+   * @param [in] third_body_position_i_m: Position vector of the third celestial body from the origin in the inertial frame [m]
+   * @param [in] gravity_constant_m_s2: The gravitational constants of the third celestial body [m3/s2]
+   * @return Third body disturbance acceleration in the inertial frame in unit [m/s2]
+   */
+  libra::Vector<3> CalcAccelerationWithOriginCentricInfo_i_m_s2(const libra::Vector<3> spacecraft_position_i_m,
+                                                                const libra::Vector<3> third_body_position_i_m, const double gravity_constant_m_s2);
+
  private:
   std::set<std::string> third_body_list_;                 //!< List of celestial bodies to calculate the third body disturbances
   libra::Vector<3> third_body_acceleration_i_m_s2_{0.0};  //!< Calculated third body disturbance acceleration in the inertial frame [m/s2]

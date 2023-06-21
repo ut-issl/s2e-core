@@ -26,6 +26,14 @@ void ThirdBodyGravity::Update(const LocalEnvironment& local_environment, const D
   }
 }
 
+libra::Vector<3> ThirdBodyGravity::CalcAccelerationWithOriginCentricInfo_i_m_s2(const libra::Vector<3> spacecraft_position_i_m,
+                                                                                const libra::Vector<3> third_body_position_i_m,
+                                                                                const double gravity_constant_m_s2) {
+  libra::Vector<3> third_body_position_from_sc_i_m = third_body_position_i_m - spacecraft_position_i_m;
+
+  return CalcAcceleration_i_m_s2(third_body_position_i_m, third_body_position_from_sc_i_m, gravity_constant_m_s2);
+}
+
 libra::Vector<3> ThirdBodyGravity::CalcAcceleration_i_m_s2(const libra::Vector<3> s, const libra::Vector<3> sr, const double gravity_constant_m_s2) {
   libra::Vector<3> acceleration_i_m_s2;
 
