@@ -13,6 +13,13 @@ option(USE_C2A "Use C2A" OFF)
 option(BUILD_64BIT "Build 64bit" OFF)
 option(GOOGLE_TEST "Execute GoogleTest" OFF)
 
+# Mac user setting
+option(APPLE_SILICON "Build with Apple Silicon" OFF)
+# Force build with 64bit for APPLE
+if(APPLE)
+  option(BUILD_64BIT "Build 64bit" ON)
+endif()
+
 # preprocessor
 if(WIN32)
   add_definitions(-DWIN32)
@@ -83,7 +90,15 @@ set(SOURCE_FILES
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 ## cspice library
-if(CYGWIN)
+if(APPLE)
+  if(APPLE_SILICON)  
+    # APPLE Silicon
+    set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_apple_silicon64/lib)
+  else()
+    # APPLE Intel
+    set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_apple_intel64/lib)
+  endif()
+elseif(CYGWIN)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".so" ".a")
   set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_cygwin/lib)
 elseif(UNIX)
