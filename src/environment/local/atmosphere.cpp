@@ -12,7 +12,8 @@
 #include "library/randomization/random_walk.hpp"
 
 Atmosphere::Atmosphere(const std::string model, const std::string space_weather_file_name, const double gauss_standard_deviation_rate,
-                       const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap)
+                       const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap,
+                       const LocalCelestialInformation* local_celestial_information)
     : model_(model),
       air_density_kg_m3_(0.0),
       space_weather_file_name_(space_weather_file_name),
@@ -21,7 +22,8 @@ Atmosphere::Atmosphere(const std::string model, const std::string space_weather_
       manual_daily_f107_(manual_f107),
       manual_average_f107_(manual_f107a),
       manual_ap_(manual_ap),
-      gauss_standard_deviation_rate_(gauss_standard_deviation_rate) {
+      gauss_standard_deviation_rate_(gauss_standard_deviation_rate),
+      local_celestial_information_(local_celestial_information) {
   if (model_ == "STANDARD") {
     std::cerr << "Air density model : STANDARD" << std::endl;
   } else if (model_ == "NRLMSISE00") {

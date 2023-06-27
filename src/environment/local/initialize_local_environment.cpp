@@ -39,7 +39,7 @@ SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::str
   return srp_env;
 }
 
-Atmosphere InitAtmosphere(std::string initialize_file_path) {
+Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCelestialInformation* local_celestial_information) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "ATMOSPHERE";
   double f107_threshold = 50.0;
@@ -65,7 +65,8 @@ Atmosphere InitAtmosphere(std::string initialize_file_path) {
   }
   double manual_ap = conf.ReadDouble(section, "manual_ap");
 
-  Atmosphere atmosphere(model, table_path, rho_stddev, is_manual_param_used, manual_daily_f107, manual_average_f107, manual_ap);
+  Atmosphere atmosphere(model, table_path, rho_stddev, is_manual_param_used, manual_daily_f107, manual_average_f107, manual_ap,
+                        local_celestial_information);
   atmosphere.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
   atmosphere.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 

@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "environment/local/local_celestial_information.hpp"
 #include "library/external/nrlmsise00/wrapper_nrlmsise00.hpp"
 #include "library/geodesy/geodetic_position.hpp"
 #include "library/logger/loggable.hpp"
@@ -31,7 +32,8 @@ class Atmosphere : public ILoggable {
    * @param [in] manual_ap: Manual value of ap value
    */
   Atmosphere(const std::string model, const std::string space_weather_file_name, const double gauss_standard_deviation_rate,
-             const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap);
+             const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap,
+             const LocalCelestialInformation* local_celestial_information);
   /**
    * @fn ~Atmosphere
    * @brief Destructor
@@ -87,6 +89,9 @@ class Atmosphere : public ILoggable {
   //  double rw_stepwidth_;
   //  double rw_stddev_;
   //  double rw_limit_;
+
+  // References
+  const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
 
   // Functions
   /**
