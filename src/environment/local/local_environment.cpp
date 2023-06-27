@@ -63,7 +63,7 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* si
   // Update local environments that depend only on the position
   if (simulation_time->GetOrbitPropagateFlag()) {
     solar_radiation_pressure_environment_->UpdateAllStates();
-    atmosphere_->CalcAirDensity_kg_m3(simulation_time->GetCurrentDecimalYear(), orbit.GetGeodeticPosition());
+    atmosphere_->CalcAirDensity_kg_m3(simulation_time->GetCurrentDecimalYear(), orbit);
   }
 }
 

@@ -44,18 +44,18 @@ Atmosphere::Atmosphere(const std::string model, const std::string space_weather_
   }
 }
 
-double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const GeodeticPosition position) {
+double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& orbit) {
   if (!is_calc_enabled_) return 0;
 
   if (model_ == "STANDARD") {
     // Standard model
-    double altitude_m = position.GetAltitude_m();
+    double altitude_m = orbit.GetGeodeticPosition().GetAltitude_m();
     air_density_kg_m3_ = CalcStandard(altitude_m);
   } else if (model_ == "NRLMSISE00") {
     // NRLMSISE00 model
-    double lat_rad = position.GetLatitude_rad();
-    double lon_rad = position.GetLongitude_rad();
-    double alt_m = position.GetAltitude_m();
+    double lat_rad = orbit.GetGeodeticPosition().GetLatitude_rad();
+    double lon_rad = orbit.GetGeodeticPosition().GetLongitude_rad();
+    double alt_m = orbit.GetGeodeticPosition().GetAltitude_m();
     air_density_kg_m3_ = CalcNRLMSISE00(decimal_year, lat_rad, lon_rad, alt_m, space_weather_table_, is_manual_param_used_, manual_daily_f107_,
                                         manual_average_f107_, manual_ap_);
   } else {

@@ -8,10 +8,10 @@
 #include <string>
 #include <vector>
 
+#include "dynamics/orbit/orbit.hpp"
 #include "environment/global/simulation_time.hpp"
 #include "environment/local/local_celestial_information.hpp"
 #include "library/external/nrlmsise00/wrapper_nrlmsise00.hpp"
-#include "library/geodesy/geodetic_position.hpp"
 #include "library/logger/loggable.hpp"
 #include "library/math/vector.hpp"
 
@@ -48,7 +48,7 @@ class Atmosphere : public ILoggable {
    * @param [in] position: Position of target point to calculate the air density
    * @return Atmospheric density [kg/m^3]
    */
-  double CalcAirDensity_kg_m3(const double decimal_year, const GeodeticPosition position);
+  double CalcAirDensity_kg_m3(const double decimal_year, const Orbit& orbit);
   /**
    * @fn GetAirDensity
    * @brief Return Atmospheric density [kg/m^3]
