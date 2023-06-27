@@ -45,7 +45,7 @@ Atmosphere::Atmosphere(const std::string model, const std::string space_weather_
 }
 
 double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const GeodeticPosition position) {
-  if (!IsCalcEnabled) return 0;
+  if (!is_calc_enabled_) return 0;
 
   if (model_ == "STANDARD") {
     // Standard model

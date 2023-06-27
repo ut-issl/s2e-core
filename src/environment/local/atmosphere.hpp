@@ -54,6 +54,11 @@ class Atmosphere : public ILoggable {
    * @brief Return Atmospheric density [kg/m^3]
    */
   inline double GetAirDensity_kg_m3() const { return air_density_kg_m3_; }
+  /**
+   * @fn SetCalcFlag
+   * @brief Set calculation flag (true: Enable, false: Disable)
+   */
+  inline void SetCalcFlag(const bool is_calc_enabled) { is_calc_enabled_ = is_calc_enabled; }
 
   // Override ILoggable
   /**
@@ -67,12 +72,11 @@ class Atmosphere : public ILoggable {
    */
   virtual std::string GetLogValue() const;
 
-  bool IsCalcEnabled = true;  //!< Calculation enable flag TODO: move to private
-
  private:
   // General information
-  std::string model_;         //!< Atmospheric density model name
-  double air_density_kg_m3_;  //!< Atmospheric density [kg/m^3]
+  bool is_calc_enabled_ = true;  //!< Calculation enable flag
+  std::string model_;            //!< Atmospheric density model name
+  double air_density_kg_m3_;     //!< Atmospheric density [kg/m^3]
 
   // NRLMSISE-00 model information
   std::vector<nrlmsise_table> space_weather_table_;  //!< Space weather table

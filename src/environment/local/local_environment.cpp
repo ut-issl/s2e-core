@@ -40,7 +40,7 @@ void LocalEnvironment::Initialize(const SimulationConfiguration* simulation_conf
   // Force to disable when the center body is not the Earth
   if (global_environment->GetCelestialInformation().GetCenterBodyName() != "EARTH") {
     geomagnetic_field_->IsCalcEnabled = false;
-    atmosphere_->IsCalcEnabled = false;
+    atmosphere_->SetCalcFlag(false);
   }
 
   // Log setting for Local celestial information

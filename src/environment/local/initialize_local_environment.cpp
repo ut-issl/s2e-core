@@ -68,7 +68,7 @@ Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCel
 
   Atmosphere atmosphere(model, table_path, rho_stddev, is_manual_param_used, manual_daily_f107, manual_average_f107, manual_ap,
                         local_celestial_information, simulation_time);
-  atmosphere.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
+  atmosphere.SetCalcFlag(conf.ReadEnable(section, CALC_LABEL));
   atmosphere.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
 
   return atmosphere;
