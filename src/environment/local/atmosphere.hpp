@@ -31,6 +31,8 @@ class Atmosphere : public ILoggable {
    * @param [in] manual_f107: Manual value of daily F10.7
    * @param [in] manual_f107a: Manual value of averaged F10.7 (3-month averaged value)
    * @param [in] manual_ap: Manual value of ap value
+   * @param [in] local_celestial_information: Local Celestial information
+   * @param [in] simulation_time: Simulation Time information
    */
   Atmosphere(const std::string model, const std::string space_weather_file_name, const double gauss_standard_deviation_rate,
              const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap,
