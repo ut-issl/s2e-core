@@ -46,7 +46,6 @@ class Atmosphere : public ILoggable {
    * @fn CalcAirDensity
    * @brief Calculate atmospheric density
    * @param [in] decimal_year: Decimal year of simulation start [year]
-   * @param [in] end_time_s: End time of simulation [sec]
    * @param [in] position: Position of target point to calculate the air density
    * @return Atmospheric density [kg/m^3]
    */
