@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
   atmosphere/simple_air_density_model.cpp
+  atmosphere/harris_priester_model.cpp
 
   geodesy/geodetic_position.cpp
 
