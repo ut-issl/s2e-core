@@ -23,11 +23,11 @@ class NumericalIntegrator {
   /**
    * @fn NumericalIntegrator
    * @brief Constructor
-   * @param [in] step_width_s: Step width [s]
+   * @param [in] step_width: Step width. The unit is depending on the independent variable
    * @param [in] ode: Ordinary differential equation
    */
-  inline NumericalIntegrator(const double step_width_s, const InterfaceOde<N>& ode)
-      : step_width_s_(step_width_s), ode_(ode), current_time_s_(0.0), current_state_(0.0), previous_state_(0.0) {}
+  inline NumericalIntegrator(const double step_width, const InterfaceOde<N>& ode)
+      : step_width_(step_width), ode_(ode), current_independent_variable_(0.0), current_state_(0.0), previous_state_(0.0) {}
   /**
    * @fn ~NumericalIntegrator
    * @brief Destructor
@@ -44,8 +44,8 @@ class NumericalIntegrator {
    * @fn SetState
    * @brief Set state information
    */
-  inline void SetState(const double time_s, const Vector<N>& state) {
-    current_time_s_ = time_s;
+  inline void SetState(const double independent_variable, const Vector<N>& state) {
+    current_independent_variable_ = independent_variable;
     current_state_ = state;
     previous_state_ = state;
   }
@@ -58,13 +58,13 @@ class NumericalIntegrator {
 
  protected:
   // Settings
-  double step_width_s_;  //!< Step width [s]
+  double step_width_;  //!< Step width. The unit is depending on the independent variable
 
   // States
-  const InterfaceOde<N>& ode_;  //!< Ordinary differential equation
-  double current_time_s_;       //!< Latest value of independent variable
-  Vector<N> current_state_;     //!< Latest state vector
-  Vector<N> previous_state_;    //!< Previous state vector
+  const InterfaceOde<N>& ode_;           //!< Ordinary differential equation
+  double current_independent_variable_;  //!< Latest value of independent variable
+  Vector<N> current_state_;              //!< Latest state vector
+  Vector<N> previous_state_;             //!< Previous state vector
 };
 
 }  // namespace libra::numerical_integration

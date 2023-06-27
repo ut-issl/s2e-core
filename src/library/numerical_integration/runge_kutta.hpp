@@ -21,10 +21,10 @@ class RungeKutta : public NumericalIntegrator<N> {
   /**
    * @fn RungeKutta
    * @brief Constructor
-   * @param [in] step_width_s: Step width [s]
+   * @param [in] step_width_s: Step width
    * @param [in] ode: Ordinary differential equation
    */
-  inline RungeKutta(const double step_width_s, const InterfaceOde<N>& ode) : NumericalIntegrator<N>(step_width_s, ode) {}
+  inline RungeKutta(const double step_width, const InterfaceOde<N>& ode) : NumericalIntegrator<N>(step_width, ode) {}
   /**
    * @fn ~RungeKutta
    * @brief Destructor

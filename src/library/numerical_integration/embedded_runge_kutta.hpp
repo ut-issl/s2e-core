@@ -20,9 +20,9 @@ class EmbeddedRungeKutta : public RungeKutta<N> {
   /**
    * @fn EmbeddedRungeKutta
    * @brief Constructor
-   * @param [in] step_width_s: Step width [s]
+   * @param [in] step_width: Step width
    */
-  EmbeddedRungeKutta(const double step_width_s, const InterfaceOde<N>& ode) : RungeKutta<N>(step_width_s, ode) {}
+  EmbeddedRungeKutta(const double step_width, const InterfaceOde<N>& ode) : RungeKutta<N>(step_width, ode) {}
 
   /**
    * @fn Integrate

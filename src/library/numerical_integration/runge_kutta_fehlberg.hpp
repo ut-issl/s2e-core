@@ -20,9 +20,9 @@ class RungeKuttaFehlberg : public EmbeddedRungeKutta<N> {
   /**
    * @fn RungeKuttaFehlberg
    * @brief Constructor
-   * @param [in] step_width_s: Step width
+   * @param [in] step_width: Step width
    */
-  RungeKuttaFehlberg(const double step_width_s, const InterfaceOde<N>& ode) : EmbeddedRungeKutta<N>(step_width_s, ode) {
+  RungeKuttaFehlberg(const double step_width, const InterfaceOde<N>& ode) : EmbeddedRungeKutta<N>(step_width, ode) {
     // p=4th/q=5th order Runge-Kutta-Fehlberg (6-stage)
     this->number_of_stages_ = 6;
     this->approximation_order_ = 4;
@@ -80,16 +80,16 @@ class RungeKuttaFehlberg : public EmbeddedRungeKutta<N> {
    */
   Vector<N> CalcInterpolationState(const double sigma) {
     // Calc k7 (slope after state update)
-    Vector<N> state_7 = this->previous_state_ + this->step_width_s_ * (this->slope_[0] / 6.0 + this->slope_[4] / 6.0 + this->slope_[5] * 2.0 / 3.0);
-    Vector<N> k7 = this->ode_.DerivativeFunction(this->current_time_s_, state_7);
+    Vector<N> state_7 = this->previous_state_ + this->step_width_ * (this->slope_[0] / 6.0 + this->slope_[4] / 6.0 + this->slope_[5] * 2.0 / 3.0);
+    Vector<N> k7 = this->ode_.DerivativeFunction(this->current_independent_variable_, state_7);
 
     std::vector<double> interpolation_weights = CalcInterpolationWeights(sigma);
 
     Vector<N> interpolation_state = this->previous_state_;
     for (size_t i = 0; i < this->number_of_stages_; i++) {
-      interpolation_state = interpolation_state + sigma * this->step_width_s_ * (interpolation_weights[i] * this->slope_);
+      interpolation_state = interpolation_state + sigma * this->step_width_ * (interpolation_weights[i] * this->slope_);
     }
-    interpolation_state = interpolation_state + sigma * this->step_width_s_ * (interpolation_weights[6] * k7);
+    interpolation_state = interpolation_state + sigma * this->step_width_ * (interpolation_weights[6] * k7);
     return interpolation_state;
   }
 
