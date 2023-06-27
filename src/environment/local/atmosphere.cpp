@@ -11,17 +11,17 @@
 #include "library/randomization/normal_randomization.hpp"
 #include "library/randomization/random_walk.hpp"
 
-Atmosphere::Atmosphere(const std::string model, const std::string initialize_file_name, const double gauss_standard_deviation_rate,
+Atmosphere::Atmosphere(const std::string model, const std::string space_weather_file_name, const double gauss_standard_deviation_rate,
                        const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap)
     : model_(model),
-      initialize_file_name_(initialize_file_name),
       air_density_kg_m3_(0.0),
-      gauss_standard_deviation_rate_(gauss_standard_deviation_rate),
+      space_weather_file_name_(space_weather_file_name),
       is_space_weather_table_imported_(false),
       is_manual_param_used_(is_manual_param),
       manual_daily_f107_(manual_f107),
       manual_average_f107_(manual_f107a),
-      manual_ap_(manual_ap) {
+      manual_ap_(manual_ap),
+      gauss_standard_deviation_rate_(gauss_standard_deviation_rate) {
   if (model_ == "STANDARD") {
     std::cerr << "Air density model : STANDARD" << std::endl;
   } else if (model_ == "NRLMSISE00") {
@@ -34,7 +34,7 @@ Atmosphere::Atmosphere(const std::string model, const std::string initialize_fil
 
 int Atmosphere::GetSpaceWeatherTable(double decimal_year, double end_time_s) {
   // Get table of simulation duration only to decrease memory
-  return GetSpaceWeatherTable_(decimal_year, end_time_s, initialize_file_name_, space_weather_table_);
+  return GetSpaceWeatherTable_(decimal_year, end_time_s, space_weather_file_name_, space_weather_table_);
 }
 
 double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const double end_time_s, const GeodeticPosition position) {
