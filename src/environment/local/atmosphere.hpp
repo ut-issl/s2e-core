@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "environment/global/simulation_time.hpp"
 #include "environment/local/local_celestial_information.hpp"
 #include "library/external/nrlmsise00/wrapper_nrlmsise00.hpp"
 #include "library/geodesy/geodetic_position.hpp"
@@ -33,7 +34,7 @@ class Atmosphere : public ILoggable {
    */
   Atmosphere(const std::string model, const std::string space_weather_file_name, const double gauss_standard_deviation_rate,
              const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap,
-             const LocalCelestialInformation* local_celestial_information);
+             const LocalCelestialInformation* local_celestial_information, const SimulationTime* simulation_time);
   /**
    * @fn ~Atmosphere
    * @brief Destructor
@@ -47,7 +48,7 @@ class Atmosphere : public ILoggable {
    * @param [in] position: Position of target point to calculate the air density
    * @return Atmospheric density [kg/m^3]
    */
-  double CalcAirDensity_kg_m3(const double decimal_year, const double end_time_s, const GeodeticPosition position);
+  double CalcAirDensity_kg_m3(const double decimal_year, const GeodeticPosition position);
   /**
    * @fn GetAirDensity
    * @brief Return Atmospheric density [kg/m^3]
@@ -74,9 +75,7 @@ class Atmosphere : public ILoggable {
   double air_density_kg_m3_;  //!< Atmospheric density [kg/m^3]
 
   // NRLMSISE-00 model information
-  std::string space_weather_file_name_;              //!< Path and name of space weather file
   std::vector<nrlmsise_table> space_weather_table_;  //!< Space weather table
-  bool is_space_weather_table_imported_;             //!< Flag of the space weather table is imported or not
   bool is_manual_param_used_;                        //!< Flag to use manual parameters
   // Reference of the following setting parameters https://www.swpc.noaa.gov/phenomena/f107-cm-radio-emissions
   double manual_daily_f107_;    //!< Manual daily f10.7 value
@@ -101,14 +100,6 @@ class Atmosphere : public ILoggable {
    * @return Atmospheric density [kg/m^3]
    */
   double CalcStandard(const double altitude_m);
-
-  /**
-   * @fn GetSpaceWeatherTable
-   * @param [in] decimal_year: Decimal year of simulation start [year]
-   * @param [in] end_time_s: End time of simulation [sec]
-   * @return Size of table
-   */
-  int GetSpaceWeatherTable(const double decimal_year, const double end_time_s);
 
   /**
    * @fn AddNoise

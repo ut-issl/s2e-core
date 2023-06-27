@@ -30,6 +30,7 @@ SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::str
  * @param [in] initialize_file_path: Path to initialize file
  * @param [in] local_celestial_information: Local celestial information
  */
-Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCelestialInformation* local_celestial_information);
+Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCelestialInformation* local_celestial_information,
+                          const SimulationTime* simulation_time);
 
 #endif  // S2E_ENVIRONMENT_LOCAL_INITIALIZE_LOCAL_ENVIRONMENT_HPP_

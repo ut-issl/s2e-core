@@ -13,11 +13,9 @@
 
 Atmosphere::Atmosphere(const std::string model, const std::string space_weather_file_name, const double gauss_standard_deviation_rate,
                        const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap,
-                       const LocalCelestialInformation* local_celestial_information)
+                       const LocalCelestialInformation* local_celestial_information, const SimulationTime* simulation_time)
     : model_(model),
       air_density_kg_m3_(0.0),
-      space_weather_file_name_(space_weather_file_name),
-      is_space_weather_table_imported_(false),
       is_manual_param_used_(is_manual_param),
       manual_daily_f107_(manual_f107),
       manual_average_f107_(manual_f107a),
@@ -25,39 +23,36 @@ Atmosphere::Atmosphere(const std::string model, const std::string space_weather_
       gauss_standard_deviation_rate_(gauss_standard_deviation_rate),
       local_celestial_information_(local_celestial_information) {
   if (model_ == "STANDARD") {
+    // Standard
     std::cerr << "Air density model : STANDARD" << std::endl;
   } else if (model_ == "NRLMSISE00") {
+    // NRLMSISE-00
     std::cerr << "Air density model : NRLMSISE00" << std::endl;
+    if (!is_manual_param_used_) {
+      double decimal_year = simulation_time->GetCurrentDecimalYear();
+      double end_time_s = simulation_time->GetEndTime_s();
+      if (GetSpaceWeatherTable_(decimal_year, end_time_s, space_weather_file_name, space_weather_table_)) {
+      } else {
+        std::cerr << "Space Weather file read error!" << std::endl;
+        std::cerr << "Air density is switched to STANDARD model" << std::endl;
+        model_ = "STANDARD";
+      }
+    }
   } else {
     std::cerr << "Air density model : None" << std::endl;
     std::cerr << "Air density is set as 0.0 kg/m3" << std::endl;
   }
 }
 
-int Atmosphere::GetSpaceWeatherTable(double decimal_year, double end_time_s) {
-  // Get table of simulation duration only to decrease memory
-  return GetSpaceWeatherTable_(decimal_year, end_time_s, space_weather_file_name_, space_weather_table_);
-}
-
-double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const double end_time_s, const GeodeticPosition position) {
+double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const GeodeticPosition position) {
   if (!IsCalcEnabled) return 0;
 
   if (model_ == "STANDARD") {
+    // Standard model
     double altitude_m = position.GetAltitude_m();
     air_density_kg_m3_ = CalcStandard(altitude_m);
-  } else if (model_ == "NRLMSISE00")  // NRLMSISE00 model
-  {
-    if (!is_manual_param_used_) {
-      if (!is_space_weather_table_imported_) {
-        if (GetSpaceWeatherTable(decimal_year, end_time_s)) {
-          is_space_weather_table_imported_ = true;
-        } else {
-          std::cerr << "Air density is switched to STANDARD model" << std::endl;
-          model_ = "STANDARD";
-        }
-      }
-    }
-
+  } else if (model_ == "NRLMSISE00") {
+    // NRLMSISE00 model
     double lat_rad = position.GetLatitude_rad();
     double lon_rad = position.GetLongitude_rad();
     double alt_m = position.GetAltitude_m();
