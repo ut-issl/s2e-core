@@ -99,14 +99,6 @@ class Atmosphere : public ILoggable {
 
   // Functions
   /**
-   * @fn CalcStandard
-   * @brief Calculate atmospheric density with simplest method
-   * @param [in] altitude_m: Altitude of spacecraft [m]
-   * @return Atmospheric density [kg/m^3]
-   */
-  double CalcStandard(const double altitude_m);
-
-  /**
    * @fn AddNoise
    * @brief Add atmospheric density noise
    * @param [in] rho_kg_m3: True atmospheric density [kg/m^3]
