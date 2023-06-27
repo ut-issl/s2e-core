@@ -6,6 +6,7 @@
 
 #include <cmath>
 #include <library/math/constants.hpp>
+#include <library/utilities/macros.hpp>
 
 #include "harris_priester_coefficients.hpp"
 
@@ -14,7 +15,7 @@ namespace libra::atmosphere {
 double CalcScaleHieght_km(const std::map<double, double>::const_iterator density_itr);
 double CalcApexDensity_g_km3(const std::map<double, double>::const_iterator density_itr, const double altitude_km);
 
-double CalcAirDensityWithHarrisPriester_kg_m3(const GeodeticPosition geodetic_position, const libra::Vector<3> sun_direction_eci,
+double CalcAirDensityWithHarrisPriester_kg_m3(const GeodeticPosition geodetic_position, const libra::Vector<3> sun_direction_eci, const double f10_7,
                                               const double exponent_parameter) {
   // Altitude
   double altitude_km = geodetic_position.GetAltitude_m() / 1000.0;
@@ -38,6 +39,7 @@ double CalcAirDensityWithHarrisPriester_kg_m3(const GeodeticPosition geodetic_po
   double cos_phi = pow(0.5 + beta_rad / 2.0, exponent_parameter / 2.0);
 
   // Find density coefficients from altitude
+  UNUSED(f10_7);  // TODO: Use F10.7 value to search coefficients
   auto min_density_itr = harris_priester_min_density_table.upper_bound(altitude_km);
   auto max_density_itr = harris_priester_max_density_table.upper_bound(altitude_km);
   if (min_density_itr == harris_priester_min_density_table.begin()) return min_density_itr->second;
