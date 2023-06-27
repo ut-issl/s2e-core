@@ -2,8 +2,6 @@
  * @file atmosphere.hpp
  * @brief Class to calculate earth's atmospheric density
  */
-#pragma once
-
 #ifndef S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_
 #define S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_
 
