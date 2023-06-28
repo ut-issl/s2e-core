@@ -5,6 +5,7 @@
 
 #include "atmosphere.hpp"
 
+#include "library/atmosphere/harris_priester_model.hpp"
 #include "library/atmosphere/simple_air_density_model.hpp"
 #include "library/logger/log_utility.hpp"
 #include "library/math/vector.hpp"
@@ -39,6 +40,9 @@ Atmosphere::Atmosphere(const std::string model, const std::string space_weather_
         model_ = "STANDARD";
       }
     }
+  } else if (model_ == "HARRIS_PRIESTER") {
+    // Harris-Priester
+    std::cerr << "Air density model : Harris-Priester" << std::endl;
   } else {
     std::cerr << "Air density model : None" << std::endl;
     std::cerr << "Air density is set as 0.0 kg/m3" << std::endl;
@@ -59,6 +63,10 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& 
     double alt_m = orbit.GetGeodeticPosition().GetAltitude_m();
     air_density_kg_m3_ = CalcNRLMSISE00(decimal_year, lat_rad, lon_rad, alt_m, space_weather_table_, is_manual_param_used_, manual_daily_f107_,
                                         manual_average_f107_, manual_ap_);
+  } else if (model_ == "HARRIS_PRIESTER") {
+    // Harris-Priester
+    libra::Vector<3> sun_direction_eci = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN").CalcNormalizedVector();
+    air_density_kg_m3_ = libra::atmosphere::CalcAirDensityWithHarrisPriester_kg_m3(orbit.GetGeodeticPosition(), sun_direction_eci);
   } else {
     // No suitable model
     return air_density_kg_m3_ = 0.0;
