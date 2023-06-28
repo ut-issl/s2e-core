@@ -12,7 +12,20 @@
 
 namespace libra::atmosphere {
 
-double CalcScaleHieght_km(const std::map<double, double>::const_iterator density_itr);
+/**
+ * @fn CalcScaleHeight_km
+ * @brief Calculate scale height
+ * @param [in] density_itr: Iterator for density map table
+ * @return Scale height [km]
+ */
+double CalcScaleHeight_km(const std::map<double, double>::const_iterator density_itr);
+/**
+ * @fn CalcApexDensity_g_km3
+ * @brief Calculate Apex or Antapex density
+ * @param [in] density_itr: Iterator for density map table
+ * @param [in] altitude_km: Altitude [km]
+ * @return Apex or Antapex density
+ */
 double CalcApexDensity_g_km3(const std::map<double, double>::const_iterator density_itr, const double altitude_km);
 
 double CalcAirDensityWithHarrisPriester_kg_m3(const GeodeticPosition geodetic_position, const libra::Vector<3> sun_direction_eci, const double f10_7,
@@ -56,7 +69,7 @@ double CalcAirDensityWithHarrisPriester_kg_m3(const GeodeticPosition geodetic_po
   return density_g_km3 * 1e-12;  // Unit conversion g/km3 -> kg/m^3
 }
 
-double CalcScaleHieght_km(const std::map<double, double>::const_iterator density_itr) {
+double CalcScaleHeight_km(const std::map<double, double>::const_iterator density_itr) {
   const double height_1_km = density_itr->first;
   const double density_1_g_km3 = density_itr->second;
   const double height_2_km = next(density_itr)->first;
@@ -67,7 +80,7 @@ double CalcScaleHieght_km(const std::map<double, double>::const_iterator density
 }
 
 double CalcApexDensity_g_km3(const std::map<double, double>::const_iterator density_itr, const double altitude_km) {
-  const double scale_height_km = CalcScaleHieght_km(density_itr);
+  const double scale_height_km = CalcScaleHeight_km(density_itr);
   const double height_km = density_itr->first;
   const double density_g_km3 = density_itr->second;
 
