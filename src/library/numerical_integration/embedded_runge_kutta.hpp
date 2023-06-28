@@ -53,6 +53,6 @@ class EmbeddedRungeKutta : public RungeKutta<N> {
 
 }  // namespace libra::numerical_integration
 
-#include "embedded_runge_kutta_template.hpp"
+#include "embedded_runge_kutta_implementation.hpp"
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_HPP_

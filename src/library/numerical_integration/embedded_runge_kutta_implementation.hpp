@@ -1,9 +1,9 @@
 /**
- * @file embedded_runge_kutta_template.hpp
+ * @file embedded_runge_kutta_implementation.hpp
  * @brief Implementation of Embedded Runge-Kutta method
  */
-#ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_TEMPLATE_HPP_
-#define S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_TEMPLATE_HPP_
+#ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_IMPLEMENTATION_HPP_
+#define S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_IMPLEMENTATION_HPP_
 
 #include "embedded_runge_kutta.hpp"
 
@@ -38,4 +38,4 @@ void EmbeddedRungeKutta<N>::ControlStepWidth(const double error_tolerance) {
 
 }  // namespace libra::numerical_integration
 
-#endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_TEMPLATE_HPP_
+#endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_IMPLEMENTATION_HPP_
