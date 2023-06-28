@@ -1,6 +1,6 @@
 /**
  * @file simple_air_density_model.cpp
- * @brief Standard earth's atmospheric density model
+ * @brief Simple earth's atmospheric density model
  */
 #include "simple_air_density_model.hpp"
 
