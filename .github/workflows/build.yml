@@ -18,7 +18,7 @@ on:
 
 env:
   # datasource=github-releases depName=ut-issl/c2a-core
-  C2A_CORE_VERSION: v3.9.1
+  C2A_CORE_VERSION: v3.9.2
 
 jobs:
   build_s2e_win:
