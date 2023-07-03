@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <cstring>
 #include <limits>
+#include <regex>
 
 #include "../utilities/macros.hpp"
 
@@ -120,14 +121,18 @@ void IniAccess::ReadChar(const char* section_name, const char* key_name, const i
 }
 
 std::string IniAccess::ReadString(const char* section_name, const char* key_name) {
+  std::string value;
 #ifdef WIN32
   char temp[kMaxCharLength];
   ReadChar(section_name, key_name, kMaxCharLength, temp);
-  return std::string(temp);
+  value = std::string(temp);
 #else
-  std::string value = ini_reader_.GetString(section_name, key_name, "NULL");
-  return value;
+  value = ini_reader_.GetString(section_name, key_name, "NULL");
 #endif
+  // Special characters
+  std::string ini_path = INI_FILE_DIR;
+  value = std::regex_replace(value, std::regex("INI_FILE_DIR"), ini_path);
+  return value;
 }
 
 bool IniAccess::ReadEnable(const char* section_name, const char* key_name) {

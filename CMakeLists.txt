@@ -32,6 +32,10 @@ endif()
 set(CSPICE_DIR ${EXT_LIB_DIR}/cspice)
 set(NRLMSISE00_DIR ${EXT_LIB_DIR}/nrlmsise00)
 
+if(NOT DEFINED INI_FILE_DIR)
+  set(INI_FILE_DIR ../../data/sample/initialize_files/)
+endif()
+
 if(NOT DEFINED FLIGHT_SW_DIR)
   set(FLIGHT_SW_DIR ../FlightSW)
 endif()
