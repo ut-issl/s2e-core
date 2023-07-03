@@ -161,7 +161,7 @@ std::vector<std::string> IniAccess::ReadStrVector(const char* section_name, cons
 #ifdef WIN32
     if (temp.c_str()[0] == NULL) {
 #else
-    if (!strcmp(temp, "NULL")) {
+    if (!strcmp(temp.c_str(), "NULL")) {
 #endif
       break;
     } else {
