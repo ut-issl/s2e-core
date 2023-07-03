@@ -130,8 +130,13 @@ std::string IniAccess::ReadString(const char* section_name, const char* key_name
   value = ini_reader_.GetString(section_name, key_name, "NULL");
 #endif
   // Special characters
-  std::string ini_path = INI_FILE_DIR;
-  value = std::regex_replace(value, std::regex("INI_FILE_DIR"), ini_path);
+  // INI_FILE_DIR
+  std::string ini_path = INI_FILE_DIR_FROM_EXE;
+  value = std::regex_replace(value, std::regex("INI_FILE_DIR_FROM_EXE"), ini_path);
+  // EXT_LIB_DIR
+  std::string ext_lib_path = EXT_LIB_DIR_FROM_EXE;
+  value = std::regex_replace(value, std::regex("EXT_LIB_DIR_FROM_EXE"), ext_lib_path);
+
   return value;
 }
 

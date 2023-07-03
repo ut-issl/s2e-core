@@ -8,7 +8,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${S2E_DIR}/src)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Compile option
-target_compile_definitions(${PROJECT_NAME} PRIVATE "INI_FILE_DIR=\"${INI_FILE_DIR}\"")
+target_compile_definitions(${PROJECT_NAME} PRIVATE "INI_FILE_DIR_FROM_EXE=\"${INI_FILE_DIR_FROM_EXE}\"")
+target_compile_definitions(${PROJECT_NAME} PRIVATE "EXT_LIB_DIR_FROM_EXE=\"${EXT_LIB_DIR_FROM_EXE}\"")
 if(MSVC)
   target_compile_options(${PROJECT_NAME} PUBLIC "/MP")  # multi process build
 
