@@ -136,6 +136,9 @@ std::string IniAccess::ReadString(const char* section_name, const char* key_name
   // EXT_LIB_DIR
   std::string ext_lib_path = EXT_LIB_DIR_FROM_EXE;
   value = std::regex_replace(value, std::regex("EXT_LIB_DIR_FROM_EXE"), ext_lib_path);
+  // CORE_DIR
+  std::string s2e_core_path = CORE_DIR_FROM_EXE;
+  value = std::regex_replace(value, std::regex("CORE_DIR_FROM_EXE"), s2e_core_path);
 
   return value;
 }

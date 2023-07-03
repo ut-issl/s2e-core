@@ -32,6 +32,14 @@ endif()
 set(CSPICE_DIR ${EXT_LIB_DIR}/cspice)
 set(NRLMSISE00_DIR ${EXT_LIB_DIR}/nrlmsise00)
 
+if(NOT DEFINED FLIGHT_SW_DIR)
+  set(FLIGHT_SW_DIR ../FlightSW)
+endif()
+if(NOT DEFINED C2A_NAME)
+  set(C2A_NAME "c2a_oss")
+endif()
+
+## Directory path for ini files
 if(NOT DEFINED INI_FILE_DIR_FROM_EXE)
   set(INI_FILE_DIR_FROM_EXE ../../data/sample/initialize_files)
 endif()
@@ -40,11 +48,8 @@ if(NOT DEFINED EXT_LIB_DIR_FROM_EXE)
   set(EXT_LIB_DIR_FROM_EXE ../../${EXT_LIB_DIR})
 endif()
 
-if(NOT DEFINED FLIGHT_SW_DIR)
-  set(FLIGHT_SW_DIR ../FlightSW)
-endif()
-if(NOT DEFINED C2A_NAME)
-  set(C2A_NAME "c2a_oss")
+if(NOT DEFINED CORE_DIR_FROM_EXE)
+  set(CORE_DIR_FROM_EXE ../../../s2e-core)
 endif()
 
 ## options to use C2A
