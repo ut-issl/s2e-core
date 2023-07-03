@@ -152,14 +152,14 @@ bool IniAccess::ReadEnable(const char* section_name, const char* key_name) {
 
 std::vector<std::string> IniAccess::ReadStrVector(const char* section_name, const char* key_name) {
   std::vector<std::string> data;
-  char temp[kMaxCharLength];
+  std::string temp;
   unsigned int i = 0;
   while (true) {
     std::stringstream c_name;
     c_name << key_name << "(" << i << ")";
-    ReadChar(section_name, c_name.str().c_str(), kMaxCharLength, temp);
+    temp = ReadString(section_name, c_name.str().c_str());
 #ifdef WIN32
-    if (temp[0] == NULL) {
+    if (temp.c_str()[0] == NULL) {
 #else
     if (!strcmp(temp, "NULL")) {
 #endif
