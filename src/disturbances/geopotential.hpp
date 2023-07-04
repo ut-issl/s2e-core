@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "../library/gravity_potential/gravity_potential.hpp"
+#include "../library/gravity/gravity_potential.hpp"
 #include "../library/math/vector.hpp"
 #include "disturbance.hpp"
 /**

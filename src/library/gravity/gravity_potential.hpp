@@ -3,8 +3,8 @@
  * @brief Class to calculate gravity potential
  */
 
-#ifndef S2E_LIBRARY_GRAVITY_POTENTIAL_GRAVITY_POTENTIAL_HPP_
-#define S2E_LIBRARY_GRAVITY_POTENTIAL_GRAVITY_POTENTIAL_HPP_
+#ifndef S2E_LIBRARY_GRAVITY_GRAVITY_POTENTIAL_HPP_
+#define S2E_LIBRARY_GRAVITY_GRAVITY_POTENTIAL_HPP_
 
 #include <environment/global/physical_constants.hpp>
 #include <vector>
@@ -75,4 +75,4 @@ class GravityPotential {
   void v_w_nm_update(double *v_nm, double *w_nm, const double v_prev, const double w_prev, const double v_prev2, const double w_prev2);
 };
 
-#endif  // S2E_LIBRARY_GRAVITY_POTENTIAL_GRAVITY_POTENTIAL_HPP_
+#endif  // S2E_LIBRARY_GRAVITY_GRAVITY_POTENTIAL_HPP_
