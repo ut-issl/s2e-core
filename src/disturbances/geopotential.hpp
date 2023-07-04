@@ -26,7 +26,11 @@ class Geopotential : public Disturbance {
    */
   Geopotential(const int degree, const std::string file_path, const bool is_calculation_enabled = true);
 
-  Geopotential(const Geopotential& obj) {
+  /**
+   * @fn Geopotential
+   * @brief Copy Constructor
+   */
+  Geopotential(const Geopotential &obj) {
     geopotential_ = obj.geopotential_;
     degree_ = obj.degree_;
     c_ = obj.c_;
