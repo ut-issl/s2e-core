@@ -30,14 +30,14 @@ GravityPotential::GravityPotential(const size_t degree, const std::vector<std::v
   // TODO Check size
 }
 
-libra::Vector<3> GravityPotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m) {
-  libra::Vector<3> acceleration_ecef_m_s2(0.0);
-  if (degree_ <= 0) return acceleration_ecef_m_s2;
+libra::Vector<3> GravityPotential::CalcAcceleration_xcxf_m_s2(const libra::Vector<3> &position_xcxf_m) {
+  libra::Vector<3> acceleration_xcxf_m_s2(0.0);
+  if (degree_ <= 0) return acceleration_xcxf_m_s2;
 
-  ecef_x_m_ = position_ecef_m[0];
-  ecef_y_m_ = position_ecef_m[1];
-  ecef_z_m_ = position_ecef_m[2];
-  radius_m_ = sqrt(ecef_x_m_ * ecef_x_m_ + ecef_y_m_ * ecef_y_m_ + ecef_z_m_ * ecef_z_m_);
+  xcxf_x_m_ = position_xcxf_m[0];
+  xcxf_y_m_ = position_xcxf_m[1];
+  xcxf_z_m_ = position_xcxf_m[2];
+  radius_m_ = sqrt(xcxf_x_m_ * xcxf_x_m_ + xcxf_y_m_ * xcxf_y_m_ + xcxf_z_m_ * xcxf_z_m_);
 
   // Calc V and W
   size_t degree_vw = degree_ + 1;
@@ -69,9 +69,9 @@ libra::Vector<3> GravityPotential::CalcAccelerationEcef(const libra::Vector<3> &
     double normalize = sqrt((2.0 * n_d + 1.0) / (2.0 * n_d + 3.0));
     double normalize_xy = normalize * sqrt((n_d + 2.0) * (n_d + 1.0) / 2.0);
     // m_==0
-    acceleration_ecef_m_s2[0] += -c_[n_][0] * v[n_ + 1][1] * normalize_xy;
-    acceleration_ecef_m_s2[1] += -c_[n_][0] * w[n_ + 1][1] * normalize_xy;
-    acceleration_ecef_m_s2[2] += (n_ + 1.0) * (-c_[n_][0] * v[n_ + 1][0] - s_[n_][0] * w[n_ + 1][0]) * normalize;
+    acceleration_xcxf_m_s2[0] += -c_[n_][0] * v[n_ + 1][1] * normalize_xy;
+    acceleration_xcxf_m_s2[1] += -c_[n_][0] * w[n_ + 1][1] * normalize_xy;
+    acceleration_xcxf_m_s2[2] += (n_ + 1.0) * (-c_[n_][0] * v[n_ + 1][0] - s_[n_][0] * w[n_ + 1][0]) * normalize;
     for (m_ = 1; m_ <= n_; m_++) {
       double m_d = (double)m_;
       double factorial = (n_d - m_d + 1.0) * (n_d - m_d + 2.0);
@@ -83,16 +83,16 @@ libra::Vector<3> GravityPotential::CalcAccelerationEcef(const libra::Vector<3> &
         normalize_xy2 = normalize * sqrt(factorial);
       double normalize_z = normalize * sqrt((n_d + m_d + 1.0) / (n_d - m_d + 1.0));
 
-      acceleration_ecef_m_s2[0] += 0.5 * (normalize_xy1 * (-c_[n_][m_] * v[n_ + 1][m_ + 1] - s_[n_][m_] * w[n_ + 1][m_ + 1]) +
+      acceleration_xcxf_m_s2[0] += 0.5 * (normalize_xy1 * (-c_[n_][m_] * v[n_ + 1][m_ + 1] - s_[n_][m_] * w[n_ + 1][m_ + 1]) +
                                           normalize_xy2 * (c_[n_][m_] * v[n_ + 1][m_ - 1] + s_[n_][m_] * w[n_ + 1][m_ - 1]));
-      acceleration_ecef_m_s2[1] += 0.5 * (normalize_xy1 * (-c_[n_][m_] * w[n_ + 1][m_ + 1] + s_[n_][m_] * v[n_ + 1][m_ + 1]) +
+      acceleration_xcxf_m_s2[1] += 0.5 * (normalize_xy1 * (-c_[n_][m_] * w[n_ + 1][m_ + 1] + s_[n_][m_] * v[n_ + 1][m_ + 1]) +
                                           normalize_xy2 * (-c_[n_][m_] * w[n_ + 1][m_ - 1] + s_[n_][m_] * v[n_ + 1][m_ - 1]));
-      acceleration_ecef_m_s2[2] += (n_d - m_d + 1.0) * (-c_[n_][m_] * v[n_ + 1][m_] - s_[n_][m_] * w[n_ + 1][m_]) * normalize_z;
+      acceleration_xcxf_m_s2[2] += (n_d - m_d + 1.0) * (-c_[n_][m_] * v[n_ + 1][m_] - s_[n_][m_] * w[n_ + 1][m_]) * normalize_z;
     }
   }
-  acceleration_ecef_m_s2 *= gravity_constants_m3_s2_ / pow(center_body_radius_m_, 2.0);
+  acceleration_xcxf_m_s2 *= gravity_constants_m3_s2_ / pow(center_body_radius_m_, 2.0);
 
-  return acceleration_ecef_m_s2;
+  return acceleration_xcxf_m_s2;
 }
 
 void GravityPotential::v_w_nn_update(double *v_nn, double *w_nn, const double v_prev, const double w_prev) {
@@ -101,8 +101,8 @@ void GravityPotential::v_w_nn_update(double *v_nn, double *w_nn, const double v_
   double n_d = (double)n_;
 
   double tmp = center_body_radius_m_ / (radius_m_ * radius_m_);
-  double x_tmp = ecef_x_m_ * tmp;
-  double y_tmp = ecef_y_m_ * tmp;
+  double x_tmp = xcxf_x_m_ * tmp;
+  double y_tmp = xcxf_y_m_ * tmp;
   double c_normalize;
   if (n_ == 1)
     c_normalize = (2.0 * n_d - 1.0) * sqrt(2.0 * n_d + 1.0);
@@ -122,7 +122,7 @@ void GravityPotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_
   double n_d = (double)n_;
 
   double tmp = center_body_radius_m_ / (radius_m_ * radius_m_);
-  double z_tmp = ecef_z_m_ * tmp;
+  double z_tmp = xcxf_z_m_ * tmp;
   double re_tmp = center_body_radius_m_ * tmp;
   double c1 = (2.0 * n_d - 1.0) / (n_d - m_d);
   double c2 = (n_d + m_d - 1.0) / (n_d - m_d);

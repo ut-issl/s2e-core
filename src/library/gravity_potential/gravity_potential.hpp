@@ -40,11 +40,12 @@ class GravityPotential {
   ~GravityPotential() {}
 
   /**
-   * @fn CalcAccelerationEcef
-   * @brief Calculate the high-order earth gravity in the ECEF frame
-   * @param [in] position_ecef_m: Position of the spacecraft in the ECEF fram [m]
+   * @fn CalcAccelerationXcxf
+   * @brief Calculate the high-order earth gravity in the XCXF frame (Arbitrary celestial body centered and fixed frame)
+   * @param [in] position_xcxf_m: Position of the spacecraft in the XCXF fram [m]
+   * @return Acceleration in XCXF frame [m/s2]
    */
-  libra::Vector<3> CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m);
+  libra::Vector<3> CalcAcceleration_xcxf_m_s2(const libra::Vector<3> &position_xcxf_m);
 
  private:
   size_t degree_ = 0;                   //!< Maximum degree
@@ -57,7 +58,7 @@ class GravityPotential {
 
   // calculation
   double radius_m_ = 0.0;                                    //!< Radius [m]
-  double ecef_x_m_ = 0.0, ecef_y_m_ = 0.0, ecef_z_m_ = 0.0;  //!< Spacecraft position in ECEF frame [m]
+  double xcxf_x_m_ = 0.0, xcxf_y_m_ = 0.0, xcxf_z_m_ = 0.0;  //!< Spacecraft position in XCXF frame [m]
 
   /**
    * @fn v_w_nn_update
