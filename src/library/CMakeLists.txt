@@ -12,6 +12,8 @@ add_library(${PROJECT_NAME} STATIC
   logger/logger.cpp
   logger/initialize_log.cpp
 
+  gravity_potential/gravity_potential.cpp
+
   randomization/global_randomization.cpp
   randomization/normal_randomization.cpp
   randomization/minimal_standard_linear_congruential_generator.cpp
