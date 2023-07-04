@@ -20,13 +20,23 @@ class GravityPotential {
   /**
    * @fn GravityPotential
    * @brief Constructor
+   */
+  GravityPotential(const double gravity_constants_m3_s2 = environment::earth_gravitational_constant_m3_s2,
+                   const double center_body_radius_m = environment::earth_equatorial_radius_m)
+      : gravity_constants_m3_s2_(gravity_constants_m3_s2), center_body_radius_m_(center_body_radius_m) {}
+  /**
+   * @fn GravityPotential
+   * @brief Constructor
    * @param [in] degree: Maximum degree setting to calculate the geo-potential
    */
   GravityPotential(const size_t degree, const std::vector<std::vector<double>> cosine_coefficients,
                    const std::vector<std::vector<double>> sine_coefficients,
                    const double gravity_constants_m3_s2 = environment::earth_gravitational_constant_m3_s2,
                    const double center_body_radius_m = environment::earth_equatorial_radius_m);
-
+  /**
+   * @fn ~GravityPotential
+   * @brief Destructor
+   */
   ~GravityPotential() {}
 
   /**
@@ -37,13 +47,14 @@ class GravityPotential {
   libra::Vector<3> CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m);
 
  private:
-  size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential
+  size_t degree_ = 0;                   //!< Maximum degree
   size_t n_ = 0, m_ = 0;                //!< Degree and order (FIXME: follow naming rule)
   std::vector<std::vector<double>> c_;  //!< Cosine coefficients
   std::vector<std::vector<double>> s_;  //!< Sine coefficients
 
   const double gravity_constants_m3_s2_;
   const double center_body_radius_m_;
+
   // calculation
   double radius_m_ = 0.0;                                    //!< Radius [m]
   double ecef_x_m_ = 0.0, ecef_y_m_ = 0.0, ecef_z_m_ = 0.0;  //!< Spacecraft position in ECEF frame [m]

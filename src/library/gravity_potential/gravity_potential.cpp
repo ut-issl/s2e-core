@@ -31,6 +31,9 @@ GravityPotential::GravityPotential(const size_t degree, const std::vector<std::v
 }
 
 libra::Vector<3> GravityPotential::CalcAccelerationEcef(const libra::Vector<3> &position_ecef_m) {
+  libra::Vector<3> acceleration_ecef_m_s2(0.0);
+  if (degree_ <= 0) return acceleration_ecef_m_s2;
+
   ecef_x_m_ = position_ecef_m[0];
   ecef_y_m_ = position_ecef_m[1];
   ecef_z_m_ = position_ecef_m[2];
@@ -59,7 +62,6 @@ libra::Vector<3> GravityPotential::CalcAccelerationEcef(const libra::Vector<3> &
   }
 
   // Calc Acceleration
-  libra::Vector<3> acceleration_ecef_m_s2(0.0);
   for (n_ = 0; n_ <= degree_; n_++)  // this loop can integrate with previous loop
   {
     m_ = 0;
