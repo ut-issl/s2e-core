@@ -26,7 +26,14 @@ class Geopotential : public Disturbance {
    */
   Geopotential(const int degree, const std::string file_path, const bool is_calculation_enabled = true);
 
-  ~Geopotential() { delete geopotential_; }
+  Geopotential(const Geopotential& obj) {
+    geopotential_ = obj.geopotential_;
+    degree_ = obj.degree_;
+    c_ = obj.c_;
+    s_ = obj.s_;
+  }
+
+  ~Geopotential() {}
 
   /**
    * @fn Update
@@ -49,7 +56,7 @@ class Geopotential : public Disturbance {
   virtual std::string GetLogValue() const;
 
  private:
-  GravityPotential *geopotential_;
+  GravityPotential geopotential_;
   size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential
   std::vector<std::vector<double>> c_;  //!< Cosine coefficients
   std::vector<std::vector<double>> s_;  //!< Sine coefficients

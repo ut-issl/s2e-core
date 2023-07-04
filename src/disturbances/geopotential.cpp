@@ -42,7 +42,7 @@ Geopotential::Geopotential(const int degree, const std::string file_path, const 
     }
   }
   // Initialize GravityPotential
-  geopotential_ = new GravityPotential(degree, c_, s_);
+  geopotential_ = GravityPotential(degree, c_, s_);
 }
 
 bool Geopotential::ReadCoefficientsEgm96(std::string file_name) {
@@ -74,7 +74,7 @@ void Geopotential::Update(const LocalEnvironment &local_environment, const Dynam
   debug_pos_ecef_m_ = spacecraft.dynamics_->orbit_->GetPosition_ecef_m();
 #endif
 
-  acceleration_ecef_m_s2_ = geopotential_->CalcAcceleration_xcxf_m_s2(dynamics.GetOrbit().GetPosition_ecef_m());
+  acceleration_ecef_m_s2_ = geopotential_.CalcAcceleration_xcxf_m_s2(dynamics.GetOrbit().GetPosition_ecef_m());
 #ifdef DEBUG_GEOPOTENTIAL
   end = chrono::system_clock::now();
   time_ms_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
