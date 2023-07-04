@@ -48,13 +48,13 @@ class GravityPotential {
   libra::Vector<3> CalcAcceleration_xcxf_m_s2(const libra::Vector<3> &position_xcxf_m);
 
  private:
-  size_t degree_ = 0;                   //!< Maximum degree
-  size_t n_ = 0, m_ = 0;                //!< Degree and order (FIXME: follow naming rule)
-  std::vector<std::vector<double>> c_;  //!< Cosine coefficients
-  std::vector<std::vector<double>> s_;  //!< Sine coefficients
+  size_t degree_ = 0;                     //!< Maximum degree
+  size_t n_ = 0, m_ = 0;                  //!< Degree and order (FIXME: follow naming rule)
+  std::vector<std::vector<double>> c_;    //!< Cosine coefficients
+  std::vector<std::vector<double>> s_;    //!< Sine coefficients
 
-  const double gravity_constants_m3_s2_;
-  const double center_body_radius_m_;
+  const double gravity_constants_m3_s2_;  //!< Gravity constant of the center body [m3/s2]
+  const double center_body_radius_m_;     //!< Radius of the center body [m]
 
   // calculation
   double radius_m_ = 0.0;                                    //!< Radius [m]

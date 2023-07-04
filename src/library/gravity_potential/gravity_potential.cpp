@@ -37,13 +37,13 @@ libra::Vector<3> GravityPotential::CalcAcceleration_xcxf_m_s2(const libra::Vecto
   xcxf_x_m_ = position_xcxf_m[0];
   xcxf_y_m_ = position_xcxf_m[1];
   xcxf_z_m_ = position_xcxf_m[2];
-  radius_m_ = sqrt(xcxf_x_m_ * xcxf_x_m_ + xcxf_y_m_ * xcxf_y_m_ + xcxf_z_m_ * xcxf_z_m_);
+  radius_m_ = position_xcxf_m.CalcNorm();
 
   // Calc V and W
   size_t degree_vw = degree_ + 1;
   std::vector<std::vector<double>> v(degree_vw + 1, std::vector<double>(degree_vw + 1, 0.0));
   std::vector<std::vector<double>> w(degree_vw + 1, std::vector<double>(degree_vw + 1, 0.0));
-  // n=m=0
+  // n = m = 0
   v[0][0] = center_body_radius_m_ / radius_m_;
   w[0][0] = 0.0;
   m_ = 0;
