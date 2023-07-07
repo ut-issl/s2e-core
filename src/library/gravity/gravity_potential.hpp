@@ -40,7 +40,7 @@ class GravityPotential {
   ~GravityPotential() {}
 
   /**
-   * @fn CalcAccelerationXcxf
+   * @fn CalcAcceleration_xcxf_m_s2
    * @brief Calculate the high-order earth gravity in the XCXF frame (Arbitrary celestial body centered and fixed frame)
    * @param [in] position_xcxf_m: Position of the spacecraft in the XCXF fram [m]
    * @return Acceleration in XCXF frame [m/s2]
