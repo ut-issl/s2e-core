@@ -84,17 +84,17 @@ double get_unixtime_from_timestamp_line(std::vector<string>& s) {
 template <size_t N>
 libra::Vector<N> GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<libra::Vector<N>>& values,
                                                                 double time) const {
-  int n = time_vector.size();
+  size_t n = time_vector.size();
   double w = libra::tau / (24.0 * 60.0 * 60.0) * 1.03;  // coefficient of a day long
   libra::Vector<N> res(0.0);
 
-  for (int i = 0; i < n; ++i) {
+  for (size_t i = 0; i < n; ++i) {
     double t_k = 1.0;
-    for (int j = 0; j < n; ++j) {
+    for (size_t j = 0; j < n; ++j) {
       if (i == j) continue;
       t_k *= sin(w * (time - time_vector.at(j)) / 2.0) / sin(w * (time_vector.at(i) - time_vector.at(j)) / 2.0);
     }
-    for (int j = 0; j < (int)N; ++j) {
+    for (size_t j = 0; j < (int)N; ++j) {
       res(j) += t_k * values.at(i)(j);
     }
   }
@@ -103,13 +103,13 @@ libra::Vector<N> GnssSat_coordinate::TrigonometricInterpolation(const vector<dou
 }
 
 double GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<double>& values, double time) const {
-  int n = time_vector.size();
+  size_t n = time_vector.size();
   double w = libra::tau / (24.0 * 60.0 * 60.0) * 1.03;  // coefficient of a day long
   double res = 0.0;
 
-  for (int i = 0; i < n; ++i) {
+  for (size_t i = 0; i < n; ++i) {
     double t_k = 1.0;
-    for (int j = 0; j < n; ++j) {
+    for (size_t j = 0; j < n; ++j) {
       if (i == j) continue;
       t_k *= sin(w * (time - time_vector.at(j)) / 2.0) / sin(w * (time_vector.at(i) - time_vector.at(j)) / 2.0);
     }
@@ -140,11 +140,11 @@ libra::Vector<N> GnssSat_coordinate::LagrangeInterpolation(const vector<double>&
 }
 
 double GnssSat_coordinate::LagrangeInterpolation(const vector<double>& time_vector, const vector<double>& values, double time) const {
-  int n = time_vector.size();
+  size_t n = time_vector.size();
   double res = 0.0;
-  for (int i = 0; i < n; ++i) {
+  for (size_t i = 0; i < n; ++i) {
     double l_i = 1.0;
-    for (int j = 0; j < n; ++j) {
+    for (size_t j = 0; j < n; ++j) {
       if (i == j) continue;
       l_i *= (time - time_vector.at(j)) / (time_vector.at(i) - time_vector.at(j));
     }
