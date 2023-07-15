@@ -56,7 +56,7 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, 
  * @param [out] table: Space weather table
  * @return Size of table
  */
-int GetSpaceWeatherTable_(double decyear, double endsec, const std::string& filename, std::vector<nrlmsise_table>& table);
+size_t GetSpaceWeatherTable_(double decyear, double endsec, const std::string& filename, std::vector<nrlmsise_table>& table);
 
 /* ------------------------------------------------------------------- */
 /* ----------------------- COMPILATION TWEAKS ------------------------ */
