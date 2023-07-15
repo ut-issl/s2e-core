@@ -43,7 +43,6 @@ class Sgp4OrbitPropagation : public Orbit {
  private:
   gravconsttype gravity_constant_setting_;             //!< Gravity constant value type
   elsetrec sgp4_data_;                                 //!< Structure data for SGP4 library
-  const CelestialInformation* celestial_information_;  //!< Celestial information
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_

@@ -10,6 +10,9 @@
 #include <algorithm>
 #include <cstring>
 #include <limits>
+#include <regex>
+
+#include "../utilities/macros.hpp"
 
 #ifdef WIN32
 IniAccess::IniAccess(const std::string file_path) : file_path_(file_path) {
@@ -46,6 +49,7 @@ double IniAccess::ReadDouble(const char* section_name, const char* key_name) {
 
   return temp;
 #else
+  UNUSED(text_buffer_);
   return ini_reader_.GetReal(section_name, key_name, 0);
 #endif
 }
@@ -117,14 +121,26 @@ void IniAccess::ReadChar(const char* section_name, const char* key_name, const i
 }
 
 std::string IniAccess::ReadString(const char* section_name, const char* key_name) {
+  std::string value;
 #ifdef WIN32
   char temp[kMaxCharLength];
   ReadChar(section_name, key_name, kMaxCharLength, temp);
-  return std::string(temp);
+  value = std::string(temp);
 #else
-  std::string value = ini_reader_.GetString(section_name, key_name, "NULL");
-  return value;
+  value = ini_reader_.GetString(section_name, key_name, "NULL");
 #endif
+  // Special characters
+  // INI_FILE_DIR
+  std::string ini_path = INI_FILE_DIR_FROM_EXE;
+  value = std::regex_replace(value, std::regex("INI_FILE_DIR_FROM_EXE"), ini_path);
+  // EXT_LIB_DIR
+  std::string ext_lib_path = EXT_LIB_DIR_FROM_EXE;
+  value = std::regex_replace(value, std::regex("EXT_LIB_DIR_FROM_EXE"), ext_lib_path);
+  // CORE_DIR
+  std::string s2e_core_path = CORE_DIR_FROM_EXE;
+  value = std::regex_replace(value, std::regex("CORE_DIR_FROM_EXE"), s2e_core_path);
+
+  return value;
 }
 
 bool IniAccess::ReadEnable(const char* section_name, const char* key_name) {
@@ -136,16 +152,16 @@ bool IniAccess::ReadEnable(const char* section_name, const char* key_name) {
 
 std::vector<std::string> IniAccess::ReadStrVector(const char* section_name, const char* key_name) {
   std::vector<std::string> data;
-  char temp[kMaxCharLength];
+  std::string temp;
   unsigned int i = 0;
   while (true) {
     std::stringstream c_name;
     c_name << key_name << "(" << i << ")";
-    ReadChar(section_name, c_name.str().c_str(), kMaxCharLength, temp);
+    temp = ReadString(section_name, c_name.str().c_str());
 #ifdef WIN32
-    if (temp[0] == NULL) {
+    if (temp.c_str()[0] == NULL) {
 #else
-    if (!strcmp(temp, "NULL")) {
+    if (!strcmp(temp.c_str(), "NULL")) {
 #endif
       break;
     } else {
@@ -172,7 +188,7 @@ void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, co
     std::cerr << "file open error. filename = " << file_path_char_ << std::endl;
   }
   std::string line;
-  int line_num = 0;
+
   output_value.reserve(node_num);
   while (getline(ifs, line)) {
     std::vector<std::string> string_vector = Split(line, ',');
@@ -182,7 +198,6 @@ void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, co
       temp.push_back(std::stod(string_vector.at(i)));
     }
     output_value.push_back(temp);
-    line_num++;
   }
 }
 
@@ -217,12 +232,10 @@ void IniAccess::ReadCsvString(std::vector<std::vector<std::string>>& output_valu
     std::cerr << "file open error. filename = " << file_path_char_ << std::endl;
   }
   std::string line;
-  int line_num = 0;
   output_value.reserve(node_num);
   while (getline(ifs, line)) {
     std::vector<std::string> temp = Split(line, ',');
     temp.reserve(node_num);
     output_value.push_back(temp);
-    line_num++;
   }
 }

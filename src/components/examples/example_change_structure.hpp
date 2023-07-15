@@ -42,12 +42,12 @@ class ExampleChangeStructure : public Component, public ILoggable {
    * @fn GetLogHeader
    * @brief Override GetLogHeader function of ILoggable
    */
-  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
    * @brief Override GetLogValue function of ILoggable
    */
-  virtual std::string GetLogValue() const;
+  virtual std::string GetLogValue() const override;
 
  protected:
   Structure* structure_;  //!< Structure information

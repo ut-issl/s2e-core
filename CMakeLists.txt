@@ -2,7 +2,7 @@ cmake_policy(SET CMP0048 NEW)
 project(S2E
   LANGUAGES CXX
   DESCRIPTION "S2E: Spacecraft Simulation Environment"
-  VERSION 6.1.1
+  VERSION 6.2.0
 )
 
 cmake_minimum_required(VERSION 3.13)
@@ -12,6 +12,13 @@ option(USE_HILS "Use HILS" OFF)
 option(USE_C2A "Use C2A" OFF)
 option(BUILD_64BIT "Build 64bit" OFF)
 option(GOOGLE_TEST "Execute GoogleTest" OFF)
+
+# Mac user setting
+option(APPLE_SILICON "Build with Apple Silicon" OFF)
+# Force build with 64bit for APPLE
+if(APPLE)
+  option(BUILD_64BIT "Build 64bit" ON)
+endif()
 
 # preprocessor
 if(WIN32)
@@ -30,6 +37,19 @@ if(NOT DEFINED FLIGHT_SW_DIR)
 endif()
 if(NOT DEFINED C2A_NAME)
   set(C2A_NAME "c2a_oss")
+endif()
+
+## Directory path for ini files
+if(NOT DEFINED INI_FILE_DIR_FROM_EXE)
+  set(INI_FILE_DIR_FROM_EXE ../../data/sample/initialize_files)
+endif()
+
+if(NOT DEFINED EXT_LIB_DIR_FROM_EXE)
+  set(EXT_LIB_DIR_FROM_EXE ../../${EXT_LIB_DIR})
+endif()
+
+if(NOT DEFINED CORE_DIR_FROM_EXE)
+  set(CORE_DIR_FROM_EXE ../../../s2e-core)
 endif()
 
 ## options to use C2A
@@ -83,7 +103,15 @@ set(SOURCE_FILES
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 ## cspice library
-if(CYGWIN)
+if(APPLE)
+  if(APPLE_SILICON)  
+    # APPLE Silicon
+    set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_apple_silicon64/lib)
+  else()
+    # APPLE Intel
+    set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_apple_intel64/lib)
+  endif()
+elseif(CYGWIN)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".so" ".a")
   set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_cygwin/lib)
 elseif(UNIX)
@@ -204,6 +232,7 @@ if(GOOGLE_TEST)
     src/library/math/test_matrix.cpp
     src/library/math/test_matrix_vector.cpp
     src/library/math/test_s2e_math.cpp
+    src/library/numerical_integration/test_runge_kutta.cpp
   )
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)

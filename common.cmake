@@ -7,6 +7,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_EXTENSIONS FALSE)
 target_include_directories(${PROJECT_NAME} PUBLIC ${S2E_DIR}/src)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
+# Directory path setting
+target_compile_definitions(${PROJECT_NAME} PRIVATE "INI_FILE_DIR_FROM_EXE=\"${INI_FILE_DIR_FROM_EXE}\"")
+target_compile_definitions(${PROJECT_NAME} PRIVATE "EXT_LIB_DIR_FROM_EXE=\"${EXT_LIB_DIR_FROM_EXE}\"")
+target_compile_definitions(${PROJECT_NAME} PRIVATE "CORE_DIR_FROM_EXE=\"${CORE_DIR_FROM_EXE}\"")
+
 # Compile option
 if(MSVC)
   target_compile_options(${PROJECT_NAME} PUBLIC "/MP")  # multi process build
