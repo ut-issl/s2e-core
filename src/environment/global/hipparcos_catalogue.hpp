@@ -52,7 +52,7 @@ class HipparcosCatalogue : public ILoggable {
    *@fn GetCatalogueSize
    *@brief Return read catalogue size
    */
-  int GetCatalogueSize() const { return hipparcos_catalogue_.size(); }
+  size_t GetCatalogueSize() const { return hipparcos_catalogue_.size(); }
   /**
    *@fn GetHipparcosId
    *@brief Return Hipparcos ID of a star
