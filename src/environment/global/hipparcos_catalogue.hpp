@@ -58,38 +58,38 @@ class HipparcosCatalogue : public ILoggable {
    *@brief Return Hipparcos ID of a star
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  int GetHipparcosId(int rank) const { return hipparcos_catalogue_[rank].hipparcos_id; }
+  int GetHipparcosId(size_t rank) const { return hipparcos_catalogue_[rank].hipparcos_id; }
   /**
    *@fn GetVisibleMagnitude
    *@brief Return magnitude in visible wave length of a star
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  double GetVisibleMagnitude(int rank) const { return hipparcos_catalogue_[rank].visible_magnitude; }
+  double GetVisibleMagnitude(size_t rank) const { return hipparcos_catalogue_[rank].visible_magnitude; }
   /**
    *@fn GetRightAscension_deg
    *@brief Return right ascension of a star
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  double GetRightAscension_deg(int rank) const { return hipparcos_catalogue_[rank].right_ascension_deg; }
+  double GetRightAscension_deg(size_t rank) const { return hipparcos_catalogue_[rank].right_ascension_deg; }
   /**
    *@fn GetDeclination_deg
    *@brief Return declination of a star
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  double GetDeclination_deg(int rank) const { return hipparcos_catalogue_[rank].declination_deg; }
+  double GetDeclination_deg(size_t rank) const { return hipparcos_catalogue_[rank].declination_deg; }
   /**
    *@fn GetStarDir_i
    *@brief Return direction vector of a star in the inertial frame
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  libra::Vector<3> GetStarDirection_i(int rank) const;
+  libra::Vector<3> GetStarDirection_i(size_t rank) const;
   /**
    *@fn GetStarDir_b
    *@brief Return direction vector of a star in the body-fixed frame
    *@param [in] rank: Rank of star magnitude in read catalogue
    *@param [in] quaternion_i2b: Quaternion from the inertial frame to the body-fixed frame
    */
-  libra::Vector<3> GetStarDirection_b(int rank, libra::Quaternion quaternion_i2b) const;
+  libra::Vector<3> GetStarDirection_b(size_t rank, libra::Quaternion quaternion_i2b) const;
 
   // Override ILoggable
   /**
