@@ -39,7 +39,7 @@ Matrix<N, N> CalcInverseMatrix(const Matrix<N, N>& matrix);
  * @return Result of LU decomposed matrix
  */
 template <std::size_t N>
-Matrix<N, N>& LuDecomposition(Matrix<N, N>& matrix, unsigned int index[]);
+Matrix<N, N>& LuDecomposition(Matrix<N, N>& matrix, size_t index[]);
 
 /**
  * @fn SolveLinearSystemWithLu
@@ -50,7 +50,7 @@ Matrix<N, N>& LuDecomposition(Matrix<N, N>& matrix, unsigned int index[]);
  * @return Result vector
  */
 template <std::size_t N>
-Vector<N>& SolveLinearSystemWithLu(const Matrix<N, N>& matrix, const unsigned int index[], Vector<N>& vector);
+Vector<N>& SolveLinearSystemWithLu(const Matrix<N, N>& matrix, const size_t index[], Vector<N>& vector);
 
 }  // namespace libra
 
