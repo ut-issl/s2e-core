@@ -182,7 +182,7 @@ std::vector<std::string> IniAccess::Split(const std::string& input, const char d
   return result;
 }
 
-void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, const int node_num) {
+void IniAccess::ReadCsvDouble(std::vector<std::vector<double>>& output_value, const size_t node_num) {
   std::ifstream ifs(file_path_char_);
   if (!ifs.is_open()) {
     std::cerr << "file open error. filename = " << file_path_char_ << std::endl;
@@ -226,7 +226,7 @@ void IniAccess::ReadCsvDoubleWithHeader(std::vector<std::vector<double>>& output
   }
 }
 
-void IniAccess::ReadCsvString(std::vector<std::vector<std::string>>& output_value, const int node_num) {
+void IniAccess::ReadCsvString(std::vector<std::vector<std::string>>& output_value, const size_t node_num) {
   std::ifstream ifs(file_path_char_);
   if (!ifs.is_open()) {
     std::cerr << "file open error. filename = " << file_path_char_ << std::endl;
