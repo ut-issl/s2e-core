@@ -30,7 +30,7 @@ class Geopotential : public Disturbance {
    * @fn Geopotential
    * @brief Copy Constructor
    */
-  Geopotential(const Geopotential &obj) {
+  Geopotential(const Geopotential &obj) : Disturbance(obj) {
     geopotential_ = obj.geopotential_;
     degree_ = obj.degree_;
     c_ = obj.c_;
