@@ -25,7 +25,10 @@ CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std
   if (center_body_name == "EARTH") {
     InitCelestialRotationAsEarth(rotation_mode, center_body_name);
   } else {
-    // If the center object is not defined rotation calculation and make the DCM a unit matrix
+    // If the center object is not defined for rotation calculation, make the DCM as a unit matrix
+    std::cerr << "WARNINGS: The rotation calculation for the center object " << center_body_name;
+    std::cerr << " is not supported yet." << std::endl;
+    std::cerr << "The rotation matrix is set as a identity matrix" << std::endl;
     rotation_mode_ = RotationMode::kIdle;
     dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
   }
