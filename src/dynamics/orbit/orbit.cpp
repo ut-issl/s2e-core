@@ -50,6 +50,8 @@ OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode) {
   } else if (initialize_mode == "ORBITAL_ELEMENTS") {
     return OrbitInitializeMode::kOrbitalElements;
   } else {
+    std::cerr << "WARNINGS: orbit initialize mode is not defined!" << std::endl;
+    std::cerr << "The orbit is automatically initialized as default mode" << std::endl;
     return OrbitInitializeMode::kDefault;
   }
 }
