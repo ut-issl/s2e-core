@@ -149,7 +149,7 @@ void CelestialRotation::Update(const double JulianDate) {
     // Nutation + Precession
     P = Precession(tTT_century);
     N = Nutation(tTT_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are
-                                // updated in this proccedure
+                                // updated in this procedure
 
     // Axial Rotation
     double Eq_rad = d_psi_rad_ * cos(epsilon_rad_ + d_epsilon_rad_);  // Equation of equinoxes [rad]
