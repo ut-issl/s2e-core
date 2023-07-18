@@ -133,7 +133,7 @@ void CelestialRotation::Update(const double JulianDate) {
 
   if (rotation_mode_ == RotationMode::kFull) {
     // Compute Julian date for terestrial time
-    double jdTT_day = JulianDate + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is thtat S2E doesn't have Gregorian calendar.
+    double jdTT_day = JulianDate + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
 
     // Compute nth power of julian century for terrestrial time the actual unit of tTT_century is [century^(i+1)], i is the index of the array
     double tTT_century[4];
@@ -153,9 +153,9 @@ void CelestialRotation::Update(const double JulianDate) {
 
     // Axial Rotation
     double Eq_rad = d_psi_rad_ * cos(epsilon_rad_ + d_epsilon_rad_);  // Equation of equinoxes [rad]
-    double gast_rad = gmst_rad + Eq_rad;                              // Greenwitch 'Appearent' Sidereal Time [rad]
+    double gast_rad = gmst_rad + Eq_rad;                              // Greenwitch 'Apparent' Sidereal Time [rad]
     R = AxialRotation(gast_rad);
-    // Polar motion (isnot considered so far, even without polar motion, the result agrees well with the matlab reference)
+    // Polar motion (is not considered so far, even without polar motion, the result agrees well with the matlab reference)
     double Xp = 0.0;
     double Yp = 0.0;
     W = PolarMotion(Xp, Yp);
