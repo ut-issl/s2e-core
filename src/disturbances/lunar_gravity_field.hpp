@@ -32,6 +32,8 @@ class LunarGravityField : public Disturbance {
    */
   LunarGravityField(const LunarGravityField &obj) : Disturbance(obj) {
     lunar_potential_ = obj.lunar_potential_;
+    reference_radius_km_ = obj.reference_radius_km_;
+    gravity_constants_km3_s2_ = obj.gravity_constants_km3_s2_;
     degree_ = obj.degree_;
     c_ = obj.c_;
     s_ = obj.s_;
@@ -61,6 +63,8 @@ class LunarGravityField : public Disturbance {
 
  private:
   GravityPotential lunar_potential_;
+  double reference_radius_km_;
+  double gravity_constants_km3_s2_;
   size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential
   std::vector<std::vector<double>> c_;  //!< Cosine coefficients
   std::vector<std::vector<double>> s_;  //!< Sine coefficients

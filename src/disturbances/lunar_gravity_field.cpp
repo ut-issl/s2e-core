@@ -14,7 +14,7 @@
 #include "../library/logger/log_utility.hpp"
 #include "../library/utilities/macros.hpp"
 
-// #define DEBUG_LUNAR_GRAVITY_FIELD
+#define DEBUG_LUNAR_GRAVITY_FIELD
 
 LunarGravityField::LunarGravityField(const int degree, const std::string file_path, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, false), degree_(degree) {
@@ -22,9 +22,9 @@ LunarGravityField::LunarGravityField(const int degree, const std::string file_pa
   acceleration_mcmf_m_s2_ = libra::Vector<3>(0.0);
   debug_pos_mcmf_m_ = libra::Vector<3>(0.0);
   // degree
-  if (degree_ > 360) {
-    degree_ = 360;
-    std::cout << "Inputted degree of LunarGravityField is too large for EGM96 model(limit is 360)\n";
+  if (degree_ > 1200) {
+    degree_ = 1200;
+    std::cout << "Inputted degree of LunarGravityField is too large for GRGM1200A model(limit is 1200)\n";
     std::cout << "degree of LunarGravityField set as " << degree_ << "\n";
   } else if (degree_ <= 1) {
     degree_ = 0;
@@ -32,8 +32,8 @@ LunarGravityField::LunarGravityField(const int degree, const std::string file_pa
   // coefficients
   c_.assign(degree_ + 1, std::vector<double>(degree_ + 1, 0.0));
   s_.assign(degree_ + 1, std::vector<double>(degree_ + 1, 0.0));
-  // For actual EGM model, c_[0][0] should be 1.0
-  // In S2E, 0 degree term is inside the SimpleCircularOrbit calculation
+  // For actual GRGM model, c_[0][0] should be 1.0
+  // In S2E, 0 degree term is inside the RK4 orbit calculation
   c_[0][0] = 0.0;
   if (degree_ >= 2) {
     if (!ReadCoefficientsGrgm1200a(file_path)) {
@@ -42,7 +42,7 @@ LunarGravityField::LunarGravityField(const int degree, const std::string file_pa
     }
   }
   // Initialize GravityPotential
-  lunar_potential_ = GravityPotential(degree, c_, s_);
+  lunar_potential_ = GravityPotential(degree, c_, s_, reference_radius_km_ * 1e3, gravity_constants_km3_s2_ * 1e9);
 }
 
 bool LunarGravityField::ReadCoefficientsGrgm1200a(std::string file_name) {
@@ -52,14 +52,29 @@ bool LunarGravityField::ReadCoefficientsGrgm1200a(std::string file_name) {
     return false;
   }
 
-  size_t num_coeff = ((degree_ + 1) * (degree_ + 2) / 2) - 3;  //-3 for C00,C10,C11
+  // Read header
+  std::string line, cell;
+  getline(coeff_file, cell, ',');
+  reference_radius_km_ = std::stod(cell);
+  getline(coeff_file, cell, ',');
+  gravity_constants_km3_s2_ = std::stod(cell);
+  // next line
+  getline(coeff_file, line);
+
+  size_t num_coeff = ((degree_ + 1) * (degree_ + 2) / 2) - 1;  //-1 for C00
   for (size_t i = 0; i < num_coeff; i++) {
-    int n, m;
-    double c_nm_norm, s_nm_norm;
-    std::string line;
+    // degree
+    getline(coeff_file, line, ',');
+    int n = std::stoi(line);
+    getline(coeff_file, line, ',');
+    int m = std::stoi(line);
+    // coefficients
+    getline(coeff_file, line, ',');
+    double c_nm_norm = std::stod(line);
+    getline(coeff_file, line, ',');
+    double s_nm_norm = std::stod(line);
+    // next line
     getline(coeff_file, line);
-    std::istringstream streamline(line);
-    streamline >> n >> m >> c_nm_norm >> s_nm_norm;
 
     c_[n][m] = c_nm_norm;
     s_[n][m] = s_nm_norm;
@@ -68,21 +83,23 @@ bool LunarGravityField::ReadCoefficientsGrgm1200a(std::string file_name) {
 }
 
 void LunarGravityField::Update(const LocalEnvironment &local_environment, const Dynamics &dynamics) {
+  libra::Vector<3> position_mcmf_m = dynamics.GetOrbit().GetPosition_ecef_m();
 #ifdef DEBUG_LUNAR_GRAVITY_FIELD
-  chrono::system_clock::time_point start, end;
-  start = chrono::system_clock::now();
-  debug_pos_mcmf_m_ = spacecraft.dynamics_->orbit_->GetPosition_mcmf_m();
+  std::chrono::system_clock::time_point start, end;
+  start = std::chrono::system_clock::now();
+  position_mcmf_m = debug_pos_mcmf_m_;
 #endif
 
-  acceleration_mcmf_m_s2_ = lunar_potential_.CalcAcceleration_xcxf_m_s2(dynamics.GetOrbit().GetPosition_ecef_m());
+  acceleration_mcmf_m_s2_ = lunar_potential_.CalcAcceleration_xcxf_m_s2(position_mcmf_m);
 #ifdef DEBUG_LUNAR_GRAVITY_FIELD
-  end = chrono::system_clock::now();
-  time_ms_ = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
+  end = std::chrono::system_clock::now();
+  time_ms_ = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.0);
 #else
   UNUSED(time_ms_);
 #endif
 
-  libra::Matrix<3, 3> trans_eci2mcmf_ = local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf();
+  libra::Matrix<3, 3> trans_eci2mcmf_ =
+      local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf();  // FIXME: Use Moon rotation
   libra::Matrix<3, 3> trans_mcmf2eci = trans_eci2mcmf_.Transpose();
   acceleration_i_m_s2_ = trans_mcmf2eci * acceleration_mcmf_m_s2_;
 }
