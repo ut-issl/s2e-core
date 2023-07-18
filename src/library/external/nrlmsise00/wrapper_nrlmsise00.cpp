@@ -174,7 +174,7 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, 
 
   size_t i;
   int date[6];
-  int idx = 0;
+  size_t idx = 0;
 
   /* input values */
   for (i = 0; i < 24; i++) {
@@ -236,7 +236,7 @@ double CalcNRLMSISE00(double decyear, double latrad, double lonrad, double alt, 
 /* ------------------------------------------------------------------- */
 /* -----------------------ReadSpaceWeatherTable----------------------- */
 /* ------------------------------------------------------------------- */
-int GetSpaceWeatherTable_(double decyear, double endsec, const string& filename, vector<nrlmsise_table>& table) {
+size_t GetSpaceWeatherTable_(double decyear, double endsec, const string& filename, vector<nrlmsise_table>& table) {
   ifstream ifs(filename);
 
   if (!ifs.is_open()) {

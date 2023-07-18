@@ -37,12 +37,12 @@ void RelativeInformation::Update() {
   }
 }
 
-void RelativeInformation::RegisterDynamicsInfo(const int spacecraft_id, const Dynamics* dynamics) {
+void RelativeInformation::RegisterDynamicsInfo(const size_t spacecraft_id, const Dynamics* dynamics) {
   dynamics_database_.emplace(spacecraft_id, dynamics);
   ResizeLists();
 }
 
-void RelativeInformation::RemoveDynamicsInfo(const int spacecraft_id) {
+void RelativeInformation::RemoveDynamicsInfo(const size_t spacecraft_id) {
   dynamics_database_.erase(spacecraft_id);
   ResizeLists();
 }
@@ -111,7 +111,7 @@ std::string RelativeInformation::GetLogValue() const {
 
 void RelativeInformation::LogSetup(Logger& logger) { logger.AddLogList(this); }
 
-libra::Quaternion RelativeInformation::CalcRelativeAttitudeQuaternion(const int target_spacecraft_id, const int reference_spacecraft_id) {
+libra::Quaternion RelativeInformation::CalcRelativeAttitudeQuaternion(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) {
   // Observer SC Body frame(obs_sat) -> ECI frame(i)
   libra::Quaternion q_reference_i2b = dynamics_database_.at(reference_spacecraft_id)->GetAttitude().GetQuaternion_i2b();
   libra::Quaternion q_reference_b2i = q_reference_i2b.Conjugate();
@@ -122,7 +122,7 @@ libra::Quaternion RelativeInformation::CalcRelativeAttitudeQuaternion(const int 
   return q_target_i2b * q_reference_b2i;
 }
 
-libra::Vector<3> RelativeInformation::CalcRelativePosition_rtn_m(const int target_spacecraft_id, const int reference_spacecraft_id) {
+libra::Vector<3> RelativeInformation::CalcRelativePosition_rtn_m(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) {
   libra::Vector<3> target_sat_pos_i = dynamics_database_.at(target_spacecraft_id)->GetOrbit().GetPosition_i_m();
   libra::Vector<3> reference_sat_pos_i = dynamics_database_.at(reference_spacecraft_id)->GetOrbit().GetPosition_i_m();
   libra::Vector<3> relative_pos_i = target_sat_pos_i - reference_sat_pos_i;
@@ -134,7 +134,7 @@ libra::Vector<3> RelativeInformation::CalcRelativePosition_rtn_m(const int targe
   return relative_pos_rtn;
 }
 
-libra::Vector<3> RelativeInformation::CalcRelativeVelocity_rtn_m_s(const int target_spacecraft_id, const int reference_spacecraft_id) {
+libra::Vector<3> RelativeInformation::CalcRelativeVelocity_rtn_m_s(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) {
   libra::Vector<3> target_sat_pos_i = dynamics_database_.at(target_spacecraft_id)->GetOrbit().GetPosition_i_m();
   libra::Vector<3> reference_sat_pos_i = dynamics_database_.at(reference_spacecraft_id)->GetOrbit().GetPosition_i_m();
   libra::Vector<3> relative_pos_i = target_sat_pos_i - reference_sat_pos_i;
