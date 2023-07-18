@@ -108,10 +108,10 @@ std::string LunarGravityField::GetLogHeader() const {
   std::string str_tmp = "";
 
 #ifdef DEBUG_LUNAR_GRAVITY_FIELD
-  str_tmp += WriteVector("geopotential_calculation_position_", "mcmf", "m", 3);
-  str_tmp += WriteScalar("geopotential_calculation_time", "ms");
+  str_tmp += WriteVector("lunar_gravity_calculation_position_", "mcmf", "m", 3);
+  str_tmp += WriteScalar("lunar_gravity_calculation_time", "ms");
 #endif
-  str_tmp += WriteVector("geopotential_acceleration", "mcmf", "m/s2", 3);
+  str_tmp += WriteVector("lunar_gravity_acceleration", "mcmf", "m/s2", 3);
 
   return str_tmp;
 }
