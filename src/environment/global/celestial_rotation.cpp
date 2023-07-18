@@ -24,6 +24,10 @@ CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std
   dcm_teme_to_xcxf_ = dcm_j2000_to_xcxf_;
   if (center_body_name == "EARTH") {
     InitCelestialRotationAsEarth(rotation_mode, center_body_name);
+  } else {
+    // If the center object is not defined rotation calculation and make the DCM a unit matrix
+    rotation_mode_ = RotationMode::kIdle;
+    dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
   }
 }
 
@@ -160,6 +164,7 @@ void CelestialRotation::Update(const double JulianDate) {
     dcm_j2000_to_xcxf_ = W * R * N * P;
   } else if (rotation_mode_ == RotationMode::kSimple) {
     // In this case, only Axial Rotation is executed, with its argument replaced from G'A'ST to G'M'ST
+    // FIXME: Not suitable when the center body is not the earth
     dcm_j2000_to_xcxf_ = AxialRotation(gmst_rad);
   } else {
     // Leave the DCM as unit Matrix(diag{1,1,1})
