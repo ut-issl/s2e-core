@@ -107,7 +107,7 @@ void Telescope::ObserveStars() {
   Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
 
   star_list_in_sight.clear();  // Clear first
-  int count = 0;               // Counter for while loop
+  size_t count = 0;            // Counter for while loop
 
   while (star_list_in_sight.size() < number_of_logged_stars_) {
     libra::Vector<3> target_b = hipparcos_->GetStarDirection_b(count, quaternion_i2b);

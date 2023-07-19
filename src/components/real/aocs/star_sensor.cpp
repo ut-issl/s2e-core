@@ -92,7 +92,7 @@ Quaternion StarSensor::Measure(const LocalCelestialInformation* local_celestial_
   if (update_count_ == 0) {
     int hist = buffer_position_ - output_delay_ - 1;
     if (hist < 0) {
-      hist += max_delay_;
+      hist = max_delay_ - 1;
     }
     measured_quaternion_i2c_ = delay_buffer_[hist];
   }

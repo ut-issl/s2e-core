@@ -95,7 +95,7 @@ class OrdinaryDifferentialEquation {
    * @brief Return element of current state vector
    * @param [in] n: Target element number
    */
-  inline double operator[](int n) const { return state_[n]; }
+  inline double operator[](size_t n) const { return state_[n]; }
 
  protected:
   /**

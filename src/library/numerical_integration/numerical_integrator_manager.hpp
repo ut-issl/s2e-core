@@ -32,19 +32,19 @@ class NumericalIntegratorManager {
   /**
    * @fn NumericalIntegrator
    * @brief Constructor
-   * @param [in] step_width_s: Step width
+   * @param [in] step_width: Step width
    */
-  NumericalIntegratorManager(const double step_width_s, const InterfaceOde<N>& ode,
+  NumericalIntegratorManager(const double step_width, const InterfaceOde<N>& ode,
                              const NumericalIntegrationMethod method = NumericalIntegrationMethod::kRk4) {
     switch (method) {
       case NumericalIntegrationMethod::kRk4:
-        integrator_ = std::make_shared<RungeKutta4<N>>(step_width_s, ode);
+        integrator_ = std::make_shared<RungeKutta4<N>>(step_width, ode);
         break;
       case NumericalIntegrationMethod::kRkf:
-        integrator_ = std::make_shared<RungeKuttaFehlberg<N>>(step_width_s, ode);
+        integrator_ = std::make_shared<RungeKuttaFehlberg<N>>(step_width, ode);
         break;
       default:
-        integrator_ = std::make_shared<RungeKutta4<N>>(step_width_s, ode);
+        integrator_ = std::make_shared<RungeKutta4<N>>(step_width, ode);
         break;
     }
   }

@@ -64,12 +64,12 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILogg
    * @fn GetLogHeader
    * @brief Override GetLogHeader function of ILoggable
    */
-  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
    * @brief Override GetLogValue function of ILoggable
    */
-  virtual std::string GetLogValue() const;
+  virtual std::string GetLogValue() const override;
 
   /**
    * @fn GetMeasuredAngularVelocity_c_rad_s

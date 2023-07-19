@@ -14,10 +14,11 @@ on:
       - 'common.cmake'
       - 'CMakeSettings.json'
       - 'src/**'
+      - 'scripts/Plot/Pipfile'
 
 env:
   # datasource=github-releases depName=ut-issl/c2a-core
-  C2A_CORE_VERSION: v3.8.0
+  C2A_CORE_VERSION: v3.10.0
 
 jobs:
   build_s2e_win:
@@ -238,7 +239,7 @@ jobs:
           ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
           echo "version=$ver" >> "$GITHUB_OUTPUT"
       
-      - uses: actions/setup-python@v4.6.0
+      - uses: actions/setup-python@v4.6.1
         with:
           python-version: ${{ steps.python-version.outputs.version }}
 

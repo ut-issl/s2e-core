@@ -13,7 +13,7 @@
 /**
  * @brief Test for constructor
  */
-TEST(RUNGE_KUTTA, Constructor) {
+TEST(NUMERICAL_INTEGRATION, Constructor) {
   libra::numerical_integration::ExampleLinearOde ode;
   libra::numerical_integration::RungeKutta4<1> linear_ode(0.1, ode);
 
@@ -24,7 +24,7 @@ TEST(RUNGE_KUTTA, Constructor) {
 /**
  * @brief Test for integration with nominal linear function with RK4
  */
-TEST(RUNGE_KUTTA, IntegrateLinearRk4) {
+TEST(NUMERICAL_INTEGRATION, IntegrateLinearRk4) {
   double step_width_s = 0.1;
   libra::numerical_integration::ExampleLinearOde ode;
   libra::numerical_integration::RungeKutta4<1> rk4_ode(step_width_s, ode);
@@ -45,7 +45,7 @@ TEST(RUNGE_KUTTA, IntegrateLinearRk4) {
 /**
  * @brief Test for integration with nominal linear function with RKF
  */
-TEST(RUNGE_KUTTA, IntegrateLinearRkf) {
+TEST(NUMERICAL_INTEGRATION, IntegrateLinearRkf) {
   double step_width_s = 0.1;
   libra::numerical_integration::ExampleLinearOde ode;
   libra::numerical_integration::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
@@ -66,7 +66,7 @@ TEST(RUNGE_KUTTA, IntegrateLinearRkf) {
 /**
  * @brief Test for integration with nominal linear function with NumericalIntegratorManager/RK4
  */
-TEST(RUNGE_KUTTA, IntegrateLinearNumericalIntegratorManagerRk4) {
+TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRk4) {
   double step_width_s = 0.1;
   libra::numerical_integration::ExampleLinearOde ode;
   libra::numerical_integration::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode);
@@ -87,11 +87,11 @@ TEST(RUNGE_KUTTA, IntegrateLinearNumericalIntegratorManagerRk4) {
 /**
  * @brief Test for integration with nominal linear function with NumericalIntegratorManager/RK4
  */
-TEST(RUNGE_KUTTA, IntegrateLinearNumericalIntegratorManagerRkf) {
+TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRkf) {
   double step_width_s = 0.1;
   libra::numerical_integration::ExampleLinearOde ode;
   libra::numerical_integration::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode,
-                                                                                  libra::numerical_integration::NumericalIntegrationMethod::kRkf);
+                                                                                   libra::numerical_integration::NumericalIntegrationMethod::kRkf);
 
   libra::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -109,7 +109,7 @@ TEST(RUNGE_KUTTA, IntegrateLinearNumericalIntegratorManagerRkf) {
 /**
  * @brief Test for integration with quadratic function with RK4
  */
-TEST(RUNGE_KUTTA, IntegrateQuadraticRk4) {
+TEST(NUMERICAL_INTEGRATION, IntegrateQuadraticRk4) {
   double step_width_s = 0.1;
   libra::numerical_integration::ExampleQuadraticOde ode;
   libra::numerical_integration::RungeKutta4<1> rk4_ode(step_width_s, ode);
@@ -130,7 +130,7 @@ TEST(RUNGE_KUTTA, IntegrateQuadraticRk4) {
 /**
  * @brief Test for integration with quadratic function with RKF
  */
-TEST(RUNGE_KUTTA, IntegrateQuadraticRkf) {
+TEST(NUMERICAL_INTEGRATION, IntegrateQuadraticRkf) {
   double step_width_s = 0.1;
   libra::numerical_integration::ExampleQuadraticOde ode;
   libra::numerical_integration::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
@@ -151,7 +151,7 @@ TEST(RUNGE_KUTTA, IntegrateQuadraticRkf) {
 /**
  * @brief Test for integration with 1D position and velocity function with RK4
  */
-TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRk4) {
+TEST(NUMERICAL_INTEGRATION, Integrate1dPositionVelocityRk4) {
   double step_width_s = 0.1;
   libra::numerical_integration::Example1dPositionVelocityOde ode;
   libra::numerical_integration::RungeKutta4<2> rk4_ode(step_width_s, ode);
@@ -181,7 +181,7 @@ TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRk4) {
 /**
  * @brief Test for integration with 1D position and velocity function with RKF
  */
-TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRkf) {
+TEST(NUMERICAL_INTEGRATION, Integrate1dPositionVelocityRkf) {
   double step_width_s = 0.1;
   libra::numerical_integration::Example1dPositionVelocityOde ode;
   libra::numerical_integration::RungeKuttaFehlberg<2> rkf_ode(step_width_s, ode);
@@ -211,7 +211,7 @@ TEST(RUNGE_KUTTA, Integrate1dPositionVelocityRkf) {
 /**
  * @brief Accuracy comparison between RK4 and RKF for integration with 2D two body orbit with small eccentricity
  */
-TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitSmallEccentricity) {
+TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitSmallEccentricity) {
   double step_width_s = 0.1;
   libra::numerical_integration::Example2dTwoBodyOrbitOde ode;
   libra::numerical_integration::RungeKutta4<4> rk4_ode(step_width_s, ode);
@@ -269,7 +269,7 @@ TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitSmallEccentricity) {
 /**
  * @brief Accuracy comparison between RK4 and RKF for integration with 2D two body orbit with high eccentricity
  */
-TEST(RUNGE_KUTTA, Integrate2dTwoBodyOrbitLargeEccentricity) {
+TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitLargeEccentricity) {
   double step_width_s = 0.01;
   libra::numerical_integration::Example2dTwoBodyOrbitOde ode;
   libra::numerical_integration::RungeKutta4<4> rk4_ode(step_width_s, ode);

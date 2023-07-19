@@ -58,6 +58,9 @@ void ObcWithC2a::MainRoutine(const int time_count) {
                                    // 1msec
     TDSP_execute_pl_as_task_list();
   }
+#else
+  UNUSED(is_initialized);
+  UNUSED(timing_regulator_);
 #endif
 }
 

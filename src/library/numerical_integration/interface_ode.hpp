@@ -20,11 +20,11 @@ class InterfaceOde {
   /**
    * @fn DerivativeFunction
    * @brief Pure virtual function to define the difference equation
-   * @param [in] time_s: Time as independent variable
+   * @param [in] independent_variable: Independent variable
    * @param [in] state: State vector
    * @return Differentiated value of state vector
    */
-  virtual Vector<N> DerivativeFunction(const double time_s, const Vector<N>& state) const = 0;
+  virtual Vector<N> DerivativeFunction(const double independent_variable, const Vector<N>& state) const = 0;
 };
 
 }  // namespace libra::numerical_integration

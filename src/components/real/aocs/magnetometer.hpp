@@ -64,12 +64,12 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    * @fn GetLogHeader
    * @brief Override GetLogHeader function of ILoggable
    */
-  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
    * @brief Override GetLogValue function of ILoggable
    */
-  virtual std::string GetLogValue() const;
+  virtual std::string GetLogValue() const override;
 
   /**
    * @fn GetMeasuredMagneticField_c_nT

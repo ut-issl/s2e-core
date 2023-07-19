@@ -20,9 +20,9 @@ class RungeKutta4 : public RungeKutta<N> {
   /**
    * @fn RungeKutta
    * @brief Constructor
-   * @param [in] step_width_s: Step width
+   * @param [in] step_width: Step width
    */
-  RungeKutta4(const double step_width_s, const InterfaceOde<N>& ode) : RungeKutta<N>(step_width_s, ode) {
+  RungeKutta4(const double step_width, const InterfaceOde<N>& ode) : RungeKutta<N>(step_width, ode) {
     // Classical 4th order Runge-Kutta (4-order, 4-stage)
     this->number_of_stages_ = 4;
     this->approximation_order_ = 4;

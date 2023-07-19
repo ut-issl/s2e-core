@@ -136,13 +136,7 @@ libra::Vector<6> InitializePosVel(std::string initialize_file, double current_ti
     kepler_orbit.CalcOrbit(current_time_jd);
     position_i_m = kepler_orbit.GetPosition_i_m();
     velocity_i_m_s = kepler_orbit.GetVelocity_i_m_s();
-  } else if (initialize_mode == OrbitInitializeMode::kInertialPositionAndVelocity) {
-    conf.ReadVector<3>(section_, "initial_position_i_m", position_i_m);
-    conf.ReadVector<3>(section_, "initial_velocity_i_m_s", velocity_i_m_s);
   } else {
-    std::cerr << "WARNINGS: orbit initialize mode is not defined!" << std::endl;
-    std::cerr << "The orbit is automatically initialized as default mode" << std::endl;
-
     conf.ReadVector<3>(section_, "initial_position_i_m", position_i_m);
     conf.ReadVector<3>(section_, "initial_velocity_i_m_s", velocity_i_m_s);
   }

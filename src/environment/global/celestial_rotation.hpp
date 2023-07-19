@@ -81,7 +81,7 @@ class CelestialRotation {
   double c_d_psi_rad_[9];      //!< Coefficients to compute nutation angle (delta-psi)
   double c_zeta_rad_[3];       //!< Coefficients to compute precession angle (zeta)
   double c_theta_rad_[3];      //!< Coefficients to compute precession angle (theta)
-  double c_z_rad_[2];          //!< Coefficients to compute precession angle (z)
+  double c_z_rad_[3];          //!< Coefficients to compute precession angle (z)
 
   // TODO: Move to general constant values
   const double kDtUt1Utc_ = 32.184;                     //!< Time difference b/w UT1 and UTC [sec]

@@ -17,14 +17,19 @@ AirDrag::AirDrag(const std::vector<Surface>& surfaces, const libra::Vector<3>& c
       wall_temperature_K_(wall_temperature_K),
       molecular_temperature_K_(molecular_temperature_K),
       molecular_weight_g_mol_(molecular_weight_g_mol) {
-  int num = surfaces_.size();
+  size_t num = surfaces_.size();
   ct_.assign(num, 1.0);
   cn_.assign(num, 0.0);
 }
 
 void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   double air_density_kg_m3 = local_environment.GetAtmosphere().GetAirDensity_kg_m3();
-  Vector<3> velocity_b_m_s = dynamics.GetOrbit().GetVelocity_b_m_s();
+
+  libra::Matrix<3, 3> dcm_ecef2eci =
+      local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf().Transpose();
+  libra::Vector<3> relative_velocity_wrt_atmosphere_i_m_s = dcm_ecef2eci * dynamics.GetOrbit().GetVelocity_ecef_m_s();
+  libra::Quaternion quaternion_i2b = dynamics.GetAttitude().GetQuaternion_i2b();
+  libra::Vector<3> velocity_b_m_s = quaternion_i2b.FrameConversion(relative_velocity_wrt_atmosphere_i_m_s);
   CalcTorqueForce(velocity_b_m_s, air_density_kg_m3);
 }
 

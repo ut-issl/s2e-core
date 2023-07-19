@@ -14,6 +14,8 @@
 #include "simulation/simulation_configuration.hpp"
 #include "solar_radiation_pressure_environment.hpp"
 
+class Dynamics;
+
 /**
  * @class LocalEnvironment
  * @brief Class to manage local environments

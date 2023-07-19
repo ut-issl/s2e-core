@@ -57,14 +57,14 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @fn MainRoutine
    * @brief Main routine to receive command and send telemetry
    */
-  void MainRoutine(const int time_count);
+  void MainRoutine(const int time_count) override;
 
   // Override functions for IGPIOCompo
   /**
    * @fn GpioStateChanged
    * @brief Interrupt function for GPIO
    */
-  void GpioStateChanged(const int port_id, const bool is_positive_edge);
+  void GpioStateChanged(const int port_id, const bool is_positive_edge) override;
 
  private:
   const static int kMaxMemoryLength = 100;  //!< Maximum memory length

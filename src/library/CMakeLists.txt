@@ -2,12 +2,17 @@ project(LIBRARY)
 cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC
+  atmosphere/simple_air_density_model.cpp
+  atmosphere/harris_priester_model.cpp
+
   geodesy/geodetic_position.cpp
 
   initialize/initialize_file_access.cpp
 
   logger/logger.cpp
   logger/initialize_log.cpp
+
+  gravity/gravity_potential.cpp
 
   randomization/global_randomization.cpp
   randomization/normal_randomization.cpp

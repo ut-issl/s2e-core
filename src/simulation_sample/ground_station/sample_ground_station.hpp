@@ -34,11 +34,6 @@ class SampleGroundStation : public GroundStation {
   ~SampleGroundStation();
 
   /**
-   * @fn Initialize
-   * @brief Override function of Initialize in GroundStation class
-   */
-  virtual void Initialize(const SimulationConfiguration* configuration);
-  /**
    * @fn LogSetup
    * @brief Override function of LogSetup in GroundStation class
    */
@@ -50,6 +45,7 @@ class SampleGroundStation : public GroundStation {
   virtual void Update(const CelestialRotation& celestial_rotation, const SampleSpacecraft& spacecraft);
 
  private:
+  using GroundStation::Update;
   SampleGsComponents* components_;  //!< Ground station related components
 };
 
