@@ -96,6 +96,12 @@ libra::Vector<3> GravityPotential::CalcAcceleration_xcxf_m_s2(const libra::Vecto
   return acceleration_xcxf_m_s2;
 }
 
+libra::Matrix<3, 3> GravityPotential::CalcPartialDerivative_xcxf_s2(const libra::Vector<3> &position_xcxf_m) {
+  libra::Matrix<3, 3> partial_derivative{0.0};
+
+  return partial_derivative;
+}
+
 void GravityPotential::v_w_nn_update(double *v_nn, double *w_nn, const double v_prev, const double w_prev) {
   if (n_ != m_) return;
 
