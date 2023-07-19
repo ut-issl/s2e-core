@@ -24,6 +24,13 @@ CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std
   dcm_teme_to_xcxf_ = dcm_j2000_to_xcxf_;
   if (center_body_name == "EARTH") {
     InitCelestialRotationAsEarth(rotation_mode, center_body_name);
+  } else {
+    // If the center object is not defined for rotation calculation, make the DCM as a unit matrix
+    std::cerr << "WARNINGS: The rotation calculation for the center object " << center_body_name;
+    std::cerr << " is not supported yet." << std::endl;
+    std::cerr << "The rotation matrix is set as a identity matrix" << std::endl;
+    rotation_mode_ = RotationMode::kIdle;
+    dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
   }
 }
 
@@ -128,8 +135,8 @@ void CelestialRotation::Update(const double JulianDate) {
   double gmst_rad = gstime(JulianDate);  // It is a bit different with 長沢(Nagasawa)'s algorithm. TODO: Check the correctness
 
   if (rotation_mode_ == RotationMode::kFull) {
-    // Compute Julian date for terestrial time
-    double jdTT_day = JulianDate + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is thtat S2E doesn't have Gregorian calendar.
+    // Compute Julian date for terrestrial time
+    double jdTT_day = JulianDate + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
 
     // Compute nth power of julian century for terrestrial time the actual unit of tTT_century is [century^(i+1)], i is the index of the array
     double tTT_century[4];
@@ -145,13 +152,13 @@ void CelestialRotation::Update(const double JulianDate) {
     // Nutation + Precession
     P = Precession(tTT_century);
     N = Nutation(tTT_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are
-                                // updated in this proccedure
+                                // updated in this procedure
 
     // Axial Rotation
     double Eq_rad = d_psi_rad_ * cos(epsilon_rad_ + d_epsilon_rad_);  // Equation of equinoxes [rad]
-    double gast_rad = gmst_rad + Eq_rad;                              // Greenwitch 'Appearent' Sidereal Time [rad]
+    double gast_rad = gmst_rad + Eq_rad;                              // Greenwitch 'Apparent' Sidereal Time [rad]
     R = AxialRotation(gast_rad);
-    // Polar motion (isnot considered so far, even without polar motion, the result agrees well with the matlab reference)
+    // Polar motion (is not considered so far, even without polar motion, the result agrees well with the matlab reference)
     double Xp = 0.0;
     double Yp = 0.0;
     W = PolarMotion(Xp, Yp);
@@ -160,6 +167,7 @@ void CelestialRotation::Update(const double JulianDate) {
     dcm_j2000_to_xcxf_ = W * R * N * P;
   } else if (rotation_mode_ == RotationMode::kSimple) {
     // In this case, only Axial Rotation is executed, with its argument replaced from G'A'ST to G'M'ST
+    // FIXME: Not suitable when the center body is not the earth
     dcm_j2000_to_xcxf_ = AxialRotation(gmst_rad);
   } else {
     // Leave the DCM as unit Matrix(diag{1,1,1})
