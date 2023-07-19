@@ -59,6 +59,10 @@ class Geopotential : public Disturbance {
    */
   virtual std::string GetLogValue() const;
 
+  libra::Vector<3> CalcAcceleration_ecef_m_s2(const libra::Vector<3> position_ecef_m) {
+    return geopotential_.CalcAcceleration_xcxf_m_s2(position_ecef_m);
+  }
+
  private:
   GravityPotential geopotential_;
   size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential
