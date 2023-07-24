@@ -130,30 +130,77 @@ libra::Matrix<3, 3> GravityPotential::CalcPartialDerivative_xcxf_s2(const libra:
   // Calc partial derivatives
   for (n_ = 0; n_ <= degree_; n_++)  // this loop can integrate with previous loop
   {
-    m_ = 0;
     const double n_d = (double)n_;
-    const double normalize_20 = sqrt((2.0 * n_d + 1.0) / (2.0 * n_d + 5.0));
-    const double normalize_21 = normalize_20 * sqrt((n_d + 3.0) * (n_d + 2.0) / 2.0);
-    const double normalize_22 = normalize_20 * sqrt((n_d + 4.0) * (n_d + 3.0) * (n_d + 2.0) * (n_d + 1.0) / 2.0);
-    // m_==0
-    // x
-    partial_derivative[0][0] += 0.5 * (c_[n_][0] * v[n_ + 2][2] * normalize_22 - (n_d + 2.0) * (n_d + 1.0) * c_[n_][0] * v[n_ + 2][0] * normalize_20);
-    partial_derivative[0][1] += 0.5 * (c_[n_][0] * w[n_ + 2][2] * normalize_22);
-    partial_derivative[0][2] += (n_d + 1.0) * (c_[n_][0] * v[n_ + 2][1] * normalize_21);
-    // y
-    partial_derivative[1][1] += 0.5 * (c_[n_][0] * w[n_ + 2][2] * normalize_22 - (n_d + 2.0) * (n_d + 1.0) * c_[n_][0] * w[n_ + 2][0] * normalize_20);
-    partial_derivative[1][2] += (n_d + 1.0) * (c_[n_][0] * w[n_ + 2][1] * normalize_21);
-    // z
-    // partial_derivative[2][2] += (n_d + 1.0) * (c_[n_][0] * w[n_ + 2][1] * normalize_21);
 
-    // m_==1
-    m_ = 1;
-    // x
-    partial_derivative[0][0] += 0.5 * (c_[n_][0] * v[n_ + 2][2] * normalize_22 - (n_d + 2.0) * (n_d + 1.0) * c_[n_][0] * v[n_ + 2][0] * normalize_20);
+    // C_n_0 * V_n+2_m
+    const double normalize_cn0_v20 = sqrt((2.0 * n_d + 1.0) / (2.0 * n_d + 5.0));
+    const double normalize_cn0_v21 = normalize_cn0_v20 * sqrt((n_d + 2.0) * (n_d + 3.0) / 2.0);
+    const double normalize_cn0_v22 = normalize_cn0_v20 * sqrt((n_d + 1.0) * (n_d + 2.0) * (n_d + 3.0) * (n_d + 4.0) / 2.0);
 
-    // acceleration_xcxf_m_s2[1] += -c_[n_][0] * w[n_ + 1][1] * normalize_xy;
-    // acceleration_xcxf_m_s2[2] += (n_ + 1.0) * (-c_[n_][0] * v[n_ + 1][0] - s_[n_][0] * w[n_ + 1][0]) * normalize;
+    for (m_ = 0; m_ <= n_; m_++) {
+      const double m_d = (double)m_;
+
+      // dx/dx, dx/dy, dy/dy
+      if (m_ == 0) {
+        partial_derivative[0][0] +=
+            0.5 * (c_[n_][0] * v[n_ + 2][2] * normalize_cn0_v22 - c_[n_][0] * v[n_ + 2][0] * (n_d + 1.0) * (n_d + 2.0) * normalize_cn0_v20);
+        partial_derivative[1][1] +=
+            0.5 * (-c_[n_][0] * w[n_ + 2][2] * normalize_cn0_v22 - c_[n_][0] * w[n_ + 2][0] * (n_d + 1.0) * (n_d + 2.0) * normalize_cn0_v20);
+
+        partial_derivative[0][1] += 0.5 * (c_[n_][0] * w[n_ + 2][2] * normalize_cn0_v22);
+      } else if (m_ == 1) {
+        const double normalize_cn1_v21 = normalize_cn0_v20 * sqrt((n_d + 2.0) * (n_d + 3.0) / (n_d * (n_d + 1.0)));
+        const double normalize_cn1_v21_with_coeff = n_d * (n_d + 1.0) * normalize_cn1_v21;
+        const double normalize_cn1_v23 = normalize_cn0_v20 * sqrt((n_d + 2.0) * (n_d + 3.0) * (n_d + 4.0) * (n_d + 5.0));
+
+        partial_derivative[0][0] += 0.25 * ((c_[n_][1] * v[n_ + 2][3] + s_[n_][1] * w[n_ + 2][3]) * normalize_cn1_v23 -
+                                            (3.0 * c_[n_][1] * v[n_ + 2][1] + s_[n_][1] * w[n_ + 2][1]) * normalize_cn1_v21_with_coeff);
+        partial_derivative[1][1] += 0.25 * ((-c_[n_][1] * w[n_ + 2][3] - s_[n_][1] * v[n_ + 2][3]) * normalize_cn1_v23 -
+                                            (c_[n_][1] * w[n_ + 2][1] + 3.0 * s_[n_][1] * v[n_ + 2][1]) * normalize_cn1_v21_with_coeff);
+
+        partial_derivative[0][1] += 0.25 * ((c_[n_][1] * w[n_ + 2][3] - s_[n_][1] * v[n_ + 2][3]) * normalize_cn1_v23 -
+                                            (c_[n_][1] * w[n_ + 2][1] + s_[n_][1] * v[n_ + 2][1]) * normalize_cn1_v21_with_coeff);
+      } else {
+        double normalize_cnm_v2p2 = normalize_cn0_v20 * sqrt((n_d + m_d + 1.0) * (n_d + m_d + 2.0) * (n_d + m_d + 3.0) * (n_d + m_d + 4.0));
+        double normalize_cnm_v2m2 = normalize_cn0_v20 * sqrt(1.0 / ((n_d - m_d + 1.0) * (n_d - m_d + 2.0) * (n_d - m_d + 3.0) * (n_d - m_d + 4.0)));
+        double normalize_cnm_v2m2_with_coeff = (n_d - m_d + 1.0) * (n_d - m_d + 2.0) * (n_d - m_d + 3.0) * (n_d - m_d + 4.0) * normalize_cnm_v2m2;
+        double normalize_cnm_v20 = normalize_cn0_v20 * sqrt((n_d + m_d + 1.0) * (n_d + m_d + 2.0) / ((n_d - m_d + 1.0) * (n_d - m_d + 2.0)));
+        double normalize_cnm_v20_with_coeff = (n_d - m_d + 1.0) * (n_d - m_d + 2.0) * normalize_cnm_v20;
+
+        partial_derivative[0][0] += 0.25 * ((c_[n_][m_] * v[n_ + 2][m_ + 2] + s_[n_][m_] * w[n_ + 2][m_ + 2]) * normalize_cnm_v2p2 -
+                                            (c_[n_][m_] * v[n_ + 2][m_] + s_[n_][m_] * w[n_ + 2][m_]) * normalize_cnm_v20_with_coeff +
+                                            (c_[n_][m_] * v[n_ + 2][m_ - 2] + s_[n_][m_] * w[n_ + 2][m_ - 2]) * normalize_cnm_v2m2_with_coeff);
+        partial_derivative[1][1] += 0.25 * ((-c_[n_][m_] * v[n_ + 2][m_ + 2] - s_[n_][m_] * w[n_ + 2][m_ + 2]) * normalize_cnm_v2p2 -
+                                            (c_[n_][m_] * v[n_ + 2][m_] + s_[n_][m_] * w[n_ + 2][m_]) * normalize_cnm_v20_with_coeff -
+                                            (c_[n_][m_] * v[n_ + 2][m_ - 2] + s_[n_][m_] * w[n_ + 2][m_ - 2]) * normalize_cnm_v2m2_with_coeff);
+        partial_derivative[0][1] += 0.25 * ((c_[n_][m_] * w[n_ + 2][m_ + 2] - s_[n_][m_] * v[n_ + 2][m_ + 2]) * normalize_cnm_v2p2 +
+                                            (-c_[n_][m_] * w[n_ + 2][m_ - 2] + s_[n_][m_] * v[n_ + 2][m_ - 2]) * normalize_cnm_v2m2_with_coeff);
+      }
+      // dx/dz, dy/dz
+      if (m_ == 0) {
+        partial_derivative[0][2] += (n_d + 1.0) * (c_[n_][0] * v[n_ + 2][1] * normalize_cn0_v21);
+        partial_derivative[1][2] += (n_d + 1.0) * (c_[n_][0] * w[n_ + 2][1] * normalize_cn0_v21);
+      } else {
+        double normalize_cnm_v2p1 = normalize_cn0_v20 * sqrt((n_d + m_d + 1.0) * (n_d + m_d + 2.0) * (n_d + m_d + 3.0) / (n_d - m_d + 1.0));
+        double normalize_cnm_v2p1_with_coeff = (n_d + m_d + 1.0) * normalize_cnm_v2p1;
+        double normalize_cnm_v2m1 = normalize_cn0_v20 * sqrt((n_d + m_d + 1.0) / ((n_d - m_d + 1.0) * (n_d - m_d + 2.0) * (n_d - m_d + 3.0)));
+        double normalize_cnm_v2m1_with_coeff = (n_d - m_d + 1.0) * (n_d - m_d + 2.0) * (n_d - m_d + 3.0) * normalize_cnm_v2m1;
+
+        partial_derivative[0][2] += 0.5 * ((c_[n_][m_] * v[n_ + 2][m_ + 1] + s_[n_][m_] * w[n_ + 2][m_ + 1]) * normalize_cnm_v2p1_with_coeff -
+                                           (c_[n_][m_] * v[n_ + 2][m_ - 1] + s_[n_][m_] * w[n_ + 2][m_ - 1]) * normalize_cnm_v2m1_with_coeff);
+        partial_derivative[1][2] += 0.5 * ((c_[n_][m_] * w[n_ + 2][m_ + 1] - s_[n_][m_] * v[n_ + 2][m_ + 1]) * normalize_cnm_v2p1_with_coeff +
+                                           (c_[n_][m_] * w[n_ + 2][m_ - 1] - s_[n_][m_] * v[n_ + 2][m_ - 1]) * normalize_cnm_v2m1_with_coeff);
+      }
+      // dz/dz
+      double normalize_cnm_v20 = normalize_cn0_v20 * sqrt((n_d + m_d + 1.0) * (n_d + m_d + 2.0) / ((n_d - m_d + 1.0) * (n_d - m_d + 2.0)));
+      double normalize_cnm_v20_with_coeff = (n_d - m_d + 1.0) * (n_d - m_d + 2.0) * normalize_cnm_v20;
+      partial_derivative[2][2] += (c_[n_][m_] * v[n_ + 2][m_] + s_[n_][m_] * w[n_ + 2][m_]) * normalize_cnm_v20_with_coeff;
+    }
   }
+  // Symmetry property
+  partial_derivative[1][0] = partial_derivative[0][1];
+  partial_derivative[2][0] = partial_derivative[0][2];
+  partial_derivative[2][1] = partial_derivative[1][2];
 
   return partial_derivative;
 }
