@@ -1,4 +1,4 @@
-project(COMPONENT)
+﻿project(COMPONENT)
 cmake_minimum_required(VERSION 3.13)
 
 set(SOURCE_FILES
@@ -59,6 +59,8 @@ real/power/csv_scenario_interface.cpp
 
 real/propulsion/simple_thruster.cpp
 real/propulsion/initialize_simple_thruster.cpp
+
+real/structure/flexible_structure.cpp
 
 ports/gpio_port.cpp
 ports/power_port.cpp
