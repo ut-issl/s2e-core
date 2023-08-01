@@ -19,7 +19,7 @@ GravityPotential::GravityPotential(const size_t degree, const std::vector<std::v
       gravity_constants_m3_s2_(gravity_constants_m3_s2),
       center_body_radius_m_(center_body_radius_m) {
   // degree
-  if (degree_ <= 1) {
+  if (degree_ <= 1) {  // TODO: Consider this assertion is needed
     degree_ = 0;
   }
   // coefficients
@@ -28,7 +28,7 @@ GravityPotential::GravityPotential(const size_t degree, const std::vector<std::v
 
 libra::Vector<3> GravityPotential::CalcAcceleration_xcxf_m_s2(const libra::Vector<3> &position_xcxf_m) {
   libra::Vector<3> acceleration_xcxf_m_s2(0.0);
-  if (degree_ <= 0) return acceleration_xcxf_m_s2;
+  if (degree_ <= 0) return acceleration_xcxf_m_s2;  // TODO: Consider this assertion is needed
 
   xcxf_x_m_ = position_xcxf_m[0];
   xcxf_y_m_ = position_xcxf_m[1];
