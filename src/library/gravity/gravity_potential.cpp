@@ -10,9 +10,6 @@
 #include <fstream>
 #include <iostream>
 
-#include "../library/logger/log_utility.hpp"
-#include "../library/utilities/macros.hpp"
-
 GravityPotential::GravityPotential(const size_t degree, const std::vector<std::vector<double>> cosine_coefficients,
                                    const std::vector<std::vector<double>> sine_coefficients, const double gravity_constants_m3_s2,
                                    const double center_body_radius_m)
