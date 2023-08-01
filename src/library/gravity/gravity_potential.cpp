@@ -202,6 +202,9 @@ libra::Matrix<3, 3> GravityPotential::CalcPartialDerivative_xcxf_s2(const libra:
   partial_derivative[2][0] = partial_derivative[0][2];
   partial_derivative[2][1] = partial_derivative[1][2];
 
+  // Multiply common coefficients
+  partial_derivative *= gravity_constants_m3_s2_ / pow(center_body_radius_m_, 3.0);
+
   return partial_derivative;
 }
 
