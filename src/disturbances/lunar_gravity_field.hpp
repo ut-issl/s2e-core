@@ -1,10 +1,10 @@
 /**
- * @file geopotential.hpp
- * @brief Class to calculate the high-order earth gravity acceleration
+ * @file lunar_gravity_field.hpp
+ * @brief Class to calculate the high-order lunar gravity acceleration
  */
 
-#ifndef S2E_DISTURBANCES_GEOPOTENTIAL_HPP_
-#define S2E_DISTURBANCES_GEOPOTENTIAL_HPP_
+#ifndef S2E_DISTURBANCES_LUNAR_GRAVITY_FIELD_HPP_
+#define S2E_DISTURBANCES_LUNAR_GRAVITY_FIELD_HPP_
 
 #include <string>
 
@@ -12,10 +12,10 @@
 #include "../library/math/vector.hpp"
 #include "disturbance.hpp"
 /**
- * @class Geopotential
+ * @class LunarGravityField
  * @brief Class to calculate the high-order earth gravity acceleration
  */
-class Geopotential : public Disturbance {
+class LunarGravityField : public Disturbance {
  public:
   /**
    * @fn Geopotential
@@ -24,20 +24,22 @@ class Geopotential : public Disturbance {
    * @param [in] file_path: EGM96 coefficients file path
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  Geopotential(const int degree, const std::string file_path, const bool is_calculation_enabled = true);
+  LunarGravityField(const int degree, const std::string file_path, const bool is_calculation_enabled = true);
 
   /**
-   * @fn Geopotential
+   * @fn LunarGravityField
    * @brief Copy Constructor
    */
-  Geopotential(const Geopotential &obj) : Disturbance(obj) {
-    geopotential_ = obj.geopotential_;
+  LunarGravityField(const LunarGravityField &obj) : Disturbance(obj) {
+    lunar_potential_ = obj.lunar_potential_;
+    reference_radius_km_ = obj.reference_radius_km_;
+    gravity_constants_km3_s2_ = obj.gravity_constants_km3_s2_;
     degree_ = obj.degree_;
     c_ = obj.c_;
     s_ = obj.s_;
   }
 
-  ~Geopotential() {}
+  ~LunarGravityField() {}
 
   /**
    * @fn Update
@@ -60,22 +62,24 @@ class Geopotential : public Disturbance {
   virtual std::string GetLogValue() const;
 
  private:
-  GravityPotential geopotential_;
+  GravityPotential lunar_potential_;
+  double reference_radius_km_;
+  double gravity_constants_km3_s2_;
   size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential
   std::vector<std::vector<double>> c_;  //!< Cosine coefficients
   std::vector<std::vector<double>> s_;  //!< Sine coefficients
-  Vector<3> acceleration_ecef_m_s2_;    //!< Calculated acceleration in the ECEF frame [m/s2]
+  Vector<3> acceleration_mcmf_m_s2_;    //!< Calculated acceleration in the MCMF(Moon Centered Moon Fixed) frame [m/s2]
 
   // debug
-  libra::Vector<3> debug_pos_ecef_m_;  //!< Spacecraft position in ECEF frame [m]
+  libra::Vector<3> debug_pos_mcmf_m_;  //!< Spacecraft position in MCMF frame [m]
   double time_ms_ = 0.0;               //!< Calculation time [ms]
 
   /**
-   * @fn ReadCoefficientsEgm96
-   * @brief Read the geo-potential coefficients for the EGM96 model
+   * @fn ReadCoefficientsGrgm1200a
+   * @brief Read the lunar gravity field coefficients for the GRGM1200A model
    * @param [in] file_name: Coefficient file name
    */
-  bool ReadCoefficientsEgm96(std::string file_name);
+  bool ReadCoefficientsGrgm1200a(std::string file_name);
 };
 
-#endif  // S2E_DISTURBANCES_GEOPOTENTIAL_HPP_
+#endif  // S2E_DISTURBANCES_LUNAR_GRAVITY_FIELD_HPP_

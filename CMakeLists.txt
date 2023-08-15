@@ -2,7 +2,7 @@ cmake_policy(SET CMP0048 NEW)
 project(S2E
   LANGUAGES CXX
   DESCRIPTION "S2E: Spacecraft Simulation Environment"
-  VERSION 6.2.2
+  VERSION 6.3.0
 )
 
 cmake_minimum_required(VERSION 3.13)
@@ -233,6 +233,7 @@ if(GOOGLE_TEST)
     src/library/math/test_matrix_vector.cpp
     src/library/math/test_s2e_math.cpp
     src/library/numerical_integration/test_runge_kutta.cpp
+    src/library/gravity/test_gravity_potential.cpp
   )
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)

@@ -30,13 +30,13 @@ void OrdinaryDifferentialEquation<N>::Update() {
   // 4th order Runge-Kutta method
   Vector<N> k1(derivative_);
   k1 *= step_width_s_;
-  Vector<N> k2(state_.GetLength());
+  Vector<N> k2((double)state_.GetLength());
   DerivativeFunction(independent_variable_ + 0.5 * step_width_s_, state_ + 0.5 * k1, k2);
   k2 *= step_width_s_;
-  Vector<N> k3(state_.GetLength());
+  Vector<N> k3((double)state_.GetLength());
   DerivativeFunction(independent_variable_ + 0.5 * step_width_s_, state_ + 0.5 * k2, k3);
   k3 *= step_width_s_;
-  Vector<N> k4(state_.GetLength());
+  Vector<N> k4((double)state_.GetLength());
   DerivativeFunction(independent_variable_ + step_width_s_, state_ + k3, k4);
   k4 *= step_width_s_;
 

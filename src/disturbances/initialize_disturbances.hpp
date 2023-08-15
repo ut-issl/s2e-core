@@ -9,6 +9,7 @@
 #include <disturbances/air_drag.hpp>
 #include <disturbances/geopotential.hpp>
 #include <disturbances/gravity_gradient.hpp>
+#include <disturbances/lunar_gravity_field.hpp>
 #include <disturbances/magnetic_disturbance.hpp>
 #include <disturbances/solar_radiation_pressure_disturbance.hpp>
 #include <disturbances/third_body_gravity.hpp>
@@ -61,6 +62,13 @@ MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_pa
  * @param [in] initialize_file_path: Initialize file path
  */
 Geopotential InitGeopotential(const std::string initialize_file_path);
+
+/**
+ * @fn InitLunarGravityField
+ * @brief Initialize LunarGravityField class with earth gravitational constant
+ * @param [in] initialize_file_path: Initialize file path
+ */
+LunarGravityField InitLunarGravityField(const std::string initialize_file_path);
 
 /**
  * @fn InitThirdBodyGravity
