@@ -64,7 +64,7 @@ bool LunarGravityField::ReadCoefficientsGrgm1200a(std::string file_name) {
   // next line
   getline(coeff_file, line);
 
-  size_t num_coeff = ((degree_ + 1) * (degree_ + 2) / 2) - 1;  //-1 for C00
+  size_t num_coeff = ((degree_ + 1) * (degree_ + 2) / 2) - 1;  // -1 for C00
   for (size_t i = 0; i < num_coeff; i++) {
     // degree
     getline(coeff_file, line, ',');
