@@ -20,9 +20,9 @@
 #include "src_core/System/WatchdogTimer/watchdog_timer.h"
 #else
 #error "c2a-core version is not supported"
-#endif // c2a-core version header
+#endif  // c2a-core version header
 
-#endif // USE_C2A
+#endif  // USE_C2A
 
 std::map<int, UartPort*> ObcWithC2a::com_ports_c2a_;
 std::map<int, I2cPort*> ObcWithC2a::i2c_com_ports_c2a_;
