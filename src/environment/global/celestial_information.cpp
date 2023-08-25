@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <library/initialize/initialize_file_access.hpp>
 #include <locale>
 #include <sstream>
 
@@ -197,4 +198,62 @@ void CelestialInformation::GetPlanetOrbit(const char* planet_name, const double 
            (ConstSpiceChar*)aberration_correction_setting_.c_str(), (ConstSpiceChar*)center_body_name_.c_str(), (SpiceDouble*)orbit,
            (SpiceDouble*)&lt);
   return;
+}
+
+CelestialInformation* InitCelestialInformation(std::string file_name) {
+  IniAccess ini_file(file_name);
+  const char* section = "CELESTIAL_INFORMATION";
+  const char* furnsh_section = "CSPICE_KERNELS";
+
+  // Read SPICE setting
+  std::string inertial_frame = ini_file.ReadString(section, "inertial_frame");
+  std::string aber_cor = ini_file.ReadString(section, "aberration_correction");
+  std::string center_obj = ini_file.ReadString(section, "center_object");
+
+  // SPICE Furnsh
+  std::vector<std::string> keywords = {"tls", "tpc1", "tpc2", "tpc3", "bsp"};
+  for (size_t i = 0; i < keywords.size(); i++) {
+    std::string fname = ini_file.ReadString(furnsh_section, keywords[i].c_str());
+    furnsh_c(fname.c_str());
+  }
+
+  // Initialize celestial body list
+  const int num_of_selected_body = ini_file.ReadInt(section, "number_of_selected_body");
+  int* selected_body = new int[num_of_selected_body];
+  for (int i = 0; i < num_of_selected_body; i++) {
+    // Convert body name to SPICE ID
+    std::string selected_body_i = "selected_body_name(" + std::to_string(i) + ")";
+    char selected_body_temp[30];
+    ini_file.ReadChar(section, selected_body_i.c_str(), 30, selected_body_temp);
+    SpiceInt planet_id;
+    SpiceBoolean found;
+    bodn2c_c(selected_body_temp, (SpiceInt*)&planet_id, (SpiceBoolean*)&found);
+
+    // If the object specified in the ini file is not found, exit the program.
+    assert(found == SPICETRUE);
+
+    selected_body[i] = planet_id;
+  }
+
+  // Read Rotation setting
+  RotationMode rotation_mode;
+  std::string rotation_mode_temp = ini_file.ReadString(section, "rotation_mode");
+  if (rotation_mode_temp == "Idle") {
+    rotation_mode = RotationMode::kIdle;
+  } else if (rotation_mode_temp == "Simple") {
+    rotation_mode = RotationMode::kSimple;
+  } else if (rotation_mode_temp == "Full") {
+    rotation_mode = RotationMode::kFull;
+  } else  // if rotation_mode is neither Idle, Simple, nor Full, set rotation_mode to Idle
+  {
+    rotation_mode = RotationMode::kIdle;
+  }
+
+  CelestialInformation* celestial_info;
+  celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body);
+
+  // log setting
+  celestial_info->is_log_enabled_ = ini_file.ReadEnable(section, LOG_LABEL);
+
+  return celestial_info;
 }

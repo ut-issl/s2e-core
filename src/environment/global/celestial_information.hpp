@@ -223,4 +223,11 @@ class CelestialInformation : public ILoggable {
   void GetPlanetOrbit(const char* planet_name, const double et, double orbit[6]);
 };
 
+/**
+ *@fn InitCelestialInfo
+ *@brief Initialize function for CelestialInformation class
+ *@param [in] file_name: Path to the initialize function
+ */
+CelestialInformation* InitCelestialInformation(std::string file_name);
+
 #endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_HPP_

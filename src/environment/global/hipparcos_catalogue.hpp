@@ -111,4 +111,11 @@ class HipparcosCatalogue : public ILoggable {
   std::string catalogue_path_;                      //!< Path to Hipparcos catalog file
 };
 
+/**
+ *@fn InitHipparcosCatalogue
+ *@brief Initialize function for HipparcosCatalogue class
+ *@param [in] file_name: Path to the initialize function
+ */
+HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name);
+
 #endif  // S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_HPP_
