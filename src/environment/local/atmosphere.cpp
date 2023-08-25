@@ -5,9 +5,9 @@
 
 #include "atmosphere.hpp"
 
-#include "library/initialize/initialize_file_access.hpp"
 #include "library/atmosphere/harris_priester_model.hpp"
 #include "library/atmosphere/simple_air_density_model.hpp"
+#include "library/initialize/initialize_file_access.hpp"
 #include "library/logger/log_utility.hpp"
 #include "library/math/vector.hpp"
 #include "library/randomization/global_randomization.hpp"
@@ -98,7 +98,6 @@ std::string Atmosphere::GetLogHeader() const {
 
   return str_tmp;
 }
-
 
 Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCelestialInformation* local_celestial_information,
                           const SimulationTime* simulation_time) {
