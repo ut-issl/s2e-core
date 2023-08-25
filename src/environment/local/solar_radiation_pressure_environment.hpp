@@ -102,4 +102,13 @@ class SolarRadiationPressureEnvironment : public ILoggable {
   void CalcShadowCoefficient(std::string shadow_source_name);
 };
 
+/**
+ * @fn InitSolarRadiationPressureEnvironment
+ * @brief Initialize solar radiation pressure
+ * @param [in] initialize_file_path: Path to initialize file
+ * @param [in] local_celestial_information: Local celestial information
+ */
+SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::string initialize_file_path,
+                                                                        LocalCelestialInformation* local_celestial_information);
+
 #endif  // S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_
