@@ -11,13 +11,6 @@
 #include <environment/global/simulation_time.hpp>
 
 /**
- *@fn InitSimulationTime
- *@brief Initialize function for SimulationTime class
- *@param [in] file_name: Path to the initialize function
- */
-SimulationTime* InitSimulationTime(std::string file_name);
-
-/**
  *@fn InitHipCatalogue
  *@brief Initialize function for HipparcosCatalogue class
  *@param [in] file_name: Path to the initialize function

@@ -8,6 +8,9 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#define CALC_LABEL "calculation"
+#define LOG_LABEL "logging"
+
 #ifdef WIN32
 #define _WINSOCKAPI_  // stops windows.h including winsock.h
 #include <tchar.h>

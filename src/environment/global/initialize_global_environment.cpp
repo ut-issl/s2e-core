@@ -10,41 +10,6 @@
 #include <environment/global/simulation_time.hpp>
 #include <library/initialize/initialize_file_access.hpp>
 
-#define CALC_LABEL "calculation"
-#define LOG_LABEL "logging"
-
-SimulationTime* InitSimulationTime(std::string file_name) {
-  IniAccess ini_file(file_name);
-
-  const char* section = "TIME";
-  // Parameters about entire simulation
-  std::string start_ymdhms = ini_file.ReadString(section, "simulation_start_time_utc");
-  double end_sec = ini_file.ReadDouble(section, "simulation_duration_s");
-  double step_sec = ini_file.ReadDouble(section, "simulation_step_s");
-
-  // Time step parameters for dynamics propagation
-  double attitude_update_interval_sec = ini_file.ReadDouble(section, "attitude_update_period_s");
-  double attitude_rk_step_sec = ini_file.ReadDouble(section, "attitude_integral_step_s");
-  double orbit_update_interval_sec = ini_file.ReadDouble(section, "orbit_update_period_s");
-  double orbit_rk_step_sec = ini_file.ReadDouble(section, "orbit_integral_step_s");
-  double thermal_update_interval_sec = ini_file.ReadDouble(section, "thermal_update_period_s");
-  double thermal_rk_step_sec = ini_file.ReadDouble(section, "thermal_integral_step_s");
-
-  // Time step parameter for component propagation
-  double compo_propagate_step_sec = ini_file.ReadDouble(section, "component_update_period_s");
-
-  // Time step parameter for log output
-  double log_output_interval_sec = ini_file.ReadDouble(section, "log_output_period_s");
-
-  double sim_speed = ini_file.ReadDouble(section, "simulation_speed_setting");
-
-  SimulationTime* simTime = new SimulationTime(end_sec, step_sec, attitude_update_interval_sec, attitude_rk_step_sec, orbit_update_interval_sec,
-                                               orbit_rk_step_sec, thermal_update_interval_sec, thermal_rk_step_sec, compo_propagate_step_sec,
-                                               log_output_interval_sec, start_ymdhms.c_str(), sim_speed);
-
-  return simTime;
-}
-
 HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name) {
   IniAccess ini_file(file_name);
   const char* section = "HIPPARCOS_CATALOGUE";
