@@ -7,6 +7,7 @@
 #include "celestial_information.hpp"
 
 #include <SpiceUsr.h>
+#include <assert.h>
 #include <string.h>
 
 #include <algorithm>
