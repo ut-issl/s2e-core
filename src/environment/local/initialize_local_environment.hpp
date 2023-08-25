@@ -10,11 +10,5 @@
 #include "geomagnetic_field.hpp"
 #include "solar_radiation_pressure_environment.hpp"
 
-/**
- * @fn InitGeomagneticField
- * @brief Initialize magnetic field of the earth
- * @param [in] initialize_file_path: Path to initialize file
- */
-GeomagneticField InitGeomagneticField(std::string initialize_file_path);
 
 #endif  // S2E_ENVIRONMENT_LOCAL_INITIALIZE_LOCAL_ENVIRONMENT_HPP_
