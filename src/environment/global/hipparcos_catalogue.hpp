@@ -3,8 +3,8 @@
  *@brief Class to calculate star direction with Hipparcos catalogue
  */
 
-#ifndef S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_HPP_
-#define S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_HPP_
+#ifndef S2E_ENVIRONMENT_GLOBAL_HIPPARCOS_CATALOGUE_HPP_
+#define S2E_ENVIRONMENT_GLOBAL_HIPPARCOS_CATALOGUE_HPP_
 
 #include <vector>
 
@@ -118,4 +118,4 @@ class HipparcosCatalogue : public ILoggable {
  */
 HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name);
 
-#endif  // S2E_ENVIRONMENT_GLOBAL_HIPPAROCOS_CATALOGUE_HPP_
+#endif  // S2E_ENVIRONMENT_GLOBAL_HIPPARCOS_CATALOGUE_HPP_
