@@ -80,6 +80,7 @@ set(S2E_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 ## include directories
 include_directories(${CSPICE_DIR}/include)
 include_directories(${NRLMSISE00_DIR}/src)
+include_directories(${CMAKE_BINARY_DIR}/magic_enum-src/include)
 
 ## add_subdirectories
 add_subdirectory(src/simulation)
@@ -175,6 +176,14 @@ if(NOT NRLMSISE00_LIB)
   message(FATAL_ERROR "nrlmsise00 not found in ${EXT_LIB_DIR}")
 endif()
 #target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
+
+## Magic Enum C++ library
+include(FetchContent)
+FetchContent_Populate(
+  MAGIC_ENUM
+  URL https://github.com/Neargye/magic_enum/archive/refs/tags/v0.9.3.tar.gz
+)
+message("MAGIC_ENUM: ${CMAKE_BINARY_DIR}")
 
 # Initialize link
 target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
