@@ -67,18 +67,18 @@ void ObcWithC2a::MainRoutine(const int time_count) {
     is_initialized = true;
     Initialize();
   }
-  AnalyzeCommand();
   for (int i = 0; i < timing_regulator_; i++) {
     TMGR_count_up_master_clock();  // The update time oc C2A clock should be 1msec
     TDSP_execute_pl_as_task_list();
   }
+  RegisterCommand();
 #else
   UNUSED(is_initialized);
   UNUSED(timing_regulator_);
 #endif
 }
 
-void ObcWithC2a::AnalyzeCommand(){
+void ObcWithC2a::RegisterCommand(){
   // Command test
   CMD_CODE cmd_id = Cmd_CODE_APP_AOCS_MANAGER_SET_MASS;
   float mass = 21.5;

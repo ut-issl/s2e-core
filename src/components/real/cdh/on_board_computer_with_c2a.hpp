@@ -266,10 +266,10 @@ class ObcWithC2a : public OnBoardComputer {
   void Initialize() override;
 
   /**
-   * @fn AnalyzeCommand
-   * @brief Analyze Command
+   * @fn RegisterCommand
+   * @brief Register Command
    */
-  void AnalyzeCommand();
+  void RegisterCommand();
 
   static std::map<int, UartPort*> com_ports_c2a_;     //!< UART ports
   static std::map<int, I2cPort*> i2c_com_ports_c2a_;  //!< I2C ports
