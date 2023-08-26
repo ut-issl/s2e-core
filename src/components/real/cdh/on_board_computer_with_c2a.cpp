@@ -18,6 +18,8 @@
 #include "src_core/System/TaskManager/task_dispatcher.h"
 #include "src_core/System/TimeManager/time_manager.h"
 #include "src_core/System/WatchdogTimer/watchdog_timer.h"
+#include "src_core/TlmCmd/common_cmd_packet_util.h"
+#include "src_core/Library/endian.h"
 #else
 #error "c2a-core version is not supported"
 #endif  // c2a-core version header
@@ -65,9 +67,9 @@ void ObcWithC2a::MainRoutine(const int time_count) {
     is_initialized = true;
     Initialize();
   }
+  AnalyzeCommand();
   for (int i = 0; i < timing_regulator_; i++) {
-    TMGR_count_up_master_clock();  // The update time oc C2A clock should be
-                                   // 1msec
+    TMGR_count_up_master_clock();  // The update time oc C2A clock should be 1msec
     TDSP_execute_pl_as_task_list();
   }
 #else
@@ -75,6 +77,17 @@ void ObcWithC2a::MainRoutine(const int time_count) {
   UNUSED(timing_regulator_);
 #endif
 }
+
+void ObcWithC2a::AnalyzeCommand(){
+  // Command test
+  CMD_CODE cmd_id = Cmd_CODE_APP_AOCS_MANAGER_SET_MASS;
+  float mass = 21.5;
+  uint8_t param[4];
+  uint16_t len = 4;
+  ENDIAN_memcpy(param, &mass, (size_t)len);
+  CCP_register_rtc(cmd_id, param, len);
+}
+
 
 // Override functions
 int ObcWithC2a::ConnectComPort(int port_id, int tx_buffer_size, int rx_buffer_size) {
