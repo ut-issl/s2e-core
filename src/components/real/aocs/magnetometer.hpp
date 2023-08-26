@@ -96,7 +96,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    * @brief Get constant bias noise at component frame [nT]
    */
   inline libra::Vector<kMagnetometerDimension> GetConstantBiasNoise_c_nT() const { return bias_noise_c_; }
-  
+
  protected:
   libra::Vector<kMagnetometerDimension> magnetic_field_c_nT_{0.0};  //!< Observed magnetic field on the component frame [nT]
   unsigned int sensor_id_ = 0;                                      //!< Sensor ID
