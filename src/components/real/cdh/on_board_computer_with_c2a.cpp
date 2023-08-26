@@ -4,6 +4,8 @@
  */
 
 #include "on_board_computer_with_c2a.hpp"
+#define MAGIC_ENUM_RANGE_MAX 512
+#include <magic_enum.hpp>
 
 #ifdef USE_C2A
 #include "src_core/c2a_core_main.h"
@@ -20,6 +22,7 @@
 #include "src_core/System/WatchdogTimer/watchdog_timer.h"
 #include "src_core/TlmCmd/common_cmd_packet_util.h"
 #include "src_core/Library/endian.h"
+#include "src_user/TlmCmd/command_definitions.h"
 #else
 #error "c2a-core version is not supported"
 #endif  // c2a-core version header
@@ -29,6 +32,12 @@
 std::map<int, UartPort*> ObcWithC2a::com_ports_c2a_;
 std::map<int, I2cPort*> ObcWithC2a::i2c_com_ports_c2a_;
 std::map<int, GpioPort*> ObcWithC2a::gpio_ports_c2a_;
+
+// debug
+typedef enum {
+  TEST_1 = 0,
+  TEST_2 = 0xcb
+}TEST;
 
 ObcWithC2a::ObcWithC2a(ClockGenerator* clock_generator) : OnBoardComputer(clock_generator), timing_regulator_(1) {
   // Initialize();
@@ -80,14 +89,21 @@ void ObcWithC2a::MainRoutine(const int time_count) {
 
 void ObcWithC2a::RegisterCommand(){
   // Command test
-  CMD_CODE cmd_id = Cmd_CODE_APP_AOCS_MANAGER_SET_MASS;
+  std::string cmd_enum_name = "Cmd_CODE_APP_AOCS_MANAGER_SET_MASS";
+  auto cmd_code = magic_enum::enum_cast<CMD_CODE>(cmd_enum_name);
+  //CMD_CODE cmd_id = (CMD_CODE)cmd_code.value();
   float mass = 21.5;
   uint8_t param[4];
   uint16_t len = 4;
   ENDIAN_memcpy(param, &mass, (size_t)len);
-  CCP_register_rtc(cmd_id, param, len);
+  CCP_register_rtc(cmd_code.value(), param, len);
 }
 
+void ObcWithC2a::AnalyzeCommandLine()
+{
+  std::string cmd_line = ".AOBC_RT.Cmd_APP_AOCS_MANAGER_SET_MASS 22.8 # MPU TLM ERROR";
+
+}
 
 // Override functions
 int ObcWithC2a::ConnectComPort(int port_id, int tx_buffer_size, int rx_buffer_size) {

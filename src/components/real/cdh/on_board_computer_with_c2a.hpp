@@ -271,6 +271,12 @@ class ObcWithC2a : public OnBoardComputer {
    */
   void RegisterCommand();
 
+  /**
+   * @fn AnalyzeCommandLine
+   * @brief Analyze Command Line
+   */
+  void AnalyzeCommandLine();
+
   static std::map<int, UartPort*> com_ports_c2a_;     //!< UART ports
   static std::map<int, I2cPort*> i2c_com_ports_c2a_;  //!< I2C ports
   static std::map<int, GpioPort*> gpio_ports_c2a_;    //!< GPIO ports
