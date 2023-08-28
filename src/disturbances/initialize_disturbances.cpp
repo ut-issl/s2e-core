@@ -10,20 +10,6 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const std::string initialize_file_path, const std::vector<Surface>& surfaces,
-                                                                        const Vector<3>& center_of_gravity_b_m) {
-  auto conf = IniAccess(initialize_file_path);
-  const char* section = "SOLAR_RADIATION_PRESSURE_DISTURBANCE";
-
-  const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
-  const bool is_log_enable = conf.ReadEnable(section, LOG_LABEL);
-
-  SolarRadiationPressureDisturbance srp_disturbance(surfaces, center_of_gravity_b_m, is_calc_enable);
-  srp_disturbance.is_log_enabled_ = is_log_enable;
-
-  return srp_disturbance;
-}
-
 GravityGradient InitGravityGradient(const std::string initialize_file_path) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "GRAVITY_GRADIENT";
