@@ -60,6 +60,7 @@ std::string Orbit::GetLogHeader() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector("spacecraft_position", "i", "m", 3);
+  str_tmp += WriteVector("spacecraft_position", "ecef", "m", 3);
   str_tmp += WriteVector("spacecraft_velocity", "i", "m/s", 3);
   str_tmp += WriteVector("spacecraft_velocity", "b", "m/s", 3);
   str_tmp += WriteVector("spacecraft_acceleration", "i", "m/s2", 3);
@@ -74,6 +75,7 @@ std::string Orbit::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector(spacecraft_position_i_m_, 16);
+  str_tmp += WriteVector(spacecraft_position_ecef_m_, 16);
   str_tmp += WriteVector(spacecraft_velocity_i_m_s_, 10);
   str_tmp += WriteVector(spacecraft_velocity_b_m_s_, 10);
   str_tmp += WriteVector(spacecraft_acceleration_i_m_s2_, 10);
