@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 
+#include "library/initialize/initialize_file_access.hpp"
 #include "library/math/constants.hpp"
 
 HipparcosCatalogue::HipparcosCatalogue(double max_magnitude, std::string catalogue_path)
@@ -81,4 +82,20 @@ std::string HipparcosCatalogue::GetLogValue() const {
   std::string str_tmp = "";
 
   return str_tmp;
+}
+
+HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name) {
+  IniAccess ini_file(file_name);
+  const char* section = "HIPPARCOS_CATALOGUE";
+
+  std::string catalogue_path = ini_file.ReadString(section, "catalogue_file_path");
+  double max_magnitude = ini_file.ReadDouble(section, "max_magnitude");
+
+  HipparcosCatalogue* hipparcos_catalogue_;
+  hipparcos_catalogue_ = new HipparcosCatalogue(max_magnitude, catalogue_path);
+  hipparcos_catalogue_->IsCalcEnabled = ini_file.ReadEnable(section, INI_CALC_LABEL);
+  hipparcos_catalogue_->is_log_enabled_ = ini_file.ReadEnable(section, INI_LOG_LABEL);
+  hipparcos_catalogue_->ReadContents(catalogue_path, ',');
+
+  return hipparcos_catalogue_;
 }
