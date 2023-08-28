@@ -254,7 +254,7 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
   celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body);
 
   // log setting
-  celestial_info->is_log_enabled_ = ini_file.ReadEnable(section, LOG_LABEL);
+  celestial_info->is_log_enabled_ = ini_file.ReadEnable(section, INI_LOG_LABEL);
 
   return celestial_info;
 }
