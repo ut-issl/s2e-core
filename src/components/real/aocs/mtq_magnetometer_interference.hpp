@@ -3,34 +3,24 @@
  * @brief Class for MTQ Magnetometer interference
  */
 
-#ifndef S2E_COMPONENTS_REAL_AOCS_MTQ_MAGNETORQUER_INTERFERENCE_HPP_
-#define S2E_COMPONENTS_REAL_AOCS_MTQ_MAGNETORQUER_INTERFERENCE_HPP_
+#ifndef S2E_COMPONENTS_REAL_AOCS_MTQ_MAGNETOMETER_INTERFERENCE_HPP_
+#define S2E_COMPONENTS_REAL_AOCS_MTQ_MAGNETOMETER_INTERFERENCE_HPP_
 
 #include "magnetometer.hpp"
 #include "magnetorquer.hpp"
 
 /**
- * @enum
- * @brief
- */
-enum class MtqPreviousState {
-  kPlus,  //!< Plus output
-  kZero,  //!< Zero output
-  kMinus  //!< Minus output
-};
-
-/**
- * @class MtqMagnetorquerInterference
+ * @class MtqMagnetometerInterference
  * @brief Class for MTQ Magnetometer interference
  */
-class MtqMagnetorquerInterference {
+class MtqMagnetometerInterference {
  public:
   /**
-   * @fn MtqMagnetorquerInterference
+   * @fn MtqMagnetometerInterference
    * @brief Constructor
    * @param[in] ini_file: initialize file
    */
-  MtqMagnetorquerInterference(const std::string file_name, Magnetometer& magnetometer, const Magnetorquer& magnetorquer);
+  MtqMagnetometerInterference(const std::string file_name, Magnetometer& magnetometer, const Magnetorquer& magnetorquer);
 
   /**
    * @fn UpdateInterference
@@ -47,4 +37,4 @@ class MtqMagnetorquerInterference {
   const Magnetorquer& magnetorquer_;  //!< Magnetorquer
 };
 
-#endif  // S2E_COMPONENTS_REAL_AOCS_MTQ_MAGNETORQUER_INTERFERENCE_HPP_
+#endif  // S2E_COMPONENTS_REAL_AOCS_MTQ_MAGNETOMETER_INTERFERENCE_HPP_

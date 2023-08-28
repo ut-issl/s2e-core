@@ -97,7 +97,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // Component interference
   file_name = iniAccess.ReadString("COMPONENT_FILES", "component_interference_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
-  mtq_magnetometer_interference_ = new MtqMagnetorquerInterference(file_name, *magnetometer_, *magnetorquer_);
+  mtq_magnetometer_interference_ = new MtqMagnetometerInterference(file_name, *magnetometer_, *magnetorquer_);
 
   // PCU power port initial control
   pcu_->GetPowerPort(0)->SetVoltage_V(3.3);

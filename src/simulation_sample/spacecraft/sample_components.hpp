@@ -109,7 +109,7 @@ class SampleComponents : public InstalledComponents {
   Antenna* antenna_;  //!< Antenna
 
   // Component Interference
-  MtqMagnetorquerInterference* mtq_magnetometer_interference_;  //!< Additional Bias noise by MTQ-Magnetometer interference
+  MtqMagnetometerInterference* mtq_magnetometer_interference_;  //!< Additional Bias noise by MTQ-Magnetometer interference
 
   // Examples
   // ExampleChangeStructure* change_structure_;  //!< Change structure

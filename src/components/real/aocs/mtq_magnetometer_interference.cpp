@@ -7,7 +7,7 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-MtqMagnetorquerInterference::MtqMagnetorquerInterference(const std::string file_name, Magnetometer& magnetometer, const Magnetorquer& magnetorquer)
+MtqMagnetometerInterference::MtqMagnetometerInterference(const std::string file_name, Magnetometer& magnetometer, const Magnetorquer& magnetorquer)
     : magnetometer_(magnetometer), magnetorquer_(magnetorquer) {
   // Read ini file
   IniAccess ini_file(file_name);
@@ -29,7 +29,7 @@ MtqMagnetorquerInterference::MtqMagnetorquerInterference(const std::string file_
   }
 }
 
-void MtqMagnetorquerInterference::UpdateInterference(void) {
+void MtqMagnetometerInterference::UpdateInterference(void) {
   // Subtract previous added bias to avoid double addition
   magnetometer_.AddConstantBiasNoise_c_nT(-1.0 * previous_added_bias_c_nT_);
 
