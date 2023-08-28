@@ -15,13 +15,6 @@
 #include <disturbances/third_body_gravity.hpp>
 
 /**
- * @fn InitGeopotential
- * @brief Initialize Geopotential class with earth gravitational constant
- * @param [in] initialize_file_path: Initialize file path
- */
-Geopotential InitGeopotential(const std::string initialize_file_path);
-
-/**
  * @fn InitLunarGravityField
  * @brief Initialize LunarGravityField class with earth gravitational constant
  * @param [in] initialize_file_path: Initialize file path

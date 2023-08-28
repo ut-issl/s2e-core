@@ -10,20 +10,6 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-Geopotential InitGeopotential(const std::string initialize_file_path) {
-  auto conf = IniAccess(initialize_file_path);
-  const char* section = "GEOPOTENTIAL";
-
-  const int degree = conf.ReadInt(section, "degree");
-  const std::string coefficients_file_path = conf.ReadString(section, "coefficients_file_path");
-
-  const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
-  Geopotential geopotential_disturbance(degree, coefficients_file_path, is_calc_enable);
-  geopotential_disturbance.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
-
-  return geopotential_disturbance;
-}
-
 LunarGravityField InitLunarGravityField(const std::string initialize_file_path) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "LUNAR_GRAVITY_FIELD";
