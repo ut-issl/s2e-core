@@ -67,4 +67,12 @@ class MagneticDisturbance : public Disturbance {
   libra::Vector<3> CalcTorque_b_Nm(const libra::Vector<3>& magnetic_field_b_nT);
 };
 
+/**
+ * @fn InitMagneticDisturbance
+ * @brief Initialize MagneticDisturbance class with earth gravitational constant
+ * @param [in] initialize_file_path: Initialize file path
+ * @param [in] rmm_params: RMM parameters
+ */
+MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params);
+
 #endif  // S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_HPP_

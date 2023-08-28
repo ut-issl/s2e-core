@@ -10,17 +10,6 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params) {
-  auto conf = IniAccess(initialize_file_path);
-  const char* section = "MAGNETIC_DISTURBANCE";
-
-  const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
-  MagneticDisturbance mag_disturbance(rmm_params, is_calc_enable);
-  mag_disturbance.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
-
-  return mag_disturbance;
-}
-
 Geopotential InitGeopotential(const std::string initialize_file_path) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "GEOPOTENTIAL";

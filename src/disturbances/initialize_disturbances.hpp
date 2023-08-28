@@ -15,14 +15,6 @@
 #include <disturbances/third_body_gravity.hpp>
 
 /**
- * @fn InitMagneticDisturbance
- * @brief Initialize MagneticDisturbance class with earth gravitational constant
- * @param [in] initialize_file_path: Initialize file path
- * @param [in] rmm_params: RMM parameters
- */
-MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params);
-
-/**
  * @fn InitGeopotential
  * @brief Initialize Geopotential class with earth gravitational constant
  * @param [in] initialize_file_path: Initialize file path
