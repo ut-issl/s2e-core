@@ -6,11 +6,14 @@
 #ifndef S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_
 #define S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_
 
+#include <environment/local/local_celestial_information.hpp>
 #include <library/logger/loggable.hpp>
 #include <library/math/matrix_vector.hpp>
 #include <library/math/quaternion.hpp>
 #include <simulation/monte_carlo_simulation/simulation_object.hpp>
 #include <string>
+
+#include "../orbit/orbit.hpp"
 
 /**
  * @class Attitude
@@ -135,5 +138,18 @@ class Attitude : public ILoggable, public SimulationObject {
    */
   void CalcAngularMomentum(void);
 };
+
+/**
+ * @fn InitAttitude
+ * @brief Initialize function for Attitude
+ * @param [in] file_name: Path to the initialize file
+ * @param [in] orbit: Orbit information
+ * @param [in] local_celestial_information: Celestial information
+ * @param [in] step_width_s: Step width [sec]
+ * @param [in] inertia_tensor_kgm2: Inertia tensor [kg m^2]
+ * @param [in] spacecraft_id: Satellite ID
+ */
+Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
+                       const double step_width_s, const libra::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id);
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_
