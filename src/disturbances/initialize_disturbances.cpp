@@ -10,23 +10,6 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Surface>& surfaces, const Vector<3>& center_of_gravity_b_m) {
-  auto conf = IniAccess(initialize_file_path);
-  const char* section = "AIR_DRAG";
-
-  const double wall_temperature_K = conf.ReadDouble(section, "wall_temperature_degC") + 273.0;
-  const double molecular_temperature_K = conf.ReadDouble(section, "molecular_temperature_degC") + 273.0;
-  const double molecular_weight_g_mol = conf.ReadDouble(section, "molecular_weight_g_mol");
-
-  const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
-  const bool is_log_enable = conf.ReadEnable(section, LOG_LABEL);
-
-  AirDrag air_drag(surfaces, center_of_gravity_b_m, wall_temperature_K, molecular_temperature_K, molecular_weight_g_mol, is_calc_enable);
-  air_drag.is_log_enabled_ = is_log_enable;
-
-  return air_drag;
-}
-
 SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const std::string initialize_file_path, const std::vector<Surface>& surfaces,
                                                                         const Vector<3>& center_of_gravity_b_m) {
   auto conf = IniAccess(initialize_file_path);

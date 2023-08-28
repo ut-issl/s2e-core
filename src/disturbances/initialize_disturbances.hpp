@@ -15,15 +15,6 @@
 #include <disturbances/third_body_gravity.hpp>
 
 /**
- * @fn InitAirDrag
- * @brief Initialize AirDrag class
- * @param [in] initialize_file_path: Initialize file path
- * @param [in] surfaces: surface information of the spacecraft
- * @param [in] center_of_gravity_b_m: Center of gravity position vector at body frame [m]
- */
-AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Surface>& surfaces, const Vector<3>& center_of_gravity_b_m);
-
-/**
  * @fn InitSolarRadiationPressureDisturbance
  * @brief Initialize SolarRadiationPressureDisturbance class
  * @param [in] initialize_file_path: Initialize file path
