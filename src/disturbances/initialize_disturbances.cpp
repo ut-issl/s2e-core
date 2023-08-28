@@ -10,28 +10,6 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-GravityGradient InitGravityGradient(const std::string initialize_file_path) {
-  auto conf = IniAccess(initialize_file_path);
-  const char* section = "GRAVITY_GRADIENT";
-
-  const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
-  GravityGradient gg_disturbance(is_calc_enable);
-  gg_disturbance.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
-
-  return gg_disturbance;
-}
-
-GravityGradient InitGravityGradient(const std::string initialize_file_path, const double gravity_constant_m3_s2) {
-  auto conf = IniAccess(initialize_file_path);
-  const char* section = "GRAVITY_GRADIENT";
-
-  const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
-  GravityGradient gg_disturbance(gravity_constant_m3_s2, is_calc_enable);
-  gg_disturbance.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
-
-  return gg_disturbance;
-}
-
 MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params) {
   auto conf = IniAccess(initialize_file_path);
   const char* section = "MAGNETIC_DISTURBANCE";
