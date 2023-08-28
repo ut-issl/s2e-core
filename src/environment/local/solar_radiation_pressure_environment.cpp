@@ -101,8 +101,8 @@ SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::str
   const char* section = "SOLAR_RADIATION_PRESSURE_ENVIRONMENT";
 
   SolarRadiationPressureEnvironment srp_env(local_celestial_information);
-  srp_env.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
-  srp_env.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
+  srp_env.IsCalcEnabled = conf.ReadEnable(section, INI_CALC_LABEL);
+  srp_env.is_log_enabled_ = conf.ReadEnable(section, INI_LOG_LABEL);
 
   return srp_env;
 }

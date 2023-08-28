@@ -80,8 +80,8 @@ GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
   double mag_wnvar = conf.ReadDouble(section, "magnetic_field_white_noise_standard_deviation_nT");
 
   GeomagneticField geomagnetic_field(fname, mag_rwdev, mag_rwlimit, mag_wnvar);
-  geomagnetic_field.IsCalcEnabled = conf.ReadEnable(section, CALC_LABEL);
-  geomagnetic_field.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
+  geomagnetic_field.IsCalcEnabled = conf.ReadEnable(section, INI_CALC_LABEL);
+  geomagnetic_field.is_log_enabled_ = conf.ReadEnable(section, INI_LOG_LABEL);
 
   return geomagnetic_field;
 }
