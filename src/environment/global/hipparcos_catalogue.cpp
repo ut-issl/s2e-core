@@ -7,11 +7,11 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <library/initialize/initialize_file_access.hpp>
 #include <sstream>
 #include <string>
 #include <vector>
 
+#include "library/initialize/initialize_file_access.hpp"
 #include "library/math/constants.hpp"
 
 HipparcosCatalogue::HipparcosCatalogue(double max_magnitude, std::string catalogue_path)
@@ -93,8 +93,8 @@ HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name) {
 
   HipparcosCatalogue* hipparcos_catalogue_;
   hipparcos_catalogue_ = new HipparcosCatalogue(max_magnitude, catalogue_path);
-  hipparcos_catalogue_->IsCalcEnabled = ini_file.ReadEnable(section, CALC_LABEL);
-  hipparcos_catalogue_->is_log_enabled_ = ini_file.ReadEnable(section, LOG_LABEL);
+  hipparcos_catalogue_->IsCalcEnabled = ini_file.ReadEnable(section, INI_CALC_LABEL);
+  hipparcos_catalogue_->is_log_enabled_ = ini_file.ReadEnable(section, INI_LOG_LABEL);
   hipparcos_catalogue_->ReadContents(catalogue_path, ',');
 
   return hipparcos_catalogue_;
