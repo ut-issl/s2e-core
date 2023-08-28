@@ -10,7 +10,6 @@
 #include "air_drag.hpp"
 #include "geopotential.hpp"
 #include "gravity_gradient.hpp"
-#include "initialize_disturbances.hpp"
 #include "lunar_gravity_field.hpp"
 #include "magnetic_disturbance.hpp"
 #include "solar_radiation_pressure_disturbance.hpp"
