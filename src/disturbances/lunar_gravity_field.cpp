@@ -10,6 +10,7 @@
 #include <environment/global/physical_constants.hpp>
 #include <fstream>
 #include <iostream>
+#include <library/initialize/initialize_file_access.hpp>
 
 #include "../library/logger/log_utility.hpp"
 #include "../library/utilities/macros.hpp"
@@ -130,4 +131,19 @@ std::string LunarGravityField::GetLogValue() const {
   str_tmp += WriteVector(acceleration_mcmf_m_s2_, 15);
 
   return str_tmp;
+}
+
+LunarGravityField InitLunarGravityField(const std::string initialize_file_path) {
+  auto conf = IniAccess(initialize_file_path);
+  const char *section = "LUNAR_GRAVITY_FIELD";
+
+  const int degree = conf.ReadInt(section, "degree");
+  const std::string coefficients_file_path = conf.ReadString(section, "coefficients_file_path");
+
+  const bool is_calc_enable = conf.ReadEnable(section, INI_CALC_LABEL);
+
+  LunarGravityField lunar_gravity_field(degree, coefficients_file_path, is_calc_enable);
+  lunar_gravity_field.is_log_enabled_ = conf.ReadEnable(section, INI_LOG_LABEL);
+
+  return lunar_gravity_field;
 }

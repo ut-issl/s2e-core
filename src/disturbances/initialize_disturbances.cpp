@@ -10,21 +10,6 @@
 #define CALC_LABEL "calculation"
 #define LOG_LABEL "logging"
 
-LunarGravityField InitLunarGravityField(const std::string initialize_file_path) {
-  auto conf = IniAccess(initialize_file_path);
-  const char* section = "LUNAR_GRAVITY_FIELD";
-
-  const int degree = conf.ReadInt(section, "degree");
-  const std::string coefficients_file_path = conf.ReadString(section, "coefficients_file_path");
-
-  const bool is_calc_enable = conf.ReadEnable(section, CALC_LABEL);
-
-  LunarGravityField lunar_gravity_field(degree, coefficients_file_path, is_calc_enable);
-  lunar_gravity_field.is_log_enabled_ = conf.ReadEnable(section, LOG_LABEL);
-
-  return lunar_gravity_field;
-}
-
 ThirdBodyGravity InitThirdBodyGravity(const std::string initialize_file_path, const std::string ini_path_celes) {
   // Generate a list of bodies to be calculated in "CelesInfo"
   auto conf_celes = IniAccess(ini_path_celes);

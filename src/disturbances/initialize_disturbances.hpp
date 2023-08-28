@@ -15,13 +15,6 @@
 #include <disturbances/third_body_gravity.hpp>
 
 /**
- * @fn InitLunarGravityField
- * @brief Initialize LunarGravityField class with earth gravitational constant
- * @param [in] initialize_file_path: Initialize file path
- */
-LunarGravityField InitLunarGravityField(const std::string initialize_file_path);
-
-/**
  * @fn InitThirdBodyGravity
  * @brief Initialize ThirdBodyGravity class with earth gravitational constant
  * @param [in] initialize_file_path: Initialize file path
