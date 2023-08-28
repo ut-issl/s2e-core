@@ -14,12 +14,4 @@
 #include <disturbances/solar_radiation_pressure_disturbance.hpp>
 #include <disturbances/third_body_gravity.hpp>
 
-/**
- * @fn InitThirdBodyGravity
- * @brief Initialize ThirdBodyGravity class with earth gravitational constant
- * @param [in] initialize_file_path: Initialize file path
- * @param [in] ini_path_celes: Initialize file path for the celestial information
- */
-ThirdBodyGravity InitThirdBodyGravity(const std::string initialize_file_path, const std::string ini_path_celes);
-
 #endif  // S2E_DISTURBANCES_INITIALIZE_DISTURBANCES_HPP_
