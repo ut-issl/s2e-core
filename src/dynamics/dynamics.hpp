@@ -13,7 +13,7 @@
 #include "../simulation/simulation_configuration.hpp"
 #include "../simulation/spacecraft/structure/structure.hpp"
 #include "dynamics/attitude/attitude.hpp"
-#include "dynamics/orbit/initialize_orbit.hpp"
+#include "dynamics/orbit/orbit.hpp"
 #include "dynamics/thermal/initialize_node.hpp"
 #include "dynamics/thermal/initialize_temperature.hpp"
 
