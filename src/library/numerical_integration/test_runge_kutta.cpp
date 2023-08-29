@@ -85,7 +85,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRk4) {
 }
 
 /**
- * @brief Test for integration with nominal linear function with NumericalIntegratorManager/RK4
+ * @brief Test for integration with nominal linear function with NumericalIntegratorManager/RKF
  */
 TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRkf) {
   double step_width_s = 0.1;
@@ -102,7 +102,11 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRkf) {
   }
   state = numerical_integrator.GetIntegrator()->GetState();
   double estimated_result = step_width_s * step_num;
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
 
+  double sigma = 0.1;
+  state = numerical_integrator.GetIntegrator()->CalcInterpolationState(sigma);
+  estimated_result = step_width_s * (double(step_num) - 1.0 + sigma);
   EXPECT_NEAR(estimated_result, state[0], 1e-6);
 }
 

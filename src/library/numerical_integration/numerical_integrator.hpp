@@ -56,6 +56,14 @@ class NumericalIntegrator {
    */
   inline const Vector<N>& GetState() const { return current_state_; }
 
+  /**
+   * @fn CalcInterpolationState
+   * @brief Calculate interpolation state.
+   * @param [in] sigma: Sigma value (0 < sigma < 1) for interpolation
+   * @return : interpolated state x(t0 + sigma * h)
+   */
+  virtual Vector<N> CalcInterpolationState(const double sigma) const = 0;
+
  protected:
   // Settings
   double step_width_;  //!< Step width. The unit is depending on the independent variable

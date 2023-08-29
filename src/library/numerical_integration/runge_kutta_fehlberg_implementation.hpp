@@ -62,7 +62,7 @@ RungeKuttaFehlberg<N>::RungeKuttaFehlberg(const double step_width, const Interfa
 }
 
 template <size_t N>
-Vector<N> RungeKuttaFehlberg<N>::CalcInterpolationState(const double sigma) {
+Vector<N> RungeKuttaFehlberg<N>::CalcInterpolationState(const double sigma) const {
   // Calc k7 (slope after state update)
   Vector<N> state_7 =
       this->previous_state_ + this->step_width_ * (1.0 / 6.0 * this->slope_[0] + 1.0 / 6.0 * this->slope_[4] + 2.0 / 3.0 * this->slope_[5]);
