@@ -13,6 +13,7 @@ template <size_t N>
 void EmbeddedRungeKutta<N>::Integrate() {
   this->CalcSlope();
 
+  this->previous_state_ = this->current_state_;
   Vector<N> lower_current_state = this->current_state_;   //!< eta in the equation
   Vector<N> higher_current_state = this->current_state_;  //!< eta_hat in the equation
   for (size_t i = 0; i < this->number_of_stages_; i++) {
