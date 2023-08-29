@@ -170,6 +170,11 @@ TEST(NUMERICAL_INTEGRATION, InterpolationQuadraticRkf) {
   state = rkf_ode.CalcInterpolationState(sigma);
   estimated_result = (step_width_s * sigma) * (step_width_s * sigma);
   EXPECT_NEAR(estimated_result, state[0], 1e-6);
+
+  sigma = 0.515;
+  state = rkf_ode.CalcInterpolationState(sigma);
+  estimated_result = (step_width_s * sigma) * (step_width_s * sigma);
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
 }
 
 /**
