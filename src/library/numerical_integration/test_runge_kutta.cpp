@@ -149,6 +149,30 @@ TEST(NUMERICAL_INTEGRATION, IntegrateQuadraticRkf) {
 }
 
 /**
+ * @brief Test for interpolation with quadratic function with RKF
+ */
+TEST(NUMERICAL_INTEGRATION, InterpolationQuadraticRkf) {
+  double step_width_s = 10.0;
+  libra::numerical_integration::ExampleQuadraticOde ode;
+  libra::numerical_integration::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
+
+  libra::Vector<1> state = rkf_ode.GetState();
+  EXPECT_DOUBLE_EQ(0.0, state[0]);
+
+  rkf_ode.Integrate();
+
+  // Final value
+  state = rkf_ode.GetState();
+  double estimated_result = step_width_s * step_width_s;
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+  // Interpolation value
+  double sigma = 0.1;
+  state = rkf_ode.CalcInterpolationState(sigma);
+  estimated_result = (step_width_s * sigma) * (step_width_s * sigma);
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+}
+
+/**
  * @brief Test for integration with 1D position and velocity function with RK4
  */
 TEST(NUMERICAL_INTEGRATION, Integrate1dPositionVelocityRk4) {
