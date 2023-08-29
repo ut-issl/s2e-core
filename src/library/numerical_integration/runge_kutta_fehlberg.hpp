@@ -38,7 +38,7 @@ class RungeKuttaFehlberg : public EmbeddedRungeKutta<N> {
    * @param [in] sigma: Sigma value (0 < sigma < 1) for interpolation
    * @return : weights for interpolation
    */
-  std::vector<double> CalcInterpolationWeights(const double sigma);
+  std::vector<double> CalcInterpolationWeights(const double sigma) const;
 };
 
 }  // namespace libra::numerical_integration

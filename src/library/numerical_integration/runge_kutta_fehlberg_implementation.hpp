@@ -78,7 +78,7 @@ Vector<N> RungeKuttaFehlberg<N>::CalcInterpolationState(const double sigma) {
 }
 
 template <size_t N>
-std::vector<double> RungeKuttaFehlberg<N>::CalcInterpolationWeights(const double sigma) {
+std::vector<double> RungeKuttaFehlberg<N>::CalcInterpolationWeights(const double sigma) const {
   std::vector<double> interpolation_weights;
   interpolation_weights.assign(this->number_of_stages_ + 1, 0.0);
 
