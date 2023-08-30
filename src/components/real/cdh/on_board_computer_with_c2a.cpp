@@ -11,8 +11,8 @@
 #include <string>
 
 #ifdef USE_C2A
-#include "src_core/c2a_core_main.h"
 #include "library/initialize/c2a_command_database.hpp"
+#include "src_core/c2a_core_main.h"
 
 #if C2A_CORE_VER_MAJOR == 4
 // c2a-core v4
@@ -55,9 +55,7 @@ ObcWithC2a::ObcWithC2a(int prescaler, ClockGenerator* clock_generator, int timin
   // Initialize();
 }
 
-ObcWithC2a::~ObcWithC2a(){
-  delete command_database_;
-}
+ObcWithC2a::~ObcWithC2a() { delete command_database_; }
 
 void ObcWithC2a::Initialize() {
 #ifdef USE_C2A
@@ -93,11 +91,10 @@ void ObcWithC2a::MainRoutine(const int time_count) {
 }
 
 void ObcWithC2a::RegisterCommand() {
-  //AnalyzeCommandLine(".AOBC_RT.Cmd_CODE_APP_AOCS_MANAGER_SET_MASS 22.6 # MPU TLM ERROR");
+  AnalyzeCommandLine(".AOBC_RT.Cmd_CODE_APP_AOCS_MANAGER_SET_MASS 22.6 # MPU TLM ERROR");
 
   // Command test
   std::string cmd_enum_name = "Cmd_APP_AOCS_MANAGER_SET_MASS";
-  // auto cmd_code = magic_enum::enum_cast<CMD_CODE>(cmd_enum_name);
   CMD_CODE cmd_code = (CMD_CODE)command_database_->GetCommandInformation(cmd_enum_name).GetCommandId();
   // CMD_CODE cmd_id = (CMD_CODE)cmd_code.value();
   float mass = 21.5;
@@ -129,27 +126,34 @@ void ObcWithC2a::AnalyzeCommandLine(const std::string input_line) {
   }
 
   // コマンド認識
-  if (tokens[0].find("AOBC_RT") == 0) {
+  if (tokens[0].find("AOBC_RT") == 0) {  // FIXME AOBC以外も対応する
     // C2Aコマンドとして処理
+    // Command Code 取得
     std::string cmd_enum_name = tokens[0].substr(8);
-    auto cmd_code = magic_enum::enum_cast<CMD_CODE>(cmd_enum_name);
-    CMD_CODE cmd_id = (CMD_CODE)cmd_code.value();
-    // 引数処理
+    cmd_enum_name = "Cmd" + cmd_enum_name.substr(8);
+    C2aCommandInformation cmd_info = command_database_->GetCommandInformation(cmd_enum_name);
+    if (cmd_info.GetCommandName() == "Error") {
+      // TODO エラー処理
+    }
+    CMD_CODE cmd_id = (CMD_CODE)cmd_info.GetCommandId();
+
+    // 引数取得
     std::vector<std::string> arguments;
     for (size_t i = 1; i < tokens.size(); i++) {
       arguments.push_back(tokens[i]);
     }
     // 引数個数確認
-    if (arguments.size() != CA_get_cmd_param_num(cmd_id)) {
-      // エラー処理
+    if (arguments.size() != cmd_info.GetNumberOfArgument()) {
+      // TODO エラー処理
     }
+
     // 引数処理
     uint8_t param[CSP_MAX_LEN];
     uint16_t param_len = 0;
     for (size_t arg_num = 0; arg_num < arguments.size(); arg_num++) {
-      uint8_t len = CA_get_cmd_param_size(cmd_id, arg_num);
-      ENDIAN_memcpy(param + param_len, &arguments[arg_num], (size_t)len);
-      param_len += len;
+      size_t len = 0;
+      DecodeArgument(cmd_info.GetArgumentType(arg_num), arguments[arg_num], param + param_len, len);
+      param_len += (uint16_t)len;
     }
     // コマンド送信
     CCP_register_rtc(cmd_id, param, param_len);

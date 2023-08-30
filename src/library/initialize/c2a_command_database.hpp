@@ -6,24 +6,11 @@
 #ifndef S2E_LIBRARY_INITIALIZE_C2_COMMAND_DATABASE_HPP_
 #define S2E_LIBRARY_INITIALIZE_C2_COMMAND_DATABASE_HPP_
 
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
-enum class C2aArgumentType{
-  kUint8t,
-  kUint16t,
-  kUint32t,
-  kUint64t,
-  kInt8t,
-  kInt16t,
-  kInt32t,
-  kInt64t,
-  kFloat,
-  kDouble,
-  kRaw,
-  kError
-};
+enum class C2aArgumentType { kUint8t, kUint16t, kUint32t, kUint64t, kInt8t, kInt16t, kInt32t, kInt64t, kFloat, kDouble, kRaw, kError };
 
 /**
  * @class C2aCommandDatabase
@@ -31,12 +18,12 @@ enum class C2aArgumentType{
  */
 class C2aCommandInformation {
  public:
-  C2aCommandInformation(){}
+  C2aCommandInformation() {}
   C2aCommandInformation(const std::string cmd_db_line);
 
   // Getter
-  inline std::string GetCommandName() const {return command_name_;}
-  inline size_t GetCommandId() const {return command_id_;}
+  inline std::string GetCommandName() const { return command_name_; }
+  inline size_t GetCommandId() const { return command_id_; }
   inline size_t GetNumberOfArgument() const { return argument_type_info_.size(); }
   C2aArgumentType GetArgumentType(const size_t argument_id);
 
@@ -63,14 +50,16 @@ class C2aCommandDatabase {
   C2aCommandDatabase(const std::string file_path);
 
   // Getter
+  /**
+   * @fn GetCommandInformation
+   * @brief Return C2A command information
+   * @param[in] command_name: Command Name
+   */
   inline C2aCommandInformation GetCommandInformation(const std::string command_name) const {
     auto itr = command_map_.find(command_name);
-    if (itr != command_map_.end())
-    {
+    if (itr != command_map_.end()) {
       return itr->second;
-    }
-    else
-    {
+    } else {
       return C2aCommandInformation();
     }
   }
@@ -78,5 +67,7 @@ class C2aCommandDatabase {
  private:
   std::map<std::string, C2aCommandInformation> command_map_;
 };
+
+void DecodeArgument(const C2aArgumentType type, const std::string argument_string, uint8_t* param, size_t& size_param);
 
 #endif  // S2E_LIBRARY_INITIALIZE_C2_COMMAND_DATABASE_HPP_
