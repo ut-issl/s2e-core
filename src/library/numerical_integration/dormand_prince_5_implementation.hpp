@@ -14,7 +14,7 @@ namespace libra::numerical_integration {
 
 template <size_t N>
 DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>& ode) : EmbeddedRungeKutta<N>(step_width, ode) {
-  // p=5th/q=6th order 5th order Dormand and Prince (7-stage)
+  // p=5th/q=4th order 5th order Dormand and Prince (7-stage)
   this->number_of_stages_ = 7;
   this->approximation_order_ = 5;
   this->nodes_.assign(this->number_of_stages_, 0.0);
@@ -22,6 +22,7 @@ DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>
   this->higher_order_weights_.assign(this->number_of_stages_, 0.0);
   this->rk_matrix_.assign(this->number_of_stages_, std::vector<double>(this->number_of_stages_, 0.0));
 
+  this->nodes_[0] = 0.0;
   this->nodes_[1] = 1.0 / 5.0;
   this->nodes_[2] = 3.0 / 10.0;
   this->nodes_[3] = 4.0 / 5.0;
@@ -29,21 +30,21 @@ DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>
   this->nodes_[5] = 1.0;
   this->nodes_[6] = 1.0;
 
-  this->higher_order_weights_[0] = 5179.0 / 57600.0;
-  this->higher_order_weights_[1] = 0.0;
-  this->higher_order_weights_[2] = 7571.0 / 16695.0;
-  this->higher_order_weights_[3] = 393.0 / 640.0;
-  this->higher_order_weights_[4] = -92097.0 / 339200.0;
-  this->higher_order_weights_[5] = 187.0 / 2100.0;
-  this->higher_order_weights_[6] = 1.0 / 40.0;
-
-  this->weights_[0] = 35.0 / 384.0;
+  this->weights_[0] = 5179.0 / 57600.0;
   this->weights_[1] = 0.0;
-  this->weights_[2] = 500.0 / 1113.0;
-  this->weights_[3] = 125.0 / 192.0;
-  this->weights_[4] = -2187.0 / 6784.0;
-  this->weights_[5] = 11.0 / 84.0;
-  this->weights_[6] = 0.0;
+  this->weights_[2] = 7571.0 / 16695.0;
+  this->weights_[3] = 393.0 / 640.0;
+  this->weights_[4] = -92097.0 / 339200.0;
+  this->weights_[5] = 187.0 / 2100.0;
+  this->weights_[6] = 1.0 / 40.0;
+
+  this->higher_order_weights_[0] = 35.0 / 384.0;
+  this->higher_order_weights_[1] = 0.0;
+  this->higher_order_weights_[2] = 500.0 / 1113.0;
+  this->higher_order_weights_[3] = 125.0 / 192.0;
+  this->higher_order_weights_[4] = -2187.0 / 6784.0;
+  this->higher_order_weights_[5] = 11.0 / 84.0;
+  this->higher_order_weights_[6] = 0.0;
 
   this->rk_matrix_[1][0] = 1.0 / 5.0;
 
@@ -55,7 +56,7 @@ DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>
   this->rk_matrix_[3][2] = 32.0 / 9.0;
 
   this->rk_matrix_[4][0] = 19372.0 / 6561.0;
-  this->rk_matrix_[4][1] = -25630.0 / 2187.0;
+  this->rk_matrix_[4][1] = -25360.0 / 2187.0;
   this->rk_matrix_[4][2] = 64448.0 / 6561.0;
   this->rk_matrix_[4][3] = -212.0 / 729.0;
 

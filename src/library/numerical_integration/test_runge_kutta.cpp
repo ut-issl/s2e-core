@@ -65,6 +65,27 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearRkf) {
 }
 
 /**
+ * @brief Test for integration with nominal linear function with DP5
+ */
+TEST(NUMERICAL_INTEGRATION, IntegrateLinearDp5) {
+  double step_width_s = 0.1;
+  libra::numerical_integration::ExampleLinearOde ode;
+  libra::numerical_integration::DormandPrince5<1> dp5_ode(step_width_s, ode);
+
+  libra::Vector<1> state = dp5_ode.GetState();
+  EXPECT_DOUBLE_EQ(0.0, state[0]);
+
+  size_t step_num = 10000;
+  for (size_t i = 0; i < step_num; i++) {
+    dp5_ode.Integrate();
+  }
+  state = dp5_ode.GetState();
+  double estimated_result = step_width_s * step_num;
+
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+}
+
+/**
  * @brief Test for integration with nominal linear function with NumericalIntegratorManager/RK4
  */
 TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRk4) {
@@ -293,6 +314,36 @@ TEST(NUMERICAL_INTEGRATION, Integrate1dPositionVelocityRkf) {
 }
 
 /**
+ * @brief Test for integration with 1D position and velocity function with DP5
+ */
+TEST(NUMERICAL_INTEGRATION, Integrate1dPositionVelocityDp5) {
+  double step_width_s = 0.1;
+  libra::numerical_integration::Example1dPositionVelocityOde ode;
+  libra::numerical_integration::DormandPrince5<2> dp5_ode(step_width_s, ode);
+
+  libra::Vector<2> initial_state(0.0);
+  initial_state[0] = 0.0;
+  initial_state[1] = 0.1;
+  dp5_ode.SetState(0.0, initial_state);
+
+  libra::Vector<2> state = dp5_ode.GetState();
+  EXPECT_DOUBLE_EQ(initial_state[0], state[0]);
+  EXPECT_DOUBLE_EQ(initial_state[1], state[1]);
+
+  size_t step_num = 10000;
+  for (size_t i = 0; i < step_num; i++) {
+    dp5_ode.Integrate();
+  }
+  state = dp5_ode.GetState();
+  libra::Vector<2> estimated_result(0.0);
+  estimated_result[0] = (step_width_s * step_num) * initial_state[1] + initial_state[0];
+  estimated_result[1] = initial_state[1];
+
+  EXPECT_NEAR(estimated_result[0], state[0], 1e-6);
+  EXPECT_NEAR(estimated_result[1], state[1], 1e-6);
+}
+
+/**
  * @brief Accuracy comparison between RK4 and RKF for integration with 2D two body orbit with small eccentricity
  */
 TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitSmallEccentricity) {
@@ -300,6 +351,7 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitSmallEccentricity) {
   libra::numerical_integration::Example2dTwoBodyOrbitOde ode;
   libra::numerical_integration::RungeKutta4<4> rk4_ode(step_width_s, ode);
   libra::numerical_integration::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
+  libra::numerical_integration::DormandPrince5<4> dp5_ode(step_width_s, ode);
 
   libra::Vector<4> initial_state(0.0);
   const double eccentricity = 0.1;
@@ -309,21 +361,26 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitSmallEccentricity) {
   initial_state[3] = sqrt((1.0 + eccentricity) / (1.0 - eccentricity));
   rk4_ode.SetState(0.0, initial_state);
   rkf_ode.SetState(0.0, initial_state);
+  dp5_ode.SetState(0.0, initial_state);
 
   libra::Vector<4> state_rk4 = rk4_ode.GetState();
   libra::Vector<4> state_rkf = rkf_ode.GetState();
+  libra::Vector<4> state_dp5 = dp5_ode.GetState();
   for (size_t i = 0; i < 4; i++) {
     EXPECT_DOUBLE_EQ(initial_state[i], state_rk4[i]);
     EXPECT_DOUBLE_EQ(initial_state[i], state_rkf[i]);
+    EXPECT_DOUBLE_EQ(initial_state[i], state_dp5[i]);
   }
 
   size_t step_num = 200;
   for (size_t i = 0; i < step_num; i++) {
     rk4_ode.Integrate();
     rkf_ode.Integrate();
+    dp5_ode.Integrate();
   }
   state_rk4 = rk4_ode.GetState();
   state_rkf = rkf_ode.GetState();
+  state_dp5 = dp5_ode.GetState();
 
   // Estimation by Kepler Orbit calculation
   libra::Vector<3> initial_position(0.0);
@@ -348,6 +405,12 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitSmallEccentricity) {
   EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_rkf[1], error_tolerance);
   EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_rkf[2], error_tolerance);
   EXPECT_NEAR(kepler.GetVelocity_i_m_s()[1], state_rkf[3], error_tolerance);
+
+  error_tolerance = 2e-6;
+  EXPECT_NEAR(kepler.GetPosition_i_m()[0], state_dp5[0], error_tolerance);
+  EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_dp5[1], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_dp5[2], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[1], state_dp5[3], error_tolerance);
 }
 
 /**
