@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 
 #include "../orbit/kepler_orbit.hpp"
+#include "dormand_prince_5.hpp"
 #include "numerical_integrator_manager.hpp"
 #include "ode_examples.hpp"
 #include "runge_kutta_4.hpp"
@@ -179,6 +180,56 @@ TEST(NUMERICAL_INTEGRATION, InterpolationQuadraticRkf) {
   state = rkf_ode.CalcInterpolationState(sigma);
   estimated_result = (step_width_s * sigma) * (step_width_s * sigma);
   EXPECT_NEAR(estimated_result, state[0], 1e-6);
+}
+
+/**
+ * @brief Test for integration with quadratic function with DP5
+ */
+TEST(NUMERICAL_INTEGRATION, IntegrateQuadraticDp5) {
+  double step_width_s = 0.1;
+  libra::numerical_integration::ExampleQuadraticOde ode;
+  libra::numerical_integration::DormandPrince5<1> dp5_ode(step_width_s, ode);
+
+  libra::Vector<1> state = dp5_ode.GetState();
+  EXPECT_DOUBLE_EQ(0.0, state[0]);
+
+  size_t step_num = 10000;
+  for (size_t i = 0; i < step_num; i++) {
+    dp5_ode.Integrate();
+  }
+  state = dp5_ode.GetState();
+  double estimated_result = (step_width_s * step_num) * (step_width_s * step_num);
+
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+}
+
+/**
+ * @brief Test for interpolation with quadratic function with DP5
+ */
+TEST(NUMERICAL_INTEGRATION, InterpolationQuadraticDp5) {
+  double step_width_s = 10.0;
+  libra::numerical_integration::ExampleQuadraticOde ode;
+  libra::numerical_integration::DormandPrince5<1> dp5_ode(step_width_s, ode);
+
+  libra::Vector<1> state = dp5_ode.GetState();
+  EXPECT_DOUBLE_EQ(0.0, state[0]);
+
+  dp5_ode.Integrate();
+
+  // Final value
+  state = dp5_ode.GetState();
+  double estimated_result = step_width_s * step_width_s;
+  EXPECT_NEAR(estimated_result, state[0], 1e-8);
+  // Interpolation value
+  double sigma = 0.1;
+  state = dp5_ode.CalcInterpolationState(sigma);
+  estimated_result = (step_width_s * sigma) * (step_width_s * sigma);
+  EXPECT_NEAR(estimated_result, state[0], 1e-8);
+
+  sigma = 0.515;
+  state = dp5_ode.CalcInterpolationState(sigma);
+  estimated_result = (step_width_s * sigma) * (step_width_s * sigma);
+  EXPECT_NEAR(estimated_result, state[0], 1e-8);
 }
 
 /**
