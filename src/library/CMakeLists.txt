@@ -8,6 +8,7 @@ add_library(${PROJECT_NAME} STATIC
   geodesy/geodetic_position.cpp
 
   initialize/initialize_file_access.cpp
+  initialize/c2a_command_database.cpp
 
   logger/logger.cpp
   logger/initialize_log.cpp

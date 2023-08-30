@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_REAL_CDH_OBC_C2A_HPP_
 
 #include <components/ports/gpio_port.hpp>
-
+#include <library/initialize/c2a_command_database.hpp>
 #include "on_board_computer.hpp"
 
 /*
@@ -252,6 +252,7 @@ class ObcWithC2a : public OnBoardComputer {
  private:
   bool is_initialized = false;  //!< Is initialized flag
   const int timing_regulator_;  //!< Timing regulator to update flight software faster than the component update
+  C2aCommandDatabase* command_database_;
 
   // Override functions for Component
   /**
@@ -275,7 +276,7 @@ class ObcWithC2a : public OnBoardComputer {
    * @fn AnalyzeCommandLine
    * @brief Analyze Command Line
    */
-  void AnalyzeCommandLine();
+  void AnalyzeCommandLine(const std::string input_line);
 
   static std::map<int, UartPort*> com_ports_c2a_;     //!< UART ports
   static std::map<int, I2cPort*> i2c_com_ports_c2a_;  //!< I2C ports
