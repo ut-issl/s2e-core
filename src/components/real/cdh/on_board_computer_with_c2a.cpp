@@ -4,12 +4,8 @@
  */
 
 #include "on_board_computer_with_c2a.hpp"
-#include <iostream>
-#include <regex>
-#include <string>
 
 #ifdef USE_C2A
-#include "library/initialize/c2a_command_database.hpp"
 #include "src_core/c2a_core_main.h"
 
 #if C2A_CORE_VER_MAJOR == 4
@@ -19,13 +15,9 @@
 #include "src_core/system/watchdog_timer/watchdog_timer.h"
 #elif C2A_CORE_VER_MAJOR <= 3
 // c2a-core <= v3
-#include "src_core/Library/endian.h"
 #include "src_core/System/TaskManager/task_dispatcher.h"
 #include "src_core/System/TimeManager/time_manager.h"
 #include "src_core/System/WatchdogTimer/watchdog_timer.h"
-#include "src_core/TlmCmd/command_analyze.h"
-#include "src_core/TlmCmd/common_cmd_packet_util.h"
-#include "src_user/TlmCmd/command_definitions.h"
 #else
 #error "c2a-core version is not supported"
 #endif  // c2a-core version header
@@ -50,7 +42,7 @@ ObcWithC2a::ObcWithC2a(int prescaler, ClockGenerator* clock_generator, int timin
   // Initialize();
 }
 
-ObcWithC2a::~ObcWithC2a() { delete command_database_; }
+ObcWithC2a::~ObcWithC2a() {}
 
 void ObcWithC2a::Initialize() {
 #ifdef USE_C2A
@@ -62,7 +54,6 @@ void ObcWithC2a::Initialize() {
 
   TMGR_clear();  // This called in C2A_core_init, but should be called again
                  // just before executing the C2A main loop.
-  command_database_ = new C2aCommandDatabase("../../data/initialize_files/components/ISSL6U_AOBC_CMD_DB_CMD_DB.csv");
 #endif
 }
 
@@ -78,81 +69,10 @@ void ObcWithC2a::MainRoutine(const int time_count) {
     TMGR_count_up_master_clock();  // The update time oc C2A clock should be 1msec
     TDSP_execute_pl_as_task_list();
   }
-  RegisterCommand();
 #else
   UNUSED(is_initialized);
   UNUSED(timing_regulator_);
 #endif
-}
-
-void ObcWithC2a::RegisterCommand() {
-  AnalyzeCommandLine(".AOBC_RT.Cmd_CODE_APP_AOCS_MANAGER_SET_MASS 22.6 # MPU TLM ERROR");
-}
-
-void ObcWithC2a::AnalyzeCommandLine(const std::string input_line) {
-  // comment削除
-  std::string cmd_line = input_line;
-  size_t comment_position = cmd_line.find('#');
-  if (comment_position != std::string::npos) {
-    cmd_line = cmd_line.substr(0, comment_position);
-  }
-
-  // ポーズポイント削除
-  if (!cmd_line.empty() && cmd_line[0] == '.') {
-    cmd_line = cmd_line.substr(1);
-  }
-
-  // スペース分割
-  std::istringstream tokenStream(cmd_line);
-  std::string token;
-  std::vector<std::string> tokens;
-  while (tokenStream >> token) {
-    tokens.push_back(token);
-  }
-
-  // コマンド認識
-  if (tokens[0].find("AOBC_RT") == 0) {  // FIXME AOBC以外も対応する
-    // C2Aコマンドとして処理
-    // Command Code 取得
-    std::string cmd_enum_name = tokens[0].substr(8);
-    cmd_enum_name = "Cmd" + cmd_enum_name.substr(8);
-    C2aCommandInformation cmd_info = command_database_->GetCommandInformation(cmd_enum_name);
-    if (cmd_info.GetCommandName() == "Error") {
-      // TODO エラー処理
-    }
-    CMD_CODE cmd_id = (CMD_CODE)cmd_info.GetCommandId();
-
-    // 引数取得
-    std::vector<std::string> arguments;
-    for (size_t i = 1; i < tokens.size(); i++) {
-      arguments.push_back(tokens[i]);
-    }
-    // 引数個数確認
-    if (arguments.size() != cmd_info.GetNumberOfArgument()) {
-      // TODO エラー処理
-    }
-
-    // 引数処理
-    uint8_t param[CSP_MAX_LEN];
-    uint16_t param_len = 0;
-    for (size_t arg_num = 0; arg_num < arguments.size(); arg_num++) {
-      size_t len = 0;
-      DecodeC2aCommandArgument(cmd_info.GetArgumentType(arg_num), arguments[arg_num], param + param_len, len);
-      param_len += (uint16_t)len;
-    }
-    // コマンド送信
-    CCP_register_rtc(cmd_id, param, param_len);
-
-  } else if (tokens[0].find("wait") == 0) {
-    // wait として処理
-  } else {
-    // 処理しない
-  }
-
-  // debug出力
-  for (const std::string& t : tokens) {
-    std::cout << t << std::endl;
-  }
 }
 
 // Override functions
