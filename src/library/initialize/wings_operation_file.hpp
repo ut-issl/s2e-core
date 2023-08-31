@@ -6,8 +6,8 @@
 #ifndef S2E_LIBRARY_INITIALIZE_WINGS_OPERATION_FILE_HPP_
 #define S2E_LIBRARY_INITIALIZE_WINGS_OPERATION_FILE_HPP_
 
-#include <string>
 #include <fstream>
+#include <string>
 
 #include "c2a_command_database.hpp"
 
@@ -32,8 +32,8 @@ class WingsOperationFile {
   size_t ExecuteNextLine();
 
  private:
-   std::vector<std::string> lines_;  //!!< List of read operation command line
-   const C2aCommandDatabase& command_database_; //!< C2A command database
+  std::vector<std::string> lines_;              //!!< List of read operation command line
+  const C2aCommandDatabase& command_database_;  //!< C2A command database
 
   /**
    * @fn AnalyzeC2aCommand

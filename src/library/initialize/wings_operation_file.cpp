@@ -119,7 +119,8 @@ void WingsOperationFile::AnalyzeC2aCommand(const std::vector<std::string> tokens
     param_len += (uint16_t)len;
   }
 
-  // Send command
+// Send command
+#ifdef USE_C2A
   if (command_type == "RT") {
     CCP_register_rtc(cmd_id, param, param_len);
   } else if (command_type == "TL") {
@@ -129,4 +130,5 @@ void WingsOperationFile::AnalyzeC2aCommand(const std::vector<std::string> tokens
   } else {
     // Not reach
   }
+#endif
 }

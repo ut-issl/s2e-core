@@ -19,7 +19,6 @@
 #error "c2a-core version is not supported"
 #endif  // c2a-core version header
 
-
 C2aCommandInformation::C2aCommandInformation(const std::string cmd_db_line) {
   if (cmd_db_line.find("*") == 0) return;
 
@@ -97,22 +96,23 @@ C2aCommandDatabase::C2aCommandDatabase(const std::string file_path) {
 }
 
 void DecodeC2aCommandArgument(const C2aArgumentType type, const std::string argument_string, uint8_t* param, size_t& size_param) {
+#ifdef USE_C2A
   switch (type) {
     case C2aArgumentType::kUint8t: {
       size_param = 1;
-      uint8_t argument = (uint8_t)std::stoul(argument_string); // TODO: 範囲外処理
+      uint8_t argument = (uint8_t)std::stoul(argument_string);  // TODO: 範囲外処理
       ENDIAN_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kUint16t: {
       size_param = 2;
-      uint16_t argument = (uint16_t)std::stoul(argument_string); // TODO: 範囲外処理
+      uint16_t argument = (uint16_t)std::stoul(argument_string);  // TODO: 範囲外処理
       ENDIAN_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kUint32t: {
       size_param = 4;
-      uint32_t argument = (uint32_t)std::stoul(argument_string); // TODO: 範囲外処理
+      uint32_t argument = (uint32_t)std::stoul(argument_string);  // TODO: 範囲外処理
       ENDIAN_memcpy(param, &argument, size_param);
       break;
     }
@@ -124,13 +124,13 @@ void DecodeC2aCommandArgument(const C2aArgumentType type, const std::string argu
     }
     case C2aArgumentType::kInt8t: {
       size_param = 1;
-      int8_t argument = (int8_t)std::stoi(argument_string); // TODO: 範囲外処理
+      int8_t argument = (int8_t)std::stoi(argument_string);  // TODO: 範囲外処理
       ENDIAN_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kInt16t: {
       size_param = 2;
-      int16_t argument = (int16_t)std::stoi(argument_string); // TODO: 範囲外処理
+      int16_t argument = (int16_t)std::stoi(argument_string);  // TODO: 範囲外処理
       ENDIAN_memcpy(param, &argument, size_param);
       break;
     }
@@ -165,4 +165,5 @@ void DecodeC2aCommandArgument(const C2aArgumentType type, const std::string argu
     default:
       break;
   }
+#endif
 }
