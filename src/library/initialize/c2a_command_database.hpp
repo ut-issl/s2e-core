@@ -3,8 +3,8 @@
  * @brief Classes and functions to read and manage C2A command database
  */
 
-#ifndef S2E_LIBRARY_INITIALIZE_C2_COMMAND_DATABASE_HPP_
-#define S2E_LIBRARY_INITIALIZE_C2_COMMAND_DATABASE_HPP_
+#ifndef S2E_LIBRARY_INITIALIZE_C2A_COMMAND_DATABASE_HPP_
+#define S2E_LIBRARY_INITIALIZE_C2A_COMMAND_DATABASE_HPP_
 
 #include <map>
 #include <string>
@@ -113,4 +113,4 @@ class C2aCommandDatabase {
  */
 void DecodeC2aCommandArgument(const C2aArgumentType type, const std::string argument_string, uint8_t* param, size_t& size_param);
 
-#endif  // S2E_LIBRARY_INITIALIZE_C2_COMMAND_DATABASE_HPP_
+#endif  // S2E_LIBRARY_INITIALIZE_C2A_COMMAND_DATABASE_HPP_
