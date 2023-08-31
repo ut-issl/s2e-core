@@ -36,9 +36,6 @@ std::map<int, UartPort*> ObcWithC2a::com_ports_c2a_;
 std::map<int, I2cPort*> ObcWithC2a::i2c_com_ports_c2a_;
 std::map<int, GpioPort*> ObcWithC2a::gpio_ports_c2a_;
 
-// debug
-typedef enum { TEST_1 = 0, TEST_2 = 0xcb } TEST;
-
 ObcWithC2a::ObcWithC2a(ClockGenerator* clock_generator) : OnBoardComputer(clock_generator), timing_regulator_(1) {
   // Initialize();
 }
@@ -90,16 +87,6 @@ void ObcWithC2a::MainRoutine(const int time_count) {
 
 void ObcWithC2a::RegisterCommand() {
   AnalyzeCommandLine(".AOBC_RT.Cmd_CODE_APP_AOCS_MANAGER_SET_MASS 22.6 # MPU TLM ERROR");
-
-  // Command test
-  std::string cmd_enum_name = "Cmd_APP_AOCS_MANAGER_SET_MASS";
-  CMD_CODE cmd_code = (CMD_CODE)command_database_->GetCommandInformation(cmd_enum_name).GetCommandId();
-  // CMD_CODE cmd_id = (CMD_CODE)cmd_code.value();
-  float mass = 21.5;
-  uint8_t param[4];
-  uint16_t len = 4;
-  ENDIAN_memcpy(param, &mass, (size_t)len);
-  CCP_register_rtc(cmd_code, param, len);
 }
 
 void ObcWithC2a::AnalyzeCommandLine(const std::string input_line) {
