@@ -4,9 +4,7 @@
  */
 
 #include "on_board_computer_with_c2a.hpp"
-#define MAGIC_ENUM_RANGE_MAX 512
 #include <iostream>
-#include <magic_enum.hpp>
 #include <regex>
 #include <string>
 

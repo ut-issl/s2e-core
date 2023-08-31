@@ -177,14 +177,6 @@ if(NOT NRLMSISE00_LIB)
 endif()
 #target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
 
-## Magic Enum C++ library
-include(FetchContent)
-FetchContent_Populate(
-  MAGIC_ENUM
-  URL https://github.com/Neargye/magic_enum/archive/refs/tags/v0.9.3.tar.gz
-)
-message("MAGIC_ENUM: ${CMAKE_BINARY_DIR}")
-
 # Initialize link
 target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
 target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION LIBRARY)
