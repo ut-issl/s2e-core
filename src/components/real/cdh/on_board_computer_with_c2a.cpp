@@ -152,7 +152,7 @@ void ObcWithC2a::AnalyzeCommandLine(const std::string input_line) {
     uint16_t param_len = 0;
     for (size_t arg_num = 0; arg_num < arguments.size(); arg_num++) {
       size_t len = 0;
-      DecodeArgument(cmd_info.GetArgumentType(arg_num), arguments[arg_num], param + param_len, len);
+      DecodeC2aCommandArgument(cmd_info.GetArgumentType(arg_num), arguments[arg_num], param + param_len, len);
       param_len += (uint16_t)len;
     }
     // コマンド送信

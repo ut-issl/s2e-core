@@ -87,7 +87,7 @@ C2aCommandDatabase::C2aCommandDatabase(const std::string file_path) {
   }
 }
 
-void DecodeArgument(const C2aArgumentType type, const std::string argument_string, uint8_t* param, size_t& size_param) {
+void DecodeC2aCommandArgument(const C2aArgumentType type, const std::string argument_string, uint8_t* param, size_t& size_param) {
   switch (type) {
     case C2aArgumentType::kUint8t: {
       size_param = 1;
