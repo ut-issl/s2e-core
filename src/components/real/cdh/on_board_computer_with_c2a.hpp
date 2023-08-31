@@ -7,6 +7,7 @@
 #define S2E_COMPONENTS_REAL_CDH_OBC_C2A_HPP_
 
 #include <components/ports/gpio_port.hpp>
+
 #include "on_board_computer.hpp"
 
 /*
