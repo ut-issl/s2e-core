@@ -80,7 +80,6 @@ set(S2E_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 ## include directories
 include_directories(${CSPICE_DIR}/include)
 include_directories(${NRLMSISE00_DIR}/src)
-include_directories(${CMAKE_BINARY_DIR}/magic_enum-src/include)
 
 ## add_subdirectories
 add_subdirectory(src/simulation)
