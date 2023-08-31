@@ -1,6 +1,6 @@
 /**
  * @file c2a_command_database.cpp
- * @brief
+ * @brief Classes and functions to read and manage C2A command database
  */
 
 #include "c2a_command_database.hpp"
@@ -9,7 +9,16 @@
 #include <iostream>
 #include <sstream>
 
+#if C2A_CORE_VER_MAJOR == 4
+// c2a-core v4
+#include "src_core/library/endian.h"
+#elif C2A_CORE_VER_MAJOR <= 3
+// c2a-core <= v3
 #include "src_core/Library/endian.h"
+#else
+#error "c2a-core version is not supported"
+#endif  // c2a-core version header
+
 
 C2aCommandInformation::C2aCommandInformation(const std::string cmd_db_line) {
   if (cmd_db_line.find("*") == 0) return;

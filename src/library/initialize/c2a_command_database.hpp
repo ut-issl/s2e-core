@@ -1,6 +1,6 @@
 /**
  * @file c2a_command_database.hpp
- * @brief Classes and functions related with C2A command database
+ * @brief Classes and functions to read and manage C2A command database
  */
 
 #ifndef S2E_LIBRARY_INITIALIZE_C2_COMMAND_DATABASE_HPP_
