@@ -14,6 +14,7 @@
 #ifdef WIN32
 #define _WINSOCKAPI_  // stops windows.h including winsock.h
 #include <tchar.h>
+#define NOMINMAX
 #include <windows.h>
 #else
 #include <library/external/inih/cpp/INIReader.h>

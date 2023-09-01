@@ -85,4 +85,11 @@ class GeomagneticField : public ILoggable {
   void AddNoise(double* magnetic_field_array_i_nT);
 };
 
+/**
+ * @fn InitGeomagneticField
+ * @brief Initialize magnetic field of the earth
+ * @param [in] initialize_file_path: Path to initialize file
+ */
+GeomagneticField InitGeomagneticField(std::string initialize_file_path);
+
 #endif  // S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
