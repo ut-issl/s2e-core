@@ -66,7 +66,8 @@ void ObcWithC2a::MainRoutine(const int time_count) {
     Initialize();
   }
   for (int i = 0; i < timing_regulator_; i++) {
-    TMGR_count_up_master_clock();  // The update time oc C2A clock should be 1msec
+    TMGR_count_up_master_clock();  // The update time oc C2A clock should be
+                                   // 1msec
     TDSP_execute_pl_as_task_list();
   }
 #else
