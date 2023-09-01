@@ -10,6 +10,7 @@
 #include <environment/global/physical_constants.hpp>
 #include <fstream>
 #include <iostream>
+#include <library/initialize/initialize_file_access.hpp>
 
 #include "../library/logger/log_utility.hpp"
 #include "../library/utilities/macros.hpp"
@@ -110,4 +111,18 @@ std::string Geopotential::GetLogValue() const {
   str_tmp += WriteVector(acceleration_ecef_m_s2_, 15);
 
   return str_tmp;
+}
+
+Geopotential InitGeopotential(const std::string initialize_file_path) {
+  auto conf = IniAccess(initialize_file_path);
+  const char *section = "GEOPOTENTIAL";
+
+  const int degree = conf.ReadInt(section, "degree");
+  const std::string coefficients_file_path = conf.ReadString(section, "coefficients_file_path");
+
+  const bool is_calc_enable = conf.ReadEnable(section, INI_CALC_LABEL);
+  Geopotential geopotential_disturbance(degree, coefficients_file_path, is_calc_enable);
+  geopotential_disturbance.is_log_enabled_ = conf.ReadEnable(section, INI_LOG_LABEL);
+
+  return geopotential_disturbance;
 }
