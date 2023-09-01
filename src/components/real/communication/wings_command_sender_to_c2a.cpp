@@ -59,6 +59,7 @@ void WingsCommandSenderToC2a::ExecuteCommandLine(const std::string line) {
 }
 
 void WingsCommandSenderToC2a::AnalyzeC2aCommand(const std::vector<std::string> tokens) {
+#ifdef USE_C2A
   // Recognize command
   size_t first_underscore_position = tokens[0].find('_');
   if (first_underscore_position == std::string::npos) return;
@@ -104,7 +105,6 @@ void WingsCommandSenderToC2a::AnalyzeC2aCommand(const std::vector<std::string> t
   }
 
 // Send command
-#ifdef USE_C2A
   if (command_type == "RT") {
     CCP_register_rtc(cmd_id, param, param_len);
   } else if (command_type == "TL") {
@@ -114,6 +114,8 @@ void WingsCommandSenderToC2a::AnalyzeC2aCommand(const std::vector<std::string> t
   } else {
     // Not reach
   }
+#else
+  UNUSED(tokens);
 #endif
 }
 

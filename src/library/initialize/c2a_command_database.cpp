@@ -167,5 +167,9 @@ void DecodeC2aCommandArgument(const C2aArgumentType type, const std::string argu
     default:
       break;
   }
+#else
+  UNUSED(argument_string);
+  UNUSED(param);
+  UNUSED(size_param);
 #endif
 }
