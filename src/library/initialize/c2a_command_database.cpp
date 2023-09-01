@@ -9,6 +9,7 @@
 #include <iostream>
 #include <sstream>
 
+#ifdef USE_C2A
 #if C2A_CORE_VER_MAJOR == 4
 // c2a-core v4
 #include "src_core/library/endian.h"
@@ -18,6 +19,7 @@
 #else
 #error "c2a-core version is not supported"
 #endif  // c2a-core version header
+#endif  // USE_C2A
 
 C2aCommandInformation::C2aCommandInformation(const std::string cmd_db_line) {
   if (cmd_db_line.find("*") == 0) return;

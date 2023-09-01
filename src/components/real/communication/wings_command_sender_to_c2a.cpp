@@ -8,6 +8,7 @@
 #include <library/initialize/initialize_file_access.hpp>
 #include <regex>
 
+#ifdef USE_C2A
 #if C2A_CORE_VER_MAJOR == 4
 // c2a-core v4
 #include "src_core/TlmCmd/common_cmd_packet_util.h"
@@ -17,6 +18,7 @@
 #else
 #error "c2a-core version is not supported"
 #endif  // c2a-core version header
+#endif  // USE_C2A
 
 void WingsCommandSenderToC2a::MainRoutine(const int time_count) {
   UNUSED(time_count);
