@@ -33,6 +33,7 @@ real/communication/antenna_radiation_pattern.cpp
 real/communication/initialize_antenna.cpp
 real/communication/ground_station_calculator.cpp
 real/communication/initialize_ground_station_calculator.cpp
+real/communication/wings_command_sender_to_c2a.cpp
 
 examples/example_change_structure.cpp
 examples/example_serial_communication_with_obc.cpp
