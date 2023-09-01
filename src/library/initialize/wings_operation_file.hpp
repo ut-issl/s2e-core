@@ -22,25 +22,17 @@ class WingsOperationFile {
    * @brief Constructor
    * @param[in] file_path: File path of the operation file
    */
-  WingsOperationFile(const std::string file_path, const C2aCommandDatabase& command_database);
+  WingsOperationFile(const std::string file_path);
 
   /**
-   * @fn ExecuteNextLine
-   * @brief Execute next line command
-   * @return Required wait time for next execution [s]
+   * @fn GetLatestLine
+   * @brief Return latest line command
    */
-  size_t ExecuteNextLine();
+  std::string GetLatestLine();
 
  private:
-  std::vector<std::string> lines_;              //!!< List of read operation command line
-  const C2aCommandDatabase& command_database_;  //!< C2A command database
-
-  /**
-   * @fn AnalyzeC2aCommand
-   * @brief Analyze C2A command Line
-   * @param[in] tokens: command line after space separation
-   */
-  void AnalyzeC2aCommand(const std::vector<std::string> tokens);
+  std::vector<std::string> lines_;  //!!< List of read operation command line
+  size_t line_pointer_ = 0;         //!< Line pointer
 };
 
 #endif  // S2E_LIBRARY_INITIALIZE_WINGS_OPERATION_FILE_HPP_

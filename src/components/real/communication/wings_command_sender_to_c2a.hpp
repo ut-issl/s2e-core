@@ -13,20 +13,20 @@
 
 /*
  * @class C2aCommandSender
- * @brief A component to send command using WINGS operation file
+ * @brief A component to send C2A command using WINGS operation file
  */
 class WingsCommandSenderToC2a : public Component {
  public:
   /**
    * @fn WingsCommandSenderToC2a
    * @brief Constructor
-   * @param [in] 
+   * @param [in]
    */
   WingsCommandSenderToC2a(int prescaler, ClockGenerator* clock_generator, const double step_width_s, const std::string command_database_file,
                           const std::string operation_file)
       : Component(prescaler, clock_generator),
         c2a_command_database_(command_database_file),
-        wings_operation_file_(operation_file, c2a_command_database_),
+        wings_operation_file_(operation_file),
         step_width_s_(step_width_s) {}
 
   /**
@@ -38,8 +38,9 @@ class WingsCommandSenderToC2a : public Component {
  protected:
   C2aCommandDatabase c2a_command_database_;  //!< Command database
   WingsOperationFile wings_operation_file_;  //!< WINGS operation file
-  const double step_width_s_; //!< Step width to execute this component
-  double wait_s_;
+  const double step_width_s_;                //!< Step width to execute this component [s]
+  double wait_s_ = 0.0;                      //!< Wait counter [s]
+  bool is_end_of_line_ = false;              //!< Flag to detect end of line
 
   // Override functions for Component
   /**
@@ -47,8 +48,30 @@ class WingsCommandSenderToC2a : public Component {
    * @brief Main routine to send command
    */
   void MainRoutine(const int time_count) override;
+
+  /**
+   * @fn ExecuteCommandLine
+   * @brief Execute command line
+   * @param[in] line: Executed line
+   */
+  void ExecuteCommandLine(const std::string line);
+
+  /**
+   * @fn AnalyzeC2aCommand
+   * @brief Analyze C2A command Line
+   * @param[in] tokens: Command line after space separation
+   */
+  void AnalyzeC2aCommand(const std::vector<std::string> tokens);
 };
 
-WingsCommandSenderToC2a InitWingsCommandSenderToC2a(ClockGenerator* clock_generator, const std::string initialize_file);
+/**
+ * @fn InitWingsCommandSenderToC2a
+ * @brief Initialize WingsCommandSenderToC2a
+ * @param[in] clock_generator: Clock generator
+ * @param[in] compo_update_step_s: Component update step time [s]
+ * @param[in] initialize_file: Initialize file name
+ */
+WingsCommandSenderToC2a InitWingsCommandSenderToC2a(ClockGenerator* clock_generator, const double compo_update_step_s,
+                                                    const std::string initialize_file);
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_C2A_COMMAND_SENDER_HPP_
