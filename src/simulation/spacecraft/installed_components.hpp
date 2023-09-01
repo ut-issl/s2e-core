@@ -36,6 +36,12 @@ class InstalledComponents {
   virtual libra::Vector<3> GenerateTorque_b_Nm();
 
   /**
+   * @fn ComponentInterference
+   * @brief Handle component interference effect
+   */
+  virtual void ComponentInterference() {}
+
+  /**
    * @fn LogSetup
    * @brief Setup the logger for components
    * @details Users need to override this function to add logger for components

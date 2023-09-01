@@ -19,6 +19,7 @@
 #include <components/real/aocs/initialize_reaction_wheel.hpp>
 #include <components/real/aocs/initialize_star_sensor.hpp>
 #include <components/real/aocs/initialize_sun_sensor.hpp>
+#include <components/real/aocs/mtq_magnetometer_interference.hpp>
 #include <components/real/cdh/on_board_computer.hpp>
 #include <components/real/communication/initialize_antenna.hpp>
 #include <components/real/power/power_control_unit.hpp>
@@ -73,6 +74,12 @@ class SampleComponents : public InstalledComponents {
    */
   libra::Vector<3> GenerateTorque_b_Nm();
   /**
+   * @fn ComponentInterference
+   * @brief Handle component interference effect
+   */
+  void ComponentInterference() override;
+
+  /**
    * @fn LogSetup
    * @brief Setup the logger for components
    */
@@ -100,6 +107,9 @@ class SampleComponents : public InstalledComponents {
 
   // CommGs
   Antenna* antenna_;  //!< Antenna
+
+  // Component Interference
+  MtqMagnetometerInterference* mtq_magnetometer_interference_;  //!< Additional Bias noise by MTQ-Magnetometer interference
 
   // Examples
   // ExampleChangeStructure* change_structure_;  //!< Change structure
