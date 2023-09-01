@@ -46,11 +46,14 @@ ObcWithC2a::~ObcWithC2a() {}
 
 void ObcWithC2a::Initialize() {
 #ifdef USE_C2A
-  TMGR_init();  // Time Manager Initialize at the beginning in order to measure the execution time of C2A core initialization.
+  TMGR_init();  // Time Manager
+                // Initialize at the beginning in order to measure the execution
+                // time of C2A core initialization.
   C2A_core_init();
   WDT_init();  // Watchdog timer. In SILS, it does not have meaning.
 
-  TMGR_clear();  // This called in C2A_core_init, but should be called again just before executing the C2A main loop.
+  TMGR_clear();  // This called in C2A_core_init, but should be called again
+                 // just before executing the C2A main loop.
 #endif
 }
 
