@@ -6,6 +6,7 @@
 #include "wings_command_sender_to_c2a.hpp"
 
 #include <library/initialize/initialize_file_access.hpp>
+#include <library/utilities/macros.hpp>
 #include <regex>
 
 #ifdef USE_C2A
@@ -104,7 +105,7 @@ void WingsCommandSenderToC2a::AnalyzeC2aCommand(const std::vector<std::string> t
     param_len += (uint16_t)len;
   }
 
-// Send command
+  // Send command
   if (command_type == "RT") {
     CCP_register_rtc(cmd_id, param, param_len);
   } else if (command_type == "TL") {

@@ -7,6 +7,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <library/utilities/macros.hpp>
 #include <sstream>
 
 #ifdef USE_C2A
