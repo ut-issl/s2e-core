@@ -86,7 +86,7 @@ void WingsCommandSenderToC2a::AnalyzeC2aCommand(const std::vector<std::string> t
   // Get arguments
   std::vector<std::string> arguments;
   for (size_t i = 1; i < tokens.size(); i++) {
-    if (tokens[i].find("{") == 0) return; // let command is not supported now TODO: support let command
+    if (tokens[i].find("{") == 0) return;  // let command is not supported now TODO: support let command
     arguments.push_back(tokens[i]);
   }
   // Check number of arguments
