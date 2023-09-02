@@ -23,6 +23,7 @@
 
 void WingsCommandSenderToC2a::MainRoutine(const int time_count) {
   UNUSED(time_count);
+  if (is_enabled_ == false) return;
   if (is_end_of_line_ == true) return;
   if (wait_s_ <= 0.0) {
     std::string line = wings_operation_file_.GetLatestLine();
@@ -130,6 +131,8 @@ WingsCommandSenderToC2a InitWingsCommandSenderToC2a(ClockGenerator* clock_genera
   IniAccess ini_access(initialize_file);
   std::string section = "WINGS_COMMAND_SENDER_TO_C2A";
 
+  bool is_enabled = ini_access.ReadEnable(section.c_str(), "command_send_enable");
+
   int prescaler = ini_access.ReadInt(section.c_str(), "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
@@ -138,5 +141,5 @@ WingsCommandSenderToC2a InitWingsCommandSenderToC2a(ClockGenerator* clock_genera
   std::string c2a_command_data_base_file = ini_access.ReadString(section.c_str(), "c2a_command_database_file");
   std::string wings_operation_file = ini_access.ReadString(section.c_str(), "wings_operation_file");
 
-  return WingsCommandSenderToC2a(prescaler, clock_generator, step_width_s, c2a_command_data_base_file, wings_operation_file);
+  return WingsCommandSenderToC2a(prescaler, clock_generator, step_width_s, c2a_command_data_base_file, wings_operation_file, is_enabled);
 }
