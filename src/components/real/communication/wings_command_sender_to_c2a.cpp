@@ -45,11 +45,15 @@ void WingsCommandSenderToC2a::ExecuteCommandLine(const std::string line) {
     tokens.push_back(token);
   }
 
+  // Handle WINGS commands
   if (tokens[0].find("wait_sec") == 0) {
     // wait process
     wait_s_ = std::stod(tokens[1]);
   } else if (tokens[0].find("check_value") == 0) {
-    // TODO
+    // TODO: Support check_value
+    wait_s_ = 0;
+  } else if (tokens[0].find("let") == 0) {
+    // TODO: Support let command
     wait_s_ = 0;
   } else {
     wait_s_ = 0;
@@ -82,6 +86,7 @@ void WingsCommandSenderToC2a::AnalyzeC2aCommand(const std::vector<std::string> t
   // Get arguments
   std::vector<std::string> arguments;
   for (size_t i = 1; i < tokens.size(); i++) {
+    if (tokens[i].find("{") == 0) return; // let command is not supported now TODO: support let command
     arguments.push_back(tokens[i]);
   }
   // Check number of arguments

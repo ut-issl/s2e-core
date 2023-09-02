@@ -7,4 +7,6 @@
  MOBC_RT.Cmd_MM_START_TRANSITION 2
  wait_sec 3
  check_value  # check_valueは今は使えず読み飛ばされる
+ let mode_id = 2 # letはいまはつかえない
+ AOBC_RT.Cmd_MM_START_TRANSITION {mode_id} # letを前提とした{}付きの引数があるとコマンドは送信されない
 .# 
