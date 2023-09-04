@@ -20,6 +20,7 @@ namespace libra::numerical_integration {
 enum class NumericalIntegrationMethod {
   kRk4 = 0,  //!< 4th order Runge-Kutta
   kRkf,      //!< Runge-Kutta-Fehlberg
+  kDp5,      //!< 5th order Dormand and Prince
 };
 
 /**
@@ -42,6 +43,9 @@ class NumericalIntegratorManager {
         break;
       case NumericalIntegrationMethod::kRkf:
         integrator_ = std::make_shared<RungeKuttaFehlberg<N>>(step_width, ode);
+        break;
+      case NumericalIntegrationMethod::kDp5:
+        integrator_ = std::make_shared<DormandPrince5<N>>(step_width, ode);
         break;
       default:
         integrator_ = std::make_shared<RungeKutta4<N>>(step_width, ode);

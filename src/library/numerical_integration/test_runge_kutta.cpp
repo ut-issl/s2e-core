@@ -133,6 +133,32 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRkf) {
 }
 
 /**
+ * @brief Test for integration with nominal linear function with NumericalIntegratorManager/DP5
+ */
+TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerDp5) {
+  double step_width_s = 0.1;
+  libra::numerical_integration::ExampleLinearOde ode;
+  libra::numerical_integration::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode,
+                                                                                   libra::numerical_integration::NumericalIntegrationMethod::kDp5);
+
+  libra::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
+  EXPECT_DOUBLE_EQ(0.0, state[0]);
+
+  size_t step_num = 10000;
+  for (size_t i = 0; i < step_num; i++) {
+    numerical_integrator.GetIntegrator()->Integrate();
+  }
+  state = numerical_integrator.GetIntegrator()->GetState();
+  double estimated_result = step_width_s * step_num;
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+
+  double sigma = 0.1;
+  state = numerical_integrator.GetIntegrator()->CalcInterpolationState(sigma);
+  estimated_result = step_width_s * (double(step_num) - 1.0 + sigma);
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+}
+
+/**
  * @brief Test for integration with quadratic function with RK4
  */
 TEST(NUMERICAL_INTEGRATION, IntegrateQuadraticRk4) {
