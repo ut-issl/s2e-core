@@ -1,7 +1,8 @@
 /**
  * @file dormand_prince_5_implementation.hpp
  * @brief Implementation of 5th order Dormand and Prince method
- * @note Ref: J. R. Dormand and P. J. Prince, "Runge-Kutta Triples", 1986
+ * @note Ref: J. R. Dormand and P. J. Prince, "A family of embedded Runge-Kutta formulae", 1980
+ *            J. R. Dormand and P. J. Prince, "Runge-Kutta Triples", 1986
  *            O. Montenbruck and E. Gill, "State interpolation for on-board navigation systems", 2001
  */
 
@@ -121,18 +122,13 @@ DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>
 
 template <size_t N>
 Vector<N> DormandPrince5<N>::CalcInterpolationState(const double sigma) const {
-  // Calc k7 (slope after state update)
-  Vector<N> state_7 =
-      this->previous_state_ + this->step_width_ * (1.0 / 6.0 * this->slope_[0] + 1.0 / 6.0 * this->slope_[4] + 2.0 / 3.0 * this->slope_[5]);
-  Vector<N> k7 = this->ode_.DerivativeFunction(this->current_independent_variable_, state_7);
-
   std::vector<double> interpolation_weights = CalcInterpolationWeights(sigma);
 
   Vector<N> interpolation_state = this->previous_state_;
-  for (size_t i = 0; i < this->number_of_stages_ - 1; i++) {
+  for (size_t i = 0; i < this->number_of_stages_; i++) {
     interpolation_state = interpolation_state + (sigma * this->step_width_ * interpolation_weights[i]) * this->slope_[i];
   }
-  interpolation_state = interpolation_state + sigma * this->step_width_ * (interpolation_weights[6] * k7);
+
   return interpolation_state;
 }
 
