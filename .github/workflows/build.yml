@@ -32,11 +32,11 @@ jobs:
         build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: checkout C2A core
         if: contains(matrix.use_c2a, 'ON')
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: c2a-core
           repository: ut-issl/c2a-core
@@ -142,7 +142,7 @@ jobs:
         build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: set compiler
         id: compiler
