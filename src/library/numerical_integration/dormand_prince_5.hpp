@@ -1,6 +1,9 @@
 /**
  * @file dormand_prince_5.hpp
  * @brief Class for 5th order Dormand and Prince method
+ * @note Ref: J. R. Dormand and P. J. Prince, "A family of embedded Runge-Kutta formulae", 1980
+ *            J. R. Dormand and P. J. Prince, "Runge-Kutta Triples", 1986
+ *            O. Montenbruck and E. Gill, "State interpolation for on-board navigation systems", 2001
  */
 
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_DORMAND_PRINCE_5_HPP_
@@ -12,7 +15,7 @@ namespace libra::numerical_integration {
 
 /**
  * @class DormandPrince5
- * @brief Class for Classical 5th order Dormand and Prince method
+ * @brief Class for 5th order Dormand and Prince method
  */
 template <size_t N>
 class DormandPrince5 : public EmbeddedRungeKutta<N> {
@@ -21,6 +24,7 @@ class DormandPrince5 : public EmbeddedRungeKutta<N> {
    * @fn DormandPrince5
    * @brief Constructor
    * @param [in] step_width: Step width
+   * @param [in] ode: Ordinary differential equation
    */
   DormandPrince5(const double step_width, const InterfaceOde<N>& ode);
   /**
