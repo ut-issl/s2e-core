@@ -8,6 +8,7 @@
 
 #include <memory>
 
+#include "dormand_prince_5.hpp"
 #include "runge_kutta_4.hpp"
 #include "runge_kutta_fehlberg.hpp"
 
