@@ -1,6 +1,8 @@
 /*
  * @file wings_command_sender_to_c2a.cpp
  * @brief A component to send C2A command using WINGS operation file
+ * @note Used C2A functions: CCP_register_rtc, CCP_register_tlc
+ *       Used C2A structures: CMD_CODE
  */
 
 #include "wings_command_sender_to_c2a.hpp"
