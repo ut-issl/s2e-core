@@ -70,7 +70,7 @@ class SimTime : public ILoggable {
     if (!start_et_flag_) {
       start_et_flag_ = true;
       std::ostringstream stream;
-      stream << std::fixed << std::setprecision(40) << "jd " << start_jd_;
+      stream << std::fixed << std::setprecision(11) << "jd " << start_jd_;
       str2et_c(stream.str().c_str(), &start_et_);
     }
     return (start_et_ + elapsed_time_sec_);
