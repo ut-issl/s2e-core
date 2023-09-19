@@ -42,6 +42,8 @@ SimTime::SimTime(const double end_sec, const double step_sec, const double attit
   AssertTimeStepParams();
   InitializeState();
   SetParameters();
+
+  start_et_flag_ = false;
 }
 
 SimTime::~SimTime() {}

@@ -26,7 +26,7 @@ class CelestialInformation : public ILoggable {
   virtual std::string GetLogValue() const;
 
   // Update the all selected celestial objects information
-  void UpdateAllObjectsInfo(const double current_jd);
+  void UpdateAllObjectsInfo(const double current_jd, const double current_et);
 
   // Getters
   // Orbit information

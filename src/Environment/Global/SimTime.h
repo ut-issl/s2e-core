@@ -14,6 +14,8 @@
 
 #include <chrono>
 
+#include <SpiceUsr.h>
+
 struct TimeState {
   bool running = false;
   bool finish = false;
@@ -64,6 +66,15 @@ class SimTime : public ILoggable {
 
   inline double GetEndSec(void) const { return end_sec_; };
   inline int GetProgressionRate(void) const { return (int)floor((elapsed_time_sec_ / end_sec_ * 100)); };
+  double GetCurrentEt(void) {
+    if (!start_et_flag_) {
+      start_et_flag_ = true;
+      std::ostringstream stream;
+      stream << std::fixed << std::setprecision(40) << "jd " << start_jd_;
+      str2et_c(stream.str().c_str(), &start_et_);
+    }
+    return (start_et_ + elapsed_time_sec_);
+  };
   inline double GetCurrentJd(void) const { return current_jd_; };
   inline double GetCurrentSidereal(void) const { return current_sidereal_; };
   inline double GetCurrentDecyear(void) const { return current_decyear_; };
@@ -117,6 +128,8 @@ class SimTime : public ILoggable {
   int compo_propagate_frequency_;
   double log_output_interval_sec_;
   double disp_period_;  // Output frequency to console
+  double start_et_;
+  bool start_et_flag_;
   double start_jd_;
   int start_year_;
   int start_mon_;

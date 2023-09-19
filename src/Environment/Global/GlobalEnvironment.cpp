@@ -26,13 +26,13 @@ void GlobalEnvironment::Initialize(SimulationConfig* sim_config) {
   gnss_satellites_ = InitGnssSatellites(sim_config->gnss_file_);
 
   // Calc initial value
-  celes_info_->UpdateAllObjectsInfo(sim_time_->GetCurrentJd());
+  celes_info_->UpdateAllObjectsInfo(sim_time_->GetCurrentJd(), sim_time_->GetCurrentEt());
   gnss_satellites_->SetUp(sim_time_);
 }
 
 void GlobalEnvironment::Update() {
   sim_time_->UpdateTime();
-  celes_info_->UpdateAllObjectsInfo(sim_time_->GetCurrentJd());
+  celes_info_->UpdateAllObjectsInfo(sim_time_->GetCurrentJd(), sim_time_->GetCurrentEt());
   gnss_satellites_->Update(sim_time_);
 }
 
