@@ -67,10 +67,7 @@ void Spacecraft::Update(const SimTime* sim_time) {
   local_env_->Update(dynamics_, sim_time);
   disturbances_->Update(*local_env_, *dynamics_, sim_time);
 
-  // Update components
-  clock_gen_.UpdateComponents(sim_time);
-
-  // Add generated force and torque by disturbances
+    // Add generated force and torque by disturbances
   dynamics_->AddAcceleration_i(disturbances_->GetAccelerationI());
   dynamics_->AddTorque_b(disturbances_->GetTorque());
   dynamics_->AddForce_b(disturbances_->GetForce());
@@ -81,6 +78,9 @@ void Spacecraft::Update(const SimTime* sim_time) {
 
   // Propagate dynamics
   dynamics_->Update(sim_time, &(local_env_->GetCelesInfo()));
+
+  // Update components
+  clock_gen_.UpdateComponents(sim_time);
 }
 
 void Spacecraft::Clear(void) { dynamics_->ClearForceTorque(); }
