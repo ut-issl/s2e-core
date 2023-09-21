@@ -58,7 +58,7 @@ class CelestialInformation : public ILoggable {
   int* selected_body_;          //!< SPICE IDs of selected bodies
   std::string inertial_frame_;  //!< Definition of inertial frame
   std::string aber_cor_;        //!< Stellar aberration correction
-                                //（Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt）
+                                // （Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt）
   std::string center_obj_;      //!< Center object of inertial frame
 
   // Calculated values

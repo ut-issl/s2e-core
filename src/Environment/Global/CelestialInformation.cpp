@@ -93,6 +93,7 @@ CelestialInformation::~CelestialInformation() {
 }
 
 void CelestialInformation::UpdateAllObjectsInfo(const double current_jd, const double current_et) {
+  int a = 0;
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
 
@@ -193,7 +194,7 @@ string CelestialInformation::GetLogHeader() const {
     string name = namebuf;
     string body_pos = name + "_pos";
     string body_vel = name + "_vel";
-    //　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
+    // 　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
     str_tmp += WriteVector(body_pos, "i", "m", 3);
     str_tmp += WriteVector(body_vel, "i", "m/s", 3);
   }
@@ -203,7 +204,7 @@ string CelestialInformation::GetLogHeader() const {
 string CelestialInformation::GetLogValue() const {
   string str_tmp = "";
   for (int i = 0; i < num_of_selected_body_; i++) {
-    //　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
+    // 　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
     for (int j = 0; j < 3; j++) {
       str_tmp += WriteScalar(celes_objects_pos_from_center_i_[i * 3 + j]);
     }
