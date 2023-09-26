@@ -9,7 +9,6 @@ base/i2c_target_communication_with_obc.cpp
 base/gpio_connection_with_obc.cpp
 
 real/aocs/gyro_sensor.cpp
-real/aocs/initialize_gyro_sensor.cpp
 real/aocs/magnetometer.cpp
 real/aocs/initialize_magnetometer.cpp
 real/aocs/magnetorquer.cpp
