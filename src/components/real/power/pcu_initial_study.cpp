@@ -8,6 +8,7 @@
 #include <cmath>
 #include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
+#include <library/initialize/initialize_file_access.hpp>
 
 PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
                                  double component_step_time_s)
@@ -108,4 +109,22 @@ void PcuInitialStudy::UpdateChargeCurrentAndBusVoltage() {
       bus_voltage_V_ = bat_voltage + battery_resistance_Ohm * (cv_charge_voltage_V_ - bat_voltage) / battery_resistance_Ohm;
     }
   }
+}
+
+PcuInitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id, const std::string file_name,
+                                     const std::vector<SolarArrayPanel*> saps, Battery* battery, double component_step_time_s) {
+  IniAccess pcu_conf(file_name);
+
+  const std::string st_pcu_id = std::to_string(pcu_id);
+  const char* cs = st_pcu_id.data();
+
+  char Section[30] = "PCU_INITIAL_STUDY_";
+  strcat(Section, cs);
+
+  int prescaler = pcu_conf.ReadInt(Section, "prescaler");
+  if (prescaler <= 1) prescaler = 1;
+
+  PcuInitialStudy pcu(prescaler, clock_generator, saps, battery, component_step_time_s);
+
+  return pcu;
 }
