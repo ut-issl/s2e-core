@@ -92,12 +92,8 @@ CelestialInformation::~CelestialInformation() {
   delete EarthRotation_;
 }
 
-void CelestialInformation::UpdateAllObjectsInfo(const double current_jd) {
-  // Convert time
-  SpiceDouble et;
-  string jd = "jd " + to_string(current_jd);
-  str2et_c(jd.c_str(), &et);
-
+void CelestialInformation::UpdateAllObjectsInfo(const double current_jd, const double current_et) {
+  int a = 0;
   for (int i = 0; i < num_of_selected_body_; i++) {
     SpiceInt planet_id = selected_body_[i];
 
@@ -109,7 +105,7 @@ void CelestialInformation::UpdateAllObjectsInfo(const double current_jd) {
 
     // Acquisition of position and velocity
     SpiceDouble rv_buf[6];
-    GetPlanetOrbit(namebuf, et, (SpiceDouble*)rv_buf);
+    GetPlanetOrbit(namebuf, current_et, (SpiceDouble*)rv_buf);
     // Convert unit [km], [km/s] to [m], [m/s]
     for (int j = 0; j < 3; j++) {
       celes_objects_pos_from_center_i_[i * 3 + j] = rv_buf[j] * 1000.0;
@@ -198,7 +194,7 @@ string CelestialInformation::GetLogHeader() const {
     string name = namebuf;
     string body_pos = name + "_pos";
     string body_vel = name + "_vel";
-    //　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
+    // 　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
     str_tmp += WriteVector(body_pos, "i", "m", 3);
     str_tmp += WriteVector(body_vel, "i", "m/s", 3);
   }
@@ -208,7 +204,7 @@ string CelestialInformation::GetLogHeader() const {
 string CelestialInformation::GetLogValue() const {
   string str_tmp = "";
   for (int i = 0; i < num_of_selected_body_; i++) {
-    //　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
+    // 　OUTPUT ONLY POS/VEL LOOKED FROM S/C AT THIS MOMENT
     for (int j = 0; j < 3; j++) {
       str_tmp += WriteScalar(celes_objects_pos_from_center_i_[i * 3 + j]);
     }

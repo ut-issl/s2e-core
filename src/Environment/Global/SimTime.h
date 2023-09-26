@@ -11,6 +11,7 @@
 #include <Library/sgp4/sgp4ext.h>
 #include <Library/sgp4/sgp4io.h>
 #include <Library/sgp4/sgp4unit.h>
+#include <SpiceUsr.h>
 
 #include <chrono>
 
@@ -64,6 +65,15 @@ class SimTime : public ILoggable {
 
   inline double GetEndSec(void) const { return end_sec_; };
   inline int GetProgressionRate(void) const { return (int)floor((elapsed_time_sec_ / end_sec_ * 100)); };
+  double GetCurrentEt(void) {
+    if (!start_et_flag_) {
+      start_et_flag_ = true;
+      std::ostringstream stream;
+      stream << std::fixed << std::setprecision(11) << "jd " << start_jd_;
+      str2et_c(stream.str().c_str(), &start_et_);
+    }
+    return (start_et_ + elapsed_time_sec_);
+  };
   inline double GetCurrentJd(void) const { return current_jd_; };
   inline double GetCurrentSidereal(void) const { return current_sidereal_; };
   inline double GetCurrentDecyear(void) const { return current_decyear_; };
@@ -81,10 +91,10 @@ class SimTime : public ILoggable {
   void PrintStartDateTime(void) const;
 
  private:
-  //変動値
+  // 変動値
   double elapsed_time_sec_;
-  double current_jd_;        //ユリウス日
-  double current_sidereal_;  //グリニッジ平均恒星時
+  double current_jd_;        // ユリウス日
+  double current_sidereal_;  // グリニッジ平均恒星時
   double current_decyear_;   // Decimal Year(yearの小数点表記)
   UTC current_utc_;          // UTC calendar day
 
@@ -104,7 +114,7 @@ class SimTime : public ILoggable {
   // //実時間でのシミュレーション実行時間
   std::chrono::system_clock::time_point clock_last_time_completed_step_in_time_;
 
-  //固定値
+  // 固定値
   double end_sec_;   // Time from start of simulation to end
   double step_sec_;  // simulation step time
   double attitude_update_interval_sec_;
@@ -117,6 +127,8 @@ class SimTime : public ILoggable {
   int compo_propagate_frequency_;
   double log_output_interval_sec_;
   double disp_period_;  // Output frequency to console
+  double start_et_;
+  bool start_et_flag_;
   double start_jd_;
   int start_year_;
   int start_mon_;
@@ -124,9 +136,9 @@ class SimTime : public ILoggable {
   int start_hr_;
   int start_min_;
   double start_sec_;
-  double sim_speed_;  // The speed of the simulation relative to real time (if
-                      // negative, real time is not taken into account)
-  double time_exceeds_continuously_limit_sec_; // Maximum duration to allow actual step_sec to be larger than specified continuously
+  double sim_speed_;                            // The speed of the simulation relative to real time (if
+                                                // negative, real time is not taken into account)
+  double time_exceeds_continuously_limit_sec_;  // Maximum duration to allow actual step_sec to be larger than specified continuously
 
   void InitializeState();
   void AssertTimeStepParams();
