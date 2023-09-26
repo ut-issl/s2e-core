@@ -31,7 +31,6 @@ real/cdh/on_board_computer_with_c2a.cpp
 
 real/communication/antenna.cpp
 real/communication/antenna_radiation_pattern.cpp
-real/communication/initialize_antenna.cpp
 real/communication/ground_station_calculator.cpp
 real/communication/initialize_ground_station_calculator.cpp
 
