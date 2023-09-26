@@ -42,9 +42,7 @@ examples/example_i2c_controller_for_hils.cpp
 examples/example_i2c_target_for_hils.cpp
 
 ideal/force_generator.cpp
-ideal/initialize_force_generator.cpp
 ideal/torque_generator.cpp
-ideal/initialize_torque_generator.cpp
 
 real/mission/telescope.cpp
 real/mission/initialize_telescope.cpp
