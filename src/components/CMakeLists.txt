@@ -49,7 +49,6 @@ real/mission/initialize_telescope.cpp
 
 real/power/power_control_unit.cpp
 real/power/battery.cpp
-real/power/initialize_battery.cpp
 real/power/pcu_initial_study.cpp
 real/power/initialize_pcu_initial_study.cpp
 real/power/solar_array_panel.cpp
