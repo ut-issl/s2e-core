@@ -6,6 +6,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "simulation_time.hpp"
 
+#include <SpiceUsr.h>
+
 #include <cassert>
 #include <iostream>
 #include <sstream>
@@ -48,6 +50,11 @@ SimulationTime::SimulationTime(const double end_sec, const double step_sec, cons
   AssertTimeStepParams();
   InitializeState();
   SetParameters();
+
+  // Ephemeris time initialize
+  std::ostringstream stream;
+  stream << std::fixed << std::setprecision(11) << "jd " << start_jd_;
+  str2et_c(stream.str().c_str(), &start_ephemeris_time_);
 }
 
 SimulationTime::~SimulationTime() {}
