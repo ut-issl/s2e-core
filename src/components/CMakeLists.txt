@@ -23,7 +23,6 @@ real/aocs/initialize_star_sensor.cpp
 real/aocs/sun_sensor.cpp
 real/aocs/initialize_sun_sensor.cpp
 real/aocs/gnss_receiver.cpp
-real/aocs/initialize_gnss_receiver.cpp
 real/aocs/mtq_magnetometer_interference.cpp
 
 real/cdh/on_board_computer.cpp

@@ -12,7 +12,7 @@
 #include <components/examples/example_serial_communication_for_hils.hpp>
 #include <components/ideal/force_generator.hpp>
 #include <components/ideal/torque_generator.hpp>
-#include <components/real/aocs/initialize_gnss_receiver.hpp>
+#include <components/real/aocs/gnss_receiver.hpp>
 #include <components/real/aocs/initialize_gyro_sensor.hpp>
 #include <components/real/aocs/initialize_magnetometer.hpp>
 #include <components/real/aocs/initialize_magnetorquer.hpp>
