@@ -11,7 +11,6 @@ base/gpio_connection_with_obc.cpp
 real/aocs/gyro_sensor.cpp
 real/aocs/magnetometer.cpp
 real/aocs/magnetorquer.cpp
-real/aocs/initialize_magnetorquer.cpp
 real/aocs/reaction_wheel_ode.cpp
 real/aocs/reaction_wheel.cpp
 real/aocs/initialize_reaction_wheel.cpp
