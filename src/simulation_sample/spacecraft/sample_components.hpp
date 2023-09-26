@@ -13,7 +13,7 @@
 #include <components/ideal/force_generator.hpp>
 #include <components/ideal/torque_generator.hpp>
 #include <components/real/aocs/gnss_receiver.hpp>
-#include <components/real/aocs/initialize_gyro_sensor.hpp>
+#include <components/real/aocs/gyro_sensor.hpp>
 #include <components/real/aocs/initialize_magnetometer.hpp>
 #include <components/real/aocs/initialize_magnetorquer.hpp>
 #include <components/real/aocs/initialize_reaction_wheel.hpp>
