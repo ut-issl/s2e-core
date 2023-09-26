@@ -51,7 +51,6 @@ real/power/power_control_unit.cpp
 real/power/battery.cpp
 real/power/pcu_initial_study.cpp
 real/power/solar_array_panel.cpp
-real/power/initialize_solar_array_panel.cpp
 real/power/csv_scenario_interface.cpp
 
 real/propulsion/simple_thruster.cpp
