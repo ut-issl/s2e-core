@@ -12,8 +12,6 @@
 #include <library/initialize/initialize_file_access.hpp>
 #include <library/utilities/macros.hpp>
 
-#include "initialize_antenna.hpp"
-
 Antenna::Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
                  const double frequency_MHz, const Vector<5> tx_parameters, const Vector<4> rx_parameters)
     : component_id_(component_id), is_transmitter_(is_transmitter), is_receiver_(is_receiver), frequency_MHz_(frequency_MHz) {

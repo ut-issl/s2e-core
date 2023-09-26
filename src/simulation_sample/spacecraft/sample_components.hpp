@@ -21,7 +21,7 @@
 #include <components/real/aocs/initialize_sun_sensor.hpp>
 #include <components/real/aocs/mtq_magnetometer_interference.hpp>
 #include <components/real/cdh/on_board_computer.hpp>
-#include <components/real/communication/initialize_antenna.hpp>
+#include <components/real/communication/antenna.hpp>
 #include <components/real/power/power_control_unit.hpp>
 #include <components/real/propulsion/simple_thruster.hpp>
 #include <dynamics/dynamics.hpp>
