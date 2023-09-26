@@ -4,7 +4,7 @@
  */
 #include "initialize_magnetometer.hpp"
 
-#include "../../base/initialize_sensor.hpp"
+#include "../../base/sensor.hpp"
 #include "library/initialize/initialize_file_access.hpp"
 
 Magnetometer InitMagnetometer(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
