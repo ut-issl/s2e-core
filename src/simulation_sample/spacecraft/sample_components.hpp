@@ -14,12 +14,12 @@
 #include <components/ideal/torque_generator.hpp>
 #include <components/real/aocs/gnss_receiver.hpp>
 #include <components/real/aocs/gyro_sensor.hpp>
-#include <components/real/aocs/initialize_star_sensor.hpp>
 #include <components/real/aocs/initialize_sun_sensor.hpp>
 #include <components/real/aocs/magnetometer.hpp>
 #include <components/real/aocs/magnetorquer.hpp>
 #include <components/real/aocs/mtq_magnetometer_interference.hpp>
 #include <components/real/aocs/reaction_wheel.hpp>
+#include <components/real/aocs/star_sensor.hpp>
 #include <components/real/cdh/on_board_computer.hpp>
 #include <components/real/communication/antenna.hpp>
 #include <components/real/power/power_control_unit.hpp>

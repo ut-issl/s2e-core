@@ -15,7 +15,6 @@ real/aocs/reaction_wheel_ode.cpp
 real/aocs/reaction_wheel.cpp
 real/aocs/reaction_wheel_jitter.cpp
 real/aocs/star_sensor.cpp
-real/aocs/initialize_star_sensor.cpp
 real/aocs/sun_sensor.cpp
 real/aocs/initialize_sun_sensor.cpp
 real/aocs/gnss_receiver.cpp
