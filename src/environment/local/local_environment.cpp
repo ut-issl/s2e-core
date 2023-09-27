@@ -6,7 +6,6 @@
 
 #include "dynamics/attitude/attitude.hpp"
 #include "dynamics/orbit/orbit.hpp"
-#include "initialize_local_environment.hpp"
 #include "library/initialize/initialize_file_access.hpp"
 
 LocalEnvironment::LocalEnvironment(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
@@ -32,15 +31,15 @@ void LocalEnvironment::Initialize(const SimulationConfiguration* simulation_conf
 
   // Initialize
   geomagnetic_field_ = new GeomagneticField(InitGeomagneticField(ini_fname));
-  atmosphere_ = new Atmosphere(InitAtmosphere(ini_fname));
   celestial_information_ = new LocalCelestialInformation(&(global_environment->GetCelestialInformation()));
+  atmosphere_ = new Atmosphere(InitAtmosphere(ini_fname, celestial_information_, &global_environment->GetSimulationTime()));
   solar_radiation_pressure_environment_ =
       new SolarRadiationPressureEnvironment(InitSolarRadiationPressureEnvironment(ini_fname, celestial_information_));
 
   // Force to disable when the center body is not the Earth
   if (global_environment->GetCelestialInformation().GetCenterBodyName() != "EARTH") {
     geomagnetic_field_->IsCalcEnabled = false;
-    atmosphere_->IsCalcEnabled = false;
+    atmosphere_->SetCalcFlag(false);
   }
 
   // Log setting for Local celestial information
@@ -63,7 +62,7 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* si
   // Update local environments that depend only on the position
   if (simulation_time->GetOrbitPropagateFlag()) {
     solar_radiation_pressure_environment_->UpdateAllStates();
-    atmosphere_->CalcAirDensity_kg_m3(simulation_time->GetCurrentDecimalYear(), simulation_time->GetEndTime_s(), orbit.GetGeodeticPosition());
+    atmosphere_->CalcAirDensity_kg_m3(simulation_time->GetCurrentDecimalYear(), orbit);
   }
 }
 

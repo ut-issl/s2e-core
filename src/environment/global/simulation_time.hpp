@@ -320,4 +320,12 @@ class SimulationTime : public ILoggable {
    */
   void ConvJDtoCalendarDay(const double JD);
 };
+
+/**
+ *@fn InitSimulationTime
+ *@brief Initialize function for SimulationTime class
+ *@param [in] file_name: Path to the initialize function
+ */
+SimulationTime* InitSimulationTime(std::string file_name);
+
 #endif  // S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_HPP_

@@ -6,11 +6,23 @@
 #include "on_board_computer_with_c2a.hpp"
 
 #ifdef USE_C2A
+#include "src_core/c2a_core_main.h"
+
+#if C2A_CORE_VER_MAJOR == 4
+// c2a-core v4
+#include "src_core/system/task_manager/task_dispatcher.h"
+#include "src_core/system/time_manager/time_manager.h"
+#include "src_core/system/watchdog_timer/watchdog_timer.h"
+#elif C2A_CORE_VER_MAJOR <= 3
+// c2a-core <= v3
 #include "src_core/System/TaskManager/task_dispatcher.h"
 #include "src_core/System/TimeManager/time_manager.h"
 #include "src_core/System/WatchdogTimer/watchdog_timer.h"
-#include "src_core/c2a_core_main.h"
-#endif
+#else
+#error "c2a-core version is not supported"
+#endif  // c2a-core version header
+
+#endif  // USE_C2A
 
 std::map<int, UartPort*> ObcWithC2a::com_ports_c2a_;
 std::map<int, I2cPort*> ObcWithC2a::i2c_com_ports_c2a_;
@@ -58,6 +70,9 @@ void ObcWithC2a::MainRoutine(const int time_count) {
                                    // 1msec
     TDSP_execute_pl_as_task_list();
   }
+#else
+  UNUSED(is_initialized);
+  UNUSED(timing_regulator_);
 #endif
 }
 

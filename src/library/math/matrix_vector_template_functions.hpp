@@ -24,7 +24,7 @@ Vector<R, TC> operator*(const Matrix<R, C, TM>& matrix, const Vector<C, TC>& vec
 template <std::size_t N>
 Matrix<N, N> CalcInverseMatrix(const Matrix<N, N>& matrix) {
   Matrix<N, N> temp(matrix);
-  unsigned int index[N];
+  size_t index[N];
   LuDecomposition(temp, index);
 
   Matrix<N, N> inverse;
@@ -41,7 +41,7 @@ Matrix<N, N> CalcInverseMatrix(const Matrix<N, N>& matrix) {
 }
 
 template <std::size_t N>
-Matrix<N, N>& LuDecomposition(Matrix<N, N>& a, unsigned int index[]) {
+Matrix<N, N>& LuDecomposition(Matrix<N, N>& a, size_t index[]) {
   double coef[N];
   for (size_t i = 0; i < N; ++i) {
     double biggest = 0.0;
@@ -109,12 +109,12 @@ Matrix<N, N>& LuDecomposition(Matrix<N, N>& a, unsigned int index[]) {
 }
 
 template <std::size_t N>
-Vector<N>& SolveLinearSystemWithLu(const Matrix<N, N>& a, const unsigned int index[], Vector<N>& b) {
+Vector<N>& SolveLinearSystemWithLu(const Matrix<N, N>& a, const size_t index[], Vector<N>& b) {
   double sum;
   bool non_zero = false;
-  unsigned int mark = 0;
+  size_t mark = 0;
   for (size_t i = 0; i < N; ++i) {
-    unsigned int ip = index[i];
+    size_t ip = index[i];
     sum = b[ip];
     b[ip] = b[i];
     if (non_zero) {

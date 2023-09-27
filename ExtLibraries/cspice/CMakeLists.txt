@@ -19,6 +19,19 @@ if(WIN32)
     set(CSPICE_SHA256 "bc566e6a975c888fc5fd89d76554329501446bda88c8bab937c0725faead170f")
     set(CSPICE_BUILD_COMMAND "")
   endif()
+elseif(APPLE)
+  # APPLE
+  if(APPLE_SILICON)  
+    # APPLE Silicon
+    set(CSPICE_URL https://naif.jpl.nasa.gov/pub/naif/toolkit//C/MacM1_OSX_clang_64bit/packages/cspice.tar.Z)
+    set(CSPICE_SHA256 "0deae048443e11ca4d093cac651d9785d4f2594631a183d85a3d58949f4d0aa9")
+    set(CSPICE_BUILD_COMMAND "")
+  else()
+    # APPLE Intel
+    set(CSPICE_URL https://naif.jpl.nasa.gov/pub/naif/toolkit//C/MacIntel_OSX_AppleC_64bit/packages/cspice.tar.Z)
+    set(CSPICE_SHA256 "6f4980445fee4d363dbce6f571819f4a248358d2c1bebca47e0743eedfe9935e")
+    set(CSPICE_BUILD_COMMAND "")
+  endif()
 else()
   # Linux
   if(BUILD_64BIT)
@@ -56,6 +69,15 @@ if(WIN32)
   else()
     set(CSPICE_LIB_DEST "cspice_msvs")
   endif()
+elseif(APPLE)
+  # APPLE
+  if(APPLE_SILICON)  
+    # APPLE Silicon
+    set(CSPICE_LIB_DEST "cspice_apple_silicon64")
+  else()
+    # APPLE Intel
+    set(CSPICE_LIB_DEST "cspice_apple_intel64")
+  endif()
 else()
   # Linux
   if(BUILD_64BIT)
@@ -89,9 +111,10 @@ download_generic_kernel(pck pck00010.tpc "59468328349aa730d18bf1f8d7e86efe6e40b7
 download_generic_kernel(spk/planets de430.bsp "6e1b277c5f07135a84950604b83e56b736be696a7f3560bcddb1d4aeb944fca1")
 
 # move generic kernel
-file(RENAME
+configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels/lsk/a_old_versions/naif0010.tls
   ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels/lsk/naif0010.tls
+  COPYONLY
 )
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels

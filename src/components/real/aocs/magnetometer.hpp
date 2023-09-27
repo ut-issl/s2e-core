@@ -64,18 +64,38 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    * @fn GetLogHeader
    * @brief Override GetLogHeader function of ILoggable
    */
-  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
    * @brief Override GetLogValue function of ILoggable
    */
-  virtual std::string GetLogValue() const;
+  virtual std::string GetLogValue() const override;
 
   /**
    * @fn GetMeasuredMagneticField_c_nT
    * @brief Return observed magnetic field on the component frame
    */
   inline const libra::Vector<kMagnetometerDimension>& GetMeasuredMagneticField_c_nT(void) const { return magnetic_field_c_nT_; }
+
+  /**
+   * @fn SetConstantBiasNoise_c_nT
+   * @brief Set constant bias noise at component frame [nT]
+   * @param [in] constant_noise_c_nT: Constant bias noise at component frame [nT]
+   */
+  inline void SetConstantBiasNoise_c_nT(libra::Vector<kMagnetometerDimension> constant_noise_c_nT) { bias_noise_c_ = constant_noise_c_nT; }
+
+  /**
+   * @fn AddConstantBiasNoise_c_nT
+   * @brief Add constant bias noise at component frame [nT]
+   * @param [in] constant_noise_c_nT: Additional constant bias noise at component frame [nT]
+   */
+  inline void AddConstantBiasNoise_c_nT(libra::Vector<kMagnetometerDimension> constant_noise_c_nT) { bias_noise_c_ += constant_noise_c_nT; }
+
+  /**
+   * @fn GetConstantBiasNoise_c_nT
+   * @brief Get constant bias noise at component frame [nT]
+   */
+  inline libra::Vector<kMagnetometerDimension> GetConstantBiasNoise_c_nT() const { return bias_noise_c_; }
 
  protected:
   libra::Vector<kMagnetometerDimension> magnetic_field_c_nT_{0.0};  //!< Observed magnetic field on the component frame [nT]

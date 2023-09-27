@@ -324,7 +324,7 @@ void gigrf(int gen, double year) {
   // sprintf(char *str, const char *format,  ．．．
   // )=printf関数と同様の変換を行った出力を、文字列strに格納 char *strncpy(char
   // *s1, const char *s2, size_t n);= *s1 に文字列 *s2 を先頭から n 文字コピー
-  sprintf(buf, "%02d", gen);
+  snprintf(buf, LLINE, "%02d", gen);
   strncpy(pstr, buf, 2);
   if ((fp = fopen(file, "r")) == NULL) {
     fprintf(stderr, "gigrf: file not found\n");

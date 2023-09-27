@@ -10,7 +10,7 @@
 SurfaceForce::SurfaceForce(const std::vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, true), surfaces_(surfaces), center_of_gravity_b_m_(center_of_gravity_b_m) {
   // Initialize vectors
-  int num = surfaces_.size();
+  size_t num = surfaces_.size();
   normal_coefficients_.assign(num, 0.0);
   tangential_coefficients_.assign(num, 0.0);
   cos_theta_.assign(num, 0.0);

@@ -48,7 +48,7 @@ class ExampleSerialCommunicationForHils : public Component, public UartCommunica
    * @fn MainRoutine
    * @brief Main routine to receive command and send telemetry
    */
-  void MainRoutine(const int time_count);
+  void MainRoutine(const int time_count) override;
 
  private:
   const static int kMemorySize = 4;             //!< Memory size

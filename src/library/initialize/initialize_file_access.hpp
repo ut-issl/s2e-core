@@ -8,9 +8,13 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#define INI_CALC_LABEL "calculation"
+#define INI_LOG_LABEL "logging"
+
 #ifdef WIN32
 #define _WINSOCKAPI_  // stops windows.h including winsock.h
 #include <tchar.h>
+#define NOMINMAX
 #include <windows.h>
 #else
 #include <library/external/inih/cpp/INIReader.h>
@@ -138,7 +142,7 @@ class IniAccess {
    * @param[out] output_value: Read double matrix value
    * @param[in] node_num: Number of node. When reading n * m matrix, please substitute bigger number.
    */
-  void ReadCsvDouble(std::vector<std::vector<double>>& output_value, const int node_num);
+  void ReadCsvDouble(std::vector<std::vector<double>>& output_value, const size_t node_num);
   /**
    * @fn ReadCsvDoubleWithHeader
    * @brief Read matrix value in CSV file with header
@@ -155,7 +159,7 @@ class IniAccess {
    * @param[out] output_value: Read matrix of string
    * @param[in] node_num: Number of node. When reading n * m matrix, please substitute bigger number.
    */
-  void ReadCsvString(std::vector<std::vector<std::string>>& output_value, const int node_num);
+  void ReadCsvString(std::vector<std::vector<std::string>>& output_value, const size_t node_num);
 
  private:
   static const size_t kMaxCharLength = 1024;

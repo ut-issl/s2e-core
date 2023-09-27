@@ -9,12 +9,10 @@
 
 SampleGroundStation::SampleGroundStation(const SimulationConfiguration* configuration, const unsigned int ground_station_id)
     : GroundStation(configuration, ground_station_id) {
-  Initialize(configuration);
+  components_ = new SampleGsComponents(configuration);
 }
 
 SampleGroundStation::~SampleGroundStation() { delete components_; }
-
-void SampleGroundStation::Initialize(const SimulationConfiguration* configuration) { components_ = new SampleGsComponents(configuration); }
 
 void SampleGroundStation::LogSetup(Logger& logger) {
   GroundStation::LogSetup(logger);

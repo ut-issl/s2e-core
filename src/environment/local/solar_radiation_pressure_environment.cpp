@@ -8,6 +8,7 @@
 #include <cassert>
 #include <fstream>
 
+#include "library/initialize/initialize_file_access.hpp"
 #include "library/logger/log_utility.hpp"
 #include "library/math/constants.hpp"
 #include "library/math/vector.hpp"
@@ -94,4 +95,16 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
     assert(c > (a + b));
     shadow_coefficient_ = 1.0;
   }
+}
+
+SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::string initialize_file_path,
+                                                                        LocalCelestialInformation* local_celestial_information) {
+  auto conf = IniAccess(initialize_file_path);
+  const char* section = "SOLAR_RADIATION_PRESSURE_ENVIRONMENT";
+
+  SolarRadiationPressureEnvironment srp_env(local_celestial_information);
+  srp_env.IsCalcEnabled = conf.ReadEnable(section, INI_CALC_LABEL);
+  srp_env.is_log_enabled_ = conf.ReadEnable(section, INI_LOG_LABEL);
+
+  return srp_env;
 }

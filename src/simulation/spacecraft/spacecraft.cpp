@@ -58,6 +58,7 @@ void Spacecraft::Update(const SimulationTime* simulation_time) {
 
   // Update components
   clock_generator_.UpdateComponents(simulation_time);
+  components_->ComponentInterference();
 
   // Add generated force and torque by disturbances
   dynamics_->AddAcceleration_i_m_s2(disturbances_->GetAcceleration_i_m_s2());

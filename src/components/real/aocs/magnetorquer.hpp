@@ -89,12 +89,12 @@ class Magnetorquer : public Component, public ILoggable {
    * @fn GetLogHeader
    * @brief Override GetLogHeader function of ILoggable
    */
-  virtual std::string GetLogHeader() const;
+  virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
    * @brief Override GetLogValue function of ILoggable
    */
-  virtual std::string GetLogValue() const;
+  virtual std::string GetLogValue() const override;
 
   /**
    * @fn GetOutputTorque_b_Nm
@@ -113,6 +113,12 @@ class Magnetorquer : public Component, public ILoggable {
    * @brief Return output magnetic moment in the body fixed frame [Am2]
    */
   inline const libra::Vector<kMtqDimension>& SetOutputMagneticMoment_b_Am2(void) const { return output_magnetic_moment_b_Am2_; };
+
+  /**
+   * @fn GetOutputMagneticMoment_b_Am2
+   * @brief Return output magnetic moment in the body fixed frame [Am2]
+   */
+  inline const libra::Vector<kMtqDimension>& GetOutputMagneticMoment_c_Am2(void) const { return output_magnetic_moment_c_Am2_; };
 
  protected:
   const int component_id_ = 0;                                      //!< Actuator ID

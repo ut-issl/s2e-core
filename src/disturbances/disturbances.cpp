@@ -10,7 +10,7 @@
 #include "air_drag.hpp"
 #include "geopotential.hpp"
 #include "gravity_gradient.hpp"
-#include "initialize_disturbances.hpp"
+#include "lunar_gravity_field.hpp"
 #include "magnetic_disturbance.hpp"
 #include "solar_radiation_pressure_disturbance.hpp"
 #include "third_body_gravity.hpp"
@@ -71,6 +71,11 @@ void Disturbances::InitializeInstances(const SimulationConfiguration* simulation
   ThirdBodyGravity* third_body_gravity =
       new ThirdBodyGravity(InitThirdBodyGravity(initialize_file_name_, simulation_configuration->initialize_base_file_name_));
   disturbances_list_.push_back(third_body_gravity);
+
+  if (global_environment->GetCelestialInformation().GetCenterBodyName() == "MOON") {
+    LunarGravityField* lunar_gravity_field = new LunarGravityField(InitLunarGravityField(initialize_file_name_));
+    disturbances_list_.push_back(lunar_gravity_field);
+  }
 
   if (global_environment->GetCelestialInformation().GetCenterBodyName() != "EARTH") return;
   // Earth only disturbances (TODO: implement disturbances for other center bodies)

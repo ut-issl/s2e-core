@@ -58,4 +58,14 @@ class SolarRadiationPressureDisturbance : public SurfaceForce {
   void CalcCoefficients(const libra::Vector<3>& input_direction_b, const double item);
 };
 
+/**
+ * @fn InitSolarRadiationPressureDisturbance
+ * @brief Initialize SolarRadiationPressureDisturbance class
+ * @param [in] initialize_file_path: Initialize file path
+ * @param [in] surfaces: surface information of the spacecraft
+ * @param [in] center_of_gravity_b_m: Center of gravity position vector at body frame [m]
+ */
+SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const std::string initialize_file_path, const std::vector<Surface>& surfaces,
+                                                                        const Vector<3>& center_of_gravity_b_m);
+
 #endif  // S2E_DISTURBANCES_SOLAR_RADIATION_PRESSURE_DISTURBANCE_HPP_

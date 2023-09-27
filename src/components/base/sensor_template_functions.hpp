@@ -13,10 +13,10 @@ Sensor<N>::Sensor(const libra::Matrix<N, N>& scale_factor, const libra::Vector<N
                   const libra::Vector<N>& bias_noise_c, const libra::Vector<N>& normal_random_standard_deviation_c,
                   const double random_walk_step_width_s, const libra::Vector<N>& random_walk_standard_deviation_c,
                   const libra::Vector<N>& random_walk_limit_c)
-    : scale_factor_(scale_factor),
+    : bias_noise_c_(bias_noise_c),
+      scale_factor_(scale_factor),
       range_to_const_c_(range_to_const_c),
       range_to_zero_c_(range_to_zero_c),
-      bias_noise_c_(bias_noise_c),
       random_walk_noise_c_(random_walk_step_width_s, random_walk_standard_deviation_c, random_walk_limit_c) {
   for (size_t i = 0; i < N; i++) {
     normal_random_noise_c_[i].SetParameters(0.0, normal_random_standard_deviation_c[i], global_randomization.MakeSeed());
