@@ -152,8 +152,7 @@ void CelestialRotation::Update(const double julian_date) {
     libra::Matrix<3, 3> W;
     // Nutation + Precession
     P = Precession(tTT_century);
-    N = Nutation(tTT_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are
-                                // updated in this procedure
+    N = Nutation(tTT_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are updated in this procedure
 
     // Axial Rotation
     double Eq_rad = d_psi_rad_ * cos(epsilon_rad_ + d_epsilon_rad_);  // Equation of equinoxes [rad]
@@ -185,7 +184,7 @@ libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&t_tt_century)[4])
     epsilon_rad_ += c_epsilon_rad_[i + 1] * t_tt_century[i];
   }
 
-  // Compute five delauney angles(l=lm,l'=ls,F,D,Ω=O)
+  // Compute five delauney angles(l=lm, l'=ls, F, D, Ω=O)
   // Mean anomaly of the moon
   double lm_rad = c_lm_rad_[0];
   for (int i = 0; i < 4; i++) {
@@ -213,21 +212,21 @@ libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&t_tt_century)[4])
   }
 
   // Additional angles
-  double L_rad = F_rad + O_rad;   // F + Ω     [rad]
-  double Ld_rad = L_rad - D_rad;  // F - D + Ω [rad]
+  double L_rad = F_rad + O_rad;   // F + Ω
+  double Ld_rad = L_rad - D_rad;  // F + Ω - D
 
   // Compute luni-solar nutation
   // Nutation in obliquity
   d_psi_rad_ = c_d_psi_rad_[0] * sin(O_rad) + c_d_psi_rad_[1] * sin(2 * Ld_rad) + c_d_psi_rad_[2] * sin(2 * O_rad) +
-               c_d_psi_rad_[3] * sin(2 * L_rad) + c_d_psi_rad_[4] * sin(ls_rad);  // [rad]
+               c_d_psi_rad_[3] * sin(2 * L_rad) + c_d_psi_rad_[4] * sin(ls_rad);
   d_psi_rad_ = d_psi_rad_ + c_d_psi_rad_[5] * sin(lm_rad) + c_d_psi_rad_[6] * sin(2 * Ld_rad + ls_rad) + c_d_psi_rad_[7] * sin(2 * L_rad + lm_rad) +
-               c_d_psi_rad_[8] * sin(2 * Ld_rad - ls_rad);  // [rad]
+               c_d_psi_rad_[8] * sin(2 * Ld_rad - ls_rad);
 
   // Nutation in longitude
   d_epsilon_rad_ = c_d_epsilon_rad_[0] * cos(O_rad) + c_d_epsilon_rad_[1] * cos(2 * Ld_rad) + c_d_epsilon_rad_[2] * cos(2 * O_rad) +
-                   c_d_epsilon_rad_[3] * cos(2 * L_rad) + c_d_epsilon_rad_[4] * cos(ls_rad);  // [rad]
+                   c_d_epsilon_rad_[3] * cos(2 * L_rad) + c_d_epsilon_rad_[4] * cos(ls_rad);
   d_epsilon_rad_ = d_epsilon_rad_ + c_d_epsilon_rad_[5] * cos(lm_rad) + c_d_epsilon_rad_[6] * cos(2 * Ld_rad + ls_rad) +
-                   c_d_epsilon_rad_[7] * cos(2 * L_rad + lm_rad) + c_d_epsilon_rad_[8] * cos(2 * Ld_rad - ls_rad);  // [rad]
+                   c_d_epsilon_rad_[7] * cos(2 * L_rad + lm_rad) + c_d_epsilon_rad_[8] * cos(2 * Ld_rad - ls_rad);
 
   double epsi_mod_rad = epsilon_rad_ + d_epsilon_rad_;
   libra::Matrix<3, 3> X_epsi_1st = libra::MakeRotationMatrixX(epsilon_rad_);
