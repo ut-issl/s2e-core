@@ -14,7 +14,7 @@
 using namespace std;
 
 Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, const vector<vector<double>> radiation_matrix_m2, vector<Node> nodes,
-                         vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const int node_num,
+                         vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const size_t node_num,
                          const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment, const bool is_calc_enabled,
                          const SolarCalcSetting solar_calc_setting, const bool debug)
     : conductance_matrix_W_K_(conductance_matrix_W_K),
@@ -83,9 +83,9 @@ void Temperature::Propagate(libra::Vector<3> sun_position_b_m, const double time
   }
 }
 
-void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, libra::Vector<3> sun_direction_b, int node_num) {
+void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, libra::Vector<3> sun_direction_b, size_t node_num) {
   vector<double> temperatures_now_K(node_num);
-  for (int i = 0; i < node_num; i++) {
+  for (size_t i = 0; i < node_num; i++) {
     temperatures_now_K[i] = nodes_[i].GetTemperature_K();
   }
 
@@ -93,38 +93,38 @@ void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, libra:
   vector<double> xk2(node_num), xk3(node_num), xk4(node_num);
 
   k1 = CalcTemperatureDifferentials(temperatures_now_K, time_now_s, sun_direction_b, node_num);
-  for (int i = 0; i < node_num; i++) {
+  for (size_t i = 0; i < node_num; i++) {
     xk2[i] = temperatures_now_K[i] + (time_step_s / 2.0) * k1[i];
   }
 
   k2 = CalcTemperatureDifferentials(xk2, (time_now_s + time_step_s / 2.0), sun_direction_b, node_num);
-  for (int i = 0; i < node_num; i++) {
+  for (size_t i = 0; i < node_num; i++) {
     xk3[i] = temperatures_now_K[i] + (time_step_s / 2.0) * k2[i];
   }
 
   k3 = CalcTemperatureDifferentials(xk3, (time_now_s + time_step_s / 2.0), sun_direction_b, node_num);
-  for (int i = 0; i < node_num; i++) {
+  for (size_t i = 0; i < node_num; i++) {
     xk4[i] = temperatures_now_K[i] + time_step_s * k3[i];
   }
 
   k4 = CalcTemperatureDifferentials(xk4, (time_now_s + time_step_s), sun_direction_b, node_num);
 
   vector<double> temperatures_next_K(node_num);
-  for (int i = 0; i < node_num; i++) {
+  for (size_t i = 0; i < node_num; i++) {
     temperatures_next_K[i] = temperatures_now_K[i] + (time_step_s / 6.0) * (k1[i] + 2.0 * k2[i] + 2.0 * k3[i] + k4[i]);
   }
 
-  for (int i = 0; i < node_num; i++) {
+  for (size_t i = 0; i < node_num; i++) {
     nodes_[i].SetTemperature_K(temperatures_next_K[i]);
   }
 }
 
-vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperatures_K, double t, libra::Vector<3> sun_direction_b, int node_num) {
+vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperatures_K, double t, libra::Vector<3> sun_direction_b, size_t node_num) {
   // TODO: consider the following unused arguments are really needed
   UNUSED(temperatures_K);
 
   vector<double> differentials_K_s(node_num);
-  for (int i = 0; i < node_num; i++) {
+  for (size_t i = 0; i < node_num; i++) {
     heatloads_[i].SetElapsedTime_s(t);
     if (nodes_[i].GetNodeType() == NodeType::kDiffusive) {
       double solar_flux_W_m2 = srp_environment_->GetPowerDensity_W_m2();
@@ -140,7 +140,7 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
 
       double conductive_heat_input_W = 0;
       double radiative_heat_input_W = 0;
-      for (int j = 0; j < node_num; j++) {
+      for (size_t j = 0; j < node_num; j++) {
         conductive_heat_input_W += conductance_matrix_W_K_[i][j] * (nodes_[j].GetTemperature_K() - nodes_[i].GetTemperature_K());
         radiative_heat_input_W += environment::stefan_boltzmann_constant_W_m2K4 * radiation_matrix_m2_[i][j] *
                                   (pow(nodes_[j].GetTemperature_K(), 4) - pow(nodes_[i].GetTemperature_K(), 4));
@@ -176,14 +176,14 @@ void Temperature::UpdateHeaterStatus(void) {
 
 string Temperature::GetLogHeader() const {
   string str_tmp = "";
-  for (int i = 0; i < node_num_; i++) {
+  for (size_t i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
       string str_node = "temp_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
       str_tmp += WriteScalar(str_node, "deg");
     }
   }
-  for (int i = 0; i < node_num_; i++) {
+  for (size_t i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
       string str_node = "heat_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
@@ -195,13 +195,13 @@ string Temperature::GetLogHeader() const {
 
 string Temperature::GetLogValue() const {
   string str_tmp = "";
-  for (int i = 0; i < node_num_; i++) {
+  for (size_t i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
       str_tmp += WriteScalar(nodes_[i].GetTemperature_degC());
     }
   }
-  for (int i = 0; i < node_num_; i++) {
+  for (size_t i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
       str_tmp += WriteScalar(heatloads_[i].GetTotalHeatload_W());
@@ -223,15 +223,15 @@ void Temperature::PrintParams(void) {
   }
   cout << std::fixed;
   cout << "Cij:" << endl;
-  for (int i = 0; i < (node_num_); i++) {
-    for (int j = 0; j < (node_num_); j++) {
+  for (size_t i = 0; i < (node_num_); i++) {
+    for (size_t j = 0; j < (node_num_); j++) {
       cout << std::setprecision(4) << conductance_matrix_W_K_[i][j] << "  ";
     }
     cout << endl;
   }
   cout << "Rij:" << endl;
-  for (int i = 0; i < (node_num_); i++) {
-    for (int j = 0; j < (node_num_); j++) {
+  for (size_t i = 0; i < (node_num_); i++) {
+    for (size_t j = 0; j < (node_num_); j++) {
       cout << std::setprecision(4) << radiation_matrix_m2_[i][j] << "  ";
     }
     cout << endl;

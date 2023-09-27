@@ -37,7 +37,7 @@ class Temperature : public ILoggable {
   std::vector<Heatload> heatloads_;                          // vector of heatloads
   std::vector<Heater> heaters_;                              // vector of heaters
   std::vector<HeaterController> heater_controllers_;         // vector of heater controllers
-  int node_num_;                                             // number of nodes
+  size_t node_num_;                                          // number of nodes
   double propagation_step_s_;                                // propagation step [s]
   double propagation_time_s_;  // Incremented time inside class Temperature [s], finish propagation when reaching end_time
   const SolarRadiationPressureEnvironment* srp_environment_;  // SolarRadiationPressureEnvironment for calculating solar flux
@@ -54,7 +54,7 @@ class Temperature : public ILoggable {
    * @param[in] sun_direction_b: Sun position in body frame [m]
    * @param[in] node_num: Number of nodes
    */
-  void CalcRungeOneStep(double time_now_s, double time_step_s, libra::Vector<3> sun_direction_b, int node_num);
+  void CalcRungeOneStep(double time_now_s, double time_step_s, libra::Vector<3> sun_direction_b, size_t node_num);
   /**
    * @fn CalcTemperatureDifferentials
    * @brief Calculate differential of thermal equilibrium equation
@@ -66,7 +66,7 @@ class Temperature : public ILoggable {
    * @return std::vector<double>: Differential of thermal equilibrium equation at time now
    */
   std::vector<double> CalcTemperatureDifferentials(std::vector<double> temperatures_K, double time_now_s, const libra::Vector<3> sun_direction_b,
-                                                   int node_num);
+                                                   size_t node_num);
 
  public:
   /**
@@ -75,7 +75,7 @@ class Temperature : public ILoggable {
    *
    * @param conductance_matrix_W_K: (node_num x node_num) matrix with heat conductance values [W/K]
    * @param radiation_matrix_m2: (node_num x node_num) matrix with radiative connection values [m2]
-   * @param nodes: Vector of all nodes inculded in calculation
+   * @param nodes: Vector of all nodes included in calculation
    * @param heatloads: Vector of all heatloads included in calculation
    * @param heaters: Vector of all heaters included in calculation
    * @param heater_controllers: Vector of all heater controllers included in calculation
@@ -87,7 +87,7 @@ class Temperature : public ILoggable {
    */
   Temperature(const std::vector<std::vector<double>> conductance_matrix_W_K, const std::vector<std::vector<double>> radiation_matrix_m2,
               std::vector<Node> nodes, std::vector<Heatload> heatloads, std::vector<Heater> heaters, std::vector<HeaterController> heater_controllers,
-              const int node_num, const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment,
+              const size_t node_num, const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment,
               const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug);
   /**
    * @fn Temperature
@@ -145,7 +145,7 @@ class Temperature : public ILoggable {
 
   /**
    * @fn PrintParams
-   * @brief Print parameters of tempearture in debug console
+   * @brief Print parameters of temperature in debug console
    */
   void PrintParams(void);
 };
