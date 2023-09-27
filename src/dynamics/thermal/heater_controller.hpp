@@ -14,10 +14,6 @@
 #include "heater.hpp"
 
 class HeaterController {
- protected:
-  double lower_threshold_degC_;  // Lower Threshold of Heater Control [degC]
-  double upper_threshold_degC_;  // Upper Threshold of Heater Control [degC]
-
  public:
   /**
    * @fn HeaterController
@@ -73,6 +69,10 @@ class HeaterController {
    * @param[in] temperature_degC
    */
   void ControlHeater(Heater* p_heater, double temperature_degC);
+
+ protected:
+  double lower_threshold_degC_;  // Lower Threshold of Heater Control [degC]
+  double upper_threshold_degC_;  // Upper Threshold of Heater Control [degC]
 
   /**
    * @fn AssertHeaterControllerParams
