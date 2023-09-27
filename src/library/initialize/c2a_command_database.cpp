@@ -23,7 +23,6 @@ C2aCommandInformation::C2aCommandInformation(const std::string cmd_db_line) {
   }
 
   // Command name
-  if (tokens[1].find("Cmd_") != 0) return;
   command_name_ = tokens[1];
 
   // Command ID
