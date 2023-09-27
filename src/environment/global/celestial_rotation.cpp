@@ -230,11 +230,11 @@ libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&t_tt_century)[4])
 
   double epsi_mod_rad = epsilon_rad_ + d_epsilon_rad_;
   libra::Matrix<3, 3> X_epsi_1st = libra::MakeRotationMatrixX(epsilon_rad_);
-  libra::Matrix<3, 3> Z_dpsi = libra::MakeRotationMatrixZ(-d_psi_rad_);
+  libra::Matrix<3, 3> Z_d_psi = libra::MakeRotationMatrixZ(-d_psi_rad_);
   libra::Matrix<3, 3> X_epsi_2nd = libra::MakeRotationMatrixX(-epsi_mod_rad);
 
   libra::Matrix<3, 3> N;
-  N = X_epsi_2nd * Z_dpsi * X_epsi_1st;
+  N = X_epsi_2nd * Z_d_psi * X_epsi_1st;
 
   return N;
 }
