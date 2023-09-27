@@ -73,6 +73,15 @@ Node InitNode(const std::vector<std::string>& node_str) {
   for (int i = 0; i < 3; i++) {
     normal_v_b[i] = stod(node_str[index_normal_v_b_head + i]);
   }
+
+  // Normalize Norm Vector (Except for Boundary and Arithmetic Nodes)
+  if (node_type_int == 0) {
+    double norm = normal_v_b.CalcNorm();
+    for (int i = 0; i < 3; i++) {
+      normal_v_b[i] = normal_v_b[i] / norm;
+    }
+  }
+  
   temperature_K = stod(node_str[index_temperature]);
 
   NodeType node_type = NodeType::kDiffusive;

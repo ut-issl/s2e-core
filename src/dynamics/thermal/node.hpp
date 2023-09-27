@@ -67,10 +67,10 @@ class Node {
    * @fn CalcSolarRadiation_W
    * @brief Calculate solar radiation [W] from sun direction, alpha, area, and normal vector
    *
-   * @param sun_position_b_m: Sun position in body frame [m]
+   * @param sun_direction_b: Sun direction in body frame
    * @return double: Solar Radiation [W]
    */
-  double CalcSolarRadiation_W(libra::Vector<3> sun_position_b_m, double solar_flux_W_m2);
+  double CalcSolarRadiation_W(libra::Vector<3> sun_direction_b, double solar_flux_W_m2);
 
   // Getter
   /**

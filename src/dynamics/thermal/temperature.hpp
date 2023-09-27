@@ -51,21 +51,21 @@ class Temperature : public ILoggable {
    *
    * @param[in] time_now_s: Current elapsed time [s]
    * @param[in] time_step_s: Time step of RK4 [s]
-   * @param[in] sun_position_b_m: Sun position in body frame [m]
+   * @param[in] sun_direction_b: Sun position in body frame [m]
    * @param[in] node_num: Number of nodes
    */
-  void CalcRungeOneStep(double time_now_s, double time_step_s, libra::Vector<3> sun_position_b_m, int node_num);
+  void CalcRungeOneStep(double time_now_s, double time_step_s, libra::Vector<3> sun_direction_b, int node_num);
   /**
    * @fn CalcTemperatureDifferentials
    * @brief Calculate differential of thermal equilibrium equation
    *
    * @param temperatures_K: [UNUSED] Temperatures of each node [K]
    * @param time_now_s: Current elapsed time [s]
-   * @param[in] sun_position_b_m: Sun position in body frame [m]
+   * @param[in] sun_direction_b: Sun direction in body frame
    * @param node_num: Number of nodes
    * @return std::vector<double>: Differential of thermal equilibrium equation at time now
    */
-  std::vector<double> CalcTemperatureDifferentials(std::vector<double> temperatures_K, double time_now_s, const libra::Vector<3> sun_position_b_m,
+  std::vector<double> CalcTemperatureDifferentials(std::vector<double> temperatures_K, double time_now_s, const libra::Vector<3> sun_direction_b,
                                                    int node_num);
 
  public:
