@@ -64,8 +64,6 @@ void Node::PrintParam(void) {
 }
 
 void Node::AssertNodeParams(void) {
-  assert(node_id_ >= 0);                                      // Node ID should be larger than 0
-  assert(heater_id_ >= 0);                                    // Heater ID should be larger than 0
   assert(temperature_K_ >= environment::absolute_zero_degC);  // Temperature must be larger than zero kelvin
   assert(capacity_J_K_ >= 0);                                 // Capacity must be larger than 0, use 0 when node is boundary or arithmetic
   assert(0 <= alpha_ && alpha_ <= 1);                         // alpha must be between 0 and 1
