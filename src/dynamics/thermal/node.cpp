@@ -66,25 +66,25 @@ void Node::PrintParam(void) {
 void Node::AssertNodeParams(void) {
   // Temperature must be larger than zero kelvin
   if (temperature_K_ >= 0.0) {
-    std::cerr << "WARNING! Node temperature is less than zero [K]." << std::endl;
+    std::cerr << "[WARNING] node: temperature is less than zero [K]." << std::endl;
     std::cerr << "The value is set as 0.0." << std::endl;
     temperature_K_ = 0.0;
   }
   // Capacity must be larger than 0, use 0 when node is boundary or arithmetic
   if (capacity_J_K_ >= 0.0) {
-    std::cerr << "WARNING! Node capacity is less than zero [J/K]." << std::endl;
+    std::cerr << "[WARNING] node: capacity is less than zero [J/K]." << std::endl;
     std::cerr << "The value is set as 0.0." << std::endl;
     capacity_J_K_ = 0.0;
   }
   // alpha must be between 0 and 1
   if (0.0 <= alpha_ && alpha_ <= 1.0) {
-    std::cerr << "WARNING! Node alpha is over the range [0, 1]." << std::endl;
+    std::cerr << "[WARNING] node: alpha is over the range [0, 1]." << std::endl;
     std::cerr << "The value is set as 0.0." << std::endl;
     alpha_ = 0.0;
   }
   // Area must be larger than 0
   if (area_m2_ >= 0.0) {
-    std::cerr << "WARNING! Node area is less than zero [m2]." << std::endl;
+    std::cerr << "[WARNING] node: area is less than zero [m2]." << std::endl;
     std::cerr << "The value is set as 0.0." << std::endl;
     area_m2_ = 0.0;
   }
