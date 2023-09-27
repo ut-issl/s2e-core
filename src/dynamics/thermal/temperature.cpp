@@ -50,7 +50,7 @@ void Temperature::Propagate(libra::Vector<3> sun_position_b_m, const double time
   if (!is_calc_enabled_) return;
   double sun_distance_m = sun_position_b_m.CalcNorm();
   libra::Vector<3> sun_direction_b;
-  for (int i = 0; i < 3; i++) {
+  for (size_t i = 0; i < 3; i++) {
     sun_direction_b[i] = sun_position_b_m[i] / sun_distance_m;
   }
   while (time_end_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
@@ -72,7 +72,7 @@ void Temperature::Propagate(libra::Vector<3> sun_position_b_m, const double time
       cout << setprecision(4) << itr->GetSolarRadiation_W() << "  ";
     }
     cout << "SunDir:  ";
-    for (int i = 0; i < 3; i++) {
+    for (size_t i = 0; i < 3; i++) {
       cout << setprecision(3) << sun_direction_b[i] << "  ";
     }
     cout << "Heatload:  ";
@@ -154,8 +154,8 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
   return differentials_K_s;
 }
 
-double Temperature::GetHeaterPower_W(int node_id) {
-  int heater_id = nodes_[node_id].GetHeaterId();
+double Temperature::GetHeaterPower_W(size_t node_id) {
+  size_t heater_id = nodes_[node_id].GetHeaterId();
   double heater_power_W = 0.0;
   if (heater_id > 0) {
     heater_power_W = heaters_[heater_id - 1].GetPowerOutput_W();
@@ -165,7 +165,7 @@ double Temperature::GetHeaterPower_W(int node_id) {
 
 void Temperature::UpdateHeaterStatus(void) {
   for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
-    int heater_id = itr->GetHeaterId();
+    size_t heater_id = itr->GetHeaterId();
     if (heater_id > 0) {
       double temperature_degC = itr->GetTemperature_degC();
       Heater* p_heater = &heaters_[heater_id - 1];

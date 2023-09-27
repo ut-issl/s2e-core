@@ -123,7 +123,7 @@ class Temperature : public ILoggable {
    * @param node_id: Node number to return heater power
    * @return double: Heater power [W]
    */
-  double GetHeaterPower_W(int node_id);
+  double GetHeaterPower_W(size_t node_id);
   /**
    * @fn GetLogHeader
    * @brief Return Log Header

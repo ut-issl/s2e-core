@@ -42,25 +42,25 @@ Node InitNode(const std::vector<std::string>& node_str) {
   size_t node_str_size_defined = 11;                 // Correct size of node_str
   assert(node_str.size() == node_str_size_defined);  // Check if size of node_str is correct
 
-  int node_id = 0;                  // node number
+  size_t node_id = 0;               // node number
   std::string node_label = "temp";  // node name
-  int node_type_int = 0;            // node type
-  int heater_id = 0;                // heater node index
+  size_t node_type_int = 0;         // node type
+  size_t heater_id = 0;             // heater node index
   double temperature_K = 0;         // [K]
   double capacity_J_K = 0;          // [J/K]
   double alpha = 0;                 // []
   double area_m2 = 0;               // [m^2]
 
   // Index to read from node_str for each parameter
-  int index_node_id = 0;
-  int index_node_label = 1;
-  int index_node_type = 2;
-  int index_heater_id = 3;
-  int index_capacity = 4;
-  int index_alpha = 5;
-  int index_area = 6;
-  int index_normal_v_b_head = 7;
-  int index_temperature = 10;
+  size_t index_node_id = 0;
+  size_t index_node_label = 1;
+  size_t index_node_type = 2;
+  size_t index_heater_id = 3;
+  size_t index_capacity = 4;
+  size_t index_alpha = 5;
+  size_t index_area = 6;
+  size_t index_normal_v_b_head = 7;
+  size_t index_temperature = 10;
 
   node_id = stoi(node_str[index_node_id]);
   node_label = node_str[index_node_label];
@@ -70,14 +70,14 @@ Node InitNode(const std::vector<std::string>& node_str) {
   alpha = stod(node_str[index_alpha]);
   area_m2 = stod(node_str[index_area]);
   libra::Vector<3> normal_v_b;
-  for (int i = 0; i < 3; i++) {
+  for (size_t i = 0; i < 3; i++) {
     normal_v_b[i] = stod(node_str[index_normal_v_b_head + i]);
   }
 
   // Normalize Norm Vector (Except for Boundary and Arithmetic Nodes)
   if (node_type_int == 0) {
     double norm = normal_v_b.CalcNorm();
-    for (int i = 0; i < 3; i++) {
+    for (size_t i = 0; i < 3; i++) {
       normal_v_b[i] = normal_v_b[i] / norm;
     }
   }

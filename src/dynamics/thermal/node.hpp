@@ -44,7 +44,7 @@ class Node {
    * @param[in] area_m2: Area of face with possibility of solar incidence [m^2]
    * @param[in] normal_vector_b: Normal vector of face with possibility of solar incidence (Body frame)
    */
-  Node(const int node_id, const std::string node_name, const NodeType node_type, const int heater_id, const double temperature_ini_K,
+  Node(const size_t node_id, const std::string node_name, const NodeType node_type, const size_t heater_id, const double temperature_ini_K,
        const double capacity_J_K, const double alpha, const double area_m2, libra::Vector<3> normal_vector_b);
   /**
    * @fn ~Node
@@ -78,7 +78,7 @@ class Node {
    * @brief Return Heater Id
    * @return int: Heater ID
    */
-  inline int GetHeaterId(void) const { return heater_id_; }
+  inline size_t GetHeaterId(void) const { return heater_id_; }
   /**
    * @fn GetTemperature_K
    * @brief Get temperature of node in Kelvin
@@ -127,9 +127,9 @@ class Node {
   void PrintParam(void);
 
  protected:
-  unsigned int node_id_;
+  size_t node_id_;
   std::string node_name_;
-  unsigned int heater_id_;
+  size_t heater_id_;
   double temperature_K_;
   double capacity_J_K_;
   double alpha_;

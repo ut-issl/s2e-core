@@ -41,7 +41,7 @@ Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vecto
   int node_id = stoi(internal_heatload_str[0]);  // First data of internal_heatload_str is node id
 
   // read table
-  for (unsigned int i = 0; i < time_str.size() - 1; ++i) {
+  for (size_t i = 0; i < time_str.size() - 1; ++i) {
     time_table_s[i] = stod(time_str[i + 1]);
     internal_heatload_table_W[i] = stod(internal_heatload_str[i + 1]);
   }

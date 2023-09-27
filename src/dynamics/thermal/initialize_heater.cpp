@@ -25,12 +25,12 @@ Heater InitHeater(const std::vector<std::string>& heater_str) {
   size_t heater_str_size_defined = 4;                    // Correct size of heater_str
   assert(heater_str.size() == heater_str_size_defined);  // Check if size of heater_str is correct
 
-  int heater_id = 0;
+  size_t heater_id = 0;
   double power_rating_W = 0;  // [W]
 
   // Index to read from heater_str for each parameter
-  int index_heater_id = 0;
-  int index_power_rating = 1;
+  size_t index_heater_id = 0;
+  size_t index_power_rating = 1;
 
   heater_id = stoi(heater_str[index_heater_id]);
   power_rating_W = stod(heater_str[index_power_rating]);
@@ -46,8 +46,8 @@ HeaterController InitHeaterController(const std::vector<std::string>& heater_str
   assert(heater_str.size() == heater_str_size_defined);  // Check if size of heater_str is correct
 
   // Index to read from heater_str for each parameter
-  int index_lower_threshold = 2;
-  int index_upper_threshold = 3;
+  size_t index_lower_threshold = 2;
+  size_t index_upper_threshold = 3;
 
   double lower_threshold_degC = 0;  // [degC]
   double upper_threshold_degC = 0;  // [degC]
