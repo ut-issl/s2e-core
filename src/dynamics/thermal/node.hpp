@@ -64,9 +64,9 @@ class Node {
   /**
    * @fn GetNodeId
    * @brief Return Node Id
-   * @return int: Node ID
+   * @return size_t: Node ID
    */
-  inline int GetNodeId(void) const { return node_id_; }
+  inline size_t GetNodeId(void) const { return node_id_; }
   /**
    * @fn GetNodeName
    * @brief Return Node Name
