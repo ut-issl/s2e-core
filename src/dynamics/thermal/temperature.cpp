@@ -213,11 +213,11 @@ string Temperature::GetLogValue() const {
 void Temperature::PrintParams(void) {
   cout << "< Print Thermal Parameters >" << endl;
   cout << "IsCalcEnabled: " << is_calc_enabled_ << endl;
-  cout << "Vnodes:" << endl;
+  cout << "V nodes:" << endl;
   for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
     itr->PrintParam();
   }
-  cout << "Vheaters:" << endl;
+  cout << "V heaters:" << endl;
   for (auto itr = heaters_.begin(); itr != heaters_.end(); ++itr) {
     itr->PrintParam();
   }

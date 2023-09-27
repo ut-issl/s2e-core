@@ -14,7 +14,7 @@
 #include "initialize_heatload.hpp"
 #include "initialize_node.hpp"
 
-/* Import node properties, heatload_list and Cij/Rij Datas by reading CSV File (node.csv,
+/* Import node properties, heatload_list and Cij/Rij Data by reading CSV File (node.csv,
 heatload.csv, cij.csv, rij.csv) Detailed process of reading node properties from CSV File, and
 CSV file formats of node properties is written in Init_Node.cpp
 
@@ -46,14 +46,6 @@ First row is time data
   Cij units: W/K
   Rij units: m^2 (Equivalent to Ai * Bij * eps_i * eps_j)
 */
-
-/* Parameters
-   mainIni    : main Ini file(simBase.ini)
-   file_path  : directory of Thermal Input files(read from SimBase.ini)
-   propstep   : time step interval for temperature propagation integration(read
-   from SimBase.ini) mainstepSec: time step interval for Main Routin integration
-   (= temperature.end_time_)
- */
 
 using std::string;
 using std::vector;
@@ -100,7 +92,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   IniAccess conf_heatload(filepath_heatload);
   conf_heatload.ReadCsvString(heatload_str_list, 100);
   /*since we don't know the number of node_list yet, set node_num=100 temporary.
-    Recall that Nodes_num are given to this function only to reseve memory*/
+    Recall that Nodes_num are given to this function only to reserve memory*/
 
   heatload_num = heatload_str_list.size() - 1;
   auto times_itr = heatload_str_list.begin();  // First Row is Time Data
@@ -113,7 +105,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   IniAccess conf_node(filepath_node);
   conf_node.ReadCsvString(node_str_list, 100);
   /*since we don't know the number of node_list yet, set node_num=100 temporary.
-    Recall that Nodes_num are given to this function only to reseve memory*/
+    Recall that Nodes_num are given to this function only to reserve memory*/
 
   node_num = node_str_list.size() - 1;                                             // First Row is for Header(not data)
   node_list.reserve(node_num);                                                     // reserve memory
@@ -128,10 +120,10 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   IniAccess conf_heater(filepath_heater);
   conf_heater.ReadCsvString(heater_str_list, 100);
   /*since we don't know the number of heater_list yet, set heater_num=100 temporary.
-    Recall that heater_num are given to this function only to reseve memory*/
+    Recall that heater_num are given to this function only to reserve memory*/
 
-  heater_num = heater_str_list.size() - 1;                                             // First Row is for Header(not data)
-  heater_list.reserve(heater_num);                                                     // reserve memory
+  heater_num = heater_str_list.size() - 1;  // First Row is for Header(not data)
+  heater_list.reserve(heater_num);          // reserve memory
   heater_controller_list.reserve(heater_num);
   for (auto itr = heater_str_list.begin() + 1; itr != heater_str_list.end(); ++itr) {  // first row is for labels
     heater_list.push_back(InitHeater(*itr));
