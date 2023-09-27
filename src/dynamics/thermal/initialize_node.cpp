@@ -81,7 +81,7 @@ Node InitNode(const std::vector<std::string>& node_str) {
       normal_v_b[i] = normal_v_b[i] / norm;
     }
   }
-  
+
   temperature_K = stod(node_str[index_temperature]);
 
   NodeType node_type = NodeType::kDiffusive;
