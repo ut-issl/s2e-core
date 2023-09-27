@@ -5,7 +5,6 @@
 
 #include "node.hpp"
 
-#include <cassert>
 #include <cmath>
 #include <environment/global/physical_constants.hpp>
 
