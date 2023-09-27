@@ -37,9 +37,9 @@ class Node {
   double capacity_J_K_;
   double alpha_;
   double area_m2_;
-  libra::Vector<3> normal_vector_b_;
   double solar_radiation_W_;
   NodeType node_type_;
+  libra::Vector<3> normal_vector_b_;
 
  public:
   /**
