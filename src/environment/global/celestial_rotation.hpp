@@ -98,12 +98,36 @@ class CelestialRotation {
    */
   void InitCelestialRotationAsEarth(const RotationMode rotation_mode, const std::string center_body_name);
 
-  // TODO: Add doxygen comments for the private functions and fix argument name
+  /**
+   * @fn AxialRotation
+   * @brief Calculate movement of the coordinate axes due to rotation around the rotation axis
+   * @param [in] gast_rad: Greenwitch 'Apparent' Sidereal Time [rad]
+   * @return Rotation matrix
+   */
+  libra::Matrix<3, 3> AxialRotation(const double gast_rad);
 
-  libra::Matrix<3, 3> AxialRotation(const double GAST_rad);           //!< Movement of the coordinate axes due to rotation around the rotation axis
-  libra::Matrix<3, 3> Nutation(const double (&tTT_century)[4]);       //!< Movement of the coordinate axes due to Nutation
-  libra::Matrix<3, 3> Precession(const double (&tTT_century)[4]);     //!< Movement of the coordinate axes due to Precession
-  libra::Matrix<3, 3> PolarMotion(const double Xp, const double Yp);  //!< Movement of the coordinate axes due to Polar Motion
+  /**
+   * @fn Nutation
+   * @brief Calculate movement of the coordinate axes due to Nutation
+   * @param [in] t_tt_century: nth power of julian century for terrestrial time
+   * @return Rotation matrix
+   */
+  libra::Matrix<3, 3> Nutation(const double (&t_tt_century)[4]);
+
+  /**
+   * @fn Precession
+   * @brief Calculate movement of the coordinate axes due to Precession
+   * @param [in] t_tt_century: nth power of julian century for terrestrial time
+   * @return Rotation matrix
+   */
+  libra::Matrix<3, 3> Precession(const double (&t_tt_century)[4]);
+
+  /**
+   * @fn PolarMotion
+   * @brief Calculate movement of the coordinate axes due to Polar Motion
+   * @note Currently, this function is not used.
+   */
+  libra::Matrix<3, 3> PolarMotion(const double x_p, const double y_p);
 };
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_

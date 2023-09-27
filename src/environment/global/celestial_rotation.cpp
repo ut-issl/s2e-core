@@ -138,7 +138,8 @@ void CelestialRotation::Update(const double julian_date) {
     // Compute Julian date for terrestrial time
     double jdTT_day = julian_date + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
 
-    // Compute nth power of julian century for terrestrial time the actual unit of tTT_century is [century^(i+1)], i is the index of the array
+    // Compute nth power of julian century for terrestrial time.
+    // The actual unit of tTT_century is [century^(i+1)], i is the index of the array
     double tTT_century[4];
     tTT_century[0] = (jdTT_day - kJulianDateJ2000_) / kDayJulianCentury_;
     for (int i = 0; i < 3; i++) {
@@ -175,40 +176,40 @@ void CelestialRotation::Update(const double julian_date) {
   }
 }
 
-libra::Matrix<3, 3> CelestialRotation::AxialRotation(const double GAST_rad) { return libra::MakeRotationMatrixZ(GAST_rad); }
+libra::Matrix<3, 3> CelestialRotation::AxialRotation(const double gast_rad) { return libra::MakeRotationMatrixZ(gast_rad); }
 
-libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) {
+libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&t_tt_century)[4]) {
   // Mean obliquity of the ecliptic
   epsilon_rad_ = c_epsilon_rad_[0];
   for (int i = 0; i < 3; i++) {
-    epsilon_rad_ += c_epsilon_rad_[i + 1] * tTT_century[i];
+    epsilon_rad_ += c_epsilon_rad_[i + 1] * t_tt_century[i];
   }
 
   // Compute five delauney angles(l=lm,l'=ls,F,D,Ω=O)
   // Mean anomaly of the moon
   double lm_rad = c_lm_rad_[0];
   for (int i = 0; i < 4; i++) {
-    lm_rad += c_lm_rad_[i + 1] * tTT_century[i];
+    lm_rad += c_lm_rad_[i + 1] * t_tt_century[i];
   }
   // Mean anomaly of the sun
   double ls_rad = c_ls_rad_[0];
   for (int i = 0; i < 4; i++) {
-    ls_rad += c_ls_rad_[i + 1] * tTT_century[i];
+    ls_rad += c_ls_rad_[i + 1] * t_tt_century[i];
   }
   // Mean longitude of the moon - mean longitude of ascending node of the moon
   double F_rad = c_f_rad_[0];
   for (int i = 0; i < 4; i++) {
-    F_rad += c_f_rad_[i + 1] * tTT_century[i];
+    F_rad += c_f_rad_[i + 1] * t_tt_century[i];
   }
   // Mean elogation of the moon from the sun
   double D_rad = c_d_rad_[0];
   for (int i = 0; i < 4; i++) {
-    D_rad += c_d_rad_[i + 1] * tTT_century[i];
+    D_rad += c_d_rad_[i + 1] * t_tt_century[i];
   }
   // Mean longitude of ascending node of the moon
   double O_rad = c_o_rad_[0];
   for (int i = 0; i < 4; i++) {
-    O_rad += c_o_rad_[i + 1] * tTT_century[i];
+    O_rad += c_o_rad_[i + 1] * t_tt_century[i];
   }
 
   // Additional angles
@@ -239,19 +240,19 @@ libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&tTT_century)[4]) 
   return N;
 }
 
-libra::Matrix<3, 3> CelestialRotation::Precession(const double (&tTT_century)[4]) {
+libra::Matrix<3, 3> CelestialRotation::Precession(const double (&t_tt_century)[4]) {
   // Compute precession angles(zeta, theta, z)
   double zeta_rad = 0.0;
   for (int i = 0; i < 3; i++) {
-    zeta_rad += c_zeta_rad_[i] * tTT_century[i];
+    zeta_rad += c_zeta_rad_[i] * t_tt_century[i];
   }
   double theta_rad = 0.0;
   for (int i = 0; i < 3; i++) {
-    theta_rad += c_theta_rad_[i] * tTT_century[i];
+    theta_rad += c_theta_rad_[i] * t_tt_century[i];
   }
   double z_rad = 0.0;
   for (int i = 0; i < 3; i++) {
-    z_rad += c_z_rad_[i] * tTT_century[i];
+    z_rad += c_z_rad_[i] * t_tt_century[i];
   }
 
   // Develop transformation matrix
@@ -265,17 +266,17 @@ libra::Matrix<3, 3> CelestialRotation::Precession(const double (&tTT_century)[4]
   return P;
 }
 
-libra::Matrix<3, 3> CelestialRotation::PolarMotion(const double Xp, const double Yp) {
+libra::Matrix<3, 3> CelestialRotation::PolarMotion(const double x_p, const double y_p) {
   libra::Matrix<3, 3> W;
 
   W[0][0] = 1.0;
   W[0][1] = 0.0;
-  W[0][2] = -Xp;
+  W[0][2] = -x_p;
   W[1][0] = 0.0;
   W[1][1] = 1.0;
-  W[1][2] = -Yp;
-  W[2][0] = Xp;
-  W[2][1] = Yp;
+  W[1][2] = -y_p;
+  W[2][0] = x_p;
+  W[2][1] = y_p;
   W[2][2] = 1.0;
 
   return W;
