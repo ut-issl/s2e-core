@@ -20,6 +20,8 @@ SolarRadiationPressureEnvironment::SolarRadiationPressureEnvironment(LocalCelest
   sun_radius_m_ = local_celestial_information_->GetGlobalInformation().GetMeanRadiusFromName_m("SUN");
 }
 
+SolarRadiationPressureEnvironment::SolarRadiationPressureEnvironment() {}
+
 void SolarRadiationPressureEnvironment::UpdateAllStates() {
   if (!IsCalcEnabled) return;
 

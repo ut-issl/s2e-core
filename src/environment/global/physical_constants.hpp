@@ -23,6 +23,7 @@ DEFINE_PHYSICAL_CONSTANT(speed_of_light_m_s, 299792458.0L)                   //!
 DEFINE_PHYSICAL_CONSTANT(boltzmann_constant_J_K, 1.380649e-23L)              //!< Boltzmann constant [J/K]
 DEFINE_PHYSICAL_CONSTANT(stefan_boltzmann_constant_W_m2K4, 5.670374419e-8L)  //!< Stefan-Boltzmann constant [W/m2K4]
 DEFINE_PHYSICAL_CONSTANT(absolute_zero_degC, -273.15L)                       //!< Absolute zero [degC]
+DEFINE_PHYSICAL_CONSTANT(solar_constant_W_m2, 1.366e3L)                      //!< Solar constant [W/m2]
 }  // namespace physics
 
 inline namespace astronomy {

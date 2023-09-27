@@ -23,6 +23,13 @@ class SolarRadiationPressureEnvironment : public ILoggable {
    * @param [in] local_celestial_information: Local celestial information
    */
   SolarRadiationPressureEnvironment(LocalCelestialInformation* local_celestial_information);
+
+  /**
+   * @fn SolarRadiationPressureEnvironment
+   * @brief Constructor (Use for constructing Temperature with no params)
+   */
+  SolarRadiationPressureEnvironment();
+
   /**
    * @fn ~SolarRadiationPressureEnvironment
    * @brief Destructor
