@@ -131,12 +131,12 @@ void CelestialRotation::InitCelestialRotationAsEarth(const RotationMode rotation
   }
 }
 
-void CelestialRotation::Update(const double JulianDate) {
-  double gmst_rad = gstime(JulianDate);  // It is a bit different with 長沢(Nagasawa)'s algorithm. TODO: Check the correctness
+void CelestialRotation::Update(const double julian_date) {
+  double gmst_rad = gstime(julian_date);  // It is a bit different with 長沢(Nagasawa)'s algorithm. TODO: Check the correctness
 
   if (rotation_mode_ == RotationMode::kFull) {
     // Compute Julian date for terrestrial time
-    double jdTT_day = JulianDate + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
+    double jdTT_day = julian_date + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
 
     // Compute nth power of julian century for terrestrial time the actual unit of tTT_century is [century^(i+1)], i is the index of the array
     double tTT_century[4];

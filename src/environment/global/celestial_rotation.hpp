@@ -42,9 +42,9 @@ class CelestialRotation {
   /**
    * @fn Update
    * @brief Update rotation
-   * @param [in] JulianDate: Julian date
+   * @param [in] julian_date: Julian date
    */
-  void Update(const double JulianDate);
+  void Update(const double julian_date);
 
   /**
    * @fn GetDcmJ2000ToXcxf
