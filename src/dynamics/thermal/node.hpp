@@ -29,18 +29,6 @@ enum class NodeType {
  * @brief Class for managing each node of model
  */
 class Node {
- protected:
-  unsigned int node_id_;
-  std::string node_name_;
-  unsigned int heater_id_;
-  double temperature_K_;
-  double capacity_J_K_;
-  double alpha_;
-  double area_m2_;
-  double solar_radiation_W_;
-  NodeType node_type_;
-  libra::Vector<3> normal_vector_b_;
-
  public:
   /**
    * @fn Node
@@ -137,6 +125,18 @@ class Node {
    * @brief Print parameters of node in debug output
    */
   void PrintParam(void);
+
+ protected:
+  unsigned int node_id_;
+  std::string node_name_;
+  unsigned int heater_id_;
+  double temperature_K_;
+  double capacity_J_K_;
+  double alpha_;
+  double area_m2_;
+  double solar_radiation_W_;
+  NodeType node_type_;
+  libra::Vector<3> normal_vector_b_;
 
   /**
    * @fn AssertNodeParams
