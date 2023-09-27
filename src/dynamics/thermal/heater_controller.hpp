@@ -31,22 +31,22 @@ class HeaterController {
   // Getter
   /**
    * @fn GetLowerThreshold_degC
-   * @brief Return Lower Thershold [degC]
+   * @brief Return Lower Threshold [degC]
    */
   inline double GetLowerThreshold_degC(void) const { return lower_threshold_degC_; }
   /**
    * @fn GetUpperThreshold_degC
-   * @brief Return Upper Thershold [degC]
+   * @brief Return Upper Threshold [degC]
    */
   inline double GetUpperThreshold_degC(void) const { return upper_threshold_degC_; }
   /**
    * @fn GetLowerThreshold_K
-   * @brief Return Lower Thershold [K]
+   * @brief Return Lower Threshold [K]
    */
   inline double GetLowerThreshold_K(void) const { return degC2K(lower_threshold_degC_); }
   /**
    * @fn GetUpperThreshold_K
-   * @brief Return Upper Thershold [K]
+   * @brief Return Upper Threshold [K]
    */
   inline double GetUpperThreshold_K(void) const { return degC2K(upper_threshold_degC_); }
 
