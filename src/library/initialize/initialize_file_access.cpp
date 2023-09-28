@@ -65,6 +65,17 @@ int IniAccess::ReadInt(const char* section_name, const char* key_name) {
   return (int)ini_reader_.GetInteger(section_name, key_name, 0);
 #endif
 }
+
+std::vector<int> IniAccess::ReadVectorInt(const char* section_name, const char* key_name, const size_t num)
+{
+  std::vector<int> data;
+  for (size_t i = 0; i < num; i++) {
+    std::stringstream edited_key_name;
+    edited_key_name << key_name << "(" << i << ")";
+    data.push_back(ReadInt(section_name, edited_key_name.str().c_str()));
+  }
+}
+
 bool IniAccess::ReadBoolean(const char* section_name, const char* key_name) {
 #ifdef WIN32
   int temp;

@@ -58,6 +58,15 @@ class IniAccess {
    */
   int ReadInt(const char* section_name, const char* key_name);
   /**
+   * @fn ReadVectorInt
+   * @brief Read a vector number as integer type
+   * @param[in] section_name: Section name
+   * @param[in] key_name: Key name
+   * @param[in] num: Number of elements of the array
+   * @return Read number
+   */
+  std::vector<int> ReadVectorInt(const char* section_name, const char* key_name, const size_t num);
+  /**
    * @fn ReadBoolean
    * @brief Read boolean
    * @param[in] section_name: Section name
