@@ -59,6 +59,8 @@ RungeKuttaFehlberg<N>::RungeKuttaFehlberg(const double step_width, const Interfa
   this->rk_matrix_[5][2] = -3544.0 / 2565.0;
   this->rk_matrix_[5][3] = 1859.0 / 4104.0;
   this->rk_matrix_[5][4] = -11.0 / 40.0;
+
+  this->CalcSlope();
 }
 
 template <size_t N>
