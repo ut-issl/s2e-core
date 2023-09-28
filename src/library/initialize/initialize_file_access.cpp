@@ -36,8 +36,7 @@ IniAccess::IniAccess(const std::string file_path) : file_path_(file_path), ini_r
 }
 #endif
 
-std::vector<unsigned char> IniAccess::ReadVectorUnsignedChar(const char* section_name, const char* key_name, const size_t num)
-{
+std::vector<unsigned char> IniAccess::ReadVectorUnsignedChar(const char* section_name, const char* key_name, const size_t num) {
   std::vector<unsigned char> data;
   for (size_t i = 0; i < num; i++) {
     std::stringstream edited_key_name;
@@ -77,8 +76,7 @@ int IniAccess::ReadInt(const char* section_name, const char* key_name) {
 #endif
 }
 
-std::vector<int> IniAccess::ReadVectorInt(const char* section_name, const char* key_name, const size_t num)
-{
+std::vector<int> IniAccess::ReadVectorInt(const char* section_name, const char* key_name, const size_t num) {
   std::vector<int> data;
   for (size_t i = 0; i < num; i++) {
     std::stringstream edited_key_name;
@@ -110,8 +108,7 @@ void IniAccess::ReadDoubleArray(const char* section_name, const char* key_name, 
   }
 }
 
-std::vector<double> IniAccess::ReadVectorDouble(const char* section_name, const char* key_name, const size_t num)
-{
+std::vector<double> IniAccess::ReadVectorDouble(const char* section_name, const char* key_name, const size_t num) {
   std::vector<double> data;
   for (size_t i = 0; i < num; i++) {
     std::stringstream edited_key_name;
