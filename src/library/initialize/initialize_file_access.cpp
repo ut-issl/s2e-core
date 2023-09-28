@@ -74,6 +74,7 @@ std::vector<int> IniAccess::ReadVectorInt(const char* section_name, const char* 
     edited_key_name << key_name << "(" << i << ")";
     data.push_back(ReadInt(section_name, edited_key_name.str().c_str()));
   }
+  return data;
 }
 
 bool IniAccess::ReadBoolean(const char* section_name, const char* key_name) {
