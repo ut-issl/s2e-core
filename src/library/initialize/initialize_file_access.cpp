@@ -99,6 +99,17 @@ void IniAccess::ReadDoubleArray(const char* section_name, const char* key_name, 
   }
 }
 
+std::vector<double> IniAccess::ReadVectorDouble(const char* section_name, const char* key_name, const size_t num)
+{
+  std::vector<double> data;
+  for (size_t i = 0; i < num; i++) {
+    std::stringstream edited_key_name;
+    edited_key_name << key_name << "(" << i << ")";
+    data.push_back(ReadDouble(section_name, edited_key_name.str().c_str()));
+  }
+  return data;
+}
+
 void IniAccess::ReadQuaternion(const char* section_name, const char* key_name, libra::Quaternion& data) {
   libra::Quaternion temp;
   double norm = 0.0;

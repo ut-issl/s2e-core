@@ -85,6 +85,15 @@ class IniAccess {
    */
   void ReadDoubleArray(const char* section_name, const char* key_name, const int id, const int num, double* data);
   /**
+   * @fn ReadVectorDouble
+   * @brief Read a vector number as double type
+   * @param[in] section_name: Section name
+   * @param[in] key_name: Key name
+   * @param[in] num: Number of elements of the array
+   * @return Read number
+   */
+  std::vector<double> ReadVectorDouble(const char* section_name, const char* key_name, const size_t num);
+  /**
    * @fn ReadVector
    * @brief Read Vector type number
    * @param[in] section_name: Section name
