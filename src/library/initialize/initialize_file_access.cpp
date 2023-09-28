@@ -36,6 +36,17 @@ IniAccess::IniAccess(const std::string file_path) : file_path_(file_path), ini_r
 }
 #endif
 
+std::vector<unsigned char> IniAccess::ReadVectorUnsignedChar(const char* section_name, const char* key_name, const size_t num)
+{
+  std::vector<unsigned char> data;
+  for (size_t i = 0; i < num; i++) {
+    std::stringstream edited_key_name;
+    edited_key_name << key_name << "(" << i << ")";
+    data.push_back((unsigned char)ReadInt(section_name, edited_key_name.str().c_str()));
+  }
+  return data;
+}
+
 double IniAccess::ReadDouble(const char* section_name, const char* key_name) {
 #ifdef WIN32
   std::stringstream value;

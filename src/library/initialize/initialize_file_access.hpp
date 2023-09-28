@@ -42,6 +42,15 @@ class IniAccess {
 
   // Read functions
   /**
+   * @fn ReadVectorUnsignedChar
+   * @brief Read a vector number as unsigned char type
+   * @param[in] section_name: Section name
+   * @param[in] key_name: Key name
+   * @param[in] num: Number of elements of the array
+   * @return Read number
+   */
+  std::vector<unsigned char> ReadVectorUnsignedChar(const char* section_name, const char* key_name, const size_t num);
+  /**
    * @fn ReadDouble
    * @brief Read a scalar number as double type
    * @param[in] section_name: Section name
