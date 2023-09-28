@@ -25,7 +25,7 @@ void HeaterController::ControlHeater(Heater* p_heater, double temperature_degC) 
 }
 
 void HeaterController::AssertHeaterControllerParams() {
-  if (upper_threshold_degC_ > lower_threshold_degC_) {
+  if (upper_threshold_degC_ < lower_threshold_degC_) {
     std::cerr << "[WARNING] heater_controller: the upper threshold is smaller than the lower threshold. " << std::endl;
     double auto_set_upper_threshold_degC = lower_threshold_degC_ + 10.0;
     std::cerr << "The the upper threshold set as" << auto_set_upper_threshold_degC << std::endl;
