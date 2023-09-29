@@ -101,7 +101,7 @@ class CelestialRotation {
   /**
    * @fn AxialRotation
    * @brief Calculate movement of the coordinate axes due to rotation around the rotation axis
-   * @param [in] gast_rad: Greenwitch 'Apparent' Sidereal Time [rad]
+   * @param [in] gast_rad: Greenwich 'Apparent' Sidereal Time [rad]
    * @return Rotation matrix
    */
   libra::Matrix<3, 3> AxialRotation(const double gast_rad);
