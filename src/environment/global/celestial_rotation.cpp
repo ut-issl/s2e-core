@@ -156,7 +156,7 @@ void CelestialRotation::Update(const double julian_date) {
 
     // Axial Rotation
     double Eq_rad = d_psi_rad_ * cos(epsilon_rad_ + d_epsilon_rad_);  // Equation of equinoxes [rad]
-    double gast_rad = gmst_rad + Eq_rad;                              // Greenwitch 'Apparent' Sidereal Time [rad]
+    double gast_rad = gmst_rad + Eq_rad;                              // Greenwich 'Apparent' Sidereal Time [rad]
     R = AxialRotation(gast_rad);
     // Polar motion (is not considered so far, even without polar motion, the result agrees well with the matlab reference)
     double Xp = 0.0;
