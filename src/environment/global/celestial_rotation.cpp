@@ -53,7 +53,7 @@ void CelestialRotation::InitCelestialRotationAsEarth(const RotationMode rotation
       c_epsilon_rad_[2] = -5.9000e-4 * libra::arcsec_to_rad;   // [rad/century^2]
       c_epsilon_rad_[3] = 1.8130e-3 * libra::arcsec_to_rad;    // [rad/century^3]
 
-      // Coefficients to compute delauney angles
+      // Coefficients to compute Delaunay angles
       // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
       c_lm_rad_[0] = 134.96340251 * libra::deg_to_rad;            // [rad]
       c_lm_rad_[1] = 1717915923.21780000 * libra::arcsec_to_rad;  // [rad/century]
@@ -184,7 +184,7 @@ libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&t_tt_century)[4])
     epsilon_rad_ += c_epsilon_rad_[i + 1] * t_tt_century[i];
   }
 
-  // Compute five delauney angles(l=lm, l'=ls, F, D, Ω=O)
+  // Compute five Delaunay angles(l=lm, l'=ls, F, D, Ω=O)
   // Mean anomaly of the moon
   double lm_rad = c_lm_rad_[0];
   for (int i = 0; i < 4; i++) {
@@ -200,7 +200,7 @@ libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&t_tt_century)[4])
   for (int i = 0; i < 4; i++) {
     F_rad += c_f_rad_[i + 1] * t_tt_century[i];
   }
-  // Mean elogation of the moon from the sun
+  // Mean elongation of the moon from the sun
   double D_rad = c_d_rad_[0];
   for (int i = 0; i < 4; i++) {
     D_rad += c_d_rad_[i + 1] * t_tt_century[i];
