@@ -140,10 +140,10 @@ void CelestialRotation::Update(const double julian_date) {
 
     // Compute nth power of julian century for terrestrial time.
     // The actual unit of tTT_century is [century^(i+1)], i is the index of the array
-    double tTT_century[4];
-    tTT_century[0] = (jdTT_day - kJulianDateJ2000_) / kDayJulianCentury_;
+    double terrestrial_time_julian_century[4];
+    terrestrial_time_julian_century[0] = (jdTT_day - kJulianDateJ2000_) / kDayJulianCentury_;
     for (int i = 0; i < 3; i++) {
-      tTT_century[i + 1] = tTT_century[i] * tTT_century[0];
+      terrestrial_time_julian_century[i + 1] = terrestrial_time_julian_century[i] * terrestrial_time_julian_century[0];
     }
 
     libra::Matrix<3, 3> dcm_precession;
@@ -151,8 +151,8 @@ void CelestialRotation::Update(const double julian_date) {
     libra::Matrix<3, 3> dcm_rotation;
     libra::Matrix<3, 3> dcm_polar_motion;
     // Nutation + Precession
-    dcm_precession = Precession(tTT_century);
-    dcm_nutation = Nutation(tTT_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are updated in this procedure
+    dcm_precession = Precession(terrestrial_time_julian_century);
+    dcm_nutation = Nutation(terrestrial_time_julian_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are updated in this procedure
 
     // Axial Rotation
     double equinox_rad = d_psi_rad_ * cos(epsilon_rad_ + d_epsilon_rad_);  // Equation of equinoxes [rad]
@@ -196,47 +196,47 @@ libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&t_tt_century)[4])
     ls_rad += c_ls_rad_[i + 1] * t_tt_century[i];
   }
   // Mean longitude of the moon - mean longitude of ascending node of the moon
-  double F_rad = c_f_rad_[0];
+  double f_rad = c_f_rad_[0];
   for (int i = 0; i < 4; i++) {
-    F_rad += c_f_rad_[i + 1] * t_tt_century[i];
+    f_rad += c_f_rad_[i + 1] * t_tt_century[i];
   }
   // Mean elongation of the moon from the sun
-  double D_rad = c_d_rad_[0];
+  double d_rad = c_d_rad_[0];
   for (int i = 0; i < 4; i++) {
-    D_rad += c_d_rad_[i + 1] * t_tt_century[i];
+    d_rad += c_d_rad_[i + 1] * t_tt_century[i];
   }
   // Mean longitude of ascending node of the moon
-  double O_rad = c_o_rad_[0];
+  double o_rad = c_o_rad_[0];
   for (int i = 0; i < 4; i++) {
-    O_rad += c_o_rad_[i + 1] * t_tt_century[i];
+    o_rad += c_o_rad_[i + 1] * t_tt_century[i];
   }
 
   // Additional angles
-  double L_rad = F_rad + O_rad;   // F + Ω
-  double Ld_rad = L_rad - D_rad;  // F + Ω - D
+  double l_rad = f_rad + o_rad;   // F + Ω
+  double ld_rad = l_rad - d_rad;  // F + Ω - D
 
   // Compute luni-solar nutation
   // Nutation in obliquity
-  d_psi_rad_ = c_d_psi_rad_[0] * sin(O_rad) + c_d_psi_rad_[1] * sin(2 * Ld_rad) + c_d_psi_rad_[2] * sin(2 * O_rad) +
-               c_d_psi_rad_[3] * sin(2 * L_rad) + c_d_psi_rad_[4] * sin(ls_rad);
-  d_psi_rad_ = d_psi_rad_ + c_d_psi_rad_[5] * sin(lm_rad) + c_d_psi_rad_[6] * sin(2 * Ld_rad + ls_rad) + c_d_psi_rad_[7] * sin(2 * L_rad + lm_rad) +
-               c_d_psi_rad_[8] * sin(2 * Ld_rad - ls_rad);
+  d_psi_rad_ = c_d_psi_rad_[0] * sin(o_rad) + c_d_psi_rad_[1] * sin(2 * ld_rad) + c_d_psi_rad_[2] * sin(2 * o_rad) +
+               c_d_psi_rad_[3] * sin(2 * l_rad) + c_d_psi_rad_[4] * sin(ls_rad);
+  d_psi_rad_ = d_psi_rad_ + c_d_psi_rad_[5] * sin(lm_rad) + c_d_psi_rad_[6] * sin(2 * ld_rad + ls_rad) + c_d_psi_rad_[7] * sin(2 * l_rad + lm_rad) +
+               c_d_psi_rad_[8] * sin(2 * ld_rad - ls_rad);
 
   // Nutation in longitude
-  d_epsilon_rad_ = c_d_epsilon_rad_[0] * cos(O_rad) + c_d_epsilon_rad_[1] * cos(2 * Ld_rad) + c_d_epsilon_rad_[2] * cos(2 * O_rad) +
-                   c_d_epsilon_rad_[3] * cos(2 * L_rad) + c_d_epsilon_rad_[4] * cos(ls_rad);
-  d_epsilon_rad_ = d_epsilon_rad_ + c_d_epsilon_rad_[5] * cos(lm_rad) + c_d_epsilon_rad_[6] * cos(2 * Ld_rad + ls_rad) +
-                   c_d_epsilon_rad_[7] * cos(2 * L_rad + lm_rad) + c_d_epsilon_rad_[8] * cos(2 * Ld_rad - ls_rad);
+  d_epsilon_rad_ = c_d_epsilon_rad_[0] * cos(o_rad) + c_d_epsilon_rad_[1] * cos(2 * ld_rad) + c_d_epsilon_rad_[2] * cos(2 * o_rad) +
+                   c_d_epsilon_rad_[3] * cos(2 * l_rad) + c_d_epsilon_rad_[4] * cos(ls_rad);
+  d_epsilon_rad_ = d_epsilon_rad_ + c_d_epsilon_rad_[5] * cos(lm_rad) + c_d_epsilon_rad_[6] * cos(2 * ld_rad + ls_rad) +
+                   c_d_epsilon_rad_[7] * cos(2 * l_rad + lm_rad) + c_d_epsilon_rad_[8] * cos(2 * ld_rad - ls_rad);
 
   double epsi_mod_rad = epsilon_rad_ + d_epsilon_rad_;
-  libra::Matrix<3, 3> X_epsi_1st = libra::MakeRotationMatrixX(epsilon_rad_);
-  libra::Matrix<3, 3> Z_d_psi = libra::MakeRotationMatrixZ(-d_psi_rad_);
-  libra::Matrix<3, 3> X_epsi_2nd = libra::MakeRotationMatrixX(-epsi_mod_rad);
+  libra::Matrix<3, 3> x_epsi_1st = libra::MakeRotationMatrixX(epsilon_rad_);
+  libra::Matrix<3, 3> z_d_psi = libra::MakeRotationMatrixZ(-d_psi_rad_);
+  libra::Matrix<3, 3> x_epsi_2nd = libra::MakeRotationMatrixX(-epsi_mod_rad);
 
-  libra::Matrix<3, 3> N;
-  N = X_epsi_2nd * Z_d_psi * X_epsi_1st;
+  libra::Matrix<3, 3> dcm_nutation;
+  dcm_nutation = x_epsi_2nd * z_d_psi * x_epsi_1st;
 
-  return N;
+  return dcm_nutation;
 }
 
 libra::Matrix<3, 3> CelestialRotation::Precession(const double (&t_tt_century)[4]) {
@@ -255,28 +255,28 @@ libra::Matrix<3, 3> CelestialRotation::Precession(const double (&t_tt_century)[4
   }
 
   // Develop transformation matrix
-  libra::Matrix<3, 3> Z_zeta = libra::MakeRotationMatrixZ(-zeta_rad);
-  libra::Matrix<3, 3> Y_theta = libra::MakeRotationMatrixY(theta_rad);
-  libra::Matrix<3, 3> Z_z = libra::MakeRotationMatrixZ(-z_rad);
+  libra::Matrix<3, 3> z_zeta = libra::MakeRotationMatrixZ(-zeta_rad);
+  libra::Matrix<3, 3> y_theta = libra::MakeRotationMatrixY(theta_rad);
+  libra::Matrix<3, 3> z_z = libra::MakeRotationMatrixZ(-z_rad);
 
-  libra::Matrix<3, 3> P;
-  P = Z_z * Y_theta * Z_zeta;
+  libra::Matrix<3, 3> dcm_precession;
+  dcm_precession = z_z * y_theta * z_zeta;
 
-  return P;
+  return dcm_precession;
 }
 
 libra::Matrix<3, 3> CelestialRotation::PolarMotion(const double x_p, const double y_p) {
-  libra::Matrix<3, 3> W;
+  libra::Matrix<3, 3> dcm_polar_motion;
 
-  W[0][0] = 1.0;
-  W[0][1] = 0.0;
-  W[0][2] = -x_p;
-  W[1][0] = 0.0;
-  W[1][1] = 1.0;
-  W[1][2] = -y_p;
-  W[2][0] = x_p;
-  W[2][1] = y_p;
-  W[2][2] = 1.0;
+  dcm_polar_motion[0][0] = 1.0;
+  dcm_polar_motion[0][1] = 0.0;
+  dcm_polar_motion[0][2] = -x_p;
+  dcm_polar_motion[1][0] = 0.0;
+  dcm_polar_motion[1][1] = 1.0;
+  dcm_polar_motion[1][2] = -y_p;
+  dcm_polar_motion[2][0] = x_p;
+  dcm_polar_motion[2][1] = y_p;
+  dcm_polar_motion[2][2] = 1.0;
 
-  return W;
+  return dcm_polar_motion;
 }
