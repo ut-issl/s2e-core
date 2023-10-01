@@ -146,25 +146,25 @@ void CelestialRotation::Update(const double julian_date) {
       tTT_century[i + 1] = tTT_century[i] * tTT_century[0];
     }
 
-    libra::Matrix<3, 3> P;
-    libra::Matrix<3, 3> N;
-    libra::Matrix<3, 3> R;
-    libra::Matrix<3, 3> W;
+    libra::Matrix<3, 3> dcm_precession;
+    libra::Matrix<3, 3> dcm_nutation;
+    libra::Matrix<3, 3> dcm_rotation;
+    libra::Matrix<3, 3> dcm_polar_motion;
     // Nutation + Precession
-    P = Precession(tTT_century);
-    N = Nutation(tTT_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are updated in this procedure
+    dcm_precession = Precession(tTT_century);
+    dcm_nutation = Nutation(tTT_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are updated in this procedure
 
     // Axial Rotation
-    double Eq_rad = d_psi_rad_ * cos(epsilon_rad_ + d_epsilon_rad_);  // Equation of equinoxes [rad]
-    double gast_rad = gmst_rad + Eq_rad;                              // Greenwich 'Apparent' Sidereal Time [rad]
-    R = AxialRotation(gast_rad);
+    double equinox_rad = d_psi_rad_ * cos(epsilon_rad_ + d_epsilon_rad_);  // Equation of equinoxes [rad]
+    double gast_rad = gmst_rad + equinox_rad;                              // Greenwich 'Apparent' Sidereal Time [rad]
+    dcm_rotation = AxialRotation(gast_rad);
     // Polar motion (is not considered so far, even without polar motion, the result agrees well with the matlab reference)
-    double Xp = 0.0;
-    double Yp = 0.0;
-    W = PolarMotion(Xp, Yp);
+    double x_p = 0.0;
+    double y_p = 0.0;
+    dcm_polar_motion = PolarMotion(x_p, y_p);
 
     // Total orientation
-    dcm_j2000_to_xcxf_ = W * R * N * P;
+    dcm_j2000_to_xcxf_ = dcm_polar_motion * dcm_rotation * dcm_nutation * dcm_precession;
   } else if (rotation_mode_ == RotationMode::kSimple) {
     // In this case, only Axial Rotation is executed, with its argument replaced from G'A'ST to G'M'ST
     // FIXME: Not suitable when the center body is not the earth
