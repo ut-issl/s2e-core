@@ -136,12 +136,12 @@ void CelestialRotation::Update(const double julian_date) {
 
   if (rotation_mode_ == RotationMode::kFull) {
     // Compute Julian date for terrestrial time
-    double jdTT_day = julian_date + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
+    double terrestrial_time_julian_day = julian_date + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
 
     // Compute nth power of julian century for terrestrial time.
     // The actual unit of tTT_century is [century^(i+1)], i is the index of the array
     double terrestrial_time_julian_century[4];
-    terrestrial_time_julian_century[0] = (jdTT_day - kJulianDateJ2000_) / kDayJulianCentury_;
+    terrestrial_time_julian_century[0] = (terrestrial_time_julian_day - kJulianDateJ2000_) / kDayJulianCentury_;
     for (int i = 0; i < 3; i++) {
       terrestrial_time_julian_century[i + 1] = terrestrial_time_julian_century[i] * terrestrial_time_julian_century[0];
     }
