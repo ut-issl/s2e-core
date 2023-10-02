@@ -78,6 +78,8 @@ ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, Cloc
       is_calculated_jitter_(is_calc_jitter_enabled),
       is_logged_jitter_(is_log_jitter_enabled) {
   Initialize();
+  angular_velocity_rad_s_ = init_velocity_rad_s;
+  angular_velocity_rpm_ = angularVelocity2rpm(angular_velocity_rad_s_);
 }
 
 void ReactionWheel::Initialize() {
@@ -93,8 +95,6 @@ void ReactionWheel::Initialize() {
   acceleration_delay_buffer_.assign(len_buffer, 0.0);
 
   angular_acceleration_rad_s2_ = 0.0;
-  angular_velocity_rpm_ = 0.0;
-  angular_velocity_rad_s_ = 0.0;
 
   // Turn on RW jitter calculation
   if (is_calculated_jitter_) {
