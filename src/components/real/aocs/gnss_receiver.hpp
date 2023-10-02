@@ -219,4 +219,30 @@ class GnssReceiver : public Component, public ILoggable {
   void ConvertJulianDayToGPSTime(const double julian_day);
 };
 
+/**
+ * @fn InitGnssReceiver
+ * @brief Initialize functions for GNSS Receiver without power port
+ * @param [in] clock_generator: Clock generator
+ * @param [in] component_id: Sensor ID
+ * @param [in] file_name: Path to the initialize file
+ * @param [in] dynamics: Dynamics information
+ * @param [in] gnss_satellites: GNSS satellites information
+ * @param [in] simulation_time: Simulation time information
+ */
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, int component_id, const std::string file_name, const Dynamics* dynamics,
+                              const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+/**
+ * @fn InitGnssReceiver
+ * @brief Initialize functions for GNSS Receiver with power port
+ * @param [in] clock_generator: Clock generator
+ * @param [in] component_id: Sensor ID
+ * @param [in] power_port: Power port
+ * @param [in] file_name: Path to the initialize file
+ * @param [in] dynamics: Dynamics information
+ * @param [in] gnss_satellites: GNSS satellites information
+ * @param [in] simulation_time: Simulation time information
+ */
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, int component_id, const std::string file_name,
+                              const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+
 #endif  // S2E_COMPONENTS_REAL_AOCS_GNSS_RECEIVER_HPP_
