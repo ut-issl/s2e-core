@@ -7,7 +7,6 @@ add_library(${PROJECT_NAME} STATIC
   geomagnetic_field.cpp
   solar_radiation_pressure_environment.cpp
   local_celestial_information.cpp
-  initialize_local_environment.cpp
 )
 
 include(../../../common.cmake)

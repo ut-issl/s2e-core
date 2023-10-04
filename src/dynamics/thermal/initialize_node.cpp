@@ -5,15 +5,16 @@
 
 #include "initialize_node.hpp"
 
+#include <cassert>
 #include <iostream>
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
 #include <typeinfo>
 #include <vector>
 
-/* Import node properties by reading CSV File (Node.csv)
+/* Import node properties by reading CSV File (node.csv)
 
-[File Formats of Node.csv]
+[File Formats of node.csv]
 column 1: Node_id(int)
 column 2: Node_label(string)
 column 3: Node_type(int, 0: diffusive, 1: boundary), Arithmetic node to be implemented as future work
@@ -37,6 +38,9 @@ Be sure to include at least one boundary node to avoid divergence
 Node InitNode(const std::vector<std::string>& node_str) {
   using std::stod;
   using std::stoi;
+
+  size_t node_str_size_defined = 11;                 // Correct size of node_str
+  assert(node_str.size() == node_str_size_defined);  // Check if size of node_str is correct
 
   int node_id = 0;                  // node number
   std::string node_label = "temp";  // node name
@@ -69,6 +73,15 @@ Node InitNode(const std::vector<std::string>& node_str) {
   for (int i = 0; i < 3; i++) {
     normal_v_b[i] = stod(node_str[index_normal_v_b_head + i]);
   }
+
+  // Normalize Norm Vector (Except for Boundary and Arithmetic Nodes)
+  if (node_type_int == 0) {
+    double norm = normal_v_b.CalcNorm();
+    for (int i = 0; i < 3; i++) {
+      normal_v_b[i] = normal_v_b[i] / norm;
+    }
+  }
+
   temperature_K = stod(node_str[index_temperature]);
 
   NodeType node_type = NodeType::kDiffusive;

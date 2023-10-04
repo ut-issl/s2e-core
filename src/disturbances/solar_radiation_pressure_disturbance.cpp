@@ -6,6 +6,7 @@
 #include "solar_radiation_pressure_disturbance.hpp"
 
 #include <cmath>
+#include <library/initialize/initialize_file_access.hpp>
 
 #include "../library/logger/log_utility.hpp"
 
@@ -49,4 +50,18 @@ std::string SolarRadiationPressureDisturbance::GetLogValue() const {
   str_tmp += WriteVector(force_b_N_);
 
   return str_tmp;
+}
+
+SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const std::string initialize_file_path, const std::vector<Surface>& surfaces,
+                                                                        const Vector<3>& center_of_gravity_b_m) {
+  auto conf = IniAccess(initialize_file_path);
+  const char* section = "SOLAR_RADIATION_PRESSURE_DISTURBANCE";
+
+  const bool is_calc_enable = conf.ReadEnable(section, INI_CALC_LABEL);
+  const bool is_log_enable = conf.ReadEnable(section, INI_LOG_LABEL);
+
+  SolarRadiationPressureDisturbance srp_disturbance(surfaces, center_of_gravity_b_m, is_calc_enable);
+  srp_disturbance.is_log_enabled_ = is_log_enable;
+
+  return srp_disturbance;
 }

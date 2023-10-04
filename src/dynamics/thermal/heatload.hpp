@@ -99,6 +99,12 @@ class Heatload {
    * @param[in] heater_heatload_W
    */
   inline void SetHeaterHeatload_W(double heater_heatload_W) { heater_heatload_W_ = heater_heatload_W; }
+
+  /**
+   * @fn AssertHeatloadParams
+   * @brief Check if Heatload Parameters are Correct
+   */
+  void AssertHeatloadParams();
 };
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATLOAD_HPP_

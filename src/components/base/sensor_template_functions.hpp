@@ -6,6 +6,7 @@
 #ifndef S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 #define S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 
+#include <library/initialize/initialize_file_access.hpp>
 #include <library/randomization/global_randomization.hpp>
 
 template <size_t N>
@@ -13,10 +14,10 @@ Sensor<N>::Sensor(const libra::Matrix<N, N>& scale_factor, const libra::Vector<N
                   const libra::Vector<N>& bias_noise_c, const libra::Vector<N>& normal_random_standard_deviation_c,
                   const double random_walk_step_width_s, const libra::Vector<N>& random_walk_standard_deviation_c,
                   const libra::Vector<N>& random_walk_limit_c)
-    : scale_factor_(scale_factor),
+    : bias_noise_c_(bias_noise_c),
+      scale_factor_(scale_factor),
       range_to_const_c_(range_to_const_c),
       range_to_zero_c_(range_to_zero_c),
-      bias_noise_c_(bias_noise_c),
       random_walk_noise_c_(random_walk_step_width_s, random_walk_standard_deviation_c, random_walk_limit_c) {
   for (size_t i = 0; i < N; i++) {
     normal_random_noise_c_[i].SetParameters(0.0, normal_random_standard_deviation_c[i], global_randomization.MakeSeed());
@@ -72,6 +73,48 @@ void Sensor<N>::RangeCheck(void) {
       range_to_zero_c_[i] = 2.0 * range_to_const_c_[i];
     }
   }
+}
+
+template <size_t N>
+Sensor<N> ReadSensorInformation(const std::string file_name, const double step_width_s, const std::string component_name, const std::string unit) {
+  IniAccess ini_file(file_name);
+  std::string section = "SENSOR_BASE_" + component_name;
+
+  libra::Vector<N * N> scale_factor_vector;
+  ini_file.ReadVector(section.c_str(), "scale_factor_c", scale_factor_vector);
+  libra::Matrix<N, N> scale_factor_c;
+  for (size_t i = 0; i < N; i++) {
+    for (size_t j = 0; j < N; j++) {
+      scale_factor_c[i][j] = scale_factor_vector[i * N + j];
+    }
+  }
+
+  std::string key_name;
+  libra::Vector<N> constant_bias_c;
+  key_name = "constant_bias_c_" + unit;
+  ini_file.ReadVector(section.c_str(), key_name.c_str(), constant_bias_c);
+  libra::Vector<N> normal_random_standard_deviation_c;
+  key_name = "normal_random_standard_deviation_c_" + unit;
+  ini_file.ReadVector(section.c_str(), key_name.c_str(), normal_random_standard_deviation_c);
+  libra::Vector<N> random_walk_standard_deviation_c;
+  key_name = "random_walk_standard_deviation_c_" + unit;
+  ini_file.ReadVector(section.c_str(), key_name.c_str(), random_walk_standard_deviation_c);
+  libra::Vector<N> random_walk_limit_c;
+  key_name = "random_walk_limit_c_" + unit;
+  ini_file.ReadVector(section.c_str(), key_name.c_str(), random_walk_limit_c);
+
+  key_name = "range_to_constant_" + unit;
+  double range_to_const = ini_file.ReadDouble(section.c_str(), key_name.c_str());
+  libra::Vector<N> range_to_const_c{range_to_const};
+
+  key_name = "range_to_zero_" + unit;
+  double range_to_zero = ini_file.ReadDouble(section.c_str(), key_name.c_str());
+  libra::Vector<N> range_to_zero_c{range_to_zero};
+
+  Sensor<N> sensor_base(scale_factor_c, range_to_const_c, range_to_zero_c, constant_bias_c, normal_random_standard_deviation_c, step_width_s,
+                        random_walk_standard_deviation_c, random_walk_limit_c);
+
+  return sensor_base;
 }
 
 #endif  // S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_

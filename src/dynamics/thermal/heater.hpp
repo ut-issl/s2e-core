@@ -83,6 +83,12 @@ class Heater {
    * @brief Print power_rating_W, heater_status_, power_output_W_
    */
   void PrintParam(void);
+
+  /**
+   * @fn AssertHeaterParams
+   * @brief Check Heater Parameters
+   */
+  void AssertHeaterParams(void);
 };
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATER_HPP_

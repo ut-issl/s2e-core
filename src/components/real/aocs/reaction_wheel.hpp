@@ -54,7 +54,7 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW
    */
-  ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, const int component_id, const double step_width_s,
+  ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                 const double main_routine_time_step_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2,
                 const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
                 const libra::Vector<3> position_b_m, const double dead_time_s, const libra::Vector<3> driving_lag_coefficients,
@@ -93,7 +93,7 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW [rad/s]
    */
-  ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator *clock_generator, PowerPort *power_port, const int component_id,
+  ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                 const double step_width_s, const double main_routine_time_step_s, const double jitter_update_interval_s,
                 const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
                 const libra::Vector<3> position_b_m, const double dead_time_s, const libra::Vector<3> driving_lag_coefficients,
@@ -238,5 +238,28 @@ class ReactionWheel : public Component, public ILoggable {
    */
   void Initialize();
 };
+
+/**
+ * @fn InitReactionWheel
+ * @brief Initialize functions for reaction wheel without power port
+ * @param [in] clock_generator: Clock generator
+ * @param [in] actuator_id: Actuator ID
+ * @param [in] file_name: Path to the initialize file
+ * @param [in] prop_step: Propagation step for RW dynamics [sec]
+ * @param [in] compo_update_step: Component step time [sec]
+ */
+ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double prop_step, double compo_update_step);
+/**
+ * @fn InitReactionWheel
+ * @brief Initialize functions for reaction wheel with power port
+ * @param [in] clock_generator: Clock generator
+ * @param [in] power_port: Power port
+ * @param [in] actuator_id: Actuator ID
+ * @param [in] file_name: Path to the initialize file
+ * @param [in] prop_step: Propagation step for RW dynamics [sec]
+ * @param [in] compo_update_step: Component step time [sec]
+ */
+ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name, double prop_step,
+                                double compo_update_step);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_

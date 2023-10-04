@@ -5,6 +5,7 @@
 
 #include "initialize_temperature.hpp"
 
+#include <cassert>
 #include <environment/global/simulation_time.hpp>
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
@@ -57,7 +58,7 @@ First row is time data
 using std::string;
 using std::vector;
 
-Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s) {
+Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const SolarRadiationPressureEnvironment* srp_environment) {
   auto mainIni = IniAccess(file_name);
 
   vector<Node> node_list;
@@ -70,6 +71,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   vector<vector<string>> heater_str_list;    // string vector of heater property data
   vector<vector<string>> heatload_str_list;  // string vector of heatload property data
   size_t node_num = 1;
+  size_t heatload_num = 1;
   size_t heater_num = 1;
 
   bool is_calc_enabled = mainIni.ReadEnable("THERMAL", "calculation");
@@ -100,6 +102,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   /*since we don't know the number of node_list yet, set node_num=100 temporary.
     Recall that Nodes_num are given to this function only to reseve memory*/
 
+  heatload_num = heatload_str_list.size() - 1;
   auto times_itr = heatload_str_list.begin();  // First Row is Time Data
   for (auto itr = heatload_str_list.begin() + 1; itr != heatload_str_list.end(); ++itr) {
     heatload_list.push_back(InitHeatload(*times_itr, *itr));
@@ -117,6 +120,8 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   for (auto itr = node_str_list.begin() + 1; itr != node_str_list.end(); ++itr) {  // first row is for labels
     node_list.push_back(InitNode(*itr));
   }
+
+  assert(node_num == heatload_num);  // Number of nodes and heatload lists must be the same
 
   // Read Heater Properties from CSV File
   string filepath_heater = file_path + "heaters.csv";
@@ -141,8 +146,13 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   conf_cij.ReadCsvDoubleWithHeader(conductance_matrix, node_num, 1, 1);
   conf_rij.ReadCsvDoubleWithHeader(radiation_matrix, node_num, 1, 1);
 
+  assert(conductance_matrix.size() == node_num);                      // Dimension must be same as node_num
+  assert(radiation_matrix.size() == node_num);                        // Dimension must be same as node_num
+  assert(conductance_matrix.size() == conductance_matrix[0].size());  // Must be square matrix
+  assert(radiation_matrix.size() == radiation_matrix[0].size());      // Must be square matrix
+
   Temperature* temperature;
   temperature = new Temperature(conductance_matrix, radiation_matrix, node_list, heatload_list, heater_list, heater_controller_list, node_num,
-                                rk_prop_step_s, is_calc_enabled, solar_calc_setting, debug);
+                                rk_prop_step_s, srp_environment, is_calc_enabled, solar_calc_setting, debug);
   return temperature;
 }

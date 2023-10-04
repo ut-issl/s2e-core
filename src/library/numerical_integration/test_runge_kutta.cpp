@@ -85,7 +85,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRk4) {
 }
 
 /**
- * @brief Test for integration with nominal linear function with NumericalIntegratorManager/RK4
+ * @brief Test for integration with nominal linear function with NumericalIntegratorManager/RKF
  */
 TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRkf) {
   double step_width_s = 0.1;
@@ -102,7 +102,11 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRkf) {
   }
   state = numerical_integrator.GetIntegrator()->GetState();
   double estimated_result = step_width_s * step_num;
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
 
+  double sigma = 0.1;
+  state = numerical_integrator.GetIntegrator()->CalcInterpolationState(sigma);
+  estimated_result = step_width_s * (double(step_num) - 1.0 + sigma);
   EXPECT_NEAR(estimated_result, state[0], 1e-6);
 }
 
@@ -145,6 +149,35 @@ TEST(NUMERICAL_INTEGRATION, IntegrateQuadraticRkf) {
   state = rkf_ode.GetState();
   double estimated_result = (step_width_s * step_num) * (step_width_s * step_num);
 
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+}
+
+/**
+ * @brief Test for interpolation with quadratic function with RKF
+ */
+TEST(NUMERICAL_INTEGRATION, InterpolationQuadraticRkf) {
+  double step_width_s = 10.0;
+  libra::numerical_integration::ExampleQuadraticOde ode;
+  libra::numerical_integration::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
+
+  libra::Vector<1> state = rkf_ode.GetState();
+  EXPECT_DOUBLE_EQ(0.0, state[0]);
+
+  rkf_ode.Integrate();
+
+  // Final value
+  state = rkf_ode.GetState();
+  double estimated_result = step_width_s * step_width_s;
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+  // Interpolation value
+  double sigma = 0.1;
+  state = rkf_ode.CalcInterpolationState(sigma);
+  estimated_result = (step_width_s * sigma) * (step_width_s * sigma);
+  EXPECT_NEAR(estimated_result, state[0], 1e-6);
+
+  sigma = 0.515;
+  state = rkf_ode.CalcInterpolationState(sigma);
+  estimated_result = (step_width_s * sigma) * (step_width_s * sigma);
   EXPECT_NEAR(estimated_result, state[0], 1e-6);
 }
 
@@ -318,6 +351,75 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitLargeEccentricity) {
   EXPECT_NEAR(kepler.GetVelocity_i_m_s()[1], state_rk4[3], error_tolerance);
 
   error_tolerance = 1e-2;
+  EXPECT_NEAR(kepler.GetPosition_i_m()[0], state_rkf[0], error_tolerance);
+  EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_rkf[1], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_rkf[2], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[1], state_rkf[3], error_tolerance);
+}
+
+/**
+ * @brief Accuracy comparison between RK4 and RKF for integration with 2D two body orbit with small eccentricity
+ */
+TEST(NUMERICAL_INTEGRATION, Interpolation2dTwoBodyOrbitSmallEccentricity) {
+  double step_width_s = 1.0;
+  libra::numerical_integration::Example2dTwoBodyOrbitOde ode;
+  libra::numerical_integration::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
+
+  libra::Vector<4> initial_state(0.0);
+  const double eccentricity = 0.1;
+  initial_state[0] = 1.0 - eccentricity;
+  initial_state[1] = 0.0;
+  initial_state[2] = 0.0;
+  initial_state[3] = sqrt((1.0 + eccentricity) / (1.0 - eccentricity));
+  rkf_ode.SetState(0.0, initial_state);
+
+  libra::Vector<4> state_rkf = rkf_ode.GetState();
+  for (size_t i = 0; i < 4; i++) {
+    EXPECT_DOUBLE_EQ(initial_state[i], state_rkf[i]);
+  }
+
+  size_t step_num = 1;
+  for (size_t i = 0; i < step_num; i++) {
+    rkf_ode.Integrate();
+  }
+  state_rkf = rkf_ode.GetState();
+
+  // Estimation by Kepler Orbit calculation
+  libra::Vector<3> initial_position(0.0);
+  libra::Vector<3> initial_velocity(0.0);
+
+  // Final value
+  initial_position[0] = initial_state[0];
+  initial_position[1] = initial_state[1];
+  initial_velocity[0] = initial_state[2];
+  initial_velocity[1] = initial_state[3];
+  OrbitalElements oe(1.0, 0.0, initial_position, initial_velocity);
+  KeplerOrbit kepler(1.0, oe);
+  kepler.CalcOrbit((double)(step_num * step_width_s) / (24.0 * 60.0 * 60.0));
+
+  double error_tolerance = 1e-1;
+  EXPECT_NEAR(kepler.GetPosition_i_m()[0], state_rkf[0], error_tolerance);
+  EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_rkf[1], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_rkf[2], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[1], state_rkf[3], error_tolerance);
+
+  // Interpolation
+  double sigma = 0.11;
+  state_rkf = rkf_ode.CalcInterpolationState(sigma);
+  kepler.CalcOrbit((double)(step_num * step_width_s * sigma) / (24.0 * 60.0 * 60.0));
+
+  error_tolerance = 5e-3;
+  EXPECT_NEAR(kepler.GetPosition_i_m()[0], state_rkf[0], error_tolerance);
+  EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_rkf[1], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_rkf[2], error_tolerance);
+  EXPECT_NEAR(kepler.GetVelocity_i_m_s()[1], state_rkf[3], error_tolerance);
+
+  // Interpolation
+  sigma = 0.79;
+  state_rkf = rkf_ode.CalcInterpolationState(sigma);
+  kepler.CalcOrbit((double)(step_num * step_width_s * sigma) / (24.0 * 60.0 * 60.0));
+
+  error_tolerance = 5e-2;
   EXPECT_NEAR(kepler.GetPosition_i_m()[0], state_rkf[0], error_tolerance);
   EXPECT_NEAR(kepler.GetPosition_i_m()[1], state_rkf[1], error_tolerance);
   EXPECT_NEAR(kepler.GetVelocity_i_m_s()[0], state_rkf[2], error_tolerance);

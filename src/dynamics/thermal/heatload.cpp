@@ -1,5 +1,6 @@
 #include "heatload.hpp"
 
+#include <cassert>
 #include <cmath>
 #include <environment/global/physical_constants.hpp>
 
@@ -15,8 +16,8 @@ Heatload::Heatload(int node_id, std::vector<double> time_table_s, std::vector<do
   heater_heatload_W_ = 0.0;
   total_heatload_W_ = 0.0;
 
-  // [FIXME] Include assertion for size of time_table_s_ and internal_heatload_table_W_ to be larger than 2
-  // [FIXME] Include assertion for size of time_table_s_ and internal_heatload_table_W_ to be the same
+  AssertHeatloadParams();
+
   time_table_period_s_ = time_table_s_[time_table_s_.size() - 1];
   residual_elapsed_time_s_ = fmod(elapsed_time_s_, time_table_period_s_);
 }
@@ -47,4 +48,12 @@ void Heatload::SetElapsedTime_s(double elapsed_time_s) {
       elapsed_time_idx_ = 0;
     }
   }
+}
+
+void Heatload::AssertHeatloadParams() {
+  // size of time_table_s_ and internal_heatload_table_W_ must be larger than 1
+  assert(time_table_s_.size() >= 1);
+  assert(internal_heatload_table_W_.size() >= 1);
+  // size of time_table_s_ and internal_heatload_table_W_ must be the same
+  assert(time_table_s_.size() == internal_heatload_table_W_.size());
 }

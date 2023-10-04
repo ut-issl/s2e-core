@@ -18,7 +18,7 @@ on:
 
 env:
   # datasource=github-releases depName=ut-issl/c2a-core
-  C2A_CORE_VERSION: v3.10.0
+  C2A_CORE_VERSION: v3.10.1
 
 jobs:
   build_s2e_win:
@@ -32,11 +32,11 @@ jobs:
         build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: checkout C2A core
         if: contains(matrix.use_c2a, 'ON')
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: c2a-core
           repository: ut-issl/c2a-core
@@ -142,7 +142,7 @@ jobs:
         build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: set compiler
         id: compiler
@@ -239,7 +239,7 @@ jobs:
           ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
           echo "version=$ver" >> "$GITHUB_OUTPUT"
       
-      - uses: actions/setup-python@v4.6.1
+      - uses: actions/setup-python@v4.7.1
         with:
           python-version: ${{ steps.python-version.outputs.version }}
 

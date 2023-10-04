@@ -114,6 +114,12 @@ class Magnetorquer : public Component, public ILoggable {
    */
   inline const libra::Vector<kMtqDimension>& SetOutputMagneticMoment_b_Am2(void) const { return output_magnetic_moment_b_Am2_; };
 
+  /**
+   * @fn GetOutputMagneticMoment_b_Am2
+   * @brief Return output magnetic moment in the body fixed frame [Am2]
+   */
+  inline const libra::Vector<kMtqDimension>& GetOutputMagneticMoment_c_Am2(void) const { return output_magnetic_moment_c_Am2_; };
+
  protected:
   const int component_id_ = 0;                                      //!< Actuator ID
   const double kConvertNanoT2T = 1.0e-9;                            //!< Constant to convert nT to T
@@ -139,5 +145,29 @@ class Magnetorquer : public Component, public ILoggable {
    */
   libra::Vector<kMtqDimension> CalcOutputTorque(void);
 };
+
+/**
+ * @fn InitMagnetorquer
+ * @brief Initialize functions for magnetometer without power port
+ * @param [in] clock_generator: Clock generator
+ * @param [in] actuator_id: Actuator ID
+ * @param [in] file_name: Path to the initialize file
+ * @param [in] component_step_time_s: Component step time [sec]
+ * @param [in] geomagnetic_field: Geomegnetic environment
+ */
+Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
+                              const GeomagneticField* geomagnetic_field);
+/**
+ * @fn InitMagnetorquer
+ * @brief Initialize functions for magnetometer with power port
+ * @param [in] clock_generator: Clock generator
+ * @param [in] power_port: Power port
+ * @param [in] actuator_id: Actuator ID
+ * @param [in] file_name: Path to the initialize file
+ * @param [in] component_step_time_s: Component step time [sec]
+ * @param [in] geomagnetic_field: Geomegnetic environment
+ */
+Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
+                              double component_step_time_s, const GeomagneticField* geomagnetic_field);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MAGNETORQUER_HPP_

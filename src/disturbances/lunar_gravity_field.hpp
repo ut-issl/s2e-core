@@ -82,4 +82,11 @@ class LunarGravityField : public Disturbance {
   bool ReadCoefficientsGrgm1200a(std::string file_name);
 };
 
+/**
+ * @fn InitLunarGravityField
+ * @brief Initialize LunarGravityField class with earth gravitational constant
+ * @param [in] initialize_file_path: Initialize file path
+ */
+LunarGravityField InitLunarGravityField(const std::string initialize_file_path);
+
 #endif  // S2E_DISTURBANCES_LUNAR_GRAVITY_FIELD_HPP_

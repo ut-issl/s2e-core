@@ -1,11 +1,14 @@
 #include "heater_controller.hpp"
 
+#include <cassert>
 #include <cmath>
 
 using namespace std;
 
 HeaterController::HeaterController(const double lower_threshold_degC, const double upper_threshold_degC)
-    : lower_threshold_degC_(lower_threshold_degC), upper_threshold_degC_(upper_threshold_degC) {}
+    : lower_threshold_degC_(lower_threshold_degC), upper_threshold_degC_(upper_threshold_degC) {
+  AssertHeaterControllerParams();
+}
 
 HeaterController::~HeaterController() {}
 
@@ -21,3 +24,5 @@ void HeaterController::ControlHeater(Heater* p_heater, double temperature_degC) 
     }
   }
 }
+
+void HeaterController::AssertHeaterControllerParams() { assert(upper_threshold_degC_ > lower_threshold_degC_); }

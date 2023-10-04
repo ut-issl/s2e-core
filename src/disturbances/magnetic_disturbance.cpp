@@ -5,6 +5,7 @@
 
 #include "magnetic_disturbance.hpp"
 
+#include <library/initialize/initialize_file_access.hpp>
 #include <library/utilities/macros.hpp>
 
 #include "../library/logger/log_utility.hpp"
@@ -58,4 +59,15 @@ std::string MagneticDisturbance::GetLogValue() const {
   str_tmp += WriteVector(torque_b_Nm_);
 
   return str_tmp;
+}
+
+MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params) {
+  auto conf = IniAccess(initialize_file_path);
+  const char* section = "MAGNETIC_DISTURBANCE";
+
+  const bool is_calc_enable = conf.ReadEnable(section, INI_CALC_LABEL);
+  MagneticDisturbance mag_disturbance(rmm_params, is_calc_enable);
+  mag_disturbance.is_log_enabled_ = conf.ReadEnable(section, INI_LOG_LABEL);
+
+  return mag_disturbance;
 }

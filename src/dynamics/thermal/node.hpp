@@ -70,7 +70,7 @@ class Node {
    * @param sun_direction_b: Sun direction in body frame
    * @return double: Solar Radiation [W]
    */
-  double CalcSolarRadiation_W(libra::Vector<3> sun_direction_b);  // 太陽入射熱を計算
+  double CalcSolarRadiation_W(libra::Vector<3> sun_direction_b, double solar_flux_W_m2);
 
   // Getter
   /**
@@ -137,6 +137,12 @@ class Node {
    * @brief Print parameters of node in debug output
    */
   void PrintParam(void);
+
+  /**
+   * @fn AssertNodeParams
+   * @brief Check if Node Parameters are Correct
+   */
+  void AssertNodeParams(void);
 };
 
 #endif  // S2E_DYNAMICS_THERMAL_NODE_HPP_
