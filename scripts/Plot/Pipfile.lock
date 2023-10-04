@@ -615,7 +615,7 @@
                 "sha256:e31c1187168c314c984932e99c2d3f973465443493869ae041dd9e2e18e998aa"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.9'",
+            "markers": "python_version >= '3.8'",
             "version": "==3.7.0"
         },
         "pytz": {
