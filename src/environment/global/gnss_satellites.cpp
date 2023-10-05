@@ -376,8 +376,8 @@ void GnssSat_position::SetUp(const double start_unix_time, const double step_sec
       continue;
     }
 
-    int index = lower_bound(unixtime_vector_.at(gnss_satellite_id).begin(), unixtime_vector_.at(gnss_satellite_id).end(), start_unix_time) -
-                unixtime_vector_.at(gnss_satellite_id).begin();
+    int index = (int)(lower_bound(unixtime_vector_.at(gnss_satellite_id).begin(), unixtime_vector_.at(gnss_satellite_id).end(), start_unix_time) -
+                      unixtime_vector_.at(gnss_satellite_id).begin());
     if (index == (int)unixtime_vector_.at(gnss_satellite_id).size()) {
       nearest_index_.at(gnss_satellite_id) = index;
       validate_.at(gnss_satellite_id) = false;
