@@ -78,7 +78,7 @@ class Heater {
   void PrintParam(void);
 
  protected:
-  unsigned int heater_id_;  // heater id (Use values over 1)
+  size_t heater_id_;  // heater id (Use values over 1)
   double power_rating_W_;   // Power Rating (100% Duty) [W]
 
   HeaterStatus heater_status_;  // Power Status of Heater
