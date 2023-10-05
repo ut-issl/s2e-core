@@ -14,7 +14,7 @@
 #ifdef USE_C2A
 #if C2A_CORE_VER_MAJOR == 4
 // c2a-core v4
-#include "src_core/TlmCmd/common_cmd_packet_util.h"
+#include "src_core/tlm_cmd/common_cmd_packet_util.h"
 #elif C2A_CORE_VER_MAJOR <= 3
 // c2a-core <= v3
 #include "src_core/TlmCmd/common_cmd_packet_util.h"
