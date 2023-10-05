@@ -42,6 +42,15 @@ class IniAccess {
 
   // Read functions
   /**
+   * @fn ReadVectorUnsignedChar
+   * @brief Read a vector number as unsigned char type
+   * @param[in] section_name: Section name
+   * @param[in] key_name: Key name
+   * @param[in] num: Number of elements of the array
+   * @return Read number
+   */
+  std::vector<unsigned char> ReadVectorUnsignedChar(const char* section_name, const char* key_name, const size_t num);
+  /**
    * @fn ReadDouble
    * @brief Read a scalar number as double type
    * @param[in] section_name: Section name
@@ -57,6 +66,15 @@ class IniAccess {
    * @return Read number
    */
   int ReadInt(const char* section_name, const char* key_name);
+  /**
+   * @fn ReadVectorInt
+   * @brief Read a vector number as integer type
+   * @param[in] section_name: Section name
+   * @param[in] key_name: Key name
+   * @param[in] num: Number of elements of the array
+   * @return Read number
+   */
+  std::vector<int> ReadVectorInt(const char* section_name, const char* key_name, const size_t num);
   /**
    * @fn ReadBoolean
    * @brief Read boolean
@@ -75,6 +93,15 @@ class IniAccess {
    * @param[out] data: Read array data
    */
   void ReadDoubleArray(const char* section_name, const char* key_name, const int id, const int num, double* data);
+  /**
+   * @fn ReadVectorDouble
+   * @brief Read a vector number as double type
+   * @param[in] section_name: Section name
+   * @param[in] key_name: Key name
+   * @param[in] num: Number of elements of the array
+   * @return Read number
+   */
+  std::vector<double> ReadVectorDouble(const char* section_name, const char* key_name, const size_t num);
   /**
    * @fn ReadVector
    * @brief Read Vector type number
