@@ -131,8 +131,8 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
     size_t length_phi = antenna_conf.ReadInt(section_name.c_str(), "tx_length_phi");
     double theta_max_rad = antenna_conf.ReadDouble(section_name.c_str(), "tx_theta_max_rad");
     double phi_max_rad = antenna_conf.ReadDouble(section_name.c_str(), "tx_phi_max_rad");
-    tx_parameters.radiation_pattern = AntennaRadiationPattern(antenna_conf.ReadString(section_name.c_str(), "tx_antenna_radiation_pattern_file"), length_theta,
-                                                              length_phi, theta_max_rad, phi_max_rad);
+    tx_parameters.radiation_pattern = AntennaRadiationPattern(antenna_conf.ReadString(section_name.c_str(), "tx_antenna_radiation_pattern_file"),
+                                                              length_theta, length_phi, theta_max_rad, phi_max_rad);
   } else {
     tx_parameters.gain_dBi_ = 0.0;
     tx_parameters.loss_feeder_dB_ = 0.0;
@@ -151,8 +151,8 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
     size_t length_phi = antenna_conf.ReadInt(section_name.c_str(), "rx_length_phi");
     double theta_max_rad = antenna_conf.ReadDouble(section_name.c_str(), "rx_theta_max_rad");
     double phi_max_rad = antenna_conf.ReadDouble(section_name.c_str(), "rx_phi_max_rad");
-    rx_parameters.radiation_pattern = AntennaRadiationPattern(antenna_conf.ReadString(section_name.c_str(), "rx_antenna_radiation_pattern_file"), length_theta,
-                                                              length_phi, theta_max_rad, phi_max_rad);
+    rx_parameters.radiation_pattern = AntennaRadiationPattern(antenna_conf.ReadString(section_name.c_str(), "rx_antenna_radiation_pattern_file"),
+                                                              length_theta, length_phi, theta_max_rad, phi_max_rad);
   } else {
     rx_parameters.gain_dBi_ = 0.0;
     rx_parameters.loss_feeder_dB_ = 0.0;
