@@ -103,12 +103,7 @@ CelestialInformation::~CelestialInformation() {
   delete earth_rotation_;
 }
 
-void CelestialInformation::UpdateAllObjectsInformation(const double current_time_jd) {
-  // Convert time
-  SpiceDouble ephemeris_time;
-  std::string julian_date = "jd " + std::to_string(current_time_jd);
-  str2et_c(julian_date.c_str(), &ephemeris_time);
-
+void CelestialInformation::UpdateAllObjectsInformation(const SimulationTime& simulation_time) {
   // Update celestial body orbit
   for (unsigned int i = 0; i < number_of_selected_bodies_; i++) {
     SpiceInt planet_id = selected_body_ids_[i];
@@ -121,7 +116,7 @@ void CelestialInformation::UpdateAllObjectsInformation(const double current_time
 
     // Acquisition of position and velocity
     SpiceDouble orbit_buffer_km[6];
-    GetPlanetOrbit(name_buffer, ephemeris_time, (SpiceDouble*)orbit_buffer_km);
+    GetPlanetOrbit(name_buffer, simulation_time.GetCurrentEphemerisTime(), (SpiceDouble*)orbit_buffer_km);
     // Convert unit [km], [km/s] to [m], [m/s]
     for (int j = 0; j < 3; j++) {
       celestial_body_position_from_center_i_m_[i * 3 + j] = orbit_buffer_km[j] * 1000.0;
@@ -130,7 +125,7 @@ void CelestialInformation::UpdateAllObjectsInformation(const double current_time
   }
 
   // Update celestial rotation
-  earth_rotation_->Update(current_time_jd);
+  earth_rotation_->Update(simulation_time.GetCurrentTime_jd());
 }
 
 int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {
