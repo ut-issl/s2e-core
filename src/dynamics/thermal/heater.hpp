@@ -34,7 +34,7 @@ class Heater {
    * @param [in] heater_id
    * @param [in] power_rating_W: Power Rating (100% Duty Output) of Heater [W]
    */
-  Heater(const unsigned int heater_id, const double power_rating_W);
+  Heater(const size_t heater_id, const double power_rating_W);
   /**
    * @fn ~Heater
    * @brief Destroy the Heater object
