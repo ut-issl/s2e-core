@@ -46,7 +46,7 @@ class Heater {
    * @fn GetHeaterID
    * @brief Return Heater Id
    */
-  inline int GetHeaterId(void) const { return heater_id_; }
+  inline size_t GetHeaterId(void) const { return heater_id_; }
   /**
    * @fn GetPowerRating_W
    * @brief Return power rating [W]
