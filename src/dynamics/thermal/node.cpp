@@ -5,14 +5,13 @@
 
 #include "node.hpp"
 
-#include <cassert>
 #include <cmath>
 #include <environment/global/physical_constants.hpp>
 
 using namespace std;
 using namespace libra;
 
-Node::Node(const int node_id, const string node_name, const NodeType node_type, const int heater_id, const double temperature_ini_K,
+Node::Node(const size_t node_id, const string node_name, const NodeType node_type, const size_t heater_id, const double temperature_ini_K,
            const double capacity_J_K, const double alpha, const double area_m2, libra::Vector<3> normal_vector_b)
     : node_id_(node_id),
       node_name_(node_name),
@@ -57,17 +56,35 @@ void Node::PrintParam(void) {
   cout << "  node type    : " << node_type_str << endl;
   cout << "  heater id    : " << heater_id_ << endl;
   cout << "  Normal Vector: ";
-  for (int i = 0; i < 3; i++) {
+  for (size_t i = 0; i < 3; i++) {
     cout << normal_vector_b_[i] << " ";
   }
   cout << endl;
 }
 
 void Node::AssertNodeParams(void) {
-  assert(node_id_ >= 0);                                      // Node ID should be larger than 0
-  assert(heater_id_ >= 0);                                    // Heater ID should be larger than 0
-  assert(temperature_K_ >= environment::absolute_zero_degC);  // Temperature must be larger than zero kelvin
-  assert(capacity_J_K_ >= 0);                                 // Capacity must be larger than 0, use 0 when node is boundary or arithmetic
-  assert(0 <= alpha_ && alpha_ <= 1);                         // alpha must be between 0 and 1
-  assert(area_m2_ >= 0);                                      // Area must be larger than 0
+  // Temperature must be larger than zero kelvin
+  if (temperature_K_ < 0.0) {
+    std::cerr << "[WARNING] node: temperature is less than zero [K]." << std::endl;
+    std::cerr << "The value is set as 0.0." << std::endl;
+    temperature_K_ = 0.0;
+  }
+  // Capacity must be larger than 0, use 0 when node is boundary or arithmetic
+  if (capacity_J_K_ < 0.0) {
+    std::cerr << "[WARNING] node: capacity is less than zero [J/K]." << std::endl;
+    std::cerr << "The value is set as 0.0." << std::endl;
+    capacity_J_K_ = 0.0;
+  }
+  // alpha must be between 0 and 1
+  if (alpha_ < 0.0 || alpha_ > 1.0) {
+    std::cerr << "[WARNING] node: alpha is over the range [0, 1]." << std::endl;
+    std::cerr << "The value is set as 0.0." << std::endl;
+    alpha_ = 0.0;
+  }
+  // Area must be larger than 0
+  if (area_m2_ < 0.0) {
+    std::cerr << "[WARNING] node: area is less than zero [m2]." << std::endl;
+    std::cerr << "The value is set as 0.0." << std::endl;
+    area_m2_ = 0.0;
+  }
 }

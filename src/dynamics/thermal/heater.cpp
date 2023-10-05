@@ -1,6 +1,5 @@
 #include "heater.hpp"
 
-#include <cassert>
 #include <cmath>
 
 using namespace std;
@@ -30,6 +29,16 @@ void Heater::PrintParam(void) {
 }
 
 void Heater::AssertHeaterParams(void) {
-  assert(heater_id_ >= 1);       // Heater ID must be larger than 1
-  assert(power_rating_W_ >= 0);  // Power rating must be larger than 0
+  // Heater ID must be larger than 1
+  if (heater_id_ < 1) {
+    std::cerr << "[WARNING] heater: heater ID is smaller than 1. " << std::endl;
+    heater_id_ += 1;
+    std::cerr << "The heater ID is set as " << heater_id_ << std::endl;
+  }
+  // Power rating must be larger than 0
+  if (power_rating_W_ < 0.0) {
+    std::cerr << "[WARNING] heater: power rating is smaller than 0.0 [W]. " << std::endl;
+    std::cerr << "The value is set as 0.0." << std::endl;
+    power_rating_W_ = 0.0;
+  }
 }

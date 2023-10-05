@@ -10,7 +10,7 @@
 
 /**
  * @fn InitHeatload
- * @brief Intialize Heatload object from csv file
+ * @brief Initialize Heatload object from csv file
  * @param[in] time_str: str representing time table, read from csv file
  * @param[in] internal_heatload_str: str representing internal heatload table, read from csv file
  * @return Heatload
