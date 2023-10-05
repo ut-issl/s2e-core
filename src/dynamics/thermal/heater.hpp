@@ -34,7 +34,7 @@ class Heater {
    * @param [in] heater_id
    * @param [in] power_rating_W: Power Rating (100% Duty Output) of Heater [W]
    */
-  Heater(const unsigned int heater_id, const double power_rating_W);
+  Heater(const size_t heater_id, const double power_rating_W);
   /**
    * @fn ~Heater
    * @brief Destroy the Heater object
@@ -46,7 +46,7 @@ class Heater {
    * @fn GetHeaterID
    * @brief Return Heater Id
    */
-  inline int GetHeaterId(void) const { return heater_id_; }
+  inline size_t GetHeaterId(void) const { return heater_id_; }
   /**
    * @fn GetPowerRating_W
    * @brief Return power rating [W]
@@ -78,8 +78,8 @@ class Heater {
   void PrintParam(void);
 
  protected:
-  unsigned int heater_id_;  // heater id (Use values over 1)
-  double power_rating_W_;   // Power Rating (100% Duty) [W]
+  size_t heater_id_;       // heater id (Use values over 1)
+  double power_rating_W_;  // Power Rating (100% Duty) [W]
 
   HeaterStatus heater_status_;  // Power Status of Heater
   double power_output_W_;       // Power Output of Heater [W]

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Heater::Heater(const unsigned int heater_id, const double power_rating_W) : heater_id_(heater_id), power_rating_W_(power_rating_W) {
+Heater::Heater(const size_t heater_id, const double power_rating_W) : heater_id_(heater_id), power_rating_W_(power_rating_W) {
   AssertHeaterParams();
   heater_status_ = HeaterStatus::kOff;
   power_output_W_ = 0;
