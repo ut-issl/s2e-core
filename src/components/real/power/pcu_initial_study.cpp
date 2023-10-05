@@ -115,13 +115,9 @@ PcuInitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id
                                      const std::vector<SolarArrayPanel*> saps, Battery* battery, double component_step_time_s) {
   IniAccess pcu_conf(file_name);
 
-  const std::string st_pcu_id = std::to_string(pcu_id);
-  const char* cs = st_pcu_id.data();
+  const std::string section_name = "PCU_INITIAL_STUDY_" + std::to_string(static_cast<long long>(pcu_id));
 
-  char Section[30] = "PCU_INITIAL_STUDY_";
-  strcat(Section, cs);
-
-  int prescaler = pcu_conf.ReadInt(Section, "prescaler");
+  int prescaler = pcu_conf.ReadInt(section_name.c_str(), "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
   PcuInitialStudy pcu(prescaler, clock_generator, saps, battery, component_step_time_s);
