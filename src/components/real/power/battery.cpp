@@ -77,11 +77,11 @@ void Battery::MainRoutine(const int time_count) {
 }
 
 void Battery::UpdateBatVoltage() {
-  double cell_discharge_capasity = depth_of_discharge_percent_ / 100.0 * cell_capacity_Ah_;
+  double cell_discharge_capacity = depth_of_discharge_percent_ / 100.0 * cell_capacity_Ah_;
   double temp = 0.0;
   int index = 0;
   for (auto coeff : cell_discharge_curve_coefficients_) {
-    temp += coeff * std::pow(cell_discharge_capasity, index);
+    temp += coeff * std::pow(cell_discharge_capacity, index);
     ++index;
   }
   battery_voltage_V_ = temp * number_of_series_;
