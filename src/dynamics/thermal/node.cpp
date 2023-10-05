@@ -76,7 +76,7 @@ void Node::AssertNodeParams(void) {
     capacity_J_K_ = 0.0;
   }
   // alpha must be between 0 and 1
-  if (alpha_ < 0.0 && alpha_ > 1.0) {
+  if (alpha_ < 0.0 || alpha_ > 1.0) {
     std::cerr << "[WARNING] node: alpha is over the range [0, 1]." << std::endl;
     std::cerr << "The value is set as 0.0." << std::endl;
     alpha_ = 0.0;
