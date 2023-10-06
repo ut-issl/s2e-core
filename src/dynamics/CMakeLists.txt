@@ -15,7 +15,6 @@ add_library(${PROJECT_NAME} STATIC
   thermal/heater.cpp
   thermal/heater_controller.cpp
   thermal/heatload.cpp
-  thermal/initialize_temperature.cpp
 
   attitude/attitude.cpp
   attitude/attitude_rk4.cpp
