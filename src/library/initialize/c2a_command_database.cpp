@@ -13,6 +13,7 @@
 
 C2aCommandInformation::C2aCommandInformation(const std::string cmd_db_line) {
   if (cmd_db_line.find("*") == 0) return;
+  if (cmd_db_line.find(",") != 0) return;
 
   // CSV
   std::string token;
