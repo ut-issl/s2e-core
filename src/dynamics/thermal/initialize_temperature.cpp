@@ -10,7 +10,6 @@
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
 
-#include "initialize_heatload.hpp"
 #include "initialize_node.hpp"
 
 /* Import node properties, heatload_list and Cij/Rij Data by reading CSV File (node.csv,
