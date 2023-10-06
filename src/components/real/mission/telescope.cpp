@@ -68,7 +68,7 @@ void Telescope::MainRoutine(const int time_count) {
   Observe(earth_position_image_sensor, local_celestial_information_->GetPositionFromSpacecraft_b_m("EARTH"));
   Observe(moon_position_image_sensor, local_celestial_information_->GetPositionFromSpacecraft_b_m("MOON"));
   // Position calculation of stars from Hipparcos Catalogue
-  // No update when Hipparocos Catalogue was not readed
+  // No update when Hipparcos Catalogue was not read
   if (hipparcos_->IsCalcEnabled) ObserveStars();
   // Debug ******************************************************************
   //  sun_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("SUN"));
