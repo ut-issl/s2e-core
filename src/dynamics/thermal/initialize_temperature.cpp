@@ -10,8 +10,6 @@
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
 
-#include "initialize_node.hpp"
-
 /* Import node properties, heatload_list and Cij/Rij Data by reading CSV File (node.csv,
 heatload.csv, cij.csv, rij.csv) Detailed process of reading node properties from CSV File, and
 CSV file formats of node properties is written in Init_Node.cpp

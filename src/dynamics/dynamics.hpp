@@ -14,8 +14,8 @@
 #include "../simulation/spacecraft/structure/structure.hpp"
 #include "dynamics/attitude/initialize_attitude.hpp"
 #include "dynamics/orbit/initialize_orbit.hpp"
-#include "dynamics/thermal/initialize_node.hpp"
 #include "dynamics/thermal/initialize_temperature.hpp"
+#include "dynamics/thermal/node.hpp"
 
 class RelativeInformation;
 class LocalEnvironment;
