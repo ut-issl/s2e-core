@@ -10,7 +10,6 @@
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
 
-#include "initialize_heater.hpp"
 #include "initialize_heatload.hpp"
 #include "initialize_node.hpp"
 
