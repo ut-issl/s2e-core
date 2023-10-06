@@ -153,7 +153,7 @@ class ObcWithC2a : public OnBoardComputer {
    * @param [in] length: Length of data
    * @return 0
    */
-  int I2cComponentWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char rregister_address, const unsigned char* data,
+  int I2cComponentWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char register_address, const unsigned char* data,
                                 const unsigned char length) override;
   /**
    * @fn I2cComponentReadRegister
