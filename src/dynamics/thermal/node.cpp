@@ -8,11 +8,6 @@
 #include <cassert>
 #include <cmath>
 #include <environment/global/physical_constants.hpp>
-#include <iostream>
-#include <library/initialize/initialize_file_access.hpp>
-#include <string>
-#include <typeinfo>
-#include <vector>
 
 using namespace std;
 using namespace libra;
