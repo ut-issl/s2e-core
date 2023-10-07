@@ -58,7 +58,7 @@ class ExampleSerialCommunicationForHils : public Component, public UartCommunica
   const int mode_id_;                           //!< Mode ID to select sender(0) or responder(1)
   int counter_ = 0;                             //!< Internal counter
 
-  // Override functions for ObcComunication
+  // Override functions for ObcCommunication
   /**
    * @fn ParseCommand
    * @brief Parse command received from OnBoardComputer

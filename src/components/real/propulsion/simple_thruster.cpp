@@ -123,8 +123,8 @@ libra::Vector<3> SimpleThruster::CalcThrustDirection() {
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_id, const std::string file_name, const Structure* structure,
                                   const Dynamics* dynamics) {
   IniAccess thruster_conf(file_name);
-  std::string sectionstr = "THRUSTER_" + std::to_string(thruster_id);
-  auto* Section = sectionstr.c_str();
+  std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
+  auto* Section = section_str.c_str();
 
   int prescaler = thruster_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
@@ -151,8 +151,8 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
                                   const Structure* structure, const Dynamics* dynamics) {
   IniAccess thruster_conf(file_name);
-  std::string sectionstr = "THRUSTER_" + std::to_string(thruster_id);
-  auto* Section = sectionstr.c_str();
+  std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
+  auto* Section = section_str.c_str();
 
   int prescaler = thruster_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;

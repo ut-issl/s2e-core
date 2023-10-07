@@ -9,7 +9,7 @@
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
 
-std::string return_dirctory_path(std::string sort) {
+std::string return_directory_path(std::string sort) {
   std::string main_directory, sub_directory;
 
   if (sort.substr(0, 2) == "IG") {
@@ -66,7 +66,7 @@ void get_raw_contents(std::string directory_path, std::string file_name, std::ve
 
 void get_sp3_file_contents(std::string directory_path, std::string file_sort, std::string first, std::string last,
                            std::vector<std::vector<std::string>>& file_contents, UltraRapidMode& ur_flag) {
-  std::string all_directory_path = directory_path + return_dirctory_path(file_sort);
+  std::string all_directory_path = directory_path + return_directory_path(file_sort);
   ur_flag = kNotUse;
 
   if (first.substr(0, 3) == "COD") {
@@ -177,7 +177,7 @@ void get_sp3_file_contents(std::string directory_path, std::string file_sort, st
 
 void get_clk_file_contents(std::string directory_path, std::string extension, std::string file_sort, std::string first, std::string last,
                            std::vector<std::vector<std::string>>& file_contents) {
-  std::string all_directory_path = directory_path + return_dirctory_path(file_sort) + extension.substr(1) + '/';
+  std::string all_directory_path = directory_path + return_directory_path(file_sort) + extension.substr(1) + '/';
 
   if (file_sort.find("Ultra") != std::string::npos) {
     std::string file_header, file_footer;
@@ -256,7 +256,7 @@ void get_clk_file_contents(std::string directory_path, std::string extension, st
 
 GnssSatellites* InitGnssSatellites(std::string file_name) {
   IniAccess ini_file(file_name);
-  char section[] = "GNSS_SATELLIES";
+  char section[] = "GNSS_SATELLITES";
   GnssSatellites* gnss_satellites = new GnssSatellites(ini_file.ReadEnable(section, "calculation"));
   if (!gnss_satellites->IsCalcEnabled()) {
     return gnss_satellites;
