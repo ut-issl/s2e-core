@@ -58,7 +58,7 @@ ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, Cloc
       position_b_m_(position_b_m),
       step_width_s_(step_width_s),
       dead_time_s_(dead_time_s),
-      delayed_acceleration_rad_s2_(step_width_s),
+      delayed_acceleration_rad_s2_(step_width_s, time_constant_s),
       drive_flag_(drive_flag),
       velocity_limit_rpm_(max_velocity_rpm_),
       ode_angular_velocity_(step_width_s, velocity_limit_rpm_ * libra::rpm_to_rad_s, init_velocity_rad_s),
@@ -223,6 +223,11 @@ libra::Vector<3> position_b_m;
 double dead_time_s;
 double time_constant_s;
 
+// Initial state
+bool init_drive_flag;
+double init_velocity_rad_s;
+
+// Jitter
 double jitter_update_interval_s;
 bool is_calc_jitter_enabled;
 bool is_log_jitter_enabled;
@@ -232,8 +237,6 @@ double structural_resonance_frequency_Hz;
 double damping_factor;
 double bandwidth;
 bool considers_structural_resonance;
-bool drive_flag;
-double init_velocity_rad_s;
 
 void InitParams(int actuator_id, std::string file_name, double compo_update_step) {
   // Access Parameters
@@ -242,55 +245,59 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
   const char* cs = st_actuator_num.data();
   std::string section_tmp = "REACTION_WHEEL_";
   section_tmp += cs;
-  const char* RWsection = section_tmp.data();
+  const char* rw_section = section_tmp.data();
 
-  // Read ini file
-  prescaler = rw_ini_file.ReadInt(RWsection, "prescaler");
+  // Prescaler
+  prescaler = rw_ini_file.ReadInt(rw_section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
-  fast_prescaler = rw_ini_file.ReadInt(RWsection, "fast_prescaler");
+  fast_prescaler = rw_ini_file.ReadInt(rw_section, "fast_prescaler");
   if (fast_prescaler <= 1) fast_prescaler = 1;
-  rotor_inertia_kgm2 = rw_ini_file.ReadDouble(RWsection, "moment_of_inertia_kgm2");
-  max_torque_Nm = rw_ini_file.ReadDouble(RWsection, "max_output_torque_Nm");
-  max_velocity = rw_ini_file.ReadDouble(RWsection, "max_angular_velocity_rpm");
 
+  // RW specifications
+  rotor_inertia_kgm2 = rw_ini_file.ReadDouble(rw_section, "moment_of_inertia_kgm2");
+  max_torque_Nm = rw_ini_file.ReadDouble(rw_section, "max_output_torque_Nm");
+  max_velocity = rw_ini_file.ReadDouble(rw_section, "max_angular_velocity_rpm");
+
+  // Mounting information
   std::string direction_determination_mode;
-  direction_determination_mode = rw_ini_file.ReadString(RWsection, "direction_determination_mode");
+  direction_determination_mode = rw_ini_file.ReadString(rw_section, "direction_determination_mode");
   if (direction_determination_mode == "QUATERNION") {
-    rw_ini_file.ReadQuaternion(RWsection, "quaternion_b2c", quaternion_b2c);
+    rw_ini_file.ReadQuaternion(rw_section, "quaternion_b2c", quaternion_b2c);
   } else  // direction_determination_mode == "DIRECTION"
   {
     libra::Vector<3> direction_b;
-    rw_ini_file.ReadVector(RWsection, "direction_b", direction_b);
+    rw_ini_file.ReadVector(rw_section, "direction_b", direction_b);
     libra::Vector<3> direction_c(0.0);
     direction_c[2] = 1.0;
     libra::Quaternion q(direction_b, direction_c);
     quaternion_b2c = q.Conjugate();
   }
+  rw_ini_file.ReadVector(rw_section, "position_b_m", position_b_m);
 
-  rw_ini_file.ReadVector(RWsection, "position_b_m", position_b_m);
-  dead_time_s = rw_ini_file.ReadDouble(RWsection, "dead_time_s");
-  time_constant_s = rw_ini_file.ReadDouble(RWsection, "time_constant");
+  // Time delay
+  dead_time_s = rw_ini_file.ReadDouble(rw_section, "dead_time_s");
+  time_constant_s = rw_ini_file.ReadDouble(rw_section, "time_constant_s");
 
-  is_calc_jitter_enabled = rw_ini_file.ReadEnable(RWsection, "jitter_calculation");
-  is_log_jitter_enabled = rw_ini_file.ReadEnable(RWsection, "jitter_logging");
+  // Initial state
+  init_drive_flag = rw_ini_file.ReadBoolean(rw_section, "initial_motor_drive_flag");
+  init_velocity_rad_s = rw_ini_file.ReadDouble(rw_section, "initial_angular_velocity_rad_s");
 
-  std::string radial_force_harmonics_coefficient_path = rw_ini_file.ReadString(RWsection, "radial_force_harmonics_coefficient_file");
-  std::string radial_torque_harmonics_coefficient_path = rw_ini_file.ReadString(RWsection, "radial_torque_harmonics_coefficient_file");
-  int harmonics_degree = rw_ini_file.ReadInt(RWsection, "harmonics_degree");
+  // Jitter
+  is_calc_jitter_enabled = rw_ini_file.ReadEnable(rw_section, "jitter_calculation");
+  is_log_jitter_enabled = rw_ini_file.ReadEnable(rw_section, "jitter_logging");
+  std::string radial_force_harmonics_coefficient_path = rw_ini_file.ReadString(rw_section, "radial_force_harmonics_coefficient_file");
+  std::string radial_torque_harmonics_coefficient_path = rw_ini_file.ReadString(rw_section, "radial_torque_harmonics_coefficient_file");
+  int harmonics_degree = rw_ini_file.ReadInt(rw_section, "harmonics_degree");
   IniAccess conf_radial_force_harmonics(radial_force_harmonics_coefficient_path);
   IniAccess conf_radial_torque_harmonics(radial_torque_harmonics_coefficient_path);
   conf_radial_force_harmonics.ReadCsvDouble(radial_force_harmonics_coefficients, harmonics_degree);
   conf_radial_torque_harmonics.ReadCsvDouble(radial_torque_harmonics_coefficients, harmonics_degree);
+  structural_resonance_frequency_Hz = rw_ini_file.ReadDouble(rw_section, "structural_resonance_frequency_Hz");
+  damping_factor = rw_ini_file.ReadDouble(rw_section, "damping_factor");
+  bandwidth = rw_ini_file.ReadDouble(rw_section, "bandwidth");
+  considers_structural_resonance = rw_ini_file.ReadEnable(rw_section, "considers_structural_resonance");
 
-  structural_resonance_frequency_Hz = rw_ini_file.ReadDouble(RWsection, "structural_resonance_frequency_Hz");
-  damping_factor = rw_ini_file.ReadDouble(RWsection, "damping_factor");
-  bandwidth = rw_ini_file.ReadDouble(RWsection, "bandwidth");
-  considers_structural_resonance = rw_ini_file.ReadEnable(RWsection, "considers_structural_resonance");
-
-  drive_flag = rw_ini_file.ReadBoolean(RWsection, "initial_motor_drive_flag");
-  init_velocity_rad_s = rw_ini_file.ReadDouble(RWsection, "initial_angular_velocity_rad_s");
-
-  // Calc periods
+  // Calculation periods
   step_width_s = compo_update_step;
   jitter_update_interval_s = fast_prescaler * compo_update_step;
 }
@@ -302,7 +309,7 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id
   ReactionWheel rw(prescaler, fast_prescaler, clock_generator, actuator_id, step_width_s, jitter_update_interval_s, rotor_inertia_kgm2, max_torque_Nm,
                    max_velocity, quaternion_b2c, position_b_m, dead_time_s, time_constant_s, is_calc_jitter_enabled, is_log_jitter_enabled,
                    radial_force_harmonics_coefficients, radial_torque_harmonics_coefficients, structural_resonance_frequency_Hz, damping_factor,
-                   bandwidth, considers_structural_resonance, drive_flag, init_velocity_rad_s);
+                   bandwidth, considers_structural_resonance, init_drive_flag, init_velocity_rad_s);
 
   return rw;
 }
@@ -316,7 +323,8 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* powe
   ReactionWheel rw(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width_s, jitter_update_interval_s, rotor_inertia_kgm2,
                    max_torque_Nm, max_velocity, quaternion_b2c, position_b_m, dead_time_s, time_constant_s, is_calc_jitter_enabled,
                    is_log_jitter_enabled, radial_force_harmonics_coefficients, radial_torque_harmonics_coefficients,
-                   structural_resonance_frequency_Hz, damping_factor, bandwidth, considers_structural_resonance, drive_flag, init_velocity_rad_s);
+                   structural_resonance_frequency_Hz, damping_factor, bandwidth, considers_structural_resonance, init_drive_flag,
+                   init_velocity_rad_s);
 
   return rw;
 }
