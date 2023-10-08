@@ -217,8 +217,8 @@ std::string ReactionWheel::GetLogValue() const {
   return str_tmp;
 }
 
-// In order to share processing among initialization functions, variables should also be shared. These variables have internal linkages and cannot be
-// referenced from the outside.
+// In order to share processing among initialization functions, variables should also be shared.
+// These variables have internal linkages and cannot be referenced from the outside.
 namespace {
 int prescaler;
 int fast_prescaler;
