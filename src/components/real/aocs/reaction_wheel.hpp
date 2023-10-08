@@ -40,6 +40,7 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] position_b_m: Position of RW on the body fixed frame [m]
    * @param [in] dead_time_s: Dead time of torque output [sec]
+   * @param [in] time_constant_s: First order lag time constant [sec]
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
    * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
@@ -53,7 +54,7 @@ class ReactionWheel : public Component, public ILoggable {
    */
   ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                 const double jitter_update_interval_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
-                const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
+                const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,const double time_constant_s,
                 const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
                 const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
                 const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
@@ -75,6 +76,7 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] position_b_m: Position of RW on the body fixed frame [m]
    * @param [in] dead_time_s: Dead time of torque output [sec]
+   * @param [in] time_constant_s: First order lag time constant [sec]
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
    * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
@@ -88,7 +90,7 @@ class ReactionWheel : public Component, public ILoggable {
    */
   ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                 const double step_width_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2, const double max_torque_Nm,
-                const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
+                const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,const double time_constant_s,
                 const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
                 const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
                 const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
