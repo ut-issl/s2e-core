@@ -11,9 +11,6 @@
 #include <library/math/vector.hpp>
 #include <random>
 
-using namespace libra;
-using namespace std;
-
 ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, const int component_id,
                              const double step_width_s, const double main_routine_time_step_s, const double jitter_update_interval_s,
                              const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
@@ -75,7 +72,7 @@ ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, Cloc
       is_logged_jitter_(is_log_jitter_enabled) {
   Initialize();
   angular_velocity_rad_s_ = init_velocity_rad_s;
-  angular_velocity_rpm_ = angular_velocity_rad_s_ * rad_s_to_rpm;
+  angular_velocity_rpm_ = angular_velocity_rad_s_ * libra::rad_s_to_rpm;
 }
 
 void ReactionWheel::Initialize() {
@@ -127,7 +124,7 @@ libra::Vector<3> ReactionWheel::CalcTorque() {
     double angular_accl = acceleration_delay_buffer_.front();
     double target_angular_velocity_rad = pre_angular_velocity_rad + angular_accl;
     // Check velocity limit
-    double velocity_limit_rad = velocity_limit_rpm_ * rpm_to_rad_s;
+    double velocity_limit_rad = velocity_limit_rpm_ * libra::rpm_to_rad_s;
     if (target_angular_velocity_rad > velocity_limit_rad)
       target_angular_velocity_rad = velocity_limit_rad;
     else if (target_angular_velocity_rad < -1.0 * velocity_limit_rad)
@@ -145,7 +142,7 @@ libra::Vector<3> ReactionWheel::CalcTorque() {
   }
   // Substitution
   angular_velocity_rad_s_ = ode_angular_velocity_.GetAngularVelocity_rad_s();
-  angular_velocity_rpm_ = angular_velocity_rad_s_ * rad_s_to_rpm;
+  angular_velocity_rpm_ = angular_velocity_rad_s_ * libra::rad_s_to_rpm;
   angular_acceleration_rad_s2_ = (angular_velocity_rad_s_ - pre_angular_velocity_rad) / main_routine_time_step_s_;
   // Component frame -> Body frame
   output_torque_b_Nm_ = -1.0 * rotor_inertia_kgm2_ * angular_acceleration_rad_s2_ * rotation_axis_b_;
