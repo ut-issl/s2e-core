@@ -192,6 +192,7 @@ std::string ReactionWheel::GetLogHeader() const {
   str_tmp += WriteScalar(component_name + "angular_velocity", "rad/s");
   str_tmp += WriteScalar(component_name + "angular_velocity", "rpm");
   str_tmp += WriteScalar(component_name + "angular_velocity_upper_limit", "rpm");
+  str_tmp += WriteScalar(component_name + "target_angular_acceleration", "rad/s2");
   str_tmp += WriteScalar(component_name + "angular_acceleration", "rad/s2");
 
   if (is_logged_jitter_) {
@@ -208,6 +209,7 @@ std::string ReactionWheel::GetLogValue() const {
   str_tmp += WriteScalar(angular_velocity_rad_s_);
   str_tmp += WriteScalar(angular_velocity_rpm_);
   str_tmp += WriteScalar(velocity_limit_rpm_);
+  str_tmp += WriteScalar(target_acceleration_rad_s2_);
   str_tmp += WriteScalar(angular_acceleration_rad_s2_);
 
   if (is_logged_jitter_) {
