@@ -6,7 +6,6 @@
 #ifndef S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_
 #define S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_
 
-#include <library/logger/loggable.hpp>
 #include <library/logger/logger.hpp>
 #include <library/math/vector.hpp>
 #include <limits>

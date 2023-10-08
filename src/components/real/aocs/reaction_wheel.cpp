@@ -106,9 +106,9 @@ libra::Vector<3> ReactionWheel::CalcTorque() {
     std::fill(acceleration_delay_buffer_.begin(), acceleration_delay_buffer_.end(), 0.0);
 
     // Coasting torque
-    double coasting_acceleration_rad_s2 = 1e-6;
+    double coasting_acceleration_rad_s2 = 1e-9;
     double rotation_direction = 1.0;
-    if (angular_velocity_rad_s_ < 0.0) rotation_direction = -1.0;
+    if (angular_velocity_rad_s_ > 0.0) rotation_direction = -1.0;
     double angular_acceleration_rad_s2 = coasting_acceleration_rad_s2 * rotation_direction;
     ode_angular_velocity_.SetAngularAcceleration_rad_s2(angular_acceleration_rad_s2);
   } else  // RW power on
