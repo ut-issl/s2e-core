@@ -10,13 +10,13 @@
  * @class FirstOderLag
  * @brief A class to emulate the first order lag
  */
-class FirstOderLag {
+class FirstOrderLag {
  public:
   /**
    * @fn FirstOderLag
    * @brief Default constructor
    */
-  FirstOderLag(const double time_step_s = 1.0, const double time_constant_s = 1.0, const double gain = 1.0)
+  FirstOrderLag(const double time_step_s = 1.0, const double time_constant_s = 1.0, const double gain = 1.0)
       : time_step_s_(time_step_s), time_constant_s_(time_constant_s), gain_(gain) {}
 
   /**
@@ -28,6 +28,8 @@ class FirstOderLag {
     const double c_out = time_constant_s_ / (time_step_s_ + time_constant_s_);
     const double c_in = (gain_ * time_step_s_) / (time_step_s_ + time_constant_s_);
     output_ = c_out * output_ + c_in * input;
+
+    return output_;
   }
 
   /**

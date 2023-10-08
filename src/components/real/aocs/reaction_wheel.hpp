@@ -6,6 +6,7 @@
 #ifndef S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_
 #define S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_
 
+#include <library/control_utilities/first_order_lag.hpp>
 #include <library/logger/logger.hpp>
 #include <library/math/vector.hpp>
 #include <limits>
@@ -192,6 +193,7 @@ class ReactionWheel : public Component, public ILoggable {
   const double step_width_s_;                      //!< step width for ReactionWheelOde [sec]
   const double dead_time_s_;                       //!< dead time [sec]
   std::vector<double> acceleration_delay_buffer_;  //!< Delay buffer for acceleration
+  FirstOrderLag delayed_acceleration_rad_s2_;      //!< Delayed acceleration [rad/s2]
 
   // Controlled Parameters
   bool drive_flag_;                    //!< Drive flag(True: Drive, False: Stop)
