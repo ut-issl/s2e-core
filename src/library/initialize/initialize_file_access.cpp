@@ -174,21 +174,21 @@ std::string IniAccess::ReadString(const char* section_name, const char* key_name
   return value;
 }
 
+std::vector<std::string> IniAccess::ReadVectorString(const char* section_name, const char* key_name, const size_t num) {
+  std::vector<std::string> data;
+  for (size_t i = 0; i < num; i++) {
+    std::stringstream edited_key_name;
+    edited_key_name << key_name << "(" << i << ")";
+    data.push_back(ReadString(section_name, edited_key_name.str().c_str()));
+  }
+  return data;
+}
+
 bool IniAccess::ReadEnable(const char* section_name, const char* key_name) {
   std::string enable_string = ReadString(section_name, key_name);
   if (enable_string.compare("ENABLE") == 0) return true;
   if (enable_string.compare("1") == 0) return true;
   return false;
-}
-
-std::vector<bool> IniAccess::ReadVectorEnable(const char* section_name, const char* key_name, const size_t num) {
-  std::vector<bool> data;
-  for (size_t i = 0; i < num; i++) {
-    std::stringstream edited_key_name;
-    edited_key_name << key_name << "(" << i << ")";
-    data.push_back(ReadEnable(section_name, edited_key_name.str().c_str()));
-  }
-  return data;
 }
 
 std::vector<std::string> IniAccess::ReadStrVector(const char* section_name, const char* key_name) {

@@ -144,6 +144,15 @@ class IniAccess {
    * @return Read string data
    */
   std::string ReadString(const char* section_name, const char* key_name);
+  /**
+   * @fn ReadVectorString
+   * @brief Read a vector number as string type
+   * @param[in] section_name: Section name
+   * @param[in] key_name: Key name
+   * @param[in] num: Number of elements of the array
+   * @return Read data
+   */
+  std::vector<std::string> ReadVectorString(const char* section_name, const char* key_name, const size_t num);
 
   /**
    * @fn ReadEnable
@@ -153,15 +162,6 @@ class IniAccess {
    * @return Return true when the read value is ENABLE or 1.
    */
   bool ReadEnable(const char* section_name, const char* key_name);
-  /**
-   * @fn ReadVectorEnable
-   * @brief Read a vector number as bool type
-   * @param[in] section_name: Section name
-   * @param[in] key_name: Key name
-   * @param[in] num: Number of elements of the array
-   * @return Read number
-   */
-  std::vector<bool> ReadVectorEnable(const char* section_name, const char* key_name, const size_t num);
 
   // Read CSV functions TODO: Make new class for CSV file
   /**

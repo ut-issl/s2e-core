@@ -21,13 +21,13 @@
 CelestialInformation::CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting,
                                            const std::string center_body_name, const EarthRotationMode earth_rotation_mode,
                                            const unsigned int number_of_selected_body, int* selected_body_ids,
-                                           const std::vector<bool> is_enable_rotation)
+                                           const std::vector<std::string> rotation_mode_list)
     : number_of_selected_bodies_(number_of_selected_body),
       selected_body_ids_(selected_body_ids),
       inertial_frame_name_(inertial_frame_name),
       center_body_name_(center_body_name),
       aberration_correction_setting_(aberration_correction_setting),
-      is_enable_rotation_(is_enable_rotation) {
+      rotation_mode_list_(rotation_mode_list) {
   // Initialize list
   unsigned int num_of_state = number_of_selected_bodies_ * 3;
   celestial_body_position_from_center_i_m_ = new double[num_of_state];
@@ -66,7 +66,7 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
 
   // Initialize rotation
   earth_rotation_ = new EarthRotation(earth_rotation_mode);
-  moon_rotation_ = new MoonRotation(*this);
+  moon_rotation_ = new MoonRotation(*this, ConvertMoonRotationMode(GetRotationMode("MOON")));
 }
 
 CelestialInformation::CelestialInformation(const CelestialInformation& obj)
@@ -128,9 +128,7 @@ void CelestialInformation::UpdateAllObjectsInformation(const SimulationTime& sim
   // Update earth rotation
   earth_rotation_->Update(simulation_time.GetCurrentTime_jd());
   // Update moon rotation
-  if (IsEnabledRotation("MOON")) {
-    moon_rotation_->Update(simulation_time);
-  }
+  moon_rotation_->Update(simulation_time);
 }
 
 int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {
@@ -239,11 +237,11 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
   // Read Rotation setting
   std::string rotation_mode_string = ini_file.ReadString(section, "earth_rotation_mode");
   EarthRotationMode rotation_mode = ConvertEarthRotationMode(rotation_mode_string);
-  std::vector<bool> is_enable_rotation = ini_file.ReadVectorEnable(section, "is_enable_body_rotation", num_of_selected_body);
+  std::vector<std::string> rotation_mode_list = ini_file.ReadVectorString(section, "is_enable_body_rotation", num_of_selected_body);
 
   CelestialInformation* celestial_info;
   celestial_info =
-      new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body, is_enable_rotation);
+      new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body, rotation_mode_list);
 
   // log setting
   celestial_info->is_log_enabled_ = ini_file.ReadEnable(section, INI_LOG_LABEL);

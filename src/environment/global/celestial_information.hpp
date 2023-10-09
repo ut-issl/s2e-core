@@ -33,11 +33,11 @@ class CelestialInformation : public ILoggable {
    * @param [in] earth_rotation_mode: Designation of rotation model
    * @param [in] number_of_selected_body: Number of selected body
    * @param [in] selected_body_ids: SPICE IDs of selected bodies
-   * @param [in] is_enable_rotation: Enable list of body rotation
+   * @param [in] rotation_mode_list: Rotation mode list for planets
    */
   CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting, const std::string center_body_name,
                        const EarthRotationMode earth_rotation_mode, const unsigned int number_of_selected_body, int* selected_body_ids,
-                       const std::vector<bool> is_enable_rotation);
+                       const std::vector<std::string> rotation_mode_list);
   /**
    * @fn CelestialInformation
    * @brief Copy constructor
@@ -250,9 +250,9 @@ class CelestialInformation : public ILoggable {
                                                        // Y-axis equal to the cross product of the unit Z-axis and X-axis vectors
 
   // Rotational Motion of each planets
-  EarthRotation* earth_rotation_;  //!< Instance of Earth rotation
-  MoonRotation* moon_rotation_;     //!< Instance of Moon rotation
-  std::vector<bool> is_enable_rotation_;
+  EarthRotation* earth_rotation_;                //!< Instance of Earth rotation
+  MoonRotation* moon_rotation_;                  //!< Instance of Moon rotation
+  std::vector<std::string> rotation_mode_list_;  //!< Rotation mode list for planets
 
   /**
    * @fn GetPlanetOrbit
@@ -265,14 +265,14 @@ class CelestialInformation : public ILoggable {
   void GetPlanetOrbit(const char* planet_name, const double et, double orbit[6]);
 
   /**
-   * @fn IsEnabledRotation
-   * @brief Return rotation enable
+   * @fn GetRotationMode
+   * @brief Return rotation mode
    * @param [in] body_name: Name of the body defined in the SPICE
    */
-  inline bool IsEnabledRotation(const char* body_name) const {
+  inline std::string GetRotationMode(const char* body_name) const {
     size_t id = CalcBodyIdFromName(body_name);
-    if (id >= number_of_selected_bodies_) return false;
-    return is_enable_rotation_[id];
+    if (id >= number_of_selected_bodies_) return "Idle";
+    return rotation_mode_list_[id];
   }
 };
 
