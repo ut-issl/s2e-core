@@ -230,18 +230,8 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
   }
 
   // Read Rotation setting
-  EarthRotationMode rotation_mode;
-  std::string rotation_mode_temp = ini_file.ReadString(section, "earth_rotation_mode");
-  if (rotation_mode_temp == "Idle") {
-    rotation_mode = EarthRotationMode::kIdle;
-  } else if (rotation_mode_temp == "Simple") {
-    rotation_mode = EarthRotationMode::kSimple;
-  } else if (rotation_mode_temp == "Full") {
-    rotation_mode = EarthRotationMode::kFull;
-  } else  // if rotation_mode is neither Idle, Simple, nor Full, set rotation_mode to Idle
-  {
-    rotation_mode = EarthRotationMode::kIdle;
-  }
+  std::string rotation_mode_string = ini_file.ReadString(section, "earth_rotation_mode");
+  EarthRotationMode rotation_mode = ConvertEarthRotationMode(rotation_mode_string);
 
   CelestialInformation* celestial_info;
   celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body);

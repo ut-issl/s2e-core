@@ -259,3 +259,19 @@ libra::Matrix<3, 3> EarthRotation::PolarMotion(const double x_p, const double y_
 
   return dcm_polar_motion;
 }
+
+EarthRotationMode ConvertEarthRotationMode(const std::string mode) {
+  EarthRotationMode rotation_mode;
+  if (mode == "Idle") {
+    rotation_mode = EarthRotationMode::kIdle;
+  } else if (mode == "Simple") {
+    rotation_mode = EarthRotationMode::kSimple;
+  } else if (mode == "Full") {
+    rotation_mode = EarthRotationMode::kFull;
+  } else  // if rotation_mode is neither Idle, Simple, nor Full, set rotation_mode to Idle
+  {
+    rotation_mode = EarthRotationMode::kIdle;
+  }
+
+  return rotation_mode;
+}

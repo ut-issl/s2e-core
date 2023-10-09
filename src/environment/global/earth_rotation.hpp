@@ -121,4 +121,6 @@ class EarthRotation {
   libra::Matrix<3, 3> PolarMotion(const double x_p, const double y_p);
 };
 
+EarthRotationMode ConvertEarthRotationMode(const std::string mode);
+
 #endif  // S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_
