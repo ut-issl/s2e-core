@@ -42,6 +42,7 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] dead_time_s: Dead time of torque output [sec]
    * @param [in] time_constant_s: First order lag time constant [sec]
    * @param [in] friction_coefficients: Friction coefficients
+   * @param [in] stop_limit_angular_velocity_rad_s: Angular velocity stop limit by friction [rad/s]
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
    * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
@@ -56,8 +57,8 @@ class ReactionWheel : public Component, public ILoggable {
   ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                 const double jitter_update_interval_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
                 const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
-                const std::vector<double> friction_coefficients, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
-                const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+                const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled,
+                const bool is_log_jitter_enabled, const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
                 const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
                 const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag = false,
                 const double init_velocity_rad_s = 0.0);
@@ -79,6 +80,7 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] dead_time_s: Dead time of torque output [sec]
    * @param [in] time_constant_s: First order lag time constant [sec]
    * @param [in] friction_coefficients: Friction coefficients
+   * @param [in] stop_limit_angular_velocity_rad_s: Angular velocity stop limit by friction [rad/s]
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
    * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
@@ -93,8 +95,9 @@ class ReactionWheel : public Component, public ILoggable {
   ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                 const double step_width_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2, const double max_torque_Nm,
                 const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
-                const double time_constant_s, const std::vector<double> friction_coefficients, const bool is_calc_jitter_enabled,
-                const bool is_log_jitter_enabled, const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
+                const double time_constant_s, const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s,
+                const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
+                const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
                 const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
                 const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag = false,
                 const double init_velocity_rad_s = 0.0);
@@ -199,8 +202,10 @@ class ReactionWheel : public Component, public ILoggable {
   std::vector<double> acceleration_delay_buffer_;  //!< Delay buffer for acceleration
   FirstOrderLag delayed_acceleration_rad_s2_;      //!< Delayed acceleration [rad/s2]
 
-  // Friction
-  std::vector<double> friction_coefficients_;  //!< Delay buffer for acceleration
+  // Coasting friction
+  // f_rad_s2 = v_rad_s * coefficients(0) + (v_rad_s)^2 * coefficients(1) + ...
+  std::vector<double> coasting_friction_coefficients_;  //!< Friction coefficients for coasting
+  double stop_limit_angular_velocity_rad_s_ = 0.1;      //!< Angular velocity stop limit by friction [rad/s]
 
   // Controlled Parameters
   bool drive_flag_;                    //!< Drive flag(True: Drive, False: Stop)
