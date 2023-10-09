@@ -33,7 +33,6 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] component_id: Component ID
    * @param [in] step_width_s: Step width of integration by reaction wheel ordinary differential equation [sec]
-   * @param [in] jitter_update_interval_s: Update period of RW jitter [sec]
    * @param [in] rotor_inertia_kgm2: Moment of rotor_inertia_kgm2 of the RW [kgm2]
    * @param [in] max_torque_Nm: Maximum output torque [Nm]
    * @param [in] max_velocity_rpm: Maximum output angular velocity [RPM]
@@ -45,22 +44,15 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] stop_limit_angular_velocity_rad_s: Angular velocity stop limit by friction [rad/s]
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
-   * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
-   * @param [in] radial_torque_harmonics_coefficients: Coefficients for radial torque harmonics
-   * @param [in] structural_resonance_frequency_Hz: Frequency of structural resonance [Hz]
-   * @param [in] damping_factor: Damping factor of structural resonance
-   * @param [in] bandwidth: Bandwidth of structural resonance
-   * @param [in] considers_structural_resonance: Flag to consider structural resonance
+   * @param [in] rw_jitter: RW jitter
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW
    */
   ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
-                const double jitter_update_interval_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
-                const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
+                const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
+                const libra::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
                 const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled,
-                const bool is_log_jitter_enabled, const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-                const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
-                const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag = false,
+                const bool is_log_jitter_enabled, ReactionWheelJitter& rw_jitter, const bool drive_flag = false,
                 const double init_velocity_rad_s = 0.0);
   /**
    * @fn ReactionWheel
@@ -71,7 +63,6 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] power_port: Power port
    * @param [in] component_id: Component ID
    * @param [in] step_width_s: Step width of integration by reaction wheel ordinary differential equation [sec]
-   * @param [in] jitter_update_interval_s: Update period of RW jitter [sec]
    * @param [in] rotor_inertia_kgm2: Moment of rotor_inertia_kgm2 of the RW [kgm2]
    * @param [in] max_torque_Nm: Maximum output torque [Nm]
    * @param [in] max_velocity_rpm: Maximum output angular velocity [RPM]
@@ -83,23 +74,15 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] stop_limit_angular_velocity_rad_s: Angular velocity stop limit by friction [rad/s]
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
-   * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
-   * @param [in] radial_torque_harmonics_coefficients: Coefficients for radial torque harmonics
-   * @param [in] structural_resonance_frequency_Hz: Frequency of structural resonance [Hz]
-   * @param [in] damping_factor: Damping factor of structural resonance
-   * @param [in] bandwidth: Bandwidth of structural resonance
-   * @param [in] considers_structural_resonance: Flag to consider structural resonance
+   * @param [in] rw_jitter: RW jitter
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW [rad/s]
    */
   ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                const double step_width_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2, const double max_torque_Nm,
-                const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
-                const double time_constant_s, const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s,
-                const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
-                const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-                const std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double structural_resonance_frequency_Hz,
-                const double damping_factor, const double bandwidth, const bool considers_structural_resonance, const bool drive_flag = false,
+                const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
+                const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
+                const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled,
+                const bool is_log_jitter_enabled, ReactionWheelJitter& rw_jitter, const bool drive_flag = false,
                 const double init_velocity_rad_s = 0.0);
 
   // Override functions for Component
@@ -224,7 +207,7 @@ class ReactionWheel : public Component, public ILoggable {
   ReactionWheelOde ode_angular_velocity_;  //!< Reaction Wheel OrdinaryDifferentialEquation
 
   // RW jitter
-  ReactionWheelJitter rw_jitter_;      //!< RW jitter
+  ReactionWheelJitter& rw_jitter_;     //!< RW jitter
   bool is_calculated_jitter_ = false;  //!< Flag for calculation of jitter
   bool is_logged_jitter_ = false;      //!< Flag for log output of jitter
 

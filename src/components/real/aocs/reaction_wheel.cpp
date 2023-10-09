@@ -12,15 +12,11 @@
 #include <random>
 
 ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, const int component_id,
-                             const double step_width_s, const double jitter_update_interval_s, const double rotor_inertia_kgm2,
-                             const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
-                             const libra::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
-                             const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s,
-                             const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
-                             const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-                             const std::vector<std::vector<double>> radial_torque_harmonics_coefficients,
-                             const double structural_resonance_frequency_Hz, const double damping_factor, const double bandwidth,
-                             const bool considers_structural_resonance, const bool drive_flag, const double init_velocity_rad_s)
+                             const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
+                             const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
+                             const double time_constant_s, const std::vector<double> friction_coefficients,
+                             const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
+                             ReactionWheelJitter& rw_jitter, bool drive_flag, const double init_velocity_rad_s)
     : Component(prescaler, clock_generator, fast_prescaler),
       component_id_(component_id),
       rotor_inertia_kgm2_(rotor_inertia_kgm2),
@@ -36,23 +32,18 @@ ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, Cloc
       drive_flag_(drive_flag),
       velocity_limit_rpm_(max_velocity_rpm_),
       ode_angular_velocity_(step_width_s_, velocity_limit_rpm_ * libra::rpm_to_rad_s, init_velocity_rad_s),
-      rw_jitter_(radial_force_harmonics_coefficients, radial_torque_harmonics_coefficients, jitter_update_interval_s, quaternion_b2c,
-                 structural_resonance_frequency_Hz, damping_factor, bandwidth, considers_structural_resonance),
+      rw_jitter_(rw_jitter),
       is_calculated_jitter_(is_calc_jitter_enabled),
       is_logged_jitter_(is_log_jitter_enabled) {
   Initialize();
 }
 
 ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, PowerPort* power_port,
-                             const int component_id, const double step_width_s, const double jitter_update_interval_s,
-                             const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
-                             const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
-                             const double time_constant_s, const std::vector<double> friction_coefficients,
+                             const int component_id, const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm,
+                             const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m,
+                             const double dead_time_s, const double time_constant_s, const std::vector<double> friction_coefficients,
                              const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
-                             const std::vector<std::vector<double>> radial_force_harmonics_coefficients,
-                             const std::vector<std::vector<double>> radial_torque_harmonics_coefficients,
-                             const double structural_resonance_frequency_Hz, const double damping_factor, const double bandwidth,
-                             const bool considers_structural_resonance, const bool drive_flag, const double init_velocity_rad_s)
+                             ReactionWheelJitter& rw_jitter, const bool drive_flag, const double init_velocity_rad_s)
     : Component(prescaler, clock_generator, power_port, fast_prescaler),
       component_id_(component_id),
       rotor_inertia_kgm2_(rotor_inertia_kgm2),
@@ -68,8 +59,7 @@ ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, Cloc
       drive_flag_(drive_flag),
       velocity_limit_rpm_(max_velocity_rpm_),
       ode_angular_velocity_(step_width_s, velocity_limit_rpm_ * libra::rpm_to_rad_s, init_velocity_rad_s),
-      rw_jitter_(radial_force_harmonics_coefficients, radial_torque_harmonics_coefficients, jitter_update_interval_s, quaternion_b2c,
-                 structural_resonance_frequency_Hz, damping_factor, bandwidth, considers_structural_resonance),
+      rw_jitter_(rw_jitter),
       is_calculated_jitter_(is_calc_jitter_enabled),
       is_logged_jitter_(is_log_jitter_enabled) {
   Initialize();
@@ -253,27 +243,18 @@ double init_velocity_rad_s;
 double jitter_update_interval_s;
 bool is_calc_jitter_enabled;
 bool is_log_jitter_enabled;
-std::vector<std::vector<double>> radial_force_harmonics_coefficients;
-std::vector<std::vector<double>> radial_torque_harmonics_coefficients;
-double structural_resonance_frequency_Hz;
-double damping_factor;
-double bandwidth;
-bool considers_structural_resonance;
+ReactionWheelJitter rw_jitter;
 
 void InitParams(int actuator_id, std::string file_name, double compo_update_step) {
   // Access Parameters
   IniAccess rw_ini_file(file_name);
-  const std::string st_actuator_num = std::to_string(static_cast<long long>(actuator_id));
-  const char* cs = st_actuator_num.data();
-  std::string section_tmp = "REACTION_WHEEL_";
-  section_tmp += cs;
-  const char* rw_section = section_tmp.data();
+  std::string section_tmp = "REACTION_WHEEL_" + std::to_string(static_cast<long long>(actuator_id));
+  const char* rw_section = section_tmp.c_str();
 
   // Prescaler
   prescaler = rw_ini_file.ReadInt(rw_section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
-  fast_prescaler = rw_ini_file.ReadInt(rw_section, "fast_prescaler");
-  if (fast_prescaler <= 1) fast_prescaler = 1;
+  step_width_s = compo_update_step * prescaler;
 
   // RW specifications
   rotor_inertia_kgm2 = rw_ini_file.ReadDouble(rw_section, "moment_of_inertia_kgm2");
@@ -310,34 +291,41 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
   init_velocity_rad_s = rw_ini_file.ReadDouble(rw_section, "initial_angular_velocity_rad_s");
 
   // Jitter
-  is_calc_jitter_enabled = rw_ini_file.ReadEnable(rw_section, "jitter_calculation");
-  is_log_jitter_enabled = rw_ini_file.ReadEnable(rw_section, "jitter_logging");
-  std::string radial_force_harmonics_coefficient_path = rw_ini_file.ReadString(rw_section, "radial_force_harmonics_coefficient_file");
-  std::string radial_torque_harmonics_coefficient_path = rw_ini_file.ReadString(rw_section, "radial_torque_harmonics_coefficient_file");
-  int harmonics_degree = rw_ini_file.ReadInt(rw_section, "harmonics_degree");
+  section_tmp = "REACTION_WHEEL_JITTER_" + std::to_string(static_cast<long long>(actuator_id));
+  const char* jitter_section = section_tmp.c_str();
+
+  is_calc_jitter_enabled = rw_ini_file.ReadEnable(jitter_section, "jitter_calculation");
+  is_log_jitter_enabled = rw_ini_file.ReadEnable(jitter_section, "jitter_logging");
+  fast_prescaler = rw_ini_file.ReadInt(jitter_section, "fast_prescaler");
+  if (fast_prescaler <= 1) fast_prescaler = 1;
+  jitter_update_interval_s = fast_prescaler * compo_update_step;
+
+  std::string radial_force_harmonics_coefficient_path = rw_ini_file.ReadString(jitter_section, "radial_force_harmonics_coefficient_file");
+  std::string radial_torque_harmonics_coefficient_path = rw_ini_file.ReadString(jitter_section, "radial_torque_harmonics_coefficient_file");
+  int harmonics_degree = rw_ini_file.ReadInt(jitter_section, "harmonics_degree");
   IniAccess conf_radial_force_harmonics(radial_force_harmonics_coefficient_path);
   IniAccess conf_radial_torque_harmonics(radial_torque_harmonics_coefficient_path);
+  std::vector<std::vector<double>> radial_force_harmonics_coefficients;
+  std::vector<std::vector<double>> radial_torque_harmonics_coefficients;
   conf_radial_force_harmonics.ReadCsvDouble(radial_force_harmonics_coefficients, harmonics_degree);
   conf_radial_torque_harmonics.ReadCsvDouble(radial_torque_harmonics_coefficients, harmonics_degree);
-  structural_resonance_frequency_Hz = rw_ini_file.ReadDouble(rw_section, "structural_resonance_frequency_Hz");
-  damping_factor = rw_ini_file.ReadDouble(rw_section, "damping_factor");
-  bandwidth = rw_ini_file.ReadDouble(rw_section, "bandwidth");
-  considers_structural_resonance = rw_ini_file.ReadEnable(rw_section, "considers_structural_resonance");
 
-  // Calculation periods
-  step_width_s = compo_update_step;
-  jitter_update_interval_s = fast_prescaler * compo_update_step;
+  double structural_resonance_frequency_Hz = rw_ini_file.ReadDouble(jitter_section, "structural_resonance_frequency_Hz");
+  double damping_factor = rw_ini_file.ReadDouble(jitter_section, "damping_factor");
+  double bandwidth = rw_ini_file.ReadDouble(jitter_section, "bandwidth");
+  bool considers_structural_resonance = rw_ini_file.ReadEnable(jitter_section, "considers_structural_resonance");
+
+  rw_jitter = ReactionWheelJitter(radial_force_harmonics_coefficients, radial_torque_harmonics_coefficients, jitter_update_interval_s, quaternion_b2c,
+                                  structural_resonance_frequency_Hz, damping_factor, bandwidth, considers_structural_resonance);
 }
 }  // namespace
 
 ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step) {
   InitParams(actuator_id, file_name, compo_update_step);
 
-  ReactionWheel rw(prescaler, fast_prescaler, clock_generator, actuator_id, step_width_s, jitter_update_interval_s, rotor_inertia_kgm2, max_torque_Nm,
-                   max_velocity, quaternion_b2c, position_b_m, dead_time_s, time_constant_s, friction_coefficients, stop_limit_angular_velocity_rad_s,
-                   is_calc_jitter_enabled, is_log_jitter_enabled, radial_force_harmonics_coefficients, radial_torque_harmonics_coefficients,
-                   structural_resonance_frequency_Hz, damping_factor, bandwidth, considers_structural_resonance, init_drive_flag,
-                   init_velocity_rad_s);
+  ReactionWheel rw(prescaler, fast_prescaler, clock_generator, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity,
+                   quaternion_b2c, position_b_m, dead_time_s, time_constant_s, friction_coefficients, stop_limit_angular_velocity_rad_s,
+                   is_calc_jitter_enabled, is_log_jitter_enabled, rw_jitter, init_drive_flag, init_velocity_rad_s);
 
   return rw;
 }
@@ -348,11 +336,9 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* powe
 
   power_port->InitializeWithInitializeFile(file_name);
 
-  ReactionWheel rw(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width_s, jitter_update_interval_s, rotor_inertia_kgm2,
-                   max_torque_Nm, max_velocity, quaternion_b2c, position_b_m, dead_time_s, time_constant_s, friction_coefficients,
-                   stop_limit_angular_velocity_rad_s, is_calc_jitter_enabled, is_log_jitter_enabled, radial_force_harmonics_coefficients,
-                   radial_torque_harmonics_coefficients, structural_resonance_frequency_Hz, damping_factor, bandwidth, considers_structural_resonance,
-                   init_drive_flag, init_velocity_rad_s);
+  ReactionWheel rw(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity,
+                   quaternion_b2c, position_b_m, dead_time_s, time_constant_s, friction_coefficients, stop_limit_angular_velocity_rad_s,
+                   is_calc_jitter_enabled, is_log_jitter_enabled, rw_jitter, init_drive_flag, init_velocity_rad_s);
 
   return rw;
 }
