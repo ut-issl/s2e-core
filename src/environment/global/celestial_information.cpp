@@ -20,12 +20,14 @@
 
 CelestialInformation::CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting,
                                            const std::string center_body_name, const EarthRotationMode earth_rotation_mode,
-                                           const unsigned int number_of_selected_body, int* selected_body_ids)
+                                           const unsigned int number_of_selected_body, int* selected_body_ids,
+                                           const std::vector<bool> is_enable_rotation)
     : number_of_selected_bodies_(number_of_selected_body),
       selected_body_ids_(selected_body_ids),
       inertial_frame_name_(inertial_frame_name),
       center_body_name_(center_body_name),
-      aberration_correction_setting_(aberration_correction_setting) {
+      aberration_correction_setting_(aberration_correction_setting),
+      is_enable_rotation_(is_enable_rotation) {
   // Initialize list
   unsigned int num_of_state = number_of_selected_bodies_ * 3;
   celestial_body_position_from_center_i_m_ = new double[num_of_state];
@@ -124,17 +126,19 @@ void CelestialInformation::UpdateAllObjectsInformation(const SimulationTime& sim
 
   // Update earth rotation
   earth_rotation_->Update(simulation_time.GetCurrentTime_jd());
-  // Update
-  libra::Vector<3> moon_position_eci_m;
-  libra::Vector<3> moon_velocity_eci_m_s;
-  if (center_body_name_ == "EARTH") {
-    moon_position_eci_m = GetPositionFromCenter_i_m("MOON");
-    moon_velocity_eci_m_s = GetVelocityFromCenter_i_m_s("MOON");
-  } else {
-    moon_position_eci_m = GetPositionFromCenter_i_m("MOON") - GetPositionFromCenter_i_m("EARTH");
-    moon_velocity_eci_m_s = GetVelocityFromCenter_i_m_s("MOON") - GetPositionFromCenter_i_m("EARTH");
+  // Update moon rotation
+  if (IsEnabledRotation("MOON")) {
+    libra::Vector<3> moon_position_eci_m;
+    libra::Vector<3> moon_velocity_eci_m_s;
+    if (center_body_name_ == "EARTH") {
+      moon_position_eci_m = GetPositionFromCenter_i_m("MOON");
+      moon_velocity_eci_m_s = GetVelocityFromCenter_i_m_s("MOON");
+    } else {
+      moon_position_eci_m = GetPositionFromCenter_i_m("MOON") - GetPositionFromCenter_i_m("EARTH");
+      moon_velocity_eci_m_s = GetVelocityFromCenter_i_m_s("MOON") - GetPositionFromCenter_i_m("EARTH");
+    }
+    moon_rotation_.Update(moon_position_eci_m, moon_velocity_eci_m_s);
   }
-  moon_rotation_.Update(moon_position_eci_m, moon_velocity_eci_m_s);
 }
 
 int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {
@@ -243,9 +247,11 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
   // Read Rotation setting
   std::string rotation_mode_string = ini_file.ReadString(section, "earth_rotation_mode");
   EarthRotationMode rotation_mode = ConvertEarthRotationMode(rotation_mode_string);
+  std::vector<bool> is_enable_rotation = ini_file.ReadVectorEnable(section, "is_enable_body_rotation", num_of_selected_body);
 
   CelestialInformation* celestial_info;
-  celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body);
+  celestial_info =
+      new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body, is_enable_rotation);
 
   // log setting
   celestial_info->is_log_enabled_ = ini_file.ReadEnable(section, INI_LOG_LABEL);

@@ -7,12 +7,13 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_HPP_
 
+#include <vector>
+
 #include "earth_rotation.hpp"
 #include "library/logger/loggable.hpp"
 #include "library/math/vector.hpp"
 #include "moon_rotation.hpp"
 #include "simulation_time.hpp"
-
 /**
  * @class CelestialInformation
  * @brief Class to manage the information related with the celestial bodies
@@ -29,9 +30,11 @@ class CelestialInformation : public ILoggable {
    * @param [in] earth_rotation_mode: Designation of rotation model
    * @param [in] number_of_selected_body: Number of selected body
    * @param [in] selected_body_ids: SPICE IDs of selected bodies
+   * @param [in] is_enable_rotation: Enable list of body rotation
    */
   CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting, const std::string center_body_name,
-                       const EarthRotationMode earth_rotation_mode, const unsigned int number_of_selected_body, int* selected_body_ids);
+                       const EarthRotationMode earth_rotation_mode, const unsigned int number_of_selected_body, int* selected_body_ids,
+                       const std::vector<bool> is_enable_rotation);
   /**
    * @fn CelestialInformation
    * @brief Copy constructor
@@ -218,6 +221,7 @@ class CelestialInformation : public ILoggable {
   // Rotational Motion of each planets
   EarthRotation* earth_rotation_;  //!< Instance of Earth rotation
   MoonRotation moon_rotation_;     //!< Instance of Moon rotation
+  std::vector<bool> is_enable_rotation_;
 
   /**
    * @fn GetPlanetOrbit
@@ -228,6 +232,17 @@ class CelestialInformation : public ILoggable {
    * @param [out] orbit: Cartesian state vector representing the position and velocity of the target body relative to the specified observer.
    */
   void GetPlanetOrbit(const char* planet_name, const double et, double orbit[6]);
+
+  /**
+   * @fn IsEnabledRotation
+   * @brief Return rotation enable
+   * @param [in] body_name: Name of the body defined in the SPICE
+   */
+  inline bool IsEnabledRotation(const char* body_name) const {
+    size_t id = CalcBodyIdFromName(body_name);
+    if (id >= number_of_selected_bodies_) return false;
+    return is_enable_rotation_[id];
+  }
 };
 
 /**
