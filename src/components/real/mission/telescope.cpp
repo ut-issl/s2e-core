@@ -151,11 +151,6 @@ void Telescope::ObserveStars() {
 }
 
 void Telescope::ObserveGroundPosition() {
-  Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b(); // Get quaternion from inertial frame to body frame (i2b)
-
-  star_list_in_sight.clear();  // Clear first
-  size_t count = 0;            // Counter for while loop
-
   while (1) {
     libra::Vector<3> direction_i;
     libra::Vector<3> direction_b;
