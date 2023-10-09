@@ -19,7 +19,7 @@
 #include "library/logger/log_utility.hpp"
 
 CelestialInformation::CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting,
-                                           const std::string center_body_name, const EarthRotationMode rotation_mode,
+                                           const std::string center_body_name, const EarthRotationMode earth_rotation_mode,
                                            const unsigned int number_of_selected_body, int* selected_body_ids)
     : number_of_selected_bodies_(number_of_selected_body),
       selected_body_ids_(selected_body_ids),
@@ -63,7 +63,7 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
   }
 
   // Initialize rotation
-  earth_rotation_ = new EarthRotation(rotation_mode);
+  earth_rotation_ = new EarthRotation(earth_rotation_mode);
 }
 
 CelestialInformation::CelestialInformation(const CelestialInformation& obj)
@@ -231,7 +231,7 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
 
   // Read Rotation setting
   EarthRotationMode rotation_mode;
-  std::string rotation_mode_temp = ini_file.ReadString(section, "rotation_mode");
+  std::string rotation_mode_temp = ini_file.ReadString(section, "earth_rotation_mode");
   if (rotation_mode_temp == "Idle") {
     rotation_mode = EarthRotationMode::kIdle;
   } else if (rotation_mode_temp == "Simple") {
