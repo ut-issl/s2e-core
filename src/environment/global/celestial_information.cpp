@@ -124,6 +124,17 @@ void CelestialInformation::UpdateAllObjectsInformation(const SimulationTime& sim
 
   // Update earth rotation
   earth_rotation_->Update(simulation_time.GetCurrentTime_jd());
+  // Update
+  libra::Vector<3> moon_position_eci_m;
+  libra::Vector<3> moon_velocity_eci_m_s;
+  if (center_body_name_ == "EARTH") {
+    moon_position_eci_m = GetPositionFromCenter_i_m("MOON");
+    moon_velocity_eci_m_s = GetVelocityFromCenter_i_m_s("MOON");
+  } else {
+    moon_position_eci_m = GetPositionFromCenter_i_m("MOON") - GetPositionFromCenter_i_m("EARTH");
+    moon_velocity_eci_m_s = GetVelocityFromCenter_i_m_s("MOON") - GetPositionFromCenter_i_m("EARTH");
+  }
+  moon_rotation_.Update(moon_position_eci_m, moon_velocity_eci_m_s);
 }
 
 int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {

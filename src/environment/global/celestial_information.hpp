@@ -10,6 +10,7 @@
 #include "earth_rotation.hpp"
 #include "library/logger/loggable.hpp"
 #include "library/math/vector.hpp"
+#include "moon_rotation.hpp"
 #include "simulation_time.hpp"
 
 /**
@@ -175,6 +176,11 @@ class CelestialInformation : public ILoggable {
    * @brief Return EarthRotation information
    */
   inline EarthRotation GetEarthRotation(void) const { return *earth_rotation_; };
+  /**
+   * @fn GetMoonRotation
+   * @brief Return MoonRotation information
+   */
+  inline MoonRotation GetMoonRotation(void) const { return moon_rotation_; };
 
   // Calculation
   /**
@@ -211,6 +217,7 @@ class CelestialInformation : public ILoggable {
 
   // Rotational Motion of each planets
   EarthRotation* earth_rotation_;  //!< Instance of Earth rotation
+  MoonRotation moon_rotation_;     //!< Instance of Moon rotation
 
   /**
    * @fn GetPlanetOrbit

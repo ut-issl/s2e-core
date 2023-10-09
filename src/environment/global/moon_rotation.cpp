@@ -27,7 +27,7 @@ libra::Matrix<3, 3> MoonRotation::CalcDcmEciToMeanEarth(const libra::Vector<3> m
   libra::Vector<3> me_ey_eci = libra::OuterProduct(me_ez_eci, me_ex_eci);
 
   libra::Matrix<3, 3> dcm_eci_to_me;
-  for (size_t i; i < 3; i++) {
+  for (size_t i = 0; i < 3; i++) {
     dcm_eci_to_me[0][i] = me_ex_eci[i];
     dcm_eci_to_me[1][i] = me_ey_eci[i];
     dcm_eci_to_me[2][i] = me_ez_eci[i];
