@@ -67,7 +67,7 @@ libra::Vector<3> HipparcosCatalogue::GetStarDirection_b(size_t rank, libra::Quat
   libra::Vector<3> direction_b;
 
   direction_i = GetStarDirection_i(rank);
-  direction_b = quaternion_i2b.FrameConversion(direction_i);
+  direction_b = quaternion_i2b.FrameConversion(direction_i); // i2b frame conversion
 
   return direction_b;
 }
