@@ -1,5 +1,5 @@
 ﻿/**
- * @file celestial_rotation.cpp
+ * @file earth_rotation.cpp
  * @brief Class to calculate the celestial rotation
  * @note Support earth rotation only now (TODO: add other planets)
  *       Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
@@ -7,7 +7,7 @@
  *             IERS Conventions 2003
  */
 
-#include "celestial_rotation.hpp"
+#include "earth_rotation.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -136,7 +136,8 @@ void CelestialRotation::Update(const double julian_date) {
 
   if (rotation_mode_ == RotationMode::kFull) {
     // Compute Julian date for terrestrial time
-    double terrestrial_time_julian_day = julian_date + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
+    double terrestrial_time_julian_day =
+        julian_date + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
 
     // Compute nth power of julian century for terrestrial time.
     // The actual unit of tTT_century is [century^(i+1)], i is the index of the array

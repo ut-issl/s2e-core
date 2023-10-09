@@ -7,7 +7,7 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_HPP_
 
-#include "celestial_rotation.hpp"
+#include "earth_rotation.hpp"
 #include "library/logger/loggable.hpp"
 #include "library/math/vector.hpp"
 #include "simulation_time.hpp"

@@ -1,5 +1,5 @@
 ﻿/**
- * @file celestial_rotation.hpp
+ * @file earth_rotation.hpp
  * @brief Class to calculate the celestial rotation
  * @note Support earth rotation only now (TODO: add other planets)
  *       Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
