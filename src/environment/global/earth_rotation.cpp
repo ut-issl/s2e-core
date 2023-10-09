@@ -17,8 +17,8 @@
 
 // Default constructor
 EarthRotation::EarthRotation(const EarthRotationMode rotation_mode) : rotation_mode_(rotation_mode) {
-  dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
-  dcm_teme_to_xcxf_ = dcm_j2000_to_xcxf_;
+  dcm_j2000_to_ecef_ = libra::MakeIdentityMatrix<3>();
+  dcm_teme_to_ecef_ = dcm_j2000_to_ecef_;
   InitializeParameters();
 }
 
@@ -105,7 +105,7 @@ void EarthRotation::InitializeParameters() {
     c_z_rad_[2] = 0.018203 * libra::arcsec_to_rad;     // [rad/century^3]
   } else {
     // If the rotation mode is neither Simple nor Full, disable the rotation calculation and make the DCM a unit matrix
-    dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
+    dcm_j2000_to_ecef_ = libra::MakeIdentityMatrix<3>();
   }
 }
 
@@ -143,11 +143,11 @@ void EarthRotation::Update(const double julian_date) {
     dcm_polar_motion = PolarMotion(x_p, y_p);
 
     // Total orientation
-    dcm_j2000_to_xcxf_ = dcm_polar_motion * dcm_rotation * dcm_nutation * dcm_precession;
+    dcm_j2000_to_ecef_ = dcm_polar_motion * dcm_rotation * dcm_nutation * dcm_precession;
   } else if (rotation_mode_ == EarthRotationMode::kSimple) {
     // In this case, only Axial Rotation is executed, with its argument replaced from G'A'ST to G'M'ST
     // FIXME: Not suitable when the center body is not the earth
-    dcm_j2000_to_xcxf_ = AxialRotation(gmst_rad);
+    dcm_j2000_to_ecef_ = AxialRotation(gmst_rad);
   } else {
     // Leave the DCM as unit Matrix(diag{1,1,1})
     return;

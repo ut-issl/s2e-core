@@ -9,7 +9,6 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_
 
-#include "library/logger/loggable.hpp"
 #include "library/math/matrix.hpp"
 
 /**
@@ -43,23 +42,23 @@ class EarthRotation {
   void Update(const double julian_date);
 
   /**
-   * @fn GetDcmJ2000ToXcxf
-   * @brief Return the DCM between J2000 inertial frame and the frame of fixed to the target object X (X-Centered X-Fixed)
+   * @fn GetDcmJ2000ToEcef
+   * @brief Return the DCM between J2000 inertial frame and the Earth Centered Earth Fixed frame
    */
-  inline const libra::Matrix<3, 3> GetDcmJ2000ToXcxf() const { return dcm_j2000_to_xcxf_; };
+  inline const libra::Matrix<3, 3> GetDcmJ2000ToEcef() const { return dcm_j2000_to_ecef_; };
 
   /**
-   * @fn GetDcmTemeToXcxf
-   * @brief Return the DCM between TEME (Inertial frame used in SGP4) and the frame of fixed to the target object X (X-Centered X-Fixed)
+   * @fn GetDcmTemeToEcef
+   * @brief Return the DCM between TEME (Inertial frame used in SGP4) and the Earth Centered Earth Fixed frame
    */
-  inline const libra::Matrix<3, 3> GetDcmTemeToXcxf() const { return dcm_teme_to_xcxf_; };
+  inline const libra::Matrix<3, 3> GetDcmTemeToEcef() const { return dcm_teme_to_ecef_; };
 
  private:
   double d_psi_rad_;                       //!< Nutation in obliquity [rad]
   double d_epsilon_rad_;                   //!< Nutation in longitude [rad]
   double epsilon_rad_;                     //!< Mean obliquity of the ecliptic [rad]
-  libra::Matrix<3, 3> dcm_j2000_to_xcxf_;  //!< Direction Cosine Matrix J2000 to XCXF(X-Centered X-Fixed)
-  libra::Matrix<3, 3> dcm_teme_to_xcxf_;   //!< Direction Cosine Matrix TEME to XCXF(X-Centered X-Fixed)
+  libra::Matrix<3, 3> dcm_j2000_to_ecef_;  //!< Direction Cosine Matrix J2000 to ECEF
+  libra::Matrix<3, 3> dcm_teme_to_ecef_;   //!< Direction Cosine Matrix TEME to ECEF
   EarthRotationMode rotation_mode_;        //!< Designation of dynamics model
 
   // Definitions of coefficients
