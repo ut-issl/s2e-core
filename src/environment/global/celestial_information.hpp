@@ -211,7 +211,6 @@ class CelestialInformation : public ILoggable {
 
   // Rotational Motion of each planets
   EarthRotation* earth_rotation_;  //!< Instance of Earth rotation
-  RotationMode rotation_mode_;         //!< Designation of rotation model
 
   /**
    * @fn GetPlanetOrbit

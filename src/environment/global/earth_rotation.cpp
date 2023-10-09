@@ -1,8 +1,7 @@
 ﻿/**
  * @file earth_rotation.cpp
  * @brief Class to calculate the earth rotation
- * @note Support earth rotation only now (TODO: add other planets)
- *       Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
+ * @note Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
  *             長沢,"天体の位置計算(増補版)", 2001 (in Japanese),
  *             IERS Conventions 2003
  */
@@ -17,115 +16,97 @@
 #include "library/math/constants.hpp"
 
 // Default constructor
-EarthRotation::EarthRotation(const RotationMode rotation_mode, const std::string center_body_name) {
-  planet_name_ = "Anonymous";
-  rotation_mode_ = RotationMode::kIdle;
+EarthRotation::EarthRotation(const RotationMode rotation_mode) {
   dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
   dcm_teme_to_xcxf_ = dcm_j2000_to_xcxf_;
-  if (center_body_name == "EARTH") {
-    InitCelestialRotationAsEarth(rotation_mode, center_body_name);
-  } else {
-    // If the center object is not defined for rotation calculation, make the DCM as a unit matrix
-    std::cerr << "WARNINGS: The rotation calculation for the center object " << center_body_name;
-    std::cerr << " is not supported yet." << std::endl;
-    std::cerr << "The rotation matrix is set as a identity matrix" << std::endl;
-    rotation_mode_ = RotationMode::kIdle;
-    dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
-  }
+  InitializeParameters(rotation_mode);
 }
 
 // Initialize the class EarthRotation instance as Earth
-void EarthRotation::InitCelestialRotationAsEarth(const RotationMode rotation_mode, const std::string center_body_name) {
-  planet_name_ = "EARTH";
-  if (center_body_name == planet_name_) {
-    if (rotation_mode == RotationMode::kSimple) {
-      rotation_mode_ = RotationMode::kSimple;
-      // For Simple mode, we don't need initialization of the coefficients
-    } else if (rotation_mode == RotationMode::kFull) {
-      rotation_mode_ = RotationMode::kFull;
-      // For Full mode, initialize the coefficients
-      // The hard coded values are consistent with the reference document. The unit deg and rad are mixed.
+void EarthRotation::InitializeParameters(const RotationMode rotation_mode) {
+  if (rotation_mode == RotationMode::kSimple) {
+    rotation_mode_ = RotationMode::kSimple;
+    // For Simple mode, we don't need initialization of the coefficients
+  } else if (rotation_mode == RotationMode::kFull) {
+    rotation_mode_ = RotationMode::kFull;
+    // For Full mode, initialize the coefficients
+    // The hard coded values are consistent with the reference document. The unit deg and rad are mixed.
 
-      // Coefficients to compute mean obliquity of the ecliptic
-      // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
-      c_epsilon_rad_[0] = 23.4392911 * libra::deg_to_rad;      // [rad]
-      c_epsilon_rad_[1] = -46.8150000 * libra::arcsec_to_rad;  // [rad/century]
-      c_epsilon_rad_[2] = -5.9000e-4 * libra::arcsec_to_rad;   // [rad/century^2]
-      c_epsilon_rad_[3] = 1.8130e-3 * libra::arcsec_to_rad;    // [rad/century^3]
+    // Coefficients to compute mean obliquity of the ecliptic
+    // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
+    c_epsilon_rad_[0] = 23.4392911 * libra::deg_to_rad;      // [rad]
+    c_epsilon_rad_[1] = -46.8150000 * libra::arcsec_to_rad;  // [rad/century]
+    c_epsilon_rad_[2] = -5.9000e-4 * libra::arcsec_to_rad;   // [rad/century^2]
+    c_epsilon_rad_[3] = 1.8130e-3 * libra::arcsec_to_rad;    // [rad/century^3]
 
-      // Coefficients to compute Delaunay angles
-      // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
-      c_lm_rad_[0] = 134.96340251 * libra::deg_to_rad;            // [rad]
-      c_lm_rad_[1] = 1717915923.21780000 * libra::arcsec_to_rad;  // [rad/century]
-      c_lm_rad_[2] = 31.87920000 * libra::arcsec_to_rad;          // [rad/century^2]
-      c_lm_rad_[3] = 0.05163500 * libra::arcsec_to_rad;           // [rad/century^3]
-      c_lm_rad_[4] = -0.00024470 * libra::arcsec_to_rad;          // [rad/century^4]
+    // Coefficients to compute Delaunay angles
+    // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
+    c_lm_rad_[0] = 134.96340251 * libra::deg_to_rad;            // [rad]
+    c_lm_rad_[1] = 1717915923.21780000 * libra::arcsec_to_rad;  // [rad/century]
+    c_lm_rad_[2] = 31.87920000 * libra::arcsec_to_rad;          // [rad/century^2]
+    c_lm_rad_[3] = 0.05163500 * libra::arcsec_to_rad;           // [rad/century^3]
+    c_lm_rad_[4] = -0.00024470 * libra::arcsec_to_rad;          // [rad/century^4]
 
-      c_ls_rad_[0] = 357.52910918 * libra::deg_to_rad;           // [rad]
-      c_ls_rad_[1] = 129596581.04810000 * libra::arcsec_to_rad;  // [rad/century]
-      c_ls_rad_[2] = -0.55320000 * libra::arcsec_to_rad;         // [rad/century^2]
-      c_ls_rad_[3] = 0.00013600 * libra::arcsec_to_rad;          // [rad/century^3]
-      c_ls_rad_[4] = -0.00001149 * libra::arcsec_to_rad;         // [rad/century^4]
+    c_ls_rad_[0] = 357.52910918 * libra::deg_to_rad;           // [rad]
+    c_ls_rad_[1] = 129596581.04810000 * libra::arcsec_to_rad;  // [rad/century]
+    c_ls_rad_[2] = -0.55320000 * libra::arcsec_to_rad;         // [rad/century^2]
+    c_ls_rad_[3] = 0.00013600 * libra::arcsec_to_rad;          // [rad/century^3]
+    c_ls_rad_[4] = -0.00001149 * libra::arcsec_to_rad;         // [rad/century^4]
 
-      c_f_rad_[0] = 93.27209062 * libra::deg_to_rad;             // [rad]
-      c_f_rad_[1] = 1739527262.84780000 * libra::arcsec_to_rad;  // [rad/century]
-      c_f_rad_[2] = -12.75120000 * libra::arcsec_to_rad;         // [rad/century^2]
-      c_f_rad_[3] = -0.00103700 * libra::arcsec_to_rad;          // [rad/century^3]
-      c_f_rad_[4] = 0.00000417 * libra::arcsec_to_rad;           // [rad/century^4]
+    c_f_rad_[0] = 93.27209062 * libra::deg_to_rad;             // [rad]
+    c_f_rad_[1] = 1739527262.84780000 * libra::arcsec_to_rad;  // [rad/century]
+    c_f_rad_[2] = -12.75120000 * libra::arcsec_to_rad;         // [rad/century^2]
+    c_f_rad_[3] = -0.00103700 * libra::arcsec_to_rad;          // [rad/century^3]
+    c_f_rad_[4] = 0.00000417 * libra::arcsec_to_rad;           // [rad/century^4]
 
-      c_d_rad_[0] = 297.85019547 * libra::deg_to_rad;            // [rad]
-      c_d_rad_[1] = 1602961601.20900000 * libra::arcsec_to_rad;  // [rad/century]
-      c_d_rad_[2] = -6.37060000 * libra::arcsec_to_rad;          // [rad/century^2]
-      c_d_rad_[3] = 0.00659300 * libra::arcsec_to_rad;           // [rad/century^3]
-      c_d_rad_[4] = -0.00003169 * libra::arcsec_to_rad;          // [rad/century^4]
+    c_d_rad_[0] = 297.85019547 * libra::deg_to_rad;            // [rad]
+    c_d_rad_[1] = 1602961601.20900000 * libra::arcsec_to_rad;  // [rad/century]
+    c_d_rad_[2] = -6.37060000 * libra::arcsec_to_rad;          // [rad/century^2]
+    c_d_rad_[3] = 0.00659300 * libra::arcsec_to_rad;           // [rad/century^3]
+    c_d_rad_[4] = -0.00003169 * libra::arcsec_to_rad;          // [rad/century^4]
 
-      c_o_rad_[0] = 125.04455501 * libra::deg_to_rad;          // [rad]
-      c_o_rad_[1] = -6962890.54310000 * libra::arcsec_to_rad;  // [rad/century]
-      c_o_rad_[2] = 7.47220000 * libra::arcsec_to_rad;         // [rad/century^2]
-      c_o_rad_[3] = 0.00770200 * libra::arcsec_to_rad;         // [rad/century^3]
-      c_o_rad_[4] = -0.00005939 * libra::arcsec_to_rad;        // [rad/century^4]
+    c_o_rad_[0] = 125.04455501 * libra::deg_to_rad;          // [rad]
+    c_o_rad_[1] = -6962890.54310000 * libra::arcsec_to_rad;  // [rad/century]
+    c_o_rad_[2] = 7.47220000 * libra::arcsec_to_rad;         // [rad/century^2]
+    c_o_rad_[3] = 0.00770200 * libra::arcsec_to_rad;         // [rad/century^3]
+    c_o_rad_[4] = -0.00005939 * libra::arcsec_to_rad;        // [rad/century^4]
 
-      // Coefficients to compute nutation angles
-      c_d_epsilon_rad_[0] = 9.2050 * libra::arcsec_to_rad;   // [rad]
-      c_d_epsilon_rad_[1] = 0.5730 * libra::arcsec_to_rad;   // [rad]
-      c_d_epsilon_rad_[2] = -0.0900 * libra::arcsec_to_rad;  // [rad]
-      c_d_epsilon_rad_[3] = 0.0980 * libra::arcsec_to_rad;   // [rad]
-      c_d_epsilon_rad_[4] = 0.0070 * libra::arcsec_to_rad;   // [rad]
-      c_d_epsilon_rad_[5] = -0.0010 * libra::arcsec_to_rad;  // [rad]
-      c_d_epsilon_rad_[6] = 0.0220 * libra::arcsec_to_rad;   // [rad]
-      c_d_epsilon_rad_[7] = 0.0130 * libra::arcsec_to_rad;   // [rad]
-      c_d_epsilon_rad_[8] = -0.0100 * libra::arcsec_to_rad;  // [rad]
+    // Coefficients to compute nutation angles
+    c_d_epsilon_rad_[0] = 9.2050 * libra::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[1] = 0.5730 * libra::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[2] = -0.0900 * libra::arcsec_to_rad;  // [rad]
+    c_d_epsilon_rad_[3] = 0.0980 * libra::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[4] = 0.0070 * libra::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[5] = -0.0010 * libra::arcsec_to_rad;  // [rad]
+    c_d_epsilon_rad_[6] = 0.0220 * libra::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[7] = 0.0130 * libra::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[8] = -0.0100 * libra::arcsec_to_rad;  // [rad]
 
-      c_d_psi_rad_[0] = -17.2060 * libra::arcsec_to_rad;  // [rad]
-      c_d_psi_rad_[1] = -1.3170 * libra::arcsec_to_rad;   // [rad]
-      c_d_psi_rad_[2] = 0.2070 * libra::arcsec_to_rad;    // [rad]
-      c_d_psi_rad_[3] = -0.2280 * libra::arcsec_to_rad;   // [rad]
-      c_d_psi_rad_[4] = 0.1480 * libra::arcsec_to_rad;    // [rad]
-      c_d_psi_rad_[5] = 0.0710 * libra::arcsec_to_rad;    // [rad]
-      c_d_psi_rad_[6] = -0.0520 * libra::arcsec_to_rad;   // [rad]
-      c_d_psi_rad_[7] = -0.0300 * libra::arcsec_to_rad;   // [rad]
-      c_d_psi_rad_[8] = 0.0220 * libra::arcsec_to_rad;    // [rad]
+    c_d_psi_rad_[0] = -17.2060 * libra::arcsec_to_rad;  // [rad]
+    c_d_psi_rad_[1] = -1.3170 * libra::arcsec_to_rad;   // [rad]
+    c_d_psi_rad_[2] = 0.2070 * libra::arcsec_to_rad;    // [rad]
+    c_d_psi_rad_[3] = -0.2280 * libra::arcsec_to_rad;   // [rad]
+    c_d_psi_rad_[4] = 0.1480 * libra::arcsec_to_rad;    // [rad]
+    c_d_psi_rad_[5] = 0.0710 * libra::arcsec_to_rad;    // [rad]
+    c_d_psi_rad_[6] = -0.0520 * libra::arcsec_to_rad;   // [rad]
+    c_d_psi_rad_[7] = -0.0300 * libra::arcsec_to_rad;   // [rad]
+    c_d_psi_rad_[8] = 0.0220 * libra::arcsec_to_rad;    // [rad]
 
-      // Coefficients to compute precession angle
-      // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
-      c_zeta_rad_[0] = 2306.218100 * libra::arcsec_to_rad;  // [rad/century]
-      c_zeta_rad_[1] = 0.301880 * libra::arcsec_to_rad;     // [rad/century^2]
-      c_zeta_rad_[2] = 0.017998 * libra::arcsec_to_rad;     // [rad/century^3]
+    // Coefficients to compute precession angle
+    // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
+    c_zeta_rad_[0] = 2306.218100 * libra::arcsec_to_rad;  // [rad/century]
+    c_zeta_rad_[1] = 0.301880 * libra::arcsec_to_rad;     // [rad/century^2]
+    c_zeta_rad_[2] = 0.017998 * libra::arcsec_to_rad;     // [rad/century^3]
 
-      c_theta_rad_[0] = 2004.310900 * libra::arcsec_to_rad;  // [rad/century]
-      c_theta_rad_[1] = -0.426650 * libra::arcsec_to_rad;    // [rad/century^2]
-      c_theta_rad_[2] = -0.041833 * libra::arcsec_to_rad;    // [rad/century^3]
+    c_theta_rad_[0] = 2004.310900 * libra::arcsec_to_rad;  // [rad/century]
+    c_theta_rad_[1] = -0.426650 * libra::arcsec_to_rad;    // [rad/century^2]
+    c_theta_rad_[2] = -0.041833 * libra::arcsec_to_rad;    // [rad/century^3]
 
-      c_z_rad_[0] = 2306.218100 * libra::arcsec_to_rad;  // [rad/century]
-      c_z_rad_[1] = 1.094680 * libra::arcsec_to_rad;     // [rad/century^2]
-      c_z_rad_[2] = 0.018203 * libra::arcsec_to_rad;     // [rad/century^3]
-    } else {
-      // If the rotation mode is neither Simple nor Full, disable the rotation calculation and make the DCM a unit matrix
-      rotation_mode_ = RotationMode::kIdle;
-      dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
-    }
+    c_z_rad_[0] = 2306.218100 * libra::arcsec_to_rad;  // [rad/century]
+    c_z_rad_[1] = 1.094680 * libra::arcsec_to_rad;     // [rad/century^2]
+    c_z_rad_[2] = 0.018203 * libra::arcsec_to_rad;     // [rad/century^3]
   } else {
-    // If the center object is not the Earth, disable the Earth's rotation calculation and make the DCM a unit matrix
+    // If the rotation mode is neither Simple nor Full, disable the rotation calculation and make the DCM a unit matrix
     rotation_mode_ = RotationMode::kIdle;
     dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
   }

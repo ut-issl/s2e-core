@@ -1,8 +1,7 @@
 ﻿/**
  * @file earth_rotation.hpp
  * @brief Class to calculate the earth rotation
- * @note Support earth rotation only now (TODO: add other planets)
- *       Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
+ * @note Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
  *             長沢,"天体の位置計算(増補版)", 2001 (in Japanese),
  *             IERS Conventions 2003
  */
@@ -26,18 +25,15 @@ enum class RotationMode {
 /**
  * @class EarthRotation
  * @brief Class to calculate the earth rotation
- * @note Support earth rotation only now (TODO: add other planets)
  */
 class EarthRotation {
  public:
-  // initialize DCM to unit matrix in the default constructor
   /**
    * @fn EarthRotation
    * @brief Constructor
    * @param [in] rotation_mode: Designation of rotation model
-   * @param [in] center_body_name: Center object of inertial frame
    */
-  EarthRotation(const RotationMode rotation_mode, const std::string center_body_name);
+  EarthRotation(const RotationMode rotation_mode);
 
   /**
    * @fn Update
@@ -65,12 +61,10 @@ class EarthRotation {
   libra::Matrix<3, 3> dcm_j2000_to_xcxf_;  //!< Direction Cosine Matrix J2000 to XCXF(X-Centered X-Fixed)
   libra::Matrix<3, 3> dcm_teme_to_xcxf_;   //!< Direction Cosine Matrix TEME to XCXF(X-Centered X-Fixed)
   RotationMode rotation_mode_;             //!< Designation of dynamics model
-  std::string planet_name_;                //!< Designate which solar planet the instance should work as
 
   // Definitions of coefficients
   // They are handling as constant values
   // TODO: Consider to read setting files for these coefficients
-  // TODO: Consider other formats for other planets
   double c_epsilon_rad_[4];  //!< Coefficients to compute mean obliquity of the ecliptic
   double c_lm_rad_[5];       //!< Coefficients to compute Delaunay angle (l=lm: Mean anomaly of the moon)
   double c_ls_rad_[5];       //!< Coefficients to compute Delaunay angle (l'=ls: Mean anomaly of the sun)
@@ -90,13 +84,11 @@ class EarthRotation {
   const double kDayJulianCentury_ = 36525.0;            //!< Conversion constant from Julian century to day [day/century]
 
   /**
-   * @fn InitCelestialRotationAsEarth
-   * @brief Initialize EarthRotation as earth rotation
-   * @note TODO: Make functions for other planets?
-   * @param [in] rotation_mode: Rotation mode
-   * @param [in] center_body_name: Name of center body
+   * @fn InitializeParameters
+   * @brief Initialize parameters
+   * @param [in] rotation_mode: Designation of rotation model
    */
-  void InitCelestialRotationAsEarth(const RotationMode rotation_mode, const std::string center_body_name);
+  void InitializeParameters(const RotationMode rotation_mode);
 
   /**
    * @fn AxialRotation

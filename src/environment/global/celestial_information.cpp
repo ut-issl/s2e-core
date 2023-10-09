@@ -25,8 +25,7 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
       selected_body_ids_(selected_body_ids),
       inertial_frame_name_(inertial_frame_name),
       center_body_name_(center_body_name),
-      aberration_correction_setting_(aberration_correction_setting),
-      rotation_mode_(rotation_mode) {
+      aberration_correction_setting_(aberration_correction_setting) {
   // Initialize list
   unsigned int num_of_state = number_of_selected_bodies_ * 3;
   celestial_body_position_from_center_i_m_ = new double[num_of_state];
@@ -64,15 +63,14 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
   }
 
   // Initialize rotation
-  earth_rotation_ = new EarthRotation(rotation_mode_, center_body_name_);
+  earth_rotation_ = new EarthRotation(rotation_mode);
 }
 
 CelestialInformation::CelestialInformation(const CelestialInformation& obj)
     : number_of_selected_bodies_(obj.number_of_selected_bodies_),
       inertial_frame_name_(obj.inertial_frame_name_),
       center_body_name_(obj.center_body_name_),
-      aberration_correction_setting_(obj.aberration_correction_setting_),
-      rotation_mode_(obj.rotation_mode_) {
+      aberration_correction_setting_(obj.aberration_correction_setting_) {
   unsigned int num_of_state = number_of_selected_bodies_ * 3;
 
   selected_body_ids_ = new int[number_of_selected_bodies_];
