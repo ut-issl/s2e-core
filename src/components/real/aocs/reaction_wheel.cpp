@@ -221,12 +221,11 @@ std::string ReactionWheel::GetLogValue() const {
 namespace {
 // Timing
 int prescaler;
-int fast_prescaler;
 double step_width_s;
 // RW specifications
 double rotor_inertia_kgm2;
 double max_torque_Nm;
-double max_velocity;
+double max_velocity_rpm;
 // Mounting
 libra::Quaternion quaternion_b2c;
 libra::Vector<3> position_b_m;
@@ -240,6 +239,7 @@ double stop_limit_angular_velocity_rad_s;
 bool init_drive_flag;
 double init_velocity_rad_s;
 // Jitter
+int fast_prescaler;
 double jitter_update_interval_s;
 bool is_calc_jitter_enabled;
 bool is_log_jitter_enabled;
@@ -259,7 +259,7 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
   // RW specifications
   rotor_inertia_kgm2 = rw_ini_file.ReadDouble(rw_section, "moment_of_inertia_kgm2");
   max_torque_Nm = rw_ini_file.ReadDouble(rw_section, "max_output_torque_Nm");
-  max_velocity = rw_ini_file.ReadDouble(rw_section, "max_angular_velocity_rpm");
+  max_velocity_rpm = rw_ini_file.ReadDouble(rw_section, "max_angular_velocity_rpm");
 
   // Mounting information
   std::string direction_determination_mode;
@@ -323,7 +323,7 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
 ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step) {
   InitParams(actuator_id, file_name, compo_update_step);
 
-  ReactionWheel rw(prescaler, fast_prescaler, clock_generator, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity,
+  ReactionWheel rw(prescaler, fast_prescaler, clock_generator, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity_rpm,
                    quaternion_b2c, position_b_m, dead_time_s, time_constant_s, friction_coefficients, stop_limit_angular_velocity_rad_s,
                    is_calc_jitter_enabled, is_log_jitter_enabled, rw_jitter, init_drive_flag, init_velocity_rad_s);
 
@@ -336,9 +336,9 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* powe
 
   power_port->InitializeWithInitializeFile(file_name);
 
-  ReactionWheel rw(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity,
-                   quaternion_b2c, position_b_m, dead_time_s, time_constant_s, friction_coefficients, stop_limit_angular_velocity_rad_s,
-                   is_calc_jitter_enabled, is_log_jitter_enabled, rw_jitter, init_drive_flag, init_velocity_rad_s);
+  ReactionWheel rw(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm,
+                   max_velocity_rpm, quaternion_b2c, position_b_m, dead_time_s, time_constant_s, friction_coefficients,
+                   stop_limit_angular_velocity_rad_s, is_calc_jitter_enabled, is_log_jitter_enabled, rw_jitter, init_drive_flag, init_velocity_rad_s);
 
   return rw;
 }
