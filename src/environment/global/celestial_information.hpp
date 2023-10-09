@@ -87,6 +87,20 @@ class CelestialInformation : public ILoggable {
     int id = CalcBodyIdFromName(body_name);
     return GetPositionFromCenter_i_m(id);
   }
+  /**
+   * @fn GetPositionFromSelectedBody_i_m
+   * @brief Return position from the selected reference body in the inertial frame [m]
+   * @param [in] target_body_name: Name of the target body defined in the SPICE
+   * @param [in] reference_body_name: Name of the reference body defined in the SPICE
+   */
+  inline libra::Vector<3> GetPositionFromSelectedBody_i_m(const char* target_body_name, const char* reference_body_name) const {
+    int target_id = CalcBodyIdFromName(target_body_name);
+    libra::Vector<3> target_body_position_i_m = GetPositionFromCenter_i_m(target_id);
+    int reference_id = CalcBodyIdFromName(reference_body_name);
+    libra::Vector<3> reference_body_position_i_m = GetPositionFromCenter_i_m(reference_id);
+
+    return target_body_position_i_m - reference_body_position_i_m;
+  }
 
   /**
    * @fn GetVelocityFromCenter_i_m_s
@@ -107,6 +121,20 @@ class CelestialInformation : public ILoggable {
   inline libra::Vector<3> GetVelocityFromCenter_i_m_s(const char* body_name) const {
     int id = CalcBodyIdFromName(body_name);
     return GetVelocityFromCenter_i_m_s(id);
+  }
+  /**
+   * @fn GetVelocityFromSelectedBody_i_m_s
+   * @brief Return position from the selected reference body in the inertial frame [m]
+   * @param [in] target_body_name: Name of the target body defined in the SPICE
+   * @param [in] reference_body_name: Name of the reference body defined in the SPICE
+   */
+  inline libra::Vector<3> GetVelocityFromSelectedBody_i_m_s(const char* target_body_name, const char* reference_body_name) const {
+    int target_id = CalcBodyIdFromName(target_body_name);
+    libra::Vector<3> target_body_velocity_i_m_s = GetVelocityFromCenter_i_m_s(target_id);
+    int reference_id = CalcBodyIdFromName(reference_body_name);
+    libra::Vector<3> reference_body_velocity_i_m_s = GetVelocityFromCenter_i_m_s(reference_id);
+
+    return target_body_velocity_i_m_s - reference_body_velocity_i_m_s;
   }
 
   // Gravity constants
