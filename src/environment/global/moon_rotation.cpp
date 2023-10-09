@@ -10,7 +10,7 @@
 #include <library/math/constants.hpp>
 #include <library/planet_rotation/moon_rotation_utilities.hpp>
 
-MoonRotation::MoonRotation(const CelestialInformation &celestial_information, MoonRotationMode mode)
+MoonRotation::MoonRotation(const CelestialInformation& celestial_information, MoonRotationMode mode)
     : mode_(mode), celestial_information_(celestial_information) {
   dcm_j2000_to_mcmf_ = libra::MakeIdentityMatrix<3>();
 }

@@ -46,7 +46,7 @@ class MoonRotation {
    * @brief Update rotation
    * @param [in] simulation_time: simulation_time
    */
-  void Update(const SimulationTime& simulation_time);
+  void Update(const SimulationTime &simulation_time);
 
   /**
    * @fn GetDcmJ2000ToMcmf
@@ -59,7 +59,7 @@ class MoonRotation {
   MoonRotationMode mode_;                  //!< Rotation mode
   libra::Matrix<3, 3> dcm_j2000_to_mcmf_;  //!< Direction Cosine Matrix J2000 to MCMF (Moon Centered Moon Fixed)
 
-  const CelestialInformation &celestial_information_; //!< Celestial Information to get moon orbit
+  const CelestialInformation &celestial_information_;  //!< Celestial Information to get moon orbit
 };
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_MOON_ROTATION_HPP_
