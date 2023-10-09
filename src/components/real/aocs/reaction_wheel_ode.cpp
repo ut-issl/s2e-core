@@ -17,9 +17,13 @@ void ReactionWheelOde::DerivativeFunction(double x, const libra::Vector<1> &stat
 
   // Check velocity limit
   if (angular_velocity_rad_s > velocity_limit_rad_s_) {
-    angular_acceleration_rad_s2_ = 0.0;
+    if (angular_acceleration_rad_s2_ > 0.0) {
+      angular_acceleration_rad_s2_ = 0.0;
+    }
   } else if (angular_velocity_rad_s < -1.0 * velocity_limit_rad_s_) {
-    angular_acceleration_rad_s2_ = 0.0;
+    if (angular_acceleration_rad_s2_ < 0.0) {
+      angular_acceleration_rad_s2_ = 0.0;
+    }
   }
 
   rhs[0] = angular_acceleration_rad_s2_;
