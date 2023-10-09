@@ -16,19 +16,17 @@
 #include "library/math/constants.hpp"
 
 // Default constructor
-EarthRotation::EarthRotation(const RotationMode rotation_mode) {
+EarthRotation::EarthRotation(const EarthRotationMode rotation_mode) : rotation_mode_(rotation_mode) {
   dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
   dcm_teme_to_xcxf_ = dcm_j2000_to_xcxf_;
-  InitializeParameters(rotation_mode);
+  InitializeParameters();
 }
 
 // Initialize the class EarthRotation instance as Earth
-void EarthRotation::InitializeParameters(const RotationMode rotation_mode) {
-  if (rotation_mode == RotationMode::kSimple) {
-    rotation_mode_ = RotationMode::kSimple;
+void EarthRotation::InitializeParameters() {
+  if (rotation_mode_ == EarthRotationMode::kSimple) {
     // For Simple mode, we don't need initialization of the coefficients
-  } else if (rotation_mode == RotationMode::kFull) {
-    rotation_mode_ = RotationMode::kFull;
+  } else if (rotation_mode_ == EarthRotationMode::kFull) {
     // For Full mode, initialize the coefficients
     // The hard coded values are consistent with the reference document. The unit deg and rad are mixed.
 
@@ -107,7 +105,6 @@ void EarthRotation::InitializeParameters(const RotationMode rotation_mode) {
     c_z_rad_[2] = 0.018203 * libra::arcsec_to_rad;     // [rad/century^3]
   } else {
     // If the rotation mode is neither Simple nor Full, disable the rotation calculation and make the DCM a unit matrix
-    rotation_mode_ = RotationMode::kIdle;
     dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
   }
 }
@@ -115,7 +112,7 @@ void EarthRotation::InitializeParameters(const RotationMode rotation_mode) {
 void EarthRotation::Update(const double julian_date) {
   double gmst_rad = gstime(julian_date);  // It is a bit different with 長沢(Nagasawa)'s algorithm. TODO: Check the correctness
 
-  if (rotation_mode_ == RotationMode::kFull) {
+  if (rotation_mode_ == EarthRotationMode::kFull) {
     // Compute Julian date for terrestrial time
     double terrestrial_time_julian_day =
         julian_date + kDtUt1Utc_ * kSec2Day_;  // TODO: Check the correctness. Problem is that S2E doesn't have Gregorian calendar.
@@ -147,7 +144,7 @@ void EarthRotation::Update(const double julian_date) {
 
     // Total orientation
     dcm_j2000_to_xcxf_ = dcm_polar_motion * dcm_rotation * dcm_nutation * dcm_precession;
-  } else if (rotation_mode_ == RotationMode::kSimple) {
+  } else if (rotation_mode_ == EarthRotationMode::kSimple) {
     // In this case, only Axial Rotation is executed, with its argument replaced from G'A'ST to G'M'ST
     // FIXME: Not suitable when the center body is not the earth
     dcm_j2000_to_xcxf_ = AxialRotation(gmst_rad);

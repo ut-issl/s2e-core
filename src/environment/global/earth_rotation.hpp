@@ -13,10 +13,10 @@
 #include "library/math/matrix.hpp"
 
 /**
- * @enum RotationMode
+ * @enum EarthRotationMode
  * @brief Definition of calculation mode of earth rotation
  */
-enum class RotationMode {
+enum class EarthRotationMode {
   kIdle,    //!< No Rotation calculation
   kSimple,  //!< Z axis rotation only
   kFull,    //!< Rotation including precession and nutation
@@ -33,7 +33,7 @@ class EarthRotation {
    * @brief Constructor
    * @param [in] rotation_mode: Designation of rotation model
    */
-  EarthRotation(const RotationMode rotation_mode);
+  EarthRotation(const EarthRotationMode rotation_mode = EarthRotationMode::kSimple);
 
   /**
    * @fn Update
@@ -49,7 +49,7 @@ class EarthRotation {
   inline const libra::Matrix<3, 3> GetDcmJ2000ToXcxf() const { return dcm_j2000_to_xcxf_; };
 
   /**
-   * @fn GetDcmJ2000ToXcxf
+   * @fn GetDcmTemeToXcxf
    * @brief Return the DCM between TEME (Inertial frame used in SGP4) and the frame of fixed to the target object X (X-Centered X-Fixed)
    */
   inline const libra::Matrix<3, 3> GetDcmTemeToXcxf() const { return dcm_teme_to_xcxf_; };
@@ -60,7 +60,7 @@ class EarthRotation {
   double epsilon_rad_;                     //!< Mean obliquity of the ecliptic [rad]
   libra::Matrix<3, 3> dcm_j2000_to_xcxf_;  //!< Direction Cosine Matrix J2000 to XCXF(X-Centered X-Fixed)
   libra::Matrix<3, 3> dcm_teme_to_xcxf_;   //!< Direction Cosine Matrix TEME to XCXF(X-Centered X-Fixed)
-  RotationMode rotation_mode_;             //!< Designation of dynamics model
+  EarthRotationMode rotation_mode_;        //!< Designation of dynamics model
 
   // Definitions of coefficients
   // They are handling as constant values
@@ -86,9 +86,8 @@ class EarthRotation {
   /**
    * @fn InitializeParameters
    * @brief Initialize parameters
-   * @param [in] rotation_mode: Designation of rotation model
    */
-  void InitializeParameters(const RotationMode rotation_mode);
+  void InitializeParameters();
 
   /**
    * @fn AxialRotation
