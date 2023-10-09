@@ -29,7 +29,6 @@ class ReactionWheel : public Component, public ILoggable {
    * @brief Constructor without power port
    * @note TODO: argument is too long
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] fast_prescaler: Frequency scale factor for fast update
    * @param [in] clock_generator: Clock generator
    * @param [in] component_id: Component ID
    * @param [in] step_width_s: Step width of integration by reaction wheel ordinary differential equation [sec]
@@ -44,21 +43,21 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] stop_limit_angular_velocity_rad_s: Angular velocity stop limit by friction [rad/s]
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
+   * @param [in] fast_prescaler: Frequency scale factor for fast update
    * @param [in] rw_jitter: RW jitter
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW
    */
-  ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
+  ReactionWheel(const int prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                 const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
                 const libra::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
                 const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled,
-                const bool is_log_jitter_enabled, ReactionWheelJitter& rw_jitter, const bool drive_flag = false,
+                const bool is_log_jitter_enabled, const int fast_prescaler, ReactionWheelJitter& rw_jitter, const bool drive_flag = false,
                 const double init_velocity_rad_s = 0.0);
   /**
    * @fn ReactionWheel
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
-   * @param [in] fast_prescaler: Frequency scale factor for fast update
    * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] component_id: Component ID
@@ -74,15 +73,16 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] stop_limit_angular_velocity_rad_s: Angular velocity stop limit by friction [rad/s]
    * @param [in] is_calc_jitter_enabled: Enable flag to calculate RW jitter
    * @param [in] is_log_jitter_enabled: Enable flag to log output RW jitter
+   * @param [in] fast_prescaler: Frequency scale factor for fast update
    * @param [in] rw_jitter: RW jitter
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW [rad/s]
    */
-  ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
-                const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
+  ReactionWheel(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const double step_width_s,
+                const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
+                const libra::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
                 const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled,
-                const bool is_log_jitter_enabled, ReactionWheelJitter& rw_jitter, const bool drive_flag = false,
+                const bool is_log_jitter_enabled, const int fast_prescaler, ReactionWheelJitter& rw_jitter, const bool drive_flag = false,
                 const double init_velocity_rad_s = 0.0);
 
   // Override functions for Component
@@ -124,7 +124,7 @@ class ReactionWheel : public Component, public ILoggable {
    * @fn GetJitterForce_b_N
    * @brief Return output force by jitter in the body fixed frame [N]
    */
-  inline const libra::Vector<3> GetJitterForce_b_N() const { return rw_jitter_.GetJitterForce_b_N(); }
+  inline const libra::Vector<3> GetJitterForce_b_N() const;
   /**
    * @fn GetDriveFlag
    * @brief Return drive flag

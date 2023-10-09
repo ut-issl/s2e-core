@@ -11,12 +11,12 @@
 #include <library/math/vector.hpp>
 #include <random>
 
-ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, const int component_id,
-                             const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
+ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
+                             const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
                              const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
                              const double time_constant_s, const std::vector<double> friction_coefficients,
                              const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
-                             ReactionWheelJitter& rw_jitter, bool drive_flag, const double init_velocity_rad_s)
+                             const int fast_prescaler, ReactionWheelJitter& rw_jitter, bool drive_flag, const double init_velocity_rad_s)
     : Component(prescaler, clock_generator, fast_prescaler),
       component_id_(component_id),
       rotor_inertia_kgm2_(rotor_inertia_kgm2),
@@ -38,12 +38,12 @@ ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, Cloc
   Initialize();
 }
 
-ReactionWheel::ReactionWheel(const int prescaler, const int fast_prescaler, ClockGenerator* clock_generator, PowerPort* power_port,
-                             const int component_id, const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm,
-                             const double max_velocity_rpm, const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m,
-                             const double dead_time_s, const double time_constant_s, const std::vector<double> friction_coefficients,
+ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+                             const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
+                             const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
+                             const double time_constant_s, const std::vector<double> friction_coefficients,
                              const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
-                             ReactionWheelJitter& rw_jitter, const bool drive_flag, const double init_velocity_rad_s)
+                             const int fast_prescaler, ReactionWheelJitter& rw_jitter, const bool drive_flag, const double init_velocity_rad_s)
     : Component(prescaler, clock_generator, power_port, fast_prescaler),
       component_id_(component_id),
       rotor_inertia_kgm2_(rotor_inertia_kgm2),
@@ -72,7 +72,7 @@ void ReactionWheel::Initialize() {
 
   // Acceleration
   target_acceleration_rad_s2_ = 0.0;
-  int len_buffer = (int)floor(dead_time_s_ / step_width_s_) + 1;
+  size_t len_buffer = (size_t)floor(dead_time_s_ / step_width_s_) + 1;
   acceleration_delay_buffer_.assign(len_buffer, 0.0);
   generated_angular_acceleration_rad_s2_ = 0.0;
 
@@ -87,18 +87,19 @@ void ReactionWheel::Initialize() {
 
 void ReactionWheel::MainRoutine(const int time_count) {
   UNUSED(time_count);
-
   CalcTorque();
 }
 
 void ReactionWheel::PowerOffRoutine() { drive_flag_ = 0; }
 
 // Jitter calculation
-void ReactionWheel::FastUpdate() { rw_jitter_.CalcJitter(angular_velocity_rad_s_); }
+void ReactionWheel::FastUpdate() {
+  if (is_calculated_jitter_) {
+    rw_jitter_.CalcJitter(angular_velocity_rad_s_);
+  }
+}
 
 libra::Vector<3> ReactionWheel::CalcTorque() {
-  double pre_angular_velocity_rad = angular_velocity_rad_s_;
-
   if (!drive_flag_)  // RW idle mode -> coasting mode
   {
     // Clear delay buffer
@@ -138,6 +139,7 @@ libra::Vector<3> ReactionWheel::CalcTorque() {
   ++ode_angular_velocity_;  // ODE propagate
 
   // Substitution
+  double pre_angular_velocity_rad = angular_velocity_rad_s_;
   angular_velocity_rad_s_ = ode_angular_velocity_.GetAngularVelocity_rad_s();
   angular_velocity_rpm_ = angular_velocity_rad_s_ * libra::rad_s_to_rpm;
   generated_angular_acceleration_rad_s2_ = (angular_velocity_rad_s_ - pre_angular_velocity_rad) / step_width_s_;
@@ -154,6 +156,15 @@ const libra::Vector<3> ReactionWheel::GetOutputTorque_b_Nm() const {
     return output_torque_b_Nm_ - libra::OuterProduct(position_b_m_, rw_jitter_.GetJitterForce_b_N()) - rw_jitter_.GetJitterTorque_b_Nm();
   } else {
     return output_torque_b_Nm_;
+  }
+}
+
+const libra::Vector<3> ReactionWheel::GetJitterForce_b_N() const {
+  if (is_calculated_jitter_) {
+    return rw_jitter_.GetJitterForce_b_N();
+  } else {
+    libra::Vector<3> zero{0.0};
+    return zero;
   }
 }
 
@@ -323,9 +334,9 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
 ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step_s) {
   InitParams(actuator_id, file_name, compo_update_step_s);
 
-  ReactionWheel rw(prescaler, fast_prescaler, clock_generator, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity_rpm,
-                   quaternion_b2c, position_b_m, dead_time_s, time_constant_s, friction_coefficients, stop_limit_angular_velocity_rad_s,
-                   is_calc_jitter_enabled, is_log_jitter_enabled, rw_jitter, init_drive_flag, init_velocity_rad_s);
+  ReactionWheel rw(prescaler, clock_generator, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity_rpm, quaternion_b2c,
+                   position_b_m, dead_time_s, time_constant_s, friction_coefficients, stop_limit_angular_velocity_rad_s, is_calc_jitter_enabled,
+                   is_log_jitter_enabled, fast_prescaler, rw_jitter, init_drive_flag, init_velocity_rad_s);
 
   return rw;
 }
@@ -336,9 +347,9 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* powe
 
   power_port->InitializeWithInitializeFile(file_name);
 
-  ReactionWheel rw(prescaler, fast_prescaler, clock_generator, power_port, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm,
-                   max_velocity_rpm, quaternion_b2c, position_b_m, dead_time_s, time_constant_s, friction_coefficients,
-                   stop_limit_angular_velocity_rad_s, is_calc_jitter_enabled, is_log_jitter_enabled, rw_jitter, init_drive_flag, init_velocity_rad_s);
+  ReactionWheel rw(prescaler, clock_generator, power_port, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity_rpm,
+                   quaternion_b2c, position_b_m, dead_time_s, time_constant_s, friction_coefficients, stop_limit_angular_velocity_rad_s,
+                   is_calc_jitter_enabled, is_log_jitter_enabled, fast_prescaler, rw_jitter, init_drive_flag, init_velocity_rad_s);
 
   return rw;
 }
