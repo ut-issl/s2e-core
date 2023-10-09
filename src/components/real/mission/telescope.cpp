@@ -156,11 +156,14 @@ void Telescope::ObserveGroundPosition() {
   star_list_in_sight.clear();  // Clear first
   size_t count = 0;            // Counter for while loop
 
-  while (star_list_in_sight.size() < number_of_logged_stars_) {
-    libra::Vector<3> target_b = hipparcos_->GetStarDirection_b(count, quaternion_i2b); // Get star direction vector in body frame (b) ここを書き換える必要あり
-    direction_i = 
+  while (1) {
+    libra::Vector<3> direction_i;
+    libra::Vector<3> direction_b;
+    direction_i[0] = -709414.669729 - spacecraft_position_i_x;
+    direction_i[1] = -6025082.13202 - spacecraft_position_i_y;
+    direction_i[2] = 1960139.47136 - spacecraft_position_i_z;
     direction_b = quaternion_i2b.FrameConversion(direction_i);
-    libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(target_b); // Get star direction vector in component frame (c)
+    libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b); // Get ground position direction vector in component frame (c)
 
     double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame
     double arg_y = atan2(target_c[1], target_c[0]);  // Angle from X-axis on XY plane in the component frame
