@@ -10,7 +10,10 @@
 
 #include <library/math/constants.hpp>
 
-MoonRotation::MoonRotation() { dcm_me_pa_ = CalcDcmMeanEarthToPrincipalAxis(); }
+MoonRotation::MoonRotation() {
+  dcm_me_pa_ = CalcDcmMeanEarthToPrincipalAxis();
+  dcm_j2000_to_mcmf_ = libra::MakeIdentityMatrix<3>();
+}
 
 void MoonRotation::Update(const libra::Vector<3> moon_position_eci_m, const libra::Vector<3> moon_velocity_eci_m_s) {
   libra::Matrix<3, 3> dcm_eci_to_me = CalcDcmEciToMeanEarth(moon_position_eci_m, moon_velocity_eci_m_s);
