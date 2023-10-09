@@ -174,7 +174,7 @@ class CelestialInformation : public ILoggable {
    * @fn GetEarthRotation
    * @brief Return EarthRotation information
    */
-  inline CelestialRotation GetEarthRotation(void) const { return *earth_rotation_; };
+  inline EarthRotation GetEarthRotation(void) const { return *earth_rotation_; };
 
   // Calculation
   /**
@@ -210,7 +210,7 @@ class CelestialInformation : public ILoggable {
                                                        // Y-axis equal to the cross product of the unit Z-axis and X-axis vectors
 
   // Rotational Motion of each planets
-  CelestialRotation* earth_rotation_;  //!< Instance of Earth rotation
+  EarthRotation* earth_rotation_;  //!< Instance of Earth rotation
   RotationMode rotation_mode_;         //!< Designation of rotation model
 
   /**

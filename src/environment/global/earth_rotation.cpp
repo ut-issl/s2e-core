@@ -17,7 +17,7 @@
 #include "library/math/constants.hpp"
 
 // Default constructor
-CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std::string center_body_name) {
+EarthRotation::EarthRotation(const RotationMode rotation_mode, const std::string center_body_name) {
   planet_name_ = "Anonymous";
   rotation_mode_ = RotationMode::kIdle;
   dcm_j2000_to_xcxf_ = libra::MakeIdentityMatrix<3>();
@@ -34,8 +34,8 @@ CelestialRotation::CelestialRotation(const RotationMode rotation_mode, const std
   }
 }
 
-// Initialize the class CelestialRotation instance as Earth
-void CelestialRotation::InitCelestialRotationAsEarth(const RotationMode rotation_mode, const std::string center_body_name) {
+// Initialize the class EarthRotation instance as Earth
+void EarthRotation::InitCelestialRotationAsEarth(const RotationMode rotation_mode, const std::string center_body_name) {
   planet_name_ = "EARTH";
   if (center_body_name == planet_name_) {
     if (rotation_mode == RotationMode::kSimple) {
@@ -131,7 +131,7 @@ void CelestialRotation::InitCelestialRotationAsEarth(const RotationMode rotation
   }
 }
 
-void CelestialRotation::Update(const double julian_date) {
+void EarthRotation::Update(const double julian_date) {
   double gmst_rad = gstime(julian_date);  // It is a bit different with 長沢(Nagasawa)'s algorithm. TODO: Check the correctness
 
   if (rotation_mode_ == RotationMode::kFull) {
@@ -176,9 +176,9 @@ void CelestialRotation::Update(const double julian_date) {
   }
 }
 
-libra::Matrix<3, 3> CelestialRotation::AxialRotation(const double gast_rad) { return libra::MakeRotationMatrixZ(gast_rad); }
+libra::Matrix<3, 3> EarthRotation::AxialRotation(const double gast_rad) { return libra::MakeRotationMatrixZ(gast_rad); }
 
-libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&t_tt_century)[4]) {
+libra::Matrix<3, 3> EarthRotation::Nutation(const double (&t_tt_century)[4]) {
   // Mean obliquity of the ecliptic
   epsilon_rad_ = c_epsilon_rad_[0];
   for (int i = 0; i < 3; i++) {
@@ -240,7 +240,7 @@ libra::Matrix<3, 3> CelestialRotation::Nutation(const double (&t_tt_century)[4])
   return dcm_nutation;
 }
 
-libra::Matrix<3, 3> CelestialRotation::Precession(const double (&t_tt_century)[4]) {
+libra::Matrix<3, 3> EarthRotation::Precession(const double (&t_tt_century)[4]) {
   // Compute precession angles(zeta, theta, z)
   double zeta_rad = 0.0;
   for (int i = 0; i < 3; i++) {
@@ -266,7 +266,7 @@ libra::Matrix<3, 3> CelestialRotation::Precession(const double (&t_tt_century)[4
   return dcm_precession;
 }
 
-libra::Matrix<3, 3> CelestialRotation::PolarMotion(const double x_p, const double y_p) {
+libra::Matrix<3, 3> EarthRotation::PolarMotion(const double x_p, const double y_p) {
   libra::Matrix<3, 3> dcm_polar_motion;
 
   dcm_polar_motion[0][0] = 1.0;

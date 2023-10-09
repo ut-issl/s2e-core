@@ -43,7 +43,7 @@ class GroundStation : public ILoggable {
    * @fn Update
    * @brief Virtual function of main routine
    */
-  virtual void Update(const CelestialRotation& celestial_rotation, const Spacecraft& spacecraft);
+  virtual void Update(const EarthRotation& celestial_rotation, const Spacecraft& spacecraft);
 
   // Override functions for ILoggable
   /**

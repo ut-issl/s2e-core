@@ -24,20 +24,20 @@ enum class RotationMode {
 };
 
 /**
- * @class CelestialRotation
+ * @class EarthRotation
  * @brief Class to calculate the celestial rotation
  * @note Support earth rotation only now (TODO: add other planets)
  */
-class CelestialRotation {
+class EarthRotation {
  public:
   // initialize DCM to unit matrix in the default constructor
   /**
-   * @fn CelestialRotation
+   * @fn EarthRotation
    * @brief Constructor
    * @param [in] rotation_mode: Designation of rotation model
    * @param [in] center_body_name: Center object of inertial frame
    */
-  CelestialRotation(const RotationMode rotation_mode, const std::string center_body_name);
+  EarthRotation(const RotationMode rotation_mode, const std::string center_body_name);
 
   /**
    * @fn Update
@@ -91,7 +91,7 @@ class CelestialRotation {
 
   /**
    * @fn InitCelestialRotationAsEarth
-   * @brief Initialize CelestialRotation as earth rotation
+   * @brief Initialize EarthRotation as earth rotation
    * @note TODO: Make functions for other planets?
    * @param [in] rotation_mode: Rotation mode
    * @param [in] center_body_name: Name of center body

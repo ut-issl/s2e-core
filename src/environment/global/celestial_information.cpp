@@ -64,7 +64,7 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
   }
 
   // Initialize rotation
-  earth_rotation_ = new CelestialRotation(rotation_mode_, center_body_name_);
+  earth_rotation_ = new EarthRotation(rotation_mode_, center_body_name_);
 }
 
 CelestialInformation::CelestialInformation(const CelestialInformation& obj)
