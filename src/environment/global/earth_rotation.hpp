@@ -1,21 +1,21 @@
 ﻿/**
  * @file earth_rotation.hpp
- * @brief Class to calculate the celestial rotation
+ * @brief Class to calculate the earth rotation
  * @note Support earth rotation only now (TODO: add other planets)
  *       Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
  *             長沢,"天体の位置計算(増補版)", 2001 (in Japanese),
  *             IERS Conventions 2003
  */
 
-#ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_
-#define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_
+#ifndef S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_
+#define S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_
 
 #include "library/logger/loggable.hpp"
 #include "library/math/matrix.hpp"
 
 /**
  * @enum RotationMode
- * @brief Definition of calculation mode of celestial rotation
+ * @brief Definition of calculation mode of earth rotation
  */
 enum class RotationMode {
   kIdle,    //!< No Rotation calculation
@@ -25,7 +25,7 @@ enum class RotationMode {
 
 /**
  * @class EarthRotation
- * @brief Class to calculate the celestial rotation
+ * @brief Class to calculate the earth rotation
  * @note Support earth rotation only now (TODO: add other planets)
  */
 class EarthRotation {
@@ -130,4 +130,4 @@ class EarthRotation {
   libra::Matrix<3, 3> PolarMotion(const double x_p, const double y_p);
 };
 
-#endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_
+#endif  // S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_

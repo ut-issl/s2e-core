@@ -1,6 +1,6 @@
 ﻿/**
  * @file earth_rotation.cpp
- * @brief Class to calculate the celestial rotation
+ * @brief Class to calculate the earth rotation
  * @note Support earth rotation only now (TODO: add other planets)
  *       Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
  *             長沢,"天体の位置計算(増補版)", 2001 (in Japanese),
