@@ -191,7 +191,7 @@ std::string ReactionWheel::GetLogHeader() const {
   str_tmp += WriteScalar(component_name + "target_angular_acceleration", "rad/s2");
   str_tmp += WriteScalar(component_name + "angular_acceleration", "rad/s2");
 
-  if (is_logged_jitter_) {
+  if (is_logged_jitter_ && is_calculated_jitter_) {
     str_tmp += WriteVector(component_name + "jitter_force", "c", "N", 3);
     str_tmp += WriteVector(component_name + "jitter_torque", "c", "Nm", 3);
   }
@@ -208,7 +208,7 @@ std::string ReactionWheel::GetLogValue() const {
   str_tmp += WriteScalar(target_acceleration_rad_s2_);
   str_tmp += WriteScalar(generated_angular_acceleration_rad_s2_);
 
-  if (is_logged_jitter_) {
+  if (is_logged_jitter_ && is_calculated_jitter_) {
     str_tmp += WriteVector(rw_jitter_.GetJitterForce_c_N());
     str_tmp += WriteVector(rw_jitter_.GetJitterTorque_c_Nm());
   }
@@ -245,7 +245,7 @@ bool is_calc_jitter_enabled;
 bool is_log_jitter_enabled;
 ReactionWheelJitter rw_jitter;
 
-void InitParams(int actuator_id, std::string file_name, double compo_update_step) {
+void InitParams(int actuator_id, std::string file_name, double compo_update_step_s) {
   // Access Parameters
   IniAccess rw_ini_file(file_name);
   std::string section_tmp = "REACTION_WHEEL_" + std::to_string(static_cast<long long>(actuator_id));
@@ -254,7 +254,7 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
   // Prescaler
   prescaler = rw_ini_file.ReadInt(rw_section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
-  step_width_s = compo_update_step * prescaler;
+  step_width_s = compo_update_step_s * prescaler;
 
   // RW specifications
   rotor_inertia_kgm2 = rw_ini_file.ReadDouble(rw_section, "moment_of_inertia_kgm2");
@@ -298,7 +298,7 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
   is_log_jitter_enabled = rw_ini_file.ReadEnable(jitter_section, "jitter_logging");
   fast_prescaler = rw_ini_file.ReadInt(jitter_section, "fast_prescaler");
   if (fast_prescaler <= 1) fast_prescaler = 1;
-  jitter_update_interval_s = fast_prescaler * compo_update_step;
+  jitter_update_interval_s = fast_prescaler * compo_update_step_s;
 
   std::string radial_force_harmonics_coefficient_path = rw_ini_file.ReadString(jitter_section, "radial_force_harmonics_coefficient_file");
   std::string radial_torque_harmonics_coefficient_path = rw_ini_file.ReadString(jitter_section, "radial_torque_harmonics_coefficient_file");
@@ -320,8 +320,8 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
 }
 }  // namespace
 
-ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step) {
-  InitParams(actuator_id, file_name, compo_update_step);
+ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step_s) {
+  InitParams(actuator_id, file_name, compo_update_step_s);
 
   ReactionWheel rw(prescaler, fast_prescaler, clock_generator, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity_rpm,
                    quaternion_b2c, position_b_m, dead_time_s, time_constant_s, friction_coefficients, stop_limit_angular_velocity_rad_s,
@@ -331,8 +331,8 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id
 }
 
 ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name,
-                                double compo_update_step) {
-  InitParams(actuator_id, file_name, compo_update_step);
+                                double compo_update_step_s) {
+  InitParams(actuator_id, file_name, compo_update_step_s);
 
   power_port->InitializeWithInitializeFile(file_name);
 

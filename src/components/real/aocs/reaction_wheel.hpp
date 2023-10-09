@@ -191,7 +191,7 @@ class ReactionWheel : public Component, public ILoggable {
   double stop_limit_angular_velocity_rad_s_ = 0.1;      //!< Angular velocity stop limit by friction [rad/s]
 
   // Controlled Parameters
-  bool drive_flag_;                    //!< Drive flag(True: Drive, False: Stop)
+  bool drive_flag_;                    //!< Drive flag (True: Drive, False: Stop)
   double target_acceleration_rad_s2_;  //!< Target acceleration [rad/s2]
 
   // Output at RW frame
@@ -230,9 +230,9 @@ class ReactionWheel : public Component, public ILoggable {
  * @param [in] clock_generator: Clock generator
  * @param [in] actuator_id: Actuator ID
  * @param [in] file_name: Path to the initialize file
- * @param [in] compo_update_step: Component step time [sec]
+ * @param [in] compo_update_step_s: Component step time [sec]
  */
-ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step);
+ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step_s);
 /**
  * @fn InitReactionWheel
  * @brief Initialize functions for reaction wheel with power port
@@ -241,9 +241,9 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id
  * @param [in] actuator_id: Actuator ID
  * @param [in] file_name: Path to the initialize file
  * @param [in] prop_step: Propagation step for RW dynamics [sec]
- * @param [in] compo_update_step: Component step time [sec]
+ * @param [in] compo_update_step_s: Component step time [sec]
  */
 ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name,
-                                double compo_update_step);
+                                double compo_update_step_s);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_
