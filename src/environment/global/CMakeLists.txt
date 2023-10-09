@@ -9,6 +9,7 @@ add_library(${PROJECT_NAME} STATIC
   simulation_time.cpp
   clock_generator.cpp
   earth_rotation.cpp
+  moon_rotation.cpp
   initialize_gnss_satellites.cpp
 )
 
