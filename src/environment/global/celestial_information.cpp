@@ -66,6 +66,7 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
 
   // Initialize rotation
   earth_rotation_ = new EarthRotation(earth_rotation_mode);
+  moon_rotation_ = new MoonRotation(*this);
 }
 
 CelestialInformation::CelestialInformation(const CelestialInformation& obj)
@@ -128,9 +129,7 @@ void CelestialInformation::UpdateAllObjectsInformation(const SimulationTime& sim
   earth_rotation_->Update(simulation_time.GetCurrentTime_jd());
   // Update moon rotation
   if (IsEnabledRotation("MOON")) {
-    libra::Vector<3> moon_position_eci_m = GetPositionFromSelectedBody_i_m("MOON", "EARTH");
-    libra::Vector<3> moon_velocity_eci_m_s = GetVelocityFromSelectedBody_i_m_s("MOON", "EARTH");
-    moon_rotation_.Update(moon_position_eci_m, moon_velocity_eci_m_s);
+    moon_rotation_->Update(simulation_time);
   }
 }
 

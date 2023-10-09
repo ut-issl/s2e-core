@@ -14,6 +14,9 @@
 #include "library/math/vector.hpp"
 #include "moon_rotation.hpp"
 #include "simulation_time.hpp"
+
+class MoonRotation;
+
 /**
  * @class CelestialInformation
  * @brief Class to manage the information related with the celestial bodies
@@ -211,7 +214,7 @@ class CelestialInformation : public ILoggable {
    * @fn GetMoonRotation
    * @brief Return MoonRotation information
    */
-  inline MoonRotation GetMoonRotation(void) const { return moon_rotation_; };
+  inline MoonRotation& GetMoonRotation(void) const { return *moon_rotation_; };
 
   // Calculation
   /**
@@ -248,7 +251,7 @@ class CelestialInformation : public ILoggable {
 
   // Rotational Motion of each planets
   EarthRotation* earth_rotation_;  //!< Instance of Earth rotation
-  MoonRotation moon_rotation_;     //!< Instance of Moon rotation
+  MoonRotation* moon_rotation_;     //!< Instance of Moon rotation
   std::vector<bool> is_enable_rotation_;
 
   /**

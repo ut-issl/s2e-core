@@ -1,51 +1,53 @@
 ﻿/**
  * @file moon_rotation.cpp
  * @brief Class to calculate the moon rotation
- * @note Ref: A Standardized Lunar Coordinate System for the Lunar Reconnaissance Orbiter and Lunar Datasets
- *            https://lunar.gsfc.nasa.gov/library/LunCoordWhitePaper-10-08.pdf
- *            https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de430_moon_coord.pdf
  */
 
 #include "moon_rotation.hpp"
 
-#include <library/math/constants.hpp>
+#include <SpiceUsr.h>
 
-MoonRotation::MoonRotation() {
-  dcm_me_pa_ = CalcDcmMeanEarthToPrincipalAxis();
+#include <library/math/constants.hpp>
+#include <library/planet_rotation/moon_rotation_utilities.hpp>
+
+MoonRotation::MoonRotation(const CelestialInformation &celestial_information, MoonRotationMode mode)
+    : mode_(mode), celestial_information_(celestial_information) {
   dcm_j2000_to_mcmf_ = libra::MakeIdentityMatrix<3>();
 }
 
-void MoonRotation::Update(const libra::Vector<3> moon_position_eci_m, const libra::Vector<3> moon_velocity_eci_m_s) {
-  libra::Matrix<3, 3> dcm_eci_to_me = CalcDcmEciToMeanEarth(moon_position_eci_m, moon_velocity_eci_m_s);
-  libra::Matrix<3, 3> dcm_eci_to_pa = dcm_me_pa_ * dcm_eci_to_me;
-  dcm_j2000_to_mcmf_ = dcm_eci_to_pa;
+void MoonRotation::Update(const SimulationTime& simulation_time) {
+  if (mode_ == MoonRotationMode::kSimple) {
+    libra::Vector<3> moon_position_eci_m = celestial_information_.GetPositionFromSelectedBody_i_m("MOON", "EARTH");
+    libra::Vector<3> moon_velocity_eci_m_s = celestial_information_.GetVelocityFromSelectedBody_i_m_s("MOON", "EARTH");
+    dcm_j2000_to_mcmf_ = CalcDcmEciToPrincipalAxis(moon_position_eci_m, moon_velocity_eci_m_s);
+  } else if (mode_ == MoonRotationMode::kIauMoon) {
+    ConstSpiceChar from[] = "J2000";
+    ConstSpiceChar to[] = "IAU_MOON";
+    SpiceDouble et = simulation_time.GetCurrentEphemerisTime();
+    SpiceDouble state_transition_matrix[6][6];
+    sxform_c(from, to, et, state_transition_matrix);
+    for (size_t i = 0; i < 3; i++) {
+      for (size_t j = 0; j < 3; j++) {
+        dcm_j2000_to_mcmf_[i][j] = state_transition_matrix[i][j];
+      }
+    }
+  } else {
+    dcm_j2000_to_mcmf_ = libra::MakeIdentityMatrix<3>();
+  }
 }
 
-libra::Matrix<3, 3> MoonRotation::CalcDcmEciToMeanEarth(const libra::Vector<3> moon_position_eci_m, const libra::Vector<3> moon_velocity_eci_m_s) {
-  libra::Vector<3> me_ex_eci = -1.0 * moon_position_eci_m.CalcNormalizedVector();
-
-  libra::Vector<3> moon_orbit_norm = libra::OuterProduct(moon_position_eci_m, moon_velocity_eci_m_s);
-  libra::Vector<3> me_ez_eci = moon_orbit_norm.CalcNormalizedVector();
-
-  libra::Vector<3> me_ey_eci = libra::OuterProduct(me_ez_eci, me_ex_eci);
-
-  libra::Matrix<3, 3> dcm_eci_to_me;
-  for (size_t i = 0; i < 3; i++) {
-    dcm_eci_to_me[0][i] = me_ex_eci[i];
-    dcm_eci_to_me[1][i] = me_ey_eci[i];
-    dcm_eci_to_me[2][i] = me_ez_eci[i];
+MoonRotationMode ConvertMoonRotationMode(const std::string mode) {
+  MoonRotationMode rotation_mode;
+  if (mode == "Idle") {
+    rotation_mode = MoonRotationMode::kIdle;
+  } else if (mode == "Simple") {
+    rotation_mode = MoonRotationMode::kSimple;
+  } else if (mode == "IauMoon") {
+    rotation_mode = MoonRotationMode::kIauMoon;
+  } else  // if rotation_mode is neither Idle, Simple, nor Full, set rotation_mode to Idle
+  {
+    rotation_mode = MoonRotationMode::kIdle;
   }
 
-  return dcm_eci_to_me;
-}
-
-libra::Matrix<3, 3> MoonRotation::CalcDcmMeanEarthToPrincipalAxis() {
-  const double theta_x_rad = 0.285 * libra::arcsec_to_rad;
-  const double theta_y_rad = 78.580 * libra::arcsec_to_rad;
-  const double theta_z_rad = 67.573 * libra::arcsec_to_rad;
-
-  libra::Matrix<3, 3> dcm_me_pa =
-      libra::MakeRotationMatrixZ(theta_z_rad) * libra::MakeRotationMatrixY(theta_y_rad) * libra::MakeRotationMatrixX(theta_x_rad);
-
-  return dcm_me_pa;
+  return rotation_mode;
 }
