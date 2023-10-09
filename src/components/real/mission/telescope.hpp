@@ -123,6 +123,12 @@ class Telescope : public Component, public ILoggable {
   const HipparcosCatalogue* hipparcos_;                           //!< Star information
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
 
+  /*
+  * @fn Observe
+  * @brief Observe Ground Position
+  */
+  void ObserverGroundPosition();
+  
   // Override ILoggable
   /**
    * @fn GetLogHeader
