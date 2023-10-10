@@ -7,6 +7,7 @@
 
 #include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
+#include <library/initialize/initialize_file_access.hpp>
 
 SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
                                  double cell_area_m2, libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
@@ -111,4 +112,71 @@ void SolarArrayPanel::MainRoutine(const int time_count) {
     // TODO: Improve implementation. For example, update IV curve with sun direction and calculate generated power
   }
   if (power_generation_W_ < 0) power_generation_W_ = 0.0;
+}
+
+SolarArrayPanel InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_name,
+                        const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information,
+                        double component_step_time_s) {
+  IniAccess sap_conf(file_name);
+
+  const std::string section_name = "SOLAR_ARRAY_PANEL_" + std::to_string(static_cast<long long>(sap_id));
+
+  int prescaler = sap_conf.ReadInt(section_name.c_str(), "prescaler");
+  if (prescaler <= 1) prescaler = 1;
+
+  int number_of_series;
+  number_of_series = sap_conf.ReadInt(section_name.c_str(), "number_of_series");
+
+  int number_of_parallel;
+  number_of_parallel = sap_conf.ReadInt(section_name.c_str(), "number_of_parallel");
+
+  double cell_area_m2;
+  cell_area_m2 = sap_conf.ReadDouble(section_name.c_str(), "cell_area_m2");
+
+  libra::Vector<3> normal_vector;
+  sap_conf.ReadVector(section_name.c_str(), "normal_vector_b", normal_vector);
+
+  double cell_efficiency;
+  cell_efficiency = sap_conf.ReadDouble(section_name.c_str(), "cell_efficiency");
+
+  double transmission_efficiency;
+  transmission_efficiency = sap_conf.ReadDouble(section_name.c_str(), "transmission_efficiency");
+
+  SolarArrayPanel sap(prescaler, clock_generator, sap_id, number_of_series, number_of_parallel, cell_area_m2, normal_vector, cell_efficiency,
+                      transmission_efficiency, srp_environment, local_celestial_information, component_step_time_s);
+
+  return sap;
+}
+
+SolarArrayPanel InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_name,
+                        const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s) {
+  IniAccess sap_conf(file_name);
+
+  const std::string section_name = "SOLAR_ARRAY_PANEL_" + std::to_string(static_cast<long long>(sap_id));
+
+  int prescaler = sap_conf.ReadInt(section_name.c_str(), "prescaler");
+  if (prescaler <= 1) prescaler = 1;
+
+  int number_of_series;
+  number_of_series = sap_conf.ReadInt(section_name.c_str(), "number_of_series");
+
+  int number_of_parallel;
+  number_of_parallel = sap_conf.ReadInt(section_name.c_str(), "number_of_parallel");
+
+  double cell_area_m2;
+  cell_area_m2 = sap_conf.ReadDouble(section_name.c_str(), "cell_area_m2");
+
+  libra::Vector<3> normal_vector;
+  sap_conf.ReadVector(section_name.c_str(), "normal_vector_b", normal_vector);
+
+  double cell_efficiency;
+  cell_efficiency = sap_conf.ReadDouble(section_name.c_str(), "cell_efficiency");
+
+  double transmission_efficiency;
+  transmission_efficiency = sap_conf.ReadDouble(section_name.c_str(), "transmission_efficiency");
+
+  SolarArrayPanel sap(prescaler, clock_generator, sap_id, number_of_series, number_of_parallel, cell_area_m2, normal_vector, cell_efficiency,
+                      transmission_efficiency, srp_environment, component_step_time_s);
+
+  return sap;
 }

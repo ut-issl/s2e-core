@@ -5,18 +5,32 @@
 
 #include "initialize_heater.hpp"
 
-// [FIXME] Write discription of csv file for heater initialization
+#include <cassert>
+
+/* Import heater properties by reading CSV File (heaters.csv)
+
+[File Formats of heater.csv]
+column 1: Heater_id(int, Use values larger than or equal to 1)
+column 2: Power Rating (double, [W])
+column 3: Lower threshold of control (double, [degC])
+column 4: Upper threshold of control (double, [degC])
+
+First row is for Header, data begins from the second row
+*/
 
 Heater InitHeater(const std::vector<std::string>& heater_str) {
   using std::stod;
   using std::stoi;
 
-  int heater_id = 0;
+  size_t heater_str_size_defined = 4;                    // Correct size of heater_str
+  assert(heater_str.size() == heater_str_size_defined);  // Check if size of heater_str is correct
+
+  size_t heater_id = 0;
   double power_rating_W = 0;  // [W]
 
   // Index to read from heater_str for each parameter
-  int index_heater_id = 0;
-  int index_power_rating = 1;
+  size_t index_heater_id = 0;
+  size_t index_power_rating = 1;
 
   heater_id = stoi(heater_str[index_heater_id]);
   power_rating_W = stod(heater_str[index_power_rating]);
@@ -28,9 +42,12 @@ Heater InitHeater(const std::vector<std::string>& heater_str) {
 HeaterController InitHeaterController(const std::vector<std::string>& heater_str) {
   using std::stod;
 
+  size_t heater_str_size_defined = 4;                    // Correct size of heater_str
+  assert(heater_str.size() == heater_str_size_defined);  // Check if size of heater_str is correct
+
   // Index to read from heater_str for each parameter
-  int index_lower_threshold = 2;
-  int index_upper_threshold = 3;
+  size_t index_lower_threshold = 2;
+  size_t index_upper_threshold = 3;
 
   double lower_threshold_degC = 0;  // [degC]
   double upper_threshold_degC = 0;  // [degC]

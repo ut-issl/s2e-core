@@ -202,6 +202,11 @@ class SimulationTime : public ILoggable {
    *@brief Return current UTC calendar expression
    */
   inline const UTC GetCurrentUtc(void) const { return current_utc_; };
+  /**
+   *@fn GetCurrentEphemerisTime
+   *@brief Return current Ephemeris time
+   */
+  inline double GetCurrentEphemerisTime(void) const { return start_ephemeris_time_ + elapsed_time_sec_; };
 
   /**
    *@fn GetStartYear
@@ -292,13 +297,14 @@ class SimulationTime : public ILoggable {
   double log_output_interval_sec_;        //!< Log output interval [sec]
   double display_period_;                 //!< Display output period [sec]
 
-  double start_jd_;   //!< Simulation start Julian date [day]
-  int start_year_;    //!< Simulation start year
-  int start_month_;   //!< Simulation start month
-  int start_day_;     //!< Simulation start day
-  int start_hour_;    //!< Simulation start hour
-  int start_minute_;  //!< Simulation start minute
-  double start_sec_;  //!< Simulation start seconds
+  double start_ephemeris_time_;  //!< Simulation start Ephemeris Time
+  double start_jd_;              //!< Simulation start Julian date [day]
+  int start_year_;               //!< Simulation start year
+  int start_month_;              //!< Simulation start month
+  int start_day_;                //!< Simulation start day
+  int start_hour_;               //!< Simulation start hour
+  int start_minute_;             //!< Simulation start minute
+  double start_sec_;             //!< Simulation start seconds
 
   double simulation_speed_;  //!< The speed of the simulation relative to real time (if negative, real time is not taken into account)
   double time_exceeds_continuously_limit_sec_;  //!< Maximum duration to allow actual step_sec to be larger than specified continuously

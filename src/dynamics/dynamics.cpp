@@ -29,7 +29,8 @@ void Dynamics::Initialize(const SimulationConfiguration* simulation_configuratio
                      local_celestial_information.GetGlobalInformation().GetCenterBodyGravityConstant_m3_s2(), "ORBIT", relative_information);
   attitude_ = InitAttitude(simulation_configuration->spacecraft_file_list_[spacecraft_id], orbit_, &local_celestial_information,
                            simulation_time->GetAttitudeRkStepTime_s(), structure->GetKinematicsParameters().GetInertiaTensor_b_kgm2(), spacecraft_id);
-  temperature_ = InitTemperature(simulation_configuration->spacecraft_file_list_[spacecraft_id], simulation_time->GetThermalRkStepTime_s());
+  temperature_ = InitTemperature(simulation_configuration->spacecraft_file_list_[spacecraft_id], simulation_time->GetThermalRkStepTime_s(),
+                                 &(local_environment_->GetSolarRadiationPressure()));
 
   // To get initial value
   orbit_->UpdateByAttitude(attitude_->GetQuaternion_i2b());

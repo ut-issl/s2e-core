@@ -5,6 +5,7 @@
 #include "simple_thruster.hpp"
 
 #include <cfloat>
+#include <library/initialize/initialize_file_access.hpp>
 #include <library/math/constants.hpp>
 #include <library/randomization/global_randomization.hpp>
 
@@ -117,4 +118,62 @@ libra::Vector<3> SimpleThruster::CalcThrustDirection() {
   }
 
   return thrust_dir_b_true;
+}
+
+SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_id, const std::string file_name, const Structure* structure,
+                                  const Dynamics* dynamics) {
+  IniAccess thruster_conf(file_name);
+  std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
+  auto* Section = section_str.c_str();
+
+  int prescaler = thruster_conf.ReadInt(Section, "prescaler");
+  if (prescaler <= 1) prescaler = 1;
+
+  Vector<3> thruster_pos;
+  thruster_conf.ReadVector(Section, "thruster_position_b_m", thruster_pos);
+
+  Vector<3> thruster_dir;
+  thruster_conf.ReadVector(Section, "thruster_direction_b", thruster_dir);
+
+  double max_magnitude_N = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");
+
+  double magnitude_standard_deviation_N;
+  magnitude_standard_deviation_N = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
+
+  double deg_err;
+  deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * libra::pi / 180.0;
+
+  SimpleThruster thruster(prescaler, clock_generator, thruster_id, thruster_pos, thruster_dir, max_magnitude_N, magnitude_standard_deviation_N,
+                          deg_err, structure, dynamics);
+  return thruster;
+}
+
+SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
+                                  const Structure* structure, const Dynamics* dynamics) {
+  IniAccess thruster_conf(file_name);
+  std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
+  auto* Section = section_str.c_str();
+
+  int prescaler = thruster_conf.ReadInt(Section, "prescaler");
+  if (prescaler <= 1) prescaler = 1;
+
+  Vector<3> thruster_pos;
+  thruster_conf.ReadVector(Section, "thruster_position_b_m", thruster_pos);
+
+  Vector<3> thruster_dir;
+  thruster_conf.ReadVector(Section, "thruster_direction_b", thruster_dir);
+
+  double max_magnitude_N = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");
+
+  double magnitude_standard_deviation_N;
+  magnitude_standard_deviation_N = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
+
+  double deg_err;
+  deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * libra::pi / 180.0;
+
+  power_port->InitializeWithInitializeFile(file_name);
+
+  SimpleThruster thruster(prescaler, clock_generator, power_port, thruster_id, thruster_pos, thruster_dir, max_magnitude_N,
+                          magnitude_standard_deviation_N, deg_err, structure, dynamics);
+  return thruster;
 }

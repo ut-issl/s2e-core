@@ -82,4 +82,11 @@ class Geopotential : public Disturbance {
   bool ReadCoefficientsEgm96(std::string file_name);
 };
 
+/**
+ * @fn InitGeopotential
+ * @brief Initialize Geopotential class with earth gravitational constant
+ * @param [in] initialize_file_path: Initialize file path
+ */
+Geopotential InitGeopotential(const std::string initialize_file_path);
+
 #endif  // S2E_DISTURBANCES_GEOPOTENTIAL_HPP_

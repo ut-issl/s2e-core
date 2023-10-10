@@ -6,6 +6,7 @@
 #include "force_generator.hpp"
 
 #include <cfloat>
+#include <library/initialize/initialize_file_access.hpp>
 
 // Constructor
 ForceGenerator::ForceGenerator(const int prescaler, ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_N,
@@ -102,4 +103,22 @@ libra::Quaternion ForceGenerator::GenerateDirectionNoiseQuaternion(libra::Vector
   double error_angle_rad = direction_noise_ * error_standard_deviation_rad;
   libra::Quaternion error_quaternion(rotation_axis, error_angle_rad);
   return error_quaternion;
+}
+
+ForceGenerator InitializeForceGenerator(ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics) {
+  // General
+  IniAccess ini_file(file_name);
+
+  // CompoBase
+  int prescaler = ini_file.ReadInt("COMPONENT_BASE", "prescaler");
+  if (prescaler <= 1) prescaler = 1;
+
+  // ForceGenerator
+  char section[30] = "FORCE_GENERATOR";
+  double force_magnitude_standard_deviation_N = ini_file.ReadDouble(section, "force_magnitude_standard_deviation_N");
+  double force_direction_standard_deviation_deg = ini_file.ReadDouble(section, "force_direction_standard_deviation_deg");
+  double force_direction_standard_deviation_rad = libra::deg_to_rad * force_direction_standard_deviation_deg;
+  ForceGenerator force_generator(prescaler, clock_generator, force_magnitude_standard_deviation_N, force_direction_standard_deviation_rad, dynamics);
+
+  return force_generator;
 }

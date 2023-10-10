@@ -68,4 +68,19 @@ class GravityGradient : public Disturbance {
   libra::Vector<3> CalcTorque_b_Nm(const libra::Vector<3> earth_position_from_sc_b_m, const libra::Matrix<3, 3> inertia_tensor_b_kgm2);
 };
 
+/**
+ * @fn InitGravityGradient
+ * @brief Initialize GravityGradient class with earth gravitational constant
+ * @param [in] initialize_file_path: Initialize file path
+ */
+GravityGradient InitGravityGradient(const std::string initialize_file_path);
+
+/**
+ * @fn InitGravityGradient
+ * @brief Initialize GravityGradient class with earth gravitational constant
+ * @param [in] initialize_file_path: Initialize file path
+ * @param [in] gravity_constant_m3_s2: Gravitational constant [m3/s2]
+ */
+GravityGradient InitGravityGradient(const std::string initialize_file_path, const double gravity_constant_m3_s2);
+
 #endif  // S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_

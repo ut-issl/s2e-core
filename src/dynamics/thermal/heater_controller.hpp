@@ -10,13 +10,10 @@
 #include <library/logger/logger.hpp>
 #include <string>
 #include <vector>
+
 #include "heater.hpp"
 
 class HeaterController {
- protected:
-  double lower_threshold_degC_;  // Lower Threshold of Heater Control [degC]
-  double upper_threshold_degC_;  // Upper Threshold of Heater Control [degC]
-
  public:
   /**
    * @fn HeaterController
@@ -34,22 +31,22 @@ class HeaterController {
   // Getter
   /**
    * @fn GetLowerThreshold_degC
-   * @brief Return Lower Thershold [degC]
+   * @brief Return Lower Threshold [degC]
    */
   inline double GetLowerThreshold_degC(void) const { return lower_threshold_degC_; }
   /**
    * @fn GetUpperThreshold_degC
-   * @brief Return Upper Thershold [degC]
+   * @brief Return Upper Threshold [degC]
    */
   inline double GetUpperThreshold_degC(void) const { return upper_threshold_degC_; }
   /**
    * @fn GetLowerThreshold_K
-   * @brief Return Lower Thershold [K]
+   * @brief Return Lower Threshold [K]
    */
   inline double GetLowerThreshold_K(void) const { return degC2K(lower_threshold_degC_); }
   /**
    * @fn GetUpperThreshold_K
-   * @brief Return Upper Thershold [K]
+   * @brief Return Upper Threshold [K]
    */
   inline double GetUpperThreshold_K(void) const { return degC2K(upper_threshold_degC_); }
 
@@ -72,6 +69,16 @@ class HeaterController {
    * @param[in] temperature_degC
    */
   void ControlHeater(Heater* p_heater, double temperature_degC);
+
+ protected:
+  double lower_threshold_degC_;  // Lower Threshold of Heater Control [degC]
+  double upper_threshold_degC_;  // Upper Threshold of Heater Control [degC]
+
+  /**
+   * @fn AssertHeaterControllerParams
+   * @brief Check Parameters of HeaterController
+   */
+  void AssertHeaterControllerParams(void);
 };
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATER_CONTROLLER_HPP_

@@ -61,7 +61,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
                                                      &(global_environment_->GetGnssSatellites()), &(global_environment_->GetSimulationTime())));
 
   // Magnetorquer
-  file_name = iniAccess.ReadString("COMPONENT_FILES", "magetorquer_file");
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "magnetorquer_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
   magnetorquer_ = new Magnetorquer(InitMagnetorquer(clock_generator, pcu_->GetPowerPort(2), 1, file_name,
                                                     global_environment_->GetSimulationTime().GetComponentStepTime_s(),
@@ -93,6 +93,11 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   file_name = iniAccess.ReadString("COMPONENT_FILES", "antenna_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
   antenna_ = new Antenna(InitAntenna(1, file_name));
+
+  // Component interference
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "component_interference_file");
+  configuration_->main_logger_->CopyFileToLogDirectory(file_name);
+  mtq_magnetometer_interference_ = new MtqMagnetometerInterference(file_name, *magnetometer_, *magnetorquer_);
 
   // PCU power port initial control
   pcu_->GetPowerPort(0)->SetVoltage_V(3.3);
@@ -148,6 +153,7 @@ SampleComponents::~SampleComponents() {
   delete force_generator_;
   delete torque_generator_;
   delete antenna_;
+  delete mtq_magnetometer_interference_;
   // delete change_structure_;
   delete pcu_;
   // delete exp_hils_uart_responder_;
@@ -173,6 +179,8 @@ libra::Vector<3> SampleComponents::GenerateTorque_b_Nm() {
   torque_b_Nm_ += torque_generator_->GetGeneratedTorque_b_Nm();
   return torque_b_Nm_;
 }
+
+void SampleComponents::ComponentInterference() { mtq_magnetometer_interference_->UpdateInterference(); }
 
 void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLogList(gyro_sensor_);

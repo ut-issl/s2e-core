@@ -36,6 +36,16 @@ IniAccess::IniAccess(const std::string file_path) : file_path_(file_path), ini_r
 }
 #endif
 
+std::vector<unsigned char> IniAccess::ReadVectorUnsignedChar(const char* section_name, const char* key_name, const size_t num) {
+  std::vector<unsigned char> data;
+  for (size_t i = 0; i < num; i++) {
+    std::stringstream edited_key_name;
+    edited_key_name << key_name << "(" << i << ")";
+    data.push_back((unsigned char)ReadInt(section_name, edited_key_name.str().c_str()));
+  }
+  return data;
+}
+
 double IniAccess::ReadDouble(const char* section_name, const char* key_name) {
 #ifdef WIN32
   std::stringstream value;
@@ -65,6 +75,17 @@ int IniAccess::ReadInt(const char* section_name, const char* key_name) {
   return (int)ini_reader_.GetInteger(section_name, key_name, 0);
 #endif
 }
+
+std::vector<int> IniAccess::ReadVectorInt(const char* section_name, const char* key_name, const size_t num) {
+  std::vector<int> data;
+  for (size_t i = 0; i < num; i++) {
+    std::stringstream edited_key_name;
+    edited_key_name << key_name << "(" << i << ")";
+    data.push_back(ReadInt(section_name, edited_key_name.str().c_str()));
+  }
+  return data;
+}
+
 bool IniAccess::ReadBoolean(const char* section_name, const char* key_name) {
 #ifdef WIN32
   int temp;
@@ -85,6 +106,16 @@ void IniAccess::ReadDoubleArray(const char* section_name, const char* key_name, 
     edited_key_name << key_name << id << "(" << i << ")";
     data[i] = ReadDouble(section_name, edited_key_name.str().c_str());
   }
+}
+
+std::vector<double> IniAccess::ReadVectorDouble(const char* section_name, const char* key_name, const size_t num) {
+  std::vector<double> data;
+  for (size_t i = 0; i < num; i++) {
+    std::stringstream edited_key_name;
+    edited_key_name << key_name << "(" << i << ")";
+    data.push_back(ReadDouble(section_name, edited_key_name.str().c_str()));
+  }
+  return data;
 }
 
 void IniAccess::ReadQuaternion(const char* section_name, const char* key_name, libra::Quaternion& data) {

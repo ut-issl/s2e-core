@@ -40,6 +40,8 @@ class RungeKutta4 : public RungeKutta<N> {
 
     this->rk_matrix_[1][0] = this->rk_matrix_[2][1] = 0.5;
     this->rk_matrix_[3][2] = 1.0;
+
+    this->CalcSlope();
   }
 
   // We did not implement the interpolation for RK4

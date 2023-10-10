@@ -1,6 +1,7 @@
 /*
  * @file on_board_computer_with_c2a.cpp
  * @brief Class to emulate on board computer with C2A flight software
+ * @note Used C2A functions: TMGR_init, C2A_core_init, WDT_init, TMGR_clear, TMGR_count_up_master_clock, TDSP_execute_pl_as_task_list
  */
 
 #include "on_board_computer_with_c2a.hpp"

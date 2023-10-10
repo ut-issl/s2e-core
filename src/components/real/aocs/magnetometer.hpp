@@ -77,6 +77,26 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    */
   inline const libra::Vector<kMagnetometerDimension>& GetMeasuredMagneticField_c_nT(void) const { return magnetic_field_c_nT_; }
 
+  /**
+   * @fn SetConstantBiasNoise_c_nT
+   * @brief Set constant bias noise at component frame [nT]
+   * @param [in] constant_noise_c_nT: Constant bias noise at component frame [nT]
+   */
+  inline void SetConstantBiasNoise_c_nT(libra::Vector<kMagnetometerDimension> constant_noise_c_nT) { bias_noise_c_ = constant_noise_c_nT; }
+
+  /**
+   * @fn AddConstantBiasNoise_c_nT
+   * @brief Add constant bias noise at component frame [nT]
+   * @param [in] constant_noise_c_nT: Additional constant bias noise at component frame [nT]
+   */
+  inline void AddConstantBiasNoise_c_nT(libra::Vector<kMagnetometerDimension> constant_noise_c_nT) { bias_noise_c_ += constant_noise_c_nT; }
+
+  /**
+   * @fn GetConstantBiasNoise_c_nT
+   * @brief Get constant bias noise at component frame [nT]
+   */
+  inline libra::Vector<kMagnetometerDimension> GetConstantBiasNoise_c_nT() const { return bias_noise_c_; }
+
  protected:
   libra::Vector<kMagnetometerDimension> magnetic_field_c_nT_{0.0};  //!< Observed magnetic field on the component frame [nT]
   unsigned int sensor_id_ = 0;                                      //!< Sensor ID
@@ -84,5 +104,29 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
 
   const GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
 };
+
+/**
+ * @fn InitMagnetometer
+ * @brief Initialize functions for magnetometer without power port
+ * @param [in] clock_generator: Clock generator
+ * @param [in] sensor_id: Sensor ID
+ * @param [in] file_name: Path to the initialize file
+ * @param [in] component_step_time_s: Component step time [sec]
+ * @param [in] geomagnetic_field: Geomegnetic environment
+ */
+Magnetometer InitMagnetometer(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
+                              const GeomagneticField* geomagnetic_field);
+/**
+ * @fn InitMagnetometer
+ * @brief Initialize functions for magnetometer with power port
+ * @param [in] clock_generator: Clock generator
+ * @param [in] power_port: Power port
+ * @param [in] sensor_id: Sensor ID
+ * @param [in] file_name: Path to the initialize file
+ * @param [in] component_step_time_s: Component step time [sec]
+ * @param [in] geomagnetic_field: Geomegnetic environment
+ */
+Magnetometer InitMagnetometer(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+                              double component_step_time_s, const GeomagneticField* geomagnetic_field);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MAGNETOMETER_HPP_

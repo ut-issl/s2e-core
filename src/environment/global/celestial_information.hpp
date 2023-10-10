@@ -10,6 +10,7 @@
 #include "celestial_rotation.hpp"
 #include "library/logger/loggable.hpp"
 #include "library/math/vector.hpp"
+#include "simulation_time.hpp"
 
 /**
  * @class CelestialInformation
@@ -56,9 +57,9 @@ class CelestialInformation : public ILoggable {
   /**
    * @fn UpdateAllObjectsInformation
    * @brief Update the information of all selected celestial objects
-   * @param [in] current_time_jd: Current time [Julian day]
+   * @param [in] simulation_time: Simulation Time information
    */
-  void UpdateAllObjectsInformation(const double current_time_jd);
+  void UpdateAllObjectsInformation(const SimulationTime& simulation_time);
 
   // Getters
   // Orbit information

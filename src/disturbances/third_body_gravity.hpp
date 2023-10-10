@@ -79,4 +79,12 @@ class ThirdBodyGravity : public Disturbance {
   libra::Vector<3> CalcAcceleration_i_m_s2(const libra::Vector<3> s, const libra::Vector<3> sr, const double gravity_constant_m_s2);
 };
 
+/**
+ * @fn InitThirdBodyGravity
+ * @brief Initialize ThirdBodyGravity class with earth gravitational constant
+ * @param [in] initialize_file_path: Initialize file path
+ * @param [in] ini_path_celes: Initialize file path for the celestial information
+ */
+ThirdBodyGravity InitThirdBodyGravity(const std::string initialize_file_path, const std::string ini_path_celes);
+
 #endif  // S2E_DISTURBANCES_THIRD_BODY_GRAVITY_HPP_

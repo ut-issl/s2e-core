@@ -118,6 +118,8 @@ DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>
   coefficients_temp[4] = 106151040.0;
   coefficients_temp = 11.0 / 2467955532.0 * coefficients_temp;
   coefficients_.push_back(coefficients_temp);
+
+  this->CalcSlope();
 }
 
 template <size_t N>

@@ -93,4 +93,13 @@ class TorqueGenerator : public Component, public ILoggable {
   const Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };
 
+/**
+ * @fn InitializeTorqueGenerator
+ * @brief Initialize function for TorqueGenerator
+ * @param [in] clock_generator: Clock generator
+ * @param [in] file_name: Path to initialize file
+ * @param [in] dynamics: Dynamics information
+ */
+TorqueGenerator InitializeTorqueGenerator(ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics);
+
 #endif  // S2E_COMPONENTS_IDEAL_TORQUE_GENERATOR_HPP_

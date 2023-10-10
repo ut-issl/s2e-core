@@ -26,13 +26,6 @@ enum class HeaterStatus {
  * @brief class for heater hardware
  */
 class Heater {
- protected:
-  unsigned int heater_id_;      // heater id (Use values over 1)
-  double power_rating_W_;       // Power Rating (100% Duty) [W]
-
-  HeaterStatus heater_status_;  // Power Status of Heater
-  double power_output_W_;       // Power Output of Heater [W]
-
  public:
   /**
    * @fn Heater
@@ -41,7 +34,7 @@ class Heater {
    * @param [in] heater_id
    * @param [in] power_rating_W: Power Rating (100% Duty Output) of Heater [W]
    */
-  Heater(const unsigned int heater_id, const double power_rating_W);
+  Heater(const size_t heater_id, const double power_rating_W);
   /**
    * @fn ~Heater
    * @brief Destroy the Heater object
@@ -53,7 +46,7 @@ class Heater {
    * @fn GetHeaterID
    * @brief Return Heater Id
    */
-  inline int GetHeaterId(void) const { return heater_id_; }
+  inline size_t GetHeaterId(void) const { return heater_id_; }
   /**
    * @fn GetPowerRating_W
    * @brief Return power rating [W]
@@ -83,6 +76,19 @@ class Heater {
    * @brief Print power_rating_W, heater_status_, power_output_W_
    */
   void PrintParam(void);
+
+ protected:
+  size_t heater_id_;       // heater id (Use values over 1)
+  double power_rating_W_;  // Power Rating (100% Duty) [W]
+
+  HeaterStatus heater_status_;  // Power Status of Heater
+  double power_output_W_;       // Power Output of Heater [W]
+
+  /**
+   * @fn AssertHeaterParams
+   * @brief Check Heater Parameters
+   */
+  void AssertHeaterParams(void);
 };
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATER_HPP_

@@ -41,6 +41,8 @@ class Sensor {
   ~Sensor();
 
  protected:
+  libra::Vector<N> bias_noise_c_;  //!< Constant bias noise at the component frame
+
   /**
    * @fn Measure
    * @brief Return the observed data after adding the noise
@@ -53,7 +55,6 @@ class Sensor {
   libra::Matrix<N, N> scale_factor_;            //!< Scale factor matrix
   libra::Vector<N> range_to_const_c_;           //!< Output range limit to be constant output value at the component frame
   libra::Vector<N> range_to_zero_c_;            //!< Output range limit to be zero output value at the component frame
-  libra::Vector<N> bias_noise_c_;               //!< Constant bias noise at the component frame
   libra::NormalRand normal_random_noise_c_[N];  //!< Normal random
   RandomWalk<N> random_walk_noise_c_;           //!< Random Walk
 
@@ -70,6 +71,19 @@ class Sensor {
    */
   void RangeCheck(void);
 };
+
+/**
+ * @fn ReadSensorInformation
+ * @brief Read information from initialize file for Sensor class
+ * @note It is recommended to use this function for all sensors inherits the Sensor class
+ * @param [in] file_name: Path to the initialize file
+ * @param [in] step_width_s: Step width of component update [sec]
+ * @param [in] component_name: Component name
+ * @param [in] unit: Unit of the sensor information
+ */
+template <size_t N>
+Sensor<N> ReadSensorInformation(const std::string file_name, const double step_width_s, const std::string component_name,
+                                const std::string unit = "");
 
 #include "./sensor_template_functions.hpp"
 
