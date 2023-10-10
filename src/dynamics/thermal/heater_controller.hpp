@@ -81,4 +81,12 @@ class HeaterController {
   void AssertHeaterControllerParams(void);
 };
 
+/**
+ * @fn InitHeaterController
+ * @brief Initialize HeaterController object from csv file
+ * @param[in] heater_str: str read from csv file
+ * @return HeaterController
+ */
+HeaterController InitHeaterController(const std::vector<std::string>& heater_str);
+
 #endif  // S2E_DYNAMICS_THERMAL_HEATER_CONTROLLER_HPP_
