@@ -19,8 +19,7 @@
 #include "library/logger/log_utility.hpp"
 
 CelestialInformation::CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting,
-                                           const std::string center_body_name, const EarthRotationMode earth_rotation_mode,
-                                           const unsigned int number_of_selected_body, int* selected_body_ids,
+                                           const std::string center_body_name, const unsigned int number_of_selected_body, int* selected_body_ids,
                                            const std::vector<std::string> rotation_mode_list)
     : number_of_selected_bodies_(number_of_selected_body),
       selected_body_ids_(selected_body_ids),
@@ -65,7 +64,7 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
   }
 
   // Initialize rotation
-  earth_rotation_ = new EarthRotation(earth_rotation_mode);
+  earth_rotation_ = new EarthRotation(ConvertEarthRotationMode(GetRotationMode("EARTH")));
   moon_rotation_ = new MoonRotation(*this, ConvertMoonRotationMode(GetRotationMode("MOON")));
 }
 
@@ -235,13 +234,10 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
   }
 
   // Read Rotation setting
-  std::string rotation_mode_string = ini_file.ReadString(section, "earth_rotation_mode");
-  EarthRotationMode rotation_mode = ConvertEarthRotationMode(rotation_mode_string);
-  std::vector<std::string> rotation_mode_list = ini_file.ReadVectorString(section, "is_enable_body_rotation", num_of_selected_body);
+  std::vector<std::string> rotation_mode_list = ini_file.ReadVectorString(section, "rotation_mode", num_of_selected_body);
 
   CelestialInformation* celestial_info;
-  celestial_info =
-      new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body, rotation_mode_list);
+  celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, num_of_selected_body, selected_body, rotation_mode_list);
 
   // log setting
   celestial_info->is_log_enabled_ = ini_file.ReadEnable(section, INI_LOG_LABEL);

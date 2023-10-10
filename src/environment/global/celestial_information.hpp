@@ -30,14 +30,12 @@ class CelestialInformation : public ILoggable {
    * @param [in] inertial_frame_name:  Definition of inertial frame
    * @param [in] aberration_correction_setting: Stellar aberration correction
    * @param [in] center_body_name: Center body name of inertial frame
-   * @param [in] earth_rotation_mode: Designation of rotation model
    * @param [in] number_of_selected_body: Number of selected body
    * @param [in] selected_body_ids: SPICE IDs of selected bodies
    * @param [in] rotation_mode_list: Rotation mode list for planets
    */
   CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting, const std::string center_body_name,
-                       const EarthRotationMode earth_rotation_mode, const unsigned int number_of_selected_body, int* selected_body_ids,
-                       const std::vector<std::string> rotation_mode_list);
+                       const unsigned int number_of_selected_body, int* selected_body_ids, const std::vector<std::string> rotation_mode_list);
   /**
    * @fn CelestialInformation
    * @brief Copy constructor

@@ -38,11 +38,11 @@ void MoonRotation::Update(const SimulationTime& simulation_time) {
 
 MoonRotationMode ConvertMoonRotationMode(const std::string mode) {
   MoonRotationMode rotation_mode;
-  if (mode == "Idle") {
+  if (mode == "IDLE") {
     rotation_mode = MoonRotationMode::kIdle;
-  } else if (mode == "Simple") {
+  } else if (mode == "SIMPLE") {
     rotation_mode = MoonRotationMode::kSimple;
-  } else if (mode == "IauMoon") {
+  } else if (mode == "IAU_MOON") {
     rotation_mode = MoonRotationMode::kIauMoon;
   } else  // if rotation_mode is neither Idle, Simple, nor Full, set rotation_mode to Idle
   {
