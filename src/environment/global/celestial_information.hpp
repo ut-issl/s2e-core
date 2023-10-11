@@ -7,7 +7,7 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_HPP_
 
-#include "celestial_rotation.hpp"
+#include "earth_rotation.hpp"
 #include "library/logger/loggable.hpp"
 #include "library/math/vector.hpp"
 #include "simulation_time.hpp"
@@ -25,12 +25,12 @@ class CelestialInformation : public ILoggable {
    * @param [in] inertial_frame_name:  Definition of inertial frame
    * @param [in] aberration_correction_setting: Stellar aberration correction
    * @param [in] center_body_name: Center body name of inertial frame
-   * @param [in] rotation_mode: Designation of rotation model
+   * @param [in] earth_rotation_mode: Designation of rotation model
    * @param [in] number_of_selected_body: Number of selected body
    * @param [in] selected_body_ids: SPICE IDs of selected bodies
    */
   CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting, const std::string center_body_name,
-                       const RotationMode rotation_mode, const unsigned int number_of_selected_body, int* selected_body_ids);
+                       const EarthRotationMode earth_rotation_mode, const unsigned int number_of_selected_body, int* selected_body_ids);
   /**
    * @fn CelestialInformation
    * @brief Copy constructor
@@ -174,7 +174,7 @@ class CelestialInformation : public ILoggable {
    * @fn GetEarthRotation
    * @brief Return EarthRotation information
    */
-  inline CelestialRotation GetEarthRotation(void) const { return *earth_rotation_; };
+  inline EarthRotation GetEarthRotation(void) const { return *earth_rotation_; };
 
   // Calculation
   /**
@@ -210,8 +210,7 @@ class CelestialInformation : public ILoggable {
                                                        // Y-axis equal to the cross product of the unit Z-axis and X-axis vectors
 
   // Rotational Motion of each planets
-  CelestialRotation* earth_rotation_;  //!< Instance of Earth rotation
-  RotationMode rotation_mode_;         //!< Designation of rotation model
+  EarthRotation* earth_rotation_;  //!< Instance of Earth rotation
 
   /**
    * @fn GetPlanetOrbit

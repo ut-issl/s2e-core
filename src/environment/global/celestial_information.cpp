@@ -19,14 +19,13 @@
 #include "library/logger/log_utility.hpp"
 
 CelestialInformation::CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting,
-                                           const std::string center_body_name, const RotationMode rotation_mode,
+                                           const std::string center_body_name, const EarthRotationMode earth_rotation_mode,
                                            const unsigned int number_of_selected_body, int* selected_body_ids)
     : number_of_selected_bodies_(number_of_selected_body),
       selected_body_ids_(selected_body_ids),
       inertial_frame_name_(inertial_frame_name),
       center_body_name_(center_body_name),
-      aberration_correction_setting_(aberration_correction_setting),
-      rotation_mode_(rotation_mode) {
+      aberration_correction_setting_(aberration_correction_setting) {
   // Initialize list
   unsigned int num_of_state = number_of_selected_bodies_ * 3;
   celestial_body_position_from_center_i_m_ = new double[num_of_state];
@@ -64,15 +63,14 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
   }
 
   // Initialize rotation
-  earth_rotation_ = new CelestialRotation(rotation_mode_, center_body_name_);
+  earth_rotation_ = new EarthRotation(earth_rotation_mode);
 }
 
 CelestialInformation::CelestialInformation(const CelestialInformation& obj)
     : number_of_selected_bodies_(obj.number_of_selected_bodies_),
       inertial_frame_name_(obj.inertial_frame_name_),
       center_body_name_(obj.center_body_name_),
-      aberration_correction_setting_(obj.aberration_correction_setting_),
-      rotation_mode_(obj.rotation_mode_) {
+      aberration_correction_setting_(obj.aberration_correction_setting_) {
   unsigned int num_of_state = number_of_selected_bodies_ * 3;
 
   selected_body_ids_ = new int[number_of_selected_bodies_];
@@ -124,7 +122,7 @@ void CelestialInformation::UpdateAllObjectsInformation(const SimulationTime& sim
     }
   }
 
-  // Update celestial rotation
+  // Update earth rotation
   earth_rotation_->Update(simulation_time.GetCurrentTime_jd());
 }
 
@@ -232,18 +230,8 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
   }
 
   // Read Rotation setting
-  RotationMode rotation_mode;
-  std::string rotation_mode_temp = ini_file.ReadString(section, "rotation_mode");
-  if (rotation_mode_temp == "Idle") {
-    rotation_mode = RotationMode::kIdle;
-  } else if (rotation_mode_temp == "Simple") {
-    rotation_mode = RotationMode::kSimple;
-  } else if (rotation_mode_temp == "Full") {
-    rotation_mode = RotationMode::kFull;
-  } else  // if rotation_mode is neither Idle, Simple, nor Full, set rotation_mode to Idle
-  {
-    rotation_mode = RotationMode::kIdle;
-  }
+  std::string rotation_mode_string = ini_file.ReadString(section, "earth_rotation_mode");
+  EarthRotationMode rotation_mode = ConvertEarthRotationMode(rotation_mode_string);
 
   CelestialInformation* celestial_info;
   celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, rotation_mode, num_of_selected_body, selected_body);

@@ -103,7 +103,7 @@ void LunarGravityField::Update(const LocalEnvironment &local_environment, const 
 #endif
 
   libra::Matrix<3, 3> trans_eci2mcmf_ =
-      local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf();  // FIXME: use moon rotation
+      local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef();  // FIXME: use moon rotation
   libra::Matrix<3, 3> trans_mcmf2eci = trans_eci2mcmf_.Transpose();
   acceleration_i_m_s2_ = trans_mcmf2eci * acceleration_mcmf_m_s2_;
 }
