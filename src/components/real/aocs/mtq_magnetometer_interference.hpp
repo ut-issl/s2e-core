@@ -16,11 +16,12 @@
 class MtqMagnetometerInterference {
  public:
   /**
-   * @fn MtqMagnetometerInterference
+   * @fn MtqMagnetometerInterference mid night
    * @brief Constructor
    * @param[in] ini_file: initialize file
    */
-  MtqMagnetometerInterference(const std::string file_name, Magnetometer& magnetometer, const Magnetorquer& magnetorquer);
+  MtqMagnetometerInterference(const std::string file_name, Magnetometer& magnetometer, const Magnetorquer& magnetorquer,
+                              const size_t initialize_id = 0);
 
   /**
    * @fn UpdateInterference
