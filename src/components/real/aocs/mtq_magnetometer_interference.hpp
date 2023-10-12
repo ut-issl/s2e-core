@@ -16,7 +16,7 @@
 class MtqMagnetometerInterference {
  public:
   /**
-   * @fn MtqMagnetometerInterference mid night
+   * @fn MtqMagnetometerInterference
    * @brief Constructor
    * @param[in] ini_file: initialize file
    */
