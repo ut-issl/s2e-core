@@ -36,6 +36,7 @@ libra::Matrix<3, 3> CalcDcmEciToMeanEarth(const libra::Vector<3> moon_position_e
 }
 
 libra::Matrix<3, 3> CalcDcmMeanEarthToPrincipalAxis() {
+  // The correction values between DE430 Principal Axis and Mean Earth frame
   const double theta_x_rad = 0.285 * libra::arcsec_to_rad;
   const double theta_y_rad = 78.580 * libra::arcsec_to_rad;
   const double theta_z_rad = 67.573 * libra::arcsec_to_rad;
