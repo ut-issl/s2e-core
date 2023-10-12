@@ -73,6 +73,8 @@
 ## How to use S2E
 
 - Please see [s2e-documents' getting started page](https://github.com/ut-issl/s2e-documents/blob/develop/Tutorials/GettingStarted.md).
+- We also have the `Development environment manuals`. You can find the link in the [Discussion page](https://github.com/ut-issl/s2e-core/discussions)
+  - Sorry, but we only have manuals written in Japanese now. We need help to translate them.
 - Support compiler
   - The following compilers are supported. The details are shown in GitHub Actions' results.
     - gcc/g++
