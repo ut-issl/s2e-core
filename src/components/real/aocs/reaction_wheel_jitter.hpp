@@ -19,6 +19,11 @@ class ReactionWheelJitter {
  public:
   /**
    * @fn ReactionWheelJitter
+   * @brief Default Constructor
+   */
+  ReactionWheelJitter() {}
+  /**
+   * @fn ReactionWheelJitter
    * @brief Constructor
    * @param [in] radial_force_harmonics_coefficients: Coefficients for radial force harmonics
    * @param [in] radial_torque_harmonics_coefficients: Coefficients for radial torque harmonics
@@ -75,7 +80,7 @@ class ReactionWheelJitter {
   std::vector<std::vector<double>> radial_force_harmonics_coefficients_;   //!< Coefficients for radial force harmonics
   std::vector<std::vector<double>> radial_torque_harmonics_coefficients_;  //!< Coefficients for radial torque harmonics
 
-  const double update_interval_s_;    //!< Jitter update interval [sec]
+  double update_interval_s_;          //!< Jitter update interval [sec]
   libra::Quaternion quaternion_b2c_;  //!< Quaternion from body frame to component frame
 
   double structural_resonance_frequency_Hz_;          //!< Frequency of structural resonance [Hz]

@@ -51,11 +51,12 @@ time = read_scalar_from_csv(read_file_name, 'elapsed_time[s]')
 angular_velocity_rad_s = read_scalar_from_csv(read_file_name, 'rw1_angular_velocity[rad/s]')
 angular_velocity_rpm = read_scalar_from_csv(read_file_name, 'rw1_angular_velocity[rpm]')
 angular_acceleration_rad_s2 = read_scalar_from_csv(read_file_name, 'rw1_angular_acceleration[rad/s2]')
+target_angular_acceleration_rad_s2 = read_scalar_from_csv(read_file_name, 'rw1_target_angular_acceleration[rad/s2]')
 
 #
 # Plot
 #
-fig, axis = plt.subplots(3, 1, squeeze = False, tight_layout = True, sharex = True)
+fig, axis = plt.subplots(4, 1, squeeze = False, tight_layout = True, sharex = True)
 axis[0, 0].plot(time[0], angular_velocity_rad_s[0], marker=".", c="red", label="rad/s")
 axis[0, 0].set(ylabel = "Angular velocity rad/s")
 axis[0, 0].legend(loc = 'upper right')
@@ -67,6 +68,10 @@ axis[1, 0].legend(loc = 'upper right')
 axis[2, 0].plot(time[0], angular_acceleration_rad_s2[0], marker=".", c="blue", label="rad/s2")
 axis[2, 0].set(ylabel = "Angular acceleration rad/s2")
 axis[2, 0].legend(loc = 'upper right')
+
+axis[3, 0].plot(time[0], target_angular_acceleration_rad_s2[0], marker=".", c="blue", label="rad/s2")
+axis[3, 0].set(ylabel = "Target angular acceleration rad/s2")
+axis[3, 0].legend(loc = 'upper right')
 
 fig.suptitle("Reaction Wheel Output")
 fig.supxlabel("Time [s]")
