@@ -79,10 +79,12 @@
     - clang++
     - Visual Studio C++s
 
-## Examples of User side
+## Examples of User side repository
 
 - [S2E-FF](https://github.com/ut-issl/s2e-ff)
   - An example of S2E user side repository for Formation Flying study.
+- [S2E-AOBC](https://github.com/ut-issl/s2e-aobc)
+  - A user side repository for the AOCS module.
 
 ## Used Projects
 
