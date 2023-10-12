@@ -37,7 +37,7 @@
   2. Edit, commit, and push in the branch.
      - Please check the [coding convention](https://github.com/ut-issl/s2e-documents/blob/develop/General/CodingConvention.md) and the `code format` in next section.
   3. Create a new pull request to the `develop` branch.
-     - The target branch becomes the `main` branch for the `hotfix/*` branchs.
+     - The target branch becomes the `main` branch for the `hotfix/*` branches.
   4. A maintainer reviews the pull request. If some problems are found, the maintainer proposes modifications.
   5. According to the maintainer's proposal, the developer modifies the codes and goes back to 3.
   6. The maintainer merges the `feature/*` branch to the `develop` branch.
@@ -86,12 +86,13 @@
 
 ## Used Projects
 
-| Project Name          | Developer               | Launch  | Refs       |
-| ----------------------| ----------------------- | ------- | ---------- |
-| MAGNARO               | Nagoya Univ.            | 2022    | -          |
-| EQUULEUS              | ISSL, UT / JAXA         | 2022    | -          |
-| Optimal-1             | ArkEdge Space Inc.      | -       | -          |
-| ONGLAISAT             | ISSL, UT                | -       | [Ikari 2022](https://archive.ists.ne.jp/upload_pdf/F-9-05.pdf)    |
+| Project Name          | Developer                             | Launch  | Refs       |
+| ----------------------| ------------------------------------  | ------- | ---------- |
+| MAGNARO               | Nagoya Univ.                          | 2022    | -          |
+| EQUULEUS              | ISSL, UT / JAXA                       | 2022    | -          |
+| Optimal-1             | ArkEdge Space Inc.                    | 2023    | -          |
+| SPHERE-1 EYE          | Sony Group Corporation and ISSL, UT   | 2023    | -          |
+| ONGLAISAT             | ISSL, UT                              | -       | [Ikari 2022](https://doi.org/10.57350/jesa.63)    |
 
 
 ## Collaborators
@@ -100,5 +101,5 @@
 
 
 ## Publications
-1. S. Ikari, and et al., "Development of Compact and Highly Capable Integrated AOCS Module for CubeSats", [2022-f-41](https://archive.ists.ne.jp/upload_pdf/F-9-05.pdf), 33rd ISTS, 2022.
+1. S. Ikari, and et al., "Development of Compact and Highly Capable Integrated AOCS Module for CubeSats", Journal of Evolving Space Activities, vol. 1, ID 63, 2023. [Link](https://doi.org/10.57350/jesa.63)
 1. 五十里, 他, "宇宙開発の効率化・高度化を目指した東京大学中須賀・船瀬研のOSS活動", [UNISEC2022-04](http://unisec.jp/archives/7836), 12th UNISEC Space Takumi Conference, 2022.
