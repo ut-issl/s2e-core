@@ -84,6 +84,13 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
   thruster_ = new SimpleThruster(InitSimpleThruster(clock_generator, pcu_->GetPowerPort(2), 1, file_name, structure_, dynamics));
 
+    // Mission
+  const std::string telescope_ini_path = iniAccess.ReadString("COMPONENTS_FILE", "telescope_file");
+  telescope_ = new Telescope(InitTelescope(clock_generator, 1, telescope_ini_path, &(dynamics_->GetAttitude()),
+                                           &(global_environment_->GetHipparcosCatalog()), &(local_environment_->GetCelestialInformation()),
+                                           &(global_environment_->GetCelestialInformation())
+                                           , &(dynamics_->GetOrbit())));
+
   // Force Generator
   file_name = iniAccess.ReadString("COMPONENT_FILES", "force_generator_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
@@ -183,6 +190,7 @@ libra::Vector<3> SampleComponents::GenerateTorque_b_Nm() {
 void SampleComponents::ComponentInterference() { mtq_magnetometer_interference_->UpdateInterference(); }
 
 void SampleComponents::LogSetup(Logger& logger) {
+  logger.AddLogList(telescope_);
   logger.AddLogList(gyro_sensor_);
   logger.AddLogList(magnetometer_);
   logger.AddLogList(star_sensor_);

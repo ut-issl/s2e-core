@@ -15,7 +15,8 @@ using namespace libra;
 Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
                      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix,
                      const int y_number_of_pix, const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars,
-                     const Attitude* attitude, const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information)
+                     const Attitude* attitude, const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
+                     const CelestialInformation* celestial_information, const Orbit* orbit)
     : Component(1, clock_generator),
       quaternion_b2c_(quaternion_b2c),
       sun_forbidden_angle_rad_(sun_forbidden_angle_rad),
@@ -28,7 +29,9 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
       number_of_logged_stars_(number_of_logged_stars),
       attitude_(attitude),
       hipparcos_(hipparcos),
-      local_celestial_information_(local_celestial_information) {
+      local_celestial_information_(local_celestial_information),
+      celestial_information_(celestial_information),
+      orbit_(orbit) {
   is_sun_in_forbidden_angle = true;
   is_earth_in_forbidden_angle = true;
   is_moon_in_forbidden_angle = true;
@@ -52,7 +55,13 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
     star.position_image_sensor[1] = -1;
 
     star_list_in_sight.push_back(star);
-  }
+    }
+  //Get initial spacecraft position in ECEF
+  initial_spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
+  //Get initial spacecraft altitude
+  initial_spacecraft_position_ecef_m /= initial_spacecraft_position_ecef_m.CalcNorm(); //Get initial spacecraft orbit diameter
+  //Get initial groud position altitude
+  initial_ground_position_ecef_m = (initial_spacecraft_position_ecef_m *= 63778173.0);
 }
 
 Telescope::~Telescope() {}
@@ -70,6 +79,8 @@ void Telescope::MainRoutine(const int time_count) {
   // Position calculation of stars from Hipparcos Catalogue
   // No update when Hipparocos Catalogue was not readed
   if (hipparcos_->IsCalcEnabled) ObserveStars();
+  // direction calculation of ground point
+  ObserveGroundPosition();
   // Debug ******************************************************************
   //  sun_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("SUN"));
   //  earth_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("EARTH"));
@@ -151,19 +162,28 @@ void Telescope::ObserveStars() {
 }
 
 void Telescope::ObserveGroundPosition() {
-  while (1) {
-    libra::Vector<3> direction_i;
-    libra::Vector<3> direction_b;
-    direction_i[0] = -709414.669729 - spacecraft_position_i_x;
-    direction_i[1] = -6025082.13202 - spacecraft_position_i_y;
-    direction_i[2] = 1960139.47136 - spacecraft_position_i_z;
-    direction_b = quaternion_i2b.FrameConversion(direction_i);
-    libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b); // Get ground position direction vector in component frame (c)
+  Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
 
-    double arg_x = atan2(target_c[2], target_c[0]);  // Angle from X-axis on XZ plane in the component frame
-    double arg_y = atan2(target_c[1], target_c[0]);  // Angle from X-axis on XY plane in the component frame
-  } 
-} 
+  //while (1) {
+    libra::Vector<3> direction_ecef; //libraはnamespace
+    libra::Vector<3> direction_b;
+    libra::Vector<3> direction_i;
+    libra::Vector<3> spacecraft_position_ecef_m_ = orbit_->GetPosition_ecef_m();
+
+    direction_ecef = initial_ground_position_ecef_m - spacecraft_position_ecef_m_; // Get the direction vector from spacecraft to ground point in ECEF
+    
+    // Get the Direction Cosine Matrix (DCM) from ECEF to ECI
+    libra::Matrix<3, 3> dcm_ecef_to_i = celestial_information_->GetEarthRotation().GetDcmJ2000ToXcxf().Transpose();
+    // Convert the position vector in ECEF to the vector in ECI
+    direction_i = (dcm_ecef_to_i * direction_ecef).CalcNormalizedVector();
+    
+    direction_b = quaternion_i2b.FrameConversion(direction_i);
+    // libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b); // Get ground position direction vector in component frame (c)
+
+    ground_arg_x = atan2(direction_b[2], direction_b[0]); // Angle from X-axis on XZ plane in the component frame
+    ground_arg_y = atan2(direction_b[2], direction_b[1]); // Angle from Y-axis on YZ plane in the component frame
+  //} 
+}
   
   string Telescope::GetLogHeader() const {
   string str_tmp = "";
@@ -176,6 +196,8 @@ void Telescope::ObserveGroundPosition() {
   str_tmp += WriteVector(component_name + "sun_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "earth_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "moon_position", "img", "pix", 2);
+  str_tmp += WriteScalar(component_name + "ground_position_angle_x", "rad");
+  str_tmp += WriteScalar(component_name + "ground_position_angle_y", "rad");
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
     for (size_t i = 0; i < number_of_logged_stars_; i++) {
@@ -201,6 +223,8 @@ string Telescope::GetLogValue() const {
   str_tmp += WriteVector(sun_position_image_sensor);
   str_tmp += WriteVector(earth_position_image_sensor);
   str_tmp += WriteVector(moon_position_image_sensor);
+  str_tmp += WriteScalar(ground_arg_x);
+  str_tmp += WriteScalar(ground_arg_y);
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
     for (size_t i = 0; i < number_of_logged_stars_; i++) {
@@ -219,7 +243,8 @@ string Telescope::GetLogValue() const {
 }
 
 Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const string file_name, const Attitude* attitude,
-                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information) {
+                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
+                        const CelestialInformation* celestial_information, const Orbit* orbit) {
   using libra::pi;
 
   IniAccess Telescope_conf(file_name);
@@ -254,7 +279,7 @@ Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const st
   int number_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "number_of_stars_for_log");
 
   Telescope telescope(clock_generator, quaternion_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_number_of_pix,
-                      y_number_of_pix, x_fov_per_pix_rad, y_fov_per_pix_rad, number_of_logged_stars, attitude, hipparcos,
-                      local_celestial_information);
+                      y_number_of_pix, x_fov_per_pix_rad, y_fov_per_pix_rad, number_of_logged_stars, attitude, hipparcos, local_celestial_information,
+                      celestial_information, orbit);
   return telescope;
 }

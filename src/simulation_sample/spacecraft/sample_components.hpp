@@ -24,6 +24,7 @@
 #include <components/real/communication/antenna.hpp>
 #include <components/real/power/power_control_unit.hpp>
 #include <components/real/propulsion/simple_thruster.hpp>
+#include <components/real/mission/telescope.hpp>
 #include <dynamics/dynamics.hpp>
 #include <library/math/vector.hpp>
 #include <simulation/hils/hils_port_manager.hpp>
@@ -42,6 +43,7 @@ class ReactionWheel;
 class SimpleThruster;
 class ForceGenerator;
 class TorqueGenerator;
+class Telescope;
 
 /**
  * @class SampleComponents
@@ -104,6 +106,9 @@ class SampleComponents : public InstalledComponents {
   SimpleThruster* thruster_;           //!< Thruster
   ForceGenerator* force_generator_;    //!< Ideal Force Generator
   TorqueGenerator* torque_generator_;  //!< Ideal Torque Generator
+
+  // Mission
+  Telescope* telescope_; //!< Telescope
 
   // CommGs
   Antenna* antenna_;  //!< Antenna

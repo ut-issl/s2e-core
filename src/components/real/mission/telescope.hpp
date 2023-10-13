@@ -7,8 +7,11 @@
 #define S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_
 
 #include <dynamics/attitude/attitude.hpp>
+#include <dynamics/orbit/orbit.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
 #include <environment/local/local_celestial_information.hpp>
+#include <environment/global/celestial_information.hpp>
+#include <library/geodesy/geodetic_position.hpp>
 #include <library/logger/loggable.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
@@ -47,11 +50,14 @@ class Telescope : public Component, public ILoggable {
    * @param [in] attitude: Attitude Information
    * @param [in] hipparcos: Hipparcos catalogue information
    * @param [in] local_celestial_information: Local celestial information
+   * @param [in] celestial_information: Celestial information
+   * @param [in] orbit: Orbit information
    */
   Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
             const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const Attitude* attitude,
-            const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information);
+            const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const CelestialInformation* celestial_information,
+            const Orbit* orbit);
   /**
    * @fn ~Telescope
    * @brief Destructor
@@ -65,6 +71,10 @@ class Telescope : public Component, public ILoggable {
 
  protected:
  private:
+  libra::Vector<3> initial_spacecraft_position_ecef_m;  //!< Initial spacecraft position
+  libra::Vector<3> initial_ground_position_ecef_m;  //!< Initial spacecraft position 
+  double ground_arg_x = 0.0; //!< Ground position argument x
+  double ground_arg_y = 0.0; //!< Ground position argument y
   libra::Quaternion quaternion_b2c_;    //!< Quaternion from the body frame to component frame
   libra::Vector<3> sight_direction_c_;  //!< Sight direction vector in the component frame
 
@@ -127,8 +137,13 @@ class Telescope : public Component, public ILoggable {
   * @fn Observe
   * @brief Observe Ground Position
   */
-  void ObserverGroundPosition();
-  
+  void ObserveGroundPosition();
+
+  protected:
+  const CelestialInformation* celestial_information_;  //!< Celestial information
+
+  const Orbit* orbit_;        //!< Orbit information
+
   // Override ILoggable
   /**
    * @fn GetLogHeader
@@ -162,6 +177,7 @@ class Telescope : public Component, public ILoggable {
  * @param [in] local_celestial_information: Local celestial information
  */
 Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, const Attitude* attitude,
-                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information);
+                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
+                        const CelestialInformation* celestial_information, const Orbit* orbit);
 
 #endif  // S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_
