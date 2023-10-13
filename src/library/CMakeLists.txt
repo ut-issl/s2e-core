@@ -31,6 +31,8 @@ add_library(${PROJECT_NAME} STATIC
   orbit/kepler_orbit.cpp
   orbit/relative_orbit_models.cpp
 
+  planet_rotation/moon_rotation_utilities.cpp
+
   external/igrf/igrf.cpp
   external/inih/ini.c
   external/inih/cpp/INIReader.cpp

@@ -61,7 +61,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
                                                      &(global_environment_->GetGnssSatellites()), &(global_environment_->GetSimulationTime())));
 
   // Magnetorquer
-  file_name = iniAccess.ReadString("COMPONENT_FILES", "magetorquer_file");
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "magnetorquer_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
   magnetorquer_ = new Magnetorquer(InitMagnetorquer(clock_generator, pcu_->GetPowerPort(2), 1, file_name,
                                                     global_environment_->GetSimulationTime().GetComponentStepTime_s(),
@@ -70,9 +70,8 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // RW
   file_name = iniAccess.ReadString("COMPONENT_FILES", "rw_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
-  reaction_wheel_ = new ReactionWheel(InitReactionWheel(clock_generator, pcu_->GetPowerPort(2), 1, file_name,
-                                                        global_environment_->GetSimulationTime().GetAttitudeUpdateInterval_s(),
-                                                        global_environment_->GetSimulationTime().GetComponentStepTime_s()));
+  reaction_wheel_ = new ReactionWheel(
+      InitReactionWheel(clock_generator, pcu_->GetPowerPort(2), 1, file_name, global_environment_->GetSimulationTime().GetComponentStepTime_s()));
 
   // Torque Generator
   file_name = iniAccess.ReadString("COMPONENT_FILES", "torque_generator_file");

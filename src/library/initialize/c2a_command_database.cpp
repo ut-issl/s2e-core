@@ -13,6 +13,7 @@
 
 C2aCommandInformation::C2aCommandInformation(const std::string cmd_db_line) {
   if (cmd_db_line.find("*") == 0) return;
+  if (cmd_db_line.find(",") != 0) return;
 
   // CSV
   std::string token;
@@ -24,6 +25,7 @@ C2aCommandInformation::C2aCommandInformation(const std::string cmd_db_line) {
 
   // Command name
   command_name_ = tokens[1];
+  if (command_name_.empty()) return;
 
   // Command ID
   command_id_ = std::stoul(tokens[3], nullptr, 0);

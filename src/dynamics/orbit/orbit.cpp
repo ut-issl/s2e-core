@@ -29,7 +29,7 @@ libra::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
 }
 
 void Orbit::TransformEciToEcef(void) {
-  libra::Matrix<3, 3> dcm_i_to_xcxf = celestial_information_->GetEarthRotation().GetDcmJ2000ToXcxf();
+  libra::Matrix<3, 3> dcm_i_to_xcxf = celestial_information_->GetEarthRotation().GetDcmJ2000ToEcef();
   spacecraft_position_ecef_m_ = dcm_i_to_xcxf * spacecraft_position_i_m_;
 
   // convert velocity vector in ECI to the vector in ECEF

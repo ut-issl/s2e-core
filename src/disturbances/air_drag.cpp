@@ -27,7 +27,7 @@ void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& 
   double air_density_kg_m3 = local_environment.GetAtmosphere().GetAirDensity_kg_m3();
 
   libra::Matrix<3, 3> dcm_ecef2eci =
-      local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf().Transpose();
+      local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
   libra::Vector<3> relative_velocity_wrt_atmosphere_i_m_s = dcm_ecef2eci * dynamics.GetOrbit().GetVelocity_ecef_m_s();
   libra::Quaternion quaternion_i2b = dynamics.GetAttitude().GetQuaternion_i2b();
   libra::Vector<3> velocity_b_m_s = quaternion_i2b.FrameConversion(relative_velocity_wrt_atmosphere_i_m_s);
