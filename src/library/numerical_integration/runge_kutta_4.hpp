@@ -6,6 +6,8 @@
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_4_HPP_
 #define S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_4_HPP_
 
+#include <library/utilities/macros.hpp>
+
 #include "runge_kutta.hpp"
 
 namespace libra::numerical_integration {
@@ -38,6 +40,14 @@ class RungeKutta4 : public RungeKutta<N> {
 
     this->rk_matrix_[1][0] = this->rk_matrix_[2][1] = 0.5;
     this->rk_matrix_[3][2] = 1.0;
+
+    this->CalcSlope();
+  }
+
+  // We did not implement the interpolation for RK4
+  Vector<N> CalcInterpolationState(const double sigma) const override {
+    UNUSED(sigma);
+    return this->current_state_;
   }
 };
 

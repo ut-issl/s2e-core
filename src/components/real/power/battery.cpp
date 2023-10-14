@@ -6,6 +6,7 @@
 #include "battery.hpp"
 
 #include <cmath>
+#include <library/initialize/initialize_file_access.hpp>
 
 Battery::Battery(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
                  const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
@@ -76,12 +77,56 @@ void Battery::MainRoutine(const int time_count) {
 }
 
 void Battery::UpdateBatVoltage() {
-  double cell_discharge_capasity = depth_of_discharge_percent_ / 100.0 * cell_capacity_Ah_;
+  double cell_discharge_capacity = depth_of_discharge_percent_ / 100.0 * cell_capacity_Ah_;
   double temp = 0.0;
   int index = 0;
   for (auto coeff : cell_discharge_curve_coefficients_) {
-    temp += coeff * std::pow(cell_discharge_capasity, index);
+    temp += coeff * std::pow(cell_discharge_capacity, index);
     ++index;
   }
   battery_voltage_V_ = temp * number_of_series_;
+}
+
+Battery InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_name, double component_step_time_s) {
+  IniAccess bat_conf(file_name);
+
+  const std::string section_name = "BATTERY_" + std::to_string(static_cast<long long>(bat_id));
+
+  int prescaler = bat_conf.ReadInt(section_name.c_str(), "prescaler");
+  if (prescaler <= 1) prescaler = 1;
+
+  int number_of_series;
+  number_of_series = bat_conf.ReadInt(section_name.c_str(), "number_of_series");
+
+  int number_of_parallel;
+  number_of_parallel = bat_conf.ReadInt(section_name.c_str(), "number_of_parallel");
+
+  double cell_capacity_Ah;
+  cell_capacity_Ah = bat_conf.ReadDouble(section_name.c_str(), "cell_capacity_Ah");
+
+  int approx_order;
+  approx_order = bat_conf.ReadInt(section_name.c_str(), "approximation_order");
+
+  std::vector<double> cell_discharge_curve_coefficients;
+  for (int i = 0; i <= approx_order; ++i) {
+    cell_discharge_curve_coefficients.push_back(
+        bat_conf.ReadDouble(section_name.c_str(), ("cell_discharge_curve_coefficients(" + std::to_string(i) + ")").c_str()));
+  }
+
+  double initial_dod;
+  initial_dod = bat_conf.ReadDouble(section_name.c_str(), "initial_dod");
+
+  double cc_charge_c_rate;
+  cc_charge_c_rate = bat_conf.ReadDouble(section_name.c_str(), "constant_charge_current_A_rate_C");
+
+  double cv_charge_voltage_V;
+  cv_charge_voltage_V = bat_conf.ReadDouble(section_name.c_str(), "constant_voltage_charge_voltage_V");
+
+  double battery_resistance_Ohm;
+  battery_resistance_Ohm = bat_conf.ReadDouble(section_name.c_str(), "battery_resistance_Ohm");
+
+  Battery battery(prescaler, clock_generator, number_of_series, number_of_parallel, cell_capacity_Ah, cell_discharge_curve_coefficients, initial_dod,
+                  cc_charge_c_rate, cv_charge_voltage_V, battery_resistance_Ohm, component_step_time_s);
+
+  return battery;
 }

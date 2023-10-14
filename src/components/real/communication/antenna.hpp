@@ -158,4 +158,12 @@ class Antenna {
 
 AntennaGainModel SetAntennaGainModel(const std::string gain_model_name);
 
+/*
+ * @fn InitAntenna
+ * @brief Initialize function for Antenna
+ * @param [in] antenna_id: Antenna ID
+ * @param [in] file_name: Path to initialize file
+ */
+Antenna InitAntenna(const int antenna_id, const std::string file_name);
+
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_HPP_

@@ -6,7 +6,6 @@
 #ifndef S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_
 #define S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_
 
-#include <environment/global/celestial_rotation.hpp>
 #include <library/geodesy/geodetic_position.hpp>
 #include <library/math/vector.hpp>
 #include <simulation/spacecraft/spacecraft.hpp>
@@ -44,7 +43,7 @@ class GroundStation : public ILoggable {
    * @fn Update
    * @brief Virtual function of main routine
    */
-  virtual void Update(const CelestialRotation& celestial_rotation, const Spacecraft& spacecraft);
+  virtual void Update(const EarthRotation& celestial_rotation, const Spacecraft& spacecraft);
 
   // Override functions for ILoggable
   /**

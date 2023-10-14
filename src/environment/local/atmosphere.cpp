@@ -7,6 +7,7 @@
 
 #include "library/atmosphere/harris_priester_model.hpp"
 #include "library/atmosphere/simple_air_density_model.hpp"
+#include "library/initialize/initialize_file_access.hpp"
 #include "library/logger/log_utility.hpp"
 #include "library/math/vector.hpp"
 #include "library/randomization/global_randomization.hpp"
@@ -96,4 +97,39 @@ std::string Atmosphere::GetLogHeader() const {
   str_tmp += WriteScalar("air_density_at_spacecraft_position", "kg/m3");
 
   return str_tmp;
+}
+
+Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCelestialInformation* local_celestial_information,
+                          const SimulationTime* simulation_time) {
+  auto conf = IniAccess(initialize_file_path);
+  const char* section = "ATMOSPHERE";
+  double f107_threshold = 50.0;
+  double f107_default = 150.0;
+
+  std::string model = conf.ReadString(section, "model");
+  std::string table_path = conf.ReadString(section, "nrlmsise00_table_file");
+  double rho_stddev = conf.ReadDouble(section, "air_density_standard_deviation");
+  bool is_manual_param_used = conf.ReadEnable(section, "is_manual_parameter_used");
+  double manual_daily_f107 = conf.ReadDouble(section, "manual_daily_f107");
+  if (manual_daily_f107 < f107_threshold) {
+    std::cerr << "Daily F10.7 may be too low. It is set as 150.0 in this simulation. "
+                 "Check [ATMOSPHERE] section in LocalEnvironment.ini."
+              << std::endl;
+    manual_daily_f107 = f107_default;
+  }
+  double manual_average_f107 = conf.ReadDouble(section, "manual_average_f107");
+  if (manual_average_f107 < f107_threshold) {
+    std::cerr << "Average F10.7 may be too low. It is set as 150.0 in this "
+                 "simulation. Check [ATMOSPHERE] section in LocalEnvironment.ini."
+              << std::endl;
+    manual_average_f107 = f107_default;
+  }
+  double manual_ap = conf.ReadDouble(section, "manual_ap");
+
+  Atmosphere atmosphere(model, table_path, rho_stddev, is_manual_param_used, manual_daily_f107, manual_average_f107, manual_ap,
+                        local_celestial_information, simulation_time);
+  atmosphere.SetCalcFlag(conf.ReadEnable(section, INI_CALC_LABEL));
+  atmosphere.is_log_enabled_ = conf.ReadEnable(section, INI_LOG_LABEL);
+
+  return atmosphere;
 }

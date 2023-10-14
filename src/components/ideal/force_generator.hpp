@@ -115,4 +115,13 @@ class ForceGenerator : public Component, public ILoggable {
   const Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };
 
+/**
+ * @fn InitializeForceGenerator
+ * @brief Initialize function for ForceGenerator
+ * @param [in] clock_generator: Clock generator
+ * @param [in] file_name: Path to initialize file
+ * @param [in] dynamics: Dynamics information
+ */
+ForceGenerator InitializeForceGenerator(ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics);
+
 #endif  // S2E_COMPONENTS_IDEAL_FORCE_GENERATOR_HPP_

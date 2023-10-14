@@ -40,6 +40,10 @@ DEFINE_MATH_CONSTANT(deg_to_rad, pi / 180.0L)             /* degree to radian */
 DEFINE_MATH_CONSTANT(rad_to_deg, 180.0L / pi)             /* radian to degree */
 DEFINE_MATH_CONSTANT(arcsec_to_rad, deg_to_rad / 3600.0L) /* arcsecond to radian */
 
+// angular velocity
+DEFINE_MATH_CONSTANT(rpm_to_rad_s, tau / 60.0L) /* rpm to rad/s */
+DEFINE_MATH_CONSTANT(rad_s_to_rpm, 60.0L / tau) /* rad/s to rpm */
+
 #undef DEFINE_MATH_CONSTANT
 }  // namespace numbers
 

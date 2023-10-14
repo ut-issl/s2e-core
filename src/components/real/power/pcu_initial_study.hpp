@@ -82,4 +82,17 @@ class PcuInitialStudy : public Component, public ILoggable {
   void UpdateChargeCurrentAndBusVoltage();
 };
 
+/*
+ * @fn InitPCU_InitialStudy
+ * @brief Initialize function of Battery
+ * @param [in] clock_generator: Clock generator
+ * @param [in] pcu_id: Power Control Unit ID
+ * @param [in] file_name: Path to initialize file
+ * @param [in] sap: Solar Array Panel infomation
+ * @param [in] battery: Battery information
+ * @param [in] component_step_time_s: Component step time [sec]
+ */
+PcuInitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id, const std::string file_name,
+                                     const std::vector<SolarArrayPanel*> saps, Battery* battery, double component_step_time_s);
+
 #endif  // S2E_COMPONENTS_REAL_POWER_PCU_INITIAL_STUDY_HPP_

@@ -1,26 +1,25 @@
 ---
 name: Action Item
-about: For Action Item management
+about: Create an action item
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-## Overview
-Write briefly.
-
 ## Details
-Write in detail.
+Provide a detailed description of the issue.
 
-## Conditions for close
-When xxx is complete.
+## Closing conditions
+Provide the conditions that must be met for the issue to be closed.
 
-## Supplement
-Write additional comments if you need.
+## Supplementary information
+Provide any supplementary information.
 
 ## Note
-- If there are related Projects, tie them together.
-- Set `priority` label if possible.
-- Assignees should be set if possible.
-- Write a conclusion when closing the issue.
+- Provide a conclusion before closing the issue.
+<!--
+- Link the issue to any related projects if applicable.
+- Assign the appropriate member(s) to this pull request as `Assignees`.
+- Apply the `priority` label.
+-->

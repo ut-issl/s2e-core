@@ -10,11 +10,12 @@
 #include <environment/global/physical_constants.hpp>
 #include <fstream>
 #include <iostream>
+#include <library/initialize/initialize_file_access.hpp>
 
 #include "../library/logger/log_utility.hpp"
 #include "../library/utilities/macros.hpp"
 
-#define DEBUG_LUNAR_GRAVITY_FIELD
+// #define DEBUG_LUNAR_GRAVITY_FIELD
 
 LunarGravityField::LunarGravityField(const int degree, const std::string file_path, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, false), degree_(degree) {
@@ -86,14 +87,19 @@ bool LunarGravityField::ReadCoefficientsGrgm1200a(std::string file_name) {
 }
 
 void LunarGravityField::Update(const LocalEnvironment &local_environment, const Dynamics &dynamics) {
-  libra::Vector<3> position_mcmf_m = dynamics.GetOrbit().GetPosition_ecef_m();
+  const CelestialInformation global_celestial_information = local_environment.GetCelestialInformation().GetGlobalInformation();
+  libra::Matrix<3, 3> dcm_mci2mcmf_ = global_celestial_information.GetMoonRotation().GetDcmJ2000ToMcmf();
+
+  libra::Vector<3> spacecraft_position_mci_m = dynamics.GetOrbit().GetPosition_i_m();
+  libra::Vector<3> spacecraft_position_mcmf_m = dcm_mci2mcmf_ * spacecraft_position_mci_m;
+
 #ifdef DEBUG_LUNAR_GRAVITY_FIELD
   std::chrono::system_clock::time_point start, end;
   start = std::chrono::system_clock::now();
-  position_mcmf_m = debug_pos_mcmf_m_;
+  spacecraft_position_mcmf_m = debug_pos_mcmf_m_;
 #endif
 
-  acceleration_mcmf_m_s2_ = lunar_potential_.CalcAcceleration_xcxf_m_s2(position_mcmf_m);
+  acceleration_mcmf_m_s2_ = lunar_potential_.CalcAcceleration_xcxf_m_s2(spacecraft_position_mcmf_m);
 #ifdef DEBUG_LUNAR_GRAVITY_FIELD
   end = std::chrono::system_clock::now();
   time_ms_ = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.0);
@@ -101,10 +107,8 @@ void LunarGravityField::Update(const LocalEnvironment &local_environment, const 
   UNUSED(time_ms_);
 #endif
 
-  libra::Matrix<3, 3> trans_eci2mcmf_ =
-      local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToXcxf();  // FIXME: use moon rotation
-  libra::Matrix<3, 3> trans_mcmf2eci = trans_eci2mcmf_.Transpose();
-  acceleration_i_m_s2_ = trans_mcmf2eci * acceleration_mcmf_m_s2_;
+  libra::Matrix<3, 3> dcm_mcmf2i = dcm_mci2mcmf_.Transpose();
+  acceleration_i_m_s2_ = dcm_mcmf2i * acceleration_mcmf_m_s2_;
 }
 
 std::string LunarGravityField::GetLogHeader() const {
@@ -130,4 +134,19 @@ std::string LunarGravityField::GetLogValue() const {
   str_tmp += WriteVector(acceleration_mcmf_m_s2_, 15);
 
   return str_tmp;
+}
+
+LunarGravityField InitLunarGravityField(const std::string initialize_file_path) {
+  auto conf = IniAccess(initialize_file_path);
+  const char *section = "LUNAR_GRAVITY_FIELD";
+
+  const int degree = conf.ReadInt(section, "degree");
+  const std::string coefficients_file_path = conf.ReadString(section, "coefficients_file_path");
+
+  const bool is_calc_enable = conf.ReadEnable(section, INI_CALC_LABEL);
+
+  LunarGravityField lunar_gravity_field(degree, coefficients_file_path, is_calc_enable);
+  lunar_gravity_field.is_log_enabled_ = conf.ReadEnable(section, INI_LOG_LABEL);
+
+  return lunar_gravity_field;
 }

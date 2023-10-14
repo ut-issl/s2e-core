@@ -7,6 +7,7 @@
 #include "celestial_information.hpp"
 
 #include <SpiceUsr.h>
+#include <assert.h>
 #include <string.h>
 
 #include <algorithm>
@@ -14,17 +15,18 @@
 #include <locale>
 #include <sstream>
 
+#include "library/initialize/initialize_file_access.hpp"
 #include "library/logger/log_utility.hpp"
 
 CelestialInformation::CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting,
-                                           const std::string center_body_name, const RotationMode rotation_mode,
-                                           const unsigned int number_of_selected_body, int* selected_body_ids)
+                                           const std::string center_body_name, const unsigned int number_of_selected_body, int* selected_body_ids,
+                                           const std::vector<std::string> rotation_mode_list)
     : number_of_selected_bodies_(number_of_selected_body),
       selected_body_ids_(selected_body_ids),
       inertial_frame_name_(inertial_frame_name),
       center_body_name_(center_body_name),
       aberration_correction_setting_(aberration_correction_setting),
-      rotation_mode_(rotation_mode) {
+      rotation_mode_list_(rotation_mode_list) {
   // Initialize list
   unsigned int num_of_state = number_of_selected_bodies_ * 3;
   celestial_body_position_from_center_i_m_ = new double[num_of_state];
@@ -62,15 +64,15 @@ CelestialInformation::CelestialInformation(const std::string inertial_frame_name
   }
 
   // Initialize rotation
-  earth_rotation_ = new CelestialRotation(rotation_mode_, center_body_name_);
+  earth_rotation_ = new EarthRotation(ConvertEarthRotationMode(GetRotationMode("EARTH")));
+  moon_rotation_ = new MoonRotation(*this, ConvertMoonRotationMode(GetRotationMode("MOON")));
 }
 
 CelestialInformation::CelestialInformation(const CelestialInformation& obj)
     : number_of_selected_bodies_(obj.number_of_selected_bodies_),
       inertial_frame_name_(obj.inertial_frame_name_),
       center_body_name_(obj.center_body_name_),
-      aberration_correction_setting_(obj.aberration_correction_setting_),
-      rotation_mode_(obj.rotation_mode_) {
+      aberration_correction_setting_(obj.aberration_correction_setting_) {
   unsigned int num_of_state = number_of_selected_bodies_ * 3;
 
   selected_body_ids_ = new int[number_of_selected_bodies_];
@@ -101,12 +103,7 @@ CelestialInformation::~CelestialInformation() {
   delete earth_rotation_;
 }
 
-void CelestialInformation::UpdateAllObjectsInformation(const double current_time_jd) {
-  // Convert time
-  SpiceDouble ephemeris_time;
-  std::string julian_date = "jd " + std::to_string(current_time_jd);
-  str2et_c(julian_date.c_str(), &ephemeris_time);
-
+void CelestialInformation::UpdateAllObjectsInformation(const SimulationTime& simulation_time) {
   // Update celestial body orbit
   for (unsigned int i = 0; i < number_of_selected_bodies_; i++) {
     SpiceInt planet_id = selected_body_ids_[i];
@@ -119,7 +116,7 @@ void CelestialInformation::UpdateAllObjectsInformation(const double current_time
 
     // Acquisition of position and velocity
     SpiceDouble orbit_buffer_km[6];
-    GetPlanetOrbit(name_buffer, ephemeris_time, (SpiceDouble*)orbit_buffer_km);
+    GetPlanetOrbit(name_buffer, simulation_time.GetCurrentEphemerisTime(), (SpiceDouble*)orbit_buffer_km);
     // Convert unit [km], [km/s] to [m], [m/s]
     for (int j = 0; j < 3; j++) {
       celestial_body_position_from_center_i_m_[i * 3 + j] = orbit_buffer_km[j] * 1000.0;
@@ -127,8 +124,10 @@ void CelestialInformation::UpdateAllObjectsInformation(const double current_time
     }
   }
 
-  // Update celestial rotation
-  earth_rotation_->Update(current_time_jd);
+  // Update earth rotation
+  earth_rotation_->Update(simulation_time.GetCurrentTime_jd());
+  // Update moon rotation
+  moon_rotation_->Update(simulation_time);
 }
 
 int CelestialInformation::CalcBodyIdFromName(const char* body_name) const {
@@ -197,4 +196,51 @@ void CelestialInformation::GetPlanetOrbit(const char* planet_name, const double 
            (ConstSpiceChar*)aberration_correction_setting_.c_str(), (ConstSpiceChar*)center_body_name_.c_str(), (SpiceDouble*)orbit,
            (SpiceDouble*)&lt);
   return;
+}
+
+CelestialInformation* InitCelestialInformation(std::string file_name) {
+  IniAccess ini_file(file_name);
+  const char* section = "CELESTIAL_INFORMATION";
+  const char* furnsh_section = "CSPICE_KERNELS";
+
+  // Read SPICE setting
+  std::string inertial_frame = ini_file.ReadString(section, "inertial_frame");
+  std::string aber_cor = ini_file.ReadString(section, "aberration_correction");
+  std::string center_obj = ini_file.ReadString(section, "center_object");
+
+  // SPICE Furnsh
+  std::vector<std::string> keywords = {"tls", "tpc1", "tpc2", "tpc3", "bsp"};
+  for (size_t i = 0; i < keywords.size(); i++) {
+    std::string fname = ini_file.ReadString(furnsh_section, keywords[i].c_str());
+    furnsh_c(fname.c_str());
+  }
+
+  // Initialize celestial body list
+  const int num_of_selected_body = ini_file.ReadInt(section, "number_of_selected_body");
+  int* selected_body = new int[num_of_selected_body];
+  for (int i = 0; i < num_of_selected_body; i++) {
+    // Convert body name to SPICE ID
+    std::string selected_body_i = "selected_body_name(" + std::to_string(i) + ")";
+    char selected_body_temp[30];
+    ini_file.ReadChar(section, selected_body_i.c_str(), 30, selected_body_temp);
+    SpiceInt planet_id;
+    SpiceBoolean found;
+    bodn2c_c(selected_body_temp, (SpiceInt*)&planet_id, (SpiceBoolean*)&found);
+
+    // If the object specified in the ini file is not found, exit the program.
+    assert(found == SPICETRUE);
+
+    selected_body[i] = planet_id;
+  }
+
+  // Read Rotation setting
+  std::vector<std::string> rotation_mode_list = ini_file.ReadVectorString(section, "rotation_mode", num_of_selected_body);
+
+  CelestialInformation* celestial_info;
+  celestial_info = new CelestialInformation(inertial_frame, aber_cor, center_obj, num_of_selected_body, selected_body, rotation_mode_list);
+
+  // log setting
+  celestial_info->is_log_enabled_ = ini_file.ReadEnable(section, INI_LOG_LABEL);
+
+  return celestial_info;
 }

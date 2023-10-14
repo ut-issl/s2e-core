@@ -136,4 +136,12 @@ class GroundStationCalculator : public ILoggable {
                      const Antenna& ground_station_rx_antenna);
 };
 
+/*
+ * @fn InitGsCalculator
+ * @brief Initialize function for Ground Station Calculator
+ * @param [in] file_name: Path to initialize file
+ */
+
+GroundStationCalculator InitGsCalculator(const std::string file_name);
+
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_

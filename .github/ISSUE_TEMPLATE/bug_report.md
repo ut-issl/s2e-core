@@ -2,36 +2,35 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
+labels: ['bug']
 assignees: ''
 
 ---
 
-## Overview
-Write briefly.
-
 ## Details
 ### Description
-What kind of bug?
+Describe the bug in detail.
 
 ### Conditions of occurrence
-The environment in which the bug occurs, the condition, parameters, etc.
+Describe the environment, conditions, parameters, etc. under which the bug occurred.
 
-###  Additional information
-files, link, etc, if any.
+### Additional information
+Provide any relevant files, links, etc. if available.
 
-## Task
+## Tasks
 - [ ] Fix xxx
 - [ ] Do yyy
 
-## Scope of influence
-eg. All tools are not working.
+## Impact
+Describe the scope of the bug's influence, e.g., `All tools are not working.`
 
-## Supplement
-Write additional comments if you need.
+## Supplementary notes
+Provide any extra notes if necessary.
 
-## Note
-- If there are related Projects, tie them together.
-- Set `priority` label if possible.
-- Assignees should be set if possible.
-- Write a conclusion when closing the issue.
+## Notes
+- Provide a conclusion before closing the issue.
+<!--
+- Link the issue to any related projects if applicable.
+- Assign the appropriate member(s) to this pull request as `Assignees`.
+- Apply the `priority` label.
+-->

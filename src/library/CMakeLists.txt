@@ -8,6 +8,8 @@ add_library(${PROJECT_NAME} STATIC
   geodesy/geodetic_position.cpp
 
   initialize/initialize_file_access.cpp
+  initialize/c2a_command_database.cpp
+  initialize/wings_operation_file.cpp
 
   logger/logger.cpp
   logger/initialize_log.cpp
@@ -28,6 +30,8 @@ add_library(${PROJECT_NAME} STATIC
   orbit/orbital_elements.cpp
   orbit/kepler_orbit.cpp
   orbit/relative_orbit_models.cpp
+
+  planet_rotation/moon_rotation_utilities.cpp
 
   external/igrf/igrf.cpp
   external/inih/ini.c

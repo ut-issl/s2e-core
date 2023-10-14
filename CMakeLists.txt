@@ -1,11 +1,11 @@
 cmake_policy(SET CMP0048 NEW)
+cmake_minimum_required(VERSION 3.13)
+
 project(S2E
   LANGUAGES CXX
   DESCRIPTION "S2E: Spacecraft Simulation Environment"
-  VERSION 6.4.0
+  VERSION 7.0.0
 )
-
-cmake_minimum_required(VERSION 3.13)
 
 # build config
 option(USE_HILS "Use HILS" OFF)

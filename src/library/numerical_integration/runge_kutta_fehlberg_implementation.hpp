@@ -59,26 +59,29 @@ RungeKuttaFehlberg<N>::RungeKuttaFehlberg(const double step_width, const Interfa
   this->rk_matrix_[5][2] = -3544.0 / 2565.0;
   this->rk_matrix_[5][3] = 1859.0 / 4104.0;
   this->rk_matrix_[5][4] = -11.0 / 40.0;
+
+  this->CalcSlope();
 }
 
 template <size_t N>
-Vector<N> RungeKuttaFehlberg<N>::CalcInterpolationState(const double sigma) {
+Vector<N> RungeKuttaFehlberg<N>::CalcInterpolationState(const double sigma) const {
   // Calc k7 (slope after state update)
-  Vector<N> state_7 = this->previous_state_ + this->step_width_ * (this->slope_[0] / 6.0 + this->slope_[4] / 6.0 + this->slope_[5] * 2.0 / 3.0);
+  Vector<N> state_7 =
+      this->previous_state_ + this->step_width_ * (1.0 / 6.0 * this->slope_[0] + 1.0 / 6.0 * this->slope_[4] + 2.0 / 3.0 * this->slope_[5]);
   Vector<N> k7 = this->ode_.DerivativeFunction(this->current_independent_variable_, state_7);
 
   std::vector<double> interpolation_weights = CalcInterpolationWeights(sigma);
 
   Vector<N> interpolation_state = this->previous_state_;
   for (size_t i = 0; i < this->number_of_stages_; i++) {
-    interpolation_state = interpolation_state + sigma * this->step_width_ * (interpolation_weights[i] * this->slope_);
+    interpolation_state = interpolation_state + (sigma * this->step_width_ * interpolation_weights[i]) * this->slope_[i];
   }
   interpolation_state = interpolation_state + sigma * this->step_width_ * (interpolation_weights[6] * k7);
   return interpolation_state;
 }
 
 template <size_t N>
-std::vector<double> RungeKuttaFehlberg<N>::CalcInterpolationWeights(const double sigma) {
+std::vector<double> RungeKuttaFehlberg<N>::CalcInterpolationWeights(const double sigma) const {
   std::vector<double> interpolation_weights;
   interpolation_weights.assign(this->number_of_stages_ + 1, 0.0);
 
