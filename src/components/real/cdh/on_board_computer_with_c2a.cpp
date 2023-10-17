@@ -9,7 +9,9 @@
 #ifdef USE_C2A
 #include "src_core/c2a_core_main.h"
 
-#if C2A_CORE_VER_MAJOR == 4
+#if !defined(C2A_CORE_VER_MAJOR)
+#warning "C2A_CORE_VER_MAJOR is not defined"   # this flag is defined after c2a-core v3.5.0
+#elif C2A_CORE_VER_MAJOR == 4
 // c2a-core v4
 #include "src_core/system/task_manager/task_dispatcher.h"
 #include "src_core/system/time_manager/time_manager.h"
@@ -22,7 +24,6 @@
 #else
 #error "c2a-core version is not supported"
 #endif  // c2a-core version header
-
 #endif  // USE_C2A
 
 std::map<int, UartPort*> ObcWithC2a::com_ports_c2a_;
