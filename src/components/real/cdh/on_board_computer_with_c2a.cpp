@@ -10,7 +10,7 @@
 #include "src_core/c2a_core_main.h"
 
 #if !defined(C2A_CORE_VER_MAJOR)
-#error "C2A_CORE_VER_MAJOR is not defined"
+#warning "C2A_CORE_VER_MAJOR is not defined"   # this flag is defined after c2a-core v3.5.0
 #elif C2A_CORE_VER_MAJOR == 4
 // c2a-core v4
 #include "src_core/system/task_manager/task_dispatcher.h"
