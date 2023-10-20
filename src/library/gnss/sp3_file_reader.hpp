@@ -10,6 +10,7 @@
 
 #include <library/math/vector.hpp>
 #include <library/time_system/date_time_format.hpp>
+#include <library/time_system/gps_time.hpp>
 #include <string>
 #include <vector>
 
@@ -40,7 +41,7 @@ enum class Sp3OrbitType {
 struct Sp3Header {
   // 1st line information
   // version -> not implemented yet
-  Sp3Mode mode_;  //!< position or velocity
+  Sp3Mode mode_;                   //!< position or velocity
   DateTime start_epoch_;           //!< Time of start epoch
   size_t number_of_epoch_ = 0;     //!< Number of epoch in the SP3 file
   std::string used_data_;          //!< Used data to generate the SP3 file
@@ -49,8 +50,7 @@ struct Sp3Header {
   std::string agency_name_;        //!< Agency name who generates the SP3 file
 
   // 2nd line information
-  // GPS week
-  // Seconds of week
+  GpsTime start_time_;               //!< Start time of orbit
   double epoch_interval_s_ = 900.0;  //!< Epoch interval
   double start_time_mjday_;          // Start time of the orbit data including fractional part [Modified Julian day]
 

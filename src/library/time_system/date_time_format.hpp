@@ -45,12 +45,12 @@ class DateTime {
   std::string GetAsString() const;
 
  private:
-  size_t year_;    //!< Year (larger than 0)
-  size_t month_;   //!< Month (1 to 12)
-  size_t day_;     //!< Day (1 to 31)
-  size_t hour_;    //!< Hour (0 to 23)
-  size_t minute_;  //!< Minute (0 to 59)
-  double second_;  //!< Second
+  size_t year_;    //!< Year [0, -]
+  size_t month_;   //!< Month [1, 12]
+  size_t day_;     //!< Day [1 to 31]
+  size_t hour_;    //!< Hour [0 to 23]
+  size_t minute_;  //!< Minute [0 to 59]
+  double second_;  //!< Second [0.0, 60.0)
 };
 
 #endif  // S2E_LIBRARY_TIME_SYSTEM_DATE_TIME_FORMAT_HPP_
