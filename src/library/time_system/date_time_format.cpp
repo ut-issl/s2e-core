@@ -1,6 +1,6 @@
 /**
  * @file date_time_format.cpp
- * @brief
+ * @brief Class to handle Gregorian date and time format
  */
 
 #include "date_time_format.hpp"

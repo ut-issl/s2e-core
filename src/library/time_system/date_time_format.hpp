@@ -1,7 +1,6 @@
 /**
  * @file date_time_format.hpp
- * @brief Class to handle date and time format
- * @note This format do not define leap seconds. Users of the time expression should define it.
+ * @brief Class to handle Gregorian date and time format
  */
 
 #ifndef S2E_LIBRARY_TIME_SYSTEM_DATE_TIME_FORMAT_HPP_
@@ -11,13 +10,14 @@
 
 /**
  *@class DateTime
- *@brief Date and time format
+ * @brief Class to handle Gregorian date and time format
  */
 class DateTime {
  public:
   /**
    * @fn DateTime
    * @brief Constructor initialized with full member information
+   * @note This format do not define leap seconds and time differences. Users of the time expression should define them when using.
    */
   DateTime(const size_t year, const size_t month, const size_t day, const size_t hour, const size_t minute, const double second)
       : year_(year), month_(month), day_(day), hour_(hour), minute_(minute), second_(second) {}
