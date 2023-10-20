@@ -836,10 +836,6 @@ bool GnssSatelliteInformation::GetWhetherValid(int gnss_satellite_id) const {
   return false;
 }
 
-const GnssSatellitePosition& GnssSatelliteInformation::GetGnssSatPos() const { return position_; }
-
-const GnssSatelliteClock& GnssSatelliteInformation::GetGnssSatClock() const { return clock_; }
-
 libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEcef(int gnss_satellite_id) const {
   return position_.GetPosition_ecef_m(gnss_satellite_id);
 }
@@ -850,10 +846,11 @@ libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEci(int gnss_sate
 
 double GnssSatelliteInformation::GetSatelliteClock(int gnss_satellite_id) const { return clock_.GetSatClock(gnss_satellite_id); }
 
+// GnssSatellites
 GnssSatellites::GnssSatellites(bool is_calc_enabled)
 #ifdef GNSS_SATELLITES_DEBUG_OUTPUT
     : ofs_true("true.csv"),
-      ofs_esti("esti.csv"),
+      ofs_estimation("estimation.csv"),
       ofs_sa("sa.csv")
 #endif
 {
@@ -1135,28 +1132,28 @@ void GnssSatellites::DebugOutput() {
     }
 
     if (estimate_info_.GetWhetherValid(gnss_satellite_id)) {
-      auto esti_pos = estimate_info_.GetSatellitePositionEcef(gnss_satellite_id);
+      auto estimation_pos = estimate_info_.GetSatellitePositionEcef(gnss_satellite_id);
       for (int i = 0; i < 3; ++i) {
-        ofs_esti << fixed << setprecision(10) << esti_pos[i] << ",";
+        ofs_estimation << fixed << setprecision(10) << estimation_pos[i] << ",";
       }
-      auto esti_clock = estimate_info_.GetSatelliteClock(gnss_satellite_id);
-      ofs_esti << esti_clock << ",";
+      auto estimation_clock = estimate_info_.GetSatelliteClock(gnss_satellite_id);
+      ofs_estimation << estimation_clock << ",";
     } else {
       for (int i = 0; i < 4; ++i) {
-        ofs_esti << 0.0 << ",";
+        ofs_estimation << 0.0 << ",";
       }
     }
 
     if (GetWhetherValid(gnss_satellite_id)) {
       auto true_pos = true_info_.GetSatellitePositionEcef(gnss_satellite_id);
       auto true_clock = true_info_.GetSatelliteClock(gnss_satellite_id);
-      auto esti_pos = estimate_info_.GetSatellitePositionEcef(gnss_satellite_id);
-      auto esti_clock = estimate_info_.GetSatelliteClock(gnss_satellite_id);
+      auto estimation_pos = estimate_info_.GetSatellitePositionEcef(gnss_satellite_id);
+      auto estimation_clock = estimate_info_.GetSatelliteClock(gnss_satellite_id);
 
       for (int i = 0; i < 3; ++i) {
-        ofs_sa << fixed << setprecision(10) << esti_pos[i] - true_pos[i] << ",";
+        ofs_sa << fixed << setprecision(10) << estimation_pos[i] - true_pos[i] << ",";
       }
-      ofs_sa << fixed << setprecision(10) << esti_clock - true_clock << ",";
+      ofs_sa << fixed << setprecision(10) << estimation_clock - true_clock << ",";
     } else {
       for (int i = 0; i < 4; ++i) {
         ofs_sa << 0.0 << ",";
@@ -1165,7 +1162,7 @@ void GnssSatellites::DebugOutput() {
   }
 
   ofs_true << endl;
-  ofs_esti << endl;
+  ofs_estimation << endl;
   ofs_sa << endl;
 #endif
   return;

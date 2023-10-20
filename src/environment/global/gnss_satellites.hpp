@@ -300,12 +300,12 @@ class GnssSatelliteInformation {
    * @fn GetGnssSatPos
    * @brief Return GNSS satellite position information class
    */
-  const GnssSatellitePosition& GetGnssSatPos() const;
+  inline const GnssSatellitePosition& GetGnssSatPos() const { return position_; };
   /**
    * @fn GetGnssSatClock
    * @brief Return GNSS satellite clock information class
    */
-  const GnssSatelliteClock& GetGnssSatClock() const;
+  inline const GnssSatelliteClock& GetGnssSatClock() const { return clock_; }
 
  private:
   GnssSatellitePosition position_;  //!< GNSS satellite position information
@@ -509,9 +509,9 @@ class GnssSatellites : public ILoggable {
   double start_unix_time_;                  //!< Start unix time
 
 #ifdef GNSS_SATELLITES_DEBUG_OUTPUT
-  ofstream ofs_true;  //!< Debug output for true value
-  ofstream ofs_esti;  //!< Debug output for estimated value
-  ofstream ofs_sa;    //!< Debug output for difference between true and estimated value
+  ofstream ofs_true;        //!< Debug output for true value
+  ofstream ofs_estimation;  //!< Debug output for estimated value
+  ofstream ofs_sa;          //!< Debug output for difference between true and estimated value
 #endif
 };
 
