@@ -231,7 +231,7 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
   interpolation_number_ = interpolation_number;
 
   // Expansion
-  gnss_sat_table_ecef_.resize(all_sat_num_);  // first vector size is the sat num
+  gnss_sat_table_ecef_.resize(all_sat_num_);  // first vector size is the satellite number
   gnss_sat_table_eci_.resize(all_sat_num_);
   unixtime_vector_.resize(all_sat_num_);
 
@@ -239,8 +239,8 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
   double start_unix_time = 1e16;
   double end_unix_time = 0;
 
-  // Get Header Info
   for (int page = 0; page < (int)file.size(); ++page) {
+    // Read Header Info
     int num_of_time_stamps = 0;
     int num_of_sat = 0;
     int line;
@@ -270,10 +270,10 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
         }
       }
     }
-
     line = 3;
     while (file.at(page).at(line).front() != '*') ++line;
 
+    // Calculate number of data lines
     int start_line, end_line;
     if (ur_flag == kNotUse) {
       start_line = line;
@@ -284,31 +284,35 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
       end_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * (offset + 1);
     }
 
+    // Read time, position, and clock data
     double unix_time = 0;
-    double cos_ = 0.0;
-    double sin_ = 0.0;
+    double cos_ = 0.0;  //!< cos value for ECEF->ECI conversion
+    double sin_ = 0.0;  //!< sin value for ECEF->ECI conversion
     for (int i = 0; i < end_line - start_line; ++i) {
       line = i + start_line;
 
       istringstream iss{file.at(page).at(line)};
       vector<string> s;
       if (i % (num_of_sat + 1) == 0) {
+        // Epoch information
         for (int j = 0; j < 7; ++j) {
           string tmp;
           iss >> tmp;
           s.push_back(tmp);
         }
-
+        // Convert to julian date
         unix_time = get_unixtime_from_timestamp_line(s);
         double jd;
         jday(stoi(s.at(1)), stoi(s.at(2)), stoi(s.at(3)), stoi(s.at(4)), stoi(s.at(5)), stod(s.at(6)), jd);
+        // Calculate frame conversion
         double gs_time_ = gstime(jd);
         cos_ = cos(gs_time_);
         sin_ = sin(gs_time_);
-
+        // Set start and end unix time
         start_unix_time = std::min(start_unix_time, unix_time);
         end_unix_time = std::max(end_unix_time, unix_time);
       } else {
+        // Position and clock data of each GNSS satellite
         for (int j = 0; j < 5; ++j) {
           string tmp;
           iss >> tmp;
@@ -328,19 +332,19 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
         }
         if (!available_flag) continue;
 
-        //[km] -> [m]
+        // [km] -> [m]
         ecef_position_m *= 1000.0;
 
+        // ECI frame conversion
         libra::Vector<3> eci_position(0.0);
-
         double x = ecef_position_m(0);
         double y = ecef_position_m(1);
         double z = ecef_position_m(2);
-
         eci_position(0) = cos_ * x - sin_ * y;
         eci_position(1) = sin_ * x + cos_ * y;
         eci_position(2) = z;
 
+        // Set data
         if (!unixtime_vector_.at(gnss_satellite_id).empty() && std::abs(unix_time - unixtime_vector_.at(gnss_satellite_id).back()) < 1.0) {
           unixtime_vector_.at(gnss_satellite_id).back() = unix_time;
           gnss_sat_table_ecef_.at(gnss_satellite_id).back() = ecef_position_m;
