@@ -19,6 +19,9 @@ bool Sp3FileReader::ReadFile(const std::string file_name) {
     return false;
   }
 
+  size_t line_number = ReadHeader(sp3_file);
+  if (line_number == 0) return false;
+
   sp3_file.close();
   return true;
 }
@@ -28,8 +31,8 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   std::string line;
 
   // 1st line
-  std::getline(sp3_file, line);
   line_number++;
+  std::getline(sp3_file, line);
   if (line.find("#d") != 0) {
     std::cout << "[Warning] SP3 file version is not supported: " << line << std::endl;
     return 0;
