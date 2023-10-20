@@ -84,11 +84,27 @@ class Sp3FileReader {
   /**
    * @fn Sp3FileReader
    * @brief Constructor
+   * @param[in] file_name: File name of target SP3 file with directory path
    */
-  Sp3FileReader();
+  Sp3FileReader(const std::string file_name);
 
  private:
   Sp3Header header_;
+
+  /**
+   * @fn ReadFile
+   * @brief Read SP3 file
+   * @param[in] file_name: File name of target SP3 file with directory path
+   * @return true: File read success, false: File read error
+   */
+  bool ReadFile(const std::string file_name);
+  /**
+   * @fn ReadHeader
+   * @brief Read SP3 file
+   * @param[in] sp3_file: file stream of the SP3 file
+   * @return The last line of header
+   */
+  size_t ReadHeader(std::ifstream& sp3_file);
 };
 
 #endif  // S2E_LIBRARY_GNSS_SP3_FILE_READER_HPP_

@@ -7,6 +7,31 @@
 
 #include "sp3_file_reader.hpp"
 
+#include <fstream>
 #include <iostream>
 
-Sp3FileReader::Sp3FileReader() {}
+Sp3FileReader::Sp3FileReader(const std::string file_name) { ReadFile(file_name); }
+
+bool Sp3FileReader::ReadFile(const std::string file_name) {
+  std::ifstream sp3_file(file_name);
+  if (!sp3_file.is_open()) {
+    std::cout << "[Warning] SP3 file not found: " << file_name << std::endl;
+    return false;
+  }
+
+  sp3_file.close();
+  return true;
+}
+
+size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
+  size_t line_number = 0;
+  std::string line;
+
+  // 1st line
+  std::getline(sp3_file, line);
+  line_number++;
+  if (line.find("#d") != 0) {
+    std::cout << "[Warning] SP3 file version is not supported: " << line << std::endl;
+    return false;
+  }
+}
