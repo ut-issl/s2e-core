@@ -9,6 +9,12 @@
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
 
+/**
+ *@fn return_directory_path
+ *@brief Return directory path with file type infomation
+ *@param [in] sort: File type
+ *@return Directory path with file type infomation
+ */
 std::string return_directory_path(std::string sort) {
   std::string main_directory, sub_directory;
 
@@ -46,6 +52,13 @@ std::string return_directory_path(std::string sort) {
   return main_directory + sub_directory;
 }
 
+/**
+ *@fn get_raw_contents
+ *@brief Read file and convert to a vector of one line strings
+ *@param [in] directory_path: Directory path of the file
+ *@param [in] file_name: File name
+ *@param [out] storage: vector of one line strings
+ */
 void get_raw_contents(std::string directory_path, std::string file_name, std::vector<std::string>& storage) {
   std::string all_file_path = directory_path + file_name;
   std::ifstream ifs(all_file_path);
@@ -64,6 +77,16 @@ void get_raw_contents(std::string directory_path, std::string file_name, std::ve
   return;
 }
 
+/**
+ *@fn get_sp3_file_contents
+ *@brief Read multiple SP3 files in the directory and generate multiple vectors of one line strings
+ *@param [in] directory_path: Directory path of the file
+ *@param [in] file_sort: File type
+ *@param [in] first: The first SP3 file name
+ *@param [in] last: The last SP3 file name
+ *@param [out] file_contents: Generated files as multiple vectors of one line strings
+ *@param [out] ur_flag: Ultra rapid flag
+ */
 void get_sp3_file_contents(std::string directory_path, std::string file_sort, std::string first, std::string last,
                            std::vector<std::vector<std::string>>& file_contents, UltraRapidMode& ur_flag) {
   std::string all_directory_path = directory_path + return_directory_path(file_sort);
@@ -175,6 +198,16 @@ void get_sp3_file_contents(std::string directory_path, std::string file_sort, st
   return;
 }
 
+/**
+ *@fn get_clk_file_contents
+ *@brief Read multiple SP3 files in the directory and generate multiple vectors of one line strings
+ *@param [in] directory_path: Directory path of the file
+ *@param [in] extension: Extensions of the file
+ *@param [in] file_sort: File type
+ *@param [in] first: The first SP3 file name
+ *@param [in] last: The last SP3 file name
+ *@param [out] file_contents: Generated files as multiple vectors of one line strings
+ */
 void get_clk_file_contents(std::string directory_path, std::string extension, std::string file_sort, std::string first, std::string last,
                            std::vector<std::vector<std::string>>& file_contents) {
   std::string all_directory_path = directory_path + return_directory_path(file_sort) + extension.substr(1) + '/';
@@ -264,6 +297,7 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
 
   std::string directory_path = ini_file.ReadString(section, "directory_path");
 
+  // True position
   std::vector<std::vector<std::string>> true_position_file;
   UltraRapidMode true_position_ur_flag = kNotUse;
   get_sp3_file_contents(directory_path, ini_file.ReadString(section, "true_position_file_sort"), ini_file.ReadString(section, "true_position_first"),
@@ -271,6 +305,7 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   int true_position_interpolation_method = ini_file.ReadInt(section, "true_position_interpolation_method");
   int true_position_interpolation_number = ini_file.ReadInt(section, "true_position_interpolation_number");
 
+  // True clock
   std::vector<std::vector<std::string>> true_clock_file;
   UltraRapidMode true_clock_ur_flag = kNotUse;
   std::string true_clock_file_extension = ini_file.ReadString(section, "true_clock_file_extension");
@@ -283,6 +318,7 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   }
   int true_clock_interpolation_number = ini_file.ReadInt(section, "true_clock_interpolation_number");
 
+  // Estimated position
   std::vector<std::vector<std::string>> estimate_position_file;
   UltraRapidMode estimate_position_ur_flag = kNotUse;
   get_sp3_file_contents(directory_path, ini_file.ReadString(section, "estimate_position_file_sort"),
@@ -299,6 +335,7 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
     }
   }
 
+  // Estimated clock
   std::vector<std::vector<std::string>> estimate_clock_file;
   UltraRapidMode estimate_clock_ur_flag = estimate_position_ur_flag;
   std::string estimate_clock_file_extension = ini_file.ReadString(section, "estimate_clock_file_extension");
@@ -313,13 +350,10 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   }
   int estimate_clock_interpolation_number = ini_file.ReadInt(section, "estimate_clock_interpolation_number");
 
+  // Initialize GNSS satellites
   gnss_satellites->Init(true_position_file, true_position_interpolation_method, true_position_interpolation_number, true_position_ur_flag,
-
-                        true_clock_file, true_clock_file_extension, true_clock_interpolation_number, true_clock_ur_flag,
-
-                        estimate_position_file, estimate_position_interpolation_method, estimate_position_interpolation_number,
-                        estimate_position_ur_flag,
-
+                        true_clock_file, true_clock_file_extension, true_clock_interpolation_number, true_clock_ur_flag, estimate_position_file,
+                        estimate_position_interpolation_method, estimate_position_interpolation_number, estimate_position_ur_flag,
                         estimate_clock_file, estimate_clock_file_extension, estimate_clock_interpolation_number, estimate_clock_ur_flag);
 
   return gnss_satellites;
