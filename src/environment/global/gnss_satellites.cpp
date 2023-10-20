@@ -82,8 +82,8 @@ double get_unixtime_from_timestamp_line(std::vector<string>& s) {
 }
 
 template <size_t N>
-libra::Vector<N> GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<libra::Vector<N>>& values,
-                                                                double time) const {
+libra::Vector<N> GnssSatelliteBase::TrigonometricInterpolation(const vector<double>& time_vector, const vector<libra::Vector<N>>& values,
+                                                               double time) const {
   size_t n = time_vector.size();
   double w = libra::tau / (24.0 * 60.0 * 60.0) * 1.03;  // coefficient of a day long
   libra::Vector<N> res(0.0);
@@ -102,7 +102,7 @@ libra::Vector<N> GnssSat_coordinate::TrigonometricInterpolation(const vector<dou
   return res;
 }
 
-double GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time_vector, const vector<double>& values, double time) const {
+double GnssSatelliteBase::TrigonometricInterpolation(const vector<double>& time_vector, const vector<double>& values, double time) const {
   size_t n = time_vector.size();
   double w = libra::tau / (24.0 * 60.0 * 60.0) * 1.03;  // coefficient of a day long
   double res = 0.0;
@@ -120,8 +120,8 @@ double GnssSat_coordinate::TrigonometricInterpolation(const vector<double>& time
 }
 
 template <size_t N>
-libra::Vector<N> GnssSat_coordinate::LagrangeInterpolation(const vector<double>& time_vector, const vector<libra::Vector<N>>& values,
-                                                           double time) const {
+libra::Vector<N> GnssSatelliteBase::LagrangeInterpolation(const vector<double>& time_vector, const vector<libra::Vector<N>>& values,
+                                                          double time) const {
   int n = time_vector.size();
   libra::Vector<N> res(0.0);
 
@@ -139,7 +139,7 @@ libra::Vector<N> GnssSat_coordinate::LagrangeInterpolation(const vector<double>&
   return res;
 }
 
-double GnssSat_coordinate::LagrangeInterpolation(const vector<double>& time_vector, const vector<double>& values, double time) const {
+double GnssSatelliteBase::LagrangeInterpolation(const vector<double>& time_vector, const vector<double>& values, double time) const {
   size_t n = time_vector.size();
   double res = 0.0;
   for (size_t i = 0; i < n; ++i) {
@@ -154,7 +154,7 @@ double GnssSat_coordinate::LagrangeInterpolation(const vector<double>& time_vect
   return res;
 }
 
-int GnssSat_coordinate::GetIndexFromID(string sat_num) const {
+int GnssSatelliteBase::GetIndexFromID(string sat_num) const {
   if (sat_num.front() == 'P') {
     switch (sat_num.at(1)) {
       case 'G':
@@ -190,7 +190,7 @@ int GnssSat_coordinate::GetIndexFromID(string sat_num) const {
   }
 }
 
-string GnssSat_coordinate::GetIDFromIndex(int index) const {
+string GnssSatelliteBase::GetIDFromIndex(int index) const {
   string res;
   if (index < glonass_index_bias_) {
     res = 'G';
@@ -217,15 +217,15 @@ string GnssSat_coordinate::GetIDFromIndex(int index) const {
   return res;
 }
 
-int GnssSat_coordinate::GetNumOfSatellites() const { return all_sat_num_; }
+int GnssSatelliteBase::GetNumOfSatellites() const { return all_sat_num_; }
 
-bool GnssSat_coordinate::GetWhetherValid(int gnss_satellite_id) const {
+bool GnssSatelliteBase::GetWhetherValid(int gnss_satellite_id) const {
   if (gnss_satellite_id >= all_sat_num_) return false;
   return validate_.at(gnss_satellite_id);
 }
 
-pair<double, double> GnssSat_position::Initialize(vector<vector<string>>& file, int interpolation_method, int interpolation_number,
-                                                  UltraRapidMode ur_flag) {
+pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& file, int interpolation_method, int interpolation_number,
+                                                       UltraRapidMode ur_flag) {
   UNUSED(interpolation_method);
 
   interpolation_number_ = interpolation_number;
@@ -361,7 +361,7 @@ pair<double, double> GnssSat_position::Initialize(vector<vector<string>>& file, 
   return make_pair(start_unix_time, end_unix_time);
 }
 
-void GnssSat_position::SetUp(const double start_unix_time, const double step_sec) {
+void GnssSatellitePosition::SetUp(const double start_unix_time, const double step_sec) {
   step_sec_ = step_sec;
 
   gnss_sat_ecef_.assign(all_sat_num_, libra::Vector<3>(0.0));
@@ -434,7 +434,7 @@ void GnssSat_position::SetUp(const double start_unix_time, const double step_sec
   }
 }
 
-void GnssSat_position::Update(const double now_unix_time) {
+void GnssSatellitePosition::Update(const double now_unix_time) {
   for (int gnss_satellite_id = 0; gnss_satellite_id < all_sat_num_; ++gnss_satellite_id) {
     if (unixtime_vector_.at(gnss_satellite_id).empty()) {
       validate_.at(gnss_satellite_id) = false;
@@ -500,18 +500,18 @@ void GnssSat_position::Update(const double now_unix_time) {
   }
 }
 
-libra::Vector<3> GnssSat_position::GetSatEcef(int gnss_satellite_id) const {
+libra::Vector<3> GnssSatellitePosition::GetSatEcef(int gnss_satellite_id) const {
   if (gnss_satellite_id >= all_sat_num_) return libra::Vector<3>(0.0);
   return gnss_sat_ecef_.at(gnss_satellite_id);
 }
 
-libra::Vector<3> GnssSat_position::GetSatEci(int gnss_satellite_id) const {
+libra::Vector<3> GnssSatellitePosition::GetSatEci(int gnss_satellite_id) const {
   if (gnss_satellite_id >= all_sat_num_) return libra::Vector<3>(0.0);
   return gnss_sat_eci_.at(gnss_satellite_id);
 }
 
-void GnssSat_clock::Initialize(vector<vector<string>>& file, string file_extension, int interpolation_number, UltraRapidMode ur_flag,
-                               pair<double, double> unix_time_period) {
+void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_extension, int interpolation_number, UltraRapidMode ur_flag,
+                                    pair<double, double> unix_time_period) {
   interpolation_number_ = interpolation_number;
   gnss_sat_clock_table_.resize(all_sat_num_);  // first vector size is the sat num
   unixtime_vector_.resize(all_sat_num_);
@@ -662,7 +662,7 @@ void GnssSat_clock::Initialize(vector<vector<string>>& file, string file_extensi
   }
 }
 
-void GnssSat_clock::SetUp(const double start_unix_time, const double step_sec) {
+void GnssSatelliteClock::SetUp(const double start_unix_time, const double step_sec) {
   step_sec_ = step_sec;
 
   gnss_sat_clock_.resize(all_sat_num_);
@@ -729,7 +729,7 @@ void GnssSat_clock::SetUp(const double start_unix_time, const double step_sec) {
   }
 }
 
-void GnssSat_clock::Update(const double now_unix_time) {
+void GnssSatelliteClock::Update(const double now_unix_time) {
   for (int gnss_satellite_id = 0; gnss_satellite_id < all_sat_num_; ++gnss_satellite_id) {
     if (unixtime_vector_.at(gnss_satellite_id).empty()) {
       validate_.at(gnss_satellite_id) = false;
@@ -792,7 +792,7 @@ void GnssSat_clock::Update(const double now_unix_time) {
   }
 }
 
-double GnssSat_clock::GetSatClock(int gnss_satellite_id) const {
+double GnssSatelliteClock::GetSatClock(int gnss_satellite_id) const {
   if (gnss_satellite_id >= all_sat_num_) return 0.0;
   return gnss_sat_clock_.at(gnss_satellite_id);
 }
@@ -829,9 +829,9 @@ bool GnssSat_Info::GetWhetherValid(int gnss_satellite_id) const {
   return false;
 }
 
-const GnssSat_position& GnssSat_Info::GetGnssSatPos() const { return position_; }
+const GnssSatellitePosition& GnssSat_Info::GetGnssSatPos() const { return position_; }
 
-const GnssSat_clock& GnssSat_Info::GetGnssSatClock() const { return clock_; }
+const GnssSatelliteClock& GnssSat_Info::GetGnssSatClock() const { return clock_; }
 
 libra::Vector<3> GnssSat_Info::GetSatellitePositionEcef(int gnss_satellite_id) const { return position_.GetSatEcef(gnss_satellite_id); }
 

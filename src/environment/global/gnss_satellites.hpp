@@ -49,10 +49,10 @@ enum UltraRapidMode {
 };
 
 /**
- * @class GnssSat_coordinate
- * @brief GNSS satellite coordinate?
+ * @class GnssSatelliteBase
+ * @brief A class to summarize basic feature of GNSS position and clock calculation
  */
-class GnssSat_coordinate {
+class GnssSatelliteBase {
  public:
   /**
    * @fn GetIndexFromID
@@ -116,16 +116,16 @@ class GnssSat_coordinate {
 };
 
 /**
- * @class GnssSat_position
+ * @class GnssSatellitePosition
  * @brief Class to manage GNSS satellite position information
  */
-class GnssSat_position : public GnssSat_coordinate {
+class GnssSatellitePosition : public GnssSatelliteBase {
  public:
   /**
-   * @fn GnssSat_position
+   * @fn GnssSatellitePosition
    * @brief Constructor
    */
-  GnssSat_position() {}
+  GnssSatellitePosition() {}
   /**
    * @fn Initialize
    * @brief Initialize GNSS satellite position
@@ -177,20 +177,20 @@ class GnssSat_position : public GnssSat_coordinate {
 };
 
 /**
- * @class GnssSat_clock
+ * @class GnssSatelliteClock
  * @brief Class to manage GNSS satellite clock information
  */
-class GnssSat_clock : public GnssSat_coordinate {
+class GnssSatelliteClock : public GnssSatelliteBase {
  public:
   /**
-   * @fn GnssSat_clock
+   * @fn GnssSatelliteClock
    * @brief Constructor
    */
-  GnssSat_clock() {}
+  GnssSatelliteClock() {}
   /**
    * @fn Initialize
    * @brief Initialize GNSS satellite clock
-   * @param[in] ile: File path for clock calculation
+   * @param[in] file: File path for clock calculation
    * @param[in] file_extension: Extension of the clock file (ex. .sp3, .clk30s)
    * @param[in] interpolation_number: Interpolation number for clock calculation
    * @param[in] ur_flag: Ultra Rapid flag for clock calculation
@@ -297,16 +297,16 @@ class GnssSat_Info {
    * @fn GetGnssSatPos
    * @brief Return GNSS satellite position information class
    */
-  const GnssSat_position& GetGnssSatPos() const;
+  const GnssSatellitePosition& GetGnssSatPos() const;
   /**
    * @fn GetGnssSatClock
    * @brief Return GNSS satellite clock information class
    */
-  const GnssSat_clock& GetGnssSatClock() const;
+  const GnssSatelliteClock& GetGnssSatClock() const;
 
  private:
-  GnssSat_position position_;  //!< GNSS satellite position information
-  GnssSat_clock clock_;        //!< GNSS satellite clock information
+  GnssSatellitePosition position_;  //!< GNSS satellite position information
+  GnssSatelliteClock clock_;        //!< GNSS satellite clock information
 };
 
 /**
@@ -483,7 +483,7 @@ class GnssSatellites : public ILoggable {
  private:
   /**
    * @fn TrigonometricInterpolation
-   * @brief Is this similar with GnssSat_coordinate's function?
+   * @brief Is this similar with GnssSatelliteBase's function?
    */
   double TrigonometricInterpolation(std::vector<double> time_period, std::vector<double> position, double time);
 
