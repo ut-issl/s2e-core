@@ -32,6 +32,8 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   line_number++;
   if (line.find("#d") != 0) {
     std::cout << "[Warning] SP3 file version is not supported: " << line << std::endl;
-    return false;
+    return 0;
   }
+
+  return 0;
 }
