@@ -44,6 +44,7 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   } else if (line[3] == 'V') {
     header_.mode_ = Sp3Mode::kVelocity;
   } else {
+    std::cout << "[Warning] SP3 file mode is undefined: " << line << std::endl;
     return 0;
   }
   // Read start epoch
@@ -66,11 +67,23 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   } else if (orbit_type == "HLM") {
     header_.orbit_type_ = Sp3OrbitType::kHelmert;
   } else {
+    std::cout << "[Warning] SP3 file orbit type is undefined: " << line << std::endl;
     return 0;
   }
   header_.agency_name_ = line.substr(56, 4);
 
   // 2nd line
+  line_number++;
+  std::getline(sp3_file, line);
+  // Check first character
+  if (line.find("##") != 0) {
+    std::cout << "[Warning] SP3 file 2nd line first character error: " << line << std::endl;
+    return 0;
+  }
+  // Read GPS time
+  header_.start_gps_time_ = GpsTime(std::stoi(line.substr(3, 4)), std::stod(line.substr(8, 15)));
+  // Read interval
+  header_.epoch_interval_s_ = std::stod(line.substr(24, 14));
 
   return 0;
 }
