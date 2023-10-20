@@ -35,6 +35,8 @@ add_library(${PROJECT_NAME} STATIC
 
   planet_rotation/moon_rotation_utilities.cpp
 
+  time_system/date_time_format.cpp
+
   external/igrf/igrf.cpp
   external/inih/ini.c
   external/inih/cpp/INIReader.cpp
