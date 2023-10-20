@@ -55,22 +55,22 @@ enum UltraRapidMode {
 class GnssSatelliteBase {
  public:
   /**
-   * @fn GetIndexFromID
+   * @fn GetIndexFromId
    * @brief Calculate index of GNSS satellite defined in this class from GNSS satellite number defined in GNSS system
    * @return Index of GNSS satellite defined in this class
    */
-  int GetIndexFromID(std::string sat_num) const;
+  int GetIndexFromId(std::string sat_num) const;
   /**
-   * @fn GetIDFromIndex
+   * @fn GetIdFromIndex
    * @brief Calculate GNSS satellite number defined in GNSS system from index of GNSS satellite defined in this class
    * @return GNSS satellite number defined in GNSS system
    */
-  std::string GetIDFromIndex(int index) const;
+  std::string GetIdFromIndex(int index) const;
   /**
-   * @fn GetNumOfSatellites
+   * @fn GetNumberOfSatellites
    * @brief Return total satellite number in all GNSS system (Constant value)
    */
-  int GetNumOfSatellites() const;
+  int GetNumberOfSatellites() const;
   /**
    * @fn GetWhetherValid
    * @brief Return true the GNSS satellite information is available
@@ -105,7 +105,7 @@ class GnssSatelliteBase {
   libra::Vector<N> LagrangeInterpolation(const std::vector<double>& time_vector, const std::vector<libra::Vector<N>>& values, double time) const;
   double LagrangeInterpolation(const std::vector<double>& time_vector, const std::vector<double>& values, double time) const;
 
-  std::vector<std::vector<double>> unixtime_vector_;  //!< List of unixtime for all sat
+  std::vector<std::vector<double>> unixtime_vector_;  //!< List of unixtime for all satellite
   std::vector<std::vector<double>> time_period_;      //!< List of time period for interpolation
   std::vector<bool> validate_;                        //!< List of whether the satellite is available at the time
   std::vector<int> nearest_index_;                    //!< Index list for update(in position, time_and_index_list_. in clock_bias, time_table_)
@@ -264,11 +264,11 @@ class GnssSat_Info {
   void Update(const double now_unix_time);
 
   /**
-   * @fn GetNumOfSatellites
+   * @fn GetNumberOfSatellites
    * @brief Get total number of GNSS satellite (constant value)
    * @note TODO: Consider this function is really needed.
    */
-  int GetNumOfSatellites() const;
+  int GetNumberOfSatellites() const;
   /**
    * @fn GetWhetherValid
    * @brief Return true the GNSS satellite information is available for both position and clock information
@@ -359,25 +359,25 @@ class GnssSatellites : public ILoggable {
   void Update(const SimulationTime* simulation_time);
 
   /**
-   * @fn GetIndexFromID
+   * @fn GetIndexFromId
    * @brief Calculate index of GNSS satellite defined in this class from GNSS satellite number defined in GNSS system
    * @note TODO: Is this function really needed? This is just called other accessible function.
    * @return Index of GNSS satellite defined in this class
    */
-  int GetIndexFromID(std::string sat_num) const;
+  int GetIndexFromId(std::string sat_num) const;
   /**
-   * @fn GetIDFromIndex
+   * @fn GetIdFromIndex
    * @brief Calculate GNSS satellite number defined in GNSS system from index of GNSS satellite defined in this class
    * @note TODO: Is this function really needed? This is just called other accessible function.
    * @return GNSS satellite number defined in GNSS system
    */
-  std::string GetIDFromIndex(int index) const;
+  std::string GetIdFromIndex(int index) const;
   /**
-   * @fn GetNumOfSatellites
+   * @fn GetNumberOfSatellites
    * @brief Return total number of GNSS satellite for estimated information
    * @note TODO: Is this function really needed? This is just called other accessible function.
    */
-  int GetNumOfSatellites() const;
+  int GetNumberOfSatellites() const;
   /**
    * @fn GetWhetherValid
    * @brief Return true the GNSS satellite information is available for both position and clock for both true and estimated value

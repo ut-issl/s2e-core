@@ -112,11 +112,11 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra:
   // initialize
   visible_satellite_number_ = 0;
 
-  int gnss_num = gnss_satellites_->GetNumOfSatellites();
+  int gnss_num = gnss_satellites_->GetNumberOfSatellites();
 
   for (int i = 0; i < gnss_num; i++) {
     // check if gnss ID is compatible with the receiver
-    std::string id_tmp = gnss_satellites_->GetIDFromIndex(i);
+    std::string id_tmp = gnss_satellites_->GetIdFromIndex(i);
     if (gnss_id_.find(id_tmp[0]) == std::string::npos) continue;
 
     // compute direction from sat to gnss in body-fixed frame
