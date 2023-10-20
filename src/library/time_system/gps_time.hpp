@@ -1,6 +1,6 @@
 /**
  * @file gps_time.hpp
- * @brief
+ * @brief A class to define GPS time expression
  */
 
 #ifndef S2E_LIBRARY_TIME_SYSTEM_GPS_TIME_HPP_
@@ -8,7 +8,11 @@
 
 #include <cstddef>
 
-// GPS
+/**
+ * @class GpsTime
+ * @brief A class to define GPS time expression
+ * @note GPS time is 18 sec ahead from UTC
+ */
 class GpsTime {
  public:
   /**
@@ -31,7 +35,7 @@ class GpsTime {
   inline double GetTimeOfWeek() const { return time_of_week_; }
 
  private:
-  size_t week_;          //!< GPS week
+  size_t week_;          //!< GPS week (week = 0 at 6th Jan. 1980)
   double time_of_week_;  //!< Time of week [0,0, 604800.0)
 };
 
