@@ -348,10 +348,10 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   int estimate_clock_interpolation_number = ini_file.ReadInt(section, "estimate_clock_interpolation_number");
 
   // Initialize GNSS satellites
-  gnss_satellites->Init(true_position_file, true_position_interpolation_method, true_position_interpolation_number, true_position_ur_flag,
-                        true_clock_file, true_clock_file_extension, true_clock_interpolation_number, true_clock_ur_flag, estimate_position_file,
-                        estimate_position_interpolation_method, estimate_position_interpolation_number, estimate_position_ur_flag,
-                        estimate_clock_file, estimate_clock_file_extension, estimate_clock_interpolation_number, estimate_clock_ur_flag);
+  gnss_satellites->Initialize(true_position_file, true_position_interpolation_method, true_position_interpolation_number, true_position_ur_flag,
+                              true_clock_file, true_clock_file_extension, true_clock_interpolation_number, true_clock_ur_flag, estimate_position_file,
+                              estimate_position_interpolation_method, estimate_position_interpolation_number, estimate_position_ur_flag,
+                              estimate_clock_file, estimate_clock_file_extension, estimate_clock_interpolation_number, estimate_clock_ur_flag);
 
   return gnss_satellites;
 }

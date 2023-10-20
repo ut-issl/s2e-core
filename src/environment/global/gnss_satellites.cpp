@@ -224,8 +224,8 @@ bool GnssSat_coordinate::GetWhetherValid(int gnss_satellite_id) const {
   return validate_.at(gnss_satellite_id);
 }
 
-pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int interpolation_method, int interpolation_number,
-                                            UltraRapidMode ur_flag) {
+pair<double, double> GnssSat_position::Initialize(vector<vector<string>>& file, int interpolation_method, int interpolation_number,
+                                                  UltraRapidMode ur_flag) {
   UNUSED(interpolation_method);
 
   interpolation_number_ = interpolation_number;
@@ -284,7 +284,7 @@ pair<double, double> GnssSat_position::Init(vector<vector<string>>& file, int in
       end_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * (offset + 1);
     }
 
-    // Read time, position, and clock data
+    // Read time and position data
     double unix_time = 0;
     double cos_ = 0.0;  //!< cos value for ECEF->ECI conversion
     double sin_ = 0.0;  //!< sin value for ECEF->ECI conversion
@@ -510,15 +510,15 @@ libra::Vector<3> GnssSat_position::GetSatEci(int gnss_satellite_id) const {
   return gnss_sat_eci_.at(gnss_satellite_id);
 }
 
-void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, int interpolation_number, UltraRapidMode ur_flag,
-                         pair<double, double> unix_time_period) {
+void GnssSat_clock::Initialize(vector<vector<string>>& file, string file_extension, int interpolation_number, UltraRapidMode ur_flag,
+                               pair<double, double> unix_time_period) {
   interpolation_number_ = interpolation_number;
   gnss_sat_clock_table_.resize(all_sat_num_);  // first vector size is the sat num
   unixtime_vector_.resize(all_sat_num_);
 
   if (file_extension == ".sp3") {
-    // Get Header Info
     for (int page = 0; page < (int)file.size(); ++page) {
+      // Read Header Info
       int num_of_time_stamps = 0;
       int num_of_sat = 0;
       int line;
@@ -548,10 +548,10 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
           }
         }
       }
-
       line = 3;
       while (file.at(page).at(line).front() != '*') ++line;
 
+      // Calculate number of data lines
       int start_line, end_line;
       if (ur_flag == kNotUse) {
         start_line = line;
@@ -562,6 +562,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
         end_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * (offset + 1);
       }
 
+      // Read time and clock data
       double unix_time = 0;
       for (int i = 0; i < end_line - start_line; ++i) {
         line = i + start_line;
@@ -569,6 +570,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
         istringstream iss{file.at(page).at(line)};
         vector<string> s;
         if (i % (num_of_sat + 1) == 0) {
+          // Epoch information
           for (int j = 0; j < 7; ++j) {
             string tmp;
             iss >> tmp;
@@ -586,7 +588,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
           double clock = stod(s.at(4));
           if (std::abs(clock - nan99) < 1.0) continue;
 
-          // in the file, clock bias is expressed in [micro second], so by multiplying by the speed_of_light & 1e-6, they are converted to [m]
+          // In the file, clock bias is expressed in [micro second], so by multiplying by the speed_of_light & 1e-6, they are converted to [m]
           clock *= (environment::speed_of_light_m_s * 1e-6);
           if (!unixtime_vector_.at(gnss_satellite_id).empty() && std::abs(unix_time - unixtime_vector_.at(gnss_satellite_id).back()) < 1.0) {
             unixtime_vector_.at(gnss_satellite_id).back() = unix_time;
@@ -796,11 +798,11 @@ double GnssSat_clock::GetSatClock(int gnss_satellite_id) const {
 }
 
 GnssSat_Info::GnssSat_Info() {}
-void GnssSat_Info::Init(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                        UltraRapidMode position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension,
-                        int clock_interpolation_number, UltraRapidMode clock_ur_flag) {
-  auto unix_time_period = position_.Init(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag);
-  clock_.Init(clock_file, clock_file_extension, clock_interpolation_number, clock_ur_flag, unix_time_period);
+void GnssSat_Info::Initialize(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
+                              UltraRapidMode position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension,
+                              int clock_interpolation_number, UltraRapidMode clock_ur_flag) {
+  auto unix_time_period = position_.Initialize(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag);
+  clock_.Initialize(clock_file, clock_file_extension, clock_interpolation_number, clock_ur_flag, unix_time_period);
 }
 
 void GnssSat_Info::SetUp(const double start_unix_time, const double step_sec) {
@@ -849,25 +851,25 @@ GnssSatellites::GnssSatellites(bool is_calc_enabled)
 
 bool GnssSatellites::IsCalcEnabled() const { return is_calc_enabled_; }
 
-void GnssSatellites::Init(vector<vector<string>>& true_position_file, int true_position_interpolation_method, int true_position_interpolation_number,
-                          UltraRapidMode true_position_ur_flag,
+void GnssSatellites::Initialize(vector<vector<string>>& true_position_file, int true_position_interpolation_method,
+                                int true_position_interpolation_number, UltraRapidMode true_position_ur_flag,
 
-                          vector<vector<string>>& true_clock_file, string true_clock_file_extension, int true_clock_interpolation_number,
-                          UltraRapidMode true_clock_ur_flag,
+                                vector<vector<string>>& true_clock_file, string true_clock_file_extension, int true_clock_interpolation_number,
+                                UltraRapidMode true_clock_ur_flag,
 
-                          vector<vector<string>>& estimate_position_file, int estimate_position_interpolation_method,
-                          int estimate_position_interpolation_number, UltraRapidMode estimate_position_ur_flag,
+                                vector<vector<string>>& estimate_position_file, int estimate_position_interpolation_method,
+                                int estimate_position_interpolation_number, UltraRapidMode estimate_position_ur_flag,
 
-                          vector<vector<string>>& estimate_clock_file, string estimate_clock_file_extension, int estimate_clock_interpolation_number,
-                          UltraRapidMode estimate_clock_ur_flag) {
-  true_info_.Init(true_position_file, true_position_interpolation_method, true_position_interpolation_number, true_position_ur_flag,
+                                vector<vector<string>>& estimate_clock_file, string estimate_clock_file_extension,
+                                int estimate_clock_interpolation_number, UltraRapidMode estimate_clock_ur_flag) {
+  true_info_.Initialize(true_position_file, true_position_interpolation_method, true_position_interpolation_number, true_position_ur_flag,
 
-                  true_clock_file, true_clock_file_extension, true_clock_interpolation_number, true_clock_ur_flag);
+                        true_clock_file, true_clock_file_extension, true_clock_interpolation_number, true_clock_ur_flag);
 
-  estimate_info_.Init(estimate_position_file, estimate_position_interpolation_method, estimate_position_interpolation_number,
-                      estimate_position_ur_flag,
+  estimate_info_.Initialize(estimate_position_file, estimate_position_interpolation_method, estimate_position_interpolation_number,
+                            estimate_position_ur_flag,
 
-                      estimate_clock_file, estimate_clock_file_extension, estimate_clock_interpolation_number, estimate_clock_ur_flag);
+                            estimate_clock_file, estimate_clock_file_extension, estimate_clock_interpolation_number, estimate_clock_ur_flag);
 
   return;
 }

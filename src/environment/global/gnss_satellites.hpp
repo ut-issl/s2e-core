@@ -127,7 +127,7 @@ class GnssSat_position : public GnssSat_coordinate {
    */
   GnssSat_position() {}
   /**
-   * @fn Init
+   * @fn Initialize
    * @brief Initialize GNSS satellite position
    * @param[in] file: File path for position calculation
    * @param[in] interpolation_method: Interpolation method for position calculation
@@ -135,8 +135,8 @@ class GnssSat_position : public GnssSat_coordinate {
    * @param[in] ur_flag: Ultra Rapid flag for position calculation
    * @return Start unix time and end unix time
    */
-  std::pair<double, double> Init(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number,
-                                 UltraRapidMode ur_flag);
+  std::pair<double, double> Initialize(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number,
+                                       UltraRapidMode ur_flag);
 
   /**
    * @fn Setup
@@ -188,15 +188,15 @@ class GnssSat_clock : public GnssSat_coordinate {
    */
   GnssSat_clock() {}
   /**
-   * @fn Init
+   * @fn Initialize
    * @brief Initialize GNSS satellite clock
    * @param[in] ile: File path for clock calculation
    * @param[in] file_extension: Extension of the clock file (ex. .sp3, .clk30s)
    * @param[in] interpolation_number: Interpolation number for clock calculation
    * @param[in] ur_flag: Ultra Rapid flag for clock calculation
    */
-  void Init(std::vector<std::vector<std::string>>& file, std::string file_extension, int interpolation_number, UltraRapidMode ur_flag,
-            std::pair<double, double> unix_time_period);
+  void Initialize(std::vector<std::vector<std::string>>& file, std::string file_extension, int interpolation_number, UltraRapidMode ur_flag,
+                  std::pair<double, double> unix_time_period);
   /**
    * @fn SetUp
    * @brief Setup GNSS satellite clock information
@@ -235,7 +235,7 @@ class GnssSat_Info {
    */
   GnssSat_Info();
   /**
-   * @fn Init
+   * @fn Initialize
    * @brief Initialize position and clock
    * @param[in] position_file: File path for position calculation
    * @param[in] position_interpolation_method: Interpolation method for position calculation
@@ -246,9 +246,9 @@ class GnssSat_Info {
    * @param[in] clock_interpolation_number: Interpolation number for clock calculation
    * @param[in] clock_ur_flag: Ultra Rapid flag for clock calculation
    */
-  void Init(std::vector<std::vector<std::string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-            UltraRapidMode position_ur_flag, std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension,
-            int clock_interpolation_number, UltraRapidMode clock_ur_flag);
+  void Initialize(std::vector<std::vector<std::string>>& position_file, int position_interpolation_method, int position_interpolation_number,
+                  UltraRapidMode position_ur_flag, std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension,
+                  int clock_interpolation_number, UltraRapidMode clock_ur_flag);
   /**
    * @fn SetUp
    * @brief Setup GNSS satellite position and clock information
@@ -328,16 +328,17 @@ class GnssSatellites : public ILoggable {
   virtual ~GnssSatellites() {}
 
   /**
-   * @fn Init
+   * @fn Initialize
    * @brief Initialize function
    * @note Parameters are defined in GNSSSat_Info for true and estimated information
    */
-  void Init(std::vector<std::vector<std::string>>& true_position_file, int true_position_interpolation_method, int true_position_interpolation_number,
-            UltraRapidMode true_position_ur_flag, std::vector<std::vector<std::string>>& true_clock_file, std::string true_clock_file_extension,
-            int true_clock_interpolation_number, UltraRapidMode true_clock_ur_flag, std::vector<std::vector<std::string>>& estimate_position_file,
-            int estimate_position_interpolation_method, int estimate_position_interpolation_number, UltraRapidMode estimate_position_ur_flag,
-            std::vector<std::vector<std::string>>& estimate_clock_file, std::string estimate_clock_file_extension,
-            int estimate_clock_interpolation_number, UltraRapidMode estimate_clock_ur_flag);
+  void Initialize(std::vector<std::vector<std::string>>& true_position_file, int true_position_interpolation_method,
+                  int true_position_interpolation_number, UltraRapidMode true_position_ur_flag,
+                  std::vector<std::vector<std::string>>& true_clock_file, std::string true_clock_file_extension, int true_clock_interpolation_number,
+                  UltraRapidMode true_clock_ur_flag, std::vector<std::vector<std::string>>& estimate_position_file,
+                  int estimate_position_interpolation_method, int estimate_position_interpolation_number, UltraRapidMode estimate_position_ur_flag,
+                  std::vector<std::vector<std::string>>& estimate_clock_file, std::string estimate_clock_file_extension,
+                  int estimate_clock_interpolation_number, UltraRapidMode estimate_clock_ur_flag);
   /**
    * @fn IsCalcEnabled
    * @brief Return calculated enabled flag
