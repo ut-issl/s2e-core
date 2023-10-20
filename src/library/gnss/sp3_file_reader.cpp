@@ -33,10 +33,24 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   // 1st line
   line_number++;
   std::getline(sp3_file, line);
+  // Check SP3 version
   if (line.find("#d") != 0) {
     std::cout << "[Warning] SP3 file version is not supported: " << line << std::endl;
     return 0;
   }
+  // Read mode
+  if (line[2] == 'P') {
+    header_.mode_ = Sp3Mode::kPosition;
+  } else if (line[3] == 'V') {
+    header_.mode_ = Sp3Mode::kVelocity;
+  } else {
+    return 0;
+  }
+  // Read start epoch
+  size_t year, month, day, hour, minute;
+  double second;
+  sscanf(line.substr(3, 31).c_str(), "%zu %2zu %2zu %2zu %2zu %12lf", &year, &month, &day, &hour, &minute, &second);
+  header_.start_epoch_ = DateTime(year, month, day, hour, minute, second);
 
   return 0;
 }

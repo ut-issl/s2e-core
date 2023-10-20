@@ -9,6 +9,7 @@
 #define S2E_LIBRARY_GNSS_SP3_FILE_READER_HPP_
 
 #include <library/math/vector.hpp>
+#include <library/time_system/date_time_format.hpp>
 #include <string>
 #include <vector>
 
@@ -40,7 +41,7 @@ struct Sp3Header {
   // 1st line information
   // version -> not implemented yet
   Sp3Mode mode_;  //!< position or velocity
-  // Start time: Year, Month, Day, Hour, Minute, Second
+  DateTime start_epoch_;           //!< Time of start epoch
   size_t number_of_epoch_ = 0;     //!< Number of epoch in the SP3 file
   std::string used_data_;          //!< Used data to generate the SP3 file
   std::string coordinate_system_;  //!< Coordinate system for the position and velocity data
@@ -102,7 +103,7 @@ class Sp3FileReader {
    * @fn ReadHeader
    * @brief Read SP3 file
    * @param[in] sp3_file: file stream of the SP3 file
-   * @return The last line of header
+   * @return The last line of header. 0 means error is happened.
    */
   size_t ReadHeader(std::ifstream& sp3_file);
 };
