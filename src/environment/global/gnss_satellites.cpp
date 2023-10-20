@@ -1072,13 +1072,13 @@ double GnssSatellites::AddIonosphericDelay(const int gnss_satellite_id, const li
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) return 0.0;
 
-  const double Earth_hemisphere = 6378.1;  //[km] FIXME: Use constants.hpp
+  const double earth_hemisphere_km = environment::earth_equatorial_radius_m / 1000.0;
 
   double altitude = 0.0;
   for (int i = 0; i < 3; ++i) altitude += pow(rec_position[i], 2.0);
   altitude = sqrt(altitude);
-  altitude = altitude / 1000.0 - Earth_hemisphere;  //[m -> km]
-  if (altitude >= 1000.0) return 0.0;               // there is no Ionosphere above 1000km
+  altitude = altitude / 1000.0 - earth_hemisphere_km;  //[m -> km]
+  if (altitude >= 1000.0) return 0.0;                  // there is no Ionosphere above 1000km
 
   libra::Vector<3> gnss_position;
   if (flag == GnssFrameDefinition::kEcef)
@@ -1087,10 +1087,10 @@ double GnssSatellites::AddIonosphericDelay(const int gnss_satellite_id, const li
     gnss_position = true_info_.GetSatellitePositionEci(gnss_satellite_id);
 
   double angle_rad = CalcAngleTwoVectors_rad(rec_position, gnss_position - rec_position);
-  const double default_delay = 20.0;                                             //[m] default delay
-  double delay = default_delay * (1000.0 - altitude) / 1000.0 / cos(angle_rad);  // set the maximum height as 1000.0. Divide by
-                                                                                 // cos because the slope makes it longer.
-  const double default_frequency = 1500.0;                                       //[MHz]
+  const double default_delay = 20.0;  //[m] default delay
+  // Assume the maximum height as 1000.0. Divide by cos because the slope makes it longer.
+  double delay = default_delay * (1000.0 - altitude) / 1000.0 / cos(angle_rad);
+  const double default_frequency = 1500.0;  //[MHz]
   // Ionospheric delay is inversely proportional to the square of the frequency
   delay *= pow(default_frequency / frequency, 2.0);
 
