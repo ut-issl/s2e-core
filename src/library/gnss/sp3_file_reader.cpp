@@ -49,8 +49,28 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   // Read start epoch
   size_t year, month, day, hour, minute;
   double second;
-  sscanf(line.substr(3, 31).c_str(), "%zu %2zu %2zu %2zu %2zu %12lf", &year, &month, &day, &hour, &minute, &second);
+  sscanf(line.substr(3, 28).c_str(), "%zu %2zu %2zu %2zu %2zu %12lf", &year, &month, &day, &hour, &minute, &second);
   header_.start_epoch_ = DateTime(year, month, day, hour, minute, second);
+  // Read number of epoch
+  header_.number_of_epoch_ = std::stoi(line.substr(32, 7));
+  // Read other string information
+  header_.used_data_ = line.substr(40, 5);
+  header_.coordinate_system_ = line.substr(46, 5);
+  std::string orbit_type = line.substr(52, 3);
+  if (orbit_type == "FIT") {
+    header_.orbit_type_ = Sp3OrbitType::kFitted;
+  } else if (orbit_type == "EXT") {
+    header_.orbit_type_ = Sp3OrbitType::kExtrapolated;
+  } else if (orbit_type == "BCT") {
+    header_.orbit_type_ = Sp3OrbitType::kBroadcast;
+  } else if (orbit_type == "HLM") {
+    header_.orbit_type_ = Sp3OrbitType::kHelmert;
+  } else {
+    return 0;
+  }
+  header_.agency_name_ = line.substr(56, 4);
+
+  // 2nd line
 
   return 0;
 }
