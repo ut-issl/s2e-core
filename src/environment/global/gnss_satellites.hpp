@@ -105,12 +105,12 @@ class GnssSatelliteBase {
   libra::Vector<N> LagrangeInterpolation(const std::vector<double>& time_vector, const std::vector<libra::Vector<N>>& values, double time) const;
   double LagrangeInterpolation(const std::vector<double>& time_vector, const std::vector<double>& values, double time) const;
 
-  std::vector<std::vector<double>> unixtime_vector_;  //!< List of unixtime for all satellite
-  std::vector<std::vector<double>> time_period_;      //!< List of time period for interpolation
-  std::vector<bool> validate_;                        //!< List of whether the satellite is available at the time
-  std::vector<int> nearest_index_;                    //!< Index list for update(in position, time_and_index_list_. in clock_bias, time_table_)
+  std::vector<std::vector<double>> unix_time_list;     //!< List of unixtime for all satellite
+  std::vector<std::vector<double>> time_period_list_;  //!< List of time period for interpolation
+  std::vector<bool> validate_;                         //!< List of whether the satellite is available at the time
+  std::vector<int> nearest_index_;                     //!< Index list for update(in position, time_and_index_list_. in clock_bias, time_table_)
 
-  double step_sec_ = 0.0;         //!< Step width [sec]
+  double step_width_s_ = 0.0;     //!< Step width [sec]
   double time_interval_ = 0.0;    //!< Time interval
   int interpolation_number_ = 0;  //!< Interpolation number
 };
@@ -142,36 +142,37 @@ class GnssSatellitePosition : public GnssSatelliteBase {
    * @fn Setup
    * @brief Setup GNSS satellite position information
    * @param [in] start_unix_time: Start unix time
-   * @param [in] step_sec: Step width [sec]
+   * @param [in] step_width_s: Step width [sec]
    */
-  void SetUp(const double start_unix_time, const double step_sec);
+  void SetUp(const double start_unix_time, const double step_width_s);
   /**
    * @fn Update
    * @brief Update GNSS satellite position information
-   * @param [in] now_unix_time: Current unix time
+   * @param [in] current_unix_time: Current unix time
    */
-  void Update(const double now_unix_time);
+  void Update(const double current_unix_time);
 
   /**
-   * @fn GetSatEcef
+   * @fn GetPosition_ecef_m
    * @brief Return GNSS satellite position vector in the ECEF frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetSatEcef(int gnss_satellite_id) const;
+  libra::Vector<3> GetPosition_ecef_m(int gnss_satellite_id) const;
   /**
-   * @fn GetSatEci
+   * @fn GetPosition_eci_m
    * @brief Return GNSS satellite position vector in the ECI frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetSatEci(int gnss_satellite_id) const;
+  libra::Vector<3> GetPosition_eci_m(int gnss_satellite_id) const;
 
  private:
-  std::vector<libra::Vector<3>> gnss_sat_ecef_;  //!< List of GNSS satellite position at specific time in the ECEF frame [m]
-  std::vector<libra::Vector<3>> gnss_sat_eci_;   //!< List of GNSS satellite position at specific time in the ECI frame [m]
+  std::vector<libra::Vector<3>> position_ecef_m_;  //!< List of GNSS satellite position at specific time in the ECEF frame [m]
+  std::vector<libra::Vector<3>> position_eci_m_;   //!< List of GNSS satellite position at specific time in the ECI frame [m]
 
-  std::vector<std::vector<libra::Vector<3>>> gnss_sat_table_ecef_;  //!< Time series of position of all GNSS satellites in the ECEF frame [m]
-  std::vector<std::vector<libra::Vector<3>>> gnss_sat_table_eci_;   //!< Time series of position of all GNSS satellites in the ECEF frame [m]
+  std::vector<std::vector<libra::Vector<3>>> time_series_position_ecef_m_;  //!< Time series of position of all GNSS satellites in the ECEF frame [m]
+  std::vector<std::vector<libra::Vector<3>>> time_series_position_eci_m_;   //!< Time series of position of all GNSS satellites in the ECEF frame [m]
 
+  // TODO: move to local function?
   std::vector<std::vector<libra::Vector<3>>> ecef_;  //!< Time series of position of all GNSS satellites in the ECEF frame before interpolation [m]
   std::vector<std::vector<libra::Vector<3>>> eci_;   //!< Time series of position of all GNSS satellites in the ECEF frame before interpolation [m]
 };
@@ -201,15 +202,15 @@ class GnssSatelliteClock : public GnssSatelliteBase {
    * @fn SetUp
    * @brief Setup GNSS satellite clock information
    * @param [in] start_unix_time: Start unix time
-   * @param [in] step_sec: Step width [sec]
+   * @param [in] step_width_s: Step width [sec]
    */
-  void SetUp(const double start_unix_time, const double step_sec);
+  void SetUp(const double start_unix_time, const double step_width_s);
   /**
    * @fn Update
    * @brief Update GNSS satellite clock information
-   * @param [in] now_unix_time: Current unix time
+   * @param [in] current_unix_time: Current unix time
    */
-  void Update(const double now_unix_time);
+  void Update(const double current_unix_time);
   /**
    * @fn GetSatClock
    * @brief Return GNSS satellite clock in distance expression [m]
@@ -218,22 +219,24 @@ class GnssSatelliteClock : public GnssSatelliteBase {
   double GetSatClock(int gnss_satellite_id) const;
 
  private:
-  std::vector<double> gnss_sat_clock_;                     //!< List of clock bias of all GNSS satellites at specific time expressed in distance [m]
-  std::vector<std::vector<double>> gnss_sat_clock_table_;  //!< Time series of clock bias of all GNSS satellites expressed in distance [m]
+  std::vector<double> clock_offset_m_;  //!< List of clock bias of all GNSS satellites at specific time expressed in distance [m]
+  std::vector<std::vector<double>> time_series_clock_offset_m_;  //!< Time series of clock bias of all GNSS satellites expressed in distance [m]
+
+  // TODO: move to local function?
   std::vector<std::vector<double>> clock_bias_;  //!< Time series of clock bias of all GNSS satellites expressed in distance before interpolation [m]
 };
 
 /**
- * @class GnssSat_Info
- * @brief Class to manage GNSS satellite information
+ * @class GnssSatelliteInformation
+ * @brief Class to manage GNSS satellite information including position and clock
  */
-class GnssSat_Info {
+class GnssSatelliteInformation {
  public:
   /**
-   * @fn GnssSat_Info
+   * @fn GnssSatelliteInformation
    * @brief Constructor
    */
-  GnssSat_Info();
+  GnssSatelliteInformation();
   /**
    * @fn Initialize
    * @brief Initialize position and clock
@@ -253,15 +256,15 @@ class GnssSat_Info {
    * @fn SetUp
    * @brief Setup GNSS satellite position and clock information
    * @param [in] start_unix_time: Start unix time
-   * @param [in] step_sec: Step width [sec]
+   * @param [in] step_width_s: Step width [sec]
    */
-  void SetUp(const double start_unix_time, const double step_sec);
+  void SetUp(const double start_unix_time, const double step_width_s);
   /**
    * @fn Update
    * @brief Update GNSS satellite position and clock information
-   * @param [in] now_unix_time: Current unix time
+   * @param [in] current_unix_time: Current unix time
    */
-  void Update(const double now_unix_time);
+  void Update(const double current_unix_time);
 
   /**
    * @fn GetNumberOfSatellites
@@ -393,12 +396,12 @@ class GnssSatellites : public ILoggable {
    * @fn Get_true_info
    * @brief Return GNSS satellite information class for true value system
    */
-  const GnssSat_Info& Get_true_info() const;
+  const GnssSatelliteInformation& Get_true_info() const;
   /**
    * @fn Get_estimate_info
    * @brief Return GNSS satellite information class for estimated value system
    */
-  const GnssSat_Info& Get_estimate_info() const;
+  const GnssSatelliteInformation& Get_estimate_info() const;
 
   /**
    * @fn GetSatellitePositionEcef
@@ -500,10 +503,10 @@ class GnssSatellites : public ILoggable {
   double AddIonosphericDelay(const int gnss_satellite_id, const libra::Vector<3> rec_position, const double frequency,
                              const GnssFrameDefinition flag) const;
 
-  bool is_calc_enabled_ = true;  //!< Flag to manage the GNSS satellite position calculation
-  GnssSat_Info true_info_;       //!< True information of GNSS satellites
-  GnssSat_Info estimate_info_;   //!< Estimated information of GNSS satellites TODO: should be move out from GlobalEnvironment
-  double start_unix_time_;       //!< Start unix time
+  bool is_calc_enabled_ = true;             //!< Flag to manage the GNSS satellite position calculation
+  GnssSatelliteInformation true_info_;      //!< True information of GNSS satellites
+  GnssSatelliteInformation estimate_info_;  //!< Estimated information of GNSS satellites TODO: should be move out from GlobalEnvironment
+  double start_unix_time_;                  //!< Start unix time
 
 #ifdef GNSS_SATELLITES_DEBUG_OUTPUT
   ofstream ofs_true;  //!< Debug output for true value

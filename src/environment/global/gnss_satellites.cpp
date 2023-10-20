@@ -19,6 +19,8 @@
 
 const double nan99 = 999999.999999;
 
+// GNSS satellite number definition
+// TODO: Move to other library to define GNSS constants
 const int gps_sat_num_ = 32;      //!< Number of GPS satellites
 const int glonass_sat_num_ = 26;  //!< Number of GLONASS satellites
 const int galileo_sat_num_ = 36;  //!< Number of Galileo satellites
@@ -81,6 +83,7 @@ double get_unixtime_from_timestamp_line(std::vector<string>& s) {
   return unix_time;
 }
 
+// GnssSatelliteBase
 template <size_t N>
 libra::Vector<N> GnssSatelliteBase::TrigonometricInterpolation(const vector<double>& time_vector, const vector<libra::Vector<N>>& values,
                                                                double time) const {
@@ -224,6 +227,7 @@ bool GnssSatelliteBase::GetWhetherValid(int gnss_satellite_id) const {
   return validate_.at(gnss_satellite_id);
 }
 
+// GnssSatellitePosition
 pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& file, int interpolation_method, int interpolation_number,
                                                        UltraRapidMode ur_flag) {
   UNUSED(interpolation_method);
@@ -231,9 +235,9 @@ pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& f
   interpolation_number_ = interpolation_number;
 
   // Expansion
-  gnss_sat_table_ecef_.resize(all_sat_num_);  // first vector size is the satellite number
-  gnss_sat_table_eci_.resize(all_sat_num_);
-  unixtime_vector_.resize(all_sat_num_);
+  time_series_position_ecef_m_.resize(all_sat_num_);  // first vector size is the satellite number
+  time_series_position_eci_m_.resize(all_sat_num_);
+  unix_time_list.resize(all_sat_num_);
 
   // for using min and max, set the sup & inf before
   double start_unix_time = 1e16;
@@ -345,14 +349,14 @@ pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& f
         eci_position(2) = z;
 
         // Set data
-        if (!unixtime_vector_.at(gnss_satellite_id).empty() && std::abs(unix_time - unixtime_vector_.at(gnss_satellite_id).back()) < 1.0) {
-          unixtime_vector_.at(gnss_satellite_id).back() = unix_time;
-          gnss_sat_table_ecef_.at(gnss_satellite_id).back() = ecef_position_m;
-          gnss_sat_table_eci_.at(gnss_satellite_id).back() = eci_position;
+        if (!unix_time_list.at(gnss_satellite_id).empty() && std::abs(unix_time - unix_time_list.at(gnss_satellite_id).back()) < 1.0) {
+          unix_time_list.at(gnss_satellite_id).back() = unix_time;
+          time_series_position_ecef_m_.at(gnss_satellite_id).back() = ecef_position_m;
+          time_series_position_eci_m_.at(gnss_satellite_id).back() = eci_position;
         } else {
-          unixtime_vector_.at(gnss_satellite_id).emplace_back(unix_time);
-          gnss_sat_table_ecef_.at(gnss_satellite_id).emplace_back(ecef_position_m);
-          gnss_sat_table_eci_.at(gnss_satellite_id).emplace_back(eci_position);
+          unix_time_list.at(gnss_satellite_id).emplace_back(unix_time);
+          time_series_position_ecef_m_.at(gnss_satellite_id).emplace_back(ecef_position_m);
+          time_series_position_eci_m_.at(gnss_satellite_id).emplace_back(eci_position);
         }
       }
     }
@@ -361,40 +365,40 @@ pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& f
   return make_pair(start_unix_time, end_unix_time);
 }
 
-void GnssSatellitePosition::SetUp(const double start_unix_time, const double step_sec) {
-  step_sec_ = step_sec;
+void GnssSatellitePosition::SetUp(const double start_unix_time, const double step_width_s) {
+  step_width_s_ = step_width_s;
 
-  gnss_sat_ecef_.assign(all_sat_num_, libra::Vector<3>(0.0));
-  gnss_sat_eci_.assign(all_sat_num_, libra::Vector<3>(0.0));
+  position_ecef_m_.assign(all_sat_num_, libra::Vector<3>(0.0));
+  position_eci_m_.assign(all_sat_num_, libra::Vector<3>(0.0));
   validate_.assign(all_sat_num_, false);
 
   nearest_index_.resize(all_sat_num_);
-  time_period_.resize(all_sat_num_);
+  time_period_list_.resize(all_sat_num_);
 
   ecef_.resize(all_sat_num_);
   eci_.resize(all_sat_num_);
 
   for (int gnss_satellite_id = 0; gnss_satellite_id < all_sat_num_; ++gnss_satellite_id) {
-    if (unixtime_vector_.at(gnss_satellite_id).empty()) {
+    if (unix_time_list.at(gnss_satellite_id).empty()) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
-    int index = (int)(lower_bound(unixtime_vector_.at(gnss_satellite_id).begin(), unixtime_vector_.at(gnss_satellite_id).end(), start_unix_time) -
-                      unixtime_vector_.at(gnss_satellite_id).begin());
-    if (index == (int)unixtime_vector_.at(gnss_satellite_id).size()) {
+    int index = (int)(lower_bound(unix_time_list.at(gnss_satellite_id).begin(), unix_time_list.at(gnss_satellite_id).end(), start_unix_time) -
+                      unix_time_list.at(gnss_satellite_id).begin());
+    if (index == (int)unix_time_list.at(gnss_satellite_id).size()) {
       nearest_index_.at(gnss_satellite_id) = index;
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
-    double nearest_unixtime = unixtime_vector_.at(gnss_satellite_id).at(index);
+    double nearest_unixtime = unix_time_list.at(gnss_satellite_id).at(index);
     if (interpolation_number_ % 2 && index != 0) {
-      double pre_time = unixtime_vector_.at(gnss_satellite_id).at(index - 1);
+      double pre_time = unix_time_list.at(gnss_satellite_id).at(index - 1);
       if (std::abs(start_unix_time - pre_time) < std::abs(start_unix_time - nearest_unixtime)) --index;
     }
     nearest_index_.at(gnss_satellite_id) = index;
-    nearest_unixtime = unixtime_vector_.at(gnss_satellite_id).at(index);
+    nearest_unixtime = unix_time_list.at(gnss_satellite_id).at(index);
     if (std::abs(start_unix_time - nearest_unixtime) > time_interval_) {
       validate_.at(gnss_satellite_id) = false;
       continue;
@@ -403,18 +407,18 @@ void GnssSatellitePosition::SetUp(const double start_unix_time, const double ste
     // for both even and odd: 2n+1 -> [-n, n] 2n -> [-n, n)
     for (int j = -interpolation_number_ / 2; j < (interpolation_number_ + 1) / 2; ++j) {
       int now_index = index + j;
-      if (now_index < 0 || now_index >= (int)unixtime_vector_.at(gnss_satellite_id).size()) continue;
+      if (now_index < 0 || now_index >= (int)unix_time_list.at(gnss_satellite_id).size()) continue;
 
-      time_period_.at(gnss_satellite_id).push_back(unixtime_vector_.at(gnss_satellite_id).at(now_index));
-      ecef_.at(gnss_satellite_id).push_back(gnss_sat_table_ecef_.at(gnss_satellite_id).at(now_index));
-      eci_.at(gnss_satellite_id).push_back(gnss_sat_table_eci_.at(gnss_satellite_id).at(now_index));
+      time_period_list_.at(gnss_satellite_id).push_back(unix_time_list.at(gnss_satellite_id).at(now_index));
+      ecef_.at(gnss_satellite_id).push_back(time_series_position_ecef_m_.at(gnss_satellite_id).at(now_index));
+      eci_.at(gnss_satellite_id).push_back(time_series_position_eci_m_.at(gnss_satellite_id).at(now_index));
     }
-    if ((int)time_period_.at(gnss_satellite_id).size() != interpolation_number_) {
+    if ((int)time_period_list_.at(gnss_satellite_id).size() != interpolation_number_) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
-    double time_period_length = time_period_.at(gnss_satellite_id).back() - time_period_.at(gnss_satellite_id).front();
+    double time_period_length = time_period_list_.at(gnss_satellite_id).back() - time_period_list_.at(gnss_satellite_id).front();
     if (time_period_length > time_interval_ * (interpolation_number_ - 1 + 3) + 1e-4) {  // allow for 3 missing
       validate_.at(gnss_satellite_id) = false;
       continue;
@@ -423,65 +427,65 @@ void GnssSatellitePosition::SetUp(const double start_unix_time, const double ste
     }
 
     if (std::abs(start_unix_time - nearest_unixtime) < 1e-4) {  // for the numerical error, plus 1e-4
-      gnss_sat_ecef_.at(gnss_satellite_id) = gnss_sat_table_ecef_.at(gnss_satellite_id).at(index);
-      gnss_sat_eci_.at(gnss_satellite_id) = gnss_sat_table_eci_.at(gnss_satellite_id).at(index);
+      position_ecef_m_.at(gnss_satellite_id) = time_series_position_ecef_m_.at(gnss_satellite_id).at(index);
+      position_eci_m_.at(gnss_satellite_id) = time_series_position_eci_m_.at(gnss_satellite_id).at(index);
     } else {
-      gnss_sat_ecef_.at(gnss_satellite_id) =
-          TrigonometricInterpolation(time_period_.at(gnss_satellite_id), ecef_.at(gnss_satellite_id), start_unix_time);
-      gnss_sat_eci_.at(gnss_satellite_id) =
-          TrigonometricInterpolation(time_period_.at(gnss_satellite_id), eci_.at(gnss_satellite_id), start_unix_time);
+      position_ecef_m_.at(gnss_satellite_id) =
+          TrigonometricInterpolation(time_period_list_.at(gnss_satellite_id), ecef_.at(gnss_satellite_id), start_unix_time);
+      position_eci_m_.at(gnss_satellite_id) =
+          TrigonometricInterpolation(time_period_list_.at(gnss_satellite_id), eci_.at(gnss_satellite_id), start_unix_time);
     }
   }
 }
 
-void GnssSatellitePosition::Update(const double now_unix_time) {
+void GnssSatellitePosition::Update(const double current_unix_time) {
   for (int gnss_satellite_id = 0; gnss_satellite_id < all_sat_num_; ++gnss_satellite_id) {
-    if (unixtime_vector_.at(gnss_satellite_id).empty()) {
+    if (unix_time_list.at(gnss_satellite_id).empty()) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
     int index = nearest_index_.at(gnss_satellite_id);
-    if (index == (int)unixtime_vector_.at(gnss_satellite_id).size()) {
+    if (index == (int)unix_time_list.at(gnss_satellite_id).size()) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
-    if (index + 1 < (int)unixtime_vector_.at(gnss_satellite_id).size()) {
-      double pre_unix = unixtime_vector_.at(gnss_satellite_id).at(index);
-      double post_unix = unixtime_vector_.at(gnss_satellite_id).at(index + 1);
+    if (index + 1 < (int)unix_time_list.at(gnss_satellite_id).size()) {
+      double pre_unix = unix_time_list.at(gnss_satellite_id).at(index);
+      double post_unix = unix_time_list.at(gnss_satellite_id).at(index + 1);
 
-      if (std::abs(now_unix_time - post_unix) < std::abs(now_unix_time - pre_unix)) {
+      if (std::abs(current_unix_time - post_unix) < std::abs(current_unix_time - pre_unix)) {
         ++index;
         nearest_index_.at(gnss_satellite_id) = index;
 
-        time_period_.at(gnss_satellite_id).clear();
+        time_period_list_.at(gnss_satellite_id).clear();
         ecef_.at(gnss_satellite_id).clear();
         eci_.at(gnss_satellite_id).clear();
 
         // for both even and odd: 2n+1 -> [-n, n] 2n -> [-n, n)
         for (int j = -interpolation_number_ / 2; j < (interpolation_number_ + 1) / 2; ++j) {
           int now_index = index + j;
-          if (now_index < 0 || now_index >= (int)unixtime_vector_.at(gnss_satellite_id).size()) continue;
+          if (now_index < 0 || now_index >= (int)unix_time_list.at(gnss_satellite_id).size()) continue;
 
-          time_period_.at(gnss_satellite_id).push_back(unixtime_vector_.at(gnss_satellite_id).at(now_index));
-          ecef_.at(gnss_satellite_id).push_back(gnss_sat_table_ecef_.at(gnss_satellite_id).at(now_index));
-          eci_.at(gnss_satellite_id).push_back(gnss_sat_table_eci_.at(gnss_satellite_id).at(now_index));
+          time_period_list_.at(gnss_satellite_id).push_back(unix_time_list.at(gnss_satellite_id).at(now_index));
+          ecef_.at(gnss_satellite_id).push_back(time_series_position_ecef_m_.at(gnss_satellite_id).at(now_index));
+          eci_.at(gnss_satellite_id).push_back(time_series_position_eci_m_.at(gnss_satellite_id).at(now_index));
         }
       }
     }
-    double nearest_unix_time = unixtime_vector_.at(gnss_satellite_id).at(index);
-    if (std::abs(now_unix_time - nearest_unix_time) > time_interval_) {
+    double nearest_unix_time = unix_time_list.at(gnss_satellite_id).at(index);
+    if (std::abs(current_unix_time - nearest_unix_time) > time_interval_) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
-    if ((int)time_period_.at(gnss_satellite_id).size() != interpolation_number_) {
+    if ((int)time_period_list_.at(gnss_satellite_id).size() != interpolation_number_) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
-    double time_period_length = time_period_.at(gnss_satellite_id).back() - time_period_.at(gnss_satellite_id).front();
+    double time_period_length = time_period_list_.at(gnss_satellite_id).back() - time_period_list_.at(gnss_satellite_id).front();
     if (time_period_length > time_interval_ * (interpolation_number_ - 1 + 3) + 1e-4) {  // allow for 3 missing
       validate_.at(gnss_satellite_id) = false;
       continue;
@@ -489,32 +493,34 @@ void GnssSatellitePosition::Update(const double now_unix_time) {
       validate_.at(gnss_satellite_id) = true;
     }
 
-    if (std::abs(now_unix_time - nearest_unix_time) < 1e-4) {  // for the numerical error, plus 1e-4
-      gnss_sat_ecef_.at(gnss_satellite_id) = gnss_sat_table_ecef_.at(gnss_satellite_id).at(index);
-      gnss_sat_eci_.at(gnss_satellite_id) = gnss_sat_table_eci_.at(gnss_satellite_id).at(index);
+    if (std::abs(current_unix_time - nearest_unix_time) < 1e-4) {  // for the numerical error, plus 1e-4
+      position_ecef_m_.at(gnss_satellite_id) = time_series_position_ecef_m_.at(gnss_satellite_id).at(index);
+      position_eci_m_.at(gnss_satellite_id) = time_series_position_eci_m_.at(gnss_satellite_id).at(index);
     } else {
-      gnss_sat_ecef_.at(gnss_satellite_id) =
-          TrigonometricInterpolation(time_period_.at(gnss_satellite_id), ecef_.at(gnss_satellite_id), now_unix_time);
-      gnss_sat_eci_.at(gnss_satellite_id) = TrigonometricInterpolation(time_period_.at(gnss_satellite_id), eci_.at(gnss_satellite_id), now_unix_time);
+      position_ecef_m_.at(gnss_satellite_id) =
+          TrigonometricInterpolation(time_period_list_.at(gnss_satellite_id), ecef_.at(gnss_satellite_id), current_unix_time);
+      position_eci_m_.at(gnss_satellite_id) =
+          TrigonometricInterpolation(time_period_list_.at(gnss_satellite_id), eci_.at(gnss_satellite_id), current_unix_time);
     }
   }
 }
 
-libra::Vector<3> GnssSatellitePosition::GetSatEcef(int gnss_satellite_id) const {
+libra::Vector<3> GnssSatellitePosition::GetPosition_ecef_m(int gnss_satellite_id) const {
   if (gnss_satellite_id >= all_sat_num_) return libra::Vector<3>(0.0);
-  return gnss_sat_ecef_.at(gnss_satellite_id);
+  return position_ecef_m_.at(gnss_satellite_id);
 }
 
-libra::Vector<3> GnssSatellitePosition::GetSatEci(int gnss_satellite_id) const {
+libra::Vector<3> GnssSatellitePosition::GetPosition_eci_m(int gnss_satellite_id) const {
   if (gnss_satellite_id >= all_sat_num_) return libra::Vector<3>(0.0);
-  return gnss_sat_eci_.at(gnss_satellite_id);
+  return position_eci_m_.at(gnss_satellite_id);
 }
 
+// GnssSatelliteClock
 void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_extension, int interpolation_number, UltraRapidMode ur_flag,
                                     pair<double, double> unix_time_period) {
   interpolation_number_ = interpolation_number;
-  gnss_sat_clock_table_.resize(all_sat_num_);  // first vector size is the sat num
-  unixtime_vector_.resize(all_sat_num_);
+  time_series_clock_offset_m_.resize(all_sat_num_);  // first vector size is the sat num
+  unix_time_list.resize(all_sat_num_);
 
   if (file_extension == ".sp3") {
     for (int page = 0; page < (int)file.size(); ++page) {
@@ -590,12 +596,12 @@ void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_ex
 
           // In the file, clock bias is expressed in [micro second], so by multiplying by the speed_of_light & 1e-6, they are converted to [m]
           clock *= (environment::speed_of_light_m_s * 1e-6);
-          if (!unixtime_vector_.at(gnss_satellite_id).empty() && std::abs(unix_time - unixtime_vector_.at(gnss_satellite_id).back()) < 1.0) {
-            unixtime_vector_.at(gnss_satellite_id).back() = unix_time;
-            gnss_sat_clock_table_.at(gnss_satellite_id).back() = clock;
+          if (!unix_time_list.at(gnss_satellite_id).empty() && std::abs(unix_time - unix_time_list.at(gnss_satellite_id).back()) < 1.0) {
+            unix_time_list.at(gnss_satellite_id).back() = unix_time;
+            time_series_clock_offset_m_.at(gnss_satellite_id).back() = clock;
           } else {
-            unixtime_vector_.at(gnss_satellite_id).push_back(unix_time);
-            gnss_sat_clock_table_.at(gnss_satellite_id).emplace_back(clock);
+            unix_time_list.at(gnss_satellite_id).push_back(unix_time);
+            time_series_clock_offset_m_.at(gnss_satellite_id).emplace_back(clock);
           }
         }
       }
@@ -647,53 +653,53 @@ void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_ex
         double clock_bias = stod(s.at(9)) * environment::speed_of_light_m_s;  // [s] -> [m]
         if (start_unix_time - unix_time > 1e-4) continue;                     // for the numerical error
         if (end_unix_time - unix_time < 1e-4) break;
-        if (!unixtime_vector_.at(gnss_satellite_id).empty() &&
-            std::abs(unix_time - unixtime_vector_.at(gnss_satellite_id).back()) < 1e-4) {  // for the numerical error
-          unixtime_vector_.at(gnss_satellite_id).back() = unix_time;
-          gnss_sat_clock_table_.at(gnss_satellite_id).back() = clock_bias;
+        if (!unix_time_list.at(gnss_satellite_id).empty() &&
+            std::abs(unix_time - unix_time_list.at(gnss_satellite_id).back()) < 1e-4) {  // for the numerical error
+          unix_time_list.at(gnss_satellite_id).back() = unix_time;
+          time_series_clock_offset_m_.at(gnss_satellite_id).back() = clock_bias;
         } else {
-          if (!unixtime_vector_.at(gnss_satellite_id).empty())
-            time_interval_ = min(time_interval_, unix_time - unixtime_vector_.at(gnss_satellite_id).back());
-          unixtime_vector_.at(gnss_satellite_id).emplace_back(unix_time);
-          gnss_sat_clock_table_.at(gnss_satellite_id).emplace_back(clock_bias);
+          if (!unix_time_list.at(gnss_satellite_id).empty())
+            time_interval_ = min(time_interval_, unix_time - unix_time_list.at(gnss_satellite_id).back());
+          unix_time_list.at(gnss_satellite_id).emplace_back(unix_time);
+          time_series_clock_offset_m_.at(gnss_satellite_id).emplace_back(clock_bias);
         }
       }
     }
   }
 }
 
-void GnssSatelliteClock::SetUp(const double start_unix_time, const double step_sec) {
-  step_sec_ = step_sec;
+void GnssSatelliteClock::SetUp(const double start_unix_time, const double step_width_s) {
+  step_width_s_ = step_width_s;
 
-  gnss_sat_clock_.resize(all_sat_num_);
+  clock_offset_m_.resize(all_sat_num_);
   validate_.assign(all_sat_num_, false);
 
   nearest_index_.resize(all_sat_num_);
-  time_period_.resize(all_sat_num_);
+  time_period_list_.resize(all_sat_num_);
 
   clock_bias_.resize(all_sat_num_);
 
   for (int gnss_satellite_id = 0; gnss_satellite_id < all_sat_num_; ++gnss_satellite_id) {
-    if (unixtime_vector_.at(gnss_satellite_id).empty()) {
+    if (unix_time_list.at(gnss_satellite_id).empty()) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
-    int index = (int)(lower_bound(unixtime_vector_.at(gnss_satellite_id).begin(), unixtime_vector_.at(gnss_satellite_id).end(), start_unix_time) -
-                      unixtime_vector_.at(gnss_satellite_id).begin());
-    if (index == (int)unixtime_vector_.at(gnss_satellite_id).size()) {
+    int index = (int)(lower_bound(unix_time_list.at(gnss_satellite_id).begin(), unix_time_list.at(gnss_satellite_id).end(), start_unix_time) -
+                      unix_time_list.at(gnss_satellite_id).begin());
+    if (index == (int)unix_time_list.at(gnss_satellite_id).size()) {
       validate_.at(gnss_satellite_id) = false;
       nearest_index_.at(gnss_satellite_id) = index;
       continue;
     }
 
-    double nearest_unixtime = unixtime_vector_.at(gnss_satellite_id).at(index);
+    double nearest_unixtime = unix_time_list.at(gnss_satellite_id).at(index);
     if (interpolation_number_ % 2 && index != 0) {
-      double pre_time = unixtime_vector_.at(gnss_satellite_id).at(index - 1);
+      double pre_time = unix_time_list.at(gnss_satellite_id).at(index - 1);
       if (std::abs(start_unix_time - pre_time) < std::abs(start_unix_time - nearest_unixtime)) --index;
     }
     nearest_index_.at(gnss_satellite_id) = index;
-    nearest_unixtime = unixtime_vector_.at(gnss_satellite_id).at(index);
+    nearest_unixtime = unix_time_list.at(gnss_satellite_id).at(index);
     if (std::abs(start_unix_time - nearest_unixtime) > time_interval_) {
       validate_.at(gnss_satellite_id) = false;
       continue;
@@ -702,17 +708,17 @@ void GnssSatelliteClock::SetUp(const double start_unix_time, const double step_s
     // for both even and odd: 2n+1 -> [-n, n] 2n -> [-n, n)
     for (int j = -interpolation_number_ / 2; j < (interpolation_number_ + 1) / 2; ++j) {
       int now_index = index + j;
-      if (now_index < 0 || now_index >= (int)unixtime_vector_.at(gnss_satellite_id).size()) continue;
+      if (now_index < 0 || now_index >= (int)unix_time_list.at(gnss_satellite_id).size()) continue;
 
-      time_period_.at(gnss_satellite_id).push_back(unixtime_vector_.at(gnss_satellite_id).at(now_index));
-      clock_bias_.at(gnss_satellite_id).push_back(gnss_sat_clock_table_.at(gnss_satellite_id).at(now_index));
+      time_period_list_.at(gnss_satellite_id).push_back(unix_time_list.at(gnss_satellite_id).at(now_index));
+      clock_bias_.at(gnss_satellite_id).push_back(time_series_clock_offset_m_.at(gnss_satellite_id).at(now_index));
     }
 
-    if ((int)time_period_.at(gnss_satellite_id).size() != interpolation_number_) {
+    if ((int)time_period_list_.at(gnss_satellite_id).size() != interpolation_number_) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
-    double time_period_length = time_period_.at(gnss_satellite_id).back() - time_period_.at(gnss_satellite_id).front();
+    double time_period_length = time_period_list_.at(gnss_satellite_id).back() - time_period_list_.at(gnss_satellite_id).front();
     if (time_period_length > time_interval_ * (interpolation_number_ - 1) + 1e-4) {  // more strict for clock_bias
       validate_.at(gnss_satellite_id) = false;
       continue;
@@ -721,61 +727,61 @@ void GnssSatelliteClock::SetUp(const double start_unix_time, const double step_s
     }
 
     if (std::abs(start_unix_time - nearest_unixtime) < 1e-4) {  // for the numerical error
-      gnss_sat_clock_.at(gnss_satellite_id) = gnss_sat_clock_table_.at(gnss_satellite_id).at(index);
+      clock_offset_m_.at(gnss_satellite_id) = time_series_clock_offset_m_.at(gnss_satellite_id).at(index);
     } else {
-      gnss_sat_clock_.at(gnss_satellite_id) =
-          LagrangeInterpolation(time_period_.at(gnss_satellite_id), clock_bias_.at(gnss_satellite_id), start_unix_time);
+      clock_offset_m_.at(gnss_satellite_id) =
+          LagrangeInterpolation(time_period_list_.at(gnss_satellite_id), clock_bias_.at(gnss_satellite_id), start_unix_time);
     }
   }
 }
 
-void GnssSatelliteClock::Update(const double now_unix_time) {
+void GnssSatelliteClock::Update(const double current_unix_time) {
   for (int gnss_satellite_id = 0; gnss_satellite_id < all_sat_num_; ++gnss_satellite_id) {
-    if (unixtime_vector_.at(gnss_satellite_id).empty()) {
+    if (unix_time_list.at(gnss_satellite_id).empty()) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
     int index = nearest_index_.at(gnss_satellite_id);
-    if (index == (int)unixtime_vector_.at(gnss_satellite_id).size()) {
+    if (index == (int)unix_time_list.at(gnss_satellite_id).size()) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
-    if (index + 1 < (int)unixtime_vector_.at(gnss_satellite_id).size()) {
-      double pre_unix = unixtime_vector_.at(gnss_satellite_id).at(index);
-      double post_unix = unixtime_vector_.at(gnss_satellite_id).at(index + 1);
+    if (index + 1 < (int)unix_time_list.at(gnss_satellite_id).size()) {
+      double pre_unix = unix_time_list.at(gnss_satellite_id).at(index);
+      double post_unix = unix_time_list.at(gnss_satellite_id).at(index + 1);
 
-      if (std::abs(now_unix_time - post_unix) < std::abs(now_unix_time - pre_unix)) {
+      if (std::abs(current_unix_time - post_unix) < std::abs(current_unix_time - pre_unix)) {
         ++index;
         nearest_index_.at(gnss_satellite_id) = index;
 
-        time_period_.at(gnss_satellite_id).clear();
+        time_period_list_.at(gnss_satellite_id).clear();
         clock_bias_.at(gnss_satellite_id).clear();
 
         // for both even and odd: 2n+1 -> [-n, n] 2n -> [-n, n)
         for (int j = -interpolation_number_ / 2; j < (interpolation_number_ + 1) / 2; ++j) {
           int now_index = index + j;
-          if (now_index < 0 || now_index >= (int)unixtime_vector_.at(gnss_satellite_id).size()) continue;
+          if (now_index < 0 || now_index >= (int)unix_time_list.at(gnss_satellite_id).size()) continue;
 
-          time_period_.at(gnss_satellite_id).push_back(unixtime_vector_.at(gnss_satellite_id).at(now_index));
-          clock_bias_.at(gnss_satellite_id).push_back(gnss_sat_clock_table_.at(gnss_satellite_id).at(now_index));
+          time_period_list_.at(gnss_satellite_id).push_back(unix_time_list.at(gnss_satellite_id).at(now_index));
+          clock_bias_.at(gnss_satellite_id).push_back(time_series_clock_offset_m_.at(gnss_satellite_id).at(now_index));
         }
       }
     }
-    if ((int)time_period_.at(gnss_satellite_id).size() != interpolation_number_) {
+    if ((int)time_period_list_.at(gnss_satellite_id).size() != interpolation_number_) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
-    double nearest_unix_time = unixtime_vector_.at(gnss_satellite_id).at(index);
-    if (std::abs(now_unix_time - nearest_unix_time) > time_interval_) {
+    double nearest_unix_time = unix_time_list.at(gnss_satellite_id).at(index);
+    if (std::abs(current_unix_time - nearest_unix_time) > time_interval_) {
       validate_.at(gnss_satellite_id) = false;
       continue;
     }
 
     // in clock_bias, more strict.
-    double time_period_length = time_period_.at(gnss_satellite_id).back() - time_period_.at(gnss_satellite_id).front();
+    double time_period_length = time_period_list_.at(gnss_satellite_id).back() - time_period_list_.at(gnss_satellite_id).front();
     if (time_period_length > time_interval_ * (interpolation_number_ - 1) + 1e-4) {  // more strict for clock_bias
       validate_.at(gnss_satellite_id) = false;
       continue;
@@ -783,39 +789,40 @@ void GnssSatelliteClock::Update(const double now_unix_time) {
       validate_.at(gnss_satellite_id) = true;
     }
 
-    if (std::abs(now_unix_time - nearest_unix_time) < 1e-4) {
-      gnss_sat_clock_.at(gnss_satellite_id) = gnss_sat_clock_table_.at(gnss_satellite_id).at(index);
+    if (std::abs(current_unix_time - nearest_unix_time) < 1e-4) {
+      clock_offset_m_.at(gnss_satellite_id) = time_series_clock_offset_m_.at(gnss_satellite_id).at(index);
     } else {
-      gnss_sat_clock_.at(gnss_satellite_id) =
-          LagrangeInterpolation(time_period_.at(gnss_satellite_id), clock_bias_.at(gnss_satellite_id), now_unix_time);
+      clock_offset_m_.at(gnss_satellite_id) =
+          LagrangeInterpolation(time_period_list_.at(gnss_satellite_id), clock_bias_.at(gnss_satellite_id), current_unix_time);
     }
   }
 }
 
 double GnssSatelliteClock::GetSatClock(int gnss_satellite_id) const {
   if (gnss_satellite_id >= all_sat_num_) return 0.0;
-  return gnss_sat_clock_.at(gnss_satellite_id);
+  return clock_offset_m_.at(gnss_satellite_id);
 }
 
-GnssSat_Info::GnssSat_Info() {}
-void GnssSat_Info::Initialize(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                              UltraRapidMode position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension,
-                              int clock_interpolation_number, UltraRapidMode clock_ur_flag) {
+// GnssSatelliteInformation
+GnssSatelliteInformation::GnssSatelliteInformation() {}
+void GnssSatelliteInformation::Initialize(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
+                                          UltraRapidMode position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension,
+                                          int clock_interpolation_number, UltraRapidMode clock_ur_flag) {
   auto unix_time_period = position_.Initialize(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag);
   clock_.Initialize(clock_file, clock_file_extension, clock_interpolation_number, clock_ur_flag, unix_time_period);
 }
 
-void GnssSat_Info::SetUp(const double start_unix_time, const double step_sec) {
-  position_.SetUp(start_unix_time, step_sec);
-  clock_.SetUp(start_unix_time, step_sec);
+void GnssSatelliteInformation::SetUp(const double start_unix_time, const double step_width_s) {
+  position_.SetUp(start_unix_time, step_width_s);
+  clock_.SetUp(start_unix_time, step_width_s);
 }
 
-void GnssSat_Info::Update(const double now_unix_time) {
-  position_.Update(now_unix_time);
-  clock_.Update(now_unix_time);
+void GnssSatelliteInformation::Update(const double current_unix_time) {
+  position_.Update(current_unix_time);
+  clock_.Update(current_unix_time);
 }
 
-int GnssSat_Info::GetNumberOfSatellites() const {
+int GnssSatelliteInformation::GetNumberOfSatellites() const {
   if (position_.GetNumberOfSatellites() == clock_.GetNumberOfSatellites()) {
     return position_.GetNumberOfSatellites();
   } else {
@@ -824,20 +831,24 @@ int GnssSat_Info::GetNumberOfSatellites() const {
   }
 }
 
-bool GnssSat_Info::GetWhetherValid(int gnss_satellite_id) const {
+bool GnssSatelliteInformation::GetWhetherValid(int gnss_satellite_id) const {
   if (position_.GetWhetherValid(gnss_satellite_id) && clock_.GetWhetherValid(gnss_satellite_id)) return true;
   return false;
 }
 
-const GnssSatellitePosition& GnssSat_Info::GetGnssSatPos() const { return position_; }
+const GnssSatellitePosition& GnssSatelliteInformation::GetGnssSatPos() const { return position_; }
 
-const GnssSatelliteClock& GnssSat_Info::GetGnssSatClock() const { return clock_; }
+const GnssSatelliteClock& GnssSatelliteInformation::GetGnssSatClock() const { return clock_; }
 
-libra::Vector<3> GnssSat_Info::GetSatellitePositionEcef(int gnss_satellite_id) const { return position_.GetSatEcef(gnss_satellite_id); }
+libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEcef(int gnss_satellite_id) const {
+  return position_.GetPosition_ecef_m(gnss_satellite_id);
+}
 
-libra::Vector<3> GnssSat_Info::GetSatellitePositionEci(int gnss_satellite_id) const { return position_.GetSatEci(gnss_satellite_id); }
+libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEci(int gnss_satellite_id) const {
+  return position_.GetPosition_eci_m(gnss_satellite_id);
+}
 
-double GnssSat_Info::GetSatelliteClock(int gnss_satellite_id) const { return clock_.GetSatClock(gnss_satellite_id); }
+double GnssSatelliteInformation::GetSatelliteClock(int gnss_satellite_id) const { return clock_.GetSatClock(gnss_satellite_id); }
 
 GnssSatellites::GnssSatellites(bool is_calc_enabled)
 #ifdef GNSS_SATELLITES_DEBUG_OUTPUT
@@ -927,9 +938,9 @@ bool GnssSatellites::GetWhetherValid(int gnss_satellite_id) const {
 
 double GnssSatellites::GetStartUnixTime() const { return start_unix_time_; }
 
-const GnssSat_Info& GnssSatellites::Get_true_info() const { return true_info_; }
+const GnssSatelliteInformation& GnssSatellites::Get_true_info() const { return true_info_; }
 
-const GnssSat_Info& GnssSatellites::Get_estimate_info() const { return estimate_info_; }
+const GnssSatelliteInformation& GnssSatellites::Get_estimate_info() const { return estimate_info_; }
 
 libra::Vector<3> GnssSatellites::GetSatellitePositionEcef(const int gnss_satellite_id) const {
   // gnss_satellite_id is wrong or not valid
