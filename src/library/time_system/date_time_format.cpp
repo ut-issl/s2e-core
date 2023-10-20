@@ -6,6 +6,7 @@
 #include "date_time_format.hpp"
 
 #include <cmath>
+#include <iomanip>
 #include <sstream>
 
 std::string DateTime::GetAsString() const {

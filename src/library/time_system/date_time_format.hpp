@@ -7,9 +7,6 @@
 #ifndef S2E_LIBRARY_TIME_SYSTEM_DATE_TIME_FORMAT_HPP_
 #define S2E_LIBRARY_TIME_SYSTEM_DATE_TIME_FORMAT_HPP_
 
-#include <time.h>
-
-#include <iomanip>
 #include <string>
 
 /**
