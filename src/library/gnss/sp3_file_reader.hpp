@@ -36,7 +36,7 @@ enum class Sp3OrbitType {
  * @struct Sp3Header
  * @brief SP3 file header information
  */
-typedef struct {
+struct Sp3Header {
   // 1st line information
   // version -> not implemented yet
   Sp3Mode mode_;  //!< position or velocity
@@ -73,7 +73,7 @@ typedef struct {
 
   // 24th - 26th line information
   // Not important
-} Sp3Header;
+};
 
 /**
  * @class Sp3FileReader
