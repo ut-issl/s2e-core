@@ -391,17 +391,17 @@ class GnssSatellites : public ILoggable {
    * @fn GetStartUnixTime
    * @brief Return start unix time
    */
-  double GetStartUnixTime() const;
+  inline double GetStartUnixTime() const { return start_unix_time_; }
   /**
-   * @fn Get_true_info
+   * @fn GetTrueInformation
    * @brief Return GNSS satellite information class for true value system
    */
-  const GnssSatelliteInformation& Get_true_info() const;
+  inline const GnssSatelliteInformation& GetTrueInformation() const { return true_info_; }
   /**
-   * @fn Get_estimate_info
+   * @fn GetEstimationInformation
    * @brief Return GNSS satellite information class for estimated value system
    */
-  const GnssSatelliteInformation& Get_estimate_info() const;
+  inline const GnssSatelliteInformation& GetEstimationInformation() const { return estimate_info_; }
 
   /**
    * @fn GetSatellitePositionEcef

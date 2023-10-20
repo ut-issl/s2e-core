@@ -933,12 +933,6 @@ bool GnssSatellites::GetWhetherValid(int gnss_satellite_id) const {
     return false;
 }
 
-double GnssSatellites::GetStartUnixTime() const { return start_unix_time_; }
-
-const GnssSatelliteInformation& GnssSatellites::Get_true_info() const { return true_info_; }
-
-const GnssSatelliteInformation& GnssSatellites::Get_estimate_info() const { return estimate_info_; }
-
 libra::Vector<3> GnssSatellites::GetSatellitePositionEcef(const int gnss_satellite_id) const {
   // gnss_satellite_id is wrong or not valid
   if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) {
