@@ -23,7 +23,7 @@ const int gps_sat_num_ = 32;      //!< Number of GPS satellites
 const int glonass_sat_num_ = 26;  //!< Number of GLONASS satellites
 const int galileo_sat_num_ = 36;  //!< Number of Galileo satellites
 const int beidou_sat_num_ = 16;   //!< Number of BeiDou satellites
-const int qzss_sat_num_ = 7;      //!< Number of QZSS satellites TODO: 5 at this momen?
+const int qzss_sat_num_ = 7;      //!< Number of QZSS satellites TODO: 5 at this moment?
 
 const int gps_index_bias_ = -1;                                          //!< Bias of index for GPS satellites
 const int glonass_index_bias_ = gps_index_bias_ + gps_sat_num_;          //!< Bias of index for GLONASS satellites
@@ -36,10 +36,10 @@ const int all_sat_num_ = gps_sat_num_ + glonass_sat_num_ + galileo_sat_num_ + be
 using namespace std;
 
 /**
- * @fn initilized_tm
+ * @fn initialized_tm
  * @brief Initialize time as calendar expression
  */
-tm* initilized_tm() {
+tm* initialized_tm() {
   tm* time_tm = (tm*)malloc(sizeof(tm));
 
   time_tm->tm_year = 0;
@@ -68,7 +68,7 @@ tm* initilized_tm() {
  * @return Unix time
  */
 double get_unixtime_from_timestamp_line(std::vector<string>& s) {
-  tm* time_tm = initilized_tm();
+  tm* time_tm = initialized_tm();
   time_tm->tm_year = stoi(s.at(1)) - 1900;
   time_tm->tm_mon = stoi(s.at(2)) - 1;  // 0 - 11, in time struct, 1 - 12 month is expressed by 1 - 12
   time_tm->tm_mday = stoi(s.at(3));
@@ -621,7 +621,7 @@ void GnssSat_clock::Init(vector<vector<string>>& file, string file_extension, in
           s.push_back(tmp);
         }
 
-        tm* time_tm = initilized_tm();
+        tm* time_tm = initialized_tm();
         time_tm->tm_year = stoi(s.at(2)) - 1900;
         time_tm->tm_mon = stoi(s.at(3)) - 1;  // 0 - 11, in time struct, 1 - 12 month is expressed by 1 - 12
         time_tm->tm_mday = stoi(s.at(4));
@@ -871,7 +871,7 @@ void GnssSatellites::Init(vector<vector<string>>& true_position_file, int true_p
 void GnssSatellites::SetUp(const SimulationTime* simulation_time) {
   if (!IsCalcEnabled()) return;
 
-  tm* start_tm = initilized_tm();
+  tm* start_tm = initialized_tm();
   start_tm->tm_year = simulation_time->GetStartYear() - 1900;
   start_tm->tm_mon = simulation_time->GetStartMonth() - 1;
   start_tm->tm_mday = simulation_time->GetStartDay();
