@@ -93,6 +93,7 @@ class Sp3FileReader {
 
  private:
   Sp3Header header_;
+  std::vector<DateTime> epoch_;
 
   /**
    * @fn ReadFile

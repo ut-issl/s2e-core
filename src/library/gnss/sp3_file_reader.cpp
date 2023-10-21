@@ -19,8 +19,25 @@ bool Sp3FileReader::ReadFile(const std::string file_name) {
     return false;
   }
 
+  // Header
   size_t line_number = ReadHeader(sp3_file);
   if (line_number == 0) return false;
+
+  // Read epoch wise data
+  for (size_t epoch_id = 0; epoch_id < header_.number_of_epoch_; epoch_id++) {
+    std::string line;
+    // Epoch information
+    std::getline(sp3_file, line);
+    if (line.find("* ") != 0) {
+      std::cout << "[Warning] SP3 file Epoch line first character error: " << line << std::endl;
+      return false;
+    }
+    size_t year, month, day, hour, minute;
+    double second;
+    sscanf(line.substr(3, 28).c_str(), "%zu %2zu %2zu %2zu %2zu %12lf", &year, &month, &day, &hour, &minute, &second);
+    epoch_.push_back(DateTime(year, month, day, hour, minute, second));
+
+  }
 
   sp3_file.close();
   return true;
@@ -175,10 +192,13 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   }
 
   // Comment lines
+  std::streampos pos;
   do {
     line_number++;
+    pos = sp3_file.tellg();
     std::getline(sp3_file, line);
   } while (line.find("/*") == 0);
 
+  sp3_file.seekg(pos);
   return line_number - 1;
 }
