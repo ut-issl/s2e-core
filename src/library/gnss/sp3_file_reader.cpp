@@ -38,7 +38,7 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
     std::cout << "[Warning] SP3 file version is not supported: " << line << std::endl;
     return 0;
   }
-  // Read mode
+  // Read contents
   if (line[2] == 'P') {
     header_.mode_ = Sp3Mode::kPosition;
   } else if (line[3] == 'V') {
@@ -47,14 +47,11 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
     std::cout << "[Warning] SP3 file mode is undefined: " << line << std::endl;
     return 0;
   }
-  // Read start epoch
   size_t year, month, day, hour, minute;
   double second;
   sscanf(line.substr(3, 28).c_str(), "%zu %2zu %2zu %2zu %2zu %12lf", &year, &month, &day, &hour, &minute, &second);
   header_.start_epoch_ = DateTime(year, month, day, hour, minute, second);
-  // Read number of epoch
   header_.number_of_epoch_ = std::stoi(line.substr(32, 7));
-  // Read other string information
   header_.used_data_ = line.substr(40, 5);
   header_.coordinate_system_ = line.substr(46, 5);
   std::string orbit_type = line.substr(52, 3);
@@ -80,16 +77,38 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
     std::cout << "[Warning] SP3 file 2nd line first character error: " << line << std::endl;
     return 0;
   }
-  // Read start GPS time
+  // Read contents
   header_.start_gps_time_ = GpsTime(std::stoi(line.substr(3, 4)), std::stod(line.substr(8, 15)));
-  // Read interval
   header_.epoch_interval_s_ = std::stod(line.substr(24, 14));
-  // Read start Julian date
   header_.start_time_mjday_ = std::stoi(line.substr(39, 5));
   header_.start_time_mjday_fractional_day_ = std::stod(line.substr(45, 15));
 
-  // 3rd line
+  // 3rd - 11th line
+  line_number++;
+  std::getline(sp3_file, line);
+  // Check first character
+  if (line.find("+ ") != 0) {
+    std::cout << "[Warning] SP3 file 3rd line first character error: " << line << std::endl;
+    return 0;
+  }
+  // Read contents
+  header_.number_of_satellites_ = std::stoi(line.substr(3, 3));
+  const size_t kMaxSatelliteNumberOneLine = 17;
+  while (line.find("+ ") == 0) {
+    for (size_t i = 0; i < kMaxSatelliteNumberOneLine; i++) {
+      header_.satellite_ids_.push_back(line.substr(9 + i * 3, 3));
+      if (header_.satellite_ids_.size() >= header_.number_of_satellites_) {
+        break;
+      }
+    }
+    line_number++;
+    std::getline(sp3_file, line);
+  }
+  if (header_.satellite_ids_.size() != header_.number_of_satellites_) {
+    std::cout << "[Warning] SP3 file number of satellite and size of satellite ID are incompatible." << std::endl;
+    return 0;
+  }
+  
 
-
-  return 0;
+  return line_number;
 }
