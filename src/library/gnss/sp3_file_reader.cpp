@@ -83,7 +83,7 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   header_.start_time_mjday_ = std::stoi(line.substr(39, 5));
   header_.start_time_mjday_fractional_day_ = std::stod(line.substr(45, 15));
 
-  // 3rd - 11th line
+  // Satellite ID lines
   line_number++;
   std::getline(sp3_file, line);
   // Check first character
@@ -109,7 +109,7 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
     return 0;
   }
 
-  // 12th - 20th line
+  // Accuracy lines
   // Check first character
   if (line.find("++") != 0) {
     std::cout << "[Warning] SP3 file accuracy line first character error: " << line << std::endl;
@@ -129,7 +129,50 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
     std::cout << "[Warning] SP3 file number of satellite and size of accuracy are incompatible." << std::endl;
     return 0;
   }
+
+  // Additional character lines
+  if (line.find("%c") != 0) {
+    std::cout << "[Warning] SP3 file 1st additional character line first character error: " << line << std::endl;
+    return 0;
+  }
+  header_.file_type_ = line.substr(3, 2);
+  header_.time_system_ = line.substr(9, 3);
+  line_number++;
+  std::getline(sp3_file, line);
+  if (line.find("%c") != 0) {
+    std::cout << "[Warning] SP3 file 2nd additional character line first character error: " << line << std::endl;
+    return 0;
+  }
   
+  // Additional float lines
+  line_number++;
+  std::getline(sp3_file, line);
+  if (line.find("%f") != 0) {
+    std::cout << "[Warning] SP3 file 1st additional float line first character error: " << line << std::endl;
+    return 0;
+  }
+  header_.base_number_position_ = std::stod(line.substr(3, 10));
+  header_.base_number_clock_ = std::stod(line.substr(14, 12));
+  line_number++;
+  std::getline(sp3_file, line);
+  if (line.find("%f") != 0) {
+    std::cout << "[Warning] SP3 file 2nd additional float line first character error: " << line << std::endl;
+    return 0;
+  }
+  
+  // Additional integer lines
+  line_number++;
+  std::getline(sp3_file, line);
+  if (line.find("%i") != 0) {
+    std::cout << "[Warning] SP3 file 1st additional integer line first character error: " << line << std::endl;
+    return 0;
+  }
+  line_number++;
+  std::getline(sp3_file, line);
+  if (line.find("%i") != 0) {
+    std::cout << "[Warning] SP3 file 2nd additional integer line first character error: " << line << std::endl;
+    return 0;
+  }
 
   return line_number;
 }

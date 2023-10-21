@@ -64,14 +64,15 @@ struct Sp3Header {
   std::vector<uint16_t> satellite_accuracy_;  //!< List of accuracy of each satellite
 
   // 21st line information
+  std::string file_type_;    //!< File type
   std::string time_system_;  //!< Time system for the position and velocity data
 
   // 22nd line information
   // Not important
 
   // 23rd line information
-  double base_number_position_ = 1.25;  //!< Floating point base number used for computing the standard deviations of position and velocity
-  double base_number_clock_ = 1.025;    //!< Floating point base number used for computing the standard deviations of clock and clock-rate correction
+  double base_number_position_ = 1.0;  //!< Floating point base number used for computing the standard deviations of position and velocity
+  double base_number_clock_ = 1.0;    //!< Floating point base number used for computing the standard deviations of clock and clock-rate correction
 
   // 24th - 26th line information
   // Not important
