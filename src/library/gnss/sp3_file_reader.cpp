@@ -143,7 +143,7 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
     std::cout << "[Warning] SP3 file 2nd additional character line first character error: " << line << std::endl;
     return 0;
   }
-  
+
   // Additional float lines
   line_number++;
   std::getline(sp3_file, line);
@@ -159,7 +159,7 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
     std::cout << "[Warning] SP3 file 2nd additional float line first character error: " << line << std::endl;
     return 0;
   }
-  
+
   // Additional integer lines
   line_number++;
   std::getline(sp3_file, line);
@@ -174,5 +174,11 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
     return 0;
   }
 
-  return line_number;
+  // Comment lines
+  do {
+    line_number++;
+    std::getline(sp3_file, line);
+  } while (line.find("/*") == 0);
+
+  return line_number - 1;
 }
