@@ -88,7 +88,7 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   std::getline(sp3_file, line);
   // Check first character
   if (line.find("+ ") != 0) {
-    std::cout << "[Warning] SP3 file 3rd line first character error: " << line << std::endl;
+    std::cout << "[Warning] SP3 file satellite ID line first character error: " << line << std::endl;
     return 0;
   }
   // Read contents
@@ -106,6 +106,27 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   }
   if (header_.satellite_ids_.size() != header_.number_of_satellites_) {
     std::cout << "[Warning] SP3 file number of satellite and size of satellite ID are incompatible." << std::endl;
+    return 0;
+  }
+
+  // 12th - 20th line
+  // Check first character
+  if (line.find("++") != 0) {
+    std::cout << "[Warning] SP3 file accuracy line first character error: " << line << std::endl;
+    return 0;
+  }
+  while (line.find("++") == 0) {
+    for (size_t i = 0; i < kMaxSatelliteNumberOneLine; i++) {
+      header_.satellite_accuracy_.push_back((uint8_t)stoi(line.substr(9 + i * 3, 3)));
+      if (header_.satellite_accuracy_.size() >= header_.number_of_satellites_) {
+        break;
+      }
+    }
+    line_number++;
+    std::getline(sp3_file, line);
+  }
+  if (header_.satellite_accuracy_.size() != header_.number_of_satellites_) {
+    std::cout << "[Warning] SP3 file number of satellite and size of accuracy are incompatible." << std::endl;
     return 0;
   }
   

@@ -61,7 +61,7 @@ struct Sp3Header {
   std::vector<std::string> satellite_ids_;  //!< Satellite ID list
 
   // Accuracy of each satellite (12th to 20th line)
-  std::vector<double> satellite_accuracy_;  //!< List of accuracy of each satellite
+  std::vector<uint16_t> satellite_accuracy_;  //!< List of accuracy of each satellite
 
   // 21st line information
   std::string time_system_;  //!< Time system for the position and velocity data
