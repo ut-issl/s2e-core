@@ -40,50 +40,40 @@ bool Sp3FileReader::ReadFile(const std::string file_name) {
     // Orbit and Clock information
     for (size_t satellite_id = 0; satellite_id < header_.number_of_satellites_; satellite_id++) {
       std::getline(sp3_file, line);
-      if (line.find("P") == 0) {  // Position and Clock
-        Sp3PositionClock position_clock;
-        position_clock.satellite_id_ = line.substr(1, 3);
-        // Position and clock
-        libra::Vector<3> position_km;
-        for (size_t axis = 0; axis < 3; axis++) {
-          position_km[axis] = stod(line.substr(4 + axis * 14, 14));
-        }
-        position_clock.position_km_ = position_km;
-        position_clock.clock_us_ = stod(line.substr(46, 14));
-
-        // Standard deviations
-        if (line.size() > 60) {
-          libra::Vector<3> position_standard_deviation;
-          for (size_t axis = 0; axis < 3; axis++) {
-            position_standard_deviation[axis] = stod(line.substr(61 + axis * 2, 2));
-          }
-          position_clock.position_standard_deviation_ = position_standard_deviation;
-          position_clock.clock_standard_deviation_ = stod(line.substr(70, 3));
-        }
-        // Flags
-        if (line.size() > 73) {
-          if (line.substr(74, 1) == "E") {
-            position_clock.clock_event_flag_ = true;
-          }
-          if (line.substr(75, 1) == "P") {
-            position_clock.clock_prediction_flag_ = true;
-          }
-          if (line.substr(78, 1) == "M") {
-            position_clock.maneuver_flag_ = true;
-          }
-          if (line.substr(79, 1) == "P") {
-            position_clock.orbit_prediction_flag_ = true;
-          }
-        }
-
-        // Register information
-        position_clock_.push_back(position_clock);
-      } else if (line.find("EP") == 0) {  // Position and Clock correlation
-      } else if (line.find("V") == 0) {   // Velocity and Clock rate
-      } else if (line.find("EV") == 0) {  // Velocity and Clock rate correlation
-      } else {
-        std::cout << "[Warning] SP3 file Orbit data line first character error: " << line << std::endl;
+      // Position and Clock
+      if (line.find("P") != 0) {
+        std::cout << "[Warning] SP3 file position and clock data first character error: " << line << std::endl;
         return false;
+      }
+      Sp3PositionClock position_clock = DecodePositionClockData(line);
+      position_clock_[satellite_id].push_back(position_clock);
+
+      // [Optional] Position and Clock Correlation
+      std::streampos previous_position = sp3_file.tellg();
+      std::getline(sp3_file, line);
+      if (line.find("EP") != 0) {
+        sp3_file.seekg(previous_position);
+      } else {
+        // Position and Clock Correlation
+      }
+
+      // Velocity and Clock rate
+      if (header_.mode_ == Sp3Mode::kVelocity) {
+        std::getline(sp3_file, line);
+        // Position and Clock
+        if (line.find("V") != 0) {
+          std::cout << "[Warning] SP3 file position and clock data first character error: " << line << std::endl;
+          return false;
+        }
+
+        // [Optional] Velocity and Clock rate Correlation
+        previous_position = sp3_file.tellg();
+        std::getline(sp3_file, line);
+        if (line.find("EV") != 0) {
+          sp3_file.seekg(previous_position);
+        } else {
+          // Velocity and Clock rate Correlation
+        }
       }
     }
   }
@@ -250,4 +240,48 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
 
   sp3_file.seekg(pos);
   return line_number - 1;
+}
+
+Sp3PositionClock Sp3FileReader::DecodePositionClockData(std::string line) {
+  Sp3PositionClock position_clock;
+
+  // Satellite ID
+  position_clock.satellite_id_ = line.substr(1, 3);
+
+  // Position and clock
+  libra::Vector<3> position_km;
+  for (size_t axis = 0; axis < 3; axis++) {
+    position_km[axis] = stod(line.substr(4 + axis * 14, 14));
+  }
+  position_clock.position_km_ = position_km;
+  position_clock.clock_us_ = stod(line.substr(46, 14));
+
+  // Standard deviations
+  if (line.size() > 60) {
+    libra::Vector<3> position_standard_deviation;
+    for (size_t axis = 0; axis < 3; axis++) {
+      position_standard_deviation[axis] = stod(line.substr(61 + axis * 2, 2));
+    }
+    position_clock.position_standard_deviation_ = position_standard_deviation;
+    position_clock.clock_standard_deviation_ = stod(line.substr(70, 3));
+  }
+
+  // Flags
+  if (line.size() > 73) {
+    if (line.substr(74, 1) == "E") {
+      position_clock.clock_event_flag_ = true;
+    }
+    if (line.substr(75, 1) == "P") {
+      position_clock.clock_prediction_flag_ = true;
+    }
+    if (line.substr(78, 1) == "M") {
+      position_clock.maneuver_flag_ = true;
+    }
+    if (line.substr(79, 1) == "P") {
+      position_clock.orbit_prediction_flag_ = true;
+    }
+  }
+
+  // Register information
+  return position_clock;
 }

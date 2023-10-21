@@ -13,6 +13,7 @@
 #include <library/time_system/gps_time.hpp>
 #include <string>
 #include <vector>
+#include <map>
 
 /**
  * @enum Sp3Mode
@@ -81,6 +82,7 @@ struct Sp3Header {
 /**
  * @struct Sp3PositionClock
  * @brief SP3 file position and clock information
+ * @note The coordinate system of the position is defined in the SP3 header
  */
 struct Sp3PositionClock {
   std::string satellite_id_;                           //!< GNSS satellite ID
@@ -92,6 +94,16 @@ struct Sp3PositionClock {
   bool clock_prediction_flag_ = false;                 //!< true when clock data is predicted
   bool maneuver_flag_ = false;                         //!< true when orbit maneuver is happened in last 50 minutes
   bool orbit_prediction_flag_ = false;                 //!< true when orbit data is predicted
+};
+
+/**
+ * @struct Sp3PositionClockCorrelation
+ * @brief SP3 file position and clock correlation information
+ * @note The coordinate system of the position is defined in the SP3 header
+ */
+struct Sp3PositionClockCorrelation {
+  libra::Vector<3> position_standard_deviation_{0.0};  //!< Satellite position standard deviation [-]
+  double clock_standard_deviation_ = 0.0;              //!< Satellite clock offset standard deviation [-]
 };
 
 /**
@@ -110,7 +122,7 @@ class Sp3FileReader {
  private:
   Sp3Header header_;
   std::vector<DateTime> epoch_;
-  std::vector<Sp3PositionClock> position_clock_;
+  std::map<size_t, std::vector<Sp3PositionClock>> position_clock_;
 
   /**
    * @fn ReadFile
@@ -126,6 +138,14 @@ class Sp3FileReader {
    * @return The last line of header. 0 means error is happened.
    */
   size_t ReadHeader(std::ifstream& sp3_file);
+  /**
+   * @fn DecodePositionClockData
+   * @brief Decode position and clock data in SP3 file
+   * @param[in] line: Single line data of the SP3 file
+   * @return decoded data
+   */
+  Sp3PositionClock DecodePositionClockData(std::string line);
+
 };
 
 #endif  // S2E_LIBRARY_GNSS_SP3_FILE_READER_HPP_
