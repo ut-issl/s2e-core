@@ -72,10 +72,26 @@ struct Sp3Header {
 
   // 23rd line information
   double base_number_position_ = 1.0;  //!< Floating point base number used for computing the standard deviations of position and velocity
-  double base_number_clock_ = 1.0;    //!< Floating point base number used for computing the standard deviations of clock and clock-rate correction
+  double base_number_clock_ = 1.0;     //!< Floating point base number used for computing the standard deviations of clock and clock-rate correction
 
   // 24th - 26th line information
   // Not important
+};
+
+/**
+ * @struct Sp3PositionClock
+ * @brief SP3 file position and clock information
+ */
+struct Sp3PositionClock {
+  std::string satellite_id_;                           //!< GNSS satellite ID
+  libra::Vector<3> position_km_{0.0};                  //!< Satellite position [km]
+  double clock_us_ = 0.0;                              //!< Satellite clock offset [us]
+  libra::Vector<3> position_standard_deviation_{0.0};  //!< Satellite position standard deviation [-]
+  double clock_standard_deviation_ = 0.0;              //!< Satellite clock offset standard deviation [-]
+  bool clock_event_flag_ = false;                      //!< true when clock discontinuity is happened
+  bool clock_prediction_flag_ = false;                 //!< true when clock data is predicted
+  bool maneuver_flag_ = false;                         //!< true when orbit maneuver is happened in last 50 minutes
+  bool orbit_prediction_flag_ = false;                 //!< true when orbit data is predicted
 };
 
 /**
@@ -94,6 +110,7 @@ class Sp3FileReader {
  private:
   Sp3Header header_;
   std::vector<DateTime> epoch_;
+  std::vector<Sp3PositionClock> position_clock_;
 
   /**
    * @fn ReadFile
