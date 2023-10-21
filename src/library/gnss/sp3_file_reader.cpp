@@ -80,10 +80,16 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
     std::cout << "[Warning] SP3 file 2nd line first character error: " << line << std::endl;
     return 0;
   }
-  // Read GPS time
+  // Read start GPS time
   header_.start_gps_time_ = GpsTime(std::stoi(line.substr(3, 4)), std::stod(line.substr(8, 15)));
   // Read interval
   header_.epoch_interval_s_ = std::stod(line.substr(24, 14));
+  // Read start Julian date
+  header_.start_time_mjday_ = std::stoi(line.substr(39, 5));
+  header_.start_time_mjday_fractional_day_ = std::stod(line.substr(45, 15));
+
+  // 3rd line
+
 
   return 0;
 }

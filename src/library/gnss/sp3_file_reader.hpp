@@ -50,9 +50,10 @@ struct Sp3Header {
   std::string agency_name_;        //!< Agency name who generates the SP3 file
 
   // 2nd line information
-  GpsTime start_gps_time_;           //!< Start time of orbit
-  double epoch_interval_s_ = 900.0;  //!< Epoch interval (0.0, 100000.0)
-  double start_time_mjday_;          // Start time of the orbit data including fractional part [Modified Julian day]
+  GpsTime start_gps_time_;                        //!< Start time of orbit
+  double epoch_interval_s_ = 1.0;                 //!< Epoch interval (0.0, 100000.0)
+  size_t start_time_mjday_;                       //!< Start time of the orbit data (44244 = 6th Jan. 1980) [Modified Julian day]
+  double start_time_mjday_fractional_day_ = 0.0;  //!< Fractional part of the start time [0.0, 1.0) [day]
 
   // 3rd line information
   size_t number_of_satellites_ = 0;  //!< Number of satellites in the SP3 file
