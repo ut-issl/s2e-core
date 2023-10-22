@@ -22,10 +22,10 @@ DateTime Sp3FileReader::GetEpochData(const size_t epoch_id) const {
 
 Sp3PositionClock Sp3FileReader::GetPositionClock(const size_t epoch_id, const size_t satellite_id) {
   Sp3PositionClock zero;
-  if (epoch_id > epoch_.size()) {
+  if (epoch_id >= epoch_.size()) {
     return zero;
   }
-  if (satellite_id > position_clock_.size()) {
+  if (satellite_id >= position_clock_.size()) {
     return zero;
   }
 
