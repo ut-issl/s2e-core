@@ -30,4 +30,21 @@ TEST(Sp3FileReader, Constructor) {
 
 
   // Test epoch
+  EXPECT_EQ(2013, sp3_file.GetEpochData(0).GetYear());
+  EXPECT_EQ(4, sp3_file.GetEpochData(0).GetMonth());
+  EXPECT_EQ(3, sp3_file.GetEpochData(0).GetDay());
+  EXPECT_EQ(12, sp3_file.GetEpochData(0).GetHour());
+  EXPECT_EQ(4, sp3_file.GetEpochData(0).GetMinute());
+  EXPECT_DOUBLE_EQ(1.23456789, sp3_file.GetEpochData(0).GetSecond());
+
+  EXPECT_EQ(2013, sp3_file.GetEpochData(1).GetYear());
+  EXPECT_EQ(4, sp3_file.GetEpochData(1).GetMonth());
+  EXPECT_EQ(3, sp3_file.GetEpochData(1).GetDay());
+  EXPECT_EQ(12, sp3_file.GetEpochData(1).GetHour());
+  EXPECT_EQ(19, sp3_file.GetEpochData(1).GetMinute());
+  EXPECT_DOUBLE_EQ(1.23456789, sp3_file.GetEpochData(1).GetSecond());
+
+  // Test Orbit
+  // TODO: Test all satellite?
+  
 }

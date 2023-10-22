@@ -12,6 +12,14 @@
 
 Sp3FileReader::Sp3FileReader(const std::string file_name) { ReadFile(file_name); }
 
+DateTime Sp3FileReader::GetEpochData(const size_t epoch_id) const {
+  if (epoch_id > epoch_.size()) {
+    DateTime zero;
+    return zero;
+  }
+  return epoch_[epoch_id];
+}
+
 bool Sp3FileReader::ReadFile(const std::string file_name) {
   // File open
   std::ifstream sp3_file(file_name);
