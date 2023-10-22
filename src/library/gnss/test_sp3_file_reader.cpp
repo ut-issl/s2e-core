@@ -46,5 +46,8 @@ TEST(Sp3FileReader, Constructor) {
 
   // Test Orbit
   // TODO: Test all satellite?
-  
+  EXPECT_DOUBLE_EQ(-15163.034377, sp3_file.GetSatellitePosition_km(0, 0)[0]);  
+  EXPECT_DOUBLE_EQ(-1301.934894, sp3_file.GetSatellitePosition_km(0, 0)[1]);  
+  EXPECT_DOUBLE_EQ(21473.065529, sp3_file.GetSatellitePosition_km(0, 0)[2]);  
+  EXPECT_DOUBLE_EQ(171.736636, sp3_file.GetSatelliteClockOffset(0, 0));  
 }

@@ -20,6 +20,28 @@ DateTime Sp3FileReader::GetEpochData(const size_t epoch_id) const {
   return epoch_[epoch_id];
 }
 
+Sp3PositionClock Sp3FileReader::GetPositionClock(const size_t epoch_id, const size_t satellite_id) {
+  Sp3PositionClock zero;
+  if (epoch_id > epoch_.size()) {
+    return zero;
+  }
+  if (satellite_id > position_clock_.size()) {
+    return zero;
+  }
+
+  return position_clock_[satellite_id][epoch_id];
+}
+
+double Sp3FileReader::GetSatelliteClockOffset(const size_t epoch_id, const size_t satellite_id) {
+  Sp3PositionClock position_clock = GetPositionClock(epoch_id, satellite_id);
+  return position_clock.clock_us_;
+}
+
+libra::Vector<3> Sp3FileReader::GetSatellitePosition_km(const size_t epoch_id, const size_t satellite_id) {
+  Sp3PositionClock position_clock = GetPositionClock(epoch_id, satellite_id);
+  return position_clock.position_km_;
+}
+
 bool Sp3FileReader::ReadFile(const std::string file_name) {
   // File open
   std::ifstream sp3_file(file_name);
