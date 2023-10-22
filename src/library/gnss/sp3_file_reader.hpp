@@ -11,9 +11,9 @@
 #include <library/math/vector.hpp>
 #include <library/time_system/date_time_format.hpp>
 #include <library/time_system/gps_time.hpp>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 /**
  * @enum Sp3Mode
@@ -102,8 +102,16 @@ struct Sp3PositionClock {
  * @note The coordinate system of the position is defined in the SP3 header
  */
 struct Sp3PositionClockCorrelation {
-  libra::Vector<3> position_standard_deviation_{0.0};  //!< Satellite position standard deviation [-]
-  double clock_standard_deviation_ = 0.0;              //!< Satellite clock offset standard deviation [-]
+  int position_x_standard_deviation_mm_ = 0;  //!< Satellite position X standard deviation [mm]
+  int position_y_standard_deviation_mm_ = 0;  //!< Satellite position Y standard deviation [mm]
+  int position_z_standard_deviation_mm_ = 0;  //!< Satellite position Z standard deviation [mm]
+  int clock_standard_deviation_ps_ = 0;       //!< Satellite clock offset standard deviation [ps]
+  int x_y_correlation_ = 0;                   //!< Position X-Y correlation [-]
+  int x_z_correlation_ = 0;                   //!< Position X-Z correlation [-]
+  int x_clock_correlation_ = 0;               //!< Position X - Clock correlation [-]
+  int y_z_correlation_ = 0;                   //!< Position Y-Z correlation [-]
+  int y_clock_correlation_ = 0;               //!< Position Y - Clock correlation [-]
+  int z_clock_correlation_ = 0;               //!< Position Z - Clock correlation [-]
 };
 
 /**
@@ -120,9 +128,12 @@ class Sp3FileReader {
   Sp3FileReader(const std::string file_name);
 
  private:
-  Sp3Header header_;
-  std::vector<DateTime> epoch_;
-  std::map<size_t, std::vector<Sp3PositionClock>> position_clock_;
+  Sp3Header header_;             //!< SP3 header information
+  std::vector<DateTime> epoch_;  //!< Epoch data list
+
+  // Orbit and clock data (Use as position_clock_[satellite_id][epoch_id])
+  std::map<size_t, std::vector<Sp3PositionClock>> position_clock_;                         //!< Position and Clock data
+  std::map<size_t, std::vector<Sp3PositionClockCorrelation>> position_clock_correlation_;  //!< Position and Clock correlation
 
   /**
    * @fn ReadFile
@@ -145,7 +156,13 @@ class Sp3FileReader {
    * @return decoded data
    */
   Sp3PositionClock DecodePositionClockData(std::string line);
-
+  /**
+   * @fn DecodePositionClockCorrelation
+   * @brief Decode position and clock correlation data in SP3 file
+   * @param[in] line: Single line data of the SP3 file
+   * @return decoded data
+   */
+  Sp3PositionClockCorrelation DecodePositionClockCorrelation(std::string line);
 };
 
 #endif  // S2E_LIBRARY_GNSS_SP3_FILE_READER_HPP_
