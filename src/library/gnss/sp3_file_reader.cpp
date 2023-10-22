@@ -75,7 +75,8 @@ bool Sp3FileReader::ReadFile(const std::string file_name) {
         if (line.find("EV") != 0) {
           sp3_file.seekg(previous_position);
         } else {
-          // Velocity and Clock rate Correlation
+          Sp3VelocityClockRateCorrelation velocity_clock_rate_correlation = DecodeVelocityClockRateCorrelation(line);
+          velocity_clock_rate_correlation_[satellite_id].push_back(velocity_clock_rate_correlation);
         }
       }
     }
@@ -336,6 +337,24 @@ Sp3VelocityClockRate Sp3FileReader::DecodeVelocityClockRateData(std::string line
     velocity_clock_rate.velocity_standard_deviation_ = velocity_standard_deviation;
     velocity_clock_rate.clock_rate_standard_deviation_ = stod(line.substr(70, 3));
   }
-  
+
   return velocity_clock_rate;
+}
+
+Sp3VelocityClockRateCorrelation Sp3FileReader::DecodeVelocityClockRateCorrelation(std::string line) {
+  Sp3VelocityClockRateCorrelation correlation;
+
+  // Satellite ID
+  correlation.velocity_x_standard_deviation_ = stoi(line.substr(4, 4));
+  correlation.velocity_y_standard_deviation_ = stoi(line.substr(9, 4));
+  correlation.velocity_z_standard_deviation_ = stoi(line.substr(14, 4));
+  correlation.clock_rate_standard_deviation_ = stoi(line.substr(19, 7));
+  correlation.x_y_correlation_ = stoi(line.substr(27, 8));
+  correlation.x_z_correlation_ = stoi(line.substr(36, 8));
+  correlation.x_clock_correlation_ = stoi(line.substr(45, 8));
+  correlation.y_z_correlation_ = stoi(line.substr(54, 8));
+  correlation.y_clock_correlation_ = stoi(line.substr(63, 8));
+  correlation.z_clock_correlation_ = stoi(line.substr(72, 8));
+
+  return correlation;
 }
