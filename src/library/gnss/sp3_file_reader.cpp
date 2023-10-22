@@ -13,6 +13,7 @@
 Sp3FileReader::Sp3FileReader(const std::string file_name) { ReadFile(file_name); }
 
 bool Sp3FileReader::ReadFile(const std::string file_name) {
+  // File open
   std::ifstream sp3_file(file_name);
   if (!sp3_file.is_open()) {
     std::cout << "[Warning] SP3 file not found: " << file_name << std::endl;

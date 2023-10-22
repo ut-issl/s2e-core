@@ -158,6 +158,13 @@ class Sp3FileReader {
    */
   Sp3FileReader(const std::string file_name);
 
+  // Getter
+  inline Sp3Header GetHeader() const { return header_; }
+  inline size_t GetNumberOfEpoch() const { return header_.number_of_epoch_; }
+  inline size_t GetNumberOfSatellites() const { return header_.number_of_satellites_; }
+  inline DateTime GetStartEpochDateTime() const { return header_.start_epoch_; }
+  inline GpsTime GetStartEpochGpsTime() const { return header_.start_gps_time_; }
+
  private:
   Sp3Header header_;             //!< SP3 header information
   std::vector<DateTime> epoch_;  //!< Epoch data list
