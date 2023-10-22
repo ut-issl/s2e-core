@@ -115,6 +115,19 @@ struct Sp3PositionClockCorrelation {
 };
 
 /**
+ * @struct Sp3VelocityClockRate
+ * @brief SP3 file velocity and clock rate information
+ * @note The coordinate system of the position is defined in the SP3 header
+ */
+struct Sp3VelocityClockRate {
+  std::string satellite_id_;                           //!< GNSS satellite ID
+  libra::Vector<3> velocity_dm_s_{0.0};                //!< Satellite velocity [dm/s]
+  double clock_rate_ = 0.0;                            //!< Satellite clock offset change rate [-]
+  libra::Vector<3> velocity_standard_deviation_{0.0};  //!< Satellite position standard deviation [-]
+  double clock_rate_standard_deviation_ = 0.0;         //!< Satellite clock offset standard deviation [-]
+};
+
+/**
  * @class Sp3FileReader
  * @brief
  */
@@ -134,6 +147,7 @@ class Sp3FileReader {
   // Orbit and clock data (Use as position_clock_[satellite_id][epoch_id])
   std::map<size_t, std::vector<Sp3PositionClock>> position_clock_;                         //!< Position and Clock data
   std::map<size_t, std::vector<Sp3PositionClockCorrelation>> position_clock_correlation_;  //!< Position and Clock correlation
+  std::map<size_t, std::vector<Sp3VelocityClockRate>> velocity_clock_rate_;                //!< Velocity and Clock rate data
 
   /**
    * @fn ReadFile
@@ -163,6 +177,13 @@ class Sp3FileReader {
    * @return decoded data
    */
   Sp3PositionClockCorrelation DecodePositionClockCorrelation(std::string line);
+  /**
+   * @fn DecodeVelocityClockRateData
+   * @brief Decode velocity and clock rate data in SP3 file
+   * @param[in] line: Single line data of the SP3 file
+   * @return decoded data
+   */
+  Sp3VelocityClockRate DecodeVelocityClockRateData(std::string line);
 };
 
 #endif  // S2E_LIBRARY_GNSS_SP3_FILE_READER_HPP_

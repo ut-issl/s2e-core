@@ -66,6 +66,8 @@ bool Sp3FileReader::ReadFile(const std::string file_name) {
           std::cout << "[Warning] SP3 file position and clock data first character error: " << line << std::endl;
           return false;
         }
+        Sp3VelocityClockRate velocity_clock_rate = DecodeVelocityClockRateData(line);
+        velocity_clock_rate_[satellite_id].push_back(velocity_clock_rate);
 
         // [Optional] Velocity and Clock rate Correlation
         previous_position = sp3_file.tellg();
@@ -309,4 +311,31 @@ Sp3PositionClockCorrelation Sp3FileReader::DecodePositionClockCorrelation(std::s
   correlation.z_clock_correlation_ = stoi(line.substr(72, 8));
 
   return correlation;
+}
+
+Sp3VelocityClockRate Sp3FileReader::DecodeVelocityClockRateData(std::string line) {
+  Sp3VelocityClockRate velocity_clock_rate;
+
+  // Satellite ID
+  velocity_clock_rate.satellite_id_ = line.substr(1, 3);
+
+  // Velocity and clock rate
+  libra::Vector<3> velocity_dm_s;
+  for (size_t axis = 0; axis < 3; axis++) {
+    velocity_dm_s[axis] = stod(line.substr(4 + axis * 14, 14));
+  }
+  velocity_clock_rate.velocity_dm_s_ = velocity_dm_s;
+  velocity_clock_rate.clock_rate_ = stod(line.substr(46, 14));
+
+  // Standard deviations
+  if (line.size() > 60) {
+    libra::Vector<3> velocity_standard_deviation;
+    for (size_t axis = 0; axis < 3; axis++) {
+      velocity_standard_deviation[axis] = stod(line.substr(61 + axis * 2, 2));
+    }
+    velocity_clock_rate.velocity_standard_deviation_ = velocity_standard_deviation;
+    velocity_clock_rate.clock_rate_standard_deviation_ = stod(line.substr(70, 3));
+  }
+  
+  return velocity_clock_rate;
 }
