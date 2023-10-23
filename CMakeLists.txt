@@ -249,6 +249,7 @@ if(GOOGLE_TEST)
   set_target_properties(${TEST_PROJECT_NAME} PROPERTIES LANGUAGE CXX)
   set_target_properties(${TEST_PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
   set_target_properties(${TEST_PROJECT_NAME} PROPERTIES CXX_EXTENSIONS FALSE)
+  target_compile_definitions(${TEST_PROJECT_NAME} PRIVATE "CORE_DIR_FROM_EXE=\"${CORE_DIR_FROM_EXE}\"")
 
 endif()
 
