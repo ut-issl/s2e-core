@@ -236,6 +236,7 @@ if(GOOGLE_TEST)
     src/library/gravity/test_gravity_potential.cpp
     src/library/gnss/test_sp3_file_reader.cpp
     src/library/time_system/test_date_time_format.cpp
+    src/library/time_system/test_gps_time.cpp
   )
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)
