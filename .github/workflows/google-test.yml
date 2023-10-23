@@ -95,7 +95,7 @@ jobs:
           CC:  ${{ steps.compiler.outputs.CC  }}
           CXX: ${{ steps.compiler.outputs.CXX }}
         run: |
-          cmake . -DEXT_LIB_DIR=./ExtLibraries -DBUILD_64BIT=ON -DGOOGLE_TEST=ON
+          cmake . -DEXT_LIB_DIR=./ExtLibraries -DBUILD_64BIT=ON -DGOOGLE_TEST=ON -DCORE_DIR_FROM_EXE=../../s2e-core
           cmake --build .
 
       - name: run test
