@@ -25,9 +25,8 @@ TEST(Sp3FileReader, Constructor) {
 
   EXPECT_EQ(1734, sp3_file.GetStartEpochGpsTime().GetWeek());
   EXPECT_DOUBLE_EQ(259200.0, sp3_file.GetStartEpochGpsTime().GetElapsedTimeFromWeek_s());
-  
-  // TODO: Add other test for header read
 
+  // TODO: Add other test for header read
 
   // Test epoch
   EXPECT_EQ(2013, sp3_file.GetEpochData(0).GetYear());
@@ -47,13 +46,13 @@ TEST(Sp3FileReader, Constructor) {
   // Test Orbit
   // TODO: Test all satellite?
   // First epoch, First satellite
-  EXPECT_DOUBLE_EQ(-15163.034377, sp3_file.GetSatellitePosition_km(0, 0)[0]);  
-  EXPECT_DOUBLE_EQ(-1301.934894, sp3_file.GetSatellitePosition_km(0, 0)[1]);  
-  EXPECT_DOUBLE_EQ(21473.065529, sp3_file.GetSatellitePosition_km(0, 0)[2]);  
-  EXPECT_DOUBLE_EQ(171.736636, sp3_file.GetSatelliteClockOffset(0, 0));  
+  EXPECT_DOUBLE_EQ(-15163.034377, sp3_file.GetSatellitePosition_km(0, 0)[0]);
+  EXPECT_DOUBLE_EQ(-1301.934894, sp3_file.GetSatellitePosition_km(0, 0)[1]);
+  EXPECT_DOUBLE_EQ(21473.065529, sp3_file.GetSatellitePosition_km(0, 0)[2]);
+  EXPECT_DOUBLE_EQ(171.736636, sp3_file.GetSatelliteClockOffset(0, 0));
   // Last epoch, Last satellite
-  EXPECT_DOUBLE_EQ(-32428.005614, sp3_file.GetSatellitePosition_km(1, 118)[0]);  
-  EXPECT_DOUBLE_EQ(24629.027242, sp3_file.GetSatellitePosition_km(1, 118)[1]);  
-  EXPECT_DOUBLE_EQ(-5590.944265, sp3_file.GetSatellitePosition_km(1, 118)[2]);  
+  EXPECT_DOUBLE_EQ(-32428.005614, sp3_file.GetSatellitePosition_km(1, 118)[0]);
+  EXPECT_DOUBLE_EQ(24629.027242, sp3_file.GetSatellitePosition_km(1, 118)[1]);
+  EXPECT_DOUBLE_EQ(-5590.944265, sp3_file.GetSatellitePosition_km(1, 118)[2]);
   EXPECT_DOUBLE_EQ(97.367506, sp3_file.GetSatelliteClockOffset(1, 118));
 }
