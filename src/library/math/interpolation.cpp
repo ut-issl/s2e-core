@@ -18,18 +18,18 @@ double Interpolation::CalcPolynomial(const double x) {
 
   //
   double result = dependent_variables_[nearest_x_id];
+  size_t d_idx = 1;
   for (size_t m = 1; m < degree_; m++) {
+    // Calculate C and D
     for (size_t i = 0; i < degree_ - m; i++) {
       double ho = independent_variables_[i] - x;
       double hp = independent_variables_[i + m] - x;
-      double den = ho - hp;
+      double denominator = independent_variables_[i] - independent_variables_[i + m];
       double w = c[i + 1] - d[i];
-      den = w / den;
-      d[i] = hp * den;
-      c[i] = ho * den;
+      d[i] = hp * w / denominator;
+      c[i] = ho * w / denominator;
     }
     double dy;
-    size_t d_idx = 1;
     if (nearest_x_id >= m) {
       dy = d[nearest_x_id - d_idx];
       d_idx++;
