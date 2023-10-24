@@ -2,6 +2,9 @@
 
 #include "date_time_format.hpp"
 
+/**
+ * @brief Test Constructor with value
+ */
 TEST(DateTime, ConstructorNominal) {
   DateTime date_time(1989, 3, 25, 30, 50, 4.200);
 
@@ -13,6 +16,9 @@ TEST(DateTime, ConstructorNominal) {
   EXPECT_DOUBLE_EQ(4.200, date_time.GetSecond());
 }
 
+/**
+ * @brief Test Constructor with string
+ */
 TEST(DateTime, ConstructorWithString) {
   DateTime date_time("2023/6/5 13:40:59.4");
 
@@ -24,6 +30,9 @@ TEST(DateTime, ConstructorWithString) {
   EXPECT_DOUBLE_EQ(59.4, date_time.GetSecond());
 }
 
+/**
+ * @brief Test get as string
+ */
 TEST(DateTime, GetAsString) {
   DateTime date_time(1989, 3, 25, 30, 50, 4.200);
   DateTime date_time2(date_time.GetAsString());

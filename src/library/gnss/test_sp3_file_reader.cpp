@@ -7,7 +7,7 @@
 #include "sp3_file_reader.hpp"
 
 /**
- * @brief Test for Matrix * Vector
+ * @brief Test Constructor
  */
 TEST(Sp3FileReader, Constructor) {
   std::string test_file_name = "/src/library/gnss/example.sp3";
