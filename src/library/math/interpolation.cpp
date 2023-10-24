@@ -41,6 +41,22 @@ double Interpolation::CalcPolynomial(const double x) {
   return y_output;
 }
 
+double Interpolation::CalcTrigonometric(const double x, const double period)
+{
+  double y_output = 0.0;
+
+  for (size_t i = 0; i < degree_; ++i) {
+    double t_k = 1.0;
+    for (size_t j = 0; j < degree_; ++j) {
+      if (i == j) continue;
+      t_k *= sin(period * (x - independent_variables_[j]) / 2.0) / sin(period * (independent_variables_[i] - independent_variables_[j]) / 2.0);
+    }
+    y_output += t_k * dependent_variables_[i];
+  }
+
+  return y_output;
+}
+
 size_t Interpolation::FindNearestPoint(const double x) {
   size_t output = 0;
   double difference1 = fabs(x - independent_variables_[0]);

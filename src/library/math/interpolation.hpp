@@ -41,6 +41,15 @@ class Interpolation {
    */
   double CalcPolynomial(const double x);
 
+  /**
+   * @fn CalcTrigonometric
+   * @brief Calculate trigonometric interpolation
+   * @param [in] x: Target independent variable
+   * @param [in] period: Characteristic period
+   * @return Interpolated value at x
+   */
+  double CalcTrigonometric(const double x, const double period = 1.0);
+
  private:
   std::vector<double> independent_variables_{0.0};
   std::vector<double> dependent_variables_{0.0};
