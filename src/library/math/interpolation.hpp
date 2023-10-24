@@ -20,6 +20,9 @@ class Interpolation {
   /**
    * @fn Interpolation
    * @brief Constructor without any initialization
+   * @note The size of independent variables automatically set as degree of interpolation
+   * @param[in] independent_variables: Set of independent variables
+   * @param[in] dependent_variables: Set of independent variables
    */
   inline Interpolation(std::vector<double> independent_variables, std::vector<double> dependent_variables)
       : independent_variables_(independent_variables), dependent_variables_(dependent_variables) {
