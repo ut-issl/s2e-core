@@ -6,6 +6,7 @@
 #ifndef S2E_LIBRARY_MATH_INTERPOLATION_HPP_
 #define S2E_LIBRARY_MATH_INTERPOLATION_HPP_
 
+#include <iostream>
 #include <vector>
 
 namespace libra {
@@ -24,23 +25,30 @@ class Interpolation {
       : independent_variables_(independent_variables), dependent_variables_(dependent_variables) {
     degree_ = independent_variables_.size();
     if (degree_ < 2) {
-      // td::cout << "[WARNINGS] Interpolation degree is smaller than 2" << std::endl;
+      std::cout << "[WARNINGS] Interpolation degree is smaller than 2" << std::endl;
     }
   }
 
   /**
    * @fn CalcPolynomial
-   * @brief Calculate polynomial interpolation
-   * @param [in] time_vector: List of given time
-   * @return Interpolated value
+   * @brief Calculate polynomial interpolation with Neville's algorithm
+   * @note Ref: Numerical Recipes in C, Section. 3.1
+   * @param [in] x: Target independent variable
+   * @return Interpolated value at x
    */
-  double CalcPolynomial(const double independent_variable);
+  double CalcPolynomial(const double x);
 
  private:
   std::vector<double> independent_variables_{0.0};
   std::vector<double> dependent_variables_{0.0};
   size_t degree_;
 
+  /**
+   * @fn FindNearestPoint
+   * @brief Find nearest independent variables index
+   * @param [in] x: Target independent variable
+   * @return Index of the nearest independent variables
+   */
   size_t FindNearestPoint(const double x);
 };
 
