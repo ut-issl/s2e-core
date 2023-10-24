@@ -232,6 +232,7 @@ if(GOOGLE_TEST)
     src/library/math/test_matrix.cpp
     src/library/math/test_matrix_vector.cpp
     src/library/math/test_s2e_math.cpp
+    src/library/math/test_interpolation.cpp
     src/library/numerical_integration/test_runge_kutta.cpp
     src/library/gravity/test_gravity_potential.cpp
     src/library/gnss/test_sp3_file_reader.cpp
