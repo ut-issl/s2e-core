@@ -12,7 +12,10 @@
 #include <regex>
 
 #ifdef USE_C2A
-#if C2A_CORE_VER_MAJOR == 4
+#include "src_core/c2a_core_main.h"
+#if !defined(C2A_CORE_VER_MAJOR)
+#warning "C2A_CORE_VER_MAJOR is not defined"   # this flag is defined after c2a-core v3.5.0
+#elif C2A_CORE_VER_MAJOR == 4
 // c2a-core v4
 #include "src_core/tlm_cmd/common_cmd_packet_util.h"
 #elif C2A_CORE_VER_MAJOR <= 3

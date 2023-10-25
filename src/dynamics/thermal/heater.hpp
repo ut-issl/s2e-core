@@ -91,4 +91,12 @@ class Heater {
   void AssertHeaterParams(void);
 };
 
+/**
+ * @fn InitHeater
+ * @brief Initialize Heater object from csv file
+ * @param[in] heater_str: str read from csv file
+ * @return Heater
+ */
+Heater InitHeater(const std::vector<std::string>& heater_str);
+
 #endif  // S2E_DYNAMICS_THERMAL_HEATER_HPP_

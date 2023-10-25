@@ -1,43 +1,38 @@
 ﻿/**
- * @file celestial_rotation.hpp
- * @brief Class to calculate the celestial rotation
- * @note Support earth rotation only now (TODO: add other planets)
- *       Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
+ * @file earth_rotation.hpp
+ * @brief Class to calculate the earth rotation
+ * @note Refs: 福島,"天体の回転運動理論入門講義ノート", 2007 (in Japanese),
  *             長沢,"天体の位置計算(増補版)", 2001 (in Japanese),
  *             IERS Conventions 2003
  */
 
-#ifndef S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_
-#define S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_
+#ifndef S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_
+#define S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_
 
-#include "library/logger/loggable.hpp"
 #include "library/math/matrix.hpp"
 
 /**
- * @enum RotationMode
- * @brief Definition of calculation mode of celestial rotation
+ * @enum EarthRotationMode
+ * @brief Definition of calculation mode of earth rotation
  */
-enum class RotationMode {
+enum class EarthRotationMode {
   kIdle,    //!< No Rotation calculation
   kSimple,  //!< Z axis rotation only
   kFull,    //!< Rotation including precession and nutation
 };
 
 /**
- * @class CelestialRotation
- * @brief Class to calculate the celestial rotation
- * @note Support earth rotation only now (TODO: add other planets)
+ * @class EarthRotation
+ * @brief Class to calculate the earth rotation
  */
-class CelestialRotation {
+class EarthRotation {
  public:
-  // initialize DCM to unit matrix in the default constructor
   /**
-   * @fn CelestialRotation
+   * @fn EarthRotation
    * @brief Constructor
    * @param [in] rotation_mode: Designation of rotation model
-   * @param [in] center_body_name: Center object of inertial frame
    */
-  CelestialRotation(const RotationMode rotation_mode, const std::string center_body_name);
+  EarthRotation(const EarthRotationMode rotation_mode = EarthRotationMode::kSimple);
 
   /**
    * @fn Update
@@ -47,30 +42,28 @@ class CelestialRotation {
   void Update(const double julian_date);
 
   /**
-   * @fn GetDcmJ2000ToXcxf
-   * @brief Return the DCM between J2000 inertial frame and the frame of fixed to the target object X (X-Centered X-Fixed)
+   * @fn GetDcmJ2000ToEcef
+   * @brief Return the DCM between J2000 inertial frame and the Earth Centered Earth Fixed frame
    */
-  inline const libra::Matrix<3, 3> GetDcmJ2000ToXcxf() const { return dcm_j2000_to_xcxf_; };
+  inline const libra::Matrix<3, 3> GetDcmJ2000ToEcef() const { return dcm_j2000_to_ecef_; };
 
   /**
-   * @fn GetDcmJ2000ToXcxf
-   * @brief Return the DCM between TEME (Inertial frame used in SGP4) and the frame of fixed to the target object X (X-Centered X-Fixed)
+   * @fn GetDcmTemeToEcef
+   * @brief Return the DCM between TEME (Inertial frame used in SGP4) and the Earth Centered Earth Fixed frame
    */
-  inline const libra::Matrix<3, 3> GetDcmTemeToXcxf() const { return dcm_teme_to_xcxf_; };
+  inline const libra::Matrix<3, 3> GetDcmTemeToEcef() const { return dcm_teme_to_ecef_; };
 
  private:
   double d_psi_rad_;                       //!< Nutation in obliquity [rad]
   double d_epsilon_rad_;                   //!< Nutation in longitude [rad]
   double epsilon_rad_;                     //!< Mean obliquity of the ecliptic [rad]
-  libra::Matrix<3, 3> dcm_j2000_to_xcxf_;  //!< Direction Cosine Matrix J2000 to XCXF(X-Centered X-Fixed)
-  libra::Matrix<3, 3> dcm_teme_to_xcxf_;   //!< Direction Cosine Matrix TEME to XCXF(X-Centered X-Fixed)
-  RotationMode rotation_mode_;             //!< Designation of dynamics model
-  std::string planet_name_;                //!< Designate which solar planet the instance should work as
+  libra::Matrix<3, 3> dcm_j2000_to_ecef_;  //!< Direction Cosine Matrix J2000 to ECEF
+  libra::Matrix<3, 3> dcm_teme_to_ecef_;   //!< Direction Cosine Matrix TEME to ECEF
+  EarthRotationMode rotation_mode_;        //!< Designation of dynamics model
 
   // Definitions of coefficients
   // They are handling as constant values
   // TODO: Consider to read setting files for these coefficients
-  // TODO: Consider other formats for other planets
   double c_epsilon_rad_[4];  //!< Coefficients to compute mean obliquity of the ecliptic
   double c_lm_rad_[5];       //!< Coefficients to compute Delaunay angle (l=lm: Mean anomaly of the moon)
   double c_ls_rad_[5];       //!< Coefficients to compute Delaunay angle (l'=ls: Mean anomaly of the sun)
@@ -90,13 +83,10 @@ class CelestialRotation {
   const double kDayJulianCentury_ = 36525.0;            //!< Conversion constant from Julian century to day [day/century]
 
   /**
-   * @fn InitCelestialRotationAsEarth
-   * @brief Initialize CelestialRotation as earth rotation
-   * @note TODO: Make functions for other planets?
-   * @param [in] rotation_mode: Rotation mode
-   * @param [in] center_body_name: Name of center body
+   * @fn InitializeParameters
+   * @brief Initialize parameters
    */
-  void InitCelestialRotationAsEarth(const RotationMode rotation_mode, const std::string center_body_name);
+  void InitializeParameters();
 
   /**
    * @fn AxialRotation
@@ -130,4 +120,6 @@ class CelestialRotation {
   libra::Matrix<3, 3> PolarMotion(const double x_p, const double y_p);
 };
 
-#endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_ROTATION_HPP_
+EarthRotationMode ConvertEarthRotationMode(const std::string mode);
+
+#endif  // S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_

@@ -144,6 +144,15 @@ class IniAccess {
    * @return Read string data
    */
   std::string ReadString(const char* section_name, const char* key_name);
+  /**
+   * @fn ReadVectorString
+   * @brief Read a vector number as string type
+   * @param[in] section_name: Section name
+   * @param[in] key_name: Key name
+   * @param[in] num: Number of elements of the array
+   * @return Read data
+   */
+  std::vector<std::string> ReadVectorString(const char* section_name, const char* key_name, const size_t num);
 
   /**
    * @fn ReadEnable

@@ -7,19 +7,20 @@
 
 #include "library/initialize/initialize_file_access.hpp"
 
-MtqMagnetometerInterference::MtqMagnetometerInterference(const std::string file_name, Magnetometer& magnetometer, const Magnetorquer& magnetorquer)
+MtqMagnetometerInterference::MtqMagnetometerInterference(const std::string file_name, Magnetometer& magnetometer, const Magnetorquer& magnetorquer,
+                                                         const size_t initialize_id)
     : magnetometer_(magnetometer), magnetorquer_(magnetorquer) {
   // Read ini file
   IniAccess ini_file(file_name);
-  const char* section = "MTQ_MAGNETOMETER_INTERFERENCE";
+  std::string section = "MTQ_MAGNETOMETER_INTERFERENCE_" + std::to_string(static_cast<long long>(initialize_id));
 
-  polynomial_degree_ = (size_t)ini_file.ReadInt(section, "polynomial_degree");
+  polynomial_degree_ = (size_t)ini_file.ReadInt(section.c_str(), "polynomial_degree");
 
   for (size_t degree = 1; degree <= polynomial_degree_; degree++) {
     const std::string key_name = "additional_bias_by_mtq_coefficients_" + std::to_string(static_cast<long long>(degree));
     libra::Vector<9> additional_bias_by_mtq_coefficients_vec;
     libra::Matrix<3, 3> additional_bias_by_mtq_coefficients;
-    ini_file.ReadVector(section, key_name.c_str(), additional_bias_by_mtq_coefficients_vec);
+    ini_file.ReadVector(section.c_str(), key_name.c_str(), additional_bias_by_mtq_coefficients_vec);
     for (size_t i = 0; i < 3; i++) {
       for (size_t j = 0; j < 3; j++) {
         additional_bias_by_mtq_coefficients[i][j] = additional_bias_by_mtq_coefficients_vec[i * 3 + j];

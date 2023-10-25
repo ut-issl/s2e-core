@@ -215,8 +215,10 @@ string SimulationTime::GetLogValue() const {
 
   const char kSize = 100;
   char ymdhms[kSize];
-  snprintf(ymdhms, kSize, "%4d/%02d/%02d %02d:%02d:%.3lf,", current_utc_.year, current_utc_.month, current_utc_.day, current_utc_.hour,
-           current_utc_.minute, current_utc_.second);
+  double sec_floor = floor(current_utc_.second * 1e3) / 1e3;
+
+  snprintf(ymdhms, kSize, "%4d/%02d/%02d %02d:%02d:%.3f,", current_utc_.year, current_utc_.month, current_utc_.day, current_utc_.hour,
+           current_utc_.minute, sec_floor);
   str_tmp += ymdhms;
 
   return str_tmp;

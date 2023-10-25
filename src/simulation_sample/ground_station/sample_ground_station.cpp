@@ -19,7 +19,7 @@ void SampleGroundStation::LogSetup(Logger& logger) {
   components_->CompoLogSetUp(logger);
 }
 
-void SampleGroundStation::Update(const CelestialRotation& celestial_rotation, const SampleSpacecraft& spacecraft) {
+void SampleGroundStation::Update(const EarthRotation& celestial_rotation, const SampleSpacecraft& spacecraft) {
   GroundStation::Update(celestial_rotation, spacecraft);
   components_->GetGsCalculator()->Update(spacecraft, spacecraft.GetInstalledComponents().GetAntenna(), *this, *(components_->GetAntenna()));
 }

@@ -8,7 +8,8 @@ add_library(${PROJECT_NAME} STATIC
   gnss_satellites.cpp
   simulation_time.cpp
   clock_generator.cpp
-  celestial_rotation.cpp
+  earth_rotation.cpp
+  moon_rotation.cpp
   initialize_gnss_satellites.cpp
 )
 
