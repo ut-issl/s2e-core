@@ -41,15 +41,19 @@ double Interpolation::CalcPolynomial(const double x) {
   return y_output;
 }
 
-double Interpolation::CalcTrigonometric(const double x, const double period)
-{
+double Interpolation::CalcTrigonometric(const double x, const double period) {
   double y_output = 0.0;
 
   for (size_t i = 0; i < degree_; ++i) {
     double t_k = 1.0;
+    double alpha = 0.0;
     for (size_t j = 0; j < degree_; ++j) {
       if (i == j) continue;
       t_k *= sin(period * (x - independent_variables_[j]) / 2.0) / sin(period * (independent_variables_[i] - independent_variables_[j]) / 2.0);
+      //alpha += independent_variables_[j] - 2.0 * period;
+    }
+    if (degree_ % 2 == 0) {  // Even number
+      t_k *= sin((x - alpha) / 2.0) / sin((independent_variables_[i] - alpha) / 2.0);
     }
     y_output += t_k * dependent_variables_[i];
   }
