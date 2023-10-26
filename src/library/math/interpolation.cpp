@@ -43,17 +43,26 @@ double Interpolation::CalcPolynomial(const double x) {
 
 double Interpolation::CalcTrigonometric(const double x, const double period) {
   double y_output = 0.0;
+  size_t end_id = degree_;
+  size_t start_id = 0;
 
-  for (size_t i = 0; i < degree_; ++i) {
+  // Modify to odd number degrees
+  // TODO: implement more efficient method
+  if (degree_ % 2 == 0) {
+    size_t nearest_point = FindNearestPoint(x);
+    // Remove the farthest point
+    if (nearest_point * 2 < degree_) {
+      end_id--;
+    } else {
+      start_id++;
+    }
+  }
+
+  for (size_t i = start_id; i < end_id; ++i) {
     double t_k = 1.0;
-    double alpha = 0.0;
-    for (size_t j = 0; j < degree_; ++j) {
+    for (size_t j = start_id; j < end_id; ++j) {
       if (i == j) continue;
       t_k *= sin(period * (x - independent_variables_[j]) / 2.0) / sin(period * (independent_variables_[i] - independent_variables_[j]) / 2.0);
-      //alpha += independent_variables_[j] - 2.0 * period;
-    }
-    if (degree_ % 2 == 0) {  // Even number
-      t_k *= sin((x - alpha) / 2.0) / sin((independent_variables_[i] - alpha) / 2.0);
     }
     y_output += t_k * dependent_variables_[i];
   }
