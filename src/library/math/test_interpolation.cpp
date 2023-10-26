@@ -4,6 +4,8 @@
  */
 #include <gtest/gtest.h>
 
+#include <cmath>
+
 #include "constants.hpp"
 #include "interpolation.hpp"
 

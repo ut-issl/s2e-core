@@ -8,6 +8,8 @@
 #ifndef S2E_LIBRARY_GNSS_SP3_FILE_READER_HPP_
 #define S2E_LIBRARY_GNSS_SP3_FILE_READER_HPP_
 
+#include <stdint.h>
+
 #include <library/math/vector.hpp>
 #include <library/time_system/date_time_format.hpp>
 #include <library/time_system/gps_time.hpp>
