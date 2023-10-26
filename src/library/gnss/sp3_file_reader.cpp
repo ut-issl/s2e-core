@@ -4,10 +4,9 @@
  * @note Support version: SP3-d
  *       Ref: https://files.igs.org/pub/data/format/sp3d.pdf?_ga=2.115202830.823990648.1664976786-1792483726.1664976785
  */
+#define _CRT_SECURE_NO_WARNINGS  // for sscanf
 
 #include "sp3_file_reader.hpp"
-
-#define _CRT_SECURE_NO_WARNINGS  // for sscanf
 
 #include <fstream>
 #include <iostream>
