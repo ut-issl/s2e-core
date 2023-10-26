@@ -2,6 +2,9 @@
 
 #include "gps_time.hpp"
 
+/**
+ * @brief Test Constructor
+ */
 TEST(GpsTime, ConstructorNominal) {
   GpsTime gps_time(2285, 12345.6798);
 
