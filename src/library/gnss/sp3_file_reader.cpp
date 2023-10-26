@@ -7,6 +7,8 @@
 
 #include "sp3_file_reader.hpp"
 
+#define _CRT_SECURE_NO_WARNINGS  // for sscanf
+
 #include <fstream>
 #include <iostream>
 
