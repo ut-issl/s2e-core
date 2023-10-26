@@ -5,8 +5,6 @@
 
 #include "c2a_command_database.hpp"
 
-#include <stdint.h>
-
 #include <fstream>
 #include <iostream>
 #include <library/utilities/endian.hpp>
