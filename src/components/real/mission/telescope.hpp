@@ -7,6 +7,7 @@
 #define S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_
 
 #include <dynamics/attitude/attitude.hpp>
+#include <dynamics/orbit/orbit.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
 #include <environment/local/local_celestial_information.hpp>
 #include <library/logger/loggable.hpp>
@@ -47,11 +48,12 @@ class Telescope : public Component, public ILoggable {
    * @param [in] attitude: Attitude Information
    * @param [in] hipparcos: Hipparcos catalogue information
    * @param [in] local_celestial_information: Local celestial information
+   * @param [in] orbit: Orbit information
    */
   Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
             const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const Attitude* attitude,
-            const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information);
+            const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit);
   /**
    * @fn ~Telescope
    * @brief Destructor
@@ -78,6 +80,8 @@ class Telescope : public Component, public ILoggable {
   double y_fov_per_pix_;       //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
   double x_field_of_view_rad;  //!< Field of view of X-axis in the image plane [rad/pix]
   double y_field_of_view_rad;  //!< Field of view of Y-axis in the image plane [rad/pix]
+  double ground_arg_z_rad_ = 0.0; //!< Ground position argument z
+  double ground_arg_y_rad_ = 0.0; //!< Ground position argument y
 
   bool is_sun_in_forbidden_angle = false;    //!< Is the sun in the forbidden angle
   bool is_earth_in_forbidden_angle = false;  //!< Is the earth in the forbidden angle
@@ -88,6 +92,8 @@ class Telescope : public Component, public ILoggable {
   libra::Vector<2> sun_position_image_sensor{-1};    //!< Position of the sun on the image plane
   libra::Vector<2> earth_position_image_sensor{-1};  //!< Position of the earth on the image plane
   libra::Vector<2> moon_position_image_sensor{-1};   //!< Position of the moon on the image plane
+  libra::Vector<3> initial_spacecraft_position_ecef_m_; //!< Initial spacecraft position
+  libra::Vector<3> initial_ground_position_ecef_m_; //!< Initial spacecraft position
 
   std::vector<Star> star_list_in_sight;  //!< Star information in the field of view
 
@@ -122,6 +128,13 @@ class Telescope : public Component, public ILoggable {
   const Attitude* attitude_;                                      //!< Attitude information
   const HipparcosCatalogue* hipparcos_;                           //!< Star information
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
+  /*
+   * @fn Observe
+   * @brief Observe Ground Position
+   */
+   void ObserveGroundPosition();
+
+   const Orbit* orbit_;        //!< Orbit information
 
   // Override ILoggable
   /**
@@ -156,6 +169,7 @@ class Telescope : public Component, public ILoggable {
  * @param [in] local_celestial_information: Local celestial information
  */
 Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, const Attitude* attitude,
-                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information);
+                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
+                        const Orbit* orbit);
 
 #endif  // S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_
