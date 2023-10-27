@@ -42,6 +42,7 @@ void GlobalEnvironment::Update() {
 void GlobalEnvironment::LogSetup(Logger& logger) {
   logger.AddLogList(simulation_time_);
   logger.AddLogList(celestial_information_);
+  logger.AddLogList(gnss_satellites_);
 }
 
 void GlobalEnvironment::Reset(void) { simulation_time_->ResetClock(); }
