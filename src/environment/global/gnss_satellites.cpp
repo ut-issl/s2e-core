@@ -854,6 +854,7 @@ GnssSatellites::GnssSatellites(bool is_calc_enabled)
       ofs_sa("sa.csv")
 #endif
 {
+  // TODO: Add log enable flag in ini file
   is_calc_enabled_ = is_calc_enabled;
   if (is_calc_enabled_) {
     is_log_enabled_ = true;
@@ -1105,6 +1106,7 @@ double GnssSatellites::AddIonosphericDelay(const int gnss_satellite_id, const li
 std::string GnssSatellites::GetLogHeader() const {
   std::string str_tmp = "";
 
+  // TODO: Add log output for other navigation systems
   for (size_t gps_index = 0; gps_index < gps_sat_num_; gps_index++) {
     str_tmp += WriteVector("GPS" + std::to_string(gps_index) + "_position", "ecef", "m", 3);
   }
