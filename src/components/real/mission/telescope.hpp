@@ -80,7 +80,7 @@ class Telescope : public Component, public ILoggable {
   double y_fov_per_pix_;                         //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
   double x_field_of_view_rad;                    //!< Field of view of X-axis in the image plane [rad/pix]
   double y_field_of_view_rad;                    //!< Field of view of Y-axis in the image plane [rad/pix]
-  double ground_position_x_image_sensor_ = 0.0;  //!< Ground position z
+  double ground_position_x_image_sensor_ = 0.0;  //!< Ground position x
   double ground_position_y_image_sensor_ = 0.0;  //!< Ground position y
 
   bool is_sun_in_forbidden_angle = false;    //!< Is the sun in the forbidden angle
