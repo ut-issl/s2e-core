@@ -74,14 +74,14 @@ class Telescope : public Component, public ILoggable {
   double earth_forbidden_angle_rad_;  //!< Earth forbidden angle [rad]
   double moon_forbidden_angle_rad_;   //!< Moon forbidden angle [rad]
 
-  int x_number_of_pix_;        //!< Number of pixel on X-axis in the image plane
-  int y_number_of_pix_;        //!< Number of pixel on Y-axis in the image plane
-  double x_fov_per_pix_;       //!< Field of view per pixel of X-axis in the image plane [rad/pix]
-  double y_fov_per_pix_;       //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
-  double x_field_of_view_rad;  //!< Field of view of X-axis in the image plane [rad/pix]
-  double y_field_of_view_rad;  //!< Field of view of Y-axis in the image plane [rad/pix]
-  double ground_position_x_image_sensor_; //!< Ground position z
-  double ground_position_y_image_sensor_; //!< Ground position y
+  int x_number_of_pix_;                    //!< Number of pixel on X-axis in the image plane
+  int y_number_of_pix_;                    //!< Number of pixel on Y-axis in the image plane
+  double x_fov_per_pix_;                   //!< Field of view per pixel of X-axis in the image plane [rad/pix]
+  double y_fov_per_pix_;                   //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
+  double x_field_of_view_rad;              //!< Field of view of X-axis in the image plane [rad/pix]
+  double y_field_of_view_rad;              //!< Field of view of Y-axis in the image plane [rad/pix]
+  double ground_position_x_image_sensor_;  //!< Ground position z
+  double ground_position_y_image_sensor_;  //!< Ground position y
 
   bool is_sun_in_forbidden_angle = false;    //!< Is the sun in the forbidden angle
   bool is_earth_in_forbidden_angle = false;  //!< Is the earth in the forbidden angle
@@ -92,7 +92,7 @@ class Telescope : public Component, public ILoggable {
   libra::Vector<2> sun_position_image_sensor{-1};    //!< Position of the sun on the image plane
   libra::Vector<2> earth_position_image_sensor{-1};  //!< Position of the earth on the image plane
   libra::Vector<2> moon_position_image_sensor{-1};   //!< Position of the moon on the image plane
-  libra::Vector<3> initial_ground_position_ecef_m_; //!< Initial spacecraft position
+  libra::Vector<3> initial_ground_position_ecef_m_;  //!< Initial spacecraft position
 
   std::vector<Star> star_list_in_sight;  //!< Star information in the field of view
 
@@ -127,13 +127,13 @@ class Telescope : public Component, public ILoggable {
   const Attitude* attitude_;                                      //!< Attitude information
   const HipparcosCatalogue* hipparcos_;                           //!< Star information
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
-  /*
-   * @fn ObserveGroundPositionDeviation
-   * @brief Calculate the deviation of the ground position from its initial value in the image sensor
-   */
-   void ObserveGroundPositionDeviation();
+                                                                  /*
+                                                                   * @fn ObserveGroundPositionDeviation
+                                                                   * @brief Calculate the deviation of the ground position from its initial value in the image sensor
+                                                                   */
+  void ObserveGroundPositionDeviation();
 
-   const Orbit* orbit_;        //!< Orbit information
+  const Orbit* orbit_;  //!< Orbit information
   // Override ILoggable
   /**
    * @fn GetLogHeader

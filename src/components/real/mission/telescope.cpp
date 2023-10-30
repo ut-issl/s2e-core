@@ -6,9 +6,9 @@
 #include "telescope.hpp"
 
 #include <cassert>
+#include <environment/global/physical_constants.hpp>
 #include <library/initialize/initialize_file_access.hpp>
 #include <library/math/constants.hpp>
-#include <environment/global/physical_constants.hpp>
 
 using namespace std;
 using namespace libra;
@@ -56,11 +56,11 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
 
     star_list_in_sight.push_back(star);
   }
-  //Get initial spacecraft position in ECEF
-  if (orbit_ != nullptr){
-  libra::Vector<3> initial_spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
-  initial_ground_position_ecef_m_ = environment::earth_equatorial_radius_m * initial_spacecraft_position_ecef_m;
-  initial_ground_position_ecef_m_ /= (orbit_->GetGeodeticPosition().GetAltitude_m()+environment::earth_equatorial_radius_m);
+  // Get initial spacecraft position in ECEF
+  if (orbit_ != nullptr) {
+    libra::Vector<3> initial_spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
+    initial_ground_position_ecef_m_ = environment::earth_equatorial_radius_m * initial_spacecraft_position_ecef_m;
+    initial_ground_position_ecef_m_ /= (orbit_->GetGeodeticPosition().GetAltitude_m() + environment::earth_equatorial_radius_m);
   }
 }
 
@@ -161,38 +161,38 @@ void Telescope::ObserveStars() {
   }
 }
 
-
- void Telescope::ObserveGroundPositionDeviation() {
-   if (orbit_ == nullptr) {
+void Telescope::ObserveGroundPositionDeviation() {
+  if (orbit_ == nullptr) {
     // Orbit information is not available, so skip the ground position calculation
-     return;
-   } else {
+    return;
+  } else {
     Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
 
-    libra::Vector<3> spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m(); // Get spacecraft position in ECEF
-    libra::Vector<3> direction_ecef = (initial_ground_position_ecef_m_ - spacecraft_position_ecef_m).CalcNormalizedVector(); // Get the direction vector from spacecraft to ground point in ECEF
+    libra::Vector<3> spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();  // Get spacecraft position in ECEF
+    libra::Vector<3> direction_ecef = (initial_ground_position_ecef_m_ - spacecraft_position_ecef_m)
+                                          .CalcNormalizedVector();  // Get the direction vector from spacecraft to ground point in ECEF
     // Get the Direction Cosine Matrix (DCM) from ECEF to ECI
     libra::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
     // Convert the position vector in ECEF to the vector in ECI
     libra::Vector<3> direction_i = (dcm_ecef_to_i * direction_ecef).CalcNormalizedVector();
     // Convert the position vector in ECI to the vector in body frame
     libra::Vector<3> direction_b = quaternion_i2b.FrameConversion(direction_i);
-    libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b); // Get ground position direction vector in component frame (c)
+    libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b);  // Get ground position direction vector in component frame (c)
 
-    double ground_angle_z_rad = atan2(target_c[2], target_c[0]); // Angle from X-axis on XZ plane in the component frame
-    double ground_position_x_image_sensor = ground_angle_z_rad / x_fov_per_pix_; // Ground position in the image sensor in the satellite frame
-    double ground_angle_y_rad = atan2(target_c[1], target_c[0]); // Angle from X-axis on XY plane in the component frame
-    double ground_position_y_image_sensor = ground_angle_y_rad / y_fov_per_pix_; // Ground position in the image sensor in the satellite frame
+    double ground_angle_z_rad = atan2(target_c[2], target_c[0]);                  // Angle from X-axis on XZ plane in the component frame
+    double ground_position_x_image_sensor = ground_angle_z_rad / x_fov_per_pix_;  // Ground position in the image sensor in the satellite frame
+    double ground_angle_y_rad = atan2(target_c[1], target_c[0]);                  // Angle from X-axis on XY plane in the component frame
+    double ground_position_y_image_sensor = ground_angle_y_rad / y_fov_per_pix_;  // Ground position in the image sensor in the satellite frame
 
     // Check if the ground point is in the image sensor
-    if (ground_position_x_image_sensor <= x_number_of_pix_ && ground_position_y_image_sensor <= y_number_of_pix_){
-        return;
-      } else {
-        ground_position_x_image_sensor = -1;
-        ground_position_y_image_sensor = -1;
-      }
-   }
- }
+    if (ground_position_x_image_sensor <= x_number_of_pix_ && ground_position_y_image_sensor <= y_number_of_pix_) {
+      return;
+    } else {
+      ground_position_x_image_sensor = -1;
+      ground_position_y_image_sensor = -1;
+    }
+  }
+}
 
 string Telescope::GetLogHeader() const {
   string str_tmp = "";
@@ -252,8 +252,7 @@ string Telescope::GetLogValue() const {
 }
 
 Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const string file_name, const Attitude* attitude,
-                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
-                        const Orbit* orbit) {
+                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit) {
   using libra::pi;
 
   IniAccess Telescope_conf(file_name);
@@ -288,7 +287,7 @@ Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const st
   int number_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "number_of_stars_for_log");
 
   Telescope telescope(clock_generator, quaternion_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_number_of_pix,
-                      y_number_of_pix, x_fov_per_pix_rad, y_fov_per_pix_rad, number_of_logged_stars, attitude, hipparcos,
-                      local_celestial_information, orbit);
+                      y_number_of_pix, x_fov_per_pix_rad, y_fov_per_pix_rad, number_of_logged_stars, attitude, hipparcos, local_celestial_information,
+                      orbit);
   return telescope;
 }

@@ -31,22 +31,25 @@ path_to_logs = args.logs_dir
 
 read_file_tag = args.file_tag
 if read_file_tag == None:
-  print("file tag does not found. use latest.")
-  read_file_tag = find_latest_log_tag(path_to_logs)
+    print("file tag does not found. use latest.")
+    read_file_tag = find_latest_log_tag(path_to_logs)
 
 print("log: " + read_file_tag)
 
 #
 # CSV file name
 #
-read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file_tag + '_default.csv'
+read_file_name = path_to_logs + '/' + 'logs_' + \
+    read_file_tag + '/' + read_file_tag + '_default.csv'
 
 #
 # Data read and edit
 #
 # Read S2E CSV
-x_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_x[pix]')
-y_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_y[pix]')
+x_data = read_scalar_from_csv(
+    read_file_name, 'telescope_ground_position_x[pix]')
+y_data = read_scalar_from_csv(
+    read_file_name, 'telescope_ground_position_y[pix]')
 #
 # Plot
 #
@@ -59,6 +62,7 @@ plt.grid(True)
 
 # Data save
 if args.no_gui:
-  plt.savefig(read_file_tag + "_ground_position.png") # save last figure only
+    # save last figure only
+    plt.savefig(read_file_tag + "_ground_position.png")
 else:
-  plt.show()
+    plt.show()
