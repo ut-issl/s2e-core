@@ -226,18 +226,12 @@ if(GOOGLE_TEST)
 
   # Unit test
   set(TEST_PROJECT_NAME ${PROJECT_NAME}_TEST)
-  set(TEST_FILES
-    src/library/math/test_quaternion.cpp
-    src/library/math/test_vector.cpp
-    src/library/math/test_matrix.cpp
-    src/library/math/test_matrix_vector.cpp
-    src/library/math/test_s2e_math.cpp
-    src/library/numerical_integration/test_runge_kutta.cpp
-    src/library/gravity/test_gravity_potential.cpp
-    src/library/gnss/test_sp3_file_reader.cpp
-    src/library/time_system/test_date_time_format.cpp
-    src/library/time_system/test_gps_time.cpp
-  )
+
+  # Add all test_*.cpp files as SOURCE_FILES
+  file(GLOB_RECURSE TEST_FILES ${CMAKE_CURRENT_LIST_DIR}/src/test_*.cpp)
+  # Uncomment the following line to exclude any files that match the REGEX from TEST_FILES
+  # list(FILTER TEST_FILES EXCLUDE REGEX ${CMAKE_CURRENT_LIST_DIR}/src/test_example.cpp)
+
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)
   target_link_libraries(${TEST_PROJECT_NAME} LIBRARY)
