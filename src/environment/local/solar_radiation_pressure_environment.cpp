@@ -24,6 +24,7 @@ void SolarRadiationPressureEnvironment::UpdateAllStates() {
   if (!IsCalcEnabled) return;
 
   UpdatePressure();
+  shadow_coefficient_ = 1.0;  // Initialize for multiple shadow source
   for (auto shadow_source_name : shadow_source_name_list_) {
     CalcShadowCoefficient(shadow_source_name);
   }
@@ -56,7 +57,7 @@ std::string SolarRadiationPressureEnvironment::GetLogValue() const {
 
 void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow_source_name) {
   if (shadow_source_name == "SUN") {
-    shadow_coefficient_ = 1.0;
+    shadow_coefficient_ *= 1.0;
     return;
   }
 
@@ -83,17 +84,17 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
 
   if (c < fabs(a - b) && a <= b)  // The occultation is total (spacecraft is in umbra)
   {
-    shadow_coefficient_ = 0.0;
+    shadow_coefficient_ *= 0.0;
   } else if (c < fabs(a - b) && a > b)  // The occultation is partial but maximum
   {
     shadow_coefficient_ = 1.0 - (b * b) / (a * a);
   } else if (fabs(a - b) <= c && c <= (a + b))  // spacecraft is in penumbra
   {
     double A = a * a * acos(x / a) + b * b * acos((c - x) / b) - c * y;  // The area of the occulted segment of the apparent solar disk
-    shadow_coefficient_ = 1.0 - A / (libra::pi * a * a);
+    shadow_coefficient_ *= 1.0 - A / (libra::pi * a * a);
   } else {  // no occultation takes place
     assert(c > (a + b));
-    shadow_coefficient_ = 1.0;
+    shadow_coefficient_ *= 1.0;
   }
 }
 
