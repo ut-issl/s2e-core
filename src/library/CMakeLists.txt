@@ -26,6 +26,7 @@ add_library(${PROJECT_NAME} STATIC
   math/quaternion.cpp
   math/vector.cpp
   math/s2e_math.cpp
+  math/interpolation.cpp
 
   optics/gaussian_beam_base.cpp
 
