@@ -22,9 +22,9 @@
 #include <components/real/aocs/sun_sensor.hpp>
 #include <components/real/cdh/on_board_computer.hpp>
 #include <components/real/communication/antenna.hpp>
+#include <components/real/mission/telescope.hpp>
 #include <components/real/power/power_control_unit.hpp>
 #include <components/real/propulsion/simple_thruster.hpp>
-#include <components/real/mission/telescope.hpp>
 #include <dynamics/dynamics.hpp>
 #include <library/math/vector.hpp>
 #include <simulation/hils/hils_port_manager.hpp>
