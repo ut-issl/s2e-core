@@ -1117,7 +1117,7 @@ std::string GnssSatellites::GetLogHeader() const {
 std::string GnssSatellites::GetLogValue() const {
   std::string str_tmp = "";
 
-  for (size_t gps_index = 0; gps_index < gps_sat_num_; gps_index++) {
+  for (size_t gps_index = 0; gps_index < (size_t)gps_sat_num_; gps_index++) {
     str_tmp += WriteVector(true_info_.GetSatellitePositionEcef(gps_index), 16);
   }
 
