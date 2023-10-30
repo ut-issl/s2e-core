@@ -74,12 +74,12 @@ class Telescope : public Component, public ILoggable {
   double earth_forbidden_angle_rad_;  //!< Earth forbidden angle [rad]
   double moon_forbidden_angle_rad_;   //!< Moon forbidden angle [rad]
 
-  int x_number_of_pix_;                    //!< Number of pixel on X-axis in the image plane
-  int y_number_of_pix_;                    //!< Number of pixel on Y-axis in the image plane
-  double x_fov_per_pix_;                   //!< Field of view per pixel of X-axis in the image plane [rad/pix]
-  double y_fov_per_pix_;                   //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
-  double x_field_of_view_rad;              //!< Field of view of X-axis in the image plane [rad/pix]
-  double y_field_of_view_rad;              //!< Field of view of Y-axis in the image plane [rad/pix]
+  int x_number_of_pix_;                          //!< Number of pixel on X-axis in the image plane
+  int y_number_of_pix_;                          //!< Number of pixel on Y-axis in the image plane
+  double x_fov_per_pix_;                         //!< Field of view per pixel of X-axis in the image plane [rad/pix]
+  double y_fov_per_pix_;                         //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
+  double x_field_of_view_rad;                    //!< Field of view of X-axis in the image plane [rad/pix]
+  double y_field_of_view_rad;                    //!< Field of view of Y-axis in the image plane [rad/pix]
   double ground_position_x_image_sensor_ = 0.0;  //!< Ground position z
   double ground_position_y_image_sensor_ = 0.0;  //!< Ground position y
 

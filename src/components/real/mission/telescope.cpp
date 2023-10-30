@@ -179,9 +179,9 @@ void Telescope::ObserveGroundPositionDeviation() {
     libra::Vector<3> direction_b = quaternion_i2b.FrameConversion(direction_i);
     libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b);  // Get ground position direction vector in component frame (c)
 
-    double ground_angle_z_rad = atan2(target_c[2], target_c[0]);                  // Angle from X-axis on XZ plane in the component frame
+    double ground_angle_z_rad = atan2(target_c[2], target_c[0]);            // Angle from X-axis on XZ plane in the component frame
     ground_position_x_image_sensor_ = ground_angle_z_rad / x_fov_per_pix_;  // Ground position in the image sensor in the satellite frame
-    double ground_angle_y_rad = atan2(target_c[1], target_c[0]);                  // Angle from X-axis on XY plane in the component frame
+    double ground_angle_y_rad = atan2(target_c[1], target_c[0]);            // Angle from X-axis on XY plane in the component frame
     ground_position_y_image_sensor_ = ground_angle_y_rad / y_fov_per_pix_;  // Ground position in the image sensor in the satellite frame
 
     // Check if the ground point is in the image sensor
