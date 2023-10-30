@@ -134,8 +134,6 @@ class Telescope : public Component, public ILoggable {
    void ObserveGroundPositionDeviation();
 
    const Orbit* orbit_;        //!< Orbit information
-   bool is_ground_point_in_sight_ = false; //!< Is the ground point in sight
-
   // Override ILoggable
   /**
    * @fn GetLogHeader

@@ -88,12 +88,7 @@ void Telescope::MainRoutine(const int time_count) {
   // CalcAngleTwoVectors_rad(sight_direction_c_, moon_pos_c) * 180 / libra::pi;
   //******************************************************************************
   // Direction calculation of ground point
-  if (is_ground_point_in_sight_){
-    ObserveGroundPositionDeviation();
-  } else{
-    ground_position_x_image_sensor_ = -1;
-    ground_position_y_image_sensor_ = -1;
-  }
+  ObserveGroundPositionDeviation();
 }
 
 bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle) {
@@ -185,15 +180,16 @@ void Telescope::ObserveStars() {
     libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b); // Get ground position direction vector in component frame (c)
 
     double ground_angle_z_rad = atan2(target_c[2], target_c[0]); // Angle from X-axis on XZ plane in the component frame
-    ground_position_x_image_sensor_ = ground_angle_z_rad / x_fov_per_pix_; // Ground position in the image sensor in the satellite frame
+    double ground_position_x_image_sensor = ground_angle_z_rad / x_fov_per_pix_; // Ground position in the image sensor in the satellite frame
     double ground_angle_y_rad = atan2(target_c[1], target_c[0]); // Angle from X-axis on XY plane in the component frame
-    ground_position_y_image_sensor_ = ground_angle_y_rad / y_fov_per_pix_; // Ground position in the image sensor in the satellite frame
+    double ground_position_y_image_sensor = ground_angle_y_rad / y_fov_per_pix_; // Ground position in the image sensor in the satellite frame
 
     // Check if the ground point is in the image sensor
-    if (ground_position_x_image_sensor_ <= x_number_of_pix_ && ground_position_y_image_sensor_ <= y_number_of_pix_){
-        is_ground_point_in_sight_ = true;
+    if (ground_position_x_image_sensor <= x_number_of_pix_ && ground_position_y_image_sensor <= y_number_of_pix_){
+        return;
       } else {
-        is_ground_point_in_sight_ = false;
+        ground_position_x_image_sensor = -1;
+        ground_position_y_image_sensor = -1;
       }
    }
  }
