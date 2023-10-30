@@ -17,7 +17,7 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
                      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix,
                      const int y_number_of_pix, const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars,
                      const Attitude* attitude, const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
-                     const Orbit* orbit)
+                     const Orbit* orbit = nullptr)
     : Component(1, clock_generator),
       quaternion_b2c_(quaternion_b2c),
       sun_forbidden_angle_rad_(sun_forbidden_angle_rad),
@@ -57,9 +57,11 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
     star_list_in_sight.push_back(star);
   }
   //Get initial spacecraft position in ECEF
-  initial_spacecraft_position_ecef_m_ = orbit_->GetPosition_ecef_m();
-  initial_ground_position_ecef_m_ = environment::earth_equatorial_radius_m * initial_spacecraft_position_ecef_m_;
+  if (orbit_ != nullptr){
+  libra::Vector<3> initial_spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
+  initial_ground_position_ecef_m_ = environment::earth_equatorial_radius_m * initial_spacecraft_position_ecef_m;
   initial_ground_position_ecef_m_ /= (orbit_->GetGeodeticPosition().GetAltitude_m()+environment::earth_equatorial_radius_m);
+  }
 }
 
 Telescope::~Telescope() {}
@@ -86,7 +88,12 @@ void Telescope::MainRoutine(const int time_count) {
   // CalcAngleTwoVectors_rad(sight_direction_c_, moon_pos_c) * 180 / libra::pi;
   //******************************************************************************
   // Direction calculation of ground point
-  ObserveGroundPosition();
+  if (is_ground_point_in_sight_){
+    ObserveGroundPositionDeviation();
+  } else{
+    ground_position_x_image_sensor_ = -1;
+    ground_position_y_image_sensor_ = -1;
+  }
 }
 
 bool Telescope::JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle) {
@@ -160,26 +167,35 @@ void Telescope::ObserveStars() {
 }
 
 
- void Telescope::ObserveGroundPosition() {
-   Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
-   libra::Vector<3> direction_ecef;
-   libra::Vector<3> direction_b;
-   libra::Vector<3> direction_i;
-   libra::Vector<3> spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m(); // Get spacecraft position in ECEF
+ void Telescope::ObserveGroundPositionDeviation() {
+   if (orbit_ == nullptr) {
+    // Orbit information is not available, so skip the ground position calculation
+     return;
+   } else {
+    Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
 
-   direction_ecef = initial_ground_position_ecef_m_ - spacecraft_position_ecef_m; // Get the direction vector from spacecraft to ground point in ECEF
-   // Get the Direction Cosine Matrix (DCM) from ECEF to ECI
-   libra::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
-   // Convert the position vector in ECEF to the vector in ECI
-   direction_i = (dcm_ecef_to_i * direction_ecef).CalcNormalizedVector();
-   // Convert the position vector in ECI to the vector in body frame
-   direction_b = quaternion_i2b.FrameConversion(direction_i);
-   libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b); // Get ground position direction vector in component frame (c)
+    libra::Vector<3> spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m(); // Get spacecraft position in ECEF
+    libra::Vector<3> direction_ecef = (initial_ground_position_ecef_m_ - spacecraft_position_ecef_m).CalcNormalizedVector(); // Get the direction vector from spacecraft to ground point in ECEF
+    // Get the Direction Cosine Matrix (DCM) from ECEF to ECI
+    libra::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
+    // Convert the position vector in ECEF to the vector in ECI
+    libra::Vector<3> direction_i = (dcm_ecef_to_i * direction_ecef).CalcNormalizedVector();
+    // Convert the position vector in ECI to the vector in body frame
+    libra::Vector<3> direction_b = quaternion_i2b.FrameConversion(direction_i);
+    libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b); // Get ground position direction vector in component frame (c)
 
-   ground_arg_z_rad_ = atan2(target_c[2], target_c[0]); // Angle from X-axis on XZ plane in the component frame
-   ground_z_m_ = ground_arg_z_rad_; // Ground position in the image sensor 
-   ground_arg_y_rad_ = atan2(target_c[1], target_c[0]); // Angle from X-axis on XY plane in the component frame
-   ground_y_m_ = ground_arg_y_rad_; // Ground position in the image sensor
+    double ground_angle_z_rad = atan2(target_c[2], target_c[0]); // Angle from X-axis on XZ plane in the component frame
+    ground_position_x_image_sensor_ = ground_angle_z_rad / x_fov_per_pix_; // Ground position in the image sensor in the satellite frame
+    double ground_angle_y_rad = atan2(target_c[1], target_c[0]); // Angle from X-axis on XY plane in the component frame
+    ground_position_y_image_sensor_ = ground_angle_y_rad / y_fov_per_pix_; // Ground position in the image sensor in the satellite frame
+
+    // Check if the ground point is in the image sensor
+    if (ground_position_x_image_sensor_ <= x_number_of_pix_ && ground_position_y_image_sensor_ <= y_number_of_pix_){
+        is_ground_point_in_sight_ = true;
+      } else {
+        is_ground_point_in_sight_ = false;
+      }
+   }
  }
 
 string Telescope::GetLogHeader() const {
@@ -193,8 +209,8 @@ string Telescope::GetLogHeader() const {
   str_tmp += WriteVector(component_name + "sun_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "earth_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "moon_position", "img", "pix", 2);
-  str_tmp += WriteScalar(component_name + "ground_position_z", "rad");
-  str_tmp += WriteScalar(component_name + "ground_position_angle_y", "rad");
+  str_tmp += WriteScalar(component_name + "ground_position_x", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_y", "pix");
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
     for (size_t i = 0; i < number_of_logged_stars_; i++) {
@@ -220,8 +236,8 @@ string Telescope::GetLogValue() const {
   str_tmp += WriteVector(sun_position_image_sensor);
   str_tmp += WriteVector(earth_position_image_sensor);
   str_tmp += WriteVector(moon_position_image_sensor);
-  str_tmp += WriteScalar(ground_arg_z_rad_);
-  str_tmp += WriteScalar(ground_arg_y_rad_);
+  str_tmp += WriteScalar(ground_position_x_image_sensor_);
+  str_tmp += WriteScalar(ground_position_y_image_sensor_);
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
     for (size_t i = 0; i < number_of_logged_stars_; i++) {
