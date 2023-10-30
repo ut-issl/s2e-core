@@ -227,7 +227,7 @@ if(GOOGLE_TEST)
   # Unit test
   set(TEST_PROJECT_NAME ${PROJECT_NAME}_TEST)
 
-  # Add all test_*cpp files as SOURCE_FILES
+  # Add all test_*.cpp files as SOURCE_FILES
   file(GLOB_RECURSE TEST_FILES ${CMAKE_CURRENT_LIST_DIR}/src/test_*.cpp)
   # Uncomment the following line to exclude any files that match the REGEX from TEST_FILES
   # list(FILTER TEST_FILES EXCLUDE REGEX ${CMAKE_CURRENT_LIST_DIR}/src/test_example.cpp)
