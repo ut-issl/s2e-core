@@ -36,6 +36,16 @@ class SolarRadiationPressureEnvironment : public ILoggable {
    */
   void UpdateAllStates();
 
+  /**
+   * @fn AddShadowSource
+   * @brief Update pressure and shadow coefficients
+   * @param [in] shadow_source_name: Shadow source name
+   */
+  void AddShadowSource(const std::string shadow_source_name) {
+    // TODO: Add assertion
+    shadow_source_name_list_.push_back(shadow_source_name);
+  }
+
   // Getter
   /**
    * @fn GetPressure_N_m2

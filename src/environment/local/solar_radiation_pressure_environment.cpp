@@ -106,5 +106,11 @@ SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::str
   srp_env.IsCalcEnabled = conf.ReadEnable(section, INI_CALC_LABEL);
   srp_env.is_log_enabled_ = conf.ReadEnable(section, INI_LOG_LABEL);
 
+  size_t number_of_third_shadow_source = conf.ReadInt(section, "number_of_third_shadow_source");
+  std::vector<std::string> list = conf.ReadVectorString(section, "third_shadow_source_name", number_of_third_shadow_source);
+  for (size_t i = 0; i < number_of_third_shadow_source; i++) {
+    srp_env.AddShadowSource(list[0]);
+  }
+
   return srp_env;
 }
