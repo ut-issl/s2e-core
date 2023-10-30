@@ -82,6 +82,8 @@ class Telescope : public Component, public ILoggable {
   double y_field_of_view_rad;  //!< Field of view of Y-axis in the image plane [rad/pix]
   double ground_arg_z_rad_ = 0.0; //!< Ground position argument z
   double ground_arg_y_rad_ = 0.0; //!< Ground position argument y
+  double ground_z_m_ = 0.0; //!< Ground position z
+  double ground_y_m_ = 0.0; //!< Ground position y
 
   bool is_sun_in_forbidden_angle = false;    //!< Is the sun in the forbidden angle
   bool is_earth_in_forbidden_angle = false;  //!< Is the earth in the forbidden angle

@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 # local function
 from common import find_latest_log_tag
 from common import add_log_file_arguments
-from common import read_3d_vector_from_csv
 from common import read_scalar_from_csv
 # arguments
 import argparse
@@ -54,8 +53,8 @@ y_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_angle_y
 plt.figure(figsize=(10, 7))
 plt.scatter(x_data, y_data, s=2, alpha=0.5)
 plt.title("Scatter plot of telescope ground position angles")
-plt.xlabel("telescope_ground_position_angle_z[rad]")
-plt.ylabel("telescope_ground_position_angle_y[rad]")
+plt.xlabel("Angle Z[rad]")
+plt.ylabel("Angle Y[rad]")
 plt.xlim(-0.3,0.05)
 plt.ylim(-0.0025,0.0025)
 plt.grid(True)

@@ -59,7 +59,7 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
   //Get initial spacecraft position in ECEF
   initial_spacecraft_position_ecef_m_ = orbit_->GetPosition_ecef_m();
   initial_ground_position_ecef_m_ = environment::earth_equatorial_radius_m * initial_spacecraft_position_ecef_m_;
-   initial_ground_position_ecef_m_ /= (orbit_->GetGeodeticPosition().GetAltitude_m()+environment::earth_equatorial_radius_m);
+  initial_ground_position_ecef_m_ /= (orbit_->GetGeodeticPosition().GetAltitude_m()+environment::earth_equatorial_radius_m);
 }
 
 Telescope::~Telescope() {}
@@ -177,7 +177,9 @@ void Telescope::ObserveStars() {
    libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b); // Get ground position direction vector in component frame (c)
 
    ground_arg_z_rad_ = atan2(target_c[2], target_c[0]); // Angle from X-axis on XZ plane in the component frame
+   ground_z_m_ = ground_arg_z_rad_; // Ground position in the image sensor 
    ground_arg_y_rad_ = atan2(target_c[1], target_c[0]); // Angle from X-axis on XY plane in the component frame
+   ground_y_m_ = ground_arg_y_rad_; // Ground position in the image sensor
  }
 
 string Telescope::GetLogHeader() const {
@@ -191,7 +193,7 @@ string Telescope::GetLogHeader() const {
   str_tmp += WriteVector(component_name + "sun_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "earth_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "moon_position", "img", "pix", 2);
-  str_tmp += WriteScalar(component_name + "ground_position_angle_z", "rad");
+  str_tmp += WriteScalar(component_name + "ground_position_z", "rad");
   str_tmp += WriteScalar(component_name + "ground_position_angle_y", "rad");
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
