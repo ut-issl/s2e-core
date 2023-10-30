@@ -16,7 +16,7 @@
 SolarRadiationPressureEnvironment::SolarRadiationPressureEnvironment(LocalCelestialInformation* local_celestial_information)
     : local_celestial_information_(local_celestial_information) {
   solar_radiation_pressure_N_m2_ = solar_constant_W_m2_ / environment::speed_of_light_m_s;
-  shadow_source_name_ = local_celestial_information_->GetGlobalInformation().GetCenterBodyName();
+  shadow_source_name_list_.push_back(local_celestial_information_->GetGlobalInformation().GetCenterBodyName());
   sun_radius_m_ = local_celestial_information_->GetGlobalInformation().GetMeanRadiusFromName_m("SUN");
 }
 
@@ -24,7 +24,9 @@ void SolarRadiationPressureEnvironment::UpdateAllStates() {
   if (!IsCalcEnabled) return;
 
   UpdatePressure();
-  CalcShadowCoefficient(shadow_source_name_);
+  for (auto shadow_source_name : shadow_source_name_list_) {
+    CalcShadowCoefficient(shadow_source_name);
+  }
 }
 
 void SolarRadiationPressureEnvironment::UpdatePressure() {
