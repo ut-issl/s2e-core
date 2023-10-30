@@ -3,6 +3,8 @@
  * @brief Class to handle Gregorian date and time format
  */
 
+#define _CRT_SECURE_NO_WARNINGS  // for sscanf
+
 #ifndef S2E_LIBRARY_TIME_SYSTEM_DATE_TIME_FORMAT_HPP_
 #define S2E_LIBRARY_TIME_SYSTEM_DATE_TIME_FORMAT_HPP_
 
