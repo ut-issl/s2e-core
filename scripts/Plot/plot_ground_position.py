@@ -1,5 +1,5 @@
 #
-# Plot Ground Position Argument
+# Plot Ground Position in the image sensor
 #
 # arg[1] : read_file_tag : time tag for default CSV output log file. ex. 220627_142946
 #
@@ -45,22 +45,20 @@ read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file
 # Data read and edit
 #
 # Read S2E CSV
-x_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_angle_z[rad]')
-y_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_angle_y[rad]')
+x_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_x[pix]')
+y_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_y[pix]')
 #
 # Plot
 #
 plt.figure(figsize=(10, 7))
 plt.scatter(x_data, y_data, s=2, alpha=0.5)
-plt.title("Scatter plot of telescope ground position angles")
-plt.xlabel("Angle Z[rad]")
-plt.ylabel("Angle Y[rad]")
-plt.xlim(-0.3,0.05)
-plt.ylim(-0.0025,0.0025)
+plt.title("Scatter plot of telescope ground position in the image sensor")
+plt.xlabel("X [pix]")
+plt.ylabel("Y [pix]")
 plt.grid(True)
 
 # Data save
 if args.no_gui:
-  plt.savefig(read_file_tag + "_ground_position_argument.png") # save last figure only
+  plt.savefig(read_file_tag + "_ground_position.png") # save last figure only
 else:
   plt.show()
