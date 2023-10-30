@@ -109,6 +109,7 @@ class SampleComponents : public InstalledComponents {
 
   // Mission
   Telescope* telescope_;  //!< Telescope
+
   // CommGs
   Antenna* antenna_;  //!< Antenna
 
