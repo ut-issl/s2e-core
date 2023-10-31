@@ -59,14 +59,27 @@ class Interpolation {
    */
   bool PushAndPopData(const double independent_variable, const double dependent_variable);
 
+  // Getters
+  /**
+   * @fn GetDegree
+   * @return Degree of interpolation
+   */
   inline size_t GetDegree() const { return degree_; }
+  /**
+   * @fn GetIndependentVariables
+   * @return List of independent variables
+   */
   inline std::vector<double> GetIndependentVariables() const { return independent_variables_; }
+  /**
+   * @fn GetDependentVariables
+   * @return List of dependent variables
+   */
   inline std::vector<double> GetDependentVariables() const { return dependent_variables_; }
 
  private:
-  std::vector<double> independent_variables_{0.0};
-  std::vector<double> dependent_variables_{0.0};
-  size_t degree_;
+  std::vector<double> independent_variables_{0.0};  //!< List of independent variable
+  std::vector<double> dependent_variables_{0.0};    //!< List of dependent variable
+  size_t degree_;                                   //!< Degree of interpolation
 
   /**
    * @fn FindNearestPoint
