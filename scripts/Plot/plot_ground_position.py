@@ -54,7 +54,7 @@ y_data = read_scalar_from_csv(
 # Plot
 #
 plt.figure(figsize=(10, 7))
-plt.scatter(x_data, y_data, s=2, alpha=0.5)
+plt.scatter(x_data, y_data, s=2, alpha=1.0)
 plt.title("Scatter plot of ground position in the image sensor")
 plt.xlabel("X [pix]")
 plt.ylabel("Y [pix]")
