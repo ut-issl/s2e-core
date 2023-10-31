@@ -55,8 +55,13 @@ class Interpolation {
    * @brief Push new data to the tail and erase the head data
    * @param [in] independent_variable: Independent variable of data
    * @param [in] dependent_variable: Dependent variable of data
+   * @return true: success, false: the independent variable of new data is smaller than other data
    */
-  void PushAndPopData(const double independent_variable, const double dependent_variable);
+  bool PushAndPopData(const double independent_variable, const double dependent_variable);
+
+  inline size_t GetDegree() const { return degree_; }
+  inline std::vector<double> GetIndependentVariables() const { return independent_variables_; }
+  inline std::vector<double> GetDependentVariables() const { return dependent_variables_; }
 
  private:
   std::vector<double> independent_variables_{0.0};

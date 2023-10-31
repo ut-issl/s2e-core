@@ -70,11 +70,15 @@ double Interpolation::CalcTrigonometric(const double x, const double period) con
   return y_output;
 }
 
-void Interpolation::PushAndPopData(const double independent_variable, const double dependent_variable) {
+bool Interpolation::PushAndPopData(const double independent_variable, const double dependent_variable) {
+  if (independent_variable <= independent_variables_.back()) {
+    return false;
+  }
   independent_variables_.erase(independent_variables_.begin());
   independent_variables_.push_back(independent_variable);
   dependent_variables_.erase(dependent_variables_.begin());
   dependent_variables_.push_back(dependent_variable);
+  return true;
 }
 
 size_t Interpolation::FindNearestPoint(const double x) const {
