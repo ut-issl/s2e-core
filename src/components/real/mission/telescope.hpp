@@ -127,10 +127,10 @@ class Telescope : public Component, public ILoggable {
   const Attitude* attitude_;                                      //!< Attitude information
   const HipparcosCatalogue* hipparcos_;                           //!< Star information
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
-                                                                  /*
-                                                                   * @fn ObserveGroundPositionDeviation
-                                                                   * @brief Calculate the deviation of the ground position from its initial value in the image sensor
-                                                                   */
+  /**
+   * @fn ObserveGroundPositionDeviation
+   * @brief Calculate the deviation of the ground position from its initial value in the image sensor
+   */
   void ObserveGroundPositionDeviation();
 
   const Orbit* orbit_;  //!< Orbit information
