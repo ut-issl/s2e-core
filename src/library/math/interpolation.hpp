@@ -39,7 +39,7 @@ class Interpolation {
    * @param [in] x: Target independent variable
    * @return Interpolated value at x
    */
-  double CalcPolynomial(const double x);
+  double CalcPolynomial(const double x) const;
 
   /**
    * @fn CalcTrigonometric
@@ -48,7 +48,15 @@ class Interpolation {
    * @param [in] period: Characteristic period
    * @return Interpolated value at x
    */
-  double CalcTrigonometric(const double x, const double period = 1.0);
+  double CalcTrigonometric(const double x, const double period = 1.0) const;
+
+  /**
+   * @fn PushAndPopData
+   * @brief Push new data to the tail and erase the head data
+   * @param [in] independent_variable: Independent variable of data
+   * @param [in] dependent_variable: Dependent variable of data
+   */
+  void PushAndPopData(const double independent_variable, const double dependent_variable);
 
  private:
   std::vector<double> independent_variables_{0.0};
@@ -61,7 +69,7 @@ class Interpolation {
    * @param [in] x: Target independent variable
    * @return Index of the nearest independent variables
    */
-  size_t FindNearestPoint(const double x);
+  size_t FindNearestPoint(const double x) const;
 };
 
 }  // namespace libra

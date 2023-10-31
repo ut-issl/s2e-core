@@ -9,7 +9,7 @@
 
 namespace libra {
 
-double Interpolation::CalcPolynomial(const double x) {
+double Interpolation::CalcPolynomial(const double x) const {
   // Search nearest point
   size_t nearest_x_id = FindNearestPoint(x);
 
@@ -41,7 +41,7 @@ double Interpolation::CalcPolynomial(const double x) {
   return y_output;
 }
 
-double Interpolation::CalcTrigonometric(const double x, const double period) {
+double Interpolation::CalcTrigonometric(const double x, const double period) const {
   double y_output = 0.0;
   size_t end_id = degree_;
   size_t start_id = 0;
@@ -70,7 +70,14 @@ double Interpolation::CalcTrigonometric(const double x, const double period) {
   return y_output;
 }
 
-size_t Interpolation::FindNearestPoint(const double x) {
+void Interpolation::PushAndPopData(const double independent_variable, const double dependent_variable) {
+  independent_variables_.erase(independent_variables_.begin());
+  independent_variables_.push_back(independent_variable);
+  dependent_variables_.erase(dependent_variables_.begin());
+  dependent_variables_.push_back(dependent_variable);
+}
+
+size_t Interpolation::FindNearestPoint(const double x) const {
   size_t output = 0;
   double difference1 = fabs(x - independent_variables_[0]);
   for (size_t i = 0; i < degree_; i++) {
