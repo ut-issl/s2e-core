@@ -112,4 +112,8 @@ TEST(Interpolation, PushAndPop) {
   EXPECT_DOUBLE_EQ(y[1], interpolation.GetDependentVariables()[0]);
   EXPECT_DOUBLE_EQ(5.0, interpolation.GetIndependentVariables()[4]);
   EXPECT_DOUBLE_EQ(10.0, interpolation.GetDependentVariables()[4]);
+
+  // False test
+  ret = interpolation.PushAndPopData(1.0, 10.0);
+  EXPECT_FALSE(ret);
 }
