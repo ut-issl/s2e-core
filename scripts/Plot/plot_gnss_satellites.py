@@ -62,6 +62,18 @@ plt.xlabel("Time [s]")
 plt.ylabel("Position @ ECEF [m]")
 plt.legend(fontsize=7, loc="upper right")
 
+
+plt.figure(1)
+for gps_idx in range(32):
+  gps_str = 'GPS' + str(gps_idx)
+  clock = read_3d_vector_from_csv(read_file_name, gps_str + '_clock', 's')
+  plt.plot(time[0], clock[0], marker=".", label=gps_str)
+
+plt.title("GPS Clock Offset")
+plt.xlabel("Time [s]")
+plt.ylabel("Clock [s]")
+plt.legend(fontsize=7, loc="upper right")
+
 # Data save
 if args.no_gui:
   plt.savefig(read_file_tag + "_gnss_satellites.png") # save last figure only
