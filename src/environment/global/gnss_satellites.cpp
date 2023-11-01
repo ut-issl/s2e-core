@@ -1109,7 +1109,7 @@ std::string GnssSatellites::GetLogHeader() const {
   // TODO: Add log output for other navigation systems
   for (size_t gps_index = 0; gps_index < gps_sat_num_; gps_index++) {
     str_tmp += WriteVector("GPS" + std::to_string(gps_index) + "_position", "ecef", "m", 3);
-    str_tmp += WriteScalar("GPS" + std::to_string(gps_index) + "_clock", "s");
+    str_tmp += WriteScalar("GPS" + std::to_string(gps_index) + "_clock_offset", "m");
   }
 
   return str_tmp;
