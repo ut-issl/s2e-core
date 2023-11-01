@@ -41,11 +41,29 @@ class InterpolationOrbit {
    */
   libra::Vector<3> CalcPositionWithTrigonometric(const double time, const double period = 0.0) const;
 
-  // Getter
+  // Getters
+  /**
+   * @fn GetDegree
+   * @return Degree of interpolation
+   */
   inline size_t GetDegree() const { return interpolation_position_[0].GetDegree(); }
+  /**
+   * @fn GetTimeList
+   * @return Time list registered for the interpolation
+   */
   inline std::vector<double> GetTimeList() const { return interpolation_position_[0].GetIndependentVariables(); }
-  inline std::vector<double> GetPositionDataList(size_t axis) const { return interpolation_position_[axis].GetDependentVariables(); }
-  inline double GetMediumPointTime() const { return this->GetTimeList()[(size_t)(this->GetDegree() / 2)]; }
+  /**
+   * @fn GetTimeList
+   * @param[in] axis: Axis of position [0, 2]
+   * @return Position list registered for the interpolation
+   * @note return id=2 data when the input axis is over 3.
+   */
+  inline std::vector<double> GetPositionDataList(const size_t axis) const {
+    if (axis > 3) {
+      return interpolation_position_[2].GetDependentVariables();
+    }
+    return interpolation_position_[axis].GetDependentVariables();
+  }
 
  private:
   std::vector<libra::Interpolation> interpolation_position_;  // 3D vector of interpolation
