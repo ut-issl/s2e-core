@@ -91,8 +91,13 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // Angular Velocity Observer
   file_name = iniAccess.ReadString("COMPONENT_FILES", "angular_velocity_observer_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
-  angular_velocity_observer_ = new AngularVelocityObserver(
-      InitializeAngularVelocityObserver(clock_generator, file_name, global_environment_->GetSimulationTime().GetComponentStepTime_s(), &(dynamics_->GetAttitude())));
+  angular_velocity_observer_ = new AngularVelocityObserver(InitializeAngularVelocityObserver(
+      clock_generator, file_name, global_environment_->GetSimulationTime().GetComponentStepTime_s(), &(dynamics_->GetAttitude())));
+
+  // Attitude Observer
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "attitude_observer_file");
+  configuration_->main_logger_->CopyFileToLogDirectory(file_name);
+  attitude_observer_ = new AttitudeObserver(InitializeAttitudeObserver(clock_generator, file_name, &(dynamics_->GetAttitude())));
 
   // Antenna
   file_name = iniAccess.ReadString("COMPONENT_FILES", "antenna_file");
@@ -158,6 +163,7 @@ SampleComponents::~SampleComponents() {
   delete force_generator_;
   delete torque_generator_;
   delete angular_velocity_observer_;
+  delete attitude_observer_;
   delete antenna_;
   delete mtq_magnetometer_interference_;
   // delete change_structure_;
@@ -200,4 +206,5 @@ void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLogList(force_generator_);
   logger.AddLogList(torque_generator_);
   logger.AddLogList(angular_velocity_observer_);
+  logger.AddLogList(attitude_observer_);
 }
