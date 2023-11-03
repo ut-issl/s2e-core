@@ -27,7 +27,7 @@ void AttitudeObserver::MainRoutine(const int time_count) {
   double error_angle_rad = angle_noise_;
   libra::Quaternion error_quaternion(random_direction, error_angle_rad);
 
-  measured_quaternion_i2b_ = error_quaternion * attitude_->GetQuaternion_i2b();
+  observed_quaternion_i2b_ = error_quaternion * attitude_->GetQuaternion_i2b();
 }
 
 std::string AttitudeObserver::GetLogHeader() const {
@@ -42,7 +42,7 @@ std::string AttitudeObserver::GetLogHeader() const {
 std::string AttitudeObserver::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteQuaternion(measured_quaternion_i2b_);
+  str_tmp += WriteQuaternion(observed_quaternion_i2b_);
 
   return str_tmp;
 }

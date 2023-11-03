@@ -15,7 +15,7 @@
 
 /*
  * @class AttitudeObserver
- * @brief Class to emulate star tracker
+ * @brief Ideal component which can observe attitude
  */
 class AttitudeObserver : public Component, public ILoggable {
  public:
@@ -57,21 +57,20 @@ class AttitudeObserver : public Component, public ILoggable {
    * @fn GetQuaternion_i2c
    * @brief Return observed quaternion from the inertial frame to the component frame
    */
-  inline const libra::Quaternion GetQuaternion_i2b() const { return measured_quaternion_i2b_; };
+  inline const libra::Quaternion GetQuaternion_i2b() const { return observed_quaternion_i2b_; };
 
  protected:
-  libra::Quaternion measured_quaternion_i2b_ = {0.0, 0.0, 0.0, 1.0};  //!< StarSensor observed quaternion
+  libra::Quaternion observed_quaternion_i2b_ = {0.0, 0.0, 0.0, 1.0};  //!< Observed quaternion
 
   libra::NormalRand angle_noise_;      //!< Normal random for magnitude noise
   libra::NormalRand direction_noise_;  //!< Normal random for direction noise
 
-  // Observed variables
   const Attitude* attitude_;  //!< Attitude information
 };
 
 /**
- * @fn InitStarSensor
- * @brief Initialize functions for StarSensor without power port
+ * @fn InitializeAttitudeObserver
+ * @brief Initialize functions for AttitudeObserver
  * @param [in] clock_generator: Clock generator
  * @param [in] file_name: Path to the initialize file
  * @param [in] attitude: Attitude information
