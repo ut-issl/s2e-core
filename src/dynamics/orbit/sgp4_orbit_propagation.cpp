@@ -27,6 +27,16 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial
 
   twoline2rv(tle1, tle2, type_run, type_input, gravity_constant_setting_, start_mfe, stop_mfe, delta_min, sgp4_data_);
 
+  // Epoch check
+  double epoch_difference_jday = (current_time_jd - sgp4_data_.jdsatepoch);
+  if (epoch_difference_jday < 0.0){
+    std::cout << "[WARNING: SGP4] The TLE epoch is newer than the simulation start time." << std::endl;
+  } else if(epoch_difference_jday > 150.0){
+    std::cout << "[WARNING: SGP4] The TLE epoch is 150 days older than the simulation start time." << std::endl;
+    std::cout << "                The orbit calculation result may have significant errors." << std::endl;
+  }
+
+
   spacecraft_acceleration_i_m_s2_ *= 0.0;
 
   // To calculate initial position and velocity
