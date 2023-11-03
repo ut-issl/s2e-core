@@ -88,6 +88,12 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
   force_generator_ = new ForceGenerator(InitializeForceGenerator(clock_generator, file_name, dynamics_));
 
+  // Angular Velocity Observer
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "angular_velocity_observer_file");
+  configuration_->main_logger_->CopyFileToLogDirectory(file_name);
+  angular_velocity_observer_ = new AngularVelocityObserver(
+      InitializeAngularVelocityObserver(clock_generator, file_name, global_environment_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
+
   // Antenna
   file_name = iniAccess.ReadString("COMPONENT_FILES", "antenna_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
@@ -151,6 +157,7 @@ SampleComponents::~SampleComponents() {
   delete thruster_;
   delete force_generator_;
   delete torque_generator_;
+  delete angular_velocity_observer_;
   delete antenna_;
   delete mtq_magnetometer_interference_;
   // delete change_structure_;
@@ -192,4 +199,5 @@ void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLogList(thruster_);
   logger.AddLogList(force_generator_);
   logger.AddLogList(torque_generator_);
+  logger.AddLogList(angular_velocity_observer_);
 }

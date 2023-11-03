@@ -19,7 +19,7 @@ std::string AngularVelocityObserver::GetLogHeader() const {
   std::string str_tmp = "";
 
   std::string sensor_name = "angular_velocity_observer_";
-  str_tmp += WriteVector(sensor_name + "measured_angular_velocity", "b", "rad/s", 3);
+  str_tmp += WriteVector(sensor_name + "measured_value", "b", "rad/s", 3);
 
   return str_tmp;
 }
@@ -32,16 +32,15 @@ std::string AngularVelocityObserver::GetLogValue() const {
   return str_tmp;
 }
 
-AngularVelocityObserver InitAngularVelocityObserver(ClockGenerator* clock_generator, const std::string file_name, double component_step_time_s,
-                                                    const Dynamics* dynamics) {
+AngularVelocityObserver InitializeAngularVelocityObserver(ClockGenerator* clock_generator, const std::string file_name, double component_step_time_s,
+                                                          const Dynamics* dynamics) {
   IniAccess ini_file(file_name);
-  const std::string section_name = "ANGULAR_VELOCITY_OBSERVER";
 
-  int prescaler = ini_file.ReadInt(section_name.c_str(), "prescaler");
+  int prescaler = ini_file.ReadInt("COMPONENT_BASE", "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
   // Sensor
-  Sensor<3> sensor_base = ReadSensorInformation<3>(file_name, component_step_time_s * (double)(prescaler), section_name.c_str(), "rad_s");
+  Sensor<3> sensor_base = ReadSensorInformation<3>(file_name, component_step_time_s * (double)(prescaler), "ANGULAR_VELOCITY_OBSERVER", "rad_s");
 
   AngularVelocityObserver observer(prescaler, clock_generator, sensor_base, dynamics);
 
