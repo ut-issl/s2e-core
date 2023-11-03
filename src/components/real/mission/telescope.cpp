@@ -162,36 +162,30 @@ void Telescope::ObserveStars() {
 }
 
 void Telescope::ObserveGroundPositionDeviation() {
+  // Orbit information is not available, so skip the ground position calculation
   if (orbit_ == nullptr) {
-    // Orbit information is not available, so skip the ground position calculation
     return;
-  } else {
-    Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
-
-    libra::Vector<3> spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();  // Get spacecraft position in ECEF
-    libra::Vector<3> direction_ecef = (initial_ground_position_ecef_m_ - spacecraft_position_ecef_m)
-                                          .CalcNormalizedVector();  // Get the direction vector from spacecraft to ground point in ECEF
-    // Get the Direction Cosine Matrix (DCM) from ECEF to ECI
-    libra::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
-    // Convert the position vector in ECEF to the vector in ECI
-    libra::Vector<3> direction_i = (dcm_ecef_to_i * direction_ecef).CalcNormalizedVector();
-    // Convert the position vector in ECI to the vector in body frame
-    libra::Vector<3> direction_b = quaternion_i2b.FrameConversion(direction_i);
-    libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b);  // Get ground position direction vector in component frame (c)
-
-    double ground_angle_z_rad = atan2(target_c[2], target_c[0]);            // Angle from X-axis on XZ plane in the component frame
-    ground_position_x_image_sensor_ = ground_angle_z_rad / x_fov_per_pix_;  // Ground position in the image sensor in the satellite frame
-    double ground_angle_y_rad = atan2(target_c[1], target_c[0]);            // Angle from X-axis on XY plane in the component frame
-    ground_position_y_image_sensor_ = ground_angle_y_rad / y_fov_per_pix_;  // Ground position in the image sensor in the satellite frame
-
-    // Check if the ground point is in the image sensor
-    if (ground_position_x_image_sensor_ <= x_number_of_pix_ && ground_position_y_image_sensor_ <= y_number_of_pix_) {
-      return;
-    } else {
-      ground_position_x_image_sensor_ = -1;
-      ground_position_y_image_sensor_ = -1;
-    }
   }
+  // Check if the ground point is in the image sensor
+  if (ground_position_x_image_sensor_ > x_number_of_pix_ || ground_position_y_image_sensor_ > y_number_of_pix_) {
+    ground_position_x_image_sensor_ = -1;
+    ground_position_y_image_sensor_ = -1;
+    return;
+  }
+
+  Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
+  libra::Vector<3> spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
+  libra::Vector<3> direction_ecef = (initial_ground_position_ecef_m_ - spacecraft_position_ecef_m).CalcNormalizedVector();
+  libra::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
+  libra::Vector<3> direction_i = (dcm_ecef_to_i * direction_ecef).CalcNormalizedVector();
+  libra::Vector<3> direction_b = quaternion_i2b.FrameConversion(direction_i);
+  libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b);
+
+  // Ground position in the image sensor in the satellite frame
+  double ground_angle_z_rad = atan2(target_c[2], target_c[0]);
+  ground_position_x_image_sensor_ = ground_angle_z_rad / x_fov_per_pix_;
+  double ground_angle_y_rad = atan2(target_c[1], target_c[0]);
+  ground_position_y_image_sensor_ = ground_angle_y_rad / y_fov_per_pix_;
 }
 
 string Telescope::GetLogHeader() const {
