@@ -53,13 +53,11 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public ILogg
   virtual std::string GetLogValue() const override;
 
   // Getter
-
-  // Setter
+  inline libra::Vector<3> GetAngularVelocity_b_rad_s() const { return angular_velocity_b_rad_s_; }
 
  protected:
   libra::Vector<3> angular_velocity_b_rad_s_{0.0};  //!< Observed angular velocity [rad/s]
-
-  const Dynamics* dynamics_;  //!< Dynamics information
+  const Dynamics* dynamics_;                        //!< Dynamics information
 };
 
 /**
