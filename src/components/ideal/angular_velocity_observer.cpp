@@ -12,7 +12,7 @@ AngularVelocityObserver::AngularVelocityObserver(const int prescaler, ClockGener
 
 void AngularVelocityObserver::MainRoutine(const int time_count) {
   UNUSED(time_count);
-  angular_velocity_b_rad_s_ = Measure(dynamics_->GetAttitude().GetAngularVelocity_b_rad_s());  // Add noises
+  angular_velocity_b_rad_s_ = Measure(dynamics_->GetAttitude().GetAngularVelocity_b_rad_s());
 }
 
 std::string AngularVelocityObserver::GetLogHeader() const {
