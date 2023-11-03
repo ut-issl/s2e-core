@@ -92,7 +92,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   file_name = iniAccess.ReadString("COMPONENT_FILES", "angular_velocity_observer_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
   angular_velocity_observer_ = new AngularVelocityObserver(
-      InitializeAngularVelocityObserver(clock_generator, file_name, global_environment_->GetSimulationTime().GetComponentStepTime_s(), dynamics_));
+      InitializeAngularVelocityObserver(clock_generator, file_name, global_environment_->GetSimulationTime().GetComponentStepTime_s(), &(dynamics_->GetAttitude())));
 
   // Antenna
   file_name = iniAccess.ReadString("COMPONENT_FILES", "antenna_file");
