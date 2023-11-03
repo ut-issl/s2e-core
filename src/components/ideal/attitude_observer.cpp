@@ -16,7 +16,7 @@ AttitudeObserver::AttitudeObserver(const int prescaler, ClockGenerator* clock_ge
 
 void AttitudeObserver::MainRoutine(const int time_count) {
   UNUSED(time_count);
-  
+
   // Error calculation
   libra::Vector<3> random_direction;
   random_direction[0] = direction_noise_;
