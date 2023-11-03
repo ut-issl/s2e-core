@@ -7,12 +7,12 @@
 
 #include <library/initialize/initialize_file_access.hpp>
 
-AngularVelocityObserver::AngularVelocityObserver(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const Attitude* attitude)
+AngularVelocityObserver::AngularVelocityObserver(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const Attitude& attitude)
     : Component(prescaler, clock_generator), Sensor(sensor_base), attitude_(attitude) {}
 
 void AngularVelocityObserver::MainRoutine(const int time_count) {
   UNUSED(time_count);
-  angular_velocity_b_rad_s_ = Measure(attitude_->GetAngularVelocity_b_rad_s());
+  angular_velocity_b_rad_s_ = Measure(attitude_.GetAngularVelocity_b_rad_s());
 }
 
 std::string AngularVelocityObserver::GetLogHeader() const {
@@ -33,7 +33,7 @@ std::string AngularVelocityObserver::GetLogValue() const {
 }
 
 AngularVelocityObserver InitializeAngularVelocityObserver(ClockGenerator* clock_generator, const std::string file_name, double component_step_time_s,
-                                                          const Attitude* attitude) {
+                                                          const Attitude& attitude) {
   IniAccess ini_file(file_name);
 
   int prescaler = ini_file.ReadInt("COMPONENT_BASE", "prescaler");

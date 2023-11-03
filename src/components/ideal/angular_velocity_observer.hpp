@@ -26,7 +26,7 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public ILogg
    * @param [in] sensor_base: Sensor base information
    * @param [in] dynamics: Dynamics information
    */
-  AngularVelocityObserver(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const Attitude* attitude);
+  AngularVelocityObserver(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const Attitude& attitude);
   /**
    * @fn ~AngularVelocityObserver
    * @brief Destructor
@@ -57,7 +57,7 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public ILogg
 
  protected:
   libra::Vector<3> angular_velocity_b_rad_s_{0.0};  //!< Observed angular velocity [rad/s]
-  const Attitude* attitude_;                        //!< Dynamics information
+  const Attitude& attitude_;                        //!< Dynamics information
 };
 
 /**
@@ -69,6 +69,6 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public ILogg
  * @param [in] dynamics: Dynamics information
  */
 AngularVelocityObserver InitializeAngularVelocityObserver(ClockGenerator* clock_generator, const std::string file_name, double component_step_time_s,
-                                                          const Attitude* attitude);
+                                                          const Attitude& attitude);
 
 #endif  // S2E_COMPONENTS_IDEAL_ANGULAR_VELOCITY_OBSERVER_HPP_

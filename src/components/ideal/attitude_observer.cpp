@@ -9,7 +9,7 @@
 #include <library/math/constants.hpp>
 
 AttitudeObserver::AttitudeObserver(const int prescaler, ClockGenerator* clock_generator, const double standard_deviation_rad,
-                                   const Attitude* attitude)
+                                   const Attitude& attitude)
     : Component(prescaler, clock_generator), angle_noise_(0.0, standard_deviation_rad), attitude_(attitude) {
   direction_noise_.SetParameters(0.0, 1.0);
 }
@@ -27,7 +27,7 @@ void AttitudeObserver::MainRoutine(const int time_count) {
   double error_angle_rad = angle_noise_;
   libra::Quaternion error_quaternion(random_direction, error_angle_rad);
 
-  observed_quaternion_i2b_ = error_quaternion * attitude_->GetQuaternion_i2b();
+  observed_quaternion_i2b_ = error_quaternion * attitude_.GetQuaternion_i2b();
 }
 
 std::string AttitudeObserver::GetLogHeader() const {
@@ -47,7 +47,7 @@ std::string AttitudeObserver::GetLogValue() const {
   return str_tmp;
 }
 
-AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, const std::string file_name, const Attitude* attitude) {
+AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, const std::string file_name, const Attitude& attitude) {
   // General
   IniAccess ini_file(file_name);
 

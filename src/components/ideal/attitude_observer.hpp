@@ -26,7 +26,7 @@ class AttitudeObserver : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] attitude: Attitude information
    */
-  AttitudeObserver(const int prescaler, ClockGenerator* clock_generator, const double standard_deviation_rad, const Attitude* attitude);
+  AttitudeObserver(const int prescaler, ClockGenerator* clock_generator, const double standard_deviation_rad, const Attitude& attitude);
 
   /**
    * @fn ~AttitudeObserver
@@ -65,7 +65,7 @@ class AttitudeObserver : public Component, public ILoggable {
   libra::NormalRand angle_noise_;      //!< Normal random for magnitude noise
   libra::NormalRand direction_noise_;  //!< Normal random for direction noise
 
-  const Attitude* attitude_;  //!< Attitude information
+  const Attitude& attitude_;  //!< Attitude information
 };
 
 /**
@@ -75,6 +75,6 @@ class AttitudeObserver : public Component, public ILoggable {
  * @param [in] file_name: Path to the initialize file
  * @param [in] attitude: Attitude information
  */
-AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, const std::string file_name, const Attitude* attitude);
+AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, const std::string file_name, const Attitude& attitude);
 
 #endif  // S2E_COMPONENTS_IDEAL_ATTITUDE_OBSERVER_HPP_
