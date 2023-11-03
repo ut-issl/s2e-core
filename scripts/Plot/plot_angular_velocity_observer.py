@@ -47,12 +47,12 @@ read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file
 # Read S2E CSV
 time = read_scalar_from_csv(read_file_name, 'elapsed_time[s]')
 
-measured_angular_velocity_c_rad_s = read_3d_vector_from_csv(read_file_name, 'angular_velocity_observer_measured_value_b', 'rad/s')
+measured_angular_velocity_b_rad_s = read_3d_vector_from_csv(read_file_name, 'angular_velocity_observer_measured_value_b', 'rad/s')
 true_angular_velocity_b_rad_s = read_3d_vector_from_csv(read_file_name, 'spacecraft_angular_velocity_b', 'rad/s')
 
 # Statistics
 # We assume that the component frame and the body frame is same
-error_rad_s = measured_angular_velocity_c_rad_s - true_angular_velocity_b_rad_s
+error_rad_s = measured_angular_velocity_b_rad_s - true_angular_velocity_b_rad_s
 average = [0.0, 0.0, 0.0]
 standard_deviation = [0.0, 0.0, 0.0]
 for i in range(3):
@@ -65,19 +65,19 @@ for i in range(3):
 unit = ' rad/s'
 
 fig, axis = plt.subplots(3, 1, squeeze = False, tight_layout = True, sharex = True)
-axis[0, 0].plot(time[0], measured_angular_velocity_c_rad_s[0], marker=".", c="red",    label="MEASURED-X")
+axis[0, 0].plot(time[0], measured_angular_velocity_b_rad_s[0], marker=".", c="red",    label="MEASURED-X")
 axis[0, 0].plot(time[0], true_angular_velocity_b_rad_s[0], marker=".", c="orange",  label="TRUE-X")
 axis[0, 0].legend(loc = 'upper right')
 axis[0, 0].text(0.01, 0.99, "Error average:" + format(average[0], '+.2e') + unit, verticalalignment = 'top', transform = axis[0, 0].transAxes)
 axis[0, 0].text(0.01, 0.89, "Standard deviation:" + format(standard_deviation[0], '+.2e') + unit, verticalalignment = 'top', transform = axis[0, 0].transAxes)
 
-axis[1, 0].plot(time[0], measured_angular_velocity_c_rad_s[1], marker=".", c="green",  label="MEASURED-Y")
+axis[1, 0].plot(time[0], measured_angular_velocity_b_rad_s[1], marker=".", c="green",  label="MEASURED-Y")
 axis[1, 0].plot(time[0], true_angular_velocity_b_rad_s[1], marker=".", c="yellow",  label="TRUE-Y")
 axis[1, 0].legend(loc = 'upper right')
 axis[1, 0].text(0.01, 0.99, "Error average:" + format(average[1], '+.2e') + unit, verticalalignment = 'top', transform = axis[1, 0].transAxes)
 axis[1, 0].text(0.01, 0.89, "Standard deviation:" + format(standard_deviation[1], '+.2e') + unit, verticalalignment = 'top', transform = axis[1, 0].transAxes)
 
-axis[2, 0].plot(time[0], measured_angular_velocity_c_rad_s[2], marker=".", c="blue",   label="MEASURED-Z")
+axis[2, 0].plot(time[0], measured_angular_velocity_b_rad_s[2], marker=".", c="blue",   label="MEASURED-Z")
 axis[2, 0].plot(time[0], true_angular_velocity_b_rad_s[2], marker=".", c="purple",  label="TRUE-Z")
 axis[2, 0].legend(loc = 'upper right')
 axis[2, 0].text(0.01, 0.99, "Error average:" + format(average[2], '+.2e') + unit, verticalalignment = 'top', transform = axis[2, 0].transAxes)
