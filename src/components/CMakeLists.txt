@@ -37,6 +37,7 @@ ideal/force_generator.cpp
 ideal/torque_generator.cpp
 ideal/angular_velocity_observer.cpp
 ideal/attitude_observer.cpp
+ideal/orbit_observer.cpp
 
 real/mission/telescope.cpp
 

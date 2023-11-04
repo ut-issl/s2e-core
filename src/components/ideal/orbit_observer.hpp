@@ -63,7 +63,7 @@ class OrbitObserver : public Component, public ILoggable {
   libra::Vector<3> observed_position_i_m_{0.0};  //!< Observed position @ inertial frame [m]
 
   // Observed variables
-  const Orbit* orbit_;  //!< Orbit information
+  const Orbit& orbit_;  //!< Orbit information
 };
 
 /**

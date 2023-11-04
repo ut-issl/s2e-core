@@ -5,7 +5,9 @@
 
 #include "orbit_observer.hpp"
 
-OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const Orbit& orbit) : Component(prescaler, clock_generator), orbit_(orbit) {}
+#include <library/initialize/initialize_file_access.hpp>
+
+OrbitObserver::OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const Orbit& orbit) : Component(prescaler, clock_generator), orbit_(orbit) {}
 
 void OrbitObserver::MainRoutine(const int time_count) {
   UNUSED(time_count);
