@@ -26,7 +26,7 @@ class OrbitObserver : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] orbit: Orbit information
    */
-  OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const Orbit* orbit);
+  OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const Orbit& orbit);
 
   /**
    * @fn ~AttitudeObserver
@@ -73,6 +73,6 @@ class OrbitObserver : public Component, public ILoggable {
  * @param [in] file_name: Path to the initialize file
  * @param [in] orbit: Orbit information
  */
-OrbitObserver InitializeOrbitObserver(ClockGenerator* clock_generator, const std::string file_name, const Orbit* orbit);
+OrbitObserver InitializeOrbitObserver(ClockGenerator* clock_generator, const std::string file_name, const Orbit& orbit);
 
 #endif  // S2E_COMPONENTS_IDEAL_ORBIT_OBSERVER_HPP_
