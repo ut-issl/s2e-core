@@ -7,12 +7,14 @@
 
 #include <library/initialize/initialize_file_access.hpp>
 
-OrbitObserver::OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const Orbit& orbit) : Component(prescaler, clock_generator), orbit_(orbit) {}
+OrbitObserver::OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const Orbit& orbit)
+    : Component(prescaler, clock_generator), orbit_(orbit) {}
 
 void OrbitObserver::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
   observed_position_i_m_ = orbit_.GetPosition_i_m();
+  observed_velocity_i_m_s_ = orbit_.GetVelocity_i_m_s();
 }
 
 std::string OrbitObserver::GetLogHeader() const {
@@ -20,6 +22,7 @@ std::string OrbitObserver::GetLogHeader() const {
 
   std::string head = "orbit_observer_";
   str_tmp += WriteVector(head + "position", "i", "m", 3);
+  str_tmp += WriteVector(head + "velocity", "i", "m/s", 3);
 
   return str_tmp;
 }
@@ -28,6 +31,7 @@ std::string OrbitObserver::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector(observed_position_i_m_, 16);
+  str_tmp += WriteVector(observed_velocity_i_m_s_, 16);
 
   return str_tmp;
 }

@@ -60,7 +60,8 @@ class OrbitObserver : public Component, public ILoggable {
   inline const libra::Vector<3> GetPosition() const { return observed_position_i_m_; };
 
  protected:
-  libra::Vector<3> observed_position_i_m_{0.0};  //!< Observed position @ inertial frame [m]
+  libra::Vector<3> observed_position_i_m_{0.0};    //!< Observed position @ inertial frame [m]
+  libra::Vector<3> observed_velocity_i_m_s_{0.0};  //!< Observed velocity @ inertial frame [m/s]
 
   // Observed variables
   const Orbit& orbit_;  //!< Orbit information
