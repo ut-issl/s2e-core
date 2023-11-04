@@ -55,7 +55,7 @@ AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, con
   int prescaler = ini_file.ReadInt("COMPONENT_BASE", "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  // ForceGenerator
+  // AttitudeObserver
   double error_angle_standard_deviation_deg = ini_file.ReadDouble("ATTITUDE_OBSERVER", "error_angle_standard_deviation_deg");
   double error_angle_standard_deviation_rad = libra::deg_to_rad * error_angle_standard_deviation_deg;
   AttitudeObserver attitude_observer(prescaler, clock_generator, error_angle_standard_deviation_rad, attitude);
