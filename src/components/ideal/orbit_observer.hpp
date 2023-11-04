@@ -55,9 +55,15 @@ class OrbitObserver : public Component, public ILoggable {
 
   /**
    * @fn GetPosition_i_m
-   * @brief Return observed quaternion from the inertial frame to the component frame
+   * @brief Return observed position
    */
-  inline const libra::Vector<3> GetPosition() const { return observed_position_i_m_; };
+  inline const libra::Vector<3> GetPosition_i_m() const { return observed_position_i_m_; };
+
+  /**
+   * @fn GetVelocity_i_m_s
+   * @brief Return observed velocity
+   */
+  inline const libra::Vector<3> GetVelocity_i_m_s() const { return observed_velocity_i_m_s_; };
 
  protected:
   libra::Vector<3> observed_position_i_m_{0.0};    //!< Observed position @ inertial frame [m]
