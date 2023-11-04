@@ -55,7 +55,7 @@ class AttitudeObserver : public Component, public ILoggable {
 
   /**
    * @fn GetQuaternion_i2c
-   * @brief Return observed quaternion from the inertial frame to the component frame
+   * @brief Return observed quaternion from the inertial frame to the body-fixed frame
    */
   inline const libra::Quaternion GetQuaternion_i2b() const { return observed_quaternion_i2b_; };
 
