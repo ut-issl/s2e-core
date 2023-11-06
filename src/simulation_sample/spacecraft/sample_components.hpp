@@ -24,6 +24,7 @@
 #include <components/real/aocs/sun_sensor.hpp>
 #include <components/real/cdh/on_board_computer.hpp>
 #include <components/real/communication/antenna.hpp>
+#include <components/real/mission/telescope.hpp>
 #include <components/real/power/power_control_unit.hpp>
 #include <components/real/propulsion/simple_thruster.hpp>
 #include <dynamics/dynamics.hpp>
@@ -46,6 +47,7 @@ class ForceGenerator;
 class TorqueGenerator;
 class AngularVelocityObserver;
 class AttitudeObserver;
+class Telescope;
 
 /**
  * @class SampleComponents
@@ -112,6 +114,9 @@ class SampleComponents : public InstalledComponents {
   TorqueGenerator* torque_generator_;                   //!< Ideal Torque Generator
   AngularVelocityObserver* angular_velocity_observer_;  //!< Ideal Angular velocity observer
   AttitudeObserver* attitude_observer_;                 //!< Ideal Attitude observer
+
+  // Mission
+  Telescope* telescope_;  //!< Telescope
 
   // CommGs
   Antenna* antenna_;  //!< Antenna
