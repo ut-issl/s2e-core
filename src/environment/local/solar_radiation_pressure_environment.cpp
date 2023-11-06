@@ -93,7 +93,11 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
     double A = a * a * acos(x / a) + b * b * acos((c - x) / b) - c * y;  // The area of the occulted segment of the apparent solar disk
     shadow_coefficient_ *= 1.0 - A / (libra::pi * a * a);
   } else {  // no occultation takes place
-    assert(c > (a + b));
+    if (c < (a + b)) {
+      std::cout << "[Error SRP Environment]: The calculation error was occurred at the shadow calculation." << std::endl;
+      std::cout << "                         The orbit setting may have something wrong." << std::endl;
+      std::exit(1);
+    }
     shadow_coefficient_ *= 1.0;
   }
 }
