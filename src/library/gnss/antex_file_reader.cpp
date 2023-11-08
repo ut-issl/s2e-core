@@ -31,6 +31,29 @@ AntexGridDefinition::AntexGridDefinition(const double zenith_start_angle_deg, co
   }
 }
 
+size_t AntexGridDefinition::CalcClosestZenithIndex(const double zenith_angle_deg) {
+  if (zenith_angle_deg <= zenith_start_angle_deg_) {
+    return 0;
+  } else if (zenith_angle_deg >= zenith_end_angle_deg_) {
+    return number_of_zenith_grid_ - 1;
+  } else {
+    double diff_angle_deg = zenith_angle_deg - zenith_start_angle_deg_;
+    size_t diff_index = size_t(diff_angle_deg / zenith_step_angle_deg_ + 0.5);
+    return diff_index;
+  }
+}
+
+size_t AntexGridDefinition::CalcClosestAzimuthIndex(const double azimuth_angle_deg) {
+  if (azimuth_angle_deg <= 0.0) {
+    return 0;
+  } else if (azimuth_angle_deg >= 360.0) {
+    return number_of_azimuth_grid_ - 1;
+  } else {
+    size_t diff_index = size_t(azimuth_angle_deg / azimuth_step_angle_deg_ + 0.5);
+    return diff_index;
+  }
+}
+
 bool AntexFileReader::ReadFile(const std::string file_name) {
   // File open
   std::ifstream antex_file(file_name);

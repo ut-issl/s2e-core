@@ -38,6 +38,21 @@ class AntexGridDefinition {
    */
   ~AntexGridDefinition() {}
 
+  /**
+   * @fn CalcClosestZenithIndex
+   * @brief Calculate the closest zenith grid index
+   * @param [in] zenith_angle_deg: Zenith angle [deg]
+   * @return The closest grid index
+   */
+  size_t CalcClosestZenithIndex(const double zenith_angle_deg);
+  /**
+   * @fn CalcClosestAzimuthIndex
+   * @brief Calculate the closest azimuth grid index
+   * @param [in] azimuth_angle_deg: Azimuth angle [deg]
+   * @return The closest grid index
+   */
+  size_t CalcClosestAzimuthIndex(const double azimuth_angle_deg);
+
   // Getter
   /**
    * @fn GetZenithStartAngle_deg

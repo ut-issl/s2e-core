@@ -143,3 +143,35 @@ TEST(AntexReader, Constructor) {
   EXPECT_DOUBLE_EQ(2.2, antex_satellite_data.GetPhaseCenterData(1).GetPhaseCenterVariationMatrix_mm()[0][15]);
   // TODO: Add all satellite check?
 }
+
+/**
+ * @brief Test Closest index
+ */
+TEST(AntexGridDefinition, Constructor) {
+  AntexGridDefinition grid(0.0, 90.0, 10.0, 10.0);
+
+  // Zenith
+  EXPECT_DOUBLE_EQ(0.0, grid.GetZenithStartAngle_deg());
+  EXPECT_DOUBLE_EQ(90.0, grid.GetZenithEndAngle_deg());
+  EXPECT_DOUBLE_EQ(10.0, grid.GetZenithStepAngle_deg());
+  EXPECT_EQ(10, grid.GetNumberOfZenithGrid());
+  // Closest value
+  EXPECT_EQ(0, grid.CalcClosestZenithIndex(0.0));
+  EXPECT_EQ(9, grid.CalcClosestZenithIndex(90.0));
+  EXPECT_EQ(1, grid.CalcClosestZenithIndex(10.0));
+  EXPECT_EQ(2, grid.CalcClosestZenithIndex(15.0));
+  EXPECT_EQ(7, grid.CalcClosestZenithIndex(70.0));
+  EXPECT_EQ(7, grid.CalcClosestZenithIndex(74.0));
+  EXPECT_EQ(8, grid.CalcClosestZenithIndex(79.0));
+
+  // Azimuth
+  EXPECT_DOUBLE_EQ(10.0, grid.GetAzimuthStepAngle_deg());
+  EXPECT_EQ(37, grid.GetNumberOfAzimuthGrid());
+  // Closest value
+  EXPECT_EQ(0, grid.CalcClosestAzimuthIndex(0.0));
+  EXPECT_EQ(36, grid.CalcClosestAzimuthIndex(360.0));
+  EXPECT_EQ(1, grid.CalcClosestAzimuthIndex(10.0));
+  EXPECT_EQ(2, grid.CalcClosestAzimuthIndex(15.0));
+  EXPECT_EQ(10, grid.CalcClosestAzimuthIndex(101.0));
+  EXPECT_EQ(20, grid.CalcClosestAzimuthIndex(195.0));
+}
