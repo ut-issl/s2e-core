@@ -73,7 +73,7 @@ class AntexGridDefinition {
    * @fn GetNumberOfZenithGrid
    * @return Number of zenith grid
    */
-  inline double GetNumberOfZenithGrid() const { return number_of_zenith_grid_; }
+  inline size_t GetNumberOfZenithGrid() const { return number_of_zenith_grid_; }
   /**
    * @fn GetAzimuthStepAngle_deg
    * @return Azimuth grid step angle [deg]
@@ -83,7 +83,7 @@ class AntexGridDefinition {
    * @fn GetNumberOfAzimuthGrid
    * @return Number of azimuth grid
    */
-  inline double GetNumberOfAzimuthGrid() const { return number_of_azimuth_grid_; }
+  inline size_t GetNumberOfAzimuthGrid() const { return number_of_azimuth_grid_; }
 
  private:
   // Zenith
