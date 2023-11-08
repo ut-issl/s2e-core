@@ -12,6 +12,25 @@
 
 #define ANTEX_LINE_TYPE_POSITION (60)
 
+AntexGridDefinition::AntexGridDefinition(const double zenith_start_angle_deg, const double zenith_end_angle_deg, const double zenith_step_angle_deg,
+                                         const double azimuth_step_angle_deg)
+    : zenith_start_angle_deg_(zenith_start_angle_deg),
+      zenith_end_angle_deg_(zenith_end_angle_deg),
+      zenith_step_angle_deg_(zenith_step_angle_deg),
+      azimuth_step_angle_deg_(azimuth_step_angle_deg) {
+  if (zenith_step_angle_deg_ <= 0.0) {
+    number_of_zenith_grid_ = 0;
+  } else {
+    number_of_zenith_grid_ = size_t((zenith_end_angle_deg_ - zenith_start_angle_deg_) / zenith_step_angle_deg_) + 1;
+  }
+
+  if (azimuth_step_angle_deg_ <= 0.0) {
+    number_of_azimuth_grid_ = 0;
+  } else {
+    number_of_azimuth_grid_ = size_t(360.0 / azimuth_step_angle_deg_) + 1;
+  }
+}
+
 bool AntexFileReader::ReadFile(const std::string file_name) {
   // File open
   std::ifstream antex_file(file_name);
