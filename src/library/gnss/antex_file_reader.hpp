@@ -114,6 +114,8 @@ class AntexPhaseCenterData {
    */
   ~AntexPhaseCenterData() {}
 
+  // TODO: Implement phase center variation calculation from the matrix
+
   // Setter
   /**
    * @fn SetFrequencyName
