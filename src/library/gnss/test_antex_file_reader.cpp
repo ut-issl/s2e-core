@@ -31,10 +31,10 @@ TEST(AntexReader, Constructor) {
   EXPECT_THAT(antex_satellite_data.GetValidEndTime().GetAsString(), ::testing::MatchesRegex("2008/10/16 23:59:60.*"));
   // First frequency
   EXPECT_THAT(antex_satellite_data.GetPhaseCenterData(0).GetFrequencyName(), ::testing::MatchesRegex("G01.*"));
-  EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetStart_deg());
-  EXPECT_DOUBLE_EQ(17.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetEnd_deg());
-  EXPECT_DOUBLE_EQ(1.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetStep_deg());
-  EXPECT_EQ(18, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetNumberOfGrid());
+  EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetZenithStartAngle_deg());
+  EXPECT_DOUBLE_EQ(17.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetZenithEndAngle_deg());
+  EXPECT_DOUBLE_EQ(1.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetZenithStepAngle_deg());
+  EXPECT_EQ(18, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetNumberOfZenithGrid());
   EXPECT_DOUBLE_EQ(279.0, antex_satellite_data.GetPhaseCenterData(0).GetPhaseCenterOffset_mm()[0]);
   EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(0).GetPhaseCenterOffset_mm()[1]);
   EXPECT_DOUBLE_EQ(2319.5, antex_satellite_data.GetPhaseCenterData(0).GetPhaseCenterOffset_mm()[2]);
@@ -58,10 +58,10 @@ TEST(AntexReader, Constructor) {
   EXPECT_DOUBLE_EQ(-0.9, antex_satellite_data.GetPhaseCenterData(0).GetPhaseCenterVariationParameters_mm()[17]);
   // Second frequency
   EXPECT_THAT(antex_satellite_data.GetPhaseCenterData(1).GetFrequencyName(), ::testing::MatchesRegex("G02.*"));
-  EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetStart_deg());
-  EXPECT_DOUBLE_EQ(17.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetEnd_deg());
-  EXPECT_DOUBLE_EQ(1.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetStep_deg());
-  EXPECT_EQ(18, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetNumberOfGrid());
+  EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetZenithStartAngle_deg());
+  EXPECT_DOUBLE_EQ(17.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetZenithEndAngle_deg());
+  EXPECT_DOUBLE_EQ(1.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetZenithStepAngle_deg());
+  EXPECT_EQ(18, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetNumberOfZenithGrid());
   EXPECT_DOUBLE_EQ(279.0, antex_satellite_data.GetPhaseCenterData(1).GetPhaseCenterOffset_mm()[0]);
   EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(1).GetPhaseCenterOffset_mm()[1]);
   EXPECT_DOUBLE_EQ(2319.5, antex_satellite_data.GetPhaseCenterData(1).GetPhaseCenterOffset_mm()[2]);
@@ -93,10 +93,10 @@ TEST(AntexReader, Constructor) {
   EXPECT_THAT(antex_satellite_data.GetValidStartTime().GetAsString(), ::testing::MatchesRegex("2019/08/03 00:00:0.*"));
   // First frequency
   EXPECT_THAT(antex_satellite_data.GetPhaseCenterData(0).GetFrequencyName(), ::testing::MatchesRegex("R01.*"));
-  EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetStart_deg());
-  EXPECT_DOUBLE_EQ(15.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetEnd_deg());
-  EXPECT_DOUBLE_EQ(1.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetStep_deg());
-  EXPECT_EQ(16, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetNumberOfGrid());
+  EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetZenithStartAngle_deg());
+  EXPECT_DOUBLE_EQ(15.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetZenithEndAngle_deg());
+  EXPECT_DOUBLE_EQ(1.0, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetZenithStepAngle_deg());
+  EXPECT_EQ(16, antex_satellite_data.GetPhaseCenterData(0).GetGridInformation().GetNumberOfZenithGrid());
   EXPECT_DOUBLE_EQ(-545.0, antex_satellite_data.GetPhaseCenterData(0).GetPhaseCenterOffset_mm()[0]);
   EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(0).GetPhaseCenterOffset_mm()[1]);
   EXPECT_DOUBLE_EQ(2451.2, antex_satellite_data.GetPhaseCenterData(0).GetPhaseCenterOffset_mm()[2]);
@@ -118,10 +118,10 @@ TEST(AntexReader, Constructor) {
   EXPECT_DOUBLE_EQ(2.2, antex_satellite_data.GetPhaseCenterData(0).GetPhaseCenterVariationParameters_mm()[15]);
   // Second frequency
   EXPECT_THAT(antex_satellite_data.GetPhaseCenterData(1).GetFrequencyName(), ::testing::MatchesRegex("R02.*"));
-  EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetStart_deg());
-  EXPECT_DOUBLE_EQ(15.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetEnd_deg());
-  EXPECT_DOUBLE_EQ(1.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetStep_deg());
-  EXPECT_EQ(16, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetNumberOfGrid());
+  EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetZenithStartAngle_deg());
+  EXPECT_DOUBLE_EQ(15.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetZenithEndAngle_deg());
+  EXPECT_DOUBLE_EQ(1.0, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetZenithStepAngle_deg());
+  EXPECT_EQ(16, antex_satellite_data.GetPhaseCenterData(1).GetGridInformation().GetNumberOfZenithGrid());
   EXPECT_DOUBLE_EQ(-545.0, antex_satellite_data.GetPhaseCenterData(1).GetPhaseCenterOffset_mm()[0]);
   EXPECT_DOUBLE_EQ(0.0, antex_satellite_data.GetPhaseCenterData(1).GetPhaseCenterOffset_mm()[1]);
   EXPECT_DOUBLE_EQ(2451.2, antex_satellite_data.GetPhaseCenterData(1).GetPhaseCenterOffset_mm()[2]);

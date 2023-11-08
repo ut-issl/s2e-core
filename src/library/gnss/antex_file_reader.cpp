@@ -134,7 +134,7 @@ AntexPhaseCenterData AntexFileReader::ReadPhaseCenterData(std::ifstream& antex_f
     // Phase center variation
     if (line.find("NOAZI") != std::string::npos) {
       std::vector<double> phase_center_variation;
-      for (size_t i = 0; i < grid_information.GetNumberOfGrid(); i++) {
+      for (size_t i = 0; i < grid_information.GetNumberOfZenithGrid(); i++) {
         double parameter = std::stod(line.substr(8 + i * 8, 8));
         phase_center_variation.push_back(parameter);
       }

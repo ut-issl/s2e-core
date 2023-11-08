@@ -18,20 +18,34 @@
 /**
  * @class AntexGridDefinition
  * @brief grid data definition in ANTEX file
- * @note TODO: support azimuth depending data
  */
 class AntexGridDefinition {
  public:
   /**
    * @fn AntexGridDefinition
    * @brief Constructor
-   * @param[in] start_deg: Start azimuth angle [deg]
-   * @param[in] end_deg: End azimuth angle [deg]
-   * @param[in] step_deg: Step azimuth angle [deg]
+   * @param[in] zenith_start_angle_deg: Zenith grid start angle [deg]
+   * @param[in] zenith_end_angle_deg: Zenith grid  end angle [deg]
+   * @param[in] zenith_step_angle_deg: Zenith grid step angle [deg]
+   * @param[in] azimuth_step_angle_deg: Azimuth grid step value [deg]
    */
-  AntexGridDefinition(double start_deg = 0.0, double end_deg = 90.0, double step_deg = 10.0)
-      : start_deg_(start_deg), end_deg_(end_deg), step_deg_(step_deg) {
-    number_of_grid_ = size_t((end_deg_ - start_deg_) / step_deg_) + 1;
+  AntexGridDefinition(const double zenith_start_angle_deg = 0.0, const double zenith_end_angle_deg = 90.0, const double zenith_step_angle_deg = 10.0,
+                      const double azimuth_step_angle_deg = 0.0)
+      : zenith_start_angle_deg_(zenith_start_angle_deg),
+        zenith_end_angle_deg_(zenith_end_angle_deg),
+        zenith_step_angle_deg_(zenith_step_angle_deg),
+        azimuth_step_angle_deg_(azimuth_step_angle_deg) {
+    if (zenith_step_angle_deg_ <= 0.0) {
+      number_of_zenith_grid_ = 0;
+    } else {
+      number_of_zenith_grid_ = size_t((zenith_end_angle_deg_ - zenith_start_angle_deg_) / zenith_step_angle_deg_) + 1;
+    }
+
+    if (azimuth_step_angle_deg_ <= 0.0) {
+      number_of_azimuth_grid_ = 0;
+    } else {
+      number_of_azimuth_grid_ = size_t(360.0 / azimuth_step_angle_deg_) + 1;
+    }
   }
   /**
    * @fn ~AntexGridDefinition
@@ -40,16 +54,20 @@ class AntexGridDefinition {
   ~AntexGridDefinition() {}
 
   // Getter
-  inline double GetStart_deg() const { return start_deg_; }
-  inline double GetEnd_deg() const { return end_deg_; }
-  inline double GetStep_deg() const { return step_deg_; }
-  inline double GetNumberOfGrid() const { return number_of_grid_; }
+  inline double GetZenithStartAngle_deg() const { return zenith_start_angle_deg_; }
+  inline double GetZenithEndAngle_deg() const { return zenith_end_angle_deg_; }
+  inline double GetZenithStepAngle_deg() const { return zenith_step_angle_deg_; }
+  inline double GetNumberOfZenithGrid() const { return number_of_zenith_grid_; }
 
  private:
-  double start_deg_;       //!< Grid start value (ZEN1) [deg]
-  double end_deg_;         //!< Grid end value (ZEN2) [deg]
-  double step_deg_;        //!< Grid step value (DZEN) [deg]
-  size_t number_of_grid_;  //!< Number of grid
+  // Zenith
+  double zenith_start_angle_deg_;  //!< Zenith grid start value (ZEN1) [deg]
+  double zenith_end_angle_deg_;    //!< Zenith grid end value (ZEN2) [deg]
+  double zenith_step_angle_deg_;   //!< Zenith grid step value (DZEN) [deg]
+  size_t number_of_zenith_grid_;   //!< Number of grid
+  // Azimuth
+  double azimuth_step_angle_deg_;  //!< Zenith grid step value (DAZI) [deg]
+  size_t number_of_azimuth_grid_;  //!< Number of grid
 };
 
 /**
