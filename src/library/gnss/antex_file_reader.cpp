@@ -138,7 +138,9 @@ AntexPhaseCenterData AntexFileReader::ReadPhaseCenterData(std::ifstream& antex_f
         double parameter = std::stod(line.substr(8 + i * 8, 8));
         phase_center_variation.push_back(parameter);
       }
-      phase_center_data.SetPhaseCenterVariationParameters_mm(phase_center_variation);
+      std::vector<std::vector<double>> phase_center_variation_matrix;
+      phase_center_variation_matrix.push_back(phase_center_variation);
+      phase_center_data.SetPhaseCenterVariationMatrix_mm(phase_center_variation_matrix);
     }
     // TODO: implement DAZI
   }

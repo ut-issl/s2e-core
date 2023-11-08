@@ -93,21 +93,21 @@ class AntexPhaseCenterData {
   inline void SetFrequencyName(const std::string frequency_name) { frequency_name_ = frequency_name; }
   inline void SetPhaseCenterOffset_mm(const libra::Vector<3> phase_center_offset_mm) { phase_center_offset_mm_ = phase_center_offset_mm; }
   inline void SetGridInformation(const AntexGridDefinition grid_information) { grid_information_ = grid_information; }
-  inline void SetPhaseCenterVariationParameters_mm(const std::vector<double> phase_center_variation_parameters_mm) {
-    phase_center_variation_parameters_mm_ = phase_center_variation_parameters_mm;
+  inline void SetPhaseCenterVariationMatrix_mm(const std::vector<std::vector<double>> phase_center_variation_parameters_mm) {
+    phase_center_variation_matrix_mm_ = phase_center_variation_parameters_mm;
   }
 
   // Getter
   inline std::string GetFrequencyName() const { return frequency_name_; }
   inline libra::Vector<3> GetPhaseCenterOffset_mm() const { return phase_center_offset_mm_; }
   inline AntexGridDefinition GetGridInformation() const { return grid_information_; }
-  inline std::vector<double> GetPhaseCenterVariationParameters_mm() const { return phase_center_variation_parameters_mm_; }
+  inline std::vector<std::vector<double>> GetPhaseCenterVariationParameters_mm() const { return phase_center_variation_matrix_mm_; }
 
  private:
-  std::string frequency_name_ = "";                           //!< Frequency name
-  libra::Vector<3> phase_center_offset_mm_{0.0};              //!< Phase center offset for each frequency [mm]
-  AntexGridDefinition grid_information_;                      //!< Grid information
-  std::vector<double> phase_center_variation_parameters_mm_;  //!< Phase center variation for each frequency [mm]
+  std::string frequency_name_ = "";                                    //!< Frequency name
+  libra::Vector<3> phase_center_offset_mm_{0.0};                       //!< Phase center offset [mm]
+  AntexGridDefinition grid_information_;                               //!< Grid information
+  std::vector<std::vector<double>> phase_center_variation_matrix_mm_;  //!< Phase center variation [mm] (column, row definition: [azimuth][zenith])
 };
 
 /**
