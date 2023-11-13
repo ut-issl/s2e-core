@@ -233,7 +233,7 @@ if(GOOGLE_TEST)
   # list(FILTER TEST_FILES EXCLUDE REGEX ${CMAKE_CURRENT_LIST_DIR}/src/test_example.cpp)
 
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
-  target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)
+  target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main gmock)
   target_link_libraries(${TEST_PROJECT_NAME} LIBRARY)
   include_directories(${TEST_PROJECT_NAME})
   add_test(NAME s2e-test COMMAND ${TEST_PROJECT_NAME})
