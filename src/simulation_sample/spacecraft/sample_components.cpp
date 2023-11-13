@@ -83,10 +83,28 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
   thruster_ = new SimpleThruster(InitSimpleThruster(clock_generator, pcu_->GetPowerPort(2), 1, file_name, structure_, dynamics));
 
+  // Mission
+  const std::string telescope_ini_path = iniAccess.ReadString("COMPONENT_FILES", "telescope_file");
+  configuration_->main_logger_->CopyFileToLogDirectory(file_name);
+  telescope_ =
+      new Telescope(InitTelescope(clock_generator, 1, telescope_ini_path, &(dynamics_->GetAttitude()), &(global_environment_->GetHipparcosCatalog()),
+                                  &(local_environment_->GetCelestialInformation()), &(dynamics_->GetOrbit())));
+
   // Force Generator
   file_name = iniAccess.ReadString("COMPONENT_FILES", "force_generator_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
   force_generator_ = new ForceGenerator(InitializeForceGenerator(clock_generator, file_name, dynamics_));
+
+  // Angular Velocity Observer
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "angular_velocity_observer_file");
+  configuration_->main_logger_->CopyFileToLogDirectory(file_name);
+  angular_velocity_observer_ = new AngularVelocityObserver(InitializeAngularVelocityObserver(
+      clock_generator, file_name, global_environment_->GetSimulationTime().GetComponentStepTime_s(), dynamics_->GetAttitude()));
+
+  // Attitude Observer
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "attitude_observer_file");
+  configuration_->main_logger_->CopyFileToLogDirectory(file_name);
+  attitude_observer_ = new AttitudeObserver(InitializeAttitudeObserver(clock_generator, file_name, dynamics_->GetAttitude()));
 
   // Antenna
   file_name = iniAccess.ReadString("COMPONENT_FILES", "antenna_file");
@@ -151,6 +169,8 @@ SampleComponents::~SampleComponents() {
   delete thruster_;
   delete force_generator_;
   delete torque_generator_;
+  delete angular_velocity_observer_;
+  delete attitude_observer_;
   delete antenna_;
   delete mtq_magnetometer_interference_;
   // delete change_structure_;
@@ -190,6 +210,9 @@ void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLogList(magnetorquer_);
   logger.AddLogList(reaction_wheel_);
   logger.AddLogList(thruster_);
+  logger.AddLogList(telescope_);
   logger.AddLogList(force_generator_);
   logger.AddLogList(torque_generator_);
+  logger.AddLogList(angular_velocity_observer_);
+  logger.AddLogList(attitude_observer_);
 }
