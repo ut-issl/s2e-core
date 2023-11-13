@@ -6,6 +6,8 @@
 #ifndef S2E_LIBRARY_INITIALIZE_C2A_COMMAND_DATABASE_HPP_
 #define S2E_LIBRARY_INITIALIZE_C2A_COMMAND_DATABASE_HPP_
 
+#include <stdint.h>
+
 #include <map>
 #include <string>
 #include <vector>

@@ -226,17 +226,14 @@ if(GOOGLE_TEST)
 
   # Unit test
   set(TEST_PROJECT_NAME ${PROJECT_NAME}_TEST)
-  set(TEST_FILES
-    src/library/math/test_quaternion.cpp
-    src/library/math/test_vector.cpp
-    src/library/math/test_matrix.cpp
-    src/library/math/test_matrix_vector.cpp
-    src/library/math/test_s2e_math.cpp
-    src/library/numerical_integration/test_runge_kutta.cpp
-    src/library/gravity/test_gravity_potential.cpp
-  )
+
+  # Add all test_*.cpp files as SOURCE_FILES
+  file(GLOB_RECURSE TEST_FILES ${CMAKE_CURRENT_LIST_DIR}/src/test_*.cpp)
+  # Uncomment the following line to exclude any files that match the REGEX from TEST_FILES
+  # list(FILTER TEST_FILES EXCLUDE REGEX ${CMAKE_CURRENT_LIST_DIR}/src/test_example.cpp)
+
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
-  target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main)
+  target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main gmock)
   target_link_libraries(${TEST_PROJECT_NAME} LIBRARY)
   include_directories(${TEST_PROJECT_NAME})
   add_test(NAME s2e-test COMMAND ${TEST_PROJECT_NAME})
@@ -246,6 +243,7 @@ if(GOOGLE_TEST)
   set_target_properties(${TEST_PROJECT_NAME} PROPERTIES LANGUAGE CXX)
   set_target_properties(${TEST_PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
   set_target_properties(${TEST_PROJECT_NAME} PROPERTIES CXX_EXTENSIONS FALSE)
+  target_compile_definitions(${TEST_PROJECT_NAME} PRIVATE "CORE_DIR_FROM_EXE=\"${CORE_DIR_FROM_EXE}\"")
 
 endif()
 

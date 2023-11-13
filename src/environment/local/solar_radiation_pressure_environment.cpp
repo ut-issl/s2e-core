@@ -16,7 +16,7 @@
 SolarRadiationPressureEnvironment::SolarRadiationPressureEnvironment(LocalCelestialInformation* local_celestial_information)
     : local_celestial_information_(local_celestial_information) {
   solar_radiation_pressure_N_m2_ = solar_constant_W_m2_ / environment::speed_of_light_m_s;
-  shadow_source_name_ = local_celestial_information_->GetGlobalInformation().GetCenterBodyName();
+  shadow_source_name_list_.push_back(local_celestial_information_->GetGlobalInformation().GetCenterBodyName());
   sun_radius_m_ = local_celestial_information_->GetGlobalInformation().GetMeanRadiusFromName_m("SUN");
 }
 
@@ -24,7 +24,10 @@ void SolarRadiationPressureEnvironment::UpdateAllStates() {
   if (!IsCalcEnabled) return;
 
   UpdatePressure();
-  CalcShadowCoefficient(shadow_source_name_);
+  shadow_coefficient_ = 1.0;  // Initialize for multiple shadow source
+  for (auto shadow_source_name : shadow_source_name_list_) {
+    CalcShadowCoefficient(shadow_source_name);
+  }
 }
 
 void SolarRadiationPressureEnvironment::UpdatePressure() {
@@ -54,7 +57,7 @@ std::string SolarRadiationPressureEnvironment::GetLogValue() const {
 
 void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow_source_name) {
   if (shadow_source_name == "SUN") {
-    shadow_coefficient_ = 1.0;
+    shadow_coefficient_ *= 1.0;
     return;
   }
 
@@ -81,17 +84,21 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
 
   if (c < fabs(a - b) && a <= b)  // The occultation is total (spacecraft is in umbra)
   {
-    shadow_coefficient_ = 0.0;
+    shadow_coefficient_ *= 0.0;
   } else if (c < fabs(a - b) && a > b)  // The occultation is partial but maximum
   {
     shadow_coefficient_ = 1.0 - (b * b) / (a * a);
   } else if (fabs(a - b) <= c && c <= (a + b))  // spacecraft is in penumbra
   {
     double A = a * a * acos(x / a) + b * b * acos((c - x) / b) - c * y;  // The area of the occulted segment of the apparent solar disk
-    shadow_coefficient_ = 1.0 - A / (libra::pi * a * a);
+    shadow_coefficient_ *= 1.0 - A / (libra::pi * a * a);
   } else {  // no occultation takes place
-    assert(c > (a + b));
-    shadow_coefficient_ = 1.0;
+    if (c < (a + b)) {
+      std::cout << "[Error SRP Environment]: The calculation error was occurred at the shadow calculation." << std::endl;
+      std::cout << "                         The orbit setting may have something wrong." << std::endl;
+      std::exit(1);
+    }
+    shadow_coefficient_ *= 1.0;
   }
 }
 
@@ -103,6 +110,12 @@ SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::str
   SolarRadiationPressureEnvironment srp_env(local_celestial_information);
   srp_env.IsCalcEnabled = conf.ReadEnable(section, INI_CALC_LABEL);
   srp_env.is_log_enabled_ = conf.ReadEnable(section, INI_LOG_LABEL);
+
+  size_t number_of_third_shadow_source = conf.ReadInt(section, "number_of_third_shadow_source");
+  std::vector<std::string> list = conf.ReadVectorString(section, "third_shadow_source_name", number_of_third_shadow_source);
+  for (size_t i = 0; i < number_of_third_shadow_source; i++) {
+    srp_env.AddShadowSource(list[0]);
+  }
 
   return srp_env;
 }

@@ -40,7 +40,15 @@ void Orbit::TransformEciToEcef(void) {
   spacecraft_velocity_ecef_m_s_ = dcm_i_to_xcxf * velocity_we_cross_r;
 }
 
-void Orbit::TransformEcefToGeodetic(void) { spacecraft_geodetic_position_.UpdateFromEcef(spacecraft_position_ecef_m_); }
+void Orbit::TransformEcefToGeodetic(void) {
+  spacecraft_geodetic_position_.UpdateFromEcef(spacecraft_position_ecef_m_);
+  // Check altitude
+  if (spacecraft_geodetic_position_.GetAltitude_m() < 0.0) {
+    std::cout << "[Error Orbit]: The spacecraft altitude is smaller than zero." << std::endl;
+    std::cout << "               The orbit or disturbance setting may have something wrong." << std::endl;
+    std::exit(1);
+  }
+}
 
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode) {
   if (initialize_mode == "DEFAULT") {

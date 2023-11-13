@@ -10,6 +10,8 @@
 #include <components/examples/example_i2c_controller_for_hils.hpp>
 #include <components/examples/example_i2c_target_for_hils.hpp>
 #include <components/examples/example_serial_communication_for_hils.hpp>
+#include <components/ideal/angular_velocity_observer.hpp>
+#include <components/ideal/attitude_observer.hpp>
 #include <components/ideal/force_generator.hpp>
 #include <components/ideal/torque_generator.hpp>
 #include <components/real/aocs/gnss_receiver.hpp>
@@ -22,6 +24,7 @@
 #include <components/real/aocs/sun_sensor.hpp>
 #include <components/real/cdh/on_board_computer.hpp>
 #include <components/real/communication/antenna.hpp>
+#include <components/real/mission/telescope.hpp>
 #include <components/real/power/power_control_unit.hpp>
 #include <components/real/propulsion/simple_thruster.hpp>
 #include <dynamics/dynamics.hpp>
@@ -42,6 +45,9 @@ class ReactionWheel;
 class SimpleThruster;
 class ForceGenerator;
 class TorqueGenerator;
+class AngularVelocityObserver;
+class AttitudeObserver;
+class Telescope;
 
 /**
  * @class SampleComponents
@@ -94,16 +100,23 @@ class SampleComponents : public InstalledComponents {
   HilsPortManager* hils_port_manager_;  //!< Port manager for HILS test
 
   // AOCS
-  GyroSensor* gyro_sensor_;            //!< GyroSensor sensor
-  Magnetometer* magnetometer_;         //!< Magnetometer
-  StarSensor* star_sensor_;            //!< Star sensor
-  SunSensor* sun_sensor_;              //!< Sun sensor
-  GnssReceiver* gnss_receiver_;        //!< GNSS receiver
-  Magnetorquer* magnetorquer_;         //!< Magnetorquer
-  ReactionWheel* reaction_wheel_;      //!< Reaction Wheel
-  SimpleThruster* thruster_;           //!< Thruster
-  ForceGenerator* force_generator_;    //!< Ideal Force Generator
-  TorqueGenerator* torque_generator_;  //!< Ideal Torque Generator
+  GyroSensor* gyro_sensor_;        //!< GyroSensor sensor
+  Magnetometer* magnetometer_;     //!< Magnetometer
+  StarSensor* star_sensor_;        //!< Star sensor
+  SunSensor* sun_sensor_;          //!< Sun sensor
+  GnssReceiver* gnss_receiver_;    //!< GNSS receiver
+  Magnetorquer* magnetorquer_;     //!< Magnetorquer
+  ReactionWheel* reaction_wheel_;  //!< Reaction Wheel
+  SimpleThruster* thruster_;       //!< Thruster
+
+  // Ideal component
+  ForceGenerator* force_generator_;                     //!< Ideal Force Generator
+  TorqueGenerator* torque_generator_;                   //!< Ideal Torque Generator
+  AngularVelocityObserver* angular_velocity_observer_;  //!< Ideal Angular velocity observer
+  AttitudeObserver* attitude_observer_;                 //!< Ideal Attitude observer
+
+  // Mission
+  Telescope* telescope_;  //!< Telescope
 
   // CommGs
   Antenna* antenna_;  //!< Antenna
