@@ -74,6 +74,7 @@ TEST(Interpolation, TrigonometricCosFunction) {
   xx = 0.8 * libra::pi_2;
   EXPECT_NEAR(cos(xx), interpolation.CalcTrigonometric(xx), 1e-6);
 }
+
 /**
  * @brief Test for cos function with trigonometric interpolation
  */
@@ -89,4 +90,30 @@ TEST(Interpolation, TrigonometricCosSinFunctionOddDegree) {
   EXPECT_NEAR(cos(xx) + sin(xx), interpolation.CalcTrigonometric(xx), 1e-6);
   xx = 0.8 * libra::pi_2;
   EXPECT_NEAR(cos(xx) + sin(xx), interpolation.CalcTrigonometric(xx), 1e-6);
+}
+
+/**
+ * @brief Test for PushAndPop function
+ */
+TEST(Interpolation, PushAndPop) {
+  std::vector<double> x{0.0, 1.0, 2.0, 3.0, 4.0};
+  std::vector<double> y{0.0, 2.0, 4.0, 6.0, 8.0};
+  libra::Interpolation interpolation(x, y);
+
+  EXPECT_EQ(x.size(), interpolation.GetDegree());
+  for (size_t i = 0; i < x.size(); i++) {
+    EXPECT_DOUBLE_EQ(x[i], interpolation.GetIndependentVariables()[i]);
+    EXPECT_DOUBLE_EQ(y[i], interpolation.GetDependentVariables()[i]);
+  }
+
+  bool ret = interpolation.PushAndPopData(5.0, 10.0);
+  EXPECT_TRUE(ret);
+  EXPECT_DOUBLE_EQ(x[1], interpolation.GetIndependentVariables()[0]);
+  EXPECT_DOUBLE_EQ(y[1], interpolation.GetDependentVariables()[0]);
+  EXPECT_DOUBLE_EQ(5.0, interpolation.GetIndependentVariables()[4]);
+  EXPECT_DOUBLE_EQ(10.0, interpolation.GetDependentVariables()[4]);
+
+  // False test
+  ret = interpolation.PushAndPopData(1.0, 10.0);
+  EXPECT_FALSE(ret);
 }
