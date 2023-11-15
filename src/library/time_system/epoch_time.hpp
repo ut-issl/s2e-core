@@ -51,29 +51,11 @@ class EpochTime {
   inline double GetTimeWithFraction_s() const { return (double)(time_s_) + fraction_s_; }
 
   // Operator
-  bool operator==(const EpochTime& target) const {
-    if (this->time_s_ != target.time_s_) return false;
-    if (this->fraction_s_ != target.fraction_s_) return false;  // TODO: comparison of double
-    return true;
-  }
+  bool operator==(const EpochTime& target) const;
   bool operator!=(const EpochTime& target) const { return !(*this == target); }
-
-  bool operator>(const EpochTime& right_side) const {
-    if (*this == right_side) return false;
-    if (this->time_s_ < right_side.time_s_) return false;
-    if (this->time_s_ > right_side.time_s_) return true;
-    if (this->fraction_s_ < right_side.fraction_s_) return false;
-    return true;
-  }
+  bool operator>(const EpochTime& right_side) const;
   bool operator<=(const EpochTime& right_side) const { return !(*this > right_side); }
-
-  bool operator<(const EpochTime& right_side) const {
-    if (*this == right_side) return false;
-    if (this->time_s_ > right_side.time_s_) return false;
-    if (this->time_s_ < right_side.time_s_) return true;
-    if (this->fraction_s_ > right_side.fraction_s_) return false;
-    return true;
-  }
+  bool operator<(const EpochTime& right_side) const;
   bool operator>=(const EpochTime& right_side) const { return !(*this < right_side); }
   EpochTime operator+(const EpochTime& right_side) const;
   EpochTime operator-(const EpochTime& right_side) const;

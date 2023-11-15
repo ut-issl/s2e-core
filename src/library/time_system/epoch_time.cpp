@@ -28,7 +28,29 @@ EpochTime::EpochTime(const DateTime date_time) {
   fraction_s_ = date_time.GetSecond() - (double)second;
 }
 
- EpochTime EpochTime::operator+(const EpochTime& right_side) const {
+bool EpochTime::operator==(const EpochTime& target) const {
+  if (this->time_s_ != target.time_s_) return false;
+  if (this->fraction_s_ != target.fraction_s_) return false;  // TODO: comparison of double
+  return true;
+}
+
+bool EpochTime::operator>(const EpochTime& right_side) const {
+  if (*this == right_side) return false;
+  if (this->time_s_ < right_side.time_s_) return false;
+  if (this->time_s_ > right_side.time_s_) return true;
+  if (this->fraction_s_ < right_side.fraction_s_) return false;
+  return true;
+}
+
+bool EpochTime::operator<(const EpochTime& right_side) const {
+  if (*this == right_side) return false;
+  if (this->time_s_ > right_side.time_s_) return false;
+  if (this->time_s_ < right_side.time_s_) return true;
+  if (this->fraction_s_ > right_side.fraction_s_) return false;
+  return true;
+}
+
+EpochTime EpochTime::operator+(const EpochTime& right_side) const {
   time_t time_s = this->time_s_ + right_side.GetTime_s();
   double fraction_s = this->fraction_s_ + right_side.GetFraction_s();
   if (fraction_s > 1.0) {
