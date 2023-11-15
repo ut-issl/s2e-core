@@ -75,28 +75,12 @@ class EpochTime {
     return true;
   }
   bool operator>=(const EpochTime& right_side) const { return !(*this < right_side); }
+  EpochTime operator+(const EpochTime& right_side) const;
+  EpochTime operator-(const EpochTime& right_side) const;
 
  private:
   uint64_t time_s_;    //!< Number of seconds without leap seconds since 00:00:00 Jan 1 1970 UTC.
   double fraction_s_;  //!< Fraction of second under 1 sec [0, 1)
 };
-
-// Calculation
-/**
- * @fn TimeAdd
- * @brief Add two epoch time
- * @param [in] left_side: Added time
- * @param [in] right_side: Adding time
- * @return calculation result
- */
-EpochTime TimeAdd(const EpochTime& left_side, const EpochTime& right_side);
-/**
- * @fn TimeSubtract
- * @brief Add two epoch time
- * @param [in] left_side: Subtracted time
- * @param [in] right_side: Subtracting time
- * @return calculation result
- */
-EpochTime TimeSubtract(const EpochTime& left_side, const EpochTime& right_side);
 
 #endif  // S2E_LIBRARY_TIME_SYSTEM_EPOCH_TIME_HPP_

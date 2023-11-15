@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "epoch_time.hpp"
 #include "date_time_format.hpp"
+#include "epoch_time.hpp"
 
 TEST(EpochTime, ConstructorNominal) {
   EpochTime time(1000000000, 0.250);
@@ -25,8 +25,8 @@ TEST(EpochTime, TimeAdd) {
   EpochTime time4(245, 0.8);
 
   // Add
-  EpochTime time_add1 = TimeAdd(time1, time2);
-  EpochTime time_add2 = TimeAdd(time1, time4);
+  EpochTime time_add1 = time1 + time2;
+  EpochTime time_add2 = time1 + time4;
   EXPECT_EQ(1686145305 + 245, time_add1.GetTime_s());
   EXPECT_NEAR(0.3 + 0.25, time_add1.GetFraction_s(), 1e-10);
   EXPECT_EQ(1686145305 + 245 + 1, time_add2.GetTime_s());
@@ -39,8 +39,8 @@ TEST(EpochTime, TimeSubtract) {
   EpochTime time3(1686145245, 0.4);
 
   // Subtract
-  EpochTime time_sub1 = TimeSubtract(time1, time2);
-  EpochTime time_sub2 = TimeSubtract(time1, time3);
+  EpochTime time_sub1 = time1 - time2;
+  EpochTime time_sub2 = time1 - time3;
   EXPECT_EQ(1686145305 - 1686145245, time_sub1.GetTime_s());
   EXPECT_NEAR(0.3 - 0.25, time_sub1.GetFraction_s(), 1e-10);
   EXPECT_EQ(1686145305 - 1686145245 - 1, time_sub2.GetTime_s());
@@ -68,14 +68,12 @@ TEST(EpochTime, ComparisonOperator) {
   EXPECT_TRUE(time1 > time2);
   EXPECT_TRUE(time1 >= time2);
 
-
   EpochTime time3(1686145305, 0.2);
 
   EXPECT_FALSE(time1 < time3);
   EXPECT_FALSE(time1 <= time3);
   EXPECT_TRUE(time1 > time3);
   EXPECT_TRUE(time1 >= time3);
-
 
   EpochTime time4(1686145305, 0.3);
 

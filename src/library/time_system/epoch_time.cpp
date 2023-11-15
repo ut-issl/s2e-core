@@ -28,9 +28,9 @@ EpochTime::EpochTime(const DateTime date_time) {
   fraction_s_ = date_time.GetSecond() - (double)second;
 }
 
-EpochTime TimeAdd(const EpochTime& left_side, const EpochTime& right_side) {
-  time_t time_s = left_side.GetTime_s() + right_side.GetTime_s();
-  double fraction_s = left_side.GetFraction_s() + right_side.GetFraction_s();
+ EpochTime EpochTime::operator+(const EpochTime& right_side) const {
+  time_t time_s = this->time_s_ + right_side.GetTime_s();
+  double fraction_s = this->fraction_s_ + right_side.GetFraction_s();
   if (fraction_s > 1.0) {
     fraction_s -= 1.0;
     time_s += 1;
@@ -39,9 +39,9 @@ EpochTime TimeAdd(const EpochTime& left_side, const EpochTime& right_side) {
   return result;
 }
 
-EpochTime TimeSubtract(const EpochTime& left_side, const EpochTime& right_side) {
-  time_t time_s = left_side.GetTime_s() - right_side.GetTime_s();  // TODO: assertion for negative value
-  double fraction_s = left_side.GetFraction_s() - right_side.GetFraction_s();
+EpochTime EpochTime::operator-(const EpochTime& right_side) const {
+  time_t time_s = this->time_s_ - right_side.GetTime_s();  // TODO: assertion for negative value
+  double fraction_s = this->fraction_s_ - right_side.GetFraction_s();
   if (fraction_s < 0.0) {
     fraction_s += 1.0;
     time_s -= 1;
