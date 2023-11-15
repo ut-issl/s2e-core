@@ -4,6 +4,7 @@
  */
 
 #include "epoch_time.hpp"
+#include <cmath>
 
 EpochTime::EpochTime(const DateTime date_time) {
   // No leap second calculation
