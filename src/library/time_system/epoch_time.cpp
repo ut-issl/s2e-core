@@ -4,6 +4,7 @@
  */
 
 #include "epoch_time.hpp"
+
 #include <cmath>
 
 EpochTime::EpochTime(const DateTime date_time) {
@@ -24,8 +25,8 @@ EpochTime::EpochTime(const DateTime date_time) {
   if (60 <= second) return;
 
   // leap year if year%4==0 in 1901-2099
-  int days = (year - 1970) * 365 + (year - 1969) / 4 + doy[month - 1] + day - 2 + (year % 4 == 0 && month >= 3 ? 1 : 0);
-  time_s_ = (time_t)days * 86400 + hour * 3600 + minute * 60 + second;
+  uint64_t days = (year - 1970) * 365 + (year - 1969) / 4 + doy[month - 1] + day - 2 + (year % 4 == 0 && month >= 3 ? 1 : 0);
+  time_s_ = (uint64_t)days * 86400 + hour * 3600 + minute * 60 + second;
   fraction_s_ = date_time.GetSecond() - (double)second;
 }
 
