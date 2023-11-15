@@ -59,6 +59,7 @@ class EpochTime {
   bool operator!=(const EpochTime& target) const { return !(*this == target); }
 
   bool operator>(const EpochTime& right_side) const {
+    if (*this == right_side) return false;
     if (this->time_s_ < right_side.time_s_) return false;
     if (this->time_s_ > right_side.time_s_) return true;
     if (this->fraction_s_ < right_side.fraction_s_) return false;
@@ -67,6 +68,7 @@ class EpochTime {
   bool operator<=(const EpochTime& right_side) const { return !(*this > right_side); }
 
   bool operator<(const EpochTime& right_side) const {
+    if (*this == right_side) return false;
     if (this->time_s_ > right_side.time_s_) return false;
     if (this->time_s_ < right_side.time_s_) return true;
     if (this->fraction_s_ > right_side.fraction_s_) return false;

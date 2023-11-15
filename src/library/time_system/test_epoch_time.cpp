@@ -46,3 +46,39 @@ TEST(EpochTime, TimeSubtract) {
   EXPECT_EQ(1686145305 - 1686145245 - 1, time_sub2.GetTime_s());
   EXPECT_NEAR(0.9, time_sub2.GetFraction_s(), 1e-10);
 }
+
+TEST(EpochTime, EqualOperator) {
+  EpochTime time1(1686145305, 0.3);
+  EpochTime time2(1686145245, 0.25);
+  EpochTime time3(1686145305, 0.3);
+  EpochTime time4(1686145305, 0.25);
+
+  EXPECT_FALSE(time1 == time2);
+  EXPECT_FALSE(time3 == time4);
+  EXPECT_TRUE(time1 == time1);
+  EXPECT_TRUE(time1 == time3);
+}
+
+TEST(EpochTime, ComparisonOperator) {
+  EpochTime time1(1686145305, 0.3);
+  EpochTime time2(1686145245, 0.4);
+
+  EXPECT_FALSE(time1 < time2);
+  EXPECT_FALSE(time1 <= time2);
+  EXPECT_TRUE(time1 > time2);
+  EXPECT_TRUE(time1 >= time2);
+
+
+  EpochTime time3(1686145305, 0.2);
+
+  EXPECT_FALSE(time1 < time3);
+  EXPECT_FALSE(time1 <= time3);
+  EXPECT_TRUE(time1 > time3);
+  EXPECT_TRUE(time1 >= time3);
+
+
+  EpochTime time4(1686145305, 0.3);
+
+  EXPECT_TRUE(time1 <= time4);
+  EXPECT_TRUE(time1 >= time4);
+}
