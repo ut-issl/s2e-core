@@ -10,6 +10,8 @@
 
 #include "date_time_format.hpp"
 
+class DateTime;
+
 /**
  * @class EpochTime
  * @brief A class to handle time like UNIX time with fractions.

@@ -8,6 +8,10 @@
 
 #include <string>
 
+#include "epoch_time.hpp"
+
+class EpochTime;
+
 /**
  *@class DateTime
  * @brief Class to handle Gregorian date and time format
@@ -27,6 +31,11 @@ class DateTime {
    * @note TODO: Support other format like dd.mm.yyyy
    */
   DateTime(const std::string date_time = "0000/01/01 00:00:00.0");
+  /**
+   * @fn DateTime
+   * @brief Constructor initialized with epoch time
+   */
+  DateTime(const EpochTime epoch_time);
 
   // Getters
   inline size_t GetYear() const { return year_; }
