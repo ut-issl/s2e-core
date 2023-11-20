@@ -22,6 +22,14 @@ TEST(GpsTime, ConstructorNominal) {
   EXPECT_EQ(3, gps_time.GetDateTime().GetHour());
   EXPECT_EQ(25, gps_time.GetDateTime().GetMinute());
   EXPECT_NEAR(45.6798, gps_time.GetDateTime().GetSecond(), 1e-10);
+
+  // Check leap seconds
+  EXPECT_EQ(2023, gps_time.GetDateTimeAsUtc().GetYear());
+  EXPECT_EQ(10, gps_time.GetDateTimeAsUtc().GetMonth());
+  EXPECT_EQ(22, gps_time.GetDateTimeAsUtc().GetDay());
+  EXPECT_EQ(3, gps_time.GetDateTimeAsUtc().GetHour());
+  EXPECT_EQ(26, gps_time.GetDateTimeAsUtc().GetMinute());
+  EXPECT_NEAR(3.6798, gps_time.GetDateTimeAsUtc().GetSecond(), 1e-10);
 }
 
 /**

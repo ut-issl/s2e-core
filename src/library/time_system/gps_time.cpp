@@ -7,6 +7,7 @@
 
 const DateTime GpsTime::epoch_of_gps_time_in_date_time_ = DateTime("1980/1/6 00:00:00.0");
 const EpochTime GpsTime::epoch_of_gps_time_in_epoch_time_ = EpochTime(epoch_of_gps_time_in_date_time_);
+const EpochTime GpsTime::leap_second_ahead_from_utc_ = EpochTime(18, 0);  //!< Leap second ahead from UTC @ May 2023
 
 void GpsTime::CalcGpsWeekTime() {
   EpochTime time_diff = epoch_time_ - epoch_of_gps_time_in_epoch_time_;

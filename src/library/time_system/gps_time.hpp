@@ -63,6 +63,11 @@ class GpsTime {
    * @return GPS time in date time expression
    */
   inline DateTime GetDateTime() const { return date_time_; }
+  /**
+   * @fn GetDateTimeAsUtc
+   * @return DateTime as UTC including leap seconds
+   */
+  inline DateTime GetDateTimeAsUtc() const { return epoch_time_ + leap_second_ahead_from_utc_; }
 
  private:
   size_t week_;                      //!< GPS week (week = 0 at 6th Jan. 1980)
@@ -74,7 +79,8 @@ class GpsTime {
   static const DateTime epoch_of_gps_time_in_date_time_;    //!< GPS time epoch in date time expression
   static const EpochTime epoch_of_gps_time_in_epoch_time_;  //!< GPS time epoch in epoch time expression
   // Constants
-  static const size_t seconds_in_week_ = 86400 * 7;
+  static const size_t seconds_in_week_ = 86400 * 7;    //!< Seconds in Week
+  static const EpochTime leap_second_ahead_from_utc_;  //!< leap second ahead from UTC
 
   // Functions
   /**
