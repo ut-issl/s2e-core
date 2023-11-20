@@ -67,7 +67,7 @@ class GpsTime {
    * @fn GetDateTimeAsUtc
    * @return DateTime as UTC including leap seconds
    */
-  inline DateTime GetDateTimeAsUtc() const { return epoch_time_ + leap_second_ahead_from_utc_; }
+  inline DateTime GetDateTimeAsUtc() const { return epoch_time_ - leap_second_ahead_from_utc_; }
 
  private:
   size_t week_;                      //!< GPS week (week = 0 at 6th Jan. 1980)
