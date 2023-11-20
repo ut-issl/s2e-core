@@ -3,11 +3,17 @@
  * @brief Class to handle Gregorian date and time format
  */
 
+#define _CRT_SECURE_NO_WARNINGS  // for sscanf
+
 #include "date_time_format.hpp"
 
 #include <cmath>
 #include <iomanip>
 #include <sstream>
+
+DateTime::DateTime(const std::string date_time) {
+  sscanf(date_time.c_str(), "%zu/%zu/%zu %zu:%zu:%lf", &year_, &month_, &day_, &hour_, &minute_, &second_);
+}
 
 std::string DateTime::GetAsString() const {
   std::stringstream stream;

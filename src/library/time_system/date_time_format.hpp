@@ -6,8 +6,6 @@
 #ifndef S2E_LIBRARY_TIME_SYSTEM_DATE_TIME_FORMAT_HPP_
 #define S2E_LIBRARY_TIME_SYSTEM_DATE_TIME_FORMAT_HPP_
 
-#define _CRT_SECURE_NO_WARNINGS  // for sscanf
-
 #include <string>
 
 /**
@@ -28,9 +26,7 @@ class DateTime {
    * @brief Constructor initialized with string expression as YYYY/MM/DD hh:mm:ss.s
    * @note TODO: Support other format like dd.mm.yyyy
    */
-  DateTime(const std::string date_time = "0000/01/01 00:00:00.0") {
-    sscanf(date_time.c_str(), "%zu/%zu/%zu %zu:%zu:%lf", &year_, &month_, &day_, &hour_, &minute_, &second_);
-  }
+  DateTime(const std::string date_time = "0000/01/01 00:00:00.0");
 
   // Getters
   inline size_t GetYear() const { return year_; }
