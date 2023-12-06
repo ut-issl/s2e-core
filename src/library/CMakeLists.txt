@@ -40,6 +40,8 @@ add_library(${PROJECT_NAME} STATIC
   planet_rotation/moon_rotation_utilities.cpp
 
   time_system/date_time_format.cpp
+  time_system/epoch_time.cpp
+  time_system/gps_time.cpp
 
   external/igrf/igrf.cpp
   external/inih/ini.c
