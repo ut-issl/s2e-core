@@ -27,6 +27,7 @@
 enum class Sp3Mode {
   kPosition,  //!< Position and clock data mode
   kVelocity,  //!< Velocity and clock rate data mode
+  kOther,     //!< Undefined mode
 };
 
 /**
@@ -38,6 +39,7 @@ enum class Sp3OrbitType {
   kExtrapolated,  //!< Extrapolated or predicted
   kBroadcast,     //!< Broadcast
   kHelmert,       //!< Fitted after Helmert transformation
+  kOther,         //!< Undefined mode
 };
 
 /**
