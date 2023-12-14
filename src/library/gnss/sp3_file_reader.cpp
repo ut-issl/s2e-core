@@ -142,8 +142,8 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   } else if (line[3] == 'V') {
     header_.mode_ = Sp3Mode::kVelocity;
   } else {
+    header_.mode_ = Sp3Mode::kOther;
     std::cout << "[Warning] SP3 file mode is undefined: " << line << std::endl;
-    return 0;
   }
   size_t year, month, day, hour, minute;
   double second;
@@ -162,8 +162,8 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   } else if (orbit_type == "HLM") {
     header_.orbit_type_ = Sp3OrbitType::kHelmert;
   } else {
+    header_.orbit_type_ = Sp3OrbitType::kOther;
     std::cout << "[Warning] SP3 file orbit type is undefined: " << line << std::endl;
-    return 0;
   }
   header_.agency_name_ = line.substr(56, 4);
 
@@ -194,10 +194,10 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   const size_t kMaxSatelliteNumberOneLine = 17;
   while (line.find("+ ") == 0) {
     for (size_t i = 0; i < kMaxSatelliteNumberOneLine; i++) {
-      header_.satellite_ids_.push_back(line.substr(9 + i * 3, 3));
       if (header_.satellite_ids_.size() >= header_.number_of_satellites_) {
         break;
       }
+      header_.satellite_ids_.push_back(line.substr(9 + i * 3, 3));
     }
     line_number++;
     std::getline(sp3_file, line);
@@ -215,10 +215,10 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   }
   while (line.find("++") == 0) {
     for (size_t i = 0; i < kMaxSatelliteNumberOneLine; i++) {
-      header_.satellite_accuracy_.push_back((uint8_t)stoi(line.substr(9 + i * 3, 3)));
       if (header_.satellite_accuracy_.size() >= header_.number_of_satellites_) {
         break;
       }
+      header_.satellite_accuracy_.push_back((uint8_t)stoi(line.substr(9 + i * 3, 3)));
     }
     line_number++;
     std::getline(sp3_file, line);
@@ -299,7 +299,7 @@ Sp3PositionClock Sp3FileReader::DecodePositionClockData(std::string line) {
   position_clock.clock_us_ = stod(line.substr(46, 14));
 
   // Standard deviations
-  if (line.size() > 60) {
+  if (line.size() > 61) {
     libra::Vector<3> position_standard_deviation;
     for (size_t axis = 0; axis < 3; axis++) {
       position_standard_deviation[axis] = stod(line.substr(61 + axis * 2, 2));
