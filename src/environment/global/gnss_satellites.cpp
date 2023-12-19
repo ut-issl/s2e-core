@@ -836,7 +836,7 @@ double GnssSatellites::GetClockOffset_m(const size_t gnss_satellite_id) const {
 }
 
 double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m, double rec_clock,
-                                          const double frequency) const {
+                                          const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
 
@@ -851,7 +851,7 @@ double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra:
   res += rec_clock - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
-  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency, GnssFrameDefinition::kEcef);
+  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency_MHz, GnssFrameDefinition::kEcef);
 
   res += ionospheric_delay;
 
@@ -859,7 +859,7 @@ double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra:
 }
 
 double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m, double rec_clock,
-                                         const double frequency) const {
+                                         const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
 
@@ -874,7 +874,7 @@ double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::
   res += rec_clock - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
-  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency, GnssFrameDefinition::kEci);
+  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency_MHz, GnssFrameDefinition::kEci);
 
   res += ionospheric_delay;
 
@@ -882,7 +882,7 @@ double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::
 }
 
 pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m, double rec_clock,
-                                                         const double frequency) const {
+                                                         const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
@@ -897,12 +897,12 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satel
   res += rec_clock - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
-  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency, GnssFrameDefinition::kEcef);
+  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency_MHz, GnssFrameDefinition::kEcef);
 
   res -= ionospheric_delay;
 
-  // wavelength frequency is thought to be given by MHz
-  double lambda = environment::speed_of_light_m_s * 1e-6 / frequency;
+  // wavelength frequency_MHz is thought to be given by MHz
+  double lambda = environment::speed_of_light_m_s * 1e-6 / frequency_MHz;
   double cycle = res / lambda;
 
   double bias = floor(cycle);
@@ -912,7 +912,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satel
 }
 
 pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m, double rec_clock,
-                                                        const double frequency) const {
+                                                        const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
@@ -927,12 +927,12 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satell
   res += rec_clock - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
-  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency, GnssFrameDefinition::kEci);
+  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency_MHz, GnssFrameDefinition::kEci);
 
   res -= ionospheric_delay;
 
-  // wavelength frequency is thought to be given by MHz
-  double lambda = environment::speed_of_light_m_s * 1e-6 / frequency;
+  // wavelength frequency_MHz is thought to be given by MHz
+  double lambda = environment::speed_of_light_m_s * 1e-6 / frequency_MHz;
   double cycle = res / lambda;
 
   double bias = floor(cycle);
@@ -942,7 +942,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satell
 }
 
 // for Ionospheric delay I[m]
-double GnssSatellites::AddIonosphericDelay(const size_t gnss_satellite_id, const libra::Vector<3> receiver_position_m, const double frequency,
+double GnssSatellites::AddIonosphericDelay(const size_t gnss_satellite_id, const libra::Vector<3> receiver_position_m, const double frequency_MHz,
                                            const GnssFrameDefinition flag) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
@@ -965,9 +965,9 @@ double GnssSatellites::AddIonosphericDelay(const size_t gnss_satellite_id, const
   const double default_delay = 20.0;  //[m] default delay
   // Assume the maximum height as 1000.0. Divide by cos because the slope makes it longer.
   double delay = default_delay * (1000.0 - altitude) / 1000.0 / cos(angle_rad);
-  const double default_frequency = 1500.0;  //[MHz]
-  // Ionospheric delay is inversely proportional to the square of the frequency
-  delay *= pow(default_frequency / frequency, 2.0);
+  const double default_frequency_MHz = 1500.0;  //[MHz]
+  // Ionospheric delay is inversely proportional to the square of the frequency_MHz
+  delay *= pow(default_frequency_MHz / frequency_MHz, 2.0);
 
   return delay;
 }
