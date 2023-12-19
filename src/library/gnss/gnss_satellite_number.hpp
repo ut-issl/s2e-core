@@ -31,17 +31,17 @@ const size_t kQzssIndexBegin = kBeidouIndexBegin + kNumberOfBeidouSatellite;    
 const size_t kNavicIndexBegin = kQzssIndexBegin + kNumberOfQzssSatellite;          //!< Begin value of index for NavIC satellites
 
 /**
- * @fn ConvertSatelliteNumberToIndex
+ * @fn ConvertGnssSatelliteNumberToIndex
  * @brief Calculate index of GNSS satellite defined in S2E from GNSS satellite number defined in RINEX v4
  * @return Index of GNSS satellite defined in this class. or INT32_MAX when the input is wrong.
  */
-size_t ConvertSatelliteNumberToIndex(const std::string satellite_number);
+size_t ConvertGnssSatelliteNumberToIndex(const std::string satellite_number);
 
 /**
- * @fn ConvertIndexToSatelliteNumber
+ * @fn ConvertIndexToGnssSatelliteNumber
  * @brief Calculate GNSS satellite number defined in RINEX v4 from index of GNSS satellite defined in this class
  * @return GNSS satellite number defined in RINEX v4. or err when the input is wrong.
  */
-std::string ConvertIndexToSatelliteNumber(const size_t index);
+std::string ConvertIndexToGnssSatelliteNumber(const size_t index);
 
 #endif  // S2E_LIBRARY_GNSS_GNSS_SATELLITE_NUMBER_HPP_

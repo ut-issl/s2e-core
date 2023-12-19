@@ -242,7 +242,7 @@ pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& f
           iss >> tmp;
           s.push_back(tmp);
         }
-        int gnss_satellite_id = ConvertSatelliteNumberToIndex(s.front());
+        int gnss_satellite_id = ConvertGnssSatelliteNumberToIndex(s.front());
 
         bool available_flag = true;
         libra::Vector<3> ecef_position_m(0.0);
@@ -509,7 +509,7 @@ void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_ex
             iss >> tmp;
             s.push_back(tmp);
           }
-          int gnss_satellite_id = ConvertSatelliteNumberToIndex(s.front());
+          int gnss_satellite_id = ConvertGnssSatelliteNumberToIndex(s.front());
 
           double clock = stod(s.at(4));
           if (std::abs(clock - nan99) < 1.0) continue;
@@ -569,7 +569,7 @@ void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_ex
 
         std::free(time_tm);
 
-        int gnss_satellite_id = ConvertSatelliteNumberToIndex(s.at(1));
+        int gnss_satellite_id = ConvertGnssSatelliteNumberToIndex(s.at(1));
         double clock_bias = stod(s.at(9)) * environment::speed_of_light_m_s;  // [s] -> [m]
         if (start_unix_time - unix_time > 1e-4) continue;                     // for the numerical error
         if (end_unix_time - unix_time < 1e-4) break;

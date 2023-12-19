@@ -95,7 +95,7 @@ void AntexFileReader::ReadAntexData(std::ifstream& antex_file) {
     if (line.find("TYPE / SERIAL NO") == ANTEX_LINE_TYPE_POSITION) {
       std::string antenna_type = line.substr(0, 20);
       std::string serial_number = line.substr(20, 20);
-      size_t satellite_index = ConvertSatelliteNumberToIndex(serial_number);
+      size_t satellite_index = ConvertGnssSatelliteNumberToIndex(serial_number);
 
       if (satellite_index == UINT32_MAX) {
         // receiver
