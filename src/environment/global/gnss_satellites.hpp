@@ -369,7 +369,7 @@ class GnssSatellites : public ILoggable {
   double GetClockOffset_m(const size_t gnss_satellite_id) const;
 
   /**
-   * @fn GetPseudoRangeECEF
+   * @fn GetPseudoRangeEcef
    * @brief Calculate pseudo range between receiver and a GNSS satellite
    * @param [in] gnss_satellite_id: GNSS satellite ID
    * @param [in] rec_position: Receiver position vector in the ECEF frame [m]
@@ -377,9 +377,9 @@ class GnssSatellites : public ILoggable {
    * @param [in] frequency: Frequency of the signal [MHz]
    * @return Pseudo range [m]
    */
-  double GetPseudoRangeECEF(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
+  double GetPseudoRangeEcef(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
   /**
-   * @fn GetPseudoRangeECI
+   * @fn GetPseudoRangeEci
    * @brief Calculate pseudo range between receiver and a GNSS satellite
    * @param [in] gnss_satellite_id: GNSS satellite ID
    * @param [in] rec_position: Receiver position vector in the ECI frame [m]
@@ -387,7 +387,7 @@ class GnssSatellites : public ILoggable {
    * @param [in] frequency: Frequency of the signal [MHz]
    * @return Pseudo range [m]
    */
-  double GetPseudoRangeECI(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
+  double GetPseudoRangeEci(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
   /**
    * @fn GetCarrierPhaseECEF
    * @brief Calculate carrier phase observed by a receiver for a GNSS satellite

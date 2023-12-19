@@ -835,7 +835,7 @@ double GnssSatellites::GetClockOffset_m(const size_t gnss_satellite_id) const {
   return gnss_info_.GetClockOffset_m(gnss_satellite_id);
 }
 
-double GnssSatellites::GetPseudoRangeECEF(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
+double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
                                           const double frequency) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
@@ -858,7 +858,7 @@ double GnssSatellites::GetPseudoRangeECEF(const size_t gnss_satellite_id, libra:
   return res;
 }
 
-double GnssSatellites::GetPseudoRangeECI(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
+double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
                                          const double frequency) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
