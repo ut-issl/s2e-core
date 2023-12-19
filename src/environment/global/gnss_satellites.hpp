@@ -53,23 +53,6 @@ enum UltraRapidMode {
 class GnssSatelliteBase {
  public:
   /**
-   * @fn GetIndexFromId
-   * @brief Calculate index of GNSS satellite defined in this class from GNSS satellite number defined in GNSS system
-   * @return Index of GNSS satellite defined in this class
-   */
-  int GetIndexFromId(std::string sat_num) const;
-  /**
-   * @fn GetIdFromIndex
-   * @brief Calculate GNSS satellite number defined in GNSS system from index of GNSS satellite defined in this class
-   * @return GNSS satellite number defined in GNSS system
-   */
-  std::string GetIdFromIndex(int index) const;
-  /**
-   * @fn GetNumberOfSatellites
-   * @brief Return total satellite number in all GNSS system (Constant value)
-   */
-  int GetNumberOfSatellites() const;
-  /**
    * @fn GetWhetherValid
    * @brief Return true the GNSS satellite information is available
    * @param [in] gnss_satellite_id: Index of GNSS satellite
@@ -265,12 +248,6 @@ class GnssSatelliteInformation {
   void Update(const double current_unix_time);
 
   /**
-   * @fn GetNumberOfSatellites
-   * @brief Get total number of GNSS satellite (constant value)
-   * @note TODO: Consider this function is really needed.
-   */
-  int GetNumberOfSatellites() const;
-  /**
    * @fn GetWhetherValid
    * @brief Return true the GNSS satellite information is available for both position and clock information
    * @param [in] gnss_satellite_id: Index of GNSS satellite
@@ -355,26 +332,6 @@ class GnssSatellites : public ILoggable {
    */
   void Update(const SimulationTime* simulation_time);
 
-  /**
-   * @fn GetIndexFromId
-   * @brief Calculate index of GNSS satellite defined in this class from GNSS satellite number defined in GNSS system
-   * @note TODO: Is this function really needed? This is just called other accessible function.
-   * @return Index of GNSS satellite defined in this class
-   */
-  int GetIndexFromId(std::string sat_num) const;
-  /**
-   * @fn GetIdFromIndex
-   * @brief Calculate GNSS satellite number defined in GNSS system from index of GNSS satellite defined in this class
-   * @note TODO: Is this function really needed? This is just called other accessible function.
-   * @return GNSS satellite number defined in GNSS system
-   */
-  std::string GetIdFromIndex(int index) const;
-  /**
-   * @fn GetNumberOfSatellites
-   * @brief Return total number of GNSS satellite
-   * @note TODO: Is this function really needed? This is just called other accessible function.
-   */
-  int GetNumberOfSatellites() const;
   /**
    * @fn GetWhetherValid
    * @brief Return true the GNSS satellite information is available for both position and clock
