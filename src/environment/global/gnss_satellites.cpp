@@ -747,16 +747,6 @@ bool GnssSatelliteInformation::GetWhetherValid(const size_t gnss_satellite_id) c
   return false;
 }
 
-libra::Vector<3> GnssSatelliteInformation::GetPosition_ecef_m(const size_t gnss_satellite_id) const {
-  return position_.GetPosition_ecef_m(gnss_satellite_id);
-}
-
-libra::Vector<3> GnssSatelliteInformation::GetPosition_eci_m(const size_t gnss_satellite_id) const {
-  return position_.GetPosition_eci_m(gnss_satellite_id);
-}
-
-double GnssSatelliteInformation::GetClockOffset_m(const size_t gnss_satellite_id) const { return clock_.GetClockOffset_m(gnss_satellite_id); }
-
 // GnssSatellites
 GnssSatellites::GnssSatellites(bool is_calc_enabled) {
   // TODO: Add log enable flag in ini file

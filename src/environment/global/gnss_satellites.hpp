@@ -258,19 +258,19 @@ class GnssSatelliteInformation {
    * @brief Return GNSS satellite position vector in the ECEF frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id) const;
+  inline libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id) const { return position_.GetPosition_ecef_m(gnss_satellite_id); }
   /**
    * @fn GetPosition_eci_m
    * @brief Return GNSS satellite position vector in the ECEF frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const;
+  inline libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const { return position_.GetPosition_eci_m(gnss_satellite_id); }
   /**
    * @fn GetClockOffset_m
    * @brief Return GNSS satellite clock in distance expression [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  double GetClockOffset_m(const size_t gnss_satellite_id) const;
+  inline double GetClockOffset_m(const size_t gnss_satellite_id) const { return clock_.GetClockOffset_m(gnss_satellite_id); }
   /**
    * @fn GetGnssSatPos
    * @brief Return GNSS satellite position information class
