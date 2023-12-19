@@ -331,12 +331,11 @@ class GnssSatellites : public ILoggable {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @note Parameters are defined in GNSSSat_Info for true information
+   * @note Parameters are defined in GNSSSat_Info
    */
-  void Initialize(std::vector<std::vector<std::string>>& true_position_file, int true_position_interpolation_method,
-                  int true_position_interpolation_number, UltraRapidMode true_position_ur_flag,
-                  std::vector<std::vector<std::string>>& true_clock_file, std::string true_clock_file_extension, int true_clock_interpolation_number,
-                  UltraRapidMode true_clock_ur_flag);
+  void Initialize(std::vector<std::vector<std::string>>& position_file, int position_interpolation_method, int position_interpolation_number,
+                  UltraRapidMode position_ur_flag, std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension,
+                  int clock_interpolation_number, UltraRapidMode clock_ur_flag);
   /**
    * @fn IsCalcEnabled
    * @brief Return calculated enabled flag
@@ -345,13 +344,13 @@ class GnssSatellites : public ILoggable {
 
   /**
    * @fn SetUp
-   * @brief Setup both true GNSS satellite information
+   * @brief Setup both GNSS satellite information
    * @param [in] simulation_time: Simulation time information
    */
   void SetUp(const SimulationTime* simulation_time);
   /**
    * @fn Update
-   * @brief Update both true GNSS satellite information
+   * @brief Update both GNSS satellite information
    * @param [in] simulation_time: Simulation time information
    */
   void Update(const SimulationTime* simulation_time);
@@ -372,13 +371,13 @@ class GnssSatellites : public ILoggable {
   std::string GetIdFromIndex(int index) const;
   /**
    * @fn GetNumberOfSatellites
-   * @brief Return total number of GNSS satellite for true information
+   * @brief Return total number of GNSS satellite
    * @note TODO: Is this function really needed? This is just called other accessible function.
    */
   int GetNumberOfSatellites() const;
   /**
    * @fn GetWhetherValid
-   * @brief Return true the GNSS satellite information is available for both position and clock for both true value
+   * @brief Return true the GNSS satellite information is available for both position and clock
    * @param [in] gnss_satellite_id: Index of GNSS satellite
    */
   bool GetWhetherValid(int gnss_satellite_id) const;
@@ -388,10 +387,10 @@ class GnssSatellites : public ILoggable {
    */
   inline double GetStartUnixTime() const { return start_unix_time_; }
   /**
-   * @fn GetTrueInformation
-   * @brief Return GNSS satellite information class for true value system
+   * @fn GetInformation
+   * @brief Return GNSS satellite information class
    */
-  inline const GnssSatelliteInformation& GetTrueInformation() const { return true_info_; }
+  inline const GnssSatelliteInformation& GetInformation() const { return gnss_info_; }
 
   /**
    * @fn GetSatellitePositionEcef
@@ -488,7 +487,7 @@ class GnssSatellites : public ILoggable {
                              const GnssFrameDefinition flag) const;
 
   bool is_calc_enabled_ = true;         //!< Flag to manage the GNSS satellite position calculation
-  GnssSatelliteInformation true_info_;  //!< True information of GNSS satellites
+  GnssSatelliteInformation gnss_info_;  //!< GNSS satellites information
   double start_unix_time_;              //!< Start unix time
 };
 
