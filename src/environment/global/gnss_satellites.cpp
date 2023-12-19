@@ -835,7 +835,7 @@ double GnssSatellites::GetClockOffset_m(const size_t gnss_satellite_id) const {
   return gnss_info_.GetClockOffset_m(gnss_satellite_id);
 }
 
-double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m, double rec_clock,
+double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m, double receiver_clock_offset_m,
                                           const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
@@ -848,7 +848,7 @@ double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra:
   res = sqrt(res);
 
   // clock bias
-  res += rec_clock - gnss_info_.GetClockOffset_m(gnss_satellite_id);
+  res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency_MHz, GnssFrameDefinition::kEcef);
@@ -858,7 +858,7 @@ double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra:
   return res;
 }
 
-double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m, double rec_clock,
+double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m, double receiver_clock_offset_m,
                                          const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
@@ -871,7 +871,7 @@ double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::
   res = sqrt(res);
 
   // clock bias
-  res += rec_clock - gnss_info_.GetClockOffset_m(gnss_satellite_id);
+  res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency_MHz, GnssFrameDefinition::kEci);
@@ -881,8 +881,8 @@ double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::
   return res;
 }
 
-pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m, double rec_clock,
-                                                         const double frequency_MHz) const {
+pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m,
+                                                         double receiver_clock_offset_m, const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
@@ -894,7 +894,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satel
   res = sqrt(res);
 
   // clock bias
-  res += rec_clock - gnss_info_.GetClockOffset_m(gnss_satellite_id);
+  res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency_MHz, GnssFrameDefinition::kEcef);
@@ -911,8 +911,8 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satel
   return {cycle, bias};
 }
 
-pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m, double rec_clock,
-                                                        const double frequency_MHz) const {
+pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_m,
+                                                        double receiver_clock_offset_m, const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
@@ -924,7 +924,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satell
   res = sqrt(res);
 
   // clock bias
-  res += rec_clock - gnss_info_.GetClockOffset_m(gnss_satellite_id);
+  res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_m, frequency_MHz, GnssFrameDefinition::kEci);
