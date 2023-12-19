@@ -389,7 +389,7 @@ class GnssSatellites : public ILoggable {
    */
   double GetPseudoRangeEci(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const;
   /**
-   * @fn GetCarrierPhaseECEF
+   * @fn GetCarrierPhaseEcef
    * @brief Calculate carrier phase observed by a receiver for a GNSS satellite
    * @param [in] gnss_satellite_id: GNSS satellite ID
    * @param [in] rec_position: Receiver position vector in the ECEF frame [m]
@@ -397,10 +397,10 @@ class GnssSatellites : public ILoggable {
    * @param [in] frequency: Frequency of the signal [MHz]
    * @return Carrier phase cycle and bias [-]
    */
-  std::pair<double, double> GetCarrierPhaseECEF(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
+  std::pair<double, double> GetCarrierPhaseEcef(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
                                                 const double frequency) const;
   /**
-   * @fn GetCarrierPhaseECI
+   * @fn GetCarrierPhaseEci
    * @brief Calculate carrier phase observed by a receiver for a GNSS satellite
    * @param [in] gnss_satellite_id: GNSS satellite ID
    * @param [in] rec_position: Receiver position vector in the ECI frame [m]
@@ -408,7 +408,7 @@ class GnssSatellites : public ILoggable {
    * @param [in] frequency: Frequency of the signal [MHz]
    * @return Carrier phase cycle and bias [-]
    */
-  std::pair<double, double> GetCarrierPhaseECI(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
+  std::pair<double, double> GetCarrierPhaseEci(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
                                                const double frequency) const;
 
   // Override ILoggable
