@@ -718,7 +718,7 @@ void GnssSatelliteClock::Update(const double current_unix_time) {
   }
 }
 
-double GnssSatelliteClock::GetSatClock(const size_t gnss_satellite_id) const {
+double GnssSatelliteClock::GetClockOffset_m(const size_t gnss_satellite_id) const {
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return 0.0;
   return clock_offset_m_.at(gnss_satellite_id);
 }
@@ -755,7 +755,7 @@ libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEci(const size_t 
   return position_.GetPosition_eci_m(gnss_satellite_id);
 }
 
-double GnssSatelliteInformation::GetClockOffset_m(const size_t gnss_satellite_id) const { return clock_.GetSatClock(gnss_satellite_id); }
+double GnssSatelliteInformation::GetClockOffset_m(const size_t gnss_satellite_id) const { return clock_.GetClockOffset_m(gnss_satellite_id); }
 
 // GnssSatellites
 GnssSatellites::GnssSatellites(bool is_calc_enabled) {

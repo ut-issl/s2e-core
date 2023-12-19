@@ -193,11 +193,11 @@ class GnssSatelliteClock : public GnssSatelliteBase {
    */
   void Update(const double current_unix_time);
   /**
-   * @fn GetSatClock
+   * @fn GetClockOffset_m
    * @brief Return GNSS satellite clock in distance expression [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  double GetSatClock(const size_t gnss_satellite_id) const;
+  double GetClockOffset_m(const size_t gnss_satellite_id) const;
 
  private:
   std::vector<double> clock_offset_m_;  //!< List of clock bias of all GNSS satellites at specific time expressed in distance [m]
