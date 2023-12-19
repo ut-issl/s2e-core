@@ -24,8 +24,6 @@ enum class GnssFrameDefinition {
   kEci = 1    //!< Use ECI frame for GNSS satellite position frame in Add_IonosphericDelay
 };
 
-// #define GNSS_SATELLITES_DEBUG_OUTPUT //!< For debug output, uncomment this
-
 /**
  * @enum UltraRapidMode
  * @brief Ultra Rapid mode
@@ -469,12 +467,6 @@ class GnssSatellites : public ILoggable {
    */
   std::string GetLogValue() const override;
 
-  /**
-   * @fn DebugOutput
-   * @brief Debug output
-   */
-  void DebugOutput(void);
-
  private:
   /**
    * @fn TrigonometricInterpolation
@@ -498,10 +490,6 @@ class GnssSatellites : public ILoggable {
   bool is_calc_enabled_ = true;         //!< Flag to manage the GNSS satellite position calculation
   GnssSatelliteInformation true_info_;  //!< True information of GNSS satellites
   double start_unix_time_;              //!< Start unix time
-
-#ifdef GNSS_SATELLITES_DEBUG_OUTPUT
-  ofstream ofs_true;  //!< Debug output for true value
-#endif
 };
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_

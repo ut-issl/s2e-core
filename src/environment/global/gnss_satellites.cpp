@@ -847,13 +847,7 @@ libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEci(int gnss_sate
 double GnssSatelliteInformation::GetSatelliteClock(int gnss_satellite_id) const { return clock_.GetSatClock(gnss_satellite_id); }
 
 // GnssSatellites
-GnssSatellites::GnssSatellites(bool is_calc_enabled)
-#ifdef GNSS_SATELLITES_DEBUG_OUTPUT
-    : ofs_true("true.csv"),
-      ofs_estimation("estimation.csv"),
-      ofs_sa("sa.csv")
-#endif
-{
+GnssSatellites::GnssSatellites(bool is_calc_enabled) {
   // TODO: Add log enable flag in ini file
   is_calc_enabled_ = is_calc_enabled;
   if (is_calc_enabled_) {
@@ -900,10 +894,6 @@ void GnssSatellites::Update(const SimulationTime* simulation_time) {
   double elapsed_sec = simulation_time->GetElapsedTime_s();
 
   true_info_.Update(elapsed_sec + start_unix_time_);
-
-#ifdef GNSS_SATELLITES_DEBUG_OUTPUT
-  DebugOutput();
-#endif
 
   return;
 }
@@ -1108,42 +1098,4 @@ std::string GnssSatellites::GetLogValue() const {
   }
 
   return str_tmp;
-}
-
-void GnssSatellites::DebugOutput() {
-#ifdef GNSS_SATELLITES_DEBUG_OUTPUT
-  for (int gnss_satellite_id = 0; gnss_satellite_id < gps_sat_num_; ++gnss_satellite_id) {
-    if (true_info_.GetWhetherValid(gnss_satellite_id)) {
-      auto true_pos = true_info_.GetSatellitePositionEcef(gnss_satellite_id);
-      for (int i = 0; i < 3; ++i) {
-        ofs_true << fixed << setprecision(10) << true_pos[i] << ",";
-      }
-      auto true_clock = true_info_.GetSatelliteClock(gnss_satellite_id);
-      ofs_true << true_clock << ",";
-    } else {
-      for (int i = 0; i < 4; ++i) {
-        ofs_true << 0.0 << ",";
-      }
-    }
-
-    if (GetWhetherValid(gnss_satellite_id)) {
-      auto true_pos = true_info_.GetSatellitePositionEcef(gnss_satellite_id);
-      auto true_clock = true_info_.GetSatelliteClock(gnss_satellite_id);
-
-      for (int i = 0; i < 3; ++i) {
-        ofs_sa << fixed << setprecision(10) << estimation_pos[i] - true_pos[i] << ",";
-      }
-      ofs_sa << fixed << setprecision(10) << estimation_clock - true_clock << ",";
-    } else {
-      for (int i = 0; i < 4; ++i) {
-        ofs_sa << 0.0 << ",";
-      }
-    }
-  }
-
-  ofs_true << endl;
-  ofs_estimation << endl;
-  ofs_sa << endl;
-#endif
-  return;
 }
