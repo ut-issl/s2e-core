@@ -266,11 +266,11 @@ class GnssSatelliteInformation {
    */
   libra::Vector<3> GetSatellitePositionEci(const size_t gnss_satellite_id) const;
   /**
-   * @fn GetSatelliteClock
+   * @fn GetClockOffset_m
    * @brief Return GNSS satellite clock in distance expression [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  double GetSatelliteClock(const size_t gnss_satellite_id) const;
+  double GetClockOffset_m(const size_t gnss_satellite_id) const;
   /**
    * @fn GetGnssSatPos
    * @brief Return GNSS satellite position information class
@@ -362,11 +362,11 @@ class GnssSatellites : public ILoggable {
    */
   libra::Vector<3> GetSatellitePositionEci(const size_t gnss_satellite_id) const;
   /**
-   * @fn GetSatelliteClock
+   * @fn GetClockOffset_m
    * @brief Return GNSS satellite clock
    * @param [in] gnss_satellite_id: GNSS satellite ID
    */
-  double GetSatelliteClock(const size_t gnss_satellite_id) const;
+  double GetClockOffset_m(const size_t gnss_satellite_id) const;
 
   /**
    * @fn GetPseudoRangeECEF
