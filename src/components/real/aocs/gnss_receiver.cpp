@@ -121,7 +121,7 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra:
     if (gnss_id_.find(id_tmp[0]) == std::string::npos) continue;
 
     // compute direction from sat to gnss in body-fixed frame
-    gnss_sat_pos_i = gnss_satellites_->GetSatellitePositionEci(i);
+    gnss_sat_pos_i = gnss_satellites_->GetPosition_eci_m(i);
     antenna_to_satellite_i_m = gnss_sat_pos_i - ant_pos_i;
     double normalizer = 1 / antenna_to_satellite_i_m.CalcNorm();
     ant2gnss_i_n = normalizer * antenna_to_satellite_i_m;

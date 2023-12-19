@@ -747,11 +747,11 @@ bool GnssSatelliteInformation::GetWhetherValid(const size_t gnss_satellite_id) c
   return false;
 }
 
-libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEcef(const size_t gnss_satellite_id) const {
+libra::Vector<3> GnssSatelliteInformation::GetPosition_ecef_m(const size_t gnss_satellite_id) const {
   return position_.GetPosition_ecef_m(gnss_satellite_id);
 }
 
-libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEci(const size_t gnss_satellite_id) const {
+libra::Vector<3> GnssSatelliteInformation::GetPosition_eci_m(const size_t gnss_satellite_id) const {
   return position_.GetPosition_eci_m(gnss_satellite_id);
 }
 
@@ -817,24 +817,24 @@ bool GnssSatellites::GetWhetherValid(const size_t gnss_satellite_id) const {
     return false;
 }
 
-libra::Vector<3> GnssSatellites::GetSatellitePositionEcef(const size_t gnss_satellite_id) const {
+libra::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_id) const {
   // gnss_satellite_id is wrong or not valid
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) {
     libra::Vector<3> res(0);
     return res;
   }
 
-  return gnss_info_.GetSatellitePositionEcef(gnss_satellite_id);
+  return gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
 }
 
-libra::Vector<3> GnssSatellites::GetSatellitePositionEci(const size_t gnss_satellite_id) const {
+libra::Vector<3> GnssSatellites::GetPosition_eci_m(const size_t gnss_satellite_id) const {
   // gnss_satellite_id is wrong or not valid
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) {
     libra::Vector<3> res(0);
     return res;
   }
 
-  return gnss_info_.GetSatellitePositionEci(gnss_satellite_id);
+  return gnss_info_.GetPosition_eci_m(gnss_satellite_id);
 }
 
 double GnssSatellites::GetClockOffset_m(const size_t gnss_satellite_id) const {
@@ -851,7 +851,7 @@ double GnssSatellites::GetPseudoRangeECEF(const size_t gnss_satellite_id, libra:
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   double res = 0.0;
-  auto gnss_position = gnss_info_.GetSatellitePositionEcef(gnss_satellite_id);
+  auto gnss_position = gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(rec_position(i) - gnss_position(i), 2.0);
   }
@@ -874,7 +874,7 @@ double GnssSatellites::GetPseudoRangeECI(const size_t gnss_satellite_id, libra::
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   double res = 0.0;
-  auto gnss_position = gnss_info_.GetSatellitePositionEci(gnss_satellite_id);
+  auto gnss_position = gnss_info_.GetPosition_eci_m(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(rec_position(i) - gnss_position(i), 2.0);
   }
@@ -897,7 +897,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECEF(const size_t gnss_satel
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
   double res = 0.0;
-  auto gnss_position = gnss_info_.GetSatellitePositionEcef(gnss_satellite_id);
+  auto gnss_position = gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(rec_position(i) - gnss_position(i), 2.0);
   }
@@ -927,7 +927,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECI(const size_t gnss_satell
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
   double res = 0.0;
-  auto gnss_position = gnss_info_.GetSatellitePositionEci(gnss_satellite_id);
+  auto gnss_position = gnss_info_.GetPosition_eci_m(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(rec_position(i) - gnss_position(i), 2.0);
   }
@@ -967,9 +967,9 @@ double GnssSatellites::AddIonosphericDelay(const size_t gnss_satellite_id, const
 
   libra::Vector<3> gnss_position;
   if (flag == GnssFrameDefinition::kEcef)
-    gnss_position = gnss_info_.GetSatellitePositionEcef(gnss_satellite_id);
+    gnss_position = gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
   else if (flag == GnssFrameDefinition::kEci)
-    gnss_position = gnss_info_.GetSatellitePositionEci(gnss_satellite_id);
+    gnss_position = gnss_info_.GetPosition_eci_m(gnss_satellite_id);
 
   double angle_rad = CalcAngleTwoVectors_rad(rec_position, gnss_position - rec_position);
   const double default_delay = 20.0;  //[m] default delay
@@ -998,7 +998,7 @@ std::string GnssSatellites::GetLogValue() const {
   std::string str_tmp = "";
 
   for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += WriteVector(gnss_info_.GetSatellitePositionEcef((int)gps_index), 16);
+    str_tmp += WriteVector(gnss_info_.GetPosition_ecef_m((int)gps_index), 16);
     str_tmp += WriteScalar(gnss_info_.GetClockOffset_m((int)gps_index));
   }
 

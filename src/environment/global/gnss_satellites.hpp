@@ -254,17 +254,17 @@ class GnssSatelliteInformation {
    */
   bool GetWhetherValid(const size_t gnss_satellite_id) const;
   /**
-   * @fn GetSatellitePositionEcef
+   * @fn GetPosition_ecef_m
    * @brief Return GNSS satellite position vector in the ECEF frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetSatellitePositionEcef(const size_t gnss_satellite_id) const;
+  libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id) const;
   /**
-   * @fn GetSatellitePositionEci
+   * @fn GetPosition_eci_m
    * @brief Return GNSS satellite position vector in the ECEF frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetSatellitePositionEci(const size_t gnss_satellite_id) const;
+  libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const;
   /**
    * @fn GetClockOffset_m
    * @brief Return GNSS satellite clock in distance expression [m]
@@ -350,17 +350,17 @@ class GnssSatellites : public ILoggable {
   inline const GnssSatelliteInformation& GetInformation() const { return gnss_info_; }
 
   /**
-   * @fn GetSatellitePositionEcef
+   * @fn GetPosition_ecef_m
    * @brief Return GNSS satellite position in the ECEF frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID
    */
-  libra::Vector<3> GetSatellitePositionEcef(const size_t gnss_satellite_id) const;
+  libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id) const;
   /**
-   * @fn GetSatellitePositionEci
+   * @fn GetPosition_eci_m
    * @brief Return GNSS satellite position in the ECI frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID
    */
-  libra::Vector<3> GetSatellitePositionEci(const size_t gnss_satellite_id) const;
+  libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const;
   /**
    * @fn GetClockOffset_m
    * @brief Return GNSS satellite clock
