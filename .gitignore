@@ -13,6 +13,7 @@ data/**/logs/
 
 # CSIPCE
 scripts/tmp_cspice/
+ExtLibraries/*
 
 # Executables
 *.exe

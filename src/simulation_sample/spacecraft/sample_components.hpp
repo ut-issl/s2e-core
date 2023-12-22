@@ -9,6 +9,7 @@
 #include <components/examples/example_change_structure.hpp>
 #include <components/examples/example_i2c_controller_for_hils.hpp>
 #include <components/examples/example_i2c_target_for_hils.hpp>
+#include <components/examples/example_i2c_target_for_hils_raspi.hpp>
 #include <components/examples/example_serial_communication_for_hils.hpp>
 #include <components/ideal/force_generator.hpp>
 #include <components/ideal/torque_generator.hpp>
@@ -119,6 +120,8 @@ class SampleComponents : public InstalledComponents {
   ExampleI2cControllerForHils* exp_hils_i2c_controller_;        //!< Example of HILS I2C controller
   ExampleI2cTargetForHils* exp_hils_i2c_target_;                //!< Example of HILS I2C target
   */
+
+  ExampleI2cTargetForHilsRaspi* exp_hils_i2c_target_raspi_;                //!< Example of HILS I2C target
 
   // States
   const SimulationConfiguration* configuration_;  //!< Simulation settings

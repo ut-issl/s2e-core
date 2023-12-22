@@ -32,6 +32,7 @@ examples/example_serial_communication_with_obc.cpp
 examples/example_serial_communication_for_hils.cpp
 examples/example_i2c_controller_for_hils.cpp
 examples/example_i2c_target_for_hils.cpp
+examples/example_i2c_target_for_hils_raspi.cpp
 
 ideal/force_generator.cpp
 ideal/torque_generator.cpp

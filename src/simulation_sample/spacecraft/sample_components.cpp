@@ -115,6 +115,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // I2C tutorial. Comment out when not in use.
   // exp_hils_i2c_controller_ = new ExampleI2cControllerForHils(30, clock_generator, 5, 115200, 256, 256, hils_port_manager_);
   // exp_hils_i2c_target_ = new ExampleI2cTargetForHils(1, clock_generator, 0, 0x44, obc_, 6, hils_port_manager_);
+  exp_hils_i2c_target_raspi_ = new ExampleI2cTargetForHilsRaspi(1, clock_generator, 0, 0x44, obc_, 6, hils_port_manager_);
 
   /**************/
 
@@ -159,8 +160,11 @@ SampleComponents::~SampleComponents() {
   // delete exp_hils_uart_sender_;
   // delete exp_hils_i2c_controller_;
   // delete exp_hils_i2c_target_;
+  delete exp_hils_i2c_target_raspi_;
+
   delete obc_;
   delete hils_port_manager_;  // delete after exp_hils
+  
 }
 
 libra::Vector<3> SampleComponents::GenerateForce_b_N() {
