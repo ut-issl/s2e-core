@@ -31,6 +31,22 @@ TEST(DateTime, ConstructorWithString) {
 }
 
 /**
+ * @brief Test Constructor with epoch time
+ */
+TEST(DateTime, ConstructorWithEpochTime) {
+  // Reference for correctness check: https://www.epochconverter.com/
+  EpochTime epoch_time(1686145305, 0.3);
+  DateTime date_time(epoch_time);
+
+  EXPECT_EQ(2023, date_time.GetYear());
+  EXPECT_EQ(6, date_time.GetMonth());
+  EXPECT_EQ(7, date_time.GetDay());
+  EXPECT_EQ(13, date_time.GetHour());
+  EXPECT_EQ(41, date_time.GetMinute());
+  EXPECT_DOUBLE_EQ(45.3, date_time.GetSecond());
+}
+
+/**
  * @brief Test get as string
  */
 TEST(DateTime, GetAsString) {
