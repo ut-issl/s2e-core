@@ -25,9 +25,12 @@ else()
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wall")
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wextra")
   target_compile_options(${PROJECT_NAME} PUBLIC "-Wpedantic")
+  target_compile_options(${PROJECT_NAME} PUBLIC "-pthread")
 
   # link option
   target_link_options(${PROJECT_NAME} PUBLIC "-rdynamic")
+  arget_link_options(${PROJECT_NAME} PUBLIC "-lpigpio")
+  arget_link_options(${PROJECT_NAME} PUBLIC "-lrt")
 
   if(NOT BUILD_64BIT)
     # 32bit

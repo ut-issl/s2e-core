@@ -7,6 +7,8 @@
 #define S2E_COMPONENTS_EXAMPLES_EXAMPLE_I2C_TARGET_FOR_HILS_RASPI_HPP_
 
 #include <vector>
+#include <pigpio.h>
+#include <unistd.h>
 
 #include "../base/component.hpp"
 #include "../base/i2c_target_communication_with_obc.hpp"
@@ -39,7 +41,7 @@ class ExampleI2cTargetForHilsRaspi : public Component, public I2cTargetCommunica
    * @brief Destructor
    */
   ~ExampleI2cTargetForHilsRaspi();
-
+  int getControlBits(int, bool);
  protected:
   // Override functions for Component
   /**
@@ -52,6 +54,12 @@ class ExampleI2cTargetForHilsRaspi : public Component, public I2cTargetCommunica
   unsigned char tlm_counter_ = 0;           //!< Telemetry counter
   const unsigned int kStoredFrameSize = 3;  //!< Frame size
   const unsigned char kNumAlphabet = 26;    //!< Number of alphabet
+  
+  const int slaveAddress = 0x10;  // <-- Your address of choice
+  bsc_xfer_t xfer;                // Struct to control data flow
+  int command = 0;
+  char hello[] = "Hello World";
+  int nTransferred, nRxFIFO, nTxFIFO;
 };
 
 #endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_I2C_TARGET_FOR_HILS_RASPI_HPP_
