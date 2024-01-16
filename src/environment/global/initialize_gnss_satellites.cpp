@@ -297,61 +297,30 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
 
   std::string directory_path = ini_file.ReadString(section, "directory_path");
 
-  // True position
-  std::vector<std::vector<std::string>> true_position_file;
-  UltraRapidMode true_position_ur_flag = kNotUse;
-  ReadSp3Files(directory_path, ini_file.ReadString(section, "true_position_file_sort"), ini_file.ReadString(section, "true_position_first"),
-               ini_file.ReadString(section, "true_position_last"), true_position_file, true_position_ur_flag);
-  int true_position_interpolation_method = ini_file.ReadInt(section, "true_position_interpolation_method");
-  int true_position_interpolation_number = ini_file.ReadInt(section, "true_position_interpolation_number");
+  // Position
+  std::vector<std::vector<std::string>> position_file;
+  UltraRapidMode position_ur_flag = kNotUse;
+  ReadSp3Files(directory_path, ini_file.ReadString(section, "position_file_sort"), ini_file.ReadString(section, "position_first"),
+               ini_file.ReadString(section, "position_last"), position_file, position_ur_flag);
+  int position_interpolation_method = ini_file.ReadInt(section, "position_interpolation_method");
+  int position_interpolation_number = ini_file.ReadInt(section, "position_interpolation_number");
 
-  // True clock
-  std::vector<std::vector<std::string>> true_clock_file;
-  UltraRapidMode true_clock_ur_flag = kNotUse;
-  std::string true_clock_file_extension = ini_file.ReadString(section, "true_clock_file_extension");
-  if (true_clock_file_extension == ".sp3") {
-    ReadSp3Files(directory_path, ini_file.ReadString(section, "true_clock_file_sort"), ini_file.ReadString(section, "true_clock_first"),
-                 ini_file.ReadString(section, "true_clock_last"), true_clock_file, true_clock_ur_flag);
+  // Clock
+  std::vector<std::vector<std::string>> clock_file;
+  UltraRapidMode clock_ur_flag = kNotUse;
+  std::string clock_file_extension = ini_file.ReadString(section, "clock_file_extension");
+  if (clock_file_extension == ".sp3") {
+    ReadSp3Files(directory_path, ini_file.ReadString(section, "clock_file_sort"), ini_file.ReadString(section, "clock_first"),
+                 ini_file.ReadString(section, "clock_last"), clock_file, clock_ur_flag);
   } else {
-    ReadClockFiles(directory_path, true_clock_file_extension, ini_file.ReadString(section, "true_clock_file_sort"),
-                   ini_file.ReadString(section, "true_clock_first"), ini_file.ReadString(section, "true_clock_last"), true_clock_file);
+    ReadClockFiles(directory_path, clock_file_extension, ini_file.ReadString(section, "clock_file_sort"), ini_file.ReadString(section, "clock_first"),
+                   ini_file.ReadString(section, "clock_last"), clock_file);
   }
-  int true_clock_interpolation_number = ini_file.ReadInt(section, "true_clock_interpolation_number");
-
-  // Estimated position
-  std::vector<std::vector<std::string>> estimate_position_file;
-  UltraRapidMode estimate_position_ur_flag = kNotUse;
-  ReadSp3Files(directory_path, ini_file.ReadString(section, "estimate_position_file_sort"), ini_file.ReadString(section, "estimate_position_first"),
-               ini_file.ReadString(section, "estimate_position_last"), estimate_position_file, estimate_position_ur_flag);
-  int estimate_position_interpolation_method = ini_file.ReadInt(section, "estimate_position_interpolation_method");
-  int estimate_position_interpolation_number = ini_file.ReadInt(section, "estimate_position_interpolation_number");
-  if (estimate_position_ur_flag != kNotUse) {
-    std::string ur_flag = ini_file.ReadString(section, "estimate_ur_observe_or_predict");
-    if (ur_flag.find("observe") != std::string::npos) {
-      estimate_position_ur_flag = (UltraRapidMode)((int)kObserve1 + (ur_flag.back() - '1'));
-    } else {
-      estimate_position_ur_flag = (UltraRapidMode)((int)kPredict1 + (ur_flag.back() - '1'));
-    }
-  }
-
-  // Estimated clock
-  std::vector<std::vector<std::string>> estimate_clock_file;
-  UltraRapidMode estimate_clock_ur_flag = estimate_position_ur_flag;
-  std::string estimate_clock_file_extension = ini_file.ReadString(section, "estimate_clock_file_extension");
-  if (estimate_clock_file_extension == ".sp3") {
-    ReadSp3Files(directory_path, ini_file.ReadString(section, "estimate_clock_file_sort"), ini_file.ReadString(section, "estimate_clock_first"),
-                 ini_file.ReadString(section, "estimate_clock_last"), estimate_clock_file, estimate_clock_ur_flag);
-  } else {
-    ReadClockFiles(directory_path, estimate_clock_file_extension, ini_file.ReadString(section, "estimate_clock_file_sort"),
-                   ini_file.ReadString(section, "estimate_clock_first"), ini_file.ReadString(section, "estimate_clock_last"), estimate_clock_file);
-  }
-  int estimate_clock_interpolation_number = ini_file.ReadInt(section, "estimate_clock_interpolation_number");
+  int clock_interpolation_number = ini_file.ReadInt(section, "clock_interpolation_number");
 
   // Initialize GNSS satellites
-  gnss_satellites->Initialize(true_position_file, true_position_interpolation_method, true_position_interpolation_number, true_position_ur_flag,
-                              true_clock_file, true_clock_file_extension, true_clock_interpolation_number, true_clock_ur_flag, estimate_position_file,
-                              estimate_position_interpolation_method, estimate_position_interpolation_number, estimate_position_ur_flag,
-                              estimate_clock_file, estimate_clock_file_extension, estimate_clock_interpolation_number, estimate_clock_ur_flag);
+  gnss_satellites->Initialize(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag, clock_file,
+                              clock_file_extension, clock_interpolation_number, clock_ur_flag);
 
   return gnss_satellites;
 }

@@ -847,13 +847,7 @@ libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEci(int gnss_sate
 double GnssSatelliteInformation::GetSatelliteClock(int gnss_satellite_id) const { return clock_.GetSatClock(gnss_satellite_id); }
 
 // GnssSatellites
-GnssSatellites::GnssSatellites(bool is_calc_enabled)
-#ifdef GNSS_SATELLITES_DEBUG_OUTPUT
-    : ofs_true("true.csv"),
-      ofs_estimation("estimation.csv"),
-      ofs_sa("sa.csv")
-#endif
-{
+GnssSatellites::GnssSatellites(bool is_calc_enabled) {
   // TODO: Add log enable flag in ini file
   is_calc_enabled_ = is_calc_enabled;
   if (is_calc_enabled_) {
@@ -865,26 +859,11 @@ GnssSatellites::GnssSatellites(bool is_calc_enabled)
 
 bool GnssSatellites::IsCalcEnabled() const { return is_calc_enabled_; }
 
-void GnssSatellites::Initialize(vector<vector<string>>& true_position_file, int true_position_interpolation_method,
-                                int true_position_interpolation_number, UltraRapidMode true_position_ur_flag,
-
-                                vector<vector<string>>& true_clock_file, string true_clock_file_extension, int true_clock_interpolation_number,
-                                UltraRapidMode true_clock_ur_flag,
-
-                                vector<vector<string>>& estimate_position_file, int estimate_position_interpolation_method,
-                                int estimate_position_interpolation_number, UltraRapidMode estimate_position_ur_flag,
-
-                                vector<vector<string>>& estimate_clock_file, string estimate_clock_file_extension,
-                                int estimate_clock_interpolation_number, UltraRapidMode estimate_clock_ur_flag) {
-  true_info_.Initialize(true_position_file, true_position_interpolation_method, true_position_interpolation_number, true_position_ur_flag,
-
-                        true_clock_file, true_clock_file_extension, true_clock_interpolation_number, true_clock_ur_flag);
-
-  estimate_info_.Initialize(estimate_position_file, estimate_position_interpolation_method, estimate_position_interpolation_number,
-                            estimate_position_ur_flag,
-
-                            estimate_clock_file, estimate_clock_file_extension, estimate_clock_interpolation_number, estimate_clock_ur_flag);
-
+void GnssSatellites::Initialize(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
+                                UltraRapidMode position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension,
+                                int clock_interpolation_number, UltraRapidMode clock_ur_flag) {
+  gnss_info_.Initialize(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag, clock_file,
+                        clock_file_extension, clock_interpolation_number, clock_ur_flag);
   return;
 }
 
@@ -901,8 +880,7 @@ void GnssSatellites::SetUp(const SimulationTime* simulation_time) {
   start_tm->tm_sec = (int)start_sec;
   double unix_time = (double)mktime(start_tm) + start_sec - floor(start_sec);
   std::free(start_tm);
-  true_info_.SetUp(unix_time, simulation_time->GetSimulationStep_s());
-  estimate_info_.SetUp(unix_time, simulation_time->GetSimulationStep_s());
+  gnss_info_.SetUp(unix_time, simulation_time->GetSimulationStep_s());
 
   start_unix_time_ = unix_time;
 
@@ -914,26 +892,21 @@ void GnssSatellites::Update(const SimulationTime* simulation_time) {
 
   double elapsed_sec = simulation_time->GetElapsedTime_s();
 
-  true_info_.Update(elapsed_sec + start_unix_time_);
-  estimate_info_.Update(elapsed_sec + start_unix_time_);
-
-#ifdef GNSS_SATELLITES_DEBUG_OUTPUT
-  DebugOutput();
-#endif
+  gnss_info_.Update(elapsed_sec + start_unix_time_);
 
   return;
 }
 
-int GnssSatellites::GetNumberOfSatellites() const { return estimate_info_.GetNumberOfSatellites(); }
+int GnssSatellites::GetNumberOfSatellites() const { return gnss_info_.GetNumberOfSatellites(); }
 
-string GnssSatellites::GetIdFromIndex(int index) const { return estimate_info_.GetGnssSatPos().GetIdFromIndex(index); }
+string GnssSatellites::GetIdFromIndex(int index) const { return gnss_info_.GetGnssSatPos().GetIdFromIndex(index); }
 
-int GnssSatellites::GetIndexFromId(string sat_num) const { return estimate_info_.GetGnssSatPos().GetIndexFromId(sat_num); }
+int GnssSatellites::GetIndexFromId(string sat_num) const { return gnss_info_.GetGnssSatPos().GetIndexFromId(sat_num); }
 
 bool GnssSatellites::GetWhetherValid(int gnss_satellite_id) const {
   if (gnss_satellite_id >= GetNumberOfSatellites()) return false;
 
-  if (true_info_.GetWhetherValid(gnss_satellite_id) && estimate_info_.GetWhetherValid(gnss_satellite_id))
+  if (gnss_info_.GetWhetherValid(gnss_satellite_id) && gnss_info_.GetWhetherValid(gnss_satellite_id))
     return true;
   else
     return false;
@@ -946,7 +919,7 @@ libra::Vector<3> GnssSatellites::GetSatellitePositionEcef(const int gnss_satelli
     return res;
   }
 
-  return estimate_info_.GetSatellitePositionEcef(gnss_satellite_id);
+  return gnss_info_.GetSatellitePositionEcef(gnss_satellite_id);
 }
 
 libra::Vector<3> GnssSatellites::GetSatellitePositionEci(const int gnss_satellite_id) const {
@@ -956,7 +929,7 @@ libra::Vector<3> GnssSatellites::GetSatellitePositionEci(const int gnss_satellit
     return res;
   }
 
-  return estimate_info_.GetSatellitePositionEci(gnss_satellite_id);
+  return gnss_info_.GetSatellitePositionEci(gnss_satellite_id);
 }
 
 double GnssSatellites::GetSatelliteClock(const int gnss_satellite_id) const {
@@ -964,7 +937,7 @@ double GnssSatellites::GetSatelliteClock(const int gnss_satellite_id) const {
     return 0.0;
   }
 
-  return estimate_info_.GetSatelliteClock(gnss_satellite_id);
+  return gnss_info_.GetSatelliteClock(gnss_satellite_id);
 }
 
 double GnssSatellites::GetPseudoRangeECEF(const int gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
@@ -973,14 +946,14 @@ double GnssSatellites::GetPseudoRangeECEF(const int gnss_satellite_id, libra::Ve
   if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   double res = 0.0;
-  auto gnss_position = true_info_.GetSatellitePositionEcef(gnss_satellite_id);
+  auto gnss_position = gnss_info_.GetSatellitePositionEcef(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(rec_position(i) - gnss_position(i), 2.0);
   }
   res = sqrt(res);
 
   // clock bias
-  res += rec_clock - true_info_.GetSatelliteClock(gnss_satellite_id);
+  res += rec_clock - gnss_info_.GetSatelliteClock(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, rec_position, frequency, GnssFrameDefinition::kEcef);
@@ -995,14 +968,14 @@ double GnssSatellites::GetPseudoRangeECI(const int gnss_satellite_id, libra::Vec
   if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   double res = 0.0;
-  auto gnss_position = true_info_.GetSatellitePositionEci(gnss_satellite_id);
+  auto gnss_position = gnss_info_.GetSatellitePositionEci(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(rec_position(i) - gnss_position(i), 2.0);
   }
   res = sqrt(res);
 
   // clock bias
-  res += rec_clock - true_info_.GetSatelliteClock(gnss_satellite_id);
+  res += rec_clock - gnss_info_.GetSatelliteClock(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, rec_position, frequency, GnssFrameDefinition::kEci);
@@ -1018,14 +991,14 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECEF(const int gnss_satellit
   if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
   double res = 0.0;
-  auto gnss_position = true_info_.GetSatellitePositionEcef(gnss_satellite_id);
+  auto gnss_position = gnss_info_.GetSatellitePositionEcef(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(rec_position(i) - gnss_position(i), 2.0);
   }
   res = sqrt(res);
 
   // clock bias
-  res += rec_clock - true_info_.GetSatelliteClock(gnss_satellite_id);
+  res += rec_clock - gnss_info_.GetSatelliteClock(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, rec_position, frequency, GnssFrameDefinition::kEcef);
@@ -1048,14 +1021,14 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECI(const int gnss_satellite
   if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
   double res = 0.0;
-  auto gnss_position = true_info_.GetSatellitePositionEci(gnss_satellite_id);
+  auto gnss_position = gnss_info_.GetSatellitePositionEci(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(rec_position(i) - gnss_position(i), 2.0);
   }
   res = sqrt(res);
 
   // clock bias
-  res += rec_clock - true_info_.GetSatelliteClock(gnss_satellite_id);
+  res += rec_clock - gnss_info_.GetSatelliteClock(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, rec_position, frequency, GnssFrameDefinition::kEci);
@@ -1088,9 +1061,9 @@ double GnssSatellites::AddIonosphericDelay(const int gnss_satellite_id, const li
 
   libra::Vector<3> gnss_position;
   if (flag == GnssFrameDefinition::kEcef)
-    gnss_position = true_info_.GetSatellitePositionEcef(gnss_satellite_id);
+    gnss_position = gnss_info_.GetSatellitePositionEcef(gnss_satellite_id);
   else if (flag == GnssFrameDefinition::kEci)
-    gnss_position = true_info_.GetSatellitePositionEci(gnss_satellite_id);
+    gnss_position = gnss_info_.GetSatellitePositionEci(gnss_satellite_id);
 
   double angle_rad = CalcAngleTwoVectors_rad(rec_position, gnss_position - rec_position);
   const double default_delay = 20.0;  //[m] default delay
@@ -1119,62 +1092,9 @@ std::string GnssSatellites::GetLogValue() const {
   std::string str_tmp = "";
 
   for (size_t gps_index = 0; gps_index < gps_sat_num_; gps_index++) {
-    str_tmp += WriteVector(true_info_.GetSatellitePositionEcef((int)gps_index), 16);
-    str_tmp += WriteScalar(true_info_.GetSatelliteClock((int)gps_index));
+    str_tmp += WriteVector(gnss_info_.GetSatellitePositionEcef((int)gps_index), 16);
+    str_tmp += WriteScalar(gnss_info_.GetSatelliteClock((int)gps_index));
   }
 
   return str_tmp;
-}
-
-void GnssSatellites::DebugOutput() {
-#ifdef GNSS_SATELLITES_DEBUG_OUTPUT
-  for (int gnss_satellite_id = 0; gnss_satellite_id < gps_sat_num_; ++gnss_satellite_id) {
-    if (true_info_.GetWhetherValid(gnss_satellite_id)) {
-      auto true_pos = true_info_.GetSatellitePositionEcef(gnss_satellite_id);
-      for (int i = 0; i < 3; ++i) {
-        ofs_true << fixed << setprecision(10) << true_pos[i] << ",";
-      }
-      auto true_clock = true_info_.GetSatelliteClock(gnss_satellite_id);
-      ofs_true << true_clock << ",";
-    } else {
-      for (int i = 0; i < 4; ++i) {
-        ofs_true << 0.0 << ",";
-      }
-    }
-
-    if (estimate_info_.GetWhetherValid(gnss_satellite_id)) {
-      auto estimation_pos = estimate_info_.GetSatellitePositionEcef(gnss_satellite_id);
-      for (int i = 0; i < 3; ++i) {
-        ofs_estimation << fixed << setprecision(10) << estimation_pos[i] << ",";
-      }
-      auto estimation_clock = estimate_info_.GetSatelliteClock(gnss_satellite_id);
-      ofs_estimation << estimation_clock << ",";
-    } else {
-      for (int i = 0; i < 4; ++i) {
-        ofs_estimation << 0.0 << ",";
-      }
-    }
-
-    if (GetWhetherValid(gnss_satellite_id)) {
-      auto true_pos = true_info_.GetSatellitePositionEcef(gnss_satellite_id);
-      auto true_clock = true_info_.GetSatelliteClock(gnss_satellite_id);
-      auto estimation_pos = estimate_info_.GetSatellitePositionEcef(gnss_satellite_id);
-      auto estimation_clock = estimate_info_.GetSatelliteClock(gnss_satellite_id);
-
-      for (int i = 0; i < 3; ++i) {
-        ofs_sa << fixed << setprecision(10) << estimation_pos[i] - true_pos[i] << ",";
-      }
-      ofs_sa << fixed << setprecision(10) << estimation_clock - true_clock << ",";
-    } else {
-      for (int i = 0; i < 4; ++i) {
-        ofs_sa << 0.0 << ",";
-      }
-    }
-  }
-
-  ofs_true << endl;
-  ofs_estimation << endl;
-  ofs_sa << endl;
-#endif
-  return;
 }

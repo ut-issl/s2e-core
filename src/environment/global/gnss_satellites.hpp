@@ -24,8 +24,6 @@ enum class GnssFrameDefinition {
   kEci = 1    //!< Use ECI frame for GNSS satellite position frame in Add_IonosphericDelay
 };
 
-// #define GNSS_SATELLITES_DEBUG_OUTPUT //!< For debug output, uncomment this
-
 /**
  * @enum UltraRapidMode
  * @brief Ultra Rapid mode
@@ -333,15 +331,11 @@ class GnssSatellites : public ILoggable {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @note Parameters are defined in GNSSSat_Info for true and estimated information
+   * @note Parameters are defined in GNSSSat_Info
    */
-  void Initialize(std::vector<std::vector<std::string>>& true_position_file, int true_position_interpolation_method,
-                  int true_position_interpolation_number, UltraRapidMode true_position_ur_flag,
-                  std::vector<std::vector<std::string>>& true_clock_file, std::string true_clock_file_extension, int true_clock_interpolation_number,
-                  UltraRapidMode true_clock_ur_flag, std::vector<std::vector<std::string>>& estimate_position_file,
-                  int estimate_position_interpolation_method, int estimate_position_interpolation_number, UltraRapidMode estimate_position_ur_flag,
-                  std::vector<std::vector<std::string>>& estimate_clock_file, std::string estimate_clock_file_extension,
-                  int estimate_clock_interpolation_number, UltraRapidMode estimate_clock_ur_flag);
+  void Initialize(std::vector<std::vector<std::string>>& position_file, int position_interpolation_method, int position_interpolation_number,
+                  UltraRapidMode position_ur_flag, std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension,
+                  int clock_interpolation_number, UltraRapidMode clock_ur_flag);
   /**
    * @fn IsCalcEnabled
    * @brief Return calculated enabled flag
@@ -350,13 +344,13 @@ class GnssSatellites : public ILoggable {
 
   /**
    * @fn SetUp
-   * @brief Setup both true and estimated GNSS satellite information
+   * @brief Setup both GNSS satellite information
    * @param [in] simulation_time: Simulation time information
    */
   void SetUp(const SimulationTime* simulation_time);
   /**
    * @fn Update
-   * @brief Update both true and estimated GNSS satellite information
+   * @brief Update both GNSS satellite information
    * @param [in] simulation_time: Simulation time information
    */
   void Update(const SimulationTime* simulation_time);
@@ -377,13 +371,13 @@ class GnssSatellites : public ILoggable {
   std::string GetIdFromIndex(int index) const;
   /**
    * @fn GetNumberOfSatellites
-   * @brief Return total number of GNSS satellite for estimated information
+   * @brief Return total number of GNSS satellite
    * @note TODO: Is this function really needed? This is just called other accessible function.
    */
   int GetNumberOfSatellites() const;
   /**
    * @fn GetWhetherValid
-   * @brief Return true the GNSS satellite information is available for both position and clock for both true and estimated value
+   * @brief Return true the GNSS satellite information is available for both position and clock
    * @param [in] gnss_satellite_id: Index of GNSS satellite
    */
   bool GetWhetherValid(int gnss_satellite_id) const;
@@ -393,15 +387,10 @@ class GnssSatellites : public ILoggable {
    */
   inline double GetStartUnixTime() const { return start_unix_time_; }
   /**
-   * @fn GetTrueInformation
-   * @brief Return GNSS satellite information class for true value system
+   * @fn GetInformation
+   * @brief Return GNSS satellite information class
    */
-  inline const GnssSatelliteInformation& GetTrueInformation() const { return true_info_; }
-  /**
-   * @fn GetEstimationInformation
-   * @brief Return GNSS satellite information class for estimated value system
-   */
-  inline const GnssSatelliteInformation& GetEstimationInformation() const { return estimate_info_; }
+  inline const GnssSatelliteInformation& GetInformation() const { return gnss_info_; }
 
   /**
    * @fn GetSatellitePositionEcef
@@ -477,12 +466,6 @@ class GnssSatellites : public ILoggable {
    */
   std::string GetLogValue() const override;
 
-  /**
-   * @fn DebugOutput
-   * @brief Debug output
-   */
-  void DebugOutput(void);
-
  private:
   /**
    * @fn TrigonometricInterpolation
@@ -503,16 +486,9 @@ class GnssSatellites : public ILoggable {
   double AddIonosphericDelay(const int gnss_satellite_id, const libra::Vector<3> rec_position, const double frequency,
                              const GnssFrameDefinition flag) const;
 
-  bool is_calc_enabled_ = true;             //!< Flag to manage the GNSS satellite position calculation
-  GnssSatelliteInformation true_info_;      //!< True information of GNSS satellites
-  GnssSatelliteInformation estimate_info_;  //!< Estimated information of GNSS satellites TODO: should be move out from GlobalEnvironment
-  double start_unix_time_;                  //!< Start unix time
-
-#ifdef GNSS_SATELLITES_DEBUG_OUTPUT
-  ofstream ofs_true;        //!< Debug output for true value
-  ofstream ofs_estimation;  //!< Debug output for estimated value
-  ofstream ofs_sa;          //!< Debug output for difference between true and estimated value
-#endif
+  bool is_calc_enabled_ = true;         //!< Flag to manage the GNSS satellite position calculation
+  GnssSatelliteInformation gnss_info_;  //!< GNSS satellites information
+  double start_unix_time_;              //!< Start unix time
 };
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
