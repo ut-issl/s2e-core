@@ -5,7 +5,7 @@
 
 #include "gnss_satellite_number.hpp"
 
-size_t ConvertSatelliteNumberToIndex(const std::string satellite_number) {
+size_t ConvertGnssSatelliteNumberToIndex(const std::string satellite_number) {
   switch (satellite_number.front()) {
     case 'G':
       return stoi(satellite_number.substr(1)) + kGpsIndexBegin - 1;
@@ -25,7 +25,7 @@ size_t ConvertSatelliteNumberToIndex(const std::string satellite_number) {
   }
 }
 
-std::string ConvertIndexToSatelliteNumber(const size_t index) {
+std::string ConvertIndexToGnssSatelliteNumber(const size_t index) {
   std::string output;
   size_t prn_number = 0;
 

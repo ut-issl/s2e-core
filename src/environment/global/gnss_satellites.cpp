@@ -13,27 +13,12 @@
 #include "environment/global/physical_constants.hpp"
 #include "library/external/sgp4/sgp4ext.h"   //for jday()
 #include "library/external/sgp4/sgp4unit.h"  //for gstime()
+#include "library/gnss/gnss_satellite_number.hpp"
 #include "library/logger/log_utility.hpp"
 #include "library/math/constants.hpp"
 #include "library/utilities/macros.hpp"
 
 const double nan99 = 999999.999999;
-
-// GNSS satellite number definition
-// TODO: Move to other library to define GNSS constants
-const int gps_sat_num_ = 32;      //!< Number of GPS satellites
-const int glonass_sat_num_ = 26;  //!< Number of GLONASS satellites
-const int galileo_sat_num_ = 36;  //!< Number of Galileo satellites
-const int beidou_sat_num_ = 16;   //!< Number of BeiDou satellites
-const int qzss_sat_num_ = 7;      //!< Number of QZSS satellites TODO: 5 at this moment?
-
-const int gps_index_bias_ = -1;                                          //!< Bias of index for GPS satellites
-const int glonass_index_bias_ = gps_index_bias_ + gps_sat_num_;          //!< Bias of index for GLONASS satellites
-const int galileo_index_bias_ = glonass_index_bias_ + glonass_sat_num_;  //!< Bias of index for GALILEO satellites
-const int beidou_index_bias_ = galileo_index_bias_ + galileo_sat_num_;   //!< Bias of index for BeiDou satellites
-const int qzss_index_bias_ = beidou_index_bias_ + beidou_sat_num_;       //!< Bias of index for QZSS satellites
-
-const int all_sat_num_ = gps_sat_num_ + glonass_sat_num_ + galileo_sat_num_ + beidou_sat_num_ + qzss_sat_num_;  //<! Total number of GNSS satellites
 
 using namespace std;
 
@@ -157,73 +142,8 @@ double GnssSatelliteBase::LagrangeInterpolation(const vector<double>& time_vecto
   return res;
 }
 
-int GnssSatelliteBase::GetIndexFromId(string sat_num) const {
-  if (sat_num.front() == 'P') {
-    switch (sat_num.at(1)) {
-      case 'G':
-        return stoi(sat_num.substr(2)) + gps_index_bias_;
-      case 'R':
-        return stoi(sat_num.substr(2)) + glonass_index_bias_;
-      case 'E':
-        return stoi(sat_num.substr(2)) + galileo_index_bias_;
-      case 'C':
-        return stoi(sat_num.substr(2)) + beidou_index_bias_;
-      case 'J':
-        return stoi(sat_num.substr(2)) + qzss_index_bias_;
-      default:
-        return INT32_MAX;
-        break;
-    }
-  } else {
-    switch (sat_num.front()) {
-      case 'G':
-        return stoi(sat_num.substr(1)) + gps_index_bias_;
-      case 'R':
-        return stoi(sat_num.substr(1)) + glonass_index_bias_;
-      case 'E':
-        return stoi(sat_num.substr(1)) + galileo_index_bias_;
-      case 'C':
-        return stoi(sat_num.substr(1)) + beidou_index_bias_;
-      case 'J':
-        return stoi(sat_num.substr(1)) + qzss_index_bias_;
-      default:
-        return INT32_MAX;
-        break;
-    }
-  }
-}
-
-string GnssSatelliteBase::GetIdFromIndex(int index) const {
-  string res;
-  if (index < glonass_index_bias_) {
-    res = 'G';
-    if (index - gps_index_bias_ < 10) res += '0';
-    res += to_string(index - gps_index_bias_);
-  } else if (index < galileo_index_bias_) {
-    res = 'R';
-    if (index - glonass_index_bias_ < 10) res += '0';
-    res += to_string(index - glonass_index_bias_);
-  } else if (index < beidou_index_bias_) {
-    res = 'E';
-    if (index - galileo_index_bias_ < 10) res += '0';
-    res += to_string(index - galileo_index_bias_);
-  } else if (index < qzss_index_bias_) {
-    res = 'C';
-    if (index - beidou_index_bias_ < 10) res += '0';
-    res += to_string(index - beidou_index_bias_);
-  } else {
-    res = 'J';
-    if (index - qzss_index_bias_ < 10) res += '0';
-    res += to_string(index - qzss_index_bias_);
-  }
-
-  return res;
-}
-
-int GnssSatelliteBase::GetNumberOfSatellites() const { return all_sat_num_; }
-
-bool GnssSatelliteBase::GetWhetherValid(int gnss_satellite_id) const {
-  if (gnss_satellite_id >= all_sat_num_) return false;
+bool GnssSatelliteBase::GetWhetherValid(const size_t gnss_satellite_id) const {
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return false;
   return validate_.at(gnss_satellite_id);
 }
 
@@ -235,9 +155,9 @@ pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& f
   interpolation_number_ = interpolation_number;
 
   // Expansion
-  time_series_position_ecef_m_.resize(all_sat_num_);  // first vector size is the satellite number
-  time_series_position_eci_m_.resize(all_sat_num_);
-  unix_time_list.resize(all_sat_num_);
+  time_series_position_ecef_m_.resize(kTotalNumberOfGnssSatellite);  // first vector size is the satellite number
+  time_series_position_eci_m_.resize(kTotalNumberOfGnssSatellite);
+  unix_time_list.resize(kTotalNumberOfGnssSatellite);
 
   // for using min and max, set the sup & inf before
   double start_unix_time = 1e16;
@@ -322,7 +242,7 @@ pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& f
           iss >> tmp;
           s.push_back(tmp);
         }
-        int gnss_satellite_id = GetIndexFromId(s.front());
+        int gnss_satellite_id = ConvertGnssSatelliteNumberToIndex(s.front());
 
         bool available_flag = true;
         libra::Vector<3> ecef_position_m(0.0);
@@ -368,17 +288,17 @@ pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& f
 void GnssSatellitePosition::SetUp(const double start_unix_time, const double step_width_s) {
   step_width_s_ = step_width_s;
 
-  position_ecef_m_.assign(all_sat_num_, libra::Vector<3>(0.0));
-  position_eci_m_.assign(all_sat_num_, libra::Vector<3>(0.0));
-  validate_.assign(all_sat_num_, false);
+  position_ecef_m_.assign(kTotalNumberOfGnssSatellite, libra::Vector<3>(0.0));
+  position_eci_m_.assign(kTotalNumberOfGnssSatellite, libra::Vector<3>(0.0));
+  validate_.assign(kTotalNumberOfGnssSatellite, false);
 
-  nearest_index_.resize(all_sat_num_);
-  time_period_list_.resize(all_sat_num_);
+  nearest_index_.resize(kTotalNumberOfGnssSatellite);
+  time_period_list_.resize(kTotalNumberOfGnssSatellite);
 
-  ecef_.resize(all_sat_num_);
-  eci_.resize(all_sat_num_);
+  ecef_.resize(kTotalNumberOfGnssSatellite);
+  eci_.resize(kTotalNumberOfGnssSatellite);
 
-  for (int gnss_satellite_id = 0; gnss_satellite_id < all_sat_num_; ++gnss_satellite_id) {
+  for (size_t gnss_satellite_id = 0; gnss_satellite_id < kTotalNumberOfGnssSatellite; ++gnss_satellite_id) {
     if (unix_time_list.at(gnss_satellite_id).empty()) {
       validate_.at(gnss_satellite_id) = false;
       continue;
@@ -439,7 +359,7 @@ void GnssSatellitePosition::SetUp(const double start_unix_time, const double ste
 }
 
 void GnssSatellitePosition::Update(const double current_unix_time) {
-  for (int gnss_satellite_id = 0; gnss_satellite_id < all_sat_num_; ++gnss_satellite_id) {
+  for (size_t gnss_satellite_id = 0; gnss_satellite_id < kTotalNumberOfGnssSatellite; ++gnss_satellite_id) {
     if (unix_time_list.at(gnss_satellite_id).empty()) {
       validate_.at(gnss_satellite_id) = false;
       continue;
@@ -505,13 +425,13 @@ void GnssSatellitePosition::Update(const double current_unix_time) {
   }
 }
 
-libra::Vector<3> GnssSatellitePosition::GetPosition_ecef_m(int gnss_satellite_id) const {
-  if (gnss_satellite_id >= all_sat_num_) return libra::Vector<3>(0.0);
+libra::Vector<3> GnssSatellitePosition::GetPosition_ecef_m(const size_t gnss_satellite_id) const {
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return libra::Vector<3>(0.0);
   return position_ecef_m_.at(gnss_satellite_id);
 }
 
-libra::Vector<3> GnssSatellitePosition::GetPosition_eci_m(int gnss_satellite_id) const {
-  if (gnss_satellite_id >= all_sat_num_) return libra::Vector<3>(0.0);
+libra::Vector<3> GnssSatellitePosition::GetPosition_eci_m(const size_t gnss_satellite_id) const {
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return libra::Vector<3>(0.0);
   return position_eci_m_.at(gnss_satellite_id);
 }
 
@@ -519,8 +439,8 @@ libra::Vector<3> GnssSatellitePosition::GetPosition_eci_m(int gnss_satellite_id)
 void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_extension, int interpolation_number, UltraRapidMode ur_flag,
                                     pair<double, double> unix_time_period) {
   interpolation_number_ = interpolation_number;
-  time_series_clock_offset_m_.resize(all_sat_num_);  // first vector size is the sat num
-  unix_time_list.resize(all_sat_num_);
+  time_series_clock_offset_m_.resize(kTotalNumberOfGnssSatellite);  // first vector size is the sat num
+  unix_time_list.resize(kTotalNumberOfGnssSatellite);
 
   if (file_extension == ".sp3") {
     for (int page = 0; page < (int)file.size(); ++page) {
@@ -589,7 +509,7 @@ void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_ex
             iss >> tmp;
             s.push_back(tmp);
           }
-          int gnss_satellite_id = GetIndexFromId(s.front());
+          int gnss_satellite_id = ConvertGnssSatelliteNumberToIndex(s.front());
 
           double clock = stod(s.at(4));
           if (std::abs(clock - nan99) < 1.0) continue;
@@ -649,7 +569,7 @@ void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_ex
 
         std::free(time_tm);
 
-        int gnss_satellite_id = GetIndexFromId(s.at(1));
+        int gnss_satellite_id = ConvertGnssSatelliteNumberToIndex(s.at(1));
         double clock_bias = stod(s.at(9)) * environment::speed_of_light_m_s;  // [s] -> [m]
         if (start_unix_time - unix_time > 1e-4) continue;                     // for the numerical error
         if (end_unix_time - unix_time < 1e-4) break;
@@ -671,15 +591,15 @@ void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_ex
 void GnssSatelliteClock::SetUp(const double start_unix_time, const double step_width_s) {
   step_width_s_ = step_width_s;
 
-  clock_offset_m_.resize(all_sat_num_);
-  validate_.assign(all_sat_num_, false);
+  clock_offset_m_.resize(kTotalNumberOfGnssSatellite);
+  validate_.assign(kTotalNumberOfGnssSatellite, false);
 
-  nearest_index_.resize(all_sat_num_);
-  time_period_list_.resize(all_sat_num_);
+  nearest_index_.resize(kTotalNumberOfGnssSatellite);
+  time_period_list_.resize(kTotalNumberOfGnssSatellite);
 
-  clock_bias_.resize(all_sat_num_);
+  clock_bias_.resize(kTotalNumberOfGnssSatellite);
 
-  for (int gnss_satellite_id = 0; gnss_satellite_id < all_sat_num_; ++gnss_satellite_id) {
+  for (size_t gnss_satellite_id = 0; gnss_satellite_id < kTotalNumberOfGnssSatellite; ++gnss_satellite_id) {
     if (unix_time_list.at(gnss_satellite_id).empty()) {
       validate_.at(gnss_satellite_id) = false;
       continue;
@@ -736,7 +656,7 @@ void GnssSatelliteClock::SetUp(const double start_unix_time, const double step_w
 }
 
 void GnssSatelliteClock::Update(const double current_unix_time) {
-  for (int gnss_satellite_id = 0; gnss_satellite_id < all_sat_num_; ++gnss_satellite_id) {
+  for (size_t gnss_satellite_id = 0; gnss_satellite_id < kTotalNumberOfGnssSatellite; ++gnss_satellite_id) {
     if (unix_time_list.at(gnss_satellite_id).empty()) {
       validate_.at(gnss_satellite_id) = false;
       continue;
@@ -798,8 +718,8 @@ void GnssSatelliteClock::Update(const double current_unix_time) {
   }
 }
 
-double GnssSatelliteClock::GetSatClock(int gnss_satellite_id) const {
-  if (gnss_satellite_id >= all_sat_num_) return 0.0;
+double GnssSatelliteClock::GetSatClock(const size_t gnss_satellite_id) const {
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return 0.0;
   return clock_offset_m_.at(gnss_satellite_id);
 }
 
@@ -822,29 +742,20 @@ void GnssSatelliteInformation::Update(const double current_unix_time) {
   clock_.Update(current_unix_time);
 }
 
-int GnssSatelliteInformation::GetNumberOfSatellites() const {
-  if (position_.GetNumberOfSatellites() == clock_.GetNumberOfSatellites()) {
-    return position_.GetNumberOfSatellites();
-  } else {
-    cout << "Num Of Gnss Satellites has something wrong" << endl;
-    return 0;
-  }
-}
-
-bool GnssSatelliteInformation::GetWhetherValid(int gnss_satellite_id) const {
+bool GnssSatelliteInformation::GetWhetherValid(const size_t gnss_satellite_id) const {
   if (position_.GetWhetherValid(gnss_satellite_id) && clock_.GetWhetherValid(gnss_satellite_id)) return true;
   return false;
 }
 
-libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEcef(int gnss_satellite_id) const {
+libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEcef(const size_t gnss_satellite_id) const {
   return position_.GetPosition_ecef_m(gnss_satellite_id);
 }
 
-libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEci(int gnss_satellite_id) const {
+libra::Vector<3> GnssSatelliteInformation::GetSatellitePositionEci(const size_t gnss_satellite_id) const {
   return position_.GetPosition_eci_m(gnss_satellite_id);
 }
 
-double GnssSatelliteInformation::GetSatelliteClock(int gnss_satellite_id) const { return clock_.GetSatClock(gnss_satellite_id); }
+double GnssSatelliteInformation::GetSatelliteClock(const size_t gnss_satellite_id) const { return clock_.GetSatClock(gnss_satellite_id); }
 
 // GnssSatellites
 GnssSatellites::GnssSatellites(bool is_calc_enabled) {
@@ -897,14 +808,8 @@ void GnssSatellites::Update(const SimulationTime* simulation_time) {
   return;
 }
 
-int GnssSatellites::GetNumberOfSatellites() const { return gnss_info_.GetNumberOfSatellites(); }
-
-string GnssSatellites::GetIdFromIndex(int index) const { return gnss_info_.GetGnssSatPos().GetIdFromIndex(index); }
-
-int GnssSatellites::GetIndexFromId(string sat_num) const { return gnss_info_.GetGnssSatPos().GetIndexFromId(sat_num); }
-
-bool GnssSatellites::GetWhetherValid(int gnss_satellite_id) const {
-  if (gnss_satellite_id >= GetNumberOfSatellites()) return false;
+bool GnssSatellites::GetWhetherValid(const size_t gnss_satellite_id) const {
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return false;
 
   if (gnss_info_.GetWhetherValid(gnss_satellite_id) && gnss_info_.GetWhetherValid(gnss_satellite_id))
     return true;
@@ -912,9 +817,9 @@ bool GnssSatellites::GetWhetherValid(int gnss_satellite_id) const {
     return false;
 }
 
-libra::Vector<3> GnssSatellites::GetSatellitePositionEcef(const int gnss_satellite_id) const {
+libra::Vector<3> GnssSatellites::GetSatellitePositionEcef(const size_t gnss_satellite_id) const {
   // gnss_satellite_id is wrong or not valid
-  if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) {
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) {
     libra::Vector<3> res(0);
     return res;
   }
@@ -922,9 +827,9 @@ libra::Vector<3> GnssSatellites::GetSatellitePositionEcef(const int gnss_satelli
   return gnss_info_.GetSatellitePositionEcef(gnss_satellite_id);
 }
 
-libra::Vector<3> GnssSatellites::GetSatellitePositionEci(const int gnss_satellite_id) const {
+libra::Vector<3> GnssSatellites::GetSatellitePositionEci(const size_t gnss_satellite_id) const {
   // gnss_satellite_id is wrong or not valid
-  if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) {
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) {
     libra::Vector<3> res(0);
     return res;
   }
@@ -932,18 +837,18 @@ libra::Vector<3> GnssSatellites::GetSatellitePositionEci(const int gnss_satellit
   return gnss_info_.GetSatellitePositionEci(gnss_satellite_id);
 }
 
-double GnssSatellites::GetSatelliteClock(const int gnss_satellite_id) const {
-  if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) {
+double GnssSatellites::GetSatelliteClock(const size_t gnss_satellite_id) const {
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) {
     return 0.0;
   }
 
   return gnss_info_.GetSatelliteClock(gnss_satellite_id);
 }
 
-double GnssSatellites::GetPseudoRangeECEF(const int gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
+double GnssSatellites::GetPseudoRangeECEF(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
                                           const double frequency) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) return 0.0;
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   double res = 0.0;
   auto gnss_position = gnss_info_.GetSatellitePositionEcef(gnss_satellite_id);
@@ -963,9 +868,10 @@ double GnssSatellites::GetPseudoRangeECEF(const int gnss_satellite_id, libra::Ve
   return res;
 }
 
-double GnssSatellites::GetPseudoRangeECI(const int gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock, const double frequency) const {
+double GnssSatellites::GetPseudoRangeECI(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
+                                         const double frequency) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) return 0.0;
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   double res = 0.0;
   auto gnss_position = gnss_info_.GetSatellitePositionEci(gnss_satellite_id);
@@ -985,10 +891,10 @@ double GnssSatellites::GetPseudoRangeECI(const int gnss_satellite_id, libra::Vec
   return res;
 }
 
-pair<double, double> GnssSatellites::GetCarrierPhaseECEF(const int gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
+pair<double, double> GnssSatellites::GetCarrierPhaseECEF(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
                                                          const double frequency) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
   double res = 0.0;
   auto gnss_position = gnss_info_.GetSatellitePositionEcef(gnss_satellite_id);
@@ -1015,10 +921,10 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECEF(const int gnss_satellit
   return {cycle, bias};
 }
 
-pair<double, double> GnssSatellites::GetCarrierPhaseECI(const int gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
+pair<double, double> GnssSatellites::GetCarrierPhaseECI(const size_t gnss_satellite_id, libra::Vector<3> rec_position, double rec_clock,
                                                         const double frequency) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
   double res = 0.0;
   auto gnss_position = gnss_info_.GetSatellitePositionEci(gnss_satellite_id);
@@ -1046,10 +952,10 @@ pair<double, double> GnssSatellites::GetCarrierPhaseECI(const int gnss_satellite
 }
 
 // for Ionospheric delay I[m]
-double GnssSatellites::AddIonosphericDelay(const int gnss_satellite_id, const libra::Vector<3> rec_position, const double frequency,
+double GnssSatellites::AddIonosphericDelay(const size_t gnss_satellite_id, const libra::Vector<3> rec_position, const double frequency,
                                            const GnssFrameDefinition flag) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= GetNumberOfSatellites() || !GetWhetherValid(gnss_satellite_id)) return 0.0;
+  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   const double earth_hemisphere_km = environment::earth_equatorial_radius_m / 1000.0;
 
@@ -1080,7 +986,7 @@ std::string GnssSatellites::GetLogHeader() const {
   std::string str_tmp = "";
 
   // TODO: Add log output for other navigation systems
-  for (size_t gps_index = 0; gps_index < gps_sat_num_; gps_index++) {
+  for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
     str_tmp += WriteVector("GPS" + std::to_string(gps_index) + "_position", "ecef", "m", 3);
     str_tmp += WriteScalar("GPS" + std::to_string(gps_index) + "_clock_offset", "m");
   }
@@ -1091,7 +997,7 @@ std::string GnssSatellites::GetLogHeader() const {
 std::string GnssSatellites::GetLogValue() const {
   std::string str_tmp = "";
 
-  for (size_t gps_index = 0; gps_index < gps_sat_num_; gps_index++) {
+  for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
     str_tmp += WriteVector(gnss_info_.GetSatellitePositionEcef((int)gps_index), 16);
     str_tmp += WriteScalar(gnss_info_.GetSatelliteClock((int)gps_index));
   }
