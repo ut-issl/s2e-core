@@ -31,7 +31,7 @@ void ForceGenerator::MainRoutine(const int time_count) {
     // Add noise only when the force is generated
     libra::Vector<3> true_direction = generated_force_b_N_.CalcNormalizedVector();
     libra::Quaternion error_quaternion = GenerateDirectionNoiseQuaternion(true_direction, direction_error_standard_deviation_rad_);
-    libra::Vector<3> converted_direction = error_quaternion.FrameConversion(generated_force_b_N_);
+    libra::Vector<3> converted_direction = error_quaternion.FrameConversion(true_direction);
     double force_norm_with_error = norm_ordered_force + magnitude_noise_;
     generated_force_b_N_ = force_norm_with_error * converted_direction;
   }
