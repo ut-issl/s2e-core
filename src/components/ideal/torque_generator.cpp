@@ -31,7 +31,7 @@ void TorqueGenerator::MainRoutine(const int time_count) {
     // Add noise only when the torque is generated
     libra::Vector<3> true_direction = generated_torque_b_Nm_.CalcNormalizedVector();
     libra::Quaternion error_quaternion = GenerateDirectionNoiseQuaternion(true_direction, direction_error_standard_deviation_rad_);
-    libra::Vector<3> converted_direction = error_quaternion.FrameConversion(generated_torque_b_Nm_);
+    libra::Vector<3> converted_direction = error_quaternion.FrameConversion(true_direction);
     double torque_norm_with_error = norm_ordered_torque + magnitude_noise_;
     generated_torque_b_Nm_ = torque_norm_with_error * converted_direction;
   }
