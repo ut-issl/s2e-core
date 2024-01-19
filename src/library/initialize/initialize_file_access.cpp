@@ -161,6 +161,9 @@ std::string IniAccess::ReadString(const char* section_name, const char* key_name
   value = ini_reader_.GetString(section_name, key_name, "NULL");
 #endif
   // Special characters
+  // Inline comments
+  std::regex inline_comment_pattern("\\s*//.*");
+  value = std::regex_replace(value, inline_comment_pattern, "");
   // INI_FILE_DIR
   std::string ini_path = INI_FILE_DIR_FROM_EXE;
   value = std::regex_replace(value, std::regex("INI_FILE_DIR_FROM_EXE"), ini_path);
