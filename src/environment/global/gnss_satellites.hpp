@@ -25,28 +25,6 @@ enum class GnssFrameDefinition {
 };
 
 /**
- * @enum UltraRapidMode
- * @brief Ultra Rapid mode
- * @details When Using Ultra Rapid ephemerides, decide to use which 6 hours in each observe and predict 24 hours
- * @note TODO: change to enum class
- */
-enum UltraRapidMode {
-  kNotUse,  //!< Don't use ultra rapid
-
-  kObserve1,  //!< the most oldest observe 6 hours (most precise)
-  kObserve2,  //!< the second oldest observe 6 hours (6 ~ 12)
-  kObserve3,
-  kObserve4,
-
-  kPredict1,  //!< the most oldest preserve 6 hours (most precise)
-  kPredict2,
-  kPredict3,
-  kPredict4,
-
-  kUnknown
-};
-
-/**
  * @class GnssSatelliteBase
  * @brief A class to summarize basic feature of GNSS position and clock calculation
  */
@@ -113,11 +91,9 @@ class GnssSatellitePosition : public GnssSatelliteBase {
    * @param[in] file: File path for position calculation
    * @param[in] interpolation_method: Interpolation method for position calculation
    * @param[in] interpolation_number: Interpolation number for position calculation
-   * @param[in] ur_flag: Ultra Rapid flag for position calculation
    * @return Start unix time and end unix time
    */
-  std::pair<double, double> Initialize(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number,
-                                       UltraRapidMode ur_flag);
+  std::pair<double, double> Initialize(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number);
 
   /**
    * @fn Setup
@@ -175,9 +151,8 @@ class GnssSatelliteClock : public GnssSatelliteBase {
    * @param[in] file: File path for clock calculation
    * @param[in] file_extension: Extension of the clock file (ex. .sp3, .clk30s)
    * @param[in] interpolation_number: Interpolation number for clock calculation
-   * @param[in] ur_flag: Ultra Rapid flag for clock calculation
    */
-  void Initialize(std::vector<std::vector<std::string>>& file, std::string file_extension, int interpolation_number, UltraRapidMode ur_flag,
+  void Initialize(std::vector<std::vector<std::string>>& file, std::string file_extension, int interpolation_number,
                   std::pair<double, double> unix_time_period);
   /**
    * @fn SetUp
@@ -224,15 +199,12 @@ class GnssSatelliteInformation {
    * @param[in] position_file: File path for position calculation
    * @param[in] position_interpolation_method: Interpolation method for position calculation
    * @param[in] position_interpolation_number: Interpolation number for position calculation
-   * @param[in] position_ur_flag: Ultra Rapid flag for position calculation
    * @param[in] clock_file: File path for clock calculation
    * @param[in] clock_file_extension: Extension of the clock file (ex. .sp3, .clk30s)
    * @param[in] clock_interpolation_number: Interpolation number for clock calculation
-   * @param[in] clock_ur_flag: Ultra Rapid flag for clock calculation
    */
   void Initialize(std::vector<std::vector<std::string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                  UltraRapidMode position_ur_flag, std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension,
-                  int clock_interpolation_number, UltraRapidMode clock_ur_flag);
+                  std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension, int clock_interpolation_number);
   /**
    * @fn SetUp
    * @brief Setup GNSS satellite position and clock information
@@ -311,8 +283,7 @@ class GnssSatellites : public ILoggable {
    * @note Parameters are defined in GNSSSat_Info
    */
   void Initialize(std::vector<std::vector<std::string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                  UltraRapidMode position_ur_flag, std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension,
-                  int clock_interpolation_number, UltraRapidMode clock_ur_flag);
+                  std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension, int clock_interpolation_number);
   /**
    * @fn IsCalcEnabled
    * @brief Return calculated enabled flag

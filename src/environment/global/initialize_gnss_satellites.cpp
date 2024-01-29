@@ -85,12 +85,10 @@ void ReadFileContents(std::string directory_path, std::string file_name, std::ve
  *@param [in] first: The first SP3 file name
  *@param [in] last: The last SP3 file name
  *@param [out] file_contents: Generated files as multiple vectors of one line strings
- *@param [out] ur_flag: Ultra rapid flag
  */
 void ReadSp3Files(std::string directory_path, std::string file_sort, std::string first, std::string last,
-                  std::vector<std::vector<std::string>>& file_contents, UltraRapidMode& ur_flag) {
+                  std::vector<std::vector<std::string>>& file_contents) {
   std::string all_directory_path = directory_path + ReturnDirectoryPathWithFileType(file_sort);
-  ur_flag = kNotUse;
 
   if (first.substr(0, 3) == "COD") {
     std::string file_header = "COD0MGXFIN_";
@@ -123,7 +121,6 @@ void ReadSp3Files(std::string directory_path, std::string file_sort, std::string
       ++day;
     }
   } else if (file_sort.substr(0, 3) == "IGU" || file_sort.find("Ultra") != std::string::npos) {  // In case of UR
-    ur_flag = kUnknown;
     std::string file_header, file_footer;
     int gps_week = 0, day = 0;
     int hour = 0;
@@ -299,19 +296,17 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
 
   // Position
   std::vector<std::vector<std::string>> position_file;
-  UltraRapidMode position_ur_flag = kNotUse;
   ReadSp3Files(directory_path, ini_file.ReadString(section, "position_file_sort"), ini_file.ReadString(section, "position_first"),
-               ini_file.ReadString(section, "position_last"), position_file, position_ur_flag);
+               ini_file.ReadString(section, "position_last"), position_file);
   int position_interpolation_method = ini_file.ReadInt(section, "position_interpolation_method");
   int position_interpolation_number = ini_file.ReadInt(section, "position_interpolation_number");
 
   // Clock
   std::vector<std::vector<std::string>> clock_file;
-  UltraRapidMode clock_ur_flag = kNotUse;
   std::string clock_file_extension = ini_file.ReadString(section, "clock_file_extension");
   if (clock_file_extension == ".sp3") {
     ReadSp3Files(directory_path, ini_file.ReadString(section, "clock_file_sort"), ini_file.ReadString(section, "clock_first"),
-                 ini_file.ReadString(section, "clock_last"), clock_file, clock_ur_flag);
+                 ini_file.ReadString(section, "clock_last"), clock_file);
   } else {
     ReadClockFiles(directory_path, clock_file_extension, ini_file.ReadString(section, "clock_file_sort"), ini_file.ReadString(section, "clock_first"),
                    ini_file.ReadString(section, "clock_last"), clock_file);
@@ -319,8 +314,8 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   int clock_interpolation_number = ini_file.ReadInt(section, "clock_interpolation_number");
 
   // Initialize GNSS satellites
-  gnss_satellites->Initialize(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag, clock_file,
-                              clock_file_extension, clock_interpolation_number, clock_ur_flag);
+  gnss_satellites->Initialize(position_file, position_interpolation_method, position_interpolation_number, clock_file, clock_file_extension,
+                              clock_interpolation_number);
 
   return gnss_satellites;
 }

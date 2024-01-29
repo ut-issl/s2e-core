@@ -148,8 +148,7 @@ bool GnssSatelliteBase::GetWhetherValid(const size_t gnss_satellite_id) const {
 }
 
 // GnssSatellitePosition
-pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& file, int interpolation_method, int interpolation_number,
-                                                       UltraRapidMode ur_flag) {
+pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& file, int interpolation_method, int interpolation_number) {
   UNUSED(interpolation_method);
 
   interpolation_number_ = interpolation_number;
@@ -199,14 +198,8 @@ pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& f
 
     // Calculate number of data lines
     int start_line, end_line;
-    if (ur_flag == kNotUse) {
-      start_line = line;
-      end_line = line + (num_of_sat + 1) * num_of_time_stamps;
-    } else {
-      int offset = (int)ur_flag - (int)kObserve1;
-      start_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * offset;
-      end_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * (offset + 1);
-    }
+    start_line = line;
+    end_line = line + (num_of_sat + 1) * num_of_time_stamps;
 
     // Read time and position data
     double unix_time = 0;
@@ -436,7 +429,7 @@ libra::Vector<3> GnssSatellitePosition::GetPosition_eci_m(const size_t gnss_sate
 }
 
 // GnssSatelliteClock
-void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_extension, int interpolation_number, UltraRapidMode ur_flag,
+void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_extension, int interpolation_number,
                                     pair<double, double> unix_time_period) {
   interpolation_number_ = interpolation_number;
   time_series_clock_offset_m_.resize(kTotalNumberOfGnssSatellite);  // first vector size is the sat num
@@ -479,14 +472,8 @@ void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_ex
 
       // Calculate number of data lines
       int start_line, end_line;
-      if (ur_flag == kNotUse) {
-        start_line = line;
-        end_line = line + (num_of_sat + 1) * num_of_time_stamps;
-      } else {
-        int offset = (int)ur_flag - (int)kObserve1;
-        start_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * offset;
-        end_line = line + (num_of_sat + 1) * num_of_time_stamps / 8 * (offset + 1);
-      }
+      start_line = line;
+      end_line = line + (num_of_sat + 1) * num_of_time_stamps;
 
       // Read time and clock data
       double unix_time = 0;
@@ -527,21 +514,13 @@ void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_ex
       }
     }
   } else {  // .clk30s
-    if (kPredict1 <= ur_flag && ur_flag <= kPredict4) {
-      cout << "clock settings has something wrong" << endl;
-      exit(1);
-    }
     time_interval_ = 1e9;
 
     for (int page = 0; page < (int)file.size(); ++page) {
       double start_unix_time, end_unix_time;
-      if (ur_flag == kNotUse) {
-        start_unix_time = unix_time_period.first;
-        end_unix_time = unix_time_period.second + 30;
-      } else {
-        start_unix_time = -1;
-        end_unix_time = 0;
-      }
+      start_unix_time = unix_time_period.first;
+      end_unix_time = unix_time_period.second + 30;
+
       for (int line = 0; line < (int)file.at(page).size(); ++line) {
         if (file.at(page).at(line).substr(0, 3) != "AS ") continue;
 
@@ -563,7 +542,7 @@ void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_ex
         double unix_time = (double)mktime(time_tm);
         const double interval = 6 * 60 * 60;
         if (start_unix_time < 0) {
-          start_unix_time = unix_time + (ur_flag - kObserve1) * interval;  // Fix here to use enum class
+          start_unix_time = unix_time;
           end_unix_time = start_unix_time + interval;
         }
 
@@ -726,10 +705,9 @@ double GnssSatelliteClock::GetClockOffset_m(const size_t gnss_satellite_id) cons
 // GnssSatelliteInformation
 GnssSatelliteInformation::GnssSatelliteInformation() {}
 void GnssSatelliteInformation::Initialize(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                                          UltraRapidMode position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension,
-                                          int clock_interpolation_number, UltraRapidMode clock_ur_flag) {
-  auto unix_time_period = position_.Initialize(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag);
-  clock_.Initialize(clock_file, clock_file_extension, clock_interpolation_number, clock_ur_flag, unix_time_period);
+                                          vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number) {
+  auto unix_time_period = position_.Initialize(position_file, position_interpolation_method, position_interpolation_number);
+  clock_.Initialize(clock_file, clock_file_extension, clock_interpolation_number, unix_time_period);
 }
 
 void GnssSatelliteInformation::SetUp(const double start_unix_time, const double step_width_s) {
@@ -761,10 +739,9 @@ GnssSatellites::GnssSatellites(bool is_calc_enabled) {
 bool GnssSatellites::IsCalcEnabled() const { return is_calc_enabled_; }
 
 void GnssSatellites::Initialize(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                                UltraRapidMode position_ur_flag, vector<vector<string>>& clock_file, string clock_file_extension,
-                                int clock_interpolation_number, UltraRapidMode clock_ur_flag) {
-  gnss_info_.Initialize(position_file, position_interpolation_method, position_interpolation_number, position_ur_flag, clock_file,
-                        clock_file_extension, clock_interpolation_number, clock_ur_flag);
+                                vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number) {
+  gnss_info_.Initialize(position_file, position_interpolation_method, position_interpolation_number, clock_file, clock_file_extension,
+                        clock_interpolation_number);
   return;
 }
 
