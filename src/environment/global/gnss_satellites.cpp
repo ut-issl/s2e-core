@@ -808,7 +808,7 @@ double GnssSatellites::GetClockOffset_m(const size_t gnss_satellite_id) const {
 double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_ecef_m, double receiver_clock_offset_m,
                                           const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
+  if (!GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   double res = 0.0;
   auto gnss_position = gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
@@ -831,7 +831,7 @@ double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra:
 double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_eci_m, double receiver_clock_offset_m,
                                          const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
+  if (!GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   double res = 0.0;
   auto gnss_position = gnss_info_.GetPosition_eci_m(gnss_satellite_id);
@@ -854,7 +854,7 @@ double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::
 pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_ecef_m,
                                                          double receiver_clock_offset_m, const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
+  if (!GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
   double res = 0.0;
   auto gnss_position = gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
@@ -884,7 +884,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satel
 pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_eci_m,
                                                         double receiver_clock_offset_m, const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
+  if (!GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
   double res = 0.0;
   auto gnss_position = gnss_info_.GetPosition_eci_m(gnss_satellite_id);
@@ -915,7 +915,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satell
 double GnssSatellites::AddIonosphericDelay(const size_t gnss_satellite_id, const libra::Vector<3> receiver_position_m,
                                            const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
+  if (!GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   const double earth_hemisphere_km = environment::earth_equatorial_radius_m / 1000.0;
 
