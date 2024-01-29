@@ -248,6 +248,7 @@ jobs:
         run: |
           pip install pipenv
           pipenv install
+          pipenv run pip list
           pipenv run python plot_gs_visibility.py --no-gui
           ls ./*_gs_visibility.png
 
