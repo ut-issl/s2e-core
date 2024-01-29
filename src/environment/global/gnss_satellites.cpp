@@ -778,10 +778,11 @@ void GnssSatellites::Update(const SimulationTime* simulation_time) {
 bool GnssSatellites::GetWhetherValid(const size_t gnss_satellite_id) const {
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return false;
 
-  if (gnss_info_.GetWhetherValid(gnss_satellite_id) && gnss_info_.GetWhetherValid(gnss_satellite_id))
+  if (gnss_info_.GetWhetherValid(gnss_satellite_id)) {
     return true;
-  else
+  } else {
     return false;
+  }
 }
 
 libra::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_id) const {
