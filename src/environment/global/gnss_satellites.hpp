@@ -393,12 +393,6 @@ class GnssSatellites : public ILoggable {
 
  private:
   /**
-   * @fn TrigonometricInterpolation
-   * @brief Is this similar with GnssSatelliteBase's function?
-   */
-  double TrigonometricInterpolation(std::vector<double> time_period, std::vector<double> position, double time);
-
-  /**
    * @fn AddIonosphericDelay
    * @brief Calculation of ionospheric delay
    * @note  TODO: Ionospheric delay very Miscellaneous need to fix
