@@ -9,7 +9,7 @@ matplotlib = "==3.7.2"
 numpy = "==1.24.3"
 pandas = "==2.0.3"
 numpy-stl = "==3.0.1"
-numpy-quaternion = "*"
+numpy-quaternion = "==2023.0.2"
 python-utils = "==3.5.2"
 
 [dev-packages]
