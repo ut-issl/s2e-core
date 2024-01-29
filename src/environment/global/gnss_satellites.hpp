@@ -19,11 +19,6 @@
 
 extern const double nan99;  //!< Not at Number TODO: Should be moved to another place
 
-enum class GnssFrameDefinition {
-  kEcef = 0,  //!< Use ECEF frame for GNSS satellite position frame in Add_IonosphericDelay
-  kEci = 1    //!< Use ECI frame for GNSS satellite position frame in Add_IonosphericDelay
-};
-
 /**
  * @class GnssSatelliteBase
  * @brief A class to summarize basic feature of GNSS position and clock calculation
@@ -410,11 +405,9 @@ class GnssSatellites : public ILoggable {
    * @param [in] gnss_satellite_id: GNSS satellite ID
    * @param [in] receiver_position_m: Receiver position [m]
    * @param [in] frequency_MHz: Frequency [MHz]
-   * @param [in] flag: The frame definition of the receiver position (ECI or ECEF)
    * @return Ionospheric delay [m]
    */
-  double AddIonosphericDelay(const size_t gnss_satellite_id, const libra::Vector<3> receiver_position_m, const double frequency_MHz,
-                             const GnssFrameDefinition flag) const;
+  double AddIonosphericDelay(const size_t gnss_satellite_id, const libra::Vector<3> receiver_position_m, const double frequency_MHz) const;
 
   bool is_calc_enabled_ = true;         //!< Flag to manage the GNSS satellite position calculation
   GnssSatelliteInformation gnss_info_;  //!< GNSS satellites information

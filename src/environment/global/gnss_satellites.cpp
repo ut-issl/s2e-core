@@ -828,7 +828,7 @@ double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra:
   res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
-  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_ecef_m, frequency_MHz, GnssFrameDefinition::kEcef);
+  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_ecef_m, frequency_MHz);
 
   res += ionospheric_delay;
 
@@ -851,7 +851,7 @@ double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::
   res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
-  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_eci_m, frequency_MHz, GnssFrameDefinition::kEci);
+  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_eci_m, frequency_MHz);
 
   res += ionospheric_delay;
 
@@ -874,7 +874,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satel
   res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
-  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_ecef_m, frequency_MHz, GnssFrameDefinition::kEcef);
+  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_ecef_m, frequency_MHz);
 
   res -= ionospheric_delay;
 
@@ -904,7 +904,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satell
   res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
-  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_eci_m, frequency_MHz, GnssFrameDefinition::kEci);
+  const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_eci_m, frequency_MHz);
 
   res -= ionospheric_delay;
 
@@ -919,8 +919,8 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satell
 }
 
 // for Ionospheric delay I[m]
-double GnssSatellites::AddIonosphericDelay(const size_t gnss_satellite_id, const libra::Vector<3> receiver_position_m, const double frequency_MHz,
-                                           const GnssFrameDefinition flag) const {
+double GnssSatellites::AddIonosphericDelay(const size_t gnss_satellite_id, const libra::Vector<3> receiver_position_m,
+                                           const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
   if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
 
@@ -933,10 +933,7 @@ double GnssSatellites::AddIonosphericDelay(const size_t gnss_satellite_id, const
   if (altitude >= 1000.0) return 0.0;                  // there is no Ionosphere above 1000km
 
   libra::Vector<3> gnss_position;
-  if (flag == GnssFrameDefinition::kEcef)
-    gnss_position = gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
-  else if (flag == GnssFrameDefinition::kEci)
-    gnss_position = gnss_info_.GetPosition_eci_m(gnss_satellite_id);
+  gnss_position = gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
 
   double angle_rad = CalcAngleTwoVectors_rad(receiver_position_m, gnss_position - receiver_position_m);
   const double default_delay = 20.0;  //[m] default delay
