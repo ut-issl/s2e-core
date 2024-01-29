@@ -13,7 +13,6 @@
 #include "environment/global/physical_constants.hpp"
 #include "library/external/sgp4/sgp4ext.h"   //for jday()
 #include "library/external/sgp4/sgp4unit.h"  //for gstime()
-#include "library/gnss/gnss_satellite_number.hpp"
 #include "library/logger/log_utility.hpp"
 #include "library/math/constants.hpp"
 #include "library/utilities/macros.hpp"
@@ -140,11 +139,6 @@ double GnssSatelliteBase::LagrangeInterpolation(const vector<double>& time_vecto
   }
 
   return res;
-}
-
-bool GnssSatelliteBase::GetWhetherValid(const size_t gnss_satellite_id) const {
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return false;
-  return validate_.at(gnss_satellite_id);
 }
 
 // GnssSatellitePosition
@@ -418,16 +412,6 @@ void GnssSatellitePosition::Update(const double current_unix_time) {
   }
 }
 
-libra::Vector<3> GnssSatellitePosition::GetPosition_ecef_m(const size_t gnss_satellite_id) const {
-  if (!GetWhetherValid(gnss_satellite_id)) return libra::Vector<3>(0.0);
-  return position_ecef_m_.at(gnss_satellite_id);
-}
-
-libra::Vector<3> GnssSatellitePosition::GetPosition_eci_m(const size_t gnss_satellite_id) const {
-  if (!GetWhetherValid(gnss_satellite_id)) return libra::Vector<3>(0.0);
-  return position_eci_m_.at(gnss_satellite_id);
-}
-
 // GnssSatelliteClock
 void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_extension, int interpolation_number,
                                     pair<double, double> unix_time_period) {
@@ -697,11 +681,6 @@ void GnssSatelliteClock::Update(const double current_unix_time) {
   }
 }
 
-double GnssSatelliteClock::GetClockOffset_m(const size_t gnss_satellite_id) const {
-  if (!GetWhetherValid(gnss_satellite_id)) return 0.0;
-  return clock_offset_m_.at(gnss_satellite_id);
-}
-
 // GnssSatellites
 GnssSatellites::GnssSatellites(bool is_calc_enabled) {
   // TODO: Add log enable flag in ini file
@@ -712,8 +691,6 @@ GnssSatellites::GnssSatellites(bool is_calc_enabled) {
     is_log_enabled_ = false;
   }
 }
-
-bool GnssSatellites::IsCalcEnabled() const { return is_calc_enabled_; }
 
 void GnssSatellites::Initialize(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
                                 vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number) {
@@ -756,39 +733,6 @@ void GnssSatellites::Update(const SimulationTime* simulation_time) {
   clock_.Update(current_unix_time);
 
   return;
-}
-
-bool GnssSatellites::GetWhetherValid(const size_t gnss_satellite_id) const {
-  if (position_.GetWhetherValid(gnss_satellite_id) && clock_.GetWhetherValid(gnss_satellite_id)) return true;
-  return false;
-}
-
-libra::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_id) const {
-  // gnss_satellite_id is wrong or not valid
-  if (!GetWhetherValid(gnss_satellite_id)) {
-    libra::Vector<3> res(0);
-    return res;
-  }
-
-  return position_.GetPosition_ecef_m(gnss_satellite_id);
-}
-
-libra::Vector<3> GnssSatellites::GetPosition_eci_m(const size_t gnss_satellite_id) const {
-  // gnss_satellite_id is wrong or not valid
-  if (!GetWhetherValid(gnss_satellite_id)) {
-    libra::Vector<3> res(0);
-    return res;
-  }
-
-  return position_.GetPosition_eci_m(gnss_satellite_id);
-}
-
-double GnssSatellites::GetClockOffset_m(const size_t gnss_satellite_id) const {
-  if (!GetWhetherValid(gnss_satellite_id)) {
-    return 0.0;
-  }
-
-  return clock_.GetClockOffset_m(gnss_satellite_id);
 }
 
 double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_ecef_m, double receiver_clock_offset_m,

@@ -13,6 +13,7 @@
 #include <map>
 #include <vector>
 
+#include "library/gnss/gnss_satellite_number.hpp"
 #include "library/logger/loggable.hpp"
 #include "library/math/vector.hpp"
 #include "simulation_time.hpp"
@@ -30,7 +31,10 @@ class GnssSatelliteBase {
    * @brief Return true the GNSS satellite information is available
    * @param [in] gnss_satellite_id: Index of GNSS satellite
    */
-  bool GetWhetherValid(const size_t gnss_satellite_id) const;
+  inline bool GetWhetherValid(const size_t gnss_satellite_id) const {
+    if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return false;
+    return validate_.at(gnss_satellite_id);
+  }
 
  protected:
   /**
@@ -109,13 +113,19 @@ class GnssSatellitePosition : public GnssSatelliteBase {
    * @brief Return GNSS satellite position vector in the ECEF frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id) const;
+  inline libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id) const {
+    if (!GetWhetherValid(gnss_satellite_id)) return libra::Vector<3>(0.0);
+    return position_ecef_m_.at(gnss_satellite_id);
+  }
   /**
    * @fn GetPosition_eci_m
    * @brief Return GNSS satellite position vector in the ECI frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const;
+  inline libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const {
+    if (!GetWhetherValid(gnss_satellite_id)) return libra::Vector<3>(0.0);
+    return position_eci_m_.at(gnss_satellite_id);
+  }
 
  private:
   std::vector<libra::Vector<3>> position_ecef_m_;  //!< List of GNSS satellite position at specific time in the ECEF frame [m]
@@ -167,7 +177,10 @@ class GnssSatelliteClock : public GnssSatelliteBase {
    * @brief Return GNSS satellite clock in distance expression [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID defined in this class
    */
-  double GetClockOffset_m(const size_t gnss_satellite_id) const;
+  inline double GetClockOffset_m(const size_t gnss_satellite_id) const {
+    if (!GetWhetherValid(gnss_satellite_id)) return 0.0;
+    return clock_offset_m_.at(gnss_satellite_id);
+  }
 
  private:
   std::vector<double> clock_offset_m_;  //!< List of clock bias of all GNSS satellites at specific time expressed in distance [m]
@@ -206,7 +219,7 @@ class GnssSatellites : public ILoggable {
    * @fn IsCalcEnabled
    * @brief Return calculated enabled flag
    */
-  bool IsCalcEnabled() const;
+  inline bool IsCalcEnabled() const { return is_calc_enabled_; }
 
   /**
    * @fn SetUp
@@ -226,7 +239,10 @@ class GnssSatellites : public ILoggable {
    * @brief Return true the GNSS satellite information is available for both position and clock
    * @param [in] gnss_satellite_id: Index of GNSS satellite
    */
-  bool GetWhetherValid(const size_t gnss_satellite_id) const;
+  inline bool GetWhetherValid(const size_t gnss_satellite_id) const {
+    if (position_.GetWhetherValid(gnss_satellite_id) && clock_.GetWhetherValid(gnss_satellite_id)) return true;
+    return false;
+  }
   /**
    * @fn GetStartUnixTime
    * @brief Return start unix time
@@ -238,19 +254,42 @@ class GnssSatellites : public ILoggable {
    * @brief Return GNSS satellite position in the ECEF frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID
    */
-  libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id) const;
+  inline libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id) const {
+    // gnss_satellite_id is wrong or not valid
+    if (!GetWhetherValid(gnss_satellite_id)) {
+      libra::Vector<3> res(0);
+      return res;
+    }
+
+    return position_.GetPosition_ecef_m(gnss_satellite_id);
+  }
   /**
    * @fn GetPosition_eci_m
    * @brief Return GNSS satellite position in the ECI frame [m]
    * @param [in] gnss_satellite_id: GNSS satellite ID
    */
-  libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const;
+  inline libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const {
+    // gnss_satellite_id is wrong or not valid
+    if (!GetWhetherValid(gnss_satellite_id)) {
+      libra::Vector<3> res(0);
+      return res;
+    }
+
+    return position_.GetPosition_eci_m(gnss_satellite_id);
+  }
+
   /**
    * @fn GetClockOffset_m
    * @brief Return GNSS satellite clock
    * @param [in] gnss_satellite_id: GNSS satellite ID
    */
-  double GetClockOffset_m(const size_t gnss_satellite_id) const;
+  inline double GetClockOffset_m(const size_t gnss_satellite_id) const {
+    if (!GetWhetherValid(gnss_satellite_id)) {
+      return 0.0;
+    }
+
+    return clock_.GetClockOffset_m(gnss_satellite_id);
+  }
 
   /**
    * @fn GetPseudoRangeEcef
