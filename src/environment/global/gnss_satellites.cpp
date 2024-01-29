@@ -786,7 +786,7 @@ bool GnssSatellites::GetWhetherValid(const size_t gnss_satellite_id) const {
 
 libra::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_id) const {
   // gnss_satellite_id is wrong or not valid
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) {
+  if (!GetWhetherValid(gnss_satellite_id)) {
     libra::Vector<3> res(0);
     return res;
   }
@@ -796,7 +796,7 @@ libra::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_
 
 libra::Vector<3> GnssSatellites::GetPosition_eci_m(const size_t gnss_satellite_id) const {
   // gnss_satellite_id is wrong or not valid
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) {
+  if (!GetWhetherValid(gnss_satellite_id)) {
     libra::Vector<3> res(0);
     return res;
   }
@@ -805,7 +805,7 @@ libra::Vector<3> GnssSatellites::GetPosition_eci_m(const size_t gnss_satellite_i
 }
 
 double GnssSatellites::GetClockOffset_m(const size_t gnss_satellite_id) const {
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) {
+  if (!GetWhetherValid(gnss_satellite_id)) {
     return 0.0;
   }
 
