@@ -6,11 +6,6 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
 
-#include <cmath>
-#include <ctime>
-#include <fstream>
-#include <iomanip>
-#include <map>
 #include <vector>
 
 #include "library/gnss/gnss_satellite_number.hpp"

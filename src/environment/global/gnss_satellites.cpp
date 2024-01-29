@@ -5,14 +5,7 @@
 
 #include "gnss_satellites.hpp"
 
-#include <algorithm>
-#include <iostream>
-#include <sstream>
-#include <vector>
-
 #include "environment/global/physical_constants.hpp"
-#include "library/external/sgp4/sgp4ext.h"   //for jday()
-#include "library/external/sgp4/sgp4unit.h"  //for gstime()
 #include "library/logger/log_utility.hpp"
 #include "library/math/constants.hpp"
 #include "library/utilities/macros.hpp"
