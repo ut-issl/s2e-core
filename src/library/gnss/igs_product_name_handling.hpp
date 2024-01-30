@@ -1,6 +1,8 @@
 /**
  * @file igs_product_name_handling.hpp
  * @brief Manage IGS product name handling
+ * @note IGS product: https://igs.org/products/#orbits_clocks
+ *       MGEX product: https://igs.org/mgex/data-products/#orbit_clock
  */
 
 #ifndef S2E_LIBRARY_GNSS_IGS_PRODUCT_NAME_HANDLING_HPP_
