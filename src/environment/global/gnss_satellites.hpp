@@ -192,7 +192,13 @@ class GnssSatellites : public ILoggable {
    * @brief Constructor
    * @param [in] is_calc_enabled: Flag to manage the GNSS satellite position calculation
    */
-  GnssSatellites(bool is_calc_enabled);
+  GnssSatellites(const bool is_calc_enabled = false, const bool is_log_enabled = false) : is_calc_enabled_(is_calc_enabled) {
+    if (!is_calc_enabled_) {
+      is_log_enabled_ = false;
+    } else {
+      is_log_enabled_ = is_log_enabled;
+    }
+  }
   /**
    * @fn ~GnssSatellites
    * @brief Destructor

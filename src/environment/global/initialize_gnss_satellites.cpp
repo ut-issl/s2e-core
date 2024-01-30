@@ -287,7 +287,11 @@ void ReadClockFiles(std::string directory_path, std::string extension, std::stri
 GnssSatellites* InitGnssSatellites(std::string file_name) {
   IniAccess ini_file(file_name);
   char section[] = "GNSS_SATELLITES";
-  GnssSatellites* gnss_satellites = new GnssSatellites(ini_file.ReadEnable(section, "calculation"));
+
+  const bool is_calc_enable = ini_file.ReadEnable(section, INI_CALC_LABEL);
+  const bool is_log_enable = ini_file.ReadEnable(section, INI_LOG_LABEL);
+
+  GnssSatellites* gnss_satellites = new GnssSatellites(is_calc_enable, is_log_enable);
   if (!gnss_satellites->IsCalcEnabled()) {
     return gnss_satellites;
   }

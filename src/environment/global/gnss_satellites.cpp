@@ -672,16 +672,6 @@ void GnssSatelliteClock::Update(const double current_unix_time) {
 }
 
 // GnssSatellites
-GnssSatellites::GnssSatellites(bool is_calc_enabled) {
-  // TODO: Add log enable flag in ini file
-  is_calc_enabled_ = is_calc_enabled;
-  if (is_calc_enabled_) {
-    is_log_enabled_ = true;
-  } else {
-    is_log_enabled_ = false;
-  }
-}
-
 void GnssSatellites::Initialize(vector<vector<string>>& position_file, vector<vector<string>>& clock_file, string clock_file_extension) {
   auto unix_time_period = position_.Initialize(position_file);
   clock_.Initialize(clock_file, clock_file_extension, unix_time_period);
