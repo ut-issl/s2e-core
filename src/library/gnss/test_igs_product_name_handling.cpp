@@ -31,3 +31,14 @@ TEST(IgsProductName, GetOrbitClockFinalFileName) {
   file_name = GetOrbitClockFinalFileName(header, year_doy, period, file_type);
   EXPECT_THAT(file_name, ::testing::MatchesRegex("IGS0OPSFIN_20233650000_01D_30S_CLK.CLK"));
 }
+
+/**
+ * @brief Test MergeYearDoy
+ */
+TEST(IgsProductName, MergeYearDoy) {
+  size_t year = 2023;
+  size_t doy = 190;
+  size_t year_doy = MergeYearDoy(year, doy);
+
+  EXPECT_EQ(2023190, year_doy);
+}
