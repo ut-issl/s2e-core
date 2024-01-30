@@ -297,21 +297,22 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   }
 
   std::string directory_path = ini_file.ReadString(section, "directory_path");
+  std::string file_name_header = ini_file.ReadString(section, "file_name_header");
+
+  std::string start_date = ini_file.ReadString(section, "start_date");
+  std::string end_date = ini_file.ReadString(section, "end_date");
 
   // Position
   std::vector<std::vector<std::string>> position_file;
-  ReadSp3Files(directory_path, ini_file.ReadString(section, "position_file_sort"), ini_file.ReadString(section, "position_first"),
-               ini_file.ReadString(section, "position_last"), position_file);
+  ReadSp3Files(directory_path, file_name_header, start_date, end_date, position_file);
 
   // Clock
-  std::vector<std::vector<std::string>> clock_file;
   std::string clock_file_extension = ini_file.ReadString(section, "clock_file_extension");
-  if (clock_file_extension == ".sp3") {
-    ReadSp3Files(directory_path, ini_file.ReadString(section, "clock_file_sort"), ini_file.ReadString(section, "clock_first"),
-                 ini_file.ReadString(section, "clock_last"), clock_file);
+  std::vector<std::vector<std::string>> clock_file;
+  if (clock_file_extension == "SP3") {
+    ReadSp3Files(directory_path, file_name_header, start_date, end_date, clock_file);
   } else {
-    ReadClockFiles(directory_path, clock_file_extension, ini_file.ReadString(section, "clock_file_sort"), ini_file.ReadString(section, "clock_first"),
-                   ini_file.ReadString(section, "clock_last"), clock_file);
+    ReadClockFiles(directory_path, clock_file_extension, file_name_header, start_date, end_date, clock_file);
   }
 
   // Initialize GNSS satellites
