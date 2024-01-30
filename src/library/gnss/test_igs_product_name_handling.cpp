@@ -42,3 +42,23 @@ TEST(IgsProductName, MergeYearDoy) {
 
   EXPECT_EQ(2023190, year_doy);
 }
+
+/**
+ * @brief Test PerseFromYearDoy
+ */
+TEST(IgsProductName, PerseFromYearDoy) {
+  size_t year = 1989;
+  size_t doy = 84;
+  size_t year_doy = MergeYearDoy(year, doy);
+
+  EXPECT_EQ(year, PerseYearFromYearDoy(year_doy));
+  EXPECT_EQ(doy, PerseDoyFromYearDoy(year_doy));
+
+  year_doy = 1989365;
+  EXPECT_EQ(1989, PerseYearFromYearDoy(year_doy));
+  EXPECT_EQ(365, PerseDoyFromYearDoy(year_doy));
+
+  year_doy = 2000001;
+  EXPECT_EQ(2000, PerseYearFromYearDoy(year_doy));
+  EXPECT_EQ(001, PerseDoyFromYearDoy(year_doy));
+}
