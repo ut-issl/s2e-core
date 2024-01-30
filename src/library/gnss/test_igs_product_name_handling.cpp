@@ -8,9 +8,9 @@
 #include "igs_product_name_handling.hpp"
 
 /**
- * @brief Test satellite number to index
+ * @brief Test GetOrbitClockFinalFileName
  */
-TEST(IgsProductName, SatelliteNumberToIndex) {
+TEST(IgsProductName, GetOrbitClockFinalFileName) {
   std::string header = "IGS0OPSFIN";
   size_t year_doy = 2023190;
 
