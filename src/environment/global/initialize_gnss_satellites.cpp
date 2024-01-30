@@ -6,6 +6,7 @@
 #include "initialize_gnss_satellites.hpp"
 
 #include <iostream>
+#include <library/gnss/igs_product_name_handling.hpp>
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
 
@@ -298,21 +299,46 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
 
   const std::string directory_path = ini_file.ReadString(section, "directory_path");
   const std::string file_name_header = ini_file.ReadString(section, "file_name_header");
+  const std::string orbit_data_period = ini_file.ReadString(section, "orbit_data_period");
+  const std::string clock_file_name_footer = ini_file.ReadString(section, "clock_file_name_footer");
+  bool use_sp3_for_clock = false;
+  if (clock_file_name_footer == (orbit_data_period + "_ORB.SP3")) {
+    use_sp3_for_clock = true;
+  }
 
-  const std::string start_date = ini_file.ReadString(section, "start_date");
-  const std::string end_date = ini_file.ReadString(section, "end_date");
+  // Duration
+  const size_t start_date = (size_t)ini_file.ReadInt(section, "start_date");
+  const size_t end_date = (size_t)ini_file.ReadInt(section, "end_date");
+  if (start_date > end_date) {
+    std::cout << "[ERROR] GNSS satellite initialize: start_date is larger than the end date." << std::endl;
+  }
+  size_t read_file_date = start_date;
+  while (read_file_date > end_date) {
+    std::string sp3_file_name = GetOrbitClockFinalFileName(file_name_header, read_file_date, orbit_data_period);
+    std::string sp3_full_file_path = directory_path + "/" + sp3_file_name;
+
+    // Read SP3
+
+    // Read CLK
+    if (!use_sp3_for_clock) {
+      std::string clk_file_name =
+          GetOrbitClockFinalFileName(file_name_header, read_file_date, clock_file_name_footer.substr(0, 3), clock_file_name_footer.substr(4, 7));
+      std::string clk_full_file_path = directory_path + "/" + clk_file_name;
+    }
+
+    read_file_date = IncrementYearDoy(read_file_date);
+  }
 
   // Position
   std::vector<std::vector<std::string>> position_file;
-  ReadSp3Files(directory_path, file_name_header, start_date, end_date, position_file);
+  // ReadSp3Files(directory_path, file_name_header, start_date, end_date, position_file);
 
   // Clock
-  const std::string clock_file_name_footer = ini_file.ReadString(section, "clock_file_name_footer");
   std::vector<std::vector<std::string>> clock_file;
   if (clock_file_name_footer == "SP3") {
-    ReadSp3Files(directory_path, file_name_header, start_date, end_date, clock_file);
+    // ReadSp3Files(directory_path, file_name_header, start_date, end_date, clock_file);
   } else {
-    ReadClockFiles(directory_path, clock_file_name_footer, file_name_header, start_date, end_date, clock_file);
+    // ReadClockFiles(directory_path, clock_file_name_footer, file_name_header, start_date, end_date, clock_file);
   }
 
   // Initialize GNSS satellites
