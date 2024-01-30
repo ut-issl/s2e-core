@@ -135,8 +135,8 @@ double GnssSatelliteBase::LagrangeInterpolation(const vector<double>& time_vecto
 }
 
 // GnssSatellitePosition
-pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& file, int interpolation_number) {
-  interpolation_number_ = interpolation_number;
+pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& file) {
+  interpolation_number_ = 9;  // 9 is recommended in the paper
 
   // Expansion
   time_series_position_ecef_m_.resize(kTotalNumberOfGnssSatellite);  // first vector size is the satellite number
@@ -404,9 +404,8 @@ void GnssSatellitePosition::Update(const double current_unix_time) {
 }
 
 // GnssSatelliteClock
-void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_extension, int interpolation_number,
-                                    pair<double, double> unix_time_period) {
-  interpolation_number_ = interpolation_number;
+void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_extension, pair<double, double> unix_time_period) {
+  interpolation_number_ = 3;                                        // Quadratic interpolation is recommended
   time_series_clock_offset_m_.resize(kTotalNumberOfGnssSatellite);  // first vector size is the sat num
   unix_time_list.resize(kTotalNumberOfGnssSatellite);
 
@@ -683,10 +682,9 @@ GnssSatellites::GnssSatellites(bool is_calc_enabled) {
   }
 }
 
-void GnssSatellites::Initialize(vector<vector<string>>& position_file, int position_interpolation_number, vector<vector<string>>& clock_file,
-                                string clock_file_extension, int clock_interpolation_number) {
-  auto unix_time_period = position_.Initialize(position_file, position_interpolation_number);
-  clock_.Initialize(clock_file, clock_file_extension, clock_interpolation_number, unix_time_period);
+void GnssSatellites::Initialize(vector<vector<string>>& position_file, vector<vector<string>>& clock_file, string clock_file_extension) {
+  auto unix_time_period = position_.Initialize(position_file);
+  clock_.Initialize(clock_file, clock_file_extension, unix_time_period);
 
   return;
 }
