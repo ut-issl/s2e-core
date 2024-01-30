@@ -62,3 +62,24 @@ TEST(IgsProductName, PerseFromYearDoy) {
   EXPECT_EQ(2000, PerseYearFromYearDoy(year_doy));
   EXPECT_EQ(001, PerseDoyFromYearDoy(year_doy));
 }
+
+/**
+ * @brief Test IncrementYearDoy
+ */
+TEST(IgsProductName, IncrementYearDoy) {
+  size_t year_doy = 2024030;
+  year_doy = IncrementYearDoy(year_doy);
+  EXPECT_EQ(2024031, year_doy);
+
+  // Year update
+  year_doy = 2023365;
+  year_doy = IncrementYearDoy(year_doy);
+  EXPECT_EQ(2024001, year_doy);
+
+  // Leap year
+  year_doy = 2024365;
+  year_doy = IncrementYearDoy(year_doy);
+  EXPECT_EQ(2024366, year_doy);
+  year_doy = IncrementYearDoy(year_doy);
+  EXPECT_EQ(2025001, year_doy);
+}
