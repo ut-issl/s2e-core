@@ -135,9 +135,7 @@ double GnssSatelliteBase::LagrangeInterpolation(const vector<double>& time_vecto
 }
 
 // GnssSatellitePosition
-pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& file, int interpolation_method, int interpolation_number) {
-  UNUSED(interpolation_method);
-
+pair<double, double> GnssSatellitePosition::Initialize(vector<vector<string>>& file, int interpolation_number) {
   interpolation_number_ = interpolation_number;
 
   // Expansion
@@ -685,9 +683,9 @@ GnssSatellites::GnssSatellites(bool is_calc_enabled) {
   }
 }
 
-void GnssSatellites::Initialize(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                                vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number) {
-  auto unix_time_period = position_.Initialize(position_file, position_interpolation_method, position_interpolation_number);
+void GnssSatellites::Initialize(vector<vector<string>>& position_file, int position_interpolation_number, vector<vector<string>>& clock_file,
+                                string clock_file_extension, int clock_interpolation_number) {
+  auto unix_time_period = position_.Initialize(position_file, position_interpolation_number);
   clock_.Initialize(clock_file, clock_file_extension, clock_interpolation_number, unix_time_period);
 
   return;

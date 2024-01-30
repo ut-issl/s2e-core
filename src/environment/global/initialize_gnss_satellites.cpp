@@ -298,7 +298,6 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   std::vector<std::vector<std::string>> position_file;
   ReadSp3Files(directory_path, ini_file.ReadString(section, "position_file_sort"), ini_file.ReadString(section, "position_first"),
                ini_file.ReadString(section, "position_last"), position_file);
-  int position_interpolation_method = ini_file.ReadInt(section, "position_interpolation_method");
   int position_interpolation_number = ini_file.ReadInt(section, "position_interpolation_number");
 
   // Clock
@@ -314,8 +313,7 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   int clock_interpolation_number = ini_file.ReadInt(section, "clock_interpolation_number");
 
   // Initialize GNSS satellites
-  gnss_satellites->Initialize(position_file, position_interpolation_method, position_interpolation_number, clock_file, clock_file_extension,
-                              clock_interpolation_number);
+  gnss_satellites->Initialize(position_file, position_interpolation_number, clock_file, clock_file_extension, clock_interpolation_number);
 
   return gnss_satellites;
 }

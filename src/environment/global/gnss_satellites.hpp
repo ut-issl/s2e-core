@@ -83,11 +83,10 @@ class GnssSatellitePosition : public GnssSatelliteBase {
    * @fn Initialize
    * @brief Initialize GNSS satellite position
    * @param[in] file: File path for position calculation
-   * @param[in] interpolation_method: Interpolation method for position calculation
    * @param[in] interpolation_number: Interpolation number for position calculation
    * @return Start unix time and end unix time
    */
-  std::pair<double, double> Initialize(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number);
+  std::pair<double, double> Initialize(std::vector<std::vector<std::string>>& file, int interpolation_number);
 
   /**
    * @fn Setup
@@ -208,7 +207,7 @@ class GnssSatellites : public ILoggable {
    * @brief Initialize function
    * @note Parameters are defined in GNSSSat_Info
    */
-  void Initialize(std::vector<std::vector<std::string>>& position_file, int position_interpolation_method, int position_interpolation_number,
+  void Initialize(std::vector<std::vector<std::string>>& position_file, int position_interpolation_number,
                   std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension, int clock_interpolation_number);
   /**
    * @fn IsCalcEnabled
