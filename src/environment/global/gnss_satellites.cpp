@@ -13,7 +13,6 @@
 #include "environment/global/physical_constants.hpp"
 #include "library/external/sgp4/sgp4ext.h"   //for jday()
 #include "library/external/sgp4/sgp4unit.h"  //for gstime()
-#include "library/gnss/gnss_satellite_number.hpp"
 #include "library/logger/log_utility.hpp"
 #include "library/math/constants.hpp"
 #include "library/utilities/macros.hpp"
@@ -140,11 +139,6 @@ double GnssSatelliteBase::LagrangeInterpolation(const vector<double>& time_vecto
   }
 
   return res;
-}
-
-bool GnssSatelliteBase::GetWhetherValid(const size_t gnss_satellite_id) const {
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return false;
-  return validate_.at(gnss_satellite_id);
 }
 
 // GnssSatellitePosition
@@ -418,16 +412,6 @@ void GnssSatellitePosition::Update(const double current_unix_time) {
   }
 }
 
-libra::Vector<3> GnssSatellitePosition::GetPosition_ecef_m(const size_t gnss_satellite_id) const {
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return libra::Vector<3>(0.0);
-  return position_ecef_m_.at(gnss_satellite_id);
-}
-
-libra::Vector<3> GnssSatellitePosition::GetPosition_eci_m(const size_t gnss_satellite_id) const {
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return libra::Vector<3>(0.0);
-  return position_eci_m_.at(gnss_satellite_id);
-}
-
 // GnssSatelliteClock
 void GnssSatelliteClock::Initialize(vector<vector<string>>& file, string file_extension, int interpolation_number,
                                     pair<double, double> unix_time_period) {
@@ -697,34 +681,6 @@ void GnssSatelliteClock::Update(const double current_unix_time) {
   }
 }
 
-double GnssSatelliteClock::GetClockOffset_m(const size_t gnss_satellite_id) const {
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return 0.0;
-  return clock_offset_m_.at(gnss_satellite_id);
-}
-
-// GnssSatelliteInformation
-GnssSatelliteInformation::GnssSatelliteInformation() {}
-void GnssSatelliteInformation::Initialize(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                                          vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number) {
-  auto unix_time_period = position_.Initialize(position_file, position_interpolation_method, position_interpolation_number);
-  clock_.Initialize(clock_file, clock_file_extension, clock_interpolation_number, unix_time_period);
-}
-
-void GnssSatelliteInformation::SetUp(const double start_unix_time, const double step_width_s) {
-  position_.SetUp(start_unix_time, step_width_s);
-  clock_.SetUp(start_unix_time, step_width_s);
-}
-
-void GnssSatelliteInformation::Update(const double current_unix_time) {
-  position_.Update(current_unix_time);
-  clock_.Update(current_unix_time);
-}
-
-bool GnssSatelliteInformation::GetWhetherValid(const size_t gnss_satellite_id) const {
-  if (position_.GetWhetherValid(gnss_satellite_id) && clock_.GetWhetherValid(gnss_satellite_id)) return true;
-  return false;
-}
-
 // GnssSatellites
 GnssSatellites::GnssSatellites(bool is_calc_enabled) {
   // TODO: Add log enable flag in ini file
@@ -736,12 +692,11 @@ GnssSatellites::GnssSatellites(bool is_calc_enabled) {
   }
 }
 
-bool GnssSatellites::IsCalcEnabled() const { return is_calc_enabled_; }
-
 void GnssSatellites::Initialize(vector<vector<string>>& position_file, int position_interpolation_method, int position_interpolation_number,
                                 vector<vector<string>>& clock_file, string clock_file_extension, int clock_interpolation_number) {
-  gnss_info_.Initialize(position_file, position_interpolation_method, position_interpolation_number, clock_file, clock_file_extension,
-                        clock_interpolation_number);
+  auto unix_time_period = position_.Initialize(position_file, position_interpolation_method, position_interpolation_number);
+  clock_.Initialize(clock_file, clock_file_extension, clock_interpolation_number, unix_time_period);
+
   return;
 }
 
@@ -758,7 +713,9 @@ void GnssSatellites::SetUp(const SimulationTime* simulation_time) {
   start_tm->tm_sec = (int)start_sec;
   double unix_time = (double)mktime(start_tm) + start_sec - floor(start_sec);
   std::free(start_tm);
-  gnss_info_.SetUp(unix_time, simulation_time->GetSimulationStep_s());
+
+  position_.SetUp(unix_time, simulation_time->GetSimulationStep_s());
+  clock_.SetUp(unix_time, simulation_time->GetSimulationStep_s());
 
   start_unix_time_ = unix_time;
 
@@ -770,62 +727,28 @@ void GnssSatellites::Update(const SimulationTime* simulation_time) {
 
   double elapsed_sec = simulation_time->GetElapsedTime_s();
 
-  gnss_info_.Update(elapsed_sec + start_unix_time_);
+  double current_unix_time = elapsed_sec + start_unix_time_;
+
+  position_.Update(current_unix_time);
+  clock_.Update(current_unix_time);
 
   return;
-}
-
-bool GnssSatellites::GetWhetherValid(const size_t gnss_satellite_id) const {
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite) return false;
-
-  if (gnss_info_.GetWhetherValid(gnss_satellite_id) && gnss_info_.GetWhetherValid(gnss_satellite_id))
-    return true;
-  else
-    return false;
-}
-
-libra::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_id) const {
-  // gnss_satellite_id is wrong or not valid
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) {
-    libra::Vector<3> res(0);
-    return res;
-  }
-
-  return gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
-}
-
-libra::Vector<3> GnssSatellites::GetPosition_eci_m(const size_t gnss_satellite_id) const {
-  // gnss_satellite_id is wrong or not valid
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) {
-    libra::Vector<3> res(0);
-    return res;
-  }
-
-  return gnss_info_.GetPosition_eci_m(gnss_satellite_id);
-}
-
-double GnssSatellites::GetClockOffset_m(const size_t gnss_satellite_id) const {
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) {
-    return 0.0;
-  }
-
-  return gnss_info_.GetClockOffset_m(gnss_satellite_id);
 }
 
 double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_ecef_m, double receiver_clock_offset_m,
                                           const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
+  if (!GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   double res = 0.0;
-  auto gnss_position = gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
+  auto gnss_position = position_.GetPosition_ecef_m(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(receiver_position_ecef_m(i) - gnss_position(i), 2.0);
   }
   res = sqrt(res);
 
   // clock bias
-  res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
+  res += receiver_clock_offset_m - clock_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_ecef_m, frequency_MHz);
@@ -838,17 +761,17 @@ double GnssSatellites::GetPseudoRangeEcef(const size_t gnss_satellite_id, libra:
 double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_eci_m, double receiver_clock_offset_m,
                                          const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
+  if (!GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   double res = 0.0;
-  auto gnss_position = gnss_info_.GetPosition_eci_m(gnss_satellite_id);
+  auto gnss_position = position_.GetPosition_eci_m(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(receiver_position_eci_m(i) - gnss_position(i), 2.0);
   }
   res = sqrt(res);
 
   // clock bias
-  res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
+  res += receiver_clock_offset_m - clock_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_eci_m, frequency_MHz);
@@ -861,17 +784,17 @@ double GnssSatellites::GetPseudoRangeEci(const size_t gnss_satellite_id, libra::
 pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_ecef_m,
                                                          double receiver_clock_offset_m, const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
+  if (!GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
   double res = 0.0;
-  auto gnss_position = gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
+  auto gnss_position = position_.GetPosition_ecef_m(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(receiver_position_ecef_m(i) - gnss_position(i), 2.0);
   }
   res = sqrt(res);
 
   // clock bias
-  res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
+  res += receiver_clock_offset_m - clock_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_ecef_m, frequency_MHz);
@@ -891,17 +814,17 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEcef(const size_t gnss_satel
 pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satellite_id, libra::Vector<3> receiver_position_eci_m,
                                                         double receiver_clock_offset_m, const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
+  if (!GetWhetherValid(gnss_satellite_id)) return {0.0, 0.0};
 
   double res = 0.0;
-  auto gnss_position = gnss_info_.GetPosition_eci_m(gnss_satellite_id);
+  auto gnss_position = position_.GetPosition_eci_m(gnss_satellite_id);
   for (int i = 0; i < 3; ++i) {
     res += pow(receiver_position_eci_m(i) - gnss_position(i), 2.0);
   }
   res = sqrt(res);
 
   // clock bias
-  res += receiver_clock_offset_m - gnss_info_.GetClockOffset_m(gnss_satellite_id);
+  res += receiver_clock_offset_m - clock_.GetClockOffset_m(gnss_satellite_id);
 
   // ionospheric delay
   const double ionospheric_delay = AddIonosphericDelay(gnss_satellite_id, receiver_position_eci_m, frequency_MHz);
@@ -922,7 +845,7 @@ pair<double, double> GnssSatellites::GetCarrierPhaseEci(const size_t gnss_satell
 double GnssSatellites::AddIonosphericDelay(const size_t gnss_satellite_id, const libra::Vector<3> receiver_position_m,
                                            const double frequency_MHz) const {
   // gnss_satellite_id is wrong or not validate
-  if (gnss_satellite_id >= kTotalNumberOfGnssSatellite || !GetWhetherValid(gnss_satellite_id)) return 0.0;
+  if (!GetWhetherValid(gnss_satellite_id)) return 0.0;
 
   const double earth_hemisphere_km = environment::earth_equatorial_radius_m / 1000.0;
 
@@ -933,7 +856,7 @@ double GnssSatellites::AddIonosphericDelay(const size_t gnss_satellite_id, const
   if (altitude >= 1000.0) return 0.0;                  // there is no Ionosphere above 1000km
 
   libra::Vector<3> gnss_position;
-  gnss_position = gnss_info_.GetPosition_ecef_m(gnss_satellite_id);
+  gnss_position = position_.GetPosition_ecef_m(gnss_satellite_id);
 
   double angle_rad = CalcAngleTwoVectors_rad(receiver_position_m, gnss_position - receiver_position_m);
   const double default_delay = 20.0;  //[m] default delay
@@ -962,8 +885,8 @@ std::string GnssSatellites::GetLogValue() const {
   std::string str_tmp = "";
 
   for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += WriteVector(gnss_info_.GetPosition_ecef_m((int)gps_index), 16);
-    str_tmp += WriteScalar(gnss_info_.GetClockOffset_m((int)gps_index));
+    str_tmp += WriteVector(position_.GetPosition_ecef_m((int)gps_index), 16);
+    str_tmp += WriteScalar(clock_.GetClockOffset_m((int)gps_index));
   }
 
   return str_tmp;
