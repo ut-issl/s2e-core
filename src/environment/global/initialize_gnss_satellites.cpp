@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <library/gnss/igs_product_name_handling.hpp>
+#include <library/gnss/sp3_file_reader.hpp>
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
 
@@ -312,12 +313,17 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   if (start_date > end_date) {
     std::cout << "[ERROR] GNSS satellite initialize: start_date is larger than the end date." << std::endl;
   }
+
+  // Read all product files
+  std::vector<Sp3FileReader> sp3_file_readers;
+
   size_t read_file_date = start_date;
-  while (read_file_date > end_date) {
+  while (read_file_date <= end_date) {
     std::string sp3_file_name = GetOrbitClockFinalFileName(file_name_header, read_file_date, orbit_data_period);
     std::string sp3_full_file_path = directory_path + "/" + sp3_file_name;
 
     // Read SP3
+    sp3_file_readers.push_back(Sp3FileReader(sp3_full_file_path));
 
     // Read CLK
     if (!use_sp3_for_clock) {
@@ -326,6 +332,7 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
       std::string clk_full_file_path = directory_path + "/" + clk_file_name;
     }
 
+    // Increment
     read_file_date = IncrementYearDoy(read_file_date);
   }
 
