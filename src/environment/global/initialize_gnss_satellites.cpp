@@ -307,16 +307,16 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
   ReadSp3Files(directory_path, file_name_header, start_date, end_date, position_file);
 
   // Clock
-  const std::string clock_file_extension = ini_file.ReadString(section, "clock_file_extension");
+  const std::string clock_file_name_footer = ini_file.ReadString(section, "clock_file_name_footer");
   std::vector<std::vector<std::string>> clock_file;
-  if (clock_file_extension == "SP3") {
+  if (clock_file_name_footer == "SP3") {
     ReadSp3Files(directory_path, file_name_header, start_date, end_date, clock_file);
   } else {
-    ReadClockFiles(directory_path, clock_file_extension, file_name_header, start_date, end_date, clock_file);
+    ReadClockFiles(directory_path, clock_file_name_footer, file_name_header, start_date, end_date, clock_file);
   }
 
   // Initialize GNSS satellites
-  gnss_satellites->Initialize(position_file, clock_file, clock_file_extension);
+  gnss_satellites->Initialize(position_file, clock_file, clock_file_name_footer);
 
   return gnss_satellites;
 }
