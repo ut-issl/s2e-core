@@ -875,7 +875,7 @@ std::string GnssSatellites::GetLogValue() const {
   return str_tmp;
 }
 
-GnssSatellites* InitGnssSatellites(std::string file_name) {
+GnssSatellites* InitGnssSatellites(const std::string file_name) {
   IniAccess ini_file(file_name);
   char section[] = "GNSS_SATELLITES";
 
