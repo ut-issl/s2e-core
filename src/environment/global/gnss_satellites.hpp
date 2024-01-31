@@ -363,4 +363,11 @@ class GnssSatellites : public ILoggable {
   double start_unix_time_;          //!< Start unix time
 };
 
+/**
+ *@fn InitGnssSatellites
+ *@brief Initialize function for GnssSatellites class
+ *@param [in] file_name: Path to the initialize file
+ */
+GnssSatellites* InitGnssSatellites(const std::string file_name);
+
 #endif  // S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
