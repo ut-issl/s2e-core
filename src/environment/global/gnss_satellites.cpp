@@ -9,6 +9,7 @@
 #include <library/gnss/sp3_file_reader.hpp>
 
 #include "environment/global/physical_constants.hpp"
+#include "library/initialize/initialize_file_access.hpp"
 #include "library/logger/log_utility.hpp"
 #include "library/math/constants.hpp"
 #include "library/utilities/macros.hpp"
