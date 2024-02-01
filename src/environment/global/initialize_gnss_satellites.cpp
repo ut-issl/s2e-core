@@ -6,6 +6,8 @@
 #include "initialize_gnss_satellites.hpp"
 
 #include <iostream>
+#include <library/gnss/igs_product_name_handling.hpp>
+#include <library/gnss/sp3_file_reader.hpp>
 #include <library/initialize/initialize_file_access.hpp>
 #include <string>
 
@@ -73,124 +75,6 @@ void ReadFileContents(std::string directory_path, std::string file_name, std::ve
   }
   ifs.close();
   if (storage.back() == "EOF") storage.pop_back();
-
-  return;
-}
-
-/**
- *@fn ReadSp3Files
- *@brief Read multiple SP3 files in the directory and generate multiple vectors of one line strings
- *@param [in] directory_path: Directory path of the file
- *@param [in] file_sort: File type
- *@param [in] first: The first SP3 file name
- *@param [in] last: The last SP3 file name
- *@param [out] file_contents: Generated files as multiple vectors of one line strings
- */
-void ReadSp3Files(std::string directory_path, std::string file_sort, std::string first, std::string last,
-                  std::vector<std::vector<std::string>>& file_contents) {
-  std::string all_directory_path = directory_path + ReturnDirectoryPathWithFileType(file_sort);
-
-  if (first.substr(0, 3) == "COD") {
-    std::string file_header = "COD0MGXFIN_";
-    std::string file_footer = "0000_01D_05M_ORB.SP3";
-    int year = stoi(first.substr(file_header.size(), 4));
-    int year_last_day = 365 + (year % 4 == 0) - (year % 100 == 0) + (year % 400 == 0);
-    int day = stoi(first.substr(file_header.size() + 4, 3));
-
-    file_contents.clear();
-
-    while (true) {
-      if (day > year_last_day) {
-        ++year;
-        year_last_day = 365 + (year % 4 == 0) - (year % 100 == 0) + (year % 400 == 0);
-        day = 1;
-      }
-      std::string s_day;
-      if (day >= 100)
-        s_day = std::to_string(day);
-      else if (day >= 10)
-        s_day = '0' + std::to_string(day);
-      else
-        s_day = "00" + std::to_string(day);
-      std::string file_name = file_header + std::to_string(year) + s_day + file_footer;
-      file_contents.push_back(std::vector<std::string>());
-
-      ReadFileContents(all_directory_path, file_name, file_contents.back());
-
-      if (file_name == last) break;
-      ++day;
-    }
-  } else if (file_sort.substr(0, 3) == "IGU" || file_sort.find("Ultra") != std::string::npos) {  // In case of UR
-    std::string file_header, file_footer;
-    int gps_week = 0, day = 0;
-    int hour = 0;
-    for (int i = 0; i < (int)first.size(); ++i) {
-      int n = first.at(i);
-      // Looking for the number of file name
-      if ((int)'0' <= n && n < (int)('0' + 10)) {
-        file_header = first.substr(0, i);
-        gps_week = stoi(first.substr(file_header.size(), 4));
-        day = stoi(first.substr(file_header.size() + 4, 1));
-        hour = stoi(first.substr(file_header.size() + 6, 2));
-        file_footer = first.substr(file_header.size() + 8);
-        break;
-      }
-    }
-
-    file_contents.clear();
-
-    while (true) {
-      if (hour == 24) {
-        hour = 0;
-        ++day;
-      }
-      if (day == 7) {
-        ++gps_week;
-        day = 0;
-      }
-      std::string file_name = file_header + std::to_string(gps_week) + std::to_string(day) + "_";
-      if (hour < 10) {
-        file_name += "0";
-      }
-      file_name += std::to_string(hour) + file_footer;
-      file_contents.push_back(std::vector<std::string>());
-
-      ReadFileContents(all_directory_path, file_name, file_contents.back());
-
-      if (file_name == last) break;
-      hour += 6;
-    }
-  } else {
-    std::string file_header, file_footer;
-    int gps_week = 0, day = 0;
-    for (int i = 0; i < (int)first.size(); ++i) {
-      int n = first.at(i);
-      // Looking for the number of file name
-      if ((int)'0' <= n && n < (int)('0' + 10)) {
-        file_header = first.substr(0, i);
-        gps_week = stoi(first.substr(file_header.size(), 4));
-        day = stoi(first.substr(file_header.size() + 4, 1));
-        file_footer = first.substr(file_header.size() + 5);
-        break;
-      }
-    }
-
-    file_contents.clear();
-
-    while (true) {
-      if (day == 7) {
-        ++gps_week;
-        day = 0;
-      }
-      std::string file_name = file_header + std::to_string(gps_week) + std::to_string(day) + file_footer;
-      file_contents.push_back(std::vector<std::string>());
-
-      ReadFileContents(all_directory_path, file_name, file_contents.back());
-
-      if (file_name == last) break;
-      ++day;
-    }
-  }
 
   return;
 }
@@ -298,24 +182,46 @@ GnssSatellites* InitGnssSatellites(std::string file_name) {
 
   const std::string directory_path = ini_file.ReadString(section, "directory_path");
   const std::string file_name_header = ini_file.ReadString(section, "file_name_header");
-
-  const std::string start_date = ini_file.ReadString(section, "start_date");
-  const std::string end_date = ini_file.ReadString(section, "end_date");
-
-  // Position
-  std::vector<std::vector<std::string>> position_file;
-  ReadSp3Files(directory_path, file_name_header, start_date, end_date, position_file);
-
-  // Clock
+  const std::string orbit_data_period = ini_file.ReadString(section, "orbit_data_period");
   const std::string clock_file_name_footer = ini_file.ReadString(section, "clock_file_name_footer");
-  std::vector<std::vector<std::string>> clock_file;
-  if (clock_file_name_footer == "SP3") {
-    ReadSp3Files(directory_path, file_name_header, start_date, end_date, clock_file);
-  } else {
-    ReadClockFiles(directory_path, clock_file_name_footer, file_name_header, start_date, end_date, clock_file);
+  bool use_sp3_for_clock = false;
+  if (clock_file_name_footer == (orbit_data_period + "_ORB.SP3")) {
+    use_sp3_for_clock = true;
   }
 
-  // Initialize GNSS satellites
+  // Duration
+  const size_t start_date = (size_t)ini_file.ReadInt(section, "start_date");
+  const size_t end_date = (size_t)ini_file.ReadInt(section, "end_date");
+  if (start_date > end_date) {
+    std::cout << "[ERROR] GNSS satellite initialize: start_date is larger than the end date." << std::endl;
+  }
+
+  // Read all product files
+  std::vector<Sp3FileReader> sp3_file_readers;
+
+  size_t read_file_date = start_date;
+  while (read_file_date <= end_date) {
+    std::string sp3_file_name = GetOrbitClockFinalFileName(file_name_header, read_file_date, orbit_data_period);
+    std::string sp3_full_file_path = directory_path + "/" + sp3_file_name;
+
+    // Read SP3
+    sp3_file_readers.push_back(Sp3FileReader(sp3_full_file_path));
+
+    // Clock file
+    if (!use_sp3_for_clock) {
+      std::string clk_file_name =
+          GetOrbitClockFinalFileName(file_name_header, read_file_date, clock_file_name_footer.substr(0, 3), clock_file_name_footer.substr(4, 7));
+      std::string clk_full_file_path = directory_path + "/" + clk_file_name;
+      // TODO: Read CLK
+    }
+
+    // Increment
+    read_file_date = IncrementYearDoy(read_file_date);
+  }
+
+  // Old descriptions TODO: delete
+  std::vector<std::vector<std::string>> position_file;
+  std::vector<std::vector<std::string>> clock_file;
   gnss_satellites->Initialize(position_file, clock_file, clock_file_name_footer);
 
   return gnss_satellites;
