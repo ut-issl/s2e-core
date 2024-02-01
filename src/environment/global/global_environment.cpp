@@ -5,7 +5,6 @@
 
 #include "global_environment.hpp"
 
-#include "initialize_gnss_satellites.hpp"
 #include "library/initialize/initialize_file_access.hpp"
 
 GlobalEnvironment::GlobalEnvironment(const SimulationConfiguration* simulation_configuration) { Initialize(simulation_configuration); }
