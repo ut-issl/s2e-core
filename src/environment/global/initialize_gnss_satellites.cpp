@@ -287,35 +287,36 @@ void ReadClockFiles(std::string directory_path, std::string extension, std::stri
 GnssSatellites* InitGnssSatellites(std::string file_name) {
   IniAccess ini_file(file_name);
   char section[] = "GNSS_SATELLITES";
-  GnssSatellites* gnss_satellites = new GnssSatellites(ini_file.ReadEnable(section, "calculation"));
+
+  const bool is_calc_enable = ini_file.ReadEnable(section, INI_CALC_LABEL);
+  const bool is_log_enable = ini_file.ReadEnable(section, INI_LOG_LABEL);
+
+  GnssSatellites* gnss_satellites = new GnssSatellites(is_calc_enable, is_log_enable);
   if (!gnss_satellites->IsCalcEnabled()) {
     return gnss_satellites;
   }
 
-  std::string directory_path = ini_file.ReadString(section, "directory_path");
+  const std::string directory_path = ini_file.ReadString(section, "directory_path");
+  const std::string file_name_header = ini_file.ReadString(section, "file_name_header");
+
+  const std::string start_date = ini_file.ReadString(section, "start_date");
+  const std::string end_date = ini_file.ReadString(section, "end_date");
 
   // Position
   std::vector<std::vector<std::string>> position_file;
-  ReadSp3Files(directory_path, ini_file.ReadString(section, "position_file_sort"), ini_file.ReadString(section, "position_first"),
-               ini_file.ReadString(section, "position_last"), position_file);
-  int position_interpolation_method = ini_file.ReadInt(section, "position_interpolation_method");
-  int position_interpolation_number = ini_file.ReadInt(section, "position_interpolation_number");
+  ReadSp3Files(directory_path, file_name_header, start_date, end_date, position_file);
 
   // Clock
+  const std::string clock_file_name_footer = ini_file.ReadString(section, "clock_file_name_footer");
   std::vector<std::vector<std::string>> clock_file;
-  std::string clock_file_extension = ini_file.ReadString(section, "clock_file_extension");
-  if (clock_file_extension == ".sp3") {
-    ReadSp3Files(directory_path, ini_file.ReadString(section, "clock_file_sort"), ini_file.ReadString(section, "clock_first"),
-                 ini_file.ReadString(section, "clock_last"), clock_file);
+  if (clock_file_name_footer == "SP3") {
+    ReadSp3Files(directory_path, file_name_header, start_date, end_date, clock_file);
   } else {
-    ReadClockFiles(directory_path, clock_file_extension, ini_file.ReadString(section, "clock_file_sort"), ini_file.ReadString(section, "clock_first"),
-                   ini_file.ReadString(section, "clock_last"), clock_file);
+    ReadClockFiles(directory_path, clock_file_name_footer, file_name_header, start_date, end_date, clock_file);
   }
-  int clock_interpolation_number = ini_file.ReadInt(section, "clock_interpolation_number");
 
   // Initialize GNSS satellites
-  gnss_satellites->Initialize(position_file, position_interpolation_method, position_interpolation_number, clock_file, clock_file_extension,
-                              clock_interpolation_number);
+  gnss_satellites->Initialize(position_file, clock_file, clock_file_name_footer);
 
   return gnss_satellites;
 }

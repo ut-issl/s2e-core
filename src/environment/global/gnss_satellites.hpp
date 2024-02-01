@@ -83,11 +83,9 @@ class GnssSatellitePosition : public GnssSatelliteBase {
    * @fn Initialize
    * @brief Initialize GNSS satellite position
    * @param[in] file: File path for position calculation
-   * @param[in] interpolation_method: Interpolation method for position calculation
-   * @param[in] interpolation_number: Interpolation number for position calculation
    * @return Start unix time and end unix time
    */
-  std::pair<double, double> Initialize(std::vector<std::vector<std::string>>& file, int interpolation_method, int interpolation_number);
+  std::pair<double, double> Initialize(std::vector<std::vector<std::string>>& file);
 
   /**
    * @fn Setup
@@ -150,10 +148,8 @@ class GnssSatelliteClock : public GnssSatelliteBase {
    * @brief Initialize GNSS satellite clock
    * @param[in] file: File path for clock calculation
    * @param[in] file_extension: Extension of the clock file (ex. .sp3, .clk30s)
-   * @param[in] interpolation_number: Interpolation number for clock calculation
    */
-  void Initialize(std::vector<std::vector<std::string>>& file, std::string file_extension, int interpolation_number,
-                  std::pair<double, double> unix_time_period);
+  void Initialize(std::vector<std::vector<std::string>>& file, std::string file_extension, std::pair<double, double> unix_time_period);
   /**
    * @fn SetUp
    * @brief Setup GNSS satellite clock information
@@ -196,7 +192,13 @@ class GnssSatellites : public ILoggable {
    * @brief Constructor
    * @param [in] is_calc_enabled: Flag to manage the GNSS satellite position calculation
    */
-  GnssSatellites(bool is_calc_enabled);
+  GnssSatellites(const bool is_calc_enabled = false, const bool is_log_enabled = false) : is_calc_enabled_(is_calc_enabled) {
+    if (!is_calc_enabled_) {
+      is_log_enabled_ = false;
+    } else {
+      is_log_enabled_ = is_log_enabled;
+    }
+  }
   /**
    * @fn ~GnssSatellites
    * @brief Destructor
@@ -208,8 +210,8 @@ class GnssSatellites : public ILoggable {
    * @brief Initialize function
    * @note Parameters are defined in GNSSSat_Info
    */
-  void Initialize(std::vector<std::vector<std::string>>& position_file, int position_interpolation_method, int position_interpolation_number,
-                  std::vector<std::vector<std::string>>& clock_file, std::string clock_file_extension, int clock_interpolation_number);
+  void Initialize(std::vector<std::vector<std::string>>& position_file, std::vector<std::vector<std::string>>& clock_file,
+                  std::string clock_file_extension);
   /**
    * @fn IsCalcEnabled
    * @brief Return calculated enabled flag
