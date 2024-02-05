@@ -66,13 +66,6 @@ class GnssSatellites : public ILoggable {
    */
   void Update(const SimulationTime& simulation_time);
 
-  /**
-   * @fn GetWhetherValid
-   * @brief Return true the GNSS satellite information is available for both position and clock
-   * @param [in] gnss_satellite_id: Index of GNSS satellite
-   */
-  inline bool GetWhetherValid(const size_t gnss_satellite_id) const { return true; }
-
   inline libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const { return libra::Vector<3>(0.0); }
 
   /**
