@@ -81,21 +81,7 @@ class GnssSatellites : public ILoggable {
    * @param [in] time: Target time to get the GNSS satellite. When the argument is not set, the last updated time is used for the calculation.
    * @return GNSS satellite position at ECEF frame at the time. Or return zero when the time is far from the current simulation time.
    */
-  inline libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id, const EpochTime time = EpochTime(0, 0.0)) const {
-    EpochTime target_time;
-
-    if (time.GetTime_s() == 0) {
-      target_time = current_epoch_time_;
-    } else {
-      target_time = time;
-    }
-
-    double diff_s = target_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
-    if (diff_s < 0.0 || diff_s > 1e6) return libra::Vector<3>(0.0);
-
-    const double kOrbitalPeriodCorrection_s = 24 * 60 * 60 * 1.003;  // See http://acc.igs.org/orbits/orbit-interp_gpssoln03.pdf
-    return orbit_[gnss_satellite_id].CalcPositionWithTrigonometric(diff_s, libra::tau / kOrbitalPeriodCorrection_s);
-  }
+  libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id, const EpochTime time = EpochTime(0, 0.0)) const;
 
   /**
    * @fn GetGetClock_s
@@ -104,20 +90,7 @@ class GnssSatellites : public ILoggable {
    * @param [in] time: Target time to get the GNSS satellite. When the argument is not set, the last updated time is used for the calculation.
    * @return GNSS satellite clock offset at the time. Or return zero when the time is far from the current simulation time.
    */
-  inline double GetClock_s(const size_t gnss_satellite_id, const EpochTime time = EpochTime(0, 0.0)) const {
-    EpochTime target_time;
-
-    if (time.GetTime_s() == 0) {
-      target_time = current_epoch_time_;
-    } else {
-      target_time = time;
-    }
-
-    double diff_s = target_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
-    if (diff_s < 0.0 || diff_s > 1e6) return 0.0;
-
-    return clock_[gnss_satellite_id].CalcPolynomial(diff_s) * 1e-6;
-  }
+  double GetClock_s(const size_t gnss_satellite_id, const EpochTime time = EpochTime(0, 0.0)) const;
 
   // Override ILoggable
   /**

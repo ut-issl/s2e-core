@@ -92,6 +92,37 @@ void GnssSatellites::Update(const SimulationTime& simulation_time) {
   return;
 }
 
+libra::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_id, const EpochTime time) const {
+  EpochTime target_time;
+
+  if (time.GetTime_s() == 0) {
+    target_time = current_epoch_time_;
+  } else {
+    target_time = time;
+  }
+
+  double diff_s = target_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
+  if (diff_s < 0.0 || diff_s > 1e6) return libra::Vector<3>(0.0);
+
+  const double kOrbitalPeriodCorrection_s = 24 * 60 * 60 * 1.003;  // See http://acc.igs.org/orbits/orbit-interp_gpssoln03.pdf
+  return orbit_[gnss_satellite_id].CalcPositionWithTrigonometric(diff_s, libra::tau / kOrbitalPeriodCorrection_s);
+}
+
+double GnssSatellites::GetClock_s(const size_t gnss_satellite_id, const EpochTime time) const {
+  EpochTime target_time;
+
+  if (time.GetTime_s() == 0) {
+    target_time = current_epoch_time_;
+  } else {
+    target_time = time;
+  }
+
+  double diff_s = target_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
+  if (diff_s < 0.0 || diff_s > 1e6) return 0.0;
+
+  return clock_[gnss_satellite_id].CalcPolynomial(diff_s) * 1e-6;
+}
+
 bool GnssSatellites::GetCurrentSp3File(Sp3FileReader& current_sp3_file, const EpochTime current_time) {
   for (size_t i = 0; i < sp3_files_.size(); i++) {
     EpochTime sp3_start_time(sp3_files_[i].GetStartEpochDateTime());
