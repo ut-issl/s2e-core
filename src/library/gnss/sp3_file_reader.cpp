@@ -134,7 +134,7 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   // Check SP3 version
   if (line.find("#d") != 0) {
     std::cout << "[Warning] SP3 file version is not supported: " << line << std::endl;
-    return 0;
+    std::cout << "We recommend to use SP3-d. " << std::endl;
   }
   // Read contents
   if (line[2] == 'P') {
@@ -302,10 +302,18 @@ Sp3PositionClock Sp3FileReader::DecodePositionClockData(std::string line) {
   if (line.size() > 61) {
     libra::Vector<3> position_standard_deviation;
     for (size_t axis = 0; axis < 3; axis++) {
-      position_standard_deviation[axis] = stod(line.substr(61 + axis * 2, 2));
+      try {
+        position_standard_deviation[axis] = stod(line.substr(61 + axis * 3, 2));
+      } catch (const std::invalid_argument&) {
+        position_standard_deviation[axis] = 0.0;
+      }
     }
     position_clock.position_standard_deviation_ = position_standard_deviation;
-    position_clock.clock_standard_deviation_ = stod(line.substr(70, 3));
+    try {
+      position_clock.clock_standard_deviation_ = stod(line.substr(70, 3));
+    } catch (const std::invalid_argument&) {
+      position_clock.clock_standard_deviation_ = 0.0;
+    }
   }
 
   // Flags
