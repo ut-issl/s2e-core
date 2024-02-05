@@ -207,7 +207,7 @@ class CelestialInformation : public ILoggable {
    * @fn GetEarthRotation
    * @brief Return EarthRotation information
    */
-  inline EarthRotation GetEarthRotation(void) const { return *earth_rotation_; };
+  inline EarthRotation& GetEarthRotation(void) const { return *earth_rotation_; };
   /**
    * @fn GetMoonRotation
    * @brief Return MoonRotation information
