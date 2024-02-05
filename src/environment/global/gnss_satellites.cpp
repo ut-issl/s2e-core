@@ -124,7 +124,7 @@ std::string GnssSatellites::GetLogValue() const {
   std::string str_tmp = "";
 
   for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += WriteVector(GetPosition_eci_m(gps_index), 16);
+    str_tmp += WriteVector(GetPosition_ecef_m(gps_index), 16);
     str_tmp += WriteScalar(GetClock_s(gps_index));
   }
 
