@@ -47,15 +47,15 @@ void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, con
   // Initialize
   for (size_t gnss_idx = 0; gnss_idx < number_of_calculated_gnss_satellites; gnss_idx++) {
     for (size_t i = 0; i < kNumberOfInterpolation; i++) {
-      EpochTime time_at_epoch_id = EpochTime(initial_sp3_file.GetEpochData(reference_interpolation_id_));
+      EpochTime time_at_epoch_id = EpochTime(initial_sp3_file.GetEpochData(reference_interpolation_id_ + i));
       double time_diff_s = time_at_epoch_id.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
       libra::Vector<3> sp3_position_m = 1000.0 * initial_sp3_file.GetSatellitePosition_km(i, gnss_idx);
 
       orbit_[gnss_idx].PushAndPopData(time_diff_s, sp3_position_m);
       clock_[gnss_idx].PushAndPopData(time_diff_s, initial_sp3_file.GetSatelliteClockOffset(i, gnss_idx));
-      reference_interpolation_id_++;
     }
   }
+  reference_interpolation_id_ += kNumberOfInterpolation;
 
   return;
 }
@@ -73,18 +73,18 @@ void GnssSatellites::Update(const SimulationTime& simulation_time) {
   UTC current_utc = simulation_time.GetCurrentUtc();
   DateTime current_date_time((size_t)current_utc.year, (size_t)current_utc.month, (size_t)current_utc.day, (size_t)current_utc.hour,
                              (size_t)current_utc.minute, current_utc.second);
-  EpochTime current_epoch_time(current_date_time);
+  current_epoch_time_ = EpochTime(current_date_time);
 
   // TODO Check file updates
 
   // SP3 file
   Sp3FileReader sp3_file = sp3_files_[sp3_file_id_];
 
-  double diff_s = current_epoch_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
+  double diff_s = current_epoch_time_.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
   double medium_time_s = orbit_[0].GetTimeList()[4];
   if (diff_s > medium_time_s) {
     for (size_t gps_idx = 0; gps_idx < 32; gps_idx++) {
-      EpochTime sp3_time = EpochTime(DateTime(sp3_file.GetEpochData(reference_interpolation_id_).GetAsString()));
+      EpochTime sp3_time = EpochTime(sp3_file.GetEpochData(reference_interpolation_id_));
       double time_diff_s = sp3_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
       libra::Vector<3> sp3_position_m = 1000.0 * sp3_file.GetSatellitePosition_km(reference_interpolation_id_, gps_idx);
 
@@ -119,7 +119,7 @@ std::string GnssSatellites::GetLogHeader() const {
   // TODO: Add log output for other navigation systems
   for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
     str_tmp += WriteVector("GPS" + std::to_string(gps_index) + "_position", "ecef", "m", 3);
-    str_tmp += WriteScalar("GPS" + std::to_string(gps_index) + "_clock_offset", "m");
+    str_tmp += WriteScalar("GPS" + std::to_string(gps_index) + "_clock_offset", "s");
   }
 
   return str_tmp;
@@ -129,8 +129,8 @@ std::string GnssSatellites::GetLogValue() const {
   std::string str_tmp = "";
 
   for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    // str_tmp += WriteVector(position_.GetPosition_ecef_m((int)gps_index), 16);
-    // str_tmp += WriteScalar(clock_.GetClockOffset_m((int)gps_index));
+    str_tmp += WriteVector(GetPosition_ecef_m(gps_index), 16);
+    str_tmp += WriteScalar(GetClock_s(gps_index));
   }
 
   return str_tmp;
