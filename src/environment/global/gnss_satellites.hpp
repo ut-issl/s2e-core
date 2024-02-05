@@ -1,6 +1,7 @@
 /**
  * @file gnss_satellites.hpp
- * @brief Class to calculate GNSS satellite position and related states
+ * @brief Class to calculate GNSS satellite position and clock
+ * @note TODO: Add GNSS satellite antenna information
  */
 
 #ifndef S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
@@ -21,14 +22,15 @@
 
 /**
  * @class GnssSatellites
- * @brief Class to calculate GNSS satellite position and related states
+ * @brief Class to calculate GNSS satellite position and clock
  */
 class GnssSatellites : public ILoggable {
  public:
   /**
    * @fn GnssSatellites
    * @brief Constructor
-   * @param [in] is_calc_enabled: Flag to manage the GNSS satellite position calculation
+   * @param [in] is_calc_enabled: Flag to manage the GNSS satellite position/clock calculation
+   * @param [in] is_log_enabled: Flag to generate the log of GNSS satellite position/clock calculation
    */
   GnssSatellites(const bool is_calc_enabled = false, const bool is_log_enabled = false) : is_calc_enabled_(is_calc_enabled) {
     if (!is_calc_enabled_) {
@@ -46,9 +48,11 @@ class GnssSatellites : public ILoggable {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @note Parameters are defined in GNSSSat_Info
+   * @param [in] sp3_files: List of SP3 files
+   * @param [in] start_time: The simulation start time
    */
   void Initialize(const std::vector<Sp3FileReader>& sp3_files, const EpochTime start_time);
+
   /**
    * @fn IsCalcEnabled
    * @brief Return calculated enabled flag
@@ -61,6 +65,7 @@ class GnssSatellites : public ILoggable {
    * @param [in] simulation_time: Simulation time information
    */
   void SetUp(const SimulationTime* simulation_time);
+
   /**
    * @fn Update
    * @brief Update both GNSS satellite information
@@ -77,6 +82,13 @@ class GnssSatellites : public ILoggable {
 
   inline libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const { return libra::Vector<3>(0.0); }
 
+  /**
+   * @fn GetPosition_ecef_m
+   * @brief Return GNSS satellite position at ECEF frame
+   * @param [in] gnss_satellite_id: ID of GNSS satellite
+   * @param [in] time: Target time to get the GNSS satellite. When the argument is not set, the last updated time is used for the calculation.
+   * @return GNSS satellite position at ECEF frame at the time. Or return zero when the time is far from the current simulation time.
+   */
   inline libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id, const EpochTime time = EpochTime(0, 0.0)) const {
     EpochTime target_time;
 
@@ -93,6 +105,13 @@ class GnssSatellites : public ILoggable {
     return orbit_[gnss_satellite_id].CalcPositionWithTrigonometric(diff_s, libra::tau / kOrbitalPeriodCorrection_s);
   }
 
+  /**
+   * @fn GetGetClock_s
+   * @brief Return GNSS satellite clock offset
+   * @param [in] gnss_satellite_id: ID of GNSS satellite
+   * @param [in] time: Target time to get the GNSS satellite. When the argument is not set, the last updated time is used for the calculation.
+   * @return GNSS satellite clock offset at the time. Or return zero when the time is far from the current simulation time.
+   */
   inline double GetClock_s(const size_t gnss_satellite_id, const EpochTime time = EpochTime(0, 0.0)) const {
     EpochTime target_time;
 
@@ -127,13 +146,18 @@ class GnssSatellites : public ILoggable {
   size_t sp3_file_id_;                     //!< Current SP3 file ID
   EpochTime reference_time_;               //!< Reference start time of the SP3 handling
   size_t reference_interpolation_id_ = 0;  //!< Reference epoch ID of the interpolation
+  EpochTime current_epoch_time_;           //!< The last updated time
 
   std::vector<InterpolationOrbit> orbit_;    //!< GNSS satellite orbit with interpolation
   std::vector<libra::Interpolation> clock_;  //!< GNSS satellite clock offset with interpolation
 
-  EpochTime current_epoch_time_;
-
-  // Check
+  /**
+   * @fn GetCurrentSp3File
+   * @brief Get the SP3 file should be used at the time
+   * @param [out] current_sp3_file: SP3 file information should be use.
+   * @param [in] current_time: Target time
+   * @return true means noo error, false means the time argument is out of range
+   */
   bool GetCurrentSp3File(Sp3FileReader& current_sp3_file, const EpochTime current_time);
 };
 
@@ -141,6 +165,8 @@ class GnssSatellites : public ILoggable {
  *@fn InitGnssSatellites
  *@brief Initialize function for GnssSatellites class
  *@param [in] file_name: Path to the initialize file
+ *@param [in] simulation_time: Simulation time information
+ *@return Initialized GnssSatellite class
  */
 GnssSatellites* InitGnssSatellites(const std::string file_name, const SimulationTime& simulation_time);
 

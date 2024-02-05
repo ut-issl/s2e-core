@@ -1,6 +1,6 @@
 /**
  * @file gnss_satellites.cpp
- * @brief Class to calculate GNSS satellite position and related states
+ * @brief Class to calculate GNSS satellite position and clock
  */
 
 #include "gnss_satellites.hpp"
@@ -180,7 +180,7 @@ GnssSatellites* InitGnssSatellites(const std::string file_name, const Simulation
       std::string clk_file_name =
           GetOrbitClockFinalFileName(file_name_header, read_file_date, clock_file_name_footer.substr(0, 3), clock_file_name_footer.substr(4, 7));
       std::string clk_full_file_path = directory_path + clk_file_name;
-      // TODO: Read CLK
+      // TODO: Read CLK file
     }
 
     // Increment
