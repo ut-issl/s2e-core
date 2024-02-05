@@ -22,7 +22,7 @@ void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, con
 
   // Get the initialize SP3 file
   Sp3FileReader initial_sp3_file = sp3_files_[0];
-  if (GetCurrentSp3File(initial_sp3_file, start_time)) {
+  if (!GetCurrentSp3File(initial_sp3_file, start_time)) {
     std::cout << "[Error] GNSS satellites: Calculation time mismatch with SP3 files." << std::endl;
     return;
   }
