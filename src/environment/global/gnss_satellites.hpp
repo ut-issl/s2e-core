@@ -15,6 +15,7 @@
 #include <library/time_system/gps_time.hpp>
 #include <vector>
 
+#include "earth_rotation.hpp"
 #include "library/gnss/gnss_satellite_number.hpp"
 #include "library/logger/loggable.hpp"
 #include "library/math/vector.hpp"
@@ -29,10 +30,12 @@ class GnssSatellites : public ILoggable {
   /**
    * @fn GnssSatellites
    * @brief Constructor
+   * @param [in] earth_rotation: Earth rotation information
    * @param [in] is_calc_enabled: Flag to manage the GNSS satellite position/clock calculation
    * @param [in] is_log_enabled: Flag to generate the log of GNSS satellite position/clock calculation
    */
-  GnssSatellites(const bool is_calc_enabled = false, const bool is_log_enabled = false) : is_calc_enabled_(is_calc_enabled) {
+  GnssSatellites(const EarthRotation& earth_rotation, const bool is_calc_enabled = false, const bool is_log_enabled = false)
+      : is_calc_enabled_(is_calc_enabled), earth_rotation_(earth_rotation) {
     if (!is_calc_enabled_) {
       is_log_enabled_ = false;
     } else {
@@ -66,7 +69,10 @@ class GnssSatellites : public ILoggable {
    */
   void Update(const SimulationTime& simulation_time);
 
-  inline libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const { return libra::Vector<3>(0.0); }
+  inline libra::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const {
+    // TODO: Add target time for earth rotation calculation
+    return earth_rotation_.GetDcmJ2000ToEcef().Transpose() * GetPosition_ecef_m(gnss_satellite_id);
+  }
 
   /**
    * @fn GetPosition_ecef_m
@@ -137,6 +143,9 @@ class GnssSatellites : public ILoggable {
   std::vector<InterpolationOrbit> orbit_;    //!< GNSS satellite orbit with interpolation
   std::vector<libra::Interpolation> clock_;  //!< GNSS satellite clock offset with interpolation
 
+  // References
+  const EarthRotation& earth_rotation_;  //!< Earth rotation
+
   /**
    * @fn GetCurrentSp3File
    * @brief Get the SP3 file should be used at the time
@@ -148,12 +157,13 @@ class GnssSatellites : public ILoggable {
 };
 
 /**
- *@fn InitGnssSatellites
- *@brief Initialize function for GnssSatellites class
- *@param [in] file_name: Path to the initialize file
- *@param [in] simulation_time: Simulation time information
- *@return Initialized GnssSatellite class
+ * @fn InitGnssSatellites
+ * @brief Initialize function for GnssSatellites class
+ * @param [in] file_name: Path to the initialize file
+ * @param [in] earth_rotation: Earth rotation information
+ * @param [in] simulation_time: Simulation time information
+ * @return Initialized GnssSatellite class
  */
-GnssSatellites* InitGnssSatellites(const std::string file_name, const SimulationTime& simulation_time);
+GnssSatellites* InitGnssSatellites(const std::string file_name, const EarthRotation& earth_rotation, const SimulationTime& simulation_time);
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_

@@ -124,21 +124,21 @@ std::string GnssSatellites::GetLogValue() const {
   std::string str_tmp = "";
 
   for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += WriteVector(GetPosition_ecef_m(gps_index), 16);
+    str_tmp += WriteVector(GetPosition_eci_m(gps_index), 16);
     str_tmp += WriteScalar(GetClock_s(gps_index));
   }
 
   return str_tmp;
 }
 
-GnssSatellites* InitGnssSatellites(const std::string file_name, const SimulationTime& simulation_time) {
+GnssSatellites* InitGnssSatellites(const std::string file_name, const EarthRotation& earth_rotation, const SimulationTime& simulation_time) {
   IniAccess ini_file(file_name);
   char section[] = "GNSS_SATELLITES";
 
   const bool is_calc_enable = ini_file.ReadEnable(section, INI_CALC_LABEL);
   const bool is_log_enable = ini_file.ReadEnable(section, INI_LOG_LABEL);
 
-  GnssSatellites* gnss_satellites = new GnssSatellites(is_calc_enable, is_log_enable);
+  GnssSatellites* gnss_satellites = new GnssSatellites(earth_rotation, is_calc_enable, is_log_enable);
   if (!gnss_satellites->IsCalcEnabled()) {
     return gnss_satellites;
   }
