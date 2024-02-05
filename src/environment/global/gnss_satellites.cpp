@@ -19,6 +19,7 @@ const size_t kNumberOfInterpolation = 9;
 
 void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, const EpochTime start_time) {
   sp3_files_ = sp3_files;
+  current_epoch_time_ = start_time;
 
   // Get the initialize SP3 file
   Sp3FileReader initial_sp3_file = sp3_files_[0];
