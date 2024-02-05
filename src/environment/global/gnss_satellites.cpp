@@ -61,12 +61,6 @@ void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, con
   return;
 }
 
-void GnssSatellites::SetUp(const SimulationTime* simulation_time) {
-  if (!IsCalcEnabled()) return;
-
-  return;
-}
-
 void GnssSatellites::Update(const SimulationTime& simulation_time) {
   if (!IsCalcEnabled()) return;
 

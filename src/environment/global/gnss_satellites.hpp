@@ -60,13 +60,6 @@ class GnssSatellites : public ILoggable {
   inline bool IsCalcEnabled() const { return is_calc_enabled_; }
 
   /**
-   * @fn SetUp
-   * @brief Setup both GNSS satellite information
-   * @param [in] simulation_time: Simulation time information
-   */
-  void SetUp(const SimulationTime* simulation_time);
-
-  /**
    * @fn Update
    * @brief Update both GNSS satellite information
    * @param [in] simulation_time: Simulation time information

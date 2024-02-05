@@ -29,7 +29,6 @@ void GlobalEnvironment::Initialize(const SimulationConfiguration* simulation_con
 
   // Calc initial value
   celestial_information_->UpdateAllObjectsInformation(*simulation_time_);
-  gnss_satellites_->SetUp(simulation_time_);
 }
 
 void GlobalEnvironment::Update() {
