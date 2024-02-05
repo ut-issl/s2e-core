@@ -66,8 +66,33 @@ void GnssSatellites::SetUp(const SimulationTime* simulation_time) {
   return;
 }
 
-void GnssSatellites::Update(const SimulationTime* simulation_time) {
+void GnssSatellites::Update(const SimulationTime& simulation_time) {
   if (!IsCalcEnabled()) return;
+
+  // Get time
+  UTC current_utc = simulation_time.GetCurrentUtc();
+  DateTime current_date_time((size_t)current_utc.year, (size_t)current_utc.month, (size_t)current_utc.day, (size_t)current_utc.hour,
+                             (size_t)current_utc.minute, current_utc.second);
+  EpochTime current_epoch_time(current_date_time);
+
+  // TODO Check file updates
+
+  // SP3 file
+  Sp3FileReader sp3_file = sp3_files_[sp3_file_id_];
+
+  double diff_s = current_epoch_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
+  double medium_time_s = orbit_[0].GetTimeList()[4];
+  if (diff_s > medium_time_s) {
+    for (size_t gps_idx = 0; gps_idx < 32; gps_idx++) {
+      EpochTime sp3_time = EpochTime(DateTime(sp3_file.GetEpochData(reference_interpolation_id_).GetAsString()));
+      double time_diff_s = sp3_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
+      libra::Vector<3> sp3_position_m = 1000.0 * sp3_file.GetSatellitePosition_km(reference_interpolation_id_, gps_idx);
+
+      orbit_[gps_idx].PushAndPopData(time_diff_s, sp3_position_m);
+      clock_[gps_idx].PushAndPopData(time_diff_s, sp3_file.GetSatelliteClockOffset(reference_interpolation_id_, gps_idx));
+    }
+    reference_interpolation_id_++;
+  }
 
   return;
 }
@@ -81,6 +106,7 @@ bool GnssSatellites::GetCurrentSp3File(Sp3FileReader& current_sp3_file, const Ep
       return false;
     } else if (diff_s < 24 * 60 * 60) {
       current_sp3_file = sp3_files_[i];
+      sp3_file_id_ = i;
       return true;
     }
   }

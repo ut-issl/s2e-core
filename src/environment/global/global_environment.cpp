@@ -35,7 +35,7 @@ void GlobalEnvironment::Initialize(const SimulationConfiguration* simulation_con
 void GlobalEnvironment::Update() {
   simulation_time_->UpdateTime();
   celestial_information_->UpdateAllObjectsInformation(*simulation_time_);
-  gnss_satellites_->Update(simulation_time_);
+  gnss_satellites_->Update(*simulation_time_);
 }
 
 void GlobalEnvironment::LogSetup(Logger& logger) {

@@ -66,7 +66,7 @@ class GnssSatellites : public ILoggable {
    * @brief Update both GNSS satellite information
    * @param [in] simulation_time: Simulation time information
    */
-  void Update(const SimulationTime* simulation_time);
+  void Update(const SimulationTime& simulation_time);
 
   /**
    * @fn GetWhetherValid
@@ -93,6 +93,7 @@ class GnssSatellites : public ILoggable {
   bool is_calc_enabled_ = true;  //!< Flag to manage the GNSS satellite position calculation
 
   std::vector<Sp3FileReader> sp3_files_;   //!< List of SP3 files
+  size_t sp3_file_id_;                     //!< Current SP3 file ID
   EpochTime reference_time_;               //!< Reference start time of the SP3 handling
   size_t reference_interpolation_id_ = 0;  //!< Reference epoch ID of the interpolation
 
