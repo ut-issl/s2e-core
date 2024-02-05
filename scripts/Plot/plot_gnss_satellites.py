@@ -71,7 +71,7 @@ for gps_idx in range(32):
 
 plt.title("GPS Clock Offset")
 plt.xlabel("Time [s]")
-plt.ylabel("Clock Offset [m]")
+plt.ylabel("Clock Offset [s]")
 plt.legend(fontsize=7, loc="upper right")
 
 # Data save
