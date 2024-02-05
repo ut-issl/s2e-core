@@ -29,7 +29,7 @@ void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, con
   }
 
   // Get general info
-  const size_t number_of_calculated_gnss_satellites = initial_sp3_file.GetNumberOfSatellites();
+  size_t number_of_calculated_gnss_satellites_ = initial_sp3_file.GetNumberOfSatellites();
   const size_t nearest_epoch_id = initial_sp3_file.SearchNearestEpochId(start_time);
   const size_t half_interpolation_number = kNumberOfInterpolation / 2;
   if (nearest_epoch_id >= half_interpolation_number) {
@@ -38,15 +38,15 @@ void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, con
   reference_time_ = EpochTime(initial_sp3_file.GetEpochData(reference_interpolation_id_));
 
   // Initialize orbit
-  orbit_.assign(number_of_calculated_gnss_satellites, InterpolationOrbit(kNumberOfInterpolation));
+  orbit_.assign(number_of_calculated_gnss_satellites_, InterpolationOrbit(kNumberOfInterpolation));
 
   // Initialize clock
   std::vector<double> temp;
   temp.assign(kNumberOfInterpolation, -1.0);
-  clock_.assign(number_of_calculated_gnss_satellites, libra::Interpolation(temp, temp));
+  clock_.assign(number_of_calculated_gnss_satellites_, libra::Interpolation(temp, temp));
 
   // Initialize
-  for (size_t gnss_idx = 0; gnss_idx < number_of_calculated_gnss_satellites; gnss_idx++) {
+  for (size_t gnss_idx = 0; gnss_idx < number_of_calculated_gnss_satellites_; gnss_idx++) {
     for (size_t i = 0; i < kNumberOfInterpolation; i++) {
       EpochTime time_at_epoch_id = EpochTime(initial_sp3_file.GetEpochData(reference_interpolation_id_ + i));
       double time_diff_s = time_at_epoch_id.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
@@ -93,6 +93,8 @@ void GnssSatellites::Update(const SimulationTime& simulation_time) {
 }
 
 libra::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_id, const EpochTime time) const {
+  if (gnss_satellite_id > number_of_calculated_gnss_satellites_) return libra::Vector<3>(0.0);
+
   EpochTime target_time;
 
   if (time.GetTime_s() == 0) {
@@ -109,6 +111,8 @@ libra::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_
 }
 
 double GnssSatellites::GetClock_s(const size_t gnss_satellite_id, const EpochTime time) const {
+  if (gnss_satellite_id > number_of_calculated_gnss_satellites_) return 0.0;
+
   EpochTime target_time;
 
   if (time.GetTime_s() == 0) {

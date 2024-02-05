@@ -79,7 +79,7 @@ class GnssSatellites : public ILoggable {
    * @brief Return GNSS satellite position at ECEF frame
    * @param [in] gnss_satellite_id: ID of GNSS satellite
    * @param [in] time: Target time to get the GNSS satellite. When the argument is not set, the last updated time is used for the calculation.
-   * @return GNSS satellite position at ECEF frame at the time. Or return zero when the time is far from the current simulation time.
+   * @return GNSS satellite position at ECEF frame at the time. Or return zero vector when the arguments are out of range.
    */
   libra::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id, const EpochTime time = EpochTime(0, 0.0)) const;
 
@@ -88,7 +88,7 @@ class GnssSatellites : public ILoggable {
    * @brief Return GNSS satellite clock offset
    * @param [in] gnss_satellite_id: ID of GNSS satellite
    * @param [in] time: Target time to get the GNSS satellite. When the argument is not set, the last updated time is used for the calculation.
-   * @return GNSS satellite clock offset at the time. Or return zero when the time is far from the current simulation time.
+   * @return GNSS satellite clock offset at the time. Or return zero when the arguments are out of range.
    */
   double GetClock_s(const size_t gnss_satellite_id, const EpochTime time = EpochTime(0, 0.0)) const;
 
@@ -107,7 +107,8 @@ class GnssSatellites : public ILoggable {
  private:
   bool is_calc_enabled_ = true;  //!< Flag to manage the GNSS satellite position calculation
 
-  std::vector<Sp3FileReader> sp3_files_;   //!< List of SP3 files
+  std::vector<Sp3FileReader> sp3_files_;  //!< List of SP3 files
+  size_t number_of_calculated_gnss_satellites_;
   size_t sp3_file_id_;                     //!< Current SP3 file ID
   EpochTime reference_time_;               //!< Reference start time of the SP3 handling
   size_t reference_interpolation_id_ = 0;  //!< Reference epoch ID of the interpolation
