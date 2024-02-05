@@ -29,7 +29,7 @@ void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, con
   }
 
   // Get general info
-  size_t number_of_calculated_gnss_satellites_ = initial_sp3_file.GetNumberOfSatellites();
+  number_of_calculated_gnss_satellites_ = initial_sp3_file.GetNumberOfSatellites();
   const size_t nearest_epoch_id = initial_sp3_file.SearchNearestEpochId(start_time);
   const size_t half_interpolation_number = kNumberOfInterpolation / 2;
   if (nearest_epoch_id >= half_interpolation_number) {
