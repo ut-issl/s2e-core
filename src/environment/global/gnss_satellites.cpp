@@ -46,17 +46,17 @@ void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, con
   clock_.assign(number_of_calculated_gnss_satellites_, libra::Interpolation(temp, temp));
 
   // Initialize
-  for (size_t gnss_idx = 0; gnss_idx < number_of_calculated_gnss_satellites_; gnss_idx++) {
-    for (size_t i = 0; i < kNumberOfInterpolation; i++) {
-      EpochTime time_at_epoch_id = EpochTime(initial_sp3_file.GetEpochData(reference_interpolation_id_ + i));
+  for (size_t i = 0; i < kNumberOfInterpolation; i++) {
+    for (size_t gnss_idx = 0; gnss_idx < number_of_calculated_gnss_satellites_; gnss_idx++) {
+      EpochTime time_at_epoch_id = EpochTime(initial_sp3_file.GetEpochData(reference_interpolation_id_));
       double time_diff_s = time_at_epoch_id.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
-      libra::Vector<3> sp3_position_m = 1000.0 * initial_sp3_file.GetSatellitePosition_km(reference_interpolation_id_ + i, gnss_idx);
+      libra::Vector<3> sp3_position_m = 1000.0 * initial_sp3_file.GetSatellitePosition_km(reference_interpolation_id_, gnss_idx);
 
       orbit_[gnss_idx].PushAndPopData(time_diff_s, sp3_position_m);
-      clock_[gnss_idx].PushAndPopData(time_diff_s, initial_sp3_file.GetSatelliteClockOffset(reference_interpolation_id_ + i, gnss_idx));
+      clock_[gnss_idx].PushAndPopData(time_diff_s, initial_sp3_file.GetSatelliteClockOffset(reference_interpolation_id_, gnss_idx));
     }
+    reference_interpolation_id_++;
   }
-  reference_interpolation_id_ += kNumberOfInterpolation;
 
   return;
 }
