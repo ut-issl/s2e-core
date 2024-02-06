@@ -60,9 +60,9 @@ void GnssReceiver::MainRoutine(const int time_count) {
   if (is_gnss_visible_) {
     // Antenna of GNSS-R can detect GNSS signal
     position_ecef_m_ = dynamics_->GetOrbit().GetPosition_ecef_m();
-    geodetic_position_ = dynamics_->GetOrbit().GetGeodeticPosition();
     velocity_ecef_m_s_ = dynamics_->GetOrbit().GetVelocity_ecef_m_s();
     AddNoise(position_true_eci_, position_ecef_m_);
+    geodetic_position_.UpdateFromEcef(position_ecef_m_);
   } else {
     // position information will not be updated in this case
     utc_ = simulation_time_->GetCurrentUtc();
