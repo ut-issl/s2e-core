@@ -93,7 +93,7 @@ void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> position_true_eci_,
   libra::Vector<3> antenna_direction_i = quaternion_i2b.InverseFrameConversion(antenna_direction_b);
 
   double inner = InnerProduct(position_true_eci_, antenna_direction_i);
-  if (inner <= 0) {
+  if (inner <= 0.0) {
     is_gnss_visible_ = false;
   } else {
     is_gnss_visible_ = true;
@@ -102,7 +102,6 @@ void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> position_true_eci_,
 
 void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_, const libra::Quaternion quaternion_i2b) {
   // Cone model
-  libra::Vector<3> gnss_sat_pos_i, ant_pos_i, antenna_to_satellite_i_m, ant2gnss_i_n, sat2ant_i;
   gnss_information_list_.clear();
 
   // antenna normal vector at inertial frame
@@ -111,24 +110,22 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_, c
   libra::Vector<3> antenna_direction_b = quaternion_b2c_.InverseFrameConversion(antenna_direction_c);
   libra::Vector<3> antenna_direction_i = quaternion_i2b.InverseFrameConversion(antenna_direction_b);
 
-  sat2ant_i = quaternion_i2b.InverseFrameConversion(antenna_position_b_m_);
-  ant_pos_i = position_true_eci_ + sat2ant_i;
+  libra::Vector<3> sat2ant_i = quaternion_i2b.InverseFrameConversion(antenna_position_b_m_);
+  libra::Vector<3> ant_pos_i = position_true_eci_ + sat2ant_i;
 
   // initialize
   visible_satellite_number_ = 0;
 
-  size_t gnss_num = kTotalNumberOfGnssSatellite;
-
-  for (size_t i = 0; i < gnss_num; i++) {
+  for (size_t i = 0; i < kTotalNumberOfGnssSatellite; i++) {
     // check if gnss ID is compatible with the receiver
     std::string id_tmp = ConvertIndexToGnssSatelliteNumber(i);
     if (gnss_id_.find(id_tmp[0]) == std::string::npos) continue;
 
     // compute direction from sat to gnss in body-fixed frame
-    gnss_sat_pos_i = gnss_satellites_->GetPosition_eci_m(i);
-    antenna_to_satellite_i_m = gnss_sat_pos_i - ant_pos_i;
+    libra::Vector<3> gnss_sat_pos_i = gnss_satellites_->GetPosition_eci_m(i);
+    libra::Vector<3> antenna_to_satellite_i_m = gnss_sat_pos_i - ant_pos_i;
     double normalizer = 1 / antenna_to_satellite_i_m.CalcNorm();
-    ant2gnss_i_n = normalizer * antenna_to_satellite_i_m;
+    libra::Vector<3> ant2gnss_i_n = normalizer * antenna_to_satellite_i_m;
 
     // check gnss satellites are visible from antenna
     double Re = environment::earth_equatorial_radius_m;
