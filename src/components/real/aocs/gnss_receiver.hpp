@@ -48,7 +48,7 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
    * @param [in] component_id: Component ID
-   * @param [in] gnss_id: GNSS satellite number defined by GNSS system
+   * @param [in] gnss_system_id: GNSS satellite number defined by GNSS system
    * @param [in] max_channel: Maximum number of channels
    * @param [in] antenna_model: Antenna model
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
@@ -59,17 +59,17 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simulation_time: Simulation time information
    */
-  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const size_t component_id, const std::string gnss_id, const size_t max_channel,
-               const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c,
-               const double half_width_deg, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
-               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const size_t component_id, const std::string gnss_system_id,
+               const size_t max_channel, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
+               const libra::Quaternion quaternion_b2c, const double half_width_deg, const libra::Vector<3> noise_standard_deviation_m,
+               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
   /**
    * @fn GnssReceiver
    * @brief Constructor with power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
-   * @param [in] gnss_id: GNSS satellite number defined by GNSS system
+   * @param [in] gnss_system_id: GNSS satellite number defined by GNSS system
    * @param [in] max_channel: Maximum number of channels
    * @param [in] antenna_model: Antenna model
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
@@ -80,10 +80,11 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simulation_time: Simulation time information
    */
-  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id, const std::string gnss_id,
-               const size_t max_channel, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
-               const libra::Quaternion quaternion_b2c, const double half_width_deg, const libra::Vector<3> noise_standard_deviation_m,
-               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
+               const std::string gnss_system_id, const size_t max_channel, const AntennaModel antenna_model,
+               const libra::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c, const double half_width_deg,
+               const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
+               const SimulationTime* simulation_time);
 
   // Override functions for Component
   /**
@@ -147,7 +148,7 @@ class GnssReceiver : public Component, public ILoggable {
   libra::NormalRand random_noise_i_x_, random_noise_i_y_, random_noise_i_z_;  //!< Random noise for each axis
 
   double half_width_deg_ = 0.0;  //!< Half width of the antenna cone model [deg]
-  std::string gnss_id_;          //!< GNSS satellite number defined by GNSS system
+  std::string gnss_system_id_;   //!< GNSS satellite number defined by GNSS system
   AntennaModel antenna_model_;   //!< Antenna model
 
   // Calculated values
@@ -198,9 +199,9 @@ class GnssReceiver : public Component, public ILoggable {
    * @brief Calculate and set the GnssInfo values of target GNSS satellite
    * @param [in] antenna_to_satellite_i_m: Position vector from the antenna to the GNSS satellites in the ECI frame
    * @param [in] quaternion_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
-   * @param [in] gnss_id: ID of target GNSS satellite
+   * @param [in] gnss_system_id: ID of target GNSS satellite
    */
-  void SetGnssInfo(const libra::Vector<3> antenna_to_satellite_i_m, const libra::Quaternion quaternion_i2b, const std::string gnss_id);
+  void SetGnssInfo(const libra::Vector<3> antenna_to_satellite_i_m, const libra::Quaternion quaternion_i2b, const std::string gnss_system_id);
   /**
    * @fn AddNoise
    * @brief Substitutional method for "Measure" in other sensor models inherited Sensor class
