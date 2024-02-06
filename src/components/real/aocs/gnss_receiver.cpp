@@ -66,11 +66,11 @@ void GnssReceiver::MainRoutine(const int time_count) {
   } else {
     // position information will not be updated in this case
     utc_ = simulation_time_->GetCurrentUtc();
-    ConvertJulianDayToGPSTime(simulation_time_->GetCurrentTime_jd());
+    ConvertJulianDayToGpsTime(simulation_time_->GetCurrentTime_jd());
   }
   // Time is updated with internal clock
   utc_ = simulation_time_->GetCurrentUtc();
-  ConvertJulianDayToGPSTime(simulation_time_->GetCurrentTime_jd());
+  ConvertJulianDayToGpsTime(simulation_time_->GetCurrentTime_jd());
 }
 
 void GnssReceiver::CheckAntenna(const libra::Vector<3> position_true_eci_, const libra::Quaternion quaternion_i2b) {
@@ -188,15 +188,15 @@ void GnssReceiver::AddNoise(const libra::Vector<3> position_true_i_m, const libr
   position_ecef_m_[2] = position_true_ecef_m[2] + random_noise_i_z_;
 }
 
-void GnssReceiver::ConvertJulianDayToGPSTime(const double julian_day) {
-  const double kJulianDayAtGPSTimeZero = 2444244.5;  // corresponds to 1980/1/5 midnight
+void GnssReceiver::ConvertJulianDayToGpsTime(const double julian_day) {
+  const double kJulianDayAtGpsTimeZero = 2444244.5;  // corresponds to 1980/1/5 midnight
   const double kDayInWeek = 7.0;
   // const double kSecInWeek = 604800.0;
   const double kSecInDay = 86400.0;
 
   // compute ToW from current julian_day
   // note:"gps_time_week_ " computed in this method is larger than 1024
-  double elapsed_day = julian_day - kJulianDayAtGPSTimeZero;
+  double elapsed_day = julian_day - kJulianDayAtGpsTimeZero;
   gps_time_week_ = (unsigned int)(elapsed_day / kDayInWeek);
   gps_time_s_ = (elapsed_day - (double)(gps_time_week_)*kDayInWeek) * kSecInDay;
 }

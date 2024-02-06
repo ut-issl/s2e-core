@@ -216,7 +216,7 @@ class GnssReceiver : public Component, public ILoggable {
    * @brief Convert Julian day to GPS time
    * @param [in] julian_day: Julian day
    */
-  void ConvertJulianDayToGPSTime(const double julian_day);
+  void ConvertJulianDayToGpsTime(const double julian_day);
 };
 
 /**
