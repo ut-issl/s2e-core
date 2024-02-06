@@ -137,28 +137,28 @@ class GnssReceiver : public Component, public ILoggable {
 
  protected:
   // Parameters for receiver
-  const size_t component_id_;              //!< Receiver ID
+  const size_t component_id_;  //!< Receiver ID
+
+  // Antenna
   libra::Vector<3> antenna_position_b_m_;  //!< GNSS antenna position at the body-fixed frame [m]
   libra::Quaternion quaternion_b2c_;       //!< Quaternion from body frame to component frame (antenna frame)
-
-  libra::NormalRand random_noise_i_x_, random_noise_i_y_, random_noise_i_z_;  //!< Random noise for each axis
-
-  double half_width_deg_ = 0.0;  //!< Half width of the antenna cone model [deg]
-  std::string gnss_system_id_;   //!< GNSS satellite number defined by GNSS system
-  AntennaModel antenna_model_;   //!< Antenna model
+  double half_width_deg_ = 0.0;            //!< Half width of the antenna cone model [deg]
+  std::string gnss_system_id_;             //!< GNSS satellite number defined by GNSS system
+  AntennaModel antenna_model_;             //!< Antenna model
 
   // Calculated values
-  libra::Vector<3> position_eci_m_{0.0};         //!< Observed position in the ECI frame [m]
-  libra::Vector<3> velocity_eci_m_s_{0.0};       //!< Observed velocity in the ECI frame [m/s]
-  libra::Vector<3> position_ecef_m_{0.0};        //!< Observed position in the ECEF frame [m]
-  libra::Vector<3> velocity_ecef_m_s_{0.0};      //!< Observed velocity in the ECEF frame [m/s]
-  GeodeticPosition geodetic_position_;           //!< Observed position in the geodetic frame
-  UTC utc_ = {2000, 1, 1, 0, 0, 0.0};            //!< Observed time in UTC [year, month, day, hour, min, sec]
-  unsigned int gps_time_week_ = 0;               //!< Observed GPS time week part
-  double gps_time_s_ = 0.0;                      //!< Observed GPS time second part
-  bool is_gnss_visible_ = false;                 //!< Flag for GNSS satellite is visible or not
-  size_t visible_satellite_number_ = 0;          //!< Number of visible GNSS satellites
-  std::vector<GnssInfo> gnss_information_list_;  //!< Information List of visible GNSS satellites
+  libra::NormalRand random_noise_i_x_, random_noise_i_y_, random_noise_i_z_;  //!< Random noise for each axis
+  libra::Vector<3> position_eci_m_{0.0};                                      //!< Observed position in the ECI frame [m]
+  libra::Vector<3> velocity_eci_m_s_{0.0};                                    //!< Observed velocity in the ECI frame [m/s]
+  libra::Vector<3> position_ecef_m_{0.0};                                     //!< Observed position in the ECEF frame [m]
+  libra::Vector<3> velocity_ecef_m_s_{0.0};                                   //!< Observed velocity in the ECEF frame [m/s]
+  GeodeticPosition geodetic_position_;                                        //!< Observed position in the geodetic frame
+  UTC utc_ = {2000, 1, 1, 0, 0, 0.0};                                         //!< Observed time in UTC [year, month, day, hour, min, sec]
+  unsigned int gps_time_week_ = 0;                                            //!< Observed GPS time week part
+  double gps_time_s_ = 0.0;                                                   //!< Observed GPS time second part
+  bool is_gnss_visible_ = false;                                              //!< Flag for GNSS satellite is visible or not
+  size_t visible_satellite_number_ = 0;                                       //!< Number of visible GNSS satellites
+  std::vector<GnssInfo> gnss_information_list_;                               //!< Information List of visible GNSS satellites
 
   // References
   const Dynamics* dynamics_;               //!< Dynamics of spacecraft
