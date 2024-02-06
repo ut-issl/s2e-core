@@ -60,7 +60,7 @@ void GnssReceiver::MainRoutine(const int time_count) {
   if (is_gnss_visible_) {
     // Antenna of GNSS-R can detect GNSS signal
     position_ecef_m_ = dynamics_->GetOrbit().GetPosition_ecef_m();
-    position_llh_ = dynamics_->GetOrbit().GetLatLonAlt();
+    geodetic_position_ = dynamics_->GetOrbit().GetGeodeticPosition();
     velocity_ecef_m_s_ = dynamics_->GetOrbit().GetVelocity_ecef_m_s();
     AddNoise(position_true_eci_, position_ecef_m_);
   } else {
@@ -229,9 +229,9 @@ std::string GnssReceiver::GetLogValue() const  // For logs
   str_tmp += WriteScalar(utc_.second);
   str_tmp += WriteVector(position_eci_m_, 10);
   str_tmp += WriteVector(velocity_ecef_m_s_, 10);
-  str_tmp += WriteScalar(position_llh_[0], 10);
-  str_tmp += WriteScalar(position_llh_[1], 10);
-  str_tmp += WriteScalar(position_llh_[2], 10);
+  str_tmp += WriteScalar(geodetic_position_.GetLatitude_rad(), 10);
+  str_tmp += WriteScalar(geodetic_position_.GetLongitude_rad(), 10);
+  str_tmp += WriteScalar(geodetic_position_.GetAltitude_m(), 10);
   str_tmp += WriteScalar(is_gnss_visible_);
   str_tmp += WriteScalar(visible_satellite_number_);
 
