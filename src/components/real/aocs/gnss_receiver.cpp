@@ -73,14 +73,14 @@ void GnssReceiver::MainRoutine(const int time_count) {
   }
 }
 
-void GnssReceiver::CheckAntenna(const libra::Vector<3> pos_true_eci_, libra::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntenna(const libra::Vector<3> pos_true_eci_, const libra::Quaternion quaternion_i2b) {
   if (antenna_model_ == AntennaModel::kSimple)
     CheckAntennaSimple(pos_true_eci_, quaternion_i2b);
   else if (antenna_model_ == AntennaModel::kCone)
     CheckAntennaCone(pos_true_eci_, quaternion_i2b);
 }
 
-void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> pos_true_eci_, libra::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> pos_true_eci_, const libra::Quaternion quaternion_i2b) {
   // Simplest model
   // GNSS sats are visible when antenna directs anti-earth direction
   // antenna normal vector at inertial frame
@@ -97,7 +97,7 @@ void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> pos_true_eci_, libr
   }
 }
 
-void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, const libra::Quaternion quaternion_i2b) {
   // Cone model
   libra::Vector<3> gnss_sat_pos_i, ant_pos_i, antenna_to_satellite_i_m, ant2gnss_i_n, sat2ant_i;
   gnss_information_list_.clear();
@@ -159,7 +159,7 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra:
   }
 }
 
-void GnssReceiver::SetGnssInfo(libra::Vector<3> antenna_to_satellite_i_m, libra::Quaternion quaternion_i2b, std::string gnss_id) {
+void GnssReceiver::SetGnssInfo(const libra::Vector<3> antenna_to_satellite_i_m, const libra::Quaternion quaternion_i2b, const std::string gnss_id) {
   libra::Vector<3> ant2gnss_b, ant2gnss_c;
 
   ant2gnss_b = quaternion_i2b.FrameConversion(antenna_to_satellite_i_m);
@@ -173,7 +173,7 @@ void GnssReceiver::SetGnssInfo(libra::Vector<3> antenna_to_satellite_i_m, libra:
   gnss_information_list_.push_back(gnss_info_new);
 }
 
-void GnssReceiver::AddNoise(libra::Vector<3> position_true_i_m, libra::Vector<3> position_true_ecef_m) {
+void GnssReceiver::AddNoise(const libra::Vector<3> position_true_i_m, const libra::Vector<3> position_true_ecef_m) {
   // Simplest noise model
   position_eci_m_[0] = position_true_i_m[0] + random_noise_i_x_;
   position_eci_m_[1] = position_true_i_m[1] + random_noise_i_y_;
@@ -282,7 +282,7 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const GnssSat
   return gnss_receiver_param;
 }
 
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, size_t component_id, const std::string file_name, const Dynamics* dynamics,
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, const size_t component_id, const std::string file_name, const Dynamics* dynamics,
                               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
   GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 
@@ -292,7 +292,7 @@ GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, size_t component_
   return gnss_r;
 }
 
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, size_t component_id, const std::string file_name,
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id, const std::string file_name,
                               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
   GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 
