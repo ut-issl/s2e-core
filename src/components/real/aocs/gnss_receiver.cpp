@@ -73,17 +73,17 @@ void GnssReceiver::MainRoutine(const int time_count) {
   ConvertJulianDayToGpsTime(simulation_time_->GetCurrentTime_jd());
 }
 
-void GnssReceiver::CheckAntenna(const libra::Vector<3> position_true_eci_, const libra::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntenna(const libra::Vector<3> position_true_eci_m, const libra::Quaternion quaternion_i2b) {
   if (antenna_model_ == AntennaModel::kSimple) {
-    CheckAntennaSimple(position_true_eci_, quaternion_i2b);
+    CheckAntennaSimple(position_true_eci_m, quaternion_i2b);
   } else if (antenna_model_ == AntennaModel::kCone) {
-    CheckAntennaCone(position_true_eci_, quaternion_i2b);
+    CheckAntennaCone(position_true_eci_m, quaternion_i2b);
   } else {
     std::cout << "[Error] GNSS Receiver: Undefined antenna model." << std::endl;
   }
 }
 
-void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> position_true_eci_, const libra::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> position_true_eci_m, const libra::Quaternion quaternion_i2b) {
   // Simplest model
   // GNSS satellites are visible when antenna directs anti-earth direction
   // antenna normal vector at inertial frame
@@ -92,7 +92,7 @@ void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> position_true_eci_,
   libra::Vector<3> antenna_direction_b = quaternion_b2c_.InverseFrameConversion(antenna_direction_c);
   libra::Vector<3> antenna_direction_i = quaternion_i2b.InverseFrameConversion(antenna_direction_b);
 
-  double inner = InnerProduct(position_true_eci_, antenna_direction_i);
+  double inner = InnerProduct(position_true_eci_m, antenna_direction_i);
   if (inner <= 0.0) {
     is_gnss_visible_ = false;
   } else {
@@ -100,7 +100,7 @@ void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> position_true_eci_,
   }
 }
 
-void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_, const libra::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_m, const libra::Quaternion quaternion_i2b) {
   // Cone model
   gnss_information_list_.clear();
 
@@ -110,8 +110,7 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_, c
   libra::Vector<3> antenna_direction_b = quaternion_b2c_.InverseFrameConversion(antenna_direction_c);
   libra::Vector<3> antenna_direction_i = quaternion_i2b.InverseFrameConversion(antenna_direction_b);
 
-  libra::Vector<3> sat2ant_i = quaternion_i2b.InverseFrameConversion(antenna_position_b_m_);
-  libra::Vector<3> ant_pos_i = position_true_eci_ + sat2ant_i;
+  libra::Vector<3> antenna_position_i = position_true_eci_m + quaternion_i2b.InverseFrameConversion(antenna_position_b_m_);
 
   // initialize
   visible_satellite_number_ = 0;
@@ -123,18 +122,18 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_, c
 
     // compute direction from sat to gnss in body-fixed frame
     libra::Vector<3> gnss_sat_pos_i = gnss_satellites_->GetPosition_eci_m(i);
-    libra::Vector<3> antenna_to_satellite_i_m = gnss_sat_pos_i - ant_pos_i;
+    libra::Vector<3> antenna_to_satellite_i_m = gnss_sat_pos_i - antenna_position_i;
     double normalizer = 1 / antenna_to_satellite_i_m.CalcNorm();
     libra::Vector<3> ant2gnss_i_n = normalizer * antenna_to_satellite_i_m;
 
     // check gnss satellites are visible from antenna
     double Re = environment::earth_equatorial_radius_m;
-    double inner1 = InnerProduct(ant_pos_i, gnss_sat_pos_i);
+    double inner1 = InnerProduct(antenna_position_i, gnss_sat_pos_i);
     bool is_visible_ant2gnss = false;
     if (inner1 > 0)
       is_visible_ant2gnss = true;
     else {
-      Vector<3> tmp = ant_pos_i + InnerProduct(-ant_pos_i, ant2gnss_i_n) * antenna_to_satellite_i_m;
+      Vector<3> tmp = antenna_position_i + InnerProduct(-antenna_position_i, ant2gnss_i_n) * antenna_to_satellite_i_m;
       if (tmp.CalcNorm() < Re) {
         // There is earth between antenna and gnss
         is_visible_ant2gnss = false;
