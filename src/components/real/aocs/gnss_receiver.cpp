@@ -186,10 +186,9 @@ void GnssReceiver::AddNoise(const libra::Vector<3> position_true_i_m, const libr
 void GnssReceiver::ConvertJulianDayToGpsTime(const double julian_day) {
   const double kJulianDayAtGpsTimeZero = 2444244.5;  // corresponds to 1980/1/5 midnight
   const double kDayInWeek = 7.0;
-  // const double kSecInWeek = 604800.0;
   const double kSecInDay = 86400.0;
 
-  // compute ToW from current julian_day
+  // compute time of week from current julian_day
   // note:"gps_time_week_ " computed in this method is larger than 1024
   double elapsed_day = julian_day - kJulianDayAtGpsTimeZero;
   gps_time_week_ = (unsigned int)(elapsed_day / kDayInWeek);
