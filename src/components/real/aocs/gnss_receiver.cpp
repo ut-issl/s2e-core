@@ -113,9 +113,9 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra:
   // initialize
   visible_satellite_number_ = 0;
 
-  int gnss_num = kTotalNumberOfGnssSatellite;
+  size_t gnss_num = kTotalNumberOfGnssSatellite;
 
-  for (int i = 0; i < gnss_num; i++) {
+  for (size_t i = 0; i < gnss_num; i++) {
     // check if gnss ID is compatible with the receiver
     std::string id_tmp = ConvertIndexToGnssSatelliteNumber(i);
     if (gnss_id_.find(id_tmp[0]) == std::string::npos) continue;
@@ -245,7 +245,7 @@ typedef struct _gnssrecever_param {
   libra::Quaternion quaternion_b2c;
   double half_width_rad;
   std::string gnss_id;
-  int max_channel;
+  size_t max_channel;
   libra::Vector<3> noise_standard_deviation_m;
 } GnssReceiverParam;
 
@@ -279,7 +279,7 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const GnssSat
   return gnss_receiver_param;
 }
 
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, int component_id, const std::string file_name, const Dynamics* dynamics,
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, size_t component_id, const std::string file_name, const Dynamics* dynamics,
                               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
   GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 
@@ -289,7 +289,7 @@ GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, int component_id,
   return gnss_r;
 }
 
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, int component_id, const std::string file_name,
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, size_t component_id, const std::string file_name,
                               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
   GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 

@@ -98,7 +98,7 @@ class GnssReceiver : public Component, public ILoggable {
    * @brief Return GNSS satellite information
    * @param [in] channel: Channel number
    */
-  inline const GnssInfo GetGnssInfo(int channel) const { return gnss_information_list_[channel]; };
+  inline const GnssInfo GetGnssInfo(size_t channel) const { return gnss_information_list_[channel]; };
   /**
    * @fn GetMeasuredPosition_eci_m
    * @brief Return Observed position in the ECI frame [m]
@@ -229,7 +229,7 @@ class GnssReceiver : public Component, public ILoggable {
  * @param [in] gnss_satellites: GNSS satellites information
  * @param [in] simulation_time: Simulation time information
  */
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, int component_id, const std::string file_name, const Dynamics* dynamics,
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, size_t component_id, const std::string file_name, const Dynamics* dynamics,
                               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
 /**
  * @fn InitGnssReceiver
@@ -242,7 +242,7 @@ GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, int component_id,
  * @param [in] gnss_satellites: GNSS satellites information
  * @param [in] simulation_time: Simulation time information
  */
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, int component_id, const std::string file_name,
+GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, size_t component_id, const std::string file_name,
                               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_GNSS_RECEIVER_HPP_
