@@ -159,16 +159,15 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_m, 
 }
 
 void GnssReceiver::SetGnssInfo(const libra::Vector<3> antenna_to_satellite_i_m, const libra::Quaternion quaternion_i2b, const std::string gnss_id) {
-  libra::Vector<3> ant2gnss_b, ant2gnss_c;
+  libra::Vector<3> antenna_to_satellite_direction_b = quaternion_i2b.FrameConversion(antenna_to_satellite_i_m);
+  libra::Vector<3> antenna_to_satellite_direction_c = quaternion_b2c_.FrameConversion(antenna_to_satellite_direction_b);
 
-  ant2gnss_b = quaternion_i2b.FrameConversion(antenna_to_satellite_i_m);
-  ant2gnss_c = quaternion_b2c_.FrameConversion(ant2gnss_b);
+  double distance_m = antenna_to_satellite_i_m.CalcNorm();
+  double longitude_rad = AcTan(antenna_to_satellite_direction_c[1], antenna_to_satellite_direction_c[0]);
+  double latitude_rad =
+      AcTan(antenna_to_satellite_direction_c[2], sqrt(pow(antenna_to_satellite_direction_c[0], 2.0) + pow(antenna_to_satellite_direction_c[1], 2.0)));
 
-  double dist = ant2gnss_c.CalcNorm();
-  double lon = AcTan(ant2gnss_c[1], ant2gnss_c[0]);
-  double lat = AcTan(ant2gnss_c[2], sqrt(pow(ant2gnss_c[0], 2.0) + pow(ant2gnss_c[1], 2.0)));
-
-  GnssInfo gnss_info_new = {gnss_id, lat, lon, dist};
+  GnssInfo gnss_info_new = {gnss_id, latitude_rad, longitude_rad, distance_m};
   gnss_information_list_.push_back(gnss_info_new);
 }
 
