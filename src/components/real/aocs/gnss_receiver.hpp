@@ -163,7 +163,7 @@ class GnssReceiver : public Component, public ILoggable {
   unsigned int gps_time_week_ = 0;               //!< Observed GPS time week part
   double gps_time_s_ = 0.0;                      //!< Observed GPS time second part
   int is_gnss_visible_ = 0;                      //!< Flag for GNSS satellite is visible or not
-  int visible_satellite_number_ = 0;             //!< Number of visible GNSS satellites
+  size_t visible_satellite_number_ = 0;          //!< Number of visible GNSS satellites
   std::vector<GnssInfo> gnss_information_list_;  //!< Information List of visible GNSS satellites
 
   // References
