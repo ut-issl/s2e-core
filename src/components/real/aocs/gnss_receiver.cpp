@@ -57,7 +57,7 @@ void GnssReceiver::MainRoutine(const int time_count) {
 
   CheckAntenna(pos_true_eci_, quaternion_i2b);
 
-  if (is_gnss_visible_ == 1) {  // Antenna of GNSS-R can detect GNSS signal
+  if (is_gnss_visible_ == true) {  // Antenna of GNSS-R can detect GNSS signal
     position_ecef_m_ = dynamics_->GetOrbit().GetPosition_ecef_m();
     position_llh_ = dynamics_->GetOrbit().GetLatLonAlt();
     velocity_ecef_m_s_ = dynamics_->GetOrbit().GetVelocity_ecef_m_s();
@@ -90,10 +90,11 @@ void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> pos_true_eci_, libr
   libra::Vector<3> antenna_direction_i = quaternion_i2b.InverseFrameConversion(antenna_direction_b);
 
   double inner = InnerProduct(pos_true_eci_, antenna_direction_i);
-  if (inner <= 0)
-    is_gnss_visible_ = 0;
-  else
-    is_gnss_visible_ = 1;
+  if (inner <= 0) {
+    is_gnss_visible_ = false;
+  } else {
+    is_gnss_visible_ = true;
+  }
 }
 
 void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra::Quaternion quaternion_i2b) {
@@ -129,17 +130,18 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra:
     // check gnss sats are visible from antenna
     double Re = environment::earth_equatorial_radius_m;
     double inner1 = InnerProduct(ant_pos_i, gnss_sat_pos_i);
-    int is_visible_ant2gnss = 0;
+    bool is_visible_ant2gnss = false;
     if (inner1 > 0)
-      is_visible_ant2gnss = 1;
+      is_visible_ant2gnss = true;
     else {
       Vector<3> tmp = ant_pos_i + InnerProduct(-ant_pos_i, ant2gnss_i_n) * antenna_to_satellite_i_m;
-      if (tmp.CalcNorm() < Re)
+      if (tmp.CalcNorm() < Re) {
         // There is earth between antenna and gnss
-        is_visible_ant2gnss = 0;
-      else
+        is_visible_ant2gnss = false;
+      } else {
         // There is not earth between antenna and gnss
-        is_visible_ant2gnss = 1;
+        is_visible_ant2gnss = true;
+      }
     }
 
     double inner2 = InnerProduct(antenna_direction_i, ant2gnss_i_n);
@@ -150,10 +152,11 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra:
     }
   }
 
-  if (visible_satellite_number_ > 0)
-    is_gnss_visible_ = 1;
-  else
-    is_gnss_visible_ = 0;
+  if (visible_satellite_number_ > 0) {
+    is_gnss_visible_ = true;
+  } else {
+    is_gnss_visible_ = false;
+  }
 }
 
 void GnssReceiver::SetGnssInfo(libra::Vector<3> antenna_to_satellite_i_m, libra::Quaternion quaternion_i2b, std::string gnss_id) {
