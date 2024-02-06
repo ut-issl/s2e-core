@@ -59,7 +59,7 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simulation_time: Simulation time information
    */
-  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const int component_id, const std::string gnss_id, const int max_channel,
+  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const size_t component_id, const std::string gnss_id, const size_t max_channel,
                const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c,
                const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
                const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
@@ -80,8 +80,8 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simulation_time: Simulation time information
    */
-  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, std::string gnss_id,
-               const int max_channel, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
+  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id, std::string gnss_id,
+               const size_t max_channel, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
                const libra::Quaternion quaternion_b2c, const double half_width_rad, const libra::Vector<3> noise_standard_deviation_m,
                const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
 
@@ -142,8 +142,8 @@ class GnssReceiver : public Component, public ILoggable {
 
  protected:
   // Parameters for receiver
-  const int component_id_;                 //!< Receiver ID
-  const int max_channel_;                  //!< Maximum number of channels
+  const size_t component_id_;              //!< Receiver ID
+  const size_t max_channel_;               //!< Maximum number of channels
   libra::Vector<3> antenna_position_b_m_;  //!< GNSS antenna position at the body-fixed frame [m]
   libra::Quaternion quaternion_b2c_;       //!< Quaternion from body frame to component frame (antenna frame)
 
