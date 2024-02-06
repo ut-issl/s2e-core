@@ -52,35 +52,38 @@ GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator,
 void GnssReceiver::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
-  libra::Vector<3> pos_true_eci_ = dynamics_->GetOrbit().GetPosition_i_m();
+  libra::Vector<3> position_true_eci_ = dynamics_->GetOrbit().GetPosition_i_m();
   libra::Quaternion quaternion_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
 
-  CheckAntenna(pos_true_eci_, quaternion_i2b);
+  CheckAntenna(position_true_eci_, quaternion_i2b);
 
-  if (is_gnss_visible_ == true) {  // Antenna of GNSS-R can detect GNSS signal
+  if (is_gnss_visible_) {
+    // Antenna of GNSS-R can detect GNSS signal
     position_ecef_m_ = dynamics_->GetOrbit().GetPosition_ecef_m();
     position_llh_ = dynamics_->GetOrbit().GetLatLonAlt();
     velocity_ecef_m_s_ = dynamics_->GetOrbit().GetVelocity_ecef_m_s();
-    AddNoise(pos_true_eci_, position_ecef_m_);
-
-    utc_ = simulation_time_->GetCurrentUtc();
-    ConvertJulianDayToGPSTime(simulation_time_->GetCurrentTime_jd());
+    AddNoise(position_true_eci_, position_ecef_m_);
   } else {
     // position information will not be updated in this case
-    // only time information will be updated in this case (according to the receiver's internal clock)
     utc_ = simulation_time_->GetCurrentUtc();
     ConvertJulianDayToGPSTime(simulation_time_->GetCurrentTime_jd());
   }
+  // Time is updated with internal clock
+  utc_ = simulation_time_->GetCurrentUtc();
+  ConvertJulianDayToGPSTime(simulation_time_->GetCurrentTime_jd());
 }
 
-void GnssReceiver::CheckAntenna(const libra::Vector<3> pos_true_eci_, const libra::Quaternion quaternion_i2b) {
-  if (antenna_model_ == AntennaModel::kSimple)
-    CheckAntennaSimple(pos_true_eci_, quaternion_i2b);
-  else if (antenna_model_ == AntennaModel::kCone)
-    CheckAntennaCone(pos_true_eci_, quaternion_i2b);
+void GnssReceiver::CheckAntenna(const libra::Vector<3> position_true_eci_, const libra::Quaternion quaternion_i2b) {
+  if (antenna_model_ == AntennaModel::kSimple) {
+    CheckAntennaSimple(position_true_eci_, quaternion_i2b);
+  } else if (antenna_model_ == AntennaModel::kCone) {
+    CheckAntennaCone(position_true_eci_, quaternion_i2b);
+  } else {
+    std::cout << "[Error] GNSS Receiver: Undefined antenna model." << std::endl;
+  }
 }
 
-void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> pos_true_eci_, const libra::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> position_true_eci_, const libra::Quaternion quaternion_i2b) {
   // Simplest model
   // GNSS satellites are visible when antenna directs anti-earth direction
   // antenna normal vector at inertial frame
@@ -89,7 +92,7 @@ void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> pos_true_eci_, cons
   libra::Vector<3> antenna_direction_b = quaternion_b2c_.InverseFrameConversion(antenna_direction_c);
   libra::Vector<3> antenna_direction_i = quaternion_i2b.InverseFrameConversion(antenna_direction_b);
 
-  double inner = InnerProduct(pos_true_eci_, antenna_direction_i);
+  double inner = InnerProduct(position_true_eci_, antenna_direction_i);
   if (inner <= 0) {
     is_gnss_visible_ = false;
   } else {
@@ -97,7 +100,7 @@ void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> pos_true_eci_, cons
   }
 }
 
-void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, const libra::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_, const libra::Quaternion quaternion_i2b) {
   // Cone model
   libra::Vector<3> gnss_sat_pos_i, ant_pos_i, antenna_to_satellite_i_m, ant2gnss_i_n, sat2ant_i;
   gnss_information_list_.clear();
@@ -109,7 +112,7 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, const 
   libra::Vector<3> antenna_direction_i = quaternion_i2b.InverseFrameConversion(antenna_direction_b);
 
   sat2ant_i = quaternion_i2b.InverseFrameConversion(antenna_position_b_m_);
-  ant_pos_i = pos_true_eci_ + sat2ant_i;
+  ant_pos_i = position_true_eci_ + sat2ant_i;
 
   // initialize
   visible_satellite_number_ = 0;
