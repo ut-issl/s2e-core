@@ -125,9 +125,16 @@ class GnssSatellites : public ILoggable {
    * @brief Get the SP3 file should be used at the time
    * @param [out] current_sp3_file: SP3 file information should be use.
    * @param [in] current_time: Target time
-   * @return true means noo error, false means the time argument is out of range
+   * @return true means no error, false means the time argument is out of range
    */
   bool GetCurrentSp3File(Sp3FileReader& current_sp3_file, const EpochTime current_time);
+
+  /**
+   * @fn UpdateInterpolationInformation
+   * @brief Update interpolation information by inserting new data
+   * @return true: No error, false: SP3 file out of range error
+   */
+  bool UpdateInterpolationInformation();
 };
 
 /**

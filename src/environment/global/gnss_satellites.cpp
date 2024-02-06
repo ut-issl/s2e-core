@@ -45,26 +45,9 @@ void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, con
   temp.assign(kNumberOfInterpolation, -1.0);
   clock_.assign(number_of_calculated_gnss_satellites_, libra::Interpolation(temp, temp));
 
-  // Initialize
+  // Initialize interpolation
   for (size_t i = 0; i < kNumberOfInterpolation; i++) {
-    for (size_t gnss_idx = 0; gnss_idx < number_of_calculated_gnss_satellites_; gnss_idx++) {
-      EpochTime time_at_epoch_id = EpochTime(initial_sp3_file.GetEpochData(reference_interpolation_id_));
-      double time_diff_s = time_at_epoch_id.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
-      libra::Vector<3> sp3_position_m = 1000.0 * initial_sp3_file.GetSatellitePosition_km(reference_interpolation_id_, gnss_idx);
-
-      orbit_[gnss_idx].PushAndPopData(time_diff_s, sp3_position_m);
-      clock_[gnss_idx].PushAndPopData(time_diff_s, initial_sp3_file.GetSatelliteClockOffset(reference_interpolation_id_, gnss_idx));
-    }
-    reference_interpolation_id_++;
-    // File update
-    if (reference_interpolation_id_ >= initial_sp3_file.GetNumberOfEpoch()) {
-      reference_interpolation_id_ = 0;
-      sp3_file_id_++;
-      if (sp3_file_id_ >= sp3_files_.size()) {
-        std::cout << "[Error] GNSS satellites: SP3 file range over." << std::endl;
-      }
-      initial_sp3_file = sp3_files_[sp3_file_id_];
-    }
+    UpdateInterpolationInformation();
   }
 
   return;
@@ -79,32 +62,11 @@ void GnssSatellites::Update(const SimulationTime& simulation_time) {
                              (size_t)current_utc.minute, current_utc.second);
   current_epoch_time_ = EpochTime(current_date_time);
 
-  // TODO Check file updates
-
-  // SP3 file
-  Sp3FileReader sp3_file = sp3_files_[sp3_file_id_];
-
+  // Check interpolation update
   double diff_s = current_epoch_time_.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
   double medium_time_s = orbit_[0].GetTimeList()[4];
   if (diff_s > medium_time_s) {
-    for (size_t gps_idx = 0; gps_idx < 32; gps_idx++) {
-      EpochTime sp3_time = EpochTime(sp3_file.GetEpochData(reference_interpolation_id_));
-      double time_diff_s = sp3_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
-      libra::Vector<3> sp3_position_m = 1000.0 * sp3_file.GetSatellitePosition_km(reference_interpolation_id_, gps_idx);
-
-      orbit_[gps_idx].PushAndPopData(time_diff_s, sp3_position_m);
-      clock_[gps_idx].PushAndPopData(time_diff_s, sp3_file.GetSatelliteClockOffset(reference_interpolation_id_, gps_idx));
-    }
-    reference_interpolation_id_++;
-    // File update
-    if (reference_interpolation_id_ >= sp3_file.GetNumberOfEpoch()) {
-      reference_interpolation_id_ = 0;
-      sp3_file_id_++;
-      if (sp3_file_id_ >= sp3_files_.size()) {
-        std::cout << "[Error] GNSS satellites: SP3 file range over." << std::endl;
-      }
-      sp3_file = sp3_files_[sp3_file_id_];
-    }
+    UpdateInterpolationInformation();
   }
 
   return;
@@ -159,6 +121,32 @@ bool GnssSatellites::GetCurrentSp3File(Sp3FileReader& current_sp3_file, const Ep
     }
   }
   return false;
+}
+
+bool GnssSatellites::UpdateInterpolationInformation() {
+  Sp3FileReader sp3_file = sp3_files_[sp3_file_id_];
+
+  for (size_t gnss_id = 0; gnss_id < number_of_calculated_gnss_satellites_; gnss_id++) {
+    EpochTime sp3_time = EpochTime(sp3_file.GetEpochData(reference_interpolation_id_));
+    double time_diff_s = sp3_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
+    libra::Vector<3> sp3_position_m = 1000.0 * sp3_file.GetSatellitePosition_km(reference_interpolation_id_, gnss_id);
+
+    orbit_[gnss_id].PushAndPopData(time_diff_s, sp3_position_m);
+    clock_[gnss_id].PushAndPopData(time_diff_s, sp3_file.GetSatelliteClockOffset(reference_interpolation_id_, gnss_id));
+  }
+  reference_interpolation_id_++;
+
+  // File update
+  if (reference_interpolation_id_ >= sp3_file.GetNumberOfEpoch()) {
+    reference_interpolation_id_ = 0;
+    sp3_file_id_++;
+    if (sp3_file_id_ >= sp3_files_.size()) {
+      std::cout << "[Error] GNSS satellites: SP3 file range over." << std::endl;
+      return false;
+    }
+  }
+
+  return true;
 }
 
 std::string GnssSatellites::GetLogHeader() const {
