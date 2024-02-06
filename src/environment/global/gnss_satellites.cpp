@@ -56,6 +56,15 @@ void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, con
       clock_[gnss_idx].PushAndPopData(time_diff_s, initial_sp3_file.GetSatelliteClockOffset(reference_interpolation_id_, gnss_idx));
     }
     reference_interpolation_id_++;
+    // File update
+    if (reference_interpolation_id_ >= initial_sp3_file.GetNumberOfEpoch()) {
+      reference_interpolation_id_ = 0;
+      sp3_file_id_++;
+      if (sp3_file_id_ >= sp3_files_.size()) {
+        std::cout << "[Error] GNSS satellites: SP3 file range over." << std::endl;
+      }
+      initial_sp3_file = sp3_files_[sp3_file_id_];
+    }
   }
 
   return;
@@ -87,6 +96,15 @@ void GnssSatellites::Update(const SimulationTime& simulation_time) {
       clock_[gps_idx].PushAndPopData(time_diff_s, sp3_file.GetSatelliteClockOffset(reference_interpolation_id_, gps_idx));
     }
     reference_interpolation_id_++;
+    // File update
+    if (reference_interpolation_id_ >= sp3_file.GetNumberOfEpoch()) {
+      reference_interpolation_id_ = 0;
+      sp3_file_id_++;
+      if (sp3_file_id_ >= sp3_files_.size()) {
+        std::cout << "[Error] GNSS satellites: SP3 file range over." << std::endl;
+      }
+      sp3_file = sp3_files_[sp3_file_id_];
+    }
   }
 
   return;
