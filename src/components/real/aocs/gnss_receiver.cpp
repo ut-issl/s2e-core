@@ -82,7 +82,7 @@ void GnssReceiver::CheckAntenna(const libra::Vector<3> pos_true_eci_, const libr
 
 void GnssReceiver::CheckAntennaSimple(const libra::Vector<3> pos_true_eci_, const libra::Quaternion quaternion_i2b) {
   // Simplest model
-  // GNSS sats are visible when antenna directs anti-earth direction
+  // GNSS satellites are visible when antenna directs anti-earth direction
   // antenna normal vector at inertial frame
   libra::Vector<3> antenna_direction_c(0.0);
   antenna_direction_c[2] = 1.0;
@@ -127,7 +127,7 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, const 
     double normalizer = 1 / antenna_to_satellite_i_m.CalcNorm();
     ant2gnss_i_n = normalizer * antenna_to_satellite_i_m;
 
-    // check gnss sats are visible from antenna
+    // check gnss satellites are visible from antenna
     double Re = environment::earth_equatorial_radius_m;
     double inner1 = InnerProduct(ant_pos_i, gnss_sat_pos_i);
     bool is_visible_ant2gnss = false;
@@ -241,7 +241,7 @@ std::string GnssReceiver::GetLogValue() const  // For logs
   return str_tmp;
 }
 
-typedef struct _gnssrecever_param {
+typedef struct _gnss_receiver_param {
   int prescaler;
   AntennaModel antenna_model;
   libra::Vector<3> antenna_pos_b;
