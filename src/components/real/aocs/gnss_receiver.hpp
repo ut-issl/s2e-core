@@ -49,7 +49,6 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] component_id: Component ID
    * @param [in] gnss_system_id: Target GNSS system IDs
-   * @param [in] max_channel: Maximum number of channels
    * @param [in] antenna_model: Antenna model
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
@@ -60,9 +59,9 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] simulation_time: Simulation time information
    */
   GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const size_t component_id, const std::string gnss_system_id,
-               const size_t max_channel, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
-               const libra::Quaternion quaternion_b2c, const double half_width_deg, const libra::Vector<3> noise_standard_deviation_m,
-               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+               const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c,
+               const double half_width_deg, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
+               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
   /**
    * @fn GnssReceiver
    * @brief Constructor with power port
@@ -70,7 +69,6 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    * @param [in] gnss_system_id: Target GNSS system IDs
-   * @param [in] max_channel: Maximum number of channels
    * @param [in] antenna_model: Antenna model
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
@@ -81,10 +79,9 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] simulation_time: Simulation time information
    */
   GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
-               const std::string gnss_system_id, const size_t max_channel, const AntennaModel antenna_model,
-               const libra::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c, const double half_width_deg,
-               const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
-               const SimulationTime* simulation_time);
+               const std::string gnss_system_id, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
+               const libra::Quaternion quaternion_b2c, const double half_width_deg, const libra::Vector<3> noise_standard_deviation_m,
+               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
 
   // Override functions for Component
   /**
@@ -141,7 +138,6 @@ class GnssReceiver : public Component, public ILoggable {
  protected:
   // Parameters for receiver
   const size_t component_id_;              //!< Receiver ID
-  const size_t max_channel_;               //!< Maximum number of channels
   libra::Vector<3> antenna_position_b_m_;  //!< GNSS antenna position at the body-fixed frame [m]
   libra::Quaternion quaternion_b2c_;       //!< Quaternion from body frame to component frame (antenna frame)
 
