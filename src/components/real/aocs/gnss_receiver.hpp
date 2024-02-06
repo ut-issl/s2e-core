@@ -30,7 +30,7 @@ enum class AntennaModel {
  * @brief Information of GNSS satellites
  */
 typedef struct _gnss_info {
-  std::string ID;        //!< ID of GNSS satellites
+  std::string id;        //!< ID of GNSS satellites
   double latitude_rad;   //!< Latitude on the antenna frame [rad]
   double longitude_rad;  //!< Longitude on the antenna frame [rad]
   double distance_m;     //!< Distance between the GNSS satellite and the GNSS receiver antenna [m]
