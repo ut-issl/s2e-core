@@ -214,6 +214,14 @@ class GnssReceiver : public Component, public ILoggable {
 };
 
 /**
+ * @fn SetAntennaModel
+ * @brief Set AntennaModel by string
+ * @param [in] antenna_model: Antenna model name
+ * @return antenna model
+ */
+AntennaModel SetAntennaModel(const std::string antenna_model);
+
+/**
  * @fn InitGnssReceiver
  * @brief Initialize functions for GNSS Receiver without power port
  * @param [in] clock_generator: Clock generator

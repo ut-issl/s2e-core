@@ -237,6 +237,18 @@ std::string GnssReceiver::GetLogValue() const  // For logs
   return str_tmp;
 }
 
+AntennaModel SetAntennaModel(const std::string antenna_model) {
+  if (antenna_model == "SIMPLE") {
+    return AntennaModel ::kSimple;
+  } else if (antenna_model == "CONE") {
+    return AntennaModel ::kCone;
+  } else {
+    std::cerr << "[WARNINGS] GNSS receiver antenna model is not defined!" << std::endl;
+    std::cerr << "The antenna model is automatically initialized as SIMPLE mode" << std::endl;
+    return AntennaModel ::kSimple;
+  }
+}
+
 typedef struct _gnss_receiver_param {
   int prescaler;
   AntennaModel antenna_model;
@@ -259,10 +271,11 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const GnssSat
   if (prescaler <= 1) prescaler = 1;
   gnss_receiver_param.prescaler = prescaler;
 
-  gnss_receiver_param.antenna_model = static_cast<AntennaModel>(gnssr_conf.ReadInt(GSection, "antenna_model"));
+  std::string antenna_model_name = gnssr_conf.ReadString(GSection, "antenna_model");
+  gnss_receiver_param.antenna_model = SetAntennaModel(antenna_model_name);
   if (!gnss_satellites->IsCalcEnabled() && gnss_receiver_param.antenna_model == AntennaModel::kCone) {
-    std::cout << "Calculation of GNSS SATELLITES is DISABLED, so the antenna "
-                 "model of GNSS Receiver is automatically set to SIMPLE model."
+    std::cout << "[WARNINGS] Calculation of GNSS SATELLITES is DISABLED, "
+                 "so the antenna model of GnssReceiver is automatically set to SIMPLE model."
               << std::endl;
     gnss_receiver_param.antenna_model = AntennaModel::kSimple;
   }
