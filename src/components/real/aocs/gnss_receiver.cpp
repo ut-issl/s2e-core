@@ -123,9 +123,8 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_m, 
 
     // compute direction from sat to gnss in body-fixed frame
     libra::Vector<3> gnss_satellite_position_i_m = gnss_satellites_->GetPosition_eci_m(i);
-    libra::Vector<3> antenna_to_satellite_i_m = gnss_satellite_position_i_m - antenna_position_i_m;
-    double normalizer = 1 / antenna_to_satellite_i_m.CalcNorm();
-    libra::Vector<3> antenna_to_gnss_satellite_direction_i = normalizer * antenna_to_satellite_i_m;
+    libra::Vector<3> antenna_to_gnss_satellite_i_m = gnss_satellite_position_i_m - antenna_position_i_m;
+    libra::Vector<3> antenna_to_gnss_satellite_direction_i = antenna_to_gnss_satellite_i_m.CalcNormalizedVector();
 
     // check gnss satellites are visible from antenna
     double inner1 = InnerProduct(antenna_position_i_m, gnss_satellite_position_i_m);
@@ -133,7 +132,8 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_m, 
     if (inner1 > 0) {
       is_satellite_visible = true;
     } else {
-      Vector<3> tmp = antenna_position_i_m + InnerProduct(-antenna_position_i_m, antenna_to_gnss_satellite_direction_i) * antenna_to_satellite_i_m;
+      Vector<3> tmp =
+          antenna_position_i_m + InnerProduct(-antenna_position_i_m, antenna_to_gnss_satellite_direction_i) * antenna_to_gnss_satellite_i_m;
       if (tmp.CalcNorm() < environment::earth_equatorial_radius_m) {
         // There is earth between antenna and gnss
         is_satellite_visible = false;
@@ -147,7 +147,7 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_m, 
     if (inner2 > cos(half_width_deg_ * libra::deg_to_rad) && is_satellite_visible) {
       // is visible
       visible_satellite_number_++;
-      SetGnssInfo(antenna_to_satellite_i_m, quaternion_i2b, gnss_id_string);
+      SetGnssInfo(antenna_to_gnss_satellite_i_m, quaternion_i2b, gnss_id_string);
     }
   }
 
