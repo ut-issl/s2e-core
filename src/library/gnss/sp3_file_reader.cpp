@@ -131,7 +131,7 @@ size_t Sp3FileReader::SearchNearestEpochId(const EpochTime time) {
   const size_t num_epoch = header_.number_of_epoch_;
   const double interval_s = header_.epoch_interval_s_;
 
-  // Check range if  epoch
+  // Check range
   EpochTime start_epoch(epoch_[0]);
   if (start_epoch > time) {
     nearest_epoch_id = 0;
