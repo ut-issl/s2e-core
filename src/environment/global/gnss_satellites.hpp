@@ -105,14 +105,14 @@ class GnssSatellites : public ILoggable {
   std::string GetLogValue() const override;
 
  private:
-  bool is_calc_enabled_ = true;  //!< Flag to manage the GNSS satellite position calculation
+  bool is_calc_enabled_ = false;  //!< Flag to manage the GNSS satellite position calculation
 
-  std::vector<Sp3FileReader> sp3_files_;  //!< List of SP3 files
-  size_t number_of_calculated_gnss_satellites_;
-  size_t sp3_file_id_;                     //!< Current SP3 file ID
-  EpochTime reference_time_;               //!< Reference start time of the SP3 handling
-  size_t reference_interpolation_id_ = 0;  //!< Reference epoch ID of the interpolation
-  EpochTime current_epoch_time_;           //!< The last updated time
+  std::vector<Sp3FileReader> sp3_files_;         //!< List of SP3 files
+  size_t number_of_calculated_gnss_satellites_;  //!< Number of calculated GNSS satellites
+  size_t sp3_file_id_;                           //!< Current SP3 file ID
+  EpochTime reference_time_;                     //!< Reference start time of the SP3 handling
+  size_t reference_interpolation_id_ = 0;        //!< Reference epoch ID of the interpolation
+  EpochTime current_epoch_time_;                 //!< The last updated time
 
   std::vector<InterpolationOrbit> orbit_;    //!< GNSS satellite orbit with interpolation
   std::vector<libra::Interpolation> clock_;  //!< GNSS satellite clock offset with interpolation
