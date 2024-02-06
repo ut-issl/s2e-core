@@ -48,7 +48,7 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
    * @param [in] component_id: Component ID
-   * @param [in] gnss_system_id: GNSS satellite number defined by GNSS system
+   * @param [in] gnss_system_id: Target GNSS system IDs
    * @param [in] max_channel: Maximum number of channels
    * @param [in] antenna_model: Antenna model
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
@@ -69,7 +69,7 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
-   * @param [in] gnss_system_id: GNSS satellite number defined by GNSS system
+   * @param [in] gnss_system_id: Target GNSS system IDs
    * @param [in] max_channel: Maximum number of channels
    * @param [in] antenna_model: Antenna model
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
