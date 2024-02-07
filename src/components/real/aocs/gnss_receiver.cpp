@@ -106,12 +106,13 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_m, 
   // Cone model
   gnss_information_list_.clear();
 
-  // antenna normal vector at inertial frame
-  libra::Vector<3> antenna_direction_c(0.0);
-  antenna_direction_c[2] = 1.0;
-  libra::Vector<3> antenna_direction_b = quaternion_b2c_.InverseFrameConversion(antenna_direction_c);
-  libra::Vector<3> antenna_direction_i = quaternion_i2b.InverseFrameConversion(antenna_direction_b);
+  // Antenna pointing direction vector at inertial frame
+  libra::Vector<3> antenna_pointing_direction_c(0.0);
+  antenna_pointing_direction_c[2] = 1.0;
+  libra::Vector<3> antenna_pointing_direction_b = quaternion_b2c_.InverseFrameConversion(antenna_pointing_direction_c);
+  libra::Vector<3> antenna_pointing_direction_i = quaternion_i2b.InverseFrameConversion(antenna_pointing_direction_b);
 
+  // Antenna position vector at inertial frame
   libra::Vector<3> antenna_position_i_m = position_true_eci_m + quaternion_i2b.InverseFrameConversion(antenna_position_b_m_);
 
   // initialize
@@ -125,25 +126,28 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_m, 
     libra::Vector<3> antenna_to_gnss_satellite_i_m = gnss_satellite_position_i_m - antenna_position_i_m;
     libra::Vector<3> antenna_to_gnss_satellite_direction_i = antenna_to_gnss_satellite_i_m.CalcNormalizedVector();
 
-    // check gnss satellites are visible from antenna
+    // Check GNSS satellites are visible from the receiver(not care antenna direction)
+    bool is_gnss_satellite_visible_from_receiver = false;
     double inner1 = InnerProduct(antenna_position_i_m, gnss_satellite_position_i_m);
-    bool is_satellite_visible = false;
-    if (inner1 > 0) {
-      is_satellite_visible = true;
-    } else {
-      Vector<3> tmp =
-          antenna_position_i_m + InnerProduct(-antenna_position_i_m, antenna_to_gnss_satellite_direction_i) * antenna_to_gnss_satellite_i_m;
-      if (tmp.CalcNorm() < environment::earth_equatorial_radius_m) {
-        // There is earth between antenna and gnss
-        is_satellite_visible = false;
+    if (inner1 > 0.0) {  // GNSS satellite and receiver are in the same hemisphere
+      is_gnss_satellite_visible_from_receiver = true;
+    } else {  // GNSS satellite is in the another hemisphere
+      double angle_bw_earth_center_and_edge_rad = asin(environment::earth_equatorial_radius_m / antenna_position_i_m.CalcNorm());
+      double angle_bw_earth_center_and_gnss_rad =
+          acos(InnerProduct(-antenna_position_i_m.CalcNormalizedVector(), antenna_to_gnss_satellite_direction_i));
+
+      if (angle_bw_earth_center_and_edge_rad < angle_bw_earth_center_and_gnss_rad) {
+        // There is no Earth between receiver and GNSS satellite
+        is_gnss_satellite_visible_from_receiver = true;
       } else {
-        // There is not earth between antenna and gnss
-        is_satellite_visible = true;
+        // There is Earth between receiver and GNSS satellite
+        is_gnss_satellite_visible_from_receiver = false;
       }
     }
 
-    double inner2 = InnerProduct(antenna_direction_i, antenna_to_gnss_satellite_direction_i);
-    if (inner2 > cos(half_width_deg_ * libra::deg_to_rad) && is_satellite_visible) {
+    // Check GNSS satellites are in the antenna half width angle
+    double inner2 = InnerProduct(antenna_pointing_direction_i, antenna_to_gnss_satellite_direction_i);
+    if (inner2 > cos(half_width_deg_ * libra::deg_to_rad) && is_gnss_satellite_visible_from_receiver) {
       // is visible
       visible_satellite_number_++;
       SetGnssInfo(antenna_to_gnss_satellite_i_m, quaternion_i2b, i);
