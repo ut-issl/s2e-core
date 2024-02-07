@@ -38,7 +38,7 @@ class OrbitObserver : public Component, public ILoggable {
    * @param [in] orbit: Orbit information
    */
   OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const ErrorFrame error_frame, const libra::Vector<6> error_standard_deviation,
-                const const Orbit& orbit);
+                const Orbit& orbit);
 
   /**
    * @fn ~AttitudeObserver
