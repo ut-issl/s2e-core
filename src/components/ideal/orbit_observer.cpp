@@ -56,7 +56,7 @@ std::string OrbitObserver::GetLogValue() const {
   return str_tmp;
 }
 
-void AddNoise(){}
+void AddNoise() {}
 
 OrbitObserver InitializeOrbitObserver(ClockGenerator* clock_generator, const std::string file_name, const Orbit& orbit) {
   // General
