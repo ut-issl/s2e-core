@@ -22,19 +22,26 @@ void OrbitObserver::MainRoutine(const int time_count) {
   // Calc noise
   libra::Vector<3> position_error_i_m{0.0};
   libra::Vector<3> position_error_rtn_m{0.0};
+  libra::Vector<3> velocity_error_i_m_s{0.0};
+  libra::Vector<3> velocity_error_rtn_m_s{0.0};
   libra::Quaternion q_i2rtn = orbit_.CalcQuaternion_i2lvlh();
   switch (noise_frame_) {
     case NoiseFrame::kInertial:
       for (size_t axis = 0; axis < 3; axis++) {
         position_error_i_m[axis] = normal_random_noise_[axis];
+        velocity_error_i_m_s[axis] = normal_random_noise_[axis + 3];
       }
       break;
     case NoiseFrame::kRtn:
       for (size_t axis = 0; axis < 3; axis++) {
         position_error_rtn_m[axis] = normal_random_noise_[axis];
+        velocity_error_rtn_m_s[axis] = normal_random_noise_[axis + 3];
       }
       //  Frame conversion
       position_error_i_m = q_i2rtn.InverseFrameConversion(position_error_rtn_m);
+      // For zero bias noise, we do not need to care frame rotation effect.
+      velocity_error_i_m_s = q_i2rtn.InverseFrameConversion(velocity_error_rtn_m_s);
+
       break;
     default:
       break;
@@ -42,6 +49,7 @@ void OrbitObserver::MainRoutine(const int time_count) {
 
   // Get observed value
   observed_position_i_m_ = orbit_.GetPosition_i_m() + position_error_i_m;
+  observed_velocity_i_m_s_ = orbit_.GetVelocity_i_m_s() + velocity_error_i_m_s;
 }
 
 std::string OrbitObserver::GetLogHeader() const {
