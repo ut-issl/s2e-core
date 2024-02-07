@@ -113,10 +113,7 @@ class GnssReceiver : public Component, public ILoggable {
    * @fn GetMeasuredGeodeticPosition
    * @brief Return Observed position in the LLH frame [m]
    */
-  inline const GeodeticPosition GetMeasuredGeodeticPosition(void) const {
-    GeodeticPosition geodetic_position(position_llh_[0], position_llh_[1], position_llh_[2]);
-    return geodetic_position;
-  }
+  inline const GeodeticPosition GetMeasuredGeodeticPosition(void) const { return geodetic_position_; }
   /**
    * @fn GetMeasuredVelocity_eci_m_s
    * @brief Return Observed velocity in the ECI frame [m/s]
@@ -158,7 +155,7 @@ class GnssReceiver : public Component, public ILoggable {
   libra::Vector<3> velocity_eci_m_s_{0.0};       //!< Observed velocity in the ECI frame [m/s]
   libra::Vector<3> position_ecef_m_{0.0};        //!< Observed position in the ECEF frame [m]
   libra::Vector<3> velocity_ecef_m_s_{0.0};      //!< Observed velocity in the ECEF frame [m/s]
-  libra::Vector<3> position_llh_{0.0};           //!< Observed position in the geodetic frame [rad,rad,m] TODO: use GeodeticPosition class
+  GeodeticPosition geodetic_position_;           //!< Observed position in the geodetic frame
   UTC utc_ = {2000, 1, 1, 0, 0, 0.0};            //!< Observed time in UTC [year, month, day, hour, min, sec]
   unsigned int gps_time_week_ = 0;               //!< Observed GPS time week part
   double gps_time_s_ = 0.0;                      //!< Observed GPS time second part
