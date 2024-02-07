@@ -140,16 +140,19 @@ class GnssReceiver : public Component, public ILoggable {
   std::string gnss_system_id_;             //!< GNSS satellite number defined by GNSS system
   AntennaModel antenna_model_;             //!< Antenna model
 
-  // Calculated values
-  libra::NormalRand position_random_noise_ecef_m_[3];
-  libra::NormalRand velocity_random_noise_ecef_m_s_[3];
+  // Simple position observation
+  libra::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
+  libra::NormalRand velocity_random_noise_ecef_m_s_[3];  //!< Random noise for velocity at the ECEF frame [m]
+  libra::Vector<3> position_ecef_m_{0.0};                //!< Observed position in the ECEF frame [m]
+  libra::Vector<3> velocity_ecef_m_s_{0.0};              //!< Observed velocity in the ECEF frame [m/s]
+  GeodeticPosition geodetic_position_;                   //!< Observed position in the geodetic frame
 
-  libra::Vector<3> position_ecef_m_{0.0};        //!< Observed position in the ECEF frame [m]
-  libra::Vector<3> velocity_ecef_m_s_{0.0};      //!< Observed velocity in the ECEF frame [m/s]
-  GeodeticPosition geodetic_position_;           //!< Observed position in the geodetic frame
-  UTC utc_ = {2000, 1, 1, 0, 0, 0.0};            //!< Observed time in UTC [year, month, day, hour, min, sec]
-  unsigned int gps_time_week_ = 0;               //!< Observed GPS time week part
-  double gps_time_s_ = 0.0;                      //!< Observed GPS time second part
+  // Time observation
+  UTC utc_ = {2000, 1, 1, 0, 0, 0.0};  //!< Observed time in UTC [year, month, day, hour, min, sec]
+  unsigned int gps_time_week_ = 0;     //!< Observed GPS time week part
+  double gps_time_s_ = 0.0;            //!< Observed GPS time second part
+
+  // Satellite visibility
   bool is_gnss_visible_ = false;                 //!< Flag for GNSS satellite is visible or not
   size_t visible_satellite_number_ = 0;          //!< Number of visible GNSS satellites
   std::vector<GnssInfo> gnss_information_list_;  //!< Information List of visible GNSS satellites
