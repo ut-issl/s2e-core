@@ -53,15 +53,17 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_deg: Half width of the antenna cone model [deg]
-   * @param [in] noise_standard_deviation_m: Standard deviation of normal random noise in the ECI frame [m]
+   * @param [in] position_noise_standard_deviation_ecef_m: Standard deviation of normal random noise for position in the ECEF frame [m]
+   * @param [in] velocity_noise_standard_deviation_ecef_m_s: Standard deviation of normal random noise for velocity in the ECEF frame [m/s]
    * @param [in] dynamics: Dynamics information
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simulation_time: Simulation time information
    */
   GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const size_t component_id, const std::string gnss_system_id,
                const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c,
-               const double half_width_deg, const libra::Vector<3> noise_standard_deviation_m, const Dynamics* dynamics,
-               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+               const double half_width_deg, const libra::Vector<3> position_noise_standard_deviation_ecef_m,
+               const libra::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
+               const SimulationTime* simulation_time);
   /**
    * @fn GnssReceiver
    * @brief Constructor with power port
@@ -73,15 +75,17 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_deg: Half width of the antenna cone model [rad]
-   * @param [in] noise_standard_deviation_m: Standard deviation of normal random noise in the ECI frame [m]
+   * @param [in] position_noise_standard_deviation_ecef_m: Standard deviation of normal random noise for position in the ECEF frame [m]
+   * @param [in] velocity_noise_standard_deviation_ecef_m_s: Standard deviation of normal random noise for velocity in the ECEF frame [m/s]
    * @param [in] dynamics: Dynamics information
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simulation_time: Simulation time information
    */
   GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                const std::string gnss_system_id, const AntennaModel antenna_model, const libra::Vector<3> antenna_position_b_m,
-               const libra::Quaternion quaternion_b2c, const double half_width_deg, const libra::Vector<3> noise_standard_deviation_m,
-               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+               const libra::Quaternion quaternion_b2c, const double half_width_deg, const libra::Vector<3> position_noise_standard_deviation_ecef_m,
+               const libra::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
+               const SimulationTime* simulation_time);
 
   // Override functions for Component
   /**
@@ -147,18 +151,20 @@ class GnssReceiver : public Component, public ILoggable {
   AntennaModel antenna_model_;             //!< Antenna model
 
   // Calculated values
-  libra::NormalRand random_noise_i_x_, random_noise_i_y_, random_noise_i_z_;  //!< Random noise for each axis
-  libra::Vector<3> position_eci_m_{0.0};                                      //!< Observed position in the ECI frame [m]
-  libra::Vector<3> velocity_eci_m_s_{0.0};                                    //!< Observed velocity in the ECI frame [m/s]
-  libra::Vector<3> position_ecef_m_{0.0};                                     //!< Observed position in the ECEF frame [m]
-  libra::Vector<3> velocity_ecef_m_s_{0.0};                                   //!< Observed velocity in the ECEF frame [m/s]
-  GeodeticPosition geodetic_position_;                                        //!< Observed position in the geodetic frame
-  UTC utc_ = {2000, 1, 1, 0, 0, 0.0};                                         //!< Observed time in UTC [year, month, day, hour, min, sec]
-  unsigned int gps_time_week_ = 0;                                            //!< Observed GPS time week part
-  double gps_time_s_ = 0.0;                                                   //!< Observed GPS time second part
-  bool is_gnss_visible_ = false;                                              //!< Flag for GNSS satellite is visible or not
-  size_t visible_satellite_number_ = 0;                                       //!< Number of visible GNSS satellites
-  std::vector<GnssInfo> gnss_information_list_;                               //!< Information List of visible GNSS satellites
+  libra::NormalRand position_random_noise_ecef_m_[3];
+  libra::NormalRand velocity_random_noise_ecef_m_s_[3];
+
+  libra::Vector<3> position_eci_m_{0.0};         //!< Observed position in the ECI frame [m]
+  libra::Vector<3> velocity_eci_m_s_{0.0};       //!< Observed velocity in the ECI frame [m/s]
+  libra::Vector<3> position_ecef_m_{0.0};        //!< Observed position in the ECEF frame [m]
+  libra::Vector<3> velocity_ecef_m_s_{0.0};      //!< Observed velocity in the ECEF frame [m/s]
+  GeodeticPosition geodetic_position_;           //!< Observed position in the geodetic frame
+  UTC utc_ = {2000, 1, 1, 0, 0, 0.0};            //!< Observed time in UTC [year, month, day, hour, min, sec]
+  unsigned int gps_time_week_ = 0;               //!< Observed GPS time week part
+  double gps_time_s_ = 0.0;                      //!< Observed GPS time second part
+  bool is_gnss_visible_ = false;                 //!< Flag for GNSS satellite is visible or not
+  size_t visible_satellite_number_ = 0;          //!< Number of visible GNSS satellites
+  std::vector<GnssInfo> gnss_information_list_;  //!< Information List of visible GNSS satellites
 
   // References
   const Dynamics* dynamics_;               //!< Dynamics of spacecraft
@@ -201,10 +207,9 @@ class GnssReceiver : public Component, public ILoggable {
   /**
    * @fn AddNoise
    * @brief Substitutional method for "Measure" in other sensor models inherited Sensor class
-   * @param [in] position_true_i_m: True position of the spacecraft in the ECI frame [m]
    * @param [in] position_true_ecef_m: True position of the spacecraft in the ECEF frame [m]
    */
-  void AddNoise(const libra::Vector<3> position_true_i_m, const libra::Vector<3> position_true_ecef_m);
+  void AddNoise(const libra::Vector<3> position_true_ecef_m, const libra::Vector<3> velocity_true_ecef_m_s);
   /**
    * @fn ConvertJulianDayToGPSTime
    * @brief Convert Julian day to GPS time
