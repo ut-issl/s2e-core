@@ -124,6 +124,27 @@ bool Sp3FileReader::ReadFile(const std::string file_name) {
   return true;
 }
 
+size_t Sp3FileReader::SearchNearestEpochId(const EpochTime time) {
+  size_t nearest_epoch_id = 0;
+
+  // Get header info
+  const size_t num_epoch = header_.number_of_epoch_;
+  const double interval_s = header_.epoch_interval_s_;
+
+  // Check range
+  EpochTime start_epoch(epoch_[0]);
+  if (start_epoch > time) {
+    nearest_epoch_id = 0;
+  } else if ((EpochTime)(epoch_[num_epoch - 1]) < time) {
+    nearest_epoch_id = num_epoch - 1;
+  } else {  // Calc nearest point
+    double diff_s = time.GetTimeWithFraction_s() - start_epoch.GetTimeWithFraction_s();
+    nearest_epoch_id = (size_t)(diff_s / interval_s + 0.5);
+  }
+
+  return nearest_epoch_id;
+}
+
 size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   size_t line_number = 0;
   std::string line;
