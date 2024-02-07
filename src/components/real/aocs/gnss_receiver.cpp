@@ -57,9 +57,10 @@ GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator,
 void GnssReceiver::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
+  // Antenna checking
+  // TODO: Use ECEF position only
   libra::Vector<3> position_true_eci = dynamics_->GetOrbit().GetPosition_i_m();
   libra::Quaternion quaternion_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
-
   CheckAntenna(position_true_eci, quaternion_i2b);
 
   if (is_gnss_visible_) {
@@ -67,12 +68,10 @@ void GnssReceiver::MainRoutine(const int time_count) {
     position_ecef_m_ = dynamics_->GetOrbit().GetPosition_ecef_m();
     velocity_ecef_m_s_ = dynamics_->GetOrbit().GetVelocity_ecef_m_s();
     AddNoise(position_ecef_m_, velocity_ecef_m_s_);
+    // Convert observed value to other frames
     geodetic_position_.UpdateFromEcef(position_ecef_m_);
-  } else {
-    // position information will not be updated in this case
-    utc_ = simulation_time_->GetCurrentUtc();
-    ConvertJulianDayToGpsTime(simulation_time_->GetCurrentTime_jd());
   }
+
   // Time is updated with internal clock
   utc_ = simulation_time_->GetCurrentUtc();
   ConvertJulianDayToGpsTime(simulation_time_->GetCurrentTime_jd());
