@@ -102,11 +102,6 @@ class GnssReceiver : public Component, public ILoggable {
    */
   inline const GnssInfo GetGnssInfo(const size_t channel) const { return gnss_information_list_[channel]; };
   /**
-   * @fn GetMeasuredPosition_eci_m
-   * @brief Return Observed position in the ECI frame [m]
-   */
-  inline const libra::Vector<3> GetMeasuredPosition_eci_m(void) const { return position_eci_m_; }
-  /**
    * @fn GetMeasuredPosition_ecef_m
    * @brief Return Observed position in the ECEF frame [m]
    */
@@ -116,11 +111,6 @@ class GnssReceiver : public Component, public ILoggable {
    * @brief Return Observed position in the LLH frame [m]
    */
   inline const GeodeticPosition GetMeasuredGeodeticPosition(void) const { return geodetic_position_; }
-  /**
-   * @fn GetMeasuredVelocity_eci_m_s
-   * @brief Return Observed velocity in the ECI frame [m/s]
-   */
-  inline const libra::Vector<3> GetMeasuredVelocity_eci_m_s(void) const { return velocity_eci_m_s_; }
   /**
    * @fn GetMeasuredVelocity_ecef_m_s
    * @brief Return Observed velocity in the ECEF frame [m/s]
@@ -154,8 +144,6 @@ class GnssReceiver : public Component, public ILoggable {
   libra::NormalRand position_random_noise_ecef_m_[3];
   libra::NormalRand velocity_random_noise_ecef_m_s_[3];
 
-  libra::Vector<3> position_eci_m_{0.0};         //!< Observed position in the ECI frame [m]
-  libra::Vector<3> velocity_eci_m_s_{0.0};       //!< Observed velocity in the ECI frame [m/s]
   libra::Vector<3> position_ecef_m_{0.0};        //!< Observed position in the ECEF frame [m]
   libra::Vector<3> velocity_ecef_m_s_{0.0};      //!< Observed velocity in the ECEF frame [m/s]
   GeodeticPosition geodetic_position_;           //!< Observed position in the geodetic frame
@@ -208,10 +196,11 @@ class GnssReceiver : public Component, public ILoggable {
    * @fn AddNoise
    * @brief Substitutional method for "Measure" in other sensor models inherited Sensor class
    * @param [in] position_true_ecef_m: True position of the spacecraft in the ECEF frame [m]
+   * @param [in] velocity_true_ecef_m_s: True velocity of the spacecraft in the ECEF frame [m/s]
    */
   void AddNoise(const libra::Vector<3> position_true_ecef_m, const libra::Vector<3> velocity_true_ecef_m_s);
   /**
-   * @fn ConvertJulianDayToGPSTime
+   * @fn ConvertJulianDayToGpsTime
    * @brief Convert Julian day to GPS time
    * @param [in] julian_day: Julian day
    */
