@@ -155,7 +155,7 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> position_true_eci_m, 
     }
   }
 
-  if (visible_satellite_number_ > 0) {
+  if (visible_satellite_number_ >= 4) {
     is_gnss_visible_ = true;
   } else {
     is_gnss_visible_ = false;
