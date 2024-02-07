@@ -86,9 +86,6 @@ class OrbitObserver : public Component, public ILoggable {
 
   // Observed variables
   const Orbit& orbit_;  //!< Orbit information
-
-  libra::Vector<3> CalcPositionNoise();
-  libra::Vector<3> CalcVelocityNoise();
 };
 
 /**
