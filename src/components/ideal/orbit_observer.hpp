@@ -14,10 +14,10 @@
 #include "../base/component.hpp"
 
 /**
- * @enum ErrorFrame
- * @brief Error definition frame
+ * @enum NoiseFrame
+ * @brief Noide definition frame
  */
-enum class ErrorFrame {
+enum class NoiseFrame {
   kInertial,  //!< Inertial frame
   kRtn,       //!< RTN frame
 };
@@ -33,11 +33,11 @@ class OrbitObserver : public Component, public ILoggable {
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
-   * @param [in] error_frame: Error frame definition
+   * @param [in] noise_frame: Error frame definition
    * @param [in] error_standard_deviation: Position and Velocity standard deviation noise [m, m/s]
    * @param [in] orbit: Orbit information
    */
-  OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const ErrorFrame error_frame, const libra::Vector<6> error_standard_deviation,
+  OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const NoiseFrame noise_frame, const libra::Vector<6> error_standard_deviation,
                 const Orbit& orbit);
 
   /**
@@ -81,12 +81,20 @@ class OrbitObserver : public Component, public ILoggable {
   libra::Vector<3> observed_position_i_m_{0.0};    //!< Observed position @ inertial frame [m]
   libra::Vector<3> observed_velocity_i_m_s_{0.0};  //!< Observed velocity @ inertial frame [m/s]
 
-  ErrorFrame error_frame_;                    //!< Error definition frame
+  NoiseFrame noise_frame_;                    //!< Noise definition frame
   libra::NormalRand normal_random_noise_[6];  //!< Position and Velocity noise [m, m/s]
 
   // Observed variables
   const Orbit& orbit_;  //!< Orbit information
 };
+
+/**
+ * @fn SetNoiseFrame
+ * @brief Set NoiseFrame by string
+ * @param [in] noise_frame: Noise frame name
+ * @return noise frame
+ */
+NoiseFrame SetNoiseFrame(const std::string noise_frame);
 
 /**
  * @fn InitStarSensor
