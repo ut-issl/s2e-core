@@ -57,10 +57,10 @@ GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator,
 void GnssReceiver::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
-  libra::Vector<3> position_true_eci_ = dynamics_->GetOrbit().GetPosition_i_m();
+  libra::Vector<3> position_true_eci = dynamics_->GetOrbit().GetPosition_i_m();
   libra::Quaternion quaternion_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
 
-  CheckAntenna(position_true_eci_, quaternion_i2b);
+  CheckAntenna(position_true_eci, quaternion_i2b);
 
   if (is_gnss_visible_) {
     // Antenna of GNSS-R can detect GNSS signal
