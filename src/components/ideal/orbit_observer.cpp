@@ -6,33 +6,42 @@
 #include "orbit_observer.hpp"
 
 #include <library/initialize/initialize_file_access.hpp>
+#include <library/randomization/global_randomization.hpp>
 
 OrbitObserver::OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const ErrorFrame error_frame,
                              const libra::Vector<6> error_standard_deviation, const Orbit& orbit)
     : Component(prescaler, clock_generator), orbit_(orbit) {
   for (size_t i = 0; i < 6; i++) {
-    normal_random_noise_[i].SetParameters(0.0, error_standard_deviation[i]);
+    normal_random_noise_[i].SetParameters(0.0, error_standard_deviation[i], global_randomization.MakeSeed());
   }
 }
 
 void OrbitObserver::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
+  // Calc noise
+  libra::Vector<3> position_error_i_m{0.0};
+  libra::Vector<3> position_error_rtn_m{0.0};
   libra::Quaternion q_i2rtn = orbit_.CalcQuaternion_i2lvlh();
   switch (error_frame_) {
     case ErrorFrame::kInertial:
-      observed_position_i_m_ = AddPositionNoise(orbit_.GetPosition_i_m());
-      // Frame conversion
-      observed_position_rtn_m_ = q_i2rtn.FrameConversion(observed_position_i_m_);
+      for (size_t axis = 0; axis < 3; axis++) {
+        position_error_i_m[axis] = normal_random_noise_[axis];
+      }
       break;
     case ErrorFrame::kRtn:
-      // observed_position_rtn_m_ = AddPositionNoise(orbit_.GetPosition_);
+      for (size_t axis = 0; axis < 3; axis++) {
+        position_error_rtn_m[axis] = normal_random_noise_[axis];
+      }
       //  Frame conversion
-      observed_position_i_m_ = q_i2rtn.InverseFrameConversion(observed_position_rtn_m_);
+      position_error_i_m = q_i2rtn.InverseFrameConversion(position_error_rtn_m);
       break;
     default:
       break;
   }
+
+  // Get observed value
+  observed_position_i_m_ = orbit_.GetPosition_i_m() + position_error_i_m;
 }
 
 std::string OrbitObserver::GetLogHeader() const {
@@ -53,8 +62,6 @@ std::string OrbitObserver::GetLogValue() const {
 
   return str_tmp;
 }
-
-void AddNoise() {}
 
 OrbitObserver InitializeOrbitObserver(ClockGenerator* clock_generator, const std::string file_name, const Orbit& orbit) {
   // General
