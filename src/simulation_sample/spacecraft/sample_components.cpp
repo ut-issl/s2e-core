@@ -221,4 +221,5 @@ void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLogList(torque_generator_);
   logger.AddLogList(angular_velocity_observer_);
   logger.AddLogList(attitude_observer_);
+  logger.AddLogList(orbit_observer_);
 }
