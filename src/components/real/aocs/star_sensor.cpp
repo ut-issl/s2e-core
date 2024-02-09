@@ -6,11 +6,11 @@
 #include "star_sensor.hpp"
 
 #include <environment/global/physical_constants.hpp>
-#include <initial_setting_file/initialize_file_access.hpp>
 #include <library/logger/log_utility.hpp>
 #include <library/math/constants.hpp>
 #include <library/math/matrix.hpp>
 #include <library/randomization/global_randomization.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 #include <string>
 
 using namespace std;

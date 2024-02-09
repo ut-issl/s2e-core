@@ -5,7 +5,7 @@
 
 #include "third_body_gravity.hpp"
 
-#include <initial_setting_file/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, false), third_body_list_(third_body_list) {

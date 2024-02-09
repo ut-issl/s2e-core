@@ -7,12 +7,12 @@
 
 #include "library/atmosphere/harris_priester_model.hpp"
 #include "library/atmosphere/simple_air_density_model.hpp"
-#include "initial_setting_file/initialize_file_access.hpp"
 #include "library/logger/log_utility.hpp"
 #include "library/math/vector.hpp"
 #include "library/randomization/global_randomization.hpp"
 #include "library/randomization/normal_randomization.hpp"
 #include "library/randomization/random_walk.hpp"
+#include "setting_file_reader/initialize_file_access.hpp"
 
 Atmosphere::Atmosphere(const std::string model, const std::string space_weather_file_name, const double gauss_standard_deviation_rate,
                        const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap,
