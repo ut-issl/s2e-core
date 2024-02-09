@@ -12,7 +12,7 @@
 #include <iostream>
 #include <setting_file_reader/initialize_file_access.hpp>
 
-#include "../library/utilities/macros.hpp"
+#include "../utilities/macros.hpp"
 #include "../logger/log_utility.hpp"
 
 // #define DEBUG_GEOPOTENTIAL

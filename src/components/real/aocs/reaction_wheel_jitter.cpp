@@ -6,7 +6,7 @@
 #include "reaction_wheel_jitter.hpp"
 
 #include <library/math/constants.hpp>
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 #include <random>
 
 ReactionWheelJitter::ReactionWheelJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,

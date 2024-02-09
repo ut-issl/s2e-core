@@ -5,7 +5,7 @@
 #include "rk4_orbit_propagation.hpp"
 
 #include <iostream>
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 #include <sstream>
 
 Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,

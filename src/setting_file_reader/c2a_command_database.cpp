@@ -7,8 +7,8 @@
 
 #include <fstream>
 #include <iostream>
-#include <library/utilities/endian.hpp>
-#include <library/utilities/macros.hpp>
+#include <utilities/endian.hpp>
+#include <utilities/macros.hpp>
 #include <sstream>
 
 C2aCommandInformation::C2aCommandInformation(const std::string cmd_db_line) {

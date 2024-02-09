@@ -36,11 +36,6 @@ add_library(${PROJECT_NAME} STATIC
   time_system/date_time_format.cpp
   time_system/epoch_time.cpp
   time_system/gps_time.cpp
-
-  utilities/endian.cpp
-  utilities/slip.cpp
-  utilities/quantization.cpp
-  utilities/ring_buffer.cpp
 )
 
 include(../../common.cmake)

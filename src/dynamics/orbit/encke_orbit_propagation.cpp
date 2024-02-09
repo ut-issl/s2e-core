@@ -5,7 +5,7 @@
 
 #include "encke_orbit_propagation.hpp"
 
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 #include "../../library/orbit/orbital_elements.hpp"
 

@@ -8,7 +8,7 @@
 #include <string.h>
 
 #include <cmath>
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
 Antenna::Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
