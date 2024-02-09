@@ -6,7 +6,7 @@
 #include "gnss_receiver.hpp"
 
 #include <environment/global/physical_constants.hpp>
-#include <initial_setting_file/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 #include <library/gnss/gnss_satellite_number.hpp>
 #include <library/randomization/global_randomization.hpp>
 #include <string>

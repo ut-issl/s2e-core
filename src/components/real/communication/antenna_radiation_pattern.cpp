@@ -6,7 +6,7 @@
 #include "antenna_radiation_pattern.hpp"
 
 #include <algorithm>
-#include <initial_setting_file/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 #include <library/math/s2e_math.hpp>
 
 AntennaRadiationPattern::AntennaRadiationPattern() { gain_dBi_.assign(length_theta_, std::vector<double>(length_phi_, 0.0)); }

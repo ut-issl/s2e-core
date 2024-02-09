@@ -5,7 +5,7 @@
 
 #include "magnetorquer.hpp"
 
-#include <initial_setting_file/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 #include <library/logger/logger.hpp>
 #include <library/math/matrix_vector.hpp>
 #include <library/math/quaternion.hpp>

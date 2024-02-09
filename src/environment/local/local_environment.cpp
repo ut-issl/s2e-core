@@ -6,7 +6,7 @@
 
 #include "dynamics/attitude/attitude.hpp"
 #include "dynamics/orbit/orbit.hpp"
-#include "initial_setting_file/initialize_file_access.hpp"
+#include "setting_file_reader/initialize_file_access.hpp"
 
 LocalEnvironment::LocalEnvironment(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
                                    const int spacecraft_id) {

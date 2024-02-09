@@ -7,7 +7,7 @@
 
 #include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
-#include <initial_setting_file/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
                                  double cell_area_m2, libra::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,

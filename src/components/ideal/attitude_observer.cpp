@@ -5,7 +5,7 @@
 
 #include "attitude_observer.hpp"
 
-#include <initial_setting_file/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 #include <library/math/constants.hpp>
 
 AttitudeObserver::AttitudeObserver(const int prescaler, ClockGenerator* clock_generator, const double standard_deviation_rad,

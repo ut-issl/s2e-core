@@ -6,7 +6,7 @@
 #include "power_port.hpp"
 
 #include <cfloat>
-#include <initial_setting_file/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 #include <library/utilities/macros.hpp>
 
 PowerPort::PowerPort() : kPortId(-1), current_limit_A_(10.0), minimum_voltage_V_(3.3), assumed_power_consumption_W_(0.0) {

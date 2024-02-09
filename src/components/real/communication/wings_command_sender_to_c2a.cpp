@@ -7,7 +7,7 @@
 
 #include "wings_command_sender_to_c2a.hpp"
 
-#include <initial_setting_file/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 #include <library/utilities/macros.hpp>
 #include <regex>
 

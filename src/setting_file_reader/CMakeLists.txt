@@ -1,4 +1,4 @@
-project(INITIAL_SETTING_FILE)
+project(SETTING_FILE_READER)
 cmake_minimum_required(VERSION 3.13)
 
 add_library(${PROJECT_NAME} STATIC

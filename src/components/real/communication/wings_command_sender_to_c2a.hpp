@@ -6,8 +6,8 @@
 #ifndef S2E_COMPONENTS_REAL_COMMUNICATION_C2A_COMMAND_SENDER_HPP_
 #define S2E_COMPONENTS_REAL_COMMUNICATION_C2A_COMMAND_SENDER_HPP_
 
-#include <initial_setting_file/c2a_command_database.hpp>
-#include <initial_setting_file/wings_operation_file.hpp>
+#include <setting_file_reader/c2a_command_database.hpp>
+#include <setting_file_reader/wings_operation_file.hpp>
 
 #include "../../base/component.hpp"
 
