@@ -5,7 +5,7 @@
 
 #include "simulation_case.hpp"
 
-#include <library/logger/initialize_log.hpp>
+#include <logger/initialize_log.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 #include <string>
 

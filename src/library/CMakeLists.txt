@@ -12,9 +12,6 @@ add_library(${PROJECT_NAME} STATIC
   gnss/antex_file_reader.cpp
   gnss/bias_sinex_file_reader.cpp
 
-  logger/logger.cpp
-  logger/initialize_log.cpp
-
   gravity/gravity_potential.cpp
 
   randomization/global_randomization.cpp

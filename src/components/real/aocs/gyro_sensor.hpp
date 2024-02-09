@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_REAL_AOCS_GYRO_SENSOR_HPP_
 
 #include <dynamics/dynamics.hpp>
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 #include <library/math/quaternion.hpp>
 
 #include "../../base/component.hpp"

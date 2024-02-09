@@ -8,7 +8,7 @@
 
 #include <dynamics/attitude/attitude.hpp>
 #include <environment/local/local_environment.hpp>
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
 #include <library/randomization/minimal_standard_linear_congruential_generator_with_shuffle.hpp>

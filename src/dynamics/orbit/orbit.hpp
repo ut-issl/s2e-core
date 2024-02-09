@@ -9,7 +9,7 @@
 #include <environment/global/celestial_information.hpp>
 #include <environment/global/physical_constants.hpp>
 #include <library/geodesy/geodetic_position.hpp>
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 #include <library/math/constants.hpp>
 #include <library/math/matrix.hpp>
 #include <library/math/matrix_vector.hpp>

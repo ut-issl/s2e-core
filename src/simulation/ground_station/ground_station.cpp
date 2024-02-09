@@ -6,8 +6,8 @@
 #include "ground_station.hpp"
 
 #include <environment/global/physical_constants.hpp>
-#include <library/logger/log_utility.hpp>
-#include <library/logger/logger.hpp>
+#include <logger/log_utility.hpp>
+#include <logger/logger.hpp>
 #include <library/math/constants.hpp>
 #include <library/utilities/macros.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>

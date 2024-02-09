@@ -4,7 +4,7 @@
  */
 #include "attitude.hpp"
 
-#include <library/logger/log_utility.hpp>
+#include <logger/log_utility.hpp>
 
 Attitude::Attitude(const libra::Matrix<3, 3>& inertia_tensor_kgm2, const std::string& simulation_object_name)
     : SimulationObject(simulation_object_name), inertia_tensor_kgm2_(inertia_tensor_kgm2) {

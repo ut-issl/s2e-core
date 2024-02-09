@@ -10,7 +10,7 @@
 #include <set>
 #include <string>
 
-#include "../library/logger/loggable.hpp"
+#include "../logger/loggable.hpp"
 #include "../library/math/vector.hpp"
 #include "disturbance.hpp"
 

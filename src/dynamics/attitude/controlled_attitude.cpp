@@ -4,7 +4,7 @@
  */
 #include "controlled_attitude.hpp"
 
-#include <library/logger/log_utility.hpp>
+#include <logger/log_utility.hpp>
 #include <library/utilities/macros.hpp>
 
 ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode,

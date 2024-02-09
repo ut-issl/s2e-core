@@ -5,7 +5,7 @@
 #include "attitude_rk4.hpp"
 
 #include <iostream>
-#include <library/logger/log_utility.hpp>
+#include <logger/log_utility.hpp>
 #include <library/utilities/macros.hpp>
 #include <sstream>
 

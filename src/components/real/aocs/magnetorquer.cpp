@@ -5,7 +5,7 @@
 
 #include "magnetorquer.hpp"
 
-#include <library/logger/logger.hpp>
+#include <logger/logger.hpp>
 #include <library/math/matrix_vector.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/randomization/global_randomization.hpp>

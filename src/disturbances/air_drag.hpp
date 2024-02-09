@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "../environment/local/atmosphere.hpp"
-#include "../library/logger/loggable.hpp"
+#include "../logger/loggable.hpp"
 #include "../library/math/quaternion.hpp"
 #include "../library/math/vector.hpp"
 #include "surface_force.hpp"

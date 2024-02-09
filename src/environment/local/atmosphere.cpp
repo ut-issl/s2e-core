@@ -7,7 +7,7 @@
 
 #include "library/atmosphere/harris_priester_model.hpp"
 #include "library/atmosphere/simple_air_density_model.hpp"
-#include "library/logger/log_utility.hpp"
+#include "logger/log_utility.hpp"
 #include "library/math/vector.hpp"
 #include "library/randomization/global_randomization.hpp"
 #include "library/randomization/normal_randomization.hpp"

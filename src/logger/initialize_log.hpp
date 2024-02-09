@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_LOGGER_INITIALIZE_LOG_HPP_
 #define S2E_LIBRARY_LOGGER_INITIALIZE_LOG_HPP_
 
-#include <library/logger/logger.hpp>
+#include <logger/logger.hpp>
 
 /**
  * @fn InitLog

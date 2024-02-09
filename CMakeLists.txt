@@ -91,6 +91,7 @@ add_subdirectory(src/components)
 add_subdirectory(src/library)
 add_subdirectory(src/external_libraries)
 add_subdirectory(src/setting_file_reader)
+add_subdirectory(src/logger)
 
 set(SOURCE_FILES
   src/s2e.cpp
@@ -179,7 +180,7 @@ endif()
 #target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
 
 # Initialize link
-target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY SETTING_FILE_READER)
+target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY SETTING_FILE_READER LOGGER)
 target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION LIBRARY)
 target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
 target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE LIBRARY)

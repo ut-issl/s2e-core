@@ -17,7 +17,7 @@
 #include "external_libraries/sgp4/sgp4ext.h"
 #include "external_libraries/sgp4/sgp4io.h"
 #include "external_libraries/sgp4/sgp4unit.h"
-#include "library/logger/loggable.hpp"
+#include "logger/loggable.hpp"
 
 /**
  *@struct TimeState

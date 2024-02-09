@@ -8,7 +8,7 @@
 #include <cassert>
 #include <fstream>
 
-#include "library/logger/log_utility.hpp"
+#include "logger/log_utility.hpp"
 #include "library/math/constants.hpp"
 #include "library/math/vector.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"

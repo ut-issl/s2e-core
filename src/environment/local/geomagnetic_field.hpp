@@ -7,7 +7,7 @@
 #define S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
 
 #include "library/geodesy/geodetic_position.hpp"
-#include "library/logger/loggable.hpp"
+#include "logger/loggable.hpp"
 #include "library/math/quaternion.hpp"
 #include "library/math/vector.hpp"
 

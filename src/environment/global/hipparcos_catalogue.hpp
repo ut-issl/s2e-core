@@ -8,7 +8,7 @@
 
 #include <vector>
 
-#include "library/logger/loggable.hpp"
+#include "logger/loggable.hpp"
 #include "library/math/quaternion.hpp"
 #include "library/math/vector.hpp"
 

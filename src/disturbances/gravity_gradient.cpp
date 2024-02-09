@@ -9,7 +9,7 @@
 #include <environment/global/physical_constants.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
-#include "../library/logger/log_utility.hpp"
+#include "../logger/log_utility.hpp"
 
 GravityGradient::GravityGradient(const bool is_calculation_enabled)
     : GravityGradient(environment::earth_gravitational_constant_m3_s2, is_calculation_enabled) {}
