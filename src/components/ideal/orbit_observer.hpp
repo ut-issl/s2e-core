@@ -15,7 +15,7 @@
 
 /**
  * @enum NoiseFrame
- * @brief Noide definition frame
+ * @brief Noise definition frame
  */
 enum class NoiseFrame {
   kInertial,  //!< Inertial frame

@@ -37,9 +37,9 @@ void OrbitObserver::MainRoutine(const int time_count) {
         position_error_rtn_m[axis] = normal_random_noise_[axis];
         velocity_error_rtn_m_s[axis] = normal_random_noise_[axis + 3];
       }
-      //  Frame conversion
+      // Frame conversion
       position_error_i_m = q_i2rtn.InverseFrameConversion(position_error_rtn_m);
-      // For zero bias noise, we do not need to care frame rotation effect.
+      // For zero bias noise, we do not need to care the frame rotation effect.
       velocity_error_i_m_s = q_i2rtn.InverseFrameConversion(velocity_error_rtn_m_s);
 
       break;
