@@ -5,11 +5,11 @@
 #include "reaction_wheel.hpp"
 
 #include <fstream>
-#include <setting_file_reader/initialize_file_access.hpp>
 #include <iostream>
 #include <library/math/constants.hpp>
 #include <library/math/vector.hpp>
 #include <random>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                              const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,

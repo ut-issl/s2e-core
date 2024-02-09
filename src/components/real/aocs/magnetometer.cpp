@@ -4,8 +4,8 @@
  */
 #include "magnetometer.hpp"
 
-#include <setting_file_reader/initialize_file_access.hpp>
 #include <library/math/quaternion.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 Magnetometer::Magnetometer(int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
                            const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)

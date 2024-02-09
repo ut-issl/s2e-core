@@ -5,11 +5,11 @@
 
 #include "magnetorquer.hpp"
 
-#include <setting_file_reader/initialize_file_access.hpp>
 #include <library/logger/logger.hpp>
 #include <library/math/matrix_vector.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/randomization/global_randomization.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
                            const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor,

@@ -6,9 +6,9 @@
 #include "gnss_receiver.hpp"
 
 #include <environment/global/physical_constants.hpp>
-#include <setting_file_reader/initialize_file_access.hpp>
 #include <library/gnss/gnss_satellite_number.hpp>
 #include <library/randomization/global_randomization.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 #include <string>
 
 GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
