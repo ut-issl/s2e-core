@@ -11,9 +11,9 @@
 #include "environment/global/physical_constants.hpp"
 #include "library/math/constants.hpp"
 #include "library/time_system/date_time_format.hpp"
-#include "utilities/macros.hpp"
 #include "logger/log_utility.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
+#include "utilities/macros.hpp"
 
 const size_t kNumberOfInterpolation = 9;
 

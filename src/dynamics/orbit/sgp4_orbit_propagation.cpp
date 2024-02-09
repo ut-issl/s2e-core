@@ -6,8 +6,8 @@
 #include "sgp4_orbit_propagation.hpp"
 
 #include <iostream>
-#include <utilities/macros.hpp>
 #include <sstream>
+#include <utilities/macros.hpp>
 
 Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs_setting,
                                            const double current_time_jd)
