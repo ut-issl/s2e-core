@@ -15,7 +15,7 @@
 #include <locale>
 #include <sstream>
 
-#include "library/initialize/initialize_file_access.hpp"
+#include "initial_setting_file/initialize_file_access.hpp"
 #include "library/logger/log_utility.hpp"
 
 CelestialInformation::CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting,

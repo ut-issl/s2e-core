@@ -5,7 +5,7 @@
 
 #include "sample_components.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
+#include <initial_setting_file/initialize_file_access.hpp>
 
 #include "sample_port_configuration.hpp"
 

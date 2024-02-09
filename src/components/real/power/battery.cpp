@@ -6,7 +6,7 @@
 #include "battery.hpp"
 
 #include <cmath>
-#include <library/initialize/initialize_file_access.hpp>
+#include <initial_setting_file/initialize_file_access.hpp>
 
 Battery::Battery(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
                  const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,

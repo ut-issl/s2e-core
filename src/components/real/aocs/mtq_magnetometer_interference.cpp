@@ -5,7 +5,7 @@
 
 #include "mtq_magnetometer_interference.hpp"
 
-#include "library/initialize/initialize_file_access.hpp"
+#include "initial_setting_file/initialize_file_access.hpp"
 
 MtqMagnetometerInterference::MtqMagnetometerInterference(const std::string file_name, Magnetometer& magnetometer, const Magnetorquer& magnetorquer,
                                                          const size_t initialize_id)

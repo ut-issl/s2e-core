@@ -8,7 +8,7 @@
 #include <cmath>
 #include <components/real/power/csv_scenario_interface.hpp>
 #include <environment/global/clock_generator.hpp>
-#include <library/initialize/initialize_file_access.hpp>
+#include <initial_setting_file/initialize_file_access.hpp>
 
 PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
                                  double component_step_time_s)

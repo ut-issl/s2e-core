@@ -5,7 +5,7 @@
 #include "simple_thruster.hpp"
 
 #include <cfloat>
-#include <library/initialize/initialize_file_access.hpp>
+#include <initial_setting_file/initialize_file_access.hpp>
 #include <library/math/constants.hpp>
 #include <library/randomization/global_randomization.hpp>
 

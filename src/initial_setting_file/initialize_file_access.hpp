@@ -17,7 +17,7 @@
 #define NOMINMAX
 #include <windows.h>
 #else
-#include "../../external_libraries/inih/cpp/INIReader.h"
+#include "../external_libraries/inih/cpp/INIReader.h"
 #endif
 
 #include <fstream>

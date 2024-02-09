@@ -6,7 +6,7 @@
 #include "initialize_monte_carlo_simulation.hpp"
 
 #include <cstring>
-#include <library/initialize/initialize_file_access.hpp>
+#include <initial_setting_file/initialize_file_access.hpp>
 
 #define MAX_CHAR_NUM 256
 

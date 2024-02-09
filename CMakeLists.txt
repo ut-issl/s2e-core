@@ -90,6 +90,7 @@ add_subdirectory(src/disturbances)
 add_subdirectory(src/components)
 add_subdirectory(src/library)
 add_subdirectory(src/external_libraries)
+add_subdirectory(src/initial_setting_file)
 
 set(SOURCE_FILES
   src/s2e.cpp
@@ -178,13 +179,14 @@ endif()
 #target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
 
 # Initialize link
-target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY EXTERNAL_LIBRARY)
+target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY INITIAL_SETTING_FILE)
 target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION LIBRARY)
 target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
 target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE LIBRARY)
 target_link_libraries(GLOBAL_ENVIRONMENT ${CSPICE_LIB} LIBRARY)
 target_link_libraries(LOCAL_ENVIRONMENT GLOBAL_ENVIRONMENT ${CSPICE_LIB} LIBRARY)
 target_link_libraries(EXTERNAL_LIBRARY ${NRLMSISE00_LIB})
+target_link_libraries(INITIAL_SETTING_FILE EXTERNAL_LIBRARY)
 
 target_link_libraries(${PROJECT_NAME} DYNAMICS)
 target_link_libraries(${PROJECT_NAME} DISTURBANCE)

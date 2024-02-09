@@ -12,7 +12,7 @@
 #include <limits>
 #include <regex>
 
-#include "../utilities/macros.hpp"
+#include "../library/utilities/macros.hpp"
 
 #ifdef WIN32
 IniAccess::IniAccess(const std::string file_path) : file_path_(file_path) {

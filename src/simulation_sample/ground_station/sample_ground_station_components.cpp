@@ -4,7 +4,7 @@
  */
 #include "sample_ground_station_components.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
+#include <initial_setting_file/initialize_file_access.hpp>
 
 SampleGsComponents::SampleGsComponents(const SimulationConfiguration* configuration) : configuration_(configuration) {
   IniAccess iniAccess = IniAccess(configuration_->ground_station_file_list_[0]);

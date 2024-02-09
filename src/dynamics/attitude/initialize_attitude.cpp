@@ -4,7 +4,7 @@
  */
 #include "initialize_attitude.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
+#include <initial_setting_file/initialize_file_access.hpp>
 
 Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
                        const double step_width_s, const libra::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id) {

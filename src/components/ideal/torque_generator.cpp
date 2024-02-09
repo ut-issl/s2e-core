@@ -6,7 +6,7 @@
 #include "torque_generator.hpp"
 
 #include <cfloat>
-#include <library/initialize/initialize_file_access.hpp>
+#include <initial_setting_file/initialize_file_access.hpp>
 
 // Constructor
 TorqueGenerator::TorqueGenerator(const int prescaler, ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_Nm,
