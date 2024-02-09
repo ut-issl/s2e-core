@@ -89,6 +89,7 @@ add_subdirectory(src/dynamics)
 add_subdirectory(src/disturbances)
 add_subdirectory(src/components)
 add_subdirectory(src/library)
+add_subdirectory(src/external_libraries)
 
 set(SOURCE_FILES
   src/s2e.cpp
