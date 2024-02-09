@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_EXAMPLE_ODE_HPP_
 #define S2E_LIBRARY_NUMERICAL_INTEGRATION_EXAMPLE_ODE_HPP_
 
-#include "../utilities/macros.hpp"
+#include "../../utilities/macros.hpp"
 #include "interface_ode.hpp"
 
 namespace libra::numerical_integration {
