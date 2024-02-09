@@ -8,8 +8,8 @@
 
 #include <library/utilities/macros.hpp>
 
-#include "../logger/loggable.hpp"
 #include "../library/math/vector.hpp"
+#include "../logger/loggable.hpp"
 #include "surface_force.hpp"
 
 /**

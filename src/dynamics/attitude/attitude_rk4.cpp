@@ -5,8 +5,8 @@
 #include "attitude_rk4.hpp"
 
 #include <iostream>
-#include <logger/log_utility.hpp>
 #include <library/utilities/macros.hpp>
+#include <logger/log_utility.hpp>
 #include <sstream>
 
 AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b,

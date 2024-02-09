@@ -7,9 +7,9 @@
 #define S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_
 
 #include <library/control_utilities/first_order_lag.hpp>
-#include <logger/logger.hpp>
 #include <library/math/vector.hpp>
 #include <limits>
+#include <logger/logger.hpp>
 #include <string>
 #include <vector>
 

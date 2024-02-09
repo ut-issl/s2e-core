@@ -6,8 +6,8 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_INSTALLED_COMPONENTS_HPP_
 #define S2E_SIMULATION_SPACECRAFT_INSTALLED_COMPONENTS_HPP_
 
-#include <logger/logger.hpp>
 #include <library/math/vector.hpp>
+#include <logger/logger.hpp>
 
 /**
  * @class InstalledComponents
