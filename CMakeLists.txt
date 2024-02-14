@@ -40,6 +40,10 @@ if(NOT DEFINED C2A_NAME)
 endif()
 
 ## Directory path for ini files
+if(NOT DEFINED EXT_DATA_DIR_FROM_EXE)
+  set(EXT_DATA_DIR_FROM_EXE ../../data/external)
+endif()
+
 if(NOT DEFINED INI_FILE_DIR_FROM_EXE)
   set(INI_FILE_DIR_FROM_EXE ../../data/sample/initialize_files)
 endif()
