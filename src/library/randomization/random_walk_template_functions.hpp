@@ -7,7 +7,7 @@
 #define S2E_LIBRARY_RANDOMIZATION_RANDOM_WALK_TEMPLATE_FUNCTIONS_HPP_
 
 #include <library/randomization/global_randomization.hpp>
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 template <size_t N>
 RandomWalk<N>::RandomWalk(double step_width_s, const libra::Vector<N>& standard_deviation, const libra::Vector<N>& limit)

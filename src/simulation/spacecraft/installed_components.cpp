@@ -5,7 +5,7 @@
 
 #include "installed_components.hpp"
 
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 libra::Vector<3> InstalledComponents::GenerateForce_b_N() {
   libra::Vector<3> force_b_N_(0.0);

@@ -37,7 +37,7 @@
 #include "sgp4unit.h"
 
 #include <iostream>
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 // const char help = 'n'; // Remove to avoid unused warinings
 FILE* dbgfile;

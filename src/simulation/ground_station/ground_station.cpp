@@ -7,11 +7,11 @@
 
 #include <environment/global/physical_constants.hpp>
 #include <library/math/constants.hpp>
-#include <library/utilities/macros.hpp>
 #include <logger/log_utility.hpp>
 #include <logger/logger.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 #include <string>
+#include <utilities/macros.hpp>
 
 GroundStation::GroundStation(const SimulationConfiguration* configuration, const unsigned int ground_station_id)
     : ground_station_id_(ground_station_id) {

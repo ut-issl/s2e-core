@@ -4,8 +4,8 @@
  */
 #include "controlled_attitude.hpp"
 
-#include <library/utilities/macros.hpp>
 #include <logger/log_utility.hpp>
+#include <utilities/macros.hpp>
 
 ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode,
                                        const libra::Quaternion quaternion_i2b, const libra::Vector<3> main_target_direction_b,

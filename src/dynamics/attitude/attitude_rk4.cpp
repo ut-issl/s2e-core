@@ -5,9 +5,9 @@
 #include "attitude_rk4.hpp"
 
 #include <iostream>
-#include <library/utilities/macros.hpp>
 #include <logger/log_utility.hpp>
 #include <sstream>
+#include <utilities/macros.hpp>
 
 AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b,
                          const libra::Matrix<3, 3>& inertia_tensor_kgm2, const libra::Vector<3>& torque_b_Nm, const double propagation_step_s,
