@@ -10,7 +10,6 @@ add_library(${PROJECT_NAME} STATIC
   clock_generator.cpp
   earth_rotation.cpp
   moon_rotation.cpp
-  initialize_gnss_satellites.cpp
 )
 
 include(../../../common.cmake)

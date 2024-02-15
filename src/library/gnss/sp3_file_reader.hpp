@@ -178,6 +178,8 @@ class Sp3FileReader {
   double GetSatelliteClockOffset(const size_t epoch_id, const size_t satellite_id);
   libra::Vector<3> GetSatellitePosition_km(const size_t epoch_id, const size_t satellite_id);
 
+  size_t SearchNearestEpochId(const EpochTime time);
+
  private:
   Sp3Header header_;             //!< SP3 header information
   std::vector<DateTime> epoch_;  //!< Epoch data list

@@ -6,6 +6,7 @@
 #include "gnss_receiver.hpp"
 
 #include <environment/global/physical_constants.hpp>
+#include <library/gnss/gnss_satellite_number.hpp>
 #include <library/initialize/initialize_file_access.hpp>
 #include <library/randomization/global_randomization.hpp>
 #include <string>
@@ -112,15 +113,15 @@ void GnssReceiver::CheckAntennaCone(const libra::Vector<3> pos_true_eci_, libra:
   // initialize
   visible_satellite_number_ = 0;
 
-  int gnss_num = gnss_satellites_->GetNumberOfSatellites();
+  int gnss_num = kTotalNumberOfGnssSatellite;
 
   for (int i = 0; i < gnss_num; i++) {
     // check if gnss ID is compatible with the receiver
-    std::string id_tmp = gnss_satellites_->GetIdFromIndex(i);
+    std::string id_tmp = ConvertIndexToGnssSatelliteNumber(i);
     if (gnss_id_.find(id_tmp[0]) == std::string::npos) continue;
 
     // compute direction from sat to gnss in body-fixed frame
-    gnss_sat_pos_i = gnss_satellites_->GetSatellitePositionEci(i);
+    gnss_sat_pos_i = gnss_satellites_->GetPosition_eci_m(i);
     antenna_to_satellite_i_m = gnss_sat_pos_i - ant_pos_i;
     double normalizer = 1 / antenna_to_satellite_i_m.CalcNorm();
     ant2gnss_i_n = normalizer * antenna_to_satellite_i_m;

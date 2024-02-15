@@ -5,7 +5,6 @@
 
 #include "global_environment.hpp"
 
-#include "initialize_gnss_satellites.hpp"
 #include "library/initialize/initialize_file_access.hpp"
 
 GlobalEnvironment::GlobalEnvironment(const SimulationConfiguration* simulation_configuration) { Initialize(simulation_configuration); }
@@ -26,17 +25,16 @@ void GlobalEnvironment::Initialize(const SimulationConfiguration* simulation_con
   celestial_information_ = InitCelestialInformation(simulation_configuration->initialize_base_file_name_);
   simulation_time_ = InitSimulationTime(simulation_time_ini_path);
   hipparcos_catalogue_ = InitHipparcosCatalogue(simulation_configuration->initialize_base_file_name_);
-  gnss_satellites_ = InitGnssSatellites(simulation_configuration->gnss_file_);
+  gnss_satellites_ = InitGnssSatellites(simulation_configuration->gnss_file_, celestial_information_->GetEarthRotation(), *simulation_time_);
 
   // Calc initial value
   celestial_information_->UpdateAllObjectsInformation(*simulation_time_);
-  gnss_satellites_->SetUp(simulation_time_);
 }
 
 void GlobalEnvironment::Update() {
   simulation_time_->UpdateTime();
   celestial_information_->UpdateAllObjectsInformation(*simulation_time_);
-  gnss_satellites_->Update(simulation_time_);
+  gnss_satellites_->Update(*simulation_time_);
 }
 
 void GlobalEnvironment::LogSetup(Logger& logger) {
