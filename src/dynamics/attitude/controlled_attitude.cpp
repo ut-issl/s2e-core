@@ -93,6 +93,9 @@ libra::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode m
     }
   } else if (mode == AttitudeControlMode::kVelocityDirectionPointing) {
     direction = orbit_->GetVelocity_i_m_s();
+  } else if (mode == AttitudeControlMode::kRelativeVelocityDirectionPointing) {
+    libra::Matrix<3, 3> dcm_ecef2eci = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
+    direction = dcm_ecef2eci * orbit_->GetVelocity_ecef_m_s();
   } else if (mode == AttitudeControlMode::kOrbitNormalPointing) {
     direction = OuterProduct(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
   }
@@ -140,6 +143,8 @@ AttitudeControlMode ConvertStringToCtrlMode(const std::string mode) {
     return AttitudeControlMode::kEarthCenterPointing;
   } else if (mode == "VELOCITY_DIRECTION_POINTING") {
     return AttitudeControlMode::kVelocityDirectionPointing;
+  } else if (mode == "RELATIVE_VELOCITY_DIRECTION_POINTING") {
+    return AttitudeControlMode::kRelativeVelocityDirectionPointing;
   } else if (mode == "ORBIT_NORMAL_POINTING") {
     return AttitudeControlMode::kOrbitNormalPointing;
   } else {
