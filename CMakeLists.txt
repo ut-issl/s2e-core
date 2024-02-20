@@ -10,6 +10,7 @@ project(S2E
 # build config
 option(USE_HILS "Use HILS" OFF)
 option(USE_C2A "Use C2A" OFF)
+option(USE_C2A_COMMAND_SENDER "Use command sender to C2A" OFF)
 option(BUILD_64BIT "Build 64bit" OFF)
 option(GOOGLE_TEST "Execute GoogleTest" OFF)
 
