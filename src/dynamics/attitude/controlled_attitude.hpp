@@ -22,7 +22,7 @@ enum class AttitudeControlMode {
   kSunPointing,                        //!< Sun pointing
   kEarthCenterPointing,                //!< Earth center pointing
   kVelocityDirectionPointing,          //!< Spacecraft velocity direction pointing
-  kRelativeVelocityDirectionPointing,  //!< Relative velocity direction pointing
+  kGroundSpeedDirectionPointing,       //!< Ground speed direction pointing
   kOrbitNormalPointing,                //!< Orbit normal direction pointing
   kNoControl,                          // No Control
 };
