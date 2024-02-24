@@ -24,7 +24,7 @@ STT InitSTT(ClockGenerator* clock_gen, int sensor_id, const string fname, double
   double sigma_ortho = STT_conf.ReadDouble(STTSection, "sigma_ortho");
   double sigma_sight = STT_conf.ReadDouble(STTSection, "sigma_sight");
   double output_delay_sec = STT_conf.ReadDouble(STTSection, "output_delay");
-  int output_delay = max(int(output_delay_sec / step_time), 1);
+  int output_delay = max(int(output_delay_sec / step_time), 0);
   double output_interval_sec = STT_conf.ReadDouble(STTSection, "output_interval");
   int output_interval = max(int(output_interval_sec / step_time), 1);
   double sun_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "sun_forbidden_angle");
