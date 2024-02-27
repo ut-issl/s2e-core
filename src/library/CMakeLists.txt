@@ -44,14 +44,6 @@ add_library(${PROJECT_NAME} STATIC
   time_system/epoch_time.cpp
   time_system/gps_time.cpp
 
-  external/igrf/igrf.cpp
-  external/inih/ini.c
-  external/inih/cpp/INIReader.cpp
-  external/nrlmsise00/wrapper_nrlmsise00.cpp
-  external/sgp4/sgp4ext.cpp
-  external/sgp4/sgp4io.cpp
-  external/sgp4/sgp4unit.cpp
-
   utilities/endian.cpp
   utilities/slip.cpp
   utilities/quantization.cpp
