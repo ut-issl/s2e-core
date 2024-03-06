@@ -11,9 +11,9 @@
 #include <iostream>
 #include <sstream>
 
+#include "library/math/constants.hpp"
 #include "library/orbit/sgp4/sgp4ext.h"   // for jday()
 #include "library/orbit/sgp4/sgp4unit.h"  // for gstime()
-#include "library/math/constants.hpp"
 
 // Default constructor
 EarthRotation::EarthRotation(const EarthRotationMode rotation_mode) : rotation_mode_(rotation_mode) {
