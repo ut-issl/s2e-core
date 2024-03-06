@@ -8,6 +8,8 @@ add_library(${PROJECT_NAME} STATIC
 
   geodesy/geodetic_position.cpp
 
+  geomagnetic/igrf.cpp
+
   gnss/sp3_file_reader.cpp
   gnss/gnss_satellite_number.cpp
   gnss/antex_file_reader.cpp
