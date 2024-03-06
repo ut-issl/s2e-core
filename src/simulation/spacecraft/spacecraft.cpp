@@ -5,8 +5,8 @@
 
 #include "spacecraft.hpp"
 
-#include <library/logger/log_utility.hpp>
-#include <library/logger/logger.hpp>
+#include <logger/log_utility.hpp>
+#include <logger/logger.hpp>
 
 Spacecraft::Spacecraft(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id,
                        RelativeInformation* relative_information)

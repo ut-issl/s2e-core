@@ -7,12 +7,12 @@
 #define S2E_COMPONENTS_REAL_AOCS_MAGNETORQUER_HPP_
 
 #include <environment/local/local_environment.hpp>
-#include <library/logger/loggable.hpp>
 #include <library/math/matrix.hpp>
 #include <library/math/quaternion.hpp>
 #include <library/math/vector.hpp>
 #include <library/randomization/normal_randomization.hpp>
 #include <library/randomization/random_walk.hpp>
+#include <logger/loggable.hpp>
 
 #include "../../base/component.hpp"
 

@@ -8,8 +8,8 @@
 #include <library/math/constants.hpp>
 #include <library/randomization/normal_randomization.hpp>
 using libra::NormalRand;
-#include <library/logger/log_utility.hpp>
 #include <library/randomization/global_randomization.hpp>
+#include <logger/log_utility.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
 using namespace std;

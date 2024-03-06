@@ -6,7 +6,7 @@
 
 #include <cmath>
 #include <library/math/constants.hpp>
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 #include "harris_priester_coefficients.hpp"
 

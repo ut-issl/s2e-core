@@ -12,9 +12,6 @@ add_library(${PROJECT_NAME} STATIC
   gnss/antex_file_reader.cpp
   gnss/bias_sinex_file_reader.cpp
 
-  logger/logger.cpp
-  logger/initialize_log.cpp
-
   gravity/gravity_potential.cpp
 
   randomization/global_randomization.cpp
@@ -39,11 +36,6 @@ add_library(${PROJECT_NAME} STATIC
   time_system/date_time_format.cpp
   time_system/epoch_time.cpp
   time_system/gps_time.cpp
-
-  utilities/endian.cpp
-  utilities/slip.cpp
-  utilities/quantization.cpp
-  utilities/ring_buffer.cpp
 )
 
 include(../../common.cmake)

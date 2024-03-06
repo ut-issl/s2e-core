@@ -7,9 +7,9 @@
 
 #include <fstream>
 #include <iostream>
-#include <library/utilities/endian.hpp>
-#include <library/utilities/macros.hpp>
 #include <sstream>
+#include <utilities/endian.hpp>
+#include <utilities/macros.hpp>
 
 C2aCommandInformation::C2aCommandInformation(const std::string cmd_db_line) {
   if (cmd_db_line.find("*") == 0) return;

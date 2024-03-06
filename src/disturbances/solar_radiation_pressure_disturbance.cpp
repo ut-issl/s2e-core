@@ -8,7 +8,7 @@
 #include <cmath>
 #include <setting_file_reader/initialize_file_access.hpp>
 
-#include "../library/logger/log_utility.hpp"
+#include "../logger/log_utility.hpp"
 
 SolarRadiationPressureDisturbance::SolarRadiationPressureDisturbance(const std::vector<Surface>& surfaces,
                                                                      const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)

@@ -12,8 +12,8 @@
 #include "environment/global/simulation_time.hpp"
 #include "environment/local/local_celestial_information.hpp"
 #include "external_libraries/nrlmsise00/wrapper_nrlmsise00.hpp"
-#include "library/logger/loggable.hpp"
 #include "library/math/vector.hpp"
+#include "logger/loggable.hpp"
 
 /**
  * @class Atmosphere

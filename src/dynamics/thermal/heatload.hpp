@@ -6,7 +6,7 @@
 #ifndef S2E_DYNAMICS_THERMAL_HEATLOAD_HPP_
 #define S2E_DYNAMICS_THERMAL_HEATLOAD_HPP_
 
-#include <library/logger/logger.hpp>
+#include <logger/logger.hpp>
 #include <string>
 #include <vector>
 

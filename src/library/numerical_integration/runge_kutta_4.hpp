@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_4_HPP_
 #define S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_4_HPP_
 
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 #include "runge_kutta.hpp"
 

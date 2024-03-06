@@ -8,7 +8,7 @@
 
 #include <components/ports/power_port.hpp>
 #include <environment/global/clock_generator.hpp>
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 #include "interface_tickable.hpp"
 

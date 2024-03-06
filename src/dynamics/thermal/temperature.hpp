@@ -7,7 +7,7 @@
 #define S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_
 
 #include <environment/local/solar_radiation_pressure_environment.hpp>
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 #include <string>
 #include <vector>
 
