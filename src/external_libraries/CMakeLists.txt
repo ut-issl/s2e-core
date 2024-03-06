@@ -6,8 +6,6 @@ add_library(${PROJECT_NAME} STATIC
   
   inih/ini.c
   inih/cpp/INIReader.cpp
-  
-  nrlmsise00/wrapper_nrlmsise00.cpp
 )
 
 include(../../common.cmake)
