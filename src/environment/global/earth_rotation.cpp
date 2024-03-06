@@ -11,8 +11,8 @@
 #include <iostream>
 #include <sstream>
 
-#include "external_libraries/sgp4/sgp4ext.h"   // for jday()
-#include "external_libraries/sgp4/sgp4unit.h"  // for gstime()
+#include "library/orbit/sgp4/sgp4ext.h"   // for jday()
+#include "library/orbit/sgp4/sgp4unit.h"  // for gstime()
 #include "library/math/constants.hpp"
 
 // Default constructor

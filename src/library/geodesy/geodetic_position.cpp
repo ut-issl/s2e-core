@@ -4,7 +4,7 @@
  */
 #include "geodetic_position.hpp"
 
-#include <external_libraries/sgp4/sgp4ext.h>  // TODO: do not to use the functions in SGP4 library
+#include <library/orbit/sgp4/sgp4ext.h>  // TODO: do not to use the functions in SGP4 library
 
 #include <environment/global/physical_constants.hpp>
 #include <library/math/constants.hpp>

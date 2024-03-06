@@ -14,9 +14,9 @@
 // #include <time.h>
 #include <chrono>
 
-#include "external_libraries/sgp4/sgp4ext.h"
-#include "external_libraries/sgp4/sgp4io.h"
-#include "external_libraries/sgp4/sgp4unit.h"
+#include "library/orbit/sgp4/sgp4ext.h"
+#include "library/orbit/sgp4/sgp4io.h"
+#include "library/orbit/sgp4/sgp4unit.h"
 #include "logger/loggable.hpp"
 
 /**
