@@ -8,10 +8,6 @@ add_library(${PROJECT_NAME} STATIC
   inih/cpp/INIReader.cpp
   
   nrlmsise00/wrapper_nrlmsise00.cpp
-  
-  sgp4/sgp4ext.cpp
-  sgp4/sgp4io.cpp
-  sgp4/sgp4unit.cpp
 )
 
 include(../../common.cmake)

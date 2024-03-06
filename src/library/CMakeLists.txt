@@ -30,6 +30,9 @@ add_library(${PROJECT_NAME} STATIC
   orbit/kepler_orbit.cpp
   orbit/relative_orbit_models.cpp
   orbit/interpolation_orbit.cpp
+  orbit/sgp4/sgp4ext.cpp
+  orbit/sgp4/sgp4io.cpp
+  orbit/sgp4/sgp4unit.cpp
 
   planet_rotation/moon_rotation_utilities.cpp
 
