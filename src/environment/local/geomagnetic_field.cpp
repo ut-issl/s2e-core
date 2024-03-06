@@ -6,10 +6,10 @@
 #include "geomagnetic_field.hpp"
 
 #include "external_libraries/igrf/igrf.h"
-#include "library/initialize/initialize_file_access.hpp"
 #include "library/randomization/global_randomization.hpp"
 #include "library/randomization/normal_randomization.hpp"
 #include "library/randomization/random_walk.hpp"
+#include "setting_file_reader/initialize_file_access.hpp"
 
 GeomagneticField::GeomagneticField(const std::string igrf_file_name, const double random_walk_srandard_deviation_nT,
                                    const double random_walk_limit_nT, const double white_noise_standard_deviation_nT)

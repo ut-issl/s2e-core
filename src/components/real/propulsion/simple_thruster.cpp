@@ -5,9 +5,9 @@
 #include "simple_thruster.hpp"
 
 #include <cfloat>
-#include <library/initialize/initialize_file_access.hpp>
 #include <library/math/constants.hpp>
 #include <library/randomization/global_randomization.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 // Constructor
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id,

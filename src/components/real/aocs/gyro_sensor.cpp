@@ -5,7 +5,7 @@
 
 #include "gyro_sensor.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 GyroSensor::GyroSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
                        const libra::Quaternion& quaternion_b2c, const Dynamics* dynamics)

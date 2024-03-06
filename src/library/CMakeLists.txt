@@ -12,10 +12,6 @@ add_library(${PROJECT_NAME} STATIC
   gnss/antex_file_reader.cpp
   gnss/bias_sinex_file_reader.cpp
 
-  initialize/initialize_file_access.cpp
-  initialize/c2a_command_database.cpp
-  initialize/wings_operation_file.cpp
-
   logger/logger.cpp
   logger/initialize_log.cpp
 
