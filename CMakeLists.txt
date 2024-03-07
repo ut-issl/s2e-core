@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.13)
 project(S2E
   LANGUAGES CXX
   DESCRIPTION "S2E: Spacecraft Simulation Environment"
-  VERSION 7.2.4
+  VERSION 7.2.5
 )
 
 # build config
