@@ -16,9 +16,9 @@
 #include <vector>
 
 #include "earth_rotation.hpp"
+#include "logger/loggable.hpp"
 #include "math_physics/gnss/gnss_satellite_number.hpp"
 #include "math_physics/math/vector.hpp"
-#include "logger/loggable.hpp"
 #include "simulation_time.hpp"
 
 /**

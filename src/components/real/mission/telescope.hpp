@@ -10,9 +10,9 @@
 #include <dynamics/orbit/orbit.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
 #include <environment/local/local_celestial_information.hpp>
+#include <logger/loggable.hpp>
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/math/vector.hpp>
-#include <logger/loggable.hpp>
 #include <vector>
 
 #include "../../base/component.hpp"

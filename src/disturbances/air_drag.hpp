@@ -9,9 +9,9 @@
 #include <vector>
 
 #include "../environment/local/atmosphere.hpp"
+#include "../logger/loggable.hpp"
 #include "../math_physics/math/quaternion.hpp"
 #include "../math_physics/math/vector.hpp"
-#include "../logger/loggable.hpp"
 #include "surface_force.hpp"
 
 /**

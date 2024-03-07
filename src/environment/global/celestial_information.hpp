@@ -10,8 +10,8 @@
 #include <vector>
 
 #include "earth_rotation.hpp"
-#include "math_physics/math/vector.hpp"
 #include "logger/loggable.hpp"
+#include "math_physics/math/vector.hpp"
 #include "moon_rotation.hpp"
 #include "simulation_time.hpp"
 

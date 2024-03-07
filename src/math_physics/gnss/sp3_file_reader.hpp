@@ -10,10 +10,10 @@
 
 #include <stdint.h>
 
+#include <map>
 #include <math_physics/math/vector.hpp>
 #include <math_physics/time_system/date_time_format.hpp>
 #include <math_physics/time_system/gps_time.hpp>
-#include <map>
 #include <string>
 #include <vector>
 

@@ -8,9 +8,9 @@
 #include <cassert>
 #include <fstream>
 
+#include "logger/log_utility.hpp"
 #include "math_physics/math/constants.hpp"
 #include "math_physics/math/vector.hpp"
-#include "logger/log_utility.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
 SolarRadiationPressureEnvironment::SolarRadiationPressureEnvironment(LocalCelestialInformation* local_celestial_information)

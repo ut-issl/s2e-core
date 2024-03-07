@@ -8,9 +8,9 @@
 
 #include <vector>
 
+#include "logger/loggable.hpp"
 #include "math_physics/math/quaternion.hpp"
 #include "math_physics/math/vector.hpp"
-#include "logger/loggable.hpp"
 
 /**
  *@struct HipparcosData

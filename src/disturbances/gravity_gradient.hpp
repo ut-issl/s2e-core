@@ -8,10 +8,10 @@
 
 #include <string>
 
+#include "../logger/loggable.hpp"
 #include "../math_physics/math/matrix.hpp"
 #include "../math_physics/math/matrix_vector.hpp"
 #include "../math_physics/math/vector.hpp"
-#include "../logger/loggable.hpp"
 #include "disturbance.hpp"
 
 /**

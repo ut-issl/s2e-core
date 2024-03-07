@@ -9,9 +9,9 @@
 #include <math_physics/gnss/sp3_file_reader.hpp>
 
 #include "environment/global/physical_constants.hpp"
+#include "logger/log_utility.hpp"
 #include "math_physics/math/constants.hpp"
 #include "math_physics/time_system/date_time_format.hpp"
-#include "logger/log_utility.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 #include "utilities/macros.hpp"
 

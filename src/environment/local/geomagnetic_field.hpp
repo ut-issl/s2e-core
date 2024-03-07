@@ -6,10 +6,10 @@
 #ifndef S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
 #define S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_
 
+#include "logger/loggable.hpp"
 #include "math_physics/geodesy/geodetic_position.hpp"
 #include "math_physics/math/quaternion.hpp"
 #include "math_physics/math/vector.hpp"
-#include "logger/loggable.hpp"
 
 /**
  * @class GeomagneticField

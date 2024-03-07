@@ -7,9 +7,9 @@
 #define S2E_COMPONENTS_IDEAL_ATTITUDE_OBSERVER_HPP_
 
 #include <dynamics/attitude/attitude.hpp>
+#include <logger/loggable.hpp>
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/randomization/normal_randomization.hpp>
-#include <logger/loggable.hpp>
 
 #include "../base/component.hpp"
 
