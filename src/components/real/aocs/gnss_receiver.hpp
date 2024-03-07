@@ -9,9 +9,9 @@
 #include <dynamics/dynamics.hpp>
 #include <environment/global/gnss_satellites.hpp>
 #include <environment/global/simulation_time.hpp>
-#include <library/geodesy/geodetic_position.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/randomization/normal_randomization.hpp>
+#include <math_physics/geodesy/geodetic_position.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 #include <logger/loggable.hpp>
 
 #include "../../base/component.hpp"

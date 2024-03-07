@@ -5,10 +5,10 @@
 
 #include "sun_sensor.hpp"
 
-#include <library/math/constants.hpp>
-#include <library/randomization/normal_randomization.hpp>
+#include <math_physics/math/constants.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 using libra::NormalRand;
-#include <library/randomization/global_randomization.hpp>
+#include <math_physics/randomization/global_randomization.hpp>
 #include <logger/log_utility.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 

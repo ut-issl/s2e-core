@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_RANDOMIZATION_RANDOM_WALK_TEMPLATE_FUNCTIONS_HPP_
 #define S2E_LIBRARY_RANDOMIZATION_RANDOM_WALK_TEMPLATE_FUNCTIONS_HPP_
 
-#include <library/randomization/global_randomization.hpp>
+#include <math_physics/randomization/global_randomization.hpp>
 #include <utilities/macros.hpp>
 
 template <size_t N>

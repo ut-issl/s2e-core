@@ -6,9 +6,9 @@
 #include "star_sensor.hpp"
 
 #include <environment/global/physical_constants.hpp>
-#include <library/math/constants.hpp>
-#include <library/math/matrix.hpp>
-#include <library/randomization/global_randomization.hpp>
+#include <math_physics/math/constants.hpp>
+#include <math_physics/math/matrix.hpp>
+#include <math_physics/randomization/global_randomization.hpp>
 #include <logger/log_utility.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 #include <string>

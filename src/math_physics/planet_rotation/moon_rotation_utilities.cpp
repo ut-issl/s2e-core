@@ -2,13 +2,13 @@
  * @file moon_rotation_utilities.cpp
  * @brief Functions to calculate the moon rotation frame conversion
  * @note Ref: A Standardized Lunar Coordinate System for the Lunar Reconnaissance Orbiter and Lunar Datasets
- *            https://lunar.gsfc.nasa.gov/library/LunCoordWhitePaper-10-08.pdf
+ *            https://lunar.gsfc.nasa.gov/math_physics/LunCoordWhitePaper-10-08.pdf
  *            https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de430_moon_coord.pdf
  */
 
 #include "moon_rotation_utilities.hpp"
 
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
 
 libra::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const libra::Vector<3> moon_position_eci_m, const libra::Vector<3> moon_velocity_eci_m_s) {
   libra::Matrix<3, 3> dcm_eci2me = CalcDcmEciToMeanEarth(moon_position_eci_m, moon_velocity_eci_m_s);

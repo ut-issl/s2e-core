@@ -6,8 +6,8 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_HPP_
 #define S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_HPP_
 
-#include <library/math/matrix.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/math/matrix.hpp>
+#include <math_physics/math/vector.hpp>
 
 /**
  * @class KinematicsParameters

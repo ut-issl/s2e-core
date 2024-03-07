@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_RADIATION_PATTERN_HPP_
 #define S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_RADIATION_PATTERN_HPP_
 
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
 #include <string>
 #include <vector>
 

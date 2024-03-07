@@ -2,15 +2,15 @@
  * @file moon_rotation_utilities.hpp
  * @brief Functions to calculate the moon rotation frame conversion
  * @note Ref: A Standardized Lunar Coordinate System for the Lunar Reconnaissance Orbiter and Lunar Datasets
- *            https://lunar.gsfc.nasa.gov/library/LunCoordWhitePaper-10-08.pdf
+ *            https://lunar.gsfc.nasa.gov/math_physics/LunCoordWhitePaper-10-08.pdf
  *            https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de430_moon_coord.pdf
  */
 
 #ifndef S2E_LIBRARY_PLANET_ROTATION_MOON_MEAN_EARTH_PRINCIPAL_AXIS_FRAME_HPP_
 #define S2E_LIBRARY_PLANET_ROTATION_MOON_MEAN_EARTH_PRINCIPAL_AXIS_FRAME_HPP_
 
-#include "library/math/matrix.hpp"
-#include "library/math/vector.hpp"
+#include "math_physics/math/matrix.hpp"
+#include "math_physics/math/vector.hpp"
 
 /**
  * @fn CalcDcmEciToPrincipalAxis

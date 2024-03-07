@@ -16,7 +16,7 @@ extern "C" {
 #include <cctype>
 #include <cmath> /* maths functions */
 #include <environment/global/physical_constants.hpp>
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
 #include <numeric>
 
 #include "wrapper_nrlmsise00.hpp" /* header for nrlmsise-00.h */

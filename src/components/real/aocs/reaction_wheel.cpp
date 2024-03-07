@@ -6,8 +6,8 @@
 
 #include <fstream>
 #include <iostream>
-#include <library/math/constants.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/math/constants.hpp>
+#include <math_physics/math/vector.hpp>
 #include <random>
 #include <setting_file_reader/initialize_file_access.hpp>
 

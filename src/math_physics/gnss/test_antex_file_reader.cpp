@@ -11,7 +11,7 @@
  * @brief Test Constructor
  */
 TEST(AntexReader, Constructor) {
-  std::string test_file_name = "/src/library/gnss/example.atx";
+  std::string test_file_name = "/src/math_physics/gnss/example.atx";
 
   AntexFileReader antex_file_fault("false_file_path.atx");
   EXPECT_FALSE(antex_file_fault.GetFileReadSuccessFlag());

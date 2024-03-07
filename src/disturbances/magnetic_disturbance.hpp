@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "../library/math/vector.hpp"
+#include "../math_physics/math/vector.hpp"
 #include "../logger/loggable.hpp"
 #include "../simulation/spacecraft/structure/residual_magnetic_moment.hpp"
 #include "disturbance.hpp"

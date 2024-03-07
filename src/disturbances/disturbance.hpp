@@ -7,7 +7,7 @@
 #define S2E_DISTURBANCES_DISTURBANCE_HPP_
 
 #include "../environment/local/local_environment.hpp"
-#include "../library/math/vector.hpp"
+#include "../math_physics/math/vector.hpp"
 
 /**
  * @class Disturbance

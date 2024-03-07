@@ -6,8 +6,8 @@
 #ifndef S2E_LIBRARY_ORBIT_INTERPOLATION_ORBIT_HPP_
 #define S2E_LIBRARY_ORBIT_INTERPOLATION_ORBIT_HPP_
 
-#include <library/math/interpolation.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/math/interpolation.hpp>
+#include <math_physics/math/vector.hpp>
 #include <vector>
 
 /**

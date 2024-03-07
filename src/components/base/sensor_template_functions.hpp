@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 #define S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 
-#include <library/randomization/global_randomization.hpp>
+#include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
 template <size_t N>

@@ -6,8 +6,8 @@
 #ifndef S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_
 #define S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_
 
-#include <library/geodesy/geodetic_position.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/geodesy/geodetic_position.hpp>
+#include <math_physics/math/vector.hpp>
 #include <simulation/spacecraft/spacecraft.hpp>
 
 #include "../simulation_configuration.hpp"

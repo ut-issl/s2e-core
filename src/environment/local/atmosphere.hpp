@@ -11,8 +11,8 @@
 #include "dynamics/orbit/orbit.hpp"
 #include "environment/global/simulation_time.hpp"
 #include "environment/local/local_celestial_information.hpp"
-#include "library/atmosphere/wrapper_nrlmsise00.hpp"
-#include "library/math/vector.hpp"
+#include "math_physics/atmosphere/wrapper_nrlmsise00.hpp"
+#include "math_physics/math/vector.hpp"
 #include "logger/loggable.hpp"
 
 /**

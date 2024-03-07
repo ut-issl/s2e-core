@@ -5,9 +5,9 @@
 
 #include "magnetorquer.hpp"
 
-#include <library/math/matrix_vector.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/randomization/global_randomization.hpp>
+#include <math_physics/math/matrix_vector.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/randomization/global_randomization.hpp>
 #include <logger/logger.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 

@@ -7,7 +7,7 @@
 #define S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_HPP_
 
 #include <environment/local/local_celestial_information.hpp>
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
 #include <string>
 
 #include "../orbit/orbit.hpp"

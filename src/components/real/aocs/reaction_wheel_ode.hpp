@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_ODE_HPP_
 #define S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_ODE_HPP_
 
-#include <library/math/ordinary_differential_equation.hpp>
+#include <math_physics/math/ordinary_differential_equation.hpp>
 
 /*
  * @file ReactionWheelOde

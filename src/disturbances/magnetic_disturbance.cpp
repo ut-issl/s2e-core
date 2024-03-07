@@ -8,9 +8,9 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 #include <utilities/macros.hpp>
 
-#include "../library/randomization/global_randomization.hpp"
-#include "../library/randomization/normal_randomization.hpp"
-#include "../library/randomization/random_walk.hpp"
+#include "../math_physics/randomization/global_randomization.hpp"
+#include "../math_physics/randomization/normal_randomization.hpp"
+#include "../math_physics/randomization/random_walk.hpp"
 #include "../logger/log_utility.hpp"
 
 MagneticDisturbance::MagneticDisturbance(const ResidualMagneticMoment& rmm_params, const bool is_calculation_enabled)

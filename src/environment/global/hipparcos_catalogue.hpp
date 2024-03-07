@@ -8,8 +8,8 @@
 
 #include <vector>
 
-#include "library/math/quaternion.hpp"
-#include "library/math/vector.hpp"
+#include "math_physics/math/quaternion.hpp"
+#include "math_physics/math/vector.hpp"
 #include "logger/loggable.hpp"
 
 /**

@@ -21,8 +21,8 @@
 #endif
 
 #include <fstream>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
 #include <sstream>
 #include <string>
 #include <vector>

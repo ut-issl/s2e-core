@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "earth_rotation.hpp"
-#include "library/math/vector.hpp"
+#include "math_physics/math/vector.hpp"
 #include "logger/loggable.hpp"
 #include "moon_rotation.hpp"
 #include "simulation_time.hpp"
@@ -235,7 +235,7 @@ class CelestialInformation : public ILoggable {
   std::string inertial_frame_name_;            //!< Definition of inertial frame
   std::string center_body_name_;               //!< Center object name of inertial frame
   std::string aberration_correction_setting_;  //!< Stellar aberration correction
-                                               //!< Ref：http://fermi.gsfc.nasa.gov/ssc/library/fug/051108/Aberration_Julie.ppt
+                                               //!< Ref：http://fermi.gsfc.nasa.gov/ssc/math_physics/fug/051108/Aberration_Julie.ppt
 
   // Calculated values
   double* celestial_body_position_from_center_i_m_;    //!< Position vector list at inertial frame [m]

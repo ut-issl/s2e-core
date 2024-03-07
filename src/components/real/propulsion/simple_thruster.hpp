@@ -7,9 +7,9 @@
 #define S2E_COMPONENTS_REAL_PROPULSION_SIMPLE_THRUSTER_HPP_
 
 #include <dynamics/dynamics.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/normal_randomization.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 #include <logger/logger.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 

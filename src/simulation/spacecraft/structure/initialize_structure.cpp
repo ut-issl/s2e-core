@@ -5,7 +5,7 @@
 
 #include "initialize_structure.hpp"
 
-#include <library/math/vector.hpp>
+#include <math_physics/math/vector.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
 #define MIN_VAL 1e-6

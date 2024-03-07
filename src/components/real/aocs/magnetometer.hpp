@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_REAL_AOCS_MAGNETOMETER_HPP_
 
 #include <environment/local/local_environment.hpp>
-#include <library/math/quaternion.hpp>
+#include <math_physics/math/quaternion.hpp>
 #include <logger/loggable.hpp>
 
 #include "../../base/component.hpp"

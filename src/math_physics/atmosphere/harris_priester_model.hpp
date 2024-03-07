@@ -6,8 +6,8 @@
 #ifndef S2E_LIBRARY_HARRIS_PRIESTER_MODEL_HPP_
 #define S2E_LIBRARY_HARRIS_PRIESTER_MODEL_HPP_
 
-#include <library/geodesy/geodetic_position.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/geodesy/geodetic_position.hpp>
+#include <math_physics/math/vector.hpp>
 
 namespace libra::atmosphere {
 

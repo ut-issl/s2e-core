@@ -7,8 +7,8 @@
 #define S2E_ENVIRONMENT_GLOBAL_MOON_ROTATION_HPP_
 
 #include "celestial_information.hpp"
-#include "library/math/matrix.hpp"
-#include "library/math/vector.hpp"
+#include "math_physics/math/matrix.hpp"
+#include "math_physics/math/vector.hpp"
 #include "simulation_time.hpp"
 
 class CelestialInformation;

@@ -5,7 +5,7 @@
 
 #include "reaction_wheel_jitter.hpp"
 
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
 #include <random>
 #include <utilities/macros.hpp>
 

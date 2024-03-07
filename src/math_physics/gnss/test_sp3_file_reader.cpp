@@ -10,7 +10,7 @@
  * @brief Test Constructor
  */
 TEST(Sp3FileReader, Constructor) {
-  std::string test_file_name = "/src/library/gnss/example.sp3";
+  std::string test_file_name = "/src/math_physics/gnss/example.sp3";
   Sp3FileReader sp3_file(CORE_DIR_FROM_EXE + test_file_name);
 
   // Test Header

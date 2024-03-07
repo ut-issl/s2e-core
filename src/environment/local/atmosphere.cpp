@@ -5,12 +5,12 @@
 
 #include "atmosphere.hpp"
 
-#include "library/atmosphere/harris_priester_model.hpp"
-#include "library/atmosphere/simple_air_density_model.hpp"
-#include "library/math/vector.hpp"
-#include "library/randomization/global_randomization.hpp"
-#include "library/randomization/normal_randomization.hpp"
-#include "library/randomization/random_walk.hpp"
+#include "math_physics/atmosphere/harris_priester_model.hpp"
+#include "math_physics/atmosphere/simple_air_density_model.hpp"
+#include "math_physics/math/vector.hpp"
+#include "math_physics/randomization/global_randomization.hpp"
+#include "math_physics/randomization/normal_randomization.hpp"
+#include "math_physics/randomization/random_walk.hpp"
 #include "logger/log_utility.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
