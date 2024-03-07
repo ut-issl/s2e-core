@@ -2,7 +2,7 @@
  * @file moon_rotation_utilities.cpp
  * @brief Functions to calculate the moon rotation frame conversion
  * @note Ref: A Standardized Lunar Coordinate System for the Lunar Reconnaissance Orbiter and Lunar Datasets
- *            https://lunar.gsfc.nasa.gov/math_physics/LunCoordWhitePaper-10-08.pdf
+ *            https://lunar.gsfc.nasa.gov/library/LunCoordWhitePaper-10-08.pdf
  *            https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de430_moon_coord.pdf
  */
 
