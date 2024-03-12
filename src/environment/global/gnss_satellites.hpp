@@ -63,6 +63,12 @@ class GnssSatellites : public ILoggable {
   inline bool IsCalcEnabled() const { return is_calc_enabled_; }
 
   /**
+   * @fn GetNumberOfCalculatedSatellite
+   * @brief Return number of calculated satellite
+   */
+  inline size_t GetNumberOfCalculatedSatellite() const { return number_of_calculated_gnss_satellites_; }
+
+  /**
    * @fn Update
    * @brief Update both GNSS satellite information
    * @param [in] simulation_time: Simulation time information
