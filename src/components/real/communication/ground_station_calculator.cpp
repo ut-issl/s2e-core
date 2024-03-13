@@ -6,7 +6,7 @@
 #include "ground_station_calculator.hpp"
 
 #include <environment/global/physical_constants.hpp>
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
 GroundStationCalculator::GroundStationCalculator(const double loss_polarization_dB, const double loss_atmosphere_dB, const double loss_rainfall_dB,

@@ -5,8 +5,8 @@
 #include "simple_thruster.hpp"
 
 #include <cfloat>
-#include <library/math/constants.hpp>
-#include <library/randomization/global_randomization.hpp>
+#include <math_physics/math/constants.hpp>
+#include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
 // Constructor

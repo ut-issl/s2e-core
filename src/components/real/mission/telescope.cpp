@@ -7,7 +7,7 @@
 
 #include <cassert>
 #include <environment/global/physical_constants.hpp>
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
 using namespace std;

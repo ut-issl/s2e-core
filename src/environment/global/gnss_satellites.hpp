@@ -7,18 +7,18 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
 
-#include <library/gnss/sp3_file_reader.hpp>
-#include <library/math/constants.hpp>
-#include <library/math/matrix_vector.hpp>
-#include <library/orbit/interpolation_orbit.hpp>
-#include <library/time_system/epoch_time.hpp>
-#include <library/time_system/gps_time.hpp>
+#include <math_physics/gnss/sp3_file_reader.hpp>
+#include <math_physics/math/constants.hpp>
+#include <math_physics/math/matrix_vector.hpp>
+#include <math_physics/orbit/interpolation_orbit.hpp>
+#include <math_physics/time_system/epoch_time.hpp>
+#include <math_physics/time_system/gps_time.hpp>
 #include <vector>
 
 #include "earth_rotation.hpp"
-#include "library/gnss/gnss_satellite_number.hpp"
-#include "library/math/vector.hpp"
 #include "logger/loggable.hpp"
+#include "math_physics/gnss/gnss_satellite_number.hpp"
+#include "math_physics/math/vector.hpp"
 #include "simulation_time.hpp"
 
 /**

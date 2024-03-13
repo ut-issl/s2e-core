@@ -4,11 +4,11 @@
  */
 #include "geodetic_position.hpp"
 
-#include <library/orbit/sgp4/sgp4ext.h>  // TODO: do not to use the functions in SGP4 library
+#include <math_physics/orbit/sgp4/sgp4ext.h>  // TODO: do not to use the functions in SGP4 library
 
 #include <environment/global/physical_constants.hpp>
-#include <library/math/constants.hpp>
-#include <library/math/matrix.hpp>
+#include <math_physics/math/constants.hpp>
+#include <math_physics/math/matrix.hpp>
 
 GeodeticPosition::GeodeticPosition() {
   latitude_rad_ = 0.0;

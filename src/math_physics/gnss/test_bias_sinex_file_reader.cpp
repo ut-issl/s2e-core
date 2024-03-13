@@ -8,7 +8,7 @@ TEST(BiasSinex, Constructor) {
   EXPECT_FALSE(bias_sinex_file_fault.GetFileReadSuccessFlag());
 
   // File read check
-  std::string test_file_name = "/src/library/gnss/example.BSX";
+  std::string test_file_name = "/src/math_physics/gnss/example.BSX";
   BiasSinexFileReader bias_sinex_file(CORE_DIR_FROM_EXE + test_file_name);
   EXPECT_TRUE(bias_sinex_file.GetFileReadSuccessFlag());
 

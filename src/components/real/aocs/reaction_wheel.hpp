@@ -6,10 +6,10 @@
 #ifndef S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_
 #define S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_
 
-#include <library/control_utilities/first_order_lag.hpp>
-#include <library/math/vector.hpp>
 #include <limits>
 #include <logger/logger.hpp>
+#include <math_physics/control_utilities/first_order_lag.hpp>
+#include <math_physics/math/vector.hpp>
 #include <string>
 #include <vector>
 

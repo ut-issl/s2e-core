@@ -14,10 +14,10 @@
 // #include <time.h>
 #include <chrono>
 
-#include "library/orbit/sgp4/sgp4ext.h"
-#include "library/orbit/sgp4/sgp4io.h"
-#include "library/orbit/sgp4/sgp4unit.h"
 #include "logger/loggable.hpp"
+#include "math_physics/orbit/sgp4/sgp4ext.h"
+#include "math_physics/orbit/sgp4/sgp4io.h"
+#include "math_physics/orbit/sgp4/sgp4unit.h"
 
 /**
  *@struct TimeState

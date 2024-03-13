@@ -9,8 +9,8 @@
 #ifndef S2E_LIBRARY_PLANET_ROTATION_MOON_MEAN_EARTH_PRINCIPAL_AXIS_FRAME_HPP_
 #define S2E_LIBRARY_PLANET_ROTATION_MOON_MEAN_EARTH_PRINCIPAL_AXIS_FRAME_HPP_
 
-#include "library/math/matrix.hpp"
-#include "library/math/vector.hpp"
+#include "math_physics/math/matrix.hpp"
+#include "math_physics/math/vector.hpp"
 
 /**
  * @fn CalcDcmEciToPrincipalAxis

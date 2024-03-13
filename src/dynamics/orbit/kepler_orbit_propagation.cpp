@@ -6,7 +6,7 @@
 
 #include <utilities/macros.hpp>
 
-#include "../../library/math/s2e_math.hpp"
+#include "../../math_physics/math/s2e_math.hpp"
 
 KeplerOrbitPropagation::KeplerOrbitPropagation(const CelestialInformation* celestial_information, const double current_time_jd,
                                                KeplerOrbit kepler_orbit)

@@ -8,7 +8,7 @@
 
 #include "moon_rotation_utilities.hpp"
 
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
 
 libra::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const libra::Vector<3> moon_position_eci_m, const libra::Vector<3> moon_velocity_eci_m_s) {
   libra::Matrix<3, 3> dcm_eci2me = CalcDcmEciToMeanEarth(moon_position_eci_m, moon_velocity_eci_m_s);

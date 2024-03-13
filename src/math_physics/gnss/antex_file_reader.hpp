@@ -10,9 +10,9 @@
 
 #include <stdint.h>
 
-#include <library/math/vector.hpp>
-#include <library/time_system/date_time_format.hpp>
 #include <map>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/time_system/date_time_format.hpp>
 #include <string>
 #include <vector>
 

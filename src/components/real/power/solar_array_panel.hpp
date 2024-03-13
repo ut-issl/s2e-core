@@ -8,8 +8,8 @@
 
 #include <environment/local/local_celestial_information.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
-#include <library/math/vector.hpp>
 #include <logger/loggable.hpp>
+#include <math_physics/math/vector.hpp>
 
 #include "../../base/component.hpp"
 

@@ -8,7 +8,7 @@
 
 #include <fstream>
 #include <iostream>
-#include <library/gnss/gnss_satellite_number.hpp>
+#include <math_physics/gnss/gnss_satellite_number.hpp>
 
 #define ANTEX_LINE_TYPE_POSITION (60)
 

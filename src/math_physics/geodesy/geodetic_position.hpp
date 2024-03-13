@@ -6,8 +6,8 @@
 #ifndef S2E_LIBRARY_GEODESY_GEODETIC_POSITION_HPP_
 #define S2E_LIBRARY_GEODESY_GEODETIC_POSITION_HPP_
 
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
 
 /**
  * @class GeodeticPosition

@@ -7,8 +7,8 @@
 #define S2E_LIBRARY_LOGGER_LOG_UTILITY_HPP_
 
 #include <iomanip>
-#include <library/math/matrix_vector.hpp>
-#include <library/math/quaternion.hpp>
+#include <math_physics/math/matrix_vector.hpp>
+#include <math_physics/math/quaternion.hpp>
 #include <sstream>
 #include <string>
 

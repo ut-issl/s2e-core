@@ -8,9 +8,9 @@
 
 #include <components/base/component.hpp>
 #include <dynamics/dynamics.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/normal_randomization.hpp>
 #include <logger/logger.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 
 /*
  * @class TorqueGenerator
