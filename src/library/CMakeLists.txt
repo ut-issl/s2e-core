@@ -4,8 +4,11 @@ cmake_minimum_required(VERSION 3.13)
 add_library(${PROJECT_NAME} STATIC
   atmosphere/simple_air_density_model.cpp
   atmosphere/harris_priester_model.cpp
+  atmosphere/wrapper_nrlmsise00.cpp
 
   geodesy/geodetic_position.cpp
+
+  geomagnetic/igrf.cpp
 
   gnss/sp3_file_reader.cpp
   gnss/gnss_satellite_number.cpp
@@ -30,6 +33,9 @@ add_library(${PROJECT_NAME} STATIC
   orbit/kepler_orbit.cpp
   orbit/relative_orbit_models.cpp
   orbit/interpolation_orbit.cpp
+  orbit/sgp4/sgp4ext.cpp
+  orbit/sgp4/sgp4io.cpp
+  orbit/sgp4/sgp4unit.cpp
 
   planet_rotation/moon_rotation_utilities.cpp
 

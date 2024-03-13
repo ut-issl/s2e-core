@@ -48,7 +48,7 @@
 #include <iostream>
 using namespace std;
 
-#include "../sgp4/sgp4ext.h"
+#include "../../library/orbit/sgp4/sgp4ext.h"
 #include "igrf.h"
 
 double testglobal[3];
