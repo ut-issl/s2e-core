@@ -259,7 +259,7 @@ typedef struct _gnss_receiver_param {
   libra::Vector<3> velocity_noise_standard_deviation_ecef_m_s;
 } GnssReceiverParam;
 
-GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const GnssSatellites* gnss_satellites, const int component_id) {
+GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const GnssSatellites* gnss_satellites, const size_t component_id) {
   GnssReceiverParam gnss_receiver_param;
 
   IniAccess gnssr_conf(file_name);

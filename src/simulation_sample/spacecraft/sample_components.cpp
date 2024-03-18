@@ -106,6 +106,11 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
   attitude_observer_ = new AttitudeObserver(InitializeAttitudeObserver(clock_generator, file_name, dynamics_->GetAttitude()));
 
+  // Orbit Observer
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "orbit_observer_file");
+  configuration_->main_logger_->CopyFileToLogDirectory(file_name);
+  orbit_observer_ = new OrbitObserver(InitializeOrbitObserver(clock_generator, file_name, dynamics_->GetOrbit()));
+
   // Antenna
   file_name = iniAccess.ReadString("COMPONENT_FILES", "antenna_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
@@ -171,6 +176,7 @@ SampleComponents::~SampleComponents() {
   delete torque_generator_;
   delete angular_velocity_observer_;
   delete attitude_observer_;
+  delete orbit_observer_;
   delete antenna_;
   delete mtq_magnetometer_interference_;
   // delete change_structure_;
@@ -215,4 +221,5 @@ void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLogList(torque_generator_);
   logger.AddLogList(angular_velocity_observer_);
   logger.AddLogList(attitude_observer_);
+  logger.AddLogList(orbit_observer_);
 }

@@ -13,6 +13,7 @@
 #include <components/ideal/angular_velocity_observer.hpp>
 #include <components/ideal/attitude_observer.hpp>
 #include <components/ideal/force_generator.hpp>
+#include <components/ideal/orbit_observer.hpp>
 #include <components/ideal/torque_generator.hpp>
 #include <components/real/aocs/gnss_receiver.hpp>
 #include <components/real/aocs/gyro_sensor.hpp>
@@ -114,6 +115,7 @@ class SampleComponents : public InstalledComponents {
   TorqueGenerator* torque_generator_;                   //!< Ideal Torque Generator
   AngularVelocityObserver* angular_velocity_observer_;  //!< Ideal Angular velocity observer
   AttitudeObserver* attitude_observer_;                 //!< Ideal Attitude observer
+  OrbitObserver* orbit_observer_;                       //!< Ideal Orbit observer
 
   // Mission
   Telescope* telescope_;  //!< Telescope
