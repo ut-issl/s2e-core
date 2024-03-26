@@ -6,8 +6,8 @@
 #ifndef S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_HPP_
 #define S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_HPP_
 
-#include <library/math/ordinary_differential_equation.hpp>
-#include <library/orbit/relative_orbit_models.hpp>
+#include <math_physics/math/ordinary_differential_equation.hpp>
+#include <math_physics/orbit/relative_orbit_models.hpp>
 #include <simulation/multiple_spacecraft/relative_information.hpp>
 #include <string>
 

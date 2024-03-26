@@ -6,8 +6,8 @@
 #ifndef S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_HPP_
 #define S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_HPP_
 
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
 using libra::Quaternion;
 using libra::Vector;
 #include <vector>

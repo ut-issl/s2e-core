@@ -4,7 +4,7 @@
  */
 #include "reaction_wheel_ode.hpp"
 
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 ReactionWheelOde::ReactionWheelOde(const double step_width_s, const double velocity_limit_rad_s, const double initial_angular_velocity_rad_s)
     : OrdinaryDifferentialEquation<1>(step_width_s), velocity_limit_rad_s_(velocity_limit_rad_s) {

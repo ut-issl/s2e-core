@@ -6,8 +6,8 @@
 #ifndef S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 #define S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_
 
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/randomization/global_randomization.hpp>
+#include <math_physics/randomization/global_randomization.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 template <size_t N>
 Sensor<N>::Sensor(const libra::Matrix<N, N>& scale_factor, const libra::Vector<N>& range_to_const_c, const libra::Vector<N>& range_to_zero_c,

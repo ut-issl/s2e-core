@@ -7,9 +7,9 @@
 #define S2E_COMPONENTS_IDEAL_ORBIT_OBSERVER_HPP_
 
 #include <dynamics/orbit/orbit.hpp>
-#include <library/logger/loggable.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/normal_randomization.hpp>
+#include <logger/loggable.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 
 #include "../base/component.hpp"
 

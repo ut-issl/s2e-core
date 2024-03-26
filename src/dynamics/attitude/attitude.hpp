@@ -6,9 +6,9 @@
 #ifndef S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_
 #define S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_
 
-#include <library/logger/loggable.hpp>
-#include <library/math/matrix_vector.hpp>
-#include <library/math/quaternion.hpp>
+#include <logger/loggable.hpp>
+#include <math_physics/math/matrix_vector.hpp>
+#include <math_physics/math/quaternion.hpp>
 #include <simulation/monte_carlo_simulation/simulation_object.hpp>
 #include <string>
 

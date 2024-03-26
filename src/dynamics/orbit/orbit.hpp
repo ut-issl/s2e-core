@@ -8,13 +8,13 @@
 
 #include <environment/global/celestial_information.hpp>
 #include <environment/global/physical_constants.hpp>
-#include <library/geodesy/geodetic_position.hpp>
-#include <library/logger/loggable.hpp>
-#include <library/math/constants.hpp>
-#include <library/math/matrix.hpp>
-#include <library/math/matrix_vector.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
+#include <logger/loggable.hpp>
+#include <math_physics/geodesy/geodetic_position.hpp>
+#include <math_physics/math/constants.hpp>
+#include <math_physics/math/matrix.hpp>
+#include <math_physics/math/matrix_vector.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
 
 /**
  * @enum OrbitPropagateMode

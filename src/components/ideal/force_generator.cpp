@@ -6,7 +6,7 @@
 #include "force_generator.hpp"
 
 #include <cfloat>
-#include <library/initialize/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 // Constructor
 ForceGenerator::ForceGenerator(const int prescaler, ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_N,

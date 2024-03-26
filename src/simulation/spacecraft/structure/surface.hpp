@@ -6,7 +6,7 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_HPP_
 #define S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_HPP_
 
-#include <library/math/vector.hpp>
+#include <math_physics/math/vector.hpp>
 
 /**
  * @class Surface

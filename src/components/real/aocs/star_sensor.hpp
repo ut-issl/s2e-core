@@ -8,11 +8,11 @@
 
 #include <dynamics/attitude/attitude.hpp>
 #include <environment/local/local_environment.hpp>
-#include <library/logger/loggable.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/minimal_standard_linear_congruential_generator_with_shuffle.hpp>
-#include <library/randomization/normal_randomization.hpp>
+#include <logger/loggable.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/minimal_standard_linear_congruential_generator_with_shuffle.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 #include <vector>
 
 #include "../../base/component.hpp"

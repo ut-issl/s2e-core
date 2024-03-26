@@ -6,10 +6,10 @@
 #ifndef S2E_COMPONENTS_BASE_SENSOR_HPP_
 #define S2E_COMPONENTS_BASE_SENSOR_HPP_
 
-#include <library/math/matrix.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/normal_randomization.hpp>
-#include <library/randomization/random_walk.hpp>
+#include <math_physics/math/matrix.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
+#include <math_physics/randomization/random_walk.hpp>
 
 /**
  * @class Sensor
