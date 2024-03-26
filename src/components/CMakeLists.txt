@@ -57,8 +57,8 @@ ports/i2c_port.cpp
 if(USE_HILS)
   set(SOURCE_FILES
     ${SOURCE_FILES}
-    hils/ports/hils_uart_port.cpp
-    hils/ports/hils_i2c_target_port.cpp
+    ports/hils_uart_port.cpp
+    ports/hils_i2c_target_port.cpp
   )
 endif()
 
