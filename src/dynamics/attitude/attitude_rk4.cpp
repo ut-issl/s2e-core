@@ -24,6 +24,28 @@ AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const
   CalcAngularMomentum();
 }
 
+AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b,
+                         const libra::Matrix<3, 3>& inertia_tensor_kgm2, const libra::Matrix<3, 3>& inertia_tensor_flexible_kgm2,
+                         const double zeta_flexible, const double omega_flexible_rad_s, const libra::Vector<3>& torque_b_Nm,
+                         const double propagation_step_s, const std::string& simulation_object_name)
+    : Attitude(inertia_tensor_kgm2, simulation_object_name) {
+  angular_velocity_b_rad_s_ = angular_velocity_b_rad_s;
+  quaternion_i2b_ = quaternion_i2b;
+  torque_b_Nm_ = torque_b_Nm;
+  propagation_step_s_ = propagation_step_s;
+  current_propagation_time_s_ = 0.0;
+  angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
+  previous_inertia_tensor_kgm2_ = inertia_tensor_kgm2_;
+  inertia_tensor_flexible_kgm2_ = inertia_tensor_flexible_kgm2;
+  zeta_flexible_ = zeta_flexible;
+  omega_flexible_rad_s_ = omega_flexible_rad_s;
+  inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
+  inverse_equivalent_inertia_tensor_flexible_ = CalcInverseMatrix(inertia_tensor_kgm2_) * (inertia_tensor_kgm2_ + inertia_tensor_flexible_kgm2_) *
+                                                CalcInverseMatrix(inertia_tensor_flexible_kgm2_);
+  inverse_inertia_tensor_total_ = CalcInverseMatrix(inertia_tensor_kgm2_ + inertia_tensor_flexible_kgm2_);
+  CalcAngularMomentum();
+}
+
 AttitudeRk4::~AttitudeRk4() {}
 
 void AttitudeRk4::SetParameters(const MonteCarloSimulationExecutor& mc_simulator) {
@@ -79,18 +101,30 @@ libra::Matrix<4, 4> AttitudeRk4::CalcAngularVelocityMatrix(libra::Vector<3> angu
   return angular_velocity_matrix;
 }
 
-libra::Vector<7> AttitudeRk4::AttitudeDynamicsAndKinematics(libra::Vector<7> x, double t) {
+libra::Vector<10> AttitudeRk4::AttitudeDynamicsAndKinematics(libra::Vector<10> x, double t) {
   UNUSED(t);
 
-  libra::Vector<7> dxdt;
+  libra::Vector<10> dxdt;
 
   libra::Vector<3> omega_b;
   for (int i = 0; i < 3; i++) {
     omega_b[i] = x[i];
   }
+  libra::Vector<3> omega_flexible;
+  for (int i = 0; i < 3; i++) {
+    omega_flexible[i] = x[i + 7];
+  }
+
   libra::Vector<3> angular_momentum_total_b_Nms = (previous_inertia_tensor_kgm2_ * omega_b) + angular_momentum_reaction_wheel_b_Nms_;
-  libra::Vector<3> rhs =
-      inverse_inertia_tensor_ * (torque_b_Nm_ - libra::OuterProduct(omega_b, angular_momentum_total_b_Nms) - torque_inertia_tensor_change_b_Nm_);
+  libra::Vector<3> net_torque_b_Nm = torque_b_Nm_ - libra::OuterProduct(omega_b, angular_momentum_total_b_Nms) - torque_inertia_tensor_change_b_Nm_;
+
+  libra::Vector<3> angular_accelaration_flexible_rad_s2 =
+      inverse_equivalent_inertia_tensor_flexible_ *
+          (-2 * zeta_flexible_ * omega_flexible_rad_s_ * inertia_tensor_flexible_kgm2_ * omega_flexible -
+           omega_flexible_rad_s_ * omega_flexible_rad_s_ * inertia_tensor_flexible_kgm2_ * eular_angular_flexible_rad_) -
+      inverse_inertia_tensor_ * net_torque_b_Nm;
+
+  libra::Vector<3> rhs = inverse_inertia_tensor_total_ * net_torque_b_Nm - inertia_tensor_flexible_kgm2_ * angular_accelaration_flexible_rad_s2;
 
   for (int i = 0; i < 3; ++i) {
     dxdt[i] = rhs[i];
@@ -107,20 +141,27 @@ libra::Vector<7> AttitudeRk4::AttitudeDynamicsAndKinematics(libra::Vector<7> x, 
     dxdt[i + 3] = d_quaternion[i];
   }
 
+  for (int i = 0; i < 3; i++) {
+    dxdt[i + 7] = angular_accelaration_flexible_rad_s2[i];
+  }
+
   return dxdt;
 }
 
 void AttitudeRk4::RungeKuttaOneStep(double t, double dt) {
-  libra::Vector<7> x;
+  libra::Vector<10> x;
   for (int i = 0; i < 3; i++) {
     x[i] = angular_velocity_b_rad_s_[i];
   }
   for (int i = 0; i < 4; i++) {
     x[i + 3] = quaternion_i2b_[i];
   }
+  for (int i = 0; i < 3; i++) {
+    x[i + 7] = angular_velocity_flexible_rad_s_[i];
+  }
 
-  libra::Vector<7> k1, k2, k3, k4;
-  libra::Vector<7> xk2, xk3, xk4;
+  libra::Vector<10> k1, k2, k3, k4;
+  libra::Vector<10> xk2, xk3, xk4;
 
   k1 = AttitudeDynamicsAndKinematics(x, t);
   xk2 = x + (dt / 2.0) * k1;
@@ -133,7 +174,7 @@ void AttitudeRk4::RungeKuttaOneStep(double t, double dt) {
 
   k4 = AttitudeDynamicsAndKinematics(xk4, (t + dt));
 
-  libra::Vector<7> next_x = x + (dt / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
+  libra::Vector<10> next_x = x + (dt / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
 
   for (int i = 0; i < 3; i++) {
     angular_velocity_b_rad_s_[i] = next_x[i];
@@ -142,4 +183,9 @@ void AttitudeRk4::RungeKuttaOneStep(double t, double dt) {
     quaternion_i2b_[i] = next_x[i + 3];
   }
   quaternion_i2b_.Normalize();
+
+  eular_angular_flexible_rad_ += dt * angular_velocity_flexible_rad_s_;
+  for (int i = 0; i < 3; i++) {
+    angular_velocity_flexible_rad_s_[i] = next_x[i + 7];
+  }
 }

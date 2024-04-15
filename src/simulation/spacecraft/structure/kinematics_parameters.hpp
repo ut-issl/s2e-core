@@ -48,6 +48,21 @@ class KinematicsParameters {
    * @brief Return Inertia tensor at body frame [kgm2]
    */
   inline const libra::Matrix<3, 3>& GetInertiaTensor_b_kgm2() const { return inertia_tensor_b_kgm2_; }
+  /**
+   * @fn GetInertiaTensorFlexible_b_kgm2
+   * @brief Return Inertia tensor of the flexible structure at body frame [kgm2]
+   */
+  inline const libra::Matrix<3, 3>& GetInertiaTensorFlexible_b_kgm2() const { return inertia_tensor_flexible_b_kgm2_; }
+  /**
+   * @fn GetZetaFlexible
+   * @brief Return Damping ratio of the flexible structure []
+   */
+  inline const double& GetZetaFlexible() const { return zeta_flexible_; }
+  /**
+   * @fn GetOmegaFlexible_rad_s
+   * @brief Return Intrinsic angular velocity [rad/s]
+   */
+  inline const double& GetOmegaFlexible_rad_s() const { return omega_flexible_rad_s_; }
 
   // Setter
   /**

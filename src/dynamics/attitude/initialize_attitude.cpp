@@ -7,7 +7,9 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 
 Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
-                       const double step_width_s, const libra::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id) {
+                       const double step_width_s, const libra::Matrix<3, 3>& inertia_tensor_kgm2,
+                       const libra::Matrix<3, 3>& inertia_tensor_flexible_kgm2, const double zeta_flexible, const double omega_flexible_rad_s,
+                       const int spacecraft_id) {
   IniAccess ini_file(file_name);
   const char* section_ = "ATTITUDE";
   std::string mc_name = "attitude" + std::to_string(spacecraft_id);
@@ -25,7 +27,8 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     libra::Vector<3> torque_b;
     ini_file.ReadVector(section_, "initial_torque_b_Nm", torque_b);
 
-    attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor_kgm2, torque_b, step_width_s, mc_name);
+    attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor_kgm2, inertia_tensor_flexible_kgm2, zeta_flexible, omega_flexible_rad_s,
+                               torque_b, step_width_s, mc_name);
   } else if (propagate_mode == "RK4" && initialize_mode == "CONTROLLED") {
     // Initialize with Controlled attitude (attitude_tmp temporary used)
     IniAccess ini_file_ca(file_name);
