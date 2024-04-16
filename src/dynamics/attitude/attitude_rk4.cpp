@@ -51,6 +51,11 @@ AttitudeRk4::~AttitudeRk4() {}
 std::string AttitudeRk4::GetLogHeader() const {
   std::string str_tmp = "";
 
+  str_tmp += WriteVector("spacecraft_angular_velocity", "b", "rad/s", 3);
+  str_tmp += WriteQuaternion("spacecraft_quaternion", "i2b");
+  str_tmp += WriteVector("spacecraft_torque", "b", "Nm", 3);
+  str_tmp += WriteScalar("spacecraft_total_angular_momentum", "Nms");
+  str_tmp += WriteScalar("spacecraft_kinematic_energy", "J");
   str_tmp += WriteVector("eular_angular_flexible", "c", "rad", 3);
   str_tmp += WriteVector("angular_velocity_flexible", "c", "rad/s", 3);
 
@@ -60,6 +65,11 @@ std::string AttitudeRk4::GetLogHeader() const {
 std::string AttitudeRk4::GetLogValue() const {
   std::string str_tmp = "";
 
+  str_tmp += WriteVector(angular_velocity_b_rad_s_);
+  str_tmp += WriteQuaternion(quaternion_i2b_);
+  str_tmp += WriteVector(torque_b_Nm_);
+  str_tmp += WriteScalar(angular_momentum_total_Nms_);
+  str_tmp += WriteScalar(kinetic_energy_J_);
   str_tmp += WriteVector(eular_angular_flexible_rad_);
   str_tmp += WriteVector(angular_velocity_flexible_rad_s_);
 
