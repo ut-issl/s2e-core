@@ -57,6 +57,18 @@ class AttitudeRk4 : public Attitude {
    */
   virtual void Propagate(const double end_time_s);
 
+  // Override ILoggable
+  /**
+   * @fn GetLogHeader
+   * @brief Override GetLogHeader function of ILoggable
+   */
+  virtual std::string GetLogHeader() const;
+  /**
+   * @fn GetLogValue
+   * @brief Override GetLogValue function of ILoggable
+   */
+  virtual std::string GetLogValue() const;
+
   /**
    * @fn SetParameters
    * @brief Set parameters for Monte-Carlo simulation

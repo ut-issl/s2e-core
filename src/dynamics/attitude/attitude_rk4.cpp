@@ -48,6 +48,24 @@ AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const
 
 AttitudeRk4::~AttitudeRk4() {}
 
+std::string AttitudeRk4::GetLogHeader() const {
+  std::string str_tmp = "";
+
+  str_tmp += WriteVector("eular_angular_flexible", "c", "rad", 3);
+  str_tmp += WriteVector("angular_velocity_flexible", "c", "rad/s", 3);
+
+  return str_tmp;
+}
+
+std::string AttitudeRk4::GetLogValue() const {
+  std::string str_tmp = "";
+
+  str_tmp += WriteVector(eular_angular_flexible_rad_);
+  str_tmp += WriteVector(angular_velocity_flexible_rad_s_);
+
+  return str_tmp;
+}
+
 void AttitudeRk4::SetParameters(const MonteCarloSimulationExecutor& mc_simulator) {
   Attitude::SetParameters(mc_simulator);
   GetInitializedMonteCarloParameterVector(mc_simulator, "angular_velocity_b_rad_s", angular_velocity_b_rad_s_);
