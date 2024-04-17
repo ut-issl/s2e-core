@@ -37,8 +37,8 @@ AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const
   angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
   previous_inertia_tensor_kgm2_ = inertia_tensor_kgm2_;
   inertia_tensor_flexible_kgm2_ = inertia_tensor_flexible_kgm2;
-  zeta_flexible_ = zeta_flexible;
-  omega_flexible_rad_s_ = omega_flexible_rad_s;
+  attenuateion_coefficient_ = 2 * zeta_flexible * omega_flexible_rad_s * inertia_tensor_flexible_kgm2;
+  spring_constant_ = omega_flexible_rad_s * omega_flexible_rad_s * inertia_tensor_flexible_kgm2;
   inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
   inverse_equivalent_inertia_tensor_flexible_ = CalcInverseMatrix(inertia_tensor_kgm2_) * (inertia_tensor_kgm2_ + inertia_tensor_flexible_kgm2_) *
                                                 CalcInverseMatrix(inertia_tensor_flexible_kgm2_);
@@ -147,12 +147,10 @@ libra::Vector<10> AttitudeRk4::AttitudeDynamicsAndKinematics(libra::Vector<10> x
   libra::Vector<3> net_torque_b_Nm = torque_b_Nm_ - libra::OuterProduct(omega_b, angular_momentum_total_b_Nms) - torque_inertia_tensor_change_b_Nm_;
 
   libra::Vector<3> angular_accelaration_flexible_rad_s2 =
-      inverse_equivalent_inertia_tensor_flexible_ *
-          (-2 * zeta_flexible_ * omega_flexible_rad_s_ * inertia_tensor_flexible_kgm2_ * omega_flexible -
-           omega_flexible_rad_s_ * omega_flexible_rad_s_ * inertia_tensor_flexible_kgm2_ * eular_angular_flexible_rad_) -
+      -(inverse_equivalent_inertia_tensor_flexible_ * (attenuateion_coefficient_ * omega_flexible + spring_constant_ * eular_angular_flexible_rad_)) -
       inverse_inertia_tensor_ * net_torque_b_Nm;
 
-  libra::Vector<3> rhs = inverse_inertia_tensor_total_ * net_torque_b_Nm - inertia_tensor_flexible_kgm2_ * angular_accelaration_flexible_rad_s2;
+  libra::Vector<3> rhs = inverse_inertia_tensor_total_ * (net_torque_b_Nm - inertia_tensor_flexible_kgm2_ * angular_accelaration_flexible_rad_s2);
 
   for (int i = 0; i < 3; ++i) {
     dxdt[i] = rhs[i];

@@ -84,8 +84,8 @@ class AttitudeRk4 : public Attitude {
   libra::Matrix<3, 3> inertia_tensor_flexible_kgm2_;                //!< Inertia tensor of the flexible structure [kgm2]
   libra::Matrix<3, 3> inverse_equivalent_inertia_tensor_flexible_;  //!< Inverse of inertia tensor of the flexible structure
   libra::Matrix<3, 3> inverse_inertia_tensor_total_;                //!< Inverse of inertia tensor of the spacecraft
-  double zeta_flexible_;                                            //!< Damping ratio of the flexible structure []
-  double omega_flexible_rad_s_;                                     //!< Intrinsic angular velocity [rad/s]
+  libra::Matrix<3, 3> attenuateion_coefficient_;                    //!< Attenuation coefficient
+  libra::Matrix<3, 3> spring_constant_;                             //!< Spring constant
 
   libra::Vector<3> angular_velocity_flexible_rad_s_;  //!< Angular velocity of the flexible structure with respect to the inertial frame [rad/s]
   libra::Vector<3> eular_angular_flexible_rad_;       //!< Eular angle of the flexible structure with respect to the inertial frame [rad/s]
