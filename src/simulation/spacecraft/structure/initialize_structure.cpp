@@ -24,18 +24,21 @@ KinematicsParameters InitKinematicsParameters(std::string file_name) {
       inertia_tensor_b_kgm2[i][j] = inertia_vec[i * 3 + j];
     }
   }
+
+  const char* section_flexible_structure = "KINEMATIC_PARAMETERS_FOR_FLEXIBLE_STRUCTURE";
   libra::Matrix<3, 3> inertia_tensor_flexible_b_kgm2;
-  conf.ReadVector(section, "inertia_tensor_flexible_structure_kgm2", inertia_vec);
+  conf.ReadVector(section_flexible_structure, "inertia_tensor_flexible_structure_kgm2", inertia_vec);
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       inertia_tensor_flexible_b_kgm2[i][j] = inertia_vec[i * 3 + j];
     }
   }
-  double zeta_flexible = conf.ReadDouble(section, "zeta_flexible_structure");
-  double omega_flexible_rad_s = conf.ReadDouble(section, "omega_flexible_structure_rad_s");
+  double damping_ratio_flexible_structure = conf.ReadDouble(section_flexible_structure, "damping_ratio_flexible_structure");
+  double intrinsic_angular_velocity_flexible_structure_rad_s =
+      conf.ReadDouble(section_flexible_structure, "intrinsic_angular_velocity_flexible_structure_rad_s");
 
-  KinematicsParameters kinematics_params(center_of_gravity_b_m, mass_kg, inertia_tensor_b_kgm2, inertia_tensor_flexible_b_kgm2, zeta_flexible,
-                                         omega_flexible_rad_s);
+  KinematicsParameters kinematics_params(center_of_gravity_b_m, mass_kg, inertia_tensor_b_kgm2, inertia_tensor_flexible_b_kgm2,
+                                         damping_ratio_flexible_structure, intrinsic_angular_velocity_flexible_structure_rad_s);
   return kinematics_params;
 }
 

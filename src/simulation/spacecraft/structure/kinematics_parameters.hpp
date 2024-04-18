@@ -25,7 +25,8 @@ class KinematicsParameters {
    * @brief Constructor
    */
   KinematicsParameters(libra::Vector<3> center_of_gravity_b_m, double mass_kg, libra::Matrix<3, 3> inertia_tensor_b_kgm2,
-                       libra::Matrix<3, 3> inertia_tensor_flexible_b_kgm2, double zeta_flexible, double omega_flexible_rad_s);
+                       libra::Matrix<3, 3> inertia_tensor_flexible_b_kgm2, double damping_ratio_flexible_structure,
+                       double intrinsic_angular_velocity_flexible_structure_rad_s);
   /**
    * @fn ~KinematicsParameters
    * @brief Destructor
@@ -54,15 +55,15 @@ class KinematicsParameters {
    */
   inline const libra::Matrix<3, 3>& GetInertiaTensorFlexible_b_kgm2() const { return inertia_tensor_flexible_b_kgm2_; }
   /**
-   * @fn GetZetaFlexible
+   * @fn GetDampingRatioFlexibleStructure
    * @brief Return Damping ratio of the flexible structure []
    */
-  inline const double& GetZetaFlexible() const { return zeta_flexible_; }
+  inline const double& GetDampingRatioFlexibleStructure() const { return damping_ratio_flexible_structure_; }
   /**
-   * @fn GetOmegaFlexible_rad_s
+   * @fn GetIntrinsicAngularVelocityFlexibleStructure_rad_s
    * @brief Return Intrinsic angular velocity [rad/s]
    */
-  inline const double& GetOmegaFlexible_rad_s() const { return omega_flexible_rad_s_; }
+  inline const double& GetIntrinsicAngularVelocityFlexibleStructure_rad_s() const { return intrinsic_angular_velocity_flexible_structure_rad_s_; }
 
   // Setter
   /**
@@ -102,12 +103,12 @@ class KinematicsParameters {
   }
 
  private:
-  libra::Vector<3> center_of_gravity_b_m_;                 //!< Position vector of center of gravity at body frame [m]
-  double mass_kg_;                                         //!< Mass of the satellite [kg]
-  libra::Matrix<3, 3> inertia_tensor_b_kgm2_;              //!< Inertia tensor at body frame [kgm2]
-  libra::Matrix<3, 3> inertia_tensor_flexible_b_kgm2_{0};  //!< Inertia tensor of the flexible structure at body frame [kgm2]
-  double zeta_flexible_ = 0;                               //!< Damping ratio of the flexible structure []
-  double omega_flexible_rad_s_ = 0;                        //!< Intrinsic angular velocity [rad/s]
+  libra::Vector<3> center_of_gravity_b_m_;                          //!< Position vector of center of gravity at body frame [m]
+  double mass_kg_;                                                  //!< Mass of the satellite [kg]
+  libra::Matrix<3, 3> inertia_tensor_b_kgm2_;                       //!< Inertia tensor at body frame [kgm2]
+  libra::Matrix<3, 3> inertia_tensor_flexible_b_kgm2_{0};           //!< Inertia tensor of the flexible structure at body frame [kgm2]
+  double damping_ratio_flexible_structure_ = 0;                     //!< Damping ratio of the flexible structure []
+  double intrinsic_angular_velocity_flexible_structure_rad_s_ = 0;  //!< Intrinsic angular velocity [rad/s]
 };
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_HPP_

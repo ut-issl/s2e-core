@@ -34,16 +34,16 @@ class AttitudeRk4 : public Attitude {
    * @param [in] quaternion_i2b: Initial value of attitude quaternion from the inertial frame to the body fixed frame
    * @param [in] inertia_tensor_kgm2: Initial value of inertia tensor of the spacecraft [kg m^2]
    * @param [in] inertia_tensor_flexible_kgm2: Initial value of inertia tensor of the flexible structure [kg m^2]
-   * @param [in] zeta_flexible: Initial value of damping ratio of the flexible structure []
-   * @param [in] omega_flexible_rad_s: Initial value of intrinsic angular velocity [rad/s]
+   * @param [in] damping_ratio_flexible_structure: Initial value of damping ratio of the flexible structure []
+   * @param [in] intrinsic_angular_velocity_flexible_structure_rad_s: Initial value of intrinsic angular velocity [rad/s]
    * @param [in] torque_b_Nm: Initial torque acting on the spacecraft in the body fixed frame [Nm]
    * @param [in] propagation_step_s: Initial value of propagation step width [sec]
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
   AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b,
-              const libra::Matrix<3, 3>& inertia_tensor_kgm2, const libra::Matrix<3, 3>& inertia_tensor_flexible_kgm2, const double zeta_flexible,
-              const double omega_flexible_rad_s, const libra::Vector<3>& torque_b_Nm, const double propagation_step_s,
-              const std::string& simulation_object_name = "attitude");
+              const libra::Matrix<3, 3>& inertia_tensor_kgm2, const libra::Matrix<3, 3>& inertia_tensor_flexible_kgm2,
+              const double damping_ratio_flexible_structure, const double intrinsic_angular_velocity_flexible_structure_rad_s,
+              const libra::Vector<3>& torque_b_Nm, const double propagation_step_s, const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~AttitudeRk4
    * @brief Destructor

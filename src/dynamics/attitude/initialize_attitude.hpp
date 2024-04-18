@@ -22,7 +22,7 @@
  */
 Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
                        const double step_width_s, const libra::Matrix<3, 3>& inertia_tensor_kgm2,
-                       const libra::Matrix<3, 3>& inertia_tensor_flexible_kgm2, const double zeta_flexible, const double omega_flexible_rad_s,
-                       const int spacecraft_id);
+                       const libra::Matrix<3, 3>& inertia_tensor_flexible_kgm2, const double damping_ratio_flexible_structure,
+                       const double intrinsic_angular_velocity_flexible_structure_rad_s, const int spacecraft_id);
 
 #endif  // S2E_DYNAMICS_ATTITUDE_INITIALIZE_ATTITUDE_HPP_

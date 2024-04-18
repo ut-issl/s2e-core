@@ -26,8 +26,8 @@ AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const
 
 AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b,
                          const libra::Matrix<3, 3>& inertia_tensor_kgm2, const libra::Matrix<3, 3>& inertia_tensor_flexible_kgm2,
-                         const double zeta_flexible, const double omega_flexible_rad_s, const libra::Vector<3>& torque_b_Nm,
-                         const double propagation_step_s, const std::string& simulation_object_name)
+                         const double damping_ratio_flexible_structure, const double intrinsic_angular_velocity_flexible_structure_rad_s,
+                         const libra::Vector<3>& torque_b_Nm, const double propagation_step_s, const std::string& simulation_object_name)
     : Attitude(inertia_tensor_kgm2, simulation_object_name) {
   angular_velocity_b_rad_s_ = angular_velocity_b_rad_s;
   quaternion_i2b_ = quaternion_i2b;
@@ -37,8 +37,10 @@ AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const
   angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
   previous_inertia_tensor_kgm2_ = inertia_tensor_kgm2_;
   inertia_tensor_flexible_kgm2_ = inertia_tensor_flexible_kgm2;
-  attenuateion_coefficient_ = 2 * zeta_flexible * omega_flexible_rad_s * inertia_tensor_flexible_kgm2;
-  spring_constant_ = omega_flexible_rad_s * omega_flexible_rad_s * inertia_tensor_flexible_kgm2;
+  attenuateion_coefficient_ =
+      2 * damping_ratio_flexible_structure * intrinsic_angular_velocity_flexible_structure_rad_s * inertia_tensor_flexible_kgm2;
+  spring_constant_ =
+      intrinsic_angular_velocity_flexible_structure_rad_s * intrinsic_angular_velocity_flexible_structure_rad_s * inertia_tensor_flexible_kgm2;
   inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
   inverse_equivalent_inertia_tensor_flexible_ = CalcInverseMatrix(inertia_tensor_kgm2_) * (inertia_tensor_kgm2_ + inertia_tensor_flexible_kgm2_) *
                                                 CalcInverseMatrix(inertia_tensor_flexible_kgm2_);
