@@ -10,10 +10,10 @@
 #include <environment/global/physical_constants.hpp>
 #include <fstream>
 #include <iostream>
-#include <library/initialize/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
-#include "../library/logger/log_utility.hpp"
-#include "../library/utilities/macros.hpp"
+#include "../logger/log_utility.hpp"
+#include "../utilities/macros.hpp"
 
 // #define DEBUG_GEOPOTENTIAL
 

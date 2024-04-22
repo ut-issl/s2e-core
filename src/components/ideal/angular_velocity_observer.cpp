@@ -5,7 +5,7 @@
 
 #include "angular_velocity_observer.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 AngularVelocityObserver::AngularVelocityObserver(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const Attitude& attitude)
     : Component(prescaler, clock_generator), Sensor(sensor_base), attitude_(attitude) {}

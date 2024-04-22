@@ -5,8 +5,8 @@
 
 #include "orbit_observer.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/randomization/global_randomization.hpp>
+#include <math_physics/randomization/global_randomization.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 OrbitObserver::OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const NoiseFrame noise_frame,
                              const libra::Vector<6> error_standard_deviation, const Orbit& orbit)

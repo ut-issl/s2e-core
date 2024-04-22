@@ -9,7 +9,7 @@
 
 #include "../environment/global/simulation_time.hpp"
 #include "../environment/local/local_environment.hpp"
-#include "../library/math/vector.hpp"
+#include "../math_physics/math/vector.hpp"
 #include "../simulation/simulation_configuration.hpp"
 #include "../simulation/spacecraft/structure/structure.hpp"
 #include "dynamics/attitude/initialize_attitude.hpp"

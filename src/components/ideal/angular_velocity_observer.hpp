@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_IDEAL_ANGULAR_VELOCITY_OBSERVER_HPP_
 
 #include <dynamics/dynamics.hpp>
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 
 #include "../base/component.hpp"
 #include "../base/sensor.hpp"

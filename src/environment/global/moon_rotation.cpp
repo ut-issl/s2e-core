@@ -7,8 +7,8 @@
 
 #include <SpiceUsr.h>
 
-#include <library/math/constants.hpp>
-#include <library/planet_rotation/moon_rotation_utilities.hpp>
+#include <math_physics/math/constants.hpp>
+#include <math_physics/planet_rotation/moon_rotation_utilities.hpp>
 
 MoonRotation::MoonRotation(const CelestialInformation& celestial_information, MoonRotationMode mode)
     : mode_(mode), celestial_information_(celestial_information) {

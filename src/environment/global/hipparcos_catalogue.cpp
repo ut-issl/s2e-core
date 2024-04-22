@@ -11,8 +11,8 @@
 #include <string>
 #include <vector>
 
-#include "library/initialize/initialize_file_access.hpp"
-#include "library/math/constants.hpp"
+#include "math_physics/math/constants.hpp"
+#include "setting_file_reader/initialize_file_access.hpp"
 
 HipparcosCatalogue::HipparcosCatalogue(double max_magnitude, std::string catalogue_path)
     : max_magnitude_(max_magnitude), catalogue_path_(catalogue_path) {}

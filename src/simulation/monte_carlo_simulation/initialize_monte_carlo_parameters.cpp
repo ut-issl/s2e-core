@@ -5,7 +5,7 @@
 
 #include "initialize_monte_carlo_parameters.hpp"
 
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
 
 using namespace std;
 

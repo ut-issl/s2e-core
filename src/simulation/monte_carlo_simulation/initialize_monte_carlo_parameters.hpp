@@ -7,8 +7,8 @@
 #define S2E_SIMULATION_MONTE_CARLO_SIMULATION_INITIALIZE_MONTE_CARLO_PARAMETERS_HPP_
 
 #include <cmath>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
 #include <random>
 #include <string>
 #include <vector>

@@ -65,7 +65,7 @@ endif()
 if(USE_C2A_COMMAND_SENDER)
   set(SOURCE_FILES
     ${SOURCE_FILES}
-    real/communication/wings_command_sender.cpp
+    real/communication/wings_command_sender_to_c2a.cpp
   )
 endif()
 

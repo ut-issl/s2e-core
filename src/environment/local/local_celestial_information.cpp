@@ -12,7 +12,7 @@
 #include <locale>
 #include <sstream>
 
-#include "library/logger/log_utility.hpp"
+#include "logger/log_utility.hpp"
 
 LocalCelestialInformation::LocalCelestialInformation(const CelestialInformation* global_celestial_information)
     : global_celestial_information_(global_celestial_information) {

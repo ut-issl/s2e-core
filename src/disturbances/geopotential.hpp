@@ -8,8 +8,8 @@
 
 #include <string>
 
-#include "../library/gravity/gravity_potential.hpp"
-#include "../library/math/vector.hpp"
+#include "../math_physics/gravity/gravity_potential.hpp"
+#include "../math_physics/math/vector.hpp"
 #include "disturbance.hpp"
 /**
  * @class Geopotential

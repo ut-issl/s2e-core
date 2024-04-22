@@ -5,7 +5,7 @@
 
 #include "surface_force.hpp"
 
-#include "../library/math/vector.hpp"
+#include "../math_physics/math/vector.hpp"
 
 SurfaceForce::SurfaceForce(const std::vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, true), surfaces_(surfaces), center_of_gravity_b_m_(center_of_gravity_b_m) {

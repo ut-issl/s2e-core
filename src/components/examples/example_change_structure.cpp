@@ -5,7 +5,7 @@
 
 #include "example_change_structure.hpp"
 
-#include <library/math/matrix.hpp>
+#include <math_physics/math/matrix.hpp>
 
 ExampleChangeStructure::ExampleChangeStructure(ClockGenerator* clock_generator, Structure* structure)
     : Component(1, clock_generator), structure_(structure) {}

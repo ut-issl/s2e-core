@@ -7,7 +7,7 @@
 #define S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_HPP_
 
 #include <environment/local/local_celestial_information.hpp>
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
 #include <string>
 
 #include "../orbit/orbit.hpp"
@@ -18,12 +18,13 @@
  * @brief Attitude control mode
  */
 enum class AttitudeControlMode {
-  kInertialStabilize,          //!< Inertial stabilize
-  kSunPointing,                //!< Sun pointing
-  kEarthCenterPointing,        //!< Earth center pointing
-  kVelocityDirectionPointing,  //!< Spacecraft velocity direction pointing
-  kOrbitNormalPointing,        //!< Orbit normal direction pointing
-  kNoControl,                  // No Control
+  kInertialStabilize,             //!< Inertial stabilize
+  kSunPointing,                   //!< Sun pointing
+  kEarthCenterPointing,           //!< Earth center pointing
+  kVelocityDirectionPointing,     //!< Spacecraft velocity direction pointing
+  kGroundSpeedDirectionPointing,  //!< Ground speed direction pointing
+  kOrbitNormalPointing,           //!< Orbit normal direction pointing
+  kNoControl,                     // No Control
 };
 
 /**

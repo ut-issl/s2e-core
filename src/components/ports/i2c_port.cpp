@@ -5,7 +5,7 @@
 
 #include "i2c_port.hpp"
 
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 I2cPort::I2cPort(void) {}
 

@@ -5,15 +5,15 @@
 
 #include "gnss_satellites.hpp"
 
-#include <library/gnss/igs_product_name_handling.hpp>
-#include <library/gnss/sp3_file_reader.hpp>
+#include <math_physics/gnss/igs_product_name_handling.hpp>
+#include <math_physics/gnss/sp3_file_reader.hpp>
 
 #include "environment/global/physical_constants.hpp"
-#include "library/initialize/initialize_file_access.hpp"
-#include "library/logger/log_utility.hpp"
-#include "library/math/constants.hpp"
-#include "library/time_system/date_time_format.hpp"
-#include "library/utilities/macros.hpp"
+#include "logger/log_utility.hpp"
+#include "math_physics/math/constants.hpp"
+#include "math_physics/time_system/date_time_format.hpp"
+#include "setting_file_reader/initialize_file_access.hpp"
+#include "utilities/macros.hpp"
 
 const size_t kNumberOfInterpolation = 9;
 

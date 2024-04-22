@@ -29,7 +29,7 @@
 #include <components/real/power/power_control_unit.hpp>
 #include <components/real/propulsion/simple_thruster.hpp>
 #include <dynamics/dynamics.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/math/vector.hpp>
 #include <simulation/hils/hils_port_manager.hpp>
 #include <simulation/spacecraft/installed_components.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>

@@ -9,8 +9,8 @@
 #include <string>
 
 #include "../../dynamics/dynamics.hpp"
-#include "../../library/logger/loggable.hpp"
-#include "../../library/logger/logger.hpp"
+#include "../../logger/loggable.hpp"
+#include "../../logger/logger.hpp"
 
 /**
  * @class RelativeInformation

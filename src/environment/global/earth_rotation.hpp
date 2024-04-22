@@ -9,7 +9,7 @@
 #ifndef S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_
 #define S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_
 
-#include "library/math/matrix.hpp"
+#include "math_physics/math/matrix.hpp"
 
 /**
  * @enum EarthRotationMode

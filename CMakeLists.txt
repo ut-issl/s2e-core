@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.13)
 project(S2E
   LANGUAGES CXX
   DESCRIPTION "S2E: Spacecraft Simulation Environment"
-  VERSION 7.2.5
+  VERSION 7.2.6
 )
 
 # build config
@@ -89,7 +89,11 @@ add_subdirectory(src/environment/local)
 add_subdirectory(src/dynamics)
 add_subdirectory(src/disturbances)
 add_subdirectory(src/components)
-add_subdirectory(src/library)
+add_subdirectory(src/math_physics)
+add_subdirectory(src/setting_file_reader)
+add_subdirectory(src/logger)
+add_subdirectory(src/utilities)
+add_subdirectory(ExtLibraries/inih)
 
 set(SOURCE_FILES
   src/s2e.cpp
@@ -178,13 +182,14 @@ endif()
 #target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
 
 # Initialize link
-target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
-target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION LIBRARY)
-target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
-target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE LIBRARY)
-target_link_libraries(GLOBAL_ENVIRONMENT ${CSPICE_LIB} LIBRARY)
-target_link_libraries(LOCAL_ENVIRONMENT GLOBAL_ENVIRONMENT ${CSPICE_LIB} LIBRARY)
-target_link_libraries(LIBRARY ${NRLMSISE00_LIB})
+target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT MATH_PHYSICS SETTING_FILE_READER LOGGER UTILITIES)
+target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION MATH_PHYSICS)
+target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT MATH_PHYSICS)
+target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE MATH_PHYSICS)
+target_link_libraries(GLOBAL_ENVIRONMENT ${CSPICE_LIB} MATH_PHYSICS)
+target_link_libraries(LOCAL_ENVIRONMENT GLOBAL_ENVIRONMENT ${CSPICE_LIB} MATH_PHYSICS)
+target_link_libraries(MATH_PHYSICS ${NRLMSISE00_LIB})
+target_link_libraries(SETTING_FILE_READER INIH)
 
 target_link_libraries(${PROJECT_NAME} DYNAMICS)
 target_link_libraries(${PROJECT_NAME} DISTURBANCE)
@@ -235,7 +240,7 @@ if(GOOGLE_TEST)
 
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main gmock)
-  target_link_libraries(${TEST_PROJECT_NAME} LIBRARY)
+  target_link_libraries(${TEST_PROJECT_NAME} MATH_PHYSICS)
   include_directories(${TEST_PROJECT_NAME})
   add_test(NAME s2e-test COMMAND ${TEST_PROJECT_NAME})
   enable_testing()
