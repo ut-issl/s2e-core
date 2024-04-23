@@ -74,14 +74,20 @@ class Telescope : public Component, public ILoggable {
   double earth_forbidden_angle_rad_;  //!< Earth forbidden angle [rad]
   double moon_forbidden_angle_rad_;   //!< Moon forbidden angle [rad]
 
-  int x_number_of_pix_;                          //!< Number of pixel on X-axis in the image plane
-  int y_number_of_pix_;                          //!< Number of pixel on Y-axis in the image plane
-  double x_fov_per_pix_;                         //!< Field of view per pixel of X-axis in the image plane [rad/pix]
-  double y_fov_per_pix_;                         //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
-  double x_field_of_view_rad;                    //!< Field of view of X-axis in the image plane [rad/pix]
-  double y_field_of_view_rad;                    //!< Field of view of Y-axis in the image plane [rad/pix]
-  double ground_position_x_image_sensor_ = 0.0;  //!< Ground position x
-  double ground_position_y_image_sensor_ = 0.0;  //!< Ground position y
+  int x_number_of_pix_;                                    //!< Number of pixel on X-axis in the image plane
+  int y_number_of_pix_;                                    //!< Number of pixel on Y-axis in the image plane
+  double pixel_size_m_;                                    //!< Pixel size [m]
+  double focal_length_m_;                                  //!< Focal length [m]
+  double x_fov_per_pix_;                                   //!< Field of view per pixel of X-axis in the image plane [rad/pix]
+  double y_fov_per_pix_;                                   //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
+  double x_field_of_view_rad;                              //!< Field of view of X-axis in the image plane [rad/pix]
+  double y_field_of_view_rad;                              //!< Field of view of Y-axis in the image plane [rad/pix]
+  double ground_position_center_x_image_sensor_ = 0.0;     //!< Ground position center x
+  double ground_position_center_y_image_sensor_ = 0.0;     //!< Ground position center y
+  double ground_position_y_max_x_image_sensor_ = 0.0;      //!< Ground position ymax x
+  double ground_position_y_max_y_image_sensor_ = 4096.0;   //!< Ground position ymax y
+  double ground_position_y_min_x_image_sensor_ = 0.0;      //!< Ground position ymin x
+  double ground_position_y_min_y_image_sensor_ = -4096.0;  //!< Ground position ymin x
 
   bool is_sun_in_forbidden_angle = false;    //!< Is the sun in the forbidden angle
   bool is_earth_in_forbidden_angle = false;  //!< Is the earth in the forbidden angle

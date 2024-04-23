@@ -58,9 +58,105 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
   }
   // Get initial spacecraft position in ECEF
   if (orbit_ != nullptr) {
+    // center position in image sensor at component flame
+    libra::Vector<3> initial_target_center_c;
+    initial_target_center_c[0] = 1;
+    initial_target_center_c[1] = 0;
+    initial_target_center_c[2] = 0;
+    // ymax position in image sensor at component flame
+    libra::Vector<3> initial_target_ymax_c;
+    initial_target_ymax_c[0] = 1;
+    initial_target_ymax_c[1] = ground_position_y_max_y_image_sensor_ * pixel_size_m / focal_length_m_;  // センサ内のy方向
+    initial_target_ymax_c[2] = ground_position_y_max_x_image_sensor_ * pixel_size_m / focal_length_m_;  // センサ内のx方向
+    // ymin position in image sensor at component flame
+    libra::Vector<3> initial_target_ymin_c;
+    initial_target_ymin_c[0] = 1;
+    initial_target_ymin_c[1] = ground_position_y_min_y_image_sensor_ * pixel_size_m / focal_length_m_;  // センサ内のy方向
+    initial_target_ymin_c[2] = ground_position_y_min_x_image_sensor_ * pixel_size_m / focal_length_m_;  // センサ内のx方向
+
+    // target_cをbにもどす
+    libra::Vector<3> target_center_b = quaternion_b2c_.Conjugate().FrameConversion(initial_target_center_c);
+    libra::Vector<3> target_ymax_b = quaternion_b2c_.Conjugate().FrameConversion(initial_target_ymax_c);
+    libra::Vector<3> target_ymin_b = quaternion_b2c_.Conjugate().FrameConversion(initial_target_ymin_c);
+
+    // initial_quaternion_i2bを計算
+    libra::Vector<3> spacecraft_position_i_m = orbit_->GetPosition_i_m();
+    libra::Vector<3> spacecraft_velocity_i_m;
+    // when submode == VELOCITY_DIRECTION_POINTING
+    // spacecraft_velocity_i_m = orbit_->GetVelocity_i_m_s();
+    // when submode == RELATIVE_VELOCITY_DIRECTION_POINTING
+    libra::Matrix<3, 3> dcm_ecef2eci = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
+    spacecraft_velocity_i_m = dcm_ecef2eci * orbit_->GetVelocity_ecef_m_s();
+    // z_eciの計算
+    libra::Vector<3> z_eci = spacecraft_position_i_m.CalcNormalizedVector();
+    // ytemp_eciの計算
+    libra::Vector<3> xtemp_eci = spacecraft_velocity_i_m.CalcNormalizedVector();
+    libra::Vector<3> y_eci = OuterProduct(z_eci, xtemp_eci).CalcNormalizedVector();
+    libra::Vector<3> x_eci = OuterProduct(y_eci, z_eci).CalcNormalizedVector();
+    // DCM行列の作成
+    libra::Matrix<3, 3> dcm_i2b(0.0);
+    dcm_i2b[0][0] = x_eci[0];
+    dcm_i2b[0][1] = x_eci[1];
+    dcm_i2b[0][2] = x_eci[2];
+    dcm_i2b[1][0] = y_eci[0];
+    dcm_i2b[1][1] = y_eci[1];
+    dcm_i2b[1][2] = y_eci[2];
+    dcm_i2b[2][0] = z_eci[0];
+    dcm_i2b[2][1] = z_eci[1];
+    dcm_i2b[2][2] = z_eci[2];
+    // rotmZYXの計算
+    libra::Matrix<3, 3> rotmZYX(0.0);
+    rotmZYX[0][0] = 1.0;
+    rotmZYX[0][1] = 0.0;
+    rotmZYX[0][2] = 0.0;
+    rotmZYX[1][0] = 0.0;
+    rotmZYX[1][1] = 1.0;
+    rotmZYX[1][2] = 0.0;
+    rotmZYX[2][0] = 0.0;
+    rotmZYX[2][1] = 0.0;
+    rotmZYX[2][2] = 1.0;
+    // dcm_i2bをrotmZYXで更新
+    dcm_i2b = rotmZYX * dcm_i2b;
+    // q_sca_vec_i2bの計算
+    libra::Quaternion q_sca_vec_i2b = libra::Quaternion::ConvertFromDcm(dcm_i2b);
+    // Quaternionの計算
+    // libra::Quaternion initial_quaternion_i2b;
+    initial_quaternion_i2b[0] = q_sca_vec_i2b[0];
+    initial_quaternion_i2b[1] = q_sca_vec_i2b[1];
+    initial_quaternion_i2b[2] = q_sca_vec_i2b[2];
+    initial_quaternion_i2b[3] = q_sca_vec_i2b[3];
+
+    // target_b->target_i
+    Quaternion quaternion_b2i = initial_quaternion_i2b.Conjugate();
+    libra::Vector<3> target_center_i = quaternion_b2i.FrameConversion(target_center_b);
+    libra::Vector<3> target_ymax_i = quaternion_b2i.FrameConversion(target_ymax_b);
+    libra::Vector<3> target_ymin_i = quaternion_b2i.FrameConversion(target_ymin_b);
+    // target_iをecefにもどす
+    libra::Matrix<3, 3> dcm_i_to_ecef = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef();
+    libra::Vector<3> direction_center_ecef_m = dcm_i_to_ecef * target_center_i;
+    libra::Vector<3> direction_ymax_ecef_m = dcm_i_to_ecef * target_ymax_i;
+    libra::Vector<3> direction_ymin_ecef_m = dcm_i_to_ecef * target_ymin_i;
+
+    // spacecraft_ecef_m_を計算
     libra::Vector<3> initial_spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
-    initial_ground_position_ecef_m_ = environment::earth_equatorial_radius_m * initial_spacecraft_position_ecef_m;
-    initial_ground_position_ecef_m_ /= (orbit_->GetGeodeticPosition().GetAltitude_m() + environment::earth_equatorial_radius_m);
+    double k_center = (-(InnerProduct(initial_spacecraft_position_ecef_m, direction_center_ecef_m)) -
+                       sqrt(pow(InnerProduct(initial_spacecraft_position_ecef_m, direction_center_ecef_m), 2) -
+                            pow(direction_center_ecef_m.CalcNorm(), 2) *
+                                (pow(initial_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)))) /
+                      pow(direction_center_ecef_m.CalcNorm(), 2);
+    double k_ymax = (-(InnerProduct(initial_spacecraft_position_ecef_m, direction_ymax_ecef_m)) -
+                     sqrt(pow(InnerProduct(initial_spacecraft_position_ecef_m, direction_ymax_ecef_m), 2) -
+                          pow(direction_ymax_ecef_m.CalcNorm(), 2) *
+                              (pow(initial_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)))) /
+                    pow(direction_ymax_ecef_m.CalcNorm(), 2);
+    double k_ymin = (-(InnerProduct(initial_spacecraft_position_ecef_m, direction_ymin_ecef_m)) -
+                     sqrt(pow(InnerProduct(initial_spacecraft_position_ecef_m, direction_ymin_ecef_m), 2) -
+                          pow(direction_ymin_ecef_m.CalcNorm(), 2) *
+                              (pow(initial_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)))) /
+                    pow(direction_ymin_ecef_m.CalcNorm(), 2);
+    initial_ground_position_center_ecef_m_ = initial_spacecraft_position_ecef_m + k_center * direction_center_ecef_m;
+    initial_ground_position_ymax_ecef_m_ = initial_spacecraft_position_ecef_m + k_ymax * direction_ymax_ecef_m;
+    initial_ground_position_ymin_ecef_m_ = initial_spacecraft_position_ecef_m + k_ymin * direction_ymin_ecef_m;
   }
 }
 
@@ -167,25 +263,42 @@ void Telescope::ObserveGroundPositionDeviation() {
     return;
   }
   // Check if the ground point is in the image sensor
-  if (ground_position_x_image_sensor_ > x_number_of_pix_ || ground_position_y_image_sensor_ > y_number_of_pix_) {
-    ground_position_x_image_sensor_ = -1;
-    ground_position_y_image_sensor_ = -1;
+  if (ground_position_center_x_image_sensor_ > x_number_of_pix_ || ground_position_center_y_image_sensor_ > y_number_of_pix_) {
+    ground_position_center_x_image_sensor_ = -1;
+    ground_position_center_y_image_sensor_ = -1;
     return;
   }
 
   Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
   libra::Vector<3> spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
-  libra::Vector<3> direction_ecef = (initial_ground_position_ecef_m_ - spacecraft_position_ecef_m).CalcNormalizedVector();
-  libra::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
-  libra::Vector<3> direction_i = (dcm_ecef_to_i * direction_ecef).CalcNormalizedVector();
-  libra::Vector<3> direction_b = quaternion_i2b.FrameConversion(direction_i);
-  libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b);
 
-  // Ground position in the image sensor in the satellite frame
-  double ground_angle_z_rad = atan2(target_c[2], target_c[0]);
-  ground_position_x_image_sensor_ = ground_angle_z_rad / x_fov_per_pix_;
-  double ground_angle_y_rad = atan2(target_c[1], target_c[0]);
-  ground_position_y_image_sensor_ = ground_angle_y_rad / y_fov_per_pix_;
+  libra::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
+  libra::Vector<3> direction_sat_ground_center_ecef_m = initial_ground_position_center_ecef_m_ - spacecraft_position_ecef_m;
+  libra::Vector<3> direction_sat_ground_center_i_m = dcm_ecef_to_i * direction_sat_ground_center_ecef_m;
+  libra::Vector<3> direction_sat_ground_center_b_m = quaternion_i2b.FrameConversion(direction_sat_ground_center_i_m);
+  libra::Vector<3> target_c_center = quaternion_b2c_.FrameConversion(direction_sat_ground_center_b_m);
+  double angle_x_center = atan2(target_c_center[2], target_c_center[0]);
+  double angle_y_center = atan2(target_c_center[1], target_c_center[0]);
+  ground_position_center_x_image_sensor_ = focal_length_m_ * tan(angle_x_center) / pixel_size_m_;
+  ground_position_center_y_image_sensor_ = focal_length_m_ * tan(angle_y_center) / pixel_size_m_;
+
+  libra::Vector<3> direction_sat_ground_ymax_ecef_m = initial_ground_position_ymax_ecef_m_ - spacecraft_position_ecef_m;
+  libra::Vector<3> direction_sat_ground_ymax_i_m = dcm_ecef_to_i * direction_sat_ground_ymax_ecef_m;
+  libra::Vector<3> direction_sat_ground_ymax_b_m = quaternion_i2b.FrameConversion(direction_sat_ground_ymax_i_m);
+  libra::Vector<3> target_c_ymax = quaternion_b2c_.FrameConversion(direction_sat_ground_ymax_b_m);
+  double angle_x_ymax = atan2(target_c_ymax[2], target_c_ymax[0]);
+  double angle_y_ymax = atan2(target_c_ymax[1], target_c_ymax[0]);
+  ground_position_y_max_x_image_sensor_ = focal_length_m_ * tan(angle_x_ymax) / pixel_size_m_;
+  ground_position_y_max_y_image_sensor_ = focal_length_m_ * tan(angle_y_ymax) / pixel_size_m_;
+
+  libra::Vector<3> direction_sat_ground_ymin_ecef_m = initial_ground_position_ymin_ecef_m_ - spacecraft_position_ecef_m;
+  libra::Vector<3> direction_sat_ground_ymin_i_m = dcm_ecef_to_i * direction_sat_ground_ymin_ecef_m;
+  libra::Vector<3> direction_sat_ground_ymin_b_m = quaternion_i2b.FrameConversion(direction_sat_ground_ymin_i_m);
+  libra::Vector<3> target_c_ymin = quaternion_b2c_.FrameConversion(direction_sat_ground_ymin_b_m);
+  double angle_x_ymin = atan2(target_c_ymin[2], target_c_ymin[0]);
+  double angle_y_ymin = atan2(target_c_ymin[1], target_c_ymin[0]);
+  ground_position_y_min_x_image_sensor_ = focal_length_m_ * tan(angle_x_ymin) / pixel_size_m_;
+  ground_position_y_min_y_image_sensor_ = focal_length_m_ * tan(angle_y_ymin) / pixel_size_m_;
 }
 
 string Telescope::GetLogHeader() const {
