@@ -35,7 +35,7 @@ AttitudeWithCantileverVibration::~AttitudeWithCantileverVibration() {}
 std::string AttitudeWithCantileverVibration::GetLogHeader() const {
   std::string str_tmp = Attitude::GetLogHeader();
 
-  str_tmp += WriteVector("eular_angular_cantilever", "c", "rad", 3);
+  str_tmp += WriteVector("euler_angular_cantilever", "c", "rad", 3);
   str_tmp += WriteVector("angular_velocity_cantilever", "c", "rad/s", 3);
 
   return str_tmp;
@@ -44,7 +44,7 @@ std::string AttitudeWithCantileverVibration::GetLogHeader() const {
 std::string AttitudeWithCantileverVibration::GetLogValue() const {
   std::string str_tmp = Attitude::GetLogValue();
 
-  str_tmp += WriteVector(eular_angular_cantilever_rad_);
+  str_tmp += WriteVector(euler_angular_cantilever_rad_);
   str_tmp += WriteVector(angular_velocity_cantilever_rad_s_);
 
   return str_tmp;
@@ -122,7 +122,7 @@ libra::Vector<13> AttitudeWithCantileverVibration::AttitudeDynamicsAndKinematics
 
   libra::Vector<3> angular_accelaration_cantilever_rad_s2 =
       -(inverse_equivalent_inertia_tensor_cantilever_ *
-        (attenuateion_coefficient_ * omega_cantilever + spring_coefficient_ * eular_angular_cantilever_rad_)) -
+        (attenuateion_coefficient_ * omega_cantilever + spring_coefficient_ * euler_angular_cantilever_rad_)) -
       inverse_inertia_tensor_ * net_torque_b_Nm;
 
   libra::Vector<3> rhs = inverse_inertia_tensor_ * (net_torque_b_Nm - inertia_tensor_cantilever_kgm2_ * angular_accelaration_cantilever_rad_s2);
@@ -170,7 +170,7 @@ void AttitudeWithCantileverVibration::RungeKuttaOneStep(double t, double dt) {
     x[i + 6] = quaternion_i2b_[i];
   }
   for (int i = 0; i < 3; i++) {
-    x[i + 10] = eular_angular_cantilever_rad_[i];
+    x[i + 10] = euler_angular_cantilever_rad_[i];
   }
 
   libra::Vector<13> k1, k2, k3, k4;
@@ -200,6 +200,6 @@ void AttitudeWithCantileverVibration::RungeKuttaOneStep(double t, double dt) {
   }
   quaternion_i2b_.Normalize();
   for (int i = 0; i < 3; i++) {
-    eular_angular_cantilever_rad_[i] = next_x[i + 10];
+    euler_angular_cantilever_rad_[i] = next_x[i + 10];
   }
 }

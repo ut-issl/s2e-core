@@ -74,7 +74,7 @@ class AttitudeWithCantileverVibration : public Attitude {
   double attenuateion_coefficient_;                                   //!< Attenuation coefficient
   double spring_coefficient_;                                         //!< Spring coefficient
   libra::Vector<3> angular_velocity_cantilever_rad_s_;                //!< Angular velocity of the cantilever with respect to the body frame [rad/s]
-  libra::Vector<3> eular_angular_cantilever_rad_;                     //!< Eular angle of the cantilever with respect to the body frame [rad/s]
+  libra::Vector<3> euler_angular_cantilever_rad_;                     //!< Euler angle of the cantilever with respect to the body frame [rad/s]
 
   /**
    * @fn CalcAngularVelocityMatrix
