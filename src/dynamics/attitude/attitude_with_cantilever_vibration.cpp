@@ -108,21 +108,27 @@ libra::Vector<13> AttitudeWithCantileverVibration::AttitudeDynamicsAndKinematics
 
   libra::Vector<13> dxdt;
 
-  libra::Vector<3> omega_b;
+  libra::Vector<3> omega_b_rad_s;
   for (int i = 0; i < 3; i++) {
-    omega_b[i] = x[i];
+    omega_b_rad_s[i] = x[i];
   }
-  libra::Vector<3> omega_cantilever;
+  libra::Vector<3> omega_cantilever_rad_s;
   for (int i = 0; i < 3; i++) {
-    omega_cantilever[i] = x[i + 3];
+    omega_cantilever_rad_s[i] = x[i + 3];
   }
 
-  libra::Vector<3> angular_momentum_total_b_Nms = (previous_inertia_tensor_kgm2_ * omega_b) + angular_momentum_reaction_wheel_b_Nms_;
-  libra::Vector<3> net_torque_b_Nm = torque_b_Nm_ - libra::OuterProduct(omega_b, angular_momentum_total_b_Nms) - torque_inertia_tensor_change_b_Nm_;
+  libra::Vector<3> euler_angle_cantilever_rad;
+  for (int i = 0; i < 3; i++) {
+    euler_angle_cantilever_rad[i] = x[i + 10];
+  }
+
+  libra::Vector<3> angular_momentum_total_b_Nms = (previous_inertia_tensor_kgm2_ * omega_b_rad_s) + angular_momentum_reaction_wheel_b_Nms_;
+  libra::Vector<3> net_torque_b_Nm =
+      torque_b_Nm_ - libra::OuterProduct(omega_b_rad_s, angular_momentum_total_b_Nms) - torque_inertia_tensor_change_b_Nm_;
 
   libra::Vector<3> angular_accelaration_cantilever_rad_s2 =
       -(inverse_equivalent_inertia_tensor_cantilever_ *
-        (attenuateion_coefficient_ * omega_cantilever + spring_coefficient_ * euler_angular_cantilever_rad_)) -
+        (attenuateion_coefficient_ * omega_cantilever_rad_s + spring_coefficient_ * euler_angle_cantilever_rad)) -
       inverse_inertia_tensor_ * net_torque_b_Nm;
 
   libra::Vector<3> rhs = inverse_inertia_tensor_ * (net_torque_b_Nm - inertia_tensor_cantilever_kgm2_ * angular_accelaration_cantilever_rad_s2);
@@ -140,19 +146,14 @@ libra::Vector<13> AttitudeWithCantileverVibration::AttitudeDynamicsAndKinematics
     quaternion_i2b[i] = x[i + 6];
   }
 
-  libra::Vector<4> d_quaternion = 0.5 * CalcAngularVelocityMatrix(omega_b) * quaternion_i2b;
+  libra::Vector<4> d_quaternion = 0.5 * CalcAngularVelocityMatrix(omega_b_rad_s) * quaternion_i2b;
 
   for (int i = 0; i < 4; i++) {
     dxdt[i + 6] = d_quaternion[i];
   }
 
-  libra::Vector<3> euler_angle_cantilever_rad;
   for (int i = 0; i < 3; i++) {
-    euler_angle_cantilever_rad[i] = x[i + 3];
-  }
-
-  for (int i = 0; i < 3; i++) {
-    dxdt[i + 10] = euler_angle_cantilever_rad[i];
+    dxdt[i + 10] = omega_cantilever_rad_s[i];
   }
 
   return dxdt;
