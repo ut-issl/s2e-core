@@ -4,9 +4,7 @@
  */
 #include "attitude_with_cantilever_vibration.hpp"
 
-#include <iostream>
 #include <logger/log_utility.hpp>
-#include <sstream>
 #include <utilities/macros.hpp>
 
 AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
