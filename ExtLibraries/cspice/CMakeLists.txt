@@ -41,6 +41,15 @@ else()
     set(CSPICE_SHA256 "60a95b51a6472f1afe7e40d77ebdee43c12bb5b8823676ccc74692ddfede06ce")
     set(CSPICE_CONFIGURE_COMMAND "")
     set(CSPICE_BUILD_COMMAND "")
+
+    # If we build on aarch64 linux, we cannot use binary package. Let's (super-slow) build
+    if(NOT ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+      # super remove no-need compile option
+      set(CSPICE_CONFIGURE_COMMAND find . -type f -exec sed -i "s/-m64//g" {} +)
+
+      # build cspice by host C-compiler with original build logic
+      set(CSPICE_BUILD_COMMAND "./makeall.csh")
+    endif()
   else()
     set(CSPICE_URL https://naif.jpl.nasa.gov/pub/naif/toolkit/C/PC_Linux_GCC_32bit/packages/cspice.tar.Z)
     set(CSPICE_SHA256 "33d75cd94acf6546e53d7ebc4e7d3d6d42ac27c83cb0d8f04c91a8b50c1149e3")
