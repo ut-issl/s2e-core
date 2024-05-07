@@ -15,9 +15,9 @@ using namespace libra;
 
 Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
                      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix,
-                     const int y_number_of_pix, const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars,
-                     const Attitude* attitude, const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
-                     const Orbit* orbit)
+                     const int y_number_of_pix, const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix,
+                     const double y_fov_per_pix, size_t number_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipparcos,
+                     const LocalCelestialInformation* local_celestial_information, const Orbit* orbit = nullptr)
     : Component(1, clock_generator),
       quaternion_b2c_(quaternion_b2c),
       sun_forbidden_angle_rad_(sun_forbidden_angle_rad),
@@ -25,6 +25,8 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
       moon_forbidden_angle_rad_(moon_forbidden_angle_rad),
       x_number_of_pix_(x_number_of_pix),
       y_number_of_pix_(y_number_of_pix),
+      pixel_size_m_(pixel_size_m),
+      focal_length_m_(focal_length_m),
       x_fov_per_pix_(x_fov_per_pix),
       y_fov_per_pix_(y_fov_per_pix),
       number_of_logged_stars_(number_of_logged_stars),
@@ -56,7 +58,8 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
 
     star_list_in_sight.push_back(star);
   }
-  // Get initial spacecraft position in ECEF
+
+  // new calculation
   if (orbit_ != nullptr) {
     // center position in image sensor at component flame
     libra::Vector<3> initial_target_center_c;
@@ -159,8 +162,6 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
     initial_ground_position_ymin_ecef_m_ = initial_spacecraft_position_ecef_m + k_ymin * direction_ymin_ecef_m;
   }
 }
-
-Telescope::~Telescope() {}
 
 void Telescope::MainRoutine(const int time_count) {
   UNUSED(time_count);
@@ -312,8 +313,12 @@ string Telescope::GetLogHeader() const {
   str_tmp += WriteVector(component_name + "sun_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "earth_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "moon_position", "img", "pix", 2);
-  str_tmp += WriteScalar(component_name + "ground_position_x", "pix");
-  str_tmp += WriteScalar(component_name + "ground_position_y", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_center_x", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_center_y", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_y_max_x", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_y_max_y", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_y_min_x", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_y_min_y", "pix");
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
     for (size_t i = 0; i < number_of_logged_stars_; i++) {
@@ -339,8 +344,12 @@ string Telescope::GetLogValue() const {
   str_tmp += WriteVector(sun_position_image_sensor);
   str_tmp += WriteVector(earth_position_image_sensor);
   str_tmp += WriteVector(moon_position_image_sensor);
-  str_tmp += WriteScalar(ground_position_x_image_sensor_);
-  str_tmp += WriteScalar(ground_position_y_image_sensor_);
+  str_tmp += WriteScalar(ground_position_center_x_image_sensor_);
+  str_tmp += WriteScalar(ground_position_center_y_image_sensor_);
+  str_tmp += WriteScalar(ground_position_y_max_x_image_sensor_);
+  str_tmp += WriteScalar(ground_position_y_max_y_image_sensor_);
+  str_tmp += WriteScalar(ground_position_y_min_x_image_sensor_);
+  str_tmp += WriteScalar(ground_position_y_min_y_image_sensor_);
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
     for (size_t i = 0; i < number_of_logged_stars_; i++) {
@@ -386,6 +395,9 @@ Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const st
   int x_number_of_pix = Telescope_conf.ReadInt(TelescopeSection, "x_number_of_pixel");
   int y_number_of_pix = Telescope_conf.ReadInt(TelescopeSection, "y_number_of_pixel");
 
+  double pixel_size_m = Telescope_conf.ReadDouble(TelescopeSection, "pixel_size_m");
+  double focal_length_m = Telescope_conf.ReadDouble(TelescopeSection, "focal_length_m");
+
   double x_fov_per_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "x_fov_deg_per_pixel");
   double x_fov_per_pix_rad = x_fov_per_pix_deg * pi / 180;  // deg to rad
   double y_fov_per_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "y_fov_deg_per_pixel");
@@ -394,7 +406,7 @@ Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const st
   int number_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "number_of_stars_for_log");
 
   Telescope telescope(clock_generator, quaternion_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_number_of_pix,
-                      y_number_of_pix, x_fov_per_pix_rad, y_fov_per_pix_rad, number_of_logged_stars, attitude, hipparcos, local_celestial_information,
-                      orbit);
+                      y_number_of_pix, pixel_size_m, focal_length_m, x_fov_per_pix_rad, y_fov_per_pix_rad, number_of_logged_stars, attitude,
+                      hipparcos, local_celestial_information, orbit);
   return telescope;
 }

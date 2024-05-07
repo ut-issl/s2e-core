@@ -44,16 +44,21 @@ class Telescope : public Component, public ILoggable {
    * @param [in] y_number_of_pix: Number of pixel on Y-axis in the image plane
    * @param [in] x_fov_per_pix: Field of view per pixel of X-axis in the image plane [rad/pix]
    * @param [in] y_fov_per_pix: Field of view per pixel of Y-axis in the image plane [rad/pix]
+   * @param [in] pixel_size_m: Pixel size [m]
+   * @param [in] focal_length_m: Focal length [m]
    * @param [in] number_of_logged_stars: Number of logged stars
    * @param [in] attitude: Attitude Information
    * @param [in] hipparcos: Hipparcos catalogue information
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] orbit: Orbit information
+   *
+
    */
   Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
-            const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const Attitude* attitude,
-            const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit = nullptr);
+            const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix, const double y_fov_per_pix,
+            size_t number_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipparcos,
+            const LocalCelestialInformation* local_celestial_information, const Orbit* orbit);
   /**
    * @fn ~Telescope
    * @brief Destructor
@@ -85,9 +90,11 @@ class Telescope : public Component, public ILoggable {
   double ground_position_center_x_image_sensor_ = 0.0;     //!< Ground position center x
   double ground_position_center_y_image_sensor_ = 0.0;     //!< Ground position center y
   double ground_position_y_max_x_image_sensor_ = 0.0;      //!< Ground position ymax x
-  double ground_position_y_max_y_image_sensor_ = 4096.0;   //!< Ground position ymax y
+  double ground_position_y_max_y_image_sensor_ = y_number_of_pix_ / 2.0;   //!< Ground position ymax y
   double ground_position_y_min_x_image_sensor_ = 0.0;      //!< Ground position ymin x
-  double ground_position_y_min_y_image_sensor_ = -4096.0;  //!< Ground position ymin x
+  double ground_position_y_min_y_image_sensor_ = -y_number_of_pix_ / 2.0;  //!< Ground position ymin x
+  libra::Quaternion initial_quaternion_i2b;
+  libra::Vector<3> direction_ymax_ecef;  //!< Direction vector of ymax in ECEF
 
   bool is_sun_in_forbidden_angle = false;    //!< Is the sun in the forbidden angle
   bool is_earth_in_forbidden_angle = false;  //!< Is the earth in the forbidden angle
@@ -95,10 +102,17 @@ class Telescope : public Component, public ILoggable {
 
   size_t number_of_logged_stars_;  //!< Number of logged stars
 
-  libra::Vector<2> sun_position_image_sensor{-1};    //!< Position of the sun on the image plane
-  libra::Vector<2> earth_position_image_sensor{-1};  //!< Position of the earth on the image plane
-  libra::Vector<2> moon_position_image_sensor{-1};   //!< Position of the moon on the image plane
-  libra::Vector<3> initial_ground_position_ecef_m_;  //!< Initial spacecraft position
+  libra::Vector<2> sun_position_image_sensor{-1};           //!< Position of the sun on the image plane
+  libra::Vector<2> earth_position_image_sensor{-1};         //!< Position of the earth on the image plane
+  libra::Vector<2> moon_position_image_sensor{-1};          //!< Position of the moon on the image plane
+  libra::Vector<3> initial_ground_position_center_ecef_m_;  //!< Initial center ground position
+  libra::Vector<3> initial_ground_position_ymax_ecef_m_;    //!< Initial spacecraft position of ymax
+  libra::Vector<3> initial_ground_position_ymin_ecef_m_;    //!< Initial spacecraft position of ymin
+  libra::Vector<3> target_b_ymax_;                          //!< Target vector of ymax on the body fixed frame
+  libra::Vector<3> target_b_center_;                          //!< Target vector of ymin on the body fixed frame
+  libra::Vector<3> target_center_c;                          //!< Target vector of ymin on the body fixed frame
+  libra::Vector<3> const_target_ymax_c;                     //!< Target vector of ymin on the body fixed frame
+  libra::Vector<3> direction_cnter_b;                       //!< Direction vector of center on the body fixed frame
 
   std::vector<Star> star_list_in_sight;  //!< Star information in the field of view
 
