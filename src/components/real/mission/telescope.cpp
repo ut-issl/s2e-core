@@ -163,6 +163,8 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
   }
 }
 
+Telescope::~Telescope() {}
+
 void Telescope::MainRoutine(const int time_count) {
   UNUSED(time_count);
   // Check forbidden angle
