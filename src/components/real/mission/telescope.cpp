@@ -43,9 +43,9 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
       orbit_(orbit),
       simulation_time_(simulation_time) {
   sscanf(start_imaging_ymdhms, "%d/%d/%d %d:%d:%lf", &start_imaging_year_, &start_imaging_month_, &start_imaging_day_, &start_imaging_hour_,
-          &start_imaging_minute_, &start_imaging_sec_);
+         &start_imaging_minute_, &start_imaging_sec_);
   jday(start_imaging_year_, start_imaging_month_, start_imaging_day_, start_imaging_hour_, start_imaging_minute_, start_imaging_sec_,
-        start_imaging_jd_);
+       start_imaging_jd_);
 
   is_sun_in_forbidden_angle = true;
   is_earth_in_forbidden_angle = true;

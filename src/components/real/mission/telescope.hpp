@@ -16,8 +16,8 @@
 #include <math_physics/math/vector.hpp>
 #include <vector>
 
-#include "../../base/component.hpp"
 #include "../../../environment/global/simulation_time.hpp"
+#include "../../base/component.hpp"
 
 /*
  * @struct Star
