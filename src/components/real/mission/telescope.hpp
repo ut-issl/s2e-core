@@ -99,6 +99,7 @@ class Telescope : public Component, public ILoggable {
   const int stage_mode_;                                   //!< Stage mode
   const int number_of_lines_per_frame_;                    //!< Number of lines per frame
   const int number_of_frames_per_mission_;                 //!< Number of frame per mission
+  const char* start_imaging_ymdhms_;
 
   double ground_position_center_x_image_sensor_ = 0.0;     //!< Ground position center x
   double ground_position_center_y_image_sensor_ = 0.0;     //!< Ground position center y
@@ -179,7 +180,7 @@ class Telescope : public Component, public ILoggable {
   const HipparcosCatalogue* hipparcos_;                           //!< Star information
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
 
-  std::pair<double, double> CalculateImagePosition(libra::Vector<3> target_ground_position_ecef_m_, const Attitude* attitude, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information_, const Quaternion& quaternion_b2c_, const double focal_length_m_, const double pixel_size_m_, const int x_number_of_pix_, const int y_number_of_pix_);
+  std::pair<double, double> CalculateImagePosition(libra::Vector<3> target_ground_position_ecef_m_);
 
   /**
    * @fn ObserveGroundPositionDeviation

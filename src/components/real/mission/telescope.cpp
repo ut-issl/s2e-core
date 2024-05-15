@@ -18,7 +18,7 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
                      const int y_number_of_pix, const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix,
                      const double y_fov_per_pix, const char* start_imaging_ymdhms, const double line_rate_sec, const int stage_mode, const int number_of_lines_per_frame,
                      const int number_of_frames_per_mission, size_t number_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipparcos,
-                     const LocalCelestialInformation* local_celestial_information, const Orbit* orbit = nullptr, const SimulationTime* simulation_time)
+                     const LocalCelestialInformation* local_celestial_information, const Orbit* orbit, const SimulationTime* simulation_time)
     : Component(1, clock_generator),
       quaternion_b2c_(quaternion_b2c),
       sun_forbidden_angle_rad_(sun_forbidden_angle_rad),
@@ -30,6 +30,7 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
       focal_length_m_(focal_length_m),
       x_fov_per_pix_(x_fov_per_pix),
       y_fov_per_pix_(y_fov_per_pix),
+      start_imaging_ymdhms_(start_imaging_ymdhms),
       line_rate_sec_(line_rate_sec),
       stage_mode_(stage_mode),
       number_of_lines_per_frame_(number_of_lines_per_frame),
@@ -231,7 +232,7 @@ void Telescope::CalculateTargetGroundPosition() {
   }
 }
 
-std::pair<double, double> CalculateImagePosition(libra::Vector<3> target_ground_position_ecef_m_, const Attitude* attitude_, const Orbit* orbit_, const LocalCelestialInformation* local_celestial_information_, const Quaternion& quaternion_b2c_, const double focal_length_m_, const double pixel_size_m_, const int x_number_of_pix_, const int y_number_of_pix_) {
+std::pair<double, double> Telescope::CalculateImagePosition(libra::Vector<3> target_ground_position_ecef_m_) {
   Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
   libra::Vector<3> spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
   libra::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
@@ -264,13 +265,13 @@ void Telescope::ObserveGroundPositionDeviation() {
       CalculateTargetGroundPosition();
       startImagingFlag = false;
     }
-    std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_, attitude_, orbit_, local_celestial_information_, quaternion_b2c_, focal_length_m_, pixel_size_m_, x_number_of_pix_, y_number_of_pix_);
+    std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
     ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
     ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
-    std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_, attitude_, orbit_, local_celestial_information_, quaternion_b2c_, focal_length_m_, pixel_size_m_, x_number_of_pix_, y_number_of_pix_);
+    std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
     ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
     ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
-    std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_, attitude_, orbit_, local_celestial_information_, quaternion_b2c_, focal_length_m_, pixel_size_m_, x_number_of_pix_, y_number_of_pix_);
+    std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
     ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
     ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
   }
@@ -280,13 +281,13 @@ void Telescope::ObserveGroundPositionDeviation() {
       CalculateTargetGroundPosition();
       centerImagingFlag = false;
     }
-    std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_, attitude_, orbit_, local_celestial_information_, quaternion_b2c_, focal_length_m_, pixel_size_m_, x_number_of_pix_, y_number_of_pix_);
+    std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
     ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
     ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
-    std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_, attitude_, orbit_, local_celestial_information_, quaternion_b2c_, focal_length_m_, pixel_size_m_, x_number_of_pix_, y_number_of_pix_);
+    std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
     ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
     ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
-    std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_, attitude_, orbit_, local_celestial_information_, quaternion_b2c_, focal_length_m_, pixel_size_m_, x_number_of_pix_, y_number_of_pix_);
+    std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
     ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
     ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
   }
@@ -296,13 +297,13 @@ void Telescope::ObserveGroundPositionDeviation() {
       CalculateTargetGroundPosition();
       endImagingFlag = false;
     }
-    std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_, attitude_, orbit_, local_celestial_information_, quaternion_b2c_, focal_length_m_, pixel_size_m_, x_number_of_pix_, y_number_of_pix_);
+    std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
     ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
     ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
-    std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_, attitude_, orbit_, local_celestial_information_, quaternion_b2c_, focal_length_m_, pixel_size_m_, x_number_of_pix_, y_number_of_pix_);
+    std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
     ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
     ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
-    std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_, attitude_, orbit_, local_celestial_information_, quaternion_b2c_, focal_length_m_, pixel_size_m_, x_number_of_pix_, y_number_of_pix_);
+    std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
     ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
     ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
   }
