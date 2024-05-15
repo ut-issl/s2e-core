@@ -57,15 +57,15 @@ class Telescope : public Component, public ILoggable {
    * @param [in] attitude: Attitude Information
    * @param [in] hipparcos: Hipparcos catalogue information
    * @param [in] local_celestial_information: Local celestial information
-   * @param [in] orbit: Orbit information
    * @param [in] simulation_time: Simulation time information
+   * @param [in] orbit: Orbit information
    */
   Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
             const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix_rad, const double y_fov_per_pix_rad,
             const char* start_imaging_ymdhms, const double line_rate_sec, const int stage_mode, const int number_of_lines_per_frame,
             const int number_of_frames_per_mission, size_t number_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipparcos,
-            const LocalCelestialInformation* local_celestial_information, const Orbit* orbit, const SimulationTime* simulation_time);
+            const LocalCelestialInformation* local_celestial_information, const SimulationTime* simulation_time, const Orbit* orbit);
   /**
    * @fn ~Telescope
    * @brief Destructor

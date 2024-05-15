@@ -19,7 +19,7 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
                      const double y_fov_per_pix_rad, const char* start_imaging_ymdhms, const double line_rate_sec, const int stage_mode,
                      const int number_of_lines_per_frame, const int number_of_frames_per_mission, size_t number_of_logged_stars,
                      const Attitude* attitude, const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
-                     const Orbit* orbit, const SimulationTime* simulation_time)
+                     const SimulationTime* simulation_time, const Orbit* orbit)
     : Component(1, clock_generator),
       quaternion_b2c_(quaternion_b2c),
       sun_forbidden_angle_rad_(sun_forbidden_angle_rad),
@@ -40,8 +40,8 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
       attitude_(attitude),
       hipparcos_(hipparcos),
       local_celestial_information_(local_celestial_information),
-      orbit_(orbit),
-      simulation_time_(simulation_time) {
+      simulation_time_(simulation_time),
+      orbit_(orbit) {
   sscanf(start_imaging_ymdhms, "%d/%d/%d %d:%d:%lf", &start_imaging_year_, &start_imaging_month_, &start_imaging_day_, &start_imaging_hour_,
          &start_imaging_minute_, &start_imaging_sec_);
   jday(start_imaging_year_, start_imaging_month_, start_imaging_day_, start_imaging_hour_, start_imaging_minute_, start_imaging_sec_,
@@ -425,6 +425,6 @@ Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const st
   Telescope telescope(clock_generator, quaternion_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_number_of_pix,
                       y_number_of_pix, pixel_size_m, focal_length_m, x_fov_per_pix_rad, y_fov_per_pix_rad, start_imaging_ymdhms.c_str(),
                       line_rate_sec, stage_mode, number_of_lines_per_frame, number_of_frames_per_mission, number_of_logged_stars, attitude, hipparcos,
-                      local_celestial_information, orbit, simulation_time);
+                      local_celestial_information, simulation_time, orbit);
   return telescope;
 }
