@@ -63,8 +63,8 @@ class Telescope : public Component, public ILoggable {
   Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
             const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix_rad, const double y_fov_per_pix_rad,
-            const char* start_imaging_ymdhms, const double line_rate_sec, const int stage_mode, const int number_of_lines_per_frame, const int number_of_frames_per_mission,
-            size_t number_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipparcos,
+            const char* start_imaging_ymdhms, const double line_rate_sec, const int stage_mode, const int number_of_lines_per_frame,
+            const int number_of_frames_per_mission, size_t number_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipparcos,
             const LocalCelestialInformation* local_celestial_information, const Orbit* orbit, const SimulationTime* simulation_time);
   /**
    * @fn ~Telescope
@@ -86,58 +86,57 @@ class Telescope : public Component, public ILoggable {
   double earth_forbidden_angle_rad_;  //!< Earth forbidden angle [rad]
   double moon_forbidden_angle_rad_;   //!< Moon forbidden angle [rad]
 
-  int GroundPositionCalcMode = 1;                          //!< Ground position calculation mode 1:Use ECEF position 2:Use time
-  int x_number_of_pix_;                                    //!< Number of pixel on X-axis in the image plane
-  int y_number_of_pix_;                                    //!< Number of pixel on Y-axis in the image plane
-  double pixel_size_m_;                                    //!< Pixel size [m]
-  double focal_length_m_;                                  //!< Focal length [m]
-  double x_fov_per_pix_rad_;                                   //!< Field of view per pixel of X-axis in the image plane [rad/pix]
-  double y_fov_per_pix_rad_;                                   //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
-  double x_field_of_view_rad;                              //!< Field of view of X-axis in the image plane [rad/pix]
-  double y_field_of_view_rad;                              //!< Field of view of Y-axis in the image plane [rad/pix]
-  double line_rate_sec_;                                   //!< Line rate [sec]
-  const int stage_mode_;                                   //!< Stage mode
-  const int number_of_lines_per_frame_;                    //!< Number of lines per frame
-  const int number_of_frames_per_mission_;                 //!< Number of frame per mission
+  int x_number_of_pix_;                     //!< Number of pixel on X-axis in the image plane
+  int y_number_of_pix_;                     //!< Number of pixel on Y-axis in the image plane
+  double pixel_size_m_;                     //!< Pixel size [m]
+  double focal_length_m_;                   //!< Focal length [m]
+  double x_fov_per_pix_rad_;                //!< Field of view per pixel of X-axis in the image plane [rad/pix]
+  double y_fov_per_pix_rad_;                //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
+  double x_field_of_view_rad;               //!< Field of view of X-axis in the image plane [rad/pix]
+  double y_field_of_view_rad;               //!< Field of view of Y-axis in the image plane [rad/pix]
+  double line_rate_sec_;                    //!< Line rate [sec]
+  const int stage_mode_;                    //!< Stage mode
+  const int number_of_lines_per_frame_;     //!< Number of lines per frame
+  const int number_of_frames_per_mission_;  //!< Number of frame per mission
   const char* start_imaging_ymdhms_;
 
-  double ground_position_center_x_image_sensor_ = 0.0;     //!< Ground position center x
-  double ground_position_center_y_image_sensor_ = 0.0;     //!< Ground position center y
-  double ground_position_y_max_x_image_sensor_ = 0.0;      //!< Ground position ymax x
-  double ground_position_y_max_y_image_sensor_ = y_number_of_pix_ / 2.0;   //!< Ground position ymax y
-  double ground_position_y_min_x_image_sensor_ = 0.0;      //!< Ground position ymin x
-  double ground_position_y_min_y_image_sensor_ = -y_number_of_pix_ / 2.0;  //!< Ground position ymin x
+  double ground_position_center_x_image_sensor_ = 0.0;                    //!< Ground position center x
+  double ground_position_center_y_image_sensor_ = 0.0;                    //!< Ground position center y
+  double ground_position_y_max_x_image_sensor_ = 0.0;                     //!< Ground position ymax x
+  double ground_position_y_max_y_image_sensor_ = y_number_of_pix_ / 2.0;  //!< Ground position ymax y
+  double ground_position_y_min_x_image_sensor_ = 0.0;                     //!< Ground position ymin x
+  double ground_position_y_min_y_image_sensor_ = -y_number_of_pix_ / 2.0; //!< Ground position ymin x
 
-  double start_imaging_jd_;              //!< Imaging start Julian date [day]
-  int start_imaging_year_;               //!< Imaging start year
-  int start_imaging_month_;              //!< Imaging start month
-  int start_imaging_day_;                //!< Imaging start day
-  int start_imaging_hour_;               //!< Imaging start hour
-  int start_imaging_minute_;             //!< Imaging start minute
-  double start_imaging_sec_;             //!< Imaging start seconds
+  double start_imaging_jd_;   //!< Imaging start Julian date [day]
+  int start_imaging_year_;    //!< Imaging start year
+  int start_imaging_month_;   //!< Imaging start month
+  int start_imaging_day_;     //!< Imaging start day
+  int start_imaging_hour_;    //!< Imaging start hour
+  int start_imaging_minute_;  //!< Imaging start minute
+  double start_imaging_sec_;  //!< Imaging start seconds
 
-  double center_imaging_jd;              //!< Imaging center Julian date [day]
-  double end_imaging_jd;                //!< Imaging end Julian date [day]
+  double center_imaging_jd; //!< Imaging center Julian date [day]
+  double end_imaging_jd;    //!< Imaging end Julian date [day]
 
-  const SimulationTime* simulation_time_;  //!< Simulation time
+  const SimulationTime* simulation_time_; //!< Simulation time
 
-  bool is_sun_in_forbidden_angle = false;    //!< Is the sun in the forbidden angle
-  bool is_earth_in_forbidden_angle = false;  //!< Is the earth in the forbidden angle
-  bool is_moon_in_forbidden_angle = false;   //!< Is the moon in the forbidden angle
+  bool is_sun_in_forbidden_angle = false;   //!< Is the sun in the forbidden angle
+  bool is_earth_in_forbidden_angle = false; //!< Is the earth in the forbidden angle
+  bool is_moon_in_forbidden_angle = false;  //!< Is the moon in the forbidden angle
 
-  size_t number_of_logged_stars_;  //!< Number of logged stars
+  size_t number_of_logged_stars_; //!< Number of logged stars
 
-  libra::Vector<2> sun_position_image_sensor{-1};           //!< Position of the sun on the image plane
-  libra::Vector<2> earth_position_image_sensor{-1};         //!< Position of the earth on the image plane
-  libra::Vector<2> moon_position_image_sensor{-1};          //!< Position of the moon on the image plane
-  libra::Vector<3> target_ground_position_center_ecef_m_;  //!< Initial center ground position
-  libra::Vector<3> target_ground_position_ymax_ecef_m_;    //!< Initial spacecraft position of ymax
-  libra::Vector<3> target_ground_position_ymin_ecef_m_;    //!< Initial spacecraft position of ymin
-  bool startImagingFlag = true;                             //!< Start imaging flag
-  bool centerImagingFlag = true;                            //!< Center imaging flag
-  bool endImagingFlag = true;                               //!< End imaging flag
-  int stage_accumulated_lines = 0;                          //!< Accumulated lines
-  double start_imaging_jd;                                  //!< Start imaging Julian date
+  libra::Vector<2> sun_position_image_sensor{-1};         //!< Position of the sun on the image plane
+  libra::Vector<2> earth_position_image_sensor{-1};       //!< Position of the earth on the image plane
+  libra::Vector<2> moon_position_image_sensor{-1};        //!< Position of the moon on the image plane
+  libra::Vector<3> target_ground_position_center_ecef_m_; //!< Initial center ground position
+  libra::Vector<3> target_ground_position_ymax_ecef_m_;   //!< Initial spacecraft position of ymax
+  libra::Vector<3> target_ground_position_ymin_ecef_m_;   //!< Initial spacecraft position of ymin
+  bool startImagingFlag = true;                           //!< Start imaging flag
+  bool centerImagingFlag = true;                          //!< Center imaging flag
+  bool endImagingFlag = true;                             //!< End imaging flag
+  int stage_accumulated_lines = 0;                        //!< Accumulated lines
+  double start_imaging_jd;                                //!< Start imaging Julian date
 
   std::vector<Star> star_list_in_sight;  //!< Star information in the field of view
 
