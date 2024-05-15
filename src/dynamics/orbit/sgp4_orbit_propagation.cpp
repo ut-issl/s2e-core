@@ -44,11 +44,11 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial
   is_calc_enabled_ = false;
 }
 
-void Sgp4OrbitPropagation::Propagate(const double end_time_s, const double current_time_jd) {
+void Sgp4OrbitPropagation::Propagate(const double end_time_s, const double current_time_js) {
   UNUSED(end_time_s);
 
   if (!is_calc_enabled_) return;
-  double elapse_time_min = (current_time_jd - sgp4_data_.jdsatepoch) * (24.0 * 60.0);
+  double elapse_time_min = (current_time_js / 60.0 - sgp4_data_.jdsatepoch) * (24.0 * 60.0);
 
   double position_i_km[3];
   double velocity_i_km_s[3];

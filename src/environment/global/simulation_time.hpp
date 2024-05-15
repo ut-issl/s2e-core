@@ -188,6 +188,11 @@ class SimulationTime : public ILoggable {
    */
   inline double GetCurrentTime_jd(void) const { return current_jd_; };
   /**
+   * @fn GetCurrentTime_js
+   * @brief Return current Julian second [sec]
+   */
+  inline double GetCurrentTime_js(void) const { return current_js; };
+  /**
    *@fn GetCurrentSiderealTime
    *@brief Return current sidereal day [day]
    */
@@ -261,6 +266,7 @@ class SimulationTime : public ILoggable {
   // Variables
   double elapsed_time_sec_;  //!< Elapsed time from start of simulation [sec]
   double current_jd_;        //!< Current Julian date [day]
+  double current_js;         //!< Current Julian second [sec]
   double current_sidereal_;  //!< Current Greenwich sidereal time (GST) [day]
   double current_decyear_;   //!< Current decimal year [year]
   UTC current_utc_;          //!< UTC calendar day
@@ -299,6 +305,7 @@ class SimulationTime : public ILoggable {
 
   double start_ephemeris_time_;  //!< Simulation start Ephemeris Time
   double start_jd_;              //!< Simulation start Julian date [day]
+  double start_js;              //!< Simulation start Julian second [sec]
   int start_year_;               //!< Simulation start year
   int start_month_;              //!< Simulation start month
   int start_day_;                //!< Simulation start day

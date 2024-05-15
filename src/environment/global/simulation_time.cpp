@@ -44,6 +44,8 @@ SimulationTime::SimulationTime(const double end_sec, const double step_sec, cons
   sscanf(start_ymdhms, "%d/%d/%d %d:%d:%lf", &start_year_, &start_month_, &start_day_, &start_hour_, &start_minute_, &start_sec_);
   jday(start_year_, start_month_, start_day_, start_hour_, start_minute_, start_sec_, start_jd_);
   current_jd_ = start_jd_;
+  start_js = start_jd_ * 60 * 60 * 24;
+  current_js = current_jd_ * 60 * 60 * 24;
   current_sidereal_ = gstime(current_jd_);
   JdToDecyear(current_jd_, &current_decyear_);
   ConvJDtoCalendarDay(current_jd_);
@@ -137,6 +139,7 @@ void SimulationTime::UpdateTime(void) {
   current_sidereal_ = gstime(current_jd_);
   JdToDecyear(current_jd_, &current_decyear_);
   ConvJDtoCalendarDay(current_jd_);
+  current_js = start_js + elapsed_time_sec_;
 
   attitude_update_flag_ = false;
   if (double(attitude_update_counter_) * step_sec_ >= attitude_update_interval_sec_) {
