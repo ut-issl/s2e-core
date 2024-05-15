@@ -100,12 +100,12 @@ class Telescope : public Component, public ILoggable {
   const int number_of_frames_per_mission_;  //!< Number of frame per mission
   const char* start_imaging_ymdhms_;
 
-  double ground_position_center_x_image_sensor_ = 0.0;                    //!< Ground position center x
-  double ground_position_center_y_image_sensor_ = 0.0;                    //!< Ground position center y
-  double ground_position_y_max_x_image_sensor_ = 0.0;                     //!< Ground position ymax x
-  double ground_position_y_max_y_image_sensor_ = y_number_of_pix_ / 2.0;  //!< Ground position ymax y
-  double ground_position_y_min_x_image_sensor_ = 0.0;                     //!< Ground position ymin x
-  double ground_position_y_min_y_image_sensor_ = -y_number_of_pix_ / 2.0; //!< Ground position ymin x
+  double ground_position_center_x_image_sensor_ = 0.0;                     //!< Ground position center x
+  double ground_position_center_y_image_sensor_ = 0.0;                     //!< Ground position center y
+  double ground_position_y_max_x_image_sensor_ = 0.0;                      //!< Ground position ymax x
+  double ground_position_y_max_y_image_sensor_ = y_number_of_pix_ / 2.0;   //!< Ground position ymax y
+  double ground_position_y_min_x_image_sensor_ = 0.0;                      //!< Ground position ymin x
+  double ground_position_y_min_y_image_sensor_ = -y_number_of_pix_ / 2.0;  //!< Ground position ymin x
 
   double start_imaging_jd_;   //!< Imaging start Julian date [day]
   int start_imaging_year_;    //!< Imaging start year
@@ -115,28 +115,28 @@ class Telescope : public Component, public ILoggable {
   int start_imaging_minute_;  //!< Imaging start minute
   double start_imaging_sec_;  //!< Imaging start seconds
 
-  double center_imaging_jd; //!< Imaging center Julian date [day]
-  double end_imaging_jd;    //!< Imaging end Julian date [day]
+  double center_imaging_jd;  //!< Imaging center Julian date [day]
+  double end_imaging_jd;     //!< Imaging end Julian date [day]
 
-  const SimulationTime* simulation_time_; //!< Simulation time
+  const SimulationTime* simulation_time_;  //!< Simulation time
 
-  bool is_sun_in_forbidden_angle = false;   //!< Is the sun in the forbidden angle
-  bool is_earth_in_forbidden_angle = false; //!< Is the earth in the forbidden angle
-  bool is_moon_in_forbidden_angle = false;  //!< Is the moon in the forbidden angle
+  bool is_sun_in_forbidden_angle = false;    //!< Is the sun in the forbidden angle
+  bool is_earth_in_forbidden_angle = false;  //!< Is the earth in the forbidden angle
+  bool is_moon_in_forbidden_angle = false;   //!< Is the moon in the forbidden angle
 
-  size_t number_of_logged_stars_; //!< Number of logged stars
+  size_t number_of_logged_stars_;  //!< Number of logged stars
 
-  libra::Vector<2> sun_position_image_sensor{-1};         //!< Position of the sun on the image plane
-  libra::Vector<2> earth_position_image_sensor{-1};       //!< Position of the earth on the image plane
-  libra::Vector<2> moon_position_image_sensor{-1};        //!< Position of the moon on the image plane
-  libra::Vector<3> target_ground_position_center_ecef_m_; //!< Initial center ground position
-  libra::Vector<3> target_ground_position_ymax_ecef_m_;   //!< Initial spacecraft position of ymax
-  libra::Vector<3> target_ground_position_ymin_ecef_m_;   //!< Initial spacecraft position of ymin
-  bool startImagingFlag = true;                           //!< Start imaging flag
-  bool centerImagingFlag = true;                          //!< Center imaging flag
-  bool endImagingFlag = true;                             //!< End imaging flag
-  int stage_accumulated_lines = 0;                        //!< Accumulated lines
-  double start_imaging_jd;                                //!< Start imaging Julian date
+  libra::Vector<2> sun_position_image_sensor{-1};          //!< Position of the sun on the image plane
+  libra::Vector<2> earth_position_image_sensor{-1};        //!< Position of the earth on the image plane
+  libra::Vector<2> moon_position_image_sensor{-1};         //!< Position of the moon on the image plane
+  libra::Vector<3> target_ground_position_center_ecef_m_;  //!< Initial center ground position
+  libra::Vector<3> target_ground_position_ymax_ecef_m_;    //!< Initial spacecraft position of ymax
+  libra::Vector<3> target_ground_position_ymin_ecef_m_;    //!< Initial spacecraft position of ymin
+  bool startImagingFlag = true;                            //!< Start imaging flag
+  bool centerImagingFlag = true;                           //!< Center imaging flag
+  bool endImagingFlag = true;                              //!< End imaging flag
+  int stage_accumulated_lines = 0;                         //!< Accumulated lines
+  double start_imaging_jd;                                 //!< Start imaging Julian date
 
   std::vector<Star> star_list_in_sight;  //!< Star information in the field of view
 
@@ -173,7 +173,6 @@ class Telescope : public Component, public ILoggable {
    * @brief Calculate the target ground position
    **/
   void CalculateTargetGroundPosition();
-
 
   const Attitude* attitude_;                                      //!< Attitude information
   const HipparcosCatalogue* hipparcos_;                           //!< Star information

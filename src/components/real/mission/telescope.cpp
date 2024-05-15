@@ -18,8 +18,8 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
                      const int y_number_of_pix, const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix_rad,
                      const double y_fov_per_pix_rad, const char* start_imaging_ymdhms, const double line_rate_sec, const int stage_mode,
                      const int number_of_lines_per_frame, const int number_of_frames_per_mission, size_t number_of_logged_stars,
-                     const Attitude* attitude, const HipparcosCatalogue* hipparcos,const LocalCelestialInformation* local_celestial_information,
-                    const Orbit* orbit, const SimulationTime* simulation_time)
+                     const Attitude* attitude, const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
+                     const Orbit* orbit, const SimulationTime* simulation_time)
     : Component(1, clock_generator),
       quaternion_b2c_(quaternion_b2c),
       sun_forbidden_angle_rad_(sun_forbidden_angle_rad),
@@ -42,10 +42,10 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
       local_celestial_information_(local_celestial_information),
       orbit_(orbit),
       simulation_time_(simulation_time) {
-  sscanf(start_imaging_ymdhms, "%d/%d/%d %d:%d:%lf", &start_imaging_year_, &start_imaging_month_, &start_imaging_day_,
-          &start_imaging_hour_, &start_imaging_minute_, &start_imaging_sec_);
+  sscanf(start_imaging_ymdhms, "%d/%d/%d %d:%d:%lf", &start_imaging_year_, &start_imaging_month_, &start_imaging_day_, &start_imaging_hour_,
+          &start_imaging_minute_, &start_imaging_sec_);
   jday(start_imaging_year_, start_imaging_month_, start_imaging_day_, start_imaging_hour_, start_imaging_minute_, start_imaging_sec_,
-          start_imaging_jd_);
+        start_imaging_jd_);
 
   is_sun_in_forbidden_angle = true;
   is_earth_in_forbidden_angle = true;
