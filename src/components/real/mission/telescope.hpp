@@ -62,7 +62,7 @@ class Telescope : public Component, public ILoggable {
    */
   Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
-            const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix, const double y_fov_per_pix,
+            const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix_rad, const double y_fov_per_pix_rad,
             const char* start_imaging_ymdhms, const double line_rate_sec, const int stage_mode, const int number_of_lines_per_frame, const int number_of_frames_per_mission,
             size_t number_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipparcos,
             const LocalCelestialInformation* local_celestial_information, const Orbit* orbit, const SimulationTime* simulation_time);
@@ -91,8 +91,8 @@ class Telescope : public Component, public ILoggable {
   int y_number_of_pix_;                                    //!< Number of pixel on Y-axis in the image plane
   double pixel_size_m_;                                    //!< Pixel size [m]
   double focal_length_m_;                                  //!< Focal length [m]
-  double x_fov_per_pix_;                                   //!< Field of view per pixel of X-axis in the image plane [rad/pix]
-  double y_fov_per_pix_;                                   //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
+  double x_fov_per_pix_rad_;                                   //!< Field of view per pixel of X-axis in the image plane [rad/pix]
+  double y_fov_per_pix_rad_;                                   //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
   double x_field_of_view_rad;                              //!< Field of view of X-axis in the image plane [rad/pix]
   double y_field_of_view_rad;                              //!< Field of view of Y-axis in the image plane [rad/pix]
   double line_rate_sec_;                                   //!< Line rate [sec]
@@ -225,6 +225,6 @@ class Telescope : public Component, public ILoggable {
  */
 Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, const Attitude* attitude,
                         const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
-                        const Orbit* orbit = nullptr, const SimulationTime* simulation_time);
+                        const SimulationTime* simulation_time, const Orbit* orbit = nullptr);
 
 #endif  // S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_

@@ -15,8 +15,8 @@ using namespace libra;
 
 Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
                      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix,
-                     const int y_number_of_pix, const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix,
-                     const double y_fov_per_pix, const char* start_imaging_ymdhms, const double line_rate_sec, const int stage_mode, const int number_of_lines_per_frame,
+                     const int y_number_of_pix, const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix_rad,
+                     const double y_fov_per_pix_rad, const char* start_imaging_ymdhms, const double line_rate_sec, const int stage_mode, const int number_of_lines_per_frame,
                      const int number_of_frames_per_mission, size_t number_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipparcos,
                      const LocalCelestialInformation* local_celestial_information, const Orbit* orbit, const SimulationTime* simulation_time)
     : Component(1, clock_generator),
@@ -28,8 +28,8 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
       y_number_of_pix_(y_number_of_pix),
       pixel_size_m_(pixel_size_m),
       focal_length_m_(focal_length_m),
-      x_fov_per_pix_(x_fov_per_pix),
-      y_fov_per_pix_(y_fov_per_pix),
+      x_fov_per_pix_rad_(x_fov_per_pix_rad),
+      y_fov_per_pix_rad_(y_fov_per_pix_rad),
       start_imaging_ymdhms_(start_imaging_ymdhms),
       line_rate_sec_(line_rate_sec),
       stage_mode_(stage_mode),
@@ -48,8 +48,8 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
   is_earth_in_forbidden_angle = true;
   is_moon_in_forbidden_angle = true;
 
-  x_field_of_view_rad = x_number_of_pix_ * x_fov_per_pix_;
-  y_field_of_view_rad = y_number_of_pix_ * y_fov_per_pix_;
+  x_field_of_view_rad = x_number_of_pix_ * x_fov_per_pix_rad_;
+  y_field_of_view_rad = y_number_of_pix_ * y_fov_per_pix_rad_;
   assert(x_field_of_view_rad < libra::pi_2);  // Avoid the case that the field of view is over 90 degrees
   assert(y_field_of_view_rad < libra::pi_2);
 
@@ -375,7 +375,7 @@ string Telescope::GetLogValue() const {
 }
 
 Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const string file_name, const Attitude* attitude,
-                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit, const SimulationTime* simulation_time) {
+                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const SimulationTime* simulation_time, const Orbit* orbit) {
   using libra::pi;
 
   IniAccess Telescope_conf(file_name);
@@ -419,7 +419,7 @@ Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const st
   int number_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "number_of_stars_for_log");
 
   Telescope telescope(clock_generator, quaternion_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_number_of_pix,
-                      y_number_of_pix, pixel_size_m, focal_length_m, x_fov_per_pix_rad, y_fov_per_pix_rad, start_imaging_ymdhms, line_rate_sec, stage_mode, 
+                      y_number_of_pix, pixel_size_m, focal_length_m, x_fov_per_pix_rad, y_fov_per_pix_rad, start_imaging_ymdhms.c_str(), line_rate_sec, stage_mode, 
                       number_of_lines_per_frame, number_of_frames_per_mission, number_of_logged_stars, attitude, hipparcos, local_celestial_information, orbit, simulation_time);
   return telescope;
 }
