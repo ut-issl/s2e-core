@@ -305,7 +305,7 @@ class SimulationTime : public ILoggable {
 
   double start_ephemeris_time_;  //!< Simulation start Ephemeris Time
   double start_jd_;              //!< Simulation start Julian date [day]
-  double start_js;              //!< Simulation start Julian second [sec]
+  double start_js;               //!< Simulation start Julian second [sec]
   int start_year_;               //!< Simulation start year
   int start_month_;              //!< Simulation start month
   int start_day_;                //!< Simulation start day
