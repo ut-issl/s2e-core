@@ -56,29 +56,6 @@ void AttitudeRk4::Propagate(const double end_time_s) {
   CalcAngularMomentum();
 }
 
-libra::Matrix<4, 4> AttitudeRk4::CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s) {
-  libra::Matrix<4, 4> angular_velocity_matrix;
-
-  angular_velocity_matrix[0][0] = 0.0f;
-  angular_velocity_matrix[0][1] = angular_velocity_b_rad_s[2];
-  angular_velocity_matrix[0][2] = -angular_velocity_b_rad_s[1];
-  angular_velocity_matrix[0][3] = angular_velocity_b_rad_s[0];
-  angular_velocity_matrix[1][0] = -angular_velocity_b_rad_s[2];
-  angular_velocity_matrix[1][1] = 0.0f;
-  angular_velocity_matrix[1][2] = angular_velocity_b_rad_s[0];
-  angular_velocity_matrix[1][3] = angular_velocity_b_rad_s[1];
-  angular_velocity_matrix[2][0] = angular_velocity_b_rad_s[1];
-  angular_velocity_matrix[2][1] = -angular_velocity_b_rad_s[0];
-  angular_velocity_matrix[2][2] = 0.0f;
-  angular_velocity_matrix[2][3] = angular_velocity_b_rad_s[2];
-  angular_velocity_matrix[3][0] = -angular_velocity_b_rad_s[0];
-  angular_velocity_matrix[3][1] = -angular_velocity_b_rad_s[1];
-  angular_velocity_matrix[3][2] = -angular_velocity_b_rad_s[2];
-  angular_velocity_matrix[3][3] = 0.0f;
-
-  return angular_velocity_matrix;
-}
-
 libra::Vector<7> AttitudeRk4::AttitudeDynamicsAndKinematics(libra::Vector<7> x, double t) {
   UNUSED(t);
 

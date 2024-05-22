@@ -77,12 +77,6 @@ class AttitudeWithCantileverVibration : public Attitude {
   libra::Vector<3> euler_angular_cantilever_rad_;                     //!< Euler angle of the cantilever with respect to the body frame [rad/s]
 
   /**
-   * @fn CalcAngularVelocityMatrix
-   * @brief Generate angular velocity matrix for kinematics calculation
-   * @param [in] angular_velocity_b_rad_s: Angular velocity [rad/s]
-   */
-  libra::Matrix<4, 4> CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s);
-  /**
    * @fn AttitudeDynamicsAndKinematics
    * @brief Dynamics equation with kinematics
    * @param [in] x: State vector (angular velocity and quaternion)
