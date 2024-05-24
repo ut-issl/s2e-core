@@ -100,12 +100,19 @@ class Telescope : public Component, public ILoggable {
   const int number_of_frames_per_mission_;  //!< Number of frame per mission
   const char* start_imaging_ymdhms_;
 
-  double ground_position_center_x_image_sensor_ = 0.0;                     //!< Ground position center x
-  double ground_position_center_y_image_sensor_ = 0.0;                     //!< Ground position center y
-  double ground_position_y_max_x_image_sensor_ = 0.0;                      //!< Ground position ymax x
-  double ground_position_y_max_y_image_sensor_ = y_number_of_pix_ / 2.0;   //!< Ground position ymax y
-  double ground_position_y_min_x_image_sensor_ = 0.0;                      //!< Ground position ymin x
-  double ground_position_y_min_y_image_sensor_ = -y_number_of_pix_ / 2.0;  //!< Ground position ymin x
+  double initial_ground_position_center_x_image_sensor_ = 0.0;                     //!< Initial ground position center x
+  double initial_ground_position_center_y_image_sensor_ = 0.0;                     //!< Initial ground position center y
+  double initial_ground_position_y_max_x_image_sensor_ = 0.0;                      //!< Initial ground position ymax x
+  double initial_ground_position_y_max_y_image_sensor_ = y_number_of_pix_ / 2.0;   //!< Initial ground position ymax y
+  double initial_ground_position_y_min_x_image_sensor_ = 0.0;                      //!< Initial ground position ymin x
+  double initial_ground_position_y_min_y_image_sensor_ = -y_number_of_pix_ / 2.0;  //!< Initial ground position ymin x
+
+  double ground_position_center_x_image_sensor_ = NULL;  //!< Current ground position center x
+  double ground_position_center_y_image_sensor_ = NULL;  //!< Current ground position center y
+  double ground_position_y_max_x_image_sensor_ = NULL;   //!< Current ground position ymax x
+  double ground_position_y_max_y_image_sensor_ = NULL;   //!< Current ground position ymax y
+  double ground_position_y_min_x_image_sensor_ = NULL;   //!< Current ground position ymin x
+  double ground_position_y_min_y_image_sensor_ = NULL;   //!< Current ground position ymin x
 
   double start_imaging_jd_;   //!< Imaging start Julian date [day]
   int start_imaging_year_;    //!< Imaging start year

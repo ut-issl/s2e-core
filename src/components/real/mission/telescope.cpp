@@ -192,13 +192,13 @@ void Telescope::CalculateTargetGroundPosition() {
     // ymax position in image sensor at component flame
     libra::Vector<3> target_ymax_c;
     target_ymax_c[0] = 1;
-    target_ymax_c[1] = ground_position_y_max_y_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のy方向
-    target_ymax_c[2] = ground_position_y_max_x_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のx方向
+    target_ymax_c[1] = initial_ground_position_y_max_y_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のy方向
+    target_ymax_c[2] = initial_ground_position_y_max_x_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のx方向
     // ymin position in image sensor at component flame
     libra::Vector<3> target_ymin_c;
     target_ymin_c[0] = 1;
-    target_ymin_c[1] = ground_position_y_min_y_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のy方向
-    target_ymin_c[2] = ground_position_y_min_x_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のx方向
+    target_ymin_c[1] = initial_ground_position_y_min_y_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のy方向
+    target_ymin_c[2] = initial_ground_position_y_min_x_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のx方向
     // target_cをbにもどす
     libra::Vector<3> target_center_b = quaternion_b2c_.Conjugate().FrameConversion(target_center_c);
     libra::Vector<3> target_ymax_b = quaternion_b2c_.Conjugate().FrameConversion(target_ymax_c);
@@ -258,8 +258,8 @@ void Telescope::ObserveGroundPositionDeviation() {
   }
   // Check if the ground point is in the image sensor
   if (ground_position_center_x_image_sensor_ > x_number_of_pix_ || ground_position_center_y_image_sensor_ > y_number_of_pix_) {
-    ground_position_center_x_image_sensor_ = -1;
-    ground_position_center_y_image_sensor_ = -1;
+    ground_position_center_x_image_sensor_ = NULL;
+    ground_position_center_y_image_sensor_ = NULL;
     return;
   }
   double current_jd = simulation_time_->GetCurrentTime_js() / 86400.0;
@@ -277,9 +277,7 @@ void Telescope::ObserveGroundPositionDeviation() {
     std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
     ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
     ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
-  }
-
-  if (center_imaging_jd <= current_jd && current_jd <= center_imaging_jd + stage_time_day) {
+  } else if(center_imaging_jd <= current_jd && current_jd <= center_imaging_jd + stage_time_day) {
     if (centerImagingFlag) {
       CalculateTargetGroundPosition();
       centerImagingFlag = false;
@@ -293,9 +291,7 @@ void Telescope::ObserveGroundPositionDeviation() {
     std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
     ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
     ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
-  }
-
-  if (end_imaging_jd <= current_jd && current_jd <= end_imaging_jd + stage_time_day) {
+  } else if (end_imaging_jd <= current_jd && current_jd <= end_imaging_jd + stage_time_day) {
     if (endImagingFlag) {
       CalculateTargetGroundPosition();
       endImagingFlag = false;
@@ -309,6 +305,13 @@ void Telescope::ObserveGroundPositionDeviation() {
     std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
     ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
     ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
+  } else {
+    ground_position_center_x_image_sensor_ = NULL;
+    ground_position_center_y_image_sensor_ = NULL;
+    ground_position_y_max_x_image_sensor_ = NULL;
+    ground_position_y_max_y_image_sensor_ = NULL;
+    ground_position_y_min_x_image_sensor_ = NULL;
+    ground_position_y_min_y_image_sensor_ = NULL;
   }
 }
 
