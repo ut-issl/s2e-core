@@ -277,7 +277,7 @@ void Telescope::ObserveGroundPositionDeviation() {
     std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
     ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
     ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
-  } else if(center_imaging_jd <= current_jd && current_jd <= center_imaging_jd + stage_time_day) {
+  } else if (center_imaging_jd <= current_jd && current_jd <= center_imaging_jd + stage_time_day) {
     if (centerImagingFlag) {
       CalculateTargetGroundPosition();
       centerImagingFlag = false;
