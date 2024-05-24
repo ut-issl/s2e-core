@@ -263,49 +263,65 @@ void Telescope::ObserveGroundPositionDeviation() {
     return;
   }
   double current_jd = simulation_time_->GetCurrentTime_js() / 86400.0;
-  if (start_imaging_jd_ <= current_jd && current_jd <= start_imaging_jd_ + stage_time_day) {
+  bool log_flag = simulation_time_->GetState().log_output;
+  if (start_imaging_jd_ <= current_jd && current_jd <= start_imaging_jd + stage_time_day && log_flag) {
+    telescope_flag = 1;
     if (startImagingFlag) {
       CalculateTargetGroundPosition();
       startImagingFlag = false;
+      imaging_count = 0;
     }
-    std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
-    ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
-    ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
-    std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
-    ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
-    ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
-    std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
-    ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
-    ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
-  } else if (center_imaging_jd <= current_jd && current_jd <= center_imaging_jd + stage_time_day) {
+    if (imaging_count < stage_mode_){
+      std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
+      ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
+      ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
+      std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
+      ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
+      ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
+      std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
+      ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
+      ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
+      imaging_count++;
+    }
+  } else if (center_imaging_jd <= current_jd && current_jd <= center_imaging_jd + stage_time_day && log_flag) {
+    telescope_flag = 2;
     if (centerImagingFlag) {
       CalculateTargetGroundPosition();
       centerImagingFlag = false;
+      imaging_count = 0;
     }
-    std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
-    ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
-    ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
-    std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
-    ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
-    ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
-    std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
-    ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
-    ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
-  } else if (end_imaging_jd <= current_jd && current_jd <= end_imaging_jd + stage_time_day) {
+    if (imaging_count < stage_mode_){
+      std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
+      ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
+      ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
+      std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
+      ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
+      ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
+      std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
+      ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
+      ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
+      imaging_count++;
+    }
+  } else if (end_imaging_jd <= current_jd && current_jd <= end_imaging_jd + stage_time_day && log_flag) {
+    telescope_flag = 3;
     if (endImagingFlag) {
       CalculateTargetGroundPosition();
       endImagingFlag = false;
+      imaging_count = 0;
     }
-    std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
-    ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
-    ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
-    std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
-    ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
-    ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
-    std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
-    ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
-    ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
+    if (imaging_count < stage_mode_){
+      std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
+      ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
+      ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
+      std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
+      ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
+      ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
+      std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
+      ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
+      ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
+    }
   } else {
+    telescope_flag = 0;
     ground_position_center_x_image_sensor_ = NULL;
     ground_position_center_y_image_sensor_ = NULL;
     ground_position_y_max_x_image_sensor_ = NULL;
@@ -332,6 +348,7 @@ string Telescope::GetLogHeader() const {
   str_tmp += WriteScalar(component_name + "ground_position_y_max_y", "pix");
   str_tmp += WriteScalar(component_name + "ground_position_y_min_x", "pix");
   str_tmp += WriteScalar(component_name + "ground_position_y_min_y", "pix");
+  str_tmp += WriteScalar(component_name + "telescope_flag", "");
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
     for (size_t i = 0; i < number_of_logged_stars_; i++) {
@@ -363,6 +380,7 @@ string Telescope::GetLogValue() const {
   str_tmp += WriteScalar(ground_position_y_max_y_image_sensor_);
   str_tmp += WriteScalar(ground_position_y_min_x_image_sensor_);
   str_tmp += WriteScalar(ground_position_y_min_y_image_sensor_);
+  str_tmp += WriteScalar(telescope_flag);
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
     for (size_t i = 0; i < number_of_logged_stars_; i++) {

@@ -8,6 +8,7 @@
 
 #include <dynamics/attitude/attitude.hpp>
 #include <dynamics/orbit/orbit.hpp>
+#include <environment/global/global_environment.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
 #include <environment/global/simulation_time.hpp>
 #include <environment/local/local_celestial_information.hpp>
@@ -122,6 +123,8 @@ class Telescope : public Component, public ILoggable {
   int start_imaging_minute_;  //!< Imaging start minute
   double start_imaging_sec_;  //!< Imaging start seconds
   double stage_time_day;      //!< Stage time seconds [sec]
+  int imaging_count;          //!< Imaging count
+  int telescope_flag;         //!< Telescope flag
 
   double center_imaging_jd;  //!< Imaging center Julian date [day]
   double end_imaging_jd;     //!< Imaging end Julian date [day]
