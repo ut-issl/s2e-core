@@ -114,6 +114,7 @@ class Telescope : public Component, public ILoggable {
   int start_imaging_hour_;    //!< Imaging start hour
   int start_imaging_minute_;  //!< Imaging start minute
   double start_imaging_sec_;  //!< Imaging start seconds
+  double stage_time_day;      //!< Stage time seconds [sec]
 
   double center_imaging_jd;  //!< Imaging center Julian date [day]
   double end_imaging_jd;     //!< Imaging end Julian date [day]

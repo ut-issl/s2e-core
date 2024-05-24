@@ -79,7 +79,8 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
   double imaging_duration_day = imaging_duration_sec / 60.0 / 60.0 / 24.0;
   center_imaging_jd = start_imaging_jd_ + imaging_duration_day / 2.0;
   end_imaging_jd = start_imaging_jd_ + imaging_duration_day;
-  assert(end_imaging_jd > current_jd + simulation_time_->GetEndTime_s() / 60.0 / 60.0 / 24.0);
+  assert(end_imaging_jd < (current_jd + simulation_time_->GetEndTime_s() / 60.0 / 60.0 / 24.0));
+  stage_time_day = line_rate_sec_ * stage_mode_ / 60.0 / 60.0 / 24.0;
 }
 
 Telescope::~Telescope() {}
@@ -261,9 +262,8 @@ void Telescope::ObserveGroundPositionDeviation() {
     ground_position_center_y_image_sensor_ = -1;
     return;
   }
-  double current_jd = simulation_time_->GetCurrentTime_jd();
-  double stage_time_sec = line_rate_sec_ * stage_mode_;
-  if (start_imaging_jd_ <= current_jd <= start_imaging_jd_ + stage_time_sec) {
+  double current_jd = simulation_time_->GetCurrentTime_js() / 86400.0;
+  if (start_imaging_jd_ <= current_jd && current_jd <= start_imaging_jd_ + stage_time_day) {
     if (startImagingFlag) {
       CalculateTargetGroundPosition();
       startImagingFlag = false;
@@ -279,7 +279,7 @@ void Telescope::ObserveGroundPositionDeviation() {
     ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
   }
 
-  if (center_imaging_jd <= current_jd <= center_imaging_jd + stage_time_sec) {
+  if (center_imaging_jd <= current_jd && current_jd <= center_imaging_jd + stage_time_day) {
     if (centerImagingFlag) {
       CalculateTargetGroundPosition();
       centerImagingFlag = false;
@@ -295,7 +295,7 @@ void Telescope::ObserveGroundPositionDeviation() {
     ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
   }
 
-  if (end_imaging_jd <= current_jd <= end_imaging_jd + stage_time_sec) {
+  if (end_imaging_jd <= current_jd && current_jd <= end_imaging_jd + stage_time_day) {
     if (endImagingFlag) {
       CalculateTargetGroundPosition();
       endImagingFlag = false;
