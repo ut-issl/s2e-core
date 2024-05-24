@@ -271,7 +271,7 @@ void Telescope::ObserveGroundPositionDeviation() {
       startImagingFlag = false;
       imaging_count = 0;
     }
-    if (imaging_count < stage_mode_){
+    if (imaging_count < stage_mode_) {
       std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
       ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
       ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
@@ -290,7 +290,7 @@ void Telescope::ObserveGroundPositionDeviation() {
       centerImagingFlag = false;
       imaging_count = 0;
     }
-    if (imaging_count < stage_mode_){
+    if (imaging_count < stage_mode_) {
       std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
       ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
       ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
@@ -309,7 +309,7 @@ void Telescope::ObserveGroundPositionDeviation() {
       endImagingFlag = false;
       imaging_count = 0;
     }
-    if (imaging_count < stage_mode_){
+    if (imaging_count < stage_mode_) {
       std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
       ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
       ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
