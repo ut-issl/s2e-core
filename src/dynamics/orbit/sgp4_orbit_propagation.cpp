@@ -10,7 +10,7 @@
 #include <utilities/macros.hpp>
 
 Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs_setting,
-                                           const double current_time_jd)
+                                           const double current_time_js)
     : Orbit(celestial_information) {
   propagate_mode_ = OrbitPropagateMode::kSgp4;
 
@@ -28,6 +28,7 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial
   twoline2rv(tle1, tle2, type_run, type_input, gravity_constant_setting_, start_mfe, stop_mfe, delta_min, sgp4_data_);
 
   // Epoch check
+  double current_time_jd = current_time_js / 86400.0;
   double epoch_difference_jday = (current_time_jd - sgp4_data_.jdsatepoch);
   if (epoch_difference_jday < 0.0) {
     std::cout << "[WARNING: SGP4] The TLE epoch is newer than the simulation start time." << std::endl;
@@ -40,7 +41,7 @@ Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial
 
   // To calculate initial position and velocity
   is_calc_enabled_ = true;
-  Propagate(0.0, current_time_jd);
+  Propagate(0.0, current_time_js);
   is_calc_enabled_ = false;
 }
 
