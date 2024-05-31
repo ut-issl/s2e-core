@@ -264,7 +264,7 @@ void Telescope::ObserveGroundPositionDeviation() {
   }
   double current_jd = simulation_time_->GetCurrentTime_js() / 86400.0;
   bool log_flag = simulation_time_->GetState().log_output;
-  if (start_imaging_jd_ <= current_jd && current_jd <= start_imaging_jd + stage_time_day && log_flag) {
+  if (start_imaging_jd_ <= current_jd && current_jd <= (start_imaging_jd_ + stage_time_day) && log_flag) {
     telescope_flag = 1;
     if (startImagingFlag) {
       CalculateTargetGroundPosition();
