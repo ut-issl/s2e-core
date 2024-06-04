@@ -347,7 +347,7 @@ string Telescope::GetLogHeader() const {
   str_tmp += WriteScalar(component_name + "ground_position_y_max_y", "pix");
   str_tmp += WriteScalar(component_name + "ground_position_y_min_x", "pix");
   str_tmp += WriteScalar(component_name + "ground_position_y_min_y", "pix");
-  str_tmp += WriteScalar(component_name + "telescope_flag", "");
+  str_tmp += WriteScalar(component_name + "telescope_flag");
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
     for (size_t i = 0; i < number_of_logged_stars_; i++) {
