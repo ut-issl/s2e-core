@@ -262,7 +262,7 @@ void Telescope::ObserveGroundPositionDeviation() {
     ground_position_center_y_image_sensor_ = NULL;
     return;
   }
-  double current_jd = simulation_time_->GetCurrentTime_js() / 86400.0;
+  double current_jd = simulation_time_->GetCurrentTime_jd();
   bool log_flag = simulation_time_->GetState().log_output;
   if (start_imaging_jd_ <= current_jd && current_jd <= (start_imaging_jd_ + stage_time_day) && log_flag) {
     telescope_flag = 1;
@@ -322,12 +322,12 @@ void Telescope::ObserveGroundPositionDeviation() {
     }
   } else {
     telescope_flag = 0;
-    ground_position_center_x_image_sensor_ = NULL;
-    ground_position_center_y_image_sensor_ = NULL;
-    ground_position_y_max_x_image_sensor_ = NULL;
-    ground_position_y_max_y_image_sensor_ = NULL;
-    ground_position_y_min_x_image_sensor_ = NULL;
-    ground_position_y_min_y_image_sensor_ = NULL;
+    ground_position_center_x_image_sensor_ = -1;
+    ground_position_center_y_image_sensor_ = -1;
+    ground_position_y_max_x_image_sensor_ = -1;
+    ground_position_y_max_y_image_sensor_ = -1;
+    ground_position_y_min_x_image_sensor_ = -1;
+    ground_position_y_min_y_image_sensor_ = -1;
   }
 }
 
