@@ -181,8 +181,6 @@ void Telescope::ObserveStars() {
 }
 
 void Telescope::CalculateTargetGroundPosition() {
-  // start imaging time, center, endにはじめてかかったときに位置とその時刻を記憶する
-  // new calculation
   if (orbit_ != nullptr) {
     // center position in image sensor at component flame
     libra::Vector<3> target_center_c;
@@ -192,28 +190,28 @@ void Telescope::CalculateTargetGroundPosition() {
     // ymax position in image sensor at component flame
     libra::Vector<3> target_ymax_c;
     target_ymax_c[0] = 1;
-    target_ymax_c[1] = initial_ground_position_y_max_y_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のy方向
-    target_ymax_c[2] = initial_ground_position_y_max_x_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のx方向
+    target_ymax_c[1] = initial_ground_position_y_max_y_image_sensor_ * pixel_size_m_ / focal_length_m_;
+    target_ymax_c[2] = initial_ground_position_y_max_x_image_sensor_ * pixel_size_m_ / focal_length_m_;
     // ymin position in image sensor at component flame
     libra::Vector<3> target_ymin_c;
     target_ymin_c[0] = 1;
-    target_ymin_c[1] = initial_ground_position_y_min_y_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のy方向
-    target_ymin_c[2] = initial_ground_position_y_min_x_image_sensor_ * pixel_size_m_ / focal_length_m_;  // センサ内のx方向
-    // target_cをbにもどす
+    target_ymin_c[1] = initial_ground_position_y_min_y_image_sensor_ * pixel_size_m_ / focal_length_m_;
+    target_ymin_c[2] = initial_ground_position_y_min_x_image_sensor_ * pixel_size_m_ / focal_length_m_;
+
     libra::Vector<3> target_center_b = quaternion_b2c_.Conjugate().FrameConversion(target_center_c);
     libra::Vector<3> target_ymax_b = quaternion_b2c_.Conjugate().FrameConversion(target_ymax_c);
     libra::Vector<3> target_ymin_b = quaternion_b2c_.Conjugate().FrameConversion(target_ymin_c);
-    // target_b->target_i
+
     Quaternion quaternion_b2i = attitude_->GetQuaternion_i2b().Conjugate();
     libra::Vector<3> target_center_i = quaternion_b2i.FrameConversion(target_center_b);
     libra::Vector<3> target_ymax_i = quaternion_b2i.FrameConversion(target_ymax_b);
     libra::Vector<3> target_ymin_i = quaternion_b2i.FrameConversion(target_ymin_b);
-    // target_iをecefにもどす
+
     libra::Matrix<3, 3> dcm_i_to_ecef = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef();
     libra::Vector<3> direction_center_ecef_m = dcm_i_to_ecef * target_center_i;
     libra::Vector<3> direction_ymax_ecef_m = dcm_i_to_ecef * target_ymax_i;
     libra::Vector<3> direction_ymin_ecef_m = dcm_i_to_ecef * target_ymin_i;
-    // spacecraft_ecef_m_を計算
+
     libra::Vector<3> current_spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
     double k_center = (-(InnerProduct(current_spacecraft_position_ecef_m, direction_center_ecef_m)) -
                        sqrt(pow(InnerProduct(current_spacecraft_position_ecef_m, direction_center_ecef_m), 2) -
@@ -230,6 +228,7 @@ void Telescope::CalculateTargetGroundPosition() {
                           pow(direction_ymin_ecef_m.CalcNorm(), 2) *
                               (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)))) /
                     pow(direction_ymin_ecef_m.CalcNorm(), 2);
+    
     target_ground_position_center_ecef_m_ = current_spacecraft_position_ecef_m + k_center * direction_center_ecef_m;
     target_ground_position_ymax_ecef_m_ = current_spacecraft_position_ecef_m + k_ymax * direction_ymax_ecef_m;
     target_ground_position_ymin_ecef_m_ = current_spacecraft_position_ecef_m + k_ymin * direction_ymin_ecef_m;
@@ -258,8 +257,8 @@ void Telescope::ObserveGroundPositionDeviation() {
   }
   // Check if the ground point is in the image sensor
   if (ground_position_center_x_image_sensor_ > x_number_of_pix_ || ground_position_center_y_image_sensor_ > y_number_of_pix_) {
-    ground_position_center_x_image_sensor_ = NULL;
-    ground_position_center_y_image_sensor_ = NULL;
+    ground_position_center_x_image_sensor_ = -1;
+    ground_position_center_y_image_sensor_ = -1;
     return;
   }
   double current_jd = simulation_time_->GetCurrentTime_jd();

@@ -108,12 +108,12 @@ class Telescope : public Component, public ILoggable {
   double initial_ground_position_y_min_x_image_sensor_ = 0.0;                      //!< Initial ground position ymin x
   double initial_ground_position_y_min_y_image_sensor_ = -y_number_of_pix_ / 2.0;  //!< Initial ground position ymin x
 
-  double ground_position_center_x_image_sensor_ = NULL;  //!< Current ground position center x
-  double ground_position_center_y_image_sensor_ = NULL;  //!< Current ground position center y
-  double ground_position_y_max_x_image_sensor_ = NULL;   //!< Current ground position ymax x
-  double ground_position_y_max_y_image_sensor_ = NULL;   //!< Current ground position ymax y
-  double ground_position_y_min_x_image_sensor_ = NULL;   //!< Current ground position ymin x
-  double ground_position_y_min_y_image_sensor_ = NULL;   //!< Current ground position ymin x
+  double ground_position_center_x_image_sensor_ = -1;  //!< Current ground position center x
+  double ground_position_center_y_image_sensor_ = -1;  //!< Current ground position center y
+  double ground_position_y_max_x_image_sensor_ = -1;   //!< Current ground position ymax x
+  double ground_position_y_max_y_image_sensor_ = -1;   //!< Current ground position ymax y
+  double ground_position_y_min_x_image_sensor_ = -1;   //!< Current ground position ymin x
+  double ground_position_y_min_y_image_sensor_ = -1;   //!< Current ground position ymin x
 
   double start_imaging_jd_;   //!< Imaging start Julian date [day]
   int start_imaging_year_;    //!< Imaging start year
