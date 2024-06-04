@@ -228,7 +228,7 @@ void Telescope::CalculateTargetGroundPosition() {
                           pow(direction_ymin_ecef_m.CalcNorm(), 2) *
                               (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)))) /
                     pow(direction_ymin_ecef_m.CalcNorm(), 2);
-    
+
     target_ground_position_center_ecef_m_ = current_spacecraft_position_ecef_m + k_center * direction_center_ecef_m;
     target_ground_position_ymax_ecef_m_ = current_spacecraft_position_ecef_m + k_ymax * direction_ymax_ecef_m;
     target_ground_position_ymin_ecef_m_ = current_spacecraft_position_ecef_m + k_ymin * direction_ymin_ecef_m;
