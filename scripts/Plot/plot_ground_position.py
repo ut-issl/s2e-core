@@ -46,10 +46,10 @@ read_file_name = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file_
 # Read S2E CSV
 x_center_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_center_x[pix]')
 y_center_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_center_y[pix]')
-x_ymax_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_ymax_x[pix]')
-y_ymax_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_ymax_y[pix]')
-x_ymin_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_ymin_x[pix]')
-y_ymin_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_ymin_y[pix]')
+x_ymax_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_y_max_x[pix]')
+y_ymax_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_y_max_y[pix]')
+x_ymin_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_y_min_x[pix]')
+y_ymin_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_y_min_y[pix]')
 telescope_flag = read_scalar_from_csv(read_file_name, 'telescope_flag')
 
 # Combine data into a DataFrame
