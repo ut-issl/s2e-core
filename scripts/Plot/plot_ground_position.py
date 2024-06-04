@@ -8,6 +8,7 @@
 # Import
 #
 # plots
+import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import argparse
@@ -38,19 +39,27 @@ print("log: " + read_file_tag)
 #
 # CSV file name
 #
-read_file_name = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file_tag + '_default.csv'
+read_file_name = path_to_logs + '/' + 'logs_' + \
+    read_file_tag + '/' + read_file_tag + '_default.csv'
 
 #
 # Data read and edit
 #
 # Read S2E CSV
-x_center_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_center_x[pix]')
-y_center_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_center_y[pix]')
-x_ymax_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_y_max_x[pix]')
-y_ymax_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_y_max_y[pix]')
-x_ymin_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_y_min_x[pix]')
-y_ymin_data = read_scalar_from_csv(read_file_name, 'telescope_ground_position_y_min_y[pix]')
-telescope_flag = read_scalar_from_csv(read_file_name, 'telescope_flag')
+x_center_data = np.ravel(read_scalar_from_csv(
+    read_file_name, 'telescope_ground_position_center_x[pix]'))
+y_center_data = np.ravel(read_scalar_from_csv(
+    read_file_name, 'telescope_ground_position_center_y[pix]'))
+x_ymax_data = np.ravel(read_scalar_from_csv(
+    read_file_name, 'telescope_ground_position_y_max_x[pix]'))
+y_ymax_data = np.ravel(read_scalar_from_csv(
+    read_file_name, 'telescope_ground_position_y_max_y[pix]'))
+x_ymin_data = np.ravel(read_scalar_from_csv(
+    read_file_name, 'telescope_ground_position_y_min_x[pix]'))
+y_ymin_data = np.ravel(read_scalar_from_csv(
+    read_file_name, 'telescope_ground_position_y_min_y[pix]'))
+telescope_flag = np.ravel(read_scalar_from_csv(
+    read_file_name, 'telescope_flag'))
 
 # Combine data into a DataFrame
 data = pd.DataFrame({
@@ -64,24 +73,45 @@ data = pd.DataFrame({
 })
 
 # Define a function to plot data for a specific flag
+
+
 def plot_for_flag(flag, data, no_gui):
     filtered_data = data[data['telescope_flag'] == flag]
-    
-    plt.figure(figsize=(10, 7))
-    plt.scatter(filtered_data['x_center'], filtered_data['y_center'], s=2, alpha=1.0, label='Center')
-    plt.scatter(filtered_data['x_ymax'], filtered_data['y_ymax'], s=2, alpha=1.0, label='Y Max')
-    plt.scatter(filtered_data['x_ymin'], filtered_data['y_ymin'], s=2, alpha=1.0, label='Y Min')
-    plt.title(f"Scatter plot of ground position in the image sensor (Flag {flag})")
-    plt.xlabel("X [pix]")
-    plt.ylabel("Y [pix]")
-    plt.legend()
-    plt.grid(True)
-    
+    fig, axs = plt.subplots(3, 1, figsize=(10, 15))
+
+    axs[0].scatter(filtered_data['x_center'],
+                   filtered_data['y_center'], s=5, alpha=1.0, label='Center')
+    axs[1].scatter(filtered_data['x_ymax'],
+                   filtered_data['y_ymax'], s=5, alpha=1.0, label='Y Max')
+    axs[2].scatter(filtered_data['x_ymin'],
+                   filtered_data['y_ymin'], s=5, alpha=1.0, label='Y Min')
+    fig.suptitle(
+        f"Scatter plot of ground position in the image sensor (Flag {flag})")
+    axs[0].set_xlabel("X [pix]")
+    axs[0].set_ylabel("Y [pix]")
+    axs[1].set_xlabel("X [pix]")
+    axs[1].set_ylabel("Y [pix]")
+    axs[2].set_xlabel("X [pix]")
+    axs[2].set_ylabel("Y [pix]")
+    axs[0].legend()
+    axs[1].legend()
+    axs[2].legend()
+    axs[0].grid(True)
+    axs[1].grid(True)
+    axs[2].grid(True)
+    axs[0].set_ylim(int(min(filtered_data['y_center']))-0.1,
+                    int(max(filtered_data['y_center']))+0.1)
+    axs[1].set_ylim(int(min(filtered_data['y_ymax']))-0.1,
+                    int(max(filtered_data['y_ymax']))+0.1)
+    axs[2].set_ylim(int(min(filtered_data['y_ymin']))-0.1,
+                    int(max(filtered_data['y_ymin']))+0.1)
+
     # Data save
     if no_gui:
         plt.savefig(f"{read_file_tag}_ground_position_flag_{flag}.png")
     else:
         plt.show()
+
 
 # Plot for each flag
 for flag in [1, 2, 3]:
