@@ -76,6 +76,12 @@ data = pd.DataFrame({
 
 
 def plot_for_flag(flag, data, no_gui):
+    if flag == 1:
+        number = "1st"
+    elif flag == 2:
+        number = "2nd"
+    elif flag == 3:
+        number = "3rd"
     filtered_data = data[data['telescope_flag'] == flag]
     fig, axs = plt.subplots(3, 1, figsize=(10, 15))
 
@@ -86,7 +92,7 @@ def plot_for_flag(flag, data, no_gui):
     axs[2].scatter(filtered_data['x_ymin'],
                    filtered_data['y_ymin'], s=5, alpha=1.0, label='Y Min')
     fig.suptitle(
-        f"Scatter plot of ground position in the image sensor (Flag {flag})")
+        f"Scatter plot of ground position in the image sensor ({number})")
     axs[0].set_xlabel("X [pix]")
     axs[0].set_ylabel("Y [pix]")
     axs[1].set_xlabel("X [pix]")
@@ -96,19 +102,23 @@ def plot_for_flag(flag, data, no_gui):
     axs[0].legend()
     axs[1].legend()
     axs[2].legend()
+    axs[0].set_xticks(np.arange(int(min(filtered_data['x_center']))-1, 1, 1))
+    axs[1].set_xticks(np.arange(int(min(filtered_data['x_ymax']))-1, 1, 1))
+    axs[2].set_xticks(np.arange(int(min(filtered_data['x_ymin']))-1, 1, 1))
+    axs[0].set_ylim(int(min(filtered_data['y_center']))-0.01,
+                    int(max(filtered_data['y_center']))+0.01)
+    axs[1].set_ylim(int(min(filtered_data['y_ymax']))-0.01,
+                    int(max(filtered_data['y_ymax']))+0.01)
+    axs[2].set_ylim(int(min(filtered_data['y_ymin']))-0.01,
+                    int(max(filtered_data['y_ymin']))+0.01)
     axs[0].grid(True)
     axs[1].grid(True)
     axs[2].grid(True)
-    axs[0].set_ylim(int(min(filtered_data['y_center']))-0.1,
-                    int(max(filtered_data['y_center']))+0.1)
-    axs[1].set_ylim(int(min(filtered_data['y_ymax']))-0.1,
-                    int(max(filtered_data['y_ymax']))+0.1)
-    axs[2].set_ylim(int(min(filtered_data['y_ymin']))-0.1,
-                    int(max(filtered_data['y_ymin']))+0.1)
 
     # Data save
     if no_gui:
-        plt.savefig(f"{read_file_tag}_ground_position_flag_{flag}.png")
+        plt.savefig(f"{read_file_tag}_ground_position_{number}.png")
+        plt.savefig(f"{read_file_tag}_ground_position_flag_{number}.png")
     else:
         plt.show()
 
