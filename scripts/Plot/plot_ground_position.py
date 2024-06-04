@@ -118,7 +118,6 @@ def plot_for_flag(flag, data, no_gui):
     # Data save
     if no_gui:
         plt.savefig(f"{read_file_tag}_ground_position_{number}.png")
-        plt.savefig(f"{read_file_tag}_ground_position_flag_{number}.png")
     else:
         plt.show()
 
