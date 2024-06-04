@@ -109,8 +109,7 @@ void EarthRotation::InitializeParameters() {
   }
 }
 
-void EarthRotation::Update(const double julian_sec) {
-  double julian_date = julian_sec / (60.0 * 60.0 * 24.0);
+void EarthRotation::Update(const double julian_date) {
   double gmst_rad = gstime(julian_date);  // It is a bit different with 長沢(Nagasawa)'s algorithm. TODO: Check the correctness
 
   if (rotation_mode_ == EarthRotationMode::kFull) {

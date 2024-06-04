@@ -25,7 +25,7 @@ void Dynamics::Initialize(const SimulationConfiguration* simulation_configuratio
   const LocalCelestialInformation& local_celestial_information = local_environment_->GetCelestialInformation();
   // Initialize
   orbit_ = InitOrbit(&(local_celestial_information.GetGlobalInformation()), simulation_configuration->spacecraft_file_list_[spacecraft_id],
-                     simulation_time->GetOrbitRkStepTime_s(), simulation_time->GetCurrentTime_js(),
+                     simulation_time->GetOrbitRkStepTime_s(), simulation_time->GetCurrentTime_jd(),
                      local_celestial_information.GetGlobalInformation().GetCenterBodyGravityConstant_m3_s2(), "ORBIT", relative_information);
   attitude_ = InitAttitude(simulation_configuration->spacecraft_file_list_[spacecraft_id], orbit_, &local_celestial_information,
                            simulation_time->GetAttitudeRkStepTime_s(), structure->GetKinematicsParameters().GetInertiaTensor_b_kgm2(), spacecraft_id);
@@ -43,7 +43,7 @@ void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestia
   }
   // Orbit Propagation
   if (simulation_time->GetOrbitPropagateFlag()) {
-    orbit_->Propagate(simulation_time->GetElapsedTime_s(), simulation_time->GetCurrentTime_js());
+    orbit_->Propagate(simulation_time->GetElapsedTime_s(), simulation_time->GetCurrentTime_jd());
   }
   // Attitude dependent update
   orbit_->UpdateByAttitude(attitude_->GetQuaternion_i2b());

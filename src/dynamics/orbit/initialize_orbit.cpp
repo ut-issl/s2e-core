@@ -12,11 +12,10 @@
 #include "rk4_orbit_propagation.hpp"
 #include "sgp4_orbit_propagation.hpp"
 
-Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string initialize_file, double step_width_s, double current_time_js,
+Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string initialize_file, double step_width_s, double current_time_jd,
                  double gravity_constant_m3_s2, std::string section, RelativeInformation* relative_information) {
   auto conf = IniAccess(initialize_file);
   const char* section_ = section.c_str();
-  double current_time_jd = current_time_js / 86400.0;
   Orbit* orbit;
 
   // Initialize mode
@@ -42,7 +41,7 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     conf.ReadChar(section_, "tle1", 80, tle1);
     conf.ReadChar(section_, "tle2", 80, tle2);
 
-    orbit = new Sgp4OrbitPropagation(celestial_information, tle1, tle2, wgs_setting, current_time_js);
+    orbit = new Sgp4OrbitPropagation(celestial_information, tle1, tle2, wgs_setting, current_time_jd);
   } else if (propagate_mode == "RELATIVE") {
     // initialize orbit for relative dynamics of formation flying
     RelativeOrbit::RelativeOrbitUpdateMethod update_method =
