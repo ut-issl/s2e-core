@@ -134,13 +134,13 @@ class Attitude : public ILoggable, public SimulationObject {
    * @brief Calculate angular momentum
    */
   void CalcAngularMomentum(void);
-
-  /**
-   * @fn CalcAngularVelocityMatrix
-   * @brief Generate angular velocity matrix for kinematics calculation
-   * @param [in] angular_velocity_b_rad_s: Angular velocity [rad/s]
-   */
-  libra::Matrix<4, 4> CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s);
 };
+
+/**
+ * @fn CalcAngularVelocityMatrix
+ * @brief Generate angular velocity matrix for kinematics calculation
+ * @param [in] angular_velocity_b_rad_s: Angular velocity [rad/s]
+ */
+libra::Matrix<4, 4> CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s);
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_

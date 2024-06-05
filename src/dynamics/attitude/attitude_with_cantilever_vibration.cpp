@@ -5,6 +5,7 @@
 #include "attitude_with_cantilever_vibration.hpp"
 
 #include <logger/log_utility.hpp>
+#include <math_physics/numerical_integration/runge_kutta_4.hpp>
 #include <utilities/macros.hpp>
 
 AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
@@ -12,7 +13,8 @@ AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
     const libra::Matrix<3, 3>& inertia_tensor_cantilever_kgm2, const double damping_ratio_cantilever,
     const double intrinsic_angular_velocity_cantilever_rad_s, const libra::Vector<3>& torque_b_Nm, const double propagation_step_s,
     const std::string& simulation_object_name)
-    : Attitude(inertia_tensor_kgm2, simulation_object_name) {
+    : Attitude(inertia_tensor_kgm2, simulation_object_name),
+      numerical_integrator_(propagation_step_s, attitude_ode_, libra::numerical_integration::NumericalIntegrationMethod::kRk4) {
   angular_velocity_b_rad_s_ = angular_velocity_b_rad_s;
   quaternion_i2b_ = quaternion_i2b;
   torque_b_Nm_ = torque_b_Nm;
@@ -21,11 +23,12 @@ AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
   angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
   previous_inertia_tensor_kgm2_ = inertia_tensor_kgm2_;
   inertia_tensor_cantilever_kgm2_ = inertia_tensor_cantilever_kgm2;
-  attenuateion_coefficient_ = 2 * damping_ratio_cantilever * intrinsic_angular_velocity_cantilever_rad_s;
+  attenuation_coefficient_ = 2 * damping_ratio_cantilever * intrinsic_angular_velocity_cantilever_rad_s;
   spring_coefficient_ = pow(intrinsic_angular_velocity_cantilever_rad_s, 2.0);
   inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
   inverse_equivalent_inertia_tensor_cantilever_ = CalcInverseMatrix(inertia_tensor_kgm2_ - inertia_tensor_cantilever_kgm2_) * inertia_tensor_kgm2_;
   CalcAngularMomentum();
+  SetOdeParameters();
 }
 
 AttitudeWithCantileverVibration::~AttitudeWithCantileverVibration() {}
@@ -58,19 +61,36 @@ void AttitudeWithCantileverVibration::SetParameters(const MonteCarloSimulationEx
   CalcAngularMomentum();
 }
 
+void AttitudeWithCantileverVibration::SetOdeParameters() {
+  attitude_ode_.SetAttenuationCoefficient(attenuation_coefficient_);
+  attitude_ode_.SetSpringCoefficient(spring_coefficient_);
+  attitude_ode_.SetTorque_b_Nm(torque_b_Nm_);
+  attitude_ode_.SetTorqueInertiaTensor_b_Nm(torque_inertia_tensor_b_Nm_);
+  attitude_ode_.SetAngularMomentumReactionWheel_b_Nms(angular_momentum_reaction_wheel_b_Nms_);
+  attitude_ode_.SetInverseInertiaTensor(inverse_inertia_tensor_);
+  attitude_ode_.SetPreviousInertiaTensor_kgm2(previous_inertia_tensor_kgm2_);
+  attitude_ode_.SetInertiaTensorCantilever_kgm2(inertia_tensor_cantilever_kgm2_);
+  attitude_ode_.SetInverseEquivalentInertiaTensorCantilever(inverse_equivalent_inertia_tensor_cantilever_);
+}
+
 void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   if (!is_calc_enabled_) return;
 
   libra::Matrix<3, 3> dot_inertia_tensor =
       (1.0 / (end_time_s - current_propagation_time_s_)) * (inertia_tensor_kgm2_ - previous_inertia_tensor_kgm2_);
-  torque_inertia_tensor_change_b_Nm_ = dot_inertia_tensor * angular_velocity_b_rad_s_;
+  torque_inertia_tensor_b_Nm_ = dot_inertia_tensor * angular_velocity_b_rad_s_;
   inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
+  SetOdeParameters();
 
+  libra::Vector<13> state = SetStateFromPhysicalQuantities();
+  numerical_integrator_.GetIntegrator()->SetState(propagation_step_s_, state);
   while (end_time_s - current_propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
-    RungeKuttaOneStep(current_propagation_time_s_, propagation_step_s_);
+    numerical_integrator_.GetIntegrator()->Integrate();
     current_propagation_time_s_ += propagation_step_s_;
   }
-  RungeKuttaOneStep(current_propagation_time_s_, end_time_s - current_propagation_time_s_);
+  numerical_integrator_.GetIntegrator()->SetState(end_time_s - current_propagation_time_s_, numerical_integrator_.GetIntegrator()->GetState());
+  numerical_integrator_.GetIntegrator()->Integrate();
+  SetPhysicalQuantitiesFromState(numerical_integrator_.GetIntegrator()->GetState());
 
   // Update information
   current_propagation_time_s_ = end_time_s;
@@ -78,104 +98,35 @@ void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   CalcAngularMomentum();
 }
 
-libra::Vector<13> AttitudeWithCantileverVibration::AttitudeDynamicsAndKinematics(libra::Vector<13> x, double t) {
-  UNUSED(t);
-
-  libra::Vector<13> dxdt;
-
-  libra::Vector<3> omega_b_rad_s;
+libra::Vector<13> AttitudeWithCantileverVibration::SetStateFromPhysicalQuantities() {
+  libra::Vector<13> state;
   for (int i = 0; i < 3; i++) {
-    omega_b_rad_s[i] = x[i];
+    state[i] = angular_velocity_b_rad_s_[i];
   }
-  libra::Vector<3> omega_cantilever_rad_s;
   for (int i = 0; i < 3; i++) {
-    omega_cantilever_rad_s[i] = x[i + 3];
+    state[i + 3] = angular_velocity_cantilever_rad_s_[i];
   }
-
-  libra::Vector<3> euler_angle_cantilever_rad;
-  for (int i = 0; i < 3; i++) {
-    euler_angle_cantilever_rad[i] = x[i + 10];
-  }
-
-  libra::Vector<3> angular_momentum_total_b_Nms = (previous_inertia_tensor_kgm2_ * omega_b_rad_s) + angular_momentum_reaction_wheel_b_Nms_;
-  libra::Vector<3> net_torque_b_Nm =
-      torque_b_Nm_ - libra::OuterProduct(omega_b_rad_s, angular_momentum_total_b_Nms) - torque_inertia_tensor_change_b_Nm_;
-
-  libra::Vector<3> angular_accelaration_cantilever_rad_s2 =
-      -(inverse_equivalent_inertia_tensor_cantilever_ *
-        (attenuateion_coefficient_ * omega_cantilever_rad_s + spring_coefficient_ * euler_angle_cantilever_rad)) -
-      inverse_inertia_tensor_ * net_torque_b_Nm;
-
-  libra::Vector<3> rhs = inverse_inertia_tensor_ * (net_torque_b_Nm - inertia_tensor_cantilever_kgm2_ * angular_accelaration_cantilever_rad_s2);
-
-  for (int i = 0; i < 3; ++i) {
-    dxdt[i] = rhs[i];
-  }
-
-  for (int i = 0; i < 3; i++) {
-    dxdt[i + 3] = angular_accelaration_cantilever_rad_s2[i];
-  }
-
-  libra::Vector<4> quaternion_i2b;
   for (int i = 0; i < 4; i++) {
-    quaternion_i2b[i] = x[i + 6];
+    state[i + 6] = quaternion_i2b_[i];
   }
-
-  libra::Vector<4> d_quaternion = 0.5 * CalcAngularVelocityMatrix(omega_b_rad_s) * quaternion_i2b;
-
-  for (int i = 0; i < 4; i++) {
-    dxdt[i + 6] = d_quaternion[i];
-  }
-
   for (int i = 0; i < 3; i++) {
-    dxdt[i + 10] = omega_cantilever_rad_s[i];
+    state[i + 10] = euler_angular_cantilever_rad_[i];
   }
-
-  return dxdt;
+  return state;
 }
 
-void AttitudeWithCantileverVibration::RungeKuttaOneStep(double t, double dt) {
-  libra::Vector<13> x;
+void AttitudeWithCantileverVibration::SetPhysicalQuantitiesFromState(libra::Vector<13> state) {
   for (int i = 0; i < 3; i++) {
-    x[i] = angular_velocity_b_rad_s_[i];
+    angular_velocity_b_rad_s_[i] = state[i];
   }
   for (int i = 0; i < 3; i++) {
-    x[i + 3] = angular_velocity_cantilever_rad_s_[i];
+    angular_velocity_cantilever_rad_s_[i] = state[i + 3];
   }
   for (int i = 0; i < 4; i++) {
-    x[i + 6] = quaternion_i2b_[i];
-  }
-  for (int i = 0; i < 3; i++) {
-    x[i + 10] = euler_angular_cantilever_rad_[i];
-  }
-
-  libra::Vector<13> k1, k2, k3, k4;
-  libra::Vector<13> xk2, xk3, xk4;
-
-  k1 = AttitudeDynamicsAndKinematics(x, t);
-  xk2 = x + (dt / 2.0) * k1;
-
-  k2 = AttitudeDynamicsAndKinematics(xk2, (t + dt / 2.0));
-  xk3 = x + (dt / 2.0) * k2;
-
-  k3 = AttitudeDynamicsAndKinematics(xk3, (t + dt / 2.0));
-  xk4 = x + dt * k3;
-
-  k4 = AttitudeDynamicsAndKinematics(xk4, (t + dt));
-
-  libra::Vector<13> next_x = x + (dt / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
-
-  for (int i = 0; i < 3; i++) {
-    angular_velocity_b_rad_s_[i] = next_x[i];
-  }
-  for (int i = 0; i < 3; i++) {
-    angular_velocity_cantilever_rad_s_[i] = next_x[i + 3];
-  }
-  for (int i = 0; i < 4; i++) {
-    quaternion_i2b_[i] = next_x[i + 6];
+    quaternion_i2b_[i] = state[i + 6];
   }
   quaternion_i2b_.Normalize();
   for (int i = 0; i < 3; i++) {
-    euler_angular_cantilever_rad_[i] = next_x[i + 10];
+    euler_angular_cantilever_rad_[i] = state[i + 10];
   }
 }

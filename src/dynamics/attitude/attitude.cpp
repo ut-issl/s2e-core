@@ -57,7 +57,7 @@ void Attitude::CalcAngularMomentum(void) {
   kinetic_energy_J_ = 0.5 * libra::InnerProduct(angular_momentum_spacecraft_b_Nms_, angular_velocity_b_rad_s_);
 }
 
-libra::Matrix<4, 4> Attitude::CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s) {
+libra::Matrix<4, 4> CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s) {
   libra::Matrix<4, 4> angular_velocity_matrix;
 
   angular_velocity_matrix[0][0] = 0.0f;
