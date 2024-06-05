@@ -5,7 +5,6 @@
 #include "attitude_with_cantilever_vibration.hpp"
 
 #include <logger/log_utility.hpp>
-#include <math_physics/numerical_integration/runge_kutta_4.hpp>
 #include <utilities/macros.hpp>
 
 AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
