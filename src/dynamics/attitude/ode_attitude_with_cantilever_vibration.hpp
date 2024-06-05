@@ -1,10 +1,10 @@
 /**
- * @file ode_attitude.hpp
- * @brief Class to implement Ordinary Differential Equations for Attitude
+ * @file ode_attitude_with_cantilever_vibration.hpp
+ * @brief Class to implement Ordinary Differential Equations for Attitude propagator with cantilever vibration
  */
 
-#ifndef S2E_DYNAMICS_ATTITUDE_ODE_ATTITUDE_HPP_
-#define S2E_DYNAMICS_ATTITUDE_ODE_ATTITUDE_HPP_
+#ifndef S2E_DYNAMICS_ATTITUDE_ODE_ATTITUDE_WITH_CANTILEVER_VIBRATION_HPP_
+#define S2E_DYNAMICS_ATTITUDE_ODE_ATTITUDE_WITH_CANTILEVER_VIBRATION_HPP_
 
 #include <math_physics/numerical_integration/interface_ode.hpp>
 #include <utilities/macros.hpp>
@@ -15,6 +15,8 @@ namespace libra::numerical_integration {
 /**
  * @class AttitudeWithCantileverVibrationOde
  * @brief Class to implement Ordinary Differential Equations for Attitude with Cantilever Vibration
+ * @note  State variables in this ODE compose the following elenents (in order): angular_velocity_b_rad_s_ (3-dimension),
+ *        angular_velocity_cantilever_rad_s_ (3-dimension), quaternion_i2b_ (4-dmension), and euler_angular_cantilever_rad_ (3-dimension)
  */
 class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
  public:
@@ -144,4 +146,4 @@ class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
 
 }  // namespace libra::numerical_integration
 
-#endif  // S2E_DYNAMICS_ATTITUDE_ODE_ATTITUDE_HPP_
+#endif  // S2E_DYNAMICS_ATTITUDE_ODE_ATTITUDE_WITH_CANTILEVER_VIBRATION_HPP_

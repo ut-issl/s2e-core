@@ -1,6 +1,6 @@
 /**
  * @file attitude_with_cantilever_vibration.cpp
- * @brief Class to calculate spacecraft attitude with Runge-Kutta method
+ * @brief Class to calculate spacecraft attitude with cantilever vibration
  */
 #include "attitude_with_cantilever_vibration.hpp"
 
@@ -99,33 +99,33 @@ void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
 
 libra::Vector<13> AttitudeWithCantileverVibration::SetStateFromPhysicalQuantities() {
   libra::Vector<13> state;
-  for (int i = 0; i < 3; i++) {
+  for (size_t i = 0; i < 3; i++) {
     state[i] = angular_velocity_b_rad_s_[i];
   }
-  for (int i = 0; i < 3; i++) {
+  for (size_t i = 0; i < 3; i++) {
     state[i + 3] = angular_velocity_cantilever_rad_s_[i];
   }
-  for (int i = 0; i < 4; i++) {
+  for (size_t i = 0; i < 4; i++) {
     state[i + 6] = quaternion_i2b_[i];
   }
-  for (int i = 0; i < 3; i++) {
+  for (size_t i = 0; i < 3; i++) {
     state[i + 10] = euler_angular_cantilever_rad_[i];
   }
   return state;
 }
 
 void AttitudeWithCantileverVibration::SetPhysicalQuantitiesFromState(libra::Vector<13> state) {
-  for (int i = 0; i < 3; i++) {
+  for (size_t i = 0; i < 3; i++) {
     angular_velocity_b_rad_s_[i] = state[i];
   }
-  for (int i = 0; i < 3; i++) {
+  for (size_t i = 0; i < 3; i++) {
     angular_velocity_cantilever_rad_s_[i] = state[i + 3];
   }
-  for (int i = 0; i < 4; i++) {
+  for (size_t i = 0; i < 4; i++) {
     quaternion_i2b_[i] = state[i + 6];
   }
   quaternion_i2b_.Normalize();
-  for (int i = 0; i < 3; i++) {
+  for (size_t i = 0; i < 3; i++) {
     euler_angular_cantilever_rad_[i] = state[i + 10];
   }
 }

@@ -1,6 +1,6 @@
 /**
  * @file attitude_with_cantilever_vibration.hpp
- * @brief Class to calculate spacecraft attitude with Runge-Kutta method
+ * @brief Class to calculate spacecraft attitude with cantilever vibration
  */
 
 #ifndef S2E_DYNAMICS_ATTITUDE_ATTITUDE_WITH_CANTILEVER_VIBRATION_HPP_
@@ -14,7 +14,7 @@
 
 /**
  * @class AttitudeWithCantileverVibration
- * @brief Class to calculate spacecraft attitude with Runge-Kutta method
+ * @brief Class to calculate spacecraft attitude with cantilever vibration
  */
 class AttitudeWithCantileverVibration : public Attitude {
  public:
