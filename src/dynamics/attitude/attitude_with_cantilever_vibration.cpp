@@ -20,14 +20,21 @@ AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
   propagation_step_s_ = propagation_step_s;
   current_propagation_time_s_ = 0.0;
   angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
-  previous_inertia_tensor_kgm2_ = inertia_tensor_kgm2_;
-  inertia_tensor_cantilever_kgm2_ = inertia_tensor_cantilever_kgm2;
-  attenuation_coefficient_ = 2 * damping_ratio_cantilever * intrinsic_angular_velocity_cantilever_rad_s;
-  spring_coefficient_ = pow(intrinsic_angular_velocity_cantilever_rad_s, 2.0);
-  inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
-  inverse_equivalent_inertia_tensor_cantilever_ = CalcInverseMatrix(inertia_tensor_kgm2_ - inertia_tensor_cantilever_kgm2_) * inertia_tensor_kgm2_;
+
+  attitude_ode_.SetInertiaTensorCantilever_kgm2(inertia_tensor_cantilever_kgm2);
+  attitude_ode_.SetPreviousInertiaTensor_kgm2(inertia_tensor_kgm2_);
+  double attenuation_coefficient = 2 * damping_ratio_cantilever * intrinsic_angular_velocity_cantilever_rad_s;
+  attitude_ode_.SetAttenuationCoefficient(attenuation_coefficient);
+  double spring_coefficient = pow(intrinsic_angular_velocity_cantilever_rad_s, 2.0);
+  attitude_ode_.SetSpringCoefficient(spring_coefficient);
+  attitude_ode_.SetInverseInertiaTensor(CalcInverseMatrix(inertia_tensor_kgm2_));
+  libra::Matrix<3, 3> inverse_equivalent_inertia_tensor_cantilever =
+      CalcInverseMatrix(inertia_tensor_kgm2_ - inertia_tensor_cantilever_kgm2) * inertia_tensor_kgm2_;
+  attitude_ode_.SetInverseEquivalentInertiaTensorCantilever(inverse_equivalent_inertia_tensor_cantilever);
+  attitude_ode_.SetTorque_b_Nm(torque_b_Nm_);
+  attitude_ode_.SetAngularMomentumReactionWheel_b_Nms(angular_momentum_reaction_wheel_b_Nms_);
+
   CalcAngularMomentum();
-  SetOdeParameters();
 }
 
 AttitudeWithCantileverVibration::~AttitudeWithCantileverVibration() {}
@@ -60,26 +67,16 @@ void AttitudeWithCantileverVibration::SetParameters(const MonteCarloSimulationEx
   CalcAngularMomentum();
 }
 
-void AttitudeWithCantileverVibration::SetOdeParameters() {
-  attitude_ode_.SetAttenuationCoefficient(attenuation_coefficient_);
-  attitude_ode_.SetSpringCoefficient(spring_coefficient_);
-  attitude_ode_.SetTorque_b_Nm(torque_b_Nm_);
-  attitude_ode_.SetTorqueInertiaTensor_b_Nm(torque_inertia_tensor_b_Nm_);
-  attitude_ode_.SetAngularMomentumReactionWheel_b_Nms(angular_momentum_reaction_wheel_b_Nms_);
-  attitude_ode_.SetInverseInertiaTensor(inverse_inertia_tensor_);
-  attitude_ode_.SetPreviousInertiaTensor_kgm2(previous_inertia_tensor_kgm2_);
-  attitude_ode_.SetInertiaTensorCantilever_kgm2(inertia_tensor_cantilever_kgm2_);
-  attitude_ode_.SetInverseEquivalentInertiaTensorCantilever(inverse_equivalent_inertia_tensor_cantilever_);
-}
-
 void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   if (!is_calc_enabled_) return;
 
-  libra::Matrix<3, 3> dot_inertia_tensor =
-      (1.0 / (end_time_s - current_propagation_time_s_)) * (inertia_tensor_kgm2_ - previous_inertia_tensor_kgm2_);
-  torque_inertia_tensor_b_Nm_ = dot_inertia_tensor * angular_velocity_b_rad_s_;
-  inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
-  SetOdeParameters();
+  libra::Matrix<3, 3> previous_inertia_tensor_kgm2 = attitude_ode_.GetPreviousInertiaTensor_kgm2();
+  libra::Matrix<3, 3> dot_inertia_tensor = (1.0 / (end_time_s - current_propagation_time_s_)) * (inertia_tensor_kgm2_ - previous_inertia_tensor_kgm2);
+  libra::Vector<3> torque_inertia_tensor_b_Nm = dot_inertia_tensor * angular_velocity_b_rad_s_;
+  attitude_ode_.SetTorqueInertiaTensor_b_Nm(torque_inertia_tensor_b_Nm);
+  attitude_ode_.SetInverseInertiaTensor(CalcInverseMatrix(inertia_tensor_kgm2_));
+  attitude_ode_.SetTorque_b_Nm(torque_b_Nm_);
+  attitude_ode_.SetAngularMomentumReactionWheel_b_Nms(angular_momentum_reaction_wheel_b_Nms_);
 
   libra::Vector<13> state = SetStateFromPhysicalQuantities();
   numerical_integrator_.GetIntegrator()->SetState(propagation_step_s_, state);
@@ -93,7 +90,7 @@ void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
 
   // Update information
   current_propagation_time_s_ = end_time_s;
-  previous_inertia_tensor_kgm2_ = inertia_tensor_kgm2_;
+  attitude_ode_.SetPreviousInertiaTensor_kgm2(inertia_tensor_kgm2_);
   CalcAngularMomentum();
 }
 
