@@ -34,6 +34,11 @@ class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
       omega_cantilever_rad_s[i] = state[i + 3];
     }
 
+    libra::Vector<4> quaternion_i2b;
+    for (size_t i = 0; i < 4; i++) {
+      quaternion_i2b[i] = state[i + 6];
+    }
+
     libra::Vector<3> euler_angle_cantilever_rad;
     for (size_t i = 0; i < 3; i++) {
       euler_angle_cantilever_rad[i] = state[i + 10];
@@ -55,11 +60,6 @@ class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
 
     for (size_t i = 0; i < 3; i++) {
       output[i + 3] = angular_accelaration_cantilever_rad_s2[i];
-    }
-
-    libra::Vector<4> quaternion_i2b;
-    for (size_t i = 0; i < 4; i++) {
-      quaternion_i2b[i] = state[i + 6];
     }
 
     libra::Vector<4> d_quaternion = 0.5 * CalcAngularVelocityMatrix(omega_b_rad_s) * quaternion_i2b;
