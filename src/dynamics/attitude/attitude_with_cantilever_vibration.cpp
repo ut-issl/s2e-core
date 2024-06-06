@@ -4,6 +4,7 @@
  */
 #include "attitude_with_cantilever_vibration.hpp"
 
+#include <cassert>
 #include <logger/log_utility.hpp>
 #include <utilities/macros.hpp>
 
@@ -63,7 +64,7 @@ void AttitudeWithCantileverVibration::SetParameters(const MonteCarloSimulationEx
 
   // TODO: Consider the following calculation is needed here?
   current_propagation_time_s_ = 0.0;
-  angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);  //!< Consider how to handle this variable
+  angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);  //!< TODO: Consider how to handle this variable
   CalcAngularMomentum();
 }
 
@@ -71,6 +72,7 @@ void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   if (!is_calc_enabled_) return;
 
   libra::Matrix<3, 3> previous_inertia_tensor_kgm2 = attitude_ode_.GetPreviousInertiaTensor_kgm2();
+  assert(end_time_s - current_propagation_time_s_ > 1e-6);
   libra::Matrix<3, 3> dot_inertia_tensor = (1.0 / (end_time_s - current_propagation_time_s_)) * (inertia_tensor_kgm2_ - previous_inertia_tensor_kgm2);
   libra::Vector<3> torque_inertia_tensor_b_Nm = dot_inertia_tensor * angular_velocity_b_rad_s_;
   attitude_ode_.SetTorqueInertiaTensor_b_Nm(torque_inertia_tensor_b_Nm);
