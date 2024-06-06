@@ -14,7 +14,8 @@ AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
     const double intrinsic_angular_velocity_cantilever_rad_s, const libra::Vector<3>& torque_b_Nm, const double propagation_step_s,
     const std::string& simulation_object_name)
     : Attitude(inertia_tensor_kgm2, simulation_object_name),
-      numerical_integrator_(propagation_step_s, attitude_ode_, libra::numerical_integration::NumericalIntegrationMethod::kRk4) {
+      numerical_integrator_(propagation_step_s, attitude_ode_,
+                            libra::numerical_integration::NumericalIntegrationMethod::kRk4) {  //!< TODO: Set NumericalIntegrationMethod in *.ini file
   angular_velocity_b_rad_s_ = angular_velocity_b_rad_s;
   quaternion_i2b_ = quaternion_i2b;
   torque_b_Nm_ = torque_b_Nm;
@@ -80,7 +81,8 @@ void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   attitude_ode_.SetTorque_b_Nm(torque_b_Nm_);
   attitude_ode_.SetAngularMomentumReactionWheel_b_Nms(angular_momentum_reaction_wheel_b_Nms_);
 
-  libra::Vector<13> state = SetStateFromPhysicalQuantities();
+  libra::Vector<13> state = attitude_ode_.SetStateFromPhysicalQuantities(angular_velocity_b_rad_s_, angular_velocity_cantilever_rad_s_,
+                                                                         quaternion_i2b_, euler_angular_cantilever_rad_);
   numerical_integrator_.GetIntegrator()->SetState(propagation_step_s_, state);
   while (end_time_s - current_propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     numerical_integrator_.GetIntegrator()->Integrate();
@@ -88,43 +90,12 @@ void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   }
   numerical_integrator_.GetIntegrator()->SetState(end_time_s - current_propagation_time_s_, numerical_integrator_.GetIntegrator()->GetState());
   numerical_integrator_.GetIntegrator()->Integrate();
-  SetPhysicalQuantitiesFromState(numerical_integrator_.GetIntegrator()->GetState());
+  attitude_ode_.SetPhysicalQuantitiesFromState(numerical_integrator_.GetIntegrator()->GetState(), angular_velocity_b_rad_s_,
+                                               angular_velocity_cantilever_rad_s_, quaternion_i2b_, euler_angular_cantilever_rad_);
+  quaternion_i2b_.Normalize();
 
   // Update information
   current_propagation_time_s_ = end_time_s;
   attitude_ode_.SetPreviousInertiaTensor_kgm2(inertia_tensor_kgm2_);
   CalcAngularMomentum();
-}
-
-libra::Vector<13> AttitudeWithCantileverVibration::SetStateFromPhysicalQuantities() {
-  libra::Vector<13> state;
-  for (size_t i = 0; i < 3; i++) {
-    state[i] = angular_velocity_b_rad_s_[i];
-  }
-  for (size_t i = 0; i < 3; i++) {
-    state[i + 3] = angular_velocity_cantilever_rad_s_[i];
-  }
-  for (size_t i = 0; i < 4; i++) {
-    state[i + 6] = quaternion_i2b_[i];
-  }
-  for (size_t i = 0; i < 3; i++) {
-    state[i + 10] = euler_angular_cantilever_rad_[i];
-  }
-  return state;
-}
-
-void AttitudeWithCantileverVibration::SetPhysicalQuantitiesFromState(libra::Vector<13> state) {
-  for (size_t i = 0; i < 3; i++) {
-    angular_velocity_b_rad_s_[i] = state[i];
-  }
-  for (size_t i = 0; i < 3; i++) {
-    angular_velocity_cantilever_rad_s_[i] = state[i + 3];
-  }
-  for (size_t i = 0; i < 4; i++) {
-    quaternion_i2b_[i] = state[i + 6];
-  }
-  quaternion_i2b_.Normalize();
-  for (size_t i = 0; i < 3; i++) {
-    euler_angular_cantilever_rad_[i] = state[i + 10];
-  }
 }

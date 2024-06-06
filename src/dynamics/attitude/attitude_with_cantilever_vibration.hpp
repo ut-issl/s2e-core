@@ -75,18 +75,6 @@ class AttitudeWithCantileverVibration : public Attitude {
 
   libra::numerical_integration::AttitudeWithCantileverVibrationOde attitude_ode_;
   libra::numerical_integration::NumericalIntegratorManager<13> numerical_integrator_;
-
-  /**
-   * @fn SetStateFromPhysicalQuantities
-   * @brief Set state for calculating the ordinary differential equation from physical quantities
-   */
-  libra::Vector<13> SetStateFromPhysicalQuantities();
-
-  /**
-   * @fn SetPhysicalQuantitiesFromState
-   * @brief Set physical quantities from state acquired by calculation of the ordinary differential equation
-   */
-  void SetPhysicalQuantitiesFromState(libra::Vector<13> state);
 };
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_WITH_CANTILEVER_VIBRATION_HPP_
