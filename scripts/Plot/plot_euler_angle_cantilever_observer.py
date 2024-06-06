@@ -1,5 +1,5 @@
 #
-# Plot Angular Velocity Observer
+# Plot Euler Angle of Cantilever Observer
 #
 # arg[1] : read_file_tag : time tag for default CSV output log file. ex. 220627_142946
 #
