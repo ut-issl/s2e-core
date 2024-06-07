@@ -56,3 +56,26 @@ void Attitude::CalcAngularMomentum(void) {
 
   kinetic_energy_J_ = 0.5 * libra::InnerProduct(angular_momentum_spacecraft_b_Nms_, angular_velocity_b_rad_s_);
 }
+
+libra::Matrix<4, 4> CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s) {
+  libra::Matrix<4, 4> angular_velocity_matrix;
+
+  angular_velocity_matrix[0][0] = 0.0f;
+  angular_velocity_matrix[0][1] = angular_velocity_b_rad_s[2];
+  angular_velocity_matrix[0][2] = -angular_velocity_b_rad_s[1];
+  angular_velocity_matrix[0][3] = angular_velocity_b_rad_s[0];
+  angular_velocity_matrix[1][0] = -angular_velocity_b_rad_s[2];
+  angular_velocity_matrix[1][1] = 0.0f;
+  angular_velocity_matrix[1][2] = angular_velocity_b_rad_s[0];
+  angular_velocity_matrix[1][3] = angular_velocity_b_rad_s[1];
+  angular_velocity_matrix[2][0] = angular_velocity_b_rad_s[1];
+  angular_velocity_matrix[2][1] = -angular_velocity_b_rad_s[0];
+  angular_velocity_matrix[2][2] = 0.0f;
+  angular_velocity_matrix[2][3] = angular_velocity_b_rad_s[2];
+  angular_velocity_matrix[3][0] = -angular_velocity_b_rad_s[0];
+  angular_velocity_matrix[3][1] = -angular_velocity_b_rad_s[1];
+  angular_velocity_matrix[3][2] = -angular_velocity_b_rad_s[2];
+  angular_velocity_matrix[3][3] = 0.0f;
+
+  return angular_velocity_matrix;
+}

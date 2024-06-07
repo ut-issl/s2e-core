@@ -8,6 +8,7 @@
 
 #include "attitude.hpp"
 #include "attitude_rk4.hpp"
+#include "attitude_with_cantilever_vibration.hpp"
 #include "controlled_attitude.hpp"
 
 /**
