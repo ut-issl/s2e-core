@@ -16,17 +16,10 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
   const std::string propagate_mode = ini_file.ReadString(section_, "propagate_mode");
   const std::string initialize_mode = ini_file.ReadString(section_, "initialize_mode");
 
-  if (propagate_mode == "RK4" && initialize_mode == "MANUAL") {
-    // RK4 propagator
-    libra::Vector<3> omega_b;
-    ini_file.ReadVector(section_, "initial_angular_velocity_b_rad_s", omega_b);
-    libra::Quaternion quaternion_i2b;
-    ini_file.ReadQuaternion(section_, "initial_quaternion_i2b", quaternion_i2b);
-    libra::Vector<3> torque_b;
-    ini_file.ReadVector(section_, "initial_torque_b_Nm", torque_b);
-
-    attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor_kgm2, torque_b, step_width_s, mc_name);
-  } else if (propagate_mode == "RK4" && initialize_mode == "CONTROLLED") {
+  libra::Vector<3> omega_b;
+  libra::Quaternion quaternion_i2b;
+  libra::Vector<3> torque_b;
+  if (initialize_mode == "CONTROLLED") {
     // Initialize with Controlled attitude (attitude_tmp temporary used)
     IniAccess ini_file_ca(file_name);
     const char* section_ca_ = "CONTROLLED_ATTITUDE";
@@ -35,7 +28,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
 
     AttitudeControlMode main_mode = ConvertStringToCtrlMode(main_mode_in);
     AttitudeControlMode sub_mode = ConvertStringToCtrlMode(sub_mode_in);
-    libra::Quaternion quaternion_i2b;
+
     ini_file_ca.ReadQuaternion(section_, "initial_quaternion_i2b", quaternion_i2b);
     libra::Vector<3> main_target_direction_b, sub_target_direction_b;
     ini_file_ca.ReadVector(section_ca_, "main_pointing_direction_b", main_target_direction_b);
@@ -45,10 +38,36 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
                                                      inertia_tensor_kgm2, local_celestial_information, orbit, mc_name_temp);
     attitude_temp->Propagate(step_width_s);
     quaternion_i2b = attitude_temp->GetQuaternion_i2b();
-    libra::Vector<3> omega_b = libra::Vector<3>(0.0);
-    libra::Vector<3> torque_b = libra::Vector<3>(0.0);
+    omega_b = libra::Vector<3>(0.0);
+    torque_b = libra::Vector<3>(0.0);
+  } else {
+    // Including the case: initialize_mode == "MANUAL"
+    ini_file.ReadVector(section_, "initial_angular_velocity_b_rad_s", omega_b);
+    ini_file.ReadQuaternion(section_, "initial_quaternion_i2b", quaternion_i2b);
+    ini_file.ReadVector(section_, "initial_torque_b_Nm", torque_b);
+  }
 
+  if (propagate_mode == "RK4") {
     attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor_kgm2, torque_b, step_width_s, mc_name);
+  } else if (propagate_mode == "CANTILEVER_VIBRATION") {
+    std::string ini_structure_name = ini_file.ReadString("SETTING_FILES", "structure_file");
+    IniAccess ini_structure(ini_structure_name);
+
+    const char* section_cantilever = "CANTILEVER_PARAMETERS";
+    libra::Matrix<3, 3> inertia_tensor_cantilever_kgm2;
+    libra::Vector<9> inertia_vec;
+    ini_structure.ReadVector(section_cantilever, "inertia_tensor_cantilever_kgm2", inertia_vec);
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        inertia_tensor_cantilever_kgm2[i][j] = inertia_vec[i * 3 + j];
+      }
+    }
+    double damping_ratio_cantilever = ini_structure.ReadDouble(section_cantilever, "damping_ratio_cantilever");
+    double intrinsic_angular_velocity_cantilever_rad_s = ini_structure.ReadDouble(section_cantilever, "intrinsic_angular_velocity_cantilever_rad_s");
+
+    attitude =
+        new AttitudeWithCantileverVibration(omega_b, quaternion_i2b, inertia_tensor_kgm2, inertia_tensor_cantilever_kgm2, damping_ratio_cantilever,
+                                            intrinsic_angular_velocity_cantilever_rad_s, torque_b, step_width_s, mc_name);
   } else if (propagate_mode == "CONTROLLED") {
     // Controlled attitude
     IniAccess ini_file_ca(file_name);
@@ -69,13 +88,6 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
   } else {
     std::cerr << "ERROR: attitude propagation mode: " << propagate_mode << " is not defined!" << std::endl;
     std::cerr << "The attitude mode is automatically set as RK4" << std::endl;
-
-    libra::Vector<3> omega_b;
-    ini_file.ReadVector(section_, "initial_angular_velocity_b_rad_s", omega_b);
-    libra::Quaternion quaternion_i2b;
-    ini_file.ReadQuaternion(section_, "initial_quaternion_i2b", quaternion_i2b);
-    libra::Vector<3> torque_b;
-    ini_file.ReadVector(section_, "initial_torque_b_Nm", torque_b);
 
     attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor_kgm2, torque_b, step_width_s, mc_name);
   }
