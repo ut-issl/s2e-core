@@ -220,14 +220,14 @@ void Telescope::CalculateTargetGroundPosition() {
     double inner_product_spacecraft_target_ymax_direction_ecef_m = InnerProduct(current_spacecraft_position_ecef_m, target_ymax_direction_ecef);
     double inner_product_spacecraft_target_ymin_direction_ecef_m = InnerProduct(current_spacecraft_position_ecef_m, target_ymin_direction_ecef);
     double k_center_m = inner_product_spacecraft_target_center_direction_ecef_m +
-                       sqrt(pow(inner_product_spacecraft_target_center_direction_ecef_m, 2) -
-                                (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
+                        sqrt(pow(inner_product_spacecraft_target_center_direction_ecef_m, 2) -
+                             (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
     double k_ymax_m = inner_product_spacecraft_target_ymax_direction_ecef_m -
-                     sqrt(pow(inner_product_spacecraft_target_ymax_direction_ecef_m, 2) +
-                              (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
+                      sqrt(pow(inner_product_spacecraft_target_ymax_direction_ecef_m, 2) +
+                           (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
     double k_ymin_m = inner_product_spacecraft_target_ymin_direction_ecef_m -
-                     sqrt(pow(inner_product_spacecraft_target_ymin_direction_ecef_m, 2) +
-                              (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
+                      sqrt(pow(inner_product_spacecraft_target_ymin_direction_ecef_m, 2) +
+                           (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
 
     target_ground_position_center_ecef_m_ = current_spacecraft_position_ecef_m - k_center_m * target_center_direction_ecef;
     target_ground_position_ymax_ecef_m_ = current_spacecraft_position_ecef_m - k_ymax_m * target_ymax_direction_ecef;
