@@ -74,11 +74,15 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
 
   // Calculate imaging time
   double current_jd = simulation_time_->GetCurrentTime_jd();
+  // If start imaging time is later than current time,
+  // the system　prints an error message.
   assert(start_imaging_jd_ > current_jd);
-  double imaging_duration_sec = line_rate_sec_ * stage_mode_ * number_of_lines_per_frame_ * number_of_frames_per_mission_;
+  double imaging_duration_sec = line_rate_sec_ * number_of_lines_per_frame_ * number_of_frames_per_mission_;
   double imaging_duration_day = imaging_duration_sec / 60.0 / 60.0 / 24.0;
   center_imaging_jd = start_imaging_jd_ + imaging_duration_day / 2.0;
   end_imaging_jd = start_imaging_jd_ + imaging_duration_day;
+  // If end imaging time is later than the end of the simulation,
+  // the system prints an error message.
   assert(end_imaging_jd < (current_jd + simulation_time_->GetEndTime_s() / 60.0 / 60.0 / 24.0));
   stage_time_day = line_rate_sec_ * stage_mode_ / 60.0 / 60.0 / 24.0;
 }
