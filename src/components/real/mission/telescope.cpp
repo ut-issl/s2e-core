@@ -186,56 +186,55 @@ void Telescope::ObserveStars() {
 
 void Telescope::CalculateTargetGroundPosition() {
   if (orbit_ != nullptr) {
-    // center position in image sensor at component flame
-    libra::Vector<3> target_center_c;
-    target_center_c[0] = 1;
-    target_center_c[1] = 0;
-    target_center_c[2] = 0;
-    // ymax position in image sensor at component flame
-    libra::Vector<3> target_ymax_c;
-    target_ymax_c[0] = 1;
-    target_ymax_c[1] = initial_ground_position_y_max_y_image_sensor_ * pixel_size_m_ / focal_length_m_;
-    target_ymax_c[2] = initial_ground_position_y_max_x_image_sensor_ * pixel_size_m_ / focal_length_m_;
-    // ymin position in image sensor at component flame
-    libra::Vector<3> target_ymin_c;
-    target_ymin_c[0] = 1;
-    target_ymin_c[1] = initial_ground_position_y_min_y_image_sensor_ * pixel_size_m_ / focal_length_m_;
-    target_ymin_c[2] = initial_ground_position_y_min_x_image_sensor_ * pixel_size_m_ / focal_length_m_;
+    libra::Vector<3> target_center_direction_c;
+    target_center_direction_c[0] = 1;
+    target_center_direction_c[1] = 0;
+    target_center_direction_c[2] = 0;
+    libra::Vector<3> target_ymax_direction_c;
+    target_ymax_direction_c[0] = 1;
+    target_ymax_direction_c[1] = initial_ground_position_y_max_y_image_sensor_ * pixel_size_m_ / focal_length_m_;
+    target_ymax_direction_c[2] = initial_ground_position_y_max_x_image_sensor_ * pixel_size_m_ / focal_length_m_;
+    target_ymax_direction_c = target_ymax_direction_c.CalcNormalizedVector();
+    libra::Vector<3> target_ymin_direction_c;
+    target_ymin_direction_c[0] = 1;
+    target_ymin_direction_c[1] = initial_ground_position_y_min_y_image_sensor_ * pixel_size_m_ / focal_length_m_;
+    target_ymin_direction_c[2] = initial_ground_position_y_min_x_image_sensor_ * pixel_size_m_ / focal_length_m_;
+    target_ymin_direction_c = target_ymin_direction_c.CalcNormalizedVector();
 
-    libra::Vector<3> target_center_b = quaternion_b2c_.Conjugate().FrameConversion(target_center_c);
-    libra::Vector<3> target_ymax_b = quaternion_b2c_.Conjugate().FrameConversion(target_ymax_c);
-    libra::Vector<3> target_ymin_b = quaternion_b2c_.Conjugate().FrameConversion(target_ymin_c);
+    libra::Vector<3> target_center_direction_b = quaternion_b2c_.Conjugate().FrameConversion(target_center_direction_c);
+    libra::Vector<3> target_ymax_direction_b = quaternion_b2c_.Conjugate().FrameConversion(target_ymax_direction_c);
+    libra::Vector<3> target_ymin_direction_b = quaternion_b2c_.Conjugate().FrameConversion(target_ymin_direction_c);
 
     Quaternion quaternion_b2i = attitude_->GetQuaternion_i2b().Conjugate();
-    libra::Vector<3> target_center_i = quaternion_b2i.FrameConversion(target_center_b);
-    libra::Vector<3> target_ymax_i = quaternion_b2i.FrameConversion(target_ymax_b);
-    libra::Vector<3> target_ymin_i = quaternion_b2i.FrameConversion(target_ymin_b);
+    libra::Vector<3> target_center_direction_i = quaternion_b2i.FrameConversion(target_center_direction_b);
+    libra::Vector<3> target_ymax_direction_i = quaternion_b2i.FrameConversion(target_ymax_direction_b);
+    libra::Vector<3> target_ymin_direction_i = quaternion_b2i.FrameConversion(target_ymin_direction_b);
 
     libra::Matrix<3, 3> dcm_i_to_ecef = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef();
-    libra::Vector<3> direction_center_ecef_m = dcm_i_to_ecef * target_center_i;
-    libra::Vector<3> direction_ymax_ecef_m = dcm_i_to_ecef * target_ymax_i;
-    libra::Vector<3> direction_ymin_ecef_m = dcm_i_to_ecef * target_ymin_i;
+    libra::Vector<3> target_center_direction_ecef = dcm_i_to_ecef * target_center_direction_i;
+    libra::Vector<3> target_ymax_direction_ecef = dcm_i_to_ecef * target_ymax_direction_i;
+    libra::Vector<3> target_ymin_direction_ecef = dcm_i_to_ecef * target_ymin_direction_i;
 
     libra::Vector<3> current_spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
-    double k_center = (-(InnerProduct(current_spacecraft_position_ecef_m, direction_center_ecef_m)) -
-                       sqrt(pow(InnerProduct(current_spacecraft_position_ecef_m, direction_center_ecef_m), 2) -
-                            pow(direction_center_ecef_m.CalcNorm(), 2) *
+    double k_center = (-(InnerProduct(current_spacecraft_position_ecef_m, target_center_direction_ecef)) -
+                       sqrt(pow(InnerProduct(current_spacecraft_position_ecef_m, target_center_direction_ecef), 2) -
+                            pow(target_center_direction_ecef.CalcNorm(), 2) *
                                 (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)))) /
-                      pow(direction_center_ecef_m.CalcNorm(), 2);
-    double k_ymax = (-(InnerProduct(current_spacecraft_position_ecef_m, direction_ymax_ecef_m)) -
-                     sqrt(pow(InnerProduct(current_spacecraft_position_ecef_m, direction_ymax_ecef_m), 2) -
-                          pow(direction_ymax_ecef_m.CalcNorm(), 2) *
+                      pow(target_center_direction_ecef.CalcNorm(), 2);
+    double k_ymax = (-(InnerProduct(current_spacecraft_position_ecef_m, target_ymax_direction_ecef)) -
+                     sqrt(pow(InnerProduct(current_spacecraft_position_ecef_m, target_ymax_direction_ecef), 2) -
+                          pow(target_ymax_direction_ecef.CalcNorm(), 2) *
                               (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)))) /
-                    pow(direction_ymax_ecef_m.CalcNorm(), 2);
-    double k_ymin = (-(InnerProduct(current_spacecraft_position_ecef_m, direction_ymin_ecef_m)) -
-                     sqrt(pow(InnerProduct(current_spacecraft_position_ecef_m, direction_ymin_ecef_m), 2) -
-                          pow(direction_ymin_ecef_m.CalcNorm(), 2) *
+                    pow(target_ymax_direction_ecef.CalcNorm(), 2);
+    double k_ymin = (-(InnerProduct(current_spacecraft_position_ecef_m, target_ymin_direction_ecef)) -
+                     sqrt(pow(InnerProduct(current_spacecraft_position_ecef_m, target_ymin_direction_ecef), 2) -
+                          pow(target_ymin_direction_ecef.CalcNorm(), 2) *
                               (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)))) /
-                    pow(direction_ymin_ecef_m.CalcNorm(), 2);
+                    pow(target_ymin_direction_ecef.CalcNorm(), 2);
 
-    target_ground_position_center_ecef_m_ = current_spacecraft_position_ecef_m + k_center * direction_center_ecef_m;
-    target_ground_position_ymax_ecef_m_ = current_spacecraft_position_ecef_m + k_ymax * direction_ymax_ecef_m;
-    target_ground_position_ymin_ecef_m_ = current_spacecraft_position_ecef_m + k_ymin * direction_ymin_ecef_m;
+    target_ground_position_center_ecef_m_ = current_spacecraft_position_ecef_m + k_center * target_center_direction_ecef;
+    target_ground_position_ymax_ecef_m_ = current_spacecraft_position_ecef_m + k_ymax * target_ymax_direction_ecef;
+    target_ground_position_ymin_ecef_m_ = current_spacecraft_position_ecef_m + k_ymin * target_ymin_direction_ecef;
   }
 }
 
