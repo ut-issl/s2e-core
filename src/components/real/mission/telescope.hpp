@@ -124,8 +124,7 @@ class Telescope : public Component, public ILoggable {
   double start_imaging_sec_;  //!< Imaging start seconds
   double stage_time_day;      //!< Stage time seconds [sec]
   int imaging_count;          //!< Imaging count
-  int telescope_flag = 0;     //!< Telescope flag
-
+  int telescope_flag = 0;     //!< Telescope flag for imaging when 0 : no imaging, 1 : start imaging, 2 : center imaging, 3 : end imaging
   double center_imaging_jd;  //!< Imaging center Julian date [day]
   double end_imaging_jd;     //!< Imaging end Julian date [day]
 
@@ -143,9 +142,9 @@ class Telescope : public Component, public ILoggable {
   libra::Vector<3> target_ground_position_center_ecef_m_;  //!< Initial center ground position
   libra::Vector<3> target_ground_position_ymax_ecef_m_;    //!< Initial spacecraft position of ymax
   libra::Vector<3> target_ground_position_ymin_ecef_m_;    //!< Initial spacecraft position of ymin
-  bool startImagingFlag = true;                            //!< Start imaging flag
-  bool centerImagingFlag = true;                           //!< Center imaging flag
-  bool endImagingFlag = true;                              //!< End imaging flag
+  bool startImagingInitializeFlag = true;                            //!< Start imaging flag
+  bool centerImagingInitializeFlag = true;                           //!< Center imaging flag
+  bool endImagingInitializeFlag = true;                              //!< End imaging flag
   int stage_accumulated_lines = 0;                         //!< Accumulated lines
   double start_imaging_jd;                                 //!< Start imaging Julian date
 

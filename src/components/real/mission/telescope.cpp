@@ -216,25 +216,22 @@ void Telescope::CalculateTargetGroundPosition() {
     libra::Vector<3> target_ymin_direction_ecef = dcm_i_to_ecef * target_ymin_direction_i;
 
     libra::Vector<3> current_spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
-    double k_center = (-(InnerProduct(current_spacecraft_position_ecef_m, target_center_direction_ecef)) -
-                       sqrt(pow(InnerProduct(current_spacecraft_position_ecef_m, target_center_direction_ecef), 2) -
-                            pow(target_center_direction_ecef.CalcNorm(), 2) *
-                                (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)))) /
-                      pow(target_center_direction_ecef.CalcNorm(), 2);
-    double k_ymax = (-(InnerProduct(current_spacecraft_position_ecef_m, target_ymax_direction_ecef)) -
-                     sqrt(pow(InnerProduct(current_spacecraft_position_ecef_m, target_ymax_direction_ecef), 2) -
-                          pow(target_ymax_direction_ecef.CalcNorm(), 2) *
-                              (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)))) /
-                    pow(target_ymax_direction_ecef.CalcNorm(), 2);
-    double k_ymin = (-(InnerProduct(current_spacecraft_position_ecef_m, target_ymin_direction_ecef)) -
-                     sqrt(pow(InnerProduct(current_spacecraft_position_ecef_m, target_ymin_direction_ecef), 2) -
-                          pow(target_ymin_direction_ecef.CalcNorm(), 2) *
-                              (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)))) /
-                    pow(target_ymin_direction_ecef.CalcNorm(), 2);
+    double inner_product_spacecraft_target_center_direction_ecef_m = InnerProduct(current_spacecraft_position_ecef_m, target_center_direction_ecef);
+    double inner_product_spacecraft_target_ymax_direction_ecef_m = InnerProduct(current_spacecraft_position_ecef_m, target_ymax_direction_ecef);
+    double inner_product_spacecraft_target_ymin_direction_ecef_m = InnerProduct(current_spacecraft_position_ecef_m, target_ymin_direction_ecef);
+    double k_center_m = inner_product_spacecraft_target_center_direction_ecef_m +
+                       sqrt(pow(inner_product_spacecraft_target_center_direction_ecef_m, 2) -
+                                (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
+    double k_ymax_m = inner_product_spacecraft_target_ymax_direction_ecef_m -
+                     sqrt(pow(inner_product_spacecraft_target_ymax_direction_ecef_m, 2) +
+                              (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
+    double k_ymin_m = inner_product_spacecraft_target_ymin_direction_ecef_m -
+                     sqrt(pow(inner_product_spacecraft_target_ymin_direction_ecef_m, 2) +
+                              (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
 
-    target_ground_position_center_ecef_m_ = current_spacecraft_position_ecef_m + k_center * target_center_direction_ecef;
-    target_ground_position_ymax_ecef_m_ = current_spacecraft_position_ecef_m + k_ymax * target_ymax_direction_ecef;
-    target_ground_position_ymin_ecef_m_ = current_spacecraft_position_ecef_m + k_ymin * target_ymin_direction_ecef;
+    target_ground_position_center_ecef_m_ = current_spacecraft_position_ecef_m - k_center_m * target_center_direction_ecef;
+    target_ground_position_ymax_ecef_m_ = current_spacecraft_position_ecef_m - k_ymax_m * target_ymax_direction_ecef;
+    target_ground_position_ymin_ecef_m_ = current_spacecraft_position_ecef_m - k_ymin_m * target_ymin_direction_ecef;
   }
 }
 
@@ -268,9 +265,9 @@ void Telescope::ObserveGroundPositionDeviation() {
   bool log_flag = simulation_time_->GetState().log_output;
   if (start_imaging_jd_ <= current_jd && current_jd <= (start_imaging_jd_ + stage_time_day) && log_flag) {
     telescope_flag = 1;
-    if (startImagingFlag) {
+    if (startImagingInitializeFlag) {
       CalculateTargetGroundPosition();
-      startImagingFlag = false;
+      startImagingInitializeFlag = false;
       imaging_count = 0;
     }
     if (imaging_count < stage_mode_) {
@@ -287,9 +284,9 @@ void Telescope::ObserveGroundPositionDeviation() {
     }
   } else if (center_imaging_jd <= current_jd && current_jd <= center_imaging_jd + stage_time_day && log_flag) {
     telescope_flag = 2;
-    if (centerImagingFlag) {
+    if (centerImagingInitializeFlag) {
       CalculateTargetGroundPosition();
-      centerImagingFlag = false;
+      centerImagingInitializeFlag = false;
       imaging_count = 0;
     }
     if (imaging_count < stage_mode_) {
@@ -306,9 +303,9 @@ void Telescope::ObserveGroundPositionDeviation() {
     }
   } else if (end_imaging_jd <= current_jd && current_jd <= end_imaging_jd + stage_time_day && log_flag) {
     telescope_flag = 3;
-    if (endImagingFlag) {
+    if (endImagingInitializeFlag) {
       CalculateTargetGroundPosition();
-      endImagingFlag = false;
+      endImagingInitializeFlag = false;
       imaging_count = 0;
     }
     if (imaging_count < stage_mode_) {
