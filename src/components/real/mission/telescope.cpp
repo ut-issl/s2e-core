@@ -13,11 +13,16 @@
 using namespace std;
 using namespace libra;
 
+using namespace std;
+using namespace libra;
+
 Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
                      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix,
-                     const int y_number_of_pix, const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars,
+                     const int y_number_of_pix, const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix_rad,
+                     const double y_fov_per_pix_rad, const char* start_imaging_ymdhms, const double line_rate_sec, const int stage_mode,
+                     const int number_of_lines_per_frame, const int number_of_frames_per_mission, size_t number_of_logged_stars,
                      const Attitude* attitude, const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
-                     const Orbit* orbit)
+                     const SimulationTime* simulation_time, const Orbit* orbit)
     : Component(1, clock_generator),
       quaternion_b2c_(quaternion_b2c),
       sun_forbidden_angle_rad_(sun_forbidden_angle_rad),
@@ -25,19 +30,32 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
       moon_forbidden_angle_rad_(moon_forbidden_angle_rad),
       x_number_of_pix_(x_number_of_pix),
       y_number_of_pix_(y_number_of_pix),
-      x_fov_per_pix_(x_fov_per_pix),
-      y_fov_per_pix_(y_fov_per_pix),
+      pixel_size_m_(pixel_size_m),
+      focal_length_m_(focal_length_m),
+      x_fov_per_pix_rad_(x_fov_per_pix_rad),
+      y_fov_per_pix_rad_(y_fov_per_pix_rad),
+      start_imaging_ymdhms_(start_imaging_ymdhms),
+      line_rate_sec_(line_rate_sec),
+      stage_mode_(stage_mode),
+      number_of_lines_per_frame_(number_of_lines_per_frame),
+      number_of_frames_per_mission_(number_of_frames_per_mission),
       number_of_logged_stars_(number_of_logged_stars),
       attitude_(attitude),
       hipparcos_(hipparcos),
       local_celestial_information_(local_celestial_information),
+      simulation_time_(simulation_time),
       orbit_(orbit) {
+  sscanf(start_imaging_ymdhms, "%d/%d/%d %d:%d:%lf", &start_imaging_year_, &start_imaging_month_, &start_imaging_day_, &start_imaging_hour_,
+         &start_imaging_minute_, &start_imaging_sec_);
+  jday(start_imaging_year_, start_imaging_month_, start_imaging_day_, start_imaging_hour_, start_imaging_minute_, start_imaging_sec_,
+       start_imaging_jd_);
+
   is_sun_in_forbidden_angle = true;
   is_earth_in_forbidden_angle = true;
   is_moon_in_forbidden_angle = true;
 
-  x_field_of_view_rad = x_number_of_pix_ * x_fov_per_pix_;
-  y_field_of_view_rad = y_number_of_pix_ * y_fov_per_pix_;
+  x_field_of_view_rad = x_number_of_pix_ * x_fov_per_pix_rad_;
+  y_field_of_view_rad = y_number_of_pix_ * y_fov_per_pix_rad_;
   assert(x_field_of_view_rad < libra::pi_2);  // Avoid the case that the field of view is over 90 degrees
   assert(y_field_of_view_rad < libra::pi_2);
 
@@ -56,12 +74,20 @@ Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& q
 
     star_list_in_sight.push_back(star);
   }
-  // Get initial spacecraft position in ECEF
-  if (orbit_ != nullptr) {
-    libra::Vector<3> initial_spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
-    initial_ground_position_ecef_m_ = environment::earth_equatorial_radius_m * initial_spacecraft_position_ecef_m;
-    initial_ground_position_ecef_m_ /= (orbit_->GetGeodeticPosition().GetAltitude_m() + environment::earth_equatorial_radius_m);
-  }
+
+  // Calculate imaging time
+  double current_jd = simulation_time_->GetCurrentTime_jd();
+  // If start imaging time is later than current time,
+  // the system　prints an error message.
+  assert(start_imaging_jd_ > current_jd);
+  double imaging_duration_sec = line_rate_sec_ * number_of_lines_per_frame_ * number_of_frames_per_mission_;
+  double imaging_duration_day = imaging_duration_sec / 60.0 / 60.0 / 24.0;
+  center_imaging_jd = start_imaging_jd_ + imaging_duration_day / 2.0;
+  end_imaging_jd = start_imaging_jd_ + imaging_duration_day;
+  // If end imaging time is later than the end of the simulation,
+  // the system prints an error message.
+  assert(end_imaging_jd < (current_jd + simulation_time_->GetEndTime_s() / 60.0 / 60.0 / 24.0));
+  stage_time_day = line_rate_sec_ * stage_mode_ / 60.0 / 60.0 / 24.0;
 }
 
 Telescope::~Telescope() {}
@@ -161,31 +187,154 @@ void Telescope::ObserveStars() {
   }
 }
 
+void Telescope::CalculateTargetGroundPosition() {
+  if (orbit_ != nullptr) {
+    libra::Vector<3> target_center_direction_c;
+    target_center_direction_c[0] = 1;
+    target_center_direction_c[1] = 0;
+    target_center_direction_c[2] = 0;
+    libra::Vector<3> target_ymax_direction_c;
+    target_ymax_direction_c[0] = 1;
+    target_ymax_direction_c[1] = initial_ground_position_y_max_y_image_sensor_ * pixel_size_m_ / focal_length_m_;
+    target_ymax_direction_c[2] = initial_ground_position_y_max_x_image_sensor_ * pixel_size_m_ / focal_length_m_;
+    target_ymax_direction_c = target_ymax_direction_c.CalcNormalizedVector();
+    libra::Vector<3> target_ymin_direction_c;
+    target_ymin_direction_c[0] = 1;
+    target_ymin_direction_c[1] = initial_ground_position_y_min_y_image_sensor_ * pixel_size_m_ / focal_length_m_;
+    target_ymin_direction_c[2] = initial_ground_position_y_min_x_image_sensor_ * pixel_size_m_ / focal_length_m_;
+    target_ymin_direction_c = target_ymin_direction_c.CalcNormalizedVector();
+
+    libra::Vector<3> target_center_direction_b = quaternion_b2c_.Conjugate().FrameConversion(target_center_direction_c);
+    libra::Vector<3> target_ymax_direction_b = quaternion_b2c_.Conjugate().FrameConversion(target_ymax_direction_c);
+    libra::Vector<3> target_ymin_direction_b = quaternion_b2c_.Conjugate().FrameConversion(target_ymin_direction_c);
+
+    Quaternion quaternion_b2i = attitude_->GetQuaternion_i2b().Conjugate();
+    libra::Vector<3> target_center_direction_i = quaternion_b2i.FrameConversion(target_center_direction_b);
+    libra::Vector<3> target_ymax_direction_i = quaternion_b2i.FrameConversion(target_ymax_direction_b);
+    libra::Vector<3> target_ymin_direction_i = quaternion_b2i.FrameConversion(target_ymin_direction_b);
+
+    libra::Matrix<3, 3> dcm_i_to_ecef = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef();
+    libra::Vector<3> target_center_direction_ecef = dcm_i_to_ecef * target_center_direction_i;
+    libra::Vector<3> target_ymax_direction_ecef = dcm_i_to_ecef * target_ymax_direction_i;
+    libra::Vector<3> target_ymin_direction_ecef = dcm_i_to_ecef * target_ymin_direction_i;
+
+    libra::Vector<3> current_spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
+    double inner_product_spacecraft_target_center_direction_ecef_m = InnerProduct(current_spacecraft_position_ecef_m, target_center_direction_ecef);
+    double inner_product_spacecraft_target_ymax_direction_ecef_m = InnerProduct(current_spacecraft_position_ecef_m, target_ymax_direction_ecef);
+    double inner_product_spacecraft_target_ymin_direction_ecef_m = InnerProduct(current_spacecraft_position_ecef_m, target_ymin_direction_ecef);
+
+    double tmp = pow(inner_product_spacecraft_target_center_direction_ecef_m, 2) -
+                 (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2));
+    double tmp2 = (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2));
+    double k_center_m = inner_product_spacecraft_target_center_direction_ecef_m +
+                        sqrt(pow(inner_product_spacecraft_target_center_direction_ecef_m, 2) -
+                             (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
+    double k_ymax_m = inner_product_spacecraft_target_ymax_direction_ecef_m +
+                      sqrt(pow(inner_product_spacecraft_target_ymax_direction_ecef_m, 2) -
+                           (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
+    double k_ymin_m = inner_product_spacecraft_target_ymin_direction_ecef_m +
+                      sqrt(pow(inner_product_spacecraft_target_ymin_direction_ecef_m, 2) -
+                           (pow(current_spacecraft_position_ecef_m.CalcNorm(), 2) - pow(environment::earth_equatorial_radius_m, 2)));
+
+    target_ground_position_center_ecef_m_ = current_spacecraft_position_ecef_m - k_center_m * target_center_direction_ecef;
+    target_ground_position_ymax_ecef_m_ = current_spacecraft_position_ecef_m - k_ymax_m * target_ymax_direction_ecef;
+    target_ground_position_ymin_ecef_m_ = current_spacecraft_position_ecef_m - k_ymin_m * target_ymin_direction_ecef;
+  }
+}
+
+std::pair<double, double> Telescope::CalculateImagePosition(libra::Vector<3> target_ground_position_ecef_m_) {
+  Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
+  libra::Vector<3> spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
+  libra::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
+  libra::Vector<3> direction_sat_ground_ecef_m = target_ground_position_ecef_m_ - spacecraft_position_ecef_m;
+  libra::Vector<3> direction_sat_ground_i_m = dcm_ecef_to_i * direction_sat_ground_ecef_m;
+  libra::Vector<3> direction_sat_ground_b_m = quaternion_i2b.FrameConversion(direction_sat_ground_i_m);
+  libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_sat_ground_b_m);
+  double angle_x = atan2(target_c[2], target_c[0]);
+  double angle_y = atan2(target_c[1], target_c[0]);
+  double ground_position_x_image_sensor_ = focal_length_m_ * tan(angle_x) / pixel_size_m_;
+  double ground_position_y_image_sensor_ = focal_length_m_ * tan(angle_y) / pixel_size_m_;
+  return std::make_pair(ground_position_x_image_sensor_, ground_position_y_image_sensor_);
+}
+
 void Telescope::ObserveGroundPositionDeviation() {
   // Orbit information is not available, so skip the ground position calculation
   if (orbit_ == nullptr) {
     return;
   }
   // Check if the ground point is in the image sensor
-  if (ground_position_x_image_sensor_ > x_number_of_pix_ || ground_position_y_image_sensor_ > y_number_of_pix_) {
-    ground_position_x_image_sensor_ = -1;
-    ground_position_y_image_sensor_ = -1;
+  if (ground_position_center_x_image_sensor_ > x_number_of_pix_ || ground_position_center_y_image_sensor_ > y_number_of_pix_) {
+    ground_position_center_x_image_sensor_ = -1;
+    ground_position_center_y_image_sensor_ = -1;
     return;
   }
-
-  Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
-  libra::Vector<3> spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
-  libra::Vector<3> direction_ecef = (initial_ground_position_ecef_m_ - spacecraft_position_ecef_m).CalcNormalizedVector();
-  libra::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
-  libra::Vector<3> direction_i = (dcm_ecef_to_i * direction_ecef).CalcNormalizedVector();
-  libra::Vector<3> direction_b = quaternion_i2b.FrameConversion(direction_i);
-  libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b);
-
-  // Ground position in the image sensor in the satellite frame
-  double ground_angle_z_rad = atan2(target_c[2], target_c[0]);
-  ground_position_x_image_sensor_ = ground_angle_z_rad / x_fov_per_pix_;
-  double ground_angle_y_rad = atan2(target_c[1], target_c[0]);
-  ground_position_y_image_sensor_ = ground_angle_y_rad / y_fov_per_pix_;
+  double current_jd = simulation_time_->GetCurrentTime_jd();
+  bool log_flag = simulation_time_->GetState().log_output;
+  if (start_imaging_jd_ <= current_jd && current_jd <= (start_imaging_jd_ + stage_time_day) && log_flag) {
+    telescope_flag = 1;
+    if (startImagingInitializeFlag) {
+      CalculateTargetGroundPosition();
+      startImagingInitializeFlag = false;
+      imaging_count = 0;
+    }
+    if (imaging_count < stage_mode_) {
+      std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
+      ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
+      ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
+      std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
+      ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
+      ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
+      std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
+      ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
+      ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
+      imaging_count++;
+    }
+  } else if (center_imaging_jd <= current_jd && current_jd <= center_imaging_jd + stage_time_day && log_flag) {
+    telescope_flag = 2;
+    if (centerImagingInitializeFlag) {
+      CalculateTargetGroundPosition();
+      centerImagingInitializeFlag = false;
+      imaging_count = 0;
+    }
+    if (imaging_count < stage_mode_) {
+      std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
+      ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
+      ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
+      std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
+      ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
+      ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
+      std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
+      ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
+      ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
+      imaging_count++;
+    }
+  } else if (end_imaging_jd <= current_jd && current_jd <= end_imaging_jd + stage_time_day && log_flag) {
+    telescope_flag = 3;
+    if (endImagingInitializeFlag) {
+      CalculateTargetGroundPosition();
+      endImagingInitializeFlag = false;
+      imaging_count = 0;
+    }
+    if (imaging_count < stage_mode_) {
+      std::pair<double, double> ground_position_center_image_sensor_ = CalculateImagePosition(target_ground_position_center_ecef_m_);
+      ground_position_center_x_image_sensor_ = ground_position_center_image_sensor_.first;
+      ground_position_center_y_image_sensor_ = ground_position_center_image_sensor_.second;
+      std::pair<double, double> ground_position_y_max_image_sensor_ = CalculateImagePosition(target_ground_position_ymax_ecef_m_);
+      ground_position_y_max_x_image_sensor_ = ground_position_y_max_image_sensor_.first;
+      ground_position_y_max_y_image_sensor_ = ground_position_y_max_image_sensor_.second;
+      std::pair<double, double> ground_position_y_min_image_sensor_ = CalculateImagePosition(target_ground_position_ymin_ecef_m_);
+      ground_position_y_min_x_image_sensor_ = ground_position_y_min_image_sensor_.first;
+      ground_position_y_min_y_image_sensor_ = ground_position_y_min_image_sensor_.second;
+    }
+  } else {
+    telescope_flag = 0;
+    ground_position_center_x_image_sensor_ = -1;
+    ground_position_center_y_image_sensor_ = -1;
+    ground_position_y_max_x_image_sensor_ = -1;
+    ground_position_y_max_y_image_sensor_ = -1;
+    ground_position_y_min_x_image_sensor_ = -1;
+    ground_position_y_min_y_image_sensor_ = -1;
+  }
 }
 
 string Telescope::GetLogHeader() const {
@@ -199,8 +348,13 @@ string Telescope::GetLogHeader() const {
   str_tmp += WriteVector(component_name + "sun_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "earth_position", "img", "pix", 2);
   str_tmp += WriteVector(component_name + "moon_position", "img", "pix", 2);
-  str_tmp += WriteScalar(component_name + "ground_position_x", "pix");
-  str_tmp += WriteScalar(component_name + "ground_position_y", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_center_x", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_center_y", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_y_max_x", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_y_max_y", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_y_min_x", "pix");
+  str_tmp += WriteScalar(component_name + "ground_position_y_min_y", "pix");
+  str_tmp += WriteScalar(component_name + "flag");
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
     for (size_t i = 0; i < number_of_logged_stars_; i++) {
@@ -226,8 +380,13 @@ string Telescope::GetLogValue() const {
   str_tmp += WriteVector(sun_position_image_sensor);
   str_tmp += WriteVector(earth_position_image_sensor);
   str_tmp += WriteVector(moon_position_image_sensor);
-  str_tmp += WriteScalar(ground_position_x_image_sensor_);
-  str_tmp += WriteScalar(ground_position_y_image_sensor_);
+  str_tmp += WriteScalar(ground_position_center_x_image_sensor_);
+  str_tmp += WriteScalar(ground_position_center_y_image_sensor_);
+  str_tmp += WriteScalar(ground_position_y_max_x_image_sensor_);
+  str_tmp += WriteScalar(ground_position_y_max_y_image_sensor_);
+  str_tmp += WriteScalar(ground_position_y_min_x_image_sensor_);
+  str_tmp += WriteScalar(ground_position_y_min_y_image_sensor_);
+  str_tmp += WriteScalar(telescope_flag);
   // When Hipparcos Catalogue was not read, no output of ObserveStars
   if (hipparcos_->IsCalcEnabled) {
     for (size_t i = 0; i < number_of_logged_stars_; i++) {
@@ -246,7 +405,8 @@ string Telescope::GetLogValue() const {
 }
 
 Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const string file_name, const Attitude* attitude,
-                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit) {
+                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
+                        const SimulationTime* simulation_time, const Orbit* orbit) {
   using libra::pi;
 
   IniAccess Telescope_conf(file_name);
@@ -273,15 +433,25 @@ Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const st
   int x_number_of_pix = Telescope_conf.ReadInt(TelescopeSection, "x_number_of_pixel");
   int y_number_of_pix = Telescope_conf.ReadInt(TelescopeSection, "y_number_of_pixel");
 
+  double pixel_size_m = Telescope_conf.ReadDouble(TelescopeSection, "pixel_size_m");
+  double focal_length_m = Telescope_conf.ReadDouble(TelescopeSection, "focal_length_m");
+
   double x_fov_per_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "x_fov_deg_per_pixel");
   double x_fov_per_pix_rad = x_fov_per_pix_deg * pi / 180;  // deg to rad
   double y_fov_per_pix_deg = Telescope_conf.ReadDouble(TelescopeSection, "y_fov_deg_per_pixel");
   double y_fov_per_pix_rad = y_fov_per_pix_deg * pi / 180;  // deg to rad
 
+  std::string start_imaging_ymdhms = Telescope_conf.ReadString(TelescopeSection, "start_imaging_time_utc");
+  double line_rate_sec = Telescope_conf.ReadDouble(TelescopeSection, "line_rate_sec");
+  int stage_mode = Telescope_conf.ReadInt(TelescopeSection, "stage_mode");
+  int number_of_lines_per_frame = Telescope_conf.ReadInt(TelescopeSection, "number_of_lines_per_frame");
+  int number_of_frames_per_mission = Telescope_conf.ReadInt(TelescopeSection, "number_of_frames_per_mission");
+
   int number_of_logged_stars = Telescope_conf.ReadInt(TelescopeSection, "number_of_stars_for_log");
 
   Telescope telescope(clock_generator, quaternion_b2c, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad, x_number_of_pix,
-                      y_number_of_pix, x_fov_per_pix_rad, y_fov_per_pix_rad, number_of_logged_stars, attitude, hipparcos, local_celestial_information,
-                      orbit);
+                      y_number_of_pix, pixel_size_m, focal_length_m, x_fov_per_pix_rad, y_fov_per_pix_rad, start_imaging_ymdhms.c_str(),
+                      line_rate_sec, stage_mode, number_of_lines_per_frame, number_of_frames_per_mission, number_of_logged_stars, attitude, hipparcos,
+                      local_celestial_information, simulation_time, orbit);
   return telescope;
 }
