@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 basemap = "==1.4.1"
 matplotlib = "==3.7.2"
-numpy = "==1.24.3"
+numpy = "==2.0.0"
 pandas = "==2.0.3"
 numpy-stl = "==3.0.1"
 numpy-quaternion = "==2023.0.4"
