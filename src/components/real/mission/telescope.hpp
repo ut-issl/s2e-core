@@ -8,13 +8,16 @@
 
 #include <dynamics/attitude/attitude.hpp>
 #include <dynamics/orbit/orbit.hpp>
+#include <environment/global/global_environment.hpp>
 #include <environment/global/hipparcos_catalogue.hpp>
+#include <environment/global/simulation_time.hpp>
 #include <environment/local/local_celestial_information.hpp>
 #include <logger/loggable.hpp>
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/math/vector.hpp>
 #include <vector>
 
+#include "../../../environment/global/simulation_time.hpp"
 #include "../../base/component.hpp"
 
 /*
@@ -42,18 +45,28 @@ class Telescope : public Component, public ILoggable {
    * @param [in] moon_forbidden_angle_rad: Moon forbidden angle [rad]
    * @param [in] x_number_of_pix: Number of pixel on X-axis in the image plane
    * @param [in] y_number_of_pix: Number of pixel on Y-axis in the image plane
+   * @param [in] pixel_size_m: Pixel size [m]
+   * @param [in] focal_length_m: Focal length [m]
    * @param [in] x_fov_per_pix: Field of view per pixel of X-axis in the image plane [rad/pix]
    * @param [in] y_fov_per_pix: Field of view per pixel of Y-axis in the image plane [rad/pix]
+   * @param [in] start_imaging_ymdhms: Start imaging time [UTC]
+   * @param [in] line_rate_sec: Line rate [sec]
+   * @param [in] stage_mode: Stage mode
+   * @param [in] number_of_lines_per_frame Number of lines per frame
+   * @param [in] number_of_frames_per_mission: Number of frames per mission
    * @param [in] number_of_logged_stars: Number of logged stars
    * @param [in] attitude: Attitude Information
    * @param [in] hipparcos: Hipparcos catalogue information
    * @param [in] local_celestial_information: Local celestial information
+   * @param [in] simulation_time: Simulation time information
    * @param [in] orbit: Orbit information
    */
   Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
-            const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const Attitude* attitude,
-            const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit = nullptr);
+            const double pixel_size_m, const double focal_length_m, const double x_fov_per_pix_rad, const double y_fov_per_pix_rad,
+            const char* start_imaging_ymdhms, const double line_rate_sec, const int stage_mode, const int number_of_lines_per_frame,
+            const int number_of_frames_per_mission, size_t number_of_logged_stars, const Attitude* attitude, const HipparcosCatalogue* hipparcos,
+            const LocalCelestialInformation* local_celestial_information, const SimulationTime* simulation_time, const Orbit* orbit);
   /**
    * @fn ~Telescope
    * @brief Destructor
@@ -74,14 +87,48 @@ class Telescope : public Component, public ILoggable {
   double earth_forbidden_angle_rad_;  //!< Earth forbidden angle [rad]
   double moon_forbidden_angle_rad_;   //!< Moon forbidden angle [rad]
 
-  int x_number_of_pix_;                          //!< Number of pixel on X-axis in the image plane
-  int y_number_of_pix_;                          //!< Number of pixel on Y-axis in the image plane
-  double x_fov_per_pix_;                         //!< Field of view per pixel of X-axis in the image plane [rad/pix]
-  double y_fov_per_pix_;                         //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
-  double x_field_of_view_rad;                    //!< Field of view of X-axis in the image plane [rad/pix]
-  double y_field_of_view_rad;                    //!< Field of view of Y-axis in the image plane [rad/pix]
-  double ground_position_x_image_sensor_ = 0.0;  //!< Ground position x
-  double ground_position_y_image_sensor_ = 0.0;  //!< Ground position y
+  int x_number_of_pix_;                     //!< Number of pixel on X-axis in the image plane
+  int y_number_of_pix_;                     //!< Number of pixel on Y-axis in the image plane
+  double pixel_size_m_;                     //!< Pixel size [m]
+  double focal_length_m_;                   //!< Focal length [m]
+  double x_fov_per_pix_rad_;                //!< Field of view per pixel of X-axis in the image plane [rad/pix]
+  double y_fov_per_pix_rad_;                //!< Field of view per pixel of Y-axis in the image plane [rad/pix]
+  double x_field_of_view_rad;               //!< Field of view of X-axis in the image plane [rad/pix]
+  double y_field_of_view_rad;               //!< Field of view of Y-axis in the image plane [rad/pix]
+  double line_rate_sec_;                    //!< Line rate [sec]
+  const int stage_mode_;                    //!< Stage mode
+  const int number_of_lines_per_frame_;     //!< Number of lines per frame
+  const int number_of_frames_per_mission_;  //!< Number of frame per mission
+  const char* start_imaging_ymdhms_;
+
+  double initial_ground_position_center_x_image_sensor_ = 0.0;                     //!< Initial ground position center x
+  double initial_ground_position_center_y_image_sensor_ = 0.0;                     //!< Initial ground position center y
+  double initial_ground_position_y_max_x_image_sensor_ = 0.0;                      //!< Initial ground position ymax x
+  double initial_ground_position_y_max_y_image_sensor_ = y_number_of_pix_ / 2.0;   //!< Initial ground position ymax y
+  double initial_ground_position_y_min_x_image_sensor_ = 0.0;                      //!< Initial ground position ymin x
+  double initial_ground_position_y_min_y_image_sensor_ = -y_number_of_pix_ / 2.0;  //!< Initial ground position ymin x
+
+  double ground_position_center_x_image_sensor_ = -1;  //!< Current ground position center x
+  double ground_position_center_y_image_sensor_ = -1;  //!< Current ground position center y
+  double ground_position_y_max_x_image_sensor_ = -1;   //!< Current ground position ymax x
+  double ground_position_y_max_y_image_sensor_ = -1;   //!< Current ground position ymax y
+  double ground_position_y_min_x_image_sensor_ = -1;   //!< Current ground position ymin x
+  double ground_position_y_min_y_image_sensor_ = -1;   //!< Current ground position ymin x
+
+  double start_imaging_jd_;   //!< Imaging start Julian date [day]
+  int start_imaging_year_;    //!< Imaging start year
+  int start_imaging_month_;   //!< Imaging start month
+  int start_imaging_day_;     //!< Imaging start day
+  int start_imaging_hour_;    //!< Imaging start hour
+  int start_imaging_minute_;  //!< Imaging start minute
+  double start_imaging_sec_;  //!< Imaging start seconds
+  double stage_time_day;      //!< Stage time seconds [sec]
+  int imaging_count;          //!< Imaging count
+  int telescope_flag = 0;     //!< Telescope flag for imaging when 0 : no imaging, 1 : start imaging, 2 : center imaging, 3 : end imaging
+  double center_imaging_jd;   //!< Imaging center Julian date [day]
+  double end_imaging_jd;      //!< Imaging end Julian date [day]
+
+  const SimulationTime* simulation_time_;  //!< Simulation time
 
   bool is_sun_in_forbidden_angle = false;    //!< Is the sun in the forbidden angle
   bool is_earth_in_forbidden_angle = false;  //!< Is the earth in the forbidden angle
@@ -89,10 +136,17 @@ class Telescope : public Component, public ILoggable {
 
   size_t number_of_logged_stars_;  //!< Number of logged stars
 
-  libra::Vector<2> sun_position_image_sensor{-1};    //!< Position of the sun on the image plane
-  libra::Vector<2> earth_position_image_sensor{-1};  //!< Position of the earth on the image plane
-  libra::Vector<2> moon_position_image_sensor{-1};   //!< Position of the moon on the image plane
-  libra::Vector<3> initial_ground_position_ecef_m_;  //!< Initial spacecraft position
+  libra::Vector<2> sun_position_image_sensor{-1};          //!< Position of the sun on the image plane
+  libra::Vector<2> earth_position_image_sensor{-1};        //!< Position of the earth on the image plane
+  libra::Vector<2> moon_position_image_sensor{-1};         //!< Position of the moon on the image plane
+  libra::Vector<3> target_ground_position_center_ecef_m_;  //!< Initial center ground position
+  libra::Vector<3> target_ground_position_ymax_ecef_m_;    //!< Initial spacecraft position of ymax
+  libra::Vector<3> target_ground_position_ymin_ecef_m_;    //!< Initial spacecraft position of ymin
+  bool startImagingInitializeFlag = true;                  //!< Start imaging flag
+  bool centerImagingInitializeFlag = true;                 //!< Center imaging flag
+  bool endImagingInitializeFlag = true;                    //!< End imaging flag
+  int stage_accumulated_lines = 0;                         //!< Accumulated lines
+  double start_imaging_jd;                                 //!< Start imaging Julian date
 
   std::vector<Star> star_list_in_sight;  //!< Star information in the field of view
 
@@ -124,9 +178,18 @@ class Telescope : public Component, public ILoggable {
    */
   void ObserveStars();
 
+  /**
+   * @fn CalculateTargetGroundPosition
+   * @brief Calculate the target ground position
+   **/
+  void CalculateTargetGroundPosition();
+
   const Attitude* attitude_;                                      //!< Attitude information
   const HipparcosCatalogue* hipparcos_;                           //!< Star information
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
+
+  std::pair<double, double> CalculateImagePosition(libra::Vector<3> target_ground_position_ecef_m_);
+
   /**
    * @fn ObserveGroundPositionDeviation
    * @brief Calculate the deviation of the ground position from its initial value in the image sensor
@@ -165,9 +228,11 @@ class Telescope : public Component, public ILoggable {
  * @param [in] attitude: Attitude information
  * @param [in] hipparcos: Star information by Hipparcos catalogue
  * @param [in] local_celestial_information: Local celestial information
+ * @param [in] orbit: Orbit information
+ * @param [in] simulation_time: Simulation time information
  */
 Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, const Attitude* attitude,
                         const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
-                        const Orbit* orbit = nullptr);
+                        const SimulationTime* simulation_time, const Orbit* orbit = nullptr);
 
 #endif  // S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_
