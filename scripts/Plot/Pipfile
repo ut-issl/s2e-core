@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 basemap = "==1.4.1"
-matplotlib = "==3.7.2"
+matplotlib = "==3.9.1"
 numpy = "==1.24.3"
 pandas = "==2.0.3"
 numpy-stl = "==3.0.1"
