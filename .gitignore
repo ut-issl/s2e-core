@@ -9,7 +9,7 @@ src/.vscode/
 build/
 
 # Log files
-data/**/logs/
+**/logs/
 
 # CSIPCE
 scripts/tmp_cspice/
