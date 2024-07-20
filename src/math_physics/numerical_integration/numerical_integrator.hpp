@@ -32,7 +32,7 @@ class NumericalIntegrator {
    * @fn ~NumericalIntegrator
    * @brief Destructor
    */
-  inline virtual ~NumericalIntegrator() {};
+  inline virtual ~NumericalIntegrator(){};
 
   /**
    * @fn Integrate
