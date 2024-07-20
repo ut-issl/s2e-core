@@ -422,4 +422,4 @@ Sp3VelocityClockRateCorrelation Sp3FileReader::DecodeVelocityClockRateCorrelatio
   return correlation;
 }
 
-} // namespace gnss
+}  // namespace gnss

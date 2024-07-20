@@ -113,7 +113,7 @@ class GnssSatellites : public ILoggable {
  private:
   bool is_calc_enabled_ = false;  //!< Flag to manage the GNSS satellite position calculation
 
-  std::vector<gnss::Sp3FileReader> sp3_files_;         //!< List of SP3 files
+  std::vector<gnss::Sp3FileReader> sp3_files_;   //!< List of SP3 files
   size_t number_of_calculated_gnss_satellites_;  //!< Number of calculated GNSS satellites
   size_t sp3_file_id_;                           //!< Current SP3 file ID
   EpochTime reference_time_;                     //!< Reference start time of the SP3 handling

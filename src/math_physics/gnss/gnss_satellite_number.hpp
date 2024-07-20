@@ -46,6 +46,6 @@ size_t ConvertGnssSatelliteNumberToIndex(const std::string satellite_number);
  */
 std::string ConvertIndexToGnssSatelliteNumber(const size_t index);
 
-}   // namespace gnss
+}  // namespace gnss
 
 #endif  // S2E_LIBRARY_GNSS_GNSS_SATELLITE_NUMBER_HPP_
