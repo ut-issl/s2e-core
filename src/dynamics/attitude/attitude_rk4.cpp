@@ -9,7 +9,7 @@
 #include <sstream>
 #include <utilities/macros.hpp>
 
-AttitudeRk4::AttitudeRk4(const math::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b,
+AttitudeRk4::AttitudeRk4(const math::Vector<3>& angular_velocity_b_rad_s, const math::Quaternion& quaternion_i2b,
                          const math::Matrix<3, 3>& inertia_tensor_kgm2, const math::Vector<3>& torque_b_Nm, const double propagation_step_s,
                          const std::string& simulation_object_name)
     : Attitude(inertia_tensor_kgm2, simulation_object_name) {

@@ -17,7 +17,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
   const std::string initialize_mode = ini_file.ReadString(section_, "initialize_mode");
 
   math::Vector<3> omega_b;
-  libra::Quaternion quaternion_i2b;
+  math::Quaternion quaternion_i2b;
   math::Vector<3> torque_b;
   if (initialize_mode == "CONTROLLED") {
     // Initialize with Controlled attitude (attitude_tmp temporary used)
@@ -77,7 +77,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
 
     AttitudeControlMode main_mode = ConvertStringToCtrlMode(main_mode_in);
     AttitudeControlMode sub_mode = ConvertStringToCtrlMode(sub_mode_in);
-    libra::Quaternion quaternion_i2b;
+    math::Quaternion quaternion_i2b;
     ini_file_ca.ReadQuaternion(section_, "initial_quaternion_i2b", quaternion_i2b);
     math::Vector<3> main_target_direction_b, sub_target_direction_b;
     ini_file_ca.ReadVector(section_ca_, "main_pointing_direction_b", main_target_direction_b);

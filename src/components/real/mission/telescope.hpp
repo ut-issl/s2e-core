@@ -50,7 +50,7 @@ class Telescope : public Component, public ILoggable {
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] orbit: Orbit information
    */
-  Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
+  Telescope(ClockGenerator* clock_generator, const math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
             const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const Attitude* attitude,
             const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit = nullptr);
@@ -67,7 +67,7 @@ class Telescope : public Component, public ILoggable {
 
  protected:
  private:
-  libra::Quaternion quaternion_b2c_;    //!< Quaternion from the body frame to component frame
+  math::Quaternion quaternion_b2c_;    //!< Quaternion from the body frame to component frame
   math::Vector<3> sight_direction_c_;  //!< Sight direction vector in the component frame
 
   double sun_forbidden_angle_rad_;    //!< Sun forbidden angle [rad]

@@ -8,7 +8,7 @@
 #include <utilities/macros.hpp>
 
 ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode,
-                                       const libra::Quaternion quaternion_i2b, const math::Vector<3> main_target_direction_b,
+                                       const math::Quaternion quaternion_i2b, const math::Vector<3> main_target_direction_b,
                                        const math::Vector<3> sub_target_direction_b, const math::Matrix<3, 3>& inertia_tensor_kgm2,
                                        const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
                                        const std::string& simulation_object_name)
@@ -111,7 +111,7 @@ void ControlledAttitude::PointingControl(const math::Vector<3> main_direction_i,
   // Calc DCM ECI->body
   math::Matrix<3, 3> dcm_i2b = dcm_t2b * dcm_t2i.Transpose();
   // Convert to Quaternion
-  quaternion_i2b_ = libra::Quaternion::ConvertFromDcm(dcm_i2b);
+  quaternion_i2b_ = math::Quaternion::ConvertFromDcm(dcm_i2b);
 }
 
 math::Matrix<3, 3> ControlledAttitude::CalcDcm(const math::Vector<3> main_direction, const math::Vector<3> sub_direction) {
@@ -157,8 +157,8 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
 
   if (previous_calc_time_s_ > 0.0) {
     double time_diff_sec = current_time_s - previous_calc_time_s_;
-    libra::Quaternion prev_q_b2i = previous_quaternion_i2b_.Conjugate();
-    libra::Quaternion q_diff = prev_q_b2i * quaternion_i2b_;
+    math::Quaternion prev_q_b2i = previous_quaternion_i2b_.Conjugate();
+    math::Quaternion q_diff = prev_q_b2i * quaternion_i2b_;
     q_diff = (2.0 / time_diff_sec) * q_diff;
 
     math::Vector<3> angular_acc_b_rad_s2_;

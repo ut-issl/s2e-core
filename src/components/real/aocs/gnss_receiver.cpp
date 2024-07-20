@@ -12,7 +12,7 @@
 #include <string>
 
 GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
-                           const math::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c, const double half_width_deg,
+                           const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
                            const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const Dynamics* dynamics,
                            const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
@@ -32,7 +32,7 @@ GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator,
 }
 
 GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
-                           const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const libra::Quaternion quaternion_b2c,
+                           const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                            const double half_width_deg, const math::Vector<3> position_noise_standard_deviation_ecef_m,
                            const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const Dynamics* dynamics,
                            const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
@@ -57,7 +57,7 @@ void GnssReceiver::MainRoutine(const int time_count) {
   // Antenna checking
   // TODO: Use ECEF position only
   math::Vector<3> position_true_eci = dynamics_->GetOrbit().GetPosition_i_m();
-  libra::Quaternion quaternion_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
+  math::Quaternion quaternion_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
   CheckAntenna(position_true_eci, quaternion_i2b);
 
   if (is_gnss_visible_) {
@@ -74,7 +74,7 @@ void GnssReceiver::MainRoutine(const int time_count) {
   ConvertJulianDayToGpsTime(simulation_time_->GetCurrentTime_jd());
 }
 
-void GnssReceiver::CheckAntenna(const math::Vector<3> position_true_eci_m, const libra::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntenna(const math::Vector<3> position_true_eci_m, const math::Quaternion quaternion_i2b) {
   if (antenna_model_ == AntennaModel::kSimple) {
     CheckAntennaSimple(position_true_eci_m, quaternion_i2b);
   } else if (antenna_model_ == AntennaModel::kCone) {
@@ -84,7 +84,7 @@ void GnssReceiver::CheckAntenna(const math::Vector<3> position_true_eci_m, const
   }
 }
 
-void GnssReceiver::CheckAntennaSimple(const math::Vector<3> position_true_eci_m, const libra::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntennaSimple(const math::Vector<3> position_true_eci_m, const math::Quaternion quaternion_i2b) {
   // Simplest model
   // GNSS satellites are visible when antenna directs anti-earth direction
 
@@ -102,7 +102,7 @@ void GnssReceiver::CheckAntennaSimple(const math::Vector<3> position_true_eci_m,
   }
 }
 
-void GnssReceiver::CheckAntennaCone(const math::Vector<3> position_true_eci_m, const libra::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntennaCone(const math::Vector<3> position_true_eci_m, const math::Quaternion quaternion_i2b) {
   // Cone model
   gnss_information_list_.clear();
 
@@ -161,7 +161,7 @@ void GnssReceiver::CheckAntennaCone(const math::Vector<3> position_true_eci_m, c
   }
 }
 
-void GnssReceiver::SetGnssInfo(const math::Vector<3> antenna_to_satellite_i_m, const libra::Quaternion quaternion_i2b,
+void GnssReceiver::SetGnssInfo(const math::Vector<3> antenna_to_satellite_i_m, const math::Quaternion quaternion_i2b,
                                const std::size_t gnss_system_id) {
   math::Vector<3> antenna_to_satellite_direction_b = quaternion_i2b.FrameConversion(antenna_to_satellite_i_m);
   math::Vector<3> antenna_to_satellite_direction_c = quaternion_b2c_.FrameConversion(antenna_to_satellite_direction_b);
@@ -253,7 +253,7 @@ typedef struct _gnss_receiver_param {
   int prescaler;
   AntennaModel antenna_model;
   math::Vector<3> antenna_pos_b;
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   double half_width_deg;
   math::Vector<3> position_noise_standard_deviation_ecef_m;
   math::Vector<3> velocity_noise_standard_deviation_ecef_m_s;

@@ -32,7 +32,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILogg
    * @param [in] dynamics: Dynamics information
    */
   GyroSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
-             const libra::Quaternion& quaternion_b2c, const Dynamics* dynamics);
+             const math::Quaternion& quaternion_b2c, const Dynamics* dynamics);
   /**
    * @fn GyroSensor
    * @brief Constructor with power port
@@ -45,7 +45,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILogg
    * @param [in] dynamics: Dynamics information
    */
   GyroSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-             const libra::Quaternion& quaternion_b2c, const Dynamics* dynamics);
+             const math::Quaternion& quaternion_b2c, const Dynamics* dynamics);
   /**
    * @fn ~GyroSensor
    * @brief Destructor
@@ -81,7 +81,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILogg
   math::Vector<kGyroDimension> angular_velocity_c_rad_s_{
       0.0};                     //!< Observed angular velocity of the component frame with respect to the inertial frame [rad/s]
   unsigned int sensor_id_ = 0;  //!< Sensor ID
-  libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
+  math::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
 
   const Dynamics* dynamics_;  //!< Dynamics information
 };

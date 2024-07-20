@@ -16,7 +16,7 @@
 using namespace std;
 using namespace libra;
 
-StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
                        const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction,
                        const double step_time_s, const unsigned int output_delay, const unsigned int output_interval,
                        const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad,
@@ -41,7 +41,7 @@ StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, con
   Initialize();
 }
 StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                       const libra::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
+                       const math::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
                        const double standard_deviation_sight_direction, const double step_time_s, const unsigned int output_delay,
                        const unsigned int output_interval, const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad,
                        const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
@@ -67,12 +67,12 @@ StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, Pow
 }
 
 void StarSensor::Initialize() {
-  measured_quaternion_i2c_ = libra::Quaternion(0.0, 0.0, 0.0, 1.0);
+  measured_quaternion_i2c_ = math::Quaternion(0.0, 0.0, 0.0, 1.0);
 
   // Decide delay buffer size
   max_delay_ = int(output_delay_ * 2 / step_time_s_);
   if (max_delay_ <= 0) max_delay_ = 1;
-  vector<libra::Quaternion> temp(max_delay_);
+  vector<math::Quaternion> temp(max_delay_);
   delay_buffer_ = temp;
   // Initialize delay buffer
   for (int i = 0; i < max_delay_; ++i) {
@@ -113,7 +113,7 @@ void StarSensor::update(const LocalCelestialInformation* local_celestial_informa
   double rot = libra::tau * double(rotation_noise_);
   // Calc observation error on orthogonal direction of sight
   math::Vector<3> rot_axis = cos(rot) * first_orthogonal_direction_c + sin(rot) * second_orthogonal_direction_c;
-  libra::Quaternion q_ortho(rot_axis, orthogonal_direction_noise_);
+  math::Quaternion q_ortho(rot_axis, orthogonal_direction_noise_);
   // Judge errors
   AllJudgement(local_celestial_information, attitude);
 
@@ -138,7 +138,7 @@ void StarSensor::AllJudgement(const LocalCelestialInformation* local_celestial_i
 }
 
 int StarSensor::SunJudgement(const math::Vector<3>& sun_b) {
-  libra::Quaternion q_c2b = quaternion_b2c_.Conjugate();
+  math::Quaternion q_c2b = quaternion_b2c_.Conjugate();
   math::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double sun_angle_rad = CalAngleVector_rad(sun_b, sight_b);
   if (sun_angle_rad < sun_forbidden_angle_rad_)
@@ -148,7 +148,7 @@ int StarSensor::SunJudgement(const math::Vector<3>& sun_b) {
 }
 
 int StarSensor::EarthJudgement(const math::Vector<3>& earth_b) {
-  libra::Quaternion q_c2b = quaternion_b2c_.Conjugate();
+  math::Quaternion q_c2b = quaternion_b2c_.Conjugate();
   math::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double earth_size_rad = atan2(environment::earth_equatorial_radius_m,
                                 earth_b.CalcNorm());                      // angles between sat<->earth_center & sat<->earth_edge
@@ -161,7 +161,7 @@ int StarSensor::EarthJudgement(const math::Vector<3>& earth_b) {
 }
 
 int StarSensor::MoonJudgement(const math::Vector<3>& moon_b) {
-  libra::Quaternion q_c2b = quaternion_b2c_.Conjugate();
+  math::Quaternion q_c2b = quaternion_b2c_.Conjugate();
   math::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double moon_angle_rad = CalAngleVector_rad(moon_b, sight_b);
   if (moon_angle_rad < moon_forbidden_angle_rad_)
@@ -223,7 +223,7 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const 
   int prescaler = STT_conf.ReadInt(STTSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
   double step_time_s = component_step_time_s * prescaler;
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   STT_conf.ReadQuaternion(STTSection, "quaternion_b2c", quaternion_b2c);
   double standard_deviation_orthogonal_direction = STT_conf.ReadDouble(STTSection, "standard_deviation_orthogonal_direction_rad");
   double standard_deviation_sight_direction = STT_conf.ReadDouble(STTSection, "standard_deviation_sight_direction_rad");
@@ -257,7 +257,7 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, PowerPort* power_port
   if (prescaler <= 1) prescaler = 1;
   double step_time_s = component_step_time_s * prescaler;
 
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   STT_conf.ReadQuaternion(STTSection, "quaternion_b2c", quaternion_b2c);
   double standard_deviation_orthogonal_direction = STT_conf.ReadDouble(STTSection, "standard_deviation_orthogonal_direction_rad");
   double standard_deviation_sight_direction = STT_conf.ReadDouble(STTSection, "standard_deviation_sight_direction_rad");

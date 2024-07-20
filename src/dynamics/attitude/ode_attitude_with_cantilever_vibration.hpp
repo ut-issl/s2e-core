@@ -29,7 +29,7 @@ class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
    * @param [in] euler_angule_cantilever_rad: Euler angle of the cantilever@ body-fixed frame [rad]
    */
   math::Vector<13> SetStateFromPhysicalQuantities(const math::Vector<3> angular_velocity_b_rad_s,
-                                                   const math::Vector<3> angular_velocity_cantilever_rad_s, const libra::Quaternion quaternion_i2b,
+                                                   const math::Vector<3> angular_velocity_cantilever_rad_s, const math::Quaternion quaternion_i2b,
                                                    const math::Vector<3> euler_angule_cantilever_rad) const {
     math::Vector<13> state;
     for (size_t i = 0; i < 3; i++) {
@@ -53,7 +53,7 @@ class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
    * @param [in] state: state variables used to calculate the ordinary differential equation
    */
   void SetPhysicalQuantitiesFromState(const math::Vector<13> state, math::Vector<3>& angular_velocity_b_rad_s,
-                                      math::Vector<3>& angular_velocity_cantilever_rad_s, libra::Quaternion& quaternion_i2b,
+                                      math::Vector<3>& angular_velocity_cantilever_rad_s, math::Quaternion& quaternion_i2b,
                                       math::Vector<3>& euler_angular_cantilever_rad) const {
     for (size_t i = 0; i < 3; i++) {
       angular_velocity_b_rad_s[i] = state[i];
@@ -76,7 +76,7 @@ class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
 
     math::Vector<3> omega_b_rad_s;
     math::Vector<3> omega_cantilever_rad_s;
-    libra::Quaternion quaternion_i2b;
+    math::Quaternion quaternion_i2b;
     math::Vector<3> euler_angle_cantilever_rad;
 
     SetPhysicalQuantitiesFromState(state, omega_b_rad_s, omega_cantilever_rad_s, quaternion_i2b, euler_angle_cantilever_rad);
@@ -110,7 +110,7 @@ class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
     }
 
     // The function is used to output the derivative of each corresponding physical quantity.
-    output = SetStateFromPhysicalQuantities(rhs, angular_accelaration_cantilever_rad_s2, libra::Quaternion(d_quaternion), omega_cantilever_rad_s);
+    output = SetStateFromPhysicalQuantities(rhs, angular_accelaration_cantilever_rad_s2, math::Quaternion(d_quaternion), omega_cantilever_rad_s);
 
     return output;
   }

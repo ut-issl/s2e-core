@@ -35,7 +35,7 @@ class LocalCelestialInformation : public ILoggable {
    * @param [in] spacecraft_angular_velocity_rad_s: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
   void UpdateAllObjectsInformation(const math::Vector<3> spacecraft_position_from_center_i_m,
-                                   const math::Vector<3> spacecraft_velocity_from_center_i_m_s, const libra::Quaternion quaternion_i2b,
+                                   const math::Vector<3> spacecraft_velocity_from_center_i_m_s, const math::Quaternion quaternion_i2b,
                                    const math::Vector<3> spacecraft_angular_velocity_rad_s);
 
   /**
@@ -96,7 +96,7 @@ class LocalCelestialInformation : public ILoggable {
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    * @param [in] spacecraft_angular_velocity_rad_s: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
-  void CalcAllPosVel_b(const libra::Quaternion quaternion_i2b, const math::Vector<3> spacecraft_angular_velocity_rad_s);
+  void CalcAllPosVel_b(const math::Quaternion quaternion_i2b, const math::Vector<3> spacecraft_angular_velocity_rad_s);
 
   /**
    * @fn ConvertInertialToBody
@@ -105,7 +105,7 @@ class LocalCelestialInformation : public ILoggable {
    * @param [out] output_b: Output vector in the body fixed frame
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
-  void ConvertInertialToBody(const double* input_i, double* output_b, const libra::Quaternion quaternion_i2b);
+  void ConvertInertialToBody(const double* input_i, double* output_b, const math::Quaternion quaternion_i2b);
 
   /**
    * @fn ConvertVelocityInertialToBody
@@ -116,7 +116,7 @@ class LocalCelestialInformation : public ILoggable {
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    * @param [in] angular_velocity_b: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
-  void ConvertVelocityInertialToBody(const double* position_i, const double* velocity_i, double* velocity_b, const libra::Quaternion quaternion_i2b,
+  void ConvertVelocityInertialToBody(const double* position_i, const double* velocity_i, double* velocity_b, const math::Quaternion quaternion_i2b,
                                      const math::Vector<3> angular_velocity_b);
 };
 

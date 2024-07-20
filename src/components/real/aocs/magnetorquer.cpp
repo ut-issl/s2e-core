@@ -11,7 +11,7 @@
 #include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
-Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
                            const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
                            const math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
                            const math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const math::Vector<kMtqDimension>& bias_noise_c_Am2_,
@@ -34,7 +34,7 @@ Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator,
 }
 
 Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                           const libra::Quaternion& quaternion_b2c, const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
+                           const math::Quaternion& quaternion_b2c, const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
                            const math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
                            const math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const math::Vector<kMtqDimension>& bias_noise_c_Am2_,
                            double random_walk_step_width_s, const math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
@@ -130,7 +130,7 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, 
     }
   }
 
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   magtorquer_conf.ReadQuaternion(MTSection, "quaternion_b2c", quaternion_b2c);
 
   math::Vector<kMtqDimension> max_magnetic_moment_c_Am2;
@@ -175,7 +175,7 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_
     }
   }
 
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   magtorquer_conf.ReadQuaternion(MTSection, "quaternion_b2c", quaternion_b2c);
 
   math::Vector<kMtqDimension> max_magnetic_moment_c_Am2;

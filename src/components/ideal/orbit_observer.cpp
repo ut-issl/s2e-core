@@ -24,7 +24,7 @@ void OrbitObserver::MainRoutine(const int time_count) {
   math::Vector<3> position_error_rtn_m{0.0};
   math::Vector<3> velocity_error_i_m_s{0.0};
   math::Vector<3> velocity_error_rtn_m_s{0.0};
-  libra::Quaternion q_i2rtn = orbit_.CalcQuaternion_i2lvlh();
+  math::Quaternion q_i2rtn = orbit_.CalcQuaternion_i2lvlh();
   switch (noise_frame_) {
     case NoiseFrame::kInertial:
       for (size_t axis = 0; axis < 3; axis++) {

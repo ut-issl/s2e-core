@@ -25,7 +25,7 @@ void AttitudeObserver::MainRoutine(const int time_count) {
   random_direction = random_direction.CalcNormalizedVector();
 
   double error_angle_rad = angle_noise_;
-  libra::Quaternion error_quaternion(random_direction, error_angle_rad);
+  math::Quaternion error_quaternion(random_direction, error_angle_rad);
 
   observed_quaternion_i2b_ = error_quaternion * attitude_.GetQuaternion_i2b();
 }

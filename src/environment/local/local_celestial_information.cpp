@@ -45,7 +45,7 @@ LocalCelestialInformation::~LocalCelestialInformation() {
 
 void LocalCelestialInformation::UpdateAllObjectsInformation(const math::Vector<3> spacecraft_position_from_center_i_m,
                                                             const math::Vector<3> spacecraft_velocity_from_center_i_m_s,
-                                                            const libra::Quaternion quaternion_i2b,
+                                                            const math::Quaternion quaternion_i2b,
                                                             const math::Vector<3> spacecraft_angular_velocity_rad_s) {
   math::Vector<3> celestial_body_position_i_m, celestial_body_velocity_i_m_s;
   for (int i = 0; i < global_celestial_information_->GetNumberOfSelectedBodies(); i++) {
@@ -62,7 +62,7 @@ void LocalCelestialInformation::UpdateAllObjectsInformation(const math::Vector<3
   return;
 }
 
-void LocalCelestialInformation::CalcAllPosVel_b(const libra::Quaternion quaternion_i2b, const math::Vector<3> spacecraft_angular_velocity_rad_s) {
+void LocalCelestialInformation::CalcAllPosVel_b(const math::Quaternion quaternion_i2b, const math::Vector<3> spacecraft_angular_velocity_rad_s) {
   math::Vector<3> celestial_body_position_i_m, celestial_body_velocity_i_m_s;
   double r_buf1_i[3], velocity_buf1_i[3], r_buf1_b[3], velocity_buf1_b[3];
   double r_buf2_i[3], velocity_buf2_i[3], r_buf2_b[3], velocity_buf2_b[3];
@@ -89,7 +89,7 @@ void LocalCelestialInformation::CalcAllPosVel_b(const libra::Quaternion quaterni
   }
 }
 
-void LocalCelestialInformation::ConvertInertialToBody(const double* input_i, double* output_b, libra::Quaternion quaternion_i2b) {
+void LocalCelestialInformation::ConvertInertialToBody(const double* input_i, double* output_b, math::Quaternion quaternion_i2b) {
   math::Vector<3> temp_i;
   for (int i = 0; i < 3; i++) {
     temp_i[i] = input_i[i];
@@ -101,7 +101,7 @@ void LocalCelestialInformation::ConvertInertialToBody(const double* input_i, dou
 }
 
 void LocalCelestialInformation::ConvertVelocityInertialToBody(const double* position_i, const double* velocity_i, double* velocity_b,
-                                                              const libra::Quaternion quaternion_i2b, const math::Vector<3> angular_velocity_b) {
+                                                              const math::Quaternion quaternion_i2b, const math::Vector<3> angular_velocity_b) {
   // copy input vector
   math::Vector<3> vi;
   for (int i = 0; i < 3; i++) {

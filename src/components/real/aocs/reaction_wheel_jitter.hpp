@@ -36,7 +36,7 @@ class ReactionWheelJitter {
    */
   ReactionWheelJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,
                       std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double update_interval_s,
-                      const libra::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz, const double damping_factor,
+                      const math::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz, const double damping_factor,
                       const double bandwidth, const bool considers_structural_resonance);
   /**
    * @fn ~ReactionWheelJitter
@@ -81,7 +81,7 @@ class ReactionWheelJitter {
   std::vector<std::vector<double>> radial_torque_harmonics_coefficients_;  //!< Coefficients for radial torque harmonics
 
   double update_interval_s_;          //!< Jitter update interval [sec]
-  libra::Quaternion quaternion_b2c_;  //!< Quaternion from body frame to component frame
+  math::Quaternion quaternion_b2c_;  //!< Quaternion from body frame to component frame
 
   double structural_resonance_frequency_Hz_;          //!< Frequency of structural resonance [Hz]
   double structural_resonance_angular_frequency_Hz_;  //!< Angular Frequency of structural resonance

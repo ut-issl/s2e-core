@@ -62,7 +62,7 @@ math::Vector<3> HipparcosCatalogue::GetStarDirection_i(size_t rank) const {
   return direction_i;
 }
 
-math::Vector<3> HipparcosCatalogue::GetStarDirection_b(size_t rank, libra::Quaternion quaternion_i2b) const {
+math::Vector<3> HipparcosCatalogue::GetStarDirection_b(size_t rank, math::Quaternion quaternion_i2b) const {
   math::Vector<3> direction_i;
   math::Vector<3> direction_b;
 

@@ -44,7 +44,7 @@ class GeomagneticField : public ILoggable {
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
   void CalcMagneticField(const double decimal_year, const double sidereal_day, const GeodeticPosition position,
-                         const libra::Quaternion quaternion_i2b);
+                         const math::Quaternion quaternion_i2b);
 
   /**
    * @fn GetGeomagneticField_i_nT

@@ -9,7 +9,7 @@
 #include <utilities/macros.hpp>
 
 AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
-    const math::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b, const math::Matrix<3, 3>& inertia_tensor_kgm2,
+    const math::Vector<3>& angular_velocity_b_rad_s, const math::Quaternion& quaternion_i2b, const math::Matrix<3, 3>& inertia_tensor_kgm2,
     const math::Matrix<3, 3>& inertia_tensor_cantilever_kgm2, const double damping_ratio_cantilever,
     const double intrinsic_angular_velocity_cantilever_rad_s, const math::Vector<3>& torque_b_Nm, const double propagation_step_s,
     const std::string& simulation_object_name)

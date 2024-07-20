@@ -97,7 +97,7 @@ class MonteCarloSimulationExecutor {
    * @brief Get randomized quaternion and store it in dest_quat
    */
   void GetInitializedMonteCarloParameterQuaternion(std::string so_name, std::string init_monte_carlo_parameter_name,
-                                                   libra::Quaternion& destination) const;
+                                                   math::Quaternion& destination) const;
 
   // Calculation
   /**

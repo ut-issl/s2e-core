@@ -39,6 +39,6 @@ void SimulationObject::GetInitializedMonteCarloParameterDouble(const MonteCarloS
 
 void SimulationObject::GetInitializedMonteCarloParameterQuaternion(const MonteCarloSimulationExecutor& monte_carlo_simulator,
                                                                    std::string init_monte_carlo_parameter_name,
-                                                                   libra::Quaternion& destination) const {
+                                                                   math::Quaternion& destination) const {
   monte_carlo_simulator.GetInitializedMonteCarloParameterQuaternion(name_, init_monte_carlo_parameter_name, destination);
 }

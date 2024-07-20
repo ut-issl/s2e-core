@@ -13,7 +13,7 @@
 
 ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                              const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
-                             const libra::Quaternion quaternion_b2c, const math::Vector<3> position_b_m, const double dead_time_s,
+                             const math::Quaternion quaternion_b2c, const math::Vector<3> position_b_m, const double dead_time_s,
                              const double time_constant_s, const std::vector<double> friction_coefficients,
                              const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
                              const int fast_prescaler, ReactionWheelJitter& rw_jitter, bool drive_flag, const double init_velocity_rad_s)
@@ -40,7 +40,7 @@ ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generato
 
 ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                              const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
-                             const libra::Quaternion quaternion_b2c, const math::Vector<3> position_b_m, const double dead_time_s,
+                             const math::Quaternion quaternion_b2c, const math::Vector<3> position_b_m, const double dead_time_s,
                              const double time_constant_s, const std::vector<double> friction_coefficients,
                              const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
                              const int fast_prescaler, ReactionWheelJitter& rw_jitter, const bool drive_flag, const double init_velocity_rad_s)
@@ -238,7 +238,7 @@ double rotor_inertia_kgm2;
 double max_torque_Nm;
 double max_velocity_rpm;
 // Mounting
-libra::Quaternion quaternion_b2c;
+math::Quaternion quaternion_b2c;
 math::Vector<3> position_b_m;
 // Time delay
 double dead_time_s;
@@ -283,7 +283,7 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
     rw_ini_file.ReadVector(rw_section, "direction_b", direction_b);
     math::Vector<3> direction_c(0.0);
     direction_c[2] = 1.0;
-    libra::Quaternion q(direction_b, direction_c);
+    math::Quaternion q(direction_b, direction_c);
     quaternion_b2c = q.Conjugate();
   }
   rw_ini_file.ReadVector(rw_section, "position_b_m", position_b_m);

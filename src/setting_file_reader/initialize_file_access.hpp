@@ -126,7 +126,7 @@ class IniAccess {
    * @param[in] key_name: Key name
    * @param[out] data: Read quaternion data
    */
-  void ReadQuaternion(const char* section_name, const char* key_name, libra::Quaternion& data);
+  void ReadQuaternion(const char* section_name, const char* key_name, math::Quaternion& data);
   /**
    * @fn ReadChar
    * @brief Read characters data

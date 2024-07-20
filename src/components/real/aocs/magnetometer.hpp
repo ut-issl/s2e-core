@@ -32,7 +32,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
   Magnetometer(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
-               const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
+               const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
   /**
    * @fn Magnetometer
    * @brief Constructor with power port
@@ -45,7 +45,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
   Magnetometer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-               const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
+               const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
   /**
    * @fn ~Magnetometer
    * @brief Destructor
@@ -100,7 +100,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
  protected:
   math::Vector<kMagnetometerDimension> magnetic_field_c_nT_{0.0};  //!< Observed magnetic field on the component frame [nT]
   unsigned int sensor_id_ = 0;                                      //!< Sensor ID
-  libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from body frame to component frame
+  math::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from body frame to component frame
 
   const GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
 };

@@ -31,7 +31,7 @@ class InitializedMonteCarloParameters {
     kCircularNormalNormal,           //!< r and θ follow normal distribution in Circular frame
     kSphericalNormalUniformUniform,  //!< r follows normal distribution, and θ and φ follow uniform distribution in Spherical frame
     kSphericalNormalNormal,          //!< r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
-    kQuaternionUniform,              //!< Perfectly Randomized libra::Quaternion
+    kQuaternionUniform,              //!< Perfectly Randomized math::Quaternion
     kQuaternionNormal,               //!< Angle from the default quaternion θ follows normal distribution
   };
 
@@ -66,7 +66,7 @@ class InitializedMonteCarloParameters {
    * @fn GetRandomizedQuaternion
    * @brief Get randomized quaternion results
    */
-  void GetRandomizedQuaternion(libra::Quaternion& destination) const;
+  void GetRandomizedQuaternion(math::Quaternion& destination) const;
   /**
    * @fn GetRandomizedScalar
    * @brief Get randomized value results
@@ -196,12 +196,12 @@ class InitializedMonteCarloParameters {
    * @fn CalcQuaternionUniform
    * @brief Calculate randomized value with QuaternionUniform mode
    */
-  void CalcQuaternionUniform(libra::Quaternion& destination);
+  void CalcQuaternionUniform(math::Quaternion& destination);
   /**
    * @fn CalcQuaternionNormal
    * @brief Calculate randomized value with QuaternionNormal mode
    */
-  void CalcQuaternionNormal(libra::Quaternion& destination, double theta_sigma);
+  void CalcQuaternionNormal(math::Quaternion& destination, double theta_sigma);
 };
 
 template <size_t NumElement1, size_t NumElement2>

@@ -70,7 +70,7 @@ inline std::string WriteMatrix(const std::string name, const std::string frame, 
  * @brief Write quaternion value
  * @param [in] quaternion: Quaternion
  */
-inline std::string WriteQuaternion(const libra::Quaternion quaternion, const int precision = 6);
+inline std::string WriteQuaternion(const math::Quaternion quaternion, const int precision = 6);
 /**
  * @fn WriteQuaternion
  * @brief Write header for quaternion
@@ -138,7 +138,7 @@ std::string WriteMatrix(const std::string name, const std::string frame, const s
   return str_tmp.str();
 }
 
-std::string WriteQuaternion(const libra::Quaternion quaternion, const int precision) {
+std::string WriteQuaternion(const math::Quaternion quaternion, const int precision) {
   std::stringstream str_tmp;
 
   for (size_t i = 0; i < 4; i++) {

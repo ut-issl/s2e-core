@@ -23,7 +23,7 @@ GeomagneticField::GeomagneticField(const std::string igrf_file_name, const doubl
 }
 
 void GeomagneticField::CalcMagneticField(const double decimal_year, const double sidereal_day, const GeodeticPosition position,
-                                         const libra::Quaternion quaternion_i2b) {
+                                         const math::Quaternion quaternion_i2b) {
   if (!IsCalcEnabled) return;
 
   const double lat_rad = position.GetLatitude_rad();

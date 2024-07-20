@@ -73,7 +73,7 @@ class RelativeInformation : public ILoggable {
    * @param [in] target_spacecraft_id: ID of target spacecraft
    * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
-  inline libra::Quaternion GetRelativeAttitudeQuaternion(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
+  inline math::Quaternion GetRelativeAttitudeQuaternion(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
     return relative_attitude_quaternion_list_[target_spacecraft_id][reference_spacecraft_id];
   }
   /**
@@ -139,7 +139,7 @@ class RelativeInformation : public ILoggable {
   std::vector<std::vector<math::Vector<3>>> relative_position_list_rtn_m_;        //!< Relative position list in the RTN frame in unit [m]
   std::vector<std::vector<math::Vector<3>>> relative_velocity_list_rtn_m_s_;      //!< Relative velocity list in the RTN frame in unit [m/s]
   std::vector<std::vector<double>> relative_distance_list_m_;                      //!< Relative distance list in unit [m]
-  std::vector<std::vector<libra::Quaternion>> relative_attitude_quaternion_list_;  //!< Relative attitude quaternion list
+  std::vector<std::vector<math::Quaternion>> relative_attitude_quaternion_list_;  //!< Relative attitude quaternion list
 
   /**
    * @fn CalcRelativeAttitudeQuaternion
@@ -147,7 +147,7 @@ class RelativeInformation : public ILoggable {
    * @param [in] target_spacecraft_id: ID of the spacecraft
    * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
-  libra::Quaternion CalcRelativeAttitudeQuaternion(const size_t target_spacecraft_id, const size_t reference_spacecraft_id);
+  math::Quaternion CalcRelativeAttitudeQuaternion(const size_t target_spacecraft_id, const size_t reference_spacecraft_id);
   /**
    * @fn CalcRelativePosition_rtn_m
    * @brief Calculate and return the relative position in RTN frame

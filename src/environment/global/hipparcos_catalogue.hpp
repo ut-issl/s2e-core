@@ -89,7 +89,7 @@ class HipparcosCatalogue : public ILoggable {
    *@param [in] rank: Rank of star magnitude in read catalogue
    *@param [in] quaternion_i2b: Quaternion from the inertial frame to the body-fixed frame
    */
-  math::Vector<3> GetStarDirection_b(size_t rank, libra::Quaternion quaternion_i2b) const;
+  math::Vector<3> GetStarDirection_b(size_t rank, math::Quaternion quaternion_i2b) const;
 
   // Override ILoggable
   /**

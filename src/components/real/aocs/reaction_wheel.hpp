@@ -49,7 +49,7 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW
    */
   ReactionWheel(const int prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
-                const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
+                const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const math::Quaternion quaternion_b2c,
                 const math::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
                 const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled,
                 const bool is_log_jitter_enabled, const int fast_prescaler, ReactionWheelJitter& rw_jitter, const bool drive_flag = false,
@@ -79,7 +79,7 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW [rad/s]
    */
   ReactionWheel(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const double step_width_s,
-                const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const libra::Quaternion quaternion_b2c,
+                const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const math::Quaternion quaternion_b2c,
                 const math::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
                 const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled,
                 const bool is_log_jitter_enabled, const int fast_prescaler, ReactionWheelJitter& rw_jitter, const bool drive_flag = false,
@@ -174,7 +174,7 @@ class ReactionWheel : public Component, public ILoggable {
   const double rotor_inertia_kgm2_;         //!< Inertia of RW rotor [kgm2]
   const double max_torque_Nm_;              //!< Maximum output torque [Nm]
   const double max_velocity_rpm_;           //!< Maximum angular velocity of rotor [rpm]
-  const libra::Quaternion quaternion_b2c_;  //!< Quaternion from body frame to component frame
+  const math::Quaternion quaternion_b2c_;  //!< Quaternion from body frame to component frame
   const math::Vector<3> position_b_m_;     //!< Position of RW in the body fixed frame [m]
   math::Vector<3> rotation_axis_c_;        //!< Wheel rotation axis on the component frame. Constant as (0 0 1). (Output torque is minus direction)
   math::Vector<3> rotation_axis_b_;        //!< Wheel rotation vector in the body fixed frame.

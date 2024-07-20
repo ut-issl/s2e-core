@@ -54,7 +54,7 @@ class ControlledAttitude : public Attitude {
    * @param [in] orbit: Orbit
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const libra::Quaternion quaternion_i2b,
+  ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const math::Quaternion quaternion_i2b,
                      const math::Vector<3> main_target_direction_b, const math::Vector<3> sub_target_direction_b,
                      const math::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
                      const std::string& simulation_object_name = "attitude");
@@ -79,7 +79,7 @@ class ControlledAttitude : public Attitude {
    * @fn SetQuaternion_i2t
    * @brief Set quaternion for INERTIAL_STABILIZE mode
    */
-  inline void SetQuaternion_i2t(const libra::Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
+  inline void SetQuaternion_i2t(const math::Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
   /**
    * @fn SetMainTargetDirection_b
    * @brief Set main target direction on the body fixed frame
@@ -104,7 +104,7 @@ class ControlledAttitude : public Attitude {
   math::Vector<3> main_target_direction_b_;   //!< Main target direction on the body fixed frame
   math::Vector<3> sub_target_direction_b_;    //!< Sub target direction on tge body fixed frame
   double previous_calc_time_s_ = -1.0;         //!< Previous time of velocity calculation [sec]
-  libra::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
+  math::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
   math::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
 
   const double kMinDirectionAngle_rad = 30.0 * libra::deg_to_rad;  //!< Minimum angle b/w main and sub direction

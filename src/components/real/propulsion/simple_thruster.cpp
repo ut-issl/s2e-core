@@ -110,10 +110,10 @@ math::Vector<3> SimpleThruster::CalcThrustDirection() {
       make_axis_rot_rad = -libra::pi * (double)rand() / RAND_MAX;
     }
 
-    libra::Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);
+    math::Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);
     math::Vector<3> axis_rot = make_axis_rot.FrameConversion(ex);
 
-    libra::Quaternion err_rot(axis_rot, direction_random_noise_);    // Generate error quaternion
+    math::Quaternion err_rot(axis_rot, direction_random_noise_);    // Generate error quaternion
     thrust_dir_b_true = err_rot.FrameConversion(thrust_dir_b_true);  // Add error
   }
 

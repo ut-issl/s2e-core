@@ -45,7 +45,7 @@ class Attitude : public ILoggable, public SimulationObject {
    * @fn GetQuaternion_i2b
    * @brief Return attitude quaternion from the inertial frame to the body fixed frame
    */
-  inline libra::Quaternion GetQuaternion_i2b() const { return quaternion_i2b_; }
+  inline math::Quaternion GetQuaternion_i2b() const { return quaternion_i2b_; }
   /**
    * @fn GetTotalAngularMomentNorm_Nms
    * @brief Return norm of total angular momentum of the spacecraft [Nms]
@@ -72,7 +72,7 @@ class Attitude : public ILoggable, public SimulationObject {
    * @fn SetQuaternion_i2b
    * @brief Set attitude quaternion from the inertial frame to the body frame
    */
-  inline void SetQuaternion_i2b(const libra::Quaternion quaternion_i2b) { quaternion_i2b_ = quaternion_i2b; }
+  inline void SetQuaternion_i2b(const math::Quaternion quaternion_i2b) { quaternion_i2b_ = quaternion_i2b; }
   /**
    * @fn SetTorque_b_Nm
    * @brief Set torque acting on the spacecraft on the body fixed frame [Nm]
@@ -117,7 +117,7 @@ class Attitude : public ILoggable, public SimulationObject {
   bool is_calc_enabled_ = true;                     //!< Calculation flag
   double propagation_step_s_;                       //!< Propagation step [sec]
   math::Vector<3> angular_velocity_b_rad_s_;       //!< Angular velocity of spacecraft body fixed frame with respect to the inertial frame [rad/s]
-  libra::Quaternion quaternion_i2b_;                //!< Attitude quaternion from the inertial frame to the body fixed frame
+  math::Quaternion quaternion_i2b_;                //!< Attitude quaternion from the inertial frame to the body fixed frame
   math::Vector<3> torque_b_Nm_;                    //!< Torque in the body fixed frame [Nm]
   const math::Matrix<3, 3>& inertia_tensor_kgm2_;  //!< Inertia tensor of the spacecraft [kg m^2]
 

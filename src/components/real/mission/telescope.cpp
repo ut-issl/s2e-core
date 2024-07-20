@@ -13,7 +13,7 @@
 using namespace std;
 using namespace libra;
 
-Telescope::Telescope(ClockGenerator* clock_generator, const libra::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
+Telescope::Telescope(ClockGenerator* clock_generator, const math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
                      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix,
                      const int y_number_of_pix, const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars,
                      const Attitude* attitude, const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
@@ -92,7 +92,7 @@ void Telescope::MainRoutine(const int time_count) {
 }
 
 bool Telescope::JudgeForbiddenAngle(const math::Vector<3>& target_b, const double forbidden_angle) {
-  libra::Quaternion q_c2b = quaternion_b2c_.Conjugate();
+  math::Quaternion q_c2b = quaternion_b2c_.Conjugate();
   math::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double angle_rad = libra::CalcAngleTwoVectors_rad(target_b, sight_b);
   if (angle_rad < forbidden_angle) {
@@ -260,7 +260,7 @@ Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const st
   strcat(TelescopeSection, cs);
 #endif
 
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   Telescope_conf.ReadQuaternion(TelescopeSection, "quaternion_b2c", quaternion_b2c);
 
   double sun_forbidden_angle_deg = Telescope_conf.ReadDouble(TelescopeSection, "sun_exclusion_angle_deg");

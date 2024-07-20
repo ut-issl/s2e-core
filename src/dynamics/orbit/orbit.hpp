@@ -69,7 +69,7 @@ class Orbit : public ILoggable {
    * @brief Update attitude information
    * @param [in] quaternion_i2b: End time of simulation [sec]
    */
-  inline void UpdateByAttitude(const libra::Quaternion quaternion_i2b) {
+  inline void UpdateByAttitude(const math::Quaternion quaternion_i2b) {
     spacecraft_velocity_b_m_s_ = quaternion_i2b.FrameConversion(spacecraft_velocity_i_m_s_);
   }
 
@@ -161,7 +161,7 @@ class Orbit : public ILoggable {
    * @param [in] quaternion_i2b: Quaternion from the inertial frame to the body fixed frame
    * @param [in] spacecraft_mass_kg: Mass of spacecraft [kg]
    */
-  inline void AddForce_b_N(const math::Vector<3> force_b_N, const libra::Quaternion quaternion_i2b, const double spacecraft_mass_kg) {
+  inline void AddForce_b_N(const math::Vector<3> force_b_N, const math::Quaternion quaternion_i2b, const double spacecraft_mass_kg) {
     auto force_i = quaternion_i2b.InverseFrameConversion(force_b_N);
     AddForce_i_N(force_i, spacecraft_mass_kg);
   }
@@ -170,7 +170,7 @@ class Orbit : public ILoggable {
    * @fn CalcQuaternion_i2lvlh
    * @brief Calculate and return quaternion from the inertial frame to the LVLH frame
    */
-  libra::Quaternion CalcQuaternion_i2lvlh() const;
+  math::Quaternion CalcQuaternion_i2lvlh() const;
 
   // Override ILoggable
   /**

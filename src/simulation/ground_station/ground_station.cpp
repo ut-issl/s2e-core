@@ -53,7 +53,7 @@ void GroundStation::Update(const EarthRotation& celestial_rotation, const Spacec
 }
 
 bool GroundStation::CalcIsVisible(const math::Vector<3> spacecraft_position_ecef_m) {
-  libra::Quaternion q_ecef_to_ltc = geodetic_position_.GetQuaternionXcxfToLtc();
+  math::Quaternion q_ecef_to_ltc = geodetic_position_.GetQuaternionXcxfToLtc();
 
   math::Vector<3> sc_pos_ltc = q_ecef_to_ltc.FrameConversion(spacecraft_position_ecef_m - position_ecef_m_);  // Satellite position in LTC frame [m]
   sc_pos_ltc = sc_pos_ltc.CalcNormalizedVector();

@@ -46,7 +46,7 @@ void InitializedMonteCarloParameters::GetRandomizedScalar(double& destination) c
   }
 }
 
-void InitializedMonteCarloParameters::GetRandomizedQuaternion(libra::Quaternion& destination) const {
+void InitializedMonteCarloParameters::GetRandomizedQuaternion(math::Quaternion& destination) const {
   if (randomization_type_ == kNoRandomization) {
     ;
   } else if (4 > randomized_value_.size()) {
@@ -208,12 +208,12 @@ void InitializedMonteCarloParameters::CalcSphericalNormalNormal(math::Vector<3>&
   math::Vector<3> normal_unit_vec = op_x.CalcNorm() > op_y.CalcNorm() ? op_x = op_x.CalcNormalizedVector() : op_y = op_y.CalcNormalizedVector();
 
   double rotation_angle_of_normal_unit_vec = InitializedMonteCarloParameters::Generate1dUniform(0.0, libra::tau);
-  libra::Quaternion rotation_of_normal_unit_vec(mean_vec_dir,
+  math::Quaternion rotation_of_normal_unit_vec(mean_vec_dir,
                                                 -rotation_angle_of_normal_unit_vec);  // Use opposite sign to rotate the vector (not the frame)
   math::Vector<3> rotation_axis = rotation_of_normal_unit_vec.FrameConversion(normal_unit_vec);  // Axis of mean vector rotation
 
   double rotation_angle_of_mean_vec = InitializedMonteCarloParameters::Generate1dNormal(0.0, sigma_or_max_[1]);
-  libra::Quaternion rotation_of_mean_vec(rotation_axis, -rotation_angle_of_mean_vec);  // Use opposite sign to rotate the vector (not the frame)
+  math::Quaternion rotation_of_mean_vec(rotation_axis, -rotation_angle_of_mean_vec);  // Use opposite sign to rotate the vector (not the frame)
   math::Vector<3> ret_vec = rotation_of_mean_vec.FrameConversion(mean_vec_dir);       // Complete calculation of the direction
 
   ret_vec = InitializedMonteCarloParameters::Generate1dNormal(mean_vec.CalcNorm(), sigma_or_max_[0]) * ret_vec;  // multiply norm
@@ -240,13 +240,13 @@ void InitializedMonteCarloParameters::GenerateSphericalNormalNormal() {
   }
 }
 
-void InitializedMonteCarloParameters::CalcQuaternionUniform(libra::Quaternion& destination) {
-  // Perfectly Randomized libra::Quaternion
+void InitializedMonteCarloParameters::CalcQuaternionUniform(math::Quaternion& destination) {
+  // Perfectly Randomized math::Quaternion
   math::Vector<3> x_axis(0.0);
   x_axis[0] = 1.0;
 
   // A direction vector converted from the X-axis by a quaternion may follows the uniform distribution in full sphere.
-  libra::Quaternion first_cnv;
+  math::Quaternion first_cnv;
   math::Vector<3> x_axis_cnvd;
   double theta = acos(1 - (1 - (-1)) * InitializedMonteCarloParameters::Generate1dUniform(0.0, 1.0));
   double phi = InitializedMonteCarloParameters::Generate1dUniform(0, libra::tau);
@@ -263,9 +263,9 @@ void InitializedMonteCarloParameters::CalcQuaternionUniform(libra::Quaternion& d
 
   // Generate randomized rotation angle around the X-axis
   double rotation_angle = InitializedMonteCarloParameters::Generate1dUniform(0.0, libra::tau);
-  libra::Quaternion second_cnv(x_axis, rotation_angle);
+  math::Quaternion second_cnv(x_axis, rotation_angle);
 
-  libra::Quaternion ret_q = first_cnv * second_cnv;
+  math::Quaternion ret_q = first_cnv * second_cnv;
 
   for (int i = 0; i < 4; i++) {
     destination[i] = ret_q[i];
@@ -274,7 +274,7 @@ void InitializedMonteCarloParameters::CalcQuaternionUniform(libra::Quaternion& d
 
 void InitializedMonteCarloParameters::GenerateQuaternionUniform() {
   const static int dim = 4;
-  libra::Quaternion temp_q;
+  math::Quaternion temp_q;
   CalcQuaternionUniform(temp_q);
 
   randomized_value_.clear();
@@ -283,7 +283,7 @@ void InitializedMonteCarloParameters::GenerateQuaternionUniform() {
   }
 }
 
-void InitializedMonteCarloParameters::CalcQuaternionNormal(libra::Quaternion& destination, double theta_sigma) {
+void InitializedMonteCarloParameters::CalcQuaternionNormal(math::Quaternion& destination, double theta_sigma) {
   // Angle from the default quaternion θ follows normal distribution
   // The rotation axis follows uniform distribution on full sphere
   math::Vector<3> rot_axis;
@@ -295,7 +295,7 @@ void InitializedMonteCarloParameters::CalcQuaternionNormal(libra::Quaternion& de
 
   double rotation_angle = InitializedMonteCarloParameters::Generate1dNormal(0.0, theta_sigma);
 
-  libra::Quaternion ret_q(rot_axis, rotation_angle);
+  math::Quaternion ret_q(rot_axis, rotation_angle);
   for (int i = 0; i < 4; i++) {
     destination[i] = ret_q[i];
   }
@@ -307,7 +307,7 @@ void InitializedMonteCarloParameters::GenerateQuaternionNormal() {
   if (sigma_or_max_.size() < 1) {
     throw "Config parameters dimension unmatched.";
   }
-  libra::Quaternion temp_q;
+  math::Quaternion temp_q;
   CalcQuaternionNormal(temp_q, sigma_or_max_[0]);
 
   randomized_value_.clear();

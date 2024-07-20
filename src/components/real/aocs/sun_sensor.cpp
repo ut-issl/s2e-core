@@ -14,7 +14,7 @@ using libra::NormalRand;
 
 using namespace std;
 
-SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
                      const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
                      const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
@@ -29,7 +29,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const
 }
 
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                     const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
+                     const math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
                      const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator, power_port),
@@ -161,7 +161,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, int ss_id, std::string 
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   ss_conf.ReadQuaternion(Section, "quaternion_b2c", quaternion_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
@@ -194,7 +194,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, 
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   ss_conf.ReadQuaternion(Section, "quaternion_b2c", quaternion_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;

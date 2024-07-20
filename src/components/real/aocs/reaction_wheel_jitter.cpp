@@ -11,7 +11,7 @@
 
 ReactionWheelJitter::ReactionWheelJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,
                                          std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double update_interval_s,
-                                         const libra::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz,
+                                         const math::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz,
                                          const double damping_factor, const double bandwidth, const bool considers_structural_resonance)
     : radial_force_harmonics_coefficients_(radial_force_harmonics_coefficients),
       radial_torque_harmonics_coefficients_(radial_torque_harmonics_coefficients),

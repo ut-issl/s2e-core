@@ -110,7 +110,7 @@ class ForceGenerator : public Component, public ILoggable {
    * @param [in] true_direction: True direction
    * @param [in] error_standard_deviation_rad: Standard deviation of direction error [rad]
    */
-  libra::Quaternion GenerateDirectionNoiseQuaternion(math::Vector<3> true_direction, const double error_standard_deviation_rad);
+  math::Quaternion GenerateDirectionNoiseQuaternion(math::Vector<3> true_direction, const double error_standard_deviation_rad);
 
   const Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };

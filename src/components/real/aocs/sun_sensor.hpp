@@ -35,7 +35,7 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] srp_environment: Solar Radiation Pressure environment
    * @param [in] local_celestial_information: Local celestial information
    */
-  SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+  SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
             const double detectable_angle_rad, const double random_noise_standard_deviation_rad, const double bias_noise_standard_deviation_rad,
             const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp_environment,
             const LocalCelestialInformation* local_celestial_information);
@@ -55,7 +55,7 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] local_celestial_information: Local celestial information
    */
   SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-            const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
+            const math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
             const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
             const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information);
 
@@ -88,7 +88,7 @@ class SunSensor : public Component, public ILoggable {
 
  protected:
   const int component_id_;                    //!< Sensor ID
-  libra::Quaternion quaternion_b2c_;          //!< Quaternion from body frame to component frame (Z-axis of the component is sight direction)
+  math::Quaternion quaternion_b2c_;          //!< Quaternion from body frame to component frame (Z-axis of the component is sight direction)
   double intensity_lower_threshold_percent_;  //!< If the light intensity becomes smaller than this, it becomes impossible to get the sun direction
 
   math::Vector<3> sun_direction_true_c_{0.0};      //!< True value of sun vector in the component frame
