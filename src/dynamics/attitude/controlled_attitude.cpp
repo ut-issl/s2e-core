@@ -7,11 +7,10 @@
 #include <logger/log_utility.hpp>
 #include <utilities/macros.hpp>
 
-ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode,
-                                       const math::Quaternion quaternion_i2b, const math::Vector<3> main_target_direction_b,
-                                       const math::Vector<3> sub_target_direction_b, const math::Matrix<3, 3>& inertia_tensor_kgm2,
-                                       const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
-                                       const std::string& simulation_object_name)
+ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const math::Quaternion quaternion_i2b,
+                                       const math::Vector<3> main_target_direction_b, const math::Vector<3> sub_target_direction_b,
+                                       const math::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information,
+                                       const Orbit* orbit, const std::string& simulation_object_name)
     : Attitude(inertia_tensor_kgm2, simulation_object_name),
       main_mode_(main_mode),
       sub_mode_(sub_mode),

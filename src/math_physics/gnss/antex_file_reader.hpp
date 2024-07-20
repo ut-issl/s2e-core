@@ -164,7 +164,7 @@ class AntexPhaseCenterData {
 
  private:
   std::string frequency_name_ = "";                                    //!< Frequency name
-  math::Vector<3> phase_center_offset_mm_{0.0};                       //!< Phase center offset [mm]
+  math::Vector<3> phase_center_offset_mm_{0.0};                        //!< Phase center offset [mm]
   AntexGridDefinition grid_information_;                               //!< Grid information
   std::vector<std::vector<double>> phase_center_variation_matrix_mm_;  //!< Phase center variation [mm] (column, row definition: [azimuth][zenith])
 };

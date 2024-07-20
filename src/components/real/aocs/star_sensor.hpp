@@ -107,7 +107,7 @@ class StarSensor : public Component, public ILoggable {
 
  protected:
   // StarSensor general parameters
-  const int component_id_;                                            //!< Sensor ID
+  const int component_id_;                                           //!< Sensor ID
   math::Quaternion quaternion_b2c_;                                  //!< Quaternion from body frame to component frame
   math::Quaternion measured_quaternion_i2c_ = {0.0, 0.0, 0.0, 1.0};  //!< StarSensor observed quaternion
   math::Vector<3> sight_direction_c_;                                //!< Sight direction vector at component frame
@@ -120,13 +120,13 @@ class StarSensor : public Component, public ILoggable {
   libra::NormalRand sight_direction_noise_;              //!< Random noise for sight direction
 
   // Delay emulation parameters
-  int max_delay_;                                //!< Max delay
+  int max_delay_;                               //!< Max delay
   std::vector<math::Quaternion> delay_buffer_;  //!< Buffer of quaternion for delay emulation
-  int buffer_position_;                          //!< Buffer position
-  double step_time_s_;                           //!< Step time for delay calculation [sec]
-  unsigned int output_delay_;                    //!< Output delay [0, max_delay_] [step_sec]
-  unsigned int output_interval_;                 //!< Output interval [step_sec]
-  std::size_t update_count_;                     //!< Output update counter
+  int buffer_position_;                         //!< Buffer position
+  double step_time_s_;                          //!< Step time for delay calculation [sec]
+  unsigned int output_delay_;                   //!< Output delay [0, max_delay_] [step_sec]
+  unsigned int output_interval_;                //!< Output interval [step_sec]
+  std::size_t update_count_;                    //!< Output update counter
 
   // observation error parameters
   bool error_flag_;                   //!< Error flag. true: Error, false: No error

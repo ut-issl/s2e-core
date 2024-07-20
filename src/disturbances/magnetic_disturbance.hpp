@@ -50,7 +50,7 @@ class MagneticDisturbance : public Disturbance {
  private:
   const double kMagUnit_ = 1.0e-9;  //!< Constant value to change the unit [nT] -> [T]
 
-  math::Vector<3> rmm_b_Am2_;                              //!< True RMM of the spacecraft in the body frame [Am2]
+  math::Vector<3> rmm_b_Am2_;                               //!< True RMM of the spacecraft in the body frame [Am2]
   const ResidualMagneticMoment& residual_magnetic_moment_;  //!< RMM parameters
 
   /**

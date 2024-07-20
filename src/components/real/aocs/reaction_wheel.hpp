@@ -170,10 +170,10 @@ class ReactionWheel : public Component, public ILoggable {
 
  protected:
   // Fixed Parameters
-  const int component_id_;                  //!< Actuator ID
-  const double rotor_inertia_kgm2_;         //!< Inertia of RW rotor [kgm2]
-  const double max_torque_Nm_;              //!< Maximum output torque [Nm]
-  const double max_velocity_rpm_;           //!< Maximum angular velocity of rotor [rpm]
+  const int component_id_;                 //!< Actuator ID
+  const double rotor_inertia_kgm2_;        //!< Inertia of RW rotor [kgm2]
+  const double max_torque_Nm_;             //!< Maximum output torque [Nm]
+  const double max_velocity_rpm_;          //!< Maximum angular velocity of rotor [rpm]
   const math::Quaternion quaternion_b2c_;  //!< Quaternion from body frame to component frame
   const math::Vector<3> position_b_m_;     //!< Position of RW in the body fixed frame [m]
   math::Vector<3> rotation_axis_c_;        //!< Wheel rotation axis on the component frame. Constant as (0 0 1). (Output torque is minus direction)

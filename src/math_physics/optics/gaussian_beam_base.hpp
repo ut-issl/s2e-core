@@ -100,9 +100,9 @@ class GaussianBeamBase {
   double CalcIntensity_W_m2(double distance_from_beam_waist_m, double deviation_from_optical_axis_m);
 
  private:
-  double wavelength_m_;                            //!< Wavelength [m]
-  double radius_beam_waist_m_;                     //!< Radius of beam waist [m]
-  double total_power_W_;                           //!< Total power [W]
+  double wavelength_m_;                           //!< Wavelength [m]
+  double radius_beam_waist_m_;                    //!< Radius of beam waist [m]
+  double total_power_W_;                          //!< Total power [W]
   math::Vector<3> pointing_vector_i_{0.0};        //!< Pointing direction vector in the inertial frame
   math::Vector<3> position_beam_waist_i_m_{0.0};  //!< Position of beam waist in the inertial frame [m] (Not used?)
 };

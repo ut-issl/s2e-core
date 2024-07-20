@@ -99,7 +99,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
 
  protected:
   math::Vector<kMagnetometerDimension> magnetic_field_c_nT_{0.0};  //!< Observed magnetic field on the component frame [nT]
-  unsigned int sensor_id_ = 0;                                      //!< Sensor ID
+  unsigned int sensor_id_ = 0;                                     //!< Sensor ID
   math::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from body frame to component frame
 
   const GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment

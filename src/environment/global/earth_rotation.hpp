@@ -54,12 +54,12 @@ class EarthRotation {
   inline const math::Matrix<3, 3> GetDcmTemeToEcef() const { return dcm_teme_to_ecef_; };
 
  private:
-  double d_psi_rad_;                       //!< Nutation in obliquity [rad]
-  double d_epsilon_rad_;                   //!< Nutation in longitude [rad]
-  double epsilon_rad_;                     //!< Mean obliquity of the ecliptic [rad]
+  double d_psi_rad_;                      //!< Nutation in obliquity [rad]
+  double d_epsilon_rad_;                  //!< Nutation in longitude [rad]
+  double epsilon_rad_;                    //!< Mean obliquity of the ecliptic [rad]
   math::Matrix<3, 3> dcm_j2000_to_ecef_;  //!< Direction Cosine Matrix J2000 to ECEF
   math::Matrix<3, 3> dcm_teme_to_ecef_;   //!< Direction Cosine Matrix TEME to ECEF
-  EarthRotationMode rotation_mode_;        //!< Designation of dynamics model
+  EarthRotationMode rotation_mode_;       //!< Designation of dynamics model
 
   // Definitions of coefficients
   // They are handling as constant values

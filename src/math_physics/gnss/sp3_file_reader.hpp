@@ -92,15 +92,15 @@ struct Sp3Header {
  * @note The coordinate system of the position is defined in the SP3 header
  */
 struct Sp3PositionClock {
-  std::string satellite_id_;                              //!< GNSS satellite ID
+  std::string satellite_id_;                             //!< GNSS satellite ID
   math::Vector<3> position_km_{SP3_BAD_POSITION_VALUE};  //!< Satellite position [km]
-  double clock_us_ = SP3_BAD_CLOCK_VALUE;                 //!< Satellite clock offset [us]
+  double clock_us_ = SP3_BAD_CLOCK_VALUE;                //!< Satellite clock offset [us]
   math::Vector<3> position_standard_deviation_{0.0};     //!< Satellite position standard deviation [-]
-  double clock_standard_deviation_ = 0.0;                 //!< Satellite clock offset standard deviation [-]
-  bool clock_event_flag_ = false;                         //!< true when clock discontinuity is happened
-  bool clock_prediction_flag_ = false;                    //!< true when clock data is predicted
-  bool maneuver_flag_ = false;                            //!< true when orbit maneuver is happened in last 50 minutes
-  bool orbit_prediction_flag_ = false;                    //!< true when orbit data is predicted
+  double clock_standard_deviation_ = 0.0;                //!< Satellite clock offset standard deviation [-]
+  bool clock_event_flag_ = false;                        //!< true when clock discontinuity is happened
+  bool clock_prediction_flag_ = false;                   //!< true when clock data is predicted
+  bool maneuver_flag_ = false;                           //!< true when orbit maneuver is happened in last 50 minutes
+  bool orbit_prediction_flag_ = false;                   //!< true when orbit data is predicted
 };
 
 /**
@@ -127,11 +127,11 @@ struct Sp3PositionClockCorrelation {
  * @note The coordinate system of the position is defined in the SP3 header
  */
 struct Sp3VelocityClockRate {
-  std::string satellite_id_;                           //!< GNSS satellite ID
+  std::string satellite_id_;                          //!< GNSS satellite ID
   math::Vector<3> velocity_dm_s_{0.0};                //!< Satellite velocity [dm/s]
-  double clock_rate_ = 0.0;                            //!< Satellite clock offset change rate [-]
+  double clock_rate_ = 0.0;                           //!< Satellite clock offset change rate [-]
   math::Vector<3> velocity_standard_deviation_{0.0};  //!< Satellite position standard deviation [-]
-  double clock_rate_standard_deviation_ = 0.0;         //!< Satellite clock offset standard deviation [-]
+  double clock_rate_standard_deviation_ = 0.0;        //!< Satellite clock offset standard deviation [-]
 };
 
 /**

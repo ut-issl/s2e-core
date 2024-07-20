@@ -24,7 +24,7 @@ class Surface {
    * @fn ~Surface
    * @brief Destructor
    */
-  ~Surface(){};
+  ~Surface() {};
 
   // Getter
   /**
@@ -107,10 +107,10 @@ class Surface {
  private:
   math::Vector<3> position_b_m_;  //!< Position vector of the surface @ Body Frame [m]
   math::Vector<3> normal_b_;      //!< Normal unit vector of the surface @ Body Frame [-]
-  double area_m2_;                 //!< Area of the surface [m2]
-  double reflectivity_;            //!< Total reflectivity for solar wavelength (1.0 - solar absorption)
-  double specularity_;             //!< Ratio of specular reflection in the total reflected light
-  double air_specularity_;         //!< Specularity for air drag
+  double area_m2_;                //!< Area of the surface [m2]
+  double reflectivity_;           //!< Total reflectivity for solar wavelength (1.0 - solar absorption)
+  double specularity_;            //!< Ratio of specular reflection in the total reflected light
+  double air_specularity_;        //!< Specularity for air drag
 };
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_HPP_

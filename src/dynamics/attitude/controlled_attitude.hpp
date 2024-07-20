@@ -99,16 +99,16 @@ class ControlledAttitude : public Attitude {
   virtual void Propagate(const double end_time_s);
 
  private:
-  AttitudeControlMode main_mode_;              //!< Main control mode
-  AttitudeControlMode sub_mode_;               //!< Sub control mode
+  AttitudeControlMode main_mode_;             //!< Main control mode
+  AttitudeControlMode sub_mode_;              //!< Sub control mode
   math::Vector<3> main_target_direction_b_;   //!< Main target direction on the body fixed frame
   math::Vector<3> sub_target_direction_b_;    //!< Sub target direction on tge body fixed frame
-  double previous_calc_time_s_ = -1.0;         //!< Previous time of velocity calculation [sec]
+  double previous_calc_time_s_ = -1.0;        //!< Previous time of velocity calculation [sec]
   math::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
   math::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
 
   const double kMinDirectionAngle_rad = 30.0 * math::deg_to_rad;  //!< Minimum angle b/w main and sub direction
-                                                                   // TODO Change with ini file
+                                                                  // TODO Change with ini file
 
   // Inputs
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information

@@ -56,7 +56,7 @@ class MoonRotation {
   inline const math::Matrix<3, 3> GetDcmJ2000ToMcmf() const { return dcm_j2000_to_mcmf_; };
 
  private:
-  MoonRotationMode mode_;                  //!< Rotation mode
+  MoonRotationMode mode_;                 //!< Rotation mode
   math::Matrix<3, 3> dcm_j2000_to_mcmf_;  //!< Direction Cosine Matrix J2000 to MCMF (Moon Centered Moon Fixed)
 
   const CelestialInformation &celestial_information_;  //!< Celestial Information to get moon orbit

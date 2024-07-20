@@ -88,7 +88,7 @@ class SunSensor : public Component, public ILoggable {
 
  protected:
   const int component_id_;                    //!< Sensor ID
-  math::Quaternion quaternion_b2c_;          //!< Quaternion from body frame to component frame (Z-axis of the component is sight direction)
+  math::Quaternion quaternion_b2c_;           //!< Quaternion from body frame to component frame (Z-axis of the component is sight direction)
   double intensity_lower_threshold_percent_;  //!< If the light intensity becomes smaller than this, it becomes impossible to get the sun direction
 
   math::Vector<3> sun_direction_true_c_{0.0};      //!< True value of sun vector in the component frame

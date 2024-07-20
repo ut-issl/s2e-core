@@ -191,8 +191,8 @@ class Orbit : public ILoggable {
   bool is_calc_enabled_ = false;       //!< Calculate flag
   OrbitPropagateMode propagate_mode_;  //!< Propagation mode
 
-  math::Vector<3> spacecraft_position_i_m_;       //!< Spacecraft position in the inertial frame [m]
-  math::Vector<3> spacecraft_position_ecef_m_;    //!< Spacecraft position in the ECEF frame [m]
+  math::Vector<3> spacecraft_position_i_m_;        //!< Spacecraft position in the inertial frame [m]
+  math::Vector<3> spacecraft_position_ecef_m_;     //!< Spacecraft position in the ECEF frame [m]
   GeodeticPosition spacecraft_geodetic_position_;  //!< Spacecraft position in the Geodetic frame
 
   math::Vector<3> spacecraft_velocity_i_m_s_;     //!< Spacecraft velocity in the inertial frame [m/s]
@@ -200,7 +200,7 @@ class Orbit : public ILoggable {
   math::Vector<3> spacecraft_velocity_ecef_m_s_;  //!< Spacecraft velocity in the ECEF frame [m/s]
 
   math::Vector<3> spacecraft_acceleration_i_m_s2_;  //!< Spacecraft acceleration in the inertial frame [m/s2]
-                                                     //!< NOTE: Clear to zero at the end of the Propagate function
+                                                    //!< NOTE: Clear to zero at the end of the Propagate function
 
   // Frame Conversion TODO: consider other planet
   /**

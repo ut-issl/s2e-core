@@ -72,7 +72,7 @@ class LunarGravityField : public Disturbance {
 
   // debug
   math::Vector<3> debug_pos_mcmf_m_;  //!< Spacecraft position in MCMF frame [m]
-  double time_ms_ = 0.0;               //!< Calculation time [ms]
+  double time_ms_ = 0.0;              //!< Calculation time [ms]
 
   /**
    * @fn ReadCoefficientsGrgm1200a

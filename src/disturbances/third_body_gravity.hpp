@@ -42,7 +42,7 @@ class ThirdBodyGravity : public Disturbance {
   virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
 
  private:
-  std::set<std::string> third_body_list_;                 //!< List of celestial bodies to calculate the third body disturbances
+  std::set<std::string> third_body_list_;                //!< List of celestial bodies to calculate the third body disturbances
   math::Vector<3> third_body_acceleration_i_m_s2_{0.0};  //!< Calculated third body disturbance acceleration in the inertial frame [m/s2]
 
   // Override classes for ILoggable

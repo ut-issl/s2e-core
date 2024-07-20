@@ -138,7 +138,7 @@ class RelativeInformation : public ILoggable {
   std::vector<std::vector<math::Vector<3>>> relative_velocity_list_i_m_s_;        //!< Relative velocity list in the inertial frame in unit [m/s]
   std::vector<std::vector<math::Vector<3>>> relative_position_list_rtn_m_;        //!< Relative position list in the RTN frame in unit [m]
   std::vector<std::vector<math::Vector<3>>> relative_velocity_list_rtn_m_s_;      //!< Relative velocity list in the RTN frame in unit [m/s]
-  std::vector<std::vector<double>> relative_distance_list_m_;                      //!< Relative distance list in unit [m]
+  std::vector<std::vector<double>> relative_distance_list_m_;                     //!< Relative distance list in unit [m]
   std::vector<std::vector<math::Quaternion>> relative_attitude_quaternion_list_;  //!< Relative attitude quaternion list
 
   /**

@@ -166,8 +166,8 @@ void InitializedMonteCarloParameters::GenerateCircularNormalNormal() {
   }
 }
 
-void InitializedMonteCarloParameters::CalcSphericalNormalUniformUniform(math::Vector<3>& destination, double r_mean, double r_sigma,
-                                                                        double theta_min, double theta_max, double phi_min, double phi_max) {
+void InitializedMonteCarloParameters::CalcSphericalNormalUniformUniform(math::Vector<3>& destination, double r_mean, double r_sigma, double theta_min,
+                                                                        double theta_max, double phi_min, double phi_max) {
   // r follows normal distribution, and θ and φ follow uniform distribution in Spherical frame
   double r = InitializedMonteCarloParameters::Generate1dNormal(r_mean, r_sigma);
   double theta = acos(cos(theta_min) - (cos(theta_min) - cos(theta_max)) * InitializedMonteCarloParameters::Generate1dUniform(0.0, 1.0));
@@ -209,7 +209,7 @@ void InitializedMonteCarloParameters::CalcSphericalNormalNormal(math::Vector<3>&
 
   double rotation_angle_of_normal_unit_vec = InitializedMonteCarloParameters::Generate1dUniform(0.0, math::tau);
   math::Quaternion rotation_of_normal_unit_vec(mean_vec_dir,
-                                                -rotation_angle_of_normal_unit_vec);  // Use opposite sign to rotate the vector (not the frame)
+                                               -rotation_angle_of_normal_unit_vec);  // Use opposite sign to rotate the vector (not the frame)
   math::Vector<3> rotation_axis = rotation_of_normal_unit_vec.FrameConversion(normal_unit_vec);  // Axis of mean vector rotation
 
   double rotation_angle_of_mean_vec = InitializedMonteCarloParameters::Generate1dNormal(0.0, sigma_or_max_[1]);

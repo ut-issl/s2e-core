@@ -24,7 +24,7 @@ class KinematicsParameters {
    * @fn ~KinematicsParameters
    * @brief Destructor
    */
-  ~KinematicsParameters(){};
+  ~KinematicsParameters() {};
 
   // Getter
   /**
@@ -82,7 +82,7 @@ class KinematicsParameters {
 
  private:
   math::Vector<3> center_of_gravity_b_m_;     //!< Position vector of center of gravity at body frame [m]
-  double mass_kg_;                             //!< Mass of the satellite [kg]
+  double mass_kg_;                            //!< Mass of the satellite [kg]
   math::Matrix<3, 3> inertia_tensor_b_kgm2_;  //!< Inertia tensor at body frame [kgm2]
 };
 

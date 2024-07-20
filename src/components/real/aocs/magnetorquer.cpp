@@ -13,9 +13,9 @@
 
 Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
                            const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
-                           const math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
-                           const math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const math::Vector<kMtqDimension>& bias_noise_c_Am2_,
-                           double random_walk_step_width_s, const math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
+                           const math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2, const math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2,
+                           const math::Vector<kMtqDimension>& bias_noise_c_Am2_, double random_walk_step_width_s,
+                           const math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
                            const math::Vector<kMtqDimension>& random_walk_limit_c_Am2,
                            const math::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator),
@@ -35,9 +35,9 @@ Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator,
 
 Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                            const math::Quaternion& quaternion_b2c, const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
-                           const math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
-                           const math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const math::Vector<kMtqDimension>& bias_noise_c_Am2_,
-                           double random_walk_step_width_s, const math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
+                           const math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2, const math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2,
+                           const math::Vector<kMtqDimension>& bias_noise_c_Am2_, double random_walk_step_width_s,
+                           const math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
                            const math::Vector<kMtqDimension>& random_walk_limit_c_Am2,
                            const math::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator, power_port),

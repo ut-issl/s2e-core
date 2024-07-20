@@ -83,8 +83,8 @@ class Disturbance : public ILoggable {
   virtual inline bool IsAttitudeDependent() { return is_attitude_dependent_; }
 
  protected:
-  bool is_calculation_enabled_;           //!< Flag to calculate the disturbance
-  bool is_attitude_dependent_;            //!< Flag to show the disturbance depends on attitude information
+  bool is_calculation_enabled_;          //!< Flag to calculate the disturbance
+  bool is_attitude_dependent_;           //!< Flag to show the disturbance depends on attitude information
   math::Vector<3> force_b_N_;            //!< Disturbance force in the body frame [N]
   math::Vector<3> torque_b_Nm_;          //!< Disturbance torque in the body frame [Nm]
   math::Vector<3> acceleration_b_m_s2_;  //!< Disturbance acceleration in the body frame [m/s2]

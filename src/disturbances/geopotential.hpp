@@ -68,7 +68,7 @@ class Geopotential : public Disturbance {
 
   // debug
   math::Vector<3> debug_pos_ecef_m_;  //!< Spacecraft position in ECEF frame [m]
-  double time_ms_ = 0.0;               //!< Calculation time [ms]
+  double time_ms_ = 0.0;              //!< Calculation time [ms]
 
   /**
    * @fn ReadCoefficientsEgm96

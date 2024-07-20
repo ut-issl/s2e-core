@@ -69,7 +69,7 @@ class AttitudeWithCantileverVibration : public Attitude {
   virtual void SetParameters(const MonteCarloSimulationExecutor& mc_simulator);
 
  private:
-  double current_propagation_time_s_;                        //!< current time [sec]
+  double current_propagation_time_s_;                       //!< current time [sec]
   math::Vector<3> angular_velocity_cantilever_rad_s_{0.0};  //!< Angular velocity of the cantilever with respect to the body frame [rad/s]
   math::Vector<3> euler_angular_cantilever_rad_{0.0};       //!< Euler angle of the cantilever with respect to the body frame [rad/s]
 

@@ -29,7 +29,7 @@ class RungeKutta : public NumericalIntegrator<N> {
    * @fn ~RungeKutta
    * @brief Destructor
    */
-  inline virtual ~RungeKutta(){};
+  inline virtual ~RungeKutta() {};
 
   /**
    * @fn Integrate
@@ -46,7 +46,7 @@ class RungeKutta : public NumericalIntegrator<N> {
   std::vector<double> nodes_;                   //!< Nodes vector for general RK (c vector in the equation)
   std::vector<double> weights_;                 //!< Weights vector for general RK (b vector in the equation)
   std::vector<std::vector<double>> rk_matrix_;  //!< Runge-Kutta matrix for general RK (a matrix in the equation)
-  std::vector<math::Vector<N>> slope_;                //!< Slope vector for general RK (k vector in the equation)
+  std::vector<math::Vector<N>> slope_;          //!< Slope vector for general RK (k vector in the equation)
 
   /**
    * @fn CalcSlope

@@ -133,14 +133,14 @@ class GnssReceiver : public Component, public ILoggable {
   // Antenna
   math::Vector<3> antenna_position_b_m_;  //!< GNSS antenna position at the body-fixed frame [m]
   math::Quaternion quaternion_b2c_;       //!< Quaternion from body frame to component frame (antenna frame)
-  double half_width_deg_ = 0.0;            //!< Half width of the antenna cone model [deg]
-  AntennaModel antenna_model_;             //!< Antenna model
+  double half_width_deg_ = 0.0;           //!< Half width of the antenna cone model [deg]
+  AntennaModel antenna_model_;            //!< Antenna model
 
   // Simple position observation
   libra::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
   libra::NormalRand velocity_random_noise_ecef_m_s_[3];  //!< Random noise for velocity at the ECEF frame [m]
-  math::Vector<3> position_ecef_m_{0.0};                //!< Observed position in the ECEF frame [m]
-  math::Vector<3> velocity_ecef_m_s_{0.0};              //!< Observed velocity in the ECEF frame [m/s]
+  math::Vector<3> position_ecef_m_{0.0};                 //!< Observed position in the ECEF frame [m]
+  math::Vector<3> velocity_ecef_m_s_{0.0};               //!< Observed velocity in the ECEF frame [m/s]
   GeodeticPosition geodetic_position_;                   //!< Observed position in the geodetic frame
 
   // Time observation

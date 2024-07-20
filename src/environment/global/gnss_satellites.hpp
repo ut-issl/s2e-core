@@ -120,7 +120,7 @@ class GnssSatellites : public ILoggable {
   size_t reference_interpolation_id_ = 0;        //!< Reference epoch ID of the interpolation
   EpochTime current_epoch_time_;                 //!< The last updated time
 
-  std::vector<InterpolationOrbit> orbit_;    //!< GNSS satellite orbit with interpolation
+  std::vector<InterpolationOrbit> orbit_;   //!< GNSS satellite orbit with interpolation
   std::vector<math::Interpolation> clock_;  //!< GNSS satellite clock offset with interpolation
 
   // References

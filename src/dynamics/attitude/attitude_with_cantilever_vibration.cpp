@@ -82,7 +82,7 @@ void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   attitude_ode_.SetAngularMomentumReactionWheel_b_Nms(angular_momentum_reaction_wheel_b_Nms_);
 
   math::Vector<13> state = attitude_ode_.SetStateFromPhysicalQuantities(angular_velocity_b_rad_s_, angular_velocity_cantilever_rad_s_,
-                                                                         quaternion_i2b_, euler_angular_cantilever_rad_);
+                                                                        quaternion_i2b_, euler_angular_cantilever_rad_);
   numerical_integrator_.GetIntegrator()->SetState(propagation_step_s_, state);
   while (end_time_s - current_propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     numerical_integrator_.GetIntegrator()->Integrate();

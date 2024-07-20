@@ -111,7 +111,7 @@ class SolarArrayPanel : public Component, public ILoggable {
   const int number_of_series_;            //!< Number of series connected solar cells
   const int number_of_parallel_;          //!< Number of parallel connected solar cells
   const double cell_area_m2_;             //!< Solar cell area [m^2]
-  const math::Vector<3> normal_vector_;  //!< Normal vector of SolarArrayPanel on the body fixed frame
+  const math::Vector<3> normal_vector_;   //!< Normal vector of SolarArrayPanel on the body fixed frame
   const double cell_efficiency_;          //!< Power generation efficiency of solar cell
   const double transmission_efficiency_;  //!< Efficiency of transmission to PCU
 

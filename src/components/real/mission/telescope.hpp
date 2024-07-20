@@ -22,7 +22,7 @@
  * @brief Information of stars in the telescope's field of view
  */
 struct Star {
-  HipparcosData hipparcos_data;            //!< Hipparcos data
+  HipparcosData hipparcos_data;           //!< Hipparcos data
   math::Vector<2> position_image_sensor;  //!< Position of image sensor
 };
 

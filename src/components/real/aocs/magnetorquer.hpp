@@ -45,8 +45,8 @@ class Magnetorquer : public Component, public ILoggable {
                const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor, const math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
                const math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const math::Vector<kMtqDimension>& bias_noise_c_Am2_,
                double random_walk_step_width_s, const math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
-               const math::Vector<kMtqDimension>& random_walk_limit_c_Am2,
-               const math::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field);
+               const math::Vector<kMtqDimension>& random_walk_limit_c_Am2, const math::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2,
+               const GeomagneticField* geomagnetic_field);
   /**
    * @fn Magnetorquer
    * @brief Constructor with power port
@@ -121,8 +121,8 @@ class Magnetorquer : public Component, public ILoggable {
   inline const math::Vector<kMtqDimension>& GetOutputMagneticMoment_c_Am2(void) const { return output_magnetic_moment_c_Am2_; };
 
  protected:
-  const int component_id_ = 0;                                      //!< Actuator ID
-  const double kConvertNanoT2T = 1.0e-9;                            //!< Constant to convert nT to T
+  const int component_id_ = 0;                                     //!< Actuator ID
+  const double kConvertNanoT2T = 1.0e-9;                           //!< Constant to convert nT to T
   math::Vector<kMtqDimension> torque_b_Nm_{0.0};                   //!< Output torque in the body fixed frame [Nm]
   math::Vector<kMtqDimension> output_magnetic_moment_c_Am2_{0.0};  //!< Output output magnetic moment in the component frame [Am2]
   math::Vector<kMtqDimension> output_magnetic_moment_b_Am2_{0.0};  //!< Output output magnetic moment in the body fixed frame [Am2]
@@ -132,7 +132,7 @@ class Magnetorquer : public Component, public ILoggable {
   math::Vector<kMtqDimension> max_magnetic_moment_c_Am2_{100.0};   //!< Maximum magnetic moment in the component frame [Am2]
   math::Vector<kMtqDimension> min_magnetic_moment_c_Am2_{-100.0};  //!< Minimum magnetic moment in the component frame [Am2]
 
-  math::Vector<kMtqDimension> bias_noise_c_Am2_{0.0};   //!< Constant bias noise in the component frame [Am2]
+  math::Vector<kMtqDimension> bias_noise_c_Am2_{0.0};    //!< Constant bias noise in the component frame [Am2]
   RandomWalk<kMtqDimension> random_walk_c_Am2_;          //!< Random walk noise
   libra::NormalRand random_noise_c_Am2_[kMtqDimension];  //!< Normal random noise
 

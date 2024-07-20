@@ -114,8 +114,8 @@ class Attitude : public ILoggable, public SimulationObject {
   virtual void SetParameters(const MonteCarloSimulationExecutor& mc_simulator);
 
  protected:
-  bool is_calc_enabled_ = true;                     //!< Calculation flag
-  double propagation_step_s_;                       //!< Propagation step [sec]
+  bool is_calc_enabled_ = true;                    //!< Calculation flag
+  double propagation_step_s_;                      //!< Propagation step [sec]
   math::Vector<3> angular_velocity_b_rad_s_;       //!< Angular velocity of spacecraft body fixed frame with respect to the inertial frame [rad/s]
   math::Quaternion quaternion_i2b_;                //!< Attitude quaternion from the inertial frame to the body fixed frame
   math::Vector<3> torque_b_Nm_;                    //!< Torque in the body fixed frame [Nm]
@@ -125,8 +125,8 @@ class Attitude : public ILoggable, public SimulationObject {
   math::Vector<3> angular_momentum_reaction_wheel_b_Nms_;  //!< Angular momentum of reaction wheel in the body fixed frame [Nms]
   math::Vector<3> angular_momentum_total_b_Nms_;           //!< Total angular momentum of spacecraft in the body fixed frame [Nms]
   math::Vector<3> angular_momentum_total_i_Nms_;           //!< Total angular momentum of spacecraft in the inertial frame [Nms]
-  double angular_momentum_total_Nms_;                       //!< Norm of total angular momentum [Nms]
-  double kinetic_energy_J_;                                 //!< Rotational Kinetic Energy of Spacecraft [J]
+  double angular_momentum_total_Nms_;                      //!< Norm of total angular momentum [Nms]
+  double kinetic_energy_J_;                                //!< Rotational Kinetic Energy of Spacecraft [J]
 
   /**
    * @fn CalcAngularMomentum

@@ -96,9 +96,9 @@ class HilsI2cTargetPort : public HilsUartPort {
   int GetStoredFrameCounter();
 
  private:
-  unsigned char max_register_number_ = 0xff;      //!< Maximum register number
-  unsigned char saved_register_address_ = 0x00;   //!< Saved register address
-  unsigned int stored_frame_counter_ = 0;         //!< Send a few frames of telemetry to the converter in advance.
+  unsigned char max_register_number_ = 0xff;     //!< Maximum register number
+  unsigned char saved_register_address_ = 0x00;  //!< Saved register address
+  unsigned int stored_frame_counter_ = 0;        //!< Send a few frames of telemetry to the converter in advance.
 
   /** @brief Device register: < register address, value>  **/
   std::map<unsigned char, unsigned char> device_registers_;

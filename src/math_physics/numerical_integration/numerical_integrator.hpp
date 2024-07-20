@@ -32,7 +32,7 @@ class NumericalIntegrator {
    * @fn ~NumericalIntegrator
    * @brief Destructor
    */
-  inline virtual ~NumericalIntegrator(){};
+  inline virtual ~NumericalIntegrator() {};
 
   /**
    * @fn Integrate
@@ -71,8 +71,8 @@ class NumericalIntegrator {
   // States
   const InterfaceOde<N>& ode_;           //!< Ordinary differential equation
   double current_independent_variable_;  //!< Latest value of independent variable
-  math::Vector<N> current_state_;              //!< Latest state vector
-  math::Vector<N> previous_state_;             //!< Previous state vector
+  math::Vector<N> current_state_;        //!< Latest state vector
+  math::Vector<N> previous_state_;       //!< Previous state vector
 };
 
 }  // namespace libra::numerical_integration

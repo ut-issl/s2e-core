@@ -30,7 +30,7 @@ class MtqMagnetometerInterference {
   void UpdateInterference(void);
 
  protected:
-  size_t polynomial_degree_;                                              //!< Polynomial degree
+  size_t polynomial_degree_;                                             //!< Polynomial degree
   std::vector<math::Matrix<3, 3>> additional_bias_by_mtq_coefficients_;  //!< Polynomial coefficients of additional bias noise
   math::Vector<3> previous_added_bias_c_nT_{0.0};
 

@@ -37,7 +37,7 @@ class SurfaceForce : public Disturbance {
 
  protected:
   // Spacecraft Structure parameters
-  const std::vector<Surface>& surfaces_;           //!< List of surfaces
+  const std::vector<Surface>& surfaces_;          //!< List of surfaces
   const math::Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass_kg at body frame [m]
 
   // Internal calculated variables

@@ -70,8 +70,8 @@ class GeomagneticField : public ILoggable {
   virtual std::string GetLogValue() const;
 
  private:
-  math::Vector<3> magnetic_field_i_nT_;      //!< Magnetic field vector at the inertial frame [nT]
-  math::Vector<3> magnetic_field_b_nT_;      //!< Magnetic field vector at the spacecraft body fixed frame [nT]
+  math::Vector<3> magnetic_field_i_nT_;       //!< Magnetic field vector at the inertial frame [nT]
+  math::Vector<3> magnetic_field_b_nT_;       //!< Magnetic field vector at the spacecraft body fixed frame [nT]
   double random_walk_standard_deviation_nT_;  //!< Standard deviation of Random Walk [nT]
   double random_walk_limit_nT_;               //!< Limit of Random Walk [nT]
   double white_noise_standard_deviation_nT_;  //!< Standard deviation of white noise [nT]

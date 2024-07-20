@@ -36,7 +36,7 @@ class RandomWalk : public math::OrdinaryDifferentialEquation<N> {
   virtual void DerivativeFunction(double x, const math::Vector<N>& state, math::Vector<N>& rhs);
 
  private:
-  math::Vector<N> limit_;                  //!< Limit of random walk
+  math::Vector<N> limit_;                   //!< Limit of random walk
   libra::NormalRand normal_randomizer_[N];  //!< Random walk excitation noise
 };
 

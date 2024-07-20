@@ -39,8 +39,7 @@ void AttitudeRk4::SetParameters(const MonteCarloSimulationExecutor& mc_simulator
 void AttitudeRk4::Propagate(const double end_time_s) {
   if (!is_calc_enabled_) return;
 
-  math::Matrix<3, 3> dot_inertia_tensor =
-      (1.0 / (end_time_s - current_propagation_time_s_)) * (inertia_tensor_kgm2_ - previous_inertia_tensor_kgm2_);
+  math::Matrix<3, 3> dot_inertia_tensor = (1.0 / (end_time_s - current_propagation_time_s_)) * (inertia_tensor_kgm2_ - previous_inertia_tensor_kgm2_);
   torque_inertia_tensor_change_b_Nm_ = dot_inertia_tensor * angular_velocity_b_rad_s_;
   inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);
 

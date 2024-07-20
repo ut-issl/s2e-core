@@ -54,8 +54,8 @@ class AntennaRadiationPattern {
   double GetGain_dBi(const double theta_rad, const double phi_rad) const;
 
  private:
-  size_t length_theta_ = 360;          //!< Length of grid for theta direction
-  size_t length_phi_ = 181;            //!< Length of grid for phi direction
+  size_t length_theta_ = 360;         //!< Length of grid for theta direction
+  size_t length_phi_ = 181;           //!< Length of grid for phi direction
   double theta_max_rad_ = math::tau;  //!< Maximum value of theta
   double phi_max_rad_ = math::pi;     //!< Maximum value of phi
 
