@@ -147,7 +147,7 @@ void GnssReceiver::CheckAntennaCone(const math::Vector<3> position_true_eci_m, c
 
     // Check GNSS satellites are in the antenna half width angle
     double inner2 = InnerProduct(antenna_pointing_direction_i, antenna_to_gnss_satellite_direction_i);
-    if (inner2 > cos(half_width_deg_ * libra::deg_to_rad) && is_gnss_satellite_visible_from_receiver) {
+    if (inner2 > cos(half_width_deg_ * math::deg_to_rad) && is_gnss_satellite_visible_from_receiver) {
       // is visible
       visible_satellite_number_++;
       SetGnssInfo(antenna_to_gnss_satellite_i_m, quaternion_i2b, i);

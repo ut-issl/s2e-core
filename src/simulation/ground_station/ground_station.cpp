@@ -35,7 +35,7 @@ void GroundStation::Initialize(const SimulationConfiguration* configuration, con
   double latitude_deg = conf.ReadDouble(Section, "latitude_deg");
   double longitude_deg = conf.ReadDouble(Section, "longitude_deg");
   double height_m = conf.ReadDouble(Section, "height_m");
-  geodetic_position_ = GeodeticPosition(latitude_deg * libra::deg_to_rad, longitude_deg * libra::deg_to_rad, height_m);
+  geodetic_position_ = GeodeticPosition(latitude_deg * math::deg_to_rad, longitude_deg * math::deg_to_rad, height_m);
   position_ecef_m_ = geodetic_position_.CalcEcefPosition();
 
   elevation_limit_angle_deg_ = conf.ReadDouble(Section, "elevation_limit_angle_deg");
@@ -62,7 +62,7 @@ bool GroundStation::CalcIsVisible(const math::Vector<3> spacecraft_position_ecef
 
   // Judge the satellite position angle is over the minimum elevation
 
-  if (dot(sc_pos_ltc, dir_gs_to_zenith) > sin(elevation_limit_angle_deg_ * libra::deg_to_rad)) {
+  if (dot(sc_pos_ltc, dir_gs_to_zenith) > sin(elevation_limit_angle_deg_ * math::deg_to_rad)) {
     return true;
   } else {
     return false;

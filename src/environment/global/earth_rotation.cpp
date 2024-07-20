@@ -32,38 +32,38 @@ void EarthRotation::InitializeParameters() {
 
     // Coefficients to compute mean obliquity of the ecliptic
     // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
-    c_epsilon_rad_[0] = 23.4392911 * libra::deg_to_rad;      // [rad]
+    c_epsilon_rad_[0] = 23.4392911 * math::deg_to_rad;      // [rad]
     c_epsilon_rad_[1] = -46.8150000 * libra::arcsec_to_rad;  // [rad/century]
     c_epsilon_rad_[2] = -5.9000e-4 * libra::arcsec_to_rad;   // [rad/century^2]
     c_epsilon_rad_[3] = 1.8130e-3 * libra::arcsec_to_rad;    // [rad/century^3]
 
     // Coefficients to compute Delaunay angles
     // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
-    c_lm_rad_[0] = 134.96340251 * libra::deg_to_rad;            // [rad]
+    c_lm_rad_[0] = 134.96340251 * math::deg_to_rad;            // [rad]
     c_lm_rad_[1] = 1717915923.21780000 * libra::arcsec_to_rad;  // [rad/century]
     c_lm_rad_[2] = 31.87920000 * libra::arcsec_to_rad;          // [rad/century^2]
     c_lm_rad_[3] = 0.05163500 * libra::arcsec_to_rad;           // [rad/century^3]
     c_lm_rad_[4] = -0.00024470 * libra::arcsec_to_rad;          // [rad/century^4]
 
-    c_ls_rad_[0] = 357.52910918 * libra::deg_to_rad;           // [rad]
+    c_ls_rad_[0] = 357.52910918 * math::deg_to_rad;           // [rad]
     c_ls_rad_[1] = 129596581.04810000 * libra::arcsec_to_rad;  // [rad/century]
     c_ls_rad_[2] = -0.55320000 * libra::arcsec_to_rad;         // [rad/century^2]
     c_ls_rad_[3] = 0.00013600 * libra::arcsec_to_rad;          // [rad/century^3]
     c_ls_rad_[4] = -0.00001149 * libra::arcsec_to_rad;         // [rad/century^4]
 
-    c_f_rad_[0] = 93.27209062 * libra::deg_to_rad;             // [rad]
+    c_f_rad_[0] = 93.27209062 * math::deg_to_rad;             // [rad]
     c_f_rad_[1] = 1739527262.84780000 * libra::arcsec_to_rad;  // [rad/century]
     c_f_rad_[2] = -12.75120000 * libra::arcsec_to_rad;         // [rad/century^2]
     c_f_rad_[3] = -0.00103700 * libra::arcsec_to_rad;          // [rad/century^3]
     c_f_rad_[4] = 0.00000417 * libra::arcsec_to_rad;           // [rad/century^4]
 
-    c_d_rad_[0] = 297.85019547 * libra::deg_to_rad;            // [rad]
+    c_d_rad_[0] = 297.85019547 * math::deg_to_rad;            // [rad]
     c_d_rad_[1] = 1602961601.20900000 * libra::arcsec_to_rad;  // [rad/century]
     c_d_rad_[2] = -6.37060000 * libra::arcsec_to_rad;          // [rad/century^2]
     c_d_rad_[3] = 0.00659300 * libra::arcsec_to_rad;           // [rad/century^3]
     c_d_rad_[4] = -0.00003169 * libra::arcsec_to_rad;          // [rad/century^4]
 
-    c_o_rad_[0] = 125.04455501 * libra::deg_to_rad;          // [rad]
+    c_o_rad_[0] = 125.04455501 * math::deg_to_rad;          // [rad]
     c_o_rad_[1] = -6962890.54310000 * libra::arcsec_to_rad;  // [rad/century]
     c_o_rad_[2] = 7.47220000 * libra::arcsec_to_rad;         // [rad/century^2]
     c_o_rad_[3] = 0.00770200 * libra::arcsec_to_rad;         // [rad/century^3]

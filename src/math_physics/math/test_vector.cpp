@@ -394,7 +394,7 @@ TEST(Vector, CalcAngleTwoVectors90deg) {
 
   double angle_rad = CalcAngleTwoVectors_rad(a, b);
 
-  EXPECT_DOUBLE_EQ(90.0 * libra::deg_to_rad, angle_rad);
+  EXPECT_DOUBLE_EQ(90.0 * math::deg_to_rad, angle_rad);
 }
 
 /**
@@ -410,7 +410,7 @@ TEST(Vector, CalcAngleTwoVectors0deg) {
 
   double angle_rad = CalcAngleTwoVectors_rad(a, a);
 
-  EXPECT_DOUBLE_EQ(0.0 * libra::deg_to_rad, angle_rad);
+  EXPECT_DOUBLE_EQ(0.0 * math::deg_to_rad, angle_rad);
 }
 
 /**
@@ -431,7 +431,7 @@ TEST(Vector, CalcAngleTwoVectors45deg) {
 
   double angle_rad = CalcAngleTwoVectors_rad(a, b);
 
-  EXPECT_DOUBLE_EQ(45.0 * libra::deg_to_rad, angle_rad);
+  EXPECT_DOUBLE_EQ(45.0 * math::deg_to_rad, angle_rad);
 }
 
 /**
@@ -445,5 +445,5 @@ TEST(Vector, GenerateOrthogonalUnitVector) {
 
   double angle_rad = CalcAngleTwoVectors_rad(a, b);
 
-  EXPECT_DOUBLE_EQ(90.0 * libra::deg_to_rad, angle_rad);
+  EXPECT_DOUBLE_EQ(90.0 * math::deg_to_rad, angle_rad);
 }

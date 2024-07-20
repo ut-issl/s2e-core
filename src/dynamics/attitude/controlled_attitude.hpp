@@ -107,7 +107,7 @@ class ControlledAttitude : public Attitude {
   math::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
   math::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
 
-  const double kMinDirectionAngle_rad = 30.0 * libra::deg_to_rad;  //!< Minimum angle b/w main and sub direction
+  const double kMinDirectionAngle_rad = 30.0 * math::deg_to_rad;  //!< Minimum angle b/w main and sub direction
                                                                    // TODO Change with ini file
 
   // Inputs

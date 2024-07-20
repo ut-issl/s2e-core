@@ -117,7 +117,7 @@ ForceGenerator InitializeForceGenerator(ClockGenerator* clock_generator, const s
   char section[30] = "FORCE_GENERATOR";
   double force_magnitude_standard_deviation_N = ini_file.ReadDouble(section, "force_magnitude_standard_deviation_N");
   double force_direction_standard_deviation_deg = ini_file.ReadDouble(section, "force_direction_standard_deviation_deg");
-  double force_direction_standard_deviation_rad = libra::deg_to_rad * force_direction_standard_deviation_deg;
+  double force_direction_standard_deviation_rad = math::deg_to_rad * force_direction_standard_deviation_deg;
   ForceGenerator force_generator(prescaler, clock_generator, force_magnitude_standard_deviation_N, force_direction_standard_deviation_rad, dynamics);
 
   return force_generator;

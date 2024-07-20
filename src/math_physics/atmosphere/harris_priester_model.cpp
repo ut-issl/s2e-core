@@ -42,7 +42,7 @@ double CalcAirDensityWithHarrisPriester_kg_m3(const GeodeticPosition geodetic_po
   sun_ra_rad = atan2(sun_direction_eci[1], sun_direction_eci[0]);
   sun_dec_rad = atan2(sun_direction_eci[2], sqrt(sun_direction_eci[0] * sun_direction_eci[0] + sun_direction_eci[1] * sun_direction_eci[1]));
   math::Vector<3> apex_direction;
-  const double lag_angle_rad = 30.0 * libra::deg_to_rad;
+  const double lag_angle_rad = 30.0 * math::deg_to_rad;
   double apex_ra_rad = sun_ra_rad + lag_angle_rad;
   apex_direction[0] = cos(sun_dec_rad) * cos(apex_ra_rad);
   apex_direction[1] = cos(sun_dec_rad) * sin(apex_ra_rad);

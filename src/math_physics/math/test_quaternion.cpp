@@ -40,7 +40,7 @@ TEST(Quaternion, ConstructorAxisAndAngleX) {
   axis[0] = 1.0;
   axis[1] = 0.0;
   axis[2] = 0.0;
-  double theta_rad = 90 * libra::deg_to_rad;
+  double theta_rad = 90 * math::deg_to_rad;
   math::Quaternion q(axis, theta_rad);
 
   EXPECT_NEAR(axis[0] * sin(theta_rad / 2.0), q[0], 1e-5);
@@ -57,7 +57,7 @@ TEST(Quaternion, ConstructorAxisAndAngleY) {
   axis[0] = 0.0;
   axis[1] = 1.0;
   axis[2] = 0.0;
-  double theta_rad = 45 * libra::deg_to_rad;
+  double theta_rad = 45 * math::deg_to_rad;
   math::Quaternion q(axis, theta_rad);
 
   EXPECT_NEAR(axis[0] * sin(theta_rad / 2.0), q[0], 1e-5);
@@ -74,7 +74,7 @@ TEST(Quaternion, ConstructorAxisAndAngleZ) {
   axis[0] = 0.0;
   axis[1] = 0.0;
   axis[2] = 1.0;
-  double theta_rad = -60 * libra::deg_to_rad;
+  double theta_rad = -60 * math::deg_to_rad;
   math::Quaternion q(axis, theta_rad);
 
   EXPECT_NEAR(axis[0] * sin(theta_rad / 2.0), q[0], 1e-5);
@@ -91,7 +91,7 @@ TEST(Quaternion, ConstructorAxisAndAngleAll) {
   axis[0] = 1.0;
   axis[1] = 1.0;
   axis[2] = 1.0;
-  double theta_rad = 180 * libra::deg_to_rad;
+  double theta_rad = 180 * math::deg_to_rad;
   math::Quaternion q(axis, theta_rad);
 
   EXPECT_NEAR(axis[0] * sin(theta_rad / 2.0), q[0], 1e-5);
@@ -136,7 +136,7 @@ TEST(Quaternion, ConstructorTwoVectorsX) {
 
   math::Quaternion q(before, after);
 
-  double theta_rad = -90 * libra::deg_to_rad;
+  double theta_rad = -90 * math::deg_to_rad;
   EXPECT_NEAR(sin(theta_rad / 2.0), q[0], 1e-5);
   EXPECT_NEAR(0.0, q[1], 1e-5);
   EXPECT_NEAR(0.0, q[2], 1e-5);
@@ -158,7 +158,7 @@ TEST(Quaternion, ConstructorTwoVectorsY) {
 
   math::Quaternion q(before, after);
 
-  double theta_rad = 90 * libra::deg_to_rad;
+  double theta_rad = 90 * math::deg_to_rad;
   EXPECT_NEAR(0.0, q[0], 1e-5);
   EXPECT_NEAR(sin(theta_rad / 2.0), q[1], 1e-5);
   EXPECT_NEAR(0.0, q[2], 1e-5);
@@ -180,7 +180,7 @@ TEST(Quaternion, ConstructorTwoVectorsZ) {
 
   math::Quaternion q(before, after);
 
-  double theta_rad = 90 * libra::deg_to_rad;
+  double theta_rad = 90 * math::deg_to_rad;
   EXPECT_NEAR(0.0, q[0], 1e-5);
   EXPECT_NEAR(0.0, q[1], 1e-5);
   EXPECT_NEAR(sin(theta_rad / 2.0), q[2], 1e-5);
@@ -304,7 +304,7 @@ TEST(Quaternion, ConvertToEulerX) {
 
   // Check nondestructive function
   const double accuracy = 1.0e-7;
-  EXPECT_NEAR(90 * libra::deg_to_rad, euler[0], accuracy);
+  EXPECT_NEAR(90 * math::deg_to_rad, euler[0], accuracy);
   EXPECT_NEAR(0.0, euler[1], accuracy);
   EXPECT_NEAR(0.0, euler[2], accuracy);
 

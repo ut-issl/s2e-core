@@ -362,7 +362,7 @@ TEST(Matrix, MakeIdentityMatrix) {
  */
 TEST(Matrix, MakeRotationMatrixX) {
   const size_t N = 3;
-  double theta_rad = -45.0 * libra::deg_to_rad;
+  double theta_rad = -45.0 * math::deg_to_rad;
 
   math::Matrix<N, N> m = libra::MakeRotationMatrixX(theta_rad);
 
@@ -382,7 +382,7 @@ TEST(Matrix, MakeRotationMatrixX) {
  */
 TEST(Matrix, MakeRotationMatrixY) {
   const size_t N = 3;
-  double theta_rad = 120.0 * libra::deg_to_rad;
+  double theta_rad = 120.0 * math::deg_to_rad;
 
   math::Matrix<N, N> m = libra::MakeRotationMatrixY(theta_rad);
 
@@ -402,7 +402,7 @@ TEST(Matrix, MakeRotationMatrixY) {
  */
 TEST(Matrix, MakeRotationMatrixZ) {
   const size_t N = 3;
-  double theta_rad = 30.0 * libra::deg_to_rad;
+  double theta_rad = 30.0 * math::deg_to_rad;
 
   math::Matrix<N, N> m = libra::MakeRotationMatrixZ(theta_rad);
 

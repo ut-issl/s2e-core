@@ -90,7 +90,7 @@ TorqueGenerator InitializeTorqueGenerator(ClockGenerator* clock_generator, const
   char section[30] = "TORQUE_GENERATOR";
   double torque_magnitude_standard_deviation_Nm = ini_file.ReadDouble(section, "torque_magnitude_standard_deviation_Nm");
   double torque_direction_standard_deviation_deg = ini_file.ReadDouble(section, "torque_direction_standard_deviation_deg");
-  double torque_direction_standard_deviation_rad = libra::deg_to_rad * torque_direction_standard_deviation_deg;
+  double torque_direction_standard_deviation_rad = math::deg_to_rad * torque_direction_standard_deviation_deg;
   TorqueGenerator torque_generator(prescaler, clock_generator, torque_magnitude_standard_deviation_Nm, torque_direction_standard_deviation_rad,
                                    dynamics);
 

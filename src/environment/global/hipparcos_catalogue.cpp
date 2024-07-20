@@ -52,8 +52,8 @@ bool HipparcosCatalogue::ReadContents(const std::string& file_name, const char d
 
 math::Vector<3> HipparcosCatalogue::GetStarDirection_i(size_t rank) const {
   math::Vector<3> direction_i;
-  double ra_rad = GetRightAscension_deg(rank) * libra::deg_to_rad;
-  double de_rad = GetDeclination_deg(rank) * libra::deg_to_rad;
+  double ra_rad = GetRightAscension_deg(rank) * math::deg_to_rad;
+  double de_rad = GetDeclination_deg(rank) * math::deg_to_rad;
 
   direction_i[0] = cos(ra_rad) * cos(de_rad);
   direction_i[1] = sin(ra_rad) * cos(de_rad);
