@@ -77,7 +77,7 @@ void ReactionWheel::Initialize() {
   generated_angular_acceleration_rad_s2_ = 0.0;
 
   angular_velocity_rad_s_ = ode_angular_velocity_.GetAngularVelocity_rad_s();
-  angular_velocity_rpm_ = angular_velocity_rad_s_ * libra::rad_s_to_rpm;
+  angular_velocity_rpm_ = angular_velocity_rad_s_ * math::rad_s_to_rpm;
 
   // Turn on RW jitter calculation
   if (is_calculated_jitter_) {
@@ -141,7 +141,7 @@ math::Vector<3> ReactionWheel::CalcTorque() {
   // Substitution
   double pre_angular_velocity_rad = angular_velocity_rad_s_;
   angular_velocity_rad_s_ = ode_angular_velocity_.GetAngularVelocity_rad_s();
-  angular_velocity_rpm_ = angular_velocity_rad_s_ * libra::rad_s_to_rpm;
+  angular_velocity_rpm_ = angular_velocity_rad_s_ * math::rad_s_to_rpm;
   generated_angular_acceleration_rad_s2_ = (angular_velocity_rad_s_ - pre_angular_velocity_rad) / step_width_s_;
 
   // Calc output torque by RW
