@@ -416,8 +416,8 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitSmallEccentricity) {
   initial_position[1] = initial_state[1];
   initial_velocity[0] = initial_state[2];
   initial_velocity[1] = initial_state[3];
-  OrbitalElements oe(1.0, 0.0, initial_position, initial_velocity);
-  KeplerOrbit kepler(1.0, oe);
+  orbit::OrbitalElements oe(1.0, 0.0, initial_position, initial_velocity);
+  orbit::KeplerOrbit kepler(1.0, oe);
   kepler.CalcOrbit((double)(step_num * step_width_s) / (24.0 * 60.0 * 60.0));
 
   double error_tolerance = 2e-4;
@@ -486,8 +486,8 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitLargeEccentricity) {
   initial_position[1] = initial_state[1];
   initial_velocity[0] = initial_state[2];
   initial_velocity[1] = initial_state[3];
-  OrbitalElements oe(1.0, 0.0, initial_position, initial_velocity);
-  KeplerOrbit kepler(1.0, oe);
+  orbit::OrbitalElements oe(1.0, 0.0, initial_position, initial_velocity);
+  orbit::KeplerOrbit kepler(1.0, oe);
   kepler.CalcOrbit((double)(step_num * step_width_s) / (24.0 * 60.0 * 60.0));
 
   double error_tolerance = 2e-1;
@@ -551,8 +551,8 @@ TEST(NUMERICAL_INTEGRATION, Interpolation2dTwoBodyOrbitSmallEccentricity) {
   initial_position[1] = initial_state[1];
   initial_velocity[0] = initial_state[2];
   initial_velocity[1] = initial_state[3];
-  OrbitalElements oe(1.0, 0.0, initial_position, initial_velocity);
-  KeplerOrbit kepler(1.0, oe);
+  orbit::OrbitalElements oe(1.0, 0.0, initial_position, initial_velocity);
+  orbit::KeplerOrbit kepler(1.0, oe);
   kepler.CalcOrbit((double)(step_num * step_width_s) / (24.0 * 60.0 * 60.0));
 
   double error_tolerance = 5e-2;
@@ -646,8 +646,8 @@ TEST(NUMERICAL_INTEGRATION, Interpolation2dTwoBodyOrbitLargeEccentricity) {
   initial_position[1] = initial_state[1];
   initial_velocity[0] = initial_state[2];
   initial_velocity[1] = initial_state[3];
-  OrbitalElements oe(1.0, 0.0, initial_position, initial_velocity);
-  KeplerOrbit kepler(1.0, oe);
+  orbit::OrbitalElements oe(1.0, 0.0, initial_position, initial_velocity);
+  orbit::KeplerOrbit kepler(1.0, oe);
   kepler.CalcOrbit((double)(step_num * step_width_s) / (24.0 * 60.0 * 60.0));
 
   double error_tolerance = 1e-5;
