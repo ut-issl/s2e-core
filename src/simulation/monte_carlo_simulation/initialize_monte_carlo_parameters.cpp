@@ -207,7 +207,7 @@ void InitializedMonteCarloParameters::CalcSphericalNormalNormal(math::Vector<3>&
   // In case of the mean vector is parallel with X or Y axis, selecting the axis depend on the norm of outer product
   math::Vector<3> normal_unit_vec = op_x.CalcNorm() > op_y.CalcNorm() ? op_x = op_x.CalcNormalizedVector() : op_y = op_y.CalcNormalizedVector();
 
-  double rotation_angle_of_normal_unit_vec = InitializedMonteCarloParameters::Generate1dUniform(0.0, libra::tau);
+  double rotation_angle_of_normal_unit_vec = InitializedMonteCarloParameters::Generate1dUniform(0.0, math::tau);
   math::Quaternion rotation_of_normal_unit_vec(mean_vec_dir,
                                                 -rotation_angle_of_normal_unit_vec);  // Use opposite sign to rotate the vector (not the frame)
   math::Vector<3> rotation_axis = rotation_of_normal_unit_vec.FrameConversion(normal_unit_vec);  // Axis of mean vector rotation
@@ -249,7 +249,7 @@ void InitializedMonteCarloParameters::CalcQuaternionUniform(math::Quaternion& de
   math::Quaternion first_cnv;
   math::Vector<3> x_axis_cnvd;
   double theta = acos(1 - (1 - (-1)) * InitializedMonteCarloParameters::Generate1dUniform(0.0, 1.0));
-  double phi = InitializedMonteCarloParameters::Generate1dUniform(0, libra::tau);
+  double phi = InitializedMonteCarloParameters::Generate1dUniform(0, math::tau);
   x_axis_cnvd[0] = sin(theta) * cos(phi);
   x_axis_cnvd[1] = sin(theta) * sin(phi);
   x_axis_cnvd[2] = cos(theta);
@@ -262,7 +262,7 @@ void InitializedMonteCarloParameters::CalcQuaternionUniform(math::Quaternion& de
   first_cnv[3] = cos_angle_between;
 
   // Generate randomized rotation angle around the X-axis
-  double rotation_angle = InitializedMonteCarloParameters::Generate1dUniform(0.0, libra::tau);
+  double rotation_angle = InitializedMonteCarloParameters::Generate1dUniform(0.0, math::tau);
   math::Quaternion second_cnv(x_axis, rotation_angle);
 
   math::Quaternion ret_q = first_cnv * second_cnv;
@@ -288,7 +288,7 @@ void InitializedMonteCarloParameters::CalcQuaternionNormal(math::Quaternion& des
   // The rotation axis follows uniform distribution on full sphere
   math::Vector<3> rot_axis;
   double theta = acos(1 - (1 - (-1)) * InitializedMonteCarloParameters::Generate1dUniform(0.0, 1.0));
-  double phi = InitializedMonteCarloParameters::Generate1dUniform(0, libra::tau);
+  double phi = InitializedMonteCarloParameters::Generate1dUniform(0, math::tau);
   rot_axis[0] = sin(theta) * cos(phi);
   rot_axis[1] = sin(theta) * sin(phi);
   rot_axis[2] = cos(theta);

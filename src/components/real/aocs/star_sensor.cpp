@@ -110,7 +110,7 @@ void StarSensor::update(const LocalCelestialInformation* local_celestial_informa
   // Add noise on sight direction
   Quaternion q_sight(sight_direction_c_, sight_direction_noise_);
   // Random noise on orthogonal direction of sight. Range [0:2pi]
-  double rot = libra::tau * double(rotation_noise_);
+  double rot = math::tau * double(rotation_noise_);
   // Calc observation error on orthogonal direction of sight
   math::Vector<3> rot_axis = cos(rot) * first_orthogonal_direction_c + sin(rot) * second_orthogonal_direction_c;
   math::Quaternion q_ortho(rot_axis, orthogonal_direction_noise_);

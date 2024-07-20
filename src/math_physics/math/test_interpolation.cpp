@@ -45,7 +45,7 @@ TEST(Interpolation, PolynomialQuadraticFunction) {
  * @brief Test for sin function with trigonometric interpolation
  */
 TEST(Interpolation, TrigonometricSinFunction) {
-  std::vector<double> x{0.0, libra::pi_2, math::pi, math::pi * 3.0 / 2.0, libra::tau};
+  std::vector<double> x{0.0, libra::pi_2, math::pi, math::pi * 3.0 / 2.0, math::tau};
   std::vector<double> y;
   for (size_t i = 0; i < x.size(); i++) {
     y.push_back(sin(x[i]));

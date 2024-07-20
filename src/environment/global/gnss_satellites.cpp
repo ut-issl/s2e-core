@@ -87,7 +87,7 @@ math::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_i
   if (diff_s < 0.0 || diff_s > 1e6) return math::Vector<3>(0.0);
 
   const double kOrbitalPeriodCorrection_s = 24 * 60 * 60 * 1.003;  // See http://acc.igs.org/orbits/orbit-interp_gpssoln03.pdf
-  return orbit_[gnss_satellite_id].CalcPositionWithTrigonometric(diff_s, libra::tau / kOrbitalPeriodCorrection_s);
+  return orbit_[gnss_satellite_id].CalcPositionWithTrigonometric(diff_s, math::tau / kOrbitalPeriodCorrection_s);
 }
 
 double GnssSatellites::GetClock_s(const size_t gnss_satellite_id, const EpochTime time) const {

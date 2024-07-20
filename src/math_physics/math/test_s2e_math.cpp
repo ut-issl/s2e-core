@@ -19,13 +19,13 @@ TEST(S2eMath, WrapTo2Pi) {
 
   input_angle_rad = -1.0e-5;
   wrapped_angle_rad = libra::WrapTo2Pi(input_angle_rad);
-  EXPECT_NEAR(libra::tau + input_angle_rad, wrapped_angle_rad, accuracy);
+  EXPECT_NEAR(math::tau + input_angle_rad, wrapped_angle_rad, accuracy);
 
-  input_angle_rad = libra::tau + 1.0e-5;
+  input_angle_rad = math::tau + 1.0e-5;
   wrapped_angle_rad = libra::WrapTo2Pi(input_angle_rad);
   EXPECT_NEAR(1.0e-5, wrapped_angle_rad, accuracy);
 
-  input_angle_rad = 10 * libra::tau + 1.0e-5;
+  input_angle_rad = 10 * math::tau + 1.0e-5;
   wrapped_angle_rad = libra::WrapTo2Pi(input_angle_rad);
   EXPECT_NEAR(1.0e-5, wrapped_angle_rad, accuracy);
 }
