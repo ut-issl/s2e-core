@@ -83,9 +83,9 @@ void Telescope::MainRoutine(const int time_count) {
   //  sun_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("SUN"));
   //  earth_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("EARTH"));
   //  moon_pos_c = quaternion_b2c_.FrameConversion(dynamics_->celestial_->GetPositionFromSpacecraft_b_m("MOON"));
-  // angle_sun = CalcAngleTwoVectors_rad(sight_direction_c_, sun_pos_c) * 180/libra::pi;
-  // angle_earth = CalcAngleTwoVectors_rad(sight_direction_c_, earth_pos_c) * 180 / libra::pi; angle_moon =
-  // CalcAngleTwoVectors_rad(sight_direction_c_, moon_pos_c) * 180 / libra::pi;
+  // angle_sun = CalcAngleTwoVectors_rad(sight_direction_c_, sun_pos_c) * 180/math::pi;
+  // angle_earth = CalcAngleTwoVectors_rad(sight_direction_c_, earth_pos_c) * 180 / math::pi; angle_moon =
+  // CalcAngleTwoVectors_rad(sight_direction_c_, moon_pos_c) * 180 / math::pi;
   //******************************************************************************
   // Direction calculation of ground point
   ObserveGroundPositionDeviation();
@@ -247,7 +247,7 @@ string Telescope::GetLogValue() const {
 
 Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const string file_name, const Attitude* attitude,
                         const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit) {
-  using libra::pi;
+  using math::pi;
 
   IniAccess Telescope_conf(file_name);
   const string st_sensor_id = std::to_string(static_cast<long long>(sensor_id));

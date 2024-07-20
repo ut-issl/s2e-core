@@ -45,16 +45,16 @@ TEST(Interpolation, PolynomialQuadraticFunction) {
  * @brief Test for sin function with trigonometric interpolation
  */
 TEST(Interpolation, TrigonometricSinFunction) {
-  std::vector<double> x{0.0, libra::pi_2, libra::pi, libra::pi * 3.0 / 2.0, libra::tau};
+  std::vector<double> x{0.0, libra::pi_2, math::pi, math::pi * 3.0 / 2.0, libra::tau};
   std::vector<double> y;
   for (size_t i = 0; i < x.size(); i++) {
     y.push_back(sin(x[i]));
   }
   libra::Interpolation interpolation(x, y);
 
-  double xx = 0.4 * libra::pi;
+  double xx = 0.4 * math::pi;
   EXPECT_DOUBLE_EQ(sin(xx), interpolation.CalcTrigonometric(xx));
-  xx = 1.4 * libra::pi;
+  xx = 1.4 * math::pi;
   EXPECT_DOUBLE_EQ(sin(xx), interpolation.CalcTrigonometric(xx));
 }
 

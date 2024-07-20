@@ -91,7 +91,7 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
   } else if (fabs(a - b) <= c && c <= (a + b))  // spacecraft is in penumbra
   {
     double A = a * a * acos(x / a) + b * b * acos((c - x) / b) - c * y;  // The area of the occulted segment of the apparent solar disk
-    shadow_coefficient_ *= 1.0 - A / (libra::pi * a * a);
+    shadow_coefficient_ *= 1.0 - A / (math::pi * a * a);
   } else {  // no occultation takes place
     if (c < (a + b)) {
       std::cout << "[Error SRP Environment]: The calculation error was occurred at the shadow calculation." << std::endl;

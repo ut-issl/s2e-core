@@ -105,9 +105,9 @@ math::Vector<3> SimpleThruster::CalcThrustDirection() {
     int flag = rand() % 2;
     double make_axis_rot_rad;
     if (flag == 0) {
-      make_axis_rot_rad = libra::pi * (double)rand() / RAND_MAX;
+      make_axis_rot_rad = math::pi * (double)rand() / RAND_MAX;
     } else {
-      make_axis_rot_rad = -libra::pi * (double)rand() / RAND_MAX;
+      make_axis_rot_rad = -math::pi * (double)rand() / RAND_MAX;
     }
 
     math::Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);
@@ -141,7 +141,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_
   magnitude_standard_deviation_N = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
 
   double deg_err;
-  deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * libra::pi / 180.0;
+  deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * math::pi / 180.0;
 
   SimpleThruster thruster(prescaler, clock_generator, thruster_id, thruster_pos, thruster_dir, max_magnitude_N, magnitude_standard_deviation_N,
                           deg_err, structure, dynamics);
@@ -169,7 +169,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* po
   magnitude_standard_deviation_N = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
 
   double deg_err;
-  deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * libra::pi / 180.0;
+  deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * math::pi / 180.0;
 
   power_port->InitializeWithInitializeFile(file_name);
 

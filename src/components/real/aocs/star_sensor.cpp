@@ -232,13 +232,13 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const 
   double output_interval_sec = STT_conf.ReadDouble(STTSection, "output_interval_s");
   int output_interval = max(int(output_interval_sec / step_time_s), 1);
   double sun_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "sun_exclusion_angle_deg");
-  double sun_forbidden_angle_rad = sun_forbidden_angle_deg * libra::pi / 180.0;
+  double sun_forbidden_angle_rad = sun_forbidden_angle_deg * math::pi / 180.0;
   double earth_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "earth_exclusion_angle_deg");
-  double earth_forbidden_angle_rad = earth_forbidden_angle_deg * libra::pi / 180.0;
+  double earth_forbidden_angle_rad = earth_forbidden_angle_deg * math::pi / 180.0;
   double moon_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "moon_exclusion_angle_deg");
-  double moon_forbidden_angle_rad = moon_forbidden_angle_deg * libra::pi / 180.0;
+  double moon_forbidden_angle_rad = moon_forbidden_angle_deg * math::pi / 180.0;
   double capture_rate_deg_s = STT_conf.ReadDouble(STTSection, "angular_rate_limit_deg_s");
-  double capture_rate_rad_s = capture_rate_deg_s * libra::pi / 180.0;
+  double capture_rate_rad_s = capture_rate_deg_s * math::pi / 180.0;
 
   StarSensor stt(prescaler, clock_generator, sensor_id, quaternion_b2c, standard_deviation_orthogonal_direction, standard_deviation_sight_direction,
                  step_time_s, output_delay, output_interval, sun_forbidden_angle_rad, earth_forbidden_angle_rad, moon_forbidden_angle_rad,
@@ -266,13 +266,13 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, PowerPort* power_port
   double output_interval_sec = STT_conf.ReadDouble(STTSection, "output_interval_s");
   int output_interval = max(int(output_interval_sec / step_time_s), 1);
   double sun_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "sun_exclusion_angle_deg");
-  double sun_forbidden_angle_rad = sun_forbidden_angle_deg * libra::pi / 180.0;
+  double sun_forbidden_angle_rad = sun_forbidden_angle_deg * math::pi / 180.0;
   double earth_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "earth_exclusion_angle_deg");
-  double earth_forbidden_angle_rad = earth_forbidden_angle_deg * libra::pi / 180.0;
+  double earth_forbidden_angle_rad = earth_forbidden_angle_deg * math::pi / 180.0;
   double moon_forbidden_angle_deg = STT_conf.ReadDouble(STTSection, "moon_exclusion_angle_deg");
-  double moon_forbidden_angle_rad = moon_forbidden_angle_deg * libra::pi / 180.0;
+  double moon_forbidden_angle_rad = moon_forbidden_angle_deg * math::pi / 180.0;
   double capture_rate_deg_s = STT_conf.ReadDouble(STTSection, "angular_rate_limit_deg_s");
-  double capture_rate_rad_s = capture_rate_deg_s * libra::pi / 180.0;
+  double capture_rate_rad_s = capture_rate_deg_s * math::pi / 180.0;
 
   power_port->InitializeWithInitializeFile(file_name);
 

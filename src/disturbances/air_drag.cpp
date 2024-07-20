@@ -47,14 +47,14 @@ void AirDrag::CalcCoefficients(const math::Vector<3>& velocity_b_m_s, const doub
 double AirDrag::CalcFunctionPi(const double s) {
   double x;
   double erfs = erf(s);  // ERF function is defined in math standard library
-  x = s * exp(-s * s) + sqrt(libra::pi) * (s * s + 0.5) * (1.0 + erfs);
+  x = s * exp(-s * s) + sqrt(math::pi) * (s * s + 0.5) * (1.0 + erfs);
   return x;
 }
 
 double AirDrag::CalcFunctionChi(const double s) {
   double x;
   double erfs = erf(s);
-  x = exp(-s * s) + sqrt(libra::pi) * s * (1.0 + erfs);
+  x = exp(-s * s) + sqrt(math::pi) * s * (1.0 + erfs);
   return x;
 }
 
@@ -69,9 +69,9 @@ void AirDrag::CalcCnCt(const Vector<3>& velocity_b_m_s) {
     double speed_n = speed * cos_theta_[i];
     double speed_t = speed * sin_theta_[i];
     double diffuse = 1.0 - surfaces_[i].GetAirSpecularity();
-    cn_[i] = (2.0 - diffuse) / sqrt(libra::pi) * CalcFunctionPi(speed_n) / (speed * speed) +
+    cn_[i] = (2.0 - diffuse) / sqrt(math::pi) * CalcFunctionPi(speed_n) / (speed * speed) +
              diffuse / 2.0 * CalcFunctionChi(speed_n) / (speed * speed) * sqrt(wall_temperature_K_ / molecular_temperature_K_);
-    ct_[i] = diffuse * speed_t * CalcFunctionChi(speed_n) / (sqrt(libra::pi) * speed * speed);
+    ct_[i] = diffuse * speed_t * CalcFunctionChi(speed_n) / (sqrt(math::pi) * speed * speed);
   }
 }
 

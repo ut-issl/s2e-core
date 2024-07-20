@@ -126,8 +126,8 @@ void SunSensor::CalcSolarIlluminance() {
 }
 
 double SunSensor::TanRange(double x) {
-  if (x > libra::pi_2) x = libra::pi - x;
-  if (x < -libra::pi_2) x = -libra::pi - x;
+  if (x > libra::pi_2) x = math::pi - x;
+  if (x < -libra::pi_2) x = -math::pi - x;
   return x;
 }
 
@@ -166,15 +166,15 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, int ss_id, std::string 
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
   detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
-  detectable_angle_rad = libra::pi / 180.0 * detectable_angle_deg;
+  detectable_angle_rad = math::pi / 180.0 * detectable_angle_deg;
 
   double nr_stddev = 0.0;
   nr_stddev = ss_conf.ReadDouble(Section, "white_noise_standard_deviation_deg");
-  nr_stddev *= libra::pi / 180.0;
+  nr_stddev *= math::pi / 180.0;
 
   double nr_bias_stddev = 0.0;
   nr_bias_stddev = ss_conf.ReadDouble(Section, "bias_standard_deviation_deg");
-  nr_bias_stddev *= libra::pi / 180.0;
+  nr_bias_stddev *= math::pi / 180.0;
 
   double intensity_lower_threshold_percent;
   intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");
@@ -199,15 +199,15 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, 
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
   detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
-  detectable_angle_rad = libra::pi / 180.0 * detectable_angle_deg;
+  detectable_angle_rad = math::pi / 180.0 * detectable_angle_deg;
 
   double nr_stddev = 0.0;
   nr_stddev = ss_conf.ReadDouble(Section, "white_noise_standard_deviation_deg");
-  nr_stddev *= libra::pi / 180.0;
+  nr_stddev *= math::pi / 180.0;
 
   double nr_bias_stddev = 0.0;
   nr_bias_stddev = ss_conf.ReadDouble(Section, "bias_standard_deviation_deg");
-  nr_bias_stddev *= libra::pi / 180.0;
+  nr_bias_stddev *= math::pi / 180.0;
 
   double intensity_lower_threshold_percent;
   intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");
