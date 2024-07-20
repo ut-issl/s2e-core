@@ -113,7 +113,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRkf) {
   double step_width_s = 0.1;
   numerical_integration::ExampleLinearOde ode;
   numerical_integration::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode,
-                                                                                   numerical_integration::NumericalIntegrationMethod::kRkf);
+                                                                            numerical_integration::NumericalIntegrationMethod::kRkf);
 
   math::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
@@ -139,7 +139,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerDp5) {
   double step_width_s = 0.1;
   numerical_integration::ExampleLinearOde ode;
   numerical_integration::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode,
-                                                                                   numerical_integration::NumericalIntegrationMethod::kDp5);
+                                                                            numerical_integration::NumericalIntegrationMethod::kDp5);
 
   math::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
