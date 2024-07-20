@@ -14,7 +14,7 @@
 #include <string>
 
 using namespace std;
-using namespace libra;
+using namespace math;
 
 StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
                        const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction,

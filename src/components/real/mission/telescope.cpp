@@ -11,7 +11,7 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 
 using namespace std;
-using namespace libra;
+using namespace math;
 
 Telescope::Telescope(ClockGenerator* clock_generator, const math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
                      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix,
