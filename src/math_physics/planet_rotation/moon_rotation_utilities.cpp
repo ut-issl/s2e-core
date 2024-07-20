@@ -37,9 +37,9 @@ math::Matrix<3, 3> CalcDcmEciToMeanEarth(const math::Vector<3> moon_position_eci
 
 math::Matrix<3, 3> CalcDcmMeanEarthToPrincipalAxis() {
   // The correction values between DE430 Principal Axis and Mean Earth frame
-  const double theta_x_rad = 0.285 * libra::arcsec_to_rad;
-  const double theta_y_rad = 78.580 * libra::arcsec_to_rad;
-  const double theta_z_rad = 67.573 * libra::arcsec_to_rad;
+  const double theta_x_rad = 0.285 * math::arcsec_to_rad;
+  const double theta_y_rad = 78.580 * math::arcsec_to_rad;
+  const double theta_z_rad = 67.573 * math::arcsec_to_rad;
 
   math::Matrix<3, 3> dcm_me_pa =
       math::MakeRotationMatrixZ(theta_z_rad) * math::MakeRotationMatrixY(theta_y_rad) * math::MakeRotationMatrixX(theta_x_rad);
