@@ -153,7 +153,7 @@ math::Vector<3> ReactionWheel::CalcTorque() {
 const math::Vector<3> ReactionWheel::GetOutputTorque_b_Nm() const {
   if (is_calculated_jitter_) {
     // Add jitter_force_b_N_-derived torque and jitter_torque_b_Nm_ to output_torque_b
-    return output_torque_b_Nm_ - libra::OuterProduct(position_b_m_, rw_jitter_.GetJitterForce_b_N()) - rw_jitter_.GetJitterTorque_b_Nm();
+    return output_torque_b_Nm_ - math::OuterProduct(position_b_m_, rw_jitter_.GetJitterForce_b_N()) - rw_jitter_.GetJitterTorque_b_Nm();
   } else {
     return output_torque_b_Nm_;
   }

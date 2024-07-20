@@ -67,7 +67,7 @@ math::Vector<7> AttitudeRk4::AttitudeDynamicsAndKinematics(math::Vector<7> x, do
   }
   math::Vector<3> angular_momentum_total_b_Nms = (previous_inertia_tensor_kgm2_ * omega_b) + angular_momentum_reaction_wheel_b_Nms_;
   math::Vector<3> rhs =
-      inverse_inertia_tensor_ * (torque_b_Nm_ - libra::OuterProduct(omega_b, angular_momentum_total_b_Nms) - torque_inertia_tensor_change_b_Nm_);
+      inverse_inertia_tensor_ * (torque_b_Nm_ - math::OuterProduct(omega_b, angular_momentum_total_b_Nms) - torque_inertia_tensor_change_b_Nm_);
 
   for (int i = 0; i < 3; ++i) {
     dxdt[i] = rhs[i];

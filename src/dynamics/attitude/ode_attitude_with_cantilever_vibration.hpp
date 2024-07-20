@@ -82,7 +82,7 @@ class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
     SetPhysicalQuantitiesFromState(state, omega_b_rad_s, omega_cantilever_rad_s, quaternion_i2b, euler_angle_cantilever_rad);
 
     math::Vector<3> angular_momentum_total_b_Nms = (previous_inertia_tensor_kgm2_ * omega_b_rad_s) + angular_momentum_reaction_wheel_b_Nms_;
-    math::Vector<3> net_torque_b_Nm = torque_b_Nm_ - libra::OuterProduct(omega_b_rad_s, angular_momentum_total_b_Nms) - torque_inertia_tensor_b_Nm_;
+    math::Vector<3> net_torque_b_Nm = torque_b_Nm_ - math::OuterProduct(omega_b_rad_s, angular_momentum_total_b_Nms) - torque_inertia_tensor_b_Nm_;
 
     math::Vector<3> angular_accelaration_cantilever_rad_s2 =
         -(inverse_equivalent_inertia_tensor_cantilever_ *

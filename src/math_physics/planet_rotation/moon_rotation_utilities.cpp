@@ -20,10 +20,10 @@ math::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const math::Vector<3> moon_position
 math::Matrix<3, 3> CalcDcmEciToMeanEarth(const math::Vector<3> moon_position_eci_m, const math::Vector<3> moon_velocity_eci_m_s) {
   math::Vector<3> me_ex_eci = -1.0 * moon_position_eci_m.CalcNormalizedVector();
 
-  math::Vector<3> moon_orbit_norm = libra::OuterProduct(moon_position_eci_m, moon_velocity_eci_m_s);
+  math::Vector<3> moon_orbit_norm = math::OuterProduct(moon_position_eci_m, moon_velocity_eci_m_s);
   math::Vector<3> me_ez_eci = moon_orbit_norm.CalcNormalizedVector();
 
-  math::Vector<3> me_ey_eci = libra::OuterProduct(me_ez_eci, me_ex_eci);
+  math::Vector<3> me_ey_eci = math::OuterProduct(me_ez_eci, me_ex_eci);
 
   math::Matrix<3, 3> dcm_eci_to_me;
   for (size_t i = 0; i < 3; i++) {
