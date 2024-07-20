@@ -100,8 +100,8 @@ class ForceGenerator : public Component, public ILoggable {
   math::Vector<3> generated_force_rtn_N_{0.0};  //!< Generated force in the RTN frame [N]
 
   // Noise
-  randomization::NormalRand magnitude_noise_;              //!< Normal random for magnitude noise
-  randomization::NormalRand direction_noise_;              //!< Normal random for direction noise
+  randomization::NormalRand magnitude_noise_;      //!< Normal random for magnitude noise
+  randomization::NormalRand direction_noise_;      //!< Normal random for direction noise
   double direction_error_standard_deviation_rad_;  //!< Standard deviation of direction error [rad]
 
   /**
