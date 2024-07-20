@@ -109,6 +109,6 @@ class GaussianBeamBase {
   math::Vector<3> position_beam_waist_i_m_{0.0};  //!< Position of beam waist in the inertial frame [m] (Not used?)
 };
 
-} // namespace optics
+}  // namespace optics
 
 #endif  // S2E_LIBRARY_OPTICS_GAUSSIAN_BEAM_BASE_HPP_

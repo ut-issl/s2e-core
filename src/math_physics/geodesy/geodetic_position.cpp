@@ -86,4 +86,4 @@ void GeodeticPosition::CalcQuaternionXcxfToLtc() {
   quaternion_xcxf_to_ltc_ = quaternion_xcxf_to_ltc_.ConvertFromDcm(dcm_xcxf_to_ltc);
 }
 
-} // namespace geodesy
+}  // namespace geodesy
