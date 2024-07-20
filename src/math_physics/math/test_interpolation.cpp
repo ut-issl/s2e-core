@@ -15,7 +15,7 @@
 TEST(Interpolation, PolynomialLinearFunction) {
   std::vector<double> x{0.0, 1.0, 2.0, 3.0, 4.0};
   std::vector<double> y{0.0, 2.0, 4.0, 6.0, 8.0};
-  libra::Interpolation interpolation(x, y);
+  math::Interpolation interpolation(x, y);
 
   double xx = 0.4;
   EXPECT_DOUBLE_EQ(2.0 * xx, interpolation.CalcPolynomial(xx));
@@ -31,7 +31,7 @@ TEST(Interpolation, PolynomialLinearFunction) {
 TEST(Interpolation, PolynomialQuadraticFunction) {
   std::vector<double> x{0.0, 1.0, 2.0, 3.0, 4.0};
   std::vector<double> y{0.0, 1.0, 4.0, 9.0, 16.0};
-  libra::Interpolation interpolation(x, y);
+  math::Interpolation interpolation(x, y);
 
   double xx = 0.4;
   EXPECT_DOUBLE_EQ(pow(xx, 2.0), interpolation.CalcPolynomial(xx));
@@ -50,7 +50,7 @@ TEST(Interpolation, TrigonometricSinFunction) {
   for (size_t i = 0; i < x.size(); i++) {
     y.push_back(sin(x[i]));
   }
-  libra::Interpolation interpolation(x, y);
+  math::Interpolation interpolation(x, y);
 
   double xx = 0.4 * math::pi;
   EXPECT_DOUBLE_EQ(sin(xx), interpolation.CalcTrigonometric(xx));
@@ -67,7 +67,7 @@ TEST(Interpolation, TrigonometricCosFunction) {
   for (size_t i = 0; i < x.size(); i++) {
     y.push_back(cos(x[i]));
   }
-  libra::Interpolation interpolation(x, y);
+  math::Interpolation interpolation(x, y);
 
   double xx = 0.1 * math::pi_2;
   EXPECT_NEAR(cos(xx), interpolation.CalcTrigonometric(xx), 1e-6);
@@ -84,7 +84,7 @@ TEST(Interpolation, TrigonometricCosSinFunctionOddDegree) {
   for (size_t i = 0; i < x.size(); i++) {
     y.push_back(cos(x[i]) + sin(x[i]));
   }
-  libra::Interpolation interpolation(x, y);
+  math::Interpolation interpolation(x, y);
 
   double xx = 0.1 * math::pi_2;
   EXPECT_NEAR(cos(xx) + sin(xx), interpolation.CalcTrigonometric(xx), 1e-6);
@@ -98,7 +98,7 @@ TEST(Interpolation, TrigonometricCosSinFunctionOddDegree) {
 TEST(Interpolation, PushAndPop) {
   std::vector<double> x{0.0, 1.0, 2.0, 3.0, 4.0};
   std::vector<double> y{0.0, 2.0, 4.0, 6.0, 8.0};
-  libra::Interpolation interpolation(x, y);
+  math::Interpolation interpolation(x, y);
 
   EXPECT_EQ(x.size(), interpolation.GetDegree());
   for (size_t i = 0; i < x.size(); i++) {

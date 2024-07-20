@@ -66,7 +66,7 @@ class InterpolationOrbit {
   }
 
  private:
-  std::vector<libra::Interpolation> interpolation_position_;  // 3D vector of interpolation
+  std::vector<math::Interpolation> interpolation_position_;  // 3D vector of interpolation
 };
 
 #endif  // S2E_LIBRARY_ORBIT_INTERPOLATION_ORBIT_HPP_

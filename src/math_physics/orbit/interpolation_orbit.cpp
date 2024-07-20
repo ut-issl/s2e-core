@@ -10,7 +10,7 @@ InterpolationOrbit::InterpolationOrbit(const size_t degree) {
   time.assign(degree, -1.0);
   std::vector<double> position;
   position.assign(degree, 0.0);
-  libra::Interpolation temp(time, position);
+  math::Interpolation temp(time, position);
   for (size_t axis = 0; axis < 3; axis++) {
     interpolation_position_.push_back(temp);
   }

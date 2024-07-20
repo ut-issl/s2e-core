@@ -43,7 +43,7 @@ void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, con
   // Initialize clock
   std::vector<double> temp;
   temp.assign(kNumberOfInterpolation, -1.0);
-  clock_.assign(number_of_calculated_gnss_satellites_, libra::Interpolation(temp, temp));
+  clock_.assign(number_of_calculated_gnss_satellites_, math::Interpolation(temp, temp));
 
   // Initialize interpolation
   for (size_t i = 0; i < kNumberOfInterpolation; i++) {
