@@ -53,7 +53,7 @@ def read_scalar_from_csv(read_file_name, header_name):
   return vector
 
 def add_log_file_arguments(aparser):
-  aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../data/sample/logs"', default='../../data/sample/logs')
+  aparser.add_argument('--logs-dir', type=str, help='logs directory like "../../logs"', default='../../logs')
   aparser.add_argument('--file-tag', type=str, help='log file tag like 220627_142946')
   return aparser
 
