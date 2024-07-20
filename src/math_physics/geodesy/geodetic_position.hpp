@@ -9,6 +9,8 @@
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/math/vector.hpp>
 
+namespace geodesy {
+
 /**
  * @class GeodeticPosition
  * @brief Class to mange geodetic position expression
@@ -77,5 +79,7 @@ class GeodeticPosition {
    */
   void CalcQuaternionXcxfToLtc();
 };
+
+}  // namespace geodesy
 
 #endif  // S2E_LIBRARY_GEODESY_GEODETIC_POSITION_HPP_

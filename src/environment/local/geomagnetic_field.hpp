@@ -43,7 +43,7 @@ class GeomagneticField : public ILoggable {
    * @param [in] position: Position of target point to calculate the magnetic field
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
-  void CalcMagneticField(const double decimal_year, const double sidereal_day, const GeodeticPosition position,
+  void CalcMagneticField(const double decimal_year, const double sidereal_day, const geodesy::GeodeticPosition position,
                          const math::Quaternion quaternion_i2b);
 
   /**
