@@ -7,7 +7,7 @@
 
 #include "embedded_runge_kutta.hpp"
 
-namespace libra::numerical_integration {
+namespace numerical_integration {
 
 template <size_t N>
 void EmbeddedRungeKutta<N>::Integrate() {
@@ -37,6 +37,6 @@ void EmbeddedRungeKutta<N>::ControlStepWidth(const double error_tolerance) {
   this->step_width_ = updated_step_width;
 }
 
-}  // namespace libra::numerical_integration
+}  // namespace numerical_integration
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_IMPLEMENTATION_HPP_

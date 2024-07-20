@@ -11,7 +11,7 @@
 
 #include "dormand_prince_5.hpp"
 
-namespace libra::numerical_integration {
+namespace numerical_integration {
 
 template <size_t N>
 DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>& ode) : EmbeddedRungeKutta<N>(step_width, ode) {
@@ -149,6 +149,6 @@ std::vector<double> DormandPrince5<N>::CalcInterpolationWeights(const double sig
   return interpolation_weights;
 }
 
-}  // namespace libra::numerical_integration
+}  // namespace numerical_integration
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_DORMAND_PRINCE_5_IMPLEMENTATION_HPP_

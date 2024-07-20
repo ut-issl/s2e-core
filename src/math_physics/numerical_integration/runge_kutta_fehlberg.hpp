@@ -8,7 +8,7 @@
 
 #include "embedded_runge_kutta.hpp"
 
-namespace libra::numerical_integration {
+namespace numerical_integration {
 
 /**
  * @class RungeKuttaFehlberg
@@ -41,7 +41,7 @@ class RungeKuttaFehlberg : public EmbeddedRungeKutta<N> {
   std::vector<double> CalcInterpolationWeights(const double sigma) const;
 };
 
-}  // namespace libra::numerical_integration
+}  // namespace numerical_integration
 
 #include "runge_kutta_fehlberg_implementation.hpp"
 
