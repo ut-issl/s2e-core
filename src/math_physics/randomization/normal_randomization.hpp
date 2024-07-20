@@ -106,6 +106,6 @@ class NormalRand {
   bool is_empty_;                             //!< Flag to show the holder_ has available value
 };
 
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_RANDOMIZATION_NORMAL_RANDOMIZATION_HPP_

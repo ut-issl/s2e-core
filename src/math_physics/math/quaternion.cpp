@@ -236,4 +236,4 @@ Vector<3> Quaternion::InverseFrameConversion(const Vector<3>& vector) const {
 
 Vector<4> Quaternion::ConvertToVector() { return quaternion_; }
 
-}  // namespace libra
+}  // namespace math

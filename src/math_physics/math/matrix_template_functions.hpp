@@ -186,6 +186,6 @@ Matrix<R, R, T> MakeRotationMatrixZ(const double& theta_rad) {
   return m;
 }
 
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_MATH_MATRIX_TEMPLATE_FUNCTIONS_HPP_

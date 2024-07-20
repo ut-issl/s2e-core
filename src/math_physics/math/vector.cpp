@@ -51,4 +51,4 @@ Vector<3, double> GenerateOrthogonalUnitVector(const Vector<3, double>& v) {
     return (orthogonal_vector);
   }
 }
-}  // namespace libra
+}  // namespace math

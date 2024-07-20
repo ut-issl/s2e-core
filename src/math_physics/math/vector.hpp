@@ -237,7 +237,7 @@ Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& orthogon
  */
 Vector<3, double> GenerateOrthogonalUnitVector(const Vector<3, double>& v);
 
-}  // namespace libra
+}  // namespace math
 
 #include "vector_template_functions.hpp"
 

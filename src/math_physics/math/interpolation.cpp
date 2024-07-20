@@ -94,4 +94,4 @@ size_t Interpolation::FindNearestPoint(const double x) const {
   return output;
 }
 
-}  // namespace libra
+}  // namespace math

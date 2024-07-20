@@ -203,6 +203,6 @@ Quaternion operator*(const Quaternion& lhs, const Vector<3>& rhs);
  * @return Quaternion
  */
 Quaternion operator*(const double& lhs, const Quaternion& rhs);
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_MATH_QUATERNION_HPP_

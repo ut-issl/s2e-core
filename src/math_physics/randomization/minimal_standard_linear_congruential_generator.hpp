@@ -52,6 +52,6 @@ class MinimalStandardLcg {
   long seed_;  //!< Seed of randomization
 };
 
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_HPP_

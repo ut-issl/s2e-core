@@ -52,7 +52,7 @@ Matrix<N, N>& LuDecomposition(Matrix<N, N>& matrix, size_t index[]);
 template <std::size_t N>
 Vector<N>& SolveLinearSystemWithLu(const Matrix<N, N>& matrix, const size_t index[], Vector<N>& vector);
 
-}  // namespace libra
+}  // namespace math
 
 #include "matrix_vector_template_functions.hpp"
 

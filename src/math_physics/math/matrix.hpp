@@ -244,7 +244,7 @@ Matrix<R, R, T> MakeRotationMatrixY(const double& theta_rad);
 template <size_t R = 3, typename T = double>
 Matrix<R, R, T> MakeRotationMatrixZ(const double& theta_rad);
 
-}  // namespace libra
+}  // namespace math
 
 #include "matrix_template_functions.hpp"
 

@@ -58,6 +58,6 @@ class MinimalStandardLcgWithShuffle {
   double mixing_table_[kTableSize];          //!< Mixing table
 };
 
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_WITH_SHUFFLE_HPP_

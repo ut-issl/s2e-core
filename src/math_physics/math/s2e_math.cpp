@@ -23,4 +23,4 @@ double WrapTo2Pi(const double angle_rad) {
   }
   return angle_out;
 }
-}  // namespace libra
+}  // namespace math

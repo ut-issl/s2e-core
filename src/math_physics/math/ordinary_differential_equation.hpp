@@ -111,7 +111,7 @@ class OrdinaryDifferentialEquation {
   double step_width_s_;          //!< Step width
 };
 
-}  // namespace libra
+}  // namespace math
 
 #include "./ordinary_differential_equation_template_functions.hpp"
 
