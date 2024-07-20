@@ -16,7 +16,7 @@ class IGPIOCompo {
    * @fn ~IGPIOCompo
    * @brief Destructor
    */
-  virtual ~IGPIOCompo() {};
+  virtual ~IGPIOCompo(){};
 
   /**
    * @fn GpioStateChanged

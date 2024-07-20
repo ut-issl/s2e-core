@@ -54,7 +54,7 @@ class NumericalIntegratorManager {
     }
   }
 
-  ~NumericalIntegratorManager() {}
+  ~NumericalIntegratorManager(){}
 
   inline std::shared_ptr<NumericalIntegrator<N>> GetIntegrator() const { return integrator_; }
 

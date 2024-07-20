@@ -24,7 +24,7 @@ class Surface {
    * @fn ~Surface
    * @brief Destructor
    */
-  ~Surface() {};
+  ~Surface(){};
 
   // Getter
   /**

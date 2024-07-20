@@ -25,7 +25,7 @@ class ResidualMagneticMoment {
    * @fn ~ResidualMagneticMoment
    * @brief Destructor
    */
-  ~ResidualMagneticMoment() {};
+  ~ResidualMagneticMoment(){};
 
   // Getter
   /**
