@@ -6,6 +6,8 @@
 
 #include "gravity_potential.hpp"
 
+using namespace gravity;
+
 /**
  * @brief Test for Acceleration calculation
  */
