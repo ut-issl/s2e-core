@@ -13,11 +13,11 @@ namespace numerical_integration {
 
 class ExampleLinearOde : public InterfaceOde<1> {
  public:
-  Vector<1> DerivativeFunction(const double time_s, const Vector<1>& state) const {
+  math::Vector<1> DerivativeFunction(const double time_s, const math::Vector<1>& state) const {
     UNUSED(time_s);
     UNUSED(state);
 
-    Vector<1> output(1.0);
+    math::Vector<1> output(1.0);
     return output;
   }
 };
@@ -35,11 +35,11 @@ class ExampleQuadraticOde : public InterfaceOde<1> {
    * @param [in] state: State vector
    * @return Differentiated value of state vector
    */
-  virtual Vector<1> DerivativeFunction(const double time_s, const Vector<1>& state) const {
+  virtual math::Vector<1> DerivativeFunction(const double time_s, const math::Vector<1>& state) const {
     UNUSED(time_s);
     UNUSED(state);
 
-    Vector<1> output(0.0);
+    math::Vector<1> output(0.0);
     output[0] = 2.0 * time_s;
     return output;
   }
@@ -51,10 +51,10 @@ class ExampleQuadraticOde : public InterfaceOde<1> {
  */
 class Example1dPositionVelocityOde : public InterfaceOde<2> {
  public:
-  virtual Vector<2> DerivativeFunction(const double time_s, const Vector<2>& state) const {
+  virtual math::Vector<2> DerivativeFunction(const double time_s, const math::Vector<2>& state) const {
     UNUSED(time_s);
 
-    Vector<2> output(0.0);
+    math::Vector<2> output(0.0);
     output[0] = state[1];
     output[1] = 0.0;
     return output;
@@ -67,10 +67,10 @@ class Example1dPositionVelocityOde : public InterfaceOde<2> {
  */
 class Example2dTwoBodyOrbitOde : public InterfaceOde<4> {
  public:
-  virtual Vector<4> DerivativeFunction(const double time_s, const Vector<4>& state) const {
+  virtual math::Vector<4> DerivativeFunction(const double time_s, const math::Vector<4>& state) const {
     UNUSED(time_s);
 
-    Vector<4> output(0.0);
+    math::Vector<4> output(0.0);
     output[0] = state[2];
     output[1] = state[3];
     double denominator = pow(state[0] * state[0] + state[1] * state[1], 3.0 / 2.0);
