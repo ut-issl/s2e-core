@@ -9,6 +9,8 @@
 #include <fstream>
 #include <iostream>
 
+namespace gnss {
+
 bool BiasSinexFileReader::ReadFile(const std::string file_name) {
   // File open
   std::ifstream bias_sinex_file(file_name);
@@ -242,3 +244,5 @@ void BiasSolutionData::SetTargetSignal(const std::string signal1, const std::str
     target_signal_ = BiasTargetSignal::kError;
   }
 }
+
+}  // namespace gnss

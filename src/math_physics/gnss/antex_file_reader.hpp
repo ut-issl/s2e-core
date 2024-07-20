@@ -16,6 +16,8 @@
 #include <string>
 #include <vector>
 
+namespace gnss {
+
 /**
  * @class AntexGridDefinition
  * @brief grid data definition in ANTEX file
@@ -342,5 +344,7 @@ class AntexFileReader {
    */
   DateTime ReadDateTime(std::string line);
 };
+
+}  // namespace gnss
 
 #endif  // S2E_LIBRARY_ANTEX_FILE_READER_HPP_

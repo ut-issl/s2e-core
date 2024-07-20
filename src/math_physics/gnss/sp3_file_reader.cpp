@@ -11,6 +11,8 @@
 #include <fstream>
 #include <iostream>
 
+namespace gnss {
+
 Sp3FileReader::Sp3FileReader(const std::string file_name) { ReadFile(file_name); }
 
 DateTime Sp3FileReader::GetEpochData(const size_t epoch_id) const {
@@ -419,3 +421,5 @@ Sp3VelocityClockRateCorrelation Sp3FileReader::DecodeVelocityClockRateCorrelatio
 
   return correlation;
 }
+
+} // namespace gnss

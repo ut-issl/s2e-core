@@ -15,6 +15,8 @@
 #include "setting_file_reader/initialize_file_access.hpp"
 #include "utilities/macros.hpp"
 
+using namespace gnss;
+
 const size_t kNumberOfInterpolation = 9;
 
 void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, const EpochTime start_time) {

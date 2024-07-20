@@ -7,6 +7,8 @@
 
 #include "antex_file_reader.hpp"
 
+using namespace gnss;
+
 /**
  * @brief Test Constructor
  */
