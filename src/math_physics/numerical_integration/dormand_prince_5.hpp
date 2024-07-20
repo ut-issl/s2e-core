@@ -33,7 +33,7 @@ class DormandPrince5 : public EmbeddedRungeKutta<N> {
    * @param [in] sigma: Sigma value (0 < sigma < 1) for interpolation
    * @return : interpolated state x(t0 + sigma * h)
    */
-  Vector<N> CalcInterpolationState(const double sigma) const override;
+  math::Vector<N> CalcInterpolationState(const double sigma) const override;
 
  private:
   std::vector<math::Vector<5>> coefficients_;  //!< Coefficients to calculate interpolation weights

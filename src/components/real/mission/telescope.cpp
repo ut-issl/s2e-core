@@ -94,7 +94,7 @@ void Telescope::MainRoutine(const int time_count) {
 bool Telescope::JudgeForbiddenAngle(const math::Vector<3>& target_b, const double forbidden_angle) {
   math::Quaternion q_c2b = quaternion_b2c_.Conjugate();
   math::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
-  double angle_rad = libra::CalcAngleTwoVectors_rad(target_b, sight_b);
+  double angle_rad = math::CalcAngleTwoVectors_rad(target_b, sight_b);
   if (angle_rad < forbidden_angle) {
     return true;
   } else

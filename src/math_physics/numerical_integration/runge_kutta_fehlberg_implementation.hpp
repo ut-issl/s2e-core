@@ -64,15 +64,15 @@ RungeKuttaFehlberg<N>::RungeKuttaFehlberg(const double step_width, const Interfa
 }
 
 template <size_t N>
-Vector<N> RungeKuttaFehlberg<N>::CalcInterpolationState(const double sigma) const {
+math::Vector<N> RungeKuttaFehlberg<N>::CalcInterpolationState(const double sigma) const {
   // Calc k7 (slope after state update)
-  Vector<N> state_7 =
+  math::Vector<N> state_7 =
       this->previous_state_ + this->step_width_ * (1.0 / 6.0 * this->slope_[0] + 1.0 / 6.0 * this->slope_[4] + 2.0 / 3.0 * this->slope_[5]);
-  Vector<N> k7 = this->ode_.DerivativeFunction(this->current_independent_variable_, state_7);
+  math::Vector<N> k7 = this->ode_.DerivativeFunction(this->current_independent_variable_, state_7);
 
   std::vector<double> interpolation_weights = CalcInterpolationWeights(sigma);
 
-  Vector<N> interpolation_state = this->previous_state_;
+  math::Vector<N> interpolation_state = this->previous_state_;
   for (size_t i = 0; i < this->number_of_stages_; i++) {
     interpolation_state = interpolation_state + (sigma * this->step_width_ * interpolation_weights[i]) * this->slope_[i];
   }

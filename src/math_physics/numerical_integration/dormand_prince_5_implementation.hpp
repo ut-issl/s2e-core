@@ -123,10 +123,10 @@ DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>
 }
 
 template <size_t N>
-Vector<N> DormandPrince5<N>::CalcInterpolationState(const double sigma) const {
+math::Vector<N> DormandPrince5<N>::CalcInterpolationState(const double sigma) const {
   std::vector<double> interpolation_weights = CalcInterpolationWeights(sigma);
 
-  Vector<N> interpolation_state = this->previous_state_;
+  math::Vector<N> interpolation_state = this->previous_state_;
   for (size_t i = 0; i < this->number_of_stages_; i++) {
     interpolation_state = interpolation_state + (sigma * this->step_width_ * interpolation_weights[i]) * this->slope_[i];
   }

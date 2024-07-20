@@ -69,7 +69,7 @@ class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
     }
   }
 
-  Vector<13> DerivativeFunction(const double time_s, const Vector<13>& state) const override {
+  math::Vector<13> DerivativeFunction(const double time_s, const math::Vector<13>& state) const override {
     UNUSED(time_s);
 
     math::Vector<13> output;
