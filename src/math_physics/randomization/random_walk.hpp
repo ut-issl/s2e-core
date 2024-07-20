@@ -37,7 +37,7 @@ class RandomWalk : public math::OrdinaryDifferentialEquation<N> {
 
  private:
   math::Vector<N> limit_;                   //!< Limit of random walk
-  libra::NormalRand normal_randomizer_[N];  //!< Random walk excitation noise
+  randomization::NormalRand normal_randomizer_[N];  //!< Random walk excitation noise
 };
 
 #include "random_walk_template_functions.hpp"  // template function definisions.

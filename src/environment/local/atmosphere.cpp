@@ -78,7 +78,7 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& 
 
 double Atmosphere::AddNoise(const double rho_kg_m3) {
   // RandomWalk rw(rho_kg_m3*rw_stepwidth_,rho_kg_m3*rw_stddev_,rho_kg_m3*rw_limit_);
-  libra::NormalRand nr(0.0, rho_kg_m3 * gauss_standard_deviation_rate_, global_randomization.MakeSeed());
+  randomization::NormalRand nr(0.0, rho_kg_m3 * gauss_standard_deviation_rate_, global_randomization.MakeSeed());
   double nrd = nr;
 
   return rho_kg_m3 + nrd;

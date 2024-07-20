@@ -11,7 +11,7 @@
 
 #include "minimal_standard_linear_congruential_generator.hpp"
 
-namespace libra {
+namespace randomization {
 
 /**
  * @class MinimalStandardLcgWithShuffle
@@ -58,6 +58,6 @@ class MinimalStandardLcgWithShuffle {
   double mixing_table_[kTableSize];          //!< Mixing table
 };
 
-}  // namespace libra
+}  // namespace randomization
 
 #endif  // S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_WITH_SHUFFLE_HPP_

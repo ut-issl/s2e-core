@@ -134,7 +134,7 @@ class Magnetorquer : public Component, public ILoggable {
 
   math::Vector<kMtqDimension> bias_noise_c_Am2_{0.0};    //!< Constant bias noise in the component frame [Am2]
   RandomWalk<kMtqDimension> random_walk_c_Am2_;          //!< Random walk noise
-  libra::NormalRand random_noise_c_Am2_[kMtqDimension];  //!< Normal random noise
+  randomization::NormalRand random_noise_c_Am2_[kMtqDimension];  //!< Normal random noise
 
   const GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
 

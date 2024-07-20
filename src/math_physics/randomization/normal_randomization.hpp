@@ -8,9 +8,9 @@
 #define S2E_LIBRARY_RANDOMIZATION_NORMAL_RANDOMIZATION_HPP_
 
 #include "minimal_standard_linear_congruential_generator_with_shuffle.hpp"
-using libra::MinimalStandardLcgWithShuffle;
+using randomization::MinimalStandardLcgWithShuffle;
 
-namespace libra {
+namespace randomization {
 
 /**
  * @class NormalRand
@@ -106,6 +106,6 @@ class NormalRand {
   bool is_empty_;                             //!< Flag to show the holder_ has available value
 };
 
-}  // namespace libra
+}  // namespace randomization
 
 #endif  // S2E_LIBRARY_RANDOMIZATION_NORMAL_RANDOMIZATION_HPP_

@@ -100,8 +100,8 @@ class SunSensor : public Component, public ILoggable {
   double detectable_angle_rad_;          //!< half angle (>0) [rad]
   bool sun_detected_flag_ = false;       //!< Sun detected flag
   // Noise parameters
-  libra::NormalRand random_noise_alpha_;  //!< Normal random for alpha angle
-  libra::NormalRand random_noise_beta_;   //!< Normal random for beta angle
+  randomization::NormalRand random_noise_alpha_;  //!< Normal random for alpha angle
+  randomization::NormalRand random_noise_beta_;   //!< Normal random for beta angle
   double bias_noise_alpha_rad_ = 0.0;     //!< Constant bias for alpha angle (Value is calculated by random number generator)
   double bias_noise_beta_rad_ = 0.0;      //!< Constant bias for beta angle (Value is calculated by random number generator)
 

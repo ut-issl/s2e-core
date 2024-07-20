@@ -4,7 +4,7 @@
  * @note Ref: NUMERICAL RECIPES in C, p.216-p.217
  */
 #include "normal_randomization.hpp"
-using libra::NormalRand;
+using randomization::NormalRand;
 
 #include <cfloat>  //DBL_EPSILON
 #include <cmath>   //sqrt, log;
