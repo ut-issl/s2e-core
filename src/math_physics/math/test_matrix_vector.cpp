@@ -52,7 +52,7 @@ TEST(MatrixVector, CalcInverseMatrix) {
   m[2][1] = -2.0;
   m[2][2] = 1.0;
 
-  math::Matrix<N, N> inverse = libra::CalcInverseMatrix(m);
+  math::Matrix<N, N> inverse = math::CalcInverseMatrix(m);
 
   EXPECT_NEAR(-1.0, inverse[0][0], 1e-10);
   EXPECT_NEAR(-1.0, inverse[0][1], 1e-10);
