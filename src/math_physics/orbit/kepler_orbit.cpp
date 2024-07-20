@@ -37,12 +37,12 @@ void KeplerOrbit::CalcOrbit(double time_jday) {
   double dt_s = (time_jday - oe_.GetEpoch_jday()) * (24.0 * 60.0 * 60.0);
 
   double mean_anomaly_rad = mean_motion_rad_s_ * dt_s;
-  double l_rad = libra::WrapTo2Pi(mean_anomaly_rad);
+  double l_rad = math::WrapTo2Pi(mean_anomaly_rad);
 
   // Solve Kepler Equation
   double eccentric_anomaly_rad;
   eccentric_anomaly_rad = SolveKeplerNewtonMethod(e, l_rad, 1.0e-5, 10);
-  double u_rad = libra::WrapTo2Pi(eccentric_anomaly_rad);
+  double u_rad = math::WrapTo2Pi(eccentric_anomaly_rad);
 
   // Calc position and velocity in the plane
   double cos_u = cos(u_rad);
