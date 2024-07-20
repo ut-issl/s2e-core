@@ -10,8 +10,8 @@
 
 RelativeOrbit::RelativeOrbit(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
                              int reference_spacecraft_id, math::Vector<3> relative_position_lvlh_m, math::Vector<3> relative_velocity_lvlh_m_s,
-                             RelativeOrbitUpdateMethod update_method, orbit::RelativeOrbitModel relative_dynamics_model_type, orbit::StmModel stm_model_type,
-                             RelativeInformation* relative_information)
+                             RelativeOrbitUpdateMethod update_method, orbit::RelativeOrbitModel relative_dynamics_model_type,
+                             orbit::StmModel stm_model_type, RelativeInformation* relative_information)
     : Orbit(celestial_information),
       math::OrdinaryDifferentialEquation<6>(time_step_s),
       gravity_constant_m3_s2_(gravity_constant_m3_s2),
@@ -80,7 +80,8 @@ void RelativeOrbit::CalculateSystemMatrix(orbit::RelativeOrbitModel relative_dyn
   }
 }
 
-void RelativeOrbit::CalculateStm(orbit::StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2, double elapsed_sec) {
+void RelativeOrbit::CalculateStm(orbit::StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2,
+                                 double elapsed_sec) {
   switch (stm_model_type) {
     case orbit::StmModel::kHcw: {
       double reference_sat_orbit_radius = reference_sat_orbit->GetPosition_i_m().CalcNorm();

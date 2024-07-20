@@ -80,10 +80,10 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
   math::Vector<3> relative_position_lvlh_m_;    //!< Relative position in the LVLH frame
   math::Vector<3> relative_velocity_lvlh_m_s_;  //!< Relative velocity in the LVLH frame
 
-  RelativeOrbitUpdateMethod update_method_;          //!< Update method
+  RelativeOrbitUpdateMethod update_method_;                 //!< Update method
   orbit::RelativeOrbitModel relative_dynamics_model_type_;  //!< Relative dynamics model type
   orbit::StmModel stm_model_type_;                          //!< State Transition Matrix model type
-  RelativeInformation* relative_information_;        //!< Relative information
+  RelativeInformation* relative_information_;               //!< Relative information
 
   /**
    * @fn InitializeState
