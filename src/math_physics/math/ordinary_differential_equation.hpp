@@ -8,7 +8,7 @@
 
 #include "./vector.hpp"
 
-namespace math
+namespace math {
 
 /**
  * @class OrdinaryDifferentialEquation

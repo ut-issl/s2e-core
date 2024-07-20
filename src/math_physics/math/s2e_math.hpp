@@ -8,7 +8,7 @@
 
 #include <cmath>
 
-namespace math
+namespace math {
 
 /**
  * @fn WrapTo2Pi

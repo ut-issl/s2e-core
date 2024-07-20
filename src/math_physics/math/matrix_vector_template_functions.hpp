@@ -8,7 +8,7 @@
 
 #include <stdexcept>  // for invalid_argument.
 
-namespace math
+namespace math {
 
 template <size_t R, size_t C, typename TM, typename TC>
 Vector<R, TC> operator*(const Matrix<R, C, TM>& matrix, const Vector<C, TC>& vector) {

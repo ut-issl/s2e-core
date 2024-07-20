@@ -9,7 +9,7 @@
 #include <cmath>
 #include <iostream>  // for cout
 
-namespace math
+namespace math {
 
 template <size_t R, size_t C, typename T>
 Matrix<R, C, T>::Matrix(const T& n) {

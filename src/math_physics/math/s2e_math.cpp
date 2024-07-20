@@ -7,7 +7,7 @@
 
 #include <math_physics/math/constants.hpp>
 
-namespace math
+namespace math {
 double WrapTo2Pi(const double angle_rad) {
   double angle_out = angle_rad;
   if (angle_out < 0.0) {

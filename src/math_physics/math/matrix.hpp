@@ -9,7 +9,7 @@
 #include <cstddef>   // for size_t
 #include <iostream>  // for ostream, cout
 
-namespace math
+namespace math {
 
 /**
  * @class Matrix

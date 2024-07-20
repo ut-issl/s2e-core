@@ -12,7 +12,7 @@
 #define dot InnerProduct
 #define cross OuterProduct
 
-namespace math
+namespace math {
 /**
  * @class Vector
  * @brief Class for mathematical vector

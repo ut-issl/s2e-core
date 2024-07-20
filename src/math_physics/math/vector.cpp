@@ -7,7 +7,7 @@
 
 #include "constants.hpp"
 
-namespace math
+namespace math {
 Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& orthogonal) {
   Vector<3, double> polar;  // vector on the polar coordinate
   polar.FillUp(0.0);
