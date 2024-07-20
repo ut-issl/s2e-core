@@ -176,7 +176,7 @@ void Telescope::ObserveGroundPositionDeviation() {
   Quaternion quaternion_i2b = attitude_->GetQuaternion_i2b();
   libra::Vector<3> spacecraft_position_ecef_m = orbit_->GetPosition_ecef_m();
   libra::Vector<3> direction_ecef = (initial_ground_position_ecef_m_ - spacecraft_position_ecef_m).CalcNormalizedVector();
-  libra::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
+  math::Matrix<3, 3> dcm_ecef_to_i = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
   libra::Vector<3> direction_i = (dcm_ecef_to_i * direction_ecef).CalcNormalizedVector();
   libra::Vector<3> direction_b = quaternion_i2b.FrameConversion(direction_i);
   libra::Vector<3> target_c = quaternion_b2c_.FrameConversion(direction_b);

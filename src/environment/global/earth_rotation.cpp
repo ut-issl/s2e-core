@@ -125,10 +125,10 @@ void EarthRotation::Update(const double julian_date) {
       terrestrial_time_julian_century[i + 1] = terrestrial_time_julian_century[i] * terrestrial_time_julian_century[0];
     }
 
-    libra::Matrix<3, 3> dcm_precession;
-    libra::Matrix<3, 3> dcm_nutation;
-    libra::Matrix<3, 3> dcm_rotation;
-    libra::Matrix<3, 3> dcm_polar_motion;
+    math::Matrix<3, 3> dcm_precession;
+    math::Matrix<3, 3> dcm_nutation;
+    math::Matrix<3, 3> dcm_rotation;
+    math::Matrix<3, 3> dcm_polar_motion;
     // Nutation + Precession
     dcm_precession = Precession(terrestrial_time_julian_century);
     dcm_nutation = Nutation(terrestrial_time_julian_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are updated in this procedure
@@ -154,9 +154,9 @@ void EarthRotation::Update(const double julian_date) {
   }
 }
 
-libra::Matrix<3, 3> EarthRotation::AxialRotation(const double gast_rad) { return libra::MakeRotationMatrixZ(gast_rad); }
+math::Matrix<3, 3> EarthRotation::AxialRotation(const double gast_rad) { return libra::MakeRotationMatrixZ(gast_rad); }
 
-libra::Matrix<3, 3> EarthRotation::Nutation(const double (&t_tt_century)[4]) {
+math::Matrix<3, 3> EarthRotation::Nutation(const double (&t_tt_century)[4]) {
   // Mean obliquity of the ecliptic
   epsilon_rad_ = c_epsilon_rad_[0];
   for (int i = 0; i < 3; i++) {
@@ -208,17 +208,17 @@ libra::Matrix<3, 3> EarthRotation::Nutation(const double (&t_tt_century)[4]) {
                    c_d_epsilon_rad_[7] * cos(2 * l_rad + lm_rad) + c_d_epsilon_rad_[8] * cos(2 * ld_rad - ls_rad);
 
   double epsi_mod_rad = epsilon_rad_ + d_epsilon_rad_;
-  libra::Matrix<3, 3> x_epsi_1st = libra::MakeRotationMatrixX(epsilon_rad_);
-  libra::Matrix<3, 3> z_d_psi = libra::MakeRotationMatrixZ(-d_psi_rad_);
-  libra::Matrix<3, 3> x_epsi_2nd = libra::MakeRotationMatrixX(-epsi_mod_rad);
+  math::Matrix<3, 3> x_epsi_1st = libra::MakeRotationMatrixX(epsilon_rad_);
+  math::Matrix<3, 3> z_d_psi = libra::MakeRotationMatrixZ(-d_psi_rad_);
+  math::Matrix<3, 3> x_epsi_2nd = libra::MakeRotationMatrixX(-epsi_mod_rad);
 
-  libra::Matrix<3, 3> dcm_nutation;
+  math::Matrix<3, 3> dcm_nutation;
   dcm_nutation = x_epsi_2nd * z_d_psi * x_epsi_1st;
 
   return dcm_nutation;
 }
 
-libra::Matrix<3, 3> EarthRotation::Precession(const double (&t_tt_century)[4]) {
+math::Matrix<3, 3> EarthRotation::Precession(const double (&t_tt_century)[4]) {
   // Compute precession angles(zeta, theta, z)
   double zeta_rad = 0.0;
   for (int i = 0; i < 3; i++) {
@@ -234,18 +234,18 @@ libra::Matrix<3, 3> EarthRotation::Precession(const double (&t_tt_century)[4]) {
   }
 
   // Develop transformation matrix
-  libra::Matrix<3, 3> z_zeta = libra::MakeRotationMatrixZ(-zeta_rad);
-  libra::Matrix<3, 3> y_theta = libra::MakeRotationMatrixY(theta_rad);
-  libra::Matrix<3, 3> z_z = libra::MakeRotationMatrixZ(-z_rad);
+  math::Matrix<3, 3> z_zeta = libra::MakeRotationMatrixZ(-zeta_rad);
+  math::Matrix<3, 3> y_theta = libra::MakeRotationMatrixY(theta_rad);
+  math::Matrix<3, 3> z_z = libra::MakeRotationMatrixZ(-z_rad);
 
-  libra::Matrix<3, 3> dcm_precession;
+  math::Matrix<3, 3> dcm_precession;
   dcm_precession = z_z * y_theta * z_zeta;
 
   return dcm_precession;
 }
 
-libra::Matrix<3, 3> EarthRotation::PolarMotion(const double x_p, const double y_p) {
-  libra::Matrix<3, 3> dcm_polar_motion;
+math::Matrix<3, 3> EarthRotation::PolarMotion(const double x_p, const double y_p) {
+  math::Matrix<3, 3> dcm_polar_motion;
 
   dcm_polar_motion[0][0] = 1.0;
   dcm_polar_motion[0][1] = 0.0;

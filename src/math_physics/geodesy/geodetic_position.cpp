@@ -70,7 +70,7 @@ libra::Vector<3> GeodeticPosition::CalcEcefPosition() const {
 }
 
 void GeodeticPosition::CalcQuaternionXcxfToLtc() {
-  libra::Matrix<3, 3> dcm_xcxf_to_ltc;
+  math::Matrix<3, 3> dcm_xcxf_to_ltc;
   dcm_xcxf_to_ltc[0][0] = -sin(longitude_rad_);
   dcm_xcxf_to_ltc[0][1] = cos(longitude_rad_);
   dcm_xcxf_to_ltc[0][2] = 0;

@@ -14,7 +14,7 @@ TEST(MatrixVector, MultiplyMatrixVector) {
   const size_t R = 3;
   const size_t C = 2;
 
-  libra::Matrix<R, C> m;
+  math::Matrix<R, C> m;
   libra::Vector<C> v;
 
   m[0][0] = 1.0;
@@ -40,7 +40,7 @@ TEST(MatrixVector, MultiplyMatrixVector) {
 TEST(MatrixVector, CalcInverseMatrix) {
   const size_t N = 3;
 
-  libra::Matrix<N, N> m;
+  math::Matrix<N, N> m;
 
   m[0][0] = 1.0;
   m[0][1] = 1.0;
@@ -52,7 +52,7 @@ TEST(MatrixVector, CalcInverseMatrix) {
   m[2][1] = -2.0;
   m[2][2] = 1.0;
 
-  libra::Matrix<N, N> inverse = libra::CalcInverseMatrix(m);
+  math::Matrix<N, N> inverse = libra::CalcInverseMatrix(m);
 
   EXPECT_NEAR(-1.0, inverse[0][0], 1e-10);
   EXPECT_NEAR(-1.0, inverse[0][1], 1e-10);

@@ -17,7 +17,7 @@ KinematicsParameters InitKinematicsParameters(std::string file_name) {
   conf.ReadVector(section, "center_of_gravity_b_m", center_of_gravity_b_m);
   double mass_kg = conf.ReadDouble(section, "mass_kg");
   libra::Vector<9> inertia_vec;
-  libra::Matrix<3, 3> inertia_tensor_b_kgm2;
+  math::Matrix<3, 3> inertia_tensor_b_kgm2;
   conf.ReadVector(section, "inertia_tensor_kgm2", inertia_vec);
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {

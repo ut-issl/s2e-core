@@ -232,7 +232,7 @@ TEST(Quaternion, ConvertToDcmY) {
   libra::Quaternion q(0.0, 1.0, 0.0, 1.0);
   q.Normalize();
 
-  libra::Matrix<3, 3> dcm = q.ConvertToDcm();
+  math::Matrix<3, 3> dcm = q.ConvertToDcm();
 
   // Check nondestructive function
   EXPECT_DOUBLE_EQ(0.0, q[0]);
@@ -266,7 +266,7 @@ TEST(Quaternion, ConvertToDcm) {
   libra::Quaternion q(0.5, 0.3, 0.1, 1.0);
   q.Normalize();
 
-  libra::Matrix<3, 3> dcm = q.ConvertToDcm();
+  math::Matrix<3, 3> dcm = q.ConvertToDcm();
 
   // Check nondestructive function
   const double accuracy = 1.0e-5;

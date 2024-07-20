@@ -53,11 +53,11 @@ class MoonRotation {
    * @brief Return the DCM between J2000 inertial frame and the Moon Centered Moon Fixed frame
    * @note Because this is just a DCM, users need to consider the origin of the vector, which you want to convert with this matrix.
    */
-  inline const libra::Matrix<3, 3> GetDcmJ2000ToMcmf() const { return dcm_j2000_to_mcmf_; };
+  inline const math::Matrix<3, 3> GetDcmJ2000ToMcmf() const { return dcm_j2000_to_mcmf_; };
 
  private:
   MoonRotationMode mode_;                  //!< Rotation mode
-  libra::Matrix<3, 3> dcm_j2000_to_mcmf_;  //!< Direction Cosine Matrix J2000 to MCMF (Moon Centered Moon Fixed)
+  math::Matrix<3, 3> dcm_j2000_to_mcmf_;  //!< Direction Cosine Matrix J2000 to MCMF (Moon Centered Moon Fixed)
 
   const CelestialInformation &celestial_information_;  //!< Celestial Information to get moon orbit
 };

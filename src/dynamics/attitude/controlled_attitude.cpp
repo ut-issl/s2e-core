@@ -9,7 +9,7 @@
 
 ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode,
                                        const libra::Quaternion quaternion_i2b, const libra::Vector<3> main_target_direction_b,
-                                       const libra::Vector<3> sub_target_direction_b, const libra::Matrix<3, 3>& inertia_tensor_kgm2,
+                                       const libra::Vector<3> sub_target_direction_b, const math::Matrix<3, 3>& inertia_tensor_kgm2,
                                        const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
                                        const std::string& simulation_object_name)
     : Attitude(inertia_tensor_kgm2, simulation_object_name),
@@ -94,7 +94,7 @@ libra::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode m
   } else if (mode == AttitudeControlMode::kVelocityDirectionPointing) {
     direction = orbit_->GetVelocity_i_m_s();
   } else if (mode == AttitudeControlMode::kGroundSpeedDirectionPointing) {
-    libra::Matrix<3, 3> dcm_ecef2eci = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
+    math::Matrix<3, 3> dcm_ecef2eci = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
     direction = dcm_ecef2eci * orbit_->GetVelocity_ecef_m_s();
   } else if (mode == AttitudeControlMode::kOrbitNormalPointing) {
     direction = OuterProduct(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
@@ -105,16 +105,16 @@ libra::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode m
 
 void ControlledAttitude::PointingControl(const libra::Vector<3> main_direction_i, const libra::Vector<3> sub_direction_i) {
   // Calc DCM ECI->Target
-  libra::Matrix<3, 3> dcm_t2i = CalcDcm(main_direction_i, sub_direction_i);
+  math::Matrix<3, 3> dcm_t2i = CalcDcm(main_direction_i, sub_direction_i);
   // Calc DCM Target->body
-  libra::Matrix<3, 3> dcm_t2b = CalcDcm(main_target_direction_b_, sub_target_direction_b_);
+  math::Matrix<3, 3> dcm_t2b = CalcDcm(main_target_direction_b_, sub_target_direction_b_);
   // Calc DCM ECI->body
-  libra::Matrix<3, 3> dcm_i2b = dcm_t2b * dcm_t2i.Transpose();
+  math::Matrix<3, 3> dcm_i2b = dcm_t2b * dcm_t2i.Transpose();
   // Convert to Quaternion
   quaternion_i2b_ = libra::Quaternion::ConvertFromDcm(dcm_i2b);
 }
 
-libra::Matrix<3, 3> ControlledAttitude::CalcDcm(const libra::Vector<3> main_direction, const libra::Vector<3> sub_direction) {
+math::Matrix<3, 3> ControlledAttitude::CalcDcm(const libra::Vector<3> main_direction, const libra::Vector<3> sub_direction) {
   // Calc basis vectors
   libra::Vector<3> ex, ey, ez;
   ex = main_direction;
@@ -125,7 +125,7 @@ libra::Matrix<3, 3> ControlledAttitude::CalcDcm(const libra::Vector<3> main_dire
   ez = tmp3.CalcNormalizedVector();
 
   // Generate DCM
-  libra::Matrix<3, 3> dcm;
+  math::Matrix<3, 3> dcm;
   for (int i = 0; i < 3; i++) {
     dcm[i][0] = ex[i];
     dcm[i][1] = ey[i];
@@ -166,7 +166,7 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
       angular_velocity_b_rad_s_[i] = q_diff[i];
       angular_acc_b_rad_s2_[i] = (previous_omega_b_rad_s_[i] - angular_velocity_b_rad_s_[i]) / time_diff_sec;
     }
-    libra::Matrix<3, 3> inv_inertia_tensor = CalcInverseMatrix(inertia_tensor_kgm2_);
+    math::Matrix<3, 3> inv_inertia_tensor = CalcInverseMatrix(inertia_tensor_kgm2_);
     controlled_torque_b_Nm = inv_inertia_tensor * angular_acc_b_rad_s2_;
   } else {
     angular_velocity_b_rad_s_ = libra::Vector<3>(0.0);

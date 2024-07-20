@@ -93,8 +93,8 @@ libra::Vector<3> GravityPotential::CalcAcceleration_xcxf_m_s2(const libra::Vecto
   return acceleration_xcxf_m_s2;
 }
 
-libra::Matrix<3, 3> GravityPotential::CalcPartialDerivative_xcxf_s2(const libra::Vector<3> &position_xcxf_m) {
-  libra::Matrix<3, 3> partial_derivative(0.0);
+math::Matrix<3, 3> GravityPotential::CalcPartialDerivative_xcxf_s2(const libra::Vector<3> &position_xcxf_m) {
+  math::Matrix<3, 3> partial_derivative(0.0);
   if (degree_ <= 0) return partial_derivative;
 
   xcxf_x_m_ = position_xcxf_m[0];

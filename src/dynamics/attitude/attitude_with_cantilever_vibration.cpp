@@ -9,8 +9,8 @@
 #include <utilities/macros.hpp>
 
 AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
-    const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b, const libra::Matrix<3, 3>& inertia_tensor_kgm2,
-    const libra::Matrix<3, 3>& inertia_tensor_cantilever_kgm2, const double damping_ratio_cantilever,
+    const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b, const math::Matrix<3, 3>& inertia_tensor_kgm2,
+    const math::Matrix<3, 3>& inertia_tensor_cantilever_kgm2, const double damping_ratio_cantilever,
     const double intrinsic_angular_velocity_cantilever_rad_s, const libra::Vector<3>& torque_b_Nm, const double propagation_step_s,
     const std::string& simulation_object_name)
     : Attitude(inertia_tensor_kgm2, simulation_object_name),
@@ -30,7 +30,7 @@ AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
   double spring_coefficient = pow(intrinsic_angular_velocity_cantilever_rad_s, 2.0);
   attitude_ode_.SetSpringCoefficient(spring_coefficient);
   attitude_ode_.SetInverseInertiaTensor(CalcInverseMatrix(inertia_tensor_kgm2_));
-  libra::Matrix<3, 3> inverse_equivalent_inertia_tensor_cantilever =
+  math::Matrix<3, 3> inverse_equivalent_inertia_tensor_cantilever =
       CalcInverseMatrix(inertia_tensor_kgm2_ - inertia_tensor_cantilever_kgm2) * inertia_tensor_kgm2_;
   attitude_ode_.SetInverseEquivalentInertiaTensorCantilever(inverse_equivalent_inertia_tensor_cantilever);
   attitude_ode_.SetTorque_b_Nm(torque_b_Nm_);
@@ -72,9 +72,9 @@ void AttitudeWithCantileverVibration::SetParameters(const MonteCarloSimulationEx
 void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   if (!is_calc_enabled_) return;
 
-  libra::Matrix<3, 3> previous_inertia_tensor_kgm2 = attitude_ode_.GetPreviousInertiaTensor_kgm2();
+  math::Matrix<3, 3> previous_inertia_tensor_kgm2 = attitude_ode_.GetPreviousInertiaTensor_kgm2();
   assert(end_time_s - current_propagation_time_s_ > 1e-6);
-  libra::Matrix<3, 3> dot_inertia_tensor = (1.0 / (end_time_s - current_propagation_time_s_)) * (inertia_tensor_kgm2_ - previous_inertia_tensor_kgm2);
+  math::Matrix<3, 3> dot_inertia_tensor = (1.0 / (end_time_s - current_propagation_time_s_)) * (inertia_tensor_kgm2_ - previous_inertia_tensor_kgm2);
   libra::Vector<3> torque_inertia_tensor_b_Nm = dot_inertia_tensor * angular_velocity_b_rad_s_;
   attitude_ode_.SetTorqueInertiaTensor_b_Nm(torque_inertia_tensor_b_Nm);
   attitude_ode_.SetInverseInertiaTensor(CalcInverseMatrix(inertia_tensor_kgm2_));

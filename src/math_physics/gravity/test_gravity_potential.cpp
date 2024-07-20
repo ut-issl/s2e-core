@@ -66,7 +66,7 @@ TEST(GravityPotential, PartialDerivative1) {
 
   // Calculation check
   libra::Vector<3> position_xcxf_m;
-  libra::Matrix<3, 3> partial_derivative_xcxf_s2;
+  math::Matrix<3, 3> partial_derivative_xcxf_s2;
   const double accuracy = 1.0e-3;
 
   // Calc Partial Derivative
@@ -77,7 +77,7 @@ TEST(GravityPotential, PartialDerivative1) {
 
   // Calc Acceleration and numerical partial derivatives
   double d_r = 1e-9;
-  libra::Matrix<3, 3> numerical_partial_derivative_xcxf_s2;
+  math::Matrix<3, 3> numerical_partial_derivative_xcxf_s2;
   for (size_t i = 0; i < 3; i++) {
     libra::Vector<3> position_1_xcxf_m = position_xcxf_m;
     libra::Vector<3> position_2_xcxf_m = position_xcxf_m;
@@ -92,7 +92,7 @@ TEST(GravityPotential, PartialDerivative1) {
   }
 
   // Compare numerical and analytical calculation
-  libra::Matrix<3, 3> diff;
+  math::Matrix<3, 3> diff;
   for (size_t i = 0; i < 3; i++) {
     for (size_t j = 0; j < 3; j++) {
       EXPECT_NEAR(numerical_partial_derivative_xcxf_s2[i][j], partial_derivative_xcxf_s2[i][j], accuracy);
@@ -119,7 +119,7 @@ TEST(GravityPotential, PartialDerivative2) {
 
   // Calculation check
   libra::Vector<3> position_xcxf_m;
-  libra::Matrix<3, 3> partial_derivative_xcxf_s2;
+  math::Matrix<3, 3> partial_derivative_xcxf_s2;
   const double accuracy = 1.0e-3;
 
   // Calc Partial Derivative
@@ -130,7 +130,7 @@ TEST(GravityPotential, PartialDerivative2) {
 
   // Calc Acceleration and numerical partial derivatives
   double d_r = 1e-9;
-  libra::Matrix<3, 3> numerical_partial_derivative_xcxf_s2;
+  math::Matrix<3, 3> numerical_partial_derivative_xcxf_s2;
   for (size_t i = 0; i < 3; i++) {
     libra::Vector<3> position_1_xcxf_m = position_xcxf_m;
     libra::Vector<3> position_2_xcxf_m = position_xcxf_m;
@@ -145,7 +145,7 @@ TEST(GravityPotential, PartialDerivative2) {
   }
 
   // Compare numerical and analytical calculation
-  libra::Matrix<3, 3> diff;
+  math::Matrix<3, 3> diff;
   for (size_t i = 0; i < 3; i++) {
     for (size_t j = 0; j < 3; j++) {
       EXPECT_NEAR(numerical_partial_derivative_xcxf_s2[i][j], partial_derivative_xcxf_s2[i][j], accuracy);

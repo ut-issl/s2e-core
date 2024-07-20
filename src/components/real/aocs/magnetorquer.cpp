@@ -12,7 +12,7 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 
 Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
-                           const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
+                           const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
                            const libra::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
                            const libra::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const libra::Vector<kMtqDimension>& bias_noise_c_Am2_,
                            double random_walk_step_width_s, const libra::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
@@ -34,7 +34,7 @@ Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator,
 }
 
 Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                           const libra::Quaternion& quaternion_b2c, const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
+                           const libra::Quaternion& quaternion_b2c, const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
                            const libra::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
                            const libra::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const libra::Vector<kMtqDimension>& bias_noise_c_Am2_,
                            double random_walk_step_width_s, const libra::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
@@ -123,7 +123,7 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, 
 
   libra::Vector<kMtqDimension * kMtqDimension> sf_vec;
   magtorquer_conf.ReadVector(MTSection, "scale_factor_c", sf_vec);
-  libra::Matrix<kMtqDimension, kMtqDimension> scale_factor;
+  math::Matrix<kMtqDimension, kMtqDimension> scale_factor;
   for (size_t i = 0; i < kMtqDimension; i++) {
     for (size_t j = 0; j < kMtqDimension; j++) {
       scale_factor[i][j] = sf_vec[i * kMtqDimension + j];
@@ -168,7 +168,7 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_
 
   libra::Vector<kMtqDimension * kMtqDimension> sf_vec;
   magtorquer_conf.ReadVector(MTSection, "scale_factor_c", sf_vec);
-  libra::Matrix<kMtqDimension, kMtqDimension> scale_factor;
+  math::Matrix<kMtqDimension, kMtqDimension> scale_factor;
   for (size_t i = 0; i < kMtqDimension; i++) {
     for (size_t j = 0; j < kMtqDimension; j++) {
       scale_factor[i][j] = sf_vec[i * kMtqDimension + j];

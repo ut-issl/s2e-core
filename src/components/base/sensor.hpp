@@ -31,7 +31,7 @@ class Sensor {
    * @param [in] random_walk_standard_deviation_c: Standard deviation of random wark at the component frame
    * @param [in] random_walk_limit_c: Limit of random walk at the component frame
    */
-  Sensor(const libra::Matrix<N, N>& scale_factor, const libra::Vector<N>& range_to_const_c, const libra::Vector<N>& range_to_zero_c,
+  Sensor(const math::Matrix<N, N>& scale_factor, const libra::Vector<N>& range_to_const_c, const libra::Vector<N>& range_to_zero_c,
          const libra::Vector<N>& bias_noise_c, const libra::Vector<N>& normal_random_standard_deviation_c, const double random_walk_step_width_s,
          const libra::Vector<N>& random_walk_standard_deviation_c, const libra::Vector<N>& random_walk_limit_c);
   /**
@@ -52,7 +52,7 @@ class Sensor {
   libra::Vector<N> Measure(const libra::Vector<N> true_value_c);
 
  private:
-  libra::Matrix<N, N> scale_factor_;            //!< Scale factor matrix
+  math::Matrix<N, N> scale_factor_;            //!< Scale factor matrix
   libra::Vector<N> range_to_const_c_;           //!< Output range limit to be constant output value at the component frame
   libra::Vector<N> range_to_zero_c_;            //!< Output range limit to be zero output value at the component frame
   libra::NormalRand normal_random_noise_c_[N];  //!< Normal random

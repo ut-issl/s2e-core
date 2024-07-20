@@ -73,8 +73,8 @@ class RelativeOrbit : public Orbit, public libra::OrdinaryDifferentialEquation<6
   double propagation_time_s_;             //!< Simulation current time for numerical integration by RK4 [sec]
   double propagation_step_s_;             //!< Step width for RK4 [sec]
 
-  libra::Matrix<6, 6> system_matrix_;  //!< System matrix
-  libra::Matrix<6, 6> stm_;            //!< State transition matrix
+  math::Matrix<6, 6> system_matrix_;  //!< System matrix
+  math::Matrix<6, 6> stm_;            //!< State transition matrix
 
   libra::Vector<6> initial_state_;               //!< Initial state (Position and Velocity)
   libra::Vector<3> relative_position_lvlh_m_;    //!< Relative position in the LVLH frame

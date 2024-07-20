@@ -23,7 +23,7 @@ class Attitude : public ILoggable, public SimulationObject {
    * @brief Constructor
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  Attitude(const libra::Matrix<3, 3>& inertia_tensor_kgm2, const std::string& simulation_object_name = "attitude");
+  Attitude(const math::Matrix<3, 3>& inertia_tensor_kgm2, const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~Attitude
    * @brief Destructor
@@ -60,7 +60,7 @@ class Attitude : public ILoggable, public SimulationObject {
    * @fn GetInertiaTensor_b_kgm2
    * @brief Return inertia tensor [kg m^2]
    */
-  inline libra::Matrix<3, 3> GetInertiaTensor_b_kgm2() const { return inertia_tensor_kgm2_; }
+  inline math::Matrix<3, 3> GetInertiaTensor_b_kgm2() const { return inertia_tensor_kgm2_; }
 
   // Setter
   /**
@@ -119,7 +119,7 @@ class Attitude : public ILoggable, public SimulationObject {
   libra::Vector<3> angular_velocity_b_rad_s_;       //!< Angular velocity of spacecraft body fixed frame with respect to the inertial frame [rad/s]
   libra::Quaternion quaternion_i2b_;                //!< Attitude quaternion from the inertial frame to the body fixed frame
   libra::Vector<3> torque_b_Nm_;                    //!< Torque in the body fixed frame [Nm]
-  const libra::Matrix<3, 3>& inertia_tensor_kgm2_;  //!< Inertia tensor of the spacecraft [kg m^2]
+  const math::Matrix<3, 3>& inertia_tensor_kgm2_;  //!< Inertia tensor of the spacecraft [kg m^2]
 
   libra::Vector<3> angular_momentum_spacecraft_b_Nms_;      //!< Angular momentum of spacecraft in the body fixed frame [Nms]
   libra::Vector<3> angular_momentum_reaction_wheel_b_Nms_;  //!< Angular momentum of reaction wheel in the body fixed frame [Nms]
@@ -140,6 +140,6 @@ class Attitude : public ILoggable, public SimulationObject {
  * @brief Generate angular velocity matrix for kinematics calculation
  * @param [in] angular_velocity_b_rad_s: Angular velocity [rad/s]
  */
-libra::Matrix<4, 4> CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s);
+math::Matrix<4, 4> CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s);
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_

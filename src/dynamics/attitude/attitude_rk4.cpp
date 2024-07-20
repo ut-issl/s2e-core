@@ -10,7 +10,7 @@
 #include <utilities/macros.hpp>
 
 AttitudeRk4::AttitudeRk4(const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b,
-                         const libra::Matrix<3, 3>& inertia_tensor_kgm2, const libra::Vector<3>& torque_b_Nm, const double propagation_step_s,
+                         const math::Matrix<3, 3>& inertia_tensor_kgm2, const libra::Vector<3>& torque_b_Nm, const double propagation_step_s,
                          const std::string& simulation_object_name)
     : Attitude(inertia_tensor_kgm2, simulation_object_name) {
   angular_velocity_b_rad_s_ = angular_velocity_b_rad_s;
@@ -39,7 +39,7 @@ void AttitudeRk4::SetParameters(const MonteCarloSimulationExecutor& mc_simulator
 void AttitudeRk4::Propagate(const double end_time_s) {
   if (!is_calc_enabled_) return;
 
-  libra::Matrix<3, 3> dot_inertia_tensor =
+  math::Matrix<3, 3> dot_inertia_tensor =
       (1.0 / (end_time_s - current_propagation_time_s_)) * (inertia_tensor_kgm2_ - previous_inertia_tensor_kgm2_);
   torque_inertia_tensor_change_b_Nm_ = dot_inertia_tensor * angular_velocity_b_rad_s_;
   inverse_inertia_tensor_ = CalcInverseMatrix(inertia_tensor_kgm2_);

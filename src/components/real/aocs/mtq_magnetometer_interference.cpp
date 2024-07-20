@@ -19,7 +19,7 @@ MtqMagnetometerInterference::MtqMagnetometerInterference(const std::string file_
   for (size_t degree = 1; degree <= polynomial_degree_; degree++) {
     const std::string key_name = "additional_bias_by_mtq_coefficients_" + std::to_string(static_cast<long long>(degree));
     libra::Vector<9> additional_bias_by_mtq_coefficients_vec;
-    libra::Matrix<3, 3> additional_bias_by_mtq_coefficients;
+    math::Matrix<3, 3> additional_bias_by_mtq_coefficients;
     ini_file.ReadVector(section.c_str(), key_name.c_str(), additional_bias_by_mtq_coefficients_vec);
     for (size_t i = 0; i < 3; i++) {
       for (size_t j = 0; j < 3; j++) {

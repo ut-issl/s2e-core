@@ -52,7 +52,7 @@ inline std::string WriteVector(const std::string name, const std::string frame, 
  * @param [in] matrix: matrix value
  */
 template <size_t ROW, size_t COLUMN>
-inline std::string WriteMatrix(const libra::Matrix<ROW, COLUMN, double> matrix, const int precision = 6);
+inline std::string WriteMatrix(const math::Matrix<ROW, COLUMN, double> matrix, const int precision = 6);
 /**
  * @fn WriteMatrix
  * @brief Write header for matrix value
@@ -115,7 +115,7 @@ std::string WriteVector(const std::string name, const std::string frame, const s
 }
 
 template <size_t ROW, size_t COLUMN>
-std::string WriteMatrix(const libra::Matrix<ROW, COLUMN, double> matrix, const int precision) {
+std::string WriteMatrix(const math::Matrix<ROW, COLUMN, double> matrix, const int precision) {
   std::stringstream str_tmp;
 
   for (size_t n = 0; n < ROW; n++) {

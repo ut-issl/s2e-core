@@ -10,7 +10,7 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 
 template <size_t N>
-Sensor<N>::Sensor(const libra::Matrix<N, N>& scale_factor, const libra::Vector<N>& range_to_const_c, const libra::Vector<N>& range_to_zero_c,
+Sensor<N>::Sensor(const math::Matrix<N, N>& scale_factor, const libra::Vector<N>& range_to_const_c, const libra::Vector<N>& range_to_zero_c,
                   const libra::Vector<N>& bias_noise_c, const libra::Vector<N>& normal_random_standard_deviation_c,
                   const double random_walk_step_width_s, const libra::Vector<N>& random_walk_standard_deviation_c,
                   const libra::Vector<N>& random_walk_limit_c)
@@ -82,7 +82,7 @@ Sensor<N> ReadSensorInformation(const std::string file_name, const double step_w
 
   libra::Vector<N * N> scale_factor_vector;
   ini_file.ReadVector(section.c_str(), "scale_factor_c", scale_factor_vector);
-  libra::Matrix<N, N> scale_factor_c;
+  math::Matrix<N, N> scale_factor_c;
   if (scale_factor_vector.CalcNorm() == 0.0) {
     scale_factor_c = libra::MakeIdentityMatrix<N>();
   } else {

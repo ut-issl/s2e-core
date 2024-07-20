@@ -13,7 +13,7 @@ libra::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
   libra::Vector<3> lvlh_y = OuterProduct(lvlh_z, lvlh_x);
   libra::Vector<3> lvlh_ey = lvlh_y.CalcNormalizedVector();
 
-  libra::Matrix<3, 3> dcm_i2lvlh;
+  math::Matrix<3, 3> dcm_i2lvlh;
   dcm_i2lvlh[0][0] = lvlh_ex[0];
   dcm_i2lvlh[0][1] = lvlh_ex[1];
   dcm_i2lvlh[0][2] = lvlh_ex[2];
@@ -29,7 +29,7 @@ libra::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
 }
 
 void Orbit::TransformEciToEcef(void) {
-  libra::Matrix<3, 3> dcm_i_to_xcxf = celestial_information_->GetEarthRotation().GetDcmJ2000ToEcef();
+  math::Matrix<3, 3> dcm_i_to_xcxf = celestial_information_->GetEarthRotation().GetDcmJ2000ToEcef();
   spacecraft_position_ecef_m_ = dcm_i_to_xcxf * spacecraft_position_i_m_;
 
   // convert velocity vector in ECI to the vector in ECEF

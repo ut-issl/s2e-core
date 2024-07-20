@@ -42,7 +42,7 @@ class Magnetorquer : public Component, public ILoggable {
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
   Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
-               const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor, const libra::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
+               const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor, const libra::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
                const libra::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const libra::Vector<kMtqDimension>& bias_noise_c_Am2_,
                double random_walk_step_width_s, const libra::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
                const libra::Vector<kMtqDimension>& random_walk_limit_c_Am2,
@@ -66,7 +66,7 @@ class Magnetorquer : public Component, public ILoggable {
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
   Magnetorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-               const libra::Quaternion& quaternion_b2c, const libra::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
+               const libra::Quaternion& quaternion_b2c, const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
                const libra::Vector<kMtqDimension>& max_magnetic_moment_c_Am2, const libra::Vector<kMtqDimension>& min_magnetic_moment_c_Am2,
                const libra::Vector<kMtqDimension>& bias_noise_c_Am2_, double random_walk_step_width_s,
                const libra::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2, const libra::Vector<kMtqDimension>& random_walk_limit_c_Am2,
@@ -128,7 +128,7 @@ class Magnetorquer : public Component, public ILoggable {
   libra::Vector<kMtqDimension> output_magnetic_moment_b_Am2_{0.0};  //!< Output output magnetic moment in the body fixed frame [Am2]
   libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from body frame to component frame
   libra::Quaternion quaternion_c2b_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from component frame to body frame
-  libra::Matrix<kMtqDimension, kMtqDimension> scale_factor_;        //!< Scale factor matrix
+  math::Matrix<kMtqDimension, kMtqDimension> scale_factor_;        //!< Scale factor matrix
   libra::Vector<kMtqDimension> max_magnetic_moment_c_Am2_{100.0};   //!< Maximum magnetic moment in the component frame [Am2]
   libra::Vector<kMtqDimension> min_magnetic_moment_c_Am2_{-100.0};  //!< Minimum magnetic moment in the component frame [Am2]
 

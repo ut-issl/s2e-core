@@ -4,8 +4,8 @@
  */
 #include "relative_orbit_models.hpp"
 
-libra::Matrix<6, 6> CalcHillSystemMatrix(double orbit_radius_m, double gravity_constant_m3_s2) {
-  libra::Matrix<6, 6> system_matrix;
+math::Matrix<6, 6> CalcHillSystemMatrix(double orbit_radius_m, double gravity_constant_m3_s2) {
+  math::Matrix<6, 6> system_matrix;
 
   double n = sqrt(gravity_constant_m3_s2 / pow(orbit_radius_m, 3));
   system_matrix[0][0] = 0.0;
@@ -48,8 +48,8 @@ libra::Matrix<6, 6> CalcHillSystemMatrix(double orbit_radius_m, double gravity_c
   return system_matrix;
 }
 
-libra::Matrix<6, 6> CalcHcwStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s) {
-  libra::Matrix<6, 6> stm;
+math::Matrix<6, 6> CalcHcwStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s) {
+  math::Matrix<6, 6> stm;
 
   double n = sqrt(gravity_constant_m3_s2 / pow(orbit_radius_m, 3));
   double t = elapsed_time_s;
