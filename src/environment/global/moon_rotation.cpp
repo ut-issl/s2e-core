@@ -12,7 +12,7 @@
 
 MoonRotation::MoonRotation(const CelestialInformation& celestial_information, MoonRotationMode mode)
     : mode_(mode), celestial_information_(celestial_information) {
-  dcm_j2000_to_mcmf_ = libra::MakeIdentityMatrix<3>();
+  dcm_j2000_to_mcmf_ = math::MakeIdentityMatrix<3>();
 }
 
 void MoonRotation::Update(const SimulationTime& simulation_time) {
@@ -32,7 +32,7 @@ void MoonRotation::Update(const SimulationTime& simulation_time) {
       }
     }
   } else {
-    dcm_j2000_to_mcmf_ = libra::MakeIdentityMatrix<3>();
+    dcm_j2000_to_mcmf_ = math::MakeIdentityMatrix<3>();
   }
 }
 

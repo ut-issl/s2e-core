@@ -344,7 +344,7 @@ TEST(Matrix, Transpose) {
 TEST(Matrix, MakeIdentityMatrix) {
   const size_t N = 6;
 
-  math::Matrix<N, N> m = libra::MakeIdentityMatrix<N>();
+  math::Matrix<N, N> m = math::MakeIdentityMatrix<N>();
 
   for (size_t r = 0; r < N; r++) {
     for (size_t c = 0; c < N; c++) {
@@ -364,7 +364,7 @@ TEST(Matrix, MakeRotationMatrixX) {
   const size_t N = 3;
   double theta_rad = -45.0 * math::deg_to_rad;
 
-  math::Matrix<N, N> m = libra::MakeRotationMatrixX(theta_rad);
+  math::Matrix<N, N> m = math::MakeRotationMatrixX(theta_rad);
 
   EXPECT_DOUBLE_EQ(1.0, m[0][0]);
   EXPECT_DOUBLE_EQ(0.0, m[0][1]);
@@ -384,7 +384,7 @@ TEST(Matrix, MakeRotationMatrixY) {
   const size_t N = 3;
   double theta_rad = 120.0 * math::deg_to_rad;
 
-  math::Matrix<N, N> m = libra::MakeRotationMatrixY(theta_rad);
+  math::Matrix<N, N> m = math::MakeRotationMatrixY(theta_rad);
 
   EXPECT_DOUBLE_EQ(cos(theta_rad), m[0][0]);
   EXPECT_DOUBLE_EQ(0.0, m[0][1]);
@@ -404,7 +404,7 @@ TEST(Matrix, MakeRotationMatrixZ) {
   const size_t N = 3;
   double theta_rad = 30.0 * math::deg_to_rad;
 
-  math::Matrix<N, N> m = libra::MakeRotationMatrixZ(theta_rad);
+  math::Matrix<N, N> m = math::MakeRotationMatrixZ(theta_rad);
 
   EXPECT_DOUBLE_EQ(cos(theta_rad), m[0][0]);
   EXPECT_DOUBLE_EQ(sin(theta_rad), m[0][1]);

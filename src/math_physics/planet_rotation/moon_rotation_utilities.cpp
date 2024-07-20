@@ -42,7 +42,7 @@ math::Matrix<3, 3> CalcDcmMeanEarthToPrincipalAxis() {
   const double theta_z_rad = 67.573 * libra::arcsec_to_rad;
 
   math::Matrix<3, 3> dcm_me_pa =
-      libra::MakeRotationMatrixZ(theta_z_rad) * libra::MakeRotationMatrixY(theta_y_rad) * libra::MakeRotationMatrixX(theta_x_rad);
+      math::MakeRotationMatrixZ(theta_z_rad) * math::MakeRotationMatrixY(theta_y_rad) * math::MakeRotationMatrixX(theta_x_rad);
 
   return dcm_me_pa;
 }

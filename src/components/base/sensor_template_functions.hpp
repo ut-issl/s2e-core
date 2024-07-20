@@ -84,7 +84,7 @@ Sensor<N> ReadSensorInformation(const std::string file_name, const double step_w
   ini_file.ReadVector(section.c_str(), "scale_factor_c", scale_factor_vector);
   math::Matrix<N, N> scale_factor_c;
   if (scale_factor_vector.CalcNorm() == 0.0) {
-    scale_factor_c = libra::MakeIdentityMatrix<N>();
+    scale_factor_c = math::MakeIdentityMatrix<N>();
   } else {
     for (size_t i = 0; i < N; i++) {
       for (size_t j = 0; j < N; j++) {

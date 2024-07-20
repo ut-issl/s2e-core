@@ -17,7 +17,7 @@
 
 // Default constructor
 EarthRotation::EarthRotation(const EarthRotationMode rotation_mode) : rotation_mode_(rotation_mode) {
-  dcm_j2000_to_ecef_ = libra::MakeIdentityMatrix<3>();
+  dcm_j2000_to_ecef_ = math::MakeIdentityMatrix<3>();
   dcm_teme_to_ecef_ = dcm_j2000_to_ecef_;
   InitializeParameters();
 }
@@ -105,7 +105,7 @@ void EarthRotation::InitializeParameters() {
     c_z_rad_[2] = 0.018203 * libra::arcsec_to_rad;     // [rad/century^3]
   } else {
     // If the rotation mode is neither Simple nor Full, disable the rotation calculation and make the DCM a unit matrix
-    dcm_j2000_to_ecef_ = libra::MakeIdentityMatrix<3>();
+    dcm_j2000_to_ecef_ = math::MakeIdentityMatrix<3>();
   }
 }
 
@@ -154,7 +154,7 @@ void EarthRotation::Update(const double julian_date) {
   }
 }
 
-math::Matrix<3, 3> EarthRotation::AxialRotation(const double gast_rad) { return libra::MakeRotationMatrixZ(gast_rad); }
+math::Matrix<3, 3> EarthRotation::AxialRotation(const double gast_rad) { return math::MakeRotationMatrixZ(gast_rad); }
 
 math::Matrix<3, 3> EarthRotation::Nutation(const double (&t_tt_century)[4]) {
   // Mean obliquity of the ecliptic
@@ -208,9 +208,9 @@ math::Matrix<3, 3> EarthRotation::Nutation(const double (&t_tt_century)[4]) {
                    c_d_epsilon_rad_[7] * cos(2 * l_rad + lm_rad) + c_d_epsilon_rad_[8] * cos(2 * ld_rad - ls_rad);
 
   double epsi_mod_rad = epsilon_rad_ + d_epsilon_rad_;
-  math::Matrix<3, 3> x_epsi_1st = libra::MakeRotationMatrixX(epsilon_rad_);
-  math::Matrix<3, 3> z_d_psi = libra::MakeRotationMatrixZ(-d_psi_rad_);
-  math::Matrix<3, 3> x_epsi_2nd = libra::MakeRotationMatrixX(-epsi_mod_rad);
+  math::Matrix<3, 3> x_epsi_1st = math::MakeRotationMatrixX(epsilon_rad_);
+  math::Matrix<3, 3> z_d_psi = math::MakeRotationMatrixZ(-d_psi_rad_);
+  math::Matrix<3, 3> x_epsi_2nd = math::MakeRotationMatrixX(-epsi_mod_rad);
 
   math::Matrix<3, 3> dcm_nutation;
   dcm_nutation = x_epsi_2nd * z_d_psi * x_epsi_1st;
@@ -234,9 +234,9 @@ math::Matrix<3, 3> EarthRotation::Precession(const double (&t_tt_century)[4]) {
   }
 
   // Develop transformation matrix
-  math::Matrix<3, 3> z_zeta = libra::MakeRotationMatrixZ(-zeta_rad);
-  math::Matrix<3, 3> y_theta = libra::MakeRotationMatrixY(theta_rad);
-  math::Matrix<3, 3> z_z = libra::MakeRotationMatrixZ(-z_rad);
+  math::Matrix<3, 3> z_zeta = math::MakeRotationMatrixZ(-zeta_rad);
+  math::Matrix<3, 3> y_theta = math::MakeRotationMatrixY(theta_rad);
+  math::Matrix<3, 3> z_z = math::MakeRotationMatrixZ(-z_rad);
 
   math::Matrix<3, 3> dcm_precession;
   dcm_precession = z_z * y_theta * z_zeta;
