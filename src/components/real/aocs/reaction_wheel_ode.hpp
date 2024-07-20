@@ -12,7 +12,7 @@
  * @file ReactionWheelOde
  * @brief Ordinary differential equation of angular velocity of reaction wheel with first-order lag
  */
-class ReactionWheelOde : public libra::OrdinaryDifferentialEquation<1> {
+class ReactionWheelOde : public math::OrdinaryDifferentialEquation<1> {
  public:
   /**
    * @fn ReactionWheelOde

@@ -13,7 +13,7 @@ EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celesti
                                              const double propagation_step_s, const double current_time_jd, const math::Vector<3> position_i_m,
                                              const math::Vector<3> velocity_i_m_s, const double error_tolerance)
     : Orbit(celestial_information),
-      libra::OrdinaryDifferentialEquation<6>(propagation_step_s),
+      math::OrdinaryDifferentialEquation<6>(propagation_step_s),
       gravity_constant_m3_s2_(gravity_constant_m3_s2),
       error_tolerance_(error_tolerance),
       propagation_step_s_(propagation_step_s) {

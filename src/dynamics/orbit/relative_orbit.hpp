@@ -17,7 +17,7 @@
  * @class RelativeOrbit
  * @brief Class to propagate relative orbit
  */
-class RelativeOrbit : public Orbit, public libra::OrdinaryDifferentialEquation<6> {
+class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6> {
  public:
   /**
    * @enum RelativeOrbitUpdateMethod

@@ -11,7 +11,7 @@
 
 template <size_t N>
 RandomWalk<N>::RandomWalk(double step_width_s, const math::Vector<N>& standard_deviation, const math::Vector<N>& limit)
-    : libra::OrdinaryDifferentialEquation<N>(step_width_s), limit_(limit) {
+    : math::OrdinaryDifferentialEquation<N>(step_width_s), limit_(limit) {
   // Set standard deviation
   for (size_t i = 0; i < N; ++i) {
     normal_randomizer_[i].SetParameters(0.0, standard_deviation[i], global_randomization.MakeSeed());

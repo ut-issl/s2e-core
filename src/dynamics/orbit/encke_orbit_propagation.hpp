@@ -14,7 +14,7 @@
  * @class EnckeOrbitPropagation
  * @brief Class to propagate spacecraft orbit with Encke's method
  */
-class EnckeOrbitPropagation : public Orbit, public libra::OrdinaryDifferentialEquation<6> {
+class EnckeOrbitPropagation : public Orbit, public math::OrdinaryDifferentialEquation<6> {
  public:
   /**
    * @fn EnckeOrbitPropagation

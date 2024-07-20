@@ -13,7 +13,7 @@ RelativeOrbit::RelativeOrbit(const CelestialInformation* celestial_information, 
                              RelativeOrbitUpdateMethod update_method, RelativeOrbitModel relative_dynamics_model_type, StmModel stm_model_type,
                              RelativeInformation* relative_information)
     : Orbit(celestial_information),
-      libra::OrdinaryDifferentialEquation<6>(time_step_s),
+      math::OrdinaryDifferentialEquation<6>(time_step_s),
       gravity_constant_m3_s2_(gravity_constant_m3_s2),
       reference_spacecraft_id_(reference_spacecraft_id),
       update_method_(update_method),

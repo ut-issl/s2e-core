@@ -15,7 +15,7 @@
  * @brief Class to calculate random wark value
  */
 template <size_t N>
-class RandomWalk : public libra::OrdinaryDifferentialEquation<N> {
+class RandomWalk : public math::OrdinaryDifferentialEquation<N> {
  public:
   /**
    * @fn RandomWalk
