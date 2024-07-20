@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
   system_clock::time_point start, end;
   start = system_clock::now();
 
-  std::string data_path = "../../data/";
+  std::string data_path = "../../";
   std::string ini_path = INI_FILE_DIR_FROM_EXE;
   std::string ini_file = ini_path + "/sample_simulation_base.ini";
 
