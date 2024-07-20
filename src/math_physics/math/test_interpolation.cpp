@@ -45,7 +45,7 @@ TEST(Interpolation, PolynomialQuadraticFunction) {
  * @brief Test for sin function with trigonometric interpolation
  */
 TEST(Interpolation, TrigonometricSinFunction) {
-  std::vector<double> x{0.0, libra::pi_2, math::pi, math::pi * 3.0 / 2.0, math::tau};
+  std::vector<double> x{0.0, math::pi_2, math::pi, math::pi * 3.0 / 2.0, math::tau};
   std::vector<double> y;
   for (size_t i = 0; i < x.size(); i++) {
     y.push_back(sin(x[i]));
@@ -62,16 +62,16 @@ TEST(Interpolation, TrigonometricSinFunction) {
  * @brief Test for cos function with trigonometric interpolation
  */
 TEST(Interpolation, TrigonometricCosFunction) {
-  std::vector<double> x{0.0, 0.3 * libra::pi_2, 0.6 * libra::pi_2, 0.9 * libra::pi_2, 1.2 * libra::pi_2};
+  std::vector<double> x{0.0, 0.3 * math::pi_2, 0.6 * math::pi_2, 0.9 * math::pi_2, 1.2 * math::pi_2};
   std::vector<double> y;
   for (size_t i = 0; i < x.size(); i++) {
     y.push_back(cos(x[i]));
   }
   libra::Interpolation interpolation(x, y);
 
-  double xx = 0.1 * libra::pi_2;
+  double xx = 0.1 * math::pi_2;
   EXPECT_NEAR(cos(xx), interpolation.CalcTrigonometric(xx), 1e-6);
-  xx = 0.8 * libra::pi_2;
+  xx = 0.8 * math::pi_2;
   EXPECT_NEAR(cos(xx), interpolation.CalcTrigonometric(xx), 1e-6);
 }
 
@@ -79,16 +79,16 @@ TEST(Interpolation, TrigonometricCosFunction) {
  * @brief Test for cos function with trigonometric interpolation
  */
 TEST(Interpolation, TrigonometricCosSinFunctionOddDegree) {
-  std::vector<double> x{0.0, 0.3 * libra::pi_2, 0.6 * libra::pi_2, 0.9 * libra::pi_2, 1.2 * libra::pi_2, 1.5 * libra::pi_2};
+  std::vector<double> x{0.0, 0.3 * math::pi_2, 0.6 * math::pi_2, 0.9 * math::pi_2, 1.2 * math::pi_2, 1.5 * math::pi_2};
   std::vector<double> y;
   for (size_t i = 0; i < x.size(); i++) {
     y.push_back(cos(x[i]) + sin(x[i]));
   }
   libra::Interpolation interpolation(x, y);
 
-  double xx = 0.1 * libra::pi_2;
+  double xx = 0.1 * math::pi_2;
   EXPECT_NEAR(cos(xx) + sin(xx), interpolation.CalcTrigonometric(xx), 1e-6);
-  xx = 0.8 * libra::pi_2;
+  xx = 0.8 * math::pi_2;
   EXPECT_NEAR(cos(xx) + sin(xx), interpolation.CalcTrigonometric(xx), 1e-6);
 }
 

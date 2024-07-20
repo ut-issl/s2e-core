@@ -115,7 +115,7 @@ void SunSensor::CalcSolarIlluminance() {
   math::Vector<3> sun_direction_c = sun_direction_true_c_.CalcNormalizedVector();
   double sun_angle_ = acos(sun_direction_c[2]);
 
-  if (sun_angle_ > libra::pi_2) {
+  if (sun_angle_ > math::pi_2) {
     solar_illuminance_W_m2_ = 0.0;
     return;
   }
@@ -126,8 +126,8 @@ void SunSensor::CalcSolarIlluminance() {
 }
 
 double SunSensor::TanRange(double x) {
-  if (x > libra::pi_2) x = math::pi - x;
-  if (x < -libra::pi_2) x = -math::pi - x;
+  if (x > math::pi_2) x = math::pi - x;
+  if (x < -math::pi_2) x = -math::pi - x;
   return x;
 }
 

@@ -44,7 +44,7 @@ void GeodeticPosition::UpdateFromEcef(const math::Vector<3> position_ecef_m) {
 
   altitude_m_ = r_m / cos(lat_tmp_rad) - c * earth_radius_m;
 
-  if (lat_tmp_rad > libra::pi_2) lat_tmp_rad -= math::tau;
+  if (lat_tmp_rad > math::pi_2) lat_tmp_rad -= math::tau;
 
   latitude_rad_ = lat_tmp_rad;
 

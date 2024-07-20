@@ -38,8 +38,8 @@ Telescope::Telescope(ClockGenerator* clock_generator, const math::Quaternion& qu
 
   x_field_of_view_rad = x_number_of_pix_ * x_fov_per_pix_;
   y_field_of_view_rad = y_number_of_pix_ * y_fov_per_pix_;
-  assert(x_field_of_view_rad < libra::pi_2);  // Avoid the case that the field of view is over 90 degrees
-  assert(y_field_of_view_rad < libra::pi_2);
+  assert(x_field_of_view_rad < math::pi_2);  // Avoid the case that the field of view is over 90 degrees
+  assert(y_field_of_view_rad < math::pi_2);
 
   sight_direction_c_ = Vector<3>(0);
   sight_direction_c_[0] = 1;  // (1,0,0) at component frame, Sight direction vector
