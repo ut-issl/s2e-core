@@ -31,7 +31,7 @@ ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generato
       stop_limit_angular_velocity_rad_s_(stop_limit_angular_velocity_rad_s),
       drive_flag_(drive_flag),
       velocity_limit_rpm_(max_velocity_rpm_),
-      ode_angular_velocity_(step_width_s_, velocity_limit_rpm_ * libra::rpm_to_rad_s, init_velocity_rad_s),
+      ode_angular_velocity_(step_width_s_, velocity_limit_rpm_ * math::rpm_to_rad_s, init_velocity_rad_s),
       rw_jitter_(rw_jitter),
       is_calculated_jitter_(is_calc_jitter_enabled),
       is_logged_jitter_(is_log_jitter_enabled) {
@@ -58,7 +58,7 @@ ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generato
       stop_limit_angular_velocity_rad_s_(stop_limit_angular_velocity_rad_s),
       drive_flag_(drive_flag),
       velocity_limit_rpm_(max_velocity_rpm_),
-      ode_angular_velocity_(step_width_s, velocity_limit_rpm_ * libra::rpm_to_rad_s, init_velocity_rad_s),
+      ode_angular_velocity_(step_width_s, velocity_limit_rpm_ * math::rpm_to_rad_s, init_velocity_rad_s),
       rw_jitter_(rw_jitter),
       is_calculated_jitter_(is_calc_jitter_enabled),
       is_logged_jitter_(is_log_jitter_enabled) {
@@ -188,7 +188,7 @@ void ReactionWheel::SetVelocityLimit_rpm(const double velocity_limit_rpm) {
   } else {
     velocity_limit_rpm_ = velocity_limit_rpm;
   }
-  ode_angular_velocity_.SetAngularVelocityLimit_rad_s(velocity_limit_rpm_ * libra::rpm_to_rad_s);
+  ode_angular_velocity_.SetAngularVelocityLimit_rad_s(velocity_limit_rpm_ * math::rpm_to_rad_s);
   return;
 }
 
