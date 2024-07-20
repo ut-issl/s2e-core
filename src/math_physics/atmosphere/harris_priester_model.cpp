@@ -48,7 +48,7 @@ double CalcAirDensityWithHarrisPriester_kg_m3(const GeodeticPosition geodetic_po
   apex_direction[1] = cos(sun_dec_rad) * sin(apex_ra_rad);
   apex_direction[2] = sin(sun_dec_rad);
 
-  double beta_rad = libra::InnerProduct(position_ecef_m.CalcNormalizedVector(), apex_direction);
+  double beta_rad = math::InnerProduct(position_ecef_m.CalcNormalizedVector(), apex_direction);
   double cos_phi = pow(0.5 + beta_rad / 2.0, exponent_parameter / 2.0);
 
   // Find density coefficients from altitude
