@@ -2,6 +2,8 @@
 
 #include "gps_time.hpp"
 
+using namespace time_system;
+
 /**
  * @brief Test Constructor
  */

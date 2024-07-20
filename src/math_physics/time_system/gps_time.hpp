@@ -11,6 +11,8 @@
 #include "date_time_format.hpp"
 #include "epoch_time.hpp"
 
+namespace time_system {
+
 /**
  * @class GpsTime
  * @brief A class to define GPS time expression
@@ -94,5 +96,7 @@ class GpsTime {
    */
   void CalcEpochTime();
 };
+
+}  // namespace time_system
 
 #endif  // S2E_LIBRARY_TIME_SYSTEM_GPS_TIME_HPP_

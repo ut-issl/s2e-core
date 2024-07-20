@@ -10,6 +10,8 @@
 
 #include "date_time_format.hpp"
 
+namespace time_system {
+
 class DateTime;
 
 /**
@@ -66,5 +68,7 @@ class EpochTime {
   uint64_t time_s_;    //!< Number of seconds without leap seconds since 00:00:00 Jan 1 1970 UTC.
   double fraction_s_;  //!< Fraction of second under 1 sec [0, 1)
 };
+
+}  // namespace time_system
 
 #endif  // S2E_LIBRARY_TIME_SYSTEM_EPOCH_TIME_HPP_

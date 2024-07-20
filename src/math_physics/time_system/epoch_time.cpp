@@ -7,6 +7,8 @@
 
 #include <cmath>
 
+namespace time_system {
+
 EpochTime::EpochTime(const DateTime date_time) {
   // No leap second calculation
   const int doy[] = {1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335};  //!< Day of Year for the 1st day of each month
@@ -73,3 +75,5 @@ EpochTime EpochTime::operator-(const EpochTime& right_side) const {
   EpochTime result(time_s, fraction_s);
   return result;
 }
+
+}  // namespace time_system
