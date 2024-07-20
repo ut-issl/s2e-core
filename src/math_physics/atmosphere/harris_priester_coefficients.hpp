@@ -7,7 +7,7 @@
 
 #include <map>
 
-namespace libra::atmosphere {
+namespace atmosphere {
 
 // Height [km], density [g/km3]
 // TODO: Add other solar activities value
@@ -28,6 +28,6 @@ const std::map<double, double> harris_priester_max_density_table = {
     {640, 0.4121},   {660, 0.3325},  {680, 0.2691},  {700, 0.2185},  {720, 0.1779},  {740, 0.1452}, {760, 0.1190}, {780, 0.09776}, {800, 0.08059},
     {840, 0.05741},  {880, 0.04210}, {920, 0.03130}, {960, 0.02360}, {1000, 0.01810}};
 
-}  // namespace libra::atmosphere
+}  // namespace atmosphere
 
 #endif  // S2E_LIBRARY_HARRIS_COEFFICIENTS_HPP_
