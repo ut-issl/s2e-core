@@ -19,7 +19,7 @@ class KinematicsParameters {
    * @fn KinematicsParameters
    * @brief Constructor
    */
-  KinematicsParameters(libra::Vector<3> center_of_gravity_b_m, double mass_kg, math::Matrix<3, 3> inertia_tensor_b_kgm2);
+  KinematicsParameters(math::Vector<3> center_of_gravity_b_m, double mass_kg, math::Matrix<3, 3> inertia_tensor_b_kgm2);
   /**
    * @fn ~KinematicsParameters
    * @brief Destructor
@@ -31,7 +31,7 @@ class KinematicsParameters {
    * @fn GetCenterOfGravity_b_m
    * @brief Return Position vector of center of gravity at body frame [m]
    */
-  inline const libra::Vector<3>& GetCenterOfGravity_b_m() const { return center_of_gravity_b_m_; }
+  inline const math::Vector<3>& GetCenterOfGravity_b_m() const { return center_of_gravity_b_m_; }
   /**
    * @fn GetMass_kg
    * @brief Return Mass of the satellite [kg]
@@ -49,7 +49,7 @@ class KinematicsParameters {
    * @brief Set center of gravity vector at the body frame [m]
    * @param [in] center_of_gravity_vector_b_m: Center of gravity vector at the body frame [m]
    */
-  inline void SetCenterOfGravityVector_b_m(const libra::Vector<3> center_of_gravity_vector_b_m) {
+  inline void SetCenterOfGravityVector_b_m(const math::Vector<3> center_of_gravity_vector_b_m) {
     center_of_gravity_b_m_ = center_of_gravity_vector_b_m;
   }
   /**
@@ -81,7 +81,7 @@ class KinematicsParameters {
   }
 
  private:
-  libra::Vector<3> center_of_gravity_b_m_;     //!< Position vector of center of gravity at body frame [m]
+  math::Vector<3> center_of_gravity_b_m_;     //!< Position vector of center of gravity at body frame [m]
   double mass_kg_;                             //!< Mass of the satellite [kg]
   math::Matrix<3, 3> inertia_tensor_b_kgm2_;  //!< Inertia tensor at body frame [kgm2]
 };

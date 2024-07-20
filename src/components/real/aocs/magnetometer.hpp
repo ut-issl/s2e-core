@@ -75,30 +75,30 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    * @fn GetMeasuredMagneticField_c_nT
    * @brief Return observed magnetic field on the component frame
    */
-  inline const libra::Vector<kMagnetometerDimension>& GetMeasuredMagneticField_c_nT(void) const { return magnetic_field_c_nT_; }
+  inline const math::Vector<kMagnetometerDimension>& GetMeasuredMagneticField_c_nT(void) const { return magnetic_field_c_nT_; }
 
   /**
    * @fn SetConstantBiasNoise_c_nT
    * @brief Set constant bias noise at component frame [nT]
    * @param [in] constant_noise_c_nT: Constant bias noise at component frame [nT]
    */
-  inline void SetConstantBiasNoise_c_nT(libra::Vector<kMagnetometerDimension> constant_noise_c_nT) { bias_noise_c_ = constant_noise_c_nT; }
+  inline void SetConstantBiasNoise_c_nT(math::Vector<kMagnetometerDimension> constant_noise_c_nT) { bias_noise_c_ = constant_noise_c_nT; }
 
   /**
    * @fn AddConstantBiasNoise_c_nT
    * @brief Add constant bias noise at component frame [nT]
    * @param [in] constant_noise_c_nT: Additional constant bias noise at component frame [nT]
    */
-  inline void AddConstantBiasNoise_c_nT(libra::Vector<kMagnetometerDimension> constant_noise_c_nT) { bias_noise_c_ += constant_noise_c_nT; }
+  inline void AddConstantBiasNoise_c_nT(math::Vector<kMagnetometerDimension> constant_noise_c_nT) { bias_noise_c_ += constant_noise_c_nT; }
 
   /**
    * @fn GetConstantBiasNoise_c_nT
    * @brief Get constant bias noise at component frame [nT]
    */
-  inline libra::Vector<kMagnetometerDimension> GetConstantBiasNoise_c_nT() const { return bias_noise_c_; }
+  inline math::Vector<kMagnetometerDimension> GetConstantBiasNoise_c_nT() const { return bias_noise_c_; }
 
  protected:
-  libra::Vector<kMagnetometerDimension> magnetic_field_c_nT_{0.0};  //!< Observed magnetic field on the component frame [nT]
+  math::Vector<kMagnetometerDimension> magnetic_field_c_nT_{0.0};  //!< Observed magnetic field on the component frame [nT]
   unsigned int sensor_id_ = 0;                                      //!< Sensor ID
   libra::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from body frame to component frame
 

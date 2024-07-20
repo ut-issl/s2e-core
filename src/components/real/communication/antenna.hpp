@@ -9,7 +9,7 @@
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/math/vector.hpp>
 using libra::Quaternion;
-using libra::Vector;
+using math::Vector;
 #include <vector>
 
 #include "./antenna_radiation_pattern.hpp"

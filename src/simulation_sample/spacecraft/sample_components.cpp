@@ -142,21 +142,21 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   /**************/
 
   // actuator debug output
-  // libra::Vector<kMtqDimension> mag_moment_c{0.01};
+  // math::Vector<kMtqDimension> mag_moment_c{0.01};
   // magnetorquer_->SetOutputMagneticMoment_c_Am2(mag_moment_c);
   // reaction_wheel_->SetTargetTorque_rw_Nm(0.01);
   // reaction_wheel_->SetDriveFlag(true);
   // thruster_->SetDuty(0.9);
 
   // force generator debug output
-  // libra::Vector<3> force_N;
+  // math::Vector<3> force_N;
   // force_N[0] = 1.0;
   // force_N[1] = 0.0;
   // force_N[2] = 0.0;
   // force_generator_->SetForce_b_N(force_N);
 
   // torque generator debug output
-  // libra::Vector<3> torque_Nm;
+  // math::Vector<3> torque_Nm;
   // torque_Nm[0] = 0.1;
   // torque_Nm[1] = 0.0;
   // torque_Nm[2] = 0.0;
@@ -189,15 +189,15 @@ SampleComponents::~SampleComponents() {
   delete hils_port_manager_;  // delete after exp_hils
 }
 
-libra::Vector<3> SampleComponents::GenerateForce_b_N() {
-  libra::Vector<3> force_b_N_(0.0);
+math::Vector<3> SampleComponents::GenerateForce_b_N() {
+  math::Vector<3> force_b_N_(0.0);
   force_b_N_ += thruster_->GetOutputThrust_b_N();
   force_b_N_ += force_generator_->GetGeneratedForce_b_N();
   return force_b_N_;
 }
 
-libra::Vector<3> SampleComponents::GenerateTorque_b_Nm() {
-  libra::Vector<3> torque_b_Nm_(0.0);
+math::Vector<3> SampleComponents::GenerateTorque_b_Nm() {
+  math::Vector<3> torque_b_Nm_(0.0);
   torque_b_Nm_ += magnetorquer_->GetOutputTorque_b_Nm();
   torque_b_Nm_ += reaction_wheel_->GetOutputTorque_b_Nm();
   torque_b_Nm_ += thruster_->GetOutputTorque_b_Nm();

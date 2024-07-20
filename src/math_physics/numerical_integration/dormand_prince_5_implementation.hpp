@@ -75,7 +75,7 @@ DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>
   this->rk_matrix_[6][5] = 11.0 / 84.0;
 
   // Interpolation coefficients
-  libra::Vector<5> coefficients_temp;
+  math::Vector<5> coefficients_temp;
   coefficients_temp[0] = 11282082432.0;
   coefficients_temp[1] = -32272833064.0;
   coefficients_temp[2] = 34969693132.0;

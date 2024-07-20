@@ -9,7 +9,7 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 
 OrbitObserver::OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const NoiseFrame noise_frame,
-                             const libra::Vector<6> error_standard_deviation, const Orbit& orbit)
+                             const math::Vector<6> error_standard_deviation, const Orbit& orbit)
     : Component(prescaler, clock_generator), noise_frame_(noise_frame), orbit_(orbit) {
   for (size_t i = 0; i < 6; i++) {
     normal_random_noise_[i].SetParameters(0.0, error_standard_deviation[i], global_randomization.MakeSeed());
@@ -20,10 +20,10 @@ void OrbitObserver::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
   // Calc noise
-  libra::Vector<3> position_error_i_m{0.0};
-  libra::Vector<3> position_error_rtn_m{0.0};
-  libra::Vector<3> velocity_error_i_m_s{0.0};
-  libra::Vector<3> velocity_error_rtn_m_s{0.0};
+  math::Vector<3> position_error_i_m{0.0};
+  math::Vector<3> position_error_rtn_m{0.0};
+  math::Vector<3> velocity_error_i_m_s{0.0};
+  math::Vector<3> velocity_error_rtn_m_s{0.0};
   libra::Quaternion q_i2rtn = orbit_.CalcQuaternion_i2lvlh();
   switch (noise_frame_) {
     case NoiseFrame::kInertial:
@@ -93,7 +93,7 @@ OrbitObserver InitializeOrbitObserver(ClockGenerator* clock_generator, const std
 
   // Noise
   const NoiseFrame noise_frame = SetNoiseFrame(ini_file.ReadString("ORBIT_OBSERVER", "noise_frame"));
-  libra::Vector<6> noise_standard_deviation;
+  math::Vector<6> noise_standard_deviation;
   ini_file.ReadVector("ORBIT_OBSERVER", "noise_standard_deviation", noise_standard_deviation);
 
   OrbitObserver orbit_observer(prescaler, clock_generator, noise_frame, noise_standard_deviation, orbit);

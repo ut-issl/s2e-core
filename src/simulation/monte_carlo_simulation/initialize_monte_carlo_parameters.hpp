@@ -52,7 +52,7 @@ class InitializedMonteCarloParameters {
    * @brief Set randomization parameters
    */
   template <size_t NumElement1, size_t NumElement2>
-  void SetRandomConfiguration(const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
+  void SetRandomConfiguration(const math::Vector<NumElement1>& mean_or_min, const math::Vector<NumElement2>& sigma_or_max,
                               RandomizationType random_type);
 
   // Getter
@@ -61,7 +61,7 @@ class InitializedMonteCarloParameters {
    * @brief Get randomized vector value results
    */
   template <size_t NumElement>
-  void GetRandomizedVector(libra::Vector<NumElement>& destination) const;
+  void GetRandomizedVector(math::Vector<NumElement>& destination) const;
   /**
    * @fn GetRandomizedQuaternion
    * @brief Get randomized quaternion results
@@ -175,23 +175,23 @@ class InitializedMonteCarloParameters {
    * @fn CalcCircularNormalUniform
    * @brief Calculate randomized value with CircularNormalUniform mode
    */
-  void CalcCircularNormalUniform(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max);
+  void CalcCircularNormalUniform(math::Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max);
   /**
    * @fn CalcCircularNormalNormal
    * @brief Calculate randomized value with CircularNormalNormal mode
    */
-  void CalcCircularNormalNormal(libra::Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma);
+  void CalcCircularNormalNormal(math::Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma);
   /**
    * @fn CalcSphericalNormalUniformUniform
    * @brief Calculate randomized value with SphericalNormalUniformUniform mode
    */
-  void CalcSphericalNormalUniformUniform(libra::Vector<3>& destination, double r_mean, double r_sigma, double theta_min, double theta_max,
+  void CalcSphericalNormalUniformUniform(math::Vector<3>& destination, double r_mean, double r_sigma, double theta_min, double theta_max,
                                          double phi_min, double phi_max);
   /**
    * @fn CalcSphericalNormalNormal
    * @brief Calculate randomized value with SphericalNormalNormal mode
    */
-  void CalcSphericalNormalNormal(libra::Vector<3>& destination, const libra::Vector<3>& mean_vec);
+  void CalcSphericalNormalNormal(math::Vector<3>& destination, const math::Vector<3>& mean_vec);
   /**
    * @fn CalcQuaternionUniform
    * @brief Calculate randomized value with QuaternionUniform mode
@@ -205,8 +205,8 @@ class InitializedMonteCarloParameters {
 };
 
 template <size_t NumElement1, size_t NumElement2>
-void InitializedMonteCarloParameters::SetRandomConfiguration(const libra::Vector<NumElement1>& mean_or_min,
-                                                             const libra::Vector<NumElement2>& sigma_or_max,
+void InitializedMonteCarloParameters::SetRandomConfiguration(const math::Vector<NumElement1>& mean_or_min,
+                                                             const math::Vector<NumElement2>& sigma_or_max,
                                                              InitializedMonteCarloParameters::RandomizationType random_type) {
   randomization_type_ = random_type;
   mean_or_min_.clear();
@@ -220,7 +220,7 @@ void InitializedMonteCarloParameters::SetRandomConfiguration(const libra::Vector
 }
 
 template <size_t NumElement>
-void InitializedMonteCarloParameters::GetRandomizedVector(libra::Vector<NumElement>& destination) const {
+void InitializedMonteCarloParameters::GetRandomizedVector(math::Vector<NumElement>& destination) const {
   if (randomization_type_ == kNoRandomization) {
     ;
   } else if (NumElement > randomized_value_.size()) {

@@ -52,12 +52,12 @@ void GroundStation::Update(const EarthRotation& celestial_rotation, const Spacec
   is_visible_[spacecraft.GetSpacecraftId()] = CalcIsVisible(spacecraft.GetDynamics().GetOrbit().GetPosition_ecef_m());
 }
 
-bool GroundStation::CalcIsVisible(const libra::Vector<3> spacecraft_position_ecef_m) {
+bool GroundStation::CalcIsVisible(const math::Vector<3> spacecraft_position_ecef_m) {
   libra::Quaternion q_ecef_to_ltc = geodetic_position_.GetQuaternionXcxfToLtc();
 
-  libra::Vector<3> sc_pos_ltc = q_ecef_to_ltc.FrameConversion(spacecraft_position_ecef_m - position_ecef_m_);  // Satellite position in LTC frame [m]
+  math::Vector<3> sc_pos_ltc = q_ecef_to_ltc.FrameConversion(spacecraft_position_ecef_m - position_ecef_m_);  // Satellite position in LTC frame [m]
   sc_pos_ltc = sc_pos_ltc.CalcNormalizedVector();
-  libra::Vector<3> dir_gs_to_zenith = libra::Vector<3>(0);
+  math::Vector<3> dir_gs_to_zenith = math::Vector<3>(0);
   dir_gs_to_zenith[2] = 1;
 
   // Judge the satellite position angle is over the minimum elevation

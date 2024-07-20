@@ -79,9 +79,9 @@ void StarSensor::Initialize() {
     delay_buffer_[i] = measured_quaternion_i2c_;
   }
 
-  sight_direction_c_ = libra::Vector<3>(0.0);
-  first_orthogonal_direction_c = libra::Vector<3>(0.0);
-  second_orthogonal_direction_c = libra::Vector<3>(0.0);
+  sight_direction_c_ = math::Vector<3>(0.0);
+  first_orthogonal_direction_c = math::Vector<3>(0.0);
+  second_orthogonal_direction_c = math::Vector<3>(0.0);
   sight_direction_c_[0] = 1.0;             //(1,0,0)@Component coordinates, viewing direction
   first_orthogonal_direction_c[1] = 1.0;   //(0,1,0)@Component coordinates, line-of-sight orthogonal direction
   second_orthogonal_direction_c[2] = 1.0;  //(0,0,1)@Component coordinates, line-of-sight orthogonal direction
@@ -112,7 +112,7 @@ void StarSensor::update(const LocalCelestialInformation* local_celestial_informa
   // Random noise on orthogonal direction of sight. Range [0:2pi]
   double rot = libra::tau * double(rotation_noise_);
   // Calc observation error on orthogonal direction of sight
-  libra::Vector<3> rot_axis = cos(rot) * first_orthogonal_direction_c + sin(rot) * second_orthogonal_direction_c;
+  math::Vector<3> rot_axis = cos(rot) * first_orthogonal_direction_c + sin(rot) * second_orthogonal_direction_c;
   libra::Quaternion q_ortho(rot_axis, orthogonal_direction_noise_);
   // Judge errors
   AllJudgement(local_celestial_information, attitude);
@@ -137,9 +137,9 @@ void StarSensor::AllJudgement(const LocalCelestialInformation* local_celestial_i
     error_flag_ = false;
 }
 
-int StarSensor::SunJudgement(const libra::Vector<3>& sun_b) {
+int StarSensor::SunJudgement(const math::Vector<3>& sun_b) {
   libra::Quaternion q_c2b = quaternion_b2c_.Conjugate();
-  libra::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
+  math::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double sun_angle_rad = CalAngleVector_rad(sun_b, sight_b);
   if (sun_angle_rad < sun_forbidden_angle_rad_)
     return 1;
@@ -147,9 +147,9 @@ int StarSensor::SunJudgement(const libra::Vector<3>& sun_b) {
     return 0;
 }
 
-int StarSensor::EarthJudgement(const libra::Vector<3>& earth_b) {
+int StarSensor::EarthJudgement(const math::Vector<3>& earth_b) {
   libra::Quaternion q_c2b = quaternion_b2c_.Conjugate();
-  libra::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
+  math::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double earth_size_rad = atan2(environment::earth_equatorial_radius_m,
                                 earth_b.CalcNorm());                      // angles between sat<->earth_center & sat<->earth_edge
   double earth_center_angle_rad = CalAngleVector_rad(earth_b, sight_b);   // angles between sat<->earth_center & sat_sight
@@ -160,9 +160,9 @@ int StarSensor::EarthJudgement(const libra::Vector<3>& earth_b) {
     return 0;
 }
 
-int StarSensor::MoonJudgement(const libra::Vector<3>& moon_b) {
+int StarSensor::MoonJudgement(const math::Vector<3>& moon_b) {
   libra::Quaternion q_c2b = quaternion_b2c_.Conjugate();
-  libra::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
+  math::Vector<3> sight_b = q_c2b.FrameConversion(sight_direction_c_);
   double moon_angle_rad = CalAngleVector_rad(moon_b, sight_b);
   if (moon_angle_rad < moon_forbidden_angle_rad_)
     return 1;
@@ -170,7 +170,7 @@ int StarSensor::MoonJudgement(const libra::Vector<3>& moon_b) {
     return 0;
 }
 
-int StarSensor::CaptureRateJudgement(const libra::Vector<3>& omega_b_rad_s) {
+int StarSensor::CaptureRateJudgement(const math::Vector<3>& omega_b_rad_s) {
   double omega_norm = omega_b_rad_s.CalcNorm();
   if (omega_norm > capture_rate_limit_rad_s_)
     return 1;
@@ -199,8 +199,8 @@ std::string StarSensor::GetLogValue() const {
 }
 
 double StarSensor::CalAngleVector_rad(const Vector<3>& vector1, const Vector<3>& vector2) {
-  libra::Vector<3> vect1_normal = vector1.CalcNormalizedVector();
-  libra::Vector<3> vect2_normal = vector2.CalcNormalizedVector();
+  math::Vector<3> vect1_normal = vector1.CalcNormalizedVector();
+  math::Vector<3> vect2_normal = vector2.CalcNormalizedVector();
 
   double cosTheta = InnerProduct(vect1_normal, vect2_normal);  // Calc cos value
   double theta_rad = acos(cosTheta);

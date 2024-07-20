@@ -45,16 +45,16 @@ class KeplerOrbit {
    * @fn GetPosition_i_m
    * @brief Return position vector in the inertial frame [m]
    */
-  inline const libra::Vector<3> GetPosition_i_m() const { return position_i_m_; }
+  inline const math::Vector<3> GetPosition_i_m() const { return position_i_m_; }
   /**
    * @fn GetVelocity_i_m_s
    * @brief Return velocity vector in the inertial frame [m/s]
    */
-  inline const libra::Vector<3> GetVelocity_i_m_s() const { return velocity_i_m_s_; }
+  inline const math::Vector<3> GetVelocity_i_m_s() const { return velocity_i_m_s_; }
 
  protected:
-  libra::Vector<3> position_i_m_;    //!< Position vector in the inertial frame [m]
-  libra::Vector<3> velocity_i_m_s_;  //!< Velocity vector in the inertial frame [m/s]
+  math::Vector<3> position_i_m_;    //!< Position vector in the inertial frame [m]
+  math::Vector<3> velocity_i_m_s_;  //!< Velocity vector in the inertial frame [m/s]
 
  private:
   double gravity_constant_m3_s2_;         //!< Gravity constant of the center body [m3/s2]

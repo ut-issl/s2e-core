@@ -28,20 +28,20 @@ double CalcScaleHeight_km(const std::map<double, double>::const_iterator density
  */
 double CalcApexDensity_g_km3(const std::map<double, double>::const_iterator density_itr, const double altitude_km);
 
-double CalcAirDensityWithHarrisPriester_kg_m3(const GeodeticPosition geodetic_position, const libra::Vector<3> sun_direction_eci, const double f10_7,
+double CalcAirDensityWithHarrisPriester_kg_m3(const GeodeticPosition geodetic_position, const math::Vector<3> sun_direction_eci, const double f10_7,
                                               const double exponent_parameter) {
   // Altitude
   double altitude_km = geodetic_position.GetAltitude_m() / 1000.0;
 
   // Position
-  libra::Vector<3> position_ecef_m = geodetic_position.CalcEcefPosition();
+  math::Vector<3> position_ecef_m = geodetic_position.CalcEcefPosition();
 
   // Phi: angle between the satellite position and apex of the diurnal bulge
   double sun_ra_rad;   //!< Right ascension of the sun phi
   double sun_dec_rad;  //!< Declination of the sun theta
   sun_ra_rad = atan2(sun_direction_eci[1], sun_direction_eci[0]);
   sun_dec_rad = atan2(sun_direction_eci[2], sqrt(sun_direction_eci[0] * sun_direction_eci[0] + sun_direction_eci[1] * sun_direction_eci[1]));
-  libra::Vector<3> apex_direction;
+  math::Vector<3> apex_direction;
   const double lag_angle_rad = 30.0 * libra::deg_to_rad;
   double apex_ra_rad = sun_ra_rad + lag_angle_rad;
   apex_direction[0] = cos(sun_dec_rad) * cos(apex_ra_rad);

@@ -18,7 +18,7 @@
  * @param[in] moon_position_eci_m: Moon position vector @ ECI frame [m]
  * @param[in] moon_velocity_eci_m_s: Moon velocity vector @ ECI frame [m/s]
  */
-math::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const libra::Vector<3> moon_position_eci_m, const libra::Vector<3> moon_velocity_eci_m_s);
+math::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const math::Vector<3> moon_position_eci_m, const math::Vector<3> moon_velocity_eci_m_s);
 
 /**
  * @fn CalcDcmEciToMeanEarth
@@ -26,7 +26,7 @@ math::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const libra::Vector<3> moon_positio
  * @param[in] moon_position_eci_m: Moon position vector @ ECI frame [m]
  * @param[in] moon_velocity_eci_m_s: Moon velocity vector @ ECI frame [m/s]
  */
-math::Matrix<3, 3> CalcDcmEciToMeanEarth(const libra::Vector<3> moon_position_eci_m, const libra::Vector<3> moon_velocity_eci_m_s);
+math::Matrix<3, 3> CalcDcmEciToMeanEarth(const math::Vector<3> moon_position_eci_m, const math::Vector<3> moon_velocity_eci_m_s);
 
 /**
  * @fn CalcDcmMeToPrincipalAxis

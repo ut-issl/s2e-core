@@ -34,13 +34,13 @@ class GeodeticPosition {
    * @brief Update geodetic position with position vector in the ECEF frame
    * @param [in] position_ecef_m: Position vector in the ECEF frame [m]
    */
-  void UpdateFromEcef(const libra::Vector<3> position_ecef_m);
+  void UpdateFromEcef(const math::Vector<3> position_ecef_m);
 
   /**
    * @fn CalcEcefPosition
    * @brief Calculate and return the ECEF position from the geodetic position
    */
-  libra::Vector<3> CalcEcefPosition() const;
+  math::Vector<3> CalcEcefPosition() const;
 
   // Getter
   /**

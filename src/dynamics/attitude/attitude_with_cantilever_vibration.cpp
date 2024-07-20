@@ -9,9 +9,9 @@
 #include <utilities/macros.hpp>
 
 AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
-    const libra::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b, const math::Matrix<3, 3>& inertia_tensor_kgm2,
+    const math::Vector<3>& angular_velocity_b_rad_s, const libra::Quaternion& quaternion_i2b, const math::Matrix<3, 3>& inertia_tensor_kgm2,
     const math::Matrix<3, 3>& inertia_tensor_cantilever_kgm2, const double damping_ratio_cantilever,
-    const double intrinsic_angular_velocity_cantilever_rad_s, const libra::Vector<3>& torque_b_Nm, const double propagation_step_s,
+    const double intrinsic_angular_velocity_cantilever_rad_s, const math::Vector<3>& torque_b_Nm, const double propagation_step_s,
     const std::string& simulation_object_name)
     : Attitude(inertia_tensor_kgm2, simulation_object_name),
       numerical_integrator_(propagation_step_s, attitude_ode_,
@@ -21,7 +21,7 @@ AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
   torque_b_Nm_ = torque_b_Nm;
   propagation_step_s_ = propagation_step_s;
   current_propagation_time_s_ = 0.0;
-  angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
+  angular_momentum_reaction_wheel_b_Nms_ = math::Vector<3>(0.0);
 
   attitude_ode_.SetInertiaTensorCantilever_kgm2(inertia_tensor_cantilever_kgm2);
   attitude_ode_.SetPreviousInertiaTensor_kgm2(inertia_tensor_kgm2_);
@@ -65,7 +65,7 @@ void AttitudeWithCantileverVibration::SetParameters(const MonteCarloSimulationEx
 
   // TODO: Consider the following calculation is needed here?
   current_propagation_time_s_ = 0.0;
-  angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);  //!< TODO: Consider how to handle this variable
+  angular_momentum_reaction_wheel_b_Nms_ = math::Vector<3>(0.0);  //!< TODO: Consider how to handle this variable
   CalcAngularMomentum();
 }
 
@@ -75,13 +75,13 @@ void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   math::Matrix<3, 3> previous_inertia_tensor_kgm2 = attitude_ode_.GetPreviousInertiaTensor_kgm2();
   assert(end_time_s - current_propagation_time_s_ > 1e-6);
   math::Matrix<3, 3> dot_inertia_tensor = (1.0 / (end_time_s - current_propagation_time_s_)) * (inertia_tensor_kgm2_ - previous_inertia_tensor_kgm2);
-  libra::Vector<3> torque_inertia_tensor_b_Nm = dot_inertia_tensor * angular_velocity_b_rad_s_;
+  math::Vector<3> torque_inertia_tensor_b_Nm = dot_inertia_tensor * angular_velocity_b_rad_s_;
   attitude_ode_.SetTorqueInertiaTensor_b_Nm(torque_inertia_tensor_b_Nm);
   attitude_ode_.SetInverseInertiaTensor(CalcInverseMatrix(inertia_tensor_kgm2_));
   attitude_ode_.SetTorque_b_Nm(torque_b_Nm_);
   attitude_ode_.SetAngularMomentumReactionWheel_b_Nms(angular_momentum_reaction_wheel_b_Nms_);
 
-  libra::Vector<13> state = attitude_ode_.SetStateFromPhysicalQuantities(angular_velocity_b_rad_s_, angular_velocity_cantilever_rad_s_,
+  math::Vector<13> state = attitude_ode_.SetStateFromPhysicalQuantities(angular_velocity_b_rad_s_, angular_velocity_cantilever_rad_s_,
                                                                          quaternion_i2b_, euler_angular_cantilever_rad_);
   numerical_integrator_.GetIntegrator()->SetState(propagation_step_s_, state);
   while (end_time_s - current_propagation_time_s_ - propagation_step_s_ > 1.0e-6) {

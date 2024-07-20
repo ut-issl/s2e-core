@@ -17,8 +17,8 @@ MoonRotation::MoonRotation(const CelestialInformation& celestial_information, Mo
 
 void MoonRotation::Update(const SimulationTime& simulation_time) {
   if (mode_ == MoonRotationMode::kSimple) {
-    libra::Vector<3> moon_position_eci_m = celestial_information_.GetPositionFromSelectedBody_i_m("MOON", "EARTH");
-    libra::Vector<3> moon_velocity_eci_m_s = celestial_information_.GetVelocityFromSelectedBody_i_m_s("MOON", "EARTH");
+    math::Vector<3> moon_position_eci_m = celestial_information_.GetPositionFromSelectedBody_i_m("MOON", "EARTH");
+    math::Vector<3> moon_velocity_eci_m_s = celestial_information_.GetVelocityFromSelectedBody_i_m_s("MOON", "EARTH");
     dcm_j2000_to_mcmf_ = CalcDcmEciToPrincipalAxis(moon_position_eci_m, moon_velocity_eci_m_s);
   } else if (mode_ == MoonRotationMode::kIauMoon) {
     ConstSpiceChar from[] = "J2000";

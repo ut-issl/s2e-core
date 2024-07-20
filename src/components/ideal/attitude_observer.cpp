@@ -18,7 +18,7 @@ void AttitudeObserver::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
   // Error calculation
-  libra::Vector<3> random_direction;
+  math::Vector<3> random_direction;
   random_direction[0] = direction_noise_;
   random_direction[1] = direction_noise_;
   random_direction[2] = direction_noise_;

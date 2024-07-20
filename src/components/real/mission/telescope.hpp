@@ -23,7 +23,7 @@
  */
 struct Star {
   HipparcosData hipparcos_data;            //!< Hipparcos data
-  libra::Vector<2> position_image_sensor;  //!< Position of image sensor
+  math::Vector<2> position_image_sensor;  //!< Position of image sensor
 };
 
 /*
@@ -68,7 +68,7 @@ class Telescope : public Component, public ILoggable {
  protected:
  private:
   libra::Quaternion quaternion_b2c_;    //!< Quaternion from the body frame to component frame
-  libra::Vector<3> sight_direction_c_;  //!< Sight direction vector in the component frame
+  math::Vector<3> sight_direction_c_;  //!< Sight direction vector in the component frame
 
   double sun_forbidden_angle_rad_;    //!< Sun forbidden angle [rad]
   double earth_forbidden_angle_rad_;  //!< Earth forbidden angle [rad]
@@ -89,10 +89,10 @@ class Telescope : public Component, public ILoggable {
 
   size_t number_of_logged_stars_;  //!< Number of logged stars
 
-  libra::Vector<2> sun_position_image_sensor{-1};    //!< Position of the sun on the image plane
-  libra::Vector<2> earth_position_image_sensor{-1};  //!< Position of the earth on the image plane
-  libra::Vector<2> moon_position_image_sensor{-1};   //!< Position of the moon on the image plane
-  libra::Vector<3> initial_ground_position_ecef_m_;  //!< Initial spacecraft position
+  math::Vector<2> sun_position_image_sensor{-1};    //!< Position of the sun on the image plane
+  math::Vector<2> earth_position_image_sensor{-1};  //!< Position of the earth on the image plane
+  math::Vector<2> moon_position_image_sensor{-1};   //!< Position of the moon on the image plane
+  math::Vector<3> initial_ground_position_ecef_m_;  //!< Initial spacecraft position
 
   std::vector<Star> star_list_in_sight;  //!< Star information in the field of view
 
@@ -102,7 +102,7 @@ class Telescope : public Component, public ILoggable {
    * @param [in] target_b: Direction vector of target on the body fixed frame
    * @param [in] forbidden_angle: Forbidden angle [rad]
    */
-  bool JudgeForbiddenAngle(const libra::Vector<3>& target_b, const double forbidden_angle);
+  bool JudgeForbiddenAngle(const math::Vector<3>& target_b, const double forbidden_angle);
 
   // Override functions for Component
   /**
@@ -117,7 +117,7 @@ class Telescope : public Component, public ILoggable {
    * @param [out] position_image_sensor: Position on image sensor plane
    * @param [in] target_b: Direction vector of target on the body fixed frame
    */
-  void Observe(libra::Vector<2>& position_image_sensor, const libra::Vector<3, double> target_b);
+  void Observe(math::Vector<2>& position_image_sensor, const math::Vector<3, double> target_b);
   /**
    * @fn ObserveStars
    * @brief Observe stars from Hipparcos catalogue
@@ -147,9 +147,9 @@ class Telescope : public Component, public ILoggable {
   virtual std::string GetLogValue() const;
 
   // For debug **********************************************
-  //  libra::Vector<3> sun_pos_c;
-  //  libra::Vector<3> earth_pos_c;
-  //  libra::Vector<3> moon_pos_c;
+  //  math::Vector<3> sun_pos_c;
+  //  math::Vector<3> earth_pos_c;
+  //  math::Vector<3> moon_pos_c;
   //  double angle_sun;
   //  double angle_earth;
   //  double angle_moon;

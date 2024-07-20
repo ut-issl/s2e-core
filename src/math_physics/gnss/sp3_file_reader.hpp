@@ -93,9 +93,9 @@ struct Sp3Header {
  */
 struct Sp3PositionClock {
   std::string satellite_id_;                              //!< GNSS satellite ID
-  libra::Vector<3> position_km_{SP3_BAD_POSITION_VALUE};  //!< Satellite position [km]
+  math::Vector<3> position_km_{SP3_BAD_POSITION_VALUE};  //!< Satellite position [km]
   double clock_us_ = SP3_BAD_CLOCK_VALUE;                 //!< Satellite clock offset [us]
-  libra::Vector<3> position_standard_deviation_{0.0};     //!< Satellite position standard deviation [-]
+  math::Vector<3> position_standard_deviation_{0.0};     //!< Satellite position standard deviation [-]
   double clock_standard_deviation_ = 0.0;                 //!< Satellite clock offset standard deviation [-]
   bool clock_event_flag_ = false;                         //!< true when clock discontinuity is happened
   bool clock_prediction_flag_ = false;                    //!< true when clock data is predicted
@@ -128,9 +128,9 @@ struct Sp3PositionClockCorrelation {
  */
 struct Sp3VelocityClockRate {
   std::string satellite_id_;                           //!< GNSS satellite ID
-  libra::Vector<3> velocity_dm_s_{0.0};                //!< Satellite velocity [dm/s]
+  math::Vector<3> velocity_dm_s_{0.0};                //!< Satellite velocity [dm/s]
   double clock_rate_ = 0.0;                            //!< Satellite clock offset change rate [-]
-  libra::Vector<3> velocity_standard_deviation_{0.0};  //!< Satellite position standard deviation [-]
+  math::Vector<3> velocity_standard_deviation_{0.0};  //!< Satellite position standard deviation [-]
   double clock_rate_standard_deviation_ = 0.0;         //!< Satellite clock offset standard deviation [-]
 };
 
@@ -176,7 +176,7 @@ class Sp3FileReader {
   DateTime GetEpochData(const size_t epoch_id) const;
   Sp3PositionClock GetPositionClock(const size_t epoch_id, const size_t satellite_id);
   double GetSatelliteClockOffset(const size_t epoch_id, const size_t satellite_id);
-  libra::Vector<3> GetSatellitePosition_km(const size_t epoch_id, const size_t satellite_id);
+  math::Vector<3> GetSatellitePosition_km(const size_t epoch_id, const size_t satellite_id);
 
   size_t SearchNearestEpochId(const EpochTime time);
 

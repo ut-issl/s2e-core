@@ -20,8 +20,8 @@
 Geopotential::Geopotential(const int degree, const std::string file_path, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, false), degree_(degree) {
   // Initialize
-  acceleration_ecef_m_s2_ = libra::Vector<3>(0.0);
-  debug_pos_ecef_m_ = libra::Vector<3>(0.0);
+  acceleration_ecef_m_s2_ = math::Vector<3>(0.0);
+  debug_pos_ecef_m_ = math::Vector<3>(0.0);
   // degree
   if (degree_ > 360) {
     degree_ = 360;

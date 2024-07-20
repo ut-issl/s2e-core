@@ -57,10 +57,10 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public ILogg
    * @fn GetAngularVelocity_b_rad_s
    * @brief Return observed angular velocity
    */
-  inline libra::Vector<3> GetAngularVelocity_b_rad_s() const { return angular_velocity_b_rad_s_; }
+  inline math::Vector<3> GetAngularVelocity_b_rad_s() const { return angular_velocity_b_rad_s_; }
 
  protected:
-  libra::Vector<3> angular_velocity_b_rad_s_{0.0};  //!< Observed angular velocity [rad/s]
+  math::Vector<3> angular_velocity_b_rad_s_{0.0};  //!< Observed angular velocity [rad/s]
   const Attitude& attitude_;                        //!< Dynamics information
 };
 

@@ -53,7 +53,7 @@ class ReactionWheelOde : public libra::OrdinaryDifferentialEquation<1> {
    * @param [in] state: State vector
    * @param [out] rhs: Differentiated value of state vector
    */
-  void DerivativeFunction(double x, const libra::Vector<1>& state, libra::Vector<1>& rhs) override;
+  void DerivativeFunction(double x, const math::Vector<1>& state, math::Vector<1>& rhs) override;
 
   double velocity_limit_rad_s_;
   double angular_acceleration_rad_s2_ = 0.0;  //!< Angular acceleration [rad/s2]

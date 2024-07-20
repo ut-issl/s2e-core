@@ -54,7 +54,7 @@ class Temperature : public ILoggable {
    * @param[in] sun_direction_b: Sun position in body frame [m]
    * @param[in] node_num: Number of nodes
    */
-  void CalcRungeOneStep(double time_now_s, double time_step_s, libra::Vector<3> sun_direction_b, size_t node_num);
+  void CalcRungeOneStep(double time_now_s, double time_step_s, math::Vector<3> sun_direction_b, size_t node_num);
   /**
    * @fn CalcTemperatureDifferentials
    * @brief Calculate differential of thermal equilibrium equation
@@ -65,7 +65,7 @@ class Temperature : public ILoggable {
    * @param node_num: Number of nodes
    * @return std::vector<double>: Differential of thermal equilibrium equation at time now
    */
-  std::vector<double> CalcTemperatureDifferentials(std::vector<double> temperatures_K, double time_now_s, const libra::Vector<3> sun_direction_b,
+  std::vector<double> CalcTemperatureDifferentials(std::vector<double> temperatures_K, double time_now_s, const math::Vector<3> sun_direction_b,
                                                    size_t node_num);
 
  public:
@@ -108,7 +108,7 @@ class Temperature : public ILoggable {
    * @param[in] sun_position_b_m: Sun position in body frame [m]
    * @param time_end_s: Time to finish propagation [s]
    */
-  void Propagate(libra::Vector<3> sun_position_b_m, const double time_end_s);
+  void Propagate(math::Vector<3> sun_position_b_m, const double time_end_s);
 
   // Getter
   /**

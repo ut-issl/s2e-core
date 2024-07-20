@@ -23,7 +23,7 @@ TEST(Quaternion, ConstructorFourNumber) {
  * @brief Test for constructor from Vector
  */
 TEST(Quaternion, ConstructorVector) {
-  libra::Vector<4> v(0.5);
+  math::Vector<4> v(0.5);
   libra::Quaternion q(v);
 
   EXPECT_DOUBLE_EQ(0.5, q[0]);
@@ -36,7 +36,7 @@ TEST(Quaternion, ConstructorVector) {
  * @brief Test for constructor from axis and rotation angle X rotation
  */
 TEST(Quaternion, ConstructorAxisAndAngleX) {
-  libra::Vector<3> axis;
+  math::Vector<3> axis;
   axis[0] = 1.0;
   axis[1] = 0.0;
   axis[2] = 0.0;
@@ -53,7 +53,7 @@ TEST(Quaternion, ConstructorAxisAndAngleX) {
  * @brief Test for constructor from axis and rotation angle Y rotation
  */
 TEST(Quaternion, ConstructorAxisAndAngleY) {
-  libra::Vector<3> axis;
+  math::Vector<3> axis;
   axis[0] = 0.0;
   axis[1] = 1.0;
   axis[2] = 0.0;
@@ -70,7 +70,7 @@ TEST(Quaternion, ConstructorAxisAndAngleY) {
  * @brief Test for constructor from axis and rotation angle Z rotation
  */
 TEST(Quaternion, ConstructorAxisAndAngleZ) {
-  libra::Vector<3> axis;
+  math::Vector<3> axis;
   axis[0] = 0.0;
   axis[1] = 0.0;
   axis[2] = 1.0;
@@ -87,7 +87,7 @@ TEST(Quaternion, ConstructorAxisAndAngleZ) {
  * @brief Test for constructor from axis and rotation angle All axes rotation
  */
 TEST(Quaternion, ConstructorAxisAndAngleAll) {
-  libra::Vector<3> axis;
+  math::Vector<3> axis;
   axis[0] = 1.0;
   axis[1] = 1.0;
   axis[2] = 1.0;
@@ -104,11 +104,11 @@ TEST(Quaternion, ConstructorAxisAndAngleAll) {
  * @brief Test for constructor from two vectors: No rotation
  */
 TEST(Quaternion, ConstructorTwoVectorsNoRotation) {
-  libra::Vector<3> before;
+  math::Vector<3> before;
   before[0] = 0.0;
   before[1] = 0.0;
   before[2] = 2.0;  // To check normalization
-  libra::Vector<3> after;
+  math::Vector<3> after;
   after[0] = 0.0;
   after[1] = 0.0;
   after[2] = 1.0;
@@ -125,11 +125,11 @@ TEST(Quaternion, ConstructorTwoVectorsNoRotation) {
  * @brief Test for constructor from two vectors: X rotation
  */
 TEST(Quaternion, ConstructorTwoVectorsX) {
-  libra::Vector<3> before;
+  math::Vector<3> before;
   before[0] = 0.0;
   before[1] = 0.0;
   before[2] = 1.0;
-  libra::Vector<3> after;
+  math::Vector<3> after;
   after[0] = 0.0;
   after[1] = 1.0;
   after[2] = 0.0;
@@ -147,11 +147,11 @@ TEST(Quaternion, ConstructorTwoVectorsX) {
  * @brief Test for constructor from two vectors: Y rotation
  */
 TEST(Quaternion, ConstructorTwoVectorsY) {
-  libra::Vector<3> before;
+  math::Vector<3> before;
   before[0] = 0.0;
   before[1] = 0.0;
   before[2] = 1.0;
-  libra::Vector<3> after;
+  math::Vector<3> after;
   after[0] = 1.0;
   after[1] = 0.0;
   after[2] = 0.0;
@@ -169,11 +169,11 @@ TEST(Quaternion, ConstructorTwoVectorsY) {
  * @brief Test for constructor from two vectors: Z rotation
  */
 TEST(Quaternion, ConstructorTwoVectorsZ) {
-  libra::Vector<3> before;
+  math::Vector<3> before;
   before[0] = 1.0;
   before[1] = 0.0;
   before[2] = 0.0;
-  libra::Vector<3> after;
+  math::Vector<3> after;
   after[0] = 0.0;
   after[1] = 1.0;
   after[2] = 0.0;
@@ -294,7 +294,7 @@ TEST(Quaternion, ConvertToEulerX) {
   libra::Quaternion q(1.0, 0.0, 0.0, 1.0);
   q.Normalize();
 
-  libra::Vector<3> euler = q.ConvertToEuler();
+  math::Vector<3> euler = q.ConvertToEuler();
 
   // Check nondestructive function
   EXPECT_DOUBLE_EQ(1.0 / sqrt(2.0), q[0]);
@@ -322,7 +322,7 @@ TEST(Quaternion, ConvertToEuler) {
   libra::Quaternion q(0.5, 0.3, 0.1, 1.0);
   q.Normalize();
 
-  libra::Vector<3> euler = q.ConvertToEuler();
+  math::Vector<3> euler = q.ConvertToEuler();
 
   // Check nondestructive function
   const double accuracy = 1.0e-7;
@@ -344,19 +344,19 @@ TEST(Quaternion, FrameConversionZ) {
   libra::Quaternion q(0.0, 0.0, 1.0, 1.0);
   q.Normalize();
 
-  libra::Vector<3> v;
+  math::Vector<3> v;
   v[0] = 1.0;
   v[1] = 0.0;
   v[2] = 0.0;
 
-  libra::Vector<3> v_frame_conv = q.FrameConversion(v);
+  math::Vector<3> v_frame_conv = q.FrameConversion(v);
 
   const double accuracy = 1.0e-7;
   EXPECT_NEAR(0.0, v_frame_conv[0], accuracy);
   EXPECT_NEAR(-1.0, v_frame_conv[1], accuracy);
   EXPECT_NEAR(0.0, v_frame_conv[2], accuracy);
 
-  libra::Vector<3> v_frame_conv_inv = q.InverseFrameConversion(v_frame_conv);
+  math::Vector<3> v_frame_conv_inv = q.InverseFrameConversion(v_frame_conv);
 
   for (size_t i = 0; i < 3; i++) {
     EXPECT_NEAR(v[i], v_frame_conv_inv[i], accuracy);
@@ -369,13 +369,13 @@ TEST(Quaternion, FrameConversionZ) {
 TEST(Quaternion, FrameConversion) {
   libra::Quaternion q(0.5, 0.3, 0.1, 1.0);
   q.Normalize();
-  libra::Vector<3> v;
+  math::Vector<3> v;
   v[0] = 1.0;
   v[1] = 0.0;
   v[2] = 0.0;
 
-  libra::Vector<3> v_frame_conv = q.FrameConversion(v);
-  libra::Vector<3> v_frame_conv_inv = q.InverseFrameConversion(v_frame_conv);
+  math::Vector<3> v_frame_conv = q.FrameConversion(v);
+  math::Vector<3> v_frame_conv_inv = q.InverseFrameConversion(v_frame_conv);
 
   const double accuracy = 1.0e-7;
   for (size_t i = 0; i < 3; i++) {
@@ -389,7 +389,7 @@ TEST(Quaternion, FrameConversion) {
 TEST(Quaternion, ConvertToVector) {
   libra::Quaternion q(0.5, 0.3, 0.1, 1.0);
 
-  libra::Vector<4> v = q.ConvertToVector();
+  math::Vector<4> v = q.ConvertToVector();
 
   for (size_t i = 0; i < 4; i++) {
     EXPECT_DOUBLE_EQ(q[i], v[i]);

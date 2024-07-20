@@ -40,7 +40,7 @@ class Attitude : public ILoggable, public SimulationObject {
    * @fn GetAngularVelocity_b_rad_s
    * @brief Return angular velocity of spacecraft body-fixed frame with respect to the inertial frame [rad/s]
    */
-  inline libra::Vector<3> GetAngularVelocity_b_rad_s() const { return angular_velocity_b_rad_s_; }
+  inline math::Vector<3> GetAngularVelocity_b_rad_s() const { return angular_velocity_b_rad_s_; }
   /**
    * @fn GetQuaternion_i2b
    * @brief Return attitude quaternion from the inertial frame to the body fixed frame
@@ -67,7 +67,7 @@ class Attitude : public ILoggable, public SimulationObject {
    * @fn SetAngularVelocity_b_rad_s
    * @brief Set angular velocity of the body fixed frame with respect to the inertial frame [rad/s]
    */
-  inline void SetAngularVelocity_b_rad_s(const libra::Vector<3> angular_velocity_b_rad_s) { angular_velocity_b_rad_s_ = angular_velocity_b_rad_s; }
+  inline void SetAngularVelocity_b_rad_s(const math::Vector<3> angular_velocity_b_rad_s) { angular_velocity_b_rad_s_ = angular_velocity_b_rad_s; }
   /**
    * @fn SetQuaternion_i2b
    * @brief Set attitude quaternion from the inertial frame to the body frame
@@ -77,17 +77,17 @@ class Attitude : public ILoggable, public SimulationObject {
    * @fn SetTorque_b_Nm
    * @brief Set torque acting on the spacecraft on the body fixed frame [Nm]
    */
-  inline void SetTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { torque_b_Nm_ = torque_b_Nm; }
+  inline void SetTorque_b_Nm(const math::Vector<3> torque_b_Nm) { torque_b_Nm_ = torque_b_Nm; }
   /**
    * @fn AddTorque_b_Nm
    * @brief Add torque acting on the spacecraft on the body fixed frame [Nm]
    */
-  inline void AddTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { torque_b_Nm_ += torque_b_Nm; }
+  inline void AddTorque_b_Nm(const math::Vector<3> torque_b_Nm) { torque_b_Nm_ += torque_b_Nm; }
   /**
    * @fn SetRwAngularMomentum_b_Nms
    * @brief Set angular momentum of reaction wheel in the body fixed frame [Nms]
    */
-  inline void SetRwAngularMomentum_b_Nms(const libra::Vector<3> angular_momentum_rw_b_Nms) {
+  inline void SetRwAngularMomentum_b_Nms(const math::Vector<3> angular_momentum_rw_b_Nms) {
     angular_momentum_reaction_wheel_b_Nms_ = angular_momentum_rw_b_Nms;
   }
 
@@ -116,15 +116,15 @@ class Attitude : public ILoggable, public SimulationObject {
  protected:
   bool is_calc_enabled_ = true;                     //!< Calculation flag
   double propagation_step_s_;                       //!< Propagation step [sec]
-  libra::Vector<3> angular_velocity_b_rad_s_;       //!< Angular velocity of spacecraft body fixed frame with respect to the inertial frame [rad/s]
+  math::Vector<3> angular_velocity_b_rad_s_;       //!< Angular velocity of spacecraft body fixed frame with respect to the inertial frame [rad/s]
   libra::Quaternion quaternion_i2b_;                //!< Attitude quaternion from the inertial frame to the body fixed frame
-  libra::Vector<3> torque_b_Nm_;                    //!< Torque in the body fixed frame [Nm]
+  math::Vector<3> torque_b_Nm_;                    //!< Torque in the body fixed frame [Nm]
   const math::Matrix<3, 3>& inertia_tensor_kgm2_;  //!< Inertia tensor of the spacecraft [kg m^2]
 
-  libra::Vector<3> angular_momentum_spacecraft_b_Nms_;      //!< Angular momentum of spacecraft in the body fixed frame [Nms]
-  libra::Vector<3> angular_momentum_reaction_wheel_b_Nms_;  //!< Angular momentum of reaction wheel in the body fixed frame [Nms]
-  libra::Vector<3> angular_momentum_total_b_Nms_;           //!< Total angular momentum of spacecraft in the body fixed frame [Nms]
-  libra::Vector<3> angular_momentum_total_i_Nms_;           //!< Total angular momentum of spacecraft in the inertial frame [Nms]
+  math::Vector<3> angular_momentum_spacecraft_b_Nms_;      //!< Angular momentum of spacecraft in the body fixed frame [Nms]
+  math::Vector<3> angular_momentum_reaction_wheel_b_Nms_;  //!< Angular momentum of reaction wheel in the body fixed frame [Nms]
+  math::Vector<3> angular_momentum_total_b_Nms_;           //!< Total angular momentum of spacecraft in the body fixed frame [Nms]
+  math::Vector<3> angular_momentum_total_i_Nms_;           //!< Total angular momentum of spacecraft in the inertial frame [Nms]
   double angular_momentum_total_Nms_;                       //!< Norm of total angular momentum [Nms]
   double kinetic_energy_J_;                                 //!< Rotational Kinetic Energy of Spacecraft [J]
 
@@ -140,6 +140,6 @@ class Attitude : public ILoggable, public SimulationObject {
  * @brief Generate angular velocity matrix for kinematics calculation
  * @param [in] angular_velocity_b_rad_s: Angular velocity [rad/s]
  */
-math::Matrix<4, 4> CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s);
+math::Matrix<4, 4> CalcAngularVelocityMatrix(math::Vector<3> angular_velocity_b_rad_s);
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_

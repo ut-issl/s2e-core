@@ -40,7 +40,7 @@ class SimulationObject {
    */
   template <size_t NumElement>
   void GetInitializedMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string init_monte_carlo_parameter_name,
-                                               libra::Vector<NumElement>& destination) const;
+                                               math::Vector<NumElement>& destination) const;
 
   /**
    * @fn GetInitializedMonteCarloParameterDouble
@@ -80,7 +80,7 @@ class SimulationObject {
 template <size_t NumElement>
 void SimulationObject::GetInitializedMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator,
                                                                std::string init_monte_carlo_parameter_name,
-                                                               libra::Vector<NumElement>& destination) const {
+                                                               math::Vector<NumElement>& destination) const {
   monte_carlo_simulator.GetInitializedMonteCarloParameterVector(name_, init_monte_carlo_parameter_name, destination);
 }
 

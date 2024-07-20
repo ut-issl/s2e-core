@@ -22,20 +22,20 @@ OrbitalElements::OrbitalElements(const double epoch_jday, const double semi_majo
       epoch_jday_(epoch_jday) {}
 
 // initialize with position and velocity
-OrbitalElements::OrbitalElements(const double gravity_constant_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
-                                 const libra::Vector<3> velocity_i_m_s) {
+OrbitalElements::OrbitalElements(const double gravity_constant_m3_s2, const double time_jday, const math::Vector<3> position_i_m,
+                                 const math::Vector<3> velocity_i_m_s) {
   CalcOeFromPosVel(gravity_constant_m3_s2, time_jday, position_i_m, velocity_i_m_s);
 }
 
 OrbitalElements::~OrbitalElements() {}
 
 // Private Function
-void OrbitalElements::CalcOeFromPosVel(const double gravity_constant_m3_s2, const double time_jday, const libra::Vector<3> position_i_m,
-                                       const libra::Vector<3> velocity_i_m_s) {
+void OrbitalElements::CalcOeFromPosVel(const double gravity_constant_m3_s2, const double time_jday, const math::Vector<3> position_i_m,
+                                       const math::Vector<3> velocity_i_m_s) {
   // common variables
   double r_m = position_i_m.CalcNorm();
   double v2_m2_s2 = InnerProduct(velocity_i_m_s, velocity_i_m_s);
-  libra::Vector<3> h;  //!< angular momentum vector
+  math::Vector<3> h;  //!< angular momentum vector
   h = OuterProduct(position_i_m, velocity_i_m_s);
   double h_norm = h.CalcNorm();
 
@@ -43,7 +43,7 @@ void OrbitalElements::CalcOeFromPosVel(const double gravity_constant_m3_s2, cons
   semi_major_axis_m_ = gravity_constant_m3_s2 / (2.0 * gravity_constant_m3_s2 / r_m - v2_m2_s2);
 
   // inclination
-  libra::Vector<3> h_direction = h.CalcNormalizedVector();
+  math::Vector<3> h_direction = h.CalcNormalizedVector();
   inclination_rad_ = acos(h_direction[2]);
 
   // RAAN

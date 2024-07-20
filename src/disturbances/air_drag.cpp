@@ -12,7 +12,7 @@
 
 #include "../logger/log_utility.hpp"
 
-AirDrag::AirDrag(const std::vector<Surface>& surfaces, const libra::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
+AirDrag::AirDrag(const std::vector<Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
                  const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled),
       wall_temperature_K_(wall_temperature_K),
@@ -28,13 +28,13 @@ void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& 
 
   math::Matrix<3, 3> dcm_ecef2eci =
       local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
-  libra::Vector<3> relative_velocity_wrt_atmosphere_i_m_s = dcm_ecef2eci * dynamics.GetOrbit().GetVelocity_ecef_m_s();
+  math::Vector<3> relative_velocity_wrt_atmosphere_i_m_s = dcm_ecef2eci * dynamics.GetOrbit().GetVelocity_ecef_m_s();
   libra::Quaternion quaternion_i2b = dynamics.GetAttitude().GetQuaternion_i2b();
-  libra::Vector<3> velocity_b_m_s = quaternion_i2b.FrameConversion(relative_velocity_wrt_atmosphere_i_m_s);
+  math::Vector<3> velocity_b_m_s = quaternion_i2b.FrameConversion(relative_velocity_wrt_atmosphere_i_m_s);
   CalcTorqueForce(velocity_b_m_s, air_density_kg_m3);
 }
 
-void AirDrag::CalcCoefficients(const libra::Vector<3>& velocity_b_m_s, const double air_density_kg_m3) {
+void AirDrag::CalcCoefficients(const math::Vector<3>& velocity_b_m_s, const double air_density_kg_m3) {
   double velocity_norm_m_s = velocity_b_m_s.CalcNorm();
   CalcCnCt(velocity_b_m_s);
   for (size_t i = 0; i < surfaces_.size(); i++) {

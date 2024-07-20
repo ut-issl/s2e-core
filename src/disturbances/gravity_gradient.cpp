@@ -23,10 +23,10 @@ void GravityGradient::Update(const LocalEnvironment& local_environment, const Dy
                   dynamics.GetAttitude().GetInertiaTensor_b_kgm2());
 }
 
-libra::Vector<3> GravityGradient::CalcTorque_b_Nm(const libra::Vector<3> earth_position_from_sc_b_m,
+math::Vector<3> GravityGradient::CalcTorque_b_Nm(const math::Vector<3> earth_position_from_sc_b_m,
                                                   const math::Matrix<3, 3> inertia_tensor_b_kgm2) {
   double r_norm_m = earth_position_from_sc_b_m.CalcNorm();
-  libra::Vector<3> u_b = earth_position_from_sc_b_m;  // TODO: make undestructive normalize function for Vector
+  math::Vector<3> u_b = earth_position_from_sc_b_m;  // TODO: make undestructive normalize function for Vector
   u_b /= r_norm_m;
 
   double coeff = 3.0 * gravity_constant_m3_s2_ / pow(r_norm_m, 3.0);

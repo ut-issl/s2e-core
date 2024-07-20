@@ -36,7 +36,7 @@ class DormandPrince5 : public EmbeddedRungeKutta<N> {
   Vector<N> CalcInterpolationState(const double sigma) const override;
 
  private:
-  std::vector<libra::Vector<5>> coefficients_;  //!< Coefficients to calculate interpolation weights
+  std::vector<math::Vector<5>> coefficients_;  //!< Coefficients to calculate interpolation weights
   /**
    * @fn CalcInterpolationWeights
    * @brief Calculate weights for interpolation

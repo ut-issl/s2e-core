@@ -40,7 +40,7 @@ class RelativeOrbit : public Orbit, public libra::OrdinaryDifferentialEquation<6
    * @param [in] relative_information: Relative information
    */
   RelativeOrbit(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s, int reference_spacecraft_id,
-                libra::Vector<3> relative_position_lvlh_m, libra::Vector<3> relative_velocity_lvlh_m_s, RelativeOrbitUpdateMethod update_method,
+                math::Vector<3> relative_position_lvlh_m, math::Vector<3> relative_velocity_lvlh_m_s, RelativeOrbitUpdateMethod update_method,
                 RelativeOrbitModel relative_dynamics_model_type, StmModel stm_model_type, RelativeInformation* relative_information);
   /**
    * @fn ~RelativeOrbit
@@ -76,9 +76,9 @@ class RelativeOrbit : public Orbit, public libra::OrdinaryDifferentialEquation<6
   math::Matrix<6, 6> system_matrix_;  //!< System matrix
   math::Matrix<6, 6> stm_;            //!< State transition matrix
 
-  libra::Vector<6> initial_state_;               //!< Initial state (Position and Velocity)
-  libra::Vector<3> relative_position_lvlh_m_;    //!< Relative position in the LVLH frame
-  libra::Vector<3> relative_velocity_lvlh_m_s_;  //!< Relative velocity in the LVLH frame
+  math::Vector<6> initial_state_;               //!< Initial state (Position and Velocity)
+  math::Vector<3> relative_position_lvlh_m_;    //!< Relative position in the LVLH frame
+  math::Vector<3> relative_velocity_lvlh_m_s_;  //!< Relative velocity in the LVLH frame
 
   RelativeOrbitUpdateMethod update_method_;          //!< Update method
   RelativeOrbitModel relative_dynamics_model_type_;  //!< Relative dynamics model type
@@ -93,7 +93,7 @@ class RelativeOrbit : public Orbit, public libra::OrdinaryDifferentialEquation<6
    * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
    * @param [in] initial_time_s: Initialize time [sec]
    */
-  void InitializeState(libra::Vector<3> relative_position_lvlh_m, libra::Vector<3> relative_velocity_lvlh_m_s, double gravity_constant_m3_s2,
+  void InitializeState(math::Vector<3> relative_position_lvlh_m, math::Vector<3> relative_velocity_lvlh_m_s, double gravity_constant_m3_s2,
                        double initial_time_s = 0);
   /**
    * @fn CalculateSystemMatrix

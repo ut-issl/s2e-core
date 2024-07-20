@@ -55,24 +55,24 @@ class ReactionWheelJitter {
    * @fn GetJitterForce_b_N
    * @brief Return generated jitter force in the body fixed frame [N]
    */
-  const libra::Vector<3> GetJitterForce_b_N() const { return jitter_force_b_N_; }
+  const math::Vector<3> GetJitterForce_b_N() const { return jitter_force_b_N_; }
   /**
    * @fn GetJitterTorque_b_Nm
    * @brief Return generated jitter torque in the body fixed frame [Nm]
    */
-  const libra::Vector<3> GetJitterTorque_b_Nm() const { return jitter_torque_b_Nm_; }
+  const math::Vector<3> GetJitterTorque_b_Nm() const { return jitter_torque_b_Nm_; }
   /**
    * @fn GetJitterForce_c_N
    * @brief Return generated jitter force in the components frame [N]
    */
-  const libra::Vector<3> GetJitterForce_c_N() const {
+  const math::Vector<3> GetJitterForce_c_N() const {
     return considers_structural_resonance_ ? filtered_jitter_force_n_c_ : unfiltered_jitter_force_n_c_;
   }
   /**
    * @fn GetJitterTorque_c_Nm
    * @brief Return generated jitter torque in the component frame [Nm]
    */
-  const libra::Vector<3> GetJitterTorque_c_Nm() const {
+  const math::Vector<3> GetJitterTorque_c_Nm() const {
     return considers_structural_resonance_ ? filtered_jitter_torque_n_c_ : unfiltered_jitter_torque_n_c_;
   }
 
@@ -94,22 +94,22 @@ class ReactionWheelJitter {
   std::vector<double> jitter_torque_rotation_phase_;  //!< 2 * pi * h_i * Omega * t [rad]
 
   // Variables for solving difference equations in component frame
-  libra::Vector<3> unfiltered_jitter_force_n_c_{0.0};
-  libra::Vector<3> unfiltered_jitter_force_n_1_c_{0.0};
-  libra::Vector<3> unfiltered_jitter_force_n_2_c_{0.0};
-  libra::Vector<3> unfiltered_jitter_torque_n_c_{0.0};
-  libra::Vector<3> unfiltered_jitter_torque_n_1_c_{0.0};
-  libra::Vector<3> unfiltered_jitter_torque_n_2_c_{0.0};
-  libra::Vector<3> filtered_jitter_force_n_c_{0.0};
-  libra::Vector<3> filtered_jitter_force_n_1_c_{0.0};
-  libra::Vector<3> filtered_jitter_force_n_2_c_{0.0};
-  libra::Vector<3> filtered_jitter_torque_n_c_{0.0};
-  libra::Vector<3> filtered_jitter_torque_n_1_c_{0.0};
-  libra::Vector<3> filtered_jitter_torque_n_2_c_{0.0};
+  math::Vector<3> unfiltered_jitter_force_n_c_{0.0};
+  math::Vector<3> unfiltered_jitter_force_n_1_c_{0.0};
+  math::Vector<3> unfiltered_jitter_force_n_2_c_{0.0};
+  math::Vector<3> unfiltered_jitter_torque_n_c_{0.0};
+  math::Vector<3> unfiltered_jitter_torque_n_1_c_{0.0};
+  math::Vector<3> unfiltered_jitter_torque_n_2_c_{0.0};
+  math::Vector<3> filtered_jitter_force_n_c_{0.0};
+  math::Vector<3> filtered_jitter_force_n_1_c_{0.0};
+  math::Vector<3> filtered_jitter_force_n_2_c_{0.0};
+  math::Vector<3> filtered_jitter_torque_n_c_{0.0};
+  math::Vector<3> filtered_jitter_torque_n_1_c_{0.0};
+  math::Vector<3> filtered_jitter_torque_n_2_c_{0.0};
   double coefficients_[6];  //!< Coefficients of difference equation
 
-  libra::Vector<3> jitter_force_b_N_{0.0};    //!< Generated jitter force in the body frame [N]
-  libra::Vector<3> jitter_torque_b_Nm_{0.0};  //!< Generated jitter torque in the body frame [Nm]
+  math::Vector<3> jitter_force_b_N_{0.0};    //!< Generated jitter force in the body frame [N]
+  math::Vector<3> jitter_torque_b_Nm_{0.0};  //!< Generated jitter torque in the body frame [Nm]
 
   /**
    * @fn AddStructuralResonance

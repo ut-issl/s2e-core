@@ -35,7 +35,7 @@ inline std::string WriteScalar(const std::string name, const std::string unit);
  * @param [in] precision: precision for the value (number of digit)
  */
 template <size_t NUM>
-inline std::string WriteVector(const libra::Vector<NUM, double> vector, const int precision = 6);
+inline std::string WriteVector(const math::Vector<NUM, double> vector, const int precision = 6);
 /**
  * @fn WriteVector
  * @brief Write header for vector value
@@ -91,7 +91,7 @@ std::string WriteScalar(const T scalar, const int precision) {
 std::string WriteScalar(const std::string name, const std::string unit) { return name + "[" + unit + "],"; }
 
 template <size_t NUM>
-std::string WriteVector(const libra::Vector<NUM, double> vector, const int precision) {
+std::string WriteVector(const math::Vector<NUM, double> vector, const int precision) {
   std::stringstream str_tmp;
 
   for (size_t n = 0; n < NUM; n++) {

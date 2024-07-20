@@ -110,9 +110,9 @@ class StarSensor : public Component, public ILoggable {
   const int component_id_;                                            //!< Sensor ID
   libra::Quaternion quaternion_b2c_;                                  //!< Quaternion from body frame to component frame
   libra::Quaternion measured_quaternion_i2c_ = {0.0, 0.0, 0.0, 1.0};  //!< StarSensor observed quaternion
-  libra::Vector<3> sight_direction_c_;                                //!< Sight direction vector at component frame
-  libra::Vector<3> first_orthogonal_direction_c;                      //!< The first orthogonal direction of sight at component frame
-  libra::Vector<3> second_orthogonal_direction_c;                     //!< The second orthogonal direction of sight at component frame
+  math::Vector<3> sight_direction_c_;                                //!< Sight direction vector at component frame
+  math::Vector<3> first_orthogonal_direction_c;                      //!< The first orthogonal direction of sight at component frame
+  math::Vector<3> second_orthogonal_direction_c;                     //!< The second orthogonal direction of sight at component frame
 
   // Noise parameters
   libra::MinimalStandardLcgWithShuffle rotation_noise_;  //!< Randomize object for orthogonal direction
@@ -168,28 +168,28 @@ class StarSensor : public Component, public ILoggable {
    * @param [in] sun_b: Sun direction vector in the body fixed frame
    * @return 1: violated, 0: not violated
    */
-  int SunJudgement(const libra::Vector<3>& sun_b);
+  int SunJudgement(const math::Vector<3>& sun_b);
   /**
    * @fn EarthJudgement
    * @brief Judge violation of earth forbidden angle
    * @param [in] earth_b: Earth direction vector in the body fixed frame
    * @return 1: violated, 0: not violated
    */
-  int EarthJudgement(const libra::Vector<3>& earth_b);
+  int EarthJudgement(const math::Vector<3>& earth_b);
   /**
    * @fn MoonJudgement
    * @brief Judge violation of moon forbidden angle
    * @param [in] moon_b: Moon direction vector in the body fixed frame
    * @return 1: violated, 0: not violated
    */
-  int MoonJudgement(const libra::Vector<3>& moon_b);
+  int MoonJudgement(const math::Vector<3>& moon_b);
   /**
    * @fn CaptureRateJudgement
    * @brief Judge violation of angular velocity limit
    * @param [in] omega_b_rad_s: Angular velocity of spacecraft in the body fixed frame
    * @return 1: violated, 0: not violated
    */
-  int CaptureRateJudgement(const libra::Vector<3>& omega_b_rad_s);
+  int CaptureRateJudgement(const math::Vector<3>& omega_b_rad_s);
   /**
    * @fn CalAngleVector_rad
    * @brief Calculate angle between two vectors
@@ -197,7 +197,7 @@ class StarSensor : public Component, public ILoggable {
    * @param [in] vector2: Second vector
    * @return Angle between two vectors [rad]
    */
-  double CalAngleVector_rad(const libra::Vector<3>& vector1, const libra::Vector<3>& vector2);
+  double CalAngleVector_rad(const math::Vector<3>& vector1, const math::Vector<3>& vector2);
 
   /**
    * @fn Initialize

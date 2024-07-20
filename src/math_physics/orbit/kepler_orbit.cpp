@@ -50,12 +50,12 @@ void KeplerOrbit::CalcOrbit(double time_jday) {
   double a_sqrt_e_m = a_m * sqrt(1.0 - e * e);
   double e_cos_u = 1.0 - e * cos_u;
 
-  libra::Vector<3> pos_inplane_m;
+  math::Vector<3> pos_inplane_m;
   pos_inplane_m[0] = a_m * (cos_u - e);
   pos_inplane_m[1] = a_sqrt_e_m * sin_u;
   pos_inplane_m[2] = 0.0;
 
-  libra::Vector<3> vel_inplane_m_s;
+  math::Vector<3> vel_inplane_m_s;
   vel_inplane_m_s[0] = -1.0 * a_m * n_rad_s * sin_u / e_cos_u;
   vel_inplane_m_s[1] = n_rad_s * a_sqrt_e_m * cos_u / e_cos_u;
   vel_inplane_m_s[2] = 0.0;

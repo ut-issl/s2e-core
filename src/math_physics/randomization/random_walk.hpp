@@ -24,7 +24,7 @@ class RandomWalk : public libra::OrdinaryDifferentialEquation<N> {
    * @param standard_deviation: Standard deviation of random walk excitation noise
    * @param limit: Limit of random walk
    */
-  RandomWalk(double step_width_s, const libra::Vector<N>& standard_deviation, const libra::Vector<N>& limit);
+  RandomWalk(double step_width_s, const math::Vector<N>& standard_deviation, const math::Vector<N>& limit);
 
   /**
    * @fn DerivativeFunction
@@ -33,10 +33,10 @@ class RandomWalk : public libra::OrdinaryDifferentialEquation<N> {
    * @param [in] state: State vector
    * @param [out] rhs: Differentiated value of state vector
    */
-  virtual void DerivativeFunction(double x, const libra::Vector<N>& state, libra::Vector<N>& rhs);
+  virtual void DerivativeFunction(double x, const math::Vector<N>& state, math::Vector<N>& rhs);
 
  private:
-  libra::Vector<N> limit_;                  //!< Limit of random walk
+  math::Vector<N> limit_;                  //!< Limit of random walk
   libra::NormalRand normal_randomizer_[N];  //!< Random walk excitation noise
 };
 

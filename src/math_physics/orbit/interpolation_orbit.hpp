@@ -30,7 +30,7 @@ class InterpolationOrbit {
    * @param [in] time: time of the new data
    * @param [in] position: Satellite position of the new data
    */
-  bool PushAndPopData(const double time, const libra::Vector<3> position);
+  bool PushAndPopData(const double time, const math::Vector<3> position);
 
   /**
    * @fn CalcPositionWithTrigonometric
@@ -39,7 +39,7 @@ class InterpolationOrbit {
    * @param [in] period: Characteristic period
    * @return Calculated position
    */
-  libra::Vector<3> CalcPositionWithTrigonometric(const double time, const double period = 0.0) const;
+  math::Vector<3> CalcPositionWithTrigonometric(const double time, const double period = 0.0) const;
 
   // Getters
   /**

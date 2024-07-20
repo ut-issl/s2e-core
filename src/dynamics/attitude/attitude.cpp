@@ -8,13 +8,13 @@
 
 Attitude::Attitude(const math::Matrix<3, 3>& inertia_tensor_kgm2, const std::string& simulation_object_name)
     : SimulationObject(simulation_object_name), inertia_tensor_kgm2_(inertia_tensor_kgm2) {
-  angular_velocity_b_rad_s_ = libra::Vector<3>(0.0);
+  angular_velocity_b_rad_s_ = math::Vector<3>(0.0);
   quaternion_i2b_ = libra::Quaternion(0.0, 0.0, 0.0, 1.0);
-  torque_b_Nm_ = libra::Vector<3>(0.0);
-  angular_momentum_spacecraft_b_Nms_ = libra::Vector<3>(0.0);
-  angular_momentum_reaction_wheel_b_Nms_ = libra::Vector<3>(0.0);
-  angular_momentum_total_b_Nms_ = libra::Vector<3>(0.0);
-  angular_momentum_total_i_Nms_ = libra::Vector<3>(0.0);
+  torque_b_Nm_ = math::Vector<3>(0.0);
+  angular_momentum_spacecraft_b_Nms_ = math::Vector<3>(0.0);
+  angular_momentum_reaction_wheel_b_Nms_ = math::Vector<3>(0.0);
+  angular_momentum_total_b_Nms_ = math::Vector<3>(0.0);
+  angular_momentum_total_i_Nms_ = math::Vector<3>(0.0);
   angular_momentum_total_Nms_ = 0.0;
   kinetic_energy_J_ = 0.0;
 }
@@ -57,7 +57,7 @@ void Attitude::CalcAngularMomentum(void) {
   kinetic_energy_J_ = 0.5 * libra::InnerProduct(angular_momentum_spacecraft_b_Nms_, angular_velocity_b_rad_s_);
 }
 
-math::Matrix<4, 4> CalcAngularVelocityMatrix(libra::Vector<3> angular_velocity_b_rad_s) {
+math::Matrix<4, 4> CalcAngularVelocityMatrix(math::Vector<3> angular_velocity_b_rad_s) {
   math::Matrix<4, 4> angular_velocity_matrix;
 
   angular_velocity_matrix[0][0] = 0.0f;

@@ -15,7 +15,7 @@ TEST(MatrixVector, MultiplyMatrixVector) {
   const size_t C = 2;
 
   math::Matrix<R, C> m;
-  libra::Vector<C> v;
+  math::Vector<C> v;
 
   m[0][0] = 1.0;
   m[0][1] = 2.0;
@@ -27,7 +27,7 @@ TEST(MatrixVector, MultiplyMatrixVector) {
   v[0] = 7.0;
   v[1] = 1.0;
 
-  libra::Vector<R> result = m * v;
+  math::Vector<R> result = m * v;
 
   EXPECT_DOUBLE_EQ(9.0, result[0]);
   EXPECT_DOUBLE_EQ(-7.0, result[1]);

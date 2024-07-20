@@ -13,7 +13,7 @@
 
 ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                              const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
-                             const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
+                             const libra::Quaternion quaternion_b2c, const math::Vector<3> position_b_m, const double dead_time_s,
                              const double time_constant_s, const std::vector<double> friction_coefficients,
                              const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
                              const int fast_prescaler, ReactionWheelJitter& rw_jitter, bool drive_flag, const double init_velocity_rad_s)
@@ -40,7 +40,7 @@ ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generato
 
 ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                              const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
-                             const libra::Quaternion quaternion_b2c, const libra::Vector<3> position_b_m, const double dead_time_s,
+                             const libra::Quaternion quaternion_b2c, const math::Vector<3> position_b_m, const double dead_time_s,
                              const double time_constant_s, const std::vector<double> friction_coefficients,
                              const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
                              const int fast_prescaler, ReactionWheelJitter& rw_jitter, const bool drive_flag, const double init_velocity_rad_s)
@@ -66,7 +66,7 @@ ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generato
 }
 
 void ReactionWheel::Initialize() {
-  rotation_axis_c_ = libra::Vector<3>(0.0);
+  rotation_axis_c_ = math::Vector<3>(0.0);
   rotation_axis_c_[2] = 1.0;
   rotation_axis_b_ = quaternion_b2c_.InverseFrameConversion(rotation_axis_c_);
 
@@ -99,7 +99,7 @@ void ReactionWheel::FastUpdate() {
   }
 }
 
-libra::Vector<3> ReactionWheel::CalcTorque() {
+math::Vector<3> ReactionWheel::CalcTorque() {
   if (!drive_flag_)  // RW idle mode -> coasting mode
   {
     // Clear delay buffer
@@ -116,7 +116,7 @@ libra::Vector<3> ReactionWheel::CalcTorque() {
     if (abs_angular_velocity_rad_s < stop_limit_angular_velocity_rad_s_) {
       // Stop rotation
       rotation_direction = 0.0;
-      libra::Vector<1> zero_rad_s{0.0};
+      math::Vector<1> zero_rad_s{0.0};
       ode_angular_velocity_.Setup(0.0, zero_rad_s);
     } else if (angular_velocity_rad_s_ > 0.0) {
       rotation_direction = -1.0;
@@ -150,7 +150,7 @@ libra::Vector<3> ReactionWheel::CalcTorque() {
   return output_torque_b_Nm_;
 }
 
-const libra::Vector<3> ReactionWheel::GetOutputTorque_b_Nm() const {
+const math::Vector<3> ReactionWheel::GetOutputTorque_b_Nm() const {
   if (is_calculated_jitter_) {
     // Add jitter_force_b_N_-derived torque and jitter_torque_b_Nm_ to output_torque_b
     return output_torque_b_Nm_ - libra::OuterProduct(position_b_m_, rw_jitter_.GetJitterForce_b_N()) - rw_jitter_.GetJitterTorque_b_Nm();
@@ -159,11 +159,11 @@ const libra::Vector<3> ReactionWheel::GetOutputTorque_b_Nm() const {
   }
 }
 
-const libra::Vector<3> ReactionWheel::GetJitterForce_b_N() const {
+const math::Vector<3> ReactionWheel::GetJitterForce_b_N() const {
   if (is_calculated_jitter_) {
     return rw_jitter_.GetJitterForce_b_N();
   } else {
-    libra::Vector<3> zero{0.0};
+    math::Vector<3> zero{0.0};
     return zero;
   }
 }
@@ -239,7 +239,7 @@ double max_torque_Nm;
 double max_velocity_rpm;
 // Mounting
 libra::Quaternion quaternion_b2c;
-libra::Vector<3> position_b_m;
+math::Vector<3> position_b_m;
 // Time delay
 double dead_time_s;
 double time_constant_s;
@@ -279,9 +279,9 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
     rw_ini_file.ReadQuaternion(rw_section, "quaternion_b2c", quaternion_b2c);
   } else  // direction_determination_mode == "DIRECTION"
   {
-    libra::Vector<3> direction_b;
+    math::Vector<3> direction_b;
     rw_ini_file.ReadVector(rw_section, "direction_b", direction_b);
-    libra::Vector<3> direction_c(0.0);
+    math::Vector<3> direction_c(0.0);
     direction_c[2] = 1.0;
     libra::Quaternion q(direction_b, direction_c);
     quaternion_b2c = q.Conjugate();

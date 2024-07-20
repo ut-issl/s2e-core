@@ -82,14 +82,14 @@ class HipparcosCatalogue : public ILoggable {
    *@brief Return direction vector of a star in the inertial frame
    *@param [in] rank: Rank of star magnitude in read catalogue
    */
-  libra::Vector<3> GetStarDirection_i(size_t rank) const;
+  math::Vector<3> GetStarDirection_i(size_t rank) const;
   /**
    *@fn GetStarDir_b
    *@brief Return direction vector of a star in the body-fixed frame
    *@param [in] rank: Rank of star magnitude in read catalogue
    *@param [in] quaternion_i2b: Quaternion from the inertial frame to the body-fixed frame
    */
-  libra::Vector<3> GetStarDirection_b(size_t rank, libra::Quaternion quaternion_i2b) const;
+  math::Vector<3> GetStarDirection_b(size_t rank, libra::Quaternion quaternion_i2b) const;
 
   // Override ILoggable
   /**

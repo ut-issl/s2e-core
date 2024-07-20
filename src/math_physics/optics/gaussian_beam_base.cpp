@@ -28,9 +28,9 @@ void GaussianBeamBase::SetTotalPower_W(const double total_power_W) {
   total_power_W_ = total_power_W;
 }
 
-void GaussianBeamBase::SetPointingVector_i(const libra::Vector<3> pointing_vector_i) { pointing_vector_i_ = pointing_vector_i; }
+void GaussianBeamBase::SetPointingVector_i(const math::Vector<3> pointing_vector_i) { pointing_vector_i_ = pointing_vector_i; }
 
-void GaussianBeamBase::SetBeamWaistPosition_i_m(const libra::Vector<3> position_beam_waist_i_m) {
+void GaussianBeamBase::SetBeamWaistPosition_i_m(const math::Vector<3> position_beam_waist_i_m) {
   position_beam_waist_i_m_ = position_beam_waist_i_m;
 }
 
