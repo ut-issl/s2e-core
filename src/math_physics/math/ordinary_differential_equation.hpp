@@ -8,7 +8,7 @@
 
 #include "./vector.hpp"
 
-namespace libra {
+namespace math
 
 /**
  * @class OrdinaryDifferentialEquation

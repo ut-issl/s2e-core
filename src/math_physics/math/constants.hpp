@@ -8,7 +8,7 @@
 
 #include <type_traits>  // std::is_floating_point_v
 
-namespace libra {
+namespace math
 
 // instead of C++20 std::numbers
 inline namespace numbers {

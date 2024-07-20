@@ -8,7 +8,7 @@
 
 #include <cmath>
 
-namespace libra {
+namespace math
 
 template <size_t N, typename T>
 Vector<N, T>::Vector(const T& n) {

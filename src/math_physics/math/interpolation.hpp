@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 
-namespace libra {
+namespace math
 
 /**
  * @class Interpolation
