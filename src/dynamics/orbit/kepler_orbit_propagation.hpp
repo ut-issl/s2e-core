@@ -13,7 +13,7 @@
  * @class KeplerOrbitPropagation
  * @brief Class to propagate spacecraft orbit with Kepler equation
  */
-class KeplerOrbitPropagation : public Orbit, public KeplerOrbit {
+class KeplerOrbitPropagation : public Orbit, public orbit::KeplerOrbit {
  public:
   // Initialize with orbital elements
   /**
@@ -23,7 +23,7 @@ class KeplerOrbitPropagation : public Orbit, public KeplerOrbit {
    * @param [in] current_time_jd: Current Julian day [day]
    * @param [in] kepler_orbit: Kepler orbit
    */
-  KeplerOrbitPropagation(const CelestialInformation* celestial_information, const double current_time_jd, KeplerOrbit kepler_orbit);
+  KeplerOrbitPropagation(const CelestialInformation* celestial_information, const double current_time_jd, orbit::KeplerOrbit kepler_orbit);
   /**
    * @fn ~KeplerOrbitPropagation
    * @brief Destructor
