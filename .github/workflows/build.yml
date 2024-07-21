@@ -120,6 +120,11 @@ jobs:
           cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DINI_FILE_DIR_FROM_EXE=../settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
+      - name: fix simulation config
+        working-directory: ./settings
+        run: |
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
+
       - name: run simulation(SampleSat)
         if: matrix.build_bit == 'BUILD_64BIT=OFF' || (matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF')
         working-directory: ./Debug
@@ -208,7 +213,7 @@ jobs:
       - name: fix simulation config
         working-directory: ./settings
         run: |
-          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
 
       - name: run simulation(SampleSat)
         working-directory: ./
