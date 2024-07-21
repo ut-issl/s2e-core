@@ -109,7 +109,7 @@ jobs:
         shell: cmd
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DINI_FILE_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: build 64bit
@@ -117,20 +117,20 @@ jobs:
         shell: cmd
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DINI_FILE_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
         shell: bash
         working-directory: ./settings
         run: |
-          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
 
       - name: run simulation(SampleSat)
         if: matrix.build_bit == 'BUILD_64BIT=OFF' || (matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF')
-        working-directory: ./data/sample
+        working-directory: ./
         run: |
-          ..\..\Debug\S2E.exe
+          .\Debug\S2E.exe
 
   build_s2e_linux:
     name: Build on Linux
@@ -149,8 +149,8 @@ jobs:
         run: |
           COMPILER="${{ matrix.compiler }}"
           read -r -a COMPILER <<< "$COMPILER"
-          echo "::set-output name=CC::${COMPILER[0]}"
-          echo "::set-output name=CXX::${COMPILER[1]}"
+          echo "CC=${COMPILER[0]}" >> "$GITHUB_OUTPUT"
+          echo "CXX=${COMPILER[1]}" >> "$GITHUB_OUTPUT"
 
       - name: install deps
         run: |
@@ -208,25 +208,25 @@ jobs:
           CC:  ${{ steps.compiler.outputs.CC  }}
           CXX: ${{ steps.compiler.outputs.CXX }}
         run: |
-          cmake . -DEXT_LIB_DIR=./ExtLibraries -D${{ matrix.build_bit }}
+          cmake . -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DINI_FILE_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
         working-directory: ./settings
         run: |
-          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
 
       - name: run simulation(SampleSat)
-        working-directory: ./data/sample
+        working-directory: ./
         run: |
-          ../../S2E
+          ./S2E
 
       - name: generate graph
         working-directory: ./scripts/Plot
         run: |
           sudo apt-get install -y gnuplot
           pip3 install yq
-          LOG=$(ls ../../data/sample/logs/logs_*/*.csv)
+          LOG=$(ls ../../logs/logs_*/*.csv)
           echo "plot $LOG"
           ./gen_graph.sh "${LOG}"
           ls
