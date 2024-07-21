@@ -121,6 +121,7 @@ jobs:
           cmake --build .
 
       - name: fix simulation config
+        shell: bash
         working-directory: ./settings
         run: |
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
