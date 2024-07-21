@@ -123,7 +123,7 @@ jobs:
       - name: fix simulation config
         working-directory: ./settings
         run: |
-          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/..\/logs/g' {} \;
 
       - name: run simulation(SampleSat)
         if: matrix.build_bit == 'BUILD_64BIT=OFF' || (matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF')
