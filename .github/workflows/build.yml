@@ -122,6 +122,7 @@ jobs:
 
       - name: run simulation(SampleSat)
         if: matrix.build_bit == 'BUILD_64BIT=OFF' || (matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF')
+        working-directory: ./
         run: |
           .\Debug\S2E.exe
 
@@ -201,7 +202,7 @@ jobs:
           CC:  ${{ steps.compiler.outputs.CC  }}
           CXX: ${{ steps.compiler.outputs.CXX }}
         run: |
-          cmake . -DEXT_LIB_DIR=./ExtLibraries -D${{ matrix.build_bit }}
+          cmake . -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
@@ -212,7 +213,7 @@ jobs:
       - name: run simulation(SampleSat)
         working-directory: ./
         run: |
-          S2E
+          ./S2E
 
       - name: generate graph
         working-directory: ./scripts/Plot
