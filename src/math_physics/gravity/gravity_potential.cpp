@@ -10,6 +10,8 @@
 #include <fstream>
 #include <iostream>
 
+namespace gravity {
+
 GravityPotential::GravityPotential(const size_t degree, const std::vector<std::vector<double>> cosine_coefficients,
                                    const std::vector<std::vector<double>> sine_coefficients, const double gravity_constants_m3_s2,
                                    const double center_body_radius_m)
@@ -26,8 +28,8 @@ GravityPotential::GravityPotential(const size_t degree, const std::vector<std::v
   // TODO Check size
 }
 
-libra::Vector<3> GravityPotential::CalcAcceleration_xcxf_m_s2(const libra::Vector<3> &position_xcxf_m) {
-  libra::Vector<3> acceleration_xcxf_m_s2(0.0);
+math::Vector<3> GravityPotential::CalcAcceleration_xcxf_m_s2(const math::Vector<3> &position_xcxf_m) {
+  math::Vector<3> acceleration_xcxf_m_s2(0.0);
   if (degree_ <= 0) return acceleration_xcxf_m_s2;  // TODO: Consider this assertion is needed
 
   xcxf_x_m_ = position_xcxf_m[0];
@@ -93,8 +95,8 @@ libra::Vector<3> GravityPotential::CalcAcceleration_xcxf_m_s2(const libra::Vecto
   return acceleration_xcxf_m_s2;
 }
 
-libra::Matrix<3, 3> GravityPotential::CalcPartialDerivative_xcxf_s2(const libra::Vector<3> &position_xcxf_m) {
-  libra::Matrix<3, 3> partial_derivative(0.0);
+math::Matrix<3, 3> GravityPotential::CalcPartialDerivative_xcxf_s2(const math::Vector<3> &position_xcxf_m) {
+  math::Matrix<3, 3> partial_derivative(0.0);
   if (degree_ <= 0) return partial_derivative;
 
   xcxf_x_m_ = position_xcxf_m[0];
@@ -275,3 +277,5 @@ void GravityPotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_
   *w_nm = c_normalize * (c1 * z_tmp * w_prev - c2 * c2_normalize * re_tmp * w_prev2);
   return;
 }
+
+}  // namespace gravity

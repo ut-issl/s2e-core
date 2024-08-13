@@ -7,6 +7,8 @@
 #include "../math/matrix_vector.hpp"
 #include "../math/s2e_math.hpp"
 
+namespace orbit {
+
 KeplerOrbit::KeplerOrbit() {}
 // Initialize with orbital elements
 KeplerOrbit::KeplerOrbit(const double gravity_constant_m3_s2, const OrbitalElements oe) : gravity_constant_m3_s2_(gravity_constant_m3_s2), oe_(oe) {
@@ -22,10 +24,10 @@ void KeplerOrbit::CalcConstKeplerMotion() {
   mean_motion_rad_s_ = sqrt(gravity_constant_m3_s2_ / a_m3);
 
   // DCM
-  libra::Matrix<3, 3> dcm_arg_perigee = libra::MakeRotationMatrixZ(-1.0 * oe_.GetArgPerigee_rad());
-  libra::Matrix<3, 3> dcm_inclination = libra::MakeRotationMatrixX(-1.0 * oe_.GetInclination_rad());
-  libra::Matrix<3, 3> dcm_raan = libra::MakeRotationMatrixZ(-1.0 * oe_.GetRaan_rad());
-  libra::Matrix<3, 3> dcm_inc_arg = dcm_inclination * dcm_arg_perigee;
+  math::Matrix<3, 3> dcm_arg_perigee = math::MakeRotationMatrixZ(-1.0 * oe_.GetArgPerigee_rad());
+  math::Matrix<3, 3> dcm_inclination = math::MakeRotationMatrixX(-1.0 * oe_.GetInclination_rad());
+  math::Matrix<3, 3> dcm_raan = math::MakeRotationMatrixZ(-1.0 * oe_.GetRaan_rad());
+  math::Matrix<3, 3> dcm_inc_arg = dcm_inclination * dcm_arg_perigee;
   dcm_inplane_to_i_ = dcm_raan * dcm_inc_arg;
 }
 
@@ -37,12 +39,12 @@ void KeplerOrbit::CalcOrbit(double time_jday) {
   double dt_s = (time_jday - oe_.GetEpoch_jday()) * (24.0 * 60.0 * 60.0);
 
   double mean_anomaly_rad = mean_motion_rad_s_ * dt_s;
-  double l_rad = libra::WrapTo2Pi(mean_anomaly_rad);
+  double l_rad = math::WrapTo2Pi(mean_anomaly_rad);
 
   // Solve Kepler Equation
   double eccentric_anomaly_rad;
   eccentric_anomaly_rad = SolveKeplerNewtonMethod(e, l_rad, 1.0e-5, 10);
-  double u_rad = libra::WrapTo2Pi(eccentric_anomaly_rad);
+  double u_rad = math::WrapTo2Pi(eccentric_anomaly_rad);
 
   // Calc position and velocity in the plane
   double cos_u = cos(u_rad);
@@ -50,12 +52,12 @@ void KeplerOrbit::CalcOrbit(double time_jday) {
   double a_sqrt_e_m = a_m * sqrt(1.0 - e * e);
   double e_cos_u = 1.0 - e * cos_u;
 
-  libra::Vector<3> pos_inplane_m;
+  math::Vector<3> pos_inplane_m;
   pos_inplane_m[0] = a_m * (cos_u - e);
   pos_inplane_m[1] = a_sqrt_e_m * sin_u;
   pos_inplane_m[2] = 0.0;
 
-  libra::Vector<3> vel_inplane_m_s;
+  math::Vector<3> vel_inplane_m_s;
   vel_inplane_m_s[0] = -1.0 * a_m * n_rad_s * sin_u / e_cos_u;
   vel_inplane_m_s[1] = n_rad_s * a_sqrt_e_m * cos_u / e_cos_u;
   vel_inplane_m_s[2] = 0.0;
@@ -97,3 +99,5 @@ double KeplerOrbit::SolveKeplerNewtonMethod(const double eccentricity, const dou
   }
   return u_rad;
 }
+
+}  // namespace orbit

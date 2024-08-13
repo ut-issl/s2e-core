@@ -8,7 +8,7 @@
 
 #include <cmath>
 
-namespace libra {
+namespace math {
 
 /**
  * @fn WrapTo2Pi
@@ -17,6 +17,6 @@ namespace libra {
  */
 double WrapTo2Pi(const double angle_rad);
 
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_MATH_S2E_MATH_HPP_

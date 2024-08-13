@@ -10,22 +10,24 @@
 
 #include <math_physics/math/constants.hpp>
 
-libra::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const libra::Vector<3> moon_position_eci_m, const libra::Vector<3> moon_velocity_eci_m_s) {
-  libra::Matrix<3, 3> dcm_eci2me = CalcDcmEciToMeanEarth(moon_position_eci_m, moon_velocity_eci_m_s);
-  libra::Matrix<3, 3> dcm_me2pa = CalcDcmMeanEarthToPrincipalAxis();
+namespace planet_rotation {
+
+math::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const math::Vector<3> moon_position_eci_m, const math::Vector<3> moon_velocity_eci_m_s) {
+  math::Matrix<3, 3> dcm_eci2me = CalcDcmEciToMeanEarth(moon_position_eci_m, moon_velocity_eci_m_s);
+  math::Matrix<3, 3> dcm_me2pa = CalcDcmMeanEarthToPrincipalAxis();
 
   return dcm_me2pa * dcm_eci2me;
 }
 
-libra::Matrix<3, 3> CalcDcmEciToMeanEarth(const libra::Vector<3> moon_position_eci_m, const libra::Vector<3> moon_velocity_eci_m_s) {
-  libra::Vector<3> me_ex_eci = -1.0 * moon_position_eci_m.CalcNormalizedVector();
+math::Matrix<3, 3> CalcDcmEciToMeanEarth(const math::Vector<3> moon_position_eci_m, const math::Vector<3> moon_velocity_eci_m_s) {
+  math::Vector<3> me_ex_eci = -1.0 * moon_position_eci_m.CalcNormalizedVector();
 
-  libra::Vector<3> moon_orbit_norm = libra::OuterProduct(moon_position_eci_m, moon_velocity_eci_m_s);
-  libra::Vector<3> me_ez_eci = moon_orbit_norm.CalcNormalizedVector();
+  math::Vector<3> moon_orbit_norm = math::OuterProduct(moon_position_eci_m, moon_velocity_eci_m_s);
+  math::Vector<3> me_ez_eci = moon_orbit_norm.CalcNormalizedVector();
 
-  libra::Vector<3> me_ey_eci = libra::OuterProduct(me_ez_eci, me_ex_eci);
+  math::Vector<3> me_ey_eci = math::OuterProduct(me_ez_eci, me_ex_eci);
 
-  libra::Matrix<3, 3> dcm_eci_to_me;
+  math::Matrix<3, 3> dcm_eci_to_me;
   for (size_t i = 0; i < 3; i++) {
     dcm_eci_to_me[0][i] = me_ex_eci[i];
     dcm_eci_to_me[1][i] = me_ey_eci[i];
@@ -35,14 +37,16 @@ libra::Matrix<3, 3> CalcDcmEciToMeanEarth(const libra::Vector<3> moon_position_e
   return dcm_eci_to_me;
 }
 
-libra::Matrix<3, 3> CalcDcmMeanEarthToPrincipalAxis() {
+math::Matrix<3, 3> CalcDcmMeanEarthToPrincipalAxis() {
   // The correction values between DE430 Principal Axis and Mean Earth frame
-  const double theta_x_rad = 0.285 * libra::arcsec_to_rad;
-  const double theta_y_rad = 78.580 * libra::arcsec_to_rad;
-  const double theta_z_rad = 67.573 * libra::arcsec_to_rad;
+  const double theta_x_rad = 0.285 * math::arcsec_to_rad;
+  const double theta_y_rad = 78.580 * math::arcsec_to_rad;
+  const double theta_z_rad = 67.573 * math::arcsec_to_rad;
 
-  libra::Matrix<3, 3> dcm_me_pa =
-      libra::MakeRotationMatrixZ(theta_z_rad) * libra::MakeRotationMatrixY(theta_y_rad) * libra::MakeRotationMatrixX(theta_x_rad);
+  math::Matrix<3, 3> dcm_me_pa =
+      math::MakeRotationMatrixZ(theta_z_rad) * math::MakeRotationMatrixY(theta_y_rad) * math::MakeRotationMatrixX(theta_x_rad);
 
   return dcm_me_pa;
 }
+
+}  // namespace planet_rotation

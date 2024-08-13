@@ -71,15 +71,15 @@ class TorqueGenerator : public Component, public ILoggable {
    * @fn SetTorque_b_Nm
    * @brief Set ordered torque in the body fixed frame [Nm]
    */
-  inline void SetTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { ordered_torque_b_Nm_ = torque_b_Nm; };
+  inline void SetTorque_b_Nm(const math::Vector<3> torque_b_Nm) { ordered_torque_b_Nm_ = torque_b_Nm; };
 
  protected:
-  libra::Vector<3> ordered_torque_b_Nm_{0.0};    //!< Ordered torque in the body fixed frame [Nm]
-  libra::Vector<3> generated_torque_b_Nm_{0.0};  //!< Generated torque in the body fixed frame [Nm]
+  math::Vector<3> ordered_torque_b_Nm_{0.0};    //!< Ordered torque in the body fixed frame [Nm]
+  math::Vector<3> generated_torque_b_Nm_{0.0};  //!< Generated torque in the body fixed frame [Nm]
 
   // Noise
-  libra::NormalRand magnitude_noise_;              //!< Normal random for magnitude noise
-  libra::NormalRand direction_noise_;              //!< Normal random for direction noise
+  randomization::NormalRand magnitude_noise_;      //!< Normal random for magnitude noise
+  randomization::NormalRand direction_noise_;      //!< Normal random for direction noise
   double direction_error_standard_deviation_rad_;  //!< Standard deviation of direction error [rad]
 
   /**
@@ -88,7 +88,7 @@ class TorqueGenerator : public Component, public ILoggable {
    * @param [in] true_direction: True direction
    * @param [in] error_standard_deviation_rad: Standard deviation of direction error [rad]
    */
-  libra::Quaternion GenerateDirectionNoiseQuaternion(libra::Vector<3> true_direction, const double error_standard_deviation_rad);
+  math::Quaternion GenerateDirectionNoiseQuaternion(math::Vector<3> true_direction, const double error_standard_deviation_rad);
 
   const Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };

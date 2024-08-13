@@ -11,11 +11,13 @@
 #include <fstream>
 #include <iostream>
 
+namespace gnss {
+
 Sp3FileReader::Sp3FileReader(const std::string file_name) { ReadFile(file_name); }
 
-DateTime Sp3FileReader::GetEpochData(const size_t epoch_id) const {
+time_system::DateTime Sp3FileReader::GetEpochData(const size_t epoch_id) const {
   if (epoch_id > epoch_.size()) {
-    DateTime zero;
+    time_system::DateTime zero;
     return zero;
   }
   return epoch_[epoch_id];
@@ -38,7 +40,7 @@ double Sp3FileReader::GetSatelliteClockOffset(const size_t epoch_id, const size_
   return position_clock.clock_us_;
 }
 
-libra::Vector<3> Sp3FileReader::GetSatellitePosition_km(const size_t epoch_id, const size_t satellite_id) {
+math::Vector<3> Sp3FileReader::GetSatellitePosition_km(const size_t epoch_id, const size_t satellite_id) {
   Sp3PositionClock position_clock = GetPositionClock(epoch_id, satellite_id);
   return position_clock.position_km_;
 }
@@ -67,7 +69,7 @@ bool Sp3FileReader::ReadFile(const std::string file_name) {
     size_t year, month, day, hour, minute;
     double second;
     sscanf(line.substr(3, 28).c_str(), "%zu %2zu %2zu %2zu %2zu %12lf", &year, &month, &day, &hour, &minute, &second);
-    epoch_.push_back(DateTime(year, month, day, hour, minute, second));
+    epoch_.push_back(time_system::DateTime(year, month, day, hour, minute, second));
 
     // Orbit and Clock information
     for (size_t satellite_id = 0; satellite_id < header_.number_of_satellites_; satellite_id++) {
@@ -115,7 +117,7 @@ bool Sp3FileReader::ReadFile(const std::string file_name) {
   }
 
   // Test
-  DateTime test = epoch_[0];
+  time_system::DateTime test = epoch_[0];
   test = epoch_[1];
   std::vector<Sp3PositionClock> test_p = position_clock_[0];
   test_p = position_clock_[1];
@@ -124,7 +126,7 @@ bool Sp3FileReader::ReadFile(const std::string file_name) {
   return true;
 }
 
-size_t Sp3FileReader::SearchNearestEpochId(const EpochTime time) {
+size_t Sp3FileReader::SearchNearestEpochId(const time_system::EpochTime time) {
   size_t nearest_epoch_id = 0;
 
   // Get header info
@@ -132,10 +134,10 @@ size_t Sp3FileReader::SearchNearestEpochId(const EpochTime time) {
   const double interval_s = header_.epoch_interval_s_;
 
   // Check range
-  EpochTime start_epoch(epoch_[0]);
+  time_system::EpochTime start_epoch(epoch_[0]);
   if (start_epoch > time) {
     nearest_epoch_id = 0;
-  } else if ((EpochTime)(epoch_[num_epoch - 1]) < time) {
+  } else if ((time_system::EpochTime)(epoch_[num_epoch - 1]) < time) {
     nearest_epoch_id = num_epoch - 1;
   } else {  // Calc nearest point
     double diff_s = time.GetTimeWithFraction_s() - start_epoch.GetTimeWithFraction_s();
@@ -169,7 +171,7 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
   size_t year, month, day, hour, minute;
   double second;
   sscanf(line.substr(3, 28).c_str(), "%zu %2zu %2zu %2zu %2zu %12lf", &year, &month, &day, &hour, &minute, &second);
-  header_.start_epoch_ = DateTime(year, month, day, hour, minute, second);
+  header_.start_epoch_ = time_system::DateTime(year, month, day, hour, minute, second);
   header_.number_of_epoch_ = std::stoi(line.substr(32, 7));
   header_.used_data_ = line.substr(40, 5);
   header_.coordinate_system_ = line.substr(46, 5);
@@ -197,7 +199,7 @@ size_t Sp3FileReader::ReadHeader(std::ifstream& sp3_file) {
     return 0;
   }
   // Read contents
-  header_.start_gps_time_ = GpsTime(std::stoi(line.substr(3, 4)), std::stod(line.substr(8, 15)));
+  header_.start_gps_time_ = time_system::GpsTime(std::stoi(line.substr(3, 4)), std::stod(line.substr(8, 15)));
   header_.epoch_interval_s_ = std::stod(line.substr(24, 14));
   header_.start_time_mjday_ = std::stoi(line.substr(39, 5));
   header_.start_time_mjday_fractional_day_ = std::stod(line.substr(45, 15));
@@ -312,7 +314,7 @@ Sp3PositionClock Sp3FileReader::DecodePositionClockData(std::string line) {
   position_clock.satellite_id_ = line.substr(1, 3);
 
   // Position and clock
-  libra::Vector<3> position_km;
+  math::Vector<3> position_km;
   for (size_t axis = 0; axis < 3; axis++) {
     position_km[axis] = stod(line.substr(4 + axis * 14, 14));
   }
@@ -321,7 +323,7 @@ Sp3PositionClock Sp3FileReader::DecodePositionClockData(std::string line) {
 
   // Standard deviations
   if (line.size() > 61) {
-    libra::Vector<3> position_standard_deviation;
+    math::Vector<3> position_standard_deviation;
     for (size_t axis = 0; axis < 3; axis++) {
       try {
         position_standard_deviation[axis] = stod(line.substr(61 + axis * 3, 2));
@@ -382,7 +384,7 @@ Sp3VelocityClockRate Sp3FileReader::DecodeVelocityClockRateData(std::string line
   velocity_clock_rate.satellite_id_ = line.substr(1, 3);
 
   // Velocity and clock rate
-  libra::Vector<3> velocity_dm_s;
+  math::Vector<3> velocity_dm_s;
   for (size_t axis = 0; axis < 3; axis++) {
     velocity_dm_s[axis] = stod(line.substr(4 + axis * 14, 14));
   }
@@ -391,7 +393,7 @@ Sp3VelocityClockRate Sp3FileReader::DecodeVelocityClockRateData(std::string line
 
   // Standard deviations
   if (line.size() > 60) {
-    libra::Vector<3> velocity_standard_deviation;
+    math::Vector<3> velocity_standard_deviation;
     for (size_t axis = 0; axis < 3; axis++) {
       velocity_standard_deviation[axis] = stod(line.substr(61 + axis * 2, 2));
     }
@@ -419,3 +421,5 @@ Sp3VelocityClockRateCorrelation Sp3FileReader::DecodeVelocityClockRateCorrelatio
 
   return correlation;
 }
+
+}  // namespace gnss

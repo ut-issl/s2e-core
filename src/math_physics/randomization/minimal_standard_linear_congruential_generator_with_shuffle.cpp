@@ -5,7 +5,7 @@
  */
 
 #include "minimal_standard_linear_congruential_generator_with_shuffle.hpp"
-using libra::MinimalStandardLcgWithShuffle;
+using randomization::MinimalStandardLcgWithShuffle;
 
 MinimalStandardLcgWithShuffle::MinimalStandardLcgWithShuffle() : table_position_(0) { Initialize(); }
 

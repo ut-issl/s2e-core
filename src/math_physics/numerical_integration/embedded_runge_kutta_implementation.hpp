@@ -7,22 +7,22 @@
 
 #include "embedded_runge_kutta.hpp"
 
-namespace libra::numerical_integration {
+namespace numerical_integration {
 
 template <size_t N>
 void EmbeddedRungeKutta<N>::Integrate() {
   this->CalcSlope();
 
   this->previous_state_ = this->current_state_;
-  Vector<N> lower_current_state = this->current_state_;   //!< eta in the equation
-  Vector<N> higher_current_state = this->current_state_;  //!< eta_hat in the equation
+  math::Vector<N> lower_current_state = this->current_state_;   //!< eta in the equation
+  math::Vector<N> higher_current_state = this->current_state_;  //!< eta_hat in the equation
   for (size_t i = 0; i < this->number_of_stages_; i++) {
     lower_current_state = lower_current_state + this->weights_[i] * this->step_width_ * this->slope_[i];
     higher_current_state = higher_current_state + higher_order_weights_[i] * this->step_width_ * this->slope_[i];
   }
 
   // Error evaluation
-  Vector<N> truncation_error = lower_current_state - higher_current_state;
+  math::Vector<N> truncation_error = lower_current_state - higher_current_state;
   local_truncation_error_ = truncation_error.CalcNorm();
 
   // State update
@@ -37,6 +37,6 @@ void EmbeddedRungeKutta<N>::ControlStepWidth(const double error_tolerance) {
   this->step_width_ = updated_step_width;
 }
 
-}  // namespace libra::numerical_integration
+}  // namespace numerical_integration
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_EMBEDDED_RUNGE_KUTTA_IMPLEMENTATION_HPP_

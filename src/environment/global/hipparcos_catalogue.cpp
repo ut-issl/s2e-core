@@ -50,10 +50,10 @@ bool HipparcosCatalogue::ReadContents(const std::string& file_name, const char d
   return true;
 }
 
-libra::Vector<3> HipparcosCatalogue::GetStarDirection_i(size_t rank) const {
-  libra::Vector<3> direction_i;
-  double ra_rad = GetRightAscension_deg(rank) * libra::deg_to_rad;
-  double de_rad = GetDeclination_deg(rank) * libra::deg_to_rad;
+math::Vector<3> HipparcosCatalogue::GetStarDirection_i(size_t rank) const {
+  math::Vector<3> direction_i;
+  double ra_rad = GetRightAscension_deg(rank) * math::deg_to_rad;
+  double de_rad = GetDeclination_deg(rank) * math::deg_to_rad;
 
   direction_i[0] = cos(ra_rad) * cos(de_rad);
   direction_i[1] = sin(ra_rad) * cos(de_rad);
@@ -62,9 +62,9 @@ libra::Vector<3> HipparcosCatalogue::GetStarDirection_i(size_t rank) const {
   return direction_i;
 }
 
-libra::Vector<3> HipparcosCatalogue::GetStarDirection_b(size_t rank, libra::Quaternion quaternion_i2b) const {
-  libra::Vector<3> direction_i;
-  libra::Vector<3> direction_b;
+math::Vector<3> HipparcosCatalogue::GetStarDirection_b(size_t rank, math::Quaternion quaternion_i2b) const {
+  math::Vector<3> direction_i;
+  math::Vector<3> direction_b;
 
   direction_i = GetStarDirection_i(rank);
   direction_b = quaternion_i2b.FrameConversion(direction_i);

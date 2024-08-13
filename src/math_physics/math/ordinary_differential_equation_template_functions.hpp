@@ -5,7 +5,7 @@
 #ifndef S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TEMPLATE_FUNCTIONS_HPP_
 #define S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TEMPLATE_FUNCTIONS_HPP_
 
-namespace libra {
+namespace math {
 
 template <size_t N>
 OrdinaryDifferentialEquation<N>::OrdinaryDifferentialEquation(double step_width_s)
@@ -44,6 +44,6 @@ void OrdinaryDifferentialEquation<N>::Update() {
   independent_variable_ += step_width_s_;               // Update independent variable
 }
 
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_MATH_ORDINARY_DIFFERENTIA_EQUATION_TEMPLATE_FUNCTIONS_HPP_

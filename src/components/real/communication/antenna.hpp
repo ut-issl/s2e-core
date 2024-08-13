@@ -8,8 +8,8 @@
 
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/math/vector.hpp>
-using libra::Quaternion;
-using libra::Vector;
+using math::Quaternion;
+using math::Vector;
 #include <vector>
 
 #include "./antenna_radiation_pattern.hpp"
@@ -54,7 +54,7 @@ class Antenna {
    * @param [in] tx_parameters: output, gain, loss_feeder, loss_pointing for TX
    * @param [in] rx_parameters: gain, loss_feeder, loss_pointing, system_temperature for RX
    */
-  Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
+  Antenna(const int component_id, const math::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
           const double frequency_MHz, const Vector<5> tx_parameters, const Vector<4> rx_parameters);
 
   /**
@@ -71,7 +71,7 @@ class Antenna {
    * @param [in] rx_system_noise_temperature_K: Receive system noise temperature [K]
    * @param [in] rx_parameters: RX antenna parameters
    */
-  Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
+  Antenna(const int component_id, const math::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
           const double frequency_MHz, const double tx_bitrate_bps, const double tx_output_power_W, const AntennaParameters tx_parameters,
           const double rx_system_noise_temperature_K, const AntennaParameters rx_parameters);
   /**

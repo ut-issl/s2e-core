@@ -81,27 +81,27 @@ class ForceGenerator : public Component, public ILoggable {
    * @fn SetForce_b_N
    * @brief Set ordered force in the body fixed frame [N]
    */
-  inline void SetForce_b_N(const libra::Vector<3> force_b_N) { ordered_force_b_N_ = force_b_N; };
+  inline void SetForce_b_N(const math::Vector<3> force_b_N) { ordered_force_b_N_ = force_b_N; };
   /**
    * @fn SetForce_i_N
    * @brief Set ordered force in the inertial frame [N]
    */
-  void SetForce_i_N(const libra::Vector<3> force_i_N);
+  void SetForce_i_N(const math::Vector<3> force_i_N);
   /**
    * @fn SetForce_rtn_N
    * @brief Set ordered force in the RTN frame [N]
    */
-  void SetForce_rtn_N(const libra::Vector<3> force_rtn_N);
+  void SetForce_rtn_N(const math::Vector<3> force_rtn_N);
 
  protected:
-  libra::Vector<3> ordered_force_b_N_{0.0};      //!< Ordered force in the body fixed frame [N]
-  libra::Vector<3> generated_force_b_N_{0.0};    //!< Generated force in the body fixed frame [N]
-  libra::Vector<3> generated_force_i_N_{0.0};    //!< Generated force in the inertial frame [N]
-  libra::Vector<3> generated_force_rtn_N_{0.0};  //!< Generated force in the RTN frame [N]
+  math::Vector<3> ordered_force_b_N_{0.0};      //!< Ordered force in the body fixed frame [N]
+  math::Vector<3> generated_force_b_N_{0.0};    //!< Generated force in the body fixed frame [N]
+  math::Vector<3> generated_force_i_N_{0.0};    //!< Generated force in the inertial frame [N]
+  math::Vector<3> generated_force_rtn_N_{0.0};  //!< Generated force in the RTN frame [N]
 
   // Noise
-  libra::NormalRand magnitude_noise_;              //!< Normal random for magnitude noise
-  libra::NormalRand direction_noise_;              //!< Normal random for direction noise
+  randomization::NormalRand magnitude_noise_;      //!< Normal random for magnitude noise
+  randomization::NormalRand direction_noise_;      //!< Normal random for direction noise
   double direction_error_standard_deviation_rad_;  //!< Standard deviation of direction error [rad]
 
   /**
@@ -110,7 +110,7 @@ class ForceGenerator : public Component, public ILoggable {
    * @param [in] true_direction: True direction
    * @param [in] error_standard_deviation_rad: Standard deviation of direction error [rad]
    */
-  libra::Quaternion GenerateDirectionNoiseQuaternion(libra::Vector<3> true_direction, const double error_standard_deviation_rad);
+  math::Quaternion GenerateDirectionNoiseQuaternion(math::Vector<3> true_direction, const double error_standard_deviation_rad);
 
   const Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };

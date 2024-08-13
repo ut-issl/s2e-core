@@ -8,7 +8,7 @@
 
 #include <cmath>
 
-namespace libra {
+namespace math {
 
 template <size_t N, typename T>
 Vector<N, T>::Vector(const T& n) {
@@ -146,6 +146,6 @@ double CalcAngleTwoVectors_rad(const Vector<N, double>& v1, const Vector<N, doub
   return acos(cos);
 }
 
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_MATH_VECTOR_TFS_HPP_

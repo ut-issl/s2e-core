@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 
-namespace libra {
+namespace math {
 
 /**
  * @class Interpolation
@@ -90,6 +90,6 @@ class Interpolation {
   size_t FindNearestPoint(const double x) const;
 };
 
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_MATH_INTERPOLATION_HPP_

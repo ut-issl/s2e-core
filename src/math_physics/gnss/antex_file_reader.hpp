@@ -16,6 +16,8 @@
 #include <string>
 #include <vector>
 
+namespace gnss {
+
 /**
  * @class AntexGridDefinition
  * @brief grid data definition in ANTEX file
@@ -126,7 +128,7 @@ class AntexPhaseCenterData {
    * @fn SetPhaseCenterOffset_mm
    * @param[in] phase_center_offset_mm: Phase center offset vector [mm]
    */
-  inline void SetPhaseCenterOffset_mm(const libra::Vector<3> phase_center_offset_mm) { phase_center_offset_mm_ = phase_center_offset_mm; }
+  inline void SetPhaseCenterOffset_mm(const math::Vector<3> phase_center_offset_mm) { phase_center_offset_mm_ = phase_center_offset_mm; }
   /**
    * @fn SetGridInformation
    * @param[in] grid_information: Grid information
@@ -150,7 +152,7 @@ class AntexPhaseCenterData {
    * @fn GetPhaseCenterOffset_mm
    * @return Phase center offset vector [mm]
    */
-  inline libra::Vector<3> GetPhaseCenterOffset_mm() const { return phase_center_offset_mm_; }
+  inline math::Vector<3> GetPhaseCenterOffset_mm() const { return phase_center_offset_mm_; }
   /**
    * @fn GetGridInformation
    * @return Grid information
@@ -164,7 +166,7 @@ class AntexPhaseCenterData {
 
  private:
   std::string frequency_name_ = "";                                    //!< Frequency name
-  libra::Vector<3> phase_center_offset_mm_{0.0};                       //!< Phase center offset [mm]
+  math::Vector<3> phase_center_offset_mm_{0.0};                        //!< Phase center offset [mm]
   AntexGridDefinition grid_information_;                               //!< Grid information
   std::vector<std::vector<double>> phase_center_variation_matrix_mm_;  //!< Phase center variation [mm] (column, row definition: [azimuth][zenith])
 };
@@ -201,12 +203,12 @@ class AntexSatelliteData {
    * @fn SetValidStartTime
    * @param[in] valid_start_time: Valid start time
    */
-  inline void SetValidStartTime(const DateTime valid_start_time) { valid_start_time_ = valid_start_time; };
+  inline void SetValidStartTime(const time_system::DateTime valid_start_time) { valid_start_time_ = valid_start_time; };
   /**
    * @fn SetValidEndTime
    * @param[in] valid_end_time: Valid end time
    */
-  inline void SetValidEndTime(const DateTime valid_end_time) { valid_end_time_ = valid_end_time; };
+  inline void SetValidEndTime(const time_system::DateTime valid_end_time) { valid_end_time_ = valid_end_time; };
   /**
    * @fn SetNumberOfFrequency
    * @param[in] number_of_frequency: Number of frequency
@@ -233,12 +235,12 @@ class AntexSatelliteData {
    * @fn GetValidStartTime
    * @return Valid start time
    */
-  inline DateTime GetValidStartTime() const { return valid_start_time_; };
+  inline time_system::DateTime GetValidStartTime() const { return valid_start_time_; };
   /**
    * @fn GetValidEndTime
    * @return Valid end time
    */
-  inline DateTime GetValidEndTime() const { return valid_end_time_; };
+  inline time_system::DateTime GetValidEndTime() const { return valid_end_time_; };
   /**
    * @fn GetNumberOfFrequency
    * @return Number of frequency
@@ -254,8 +256,8 @@ class AntexSatelliteData {
  private:
   std::string antenna_type_;                             //!< Antenna type
   std::string serial_number_;                            //!< Serial number or satellite code
-  DateTime valid_start_time_;                            //!< Valid start time
-  DateTime valid_end_time_;                              //!< Valid end time (The latest data does not have the end time)
+  time_system::DateTime valid_start_time_;               //!< Valid start time
+  time_system::DateTime valid_end_time_;                 //!< Valid end time (The latest data does not have the end time)
   size_t number_of_frequency_ = 1;                       //!< Number of frequency
   std::vector<AntexPhaseCenterData> phase_center_data_;  //!< Phase center data for each frequency
 };
@@ -340,7 +342,9 @@ class AntexFileReader {
    * @param[in] line: A single line in ANTEX file
    * @return Read date time
    */
-  DateTime ReadDateTime(std::string line);
+  time_system::DateTime ReadDateTime(std::string line);
 };
+
+}  // namespace gnss
 
 #endif  // S2E_LIBRARY_ANTEX_FILE_READER_HPP_

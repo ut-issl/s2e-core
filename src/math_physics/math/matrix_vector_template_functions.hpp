@@ -8,7 +8,7 @@
 
 #include <stdexcept>  // for invalid_argument.
 
-namespace libra {
+namespace math {
 
 template <size_t R, size_t C, typename TM, typename TC>
 Vector<R, TC> operator*(const Matrix<R, C, TM>& matrix, const Vector<C, TC>& vector) {
@@ -139,6 +139,6 @@ Vector<N>& SolveLinearSystemWithLu(const Matrix<N, N>& a, const size_t index[], 
   return b;
 }
 
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_MATH_MATRIX_VECTOR_TEMPLATE_FUNCTIONS_HPP_

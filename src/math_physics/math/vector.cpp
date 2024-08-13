@@ -7,7 +7,7 @@
 
 #include "constants.hpp"
 
-namespace libra {
+namespace math {
 Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& orthogonal) {
   Vector<3, double> polar;  // vector on the polar coordinate
   polar.FillUp(0.0);
@@ -51,4 +51,4 @@ Vector<3, double> GenerateOrthogonalUnitVector(const Vector<3, double>& v) {
     return (orthogonal_vector);
   }
 }
-}  // namespace libra
+}  // namespace math

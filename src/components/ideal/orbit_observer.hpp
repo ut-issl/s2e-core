@@ -37,7 +37,7 @@ class OrbitObserver : public Component, public ILoggable {
    * @param [in] error_standard_deviation: Position and Velocity standard deviation noise [m, m/s]
    * @param [in] orbit: Orbit information
    */
-  OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const NoiseFrame noise_frame, const libra::Vector<6> error_standard_deviation,
+  OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const NoiseFrame noise_frame, const math::Vector<6> error_standard_deviation,
                 const Orbit& orbit);
 
   /**
@@ -69,20 +69,20 @@ class OrbitObserver : public Component, public ILoggable {
    * @fn GetPosition_i_m
    * @brief Return observed position
    */
-  inline const libra::Vector<3> GetPosition_i_m() const { return observed_position_i_m_; };
+  inline const math::Vector<3> GetPosition_i_m() const { return observed_position_i_m_; };
 
   /**
    * @fn GetVelocity_i_m_s
    * @brief Return observed velocity
    */
-  inline const libra::Vector<3> GetVelocity_i_m_s() const { return observed_velocity_i_m_s_; };
+  inline const math::Vector<3> GetVelocity_i_m_s() const { return observed_velocity_i_m_s_; };
 
  protected:
-  libra::Vector<3> observed_position_i_m_{0.0};    //!< Observed position @ inertial frame [m]
-  libra::Vector<3> observed_velocity_i_m_s_{0.0};  //!< Observed velocity @ inertial frame [m/s]
+  math::Vector<3> observed_position_i_m_{0.0};    //!< Observed position @ inertial frame [m]
+  math::Vector<3> observed_velocity_i_m_s_{0.0};  //!< Observed velocity @ inertial frame [m/s]
 
   NoiseFrame noise_frame_;                    //!< Noise definition frame
-  libra::NormalRand normal_random_noise_[6];  //!< Position and Velocity noise [m, m/s]
+  randomization::NormalRand normal_random_noise_[6];  //!< Position and Velocity noise [m, m/s]
 
   // Observed variables
   const Orbit& orbit_;  //!< Orbit information

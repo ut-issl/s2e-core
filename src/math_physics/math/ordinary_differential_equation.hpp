@@ -8,7 +8,7 @@
 
 #include "./vector.hpp"
 
-namespace libra {
+namespace math {
 
 /**
  * @class OrdinaryDifferentialEquation
@@ -102,7 +102,7 @@ class OrdinaryDifferentialEquation {
    * @fn GetState
    * @brief Return current state vector for inheriting class
    */
-  inline libra::Vector<N>& GetState() { return state_; }
+  inline math::Vector<N>& GetState() { return state_; }
 
  private:
   double independent_variable_;  //!< Latest value of independent variable
@@ -111,7 +111,7 @@ class OrdinaryDifferentialEquation {
   double step_width_s_;          //!< Step width
 };
 
-}  // namespace libra
+}  // namespace math
 
 #include "./ordinary_differential_equation_template_functions.hpp"
 

@@ -56,7 +56,7 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& 
   if (model_ == "STANDARD") {
     // Standard model
     double altitude_m = orbit.GetGeodeticPosition().GetAltitude_m();
-    air_density_kg_m3_ = libra::atmosphere::CalcAirDensityWithSimpleModel(altitude_m);
+    air_density_kg_m3_ = atmosphere::CalcAirDensityWithSimpleModel(altitude_m);
   } else if (model_ == "NRLMSISE00") {
     // NRLMSISE00 model
     double lat_rad = orbit.GetGeodeticPosition().GetLatitude_rad();
@@ -66,8 +66,8 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& 
                                         manual_average_f107_, manual_ap_);
   } else if (model_ == "HARRIS_PRIESTER") {
     // Harris-Priester
-    libra::Vector<3> sun_direction_eci = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN").CalcNormalizedVector();
-    air_density_kg_m3_ = libra::atmosphere::CalcAirDensityWithHarrisPriester_kg_m3(orbit.GetGeodeticPosition(), sun_direction_eci);
+    math::Vector<3> sun_direction_eci = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN").CalcNormalizedVector();
+    air_density_kg_m3_ = atmosphere::CalcAirDensityWithHarrisPriester_kg_m3(orbit.GetGeodeticPosition(), sun_direction_eci);
   } else {
     // No suitable model
     return air_density_kg_m3_ = 0.0;
@@ -78,7 +78,7 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& 
 
 double Atmosphere::AddNoise(const double rho_kg_m3) {
   // RandomWalk rw(rho_kg_m3*rw_stepwidth_,rho_kg_m3*rw_stddev_,rho_kg_m3*rw_limit_);
-  libra::NormalRand nr(0.0, rho_kg_m3 * gauss_standard_deviation_rate_, global_randomization.MakeSeed());
+  randomization::NormalRand nr(0.0, rho_kg_m3 * gauss_standard_deviation_rate_, global_randomization.MakeSeed());
   double nrd = nr;
 
   return rho_kg_m3 + nrd;

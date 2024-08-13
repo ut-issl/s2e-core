@@ -57,13 +57,13 @@ class AttitudeObserver : public Component, public ILoggable {
    * @fn GetQuaternion_i2c
    * @brief Return observed quaternion from the inertial frame to the body-fixed frame
    */
-  inline const libra::Quaternion GetQuaternion_i2b() const { return observed_quaternion_i2b_; };
+  inline const math::Quaternion GetQuaternion_i2b() const { return observed_quaternion_i2b_; };
 
  protected:
-  libra::Quaternion observed_quaternion_i2b_ = {0.0, 0.0, 0.0, 1.0};  //!< Observed quaternion
+  math::Quaternion observed_quaternion_i2b_ = {0.0, 0.0, 0.0, 1.0};  //!< Observed quaternion
 
-  libra::NormalRand angle_noise_;      //!< Normal random for magnitude noise
-  libra::NormalRand direction_noise_;  //!< Normal random for direction noise
+  randomization::NormalRand angle_noise_;      //!< Normal random for magnitude noise
+  randomization::NormalRand direction_noise_;  //!< Normal random for direction noise
 
   const Attitude& attitude_;  //!< Attitude information
 };

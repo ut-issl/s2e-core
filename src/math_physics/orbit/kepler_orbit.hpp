@@ -10,6 +10,8 @@
 #include "../math/vector.hpp"
 #include "./orbital_elements.hpp"
 
+namespace orbit {
+
 /**
  * @class KeplerOrbit
  * @brief Class to calculate Kepler orbit calculation
@@ -45,22 +47,22 @@ class KeplerOrbit {
    * @fn GetPosition_i_m
    * @brief Return position vector in the inertial frame [m]
    */
-  inline const libra::Vector<3> GetPosition_i_m() const { return position_i_m_; }
+  inline const math::Vector<3> GetPosition_i_m() const { return position_i_m_; }
   /**
    * @fn GetVelocity_i_m_s
    * @brief Return velocity vector in the inertial frame [m/s]
    */
-  inline const libra::Vector<3> GetVelocity_i_m_s() const { return velocity_i_m_s_; }
+  inline const math::Vector<3> GetVelocity_i_m_s() const { return velocity_i_m_s_; }
 
  protected:
-  libra::Vector<3> position_i_m_;    //!< Position vector in the inertial frame [m]
-  libra::Vector<3> velocity_i_m_s_;  //!< Velocity vector in the inertial frame [m/s]
+  math::Vector<3> position_i_m_;    //!< Position vector in the inertial frame [m]
+  math::Vector<3> velocity_i_m_s_;  //!< Velocity vector in the inertial frame [m/s]
 
  private:
-  double gravity_constant_m3_s2_;         //!< Gravity constant of the center body [m3/s2]
-  OrbitalElements oe_;                    //!< Orbital elements
-  double mean_motion_rad_s_;              //!< Mean motion of the orbit [rad/s]
-  libra::Matrix<3, 3> dcm_inplane_to_i_;  //!< Direction cosine matrix from the in-plane frame to the inertial frame
+  double gravity_constant_m3_s2_;        //!< Gravity constant of the center body [m3/s2]
+  OrbitalElements oe_;                   //!< Orbital elements
+  double mean_motion_rad_s_;             //!< Mean motion of the orbit [rad/s]
+  math::Matrix<3, 3> dcm_inplane_to_i_;  //!< Direction cosine matrix from the in-plane frame to the inertial frame
 
   /**
    * @fn CalcConstKeplerMotion
@@ -86,5 +88,7 @@ class KeplerOrbit {
    */
   double SolveKeplerNewtonMethod(const double eccentricity, const double mean_anomaly_rad, const double angle_limit_rad, const int iteration_limit);
 };
+
+}  // namespace orbit
 
 #endif  // S2E_LIBRARY_ORBIT_KEPLER_ORBIT_HPP_

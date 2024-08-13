@@ -10,6 +10,8 @@
 
 #include "epoch_time.hpp"
 
+namespace time_system {
+
 class EpochTime;
 
 /**
@@ -59,5 +61,7 @@ class DateTime {
   size_t minute_;  //!< Minute [0 to 59]
   double second_;  //!< Second [0.0, 60.0)
 };
+
+}  // namespace time_system
 
 #endif  // S2E_LIBRARY_TIME_SYSTEM_DATE_TIME_FORMAT_HPP_

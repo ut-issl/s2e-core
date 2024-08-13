@@ -5,7 +5,7 @@
 #ifndef S2E_LIBRARY_ATMOSPHERE_SIMPLE_AIR_DENSITY_MODEL_HPP_
 #define S2E_LIBRARY_ATMOSPHERE_SIMPLE_AIR_DENSITY_MODEL_HPP_
 
-namespace libra::atmosphere {
+namespace atmosphere {
 
 /**
  * @fn CalcAirDensityWithSimpleModel
@@ -15,6 +15,6 @@ namespace libra::atmosphere {
  */
 double CalcAirDensityWithSimpleModel(const double altitude_m);
 
-}  // namespace libra::atmosphere
+}  // namespace atmosphere
 
 #endif  // S2E_LIBRARY_ATMOSPHERE_SIMPLE_AIR_DENSITY_MODEL_HPP_

@@ -17,6 +17,8 @@
 #include <string>
 #include <vector>
 
+namespace gnss {
+
 #define SP3_BAD_CLOCK_VALUE (999999.999999)
 #define SP3_BAD_POSITION_VALUE (0.000000)
 
@@ -49,16 +51,16 @@ enum class Sp3OrbitType {
 struct Sp3Header {
   // 1st line information
   // version -> not implemented yet
-  Sp3Mode mode_;                   //!< position or velocity
-  DateTime start_epoch_;           //!< Time of start epoch
-  size_t number_of_epoch_ = 0;     //!< Number of epoch in the SP3 file
-  std::string used_data_;          //!< Used data to generate the SP3 file
-  std::string coordinate_system_;  //!< Coordinate system for the position and velocity data
-  Sp3OrbitType orbit_type_;        //!< Orbit type
-  std::string agency_name_;        //!< Agency name who generates the SP3 file
+  Sp3Mode mode_;                       //!< position or velocity
+  time_system::DateTime start_epoch_;  //!< Time of start epoch
+  size_t number_of_epoch_ = 0;         //!< Number of epoch in the SP3 file
+  std::string used_data_;              //!< Used data to generate the SP3 file
+  std::string coordinate_system_;      //!< Coordinate system for the position and velocity data
+  Sp3OrbitType orbit_type_;            //!< Orbit type
+  std::string agency_name_;            //!< Agency name who generates the SP3 file
 
   // 2nd line information
-  GpsTime start_gps_time_;                        //!< Start time of orbit
+  time_system::GpsTime start_gps_time_;           //!< Start time of orbit
   double epoch_interval_s_ = 1.0;                 //!< Epoch interval (0.0, 100000.0)
   size_t start_time_mjday_;                       //!< Start time of the orbit data (44244 = 6th Jan. 1980) [Modified Julian day]
   double start_time_mjday_fractional_day_ = 0.0;  //!< Fractional part of the start time [0.0, 1.0) [day]
@@ -92,15 +94,15 @@ struct Sp3Header {
  * @note The coordinate system of the position is defined in the SP3 header
  */
 struct Sp3PositionClock {
-  std::string satellite_id_;                              //!< GNSS satellite ID
-  libra::Vector<3> position_km_{SP3_BAD_POSITION_VALUE};  //!< Satellite position [km]
-  double clock_us_ = SP3_BAD_CLOCK_VALUE;                 //!< Satellite clock offset [us]
-  libra::Vector<3> position_standard_deviation_{0.0};     //!< Satellite position standard deviation [-]
-  double clock_standard_deviation_ = 0.0;                 //!< Satellite clock offset standard deviation [-]
-  bool clock_event_flag_ = false;                         //!< true when clock discontinuity is happened
-  bool clock_prediction_flag_ = false;                    //!< true when clock data is predicted
-  bool maneuver_flag_ = false;                            //!< true when orbit maneuver is happened in last 50 minutes
-  bool orbit_prediction_flag_ = false;                    //!< true when orbit data is predicted
+  std::string satellite_id_;                             //!< GNSS satellite ID
+  math::Vector<3> position_km_{SP3_BAD_POSITION_VALUE};  //!< Satellite position [km]
+  double clock_us_ = SP3_BAD_CLOCK_VALUE;                //!< Satellite clock offset [us]
+  math::Vector<3> position_standard_deviation_{0.0};     //!< Satellite position standard deviation [-]
+  double clock_standard_deviation_ = 0.0;                //!< Satellite clock offset standard deviation [-]
+  bool clock_event_flag_ = false;                        //!< true when clock discontinuity is happened
+  bool clock_prediction_flag_ = false;                   //!< true when clock data is predicted
+  bool maneuver_flag_ = false;                           //!< true when orbit maneuver is happened in last 50 minutes
+  bool orbit_prediction_flag_ = false;                   //!< true when orbit data is predicted
 };
 
 /**
@@ -127,11 +129,11 @@ struct Sp3PositionClockCorrelation {
  * @note The coordinate system of the position is defined in the SP3 header
  */
 struct Sp3VelocityClockRate {
-  std::string satellite_id_;                           //!< GNSS satellite ID
-  libra::Vector<3> velocity_dm_s_{0.0};                //!< Satellite velocity [dm/s]
-  double clock_rate_ = 0.0;                            //!< Satellite clock offset change rate [-]
-  libra::Vector<3> velocity_standard_deviation_{0.0};  //!< Satellite position standard deviation [-]
-  double clock_rate_standard_deviation_ = 0.0;         //!< Satellite clock offset standard deviation [-]
+  std::string satellite_id_;                          //!< GNSS satellite ID
+  math::Vector<3> velocity_dm_s_{0.0};                //!< Satellite velocity [dm/s]
+  double clock_rate_ = 0.0;                           //!< Satellite clock offset change rate [-]
+  math::Vector<3> velocity_standard_deviation_{0.0};  //!< Satellite position standard deviation [-]
+  double clock_rate_standard_deviation_ = 0.0;        //!< Satellite clock offset standard deviation [-]
 };
 
 /**
@@ -170,19 +172,19 @@ class Sp3FileReader {
   inline Sp3Header GetHeader() const { return header_; }
   inline size_t GetNumberOfEpoch() const { return header_.number_of_epoch_; }
   inline size_t GetNumberOfSatellites() const { return header_.number_of_satellites_; }
-  inline DateTime GetStartEpochDateTime() const { return header_.start_epoch_; }
-  inline GpsTime GetStartEpochGpsTime() const { return header_.start_gps_time_; }
+  inline time_system::DateTime GetStartEpochDateTime() const { return header_.start_epoch_; }
+  inline time_system::GpsTime GetStartEpochGpsTime() const { return header_.start_gps_time_; }
   // Data
-  DateTime GetEpochData(const size_t epoch_id) const;
+  time_system::DateTime GetEpochData(const size_t epoch_id) const;
   Sp3PositionClock GetPositionClock(const size_t epoch_id, const size_t satellite_id);
   double GetSatelliteClockOffset(const size_t epoch_id, const size_t satellite_id);
-  libra::Vector<3> GetSatellitePosition_km(const size_t epoch_id, const size_t satellite_id);
+  math::Vector<3> GetSatellitePosition_km(const size_t epoch_id, const size_t satellite_id);
 
-  size_t SearchNearestEpochId(const EpochTime time);
+  size_t SearchNearestEpochId(const time_system::EpochTime time);
 
  private:
-  Sp3Header header_;             //!< SP3 header information
-  std::vector<DateTime> epoch_;  //!< Epoch data list
+  Sp3Header header_;                          //!< SP3 header information
+  std::vector<time_system::DateTime> epoch_;  //!< Epoch data list
 
   // Orbit and clock data (Use as position_clock_[satellite_id][epoch_id])
   std::map<size_t, std::vector<Sp3PositionClock>> position_clock_;                                  //!< Position and Clock data
@@ -233,5 +235,7 @@ class Sp3FileReader {
    */
   Sp3VelocityClockRateCorrelation DecodeVelocityClockRateCorrelation(std::string line);
 };
+
+}  // namespace gnss
 
 #endif  // S2E_LIBRARY_GNSS_SP3_FILE_READER_HPP_

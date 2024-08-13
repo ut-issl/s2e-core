@@ -29,9 +29,9 @@ void TorqueGenerator::MainRoutine(const int time_count) {
   double norm_ordered_torque = ordered_torque_b_Nm_.CalcNorm();
   if (norm_ordered_torque > 0.0 + DBL_EPSILON) {
     // Add noise only when the torque is generated
-    libra::Vector<3> true_direction = generated_torque_b_Nm_.CalcNormalizedVector();
-    libra::Quaternion error_quaternion = GenerateDirectionNoiseQuaternion(true_direction, direction_error_standard_deviation_rad_);
-    libra::Vector<3> converted_direction = error_quaternion.FrameConversion(true_direction);
+    math::Vector<3> true_direction = generated_torque_b_Nm_.CalcNormalizedVector();
+    math::Quaternion error_quaternion = GenerateDirectionNoiseQuaternion(true_direction, direction_error_standard_deviation_rad_);
+    math::Vector<3> converted_direction = error_quaternion.FrameConversion(true_direction);
     double torque_norm_with_error = norm_ordered_torque + magnitude_noise_;
     generated_torque_b_Nm_ = torque_norm_with_error * converted_direction;
   }
@@ -58,14 +58,14 @@ std::string TorqueGenerator::GetLogValue() const {
   return str_tmp;
 }
 
-libra::Quaternion TorqueGenerator::GenerateDirectionNoiseQuaternion(libra::Vector<3> true_direction, const double error_standard_deviation_rad) {
-  libra::Vector<3> random_direction;
+math::Quaternion TorqueGenerator::GenerateDirectionNoiseQuaternion(math::Vector<3> true_direction, const double error_standard_deviation_rad) {
+  math::Vector<3> random_direction;
   random_direction[0] = direction_noise_;
   random_direction[1] = direction_noise_;
   random_direction[2] = direction_noise_;
   random_direction = random_direction.CalcNormalizedVector();
 
-  libra::Vector<3> rotation_axis;
+  math::Vector<3> rotation_axis;
   rotation_axis = OuterProduct(true_direction, random_direction);
   double norm_rotation_axis = rotation_axis.CalcNorm();
   if (norm_rotation_axis < 0.0 + DBL_EPSILON) {
@@ -74,7 +74,7 @@ libra::Quaternion TorqueGenerator::GenerateDirectionNoiseQuaternion(libra::Vecto
   }
 
   double error_angle_rad = direction_noise_ * error_standard_deviation_rad;
-  libra::Quaternion error_quaternion(rotation_axis, error_angle_rad);
+  math::Quaternion error_quaternion(rotation_axis, error_angle_rad);
   return error_quaternion;
 }
 
@@ -90,7 +90,7 @@ TorqueGenerator InitializeTorqueGenerator(ClockGenerator* clock_generator, const
   char section[30] = "TORQUE_GENERATOR";
   double torque_magnitude_standard_deviation_Nm = ini_file.ReadDouble(section, "torque_magnitude_standard_deviation_Nm");
   double torque_direction_standard_deviation_deg = ini_file.ReadDouble(section, "torque_direction_standard_deviation_deg");
-  double torque_direction_standard_deviation_rad = libra::deg_to_rad * torque_direction_standard_deviation_deg;
+  double torque_direction_standard_deviation_rad = math::deg_to_rad * torque_direction_standard_deviation_deg;
   TorqueGenerator torque_generator(prescaler, clock_generator, torque_magnitude_standard_deviation_Nm, torque_direction_standard_deviation_rad,
                                    dynamics);
 

@@ -10,6 +10,8 @@
 #include <iostream>
 #include <math_physics/gnss/gnss_satellite_number.hpp>
 
+namespace gnss {
+
 #define ANTEX_LINE_TYPE_POSITION (60)
 
 AntexGridDefinition::AntexGridDefinition(const double zenith_start_angle_deg, const double zenith_end_angle_deg, const double zenith_step_angle_deg,
@@ -169,7 +171,7 @@ AntexPhaseCenterData AntexFileReader::ReadPhaseCenterData(std::ifstream& antex_f
     }
     // Phase center offset
     if (line.find("NORTH / EAST / UP") == ANTEX_LINE_TYPE_POSITION) {
-      libra::Vector<3> offset{0.0};
+      math::Vector<3> offset{0.0};
       sscanf(line.c_str(), "%lf %lf %lf", &offset[0], &offset[1], &offset[2]);
       phase_center_data.SetPhaseCenterOffset_mm(offset);
     }
@@ -190,9 +192,11 @@ AntexPhaseCenterData AntexFileReader::ReadPhaseCenterData(std::ifstream& antex_f
   return phase_center_data;
 }
 
-DateTime AntexFileReader::ReadDateTime(std::string line) {
+time_system::DateTime AntexFileReader::ReadDateTime(std::string line) {
   size_t year, month, day, hour, minute;
   double second;
   sscanf(line.c_str(), "%zu %2zu %2zu %2zu %2zu %10lf", &year, &month, &day, &hour, &minute, &second);
-  return DateTime(year, month, day, hour, minute, second);
+  return time_system::DateTime(year, month, day, hour, minute, second);
 }
+
+}  // namespace gnss

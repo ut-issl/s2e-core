@@ -7,14 +7,14 @@
 
 #include <math_physics/math/constants.hpp>
 #include <math_physics/randomization/normal_randomization.hpp>
-using libra::NormalRand;
+using randomization::NormalRand;
 #include <logger/log_utility.hpp>
 #include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
 using namespace std;
 
-SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
                      const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
                      const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
@@ -29,7 +29,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const
 }
 
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                     const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
+                     const math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
                      const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator, power_port),
@@ -59,8 +59,8 @@ void SunSensor::MainRoutine(const int time_count) {
 }
 
 void SunSensor::Measure() {
-  libra::Vector<3> sun_pos_b = local_celestial_information_->GetPositionFromSpacecraft_b_m("SUN");
-  libra::Vector<3> sun_dir_b = sun_pos_b.CalcNormalizedVector();
+  math::Vector<3> sun_pos_b = local_celestial_information_->GetPositionFromSpacecraft_b_m("SUN");
+  math::Vector<3> sun_dir_b = sun_pos_b.CalcNormalizedVector();
 
   sun_direction_true_c_ = quaternion_b2c_.FrameConversion(sun_dir_b);  // Frame conversion from body to component
 
@@ -87,7 +87,7 @@ void SunSensor::Measure() {
 
     measured_sun_direction_c_ = measured_sun_direction_c_.CalcNormalizedVector();
   } else {
-    measured_sun_direction_c_ = libra::Vector<3>(0);
+    measured_sun_direction_c_ = math::Vector<3>(0);
     alpha_rad_ = 0.0;
     beta_rad_ = 0.0;
   }
@@ -96,7 +96,7 @@ void SunSensor::Measure() {
 }
 
 void SunSensor::SunDetectionJudgement() {
-  libra::Vector<3> sun_direction_c = sun_direction_true_c_.CalcNormalizedVector();
+  math::Vector<3> sun_direction_c = sun_direction_true_c_.CalcNormalizedVector();
 
   double sun_angle_ = acos(sun_direction_c[2]);
 
@@ -112,10 +112,10 @@ void SunSensor::SunDetectionJudgement() {
 }
 
 void SunSensor::CalcSolarIlluminance() {
-  libra::Vector<3> sun_direction_c = sun_direction_true_c_.CalcNormalizedVector();
+  math::Vector<3> sun_direction_c = sun_direction_true_c_.CalcNormalizedVector();
   double sun_angle_ = acos(sun_direction_c[2]);
 
-  if (sun_angle_ > libra::pi_2) {
+  if (sun_angle_ > math::pi_2) {
     solar_illuminance_W_m2_ = 0.0;
     return;
   }
@@ -126,8 +126,8 @@ void SunSensor::CalcSolarIlluminance() {
 }
 
 double SunSensor::TanRange(double x) {
-  if (x > libra::pi_2) x = libra::pi - x;
-  if (x < -libra::pi_2) x = -libra::pi - x;
+  if (x > math::pi_2) x = math::pi - x;
+  if (x < -math::pi_2) x = -math::pi - x;
   return x;
 }
 
@@ -161,20 +161,20 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, int ss_id, std::string 
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   ss_conf.ReadQuaternion(Section, "quaternion_b2c", quaternion_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
   detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
-  detectable_angle_rad = libra::pi / 180.0 * detectable_angle_deg;
+  detectable_angle_rad = math::pi / 180.0 * detectable_angle_deg;
 
   double nr_stddev = 0.0;
   nr_stddev = ss_conf.ReadDouble(Section, "white_noise_standard_deviation_deg");
-  nr_stddev *= libra::pi / 180.0;
+  nr_stddev *= math::pi / 180.0;
 
   double nr_bias_stddev = 0.0;
   nr_bias_stddev = ss_conf.ReadDouble(Section, "bias_standard_deviation_deg");
-  nr_bias_stddev *= libra::pi / 180.0;
+  nr_bias_stddev *= math::pi / 180.0;
 
   double intensity_lower_threshold_percent;
   intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");
@@ -194,20 +194,20 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, 
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   ss_conf.ReadQuaternion(Section, "quaternion_b2c", quaternion_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
   detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
-  detectable_angle_rad = libra::pi / 180.0 * detectable_angle_deg;
+  detectable_angle_rad = math::pi / 180.0 * detectable_angle_deg;
 
   double nr_stddev = 0.0;
   nr_stddev = ss_conf.ReadDouble(Section, "white_noise_standard_deviation_deg");
-  nr_stddev *= libra::pi / 180.0;
+  nr_stddev *= math::pi / 180.0;
 
   double nr_bias_stddev = 0.0;
   nr_bias_stddev = ss_conf.ReadDouble(Section, "bias_standard_deviation_deg");
-  nr_bias_stddev *= libra::pi / 180.0;
+  nr_bias_stddev *= math::pi / 180.0;
 
   double intensity_lower_threshold_percent;
   intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");

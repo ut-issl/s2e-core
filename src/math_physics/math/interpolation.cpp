@@ -7,7 +7,7 @@
 
 #include <cmath>
 
-namespace libra {
+namespace math {
 
 double Interpolation::CalcPolynomial(const double x) const {
   // Search nearest point
@@ -94,4 +94,4 @@ size_t Interpolation::FindNearestPoint(const double x) const {
   return output;
 }
 
-}  // namespace libra
+}  // namespace math

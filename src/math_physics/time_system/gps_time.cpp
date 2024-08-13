@@ -5,6 +5,8 @@
 
 #include "gps_time.hpp"
 
+namespace time_system {
+
 const DateTime GpsTime::kEpochOfGpsTimeInDateTime_ = DateTime("1980/1/6 00:00:00.0");
 const EpochTime GpsTime::kEpochOfGpsTimeInEpochTime_ = EpochTime(kEpochOfGpsTimeInDateTime_);
 const EpochTime GpsTime::kLeapSecondAheadFromUtc_ = EpochTime(18, 0);  //!< Leap second ahead from UTC @ May 2023
@@ -23,3 +25,5 @@ void GpsTime::CalcEpochTime() {
 
   epoch_time_ = kEpochOfGpsTimeInEpochTime_ + time_diff;
 }
+
+}  // namespace time_system

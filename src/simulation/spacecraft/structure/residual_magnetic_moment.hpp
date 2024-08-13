@@ -7,7 +7,7 @@
 #define S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_HPP_
 
 #include <math_physics/math/vector.hpp>
-using libra::Vector;
+using math::Vector;
 
 /**
  * @class ResidualMagneticMoment

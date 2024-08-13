@@ -6,6 +6,8 @@
 
 #include "sp3_file_reader.hpp"
 
+using namespace gnss;
+
 /**
  * @brief Test Constructor
  */

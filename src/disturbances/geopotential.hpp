@@ -60,15 +60,15 @@ class Geopotential : public Disturbance {
   virtual std::string GetLogValue() const;
 
  private:
-  GravityPotential geopotential_;
+  gravity::GravityPotential geopotential_;
   size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential
   std::vector<std::vector<double>> c_;  //!< Cosine coefficients
   std::vector<std::vector<double>> s_;  //!< Sine coefficients
   Vector<3> acceleration_ecef_m_s2_;    //!< Calculated acceleration in the ECEF frame [m/s2]
 
   // debug
-  libra::Vector<3> debug_pos_ecef_m_;  //!< Spacecraft position in ECEF frame [m]
-  double time_ms_ = 0.0;               //!< Calculation time [ms]
+  math::Vector<3> debug_pos_ecef_m_;  //!< Spacecraft position in ECEF frame [m]
+  double time_ms_ = 0.0;              //!< Calculation time [ms]
 
   /**
    * @fn ReadCoefficientsEgm96

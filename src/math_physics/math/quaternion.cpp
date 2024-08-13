@@ -9,7 +9,7 @@
 #include <cfloat>
 #include <stdexcept>
 
-namespace libra {
+namespace math {
 
 Quaternion::Quaternion(const Vector<3>& rotation_axis, const double rotation_angle_rad) {
   double half_rotation_angle_rad = rotation_angle_rad * 0.5;
@@ -236,4 +236,4 @@ Vector<3> Quaternion::InverseFrameConversion(const Vector<3>& vector) const {
 
 Vector<4> Quaternion::ConvertToVector() { return quaternion_; }
 
-}  // namespace libra
+}  // namespace math

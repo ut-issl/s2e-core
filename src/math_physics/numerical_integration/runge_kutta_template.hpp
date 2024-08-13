@@ -7,7 +7,7 @@
 
 #include "./runge_kutta.hpp"
 
-namespace libra::numerical_integration {
+namespace numerical_integration {
 
 template <size_t N>
 void RungeKutta<N>::Integrate() {
@@ -22,10 +22,10 @@ void RungeKutta<N>::Integrate() {
 
 template <size_t N>
 void RungeKutta<N>::CalcSlope() {
-  slope_.assign(number_of_stages_, Vector<N>(0.0));
+  slope_.assign(number_of_stages_, math::Vector<N>(0.0));
 
   for (size_t i = 0; i < number_of_stages_; i++) {
-    Vector<N> state = this->current_state_;
+    math::Vector<N> state = this->current_state_;
     for (size_t j = 0; j < i; j++) {
       state = state + rk_matrix_[i][j] * this->step_width_ * slope_[j];
     }
@@ -34,6 +34,6 @@ void RungeKutta<N>::CalcSlope() {
   }
 }
 
-}  // namespace libra::numerical_integration
+}  // namespace numerical_integration
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_TEMPLATE_HPP_

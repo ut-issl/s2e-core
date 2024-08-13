@@ -20,8 +20,8 @@
 LunarGravityField::LunarGravityField(const int degree, const std::string file_path, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, false), degree_(degree) {
   // Initialize
-  acceleration_mcmf_m_s2_ = libra::Vector<3>(0.0);
-  debug_pos_mcmf_m_ = libra::Vector<3>(0.0);
+  acceleration_mcmf_m_s2_ = math::Vector<3>(0.0);
+  debug_pos_mcmf_m_ = math::Vector<3>(0.0);
   debug_pos_mcmf_m_[0] = 2000000;
   debug_pos_mcmf_m_[1] = 2000000;
   debug_pos_mcmf_m_[2] = 2000000;
@@ -46,7 +46,7 @@ LunarGravityField::LunarGravityField(const int degree, const std::string file_pa
     }
   }
   // Initialize GravityPotential
-  lunar_potential_ = GravityPotential(degree, c_, s_, gravity_constants_km3_s2_ * 1e9, reference_radius_km_ * 1e3);
+  lunar_potential_ = gravity::GravityPotential(degree, c_, s_, gravity_constants_km3_s2_ * 1e9, reference_radius_km_ * 1e3);
 }
 
 bool LunarGravityField::ReadCoefficientsGrgm1200a(std::string file_name) {
@@ -88,10 +88,10 @@ bool LunarGravityField::ReadCoefficientsGrgm1200a(std::string file_name) {
 
 void LunarGravityField::Update(const LocalEnvironment &local_environment, const Dynamics &dynamics) {
   const CelestialInformation global_celestial_information = local_environment.GetCelestialInformation().GetGlobalInformation();
-  libra::Matrix<3, 3> dcm_mci2mcmf_ = global_celestial_information.GetMoonRotation().GetDcmJ2000ToMcmf();
+  math::Matrix<3, 3> dcm_mci2mcmf_ = global_celestial_information.GetMoonRotation().GetDcmJ2000ToMcmf();
 
-  libra::Vector<3> spacecraft_position_mci_m = dynamics.GetOrbit().GetPosition_i_m();
-  libra::Vector<3> spacecraft_position_mcmf_m = dcm_mci2mcmf_ * spacecraft_position_mci_m;
+  math::Vector<3> spacecraft_position_mci_m = dynamics.GetOrbit().GetPosition_i_m();
+  math::Vector<3> spacecraft_position_mcmf_m = dcm_mci2mcmf_ * spacecraft_position_mci_m;
 
 #ifdef DEBUG_LUNAR_GRAVITY_FIELD
   std::chrono::system_clock::time_point start, end;
@@ -107,7 +107,7 @@ void LunarGravityField::Update(const LocalEnvironment &local_environment, const 
   UNUSED(time_ms_);
 #endif
 
-  libra::Matrix<3, 3> dcm_mcmf2i = dcm_mci2mcmf_.Transpose();
+  math::Matrix<3, 3> dcm_mcmf2i = dcm_mci2mcmf_.Transpose();
   acceleration_i_m_s2_ = dcm_mcmf2i * acceleration_mcmf_m_s2_;
 }
 

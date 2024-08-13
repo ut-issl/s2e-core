@@ -11,7 +11,7 @@
 
 #include "dormand_prince_5.hpp"
 
-namespace libra::numerical_integration {
+namespace numerical_integration {
 
 template <size_t N>
 DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>& ode) : EmbeddedRungeKutta<N>(step_width, ode) {
@@ -75,7 +75,7 @@ DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>
   this->rk_matrix_[6][5] = 11.0 / 84.0;
 
   // Interpolation coefficients
-  libra::Vector<5> coefficients_temp;
+  math::Vector<5> coefficients_temp;
   coefficients_temp[0] = 11282082432.0;
   coefficients_temp[1] = -32272833064.0;
   coefficients_temp[2] = 34969693132.0;
@@ -123,10 +123,10 @@ DormandPrince5<N>::DormandPrince5(const double step_width, const InterfaceOde<N>
 }
 
 template <size_t N>
-Vector<N> DormandPrince5<N>::CalcInterpolationState(const double sigma) const {
+math::Vector<N> DormandPrince5<N>::CalcInterpolationState(const double sigma) const {
   std::vector<double> interpolation_weights = CalcInterpolationWeights(sigma);
 
-  Vector<N> interpolation_state = this->previous_state_;
+  math::Vector<N> interpolation_state = this->previous_state_;
   for (size_t i = 0; i < this->number_of_stages_; i++) {
     interpolation_state = interpolation_state + (sigma * this->step_width_ * interpolation_weights[i]) * this->slope_[i];
   }
@@ -149,6 +149,6 @@ std::vector<double> DormandPrince5<N>::CalcInterpolationWeights(const double sig
   return interpolation_weights;
 }
 
-}  // namespace libra::numerical_integration
+}  // namespace numerical_integration
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_DORMAND_PRINCE_5_IMPLEMENTATION_HPP_

@@ -8,7 +8,7 @@
 
 #include "../math/vector.hpp"
 
-namespace libra::numerical_integration {
+namespace numerical_integration {
 
 /**
  * @class InterfaceOde
@@ -24,9 +24,9 @@ class InterfaceOde {
    * @param [in] state: State vector
    * @return Differentiated value of state vector
    */
-  virtual Vector<N> DerivativeFunction(const double independent_variable, const Vector<N>& state) const = 0;
+  virtual math::Vector<N> DerivativeFunction(const double independent_variable, const math::Vector<N>& state) const = 0;
 };
 
-}  // namespace libra::numerical_integration
+}  // namespace numerical_integration
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_INTERFACE_ODE_HPP_

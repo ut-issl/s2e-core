@@ -11,7 +11,7 @@
 
 #include "embedded_runge_kutta.hpp"
 
-namespace libra::numerical_integration {
+namespace numerical_integration {
 
 /**
  * @class DormandPrince5
@@ -33,10 +33,10 @@ class DormandPrince5 : public EmbeddedRungeKutta<N> {
    * @param [in] sigma: Sigma value (0 < sigma < 1) for interpolation
    * @return : interpolated state x(t0 + sigma * h)
    */
-  Vector<N> CalcInterpolationState(const double sigma) const override;
+  math::Vector<N> CalcInterpolationState(const double sigma) const override;
 
  private:
-  std::vector<libra::Vector<5>> coefficients_;  //!< Coefficients to calculate interpolation weights
+  std::vector<math::Vector<5>> coefficients_;  //!< Coefficients to calculate interpolation weights
   /**
    * @fn CalcInterpolationWeights
    * @brief Calculate weights for interpolation
@@ -46,7 +46,7 @@ class DormandPrince5 : public EmbeddedRungeKutta<N> {
   std::vector<double> CalcInterpolationWeights(const double sigma) const;
 };
 
-}  // namespace libra::numerical_integration
+}  // namespace numerical_integration
 
 #include "dormand_prince_5_implementation.hpp"
 

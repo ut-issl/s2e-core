@@ -9,7 +9,7 @@
 #include <cmath>
 #include <iostream>  // for cout
 
-namespace libra {
+namespace math {
 
 template <size_t R, size_t C, typename T>
 Matrix<R, C, T>::Matrix(const T& n) {
@@ -186,6 +186,6 @@ Matrix<R, R, T> MakeRotationMatrixZ(const double& theta_rad) {
   return m;
 }
 
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_MATH_MATRIX_TEMPLATE_FUNCTIONS_HPP_

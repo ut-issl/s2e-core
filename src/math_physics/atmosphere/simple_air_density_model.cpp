@@ -6,7 +6,7 @@
 
 #include <cmath>
 
-namespace libra::atmosphere {
+namespace atmosphere {
 
 double CalcAirDensityWithSimpleModel(const double altitude_m) {
   double altitude_km = altitude_m / 1000.0;
@@ -138,4 +138,4 @@ double CalcAirDensityWithSimpleModel(const double altitude_m) {
   return rho_kg_m3;
 }
 
-}  // namespace libra::atmosphere
+}  // namespace atmosphere

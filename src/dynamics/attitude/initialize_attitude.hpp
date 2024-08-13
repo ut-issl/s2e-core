@@ -22,6 +22,6 @@
  * @param [in] spacecraft_id: Satellite ID
  */
 Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
-                       const double step_width_s, const libra::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id);
+                       const double step_width_s, const math::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id);
 
 #endif  // S2E_DYNAMICS_ATTITUDE_INITIALIZE_ATTITUDE_HPP_

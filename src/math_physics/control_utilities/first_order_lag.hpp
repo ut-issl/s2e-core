@@ -6,6 +6,8 @@
 #ifndef S2E_LIBRARY_CONTROL_UTILITIES_FIRST_ORDER_LAG_HPP_
 #define S2E_LIBRARY_CONTROL_UTILITIES_FIRST_ORDER_LAG_HPP_
 
+namespace control_utilities {
+
 /**
  * @class FirstOderLag
  * @brief A class to emulate the first order lag
@@ -44,5 +46,7 @@ class FirstOrderLag {
   const double time_constant_s_;  //!< Time constant [s]
   const double gain_;             //!< Gain
 };
+
+}  // namespace control_utilities
 
 #endif  // S2E_LIBRARY_CONTROL_UTILITIES_FIRST_ORDER_LAG_HPP_

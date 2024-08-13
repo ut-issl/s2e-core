@@ -10,7 +10,7 @@
 
 #include "runge_kutta.hpp"
 
-namespace libra::numerical_integration {
+namespace numerical_integration {
 
 /**
  * @class RungeKutta4
@@ -45,12 +45,12 @@ class RungeKutta4 : public RungeKutta<N> {
   }
 
   // We did not implement the interpolation for RK4
-  Vector<N> CalcInterpolationState(const double sigma) const override {
+  math::Vector<N> CalcInterpolationState(const double sigma) const override {
     UNUSED(sigma);
     return this->current_state_;
   }
 };
 
-}  // namespace libra::numerical_integration
+}  // namespace numerical_integration
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_4_HPP_

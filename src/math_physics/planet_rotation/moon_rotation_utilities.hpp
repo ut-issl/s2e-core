@@ -12,13 +12,15 @@
 #include "math_physics/math/matrix.hpp"
 #include "math_physics/math/vector.hpp"
 
+namespace planet_rotation {
+
 /**
  * @fn CalcDcmEciToPrincipalAxis
  * @brief Calculate DCM from ECI to PA (Principal Axis) moon fixed frame
  * @param[in] moon_position_eci_m: Moon position vector @ ECI frame [m]
  * @param[in] moon_velocity_eci_m_s: Moon velocity vector @ ECI frame [m/s]
  */
-libra::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const libra::Vector<3> moon_position_eci_m, const libra::Vector<3> moon_velocity_eci_m_s);
+math::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const math::Vector<3> moon_position_eci_m, const math::Vector<3> moon_velocity_eci_m_s);
 
 /**
  * @fn CalcDcmEciToMeanEarth
@@ -26,12 +28,14 @@ libra::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const libra::Vector<3> moon_positi
  * @param[in] moon_position_eci_m: Moon position vector @ ECI frame [m]
  * @param[in] moon_velocity_eci_m_s: Moon velocity vector @ ECI frame [m/s]
  */
-libra::Matrix<3, 3> CalcDcmEciToMeanEarth(const libra::Vector<3> moon_position_eci_m, const libra::Vector<3> moon_velocity_eci_m_s);
+math::Matrix<3, 3> CalcDcmEciToMeanEarth(const math::Vector<3> moon_position_eci_m, const math::Vector<3> moon_velocity_eci_m_s);
 
 /**
  * @fn CalcDcmMeToPrincipalAxis
  * @brief Calculate DCM from ME (Mean Earth) moon fixed frame to PA (Principal Axis) moon fixed frame
  */
-libra::Matrix<3, 3> CalcDcmMeanEarthToPrincipalAxis();
+math::Matrix<3, 3> CalcDcmMeanEarthToPrincipalAxis();
+
+}  // namespace planet_rotation
 
 #endif  // S2E_LIBRARY_PLANET_ROTATION_MOON_MEAN_EARTH_PRINCIPAL_AXIS_FRAME_HPP_

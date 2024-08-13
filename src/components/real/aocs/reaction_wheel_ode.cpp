@@ -8,10 +8,10 @@
 
 ReactionWheelOde::ReactionWheelOde(const double step_width_s, const double velocity_limit_rad_s, const double initial_angular_velocity_rad_s)
     : OrdinaryDifferentialEquation<1>(step_width_s), velocity_limit_rad_s_(velocity_limit_rad_s) {
-  this->Setup(0.0, libra::Vector<1>(initial_angular_velocity_rad_s));
+  this->Setup(0.0, math::Vector<1>(initial_angular_velocity_rad_s));
 }
 
-void ReactionWheelOde::DerivativeFunction(double x, const libra::Vector<1> &state, libra::Vector<1> &rhs) {
+void ReactionWheelOde::DerivativeFunction(double x, const math::Vector<1> &state, math::Vector<1> &rhs) {
   UNUSED(x);
   double angular_velocity_rad_s = state[0];
 

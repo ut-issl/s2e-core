@@ -110,7 +110,7 @@ class IniAccess {
    * @param[out] data: Read vector type data
    */
   template <size_t NumElement>
-  void ReadVector(const char* section_name, const char* key_name, libra::Vector<NumElement>& data);
+  void ReadVector(const char* section_name, const char* key_name, math::Vector<NumElement>& data);
   /**
    * @fn ReadStrVector
    * @brief Read list of string type
@@ -126,7 +126,7 @@ class IniAccess {
    * @param[in] key_name: Key name
    * @param[out] data: Read quaternion data
    */
-  void ReadQuaternion(const char* section_name, const char* key_name, libra::Quaternion& data);
+  void ReadQuaternion(const char* section_name, const char* key_name, math::Quaternion& data);
   /**
    * @fn ReadChar
    * @brief Read characters data
@@ -208,7 +208,7 @@ class IniAccess {
 };
 
 template <size_t NumElement>
-void IniAccess::ReadVector(const char* section_name, const char* key_name, libra::Vector<NumElement>& data) {
+void IniAccess::ReadVector(const char* section_name, const char* key_name, math::Vector<NumElement>& data) {
   for (size_t i = 0; i < NumElement; i++) {
     std::stringstream c_name;
     c_name << key_name << "(" << i << ")";

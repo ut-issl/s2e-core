@@ -10,6 +10,8 @@
 #include <math_physics/math/constants.hpp>
 #include <math_physics/math/matrix.hpp>
 
+namespace geodesy {
+
 GeodeticPosition::GeodeticPosition() {
   latitude_rad_ = 0.0;
   longitude_rad_ = 0.0;
@@ -23,7 +25,7 @@ GeodeticPosition::GeodeticPosition(const double latitude_rad, const double longi
   CalcQuaternionXcxfToLtc();
 }
 
-void GeodeticPosition::UpdateFromEcef(const libra::Vector<3> position_ecef_m) {
+void GeodeticPosition::UpdateFromEcef(const math::Vector<3> position_ecef_m) {
   const double earth_radius_m = environment::earth_equatorial_radius_m;
   const double flattening = environment::earth_flattening;
 
@@ -44,7 +46,7 @@ void GeodeticPosition::UpdateFromEcef(const libra::Vector<3> position_ecef_m) {
 
   altitude_m_ = r_m / cos(lat_tmp_rad) - c * earth_radius_m;
 
-  if (lat_tmp_rad > libra::pi_2) lat_tmp_rad -= libra::tau;
+  if (lat_tmp_rad > math::pi_2) lat_tmp_rad -= math::tau;
 
   latitude_rad_ = lat_tmp_rad;
 
@@ -52,7 +54,7 @@ void GeodeticPosition::UpdateFromEcef(const libra::Vector<3> position_ecef_m) {
   return;
 }
 
-libra::Vector<3> GeodeticPosition::CalcEcefPosition() const {
+math::Vector<3> GeodeticPosition::CalcEcefPosition() const {
   const double earth_radius_m = environment::earth_equatorial_radius_m;
   const double flattening = environment::earth_flattening;
 
@@ -61,7 +63,7 @@ libra::Vector<3> GeodeticPosition::CalcEcefPosition() const {
   double c = 1.0 / sqrt(1.0 - e2 * sin(latitude_rad_) * sin(latitude_rad_));
   double n = c * earth_radius_m;
 
-  libra::Vector<3> pos_ecef_m;
+  math::Vector<3> pos_ecef_m;
   pos_ecef_m(0) = (n + altitude_m_) * cos(latitude_rad_) * cos(theta);
   pos_ecef_m(1) = (n + altitude_m_) * cos(latitude_rad_) * sin(theta);
   pos_ecef_m(2) = (n * (1.0 - e2) + altitude_m_) * sin(latitude_rad_);
@@ -70,7 +72,7 @@ libra::Vector<3> GeodeticPosition::CalcEcefPosition() const {
 }
 
 void GeodeticPosition::CalcQuaternionXcxfToLtc() {
-  libra::Matrix<3, 3> dcm_xcxf_to_ltc;
+  math::Matrix<3, 3> dcm_xcxf_to_ltc;
   dcm_xcxf_to_ltc[0][0] = -sin(longitude_rad_);
   dcm_xcxf_to_ltc[0][1] = cos(longitude_rad_);
   dcm_xcxf_to_ltc[0][2] = 0;
@@ -83,3 +85,5 @@ void GeodeticPosition::CalcQuaternionXcxfToLtc() {
 
   quaternion_xcxf_to_ltc_ = quaternion_xcxf_to_ltc_.ConvertFromDcm(dcm_xcxf_to_ltc);
 }
+
+}  // namespace geodesy

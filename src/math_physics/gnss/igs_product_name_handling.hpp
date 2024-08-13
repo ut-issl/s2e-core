@@ -10,6 +10,8 @@
 
 #include <string>
 
+namespace gnss {
+
 /**
  * @fn GetOrbitClockFileName
  * @brief Return IGS orbit and clock final product file name
@@ -82,5 +84,7 @@ size_t IncrementYearDoy(const size_t year_doy) {
 
   return output;
 }
+
+}  // namespace gnss
 
 #endif  // S2E_LIBRARY_GNSS_IGS_PRODUCT_NAME_HANDLING_HPP_

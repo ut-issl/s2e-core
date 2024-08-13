@@ -8,7 +8,7 @@
 
 #include <type_traits>  // std::is_floating_point_v
 
-namespace libra {
+namespace math {
 
 // instead of C++20 std::numbers
 inline namespace numbers {
@@ -47,6 +47,6 @@ DEFINE_MATH_CONSTANT(rad_s_to_rpm, 60.0L / tau) /* rad/s to rpm */
 #undef DEFINE_MATH_CONSTANT
 }  // namespace numbers
 
-}  // namespace libra
+}  // namespace math
 
 #endif  // S2E_LIBRARY_MATH_CONSTANTS_HPP_

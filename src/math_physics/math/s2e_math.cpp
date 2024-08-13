@@ -7,20 +7,20 @@
 
 #include <math_physics/math/constants.hpp>
 
-namespace libra {
+namespace math {
 double WrapTo2Pi(const double angle_rad) {
   double angle_out = angle_rad;
   if (angle_out < 0.0) {
     while (angle_out < 0.0) {
-      angle_out += libra::tau;
+      angle_out += math::tau;
     }
-  } else if (angle_out > libra::tau) {
-    while (angle_out > libra::tau) {
-      angle_out -= libra::tau;
+  } else if (angle_out > math::tau) {
+    while (angle_out > math::tau) {
+      angle_out -= math::tau;
     }
   } else {
     // nothing to do
   }
   return angle_out;
 }
-}  // namespace libra
+}  // namespace math

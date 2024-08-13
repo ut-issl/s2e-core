@@ -10,6 +10,8 @@
 #include <math_physics/math/vector.hpp>
 #include <vector>
 
+namespace orbit {
+
 /**
  * @class InterpolationOrbit
  * @brief Orbit calculation with mathematical interpolation
@@ -30,7 +32,7 @@ class InterpolationOrbit {
    * @param [in] time: time of the new data
    * @param [in] position: Satellite position of the new data
    */
-  bool PushAndPopData(const double time, const libra::Vector<3> position);
+  bool PushAndPopData(const double time, const math::Vector<3> position);
 
   /**
    * @fn CalcPositionWithTrigonometric
@@ -39,7 +41,7 @@ class InterpolationOrbit {
    * @param [in] period: Characteristic period
    * @return Calculated position
    */
-  libra::Vector<3> CalcPositionWithTrigonometric(const double time, const double period = 0.0) const;
+  math::Vector<3> CalcPositionWithTrigonometric(const double time, const double period = 0.0) const;
 
   // Getters
   /**
@@ -66,7 +68,9 @@ class InterpolationOrbit {
   }
 
  private:
-  std::vector<libra::Interpolation> interpolation_position_;  // 3D vector of interpolation
+  std::vector<math::Interpolation> interpolation_position_;  // 3D vector of interpolation
 };
+
+}  // namespace orbit
 
 #endif  // S2E_LIBRARY_ORBIT_INTERPOLATION_ORBIT_HPP_

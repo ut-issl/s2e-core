@@ -31,10 +31,11 @@ void MagneticDisturbance::Update(const LocalEnvironment& local_environment, cons
 }
 
 void MagneticDisturbance::CalcRMM() {
-  static libra::Vector<3> random_walk_std_dev(residual_magnetic_moment_.GetRandomWalkStandardDeviation_Am2());
-  static libra::Vector<3> random_walk_limit(residual_magnetic_moment_.GetRandomWalkLimit_Am2());
+  static math::Vector<3> random_walk_std_dev(residual_magnetic_moment_.GetRandomWalkStandardDeviation_Am2());
+  static math::Vector<3> random_walk_limit(residual_magnetic_moment_.GetRandomWalkLimit_Am2());
   static RandomWalk<3> random_walk(0.1, random_walk_std_dev, random_walk_limit);  // [FIXME] step width is constant
-  static libra::NormalRand normal_random(0.0, residual_magnetic_moment_.GetRandomNoiseStandardDeviation_Am2(), global_randomization.MakeSeed());
+  static randomization::NormalRand normal_random(0.0, residual_magnetic_moment_.GetRandomNoiseStandardDeviation_Am2(),
+                                                 global_randomization.MakeSeed());
 
   rmm_b_Am2_ = residual_magnetic_moment_.GetConstantValue_b_Am2();
   for (int i = 0; i < 3; ++i) {
