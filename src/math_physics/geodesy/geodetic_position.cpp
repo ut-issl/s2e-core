@@ -10,6 +10,8 @@
 #include <math_physics/math/constants.hpp>
 #include <math_physics/math/matrix.hpp>
 
+namespace geodesy {
+
 GeodeticPosition::GeodeticPosition() {
   latitude_rad_ = 0.0;
   longitude_rad_ = 0.0;
@@ -83,3 +85,5 @@ void GeodeticPosition::CalcQuaternionXcxfToLtc() {
 
   quaternion_xcxf_to_ltc_ = quaternion_xcxf_to_ltc_.ConvertFromDcm(dcm_xcxf_to_ltc);
 }
+
+}  // namespace geodesy

@@ -8,6 +8,8 @@
 #include <cassert>
 #include <math_physics/math/constants.hpp>
 
+namespace optics {
+
 GaussianBeamBase::GaussianBeamBase(double wavelength_m, double radius_beam_waist_m, double total_power_W)
     : wavelength_m_(wavelength_m), radius_beam_waist_m_(radius_beam_waist_m), total_power_W_(total_power_W) {}
 
@@ -46,3 +48,5 @@ double GaussianBeamBase::CalcIntensity_W_m2(double distance_from_beam_waist_m, d
   double intensity_W_m2 = peak_intensity_W_m2 * gaussian_dist;
   return intensity_W_m2;
 }
+
+}  // namespace optics
