@@ -7,6 +7,8 @@
 #include "../math/matrix_vector.hpp"
 #include "../math/s2e_math.hpp"
 
+namespace orbit {
+
 KeplerOrbit::KeplerOrbit() {}
 // Initialize with orbital elements
 KeplerOrbit::KeplerOrbit(const double gravity_constant_m3_s2, const OrbitalElements oe) : gravity_constant_m3_s2_(gravity_constant_m3_s2), oe_(oe) {
@@ -97,3 +99,5 @@ double KeplerOrbit::SolveKeplerNewtonMethod(const double eccentricity, const dou
   }
   return u_rad;
 }
+
+}  // namespace orbit

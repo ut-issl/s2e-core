@@ -10,6 +10,8 @@
 
 #include <string>
 
+namespace gnss {
+
 // GNSS satellite number definition
 // TODO: Move to initialized file?
 const size_t kNumberOfGpsSatellite = 32;      //!< Number of GPS satellites
@@ -43,5 +45,7 @@ size_t ConvertGnssSatelliteNumberToIndex(const std::string satellite_number);
  * @return GNSS satellite number defined in RINEX v4. or err when the input is wrong.
  */
 std::string ConvertIndexToGnssSatelliteNumber(const size_t index);
+
+}  // namespace gnss
 
 #endif  // S2E_LIBRARY_GNSS_GNSS_SATELLITE_NUMBER_HPP_

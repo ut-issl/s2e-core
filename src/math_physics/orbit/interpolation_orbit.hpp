@@ -10,6 +10,8 @@
 #include <math_physics/math/vector.hpp>
 #include <vector>
 
+namespace orbit {
+
 /**
  * @class InterpolationOrbit
  * @brief Orbit calculation with mathematical interpolation
@@ -68,5 +70,7 @@ class InterpolationOrbit {
  private:
   std::vector<math::Interpolation> interpolation_position_;  // 3D vector of interpolation
 };
+
+}  // namespace orbit
 
 #endif  // S2E_LIBRARY_ORBIT_INTERPOLATION_ORBIT_HPP_

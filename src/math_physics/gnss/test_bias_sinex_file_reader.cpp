@@ -2,6 +2,8 @@
 
 #include "bias_sinex_file_reader.hpp"
 
+using namespace gnss;
+
 TEST(BiasSinex, Constructor) {
   // File read error check
   BiasSinexFileReader bias_sinex_file_fault("false_file_path.BSX");

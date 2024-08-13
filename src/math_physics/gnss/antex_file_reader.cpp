@@ -10,6 +10,8 @@
 #include <iostream>
 #include <math_physics/gnss/gnss_satellite_number.hpp>
 
+namespace gnss {
+
 #define ANTEX_LINE_TYPE_POSITION (60)
 
 AntexGridDefinition::AntexGridDefinition(const double zenith_start_angle_deg, const double zenith_end_angle_deg, const double zenith_step_angle_deg,
@@ -196,3 +198,5 @@ DateTime AntexFileReader::ReadDateTime(std::string line) {
   sscanf(line.c_str(), "%zu %2zu %2zu %2zu %2zu %10lf", &year, &month, &day, &hour, &minute, &second);
   return DateTime(year, month, day, hour, minute, second);
 }
+
+}  // namespace gnss

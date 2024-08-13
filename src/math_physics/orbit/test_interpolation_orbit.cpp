@@ -8,6 +8,8 @@
 
 #include "interpolation_orbit.hpp"
 
+using namespace orbit;
+
 /**
  * @brief Test for Constructor function
  */

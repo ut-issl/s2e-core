@@ -54,7 +54,7 @@ class GnssSatellites : public ILoggable {
    * @param [in] sp3_files: List of SP3 files
    * @param [in] start_time: The simulation start time
    */
-  void Initialize(const std::vector<Sp3FileReader>& sp3_files, const EpochTime start_time);
+  void Initialize(const std::vector<gnss::Sp3FileReader>& sp3_files, const EpochTime start_time);
 
   /**
    * @fn IsCalcEnabled
@@ -113,15 +113,15 @@ class GnssSatellites : public ILoggable {
  private:
   bool is_calc_enabled_ = false;  //!< Flag to manage the GNSS satellite position calculation
 
-  std::vector<Sp3FileReader> sp3_files_;         //!< List of SP3 files
+  std::vector<gnss::Sp3FileReader> sp3_files_;   //!< List of SP3 files
   size_t number_of_calculated_gnss_satellites_;  //!< Number of calculated GNSS satellites
   size_t sp3_file_id_;                           //!< Current SP3 file ID
   EpochTime reference_time_;                     //!< Reference start time of the SP3 handling
   size_t reference_interpolation_id_ = 0;        //!< Reference epoch ID of the interpolation
   EpochTime current_epoch_time_;                 //!< The last updated time
 
-  std::vector<InterpolationOrbit> orbit_;   //!< GNSS satellite orbit with interpolation
-  std::vector<math::Interpolation> clock_;  //!< GNSS satellite clock offset with interpolation
+  std::vector<orbit::InterpolationOrbit> orbit_;  //!< GNSS satellite orbit with interpolation
+  std::vector<math::Interpolation> clock_;        //!< GNSS satellite clock offset with interpolation
 
   // References
   const EarthRotation& earth_rotation_;  //!< Earth rotation
@@ -133,7 +133,7 @@ class GnssSatellites : public ILoggable {
    * @param [in] current_time: Target time
    * @return true means no error, false means the time argument is out of range
    */
-  bool GetCurrentSp3File(Sp3FileReader& current_sp3_file, const EpochTime current_time);
+  bool GetCurrentSp3File(gnss::Sp3FileReader& current_sp3_file, const EpochTime current_time);
 
   /**
    * @fn UpdateInterpolationInformation
