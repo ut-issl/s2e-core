@@ -3,6 +3,8 @@
 #include "date_time_format.hpp"
 #include "epoch_time.hpp"
 
+using namespace time_system;
+
 TEST(EpochTime, ConstructorNominal) {
   EpochTime time(1000000000, 0.250);
 

@@ -11,6 +11,8 @@
 #include <iomanip>
 #include <sstream>
 
+namespace time_system {
+
 DateTime::DateTime(const std::string date_time) {
   sscanf(date_time.c_str(), "%zu/%zu/%zu %zu:%zu:%lf", &year_, &month_, &day_, &hour_, &minute_, &second_);
 }
@@ -52,3 +54,5 @@ std::string DateTime::GetAsString() const {
   std::string output = stream.str();
   return output;
 }
+
+}  // namespace time_system

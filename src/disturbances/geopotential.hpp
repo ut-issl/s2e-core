@@ -60,7 +60,7 @@ class Geopotential : public Disturbance {
   virtual std::string GetLogValue() const;
 
  private:
-  GravityPotential geopotential_;
+  gravity::GravityPotential geopotential_;
   size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential
   std::vector<std::vector<double>> c_;  //!< Cosine coefficients
   std::vector<std::vector<double>> s_;  //!< Sine coefficients

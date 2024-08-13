@@ -2,6 +2,8 @@
 
 #include "date_time_format.hpp"
 
+using namespace time_system;
+
 /**
  * @brief Test Constructor with value
  */

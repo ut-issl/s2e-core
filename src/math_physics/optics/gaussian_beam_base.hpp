@@ -8,6 +8,8 @@
 
 #include "../math/vector.hpp"
 
+namespace optics {
+
 /**
  * @class GaussianBeamBase
  * @brief Class to express gaussian beam laser
@@ -106,5 +108,7 @@ class GaussianBeamBase {
   math::Vector<3> pointing_vector_i_{0.0};        //!< Pointing direction vector in the inertial frame
   math::Vector<3> position_beam_waist_i_m_{0.0};  //!< Position of beam waist in the inertial frame [m] (Not used?)
 };
+
+}  // namespace optics
 
 #endif  // S2E_LIBRARY_OPTICS_GAUSSIAN_BEAM_BASE_HPP_

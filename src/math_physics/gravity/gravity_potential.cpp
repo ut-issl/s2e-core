@@ -10,6 +10,8 @@
 #include <fstream>
 #include <iostream>
 
+namespace gravity {
+
 GravityPotential::GravityPotential(const size_t degree, const std::vector<std::vector<double>> cosine_coefficients,
                                    const std::vector<std::vector<double>> sine_coefficients, const double gravity_constants_m3_s2,
                                    const double center_body_radius_m)
@@ -275,3 +277,5 @@ void GravityPotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_
   *w_nm = c_normalize * (c1 * z_tmp * w_prev - c2 * c2_normalize * re_tmp * w_prev2);
   return;
 }
+
+}  // namespace gravity
