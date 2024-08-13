@@ -5,6 +5,8 @@
 
 #include "interpolation_orbit.hpp"
 
+namespace orbit {
+
 InterpolationOrbit::InterpolationOrbit(const size_t degree) {
   std::vector<double> time;
   time.assign(degree, -1.0);
@@ -34,3 +36,5 @@ math::Vector<3> InterpolationOrbit::CalcPositionWithTrigonometric(const double t
   }
   return output_position;
 }
+
+}  // namespace orbit

@@ -4,6 +4,8 @@
  */
 #include "relative_orbit_models.hpp"
 
+namespace orbit {
+
 math::Matrix<6, 6> CalcHillSystemMatrix(double orbit_radius_m, double gravity_constant_m3_s2) {
   math::Matrix<6, 6> system_matrix;
 
@@ -91,3 +93,5 @@ math::Matrix<6, 6> CalcHcwStm(double orbit_radius_m, double gravity_constant_m3_
   stm[5][5] = cos(n * t);
   return stm;
 }
+
+}  // namespace orbit

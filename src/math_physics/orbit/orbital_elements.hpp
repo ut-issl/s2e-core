@@ -8,6 +8,8 @@
 
 #include "../math/vector.hpp"
 
+namespace orbit {
+
 /**
  * @class OrbitalElements
  * @brief Class for classical orbital elements
@@ -103,5 +105,7 @@ class OrbitalElements {
   void CalcOeFromPosVel(const double gravity_constant_m3_s2, const double time_jday, const math::Vector<3> position_i_m,
                         const math::Vector<3> velocity_i_m_s);
 };
+
+}  // namespace orbit
 
 #endif  // S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_HPP_
