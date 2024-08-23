@@ -55,7 +55,7 @@ class ObcWithC2a : public OnBoardComputer {
    */
   int ConnectComPort(int port_id, int tx_buffer_size, int rx_buffer_size) override;
   /**
-   * @fn ConnectComPort
+   * @fn CloseComPort
    * @brief Close UART communication port between OnBoardComputer and a component
    * @param [in] port_id: Port ID
    * @return -1: error, 0: success
