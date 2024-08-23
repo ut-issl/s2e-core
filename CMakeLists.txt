@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.13)
 project(S2E
   LANGUAGES CXX
   DESCRIPTION "S2E: Spacecraft Simulation Environment"
-  VERSION 7.2.7
+  VERSION 7.2.8
 )
 
 # build config
@@ -109,7 +109,7 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 ## cspice library
 if(APPLE)
-  if(APPLE_SILICON)  
+  if(APPLE_SILICON)
     # APPLE Silicon
     set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_apple_silicon64/lib)
   else()
@@ -151,7 +151,7 @@ endif()
 ## nrlmsise00 library
 if(CYGWIN)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-  find_library(NRLMSISE00_LIB 
+  find_library(NRLMSISE00_LIB
     NAMES libnrlmsise00.a
     PATHS ${NRLMSISE00_DIR}/lib)
 elseif(UNIX)
@@ -167,11 +167,11 @@ elseif(UNIX)
 elseif(WIN32)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
   if(BUILD_64BIT)
-    find_library(NRLMSISE00_LIB 
+    find_library(NRLMSISE00_LIB
       NAMES libnrlmsise00.lib
       PATHS ${NRLMSISE00_DIR}/lib64)
   else()
-    find_library(NRLMSISE00_LIB 
+    find_library(NRLMSISE00_LIB
       NAMES libnrlmsise00.lib
       PATHS ${NRLMSISE00_DIR}/lib)
   endif()
