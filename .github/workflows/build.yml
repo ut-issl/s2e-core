@@ -90,6 +90,7 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           cmake --install .
+
       - name: check extlib
         shell: powershell
         working-directory: ./ExtLibraries
@@ -102,6 +103,17 @@ jobs:
           ls nrlmsise00/lib*
           ls nrlmsise00/lib*/libnrlmsise00.lib
           ls nrlmsise00/src
+
+      - name: copy to settings
+        if: steps.cache-extlib.outputs.cache-hit == 'true'
+        shell: powershell
+        run: |
+          ls ./settings/environment/cspice
+          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/environment/cspice"
+          ls ./settings/environment/cspice
+          ls ./settings/environment/cspice/generic_kernels/lsk
+          ls ./settings/environment/cspice/generic_kernels/pck
+          ls ./settings/environment/cspice/generic_kernels/spk          
 
       - name: build 32bit
         if: matrix.build_bit == 'BUILD_64BIT=OFF'
@@ -189,6 +201,7 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           cmake --install .
+
       - name: check extlib
         working-directory: ./ExtLibraries
         run: |
@@ -200,6 +213,17 @@ jobs:
           ls nrlmsise00/lib*
           ls nrlmsise00/lib*/libnrlmsise00.a
           ls nrlmsise00/src
+
+      - name: copy to settings
+        if: steps.cache-extlib.outputs.cache-hit == 'true'
+        run: |
+          ls ./settings/environment/cspice
+          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/environment/cspice"
+          ls ./settings/environment/cspice
+          ls ./settings/environment/cspice/generic_kernels/lsk
+          ls ./settings/environment/cspice/generic_kernels/pck
+          ls ./settings/environment/cspice/generic_kernels/spk       
+     
 
       - name: build
         env:
