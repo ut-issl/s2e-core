@@ -4,7 +4,9 @@ cmake_minimum_required(VERSION 3.18)
 
 include(FetchContent)
 
-set(LUNAR_GRAVITY_FIELD_INSTALL_DIR ${EXT_LIB_DIR}/lunar_gravity_field)
+set(SETTINGS_DIR "${CMAKE_CURRENT_LIST_DIR}/../../settings/")
+
+set(LUNAR_GRAVITY_FIELD_INSTALL_DIR ${SETTINGS_DIR}/environment/gravity_field)
 
 set(LUNAR_GRAVITY_FIELD_URL_BASE https://pds-geosciences.wustl.edu/grail/grail-l-lgrs-5-rdr-v1/grail_1001/shadr)
 set(LUNAR_GRAVITY_FIELD_FILE gggrx_1200a_sha.tab)
