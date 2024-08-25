@@ -7,10 +7,10 @@
 #define S2E_COMPONENTS_REAL_PROPULSION_SIMPLE_THRUSTER_HPP_
 
 #include <dynamics/dynamics.hpp>
-#include <library/logger/logger.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/normal_randomization.hpp>
+#include <logger/logger.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
 #include "../../base/component.hpp"
@@ -114,8 +114,8 @@ class SimpleThruster : public Component, public ILoggable {
   double duty_ = 0.0;                                    //!< PWM Duty [0.0 : 1.0]
   double thrust_magnitude_max_N_ = 0.0;                  //!< Maximum thrust magnitude [N]
   double direction_noise_standard_deviation_rad_ = 0.0;  //!< Standard deviation of thrust direction error [rad]
-  libra::NormalRand magnitude_random_noise_;             //!< Normal random for thrust magnitude error
-  libra::NormalRand direction_random_noise_;             //!< Normal random for thrust direction error
+  randomization::NormalRand magnitude_random_noise_;     //!< Normal random for thrust magnitude error
+  randomization::NormalRand direction_random_noise_;     //!< Normal random for thrust direction error
   // outputs
   Vector<3> output_thrust_b_N_{0.0};   //!< Generated thrust on the body fixed frame [N]
   Vector<3> output_torque_b_Nm_{0.0};  //!< Generated torque on the body fixed frame [Nm]

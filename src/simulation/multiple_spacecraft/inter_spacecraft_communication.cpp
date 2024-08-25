@@ -5,7 +5,7 @@
 
 #include "inter_spacecraft_communication.hpp"
 
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 InterSpacecraftCommunication::InterSpacecraftCommunication(const SimulationConfiguration* simulation_configuration) {
   UNUSED(simulation_configuration);

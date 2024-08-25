@@ -10,10 +10,10 @@
 #include <environment/global/physical_constants.hpp>
 
 using namespace std;
-using namespace libra;
+using namespace math;
 
 Node::Node(const size_t node_id, const string node_name, const NodeType node_type, const size_t heater_id, const double temperature_ini_K,
-           const double capacity_J_K, const double alpha, const double area_m2, libra::Vector<3> normal_vector_b)
+           const double capacity_J_K, const double alpha, const double area_m2, math::Vector<3> normal_vector_b)
     : node_id_(node_id),
       node_name_(node_name),
       heater_id_(heater_id),
@@ -29,7 +29,7 @@ Node::Node(const size_t node_id, const string node_name, const NodeType node_typ
 
 Node::~Node() {}
 
-double Node::CalcSolarRadiation_W(libra::Vector<3> sun_direction_b, double solar_flux_W_m2) {
+double Node::CalcSolarRadiation_W(math::Vector<3> sun_direction_b, double solar_flux_W_m2) {
   double cos_theta = InnerProduct(sun_direction_b, normal_vector_b_);
 
   // calculate sun_power
@@ -147,7 +147,7 @@ Node InitNode(const std::vector<std::string>& node_str) {
   capacity_J_K = stod(node_str[index_capacity]);
   alpha = stod(node_str[index_alpha]);
   area_m2 = stod(node_str[index_area]);
-  libra::Vector<3> normal_v_b;
+  math::Vector<3> normal_v_b;
   for (size_t i = 0; i < 3; i++) {
     normal_v_b[i] = stod(node_str[index_normal_v_b_head + i]);
   }

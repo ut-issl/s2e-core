@@ -5,19 +5,21 @@
 
 #include "gnss_satellites.hpp"
 
-#include <library/gnss/igs_product_name_handling.hpp>
-#include <library/gnss/sp3_file_reader.hpp>
+#include <math_physics/gnss/igs_product_name_handling.hpp>
+#include <math_physics/gnss/sp3_file_reader.hpp>
 
 #include "environment/global/physical_constants.hpp"
-#include "library/initialize/initialize_file_access.hpp"
-#include "library/logger/log_utility.hpp"
-#include "library/math/constants.hpp"
-#include "library/time_system/date_time_format.hpp"
-#include "library/utilities/macros.hpp"
+#include "logger/log_utility.hpp"
+#include "math_physics/math/constants.hpp"
+#include "math_physics/time_system/date_time_format.hpp"
+#include "setting_file_reader/initialize_file_access.hpp"
+#include "utilities/macros.hpp"
+
+using namespace gnss;
 
 const size_t kNumberOfInterpolation = 9;
 
-void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, const EpochTime start_time) {
+void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, const time_system::EpochTime start_time) {
   sp3_files_ = sp3_files;
   current_epoch_time_ = start_time;
 
@@ -35,15 +37,15 @@ void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, con
   if (nearest_epoch_id >= half_interpolation_number) {
     reference_interpolation_id_ = nearest_epoch_id - half_interpolation_number;
   }
-  reference_time_ = EpochTime(initial_sp3_file.GetEpochData(reference_interpolation_id_));
+  reference_time_ = time_system::EpochTime(initial_sp3_file.GetEpochData(reference_interpolation_id_));
 
   // Initialize orbit
-  orbit_.assign(number_of_calculated_gnss_satellites_, InterpolationOrbit(kNumberOfInterpolation));
+  orbit_.assign(number_of_calculated_gnss_satellites_, orbit::InterpolationOrbit(kNumberOfInterpolation));
 
   // Initialize clock
   std::vector<double> temp;
   temp.assign(kNumberOfInterpolation, -1.0);
-  clock_.assign(number_of_calculated_gnss_satellites_, libra::Interpolation(temp, temp));
+  clock_.assign(number_of_calculated_gnss_satellites_, math::Interpolation(temp, temp));
 
   // Initialize interpolation
   for (size_t i = 0; i < kNumberOfInterpolation; i++) {
@@ -58,9 +60,9 @@ void GnssSatellites::Update(const SimulationTime& simulation_time) {
 
   // Get time
   UTC current_utc = simulation_time.GetCurrentUtc();
-  DateTime current_date_time((size_t)current_utc.year, (size_t)current_utc.month, (size_t)current_utc.day, (size_t)current_utc.hour,
-                             (size_t)current_utc.minute, current_utc.second);
-  current_epoch_time_ = EpochTime(current_date_time);
+  time_system::DateTime current_date_time((size_t)current_utc.year, (size_t)current_utc.month, (size_t)current_utc.day, (size_t)current_utc.hour,
+                                          (size_t)current_utc.minute, current_utc.second);
+  current_epoch_time_ = time_system::EpochTime(current_date_time);
 
   // Check interpolation update
   double diff_s = current_epoch_time_.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
@@ -72,10 +74,10 @@ void GnssSatellites::Update(const SimulationTime& simulation_time) {
   return;
 }
 
-libra::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_id, const EpochTime time) const {
-  if (gnss_satellite_id > number_of_calculated_gnss_satellites_) return libra::Vector<3>(0.0);
+math::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_id, const time_system::EpochTime time) const {
+  if (gnss_satellite_id > number_of_calculated_gnss_satellites_) return math::Vector<3>(0.0);
 
-  EpochTime target_time;
+  time_system::EpochTime target_time;
 
   if (time.GetTime_s() == 0) {
     target_time = current_epoch_time_;
@@ -84,16 +86,16 @@ libra::Vector<3> GnssSatellites::GetPosition_ecef_m(const size_t gnss_satellite_
   }
 
   double diff_s = target_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
-  if (diff_s < 0.0 || diff_s > 1e6) return libra::Vector<3>(0.0);
+  if (diff_s < 0.0 || diff_s > 1e6) return math::Vector<3>(0.0);
 
   const double kOrbitalPeriodCorrection_s = 24 * 60 * 60 * 1.003;  // See http://acc.igs.org/orbits/orbit-interp_gpssoln03.pdf
-  return orbit_[gnss_satellite_id].CalcPositionWithTrigonometric(diff_s, libra::tau / kOrbitalPeriodCorrection_s);
+  return orbit_[gnss_satellite_id].CalcPositionWithTrigonometric(diff_s, math::tau / kOrbitalPeriodCorrection_s);
 }
 
-double GnssSatellites::GetClock_s(const size_t gnss_satellite_id, const EpochTime time) const {
+double GnssSatellites::GetClock_s(const size_t gnss_satellite_id, const time_system::EpochTime time) const {
   if (gnss_satellite_id > number_of_calculated_gnss_satellites_) return 0.0;
 
-  EpochTime target_time;
+  time_system::EpochTime target_time;
 
   if (time.GetTime_s() == 0) {
     target_time = current_epoch_time_;
@@ -107,9 +109,9 @@ double GnssSatellites::GetClock_s(const size_t gnss_satellite_id, const EpochTim
   return clock_[gnss_satellite_id].CalcPolynomial(diff_s) * 1e-6;
 }
 
-bool GnssSatellites::GetCurrentSp3File(Sp3FileReader& current_sp3_file, const EpochTime current_time) {
+bool GnssSatellites::GetCurrentSp3File(Sp3FileReader& current_sp3_file, const time_system::EpochTime current_time) {
   for (size_t i = 0; i < sp3_files_.size(); i++) {
-    EpochTime sp3_start_time(sp3_files_[i].GetStartEpochDateTime());
+    time_system::EpochTime sp3_start_time(sp3_files_[i].GetStartEpochDateTime());
     double diff_s = current_time.GetTimeWithFraction_s() - sp3_start_time.GetTimeWithFraction_s();
     if (diff_s < 0.0) {
       // Error
@@ -127,9 +129,9 @@ bool GnssSatellites::UpdateInterpolationInformation() {
   Sp3FileReader sp3_file = sp3_files_[sp3_file_id_];
 
   for (size_t gnss_id = 0; gnss_id < number_of_calculated_gnss_satellites_; gnss_id++) {
-    EpochTime sp3_time = EpochTime(sp3_file.GetEpochData(reference_interpolation_id_));
+    time_system::EpochTime sp3_time = time_system::EpochTime(sp3_file.GetEpochData(reference_interpolation_id_));
     double time_diff_s = sp3_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
-    libra::Vector<3> sp3_position_m = 1000.0 * sp3_file.GetSatellitePosition_km(reference_interpolation_id_, gnss_id);
+    math::Vector<3> sp3_position_m = 1000.0 * sp3_file.GetSatellitePosition_km(reference_interpolation_id_, gnss_id);
 
     orbit_[gnss_id].PushAndPopData(time_diff_s, sp3_position_m);
     clock_[gnss_id].PushAndPopData(time_diff_s, sp3_file.GetSatelliteClockOffset(reference_interpolation_id_, gnss_id));
@@ -224,9 +226,10 @@ GnssSatellites* InitGnssSatellites(const std::string file_name, const EarthRotat
   }
 
   //
-  DateTime start_date_time((size_t)simulation_time.GetStartYear(), (size_t)simulation_time.GetStartMonth(), (size_t)simulation_time.GetStartDay(),
-                           (size_t)simulation_time.GetStartHour(), (size_t)simulation_time.GetStartMinute(), simulation_time.GetStartSecond());
-  EpochTime start_epoch_time(start_date_time);
+  time_system::DateTime start_date_time((size_t)simulation_time.GetStartYear(), (size_t)simulation_time.GetStartMonth(),
+                                        (size_t)simulation_time.GetStartDay(), (size_t)simulation_time.GetStartHour(),
+                                        (size_t)simulation_time.GetStartMinute(), simulation_time.GetStartSecond());
+  time_system::EpochTime start_epoch_time(start_date_time);
   gnss_satellites->Initialize(sp3_file_readers, start_epoch_time);
 
   return gnss_satellites;

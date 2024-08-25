@@ -4,12 +4,13 @@ cmake_minimum_required(VERSION 3.13)
 project(S2E
   LANGUAGES CXX
   DESCRIPTION "S2E: Spacecraft Simulation Environment"
-  VERSION 7.2.4
+  VERSION 7.2.8
 )
 
 # build config
 option(USE_HILS "Use HILS" OFF)
 option(USE_C2A "Use C2A" OFF)
+option(USE_C2A_COMMAND_SENDER "Use command sender to C2A" OFF)
 option(BUILD_64BIT "Build 64bit" OFF)
 option(GOOGLE_TEST "Execute GoogleTest" OFF)
 
@@ -88,7 +89,11 @@ add_subdirectory(src/environment/local)
 add_subdirectory(src/dynamics)
 add_subdirectory(src/disturbances)
 add_subdirectory(src/components)
-add_subdirectory(src/library)
+add_subdirectory(src/math_physics)
+add_subdirectory(src/setting_file_reader)
+add_subdirectory(src/logger)
+add_subdirectory(src/utilities)
+add_subdirectory(ExtLibraries/inih)
 
 set(SOURCE_FILES
   src/s2e.cpp
@@ -104,7 +109,7 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 ## cspice library
 if(APPLE)
-  if(APPLE_SILICON)  
+  if(APPLE_SILICON)
     # APPLE Silicon
     set(CSPICE_LIB_DIR ${CSPICE_DIR}/cspice_apple_silicon64/lib)
   else()
@@ -146,7 +151,7 @@ endif()
 ## nrlmsise00 library
 if(CYGWIN)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-  find_library(NRLMSISE00_LIB 
+  find_library(NRLMSISE00_LIB
     NAMES libnrlmsise00.a
     PATHS ${NRLMSISE00_DIR}/lib)
 elseif(UNIX)
@@ -162,11 +167,11 @@ elseif(UNIX)
 elseif(WIN32)
   SET (CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
   if(BUILD_64BIT)
-    find_library(NRLMSISE00_LIB 
+    find_library(NRLMSISE00_LIB
       NAMES libnrlmsise00.lib
       PATHS ${NRLMSISE00_DIR}/lib64)
   else()
-    find_library(NRLMSISE00_LIB 
+    find_library(NRLMSISE00_LIB
       NAMES libnrlmsise00.lib
       PATHS ${NRLMSISE00_DIR}/lib)
   endif()
@@ -177,13 +182,14 @@ endif()
 #target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
 
 # Initialize link
-target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
-target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION LIBRARY)
-target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT LIBRARY)
-target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE LIBRARY)
-target_link_libraries(GLOBAL_ENVIRONMENT ${CSPICE_LIB} LIBRARY)
-target_link_libraries(LOCAL_ENVIRONMENT GLOBAL_ENVIRONMENT ${CSPICE_LIB} LIBRARY)
-target_link_libraries(LIBRARY ${NRLMSISE00_LIB})
+target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT MATH_PHYSICS SETTING_FILE_READER LOGGER UTILITIES)
+target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION MATH_PHYSICS)
+target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT MATH_PHYSICS)
+target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE MATH_PHYSICS)
+target_link_libraries(GLOBAL_ENVIRONMENT ${CSPICE_LIB} MATH_PHYSICS)
+target_link_libraries(LOCAL_ENVIRONMENT GLOBAL_ENVIRONMENT ${CSPICE_LIB} MATH_PHYSICS)
+target_link_libraries(MATH_PHYSICS ${NRLMSISE00_LIB})
+target_link_libraries(SETTING_FILE_READER INIH)
 
 target_link_libraries(${PROJECT_NAME} DYNAMICS)
 target_link_libraries(${PROJECT_NAME} DISTURBANCE)
@@ -234,7 +240,7 @@ if(GOOGLE_TEST)
 
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main gmock)
-  target_link_libraries(${TEST_PROJECT_NAME} LIBRARY)
+  target_link_libraries(${TEST_PROJECT_NAME} MATH_PHYSICS)
   include_directories(${TEST_PROJECT_NAME})
   add_test(NAME s2e-test COMMAND ${TEST_PROJECT_NAME})
   enable_testing()

@@ -8,10 +8,10 @@
 
 #include <environment/local/local_celestial_information.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
-#include <library/logger/loggable.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/normal_randomization.hpp>
+#include <logger/loggable.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 
 #include "../../base/component.hpp"
 
@@ -35,7 +35,7 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] srp_environment: Solar Radiation Pressure environment
    * @param [in] local_celestial_information: Local celestial information
    */
-  SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+  SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
             const double detectable_angle_rad, const double random_noise_standard_deviation_rad, const double bias_noise_standard_deviation_rad,
             const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp_environment,
             const LocalCelestialInformation* local_celestial_information);
@@ -55,7 +55,7 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] local_celestial_information: Local celestial information
    */
   SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-            const libra::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
+            const math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
             const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
             const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information);
 
@@ -80,19 +80,19 @@ class SunSensor : public Component, public ILoggable {
 
   // Getter
   inline bool GetSunDetectedFlag() const { return sun_detected_flag_; };
-  inline const libra::Vector<3> GetMeasuredSunDirection_c() const { return measured_sun_direction_c_; };
-  inline const libra::Vector<3> GetMeasuredSunDirection_b() const { return quaternion_b2c_.Conjugate().FrameConversion(measured_sun_direction_c_); };
+  inline const math::Vector<3> GetMeasuredSunDirection_c() const { return measured_sun_direction_c_; };
+  inline const math::Vector<3> GetMeasuredSunDirection_b() const { return quaternion_b2c_.Conjugate().FrameConversion(measured_sun_direction_c_); };
   inline double GetSunAngleAlpha_rad() const { return alpha_rad_; };
   inline double GetSunAngleBeta_rad() const { return beta_rad_; };
   inline double GetSolarIlluminance_W_m2() const { return solar_illuminance_W_m2_; };
 
  protected:
   const int component_id_;                    //!< Sensor ID
-  libra::Quaternion quaternion_b2c_;          //!< Quaternion from body frame to component frame (Z-axis of the component is sight direction)
+  math::Quaternion quaternion_b2c_;           //!< Quaternion from body frame to component frame (Z-axis of the component is sight direction)
   double intensity_lower_threshold_percent_;  //!< If the light intensity becomes smaller than this, it becomes impossible to get the sun direction
 
-  libra::Vector<3> sun_direction_true_c_{0.0};      //!< True value of sun vector in the component frame
-  libra::Vector<3> measured_sun_direction_c_{0.0};  //!< Measured sun vector in the component frame
+  math::Vector<3> sun_direction_true_c_{0.0};      //!< True value of sun vector in the component frame
+  math::Vector<3> measured_sun_direction_c_{0.0};  //!< Measured sun vector in the component frame
 
   double alpha_rad_ = 0.0;               //!< Angle between Z-axis and the sun direction projected on XZ plane [rad]
   double beta_rad_ = 0.0;                //!< Angle between Z-axis and the sun direction projected on YZ plane [rad]
@@ -100,8 +100,8 @@ class SunSensor : public Component, public ILoggable {
   double detectable_angle_rad_;          //!< half angle (>0) [rad]
   bool sun_detected_flag_ = false;       //!< Sun detected flag
   // Noise parameters
-  libra::NormalRand random_noise_alpha_;  //!< Normal random for alpha angle
-  libra::NormalRand random_noise_beta_;   //!< Normal random for beta angle
+  randomization::NormalRand random_noise_alpha_;  //!< Normal random for alpha angle
+  randomization::NormalRand random_noise_beta_;   //!< Normal random for beta angle
   double bias_noise_alpha_rad_ = 0.0;     //!< Constant bias for alpha angle (Value is calculated by random number generator)
   double bias_noise_beta_rad_ = 0.0;      //!< Constant bias for beta angle (Value is calculated by random number generator)
 

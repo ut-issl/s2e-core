@@ -5,7 +5,7 @@
 
 #include "global_environment.hpp"
 
-#include "library/initialize/initialize_file_access.hpp"
+#include "setting_file_reader/initialize_file_access.hpp"
 
 GlobalEnvironment::GlobalEnvironment(const SimulationConfiguration* simulation_configuration) { Initialize(simulation_configuration); }
 

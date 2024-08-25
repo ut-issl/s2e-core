@@ -5,7 +5,7 @@
 
 #include "structure.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 #include <simulation/spacecraft/structure/initialize_structure.hpp>
 
 Structure::Structure(const SimulationConfiguration* simulation_configuration, const int spacecraft_id) {
