@@ -149,8 +149,8 @@ jobs:
         run: |
           COMPILER="${{ matrix.compiler }}"
           read -r -a COMPILER <<< "$COMPILER"
-          echo "::set-output name=CC::${COMPILER[0]}"
-          echo "::set-output name=CXX::${COMPILER[1]}"
+          echo "CC=${COMPILER[0]}" >> "$GITHUB_OUTPUT"
+          echo "CXX=${COMPILER[1]}" >> "$GITHUB_OUTPUT"
 
       - name: install deps
         run: |
