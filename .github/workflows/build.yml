@@ -107,13 +107,14 @@ jobs:
       - name: copy to settings
         if: steps.cache-extlib.outputs.cache-hit == 'true'
         shell: powershell
+        working-directory: ./ExtLibraries
         run: |
-          ls ./settings/cspice
-          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/cspice"
-          ls ./settings/cspice
-          ls ./settings/cspice/lsk
-          ls ./settings/cspice/pck
-          ls ./settings/cspice/spk          
+          ls ../settings/cspice
+          cp -r "./cspice/generic_kernels" "../settings/cspice"
+          ls ../settings/cspice
+          ls ../settings/cspice/lsk
+          ls ../settings/cspice/pck
+          ls ../settings/cspice/spk          
 
       - name: build 32bit
         if: matrix.build_bit == 'BUILD_64BIT=OFF'
@@ -216,13 +217,14 @@ jobs:
 
       - name: copy to settings
         if: steps.cache-extlib.outputs.cache-hit == 'true'
+        working-directory: ./ExtLibraries
         run: |          
-          ls ./settings/cspice
-          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/cspice"
-          ls ./settings/cspice
-          ls ./settings/cspice/lsk
-          ls ./settings/cspice/pck
-          ls ./settings/cspice/spk          
+          ls ../settings/cspice
+          cp -r "./cspice/generic_kernels" "../settings/cspice"
+          ls ../settings/cspice
+          ls ../settings/cspice/lsk
+          ls ../settings/cspice/pck
+          ls ../settings/cspice/spk          
 
       - name: build
         env:
