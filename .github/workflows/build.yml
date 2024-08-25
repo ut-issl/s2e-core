@@ -109,6 +109,7 @@ jobs:
         shell: powershell
         run: |
           cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/cspice"
+          ls ./settings/cspice
 
       - name: build 32bit
         if: matrix.build_bit == 'BUILD_64BIT=OFF'
