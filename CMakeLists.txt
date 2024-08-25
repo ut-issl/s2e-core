@@ -41,8 +41,8 @@ if(NOT DEFINED C2A_NAME)
 endif()
 
 ## Directory path for ini files
-if(NOT DEFINED INI_FILE_DIR_FROM_EXE)
-  set(INI_FILE_DIR_FROM_EXE ../../settings)
+if(NOT DEFINED SETTINGS_DIR_FROM_EXE)
+  set(SETTINGS_DIR_FROM_EXE ../../settings)
 endif()
 
 if(NOT DEFINED EXT_LIB_DIR_FROM_EXE)
