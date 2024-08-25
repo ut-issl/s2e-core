@@ -149,8 +149,8 @@ jobs:
         run: |
           COMPILER="${{ matrix.compiler }}"
           read -r -a COMPILER <<< "$COMPILER"
-          echo "::set-output name=CC::${COMPILER[0]}"
-          echo "::set-output name=CXX::${COMPILER[1]}"
+          echo "CC=${COMPILER[0]}" >> "$GITHUB_OUTPUT"
+          echo "CXX=${COMPILER[1]}" >> "$GITHUB_OUTPUT"
 
       - name: install deps
         run: |
@@ -239,7 +239,7 @@ jobs:
           ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
           echo "version=$ver" >> "$GITHUB_OUTPUT"
       
-      - uses: actions/setup-python@v5.1.0
+      - uses: actions/setup-python@v5.1.1
         with:
           python-version: ${{ steps.python-version.outputs.version }}
 
