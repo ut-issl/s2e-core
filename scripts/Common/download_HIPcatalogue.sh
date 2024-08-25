@@ -2,8 +2,8 @@
 cd `dirname $0`
 
 #set variables
-DIR_TMP=../../../ExtLibraries/tmp_hipcatalogue/
-DIR_HIPCATALOGUE=../../../ExtLibraries/HipparcosCatalogue/
+DIR_TMP=./tmp_hipcatalogue/
+DIR_HIPCATALOGUE=../../settings/environment/star_catalogue/
 
 mkdir -p $DIR_TMP
 mkdir -p $DIR_HIPCATALOGUE
