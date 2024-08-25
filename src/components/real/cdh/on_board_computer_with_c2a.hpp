@@ -8,7 +8,7 @@
 
 #include <components/ports/gpio_port.hpp>
 
-#include "c2a_communication.h"
+#include "c2a_communication.hpp"
 #include "on_board_computer.hpp"
 
 /*
