@@ -5,8 +5,6 @@ cmake_minimum_required(VERSION 3.18)
 include(ExternalProject)
 include(FetchContent)
 
-set(SETTINGS_DIR "${CMAKE_CURRENT_LIST_DIR}/../../settings/")
-
 set(NRLMSISE_INSTALL_DIR ${EXT_LIB_DIR}/nrlmsise00)
 set(TABLE_FILE_INSTALL_DIR ${SETTINGS_DIR}/environment/space_weather)
 

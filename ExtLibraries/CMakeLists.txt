@@ -16,8 +16,13 @@ if(NOT DEFINED EXT_LIB_DIR)
   set(EXT_LIB_DIR "${CMAKE_CURRENT_LIST_DIR}/../../ExtLibraries/")
 endif()
 
+if(NOT DEFINED SETTINGS_DIR)
+  set(SETTINGS_DIR "${CMAKE_CURRENT_LIST_DIR}/../settings/")
+endif()
+
 # windows path
 string(REPLACE "\\" "/" EXT_LIB_DIR ${EXT_LIB_DIR})
+string(REPLACE "\\" "/" SETTINGS_DIR ${SETTINGS_DIR})
 
 message("ExtLibraries install dir: ${EXT_LIB_DIR}")
 
