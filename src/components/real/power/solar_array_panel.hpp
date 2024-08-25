@@ -56,7 +56,7 @@ class SolarArrayPanel : public Component, public ILoggable {
   /**
    * @fn SolarArrayPanel
    * @brief Constructor without prescaler
-   * @note prescaler is set as 10, compo_step_sec is set as
+   * @note prescaler is set as 10, compo_step_sec is set as 0.1
    * @param [in] clock_generator: Clock generator
    * @param [in] component_id: SolarArrayPanel ID
    * @param [in] number_of_series: Number of series connected solar cells
