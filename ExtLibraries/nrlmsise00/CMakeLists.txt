@@ -5,7 +5,10 @@ cmake_minimum_required(VERSION 3.18)
 include(ExternalProject)
 include(FetchContent)
 
+set(SETTINGS_DIR "${CMAKE_CURRENT_LIST_DIR}/../../settings/")
+
 set(NRLMSISE_INSTALL_DIR ${EXT_LIB_DIR}/nrlmsise00)
+set(TABLE_FILE_INSTALL_DIR ${SETTINGS_DIR}/environment/space_weather)
 
 set(NRLMSISE_TABLE_URL_BASE ftp://ftp.agi.com/pub/DynamicEarthData)
 set(NRLMSISE_TABLE_FILE SpaceWeather-v1.2.txt)
@@ -90,5 +93,5 @@ install(FILES ${NRLMSISE_TMP_DIR}/nrlmsise-00_data.c
 
 ## install table
 install(FILES ${NRLMSISE_TMP_DIR}/${NRLMSISE_TABLE_FILE}
-  DESTINATION ${NRLMSISE_INSTALL_DIR}/table
+  DESTINATION ${TABLE_FILE_INSTALL_DIR}
 )
