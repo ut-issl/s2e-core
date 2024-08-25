@@ -8,8 +8,8 @@
 
 #include <components/ports/gpio_port.hpp>
 
-#include "on_board_computer.hpp"
 #include "c2a_communication.h"
+#include "on_board_computer.hpp"
 
 /*
  * @class ObcWithC2a
