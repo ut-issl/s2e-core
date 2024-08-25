@@ -86,9 +86,8 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   // Mission
   file_name = iniAccess.ReadString("COMPONENT_FILES", "telescope_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
-  telescope_ =
-      new Telescope(InitTelescope(clock_generator, 1, file_name, &(dynamics_->GetAttitude()), &(global_environment_->GetHipparcosCatalog()),
-                                  &(local_environment_->GetCelestialInformation()), &(dynamics_->GetOrbit())));
+  telescope_ = new Telescope(InitTelescope(clock_generator, 1, file_name, &(dynamics_->GetAttitude()), &(global_environment_->GetHipparcosCatalog()),
+                                           &(local_environment_->GetCelestialInformation()), &(dynamics_->GetOrbit())));
 
   // Force Generator
   file_name = iniAccess.ReadString("COMPONENT_FILES", "force_generator_file");
