@@ -8,6 +8,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#include <filesystem>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -29,8 +30,8 @@ class Logger {
    * @param [in] is_ini_save_enabled: Enable flag to save ini files
    * @param [in] is_enabled: Enable flag for logging
    */
-  Logger(const std::string &file_name, const std::string &data_path, const std::string &ini_file_name, const bool is_ini_save_enabled,
-         const bool is_enabled = true);
+  Logger(const std::string &file_name, const std::filesystem::path &data_path, const std::filesystem::path &ini_file_name,
+         const bool is_ini_save_enabled, const bool is_enabled = true);
   /**
    * @fn ~Logger
    * @brief Destructor
@@ -72,7 +73,7 @@ class Logger {
    * @brief Copy a file (e.g., ini file) into the log directory
    * @param [in] ini_file_name: The path to the target file to copy
    */
-  void CopyFileToLogDirectory(const std::string &ini_file_name);
+  void CopyFileToLogDirectory(const std::filesystem::path &ini_file_name);
 
   // Getter
   /**
@@ -84,7 +85,7 @@ class Logger {
    * @fn GetLogPath
    * @brief Return the path to the directory for log files
    */
-  inline std::string GetLogPath() const { return directory_path_; }
+  inline std::filesystem::path GetLogPath() const { return directory_path_; }
 
  private:
   std::ofstream csv_file_;             //!< CSV file stream
@@ -93,8 +94,8 @@ class Logger {
   static bool is_directory_created_;   //!< Is the log output directory is created in the scenario
   std::vector<ILoggable *> log_list_;  //!< Log list
 
-  bool is_ini_save_enabled_;    //!< Enable flag to save ini files
-  std::string directory_path_;  //!< Path to the directory for log files
+  bool is_ini_save_enabled_;              //!< Enable flag to save ini files
+  std::filesystem::path directory_path_;  //!< Path to the directory for log files
 
   /**
    * @fn Write
@@ -117,15 +118,7 @@ class Logger {
    * @param[in] time: Time stamp (YYYYMMDD_hhmmss)
    * @return Path to the created directory
    */
-  std::string CreateDirectory(const std::string &data_path, const std::string &time);
-
-  /**
-   * @fn GetFileName
-   * @brief Extract the file name from the name with directory path
-   * @param [in] path: Directory path including the file name
-   * @return The extracted file name
-   */
-  std::string GetFileName(const std::string &path);
+  std::filesystem::path CreateDirectory(const std::filesystem::path &data_path, const std::string &time);
 };
 
 #endif  // S2E_LIBRARY_LOGGER_LOGGER_HPP_
