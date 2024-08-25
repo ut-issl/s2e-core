@@ -23,5 +23,4 @@ message("ExtLibraries install dir: ${EXT_LIB_DIR}")
 
 add_subdirectory(nrlmsise00)
 add_subdirectory(cspice)
-add_subdirectory(GeoPotential)
 add_subdirectory(lunar_gravity_field)
