@@ -107,9 +107,8 @@ jobs:
       - name: copy to settings
         if: steps.cache-extlib.outputs.cache-hit == 'true'
         shell: powershell
-        working-directory: ./ExtLibraries
         run: |
-          cp -r "cspice/generic_kernels" "../settings/cspice/generic_kernels"
+          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/cspice"
 
       - name: build 32bit
         if: matrix.build_bit == 'BUILD_64BIT=OFF'
@@ -212,9 +211,8 @@ jobs:
 
       - name: copy to settings
         if: steps.cache-extlib.outputs.cache-hit == 'true'
-        working-directory: ./ExtLibraries
-        run: |
-          cp -r "cspice/generic_kernels" "../settings/cspice/generic_kernels"
+        run: |          
+          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/cspice"
 
       - name: build
         env:
