@@ -8,6 +8,9 @@ include(FetchContent)
 set(CSPICE_INSTALL_DIR ${EXT_LIB_DIR}/cspice)
 set(GENERIC_KERNEL_URL_BASE https://naif.jpl.nasa.gov/pub/naif/generic_kernels)
 
+set(SETTINGS_DIR "${CMAKE_CURRENT_LIST_DIR}/../../settings/")
+set(GENERIC_KERNEL_INSTALL_DIR ${SETTINGS_DIR}/environment/cspice)
+
 if(WIN32)
   # Windows
   if(BUILD_64BIT)
@@ -118,5 +121,5 @@ configure_file(
 )
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/generic_kernels
-  DESTINATION ${CSPICE_INSTALL_DIR}
+  DESTINATION ${GENERIC_KERNEL_INSTALL_DIR}
 )
