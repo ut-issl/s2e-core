@@ -90,6 +90,7 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           cmake --install .
+
       - name: check extlib
         shell: powershell
         working-directory: ./ExtLibraries
@@ -99,17 +100,27 @@ jobs:
           ls cspice/include
           ls cspice/generic_kernels
           ls nrlmsise00
-          ls nrlmsise00/table
           ls nrlmsise00/lib*
           ls nrlmsise00/lib*/libnrlmsise00.lib
           ls nrlmsise00/src
+
+      - name: copy to settings
+        if: steps.cache-extlib.outputs.cache-hit == 'true'
+        shell: powershell
+        run: |
+          ls ./settings/environment/cspice
+          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/environment/cspice"
+          ls ./settings/environment/cspice
+          ls ./settings/environment/cspice/generic_kernels/lsk
+          ls ./settings/environment/cspice/generic_kernels/pck
+          ls ./settings/environment/cspice/generic_kernels/spk          
 
       - name: build 32bit
         if: matrix.build_bit == 'BUILD_64BIT=OFF'
         shell: cmd
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: build 64bit
@@ -117,20 +128,20 @@ jobs:
         shell: cmd
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DEXT_LIB_DIR=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
         shell: bash
-        working-directory: ./data/sample/initialize_files
+        working-directory: ./settings
         run: |
-          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
 
       - name: run simulation(SampleSat)
         if: matrix.build_bit == 'BUILD_64BIT=OFF' || (matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF')
-        working-directory: ./data/sample
+        working-directory: ./
         run: |
-          ..\..\Debug\S2E.exe
+          .\Debug\S2E.exe
 
   build_s2e_linux:
     name: Build on Linux
@@ -190,6 +201,7 @@ jobs:
         working-directory: ./ExtLibraries
         run: |
           cmake --install .
+
       - name: check extlib
         working-directory: ./ExtLibraries
         run: |
@@ -198,35 +210,45 @@ jobs:
           ls cspice/include
           ls cspice/generic_kernels
           ls nrlmsise00
-          ls nrlmsise00/table
           ls nrlmsise00/lib*
           ls nrlmsise00/lib*/libnrlmsise00.a
           ls nrlmsise00/src
+
+      - name: copy to settings
+        if: steps.cache-extlib.outputs.cache-hit == 'true'
+        run: |
+          ls ./settings/environment/cspice
+          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/environment/cspice"
+          ls ./settings/environment/cspice
+          ls ./settings/environment/cspice/generic_kernels/lsk
+          ls ./settings/environment/cspice/generic_kernels/pck
+          ls ./settings/environment/cspice/generic_kernels/spk       
+     
 
       - name: build
         env:
           CC:  ${{ steps.compiler.outputs.CC  }}
           CXX: ${{ steps.compiler.outputs.CXX }}
         run: |
-          cmake . -DEXT_LIB_DIR=./ExtLibraries -D${{ matrix.build_bit }}
+          cmake . -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
-        working-directory: ./data/sample/initialize_files
+        working-directory: ./settings
         run: |
-          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/..\/ExtLibraries/..\/..\/ExtLibraries/g' {} \;
+          find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
 
       - name: run simulation(SampleSat)
-        working-directory: ./data/sample
+        working-directory: ./
         run: |
-          ../../S2E
+          ./S2E
 
       - name: generate graph
         working-directory: ./scripts/Plot
         run: |
           sudo apt-get install -y gnuplot
           pip3 install yq
-          LOG=$(ls ../../data/sample/logs/logs_*/*.csv)
+          LOG=$(ls ../../logs/logs_*/*.csv)
           echo "plot $LOG"
           ./gen_graph.sh "${LOG}"
           ls
