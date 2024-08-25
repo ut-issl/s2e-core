@@ -111,9 +111,9 @@ jobs:
           ls ./settings/environment/cspice
           cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/environment/cspice"
           ls ./settings/environment/cspice
-          ls ./settings/environment/cspice/lsk
-          ls ./settings/environment/cspice/pck
-          ls ./settings/environment/cspice/spk          
+          ls ./settings/environment/cspice/generic_kernels/lsk
+          ls ./settings/environment/cspice/generic_kernels/pck
+          ls ./settings/environment/cspice/generic_kernels/spk          
 
       - name: build 32bit
         if: matrix.build_bit == 'BUILD_64BIT=OFF'
@@ -220,9 +220,9 @@ jobs:
           ls ./settings/environment/cspice
           cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/environment/cspice"
           ls ./settings/environment/cspice
-          ls ./settings/environment/cspice/lsk
-          ls ./settings/environment/cspice/pck
-          ls ./settings/environment/cspice/spk          
+          ls ./settings/environment/cspice/generic_kernels/lsk
+          ls ./settings/environment/cspice/generic_kernels/pck
+          ls ./settings/environment/cspice/generic_kernels/spk       
      
 
       - name: build
