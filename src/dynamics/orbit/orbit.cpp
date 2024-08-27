@@ -74,6 +74,7 @@ std::string Orbit::GetLogHeader() const {
   str_tmp += WriteScalar("spacecraft_latitude", "rad");
   str_tmp += WriteScalar("spacecraft_longitude", "rad");
   str_tmp += WriteScalar("spacecraft_altitude", "m");
+  str_tmp += WriteQuaternion("earth_quaternion", "i2ecef");
 
   return str_tmp;
 }
@@ -88,6 +89,7 @@ std::string Orbit::GetLogValue() const {
   str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLatitude_rad());
   str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLongitude_rad());
   str_tmp += WriteScalar(spacecraft_geodetic_position_.GetAltitude_m());
+  str_tmp += WriteQuaternion(libra::Quaternion::ConvertFromDcm(celestial_information_->GetEarthRotation().GetDcmJ2000ToEcef()));
 
   return str_tmp;
 }
