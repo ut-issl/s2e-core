@@ -39,7 +39,7 @@ class Heatload {
    * @fn UpdateTotalHeatload
    * @brief Update total heatload value by summing up all factors
    */
-  void UpdateTotalHeatload(void) { total_heatload_W_ = solar_heatload_W_ + internal_heatload_W_ + heater_heatload_W_; }
+  void UpdateTotalHeatload(void) { total_heatload_W_ = solar_heatload_W_ + albedo_heatload_W_ + internal_heatload_W_ + heater_heatload_W_; }
 
   // Getter
   /**
@@ -47,6 +47,11 @@ class Heatload {
    * @brief Return Solar Heatload
    */
   inline double GetSolarHeatload_W(void) const { return solar_heatload_W_; }
+  /**
+   * @fn GetAlbedoHeatload_W
+   * @brief Return Albedo Heatload
+   */
+  inline double GetAlbedoHeatload_W(void) const { return albedo_heatload_W_; }
   /**
    * @fn GetInternalHeatload_W
    * @brief Return Internal Heatload
