@@ -80,6 +80,11 @@ class Heatload {
    */
   inline void SetSolarHeatload_W(double solar_heatload_W) { solar_heatload_W_ = solar_heatload_W; }
   /**
+   * @brief Set Albedo Heatload [W]
+   * @param[in] albedo_heatload_W
+   */
+  inline void SetAlbedoHeatload_W(double albedo_heatload_W) { albedo_heatload_W_ = albedo_heatload_W; }
+  /**
    * @brief Set Heater Heatload [W]
    * @param[in] heater_heatload_W
    */
@@ -93,6 +98,7 @@ class Heatload {
 
   unsigned int elapsed_time_idx_;  // index of time_table_s_ that is closest to elapsed_time_s_
   double solar_heatload_W_;        // Heatload from solar flux [W]
+  double albedo_heatload_W_;       // Heatload from albedo flux [W]
   double internal_heatload_W_;     // Heatload from internal dissipation [W]
   double heater_heatload_W_;       // Heatload from heater [W]
   double total_heatload_W_;        // Total heatload [W]
