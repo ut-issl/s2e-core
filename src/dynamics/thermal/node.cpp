@@ -41,7 +41,7 @@ double Node::CalcSolarRadiation_W(libra::Vector<3> sun_direction_b, double solar
   return solar_radiation_W_;
 }
 
-double Node::CalcAlbedoRadiation_W(libra:Vector<3> earth_direction_b, double solar_flux_W_m2, double albedo_factor, double earth_distance_m) {
+double Node::CalcAlbedoRadiation_W(libra::Vector<3> earth_direction_b, double solar_flux_W_m2, double albedo_factor, double earth_distance_m) {
   double cos_theta_albedo = InnerProduct(earth_direction_b, normal_vector_b_);
 
   // 地球の半径

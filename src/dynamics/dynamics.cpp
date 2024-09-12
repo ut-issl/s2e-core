@@ -50,11 +50,7 @@ void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestia
 
   // Thermal
   if (simulation_time->GetThermalPropagateFlag()) {
-    std::string sun_str = "SUN";
-    char* c_sun = new char[sun_str.size() + 1];
-    std::char_traits<char>::copy(c_sun, sun_str.c_str(), sun_str.size() + 1);  // string -> char*
-    temperature_->Propagate(local_celestial_information->GetPositionFromSpacecraft_b_m(c_sun), simulation_time->GetElapsedTime_s());
-    delete[] c_sun;
+    temperature_->Propagate(local_celestial_information, simulation_time->GetElapsedTime_s());
   }
 }
 

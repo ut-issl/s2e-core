@@ -72,10 +72,20 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
       cout << setprecision(4) << itr->GetAlbedoFlux_W() << "  ";
     }
+    std::string sun_str = "SUN";
+    char* c_sun = new char[sun_str.size() + 1];
+    std::char_traits<char>::copy(c_sun, sun_str.c_str(), sun_str.size() + 1);  // string -> char*
+    libra::Vector<3> sun_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m(c_sun);
+    double sun_distance_m = sun_position_b_m.CalcNorm();
+    libra::Vector<3> sun_direction_b;
+    for (size_t i = 0; i < 3; i++) {
+      sun_direction_b[i] = sun_position_b_m[i] / sun_distance_m;
+    }
     cout << "SunDir:  ";
     for (size_t i = 0; i < 3; i++) {
       cout << setprecision(3) << sun_direction_b[i] << "  ";
     }
+    delete[] c_sun;
     cout << "Heatload:  ";
     for (auto itr = heatloads_.begin(); itr != heatloads_.end(); ++itr) {
       cout << setprecision(3) << itr->GetTotalHeatload_W() << "  ";
