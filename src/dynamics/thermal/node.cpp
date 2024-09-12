@@ -25,6 +25,7 @@ Node::Node(const size_t node_id, const string node_name, const NodeType node_typ
       normal_vector_b_(normal_vector_b) {
   AssertNodeParams();
   solar_radiation_W_ = 0;
+  albedo_flux_W_ = 0;
 }
 
 Node::~Node() {}
@@ -38,6 +39,23 @@ double Node::CalcSolarRadiation_W(libra::Vector<3> sun_direction_b, double solar
   else
     solar_radiation_W_ = 0;
   return solar_radiation_W_;
+}
+
+double Node::CalcAlbedoRadiation_W(libra:Vector<3> earth_direction_b, double solar_flux_W_m2, double albedo_factor, double earth_distance_m) {
+  double cos_theta_albedo = InnerProduct(earth_direction_b, normal_vector_b_);
+
+  // 地球の半径
+  double earth_radius_m = 6371.0e3; 
+
+  // アルベドによる入熱の計算
+  if (cos_theta_albedo > 0) {
+    // 地球からの反射光による放射フラックスを計算 (アルベドの寄与)
+    double albedo_flux_W_m2 = solar_flux_W_m2 * albedo_factor * (earth_radius_m / earth_distance_m) * (earth_radius_m / earth_distance_m);
+    albedo_flux_W_ = albedo_flux_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
+  } else {
+    albedo_flux_W_ = 0;
+  }
+  return albedo_flux_W_;
 }
 
 void Node::PrintParam(void) {

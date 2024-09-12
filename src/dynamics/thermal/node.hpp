@@ -59,6 +59,14 @@ class Node {
    * @return double: Solar Radiation [W]
    */
   double CalcSolarRadiation_W(libra::Vector<3> sun_direction_b, double solar_flux_W_m2);
+  /**
+   * @fn CalcAlbedoRadiation_W
+   * @brief Calculate albedo radiation [W] from earth direction, albedo factor, area, and normal vector
+   *
+   * @param earth_direction_b: Earth direction in body frame
+   * @return double: Albedo Radiation [W]
+   */
+  double Node::CalcAlbedoRadiation_W(libra::Vector<3> earth_direction_b, double solar_flux_W_m2, double albedo_factor, double earth_distance_m);
 
   // Getter
   /**
@@ -104,6 +112,12 @@ class Node {
    */
   inline double GetSolarRadiation_W(void) const { return solar_radiation_W_; }
   /**
+   * @fn GetAlbedoFlux_W
+   * @brief Return Albedo Flux [W]
+   * @return double: Albedo Flux [W]
+   */
+  inline double GetAlbedoFlux_W(void) const { return albedo_flux_W_; }
+  /**
    * @fn GetNodeType
    * @brief Return Node Type
    * @return NodeType
@@ -135,6 +149,7 @@ class Node {
   double alpha_;
   double area_m2_;
   double solar_radiation_W_;
+  double albedo_flux_W_;
   NodeType node_type_;
   libra::Vector<3> normal_vector_b_;
 
