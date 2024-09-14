@@ -6,7 +6,7 @@
 
 #include "gravity_potential.hpp"
 
-using namespace gravity;
+using namespace s2e::gravity;
 
 /**
  * @brief Test for Acceleration calculation

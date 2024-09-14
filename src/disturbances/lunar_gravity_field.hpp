@@ -62,7 +62,7 @@ class LunarGravityField : public Disturbance {
   virtual std::string GetLogValue() const;
 
  private:
-  gravity::GravityPotential lunar_potential_;
+  s2e::gravity::GravityPotential lunar_potential_;
   double reference_radius_km_;
   double gravity_constants_km3_s2_;
   size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential

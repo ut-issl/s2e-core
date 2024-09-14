@@ -12,7 +12,7 @@
 #include "../math/matrix.hpp"
 #include "../math/vector.hpp"
 
-namespace gravity {
+namespace s2e::gravity {
 
 /**
  * @class GravityPotential
@@ -85,6 +85,6 @@ class GravityPotential {
   void v_w_nm_update(double *v_nm, double *w_nm, const double v_prev, const double w_prev, const double v_prev2, const double w_prev2);
 };
 
-}  // namespace gravity
+}  // namespace s2e::gravity
 
 #endif  // S2E_LIBRARY_GRAVITY_GRAVITY_POTENTIAL_HPP_
