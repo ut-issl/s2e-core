@@ -56,7 +56,7 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& 
   if (model_ == "STANDARD") {
     // Standard model
     double altitude_m = orbit.GetGeodeticPosition().GetAltitude_m();
-    air_density_kg_m3_ = atmosphere::CalcAirDensityWithSimpleModel(altitude_m);
+    air_density_kg_m3_ = s2e::atmosphere::CalcAirDensityWithSimpleModel(altitude_m);
   } else if (model_ == "NRLMSISE00") {
     // NRLMSISE00 model
     double lat_rad = orbit.GetGeodeticPosition().GetLatitude_rad();
@@ -67,7 +67,7 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& 
   } else if (model_ == "HARRIS_PRIESTER") {
     // Harris-Priester
     s2e::math::Vector<3> sun_direction_eci = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN").CalcNormalizedVector();
-    air_density_kg_m3_ = atmosphere::CalcAirDensityWithHarrisPriester_kg_m3(orbit.GetGeodeticPosition(), sun_direction_eci);
+    air_density_kg_m3_ = s2e::atmosphere::CalcAirDensityWithHarrisPriester_kg_m3(orbit.GetGeodeticPosition(), sun_direction_eci);
   } else {
     // No suitable model
     return air_density_kg_m3_ = 0.0;

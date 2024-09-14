@@ -10,7 +10,7 @@
 
 #include "harris_priester_coefficients.hpp"
 
-namespace atmosphere {
+namespace s2e::atmosphere {
 
 /**
  * @fn CalcScaleHeight_km
@@ -88,4 +88,4 @@ double CalcApexDensity_g_km3(const std::map<double, double>::const_iterator dens
   return apex_density_g_km3;
 }
 
-}  // namespace atmosphere
+}  // namespace s2e::atmosphere
