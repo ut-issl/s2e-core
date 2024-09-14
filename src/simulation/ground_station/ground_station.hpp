@@ -67,7 +67,7 @@ class GroundStation : public ILoggable {
    * @fn GetGeodeticPosition
    * @brief Return ground station position in the geodetic frame
    */
-  geodesy::GeodeticPosition GetGeodeticPosition() const { return geodetic_position_; }
+  s2e::geodesy::GeodeticPosition GetGeodeticPosition() const { return geodetic_position_; }
   /**
    * @fn GetPosition_ecef_m
    * @brief Return ground station position in the ECEF frame [m]
@@ -92,7 +92,7 @@ class GroundStation : public ILoggable {
 
  protected:
   unsigned int ground_station_id_;               //!< Ground station ID
-  geodesy::GeodeticPosition geodetic_position_;  //!< Ground Station Position in the geodetic frame
+  s2e::geodesy::GeodeticPosition geodetic_position_;  //!< Ground Station Position in the geodetic frame
   Vector<3> position_ecef_m_{0.0};               //!< Ground Station Position in the ECEF frame [m]
   Vector<3> position_i_m_{0.0};                  //!< Ground Station Position in the inertial frame [m]
   double elevation_limit_angle_deg_;             //!< Minimum elevation angle to work the ground station [deg]

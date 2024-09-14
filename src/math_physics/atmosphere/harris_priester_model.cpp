@@ -28,7 +28,7 @@ double CalcScaleHeight_km(const std::map<double, double>::const_iterator density
  */
 double CalcApexDensity_g_km3(const std::map<double, double>::const_iterator density_itr, const double altitude_km);
 
-double CalcAirDensityWithHarrisPriester_kg_m3(const geodesy::GeodeticPosition geodetic_position, const s2e::math::Vector<3> sun_direction_eci,
+double CalcAirDensityWithHarrisPriester_kg_m3(const s2e::geodesy::GeodeticPosition geodetic_position, const s2e::math::Vector<3> sun_direction_eci,
                                               const double f10_7, const double exponent_parameter) {
   // Altitude
   double altitude_km = geodetic_position.GetAltitude_m() / 1000.0;

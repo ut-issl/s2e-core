@@ -22,7 +22,7 @@ GeomagneticField::GeomagneticField(const std::string igrf_file_name, const doubl
   set_file_path(igrf_file_name_.c_str());
 }
 
-void GeomagneticField::CalcMagneticField(const double decimal_year, const double sidereal_day, const geodesy::GeodeticPosition position,
+void GeomagneticField::CalcMagneticField(const double decimal_year, const double sidereal_day, const s2e::geodesy::GeodeticPosition position,
                                          const s2e::math::Quaternion quaternion_i2b) {
   if (!IsCalcEnabled) return;
 

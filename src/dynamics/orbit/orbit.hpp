@@ -113,7 +113,7 @@ class Orbit : public ILoggable {
    * @fn GetGeodeticPosition
    * @brief Return spacecraft position in the geodetic frame [m]
    */
-  inline geodesy::GeodeticPosition GetGeodeticPosition() const { return spacecraft_geodetic_position_; }
+  inline s2e::geodesy::GeodeticPosition GetGeodeticPosition() const { return spacecraft_geodetic_position_; }
 
   // TODO delete the following functions
   inline double GetLatitude_rad() const { return spacecraft_geodetic_position_.GetLatitude_rad(); }
@@ -193,7 +193,7 @@ class Orbit : public ILoggable {
 
   s2e::math::Vector<3> spacecraft_position_i_m_;                 //!< Spacecraft position in the inertial frame [m]
   s2e::math::Vector<3> spacecraft_position_ecef_m_;              //!< Spacecraft position in the ECEF frame [m]
-  geodesy::GeodeticPosition spacecraft_geodetic_position_;  //!< Spacecraft position in the Geodetic frame
+  s2e::geodesy::GeodeticPosition spacecraft_geodetic_position_;  //!< Spacecraft position in the Geodetic frame
 
   s2e::math::Vector<3> spacecraft_velocity_i_m_s_;     //!< Spacecraft velocity in the inertial frame [m/s]
   s2e::math::Vector<3> spacecraft_velocity_b_m_s_;     //!< Spacecraft velocity in the body frame [m/s]
