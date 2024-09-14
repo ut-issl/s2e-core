@@ -15,7 +15,7 @@ AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
     const std::string& simulation_object_name)
     : Attitude(inertia_tensor_kgm2, simulation_object_name),
       numerical_integrator_(propagation_step_s, attitude_ode_,
-                            numerical_integration::NumericalIntegrationMethod::kRk4) {  //!< TODO: Set NumericalIntegrationMethod in *.ini file
+                            s2e::numerical_integration::NumericalIntegrationMethod::kRk4) {  //!< TODO: Set NumericalIntegrationMethod in *.ini file
   angular_velocity_b_rad_s_ = angular_velocity_b_rad_s;
   quaternion_i2b_ = quaternion_i2b;
   torque_b_Nm_ = torque_b_Nm;
