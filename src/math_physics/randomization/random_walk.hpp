@@ -37,7 +37,7 @@ class RandomWalk : public s2e::math::OrdinaryDifferentialEquation<N> {
 
  private:
   s2e::math::Vector<N> limit_;                           //!< Limit of random walk
-  randomization::NormalRand normal_randomizer_[N];  //!< Random walk excitation noise
+  s2e::randomization::NormalRand normal_randomizer_[N];  //!< Random walk excitation noise
 };
 
 #include "random_walk_template_functions.hpp"  // template function definisions.

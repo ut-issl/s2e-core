@@ -7,7 +7,7 @@
 
 #include <math_physics/math/constants.hpp>
 #include <math_physics/randomization/normal_randomization.hpp>
-using randomization::NormalRand;
+using s2e::randomization::NormalRand;
 #include <logger/log_utility.hpp>
 #include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>

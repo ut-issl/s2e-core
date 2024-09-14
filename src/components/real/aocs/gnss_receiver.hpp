@@ -137,8 +137,8 @@ class GnssReceiver : public Component, public ILoggable {
   AntennaModel antenna_model_;            //!< Antenna model
 
   // Simple position observation
-  randomization::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
-  randomization::NormalRand velocity_random_noise_ecef_m_s_[3];  //!< Random noise for velocity at the ECEF frame [m]
+  s2e::randomization::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
+  s2e::randomization::NormalRand velocity_random_noise_ecef_m_s_[3];  //!< Random noise for velocity at the ECEF frame [m]
   s2e::math::Vector<3> position_ecef_m_{0.0};                         //!< Observed position in the ECEF frame [m]
   s2e::math::Vector<3> velocity_ecef_m_s_{0.0};                       //!< Observed velocity in the ECEF frame [m/s]
   s2e::geodesy::GeodeticPosition geodetic_position_;                  //!< Observed position in the geodetic frame

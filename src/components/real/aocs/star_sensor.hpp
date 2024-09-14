@@ -115,9 +115,9 @@ class StarSensor : public Component, public ILoggable {
   s2e::math::Vector<3> second_orthogonal_direction_c;                     //!< The second orthogonal direction of sight at component frame
 
   // Noise parameters
-  randomization::MinimalStandardLcgWithShuffle rotation_noise_;  //!< Randomize object for orthogonal direction
-  randomization::NormalRand orthogonal_direction_noise_;         //!< Random noise for orthogonal direction of sight
-  randomization::NormalRand sight_direction_noise_;              //!< Random noise for sight direction
+  s2e::randomization::MinimalStandardLcgWithShuffle rotation_noise_;  //!< Randomize object for orthogonal direction
+  s2e::randomization::NormalRand orthogonal_direction_noise_;         //!< Random noise for orthogonal direction of sight
+  s2e::randomization::NormalRand sight_direction_noise_;              //!< Random noise for sight direction
 
   // Delay emulation parameters
   int max_delay_;                               //!< Max delay

@@ -62,8 +62,8 @@ class AttitudeObserver : public Component, public ILoggable {
  protected:
   s2e::math::Quaternion observed_quaternion_i2b_ = {0.0, 0.0, 0.0, 1.0};  //!< Observed quaternion
 
-  randomization::NormalRand angle_noise_;      //!< Normal random for magnitude noise
-  randomization::NormalRand direction_noise_;  //!< Normal random for direction noise
+  s2e::randomization::NormalRand angle_noise_;      //!< Normal random for magnitude noise
+  s2e::randomization::NormalRand direction_noise_;  //!< Normal random for direction noise
 
   const Attitude& attitude_;  //!< Attitude information
 };

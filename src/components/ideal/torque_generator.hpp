@@ -78,8 +78,8 @@ class TorqueGenerator : public Component, public ILoggable {
   s2e::math::Vector<3> generated_torque_b_Nm_{0.0};  //!< Generated torque in the body fixed frame [Nm]
 
   // Noise
-  randomization::NormalRand magnitude_noise_;      //!< Normal random for magnitude noise
-  randomization::NormalRand direction_noise_;      //!< Normal random for direction noise
+  s2e::randomization::NormalRand magnitude_noise_;      //!< Normal random for magnitude noise
+  s2e::randomization::NormalRand direction_noise_;      //!< Normal random for direction noise
   double direction_error_standard_deviation_rad_;  //!< Standard deviation of direction error [rad]
 
   /**

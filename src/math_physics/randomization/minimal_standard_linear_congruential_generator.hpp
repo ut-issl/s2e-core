@@ -7,7 +7,7 @@
 #ifndef S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_HPP_
 #define S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_HPP_
 
-namespace randomization {
+namespace s2e::randomization {
 
 /**
  * @class MinimalStandardLcg
@@ -52,6 +52,6 @@ class MinimalStandardLcg {
   long seed_;  //!< Seed of randomization
 };
 
-}  // namespace randomization
+}  // namespace s2e::randomization
 
 #endif  // S2E_LIBRARY_RANDOMIZATION_MINIMAL_STANDARD_LINEAR_CONGRUENTIAL_GENERATOR_HPP_

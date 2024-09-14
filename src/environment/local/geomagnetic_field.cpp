@@ -44,7 +44,7 @@ void GeomagneticField::AddNoise(double* magnetic_field_array_i_nT) {
   static s2e::math::Vector<3> limit(random_walk_limit_nT_);
   static RandomWalk<3> random_walk(0.1, standard_deviation, limit);
 
-  static randomization::NormalRand white_noise(0.0, white_noise_standard_deviation_nT_, global_randomization.MakeSeed());
+  static s2e::randomization::NormalRand white_noise(0.0, white_noise_standard_deviation_nT_, global_randomization.MakeSeed());
 
   for (int i = 0; i < 3; ++i) {
     magnetic_field_array_i_nT[i] += random_walk[i] + white_noise;
