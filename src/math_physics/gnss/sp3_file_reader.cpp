@@ -11,7 +11,7 @@
 #include <fstream>
 #include <iostream>
 
-namespace gnss {
+namespace s2e::gnss {
 
 Sp3FileReader::Sp3FileReader(const std::string file_name) { ReadFile(file_name); }
 
@@ -422,4 +422,4 @@ Sp3VelocityClockRateCorrelation Sp3FileReader::DecodeVelocityClockRateCorrelatio
   return correlation;
 }
 
-}  // namespace gnss
+}  // namespace s2e::gnss

@@ -10,7 +10,7 @@
 #include <iostream>
 #include <math_physics/gnss/gnss_satellite_number.hpp>
 
-namespace gnss {
+namespace s2e::gnss {
 
 #define ANTEX_LINE_TYPE_POSITION (60)
 
@@ -199,4 +199,4 @@ time_system::DateTime AntexFileReader::ReadDateTime(std::string line) {
   return time_system::DateTime(year, month, day, hour, minute, second);
 }
 
-}  // namespace gnss
+}  // namespace s2e::gnss

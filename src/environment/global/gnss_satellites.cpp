@@ -15,7 +15,7 @@
 #include "setting_file_reader/initialize_file_access.hpp"
 #include "utilities/macros.hpp"
 
-using namespace gnss;
+using namespace s2e::gnss;
 
 const size_t kNumberOfInterpolation = 9;
 
