@@ -5,6 +5,8 @@
 
 #include "global_randomization.hpp"
 
+namespace s2e::randomization {
+
 GlobalRandomization global_randomization;
 
 GlobalRandomization::GlobalRandomization() { seed_ = 0xdeadbeef; }
@@ -22,3 +24,5 @@ long GlobalRandomization::MakeSeed() {
   }
   return seed;
 }
+
+}  // namespace s2e::randomization

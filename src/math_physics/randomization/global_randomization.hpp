@@ -8,6 +8,8 @@
 
 #include "./minimal_standard_linear_congruential_generator.hpp"
 
+namespace s2e::randomization {
+
 /**
  * @class global_randomization.hpp
  * @brief Class to manage global randomization
@@ -38,5 +40,7 @@ class GlobalRandomization {
 };
 
 extern GlobalRandomization global_randomization;  //!< Global randomization
+
+}  // namespace s2e::randomization
 
 #endif  // S2E_LIBRARY_RANDOMIZATION_GLOBAL_RANDOMIZATION_HPP_

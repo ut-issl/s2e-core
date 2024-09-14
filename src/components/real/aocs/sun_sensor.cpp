@@ -44,7 +44,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, Power
 
 void SunSensor::Initialize(const double random_noise_standard_deviation_rad, const double bias_noise_standard_deviation_rad) {
   // Bias
-  NormalRand nr(0.0, bias_noise_standard_deviation_rad, global_randomization.MakeSeed());
+  NormalRand nr(0.0, bias_noise_standard_deviation_rad, s2e::randomization::global_randomization.MakeSeed());
   bias_noise_alpha_rad_ += nr;
   bias_noise_beta_rad_ += nr;
 

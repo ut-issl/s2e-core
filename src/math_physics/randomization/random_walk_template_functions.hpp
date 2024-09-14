@@ -14,7 +14,7 @@ RandomWalk<N>::RandomWalk(double step_width_s, const s2e::math::Vector<N>& stand
     : s2e::math::OrdinaryDifferentialEquation<N>(step_width_s), limit_(limit) {
   // Set standard deviation
   for (size_t i = 0; i < N; ++i) {
-    normal_randomizer_[i].SetParameters(0.0, standard_deviation[i], global_randomization.MakeSeed());
+    normal_randomizer_[i].SetParameters(0.0, standard_deviation[i], s2e::randomization::global_randomization.MakeSeed());
   }
 }
 
