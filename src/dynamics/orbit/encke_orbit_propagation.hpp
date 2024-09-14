@@ -65,7 +65,7 @@ class EnckeOrbitPropagation : public Orbit, public s2e::math::OrdinaryDifferenti
   // reference orbit
   s2e::math::Vector<3> reference_position_i_m_;    //!< Reference orbit position in the inertial frame [m]
   s2e::math::Vector<3> reference_velocity_i_m_s_;  //!< Reference orbit velocity in the inertial frame [m/s]
-  orbit::KeplerOrbit reference_kepler_orbit;  //!< Reference Kepler orbital element
+  s2e::orbit::KeplerOrbit reference_kepler_orbit;  //!< Reference Kepler orbital element
 
   // difference orbit
   s2e::math::Vector<3> difference_position_i_m_;    //!< Difference orbit position in the inertial frame [m]

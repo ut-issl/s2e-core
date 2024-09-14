@@ -90,8 +90,8 @@ void EnckeOrbitPropagation::Initialize(double current_time_jd, s2e::math::Vector
   // reference orbit
   reference_position_i_m_ = reference_position_i_m;
   reference_velocity_i_m_s_ = reference_velocity_i_m_s;
-  orbit::OrbitalElements oe_ref(gravity_constant_m3_s2_, current_time_jd, reference_position_i_m, reference_velocity_i_m_s);
-  reference_kepler_orbit = orbit::KeplerOrbit(gravity_constant_m3_s2_, oe_ref);
+  s2e::orbit::OrbitalElements oe_ref(gravity_constant_m3_s2_, current_time_jd, reference_position_i_m, reference_velocity_i_m_s);
+  reference_kepler_orbit = s2e::orbit::KeplerOrbit(gravity_constant_m3_s2_, oe_ref);
 
   // difference orbit
   difference_position_i_m_.FillUp(0.0);

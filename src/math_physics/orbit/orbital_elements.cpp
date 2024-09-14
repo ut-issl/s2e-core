@@ -9,7 +9,7 @@
 
 #include "../math/s2e_math.hpp"
 
-namespace orbit {
+namespace s2e::orbit {
 
 OrbitalElements::OrbitalElements() {}
 
@@ -88,4 +88,4 @@ void OrbitalElements::CalcOeFromPosVel(const double gravity_constant_m3_s2, cons
   epoch_jday_ = time_jday - dt_s / (24.0 * 60.0 * 60.0);
 }
 
-}  // namespace orbit
+}  // namespace s2e::orbit

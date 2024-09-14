@@ -9,7 +9,7 @@
 #include "../math/matrix.hpp"
 #include "../math/vector.hpp"
 
-namespace orbit {
+namespace s2e::orbit {
 
 /**
  * @enum RelativeOrbitModel
@@ -44,6 +44,6 @@ s2e::math::Matrix<6, 6> CalcHillSystemMatrix(const double orbit_radius_m, const 
  */
 s2e::math::Matrix<6, 6> CalcHcwStm(const double orbit_radius_m, const double gravity_constant_m3_s2, const double elapsed_time_s);
 
-}  // namespace orbit
+}  // namespace s2e::orbit
 
 #endif  // S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_HPP_

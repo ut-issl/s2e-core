@@ -41,7 +41,7 @@ class RelativeOrbit : public Orbit, public s2e::math::OrdinaryDifferentialEquati
    */
   RelativeOrbit(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s, int reference_spacecraft_id,
                 s2e::math::Vector<3> relative_position_lvlh_m, s2e::math::Vector<3> relative_velocity_lvlh_m_s, RelativeOrbitUpdateMethod update_method,
-                orbit::RelativeOrbitModel relative_dynamics_model_type, orbit::StmModel stm_model_type, RelativeInformation* relative_information);
+                s2e::orbit::RelativeOrbitModel relative_dynamics_model_type, s2e::orbit::StmModel stm_model_type, RelativeInformation* relative_information);
   /**
    * @fn ~RelativeOrbit
    * @brief Destructor
@@ -81,8 +81,8 @@ class RelativeOrbit : public Orbit, public s2e::math::OrdinaryDifferentialEquati
   s2e::math::Vector<3> relative_velocity_lvlh_m_s_;  //!< Relative velocity in the LVLH frame
 
   RelativeOrbitUpdateMethod update_method_;                 //!< Update method
-  orbit::RelativeOrbitModel relative_dynamics_model_type_;  //!< Relative dynamics model type
-  orbit::StmModel stm_model_type_;                          //!< State Transition Matrix model type
+  s2e::orbit::RelativeOrbitModel relative_dynamics_model_type_;  //!< Relative dynamics model type
+  s2e::orbit::StmModel stm_model_type_;                          //!< State Transition Matrix model type
   RelativeInformation* relative_information_;               //!< Relative information
 
   /**
@@ -102,7 +102,7 @@ class RelativeOrbit : public Orbit, public s2e::math::OrdinaryDifferentialEquati
    * @param [in] reference_sat_orbit: Orbit information of reference satellite
    * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
    */
-  void CalculateSystemMatrix(orbit::RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2);
+  void CalculateSystemMatrix(s2e::orbit::RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2);
   /**
    * @fn CalculateStm
    * @brief Calculate State Transition Matrix
@@ -111,7 +111,7 @@ class RelativeOrbit : public Orbit, public s2e::math::OrdinaryDifferentialEquati
    * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
    * @param [in] elapsed_sec: Elapsed time [sec]
    */
-  void CalculateStm(orbit::StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2, double elapsed_sec);
+  void CalculateStm(s2e::orbit::StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2, double elapsed_sec);
   /**
    * @fn PropagateRk4
    * @brief Propagate relative orbit with RK4

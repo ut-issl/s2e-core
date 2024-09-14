@@ -10,8 +10,8 @@
 
 RelativeOrbit::RelativeOrbit(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
                              int reference_spacecraft_id, s2e::math::Vector<3> relative_position_lvlh_m, s2e::math::Vector<3> relative_velocity_lvlh_m_s,
-                             RelativeOrbitUpdateMethod update_method, orbit::RelativeOrbitModel relative_dynamics_model_type,
-                             orbit::StmModel stm_model_type, RelativeInformation* relative_information)
+                             RelativeOrbitUpdateMethod update_method, s2e::orbit::RelativeOrbitModel relative_dynamics_model_type,
+                             s2e::orbit::StmModel stm_model_type, RelativeInformation* relative_information)
     : Orbit(celestial_information),
       s2e::math::OrdinaryDifferentialEquation<6>(time_step_s),
       gravity_constant_m3_s2_(gravity_constant_m3_s2),
@@ -66,12 +66,12 @@ void RelativeOrbit::InitializeState(s2e::math::Vector<3> relative_position_lvlh_
   TransformEcefToGeodetic();
 }
 
-void RelativeOrbit::CalculateSystemMatrix(orbit::RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit,
+void RelativeOrbit::CalculateSystemMatrix(s2e::orbit::RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit,
                                           double gravity_constant_m3_s2) {
   switch (relative_dynamics_model_type) {
-    case orbit::RelativeOrbitModel::kHill: {
+    case s2e::orbit::RelativeOrbitModel::kHill: {
       double reference_sat_orbit_radius = reference_sat_orbit->GetPosition_i_m().CalcNorm();
-      system_matrix_ = orbit::CalcHillSystemMatrix(reference_sat_orbit_radius, gravity_constant_m3_s2);
+      system_matrix_ = s2e::orbit::CalcHillSystemMatrix(reference_sat_orbit_radius, gravity_constant_m3_s2);
     }
     default: {
       // NOT REACHED
@@ -80,12 +80,12 @@ void RelativeOrbit::CalculateSystemMatrix(orbit::RelativeOrbitModel relative_dyn
   }
 }
 
-void RelativeOrbit::CalculateStm(orbit::StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2,
+void RelativeOrbit::CalculateStm(s2e::orbit::StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2,
                                  double elapsed_sec) {
   switch (stm_model_type) {
-    case orbit::StmModel::kHcw: {
+    case s2e::orbit::StmModel::kHcw: {
       double reference_sat_orbit_radius = reference_sat_orbit->GetPosition_i_m().CalcNorm();
-      stm_ = orbit::CalcHcwStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec);
+      stm_ = s2e::orbit::CalcHcwStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec);
     }
     default: {
       // NOT REACHED

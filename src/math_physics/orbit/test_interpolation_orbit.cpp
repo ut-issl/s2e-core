@@ -8,7 +8,7 @@
 
 #include "interpolation_orbit.hpp"
 
-using namespace orbit;
+using namespace s2e::orbit;
 
 /**
  * @brief Test for Constructor function
