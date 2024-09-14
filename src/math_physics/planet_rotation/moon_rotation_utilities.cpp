@@ -10,7 +10,7 @@
 
 #include <math_physics/math/constants.hpp>
 
-namespace planet_rotation {
+namespace s2e::planet_rotation {
 
 s2e::math::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const s2e::math::Vector<3> moon_position_eci_m, const s2e::math::Vector<3> moon_velocity_eci_m_s) {
   s2e::math::Matrix<3, 3> dcm_eci2me = CalcDcmEciToMeanEarth(moon_position_eci_m, moon_velocity_eci_m_s);
@@ -49,4 +49,4 @@ s2e::math::Matrix<3, 3> CalcDcmMeanEarthToPrincipalAxis() {
   return dcm_me_pa;
 }
 
-}  // namespace planet_rotation
+}  // namespace s2e::planet_rotation

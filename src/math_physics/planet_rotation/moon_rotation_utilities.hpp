@@ -12,7 +12,7 @@
 #include "math_physics/math/matrix.hpp"
 #include "math_physics/math/vector.hpp"
 
-namespace planet_rotation {
+namespace s2e::planet_rotation {
 
 /**
  * @fn CalcDcmEciToPrincipalAxis
@@ -36,6 +36,6 @@ s2e::math::Matrix<3, 3> CalcDcmEciToMeanEarth(const s2e::math::Vector<3> moon_po
  */
 s2e::math::Matrix<3, 3> CalcDcmMeanEarthToPrincipalAxis();
 
-}  // namespace planet_rotation
+}  // namespace s2e::planet_rotation
 
 #endif  // S2E_LIBRARY_PLANET_ROTATION_MOON_MEAN_EARTH_PRINCIPAL_AXIS_FRAME_HPP_
