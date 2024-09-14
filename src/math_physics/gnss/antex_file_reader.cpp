@@ -192,11 +192,11 @@ AntexPhaseCenterData AntexFileReader::ReadPhaseCenterData(std::ifstream& antex_f
   return phase_center_data;
 }
 
-time_system::DateTime AntexFileReader::ReadDateTime(std::string line) {
+s2e::time_system::DateTime AntexFileReader::ReadDateTime(std::string line) {
   size_t year, month, day, hour, minute;
   double second;
   sscanf(line.c_str(), "%zu %2zu %2zu %2zu %2zu %10lf", &year, &month, &day, &hour, &minute, &second);
-  return time_system::DateTime(year, month, day, hour, minute, second);
+  return s2e::time_system::DateTime(year, month, day, hour, minute, second);
 }
 
 }  // namespace s2e::gnss

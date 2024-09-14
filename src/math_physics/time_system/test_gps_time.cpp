@@ -2,7 +2,7 @@
 
 #include "gps_time.hpp"
 
-using namespace time_system;
+using namespace s2e::time_system;
 
 /**
  * @brief Test Constructor

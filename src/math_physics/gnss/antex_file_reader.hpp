@@ -203,12 +203,12 @@ class AntexSatelliteData {
    * @fn SetValidStartTime
    * @param[in] valid_start_time: Valid start time
    */
-  inline void SetValidStartTime(const time_system::DateTime valid_start_time) { valid_start_time_ = valid_start_time; };
+  inline void SetValidStartTime(const s2e::time_system::DateTime valid_start_time) { valid_start_time_ = valid_start_time; };
   /**
    * @fn SetValidEndTime
    * @param[in] valid_end_time: Valid end time
    */
-  inline void SetValidEndTime(const time_system::DateTime valid_end_time) { valid_end_time_ = valid_end_time; };
+  inline void SetValidEndTime(const s2e::time_system::DateTime valid_end_time) { valid_end_time_ = valid_end_time; };
   /**
    * @fn SetNumberOfFrequency
    * @param[in] number_of_frequency: Number of frequency
@@ -235,12 +235,12 @@ class AntexSatelliteData {
    * @fn GetValidStartTime
    * @return Valid start time
    */
-  inline time_system::DateTime GetValidStartTime() const { return valid_start_time_; };
+  inline s2e::time_system::DateTime GetValidStartTime() const { return valid_start_time_; };
   /**
    * @fn GetValidEndTime
    * @return Valid end time
    */
-  inline time_system::DateTime GetValidEndTime() const { return valid_end_time_; };
+  inline s2e::time_system::DateTime GetValidEndTime() const { return valid_end_time_; };
   /**
    * @fn GetNumberOfFrequency
    * @return Number of frequency
@@ -256,8 +256,8 @@ class AntexSatelliteData {
  private:
   std::string antenna_type_;                             //!< Antenna type
   std::string serial_number_;                            //!< Serial number or satellite code
-  time_system::DateTime valid_start_time_;               //!< Valid start time
-  time_system::DateTime valid_end_time_;                 //!< Valid end time (The latest data does not have the end time)
+  s2e::time_system::DateTime valid_start_time_;               //!< Valid start time
+  s2e::time_system::DateTime valid_end_time_;                 //!< Valid end time (The latest data does not have the end time)
   size_t number_of_frequency_ = 1;                       //!< Number of frequency
   std::vector<AntexPhaseCenterData> phase_center_data_;  //!< Phase center data for each frequency
 };
@@ -342,7 +342,7 @@ class AntexFileReader {
    * @param[in] line: A single line in ANTEX file
    * @return Read date time
    */
-  time_system::DateTime ReadDateTime(std::string line);
+  s2e::time_system::DateTime ReadDateTime(std::string line);
 };
 
 }  // namespace s2e::gnss

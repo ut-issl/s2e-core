@@ -52,7 +52,7 @@ struct Sp3Header {
   // 1st line information
   // version -> not implemented yet
   Sp3Mode mode_;                       //!< position or velocity
-  time_system::DateTime start_epoch_;  //!< Time of start epoch
+  s2e::time_system::DateTime start_epoch_;  //!< Time of start epoch
   size_t number_of_epoch_ = 0;         //!< Number of epoch in the SP3 file
   std::string used_data_;              //!< Used data to generate the SP3 file
   std::string coordinate_system_;      //!< Coordinate system for the position and velocity data
@@ -60,7 +60,7 @@ struct Sp3Header {
   std::string agency_name_;            //!< Agency name who generates the SP3 file
 
   // 2nd line information
-  time_system::GpsTime start_gps_time_;           //!< Start time of orbit
+  s2e::time_system::GpsTime start_gps_time_;           //!< Start time of orbit
   double epoch_interval_s_ = 1.0;                 //!< Epoch interval (0.0, 100000.0)
   size_t start_time_mjday_;                       //!< Start time of the orbit data (44244 = 6th Jan. 1980) [Modified Julian day]
   double start_time_mjday_fractional_day_ = 0.0;  //!< Fractional part of the start time [0.0, 1.0) [day]
@@ -172,19 +172,19 @@ class Sp3FileReader {
   inline Sp3Header GetHeader() const { return header_; }
   inline size_t GetNumberOfEpoch() const { return header_.number_of_epoch_; }
   inline size_t GetNumberOfSatellites() const { return header_.number_of_satellites_; }
-  inline time_system::DateTime GetStartEpochDateTime() const { return header_.start_epoch_; }
-  inline time_system::GpsTime GetStartEpochGpsTime() const { return header_.start_gps_time_; }
+  inline s2e::time_system::DateTime GetStartEpochDateTime() const { return header_.start_epoch_; }
+  inline s2e::time_system::GpsTime GetStartEpochGpsTime() const { return header_.start_gps_time_; }
   // Data
-  time_system::DateTime GetEpochData(const size_t epoch_id) const;
+  s2e::time_system::DateTime GetEpochData(const size_t epoch_id) const;
   Sp3PositionClock GetPositionClock(const size_t epoch_id, const size_t satellite_id);
   double GetSatelliteClockOffset(const size_t epoch_id, const size_t satellite_id);
   s2e::math::Vector<3> GetSatellitePosition_km(const size_t epoch_id, const size_t satellite_id);
 
-  size_t SearchNearestEpochId(const time_system::EpochTime time);
+  size_t SearchNearestEpochId(const s2e::time_system::EpochTime time);
 
  private:
   Sp3Header header_;                          //!< SP3 header information
-  std::vector<time_system::DateTime> epoch_;  //!< Epoch data list
+  std::vector<s2e::time_system::DateTime> epoch_;  //!< Epoch data list
 
   // Orbit and clock data (Use as position_clock_[satellite_id][epoch_id])
   std::map<size_t, std::vector<Sp3PositionClock>> position_clock_;                                  //!< Position and Clock data
