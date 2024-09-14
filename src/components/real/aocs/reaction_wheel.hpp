@@ -183,7 +183,7 @@ class ReactionWheel : public Component, public ILoggable {
   const double step_width_s_;                                     //!< step width for ReactionWheelOde [sec]
   const double dead_time_s_;                                      //!< dead time [sec]
   std::vector<double> acceleration_delay_buffer_;                 //!< Delay buffer for acceleration
-  control_utilities::FirstOrderLag delayed_acceleration_rad_s2_;  //!< Delayed acceleration [rad/s2]
+  s2e::control_utilities::FirstOrderLag delayed_acceleration_rad_s2_;  //!< Delayed acceleration [rad/s2]
 
   // Coasting friction
   // f_rad_s2 = v_rad_s * coefficients(0) + (v_rad_s)^2 * coefficients(1) + ...
