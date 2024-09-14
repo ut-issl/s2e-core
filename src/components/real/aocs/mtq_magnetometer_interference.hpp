@@ -31,8 +31,8 @@ class MtqMagnetometerInterference {
 
  protected:
   size_t polynomial_degree_;                                             //!< Polynomial degree
-  std::vector<math::Matrix<3, 3>> additional_bias_by_mtq_coefficients_;  //!< Polynomial coefficients of additional bias noise
-  math::Vector<3> previous_added_bias_c_nT_{0.0};
+  std::vector<s2e::math::Matrix<3, 3>> additional_bias_by_mtq_coefficients_;  //!< Polynomial coefficients of additional bias noise
+  s2e::math::Vector<3> previous_added_bias_c_nT_{0.0};
 
   Magnetometer& magnetometer_;        //!< Magnetometer
   const Magnetorquer& magnetorquer_;  //!< Magnetorquer

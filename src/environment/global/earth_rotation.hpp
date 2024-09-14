@@ -45,20 +45,20 @@ class EarthRotation {
    * @fn GetDcmJ2000ToEcef
    * @brief Return the DCM between J2000 inertial frame and the Earth Centered Earth Fixed frame
    */
-  inline const math::Matrix<3, 3> GetDcmJ2000ToEcef() const { return dcm_j2000_to_ecef_; };
+  inline const s2e::math::Matrix<3, 3> GetDcmJ2000ToEcef() const { return dcm_j2000_to_ecef_; };
 
   /**
    * @fn GetDcmTemeToEcef
    * @brief Return the DCM between TEME (Inertial frame used in SGP4) and the Earth Centered Earth Fixed frame
    */
-  inline const math::Matrix<3, 3> GetDcmTemeToEcef() const { return dcm_teme_to_ecef_; };
+  inline const s2e::math::Matrix<3, 3> GetDcmTemeToEcef() const { return dcm_teme_to_ecef_; };
 
  private:
   double d_psi_rad_;                      //!< Nutation in obliquity [rad]
   double d_epsilon_rad_;                  //!< Nutation in longitude [rad]
   double epsilon_rad_;                    //!< Mean obliquity of the ecliptic [rad]
-  math::Matrix<3, 3> dcm_j2000_to_ecef_;  //!< Direction Cosine Matrix J2000 to ECEF
-  math::Matrix<3, 3> dcm_teme_to_ecef_;   //!< Direction Cosine Matrix TEME to ECEF
+  s2e::math::Matrix<3, 3> dcm_j2000_to_ecef_;  //!< Direction Cosine Matrix J2000 to ECEF
+  s2e::math::Matrix<3, 3> dcm_teme_to_ecef_;   //!< Direction Cosine Matrix TEME to ECEF
   EarthRotationMode rotation_mode_;       //!< Designation of dynamics model
 
   // Definitions of coefficients
@@ -94,7 +94,7 @@ class EarthRotation {
    * @param [in] gast_rad: Greenwich 'Apparent' Sidereal Time [rad]
    * @return Rotation matrix
    */
-  math::Matrix<3, 3> AxialRotation(const double gast_rad);
+  s2e::math::Matrix<3, 3> AxialRotation(const double gast_rad);
 
   /**
    * @fn Nutation
@@ -102,7 +102,7 @@ class EarthRotation {
    * @param [in] t_tt_century: nth power of julian century for terrestrial time
    * @return Rotation matrix
    */
-  math::Matrix<3, 3> Nutation(const double (&t_tt_century)[4]);
+  s2e::math::Matrix<3, 3> Nutation(const double (&t_tt_century)[4]);
 
   /**
    * @fn Precession
@@ -110,14 +110,14 @@ class EarthRotation {
    * @param [in] t_tt_century: nth power of julian century for terrestrial time
    * @return Rotation matrix
    */
-  math::Matrix<3, 3> Precession(const double (&t_tt_century)[4]);
+  s2e::math::Matrix<3, 3> Precession(const double (&t_tt_century)[4]);
 
   /**
    * @fn PolarMotion
    * @brief Calculate movement of the coordinate axes due to Polar Motion
    * @note Currently, this function is not used.
    */
-  math::Matrix<3, 3> PolarMotion(const double x_p, const double y_p);
+  s2e::math::Matrix<3, 3> PolarMotion(const double x_p, const double y_p);
 };
 
 EarthRotationMode ConvertEarthRotationMode(const std::string mode);

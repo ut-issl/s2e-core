@@ -40,7 +40,7 @@ double Sp3FileReader::GetSatelliteClockOffset(const size_t epoch_id, const size_
   return position_clock.clock_us_;
 }
 
-math::Vector<3> Sp3FileReader::GetSatellitePosition_km(const size_t epoch_id, const size_t satellite_id) {
+s2e::math::Vector<3> Sp3FileReader::GetSatellitePosition_km(const size_t epoch_id, const size_t satellite_id) {
   Sp3PositionClock position_clock = GetPositionClock(epoch_id, satellite_id);
   return position_clock.position_km_;
 }
@@ -314,7 +314,7 @@ Sp3PositionClock Sp3FileReader::DecodePositionClockData(std::string line) {
   position_clock.satellite_id_ = line.substr(1, 3);
 
   // Position and clock
-  math::Vector<3> position_km;
+  s2e::math::Vector<3> position_km;
   for (size_t axis = 0; axis < 3; axis++) {
     position_km[axis] = stod(line.substr(4 + axis * 14, 14));
   }
@@ -323,7 +323,7 @@ Sp3PositionClock Sp3FileReader::DecodePositionClockData(std::string line) {
 
   // Standard deviations
   if (line.size() > 61) {
-    math::Vector<3> position_standard_deviation;
+    s2e::math::Vector<3> position_standard_deviation;
     for (size_t axis = 0; axis < 3; axis++) {
       try {
         position_standard_deviation[axis] = stod(line.substr(61 + axis * 3, 2));
@@ -384,7 +384,7 @@ Sp3VelocityClockRate Sp3FileReader::DecodeVelocityClockRateData(std::string line
   velocity_clock_rate.satellite_id_ = line.substr(1, 3);
 
   // Velocity and clock rate
-  math::Vector<3> velocity_dm_s;
+  s2e::math::Vector<3> velocity_dm_s;
   for (size_t axis = 0; axis < 3; axis++) {
     velocity_dm_s[axis] = stod(line.substr(4 + axis * 14, 14));
   }
@@ -393,7 +393,7 @@ Sp3VelocityClockRate Sp3FileReader::DecodeVelocityClockRateData(std::string line
 
   // Standard deviations
   if (line.size() > 60) {
-    math::Vector<3> velocity_standard_deviation;
+    s2e::math::Vector<3> velocity_standard_deviation;
     for (size_t axis = 0; axis < 3; axis++) {
       velocity_standard_deviation[axis] = stod(line.substr(61 + axis * 2, 2));
     }

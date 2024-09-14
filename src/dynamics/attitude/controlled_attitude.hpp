@@ -54,9 +54,9 @@ class ControlledAttitude : public Attitude {
    * @param [in] orbit: Orbit
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const math::Quaternion quaternion_i2b,
-                     const math::Vector<3> main_target_direction_b, const math::Vector<3> sub_target_direction_b,
-                     const math::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
+  ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const s2e::math::Quaternion quaternion_i2b,
+                     const s2e::math::Vector<3> main_target_direction_b, const s2e::math::Vector<3> sub_target_direction_b,
+                     const s2e::math::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
                      const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~ControlledAttitude
@@ -79,17 +79,17 @@ class ControlledAttitude : public Attitude {
    * @fn SetQuaternion_i2t
    * @brief Set quaternion for INERTIAL_STABILIZE mode
    */
-  inline void SetQuaternion_i2t(const math::Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
+  inline void SetQuaternion_i2t(const s2e::math::Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
   /**
    * @fn SetMainTargetDirection_b
    * @brief Set main target direction on the body fixed frame
    */
-  inline void SetMainTargetDirection_b(math::Vector<3> main_target_direction_b) { main_target_direction_b_ = main_target_direction_b; }
+  inline void SetMainTargetDirection_b(s2e::math::Vector<3> main_target_direction_b) { main_target_direction_b_ = main_target_direction_b; }
   /**
    * @fn SetSubTargetDirection_b
    * @brief Set sub target direction on the body fixed frame
    */
-  inline void SetSubTargetDirection_b(math::Vector<3> sub_target_direction_b) { sub_target_direction_b_ = sub_target_direction_b; }
+  inline void SetSubTargetDirection_b(s2e::math::Vector<3> sub_target_direction_b) { sub_target_direction_b_ = sub_target_direction_b; }
 
   /**
    * @fn Propagate
@@ -101,13 +101,13 @@ class ControlledAttitude : public Attitude {
  private:
   AttitudeControlMode main_mode_;             //!< Main control mode
   AttitudeControlMode sub_mode_;              //!< Sub control mode
-  math::Vector<3> main_target_direction_b_;   //!< Main target direction on the body fixed frame
-  math::Vector<3> sub_target_direction_b_;    //!< Sub target direction on tge body fixed frame
+  s2e::math::Vector<3> main_target_direction_b_;   //!< Main target direction on the body fixed frame
+  s2e::math::Vector<3> sub_target_direction_b_;    //!< Sub target direction on tge body fixed frame
   double previous_calc_time_s_ = -1.0;        //!< Previous time of velocity calculation [sec]
-  math::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
-  math::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
+  s2e::math::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
+  s2e::math::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
 
-  const double kMinDirectionAngle_rad = 30.0 * math::deg_to_rad;  //!< Minimum angle b/w main and sub direction
+  const double kMinDirectionAngle_rad = 30.0 * s2e::math::deg_to_rad;  //!< Minimum angle b/w main and sub direction
                                                                   // TODO Change with ini file
 
   // Inputs
@@ -126,14 +126,14 @@ class ControlledAttitude : public Attitude {
    * @param [in] mode: Attitude control mode
    * @return Target direction at the inertia frame
    */
-  math::Vector<3> CalcTargetDirection_i(AttitudeControlMode mode);
+  s2e::math::Vector<3> CalcTargetDirection_i(AttitudeControlMode mode);
   /**
    * @fn PointingControl
    * @brief Calculate attitude quaternion
    * @param [in] main_direction_i: Main target direction in the inertial frame
    * @param [in] sub_direction_i: Sub target direction in the inertial frame
    */
-  void PointingControl(const math::Vector<3> main_direction_i, const math::Vector<3> sub_direction_i);
+  void PointingControl(const s2e::math::Vector<3> main_direction_i, const s2e::math::Vector<3> sub_direction_i);
   /**
    * @fn CalcAngularVelocity
    * @brief Calculate angular velocity
@@ -146,7 +146,7 @@ class ControlledAttitude : public Attitude {
    * @param [in] main_direction: Main target direction
    * @param [in] sub_direction: Sub target direction
    */
-  math::Matrix<3, 3> CalcDcm(const math::Vector<3> main_direction, const math::Vector<3> sub_direction);
+  s2e::math::Matrix<3, 3> CalcDcm(const s2e::math::Vector<3> main_direction, const s2e::math::Vector<3> sub_direction);
 };
 
 #endif  // S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_HPP_

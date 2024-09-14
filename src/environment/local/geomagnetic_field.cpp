@@ -23,7 +23,7 @@ GeomagneticField::GeomagneticField(const std::string igrf_file_name, const doubl
 }
 
 void GeomagneticField::CalcMagneticField(const double decimal_year, const double sidereal_day, const geodesy::GeodeticPosition position,
-                                         const math::Quaternion quaternion_i2b) {
+                                         const s2e::math::Quaternion quaternion_i2b) {
   if (!IsCalcEnabled) return;
 
   const double lat_rad = position.GetLatitude_rad();
@@ -40,8 +40,8 @@ void GeomagneticField::CalcMagneticField(const double decimal_year, const double
 }
 
 void GeomagneticField::AddNoise(double* magnetic_field_array_i_nT) {
-  static math::Vector<3> standard_deviation(random_walk_standard_deviation_nT_);
-  static math::Vector<3> limit(random_walk_limit_nT_);
+  static s2e::math::Vector<3> standard_deviation(random_walk_standard_deviation_nT_);
+  static s2e::math::Vector<3> limit(random_walk_limit_nT_);
   static RandomWalk<3> random_walk(0.1, standard_deviation, limit);
 
   static randomization::NormalRand white_noise(0.0, white_noise_standard_deviation_nT_, global_randomization.MakeSeed());

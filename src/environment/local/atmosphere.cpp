@@ -66,7 +66,7 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& 
                                         manual_average_f107_, manual_ap_);
   } else if (model_ == "HARRIS_PRIESTER") {
     // Harris-Priester
-    math::Vector<3> sun_direction_eci = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN").CalcNormalizedVector();
+    s2e::math::Vector<3> sun_direction_eci = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN").CalcNormalizedVector();
     air_density_kg_m3_ = atmosphere::CalcAirDensityWithHarrisPriester_kg_m3(orbit.GetGeodeticPosition(), sun_direction_eci);
   } else {
     // No suitable model

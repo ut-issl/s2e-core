@@ -35,7 +35,7 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] srp_environment: Solar Radiation Pressure environment
    * @param [in] local_celestial_information: Local celestial information
    */
-  SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
+  SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
             const double detectable_angle_rad, const double random_noise_standard_deviation_rad, const double bias_noise_standard_deviation_rad,
             const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp_environment,
             const LocalCelestialInformation* local_celestial_information);
@@ -55,7 +55,7 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] local_celestial_information: Local celestial information
    */
   SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-            const math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
+            const s2e::math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
             const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
             const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information);
 
@@ -80,19 +80,19 @@ class SunSensor : public Component, public ILoggable {
 
   // Getter
   inline bool GetSunDetectedFlag() const { return sun_detected_flag_; };
-  inline const math::Vector<3> GetMeasuredSunDirection_c() const { return measured_sun_direction_c_; };
-  inline const math::Vector<3> GetMeasuredSunDirection_b() const { return quaternion_b2c_.Conjugate().FrameConversion(measured_sun_direction_c_); };
+  inline const s2e::math::Vector<3> GetMeasuredSunDirection_c() const { return measured_sun_direction_c_; };
+  inline const s2e::math::Vector<3> GetMeasuredSunDirection_b() const { return quaternion_b2c_.Conjugate().FrameConversion(measured_sun_direction_c_); };
   inline double GetSunAngleAlpha_rad() const { return alpha_rad_; };
   inline double GetSunAngleBeta_rad() const { return beta_rad_; };
   inline double GetSolarIlluminance_W_m2() const { return solar_illuminance_W_m2_; };
 
  protected:
   const int component_id_;                    //!< Sensor ID
-  math::Quaternion quaternion_b2c_;           //!< Quaternion from body frame to component frame (Z-axis of the component is sight direction)
+  s2e::math::Quaternion quaternion_b2c_;           //!< Quaternion from body frame to component frame (Z-axis of the component is sight direction)
   double intensity_lower_threshold_percent_;  //!< If the light intensity becomes smaller than this, it becomes impossible to get the sun direction
 
-  math::Vector<3> sun_direction_true_c_{0.0};      //!< True value of sun vector in the component frame
-  math::Vector<3> measured_sun_direction_c_{0.0};  //!< Measured sun vector in the component frame
+  s2e::math::Vector<3> sun_direction_true_c_{0.0};      //!< True value of sun vector in the component frame
+  s2e::math::Vector<3> measured_sun_direction_c_{0.0};  //!< Measured sun vector in the component frame
 
   double alpha_rad_ = 0.0;               //!< Angle between Z-axis and the sun direction projected on XZ plane [rad]
   double beta_rad_ = 0.0;                //!< Angle between Z-axis and the sun direction projected on YZ plane [rad]

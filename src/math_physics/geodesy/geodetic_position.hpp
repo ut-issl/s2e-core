@@ -36,13 +36,13 @@ class GeodeticPosition {
    * @brief Update geodetic position with position vector in the ECEF frame
    * @param [in] position_ecef_m: Position vector in the ECEF frame [m]
    */
-  void UpdateFromEcef(const math::Vector<3> position_ecef_m);
+  void UpdateFromEcef(const s2e::math::Vector<3> position_ecef_m);
 
   /**
    * @fn CalcEcefPosition
    * @brief Calculate and return the ECEF position from the geodetic position
    */
-  math::Vector<3> CalcEcefPosition() const;
+  s2e::math::Vector<3> CalcEcefPosition() const;
 
   // Getter
   /**
@@ -64,14 +64,14 @@ class GeodeticPosition {
    * @fn GetQuaternionXcxfToLtc
    * @brief Conversion quaternion from XCXF (e.g. ECEF) to LTC frame
    */
-  inline math::Quaternion GetQuaternionXcxfToLtc() const { return quaternion_xcxf_to_ltc_; }
+  inline s2e::math::Quaternion GetQuaternionXcxfToLtc() const { return quaternion_xcxf_to_ltc_; }
 
  private:
   double latitude_rad_;   //!< Latitude [rad] South: -π/2 to 0, North: 0 to π/2
   double longitude_rad_;  //!< Longitude [rad] East: 0 to π, West: 2π to π (i.e., defined as 0 to 2π [rad] east of the Greenwich meridian)
   double altitude_m_;     //!< Altitude [m]
 
-  math::Quaternion quaternion_xcxf_to_ltc_;  //!< Conversion quaternion from XCXF (e.g. ECEF) to LTC (Local Topographic Coordinate)
+  s2e::math::Quaternion quaternion_xcxf_to_ltc_;  //!< Conversion quaternion from XCXF (e.g. ECEF) to LTC (Local Topographic Coordinate)
 
   /**
    * @fn CalcQuaternionXcxfToLtc

@@ -12,7 +12,7 @@
  * @file ReactionWheelOde
  * @brief Ordinary differential equation of angular velocity of reaction wheel with first-order lag
  */
-class ReactionWheelOde : public math::OrdinaryDifferentialEquation<1> {
+class ReactionWheelOde : public s2e::math::OrdinaryDifferentialEquation<1> {
  public:
   /**
    * @fn ReactionWheelOde
@@ -53,7 +53,7 @@ class ReactionWheelOde : public math::OrdinaryDifferentialEquation<1> {
    * @param [in] state: State vector
    * @param [out] rhs: Differentiated value of state vector
    */
-  void DerivativeFunction(double x, const math::Vector<1>& state, math::Vector<1>& rhs) override;
+  void DerivativeFunction(double x, const s2e::math::Vector<1>& state, s2e::math::Vector<1>& rhs) override;
 
   double velocity_limit_rad_s_;
   double angular_acceleration_rad_s2_ = 0.0;  //!< Angular acceleration [rad/s2]

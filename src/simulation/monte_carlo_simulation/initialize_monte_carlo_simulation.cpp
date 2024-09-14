@@ -79,12 +79,12 @@ MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
 
     // Read mean_or_min vector
     key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "mean_or_min";
-    math::Vector<3> mean_or_min;
+    s2e::math::Vector<3> mean_or_min;
     ini_file.ReadVector(section, key_name.c_str(), mean_or_min);
 
     // Read sigma_or_max vector
     key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "sigma_or_max";
-    math::Vector<3> sigma_or_max;
+    s2e::math::Vector<3> sigma_or_max;
     ini_file.ReadVector(section, key_name.c_str(), sigma_or_max);
 
     // Write randomize setting

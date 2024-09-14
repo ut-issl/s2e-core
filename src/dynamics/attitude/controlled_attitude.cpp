@@ -7,9 +7,9 @@
 #include <logger/log_utility.hpp>
 #include <utilities/macros.hpp>
 
-ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const math::Quaternion quaternion_i2b,
-                                       const math::Vector<3> main_target_direction_b, const math::Vector<3> sub_target_direction_b,
-                                       const math::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information,
+ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const s2e::math::Quaternion quaternion_i2b,
+                                       const s2e::math::Vector<3> main_target_direction_b, const s2e::math::Vector<3> sub_target_direction_b,
+                                       const s2e::math::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information,
                                        const Orbit* orbit, const std::string& simulation_object_name)
     : Attitude(inertia_tensor_kgm2, simulation_object_name),
       main_mode_(main_mode),
@@ -53,7 +53,7 @@ void ControlledAttitude::Initialize(void) {
 }
 
 void ControlledAttitude::Propagate(const double end_time_s) {
-  math::Vector<3> main_direction_i, sub_direction_i;
+  s2e::math::Vector<3> main_direction_i, sub_direction_i;
   if (!is_calc_enabled_) return;
 
   if (main_mode_ == AttitudeControlMode::kInertialStabilize) {
@@ -72,28 +72,28 @@ void ControlledAttitude::Propagate(const double end_time_s) {
   return;
 }
 
-math::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mode) {
-  math::Vector<3> direction;
+s2e::math::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mode) {
+  s2e::math::Vector<3> direction;
   if (mode == AttitudeControlMode::kSunPointing) {
     direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
     // When the local_celestial_information is not initialized. FIXME: This is temporary codes for attitude initialize.
     if (direction.CalcNorm() == 0.0) {
-      math::Vector<3> sun_position_i_m = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN");
-      math::Vector<3> spacecraft_position_i_m = orbit_->GetPosition_i_m();
+      s2e::math::Vector<3> sun_position_i_m = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN");
+      s2e::math::Vector<3> spacecraft_position_i_m = orbit_->GetPosition_i_m();
       direction = sun_position_i_m - spacecraft_position_i_m;
     }
   } else if (mode == AttitudeControlMode::kEarthCenterPointing) {
     direction = local_celestial_information_->GetPositionFromSpacecraft_i_m("EARTH");
     // When the local_celestial_information is not initialized. FIXME: This is temporary codes for attitude initialize.
     if (direction.CalcNorm() == 0.0) {
-      math::Vector<3> earth_position_i_m = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("EARTH");
-      math::Vector<3> spacecraft_position_i_m = orbit_->GetPosition_i_m();
+      s2e::math::Vector<3> earth_position_i_m = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("EARTH");
+      s2e::math::Vector<3> spacecraft_position_i_m = orbit_->GetPosition_i_m();
       direction = earth_position_i_m - spacecraft_position_i_m;
     }
   } else if (mode == AttitudeControlMode::kVelocityDirectionPointing) {
     direction = orbit_->GetVelocity_i_m_s();
   } else if (mode == AttitudeControlMode::kGroundSpeedDirectionPointing) {
-    math::Matrix<3, 3> dcm_ecef2eci = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
+    s2e::math::Matrix<3, 3> dcm_ecef2eci = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose();
     direction = dcm_ecef2eci * orbit_->GetVelocity_ecef_m_s();
   } else if (mode == AttitudeControlMode::kOrbitNormalPointing) {
     direction = OuterProduct(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
@@ -102,29 +102,29 @@ math::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mo
   return direction;
 }
 
-void ControlledAttitude::PointingControl(const math::Vector<3> main_direction_i, const math::Vector<3> sub_direction_i) {
+void ControlledAttitude::PointingControl(const s2e::math::Vector<3> main_direction_i, const s2e::math::Vector<3> sub_direction_i) {
   // Calc DCM ECI->Target
-  math::Matrix<3, 3> dcm_t2i = CalcDcm(main_direction_i, sub_direction_i);
+  s2e::math::Matrix<3, 3> dcm_t2i = CalcDcm(main_direction_i, sub_direction_i);
   // Calc DCM Target->body
-  math::Matrix<3, 3> dcm_t2b = CalcDcm(main_target_direction_b_, sub_target_direction_b_);
+  s2e::math::Matrix<3, 3> dcm_t2b = CalcDcm(main_target_direction_b_, sub_target_direction_b_);
   // Calc DCM ECI->body
-  math::Matrix<3, 3> dcm_i2b = dcm_t2b * dcm_t2i.Transpose();
+  s2e::math::Matrix<3, 3> dcm_i2b = dcm_t2b * dcm_t2i.Transpose();
   // Convert to Quaternion
-  quaternion_i2b_ = math::Quaternion::ConvertFromDcm(dcm_i2b);
+  quaternion_i2b_ = s2e::math::Quaternion::ConvertFromDcm(dcm_i2b);
 }
 
-math::Matrix<3, 3> ControlledAttitude::CalcDcm(const math::Vector<3> main_direction, const math::Vector<3> sub_direction) {
+s2e::math::Matrix<3, 3> ControlledAttitude::CalcDcm(const s2e::math::Vector<3> main_direction, const s2e::math::Vector<3> sub_direction) {
   // Calc basis vectors
-  math::Vector<3> ex, ey, ez;
+  s2e::math::Vector<3> ex, ey, ez;
   ex = main_direction;
-  math::Vector<3> tmp1 = OuterProduct(ex, sub_direction);
-  math::Vector<3> tmp2 = OuterProduct(tmp1, ex);
+  s2e::math::Vector<3> tmp1 = OuterProduct(ex, sub_direction);
+  s2e::math::Vector<3> tmp2 = OuterProduct(tmp1, ex);
   ey = tmp2.CalcNormalizedVector();
-  math::Vector<3> tmp3 = OuterProduct(ex, ey);
+  s2e::math::Vector<3> tmp3 = OuterProduct(ex, ey);
   ez = tmp3.CalcNormalizedVector();
 
   // Generate DCM
-  math::Matrix<3, 3> dcm;
+  s2e::math::Matrix<3, 3> dcm;
   for (int i = 0; i < 3; i++) {
     dcm[i][0] = ex[i];
     dcm[i][1] = ey[i];
@@ -152,24 +152,24 @@ AttitudeControlMode ConvertStringToCtrlMode(const std::string mode) {
 }
 
 void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
-  math::Vector<3> controlled_torque_b_Nm(0.0);
+  s2e::math::Vector<3> controlled_torque_b_Nm(0.0);
 
   if (previous_calc_time_s_ > 0.0) {
     double time_diff_sec = current_time_s - previous_calc_time_s_;
-    math::Quaternion prev_q_b2i = previous_quaternion_i2b_.Conjugate();
-    math::Quaternion q_diff = prev_q_b2i * quaternion_i2b_;
+    s2e::math::Quaternion prev_q_b2i = previous_quaternion_i2b_.Conjugate();
+    s2e::math::Quaternion q_diff = prev_q_b2i * quaternion_i2b_;
     q_diff = (2.0 / time_diff_sec) * q_diff;
 
-    math::Vector<3> angular_acc_b_rad_s2_;
+    s2e::math::Vector<3> angular_acc_b_rad_s2_;
     for (int i = 0; i < 3; i++) {
       angular_velocity_b_rad_s_[i] = q_diff[i];
       angular_acc_b_rad_s2_[i] = (previous_omega_b_rad_s_[i] - angular_velocity_b_rad_s_[i]) / time_diff_sec;
     }
-    math::Matrix<3, 3> inv_inertia_tensor = CalcInverseMatrix(inertia_tensor_kgm2_);
+    s2e::math::Matrix<3, 3> inv_inertia_tensor = CalcInverseMatrix(inertia_tensor_kgm2_);
     controlled_torque_b_Nm = inv_inertia_tensor * angular_acc_b_rad_s2_;
   } else {
-    angular_velocity_b_rad_s_ = math::Vector<3>(0.0);
-    controlled_torque_b_Nm = math::Vector<3>(0.0);
+    angular_velocity_b_rad_s_ = s2e::math::Vector<3>(0.0);
+    controlled_torque_b_Nm = s2e::math::Vector<3>(0.0);
   }
   // Add torque with disturbances
   AddTorque_b_Nm(controlled_torque_b_Nm);

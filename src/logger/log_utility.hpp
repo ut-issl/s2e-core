@@ -35,7 +35,7 @@ inline std::string WriteScalar(const std::string name, const std::string unit);
  * @param [in] precision: precision for the value (number of digit)
  */
 template <size_t NUM>
-inline std::string WriteVector(const math::Vector<NUM, double> vector, const int precision = 6);
+inline std::string WriteVector(const s2e::math::Vector<NUM, double> vector, const int precision = 6);
 /**
  * @fn WriteVector
  * @brief Write header for vector value
@@ -52,7 +52,7 @@ inline std::string WriteVector(const std::string name, const std::string frame, 
  * @param [in] matrix: matrix value
  */
 template <size_t ROW, size_t COLUMN>
-inline std::string WriteMatrix(const math::Matrix<ROW, COLUMN, double> matrix, const int precision = 6);
+inline std::string WriteMatrix(const s2e::math::Matrix<ROW, COLUMN, double> matrix, const int precision = 6);
 /**
  * @fn WriteMatrix
  * @brief Write header for matrix value
@@ -70,7 +70,7 @@ inline std::string WriteMatrix(const std::string name, const std::string frame, 
  * @brief Write quaternion value
  * @param [in] quaternion: Quaternion
  */
-inline std::string WriteQuaternion(const math::Quaternion quaternion, const int precision = 6);
+inline std::string WriteQuaternion(const s2e::math::Quaternion quaternion, const int precision = 6);
 /**
  * @fn WriteQuaternion
  * @brief Write header for quaternion
@@ -91,7 +91,7 @@ std::string WriteScalar(const T scalar, const int precision) {
 std::string WriteScalar(const std::string name, const std::string unit) { return name + "[" + unit + "],"; }
 
 template <size_t NUM>
-std::string WriteVector(const math::Vector<NUM, double> vector, const int precision) {
+std::string WriteVector(const s2e::math::Vector<NUM, double> vector, const int precision) {
   std::stringstream str_tmp;
 
   for (size_t n = 0; n < NUM; n++) {
@@ -115,7 +115,7 @@ std::string WriteVector(const std::string name, const std::string frame, const s
 }
 
 template <size_t ROW, size_t COLUMN>
-std::string WriteMatrix(const math::Matrix<ROW, COLUMN, double> matrix, const int precision) {
+std::string WriteMatrix(const s2e::math::Matrix<ROW, COLUMN, double> matrix, const int precision) {
   std::stringstream str_tmp;
 
   for (size_t n = 0; n < ROW; n++) {
@@ -138,7 +138,7 @@ std::string WriteMatrix(const std::string name, const std::string frame, const s
   return str_tmp.str();
 }
 
-std::string WriteQuaternion(const math::Quaternion quaternion, const int precision) {
+std::string WriteQuaternion(const s2e::math::Quaternion quaternion, const int precision) {
   std::stringstream str_tmp;
 
   for (size_t i = 0; i < 4; i++) {

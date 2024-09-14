@@ -18,8 +18,8 @@ MtqMagnetometerInterference::MtqMagnetometerInterference(const std::string file_
 
   for (size_t degree = 1; degree <= polynomial_degree_; degree++) {
     const std::string key_name = "additional_bias_by_mtq_coefficients_" + std::to_string(static_cast<long long>(degree));
-    math::Vector<9> additional_bias_by_mtq_coefficients_vec;
-    math::Matrix<3, 3> additional_bias_by_mtq_coefficients;
+    s2e::math::Vector<9> additional_bias_by_mtq_coefficients_vec;
+    s2e::math::Matrix<3, 3> additional_bias_by_mtq_coefficients;
     ini_file.ReadVector(section.c_str(), key_name.c_str(), additional_bias_by_mtq_coefficients_vec);
     for (size_t i = 0; i < 3; i++) {
       for (size_t j = 0; j < 3; j++) {
@@ -35,10 +35,10 @@ void MtqMagnetometerInterference::UpdateInterference(void) {
   magnetometer_.AddConstantBiasNoise_c_nT(-1.0 * previous_added_bias_c_nT_);
 
   // Calculate bias
-  math::Vector<3> additional_bias_c_nT{0.0};
-  math::Vector<3> mtq_output_c_Am2 = magnetorquer_.GetOutputMagneticMoment_c_Am2();
+  s2e::math::Vector<3> additional_bias_c_nT{0.0};
+  s2e::math::Vector<3> mtq_output_c_Am2 = magnetorquer_.GetOutputMagneticMoment_c_Am2();
   for (size_t degree = 1; degree <= polynomial_degree_; degree++) {
-    math::Vector<3> hadamard_mtq;
+    s2e::math::Vector<3> hadamard_mtq;
     for (size_t axis = 0; axis < 3; axis++) {
       hadamard_mtq[axis] = pow(mtq_output_c_Am2[axis], degree);
     }

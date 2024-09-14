@@ -50,7 +50,7 @@ class MagneticDisturbance : public Disturbance {
  private:
   const double kMagUnit_ = 1.0e-9;  //!< Constant value to change the unit [nT] -> [T]
 
-  math::Vector<3> rmm_b_Am2_;                               //!< True RMM of the spacecraft in the body frame [Am2]
+  s2e::math::Vector<3> rmm_b_Am2_;                               //!< True RMM of the spacecraft in the body frame [Am2]
   const ResidualMagneticMoment& residual_magnetic_moment_;  //!< RMM parameters
 
   /**
@@ -64,7 +64,7 @@ class MagneticDisturbance : public Disturbance {
    * @param [in] magnetic_field_b_nT: Magnetic field vector at the body frame [nT]
    * @return Calculated disturbance torque in body frame [Nm]
    */
-  math::Vector<3> CalcTorque_b_Nm(const math::Vector<3>& magnetic_field_b_nT);
+  s2e::math::Vector<3> CalcTorque_b_Nm(const s2e::math::Vector<3>& magnetic_field_b_nT);
 };
 
 /**

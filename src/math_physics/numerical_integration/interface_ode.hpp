@@ -24,7 +24,7 @@ class InterfaceOde {
    * @param [in] state: State vector
    * @return Differentiated value of state vector
    */
-  virtual math::Vector<N> DerivativeFunction(const double independent_variable, const math::Vector<N>& state) const = 0;
+  virtual s2e::math::Vector<N> DerivativeFunction(const double independent_variable, const s2e::math::Vector<N>& state) const = 0;
 };
 
 }  // namespace numerical_integration

@@ -32,7 +32,7 @@ class InterpolationOrbit {
    * @param [in] time: time of the new data
    * @param [in] position: Satellite position of the new data
    */
-  bool PushAndPopData(const double time, const math::Vector<3> position);
+  bool PushAndPopData(const double time, const s2e::math::Vector<3> position);
 
   /**
    * @fn CalcPositionWithTrigonometric
@@ -41,7 +41,7 @@ class InterpolationOrbit {
    * @param [in] period: Characteristic period
    * @return Calculated position
    */
-  math::Vector<3> CalcPositionWithTrigonometric(const double time, const double period = 0.0) const;
+  s2e::math::Vector<3> CalcPositionWithTrigonometric(const double time, const double period = 0.0) const;
 
   // Getters
   /**
@@ -68,7 +68,7 @@ class InterpolationOrbit {
   }
 
  private:
-  std::vector<math::Interpolation> interpolation_position_;  // 3D vector of interpolation
+  std::vector<s2e::math::Interpolation> interpolation_position_;  // 3D vector of interpolation
 };
 
 }  // namespace orbit

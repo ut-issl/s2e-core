@@ -8,7 +8,7 @@
 
 #include "./vector.hpp"
 
-namespace math {
+namespace s2e::math {
 
 /**
  * @class OrdinaryDifferentialEquation
@@ -102,7 +102,7 @@ class OrdinaryDifferentialEquation {
    * @fn GetState
    * @brief Return current state vector for inheriting class
    */
-  inline math::Vector<N>& GetState() { return state_; }
+  inline s2e::math::Vector<N>& GetState() { return state_; }
 
  private:
   double independent_variable_;  //!< Latest value of independent variable
@@ -111,7 +111,7 @@ class OrdinaryDifferentialEquation {
   double step_width_s_;          //!< Step width
 };
 
-}  // namespace math
+}  // namespace s2e::math
 
 #include "./ordinary_differential_equation_template_functions.hpp"
 

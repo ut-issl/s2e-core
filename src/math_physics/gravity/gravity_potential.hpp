@@ -48,7 +48,7 @@ class GravityPotential {
    * @param [in] position_xcxf_m: Position of the spacecraft in the XCXF frame [m]
    * @return Acceleration in XCXF frame [m/s2]
    */
-  math::Vector<3> CalcAcceleration_xcxf_m_s2(const math::Vector<3> &position_xcxf_m);
+  s2e::math::Vector<3> CalcAcceleration_xcxf_m_s2(const s2e::math::Vector<3> &position_xcxf_m);
 
   /**
    * @fn CalcAcceleration_xcxf_m_s2
@@ -56,7 +56,7 @@ class GravityPotential {
    * @param [in] position_xcxf_m: Position of the spacecraft in the XCXF frame [m]
    * @return Partial derivative of acceleration in XCXF frame [-/s2]
    */
-  math::Matrix<3, 3> CalcPartialDerivative_xcxf_s2(const math::Vector<3> &position_xcxf_m);
+  s2e::math::Matrix<3, 3> CalcPartialDerivative_xcxf_s2(const s2e::math::Vector<3> &position_xcxf_m);
 
  private:
   size_t degree_ = 0;                   //!< Maximum degree

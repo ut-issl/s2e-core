@@ -15,7 +15,7 @@
  * @brief Class to calculate random wark value
  */
 template <size_t N>
-class RandomWalk : public math::OrdinaryDifferentialEquation<N> {
+class RandomWalk : public s2e::math::OrdinaryDifferentialEquation<N> {
  public:
   /**
    * @fn RandomWalk
@@ -24,7 +24,7 @@ class RandomWalk : public math::OrdinaryDifferentialEquation<N> {
    * @param standard_deviation: Standard deviation of random walk excitation noise
    * @param limit: Limit of random walk
    */
-  RandomWalk(double step_width_s, const math::Vector<N>& standard_deviation, const math::Vector<N>& limit);
+  RandomWalk(double step_width_s, const s2e::math::Vector<N>& standard_deviation, const s2e::math::Vector<N>& limit);
 
   /**
    * @fn DerivativeFunction
@@ -33,10 +33,10 @@ class RandomWalk : public math::OrdinaryDifferentialEquation<N> {
    * @param [in] state: State vector
    * @param [out] rhs: Differentiated value of state vector
    */
-  virtual void DerivativeFunction(double x, const math::Vector<N>& state, math::Vector<N>& rhs);
+  virtual void DerivativeFunction(double x, const s2e::math::Vector<N>& state, s2e::math::Vector<N>& rhs);
 
  private:
-  math::Vector<N> limit_;                           //!< Limit of random walk
+  s2e::math::Vector<N> limit_;                           //!< Limit of random walk
   randomization::NormalRand normal_randomizer_[N];  //!< Random walk excitation noise
 };
 

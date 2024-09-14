@@ -32,7 +32,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILogg
    * @param [in] dynamics: Dynamics information
    */
   GyroSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
-             const math::Quaternion& quaternion_b2c, const Dynamics* dynamics);
+             const s2e::math::Quaternion& quaternion_b2c, const Dynamics* dynamics);
   /**
    * @fn GyroSensor
    * @brief Constructor with power port
@@ -45,7 +45,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILogg
    * @param [in] dynamics: Dynamics information
    */
   GyroSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-             const math::Quaternion& quaternion_b2c, const Dynamics* dynamics);
+             const s2e::math::Quaternion& quaternion_b2c, const Dynamics* dynamics);
   /**
    * @fn ~GyroSensor
    * @brief Destructor
@@ -75,13 +75,13 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILogg
    * @fn GetMeasuredAngularVelocity_c_rad_s
    * @brief Return observed angular velocity of the component frame with respect to the inertial frame
    */
-  inline const math::Vector<kGyroDimension>& GetMeasuredAngularVelocity_c_rad_s(void) const { return angular_velocity_c_rad_s_; }
+  inline const s2e::math::Vector<kGyroDimension>& GetMeasuredAngularVelocity_c_rad_s(void) const { return angular_velocity_c_rad_s_; }
 
  protected:
-  math::Vector<kGyroDimension> angular_velocity_c_rad_s_{
+  s2e::math::Vector<kGyroDimension> angular_velocity_c_rad_s_{
       0.0};                     //!< Observed angular velocity of the component frame with respect to the inertial frame [rad/s]
   unsigned int sensor_id_ = 0;  //!< Sensor ID
-  math::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
+  s2e::math::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
 
   const Dynamics* dynamics_;  //!< Dynamics information
 };

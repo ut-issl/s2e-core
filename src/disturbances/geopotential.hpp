@@ -67,7 +67,7 @@ class Geopotential : public Disturbance {
   Vector<3> acceleration_ecef_m_s2_;    //!< Calculated acceleration in the ECEF frame [m/s2]
 
   // debug
-  math::Vector<3> debug_pos_ecef_m_;  //!< Spacecraft position in ECEF frame [m]
+  s2e::math::Vector<3> debug_pos_ecef_m_;  //!< Spacecraft position in ECEF frame [m]
   double time_ms_ = 0.0;              //!< Calculation time [ms]
 
   /**

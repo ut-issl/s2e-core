@@ -11,17 +11,17 @@
 #include "../logger/log_utility.hpp"
 
 SolarRadiationPressureDisturbance::SolarRadiationPressureDisturbance(const std::vector<Surface>& surfaces,
-                                                                     const math::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
+                                                                     const s2e::math::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled) {}
 
 void SolarRadiationPressureDisturbance::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
   UNUSED(dynamics);
 
-  math::Vector<3> sun_position_from_sc_b_m = local_environment.GetCelestialInformation().GetPositionFromSpacecraft_b_m("SUN");
+  s2e::math::Vector<3> sun_position_from_sc_b_m = local_environment.GetCelestialInformation().GetPositionFromSpacecraft_b_m("SUN");
   CalcTorqueForce(sun_position_from_sc_b_m, local_environment.GetSolarRadiationPressure().GetPressure_N_m2());
 }
 
-void SolarRadiationPressureDisturbance::CalcCoefficients(const math::Vector<3>& input_direction_b, const double item) {
+void SolarRadiationPressureDisturbance::CalcCoefficients(const s2e::math::Vector<3>& input_direction_b, const double item) {
   UNUSED(input_direction_b);
 
   for (size_t i = 0; i < surfaces_.size(); i++) {  // Calculate for each surface

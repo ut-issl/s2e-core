@@ -7,7 +7,7 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 
 Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
-                       const double step_width_s, const math::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id) {
+                       const double step_width_s, const s2e::math::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id) {
   IniAccess ini_file(file_name);
   const char* section_ = "ATTITUDE";
   std::string mc_name = "attitude" + std::to_string(spacecraft_id);
@@ -16,9 +16,9 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
   const std::string propagate_mode = ini_file.ReadString(section_, "propagate_mode");
   const std::string initialize_mode = ini_file.ReadString(section_, "initialize_mode");
 
-  math::Vector<3> omega_b;
-  math::Quaternion quaternion_i2b;
-  math::Vector<3> torque_b;
+  s2e::math::Vector<3> omega_b;
+  s2e::math::Quaternion quaternion_i2b;
+  s2e::math::Vector<3> torque_b;
   if (initialize_mode == "CONTROLLED") {
     // Initialize with Controlled attitude (attitude_tmp temporary used)
     IniAccess ini_file_ca(file_name);
@@ -30,7 +30,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     AttitudeControlMode sub_mode = ConvertStringToCtrlMode(sub_mode_in);
 
     ini_file_ca.ReadQuaternion(section_, "initial_quaternion_i2b", quaternion_i2b);
-    math::Vector<3> main_target_direction_b, sub_target_direction_b;
+    s2e::math::Vector<3> main_target_direction_b, sub_target_direction_b;
     ini_file_ca.ReadVector(section_ca_, "main_pointing_direction_b", main_target_direction_b);
     ini_file_ca.ReadVector(section_ca_, "sub_pointing_direction_b", sub_target_direction_b);
     std::string mc_name_temp = section_ + std::to_string(spacecraft_id) + "_TEMP";
@@ -38,8 +38,8 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
                                                      inertia_tensor_kgm2, local_celestial_information, orbit, mc_name_temp);
     attitude_temp->Propagate(step_width_s);
     quaternion_i2b = attitude_temp->GetQuaternion_i2b();
-    omega_b = math::Vector<3>(0.0);
-    torque_b = math::Vector<3>(0.0);
+    omega_b = s2e::math::Vector<3>(0.0);
+    torque_b = s2e::math::Vector<3>(0.0);
   } else {
     // Including the case: initialize_mode == "MANUAL"
     ini_file.ReadVector(section_, "initial_angular_velocity_b_rad_s", omega_b);
@@ -54,8 +54,8 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     IniAccess ini_structure(ini_structure_name);
 
     const char* section_cantilever = "CANTILEVER_PARAMETERS";
-    math::Matrix<3, 3> inertia_tensor_cantilever_kgm2;
-    math::Vector<9> inertia_vec;
+    s2e::math::Matrix<3, 3> inertia_tensor_cantilever_kgm2;
+    s2e::math::Vector<9> inertia_vec;
     ini_structure.ReadVector(section_cantilever, "inertia_tensor_cantilever_kgm2", inertia_vec);
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
@@ -78,7 +78,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     AttitudeControlMode main_mode = ConvertStringToCtrlMode(main_mode_in);
     AttitudeControlMode sub_mode = ConvertStringToCtrlMode(sub_mode_in);
     ini_file_ca.ReadQuaternion(section_, "initial_quaternion_i2b", quaternion_i2b);
-    math::Vector<3> main_target_direction_b, sub_target_direction_b;
+    s2e::math::Vector<3> main_target_direction_b, sub_target_direction_b;
     ini_file_ca.ReadVector(section_ca_, "main_pointing_direction_b", main_target_direction_b);
     ini_file_ca.ReadVector(section_ca_, "sub_pointing_direction_b", sub_target_direction_b);
 

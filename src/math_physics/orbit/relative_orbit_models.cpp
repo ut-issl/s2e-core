@@ -6,8 +6,8 @@
 
 namespace orbit {
 
-math::Matrix<6, 6> CalcHillSystemMatrix(double orbit_radius_m, double gravity_constant_m3_s2) {
-  math::Matrix<6, 6> system_matrix;
+s2e::math::Matrix<6, 6> CalcHillSystemMatrix(double orbit_radius_m, double gravity_constant_m3_s2) {
+  s2e::math::Matrix<6, 6> system_matrix;
 
   double n = sqrt(gravity_constant_m3_s2 / pow(orbit_radius_m, 3));
   system_matrix[0][0] = 0.0;
@@ -50,8 +50,8 @@ math::Matrix<6, 6> CalcHillSystemMatrix(double orbit_radius_m, double gravity_co
   return system_matrix;
 }
 
-math::Matrix<6, 6> CalcHcwStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s) {
-  math::Matrix<6, 6> stm;
+s2e::math::Matrix<6, 6> CalcHcwStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s) {
+  s2e::math::Matrix<6, 6> stm;
 
   double n = sqrt(gravity_constant_m3_s2 / pow(orbit_radius_m, 3));
   double t = elapsed_time_s;

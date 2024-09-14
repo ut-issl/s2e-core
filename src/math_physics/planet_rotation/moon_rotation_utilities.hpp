@@ -20,7 +20,7 @@ namespace planet_rotation {
  * @param[in] moon_position_eci_m: Moon position vector @ ECI frame [m]
  * @param[in] moon_velocity_eci_m_s: Moon velocity vector @ ECI frame [m/s]
  */
-math::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const math::Vector<3> moon_position_eci_m, const math::Vector<3> moon_velocity_eci_m_s);
+s2e::math::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const s2e::math::Vector<3> moon_position_eci_m, const s2e::math::Vector<3> moon_velocity_eci_m_s);
 
 /**
  * @fn CalcDcmEciToMeanEarth
@@ -28,13 +28,13 @@ math::Matrix<3, 3> CalcDcmEciToPrincipalAxis(const math::Vector<3> moon_position
  * @param[in] moon_position_eci_m: Moon position vector @ ECI frame [m]
  * @param[in] moon_velocity_eci_m_s: Moon velocity vector @ ECI frame [m/s]
  */
-math::Matrix<3, 3> CalcDcmEciToMeanEarth(const math::Vector<3> moon_position_eci_m, const math::Vector<3> moon_velocity_eci_m_s);
+s2e::math::Matrix<3, 3> CalcDcmEciToMeanEarth(const s2e::math::Vector<3> moon_position_eci_m, const s2e::math::Vector<3> moon_velocity_eci_m_s);
 
 /**
  * @fn CalcDcmMeToPrincipalAxis
  * @brief Calculate DCM from ME (Mean Earth) moon fixed frame to PA (Principal Axis) moon fixed frame
  */
-math::Matrix<3, 3> CalcDcmMeanEarthToPrincipalAxis();
+s2e::math::Matrix<3, 3> CalcDcmMeanEarthToPrincipalAxis();
 
 }  // namespace planet_rotation
 

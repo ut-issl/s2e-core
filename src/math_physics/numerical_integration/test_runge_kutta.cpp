@@ -18,7 +18,7 @@ TEST(NUMERICAL_INTEGRATION, Constructor) {
   numerical_integration::ExampleLinearOde ode;
   numerical_integration::RungeKutta4<1> linear_ode(0.1, ode);
 
-  math::Vector<1> state = linear_ode.GetState();
+  s2e::math::Vector<1> state = linear_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 }
 
@@ -30,7 +30,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearRk4) {
   numerical_integration::ExampleLinearOde ode;
   numerical_integration::RungeKutta4<1> rk4_ode(step_width_s, ode);
 
-  math::Vector<1> state = rk4_ode.GetState();
+  s2e::math::Vector<1> state = rk4_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 
   size_t step_num = 10000;
@@ -51,7 +51,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearRkf) {
   numerical_integration::ExampleLinearOde ode;
   numerical_integration::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
 
-  math::Vector<1> state = rkf_ode.GetState();
+  s2e::math::Vector<1> state = rkf_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 
   size_t step_num = 10000;
@@ -72,7 +72,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearDp5) {
   numerical_integration::ExampleLinearOde ode;
   numerical_integration::DormandPrince5<1> dp5_ode(step_width_s, ode);
 
-  math::Vector<1> state = dp5_ode.GetState();
+  s2e::math::Vector<1> state = dp5_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 
   size_t step_num = 10000;
@@ -93,7 +93,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRk4) {
   numerical_integration::ExampleLinearOde ode;
   numerical_integration::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode);
 
-  math::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
+  s2e::math::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 
   size_t step_num = 10000;
@@ -115,7 +115,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerRkf) {
   numerical_integration::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode,
                                                                             numerical_integration::NumericalIntegrationMethod::kRkf);
 
-  math::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
+  s2e::math::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 
   size_t step_num = 10000;
@@ -141,7 +141,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateLinearNumericalIntegratorManagerDp5) {
   numerical_integration::NumericalIntegratorManager<1> numerical_integrator(step_width_s, ode,
                                                                             numerical_integration::NumericalIntegrationMethod::kDp5);
 
-  math::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
+  s2e::math::Vector<1> state = numerical_integrator.GetIntegrator()->GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 
   size_t step_num = 10000;
@@ -166,7 +166,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateQuadraticRk4) {
   numerical_integration::ExampleQuadraticOde ode;
   numerical_integration::RungeKutta4<1> rk4_ode(step_width_s, ode);
 
-  math::Vector<1> state = rk4_ode.GetState();
+  s2e::math::Vector<1> state = rk4_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 
   size_t step_num = 10000;
@@ -187,7 +187,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateQuadraticRkf) {
   numerical_integration::ExampleQuadraticOde ode;
   numerical_integration::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
 
-  math::Vector<1> state = rkf_ode.GetState();
+  s2e::math::Vector<1> state = rkf_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 
   size_t step_num = 10000;
@@ -208,7 +208,7 @@ TEST(NUMERICAL_INTEGRATION, InterpolationQuadraticRkf) {
   numerical_integration::ExampleQuadraticOde ode;
   numerical_integration::RungeKuttaFehlberg<1> rkf_ode(step_width_s, ode);
 
-  math::Vector<1> state = rkf_ode.GetState();
+  s2e::math::Vector<1> state = rkf_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 
   rkf_ode.Integrate();
@@ -237,7 +237,7 @@ TEST(NUMERICAL_INTEGRATION, IntegrateQuadraticDp5) {
   numerical_integration::ExampleQuadraticOde ode;
   numerical_integration::DormandPrince5<1> dp5_ode(step_width_s, ode);
 
-  math::Vector<1> state = dp5_ode.GetState();
+  s2e::math::Vector<1> state = dp5_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 
   size_t step_num = 10000;
@@ -258,7 +258,7 @@ TEST(NUMERICAL_INTEGRATION, InterpolationQuadraticDp5) {
   numerical_integration::ExampleQuadraticOde ode;
   numerical_integration::DormandPrince5<1> dp5_ode(step_width_s, ode);
 
-  math::Vector<1> state = dp5_ode.GetState();
+  s2e::math::Vector<1> state = dp5_ode.GetState();
   EXPECT_DOUBLE_EQ(0.0, state[0]);
 
   dp5_ode.Integrate();
@@ -287,12 +287,12 @@ TEST(NUMERICAL_INTEGRATION, Integrate1dPositionVelocityRk4) {
   numerical_integration::Example1dPositionVelocityOde ode;
   numerical_integration::RungeKutta4<2> rk4_ode(step_width_s, ode);
 
-  math::Vector<2> initial_state(0.0);
+  s2e::math::Vector<2> initial_state(0.0);
   initial_state[0] = 0.0;
   initial_state[1] = 0.1;
   rk4_ode.SetState(0.0, initial_state);
 
-  math::Vector<2> state = rk4_ode.GetState();
+  s2e::math::Vector<2> state = rk4_ode.GetState();
   EXPECT_DOUBLE_EQ(initial_state[0], state[0]);
   EXPECT_DOUBLE_EQ(initial_state[1], state[1]);
 
@@ -301,7 +301,7 @@ TEST(NUMERICAL_INTEGRATION, Integrate1dPositionVelocityRk4) {
     rk4_ode.Integrate();
   }
   state = rk4_ode.GetState();
-  math::Vector<2> estimated_result(0.0);
+  s2e::math::Vector<2> estimated_result(0.0);
   estimated_result[0] = (step_width_s * step_num) * initial_state[1] + initial_state[0];
   estimated_result[1] = initial_state[1];
 
@@ -317,12 +317,12 @@ TEST(NUMERICAL_INTEGRATION, Integrate1dPositionVelocityRkf) {
   numerical_integration::Example1dPositionVelocityOde ode;
   numerical_integration::RungeKuttaFehlberg<2> rkf_ode(step_width_s, ode);
 
-  math::Vector<2> initial_state(0.0);
+  s2e::math::Vector<2> initial_state(0.0);
   initial_state[0] = 0.0;
   initial_state[1] = 0.1;
   rkf_ode.SetState(0.0, initial_state);
 
-  math::Vector<2> state = rkf_ode.GetState();
+  s2e::math::Vector<2> state = rkf_ode.GetState();
   EXPECT_DOUBLE_EQ(initial_state[0], state[0]);
   EXPECT_DOUBLE_EQ(initial_state[1], state[1]);
 
@@ -331,7 +331,7 @@ TEST(NUMERICAL_INTEGRATION, Integrate1dPositionVelocityRkf) {
     rkf_ode.Integrate();
   }
   state = rkf_ode.GetState();
-  math::Vector<2> estimated_result(0.0);
+  s2e::math::Vector<2> estimated_result(0.0);
   estimated_result[0] = (step_width_s * step_num) * initial_state[1] + initial_state[0];
   estimated_result[1] = initial_state[1];
 
@@ -347,12 +347,12 @@ TEST(NUMERICAL_INTEGRATION, Integrate1dPositionVelocityDp5) {
   numerical_integration::Example1dPositionVelocityOde ode;
   numerical_integration::DormandPrince5<2> dp5_ode(step_width_s, ode);
 
-  math::Vector<2> initial_state(0.0);
+  s2e::math::Vector<2> initial_state(0.0);
   initial_state[0] = 0.0;
   initial_state[1] = 0.1;
   dp5_ode.SetState(0.0, initial_state);
 
-  math::Vector<2> state = dp5_ode.GetState();
+  s2e::math::Vector<2> state = dp5_ode.GetState();
   EXPECT_DOUBLE_EQ(initial_state[0], state[0]);
   EXPECT_DOUBLE_EQ(initial_state[1], state[1]);
 
@@ -361,7 +361,7 @@ TEST(NUMERICAL_INTEGRATION, Integrate1dPositionVelocityDp5) {
     dp5_ode.Integrate();
   }
   state = dp5_ode.GetState();
-  math::Vector<2> estimated_result(0.0);
+  s2e::math::Vector<2> estimated_result(0.0);
   estimated_result[0] = (step_width_s * step_num) * initial_state[1] + initial_state[0];
   estimated_result[1] = initial_state[1];
 
@@ -379,7 +379,7 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitSmallEccentricity) {
   numerical_integration::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
   numerical_integration::DormandPrince5<4> dp5_ode(step_width_s, ode);
 
-  math::Vector<4> initial_state(0.0);
+  s2e::math::Vector<4> initial_state(0.0);
   const double eccentricity = 0.1;
   initial_state[0] = 1.0 - eccentricity;
   initial_state[1] = 0.0;
@@ -389,9 +389,9 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitSmallEccentricity) {
   rkf_ode.SetState(0.0, initial_state);
   dp5_ode.SetState(0.0, initial_state);
 
-  math::Vector<4> state_rk4 = rk4_ode.GetState();
-  math::Vector<4> state_rkf = rkf_ode.GetState();
-  math::Vector<4> state_dp5 = dp5_ode.GetState();
+  s2e::math::Vector<4> state_rk4 = rk4_ode.GetState();
+  s2e::math::Vector<4> state_rkf = rkf_ode.GetState();
+  s2e::math::Vector<4> state_dp5 = dp5_ode.GetState();
   for (size_t i = 0; i < 4; i++) {
     EXPECT_DOUBLE_EQ(initial_state[i], state_rk4[i]);
     EXPECT_DOUBLE_EQ(initial_state[i], state_rkf[i]);
@@ -409,8 +409,8 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitSmallEccentricity) {
   state_dp5 = dp5_ode.GetState();
 
   // Estimation by Kepler Orbit calculation
-  math::Vector<3> initial_position(0.0);
-  math::Vector<3> initial_velocity(0.0);
+  s2e::math::Vector<3> initial_position(0.0);
+  s2e::math::Vector<3> initial_velocity(0.0);
 
   initial_position[0] = initial_state[0];
   initial_position[1] = initial_state[1];
@@ -449,7 +449,7 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitLargeEccentricity) {
   numerical_integration::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
   numerical_integration::DormandPrince5<4> dp5_ode(step_width_s, ode);
 
-  math::Vector<4> initial_state(0.0);
+  s2e::math::Vector<4> initial_state(0.0);
   const double eccentricity = 0.9;
   initial_state[0] = 1.0 - eccentricity;
   initial_state[1] = 0.0;
@@ -459,9 +459,9 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitLargeEccentricity) {
   rkf_ode.SetState(0.0, initial_state);
   dp5_ode.SetState(0.0, initial_state);
 
-  math::Vector<4> state_rk4 = rk4_ode.GetState();
-  math::Vector<4> state_rkf = rkf_ode.GetState();
-  math::Vector<4> state_dp5 = dp5_ode.GetState();
+  s2e::math::Vector<4> state_rk4 = rk4_ode.GetState();
+  s2e::math::Vector<4> state_rkf = rkf_ode.GetState();
+  s2e::math::Vector<4> state_dp5 = dp5_ode.GetState();
   for (size_t i = 0; i < 4; i++) {
     EXPECT_DOUBLE_EQ(initial_state[i], state_rk4[i]);
     EXPECT_DOUBLE_EQ(initial_state[i], state_rkf[i]);
@@ -479,8 +479,8 @@ TEST(NUMERICAL_INTEGRATION, Integrate2dTwoBodyOrbitLargeEccentricity) {
   state_dp5 = dp5_ode.GetState();
 
   // Estimation by Kepler Orbit calculation
-  math::Vector<3> initial_position(0.0);
-  math::Vector<3> initial_velocity(0.0);
+  s2e::math::Vector<3> initial_position(0.0);
+  s2e::math::Vector<3> initial_velocity(0.0);
 
   initial_position[0] = initial_state[0];
   initial_position[1] = initial_state[1];
@@ -518,7 +518,7 @@ TEST(NUMERICAL_INTEGRATION, Interpolation2dTwoBodyOrbitSmallEccentricity) {
   numerical_integration::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
   numerical_integration::DormandPrince5<4> dp5_ode(step_width_s, ode);
 
-  math::Vector<4> initial_state(0.0);
+  s2e::math::Vector<4> initial_state(0.0);
   const double eccentricity = 0.1;
   initial_state[0] = 1.0 - eccentricity;
   initial_state[1] = 0.0;
@@ -527,8 +527,8 @@ TEST(NUMERICAL_INTEGRATION, Interpolation2dTwoBodyOrbitSmallEccentricity) {
   rkf_ode.SetState(0.0, initial_state);
   dp5_ode.SetState(0.0, initial_state);
 
-  math::Vector<4> state_rkf = rkf_ode.GetState();
-  math::Vector<4> state_dp5 = dp5_ode.GetState();
+  s2e::math::Vector<4> state_rkf = rkf_ode.GetState();
+  s2e::math::Vector<4> state_dp5 = dp5_ode.GetState();
   for (size_t i = 0; i < 4; i++) {
     EXPECT_DOUBLE_EQ(initial_state[i], state_rkf[i]);
     EXPECT_DOUBLE_EQ(initial_state[i], state_dp5[i]);
@@ -543,8 +543,8 @@ TEST(NUMERICAL_INTEGRATION, Interpolation2dTwoBodyOrbitSmallEccentricity) {
   state_dp5 = dp5_ode.GetState();
 
   // Estimation by Kepler Orbit calculation
-  math::Vector<3> initial_position(0.0);
-  math::Vector<3> initial_velocity(0.0);
+  s2e::math::Vector<3> initial_position(0.0);
+  s2e::math::Vector<3> initial_velocity(0.0);
 
   // Final value
   initial_position[0] = initial_state[0];
@@ -613,7 +613,7 @@ TEST(NUMERICAL_INTEGRATION, Interpolation2dTwoBodyOrbitLargeEccentricity) {
   numerical_integration::RungeKuttaFehlberg<4> rkf_ode(step_width_s, ode);
   numerical_integration::DormandPrince5<4> dp5_ode(step_width_s, ode);
 
-  math::Vector<4> initial_state(0.0);
+  s2e::math::Vector<4> initial_state(0.0);
   const double eccentricity = 0.8;
   initial_state[0] = 1.0 - eccentricity;
   initial_state[1] = 0.0;
@@ -622,8 +622,8 @@ TEST(NUMERICAL_INTEGRATION, Interpolation2dTwoBodyOrbitLargeEccentricity) {
   rkf_ode.SetState(0.0, initial_state);
   dp5_ode.SetState(0.0, initial_state);
 
-  math::Vector<4> state_rkf = rkf_ode.GetState();
-  math::Vector<4> state_dp5 = dp5_ode.GetState();
+  s2e::math::Vector<4> state_rkf = rkf_ode.GetState();
+  s2e::math::Vector<4> state_dp5 = dp5_ode.GetState();
   for (size_t i = 0; i < 4; i++) {
     EXPECT_DOUBLE_EQ(initial_state[i], state_rkf[i]);
     EXPECT_DOUBLE_EQ(initial_state[i], state_dp5[i]);
@@ -638,8 +638,8 @@ TEST(NUMERICAL_INTEGRATION, Interpolation2dTwoBodyOrbitLargeEccentricity) {
   state_dp5 = dp5_ode.GetState();
 
   // Estimation by Kepler Orbit calculation
-  math::Vector<3> initial_position(0.0);
-  math::Vector<3> initial_velocity(0.0);
+  s2e::math::Vector<3> initial_position(0.0);
+  s2e::math::Vector<3> initial_velocity(0.0);
 
   // Final value
   initial_position[0] = initial_state[0];

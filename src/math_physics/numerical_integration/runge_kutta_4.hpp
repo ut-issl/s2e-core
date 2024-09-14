@@ -45,7 +45,7 @@ class RungeKutta4 : public RungeKutta<N> {
   }
 
   // We did not implement the interpolation for RK4
-  math::Vector<N> CalcInterpolationState(const double sigma) const override {
+  s2e::math::Vector<N> CalcInterpolationState(const double sigma) const override {
     UNUSED(sigma);
     return this->current_state_;
   }

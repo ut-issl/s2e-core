@@ -5,7 +5,7 @@
 
 #include "surface.hpp"
 
-Surface::Surface(const math::Vector<3> position_b_m, const math::Vector<3> normal_b, const double area_m2, const double reflectivity,
+Surface::Surface(const s2e::math::Vector<3> position_b_m, const s2e::math::Vector<3> normal_b, const double area_m2, const double reflectivity,
                  const double specularity, const double air_specularity)
     : position_b_m_(position_b_m),
       normal_b_(normal_b),

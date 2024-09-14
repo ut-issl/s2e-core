@@ -28,7 +28,7 @@ class SurfaceForce : public Disturbance {
    * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  SurfaceForce(const std::vector<Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled = true);
+  SurfaceForce(const std::vector<Surface>& surfaces, const s2e::math::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled = true);
   /**
    * @fn ~SurfaceForce
    * @brief Destructor
@@ -38,7 +38,7 @@ class SurfaceForce : public Disturbance {
  protected:
   // Spacecraft Structure parameters
   const std::vector<Surface>& surfaces_;          //!< List of surfaces
-  const math::Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass_kg at body frame [m]
+  const s2e::math::Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass_kg at body frame [m]
 
   // Internal calculated variables
   std::vector<double> normal_coefficients_;      //!< coefficients for out-plane force for each surface
@@ -54,13 +54,13 @@ class SurfaceForce : public Disturbance {
    * @param [in] item: Parameter which decide the magnitude of the disturbances (e.g., Solar flux, air density)
    * @return Calculated disturbance torque in body frame [Nm]
    */
-  math::Vector<3> CalcTorqueForce(math::Vector<3>& input_direction_b, double item);
+  s2e::math::Vector<3> CalcTorqueForce(s2e::math::Vector<3>& input_direction_b, double item);
   /**
    * @fn CalcTheta
    * @brief Calculate cosX and sinX
    * @param [in] input_direction_b: Direction of disturbance source at the body frame
    */
-  void CalcTheta(math::Vector<3>& input_direction_b);
+  void CalcTheta(s2e::math::Vector<3>& input_direction_b);
 
   /**
    * @fn CalcCoefficients
@@ -68,7 +68,7 @@ class SurfaceForce : public Disturbance {
    * @param [in] input_direction_b: Direction of disturbance source at the body frame
    * @param [in] item: Parameter which decide the magnitude of the disturbances (e.g., Solar flux, air density)
    */
-  virtual void CalcCoefficients(const math::Vector<3>& input_direction_b, const double item) = 0;
+  virtual void CalcCoefficients(const s2e::math::Vector<3>& input_direction_b, const double item) = 0;
 };
 
 #endif  // S2E_DISTURBANCES_SURFACE_FORCE_HPP_

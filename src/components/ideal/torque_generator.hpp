@@ -71,11 +71,11 @@ class TorqueGenerator : public Component, public ILoggable {
    * @fn SetTorque_b_Nm
    * @brief Set ordered torque in the body fixed frame [Nm]
    */
-  inline void SetTorque_b_Nm(const math::Vector<3> torque_b_Nm) { ordered_torque_b_Nm_ = torque_b_Nm; };
+  inline void SetTorque_b_Nm(const s2e::math::Vector<3> torque_b_Nm) { ordered_torque_b_Nm_ = torque_b_Nm; };
 
  protected:
-  math::Vector<3> ordered_torque_b_Nm_{0.0};    //!< Ordered torque in the body fixed frame [Nm]
-  math::Vector<3> generated_torque_b_Nm_{0.0};  //!< Generated torque in the body fixed frame [Nm]
+  s2e::math::Vector<3> ordered_torque_b_Nm_{0.0};    //!< Ordered torque in the body fixed frame [Nm]
+  s2e::math::Vector<3> generated_torque_b_Nm_{0.0};  //!< Generated torque in the body fixed frame [Nm]
 
   // Noise
   randomization::NormalRand magnitude_noise_;      //!< Normal random for magnitude noise
@@ -88,7 +88,7 @@ class TorqueGenerator : public Component, public ILoggable {
    * @param [in] true_direction: True direction
    * @param [in] error_standard_deviation_rad: Standard deviation of direction error [rad]
    */
-  math::Quaternion GenerateDirectionNoiseQuaternion(math::Vector<3> true_direction, const double error_standard_deviation_rad);
+  s2e::math::Quaternion GenerateDirectionNoiseQuaternion(s2e::math::Vector<3> true_direction, const double error_standard_deviation_rad);
 
   const Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };

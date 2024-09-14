@@ -71,7 +71,7 @@ class LunarGravityField : public Disturbance {
   Vector<3> acceleration_mcmf_m_s2_;    //!< Calculated acceleration in the MCMF(Moon Centered Moon Fixed) frame [m/s2]
 
   // debug
-  math::Vector<3> debug_pos_mcmf_m_;  //!< Spacecraft position in MCMF frame [m]
+  s2e::math::Vector<3> debug_pos_mcmf_m_;  //!< Spacecraft position in MCMF frame [m]
   double time_ms_ = 0.0;              //!< Calculation time [ms]
 
   /**

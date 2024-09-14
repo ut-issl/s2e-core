@@ -47,10 +47,10 @@ Temperature::Temperature() {
 
 Temperature::~Temperature() {}
 
-void Temperature::Propagate(math::Vector<3> sun_position_b_m, const double time_end_s) {
+void Temperature::Propagate(s2e::math::Vector<3> sun_position_b_m, const double time_end_s) {
   if (!is_calc_enabled_) return;
   double sun_distance_m = sun_position_b_m.CalcNorm();
-  math::Vector<3> sun_direction_b;
+  s2e::math::Vector<3> sun_direction_b;
   for (size_t i = 0; i < 3; i++) {
     sun_direction_b[i] = sun_position_b_m[i] / sun_distance_m;
   }
@@ -84,7 +84,7 @@ void Temperature::Propagate(math::Vector<3> sun_position_b_m, const double time_
   }
 }
 
-void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, math::Vector<3> sun_direction_b, size_t node_num) {
+void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, s2e::math::Vector<3> sun_direction_b, size_t node_num) {
   vector<double> temperatures_now_K(node_num);
   for (size_t i = 0; i < node_num; i++) {
     temperatures_now_K[i] = nodes_[i].GetTemperature_K();
@@ -120,7 +120,7 @@ void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, math::
   }
 }
 
-vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperatures_K, double t, math::Vector<3> sun_direction_b, size_t node_num) {
+vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperatures_K, double t, s2e::math::Vector<3> sun_direction_b, size_t node_num) {
   // TODO: consider the following unused arguments are really needed
   UNUSED(temperatures_K);
 

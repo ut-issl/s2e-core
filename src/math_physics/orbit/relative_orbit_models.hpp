@@ -31,7 +31,7 @@ enum class StmModel { kHcw = 0 };
  * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
  * @return System matrix
  */
-math::Matrix<6, 6> CalcHillSystemMatrix(const double orbit_radius_m, const double gravity_constant_m3_s2);
+s2e::math::Matrix<6, 6> CalcHillSystemMatrix(const double orbit_radius_m, const double gravity_constant_m3_s2);
 
 // STMs
 /**
@@ -42,7 +42,7 @@ math::Matrix<6, 6> CalcHillSystemMatrix(const double orbit_radius_m, const doubl
  * @param [in] elapsed_time_s: Elapsed time [s]
  * @return State Transition Matrix
  */
-math::Matrix<6, 6> CalcHcwStm(const double orbit_radius_m, const double gravity_constant_m3_s2, const double elapsed_time_s);
+s2e::math::Matrix<6, 6> CalcHcwStm(const double orbit_radius_m, const double gravity_constant_m3_s2, const double elapsed_time_s);
 
 }  // namespace orbit
 

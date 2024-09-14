@@ -44,7 +44,7 @@ class NumericalIntegrator {
    * @fn SetState
    * @brief Set state information
    */
-  inline void SetState(const double independent_variable, const math::Vector<N>& state) {
+  inline void SetState(const double independent_variable, const s2e::math::Vector<N>& state) {
     current_independent_variable_ = independent_variable;
     current_state_ = state;
     previous_state_ = state;
@@ -54,7 +54,7 @@ class NumericalIntegrator {
    * @fn GetState
    * @brief Return current state vector
    */
-  inline const math::Vector<N>& GetState() const { return current_state_; }
+  inline const s2e::math::Vector<N>& GetState() const { return current_state_; }
 
   /**
    * @fn CalcInterpolationState
@@ -62,7 +62,7 @@ class NumericalIntegrator {
    * @param [in] sigma: Sigma value (0 < sigma < 1) for interpolation
    * @return : interpolated state x(t0 + sigma * h)
    */
-  virtual math::Vector<N> CalcInterpolationState(const double sigma) const = 0;
+  virtual s2e::math::Vector<N> CalcInterpolationState(const double sigma) const = 0;
 
  protected:
   // Settings
@@ -71,8 +71,8 @@ class NumericalIntegrator {
   // States
   const InterfaceOde<N>& ode_;           //!< Ordinary differential equation
   double current_independent_variable_;  //!< Latest value of independent variable
-  math::Vector<N> current_state_;        //!< Latest state vector
-  math::Vector<N> previous_state_;       //!< Previous state vector
+  s2e::math::Vector<N> current_state_;        //!< Latest state vector
+  s2e::math::Vector<N> previous_state_;       //!< Previous state vector
 };
 
 }  // namespace numerical_integration

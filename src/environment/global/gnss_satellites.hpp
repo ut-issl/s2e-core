@@ -75,7 +75,7 @@ class GnssSatellites : public ILoggable {
    */
   void Update(const SimulationTime& simulation_time);
 
-  inline math::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const {
+  inline s2e::math::Vector<3> GetPosition_eci_m(const size_t gnss_satellite_id) const {
     // TODO: Add target time for earth rotation calculation
     return earth_rotation_.GetDcmJ2000ToEcef().Transpose() * GetPosition_ecef_m(gnss_satellite_id);
   }
@@ -87,7 +87,7 @@ class GnssSatellites : public ILoggable {
    * @param [in] time: Target time to get the GNSS satellite. When the argument is not set, the last updated time is used for the calculation.
    * @return GNSS satellite position at ECEF frame at the time. Or return zero vector when the arguments are out of range.
    */
-  math::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id, const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
+  s2e::math::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id, const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
 
   /**
    * @fn GetGetClock_s
@@ -121,7 +121,7 @@ class GnssSatellites : public ILoggable {
   time_system::EpochTime current_epoch_time_;    //!< The last updated time
 
   std::vector<orbit::InterpolationOrbit> orbit_;  //!< GNSS satellite orbit with interpolation
-  std::vector<math::Interpolation> clock_;        //!< GNSS satellite clock offset with interpolation
+  std::vector<s2e::math::Interpolation> clock_;        //!< GNSS satellite clock offset with interpolation
 
   // References
   const EarthRotation& earth_rotation_;  //!< Earth rotation
