@@ -27,6 +27,7 @@ struct SimulationConfiguration {
 
   std::string inter_sc_communication_file_;  //!< File name for inter-satellite communication initialization
   std::string gnss_file_;                    //!< File name for GNSS initialization
+  std::string orbit_definition_file_;        //!< File name for orbit calculation initialization
 
   /**
    * @fn ~SimulationConfiguration
