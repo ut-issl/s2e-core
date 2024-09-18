@@ -8,7 +8,7 @@
 
 #include "celestial_information.hpp"
 #include "gnss_satellites.hpp"
-#include "orbit_calculation_with_definition_file.hpp"
+#include "dynamics/orbit/orbit_calculation_with_definition_file.hpp"
 #include "hipparcos_catalogue.hpp"
 #include "logger/logger.hpp"
 #include "simulation/simulation_configuration.hpp"

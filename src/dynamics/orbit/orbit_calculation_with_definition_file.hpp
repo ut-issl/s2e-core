@@ -22,7 +22,7 @@
 // #include "logger/loggable.hpp"
 // #include "math_physics/gnss/gnss_satellite_number.hpp"
 // #include "math_physics/math/vector.hpp"
-#include "simulation_time.hpp"
+#include "environment/global/simulation_time.hpp"
 
 /**
  *@struct OrbitDefinitionData
@@ -167,7 +167,6 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
   time_system::EpochTime current_epoch_time_;    //!< The last updated time
   time_system::EpochTime reference_time_;        //!< Reference start time of the orbit definition data handling
   size_t reference_interpolation_id_ = 0;        //!< Reference epoch ID of the interpolation
-  time_system::EpochTime current_epoch_time_;    //!< The last updated time
   
   std::vector<orbit::InterpolationOrbit> orbit_;  //!< Satellite orbit with interpolation
 
