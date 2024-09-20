@@ -105,7 +105,7 @@ class Node {
    * @return double: heat capacity [J/K]
    */
   inline double GetCapacity_J_K(void) const { return capacity_J_K_; }
-  /**s
+  /**
    * @fn GetSolarRadiation_W
    * @brief Return Solar Radiation [W]
    * @return double: Solar Radiation [W]
