@@ -140,7 +140,7 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
     heatloads_[i].SetElapsedTime_s(t);
     if (nodes_[i].GetNodeType() == NodeType::kDiffusive) {
       double solar_flux_W_m2 = srp_environment_->GetPowerDensity_W_m2();
-      bool is_eclipsed = srp_environment_->IsEclipsed();
+      bool is_eclipsed = srp_environment_->GetIsEclipsed();
       if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
         double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction_b, solar_flux_W_m2);
         double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, solar_flux_W_m2, albedo_factor_, is_eclipsed);
