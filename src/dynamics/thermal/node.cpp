@@ -41,17 +41,23 @@ double Node::CalcSolarRadiation_W(libra::Vector<3> sun_direction_b, double solar
   return solar_radiation_W_;
 }
 
-double Node::CalcAlbedoRadiation_W(libra::Vector<3> earth_direction_b, double solar_flux_W_m2, double albedo_factor, double earth_distance_m) {
-  double cos_theta_albedo = InnerProduct(earth_direction_b, normal_vector_b_);
+double Node::CalcAlbedoRadiation_W(libra::Vector<3> earth_position_b_m, double solar_flux_W_m2, double albedo_factor, bool is_eclipsed) {
+  libra::Vector<3> earth_direction_b = earth_position_b_m.CalcNormalizedVector();
+  double earth_distance_m = earth_position_b_m.CalcNorm();
 
-  // 地球の半径
-  double earth_radius_m = 6371.0e3; 
+  // check if satellite is outside of the earth's shadow
+  if (!is_eclipsed) {
+    double cos_theta_albedo = InnerProduct(earth_direction_b, normal_vector_b_);
+    // earth radius
+    double earth_radius_m = 6371.0e3; 
 
-  // アルベドによる入熱の計算
-  if (cos_theta_albedo > 0) {
-    // 地球からの反射光による放射フラックスを計算 (アルベドの寄与)
-    double albedo_flux_W_m2 = solar_flux_W_m2 * albedo_factor * (earth_radius_m / earth_distance_m) * (earth_radius_m / earth_distance_m);
-    albedo_radiation_W_ = albedo_flux_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
+    // albedo radiation calculation
+    if (cos_theta_albedo > 0) {
+      double albedo_flux_W_m2 = solar_flux_W_m2 * albedo_factor * pow((earth_radius_m / earth_distance_m),2) / 4.0;
+      albedo_radiation_W_ = albedo_flux_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
+    } else {
+      albedo_radiation_W_ = 0;
+    }
   } else {
     albedo_radiation_W_ = 0;
   }

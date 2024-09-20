@@ -133,26 +133,17 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
   // TODO: consider the following unused arguments are really needed
   UNUSED(temperatures_K);
 
-  libra::Vector<3> sun_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN");
+  libra::Vector<3> sun_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN").CalcNormalizedVector();
   libra::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
-  double sun_distance_m = sun_position_b_m.CalcNorm();
-  double earth_distance_m = earth_position_b_m.CalcNorm();
-  libra::Vector<3> sun_direction_b;
-  for (size_t i = 0; i < 3; i++) {
-    sun_direction_b[i] = sun_position_b_m[i] / sun_distance_m;
-  }
-  libra::Vector<3> earth_direction_b;
-  for (size_t i = 0; i < 3; i++) {
-    earth_direction_b[i] = earth_position_b_m[i] / earth_distance_m;
-  }
   vector<double> differentials_K_s(node_num);
   for (size_t i = 0; i < node_num; i++) {
     heatloads_[i].SetElapsedTime_s(t);
     if (nodes_[i].GetNodeType() == NodeType::kDiffusive) {
       double solar_flux_W_m2 = srp_environment_->GetPowerDensity_W_m2();
+      bool is_eclipsed = srp_environment_->IsEclipsed();
       if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
         double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction_b, solar_flux_W_m2);
-        double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_direction_b, solar_flux_W_m2, albedo_factor_, earth_distance_m);
+        double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, solar_flux_W_m2, albedo_factor_, is_eclipsed);
         heatloads_[i].SetSolarHeatload_W(solar_radiation_W);
         heatloads_[i].SetAlbedoHeatload_W(albedo_radiation_W);
       }
