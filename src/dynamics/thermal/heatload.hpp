@@ -73,27 +73,27 @@ class Heatload {
    * @brief Set the Time object
    * @param[in] elapsed_time_s
    */
-  void SetElapsedTime_s(double elapsed_time_s);
+  void SetElapsedTime_s(const double elapsed_time_s);
   /**
    * @brief Set Internal Heatload [W]
    * @param[in] internal_heatload_W
    */
-  inline void SetInternalHeatload_W(double internal_heatload_W) { internal_heatload_W_ = internal_heatload_W; }
+  inline void SetInternalHeatload_W(const double internal_heatload_W) { internal_heatload_W_ = internal_heatload_W; }
   /**
    * @brief Set Solar Heatload [W]
    * @param[in] solar_heatload_W
    */
-  inline void SetSolarHeatload_W(double solar_heatload_W) { solar_heatload_W_ = solar_heatload_W; }
+  inline void SetSolarHeatload_W(const double solar_heatload_W) { solar_heatload_W_ = solar_heatload_W; }
   /**
    * @brief Set Albedo Heatload [W]
    * @param[in] albedo_heatload_W
    */
-  inline void SetAlbedoHeatload_W(double albedo_heatload_W) { albedo_heatload_W_ = albedo_heatload_W; }
+  inline void SetAlbedoHeatload_W(const double albedo_heatload_W) { albedo_heatload_W_ = albedo_heatload_W; }
   /**
    * @brief Set Heater Heatload [W]
    * @param[in] heater_heatload_W
    */
-  inline void SetHeaterHeatload_W(double heater_heatload_W) { heater_heatload_W_ = heater_heatload_W; }
+  inline void SetHeaterHeatload_W(const double heater_heatload_W) { heater_heatload_W_ = heater_heatload_W; }
 
  protected:
   double elapsed_time_s_;                          // Elapsed time [s]
