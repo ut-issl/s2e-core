@@ -1,8 +1,11 @@
-/**
+  /**
  * @file relative_orbit_models.cpp
  * @brief Functions for relative orbit
  */
 #include "relative_orbit_models.hpp"
+
+#include <environment/global/physical_constants.hpp>
+#include "../external/sgp4/sgp4unit.h"  // for getgravconst()
 
 libra::Matrix<6, 6> CalcHillSystemMatrix(double orbit_radius_m, double gravity_constant_m3_s2) {
   libra::Matrix<6, 6> system_matrix;
@@ -89,5 +92,42 @@ libra::Matrix<6, 6> CalcHcwStm(double orbit_radius_m, double gravity_constant_m3
   stm[5][3] = 0.0;
   stm[5][4] = 0.0;
   stm[5][5] = cos(n * t);
+  return stm;
+}
+
+// 定数やreferenceの軌道要素は以下のように取得できます
+// gravconsttype whichconst = wgs72;
+// double mu_km3_s2, radius_earth_km, tumin, xke, j2, j3, j4, j3oj2;
+// getgravconst(whichconst, tumin, mu_km3_s2, radius_earth_km, xke, j2, j3, j4, j3oj2);
+// double semi_major_axis_m = reference_oe->GetSemiMajorAxis_m();
+// double eccentricity = reference_oe->GetEccentricity();
+
+libra::Matrix<6, 6> CalcMeltonStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe) {
+  libra::Matrix<6, 6> stm;
+  // ここでstmを計算してください
+  return stm;
+}
+
+libra::Matrix<6, 6> CalcSsStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe) {
+  libra::Matrix<6, 6> stm;
+  // ここでstmを計算してください
+  return stm;
+}
+
+libra::Matrix<6, 6> CalcSabatiniStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe) {
+  libra::Matrix<6, 6> stm;
+  // ここでstmを計算してください
+  return stm;
+}
+
+libra::Matrix<6, 6> CalcCarterStm(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe){
+  libra::Matrix<6, 6> stm;
+  // ここでstmを計算してください
+  return stm;
+}
+
+libra::Matrix<6, 6> CalcYamakawaAnkersenStm(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe){
+  libra::Matrix<6, 6> stm;
+  // ここでstmを計算してください
   return stm;
 }
