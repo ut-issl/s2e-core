@@ -53,7 +53,7 @@ double Node::CalcAlbedoRadiation_W(libra::Vector<3> earth_position_b_m, double s
 
     // albedo radiation calculation
     if (cos_theta_albedo > 0.0) {
-      double albedo_flux_W_m2 = solar_flux_W_m2 * earth_albedo_factor * pow((earth_radius_m / earth_distance_m), 2) / 4.0;
+      double albedo_flux_W_m2 = solar_flux_W_m2 * earth_albedo_factor * pow((earth_radius_m / earth_distance_m), 2.0) / 4.0;
       albedo_radiation_W_ = albedo_flux_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
     } else {
       albedo_radiation_W_ = 0.0;
