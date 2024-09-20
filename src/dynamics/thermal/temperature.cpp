@@ -68,9 +68,9 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
       cout << setprecision(4) << itr->GetSolarRadiation_W() << "  ";
     }
-    cout << "AlbedoF:  ";
+    cout << "AlbedoR:  ";
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
-      cout << setprecision(4) << itr->GetAlbedoFlux_W() << "  ";
+      cout << setprecision(4) << itr->GetAlbedoRadiation_W() << "  ";
     }
     std::string sun_str = "SUN";
     char* c_sun = new char[sun_str.size() + 1];

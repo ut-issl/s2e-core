@@ -25,7 +25,7 @@ Node::Node(const size_t node_id, const string node_name, const NodeType node_typ
       normal_vector_b_(normal_vector_b) {
   AssertNodeParams();
   solar_radiation_W_ = 0;
-  albedo_flux_W_ = 0;
+  albedo_radiation_W_ = 0;
 }
 
 Node::~Node() {}
@@ -51,11 +51,12 @@ double Node::CalcAlbedoRadiation_W(libra::Vector<3> earth_direction_b, double so
   if (cos_theta_albedo > 0) {
     // 地球からの反射光による放射フラックスを計算 (アルベドの寄与)
     double albedo_flux_W_m2 = solar_flux_W_m2 * albedo_factor * (earth_radius_m / earth_distance_m) * (earth_radius_m / earth_distance_m);
-    albedo_flux_W_ = albedo_flux_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
+    cout << "#albedo_flux_W_m2: " << albedo_flux_W_m2 << endl; 
+    albedo_radiation_W_ = albedo_flux_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
   } else {
-    albedo_flux_W_ = 0;
+    albedo_radiation_W_ = 0;
   }
-  return albedo_flux_W_;
+  return albedo_radiation_W_;
 }
 
 void Node::PrintParam(void) {

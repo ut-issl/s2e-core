@@ -105,18 +105,18 @@ class Node {
    * @return double: heat capacity [J/K]
    */
   inline double GetCapacity_J_K(void) const { return capacity_J_K_; }
-  /**
+  /**s
    * @fn GetSolarRadiation_W
    * @brief Return Solar Radiation [W]
    * @return double: Solar Radiation [W]
    */
   inline double GetSolarRadiation_W(void) const { return solar_radiation_W_; }
   /**
-   * @fn GetAlbedoFlux_W
-   * @brief Return Albedo Flux [W]
-   * @return double: Albedo Flux [W]
+   * @fn GetAlbedoRadiation_W
+   * @brief Return Albedo Radiation [W]
+   * @return double: Albedo Radiation [W]
    */
-  inline double GetAlbedoFlux_W(void) const { return albedo_flux_W_; }
+  inline double GetAlbedoRadiation_W(void) const { return albedo_radiation_W_; }
   /**
    * @fn GetNodeType
    * @brief Return Node Type
@@ -149,7 +149,7 @@ class Node {
   double alpha_;
   double area_m2_;
   double solar_radiation_W_;
-  double albedo_flux_W_;
+  double albedo_radiation_W_;
   NodeType node_type_;
   libra::Vector<3> normal_vector_b_;
 
