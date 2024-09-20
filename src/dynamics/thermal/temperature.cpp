@@ -17,7 +17,7 @@ using namespace std;
 Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, const vector<vector<double>> radiation_matrix_m2, vector<Node> nodes,
                          vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const size_t node_num,
                          const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment, const bool is_calc_enabled,
-                         const SolarCalcSetting solar_calc_setting, const double albedo_factor, const bool debug)
+                         const SolarCalcSetting solar_calc_setting, const bool calc_albedo, const double albedo_factor, const bool debug)
     : conductance_matrix_W_K_(conductance_matrix_W_K),
       radiation_matrix_m2_(radiation_matrix_m2),
       nodes_(nodes),
@@ -29,6 +29,7 @@ Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, co
       srp_environment_(srp_environment),
       is_calc_enabled_(is_calc_enabled),
       solar_calc_setting_(solar_calc_setting),
+      calc_albedo_(calc_albedo),
       albedo_factor_(albedo_factor),
       debug_(debug) {
   propagation_time_s_ = 0;
@@ -43,6 +44,7 @@ Temperature::Temperature() {
   propagation_time_s_ = 0.0;
   solar_calc_setting_ = SolarCalcSetting::kDisable;
   is_calc_enabled_ = false;
+  calc_albedo_ = false;
   debug_ = false;
 }
 
@@ -68,9 +70,11 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
       cout << setprecision(4) << itr->GetSolarRadiation_W() << "  ";
     }
-    cout << "AlbedoR:  ";
-    for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
-      cout << setprecision(4) << itr->GetAlbedoRadiation_W() << "  ";
+    if (calc_albedo_) {
+      cout << "AlbedoR:  ";
+      for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
+        cout << setprecision(4) << itr->GetAlbedoRadiation_W() << "  ";
+      }
     }
     std::string sun_str = "SUN";
     char* c_sun = new char[sun_str.size() + 1];
@@ -327,6 +331,8 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   bool debug = mainIni.ReadEnable("THERMAL", "debug");
 
+  bool calc_albedo = mainIni.ReadEnable("THERMAL", "calc_albedo");
+
   double albedo_factor = mainIni.ReadDouble("THERMAL", "albedo_factor");
 
   // Read Heatloads from CSV File
@@ -387,6 +393,6 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   Temperature* temperature;
   temperature = new Temperature(conductance_matrix, radiation_matrix, node_list, heatload_list, heater_list, heater_controller_list, node_num,
-                                rk_prop_step_s, srp_environment, is_calc_enabled, solar_calc_setting, albedo_factor, debug);
+                                rk_prop_step_s, srp_environment, is_calc_enabled, solar_calc_setting, calc_albedo ,albedo_factor, debug);
   return temperature;
 }
