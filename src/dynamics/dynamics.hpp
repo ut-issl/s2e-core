@@ -112,6 +112,7 @@ class Dynamics {
   Temperature* temperature_;                   //!< Thermal dynamics
   const Structure* structure_;                 //!< Structure information
   const LocalEnvironment* local_environment_;  //!< Local environment
+  bool is_calc_earth_albedo_enabled_;          //!< Flag to calculate earth albedo
 
   /**
    * @fn Initialize

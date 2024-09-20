@@ -4,6 +4,8 @@
  */
 
 #include "dynamics.hpp"
+#include <library/initialize/initialize_file_access.hpp>
+
 
 #include "../simulation/multiple_spacecraft/relative_information.hpp"
 
@@ -11,6 +13,7 @@ Dynamics::Dynamics(const SimulationConfiguration* simulation_configuration, cons
                    const LocalEnvironment* local_environment, const int spacecraft_id, Structure* structure,
                    RelativeInformation* relative_information)
     : structure_(structure), local_environment_(local_environment) {
+  is_calc_earth_albedo_enabled_ = false;
   Initialize(simulation_configuration, simulation_time, spacecraft_id, structure, relative_information);
 }
 
@@ -34,6 +37,9 @@ void Dynamics::Initialize(const SimulationConfiguration* simulation_configuratio
 
   // To get initial value
   orbit_->UpdateByAttitude(attitude_->GetQuaternion_i2b());
+
+  auto mainIni = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
+  is_calc_earth_albedo_enabled_ = mainIni.ReadEnable("THERMAL", "is_calc_earth_albedo_enabled");
 }
 
 void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestialInformation* local_celestial_information) {
@@ -50,7 +56,11 @@ void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestia
 
   // Thermal
   if (simulation_time->GetThermalPropagateFlag()) {
-    temperature_->Propagate(local_celestial_information, simulation_time->GetElapsedTime_s());
+    if (!is_calc_earth_albedo_enabled_) {
+      temperature_->Propagate(local_celestial_information->GetPositionFromSpacecraft_b_m("SUN"), simulation_time->GetElapsedTime_s());
+    } else {
+      temperature_->Propagate(local_celestial_information, simulation_time->GetElapsedTime_s());
+    }
   }
 }
 

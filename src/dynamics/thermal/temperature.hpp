@@ -53,6 +53,28 @@ class Temperature : public ILoggable {
    *
    * @param[in] time_now_s: Current elapsed time [s]
    * @param[in] time_step_s: Time step of RK4 [s]
+   * @param[in] sun_direction_b: Sun position in body frame [m]
+   * @param[in] node_num: Number of nodes
+   */
+  void CalcRungeOneStep(double time_now_s, double time_step_s, libra::Vector<3> sun_direction_b, size_t node_num);
+  /**
+   * @fn CalcTemperatureDifferentials
+   * @brief Calculate differential of thermal equilibrium equation
+   *
+   * @param temperatures_K: [UNUSED] Temperatures of each node [K]
+   * @param time_now_s: Current elapsed time [s]
+   * @param[in] sun_direction_b: Sun direction in body frame
+   * @param node_num: Number of nodes
+   * @return std::vector<double>: Differential of thermal equilibrium equation at time now
+   */
+  std::vector<double> CalcTemperatureDifferentials(std::vector<double> temperatures_K, double time_now_s, const libra::Vector<3> sun_direction_b,
+                                                   size_t node_num);
+  /**
+   * @fn CalcRungeOneStep
+   * @brief Calculate one step of RK4 for thermal equilibrium equation and update temperatures of nodes
+   *
+   * @param[in] time_now_s: Current elapsed time [s]
+   * @param[in] time_step_s: Time step of RK4 [s]
    * @param[in] local_celestial_information: LocalCelestialInformation object for calculating radiation
    * @param[in] node_num: Number of nodes
    */
@@ -106,6 +128,14 @@ class Temperature : public ILoggable {
    *
    */
   virtual ~Temperature();
+  /**
+   * @fn Propagate
+   * @brief Propagate thermal calculation until time_end_s
+   *
+   * @param[in] sun_position_b_m: Sun position in body frame [m]
+   * @param time_end_s: Time to finish propagation [s]
+   */
+  void Propagate(libra::Vector<3> sun_position_b_m, const double time_end_s);
   /**
    * @fn Propagate
    * @brief Propagate thermal calculation until time_end_s
