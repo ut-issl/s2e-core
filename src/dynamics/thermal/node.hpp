@@ -63,7 +63,10 @@ class Node {
    * @fn CalcAlbedoRadiation_W
    * @brief Calculate albedo radiation [W] from earth direction, albedo factor, area, and normal vector
    *
-   * @param earth_direction_b: Earth direction in body frame
+   * @param earth_position_b_m: Earth position in body frame
+   * @param solar_flux_W_m2: Solar flux [W/m^2]
+   * @param earth_albedo_factor: Earth albedo factor
+   * @param is_eclipsed: Flag if satellite is eclipsed by earth
    * @return double: Albedo Radiation [W]
    */
   double CalcAlbedoRadiation_W(libra::Vector<3> earth_position_b_m, double solar_flux_W_m2, double earth_albedo_factor, bool is_eclipsed);
