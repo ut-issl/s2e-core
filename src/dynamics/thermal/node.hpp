@@ -16,11 +16,11 @@
  * @brief Type of node
  */
 enum class NodeType {
-  //! Diffusive Node: Calculate temperature based on heat flow
+  //!< Diffusive Node: Calculate temperature based on heat flow
   kDiffusive,
-  //! Boundary Node: Fixed temperature
+  //!< Boundary Node: Fixed temperature
   kBoundary,
-  //! Arithmetic Node: Node without heat capacity, calculate temperature after diffusive nodes
+  //!< Arithmetic Node: Node without heat capacity, calculate temperature after diffusive nodes
   kArithmetic
 };
 

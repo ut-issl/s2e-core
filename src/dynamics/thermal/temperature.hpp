@@ -31,21 +31,21 @@ enum class SolarCalcSetting {
  */
 class Temperature : public ILoggable {
  protected:
-  std::vector<std::vector<double>> conductance_matrix_W_K_;  // Coupling of node i and node j by heat conduction [W/K]
-  std::vector<std::vector<double>> radiation_matrix_m2_;     // Coupling of node i and node j by thermal radiation [m2]
-  std::vector<Node> nodes_;                                  // vector of nodes
-  std::vector<Heatload> heatloads_;                          // vector of heatloads
-  std::vector<Heater> heaters_;                              // vector of heaters
-  std::vector<HeaterController> heater_controllers_;         // vector of heater controllers
-  size_t node_num_;                                          // number of nodes
-  double propagation_step_s_;                                // propagation step [s]
-  double propagation_time_s_;  // Incremented time inside class Temperature [s], finish propagation when reaching end_time
-  const SolarRadiationPressureEnvironment* srp_environment_;  // SolarRadiationPressureEnvironment for calculating solar flux
-  bool is_calc_enabled_;                                      // Whether temperature calculation is enabled
-  SolarCalcSetting solar_calc_setting_;                       // setting for solar calculation
-  bool debug_;                                                // Activate debug output or not
-  bool is_calc_earth_albedo_enabled_;                                    // Whether to calculate albedo radiation
-  double earth_albedo_factor_;  // Albedo factor for earth; Percentage of solar radiation energy received by the Earth that is reflected
+  std::vector<std::vector<double>> conductance_matrix_W_K_;  //!< Coupling of node i and node j by heat conduction [W/K]
+  std::vector<std::vector<double>> radiation_matrix_m2_;     //!< Coupling of node i and node j by thermal radiation [m2]
+  std::vector<Node> nodes_;                                  //!< vector of nodes
+  std::vector<Heatload> heatloads_;                          //!< vector of heatloads
+  std::vector<Heater> heaters_;                              //!< vector of heaters
+  std::vector<HeaterController> heater_controllers_;         //!< vector of heater controllers
+  size_t node_num_;                                          //!< number of nodes
+  double propagation_step_s_;                                //!< propagation step [s]
+  double propagation_time_s_;  //!< Incremented time inside class Temperature [s], finish propagation when reaching end_time
+  const SolarRadiationPressureEnvironment* srp_environment_;  //!< SolarRadiationPressureEnvironment for calculating solar flux
+  bool is_calc_enabled_;                                      //!< Whether temperature calculation is enabled
+  SolarCalcSetting solar_calc_setting_;                       //!< setting for solar calculation
+  bool debug_;                                                //!< Activate debug output or not
+  bool is_calc_earth_albedo_enabled_;                         //!< Whether to calculate albedo radiation
+  double earth_albedo_factor_;  //!< Albedo factor for earth; Percentage of solar radiation energy received by the Earth that is reflected
 
   /**
    * @fn CalcRungeOneStep
@@ -92,8 +92,8 @@ class Temperature : public ILoggable {
   Temperature(const std::vector<std::vector<double>> conductance_matrix_W_K, const std::vector<std::vector<double>> radiation_matrix_m2,
               std::vector<Node> nodes, std::vector<Heatload> heatloads, std::vector<Heater> heaters, std::vector<HeaterController> heater_controllers,
               const size_t node_num, const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment,
-              const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool is_calc_earth_albedo_enabled, const double earth_albedo_factor,
-              const bool debug);
+              const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool is_calc_earth_albedo_enabled,
+              const double earth_albedo_factor, const bool debug);
   /**
    * @fn Temperature
    * @brief Construct a new Temperature object, used when thermal calculation is disabled.

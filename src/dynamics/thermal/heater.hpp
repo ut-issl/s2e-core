@@ -78,11 +78,11 @@ class Heater {
   void PrintParam(void);
 
  protected:
-  size_t heater_id_;       // heater id (Use values over 1)
-  double power_rating_W_;  // Power Rating (100% Duty) [W]
+  size_t heater_id_;       //!< heater id (Use values over 1)
+  double power_rating_W_;  /!</ Power Rating (100% Duty) [W]
 
-  HeaterStatus heater_status_;  // Power Status of Heater
-  double power_output_W_;       // Power Output of Heater [W]
+  HeaterStatus heater_status_;  //!< Power Status of Heater
+  double power_output_W_;       //!< Power Output of Heater [W]
 
   /**
    * @fn AssertHeaterParams
