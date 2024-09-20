@@ -44,7 +44,8 @@ Temperature::Temperature() {
   propagation_time_s_ = 0.0;
   solar_calc_setting_ = SolarCalcSetting::kDisable;
   is_calc_enabled_ = false;
-  calc_albedo_ = false;
+  calc_earth_albedo_ = false;
+  earth_albedo_factor_ = 0.0;
   debug_ = false;
 }
 
@@ -335,9 +336,9 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   bool debug = mainIni.ReadEnable("THERMAL", "debug");
 
-  bool calc_albedo = mainIni.ReadEnable("THERMAL", "calc_albedo");
+  bool calc_earth_albedo = mainIni.ReadEnable("THERMAL", "calc_earth_albedo");
 
-  double albedo_factor = mainIni.ReadDouble("THERMAL", "albedo_factor");
+  double earth_albedo_factor = mainIni.ReadDouble("THERMAL", "earth_albedo_factor");
 
   // Read Heatloads from CSV File
   string filepath_heatload = file_path + "heatload.csv";
@@ -397,6 +398,6 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   Temperature* temperature;
   temperature = new Temperature(conductance_matrix, radiation_matrix, node_list, heatload_list, heater_list, heater_controller_list, node_num,
-                                rk_prop_step_s, srp_environment, is_calc_enabled, solar_calc_setting, calc_albedo, albedo_factor, debug);
+                                rk_prop_step_s, srp_environment, is_calc_enabled, solar_calc_setting, calc_earth_albedo, earth_albedo_factor, debug);
   return temperature;
 }
