@@ -17,7 +17,7 @@ using namespace std;
 Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, const vector<vector<double>> radiation_matrix_m2, vector<Node> nodes,
                          vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const size_t node_num,
                          const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment, const bool is_calc_enabled,
-                         const SolarCalcSetting solar_calc_setting, const bool calc_earth_albedo, const double earth_albedo_factor, const bool debug)
+                         const SolarCalcSetting solar_calc_setting, const bool is_calc_earth_albedo_enabled, const double earth_albedo_factor, const bool debug)
     : conductance_matrix_W_K_(conductance_matrix_W_K),
       radiation_matrix_m2_(radiation_matrix_m2),
       nodes_(nodes),
@@ -29,7 +29,7 @@ Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, co
       srp_environment_(srp_environment),
       is_calc_enabled_(is_calc_enabled),
       solar_calc_setting_(solar_calc_setting),
-      calc_earth_albedo_(calc_earth_albedo),
+      is_calc_earth_albedo_enabled_(is_calc_earth_albedo_enabled),
       earth_albedo_factor_(earth_albedo_factor),
       debug_(debug) {
   propagation_time_s_ = 0;
@@ -44,7 +44,7 @@ Temperature::Temperature() {
   propagation_time_s_ = 0.0;
   solar_calc_setting_ = SolarCalcSetting::kDisable;
   is_calc_enabled_ = false;
-  calc_earth_albedo_ = false;
+  is_calc_earth_albedo_enabled_ = false;
   earth_albedo_factor_ = 0.0;
   debug_ = false;
 }
@@ -71,7 +71,7 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
       cout << setprecision(4) << itr->GetSolarRadiation_W() << "  ";
     }
-    if (calc_earth_albedo_) {
+    if (is_calc_earth_albedo_enabled_) {
       cout << "AlbedoR:  ";
       for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
         cout << setprecision(4) << itr->GetAlbedoRadiation_W() << "  ";
@@ -82,7 +82,7 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
     for (size_t i = 0; i < 3; i++) {
       cout << setprecision(3) << sun_direction_b[i] << "  ";
     }
-    if (calc_earth_albedo_) {
+    if (is_calc_earth_albedo_enabled_) {
       cout << "IsEclipsed:  " << srp_environment_->GetIsEclipsed() << "  ";
 
       libra::Vector<3> earth_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH").CalcNormalizedVector();
@@ -148,7 +148,7 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
       double solar_flux_W_m2 = srp_environment_->GetPowerDensity_W_m2();
       if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
         double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction_b, solar_flux_W_m2);
-        if (calc_earth_albedo_) {
+        if (is_calc_earth_albedo_enabled_) {
           bool is_eclipsed = srp_environment_->GetIsEclipsed();
           libra::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
           double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, solar_flux_W_m2, earth_albedo_factor_, is_eclipsed);

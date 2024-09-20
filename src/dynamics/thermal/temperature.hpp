@@ -44,7 +44,7 @@ class Temperature : public ILoggable {
   bool is_calc_enabled_;                                      // Whether temperature calculation is enabled
   SolarCalcSetting solar_calc_setting_;                       // setting for solar calculation
   bool debug_;                                                // Activate debug output or not
-  bool calc_earth_albedo_;                                    // Whether to calculate albedo radiation
+  bool is_calc_earth_albedo_enabled_;                                    // Whether to calculate albedo radiation
   double earth_albedo_factor_;  // Albedo factor for earth; Percentage of solar radiation energy received by the Earth that is reflected
 
   /**
@@ -92,7 +92,7 @@ class Temperature : public ILoggable {
   Temperature(const std::vector<std::vector<double>> conductance_matrix_W_K, const std::vector<std::vector<double>> radiation_matrix_m2,
               std::vector<Node> nodes, std::vector<Heatload> heatloads, std::vector<Heater> heaters, std::vector<HeaterController> heater_controllers,
               const size_t node_num, const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment,
-              const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool calc_earth_albedo, const double earth_albedo_factor,
+              const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool is_calc_earth_albedo_enabled, const double earth_albedo_factor,
               const bool debug);
   /**
    * @fn Temperature
