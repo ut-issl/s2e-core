@@ -51,7 +51,6 @@ double Node::CalcAlbedoRadiation_W(libra::Vector<3> earth_direction_b, double so
   if (cos_theta_albedo > 0) {
     // 地球からの反射光による放射フラックスを計算 (アルベドの寄与)
     double albedo_flux_W_m2 = solar_flux_W_m2 * albedo_factor * (earth_radius_m / earth_distance_m) * (earth_radius_m / earth_distance_m);
-    cout << "#albedo_flux_W_m2: " << albedo_flux_W_m2 << endl; 
     albedo_radiation_W_ = albedo_flux_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
   } else {
     albedo_radiation_W_ = 0;

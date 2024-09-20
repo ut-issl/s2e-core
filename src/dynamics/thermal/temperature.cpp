@@ -133,14 +133,8 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
   // TODO: consider the following unused arguments are really needed
   UNUSED(temperatures_K);
 
-  std::string sun_str = "SUN";
-  char* c_sun = new char[sun_str.size() + 1];
-  std::char_traits<char>::copy(c_sun, sun_str.c_str(), sun_str.size() + 1);  // string -> char*
-  std::string earth_str = "EARTH";
-  char* c_earth = new char[earth_str.size() + 1];
-  std::char_traits<char>::copy(c_earth, earth_str.c_str(), earth_str.size() + 1);  // string -> char*
-  libra::Vector<3> sun_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m(c_sun);
-  libra::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m(c_earth);
+  libra::Vector<3> sun_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN");
+  libra::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
   double sun_distance_m = sun_position_b_m.CalcNorm();
   double earth_distance_m = earth_position_b_m.CalcNorm();
   libra::Vector<3> sun_direction_b;
@@ -181,8 +175,6 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
       differentials_K_s[i] = 0;
     }
   }
-  delete[] c_sun;
-  delete[] c_earth;
   return differentials_K_s;
 }
 
