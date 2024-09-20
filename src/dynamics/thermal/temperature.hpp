@@ -44,8 +44,8 @@ class Temperature : public ILoggable {
   bool is_calc_enabled_;                                      // Whether temperature calculation is enabled
   SolarCalcSetting solar_calc_setting_;                       // setting for solar calculation
   bool debug_;                                                // Activate debug output or not
-  bool calc_albedo_;                                          // Whether to calculate albedo radiation
-  double albedo_factor_;                                      // Albedo factor for calculating albedo radiation
+  bool calc_earth_albedo_;                                    // Whether to calculate albedo radiation
+  double earth_albedo_factor_;  // Albedo factor for earth; Percentage of solar radiation energy received by the Earth that is reflected
 
   /**
    * @fn CalcRungeOneStep
@@ -67,8 +67,8 @@ class Temperature : public ILoggable {
    * @param node_num: Number of nodes
    * @return std::vector<double>: Differential of thermal equilibrium equation at time now
    */
-  std::vector<double> CalcTemperatureDifferentials(std::vector<double> temperatures_K, double time_now_s, const LocalCelestialInformation* local_celestial_information,
-                                                   size_t node_num);
+  std::vector<double> CalcTemperatureDifferentials(std::vector<double> temperatures_K, double time_now_s,
+                                                   const LocalCelestialInformation* local_celestial_information, size_t node_num);
 
  public:
   /**
@@ -85,12 +85,15 @@ class Temperature : public ILoggable {
    * @param propagation_step_s: Propagation time step [s]
    * @param is_calc_enabled: Whether calculation is enabled
    * @param solar_calc_setting: Solar calculation settings
+   * @param calc_earth_albedo: Whether to calculate albedo radiation
+   * @param earth_albedo_factor: Albedo factor for earth
    * @param debug: Whether debug is enabled
    */
   Temperature(const std::vector<std::vector<double>> conductance_matrix_W_K, const std::vector<std::vector<double>> radiation_matrix_m2,
               std::vector<Node> nodes, std::vector<Heatload> heatloads, std::vector<Heater> heaters, std::vector<HeaterController> heater_controllers,
               const size_t node_num, const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment,
-              const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool calc_albedo, const double albedo_factor , const bool debug);
+              const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool calc_earth_albedo, const double earth_albedo_factor,
+              const bool debug);
   /**
    * @fn Temperature
    * @brief Construct a new Temperature object, used when thermal calculation is disabled.

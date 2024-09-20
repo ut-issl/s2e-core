@@ -66,7 +66,7 @@ class Node {
    * @param earth_direction_b: Earth direction in body frame
    * @return double: Albedo Radiation [W]
    */
-  double CalcAlbedoRadiation_W(libra::Vector<3> earth_position_b_m, double solar_flux_W_m2, double albedo_factor, bool is_eclipsed);
+  double CalcAlbedoRadiation_W(libra::Vector<3> earth_position_b_m, double solar_flux_W_m2, double earth_albedo_factor, bool is_eclipsed);
 
   // Getter
   /**
