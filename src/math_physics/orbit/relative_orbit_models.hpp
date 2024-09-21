@@ -100,6 +100,6 @@ math::Matrix<6, 6> CalcCarterStm(double orbit_radius_m, double gravity_constant_
  */
 math::Matrix<6, 6> CalcYamakawaAnkersenStm(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe);
 
-} // namespace orbit
+}  // namespace orbit
 
 #endif  // S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_HPP_
