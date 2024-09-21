@@ -6,6 +6,7 @@
 #ifndef S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_
 #define S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_
 
+#include <environment/local/earth_albedo.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
 #include <library/logger/loggable.hpp>
 #include <string>
@@ -41,11 +42,10 @@ class Temperature : public ILoggable {
   double propagation_step_s_;                                //!< propagation step [s]
   double propagation_time_s_;  //!< Incremented time inside class Temperature [s], finish propagation when reaching end_time
   const SolarRadiationPressureEnvironment* srp_environment_;  //!< SolarRadiationPressureEnvironment for calculating solar flux
+  const EarthAlbedo* earth_albedo_;                           //!< EarthAlbedo object for calculating earth albedo
   bool is_calc_enabled_;                                      //!< Whether temperature calculation is enabled
   SolarCalcSetting solar_calc_setting_;                       //!< setting for solar calculation
   bool debug_;                                                //!< Activate debug output or not
-  bool is_calc_earth_albedo_enabled_;                         //!< Whether to calculate albedo radiation
-  double earth_albedo_factor_;  //!< Albedo factor for earth; Percentage of solar radiation energy received by the Earth that is reflected
 
   /**
    * @fn CalcRungeOneStep
@@ -105,17 +105,16 @@ class Temperature : public ILoggable {
    * @param heater_controllers: Vector of all heater controllers included in calculation
    * @param node_num: Number of nodes
    * @param propagation_step_s: Propagation time step [s]
+   * @param srp_environment: SolarRadiationPressureEnvironment object for calculating solar flux
+   * @param earth_albedo: EarthAlbedo object for calculating earth albedo
    * @param is_calc_enabled: Whether calculation is enabled
    * @param solar_calc_setting: Solar calculation settings
-   * @param calc_earth_albedo: Whether to calculate albedo radiation
-   * @param earth_albedo_factor: Albedo factor for earth
    * @param debug: Whether debug is enabled
    */
   Temperature(const std::vector<std::vector<double>> conductance_matrix_W_K, const std::vector<std::vector<double>> radiation_matrix_m2,
               std::vector<Node> nodes, std::vector<Heatload> heatloads, std::vector<Heater> heaters, std::vector<HeaterController> heater_controllers,
               const size_t node_num, const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment,
-              const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool is_calc_earth_albedo_enabled,
-              const double earth_albedo_factor, const bool debug);
+              const EarthAlbedo* earth_albedo, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug);
   /**
    * @fn Temperature
    * @brief Construct a new Temperature object, used when thermal calculation is disabled.
@@ -193,6 +192,7 @@ class Temperature : public ILoggable {
  * @param[in] srp_environment: SolarRadiationPressureEnvironment object for calculating solar flux
  * @return Temperature*
  */
-Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const SolarRadiationPressureEnvironment* srp_environment);
+Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const SolarRadiationPressureEnvironment* srp_environment,
+                             const EarthAlbedo* earth_albedo);
 
 #endif  // S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_

@@ -16,8 +16,8 @@ using namespace std;
 
 Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, const vector<vector<double>> radiation_matrix_m2, vector<Node> nodes,
                          vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const size_t node_num,
-                         const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment, const bool is_calc_enabled,
-                         const SolarCalcSetting solar_calc_setting, const bool is_calc_earth_albedo_enabled, const double earth_albedo_factor, const bool debug)
+                         const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment, const EarthAlbedo* earth_albedo,
+                         const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug)
     : conductance_matrix_W_K_(conductance_matrix_W_K),
       radiation_matrix_m2_(radiation_matrix_m2),
       nodes_(nodes),
@@ -27,10 +27,9 @@ Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, co
       node_num_(node_num),
       propagation_step_s_(propagation_step_s),
       srp_environment_(srp_environment),
+      earth_albedo_(earth_albedo),
       is_calc_enabled_(is_calc_enabled),
       solar_calc_setting_(solar_calc_setting),
-      is_calc_earth_albedo_enabled_(is_calc_earth_albedo_enabled),
-      earth_albedo_factor_(earth_albedo_factor),
       debug_(debug) {
   propagation_time_s_ = 0;
   if (debug_) {
@@ -44,8 +43,6 @@ Temperature::Temperature() {
   propagation_time_s_ = 0.0;
   solar_calc_setting_ = SolarCalcSetting::kDisable;
   is_calc_enabled_ = false;
-  is_calc_earth_albedo_enabled_ = false;
-  earth_albedo_factor_ = 0.0;
   debug_ = false;
 }
 
@@ -104,25 +101,20 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
       cout << setprecision(4) << itr->GetSolarRadiation_W() << "  ";
     }
-    if (is_calc_earth_albedo_enabled_) {
-      cout << "AlbedoR:  ";
-      for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
-        cout << setprecision(4) << itr->GetAlbedoRadiation_W() << "  ";
-      }
+    cout << "AlbedoR:  ";
+    for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
+      cout << setprecision(4) << itr->GetAlbedoRadiation_W() << "  ";
     }
     libra::Vector<3> sun_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN").CalcNormalizedVector();
     cout << "SunDir:  ";
     for (size_t i = 0; i < 3; i++) {
       cout << setprecision(3) << sun_direction_b[i] << "  ";
     }
-    if (is_calc_earth_albedo_enabled_) {
-      cout << "IsEclipsed:  " << srp_environment_->GetIsEclipsed() << "  ";
-
-      libra::Vector<3> earth_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH").CalcNormalizedVector();
-      cout << "EarthDir:  ";
-      for (size_t i = 0; i < 3; i++) {
-        cout << setprecision(3) << earth_direction_b[i] << "  ";
-      }
+    cout << "ShadowCoefficient:  " << setprecision(4) << srp_environment_->GetShadowCoefficient() << "  ";
+    libra::Vector<3> earth_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH").CalcNormalizedVector();
+    cout << "EarthDir:  ";
+    for (size_t i = 0; i < 3; i++) {
+      cout << setprecision(3) << earth_direction_b[i] << "  ";
     }
     cout << "Heatload:  ";
     for (auto itr = heatloads_.begin(); itr != heatloads_.end(); ++itr) {
@@ -256,7 +248,7 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
         if (is_calc_earth_albedo_enabled_) {
           bool is_eclipsed = srp_environment_->GetIsEclipsed();
           libra::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
-          double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, solar_flux_W_m2, earth_albedo_factor_, is_eclipsed);
+          double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, solar_flux_W_m2, earth_albedo_->GetEarthAlbedoFactor());
           heatloads_[i].SetAlbedoHeatload_W(albedo_radiation_W);
         }
         heatloads_[i].SetSolarHeatload_W(solar_radiation_W);
@@ -404,7 +396,8 @@ First row is time data
 using std::string;
 using std::vector;
 
-Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const SolarRadiationPressureEnvironment* srp_environment) {
+Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const SolarRadiationPressureEnvironment* srp_environment,
+                             const EarthAlbedo* earth_albedo) {
   auto mainIni = IniAccess(file_name);
 
   vector<Node> node_list;
@@ -503,6 +496,6 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   Temperature* temperature;
   temperature = new Temperature(conductance_matrix, radiation_matrix, node_list, heatload_list, heater_list, heater_controller_list, node_num,
-                                rk_prop_step_s, srp_environment, is_calc_enabled, solar_calc_setting, is_calc_earth_albedo_enabled, earth_albedo_factor, debug);
+                                rk_prop_step_s, srp_environment, earth_albedo, is_calc_enabled, solar_calc_setting, debug);
   return temperature;
 }

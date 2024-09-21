@@ -41,24 +41,20 @@ double Node::CalcSolarRadiation_W(libra::Vector<3> sun_direction_b, double solar
   return solar_radiation_W_;
 }
 
-double Node::CalcAlbedoRadiation_W(libra::Vector<3> earth_position_b_m, double solar_flux_W_m2, double earth_albedo_factor, bool is_eclipsed) {
+double Node::CalcAlbedoRadiation_W(libra::Vector<3> earth_position_b_m, double solar_flux_W_m2, double earth_albedo_factor) {
   libra::Vector<3> earth_direction_b = earth_position_b_m.CalcNormalizedVector();
   double earth_distance_m = earth_position_b_m.CalcNorm();
 
   // check if satellite is outside of the earth's shadow
-  if (!is_eclipsed) {
     double cos_theta_albedo = InnerProduct(earth_direction_b, normal_vector_b_);
 
-    // albedo radiation calculation
+    // albedo radiation calculation; solar_flux_W_m2 reflects the shadow coefficient. if earth albedo calculation is disabled, earth_albedo_factor is 0.0
     if (cos_theta_albedo > 0.0) {
       double albedo_flux_W_m2 = solar_flux_W_m2 * earth_albedo_factor * pow((environment::astronomy::earth_equatorial_radius_m / earth_distance_m), 2.0) / 4.0;
       albedo_radiation_W_ = albedo_flux_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
     } else {
       albedo_radiation_W_ = 0.0;
     }
-  } else {
-    albedo_radiation_W_ = 0.0;
-  }
   return albedo_radiation_W_;
 }
 
