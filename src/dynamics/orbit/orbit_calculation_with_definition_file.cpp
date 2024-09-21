@@ -16,10 +16,19 @@
 #include "math_physics/math/constants.hpp"
 #include "logger/log_utility.hpp"
 
-void OrbitCalculationWithDefinitionFile::Initialize(const std::string ini_file_name, const std::vector<OrbitDefinitionData>& orbit_definition_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time) {
-  IniAccess ini_file(ini_file_name);
+void OrbitCalculationWithDefinitionFile::Initialize(const std::vector<OrbitDefinitionData>& orbit_definition_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time) {
+  IniAccess ini_file(ini_file_name_);
   char section[] = "ORBIT_CALCULATION_WITH_DEFINITION_FILE";
   const size_t number_of_interpolation = ini_file.ReadInt(section, "number_of_interpolation");
+
+  if (!(ini_file.ReadString(section, "interpolation_method") == "POLYNOMIAL" || 
+      ini_file.ReadString(section, "interpolation_method") == "TRIGONOMETRIC")) {
+    std::cout << "Interpolation method error." << std::endl;
+    is_calc_enabled_ = false;
+    is_log_enabled_ = false;
+    return;
+  }
+
 
   orbit_definition_data_ = orbit_definition_data;
   current_epoch_time_ = start_time;
@@ -33,7 +42,8 @@ void OrbitCalculationWithDefinitionFile::Initialize(const std::string ini_file_n
   reference_time_ = time_system::EpochTime(GetEpochData(reference_interpolation_id_));
 
   // Initialize orbit
-  orbit_.assign(1.0, orbit::InterpolationOrbit(number_of_interpolation));
+  orbit_position_.assign(1.0, orbit::InterpolationOrbit(number_of_interpolation));
+  orbit_velocity_.assign(1.0, orbit::InterpolationOrbit(number_of_interpolation));
 
   // Initialize interpolation
   for (size_t i = 0; i < number_of_interpolation; i++) {
@@ -68,13 +78,16 @@ std::vector<std::string> ParseCsvLine(const std::string& line) {
 }
 
 bool OrbitCalculationWithDefinitionFile::ReadOrbitDefinitionCsv(const std::string ini_file_name, const std::string& orbit_definition_file_path, std::vector<OrbitDefinitionData>& orbit_definition_data) {
-  IniAccess ini_file(ini_file_name);
+  ini_file_name_ = ini_file_name;
+  IniAccess ini_file(ini_file_name_);
   char section[] = "ORBIT_CALCULATION_WITH_DEFINITION_FILE";
 
   std::ifstream file(orbit_definition_file_path);
   if (!file.is_open()) {
-    std::cout << "file open error. filename = " << orbit_definition_file_path << std::endl;
-    return 1;
+    std::cout << "File open error. filename = " << orbit_definition_file_path << std::endl;
+    is_calc_enabled_ = false;
+    is_log_enabled_ = false;
+    return false;
   }
 
   std::string line;
@@ -108,7 +121,9 @@ bool OrbitCalculationWithDefinitionFile::ReadOrbitDefinitionCsv(const std::strin
     }
 
     if (index_et == -1 || index_x == -1 || index_y == -1 || index_z == -1 || index_vx == -1 || index_vy == -1 || index_vz == -1) {
-      std::cerr << "header name error." << std::endl;
+      std::cout << "Header name error." << std::endl;
+      is_calc_enabled_ = false;
+      is_log_enabled_ = false;
       return false;
     }
 
@@ -136,7 +151,6 @@ bool OrbitCalculationWithDefinitionFile::ReadOrbitDefinitionCsv(const std::strin
       }
     }
   }
-
   return true;
 }
 
@@ -152,7 +166,7 @@ void OrbitCalculationWithDefinitionFile::Update(const SimulationTime& simulation
 
   // Check interpolation update
   double diff_s = current_epoch_time_.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
-  double medium_time_s = orbit_[0].GetTimeList()[4];
+  double medium_time_s = orbit_position_[0].GetTimeList()[4];
   if (diff_s > medium_time_s) {
     UpdateInterpolationInformation();
   }
@@ -185,7 +199,10 @@ time_system::DateTime OrbitCalculationWithDefinitionFile::GetEpochData(const siz
 }
 
 
-math::Vector<3> OrbitCalculationWithDefinitionFile::GetPosition_eclipj2000_km(const time_system::EpochTime time) const {
+math::Vector<3> OrbitCalculationWithDefinitionFile::GetPosition(const time_system::EpochTime time) const {
+  IniAccess ini_file(ini_file_name_);
+  char section[] = "ORBIT_CALCULATION_WITH_DEFINITION_FILE";
+
   time_system::EpochTime target_time;
 
   if (time.GetTime_s() == 0) {
@@ -197,18 +214,53 @@ math::Vector<3> OrbitCalculationWithDefinitionFile::GetPosition_eclipj2000_km(co
   double diff_s = target_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
   if (diff_s < 0.0 || diff_s > 1e6) return math::Vector<3>(0.0);
 
-  return orbit_[0].CalcPositionWithPolynomial(diff_s);
+  if (ini_file.ReadString(section, "interpolation_method") == "POLYNOMIAL") {
+    return orbit_position_[0].CalcPositionOrVelocityWithPolynomial(diff_s);
+  } else if (ini_file.ReadString(section, "interpolation_method") == "TRIGONOMETRIC") {
+    return orbit_position_[0].CalcPositionOrVelocityWithTrigonometric(diff_s, math::tau / ini_file.ReadDouble(section, "orbital_period_correction"));
+  } else {
+    return math::Vector<3>(0.0);
+  }
+}
+
+math::Vector<3> OrbitCalculationWithDefinitionFile::GetVelocity(const time_system::EpochTime time) const {
+  IniAccess ini_file(ini_file_name_);
+  char section[] = "ORBIT_CALCULATION_WITH_DEFINITION_FILE";
+
+  time_system::EpochTime target_time;
+
+  if (time.GetTime_s() == 0) {
+    target_time = current_epoch_time_;
+  } else {
+    target_time = time;
+  }
+
+  double diff_s = target_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
+  if (diff_s < 0.0 || diff_s > 1e6) return math::Vector<3>(0.0);
+
+  if (ini_file.ReadString(section, "interpolation_method") == "POLYNOMIAL") {
+    return orbit_velocity_[0].CalcPositionOrVelocityWithPolynomial(diff_s);
+  } else if (ini_file.ReadString(section, "interpolation_method") == "TRIGONOMETRIC") {
+    return orbit_velocity_[0].CalcPositionOrVelocityWithTrigonometric(diff_s, math::tau / ini_file.ReadDouble(section, "orbital_period_correction"));
+  } else {
+    return math::Vector<3>(0.0);
+  }
 }
 
 bool OrbitCalculationWithDefinitionFile::UpdateInterpolationInformation() {
     time_system::EpochTime orbit_definition_time = time_system::EpochTime(GetEpochData(reference_interpolation_id_));
     double time_diff_s = orbit_definition_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
-    math::Vector<3> orbit_definition_position_eclipj2000_km;
-    orbit_definition_position_eclipj2000_km(0) = orbit_definition_data_[reference_interpolation_id_].x;
-    orbit_definition_position_eclipj2000_km(1) = orbit_definition_data_[reference_interpolation_id_].y;
-    orbit_definition_position_eclipj2000_km(2) = orbit_definition_data_[reference_interpolation_id_].z;
+    math::Vector<3> orbit_definition_position;
+    math::Vector<3> orbit_definition_velocity;
+    orbit_definition_position(0) = orbit_definition_data_[reference_interpolation_id_].x;
+    orbit_definition_position(1) = orbit_definition_data_[reference_interpolation_id_].y;
+    orbit_definition_position(2) = orbit_definition_data_[reference_interpolation_id_].z;
+    orbit_definition_velocity(0) = orbit_definition_data_[reference_interpolation_id_].vx;
+    orbit_definition_velocity(1) = orbit_definition_data_[reference_interpolation_id_].vy;
+    orbit_definition_velocity(2) = orbit_definition_data_[reference_interpolation_id_].vz;
 
-    orbit_[0].PushAndPopData(time_diff_s, orbit_definition_position_eclipj2000_km);
+    orbit_position_[0].PushAndPopData(time_diff_s, orbit_definition_position);
+    orbit_velocity_[0].PushAndPopData(time_diff_s, orbit_definition_velocity);
   
   reference_interpolation_id_++;
 
@@ -216,10 +268,13 @@ bool OrbitCalculationWithDefinitionFile::UpdateInterpolationInformation() {
 }
 
 std::string OrbitCalculationWithDefinitionFile::GetLogHeader() const {
+  IniAccess ini_file(ini_file_name_);
+  char section[] = "ORBIT_CALCULATION_WITH_DEFINITION_FILE";
+
   std::string str_tmp = "";
 
-  str_tmp += WriteVector("satellite_position", "eclipj2000", "km", 3);
-
+  str_tmp += WriteVector("spacecraft_position_with_definition_file", ini_file.ReadString(section, "coordinate_system"), ini_file.ReadString(section, "unit"), 3);
+  str_tmp += WriteVector("spacecraft_velocity_with_definition_file", ini_file.ReadString(section, "coordinate_system"), ini_file.ReadString(section, "unit"), 3);
 
   return str_tmp;
 }
@@ -227,7 +282,8 @@ std::string OrbitCalculationWithDefinitionFile::GetLogHeader() const {
 std::string OrbitCalculationWithDefinitionFile::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(GetPosition_eclipj2000_km(), 16);
+  str_tmp += WriteVector(GetPosition(), 16);
+  str_tmp += WriteVector(GetVelocity(), 16);
 
   return str_tmp;
 }
@@ -247,13 +303,15 @@ OrbitCalculationWithDefinitionFile* InitOrbitCalculationWithDefinitionFile(const
   const std::string orbit_definition_file_path = ini_file.ReadString(section, "orbit_definition_file_path");
 
   std::vector<OrbitDefinitionData> orbit_definition_data;
-  orbit_calculation_with_definition_file->ReadOrbitDefinitionCsv(ini_file_name, orbit_definition_file_path, orbit_definition_data);
+  if (!orbit_calculation_with_definition_file->ReadOrbitDefinitionCsv(ini_file_name, orbit_definition_file_path, orbit_definition_data)) {
+    return orbit_calculation_with_definition_file;
+  }
 
   time_system::DateTime start_date_time((size_t)simulation_time.GetStartYear(), (size_t)simulation_time.GetStartMonth(),
                                         (size_t)simulation_time.GetStartDay(), (size_t)simulation_time.GetStartHour(),
                                         (size_t)simulation_time.GetStartMinute(), simulation_time.GetStartSecond());
   time_system::EpochTime start_epoch_time(start_date_time);
-  orbit_calculation_with_definition_file->Initialize(ini_file_name, orbit_definition_data, start_epoch_time, simulation_time);
+  orbit_calculation_with_definition_file->Initialize(orbit_definition_data, start_epoch_time, simulation_time);
 
   return orbit_calculation_with_definition_file;
 }

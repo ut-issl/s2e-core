@@ -59,11 +59,11 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @param [in] ini_file_name: Path to the initialize file
    * @param [in] orbit_definition_data: orbit definition data
    * @param [in] start_time: The simulation start time
+   * @param [in] simulation_time: Simulation time information
    */
-  void Initialize(const std::string ini_file_name, const std::vector<OrbitDefinitionData>& orbit_definition_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time);
+  void Initialize(const std::vector<OrbitDefinitionData>& orbit_definition_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time);
 
   /**
    * @fn IsCalcEnabled
@@ -77,7 +77,6 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
    * @param ini_file_name Path to the initialize file.
    * @param orbit_definition_file_path Path to orbit definition CSV file.
    * @param orbit_definition_data List of orbit definition data.
-   * @param delimiter Delimiter for the orbit definition CSV file (default: ',').
    */
   bool ReadOrbitDefinitionCsv(const std::string ini_file_name, const std::string& orbit_definition_file_path, std::vector<OrbitDefinitionData>& orbit_definition_data);
 
@@ -116,12 +115,22 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
   void Update(const SimulationTime& simulation_time);
 
   /**
-   * @fn GetPosition_eclipj2000_km
-   * @brief Return satellite position at ECLIPJ2000 frame
+   * @fn GetPosition
+   * @brief Return satellite position
    * @param [in] time: Target time to get the satellite. When the argument is not set, the last updated time is used for the calculation.
-   * @return Satellite position at ECLIPJ2000 frame at the time. Or return zero vector when the arguments are out of range.
+   * @return Satellite position at the time. Or return zero vector when the arguments are out of range.
+   * @note Coordinate system and units follow the orbit definition file.
    */
-  inline math::Vector<3> GetPosition_eclipj2000_km(const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
+  inline math::Vector<3> GetPosition(const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
+
+  /**
+   * @fn GetVelocity
+   * @brief Return satellite velocity
+   * @param [in] time: Target time to get the satellite. When the argument is not set, the last updated time is used for the calculation.
+   * @return Satellite velocity at the time. Or return zero vector when the arguments are out of range.
+   * @note Coordinate system and units follow the orbit definition file.
+   */
+  inline math::Vector<3> GetVelocity(const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
 
   // Override ILoggable
   /**
@@ -137,15 +146,17 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
 
  private:
   bool is_calc_enabled_ = false;  //!< Flag to manage the orbit calculation
+  bool is_interpolation_method_error_message_displayed_ = false;  //!< Flag to manage the interpolation method error message
 
   std::vector<time_system::DateTime> epoch_;  //!< Epoch data list
-
+  std::string ini_file_name_;                 //!< Path to the initialize file
   std::vector<OrbitDefinitionData> orbit_definition_data_;  //!< List of orbit definition data
   time_system::EpochTime current_epoch_time_;    //!< The last updated time
   time_system::EpochTime reference_time_;        //!< Reference start time of the orbit definition data handling
   size_t reference_interpolation_id_ = 0;        //!< Reference epoch ID of the interpolation
   
-  std::vector<orbit::InterpolationOrbit> orbit_;  //!< Satellite orbit with interpolation
+  std::vector<orbit::InterpolationOrbit> orbit_position_;  //!< Position with interpolation
+  std::vector<orbit::InterpolationOrbit> orbit_velocity_;  //!< Velocity with interpolation
 
   /**
    * @fn UpdateInterpolationInformation
