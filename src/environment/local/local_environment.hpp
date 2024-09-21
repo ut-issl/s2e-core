@@ -65,7 +65,7 @@ class LocalEnvironment {
    * @fn GetSolarRadiationPressure
    * @brief Return SolarRadiationPressureEnvironment class
    */
-  inline const SolarRadiationPressureEnvironment& GetSolarRadiationPressure() const { return *solar_radiation_pressure_environment_; }
+  inline const SolarRadiationPressureEnvironment& GetSolarRadiationPressure() const { return *srp_environment_; }
   /**
    * @fn GetEarthAlbedo
    * @brief Return EarthAlbedo class
@@ -80,7 +80,7 @@ class LocalEnvironment {
  private:
   Atmosphere* atmosphere_;                                                   //!< Atmospheric density of the earth
   GeomagneticField* geomagnetic_field_;                                      //!< Magnetic field of the earth
-  SolarRadiationPressureEnvironment* solar_radiation_pressure_environment_;  //!< Solar radiation pressure
+  SolarRadiationPressureEnvironment* srp_environment_;  //!< Solar radiation pressure
   EarthAlbedo* earth_albedo_;                                                //!< Earth albedo
   LocalCelestialInformation* celestial_information_;                         //!< Celestial information
 

@@ -65,11 +65,10 @@ class Node {
    * @brief Calculate albedo radiation [W] from earth direction, albedo factor, area, and normal vector
    *
    * @param earth_position_b_m: Earth position in body frame
-   * @param solar_flux_W_m2: Solar flux [W/m^2]
-   * @param earth_albedo_factor: Earth albedo factor
+   * @param earth_albedo_W_m2: Earth albedo [W/m^2]
    * @return double: Albedo Radiation [W]
    */
-  double CalcAlbedoRadiation_W(libra::Vector<3> earth_position_b_m, double solar_flux_W_m2, double earth_albedo_factor);
+  double CalcAlbedoRadiation_W(libra::Vector<3> earth_position_b_m, double earth_albedo_W_m2);
 
   // Getter
   /**

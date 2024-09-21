@@ -15,7 +15,7 @@ LocalEnvironment::LocalEnvironment(const SimulationConfiguration* simulation_con
 
 LocalEnvironment::~LocalEnvironment() {
   delete geomagnetic_field_;
-  delete solar_radiation_pressure_environment_;
+  delete srp_environment_;
   delete earth_albedo_;
   delete atmosphere_;
   delete celestial_information_;
@@ -34,9 +34,8 @@ void LocalEnvironment::Initialize(const SimulationConfiguration* simulation_conf
   geomagnetic_field_ = new GeomagneticField(InitGeomagneticField(ini_fname));
   celestial_information_ = new LocalCelestialInformation(&(global_environment->GetCelestialInformation()));
   atmosphere_ = new Atmosphere(InitAtmosphere(ini_fname, celestial_information_, &global_environment->GetSimulationTime()));
-  solar_radiation_pressure_environment_ =
-      new SolarRadiationPressureEnvironment(InitSolarRadiationPressureEnvironment(ini_fname, celestial_information_));
-  earth_albedo_ = new EarthAlbedo(InitEarthAlbedo(ini_fname));
+  srp_environment_ = new SolarRadiationPressureEnvironment(InitSolarRadiationPressureEnvironment(ini_fname, celestial_information_));
+  earth_albedo_ = new EarthAlbedo(InitEarthAlbedo(ini_fname, celestial_information_, srp_environment_));
 
   // Force to disable when the center body is not the Earth
   if (global_environment->GetCelestialInformation().GetCenterBodyName() != "EARTH") {
@@ -63,14 +62,15 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* si
 
   // Update local environments that depend only on the position
   if (simulation_time->GetOrbitPropagateFlag()) {
-    solar_radiation_pressure_environment_->UpdateAllStates();
+    srp_environment_->UpdateAllStates();
+    earth_albedo_->UpdateAllStates();
     atmosphere_->CalcAirDensity_kg_m3(simulation_time->GetCurrentDecimalYear(), orbit);
   }
 }
 
 void LocalEnvironment::LogSetup(Logger& logger) {
   logger.AddLogList(geomagnetic_field_);
-  logger.AddLogList(solar_radiation_pressure_environment_);
+  logger.AddLogList(srp_environment_);
   logger.AddLogList(earth_albedo_);
   logger.AddLogList(atmosphere_);
   logger.AddLogList(celestial_information_);

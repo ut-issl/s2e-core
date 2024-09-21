@@ -246,7 +246,7 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
       if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
         double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction_b, solar_flux_W_m2);
         libra::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
-        double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, solar_flux_W_m2, earth_albedo_->GetEarthAlbedoFactor());
+        double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, earth_albedo_->GetEarthAlbedoRadiationPower_W_m2());
         heatloads_[i].SetAlbedoHeatload_W(albedo_radiation_W);
         heatloads_[i].SetSolarHeatload_W(solar_radiation_W);
       }
