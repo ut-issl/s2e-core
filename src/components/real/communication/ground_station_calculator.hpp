@@ -10,7 +10,7 @@
 #include <components/real/communication/antenna.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/global_environment.hpp>
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 #include <simulation/ground_station/ground_station.hpp>
 
 /*

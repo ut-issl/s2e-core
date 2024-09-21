@@ -10,18 +10,18 @@
 #include <environment/global/physical_constants.hpp>
 #include <fstream>
 #include <iostream>
-#include <library/initialize/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
-#include "../library/logger/log_utility.hpp"
-#include "../library/utilities/macros.hpp"
+#include "../logger/log_utility.hpp"
+#include "../utilities/macros.hpp"
 
 // #define DEBUG_GEOPOTENTIAL
 
 Geopotential::Geopotential(const int degree, const std::string file_path, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, false), degree_(degree) {
   // Initialize
-  acceleration_ecef_m_s2_ = libra::Vector<3>(0.0);
-  debug_pos_ecef_m_ = libra::Vector<3>(0.0);
+  acceleration_ecef_m_s2_ = math::Vector<3>(0.0);
+  debug_pos_ecef_m_ = math::Vector<3>(0.0);
   // degree
   if (degree_ > 360) {
     degree_ = 360;
@@ -43,7 +43,7 @@ Geopotential::Geopotential(const int degree, const std::string file_path, const 
     }
   }
   // Initialize GravityPotential
-  geopotential_ = GravityPotential(degree, c_, s_);
+  geopotential_ = gravity::GravityPotential(degree, c_, s_);
 }
 
 bool Geopotential::ReadCoefficientsEgm96(std::string file_name) {
@@ -83,8 +83,8 @@ void Geopotential::Update(const LocalEnvironment &local_environment, const Dynam
   UNUSED(time_ms_);
 #endif
 
-  libra::Matrix<3, 3> trans_eci2ecef_ = local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef();
-  libra::Matrix<3, 3> trans_ecef2eci = trans_eci2ecef_.Transpose();
+  math::Matrix<3, 3> trans_eci2ecef_ = local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef();
+  math::Matrix<3, 3> trans_ecef2eci = trans_eci2ecef_.Transpose();
   acceleration_i_m_s2_ = trans_ecef2eci * acceleration_ecef_m_s2_;
 }
 

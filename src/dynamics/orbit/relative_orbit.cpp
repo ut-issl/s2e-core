@@ -4,16 +4,16 @@
  */
 #include "relative_orbit.hpp"
 
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 #include "rk4_orbit_propagation.hpp"
 
 RelativeOrbit::RelativeOrbit(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
-                             int reference_spacecraft_id, libra::Vector<3> relative_position_lvlh_m, libra::Vector<3> relative_velocity_lvlh_m_s,
-                             RelativeOrbitUpdateMethod update_method, RelativeOrbitModel relative_dynamics_model_type, StmModel stm_model_type,
-                             RelativeInformation* relative_information)
+                             int reference_spacecraft_id, math::Vector<3> relative_position_lvlh_m, math::Vector<3> relative_velocity_lvlh_m_s,
+                             RelativeOrbitUpdateMethod update_method, orbit::RelativeOrbitModel relative_dynamics_model_type,
+                             orbit::StmModel stm_model_type, RelativeInformation* relative_information)
     : Orbit(celestial_information),
-      libra::OrdinaryDifferentialEquation<6>(time_step_s),
+      math::OrdinaryDifferentialEquation<6>(time_step_s),
       gravity_constant_m3_s2_(gravity_constant_m3_s2),
       reference_spacecraft_id_(reference_spacecraft_id),
       update_method_(update_method),
@@ -30,7 +30,7 @@ RelativeOrbit::RelativeOrbit(const CelestialInformation* celestial_information, 
 
 RelativeOrbit::~RelativeOrbit() {}
 
-void RelativeOrbit::InitializeState(libra::Vector<3> relative_position_lvlh_m, libra::Vector<3> relative_velocity_lvlh_m_s,
+void RelativeOrbit::InitializeState(math::Vector<3> relative_position_lvlh_m, math::Vector<3> relative_velocity_lvlh_m_s,
                                     double gravity_constant_m3_s2, double initial_time_s) {
   relative_position_lvlh_m_ = relative_position_lvlh_m;
   relative_velocity_lvlh_m_s_ = relative_velocity_lvlh_m_s;
@@ -38,11 +38,10 @@ void RelativeOrbit::InitializeState(libra::Vector<3> relative_position_lvlh_m, l
   // Disturbance acceleration are not considered in relative orbit propagation
   spacecraft_acceleration_i_m_s2_ *= 0.0;
 
-  libra::Vector<3> reference_sat_position_i = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetPosition_i_m();
-  libra::Vector<3> reference_sat_velocity_i =
-      relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetVelocity_i_m_s();
-  libra::Quaternion q_i2lvlh = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().CalcQuaternion_i2lvlh();
-  libra::Quaternion q_lvlh2i = q_i2lvlh.Conjugate();
+  math::Vector<3> reference_sat_position_i = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetPosition_i_m();
+  math::Vector<3> reference_sat_velocity_i = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetVelocity_i_m_s();
+  math::Quaternion q_i2lvlh = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().CalcQuaternion_i2lvlh();
+  math::Quaternion q_lvlh2i = q_i2lvlh.Conjugate();
   spacecraft_position_i_m_ = q_lvlh2i.FrameConversion(relative_position_lvlh_m_) + reference_sat_position_i;
   spacecraft_velocity_i_m_s_ = q_lvlh2i.FrameConversion(relative_velocity_lvlh_m_s_) + reference_sat_velocity_i;
 
@@ -67,12 +66,12 @@ void RelativeOrbit::InitializeState(libra::Vector<3> relative_position_lvlh_m, l
   TransformEcefToGeodetic();
 }
 
-void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit,
+void RelativeOrbit::CalculateSystemMatrix(orbit::RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit,
                                           double gravity_constant_m3_s2) {
   switch (relative_dynamics_model_type) {
-    case RelativeOrbitModel::kHill: {
+    case orbit::RelativeOrbitModel::kHill: {
       double reference_sat_orbit_radius = reference_sat_orbit->GetPosition_i_m().CalcNorm();
-      system_matrix_ = CalcHillSystemMatrix(reference_sat_orbit_radius, gravity_constant_m3_s2);
+      system_matrix_ = orbit::CalcHillSystemMatrix(reference_sat_orbit_radius, gravity_constant_m3_s2);
     }
     default: {
       // NOT REACHED
@@ -81,10 +80,11 @@ void RelativeOrbit::CalculateSystemMatrix(RelativeOrbitModel relative_dynamics_m
   }
 }
 
-void RelativeOrbit::CalculateStm(StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2, double elapsed_sec) {
-  OrbitalElements reference_oe = OrbitalElements(gravity_constant_m3_s2_, elapsed_sec, reference_sat_orbit->GetPosition_i_m(), 
-                                                 reference_sat_orbit->GetVelocity_i_m_s());
-  libra::Vector<3> position_i_m = reference_sat_orbit->GetPosition_i_m();
+void RelativeOrbit::CalculateStm(orbit::StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2,
+                                 double elapsed_sec) {
+  orbit::OrbitalElements reference_oe =
+      orbit::OrbitalElements(gravity_constant_m3_s2_, elapsed_sec, reference_sat_orbit->GetPosition_i_m(), reference_sat_orbit->GetVelocity_i_m_s());
+  math::Vector<3> position_i_m = reference_sat_orbit->GetPosition_i_m();
   double reference_sat_orbit_radius = position_i_m.CalcNorm();
   // Temporary codes for the integration by true anomaly
   double raan_rad = reference_oe.GetRaan_rad();
@@ -97,28 +97,28 @@ void RelativeOrbit::CalculateStm(StmModel stm_model_type, const Orbit* reference
   double f_ref_rad = phi_rad - arg_perigee_rad;
 
   switch (stm_model_type) {
-    case StmModel::kHcw: {
-      stm_ = CalcHcwStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec);
+    case orbit::StmModel::kHcw: {
+      stm_ = orbit::CalcHcwStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec);
       break;
     }
-    case StmModel::kMelton: {
-      stm_ = CalcMeltonStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
+    case orbit::StmModel::kMelton: {
+      stm_ = orbit::CalcMeltonStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
       break;
     }
-    case StmModel::kSs: {
-      stm_ = CalcSsStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
+    case orbit::StmModel::kSs: {
+      stm_ = orbit::CalcSsStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
       break;
     }
-    case StmModel::kSabatini: {
-      stm_ = CalcSabatiniStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
+    case orbit::StmModel::kSabatini: {
+      stm_ = orbit::CalcSabatiniStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
       break;
     }
-    case StmModel::kCarter: {
-      stm_ = CalcCarterStm(reference_sat_orbit_radius, gravity_constant_m3_s2, f_ref_rad, &reference_oe);
+    case orbit::StmModel::kCarter: {
+      stm_ = orbit::CalcCarterStm(reference_sat_orbit_radius, gravity_constant_m3_s2, f_ref_rad, &reference_oe);
       break;
     }
-    case StmModel::kYamakawaAnkersen: {
-      stm_ = CalcYamakawaAnkersenStm(reference_sat_orbit_radius, gravity_constant_m3_s2, f_ref_rad, &reference_oe);
+    case orbit::StmModel::kYamakawaAnkersen: {
+      stm_ = orbit::CalcYamakawaAnkersenStm(reference_sat_orbit_radius, gravity_constant_m3_s2, f_ref_rad, &reference_oe);
       break;
     }
     default: {
@@ -142,11 +142,10 @@ void RelativeOrbit::Propagate(const double end_time_s, const double current_time
     PropagateStm(end_time_s);
   }
 
-  libra::Vector<3> reference_sat_position_i = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetPosition_i_m();
-  libra::Vector<3> reference_sat_velocity_i =
-      relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetVelocity_i_m_s();
-  libra::Quaternion q_i2lvlh = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().CalcQuaternion_i2lvlh();
-  libra::Quaternion q_lvlh2i = q_i2lvlh.Conjugate();
+  math::Vector<3> reference_sat_position_i = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetPosition_i_m();
+  math::Vector<3> reference_sat_velocity_i = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetVelocity_i_m_s();
+  math::Quaternion q_i2lvlh = relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().CalcQuaternion_i2lvlh();
+  math::Quaternion q_lvlh2i = q_i2lvlh.Conjugate();
 
   spacecraft_position_i_m_ = q_lvlh2i.FrameConversion(relative_position_lvlh_m_) + reference_sat_position_i;
   spacecraft_velocity_i_m_s_ = q_lvlh2i.FrameConversion(relative_velocity_lvlh_m_s_) + reference_sat_velocity_i;
@@ -173,7 +172,7 @@ void RelativeOrbit::PropagateRk4(double elapsed_sec) {
 }
 
 void RelativeOrbit::PropagateStm(double elapsed_sec) {
-  libra::Vector<6> current_state;
+  math::Vector<6> current_state;
   CalculateStm(stm_model_type_, &(relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit()), gravity_constant_m3_s2_,
                elapsed_sec);
   current_state = stm_ * initial_state_;
@@ -186,8 +185,8 @@ void RelativeOrbit::PropagateStm(double elapsed_sec) {
   relative_velocity_lvlh_m_s_[2] = current_state[5];
 }
 
-void RelativeOrbit::DerivativeFunction(double t, const libra::Vector<6>& state,
-                                       libra::Vector<6>& rhs)  // only for RK4 relative dynamics propagation
+void RelativeOrbit::DerivativeFunction(double t, const math::Vector<6>& state,
+                                       math::Vector<6>& rhs)  // only for RK4 relative dynamics propagation
 {
   rhs = system_matrix_ * state;
   (void)t;

@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_REAL_POWER_POWER_CONTROL_UNIT_HPP_
 
 #include <components/ports/power_port.hpp>
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 #include <map>
 
 #include "../../base/component.hpp"
@@ -61,7 +61,8 @@ class PowerControlUnit : public Component, public ILoggable {
    * @brief Return power port information
    * @param port_id: Power port ID
    */
-  inline PowerPort* GetPowerPort(const int port_id) { return power_ports_[port_id]; };
+  inline PowerPort* GetPowerPort(const int port_id) { return power_ports_.at(port_id); };
+  inline const PowerPort* GetPowerPort(const int port_id) const { return power_ports_.at(port_id); };
 
   // Port control functions
   /**

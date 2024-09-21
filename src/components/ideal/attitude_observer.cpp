@@ -5,8 +5,8 @@
 
 #include "attitude_observer.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 AttitudeObserver::AttitudeObserver(const int prescaler, ClockGenerator* clock_generator, const double standard_deviation_rad,
                                    const Attitude& attitude)
@@ -18,14 +18,14 @@ void AttitudeObserver::MainRoutine(const int time_count) {
   UNUSED(time_count);
 
   // Error calculation
-  libra::Vector<3> random_direction;
+  math::Vector<3> random_direction;
   random_direction[0] = direction_noise_;
   random_direction[1] = direction_noise_;
   random_direction[2] = direction_noise_;
   random_direction = random_direction.CalcNormalizedVector();
 
   double error_angle_rad = angle_noise_;
-  libra::Quaternion error_quaternion(random_direction, error_angle_rad);
+  math::Quaternion error_quaternion(random_direction, error_angle_rad);
 
   observed_quaternion_i2b_ = error_quaternion * attitude_.GetQuaternion_i2b();
 }
@@ -57,7 +57,7 @@ AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, con
 
   // AttitudeObserver
   double error_angle_standard_deviation_deg = ini_file.ReadDouble("ATTITUDE_OBSERVER", "error_angle_standard_deviation_deg");
-  double error_angle_standard_deviation_rad = libra::deg_to_rad * error_angle_standard_deviation_deg;
+  double error_angle_standard_deviation_rad = math::deg_to_rad * error_angle_standard_deviation_deg;
   AttitudeObserver attitude_observer(prescaler, clock_generator, error_angle_standard_deviation_rad, attitude);
 
   return attitude_observer;

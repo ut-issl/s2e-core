@@ -7,7 +7,7 @@
 #define S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_HPP_
 
 #include <environment/local/local_celestial_information.hpp>
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
 #include <string>
 
 #include "../orbit/orbit.hpp"
@@ -18,12 +18,13 @@
  * @brief Attitude control mode
  */
 enum class AttitudeControlMode {
-  kInertialStabilize,          //!< Inertial stabilize
-  kSunPointing,                //!< Sun pointing
-  kEarthCenterPointing,        //!< Earth center pointing
-  kVelocityDirectionPointing,  //!< Spacecraft velocity direction pointing
-  kOrbitNormalPointing,        //!< Orbit normal direction pointing
-  kNoControl,                  // No Control
+  kInertialStabilize,             //!< Inertial stabilize
+  kSunPointing,                   //!< Sun pointing
+  kEarthCenterPointing,           //!< Earth center pointing
+  kVelocityDirectionPointing,     //!< Spacecraft velocity direction pointing
+  kGroundSpeedDirectionPointing,  //!< Ground speed direction pointing
+  kOrbitNormalPointing,           //!< Orbit normal direction pointing
+  kNoControl,                     // No Control
 };
 
 /**
@@ -53,9 +54,9 @@ class ControlledAttitude : public Attitude {
    * @param [in] orbit: Orbit
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const libra::Quaternion quaternion_i2b,
-                     const libra::Vector<3> main_target_direction_b, const libra::Vector<3> sub_target_direction_b,
-                     const libra::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
+  ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const math::Quaternion quaternion_i2b,
+                     const math::Vector<3> main_target_direction_b, const math::Vector<3> sub_target_direction_b,
+                     const math::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit,
                      const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~ControlledAttitude
@@ -78,17 +79,17 @@ class ControlledAttitude : public Attitude {
    * @fn SetQuaternion_i2t
    * @brief Set quaternion for INERTIAL_STABILIZE mode
    */
-  inline void SetQuaternion_i2t(const libra::Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
+  inline void SetQuaternion_i2t(const math::Quaternion quaternion_i2t) { quaternion_i2b_ = quaternion_i2t; }
   /**
    * @fn SetMainTargetDirection_b
    * @brief Set main target direction on the body fixed frame
    */
-  inline void SetMainTargetDirection_b(libra::Vector<3> main_target_direction_b) { main_target_direction_b_ = main_target_direction_b; }
+  inline void SetMainTargetDirection_b(math::Vector<3> main_target_direction_b) { main_target_direction_b_ = main_target_direction_b; }
   /**
    * @fn SetSubTargetDirection_b
    * @brief Set sub target direction on the body fixed frame
    */
-  inline void SetSubTargetDirection_b(libra::Vector<3> sub_target_direction_b) { sub_target_direction_b_ = sub_target_direction_b; }
+  inline void SetSubTargetDirection_b(math::Vector<3> sub_target_direction_b) { sub_target_direction_b_ = sub_target_direction_b; }
 
   /**
    * @fn Propagate
@@ -98,16 +99,16 @@ class ControlledAttitude : public Attitude {
   virtual void Propagate(const double end_time_s);
 
  private:
-  AttitudeControlMode main_mode_;              //!< Main control mode
-  AttitudeControlMode sub_mode_;               //!< Sub control mode
-  libra::Vector<3> main_target_direction_b_;   //!< Main target direction on the body fixed frame
-  libra::Vector<3> sub_target_direction_b_;    //!< Sub target direction on tge body fixed frame
-  double previous_calc_time_s_ = -1.0;         //!< Previous time of velocity calculation [sec]
-  libra::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
-  libra::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
+  AttitudeControlMode main_mode_;             //!< Main control mode
+  AttitudeControlMode sub_mode_;              //!< Sub control mode
+  math::Vector<3> main_target_direction_b_;   //!< Main target direction on the body fixed frame
+  math::Vector<3> sub_target_direction_b_;    //!< Sub target direction on tge body fixed frame
+  double previous_calc_time_s_ = -1.0;        //!< Previous time of velocity calculation [sec]
+  math::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
+  math::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
 
-  const double kMinDirectionAngle_rad = 30.0 * libra::deg_to_rad;  //!< Minimum angle b/w main and sub direction
-                                                                   // TODO Change with ini file
+  const double kMinDirectionAngle_rad = 30.0 * math::deg_to_rad;  //!< Minimum angle b/w main and sub direction
+                                                                  // TODO Change with ini file
 
   // Inputs
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
@@ -125,14 +126,14 @@ class ControlledAttitude : public Attitude {
    * @param [in] mode: Attitude control mode
    * @return Target direction at the inertia frame
    */
-  libra::Vector<3> CalcTargetDirection_i(AttitudeControlMode mode);
+  math::Vector<3> CalcTargetDirection_i(AttitudeControlMode mode);
   /**
    * @fn PointingControl
    * @brief Calculate attitude quaternion
    * @param [in] main_direction_i: Main target direction in the inertial frame
    * @param [in] sub_direction_i: Sub target direction in the inertial frame
    */
-  void PointingControl(const libra::Vector<3> main_direction_i, const libra::Vector<3> sub_direction_i);
+  void PointingControl(const math::Vector<3> main_direction_i, const math::Vector<3> sub_direction_i);
   /**
    * @fn CalcAngularVelocity
    * @brief Calculate angular velocity
@@ -145,7 +146,7 @@ class ControlledAttitude : public Attitude {
    * @param [in] main_direction: Main target direction
    * @param [in] sub_direction: Sub target direction
    */
-  libra::Matrix<3, 3> CalcDcm(const libra::Vector<3> main_direction, const libra::Vector<3> sub_direction);
+  math::Matrix<3, 3> CalcDcm(const math::Vector<3> main_direction, const math::Vector<3> sub_direction);
 };
 
 #endif  // S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_HPP_

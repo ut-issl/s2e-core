@@ -25,7 +25,6 @@ real/cdh/on_board_computer_with_c2a.cpp
 real/communication/antenna.cpp
 real/communication/antenna_radiation_pattern.cpp
 real/communication/ground_station_calculator.cpp
-real/communication/wings_command_sender_to_c2a.cpp
 
 examples/example_change_structure.cpp
 examples/example_serial_communication_with_obc.cpp
@@ -37,6 +36,7 @@ ideal/force_generator.cpp
 ideal/torque_generator.cpp
 ideal/angular_velocity_observer.cpp
 ideal/attitude_observer.cpp
+ideal/orbit_observer.cpp
 
 real/mission/telescope.cpp
 
@@ -57,8 +57,15 @@ ports/i2c_port.cpp
 if(USE_HILS)
   set(SOURCE_FILES
     ${SOURCE_FILES}
-    hils/ports/hils_uart_port.cpp
-    hils/ports/hils_i2c_target_port.cpp
+    ports/hils_uart_port.cpp
+    ports/hils_i2c_target_port.cpp
+  )
+endif()
+
+if(USE_C2A_COMMAND_SENDER)
+  set(SOURCE_FILES
+    ${SOURCE_FILES}
+    real/communication/wings_command_sender_to_c2a.cpp
   )
 endif()
 

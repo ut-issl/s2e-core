@@ -5,13 +5,13 @@
 #include "simple_thruster.hpp"
 
 #include <cfloat>
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/math/constants.hpp>
-#include <library/randomization/global_randomization.hpp>
+#include <math_physics/math/constants.hpp>
+#include <math_physics/randomization/global_randomization.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 // Constructor
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id,
-                               const libra::Vector<3> thruster_position_b_m, const libra::Vector<3> thrust_direction_b, const double max_magnitude_N,
+                               const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
                                const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
                                const Dynamics* dynamics)
     : Component(prescaler, clock_generator),
@@ -26,7 +26,7 @@ SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_genera
 }
 
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                               const libra::Vector<3> thruster_position_b_m, const libra::Vector<3> thrust_direction_b, const double max_magnitude_N,
+                               const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
                                const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
                                const Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
@@ -66,9 +66,9 @@ void SimpleThruster::CalcThrust() {
   output_thrust_b_N_ = mag * CalcThrustDirection();
 }
 
-void SimpleThruster::CalcTorque(const libra::Vector<3> center_of_mass_b_m) {
-  libra::Vector<3> vector_center2thruster = thruster_position_b_m_ - center_of_mass_b_m;
-  libra::Vector<3> torque = OuterProduct(vector_center2thruster, output_thrust_b_N_);
+void SimpleThruster::CalcTorque(const math::Vector<3> center_of_mass_b_m) {
+  math::Vector<3> vector_center2thruster = thruster_position_b_m_ - center_of_mass_b_m;
+  math::Vector<3> torque = OuterProduct(vector_center2thruster, output_thrust_b_N_);
 
   output_torque_b_Nm_ = torque;
 }
@@ -95,25 +95,25 @@ std::string SimpleThruster::GetLogValue() const {
 
 double SimpleThruster::CalcThrustMagnitude() { return duty_ * thrust_magnitude_max_N_; }
 
-libra::Vector<3> SimpleThruster::CalcThrustDirection() {
-  libra::Vector<3> thrust_dir_b_true = thrust_direction_b_;
+math::Vector<3> SimpleThruster::CalcThrustDirection() {
+  math::Vector<3> thrust_dir_b_true = thrust_direction_b_;
   if (direction_noise_standard_deviation_rad_ > 0.0 + DBL_EPSILON) {
-    libra::Vector<3> ex;  // Fixme: to use outer product to generate orthogonal vector
+    math::Vector<3> ex;  // Fixme: to use outer product to generate orthogonal vector
     ex[0] = 1.0;
     ex[1] = 0.0;
     ex[2] = 0.0;
     int flag = rand() % 2;
     double make_axis_rot_rad;
     if (flag == 0) {
-      make_axis_rot_rad = libra::pi * (double)rand() / RAND_MAX;
+      make_axis_rot_rad = math::pi * (double)rand() / RAND_MAX;
     } else {
-      make_axis_rot_rad = -libra::pi * (double)rand() / RAND_MAX;
+      make_axis_rot_rad = -math::pi * (double)rand() / RAND_MAX;
     }
 
-    libra::Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);
-    libra::Vector<3> axis_rot = make_axis_rot.FrameConversion(ex);
+    math::Quaternion make_axis_rot(thrust_dir_b_true, make_axis_rot_rad);
+    math::Vector<3> axis_rot = make_axis_rot.FrameConversion(ex);
 
-    libra::Quaternion err_rot(axis_rot, direction_random_noise_);    // Generate error quaternion
+    math::Quaternion err_rot(axis_rot, direction_random_noise_);     // Generate error quaternion
     thrust_dir_b_true = err_rot.FrameConversion(thrust_dir_b_true);  // Add error
   }
 
@@ -141,7 +141,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_
   magnitude_standard_deviation_N = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
 
   double deg_err;
-  deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * libra::pi / 180.0;
+  deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * math::pi / 180.0;
 
   SimpleThruster thruster(prescaler, clock_generator, thruster_id, thruster_pos, thruster_dir, max_magnitude_N, magnitude_standard_deviation_N,
                           deg_err, structure, dynamics);
@@ -169,7 +169,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* po
   magnitude_standard_deviation_N = thruster_conf.ReadDouble(Section, "thrust_error_standard_deviation_N");
 
   double deg_err;
-  deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * libra::pi / 180.0;
+  deg_err = thruster_conf.ReadDouble(Section, "direction_error_standard_deviation_deg") * math::pi / 180.0;
 
   power_port->InitializeWithInitializeFile(file_name);
 

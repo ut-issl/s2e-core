@@ -6,8 +6,8 @@
 #include "ground_station_calculator.hpp"
 
 #include <environment/global/physical_constants.hpp>
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 GroundStationCalculator::GroundStationCalculator(const double loss_polarization_dB, const double loss_atmosphere_dB, const double loss_rainfall_dB,
                                                  const double loss_others_dB, const double ebn0_dB, const double hardware_deterioration_dB,
@@ -72,7 +72,7 @@ double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Ante
   Vector<3> pos_gs2sc_i = sc_pos_i - gs_pos_i;
 
   double dist_sc_gs_km = pos_gs2sc_i.CalcNorm() / 1000.0;
-  double loss_space_dB = -20.0 * log10(4.0 * libra::pi * dist_sc_gs_km / (300.0 / spacecraft_tx_antenna.GetFrequency_MHz() / 1000.0));
+  double loss_space_dB = -20.0 * log10(4.0 * math::pi * dist_sc_gs_km / (300.0 / spacecraft_tx_antenna.GetFrequency_MHz() / 1000.0));
 
   // GS direction on SC TX antenna frame
   Vector<3> sc_to_gs_i = gs_pos_i - sc_pos_i;

@@ -4,18 +4,18 @@
  */
 #include "magnetometer.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/math/quaternion.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 Magnetometer::Magnetometer(int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
-                           const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
+                           const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
       quaternion_b2c_(quaternion_b2c),
       geomagnetic_field_(geomagnetic_field) {}
 Magnetometer::Magnetometer(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-                           const libra::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
+                           const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator, power_port),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
@@ -57,7 +57,7 @@ Magnetometer InitMagnetometer(ClockGenerator* clock_generator, int sensor_id, co
   int prescaler = magsensor_conf.ReadInt(MSSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", quaternion_b2c);
 
   // Sensor
@@ -78,7 +78,7 @@ Magnetometer InitMagnetometer(ClockGenerator* clock_generator, PowerPort* power_
   int prescaler = magsensor_conf.ReadInt(MSSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  libra::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", quaternion_b2c);
 
   // Sensor

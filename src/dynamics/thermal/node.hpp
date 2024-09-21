@@ -7,7 +7,7 @@
 #define S2E_DYNAMICS_THERMAL_NODE_HPP_
 
 #include <environment/global/physical_constants.hpp>
-#include <library/logger/logger.hpp>
+#include <logger/logger.hpp>
 #include <string>
 #include <vector>
 
@@ -45,7 +45,7 @@ class Node {
    * @param[in] normal_vector_b: Normal vector of face with possibility of solar incidence (Body frame)
    */
   Node(const size_t node_id, const std::string node_name, const NodeType node_type, const size_t heater_id, const double temperature_ini_K,
-       const double capacity_J_K, const double alpha, const double area_m2, libra::Vector<3> normal_vector_b);
+       const double capacity_J_K, const double alpha, const double area_m2, math::Vector<3> normal_vector_b);
   /**
    * @fn ~Node
    * @brief Destroy the Node object
@@ -58,7 +58,7 @@ class Node {
    * @param sun_direction_b: Sun direction in body frame
    * @return double: Solar Radiation [W]
    */
-  double CalcSolarRadiation_W(libra::Vector<3> sun_direction_b, double solar_flux_W_m2);
+  double CalcSolarRadiation_W(math::Vector<3> sun_direction_b, double solar_flux_W_m2);
 
   // Getter
   /**
@@ -136,7 +136,7 @@ class Node {
   double area_m2_;
   double solar_radiation_W_;
   NodeType node_type_;
-  libra::Vector<3> normal_vector_b_;
+  math::Vector<3> normal_vector_b_;
 
   /**
    * @fn AssertNodeParams

@@ -18,6 +18,7 @@ add_library(${PROJECT_NAME} STATIC
 
   attitude/attitude.cpp
   attitude/attitude_rk4.cpp
+  attitude/attitude_with_cantilever_vibration.cpp
   attitude/controlled_attitude.cpp
   attitude/initialize_attitude.cpp
 
