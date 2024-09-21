@@ -46,15 +46,17 @@ double Node::CalcAlbedoRadiation_W(libra::Vector<3> earth_position_b_m, double s
   double earth_distance_m = earth_position_b_m.CalcNorm();
 
   // check if satellite is outside of the earth's shadow
-    double cos_theta_albedo = InnerProduct(earth_direction_b, normal_vector_b_);
+  double cos_theta_albedo = InnerProduct(earth_direction_b, normal_vector_b_);
 
-    // albedo radiation calculation; solar_flux_W_m2 reflects the shadow coefficient. if earth albedo calculation is disabled, earth_albedo_factor is 0.0
-    if (cos_theta_albedo > 0.0) {
-      double albedo_flux_W_m2 = solar_flux_W_m2 * earth_albedo_factor * pow((environment::astronomy::earth_equatorial_radius_m / earth_distance_m), 2.0) / 4.0;
-      albedo_radiation_W_ = albedo_flux_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
-    } else {
-      albedo_radiation_W_ = 0.0;
-    }
+  // albedo radiation calculation; solar_flux_W_m2 reflects the shadow coefficient. if earth albedo calculation is disabled, earth_albedo_factor is
+  // 0.0
+  if (cos_theta_albedo > 0.0) {
+    double albedo_flux_W_m2 =
+        solar_flux_W_m2 * earth_albedo_factor * pow((environment::astronomy::earth_equatorial_radius_m / earth_distance_m), 2.0) / 4.0;
+    albedo_radiation_W_ = albedo_flux_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
+  } else {
+    albedo_radiation_W_ = 0.0;
+  }
   return albedo_radiation_W_;
 }
 
@@ -142,10 +144,10 @@ Node InitNode(const std::vector<std::string>& node_str) {
   std::string node_label = "temp";  // node name
   size_t node_type_int = 0;         // node type
   size_t heater_id = 0;             // heater node index
-  double temperature_K = 0.0;         // [K]
-  double capacity_J_K = 0.0;          // [J/K]
-  double alpha = 0.0;                 // []
-  double area_m2 = 0.0;               // [m^2]
+  double temperature_K = 0.0;       // [K]
+  double capacity_J_K = 0.0;        // [J/K]
+  double alpha = 0.0;               // []
+  double area_m2 = 0.0;             // [m^2]
 
   // Index to read from node_str for each parameter
   size_t index_node_id = 0;
