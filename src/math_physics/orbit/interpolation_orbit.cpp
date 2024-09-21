@@ -37,4 +37,12 @@ math::Vector<3> InterpolationOrbit::CalcPositionWithTrigonometric(const double t
   return output_position;
 }
 
+math::Vector<3> InterpolationOrbit::CalcPositionWithPolynomial(const double time) const {
+  math::Vector<3> output_position;
+  for (size_t axis = 0; axis < 3; axis++) {
+    output_position[axis] = interpolation_position_[axis].CalcPolynomial(time);
+  }
+  return output_position;
+}
+
 }  // namespace orbit

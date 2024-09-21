@@ -9,48 +9,24 @@
 #include <string>
 #include <vector>
 
-
-// #include <math_physics/gnss/sp3_file_reader.hpp>
-// #include <math_physics/math/constants.hpp>
-// #include <math_physics/math/matrix_vector.hpp>
 #include <math_physics/orbit/interpolation_orbit.hpp>
 #include <math_physics/time_system/epoch_time.hpp>
-// #include <math_physics/time_system/gps_time.hpp>
-// #include <vector>
 
-// #include "earth_rotation.hpp"
-// #include "logger/loggable.hpp"
-// #include "math_physics/gnss/gnss_satellite_number.hpp"
-// #include "math_physics/math/vector.hpp"
 #include "environment/global/simulation_time.hpp"
 
 /**
  *@struct OrbitDefinitionData
  *@brief Orbit definition data
+ *@note Coordinate system and units follow the orbit definition file
  */
 struct OrbitDefinitionData {
-  std::string time_utc;         //!< time (UTC)
-  double time_et_s;             //!< Ephemeris time [s]
-  double equ_x_eclipj2000_km;   //!< EQU X(ECLIPJ2000) [km]
-  double equ_y_eclipj2000_km;   //!< EQU Y(ECLIPJ2000) [km]
-  double equ_z_eclipj2000_km;   //!< EQU Z(ECLIPJ2000) [km]
-  double vx_eclipj2000_km_s;    //!< VX [km/s]
-  double vy_eclipj2000_km_s;    //!< VY [km/s]
-  double vz_eclipj2000_km_s;    //!< VZ [km/s]
-  double m_kg;                  //!< Mass [kg]
-  double fx_kN;                 //!< FX [kN]
-  double fy_kN;                 //!< FY [kN]
-  double fz_kN;                 //!< FZ [kN]
-  bool dv_node;                 //!< DV NODE
-  double dv_x_eclipj2000_km_s;  //!< DV_X [km/s]
-  double dv_y_eclipj2000_km_s;  //!< DV_Y [km/s]
-  double dv_z_eclipj2000_km_s;  //!< DV_Z [km/s]
-  double sun_x_eclipj2000_km;   //!< SUN X (ECLIPJ2000) [km]
-  double sun_y_eclipj2000_km;   //!< SUN Y (ECLIPJ2000) [km]
-  double sun_z_eclipj2000_km;   //!< SUN Z (ECLIPJ2000) [km]
-  double moon_x_eclipj2000_km;  //!< MOON X (ECLIPJ2000) [km]
-  double moon_y_eclipj2000_km;  //!< MOON Y (ECLIPJ2000) [km]
-  double moon_z_eclipj2000_km;  //!< MOON Z (ECLIPJ2000) [km]
+  double et;  //!< Ehemeris time [s]
+  double x;     //!< Position x
+  double y;     //!< Position y
+  double z;     //!< Position z
+  double vx;    //!< Velocity x
+  double vy;    //!< Velocity y
+  double vz;    //!< Velocity z
 };
 
 /**
@@ -83,10 +59,11 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
   /**
    * @fn Initialize
    * @brief Initialize function
+   * @param [in] ini_file_name: Path to the initialize file
    * @param [in] orbit_definition_data: orbit definition data
    * @param [in] start_time: The simulation start time
    */
-  void Initialize(const std::vector<OrbitDefinitionData>& orbit_definition_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time);
+  void Initialize(const std::string ini_file_name, const std::vector<OrbitDefinitionData>& orbit_definition_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time);
 
   /**
    * @fn IsCalcEnabled
@@ -97,11 +74,12 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
   /**
    * @fn ReadOrbitDefinitionCsv
    * @brief Read orbit definition CSV file.
-   * @param file_name Path to orbit definition CSV file.
+   * @param ini_file_name Path to the initialize file.
+   * @param orbit_definition_file_path Path to orbit definition CSV file.
    * @param orbit_definition_data List of orbit definition data.
    * @param delimiter Delimiter for the orbit definition CSV file (default: ',').
    */
-  bool ReadOrbitDefinitionCsv(const std::string& file_name, std::vector<OrbitDefinitionData>& orbit_definition_data, char delimiter = ',');
+  bool ReadOrbitDefinitionCsv(const std::string ini_file_name, const std::string& orbit_definition_file_path, std::vector<OrbitDefinitionData>& orbit_definition_data);
 
   /**
    * @fn GetOrbitDefinitionDataSize
@@ -130,7 +108,6 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
    */
   size_t SearchNearestEpochId(const SimulationTime& simulation_time);
 
-
   /**
    * @fn Update
    * @brief Updatesatellite information
@@ -144,7 +121,7 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
    * @param [in] time: Target time to get the satellite. When the argument is not set, the last updated time is used for the calculation.
    * @return Satellite position at ECLIPJ2000 frame at the time. Or return zero vector when the arguments are out of range.
    */
-  math::Vector<3> GetPosition_eclipj2000_km(const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
+  inline math::Vector<3> GetPosition_eclipj2000_km(const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
 
   // Override ILoggable
   /**
@@ -181,9 +158,10 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
 /**
  * @fn InitOrbitCalculationWithDefinitionFile
  * @brief Initialize function for OrbitCalculationWithDefinitionFile class
- * @param [in] file_name: Path to the initialize file
+ * @param [in] ini_file_name: Path to the initialize file
  * @param [in] simulation_time: Simulation time information
  * @return Initialized OrbitCalculationWithDefinitionFile class
  */
-OrbitCalculationWithDefinitionFile* InitOrbitCalculationWithDefinitionFile(const std::string file_name, const SimulationTime& simulation_time);
+OrbitCalculationWithDefinitionFile* InitOrbitCalculationWithDefinitionFile(const std::string ini_file_name, const SimulationTime& simulation_time);
+
 #endif  // S2E_DYNAMICS_ORBIT_ORBIT_CALCULATION_WITH_DEFINITION_FILE_HPP_
