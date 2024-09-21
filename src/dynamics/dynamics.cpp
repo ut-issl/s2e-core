@@ -5,8 +5,6 @@
 
 #include "dynamics.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
-
 #include "../simulation/multiple_spacecraft/relative_information.hpp"
 
 Dynamics::Dynamics(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time,
