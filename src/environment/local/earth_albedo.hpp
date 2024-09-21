@@ -35,7 +35,7 @@ class EarthAlbedo : public ILoggable {
    * @fn GetEarthAlbedoFactor
    * @brief Return earth albedo factor
    */
-  inline double GetEarthAlbedoFactor() const { return earth_albedo_factor_; }
+  inline double GetEarthAlbedoFactor() const { return IsCalcEarthAlbedoEnabled ? earth_albedo_factor_ : 0.0; }
 
   // Override ILoggable
   /**
