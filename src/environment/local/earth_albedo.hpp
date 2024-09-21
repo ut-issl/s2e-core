@@ -15,7 +15,7 @@
  */
 class EarthAlbedo : public ILoggable {
  public:
-  bool IsCalcEarthAlbedoEnabled = false;  //!< Calculation flag
+  bool IsCalcEarthAlbedoEnabled = true;  //!< Calculation flag
   double earth_albedo_factor_ = 0.3;            //!< Earth albedo factor
 
   /**

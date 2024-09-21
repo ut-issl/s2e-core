@@ -101,16 +101,16 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
       cout << setprecision(4) << itr->GetSolarRadiation_W() << "  ";
     }
-    cout << "AlbedoR:  ";
-    for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
-      cout << setprecision(4) << itr->GetAlbedoRadiation_W() << "  ";
-    }
     libra::Vector<3> sun_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN").CalcNormalizedVector();
     cout << "SunDir:  ";
     for (size_t i = 0; i < 3; i++) {
       cout << setprecision(3) << sun_direction_b[i] << "  ";
     }
     cout << "ShadowCoefficient:  " << setprecision(4) << srp_environment_->GetShadowCoefficient() << "  ";
+    cout << "EarthAlbedoR:  ";
+    for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
+      cout << setprecision(4) << itr->GetAlbedoRadiation_W() << "  ";
+    }
     libra::Vector<3> earth_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH").CalcNormalizedVector();
     cout << "EarthDir:  ";
     for (size_t i = 0; i < 3; i++) {
@@ -245,12 +245,9 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
       double solar_flux_W_m2 = srp_environment_->GetPowerDensity_W_m2();
       if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
         double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction_b, solar_flux_W_m2);
-        if (is_calc_earth_albedo_enabled_) {
-          bool is_eclipsed = srp_environment_->GetIsEclipsed();
-          libra::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
-          double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, solar_flux_W_m2, earth_albedo_->GetEarthAlbedoFactor());
-          heatloads_[i].SetAlbedoHeatload_W(albedo_radiation_W);
-        }
+        libra::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
+        double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, solar_flux_W_m2, earth_albedo_->GetEarthAlbedoFactor());
+        heatloads_[i].SetAlbedoHeatload_W(albedo_radiation_W);
         heatloads_[i].SetSolarHeatload_W(solar_radiation_W);
       }
       double heater_power_W = GetHeaterPower_W(i);
@@ -433,10 +430,6 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   }
 
   bool debug = mainIni.ReadEnable("THERMAL", "debug");
-
-  bool is_calc_earth_albedo_enabled = mainIni.ReadEnable("THERMAL", "is_calc_earth_albedo_enabled");
-
-  double earth_albedo_factor = mainIni.ReadDouble("THERMAL", "earth_albedo_factor");
 
   // Read Heatloads from CSV File
   string filepath_heatload = file_path + "heatload.csv";

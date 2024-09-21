@@ -13,8 +13,7 @@
 #include "library/math/constants.hpp"
 #include "library/math/vector.hpp"
 
-
-EarthAlbedo::EarthAlbedo() { earth_albedo_factor_ = 0.0; }
+EarthAlbedo::EarthAlbedo() {}
 
 std::string EarthAlbedo::GetLogHeader() const {
   std::string str_tmp = "";
@@ -38,7 +37,7 @@ EarthAlbedo InitEarthAlbedo(std::string initialize_file_path) {
 
   EarthAlbedo earth_albedo;
   earth_albedo.IsCalcEarthAlbedoEnabled = conf.ReadEnable(section, INI_CALC_LABEL);
-  earth_albedo.earth_albedo_factor_ = conf.ReadEnable(section, "earth_albedo_factor");
+  earth_albedo.earth_albedo_factor_ = conf.ReadDouble(section, "earth_albedo_factor");
 
   return earth_albedo;
 }
