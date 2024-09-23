@@ -16,7 +16,6 @@ RelativeOrbitCarter::~RelativeOrbitCarter() {}
 
 void RelativeOrbitCarter::CalculateInitialInverseMatrix(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad,
                                                                   OrbitalElements* reference_oe) {
-  math::Matrix<6, 6> initial_inverse_matrix_;
   double n = sqrt(gravity_constant_m3_s2 / pow(orbit_radius_m, 3));
   double e = reference_oe->GetEccentricity();
   double E_rad = 2 * atan(sqrt((1 - e) / (1 + e)) * tan(f_ref_rad / 2));
@@ -31,7 +30,8 @@ void RelativeOrbitCarter::CalculateInitialInverseMatrix(double orbit_radius_m, d
   double term1_phi2_prime = sin(f_ref_rad) / k;
   double term2_phi2_prime = 2 * e * sin(f_ref_rad) * k * (cos(f_ref_rad) / pow(k, 3)) - (cos(f_ref_rad) / pow(1 - pow(e, 2), 5.0 / 2.0));
   double phi2_prime = term1_phi2_prime + term2_phi2_prime;
-  double phi3_prime = k - 4 * e * pow(sin(f_ref_rad), 3) / pow(E_rad / 2., 3) + 2 * cos(f_ref_rad) * sin(f_ref_rad) / pow(E_rad / 2., 2) - 6 * e * cos(f_ref_rad) * E_rad / 2. / pow(1 - pow(e, 2), 5.0 / 2.0);
+  double phi3_prime = k - 4 * e * pow(sin(f_ref_rad), 3) / pow(E_rad / 2., 3) + 2 * cos(f_ref_rad) * sin(f_ref_rad) / pow(E_rad / 2., 2) 
+                    - 6 * e * cos(f_ref_rad) * E_rad / 2. / pow(1 - pow(e, 2), 5.0 / 2.0);
   double S1 = -cos(f_ref_rad) - (e / 2.0) * pow(cos(f_ref_rad), 2);
   double S2 = 3 * e * k * k * K2 - (sin(f_ref_rad) / k);
   double S3 = -6 * k * k * K2 - ((2 + k) / (2 * k)) * sin(2 * f_ref_rad); 
@@ -73,7 +73,7 @@ void RelativeOrbitCarter::CalculateInitialInverseMatrix(double orbit_radius_m, d
   initial_inverse_matrix_[5][5] = cos(f_ref_rad);    
 }
 
-math::Matrix<6, 6> CalculateSTM(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe){
+math::Matrix<6, 6> RelativeOrbitCarter::CalculateSTM(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe){
   math::Matrix<6, 6> stm;
   // ここでstmを計算してください
   double n = sqrt(gravity_constant_m3_s2 / pow(orbit_radius_m, 3));
@@ -90,7 +90,8 @@ math::Matrix<6, 6> CalculateSTM(double orbit_radius_m, double gravity_constant_m
   double term1_phi2_prime = sin(f_ref_rad) / k;
   double term2_phi2_prime = 2 * e * sin(f_ref_rad) * k * (cos(f_ref_rad) / pow(k, 3)) - (cos(f_ref_rad) / pow(1 - pow(e, 2), 5.0 / 2.0));
   double phi2_prime = term1_phi2_prime + term2_phi2_prime;
-  double phi3_prime = k - 4 * e * pow(sin(f_ref_rad), 3) / pow(E_rad / 2., 3) + 2 * cos(f_ref_rad) * sin(f_ref_rad) / pow(E_rad / 2., 2) - 6 * e * cos(f_ref_rad) * E_rad / 2. / pow(1 - pow(e, 2), 5.0 / 2.0);
+  double phi3_prime = k - 4 * e * pow(sin(f_ref_rad), 3) / pow(E_rad / 2., 3) + 2 * cos(f_ref_rad) * sin(f_ref_rad) / pow(E_rad / 2., 2) 
+                    - 6 * e * cos(f_ref_rad) * E_rad / 2. / pow(1 - pow(e, 2), 5.0 / 2.0);
   double S1 = -cos(f_ref_rad) - (e / 2.0) * pow(cos(f_ref_rad), 2);
   double S2 = 3 * e * k * k * K2 - (sin(f_ref_rad) / k);
   double S3 = -6 * k * k * K2 - ((2 + k) / (2 * k)) * sin(2 * f_ref_rad); 
