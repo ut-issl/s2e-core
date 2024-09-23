@@ -131,6 +131,7 @@ math::Vector<6> CalcSsCorrectionTerm(double orbit_radius_m, double gravity_const
 
 math::Matrix<6, 6> CalcCarterStm(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe){
   math::Matrix<6, 6> stm;
+  math::Matrix<6, 6> stm_inv;
   // ここでstmを計算してください
   double n = sqrt(gravity_constant_m3_s2 / pow(orbit_radius_m, 3));
   double e = reference_oe->GetEccentricity();
