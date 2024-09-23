@@ -111,9 +111,52 @@ math::Matrix<6, 6> CalcMeltonStm(double orbit_radius_m, double gravity_constant_
   return stm;
 }
 
+// TODO : implement
 math::Matrix<6, 6> CalcSsStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe) {
   math::Matrix<6, 6> stm;
-  // ここでstmを計算してください
+
+  double nc = sqrt(gravity_constant_m3_s2 / orbit_radius_m);
+  double s = 3 * environment::J2_earth * pow(environment::earth_equatorial_radius_m, 2.0) *
+               (1 + 3 * cos(2 * reference_oe->GetInclination_rad())) / (8 * pow(orbit_radius_m, 2.0));
+  double c = sqrt(1+s);
+
+  // [gyou][retsu]
+  stm[0][0] = 0.0;
+  stm[0][1] = 0.0;
+  stm[0][2] = 0.0;
+  stm[0][3] = 0.0;
+  stm[0][4] = 0.0;
+  stm[0][5] = 0.0;
+  stm[1][0] = 0.0;
+  stm[1][1] = 0.0;
+  stm[1][2] = 0.0;
+  stm[1][3] = 0.0;
+  stm[1][4] = 0.0;
+  stm[1][5] = 0.0;
+  stm[2][0] = 0.0;
+  stm[2][1] = 0.0;
+  stm[2][2] = 0.0;
+  stm[2][3] = 0.0;
+  stm[2][4] = 0.0;
+  stm[2][5] = 0.0;
+  stm[3][0] = 0.0;
+  stm[3][1] = 0.0;
+  stm[3][2] = 0.0;
+  stm[3][3] = 0.0;
+  stm[3][4] = 0.0;
+  stm[3][5] = 0.0;
+  stm[4][0] = 0.0;
+  stm[4][1] = 0.0;
+  stm[4][2] = 0.0;
+  stm[4][3] = 0.0;
+  stm[4][4] = 0.0;
+  stm[4][5] = 0.0;
+  stm[5][0] = 0.0;
+  stm[5][1] = 0.0;
+  stm[5][2] = 0.0;
+  stm[5][3] = 0.0;
+  stm[5][4] = 0.0;
+  stm[5][5] = 0.0;
   return stm;
 }
 
