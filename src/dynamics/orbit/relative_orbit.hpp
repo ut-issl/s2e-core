@@ -73,8 +73,9 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
   double propagation_time_s_;             //!< Simulation current time for numerical integration by RK4 [sec]
   double propagation_step_s_;             //!< Step width for RK4 [sec]
 
-  math::Matrix<6, 6> system_matrix_;  //!< System matrix
-  math::Matrix<6, 6> stm_;            //!< State transition matrix
+  math::Matrix<6, 6> system_matrix_;      //!< System matrix
+  math::Matrix<6, 6> stm_;                //!< State transition matrix
+  math::Vector<6> correction_term_{0.0};  //!< Correction term for STM calculation
 
   math::Vector<6> initial_state_;               //!< Initial state (Position and Velocity)
   math::Vector<3> relative_position_lvlh_m_;    //!< Relative position in the LVLH frame

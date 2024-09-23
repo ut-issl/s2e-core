@@ -107,6 +107,7 @@ void RelativeOrbit::CalculateStm(orbit::StmModel stm_model_type, const Orbit* re
     }
     case orbit::StmModel::kSs: {
       stm_ = orbit::CalcSsStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
+      correction_term_ = orbit::CalcSsCorrectionTerm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
       break;
     }
     case orbit::StmModel::kSabatini: {
@@ -175,7 +176,7 @@ void RelativeOrbit::PropagateStm(double elapsed_sec) {
   math::Vector<6> current_state;
   CalculateStm(stm_model_type_, &(relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit()), gravity_constant_m3_s2_,
                elapsed_sec);
-  current_state = stm_ * initial_state_;
+  current_state = stm_ * initial_state_ + correction_term_;
 
   relative_position_lvlh_m_[0] = current_state[0];
   relative_position_lvlh_m_[1] = current_state[1];

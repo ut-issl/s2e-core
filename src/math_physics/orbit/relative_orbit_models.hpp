@@ -68,6 +68,17 @@ math::Matrix<6, 6> CalcMeltonStm(double orbit_radius_m, double gravity_constant_
 math::Matrix<6, 6> CalcSsStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe);
 
 /**
+ * @fn CalcSsCorrectionTerm
+ * @brief Calculate SS Correction Term
+ * @param [in] orbit_radius_m: Orbit radius [m]
+ * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
+ * @param [in] elapsed_time_s: Elapsed time [s]
+ * @param [in] reference_oe: Orbital elements of reference satellite
+ * @return State Transition Matrix
+ */
+math::Vector<6> CalcSsCorrectionTerm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe);
+
+/**
  * @fn CalcSabatiniStm
  * @brief Calculate Sabatani State Transition Matrix
  * @param [in] orbit_radius_m: Orbit radius [m]
