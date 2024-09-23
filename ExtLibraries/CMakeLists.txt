@@ -26,6 +26,6 @@ string(REPLACE "\\" "/" SETTINGS_DIR ${SETTINGS_DIR})
 
 message("ExtLibraries install dir: ${EXT_LIB_DIR}")
 
-add_subdirectory(nrlmsise00)
+#add_subdirectory(nrlmsise00)
 add_subdirectory(cspice)
 add_subdirectory(lunar_gravity_field)
