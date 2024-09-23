@@ -143,7 +143,7 @@ void RelativeOrbit::CalculateStm(orbit::StmModel stm_model_type, const Orbit* re
       break;
     }
     case orbit::StmModel::kCarter: {
-      stm_ = orbit::CalcCarterStm(reference_sat_orbit_radius, gravity_constant_m3_s2, f_ref_rad, &reference_oe);
+      // stm_ = orbit::CalcCarterStm(reference_sat_orbit_radius, gravity_constant_m3_s2, f_ref_rad, &reference_oe);
       break;
     }
     case orbit::StmModel::kYamakawaAnkersen: {
