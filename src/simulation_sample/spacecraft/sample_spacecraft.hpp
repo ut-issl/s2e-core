@@ -22,7 +22,7 @@ class SampleSpacecraft : public Spacecraft {
    * @fn SampleSpacecraft
    * @brief Constructor
    */
-  SampleSpacecraft(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
+  SampleSpacecraft(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,  RelativeInformation *relative_information,
                    const unsigned int spacecraft_id);
 
   /**

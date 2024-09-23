@@ -9,6 +9,7 @@ SampleCase::SampleCase(std::string initialise_base_file) : SimulationCase(initia
 
 SampleCase::~SampleCase() {
   delete sample_spacecraft_;
+  delete sample_spacecraft_sub_;
   delete sample_ground_station_;
 }
 
@@ -16,18 +17,21 @@ void SampleCase::InitializeTargetObjects() {
   // Instantiate the target of the simulation
   // `spacecraft_id` corresponds to the index of `spacecraft_file` in simulation_base.ini
   const int spacecraft_id = 0;
-  sample_spacecraft_ = new SampleSpacecraft(&simulation_configuration_, global_environment_, spacecraft_id);
+  sample_spacecraft_ = new SampleSpacecraft(&simulation_configuration_, global_environment_, &relative_information_, spacecraft_id);
+  sample_spacecraft_sub_ = new SampleSpacecraft(&simulation_configuration_, global_environment_, &relative_information_, 1);
   const int ground_station_id = 0;
   sample_ground_station_ = new SampleGroundStation(&simulation_configuration_, ground_station_id);
 
   // Register the log output
   sample_spacecraft_->LogSetup(*(simulation_configuration_.main_logger_));
+  sample_spacecraft_sub_->LogSetup(*(simulation_configuration_.main_logger_));
   sample_ground_station_->LogSetup(*(simulation_configuration_.main_logger_));
 }
 
 void SampleCase::UpdateTargetObjects() {
   // Spacecraft Update
   sample_spacecraft_->Update(&(global_environment_->GetSimulationTime()));
+  sample_spacecraft_sub_ ->Update(&(global_environment_->GetSimulationTime()));
   // Ground Station Update
   sample_ground_station_->Update(global_environment_->GetCelestialInformation().GetEarthRotation(), *sample_spacecraft_);
 }
