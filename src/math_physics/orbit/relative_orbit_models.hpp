@@ -100,17 +100,6 @@ math::Matrix<6, 6> CalcSabatiniStm(double orbit_radius_m, double gravity_constan
  */
 math::Matrix<6, 6> CalcCarterStm(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe);
 
-/**
- * @fn CalcYamakawaAnkersenStm
- * @brief Calculate Yamakawa-Ankersen State Transition Matrix
- * @param [in] orbit_radius_m: Orbit radius [m]
- * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
- * @param [in] f_ref_rad: True anomaly of the reference satellite [rad]
- * @param [in] reference_oe: Orbital elements of reference satellite
- * @return State Transition Matrix
- */
-math::Matrix<6, 6> CalcYamakawaAnkersenStm(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe);
-
 }  // namespace orbit
 
 #endif  // S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_HPP_

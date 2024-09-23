@@ -135,9 +135,4 @@ math::Matrix<6, 6> CalcCarterStm(double orbit_radius_m, double gravity_constant_
   return stm;
 }
 
-math::Matrix<6, 6> CalcYamakawaAnkersenStm(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe) {
-  math::Matrix<6, 6> stm;
-  // ここでstmを計算してください
-  return stm;
-}
 }  // namespace orbit

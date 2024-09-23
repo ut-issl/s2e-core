@@ -46,12 +46,6 @@ class RelativeOrbitYamanakaAnkersen {
    */
   math::Matrix<6, 6> CalculateSTM(double gravity_constant_m3_s2, double elapsed_time_s, double f_ref_rad, OrbitalElements* reference_oe);
 
-  /**
-   * @fn GetInitialInverseMatrix
-   * @brief Return initial inverse matrix
-   */
-  inline const math::Matrix<6, 6> GetInitialInverseMatrix() const { return initial_inverse_matrix_; }
-
  private:
   math::Matrix<6, 6> initial_inverse_matrix_{0.0};  //!< Gravity constant of the center body [m3/s2]
 };
