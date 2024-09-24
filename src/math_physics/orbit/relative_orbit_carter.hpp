@@ -1,10 +1,10 @@
 /**
- * @file relative_orbit_yamanaka_ankersen.hpp
- * @brief Functions to calculate Yamanaka-ANkersen STM for relative orbit
+ * @file relative_orbit_carter.hpp
+ * @brief Functions to calculate Carter's STM for relative orbit
  */
 
-#ifndef S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_YAMANAKA_ANKERSEN_HPP_
-#define S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_YAMANAKA_ANKERSEN_HPP_
+#ifndef S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_CARTER_HPP_
+#define S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_CARTER_HPP_
 
 #include "../math/matrix.hpp"
 #include "./orbital_elements.hpp"
