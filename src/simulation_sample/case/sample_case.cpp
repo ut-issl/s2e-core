@@ -26,6 +26,7 @@ void SampleCase::InitializeTargetObjects() {
   sample_spacecraft_->LogSetup(*(simulation_configuration_.main_logger_));
   sample_spacecraft_sub_->LogSetup(*(simulation_configuration_.main_logger_));
   sample_ground_station_->LogSetup(*(simulation_configuration_.main_logger_));
+  relative_information_.LogSetup(*(simulation_configuration_.main_logger_));
 }
 
 void SampleCase::UpdateTargetObjects() {
@@ -34,6 +35,8 @@ void SampleCase::UpdateTargetObjects() {
   sample_spacecraft_sub_ ->Update(&(global_environment_->GetSimulationTime()));
   // Ground Station Update
   sample_ground_station_->Update(global_environment_->GetCelestialInformation().GetEarthRotation(), *sample_spacecraft_);
+  // Relative Information
+  relative_information_.Update();
 }
 
 std::string SampleCase::GetLogHeader() const {
