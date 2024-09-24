@@ -132,42 +132,42 @@ math::Matrix<6, 6> CalcSabatiniStm(double orbit_radius_m, double gravity_constan
 math::Matrix<6, 6> CalcStateTransformationMatrixLvlhToTschaunerHampel(const double gravity_constant_m3_s2, const double eccentricity,
                                                                       const double angular_momentum_kg_m2_s, const double true_anomaly_rad) {
   math::Matrix<6, 6> transition_matrix;
-  transition_matrix[0][0] = gravity_constant_m3_s2 * (1.0 + eccentricity * cos(true_anomaly_rad)) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[0][0] = 1.0 + eccentricity * cos(true_anomaly_rad);
   transition_matrix[0][1] = 0.0;
   transition_matrix[0][2] = 0.0;
   transition_matrix[0][3] = 0.0;
   transition_matrix[0][4] = 0.0;
   transition_matrix[0][5] = 0.0;
   transition_matrix[1][0] = 0.0;
-  transition_matrix[1][1] = gravity_constant_m3_s2 * (1.0 + eccentricity * cos(true_anomaly_rad)) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[1][1] = 1.0 + eccentricity * cos(true_anomaly_rad);
   transition_matrix[1][2] = 0.0;
   transition_matrix[1][3] = 0.0;
   transition_matrix[1][4] = 0.0;
   transition_matrix[1][5] = 0.0;
   transition_matrix[2][0] = 0.0;
   transition_matrix[2][1] = 0.0;
-  transition_matrix[2][2] = gravity_constant_m3_s2 * (1.0 + eccentricity * cos(true_anomaly_rad)) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[2][2] = 1.0 + eccentricity * cos(true_anomaly_rad);
   transition_matrix[2][3] = 0.0;
   transition_matrix[2][4] = 0.0;
   transition_matrix[2][5] = 0.0;
-  transition_matrix[3][0] = -gravity_constant_m3_s2 * eccentricity * sin(true_anomaly_rad) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[3][0] = -eccentricity * sin(true_anomaly_rad);
   transition_matrix[3][1] = 0.0;
   transition_matrix[3][2] = 0.0;
-  transition_matrix[3][3] = pow(angular_momentum_kg_m2_s, 1.5) / gravity_constant_m3_s2 / (1.0 + eccentricity * cos(true_anomaly_rad));
+  transition_matrix[3][3] = pow(angular_momentum_kg_m2_s, 3.0) / pow(gravity_constant_m3_s2, 2.0) / (1.0 + eccentricity * cos(true_anomaly_rad));
   transition_matrix[3][4] = 0.0;
   transition_matrix[3][5] = 0.0;
   transition_matrix[4][0] = 0.0;
-  transition_matrix[4][1] = -gravity_constant_m3_s2 * eccentricity * sin(true_anomaly_rad) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[4][1] = -eccentricity * sin(true_anomaly_rad);
   transition_matrix[4][2] = 0.0;
   transition_matrix[4][3] = 0.0;
-  transition_matrix[4][4] = pow(angular_momentum_kg_m2_s, 1.5) / gravity_constant_m3_s2 / (1.0 + eccentricity * cos(true_anomaly_rad));
+  transition_matrix[4][4] = pow(angular_momentum_kg_m2_s, 3.0) / pow(gravity_constant_m3_s2, 2.0) / (1.0 + eccentricity * cos(true_anomaly_rad));
   transition_matrix[4][5] = 0.0;
   transition_matrix[5][0] = 0.0;
   transition_matrix[5][1] = 0.0;
-  transition_matrix[5][2] = -gravity_constant_m3_s2 * eccentricity * sin(true_anomaly_rad) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[5][2] = -eccentricity * sin(true_anomaly_rad);
   transition_matrix[5][3] = 0.0;
   transition_matrix[5][4] = 0.0;
-  transition_matrix[5][5] = pow(angular_momentum_kg_m2_s, 1.5) / gravity_constant_m3_s2 / (1.0 + eccentricity * cos(true_anomaly_rad));
+  transition_matrix[5][5] = pow(angular_momentum_kg_m2_s, 3.0) / pow(gravity_constant_m3_s2, 2.0) / (1.0 + eccentricity * cos(true_anomaly_rad));
 
   return transition_matrix;
 }
@@ -175,42 +175,42 @@ math::Matrix<6, 6> CalcStateTransformationMatrixLvlhToTschaunerHampel(const doub
 math::Matrix<6, 6> CalcStateTransformationMatrixTschaunerHampelToLvlh(const double gravity_constant_m3_s2, const double eccentricity,
                                                                       const double angular_momentum_kg_m2_s, const double true_anomaly_rad) {
   math::Matrix<6, 6> transition_matrix;
-  transition_matrix[0][0] = pow(angular_momentum_kg_m2_s, 1.5) / gravity_constant_m3_s2 / (1.0 + eccentricity * cos(true_anomaly_rad));
+  transition_matrix[0][0] = 1.0 / (1.0 + eccentricity * cos(true_anomaly_rad));
   transition_matrix[0][1] = 0.0;
   transition_matrix[0][2] = 0.0;
   transition_matrix[0][3] = 0.0;
   transition_matrix[0][4] = 0.0;
   transition_matrix[0][5] = 0.0;
   transition_matrix[1][0] = 0.0;
-  transition_matrix[1][1] = pow(angular_momentum_kg_m2_s, 1.5) / gravity_constant_m3_s2 / (1.0 + eccentricity * cos(true_anomaly_rad));
+  transition_matrix[1][1] = 1.0 / (1.0 + eccentricity * cos(true_anomaly_rad));
   transition_matrix[1][2] = 0.0;
   transition_matrix[1][3] = 0.0;
   transition_matrix[1][4] = 0.0;
   transition_matrix[1][5] = 0.0;
   transition_matrix[2][0] = 0.0;
   transition_matrix[2][1] = 0.0;
-  transition_matrix[2][2] = pow(angular_momentum_kg_m2_s, 1.5) / gravity_constant_m3_s2 / (1.0 + eccentricity * cos(true_anomaly_rad));
+  transition_matrix[2][2] = 1.0 / (1.0 + eccentricity * cos(true_anomaly_rad));
   transition_matrix[2][3] = 0.0;
   transition_matrix[2][4] = 0.0;
   transition_matrix[2][5] = 0.0;
-  transition_matrix[3][0] = gravity_constant_m3_s2 * eccentricity * sin(true_anomaly_rad) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[3][0] = pow(gravity_constant_m3_s2, 2.0) * eccentricity * sin(true_anomaly_rad) / pow(angular_momentum_kg_m2_s, 3.0);
   transition_matrix[3][1] = 0.0;
   transition_matrix[3][2] = 0.0;
-  transition_matrix[3][3] = gravity_constant_m3_s2 * (1.0 + eccentricity * cos(true_anomaly_rad)) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[3][3] = pow(gravity_constant_m3_s2, 2.0) * (1.0 + eccentricity * cos(true_anomaly_rad)) / pow(angular_momentum_kg_m2_s, 3.0);
   transition_matrix[3][4] = 0.0;
   transition_matrix[3][5] = 0.0;
   transition_matrix[4][0] = 0.0;
-  transition_matrix[4][1] = gravity_constant_m3_s2 * eccentricity * sin(true_anomaly_rad) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[4][1] = pow(gravity_constant_m3_s2, 2.0) * eccentricity * sin(true_anomaly_rad) / pow(angular_momentum_kg_m2_s, 3.0);
   transition_matrix[4][2] = 0.0;
   transition_matrix[4][3] = 0.0;
-  transition_matrix[4][4] = gravity_constant_m3_s2 * (1.0 + eccentricity * cos(true_anomaly_rad)) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[4][4] = pow(gravity_constant_m3_s2, 2.0) * (1.0 + eccentricity * cos(true_anomaly_rad)) / pow(angular_momentum_kg_m2_s, 3.0);
   transition_matrix[4][5] = 0.0;
   transition_matrix[5][0] = 0.0;
   transition_matrix[5][1] = 0.0;
-  transition_matrix[5][2] = gravity_constant_m3_s2 * eccentricity * sin(true_anomaly_rad) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[5][2] = pow(gravity_constant_m3_s2, 2.0) * eccentricity * sin(true_anomaly_rad) / pow(angular_momentum_kg_m2_s, 3.0);
   transition_matrix[5][3] = 0.0;
   transition_matrix[5][4] = 0.0;
-  transition_matrix[5][5] = gravity_constant_m3_s2 * (1.0 + eccentricity * cos(true_anomaly_rad)) / pow(angular_momentum_kg_m2_s, 1.5);
+  transition_matrix[5][5] = pow(gravity_constant_m3_s2, 2.0) * (1.0 + eccentricity * cos(true_anomaly_rad)) / pow(angular_momentum_kg_m2_s, 3.0);
 
   return transition_matrix;
 }
