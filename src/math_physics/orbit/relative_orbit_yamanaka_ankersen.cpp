@@ -22,36 +22,41 @@ void RelativeOrbitYamanakaAnkersen::CalculateInitialInverseMatrix(double f_ref_r
   const double c = k * cos(f_ref_rad);
   const double s = k * sin(f_ref_rad);
 
-  initial_inverse_matrix_[0][0] = -3.0 * s * (k + pow(e, 2.0) / pow(k, 2.0));
+  initial_inverse_matrix_[0][0] = -3.0 * s * ((k + pow(e, 2.0)) / pow(k, 2.0));
   initial_inverse_matrix_[0][1] = 0.0;
   initial_inverse_matrix_[0][2] = 0.0;
   initial_inverse_matrix_[0][3] = c - 2.0 * e;
   initial_inverse_matrix_[0][4] = -s * (k + 1) / k;
   initial_inverse_matrix_[0][5] = 0.0;
+
   initial_inverse_matrix_[1][0] = 3.0 * k - pow(eta, 2.0);
   initial_inverse_matrix_[1][1] = 0.0;
   initial_inverse_matrix_[1][2] = 0.0;
   initial_inverse_matrix_[1][3] = e * s;
   initial_inverse_matrix_[1][4] = pow(k, 2.0);
   initial_inverse_matrix_[1][5] = 0.0;
+
   initial_inverse_matrix_[2][0] = 0.0;
   initial_inverse_matrix_[2][1] = 0.0;
   initial_inverse_matrix_[2][2] = pow(eta, 2.0) * cos(f_ref_rad);
   initial_inverse_matrix_[2][3] = 0.0;
   initial_inverse_matrix_[2][4] = 0.0;
   initial_inverse_matrix_[2][5] = -pow(eta, 2.0) * sin(f_ref_rad);
+
   initial_inverse_matrix_[3][0] = -3.0 * (e + c / k);
   initial_inverse_matrix_[3][1] = 0.0;
   initial_inverse_matrix_[3][2] = 0.0;
   initial_inverse_matrix_[3][3] = -s;
   initial_inverse_matrix_[3][4] = -(c * (k + 1) / k + e);
   initial_inverse_matrix_[3][5] = 0.0;
+
   initial_inverse_matrix_[4][0] = -3.0 * e * s * (k + 1) / pow(k, 2.0);
   initial_inverse_matrix_[4][1] = pow(eta, 2.0);
   initial_inverse_matrix_[4][2] = 0.0;
   initial_inverse_matrix_[4][3] = -2.0 + e * c;
   initial_inverse_matrix_[4][4] = -e * s * (k + 1) / k;
   initial_inverse_matrix_[4][5] = 0.0;
+  
   initial_inverse_matrix_[5][0] = 0.0;
   initial_inverse_matrix_[5][1] = 0.0;
   initial_inverse_matrix_[5][2] = pow(eta, 2.0) * sin(f_ref_rad);
@@ -87,30 +92,35 @@ math::Matrix<6, 6> RelativeOrbitYamanakaAnkersen::CalculateSTM(double gravity_co
   update_matrix[0][3] = c;
   update_matrix[0][4] = 0.0;
   update_matrix[0][5] = 0.0;
+
   update_matrix[1][0] = c * (1 + 1 / k);
   update_matrix[1][1] = -3.0 * pow(k, 2.0) * I;
   update_matrix[1][2] = 0.0;
   update_matrix[1][3] = -s * (1.0 + 1.0 / k);
   update_matrix[1][4] = 1.0;
   update_matrix[1][5] = 0.0;
+
   update_matrix[2][0] = 0.0;
   update_matrix[2][1] = 0.0;
   update_matrix[2][2] = cos(f_ref_rad);
   update_matrix[2][3] = 0.0;
   update_matrix[2][4] = 0.0;
   update_matrix[2][5] = sin(f_ref_rad);
+
   update_matrix[3][0] = s_prime;
   update_matrix[3][1] = -3.0 * e * (s_prime * I + s / pow(k, 2.0));
   update_matrix[3][2] = 0.0;
   update_matrix[3][3] = c_prime;
   update_matrix[3][4] = 0.0;
   update_matrix[3][5] = 0.0;
+
   update_matrix[4][0] = -2.0 * s;
   update_matrix[4][1] = -3.0 * (1.0 - 2.0 * e * s * I);
   update_matrix[4][2] = 0.0;
   update_matrix[4][3] = e - 2.0 * c;
   update_matrix[4][4] = 0.0;
   update_matrix[4][5] = 0.0;
+
   update_matrix[5][0] = 0.0;
   update_matrix[5][1] = 0.0;
   update_matrix[5][2] = -sin(f_ref_rad);
