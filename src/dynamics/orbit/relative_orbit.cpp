@@ -100,7 +100,7 @@ void RelativeOrbit::InitializeStmMatrix(orbit::StmModel stm_model_type, const Or
 
   switch (stm_model_type) {
     case orbit::StmModel::kYamakawaAnkersen:
-      relative_orbit_yamanaka_ankersen_->CalculateInitialInverseMatrix(f_ref_rad, &reference_oe);
+      relative_orbit_yamanaka_ankersen_.CalculateInitialInverseMatrix(f_ref_rad, &reference_oe);
       break;
 
     default:
@@ -147,7 +147,7 @@ void RelativeOrbit::CalculateStm(orbit::StmModel stm_model_type, const Orbit* re
       break;
     }
     case orbit::StmModel::kYamakawaAnkersen: {
-      stm_ = relative_orbit_yamanaka_ankersen_->CalculateSTM(gravity_constant_m3_s2, elapsed_sec, f_ref_rad, &reference_oe);
+      stm_ = relative_orbit_yamanaka_ankersen_.CalculateSTM(gravity_constant_m3_s2, elapsed_sec, f_ref_rad, &reference_oe);
       break;
     }
     default: {
