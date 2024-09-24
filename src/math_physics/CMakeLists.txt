@@ -32,6 +32,7 @@ add_library(${PROJECT_NAME} STATIC
   orbit/orbital_elements.cpp
   orbit/kepler_orbit.cpp
   orbit/relative_orbit_models.cpp
+  orbit/relative_orbit_yamanaka_ankersen.cpp
   orbit/interpolation_orbit.cpp
   orbit/sgp4/sgp4ext.cpp
   orbit/sgp4/sgp4io.cpp

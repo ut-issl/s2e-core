@@ -42,7 +42,9 @@ class SampleCase : public SimulationCase {
 
  private:
   SampleSpacecraft* sample_spacecraft_;         //!< Instance of spacecraft
+  SampleSpacecraft* sample_spacecraft_sub_;     //!< Instance of spacecraft
   SampleGroundStation* sample_ground_station_;  //!< Instance of ground station
+  RelativeInformation relative_information_;    //!< Relative information
 
   /**
    * @fn InitializeTargetObjects

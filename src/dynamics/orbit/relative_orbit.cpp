@@ -58,6 +58,8 @@ void RelativeOrbit::InitializeState(math::Vector<3> relative_position_lvlh_m, ma
                           gravity_constant_m3_s2);
   } else  // update_method_ == STM
   {
+    InitializeStmMatrix(stm_model_type_, &(relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit()),
+                        gravity_constant_m3_s2, 0.0);
     CalculateStm(stm_model_type_, &(relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit()), gravity_constant_m3_s2,
                  0.0);
   }
@@ -80,12 +82,73 @@ void RelativeOrbit::CalculateSystemMatrix(orbit::RelativeOrbitModel relative_dyn
   }
 }
 
+void RelativeOrbit::InitializeStmMatrix(orbit::StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2,
+                                        double elapsed_sec) {
+  orbit::OrbitalElements reference_oe =
+      orbit::OrbitalElements(gravity_constant_m3_s2_, elapsed_sec, reference_sat_orbit->GetPosition_i_m(), reference_sat_orbit->GetVelocity_i_m_s());
+  math::Vector<3> position_i_m = reference_sat_orbit->GetPosition_i_m();
+  double reference_sat_orbit_radius = position_i_m.CalcNorm();
+  // Temporary codes for the integration by true anomaly
+  double raan_rad = reference_oe.GetRaan_rad();
+  double inclination_rad = reference_oe.GetInclination_rad();
+  double arg_perigee_rad = reference_oe.GetArgPerigee_rad();
+  double x_p_m = position_i_m[0] * cos(raan_rad) + position_i_m[1] * sin(raan_rad);
+  double tmp_m = -position_i_m[0] * sin(raan_rad) + position_i_m[1] * cos(raan_rad);
+  double y_p_m = tmp_m * cos(inclination_rad) + position_i_m[2] * sin(inclination_rad);
+  double phi_rad = atan2(y_p_m, x_p_m);
+  double f_ref_rad = phi_rad - arg_perigee_rad;
+
+  switch (stm_model_type) {
+    case orbit::StmModel::kYamakawaAnkersen:
+      relative_orbit_yamanaka_ankersen_.CalculateInitialInverseMatrix(f_ref_rad, &reference_oe);
+      break;
+
+    default:
+      break;
+  }
+}
+
 void RelativeOrbit::CalculateStm(orbit::StmModel stm_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2,
                                  double elapsed_sec) {
+  orbit::OrbitalElements reference_oe =
+      orbit::OrbitalElements(gravity_constant_m3_s2_, elapsed_sec, reference_sat_orbit->GetPosition_i_m(), reference_sat_orbit->GetVelocity_i_m_s());
+  math::Vector<3> position_i_m = reference_sat_orbit->GetPosition_i_m();
+  double reference_sat_orbit_radius = position_i_m.CalcNorm();
+  // Temporary codes for the integration by true anomaly
+  double raan_rad = reference_oe.GetRaan_rad();
+  double inclination_rad = reference_oe.GetInclination_rad();
+  double arg_perigee_rad = reference_oe.GetArgPerigee_rad();
+  double x_p_m = position_i_m[0] * cos(raan_rad) + position_i_m[1] * sin(raan_rad);
+  double tmp_m = -position_i_m[0] * sin(raan_rad) + position_i_m[1] * cos(raan_rad);
+  double y_p_m = tmp_m * cos(inclination_rad) + position_i_m[2] * sin(inclination_rad);
+  double phi_rad = atan2(y_p_m, x_p_m);
+  double f_ref_rad = phi_rad - arg_perigee_rad;
+
   switch (stm_model_type) {
     case orbit::StmModel::kHcw: {
-      double reference_sat_orbit_radius = reference_sat_orbit->GetPosition_i_m().CalcNorm();
       stm_ = orbit::CalcHcwStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec);
+      break;
+    }
+    case orbit::StmModel::kMelton: {
+      stm_ = orbit::CalcMeltonStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
+      break;
+    }
+    case orbit::StmModel::kSs: {
+      stm_ = orbit::CalcSsStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
+      correction_term_ = orbit::CalcSsCorrectionTerm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
+      break;
+    }
+    case orbit::StmModel::kSabatini: {
+      stm_ = orbit::CalcSabatiniStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
+      break;
+    }
+    case orbit::StmModel::kCarter: {
+      stm_ = orbit::CalcCarterStm(reference_sat_orbit_radius, gravity_constant_m3_s2, f_ref_rad, &reference_oe);
+      break;
+    }
+    case orbit::StmModel::kYamakawaAnkersen: {
+      stm_ = relative_orbit_yamanaka_ankersen_.CalculateSTM(gravity_constant_m3_s2, elapsed_sec, f_ref_rad, &reference_oe);
+      break;
     }
     default: {
       // NOT REACHED
@@ -141,7 +204,7 @@ void RelativeOrbit::PropagateStm(double elapsed_sec) {
   math::Vector<6> current_state;
   CalculateStm(stm_model_type_, &(relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit()), gravity_constant_m3_s2_,
                elapsed_sec);
-  current_state = stm_ * initial_state_;
+  current_state = stm_ * initial_state_ + correction_term_;
 
   relative_position_lvlh_m_[0] = current_state[0];
   relative_position_lvlh_m_[1] = current_state[1];
