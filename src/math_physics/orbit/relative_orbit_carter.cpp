@@ -14,9 +14,7 @@ RelativeOrbitCarter::RelativeOrbitCarter() {}
 
 RelativeOrbitCarter::~RelativeOrbitCarter() {}
 
-void RelativeOrbitCarter::CalculateInitialInverseMatrix(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad,
-                                                                  OrbitalElements* reference_oe) {
-  // double n = sqrt(gravity_constant_m3_s2 / pow(orbit_radius_m, 3));
+void RelativeOrbitCarter::CalculateInitialInverseMatrix(double orbit_radius_m, double f_ref_rad, OrbitalElements* reference_oe) {
   double e = reference_oe->GetEccentricity();
   double E_rad = 2 * atan(sqrt((1 - e) / (1 + e)) * tan(f_ref_rad / 2));
   double k = e * cos(f_ref_rad) + 1;

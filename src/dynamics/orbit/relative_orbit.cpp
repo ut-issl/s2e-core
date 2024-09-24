@@ -103,7 +103,7 @@ void RelativeOrbit::InitializeStmMatrix(orbit::StmModel stm_model_type, const Or
       relative_orbit_yamanaka_ankersen_.CalculateInitialInverseMatrix(f_ref_rad, &reference_oe);
       break;
     case orbit::StmModel::kCarter:
-      relative_orbit_carter_.CalculateInitialInverseMatrix(reference_sat_orbit_radius, gravity_constant_m3_s2, f_ref_rad, &reference_oe);
+      relative_orbit_carter_.CalculateInitialInverseMatrix(reference_sat_orbit_radius, f_ref_rad, &reference_oe);
       break;
 
     default:
