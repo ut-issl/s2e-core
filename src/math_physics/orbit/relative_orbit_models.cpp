@@ -111,7 +111,6 @@ math::Matrix<6, 6> CalcMeltonStm(double orbit_radius_m, double gravity_constant_
   return stm;
 }
 
-// TODO : implement
 math::Matrix<6, 6> CalcSsStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe) {
   math::Matrix<6, 6> stm;
 
