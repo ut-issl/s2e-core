@@ -87,8 +87,8 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
   orbit::RelativeOrbitModel relative_dynamics_model_type_;                  //!< Relative dynamics model type
   orbit::StmModel stm_model_type_;                                          //!< State Transition Matrix model type
   RelativeInformation* relative_information_;                               //!< Relative information
-  orbit::RelativeOrbitYamanakaAnkersen* relative_orbit_yamanaka_ankersen_;  //!< Relative Orbit Calcilater with Yamanaka-Ankersen's STM
-  orbit::RelativeOrbitCarter* relative_orbit_carter_;                       //!< Relative Orbit Calcilater with Carter's STM
+  orbit::RelativeOrbitYamanakaAnkersen relative_orbit_yamanaka_ankersen_;  //!< Relative Orbit Calcilater with Yamanaka-Ankersen's STM
+  orbit::RelativeOrbitCarter relative_orbit_carter_;                       //!< Relative Orbit Calcilater with Carter's STM
 
   /**
    * @fn InitializeState
