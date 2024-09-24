@@ -17,7 +17,7 @@ RelativeOrbitYamanakaAnkersen::~RelativeOrbitYamanakaAnkersen() {}
 void RelativeOrbitYamanakaAnkersen::CalculateInitialInverseMatrix(double f_ref_rad, OrbitalElements* reference_oe) {
   // The following variables are defined in Spacecraft Formation Flying (Section 5.6.4)
   const double e = reference_oe->GetEccentricity();
-  const double eta = pow(1 + pow(e, 2.0), 0.5);
+  const double eta = pow(1 - pow(e, 2.0), 0.5);
   const double k = 1 + e * cos(f_ref_rad);
   const double c = k * cos(f_ref_rad);
   const double s = k * sin(f_ref_rad);
@@ -56,7 +56,7 @@ void RelativeOrbitYamanakaAnkersen::CalculateInitialInverseMatrix(double f_ref_r
   initial_inverse_matrix_[4][3] = -2.0 + e * c;
   initial_inverse_matrix_[4][4] = -e * s * (k + 1) / k;
   initial_inverse_matrix_[4][5] = 0.0;
-  
+
   initial_inverse_matrix_[5][0] = 0.0;
   initial_inverse_matrix_[5][1] = 0.0;
   initial_inverse_matrix_[5][2] = pow(eta, 2.0) * sin(f_ref_rad);
@@ -66,7 +66,7 @@ void RelativeOrbitYamanakaAnkersen::CalculateInitialInverseMatrix(double f_ref_r
 
   for (int i = 0; i < 6; i++) {
     for (int j = 0; j < 6; j++) {
-      initial_inverse_matrix_[i][j] = 1 / pow(eta, 2.0) * initial_inverse_matrix_[0][0];
+      initial_inverse_matrix_[i][j] = 1 / pow(eta, 2.0) * initial_inverse_matrix_[i][j];
     }
   }
 }
