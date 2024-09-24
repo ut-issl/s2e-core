@@ -6,6 +6,7 @@
 
 #include <environment/global/physical_constants.hpp>
 
+#include "./relative_orbit_models.hpp"
 #include "./sgp4/sgp4unit.h"  // for getgravconst()
 
 namespace orbit {
@@ -14,25 +15,28 @@ RelativeOrbitCarter::RelativeOrbitCarter() {}
 
 RelativeOrbitCarter::~RelativeOrbitCarter() {}
 
-void RelativeOrbitCarter::CalculateInitialInverseMatrix(double orbit_radius_m, double f_ref_rad, OrbitalElements* reference_oe) {
+void RelativeOrbitCarter::CalculateInitialInverseMatrix(double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe) {
   double e = reference_oe->GetEccentricity();
+  double a = reference_oe->GetSemiMajorAxis_m();
+  double h = pow(a * (1.0 - pow(e, 2)) * gravity_constant_m3_s2, 0.5);  // angular momentum
+
   double E_rad = 2.0 * atan(sqrt((1.0 - e) / (1.0 + e)) * tan(f_ref_rad / 2.0));
   double k = e * cos(f_ref_rad) + 1.0;
   // double K1 = pow(1 - e * e, -2.5) * (-1.5 * e * E_rad + (1 + e * e) * sin(E_rad) - e * sin(2. * E_rad) / 4.);
-  double K2 = pow(1.0 - e * e, -2.5) * (0.5 * E_rad - 0.25 * sin(2.0 * E_rad) - e * pow(sin(E_rad), 3.0) / 3.0);
+  double K2 = pow(1.0 - pow(e, 2.0), -2.5) * (0.5 * E_rad - 0.25 * sin(2.0 * E_rad) - e * pow(sin(E_rad), 3.0) / 3.0);
   double phi1 = sin(f_ref_rad) * k;
-  double phi2 = 2.0 * e * phi1 * (sin(f_ref_rad) / pow(k, 3) - K2) - cos(f_ref_rad) / k;
-  double phi3 = (6.0 * e * phi1 * K2 - (2.0 * pow(sin(f_ref_rad), 2.0) / pow(k, 2.0)) - (pow(cos(f_ref_rad), 2.0) / k) - pow(cos(f_ref_rad), 2.0));
+  double phi2 = 2.0 * e * phi1 * (sin(f_ref_rad) / pow(k, 3) - 3.0 * e * K2) - cos(f_ref_rad) / k;
+  double phi3 = 6.0 * e * phi1 * K2 - 2.0 * pow(sin(f_ref_rad), 2.0) / pow(k, 2.0) - pow(cos(f_ref_rad), 2.0) / k - pow(cos(f_ref_rad), 2.0);
   double phi1_prime = cos(f_ref_rad) * k - e * pow(sin(f_ref_rad), 2.0);
-  // double sigma4 = atan(tan(f_ref_rad / 2) * sqrt(-(e - 1) / (e + 1)));
-  double term1_phi2_prime = sin(f_ref_rad) / k;
-  double term2_phi2_prime = 2.0 * e * sin(f_ref_rad) * k * (cos(f_ref_rad) / pow(k, 3)) - (cos(f_ref_rad) / pow(1 - pow(e, 2), 5.0 / 2.0));
-  double phi2_prime = term1_phi2_prime + term2_phi2_prime;
-  double phi3_prime = k - 4.0 * e * pow(sin(f_ref_rad), 3) / pow(E_rad / 2.0, 3.0) + 2.0 * cos(f_ref_rad) * sin(f_ref_rad) / pow(E_rad / 2.0, 2.0) -
-                      6.0 * e * cos(f_ref_rad) * E_rad / 2. / pow(1 - pow(e, 2), 5.0 / 2.0);
-  double S1 = -cos(f_ref_rad) - (e / 2.0) * pow(cos(f_ref_rad), 2);
-  double S2 = 3.0 * e * k * k * K2 - (sin(f_ref_rad) / k);
-  double S3 = -6.0 * k * k * K2 - ((2.0 + k) / (2.0 * k)) * sin(2.0 * f_ref_rad);
+  double phi2_prime = -6.0 * pow(e, 2.0) * phi1_prime * K2 +
+                      2.0 * e * sin(f_ref_rad) * (2.0 * cos(f_ref_rad) - 3.0 * e * pow(sin(f_ref_rad), 2.0) + 2.0 * e) / pow(k, 3.0) +
+                      sin(f_ref_rad) / pow(k, 2.0);
+  double phi3_prime = 6.0 * e * phi1_prime * K2 - (6.0 * e * pow(sin(f_ref_rad), 3.0) - 4.0 * sin(f_ref_rad) * (e + cos(f_ref_rad))) / pow(k, 3.0) +
+                      0.5 * sin(2 * f_ref_rad) * (2.0 + (2.0 + e * cos(f_ref_rad)) * pow(k, 2.0));
+  double S1 = -cos(f_ref_rad) * (1.0 + 0.5 * e * cos(f_ref_rad));
+  double S2 = 3.0 * e * pow(k, 2.0) * K2 - sin(f_ref_rad) / k;
+  double S3 = -6.0 * pow(k, 2.0) * K2 - (2.0 + k) / 2.0 / k * sin(2.0 * f_ref_rad);
+
   initial_inverse_matrix_[0][0] = 4.0 * S2 + phi2_prime;
   initial_inverse_matrix_[0][1] = 0.0;
   initial_inverse_matrix_[0][2] = 0.0;
@@ -69,31 +73,34 @@ void RelativeOrbitCarter::CalculateInitialInverseMatrix(double orbit_radius_m, d
   initial_inverse_matrix_[5][3] = 0.0;
   initial_inverse_matrix_[5][4] = 0.0;
   initial_inverse_matrix_[5][5] = cos(f_ref_rad);
+
+  initial_inverse_matrix_ =
+      initial_inverse_matrix_ * orbit::CalcStateTransformationMatrixLvlhToTschaunerHampel(gravity_constant_m3_s2, e, h, f_ref_rad);
 }
 
 math::Matrix<6, 6> RelativeOrbitCarter::CalculateSTM(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad,
                                                      OrbitalElements* reference_oe) {
   math::Matrix<6, 6> stm;
-  // ここでstmを計算してください
-  double n = sqrt(gravity_constant_m3_s2 / pow(orbit_radius_m, 3));
   double e = reference_oe->GetEccentricity();
-  double E_rad = 2 * atan(sqrt((1 - e) / (1 + e)) * tan(f_ref_rad / 2));
-  double k = e * cos(f_ref_rad) + 1;
-  double K1 = pow(1 - e * e, -2.5) * (-1.5 * e * E_rad + (1 + e * e) * sin(E_rad) - e * sin(2. * E_rad) / 4.);
-  double K2 = pow(1 - e * e, -2.5) * (0.5 * E_rad - 0.25 * sin(2 * E_rad) - e * pow(sin(E_rad), 3) / 3.);
+  double a = reference_oe->GetSemiMajorAxis_m();
+  double h = pow(a * (1 - pow(e, 2)) * gravity_constant_m3_s2, 0.5);  // angular momentum
+  double E_rad = 2.0 * atan(sqrt((1.0 - e) / (1.0 + e)) * tan(f_ref_rad / 2.0));
+  double k = e * cos(f_ref_rad) + 1.0;
+  // double K1 = pow(1 - e * e, -2.5) * (-1.5 * e * E_rad + (1 + e * e) * sin(E_rad) - e * sin(2. * E_rad) / 4.);
+  double K2 = pow(1.0 - pow(e, 2.0), -2.5) * (0.5 * E_rad - 0.25 * sin(2.0 * E_rad) - e * pow(sin(E_rad), 3.0) / 3.0);
   double phi1 = sin(f_ref_rad) * k;
-  double phi2 = 2 * e * phi1 * (sin(f_ref_rad) / pow(k, 3) - K2) - cos(f_ref_rad) / k;
-  double phi3 = (6 * e * phi1 * K2 - (2 * pow(sin(f_ref_rad), 2) / pow(k, 2)) - (pow(cos(f_ref_rad), 2) / k) - pow(cos(f_ref_rad), 2));
-  double phi1_prime = cos(f_ref_rad) * k - e * pow(sin(f_ref_rad), 2);
-  double sigma4 = atan(tan(f_ref_rad / 2) * sqrt(-(e - 1) / (e + 1)));
-  double term1_phi2_prime = sin(f_ref_rad) / k;
-  double term2_phi2_prime = 2 * e * sin(f_ref_rad) * k * (cos(f_ref_rad) / pow(k, 3)) - (cos(f_ref_rad) / pow(1 - pow(e, 2), 5.0 / 2.0));
-  double phi2_prime = term1_phi2_prime + term2_phi2_prime;
-  double phi3_prime = k - 4 * e * pow(sin(f_ref_rad), 3) / pow(E_rad / 2., 3) + 2 * cos(f_ref_rad) * sin(f_ref_rad) / pow(E_rad / 2., 2) -
-                      6 * e * cos(f_ref_rad) * E_rad / 2. / pow(1 - pow(e, 2), 5.0 / 2.0);
-  double S1 = -cos(f_ref_rad) - (e / 2.0) * pow(cos(f_ref_rad), 2);
-  double S2 = 3 * e * k * k * K2 - (sin(f_ref_rad) / k);
-  double S3 = -6 * k * k * K2 - ((2 + k) / (2 * k)) * sin(2 * f_ref_rad);
+  double phi2 = 2.0 * e * phi1 * (sin(f_ref_rad) / pow(k, 3) - 3.0 * e * K2) - cos(f_ref_rad) / k;
+  double phi3 = 6.0 * e * phi1 * K2 - 2.0 * pow(sin(f_ref_rad), 2.0) / pow(k, 2.0) - pow(cos(f_ref_rad), 2.0) / k - pow(cos(f_ref_rad), 2.0);
+  double phi1_prime = cos(f_ref_rad) * k - e * pow(sin(f_ref_rad), 2.0);
+  double phi2_prime = -6.0 * pow(e, 2.0) * phi1_prime * K2 +
+                      2.0 * e * sin(f_ref_rad) * (2.0 * cos(f_ref_rad) - 3.0 * e * pow(sin(f_ref_rad), 2.0) + 2.0 * e) / pow(k, 3.0) +
+                      sin(f_ref_rad) / pow(k, 2.0);
+  double phi3_prime = 6.0 * e * phi1_prime * K2 - (6.0 * e * pow(sin(f_ref_rad), 3.0) - 4.0 * sin(f_ref_rad) * (e + cos(f_ref_rad))) / pow(k, 3.0) +
+                      0.5 * sin(2 * f_ref_rad) * (2.0 + (2.0 + e * cos(f_ref_rad)) * pow(k, 2.0));
+  double S1 = -cos(f_ref_rad) * (1.0 + 0.5 * e * cos(f_ref_rad));
+  double S2 = 3.0 * e * pow(k, 2.0) * K2 - sin(f_ref_rad) / k;
+  double S3 = -6.0 * pow(k, 2.0) * K2 - (2.0 + k) / 2.0 / k * sin(2.0 * f_ref_rad);
+
   stm[0][0] = phi1;
   stm[0][1] = phi3;
   stm[0][2] = 0.0;
@@ -130,7 +137,7 @@ math::Matrix<6, 6> RelativeOrbitCarter::CalculateSTM(double orbit_radius_m, doub
   stm[5][3] = 0.0;
   stm[5][4] = 0.0;
   stm[5][5] = cos(f_ref_rad);
-  return stm * initial_inverse_matrix_;
+  return orbit::CalcStateTransformationMatrixTschaunerHampelToLvlh(gravity_constant_m3_s2, e, h, f_ref_rad) * stm * initial_inverse_matrix_;
 }
 
 }  // namespace orbit

@@ -99,11 +99,11 @@ void RelativeOrbit::InitializeStmMatrix(orbit::StmModel stm_model_type, const Or
   double f_ref_rad = phi_rad - arg_perigee_rad;
 
   switch (stm_model_type) {
+    case orbit::StmModel::kCarter:
+      relative_orbit_carter_.CalculateInitialInverseMatrix(gravity_constant_m3_s2, f_ref_rad, &reference_oe);
+      break;
     case orbit::StmModel::kYamakawaAnkersen:
       relative_orbit_yamanaka_ankersen_.CalculateInitialInverseMatrix(f_ref_rad, &reference_oe);
-      break;
-    case orbit::StmModel::kCarter:
-      relative_orbit_carter_.CalculateInitialInverseMatrix(reference_sat_orbit_radius, f_ref_rad, &reference_oe);
       break;
 
     default:
