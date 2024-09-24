@@ -31,10 +31,11 @@ class RelativeOrbitYamanakaAnkersen {
   /**
    * @fn CalculateInitialInverseMatrix
    * @brief Calculate position and velocity with Kepler orbit propagation
+   * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
    * @param [in] f_ref_rad: True anomaly of the reference satellite [rad]
    * @param [in] reference_oe: Orbital elements of reference satellite
    */
-  void CalculateInitialInverseMatrix(double f_ref_rad, OrbitalElements* reference_oe);
+  void CalculateInitialInverseMatrix(double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe);
 
   /**
    * @fn CalculateSTM
