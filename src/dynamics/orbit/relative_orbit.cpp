@@ -113,6 +113,7 @@ void RelativeOrbit::CalculateStm(orbit::StmModel stm_model_type, const Orbit* re
   orbit::OrbitalElements reference_oe =
       orbit::OrbitalElements(gravity_constant_m3_s2_, elapsed_sec, reference_sat_orbit->GetPosition_i_m(), reference_sat_orbit->GetVelocity_i_m_s());
   math::Vector<3> position_i_m = reference_sat_orbit->GetPosition_i_m();
+  math::Vector<3> velocity_i_m_s = reference_sat_orbit->GetVelocity_i_m_s();
   double reference_sat_orbit_radius = position_i_m.CalcNorm();
   // Temporary codes for the integration by true anomaly
   double raan_rad = reference_oe.GetRaan_rad();
@@ -139,7 +140,7 @@ void RelativeOrbit::CalculateStm(orbit::StmModel stm_model_type, const Orbit* re
       break;
     }
     case orbit::StmModel::kSabatini: {
-      stm_ = orbit::CalcSabatiniStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
+      stm_ = orbit::CalcSabatiniStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, f_ref_rad, position_i_m, velocity_i_m_s, &reference_oe);
       break;
     }
     case orbit::StmModel::kCarter: {

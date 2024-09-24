@@ -8,6 +8,7 @@
 
 #include "../math/matrix.hpp"
 #include "../math/vector.hpp"
+#include "../../dynamics/orbit/orbit.hpp"
 #include "./orbital_elements.hpp"
 
 namespace orbit {
@@ -87,7 +88,7 @@ math::Vector<6> CalcSsCorrectionTerm(double orbit_radius_m, double gravity_const
  * @param [in] reference_oe: Orbital elements of reference satellite
  * @return State Transition Matrix
  */
-math::Matrix<6, 6> CalcSabatiniStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe);
+math::Matrix<6, 6> CalcSabatiniStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, double f_ref_rad, math::Vector<3> position_i_m_s, math::Vector<3> velocity_i_m_s, OrbitalElements* reference_oe);
 
 /**
  * @fn CalcCarterStm
