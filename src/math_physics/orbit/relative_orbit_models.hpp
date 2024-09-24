@@ -90,15 +90,28 @@ math::Vector<6> CalcSsCorrectionTerm(double orbit_radius_m, double gravity_const
 math::Matrix<6, 6> CalcSabatiniStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe);
 
 /**
- * @fn CalcCarterStm
- * @brief Calculate Carter State Transition Matrix
- * @param [in] orbit_radius_m: Orbit radius [m]
+ * @fn CalcStateTransformationMatrixLvlhToTschaunerHampel
+ * @brief Calculate state tranformation matrix from the state variables in the LVLH frame to the state variables for Tschauner-Hampel equation.
  * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
- * @param [in] f_ref_rad: True anomaly of the reference satellite [rad]
- * @param [in] reference_oe: Orbital elements of reference satellite
- * @return State Transition Matrix
+ * @param [in] eccentricity: Eccentricity []
+ * @param [in] angular_momentum_kg_m2_s: Angular momentum of the spacecraft [kg*m2/s]
+ * @param [in] true_anomaly_rad: True anomaly of the spacecraft [rad]
+ * @param
  */
-math::Matrix<6, 6> CalcCarterStm(double orbit_radius_m, double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe);
+math::Matrix<6, 6> CalcStateTransformationMatrixLvlhToTschaunerHampel(const double gravity_constant_m3_s2, const double eccentricity,
+                                                                      const double angular_momentum_kg_m2_s, const double true_anomaly_rad);
+
+/**
+ * @fn CalcStateTransformationMatrixTschaunerHampelToLvlh
+ * @brief Calculate state tranformation matrix from the state variables for Tschauner-Hampel equation to the state variables in the LVLH frame.
+ * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
+ * @param [in] eccentricity: Eccentricity []
+ * @param [in] angular_momentum_kg_m2_s: Angular momentum of the spacecraft [kg*m2/s]
+ * @param [in] true_anomaly_rad: True anomaly of the spacecraft [rad]
+ * @param
+ */
+math::Matrix<6, 6> CalcStateTransformationMatrixTschaunerHampelToLvlh(const double gravity_constant_m3_s2, const double eccentricity,
+                                                                      const double angular_momentum_kg_m2_s, const double true_anomaly_rad);
 
 }  // namespace orbit
 

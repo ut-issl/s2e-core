@@ -9,6 +9,7 @@
 #include <math_physics/math/ordinary_differential_equation.hpp>
 #include <math_physics/orbit/relative_orbit_models.hpp>
 #include <math_physics/orbit/relative_orbit_yamanaka_ankersen.hpp>
+#include <math_physics/orbit/relative_orbit_carter.hpp>
 #include <simulation/multiple_spacecraft/relative_information.hpp>
 #include <string>
 
@@ -87,6 +88,7 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
   orbit::StmModel stm_model_type_;                                          //!< State Transition Matrix model type
   RelativeInformation* relative_information_;                               //!< Relative information
   orbit::RelativeOrbitYamanakaAnkersen relative_orbit_yamanaka_ankersen_;  //!< Relative Orbit Calcilater with Yamanaka-Ankersen's STM
+  orbit::RelativeOrbitCarter relative_orbit_carter_;                       //!< Relative Orbit Calcilater with Carter's STM
 
   /**
    * @fn InitializeState
