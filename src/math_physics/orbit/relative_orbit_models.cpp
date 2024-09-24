@@ -129,16 +129,16 @@ math::Matrix<6, 6> CalcSsStm(double orbit_radius_m, double gravity_constant_m3_s
     double vys = tanh(n * t * sqrt(pow(c, 2.0) - 2) / 2);
 
     stm[0][0] = 1 + (10 * pow(c, 2.0) - 4) / (pow(c, 2.0) - 2) * xs;
-    stm[0][1] = 4 * c * xs / ((pow(c, 2.0) - 2) * n);
+    stm[0][1] = 0.0;
     stm[0][2] = 0.0;
     stm[0][3] = sinh(n * t * sqrt(pow(c, 2.0) - 2)) / (n * sqrt(pow(c, 2.0) - 2));
-    stm[0][4] = 0.0;
+    stm[0][4] = 4 * c * xs / ((pow(c, 2.0) - 2) * n);
     stm[0][5] = 0.0;
     stm[1][0] = (2 * c * ys3 / (ys1 * ys4) - 2 * c * t / (pow(c, 2.0) - 2)) * (2 * n - ys2);
     stm[1][1] = 1.0;
     stm[1][2] = 0.0;
     stm[1][3] = -4 * c * pow(sinh(n * t * ys4 / 2), 2.0) / ys1;
-    stm[1][4] = -4 * pow(c, 2.0) * ys3 / (n * pow(pow(c, 2.0) - 2, 1.5)) + t * (2 * n - ys2) / ys1;
+    stm[1][4] = -(4 * pow(c, 2.0) * ys3 / (n * pow(pow(c, 2.0) - 2, 1.5)) + t * (2 * n - ys2) / ys1);
     stm[1][5] = 0.0;
     stm[2][0] = 0.0;
     stm[2][1] = 0.0;
@@ -175,16 +175,16 @@ math::Matrix<6, 6> CalcSsStm(double orbit_radius_m, double gravity_constant_m3_s
     double vys = tan(n * t * sqrt(2 - pow(c, 2.0)) / 2);
 
     stm[0][0] = 1 + (10 * pow(c, 2.0) - 4) / (pow(c, 2.0) - 2) * xs;
-    stm[0][1] = 4 * c * xs / ((pow(c, 2.0) - 2) * n);
+    stm[0][1] = 0.0;
     stm[0][2] = 0.0;
     stm[0][3] = sin(n * t * sqrt(2 - pow(c, 2.0))) / (n * sqrt(2 - pow(c, 2.0)));
-    stm[0][4] = 0.0;
+    stm[0][4] = 4 * c * xs / ((pow(c, 2.0) - 2) * n);
     stm[0][5] = 0.0;
     stm[1][0] = (2 * c * ys3 / (ys1 * ys4) - 2 * c * t / (pow(c, 2.0) - 2)) * (2 * n - ys2);
     stm[1][1] = 1.0;
     stm[1][2] = 0.0;
     stm[1][3] = 4 * c * pow(sin(n * t * ys4 / 2), 2.0) / ys1;
-    stm[1][4] = -4 * pow(c, 2.0) * ys3 / (n * pow(pow(c, 2.0) - 2, 1.5)) + t * (2 * n - ys2) / ys1;
+    stm[1][4] = -(4 * pow(c, 2.0) * ys3 / (n * pow(pow(c, 2.0) - 2, 1.5)) + t * (2 * n - ys2) / ys1);
     stm[1][5] = 0.0;
     stm[2][0] = 0.0;
     stm[2][1] = 0.0;
