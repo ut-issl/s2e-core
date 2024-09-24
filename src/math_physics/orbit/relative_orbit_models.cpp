@@ -184,7 +184,7 @@ math::Matrix<6, 6> CalcSsStm(double orbit_radius_m, double gravity_constant_m3_s
     stm[1][1] = 1.0;
     stm[1][2] = 0.0;
     stm[1][3] = 4 * c * pow(sin(n * t * ys4 / 2), 2.0) / ys1;
-    stm[1][4] = -(4 * pow(c, 2.0) * ys3 / (n * pow(pow(c, 2.0) - 2, 1.5)) + t * (2 * n - ys2) / ys1);
+    stm[1][4] = -(-4 * pow(c, 2.0) * ys3 / (n * pow(2-pow(c, 2.0), 1.5)) + t * (2 * n - ys2) / ys1);
     stm[1][5] = 0.0;
     stm[2][0] = 0.0;
     stm[2][1] = 0.0;
