@@ -117,6 +117,12 @@ math::Matrix<6, 6> CalcSsStm(double orbit_radius_m, double gravity_constant_m3_s
   return stm;
 }
 
+math::Vector<6> CalcSsCorrectionTerm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe) {
+  math::Vector<6> correction_term;
+  // ここでstmを計算してください
+  return correction_term;
+}
+
 math::Matrix<6, 6> CalcSabatiniStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe) {
   math::Matrix<6, 6> stm;
   // ここでstmを計算してください
