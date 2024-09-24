@@ -1,6 +1,6 @@
 /**
- * @file relative_orbit_models.cpp
- * @brief Functions to calculate Yamanaka-ANkersen STM for relative orbit
+ * @file relative_orbit_yamanaka_ankersen.cpp
+ * @brief Functions to calculate Yamanaka-Ankersen STM for relative orbit
  */
 #include "relative_orbit_yamanaka_ankersen.hpp"
 

@@ -1,6 +1,6 @@
 /**
  * @file relative_orbit_yamanaka_ankersen.hpp
- * @brief Functions to calculate Yamanaka-ANkersen STM for relative orbit
+ * @brief Functions to calculate Yamanaka-Ankersen STM for relative orbit
  */
 
 #ifndef S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_YAMANAKA_ANKERSEN_HPP_
