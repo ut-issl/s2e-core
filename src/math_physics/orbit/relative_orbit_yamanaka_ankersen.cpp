@@ -6,6 +6,7 @@
 
 #include <environment/global/physical_constants.hpp>
 
+#include "./relative_orbit_models.hpp"
 #include "./sgp4/sgp4unit.h"  // for getgravconst()
 
 namespace orbit {
@@ -14,9 +15,12 @@ RelativeOrbitYamanakaAnkersen::RelativeOrbitYamanakaAnkersen() {}
 
 RelativeOrbitYamanakaAnkersen::~RelativeOrbitYamanakaAnkersen() {}
 
-void RelativeOrbitYamanakaAnkersen::CalculateInitialInverseMatrix(double f_ref_rad, OrbitalElements* reference_oe) {
+void RelativeOrbitYamanakaAnkersen::CalculateInitialInverseMatrix(double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe) {
   // The following variables are defined in Spacecraft Formation Flying (Section 5.6.4)
   const double e = reference_oe->GetEccentricity();
+  const double a = reference_oe->GetSemiMajorAxis_m();
+  const double h = pow(a * (1.0 - pow(e, 2)) * gravity_constant_m3_s2, 0.5);  // angular momentum
+
   const double eta = pow(1 - pow(e, 2.0), 0.5);
   const double k = 1 + e * cos(f_ref_rad);
   const double c = k * cos(f_ref_rad);
@@ -69,6 +73,9 @@ void RelativeOrbitYamanakaAnkersen::CalculateInitialInverseMatrix(double f_ref_r
       initial_inverse_matrix_[i][j] = 1 / pow(eta, 2.0) * initial_inverse_matrix_[i][j];
     }
   }
+
+  initial_inverse_matrix_ =
+      initial_inverse_matrix_ * orbit::CalcStateTransformationMatrixLvlhToTschaunerHampel(gravity_constant_m3_s2, e, h, f_ref_rad);
 }
 
 math::Matrix<6, 6> RelativeOrbitYamanakaAnkersen::CalculateSTM(double gravity_constant_m3_s2, double elapsed_time_s, double f_ref_rad,
@@ -128,7 +135,7 @@ math::Matrix<6, 6> RelativeOrbitYamanakaAnkersen::CalculateSTM(double gravity_co
   update_matrix[5][4] = 0.0;
   update_matrix[5][5] = cos(f_ref_rad);
 
-  return update_matrix * initial_inverse_matrix_;
+  return orbit::CalcStateTransformationMatrixTschaunerHampelToLvlh(gravity_constant_m3_s2, e, h, f_ref_rad) * update_matrix * initial_inverse_matrix_;
 }
 
 }  // namespace orbit
