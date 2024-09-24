@@ -219,7 +219,13 @@ math::Matrix<6, 6> CalcSsStm(double orbit_radius_m, double gravity_constant_m3_s
 
 math::Vector<6> CalcSsCorrectionTerm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe) {
   math::Vector<6> correction_term;
-  // ここでstmを計算してください
+  
+  correction_term[0] = 0.0;
+  correction_term[1] = 0.0;
+  correction_term[2] = 0.0;
+  correction_term[3] = 0.0;
+  correction_term[4] = 0.0;
+  correction_term[5] = 0.0;
   return correction_term;
 }
 
