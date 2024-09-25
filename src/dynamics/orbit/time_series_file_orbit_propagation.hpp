@@ -1,10 +1,10 @@
 /**
- * @file orbit_calculation_with_defnition_file.hpp
+ * @file time_series_file_orbit_propagation.hpp
  * @brief Class to calculate satellite orbit using interpolation with orbit time series input
  */
 
-#ifndef S2E_DYNAMICS_ORBIT_ORBIT_CALCULATION_WITH_DEFINITION_FILE_HPP_
-#define S2E_DYNAMICS_ORBIT_ORBIT_CALCULATION_WITH_DEFINITION_FILE_HPP_
+#ifndef S2E_DYNAMICS_ORBIT_TIME_SERIES_FILE_ORBIT_PROPAGATION_HPP_
+#define S2E_DYNAMICS_ORBIT_TIME_SERIES_FILE_ORBIT_PROPAGATION_HPP_
 
 #include <string>
 #include <vector>
@@ -15,12 +15,12 @@
 #include "environment/global/simulation_time.hpp"
 
 /**
- *@struct OrbitDefinitionData
- *@brief Orbit definition data
- *@note Coordinate system and units follow the orbit definition file
+ *@struct TimeSeriesData
+ *@brief Time series data of orbit
+ *@note Coordinate system and units follow the time series file
  */
-struct OrbitDefinitionData {
-  double et;  //!< Ehemeris time [s]
+struct TimeSeriesData {
+  double et;  //!< Ephemeris time [s]
   double x;     //!< Position x
   double y;     //!< Position y
   double z;     //!< Position z
@@ -30,18 +30,18 @@ struct OrbitDefinitionData {
 };
 
 /**
- * @class OrbitCalculationWithDefinitionFile
+ * @class TimeSeriesFileOrbitPropagation
  * @brief Class to calculate satellite orbit using interpolation with orbit time series input
  */
-class OrbitCalculationWithDefinitionFile : public ILoggable  {
+class TimeSeriesFileOrbitPropagation : public ILoggable {
  public:
   /**
-   *@fn OrbitCalculationWithDefinitionFile
+   *@fn TimeSeriesFileOrbitPropagation
    *@brief Constructor
    * @param [in] is_calc_enabled: Flag to manage the orbit calculation
    * @param [in] is_log_enabled: Flag to generate the log of orbit calculation
    */
-  OrbitCalculationWithDefinitionFile(const bool is_calc_enabled = false, const bool is_log_enabled = false)
+  TimeSeriesFileOrbitPropagation(const bool is_calc_enabled = false, const bool is_log_enabled = false)
       : is_calc_enabled_(is_calc_enabled) {
     if (!is_calc_enabled_) {
       is_log_enabled_ = false;
@@ -51,10 +51,10 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
   }
 
   /**
-   *@fn ~OrbitCalculationWithDefinitionFile
+   *@fn ~TimeSeriesFileOrbitPropagation
    *@brief Destructor
    */  
-  virtual ~OrbitCalculationWithDefinitionFile() {}
+  virtual ~TimeSeriesFileOrbitPropagation() {}
 
   /**
    * @fn Initialize
@@ -89,7 +89,7 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
   /**
    * @fn GetOrbitDefinitionData
    * @brief Return orbit definition data for a specific index.
-   * @param index The index of the orbit definition data to.
+   * @param index The index of the orbit definition data.
    */
   OrbitDefinitionData GetOrbitDefinitionData(size_t index) const { return orbit_definition_data_[index]; }
 
@@ -109,7 +109,7 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
 
   /**
    * @fn Update
-   * @brief Updatesatellite information
+   * @brief Update satellite information
    * @param [in] simulation_time: Simulation time information
    */ 
   void Update(const SimulationTime& simulation_time);
@@ -167,12 +167,12 @@ class OrbitCalculationWithDefinitionFile : public ILoggable  {
 };
 
 /**
- * @fn InitOrbitCalculationWithDefinitionFile
- * @brief Initialize function for OrbitCalculationWithDefinitionFile class
+ * @fn InitTimeSeriesFileOrbitPropagation
+ * @brief Initialize function for TimeSeriesFileOrbitPropagation class
  * @param [in] ini_file_name: Path to the initialize file
  * @param [in] simulation_time: Simulation time information
- * @return Initialized OrbitCalculationWithDefinitionFile class
+ * @return Initialized TimeSeriesFileOrbitPropagation class
  */
-OrbitCalculationWithDefinitionFile* InitOrbitCalculationWithDefinitionFile(const std::string ini_file_name, const SimulationTime& simulation_time);
+TimeSeriesFileOrbitPropagation* InitTimeSeriesFileOrbitPropagation(const std::string ini_file_name, const SimulationTime& simulation_time);
 
-#endif  // S2E_DYNAMICS_ORBIT_ORBIT_CALCULATION_WITH_DEFINITION_FILE_HPP_
+#endif  // S2E_DYNAMICS_ORBIT_TIME_SERIES_FILE_ORBIT_PROPAGATION_HPP_

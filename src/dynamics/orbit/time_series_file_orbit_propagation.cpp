@@ -1,9 +1,9 @@
 /**
- * @file orbit_calculation_with_definition_file.cpp
+ * @file time_series_file_orbit_propagation.cpp
  * @brief Class to calculate satellite orbit using interpolation with orbit time series input
  */
 
-#include "orbit_calculation_with_definition_file.hpp"
+#include "time_series_file_orbit_propagation.hpp"
 
 #include <SpiceUsr.h>
 
@@ -16,9 +16,9 @@
 #include "math_physics/math/constants.hpp"
 #include "logger/log_utility.hpp"
 
-void OrbitCalculationWithDefinitionFile::Initialize(const std::vector<OrbitDefinitionData>& orbit_definition_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time) {
+void TimeSeriesFileOrbitPropagation::Initialize(const std::vector<OrbitDefinitionData>& orbit_definition_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time) {
   IniAccess ini_file(ini_file_name_);
-  char section[] = "ORBIT_CALCULATION_WITH_DEFINITION_FILE";
+  char section[] = "TIME_SERIES_FILE_ORBIT_PROPAGATION";
   const size_t number_of_interpolation = ini_file.ReadInt(section, "number_of_interpolation");
 
   if (!(ini_file.ReadString(section, "interpolation_method") == "POLYNOMIAL" || 
@@ -77,10 +77,10 @@ std::vector<std::string> ParseCsvLine(const std::string& line) {
   return result;
 }
 
-bool OrbitCalculationWithDefinitionFile::ReadOrbitDefinitionCsv(const std::string ini_file_name, const std::string& orbit_definition_file_path, std::vector<OrbitDefinitionData>& orbit_definition_data) {
+bool TimeSeriesFileOrbitPropagation::ReadOrbitDefinitionCsv(const std::string ini_file_name, const std::string& orbit_definition_file_path, std::vector<OrbitDefinitionData>& orbit_definition_data) {
   ini_file_name_ = ini_file_name;
   IniAccess ini_file(ini_file_name_);
-  char section[] = "ORBIT_CALCULATION_WITH_DEFINITION_FILE";
+  char section[] = "TIME_SERIES_FILE_ORBIT_PROPAGATION";
 
   std::ifstream file(orbit_definition_file_path);
   if (!file.is_open()) {
@@ -155,7 +155,7 @@ bool OrbitCalculationWithDefinitionFile::ReadOrbitDefinitionCsv(const std::strin
 }
 
 
-void OrbitCalculationWithDefinitionFile::Update(const SimulationTime& simulation_time) {
+void TimeSeriesFileOrbitPropagation::Update(const SimulationTime& simulation_time) {
   if (!IsCalcEnabled()) return;
 
   // Get time
@@ -174,7 +174,7 @@ void OrbitCalculationWithDefinitionFile::Update(const SimulationTime& simulation
   return;
 }
 
-size_t OrbitCalculationWithDefinitionFile::SearchNearestEpochId(const SimulationTime& simulation_time) {
+size_t TimeSeriesFileOrbitPropagation::SearchNearestEpochId(const SimulationTime& simulation_time) {
   size_t nearest_epoch_id = 0;
 
   // Get start ephemeris time
@@ -190,7 +190,7 @@ size_t OrbitCalculationWithDefinitionFile::SearchNearestEpochId(const Simulation
   return nearest_epoch_id;
 }
 
-time_system::DateTime OrbitCalculationWithDefinitionFile::GetEpochData(const size_t epoch_id) const {
+time_system::DateTime TimeSeriesFileOrbitPropagation::GetEpochData(const size_t epoch_id) const {
   if (epoch_id > epoch_.size()) {
     time_system::DateTime zero;
     return zero;
@@ -199,9 +199,9 @@ time_system::DateTime OrbitCalculationWithDefinitionFile::GetEpochData(const siz
 }
 
 
-math::Vector<3> OrbitCalculationWithDefinitionFile::GetPosition(const time_system::EpochTime time) const {
+math::Vector<3> TimeSeriesFileOrbitPropagation::GetPosition(const time_system::EpochTime time) const {
   IniAccess ini_file(ini_file_name_);
-  char section[] = "ORBIT_CALCULATION_WITH_DEFINITION_FILE";
+  char section[] = "TIME_SERIES_FILE_ORBIT_PROPAGATION";
 
   time_system::EpochTime target_time;
 
@@ -223,9 +223,9 @@ math::Vector<3> OrbitCalculationWithDefinitionFile::GetPosition(const time_syste
   }
 }
 
-math::Vector<3> OrbitCalculationWithDefinitionFile::GetVelocity(const time_system::EpochTime time) const {
+math::Vector<3> TimeSeriesFileOrbitPropagation::GetVelocity(const time_system::EpochTime time) const {
   IniAccess ini_file(ini_file_name_);
-  char section[] = "ORBIT_CALCULATION_WITH_DEFINITION_FILE";
+  char section[] = "TIME_SERIES_FILE_ORBIT_PROPAGATION";
 
   time_system::EpochTime target_time;
 
@@ -247,7 +247,7 @@ math::Vector<3> OrbitCalculationWithDefinitionFile::GetVelocity(const time_syste
   }
 }
 
-bool OrbitCalculationWithDefinitionFile::UpdateInterpolationInformation() {
+bool TimeSeriesFileOrbitPropagation::UpdateInterpolationInformation() {
     time_system::EpochTime orbit_definition_time = time_system::EpochTime(GetEpochData(reference_interpolation_id_));
     double time_diff_s = orbit_definition_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
     math::Vector<3> orbit_definition_position;
@@ -267,9 +267,9 @@ bool OrbitCalculationWithDefinitionFile::UpdateInterpolationInformation() {
   return true;
 }
 
-std::string OrbitCalculationWithDefinitionFile::GetLogHeader() const {
+std::string TimeSeriesFileOrbitPropagation::GetLogHeader() const {
   IniAccess ini_file(ini_file_name_);
-  char section[] = "ORBIT_CALCULATION_WITH_DEFINITION_FILE";
+  char section[] = "TIME_SERIES_FILE_ORBIT_PROPAGATION";
 
   std::string str_tmp = "";
 
@@ -279,7 +279,7 @@ std::string OrbitCalculationWithDefinitionFile::GetLogHeader() const {
   return str_tmp;
 }
 
-std::string OrbitCalculationWithDefinitionFile::GetLogValue() const {
+std::string TimeSeriesFileOrbitPropagation::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteVector(GetPosition(), 16);
@@ -288,30 +288,30 @@ std::string OrbitCalculationWithDefinitionFile::GetLogValue() const {
   return str_tmp;
 }
 
-OrbitCalculationWithDefinitionFile* InitOrbitCalculationWithDefinitionFile(const std::string ini_file_name, const SimulationTime& simulation_time) {
+TimeSeriesFileOrbitPropagation* InitTimeSeriesFileOrbitPropagation(const std::string ini_file_name, const SimulationTime& simulation_time) {
   IniAccess ini_file(ini_file_name);
-  char section[] = "ORBIT_CALCULATION_WITH_DEFINITION_FILE";
+  char section[] = "TIME_SERIES_FILE_ORBIT_PROPAGATION";
 
   const bool is_calc_enable = ini_file.ReadEnable(section, INI_CALC_LABEL);
   const bool is_log_enable = ini_file.ReadEnable(section, INI_LOG_LABEL);
 
-  OrbitCalculationWithDefinitionFile* orbit_calculation_with_definition_file = new OrbitCalculationWithDefinitionFile(is_calc_enable, is_log_enable);
-  if (!orbit_calculation_with_definition_file->IsCalcEnabled()) {
-    return orbit_calculation_with_definition_file;
+  TimeSeriesFileOrbitPropagation* time_series_file_orbit_propagation = new TimeSeriesFileOrbitPropagation(is_calc_enable, is_log_enable);
+  if (!time_series_file_orbit_propagation->IsCalcEnabled()) {
+    return time_series_file_orbit_propagation;
   }
 
   const std::string orbit_definition_file_path = ini_file.ReadString(section, "orbit_definition_file_path");
 
   std::vector<OrbitDefinitionData> orbit_definition_data;
-  if (!orbit_calculation_with_definition_file->ReadOrbitDefinitionCsv(ini_file_name, orbit_definition_file_path, orbit_definition_data)) {
-    return orbit_calculation_with_definition_file;
+  if (!time_series_file_orbit_propagation->ReadOrbitDefinitionCsv(ini_file_name, orbit_definition_file_path, orbit_definition_data)) {
+    return time_series_file_orbit_propagation;
   }
 
   time_system::DateTime start_date_time((size_t)simulation_time.GetStartYear(), (size_t)simulation_time.GetStartMonth(),
                                         (size_t)simulation_time.GetStartDay(), (size_t)simulation_time.GetStartHour(),
                                         (size_t)simulation_time.GetStartMinute(), simulation_time.GetStartSecond());
   time_system::EpochTime start_epoch_time(start_date_time);
-  orbit_calculation_with_definition_file->Initialize(orbit_definition_data, start_epoch_time, simulation_time);
+  time_series_file_orbit_propagation->Initialize(orbit_definition_data, start_epoch_time, simulation_time);
 
-  return orbit_calculation_with_definition_file;
+  return time_series_file_orbit_propagation;
 }
