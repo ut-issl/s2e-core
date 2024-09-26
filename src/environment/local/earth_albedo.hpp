@@ -58,13 +58,13 @@ class EarthAlbedo : public ILoggable {
    * @brief Set earth albedo factor
    * @param [in] earth_albedo_factor: Earth albedo factor
    */
-  inline void SetEarthAlbedoFactor(double earth_albedo_factor) { earth_albedo_factor_ = earth_albedo_factor; }
+  inline void SetEarthAlbedoFactor(const double earth_albedo_factor) { earth_albedo_factor_ = earth_albedo_factor; }
   /**
    * @fn SetIsCalcEarthAlbedoEnabled
    * @brief Set calculation flag
    * @param [in] is_calc_earth_albedo_enabled: Calculation flag
    */
-  inline void SetIsCalcEarthAlbedoEnabled(bool is_calc_earth_albedo_enabled) { is_calc_earth_albedo_enabled_ = is_calc_earth_albedo_enabled; }
+  inline void SetIsCalcEarthAlbedoEnabled(const bool is_calc_earth_albedo_enabled) { is_calc_earth_albedo_enabled_ = is_calc_earth_albedo_enabled; }
 
  private:
   double earth_albedo_W_m2_ = 0.0;             //!< Earth albedo [W/m^2]
