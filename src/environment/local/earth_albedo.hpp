@@ -67,9 +67,9 @@ class EarthAlbedo : public ILoggable {
   inline void SetIsCalcEarthAlbedoEnabled(bool is_calc_earth_albedo_enabled) { is_calc_earth_albedo_enabled_ = is_calc_earth_albedo_enabled; }
 
  private:
-  double earth_albedo_W_m2_;                  //!< Earth albedo [W/m^2]
-  bool is_calc_earth_albedo_enabled_ = true;  //!< Calculation flag
-  double earth_albedo_factor_ = 0.3;          //!< Earth albedo factor
+  double earth_albedo_W_m2_ = 0.0;             //!< Earth albedo [W/m^2]
+  bool is_calc_earth_albedo_enabled_ = false;  //!< Calculation flag
+  double earth_albedo_factor_ = 0.3;           //!< Earth albedo factor
 
   LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
   SolarRadiationPressureEnvironment* srp_environment_;      //!< Solar radiation pressure environment
