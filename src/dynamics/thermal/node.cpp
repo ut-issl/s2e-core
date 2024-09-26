@@ -45,7 +45,6 @@ double Node::CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, double ea
   math::Vector<3> earth_direction_b = earth_position_b_m.CalcNormalizedVector();
   double earth_distance_m = earth_position_b_m.CalcNorm();
 
-  // check if satellite is outside of the earth's shadow
   double cos_theta_albedo = InnerProduct(earth_direction_b, normal_vector_b_);
 
   // albedo radiation calculation; earth_albedo_W_m2 reflects the shadow coefficient.
