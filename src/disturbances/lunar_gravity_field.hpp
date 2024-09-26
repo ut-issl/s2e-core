@@ -8,8 +8,8 @@
 
 #include <string>
 
-#include "../library/gravity/gravity_potential.hpp"
-#include "../library/math/vector.hpp"
+#include "../math_physics/gravity/gravity_potential.hpp"
+#include "../math_physics/math/vector.hpp"
 #include "disturbance.hpp"
 /**
  * @class LunarGravityField
@@ -62,7 +62,7 @@ class LunarGravityField : public Disturbance {
   virtual std::string GetLogValue() const;
 
  private:
-  GravityPotential lunar_potential_;
+  gravity::GravityPotential lunar_potential_;
   double reference_radius_km_;
   double gravity_constants_km3_s2_;
   size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential
@@ -71,8 +71,8 @@ class LunarGravityField : public Disturbance {
   Vector<3> acceleration_mcmf_m_s2_;    //!< Calculated acceleration in the MCMF(Moon Centered Moon Fixed) frame [m/s2]
 
   // debug
-  libra::Vector<3> debug_pos_mcmf_m_;  //!< Spacecraft position in MCMF frame [m]
-  double time_ms_ = 0.0;               //!< Calculation time [ms]
+  math::Vector<3> debug_pos_mcmf_m_;  //!< Spacecraft position in MCMF frame [m]
+  double time_ms_ = 0.0;              //!< Calculation time [ms]
 
   /**
    * @fn ReadCoefficientsGrgm1200a

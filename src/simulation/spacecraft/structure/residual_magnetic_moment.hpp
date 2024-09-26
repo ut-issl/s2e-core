@@ -6,8 +6,8 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_HPP_
 #define S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_HPP_
 
-#include <library/math/vector.hpp>
-using libra::Vector;
+#include <math_physics/math/vector.hpp>
+using math::Vector;
 
 /**
  * @class ResidualMagneticMoment

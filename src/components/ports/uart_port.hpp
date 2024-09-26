@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_PORTS_UART_PORT_HPP_
 #define S2E_COMPONENTS_PORTS_UART_PORT_HPP_
 
-#include <library/utilities/ring_buffer.hpp>
+#include <utilities/ring_buffer.hpp>
 
 /**
  * @class UartPort

@@ -5,7 +5,7 @@
 #include <environment/global/physical_constants.hpp>
 
 using namespace std;
-using namespace libra;
+using namespace math;
 
 Heatload::Heatload(int node_id, std::vector<double> time_table_s, std::vector<double> internal_heatload_table_W)
     : node_id_(node_id), time_table_s_(time_table_s), internal_heatload_table_W_(internal_heatload_table_W) {

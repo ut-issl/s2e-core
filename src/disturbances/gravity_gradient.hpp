@@ -8,10 +8,10 @@
 
 #include <string>
 
-#include "../library/logger/loggable.hpp"
-#include "../library/math/matrix.hpp"
-#include "../library/math/matrix_vector.hpp"
-#include "../library/math/vector.hpp"
+#include "../logger/loggable.hpp"
+#include "../math_physics/math/matrix.hpp"
+#include "../math_physics/math/matrix_vector.hpp"
+#include "../math_physics/math/vector.hpp"
 #include "disturbance.hpp"
 
 /**
@@ -65,7 +65,7 @@ class GravityGradient : public Disturbance {
    * @param [in] inertia_tensor_b_kgm2: Inertia Tensor at body frame [kg*m^2]
    * @return Calculated torque at body frame [Nm]
    */
-  libra::Vector<3> CalcTorque_b_Nm(const libra::Vector<3> earth_position_from_sc_b_m, const libra::Matrix<3, 3> inertia_tensor_b_kgm2);
+  math::Vector<3> CalcTorque_b_Nm(const math::Vector<3> earth_position_from_sc_b_m, const math::Matrix<3, 3> inertia_tensor_b_kgm2);
 };
 
 /**

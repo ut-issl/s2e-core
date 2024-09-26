@@ -9,7 +9,7 @@ src/.vscode/
 build/
 
 # Log files
-data/**/logs/
+**/logs/
 
 # CSIPCE
 scripts/tmp_cspice/
@@ -34,3 +34,9 @@ Icon
 
 # Python
 __pycache__/
+
+# Setting files
+settings/environment/cspice
+settings/environment/space_weather
+settings/environment/gravity_field
+settings/environment/star_catalogue

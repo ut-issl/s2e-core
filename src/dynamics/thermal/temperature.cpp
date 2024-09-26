@@ -9,8 +9,8 @@
 #include <cmath>
 #include <environment/global/physical_constants.hpp>
 #include <environment/global/simulation_time.hpp>
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/utilities/macros.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
+#include <utilities/macros.hpp>
 
 using namespace std;
 
@@ -48,9 +48,9 @@ Temperature::Temperature() {
 
 Temperature::~Temperature() {}
 
-void Temperature::Propagate(libra::Vector<3> sun_position_b_m, const double time_end_s) {
+void Temperature::Propagate(math::Vector<3> sun_position_b_m, const double time_end_s) {
   if (!is_calc_enabled_) return;
-  libra::Vector<3> sun_direction_b = sun_position_b_m.CalcNormalizedVector();
+  math::Vector<3> sun_direction_b = sun_position_b_m.CalcNormalizedVector();
   while (time_end_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     CalcRungeOneStep(propagation_time_s_, propagation_step_s_, sun_direction_b, node_num_);
     propagation_time_s_ += propagation_step_s_;
@@ -101,7 +101,7 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
       cout << setprecision(4) << itr->GetSolarRadiation_W() << "  ";
     }
-    libra::Vector<3> sun_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN").CalcNormalizedVector();
+    math::Vector<3> sun_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN").CalcNormalizedVector();
     cout << "SunDir:  ";
     for (size_t i = 0; i < 3; i++) {
       cout << setprecision(3) << sun_direction_b[i] << "  ";
@@ -111,7 +111,7 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
       cout << setprecision(4) << itr->GetAlbedoRadiation_W() << "  ";
     }
-    libra::Vector<3> earth_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH").CalcNormalizedVector();
+    math::Vector<3> earth_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH").CalcNormalizedVector();
     cout << "EarthDir:  ";
     for (size_t i = 0; i < 3; i++) {
       cout << setprecision(3) << earth_direction_b[i] << "  ";
@@ -124,7 +124,7 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
   }
 }
 
-void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, libra::Vector<3> sun_direction_b, size_t node_num) {
+void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, math::Vector<3> sun_direction_b, size_t node_num) {
   vector<double> temperatures_now_K(node_num);
   for (size_t i = 0; i < node_num; i++) {
     temperatures_now_K[i] = nodes_[i].GetTemperature_K();
@@ -197,7 +197,7 @@ void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, const 
   }
 }
 
-vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperatures_K, double t, libra::Vector<3> sun_direction_b, size_t node_num) {
+vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperatures_K, double t, math::Vector<3> sun_direction_b, size_t node_num) {
   // TODO: consider the following unused arguments are really needed
   UNUSED(temperatures_K);
 
@@ -237,7 +237,7 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
   // TODO: consider the following unused arguments are really needed
   UNUSED(temperatures_K);
 
-  libra::Vector<3> sun_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN").CalcNormalizedVector();
+  math::Vector<3> sun_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN").CalcNormalizedVector();
   vector<double> differentials_K_s(node_num);
   for (size_t i = 0; i < node_num; i++) {
     heatloads_[i].SetElapsedTime_s(t);
@@ -245,7 +245,7 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
       double solar_flux_W_m2 = srp_environment_->GetPowerDensity_W_m2();
       if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
         double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction_b, solar_flux_W_m2);
-        libra::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
+        math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
         double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, earth_albedo_->GetEarthAlbedoRadiationPower_W_m2());
         heatloads_[i].SetAlbedoHeatload_W(albedo_radiation_W);
         heatloads_[i].SetSolarHeatload_W(solar_radiation_W);

@@ -10,6 +10,9 @@
 
 #include "hils_uart_port.hpp"
 
+const unsigned int kDefaultCommandSize = 0xff;  //!< Default command size
+const unsigned int kDefaultTxSize = 0xff;       //!< Default TX size
+
 /**
  * @class HilsI2cTargetPort
  * @brief Class to control I2C-USB converter for the target(device) side from COM port
@@ -93,11 +96,9 @@ class HilsI2cTargetPort : public HilsUartPort {
   int GetStoredFrameCounter();
 
  private:
-  const unsigned int kDefaultCommandSize = 0xff;  //!< Default command size
-  const unsigned int kDefaultTxSize = 0xff;       //!< Default TX size
-  unsigned char max_register_number_ = 0xff;      //!< Maximum register number
-  unsigned char saved_register_address_ = 0x00;   //!< Saved register address
-  unsigned int stored_frame_counter_ = 0;         //!< Send a few frames of telemetry to the converter in advance.
+  unsigned char max_register_number_ = 0xff;     //!< Maximum register number
+  unsigned char saved_register_address_ = 0x00;  //!< Saved register address
+  unsigned int stored_frame_counter_ = 0;        //!< Send a few frames of telemetry to the converter in advance.
 
   /** @brief Device register: < register address, value>  **/
   std::map<unsigned char, unsigned char> device_registers_;

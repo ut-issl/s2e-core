@@ -9,7 +9,7 @@
 
 #include "../environment/global/simulation_time.hpp"
 #include "../environment/local/local_environment.hpp"
-#include "../library/math/vector.hpp"
+#include "../math_physics/math/vector.hpp"
 #include "../simulation/simulation_configuration.hpp"
 #include "../simulation/spacecraft/structure/structure.hpp"
 #include "dynamics/attitude/initialize_attitude.hpp"
@@ -63,13 +63,13 @@ class Dynamics {
    * @brief Add input torque for the attitude dynamics propagation
    * @param [in] torque_b_Nm: Torque in the body fixed frame [Nm]
    */
-  inline void AddTorque_b_Nm(libra::Vector<3> torque_b_Nm) { attitude_->AddTorque_b_Nm(torque_b_Nm); }
+  inline void AddTorque_b_Nm(math::Vector<3> torque_b_Nm) { attitude_->AddTorque_b_Nm(torque_b_Nm); }
   /**
    * @fn AddForce_b_N
    * @brief Add input force for the orbit dynamics propagation
    * @param [in] force_b_N: Force in the body fixed frame [N]
    */
-  inline void AddForce_b_N(libra::Vector<3> force_b_N) {
+  inline void AddForce_b_N(math::Vector<3> force_b_N) {
     orbit_->AddForce_b_N(force_b_N, attitude_->GetQuaternion_i2b(), structure_->GetKinematicsParameters().GetMass_kg());
   }
   /**
@@ -77,7 +77,7 @@ class Dynamics {
    * @brief Add input acceleration for the orbit dynamics propagation
    * @param [in] acceleration_i_m_s2: Acceleration in the inertial fixed frame [N]
    */
-  inline void AddAcceleration_i_m_s2(libra::Vector<3> acceleration_i_m_s2) { orbit_->AddAcceleration_i_m_s2(acceleration_i_m_s2); }
+  inline void AddAcceleration_i_m_s2(math::Vector<3> acceleration_i_m_s2) { orbit_->AddAcceleration_i_m_s2(acceleration_i_m_s2); }
 
   /**
    * @fn ClearForceTorque

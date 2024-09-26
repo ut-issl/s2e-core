@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_REAL_POWER_POWER_CONTROL_UNIT_HPP_
 
 #include <components/ports/power_port.hpp>
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 #include <map>
 
 #include "../../base/component.hpp"

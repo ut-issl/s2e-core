@@ -7,7 +7,7 @@
 #define S2E_COMPONENTS_IDEAL_ANGULAR_VELOCITY_OBSERVER_HPP_
 
 #include <dynamics/dynamics.hpp>
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 
 #include "../base/component.hpp"
 #include "../base/sensor.hpp"
@@ -57,11 +57,11 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public ILogg
    * @fn GetAngularVelocity_b_rad_s
    * @brief Return observed angular velocity
    */
-  inline libra::Vector<3> GetAngularVelocity_b_rad_s() const { return angular_velocity_b_rad_s_; }
+  inline math::Vector<3> GetAngularVelocity_b_rad_s() const { return angular_velocity_b_rad_s_; }
 
  protected:
-  libra::Vector<3> angular_velocity_b_rad_s_{0.0};  //!< Observed angular velocity [rad/s]
-  const Attitude& attitude_;                        //!< Dynamics information
+  math::Vector<3> angular_velocity_b_rad_s_{0.0};  //!< Observed angular velocity [rad/s]
+  const Attitude& attitude_;                       //!< Dynamics information
 };
 
 /**

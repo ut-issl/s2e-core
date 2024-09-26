@@ -6,12 +6,12 @@
 #include "ground_station.hpp"
 
 #include <environment/global/physical_constants.hpp>
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/logger/log_utility.hpp>
-#include <library/logger/logger.hpp>
-#include <library/math/constants.hpp>
-#include <library/utilities/macros.hpp>
+#include <logger/log_utility.hpp>
+#include <logger/logger.hpp>
+#include <math_physics/math/constants.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 #include <string>
+#include <utilities/macros.hpp>
 
 GroundStation::GroundStation(const SimulationConfiguration* configuration, const unsigned int ground_station_id)
     : ground_station_id_(ground_station_id) {
@@ -35,7 +35,7 @@ void GroundStation::Initialize(const SimulationConfiguration* configuration, con
   double latitude_deg = conf.ReadDouble(Section, "latitude_deg");
   double longitude_deg = conf.ReadDouble(Section, "longitude_deg");
   double height_m = conf.ReadDouble(Section, "height_m");
-  geodetic_position_ = GeodeticPosition(latitude_deg * libra::deg_to_rad, longitude_deg * libra::deg_to_rad, height_m);
+  geodetic_position_ = geodesy::GeodeticPosition(latitude_deg * math::deg_to_rad, longitude_deg * math::deg_to_rad, height_m);
   position_ecef_m_ = geodetic_position_.CalcEcefPosition();
 
   elevation_limit_angle_deg_ = conf.ReadDouble(Section, "elevation_limit_angle_deg");
@@ -46,23 +46,23 @@ void GroundStation::Initialize(const SimulationConfiguration* configuration, con
 void GroundStation::LogSetup(Logger& logger) { logger.AddLogList(this); }
 
 void GroundStation::Update(const EarthRotation& celestial_rotation, const Spacecraft& spacecraft) {
-  libra::Matrix<3, 3> dcm_ecef2eci = celestial_rotation.GetDcmJ2000ToEcef().Transpose();
+  math::Matrix<3, 3> dcm_ecef2eci = celestial_rotation.GetDcmJ2000ToEcef().Transpose();
   position_i_m_ = dcm_ecef2eci * position_ecef_m_;
 
   is_visible_[spacecraft.GetSpacecraftId()] = CalcIsVisible(spacecraft.GetDynamics().GetOrbit().GetPosition_ecef_m());
 }
 
-bool GroundStation::CalcIsVisible(const libra::Vector<3> spacecraft_position_ecef_m) {
-  libra::Quaternion q_ecef_to_ltc = geodetic_position_.GetQuaternionXcxfToLtc();
+bool GroundStation::CalcIsVisible(const math::Vector<3> spacecraft_position_ecef_m) {
+  math::Quaternion q_ecef_to_ltc = geodetic_position_.GetQuaternionXcxfToLtc();
 
-  libra::Vector<3> sc_pos_ltc = q_ecef_to_ltc.FrameConversion(spacecraft_position_ecef_m - position_ecef_m_);  // Satellite position in LTC frame [m]
+  math::Vector<3> sc_pos_ltc = q_ecef_to_ltc.FrameConversion(spacecraft_position_ecef_m - position_ecef_m_);  // Satellite position in LTC frame [m]
   sc_pos_ltc = sc_pos_ltc.CalcNormalizedVector();
-  libra::Vector<3> dir_gs_to_zenith = libra::Vector<3>(0);
+  math::Vector<3> dir_gs_to_zenith = math::Vector<3>(0);
   dir_gs_to_zenith[2] = 1;
 
   // Judge the satellite position angle is over the minimum elevation
 
-  if (dot(sc_pos_ltc, dir_gs_to_zenith) > sin(elevation_limit_angle_deg_ * libra::deg_to_rad)) {
+  if (dot(sc_pos_ltc, dir_gs_to_zenith) > sin(elevation_limit_angle_deg_ * math::deg_to_rad)) {
     return true;
   } else {
     return false;

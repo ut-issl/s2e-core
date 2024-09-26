@@ -6,7 +6,7 @@
 #ifndef S2E_COMPONENTS_REAL_POWER_PCU_INITIAL_STUDY_HPP_
 #define S2E_COMPONENTS_REAL_POWER_PCU_INITIAL_STUDY_HPP_
 
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 #include <vector>
 
 #include "../../base/component.hpp"

@@ -7,8 +7,8 @@
 #define S2E_SIMULATION_HILS_HILS_PORT_MANAGER_HPP_
 
 #ifdef USE_HILS
-#include "ports/hils_i2c_target_port.hpp"
-#include "ports/hils_uart_port.hpp"
+#include "../../components/ports/hils_i2c_target_port.hpp"
+#include "../../components/ports/hils_uart_port.hpp"
 #endif
 #include <map>
 

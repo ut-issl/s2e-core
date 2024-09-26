@@ -5,19 +5,19 @@
 
 #include "initialize_structure.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/math/vector.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 #define MIN_VAL 1e-6
 KinematicsParameters InitKinematicsParameters(std::string file_name) {
   auto conf = IniAccess(file_name);
   const char* section = "KINEMATIC_PARAMETERS";
 
-  libra::Vector<3> center_of_gravity_b_m;
+  math::Vector<3> center_of_gravity_b_m;
   conf.ReadVector(section, "center_of_gravity_b_m", center_of_gravity_b_m);
   double mass_kg = conf.ReadDouble(section, "mass_kg");
-  libra::Vector<9> inertia_vec;
-  libra::Matrix<3, 3> inertia_tensor_b_kgm2;
+  math::Vector<9> inertia_vec;
+  math::Matrix<3, 3> inertia_tensor_b_kgm2;
   conf.ReadVector(section, "inertia_tensor_kgm2", inertia_vec);
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
@@ -110,7 +110,7 @@ ResidualMagneticMoment InitResidualMagneticMoment(std::string file_name) {
   auto conf = IniAccess(file_name);
   const char* section = "RESIDUAL_MAGNETIC_MOMENT";
 
-  libra::Vector<3> rmm_const_b;
+  math::Vector<3> rmm_const_b;
   conf.ReadVector(section, "rmm_constant_b_Am2", rmm_const_b);
   double rmm_rwdev = conf.ReadDouble(section, "rmm_random_walk_speed_Am2");
   double random_walk_limit_Am2 = conf.ReadDouble(section, "rmm_random_walk_limit_Am2");

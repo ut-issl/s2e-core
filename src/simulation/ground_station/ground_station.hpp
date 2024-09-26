@@ -6,8 +6,8 @@
 #ifndef S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_
 #define S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_
 
-#include <library/geodesy/geodetic_position.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/geodesy/geodetic_position.hpp>
+#include <math_physics/math/vector.hpp>
 #include <simulation/spacecraft/spacecraft.hpp>
 
 #include "../simulation_configuration.hpp"
@@ -67,7 +67,7 @@ class GroundStation : public ILoggable {
    * @fn GetGeodeticPosition
    * @brief Return ground station position in the geodetic frame
    */
-  GeodeticPosition GetGeodeticPosition() const { return geodetic_position_; }
+  geodesy::GeodeticPosition GetGeodeticPosition() const { return geodetic_position_; }
   /**
    * @fn GetPosition_ecef_m
    * @brief Return ground station position in the ECEF frame [m]
@@ -91,11 +91,11 @@ class GroundStation : public ILoggable {
   bool IsVisible(const unsigned int spacecraft_id) const { return is_visible_.at(spacecraft_id); }
 
  protected:
-  unsigned int ground_station_id_;      //!< Ground station ID
-  GeodeticPosition geodetic_position_;  //!< Ground Station Position in the geodetic frame
-  Vector<3> position_ecef_m_{0.0};      //!< Ground Station Position in the ECEF frame [m]
-  Vector<3> position_i_m_{0.0};         //!< Ground Station Position in the inertial frame [m]
-  double elevation_limit_angle_deg_;    //!< Minimum elevation angle to work the ground station [deg]
+  unsigned int ground_station_id_;               //!< Ground station ID
+  geodesy::GeodeticPosition geodetic_position_;  //!< Ground Station Position in the geodetic frame
+  Vector<3> position_ecef_m_{0.0};               //!< Ground Station Position in the ECEF frame [m]
+  Vector<3> position_i_m_{0.0};                  //!< Ground Station Position in the inertial frame [m]
+  double elevation_limit_angle_deg_;             //!< Minimum elevation angle to work the ground station [deg]
 
   std::map<int, bool> is_visible_;     //!< Visible flag for each spacecraft ID (not care antenna)
   unsigned int number_of_spacecraft_;  //!< Number of spacecraft in the simulation
