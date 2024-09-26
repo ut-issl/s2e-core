@@ -25,6 +25,7 @@ std::string EarthAlbedo::GetLogHeader() const {
   std::string str_tmp = "";
 
   str_tmp += WriteScalar("earth_albedo_factor");
+  str_tmp += WriteScalar("earth_albedo_W_m2");
 
   return str_tmp;
 }
@@ -33,6 +34,7 @@ std::string EarthAlbedo::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += WriteScalar(earth_albedo_factor_);
+  str_tmp += WriteScalar(earth_albedo_W_m2_);
 
   return str_tmp;
 }
