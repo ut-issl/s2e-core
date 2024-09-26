@@ -17,7 +17,7 @@ set(NRLMSISE_TMP_DIR ${CMAKE_CURRENT_BINARY_DIR}/tmp)
 # download source files
 FetchContent_Declare(
   nrlmsise
-  GIT_REPOSITORY git://git.linta.de/~brodo/nrlmsise-00.git
+  GIT_REPOSITORY https://git.linta.de/~brodo/nrlmsise-00.git
   GIT_TAG bc9a2feba4344e74201281e563332688a4d09cc3
   SOURCE_DIR ${NRLMSISE_TMP_DIR}
   CONFIGURE_COMMAND ""
