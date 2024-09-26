@@ -43,7 +43,6 @@ double Node::CalcSolarRadiation_W(math::Vector<3> sun_direction_b, double solar_
 
 double Node::CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, double earth_albedo_W_m2) {
   math::Vector<3> earth_direction_b = earth_position_b_m.CalcNormalizedVector();
-  double earth_distance_m = earth_position_b_m.CalcNorm();
 
   double cos_theta_albedo = InnerProduct(earth_direction_b, normal_vector_b_);
 
