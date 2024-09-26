@@ -8,10 +8,10 @@
 #include <cassert>
 #include <fstream>
 
-#include "library/initialize/initialize_file_access.hpp"
-#include "library/logger/log_utility.hpp"
-#include "library/math/constants.hpp"
-#include "library/math/vector.hpp"
+#include "logger/log_utility.hpp"
+#include "math_physics/math/constants.hpp"
+#include "math_physics/math/vector.hpp"
+#include "setting_file_reader/initialize_file_access.hpp"
 
 EarthAlbedo::EarthAlbedo(LocalCelestialInformation* local_celestial_information, SolarRadiationPressureEnvironment* srp_environment)
     : local_celestial_information_(local_celestial_information), srp_environment_(srp_environment) {}
@@ -40,7 +40,7 @@ std::string EarthAlbedo::GetLogValue() const {
 }
 
 void EarthAlbedo::CalcEarthAlbedo(const LocalCelestialInformation* local_celestial_information) {
-  libra::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
+  math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
   double earth_distance_m = earth_position_b_m.CalcNorm();
   earth_albedo_W_m2_ = srp_environment_->GetPowerDensity_W_m2() * GetEarthAlbedoFactor() *
                        pow((environment::astronomy::earth_equatorial_radius_m / earth_distance_m), 2.0) / 4.0;

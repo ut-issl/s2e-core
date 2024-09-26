@@ -41,8 +41,8 @@ double Node::CalcSolarRadiation_W(math::Vector<3> sun_direction_b, double solar_
   return solar_radiation_W_;
 }
 
-double Node::CalcAlbedoRadiation_W(libra::Vector<3> earth_position_b_m, double earth_albedo_W_m2) {
-  libra::Vector<3> earth_direction_b = earth_position_b_m.CalcNormalizedVector();
+double Node::CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, double earth_albedo_W_m2) {
+  math::Vector<3> earth_direction_b = earth_position_b_m.CalcNormalizedVector();
   double earth_distance_m = earth_position_b_m.CalcNorm();
 
   // check if satellite is outside of the earth's shadow
