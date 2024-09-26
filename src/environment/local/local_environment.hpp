@@ -78,11 +78,11 @@ class LocalEnvironment {
   inline const LocalCelestialInformation& GetCelestialInformation() const { return *celestial_information_; }
 
  private:
-  Atmosphere* atmosphere_;                                                   //!< Atmospheric density of the earth
-  GeomagneticField* geomagnetic_field_;                                      //!< Magnetic field of the earth
+  Atmosphere* atmosphere_;                              //!< Atmospheric density of the earth
+  GeomagneticField* geomagnetic_field_;                 //!< Magnetic field of the earth
   SolarRadiationPressureEnvironment* srp_environment_;  //!< Solar radiation pressure
-  EarthAlbedo* earth_albedo_;                                                //!< Earth albedo
-  LocalCelestialInformation* celestial_information_;                         //!< Celestial information
+  EarthAlbedo* earth_albedo_;                           //!< Earth albedo
+  LocalCelestialInformation* celestial_information_;    //!< Celestial information
 
   /**
    * @fn Initialize
