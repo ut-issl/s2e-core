@@ -81,7 +81,6 @@ class GlobalEnvironment {
   CelestialInformation* celestial_information_;  //!< Celestial bodies information
   HipparcosCatalogue* hipparcos_catalogue_;      //!< Hipparcos catalogue
   GnssSatellites* gnss_satellites_;              //!< GNSS satellites
-  TimeSeriesFileOrbitPropagation* time_series_file_orbit_propagation_;  //!< Orbit calculation with definition file
 };
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_HPP_

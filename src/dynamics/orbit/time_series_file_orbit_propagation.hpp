@@ -14,6 +14,8 @@
 
 #include "environment/global/simulation_time.hpp"
 
+#include "orbit.hpp"
+
 /**
  *@struct TimeSeriesData
  *@brief Time series data of orbit
@@ -33,22 +35,15 @@
  * @class TimeSeriesFileOrbitPropagation
  * @brief Class to calculate satellite orbit using interpolation with orbit time series input
  */
-class TimeSeriesFileOrbitPropagation : public ILoggable {
+class TimeSeriesFileOrbitPropagation : public Orbit {
  public:
   /**
    *@fn TimeSeriesFileOrbitPropagation
    *@brief Constructor
-   * @param [in] is_calc_enabled: Flag to manage the orbit calculation
-   * @param [in] is_log_enabled: Flag to generate the log of orbit calculation
+   * @param [in] celestial_information: Celestial information
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  TimeSeriesFileOrbitPropagation(const bool is_calc_enabled = false, const bool is_log_enabled = false)
-      : is_calc_enabled_(is_calc_enabled) {
-    if (!is_calc_enabled_) {
-      is_log_enabled_ = false;
-    } else {
-      is_log_enabled_ = is_log_enabled;
-    }
-  }
+  TimeSeriesFileOrbitPropagation(const CelestialInformation* celestial_information, std::string time_series_file_path, int number_of_interpolation, int interpolation_method, double orbital_period_correction, const double current_time_jd);
 
   /**
    *@fn ~TimeSeriesFileOrbitPropagation
@@ -103,9 +98,9 @@ class TimeSeriesFileOrbitPropagation : public ILoggable {
   /**
    * @fn SearchNearestEpochId
    * @brief Search the nearest epoch ID from the orbit definition data.
-   * @param simulation_time The simulation time information.
+   * @param current_time_jd: Current Julian day [day]
    */
-  size_t SearchNearestEpochId(const SimulationTime& simulation_time);
+  size_t SearchNearestEpochId(const double current_time_jd);
 
   /**
    * @fn Update
@@ -132,23 +127,21 @@ class TimeSeriesFileOrbitPropagation : public ILoggable {
    */
   inline math::Vector<3> GetVelocity(const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
 
-  // Override ILoggable
+  // Override Orbit
   /**
-   * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @fn Propagate
+   * @brief Propagate orbit
+   * @param [in] end_time_s: End time of simulation [sec]
+   * @param [in] current_time_jd: Current Julian day [day]
    */
-  std::string GetLogHeader() const override;
-  /**
-   * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
-   */
-  std::string GetLogValue() const override;
+  virtual void Propagate(const double end_time_s, const double current_time_jd);
 
  private:
-  bool is_calc_enabled_ = false;  //!< Flag to manage the orbit calculation
+  int number_of_interpolation_;  //!< Number of interpolation
+  int interpolation_method_;  //!< Interpolation method
+  double orbital_period_correction_;  //!< Orbital period correction
 
   std::vector<time_system::DateTime> epoch_;  //!< Epoch data list
-  std::string ini_file_name_;                 //!< Path to the initialize file
   std::vector<std::vector<double>> time_series_data_;  //!< List of orbit definition data
   time_system::EpochTime current_epoch_time_;    //!< The last updated time
   time_system::EpochTime reference_time_;        //!< Reference start time of the orbit definition data handling

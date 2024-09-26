@@ -14,7 +14,6 @@ GlobalEnvironment::~GlobalEnvironment() {
   delete celestial_information_;
   delete hipparcos_catalogue_;
   delete gnss_satellites_;
-  delete time_series_file_orbit_propagation_;
 }
 
 void GlobalEnvironment::Initialize(const SimulationConfiguration* simulation_configuration) {
@@ -27,7 +26,6 @@ void GlobalEnvironment::Initialize(const SimulationConfiguration* simulation_con
   simulation_time_ = InitSimulationTime(simulation_time_ini_path);
   hipparcos_catalogue_ = InitHipparcosCatalogue(simulation_configuration->initialize_base_file_name_);
   gnss_satellites_ = InitGnssSatellites(simulation_configuration->gnss_file_, celestial_information_->GetEarthRotation(), *simulation_time_);
-  time_series_file_orbit_propagation_ = InitTimeSeriesFileOrbitPropagation(simulation_configuration->time_series_file_, *simulation_time_);
 
   // Calc initial value
   celestial_information_->UpdateAllObjectsInformation(*simulation_time_);
@@ -37,14 +35,12 @@ void GlobalEnvironment::Update() {
   simulation_time_->UpdateTime();
   celestial_information_->UpdateAllObjectsInformation(*simulation_time_);
   gnss_satellites_->Update(*simulation_time_);
-  time_series_file_orbit_propagation_->Update(*simulation_time_);
 }
 
 void GlobalEnvironment::LogSetup(Logger& logger) {
   logger.AddLogList(simulation_time_);
   logger.AddLogList(celestial_information_);
   logger.AddLogList(gnss_satellites_);
-  logger.AddLogList(time_series_file_orbit_propagation_);
 }
 
 void GlobalEnvironment::Reset(void) { simulation_time_->ResetClock(); }
