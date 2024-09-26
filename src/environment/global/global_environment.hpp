@@ -8,7 +8,7 @@
 
 #include "celestial_information.hpp"
 #include "gnss_satellites.hpp"
-#include "dynamics/orbit/orbit_calculation_with_definition_file.hpp"
+#include "dynamics/orbit/time_series_file_orbit_propagation.hpp"
 #include "hipparcos_catalogue.hpp"
 #include "logger/logger.hpp"
 #include "simulation/simulation_configuration.hpp"
@@ -81,7 +81,7 @@ class GlobalEnvironment {
   CelestialInformation* celestial_information_;  //!< Celestial bodies information
   HipparcosCatalogue* hipparcos_catalogue_;      //!< Hipparcos catalogue
   GnssSatellites* gnss_satellites_;              //!< GNSS satellites
-  OrbitCalculationWithDefinitionFile* orbit_calculation_with_definition_file_;  //!< Orbit calculation with definition file
+  TimeSeriesFileOrbitPropagation* time_series_file_orbit_propagation_;  //!< Orbit calculation with definition file
 };
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_HPP_

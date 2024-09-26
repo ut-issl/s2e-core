@@ -19,15 +19,15 @@
  *@brief Time series data of orbit
  *@note Coordinate system and units follow the time series file
  */
-struct TimeSeriesData {
-  double et;  //!< Ephemeris time [s]
-  double x;     //!< Position x
-  double y;     //!< Position y
-  double z;     //!< Position z
-  double vx;    //!< Velocity x
-  double vy;    //!< Velocity y
-  double vz;    //!< Velocity z
-};
+// struct TimeSeriesData {
+//   double et;  //!< Ephemeris time [s]
+//   double x;     //!< Position x
+//   double y;     //!< Position y
+//   double z;     //!< Position z
+//   double vx;    //!< Velocity x
+//   double vy;    //!< Velocity y
+//   double vz;    //!< Velocity z
+// };
 
 /**
  * @class TimeSeriesFileOrbitPropagation
@@ -59,11 +59,11 @@ class TimeSeriesFileOrbitPropagation : public ILoggable {
   /**
    * @fn Initialize
    * @brief Initialize function
-   * @param [in] orbit_definition_data: orbit definition data
+   * @param [in] time_series_data: orbit definition data
    * @param [in] start_time: The simulation start time
    * @param [in] simulation_time: Simulation time information
    */
-  void Initialize(const std::vector<OrbitDefinitionData>& orbit_definition_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time);
+  void Initialize(const std::string ini_file_name, const std::vector<std::vector<double>>& time_series_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time);
 
   /**
    * @fn IsCalcEnabled
@@ -72,26 +72,26 @@ class TimeSeriesFileOrbitPropagation : public ILoggable {
   inline bool IsCalcEnabled() const { return is_calc_enabled_; }
 
   /**
-   * @fn ReadOrbitDefinitionCsv
+   * @fn ReadTimeSeriesCsv
    * @brief Read orbit definition CSV file.
    * @param ini_file_name Path to the initialize file.
-   * @param orbit_definition_file_path Path to orbit definition CSV file.
-   * @param orbit_definition_data List of orbit definition data.
+   * @param time_series_file_path Path to orbit definition CSV file.
+   * @param time_series_data List of orbit definition data.
    */
-  bool ReadOrbitDefinitionCsv(const std::string ini_file_name, const std::string& orbit_definition_file_path, std::vector<OrbitDefinitionData>& orbit_definition_data);
+  bool ReadTimeSeriesCsv(const std::string& time_series_file_path, std::vector<std::vector<double>>& time_series_data);
 
   /**
-   * @fn GetOrbitDefinitionDataSize
+   * @fn GetTimeSeriesDataSize
    * @brief Return read orbit definition data size.
    */
-  size_t GetOrbitDefinitionDataSize() const { return orbit_definition_data_.size(); }
+  size_t GetTimeSeriesDataSize() const { return time_series_data_.size(); }
 
   /**
-   * @fn GetOrbitDefinitionData
+   * @fn GetTimeSeriesData
    * @brief Return orbit definition data for a specific index.
    * @param index The index of the orbit definition data.
    */
-  OrbitDefinitionData GetOrbitDefinitionData(size_t index) const { return orbit_definition_data_[index]; }
+  std::vector<double> GetTimeSeriesData(size_t index) const { return time_series_data_[index]; }
 
   /**
    * @fn GetEpochData
@@ -146,11 +146,10 @@ class TimeSeriesFileOrbitPropagation : public ILoggable {
 
  private:
   bool is_calc_enabled_ = false;  //!< Flag to manage the orbit calculation
-  bool is_interpolation_method_error_message_displayed_ = false;  //!< Flag to manage the interpolation method error message
 
   std::vector<time_system::DateTime> epoch_;  //!< Epoch data list
   std::string ini_file_name_;                 //!< Path to the initialize file
-  std::vector<OrbitDefinitionData> orbit_definition_data_;  //!< List of orbit definition data
+  std::vector<std::vector<double>> time_series_data_;  //!< List of orbit definition data
   time_system::EpochTime current_epoch_time_;    //!< The last updated time
   time_system::EpochTime reference_time_;        //!< Reference start time of the orbit definition data handling
   size_t reference_interpolation_id_ = 0;        //!< Reference epoch ID of the interpolation

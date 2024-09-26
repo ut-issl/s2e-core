@@ -16,7 +16,8 @@
 #include "math_physics/math/constants.hpp"
 #include "logger/log_utility.hpp"
 
-void TimeSeriesFileOrbitPropagation::Initialize(const std::vector<OrbitDefinitionData>& orbit_definition_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time) {
+void TimeSeriesFileOrbitPropagation::Initialize(const std::string ini_file_name, const std::vector<std::vector<double>>& time_series_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time) {
+  ini_file_name_ = ini_file_name;
   IniAccess ini_file(ini_file_name_);
   char section[] = "TIME_SERIES_FILE_ORBIT_PROPAGATION";
   const size_t number_of_interpolation = ini_file.ReadInt(section, "number_of_interpolation");
@@ -30,7 +31,7 @@ void TimeSeriesFileOrbitPropagation::Initialize(const std::vector<OrbitDefinitio
   }
 
 
-  orbit_definition_data_ = orbit_definition_data;
+  time_series_data_ = time_series_data;
   current_epoch_time_ = start_time;
 
   // Get general info
@@ -49,106 +50,24 @@ void TimeSeriesFileOrbitPropagation::Initialize(const std::vector<OrbitDefinitio
   for (size_t i = 0; i < number_of_interpolation; i++) {
     UpdateInterpolationInformation();
   }
-
   return;
 }
 
-std::vector<std::string> ParseCsvLine(const std::string& line) {
-  std::vector<std::string> result;
-  std::stringstream ss(line);
-  std::string field;
-  bool inside_quotes = false;
-  char current_char;
-  std::string temp;
+bool TimeSeriesFileOrbitPropagation::ReadTimeSeriesCsv(const std::string& time_series_file_path, std::vector<std::vector<double>>& time_series_data) {
+  IniAccess time_series_file(time_series_file_path);
 
-  while (ss.get(current_char)) {
-    if (current_char == '"') {
-      inside_quotes = !inside_quotes;
-      temp += '"';
-    } else if (current_char == ',' && !inside_quotes) {
-      result.push_back(temp);
-      temp.clear();
-    } else {
-      temp += current_char;
-    }
-  }
-  result.push_back(temp);
 
-  return result;
-}
+  time_series_file.ReadCsvDoubleWithHeader(time_series_data, 7, 1, 0);
 
-bool TimeSeriesFileOrbitPropagation::ReadOrbitDefinitionCsv(const std::string ini_file_name, const std::string& orbit_definition_file_path, std::vector<OrbitDefinitionData>& orbit_definition_data) {
-  ini_file_name_ = ini_file_name;
-  IniAccess ini_file(ini_file_name_);
-  char section[] = "TIME_SERIES_FILE_ORBIT_PROPAGATION";
+  int year, month, day, hour, minute;
+  double second;
 
-  std::ifstream file(orbit_definition_file_path);
-  if (!file.is_open()) {
-    std::cout << "File open error. filename = " << orbit_definition_file_path << std::endl;
-    is_calc_enabled_ = false;
-    is_log_enabled_ = false;
-    return false;
-  }
-
-  std::string line;
-
-  if (std::getline(file, line)) {
-    std::vector<std::string> headers = ParseCsvLine(line);
-
-    int index_et = -1;
-    int index_x = -1;
-    int index_y = -1;
-    int index_z = -1;
-    int index_vx = -1;
-    int index_vy = -1;
-    int index_vz = -1;
-    for (int i = 0; i < headers.size(); ++i) {
-      if (headers[i] == ini_file.ReadString(section, "header_name_et")) {
-        index_et = i;
-      } else if (headers[i] == ini_file.ReadString(section, "header_name_x")) {
-        index_x = i;
-      } else if (headers[i] == ini_file.ReadString(section, "header_name_y")) {
-        index_y = i;
-      } else if (headers[i] == ini_file.ReadString(section, "header_name_z")) {
-        index_z = i;
-      } else if (headers[i] == ini_file.ReadString(section, "header_name_vx")) {
-        index_vx = i;
-      } else if (headers[i] == ini_file.ReadString(section, "header_name_vy")) {
-        index_vy = i;
-      } else if (headers[i] == ini_file.ReadString(section, "header_name_vz")) {
-        index_vz = i;
-      }
-    }
-
-    if (index_et == -1 || index_x == -1 || index_y == -1 || index_z == -1 || index_vx == -1 || index_vy == -1 || index_vz == -1) {
-      std::cout << "Header name error." << std::endl;
-      is_calc_enabled_ = false;
-      is_log_enabled_ = false;
-      return false;
-    }
-
-    int year, month, day, hour, minute;
-    double second;
-
-    while (std::getline(file, line)) {
-      std::vector<std::string> row = ParseCsvLine(line);
-      if (index_et < row.size() && index_x < row.size() && index_y < row.size() && index_z < row.size() && index_vx < row.size() && index_vy < row.size() && index_vz < row.size()) {
-        OrbitDefinitionData data;
-        data.et = std::stod(row[index_et]);
-        data.x = std::stod(row[index_x]);
-        data.y = std::stod(row[index_y]);
-        data.z = std::stod(row[index_z]);
-        data.vx = std::stod(row[index_vx]);
-        data.vy = std::stod(row[index_vy]);
-        data.vz = std::stod(row[index_vz]);
-
-        SpiceChar utc_char[80];
-        et2utc_c(data.et, "ISOC", 2, 80, utc_char);
-        sscanf(utc_char, "%d-%d-%dT%d:%d:%lf", &year, &month, &day, &hour, &minute, &second);
-        epoch_.push_back(time_system::DateTime(year, month, day, hour, minute, second));
-
-        orbit_definition_data.push_back(data);
-      }
+  for (size_t i = 0; i < time_series_data.size(); ++i) {
+    if (!time_series_data[i].empty()) {
+      SpiceChar utc_char[80];
+      et2utc_c(time_series_data[i][0], "ISOC", 2, 80, utc_char);
+      sscanf(utc_char, "%d-%d-%dT%d:%d:%lf", &year, &month, &day, &hour, &minute, &second);
+      epoch_.push_back(time_system::DateTime(year, month, day, hour, minute, second));
     }
   }
   return true;
@@ -181,8 +100,8 @@ size_t TimeSeriesFileOrbitPropagation::SearchNearestEpochId(const SimulationTime
   SpiceDouble start_et = simulation_time.GetCurrentEphemerisTime();
 
   // Get the nearest epoch ID
-  for (size_t i = 0; i < orbit_definition_data_.size(); i++) {
-    if (start_et < orbit_definition_data_[i].et) {
+  for (size_t i = 0; i < time_series_data_.size(); i++) {
+    if (start_et < time_series_data_[i][0]) {
       nearest_epoch_id = i;
       break;
     }
@@ -248,19 +167,19 @@ math::Vector<3> TimeSeriesFileOrbitPropagation::GetVelocity(const time_system::E
 }
 
 bool TimeSeriesFileOrbitPropagation::UpdateInterpolationInformation() {
-    time_system::EpochTime orbit_definition_time = time_system::EpochTime(GetEpochData(reference_interpolation_id_));
-    double time_diff_s = orbit_definition_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
-    math::Vector<3> orbit_definition_position;
-    math::Vector<3> orbit_definition_velocity;
-    orbit_definition_position(0) = orbit_definition_data_[reference_interpolation_id_].x;
-    orbit_definition_position(1) = orbit_definition_data_[reference_interpolation_id_].y;
-    orbit_definition_position(2) = orbit_definition_data_[reference_interpolation_id_].z;
-    orbit_definition_velocity(0) = orbit_definition_data_[reference_interpolation_id_].vx;
-    orbit_definition_velocity(1) = orbit_definition_data_[reference_interpolation_id_].vy;
-    orbit_definition_velocity(2) = orbit_definition_data_[reference_interpolation_id_].vz;
+    time_system::EpochTime time_series_time = time_system::EpochTime(GetEpochData(reference_interpolation_id_));
+    double time_diff_s = time_series_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
+    math::Vector<3> time_series_position;
+    math::Vector<3> time_series_velocity;
+    time_series_position[0] = time_series_data_[reference_interpolation_id_][1];
+    time_series_position[1] = time_series_data_[reference_interpolation_id_][2];
+    time_series_position[2] = time_series_data_[reference_interpolation_id_][3];
+    time_series_velocity[0] = time_series_data_[reference_interpolation_id_][4];
+    time_series_velocity[1] = time_series_data_[reference_interpolation_id_][5];
+    time_series_velocity[2] = time_series_data_[reference_interpolation_id_][6];
 
-    orbit_position_[0].PushAndPopData(time_diff_s, orbit_definition_position);
-    orbit_velocity_[0].PushAndPopData(time_diff_s, orbit_definition_velocity);
+    orbit_position_[0].PushAndPopData(time_diff_s, time_series_position);
+    orbit_velocity_[0].PushAndPopData(time_diff_s, time_series_velocity);
   
   reference_interpolation_id_++;
 
@@ -300,10 +219,10 @@ TimeSeriesFileOrbitPropagation* InitTimeSeriesFileOrbitPropagation(const std::st
     return time_series_file_orbit_propagation;
   }
 
-  const std::string orbit_definition_file_path = ini_file.ReadString(section, "orbit_definition_file_path");
+  const std::string time_series_file_path = ini_file.ReadString(section, "time_series_file_path");
 
-  std::vector<OrbitDefinitionData> orbit_definition_data;
-  if (!time_series_file_orbit_propagation->ReadOrbitDefinitionCsv(ini_file_name, orbit_definition_file_path, orbit_definition_data)) {
+  std::vector<std::vector<double>> time_series_data;
+  if (!time_series_file_orbit_propagation->ReadTimeSeriesCsv(time_series_file_path, time_series_data)) {
     return time_series_file_orbit_propagation;
   }
 
@@ -311,7 +230,7 @@ TimeSeriesFileOrbitPropagation* InitTimeSeriesFileOrbitPropagation(const std::st
                                         (size_t)simulation_time.GetStartDay(), (size_t)simulation_time.GetStartHour(),
                                         (size_t)simulation_time.GetStartMinute(), simulation_time.GetStartSecond());
   time_system::EpochTime start_epoch_time(start_date_time);
-  time_series_file_orbit_propagation->Initialize(orbit_definition_data, start_epoch_time, simulation_time);
+  time_series_file_orbit_propagation->Initialize(ini_file_name, time_series_data, start_epoch_time, simulation_time);
 
   return time_series_file_orbit_propagation;
 }

@@ -100,7 +100,7 @@ void SimulationCase::InitializeSimulationConfiguration(const std::string initial
   // Others
   simulation_configuration_.inter_sc_communication_file_ = simulation_base_ini.ReadString(section, "inter_sat_comm_file");
   simulation_configuration_.gnss_file_ = simulation_base_ini.ReadString(section, "gnss_file");
-  simulation_configuration_.orbit_definition_file_ = simulation_base_ini.ReadString(section, "orbit_definition_file");
+  simulation_configuration_.time_series_file_ = simulation_base_ini.ReadString(section, "time_series_file");
 
   // Global Environment
   global_environment_ = new GlobalEnvironment(&simulation_configuration_);
