@@ -42,7 +42,6 @@ void EarthAlbedo::CalcEarthAlbedo(const LocalCelestialInformation* local_celesti
   double earth_distance_m = earth_position_b_m.CalcNorm();
   earth_albedo_W_m2_ = srp_environment_->GetPowerDensity_W_m2() * GetEarthAlbedoFactor() *
                        pow((environment::astronomy::earth_equatorial_radius_m / earth_distance_m), 2.0) / 4.0;
-  std::cout << "##Earth albedo: " << earth_albedo_W_m2_ << std::endl;
 }
 
 EarthAlbedo InitEarthAlbedo(std::string initialize_file_path, LocalCelestialInformation* local_celestial_information,
