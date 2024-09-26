@@ -50,11 +50,7 @@ void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestia
 
   // Thermal
   if (simulation_time->GetThermalPropagateFlag()) {
-    if (!local_environment_->GetEarthAlbedo().GetIsCalcEarthAlbedoEnabled()) {
-      temperature_->Propagate(local_celestial_information->GetPositionFromSpacecraft_b_m("SUN"), simulation_time->GetElapsedTime_s());
-    } else {
-      temperature_->Propagate(local_celestial_information, simulation_time->GetElapsedTime_s());
-    }
+    temperature_->Propagate(local_celestial_information, simulation_time->GetElapsedTime_s());
   }
 }
 
