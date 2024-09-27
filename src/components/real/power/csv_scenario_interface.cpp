@@ -7,6 +7,8 @@
 
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 bool CsvScenarioInterface::is_csv_scenario_enabled_;
 std::map<std::string, unsigned int> CsvScenarioInterface::buffer_line_id_;
 std::map<std::string, DoubleBuffer> CsvScenarioInterface::buffers_;
@@ -92,3 +94,5 @@ double CsvScenarioInterface::GetValueFromBuffer(const std::string buffer_name, c
   output = itr->second;
   return output;
 }
+
+} // namespace s2e::components

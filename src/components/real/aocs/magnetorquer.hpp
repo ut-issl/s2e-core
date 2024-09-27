@@ -16,6 +16,8 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 const size_t kMtqDimension = 3;  //!< Dimension of magnetorquer
 
 /**
@@ -169,5 +171,7 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, 
  */
 Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
                               double component_step_time_s, const GeomagneticField* geomagnetic_field);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MAGNETORQUER_HPP_

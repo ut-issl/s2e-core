@@ -11,6 +11,8 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 /*
  * @class Battery
  * @brief Component emulation of battery
@@ -143,5 +145,7 @@ class Battery : public Component, public ILoggable {
  * @param [in] component_step_time_s: Component step time [sec]
  */
 Battery InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_name, double component_step_time_s);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_POWER_BATTERY_HPP_P_

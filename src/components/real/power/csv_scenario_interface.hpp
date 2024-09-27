@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+namespace s2e::components {
+
 typedef std::map<double, double> DoubleBuffer;
 
 /*
@@ -77,5 +79,7 @@ class CsvScenarioInterface {
   static std::map<std::string, unsigned int> buffer_line_id_;  //!< Buffer line ID
   static std::map<std::string, DoubleBuffer> buffers_;         //!< Buffer
 };
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_POWER_CSV_SCENARIO_INTERFACE_HPP_

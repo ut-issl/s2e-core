@@ -13,6 +13,8 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 /*
  * @class OnBoardComputer
  * @brief Class to emulate on board computer
@@ -206,5 +208,7 @@ class OnBoardComputer : public Component {
   std::map<int, I2cPort*> i2c_ports_;    //!< I2C ports
   std::map<int, GpioPort*> gpio_ports_;  //!< GPIO ports
 };
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_CDH_OBC_HPP_

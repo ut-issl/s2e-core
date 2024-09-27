@@ -13,6 +13,8 @@
 #include <logger/loggable.hpp>
 #include <simulation/ground_station/ground_station.hpp>
 
+namespace s2e::components {
+
 /*
  * @class GroundStationCalculator
  * @brief Emulation of analysis and calculation for Ground Stations
@@ -143,5 +145,7 @@ class GroundStationCalculator : public ILoggable {
  */
 
 GroundStationCalculator InitGsCalculator(const std::string file_name);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_

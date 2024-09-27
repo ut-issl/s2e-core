@@ -13,6 +13,8 @@
 #include "battery.hpp"
 #include "solar_array_panel.hpp"
 
+namespace s2e::components {
+
 class PcuInitialStudy : public Component, public ILoggable {
  public:
   /**
@@ -94,5 +96,7 @@ class PcuInitialStudy : public Component, public ILoggable {
  */
 PcuInitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id, const std::string file_name,
                                      const std::vector<SolarArrayPanel*> saps, Battery* battery, double component_step_time_s);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_POWER_PCU_INITIAL_STUDY_HPP_

@@ -15,6 +15,8 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 /*
  * @class SunSensor
  * @brief Class to emulate sun sensor
@@ -164,5 +166,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, int sensor_id, const st
  */
 SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                         const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_SUN_SENSOR_HPP_

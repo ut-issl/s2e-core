@@ -26,6 +26,8 @@
 #endif  // c2a-core version header
 #endif  // USE_C2A
 
+namespace s2e::components {
+
 std::map<int, UartPort*> ObcWithC2a::com_ports_c2a_;
 std::map<int, I2cPort*> ObcWithC2a::i2c_com_ports_c2a_;
 std::map<int, GpioPort*> ObcWithC2a::gpio_ports_c2a_;
@@ -256,3 +258,5 @@ bool ObcWithC2a::GpioRead_C2A(int port_id) {
 int OBC_C2A_GpioWrite(int port_id, const bool is_high) { return ObcWithC2a::GpioWrite_C2A(port_id, is_high); }
 
 bool OBC_C2A_GpioRead(int port_id) { return ObcWithC2a::GpioRead_C2A(port_id); }
+
+} // namespace s2e::components

@@ -17,6 +17,8 @@
 #include "reaction_wheel_jitter.hpp"
 #include "reaction_wheel_ode.hpp"
 
+namespace s2e::components {
+
 /*
  * @class ReactionWheel
  * @brief Class to emulate Reaction Wheel
@@ -245,5 +247,7 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id
  */
 ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name,
                                 double compo_update_step_s);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_

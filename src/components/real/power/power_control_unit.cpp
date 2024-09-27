@@ -4,6 +4,8 @@
  */
 #include "power_control_unit.hpp"
 
+namespace s2e::components {
+
 PowerControlUnit::PowerControlUnit(ClockGenerator* clock_generator) : Component(1, clock_generator) {}
 
 PowerControlUnit::PowerControlUnit(int prescaler, ClockGenerator* clock_generator) : Component(prescaler, clock_generator) {}
@@ -52,3 +54,5 @@ std::string PowerControlUnit::GetLogValue() const {
   std::string str_tmp = "";
   return str_tmp;
 }
+
+} // namespace s2e::components

@@ -11,6 +11,8 @@
 #include "c2a_communication.hpp"
 #include "on_board_computer.hpp"
 
+namespace s2e::components {
+
 /*
  * @class ObcWithC2a
  * @brief Class to emulate on board computer with C2A flight software
@@ -270,5 +272,7 @@ class ObcWithC2a : public OnBoardComputer {
   static std::map<int, I2cPort*> i2c_com_ports_c2a_;  //!< I2C ports
   static std::map<int, GpioPort*> gpio_ports_c2a_;    //!< GPIO ports
 };
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_CDH_OBC_C2A_HPP_

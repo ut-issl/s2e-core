@@ -11,6 +11,8 @@
 #include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 Magnetorquer::Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
                            const s2e::math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
                            const s2e::math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2, const s2e::math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2,
@@ -203,3 +205,5 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_
                           random_walk_limit_c_Am2, normal_random_standard_deviation_c_Am2, geomagnetic_field);
   return magtorquer;
 }
+
+} // namespace s2e::components

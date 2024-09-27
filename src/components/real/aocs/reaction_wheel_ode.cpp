@@ -6,6 +6,8 @@
 
 #include <utilities/macros.hpp>
 
+namespace s2e::components {
+
 ReactionWheelOde::ReactionWheelOde(const double step_width_s, const double velocity_limit_rad_s, const double initial_angular_velocity_rad_s)
     : OrdinaryDifferentialEquation<1>(step_width_s), velocity_limit_rad_s_(velocity_limit_rad_s) {
   this->Setup(0.0, s2e::math::Vector<1>(initial_angular_velocity_rad_s));
@@ -28,3 +30,5 @@ void ReactionWheelOde::DerivativeFunction(double x, const s2e::math::Vector<1> &
 
   rhs[0] = angular_acceleration_rad_s2_;
 }
+
+} // namespace s2e::components

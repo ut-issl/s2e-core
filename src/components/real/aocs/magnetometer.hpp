@@ -13,6 +13,8 @@
 #include "../../base/component.hpp"
 #include "../../base/sensor.hpp"
 
+namespace s2e::components {
+
 const size_t kMagnetometerDimension = 3;  //!< Dimension of magnetometer
 
 /**
@@ -128,5 +130,7 @@ Magnetometer InitMagnetometer(ClockGenerator* clock_generator, int sensor_id, co
  */
 Magnetometer InitMagnetometer(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                               double component_step_time_s, const GeomagneticField* geomagnetic_field);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MAGNETOMETER_HPP_

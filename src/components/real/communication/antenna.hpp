@@ -14,6 +14,8 @@ using s2e::math::Vector;
 
 #include "./antenna_radiation_pattern.hpp"
 
+namespace s2e::components {
+
 /*
  * @enum AntennaGainModel
  * @brief Antenna gain model definition
@@ -165,5 +167,7 @@ AntennaGainModel SetAntennaGainModel(const std::string gain_model_name);
  * @param [in] file_name: Path to initialize file
  */
 Antenna InitAntenna(const int antenna_id, const std::string file_name);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_HPP_

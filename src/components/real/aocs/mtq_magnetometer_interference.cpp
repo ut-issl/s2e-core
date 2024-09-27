@@ -7,6 +7,8 @@
 
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::components {
+
 MtqMagnetometerInterference::MtqMagnetometerInterference(const std::string file_name, Magnetometer& magnetometer, const Magnetorquer& magnetorquer,
                                                          const size_t initialize_id)
     : magnetometer_(magnetometer), magnetorquer_(magnetorquer) {
@@ -49,3 +51,5 @@ void MtqMagnetometerInterference::UpdateInterference(void) {
   magnetometer_.AddConstantBiasNoise_c_nT(additional_bias_c_nT);
   previous_added_bias_c_nT_ = additional_bias_c_nT;
 }
+
+} // namespace s2e::components

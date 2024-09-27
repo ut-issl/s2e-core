@@ -7,6 +7,8 @@
 
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 GyroSensor::GyroSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
                        const s2e::math::Quaternion& quaternion_b2c, const Dynamics* dynamics)
     : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), quaternion_b2c_(quaternion_b2c), dynamics_(dynamics) {}
@@ -88,3 +90,5 @@ GyroSensor InitGyroSensor(ClockGenerator* clock_generator, PowerPort* power_port
   GyroSensor gyro(prescaler, clock_generator, power_port, sensor_base, sensor_id, quaternion_b2c, dynamics);
   return gyro;
 }
+
+} // namespace s2e::components

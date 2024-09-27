@@ -11,6 +11,8 @@
 #include <random>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                              const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
                              const s2e::math::Quaternion quaternion_b2c, const s2e::math::Vector<3> position_b_m, const double dead_time_s,
@@ -353,3 +355,5 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* powe
 
   return rw;
 }
+
+} // namespace s2e::components

@@ -14,6 +14,8 @@ using s2e::randomization::NormalRand;
 
 using namespace std;
 
+namespace s2e::components {
+
 SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
                      const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
@@ -218,3 +220,5 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, 
                intensity_lower_threshold_percent, srp_environment, local_celestial_information);
   return ss;
 }
+
+} // namespace s2e::components

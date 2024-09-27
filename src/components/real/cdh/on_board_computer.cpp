@@ -4,6 +4,8 @@
  */
 #include "on_board_computer.hpp"
 
+namespace s2e::components {
+
 OnBoardComputer::OnBoardComputer(ClockGenerator* clock_generator) : Component(1, clock_generator) { Initialize(); }
 
 OnBoardComputer::OnBoardComputer(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port)
@@ -132,3 +134,5 @@ bool OnBoardComputer::GpioComponentRead(int port_id) {
   if (port == nullptr) return false;
   return port->DigitalRead();
 }
+
+} // namespace s2e::components

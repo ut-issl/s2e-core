@@ -13,6 +13,8 @@
 #include "../../base/component.hpp"
 #include "../../base/sensor.hpp"
 
+namespace s2e::components {
+
 const size_t kGyroDimension = 3;  //!< Dimension of gyro sensor
 
 /**
@@ -109,5 +111,7 @@ GyroSensor InitGyroSensor(ClockGenerator* clock_generator, int sensor_id, const 
  */
 GyroSensor InitGyroSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                           double component_step_time_s, const Dynamics* dynamics);
+
+} //namespace s2e::components 
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_GYRO_SENSOR_HPP_

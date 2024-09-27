@@ -16,6 +16,8 @@
 using namespace std;
 using namespace s2e::math;
 
+namespace s2e::components {
+
 StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
                        const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction,
                        const double step_time_s, const unsigned int output_delay, const unsigned int output_interval,
@@ -281,3 +283,5 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, PowerPort* power_port
                  moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_environment);
   return stt;
 }
+
+} // namespace s2e::components

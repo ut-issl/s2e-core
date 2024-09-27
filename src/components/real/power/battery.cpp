@@ -8,6 +8,8 @@
 #include <cmath>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 Battery::Battery(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
                  const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
                  double battery_resistance_Ohm, double component_step_time_s)
@@ -130,3 +132,5 @@ Battery InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string f
 
   return battery;
 }
+
+} // namespace s2e::components

@@ -15,6 +15,8 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 /*
  * @class SimpleThruster
  * @brief Component emulation of simple thruster
@@ -178,5 +180,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_
  */
 SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
                                   const Structure* structure, const Dynamics* dynamics);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_PROPULSION_SIMPLE_THRUSTER_HPP_

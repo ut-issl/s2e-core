@@ -11,6 +11,8 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 /*
  * @class C2aCommandSender
  * @brief A component to send C2A command using WINGS operation file
@@ -75,5 +77,7 @@ class WingsCommandSenderToC2a : public Component {
  */
 WingsCommandSenderToC2a InitWingsCommandSenderToC2a(ClockGenerator* clock_generator, const double compo_update_step_s,
                                                     const std::string initialize_file);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_C2A_COMMAND_SENDER_HPP_

@@ -9,6 +9,8 @@
 #include <random>
 #include <utilities/macros.hpp>
 
+namespace s2e::components {
+
 ReactionWheelJitter::ReactionWheelJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,
                                          std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double update_interval_s,
                                          const s2e::math::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz,
@@ -126,3 +128,5 @@ void ReactionWheelJitter::CalcCoefficients() {
   coefficients_[5] = 4.0 - 4.0 * damping_factor_ * update_interval_s_ * structural_resonance_angular_frequency_Hz_ +
                      pow(update_interval_s_, 2.0) * pow(structural_resonance_angular_frequency_Hz_, 2.0);
 }
+
+} // namespace s2e::components

@@ -7,6 +7,8 @@
 #include <math_physics/math/quaternion.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 Magnetometer::Magnetometer(int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
                            const s2e::math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator),
@@ -91,3 +93,5 @@ Magnetometer InitMagnetometer(ClockGenerator* clock_generator, PowerPort* power_
   Magnetometer magsensor(prescaler, clock_generator, power_port, sensor_base, sensor_id, quaternion_b2c, geomagnetic_field);
   return magsensor;
 }
+
+} // namespace s2e::components

@@ -12,6 +12,8 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 /*
  * @class PowerControlUnit
  * @brief Component emulation of Power Control Unit
@@ -94,5 +96,7 @@ class PowerControlUnit : public Component, public ILoggable {
  private:
   std::map<int, PowerPort*> power_ports_;  //!< Power port list
 };
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_POWER_POWER_CONTROL_UNIT_HPP_

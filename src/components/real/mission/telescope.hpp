@@ -17,6 +17,8 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 /*
  * @struct Star
  * @brief Information of stars in the telescope's field of view
@@ -169,5 +171,7 @@ class Telescope : public Component, public ILoggable {
 Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, const Attitude* attitude,
                         const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
                         const Orbit* orbit = nullptr);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_

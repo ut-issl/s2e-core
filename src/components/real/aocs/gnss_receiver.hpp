@@ -16,6 +16,8 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 /**
  * @enum AntennaModel
  * @brief Antenna pattern model to emulate GNSS antenna
@@ -239,5 +241,7 @@ GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, const size_t comp
  */
 GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id, const std::string file_name,
                               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_GNSS_RECEIVER_HPP_

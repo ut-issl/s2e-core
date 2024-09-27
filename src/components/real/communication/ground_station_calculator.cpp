@@ -9,6 +9,8 @@
 #include <math_physics/math/constants.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 GroundStationCalculator::GroundStationCalculator(const double loss_polarization_dB, const double loss_atmosphere_dB, const double loss_rainfall_dB,
                                                  const double loss_others_dB, const double ebn0_dB, const double hardware_deterioration_dB,
                                                  const double coding_gain_dB, const double margin_requirement_dB, const double downlink_bitrate_bps)
@@ -136,3 +138,5 @@ GroundStationCalculator InitGsCalculator(const std::string file_name) {
                                         hardware_deterioration_dB, coding_gain_dB, margin_requirement_dB, downlink_bitrate_bps);
   return gs_calculator;
 }
+
+} // namespace s2e::components

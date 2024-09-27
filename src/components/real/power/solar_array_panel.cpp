@@ -9,6 +9,8 @@
 #include <environment/global/clock_generator.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
                                  double cell_area_m2, s2e::math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
                                  const SolarRadiationPressureEnvironment* srp_environment,
@@ -180,3 +182,5 @@ SolarArrayPanel InitSAP(ClockGenerator* clock_generator, int sap_id, const std::
 
   return sap;
 }
+
+} // namespace s2e::components

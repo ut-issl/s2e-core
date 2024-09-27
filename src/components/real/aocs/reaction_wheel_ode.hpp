@@ -8,6 +8,8 @@
 
 #include <math_physics/math/ordinary_differential_equation.hpp>
 
+namespace s2e::components {
+
 /*
  * @file ReactionWheelOde
  * @brief Ordinary differential equation of angular velocity of reaction wheel with first-order lag
@@ -58,5 +60,7 @@ class ReactionWheelOde : public s2e::math::OrdinaryDifferentialEquation<1> {
   double velocity_limit_rad_s_;
   double angular_acceleration_rad_s2_ = 0.0;  //!< Angular acceleration [rad/s2]
 };
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_ODE_HPP_

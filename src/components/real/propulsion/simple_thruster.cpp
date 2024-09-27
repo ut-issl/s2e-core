@@ -9,6 +9,8 @@
 #include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 // Constructor
 SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id,
                                const s2e::math::Vector<3> thruster_position_b_m, const s2e::math::Vector<3> thrust_direction_b, const double max_magnitude_N,
@@ -177,3 +179,5 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* po
                           magnitude_standard_deviation_N, deg_err, structure, dynamics);
   return thruster;
 }
+
+} // namespace s2e::components

@@ -18,6 +18,8 @@
 #include "../../base/component.hpp"
 #include "dynamics/dynamics.hpp"
 
+namespace s2e::components {
+
 /*
  * @class StarSensor
  * @brief Class to emulate star tracker
@@ -231,5 +233,7 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const 
  */
 StarSensor InitStarSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                           double component_step_time_s, const Dynamics* dynamics, const LocalEnvironment* local_environment);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_STAR_SENSOR_HPP_

@@ -11,6 +11,8 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 #include <string>
 
+namespace s2e::components {
+
 GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
                            const s2e::math::Vector<3> antenna_position_b_m, const s2e::math::Quaternion quaternion_b2c, const double half_width_deg,
                            const s2e::math::Vector<3> position_noise_standard_deviation_ecef_m,
@@ -311,3 +313,5 @@ GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_
                       gr_param.velocity_noise_standard_deviation_ecef_m_s, dynamics, gnss_satellites, simulation_time);
   return gnss_r;
 }
+
+} // namespace s2e::components

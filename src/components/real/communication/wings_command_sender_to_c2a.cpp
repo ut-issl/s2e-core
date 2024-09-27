@@ -26,6 +26,8 @@
 #endif  // c2a-core version header
 #endif  // USE_C2A
 
+namespace s2e::components {
+
 void WingsCommandSenderToC2a::MainRoutine(const int time_count) {
   UNUSED(time_count);
   if (is_enabled_ == false) return;
@@ -148,3 +150,5 @@ WingsCommandSenderToC2a InitWingsCommandSenderToC2a(ClockGenerator* clock_genera
 
   return WingsCommandSenderToC2a(prescaler, clock_generator, step_width_s, c2a_command_data_base_file, wings_operation_file, is_enabled);
 }
+
+} // namespace s2e::components

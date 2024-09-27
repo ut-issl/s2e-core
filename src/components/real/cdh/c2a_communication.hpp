@@ -6,6 +6,8 @@
 #ifndef C2A_COMMUNICATION_H_
 #define C2A_COMMUNICATION_H_
 
+namespace s2e::components {
+
 // If the character encoding of C2A is UTF-8, the following functions are not necessary,
 // and users can directory use SendFromObc_C2A and ReceivedByObc_C2A UART
 // TODO: Delete these functions since C2A is changed to use UTF-8
@@ -22,5 +24,7 @@ int OBC_C2A_I2cReadRegister(int port_id, const unsigned char i2c_address, unsign
 // GPIO
 int OBC_C2A_GpioWrite(int port_id, const bool is_high);
 bool OBC_C2A_GpioRead(int port_id);  // return false when the port_id is not used
+
+} // namespace s2e::components
 
 #endif  // C2A_COMMUNICATION_H_

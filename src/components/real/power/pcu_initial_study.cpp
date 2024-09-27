@@ -10,6 +10,8 @@
 #include <environment/global/clock_generator.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
                                  double component_step_time_s)
     : Component(prescaler, clock_generator),
@@ -124,3 +126,5 @@ PcuInitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id
 
   return pcu;
 }
+
+} // namespace s2e::components
