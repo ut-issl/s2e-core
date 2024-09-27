@@ -12,6 +12,8 @@
 #include <sstream>
 #include <string>
 
+namespace s2e::logger {
+
 /**
  * @fn WriteScalar
  * @brief Write scalar value
@@ -155,5 +157,7 @@ std::string WriteQuaternion(const std::string name, const std::string frame) {
   }
   return str_tmp.str();
 }
+
+} // namespace s2e::logger
 
 #endif  // S2E_LIBRARY_LOGGER_LOG_UTILITY_HPP_

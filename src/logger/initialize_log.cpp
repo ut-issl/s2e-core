@@ -7,6 +7,8 @@
 
 #include "../setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::logger {
+
 Logger* InitLog(std::string file_name) {
   IniAccess ini_file(file_name);
 
@@ -28,3 +30,5 @@ Logger* InitMonteCarloLog(std::string file_name, bool enable) {
 
   return log;
 }
+
+} // namespace s2e::logger

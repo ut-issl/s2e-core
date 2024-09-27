@@ -13,6 +13,8 @@ bool Logger::is_directory_created_ = false;
 
 namespace fs = std::filesystem;
 
+namespace s2e::logger {
+
 Logger::Logger(const std::string &file_name, const fs::path &data_path, const fs::path &ini_file_name, const bool is_ini_save_enabled,
                const bool is_enabled)
     : is_enabled_(is_enabled), is_ini_save_enabled_(is_ini_save_enabled) {
@@ -103,3 +105,5 @@ void Logger::CopyFileToLogDirectory(const fs::path &ini_file_name) {
   fs::copy_file(ini_file_name, to_file_name);
   return;
 }
+
+} // namespace s2e::logger

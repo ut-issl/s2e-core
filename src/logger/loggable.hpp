@@ -10,6 +10,8 @@
 
 #include "log_utility.hpp"  // This is not necessary but include here for convenience
 
+namespace s2e::logger {
+
 /**
  * @class ILoggable
  * @brief Abstract class to manage logging
@@ -33,5 +35,7 @@ class ILoggable {
 
   bool is_log_enabled_ = true;  //!< Log enable flag
 };
+
+} // namespace s2e::logger
 
 #endif  // S2E_LIBRARY_LOGGER_LOGGABLE_HPP_
