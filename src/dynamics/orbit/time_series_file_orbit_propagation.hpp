@@ -7,7 +7,6 @@
 #define S2E_DYNAMICS_ORBIT_TIME_SERIES_FILE_ORBIT_PROPAGATION_HPP_
 
 #include <math_physics/orbit/interpolation_orbit.hpp>
-#include <math_physics/time_system/epoch_time.hpp>
 #include <string>
 #include <vector>
 
@@ -29,8 +28,9 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
    * @param [in] orbital_period_correction_s: Orbital period correction [s]
    * @param [in] current_time_jd: Current Julian day [day]
    */
-  TimeSeriesFileOrbitPropagation(const CelestialInformation* celestial_information, std::string time_series_file_path, int number_of_interpolation,
-                                 int interpolation_method, double orbital_period_correction_s, const double current_time_jd);
+  TimeSeriesFileOrbitPropagation(const CelestialInformation* celestial_information, const std::string time_series_file_path,
+                                 const int number_of_interpolation, const int interpolation_method, const double orbital_period_correction_s,
+                                 const double current_time_jd);
 
   /**
    *@fn ~TimeSeriesFileOrbitPropagation
@@ -41,9 +41,9 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
   /**
    * @fn CalcEpochData
    * @brief Return epoch data for a specific epoch ID.
-   * @param epoch_id The epoch ID of the orbit definition data.
+   * @param ephemeris_time_id The ephemeris time ID of the orbit definition data.
    */
-  time_system::DateTime CalcEpochData(const size_t epoch_id) const;
+  double CalcEpochData(const size_t ephemeris_time_id) const;
 
   /**
    * @fn SearchNearestEpochId
@@ -62,18 +62,16 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
   virtual void Propagate(const double end_time_s, const double current_time_jd);
 
  private:
-  bool is_time_range_warning_displayed_ = false;          //!< Flag for time range warning
-  bool is_interpolation_method_error_displayed_ = false;  //!< Flag for interpolation method error
+  bool is_time_range_warning_displayed_;          //!< Flag for time range warning
+  bool is_interpolation_method_error_displayed_;  //!< Flag for interpolation method error
 
   int number_of_interpolation_;         //!< Number of interpolation
   int interpolation_method_;            //!< Interpolation method
   double orbital_period_correction_s_;  //!< Orbital period correction [s]
 
-  std::vector<time_system::DateTime> epoch_;           //!< Epoch data list
   std::vector<std::vector<double>> time_series_data_;  //!< List of orbit definition data
-  time_system::EpochTime current_epoch_time_;          //!< The last updated time
-  time_system::EpochTime reference_time_;              //!< Reference start time of the orbit definition data handling
-  size_t reference_interpolation_id_ = 0;              //!< Reference epoch ID of the interpolation
+  double reference_time_;                              //!< Reference start time of the orbit definition data handling
+  size_t reference_interpolation_id_;                  //!< Reference epoch ID of the interpolation
 
   std::vector<orbit::InterpolationOrbit> orbit_position_i_m_;    //!< Position with interpolation
   std::vector<orbit::InterpolationOrbit> orbit_velocity_i_m_s_;  //!< Velocity with interpolation
@@ -87,3 +85,4 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_TIME_SERIES_FILE_ORBIT_PROPAGATION_HPP_
+

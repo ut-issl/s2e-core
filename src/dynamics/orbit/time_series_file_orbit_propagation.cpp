@@ -14,42 +14,33 @@
 
 #include "logger/log_utility.hpp"
 #include "math_physics/math/constants.hpp"
-#include "math_physics/time_system/date_time_format.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
 TimeSeriesFileOrbitPropagation::TimeSeriesFileOrbitPropagation(const CelestialInformation* celestial_information, std::string time_series_file_path,
                                                                int number_of_interpolation, int interpolation_method,
                                                                double orbital_period_correction_s, const double current_time_jd)
-    : Orbit(celestial_information) {
+    : Orbit(celestial_information),
+      is_time_range_warning_displayed_(false),
+      is_interpolation_method_error_displayed_(false),
+      number_of_interpolation_(number_of_interpolation),
+      interpolation_method_(interpolation_method),
+      orbital_period_correction_s_(orbital_period_correction_s),
+      reference_interpolation_id_(0) {
   propagate_mode_ = OrbitPropagateMode::kTimeSeriesFile;
-
-  number_of_interpolation_ = number_of_interpolation;
-  interpolation_method_ = interpolation_method;
-  orbital_period_correction_s_ = orbital_period_correction_s;
 
   // Read time series file
   IniAccess time_series_file(time_series_file_path);
   time_series_file.ReadCsvDoubleWithHeader(time_series_data_, 7, 1, 0);
-  int year, month, day, hour, minute;
-  double second;
-  for (size_t i = 0; i < time_series_data_.size(); ++i) {
-    if (!time_series_data_[i].empty()) {
-      SpiceChar utc_char[80];
-      et2utc_c(time_series_data_[i][0], "ISOC", 2, 80, utc_char);
-      sscanf(utc_char, "%d-%d-%dT%d:%d:%lf", &year, &month, &day, &hour, &minute, &second);
-      epoch_.push_back(time_system::DateTime(year, month, day, hour, minute, second));
-    }
-  }
 
   // Get general info
-  size_t nearest_epoch_id = SearchNearestEpochId(current_time_jd);
+  size_t nearest_ephemeris_time_id = SearchNearestEpochId(current_time_jd);
 
   const size_t half_interpolation_number = number_of_interpolation / 2;
-  if (nearest_epoch_id >= half_interpolation_number) {
-    reference_interpolation_id_ = nearest_epoch_id - half_interpolation_number;
+  if (nearest_ephemeris_time_id >= half_interpolation_number) {
+    reference_interpolation_id_ = nearest_ephemeris_time_id - half_interpolation_number;
   }
 
-  reference_time_ = time_system::EpochTime(CalcEpochData(reference_interpolation_id_));
+  reference_time_ = CalcEpochData(reference_interpolation_id_);
 
   // Initialize orbit
   orbit_position_i_m_.assign(1.0, orbit::InterpolationOrbit(number_of_interpolation));
@@ -68,7 +59,7 @@ TimeSeriesFileOrbitPropagation::TimeSeriesFileOrbitPropagation(const CelestialIn
 }
 
 size_t TimeSeriesFileOrbitPropagation::SearchNearestEpochId(const double current_time_jd) {
-  size_t nearest_epoch_id = 0;
+  size_t nearest_ephemeris_time_id = 0;
 
   // Get start ephemeris time
   double start_ephemris_time = (current_time_jd - 2451545.0) * 86400.0;
@@ -76,19 +67,18 @@ size_t TimeSeriesFileOrbitPropagation::SearchNearestEpochId(const double current
   // Get the nearest epoch ID
   for (size_t i = 0; i < time_series_data_.size(); i++) {
     if (start_ephemris_time < time_series_data_[i][0]) {
-      nearest_epoch_id = i;
+      nearest_ephemeris_time_id = i;
       break;
     }
   }
-  return nearest_epoch_id;
+  return nearest_ephemeris_time_id;
 }
 
-time_system::DateTime TimeSeriesFileOrbitPropagation::CalcEpochData(const size_t epoch_id) const {
-  if (epoch_id > epoch_.size()) {
-    time_system::DateTime zero;
-    return zero;
+double TimeSeriesFileOrbitPropagation::CalcEpochData(const size_t ephemeris_time_id) const {
+  if (ephemeris_time_id > time_series_data_.size()) {
+    return 0;
   }
-  return epoch_[epoch_id];
+  return time_series_data_[ephemeris_time_id][0];
 }
 
 void TimeSeriesFileOrbitPropagation::Propagate(const double end_time_s, const double current_time_jd) {
@@ -96,18 +86,9 @@ void TimeSeriesFileOrbitPropagation::Propagate(const double end_time_s, const do
 
   if (!is_calc_enabled_) return;
 
-  // Get time
-  int year, month, day, hour, minute;
-  double second;
-  SpiceChar current_utc_char[80];
-  double current_ephemris_time = (current_time_jd - 2451545.0) * 86400.0;
-  et2utc_c(current_ephemris_time, "ISOC", 2, 80, current_utc_char);
-  sscanf(current_utc_char, "%d-%d-%dT%d:%d:%lf", &year, &month, &day, &hour, &minute, &second);
-  time_system::DateTime current_date_time(year, month, day, hour, minute, second);
-  current_epoch_time_ = time_system::EpochTime(current_date_time);
-
   // Check interpolation update
-  double diff_s = current_epoch_time_.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
+  double current_ephemris_time = (current_time_jd - 2451545.0) * 86400.0;
+  double diff_s = current_ephemris_time - reference_time_;
   double medium_time_s = orbit_position_i_m_[0].GetTimeList()[std::round(number_of_interpolation_ / 2.0)];
   if (diff_s > medium_time_s) {
     UpdateInterpolationInformation();
@@ -152,8 +133,8 @@ void TimeSeriesFileOrbitPropagation::Propagate(const double end_time_s, const do
 }
 
 bool TimeSeriesFileOrbitPropagation::UpdateInterpolationInformation() {
-  time_system::EpochTime time_series_time = time_system::EpochTime(CalcEpochData(reference_interpolation_id_));
-  double time_diff_s = time_series_time.GetTimeWithFraction_s() - reference_time_.GetTimeWithFraction_s();
+  double time_series_data_time_s = CalcEpochData(reference_interpolation_id_);
+  double time_diff_s = time_series_data_time_s - reference_time_;
   if (reference_interpolation_id_ >= time_series_data_.size()) {
     for (size_t i = 0; i < 3; i++) {
       spacecraft_position_i_m_[i] = time_series_data_[time_series_data_.size() - 1][i + 1];
