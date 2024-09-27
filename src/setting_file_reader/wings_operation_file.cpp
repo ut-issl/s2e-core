@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+namespace s2e::setting_file_reader {
+
 WingsOperationFile::WingsOperationFile(const std::string file_path) {
   // File open
   std::ifstream file(file_path);
@@ -45,3 +47,5 @@ std::string WingsOperationFile::GetLatestLine() {
 
   return line;
 }
+
+} // namespace s2e::setting_file_reader

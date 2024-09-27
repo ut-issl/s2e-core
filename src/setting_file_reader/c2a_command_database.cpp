@@ -11,6 +11,8 @@
 #include <utilities/endian.hpp>
 #include <utilities/macros.hpp>
 
+namespace s2e::setting_file_reader {
+
 C2aCommandInformation::C2aCommandInformation(const std::string cmd_db_line) {
   if (cmd_db_line.find("*") == 0) return;
   if (cmd_db_line.find(",") != 0) return;
@@ -158,3 +160,5 @@ void DecodeC2aCommandArgument(const C2aArgumentType type, const std::string argu
       break;
   }
 }
+
+} // namespace s2e::setting_file_reader

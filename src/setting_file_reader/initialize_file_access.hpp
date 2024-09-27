@@ -27,6 +27,8 @@
 #include <string>
 #include <vector>
 
+namespace s2e::setting_file_reader {
+
 /**
  * @class IniAccess
  * @brief Class to read and get parameters for the `ini` format file
@@ -215,5 +217,7 @@ void IniAccess::ReadVector(const char* section_name, const char* key_name, s2e::
     data[i] = ReadDouble(section_name, c_name.str().c_str());
   }
 }
+
+} // namespace s2e::setting_file_reader
 
 #endif  // S2E_LIBRARY_INITIALIZE_INITIALIZE_FILE_ACCESS_HPP_
