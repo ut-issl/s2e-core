@@ -20,6 +20,8 @@
 class RelativeInformation;
 class LocalEnvironment;
 
+namespace s2e::dynamics {
+
 /**
  * @class Dynamics
  * @brief Class to manage dynamics of spacecraft
@@ -126,5 +128,7 @@ class Dynamics {
   void Initialize(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time, const int spacecraft_id,
                   Structure* structure, RelativeInformation* relative_information = (RelativeInformation*)nullptr);
 };
+
+} // namespace s2e::dynamics
 
 #endif  // S2E_DYNAMICS_DYNAMICS_HPP_

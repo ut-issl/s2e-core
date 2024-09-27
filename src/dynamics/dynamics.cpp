@@ -7,6 +7,8 @@
 
 #include "../simulation/multiple_spacecraft/relative_information.hpp"
 
+namespace s2e::dynamics {
+
 Dynamics::Dynamics(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time,
                    const LocalEnvironment* local_environment, const int spacecraft_id, Structure* structure,
                    RelativeInformation* relative_information)
@@ -65,3 +67,5 @@ void Dynamics::LogSetup(Logger& logger) {
   logger.AddLogList(orbit_);
   logger.AddLogList(temperature_);
 }
+
+} // namespace s2e::dynamics
