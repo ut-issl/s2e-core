@@ -6,30 +6,12 @@
 #ifndef S2E_DYNAMICS_ORBIT_TIME_SERIES_FILE_ORBIT_PROPAGATION_HPP_
 #define S2E_DYNAMICS_ORBIT_TIME_SERIES_FILE_ORBIT_PROPAGATION_HPP_
 
+#include <math_physics/orbit/interpolation_orbit.hpp>
+#include <math_physics/time_system/epoch_time.hpp>
 #include <string>
 #include <vector>
 
-#include <math_physics/orbit/interpolation_orbit.hpp>
-#include <math_physics/time_system/epoch_time.hpp>
-
-#include "environment/global/simulation_time.hpp"
-
 #include "orbit.hpp"
-
-/**
- *@struct TimeSeriesData
- *@brief Time series data of orbit
- *@note Coordinate system and units follow the time series file
- */
-// struct TimeSeriesData {
-//   double et;  //!< Ephemeris time [s]
-//   double x;     //!< Position x
-//   double y;     //!< Position y
-//   double z;     //!< Position z
-//   double vx;    //!< Velocity x
-//   double vy;    //!< Velocity y
-//   double vz;    //!< Velocity z
-// };
 
 /**
  * @class TimeSeriesFileOrbitPropagation
@@ -41,59 +23,27 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
    *@fn TimeSeriesFileOrbitPropagation
    *@brief Constructor
    * @param [in] celestial_information: Celestial information
+   * @param [in] time_series_file_path: Path to the time series file
+   * @param [in] number_of_interpolation: Number of interpolation
+   * @param [in] interpolation_method: Interpolation method
+   * @param [in] orbital_period_correction_s: Orbital period correction [s]
    * @param [in] current_time_jd: Current Julian day [day]
    */
-  TimeSeriesFileOrbitPropagation(const CelestialInformation* celestial_information, std::string time_series_file_path, int number_of_interpolation, int interpolation_method, double orbital_period_correction, const double current_time_jd);
+  TimeSeriesFileOrbitPropagation(const CelestialInformation* celestial_information, std::string time_series_file_path, int number_of_interpolation,
+                                 int interpolation_method, double orbital_period_correction_s, const double current_time_jd);
 
   /**
    *@fn ~TimeSeriesFileOrbitPropagation
    *@brief Destructor
-   */  
+   */
   virtual ~TimeSeriesFileOrbitPropagation() {}
 
   /**
-   * @fn Initialize
-   * @brief Initialize function
-   * @param [in] time_series_data: orbit definition data
-   * @param [in] start_time: The simulation start time
-   * @param [in] simulation_time: Simulation time information
-   */
-  void Initialize(const std::string ini_file_name, const std::vector<std::vector<double>>& time_series_data, const time_system::EpochTime start_time, const SimulationTime& simulation_time);
-
-  /**
-   * @fn IsCalcEnabled
-   * @brief Return calculated enabled flag
-   */
-  inline bool IsCalcEnabled() const { return is_calc_enabled_; }
-
-  /**
-   * @fn ReadTimeSeriesCsv
-   * @brief Read orbit definition CSV file.
-   * @param ini_file_name Path to the initialize file.
-   * @param time_series_file_path Path to orbit definition CSV file.
-   * @param time_series_data List of orbit definition data.
-   */
-  bool ReadTimeSeriesCsv(const std::string& time_series_file_path, std::vector<std::vector<double>>& time_series_data);
-
-  /**
-   * @fn GetTimeSeriesDataSize
-   * @brief Return read orbit definition data size.
-   */
-  size_t GetTimeSeriesDataSize() const { return time_series_data_.size(); }
-
-  /**
-   * @fn GetTimeSeriesData
-   * @brief Return orbit definition data for a specific index.
-   * @param index The index of the orbit definition data.
-   */
-  std::vector<double> GetTimeSeriesData(size_t index) const { return time_series_data_[index]; }
-
-  /**
-   * @fn GetEpochData
+   * @fn CalcEpochData
    * @brief Return epoch data for a specific epoch ID.
    * @param epoch_id The epoch ID of the orbit definition data.
    */
-  time_system::DateTime GetEpochData(const size_t epoch_id) const;
+  time_system::DateTime CalcEpochData(const size_t epoch_id) const;
 
   /**
    * @fn SearchNearestEpochId
@@ -101,31 +51,6 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
    * @param current_time_jd: Current Julian day [day]
    */
   size_t SearchNearestEpochId(const double current_time_jd);
-
-  /**
-   * @fn Update
-   * @brief Update satellite information
-   * @param [in] simulation_time: Simulation time information
-   */ 
-  void Update(const SimulationTime& simulation_time);
-
-  /**
-   * @fn GetPosition
-   * @brief Return satellite position
-   * @param [in] time: Target time to get the satellite. When the argument is not set, the last updated time is used for the calculation.
-   * @return Satellite position at the time. Or return zero vector when the arguments are out of range.
-   * @note Coordinate system and units follow the orbit definition file.
-   */
-  inline math::Vector<3> GetPosition(const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
-
-  /**
-   * @fn GetVelocity
-   * @brief Return satellite velocity
-   * @param [in] time: Target time to get the satellite. When the argument is not set, the last updated time is used for the calculation.
-   * @return Satellite velocity at the time. Or return zero vector when the arguments are out of range.
-   * @note Coordinate system and units follow the orbit definition file.
-   */
-  inline math::Vector<3> GetVelocity(const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
 
   // Override Orbit
   /**
@@ -137,18 +62,21 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
   virtual void Propagate(const double end_time_s, const double current_time_jd);
 
  private:
-  int number_of_interpolation_;  //!< Number of interpolation
-  int interpolation_method_;  //!< Interpolation method
-  double orbital_period_correction_;  //!< Orbital period correction
+  bool is_time_range_warning_displayed_ = false;          //!< Flag for time range warning
+  bool is_interpolation_method_error_displayed_ = false;  //!< Flag for interpolation method error
 
-  std::vector<time_system::DateTime> epoch_;  //!< Epoch data list
+  int number_of_interpolation_;         //!< Number of interpolation
+  int interpolation_method_;            //!< Interpolation method
+  double orbital_period_correction_s_;  //!< Orbital period correction [s]
+
+  std::vector<time_system::DateTime> epoch_;           //!< Epoch data list
   std::vector<std::vector<double>> time_series_data_;  //!< List of orbit definition data
-  time_system::EpochTime current_epoch_time_;    //!< The last updated time
-  time_system::EpochTime reference_time_;        //!< Reference start time of the orbit definition data handling
-  size_t reference_interpolation_id_ = 0;        //!< Reference epoch ID of the interpolation
-  
-  std::vector<orbit::InterpolationOrbit> orbit_position_;  //!< Position with interpolation
-  std::vector<orbit::InterpolationOrbit> orbit_velocity_;  //!< Velocity with interpolation
+  time_system::EpochTime current_epoch_time_;          //!< The last updated time
+  time_system::EpochTime reference_time_;              //!< Reference start time of the orbit definition data handling
+  size_t reference_interpolation_id_ = 0;              //!< Reference epoch ID of the interpolation
+
+  std::vector<orbit::InterpolationOrbit> orbit_position_i_m_;    //!< Position with interpolation
+  std::vector<orbit::InterpolationOrbit> orbit_velocity_i_m_s_;  //!< Velocity with interpolation
 
   /**
    * @fn UpdateInterpolationInformation
@@ -157,14 +85,5 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
    */
   bool UpdateInterpolationInformation();
 };
-
-/**
- * @fn InitTimeSeriesFileOrbitPropagation
- * @brief Initialize function for TimeSeriesFileOrbitPropagation class
- * @param [in] ini_file_name: Path to the initialize file
- * @param [in] simulation_time: Simulation time information
- * @return Initialized TimeSeriesFileOrbitPropagation class
- */
-TimeSeriesFileOrbitPropagation* InitTimeSeriesFileOrbitPropagation(const std::string ini_file_name, const SimulationTime& simulation_time);
 
 #endif  // S2E_DYNAMICS_ORBIT_TIME_SERIES_FILE_ORBIT_PROPAGATION_HPP_

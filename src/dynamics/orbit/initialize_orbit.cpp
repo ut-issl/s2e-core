@@ -104,9 +104,9 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     const std::string time_series_file_path = conf.ReadString(section_, "time_series_file_path");
     const int number_of_interpolation = conf.ReadInt(section_, "number_of_interpolation");
     const int interpolation_method = conf.ReadInt(section_, "interpolation_method");
-    const double orbital_period_correction = conf.ReadDouble(section_, "orbital_period_correction");
+    const double orbital_period_correction_s = conf.ReadDouble(section_, "orbital_period_correction_s");
 
-    orbit = new TimeSeriesFileOrbitPropagation(celestial_information, time_series_file_path, number_of_interpolation, interpolation_method, orbital_period_correction, current_time_jd);
+    orbit = new TimeSeriesFileOrbitPropagation(celestial_information, time_series_file_path, number_of_interpolation, interpolation_method, orbital_period_correction_s, current_time_jd);
 
   } else {
     std::cerr << "ERROR: orbit propagation mode: " << propagate_mode << " is not defined!" << std::endl;
