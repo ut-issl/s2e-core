@@ -114,7 +114,7 @@ void TimeSeriesFileOrbitPropagation::Propagate(const double end_time_s, const do
   }
   if (diff_s < 0.0) {
     if (!is_time_range_warning_displayed_) {
-      std::cout << "[WARNING] Time is out of range of time series file." << std::endl;
+      std::cout << "[WARNING] Time series file orbit propagation: Time is out of range of time series file." << std::endl;
       is_time_range_warning_displayed_ = true;
     }
     for (size_t i = 0; i < 3; i++) {
@@ -123,7 +123,7 @@ void TimeSeriesFileOrbitPropagation::Propagate(const double end_time_s, const do
     }
   } else if (diff_s > 1e6 || reference_interpolation_id_ >= time_series_data_.size()) {
     if (!is_time_range_warning_displayed_) {
-      std::cout << "[WARNING] Time is out of range of time series file." << std::endl;
+      std::cout << "[WARNING] Time series file orbit propagation: Time is out of range of time series file." << std::endl;
       is_time_range_warning_displayed_ = true;
     }
     for (size_t i = 0; i < 3; i++) {
@@ -139,7 +139,7 @@ void TimeSeriesFileOrbitPropagation::Propagate(const double end_time_s, const do
       spacecraft_velocity_i_m_s_ = orbit_velocity_i_m_s_[0].CalcPositionWithTrigonometric(diff_s, math::tau / orbital_period_correction_s_);
     } else {
       if (!is_interpolation_method_error_displayed_) {
-        std::cerr << "[ERROR] Interpolation method: " << interpolation_method_ << " is not defined!" << std::endl;
+        std::cerr << "[ERROR] Time series file orbit propagation: Interpolation method " << interpolation_method_ << " is not defined!" << std::endl;
         std::cerr << "The orbit mode is automatically set as Polynomial" << std::endl;
         is_interpolation_method_error_displayed_ = true;
       }
