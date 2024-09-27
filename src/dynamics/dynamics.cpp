@@ -30,7 +30,7 @@ void Dynamics::Initialize(const SimulationConfiguration* simulation_configuratio
   attitude_ = InitAttitude(simulation_configuration->spacecraft_file_list_[spacecraft_id], orbit_, &local_celestial_information,
                            simulation_time->GetAttitudeRkStepTime_s(), structure->GetKinematicsParameters().GetInertiaTensor_b_kgm2(), spacecraft_id);
   temperature_ = InitTemperature(simulation_configuration->spacecraft_file_list_[spacecraft_id], simulation_time->GetThermalRkStepTime_s(),
-                                 &(local_environment_->GetSolarRadiationPressure()));
+                                 &(local_environment_->GetSolarRadiationPressure()), &(local_environment_->GetEarthAlbedo()));
 
   // To get initial value
   orbit_->UpdateByAttitude(attitude_->GetQuaternion_i2b());
@@ -50,11 +50,7 @@ void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestia
 
   // Thermal
   if (simulation_time->GetThermalPropagateFlag()) {
-    std::string sun_str = "SUN";
-    char* c_sun = new char[sun_str.size() + 1];
-    std::char_traits<char>::copy(c_sun, sun_str.c_str(), sun_str.size() + 1);  // string -> char*
-    temperature_->Propagate(local_celestial_information->GetPositionFromSpacecraft_b_m(c_sun), simulation_time->GetElapsedTime_s());
-    delete[] c_sun;
+    temperature_->Propagate(local_celestial_information, simulation_time->GetElapsedTime_s());
   }
 }
 

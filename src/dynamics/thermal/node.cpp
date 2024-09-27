@@ -24,7 +24,8 @@ Node::Node(const size_t node_id, const string node_name, const NodeType node_typ
       node_type_(node_type),
       normal_vector_b_(normal_vector_b) {
   AssertNodeParams();
-  solar_radiation_W_ = 0;
+  solar_radiation_W_ = 0.0;
+  albedo_radiation_W_ = 0.0;
 }
 
 Node::~Node() {}
@@ -33,11 +34,25 @@ double Node::CalcSolarRadiation_W(s2e::math::Vector<3> sun_direction_b, double s
   double cos_theta = InnerProduct(sun_direction_b, normal_vector_b_);
 
   // calculate sun_power
-  if (cos_theta > 0)
+  if (cos_theta > 0.0)
     solar_radiation_W_ = solar_flux_W_m2 * area_m2_ * alpha_ * cos_theta;
   else
-    solar_radiation_W_ = 0;
+    solar_radiation_W_ = 0.0;
   return solar_radiation_W_;
+}
+
+double Node::CalcAlbedoRadiation_W(s2e::math::Vector<3> earth_position_b_m, double earth_albedo_W_m2) {
+  s2e::math::Vector<3> earth_direction_b = earth_position_b_m.CalcNormalizedVector();
+
+  double cos_theta_albedo = InnerProduct(earth_direction_b, normal_vector_b_);
+
+  // albedo radiation calculation; earth_albedo_W_m2 reflects the shadow coefficient.
+  if (cos_theta_albedo > 0.0) {
+    albedo_radiation_W_ = earth_albedo_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
+  } else {
+    albedo_radiation_W_ = 0.0;
+  }
+  return albedo_radiation_W_;
 }
 
 void Node::PrintParam(void) {
@@ -124,10 +139,10 @@ Node InitNode(const std::vector<std::string>& node_str) {
   std::string node_label = "temp";  // node name
   size_t node_type_int = 0;         // node type
   size_t heater_id = 0;             // heater node index
-  double temperature_K = 0;         // [K]
-  double capacity_J_K = 0;          // [J/K]
-  double alpha = 0;                 // []
-  double area_m2 = 0;               // [m^2]
+  double temperature_K = 0.0;       // [K]
+  double capacity_J_K = 0.0;        // [J/K]
+  double alpha = 0.0;               // []
+  double area_m2 = 0.0;             // [m^2]
 
   // Index to read from node_str for each parameter
   size_t index_node_id = 0;

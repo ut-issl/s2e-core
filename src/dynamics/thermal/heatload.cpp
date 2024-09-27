@@ -12,6 +12,7 @@ Heatload::Heatload(int node_id, std::vector<double> time_table_s, std::vector<do
   elapsed_time_s_ = 0;
   elapsed_time_idx_ = 0;
   solar_heatload_W_ = 0.0;
+  albedo_heatload_W_ = 0.0;
   internal_heatload_W_ = 0.0;
   heater_heatload_W_ = 0.0;
   total_heatload_W_ = 0.0;

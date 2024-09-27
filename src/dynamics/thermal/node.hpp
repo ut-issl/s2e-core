@@ -16,11 +16,11 @@
  * @brief Type of node
  */
 enum class NodeType {
-  //! Diffusive Node: Calculate temperature based on heat flow
+  //!< Diffusive Node: Calculate temperature based on heat flow
   kDiffusive,
-  //! Boundary Node: Fixed temperature
+  //!< Boundary Node: Fixed temperature
   kBoundary,
-  //! Arithmetic Node: Node without heat capacity, calculate temperature after diffusive nodes
+  //!< Arithmetic Node: Node without heat capacity, calculate temperature after diffusive nodes
   kArithmetic
 };
 
@@ -56,9 +56,19 @@ class Node {
    * @brief Calculate solar radiation [W] from sun direction, alpha, area, and normal vector
    *
    * @param sun_direction_b: Sun direction in body frame
+   * @param solar_flux_W_m2: Solar flux [W/m^2]
    * @return double: Solar Radiation [W]
    */
   double CalcSolarRadiation_W(s2e::math::Vector<3> sun_direction_b, double solar_flux_W_m2);
+  /**
+   * @fn CalcAlbedoRadiation_W
+   * @brief Calculate albedo radiation [W] from earth direction, albedo factor, area, and normal vector
+   *
+   * @param earth_position_b_m: Earth position in body frame
+   * @param earth_albedo_W_m2: Earth albedo [W/m^2]
+   * @return double: Albedo Radiation [W]
+   */
+  double CalcAlbedoRadiation_W(s2e::math::Vector<3> earth_position_b_m, double earth_albedo_W_m2);
 
   // Getter
   /**
@@ -104,6 +114,12 @@ class Node {
    */
   inline double GetSolarRadiation_W(void) const { return solar_radiation_W_; }
   /**
+   * @fn GetAlbedoRadiation_W
+   * @brief Return Albedo Radiation [W]
+   * @return double: Albedo Radiation [W]
+   */
+  inline double GetAlbedoRadiation_W(void) const { return albedo_radiation_W_; }
+  /**
    * @fn GetNodeType
    * @brief Return Node Type
    * @return NodeType
@@ -135,6 +151,7 @@ class Node {
   double alpha_;
   double area_m2_;
   double solar_radiation_W_;
+  double albedo_radiation_W_;
   NodeType node_type_;
   s2e::math::Vector<3> normal_vector_b_;
 
