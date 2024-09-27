@@ -6,6 +6,8 @@
 
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::sample {
+
 SampleGsComponents::SampleGsComponents(const SimulationConfiguration* configuration) : configuration_(configuration) {
   IniAccess iniAccess = IniAccess(configuration_->ground_station_file_list_[0]);
 
@@ -26,3 +28,5 @@ void SampleGsComponents::CompoLogSetUp(Logger& logger) {
   // logger.AddLogList(ant_);
   logger.AddLogList(gs_calculator_);
 }
+
+} // namespace s2e::sample

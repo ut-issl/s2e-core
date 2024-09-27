@@ -6,6 +6,8 @@
 #ifndef S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_PORT_CONFIGURATION_HPP_
 #define S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_PORT_CONFIGURATION_HPP_
 
+namespace s2e::sample {
+
 /**
  * @enum PowerPortConfig
  * @brief ID list of electrical power switch ports
@@ -26,5 +28,7 @@ enum class UARTPortConfig {
   kGyro = 0,
   kUartComponentMax  //!< Maximum port number. Do not remove. Place on the bottom.
 };
+
+} // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_PORT_CONFIGURATION_HPP_

@@ -16,6 +16,8 @@
 
 class SampleGsComponents;
 
+namespace s2e::sample {
+
 /**
  * @class SampleGroundStation
  * @brief An example of user defined ground station class
@@ -48,5 +50,7 @@ class SampleGroundStation : public GroundStation {
   using GroundStation::Update;
   SampleGsComponents* components_;  //!< Ground station related components
 };
+
+} // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_HPP_

@@ -9,6 +9,8 @@
 
 #include "sample_port_configuration.hpp"
 
+namespace s2e::sample {
+
 SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_environment,
                                    const GlobalEnvironment* global_environment, const SimulationConfiguration* configuration,
                                    ClockGenerator* clock_generator, const unsigned int spacecraft_id)
@@ -222,3 +224,5 @@ void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLogList(attitude_observer_);
   logger.AddLogList(orbit_observer_);
 }
+
+} // namespace s2e::sample

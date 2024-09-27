@@ -50,6 +50,8 @@ class AngularVelocityObserver;
 class AttitudeObserver;
 class Telescope;
 
+namespace s2e::sample {
+
 /**
  * @class SampleComponents
  * @brief An example of user side components management class
@@ -142,5 +144,7 @@ class SampleComponents : public InstalledComponents {
   const LocalEnvironment* local_environment_;     //!< Local environment information around the spacecraft
   const GlobalEnvironment* global_environment_;   //!< Global environment information
 };
+
+} // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_

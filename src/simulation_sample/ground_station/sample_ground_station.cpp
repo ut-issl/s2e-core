@@ -7,6 +7,8 @@
 
 #include "sample_ground_station_components.hpp"
 
+namespace s2e::sample {
+
 SampleGroundStation::SampleGroundStation(const SimulationConfiguration* configuration, const unsigned int ground_station_id)
     : GroundStation(configuration, ground_station_id) {
   components_ = new SampleGsComponents(configuration);
@@ -23,3 +25,5 @@ void SampleGroundStation::Update(const EarthRotation& celestial_rotation, const 
   GroundStation::Update(celestial_rotation, spacecraft);
   components_->GetGsCalculator()->Update(spacecraft, spacecraft.GetInstalledComponents().GetAntenna(), *this, *(components_->GetAntenna()));
 }
+
+} // namespace s2e::sample

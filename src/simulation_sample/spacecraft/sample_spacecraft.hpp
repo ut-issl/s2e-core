@@ -12,6 +12,8 @@
 
 class SampleComponents;
 
+namespace s2e::sample {
+
 /**
  * @class SampleSpacecraft
  * @brief An example of user side spacecraft class
@@ -34,5 +36,7 @@ class SampleSpacecraft : public Spacecraft {
  private:
   SampleComponents* sample_components_;
 };
+
+} // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_

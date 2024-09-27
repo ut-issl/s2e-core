@@ -5,7 +5,9 @@
 
 #include "sample_case.hpp"
 
-SampleCase::SampleCase(std::string initialise_base_file) : SimulationCase(initialise_base_file) {}
+namespace s2e::sample {
+
+SampleCase::SampleCase(std::string initialise_base_file) : s2e::simulation::SimulationCase(initialise_base_file) {}
 
 SampleCase::~SampleCase() {
   delete sample_spacecraft_;
@@ -47,3 +49,5 @@ std::string SampleCase::GetLogValue() const {
 
   return str_tmp;
 }
+
+} // namespace s2e::sample

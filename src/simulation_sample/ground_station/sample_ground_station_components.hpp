@@ -9,6 +9,8 @@
 #include <components/real/communication/antenna.hpp>
 #include <components/real/communication/ground_station_calculator.hpp>
 
+namespace s2e::sample {
+
 /**
  * @class SampleGsComponents
  * @brief An example of ground station related components list class
@@ -48,5 +50,7 @@ class SampleGsComponents {
   GroundStationCalculator* gs_calculator_;        //!< Ground station calculation algorithm
   const SimulationConfiguration* configuration_;  //!< Simulation setting
 };
+
+} // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_COMPONENTS_HPP_
