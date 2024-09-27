@@ -5,8 +5,6 @@
 
 #include "time_series_file_orbit_propagation.hpp"
 
-#include <SpiceUsr.h>
-
 #include <fstream>
 #include <iostream>
 #include <sstream>
