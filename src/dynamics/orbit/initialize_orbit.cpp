@@ -4,8 +4,6 @@
  */
 #include "initialize_orbit.hpp"
 
-#include <SpiceUsr.h>
-
 #include <setting_file_reader/initialize_file_access.hpp>
 
 #include "encke_orbit_propagation.hpp"
