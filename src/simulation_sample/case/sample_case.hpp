@@ -17,7 +17,7 @@ namespace s2e::sample {
  * @class SampleCase
  * @brief An example of user defined simulation class
  */
-class SampleCase : public s2e::simulation::SimulationCase {
+class SampleCase : public simulation::SimulationCase {
  public:
   /**
    * @fn SampleCase

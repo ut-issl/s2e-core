@@ -12,9 +12,9 @@
 
 namespace s2e::sample {
 
-SampleSpacecraft::SampleSpacecraft(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
+SampleSpacecraft::SampleSpacecraft(const simulation::SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
                                    const unsigned int spacecraft_id)
-    : Spacecraft(simulation_configuration, global_environment, spacecraft_id) {
+    : simulation::Spacecraft(simulation_configuration, global_environment, spacecraft_id) {
   sample_components_ =
       new SampleComponents(dynamics_, structure_, local_environment_, global_environment, simulation_configuration, &clock_generator_, spacecraft_id);
   components_ = sample_components_;

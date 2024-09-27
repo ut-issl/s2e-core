@@ -21,7 +21,7 @@ class SampleGsComponents {
    * @fn SampleGsComponents
    * @brief Constructor
    */
-  SampleGsComponents(const SimulationConfiguration* configuration);
+  SampleGsComponents(const simulation::SimulationConfiguration* configuration);
   /**
    * @fn ~SampleGsComponents
    * @brief Destructor
@@ -38,17 +38,17 @@ class SampleGsComponents {
    * @fn GetAntenna
    * @brief Return antenna
    */
-  inline Antenna* GetAntenna() const { return antenna_; }
+  inline components::Antenna* GetAntenna() const { return antenna_; }
   /**
    * @fn GetGsCalculator
    * @brief Return ground station calculator
    */
-  inline GroundStationCalculator* GetGsCalculator() const { return gs_calculator_; }
+  inline components::GroundStationCalculator* GetGsCalculator() const { return gs_calculator_; }
 
  private:
-  Antenna* antenna_;                              //!< Antenna on ground station
-  GroundStationCalculator* gs_calculator_;        //!< Ground station calculation algorithm
-  const SimulationConfiguration* configuration_;  //!< Simulation setting
+  components::Antenna* antenna_;                              //!< Antenna on ground station
+  components::GroundStationCalculator* gs_calculator_;        //!< Ground station calculation algorithm
+  const simulation::SimulationConfiguration* configuration_;  //!< Simulation setting
 };
 
 } // namespace s2e::sample

@@ -7,7 +7,7 @@
 
 namespace s2e::sample {
 
-SampleCase::SampleCase(std::string initialise_base_file) : s2e::simulation::SimulationCase(initialise_base_file) {}
+SampleCase::SampleCase(std::string initialise_base_file) : simulation::SimulationCase(initialise_base_file) {}
 
 SampleCase::~SampleCase() {
   delete sample_spacecraft_;
@@ -37,7 +37,7 @@ void SampleCase::UpdateTargetObjects() {
 std::string SampleCase::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("time", "s");
+  str_tmp += logger::WriteScalar("time", "s");
 
   return str_tmp;
 }
@@ -45,7 +45,7 @@ std::string SampleCase::GetLogHeader() const {
 std::string SampleCase::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(global_environment_->GetSimulationTime().GetElapsedTime_s());
+  str_tmp += logger::WriteScalar(global_environment_->GetSimulationTime().GetElapsedTime_s());
 
   return str_tmp;
 }
