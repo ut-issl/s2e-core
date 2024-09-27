@@ -6,6 +6,8 @@
 
 #include <utilities/macros.hpp>
 
+namespace s2e::components {
+
 ExampleSerialCommunicationForHils::ExampleSerialCommunicationForHils(ClockGenerator* clock_generator, const int sils_port_id, OnBoardComputer* obc,
                                                                      const unsigned int hils_port_id, const unsigned int baud_rate,
                                                                      HilsPortManager* hils_port_manager, const int mode_id)
@@ -59,3 +61,5 @@ void ExampleSerialCommunicationForHils::MainRoutine(const int time_count) {
   ReceiveCommand(0, kMemorySize);
   SendTelemetry(0);
 }
+
+}  // namespace s2e::components

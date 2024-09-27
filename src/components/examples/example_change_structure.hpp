@@ -11,6 +11,8 @@
 
 #include "../base/component.hpp"
 
+namespace s2e::components {
+
 /**
  * @class ExampleChangeStructure
  * @brief Class to show an example to change satellite structure information
@@ -52,5 +54,7 @@ class ExampleChangeStructure : public Component, public ILoggable {
  protected:
   Structure* structure_;  //!< Structure information
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_HPP_

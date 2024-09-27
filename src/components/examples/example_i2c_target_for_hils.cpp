@@ -5,6 +5,8 @@
 
 #include "example_i2c_target_for_hils.hpp"
 
+namespace s2e::components {
+
 ExampleI2cTargetForHils::ExampleI2cTargetForHils(const int prescaler, ClockGenerator* clock_generator, const int sils_port_id,
                                                  unsigned char i2c_address, OnBoardComputer* obc, const unsigned int hils_port_id,
                                                  HilsPortManager* hils_port_manager)
@@ -39,3 +41,5 @@ void ExampleI2cTargetForHils::MainRoutine(const int time_count) {
 
   return;
 }
+
+}  // namespace s2e::components

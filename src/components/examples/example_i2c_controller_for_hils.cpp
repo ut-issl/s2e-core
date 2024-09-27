@@ -4,6 +4,8 @@
  */
 #include "example_i2c_controller_for_hils.hpp"
 
+namespace s2e::components {
+
 ExampleI2cControllerForHils::ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_generator, const unsigned int hils_port_id,
                                                          const unsigned int baud_rate, const unsigned int tx_buffer_size,
                                                          const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)
@@ -54,3 +56,5 @@ void ExampleI2cControllerForHils::Receive() {
   std::cout << std::endl;
   return;
 }
+
+}  // namespace s2e::components

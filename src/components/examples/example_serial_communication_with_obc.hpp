@@ -12,6 +12,8 @@
 #include "../base/interface_gpio_component.hpp"
 #include "../base/uart_communication_with_obc.hpp"
 
+namespace s2e::components {
+
 /**
  * @class ExampleSerialCommunicationWithObc
  * @brief Example of component emulation with communication between OBC flight software
@@ -88,5 +90,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    */
   int Initialize();
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_SERIAL_COMMUNICATION_WITH_OBC_HPP_P_

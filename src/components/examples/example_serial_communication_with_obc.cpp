@@ -7,6 +7,8 @@
 
 #include <string.h>
 
+namespace s2e::components {
+
 ExampleSerialCommunicationWithObc::ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, OnBoardComputer* obc)
     : Component(1000, clock_generator), UartCommunicationWithObc(port_id, obc) {
   Initialize();
@@ -54,3 +56,5 @@ void ExampleSerialCommunicationWithObc::MainRoutine(const int time_count) {
 void ExampleSerialCommunicationWithObc::GpioStateChanged(const int port_id, const bool is_positive_edge) {
   printf("interrupted. port id = %d, is positive edge = %d./n", port_id, is_positive_edge);
 }
+
+}  // namespace s2e::components

@@ -11,6 +11,8 @@
 #include "../base/component.hpp"
 #include "../base/i2c_controller.hpp"
 
+namespace s2e::components {
+
 /**
  * @class ExampleI2cControllerForHils
  * @brief Example of component emulation for I2C controller side communication in HILS environment
@@ -64,5 +66,7 @@ class ExampleI2cControllerForHils : public Component, public I2cController {
   static const uint8_t kWriteCmd_ = 0x44;   //!< Write command for SC18IM700
   static const uint8_t kCmdFooter_ = 0x50;  //!< 'P' Footer for SC18IM700
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_I2C_CONTROLLER_FOR_HILS_HPP_

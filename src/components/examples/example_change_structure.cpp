@@ -7,6 +7,8 @@
 
 #include <math_physics/math/matrix.hpp>
 
+namespace s2e::components {
+
 ExampleChangeStructure::ExampleChangeStructure(ClockGenerator* clock_generator, Structure* structure)
     : Component(1, clock_generator), structure_(structure) {}
 
@@ -54,3 +56,5 @@ std::string ExampleChangeStructure::GetLogValue() const {
 
   return str_tmp;
 }
+
+}  // namespace s2e::components
