@@ -8,6 +8,8 @@
 #include <math_physics/math/constants.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 AttitudeObserver::AttitudeObserver(const int prescaler, ClockGenerator* clock_generator, const double standard_deviation_rad,
                                    const Attitude& attitude)
     : Component(prescaler, clock_generator), angle_noise_(0.0, standard_deviation_rad), attitude_(attitude) {
@@ -62,3 +64,5 @@ AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, con
 
   return attitude_observer;
 }
+
+}  // namespace s2e::components

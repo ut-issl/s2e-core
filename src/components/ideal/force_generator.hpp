@@ -12,6 +12,8 @@
 #include <math_physics/math/vector.hpp>
 #include <math_physics/randomization/normal_randomization.hpp>
 
+namespace s2e::components {
+
 /*
  * @class ForceGenerator
  * @brief Ideal component which can generate for control algorithm test
@@ -123,5 +125,7 @@ class ForceGenerator : public Component, public ILoggable {
  * @param [in] dynamics: Dynamics information
  */
 ForceGenerator InitializeForceGenerator(ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_IDEAL_FORCE_GENERATOR_HPP_

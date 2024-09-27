@@ -12,6 +12,8 @@
 #include <math_physics/math/vector.hpp>
 #include <math_physics/randomization/normal_randomization.hpp>
 
+namespace s2e::components {
+
 /*
  * @class TorqueGenerator
  * @brief Ideal component which can generate for control algorithm test
@@ -101,5 +103,7 @@ class TorqueGenerator : public Component, public ILoggable {
  * @param [in] dynamics: Dynamics information
  */
 TorqueGenerator InitializeTorqueGenerator(ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_IDEAL_TORQUE_GENERATOR_HPP_

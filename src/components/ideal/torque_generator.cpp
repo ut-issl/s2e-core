@@ -8,6 +8,8 @@
 #include <cfloat>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 // Constructor
 TorqueGenerator::TorqueGenerator(const int prescaler, ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_Nm,
                                  const double direction_error_standard_deviation_rad, const Dynamics* dynamics)
@@ -96,3 +98,5 @@ TorqueGenerator InitializeTorqueGenerator(ClockGenerator* clock_generator, const
 
   return torque_generator;
 }
+
+}  // namespace s2e::components

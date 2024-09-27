@@ -13,6 +13,8 @@
 
 #include "../base/component.hpp"
 
+namespace s2e::components {
+
 /**
  * @enum NoiseFrame
  * @brief Noise definition frame
@@ -104,5 +106,7 @@ NoiseFrame SetNoiseFrame(const std::string noise_frame);
  * @param [in] orbit: Orbit information
  */
 OrbitObserver InitializeOrbitObserver(ClockGenerator* clock_generator, const std::string file_name, const Orbit& orbit);
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_IDEAL_ORBIT_OBSERVER_HPP_

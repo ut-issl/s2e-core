@@ -13,6 +13,8 @@
 
 #include "../base/component.hpp"
 
+namespace s2e::components {
+
 /*
  * @class AttitudeObserver
  * @brief Ideal component which can observe attitude
@@ -76,5 +78,7 @@ class AttitudeObserver : public Component, public ILoggable {
  * @param [in] attitude: Attitude information
  */
 AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, const std::string file_name, const Attitude& attitude);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_IDEAL_ATTITUDE_OBSERVER_HPP_

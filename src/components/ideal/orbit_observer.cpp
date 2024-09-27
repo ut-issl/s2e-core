@@ -8,6 +8,8 @@
 #include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 OrbitObserver::OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const NoiseFrame noise_frame,
                              const s2e::math::Vector<6> error_standard_deviation, const Orbit& orbit)
     : Component(prescaler, clock_generator), noise_frame_(noise_frame), orbit_(orbit) {
@@ -100,3 +102,5 @@ OrbitObserver InitializeOrbitObserver(ClockGenerator* clock_generator, const std
 
   return orbit_observer;
 }
+
+}  // namespace s2e::components

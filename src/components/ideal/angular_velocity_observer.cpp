@@ -7,6 +7,8 @@
 
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 AngularVelocityObserver::AngularVelocityObserver(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const Attitude& attitude)
     : Component(prescaler, clock_generator), Sensor(sensor_base), attitude_(attitude) {}
 
@@ -46,3 +48,5 @@ AngularVelocityObserver InitializeAngularVelocityObserver(ClockGenerator* clock_
 
   return observer;
 }
+
+}  // namespace s2e::components

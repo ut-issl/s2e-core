@@ -8,6 +8,8 @@
 #include <cfloat>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 // Constructor
 ForceGenerator::ForceGenerator(const int prescaler, ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_N,
                                const double direction_error_standard_deviation_rad, const Dynamics* dynamics)
@@ -122,3 +124,5 @@ ForceGenerator InitializeForceGenerator(ClockGenerator* clock_generator, const s
 
   return force_generator;
 }
+
+}  // namespace s2e::components

@@ -12,6 +12,8 @@
 #include "../base/component.hpp"
 #include "../base/sensor.hpp"
 
+namespace s2e::components {
+
 /*
  * @class AngularVelocityObserver
  * @brief Ideal component which can observe angular velocity
@@ -74,5 +76,7 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public ILogg
  */
 AngularVelocityObserver InitializeAngularVelocityObserver(ClockGenerator* clock_generator, const std::string file_name, double component_step_time_s,
                                                           const Attitude& attitude);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_IDEAL_ANGULAR_VELOCITY_OBSERVER_HPP_
