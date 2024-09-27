@@ -12,6 +12,8 @@
 using namespace std;
 using namespace s2e::math;
 
+namespace s2e::dynamics::thermal {
+
 Node::Node(const size_t node_id, const string node_name, const NodeType node_type, const size_t heater_id, const double temperature_ini_K,
            const double capacity_J_K, const double alpha, const double area_m2, s2e::math::Vector<3> normal_vector_b)
     : node_id_(node_id),
@@ -186,3 +188,5 @@ Node InitNode(const std::vector<std::string>& node_str) {
   Node node(node_id, node_label, node_type, heater_id, temperature_K, capacity_J_K, alpha, area_m2, normal_v_b);
   return node;
 }
+
+} // namespace s2e::dynamics::thermal

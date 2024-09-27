@@ -4,6 +4,8 @@
 #include <cmath>
 using namespace std;
 
+namespace s2e::dynamics::thermal {
+
 HeaterController::HeaterController(const double lower_threshold_degC, const double upper_threshold_degC)
     : lower_threshold_degC_(lower_threshold_degC), upper_threshold_degC_(upper_threshold_degC) {
   AssertHeaterControllerParams();
@@ -52,3 +54,5 @@ HeaterController InitHeaterController(const std::vector<std::string>& heater_str
   HeaterController heater_controller(lower_threshold_degC, upper_threshold_degC);
   return heater_controller;
 }
+
+} // namespace s2e::dynamics::thermal

@@ -13,6 +13,8 @@
 
 #include "heater.hpp"
 
+namespace s2e::dynamics::thermal {
+
 class HeaterController {
  public:
   /**
@@ -88,5 +90,7 @@ class HeaterController {
  * @return HeaterController
  */
 HeaterController InitHeaterController(const std::vector<std::string>& heater_str);
+
+} // namespace s2e::dynamics::thermal
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATER_CONTROLLER_HPP_

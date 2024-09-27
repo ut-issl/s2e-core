@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+namespace s2e::dynamics::thermal {
+
 /**
  * @enum HeaterStatus
  * @brief Status of heater (On/Off)
@@ -98,5 +100,7 @@ class Heater {
  * @return Heater
  */
 Heater InitHeater(const std::vector<std::string>& heater_str);
+
+} // namespace s2e::dynamics::thermal
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATER_HPP_

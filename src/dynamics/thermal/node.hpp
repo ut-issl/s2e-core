@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+namespace s2e::dynamics::thermal {
+
 /**
  * @enum NodeType
  * @brief Type of node
@@ -169,5 +171,7 @@ class Node {
  * @return Node
  */
 Node InitNode(const std::vector<std::string>& node_str);
+
+}namespace s2e::dynamics::thermal
 
 #endif  // S2E_DYNAMICS_THERMAL_NODE_HPP_

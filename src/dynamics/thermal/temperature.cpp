@@ -14,6 +14,8 @@
 
 using namespace std;
 
+namespace s2e::dynamics::thermal {
+
 Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, const vector<vector<double>> radiation_matrix_m2, vector<Node> nodes,
                          vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const size_t node_num,
                          const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment, const EarthAlbedo* earth_albedo,
@@ -388,3 +390,5 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
                                 rk_prop_step_s, srp_environment, earth_albedo, is_calc_enabled, solar_calc_setting, debug);
   return temperature;
 }
+
+} // namespace s2e::dynamics::thermal

@@ -17,6 +17,8 @@
 #include "heatload.hpp"
 #include "node.hpp"
 
+namespace s2e::dynamics::thermal {
+
 /**
  * @enum SolarCalcSetting
  * @brief Whether to calculate solar radiation inside simulation
@@ -165,5 +167,7 @@ class Temperature : public ILoggable {
  */
 Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const SolarRadiationPressureEnvironment* srp_environment,
                              const EarthAlbedo* earth_albedo);
+
+} // namespace s2e::dynamics::thermal
 
 #endif  // S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_

@@ -5,6 +5,8 @@
 
 using namespace std;
 
+namespace s2e::dynamics::thermal {
+
 Heater::Heater(const size_t heater_id, const double power_rating_W) : heater_id_(heater_id), power_rating_W_(power_rating_W) {
   AssertHeaterParams();
   heater_status_ = HeaterStatus::kOff;
@@ -75,3 +77,5 @@ Heater InitHeater(const std::vector<std::string>& heater_str) {
   Heater heater(heater_id, power_rating_W);
   return heater;
 }
+
+} // namespace s2e::dynamics::thermal
