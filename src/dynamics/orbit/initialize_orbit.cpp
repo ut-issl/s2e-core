@@ -4,6 +4,8 @@
  */
 #include "initialize_orbit.hpp"
 
+#include <SpiceUsr.h>
+
 #include <setting_file_reader/initialize_file_access.hpp>
 
 #include "encke_orbit_propagation.hpp"
@@ -12,8 +14,6 @@
 #include "rk4_orbit_propagation.hpp"
 #include "sgp4_orbit_propagation.hpp"
 #include "time_series_file_orbit_propagation.hpp"
-
-#include <SpiceUsr.h>
 
 Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string initialize_file, double step_width_s, double current_time_jd,
                  double gravity_constant_m3_s2, std::string section, RelativeInformation* relative_information) {
@@ -106,7 +106,8 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     const int interpolation_method = conf.ReadInt(section_, "interpolation_method");
     const double orbital_period_correction_s = conf.ReadDouble(section_, "orbital_period_correction_s");
 
-    orbit = new TimeSeriesFileOrbitPropagation(celestial_information, time_series_file_path, number_of_interpolation, interpolation_method, orbital_period_correction_s, current_time_jd);
+    orbit = new TimeSeriesFileOrbitPropagation(celestial_information, time_series_file_path, number_of_interpolation, interpolation_method,
+                                               orbital_period_correction_s, current_time_jd);
 
   } else {
     std::cerr << "ERROR: orbit propagation mode: " << propagate_mode << " is not defined!" << std::endl;
