@@ -8,6 +8,8 @@
 
 #include <string>
 
+namespace s2e::components {
+
 /**
  * @class PowerPort
  * @brief Class to emulate electrical power port
@@ -132,5 +134,7 @@ class PowerPort {
    */
   void Initialize(void);
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_PORTS_POWER_PORT_HPP_

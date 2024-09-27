@@ -14,6 +14,8 @@
 
 #include <string>
 
+namespace s2e::components {
+
 typedef cli::array<System::Byte> bytearray;  //!< System::Byte: an 8-bit unsigned integer
 
 /**
@@ -110,5 +112,7 @@ class HilsUartPort {
    */
   int DiscardOutBuffer();
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_PORTS_HILS_UART_PORT_HPP_

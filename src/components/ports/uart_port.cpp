@@ -5,6 +5,8 @@
 
 #include "uart_port.hpp"
 
+namespace s2e::components {
+
 UartPort::UartPort() : UartPort(kDefaultBufferSize, kDefaultBufferSize) {}
 
 UartPort::UartPort(const unsigned int rx_buffer_size, const unsigned int tx_buffer_size) {
@@ -36,3 +38,5 @@ int UartPort::ReadTx(unsigned char* buffer, const unsigned int offset, const uns
 int UartPort::ReadRx(unsigned char* buffer, const unsigned int offset, const unsigned int data_length) {
   return rx_buffer_->Read(buffer, offset, data_length);
 }
+
+} // namespace s2e::components

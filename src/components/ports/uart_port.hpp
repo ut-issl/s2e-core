@@ -8,6 +8,8 @@
 
 #include <utilities/ring_buffer.hpp>
 
+namespace s2e::components {
+
 /**
  * @class UartPort
  * @brief Class to emulate UART communication port
@@ -77,5 +79,7 @@ class UartPort {
   RingBuffer* rx_buffer_;  //!< Receive buffer (Component -> OBC)
   RingBuffer* tx_buffer_;  //!< Transmit buffer (OBC-> Component)
 };
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_PORTS_UART_PORT_HPP_

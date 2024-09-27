@@ -8,6 +8,8 @@
 
 #include <map>
 
+namespace s2e::components {
+
 /**
  * @class I2cPort
  * @brief Class to emulate I2C(Inter-Integrated Circuit) communication port
@@ -107,5 +109,7 @@ class I2cPort {
   /** @brief Buffer for the command from OnBoardComputer : <pair(i2c_address, cmd_buffer_length), value>  **/
   std::map<std::pair<unsigned char, unsigned char>, unsigned char> command_buffer_;
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_PORTS_I2C_PORT_HPP_

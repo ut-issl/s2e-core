@@ -5,6 +5,8 @@
 
 #include "gpio_port.hpp"
 
+namespace s2e::components {
+
 GpioPort::GpioPort(const unsigned int port_id, IGPIOCompo* component) : kPortId(port_id) {
   high_low_state_ = GPIO_LOW;
   component_ = component;
@@ -24,3 +26,5 @@ int GpioPort::DigitalWrite(const bool is_high) {
 }
 
 bool GpioPort::DigitalRead() { return high_low_state_; }
+
+}  // namespace s2e::components
