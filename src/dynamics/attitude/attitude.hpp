@@ -12,6 +12,8 @@
 #include <simulation/monte_carlo_simulation/simulation_object.hpp>
 #include <string>
 
+namespace s2e::dynamics::attitude {
+
 /**
  * @class Attitude
  * @brief Base class for attitude of spacecraft
@@ -141,5 +143,7 @@ class Attitude : public ILoggable, public SimulationObject {
  * @param [in] angular_velocity_b_rad_s: Angular velocity [rad/s]
  */
 s2e::math::Matrix<4, 4> CalcAngularVelocityMatrix(s2e::math::Vector<3> angular_velocity_b_rad_s);
+
+} // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_

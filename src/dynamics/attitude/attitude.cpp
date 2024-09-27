@@ -6,6 +6,8 @@
 
 #include <logger/log_utility.hpp>
 
+namespace s2e::dynamics::attitude {
+
 Attitude::Attitude(const s2e::math::Matrix<3, 3>& inertia_tensor_kgm2, const std::string& simulation_object_name)
     : SimulationObject(simulation_object_name), inertia_tensor_kgm2_(inertia_tensor_kgm2) {
   angular_velocity_b_rad_s_ = s2e::math::Vector<3>(0.0);
@@ -79,3 +81,5 @@ s2e::math::Matrix<4, 4> CalcAngularVelocityMatrix(s2e::math::Vector<3> angular_v
 
   return angular_velocity_matrix;
 }
+
+} // namespace s2e::dynamics::attitude

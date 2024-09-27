@@ -8,6 +8,8 @@
 #include <logger/log_utility.hpp>
 #include <utilities/macros.hpp>
 
+namespace s2e::dynamics::attitude {
+
 AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
     const s2e::math::Vector<3>& angular_velocity_b_rad_s, const s2e::math::Quaternion& quaternion_i2b, const s2e::math::Matrix<3, 3>& inertia_tensor_kgm2,
     const s2e::math::Matrix<3, 3>& inertia_tensor_cantilever_kgm2, const double damping_ratio_cantilever,
@@ -99,3 +101,5 @@ void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   attitude_ode_.SetPreviousInertiaTensor_kgm2(inertia_tensor_kgm2_);
   CalcAngularMomentum();
 }
+
+} // namespace s2e::dynamics::attitude

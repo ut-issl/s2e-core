@@ -9,6 +9,8 @@
 #include <sstream>
 #include <utilities/macros.hpp>
 
+namespace s2e::dynamics::attitude {
+
 AttitudeRk4::AttitudeRk4(const s2e::math::Vector<3>& angular_velocity_b_rad_s, const s2e::math::Quaternion& quaternion_i2b,
                          const s2e::math::Matrix<3, 3>& inertia_tensor_kgm2, const s2e::math::Vector<3>& torque_b_Nm, const double propagation_step_s,
                          const std::string& simulation_object_name)
@@ -119,3 +121,5 @@ void AttitudeRk4::RungeKuttaOneStep(double t, double dt) {
   }
   quaternion_i2b_.Normalize();
 }
+
+} // namespace s2e::dynamics::attitude

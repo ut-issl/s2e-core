@@ -7,6 +7,8 @@
 #include <logger/log_utility.hpp>
 #include <utilities/macros.hpp>
 
+namespace s2e::dynamics::attitude {
+
 ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const s2e::math::Quaternion quaternion_i2b,
                                        const s2e::math::Vector<3> main_target_direction_b, const s2e::math::Vector<3> sub_target_direction_b,
                                        const s2e::math::Matrix<3, 3>& inertia_tensor_kgm2, const LocalCelestialInformation* local_celestial_information,
@@ -178,3 +180,5 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
   previous_quaternion_i2b_ = quaternion_i2b_;
   previous_omega_b_rad_s_ = angular_velocity_b_rad_s_;
 }
+
+} // namespace s2e::dynamics::attitude

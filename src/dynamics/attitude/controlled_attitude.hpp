@@ -13,6 +13,8 @@
 #include "../orbit/orbit.hpp"
 #include "attitude.hpp"
 
+namespace s2e::dynamics::attitude {
+
 /**
  * @enum AttitudeControlMode
  * @brief Attitude control mode
@@ -148,5 +150,7 @@ class ControlledAttitude : public Attitude {
    */
   s2e::math::Matrix<3, 3> CalcDcm(const s2e::math::Vector<3> main_direction, const s2e::math::Vector<3> sub_direction);
 };
+
+} // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_HPP_

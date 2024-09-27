@@ -6,6 +6,8 @@
 
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::dynamics::attitude {
+
 Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
                        const double step_width_s, const s2e::math::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id) {
   IniAccess ini_file(file_name);
@@ -93,3 +95,5 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
 
   return attitude;
 }
+
+} // namespace s2e::dynamics::attitude

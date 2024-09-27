@@ -12,6 +12,8 @@
 #include "attitude.hpp"
 #include "ode_attitude_with_cantilever_vibration.hpp"
 
+namespace s2e::dynamics::attitude {
+
 /**
  * @class AttitudeWithCantileverVibration
  * @brief Class to calculate spacecraft attitude with cantilever vibration
@@ -76,5 +78,7 @@ class AttitudeWithCantileverVibration : public Attitude {
   s2e::numerical_integration::AttitudeWithCantileverVibrationOde attitude_ode_;
   s2e::numerical_integration::NumericalIntegratorManager<13> numerical_integrator_;
 };
+
+} // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_WITH_CANTILEVER_VIBRATION_HPP_

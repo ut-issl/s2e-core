@@ -8,6 +8,8 @@
 
 #include "attitude.hpp"
 
+namespace s2e::dynamics::attitude {
+
 /**
  * @class AttitudeRk4
  * @brief Class to calculate spacecraft attitude with Runge-Kutta method
@@ -67,5 +69,7 @@ class AttitudeRk4 : public Attitude {
    */
   void RungeKuttaOneStep(double t, double dt);
 };
+
+} // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_RK4_HPP_
