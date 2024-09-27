@@ -33,14 +33,14 @@ TimeSeriesFileOrbitPropagation::TimeSeriesFileOrbitPropagation(const CelestialIn
   time_series_file.ReadCsvDoubleWithHeader(time_series_data_, 7, 1, 0);
 
   // Get general info
-  size_t nearest_ephemeris_time_id = SearchNearestEpochId(current_time_jd);
+  size_t nearest_ephemeris_time_id = SearchNearestEphemerisTimeId(current_time_jd);
 
   const size_t half_interpolation_number = number_of_interpolation / 2;
   if (nearest_ephemeris_time_id >= half_interpolation_number) {
     reference_interpolation_id_ = nearest_ephemeris_time_id - half_interpolation_number;
   }
 
-  reference_time_ = CalcEpochData(reference_interpolation_id_);
+  reference_time_ = CalcEphemerisTimeData(reference_interpolation_id_);
 
   // Initialize orbit
   orbit_position_i_m_.assign(1.0, orbit::InterpolationOrbit(number_of_interpolation));
@@ -58,13 +58,13 @@ TimeSeriesFileOrbitPropagation::TimeSeriesFileOrbitPropagation(const CelestialIn
   is_calc_enabled_ = false;
 }
 
-size_t TimeSeriesFileOrbitPropagation::SearchNearestEpochId(const double current_time_jd) {
+size_t TimeSeriesFileOrbitPropagation::SearchNearestEphemerisTimeId(const double current_time_jd) {
   size_t nearest_ephemeris_time_id = 0;
 
   // Get start ephemeris time
   double start_ephemris_time = (current_time_jd - 2451545.0) * 86400.0;
 
-  // Get the nearest epoch ID
+  // Get the nearest ephemeris time ID
   for (size_t i = 0; i < time_series_data_.size(); i++) {
     if (start_ephemris_time < time_series_data_[i][0]) {
       nearest_ephemeris_time_id = i;
@@ -74,7 +74,7 @@ size_t TimeSeriesFileOrbitPropagation::SearchNearestEpochId(const double current
   return nearest_ephemeris_time_id;
 }
 
-double TimeSeriesFileOrbitPropagation::CalcEpochData(const size_t ephemeris_time_id) const {
+double TimeSeriesFileOrbitPropagation::CalcEphemerisTimeData(const size_t ephemeris_time_id) const {
   if (ephemeris_time_id > time_series_data_.size()) {
     return 0;
   }
@@ -133,7 +133,7 @@ void TimeSeriesFileOrbitPropagation::Propagate(const double end_time_s, const do
 }
 
 bool TimeSeriesFileOrbitPropagation::UpdateInterpolationInformation() {
-  double time_series_data_time_s = CalcEpochData(reference_interpolation_id_);
+  double time_series_data_time_s = CalcEphemerisTimeData(reference_interpolation_id_);
   double time_diff_s = time_series_data_time_s - reference_time_;
   if (reference_interpolation_id_ >= time_series_data_.size()) {
     for (size_t i = 0; i < 3; i++) {
@@ -154,3 +154,4 @@ bool TimeSeriesFileOrbitPropagation::UpdateInterpolationInformation() {
 
   return true;
 }
+

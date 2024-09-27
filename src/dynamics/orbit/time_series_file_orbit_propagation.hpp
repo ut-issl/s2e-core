@@ -39,18 +39,18 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
   virtual ~TimeSeriesFileOrbitPropagation() {}
 
   /**
-   * @fn CalcEpochData
-   * @brief Return epoch data for a specific epoch ID.
-   * @param ephemeris_time_id The ephemeris time ID of the orbit definition data.
+   * @fn CalcEphemerisTimeData
+   * @brief Return ephemeris time data for a specific ephemeris time ID.
+   * @param ephemeris_time_id The ephemeris time ID of the time series data.
    */
-  double CalcEpochData(const size_t ephemeris_time_id) const;
+  double CalcEphemerisTimeData(const size_t ephemeris_time_id) const;
 
   /**
-   * @fn SearchNearestEpochId
-   * @brief Search the nearest epoch ID from the orbit definition data.
+   * @fn SearchNearestEphemerisTimeId
+   * @brief Search the nearest ephemeris time ID from the time series data.
    * @param current_time_jd: Current Julian day [day]
    */
-  size_t SearchNearestEpochId(const double current_time_jd);
+  size_t SearchNearestEphemerisTimeId(const double current_time_jd);
 
   // Override Orbit
   /**
@@ -69,9 +69,9 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
   int interpolation_method_;            //!< Interpolation method
   double orbital_period_correction_s_;  //!< Orbital period correction [s]
 
-  std::vector<std::vector<double>> time_series_data_;  //!< List of orbit definition data
-  double reference_time_;                              //!< Reference start time of the orbit definition data handling
-  size_t reference_interpolation_id_;                  //!< Reference epoch ID of the interpolation
+  std::vector<std::vector<double>> time_series_data_;  //!< List of time series data
+  double reference_time_;                              //!< Reference start time of the time series data handling
+  size_t reference_interpolation_id_;                  //!< Reference EphemerisTime ID of the interpolation
 
   std::vector<orbit::InterpolationOrbit> orbit_position_i_m_;    //!< Position with interpolation
   std::vector<orbit::InterpolationOrbit> orbit_velocity_i_m_s_;  //!< Velocity with interpolation
@@ -79,7 +79,7 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
   /**
    * @fn UpdateInterpolationInformation
    * @brief Update interpolation information by inserting new data
-   * @return true: No error, false: Orbit definition file out of range error
+   * @return true: No error, false: Time series file out of range error
    */
   bool UpdateInterpolationInformation();
 };
