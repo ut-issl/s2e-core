@@ -10,18 +10,18 @@ namespace orbit {
 InterpolationOrbit::InterpolationOrbit(const size_t degree) {
   std::vector<double> time;
   time.assign(degree, -1.0);
-  std::vector<double> position_or_velocity;
-  position_or_velocity.assign(degree, 0.0);
-  math::Interpolation temp(time, position_or_velocity);
+  std::vector<double> position;
+  position.assign(degree, 0.0);
+  math::Interpolation temp(time, position);
   for (size_t axis = 0; axis < 3; axis++) {
-    interpolation_position_or_velocity.push_back(temp);
+    interpolation_position_.push_back(temp);
   }
 }
 
-bool InterpolationOrbit::PushAndPopData(const double time, const math::Vector<3> position_or_velocity) {
+bool InterpolationOrbit::PushAndPopData(const double time, const math::Vector<3> position) {
   bool result;
   for (size_t axis = 0; axis < 3; axis++) {
-    result = interpolation_position_or_velocity[axis].PushAndPopData(time, position_or_velocity[axis]);
+    result = interpolation_position_[axis].PushAndPopData(time, position[axis]);
     if (result == false) {
       return false;
     }
@@ -29,20 +29,19 @@ bool InterpolationOrbit::PushAndPopData(const double time, const math::Vector<3>
   return true;
 }
 
-math::Vector<3> InterpolationOrbit::CalcPositionOrVelocityWithTrigonometric(const double time, const double period) const {
-  math::Vector<3> output_position_or_velocity;
+math::Vector<3> InterpolationOrbit::CalcPositionWithTrigonometric(const double time, const double period) const {
+  math::Vector<3> output_position;
   for (size_t axis = 0; axis < 3; axis++) {
-    output_position_or_velocity[axis] = interpolation_position_or_velocity[axis].CalcTrigonometric(time, period);
+    output_position[axis] = interpolation_position_[axis].CalcTrigonometric(time, period);
   }
-  return output_position_or_velocity;
+  return output_position;
 }
 
-math::Vector<3> InterpolationOrbit::CalcPositionOrVelocityWithPolynomial(const double time) const {
-  math::Vector<3> output_position_or_velocity;
+math::Vector<3> InterpolationOrbit::CalcPositionWithPolynomial(const double time) const {
+  math::Vector<3> output_position;
   for (size_t axis = 0; axis < 3; axis++) {
-    output_position_or_velocity[axis] = interpolation_position_or_velocity[axis].CalcPolynomial(time);
+    output_position[axis] = interpolation_position_[axis].CalcPolynomial(time);
   }
-  return output_position_or_velocity;
+  return output_position;
 }
-
 }  // namespace orbit

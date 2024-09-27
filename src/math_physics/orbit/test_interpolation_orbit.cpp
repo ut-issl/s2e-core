@@ -40,7 +40,7 @@ TEST(InterpolationOrbit, PushAndPop) {
   for (size_t i = 0; i < degree; i++) {
     EXPECT_DOUBLE_EQ((double)i, interpolation_orbit.GetTimeList()[i]);
     for (size_t axis = 0; axis < 3; axis++) {
-      EXPECT_DOUBLE_EQ(2.0 * i, interpolation_orbit.GetPositionOrVelocityDataList(axis)[i]);
+      EXPECT_DOUBLE_EQ(2.0 * i, interpolation_orbit.GetPositionDataList(axis)[i]);
     }
   }
 

@@ -15,7 +15,7 @@ namespace orbit {
 /**
  * @class InterpolationOrbit
  * @brief Orbit calculation with mathematical interpolation
- * @note Coordinate and unit of position or velocityis defined by users of this function
+ * @note Coordinate and unit of position is defined by users of this function
  */
 class InterpolationOrbit {
  public:
@@ -30,53 +30,53 @@ class InterpolationOrbit {
    * @fn PushAndPopData
    * @brief Add new data to the tail of the list and erase the head data
    * @param [in] time: time of the new data
-   * @param [in] position: Satellite position or velocity of the new data
+   * @param [in] position: Satellite position of the new data
    */
-  bool PushAndPopData(const double time, const math::Vector<3> position_or_velocity);
+  bool PushAndPopData(const double time, const math::Vector<3> position);
 
   /**
-   * @fn CalcPositionOrVelocityWithTrigonometric
-   * @brief Calculate interpolated position position or velocity with trigonometric method
+   * @fn CalcPositionWithTrigonometric
+   * @brief Calculate interpolated position with trigonometric method
    * @param [in] time: time
    * @param [in] period: Characteristic period
-   * @return Calculated position or velocity
+   * @return Calculated position
    */
-  math::Vector<3> CalcPositionOrVelocityWithTrigonometric(const double time, const double period = 0.0) const;
+  math::Vector<3> CalcPositionWithTrigonometric(const double time, const double period = 0.0) const;
 
   /**
-   * @fn CalcPositionOrVelocityWithPolynomial
-   * @brief Calculate interpolated position or velocity with polynomial method
+   * @fn CalcPositionWithPolynomial
+   * @brief Calculate interpolated position with polynomial method
    * @param [in] time: time
-   * @return Calculated position or velocity
+   * @return Calculated position
    */
-  math::Vector<3> CalcPositionOrVelocityWithPolynomial(const double time) const;
+  math::Vector<3> CalcPositionWithPolynomial(const double time) const;
 
   // Getters
   /**
    * @fn GetDegree
    * @return Degree of interpolation
    */
-  inline size_t GetDegree() const { return interpolation_position_or_velocity[0].GetDegree(); }
+  inline size_t GetDegree() const { return interpolation_position_[0].GetDegree(); }
   /**
    * @fn GetTimeList
    * @return Time list registered for the interpolation
    */
-  inline std::vector<double> GetTimeList() const { return interpolation_position_or_velocity[0].GetIndependentVariables(); }
+  inline std::vector<double> GetTimeList() const { return interpolation_position_[0].GetIndependentVariables(); }
   /**
    * @fn GetTimeList
-   * @param[in] axis: Axis of position or velocity[0, 2]
-   * @return Position or velocity list registered for the interpolation
+   * @param[in] axis: Axis of position [0, 2]
+   * @return Position list registered for the interpolation
    * @note return id=2 data when the input axis is over 3.
    */
-  inline std::vector<double> GetPositionOrVelocityDataList(const size_t axis) const {
+  inline std::vector<double> GetPositionDataList(const size_t axis) const {
     if (axis > 3) {
-      return interpolation_position_or_velocity[2].GetDependentVariables();
+      return interpolation_position_[2].GetDependentVariables();
     }
-    return interpolation_position_or_velocity[axis].GetDependentVariables();
+    return interpolation_position_[axis].GetDependentVariables();
   }
 
  private:
-  std::vector<math::Interpolation> interpolation_position_or_velocity;  // 3D vector of interpolation
+  std::vector<math::Interpolation> interpolation_position_;  // 3D vector of interpolation
 };
 
 }  // namespace orbit
