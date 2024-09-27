@@ -17,6 +17,8 @@
 
 using namespace s2e::gnss;
 
+namespace s2e::environment {
+
 const size_t kNumberOfInterpolation = 9;
 
 void GnssSatellites::Initialize(const std::vector<Sp3FileReader>& sp3_files, const s2e::time_system::EpochTime start_time) {
@@ -234,3 +236,5 @@ GnssSatellites* InitGnssSatellites(const std::string file_name, const EarthRotat
 
   return gnss_satellites;
 }
+
+} // namespace s2e::environment

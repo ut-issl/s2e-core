@@ -8,6 +8,8 @@
 
 #include "../global/celestial_information.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class LocalCelestialInformation
  * @brief Class to manage celestial body information in the spacecraft body frame
@@ -119,5 +121,7 @@ class LocalCelestialInformation : public ILoggable {
   void ConvertVelocityInertialToBody(const double* position_i, const double* velocity_i, double* velocity_b, const s2e::math::Quaternion quaternion_i2b,
                                      const s2e::math::Vector<3> angular_velocity_b);
 };
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_CELESTIAL_INFORMATION_HPP_

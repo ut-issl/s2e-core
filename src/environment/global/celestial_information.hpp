@@ -17,6 +17,8 @@
 
 class MoonRotation;
 
+namespace s2e::environment {
+
 /**
  * @class CelestialInformation
  * @brief Class to manage the information related with the celestial bodies
@@ -280,5 +282,7 @@ class CelestialInformation : public ILoggable {
  *@param [in] file_name: Path to the initialize function
  */
 CelestialInformation* InitCelestialInformation(std::string file_name);
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_HPP_

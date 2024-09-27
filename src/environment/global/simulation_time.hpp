@@ -19,6 +19,8 @@
 #include "math_physics/orbit/sgp4/sgp4io.h"
 #include "math_physics/orbit/sgp4/sgp4unit.h"
 
+namespace s2e::environment {
+
 /**
  *@struct TimeState
  *@brief State of timing controller
@@ -333,5 +335,7 @@ class SimulationTime : public ILoggable {
  *@param [in] file_name: Path to the initialize function
  */
 SimulationTime* InitSimulationTime(std::string file_name);
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_HPP_

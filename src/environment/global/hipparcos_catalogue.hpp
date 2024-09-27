@@ -12,6 +12,8 @@
 #include "math_physics/math/quaternion.hpp"
 #include "math_physics/math/vector.hpp"
 
+namespace s2e::environment {
+
 /**
  *@struct HipparcosData
  *@brief Hipparcos catalogue data
@@ -117,5 +119,7 @@ class HipparcosCatalogue : public ILoggable {
  *@param [in] file_name: Path to the initialize function
  */
 HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name);
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_HIPPARCOS_CATALOGUE_HPP_

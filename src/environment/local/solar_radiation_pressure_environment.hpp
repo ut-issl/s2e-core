@@ -9,6 +9,8 @@
 #include "environment/global/physical_constants.hpp"
 #include "environment/local/local_celestial_information.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class SolarRadiationPressureEnvironment
  * @brief Class to calculate Solar Radiation Pressure
@@ -121,5 +123,7 @@ class SolarRadiationPressureEnvironment : public ILoggable {
  */
 SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::string initialize_file_path,
                                                                         LocalCelestialInformation* local_celestial_information);
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_

@@ -13,6 +13,8 @@
 #include "math_physics/math/vector.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::environment {
+
 SolarRadiationPressureEnvironment::SolarRadiationPressureEnvironment(LocalCelestialInformation* local_celestial_information)
     : local_celestial_information_(local_celestial_information) {
   solar_radiation_pressure_N_m2_ = solar_constant_W_m2_ / environment::speed_of_light_m_s;
@@ -119,3 +121,5 @@ SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::str
 
   return srp_env;
 }
+
+} // namespace s2e::environment

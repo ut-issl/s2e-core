@@ -15,6 +15,8 @@
 #include "math_physics/atmosphere/wrapper_nrlmsise00.hpp"
 #include "math_physics/math/vector.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class Atmosphere
  * @brief Class to calculate earth's atmospheric density
@@ -115,5 +117,7 @@ class Atmosphere : public ILoggable {
  */
 Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCelestialInformation* local_celestial_information,
                           const SimulationTime* simulation_time);
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_

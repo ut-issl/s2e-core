@@ -18,6 +18,8 @@
 #include "logger/log_utility.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::environment {
+
 CelestialInformation::CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting,
                                            const std::string center_body_name, const unsigned int number_of_selected_body, int* selected_body_ids,
                                            const std::vector<std::string> rotation_mode_list)
@@ -244,3 +246,5 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
 
   return celestial_info;
 }
+
+} // namespace s2e::environment

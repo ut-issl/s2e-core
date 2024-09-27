@@ -14,6 +14,8 @@
 
 #include "logger/log_utility.hpp"
 
+namespace s2e::environment {
+
 LocalCelestialInformation::LocalCelestialInformation(const CelestialInformation* global_celestial_information)
     : global_celestial_information_(global_celestial_information) {
   int num_of_state = global_celestial_information_->GetNumberOfSelectedBodies() * 3;
@@ -197,3 +199,5 @@ std::string LocalCelestialInformation::GetLogValue() const {
   }
   return str_tmp;
 }
+
+} // namespace s2e::environment

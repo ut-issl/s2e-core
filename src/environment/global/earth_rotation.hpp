@@ -11,6 +11,8 @@
 
 #include "math_physics/math/matrix.hpp"
 
+namespace s2e::environment {
+
 /**
  * @enum EarthRotationMode
  * @brief Definition of calculation mode of earth rotation
@@ -121,5 +123,7 @@ class EarthRotation {
 };
 
 EarthRotationMode ConvertEarthRotationMode(const std::string mode);
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_EARTH_ROTATION_HPP_

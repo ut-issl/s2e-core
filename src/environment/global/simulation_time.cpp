@@ -21,6 +21,8 @@
 
 using namespace std;
 
+namespace s2e::environment {
+
 SimulationTime::SimulationTime(const double end_sec, const double step_sec, const double attitude_update_interval_sec,
                                const double attitude_rk_step_sec, const double orbit_update_interval_sec, const double orbit_rk_step_sec,
                                const double thermal_update_interval_sec, const double thermal_rk_step_sec, const double compo_propagate_step_sec,
@@ -275,3 +277,5 @@ SimulationTime* InitSimulationTime(std::string file_name) {
 
   return simTime;
 }
+
+} // namespace s2e::environment

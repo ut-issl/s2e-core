@@ -7,6 +7,8 @@
 
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::environment {
+
 GlobalEnvironment::GlobalEnvironment(const SimulationConfiguration* simulation_configuration) { Initialize(simulation_configuration); }
 
 GlobalEnvironment::~GlobalEnvironment() {
@@ -42,5 +44,7 @@ void GlobalEnvironment::LogSetup(Logger& logger) {
   logger.AddLogList(celestial_information_);
   logger.AddLogList(gnss_satellites_);
 }
+
+} // namespace s2e::environment
 
 void GlobalEnvironment::Reset(void) { simulation_time_->ResetClock(); }

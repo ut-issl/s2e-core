@@ -17,6 +17,8 @@
 
 class Dynamics;
 
+namespace s2e::environment {
+
 /**
  * @class LocalEnvironment
  * @brief Class to manage local environments
@@ -93,5 +95,7 @@ class LocalEnvironment {
    */
   void Initialize(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
 };
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_HPP_

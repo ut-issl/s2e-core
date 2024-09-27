@@ -14,6 +14,8 @@
 #include "math_physics/randomization/random_walk.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::environment {
+
 Atmosphere::Atmosphere(const std::string model, const std::string space_weather_file_name, const double gauss_standard_deviation_rate,
                        const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap,
                        const LocalCelestialInformation* local_celestial_information, const SimulationTime* simulation_time)
@@ -133,3 +135,5 @@ Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCel
 
   return atmosphere;
 }
+
+} // namespace s2e::environment

@@ -13,6 +13,8 @@
 #include "simulation/simulation_configuration.hpp"
 #include "simulation_time.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class GlobalEnvironment
  * @brief Class to manage the global environment
@@ -81,5 +83,7 @@ class GlobalEnvironment {
   HipparcosCatalogue* hipparcos_catalogue_;      //!< Hipparcos catalogue
   GnssSatellites* gnss_satellites_;              //!< GNSS satellites
 };
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_HPP_

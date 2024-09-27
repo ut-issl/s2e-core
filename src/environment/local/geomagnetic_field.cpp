@@ -11,6 +11,8 @@
 #include "math_physics/randomization/random_walk.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::environment {
+
 GeomagneticField::GeomagneticField(const std::string igrf_file_name, const double random_walk_srandard_deviation_nT,
                                    const double random_walk_limit_nT, const double white_noise_standard_deviation_nT)
     : magnetic_field_i_nT_(0.0),
@@ -85,3 +87,5 @@ GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
 
   return geomagnetic_field;
 }
+
+} // namespace s2e::environment

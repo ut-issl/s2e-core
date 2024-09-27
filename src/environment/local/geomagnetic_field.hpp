@@ -11,6 +11,8 @@
 #include "math_physics/math/quaternion.hpp"
 #include "math_physics/math/vector.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class GeomagneticField
  * @brief Class to calculate magnetic field of the earth
@@ -91,5 +93,7 @@ class GeomagneticField : public ILoggable {
  * @param [in] initialize_file_path: Path to initialize file
  */
 GeomagneticField InitGeomagneticField(std::string initialize_file_path);
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_

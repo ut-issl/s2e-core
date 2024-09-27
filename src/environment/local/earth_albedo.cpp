@@ -13,6 +13,8 @@
 #include "math_physics/math/vector.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::environment {
+
 EarthAlbedo::EarthAlbedo(LocalCelestialInformation* local_celestial_information, SolarRadiationPressureEnvironment* srp_environment)
     : local_celestial_information_(local_celestial_information), srp_environment_(srp_environment) {}
 
@@ -57,3 +59,5 @@ EarthAlbedo InitEarthAlbedo(std::string initialize_file_path, LocalCelestialInfo
 
   return earth_albedo;
 }
+
+} // namespace s2e::environment

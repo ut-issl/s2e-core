@@ -8,7 +8,7 @@
 
 #include <type_traits>  // std::is_floating_point_v
 
-namespace environment {
+namespace s2e::environment {
 
 template <typename T>
 using enable_if_float = std::enable_if_t<std::is_floating_point_v<T>, T>;
@@ -39,7 +39,7 @@ DEFINE_PHYSICAL_CONSTANT(earth_flattening, 3.352797e-3L)                       /
 
 #undef DEFINE_PHYSICAL_CONSTANT
 
-}  // namespace environment
+}  // namespace s2e::environment
 
 inline double degC2K(double degC) { return (degC - environment::absolute_zero_degC); }
 inline double K2degC(double K) { return (K + environment::absolute_zero_degC); }

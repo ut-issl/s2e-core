@@ -11,6 +11,8 @@
 
 #include "simulation_time.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class ClockGenerator
  * @brief Class to generate clock for classes which have ITickable
@@ -56,5 +58,7 @@ class ClockGenerator {
   std::vector<ITickable*> components_;  //!< Component list fot tick
   unsigned int timer_count_;            //!< Timer count TODO: change to long?
 };
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_HPP_

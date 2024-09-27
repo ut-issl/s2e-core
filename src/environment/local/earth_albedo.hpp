@@ -10,6 +10,8 @@
 #include "environment/local/local_celestial_information.hpp"
 #include "solar_radiation_pressure_environment.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class EarthAlbedo
  * @brief Class to calculate Solar Radiation Pressure
@@ -101,5 +103,7 @@ class EarthAlbedo : public ILoggable {
  */
 EarthAlbedo InitEarthAlbedo(std::string initialize_file_path, LocalCelestialInformation* local_celestial_information,
                             SolarRadiationPressureEnvironment* srp_environment);
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_EARTH_ALBEDO_HPP_

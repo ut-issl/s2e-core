@@ -5,6 +5,8 @@
 
 #include "clock_generator.hpp"
 
+namespace s2e::environment {
+
 ClockGenerator::~ClockGenerator() {}
 
 void ClockGenerator::RegisterComponent(ITickable* tickable) { components_.push_back(tickable); }
@@ -38,3 +40,5 @@ void ClockGenerator::UpdateComponents(const SimulationTime* simulation_time) {
     TickToComponents();
   }
 }
+
+} // namespace s2e::environment

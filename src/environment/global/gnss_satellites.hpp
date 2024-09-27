@@ -21,6 +21,8 @@
 #include "math_physics/math/vector.hpp"
 #include "simulation_time.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class GnssSatellites
  * @brief Class to calculate GNSS satellite position and clock
@@ -152,5 +154,7 @@ class GnssSatellites : public ILoggable {
  * @return Initialized GnssSatellite class
  */
 GnssSatellites* InitGnssSatellites(const std::string file_name, const EarthRotation& earth_rotation, const SimulationTime& simulation_time);
+
+} // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_
