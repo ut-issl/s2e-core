@@ -12,6 +12,8 @@
 
 class RelativeInformation;
 
+namespace s2e::dynamics::orbit {
+
 /**
  * @fn InitOrbit
  * @brief Initialize function for Orbit class
@@ -36,5 +38,7 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
  * @param [in] section: Section name
  */
 s2e::math::Vector<6> InitializePosVel(std::string initialize_file, double current_time_jd, double gravity_constant_m3_s2, std::string section = "ORBIT");
+
+} // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_INITIALIZE_ORBIT_HPP_

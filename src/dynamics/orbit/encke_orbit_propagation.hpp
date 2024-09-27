@@ -10,6 +10,8 @@
 #include "../../math_physics/orbit/kepler_orbit.hpp"
 #include "orbit.hpp"
 
+namespace s2e::dynamics::orbit {
+
 /**
  * @class EnckeOrbitPropagation
  * @brief Class to propagate spacecraft orbit with Encke's method
@@ -92,5 +94,7 @@ class EnckeOrbitPropagation : public Orbit, public s2e::math::OrdinaryDifferenti
    */
   double CalcQFunction(const s2e::math::Vector<3> difference_position_i_m);
 };
+
+} // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_ENCKE_ORBIT_PROPAGATION_HPP_

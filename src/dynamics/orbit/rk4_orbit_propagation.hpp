@@ -11,6 +11,8 @@
 
 #include "orbit.hpp"
 
+namespace s2e::dynamics::orbit {
+
 /**
  * @class Rk4OrbitPropagation
  * @brief Class to propagate spacecraft orbit with Runge-Kutta-4 method
@@ -68,5 +70,7 @@ class Rk4OrbitPropagation : public Orbit, public s2e::math::OrdinaryDifferential
    */
   void Initialize(s2e::math::Vector<3> position_i_m, s2e::math::Vector<3> velocity_i_m_s, double initial_time_s = 0);
 };
+
+} // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_

@@ -13,6 +13,8 @@
 
 #include "orbit.hpp"
 
+namespace s2e::dynamics::orbit {
+
 /**
  * @class RelativeOrbit
  * @brief Class to propagate relative orbit
@@ -125,5 +127,7 @@ class RelativeOrbit : public Orbit, public s2e::math::OrdinaryDifferentialEquati
    */
   void PropagateStm(double elapsed_sec);
 };
+
+} // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_HPP_

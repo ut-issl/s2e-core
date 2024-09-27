@@ -16,6 +16,8 @@
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/math/vector.hpp>
 
+namespace s2e::dynamics::orbit {
+
 /**
  * @enum OrbitPropagateMode
  * @brief Propagation mode of orbit
@@ -216,5 +218,7 @@ class Orbit : public ILoggable {
 };
 
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode);
+
+} // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_ORBIT_HPP_

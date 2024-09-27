@@ -4,6 +4,8 @@
  */
 #include "orbit.hpp"
 
+namespace s2e::dynamics::orbit {
+
 s2e::math::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
   s2e::math::Vector<3> lvlh_x = spacecraft_position_i_m_;  // x-axis in LVLH frame is position vector direction from geocenter to satellite
   s2e::math::Vector<3> lvlh_ex = lvlh_x.CalcNormalizedVector();
@@ -93,3 +95,5 @@ std::string Orbit::GetLogValue() const {
 
   return str_tmp;
 }
+
+} // namespace s2e::dynamics::orbit

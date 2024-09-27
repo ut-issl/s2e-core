@@ -9,6 +9,8 @@
 
 #include "../../math_physics/orbit/orbital_elements.hpp"
 
+namespace s2e::dynamics::orbit {
+
 EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double gravity_constant_m3_s2,
                                              const double propagation_step_s, const double current_time_jd, const s2e::math::Vector<3> position_i_m,
                                              const s2e::math::Vector<3> velocity_i_m_s, const double error_tolerance)
@@ -124,3 +126,5 @@ double EnckeOrbitPropagation::CalcQFunction(s2e::math::Vector<3> difference_posi
 
   return q_func;
 }
+
+} // namespace s2e::dynamics::orbit

@@ -8,6 +8,8 @@
 
 #include "../../math_physics/math/s2e_math.hpp"
 
+namespace s2e::dynamics::orbit {
+
 KeplerOrbitPropagation::KeplerOrbitPropagation(const CelestialInformation* celestial_information, const double current_time_jd,
                                                KeplerOrbit kepler_orbit)
     : Orbit(celestial_information), KeplerOrbit(kepler_orbit) {
@@ -32,3 +34,5 @@ void KeplerOrbitPropagation::UpdateState(const double current_time_jd) {
   TransformEciToEcef();
   TransformEcefToGeodetic();
 }
+
+} // namespace s2e::dynamics::orbit

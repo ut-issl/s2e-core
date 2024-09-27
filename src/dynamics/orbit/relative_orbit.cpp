@@ -8,6 +8,8 @@
 
 #include "rk4_orbit_propagation.hpp"
 
+namespace s2e::dynamics::orbit {
+
 RelativeOrbit::RelativeOrbit(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
                              int reference_spacecraft_id, s2e::math::Vector<3> relative_position_lvlh_m, s2e::math::Vector<3> relative_velocity_lvlh_m_s,
                              RelativeOrbitUpdateMethod update_method, s2e::orbit::RelativeOrbitModel relative_dynamics_model_type,
@@ -157,3 +159,5 @@ void RelativeOrbit::DerivativeFunction(double t, const s2e::math::Vector<6>& sta
   rhs = system_matrix_ * state;
   (void)t;
 }
+
+} // namespace s2e::dynamics::orbit

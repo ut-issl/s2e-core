@@ -13,6 +13,8 @@
 
 #include "orbit.hpp"
 
+namespace s2e::dynamics::orbit {
+
 /**
  * @class Sgp4OrbitPropagation
  * @brief Class to propagate spacecraft orbit with SGP4 method with TLE
@@ -44,5 +46,7 @@ class Sgp4OrbitPropagation : public Orbit {
   gravconsttype gravity_constant_setting_;  //!< Gravity constant value type
   elsetrec sgp4_data_;                      //!< Structure data for SGP4 library
 };
+
+} // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_

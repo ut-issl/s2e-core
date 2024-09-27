@@ -9,6 +9,8 @@
 #include "../../math_physics/orbit/kepler_orbit.hpp"
 #include "orbit.hpp"
 
+namespace s2e::dynamics::orbit {
+
 /**
  * @class KeplerOrbitPropagation
  * @brief Class to propagate spacecraft orbit with Kepler equation
@@ -47,5 +49,7 @@ class KeplerOrbitPropagation : public Orbit, public s2e::orbit::KeplerOrbit {
    */
   void UpdateState(const double current_time_jd);
 };
+
+} // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_KEPLER_ORBIT_PROPAGATION_HPP_

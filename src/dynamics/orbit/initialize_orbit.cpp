@@ -12,6 +12,8 @@
 #include "rk4_orbit_propagation.hpp"
 #include "sgp4_orbit_propagation.hpp"
 
+namespace s2e::dynamics::orbit {
+
 Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string initialize_file, double step_width_s, double current_time_jd,
                  double gravity_constant_m3_s2, std::string section, RelativeInformation* relative_information) {
   auto conf = IniAccess(initialize_file);
@@ -148,3 +150,5 @@ s2e::math::Vector<6> InitializePosVel(std::string initialize_file, double curren
 
   return pos_vel;
 }
+
+} // namespace s2e::dynamics::orbit
