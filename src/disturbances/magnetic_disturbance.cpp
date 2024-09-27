@@ -13,6 +13,8 @@
 #include "../math_physics/randomization/normal_randomization.hpp"
 #include "../math_physics/randomization/random_walk.hpp"
 
+namespace s2e::disturbances {
+
 MagneticDisturbance::MagneticDisturbance(const ResidualMagneticMoment& rmm_params, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, true), residual_magnetic_moment_(rmm_params) {
   rmm_b_Am2_ = residual_magnetic_moment_.GetConstantValue_b_Am2();
@@ -72,3 +74,5 @@ MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_pa
 
   return mag_disturbance;
 }
+
+} // namespace s2e::disturbances

@@ -9,6 +9,8 @@
 #include "../environment/local/local_environment.hpp"
 #include "../math_physics/math/vector.hpp"
 
+namespace s2e::disturbances {
+
 /**
  * @class Disturbance
  * @brief Base class for a disturbance
@@ -90,5 +92,7 @@ class Disturbance : public ILoggable {
   s2e::math::Vector<3> acceleration_b_m_s2_;  //!< Disturbance acceleration in the body frame [m/s2]
   s2e::math::Vector<3> acceleration_i_m_s2_;  //!< Disturbance acceleration in the inertial frame [m/s2]
 };
+
+} // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_DISTURBANCE_HPP_

@@ -11,6 +11,8 @@
 
 #include "../logger/log_utility.hpp"
 
+namespace s2e::disturbances {
+
 GravityGradient::GravityGradient(const bool is_calculation_enabled)
     : GravityGradient(environment::earth_gravitational_constant_m3_s2, is_calculation_enabled) {}
 
@@ -70,3 +72,5 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path, cons
 
   return gg_disturbance;
 }
+
+} // namespace s2e::disturbances

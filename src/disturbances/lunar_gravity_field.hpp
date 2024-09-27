@@ -11,6 +11,9 @@
 #include "../math_physics/gravity/gravity_potential.hpp"
 #include "../math_physics/math/vector.hpp"
 #include "disturbance.hpp"
+
+namespace s2e::disturbances {
+
 /**
  * @class LunarGravityField
  * @brief Class to calculate the high-order earth gravity acceleration
@@ -88,5 +91,7 @@ class LunarGravityField : public Disturbance {
  * @param [in] initialize_file_path: Initialize file path
  */
 LunarGravityField InitLunarGravityField(const std::string initialize_file_path);
+
+} // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_LUNAR_GRAVITY_FIELD_HPP_

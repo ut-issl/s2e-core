@@ -15,6 +15,8 @@
 #include "solar_radiation_pressure_disturbance.hpp"
 #include "third_body_gravity.hpp"
 
+namespace s2e::disturbances {
+
 Disturbances::Disturbances(const SimulationConfiguration* simulation_configuration, const int spacecraft_id, const Structure* structure,
                            const GlobalEnvironment* global_environment) {
   InitializeInstances(simulation_configuration, spacecraft_id, structure, global_environment);
@@ -96,3 +98,5 @@ void Disturbances::InitializeForceAndTorque() {
 }
 
 void Disturbances::InitializeAcceleration() { total_acceleration_i_m_s2_ = Vector<3>(0.0); }
+
+} // namespace s2e::disturbances

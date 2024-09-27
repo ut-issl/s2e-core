@@ -14,6 +14,8 @@
 #include "../math_physics/math/vector.hpp"
 #include "disturbance.hpp"
 
+namespace s2e::disturbances {
+
 /**
  * @class GravityGradient
  * @brief Class to calculate the gravity gradient torque
@@ -82,5 +84,7 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path);
  * @param [in] gravity_constant_m3_s2: Gravitational constant [m3/s2]
  */
 GravityGradient InitGravityGradient(const std::string initialize_file_path, const double gravity_constant_m3_s2);
+
+} // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_

@@ -10,6 +10,8 @@
 
 #include "../logger/log_utility.hpp"
 
+namespace s2e::disturbances {
+
 SolarRadiationPressureDisturbance::SolarRadiationPressureDisturbance(const std::vector<Surface>& surfaces,
                                                                      const s2e::math::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled) {}
@@ -65,3 +67,5 @@ SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const st
 
   return srp_disturbance;
 }
+
+} // namespace s2e::disturbances

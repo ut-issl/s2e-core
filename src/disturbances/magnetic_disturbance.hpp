@@ -13,6 +13,8 @@
 #include "../simulation/spacecraft/structure/residual_magnetic_moment.hpp"
 #include "disturbance.hpp"
 
+namespace s2e::disturbances {
+
 /**
  * @class MagneticDisturbance
  * @brief Class to calculate the magnetic disturbance torque
@@ -74,5 +76,7 @@ class MagneticDisturbance : public Disturbance {
  * @param [in] rmm_params: RMM parameters
  */
 MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params);
+
+} // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_HPP_

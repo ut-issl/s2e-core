@@ -14,6 +14,8 @@
 #include "../math_physics/math/vector.hpp"
 #include "disturbance.hpp"
 
+namespace s2e::disturbances {
+
 /**
  * @class ThirdBodyGravity
  * @brief Class to calculate third body gravity disturbance
@@ -75,5 +77,7 @@ class ThirdBodyGravity : public Disturbance {
  * @param [in] ini_path_celes: Initialize file path for the celestial information
  */
 ThirdBodyGravity InitThirdBodyGravity(const std::string initialize_file_path, const std::string ini_path_celes);
+
+} // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_THIRD_BODY_GRAVITY_HPP_

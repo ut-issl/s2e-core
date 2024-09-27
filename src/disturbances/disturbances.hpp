@@ -14,6 +14,8 @@
 
 class Logger;
 
+namespace s2e::disturbances {
+
 /**
  * @class Disturbances
  * @brief Class to manage all disturbances
@@ -98,5 +100,7 @@ class Disturbances {
    */
   void InitializeAcceleration();
 };
+
+} // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_DISTURBANCES_HPP_

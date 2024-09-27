@@ -12,6 +12,8 @@
 
 #include "../logger/log_utility.hpp"
 
+namespace s2e::disturbances {
+
 AirDrag::AirDrag(const std::vector<Surface>& surfaces, const s2e::math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
                  const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled),
@@ -109,3 +111,5 @@ AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Su
 
   return air_drag;
 }
+
+} // namespace s2e::disturbances

@@ -15,6 +15,8 @@
 #include "../logger/log_utility.hpp"
 #include "../utilities/macros.hpp"
 
+namespace s2e::disturbances {
+
 // #define DEBUG_GEOPOTENTIAL
 
 Geopotential::Geopotential(const int degree, const std::string file_path, const bool is_calculation_enabled)
@@ -126,3 +128,5 @@ Geopotential InitGeopotential(const std::string initialize_file_path) {
 
   return geopotential_disturbance;
 }
+
+} // namespace s2e::disturbances

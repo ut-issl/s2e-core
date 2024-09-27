@@ -15,6 +15,8 @@
 #include "../simulation/spacecraft/structure/surface.hpp"
 #include "disturbance.hpp"
 
+namespace s2e::disturbances {
+
 /**
  * @class ThirdBodyGravity
  * @brief Class to calculate third body gravity disturbance
@@ -70,5 +72,7 @@ class SurfaceForce : public Disturbance {
    */
   virtual void CalcCoefficients(const s2e::math::Vector<3>& input_direction_b, const double item) = 0;
 };
+
+} // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_SURFACE_FORCE_HPP_

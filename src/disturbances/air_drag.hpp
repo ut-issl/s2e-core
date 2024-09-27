@@ -14,6 +14,8 @@
 #include "../math_physics/math/vector.hpp"
 #include "surface_force.hpp"
 
+namespace s2e::disturbances {
+
 /**
  * @class AirDrag
  * @brief Class to calculate the air drag disturbance force and torque
@@ -97,5 +99,7 @@ class AirDrag : public SurfaceForce {
  * @param [in] center_of_gravity_b_m: Center of gravity position vector at body frame [m]
  */
 AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Surface>& surfaces, const Vector<3>& center_of_gravity_b_m);
+
+} // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_AIR_DRAG_HPP_

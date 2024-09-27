@@ -7,6 +7,8 @@
 
 #include "../math_physics/math/vector.hpp"
 
+namespace s2e::disturbances {
+
 SurfaceForce::SurfaceForce(const std::vector<Surface>& surfaces, const s2e::math::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, true), surfaces_(surfaces), center_of_gravity_b_m_(center_of_gravity_b_m) {
   // Initialize vectors
@@ -52,3 +54,5 @@ void SurfaceForce::CalcTheta(s2e::math::Vector<3>& input_direction_b) {
     sin_theta_[i] = sqrt(1.0 - cos_theta_[i] * cos_theta_[i]);
   }
 }
+
+} // namespace s2e::disturbances

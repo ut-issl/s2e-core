@@ -11,6 +11,9 @@
 #include "../math_physics/gravity/gravity_potential.hpp"
 #include "../math_physics/math/vector.hpp"
 #include "disturbance.hpp"
+
+namespace s2e::disturbances {
+
 /**
  * @class Geopotential
  * @brief Class to calculate the high-order earth gravity acceleration
@@ -84,5 +87,7 @@ class Geopotential : public Disturbance {
  * @param [in] initialize_file_path: Initialize file path
  */
 Geopotential InitGeopotential(const std::string initialize_file_path);
+
+} // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_GEOPOTENTIAL_HPP_

@@ -7,6 +7,8 @@
 
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::disturbances {
+
 ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, false), third_body_list_(third_body_list) {
   acceleration_i_m_s2_ = s2e::math::Vector<3>(0.0);
@@ -99,3 +101,5 @@ ThirdBodyGravity InitThirdBodyGravity(const std::string initialize_file_path, co
 
   return third_body_disturbance;
 }
+
+} // namespace s2e::disturbances

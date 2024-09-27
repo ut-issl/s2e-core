@@ -15,6 +15,8 @@
 #include "../logger/log_utility.hpp"
 #include "../utilities/macros.hpp"
 
+namespace s2e::disturbances {
+
 // #define DEBUG_LUNAR_GRAVITY_FIELD
 
 LunarGravityField::LunarGravityField(const int degree, const std::string file_path, const bool is_calculation_enabled)
@@ -150,3 +152,5 @@ LunarGravityField InitLunarGravityField(const std::string initialize_file_path) 
 
   return lunar_gravity_field;
 }
+
+} // namespace s2e::disturbances
