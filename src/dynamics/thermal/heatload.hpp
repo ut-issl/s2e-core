@@ -39,7 +39,7 @@ class Heatload {
    * @fn UpdateTotalHeatload
    * @brief Update total heatload value by summing up all factors
    */
-  void UpdateTotalHeatload(void) { total_heatload_W_ = solar_heatload_W_ + internal_heatload_W_ + heater_heatload_W_; }
+  void UpdateTotalHeatload(void) { total_heatload_W_ = solar_heatload_W_ + albedo_heatload_W_ + internal_heatload_W_ + heater_heatload_W_; }
 
   // Getter
   /**
@@ -47,6 +47,11 @@ class Heatload {
    * @brief Return Solar Heatload
    */
   inline double GetSolarHeatload_W(void) const { return solar_heatload_W_; }
+  /**
+   * @fn GetAlbedoHeatload_W
+   * @brief Return Albedo Heatload
+   */
+  inline double GetAlbedoHeatload_W(void) const { return albedo_heatload_W_; }
   /**
    * @fn GetInternalHeatload_W
    * @brief Return Internal Heatload
@@ -68,37 +73,43 @@ class Heatload {
    * @brief Set the Time object
    * @param[in] elapsed_time_s
    */
-  void SetElapsedTime_s(double elapsed_time_s);
+  void SetElapsedTime_s(const double elapsed_time_s);
   /**
    * @brief Set Internal Heatload [W]
    * @param[in] internal_heatload_W
    */
-  inline void SetInternalHeatload_W(double internal_heatload_W) { internal_heatload_W_ = internal_heatload_W; }
+  inline void SetInternalHeatload_W(const double internal_heatload_W) { internal_heatload_W_ = internal_heatload_W; }
   /**
    * @brief Set Solar Heatload [W]
    * @param[in] solar_heatload_W
    */
-  inline void SetSolarHeatload_W(double solar_heatload_W) { solar_heatload_W_ = solar_heatload_W; }
+  inline void SetSolarHeatload_W(const double solar_heatload_W) { solar_heatload_W_ = solar_heatload_W; }
+  /**
+   * @brief Set Albedo Heatload [W]
+   * @param[in] albedo_heatload_W
+   */
+  inline void SetAlbedoHeatload_W(const double albedo_heatload_W) { albedo_heatload_W_ = albedo_heatload_W; }
   /**
    * @brief Set Heater Heatload [W]
    * @param[in] heater_heatload_W
    */
-  inline void SetHeaterHeatload_W(double heater_heatload_W) { heater_heatload_W_ = heater_heatload_W; }
+  inline void SetHeaterHeatload_W(const double heater_heatload_W) { heater_heatload_W_ = heater_heatload_W; }
 
  protected:
-  double elapsed_time_s_;                          // Elapsed time [s]
-  unsigned int node_id_;                           // Node ID to apply heatload
-  std::vector<double> time_table_s_;               // Times that internal heatload values are defined [s]
-  std::vector<double> internal_heatload_table_W_;  // Defined internal heatload values [W]
+  double elapsed_time_s_;                          //!< Elapsed time [s]
+  unsigned int node_id_;                           //!< Node ID to apply heatload
+  std::vector<double> time_table_s_;               //!< Times that internal heatload values are defined [s]
+  std::vector<double> internal_heatload_table_W_;  //!< Defined internal heatload values [W]
 
-  unsigned int elapsed_time_idx_;  // index of time_table_s_ that is closest to elapsed_time_s_
-  double solar_heatload_W_;        // Heatload from solar flux [W]
-  double internal_heatload_W_;     // Heatload from internal dissipation [W]
-  double heater_heatload_W_;       // Heatload from heater [W]
-  double total_heatload_W_;        // Total heatload [W]
+  unsigned int elapsed_time_idx_;  //!< index of time_table_s_ that is closest to elapsed_time_s_
+  double solar_heatload_W_;        //!< Heatload from solar flux [W]
+  double albedo_heatload_W_;       //!< Heatload from albedo flux [W]
+  double internal_heatload_W_;     //!< Heatload from internal dissipation [W]
+  double heater_heatload_W_;       //!< Heatload from heater [W]
+  double total_heatload_W_;        //!< Total heatload [W]
 
-  double time_table_period_s_;      // Value of last element of time_table_s_, which represents the period of the heatload table [s]
-  double residual_elapsed_time_s_;  // Residual of dividing elapsed_time_s_ by time_table_period_s_ [s]
+  double time_table_period_s_;      //!< Value of last element of time_table_s_, which represents the period of the heatload table [s]
+  double residual_elapsed_time_s_;  //!< Residual of dividing elapsed_time_s_ by time_table_period_s_ [s]
 
   /**
    * @fn AssertHeatloadParams
