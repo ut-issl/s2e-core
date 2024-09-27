@@ -53,28 +53,28 @@ std::string RelativeInformation::GetLogHeader() const {
   std::string str_tmp = "";
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp += WriteVector(
+      str_tmp += logger::WriteVector(
           "satellite" + std::to_string(target_spacecraft_id) + "_position_from_satellite" + std::to_string(reference_spacecraft_id), "i", "m", 3);
     }
   }
 
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp += WriteVector(
+      str_tmp += logger::WriteVector(
           "satellite" + std::to_string(target_spacecraft_id) + "_velocity_from_satellite" + std::to_string(reference_spacecraft_id), "i", "m/s", 3);
     }
   }
 
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp += WriteVector(
+      str_tmp += logger::WriteVector(
           "satellite" + std::to_string(target_spacecraft_id) + "_position_from_satellite" + std::to_string(reference_spacecraft_id), "rtn", "m", 3);
     }
   }
 
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp += WriteVector(
+      str_tmp += logger::WriteVector(
           "satellite" + std::to_string(target_spacecraft_id) + "_velocity_from_satellite" + std::to_string(reference_spacecraft_id), "rtn", "m/s", 3);
     }
   }
@@ -86,32 +86,32 @@ std::string RelativeInformation::GetLogValue() const {
   std::string str_tmp = "";
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp += WriteVector(GetRelativePosition_i_m(target_spacecraft_id, reference_spacecraft_id));
+      str_tmp += logger::WriteVector(GetRelativePosition_i_m(target_spacecraft_id, reference_spacecraft_id));
     }
   }
 
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp += WriteVector(GetRelativeVelocity_i_m_s(target_spacecraft_id, reference_spacecraft_id));
+      str_tmp += logger::WriteVector(GetRelativeVelocity_i_m_s(target_spacecraft_id, reference_spacecraft_id));
     }
   }
 
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp += WriteVector(GetRelativePosition_rtn_m(target_spacecraft_id, reference_spacecraft_id));
+      str_tmp += logger::WriteVector(GetRelativePosition_rtn_m(target_spacecraft_id, reference_spacecraft_id));
     }
   }
 
   for (size_t target_spacecraft_id = 0; target_spacecraft_id < dynamics_database_.size(); target_spacecraft_id++) {
     for (size_t reference_spacecraft_id = 0; reference_spacecraft_id < target_spacecraft_id; reference_spacecraft_id++) {
-      str_tmp += WriteVector(GetRelativeVelocity_rtn_m_s(target_spacecraft_id, reference_spacecraft_id));
+      str_tmp += logger::WriteVector(GetRelativeVelocity_rtn_m_s(target_spacecraft_id, reference_spacecraft_id));
     }
   }
 
   return str_tmp;
 }
 
-void RelativeInformation::LogSetup(Logger& logger) { logger.AddLogList(this); }
+void RelativeInformation::LogSetup(logger::Logger& logger) { logger.AddLogList(this); }
 
 s2e::math::Quaternion RelativeInformation::CalcRelativeAttitudeQuaternion(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) {
   // Observer SC Body frame(obs_sat) -> ECI frame(i)

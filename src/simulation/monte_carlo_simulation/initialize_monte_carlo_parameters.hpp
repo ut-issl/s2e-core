@@ -54,7 +54,7 @@ class InitializedMonteCarloParameters {
    * @brief Set randomization parameters
    */
   template <size_t NumElement1, size_t NumElement2>
-  void SetRandomConfiguration(const s2e::math::Vector<NumElement1>& mean_or_min, const s2e::math::Vector<NumElement2>& sigma_or_max,
+  void SetRandomConfiguration(const math::Vector<NumElement1>& mean_or_min, const math::Vector<NumElement2>& sigma_or_max,
                               RandomizationType random_type);
 
   // Getter
@@ -63,12 +63,12 @@ class InitializedMonteCarloParameters {
    * @brief Get randomized vector value results
    */
   template <size_t NumElement>
-  void GetRandomizedVector(s2e::math::Vector<NumElement>& destination) const;
+  void GetRandomizedVector(math::Vector<NumElement>& destination) const;
   /**
    * @fn GetRandomizedQuaternion
    * @brief Get randomized quaternion results
    */
-  void GetRandomizedQuaternion(s2e::math::Quaternion& destination) const;
+  void GetRandomizedQuaternion(math::Quaternion& destination) const;
   /**
    * @fn GetRandomizedScalar
    * @brief Get randomized value results
@@ -177,38 +177,38 @@ class InitializedMonteCarloParameters {
    * @fn CalcCircularNormalUniform
    * @brief Calculate randomized value with CircularNormalUniform mode
    */
-  void CalcCircularNormalUniform(s2e::math::Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max);
+  void CalcCircularNormalUniform(math::Vector<2>& destination, double r_mean, double r_sigma, double theta_min, double theta_max);
   /**
    * @fn CalcCircularNormalNormal
    * @brief Calculate randomized value with CircularNormalNormal mode
    */
-  void CalcCircularNormalNormal(s2e::math::Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma);
+  void CalcCircularNormalNormal(math::Vector<2>& destination, double r_mean, double r_sigma, double theta_mean, double theta_sigma);
   /**
    * @fn CalcSphericalNormalUniformUniform
    * @brief Calculate randomized value with SphericalNormalUniformUniform mode
    */
-  void CalcSphericalNormalUniformUniform(s2e::math::Vector<3>& destination, double r_mean, double r_sigma, double theta_min, double theta_max,
+  void CalcSphericalNormalUniformUniform(math::Vector<3>& destination, double r_mean, double r_sigma, double theta_min, double theta_max,
                                          double phi_min, double phi_max);
   /**
    * @fn CalcSphericalNormalNormal
    * @brief Calculate randomized value with SphericalNormalNormal mode
    */
-  void CalcSphericalNormalNormal(s2e::math::Vector<3>& destination, const s2e::math::Vector<3>& mean_vec);
+  void CalcSphericalNormalNormal(math::Vector<3>& destination, const math::Vector<3>& mean_vec);
   /**
    * @fn CalcQuaternionUniform
    * @brief Calculate randomized value with QuaternionUniform mode
    */
-  void CalcQuaternionUniform(s2e::math::Quaternion& destination);
+  void CalcQuaternionUniform(math::Quaternion& destination);
   /**
    * @fn CalcQuaternionNormal
    * @brief Calculate randomized value with QuaternionNormal mode
    */
-  void CalcQuaternionNormal(s2e::math::Quaternion& destination, double theta_sigma);
+  void CalcQuaternionNormal(math::Quaternion& destination, double theta_sigma);
 };
 
 template <size_t NumElement1, size_t NumElement2>
-void InitializedMonteCarloParameters::SetRandomConfiguration(const s2e::math::Vector<NumElement1>& mean_or_min,
-                                                             const s2e::math::Vector<NumElement2>& sigma_or_max,
+void InitializedMonteCarloParameters::SetRandomConfiguration(const math::Vector<NumElement1>& mean_or_min,
+                                                             const math::Vector<NumElement2>& sigma_or_max,
                                                              InitializedMonteCarloParameters::RandomizationType random_type) {
   randomization_type_ = random_type;
   mean_or_min_.clear();
@@ -222,7 +222,7 @@ void InitializedMonteCarloParameters::SetRandomConfiguration(const s2e::math::Ve
 }
 
 template <size_t NumElement>
-void InitializedMonteCarloParameters::GetRandomizedVector(s2e::math::Vector<NumElement>& destination) const {
+void InitializedMonteCarloParameters::GetRandomizedVector(math::Vector<NumElement>& destination) const {
   if (randomization_type_ == kNoRandomization) {
     ;
   } else if (NumElement > randomized_value_.size()) {

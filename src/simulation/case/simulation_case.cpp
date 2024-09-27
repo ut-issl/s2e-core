@@ -13,7 +13,7 @@ namespace s2e::simulation {
 
 SimulationCase::SimulationCase(const std::string initialize_base_file) {
   // Initialize Log
-  simulation_configuration_.main_logger_ = InitLog(initialize_base_file);
+  simulation_configuration_.main_logger_ = logger::InitLog(initialize_base_file);
 
   // Initialize Simulation Configuration
   InitializeSimulationConfiguration(initialize_base_file);
@@ -23,16 +23,16 @@ SimulationCase::SimulationCase(const std::string initialize_base_file, const Mon
                                const std::string log_path) {
   if (monte_carlo_simulator.IsEnabled() == false) {
     // Monte Carlo simulation is disabled
-    simulation_configuration_.main_logger_ = InitLog(initialize_base_file);
+    simulation_configuration_.main_logger_ = logger::InitLog(initialize_base_file);
   } else {
     // Monte Carlo Simulation is enabled
     std::string log_file_name = "default" + std::to_string(monte_carlo_simulator.GetNumberOfExecutionsDone()) + ".csv";
 
-    IniAccess ini_file(initialize_base_file);
+    setting_file_reader::IniAccess ini_file(initialize_base_file);
     bool save_ini_files = ini_file.ReadEnable("SIMULATION_SETTINGS", "save_initialize_files");
 
     simulation_configuration_.main_logger_ =
-        new Logger(log_file_name, log_path, initialize_base_file, save_ini_files, monte_carlo_simulator.GetSaveLogHistoryFlag());
+        new logger::Logger(log_file_name, log_path, initialize_base_file, save_ini_files, monte_carlo_simulator.GetSaveLogHistoryFlag());
   }
   // Initialize Simulation Configuration
   InitializeSimulationConfiguration(initialize_base_file);
@@ -87,7 +87,7 @@ std::string SimulationCase::GetLogValue() const {
 
 void SimulationCase::InitializeSimulationConfiguration(const std::string initialize_base_file) {
   // Initialize
-  IniAccess simulation_base_ini = IniAccess(initialize_base_file);
+  setting_file_reader::IniAccess simulation_base_ini = setting_file_reader::IniAccess(initialize_base_file);
   const char* section = "SIMULATION_SETTINGS";
   simulation_configuration_.initialize_base_file_name_ = initialize_base_file;
 
@@ -104,7 +104,7 @@ void SimulationCase::InitializeSimulationConfiguration(const std::string initial
   simulation_configuration_.gnss_file_ = simulation_base_ini.ReadString(section, "gnss_file");
 
   // Global Environment
-  global_environment_ = new GlobalEnvironment(&simulation_configuration_);
+  global_environment_ = new environment::GlobalEnvironment(&simulation_configuration_);
   global_environment_->LogSetup(*(simulation_configuration_.main_logger_));
 }
 

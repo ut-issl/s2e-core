@@ -19,7 +19,7 @@ namespace s2e::simulation {
  */
 struct SimulationConfiguration {
   std::string initialize_base_file_name_;  //!< Base file name for initialization
-  Logger* main_logger_;                    //!< Main logger
+  logger::Logger* main_logger_;                    //!< Main logger
 
   unsigned int number_of_simulated_spacecraft_;    //!< Number of simulated spacecraft
   std::vector<std::string> spacecraft_file_list_;  //!< File name list for spacecraft initialization

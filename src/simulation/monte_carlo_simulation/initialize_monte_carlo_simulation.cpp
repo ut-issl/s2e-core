@@ -13,7 +13,7 @@ namespace s2e::simulation {
 #define MAX_CHAR_NUM 256
 
 MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
   const char* section = "MONTE_CARLO_EXECUTION";
 
   unsigned long long total_num_of_executions = ini_file.ReadInt(section, "number_of_executions");

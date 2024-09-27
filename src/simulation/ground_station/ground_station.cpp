@@ -28,7 +28,7 @@ GroundStation::~GroundStation() {}
 
 void GroundStation::Initialize(const SimulationConfiguration* configuration, const unsigned int ground_station_id) {
   std::string gs_ini_path = configuration->ground_station_file_list_[0];
-  auto conf = IniAccess(gs_ini_path);
+  auto conf = setting_file_reader::IniAccess(gs_ini_path);
 
   const char* section_base = "GROUND_STATION_";
   const std::string section_tmp = section_base + std::to_string(static_cast<long long>(ground_station_id));
@@ -45,9 +45,9 @@ void GroundStation::Initialize(const SimulationConfiguration* configuration, con
   configuration->main_logger_->CopyFileToLogDirectory(gs_ini_path);
 }
 
-void GroundStation::LogSetup(Logger& logger) { logger.AddLogList(this); }
+void GroundStation::LogSetup(logger::Logger& logger) { logger.AddLogList(this); }
 
-void GroundStation::Update(const EarthRotation& celestial_rotation, const Spacecraft& spacecraft) {
+void GroundStation::Update(const environment::EarthRotation& celestial_rotation, const Spacecraft& spacecraft) {
   s2e::math::Matrix<3, 3> dcm_ecef2eci = celestial_rotation.GetDcmJ2000ToEcef().Transpose();
   position_i_m_ = dcm_ecef2eci * position_ecef_m_;
 
@@ -77,9 +77,9 @@ std::string GroundStation::GetLogHeader() const {
   std::string head = "ground_station" + std::to_string(ground_station_id_) + "_";
   for (unsigned int i = 0; i < number_of_spacecraft_; i++) {
     std::string legend = head + "sc" + std::to_string(i) + "_visible_flag";
-    str_tmp += WriteScalar(legend);
+    str_tmp += logger::WriteScalar(legend);
   }
-  str_tmp += WriteVector("ground_station_position", "eci", "m", 3);
+  str_tmp += logger::WriteVector("ground_station_position", "eci", "m", 3);
   return str_tmp;
 }
 
@@ -87,9 +87,9 @@ std::string GroundStation::GetLogValue() const {
   std::string str_tmp = "";
 
   for (unsigned int i = 0; i < number_of_spacecraft_; i++) {
-    str_tmp += WriteScalar(is_visible_.at(i));
+    str_tmp += logger::WriteScalar(is_visible_.at(i));
   }
-  str_tmp += WriteVector(position_i_m_);
+  str_tmp += logger::WriteVector(position_i_m_);
   return str_tmp;
 }
 

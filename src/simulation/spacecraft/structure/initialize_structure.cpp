@@ -12,7 +12,7 @@ namespace s2e::simulation {
 
 #define MIN_VAL 1e-6
 KinematicsParameters InitKinematicsParameters(std::string file_name) {
-  auto conf = IniAccess(file_name);
+  auto conf = setting_file_reader::IniAccess(file_name);
   const char* section = "KINEMATIC_PARAMETERS";
 
   s2e::math::Vector<3> center_of_gravity_b_m;
@@ -34,7 +34,7 @@ KinematicsParameters InitKinematicsParameters(std::string file_name) {
 std::vector<Surface> InitSurfaces(std::string file_name) {
   using std::cout;
 
-  auto conf = IniAccess(file_name);
+  auto conf = setting_file_reader::IniAccess(file_name);
   const char* section = "SURFACES";
 
   const int num_surface = conf.ReadInt(section, "number_of_surfaces");
@@ -109,7 +109,7 @@ std::vector<Surface> InitSurfaces(std::string file_name) {
 }
 
 ResidualMagneticMoment InitResidualMagneticMoment(std::string file_name) {
-  auto conf = IniAccess(file_name);
+  auto conf = setting_file_reader::IniAccess(file_name);
   const char* section = "RESIDUAL_MAGNETIC_MOMENT";
 
   s2e::math::Vector<3> rmm_const_b;

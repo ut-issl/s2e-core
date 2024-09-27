@@ -19,7 +19,7 @@ namespace s2e::simulation {
  * @class SimulationCase
  * @brief Base class to define simulation scenario
  */
-class SimulationCase : public ILoggable {
+class SimulationCase : public logger::ILoggable {
  public:
   /**
    * @fn SimulationCase
@@ -74,11 +74,11 @@ class SimulationCase : public ILoggable {
    * @fn GetGlobalEnvironment
    * @brief Return global environment
    */
-  inline const GlobalEnvironment& GetGlobalEnvironment() const { return *global_environment_; }
+  inline const environment::GlobalEnvironment& GetGlobalEnvironment() const { return *global_environment_; }
 
  protected:
   SimulationConfiguration simulation_configuration_;  //!< Simulation setting
-  GlobalEnvironment* global_environment_;             //!< Global Environment
+  environment::GlobalEnvironment* global_environment_;             //!< Global Environment
 
   /**
    * @fn InitializeSimulationConfiguration

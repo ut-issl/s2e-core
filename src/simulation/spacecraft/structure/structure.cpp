@@ -21,7 +21,7 @@ Structure::~Structure() {
 
 void Structure::Initialize(const SimulationConfiguration* simulation_configuration, const int spacecraft_id) {
   // Read file name
-  IniAccess conf = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
+  setting_file_reader::IniAccess conf = setting_file_reader::IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   std::string ini_fname = conf.ReadString("SETTING_FILES", "structure_file");
   // Save ini file
   simulation_configuration->main_logger_->CopyFileToLogDirectory(ini_fname);

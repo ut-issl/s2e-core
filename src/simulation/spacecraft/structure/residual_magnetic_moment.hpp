@@ -7,7 +7,6 @@
 #define S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_HPP_
 
 #include <math_physics/math/vector.hpp>
-using s2e::math::Vector;
 
 namespace s2e::simulation {
 
@@ -57,16 +56,16 @@ class ResidualMagneticMoment {
    * @brief Set Constant value of RMM at body frame [Am2]
    * @param [in] rmm_const_b_Am2: Constant value of RMM at the body frame [Am2]
    */
-  inline void SetRmmConstant_b_Am2(const Vector<3> rmm_const_b_Am2) { constant_value_b_Am2_ = rmm_const_b_Am2; }
+  inline void SetRmmConstant_b_Am2(const math::Vector<3> rmm_const_b_Am2) { constant_value_b_Am2_ = rmm_const_b_Am2; }
   /**
    * @fn AddRMMConst_b_Am2
    * @brief Add Constant value of RMM at body frame [Am2]
    * @param [in] rmm_const_b_Am2: Constant value of RMM at the body frame [Am2]
    */
-  inline void AddRmmConstant_b_Am2(const Vector<3> rmm_const_b_Am2) { constant_value_b_Am2_ += rmm_const_b_Am2; }
+  inline void AddRmmConstant_b_Am2(const math::Vector<3> rmm_const_b_Am2) { constant_value_b_Am2_ += rmm_const_b_Am2; }
 
  private:
-  Vector<3> constant_value_b_Am2_;              //!< Constant value of RMM at body frame [Am2]
+  math::Vector<3> constant_value_b_Am2_;              //!< Constant value of RMM at body frame [Am2]
   double random_walk_standard_deviation_Am2_;   //!< Random walk standard deviation of RMM [Am2]
   double random_walk_limit_Am2_;                //!< Random walk limit of RMM [Am2]
   double random_noise_standard_deviation_Am2_;  //!< Standard deviation of white noise of RMM [Am2]
