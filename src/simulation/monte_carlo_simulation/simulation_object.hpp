@@ -16,6 +16,8 @@
 #include "initialize_monte_carlo_parameters.hpp"
 #include "monte_carlo_simulation_executor.hpp"
 
+namespace s2e::simulation {
+
 /**
  * @class SimulationObject
  * @brief Class to manage randomization of variables for Monte-Carlo simulation
@@ -83,5 +85,7 @@ void SimulationObject::GetInitializedMonteCarloParameterVector(const MonteCarloS
                                                                s2e::math::Vector<NumElement>& destination) const {
   monte_carlo_simulator.GetInitializedMonteCarloParameterVector(name_, init_monte_carlo_parameter_name, destination);
 }
+
+} // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_SIMULATION_OBJECT_HPP_

@@ -8,6 +8,8 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 #include <simulation/spacecraft/structure/initialize_structure.hpp>
 
+namespace s2e::simulation {
+
 Structure::Structure(const SimulationConfiguration* simulation_configuration, const int spacecraft_id) {
   Initialize(simulation_configuration, spacecraft_id);
 }
@@ -28,3 +30,5 @@ void Structure::Initialize(const SimulationConfiguration* simulation_configurati
   surfaces_ = InitSurfaces(ini_fname);
   residual_magnetic_moment_ = new ResidualMagneticMoment(InitResidualMagneticMoment(ini_fname));
 }
+
+} // namespace s2e::simulation

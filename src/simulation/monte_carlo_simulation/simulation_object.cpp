@@ -5,6 +5,8 @@
 
 #include "simulation_object.hpp"
 
+namespace s2e::simulation {
+
 std::map<std::string, SimulationObject*> SimulationObject::object_list_;
 
 SimulationObject::SimulationObject(std::string name) : name_(name) {
@@ -41,3 +43,5 @@ void SimulationObject::GetInitializedMonteCarloParameterQuaternion(const MonteCa
                                                                    std::string init_monte_carlo_parameter_name, s2e::math::Quaternion& destination) const {
   monte_carlo_simulator.GetInitializedMonteCarloParameterQuaternion(name_, init_monte_carlo_parameter_name, destination);
 }
+
+} // namespace s2e::simulation

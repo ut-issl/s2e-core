@@ -15,6 +15,8 @@
 #include "installed_components.hpp"
 #include "structure/structure.hpp"
 
+namespace s2e::simulation {
+
 /**
  * @class Spacecraft
  * @brief Base class to express Spacecraft
@@ -106,5 +108,7 @@ class Spacecraft {
   InstalledComponents* components_;            //!< Components information installed on the spacecraft
   const unsigned int spacecraft_id_;           //!< ID of the spacecraft
 };
+
+} // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SPACECRAFT_SPACECRAFT_HPP_

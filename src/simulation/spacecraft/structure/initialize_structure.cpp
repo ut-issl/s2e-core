@@ -8,6 +8,8 @@
 #include <math_physics/math/vector.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::simulation {
+
 #define MIN_VAL 1e-6
 KinematicsParameters InitKinematicsParameters(std::string file_name) {
   auto conf = IniAccess(file_name);
@@ -119,3 +121,5 @@ ResidualMagneticMoment InitResidualMagneticMoment(std::string file_name) {
   ResidualMagneticMoment rmm_params(rmm_const_b, rmm_rwdev, random_walk_limit_Am2, random_noise_standard_deviation_Am2);
   return rmm_params;
 }
+
+} // namespace s2e::simulation

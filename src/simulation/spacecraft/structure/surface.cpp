@@ -5,6 +5,8 @@
 
 #include "surface.hpp"
 
+namespace s2e::simulation {
+
 Surface::Surface(const s2e::math::Vector<3> position_b_m, const s2e::math::Vector<3> normal_b, const double area_m2, const double reflectivity,
                  const double specularity, const double air_specularity)
     : position_b_m_(position_b_m),
@@ -13,3 +15,5 @@ Surface::Surface(const s2e::math::Vector<3> position_b_m, const s2e::math::Vecto
       reflectivity_(reflectivity),
       specularity_(specularity),
       air_specularity_(air_specularity) {}
+
+} // namespace s2e::simulation

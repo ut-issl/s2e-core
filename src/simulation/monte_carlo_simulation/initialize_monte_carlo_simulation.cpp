@@ -8,6 +8,8 @@
 #include <cstring>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::simulation {
+
 #define MAX_CHAR_NUM 256
 
 MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
@@ -93,3 +95,5 @@ MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
 
   return monte_carlo_simulator;
 }
+
+} // namespace s2e::simulation

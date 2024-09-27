@@ -9,6 +9,8 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 #include <string>
 
+namespace s2e::simulation {
+
 SimulationCase::SimulationCase(const std::string initialize_base_file) {
   // Initialize Log
   simulation_configuration_.main_logger_ = InitLog(initialize_base_file);
@@ -105,3 +107,5 @@ void SimulationCase::InitializeSimulationConfiguration(const std::string initial
   global_environment_ = new GlobalEnvironment(&simulation_configuration_);
   global_environment_->LogSetup(*(simulation_configuration_.main_logger_));
 }
+
+} // namespace s2e::simulation

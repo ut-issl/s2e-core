@@ -7,6 +7,8 @@
 
 using std::string;
 
+namespace s2e::simulation {
+
 MonteCarloSimulationExecutor::MonteCarloSimulationExecutor(unsigned long long total_num_of_executions)
     : total_number_of_executions_(total_num_of_executions) {
   number_of_executions_done_ = 0;
@@ -69,3 +71,5 @@ void MonteCarloSimulationExecutor::RandomizeAllParameters() {
 void MonteCarloSimulationExecutor::SetSeed(unsigned long seed, bool is_deterministic) {
   InitializedMonteCarloParameters::SetSeed(seed, is_deterministic);
 }
+
+} // namespace s2e::simulation

@@ -11,6 +11,8 @@
 
 #include "../logger/logger.hpp"
 
+namespace s2e::simulation {
+
 /**
  * @struct SimulationConfiguration
  * @brief Simulation setting information
@@ -34,5 +36,7 @@ struct SimulationConfiguration {
    */
   ~SimulationConfiguration() { delete main_logger_; }
 };
+
+} // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SIMULATION_CONFIGURATION_HPP_

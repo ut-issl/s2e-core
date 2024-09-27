@@ -9,6 +9,8 @@
 #include <math_physics/math/matrix.hpp>
 #include <math_physics/math/vector.hpp>
 
+namespace s2e::simulation {
+
 /**
  * @class KinematicsParameters
  * @brief Class for spacecraft Kinematics information
@@ -85,5 +87,7 @@ class KinematicsParameters {
   double mass_kg_;                            //!< Mass of the satellite [kg]
   s2e::math::Matrix<3, 3> inertia_tensor_b_kgm2_;  //!< Inertia tensor at body frame [kgm2]
 };
+
+} // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_HPP_

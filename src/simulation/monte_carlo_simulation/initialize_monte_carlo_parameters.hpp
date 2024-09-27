@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 
+namespace s2e::simulation {
+
 /**
  * @class InitializedMonteCarloParameters
  * @brief Initialized parameters for Monte-Carlo simulation
@@ -231,5 +233,7 @@ void InitializedMonteCarloParameters::GetRandomizedVector(s2e::math::Vector<NumE
     }
   }
 }
+
+} // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_INITIALIZE_MONTE_CARLO_PARAMETERS_HPP_

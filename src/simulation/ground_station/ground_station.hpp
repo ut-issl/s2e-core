@@ -12,6 +12,8 @@
 
 #include "../simulation_configuration.hpp"
 
+namespace s2e::simulation {
+
 /**
  * @class GroundStation
  * @brief Base class of ground station
@@ -108,5 +110,7 @@ class GroundStation : public ILoggable {
    */
   bool CalcIsVisible(const Vector<3> spacecraft_position_ecef_m);
 };
+
+} // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_

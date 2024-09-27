@@ -12,6 +12,8 @@
 #include "../../logger/loggable.hpp"
 #include "../../logger/logger.hpp"
 
+namespace s2e::simulation {
+
 /**
  * @class RelativeInformation
  * @brief Base class to manage relative information between spacecraft
@@ -169,5 +171,7 @@ class RelativeInformation : public ILoggable {
    */
   void ResizeLists();
 };
+
+} // namespace s2e::simulation
 
 #endif  // S2E_MULTIPLE_SPACECRAFT_RELATIVE_INFORMATION_HPP_

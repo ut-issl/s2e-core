@@ -9,6 +9,8 @@
 #include <math_physics/math/vector.hpp>
 using s2e::math::Vector;
 
+namespace s2e::simulation {
+
 /**
  * @class ResidualMagneticMoment
  * @brief Class for spacecraft RMM (Residual Magnetic Moment)
@@ -69,5 +71,7 @@ class ResidualMagneticMoment {
   double random_walk_limit_Am2_;                //!< Random walk limit of RMM [Am2]
   double random_noise_standard_deviation_Am2_;  //!< Standard deviation of white noise of RMM [Am2]
 };
+
+} // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_HPP_

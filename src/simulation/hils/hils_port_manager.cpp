@@ -7,6 +7,8 @@
 
 #include <utilities/macros.hpp>
 
+namespace s2e::simulation {
+
 // #define HILS_PORT_MANAGER_SHOW_DEBUG_DATA
 
 HilsPortManager::HilsPortManager() {}
@@ -258,3 +260,5 @@ int HilsPortManager::I2cControllerReceive(unsigned int port_id, unsigned char* b
 int HilsPortManager::I2cControllerSend(unsigned int port_id, const unsigned char* buffer, int offset, int length) {
   return UartSend(port_id, buffer, offset, length);
 }
+
+} // namespace s2e::simulation

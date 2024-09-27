@@ -13,6 +13,8 @@
 #include <string>
 #include <utilities/macros.hpp>
 
+namespace s2e::simulation {
+
 GroundStation::GroundStation(const SimulationConfiguration* configuration, const unsigned int ground_station_id)
     : ground_station_id_(ground_station_id) {
   Initialize(configuration, ground_station_id_);
@@ -90,3 +92,5 @@ std::string GroundStation::GetLogValue() const {
   str_tmp += WriteVector(position_i_m_);
   return str_tmp;
 }
+
+} // namespace s2e::simulation

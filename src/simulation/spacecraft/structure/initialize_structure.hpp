@@ -10,6 +10,8 @@
 
 #include <simulation/spacecraft/structure/structure.hpp>
 
+namespace s2e::simulation {
+
 /**
  * @fn InitKinematicsParameters
  * @brief Initialize the kinematics parameters with an ini file
@@ -25,5 +27,7 @@ std::vector<Surface> InitSurfaces(std::string file_name);
  * @brief Initialize the RMM(Residual Magnetic Moment) parameters with an ini file
  */
 ResidualMagneticMoment InitResidualMagneticMoment(std::string file_name);
+
+} // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_INITIALIZE_STRUCTURE_HPP_

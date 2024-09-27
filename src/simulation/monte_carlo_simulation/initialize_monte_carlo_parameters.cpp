@@ -9,6 +9,8 @@
 
 using namespace std;
 
+namespace s2e::simulation {
+
 random_device InitializedMonteCarloParameters::randomizer_;
 mt19937 InitializedMonteCarloParameters::mt_;
 uniform_real_distribution<>* InitializedMonteCarloParameters::uniform_distribution_;
@@ -315,3 +317,5 @@ void InitializedMonteCarloParameters::GenerateQuaternionNormal() {
     randomized_value_.push_back(temp_q[i]);
   }
 }
+
+} // namespace s2e::simulation

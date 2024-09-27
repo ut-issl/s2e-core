@@ -5,6 +5,8 @@
 
 #include "relative_information.hpp"
 
+namespace s2e::simulation {
+
 RelativeInformation::RelativeInformation() {}
 
 RelativeInformation::~RelativeInformation() {}
@@ -163,3 +165,5 @@ void RelativeInformation::ResizeLists() {
   relative_velocity_list_rtn_m_s_.assign(size, std::vector<s2e::math::Vector<3>>(size, s2e::math::Vector<3>(0)));
   relative_attitude_quaternion_list_.assign(size, std::vector<s2e::math::Quaternion>(size, s2e::math::Quaternion(0, 0, 0, 1)));
 }
+
+} // namespace s2e::simulation

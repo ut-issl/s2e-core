@@ -13,6 +13,8 @@
 #include "../simulation_configuration.hpp"
 class Logger;
 
+namespace s2e::simulation {
+
 /**
  * @class SimulationCase
  * @brief Base class to define simulation scenario
@@ -97,5 +99,7 @@ class SimulationCase : public ILoggable {
    */
   virtual void UpdateTargetObjects() = 0;
 };
+
+} // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_CASE_SIMULATION_CASE_HPP_

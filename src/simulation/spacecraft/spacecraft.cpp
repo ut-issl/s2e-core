@@ -8,6 +8,8 @@
 #include <logger/log_utility.hpp>
 #include <logger/logger.hpp>
 
+namespace s2e::simulation {
+
 Spacecraft::Spacecraft(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id,
                        RelativeInformation* relative_information)
     : spacecraft_id_(spacecraft_id) {
@@ -74,3 +76,5 @@ void Spacecraft::Update(const SimulationTime* simulation_time) {
 }
 
 void Spacecraft::Clear(void) { dynamics_->ClearForceTorque(); }
+
+} // namespace s2e::simulation
