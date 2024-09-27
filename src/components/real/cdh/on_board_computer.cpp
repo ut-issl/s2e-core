@@ -6,14 +6,14 @@
 
 namespace s2e::components {
 
-OnBoardComputer::OnBoardComputer(ClockGenerator* clock_generator) : Component(1, clock_generator) { Initialize(); }
+OnBoardComputer::OnBoardComputer(environment::ClockGenerator* clock_generator) : Component(1, clock_generator) { Initialize(); }
 
-OnBoardComputer::OnBoardComputer(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port)
+OnBoardComputer::OnBoardComputer(int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port)
     : Component(prescaler, clock_generator, power_port) {
   Initialize();
 }
 
-OnBoardComputer::OnBoardComputer(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const double minimum_voltage_V,
+OnBoardComputer::OnBoardComputer(int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const double minimum_voltage_V,
                                  const double assumed_power_consumption_W)
     : Component(prescaler, clock_generator, power_port) {
   power_port_->SetMinimumVoltage_V(minimum_voltage_V);

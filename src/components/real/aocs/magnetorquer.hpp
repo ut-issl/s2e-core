@@ -24,7 +24,7 @@ const size_t kMtqDimension = 3;  //!< Dimension of magnetorquer
  * @class Magnetorquer
  * @brief Class to emulate magnetorquer
  */
-class Magnetorquer : public Component, public ILoggable {
+class Magnetorquer : public Component, public logger::ILoggable {
  public:
   /**
    * @fn Magnetorquer
@@ -43,7 +43,7 @@ class Magnetorquer : public Component, public ILoggable {
    * @param [in] normal_random_standard_deviation_c_Am2: Standard deviation for the normal random noise in the component frame [Am2]
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  Magnetorquer(const int prescaler, ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
+  Magnetorquer(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
                const s2e::math::Matrix<kMtqDimension, kMtqDimension>& scale_factor, const s2e::math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
                const s2e::math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const s2e::math::Vector<kMtqDimension>& bias_noise_c_Am2_,
                double random_walk_step_width_s, const s2e::math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
@@ -67,7 +67,7 @@ class Magnetorquer : public Component, public ILoggable {
    * @param [in] normal_random_standard_deviation_c_Am2: Standard deviation for the normal random noise in the component frame [Am2]
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  Magnetorquer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+  Magnetorquer(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                const s2e::math::Quaternion& quaternion_b2c, const s2e::math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
                const s2e::math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2, const s2e::math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2,
                const s2e::math::Vector<kMtqDimension>& bias_noise_c_Am2_, double random_walk_step_width_s,
@@ -86,15 +86,15 @@ class Magnetorquer : public Component, public ILoggable {
    */
   void PowerOffRoutine() override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -157,7 +157,7 @@ class Magnetorquer : public Component, public ILoggable {
  * @param [in] component_step_time_s: Component step time [sec]
  * @param [in] geomagnetic_field: Geomegnetic environment
  */
-Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
+Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
                               const GeomagneticField* geomagnetic_field);
 /**
  * @fn InitMagnetorquer
@@ -169,7 +169,7 @@ Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, int actuator_id, 
  * @param [in] component_step_time_s: Component step time [sec]
  * @param [in] geomagnetic_field: Geomegnetic environment
  */
-Magnetorquer InitMagnetorquer(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
+Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
                               double component_step_time_s, const GeomagneticField* geomagnetic_field);
 
 } // namespace s2e::components

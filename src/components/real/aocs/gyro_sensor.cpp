@@ -9,11 +9,11 @@
 
 namespace s2e::components {
 
-GyroSensor::GyroSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
+GyroSensor::GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
                        const s2e::math::Quaternion& quaternion_b2c, const Dynamics* dynamics)
     : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), quaternion_b2c_(quaternion_b2c), dynamics_(dynamics) {}
 
-GyroSensor::GyroSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
+GyroSensor::GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
                        const s2e::math::Quaternion& quaternion_b2c, const Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       Sensor(sensor_base),
@@ -47,7 +47,7 @@ std::string GyroSensor::GetLogValue() const {
   return str_tmp;
 }
 
-GyroSensor InitGyroSensor(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
+GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
                           const Dynamics* dynamics) {
   IniAccess gyro_conf(file_name);
   const char* sensor_name = "GYRO_SENSOR_";
@@ -68,7 +68,7 @@ GyroSensor InitGyroSensor(ClockGenerator* clock_generator, int sensor_id, const 
   return gyro;
 }
 
-GyroSensor InitGyroSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                           double component_step_time_s, const Dynamics* dynamics) {
   IniAccess gyro_conf(file_name);
   const char* sensor_name = "GYRO_SENSOR_";

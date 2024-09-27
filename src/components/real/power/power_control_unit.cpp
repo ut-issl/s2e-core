@@ -6,9 +6,9 @@
 
 namespace s2e::components {
 
-PowerControlUnit::PowerControlUnit(ClockGenerator* clock_generator) : Component(1, clock_generator) {}
+PowerControlUnit::PowerControlUnit(environment::ClockGenerator* clock_generator) : Component(1, clock_generator) {}
 
-PowerControlUnit::PowerControlUnit(int prescaler, ClockGenerator* clock_generator) : Component(prescaler, clock_generator) {}
+PowerControlUnit::PowerControlUnit(int prescaler, environment::ClockGenerator* clock_generator) : Component(prescaler, clock_generator) {}
 
 PowerControlUnit::~PowerControlUnit() {}
 

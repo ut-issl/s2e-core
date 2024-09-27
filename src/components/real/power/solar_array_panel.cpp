@@ -11,7 +11,7 @@
 
 namespace s2e::components {
 
-SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
+SolarArrayPanel::SolarArrayPanel(const int prescaler, environment::ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
                                  double cell_area_m2, s2e::math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
                                  const SolarRadiationPressureEnvironment* srp_environment,
                                  const LocalCelestialInformation* local_celestial_information, double component_step_time_s)
@@ -30,7 +30,7 @@ SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_gene
   power_generation_W_ = 0.0;
 }
 
-SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
+SolarArrayPanel::SolarArrayPanel(const int prescaler, environment::ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
                                  double cell_area_m2, s2e::math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
                                  const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s)
     : Component(prescaler, clock_generator),
@@ -47,7 +47,7 @@ SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_gene
   power_generation_W_ = 0.0;
 }
 
-SolarArrayPanel::SolarArrayPanel(ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area_m2,
+SolarArrayPanel::SolarArrayPanel(environment::ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area_m2,
                                  s2e::math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
                                  const SolarRadiationPressureEnvironment* srp_environment,
                                  const LocalCelestialInformation* local_celestial_information)
@@ -116,7 +116,7 @@ void SolarArrayPanel::MainRoutine(const int time_count) {
   if (power_generation_W_ < 0) power_generation_W_ = 0.0;
 }
 
-SolarArrayPanel InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_name,
+SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id, const std::string file_name,
                         const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information,
                         double component_step_time_s) {
   IniAccess sap_conf(file_name);
@@ -150,7 +150,7 @@ SolarArrayPanel InitSAP(ClockGenerator* clock_generator, int sap_id, const std::
   return sap;
 }
 
-SolarArrayPanel InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_name,
+SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id, const std::string file_name,
                         const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s) {
   IniAccess sap_conf(file_name);
 

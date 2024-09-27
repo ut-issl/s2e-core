@@ -17,7 +17,7 @@ namespace s2e::environment {
  * @class GeomagneticField
  * @brief Class to calculate magnetic field of the earth
  */
-class GeomagneticField : public ILoggable {
+class GeomagneticField : public logger::ILoggable {
  public:
   bool IsCalcEnabled = true;  //!< Calculation flag
 
@@ -59,15 +59,15 @@ class GeomagneticField : public ILoggable {
    */
   inline s2e::math::Vector<3> GetGeomagneticField_b_nT() const { return magnetic_field_b_nT_; }
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 

@@ -43,15 +43,15 @@ class AirDrag : public SurfaceForce {
    */
   virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 

@@ -10,7 +10,7 @@
 
 namespace s2e::components {
 
-Battery::Battery(const int prescaler, ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
+Battery::Battery(const int prescaler, environment::ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
                  const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
                  double battery_resistance_Ohm, double component_step_time_s)
     : Component(prescaler, clock_generator),
@@ -24,7 +24,7 @@ Battery::Battery(const int prescaler, ClockGenerator* clock_generator, int numbe
       battery_resistance_Ohm_(battery_resistance_Ohm),
       compo_step_time_s_(component_step_time_s) {}
 
-Battery::Battery(ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
+Battery::Battery(environment::ClockGenerator* clock_generator, int number_of_series, int number_of_parallel, double cell_capacity_Ah,
                  const std::vector<double> cell_discharge_curve_coefficients, double initial_dod, double cc_charge_c_rate, double cv_charge_voltage_V,
                  double battery_resistance_Ohm)
     : Component(10, clock_generator),
@@ -89,7 +89,7 @@ void Battery::UpdateBatVoltage() {
   battery_voltage_V_ = temp * number_of_series_;
 }
 
-Battery InitBAT(ClockGenerator* clock_generator, int bat_id, const std::string file_name, double component_step_time_s) {
+Battery InitBAT(environment::ClockGenerator* clock_generator, int bat_id, const std::string file_name, double component_step_time_s) {
   IniAccess bat_conf(file_name);
 
   const std::string section_name = "BATTERY_" + std::to_string(static_cast<long long>(bat_id));

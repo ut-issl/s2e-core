@@ -44,7 +44,7 @@ enum class OrbitInitializeMode {
  * @class Orbit
  * @brief Base class of orbit propagation
  */
-class Orbit : public ILoggable {
+class Orbit : public logger::ILoggable {
  public:
   /**
    * @fn Orbit
@@ -174,15 +174,15 @@ class Orbit : public ILoggable {
    */
   s2e::math::Quaternion CalcQuaternion_i2lvlh() const;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 

@@ -10,7 +10,7 @@
 
 namespace s2e::components {
 
-OrbitObserver::OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const NoiseFrame noise_frame,
+OrbitObserver::OrbitObserver(const int prescaler, environment::ClockGenerator* clock_generator, const NoiseFrame noise_frame,
                              const s2e::math::Vector<6> error_standard_deviation, const Orbit& orbit)
     : Component(prescaler, clock_generator), noise_frame_(noise_frame), orbit_(orbit) {
   for (size_t i = 0; i < 6; i++) {
@@ -85,7 +85,7 @@ NoiseFrame SetNoiseFrame(const std::string noise_frame) {
   }
 }
 
-OrbitObserver InitializeOrbitObserver(ClockGenerator* clock_generator, const std::string file_name, const Orbit& orbit) {
+OrbitObserver InitializeOrbitObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const Orbit& orbit) {
   // General
   IniAccess ini_file(file_name);
 

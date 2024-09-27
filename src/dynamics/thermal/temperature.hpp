@@ -32,7 +32,7 @@ enum class SolarCalcSetting {
  * @class Temperature
  * @brief class to calculate temperature of all nodes
  */
-class Temperature : public ILoggable {
+class Temperature : public logger::ILoggable {
  protected:
   std::vector<std::vector<double>> conductance_matrix_W_K_;  //!< Coupling of node i and node j by heat conduction [W/K]
   std::vector<std::vector<double>> radiation_matrix_m2_;     //!< Coupling of node i and node j by thermal radiation [m2]

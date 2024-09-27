@@ -21,7 +21,7 @@ const size_t kGyroDimension = 3;  //!< Dimension of gyro sensor
  * @class GyroSensor
  * @brief Class to emulate gyro sensor
  */
-class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILoggable {
+class GyroSensor : public Component, public Sensor<kGyroDimension>, public logger::ILoggable {
  public:
   /**
    * @fn GyroSensor
@@ -33,7 +33,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILogg
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] dynamics: Dynamics information
    */
-  GyroSensor(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
+  GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
              const s2e::math::Quaternion& quaternion_b2c, const Dynamics* dynamics);
   /**
    * @fn GyroSensor
@@ -46,7 +46,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILogg
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] dynamics: Dynamics information
    */
-  GyroSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
+  GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
              const s2e::math::Quaternion& quaternion_b2c, const Dynamics* dynamics);
   /**
    * @fn ~GyroSensor
@@ -61,15 +61,15 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILogg
    */
   void MainRoutine(const int time_count) override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -97,7 +97,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public ILogg
  * @param [in] file_name: Path to the initialize file
  * @param [in] dynamics: Dynamics information
  */
-GyroSensor InitGyroSensor(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
+GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
                           const Dynamics* dynamics);
 /**
  * @fn InitGyroSensor
@@ -109,7 +109,7 @@ GyroSensor InitGyroSensor(ClockGenerator* clock_generator, int sensor_id, const 
  * @param [in] file_name: Path to the initialize file
  * @param [in] dynamics: Dynamics information
  */
-GyroSensor InitGyroSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                           double component_step_time_s, const Dynamics* dynamics);
 
 } //namespace s2e::components 

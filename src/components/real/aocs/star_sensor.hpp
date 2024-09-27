@@ -24,7 +24,7 @@ namespace s2e::components {
  * @class StarSensor
  * @brief Class to emulate star tracker
  */
-class StarSensor : public Component, public ILoggable {
+class StarSensor : public Component, public logger::ILoggable {
  public:
   /**
    * @fn StarSensor
@@ -45,7 +45,7 @@ class StarSensor : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_environment: Local environment information
    */
-  StarSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
+  StarSensor(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
              const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
              const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
              const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s,
@@ -70,7 +70,7 @@ class StarSensor : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_environment: Local environment information
    */
-  StarSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+  StarSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
              const s2e::math::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
              const double standard_deviation_sight_direction, const double step_time_s, const unsigned int output_delay,
              const unsigned int output_interval, const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad,
@@ -84,15 +84,15 @@ class StarSensor : public Component, public ILoggable {
    */
   void MainRoutine(const int time_count) override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -218,7 +218,7 @@ class StarSensor : public Component, public ILoggable {
  * @param [in] dynamics: Dynamics information
  * @param [in] local_environment: Local environment information
  */
-StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
+StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
                           const Dynamics* dynamics, const LocalEnvironment* local_environment);
 /**
  * @fn InitStarSensor
@@ -231,7 +231,7 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const 
  * @param [in] dynamics: Dynamics information
  * @param [in] local_environment: Local environment information
  */
-StarSensor InitStarSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                           double component_step_time_s, const Dynamics* dynamics, const LocalEnvironment* local_environment);
 
 } // namespace s2e::components

@@ -24,7 +24,7 @@ class WingsCommandSenderToC2a : public Component {
    * @brief Constructor
    * @param [in]
    */
-  WingsCommandSenderToC2a(int prescaler, ClockGenerator* clock_generator, const double step_width_s, const std::string command_database_file,
+  WingsCommandSenderToC2a(int prescaler, environment::ClockGenerator* clock_generator, const double step_width_s, const std::string command_database_file,
                           const std::string operation_file, const bool is_enabled)
       : Component(prescaler, clock_generator),
         c2a_command_database_(command_database_file),
@@ -75,7 +75,7 @@ class WingsCommandSenderToC2a : public Component {
  * @param[in] compo_update_step_s: Component update step time [s]
  * @param[in] initialize_file: Initialize file name
  */
-WingsCommandSenderToC2a InitWingsCommandSenderToC2a(ClockGenerator* clock_generator, const double compo_update_step_s,
+WingsCommandSenderToC2a InitWingsCommandSenderToC2a(environment::ClockGenerator* clock_generator, const double compo_update_step_s,
                                                     const std::string initialize_file);
 
 } // namespace s2e::components

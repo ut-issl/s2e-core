@@ -24,7 +24,7 @@ namespace s2e::environment {
  * @brief Class to manage the information related with the celestial bodies
  * @details This class uses SPICE to get the information of celestial bodies
  */
-class CelestialInformation : public ILoggable {
+class CelestialInformation : public logger::ILoggable {
  public:
   /**
    * @fn CelestialInformation
@@ -49,15 +49,15 @@ class CelestialInformation : public ILoggable {
    */
   virtual ~CelestialInformation();
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 

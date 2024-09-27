@@ -32,7 +32,7 @@ struct Star {
  * @class Telescope
  * @brief Component emulation: Telescope
  */
-class Telescope : public Component, public ILoggable {
+class Telescope : public Component, public logger::ILoggable {
  public:
   /**
    * @fn Telescope
@@ -52,7 +52,7 @@ class Telescope : public Component, public ILoggable {
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] orbit: Orbit information
    */
-  Telescope(ClockGenerator* clock_generator, const s2e::math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
+  Telescope(environment::ClockGenerator* clock_generator, const s2e::math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
             const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const Attitude* attitude,
             const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit = nullptr);
@@ -136,15 +136,15 @@ class Telescope : public Component, public ILoggable {
   void ObserveGroundPositionDeviation();
 
   const Orbit* orbit_;  //!< Orbit information
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -168,7 +168,7 @@ class Telescope : public Component, public ILoggable {
  * @param [in] hipparcos: Star information by Hipparcos catalogue
  * @param [in] local_celestial_information: Local celestial information
  */
-Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, const Attitude* attitude,
+Telescope InitTelescope(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, const Attitude* attitude,
                         const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
                         const Orbit* orbit = nullptr);
 

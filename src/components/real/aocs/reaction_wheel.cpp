@@ -13,7 +13,7 @@
 
 namespace s2e::components {
 
-ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
+ReactionWheel::ReactionWheel(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                              const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
                              const s2e::math::Quaternion quaternion_b2c, const s2e::math::Vector<3> position_b_m, const double dead_time_s,
                              const double time_constant_s, const std::vector<double> friction_coefficients,
@@ -40,7 +40,7 @@ ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generato
   Initialize();
 }
 
-ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+ReactionWheel::ReactionWheel(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                              const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
                              const s2e::math::Quaternion quaternion_b2c, const s2e::math::Vector<3> position_b_m, const double dead_time_s,
                              const double time_constant_s, const std::vector<double> friction_coefficients,
@@ -333,7 +333,7 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
 }
 }  // namespace
 
-ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step_s) {
+ReactionWheel InitReactionWheel(environment::ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step_s) {
   InitParams(actuator_id, file_name, compo_update_step_s);
 
   ReactionWheel rw(prescaler, clock_generator, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity_rpm, quaternion_b2c,
@@ -343,7 +343,7 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id
   return rw;
 }
 
-ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name,
+ReactionWheel InitReactionWheel(environment::ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name,
                                 double compo_update_step_s) {
   InitParams(actuator_id, file_name, compo_update_step_s);
 

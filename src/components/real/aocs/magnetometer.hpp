@@ -21,7 +21,7 @@ const size_t kMagnetometerDimension = 3;  //!< Dimension of magnetometer
  * @class Magnetometer
  * @brief Class to emulate magnetometer
  */
-class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, public ILoggable {
+class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, public logger::ILoggable {
  public:
   /**
    * @fn Magnetometer
@@ -33,7 +33,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  Magnetometer(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
+  Magnetometer(const int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
                const s2e::math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
   /**
    * @fn Magnetometer
@@ -46,7 +46,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  Magnetometer(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
+  Magnetometer(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
                const s2e::math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
   /**
    * @fn ~Magnetometer
@@ -61,15 +61,15 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    */
   void MainRoutine(const int time_count) override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -116,7 +116,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
  * @param [in] component_step_time_s: Component step time [sec]
  * @param [in] geomagnetic_field: Geomegnetic environment
  */
-Magnetometer InitMagnetometer(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
+Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
                               const GeomagneticField* geomagnetic_field);
 /**
  * @fn InitMagnetometer
@@ -128,7 +128,7 @@ Magnetometer InitMagnetometer(ClockGenerator* clock_generator, int sensor_id, co
  * @param [in] component_step_time_s: Component step time [sec]
  * @param [in] geomagnetic_field: Geomegnetic environment
  */
-Magnetometer InitMagnetometer(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                               double component_step_time_s, const GeomagneticField* geomagnetic_field);
 
 } // namespace s2e::components

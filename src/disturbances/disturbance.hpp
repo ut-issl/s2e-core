@@ -15,7 +15,7 @@ namespace s2e::disturbances {
  * @class Disturbance
  * @brief Base class for a disturbance
  */
-class Disturbance : public ILoggable {
+class Disturbance : public logger::ILoggable {
  public:
   /**
    * @fn Disturbance

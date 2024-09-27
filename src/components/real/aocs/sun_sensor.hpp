@@ -21,7 +21,7 @@ namespace s2e::components {
  * @class SunSensor
  * @brief Class to emulate sun sensor
  */
-class SunSensor : public Component, public ILoggable {
+class SunSensor : public Component, public logger::ILoggable {
  public:
   /**
    * @fn SunSensor
@@ -37,7 +37,7 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] srp_environment: Solar Radiation Pressure environment
    * @param [in] local_celestial_information: Local celestial information
    */
-  SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
+  SunSensor(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
             const double detectable_angle_rad, const double random_noise_standard_deviation_rad, const double bias_noise_standard_deviation_rad,
             const double intensity_lower_threshold_percent, const SolarRadiationPressureEnvironment* srp_environment,
             const LocalCelestialInformation* local_celestial_information);
@@ -56,7 +56,7 @@ class SunSensor : public Component, public ILoggable {
    * @param [in] srp_environment: Solar Radiation Pressure environment
    * @param [in] local_celestial_information: Local celestial information
    */
-  SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+  SunSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
             const s2e::math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
             const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
             const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information);
@@ -68,15 +68,15 @@ class SunSensor : public Component, public ILoggable {
    */
   void MainRoutine(const int time_count) override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -152,7 +152,7 @@ class SunSensor : public Component, public ILoggable {
  * @param [in] srp_environment: Solar radiation pressure environment
  * @param [in] local_environment: Local environment information
  */
-SunSensor InitSunSensor(ClockGenerator* clock_generator, int sensor_id, const std::string file_name,
+SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name,
                         const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information);
 /**
  * @fn InitSunSensor
@@ -164,7 +164,7 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, int sensor_id, const st
  * @param [in] srp_environment: Solar radiation pressure environment
  * @param [in] local_environment: Local environment information
  */
-SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                         const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information);
 
 } // namespace s2e::components

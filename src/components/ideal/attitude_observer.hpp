@@ -19,7 +19,7 @@ namespace s2e::components {
  * @class AttitudeObserver
  * @brief Ideal component which can observe attitude
  */
-class AttitudeObserver : public Component, public ILoggable {
+class AttitudeObserver : public Component, public logger::ILoggable {
  public:
   /**
    * @fn AttitudeObserver
@@ -28,7 +28,7 @@ class AttitudeObserver : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] attitude: Attitude information
    */
-  AttitudeObserver(const int prescaler, ClockGenerator* clock_generator, const double standard_deviation_rad, const Attitude& attitude);
+  AttitudeObserver(const int prescaler, environment::ClockGenerator* clock_generator, const double standard_deviation_rad, const Attitude& attitude);
 
   /**
    * @fn ~AttitudeObserver
@@ -43,15 +43,15 @@ class AttitudeObserver : public Component, public ILoggable {
    */
   void MainRoutine(const int time_count) override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -77,7 +77,7 @@ class AttitudeObserver : public Component, public ILoggable {
  * @param [in] file_name: Path to the initialize file
  * @param [in] attitude: Attitude information
  */
-AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, const std::string file_name, const Attitude& attitude);
+AttitudeObserver InitializeAttitudeObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const Attitude& attitude);
 
 }  // namespace s2e::components
 

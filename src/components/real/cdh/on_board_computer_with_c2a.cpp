@@ -32,16 +32,16 @@ std::map<int, UartPort*> ObcWithC2a::com_ports_c2a_;
 std::map<int, I2cPort*> ObcWithC2a::i2c_com_ports_c2a_;
 std::map<int, GpioPort*> ObcWithC2a::gpio_ports_c2a_;
 
-ObcWithC2a::ObcWithC2a(ClockGenerator* clock_generator) : OnBoardComputer(clock_generator), timing_regulator_(1) {
+ObcWithC2a::ObcWithC2a(environment::ClockGenerator* clock_generator) : OnBoardComputer(clock_generator), timing_regulator_(1) {
   // Initialize();
 }
 
-ObcWithC2a::ObcWithC2a(ClockGenerator* clock_generator, int timing_regulator)
+ObcWithC2a::ObcWithC2a(environment::ClockGenerator* clock_generator, int timing_regulator)
     : OnBoardComputer(clock_generator), timing_regulator_(timing_regulator) {
   // Initialize();
 }
 
-ObcWithC2a::ObcWithC2a(int prescaler, ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port)
+ObcWithC2a::ObcWithC2a(int prescaler, environment::ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port)
     : OnBoardComputer(prescaler, clock_generator, power_port), timing_regulator_(timing_regulator) {
   // Initialize();
 }

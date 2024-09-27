@@ -24,14 +24,14 @@ class ObcWithC2a : public OnBoardComputer {
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
    */
-  ObcWithC2a(ClockGenerator* clock_generator);
+  ObcWithC2a(environment::ClockGenerator* clock_generator);
   /**
    * @fn ObcWithC2a
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
    * @param [in] timing_regulator: Timing regulator to update flight software faster than the component update
    */
-  ObcWithC2a(ClockGenerator* clock_generator, int timing_regulator);
+  ObcWithC2a(environment::ClockGenerator* clock_generator, int timing_regulator);
   /**
    * @fn ObcWithC2a
    * @brief Constructor
@@ -40,7 +40,7 @@ class ObcWithC2a : public OnBoardComputer {
    * @param [in] timing_regulator: Timing regulator to update flight software faster than the component update
    * @param [in] power_port: Power port
    */
-  ObcWithC2a(int prescaler, ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port);
+  ObcWithC2a(int prescaler, environment::ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port);
   /**
    * @fn ~ObcWithC2a
    * @brief Destructor

@@ -12,7 +12,7 @@
 
 namespace s2e::components {
 
-PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
+PcuInitialStudy::PcuInitialStudy(const int prescaler, environment::ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
                                  double component_step_time_s)
     : Component(prescaler, clock_generator),
       saps_(saps),
@@ -24,7 +24,7 @@ PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_gene
   power_consumption_W_ = 0.0;
 }
 
-PcuInitialStudy::PcuInitialStudy(ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery)
+PcuInitialStudy::PcuInitialStudy(environment::ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery)
     : Component(10, clock_generator),
       saps_(saps),
       battery_(battery),
@@ -113,7 +113,7 @@ void PcuInitialStudy::UpdateChargeCurrentAndBusVoltage() {
   }
 }
 
-PcuInitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id, const std::string file_name,
+PcuInitialStudy InitPCU_InitialStudy(environment::ClockGenerator* clock_generator, int pcu_id, const std::string file_name,
                                      const std::vector<SolarArrayPanel*> saps, Battery* battery, double component_step_time_s) {
   IniAccess pcu_conf(file_name);
 

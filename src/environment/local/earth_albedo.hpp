@@ -16,7 +16,7 @@ namespace s2e::environment {
  * @class EarthAlbedo
  * @brief Class to calculate Solar Radiation Pressure
  */
-class EarthAlbedo : public ILoggable {
+class EarthAlbedo : public logger::ILoggable {
  public:
   /**
    * @fn EarthAlbedo
@@ -76,15 +76,15 @@ class EarthAlbedo : public ILoggable {
   LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
   SolarRadiationPressureEnvironment* srp_environment_;      //!< Solar radiation pressure environment
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 

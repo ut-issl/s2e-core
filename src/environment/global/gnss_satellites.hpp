@@ -27,7 +27,7 @@ namespace s2e::environment {
  * @class GnssSatellites
  * @brief Class to calculate GNSS satellite position and clock
  */
-class GnssSatellites : public ILoggable {
+class GnssSatellites : public logger::ILoggable {
  public:
   /**
    * @fn GnssSatellites
@@ -100,15 +100,15 @@ class GnssSatellites : public ILoggable {
    */
   double GetClock_s(const size_t gnss_satellite_id, const s2e::time_system::EpochTime time = s2e::time_system::EpochTime(0, 0.0)) const;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   std::string GetLogValue() const override;
 

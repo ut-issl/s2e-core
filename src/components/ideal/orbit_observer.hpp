@@ -28,7 +28,7 @@ enum class NoiseFrame {
  * @class OrbitObserver
  * @brief Ideal component which can observe orbit
  */
-class OrbitObserver : public Component, public ILoggable {
+class OrbitObserver : public Component, public logger::ILoggable {
  public:
   /**
    * @fn OrbitObserver
@@ -39,7 +39,7 @@ class OrbitObserver : public Component, public ILoggable {
    * @param [in] error_standard_deviation: Position and Velocity standard deviation noise [m, m/s]
    * @param [in] orbit: Orbit information
    */
-  OrbitObserver(const int prescaler, ClockGenerator* clock_generator, const NoiseFrame noise_frame, const s2e::math::Vector<6> error_standard_deviation,
+  OrbitObserver(const int prescaler, environment::ClockGenerator* clock_generator, const NoiseFrame noise_frame, const s2e::math::Vector<6> error_standard_deviation,
                 const Orbit& orbit);
 
   /**
@@ -55,15 +55,15 @@ class OrbitObserver : public Component, public ILoggable {
    */
   void MainRoutine(const int time_count) override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -105,7 +105,7 @@ NoiseFrame SetNoiseFrame(const std::string noise_frame);
  * @param [in] file_name: Path to the initialize file
  * @param [in] orbit: Orbit information
  */
-OrbitObserver InitializeOrbitObserver(ClockGenerator* clock_generator, const std::string file_name, const Orbit& orbit);
+OrbitObserver InitializeOrbitObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const Orbit& orbit);
 
 } // namespace s2e::components
 

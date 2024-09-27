@@ -19,7 +19,7 @@ namespace s2e::components {
  * @class GroundStationCalculator
  * @brief Emulation of analysis and calculation for Ground Stations
  */
-class GroundStationCalculator : public ILoggable {
+class GroundStationCalculator : public logger::ILoggable {
  public:
   /**
    * @fn GroundStationCalculator
@@ -54,15 +54,15 @@ class GroundStationCalculator : public ILoggable {
   void Update(const Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
               const Antenna& ground_station_rx_antenna);
 
-  // Override ILoggable TODO: Maybe we don't need logabble, and this class should be used as library.
+  // Override logger::ILoggable TODO: Maybe we don't need logabble, and this class should be used as library.
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 

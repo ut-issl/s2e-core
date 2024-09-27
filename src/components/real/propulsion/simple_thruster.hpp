@@ -21,7 +21,7 @@ namespace s2e::components {
  * @class SimpleThruster
  * @brief Component emulation of simple thruster
  */
-class SimpleThruster : public Component, public ILoggable {
+class SimpleThruster : public Component, public logger::ILoggable {
  public:
   /**
    * @fn SimpleThruster
@@ -37,7 +37,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] structure: Spacecraft structure information
    * @param [in] dynamics: Spacecraft dynamics information
    */
-  SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Vector<3> thruster_position_b_m,
+  SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const Vector<3> thruster_position_b_m,
                  const Vector<3> thrust_direction_b, const double max_magnitude_N, const double magnitude_standard_deviation_N,
                  const double direction_standard_deviation_rad, const Structure* structure, const Dynamics* dynamics);
   /**
@@ -55,7 +55,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] structure: Spacecraft structure information
    * @param [in] dynamics: Spacecraft dynamics information
    */
-  SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+  SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                  const Vector<3> thruster_position_b_m, const Vector<3> thrust_direction_b, const double max_magnitude_N,
                  const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
                  const Dynamics* dynamics);
@@ -77,15 +77,15 @@ class SimpleThruster : public Component, public ILoggable {
    */
   void PowerOffRoutine() override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -166,7 +166,7 @@ class SimpleThruster : public Component, public ILoggable {
  * @param [in] structure: Spacecraft structure information
  * @param [in] dynamics: Spacecraft dynamics information
  */
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_id, const std::string file_name, const Structure* structure,
+SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, int thruster_id, const std::string file_name, const Structure* structure,
                                   const Dynamics* dynamics);
 /**
  * @fn InitSimpleThruster
@@ -178,7 +178,7 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_
  * @param [in] structure: Spacecraft structure information
  * @param [in] dynamics: Spacecraft dynamics information
  */
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
+SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
                                   const Structure* structure, const Dynamics* dynamics);
 
 } // namespace s2e::components

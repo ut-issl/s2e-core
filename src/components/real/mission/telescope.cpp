@@ -15,7 +15,7 @@ using namespace s2e::math;
 
 namespace s2e::components {
 
-Telescope::Telescope(ClockGenerator* clock_generator, const s2e::math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
+Telescope::Telescope(environment::ClockGenerator* clock_generator, const s2e::math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
                      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix,
                      const int y_number_of_pix, const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars,
                      const Attitude* attitude, const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
@@ -247,7 +247,7 @@ string Telescope::GetLogValue() const {
   return str_tmp;
 }
 
-Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const string file_name, const Attitude* attitude,
+Telescope InitTelescope(environment::ClockGenerator* clock_generator, int sensor_id, const string file_name, const Attitude* attitude,
                         const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit) {
   using s2e::math::pi;
 

@@ -24,7 +24,7 @@ namespace s2e::components {
  * @brief Class to emulate Reaction Wheel
  * @note For one reaction wheel
  */
-class ReactionWheel : public Component, public ILoggable {
+class ReactionWheel : public Component, public logger::ILoggable {
  public:
   /**
    * @fn ReactionWheel
@@ -50,7 +50,7 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW
    */
-  ReactionWheel(const int prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
+  ReactionWheel(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                 const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const s2e::math::Quaternion quaternion_b2c,
                 const s2e::math::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
                 const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled,
@@ -80,7 +80,7 @@ class ReactionWheel : public Component, public ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW [rad/s]
    */
-  ReactionWheel(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const double step_width_s,
+  ReactionWheel(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const double step_width_s,
                 const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const s2e::math::Quaternion quaternion_b2c,
                 const s2e::math::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
                 const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled,
@@ -104,15 +104,15 @@ class ReactionWheel : public Component, public ILoggable {
    */
   void FastUpdate() override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -234,7 +234,7 @@ class ReactionWheel : public Component, public ILoggable {
  * @param [in] file_name: Path to the initialize file
  * @param [in] compo_update_step_s: Component step time [sec]
  */
-ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step_s);
+ReactionWheel InitReactionWheel(environment::ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step_s);
 /**
  * @fn InitReactionWheel
  * @brief Initialize functions for reaction wheel with power port
@@ -245,7 +245,7 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id
  * @param [in] prop_step: Propagation step for RW dynamics [sec]
  * @param [in] compo_update_step_s: Component step time [sec]
  */
-ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name,
+ReactionWheel InitReactionWheel(environment::ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name,
                                 double compo_update_step_s);
 
 } // namespace s2e::components

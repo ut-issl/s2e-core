@@ -15,7 +15,7 @@
 
 namespace s2e::components {
 
-class PcuInitialStudy : public Component, public ILoggable {
+class PcuInitialStudy : public Component, public logger::ILoggable {
  public:
   /**
    * @fn PcuInitialStudy
@@ -26,7 +26,7 @@ class PcuInitialStudy : public Component, public ILoggable {
    * @param [in] battery: Battery
    * @param [in] component_step_time_s: Component step time [sec]
    */
-  PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
+  PcuInitialStudy(const int prescaler, environment::ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
                   double component_step_time_s);
   /**
    * @fn PcuInitialStudy
@@ -35,22 +35,22 @@ class PcuInitialStudy : public Component, public ILoggable {
    * @param [in] saps: Solar Array Panels
    * @param [in] battery: Battery
    */
-  PcuInitialStudy(ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery);
+  PcuInitialStudy(environment::ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery);
   /**
    * @fn ~PcuInitialStudy
    * @brief Destructor
    */
   ~PcuInitialStudy();
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   std::string GetLogValue() const override;
 
@@ -94,7 +94,7 @@ class PcuInitialStudy : public Component, public ILoggable {
  * @param [in] battery: Battery information
  * @param [in] component_step_time_s: Component step time [sec]
  */
-PcuInitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id, const std::string file_name,
+PcuInitialStudy InitPCU_InitialStudy(environment::ClockGenerator* clock_generator, int pcu_id, const std::string file_name,
                                      const std::vector<SolarArrayPanel*> saps, Battery* battery, double component_step_time_s);
 
 } // namespace s2e::components

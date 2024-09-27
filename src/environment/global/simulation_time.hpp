@@ -49,7 +49,7 @@ struct UTC {
  *@class SimulationTime
  *@brief Class to manage simulation time related information
  */
-class SimulationTime : public ILoggable {
+class SimulationTime : public logger::ILoggable {
  public:
   /**
    *@fn SimulationTime
@@ -241,15 +241,15 @@ class SimulationTime : public ILoggable {
    */
   inline double GetStartSecond(void) const { return start_sec_; };
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 

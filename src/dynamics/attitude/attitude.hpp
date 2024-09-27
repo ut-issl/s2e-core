@@ -18,7 +18,7 @@ namespace s2e::dynamics::attitude {
  * @class Attitude
  * @brief Base class for attitude of spacecraft
  */
-class Attitude : public ILoggable, public SimulationObject {
+class Attitude : public logger::ILoggable, public SimulationObject {
  public:
   /**
    * @fn Attitude
@@ -100,15 +100,15 @@ class Attitude : public ILoggable, public SimulationObject {
    */
   virtual void Propagate(const double end_time_s) = 0;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 

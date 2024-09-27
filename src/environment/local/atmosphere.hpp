@@ -21,7 +21,7 @@ namespace s2e::environment {
  * @class Atmosphere
  * @brief Class to calculate earth's atmospheric density
  */
-class Atmosphere : public ILoggable {
+class Atmosphere : public logger::ILoggable {
  public:
   /**
    * @fn Atmosphere
@@ -63,15 +63,15 @@ class Atmosphere : public ILoggable {
    */
   inline void SetCalcFlag(const bool is_calc_enabled) { is_calc_enabled_ = is_calc_enabled; }
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 

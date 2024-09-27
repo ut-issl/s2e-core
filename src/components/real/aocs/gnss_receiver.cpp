@@ -13,7 +13,7 @@
 
 namespace s2e::components {
 
-GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
+GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
                            const s2e::math::Vector<3> antenna_position_b_m, const s2e::math::Quaternion quaternion_b2c, const double half_width_deg,
                            const s2e::math::Vector<3> position_noise_standard_deviation_ecef_m,
                            const s2e::math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const Dynamics* dynamics,
@@ -33,7 +33,7 @@ GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator,
   }
 }
 
-GnssReceiver::GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
+GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                            const AntennaModel antenna_model, const s2e::math::Vector<3> antenna_position_b_m, const s2e::math::Quaternion quaternion_b2c,
                            const double half_width_deg, const s2e::math::Vector<3> position_noise_standard_deviation_ecef_m,
                            const s2e::math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const Dynamics* dynamics,
@@ -291,7 +291,7 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const GnssSat
   return gnss_receiver_param;
 }
 
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, const size_t component_id, const std::string file_name, const Dynamics* dynamics,
+GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, const size_t component_id, const std::string file_name, const Dynamics* dynamics,
                               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
   GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 
@@ -301,7 +301,7 @@ GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, const size_t comp
   return gnss_r;
 }
 
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id, const std::string file_name,
+GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id, const std::string file_name,
                               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
   GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 

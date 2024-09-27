@@ -47,7 +47,7 @@ class ThirdBodyGravity : public Disturbance {
   std::set<std::string> third_body_list_;                //!< List of celestial bodies to calculate the third body disturbances
   s2e::math::Vector<3> third_body_acceleration_i_m_s2_{0.0};  //!< Calculated third body disturbance acceleration in the inertial frame [m/s2]
 
-  // Override classes for ILoggable
+  // Override classes for logger::ILoggable
   /**
    * @fn GetLogHeader
    * @brief Override function of GetLogHeader

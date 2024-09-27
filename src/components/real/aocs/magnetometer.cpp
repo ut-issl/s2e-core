@@ -9,14 +9,14 @@
 
 namespace s2e::components {
 
-Magnetometer::Magnetometer(int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
+Magnetometer::Magnetometer(int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
                            const s2e::math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
       quaternion_b2c_(quaternion_b2c),
       geomagnetic_field_(geomagnetic_field) {}
-Magnetometer::Magnetometer(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
+Magnetometer::Magnetometer(int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
                            const s2e::math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator, power_port),
       Sensor(sensor_base),
@@ -49,7 +49,7 @@ std::string Magnetometer::GetLogValue() const {
   return str_tmp;
 }
 
-Magnetometer InitMagnetometer(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
+Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
                               const GeomagneticField* geomagnetic_field) {
   IniAccess magsensor_conf(file_name);
   const char* sensor_name = "MAGNETOMETER_";
@@ -70,7 +70,7 @@ Magnetometer InitMagnetometer(ClockGenerator* clock_generator, int sensor_id, co
   return magsensor;
 }
 
-Magnetometer InitMagnetometer(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                               double component_step_time_s, const GeomagneticField* geomagnetic_field) {
   IniAccess magsensor_conf(file_name);
   const char* sensor_name = "MAGNETOMETER_";

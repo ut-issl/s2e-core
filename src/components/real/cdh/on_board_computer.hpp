@@ -27,7 +27,7 @@ class OnBoardComputer : public Component {
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
    */
-  OnBoardComputer(ClockGenerator* clock_generator);
+  OnBoardComputer(environment::ClockGenerator* clock_generator);
   /**
    * @fn OnBoardComputer
    * @brief Constructor
@@ -35,7 +35,7 @@ class OnBoardComputer : public Component {
    * @param [in] clock_generator: Clock generator
    * @param [in] power_port: Power port
    */
-  OnBoardComputer(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port);
+  OnBoardComputer(int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port);
   /**
    * @fn OnBoardComputer
    * @brief Constructor
@@ -45,7 +45,7 @@ class OnBoardComputer : public Component {
    * @param [in] minimum_voltage_V: Minimum voltage [V]
    * @param [in] assumed_power_consumption_W: Assumed power consumption [W]
    */
-  OnBoardComputer(int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const double minimum_voltage_V,
+  OnBoardComputer(int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const double minimum_voltage_V,
                   const double assumed_power_consumption_W);
   /**
    * @fn ~OnBoardComputer

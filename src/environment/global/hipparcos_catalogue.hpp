@@ -28,7 +28,7 @@ struct HipparcosData {
  *@class HipparcosCatalogue
  *@brief Class to calculate star direction with Hipparcos catalogue
  */
-class HipparcosCatalogue : public ILoggable {
+class HipparcosCatalogue : public logger::ILoggable {
  public:
   /**
    *@fn HipparcosCatalogue
@@ -93,15 +93,15 @@ class HipparcosCatalogue : public ILoggable {
    */
   s2e::math::Vector<3> GetStarDirection_b(size_t rank, s2e::math::Quaternion quaternion_i2b) const;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
