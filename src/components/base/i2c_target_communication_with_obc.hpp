@@ -10,6 +10,8 @@
 #include "../real/cdh/on_board_computer.hpp"
 #include "uart_communication_with_obc.hpp"
 
+namespace s2e::components {
+
 /**
  * @class I2cTargetCommunicationWithObc
  * @brief Base class for I2C communication as target side with OBC flight software
@@ -120,5 +122,7 @@ class I2cTargetCommunicationWithObc {
   OnBoardComputer* obc_;                //!< Communication target OBC
   HilsPortManager* hils_port_manager_;  //!< HILS port manager
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_I2C_TARGET_COMMUNICATION_WITH_OBC_HPP_

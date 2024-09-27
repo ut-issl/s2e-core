@@ -9,6 +9,8 @@
 #include "../../simulation/hils/hils_port_manager.hpp"
 #include "uart_communication_with_obc.hpp"
 
+namespace s2e::components {
+
 /**
  * @class I2cController
  * @brief This class simulates the I2C Controller communication with the I2C Target.
@@ -63,5 +65,7 @@ class I2cController {
 
   HilsPortManager* hils_port_manager_;  //!< HILS port manager
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_I2C_CONTROLLER_HPP_

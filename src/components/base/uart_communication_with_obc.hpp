@@ -10,6 +10,8 @@
 
 #include "../real/cdh/on_board_computer.hpp"
 
+namespace s2e::components {
+
 /**
  * @enum SimulationMode
  * @brief Simulation mode (SILS or HILS)
@@ -128,5 +130,7 @@ class UartCommunicationWithObc {
    */
   virtual int GenerateTelemetry() = 0;
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_UART_COMMUNICATION_WITH_OBC_HPP_

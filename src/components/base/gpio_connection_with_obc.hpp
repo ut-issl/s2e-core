@@ -9,6 +9,8 @@
 
 #include "../real/cdh/on_board_computer.hpp"
 
+namespace s2e::components {
+
 /**
  * @class GpioConnectionWithObc
  * @brief Base class for GPIO communication with OBC flight software
@@ -49,5 +51,7 @@ class GpioConnectionWithObc {
   std::vector<int> port_id_;  //!< Port ID GPIO line
   OnBoardComputer* obc_;      //!< The communication target OBC
 };
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_GPIO_CONNECTION_WITH_OBC_HPP_

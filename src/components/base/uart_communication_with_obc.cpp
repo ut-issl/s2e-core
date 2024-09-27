@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+namespace s2e::components {
+
 UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int sils_port_id, OnBoardComputer* obc) : sils_port_id_(sils_port_id), obc_(obc) {
 #ifdef USE_HILS
   simulation_mode_ = SimulationMode::kError;
@@ -173,3 +175,5 @@ int UartCommunicationWithObc::SendTelemetry(const unsigned int offset) {
       return -1;
   }
 }
+
+}  // namespace s2e::components

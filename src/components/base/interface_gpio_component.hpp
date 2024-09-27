@@ -6,6 +6,8 @@
 #ifndef S2E_COMPONENTS_BASE_CLASSES_INTERFACE_GPIO_COMPONENT_HPP_
 #define S2E_COMPONENTS_BASE_CLASSES_INTERFACE_GPIO_COMPONENT_HPP_
 
+namespace s2e::components {
+
 /**
  * @class IGPIOCompo
  * @brief Interface class for components which have GPIO port
@@ -26,5 +28,7 @@ class IGPIOCompo {
    */
   virtual void GpioStateChanged(const int port_id, const bool is_positive_edge) = 0;
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_CLASSES_INTERFACE_GPIO_COMPONENT_HPP_

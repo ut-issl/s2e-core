@@ -12,6 +12,8 @@
 
 #include "interface_tickable.hpp"
 
+namespace s2e::components {
+
 /**
  * @class Component
  * @brief Base class for component emulation. All components have to inherit this.
@@ -87,5 +89,7 @@ class Component : public ITickable {
   ClockGenerator* clock_generator_;  //!< Clock generator
   PowerPort* power_port_;            //!< Power port
 };
+
+} // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_COMPONENT_HPP_

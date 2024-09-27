@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+namespace s2e::components {
+
 I2cTargetCommunicationWithObc::I2cTargetCommunicationWithObc(const unsigned int sils_port_id, const unsigned char i2c_address, OnBoardComputer* obc)
     : sils_port_id_(sils_port_id), i2c_address_(i2c_address), obc_(obc) {
 #ifdef USE_HILS
@@ -163,3 +165,5 @@ int I2cTargetCommunicationWithObc::StoreTelemetry(const unsigned int stored_fram
   }
   return 0;
 }
+
+}  // namespace s2e::components

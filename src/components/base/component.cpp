@@ -5,6 +5,8 @@
 
 #include "component.hpp"
 
+namespace s2e::components {
+
 Component::Component(const unsigned int prescaler, ClockGenerator* clock_generator, const unsigned int fast_prescaler)
     : clock_generator_(clock_generator) {
   power_port_ = new PowerPort();
@@ -48,3 +50,5 @@ void Component::FastTick(const unsigned int fast_count) {
     PowerOffRoutine();
   }
 }
+
+} // namespace s2e::components

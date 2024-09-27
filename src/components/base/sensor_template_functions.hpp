@@ -9,6 +9,8 @@
 #include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 template <size_t N>
 Sensor<N>::Sensor(const s2e::math::Matrix<N, N>& scale_factor, const s2e::math::Vector<N>& range_to_const_c, const s2e::math::Vector<N>& range_to_zero_c,
                   const s2e::math::Vector<N>& bias_noise_c, const s2e::math::Vector<N>& normal_random_standard_deviation_c,
@@ -120,5 +122,7 @@ Sensor<N> ReadSensorInformation(const std::string file_name, const double step_w
 
   return sensor_base;
 }
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_

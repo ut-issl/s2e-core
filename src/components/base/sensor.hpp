@@ -11,6 +11,8 @@
 #include <math_physics/randomization/normal_randomization.hpp>
 #include <math_physics/randomization/random_walk.hpp>
 
+namespace s2e::components {
+
 /**
  * @class Sensor
  * @brief Base class for sensor emulation to add noises
@@ -84,6 +86,8 @@ class Sensor {
 template <size_t N>
 Sensor<N> ReadSensorInformation(const std::string file_name, const double step_width_s, const std::string component_name,
                                 const std::string unit = "");
+
+}  // namespace s2e::components
 
 #include "./sensor_template_functions.hpp"
 
