@@ -33,8 +33,8 @@ class ExampleI2cControllerForHils : public Component, public I2cController {
    * @param [in] rx_buffer_size: RX (Target to Controller) buffer size
    * @param [in] hils_port_manager: HILS port manager
    */
-  ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_generator, const unsigned int hils_port_id, const unsigned int baud_rate,
-                              const unsigned int tx_buffer_size, const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager);
+  ExampleI2cControllerForHils(const int prescaler, environment::ClockGenerator* clock_generator, const unsigned int hils_port_id, const unsigned int baud_rate,
+                              const unsigned int tx_buffer_size, const unsigned int rx_buffer_size, simulation::HilsPortManager* hils_port_manager);
   /**
    * @fn ~ExampleI2cControllerForHils
    * @brief Destructor

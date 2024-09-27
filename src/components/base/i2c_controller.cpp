@@ -11,7 +11,7 @@
 namespace s2e::components {
 
 I2cController::I2cController(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
-                             const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)
+                             const unsigned int rx_buffer_size, simulation::HilsPortManager* hils_port_manager)
     : hils_port_id_(hils_port_id),
       baud_rate_(baud_rate),
       tx_buffer_size_(tx_buffer_size),

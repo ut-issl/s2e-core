@@ -6,9 +6,9 @@
 
 namespace s2e::components {
 
-ExampleI2cControllerForHils::ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_generator, const unsigned int hils_port_id,
+ExampleI2cControllerForHils::ExampleI2cControllerForHils(const int prescaler, environment::ClockGenerator* clock_generator, const unsigned int hils_port_id,
                                                          const unsigned int baud_rate, const unsigned int tx_buffer_size,
-                                                         const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)
+                                                         const unsigned int rx_buffer_size, simulation::HilsPortManager* hils_port_manager)
     : Component(prescaler, clock_generator), I2cController(hils_port_id, baud_rate, tx_buffer_size, rx_buffer_size, hils_port_manager) {}
 
 ExampleI2cControllerForHils::~ExampleI2cControllerForHils() {}

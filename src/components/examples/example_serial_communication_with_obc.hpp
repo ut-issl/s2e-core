@@ -37,7 +37,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @param [in] port_id: Port ID for communication line b/w OnBoardComputer
    * @param [in] obc: The communication target OBC
    */
-  ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, OnBoardComputer* obc);
+  ExampleSerialCommunicationWithObc(environment::ClockGenerator* clock_generator, int port_id, OnBoardComputer* obc);
   /**
    * @fn ExampleSerialCommunicationWithObc
    * @brief Constructor
@@ -46,7 +46,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] obc: The communication target OBC
    */
-  ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, int prescaler, OnBoardComputer* obc);
+  ExampleSerialCommunicationWithObc(environment::ClockGenerator* clock_generator, int port_id, int prescaler, OnBoardComputer* obc);
   /**
    * @fn ~SerialCommunicationWithObc
    * @brief Destructor

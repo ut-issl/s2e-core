@@ -29,7 +29,7 @@ class Component : public ITickable {
    * @param [in] clock_generator: Clock generator
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  Component(const unsigned int prescaler, ClockGenerator* clock_generator, const unsigned int fast_prescaler = 1);
+  Component(const unsigned int prescaler, environment::ClockGenerator* clock_generator, const unsigned int fast_prescaler = 1);
   /**
    * @fn Component
    * @brief Constructor with power port
@@ -38,7 +38,7 @@ class Component : public ITickable {
    * @param [in] power_port: Power port
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  Component(const unsigned int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const unsigned int fast_prescaler = 1);
+  Component(const unsigned int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const unsigned int fast_prescaler = 1);
   /**
    * @fn Component
    * @brief Copy constructor
@@ -86,7 +86,7 @@ class Component : public ITickable {
    */
   virtual void PowerOffRoutine(){};
 
-  ClockGenerator* clock_generator_;  //!< Clock generator
+  environment::ClockGenerator* clock_generator_;  //!< Clock generator
   PowerPort* power_port_;            //!< Power port
 };
 

@@ -7,7 +7,7 @@
 
 namespace s2e::components {
 
-Component::Component(const unsigned int prescaler, ClockGenerator* clock_generator, const unsigned int fast_prescaler)
+Component::Component(const unsigned int prescaler, environment::ClockGenerator* clock_generator, const unsigned int fast_prescaler)
     : clock_generator_(clock_generator) {
   power_port_ = new PowerPort();
   clock_generator_->RegisterComponent(this);
@@ -15,7 +15,7 @@ Component::Component(const unsigned int prescaler, ClockGenerator* clock_generat
   fast_prescaler_ = (fast_prescaler > 0) ? fast_prescaler : 1;
 }
 
-Component::Component(const unsigned int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const unsigned int fast_prescaler)
+Component::Component(const unsigned int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const unsigned int fast_prescaler)
     : clock_generator_(clock_generator), power_port_(power_port) {
   clock_generator_->RegisterComponent(this);
   prescaler_ = (prescaler > 0) ? prescaler : 1;

@@ -30,7 +30,7 @@ class I2cController {
    * @param [in] hils_port_manager: HILS port manager
    */
   I2cController(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size,
-                HilsPortManager* hils_port_manager);
+                simulation::HilsPortManager* hils_port_manager);
   /**
    * @fn ~I2cController
    * @brief Destructor
@@ -63,7 +63,7 @@ class I2cController {
   unsigned int rx_buffer_size_;                              //!< RX (Target to Controller) buffer size
   SimulationMode simulation_mode_ = SimulationMode::kError;  //!< Simulation mode (SILS or HILS)
 
-  HilsPortManager* hils_port_manager_;  //!< HILS port manager
+  simulation::HilsPortManager* hils_port_manager_;  //!< HILS port manager
 };
 
 }  // namespace s2e::components

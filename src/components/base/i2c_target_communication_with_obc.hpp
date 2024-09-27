@@ -34,7 +34,7 @@ class I2cTargetCommunicationWithObc {
    * @param [in] i2c_address: I2C address for the target
    * @param [in] hils_port_manager: HILS port manager
    */
-  I2cTargetCommunicationWithObc(const unsigned int hils_port_id, const unsigned char i2c_address, HilsPortManager* hils_port_manager);
+  I2cTargetCommunicationWithObc(const unsigned int hils_port_id, const unsigned char i2c_address, simulation::HilsPortManager* hils_port_manager);
   /**
    * @fn I2cTargetCommunicationWithObc
    * @brief Constructor for both SILS and HILS mode
@@ -45,7 +45,7 @@ class I2cTargetCommunicationWithObc {
    * @param [in] hils_port_manager: HILS port manager
    */
   I2cTargetCommunicationWithObc(const unsigned int sils_port_id, const unsigned int hils_port_id, const unsigned char i2c_address,
-                                OnBoardComputer* obc, HilsPortManager* hils_port_manager);
+                                OnBoardComputer* obc, simulation::HilsPortManager* hils_port_manager);
   /**
    * @fn I2cTargetCommunicationWithObc
    * @brief Prevent double freeing of memory when this class is copied
@@ -120,7 +120,7 @@ class I2cTargetCommunicationWithObc {
   SimulationMode simulation_mode_ = SimulationMode::kError;  //!< Simulation mode
 
   OnBoardComputer* obc_;                //!< Communication target OBC
-  HilsPortManager* hils_port_manager_;  //!< HILS port manager
+  simulation::HilsPortManager* hils_port_manager_;  //!< HILS port manager
 };
 
 }  // namespace s2e::components
