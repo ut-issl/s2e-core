@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <cstring>
 
+namespace s2e::utilities {
+
 RingBuffer::RingBuffer(int buffer_size) : buffer_size_(buffer_size) {
   buffer_ = new byte[buffer_size];
   write_pointer_ = 0;
@@ -44,3 +46,5 @@ int RingBuffer::Read(byte* buffer, const unsigned int offset, const unsigned int
 
   return read_count;
 }
+
+} // namespace s2e::utilities

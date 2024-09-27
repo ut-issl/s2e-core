@@ -7,6 +7,8 @@
 
 #include <stdlib.h>
 
+namespace s2e::utilities {
+
 void *endian_memcpy(void *dst, const void *src, size_t size) {
 #ifdef IS_LITTLE_ENDIAN
   uint8_t *src_ = (uint8_t *)src;
@@ -26,3 +28,5 @@ void *endian_memcpy(void *dst, const void *src, size_t size) {
   return memcpy(dst, src, size);
 #endif  // IS_LITTLE_ENDIAN
 }
+
+} // namespace s2e::utilities

@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <iterator>
 
+namespace s2e::utilities {
+
 static uint8_t kSlipFend_ = 0xc0;   //!< FEND: Frame End
 static uint8_t kSlipFesc_ = 0xdb;   //!< FESC: Frame Escape
 static uint8_t kSlipTfend_ = 0xdc;  //!< TFEND: Transposed Frame End
@@ -77,3 +79,5 @@ std::vector<uint8_t> encode_slip_with_header(const std::vector<uint8_t> in) {
   out.insert(out.begin(), kSlipFend_);
   return out;
 }
+
+} // namespace s2e::utilities

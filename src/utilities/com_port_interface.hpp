@@ -17,6 +17,9 @@
 
 using namespace System;
 using namespace System::Runtime::InteropServices;
+
+namespace s2e::utilities {
+
 typedef cli::array<Byte> bytearray;
 
 /**
@@ -104,5 +107,7 @@ class ComPortInterface {
   msclr::gcroot<bytearray ^> tx_buf_;  //!< TX Buffer
   msclr::gcroot<bytearray ^> rx_buf_;  //!< RX Buffer
 };
+
+} // namespace s2e::utilities
 
 #endif  // S2E_LIBRARY_COMMUNICATION_COM_PORT_INTERFACE_HPP_

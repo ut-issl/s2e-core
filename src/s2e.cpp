@@ -23,6 +23,8 @@
 // #include "interface/hils/COSMOSWrapper.h"
 // #include "interface/hils/HardwareMessage.h"
 
+namespace s2e {
+
 void print_path(std::string path) {
 #ifdef WIN32
   std::cout << path << std::endl;
@@ -79,3 +81,5 @@ int main(int argc, char *argv[])
 
   return EXIT_SUCCESS;
 }
+
+} // namaspace s2e
