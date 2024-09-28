@@ -85,6 +85,6 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path);
  */
 GravityGradient InitGravityGradient(const std::string initialize_file_path, const double gravity_constant_m3_s2);
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_

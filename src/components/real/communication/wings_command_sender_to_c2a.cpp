@@ -151,4 +151,4 @@ WingsCommandSenderToC2a InitWingsCommandSenderToC2a(environment::ClockGenerator*
   return WingsCommandSenderToC2a(prescaler, clock_generator, step_width_s, c2a_command_data_base_file, wings_operation_file, is_enabled);
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

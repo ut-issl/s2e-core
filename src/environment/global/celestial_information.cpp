@@ -247,4 +247,4 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
   return celestial_info;
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

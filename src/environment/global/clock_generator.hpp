@@ -56,9 +56,9 @@ class ClockGenerator {
 
  private:
   std::vector<components::ITickable*> components_;  //!< Component list fot tick
-  unsigned int timer_count_;            //!< Timer count TODO: change to long?
+  unsigned int timer_count_;                        //!< Timer count TODO: change to long?
 };
 
-} // namespace s2e::environment
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_CLOCK_GENERATOR_HPP_

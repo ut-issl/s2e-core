@@ -144,6 +144,6 @@ class Attitude : public logger::ILoggable, public simulation::SimulationObject {
  */
 math::Matrix<4, 4> CalcAngularVelocityMatrix(math::Vector<3> angular_velocity_b_rad_s);
 
-} // namespace s2e::dynamics::attitude
+}  // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_

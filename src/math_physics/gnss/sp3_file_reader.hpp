@@ -51,16 +51,16 @@ enum class Sp3OrbitType {
 struct Sp3Header {
   // 1st line information
   // version -> not implemented yet
-  Sp3Mode mode_;                       //!< position or velocity
+  Sp3Mode mode_;                            //!< position or velocity
   s2e::time_system::DateTime start_epoch_;  //!< Time of start epoch
-  size_t number_of_epoch_ = 0;         //!< Number of epoch in the SP3 file
-  std::string used_data_;              //!< Used data to generate the SP3 file
-  std::string coordinate_system_;      //!< Coordinate system for the position and velocity data
-  Sp3OrbitType orbit_type_;            //!< Orbit type
-  std::string agency_name_;            //!< Agency name who generates the SP3 file
+  size_t number_of_epoch_ = 0;              //!< Number of epoch in the SP3 file
+  std::string used_data_;                   //!< Used data to generate the SP3 file
+  std::string coordinate_system_;           //!< Coordinate system for the position and velocity data
+  Sp3OrbitType orbit_type_;                 //!< Orbit type
+  std::string agency_name_;                 //!< Agency name who generates the SP3 file
 
   // 2nd line information
-  s2e::time_system::GpsTime start_gps_time_;           //!< Start time of orbit
+  s2e::time_system::GpsTime start_gps_time_;      //!< Start time of orbit
   double epoch_interval_s_ = 1.0;                 //!< Epoch interval (0.0, 100000.0)
   size_t start_time_mjday_;                       //!< Start time of the orbit data (44244 = 6th Jan. 1980) [Modified Julian day]
   double start_time_mjday_fractional_day_ = 0.0;  //!< Fractional part of the start time [0.0, 1.0) [day]
@@ -183,7 +183,7 @@ class Sp3FileReader {
   size_t SearchNearestEpochId(const s2e::time_system::EpochTime time);
 
  private:
-  Sp3Header header_;                          //!< SP3 header information
+  Sp3Header header_;                               //!< SP3 header information
   std::vector<s2e::time_system::DateTime> epoch_;  //!< Epoch data list
 
   // Orbit and clock data (Use as position_clock_[satellite_id][epoch_id])

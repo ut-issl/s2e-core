@@ -73,4 +73,4 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path, cons
   return gg_disturbance;
 }
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances

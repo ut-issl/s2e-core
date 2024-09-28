@@ -209,6 +209,6 @@ class OnBoardComputer : public Component {
   std::map<int, GpioPort*> gpio_ports_;  //!< GPIO ports
 };
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_CDH_OBC_HPP_

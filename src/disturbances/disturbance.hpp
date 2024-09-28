@@ -93,6 +93,6 @@ class Disturbance : public logger::ILoggable {
   math::Vector<3> acceleration_i_m_s2_;  //!< Disturbance acceleration in the inertial frame [m/s2]
 };
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_DISTURBANCE_HPP_

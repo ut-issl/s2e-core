@@ -65,8 +65,8 @@ class EnckeOrbitPropagation : public Orbit, public math::OrdinaryDifferentialEqu
   double propagation_time_s_;            //!< Simulation current time for numerical integration by RK4
 
   // reference orbit
-  math::Vector<3> reference_position_i_m_;    //!< Reference orbit position in the inertial frame [m]
-  math::Vector<3> reference_velocity_i_m_s_;  //!< Reference orbit velocity in the inertial frame [m/s]
+  math::Vector<3> reference_position_i_m_;         //!< Reference orbit position in the inertial frame [m]
+  math::Vector<3> reference_velocity_i_m_s_;       //!< Reference orbit velocity in the inertial frame [m/s]
   s2e::orbit::KeplerOrbit reference_kepler_orbit;  //!< Reference Kepler orbital element
 
   // difference orbit
@@ -95,6 +95,6 @@ class EnckeOrbitPropagation : public Orbit, public math::OrdinaryDifferentialEqu
   double CalcQFunction(const math::Vector<3> difference_position_i_m);
 };
 
-} // namespace s2e::dynamics::orbit
+}  // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_ENCKE_ORBIT_PROPAGATION_HPP_

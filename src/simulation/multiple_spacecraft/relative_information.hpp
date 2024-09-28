@@ -172,6 +172,6 @@ class RelativeInformation : public logger::ILoggable {
   void ResizeLists();
 };
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_MULTIPLE_SPACECRAFT_RELATIVE_INFORMATION_HPP_

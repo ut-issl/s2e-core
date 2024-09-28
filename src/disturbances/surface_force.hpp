@@ -73,6 +73,6 @@ class SurfaceForce : public Disturbance {
   virtual void CalcCoefficients(const math::Vector<3>& input_direction_b, const double item) = 0;
 };
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_SURFACE_FORCE_HPP_

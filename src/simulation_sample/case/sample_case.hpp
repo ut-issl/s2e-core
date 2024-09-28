@@ -59,6 +59,6 @@ class SampleCase : public simulation::SimulationCase {
   void UpdateTargetObjects();
 };
 
-} // namespace s2e::sample
+}  // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_CASE_SAMPLE_CASE_HPP_

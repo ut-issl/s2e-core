@@ -112,4 +112,4 @@ AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Su
   return air_drag;
 }
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances

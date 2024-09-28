@@ -26,6 +26,6 @@ namespace s2e::dynamics::attitude {
 Attitude* InitAttitude(std::string file_name, const orbit::Orbit* orbit, const environment::LocalCelestialInformation* local_celestial_information,
                        const double step_width_s, const math::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id);
 
-} // namespace s2e::dynamics::attitude
+}  // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_INITIALIZE_ATTITUDE_HPP_

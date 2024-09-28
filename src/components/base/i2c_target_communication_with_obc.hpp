@@ -119,7 +119,7 @@ class I2cTargetCommunicationWithObc {
 
   SimulationMode simulation_mode_ = SimulationMode::kError;  //!< Simulation mode
 
-  OnBoardComputer* obc_;                //!< Communication target OBC
+  OnBoardComputer* obc_;                            //!< Communication target OBC
   simulation::HilsPortManager* hils_port_manager_;  //!< HILS port manager
 };
 

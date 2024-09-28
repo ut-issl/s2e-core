@@ -95,8 +95,8 @@ class GroundStation : public logger::ILoggable {
  protected:
   unsigned int ground_station_id_;               //!< Ground station ID
   geodesy::GeodeticPosition geodetic_position_;  //!< Ground Station Position in the geodetic frame
-  math::Vector<3> position_ecef_m_{0.0};               //!< Ground Station Position in the ECEF frame [m]
-  math::Vector<3> position_i_m_{0.0};                  //!< Ground Station Position in the inertial frame [m]
+  math::Vector<3> position_ecef_m_{0.0};         //!< Ground Station Position in the ECEF frame [m]
+  math::Vector<3> position_i_m_{0.0};            //!< Ground Station Position in the inertial frame [m]
   double elevation_limit_angle_deg_;             //!< Minimum elevation angle to work the ground station [deg]
 
   std::map<int, bool> is_visible_;     //!< Visible flag for each spacecraft ID (not care antenna)
@@ -111,6 +111,6 @@ class GroundStation : public logger::ILoggable {
   bool CalcIsVisible(const math::Vector<3> spacecraft_position_ecef_m);
 };
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_

@@ -102,4 +102,4 @@ ThirdBodyGravity InitThirdBodyGravity(const std::string initialize_file_path, co
   return third_body_disturbance;
 }
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances

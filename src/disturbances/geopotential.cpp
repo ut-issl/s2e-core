@@ -129,4 +129,4 @@ Geopotential InitGeopotential(const std::string initialize_file_path) {
   return geopotential_disturbance;
 }
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances

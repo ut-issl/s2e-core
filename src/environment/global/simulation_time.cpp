@@ -278,4 +278,4 @@ SimulationTime* InitSimulationTime(std::string file_name) {
   return simTime;
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

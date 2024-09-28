@@ -136,4 +136,4 @@ Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCel
   return atmosphere;
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

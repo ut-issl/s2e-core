@@ -88,6 +88,6 @@ class Geopotential : public Disturbance {
  */
 Geopotential InitGeopotential(const std::string initialize_file_path);
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_GEOPOTENTIAL_HPP_

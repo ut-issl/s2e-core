@@ -89,4 +89,4 @@ void Rk4OrbitPropagation::Propagate(const double end_time_s, const double curren
   TransformEcefToGeodetic();
 }
 
-} // namespace s2e::dynamics::orbit
+}  // namespace s2e::dynamics::orbit

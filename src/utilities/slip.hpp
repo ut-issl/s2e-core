@@ -42,6 +42,6 @@ std::vector<uint8_t> encode_slip(std::vector<uint8_t> in);
  */
 std::vector<uint8_t> encode_slip_with_header(std::vector<uint8_t> in);
 
-} // namespace s2e::utilities
+}  // namespace s2e::utilities
 
 #endif  // S2E_LIBRARY_UTILITIES_SLIP_HPP_

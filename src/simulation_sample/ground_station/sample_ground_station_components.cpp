@@ -29,4 +29,4 @@ void SampleGsComponents::CompoLogSetUp(logger::Logger& logger) {
   logger.AddLogList(gs_calculator_);
 }
 
-} // namespace s2e::sample
+}  // namespace s2e::sample

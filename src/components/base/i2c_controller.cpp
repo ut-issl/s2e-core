@@ -7,7 +7,6 @@
 #include <iostream>
 #include <utilities/macros.hpp>
 
-
 namespace s2e::components {
 
 I2cController::I2cController(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
@@ -52,4 +51,4 @@ int I2cController::SendCommand(const unsigned char length) {
   return hils_port_manager_->I2cControllerSend(hils_port_id_, &tx_buffer_.front(), 0, length);
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

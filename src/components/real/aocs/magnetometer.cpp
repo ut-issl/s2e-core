@@ -16,8 +16,8 @@ Magnetometer::Magnetometer(int prescaler, environment::ClockGenerator* clock_gen
       sensor_id_(sensor_id),
       quaternion_b2c_(quaternion_b2c),
       geomagnetic_field_(geomagnetic_field) {}
-Magnetometer::Magnetometer(int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-                           const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
+Magnetometer::Magnetometer(int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base,
+                           const unsigned int sensor_id, const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator, power_port),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
@@ -94,4 +94,4 @@ Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, Powe
   return magsensor;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

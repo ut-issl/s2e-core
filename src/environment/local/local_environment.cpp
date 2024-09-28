@@ -8,7 +8,7 @@
 #include "dynamics/orbit/orbit.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
-namespace s2e::environment{
+namespace s2e::environment {
 
 LocalEnvironment::LocalEnvironment(const simulation::SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
                                    const int spacecraft_id) {
@@ -79,4 +79,4 @@ void LocalEnvironment::LogSetup(logger::Logger& logger) {
   logger.AddLogList(celestial_information_);
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

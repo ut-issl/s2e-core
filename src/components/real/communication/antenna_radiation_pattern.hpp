@@ -64,6 +64,6 @@ class AntennaRadiationPattern {
   std::vector<std::vector<double>> gain_dBi_;  //!< Antenna gain table [dBi]
 };
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_RADIATION_PATTERN_HPP_

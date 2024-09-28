@@ -168,6 +168,6 @@ AntennaGainModel SetAntennaGainModel(const std::string gain_model_name);
  */
 Antenna InitAntenna(const int antenna_id, const std::string file_name);
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_HPP_

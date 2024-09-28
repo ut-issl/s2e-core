@@ -61,6 +61,6 @@ class ReactionWheelOde : public math::OrdinaryDifferentialEquation<1> {
   double angular_acceleration_rad_s2_ = 0.0;  //!< Angular acceleration [rad/s2]
 };
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_ODE_HPP_

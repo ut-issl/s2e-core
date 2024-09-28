@@ -52,6 +52,6 @@ class GpioConnectionWithObc {
   OnBoardComputer* obc_;      //!< The communication target OBC
 };
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_GPIO_CONNECTION_WITH_OBC_HPP_

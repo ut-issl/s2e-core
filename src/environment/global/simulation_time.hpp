@@ -336,6 +336,6 @@ class SimulationTime : public logger::ILoggable {
  */
 SimulationTime* InitSimulationTime(std::string file_name);
 
-} // namespace s2e::environment
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_HPP_

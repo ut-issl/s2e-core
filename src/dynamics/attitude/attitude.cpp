@@ -82,4 +82,4 @@ math::Matrix<4, 4> CalcAngularVelocityMatrix(math::Vector<3> angular_velocity_b_
   return angular_velocity_matrix;
 }
 
-} // namespace s2e::dynamics::attitude
+}  // namespace s2e::dynamics::attitude

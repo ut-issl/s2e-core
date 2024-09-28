@@ -39,4 +39,4 @@ int UartPort::ReadRx(unsigned char* buffer, const unsigned int offset, const uns
   return rx_buffer_->Read(buffer, offset, data_length);
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

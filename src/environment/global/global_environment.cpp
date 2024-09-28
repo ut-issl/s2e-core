@@ -47,4 +47,4 @@ void GlobalEnvironment::LogSetup(logger::Logger& logger) {
 
 void GlobalEnvironment::Reset(void) { simulation_time_->ResetClock(); }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

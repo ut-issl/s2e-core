@@ -78,18 +78,18 @@ class Component : public ITickable {
    * @brief Pure virtual function used to calculate high-frequency disturbances(e.g. RW jitter)
    * @note Override only when high-frequency disturbances need to be calculated.
    */
-  virtual void FastUpdate(){};
+  virtual void FastUpdate() {};
 
   /**
    * @fn PowerOffRoutine
    * @brief Pure virtual function executed when the power switch is off.
    */
-  virtual void PowerOffRoutine(){};
+  virtual void PowerOffRoutine() {};
 
   environment::ClockGenerator* clock_generator_;  //!< Clock generator
-  PowerPort* power_port_;            //!< Power port
+  PowerPort* power_port_;                         //!< Power port
 };
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_COMPONENT_HPP_

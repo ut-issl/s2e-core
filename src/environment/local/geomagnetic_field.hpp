@@ -94,6 +94,6 @@ class GeomagneticField : public logger::ILoggable {
  */
 GeomagneticField InitGeomagneticField(std::string initialize_file_path);
 
-} // namespace s2e::environment
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_GEOMAGNETIC_FIELD_HPP_

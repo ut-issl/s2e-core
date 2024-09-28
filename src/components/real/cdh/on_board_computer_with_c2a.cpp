@@ -259,4 +259,4 @@ int OBC_C2A_GpioWrite(int port_id, const bool is_high) { return ObcWithC2a::Gpio
 
 bool OBC_C2A_GpioRead(int port_id) { return ObcWithC2a::GpioRead_C2A(port_id); }
 
-} // namespace s2e::components
+}  // namespace s2e::components

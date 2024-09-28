@@ -26,7 +26,7 @@ class Surface {
    * @fn ~Surface
    * @brief Destructor
    */
-  ~Surface(){};
+  ~Surface() {};
 
   // Getter
   /**
@@ -115,6 +115,6 @@ class Surface {
   double air_specularity_;        //!< Specularity for air drag
 };
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_HPP_

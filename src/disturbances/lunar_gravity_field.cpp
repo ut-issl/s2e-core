@@ -153,4 +153,4 @@ LunarGravityField InitLunarGravityField(const std::string initialize_file_path) 
   return lunar_gravity_field;
 }
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances

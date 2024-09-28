@@ -31,4 +31,4 @@ Logger* InitMonteCarloLog(std::string file_name, bool enable) {
   return log;
 }
 
-} // namespace s2e::logger
+}  // namespace s2e::logger

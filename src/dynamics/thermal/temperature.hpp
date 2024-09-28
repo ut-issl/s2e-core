@@ -45,9 +45,9 @@ class Temperature : public logger::ILoggable {
   double propagation_time_s_;  //!< Incremented time inside class Temperature [s], finish propagation when reaching end_time
   const environment::SolarRadiationPressureEnvironment* srp_environment_;  //!< SolarRadiationPressureEnvironment for calculating solar flux
   const environment::EarthAlbedo* earth_albedo_;                           //!< EarthAlbedo object for calculating earth albedo
-  bool is_calc_enabled_;                                      //!< Whether temperature calculation is enabled
-  SolarCalcSetting solar_calc_setting_;                       //!< setting for solar calculation
-  bool debug_;                                                //!< Activate debug output or not
+  bool is_calc_enabled_;                                                   //!< Whether temperature calculation is enabled
+  SolarCalcSetting solar_calc_setting_;                                    //!< setting for solar calculation
+  bool debug_;                                                             //!< Activate debug output or not
 
   /**
    * @fn CalcRungeOneStep
@@ -58,7 +58,8 @@ class Temperature : public logger::ILoggable {
    * @param[in] local_celestial_information: LocalCelestialInformation object for calculating radiation
    * @param[in] node_num: Number of nodes
    */
-  void CalcRungeOneStep(double time_now_s, double time_step_s, const environment::LocalCelestialInformation* local_celestial_information, size_t node_num);
+  void CalcRungeOneStep(double time_now_s, double time_step_s, const environment::LocalCelestialInformation* local_celestial_information,
+                        size_t node_num);
   /**
    * @fn CalcTemperatureDifferentials
    * @brief Calculate differential of thermal equilibrium equation
@@ -119,7 +120,7 @@ class Temperature : public logger::ILoggable {
   // Getter
   /**
    * @fn GetNodes
-   * 
+   *
    * @brief Return Nodes
    * @return std::vector<Node>
    */
@@ -165,9 +166,9 @@ class Temperature : public logger::ILoggable {
  * @param[in] srp_environment: SolarRadiationPressureEnvironment object for calculating solar flux
  * @return Temperature*
  */
-Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const environment::SolarRadiationPressureEnvironment* srp_environment,
-                             const environment::EarthAlbedo* earth_albedo);
+Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s,
+                             const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo);
 
-} // namespace s2e::dynamics::thermal
+}  // namespace s2e::dynamics::thermal
 
 #endif  // S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_

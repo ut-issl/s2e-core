@@ -9,8 +9,9 @@
 
 namespace s2e::dynamics {
 
-Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time, const environment::LocalEnvironment* local_environment,
-           const int spacecraft_id, simulation::Structure* structure, simulation::RelativeInformation* relative_information)
+Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
+         const environment::LocalEnvironment* local_environment, const int spacecraft_id, simulation::Structure* structure,
+         simulation::RelativeInformation* relative_information)
     : structure_(structure), local_environment_(local_environment) {
   Initialize(simulation_configuration, simulation_time, spacecraft_id, structure, relative_information);
 }
@@ -67,4 +68,4 @@ void Dynamics::LogSetup(Logger& logger) {
   logger.AddLogList(temperature_);
 }
 
-} // namespace s2e::dynamics
+}  // namespace s2e::dynamics

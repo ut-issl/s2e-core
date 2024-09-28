@@ -27,8 +27,8 @@ class Spacecraft {
    * @fn Spacecraft
    * @brief Constructor for single satellite simulation
    */
-  Spacecraft(const SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment, const int spacecraft_id,
-             RelativeInformation* relative_information = nullptr);
+  Spacecraft(const SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
+             const int spacecraft_id, RelativeInformation* relative_information = nullptr);
 
   /**
    * @fn ~Spacecraft
@@ -99,16 +99,16 @@ class Spacecraft {
   inline unsigned int GetSpacecraftId() const { return spacecraft_id_; }
 
  protected:
-  environment::ClockGenerator clock_generator_;             //!< Origin of clock for the spacecraft
-  dynamics::dynamics::Dynamics* dynamics_;                         //!< Dynamics information of the spacecraft
-  RelativeInformation* relative_information_;  //!< Relative information with respect to the other spacecraft
-  environment::LocalEnvironment* local_environment_;        //!< Local environment information around the spacecraft
-  disturbances::Disturbances* disturbances_;                 //!< Disturbance information acting on the spacecraft
-  Structure* structure_;                       //!< Structure information of the spacecraft
-  InstalledComponents* components_;            //!< Components information installed on the spacecraft
-  const unsigned int spacecraft_id_;           //!< ID of the spacecraft
+  environment::ClockGenerator clock_generator_;       //!< Origin of clock for the spacecraft
+  dynamics::dynamics::Dynamics* dynamics_;            //!< Dynamics information of the spacecraft
+  RelativeInformation* relative_information_;         //!< Relative information with respect to the other spacecraft
+  environment::LocalEnvironment* local_environment_;  //!< Local environment information around the spacecraft
+  disturbances::Disturbances* disturbances_;          //!< Disturbance information acting on the spacecraft
+  Structure* structure_;                              //!< Structure information of the spacecraft
+  InstalledComponents* components_;                   //!< Components information installed on the spacecraft
+  const unsigned int spacecraft_id_;                  //!< ID of the spacecraft
 };
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SPACECRAFT_SPACECRAFT_HPP_

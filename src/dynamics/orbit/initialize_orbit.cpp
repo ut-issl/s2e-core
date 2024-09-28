@@ -48,7 +48,8 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     // initialize orbit for relative dynamics of formation flying
     RelativeOrbit::RelativeOrbitUpdateMethod update_method =
         (RelativeOrbit::RelativeOrbitUpdateMethod)(conf.ReadInt(section_, "relative_orbit_update_method"));
-    s2e::orbit::RelativeOrbitModel relative_dynamics_model_type = (s2e::orbit::RelativeOrbitModel)(conf.ReadInt(section_, "relative_dynamics_model_type"));
+    s2e::orbit::RelativeOrbitModel relative_dynamics_model_type =
+        (s2e::orbit::RelativeOrbitModel)(conf.ReadInt(section_, "relative_dynamics_model_type"));
     s2e::orbit::StmModel stm_model_type = (s2e::orbit::StmModel)(conf.ReadInt(section_, "stm_model_type"));
 
     math::Vector<3> init_relative_position_lvlh;
@@ -151,4 +152,4 @@ math::Vector<6> InitializePosVel(std::string initialize_file, double current_tim
   return pos_vel;
 }
 
-} // namespace s2e::dynamics::orbit
+}  // namespace s2e::dynamics::orbit

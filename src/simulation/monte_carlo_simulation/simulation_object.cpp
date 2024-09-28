@@ -44,4 +44,4 @@ void SimulationObject::GetInitializedMonteCarloParameterQuaternion(const MonteCa
   monte_carlo_simulator.GetInitializedMonteCarloParameterQuaternion(name_, init_monte_carlo_parameter_name, destination);
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

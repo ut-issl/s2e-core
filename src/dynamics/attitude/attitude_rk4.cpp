@@ -122,4 +122,4 @@ void AttitudeRk4::RungeKuttaOneStep(double t, double dt) {
   quaternion_i2b_.Normalize();
 }
 
-} // namespace s2e::dynamics::attitude
+}  // namespace s2e::dynamics::attitude

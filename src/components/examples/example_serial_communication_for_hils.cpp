@@ -8,9 +8,10 @@
 
 namespace s2e::components {
 
-ExampleSerialCommunicationForHils::ExampleSerialCommunicationForHils(environment::ClockGenerator* clock_generator, const int sils_port_id, OnBoardComputer* obc,
-                                                                     const unsigned int hils_port_id, const unsigned int baud_rate,
-                                                                     simulation::HilsPortManager* hils_port_manager, const int mode_id)
+ExampleSerialCommunicationForHils::ExampleSerialCommunicationForHils(environment::ClockGenerator* clock_generator, const int sils_port_id,
+                                                                     OnBoardComputer* obc, const unsigned int hils_port_id,
+                                                                     const unsigned int baud_rate, simulation::HilsPortManager* hils_port_manager,
+                                                                     const int mode_id)
     : Component(300, clock_generator), UartCommunicationWithObc(sils_port_id, obc, hils_port_id, baud_rate, hils_port_manager), mode_id_(mode_id) {}
 
 ExampleSerialCommunicationForHils::~ExampleSerialCommunicationForHils() {}

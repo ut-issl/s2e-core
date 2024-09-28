@@ -129,6 +129,6 @@ class Heatload {
  */
 Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vector<std::string>& internal_heatload_str);
 
-} // namespace s2e::dynamics::thermal
+}  // namespace s2e::dynamics::thermal
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATLOAD_HPP_

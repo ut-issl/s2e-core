@@ -77,8 +77,8 @@ class SimulationCase : public logger::ILoggable {
   inline const environment::GlobalEnvironment& GetGlobalEnvironment() const { return *global_environment_; }
 
  protected:
-  SimulationConfiguration simulation_configuration_;  //!< Simulation setting
-  environment::GlobalEnvironment* global_environment_;             //!< Global Environment
+  SimulationConfiguration simulation_configuration_;    //!< Simulation setting
+  environment::GlobalEnvironment* global_environment_;  //!< Global Environment
 
   /**
    * @fn InitializeSimulationConfiguration
@@ -100,6 +100,6 @@ class SimulationCase : public logger::ILoggable {
   virtual void UpdateTargetObjects() = 0;
 };
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_CASE_SIMULATION_CASE_HPP_

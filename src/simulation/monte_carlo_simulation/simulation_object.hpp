@@ -86,6 +86,6 @@ void SimulationObject::GetInitializedMonteCarloParameterVector(const MonteCarloS
   monte_carlo_simulator.GetInitializedMonteCarloParameterVector(name_, init_monte_carlo_parameter_name, destination);
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_SIMULATION_OBJECT_HPP_

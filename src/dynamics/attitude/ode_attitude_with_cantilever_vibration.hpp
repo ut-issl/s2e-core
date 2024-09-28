@@ -222,6 +222,6 @@ class AttitudeWithCantileverVibrationOde : public numerical_integration::Interfa
   math::Matrix<3, 3> inverse_equivalent_inertia_tensor_cantilever_{0.0};  //!< Inverse of inertia tensor of the cantilever
 };
 
-} // namespace s2e::dynamics::attitude
+}  // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ODE_ATTITUDE_WITH_CANTILEVER_VIBRATION_HPP_

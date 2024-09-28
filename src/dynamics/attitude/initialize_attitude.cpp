@@ -96,4 +96,4 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
   return attitude;
 }
 
-} // namespace s2e::dynamics::attitude
+}  // namespace s2e::dynamics::attitude

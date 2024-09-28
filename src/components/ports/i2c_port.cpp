@@ -96,4 +96,4 @@ unsigned char I2cPort::ReadCommand(const unsigned char i2c_address, unsigned cha
   return length;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

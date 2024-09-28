@@ -318,4 +318,4 @@ void InitializedMonteCarloParameters::GenerateQuaternionNormal() {
   }
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

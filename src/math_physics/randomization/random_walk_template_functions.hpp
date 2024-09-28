@@ -9,6 +9,8 @@
 #include <math_physics/randomization/global_randomization.hpp>
 #include <utilities/macros.hpp>
 
+namespace s2e::randomization {
+
 template <size_t N>
 RandomWalk<N>::RandomWalk(double step_width_s, const math::Vector<N>& standard_deviation, const math::Vector<N>& limit)
     : math::OrdinaryDifferentialEquation<N>(step_width_s), limit_(limit) {
@@ -31,5 +33,7 @@ void RandomWalk<N>::DerivativeFunction(double x, const math::Vector<N>& state, m
       rhs[i] = normal_randomizer_[i];
   }
 }
+
+}  // namespace s2e::randomization
 
 #endif  // S2E_LIBRARY_RANDOMIZATION_RANDOM_WALK_TEMPLATE_FUNCTIONS_HPP_

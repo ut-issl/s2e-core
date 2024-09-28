@@ -122,8 +122,8 @@ math::Vector<3> SimpleThruster::CalcThrustDirection() {
   return thrust_dir_b_true;
 }
 
-SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, int thruster_id, const std::string file_name, const Structure* structure,
-                                  const dynamics::Dynamics* dynamics) {
+SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, int thruster_id, const std::string file_name,
+                                  const Structure* structure, const dynamics::Dynamics* dynamics) {
   setting_file_reader::IniAccess thruster_conf(file_name);
   std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = section_str.c_str();
@@ -180,4 +180,4 @@ SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, 
   return thruster;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

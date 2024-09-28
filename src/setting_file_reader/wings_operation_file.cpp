@@ -48,4 +48,4 @@ std::string WingsOperationFile::GetLatestLine() {
   return line;
 }
 
-} // namespace s2e::setting_file_reader
+}  // namespace s2e::setting_file_reader

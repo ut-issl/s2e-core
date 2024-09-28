@@ -55,4 +55,4 @@ HeaterController InitHeaterController(const std::vector<std::string>& heater_str
   return heater_controller;
 }
 
-} // namespace s2e::dynamics::thermal
+}  // namespace s2e::dynamics::thermal

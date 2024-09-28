@@ -29,4 +29,4 @@ void *endian_memcpy(void *dst, const void *src, size_t size) {
 #endif  // IS_LITTLE_ENDIAN
 }
 
-} // namespace s2e::utilities
+}  // namespace s2e::utilities

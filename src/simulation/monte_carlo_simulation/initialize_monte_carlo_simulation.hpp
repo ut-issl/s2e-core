@@ -17,6 +17,6 @@ namespace s2e::simulation {
  */
 MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name);
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_INITIALIZE_MONTE_CARLO_SIMULATION_HPP_

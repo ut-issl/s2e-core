@@ -95,4 +95,4 @@ double CsvScenarioInterface::GetValueFromBuffer(const std::string buffer_name, c
   return output;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

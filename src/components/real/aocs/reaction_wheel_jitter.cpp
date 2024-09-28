@@ -129,4 +129,4 @@ void ReactionWheelJitter::CalcCoefficients() {
                      pow(update_interval_s_, 2.0) * pow(structural_resonance_angular_frequency_Hz_, 2.0);
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

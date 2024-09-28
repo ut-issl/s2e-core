@@ -122,4 +122,4 @@ SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::str
   return srp_env;
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

@@ -36,6 +36,6 @@ class ILoggable {
   bool is_log_enabled_ = true;  //!< Log enable flag
 };
 
-} // namespace s2e::logger
+}  // namespace s2e::logger
 
 #endif  // S2E_LIBRARY_LOGGER_LOGGABLE_HPP_

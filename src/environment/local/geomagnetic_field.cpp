@@ -44,7 +44,7 @@ void GeomagneticField::CalcMagneticField(const double decimal_year, const double
 void GeomagneticField::AddNoise(double* magnetic_field_array_i_nT) {
   static math::Vector<3> standard_deviation(random_walk_standard_deviation_nT_);
   static math::Vector<3> limit(random_walk_limit_nT_);
-  static RandomWalk<3> random_walk(0.1, standard_deviation, limit);
+  static randomization::RandomWalk<3> random_walk(0.1, standard_deviation, limit);
 
   static s2e::randomization::NormalRand white_noise(0.0, white_noise_standard_deviation_nT_, s2e::randomization::global_randomization.MakeSeed());
 
@@ -88,4 +88,4 @@ GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
   return geomagnetic_field;
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

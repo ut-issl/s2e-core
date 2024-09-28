@@ -80,9 +80,9 @@ class TorqueGenerator : public Component, public logger::ILoggable {
   math::Vector<3> generated_torque_b_Nm_{0.0};  //!< Generated torque in the body fixed frame [Nm]
 
   // Noise
-  s2e::randomization::NormalRand magnitude_noise_;      //!< Normal random for magnitude noise
-  s2e::randomization::NormalRand direction_noise_;      //!< Normal random for direction noise
-  double direction_error_standard_deviation_rad_;  //!< Standard deviation of direction error [rad]
+  s2e::randomization::NormalRand magnitude_noise_;  //!< Normal random for magnitude noise
+  s2e::randomization::NormalRand direction_noise_;  //!< Normal random for direction noise
+  double direction_error_standard_deviation_rad_;   //!< Standard deviation of direction error [rad]
 
   /**
    * @fn GenerateDirectionNoiseQuaternion
@@ -102,7 +102,8 @@ class TorqueGenerator : public Component, public logger::ILoggable {
  * @param [in] file_name: Path to initialize file
  * @param [in] dynamics: Dynamics information
  */
-TorqueGenerator InitializeTorqueGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::Dynamics* dynamics);
+TorqueGenerator InitializeTorqueGenerator(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                          const dynamics::Dynamics* dynamics);
 
 }  // namespace s2e::components
 

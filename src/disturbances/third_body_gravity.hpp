@@ -78,6 +78,6 @@ class ThirdBodyGravity : public Disturbance {
  */
 ThirdBodyGravity InitThirdBodyGravity(const std::string initialize_file_path, const std::string ini_path_celes);
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_THIRD_BODY_GRAVITY_HPP_

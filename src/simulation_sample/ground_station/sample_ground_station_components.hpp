@@ -51,6 +51,6 @@ class SampleGsComponents {
   const simulation::SimulationConfiguration* configuration_;  //!< Simulation setting
 };
 
-} // namespace s2e::sample
+}  // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_COMPONENTS_HPP_

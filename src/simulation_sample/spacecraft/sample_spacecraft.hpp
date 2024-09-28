@@ -37,6 +37,6 @@ class SampleSpacecraft : public simulation::Spacecraft {
   SampleComponents* sample_components_;
 };
 
-} // namespace s2e::sample
+}  // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_

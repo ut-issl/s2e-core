@@ -146,6 +146,6 @@ class GroundStationCalculator : public logger::ILoggable {
 
 GroundStationCalculator InitGsCalculator(const std::string file_name);
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_

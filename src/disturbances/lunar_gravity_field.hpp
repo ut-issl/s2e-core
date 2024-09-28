@@ -92,6 +92,6 @@ class LunarGravityField : public Disturbance {
  */
 LunarGravityField InitLunarGravityField(const std::string initialize_file_path);
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_LUNAR_GRAVITY_FIELD_HPP_

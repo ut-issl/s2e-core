@@ -104,6 +104,6 @@ class EarthAlbedo : public logger::ILoggable {
 EarthAlbedo InitEarthAlbedo(std::string initialize_file_path, LocalCelestialInformation* local_celestial_information,
                             SolarRadiationPressureEnvironment* srp_environment);
 
-} // namespace s2e::environment
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_EARTH_ALBEDO_HPP_

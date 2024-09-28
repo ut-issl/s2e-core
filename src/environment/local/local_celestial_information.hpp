@@ -122,6 +122,6 @@ class LocalCelestialInformation : public logger::ILoggable {
                                      const math::Vector<3> angular_velocity_b);
 };
 
-} // namespace s2e::environment
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_CELESTIAL_INFORMATION_HPP_

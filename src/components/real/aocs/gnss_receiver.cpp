@@ -13,9 +13,9 @@
 
 namespace s2e::components {
 
-GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
-                           const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
-                           const math::Vector<3> position_noise_standard_deviation_ecef_m,
+GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id,
+                           const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
+                           const double half_width_deg, const math::Vector<3> position_noise_standard_deviation_ecef_m,
                            const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const dynamics::Dynamics* dynamics,
                            const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
     : Component(prescaler, clock_generator),
@@ -28,8 +28,10 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
       gnss_satellites_(gnss_satellites),
       simulation_time_(simulation_time) {
   for (size_t i = 0; i < 3; i++) {
-    position_random_noise_ecef_m_[i].SetParameters(0.0, position_noise_standard_deviation_ecef_m[i], s2e::randomization::global_randomization.MakeSeed());
-    velocity_random_noise_ecef_m_s_[i].SetParameters(0.0, velocity_noise_standard_deviation_ecef_m_s[i], s2e::randomization::global_randomization.MakeSeed());
+    position_random_noise_ecef_m_[i].SetParameters(0.0, position_noise_standard_deviation_ecef_m[i],
+                                                   s2e::randomization::global_randomization.MakeSeed());
+    velocity_random_noise_ecef_m_s_[i].SetParameters(0.0, velocity_noise_standard_deviation_ecef_m_s[i],
+                                                     s2e::randomization::global_randomization.MakeSeed());
   }
 }
 
@@ -48,8 +50,10 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
       gnss_satellites_(gnss_satellites),
       simulation_time_(simulation_time) {
   for (size_t i = 0; i < 3; i++) {
-    position_random_noise_ecef_m_[i].SetParameters(0.0, position_noise_standard_deviation_ecef_m[i], s2e::randomization::global_randomization.MakeSeed());
-    velocity_random_noise_ecef_m_s_[i].SetParameters(0.0, velocity_noise_standard_deviation_ecef_m_s[i], s2e::randomization::global_randomization.MakeSeed());
+    position_random_noise_ecef_m_[i].SetParameters(0.0, position_noise_standard_deviation_ecef_m[i],
+                                                   s2e::randomization::global_randomization.MakeSeed());
+    velocity_random_noise_ecef_m_s_[i].SetParameters(0.0, velocity_noise_standard_deviation_ecef_m_s[i],
+                                                     s2e::randomization::global_randomization.MakeSeed());
   }
 }
 
@@ -291,8 +295,8 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const GnssSat
   return gnss_receiver_param;
 }
 
-GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, const size_t component_id, const std::string file_name, const dynamics::Dynamics* dynamics,
-                              const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
+GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, const size_t component_id, const std::string file_name,
+                              const dynamics::Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
   GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 
   GnssReceiver gnss_r(gr_param.prescaler, clock_generator, component_id, gr_param.antenna_model, gr_param.antenna_pos_b, gr_param.quaternion_b2c,
@@ -301,8 +305,9 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, cons
   return gnss_r;
 }
 
-GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id, const std::string file_name,
-                              const dynamics::Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time) {
+GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
+                              const std::string file_name, const dynamics::Dynamics* dynamics, const GnssSatellites* gnss_satellites,
+                              const SimulationTime* simulation_time) {
   GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 
   // PowerPort
@@ -314,4 +319,4 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, Powe
   return gnss_r;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

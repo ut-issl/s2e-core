@@ -55,4 +55,4 @@ void SurfaceForce::CalcTheta(math::Vector<3>& input_direction_b) {
   }
 }
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances

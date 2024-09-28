@@ -126,7 +126,7 @@ class Telescope : public Component, public logger::ILoggable {
    */
   void ObserveStars();
 
-  const dynamics::attitude::Attitude* attitude_;                                      //!< dynamics::attitude::Attitude information
+  const dynamics::attitude::Attitude* attitude_;                  //!< dynamics::attitude::Attitude information
   const HipparcosCatalogue* hipparcos_;                           //!< Star information
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
   /**
@@ -168,10 +168,10 @@ class Telescope : public Component, public logger::ILoggable {
  * @param [in] hipparcos: Star information by Hipparcos catalogue
  * @param [in] local_celestial_information: Local celestial information
  */
-Telescope InitTelescope(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, const dynamics::attitude::Attitude* attitude,
-                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
-                        const Orbit* orbit = nullptr);
+Telescope InitTelescope(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name,
+                        const dynamics::attitude::Attitude* attitude, const HipparcosCatalogue* hipparcos,
+                        const LocalCelestialInformation* local_celestial_information, const Orbit* orbit = nullptr);
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_

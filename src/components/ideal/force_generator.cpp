@@ -107,7 +107,8 @@ math::Quaternion ForceGenerator::GenerateDirectionNoiseQuaternion(math::Vector<3
   return error_quaternion;
 }
 
-ForceGenerator InitializeForceGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::Dynamics* dynamics) {
+ForceGenerator InitializeForceGenerator(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                        const dynamics::Dynamics* dynamics) {
   // General
   setting_file_reader::IniAccess ini_file(file_name);
 

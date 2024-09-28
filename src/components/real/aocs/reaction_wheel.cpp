@@ -356,4 +356,4 @@ ReactionWheel InitReactionWheel(environment::ClockGenerator* clock_generator, Po
   return rw;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

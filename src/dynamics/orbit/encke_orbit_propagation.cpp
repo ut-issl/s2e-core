@@ -127,4 +127,4 @@ double EnckeOrbitPropagation::CalcQFunction(math::Vector<3> difference_position_
   return q_func;
 }
 
-} // namespace s2e::dynamics::orbit
+}  // namespace s2e::dynamics::orbit

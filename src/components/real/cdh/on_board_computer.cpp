@@ -135,4 +135,4 @@ bool OnBoardComputer::GpioComponentRead(int port_id) {
   return port->DigitalRead();
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

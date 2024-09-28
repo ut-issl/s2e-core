@@ -39,8 +39,8 @@ class OrbitObserver : public Component, public logger::ILoggable {
    * @param [in] error_standard_deviation: Position and Velocity standard deviation noise [m, m/s]
    * @param [in] orbit: Orbit information
    */
-  OrbitObserver(const int prescaler, environment::ClockGenerator* clock_generator, const NoiseFrame noise_frame, const math::Vector<6> error_standard_deviation,
-                const Orbit& orbit);
+  OrbitObserver(const int prescaler, environment::ClockGenerator* clock_generator, const NoiseFrame noise_frame,
+                const math::Vector<6> error_standard_deviation, const Orbit& orbit);
 
   /**
    * @fn ~AttitudeObserver
@@ -83,7 +83,7 @@ class OrbitObserver : public Component, public logger::ILoggable {
   math::Vector<3> observed_position_i_m_{0.0};    //!< Observed position @ inertial frame [m]
   math::Vector<3> observed_velocity_i_m_s_{0.0};  //!< Observed velocity @ inertial frame [m/s]
 
-  NoiseFrame noise_frame_;                    //!< Noise definition frame
+  NoiseFrame noise_frame_;                                 //!< Noise definition frame
   s2e::randomization::NormalRand normal_random_noise_[6];  //!< Position and Velocity noise [m, m/s]
 
   // Observed variables
@@ -107,6 +107,6 @@ NoiseFrame SetNoiseFrame(const std::string noise_frame);
  */
 OrbitObserver InitializeOrbitObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const Orbit& orbit);
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_IDEAL_ORBIT_OBSERVER_HPP_

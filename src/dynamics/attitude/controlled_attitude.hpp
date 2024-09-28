@@ -58,8 +58,8 @@ class ControlledAttitude : public Attitude {
    */
   ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const math::Quaternion quaternion_i2b,
                      const math::Vector<3> main_target_direction_b, const math::Vector<3> sub_target_direction_b,
-                     const math::Matrix<3, 3>& inertia_tensor_kgm2, const environment::LocalCelestialInformation* local_celestial_information, const orbit::Orbit* orbit,
-                     const std::string& simulation_object_name = "attitude");
+                     const math::Matrix<3, 3>& inertia_tensor_kgm2, const environment::LocalCelestialInformation* local_celestial_information,
+                     const orbit::Orbit* orbit, const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~ControlledAttitude
    * @brief Destructor
@@ -114,7 +114,7 @@ class ControlledAttitude : public Attitude {
 
   // Inputs
   const environment::LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
-  const orbit::Orbit* orbit_;                                            //!< Orbit information
+  const orbit::Orbit* orbit_;                                                  //!< Orbit information
 
   // Local functions
   /**
@@ -151,6 +151,6 @@ class ControlledAttitude : public Attitude {
   math::Matrix<3, 3> CalcDcm(const math::Vector<3> main_direction, const math::Vector<3> sub_direction);
 };
 
-} // namespace s2e::dynamics::attitude
+}  // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_CONTROLLED_ATTITUDE_HPP_

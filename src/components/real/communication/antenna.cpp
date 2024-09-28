@@ -167,4 +167,4 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
   return antenna;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

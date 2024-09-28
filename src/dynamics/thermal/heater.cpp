@@ -78,4 +78,4 @@ Heater InitHeater(const std::vector<std::string>& heater_str) {
   return heater;
 }
 
-} // namespace s2e::dynamics::thermal
+}  // namespace s2e::dynamics::thermal

@@ -26,4 +26,4 @@ void SampleGroundStation::Update(const environment::EarthRotation& celestial_rot
   components_->GetGsCalculator()->Update(spacecraft, spacecraft.GetInstalledComponents().GetAntenna(), *this, *(components_->GetAntenna()));
 }
 
-} // namespace s2e::sample
+}  // namespace s2e::sample

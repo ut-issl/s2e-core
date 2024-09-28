@@ -43,7 +43,8 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
    */
   RelativeOrbit(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s, int reference_spacecraft_id,
                 math::Vector<3> relative_position_lvlh_m, math::Vector<3> relative_velocity_lvlh_m_s, RelativeOrbitUpdateMethod update_method,
-                s2e::orbit::RelativeOrbitModel relative_dynamics_model_type, s2e::orbit::StmModel stm_model_type, RelativeInformation* relative_information);
+                s2e::orbit::RelativeOrbitModel relative_dynamics_model_type, s2e::orbit::StmModel stm_model_type,
+                RelativeInformation* relative_information);
   /**
    * @fn ~RelativeOrbit
    * @brief Destructor
@@ -82,10 +83,10 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
   math::Vector<3> relative_position_lvlh_m_;    //!< Relative position in the LVLH frame
   math::Vector<3> relative_velocity_lvlh_m_s_;  //!< Relative velocity in the LVLH frame
 
-  RelativeOrbitUpdateMethod update_method_;                 //!< Update method
+  RelativeOrbitUpdateMethod update_method_;                      //!< Update method
   s2e::orbit::RelativeOrbitModel relative_dynamics_model_type_;  //!< Relative dynamics model type
   s2e::orbit::StmModel stm_model_type_;                          //!< State Transition Matrix model type
-  RelativeInformation* relative_information_;               //!< Relative information
+  RelativeInformation* relative_information_;                    //!< Relative information
 
   /**
    * @fn InitializeState
@@ -104,7 +105,8 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
    * @param [in] reference_sat_orbit: Orbit information of reference satellite
    * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
    */
-  void CalculateSystemMatrix(s2e::orbit::RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2);
+  void CalculateSystemMatrix(s2e::orbit::RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit,
+                             double gravity_constant_m3_s2);
   /**
    * @fn CalculateStm
    * @brief Calculate State Transition Matrix
@@ -128,6 +130,6 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
   void PropagateStm(double elapsed_sec);
 };
 
-} // namespace s2e::dynamics::orbit
+}  // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_HPP_

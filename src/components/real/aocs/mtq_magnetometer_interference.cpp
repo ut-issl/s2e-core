@@ -52,4 +52,4 @@ void MtqMagnetometerInterference::UpdateInterference(void) {
   previous_added_bias_c_nT_ = additional_bias_c_nT;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

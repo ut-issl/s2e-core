@@ -11,8 +11,9 @@
 namespace s2e::components {
 
 // Constructor
-TorqueGenerator::TorqueGenerator(const int prescaler, environment::ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_Nm,
-                                 const double direction_error_standard_deviation_rad, const dynamics::Dynamics* dynamics)
+TorqueGenerator::TorqueGenerator(const int prescaler, environment::ClockGenerator* clock_generator,
+                                 const double magnitude_error_standard_deviation_Nm, const double direction_error_standard_deviation_rad,
+                                 const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       magnitude_noise_(0.0, magnitude_error_standard_deviation_Nm),
       direction_error_standard_deviation_rad_(direction_error_standard_deviation_rad),
@@ -80,7 +81,8 @@ math::Quaternion TorqueGenerator::GenerateDirectionNoiseQuaternion(math::Vector<
   return error_quaternion;
 }
 
-TorqueGenerator InitializeTorqueGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::Dynamics* dynamics) {
+TorqueGenerator InitializeTorqueGenerator(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                          const dynamics::Dynamics* dynamics) {
   // General
   setting_file_reader::IniAccess ini_file(file_name);
 

@@ -120,6 +120,6 @@ class HipparcosCatalogue : public logger::ILoggable {
  */
 HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name);
 
-} // namespace s2e::environment
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_HIPPARCOS_CATALOGUE_HPP_

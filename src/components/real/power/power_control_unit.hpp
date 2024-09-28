@@ -97,6 +97,6 @@ class PowerControlUnit : public Component, public logger::ILoggable {
   std::map<int, PowerPort*> power_ports_;  //!< Power port list
 };
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_POWER_POWER_CONTROL_UNIT_HPP_

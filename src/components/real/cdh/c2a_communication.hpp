@@ -25,6 +25,6 @@ int OBC_C2A_I2cReadRegister(int port_id, const unsigned char i2c_address, unsign
 int OBC_C2A_GpioWrite(int port_id, const bool is_high);
 bool OBC_C2A_GpioRead(int port_id);  // return false when the port_id is not used
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // C2A_COMMUNICATION_H_

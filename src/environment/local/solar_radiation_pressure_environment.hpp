@@ -124,6 +124,6 @@ class SolarRadiationPressureEnvironment : public logger::ILoggable {
 SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::string initialize_file_path,
                                                                         LocalCelestialInformation* local_celestial_information);
 
-} // namespace s2e::environment
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_

@@ -286,4 +286,4 @@ void IniAccess::ReadCsvString(std::vector<std::vector<std::string>>& output_valu
   }
 }
 
-} // namespace s2e::setting_file_reader
+}  // namespace s2e::setting_file_reader

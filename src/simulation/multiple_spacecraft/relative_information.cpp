@@ -166,4 +166,4 @@ void RelativeInformation::ResizeLists() {
   relative_attitude_quaternion_list_.assign(size, std::vector<math::Quaternion>(size, math::Quaternion(0, 0, 0, 1)));
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

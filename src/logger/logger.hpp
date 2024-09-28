@@ -123,6 +123,6 @@ class Logger {
   std::filesystem::path CreateDirectory(const std::filesystem::path &data_path, const std::string &time);
 };
 
-} // namespace s2e::logger
+}  // namespace s2e::logger
 
 #endif  // S2E_LIBRARY_LOGGER_LOGGER_HPP_

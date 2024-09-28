@@ -46,8 +46,8 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public logge
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] dynamics: Dynamics information
    */
-  GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-             const math::Quaternion& quaternion_b2c, const dynamics::Dynamics* dynamics);
+  GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base,
+             const unsigned int sensor_id, const math::Quaternion& quaternion_b2c, const dynamics::Dynamics* dynamics);
   /**
    * @fn ~GyroSensor
    * @brief Destructor
@@ -112,6 +112,6 @@ GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, int sens
 GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                           double component_step_time_s, const dynamics::Dynamics* dynamics);
 
-} //namespace s2e::components 
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_GYRO_SENSOR_HPP_

@@ -108,4 +108,4 @@ void SimulationCase::InitializeSimulationConfiguration(const std::string initial
   global_environment_->LogSetup(*(simulation_configuration_.main_logger_));
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

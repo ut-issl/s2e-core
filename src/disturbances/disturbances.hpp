@@ -101,6 +101,6 @@ class Disturbances {
   void InitializeAcceleration();
 };
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_DISTURBANCES_HPP_

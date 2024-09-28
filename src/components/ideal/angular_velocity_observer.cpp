@@ -9,7 +9,8 @@
 
 namespace s2e::components {
 
-AngularVelocityObserver::AngularVelocityObserver(const int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base, const dynamics::attitude::Attitude& attitude)
+AngularVelocityObserver::AngularVelocityObserver(const int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base,
+                                                 const dynamics::attitude::Attitude& attitude)
     : Component(prescaler, clock_generator), Sensor(sensor_base), attitude_(attitude) {}
 
 void AngularVelocityObserver::MainRoutine(const int time_count) {
@@ -34,8 +35,8 @@ std::string AngularVelocityObserver::GetLogValue() const {
   return str_tmp;
 }
 
-AngularVelocityObserver InitializeAngularVelocityObserver(environment::ClockGenerator* clock_generator, const std::string file_name, double component_step_time_s,
-                                                          const dynamics::attitude::Attitude& attitude) {
+AngularVelocityObserver InitializeAngularVelocityObserver(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                                          double component_step_time_s, const dynamics::attitude::Attitude& attitude) {
   setting_file_reader::IniAccess ini_file(file_name);
 
   int prescaler = ini_file.ReadInt("COMPONENT_BASE", "prescaler");

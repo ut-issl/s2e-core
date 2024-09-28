@@ -26,7 +26,7 @@ class KinematicsParameters {
    * @fn ~KinematicsParameters
    * @brief Destructor
    */
-  ~KinematicsParameters(){};
+  ~KinematicsParameters() {};
 
   // Getter
   /**
@@ -88,6 +88,6 @@ class KinematicsParameters {
   math::Matrix<3, 3> inertia_tensor_b_kgm2_;  //!< Inertia tensor at body frame [kgm2]
 };
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_HPP_

@@ -51,6 +51,6 @@ class SampleGroundStation : public simulation::GroundStation {
   SampleGsComponents* components_;  //!< Ground station related components
 };
 
-} // namespace s2e::sample
+}  // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_GROUND_STATION_SAMPLE_GROUND_STATION_HPP_

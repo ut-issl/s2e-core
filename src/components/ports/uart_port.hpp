@@ -80,6 +80,6 @@ class UartPort {
   RingBuffer* tx_buffer_;  //!< Transmit buffer (OBC-> Component)
 };
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_PORTS_UART_PORT_HPP_

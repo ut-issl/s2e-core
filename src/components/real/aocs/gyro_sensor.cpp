@@ -13,8 +13,8 @@ GyroSensor::GyroSensor(const int prescaler, environment::ClockGenerator* clock_g
                        const math::Quaternion& quaternion_b2c, const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), quaternion_b2c_(quaternion_b2c), dynamics_(dynamics) {}
 
-GyroSensor::GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-                       const math::Quaternion& quaternion_b2c, const dynamics::Dynamics* dynamics)
+GyroSensor::GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base,
+                       const unsigned int sensor_id, const math::Quaternion& quaternion_b2c, const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
@@ -91,4 +91,4 @@ GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, PowerPor
   return gyro;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

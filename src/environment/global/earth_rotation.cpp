@@ -278,4 +278,4 @@ EarthRotationMode ConvertEarthRotationMode(const std::string mode) {
   return rotation_mode;
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

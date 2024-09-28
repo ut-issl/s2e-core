@@ -130,6 +130,6 @@ class ReactionWheelJitter {
   void CalcCoefficients();
 };
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_JITTER_HPP_

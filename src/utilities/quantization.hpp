@@ -26,6 +26,6 @@ double quantization(const double continuous_number, const double resolution);
  */
 float quantization_float(const double continuous_number, const double resolution);
 
-} // namespace s2e::utilities
+}  // namespace s2e::utilities
 
 #endif  // S2E_LIBRARY_UTILITIES_QUANTIZATION_HPP_

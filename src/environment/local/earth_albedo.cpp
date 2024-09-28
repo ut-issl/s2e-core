@@ -60,4 +60,4 @@ EarthAlbedo InitEarthAlbedo(std::string initialize_file_path, LocalCelestialInfo
   return earth_albedo;
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

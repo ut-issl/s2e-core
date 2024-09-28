@@ -35,7 +35,8 @@ UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int sils_port_
   InitializeObcComBase();
 }
 
-UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate, simulation::HilsPortManager* hils_port_manager)
+UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate,
+                                                   simulation::HilsPortManager* hils_port_manager)
     : hils_port_id_(hils_port_id), baud_rate_(baud_rate), hils_port_manager_(hils_port_manager) {
 #ifdef USE_HILS
   simulation_mode_ = SimulationMode::kHils;

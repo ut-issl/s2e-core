@@ -76,6 +76,6 @@ class Structure {
   ResidualMagneticMoment* residual_magnetic_moment_;  //!< Residual Magnetic Moment
 };
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_STRUCTURE_HPP_

@@ -22,6 +22,6 @@ namespace s2e::utilities {
  */
 void *endian_memcpy(void *dst, const void *src, size_t count);
 
-} // namespace s2e::utilities
+}  // namespace s2e::utilities
 
 #endif  // S2E_LIBRARY_UTILITIES_ENDIAN_HPP_

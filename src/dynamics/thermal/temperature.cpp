@@ -391,4 +391,4 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   return temperature;
 }
 
-} // namespace s2e::dynamics::thermal
+}  // namespace s2e::dynamics::thermal

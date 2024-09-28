@@ -77,4 +77,4 @@ void PowerPort::InitializeWithInitializeFile(const std::string file_name) {
   this->SetAssumedPowerConsumption_W(assumed_power_consumption_W);
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

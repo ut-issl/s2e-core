@@ -273,6 +273,6 @@ class ObcWithC2a : public OnBoardComputer {
   static std::map<int, GpioPort*> gpio_ports_c2a_;    //!< GPIO ports
 };
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_CDH_OBC_C2A_HPP_

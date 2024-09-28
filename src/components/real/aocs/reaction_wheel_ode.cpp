@@ -31,4 +31,4 @@ void ReactionWheelOde::DerivativeFunction(double x, const math::Vector<1> &state
   rhs[0] = angular_acceleration_rad_s2_;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

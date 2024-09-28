@@ -160,4 +160,4 @@ void RelativeOrbit::DerivativeFunction(double t, const math::Vector<6>& state,
   (void)t;
 }
 
-} // namespace s2e::dynamics::orbit
+}  // namespace s2e::dynamics::orbit

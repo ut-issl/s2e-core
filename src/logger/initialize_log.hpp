@@ -25,6 +25,6 @@ Logger* InitLog(std::string file_name);
  */
 Logger* InitMonteCarloLog(std::string file_name, bool enable);
 
-} // namespace s2e::logger
+}  // namespace s2e::logger
 
 #endif  // S2E_LIBRARY_LOGGER_INITIALIZE_LOG_HPP_

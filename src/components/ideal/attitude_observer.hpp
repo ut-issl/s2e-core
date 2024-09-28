@@ -28,7 +28,8 @@ class AttitudeObserver : public Component, public logger::ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  AttitudeObserver(const int prescaler, environment::ClockGenerator* clock_generator, const double standard_deviation_rad, const dynamics::attitude::Attitude& attitude);
+  AttitudeObserver(const int prescaler, environment::ClockGenerator* clock_generator, const double standard_deviation_rad,
+                   const dynamics::attitude::Attitude& attitude);
 
   /**
    * @fn ~AttitudeObserver
@@ -77,7 +78,8 @@ class AttitudeObserver : public Component, public logger::ILoggable {
  * @param [in] file_name: Path to the initialize file
  * @param [in] attitude: dynamics::attitude::Attitude information
  */
-AttitudeObserver InitializeAttitudeObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::attitude::Attitude& attitude);
+AttitudeObserver InitializeAttitudeObserver(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                            const dynamics::attitude::Attitude& attitude);
 
 }  // namespace s2e::components
 

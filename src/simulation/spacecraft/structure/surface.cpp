@@ -16,4 +16,4 @@ Surface::Surface(const math::Vector<3> position_b_m, const math::Vector<3> norma
       specularity_(specularity),
       air_specularity_(air_specularity) {}
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

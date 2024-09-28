@@ -82,8 +82,8 @@ class Atmosphere : public logger::ILoggable {
   double air_density_kg_m3_;     //!< Atmospheric density [kg/m^3]
 
   // NRLMSISE-00 model information
-  std::vector<nrlmsise_table> space_weather_table_;  //!< Space weather table
-  bool is_manual_param_used_;                        //!< Flag to use manual parameters
+  std::vector<atmosphere::nrlmsise_table> space_weather_table_;  //!< Space weather table
+  bool is_manual_param_used_;                                    //!< Flag to use manual parameters
   // Reference of the following setting parameters https://www.swpc.noaa.gov/phenomena/f107-cm-radio-emissions
   double manual_daily_f107_;    //!< Manual daily f10.7 value
   double manual_average_f107_;  //!< Manual 3-month averaged f10.7 value
@@ -118,6 +118,6 @@ class Atmosphere : public logger::ILoggable {
 Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCelestialInformation* local_celestial_information,
                           const SimulationTime* simulation_time);
 
-} // namespace s2e::environment
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_

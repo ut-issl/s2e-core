@@ -70,6 +70,6 @@ class AttitudeRk4 : public Attitude {
   void RungeKuttaOneStep(double t, double dt);
 };
 
-} // namespace s2e::dynamics::attitude
+}  // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_RK4_HPP_

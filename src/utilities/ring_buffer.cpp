@@ -47,4 +47,4 @@ int RingBuffer::Read(byte* buffer, const unsigned int offset, const unsigned int
   return read_count;
 }
 
-} // namespace s2e::utilities
+}  // namespace s2e::utilities

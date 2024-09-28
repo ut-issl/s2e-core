@@ -51,6 +51,6 @@ class InstalledComponents {
   virtual void LogSetup(logger::Logger& logger);
 };
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SPACECRAFT_INSTALLED_COMPONENTS_HPP_

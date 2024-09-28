@@ -234,6 +234,6 @@ void InitializedMonteCarloParameters::GetRandomizedVector(math::Vector<NumElemen
   }
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_INITIALIZE_MONTE_CARLO_PARAMETERS_HPP_

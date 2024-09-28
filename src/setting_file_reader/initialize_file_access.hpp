@@ -218,6 +218,6 @@ void IniAccess::ReadVector(const char* section_name, const char* key_name, math:
   }
 }
 
-} // namespace s2e::setting_file_reader
+}  // namespace s2e::setting_file_reader
 
 #endif  // S2E_LIBRARY_INITIALIZE_INITIALIZE_FILE_ACCESS_HPP_

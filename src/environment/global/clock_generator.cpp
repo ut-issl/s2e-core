@@ -41,4 +41,4 @@ void ClockGenerator::UpdateComponents(const SimulationTime* simulation_time) {
   }
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

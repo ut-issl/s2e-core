@@ -69,4 +69,4 @@ void Sgp4OrbitPropagation::Propagate(const double end_time_s, const double curre
   TransformEcefToGeodetic();
 }
 
-} // namespace s2e::dynamics::orbit
+}  // namespace s2e::dynamics::orbit

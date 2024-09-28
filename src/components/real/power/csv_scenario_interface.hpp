@@ -80,6 +80,6 @@ class CsvScenarioInterface {
   static std::map<std::string, DoubleBuffer> buffers_;         //!< Buffer
 };
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_POWER_CSV_SCENARIO_INTERFACE_HPP_

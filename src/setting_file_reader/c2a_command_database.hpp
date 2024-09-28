@@ -117,6 +117,6 @@ class C2aCommandDatabase {
  */
 void DecodeC2aCommandArgument(const C2aArgumentType type, const std::string argument_string, uint8_t* param, size_t& size_param);
 
-} // namespace s2e::setting_file_reader
+}  // namespace s2e::setting_file_reader
 
 #endif  // S2E_LIBRARY_INITIALIZE_C2A_COMMAND_DATABASE_HPP_

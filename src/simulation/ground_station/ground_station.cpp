@@ -93,4 +93,4 @@ std::string GroundStation::GetLogValue() const {
   return str_tmp;
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

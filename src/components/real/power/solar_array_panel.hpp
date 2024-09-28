@@ -159,6 +159,6 @@ SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id
 SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id, const std::string file_name,
                         const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s);
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_POWER_SOLAR_ARRAY_PANEL_HPP_

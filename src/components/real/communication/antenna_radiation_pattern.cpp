@@ -40,4 +40,4 @@ double AntennaRadiationPattern::GetGain_dBi(const double theta_rad, const double
   return gain_dBi_[theta_idx][phi_idx];
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

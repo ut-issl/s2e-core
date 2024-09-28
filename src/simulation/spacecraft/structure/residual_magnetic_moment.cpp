@@ -14,4 +14,4 @@ ResidualMagneticMoment::ResidualMagneticMoment(const math::Vector<3> constant_va
       random_walk_limit_Am2_(random_walk_limit_Am2),
       random_noise_standard_deviation_Am2_(random_noise_standard_deviation_Am2) {}
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

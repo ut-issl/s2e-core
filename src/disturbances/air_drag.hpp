@@ -100,6 +100,6 @@ class AirDrag : public SurfaceForce {
  */
 AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Surface>& surfaces, const Vector<3>& center_of_gravity_b_m);
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_AIR_DRAG_HPP_

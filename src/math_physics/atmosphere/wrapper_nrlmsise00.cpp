@@ -23,6 +23,8 @@ extern "C" {
 
 using namespace std;
 
+namespace s2e::atmosphere {
+
 /* ------------------------------------------------------------------- */
 /* ------------------------------ DEFINES ---------------------------- */
 /* ------------------------------------------------------------------- */
@@ -305,3 +307,5 @@ size_t GetSpaceWeatherTable_(double decyear, double endsec, const string& filena
 
   return table.size();
 }
+
+}  // namespace s2e::atmosphere

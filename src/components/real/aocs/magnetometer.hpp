@@ -46,8 +46,8 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  Magnetometer(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-               const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
+  Magnetometer(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base,
+               const unsigned int sensor_id, const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
   /**
    * @fn ~Magnetometer
    * @brief Destructor
@@ -131,6 +131,6 @@ Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, int 
 Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                               double component_step_time_s, const GeomagneticField* geomagnetic_field);
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MAGNETOMETER_HPP_

@@ -106,4 +106,4 @@ void Logger::CopyFileToLogDirectory(const fs::path &ini_file_name) {
   return;
 }
 
-} // namespace s2e::logger
+}  // namespace s2e::logger

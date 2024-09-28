@@ -122,4 +122,4 @@ ResidualMagneticMoment InitResidualMagneticMoment(std::string file_name) {
   return rmm_params;
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

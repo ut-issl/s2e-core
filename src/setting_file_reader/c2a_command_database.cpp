@@ -161,4 +161,4 @@ void DecodeC2aCommandArgument(const C2aArgumentType type, const std::string argu
   }
 }
 
-} // namespace s2e::setting_file_reader
+}  // namespace s2e::setting_file_reader

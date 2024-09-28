@@ -63,7 +63,7 @@ void GnssSatellites::Update(const SimulationTime& simulation_time) {
   // Get time
   UTC current_utc = simulation_time.GetCurrentUtc();
   s2e::time_system::DateTime current_date_time((size_t)current_utc.year, (size_t)current_utc.month, (size_t)current_utc.day, (size_t)current_utc.hour,
-                                          (size_t)current_utc.minute, current_utc.second);
+                                               (size_t)current_utc.minute, current_utc.second);
   current_epoch_time_ = s2e::time_system::EpochTime(current_date_time);
 
   // Check interpolation update
@@ -229,12 +229,12 @@ GnssSatellites* InitGnssSatellites(const std::string file_name, const EarthRotat
 
   //
   s2e::time_system::DateTime start_date_time((size_t)simulation_time.GetStartYear(), (size_t)simulation_time.GetStartMonth(),
-                                        (size_t)simulation_time.GetStartDay(), (size_t)simulation_time.GetStartHour(),
-                                        (size_t)simulation_time.GetStartMinute(), simulation_time.GetStartSecond());
+                                             (size_t)simulation_time.GetStartDay(), (size_t)simulation_time.GetStartHour(),
+                                             (size_t)simulation_time.GetStartMinute(), simulation_time.GetStartSecond());
   s2e::time_system::EpochTime start_epoch_time(start_date_time);
   gnss_satellites->Initialize(sp3_file_readers, start_epoch_time);
 
   return gnss_satellites;
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

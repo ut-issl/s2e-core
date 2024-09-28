@@ -29,6 +29,6 @@ enum class UARTPortConfig {
   kUartComponentMax  //!< Maximum port number. Do not remove. Place on the bottom.
 };
 
-} // namespace s2e::sample
+}  // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_PORT_CONFIGURATION_HPP_

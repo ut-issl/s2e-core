@@ -102,4 +102,4 @@ void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   CalcAngularMomentum();
 }
 
-} // namespace s2e::dynamics::attitude
+}  // namespace s2e::dynamics::attitude

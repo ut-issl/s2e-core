@@ -97,6 +97,6 @@ class PcuInitialStudy : public Component, public logger::ILoggable {
 PcuInitialStudy InitPCU_InitialStudy(environment::ClockGenerator* clock_generator, int pcu_id, const std::string file_name,
                                      const std::vector<SolarArrayPanel*> saps, Battery* battery, double component_step_time_s);
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_POWER_PCU_INITIAL_STUDY_HPP_

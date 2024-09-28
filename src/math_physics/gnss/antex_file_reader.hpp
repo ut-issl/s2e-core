@@ -256,8 +256,8 @@ class AntexSatelliteData {
  private:
   std::string antenna_type_;                             //!< Antenna type
   std::string serial_number_;                            //!< Serial number or satellite code
-  s2e::time_system::DateTime valid_start_time_;               //!< Valid start time
-  s2e::time_system::DateTime valid_end_time_;                 //!< Valid end time (The latest data does not have the end time)
+  s2e::time_system::DateTime valid_start_time_;          //!< Valid start time
+  s2e::time_system::DateTime valid_end_time_;            //!< Valid end time (The latest data does not have the end time)
   size_t number_of_frequency_ = 1;                       //!< Number of frequency
   std::vector<AntexPhaseCenterData> phase_center_data_;  //!< Phase center data for each frequency
 };

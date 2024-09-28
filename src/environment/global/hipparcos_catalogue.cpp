@@ -102,4 +102,4 @@ HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name) {
   return hipparcos_catalogue_;
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

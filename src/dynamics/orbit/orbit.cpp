@@ -96,4 +96,4 @@ std::string Orbit::GetLogValue() const {
   return str_tmp;
 }
 
-} // namespace s2e::dynamics::orbit
+}  // namespace s2e::dynamics::orbit

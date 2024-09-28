@@ -99,4 +99,4 @@ void Disturbances::InitializeForceAndTorque() {
 
 void Disturbances::InitializeAcceleration() { total_acceleration_i_m_s2_ = Vector<3>(0.0); }
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances

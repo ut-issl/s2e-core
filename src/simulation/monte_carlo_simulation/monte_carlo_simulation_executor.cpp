@@ -72,4 +72,4 @@ void MonteCarloSimulationExecutor::SetSeed(unsigned long seed, bool is_determini
   InitializedMonteCarloParameters::SetSeed(seed, is_deterministic);
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

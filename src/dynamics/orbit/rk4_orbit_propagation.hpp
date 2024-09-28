@@ -71,6 +71,6 @@ class Rk4OrbitPropagation : public Orbit, public math::OrdinaryDifferentialEquat
   void Initialize(math::Vector<3> position_i_m, math::Vector<3> velocity_i_m_s, double initial_time_s = 0);
 };
 
-} // namespace s2e::dynamics::orbit
+}  // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_

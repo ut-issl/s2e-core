@@ -20,13 +20,13 @@ class ResidualMagneticMoment {
    * @fn ResidualMagneticMoment
    * @brief Constructor
    */
-  ResidualMagneticMoment(const math::Vector<3> constant_value_b_Am2_, const double random_walk_standard_deviation_Am2, const double random_walk_limit_Am2,
-                         const double random_noise_standard_deviation_Am2);
+  ResidualMagneticMoment(const math::Vector<3> constant_value_b_Am2_, const double random_walk_standard_deviation_Am2,
+                         const double random_walk_limit_Am2, const double random_noise_standard_deviation_Am2);
   /**
    * @fn ~ResidualMagneticMoment
    * @brief Destructor
    */
-  ~ResidualMagneticMoment(){};
+  ~ResidualMagneticMoment() {};
 
   // Getter
   /**
@@ -65,12 +65,12 @@ class ResidualMagneticMoment {
   inline void AddRmmConstant_b_Am2(const math::Vector<3> rmm_const_b_Am2) { constant_value_b_Am2_ += rmm_const_b_Am2; }
 
  private:
-  math::Vector<3> constant_value_b_Am2_;              //!< Constant value of RMM at body frame [Am2]
+  math::Vector<3> constant_value_b_Am2_;        //!< Constant value of RMM at body frame [Am2]
   double random_walk_standard_deviation_Am2_;   //!< Random walk standard deviation of RMM [Am2]
   double random_walk_limit_Am2_;                //!< Random walk limit of RMM [Am2]
   double random_noise_standard_deviation_Am2_;  //!< Standard deviation of white noise of RMM [Am2]
 };
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_HPP_

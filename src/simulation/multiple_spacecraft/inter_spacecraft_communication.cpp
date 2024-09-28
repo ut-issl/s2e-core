@@ -15,4 +15,4 @@ InterSpacecraftCommunication::InterSpacecraftCommunication(const SimulationConfi
 
 InterSpacecraftCommunication::~InterSpacecraftCommunication() {}
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

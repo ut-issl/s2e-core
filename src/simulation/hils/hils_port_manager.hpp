@@ -170,6 +170,6 @@ class HilsPortManager {
 #endif
 };
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_HILS_HILS_PORT_MANAGER_HPP_

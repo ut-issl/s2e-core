@@ -193,8 +193,8 @@ class Orbit : public logger::ILoggable {
   bool is_calc_enabled_ = false;       //!< Calculate flag
   OrbitPropagateMode propagate_mode_;  //!< Propagation mode
 
-  math::Vector<3> spacecraft_position_i_m_;                 //!< Spacecraft position in the inertial frame [m]
-  math::Vector<3> spacecraft_position_ecef_m_;              //!< Spacecraft position in the ECEF frame [m]
+  math::Vector<3> spacecraft_position_i_m_;                      //!< Spacecraft position in the inertial frame [m]
+  math::Vector<3> spacecraft_position_ecef_m_;                   //!< Spacecraft position in the ECEF frame [m]
   s2e::geodesy::GeodeticPosition spacecraft_geodetic_position_;  //!< Spacecraft position in the Geodetic frame
 
   math::Vector<3> spacecraft_velocity_i_m_s_;     //!< Spacecraft velocity in the inertial frame [m/s]
@@ -219,6 +219,6 @@ class Orbit : public logger::ILoggable {
 
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode);
 
-} // namespace s2e::dynamics::orbit
+}  // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_ORBIT_HPP_

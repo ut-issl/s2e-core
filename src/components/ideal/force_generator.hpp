@@ -102,9 +102,9 @@ class ForceGenerator : public Component, public logger::ILoggable {
   math::Vector<3> generated_force_rtn_N_{0.0};  //!< Generated force in the RTN frame [N]
 
   // Noise
-  s2e::randomization::NormalRand magnitude_noise_;      //!< Normal random for magnitude noise
-  s2e::randomization::NormalRand direction_noise_;      //!< Normal random for direction noise
-  double direction_error_standard_deviation_rad_;  //!< Standard deviation of direction error [rad]
+  s2e::randomization::NormalRand magnitude_noise_;  //!< Normal random for magnitude noise
+  s2e::randomization::NormalRand direction_noise_;  //!< Normal random for direction noise
+  double direction_error_standard_deviation_rad_;   //!< Standard deviation of direction error [rad]
 
   /**
    * @fn GenerateDirectionNoiseQuaternion
@@ -124,7 +124,8 @@ class ForceGenerator : public Component, public logger::ILoggable {
  * @param [in] file_name: Path to initialize file
  * @param [in] dynamics: Dynamics information
  */
-ForceGenerator InitializeForceGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::Dynamics* dynamics);
+ForceGenerator InitializeForceGenerator(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                        const dynamics::Dynamics* dynamics);
 
 }  // namespace s2e::components
 

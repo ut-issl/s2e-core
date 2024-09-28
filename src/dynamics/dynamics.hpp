@@ -17,8 +17,8 @@
 #include "dynamics/thermal/node.hpp"
 #include "dynamics/thermal/temperature.hpp"
 
-class RelativeInformation;
-class LocalEnvironment;
+class s2e::simulation::RelativeInformation;
+class s2e::environment::LocalEnvironment;
 
 namespace s2e::dynamics {
 
@@ -38,8 +38,9 @@ class Dynamics {
    * @param [in] structure: Structure of the spacecraft
    * @param [in] relative_information: Relative information
    */
-  Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time, const environment::LocalEnvironment* local_environment,
-           const int spacecraft_id, simulation::Structure* structure, simulation::RelativeInformation* relative_information = (simulation::RelativeInformation*)nullptr);
+  Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
+           const environment::LocalEnvironment* local_environment, const int spacecraft_id, simulation::Structure* structure,
+           simulation::RelativeInformation* relative_information = (simulation::RelativeInformation*)nullptr);
   /**
    * @fn ~Dynamics
    * @brief Destructor
@@ -109,10 +110,10 @@ class Dynamics {
   inline attitude::Attitude& SetAttitude() const { return *attitude_; }
 
  private:
-  attitude::Attitude* attitude_;                         //!< Attitude dynamics
-  orbit::Orbit* orbit_;                               //!< Orbit dynamics
-  thermal::Temperature* temperature_;                   //!< Thermal dynamics
-  const simulation::Structure* structure_;                 //!< Structure information
+  attitude::Attitude* attitude_;                            //!< Attitude dynamics
+  orbit::Orbit* orbit_;                                     //!< Orbit dynamics
+  thermal::Temperature* temperature_;                       //!< Thermal dynamics
+  const simulation::Structure* structure_;                  //!< Structure information
   const environment::LocalEnvironment* local_environment_;  //!< Local environment
 
   /**
@@ -125,10 +126,11 @@ class Dynamics {
    * @param [in] structure: Structure of the spacecraft
    * @param [in] relative_information: Relative information
    */
-  void Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time, const int spacecraft_id,
-                  simulation::Structure* structure, simulation::RelativeInformation* relative_information = (simulation::RelativeInformation*)nullptr);
+  void Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
+                  const int spacecraft_id, simulation::Structure* structure,
+                  simulation::RelativeInformation* relative_information = (simulation::RelativeInformation*)nullptr);
 };
 
-} // namespace s2e::dynamics
+}  // namespace s2e::dynamics
 
 #endif  // S2E_DYNAMICS_DYNAMICS_HPP_

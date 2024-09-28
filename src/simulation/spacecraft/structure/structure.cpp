@@ -31,4 +31,4 @@ void Structure::Initialize(const SimulationConfiguration* simulation_configurati
   residual_magnetic_moment_ = new ResidualMagneticMoment(InitResidualMagneticMoment(ini_fname));
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

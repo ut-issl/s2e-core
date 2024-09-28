@@ -80,4 +80,4 @@ std::vector<uint8_t> encode_slip_with_header(const std::vector<uint8_t> in) {
   return out;
 }
 
-} // namespace s2e::utilities
+}  // namespace s2e::utilities

@@ -40,6 +40,6 @@ class MtqMagnetometerInterference {
   const Magnetorquer& magnetorquer_;  //!< Magnetorquer
 };
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MTQ_MAGNETOMETER_INTERFERENCE_HPP_

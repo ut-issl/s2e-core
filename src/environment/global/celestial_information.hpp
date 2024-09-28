@@ -283,6 +283,6 @@ class CelestialInformation : public logger::ILoggable {
  */
 CelestialInformation* InitCelestialInformation(std::string file_name);
 
-} // namespace s2e::environment
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_HPP_

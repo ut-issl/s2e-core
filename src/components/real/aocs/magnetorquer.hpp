@@ -134,8 +134,8 @@ class Magnetorquer : public Component, public logger::ILoggable {
   math::Vector<kMtqDimension> max_magnetic_moment_c_Am2_{100.0};   //!< Maximum magnetic moment in the component frame [Am2]
   math::Vector<kMtqDimension> min_magnetic_moment_c_Am2_{-100.0};  //!< Minimum magnetic moment in the component frame [Am2]
 
-  math::Vector<kMtqDimension> bias_noise_c_Am2_{0.0};    //!< Constant bias noise in the component frame [Am2]
-  RandomWalk<kMtqDimension> random_walk_c_Am2_;          //!< Random walk noise
+  math::Vector<kMtqDimension> bias_noise_c_Am2_{0.0};                 //!< Constant bias noise in the component frame [Am2]
+  RandomWalk<kMtqDimension> random_walk_c_Am2_;                       //!< Random walk noise
   s2e::randomization::NormalRand random_noise_c_Am2_[kMtqDimension];  //!< Normal random noise
 
   const GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
@@ -157,8 +157,8 @@ class Magnetorquer : public Component, public logger::ILoggable {
  * @param [in] component_step_time_s: Component step time [sec]
  * @param [in] geomagnetic_field: Geomegnetic environment
  */
-Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
-                              const GeomagneticField* geomagnetic_field);
+Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, int actuator_id, const std::string file_name,
+                              double component_step_time_s, const GeomagneticField* geomagnetic_field);
 /**
  * @fn InitMagnetorquer
  * @brief Initialize functions for magnetometer with power port
@@ -172,6 +172,6 @@ Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, int 
 Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
                               double component_step_time_s, const GeomagneticField* geomagnetic_field);
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MAGNETORQUER_HPP_

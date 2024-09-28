@@ -20,4 +20,4 @@ bool GpioConnectionWithObc::Read(const int index) { return obc_->GpioComponentRe
 
 void GpioConnectionWithObc::Write(const int index, const bool is_high) { obc_->GpioComponentWrite(port_id_[index], is_high); }
 
-} // namespace s2e::components
+}  // namespace s2e::components

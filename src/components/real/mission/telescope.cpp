@@ -18,8 +18,8 @@ namespace s2e::components {
 Telescope::Telescope(environment::ClockGenerator* clock_generator, const math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
                      const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix,
                      const int y_number_of_pix, const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars,
-                     const dynamics::attitude::Attitude* attitude, const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
-                     const Orbit* orbit)
+                     const dynamics::attitude::Attitude* attitude, const HipparcosCatalogue* hipparcos,
+                     const LocalCelestialInformation* local_celestial_information, const Orbit* orbit)
     : Component(1, clock_generator),
       quaternion_b2c_(quaternion_b2c),
       sun_forbidden_angle_rad_(sun_forbidden_angle_rad),
@@ -247,8 +247,9 @@ string Telescope::GetLogValue() const {
   return str_tmp;
 }
 
-Telescope InitTelescope(environment::ClockGenerator* clock_generator, int sensor_id, const string file_name, const dynamics::attitude::Attitude* attitude,
-                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit) {
+Telescope InitTelescope(environment::ClockGenerator* clock_generator, int sensor_id, const string file_name,
+                        const dynamics::attitude::Attitude* attitude, const HipparcosCatalogue* hipparcos,
+                        const LocalCelestialInformation* local_celestial_information, const Orbit* orbit) {
   using math::pi;
 
   setting_file_reader::IniAccess Telescope_conf(file_name);
@@ -288,4 +289,4 @@ Telescope InitTelescope(environment::ClockGenerator* clock_generator, int sensor
   return telescope;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

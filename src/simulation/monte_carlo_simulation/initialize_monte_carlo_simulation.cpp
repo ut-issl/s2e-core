@@ -96,4 +96,4 @@ MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
   return monte_carlo_simulator;
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

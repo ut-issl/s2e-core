@@ -30,6 +30,6 @@ class InterSpacecraftCommunication {
  private:
 };
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_MULTIPLE_SPACECRAFT_INTER_SPACECRAFT_COMMUNICATION_HPP_

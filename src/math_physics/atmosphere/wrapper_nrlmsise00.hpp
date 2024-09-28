@@ -12,6 +12,8 @@
 #include <string>
 #include <vector>
 
+namespace s2e::atmosphere {
+
 /**
  * @struct nrlmsise_table
  * @brief Parameters for NRLMSISE calculation
@@ -73,5 +75,7 @@ size_t GetSpaceWeatherTable_(double decyear, double endsec, const std::string& f
 #else
 #define __inline_double double
 #endif
+
+}  // namespace s2e::atmosphere
 
 #endif  // S2E_LIBRARY_EXTERNAL_NRLMSISE00_WRAPPER_NRLMSISE00__HPP_

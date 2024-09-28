@@ -50,4 +50,4 @@ std::string SampleCase::GetLogValue() const {
   return str_tmp;
 }
 
-} // namespace s2e::sample
+}  // namespace s2e::sample

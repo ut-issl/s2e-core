@@ -49,7 +49,8 @@ std::string AttitudeObserver::GetLogValue() const {
   return str_tmp;
 }
 
-AttitudeObserver InitializeAttitudeObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::attitude::Attitude& attitude) {
+AttitudeObserver InitializeAttitudeObserver(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                            const dynamics::attitude::Attitude& attitude) {
   // General
   setting_file_reader::IniAccess ini_file(file_name);
 

@@ -168,6 +168,6 @@ void MonteCarloSimulationExecutor::AddInitializedMonteCarloParameter(std::string
   }
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_MONTE_CARLO_SIMULATION_EXECUTOR_HPP_

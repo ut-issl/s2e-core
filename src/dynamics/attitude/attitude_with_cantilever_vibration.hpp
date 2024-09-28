@@ -79,6 +79,6 @@ class AttitudeWithCantileverVibration : public Attitude {
   s2e::numerical_integration::NumericalIntegratorManager<13> numerical_integrator_;
 };
 
-} // namespace s2e::dynamics::attitude
+}  // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_WITH_CANTILEVER_VIBRATION_HPP_

@@ -62,8 +62,9 @@ class SampleComponents : public simulation::InstalledComponents {
    * @fn SampleComponents
    * @brief Constructor
    */
-  SampleComponents(const dynamics::dynamics::Dynamics* dynamics, simulation::Structure* structure, const environment::LocalEnvironment* local_environment,
-                   const environment::GlobalEnvironment* global_environment, const simulation::SimulationConfiguration* configuration, environment::ClockGenerator* clock_generator,
+  SampleComponents(const dynamics::dynamics::Dynamics* dynamics, simulation::Structure* structure,
+                   const environment::LocalEnvironment* local_environment, const environment::GlobalEnvironment* global_environment,
+                   const simulation::SimulationConfiguration* configuration, environment::ClockGenerator* clock_generator,
                    const unsigned int spacecraft_id);
   /**
    * @fn ~SampleComponents
@@ -139,12 +140,12 @@ class SampleComponents : public simulation::InstalledComponents {
 
   // States
   const simulation::SimulationConfiguration* configuration_;  //!< Simulation settings
-  const dynamics::dynamics::Dynamics* dynamics_;                      //!< Dynamics information of the spacecraft
+  const dynamics::dynamics::Dynamics* dynamics_;              //!< Dynamics information of the spacecraft
   simulation::Structure* structure_;                          //!< Structure information of the spacecraft
-  const environment::LocalEnvironment* local_environment_;     //!< Local environment information around the spacecraft
-  const environment::GlobalEnvironment* global_environment_;   //!< Global environment information
+  const environment::LocalEnvironment* local_environment_;    //!< Local environment information around the spacecraft
+  const environment::GlobalEnvironment* global_environment_;  //!< Global environment information
 };
 
-} // namespace s2e::sample
+}  // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_COMPONENTS_HPP_

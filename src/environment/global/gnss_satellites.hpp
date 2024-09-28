@@ -89,7 +89,8 @@ class GnssSatellites : public logger::ILoggable {
    * @param [in] time: Target time to get the GNSS satellite. When the argument is not set, the last updated time is used for the calculation.
    * @return GNSS satellite position at ECEF frame at the time. Or return zero vector when the arguments are out of range.
    */
-  math::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id, const s2e::time_system::EpochTime time = s2e::time_system::EpochTime(0, 0.0)) const;
+  math::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id,
+                                     const s2e::time_system::EpochTime time = s2e::time_system::EpochTime(0, 0.0)) const;
 
   /**
    * @fn GetGetClock_s
@@ -115,15 +116,15 @@ class GnssSatellites : public logger::ILoggable {
  private:
   bool is_calc_enabled_ = false;  //!< Flag to manage the GNSS satellite position calculation
 
-  std::vector<s2e::gnss::Sp3FileReader> sp3_files_;   //!< List of SP3 files
-  size_t number_of_calculated_gnss_satellites_;  //!< Number of calculated GNSS satellites
-  size_t sp3_file_id_;                           //!< Current SP3 file ID
-  s2e::time_system::EpochTime reference_time_;        //!< Reference start time of the SP3 handling
-  size_t reference_interpolation_id_ = 0;        //!< Reference epoch ID of the interpolation
-  s2e::time_system::EpochTime current_epoch_time_;    //!< The last updated time
+  std::vector<s2e::gnss::Sp3FileReader> sp3_files_;  //!< List of SP3 files
+  size_t number_of_calculated_gnss_satellites_;      //!< Number of calculated GNSS satellites
+  size_t sp3_file_id_;                               //!< Current SP3 file ID
+  s2e::time_system::EpochTime reference_time_;       //!< Reference start time of the SP3 handling
+  size_t reference_interpolation_id_ = 0;            //!< Reference epoch ID of the interpolation
+  s2e::time_system::EpochTime current_epoch_time_;   //!< The last updated time
 
   std::vector<s2e::orbit::InterpolationOrbit> orbit_;  //!< GNSS satellite orbit with interpolation
-  std::vector<math::Interpolation> clock_;        //!< GNSS satellite clock offset with interpolation
+  std::vector<math::Interpolation> clock_;             //!< GNSS satellite clock offset with interpolation
 
   // References
   const EarthRotation& earth_rotation_;  //!< Earth rotation
@@ -155,6 +156,6 @@ class GnssSatellites : public logger::ILoggable {
  */
 GnssSatellites* InitGnssSatellites(const std::string file_name, const EarthRotation& earth_rotation, const SimulationTime& simulation_time);
 
-} // namespace s2e::environment
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_

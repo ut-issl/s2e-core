@@ -200,4 +200,4 @@ std::string LocalCelestialInformation::GetLogValue() const {
   return str_tmp;
 }
 
-} // namespace s2e::environment
+}  // namespace s2e::environment

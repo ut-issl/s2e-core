@@ -35,4 +35,4 @@ void KeplerOrbitPropagation::UpdateState(const double current_time_jd) {
   TransformEcefToGeodetic();
 }
 
-} // namespace s2e::dynamics::orbit
+}  // namespace s2e::dynamics::orbit

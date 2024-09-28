@@ -64,6 +64,6 @@ class MoonRotation {
   const CelestialInformation &celestial_information_;  //!< Celestial Information to get moon orbit
 };
 
-} // namespace s2e::environment
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_MOON_ROTATION_HPP_

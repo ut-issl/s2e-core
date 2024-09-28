@@ -18,11 +18,12 @@ using namespace s2e::math;
 
 namespace s2e::components {
 
-StarSensor::StarSensor(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
-                       const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction,
-                       const double step_time_s, const unsigned int output_delay, const unsigned int output_interval,
-                       const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad,
-                       const double capture_rate_limit_rad_s, const dynamics::Dynamics* dynamics, const LocalEnvironment* local_environment)
+StarSensor::StarSensor(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
+                       const math::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
+                       const double standard_deviation_sight_direction, const double step_time_s, const unsigned int output_delay,
+                       const unsigned int output_interval, const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad,
+                       const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const dynamics::Dynamics* dynamics,
+                       const LocalEnvironment* local_environment)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
@@ -248,8 +249,8 @@ StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sens
   return stt;
 }
 
-StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string file_name, double component_step_time_s,
-                          const dynamics::Dynamics* dynamics, const LocalEnvironment* local_environment) {
+StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string file_name,
+                          double component_step_time_s, const dynamics::Dynamics* dynamics, const LocalEnvironment* local_environment) {
   setting_file_reader::IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
@@ -284,4 +285,4 @@ StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, PowerPor
   return stt;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

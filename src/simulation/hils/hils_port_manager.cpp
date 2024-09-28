@@ -261,4 +261,4 @@ int HilsPortManager::I2cControllerSend(unsigned int port_id, const unsigned char
   return UartSend(port_id, buffer, offset, length);
 }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

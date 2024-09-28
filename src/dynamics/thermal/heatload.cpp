@@ -103,4 +103,4 @@ Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vecto
   return Heatload(node_id, time_table_s, internal_heatload_table_W);
 }
 
-} // namespace s2e::dynamics::thermal
+}  // namespace s2e::dynamics::thermal

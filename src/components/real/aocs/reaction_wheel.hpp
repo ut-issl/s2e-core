@@ -80,9 +80,9 @@ class ReactionWheel : public Component, public logger::ILoggable {
    * @param [in] drive_flag: RW drive flag
    * @param [in] init_velocity_rad_s: Initial value of angular velocity of RW [rad/s]
    */
-  ReactionWheel(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id, const double step_width_s,
-                const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm, const math::Quaternion quaternion_b2c,
-                const math::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
+  ReactionWheel(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+                const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
+                const math::Quaternion quaternion_b2c, const math::Vector<3> position_b_m, const double dead_time_s, const double time_constant_s,
                 const std::vector<double> friction_coefficients, const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled,
                 const bool is_log_jitter_enabled, const int fast_prescaler, ReactionWheelJitter& rw_jitter, const bool drive_flag = false,
                 const double init_velocity_rad_s = 0.0);
@@ -182,9 +182,9 @@ class ReactionWheel : public Component, public logger::ILoggable {
   math::Vector<3> rotation_axis_b_;        //!< Wheel rotation vector in the body fixed frame.
 
   // Parameters for control delay
-  const double step_width_s_;                                     //!< step width for ReactionWheelOde [sec]
-  const double dead_time_s_;                                      //!< dead time [sec]
-  std::vector<double> acceleration_delay_buffer_;                 //!< Delay buffer for acceleration
+  const double step_width_s_;                                          //!< step width for ReactionWheelOde [sec]
+  const double dead_time_s_;                                           //!< dead time [sec]
+  std::vector<double> acceleration_delay_buffer_;                      //!< Delay buffer for acceleration
   s2e::control_utilities::FirstOrderLag delayed_acceleration_rad_s2_;  //!< Delayed acceleration [rad/s2]
 
   // Coasting friction
@@ -248,6 +248,6 @@ ReactionWheel InitReactionWheel(environment::ClockGenerator* clock_generator, in
 ReactionWheel InitReactionWheel(environment::ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name,
                                 double compo_update_step_s);
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_HPP_

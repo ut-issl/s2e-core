@@ -189,4 +189,4 @@ Node InitNode(const std::vector<std::string>& node_str) {
   return node;
 }
 
-} // namespace s2e::dynamics::thermal
+}  // namespace s2e::dynamics::thermal

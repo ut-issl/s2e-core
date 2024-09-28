@@ -108,6 +108,6 @@ class ComPortInterface {
   msclr::gcroot<bytearray ^> rx_buf_;  //!< RX Buffer
 };
 
-} // namespace s2e::utilities
+}  // namespace s2e::utilities
 
 #endif  // S2E_LIBRARY_COMMUNICATION_COM_PORT_INTERFACE_HPP_

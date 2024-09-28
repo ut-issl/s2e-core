@@ -181,4 +181,4 @@ void ControlledAttitude::CalcAngularVelocity(const double current_time_s) {
   previous_omega_b_rad_s_ = angular_velocity_b_rad_s_;
 }
 
-} // namespace s2e::dynamics::attitude
+}  // namespace s2e::dynamics::attitude

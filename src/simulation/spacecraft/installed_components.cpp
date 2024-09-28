@@ -21,4 +21,4 @@ math::Vector<3> InstalledComponents::GenerateTorque_b_Nm() {
 
 void InstalledComponents::LogSetup(logger::Logger& logger) { UNUSED(logger); }
 
-} // namespace s2e::simulation
+}  // namespace s2e::simulation

@@ -54,6 +54,6 @@ class RingBuffer {
   unsigned int write_pointer_;  //!< Write pointer
 };
 
-} // namespace s2e::utilities
+}  // namespace s2e::utilities
 
 #endif  // S2E_LIBRARY_UTILITIES_RING_BUFFER_HPP_

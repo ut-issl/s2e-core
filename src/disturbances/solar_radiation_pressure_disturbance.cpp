@@ -68,4 +68,4 @@ SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const st
   return srp_disturbance;
 }
 
-} // namespace s2e::disturbances
+}  // namespace s2e::disturbances

@@ -138,7 +138,7 @@ class StarSensor : public Component, public logger::ILoggable {
   double capture_rate_limit_rad_s_;   //!< Angular rate limit to get correct attitude [rad/s]
 
   // Observed variables
-  const dynamics::Dynamics* dynamics_;                   //!< Dynamics information
+  const dynamics::Dynamics* dynamics_;         //!< Dynamics information
   const LocalEnvironment* local_environment_;  //!< Local environment information
 
   // Internal functions
@@ -234,6 +234,6 @@ StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sens
 StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                           double component_step_time_s, const dynamics::Dynamics* dynamics, const LocalEnvironment* local_environment);
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_STAR_SENSOR_HPP_

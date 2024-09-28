@@ -13,8 +13,8 @@
 
 namespace s2e::components {
 
-Magnetorquer::Magnetorquer(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
-                           const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
+Magnetorquer::Magnetorquer(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
+                           const math::Quaternion& quaternion_b2c, const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
                            const math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2, const math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2,
                            const math::Vector<kMtqDimension>& bias_noise_c_Am2_, double random_walk_step_width_s,
                            const math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
@@ -113,8 +113,8 @@ std::string Magnetorquer::GetLogValue() const {
   return str_tmp;
 }
 
-Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
-                              const GeomagneticField* geomagnetic_field) {
+Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, int actuator_id, const std::string file_name,
+                              double component_step_time_s, const GeomagneticField* geomagnetic_field) {
   setting_file_reader::IniAccess magtorquer_conf(file_name);
   const char* sensor_name = "MAGNETORQUER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(actuator_id));
@@ -206,4 +206,4 @@ Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, Powe
   return magtorquer;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

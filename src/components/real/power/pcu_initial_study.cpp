@@ -12,8 +12,8 @@
 
 namespace s2e::components {
 
-PcuInitialStudy::PcuInitialStudy(const int prescaler, environment::ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
-                                 double component_step_time_s)
+PcuInitialStudy::PcuInitialStudy(const int prescaler, environment::ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps,
+                                 Battery* battery, double component_step_time_s)
     : Component(prescaler, clock_generator),
       saps_(saps),
       battery_(battery),
@@ -127,4 +127,4 @@ PcuInitialStudy InitPCU_InitialStudy(environment::ClockGenerator* clock_generato
   return pcu;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

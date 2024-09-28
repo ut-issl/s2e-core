@@ -55,4 +55,4 @@ std::string PowerControlUnit::GetLogValue() const {
   return str_tmp;
 }
 
-} // namespace s2e::components
+}  // namespace s2e::components

@@ -104,8 +104,8 @@ class SunSensor : public Component, public logger::ILoggable {
   // Noise parameters
   s2e::randomization::NormalRand random_noise_alpha_;  //!< Normal random for alpha angle
   s2e::randomization::NormalRand random_noise_beta_;   //!< Normal random for beta angle
-  double bias_noise_alpha_rad_ = 0.0;     //!< Constant bias for alpha angle (Value is calculated by random number generator)
-  double bias_noise_beta_rad_ = 0.0;      //!< Constant bias for beta angle (Value is calculated by random number generator)
+  double bias_noise_alpha_rad_ = 0.0;                  //!< Constant bias for alpha angle (Value is calculated by random number generator)
+  double bias_noise_beta_rad_ = 0.0;                   //!< Constant bias for beta angle (Value is calculated by random number generator)
 
   // Measured variables
   const SolarRadiationPressureEnvironment* srp_environment_;      //!< Solar Radiation Pressure environment
@@ -167,6 +167,6 @@ SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, int sensor
 SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                         const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information);
 
-} // namespace s2e::components
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_SUN_SENSOR_HPP_

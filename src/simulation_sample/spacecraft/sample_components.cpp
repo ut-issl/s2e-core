@@ -13,9 +13,10 @@ namespace s2e::sample {
 
 using namespace components;
 
-SampleComponents::SampleComponents(const dynamics::dynamics::Dynamics* dynamics, simulation::Structure* structure, const environment::LocalEnvironment* local_environment,
-                   const environment::GlobalEnvironment* global_environment, const simulation::SimulationConfiguration* configuration, environment::ClockGenerator* clock_generator,
-                   const unsigned int spacecraft_id)
+SampleComponents::SampleComponents(const dynamics::dynamics::Dynamics* dynamics, simulation::Structure* structure,
+                                   const environment::LocalEnvironment* local_environment, const environment::GlobalEnvironment* global_environment,
+                                   const simulation::SimulationConfiguration* configuration, environment::ClockGenerator* clock_generator,
+                                   const unsigned int spacecraft_id)
     : configuration_(configuration),
       dynamics_(dynamics),
       structure_(structure),
@@ -227,4 +228,4 @@ void SampleComponents::LogSetup(logger::Logger& logger) {
   logger.AddLogList(orbit_observer_);
 }
 
-} // namespace s2e::sample
+}  // namespace s2e::sample
