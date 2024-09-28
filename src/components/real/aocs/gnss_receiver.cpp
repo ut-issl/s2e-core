@@ -14,9 +14,9 @@
 namespace s2e::components {
 
 GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
-                           const s2e::math::Vector<3> antenna_position_b_m, const s2e::math::Quaternion quaternion_b2c, const double half_width_deg,
-                           const s2e::math::Vector<3> position_noise_standard_deviation_ecef_m,
-                           const s2e::math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const dynamics::Dynamics* dynamics,
+                           const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
+                           const math::Vector<3> position_noise_standard_deviation_ecef_m,
+                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const dynamics::Dynamics* dynamics,
                            const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
@@ -34,9 +34,9 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
 }
 
 GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
-                           const AntennaModel antenna_model, const s2e::math::Vector<3> antenna_position_b_m, const s2e::math::Quaternion quaternion_b2c,
-                           const double half_width_deg, const s2e::math::Vector<3> position_noise_standard_deviation_ecef_m,
-                           const s2e::math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const dynamics::Dynamics* dynamics,
+                           const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
+                           const double half_width_deg, const math::Vector<3> position_noise_standard_deviation_ecef_m,
+                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const dynamics::Dynamics* dynamics,
                            const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
@@ -58,8 +58,8 @@ void GnssReceiver::MainRoutine(const int time_count) {
 
   // Antenna checking
   // TODO: Use ECEF position only
-  s2e::math::Vector<3> position_true_eci = dynamics_->GetOrbit().GetPosition_i_m();
-  s2e::math::Quaternion quaternion_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
+  math::Vector<3> position_true_eci = dynamics_->GetOrbit().GetPosition_i_m();
+  math::Quaternion quaternion_i2b = dynamics_->GetAttitude().GetQuaternion_i2b();
   CheckAntenna(position_true_eci, quaternion_i2b);
 
   if (is_gnss_visible_) {
@@ -76,7 +76,7 @@ void GnssReceiver::MainRoutine(const int time_count) {
   ConvertJulianDayToGpsTime(simulation_time_->GetCurrentTime_jd());
 }
 
-void GnssReceiver::CheckAntenna(const s2e::math::Vector<3> position_true_eci_m, const s2e::math::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntenna(const math::Vector<3> position_true_eci_m, const math::Quaternion quaternion_i2b) {
   if (antenna_model_ == AntennaModel::kSimple) {
     CheckAntennaSimple(position_true_eci_m, quaternion_i2b);
   } else if (antenna_model_ == AntennaModel::kCone) {
@@ -86,15 +86,15 @@ void GnssReceiver::CheckAntenna(const s2e::math::Vector<3> position_true_eci_m, 
   }
 }
 
-void GnssReceiver::CheckAntennaSimple(const s2e::math::Vector<3> position_true_eci_m, const s2e::math::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntennaSimple(const math::Vector<3> position_true_eci_m, const math::Quaternion quaternion_i2b) {
   // Simplest model
   // GNSS satellites are visible when antenna directs anti-earth direction
 
   // Antenna normal vector at inertial frame
-  s2e::math::Vector<3> antenna_direction_c(0.0);
+  math::Vector<3> antenna_direction_c(0.0);
   antenna_direction_c[2] = 1.0;
-  s2e::math::Vector<3> antenna_direction_b = quaternion_b2c_.InverseFrameConversion(antenna_direction_c);
-  s2e::math::Vector<3> antenna_direction_i = quaternion_i2b.InverseFrameConversion(antenna_direction_b);
+  math::Vector<3> antenna_direction_b = quaternion_b2c_.InverseFrameConversion(antenna_direction_c);
+  math::Vector<3> antenna_direction_i = quaternion_i2b.InverseFrameConversion(antenna_direction_b);
 
   double inner = InnerProduct(position_true_eci_m, antenna_direction_i);
   if (inner <= 0.0) {
@@ -104,18 +104,18 @@ void GnssReceiver::CheckAntennaSimple(const s2e::math::Vector<3> position_true_e
   }
 }
 
-void GnssReceiver::CheckAntennaCone(const s2e::math::Vector<3> position_true_eci_m, const s2e::math::Quaternion quaternion_i2b) {
+void GnssReceiver::CheckAntennaCone(const math::Vector<3> position_true_eci_m, const math::Quaternion quaternion_i2b) {
   // Cone model
   gnss_information_list_.clear();
 
   // Antenna pointing direction vector at inertial frame
-  s2e::math::Vector<3> antenna_pointing_direction_c(0.0);
+  math::Vector<3> antenna_pointing_direction_c(0.0);
   antenna_pointing_direction_c[2] = 1.0;
-  s2e::math::Vector<3> antenna_pointing_direction_b = quaternion_b2c_.InverseFrameConversion(antenna_pointing_direction_c);
-  s2e::math::Vector<3> antenna_pointing_direction_i = quaternion_i2b.InverseFrameConversion(antenna_pointing_direction_b);
+  math::Vector<3> antenna_pointing_direction_b = quaternion_b2c_.InverseFrameConversion(antenna_pointing_direction_c);
+  math::Vector<3> antenna_pointing_direction_i = quaternion_i2b.InverseFrameConversion(antenna_pointing_direction_b);
 
   // Antenna position vector at inertial frame
-  s2e::math::Vector<3> antenna_position_i_m = position_true_eci_m + quaternion_i2b.InverseFrameConversion(antenna_position_b_m_);
+  math::Vector<3> antenna_position_i_m = position_true_eci_m + quaternion_i2b.InverseFrameConversion(antenna_position_b_m_);
 
   // initialize
   visible_satellite_number_ = 0;
@@ -124,9 +124,9 @@ void GnssReceiver::CheckAntennaCone(const s2e::math::Vector<3> position_true_eci
 
   for (size_t i = 0; i < number_of_calculated_gnss_satellites; i++) {
     // compute direction from sat to gnss in body-fixed frame
-    s2e::math::Vector<3> gnss_satellite_position_i_m = gnss_satellites_->GetPosition_eci_m(i);
-    s2e::math::Vector<3> antenna_to_gnss_satellite_i_m = gnss_satellite_position_i_m - antenna_position_i_m;
-    s2e::math::Vector<3> antenna_to_gnss_satellite_direction_i = antenna_to_gnss_satellite_i_m.CalcNormalizedVector();
+    math::Vector<3> gnss_satellite_position_i_m = gnss_satellites_->GetPosition_eci_m(i);
+    math::Vector<3> antenna_to_gnss_satellite_i_m = gnss_satellite_position_i_m - antenna_position_i_m;
+    math::Vector<3> antenna_to_gnss_satellite_direction_i = antenna_to_gnss_satellite_i_m.CalcNormalizedVector();
 
     // Check GNSS satellites are visible from the receiver(not care antenna direction)
     bool is_gnss_satellite_visible_from_receiver = false;
@@ -149,7 +149,7 @@ void GnssReceiver::CheckAntennaCone(const s2e::math::Vector<3> position_true_eci
 
     // Check GNSS satellites are in the antenna half width angle
     double inner2 = InnerProduct(antenna_pointing_direction_i, antenna_to_gnss_satellite_direction_i);
-    if (inner2 > cos(half_width_deg_ * s2e::math::deg_to_rad) && is_gnss_satellite_visible_from_receiver) {
+    if (inner2 > cos(half_width_deg_ * math::deg_to_rad) && is_gnss_satellite_visible_from_receiver) {
       // is visible
       visible_satellite_number_++;
       SetGnssInfo(antenna_to_gnss_satellite_i_m, quaternion_i2b, i);
@@ -163,10 +163,10 @@ void GnssReceiver::CheckAntennaCone(const s2e::math::Vector<3> position_true_eci
   }
 }
 
-void GnssReceiver::SetGnssInfo(const s2e::math::Vector<3> antenna_to_satellite_i_m, const s2e::math::Quaternion quaternion_i2b,
+void GnssReceiver::SetGnssInfo(const math::Vector<3> antenna_to_satellite_i_m, const math::Quaternion quaternion_i2b,
                                const std::size_t gnss_system_id) {
-  s2e::math::Vector<3> antenna_to_satellite_direction_b = quaternion_i2b.FrameConversion(antenna_to_satellite_i_m);
-  s2e::math::Vector<3> antenna_to_satellite_direction_c = quaternion_b2c_.FrameConversion(antenna_to_satellite_direction_b);
+  math::Vector<3> antenna_to_satellite_direction_b = quaternion_i2b.FrameConversion(antenna_to_satellite_i_m);
+  math::Vector<3> antenna_to_satellite_direction_c = quaternion_b2c_.FrameConversion(antenna_to_satellite_direction_b);
 
   double distance_m = antenna_to_satellite_i_m.CalcNorm();
   double longitude_rad = AcTan(antenna_to_satellite_direction_c[1], antenna_to_satellite_direction_c[0]);
@@ -177,7 +177,7 @@ void GnssReceiver::SetGnssInfo(const s2e::math::Vector<3> antenna_to_satellite_i
   gnss_information_list_.push_back(gnss_info_new);
 }
 
-void GnssReceiver::AddNoise(const s2e::math::Vector<3> position_true_ecef_m, const s2e::math::Vector<3> velocity_true_ecef_m_s) {
+void GnssReceiver::AddNoise(const math::Vector<3> position_true_ecef_m, const math::Vector<3> velocity_true_ecef_m_s) {
   for (size_t i = 0; i < 3; i++) {
     position_ecef_m_[i] = position_true_ecef_m[i] + position_random_noise_ecef_m_[i];
     velocity_ecef_m_s_[i] = velocity_true_ecef_m_s[i] + velocity_random_noise_ecef_m_s_[i];
@@ -202,19 +202,19 @@ std::string GnssReceiver::GetLogHeader() const  // For logs
   const std::string sensor_id = std::to_string(static_cast<long long>(component_id_));
   std::string sensor_name = "gnss_receiver" + sensor_id + "_";
 
-  str_tmp += WriteScalar(sensor_name + "measured_utc_time_year");
-  str_tmp += WriteScalar(sensor_name + "measured_utc_time_month");
-  str_tmp += WriteScalar(sensor_name + "measured_utc_time_day");
-  str_tmp += WriteScalar(sensor_name + "measured_utc_time_hour");
-  str_tmp += WriteScalar(sensor_name + "measured_utc_time_min");
-  str_tmp += WriteScalar(sensor_name + "measured_utc_time_sec");
+  str_tmp += logger::WriteScalar(sensor_name + "measured_utc_time_year");
+  str_tmp += logger::WriteScalar(sensor_name + "measured_utc_time_month");
+  str_tmp += logger::WriteScalar(sensor_name + "measured_utc_time_day");
+  str_tmp += logger::WriteScalar(sensor_name + "measured_utc_time_hour");
+  str_tmp += logger::WriteScalar(sensor_name + "measured_utc_time_min");
+  str_tmp += logger::WriteScalar(sensor_name + "measured_utc_time_sec");
   str_tmp += logger::WriteVector(sensor_name + "measured_position", "ecef", "m", 3);
   str_tmp += logger::WriteVector(sensor_name + "measured_velocity", "ecef", "m/s", 3);
-  str_tmp += WriteScalar(sensor_name + "measured_latitude", "rad");
-  str_tmp += WriteScalar(sensor_name + "measured_longitude", "rad");
-  str_tmp += WriteScalar(sensor_name + "measured_altitude", "m");
-  str_tmp += WriteScalar(sensor_name + "satellite_visible_flag");
-  str_tmp += WriteScalar(sensor_name + "number_of_visible_satellites");
+  str_tmp += logger::WriteScalar(sensor_name + "measured_latitude", "rad");
+  str_tmp += logger::WriteScalar(sensor_name + "measured_longitude", "rad");
+  str_tmp += logger::WriteScalar(sensor_name + "measured_altitude", "m");
+  str_tmp += logger::WriteScalar(sensor_name + "satellite_visible_flag");
+  str_tmp += logger::WriteScalar(sensor_name + "number_of_visible_satellites");
 
   return str_tmp;
 }
@@ -222,19 +222,19 @@ std::string GnssReceiver::GetLogHeader() const  // For logs
 std::string GnssReceiver::GetLogValue() const  // For logs
 {
   std::string str_tmp = "";
-  str_tmp += WriteScalar(utc_.year);
-  str_tmp += WriteScalar(utc_.month);
-  str_tmp += WriteScalar(utc_.day);
-  str_tmp += WriteScalar(utc_.hour);
-  str_tmp += WriteScalar(utc_.minute);
-  str_tmp += WriteScalar(utc_.second);
+  str_tmp += logger::WriteScalar(utc_.year);
+  str_tmp += logger::WriteScalar(utc_.month);
+  str_tmp += logger::WriteScalar(utc_.day);
+  str_tmp += logger::WriteScalar(utc_.hour);
+  str_tmp += logger::WriteScalar(utc_.minute);
+  str_tmp += logger::WriteScalar(utc_.second);
   str_tmp += logger::WriteVector(position_ecef_m_, 10);
   str_tmp += logger::WriteVector(velocity_ecef_m_s_, 10);
-  str_tmp += WriteScalar(geodetic_position_.GetLatitude_rad(), 10);
-  str_tmp += WriteScalar(geodetic_position_.GetLongitude_rad(), 10);
-  str_tmp += WriteScalar(geodetic_position_.GetAltitude_m(), 10);
-  str_tmp += WriteScalar(is_gnss_visible_);
-  str_tmp += WriteScalar(visible_satellite_number_);
+  str_tmp += logger::WriteScalar(geodetic_position_.GetLatitude_rad(), 10);
+  str_tmp += logger::WriteScalar(geodetic_position_.GetLongitude_rad(), 10);
+  str_tmp += logger::WriteScalar(geodetic_position_.GetAltitude_m(), 10);
+  str_tmp += logger::WriteScalar(is_gnss_visible_);
+  str_tmp += logger::WriteScalar(visible_satellite_number_);
 
   return str_tmp;
 }
@@ -254,11 +254,11 @@ AntennaModel SetAntennaModel(const std::string antenna_model) {
 typedef struct _gnss_receiver_param {
   int prescaler;
   AntennaModel antenna_model;
-  s2e::math::Vector<3> antenna_pos_b;
-  s2e::math::Quaternion quaternion_b2c;
+  math::Vector<3> antenna_pos_b;
+  math::Quaternion quaternion_b2c;
   double half_width_deg;
-  s2e::math::Vector<3> position_noise_standard_deviation_ecef_m;
-  s2e::math::Vector<3> velocity_noise_standard_deviation_ecef_m_s;
+  math::Vector<3> position_noise_standard_deviation_ecef_m;
+  math::Vector<3> velocity_noise_standard_deviation_ecef_m_s;
 } GnssReceiverParam;
 
 GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const GnssSatellites* gnss_satellites, const size_t component_id) {

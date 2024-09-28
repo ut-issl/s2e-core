@@ -50,12 +50,12 @@ class GaussianBeamBase {
    * @fn SetPointingVector_i
    * @brief Set pointing direction vector in the inertial frame
    */
-  void SetPointingVector_i(const s2e::math::Vector<3> pointing_vector_i);
+  void SetPointingVector_i(const math::Vector<3> pointing_vector_i);
   /**
    * @fn SetBeamWaistPosition_i_m
    * @brief Set position of beam waist in the inertial frame [m] (Not used?)
    */
-  void SetBeamWaistPosition_i_m(const s2e::math::Vector<3> position_beam_waist_i_m);
+  void SetBeamWaistPosition_i_m(const math::Vector<3> position_beam_waist_i_m);
 
   // Getter
   /**
@@ -77,12 +77,12 @@ class GaussianBeamBase {
    * @fn GetPointingVector_i
    * @brief Return pointing direction vector in the inertial frame
    */
-  inline const s2e::math::Vector<3> GetPointingVector_i() const { return pointing_vector_i_; }
+  inline const math::Vector<3> GetPointingVector_i() const { return pointing_vector_i_; }
   /**
    * @fn GetBeamWaistPosition_i_m
    * @brief Return position of beam waist in the inertial frame [m] (Not used?)
    */
-  inline const s2e::math::Vector<3> GetBeamWaistPosition_i_m() const { return position_beam_waist_i_m_; }
+  inline const math::Vector<3> GetBeamWaistPosition_i_m() const { return position_beam_waist_i_m_; }
 
   // Calculate functions
   /**
@@ -105,8 +105,8 @@ class GaussianBeamBase {
   double wavelength_m_;                           //!< Wavelength [m]
   double radius_beam_waist_m_;                    //!< Radius of beam waist [m]
   double total_power_W_;                          //!< Total power [W]
-  s2e::math::Vector<3> pointing_vector_i_{0.0};        //!< Pointing direction vector in the inertial frame
-  s2e::math::Vector<3> position_beam_waist_i_m_{0.0};  //!< Position of beam waist in the inertial frame [m] (Not used?)
+  math::Vector<3> pointing_vector_i_{0.0};        //!< Pointing direction vector in the inertial frame
+  math::Vector<3> position_beam_waist_i_m_{0.0};  //!< Position of beam waist in the inertial frame [m] (Not used?)
 };
 
 }  // namespace s2e::optics

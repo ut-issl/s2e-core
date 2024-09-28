@@ -33,9 +33,9 @@ class Sensor {
    * @param [in] random_walk_standard_deviation_c: Standard deviation of random wark at the component frame
    * @param [in] random_walk_limit_c: Limit of random walk at the component frame
    */
-  Sensor(const s2e::math::Matrix<N, N>& scale_factor, const s2e::math::Vector<N>& range_to_const_c, const s2e::math::Vector<N>& range_to_zero_c,
-         const s2e::math::Vector<N>& bias_noise_c, const s2e::math::Vector<N>& normal_random_standard_deviation_c, const double random_walk_step_width_s,
-         const s2e::math::Vector<N>& random_walk_standard_deviation_c, const s2e::math::Vector<N>& random_walk_limit_c);
+  Sensor(const math::Matrix<N, N>& scale_factor, const math::Vector<N>& range_to_const_c, const math::Vector<N>& range_to_zero_c,
+         const math::Vector<N>& bias_noise_c, const math::Vector<N>& normal_random_standard_deviation_c, const double random_walk_step_width_s,
+         const math::Vector<N>& random_walk_standard_deviation_c, const math::Vector<N>& random_walk_limit_c);
   /**
    * @fn ~Sensor
    * @brief Destructor
@@ -43,7 +43,7 @@ class Sensor {
   ~Sensor();
 
  protected:
-  s2e::math::Vector<N> bias_noise_c_;  //!< Constant bias noise at the component frame
+  math::Vector<N> bias_noise_c_;  //!< Constant bias noise at the component frame
 
   /**
    * @fn Measure
@@ -51,12 +51,12 @@ class Sensor {
    * @param [in] true_value_c: True value at the component frame
    * @return Observed value with noise at the component frame
    */
-  s2e::math::Vector<N> Measure(const s2e::math::Vector<N> true_value_c);
+  math::Vector<N> Measure(const math::Vector<N> true_value_c);
 
  private:
-  s2e::math::Matrix<N, N> scale_factor_;                     //!< Scale factor matrix
-  s2e::math::Vector<N> range_to_const_c_;                    //!< Output range limit to be constant output value at the component frame
-  s2e::math::Vector<N> range_to_zero_c_;                     //!< Output range limit to be zero output value at the component frame
+  math::Matrix<N, N> scale_factor_;                     //!< Scale factor matrix
+  math::Vector<N> range_to_const_c_;                    //!< Output range limit to be constant output value at the component frame
+  math::Vector<N> range_to_zero_c_;                     //!< Output range limit to be zero output value at the component frame
   s2e::randomization::NormalRand normal_random_noise_c_[N];  //!< Normal random
   RandomWalk<N> random_walk_noise_c_;                   //!< Random Walk
 
@@ -66,7 +66,7 @@ class Sensor {
    * @param [in] input_c: Input value at the component frame
    * @return Clipped value
    */
-  s2e::math::Vector<N> Clip(const s2e::math::Vector<N> input_c);
+  math::Vector<N> Clip(const math::Vector<N> input_c);
   /**
    * @fn RangeCheck
    * @brief Check the range_to_const_c_ and range_to_zero_c_ is correct and fixed the values

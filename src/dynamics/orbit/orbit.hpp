@@ -51,7 +51,7 @@ class Orbit : public logger::ILoggable {
    * @brief Constructor
    * @param [in] celestial_information: Celestial information
    */
-  Orbit(const CelestialInformation* celestial_information) : celestial_information_(celestial_information) {}
+  Orbit(const environment::CelestialInformation* celestial_information) : celestial_information_(celestial_information) {}
   /**
    * @fn ~Orbit
    * @brief Destructor
@@ -71,7 +71,7 @@ class Orbit : public logger::ILoggable {
    * @brief Update attitude information
    * @param [in] quaternion_i2b: End time of simulation [sec]
    */
-  inline void UpdateByAttitude(const s2e::math::Quaternion quaternion_i2b) {
+  inline void UpdateByAttitude(const math::Quaternion quaternion_i2b) {
     spacecraft_velocity_b_m_s_ = quaternion_i2b.FrameConversion(spacecraft_velocity_i_m_s_);
   }
 
@@ -90,27 +90,27 @@ class Orbit : public logger::ILoggable {
    * @fn GetPosition_i_m
    * @brief Return spacecraft position in the inertial frame [m]
    */
-  inline s2e::math::Vector<3> GetPosition_i_m() const { return spacecraft_position_i_m_; }
+  inline math::Vector<3> GetPosition_i_m() const { return spacecraft_position_i_m_; }
   /**
    * @fn GetPosition_ecef_m
    * @brief Return spacecraft position in the ECEF frame [m]
    */
-  inline s2e::math::Vector<3> GetPosition_ecef_m() const { return spacecraft_position_ecef_m_; }
+  inline math::Vector<3> GetPosition_ecef_m() const { return spacecraft_position_ecef_m_; }
   /**
    * @fn GetVelocity_i_m_s
    * @brief Return spacecraft velocity in the inertial frame [m/s]
    */
-  inline s2e::math::Vector<3> GetVelocity_i_m_s() const { return spacecraft_velocity_i_m_s_; }
+  inline math::Vector<3> GetVelocity_i_m_s() const { return spacecraft_velocity_i_m_s_; }
   /**
    * @fn GetVelocity_b_m_s
    * @brief Return spacecraft velocity in the body fixed frame [m/s]
    */
-  inline s2e::math::Vector<3> GetVelocity_b_m_s() const { return spacecraft_velocity_b_m_s_; }
+  inline math::Vector<3> GetVelocity_b_m_s() const { return spacecraft_velocity_b_m_s_; }
   /**
    * @fn GetVelocity_ecef_m_s
    * @brief Return spacecraft velocity in the ECEF frame [m/s]
    */
-  inline s2e::math::Vector<3> GetVelocity_ecef_m_s() const { return spacecraft_velocity_ecef_m_s_; }
+  inline math::Vector<3> GetVelocity_ecef_m_s() const { return spacecraft_velocity_ecef_m_s_; }
   /**
    * @fn GetGeodeticPosition
    * @brief Return spacecraft position in the geodetic frame [m]
@@ -121,8 +121,8 @@ class Orbit : public logger::ILoggable {
   inline double GetLatitude_rad() const { return spacecraft_geodetic_position_.GetLatitude_rad(); }
   inline double GetLongitude_rad() const { return spacecraft_geodetic_position_.GetLongitude_rad(); }
   inline double GetAltitude_m() const { return spacecraft_geodetic_position_.GetAltitude_m(); }
-  inline s2e::math::Vector<3> GetLatLonAlt() const {
-    s2e::math::Vector<3> vec;
+  inline math::Vector<3> GetLatLonAlt() const {
+    math::Vector<3> vec;
     vec(0) = spacecraft_geodetic_position_.GetLatitude_rad();
     vec(1) = spacecraft_geodetic_position_.GetLongitude_rad();
     vec(2) = spacecraft_geodetic_position_.GetAltitude_m();
@@ -139,15 +139,15 @@ class Orbit : public logger::ILoggable {
    * @fn SetAcceleration_i_m_s2
    * @brief Set acceleration in the inertial frame [m/s2]
    */
-  inline void SetAcceleration_i_m_s2(const s2e::math::Vector<3> acceleration_i_m_s2) { spacecraft_acceleration_i_m_s2_ = acceleration_i_m_s2; }
+  inline void SetAcceleration_i_m_s2(const math::Vector<3> acceleration_i_m_s2) { spacecraft_acceleration_i_m_s2_ = acceleration_i_m_s2; }
   /**
    * @fn AddForce_i_N
    * @brief Add force
    * @param [in] force_i: Force in the inertial frame [N]
    * @param [in] spacecraft_mass_kg: Mass of spacecraft [kg]
    */
-  inline void AddForce_i_N(const s2e::math::Vector<3> force_i_N, double spacecraft_mass_kg) {
-    s2e::math::Vector<3> acceleration_i_m_s2 = force_i_N;
+  inline void AddForce_i_N(const math::Vector<3> force_i_N, double spacecraft_mass_kg) {
+    math::Vector<3> acceleration_i_m_s2 = force_i_N;
     acceleration_i_m_s2 /= spacecraft_mass_kg;  // FIXME
     spacecraft_acceleration_i_m_s2_ += acceleration_i_m_s2;
   }
@@ -155,7 +155,7 @@ class Orbit : public logger::ILoggable {
    * @fn AddAcceleration_i_m_s2
    * @brief Add acceleration in the inertial frame [m/s2]
    */
-  inline void AddAcceleration_i_m_s2(const s2e::math::Vector<3> acceleration_i_m_s2) { spacecraft_acceleration_i_m_s2_ += acceleration_i_m_s2; }
+  inline void AddAcceleration_i_m_s2(const math::Vector<3> acceleration_i_m_s2) { spacecraft_acceleration_i_m_s2_ += acceleration_i_m_s2; }
   /**
    * @fn AddForce_i_N
    * @brief Add force
@@ -163,7 +163,7 @@ class Orbit : public logger::ILoggable {
    * @param [in] quaternion_i2b: Quaternion from the inertial frame to the body fixed frame
    * @param [in] spacecraft_mass_kg: Mass of spacecraft [kg]
    */
-  inline void AddForce_b_N(const s2e::math::Vector<3> force_b_N, const s2e::math::Quaternion quaternion_i2b, const double spacecraft_mass_kg) {
+  inline void AddForce_b_N(const math::Vector<3> force_b_N, const math::Quaternion quaternion_i2b, const double spacecraft_mass_kg) {
     auto force_i = quaternion_i2b.InverseFrameConversion(force_b_N);
     AddForce_i_N(force_i, spacecraft_mass_kg);
   }
@@ -172,7 +172,7 @@ class Orbit : public logger::ILoggable {
    * @fn CalcQuaternion_i2lvlh
    * @brief Calculate and return quaternion from the inertial frame to the LVLH frame
    */
-  s2e::math::Quaternion CalcQuaternion_i2lvlh() const;
+  math::Quaternion CalcQuaternion_i2lvlh() const;
 
   // Override logger::ILoggable
   /**
@@ -187,21 +187,21 @@ class Orbit : public logger::ILoggable {
   virtual std::string GetLogValue() const;
 
  protected:
-  const CelestialInformation* celestial_information_;  //!< Celestial information
+  const environment::CelestialInformation* celestial_information_;  //!< Celestial information
 
   // Settings
   bool is_calc_enabled_ = false;       //!< Calculate flag
   OrbitPropagateMode propagate_mode_;  //!< Propagation mode
 
-  s2e::math::Vector<3> spacecraft_position_i_m_;                 //!< Spacecraft position in the inertial frame [m]
-  s2e::math::Vector<3> spacecraft_position_ecef_m_;              //!< Spacecraft position in the ECEF frame [m]
+  math::Vector<3> spacecraft_position_i_m_;                 //!< Spacecraft position in the inertial frame [m]
+  math::Vector<3> spacecraft_position_ecef_m_;              //!< Spacecraft position in the ECEF frame [m]
   s2e::geodesy::GeodeticPosition spacecraft_geodetic_position_;  //!< Spacecraft position in the Geodetic frame
 
-  s2e::math::Vector<3> spacecraft_velocity_i_m_s_;     //!< Spacecraft velocity in the inertial frame [m/s]
-  s2e::math::Vector<3> spacecraft_velocity_b_m_s_;     //!< Spacecraft velocity in the body frame [m/s]
-  s2e::math::Vector<3> spacecraft_velocity_ecef_m_s_;  //!< Spacecraft velocity in the ECEF frame [m/s]
+  math::Vector<3> spacecraft_velocity_i_m_s_;     //!< Spacecraft velocity in the inertial frame [m/s]
+  math::Vector<3> spacecraft_velocity_b_m_s_;     //!< Spacecraft velocity in the body frame [m/s]
+  math::Vector<3> spacecraft_velocity_ecef_m_s_;  //!< Spacecraft velocity in the ECEF frame [m/s]
 
-  s2e::math::Vector<3> spacecraft_acceleration_i_m_s2_;  //!< Spacecraft acceleration in the inertial frame [m/s2]
+  math::Vector<3> spacecraft_acceleration_i_m_s2_;  //!< Spacecraft acceleration in the inertial frame [m/s2]
                                                     //!< NOTE: Clear to zero at the end of the Propagate function
 
   // Frame Conversion TODO: consider other planet

@@ -26,8 +26,8 @@ void EarthAlbedo::UpdateAllStates() {
 std::string EarthAlbedo::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("earth_albedo_factor");
-  str_tmp += WriteScalar("earth_albedo_W_m2");
+  str_tmp += logger::WriteScalar("earth_albedo_factor");
+  str_tmp += logger::WriteScalar("earth_albedo_W_m2");
 
   return str_tmp;
 }
@@ -35,14 +35,14 @@ std::string EarthAlbedo::GetLogHeader() const {
 std::string EarthAlbedo::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(earth_albedo_factor_);
-  str_tmp += WriteScalar(earth_albedo_W_m2_);
+  str_tmp += logger::WriteScalar(earth_albedo_factor_);
+  str_tmp += logger::WriteScalar(earth_albedo_W_m2_);
 
   return str_tmp;
 }
 
 void EarthAlbedo::CalcEarthAlbedo(const LocalCelestialInformation* local_celestial_information) {
-  s2e::math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
+  math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
   double earth_distance_m = earth_position_b_m.CalcNorm();
   earth_albedo_W_m2_ = srp_environment_->GetPowerDensity_W_m2() * GetEarthAlbedoFactor() *
                        pow((environment::astronomy::earth_equatorial_radius_m / earth_distance_m), 2.0) / 4.0;

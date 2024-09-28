@@ -11,7 +11,7 @@
 namespace s2e::dynamics::orbit {
 
 Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
-                                         s2e::math::Vector<3> position_i_m, s2e::math::Vector<3> velocity_i_m_s, double initial_time_s)
+                                         math::Vector<3> position_i_m, math::Vector<3> velocity_i_m_s, double initial_time_s)
     : Orbit(celestial_information), OrdinaryDifferentialEquation<6>(time_step_s), gravity_constant_m3_s2_(gravity_constant_m3_s2) {
   propagate_mode_ = OrbitPropagateMode::kRk4;
 
@@ -24,7 +24,7 @@ Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_i
 
 Rk4OrbitPropagation::~Rk4OrbitPropagation() {}
 
-void Rk4OrbitPropagation::DerivativeFunction(double t, const s2e::math::Vector<6>& state, s2e::math::Vector<6>& rhs) {
+void Rk4OrbitPropagation::DerivativeFunction(double t, const math::Vector<6>& state, math::Vector<6>& rhs) {
   double x = state[0], y = state[1], z = state[2];
   double vx = state[3], vy = state[4], vz = state[5];
 
@@ -40,9 +40,9 @@ void Rk4OrbitPropagation::DerivativeFunction(double t, const s2e::math::Vector<6
   (void)t;
 }
 
-void Rk4OrbitPropagation::Initialize(s2e::math::Vector<3> position_i_m, s2e::math::Vector<3> velocity_i_m_s, double initial_time_s) {
+void Rk4OrbitPropagation::Initialize(math::Vector<3> position_i_m, math::Vector<3> velocity_i_m_s, double initial_time_s) {
   // state vector [x,y,z,vx,vy,vz]
-  s2e::math::Vector<6> init_state;
+  math::Vector<6> init_state;
   init_state[0] = position_i_m[0];
   init_state[1] = position_i_m[1];
   init_state[2] = position_i_m[2];

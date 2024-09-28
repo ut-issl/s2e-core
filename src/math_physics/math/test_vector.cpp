@@ -13,7 +13,7 @@
 TEST(Vector, ConstructorWithNumber) {
   const size_t N = 6;
   double initialize_value = 2.0;
-  s2e::math::Vector<N> v(initialize_value);
+  math::Vector<N> v(initialize_value);
 
   for (size_t i = 0; i < N; i++) {
     EXPECT_DOUBLE_EQ(initialize_value, v[i]);
@@ -26,7 +26,7 @@ TEST(Vector, ConstructorWithNumber) {
  */
 TEST(Vector, GetLength) {
   const size_t N = 6;
-  s2e::math::Vector<N> v;
+  math::Vector<N> v;
 
   EXPECT_EQ(N, v.GetLength());
 }
@@ -37,8 +37,8 @@ TEST(Vector, GetLength) {
 TEST(Vector, OperatorPlusEqual) {
   const size_t N = 6;
   double initialize_value = 2.0;
-  s2e::math::Vector<N> v(initialize_value);
-  s2e::math::Vector<N> adding;
+  math::Vector<N> v(initialize_value);
+  math::Vector<N> adding;
 
   for (size_t i = 0; i < N; i++) {
     adding[i] = double(i);
@@ -60,8 +60,8 @@ TEST(Vector, OperatorPlusEqual) {
 TEST(Vector, OperatorMinusEqual) {
   const size_t N = 6;
   double initialize_value = 2.0;
-  s2e::math::Vector<N> v(initialize_value);
-  s2e::math::Vector<N> subtracting;
+  math::Vector<N> v(initialize_value);
+  math::Vector<N> subtracting;
 
   for (size_t i = 0; i < N; i++) {
     subtracting[i] = double(i);
@@ -82,7 +82,7 @@ TEST(Vector, OperatorMinusEqual) {
  */
 TEST(Vector, OperatorMultiplyEqual) {
   const size_t N = 6;
-  s2e::math::Vector<N> v;
+  math::Vector<N> v;
   double multiplying = 2.0;
 
   for (size_t i = 0; i < N; i++) {
@@ -104,7 +104,7 @@ TEST(Vector, OperatorMultiplyEqual) {
  */
 TEST(Vector, OperatorDivideEqual) {
   const size_t N = 6;
-  s2e::math::Vector<N> v;
+  math::Vector<N> v;
   double dividing = 3.0;
 
   for (size_t i = 0; i < N; i++) {
@@ -126,13 +126,13 @@ TEST(Vector, OperatorDivideEqual) {
  */
 TEST(Vector, OperatorNegative) {
   const size_t N = 6;
-  s2e::math::Vector<N> v;
+  math::Vector<N> v;
 
   for (size_t i = 0; i < N; i++) {
     v[i] = double(i);
   }
 
-  s2e::math::Vector<N> v_negative = -v;
+  math::Vector<N> v_negative = -v;
 
   for (size_t i = 0; i < N; i++) {
     // Check nondestructive
@@ -147,7 +147,7 @@ TEST(Vector, OperatorNegative) {
  */
 TEST(Vector, FillUp) {
   const size_t N = 6;
-  s2e::math::Vector<N> v;
+  math::Vector<N> v;
 
   for (size_t i = 0; i < N; i++) {
     v[i] = double(i);
@@ -171,14 +171,14 @@ TEST(Vector, FillUp) {
 TEST(Vector, OperatorPlus) {
   const size_t N = 6;
   double initialize_value = 2.0;
-  s2e::math::Vector<N> v(initialize_value);
-  s2e::math::Vector<N> adding;
+  math::Vector<N> v(initialize_value);
+  math::Vector<N> adding;
 
   for (size_t i = 0; i < N; i++) {
     adding[i] = double(i);
   }
 
-  s2e::math::Vector<N> added = v + adding;
+  math::Vector<N> added = v + adding;
 
   for (size_t i = 0; i < N; i++) {
     // Check nondestructive
@@ -195,14 +195,14 @@ TEST(Vector, OperatorPlus) {
 TEST(Vector, OperatorMinus) {
   const size_t N = 6;
   double initialize_value = 2.0;
-  s2e::math::Vector<N> v(initialize_value);
-  s2e::math::Vector<N> subtracting;
+  math::Vector<N> v(initialize_value);
+  math::Vector<N> subtracting;
 
   for (size_t i = 0; i < N; i++) {
     subtracting[i] = double(i);
   }
 
-  s2e::math::Vector<N> subtracted = v - subtracting;
+  math::Vector<N> subtracted = v - subtracting;
 
   for (size_t i = 0; i < N; i++) {
     // Check nondestructive
@@ -218,8 +218,8 @@ TEST(Vector, OperatorMinus) {
  */
 TEST(Vector, InnerProduct) {
   const size_t N = 3;
-  s2e::math::Vector<N> a;
-  s2e::math::Vector<N> b;
+  math::Vector<N> a;
+  math::Vector<N> b;
 
   for (size_t i = 0; i < N; i++) {
     a[i] = double(i + 1);
@@ -235,8 +235,8 @@ TEST(Vector, InnerProduct) {
  */
 TEST(Vector, InnerProductZero) {
   const size_t N = 3;
-  s2e::math::Vector<N> a;
-  s2e::math::Vector<N> b;
+  math::Vector<N> a;
+  math::Vector<N> b;
 
   a[0] = 1.0;
   a[1] = 0.0;
@@ -255,8 +255,8 @@ TEST(Vector, InnerProductZero) {
  */
 TEST(Vector, OuterProductZero) {
   const size_t N = 3;
-  s2e::math::Vector<N> a;
-  s2e::math::Vector<N> b;
+  math::Vector<N> a;
+  math::Vector<N> b;
 
   a[0] = 1.0;
   a[1] = 0.0;
@@ -266,7 +266,7 @@ TEST(Vector, OuterProductZero) {
   b[1] = 0.0;
   b[2] = 0.0;
 
-  s2e::math::Vector<3> result = OuterProduct(a, b);
+  math::Vector<3> result = OuterProduct(a, b);
 
   for (size_t i = 0; i < N; i++) {
     EXPECT_DOUBLE_EQ(0.0, result[i]);
@@ -278,8 +278,8 @@ TEST(Vector, OuterProductZero) {
  */
 TEST(Vector, OuterProductX) {
   const size_t N = 3;
-  s2e::math::Vector<N> a;
-  s2e::math::Vector<N> b;
+  math::Vector<N> a;
+  math::Vector<N> b;
 
   a[0] = 0.0;
   a[1] = 0.0;
@@ -289,7 +289,7 @@ TEST(Vector, OuterProductX) {
   b[1] = 1.0;
   b[2] = 0.0;
 
-  s2e::math::Vector<3> result = OuterProduct(a, b);
+  math::Vector<3> result = OuterProduct(a, b);
 
   EXPECT_DOUBLE_EQ(-1.0, result[0]);
   EXPECT_DOUBLE_EQ(0.0, result[1]);
@@ -301,8 +301,8 @@ TEST(Vector, OuterProductX) {
  */
 TEST(Vector, OuterProductY) {
   const size_t N = 3;
-  s2e::math::Vector<N> a;
-  s2e::math::Vector<N> b;
+  math::Vector<N> a;
+  math::Vector<N> b;
 
   a[0] = 0.0;
   a[1] = 0.0;
@@ -312,7 +312,7 @@ TEST(Vector, OuterProductY) {
   b[1] = 0.0;
   b[2] = 0.0;
 
-  s2e::math::Vector<3> result = OuterProduct(a, b);
+  math::Vector<3> result = OuterProduct(a, b);
 
   EXPECT_DOUBLE_EQ(0.0, result[0]);
   EXPECT_DOUBLE_EQ(1.0, result[1]);
@@ -324,8 +324,8 @@ TEST(Vector, OuterProductY) {
  */
 TEST(Vector, OuterProductZ) {
   const size_t N = 3;
-  s2e::math::Vector<N> a;
-  s2e::math::Vector<N> b;
+  math::Vector<N> a;
+  math::Vector<N> b;
 
   a[0] = 1.0;
   a[1] = 0.0;
@@ -335,7 +335,7 @@ TEST(Vector, OuterProductZ) {
   b[1] = 1.0;
   b[2] = 0.0;
 
-  s2e::math::Vector<3> result = OuterProduct(a, b);
+  math::Vector<3> result = OuterProduct(a, b);
 
   EXPECT_DOUBLE_EQ(0.0, result[0]);
   EXPECT_DOUBLE_EQ(0.0, result[1]);
@@ -347,7 +347,7 @@ TEST(Vector, OuterProductZ) {
  */
 TEST(Vector, CalcNorm) {
   const size_t N = 10;
-  s2e::math::Vector<N> v(1.0);
+  math::Vector<N> v(1.0);
 
   double norm = v.CalcNorm();
 
@@ -364,9 +364,9 @@ TEST(Vector, CalcNorm) {
  */
 TEST(Vector, Normalize) {
   const size_t N = 5;
-  s2e::math::Vector<N> v(1.0);
+  math::Vector<N> v(1.0);
 
-  s2e::math::Vector<N> normalized = v.CalcNormalizedVector();
+  math::Vector<N> normalized = v.CalcNormalizedVector();
 
   for (size_t i = 0; i < N; i++) {
     // Check nondestructive
@@ -381,8 +381,8 @@ TEST(Vector, Normalize) {
  */
 TEST(Vector, CalcAngleTwoVectors90deg) {
   const size_t N = 3;
-  s2e::math::Vector<N> a;
-  s2e::math::Vector<N> b;
+  math::Vector<N> a;
+  math::Vector<N> b;
 
   a[0] = 1.0;
   a[1] = 0.0;
@@ -394,7 +394,7 @@ TEST(Vector, CalcAngleTwoVectors90deg) {
 
   double angle_rad = CalcAngleTwoVectors_rad(a, b);
 
-  EXPECT_DOUBLE_EQ(90.0 * s2e::math::deg_to_rad, angle_rad);
+  EXPECT_DOUBLE_EQ(90.0 * math::deg_to_rad, angle_rad);
 }
 
 /**
@@ -402,7 +402,7 @@ TEST(Vector, CalcAngleTwoVectors90deg) {
  */
 TEST(Vector, CalcAngleTwoVectors0deg) {
   const size_t N = 3;
-  s2e::math::Vector<N> a;
+  math::Vector<N> a;
 
   a[0] = 1.0;
   a[1] = 0.0;
@@ -410,7 +410,7 @@ TEST(Vector, CalcAngleTwoVectors0deg) {
 
   double angle_rad = CalcAngleTwoVectors_rad(a, a);
 
-  EXPECT_DOUBLE_EQ(0.0 * s2e::math::deg_to_rad, angle_rad);
+  EXPECT_DOUBLE_EQ(0.0 * math::deg_to_rad, angle_rad);
 }
 
 /**
@@ -418,8 +418,8 @@ TEST(Vector, CalcAngleTwoVectors0deg) {
  */
 TEST(Vector, CalcAngleTwoVectors45deg) {
   const size_t N = 3;
-  s2e::math::Vector<N> a;
-  s2e::math::Vector<N> b;
+  math::Vector<N> a;
+  math::Vector<N> b;
 
   a[0] = 0.0;
   a[1] = 1.0;
@@ -431,7 +431,7 @@ TEST(Vector, CalcAngleTwoVectors45deg) {
 
   double angle_rad = CalcAngleTwoVectors_rad(a, b);
 
-  EXPECT_DOUBLE_EQ(45.0 * s2e::math::deg_to_rad, angle_rad);
+  EXPECT_DOUBLE_EQ(45.0 * math::deg_to_rad, angle_rad);
 }
 
 /**
@@ -439,11 +439,11 @@ TEST(Vector, CalcAngleTwoVectors45deg) {
  */
 TEST(Vector, GenerateOrthogonalUnitVector) {
   const size_t N = 3;
-  s2e::math::Vector<N> a(1.0);
+  math::Vector<N> a(1.0);
 
-  s2e::math::Vector<N> b = GenerateOrthogonalUnitVector(a);
+  math::Vector<N> b = GenerateOrthogonalUnitVector(a);
 
   double angle_rad = CalcAngleTwoVectors_rad(a, b);
 
-  EXPECT_DOUBLE_EQ(90.0 * s2e::math::deg_to_rad, angle_rad);
+  EXPECT_DOUBLE_EQ(90.0 * math::deg_to_rad, angle_rad);
 }

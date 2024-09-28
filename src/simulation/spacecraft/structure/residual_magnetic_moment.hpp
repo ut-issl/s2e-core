@@ -20,7 +20,7 @@ class ResidualMagneticMoment {
    * @fn ResidualMagneticMoment
    * @brief Constructor
    */
-  ResidualMagneticMoment(const Vector<3> constant_value_b_Am2_, const double random_walk_standard_deviation_Am2, const double random_walk_limit_Am2,
+  ResidualMagneticMoment(const math::Vector<3> constant_value_b_Am2_, const double random_walk_standard_deviation_Am2, const double random_walk_limit_Am2,
                          const double random_noise_standard_deviation_Am2);
   /**
    * @fn ~ResidualMagneticMoment
@@ -33,7 +33,7 @@ class ResidualMagneticMoment {
    * @fn GetConstantValue_b_Am2
    * @brief Return Constant value of RMM at body frame [Am2]
    */
-  inline const Vector<3>& GetConstantValue_b_Am2(void) const { return constant_value_b_Am2_; }
+  inline const math::Vector<3>& GetConstantValue_b_Am2(void) const { return constant_value_b_Am2_; }
   /**
    * @fn GetRandomWalkStandardDeviation_Am2
    * @brief Return Random walk standard deviation of RMM [Am2]

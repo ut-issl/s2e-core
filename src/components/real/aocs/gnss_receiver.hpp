@@ -61,8 +61,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] simulation_time: Simulation time information
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
-               const s2e::math::Vector<3> antenna_position_b_m, const s2e::math::Quaternion quaternion_b2c, const double half_width_deg,
-               const s2e::math::Vector<3> position_noise_standard_deviation_ecef_m, const s2e::math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
+               const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
+               const math::Vector<3> position_noise_standard_deviation_ecef_m, const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
                const dynamics::Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
   /**
    * @fn GnssReceiver
@@ -81,9 +81,9 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] simulation_time: Simulation time information
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
-               const AntennaModel antenna_model, const s2e::math::Vector<3> antenna_position_b_m, const s2e::math::Quaternion quaternion_b2c,
-               const double half_width_deg, const s2e::math::Vector<3> position_noise_standard_deviation_ecef_m,
-               const s2e::math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const dynamics::Dynamics* dynamics, const GnssSatellites* gnss_satellites,
+               const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
+               const double half_width_deg, const math::Vector<3> position_noise_standard_deviation_ecef_m,
+               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const dynamics::Dynamics* dynamics, const GnssSatellites* gnss_satellites,
                const SimulationTime* simulation_time);
 
   // Override functions for Component
@@ -104,7 +104,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @fn GetMeasuredPosition_ecef_m
    * @brief Return Observed position in the ECEF frame [m]
    */
-  inline const s2e::math::Vector<3> GetMeasuredPosition_ecef_m(void) const { return position_ecef_m_; }
+  inline const math::Vector<3> GetMeasuredPosition_ecef_m(void) const { return position_ecef_m_; }
   /**
    * @fn GetMeasuredGeodeticPosition
    * @brief Return Observed position in the LLH frame [m]
@@ -114,7 +114,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @fn GetMeasuredVelocity_ecef_m_s
    * @brief Return Observed velocity in the ECEF frame [m/s]
    */
-  inline const s2e::math::Vector<3> GetMeasuredVelocity_ecef_m_s(void) const { return velocity_ecef_m_s_; }
+  inline const math::Vector<3> GetMeasuredVelocity_ecef_m_s(void) const { return velocity_ecef_m_s_; }
 
   // Override logger::ILoggable
   /**
@@ -133,16 +133,16 @@ class GnssReceiver : public Component, public logger::ILoggable {
   const size_t component_id_;  //!< Receiver ID
 
   // Antenna
-  s2e::math::Vector<3> antenna_position_b_m_;  //!< GNSS antenna position at the body-fixed frame [m]
-  s2e::math::Quaternion quaternion_b2c_;       //!< Quaternion from body frame to component frame (antenna frame)
+  math::Vector<3> antenna_position_b_m_;  //!< GNSS antenna position at the body-fixed frame [m]
+  math::Quaternion quaternion_b2c_;       //!< Quaternion from body frame to component frame (antenna frame)
   double half_width_deg_ = 0.0;           //!< Half width of the antenna cone model [deg]
   AntennaModel antenna_model_;            //!< Antenna model
 
   // Simple position observation
   s2e::randomization::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
   s2e::randomization::NormalRand velocity_random_noise_ecef_m_s_[3];  //!< Random noise for velocity at the ECEF frame [m]
-  s2e::math::Vector<3> position_ecef_m_{0.0};                         //!< Observed position in the ECEF frame [m]
-  s2e::math::Vector<3> velocity_ecef_m_s_{0.0};                       //!< Observed velocity in the ECEF frame [m/s]
+  math::Vector<3> position_ecef_m_{0.0};                         //!< Observed position in the ECEF frame [m]
+  math::Vector<3> velocity_ecef_m_s_{0.0};                       //!< Observed velocity in the ECEF frame [m/s]
   s2e::geodesy::GeodeticPosition geodetic_position_;                  //!< Observed position in the geodetic frame
 
   // Time observation
@@ -168,7 +168,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] position_true_i_m: True position of the spacecraft in the ECI frame [m]
    * @param [in] quaternion_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    */
-  void CheckAntenna(const s2e::math::Vector<3> position_true_i_m, const s2e::math::Quaternion quaternion_i2b);
+  void CheckAntenna(const math::Vector<3> position_true_i_m, const math::Quaternion quaternion_i2b);
   /**
    * @fn CheckAntennaSimple
    * @brief Check the antenna can detect GNSS signal with Simple mode
@@ -176,7 +176,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] position_true_i_m: True position of the spacecraft in the ECI frame [m]
    * @param [in] quaternion_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    */
-  void CheckAntennaSimple(const s2e::math::Vector<3> position_true_i_m, const s2e::math::Quaternion quaternion_i2b);
+  void CheckAntennaSimple(const math::Vector<3> position_true_i_m, const math::Quaternion quaternion_i2b);
   /**
    * @fn CheckAntennaCone
    * @brief Check the antenna can detect GNSS signal with Cone mode
@@ -184,7 +184,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] position_true_i_m: True position of the spacecraft in the ECI frame [m]
    * @param [in] quaternion_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    */
-  void CheckAntennaCone(const s2e::math::Vector<3> position_true_i_m, const s2e::math::Quaternion quaternion_i2b);
+  void CheckAntennaCone(const math::Vector<3> position_true_i_m, const math::Quaternion quaternion_i2b);
   /**
    * @fn SetGnssInfo
    * @brief Calculate and set the GnssInfo values of target GNSS satellite
@@ -192,14 +192,14 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] quaternion_i2b: True attitude of the spacecraft expressed by quaternion from the inertial frame to the body-fixed frame
    * @param [in] gnss_system_id: ID of target GNSS satellite
    */
-  void SetGnssInfo(const s2e::math::Vector<3> antenna_to_satellite_i_m, const s2e::math::Quaternion quaternion_i2b, const size_t gnss_system_id);
+  void SetGnssInfo(const math::Vector<3> antenna_to_satellite_i_m, const math::Quaternion quaternion_i2b, const size_t gnss_system_id);
   /**
    * @fn AddNoise
    * @brief Substitutional method for "Measure" in other sensor models inherited Sensor class
    * @param [in] position_true_ecef_m: True position of the spacecraft in the ECEF frame [m]
    * @param [in] velocity_true_ecef_m_s: True velocity of the spacecraft in the ECEF frame [m/s]
    */
-  void AddNoise(const s2e::math::Vector<3> position_true_ecef_m, const s2e::math::Vector<3> velocity_true_ecef_m_s);
+  void AddNoise(const math::Vector<3> position_true_ecef_m, const math::Vector<3> velocity_true_ecef_m_s);
   /**
    * @fn ConvertJulianDayToGpsTime
    * @brief Convert Julian day to GPS time

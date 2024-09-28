@@ -8,12 +8,12 @@
 #include <ctime>
 #include <sstream>
 
+namespace s2e::logger {
+
 std::vector<ILoggable *> log_list_;
 bool Logger::is_directory_created_ = false;
 
 namespace fs = std::filesystem;
-
-namespace s2e::logger {
 
 Logger::Logger(const std::string &file_name, const fs::path &data_path, const fs::path &ini_file_name, const bool is_ini_save_enabled,
                const bool is_enabled)

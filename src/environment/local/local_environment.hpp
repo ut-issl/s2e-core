@@ -32,7 +32,7 @@ class LocalEnvironment {
    * @param [in] global_environment: Global environment
    * @param [in] spacecraft_id: Satellite ID
    */
-  LocalEnvironment(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
+  LocalEnvironment(const simulation::SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
   /**
    * @fn ~LocalEnvironment
    * @brief Destructor
@@ -51,7 +51,7 @@ class LocalEnvironment {
    * @fn LogSetup
    * @brief Log setup for local environments
    */
-  void LogSetup(Logger& logger);
+  void LogSetup(logger::Logger& logger);
 
   /**
    * @fn GetAtmosphere
@@ -93,7 +93,7 @@ class LocalEnvironment {
    * @param [in] global_environment: Global environment
    * @param [in] spacecraft_id: Satellite ID
    */
-  void Initialize(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
+  void Initialize(const simulation::SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
 };
 
 } // namespace s2e::environment

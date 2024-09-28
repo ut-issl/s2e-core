@@ -41,8 +41,8 @@ class OrbitalElements {
    * @param[in] position_i_m: Position vector in the inertial frame [m]
    * @param[in] velocity_i_m_s: Velocity vector in the inertial frame [m/s]
    */
-  OrbitalElements(const double gravity_constant_m3_s2, const double time_jday, const s2e::math::Vector<3> position_i_m,
-                  const s2e::math::Vector<3> velocity_i_m_s);
+  OrbitalElements(const double gravity_constant_m3_s2, const double time_jday, const math::Vector<3> position_i_m,
+                  const math::Vector<3> velocity_i_m_s);
   /**
    * @fn ~OrbitalElements
    * @brief Destructor
@@ -102,8 +102,8 @@ class OrbitalElements {
    * @param[in] position_i_m: Position vector in the inertial frame [m]
    * @param[in] velocity_i_m_s: Velocity vector in the inertial frame [m/s]
    */
-  void CalcOeFromPosVel(const double gravity_constant_m3_s2, const double time_jday, const s2e::math::Vector<3> position_i_m,
-                        const s2e::math::Vector<3> velocity_i_m_s);
+  void CalcOeFromPosVel(const double gravity_constant_m3_s2, const double time_jday, const math::Vector<3> position_i_m,
+                        const math::Vector<3> velocity_i_m_s);
 };
 
 }  // namespace s2e::orbit

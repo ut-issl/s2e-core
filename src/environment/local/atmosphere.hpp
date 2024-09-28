@@ -51,7 +51,7 @@ class Atmosphere : public logger::ILoggable {
    * @param [in] position: Position of target point to calculate the air density
    * @return Atmospheric density [kg/m^3]
    */
-  double CalcAirDensity_kg_m3(const double decimal_year, const Orbit& orbit);
+  double CalcAirDensity_kg_m3(const double decimal_year, const dynamics::orbit::Orbit& orbit);
   /**
    * @fn GetAirDensity
    * @brief Return Atmospheric density [kg/m^3]

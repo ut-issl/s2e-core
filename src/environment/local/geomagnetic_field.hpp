@@ -46,18 +46,18 @@ class GeomagneticField : public logger::ILoggable {
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
   void CalcMagneticField(const double decimal_year, const double sidereal_day, const s2e::geodesy::GeodeticPosition position,
-                         const s2e::math::Quaternion quaternion_i2b);
+                         const math::Quaternion quaternion_i2b);
 
   /**
    * @fn GetGeomagneticField_i_nT
    * @brief Return magnetic field vector in the inertial frame [nT]
    */
-  inline s2e::math::Vector<3> GetGeomagneticField_i_nT() const { return magnetic_field_i_nT_; }
+  inline math::Vector<3> GetGeomagneticField_i_nT() const { return magnetic_field_i_nT_; }
   /**
    * @fn GetGeomagneticField_b_nT
    * @brief Return magnetic field vector in the body fixed frame [nT]
    */
-  inline s2e::math::Vector<3> GetGeomagneticField_b_nT() const { return magnetic_field_b_nT_; }
+  inline math::Vector<3> GetGeomagneticField_b_nT() const { return magnetic_field_b_nT_; }
 
   // Override logger::ILoggable
   /**
@@ -72,8 +72,8 @@ class GeomagneticField : public logger::ILoggable {
   virtual std::string GetLogValue() const;
 
  private:
-  s2e::math::Vector<3> magnetic_field_i_nT_;       //!< Magnetic field vector at the inertial frame [nT]
-  s2e::math::Vector<3> magnetic_field_b_nT_;       //!< Magnetic field vector at the spacecraft body fixed frame [nT]
+  math::Vector<3> magnetic_field_i_nT_;       //!< Magnetic field vector at the inertial frame [nT]
+  math::Vector<3> magnetic_field_b_nT_;       //!< Magnetic field vector at the spacecraft body fixed frame [nT]
   double random_walk_standard_deviation_nT_;  //!< Standard deviation of Random Walk [nT]
   double random_walk_limit_nT_;               //!< Limit of Random Walk [nT]
   double white_noise_standard_deviation_nT_;  //!< Standard deviation of white noise [nT]

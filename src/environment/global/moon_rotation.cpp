@@ -14,13 +14,13 @@ namespace s2e::environment {
 
 MoonRotation::MoonRotation(const CelestialInformation& celestial_information, MoonRotationMode mode)
     : mode_(mode), celestial_information_(celestial_information) {
-  dcm_j2000_to_mcmf_ = s2e::math::MakeIdentityMatrix<3>();
+  dcm_j2000_to_mcmf_ = math::MakeIdentityMatrix<3>();
 }
 
 void MoonRotation::Update(const SimulationTime& simulation_time) {
   if (mode_ == MoonRotationMode::kSimple) {
-    s2e::math::Vector<3> moon_position_eci_m = celestial_information_.GetPositionFromSelectedBody_i_m("MOON", "EARTH");
-    s2e::math::Vector<3> moon_velocity_eci_m_s = celestial_information_.GetVelocityFromSelectedBody_i_m_s("MOON", "EARTH");
+    math::Vector<3> moon_position_eci_m = celestial_information_.GetPositionFromSelectedBody_i_m("MOON", "EARTH");
+    math::Vector<3> moon_velocity_eci_m_s = celestial_information_.GetVelocityFromSelectedBody_i_m_s("MOON", "EARTH");
     dcm_j2000_to_mcmf_ = s2e::planet_rotation::CalcDcmEciToPrincipalAxis(moon_position_eci_m, moon_velocity_eci_m_s);
   } else if (mode_ == MoonRotationMode::kIauMoon) {
     ConstSpiceChar from[] = "J2000";
@@ -34,7 +34,7 @@ void MoonRotation::Update(const SimulationTime& simulation_time) {
       }
     }
   } else {
-    dcm_j2000_to_mcmf_ = s2e::math::MakeIdentityMatrix<3>();
+    dcm_j2000_to_mcmf_ = math::MakeIdentityMatrix<3>();
   }
 }
 

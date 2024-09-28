@@ -24,20 +24,20 @@ OrbitalElements::OrbitalElements(const double epoch_jday, const double semi_majo
       epoch_jday_(epoch_jday) {}
 
 // initialize with position and velocity
-OrbitalElements::OrbitalElements(const double gravity_constant_m3_s2, const double time_jday, const s2e::math::Vector<3> position_i_m,
-                                 const s2e::math::Vector<3> velocity_i_m_s) {
+OrbitalElements::OrbitalElements(const double gravity_constant_m3_s2, const double time_jday, const math::Vector<3> position_i_m,
+                                 const math::Vector<3> velocity_i_m_s) {
   CalcOeFromPosVel(gravity_constant_m3_s2, time_jday, position_i_m, velocity_i_m_s);
 }
 
 OrbitalElements::~OrbitalElements() {}
 
 // Private Function
-void OrbitalElements::CalcOeFromPosVel(const double gravity_constant_m3_s2, const double time_jday, const s2e::math::Vector<3> position_i_m,
-                                       const s2e::math::Vector<3> velocity_i_m_s) {
+void OrbitalElements::CalcOeFromPosVel(const double gravity_constant_m3_s2, const double time_jday, const math::Vector<3> position_i_m,
+                                       const math::Vector<3> velocity_i_m_s) {
   // common variables
   double r_m = position_i_m.CalcNorm();
   double v2_m2_s2 = InnerProduct(velocity_i_m_s, velocity_i_m_s);
-  s2e::math::Vector<3> h;  //!< angular momentum vector
+  math::Vector<3> h;  //!< angular momentum vector
   h = OuterProduct(position_i_m, velocity_i_m_s);
   double h_norm = h.CalcNorm();
 
@@ -45,7 +45,7 @@ void OrbitalElements::CalcOeFromPosVel(const double gravity_constant_m3_s2, cons
   semi_major_axis_m_ = gravity_constant_m3_s2 / (2.0 * gravity_constant_m3_s2 / r_m - v2_m2_s2);
 
   // inclination
-  s2e::math::Vector<3> h_direction = h.CalcNormalizedVector();
+  math::Vector<3> h_direction = h.CalcNormalizedVector();
   inclination_rad_ = acos(h_direction[2]);
 
   // RAAN
@@ -77,10 +77,10 @@ void OrbitalElements::CalcOeFromPosVel(const double gravity_constant_m3_s2, cons
   // true anomaly f_rad and eccentric anomaly u_rad
   double phi_rad = atan2(y_p_m, x_p_m);
   double f_rad = phi_rad - arg_perigee_rad_;
-  f_rad = s2e::math::WrapTo2Pi(f_rad);
+  f_rad = math::WrapTo2Pi(f_rad);
 
   double u_rad = atan2(r_m * sin(f_rad) / sqrt(1.0 - eccentricity_ * eccentricity_), r_m * cos(f_rad) + semi_major_axis_m_ * eccentricity_);
-  u_rad = s2e::math::WrapTo2Pi(u_rad);
+  u_rad = math::WrapTo2Pi(u_rad);
 
   // epoch t0
   double n_rad_s = sqrt(gravity_constant_m3_s2 / pow(semi_major_axis_m_, 3.0));

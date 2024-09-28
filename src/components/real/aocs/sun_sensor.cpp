@@ -16,7 +16,7 @@ using namespace std;
 
 namespace s2e::components {
 
-SunSensor::SunSensor(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
+SunSensor::SunSensor(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
                      const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
                      const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
@@ -31,7 +31,7 @@ SunSensor::SunSensor(const int prescaler, environment::ClockGenerator* clock_gen
 }
 
 SunSensor::SunSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                     const s2e::math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
+                     const math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
                      const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator, power_port),
@@ -61,8 +61,8 @@ void SunSensor::MainRoutine(const int time_count) {
 }
 
 void SunSensor::Measure() {
-  s2e::math::Vector<3> sun_pos_b = local_celestial_information_->GetPositionFromSpacecraft_b_m("SUN");
-  s2e::math::Vector<3> sun_dir_b = sun_pos_b.CalcNormalizedVector();
+  math::Vector<3> sun_pos_b = local_celestial_information_->GetPositionFromSpacecraft_b_m("SUN");
+  math::Vector<3> sun_dir_b = sun_pos_b.CalcNormalizedVector();
 
   sun_direction_true_c_ = quaternion_b2c_.FrameConversion(sun_dir_b);  // Frame conversion from body to component
 
@@ -89,7 +89,7 @@ void SunSensor::Measure() {
 
     measured_sun_direction_c_ = measured_sun_direction_c_.CalcNormalizedVector();
   } else {
-    measured_sun_direction_c_ = s2e::math::Vector<3>(0);
+    measured_sun_direction_c_ = math::Vector<3>(0);
     alpha_rad_ = 0.0;
     beta_rad_ = 0.0;
   }
@@ -98,7 +98,7 @@ void SunSensor::Measure() {
 }
 
 void SunSensor::SunDetectionJudgement() {
-  s2e::math::Vector<3> sun_direction_c = sun_direction_true_c_.CalcNormalizedVector();
+  math::Vector<3> sun_direction_c = sun_direction_true_c_.CalcNormalizedVector();
 
   double sun_angle_ = acos(sun_direction_c[2]);
 
@@ -114,10 +114,10 @@ void SunSensor::SunDetectionJudgement() {
 }
 
 void SunSensor::CalcSolarIlluminance() {
-  s2e::math::Vector<3> sun_direction_c = sun_direction_true_c_.CalcNormalizedVector();
+  math::Vector<3> sun_direction_c = sun_direction_true_c_.CalcNormalizedVector();
   double sun_angle_ = acos(sun_direction_c[2]);
 
-  if (sun_angle_ > s2e::math::pi_2) {
+  if (sun_angle_ > math::pi_2) {
     solar_illuminance_W_m2_ = 0.0;
     return;
   }
@@ -128,8 +128,8 @@ void SunSensor::CalcSolarIlluminance() {
 }
 
 double SunSensor::TanRange(double x) {
-  if (x > s2e::math::pi_2) x = s2e::math::pi - x;
-  if (x < -s2e::math::pi_2) x = -s2e::math::pi - x;
+  if (x > math::pi_2) x = math::pi - x;
+  if (x < -math::pi_2) x = -math::pi - x;
   return x;
 }
 
@@ -139,7 +139,7 @@ string SunSensor::GetLogHeader() const {
   std::string sensor_name = "sun_sensor" + sensor_id + "_";
 
   str_tmp += logger::WriteVector(sensor_name + "measured_sun_direction", "c", "-", 3);
-  str_tmp += WriteScalar(sensor_name + "sun_detected_flag", "-");
+  str_tmp += logger::WriteScalar(sensor_name + "sun_detected_flag", "-");
 
   return str_tmp;
 }
@@ -148,7 +148,7 @@ string SunSensor::GetLogValue() const {
   string str_tmp = "";
 
   str_tmp += logger::WriteVector(measured_sun_direction_c_);
-  str_tmp += WriteScalar(double(sun_detected_flag_));
+  str_tmp += logger::WriteScalar(double(sun_detected_flag_));
 
   return str_tmp;
 }
@@ -163,20 +163,20 @@ SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, int ss_id,
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  s2e::math::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   ss_conf.ReadQuaternion(Section, "quaternion_b2c", quaternion_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
   detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
-  detectable_angle_rad = s2e::math::pi / 180.0 * detectable_angle_deg;
+  detectable_angle_rad = math::pi / 180.0 * detectable_angle_deg;
 
   double nr_stddev = 0.0;
   nr_stddev = ss_conf.ReadDouble(Section, "white_noise_standard_deviation_deg");
-  nr_stddev *= s2e::math::pi / 180.0;
+  nr_stddev *= math::pi / 180.0;
 
   double nr_bias_stddev = 0.0;
   nr_bias_stddev = ss_conf.ReadDouble(Section, "bias_standard_deviation_deg");
-  nr_bias_stddev *= s2e::math::pi / 180.0;
+  nr_bias_stddev *= math::pi / 180.0;
 
   double intensity_lower_threshold_percent;
   intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");
@@ -196,20 +196,20 @@ SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, PowerPort*
   int prescaler = ss_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  s2e::math::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   ss_conf.ReadQuaternion(Section, "quaternion_b2c", quaternion_b2c);
 
   double detectable_angle_deg = 0.0, detectable_angle_rad = 0.0;
   detectable_angle_deg = ss_conf.ReadDouble(Section, "field_of_view_deg");
-  detectable_angle_rad = s2e::math::pi / 180.0 * detectable_angle_deg;
+  detectable_angle_rad = math::pi / 180.0 * detectable_angle_deg;
 
   double nr_stddev = 0.0;
   nr_stddev = ss_conf.ReadDouble(Section, "white_noise_standard_deviation_deg");
-  nr_stddev *= s2e::math::pi / 180.0;
+  nr_stddev *= math::pi / 180.0;
 
   double nr_bias_stddev = 0.0;
   nr_bias_stddev = ss_conf.ReadDouble(Section, "bias_standard_deviation_deg");
-  nr_bias_stddev *= s2e::math::pi / 180.0;
+  nr_bias_stddev *= math::pi / 180.0;
 
   double intensity_lower_threshold_percent;
   intensity_lower_threshold_percent = ss_conf.ReadDouble(Section, "intensity_lower_threshold_percent");

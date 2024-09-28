@@ -175,10 +175,10 @@ std::string CelestialInformation::GetLogValue() const {
   std::string str_tmp = "";
   for (unsigned int i = 0; i < number_of_selected_bodies_; i++) {
     for (int j = 0; j < 3; j++) {
-      str_tmp += WriteScalar(celestial_body_position_from_center_i_m_[i * 3 + j]);
+      str_tmp += logger::WriteScalar(celestial_body_position_from_center_i_m_[i * 3 + j]);
     }
     for (int j = 0; j < 3; j++) {
-      str_tmp += WriteScalar(celestial_body_velocity_from_center_i_m_s_[i * 3 + j]);
+      str_tmp += logger::WriteScalar(celestial_body_velocity_from_center_i_m_s_[i * 3 + j]);
     }
   }
   return str_tmp;

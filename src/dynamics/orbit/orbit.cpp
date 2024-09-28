@@ -6,16 +6,16 @@
 
 namespace s2e::dynamics::orbit {
 
-s2e::math::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
-  s2e::math::Vector<3> lvlh_x = spacecraft_position_i_m_;  // x-axis in LVLH frame is position vector direction from geocenter to satellite
-  s2e::math::Vector<3> lvlh_ex = lvlh_x.CalcNormalizedVector();
-  s2e::math::Vector<3> lvlh_z =
+math::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
+  math::Vector<3> lvlh_x = spacecraft_position_i_m_;  // x-axis in LVLH frame is position vector direction from geocenter to satellite
+  math::Vector<3> lvlh_ex = lvlh_x.CalcNormalizedVector();
+  math::Vector<3> lvlh_z =
       OuterProduct(spacecraft_position_i_m_, spacecraft_velocity_i_m_s_);  // z-axis in LVLH frame is angular momentum vector direction of orbit
-  s2e::math::Vector<3> lvlh_ez = lvlh_z.CalcNormalizedVector();
-  s2e::math::Vector<3> lvlh_y = OuterProduct(lvlh_z, lvlh_x);
-  s2e::math::Vector<3> lvlh_ey = lvlh_y.CalcNormalizedVector();
+  math::Vector<3> lvlh_ez = lvlh_z.CalcNormalizedVector();
+  math::Vector<3> lvlh_y = OuterProduct(lvlh_z, lvlh_x);
+  math::Vector<3> lvlh_ey = lvlh_y.CalcNormalizedVector();
 
-  s2e::math::Matrix<3, 3> dcm_i2lvlh;
+  math::Matrix<3, 3> dcm_i2lvlh;
   dcm_i2lvlh[0][0] = lvlh_ex[0];
   dcm_i2lvlh[0][1] = lvlh_ex[1];
   dcm_i2lvlh[0][2] = lvlh_ex[2];
@@ -26,19 +26,19 @@ s2e::math::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
   dcm_i2lvlh[2][1] = lvlh_ez[1];
   dcm_i2lvlh[2][2] = lvlh_ez[2];
 
-  s2e::math::Quaternion q_i2lvlh = s2e::math::Quaternion::ConvertFromDcm(dcm_i2lvlh);
+  math::Quaternion q_i2lvlh = math::Quaternion::ConvertFromDcm(dcm_i2lvlh);
   return q_i2lvlh.Normalize();
 }
 
 void Orbit::TransformEciToEcef(void) {
-  s2e::math::Matrix<3, 3> dcm_i_to_xcxf = celestial_information_->GetEarthRotation().GetDcmJ2000ToEcef();
+  math::Matrix<3, 3> dcm_i_to_xcxf = celestial_information_->GetEarthRotation().GetDcmJ2000ToEcef();
   spacecraft_position_ecef_m_ = dcm_i_to_xcxf * spacecraft_position_i_m_;
 
   // convert velocity vector in ECI to the vector in ECEF
-  s2e::math::Vector<3> earth_angular_velocity_i_rad_s{0.0};
+  math::Vector<3> earth_angular_velocity_i_rad_s{0.0};
   earth_angular_velocity_i_rad_s[2] = environment::earth_mean_angular_velocity_rad_s;
-  s2e::math::Vector<3> we_cross_r = OuterProduct(earth_angular_velocity_i_rad_s, spacecraft_position_i_m_);
-  s2e::math::Vector<3> velocity_we_cross_r = spacecraft_velocity_i_m_s_ - we_cross_r;
+  math::Vector<3> we_cross_r = OuterProduct(earth_angular_velocity_i_rad_s, spacecraft_position_i_m_);
+  math::Vector<3> velocity_we_cross_r = spacecraft_velocity_i_m_s_ - we_cross_r;
   spacecraft_velocity_ecef_m_s_ = dcm_i_to_xcxf * velocity_we_cross_r;
 }
 
@@ -74,9 +74,9 @@ std::string Orbit::GetLogHeader() const {
   str_tmp += logger::WriteVector("spacecraft_velocity", "i", "m/s", 3);
   str_tmp += logger::WriteVector("spacecraft_velocity", "b", "m/s", 3);
   str_tmp += logger::WriteVector("spacecraft_acceleration", "i", "m/s2", 3);
-  str_tmp += WriteScalar("spacecraft_latitude", "rad");
-  str_tmp += WriteScalar("spacecraft_longitude", "rad");
-  str_tmp += WriteScalar("spacecraft_altitude", "m");
+  str_tmp += logger::WriteScalar("spacecraft_latitude", "rad");
+  str_tmp += logger::WriteScalar("spacecraft_longitude", "rad");
+  str_tmp += logger::WriteScalar("spacecraft_altitude", "m");
 
   return str_tmp;
 }
@@ -89,9 +89,9 @@ std::string Orbit::GetLogValue() const {
   str_tmp += logger::WriteVector(spacecraft_velocity_i_m_s_, 10);
   str_tmp += logger::WriteVector(spacecraft_velocity_b_m_s_, 10);
   str_tmp += logger::WriteVector(spacecraft_acceleration_i_m_s2_, 10);
-  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLatitude_rad());
-  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLongitude_rad());
-  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetAltitude_m());
+  str_tmp += logger::WriteScalar(spacecraft_geodetic_position_.GetLatitude_rad());
+  str_tmp += logger::WriteScalar(spacecraft_geodetic_position_.GetLongitude_rad());
+  str_tmp += logger::WriteScalar(spacecraft_geodetic_position_.GetAltitude_m());
 
   return str_tmp;
 }

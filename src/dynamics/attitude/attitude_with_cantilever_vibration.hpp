@@ -33,10 +33,10 @@ class AttitudeWithCantileverVibration : public Attitude {
    * @param [in] propagation_step_s: Initial value of propagation step width [sec]
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
-  AttitudeWithCantileverVibration(const s2e::math::Vector<3>& angular_velocity_b_rad_s, const s2e::math::Quaternion& quaternion_i2b,
-                                  const s2e::math::Matrix<3, 3>& inertia_tensor_kgm2, const s2e::math::Matrix<3, 3>& inertia_tensor_cantilever_kgm2,
+  AttitudeWithCantileverVibration(const math::Vector<3>& angular_velocity_b_rad_s, const math::Quaternion& quaternion_i2b,
+                                  const math::Matrix<3, 3>& inertia_tensor_kgm2, const math::Matrix<3, 3>& inertia_tensor_cantilever_kgm2,
                                   const double damping_ratio_cantilever, const double intrinsic_angular_velocity_cantilever_rad_s,
-                                  const s2e::math::Vector<3>& torque_b_Nm, const double propagation_step_s,
+                                  const math::Vector<3>& torque_b_Nm, const double propagation_step_s,
                                   const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~AttitudeWithCantileverVibration
@@ -68,14 +68,14 @@ class AttitudeWithCantileverVibration : public Attitude {
    * @brief Set parameters for Monte-Carlo simulation
    * @param [in] mc_simulator: Monte-Carlo simulation executor
    */
-  virtual void SetParameters(const MonteCarloSimulationExecutor& mc_simulator);
+  virtual void SetParameters(const simulation::MonteCarloSimulationExecutor& mc_simulator);
 
  private:
   double current_propagation_time_s_;                       //!< current time [sec]
-  s2e::math::Vector<3> angular_velocity_cantilever_rad_s_{0.0};  //!< Angular velocity of the cantilever with respect to the body frame [rad/s]
-  s2e::math::Vector<3> euler_angular_cantilever_rad_{0.0};       //!< Euler angle of the cantilever with respect to the body frame [rad/s]
+  math::Vector<3> angular_velocity_cantilever_rad_s_{0.0};  //!< Angular velocity of the cantilever with respect to the body frame [rad/s]
+  math::Vector<3> euler_angular_cantilever_rad_{0.0};       //!< Euler angle of the cantilever with respect to the body frame [rad/s]
 
-  s2e::numerical_integration::AttitudeWithCantileverVibrationOde attitude_ode_;
+  AttitudeWithCantileverVibrationOde attitude_ode_;
   s2e::numerical_integration::NumericalIntegratorManager<13> numerical_integrator_;
 };
 

@@ -15,7 +15,7 @@ namespace s2e::components {
 
 ReactionWheel::ReactionWheel(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                              const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
-                             const s2e::math::Quaternion quaternion_b2c, const s2e::math::Vector<3> position_b_m, const double dead_time_s,
+                             const math::Quaternion quaternion_b2c, const math::Vector<3> position_b_m, const double dead_time_s,
                              const double time_constant_s, const std::vector<double> friction_coefficients,
                              const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
                              const int fast_prescaler, ReactionWheelJitter& rw_jitter, bool drive_flag, const double init_velocity_rad_s)
@@ -33,7 +33,7 @@ ReactionWheel::ReactionWheel(const int prescaler, environment::ClockGenerator* c
       stop_limit_angular_velocity_rad_s_(stop_limit_angular_velocity_rad_s),
       drive_flag_(drive_flag),
       velocity_limit_rpm_(max_velocity_rpm_),
-      ode_angular_velocity_(step_width_s_, velocity_limit_rpm_ * s2e::math::rpm_to_rad_s, init_velocity_rad_s),
+      ode_angular_velocity_(step_width_s_, velocity_limit_rpm_ * math::rpm_to_rad_s, init_velocity_rad_s),
       rw_jitter_(rw_jitter),
       is_calculated_jitter_(is_calc_jitter_enabled),
       is_logged_jitter_(is_log_jitter_enabled) {
@@ -42,7 +42,7 @@ ReactionWheel::ReactionWheel(const int prescaler, environment::ClockGenerator* c
 
 ReactionWheel::ReactionWheel(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                              const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
-                             const s2e::math::Quaternion quaternion_b2c, const s2e::math::Vector<3> position_b_m, const double dead_time_s,
+                             const math::Quaternion quaternion_b2c, const math::Vector<3> position_b_m, const double dead_time_s,
                              const double time_constant_s, const std::vector<double> friction_coefficients,
                              const double stop_limit_angular_velocity_rad_s, const bool is_calc_jitter_enabled, const bool is_log_jitter_enabled,
                              const int fast_prescaler, ReactionWheelJitter& rw_jitter, const bool drive_flag, const double init_velocity_rad_s)
@@ -60,7 +60,7 @@ ReactionWheel::ReactionWheel(const int prescaler, environment::ClockGenerator* c
       stop_limit_angular_velocity_rad_s_(stop_limit_angular_velocity_rad_s),
       drive_flag_(drive_flag),
       velocity_limit_rpm_(max_velocity_rpm_),
-      ode_angular_velocity_(step_width_s, velocity_limit_rpm_ * s2e::math::rpm_to_rad_s, init_velocity_rad_s),
+      ode_angular_velocity_(step_width_s, velocity_limit_rpm_ * math::rpm_to_rad_s, init_velocity_rad_s),
       rw_jitter_(rw_jitter),
       is_calculated_jitter_(is_calc_jitter_enabled),
       is_logged_jitter_(is_log_jitter_enabled) {
@@ -68,7 +68,7 @@ ReactionWheel::ReactionWheel(const int prescaler, environment::ClockGenerator* c
 }
 
 void ReactionWheel::Initialize() {
-  rotation_axis_c_ = s2e::math::Vector<3>(0.0);
+  rotation_axis_c_ = math::Vector<3>(0.0);
   rotation_axis_c_[2] = 1.0;
   rotation_axis_b_ = quaternion_b2c_.InverseFrameConversion(rotation_axis_c_);
 
@@ -79,7 +79,7 @@ void ReactionWheel::Initialize() {
   generated_angular_acceleration_rad_s2_ = 0.0;
 
   angular_velocity_rad_s_ = ode_angular_velocity_.GetAngularVelocity_rad_s();
-  angular_velocity_rpm_ = angular_velocity_rad_s_ * s2e::math::rad_s_to_rpm;
+  angular_velocity_rpm_ = angular_velocity_rad_s_ * math::rad_s_to_rpm;
 
   // Turn on RW jitter calculation
   if (is_calculated_jitter_) {
@@ -101,7 +101,7 @@ void ReactionWheel::FastUpdate() {
   }
 }
 
-s2e::math::Vector<3> ReactionWheel::CalcTorque() {
+math::Vector<3> ReactionWheel::CalcTorque() {
   if (!drive_flag_)  // RW idle mode -> coasting mode
   {
     // Clear delay buffer
@@ -118,7 +118,7 @@ s2e::math::Vector<3> ReactionWheel::CalcTorque() {
     if (abs_angular_velocity_rad_s < stop_limit_angular_velocity_rad_s_) {
       // Stop rotation
       rotation_direction = 0.0;
-      s2e::math::Vector<1> zero_rad_s{0.0};
+      math::Vector<1> zero_rad_s{0.0};
       ode_angular_velocity_.Setup(0.0, zero_rad_s);
     } else if (angular_velocity_rad_s_ > 0.0) {
       rotation_direction = -1.0;
@@ -143,7 +143,7 @@ s2e::math::Vector<3> ReactionWheel::CalcTorque() {
   // Substitution
   double pre_angular_velocity_rad = angular_velocity_rad_s_;
   angular_velocity_rad_s_ = ode_angular_velocity_.GetAngularVelocity_rad_s();
-  angular_velocity_rpm_ = angular_velocity_rad_s_ * s2e::math::rad_s_to_rpm;
+  angular_velocity_rpm_ = angular_velocity_rad_s_ * math::rad_s_to_rpm;
   generated_angular_acceleration_rad_s2_ = (angular_velocity_rad_s_ - pre_angular_velocity_rad) / step_width_s_;
 
   // Calc output torque by RW
@@ -152,20 +152,20 @@ s2e::math::Vector<3> ReactionWheel::CalcTorque() {
   return output_torque_b_Nm_;
 }
 
-const s2e::math::Vector<3> ReactionWheel::GetOutputTorque_b_Nm() const {
+const math::Vector<3> ReactionWheel::GetOutputTorque_b_Nm() const {
   if (is_calculated_jitter_) {
     // Add jitter_force_b_N_-derived torque and jitter_torque_b_Nm_ to output_torque_b
-    return output_torque_b_Nm_ - s2e::math::OuterProduct(position_b_m_, rw_jitter_.GetJitterForce_b_N()) - rw_jitter_.GetJitterTorque_b_Nm();
+    return output_torque_b_Nm_ - math::OuterProduct(position_b_m_, rw_jitter_.GetJitterForce_b_N()) - rw_jitter_.GetJitterTorque_b_Nm();
   } else {
     return output_torque_b_Nm_;
   }
 }
 
-const s2e::math::Vector<3> ReactionWheel::GetJitterForce_b_N() const {
+const math::Vector<3> ReactionWheel::GetJitterForce_b_N() const {
   if (is_calculated_jitter_) {
     return rw_jitter_.GetJitterForce_b_N();
   } else {
-    s2e::math::Vector<3> zero{0.0};
+    math::Vector<3> zero{0.0};
     return zero;
   }
 }
@@ -190,7 +190,7 @@ void ReactionWheel::SetVelocityLimit_rpm(const double velocity_limit_rpm) {
   } else {
     velocity_limit_rpm_ = velocity_limit_rpm;
   }
-  ode_angular_velocity_.SetAngularVelocityLimit_rad_s(velocity_limit_rpm_ * s2e::math::rpm_to_rad_s);
+  ode_angular_velocity_.SetAngularVelocityLimit_rad_s(velocity_limit_rpm_ * math::rpm_to_rad_s);
   return;
 }
 
@@ -198,11 +198,11 @@ std::string ReactionWheel::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "rw" + std::to_string(static_cast<long long>(component_id_)) + "_";
 
-  str_tmp += WriteScalar(component_name + "angular_velocity", "rad/s");
-  str_tmp += WriteScalar(component_name + "angular_velocity", "rpm");
-  str_tmp += WriteScalar(component_name + "angular_velocity_upper_limit", "rpm");
-  str_tmp += WriteScalar(component_name + "target_angular_acceleration", "rad/s2");
-  str_tmp += WriteScalar(component_name + "angular_acceleration", "rad/s2");
+  str_tmp += logger::WriteScalar(component_name + "angular_velocity", "rad/s");
+  str_tmp += logger::WriteScalar(component_name + "angular_velocity", "rpm");
+  str_tmp += logger::WriteScalar(component_name + "angular_velocity_upper_limit", "rpm");
+  str_tmp += logger::WriteScalar(component_name + "target_angular_acceleration", "rad/s2");
+  str_tmp += logger::WriteScalar(component_name + "angular_acceleration", "rad/s2");
 
   if (is_logged_jitter_ && is_calculated_jitter_) {
     str_tmp += logger::WriteVector(component_name + "jitter_force", "c", "N", 3);
@@ -215,11 +215,11 @@ std::string ReactionWheel::GetLogHeader() const {
 std::string ReactionWheel::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(angular_velocity_rad_s_);
-  str_tmp += WriteScalar(angular_velocity_rpm_);
-  str_tmp += WriteScalar(velocity_limit_rpm_);
-  str_tmp += WriteScalar(target_acceleration_rad_s2_);
-  str_tmp += WriteScalar(generated_angular_acceleration_rad_s2_);
+  str_tmp += logger::WriteScalar(angular_velocity_rad_s_);
+  str_tmp += logger::WriteScalar(angular_velocity_rpm_);
+  str_tmp += logger::WriteScalar(velocity_limit_rpm_);
+  str_tmp += logger::WriteScalar(target_acceleration_rad_s2_);
+  str_tmp += logger::WriteScalar(generated_angular_acceleration_rad_s2_);
 
   if (is_logged_jitter_ && is_calculated_jitter_) {
     str_tmp += logger::WriteVector(rw_jitter_.GetJitterForce_c_N());
@@ -240,8 +240,8 @@ double rotor_inertia_kgm2;
 double max_torque_Nm;
 double max_velocity_rpm;
 // Mounting
-s2e::math::Quaternion quaternion_b2c;
-s2e::math::Vector<3> position_b_m;
+math::Quaternion quaternion_b2c;
+math::Vector<3> position_b_m;
 // Time delay
 double dead_time_s;
 double time_constant_s;
@@ -281,11 +281,11 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
     rw_ini_file.ReadQuaternion(rw_section, "quaternion_b2c", quaternion_b2c);
   } else  // direction_determination_mode == "DIRECTION"
   {
-    s2e::math::Vector<3> direction_b;
+    math::Vector<3> direction_b;
     rw_ini_file.ReadVector(rw_section, "direction_b", direction_b);
-    s2e::math::Vector<3> direction_c(0.0);
+    math::Vector<3> direction_c(0.0);
     direction_c[2] = 1.0;
-    s2e::math::Quaternion q(direction_b, direction_c);
+    math::Quaternion q(direction_b, direction_c);
     quaternion_b2c = q.Conjugate();
   }
   rw_ini_file.ReadVector(rw_section, "position_b_m", position_b_m);

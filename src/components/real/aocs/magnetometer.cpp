@@ -10,14 +10,14 @@
 namespace s2e::components {
 
 Magnetometer::Magnetometer(int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
-                           const s2e::math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
+                           const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
       quaternion_b2c_(quaternion_b2c),
       geomagnetic_field_(geomagnetic_field) {}
 Magnetometer::Magnetometer(int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-                           const s2e::math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
+                           const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field)
     : Component(prescaler, clock_generator, power_port),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
@@ -59,7 +59,7 @@ Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, int 
   int prescaler = magsensor_conf.ReadInt(MSSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  s2e::math::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", quaternion_b2c);
 
   // Sensor
@@ -80,7 +80,7 @@ Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, Powe
   int prescaler = magsensor_conf.ReadInt(MSSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  s2e::math::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   magsensor_conf.ReadQuaternion(MSSection, "quaternion_b2c", quaternion_b2c);
 
   // Sensor

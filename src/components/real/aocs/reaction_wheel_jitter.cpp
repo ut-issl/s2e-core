@@ -13,14 +13,14 @@ namespace s2e::components {
 
 ReactionWheelJitter::ReactionWheelJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,
                                          std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double update_interval_s,
-                                         const s2e::math::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz,
+                                         const math::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz,
                                          const double damping_factor, const double bandwidth, const bool considers_structural_resonance)
     : radial_force_harmonics_coefficients_(radial_force_harmonics_coefficients),
       radial_torque_harmonics_coefficients_(radial_torque_harmonics_coefficients),
       update_interval_s_(update_interval_s),
       quaternion_b2c_(quaternion_b2c),
       structural_resonance_frequency_Hz_(structural_resonance_frequency_Hz),
-      structural_resonance_angular_frequency_Hz_(s2e::math::tau * structural_resonance_frequency_Hz),
+      structural_resonance_angular_frequency_Hz_(math::tau * structural_resonance_frequency_Hz),
       damping_factor_(damping_factor),
       bandwidth_(bandwidth),
       considers_structural_resonance_(considers_structural_resonance) {
@@ -28,7 +28,7 @@ ReactionWheelJitter::ReactionWheelJitter(std::vector<std::vector<double>> radial
   // Generate random number for initial rotation phase
   std::random_device seed_gen;
   std::default_random_engine engine(seed_gen());
-  std::uniform_real_distribution<double> dist(0.0, s2e::math::tau);
+  std::uniform_real_distribution<double> dist(0.0, math::tau);
   // Initialize RW rotation phase
   for (size_t i = 0; i < radial_force_harmonics_coefficients_.size(); i++) {
     jitter_force_rotation_phase_.push_back(dist(engine));

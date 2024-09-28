@@ -95,61 +95,61 @@ void DecodeC2aCommandArgument(const C2aArgumentType type, const std::string argu
     case C2aArgumentType::kUint8t: {
       size_param = 1;
       uint8_t argument = (uint8_t)std::stoul(argument_string);  // TODO: 範囲外処理
-      endian_memcpy(param, &argument, size_param);
+      utilities::endian_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kUint16t: {
       size_param = 2;
       uint16_t argument = (uint16_t)std::stoul(argument_string);  // TODO: 範囲外処理
-      endian_memcpy(param, &argument, size_param);
+      utilities::endian_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kUint32t: {
       size_param = 4;
       uint32_t argument = (uint32_t)std::stoul(argument_string);  // TODO: 範囲外処理
-      endian_memcpy(param, &argument, size_param);
+      utilities::endian_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kUint64t: {
       size_param = 8;
       uint64_t argument = std::stoul(argument_string);
-      endian_memcpy(param, &argument, size_param);
+      utilities::endian_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kInt8t: {
       size_param = 1;
       int8_t argument = (int8_t)std::stoi(argument_string);  // TODO: 範囲外処理
-      endian_memcpy(param, &argument, size_param);
+      utilities::endian_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kInt16t: {
       size_param = 2;
       int16_t argument = (int16_t)std::stoi(argument_string);  // TODO: 範囲外処理
-      endian_memcpy(param, &argument, size_param);
+      utilities::endian_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kInt32t: {
       size_param = 4;
       int32_t argument = std::stoi(argument_string);
-      endian_memcpy(param, &argument, size_param);
+      utilities::endian_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kInt64t: {
       size_param = 8;
       int64_t argument = std::stol(argument_string);
-      endian_memcpy(param, &argument, size_param);
+      utilities::endian_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kFloat: {
       size_param = 4;
       float argument = std::stof(argument_string);
-      endian_memcpy(param, &argument, size_param);
+      utilities::endian_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kDouble: {
       size_param = 8;
       double argument = std::stod(argument_string);
-      endian_memcpy(param, &argument, size_param);
+      utilities::endian_memcpy(param, &argument, size_param);
       break;
     }
     case C2aArgumentType::kRaw: {

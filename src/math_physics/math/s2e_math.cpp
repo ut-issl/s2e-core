@@ -12,11 +12,11 @@ double WrapTo2Pi(const double angle_rad) {
   double angle_out = angle_rad;
   if (angle_out < 0.0) {
     while (angle_out < 0.0) {
-      angle_out += s2e::math::tau;
+      angle_out += math::tau;
     }
-  } else if (angle_out > s2e::math::tau) {
-    while (angle_out > s2e::math::tau) {
-      angle_out -= s2e::math::tau;
+  } else if (angle_out > math::tau) {
+    while (angle_out > math::tau) {
+      angle_out -= math::tau;
     }
   } else {
     // nothing to do

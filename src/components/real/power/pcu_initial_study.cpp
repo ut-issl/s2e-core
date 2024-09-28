@@ -40,15 +40,15 @@ PcuInitialStudy::~PcuInitialStudy() {}
 std::string PcuInitialStudy::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "pcu_initial_study_";
-  str_tmp += WriteScalar(component_name + "power_consumption", "W");
-  str_tmp += WriteScalar(component_name + "bus_voltage", "V");
+  str_tmp += logger::WriteScalar(component_name + "power_consumption", "W");
+  str_tmp += logger::WriteScalar(component_name + "bus_voltage", "V");
   return str_tmp;
 }
 
 std::string PcuInitialStudy::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar(power_consumption_W_);
-  str_tmp += WriteScalar(bus_voltage_V_);
+  str_tmp += logger::WriteScalar(power_consumption_W_);
+  str_tmp += logger::WriteScalar(bus_voltage_V_);
   return str_tmp;
 }
 

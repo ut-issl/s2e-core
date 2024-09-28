@@ -10,11 +10,11 @@
 namespace s2e::components {
 
 GyroSensor::GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
-                       const s2e::math::Quaternion& quaternion_b2c, const dynamics::Dynamics* dynamics)
+                       const math::Quaternion& quaternion_b2c, const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator), Sensor(sensor_base), sensor_id_(sensor_id), quaternion_b2c_(quaternion_b2c), dynamics_(dynamics) {}
 
 GyroSensor::GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-                       const s2e::math::Quaternion& quaternion_b2c, const dynamics::Dynamics* dynamics)
+                       const math::Quaternion& quaternion_b2c, const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       Sensor(sensor_base),
       sensor_id_(sensor_id),
@@ -54,7 +54,7 @@ GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, int sens
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* GSection = section_name.c_str();
 
-  s2e::math::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   gyro_conf.ReadQuaternion(GSection, "quaternion_b2c", quaternion_b2c);
   int prescaler = gyro_conf.ReadInt(GSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;
@@ -75,7 +75,7 @@ GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, PowerPor
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* GSection = section_name.c_str();
 
-  s2e::math::Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   gyro_conf.ReadQuaternion(GSection, "quaternion_b2c", quaternion_b2c);
   int prescaler = gyro_conf.ReadInt(GSection, "prescaler");
   if (prescaler <= 1) prescaler = 1;

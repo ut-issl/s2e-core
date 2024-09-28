@@ -204,8 +204,8 @@ void SimulationTime::PrintStartDateTime(void) const {
 string SimulationTime::GetLogHeader() const {
   string str_tmp = "";
 
-  str_tmp += WriteScalar("elapsed_time", "s");
-  str_tmp += WriteScalar("time", "UTC");
+  str_tmp += logger::WriteScalar("elapsed_time", "s");
+  str_tmp += logger::WriteScalar("time", "UTC");
 
   return str_tmp;
 }
@@ -213,7 +213,7 @@ string SimulationTime::GetLogHeader() const {
 string SimulationTime::GetLogValue() const {
   string str_tmp = "";
 
-  str_tmp += WriteScalar(elapsed_time_sec_);
+  str_tmp += logger::WriteScalar(elapsed_time_sec_);
 
   const char kSize = 100;
   char ymdhms[kSize];

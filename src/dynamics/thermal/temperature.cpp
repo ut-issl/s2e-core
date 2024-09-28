@@ -70,7 +70,7 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
       cout << setprecision(4) << itr->GetSolarRadiation_W() << "  ";
     }
-    s2e::math::Vector<3> sun_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN").CalcNormalizedVector();
+    math::Vector<3> sun_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN").CalcNormalizedVector();
     cout << "SunDir:  ";
     for (size_t i = 0; i < 3; i++) {
       cout << setprecision(3) << sun_direction_b[i] << "  ";
@@ -80,7 +80,7 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
       cout << setprecision(4) << itr->GetAlbedoRadiation_W() << "  ";
     }
-    s2e::math::Vector<3> earth_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH").CalcNormalizedVector();
+    math::Vector<3> earth_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH").CalcNormalizedVector();
     cout << "EarthDir:  ";
     for (size_t i = 0; i < 3; i++) {
       cout << setprecision(3) << earth_direction_b[i] << "  ";
@@ -135,7 +135,7 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
   // TODO: consider the following unused arguments are really needed
   UNUSED(temperatures_K);
 
-  s2e::math::Vector<3> sun_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN").CalcNormalizedVector();
+  math::Vector<3> sun_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("SUN").CalcNormalizedVector();
   vector<double> differentials_K_s(node_num);
   for (size_t i = 0; i < node_num; i++) {
     heatloads_[i].SetElapsedTime_s(t);
@@ -143,7 +143,7 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
       double solar_flux_W_m2 = srp_environment_->GetPowerDensity_W_m2();
       if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
         double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction_b, solar_flux_W_m2);
-        s2e::math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
+        math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
         double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, earth_albedo_->GetEarthAlbedoRadiationPower_W_m2());
         heatloads_[i].SetAlbedoHeatload_W(albedo_radiation_W);
         heatloads_[i].SetSolarHeatload_W(solar_radiation_W);
@@ -196,14 +196,14 @@ string Temperature::GetLogHeader() const {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
       string str_node = "temp_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
-      str_tmp += WriteScalar(str_node, "deg");
+      str_tmp += logger::WriteScalar(str_node, "deg");
     }
   }
   for (size_t i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
       string str_node = "heat_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
-      str_tmp += WriteScalar(str_node, "W");
+      str_tmp += logger::WriteScalar(str_node, "W");
     }
   }
   return str_tmp;
@@ -214,13 +214,13 @@ string Temperature::GetLogValue() const {
   for (size_t i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
-      str_tmp += WriteScalar(nodes_[i].GetTemperature_degC());
+      str_tmp += logger::WriteScalar(nodes_[i].GetTemperature_degC());
     }
   }
   for (size_t i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
-      str_tmp += WriteScalar(heatloads_[i].GetTotalHeatload_W());
+      str_tmp += logger::WriteScalar(heatloads_[i].GetTotalHeatload_W());
     }
   }
   return str_tmp;

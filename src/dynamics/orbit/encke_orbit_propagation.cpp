@@ -12,10 +12,10 @@
 namespace s2e::dynamics::orbit {
 
 EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double gravity_constant_m3_s2,
-                                             const double propagation_step_s, const double current_time_jd, const s2e::math::Vector<3> position_i_m,
-                                             const s2e::math::Vector<3> velocity_i_m_s, const double error_tolerance)
+                                             const double propagation_step_s, const double current_time_jd, const math::Vector<3> position_i_m,
+                                             const math::Vector<3> velocity_i_m_s, const double error_tolerance)
     : Orbit(celestial_information),
-      s2e::math::OrdinaryDifferentialEquation<6>(propagation_step_s),
+      math::OrdinaryDifferentialEquation<6>(propagation_step_s),
       gravity_constant_m3_s2_(gravity_constant_m3_s2),
       error_tolerance_(error_tolerance),
       propagation_step_s_(propagation_step_s) {
@@ -62,9 +62,9 @@ void EnckeOrbitPropagation::Propagate(const double end_time_s, const double curr
 }
 
 // Functions for OrdinaryDifferentialEquation
-void EnckeOrbitPropagation::DerivativeFunction(double t, const s2e::math::Vector<6>& state, s2e::math::Vector<6>& rhs) {
+void EnckeOrbitPropagation::DerivativeFunction(double t, const math::Vector<6>& state, math::Vector<6>& rhs) {
   UNUSED(t);
-  s2e::math::Vector<3> difference_position_i_m_m, difference_acc_i_m_s2;
+  math::Vector<3> difference_position_i_m_m, difference_acc_i_m_s2;
   for (int i = 0; i < 3; i++) {
     difference_position_i_m_m[i] = state[i];
   }
@@ -85,7 +85,7 @@ void EnckeOrbitPropagation::DerivativeFunction(double t, const s2e::math::Vector
 }
 
 // Private Functions
-void EnckeOrbitPropagation::Initialize(double current_time_jd, s2e::math::Vector<3> reference_position_i_m, s2e::math::Vector<3> reference_velocity_i_m_s) {
+void EnckeOrbitPropagation::Initialize(double current_time_jd, math::Vector<3> reference_position_i_m, math::Vector<3> reference_velocity_i_m_s) {
   // General
   spacecraft_acceleration_i_m_s2_.FillUp(0.0);
 
@@ -99,7 +99,7 @@ void EnckeOrbitPropagation::Initialize(double current_time_jd, s2e::math::Vector
   difference_position_i_m_.FillUp(0.0);
   difference_velocity_i_m_s_.FillUp(0.0);
 
-  s2e::math::Vector<6> zero(0.0f);
+  math::Vector<6> zero(0.0f);
   Setup(0.0, zero);
 
   UpdateSatOrbit();
@@ -113,11 +113,11 @@ void EnckeOrbitPropagation::UpdateSatOrbit() {
   TransformEcefToGeodetic();
 }
 
-double EnckeOrbitPropagation::CalcQFunction(s2e::math::Vector<3> difference_position_i_m) {
+double EnckeOrbitPropagation::CalcQFunction(math::Vector<3> difference_position_i_m) {
   double r2;
   r2 = InnerProduct(spacecraft_position_i_m_, spacecraft_position_i_m_);
 
-  s2e::math::Vector<3> dr_2r;
+  math::Vector<3> dr_2r;
   dr_2r = difference_position_i_m - 2.0 * spacecraft_position_i_m_;
 
   double q = InnerProduct(difference_position_i_m, dr_2r) / r2;

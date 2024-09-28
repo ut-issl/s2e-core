@@ -19,7 +19,7 @@ namespace s2e::environment {
 
 // Default constructor
 EarthRotation::EarthRotation(const EarthRotationMode rotation_mode) : rotation_mode_(rotation_mode) {
-  dcm_j2000_to_ecef_ = s2e::math::MakeIdentityMatrix<3>();
+  dcm_j2000_to_ecef_ = math::MakeIdentityMatrix<3>();
   dcm_teme_to_ecef_ = dcm_j2000_to_ecef_;
   InitializeParameters();
 }
@@ -34,80 +34,80 @@ void EarthRotation::InitializeParameters() {
 
     // Coefficients to compute mean obliquity of the ecliptic
     // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
-    c_epsilon_rad_[0] = 23.4392911 * s2e::math::deg_to_rad;      // [rad]
-    c_epsilon_rad_[1] = -46.8150000 * s2e::math::arcsec_to_rad;  // [rad/century]
-    c_epsilon_rad_[2] = -5.9000e-4 * s2e::math::arcsec_to_rad;   // [rad/century^2]
-    c_epsilon_rad_[3] = 1.8130e-3 * s2e::math::arcsec_to_rad;    // [rad/century^3]
+    c_epsilon_rad_[0] = 23.4392911 * math::deg_to_rad;      // [rad]
+    c_epsilon_rad_[1] = -46.8150000 * math::arcsec_to_rad;  // [rad/century]
+    c_epsilon_rad_[2] = -5.9000e-4 * math::arcsec_to_rad;   // [rad/century^2]
+    c_epsilon_rad_[3] = 1.8130e-3 * math::arcsec_to_rad;    // [rad/century^3]
 
     // Coefficients to compute Delaunay angles
     // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
-    c_lm_rad_[0] = 134.96340251 * s2e::math::deg_to_rad;            // [rad]
-    c_lm_rad_[1] = 1717915923.21780000 * s2e::math::arcsec_to_rad;  // [rad/century]
-    c_lm_rad_[2] = 31.87920000 * s2e::math::arcsec_to_rad;          // [rad/century^2]
-    c_lm_rad_[3] = 0.05163500 * s2e::math::arcsec_to_rad;           // [rad/century^3]
-    c_lm_rad_[4] = -0.00024470 * s2e::math::arcsec_to_rad;          // [rad/century^4]
+    c_lm_rad_[0] = 134.96340251 * math::deg_to_rad;            // [rad]
+    c_lm_rad_[1] = 1717915923.21780000 * math::arcsec_to_rad;  // [rad/century]
+    c_lm_rad_[2] = 31.87920000 * math::arcsec_to_rad;          // [rad/century^2]
+    c_lm_rad_[3] = 0.05163500 * math::arcsec_to_rad;           // [rad/century^3]
+    c_lm_rad_[4] = -0.00024470 * math::arcsec_to_rad;          // [rad/century^4]
 
-    c_ls_rad_[0] = 357.52910918 * s2e::math::deg_to_rad;           // [rad]
-    c_ls_rad_[1] = 129596581.04810000 * s2e::math::arcsec_to_rad;  // [rad/century]
-    c_ls_rad_[2] = -0.55320000 * s2e::math::arcsec_to_rad;         // [rad/century^2]
-    c_ls_rad_[3] = 0.00013600 * s2e::math::arcsec_to_rad;          // [rad/century^3]
-    c_ls_rad_[4] = -0.00001149 * s2e::math::arcsec_to_rad;         // [rad/century^4]
+    c_ls_rad_[0] = 357.52910918 * math::deg_to_rad;           // [rad]
+    c_ls_rad_[1] = 129596581.04810000 * math::arcsec_to_rad;  // [rad/century]
+    c_ls_rad_[2] = -0.55320000 * math::arcsec_to_rad;         // [rad/century^2]
+    c_ls_rad_[3] = 0.00013600 * math::arcsec_to_rad;          // [rad/century^3]
+    c_ls_rad_[4] = -0.00001149 * math::arcsec_to_rad;         // [rad/century^4]
 
-    c_f_rad_[0] = 93.27209062 * s2e::math::deg_to_rad;             // [rad]
-    c_f_rad_[1] = 1739527262.84780000 * s2e::math::arcsec_to_rad;  // [rad/century]
-    c_f_rad_[2] = -12.75120000 * s2e::math::arcsec_to_rad;         // [rad/century^2]
-    c_f_rad_[3] = -0.00103700 * s2e::math::arcsec_to_rad;          // [rad/century^3]
-    c_f_rad_[4] = 0.00000417 * s2e::math::arcsec_to_rad;           // [rad/century^4]
+    c_f_rad_[0] = 93.27209062 * math::deg_to_rad;             // [rad]
+    c_f_rad_[1] = 1739527262.84780000 * math::arcsec_to_rad;  // [rad/century]
+    c_f_rad_[2] = -12.75120000 * math::arcsec_to_rad;         // [rad/century^2]
+    c_f_rad_[3] = -0.00103700 * math::arcsec_to_rad;          // [rad/century^3]
+    c_f_rad_[4] = 0.00000417 * math::arcsec_to_rad;           // [rad/century^4]
 
-    c_d_rad_[0] = 297.85019547 * s2e::math::deg_to_rad;            // [rad]
-    c_d_rad_[1] = 1602961601.20900000 * s2e::math::arcsec_to_rad;  // [rad/century]
-    c_d_rad_[2] = -6.37060000 * s2e::math::arcsec_to_rad;          // [rad/century^2]
-    c_d_rad_[3] = 0.00659300 * s2e::math::arcsec_to_rad;           // [rad/century^3]
-    c_d_rad_[4] = -0.00003169 * s2e::math::arcsec_to_rad;          // [rad/century^4]
+    c_d_rad_[0] = 297.85019547 * math::deg_to_rad;            // [rad]
+    c_d_rad_[1] = 1602961601.20900000 * math::arcsec_to_rad;  // [rad/century]
+    c_d_rad_[2] = -6.37060000 * math::arcsec_to_rad;          // [rad/century^2]
+    c_d_rad_[3] = 0.00659300 * math::arcsec_to_rad;           // [rad/century^3]
+    c_d_rad_[4] = -0.00003169 * math::arcsec_to_rad;          // [rad/century^4]
 
-    c_o_rad_[0] = 125.04455501 * s2e::math::deg_to_rad;          // [rad]
-    c_o_rad_[1] = -6962890.54310000 * s2e::math::arcsec_to_rad;  // [rad/century]
-    c_o_rad_[2] = 7.47220000 * s2e::math::arcsec_to_rad;         // [rad/century^2]
-    c_o_rad_[3] = 0.00770200 * s2e::math::arcsec_to_rad;         // [rad/century^3]
-    c_o_rad_[4] = -0.00005939 * s2e::math::arcsec_to_rad;        // [rad/century^4]
+    c_o_rad_[0] = 125.04455501 * math::deg_to_rad;          // [rad]
+    c_o_rad_[1] = -6962890.54310000 * math::arcsec_to_rad;  // [rad/century]
+    c_o_rad_[2] = 7.47220000 * math::arcsec_to_rad;         // [rad/century^2]
+    c_o_rad_[3] = 0.00770200 * math::arcsec_to_rad;         // [rad/century^3]
+    c_o_rad_[4] = -0.00005939 * math::arcsec_to_rad;        // [rad/century^4]
 
     // Coefficients to compute nutation angles
-    c_d_epsilon_rad_[0] = 9.2050 * s2e::math::arcsec_to_rad;   // [rad]
-    c_d_epsilon_rad_[1] = 0.5730 * s2e::math::arcsec_to_rad;   // [rad]
-    c_d_epsilon_rad_[2] = -0.0900 * s2e::math::arcsec_to_rad;  // [rad]
-    c_d_epsilon_rad_[3] = 0.0980 * s2e::math::arcsec_to_rad;   // [rad]
-    c_d_epsilon_rad_[4] = 0.0070 * s2e::math::arcsec_to_rad;   // [rad]
-    c_d_epsilon_rad_[5] = -0.0010 * s2e::math::arcsec_to_rad;  // [rad]
-    c_d_epsilon_rad_[6] = 0.0220 * s2e::math::arcsec_to_rad;   // [rad]
-    c_d_epsilon_rad_[7] = 0.0130 * s2e::math::arcsec_to_rad;   // [rad]
-    c_d_epsilon_rad_[8] = -0.0100 * s2e::math::arcsec_to_rad;  // [rad]
+    c_d_epsilon_rad_[0] = 9.2050 * math::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[1] = 0.5730 * math::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[2] = -0.0900 * math::arcsec_to_rad;  // [rad]
+    c_d_epsilon_rad_[3] = 0.0980 * math::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[4] = 0.0070 * math::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[5] = -0.0010 * math::arcsec_to_rad;  // [rad]
+    c_d_epsilon_rad_[6] = 0.0220 * math::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[7] = 0.0130 * math::arcsec_to_rad;   // [rad]
+    c_d_epsilon_rad_[8] = -0.0100 * math::arcsec_to_rad;  // [rad]
 
-    c_d_psi_rad_[0] = -17.2060 * s2e::math::arcsec_to_rad;  // [rad]
-    c_d_psi_rad_[1] = -1.3170 * s2e::math::arcsec_to_rad;   // [rad]
-    c_d_psi_rad_[2] = 0.2070 * s2e::math::arcsec_to_rad;    // [rad]
-    c_d_psi_rad_[3] = -0.2280 * s2e::math::arcsec_to_rad;   // [rad]
-    c_d_psi_rad_[4] = 0.1480 * s2e::math::arcsec_to_rad;    // [rad]
-    c_d_psi_rad_[5] = 0.0710 * s2e::math::arcsec_to_rad;    // [rad]
-    c_d_psi_rad_[6] = -0.0520 * s2e::math::arcsec_to_rad;   // [rad]
-    c_d_psi_rad_[7] = -0.0300 * s2e::math::arcsec_to_rad;   // [rad]
-    c_d_psi_rad_[8] = 0.0220 * s2e::math::arcsec_to_rad;    // [rad]
+    c_d_psi_rad_[0] = -17.2060 * math::arcsec_to_rad;  // [rad]
+    c_d_psi_rad_[1] = -1.3170 * math::arcsec_to_rad;   // [rad]
+    c_d_psi_rad_[2] = 0.2070 * math::arcsec_to_rad;    // [rad]
+    c_d_psi_rad_[3] = -0.2280 * math::arcsec_to_rad;   // [rad]
+    c_d_psi_rad_[4] = 0.1480 * math::arcsec_to_rad;    // [rad]
+    c_d_psi_rad_[5] = 0.0710 * math::arcsec_to_rad;    // [rad]
+    c_d_psi_rad_[6] = -0.0520 * math::arcsec_to_rad;   // [rad]
+    c_d_psi_rad_[7] = -0.0300 * math::arcsec_to_rad;   // [rad]
+    c_d_psi_rad_[8] = 0.0220 * math::arcsec_to_rad;    // [rad]
 
     // Coefficients to compute precession angle
     // The actual unit of the coefficients are [rad/century^i], where i is the index of the array
-    c_zeta_rad_[0] = 2306.218100 * s2e::math::arcsec_to_rad;  // [rad/century]
-    c_zeta_rad_[1] = 0.301880 * s2e::math::arcsec_to_rad;     // [rad/century^2]
-    c_zeta_rad_[2] = 0.017998 * s2e::math::arcsec_to_rad;     // [rad/century^3]
+    c_zeta_rad_[0] = 2306.218100 * math::arcsec_to_rad;  // [rad/century]
+    c_zeta_rad_[1] = 0.301880 * math::arcsec_to_rad;     // [rad/century^2]
+    c_zeta_rad_[2] = 0.017998 * math::arcsec_to_rad;     // [rad/century^3]
 
-    c_theta_rad_[0] = 2004.310900 * s2e::math::arcsec_to_rad;  // [rad/century]
-    c_theta_rad_[1] = -0.426650 * s2e::math::arcsec_to_rad;    // [rad/century^2]
-    c_theta_rad_[2] = -0.041833 * s2e::math::arcsec_to_rad;    // [rad/century^3]
+    c_theta_rad_[0] = 2004.310900 * math::arcsec_to_rad;  // [rad/century]
+    c_theta_rad_[1] = -0.426650 * math::arcsec_to_rad;    // [rad/century^2]
+    c_theta_rad_[2] = -0.041833 * math::arcsec_to_rad;    // [rad/century^3]
 
-    c_z_rad_[0] = 2306.218100 * s2e::math::arcsec_to_rad;  // [rad/century]
-    c_z_rad_[1] = 1.094680 * s2e::math::arcsec_to_rad;     // [rad/century^2]
-    c_z_rad_[2] = 0.018203 * s2e::math::arcsec_to_rad;     // [rad/century^3]
+    c_z_rad_[0] = 2306.218100 * math::arcsec_to_rad;  // [rad/century]
+    c_z_rad_[1] = 1.094680 * math::arcsec_to_rad;     // [rad/century^2]
+    c_z_rad_[2] = 0.018203 * math::arcsec_to_rad;     // [rad/century^3]
   } else {
     // If the rotation mode is neither Simple nor Full, disable the rotation calculation and make the DCM a unit matrix
-    dcm_j2000_to_ecef_ = s2e::math::MakeIdentityMatrix<3>();
+    dcm_j2000_to_ecef_ = math::MakeIdentityMatrix<3>();
   }
 }
 
@@ -127,10 +127,10 @@ void EarthRotation::Update(const double julian_date) {
       terrestrial_time_julian_century[i + 1] = terrestrial_time_julian_century[i] * terrestrial_time_julian_century[0];
     }
 
-    s2e::math::Matrix<3, 3> dcm_precession;
-    s2e::math::Matrix<3, 3> dcm_nutation;
-    s2e::math::Matrix<3, 3> dcm_rotation;
-    s2e::math::Matrix<3, 3> dcm_polar_motion;
+    math::Matrix<3, 3> dcm_precession;
+    math::Matrix<3, 3> dcm_nutation;
+    math::Matrix<3, 3> dcm_rotation;
+    math::Matrix<3, 3> dcm_polar_motion;
     // Nutation + Precession
     dcm_precession = Precession(terrestrial_time_julian_century);
     dcm_nutation = Nutation(terrestrial_time_julian_century);  // epsilon_rad_, d_epsilon_rad_, d_psi_rad_ are updated in this procedure
@@ -156,9 +156,9 @@ void EarthRotation::Update(const double julian_date) {
   }
 }
 
-s2e::math::Matrix<3, 3> EarthRotation::AxialRotation(const double gast_rad) { return s2e::math::MakeRotationMatrixZ(gast_rad); }
+math::Matrix<3, 3> EarthRotation::AxialRotation(const double gast_rad) { return math::MakeRotationMatrixZ(gast_rad); }
 
-s2e::math::Matrix<3, 3> EarthRotation::Nutation(const double (&t_tt_century)[4]) {
+math::Matrix<3, 3> EarthRotation::Nutation(const double (&t_tt_century)[4]) {
   // Mean obliquity of the ecliptic
   epsilon_rad_ = c_epsilon_rad_[0];
   for (int i = 0; i < 3; i++) {
@@ -210,17 +210,17 @@ s2e::math::Matrix<3, 3> EarthRotation::Nutation(const double (&t_tt_century)[4])
                    c_d_epsilon_rad_[7] * cos(2 * l_rad + lm_rad) + c_d_epsilon_rad_[8] * cos(2 * ld_rad - ls_rad);
 
   double epsi_mod_rad = epsilon_rad_ + d_epsilon_rad_;
-  s2e::math::Matrix<3, 3> x_epsi_1st = s2e::math::MakeRotationMatrixX(epsilon_rad_);
-  s2e::math::Matrix<3, 3> z_d_psi = s2e::math::MakeRotationMatrixZ(-d_psi_rad_);
-  s2e::math::Matrix<3, 3> x_epsi_2nd = s2e::math::MakeRotationMatrixX(-epsi_mod_rad);
+  math::Matrix<3, 3> x_epsi_1st = math::MakeRotationMatrixX(epsilon_rad_);
+  math::Matrix<3, 3> z_d_psi = math::MakeRotationMatrixZ(-d_psi_rad_);
+  math::Matrix<3, 3> x_epsi_2nd = math::MakeRotationMatrixX(-epsi_mod_rad);
 
-  s2e::math::Matrix<3, 3> dcm_nutation;
+  math::Matrix<3, 3> dcm_nutation;
   dcm_nutation = x_epsi_2nd * z_d_psi * x_epsi_1st;
 
   return dcm_nutation;
 }
 
-s2e::math::Matrix<3, 3> EarthRotation::Precession(const double (&t_tt_century)[4]) {
+math::Matrix<3, 3> EarthRotation::Precession(const double (&t_tt_century)[4]) {
   // Compute precession angles(zeta, theta, z)
   double zeta_rad = 0.0;
   for (int i = 0; i < 3; i++) {
@@ -236,18 +236,18 @@ s2e::math::Matrix<3, 3> EarthRotation::Precession(const double (&t_tt_century)[4
   }
 
   // Develop transformation matrix
-  s2e::math::Matrix<3, 3> z_zeta = s2e::math::MakeRotationMatrixZ(-zeta_rad);
-  s2e::math::Matrix<3, 3> y_theta = s2e::math::MakeRotationMatrixY(theta_rad);
-  s2e::math::Matrix<3, 3> z_z = s2e::math::MakeRotationMatrixZ(-z_rad);
+  math::Matrix<3, 3> z_zeta = math::MakeRotationMatrixZ(-zeta_rad);
+  math::Matrix<3, 3> y_theta = math::MakeRotationMatrixY(theta_rad);
+  math::Matrix<3, 3> z_z = math::MakeRotationMatrixZ(-z_rad);
 
-  s2e::math::Matrix<3, 3> dcm_precession;
+  math::Matrix<3, 3> dcm_precession;
   dcm_precession = z_z * y_theta * z_zeta;
 
   return dcm_precession;
 }
 
-s2e::math::Matrix<3, 3> EarthRotation::PolarMotion(const double x_p, const double y_p) {
-  s2e::math::Matrix<3, 3> dcm_polar_motion;
+math::Matrix<3, 3> EarthRotation::PolarMotion(const double x_p, const double y_p) {
+  math::Matrix<3, 3> dcm_polar_motion;
 
   dcm_polar_motion[0][0] = 1.0;
   dcm_polar_motion[0][1] = 0.0;

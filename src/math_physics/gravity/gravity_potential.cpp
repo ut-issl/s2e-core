@@ -28,8 +28,8 @@ GravityPotential::GravityPotential(const size_t degree, const std::vector<std::v
   // TODO Check size
 }
 
-s2e::math::Vector<3> GravityPotential::CalcAcceleration_xcxf_m_s2(const s2e::math::Vector<3> &position_xcxf_m) {
-  s2e::math::Vector<3> acceleration_xcxf_m_s2(0.0);
+math::Vector<3> GravityPotential::CalcAcceleration_xcxf_m_s2(const math::Vector<3> &position_xcxf_m) {
+  math::Vector<3> acceleration_xcxf_m_s2(0.0);
   if (degree_ <= 0) return acceleration_xcxf_m_s2;  // TODO: Consider this assertion is needed
 
   xcxf_x_m_ = position_xcxf_m[0];
@@ -95,8 +95,8 @@ s2e::math::Vector<3> GravityPotential::CalcAcceleration_xcxf_m_s2(const s2e::mat
   return acceleration_xcxf_m_s2;
 }
 
-s2e::math::Matrix<3, 3> GravityPotential::CalcPartialDerivative_xcxf_s2(const s2e::math::Vector<3> &position_xcxf_m) {
-  s2e::math::Matrix<3, 3> partial_derivative(0.0);
+math::Matrix<3, 3> GravityPotential::CalcPartialDerivative_xcxf_s2(const math::Vector<3> &position_xcxf_m) {
+  math::Matrix<3, 3> partial_derivative(0.0);
   if (degree_ <= 0) return partial_derivative;
 
   xcxf_x_m_ = position_xcxf_m[0];

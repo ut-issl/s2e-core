@@ -27,7 +27,7 @@ class SolarRadiationPressureDisturbance : public SurfaceForce {
    * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  SolarRadiationPressureDisturbance(const std::vector<Surface>& surfaces, const s2e::math::Vector<3>& center_of_gravity_b_m,
+  SolarRadiationPressureDisturbance(const std::vector<Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m,
                                     const bool is_calculation_enabled = true);
 
   /**
@@ -57,7 +57,7 @@ class SolarRadiationPressureDisturbance : public SurfaceForce {
    * @param [in] input_direction_b: Direction vector of the sun at the body frame
    * @param [in] item: Solar pressure [N/m^2]
    */
-  void CalcCoefficients(const s2e::math::Vector<3>& input_direction_b, const double item);
+  void CalcCoefficients(const math::Vector<3>& input_direction_b, const double item);
 };
 
 /**

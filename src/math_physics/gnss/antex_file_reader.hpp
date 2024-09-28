@@ -128,7 +128,7 @@ class AntexPhaseCenterData {
    * @fn SetPhaseCenterOffset_mm
    * @param[in] phase_center_offset_mm: Phase center offset vector [mm]
    */
-  inline void SetPhaseCenterOffset_mm(const s2e::math::Vector<3> phase_center_offset_mm) { phase_center_offset_mm_ = phase_center_offset_mm; }
+  inline void SetPhaseCenterOffset_mm(const math::Vector<3> phase_center_offset_mm) { phase_center_offset_mm_ = phase_center_offset_mm; }
   /**
    * @fn SetGridInformation
    * @param[in] grid_information: Grid information
@@ -152,7 +152,7 @@ class AntexPhaseCenterData {
    * @fn GetPhaseCenterOffset_mm
    * @return Phase center offset vector [mm]
    */
-  inline s2e::math::Vector<3> GetPhaseCenterOffset_mm() const { return phase_center_offset_mm_; }
+  inline math::Vector<3> GetPhaseCenterOffset_mm() const { return phase_center_offset_mm_; }
   /**
    * @fn GetGridInformation
    * @return Grid information
@@ -166,7 +166,7 @@ class AntexPhaseCenterData {
 
  private:
   std::string frequency_name_ = "";                                    //!< Frequency name
-  s2e::math::Vector<3> phase_center_offset_mm_{0.0};                        //!< Phase center offset [mm]
+  math::Vector<3> phase_center_offset_mm_{0.0};                        //!< Phase center offset [mm]
   AntexGridDefinition grid_information_;                               //!< Grid information
   std::vector<std::vector<double>> phase_center_variation_matrix_mm_;  //!< Phase center variation [mm] (column, row definition: [azimuth][zenith])
 };

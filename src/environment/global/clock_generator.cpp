@@ -9,9 +9,9 @@ namespace s2e::environment {
 
 ClockGenerator::~ClockGenerator() {}
 
-void ClockGenerator::RegisterComponent(ITickable* tickable) { components_.push_back(tickable); }
+void ClockGenerator::RegisterComponent(components::ITickable* tickable) { components_.push_back(tickable); }
 
-void ClockGenerator::RemoveComponent(ITickable* tickable) {
+void ClockGenerator::RemoveComponent(components::ITickable* tickable) {
   for (auto itr = components_.begin(); itr != components_.end();) {
     if (*itr == tickable) {
       components_.erase(itr++);

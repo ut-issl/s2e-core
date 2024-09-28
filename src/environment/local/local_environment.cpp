@@ -8,9 +8,9 @@
 #include "dynamics/orbit/orbit.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
-namespace s2e::environment
+namespace s2e::environment{
 
-LocalEnvironment::LocalEnvironment(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
+LocalEnvironment::LocalEnvironment(const simulation::SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
                                    const int spacecraft_id) {
   Initialize(simulation_configuration, global_environment, spacecraft_id);
 }
@@ -23,7 +23,7 @@ LocalEnvironment::~LocalEnvironment() {
   delete celestial_information_;
 }
 
-void LocalEnvironment::Initialize(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
+void LocalEnvironment::Initialize(const simulation::SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
                                   const int spacecraft_id) {
   // Read file name
   setting_file_reader::IniAccess iniAccess = setting_file_reader::IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
@@ -71,7 +71,7 @@ void LocalEnvironment::Update(const dynamics::Dynamics* dynamics, const Simulati
   }
 }
 
-void LocalEnvironment::LogSetup(Logger& logger) {
+void LocalEnvironment::LogSetup(logger::Logger& logger) {
   logger.AddLogList(geomagnetic_field_);
   logger.AddLogList(solar_radiation_pressure_environment_);
   logger.AddLogList(earth_albedo_);

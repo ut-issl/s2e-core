@@ -26,7 +26,7 @@ class GlobalEnvironment {
    * @brief Constructor
    * @param [in] simulation_configuration: Simulation configuration
    */
-  GlobalEnvironment(const SimulationConfiguration* simulation_configuration);
+  GlobalEnvironment(const simulation::SimulationConfiguration* simulation_configuration);
   /**
    * @fn ~GlobalEnvironment
    * @brief Destructor
@@ -38,7 +38,7 @@ class GlobalEnvironment {
    * @brief Initialize all global environment members
    * @param [in] simulation_configuration: Simulation configuration
    */
-  void Initialize(const SimulationConfiguration* simulation_configuration);
+  void Initialize(const simulation::SimulationConfiguration* simulation_configuration);
   /**
    * @fn Update
    * @brief Update states of all global environment
@@ -48,7 +48,7 @@ class GlobalEnvironment {
    * @fn LogSetup
    * @brief Log setup of global environment information
    */
-  void LogSetup(Logger& logger);
+  void LogSetup(logger::Logger& logger);
   /**
    * @fn Reset
    * @brief Reset clock of SimulationTime

@@ -47,22 +47,22 @@ class KeplerOrbit {
    * @fn GetPosition_i_m
    * @brief Return position vector in the inertial frame [m]
    */
-  inline const s2e::math::Vector<3> GetPosition_i_m() const { return position_i_m_; }
+  inline const math::Vector<3> GetPosition_i_m() const { return position_i_m_; }
   /**
    * @fn GetVelocity_i_m_s
    * @brief Return velocity vector in the inertial frame [m/s]
    */
-  inline const s2e::math::Vector<3> GetVelocity_i_m_s() const { return velocity_i_m_s_; }
+  inline const math::Vector<3> GetVelocity_i_m_s() const { return velocity_i_m_s_; }
 
  protected:
-  s2e::math::Vector<3> position_i_m_;    //!< Position vector in the inertial frame [m]
-  s2e::math::Vector<3> velocity_i_m_s_;  //!< Velocity vector in the inertial frame [m/s]
+  math::Vector<3> position_i_m_;    //!< Position vector in the inertial frame [m]
+  math::Vector<3> velocity_i_m_s_;  //!< Velocity vector in the inertial frame [m/s]
 
  private:
   double gravity_constant_m3_s2_;        //!< Gravity constant of the center body [m3/s2]
   OrbitalElements oe_;                   //!< Orbital elements
   double mean_motion_rad_s_;             //!< Mean motion of the orbit [rad/s]
-  s2e::math::Matrix<3, 3> dcm_inplane_to_i_;  //!< Direction cosine matrix from the in-plane frame to the inertial frame
+  math::Matrix<3, 3> dcm_inplane_to_i_;  //!< Direction cosine matrix from the in-plane frame to the inertial frame
 
   /**
    * @fn CalcConstKeplerMotion

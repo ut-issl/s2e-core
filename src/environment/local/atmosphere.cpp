@@ -52,7 +52,7 @@ Atmosphere::Atmosphere(const std::string model, const std::string space_weather_
   }
 }
 
-double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& orbit) {
+double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const dynamics::orbit::Orbit& orbit) {
   if (!is_calc_enabled_) return 0;
 
   if (model_ == "STANDARD") {
@@ -68,7 +68,7 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& 
                                         manual_average_f107_, manual_ap_);
   } else if (model_ == "HARRIS_PRIESTER") {
     // Harris-Priester
-    s2e::math::Vector<3> sun_direction_eci = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN").CalcNormalizedVector();
+    math::Vector<3> sun_direction_eci = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN").CalcNormalizedVector();
     air_density_kg_m3_ = s2e::atmosphere::CalcAirDensityWithHarrisPriester_kg_m3(orbit.GetGeodeticPosition(), sun_direction_eci);
   } else {
     // No suitable model
@@ -88,7 +88,7 @@ double Atmosphere::AddNoise(const double rho_kg_m3) {
 
 std::string Atmosphere::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar(air_density_kg_m3_);
+  str_tmp += logger::WriteScalar(air_density_kg_m3_);
 
   return str_tmp;
 }
@@ -96,7 +96,7 @@ std::string Atmosphere::GetLogValue() const {
 std::string Atmosphere::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("air_density_at_spacecraft_position", "kg/m3");
+  str_tmp += logger::WriteScalar("air_density_at_spacecraft_position", "kg/m3");
 
   return str_tmp;
 }

@@ -14,7 +14,7 @@ TEST(Matrix, ConstructorWithNumber) {
   const size_t R = 6;
   const size_t C = 3;
   double initialize_value = 2.0;
-  s2e::math::Matrix<R, C> m(initialize_value);
+  math::Matrix<R, C> m(initialize_value);
 
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
@@ -30,7 +30,7 @@ TEST(Matrix, ConstructorWithNumber) {
 TEST(Matrix, GetLength) {
   const size_t R = 6;
   const size_t C = 3;
-  s2e::math::Matrix<R, C> m;
+  math::Matrix<R, C> m;
 
   EXPECT_EQ(R, m.GetRowLength());
   EXPECT_EQ(C, m.GetColumnLength());
@@ -43,8 +43,8 @@ TEST(Matrix, OperatorPlusEqual) {
   const size_t R = 6;
   const size_t C = 3;
   double initialize_value = 2.0;
-  s2e::math::Matrix<R, C> m(initialize_value);
-  s2e::math::Matrix<R, C> adding;
+  math::Matrix<R, C> m(initialize_value);
+  math::Matrix<R, C> adding;
 
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
@@ -71,8 +71,8 @@ TEST(Matrix, OperatorMinusEqual) {
   const size_t R = 6;
   const size_t C = 3;
   double initialize_value = 2.0;
-  s2e::math::Matrix<R, C> m(initialize_value);
-  s2e::math::Matrix<R, C> subtracting;
+  math::Matrix<R, C> m(initialize_value);
+  math::Matrix<R, C> subtracting;
 
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
@@ -99,7 +99,7 @@ TEST(Matrix, OperatorMultiplyEqual) {
   const size_t R = 6;
   const size_t C = 3;
 
-  s2e::math::Matrix<R, C> m;
+  math::Matrix<R, C> m;
   double multiplying = 2.0;
 
   for (size_t r = 0; r < R; r++) {
@@ -125,7 +125,7 @@ TEST(Matrix, OperatorDivideEqual) {
   const size_t R = 6;
   const size_t C = 3;
 
-  s2e::math::Matrix<R, C> m;
+  math::Matrix<R, C> m;
   double dividing = 2.0;
 
   for (size_t r = 0; r < R; r++) {
@@ -152,7 +152,7 @@ TEST(Matrix, FillUp) {
   const size_t C = 3;
   double value = 3.0;
 
-  s2e::math::Matrix<R, C> m;
+  math::Matrix<R, C> m;
 
   m.FillUp(value);
 
@@ -169,7 +169,7 @@ TEST(Matrix, FillUp) {
  */
 TEST(Matrix, CalcTrace) {
   const size_t N = 6;
-  s2e::math::Matrix<N, N> m;
+  math::Matrix<N, N> m;
 
   for (size_t r = 0; r < N; r++) {
     for (size_t c = 0; c < N; c++) {
@@ -201,8 +201,8 @@ TEST(Matrix, OperatorPlus) {
   const size_t R = 6;
   const size_t C = 3;
   double initialize_value = -2.0;
-  s2e::math::Matrix<R, C> m(initialize_value);
-  s2e::math::Matrix<R, C> adding;
+  math::Matrix<R, C> m(initialize_value);
+  math::Matrix<R, C> adding;
 
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
@@ -210,7 +210,7 @@ TEST(Matrix, OperatorPlus) {
     }
   }
 
-  s2e::math::Matrix<R, C> added = m + adding;
+  math::Matrix<R, C> added = m + adding;
 
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
@@ -230,8 +230,8 @@ TEST(Matrix, OperatorMinus) {
   const size_t R = 6;
   const size_t C = 3;
   double initialize_value = 0.6;
-  s2e::math::Matrix<R, C> m(initialize_value);
-  s2e::math::Matrix<R, C> subtracting;
+  math::Matrix<R, C> m(initialize_value);
+  math::Matrix<R, C> subtracting;
 
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
@@ -239,7 +239,7 @@ TEST(Matrix, OperatorMinus) {
     }
   }
 
-  s2e::math::Matrix<R, C> subtracted = m - subtracting;
+  math::Matrix<R, C> subtracted = m - subtracting;
 
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
@@ -259,7 +259,7 @@ TEST(Matrix, OperatorMultiplyScalar) {
   const size_t R = 6;
   const size_t C = 3;
 
-  s2e::math::Matrix<R, C> m;
+  math::Matrix<R, C> m;
   double multiplying = 0.3;
 
   for (size_t r = 0; r < R; r++) {
@@ -268,7 +268,7 @@ TEST(Matrix, OperatorMultiplyScalar) {
     }
   }
 
-  s2e::math::Matrix<R, C> subtracted = multiplying * m;
+  math::Matrix<R, C> subtracted = multiplying * m;
 
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
@@ -287,8 +287,8 @@ TEST(Matrix, OperatorMultiplyMatrix) {
   const size_t R = 2;
   const size_t C = 3;
 
-  s2e::math::Matrix<R, C> a;
-  s2e::math::Matrix<C, R> b;
+  math::Matrix<R, C> a;
+  math::Matrix<C, R> b;
 
   a[0][0] = 1.0;
   a[0][1] = 2.0;
@@ -304,7 +304,7 @@ TEST(Matrix, OperatorMultiplyMatrix) {
   b[2][0] = 5.0;
   b[2][1] = 6.0;
 
-  s2e::math::Matrix<R, R> result = a * b;
+  math::Matrix<R, R> result = a * b;
 
   EXPECT_DOUBLE_EQ(22.0, result[0][0]);
   EXPECT_DOUBLE_EQ(28.0, result[0][1]);
@@ -319,14 +319,14 @@ TEST(Matrix, Transpose) {
   const size_t R = 6;
   const size_t C = 3;
 
-  s2e::math::Matrix<R, C> m;
+  math::Matrix<R, C> m;
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
       m[r][c] = r * c;
     }
   }
 
-  s2e::math::Matrix<C, R> transposed = m.Transpose();
+  math::Matrix<C, R> transposed = m.Transpose();
 
   for (size_t r = 0; r < R; r++) {
     for (size_t c = 0; c < C; c++) {
@@ -344,7 +344,7 @@ TEST(Matrix, Transpose) {
 TEST(Matrix, MakeIdentityMatrix) {
   const size_t N = 6;
 
-  s2e::math::Matrix<N, N> m = s2e::math::MakeIdentityMatrix<N>();
+  math::Matrix<N, N> m = math::MakeIdentityMatrix<N>();
 
   for (size_t r = 0; r < N; r++) {
     for (size_t c = 0; c < N; c++) {
@@ -362,9 +362,9 @@ TEST(Matrix, MakeIdentityMatrix) {
  */
 TEST(Matrix, MakeRotationMatrixX) {
   const size_t N = 3;
-  double theta_rad = -45.0 * s2e::math::deg_to_rad;
+  double theta_rad = -45.0 * math::deg_to_rad;
 
-  s2e::math::Matrix<N, N> m = s2e::math::MakeRotationMatrixX(theta_rad);
+  math::Matrix<N, N> m = math::MakeRotationMatrixX(theta_rad);
 
   EXPECT_DOUBLE_EQ(1.0, m[0][0]);
   EXPECT_DOUBLE_EQ(0.0, m[0][1]);
@@ -382,9 +382,9 @@ TEST(Matrix, MakeRotationMatrixX) {
  */
 TEST(Matrix, MakeRotationMatrixY) {
   const size_t N = 3;
-  double theta_rad = 120.0 * s2e::math::deg_to_rad;
+  double theta_rad = 120.0 * math::deg_to_rad;
 
-  s2e::math::Matrix<N, N> m = s2e::math::MakeRotationMatrixY(theta_rad);
+  math::Matrix<N, N> m = math::MakeRotationMatrixY(theta_rad);
 
   EXPECT_DOUBLE_EQ(cos(theta_rad), m[0][0]);
   EXPECT_DOUBLE_EQ(0.0, m[0][1]);
@@ -402,9 +402,9 @@ TEST(Matrix, MakeRotationMatrixY) {
  */
 TEST(Matrix, MakeRotationMatrixZ) {
   const size_t N = 3;
-  double theta_rad = 30.0 * s2e::math::deg_to_rad;
+  double theta_rad = 30.0 * math::deg_to_rad;
 
-  s2e::math::Matrix<N, N> m = s2e::math::MakeRotationMatrixZ(theta_rad);
+  math::Matrix<N, N> m = math::MakeRotationMatrixZ(theta_rad);
 
   EXPECT_DOUBLE_EQ(cos(theta_rad), m[0][0]);
   EXPECT_DOUBLE_EQ(sin(theta_rad), m[0][1]);

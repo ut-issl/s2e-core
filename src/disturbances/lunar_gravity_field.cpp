@@ -22,8 +22,8 @@ namespace s2e::disturbances {
 LunarGravityField::LunarGravityField(const int degree, const std::string file_path, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, false), degree_(degree) {
   // Initialize
-  acceleration_mcmf_m_s2_ = s2e::math::Vector<3>(0.0);
-  debug_pos_mcmf_m_ = s2e::math::Vector<3>(0.0);
+  acceleration_mcmf_m_s2_ = math::Vector<3>(0.0);
+  debug_pos_mcmf_m_ = math::Vector<3>(0.0);
   debug_pos_mcmf_m_[0] = 2000000;
   debug_pos_mcmf_m_[1] = 2000000;
   debug_pos_mcmf_m_[2] = 2000000;
@@ -90,10 +90,10 @@ bool LunarGravityField::ReadCoefficientsGrgm1200a(std::string file_name) {
 
 void LunarGravityField::Update(const LocalEnvironment &local_environment, const dynamics::Dynamics &dynamics) {
   const CelestialInformation global_celestial_information = local_environment.GetCelestialInformation().GetGlobalInformation();
-  s2e::math::Matrix<3, 3> dcm_mci2mcmf_ = global_celestial_information.GetMoonRotation().GetDcmJ2000ToMcmf();
+  math::Matrix<3, 3> dcm_mci2mcmf_ = global_celestial_information.GetMoonRotation().GetDcmJ2000ToMcmf();
 
-  s2e::math::Vector<3> spacecraft_position_mci_m = dynamics.GetOrbit().GetPosition_i_m();
-  s2e::math::Vector<3> spacecraft_position_mcmf_m = dcm_mci2mcmf_ * spacecraft_position_mci_m;
+  math::Vector<3> spacecraft_position_mci_m = dynamics.GetOrbit().GetPosition_i_m();
+  math::Vector<3> spacecraft_position_mcmf_m = dcm_mci2mcmf_ * spacecraft_position_mci_m;
 
 #ifdef DEBUG_LUNAR_GRAVITY_FIELD
   std::chrono::system_clock::time_point start, end;
@@ -109,7 +109,7 @@ void LunarGravityField::Update(const LocalEnvironment &local_environment, const 
   UNUSED(time_ms_);
 #endif
 
-  s2e::math::Matrix<3, 3> dcm_mcmf2i = dcm_mci2mcmf_.Transpose();
+  math::Matrix<3, 3> dcm_mcmf2i = dcm_mci2mcmf_.Transpose();
   acceleration_i_m_s2_ = dcm_mcmf2i * acceleration_mcmf_m_s2_;
 }
 
@@ -118,7 +118,7 @@ std::string LunarGravityField::GetLogHeader() const {
 
 #ifdef DEBUG_LUNAR_GRAVITY_FIELD
   str_tmp += logger::WriteVector("lunar_gravity_calculation_position", "mcmf", "m", 3);
-  str_tmp += WriteScalar("lunar_gravity_calculation_time", "ms");
+  str_tmp += logger::WriteScalar("lunar_gravity_calculation_time", "ms");
 #endif
   str_tmp += logger::WriteVector("lunar_gravity_acceleration", "mcmf", "m/s2", 3);
 
@@ -130,7 +130,7 @@ std::string LunarGravityField::GetLogValue() const {
 
 #ifdef DEBUG_LUNAR_GRAVITY_FIELD
   str_tmp += logger::WriteVector(debug_pos_mcmf_m_, 15);
-  str_tmp += WriteScalar(time_ms_);
+  str_tmp += logger::WriteScalar(time_ms_);
 #endif
 
   str_tmp += logger::WriteVector(acceleration_mcmf_m_s2_, 15);

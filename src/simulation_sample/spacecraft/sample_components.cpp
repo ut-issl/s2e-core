@@ -145,21 +145,21 @@ SampleComponents::SampleComponents(const dynamics::dynamics::Dynamics* dynamics,
   /**************/
 
   // actuator debug output
-  // s2e::math::Vector<kMtqDimension> mag_moment_c{0.01};
+  // math::Vector<kMtqDimension> mag_moment_c{0.01};
   // magnetorquer_->SetOutputMagneticMoment_c_Am2(mag_moment_c);
   // reaction_wheel_->SetTargetTorque_rw_Nm(0.01);
   // reaction_wheel_->SetDriveFlag(true);
   // thruster_->SetDuty(0.9);
 
   // force generator debug output
-  // s2e::math::Vector<3> force_N;
+  // math::Vector<3> force_N;
   // force_N[0] = 1.0;
   // force_N[1] = 0.0;
   // force_N[2] = 0.0;
   // force_generator_->SetForce_b_N(force_N);
 
   // torque generator debug output
-  // s2e::math::Vector<3> torque_Nm;
+  // math::Vector<3> torque_Nm;
   // torque_Nm[0] = 0.1;
   // torque_Nm[1] = 0.0;
   // torque_Nm[2] = 0.0;

@@ -38,7 +38,7 @@ class CsvScenarioInterface {
    * @brief Return sun direction vector in the body fixed frame
    * @param [in] time_query: Time query
    */
-  static s2e::math::Vector<3> GetSunDirectionBody(const double time_query);
+  static math::Vector<3> GetSunDirectionBody(const double time_query);
   /**
    * @fn GetSunFlag
    * @brief Return sun flag

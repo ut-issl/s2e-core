@@ -42,7 +42,7 @@ class SimulationObject {
    */
   template <size_t NumElement>
   void GetInitializedMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string init_monte_carlo_parameter_name,
-                                               s2e::math::Vector<NumElement>& destination) const;
+                                               math::Vector<NumElement>& destination) const;
 
   /**
    * @fn GetInitializedMonteCarloParameterDouble
@@ -56,7 +56,7 @@ class SimulationObject {
    * @brief Get randomized quaternion and store it in destination
    */
   void GetInitializedMonteCarloParameterQuaternion(const MonteCarloSimulationExecutor& monte_carlo_simulator,
-                                                   std::string init_monte_carlo_parameter_name, s2e::math::Quaternion& destination) const;
+                                                   std::string init_monte_carlo_parameter_name, math::Quaternion& destination) const;
 
   /**
    * @fn SetParameters
@@ -82,7 +82,7 @@ class SimulationObject {
 template <size_t NumElement>
 void SimulationObject::GetInitializedMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator,
                                                                std::string init_monte_carlo_parameter_name,
-                                                               s2e::math::Vector<NumElement>& destination) const {
+                                                               math::Vector<NumElement>& destination) const {
   monte_carlo_simulator.GetInitializedMonteCarloParameterVector(name_, init_monte_carlo_parameter_name, destination);
 }
 

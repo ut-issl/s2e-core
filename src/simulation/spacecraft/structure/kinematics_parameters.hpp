@@ -21,7 +21,7 @@ class KinematicsParameters {
    * @fn KinematicsParameters
    * @brief Constructor
    */
-  KinematicsParameters(s2e::math::Vector<3> center_of_gravity_b_m, double mass_kg, s2e::math::Matrix<3, 3> inertia_tensor_b_kgm2);
+  KinematicsParameters(math::Vector<3> center_of_gravity_b_m, double mass_kg, math::Matrix<3, 3> inertia_tensor_b_kgm2);
   /**
    * @fn ~KinematicsParameters
    * @brief Destructor
@@ -33,7 +33,7 @@ class KinematicsParameters {
    * @fn GetCenterOfGravity_b_m
    * @brief Return Position vector of center of gravity at body frame [m]
    */
-  inline const s2e::math::Vector<3>& GetCenterOfGravity_b_m() const { return center_of_gravity_b_m_; }
+  inline const math::Vector<3>& GetCenterOfGravity_b_m() const { return center_of_gravity_b_m_; }
   /**
    * @fn GetMass_kg
    * @brief Return Mass of the satellite [kg]
@@ -43,7 +43,7 @@ class KinematicsParameters {
    * @fn GetInertiaTensor_b_kgm2
    * @brief Return Inertia tensor at body frame [kgm2]
    */
-  inline const s2e::math::Matrix<3, 3>& GetInertiaTensor_b_kgm2() const { return inertia_tensor_b_kgm2_; }
+  inline const math::Matrix<3, 3>& GetInertiaTensor_b_kgm2() const { return inertia_tensor_b_kgm2_; }
 
   // Setter
   /**
@@ -51,7 +51,7 @@ class KinematicsParameters {
    * @brief Set center of gravity vector at the body frame [m]
    * @param [in] center_of_gravity_vector_b_m: Center of gravity vector at the body frame [m]
    */
-  inline void SetCenterOfGravityVector_b_m(const s2e::math::Vector<3> center_of_gravity_vector_b_m) {
+  inline void SetCenterOfGravityVector_b_m(const math::Vector<3> center_of_gravity_vector_b_m) {
     center_of_gravity_b_m_ = center_of_gravity_vector_b_m;
   }
   /**
@@ -77,15 +77,15 @@ class KinematicsParameters {
    * @brief Inertia tensor at body frame
    * @param [in] inertia_tensor_b_kgm2: Inertia tensor at body frame [kgm2]
    */
-  inline void SetInertiaTensor_b_kgm2(const s2e::math::Matrix<3, 3> inertia_tensor_b_kgm2) {
+  inline void SetInertiaTensor_b_kgm2(const math::Matrix<3, 3> inertia_tensor_b_kgm2) {
     // TODO add assertion check
     inertia_tensor_b_kgm2_ = inertia_tensor_b_kgm2;
   }
 
  private:
-  s2e::math::Vector<3> center_of_gravity_b_m_;     //!< Position vector of center of gravity at body frame [m]
+  math::Vector<3> center_of_gravity_b_m_;     //!< Position vector of center of gravity at body frame [m]
   double mass_kg_;                            //!< Mass of the satellite [kg]
-  s2e::math::Matrix<3, 3> inertia_tensor_b_kgm2_;  //!< Inertia tensor at body frame [kgm2]
+  math::Matrix<3, 3> inertia_tensor_b_kgm2_;  //!< Inertia tensor at body frame [kgm2]
 };
 
 } // namespace s2e::simulation

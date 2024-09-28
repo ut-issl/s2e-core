@@ -58,15 +58,15 @@ Battery::~Battery() {}
 std::string Battery::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "battery_";
-  str_tmp += WriteScalar(component_name + "voltage", "V");
-  str_tmp += WriteScalar(component_name + "dod", "%");
+  str_tmp += logger::WriteScalar(component_name + "voltage", "V");
+  str_tmp += logger::WriteScalar(component_name + "dod", "%");
   return str_tmp;
 }
 
 std::string Battery::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar(battery_voltage_V_);
-  str_tmp += WriteScalar(depth_of_discharge_percent_);
+  str_tmp += logger::WriteScalar(battery_voltage_V_);
+  str_tmp += logger::WriteScalar(depth_of_discharge_percent_);
   return str_tmp;
 }
 

@@ -47,7 +47,7 @@ class Node {
    * @param[in] normal_vector_b: Normal vector of face with possibility of solar incidence (Body frame)
    */
   Node(const size_t node_id, const std::string node_name, const NodeType node_type, const size_t heater_id, const double temperature_ini_K,
-       const double capacity_J_K, const double alpha, const double area_m2, s2e::math::Vector<3> normal_vector_b);
+       const double capacity_J_K, const double alpha, const double area_m2, math::Vector<3> normal_vector_b);
   /**
    * @fn ~Node
    * @brief Destroy the Node object
@@ -61,7 +61,7 @@ class Node {
    * @param solar_flux_W_m2: Solar flux [W/m^2]
    * @return double: Solar Radiation [W]
    */
-  double CalcSolarRadiation_W(s2e::math::Vector<3> sun_direction_b, double solar_flux_W_m2);
+  double CalcSolarRadiation_W(math::Vector<3> sun_direction_b, double solar_flux_W_m2);
   /**
    * @fn CalcAlbedoRadiation_W
    * @brief Calculate albedo radiation [W] from earth direction, albedo factor, area, and normal vector
@@ -70,7 +70,7 @@ class Node {
    * @param earth_albedo_W_m2: Earth albedo [W/m^2]
    * @return double: Albedo Radiation [W]
    */
-  double CalcAlbedoRadiation_W(s2e::math::Vector<3> earth_position_b_m, double earth_albedo_W_m2);
+  double CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, double earth_albedo_W_m2);
 
   // Getter
   /**
@@ -102,7 +102,7 @@ class Node {
    * @brief Get temperature of node in degC
    * @return double: temperature [degC]
    */
-  inline double GetTemperature_degC(void) const { return K2degC(temperature_K_); }
+  inline double GetTemperature_degC(void) const { return environment::K2degC(temperature_K_); }
   /**
    * @fn GetCapacity_J_K
    * @brief Return heat capacity of node [J/K]
@@ -155,7 +155,7 @@ class Node {
   double solar_radiation_W_;
   double albedo_radiation_W_;
   NodeType node_type_;
-  s2e::math::Vector<3> normal_vector_b_;
+  math::Vector<3> normal_vector_b_;
 
   /**
    * @fn AssertNodeParams

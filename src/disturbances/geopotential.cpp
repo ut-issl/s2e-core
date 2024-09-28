@@ -22,8 +22,8 @@ namespace s2e::disturbances {
 Geopotential::Geopotential(const int degree, const std::string file_path, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, false), degree_(degree) {
   // Initialize
-  acceleration_ecef_m_s2_ = s2e::math::Vector<3>(0.0);
-  debug_pos_ecef_m_ = s2e::math::Vector<3>(0.0);
+  acceleration_ecef_m_s2_ = math::Vector<3>(0.0);
+  debug_pos_ecef_m_ = math::Vector<3>(0.0);
   // degree
   if (degree_ > 360) {
     degree_ = 360;
@@ -85,8 +85,8 @@ void Geopotential::Update(const LocalEnvironment &local_environment, const dynam
   UNUSED(time_ms_);
 #endif
 
-  s2e::math::Matrix<3, 3> trans_eci2ecef_ = local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef();
-  s2e::math::Matrix<3, 3> trans_ecef2eci = trans_eci2ecef_.Transpose();
+  math::Matrix<3, 3> trans_eci2ecef_ = local_environment.GetCelestialInformation().GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef();
+  math::Matrix<3, 3> trans_ecef2eci = trans_eci2ecef_.Transpose();
   acceleration_i_m_s2_ = trans_ecef2eci * acceleration_ecef_m_s2_;
 }
 
@@ -95,7 +95,7 @@ std::string Geopotential::GetLogHeader() const {
 
 #ifdef DEBUG_GEOPOTENTIAL
   str_tmp += logger::WriteVector("geopotential_calculation_position_", "ecef", "m", 3);
-  str_tmp += WriteScalar("geopotential_calculation_time", "ms");
+  str_tmp += logger::WriteScalar("geopotential_calculation_time", "ms");
 #endif
   str_tmp += logger::WriteVector("geopotential_acceleration", "ecef", "m/s2", 3);
 
@@ -107,7 +107,7 @@ std::string Geopotential::GetLogValue() const {
 
 #ifdef DEBUG_GEOPOTENTIAL
   str_tmp += logger::WriteVector(debug_pos_ecef_m_, 15);
-  str_tmp += WriteScalar(time_ms_);
+  str_tmp += logger::WriteScalar(time_ms_);
 #endif
 
   str_tmp += logger::WriteVector(acceleration_ecef_m_s2_, 15);

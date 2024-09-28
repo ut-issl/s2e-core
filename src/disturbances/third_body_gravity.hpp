@@ -45,7 +45,7 @@ class ThirdBodyGravity : public Disturbance {
 
  private:
   std::set<std::string> third_body_list_;                //!< List of celestial bodies to calculate the third body disturbances
-  s2e::math::Vector<3> third_body_acceleration_i_m_s2_{0.0};  //!< Calculated third body disturbance acceleration in the inertial frame [m/s2]
+  math::Vector<3> third_body_acceleration_i_m_s2_{0.0};  //!< Calculated third body disturbance acceleration in the inertial frame [m/s2]
 
   // Override classes for logger::ILoggable
   /**
@@ -67,7 +67,7 @@ class ThirdBodyGravity : public Disturbance {
    * @param [in] GM: The gravitational constants of the third celestial body [m3/s2]
    * @return Third body disturbance acceleration in the inertial frame in unit [m/s2]
    */
-  s2e::math::Vector<3> CalcAcceleration_i_m_s2(const s2e::math::Vector<3> s, const s2e::math::Vector<3> sr, const double gravity_constant_m_s2);
+  math::Vector<3> CalcAcceleration_i_m_s2(const math::Vector<3> s, const math::Vector<3> sr, const double gravity_constant_m_s2);
 };
 
 /**

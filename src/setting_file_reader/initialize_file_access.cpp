@@ -120,8 +120,8 @@ std::vector<double> IniAccess::ReadVectorDouble(const char* section_name, const 
   return data;
 }
 
-void IniAccess::ReadQuaternion(const char* section_name, const char* key_name, s2e::math::Quaternion& data) {
-  s2e::math::Quaternion temp;
+void IniAccess::ReadQuaternion(const char* section_name, const char* key_name, math::Quaternion& data) {
+  math::Quaternion temp;
   double norm = 0.0;
 
   for (int i = 0; i < 4; i++) {  // Read Quaternion as new format

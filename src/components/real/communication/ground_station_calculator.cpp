@@ -74,7 +74,7 @@ double GroundStationCalculator::CalcCn0OnGs(const dynamics::Dynamics& dynamics, 
   Vector<3> pos_gs2sc_i = sc_pos_i - gs_pos_i;
 
   double dist_sc_gs_km = pos_gs2sc_i.CalcNorm() / 1000.0;
-  double loss_space_dB = -20.0 * log10(4.0 * s2e::math::pi * dist_sc_gs_km / (300.0 / spacecraft_tx_antenna.GetFrequency_MHz() / 1000.0));
+  double loss_space_dB = -20.0 * log10(4.0 * math::pi * dist_sc_gs_km / (300.0 / spacecraft_tx_antenna.GetFrequency_MHz() / 1000.0));
 
   // GS direction on SC TX antenna frame
   Vector<3> sc_to_gs_i = gs_pos_i - sc_pos_i;
@@ -104,8 +104,8 @@ std::string GroundStationCalculator::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "gs_calculator_";
 
-  str_tmp += WriteScalar(component_name + "max_bitrate", "Mbps");
-  str_tmp += WriteScalar(component_name + "receive_margin", "dB");
+  str_tmp += logger::WriteScalar(component_name + "max_bitrate", "Mbps");
+  str_tmp += logger::WriteScalar(component_name + "receive_margin", "dB");
 
   return str_tmp;
 }
@@ -113,8 +113,8 @@ std::string GroundStationCalculator::GetLogHeader() const {
 std::string GroundStationCalculator::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(max_bitrate_Mbps_);
-  str_tmp += WriteScalar(receive_margin_dB_);
+  str_tmp += logger::WriteScalar(max_bitrate_Mbps_);
+  str_tmp += logger::WriteScalar(receive_margin_dB_);
 
   return str_tmp;
 }

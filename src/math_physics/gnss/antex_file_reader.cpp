@@ -171,7 +171,7 @@ AntexPhaseCenterData AntexFileReader::ReadPhaseCenterData(std::ifstream& antex_f
     }
     // Phase center offset
     if (line.find("NORTH / EAST / UP") == ANTEX_LINE_TYPE_POSITION) {
-      s2e::math::Vector<3> offset{0.0};
+      math::Vector<3> offset{0.0};
       sscanf(line.c_str(), "%lf %lf %lf", &offset[0], &offset[1], &offset[2]);
       phase_center_data.SetPhaseCenterOffset_mm(offset);
     }

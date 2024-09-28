@@ -49,7 +49,7 @@ void MonteCarloSimulationExecutor::GetInitializedMonteCarloParameterDouble(strin
 }
 
 void MonteCarloSimulationExecutor::GetInitializedMonteCarloParameterQuaternion(string so_name, string init_monte_carlo_parameter_name,
-                                                                               s2e::math::Quaternion& destination) const {
+                                                                               math::Quaternion& destination) const {
   if (!enabled_) return;
   {
     string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;

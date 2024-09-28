@@ -34,7 +34,7 @@ class SolarArrayPanel : public Component, public logger::ILoggable {
    * @param [in] component_step_time_s: Component step time [sec]
    */
   SolarArrayPanel(const int prescaler, environment::ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
-                  double cell_area_m2, s2e::math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
+                  double cell_area_m2, math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
                   const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information,
                   double component_step_time_s);
   /**
@@ -53,7 +53,7 @@ class SolarArrayPanel : public Component, public logger::ILoggable {
    * @param [in] component_step_time_s: Component step time [sec]
    */
   SolarArrayPanel(const int prescaler, environment::ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
-                  double cell_area_m2, s2e::math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
+                  double cell_area_m2, math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
                   const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s);
   /**
    * @fn SolarArrayPanel
@@ -71,7 +71,7 @@ class SolarArrayPanel : public Component, public logger::ILoggable {
    * @param [in] local_celestial_information: Local celestial information
    */
   SolarArrayPanel(environment::ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area_m2,
-                  s2e::math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
+                  math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
                   const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information);
   /**
    * @fn SolarArrayPanel
@@ -113,7 +113,7 @@ class SolarArrayPanel : public Component, public logger::ILoggable {
   const int number_of_series_;            //!< Number of series connected solar cells
   const int number_of_parallel_;          //!< Number of parallel connected solar cells
   const double cell_area_m2_;             //!< Solar cell area [m^2]
-  const s2e::math::Vector<3> normal_vector_;   //!< Normal vector of SolarArrayPanel on the body fixed frame
+  const math::Vector<3> normal_vector_;   //!< Normal vector of SolarArrayPanel on the body fixed frame
   const double cell_efficiency_;          //!< Power generation efficiency of solar cell
   const double transmission_efficiency_;  //!< Efficiency of transmission to PCU
 

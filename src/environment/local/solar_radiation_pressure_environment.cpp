@@ -33,7 +33,7 @@ void SolarRadiationPressureEnvironment::UpdateAllStates() {
 }
 
 void SolarRadiationPressureEnvironment::UpdatePressure() {
-  const s2e::math::Vector<3> r_sc2sun_eci = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
+  const math::Vector<3> r_sc2sun_eci = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
   const double distance_sat_to_sun = r_sc2sun_eci.CalcNorm();
   solar_radiation_pressure_N_m2_ =
       solar_constant_W_m2_ / environment::speed_of_light_m_s / pow(distance_sat_to_sun / environment::astronomical_unit_m, 2.0);
@@ -42,8 +42,8 @@ void SolarRadiationPressureEnvironment::UpdatePressure() {
 std::string SolarRadiationPressureEnvironment::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("solar_radiation_pressure_at_spacecraft_position", "N/m2");
-  str_tmp += WriteScalar("shadow_coefficient_at_spacecraft_position");
+  str_tmp += logger::WriteScalar("solar_radiation_pressure_at_spacecraft_position", "N/m2");
+  str_tmp += logger::WriteScalar("shadow_coefficient_at_spacecraft_position");
 
   return str_tmp;
 }
@@ -51,8 +51,8 @@ std::string SolarRadiationPressureEnvironment::GetLogHeader() const {
 std::string SolarRadiationPressureEnvironment::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(solar_radiation_pressure_N_m2_ * shadow_coefficient_);
-  str_tmp += WriteScalar(shadow_coefficient_);
+  str_tmp += logger::WriteScalar(solar_radiation_pressure_N_m2_ * shadow_coefficient_);
+  str_tmp += logger::WriteScalar(shadow_coefficient_);
 
   return str_tmp;
 }
@@ -63,8 +63,8 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
     return;
   }
 
-  const s2e::math::Vector<3> r_sc2sun_eci = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
-  const s2e::math::Vector<3> r_sc2source_eci = local_celestial_information_->GetPositionFromSpacecraft_i_m(shadow_source_name.c_str());
+  const math::Vector<3> r_sc2sun_eci = local_celestial_information_->GetPositionFromSpacecraft_i_m("SUN");
+  const math::Vector<3> r_sc2source_eci = local_celestial_information_->GetPositionFromSpacecraft_i_m(shadow_source_name.c_str());
 
   const double shadow_source_radius_m = local_celestial_information_->GetGlobalInformation().GetMeanRadiusFromName_m(shadow_source_name.c_str());
 
@@ -73,7 +73,7 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
   const double sd_source = asin(shadow_source_radius_m / r_sc2source_eci.CalcNorm());  // Apparent radius of the shadow source
 
   // Angle of deviation from shadow source center to sun center
-  s2e::math::Vector<3> r_source2sun_eci = r_sc2sun_eci - r_sc2source_eci;
+  math::Vector<3> r_source2sun_eci = r_sc2sun_eci - r_sc2source_eci;
   const double delta = acos(InnerProduct(r_sc2source_eci, r_sc2sun_eci - r_sc2source_eci) / r_sc2source_eci.CalcNorm() / r_source2sun_eci.CalcNorm());
   // The angle between the center of the sun and the common chord
   const double x = (delta * delta + sd_sun * sd_sun - sd_source * sd_source) / (2.0 * delta);
@@ -93,7 +93,7 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
   } else if (fabs(a - b) <= c && c <= (a + b))  // spacecraft is in penumbra
   {
     double A = a * a * acos(x / a) + b * b * acos((c - x) / b) - c * y;  // The area of the occulted segment of the apparent solar disk
-    shadow_coefficient_ *= 1.0 - A / (s2e::math::pi * a * a);
+    shadow_coefficient_ *= 1.0 - A / (math::pi * a * a);
   } else {  // no occultation takes place
     if (c < (a + b)) {
       std::cout << "[Error SRP Environment]: The calculation error was occurred at the shadow calculation." << std::endl;

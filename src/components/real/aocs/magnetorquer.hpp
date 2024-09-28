@@ -43,11 +43,11 @@ class Magnetorquer : public Component, public logger::ILoggable {
    * @param [in] normal_random_standard_deviation_c_Am2: Standard deviation for the normal random noise in the component frame [Am2]
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
-  Magnetorquer(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const s2e::math::Quaternion& quaternion_b2c,
-               const s2e::math::Matrix<kMtqDimension, kMtqDimension>& scale_factor, const s2e::math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
-               const s2e::math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const s2e::math::Vector<kMtqDimension>& bias_noise_c_Am2_,
-               double random_walk_step_width_s, const s2e::math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
-               const s2e::math::Vector<kMtqDimension>& random_walk_limit_c_Am2, const s2e::math::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2,
+  Magnetorquer(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
+               const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor, const math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2,
+               const math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2, const math::Vector<kMtqDimension>& bias_noise_c_Am2_,
+               double random_walk_step_width_s, const math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2,
+               const math::Vector<kMtqDimension>& random_walk_limit_c_Am2, const math::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2,
                const GeomagneticField* geomagnetic_field);
   /**
    * @fn Magnetorquer
@@ -68,11 +68,11 @@ class Magnetorquer : public Component, public logger::ILoggable {
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
   Magnetorquer(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-               const s2e::math::Quaternion& quaternion_b2c, const s2e::math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
-               const s2e::math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2, const s2e::math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2,
-               const s2e::math::Vector<kMtqDimension>& bias_noise_c_Am2_, double random_walk_step_width_s,
-               const s2e::math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2, const s2e::math::Vector<kMtqDimension>& random_walk_limit_c_Am2,
-               const s2e::math::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field);
+               const math::Quaternion& quaternion_b2c, const math::Matrix<kMtqDimension, kMtqDimension>& scale_factor,
+               const math::Vector<kMtqDimension>& max_magnetic_moment_c_Am2, const math::Vector<kMtqDimension>& min_magnetic_moment_c_Am2,
+               const math::Vector<kMtqDimension>& bias_noise_c_Am2_, double random_walk_step_width_s,
+               const math::Vector<kMtqDimension>& random_walk_standard_deviation_c_Am2, const math::Vector<kMtqDimension>& random_walk_limit_c_Am2,
+               const math::Vector<kMtqDimension>& normal_random_standard_deviation_c_Am2, const GeomagneticField* geomagnetic_field);
 
   // Override functions for Component
   /**
@@ -102,39 +102,39 @@ class Magnetorquer : public Component, public logger::ILoggable {
    * @fn GetOutputTorque_b_Nm
    * @brief Return output torque in the body fixed frame [Nm]
    */
-  inline const s2e::math::Vector<kMtqDimension>& GetOutputTorque_b_Nm(void) const { return torque_b_Nm_; };
+  inline const math::Vector<kMtqDimension>& GetOutputTorque_b_Nm(void) const { return torque_b_Nm_; };
 
   /**
    * @fn SetOutputMagneticMoment_c_Am2
    * @brief Set output magnetic moment in the component frame [Am2]
    */
-  inline void SetOutputMagneticMoment_c_Am2(const s2e::math::Vector<kMtqDimension> mag_moment_c) { output_magnetic_moment_c_Am2_ = mag_moment_c; };
+  inline void SetOutputMagneticMoment_c_Am2(const math::Vector<kMtqDimension> mag_moment_c) { output_magnetic_moment_c_Am2_ = mag_moment_c; };
 
   /**
    * @fn SetOutputMagneticMoment_b_Am2
    * @brief Return output magnetic moment in the body fixed frame [Am2]
    */
-  inline const s2e::math::Vector<kMtqDimension>& SetOutputMagneticMoment_b_Am2(void) const { return output_magnetic_moment_b_Am2_; };
+  inline const math::Vector<kMtqDimension>& SetOutputMagneticMoment_b_Am2(void) const { return output_magnetic_moment_b_Am2_; };
 
   /**
    * @fn GetOutputMagneticMoment_b_Am2
    * @brief Return output magnetic moment in the body fixed frame [Am2]
    */
-  inline const s2e::math::Vector<kMtqDimension>& GetOutputMagneticMoment_c_Am2(void) const { return output_magnetic_moment_c_Am2_; };
+  inline const math::Vector<kMtqDimension>& GetOutputMagneticMoment_c_Am2(void) const { return output_magnetic_moment_c_Am2_; };
 
  protected:
   const int component_id_ = 0;                                     //!< Actuator ID
   const double kConvertNanoT2T = 1.0e-9;                           //!< Constant to convert nT to T
-  s2e::math::Vector<kMtqDimension> torque_b_Nm_{0.0};                   //!< Output torque in the body fixed frame [Nm]
-  s2e::math::Vector<kMtqDimension> output_magnetic_moment_c_Am2_{0.0};  //!< Output output magnetic moment in the component frame [Am2]
-  s2e::math::Vector<kMtqDimension> output_magnetic_moment_b_Am2_{0.0};  //!< Output output magnetic moment in the body fixed frame [Am2]
-  s2e::math::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from body frame to component frame
-  s2e::math::Quaternion quaternion_c2b_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from component frame to body frame
-  s2e::math::Matrix<kMtqDimension, kMtqDimension> scale_factor_;        //!< Scale factor matrix
-  s2e::math::Vector<kMtqDimension> max_magnetic_moment_c_Am2_{100.0};   //!< Maximum magnetic moment in the component frame [Am2]
-  s2e::math::Vector<kMtqDimension> min_magnetic_moment_c_Am2_{-100.0};  //!< Minimum magnetic moment in the component frame [Am2]
+  math::Vector<kMtqDimension> torque_b_Nm_{0.0};                   //!< Output torque in the body fixed frame [Nm]
+  math::Vector<kMtqDimension> output_magnetic_moment_c_Am2_{0.0};  //!< Output output magnetic moment in the component frame [Am2]
+  math::Vector<kMtqDimension> output_magnetic_moment_b_Am2_{0.0};  //!< Output output magnetic moment in the body fixed frame [Am2]
+  math::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from body frame to component frame
+  math::Quaternion quaternion_c2b_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from component frame to body frame
+  math::Matrix<kMtqDimension, kMtqDimension> scale_factor_;        //!< Scale factor matrix
+  math::Vector<kMtqDimension> max_magnetic_moment_c_Am2_{100.0};   //!< Maximum magnetic moment in the component frame [Am2]
+  math::Vector<kMtqDimension> min_magnetic_moment_c_Am2_{-100.0};  //!< Minimum magnetic moment in the component frame [Am2]
 
-  s2e::math::Vector<kMtqDimension> bias_noise_c_Am2_{0.0};    //!< Constant bias noise in the component frame [Am2]
+  math::Vector<kMtqDimension> bias_noise_c_Am2_{0.0};    //!< Constant bias noise in the component frame [Am2]
   RandomWalk<kMtqDimension> random_walk_c_Am2_;          //!< Random walk noise
   s2e::randomization::NormalRand random_noise_c_Am2_[kMtqDimension];  //!< Normal random noise
 
@@ -145,7 +145,7 @@ class Magnetorquer : public Component, public logger::ILoggable {
    * @brief Calculate output torque
    * @return Output torque in the body fixed frame [Nm]
    */
-  s2e::math::Vector<kMtqDimension> CalcOutputTorque(void);
+  math::Vector<kMtqDimension> CalcOutputTorque(void);
 };
 
 /**

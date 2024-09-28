@@ -10,8 +10,8 @@
 #include <utilities/macros.hpp>
 
 template <size_t N>
-RandomWalk<N>::RandomWalk(double step_width_s, const s2e::math::Vector<N>& standard_deviation, const s2e::math::Vector<N>& limit)
-    : s2e::math::OrdinaryDifferentialEquation<N>(step_width_s), limit_(limit) {
+RandomWalk<N>::RandomWalk(double step_width_s, const math::Vector<N>& standard_deviation, const math::Vector<N>& limit)
+    : math::OrdinaryDifferentialEquation<N>(step_width_s), limit_(limit) {
   // Set standard deviation
   for (size_t i = 0; i < N; ++i) {
     normal_randomizer_[i].SetParameters(0.0, standard_deviation[i], s2e::randomization::global_randomization.MakeSeed());
@@ -19,7 +19,7 @@ RandomWalk<N>::RandomWalk(double step_width_s, const s2e::math::Vector<N>& stand
 }
 
 template <size_t N>
-void RandomWalk<N>::DerivativeFunction(double x, const s2e::math::Vector<N>& state, s2e::math::Vector<N>& rhs) {
+void RandomWalk<N>::DerivativeFunction(double x, const math::Vector<N>& state, math::Vector<N>& rhs) {
   UNUSED(x);  // TODO: consider the x is really need for this function
 
   for (size_t i = 0; i < N; ++i) {

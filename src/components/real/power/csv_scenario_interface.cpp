@@ -38,8 +38,8 @@ void CsvScenarioInterface::Initialize(const std::string file_name) {
 
 bool CsvScenarioInterface::IsCsvScenarioEnabled() { return CsvScenarioInterface::is_csv_scenario_enabled_; }
 
-s2e::math::Vector<3> CsvScenarioInterface::GetSunDirectionBody(const double time_query) {
-  s2e::math::Vector<3> sun_dir_b;
+math::Vector<3> CsvScenarioInterface::GetSunDirectionBody(const double time_query) {
+  math::Vector<3> sun_dir_b;
   sun_dir_b[0] = GetValueFromBuffer("sun_dir_b_x", time_query);
   sun_dir_b[1] = GetValueFromBuffer("sun_dir_b_y", time_query);
   sun_dir_b[2] = GetValueFromBuffer("sun_dir_b_z", time_query);

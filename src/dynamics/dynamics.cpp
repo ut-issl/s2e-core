@@ -9,20 +9,19 @@
 
 namespace s2e::dynamics {
 
-dynamics::Dynamics::dynamics::Dynamics(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time,
-                   const LocalEnvironment* local_environment, const int spacecraft_id, Structure* structure,
-                   RelativeInformation* relative_information)
+Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time, const environment::LocalEnvironment* local_environment,
+           const int spacecraft_id, simulation::Structure* structure, simulation::RelativeInformation* relative_information)
     : structure_(structure), local_environment_(local_environment) {
   Initialize(simulation_configuration, simulation_time, spacecraft_id, structure, relative_information);
 }
 
-dynamics::Dynamics::~dynamics::Dynamics() {
+Dynamics::~dynamics::Dynamics() {
   delete attitude_;
   delete orbit_;
   delete temperature_;
 }
 
-void dynamics::Dynamics::Initialize(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time, const int spacecraft_id,
+void Dynamics::Initialize(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time, const int spacecraft_id,
                           Structure* structure, RelativeInformation* relative_information) {
   const LocalCelestialInformation& local_celestial_information = local_environment_->GetCelestialInformation();
   // Initialize
@@ -38,7 +37,7 @@ void dynamics::Dynamics::Initialize(const SimulationConfiguration* simulation_co
   orbit_->UpdateByAttitude(attitude_->GetQuaternion_i2b());
 }
 
-void dynamics::Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestialInformation* local_celestial_information) {
+void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestialInformation* local_celestial_information) {
   // Attitude propagation
   if (simulation_time->GetAttitudePropagateFlag()) {
     attitude_->Propagate(simulation_time->GetElapsedTime_s());
@@ -56,13 +55,13 @@ void dynamics::Dynamics::Update(const SimulationTime* simulation_time, const Loc
   }
 }
 
-void dynamics::Dynamics::ClearForceTorque(void) {
-  s2e::math::Vector<3> zero(0.0);
+void Dynamics::ClearForceTorque(void) {
+  math::Vector<3> zero(0.0);
   attitude_->SetTorque_b_Nm(zero);
   orbit_->SetAcceleration_i_m_s2(zero);
 }
 
-void dynamics::Dynamics::LogSetup(Logger& logger) {
+void Dynamics::LogSetup(Logger& logger) {
   logger.AddLogList(attitude_);
   logger.AddLogList(orbit_);
   logger.AddLogList(temperature_);
