@@ -36,7 +36,7 @@ std::string Magnetometer::GetLogHeader() const {
   std::string str_tmp = "";
   const std::string sensor_id = std::to_string(static_cast<long long>(sensor_id_));
   std::string sensor_name = "magnetometer" + sensor_id + "_";
-  str_tmp += WriteVector(sensor_name + "measured_magnetic_field", "c", "nT", kMagnetometerDimension);
+  str_tmp += logger::WriteVector(sensor_name + "measured_magnetic_field", "c", "nT", kMagnetometerDimension);
 
   return str_tmp;
 }
@@ -44,14 +44,14 @@ std::string Magnetometer::GetLogHeader() const {
 std::string Magnetometer::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(magnetic_field_c_nT_);
+  str_tmp += logger::WriteVector(magnetic_field_c_nT_);
 
   return str_tmp;
 }
 
 Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
                               const GeomagneticField* geomagnetic_field) {
-  IniAccess magsensor_conf(file_name);
+  setting_file_reader::IniAccess magsensor_conf(file_name);
   const char* sensor_name = "MAGNETOMETER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* MSSection = section_name.c_str();
@@ -72,7 +72,7 @@ Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, int 
 
 Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                               double component_step_time_s, const GeomagneticField* geomagnetic_field) {
-  IniAccess magsensor_conf(file_name);
+  setting_file_reader::IniAccess magsensor_conf(file_name);
   const char* sensor_name = "MAGNETOMETER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* MSSection = section_name.c_str();

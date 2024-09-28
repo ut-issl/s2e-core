@@ -103,7 +103,7 @@ std::string Atmosphere::GetLogHeader() const {
 
 Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCelestialInformation* local_celestial_information,
                           const SimulationTime* simulation_time) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "ATMOSPHERE";
   double f107_threshold = 50.0;
   double f107_default = 150.0;

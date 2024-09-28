@@ -247,7 +247,7 @@ void SimulationTime::ConvJDtoCalendarDay(const double JD) {
 }
 
 SimulationTime* InitSimulationTime(std::string file_name) {
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
 
   const char* section = "TIME";
   // Parameters about entire simulation

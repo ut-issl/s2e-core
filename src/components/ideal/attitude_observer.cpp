@@ -11,7 +11,7 @@
 namespace s2e::components {
 
 AttitudeObserver::AttitudeObserver(const int prescaler, environment::ClockGenerator* clock_generator, const double standard_deviation_rad,
-                                   const Attitude& attitude)
+                                   const dynamics::attitude::Attitude& attitude)
     : Component(prescaler, clock_generator), angle_noise_(0.0, standard_deviation_rad), attitude_(attitude) {
   direction_noise_.SetParameters(0.0, 1.0);
 }
@@ -49,9 +49,9 @@ std::string AttitudeObserver::GetLogValue() const {
   return str_tmp;
 }
 
-AttitudeObserver InitializeAttitudeObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const Attitude& attitude) {
+AttitudeObserver InitializeAttitudeObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::attitude::Attitude& attitude) {
   // General
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
 
   // CompoBase
   int prescaler = ini_file.ReadInt("COMPONENT_BASE", "prescaler");

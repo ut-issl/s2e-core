@@ -208,8 +208,8 @@ std::string GnssReceiver::GetLogHeader() const  // For logs
   str_tmp += WriteScalar(sensor_name + "measured_utc_time_hour");
   str_tmp += WriteScalar(sensor_name + "measured_utc_time_min");
   str_tmp += WriteScalar(sensor_name + "measured_utc_time_sec");
-  str_tmp += WriteVector(sensor_name + "measured_position", "ecef", "m", 3);
-  str_tmp += WriteVector(sensor_name + "measured_velocity", "ecef", "m/s", 3);
+  str_tmp += logger::WriteVector(sensor_name + "measured_position", "ecef", "m", 3);
+  str_tmp += logger::WriteVector(sensor_name + "measured_velocity", "ecef", "m/s", 3);
   str_tmp += WriteScalar(sensor_name + "measured_latitude", "rad");
   str_tmp += WriteScalar(sensor_name + "measured_longitude", "rad");
   str_tmp += WriteScalar(sensor_name + "measured_altitude", "m");
@@ -228,8 +228,8 @@ std::string GnssReceiver::GetLogValue() const  // For logs
   str_tmp += WriteScalar(utc_.hour);
   str_tmp += WriteScalar(utc_.minute);
   str_tmp += WriteScalar(utc_.second);
-  str_tmp += WriteVector(position_ecef_m_, 10);
-  str_tmp += WriteVector(velocity_ecef_m_s_, 10);
+  str_tmp += logger::WriteVector(position_ecef_m_, 10);
+  str_tmp += logger::WriteVector(velocity_ecef_m_s_, 10);
   str_tmp += WriteScalar(geodetic_position_.GetLatitude_rad(), 10);
   str_tmp += WriteScalar(geodetic_position_.GetLongitude_rad(), 10);
   str_tmp += WriteScalar(geodetic_position_.GetAltitude_m(), 10);
@@ -264,7 +264,7 @@ typedef struct _gnss_receiver_param {
 GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const GnssSatellites* gnss_satellites, const size_t component_id) {
   GnssReceiverParam gnss_receiver_param;
 
-  IniAccess gnssr_conf(file_name);
+  setting_file_reader::IniAccess gnssr_conf(file_name);
   const char* sensor_name = "GNSS_RECEIVER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(component_id));
   const char* GSection = section_name.c_str();

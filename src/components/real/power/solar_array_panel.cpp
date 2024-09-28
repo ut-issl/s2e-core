@@ -119,7 +119,7 @@ void SolarArrayPanel::MainRoutine(const int time_count) {
 SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id, const std::string file_name,
                         const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information,
                         double component_step_time_s) {
-  IniAccess sap_conf(file_name);
+  setting_file_reader::IniAccess sap_conf(file_name);
 
   const std::string section_name = "SOLAR_ARRAY_PANEL_" + std::to_string(static_cast<long long>(sap_id));
 
@@ -152,7 +152,7 @@ SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id
 
 SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id, const std::string file_name,
                         const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s) {
-  IniAccess sap_conf(file_name);
+  setting_file_reader::IniAccess sap_conf(file_name);
 
   const std::string section_name = "SOLAR_ARRAY_PANEL_" + std::to_string(static_cast<long long>(sap_id));
 

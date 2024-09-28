@@ -13,7 +13,7 @@ MtqMagnetometerInterference::MtqMagnetometerInterference(const std::string file_
                                                          const size_t initialize_id)
     : magnetometer_(magnetometer), magnetorquer_(magnetorquer) {
   // Read ini file
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
   std::string section = "MTQ_MAGNETOMETER_INTERFERENCE_" + std::to_string(static_cast<long long>(initialize_id));
 
   polynomial_degree_ = (size_t)ini_file.ReadInt(section.c_str(), "polynomial_degree");

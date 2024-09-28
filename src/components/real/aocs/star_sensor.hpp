@@ -146,24 +146,24 @@ class StarSensor : public Component, public logger::ILoggable {
    * @fn update
    * @brief Update delay buffer
    * @param [in] local_celestial_information: Local celestial information
-   * @param [in] attitude: Attitude information
+   * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  void update(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
+  void update(const LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude);
   /**
    * @fn Measure
    * @brief Calculate measured quaternion
    * @param [in] local_celestial_information: Local celestial information
-   * @param [in] attitude: Attitude information
+   * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  s2e::math::Quaternion Measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
+  s2e::math::Quaternion Measure(const LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude);
 
   /**
    * @fn AllJudgement
    * @brief Calculate all error judgement
    * @param [in] local_celestial_information: Local celestial information
-   * @param [in] attitude: Attitude information
+   * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  void AllJudgement(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
+  void AllJudgement(const LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude);
   /**
    * @fn SunJudgement
    * @brief Judge violation of sun forbidden angle

@@ -47,14 +47,14 @@ class Telescope : public Component, public logger::ILoggable {
    * @param [in] x_fov_per_pix: Field of view per pixel of X-axis in the image plane [rad/pix]
    * @param [in] y_fov_per_pix: Field of view per pixel of Y-axis in the image plane [rad/pix]
    * @param [in] number_of_logged_stars: Number of logged stars
-   * @param [in] attitude: Attitude Information
+   * @param [in] attitude: dynamics::attitude::Attitude Information
    * @param [in] hipparcos: Hipparcos catalogue information
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] orbit: Orbit information
    */
   Telescope(environment::ClockGenerator* clock_generator, const s2e::math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
-            const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const Attitude* attitude,
+            const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const dynamics::attitude::Attitude* attitude,
             const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit = nullptr);
   /**
    * @fn ~Telescope
@@ -126,7 +126,7 @@ class Telescope : public Component, public logger::ILoggable {
    */
   void ObserveStars();
 
-  const Attitude* attitude_;                                      //!< Attitude information
+  const dynamics::attitude::Attitude* attitude_;                                      //!< dynamics::attitude::Attitude information
   const HipparcosCatalogue* hipparcos_;                           //!< Star information
   const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
   /**
@@ -164,11 +164,11 @@ class Telescope : public Component, public logger::ILoggable {
  * @param [in] clock_generator: Clock generator
  * @param [in] sensor_id: Sensor ID
  * @param [in] file_name: Path to initialize file
- * @param [in] attitude: Attitude information
+ * @param [in] attitude: dynamics::attitude::Attitude information
  * @param [in] hipparcos: Star information by Hipparcos catalogue
  * @param [in] local_celestial_information: Local celestial information
  */
-Telescope InitTelescope(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, const Attitude* attitude,
+Telescope InitTelescope(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, const dynamics::attitude::Attitude* attitude,
                         const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
                         const Orbit* orbit = nullptr);
 

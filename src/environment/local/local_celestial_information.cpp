@@ -181,8 +181,8 @@ std::string LocalCelestialInformation::GetLogHeader() const {
 
     std::string body_pos = name + "_position_from_spacecraft";
     std::string body_vel = name + "_velocity_from_spacecraft";
-    str_tmp += WriteVector(body_pos, "b", "m", 3);
-    str_tmp += WriteVector(body_vel, "b", "m/s", 3);
+    str_tmp += logger::WriteVector(body_pos, "b", "m", 3);
+    str_tmp += logger::WriteVector(body_vel, "b", "m/s", 3);
   }
   return str_tmp;
 }

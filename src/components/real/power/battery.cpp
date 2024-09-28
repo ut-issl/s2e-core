@@ -90,7 +90,7 @@ void Battery::UpdateBatVoltage() {
 }
 
 Battery InitBAT(environment::ClockGenerator* clock_generator, int bat_id, const std::string file_name, double component_step_time_s) {
-  IniAccess bat_conf(file_name);
+  setting_file_reader::IniAccess bat_conf(file_name);
 
   const std::string section_name = "BATTERY_" + std::to_string(static_cast<long long>(bat_id));
 

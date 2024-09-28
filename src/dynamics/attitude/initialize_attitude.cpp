@@ -10,7 +10,7 @@ namespace s2e::dynamics::attitude {
 
 Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
                        const double step_width_s, const s2e::math::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id) {
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
   const char* section_ = "ATTITUDE";
   std::string mc_name = "attitude" + std::to_string(spacecraft_id);
   Attitude* attitude;
@@ -23,7 +23,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
   s2e::math::Vector<3> torque_b;
   if (initialize_mode == "CONTROLLED") {
     // Initialize with Controlled attitude (attitude_tmp temporary used)
-    IniAccess ini_file_ca(file_name);
+    setting_file_reader::IniAccess ini_file_ca(file_name);
     const char* section_ca_ = "CONTROLLED_ATTITUDE";
     const std::string main_mode_in = ini_file.ReadString(section_ca_, "main_mode");
     const std::string sub_mode_in = ini_file.ReadString(section_ca_, "sub_mode");
@@ -53,7 +53,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
     attitude = new AttitudeRk4(omega_b, quaternion_i2b, inertia_tensor_kgm2, torque_b, step_width_s, mc_name);
   } else if (propagate_mode == "CANTILEVER_VIBRATION") {
     std::string ini_structure_name = ini_file.ReadString("SETTING_FILES", "structure_file");
-    IniAccess ini_structure(ini_structure_name);
+    setting_file_reader::IniAccess ini_structure(ini_structure_name);
 
     const char* section_cantilever = "CANTILEVER_PARAMETERS";
     s2e::math::Matrix<3, 3> inertia_tensor_cantilever_kgm2;
@@ -72,7 +72,7 @@ Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCel
                                             intrinsic_angular_velocity_cantilever_rad_s, torque_b, step_width_s, mc_name);
   } else if (propagate_mode == "CONTROLLED") {
     // Controlled attitude
-    IniAccess ini_file_ca(file_name);
+    setting_file_reader::IniAccess ini_file_ca(file_name);
     const char* section_ca_ = "CONTROLLED_ATTITUDE";
     const std::string main_mode_in = ini_file.ReadString(section_ca_, "main_mode");
     const std::string sub_mode_in = ini_file.ReadString(section_ca_, "sub_mode");

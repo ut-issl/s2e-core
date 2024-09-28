@@ -57,8 +57,8 @@ void GeomagneticField::AddNoise(double* magnetic_field_array_i_nT) {
 std::string GeomagneticField::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector("geomagnetic_field_at_spacecraft_position", "i", "nT", 3);
-  str_tmp += WriteVector("geomagnetic_field_at_spacecraft_position", "b", "nT", 3);
+  str_tmp += logger::WriteVector("geomagnetic_field_at_spacecraft_position", "i", "nT", 3);
+  str_tmp += logger::WriteVector("geomagnetic_field_at_spacecraft_position", "b", "nT", 3);
 
   return str_tmp;
 }
@@ -66,14 +66,14 @@ std::string GeomagneticField::GetLogHeader() const {
 std::string GeomagneticField::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(magnetic_field_i_nT_);
-  str_tmp += WriteVector(magnetic_field_b_nT_);
+  str_tmp += logger::WriteVector(magnetic_field_i_nT_);
+  str_tmp += logger::WriteVector(magnetic_field_b_nT_);
 
   return str_tmp;
 }
 
 GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "MAGNETIC_FIELD_ENVIRONMENT";
 
   std::string fname = conf.ReadString(section, "coefficient_file");

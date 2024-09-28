@@ -90,7 +90,7 @@ void StarSensor::Initialize() {
 
   error_flag_ = true;
 }
-Quaternion StarSensor::Measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+Quaternion StarSensor::Measure(const LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude) {
   update(local_celestial_information, attitude);  // update delay buffer
   if (update_count_ == 0) {
     int hist = buffer_position_ - output_delay_ - 1;
@@ -106,7 +106,7 @@ Quaternion StarSensor::Measure(const LocalCelestialInformation* local_celestial_
   return measured_quaternion_i2c_;
 }
 
-void StarSensor::update(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+void StarSensor::update(const LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude) {
   Quaternion quaternion_i2b = attitude->GetQuaternion_i2b();  // Read true value
   Quaternion q_stt_temp = quaternion_i2b * quaternion_b2c_;   // Convert to component frame
   // Add noise on sight direction
@@ -127,7 +127,7 @@ void StarSensor::update(const LocalCelestialInformation* local_celestial_informa
   buffer_position_ %= max_delay_;
 }
 
-void StarSensor::AllJudgement(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+void StarSensor::AllJudgement(const LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude) {
   int judgement = 0;
   judgement = SunJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("SUN"));
   judgement += EarthJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH"));
@@ -217,7 +217,7 @@ void StarSensor::MainRoutine(const int time_count) {
 
 StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sensor_id, const string file_name, double component_step_time_s,
                           const Dynamics* dynamics, const LocalEnvironment* local_environment) {
-  IniAccess STT_conf(file_name);
+  setting_file_reader::IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* STTSection = section_name.c_str();
@@ -250,7 +250,7 @@ StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sens
 
 StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string file_name, double component_step_time_s,
                           const Dynamics* dynamics, const LocalEnvironment* local_environment) {
-  IniAccess STT_conf(file_name);
+  setting_file_reader::IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* STTSection = section_name.c_str();

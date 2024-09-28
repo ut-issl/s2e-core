@@ -21,7 +21,7 @@ class Disturbance : public logger::ILoggable {
    * @fn Disturbance
    * @brief Constructor
    * @param [in] is_calculation_enabled: Calculation flag
-   * @param [in] is_attitude_dependent: Attitude dependent flag
+   * @param [in] is_attitude_dependent: dynamics::attitude::Attitude dependent flag
    */
   Disturbance(const bool is_calculation_enabled = true, const bool is_attitude_dependent = true)
       : is_calculation_enabled_(is_calculation_enabled), is_attitude_dependent_(is_attitude_dependent) {

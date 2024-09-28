@@ -58,8 +58,8 @@ std::string OrbitObserver::GetLogHeader() const {
   std::string str_tmp = "";
 
   std::string head = "orbit_observer_";
-  str_tmp += WriteVector(head + "position", "i", "m", 3);
-  str_tmp += WriteVector(head + "velocity", "i", "m/s", 3);
+  str_tmp += logger::WriteVector(head + "position", "i", "m", 3);
+  str_tmp += logger::WriteVector(head + "velocity", "i", "m/s", 3);
 
   return str_tmp;
 }
@@ -67,8 +67,8 @@ std::string OrbitObserver::GetLogHeader() const {
 std::string OrbitObserver::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(observed_position_i_m_, 16);
-  str_tmp += WriteVector(observed_velocity_i_m_s_, 16);
+  str_tmp += logger::WriteVector(observed_position_i_m_, 16);
+  str_tmp += logger::WriteVector(observed_velocity_i_m_s_, 16);
 
   return str_tmp;
 }
@@ -87,7 +87,7 @@ NoiseFrame SetNoiseFrame(const std::string noise_frame) {
 
 OrbitObserver InitializeOrbitObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const Orbit& orbit) {
   // General
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
 
   // CompoBase
   int prescaler = ini_file.ReadInt("COMPONENT_BASE", "prescaler");

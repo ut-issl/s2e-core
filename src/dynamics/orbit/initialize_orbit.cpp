@@ -16,7 +16,7 @@ namespace s2e::dynamics::orbit {
 
 Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string initialize_file, double step_width_s, double current_time_jd,
                  double gravity_constant_m3_s2, std::string section, RelativeInformation* relative_information) {
-  auto conf = IniAccess(initialize_file);
+  auto conf = setting_file_reader::IniAccess(initialize_file);
   const char* section_ = section.c_str();
   Orbit* orbit;
 
@@ -118,7 +118,7 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
 }
 
 s2e::math::Vector<6> InitializePosVel(std::string initialize_file, double current_time_jd, double gravity_constant_m3_s2, std::string section) {
-  auto conf = IniAccess(initialize_file);
+  auto conf = setting_file_reader::IniAccess(initialize_file);
   const char* section_ = section.c_str();
   s2e::math::Vector<3> position_i_m;
   s2e::math::Vector<3> velocity_i_m_s;

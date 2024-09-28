@@ -205,8 +205,8 @@ std::string ReactionWheel::GetLogHeader() const {
   str_tmp += WriteScalar(component_name + "angular_acceleration", "rad/s2");
 
   if (is_logged_jitter_ && is_calculated_jitter_) {
-    str_tmp += WriteVector(component_name + "jitter_force", "c", "N", 3);
-    str_tmp += WriteVector(component_name + "jitter_torque", "c", "Nm", 3);
+    str_tmp += logger::WriteVector(component_name + "jitter_force", "c", "N", 3);
+    str_tmp += logger::WriteVector(component_name + "jitter_torque", "c", "Nm", 3);
   }
 
   return str_tmp;
@@ -222,8 +222,8 @@ std::string ReactionWheel::GetLogValue() const {
   str_tmp += WriteScalar(generated_angular_acceleration_rad_s2_);
 
   if (is_logged_jitter_ && is_calculated_jitter_) {
-    str_tmp += WriteVector(rw_jitter_.GetJitterForce_c_N());
-    str_tmp += WriteVector(rw_jitter_.GetJitterTorque_c_Nm());
+    str_tmp += logger::WriteVector(rw_jitter_.GetJitterForce_c_N());
+    str_tmp += logger::WriteVector(rw_jitter_.GetJitterTorque_c_Nm());
   }
 
   return str_tmp;
@@ -260,7 +260,7 @@ ReactionWheelJitter rw_jitter;
 
 void InitParams(int actuator_id, std::string file_name, double compo_update_step_s) {
   // Access Parameters
-  IniAccess rw_ini_file(file_name);
+  setting_file_reader::IniAccess rw_ini_file(file_name);
   std::string section_tmp = "REACTION_WHEEL_" + std::to_string(static_cast<long long>(actuator_id));
   const char* rw_section = section_tmp.c_str();
 
@@ -316,8 +316,8 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
   std::string radial_force_harmonics_coefficient_path = rw_ini_file.ReadString(jitter_section, "radial_force_harmonics_coefficient_file");
   std::string radial_torque_harmonics_coefficient_path = rw_ini_file.ReadString(jitter_section, "radial_torque_harmonics_coefficient_file");
   int harmonics_degree = rw_ini_file.ReadInt(jitter_section, "harmonics_degree");
-  IniAccess conf_radial_force_harmonics(radial_force_harmonics_coefficient_path);
-  IniAccess conf_radial_torque_harmonics(radial_torque_harmonics_coefficient_path);
+  setting_file_reader::IniAccess conf_radial_force_harmonics(radial_force_harmonics_coefficient_path);
+  setting_file_reader::IniAccess conf_radial_torque_harmonics(radial_torque_harmonics_coefficient_path);
   std::vector<std::vector<double>> radial_force_harmonics_coefficients;
   std::vector<std::vector<double>> radial_torque_harmonics_coefficients;
   conf_radial_force_harmonics.ReadCsvDouble(radial_force_harmonics_coefficients, harmonics_degree);

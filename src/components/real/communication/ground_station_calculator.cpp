@@ -120,7 +120,7 @@ std::string GroundStationCalculator::GetLogValue() const {
 }
 
 GroundStationCalculator InitGsCalculator(const std::string file_name) {
-  IniAccess gs_conf(file_name);
+  setting_file_reader::IniAccess gs_conf(file_name);
 
   char Section[30] = "GROUND_STATION_CALCULATOR";
 

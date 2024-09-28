@@ -138,7 +138,7 @@ string SunSensor::GetLogHeader() const {
   const string sensor_id = std::to_string(static_cast<long long>(component_id_));
   std::string sensor_name = "sun_sensor" + sensor_id + "_";
 
-  str_tmp += WriteVector(sensor_name + "measured_sun_direction", "c", "-", 3);
+  str_tmp += logger::WriteVector(sensor_name + "measured_sun_direction", "c", "-", 3);
   str_tmp += WriteScalar(sensor_name + "sun_detected_flag", "-");
 
   return str_tmp;
@@ -147,7 +147,7 @@ string SunSensor::GetLogHeader() const {
 string SunSensor::GetLogValue() const {
   string str_tmp = "";
 
-  str_tmp += WriteVector(measured_sun_direction_c_);
+  str_tmp += logger::WriteVector(measured_sun_direction_c_);
   str_tmp += WriteScalar(double(sun_detected_flag_));
 
   return str_tmp;
@@ -155,7 +155,7 @@ string SunSensor::GetLogValue() const {
 
 SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, int ss_id, std::string file_name, const SolarRadiationPressureEnvironment* srp_environment,
                         const LocalCelestialInformation* local_celestial_information) {
-  IniAccess ss_conf(file_name);
+  setting_file_reader::IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
   const char* Section = section_tmp.c_str();
@@ -188,7 +188,7 @@ SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, int ss_id,
 
 SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int ss_id, std::string file_name,
                         const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information) {
-  IniAccess ss_conf(file_name);
+  setting_file_reader::IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
   const char* Section = section_tmp.c_str();

@@ -117,10 +117,10 @@ std::string LunarGravityField::GetLogHeader() const {
   std::string str_tmp = "";
 
 #ifdef DEBUG_LUNAR_GRAVITY_FIELD
-  str_tmp += WriteVector("lunar_gravity_calculation_position", "mcmf", "m", 3);
+  str_tmp += logger::WriteVector("lunar_gravity_calculation_position", "mcmf", "m", 3);
   str_tmp += WriteScalar("lunar_gravity_calculation_time", "ms");
 #endif
-  str_tmp += WriteVector("lunar_gravity_acceleration", "mcmf", "m/s2", 3);
+  str_tmp += logger::WriteVector("lunar_gravity_acceleration", "mcmf", "m/s2", 3);
 
   return str_tmp;
 }
@@ -129,17 +129,17 @@ std::string LunarGravityField::GetLogValue() const {
   std::string str_tmp = "";
 
 #ifdef DEBUG_LUNAR_GRAVITY_FIELD
-  str_tmp += WriteVector(debug_pos_mcmf_m_, 15);
+  str_tmp += logger::WriteVector(debug_pos_mcmf_m_, 15);
   str_tmp += WriteScalar(time_ms_);
 #endif
 
-  str_tmp += WriteVector(acceleration_mcmf_m_s2_, 15);
+  str_tmp += logger::WriteVector(acceleration_mcmf_m_s2_, 15);
 
   return str_tmp;
 }
 
 LunarGravityField InitLunarGravityField(const std::string initialize_file_path) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char *section = "LUNAR_GRAVITY_FIELD";
 
   const int degree = conf.ReadInt(section, "degree");

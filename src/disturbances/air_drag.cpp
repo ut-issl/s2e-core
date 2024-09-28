@@ -80,8 +80,8 @@ void AirDrag::CalcCnCt(const Vector<3>& velocity_b_m_s) {
 std::string AirDrag::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector("air_drag_torque", "b", "Nm", 3);
-  str_tmp += WriteVector("air_drag_force", "b", "N", 3);
+  str_tmp += logger::WriteVector("air_drag_torque", "b", "Nm", 3);
+  str_tmp += logger::WriteVector("air_drag_force", "b", "N", 3);
 
   return str_tmp;
 }
@@ -89,14 +89,14 @@ std::string AirDrag::GetLogHeader() const {
 std::string AirDrag::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(torque_b_Nm_);
-  str_tmp += WriteVector(force_b_N_);
+  str_tmp += logger::WriteVector(torque_b_Nm_);
+  str_tmp += logger::WriteVector(force_b_N_);
 
   return str_tmp;
 }
 
 AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Surface>& surfaces, const Vector<3>& center_of_gravity_b_m) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "AIR_DRAG";
 
   const double wall_temperature_K = conf.ReadDouble(section, "wall_temperature_degC") + 273.0;

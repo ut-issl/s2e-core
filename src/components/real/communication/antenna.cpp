@@ -108,7 +108,7 @@ AntennaGainModel SetAntennaGainModel(const std::string gain_model_name) {
 }
 
 Antenna InitAntenna(const int antenna_id, const std::string file_name) {
-  IniAccess antenna_conf(file_name);
+  setting_file_reader::IniAccess antenna_conf(file_name);
 
   const std::string section_name = "ANTENNA_" + std::to_string(static_cast<long long>(antenna_id));
 

@@ -28,7 +28,7 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public logge
    * @param [in] sensor_base: Sensor base information
    * @param [in] dynamics: Dynamics information
    */
-  AngularVelocityObserver(const int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base, const Attitude& attitude);
+  AngularVelocityObserver(const int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base, const dynamics::attitude::Attitude& attitude);
   /**
    * @fn ~AngularVelocityObserver
    * @brief Destructor
@@ -63,7 +63,7 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public logge
 
  protected:
   s2e::math::Vector<3> angular_velocity_b_rad_s_{0.0};  //!< Observed angular velocity [rad/s]
-  const Attitude& attitude_;                       //!< Dynamics information
+  const dynamics::attitude::Attitude& attitude_;                       //!< Dynamics information
 };
 
 /**
@@ -75,7 +75,7 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public logge
  * @param [in] dynamics: Dynamics information
  */
 AngularVelocityObserver InitializeAngularVelocityObserver(environment::ClockGenerator* clock_generator, const std::string file_name, double component_step_time_s,
-                                                          const Attitude& attitude);
+                                                          const dynamics::attitude::Attitude& attitude);
 
 }  // namespace s2e::components
 

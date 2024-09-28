@@ -49,8 +49,8 @@ void MagneticDisturbance::CalcRMM() {
 std::string MagneticDisturbance::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector("spacecraft_magnetic_moment", "b", "Am2", 3);
-  str_tmp += WriteVector("magnetic_disturbance_torque", "b", "Nm", 3);
+  str_tmp += logger::WriteVector("spacecraft_magnetic_moment", "b", "Am2", 3);
+  str_tmp += logger::WriteVector("magnetic_disturbance_torque", "b", "Nm", 3);
 
   return str_tmp;
 }
@@ -58,14 +58,14 @@ std::string MagneticDisturbance::GetLogHeader() const {
 std::string MagneticDisturbance::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(rmm_b_Am2_);
-  str_tmp += WriteVector(torque_b_Nm_);
+  str_tmp += logger::WriteVector(rmm_b_Am2_);
+  str_tmp += logger::WriteVector(torque_b_Nm_);
 
   return str_tmp;
 }
 
 MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "MAGNETIC_DISTURBANCE";
 
   const bool is_calc_enable = conf.ReadEnable(section, INI_CALC_LABEL);

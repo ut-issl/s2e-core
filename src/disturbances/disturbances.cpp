@@ -59,7 +59,7 @@ void Disturbances::LogSetup(Logger& logger) {
 
 void Disturbances::InitializeInstances(const SimulationConfiguration* simulation_configuration, const int spacecraft_id, const Structure* structure,
                                        const GlobalEnvironment* global_environment) {
-  IniAccess ini_access = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
+  setting_file_reader::IniAccess ini_access = setting_file_reader::IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   initialize_file_name_ = ini_access.ReadString("SETTING_FILES", "disturbance_file");
 
   GravityGradient* gg_dist = new GravityGradient(

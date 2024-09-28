@@ -87,7 +87,7 @@ std::string HipparcosCatalogue::GetLogValue() const {
 }
 
 HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name) {
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
   const char* section = "HIPPARCOS_CATALOGUE";
 
   std::string catalogue_path = ini_file.ReadString(section, "catalogue_file_path");

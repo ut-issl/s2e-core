@@ -94,10 +94,10 @@ std::string Geopotential::GetLogHeader() const {
   std::string str_tmp = "";
 
 #ifdef DEBUG_GEOPOTENTIAL
-  str_tmp += WriteVector("geopotential_calculation_position_", "ecef", "m", 3);
+  str_tmp += logger::WriteVector("geopotential_calculation_position_", "ecef", "m", 3);
   str_tmp += WriteScalar("geopotential_calculation_time", "ms");
 #endif
-  str_tmp += WriteVector("geopotential_acceleration", "ecef", "m/s2", 3);
+  str_tmp += logger::WriteVector("geopotential_acceleration", "ecef", "m/s2", 3);
 
   return str_tmp;
 }
@@ -106,17 +106,17 @@ std::string Geopotential::GetLogValue() const {
   std::string str_tmp = "";
 
 #ifdef DEBUG_GEOPOTENTIAL
-  str_tmp += WriteVector(debug_pos_ecef_m_, 15);
+  str_tmp += logger::WriteVector(debug_pos_ecef_m_, 15);
   str_tmp += WriteScalar(time_ms_);
 #endif
 
-  str_tmp += WriteVector(acceleration_ecef_m_s2_, 15);
+  str_tmp += logger::WriteVector(acceleration_ecef_m_s2_, 15);
 
   return str_tmp;
 }
 
 Geopotential InitGeopotential(const std::string initialize_file_path) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char *section = "GEOPOTENTIAL";
 
   const int degree = conf.ReadInt(section, "degree");

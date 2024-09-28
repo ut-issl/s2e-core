@@ -39,8 +39,8 @@ void SolarRadiationPressureDisturbance::CalcCoefficients(const s2e::math::Vector
 std::string SolarRadiationPressureDisturbance::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector("srp_torque", "b", "Nm", 3);
-  str_tmp += WriteVector("srp_force", "b", "N", 3);
+  str_tmp += logger::WriteVector("srp_torque", "b", "Nm", 3);
+  str_tmp += logger::WriteVector("srp_force", "b", "N", 3);
 
   return str_tmp;
 }
@@ -48,15 +48,15 @@ std::string SolarRadiationPressureDisturbance::GetLogHeader() const {
 std::string SolarRadiationPressureDisturbance::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(torque_b_Nm_);
-  str_tmp += WriteVector(force_b_N_);
+  str_tmp += logger::WriteVector(torque_b_Nm_);
+  str_tmp += logger::WriteVector(force_b_N_);
 
   return str_tmp;
 }
 
 SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const std::string initialize_file_path, const std::vector<Surface>& surfaces,
                                                                         const Vector<3>& center_of_gravity_b_m) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "SOLAR_RADIATION_PRESSURE_DISTURBANCE";
 
   const bool is_calc_enable = conf.ReadEnable(section, INI_CALC_LABEL);

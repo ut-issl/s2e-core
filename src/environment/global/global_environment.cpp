@@ -20,7 +20,7 @@ GlobalEnvironment::~GlobalEnvironment() {
 
 void GlobalEnvironment::Initialize(const SimulationConfiguration* simulation_configuration) {
   // Get ini file path
-  IniAccess iniAccess = IniAccess(simulation_configuration->initialize_base_file_name_);
+  setting_file_reader::IniAccess iniAccess = setting_file_reader::IniAccess(simulation_configuration->initialize_base_file_name_);
   std::string simulation_time_ini_path = simulation_configuration->initialize_base_file_name_;
 
   // Initialize

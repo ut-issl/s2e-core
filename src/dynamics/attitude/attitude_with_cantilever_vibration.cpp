@@ -46,8 +46,8 @@ AttitudeWithCantileverVibration::~AttitudeWithCantileverVibration() {}
 std::string AttitudeWithCantileverVibration::GetLogHeader() const {
   std::string str_tmp = Attitude::GetLogHeader();
 
-  str_tmp += WriteVector("euler_angular_cantilever", "c", "rad", 3);
-  str_tmp += WriteVector("angular_velocity_cantilever", "c", "rad/s", 3);
+  str_tmp += logger::WriteVector("euler_angular_cantilever", "c", "rad", 3);
+  str_tmp += logger::WriteVector("angular_velocity_cantilever", "c", "rad/s", 3);
 
   return str_tmp;
 }
@@ -55,8 +55,8 @@ std::string AttitudeWithCantileverVibration::GetLogHeader() const {
 std::string AttitudeWithCantileverVibration::GetLogValue() const {
   std::string str_tmp = Attitude::GetLogValue();
 
-  str_tmp += WriteVector(euler_angular_cantilever_rad_);
-  str_tmp += WriteVector(angular_velocity_cantilever_rad_s_);
+  str_tmp += logger::WriteVector(euler_angular_cantilever_rad_);
+  str_tmp += logger::WriteVector(angular_velocity_cantilever_rad_s_);
 
   return str_tmp;
 }

@@ -50,7 +50,7 @@ void EarthAlbedo::CalcEarthAlbedo(const LocalCelestialInformation* local_celesti
 
 EarthAlbedo InitEarthAlbedo(std::string initialize_file_path, LocalCelestialInformation* local_celestial_information,
                             SolarRadiationPressureEnvironment* srp_environment) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "EARTH_ALBEDO";
 
   EarthAlbedo earth_albedo(local_celestial_information, srp_environment);

@@ -135,7 +135,7 @@ void WingsCommandSenderToC2a::AnalyzeC2aCommand(const std::vector<std::string> t
 
 WingsCommandSenderToC2a InitWingsCommandSenderToC2a(environment::ClockGenerator* clock_generator, const double compo_update_step_s,
                                                     const std::string initialize_file) {
-  IniAccess ini_access(initialize_file);
+  setting_file_reader::IniAccess ini_access(initialize_file);
   std::string section = "WINGS_COMMAND_SENDER_TO_C2A";
 
   bool is_enabled = ini_access.ReadEnable(section.c_str(), "command_send_enable");

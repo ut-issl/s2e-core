@@ -45,8 +45,8 @@ std::string TorqueGenerator::GetLogHeader() const {
   std::string str_tmp = "";
 
   std::string head = "ideal_torque_generator_";
-  str_tmp += WriteVector(head + "ordered_torque", "b", "Nm", 3);
-  str_tmp += WriteVector(head + "generated_torque", "b", "Nm", 3);
+  str_tmp += logger::WriteVector(head + "ordered_torque", "b", "Nm", 3);
+  str_tmp += logger::WriteVector(head + "generated_torque", "b", "Nm", 3);
 
   return str_tmp;
 }
@@ -54,8 +54,8 @@ std::string TorqueGenerator::GetLogHeader() const {
 std::string TorqueGenerator::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(ordered_torque_b_Nm_);
-  str_tmp += WriteVector(generated_torque_b_Nm_);
+  str_tmp += logger::WriteVector(ordered_torque_b_Nm_);
+  str_tmp += logger::WriteVector(generated_torque_b_Nm_);
 
   return str_tmp;
 }
@@ -82,7 +82,7 @@ s2e::math::Quaternion TorqueGenerator::GenerateDirectionNoiseQuaternion(s2e::mat
 
 TorqueGenerator InitializeTorqueGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics) {
   // General
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
 
   // CompoBase
   int prescaler = ini_file.ReadInt("COMPONENT_BASE", "prescaler");

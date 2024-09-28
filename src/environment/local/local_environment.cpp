@@ -26,7 +26,7 @@ LocalEnvironment::~LocalEnvironment() {
 void LocalEnvironment::Initialize(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
                                   const int spacecraft_id) {
   // Read file name
-  IniAccess iniAccess = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
+  setting_file_reader::IniAccess iniAccess = setting_file_reader::IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   std::string ini_fname = iniAccess.ReadString("SETTING_FILES", "local_environment_file");
 
   // Save ini file
@@ -47,7 +47,7 @@ void LocalEnvironment::Initialize(const SimulationConfiguration* simulation_conf
   }
 
   // Log setting for Local celestial information
-  IniAccess conf = IniAccess(ini_fname);
+  setting_file_reader::IniAccess conf = setting_file_reader::IniAccess(ini_fname);
   celestial_information_->is_log_enabled_ = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", "logging");
 }
 

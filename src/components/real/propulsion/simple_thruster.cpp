@@ -79,8 +79,8 @@ std::string SimpleThruster::GetLogHeader() const {
   std::string str_tmp = "";
 
   std::string head = "simple_thruster" + std::to_string(component_id_) + "_";
-  str_tmp += WriteVector(head + "output_thrust", "b", "N", 3);
-  str_tmp += WriteVector(head + "output_torque", "b", "Nm", 3);
+  str_tmp += logger::WriteVector(head + "output_thrust", "b", "N", 3);
+  str_tmp += logger::WriteVector(head + "output_torque", "b", "Nm", 3);
   str_tmp += WriteScalar(head + "output_thrust_norm", "N");
   return str_tmp;
 }
@@ -88,8 +88,8 @@ std::string SimpleThruster::GetLogHeader() const {
 std::string SimpleThruster::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(output_thrust_b_N_);
-  str_tmp += WriteVector(output_torque_b_Nm_);
+  str_tmp += logger::WriteVector(output_thrust_b_N_);
+  str_tmp += logger::WriteVector(output_torque_b_Nm_);
   str_tmp += WriteScalar(output_thrust_b_N_.CalcNorm());
 
   return str_tmp;
@@ -124,7 +124,7 @@ s2e::math::Vector<3> SimpleThruster::CalcThrustDirection() {
 
 SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, int thruster_id, const std::string file_name, const Structure* structure,
                                   const Dynamics* dynamics) {
-  IniAccess thruster_conf(file_name);
+  setting_file_reader::IniAccess thruster_conf(file_name);
   std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = section_str.c_str();
 
@@ -152,7 +152,7 @@ SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, 
 
 SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
                                   const Structure* structure, const Dynamics* dynamics) {
-  IniAccess thruster_conf(file_name);
+  setting_file_reader::IniAccess thruster_conf(file_name);
   std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = section_str.c_str();
 

@@ -34,7 +34,7 @@ std::string GyroSensor::GetLogHeader() const {
   std::string str_tmp = "";
   const std::string sensor_id = std::to_string(static_cast<long long>(sensor_id_));
   std::string sensor_name = "gyro_sensor" + sensor_id + "_";
-  str_tmp += WriteVector(sensor_name + "measured_angular_velocity", "c", "rad/s", kGyroDimension);
+  str_tmp += logger::WriteVector(sensor_name + "measured_angular_velocity", "c", "rad/s", kGyroDimension);
 
   return str_tmp;
 }
@@ -42,14 +42,14 @@ std::string GyroSensor::GetLogHeader() const {
 std::string GyroSensor::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(angular_velocity_c_rad_s_);
+  str_tmp += logger::WriteVector(angular_velocity_c_rad_s_);
 
   return str_tmp;
 }
 
 GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
                           const Dynamics* dynamics) {
-  IniAccess gyro_conf(file_name);
+  setting_file_reader::IniAccess gyro_conf(file_name);
   const char* sensor_name = "GYRO_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* GSection = section_name.c_str();
@@ -70,7 +70,7 @@ GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, int sens
 
 GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
                           double component_step_time_s, const Dynamics* dynamics) {
-  IniAccess gyro_conf(file_name);
+  setting_file_reader::IniAccess gyro_conf(file_name);
   const char* sensor_name = "GYRO_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* GSection = section_name.c_str();

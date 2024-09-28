@@ -115,7 +115,7 @@ void PcuInitialStudy::UpdateChargeCurrentAndBusVoltage() {
 
 PcuInitialStudy InitPCU_InitialStudy(environment::ClockGenerator* clock_generator, int pcu_id, const std::string file_name,
                                      const std::vector<SolarArrayPanel*> saps, Battery* battery, double component_step_time_s) {
-  IniAccess pcu_conf(file_name);
+  setting_file_reader::IniAccess pcu_conf(file_name);
 
   const std::string section_name = "PCU_INITIAL_STUDY_" + std::to_string(static_cast<long long>(pcu_id));
 

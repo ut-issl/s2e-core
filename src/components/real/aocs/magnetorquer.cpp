@@ -99,23 +99,23 @@ std::string Magnetorquer::GetLogHeader() const {
   const std::string actuator_id = std::to_string(static_cast<long long>(component_id_));
   std::string actuator_name = "magnetorquer" + actuator_id + "_";
 
-  str_tmp += WriteVector(actuator_name + "output_magnetic_moment", "b", "Am2", kMtqDimension);
-  str_tmp += WriteVector(actuator_name + "output_torque", "b", "Nm", kMtqDimension);
+  str_tmp += logger::WriteVector(actuator_name + "output_magnetic_moment", "b", "Am2", kMtqDimension);
+  str_tmp += logger::WriteVector(actuator_name + "output_torque", "b", "Nm", kMtqDimension);
 
   return str_tmp;
 }
 
 std::string Magnetorquer::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteVector(output_magnetic_moment_b_Am2_);
-  str_tmp += WriteVector(torque_b_Nm_);
+  str_tmp += logger::WriteVector(output_magnetic_moment_b_Am2_);
+  str_tmp += logger::WriteVector(torque_b_Nm_);
 
   return str_tmp;
 }
 
 Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, int actuator_id, const std::string file_name, double component_step_time_s,
                               const GeomagneticField* geomagnetic_field) {
-  IniAccess magtorquer_conf(file_name);
+  setting_file_reader::IniAccess magtorquer_conf(file_name);
   const char* sensor_name = "MAGNETORQUER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(actuator_id));
   const char* MTSection = section_name.c_str();
@@ -160,7 +160,7 @@ Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, int 
 
 Magnetorquer InitMagnetorquer(environment::ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, const std::string file_name,
                               double component_step_time_s, const GeomagneticField* geomagnetic_field) {
-  IniAccess magtorquer_conf(file_name);
+  setting_file_reader::IniAccess magtorquer_conf(file_name);
   const char* sensor_name = "MAGNETORQUER_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(actuator_id));
   const char* MTSection = section_name.c_str();

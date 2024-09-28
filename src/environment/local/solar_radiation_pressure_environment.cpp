@@ -106,7 +106,7 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
 
 SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::string initialize_file_path,
                                                                         LocalCelestialInformation* local_celestial_information) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "SOLAR_RADIATION_PRESSURE_ENVIRONMENT";
 
   SolarRadiationPressureEnvironment srp_env(local_celestial_information);

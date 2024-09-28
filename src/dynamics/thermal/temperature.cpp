@@ -293,7 +293,7 @@ using std::vector;
 
 Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const SolarRadiationPressureEnvironment* srp_environment,
                              const EarthAlbedo* earth_albedo) {
-  auto mainIni = IniAccess(file_name);
+  auto mainIni = setting_file_reader::IniAccess(file_name);
 
   vector<Node> node_list;
   vector<Heater> heater_list;
@@ -331,7 +331,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   // Read Heatloads from CSV File
   string filepath_heatload = file_path + "heatload.csv";
-  IniAccess conf_heatload(filepath_heatload);
+  setting_file_reader::IniAccess conf_heatload(filepath_heatload);
   conf_heatload.ReadCsvString(heatload_str_list, 100);
   /*since we don't know the number of node_list yet, set node_num=100 temporary.
     Recall that Nodes_num are given to this function only to reserve memory*/
@@ -344,7 +344,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   // Read Node Properties from CSV File
   string filepath_node = file_path + "node.csv";
-  IniAccess conf_node(filepath_node);
+  setting_file_reader::IniAccess conf_node(filepath_node);
   conf_node.ReadCsvString(node_str_list, 100);
   /*since we don't know the number of node_list yet, set node_num=100 temporary.
     Recall that Nodes_num are given to this function only to reserve memory*/
@@ -359,7 +359,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   // Read Heater Properties from CSV File
   string filepath_heater = file_path + "heaters.csv";
-  IniAccess conf_heater(filepath_heater);
+  setting_file_reader::IniAccess conf_heater(filepath_heater);
   conf_heater.ReadCsvString(heater_str_list, 100);
   /*since we don't know the number of heater_list yet, set heater_num=100 temporary.
     Recall that heater_num are given to this function only to reserve memory*/
@@ -375,8 +375,8 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   // Read Cij,Rij data from CSV File
   string filepath_cij = file_path + "cij.csv";
   string filepath_rij = file_path + "rij.csv";
-  IniAccess conf_cij(filepath_cij);
-  IniAccess conf_rij(filepath_rij);
+  setting_file_reader::IniAccess conf_cij(filepath_cij);
+  setting_file_reader::IniAccess conf_rij(filepath_rij);
   conf_cij.ReadCsvDoubleWithHeader(conductance_matrix, node_num, 1, 1);
   conf_rij.ReadCsvDoubleWithHeader(radiation_matrix, node_num, 1, 1);
 

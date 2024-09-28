@@ -26,9 +26,9 @@ class AttitudeObserver : public Component, public logger::ILoggable {
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
-   * @param [in] attitude: Attitude information
+   * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  AttitudeObserver(const int prescaler, environment::ClockGenerator* clock_generator, const double standard_deviation_rad, const Attitude& attitude);
+  AttitudeObserver(const int prescaler, environment::ClockGenerator* clock_generator, const double standard_deviation_rad, const dynamics::attitude::Attitude& attitude);
 
   /**
    * @fn ~AttitudeObserver
@@ -67,7 +67,7 @@ class AttitudeObserver : public Component, public logger::ILoggable {
   s2e::randomization::NormalRand angle_noise_;      //!< Normal random for magnitude noise
   s2e::randomization::NormalRand direction_noise_;  //!< Normal random for direction noise
 
-  const Attitude& attitude_;  //!< Attitude information
+  const dynamics::attitude::Attitude& attitude_;  //!< dynamics::attitude::Attitude information
 };
 
 /**
@@ -75,9 +75,9 @@ class AttitudeObserver : public Component, public logger::ILoggable {
  * @brief Initialize functions for AttitudeObserver
  * @param [in] clock_generator: Clock generator
  * @param [in] file_name: Path to the initialize file
- * @param [in] attitude: Attitude information
+ * @param [in] attitude: dynamics::attitude::Attitude information
  */
-AttitudeObserver InitializeAttitudeObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const Attitude& attitude);
+AttitudeObserver InitializeAttitudeObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::attitude::Attitude& attitude);
 
 }  // namespace s2e::components
 

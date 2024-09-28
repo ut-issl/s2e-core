@@ -68,10 +68,10 @@ std::string ForceGenerator::GetLogHeader() const {
   std::string str_tmp = "";
 
   std::string head = "ideal_force_generator_";
-  str_tmp += WriteVector(head + "ordered_force", "b", "N", 3);
-  str_tmp += WriteVector(head + "generated_force", "b", "N", 3);
-  str_tmp += WriteVector(head + "generated_force", "i", "N", 3);
-  str_tmp += WriteVector(head + "generated_force", "rtn", "N", 3);
+  str_tmp += logger::WriteVector(head + "ordered_force", "b", "N", 3);
+  str_tmp += logger::WriteVector(head + "generated_force", "b", "N", 3);
+  str_tmp += logger::WriteVector(head + "generated_force", "i", "N", 3);
+  str_tmp += logger::WriteVector(head + "generated_force", "rtn", "N", 3);
 
   return str_tmp;
 }
@@ -79,10 +79,10 @@ std::string ForceGenerator::GetLogHeader() const {
 std::string ForceGenerator::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(ordered_force_b_N_);
-  str_tmp += WriteVector(generated_force_b_N_);
-  str_tmp += WriteVector(generated_force_i_N_);
-  str_tmp += WriteVector(generated_force_rtn_N_);
+  str_tmp += logger::WriteVector(ordered_force_b_N_);
+  str_tmp += logger::WriteVector(generated_force_b_N_);
+  str_tmp += logger::WriteVector(generated_force_i_N_);
+  str_tmp += logger::WriteVector(generated_force_rtn_N_);
 
   return str_tmp;
 }
@@ -109,7 +109,7 @@ s2e::math::Quaternion ForceGenerator::GenerateDirectionNoiseQuaternion(s2e::math
 
 ForceGenerator InitializeForceGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics) {
   // General
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
 
   // CompoBase
   int prescaler = ini_file.ReadInt("COMPONENT_BASE", "prescaler");
