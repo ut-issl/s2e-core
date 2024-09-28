@@ -111,7 +111,7 @@ class GroundStationCalculator : public logger::ILoggable {
    * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
    * @return Max bitrate [Mbps]
    */
-  double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+  double CalcMaxBitrate(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
                         const Antenna& ground_station_rx_antenna);
   /**
    * @fn CalcReceiveMarginOnGs
@@ -122,7 +122,7 @@ class GroundStationCalculator : public logger::ILoggable {
    * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
    * @return Receive margin [dB]
    */
-  double CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+  double CalcReceiveMarginOnGs(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
                                const Antenna& ground_station_rx_antenna);
 
   /**
@@ -134,7 +134,7 @@ class GroundStationCalculator : public logger::ILoggable {
    * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
    * @return CN0 [dB]
    */
-  double CalcCn0OnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+  double CalcCn0OnGs(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
                      const Antenna& ground_station_rx_antenna);
 };
 

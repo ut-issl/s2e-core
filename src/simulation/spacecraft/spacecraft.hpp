@@ -71,7 +71,7 @@ class Spacecraft {
    * @fn GetDynamics
    * @brief Get dynamics of the spacecraft
    */
-  inline const dynamics::Dynamics& GetDynamics() const { return *dynamics_; }
+  inline const dynamics::dynamics::Dynamics& GetDynamics() const { return *dynamics_; }
   /**
    * @fn GetLocalEnvironment
    * @brief Get local environment around the spacecraft
@@ -100,7 +100,7 @@ class Spacecraft {
 
  protected:
   environment::ClockGenerator clock_generator_;             //!< Origin of clock for the spacecraft
-  dynamics::Dynamics* dynamics_;                         //!< Dynamics information of the spacecraft
+  dynamics::dynamics::Dynamics* dynamics_;                         //!< Dynamics information of the spacecraft
   RelativeInformation* relative_information_;  //!< Relative information with respect to the other spacecraft
   environment::LocalEnvironment* local_environment_;        //!< Local environment information around the spacecraft
   disturbances::Disturbances* disturbances_;                 //!< Disturbance information acting on the spacecraft

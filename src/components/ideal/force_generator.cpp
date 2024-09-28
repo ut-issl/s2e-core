@@ -12,7 +12,7 @@ namespace s2e::components {
 
 // Constructor
 ForceGenerator::ForceGenerator(const int prescaler, environment::ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_N,
-                               const double direction_error_standard_deviation_rad, const Dynamics* dynamics)
+                               const double direction_error_standard_deviation_rad, const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       magnitude_noise_(0.0, magnitude_error_standard_deviation_N),
       direction_error_standard_deviation_rad_(direction_error_standard_deviation_rad),
@@ -107,7 +107,7 @@ s2e::math::Quaternion ForceGenerator::GenerateDirectionNoiseQuaternion(s2e::math
   return error_quaternion;
 }
 
-ForceGenerator InitializeForceGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics) {
+ForceGenerator InitializeForceGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::Dynamics* dynamics) {
   // General
   setting_file_reader::IniAccess ini_file(file_name);
 

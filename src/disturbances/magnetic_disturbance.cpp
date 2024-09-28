@@ -26,7 +26,7 @@ Vector<3> MagneticDisturbance::CalcTorque_b_Nm(const Vector<3>& magnetic_field_b
   return torque_b_Nm_;
 }
 
-void MagneticDisturbance::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+void MagneticDisturbance::Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
   UNUSED(dynamics);
 
   CalcTorque_b_Nm(local_environment.GetGeomagneticField().GetGeomagneticField_b_nT());

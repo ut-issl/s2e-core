@@ -41,7 +41,7 @@ class Disturbance : public logger::ILoggable {
    * @fn UpdateIfEnabled
    * @brief Update calculated disturbance when the calculation flag is true
    */
-  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
     if (is_calculation_enabled_) {
       Update(local_environment, dynamics);
     } else {
@@ -56,7 +56,7 @@ class Disturbance : public logger::ILoggable {
    * @fn Update
    * @brief Pure virtual function to define the disturbance calculation
    */
-  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) = 0;
+  virtual void Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) = 0;
 
   /**
    * @fn GetTorque_b_Nm

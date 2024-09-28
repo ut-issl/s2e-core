@@ -15,7 +15,7 @@
 #include "simulation/simulation_configuration.hpp"
 #include "solar_radiation_pressure_environment.hpp"
 
-class Dynamics;
+class dynamics::Dynamics;
 
 namespace s2e::environment {
 
@@ -45,7 +45,7 @@ class LocalEnvironment {
    * @param [in] dynamics: Dynamics information of the satellite
    * @param [in] simulation_time: Simulation time
    */
-  void Update(const Dynamics* dynamics, const SimulationTime* simulation_time);
+  void Update(const dynamics::Dynamics* dynamics, const SimulationTime* simulation_time);
 
   /**
    * @fn LogSetup

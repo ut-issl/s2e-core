@@ -51,7 +51,7 @@ void LocalEnvironment::Initialize(const SimulationConfiguration* simulation_conf
   celestial_information_->is_log_enabled_ = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", "logging");
 }
 
-void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* simulation_time) {
+void LocalEnvironment::Update(const dynamics::Dynamics* dynamics, const SimulationTime* simulation_time) {
   auto& orbit = dynamics->GetOrbit();
   auto& attitude = dynamics->GetAttitude();
 

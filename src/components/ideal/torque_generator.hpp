@@ -30,7 +30,7 @@ class TorqueGenerator : public Component, public logger::ILoggable {
    * @param [in] dynamics: Dynamics information
    */
   TorqueGenerator(const int prescaler, environment::ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_Nm,
-                  const double direction_error_standard_deviation_rad, const Dynamics* dynamics);
+                  const double direction_error_standard_deviation_rad, const dynamics::Dynamics* dynamics);
   /**
    * @fn ~TorqueGenerator
    * @brief Destructor
@@ -92,7 +92,7 @@ class TorqueGenerator : public Component, public logger::ILoggable {
    */
   s2e::math::Quaternion GenerateDirectionNoiseQuaternion(s2e::math::Vector<3> true_direction, const double error_standard_deviation_rad);
 
-  const Dynamics* dynamics_;  //!< Spacecraft dynamics information
+  const dynamics::Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };
 
 /**
@@ -102,7 +102,7 @@ class TorqueGenerator : public Component, public logger::ILoggable {
  * @param [in] file_name: Path to initialize file
  * @param [in] dynamics: Dynamics information
  */
-TorqueGenerator InitializeTorqueGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics);
+TorqueGenerator InitializeTorqueGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::Dynamics* dynamics);
 
 }  // namespace s2e::components
 

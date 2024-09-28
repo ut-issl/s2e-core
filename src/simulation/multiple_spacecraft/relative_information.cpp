@@ -39,7 +39,7 @@ void RelativeInformation::Update() {
   }
 }
 
-void RelativeInformation::RegisterDynamicsInfo(const size_t spacecraft_id, const Dynamics* dynamics) {
+void RelativeInformation::RegisterDynamicsInfo(const size_t spacecraft_id, const dynamics::Dynamics* dynamics) {
   dynamics_database_.emplace(spacecraft_id, dynamics);
   ResizeLists();
 }

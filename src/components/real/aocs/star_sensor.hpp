@@ -49,7 +49,7 @@ class StarSensor : public Component, public logger::ILoggable {
              const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
              const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
              const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s,
-             const Dynamics* dynamics, const LocalEnvironment* local_environment);
+             const dynamics::Dynamics* dynamics, const LocalEnvironment* local_environment);
   /**
    * @fn StarSensor
    * @brief Constructor with power port
@@ -74,7 +74,7 @@ class StarSensor : public Component, public logger::ILoggable {
              const s2e::math::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
              const double standard_deviation_sight_direction, const double step_time_s, const unsigned int output_delay,
              const unsigned int output_interval, const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad,
-             const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
+             const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const dynamics::Dynamics* dynamics,
              const LocalEnvironment* local_environment);
 
   // Override functions for Component
@@ -138,7 +138,7 @@ class StarSensor : public Component, public logger::ILoggable {
   double capture_rate_limit_rad_s_;   //!< Angular rate limit to get correct attitude [rad/s]
 
   // Observed variables
-  const Dynamics* dynamics_;                   //!< Dynamics information
+  const dynamics::Dynamics* dynamics_;                   //!< Dynamics information
   const LocalEnvironment* local_environment_;  //!< Local environment information
 
   // Internal functions
@@ -219,7 +219,7 @@ class StarSensor : public Component, public logger::ILoggable {
  * @param [in] local_environment: Local environment information
  */
 StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
-                          const Dynamics* dynamics, const LocalEnvironment* local_environment);
+                          const dynamics::Dynamics* dynamics, const LocalEnvironment* local_environment);
 /**
  * @fn InitStarSensor
  * @brief Initialize functions for StarSensor with power port
@@ -232,7 +232,7 @@ StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sens
  * @param [in] local_environment: Local environment information
  */
 StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
-                          double component_step_time_s, const Dynamics* dynamics, const LocalEnvironment* local_environment);
+                          double component_step_time_s, const dynamics::Dynamics* dynamics, const LocalEnvironment* local_environment);
 
 } // namespace s2e::components
 

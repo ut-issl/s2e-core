@@ -16,7 +16,7 @@ SolarRadiationPressureDisturbance::SolarRadiationPressureDisturbance(const std::
                                                                      const s2e::math::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled) {}
 
-void SolarRadiationPressureDisturbance::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+void SolarRadiationPressureDisturbance::Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
   UNUSED(dynamics);
 
   s2e::math::Vector<3> sun_position_from_sc_b_m = local_environment.GetCelestialInformation().GetPositionFromSpacecraft_b_m("SUN");

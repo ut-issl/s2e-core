@@ -70,7 +70,7 @@ bool Geopotential::ReadCoefficientsEgm96(std::string file_name) {
   return true;
 }
 
-void Geopotential::Update(const LocalEnvironment &local_environment, const Dynamics &dynamics) {
+void Geopotential::Update(const LocalEnvironment &local_environment, const dynamics::Dynamics &dynamics) {
 #ifdef DEBUG_GEOPOTENTIAL
   chrono::system_clock::time_point start, end;
   start = chrono::system_clock::now();

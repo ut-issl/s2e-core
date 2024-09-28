@@ -32,7 +32,7 @@ void Spacecraft::Initialize(const SimulationConfiguration* simulation_configurat
   clock_generator_.ClearTimerCount();
   structure_ = new Structure(simulation_configuration, spacecraft_id);
   local_environment_ = new environment::LocalEnvironment(simulation_configuration, global_environment, spacecraft_id);
-  dynamics_ = new dynamics::Dynamics(simulation_configuration, &(global_environment->GetSimulationTime()), local_environment_, spacecraft_id, structure_,
+  dynamics_ = new dynamics::dynamics::Dynamics(simulation_configuration, &(global_environment->GetSimulationTime()), local_environment_, spacecraft_id, structure_,
                            relative_information);
   disturbances_ = new disturbances::Disturbances(simulation_configuration, spacecraft_id, structure_, global_environment);
 

@@ -15,7 +15,7 @@ namespace s2e::components {
 SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
                                const s2e::math::Vector<3> thruster_position_b_m, const s2e::math::Vector<3> thrust_direction_b, const double max_magnitude_N,
                                const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
-                               const Dynamics* dynamics)
+                               const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       thruster_position_b_m_(thruster_position_b_m),
@@ -30,7 +30,7 @@ SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator*
 SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                                const s2e::math::Vector<3> thruster_position_b_m, const s2e::math::Vector<3> thrust_direction_b, const double max_magnitude_N,
                                const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
-                               const Dynamics* dynamics)
+                               const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       thruster_position_b_m_(thruster_position_b_m),
@@ -123,7 +123,7 @@ s2e::math::Vector<3> SimpleThruster::CalcThrustDirection() {
 }
 
 SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, int thruster_id, const std::string file_name, const Structure* structure,
-                                  const Dynamics* dynamics) {
+                                  const dynamics::Dynamics* dynamics) {
   setting_file_reader::IniAccess thruster_conf(file_name);
   std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = section_str.c_str();
@@ -151,7 +151,7 @@ SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, 
 }
 
 SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
-                                  const Structure* structure, const Dynamics* dynamics) {
+                                  const Structure* structure, const dynamics::Dynamics* dynamics) {
   setting_file_reader::IniAccess thruster_conf(file_name);
   std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = section_str.c_str();

@@ -88,7 +88,7 @@ bool LunarGravityField::ReadCoefficientsGrgm1200a(std::string file_name) {
   return true;
 }
 
-void LunarGravityField::Update(const LocalEnvironment &local_environment, const Dynamics &dynamics) {
+void LunarGravityField::Update(const LocalEnvironment &local_environment, const dynamics::Dynamics &dynamics) {
   const CelestialInformation global_celestial_information = local_environment.GetCelestialInformation().GetGlobalInformation();
   s2e::math::Matrix<3, 3> dcm_mci2mcmf_ = global_celestial_information.GetMoonRotation().GetDcmJ2000ToMcmf();
 

@@ -16,7 +16,7 @@ ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list, const 
 
 ThirdBodyGravity::~ThirdBodyGravity() {}
 
-void ThirdBodyGravity::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+void ThirdBodyGravity::Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
   acceleration_i_m_s2_ = s2e::math::Vector<3>(0.0);  // initialize
 
   s2e::math::Vector<3> sc_position_i_m = dynamics.GetOrbit().GetPosition_i_m();

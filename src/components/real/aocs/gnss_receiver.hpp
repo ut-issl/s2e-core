@@ -63,7 +63,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
                const s2e::math::Vector<3> antenna_position_b_m, const s2e::math::Quaternion quaternion_b2c, const double half_width_deg,
                const s2e::math::Vector<3> position_noise_standard_deviation_ecef_m, const s2e::math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
-               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+               const dynamics::Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
   /**
    * @fn GnssReceiver
    * @brief Constructor with power port
@@ -83,7 +83,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                const AntennaModel antenna_model, const s2e::math::Vector<3> antenna_position_b_m, const s2e::math::Quaternion quaternion_b2c,
                const double half_width_deg, const s2e::math::Vector<3> position_noise_standard_deviation_ecef_m,
-               const s2e::math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
+               const s2e::math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const dynamics::Dynamics* dynamics, const GnssSatellites* gnss_satellites,
                const SimulationTime* simulation_time);
 
   // Override functions for Component
@@ -156,7 +156,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
   std::vector<GnssInfo> gnss_information_list_;  //!< Information List of visible GNSS satellites
 
   // References
-  const Dynamics* dynamics_;               //!< Dynamics of spacecraft
+  const dynamics::Dynamics* dynamics_;               //!< Dynamics of spacecraft
   const GnssSatellites* gnss_satellites_;  //!< Information of GNSS satellites
   const SimulationTime* simulation_time_;  //!< Simulation time
 
@@ -226,7 +226,7 @@ AntennaModel SetAntennaModel(const std::string antenna_model);
  * @param [in] gnss_satellites: GNSS satellites information
  * @param [in] simulation_time: Simulation time information
  */
-GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, const size_t component_id, const std::string file_name, const Dynamics* dynamics,
+GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, const size_t component_id, const std::string file_name, const dynamics::Dynamics* dynamics,
                               const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
 /**
  * @fn InitGnssReceiver
@@ -240,7 +240,7 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, cons
  * @param [in] simulation_time: Simulation time information
  */
 GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id, const std::string file_name,
-                              const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+                              const dynamics::Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
 
 } // namespace s2e::components
 

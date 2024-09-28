@@ -39,9 +39,9 @@ class ThirdBodyGravity : public Disturbance {
    * @fn Update
    * @brief Update third body disturbance
    * @param [in] local_environment: Local environment information
-   * @param [in] dynamics: Dynamics information
+   * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
+  virtual void Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
 
  private:
   std::set<std::string> third_body_list_;                //!< List of celestial bodies to calculate the third body disturbances

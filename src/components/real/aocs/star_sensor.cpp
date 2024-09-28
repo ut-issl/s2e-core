@@ -22,7 +22,7 @@ StarSensor::StarSensor(const int prescaler, environment::ClockGenerator* clock_g
                        const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction,
                        const double step_time_s, const unsigned int output_delay, const unsigned int output_interval,
                        const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad,
-                       const double capture_rate_limit_rad_s, const Dynamics* dynamics, const LocalEnvironment* local_environment)
+                       const double capture_rate_limit_rad_s, const dynamics::Dynamics* dynamics, const LocalEnvironment* local_environment)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
@@ -46,7 +46,7 @@ StarSensor::StarSensor(const int prescaler, environment::ClockGenerator* clock_g
                        const s2e::math::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
                        const double standard_deviation_sight_direction, const double step_time_s, const unsigned int output_delay,
                        const unsigned int output_interval, const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad,
-                       const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
+                       const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const dynamics::Dynamics* dynamics,
                        const LocalEnvironment* local_environment)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
@@ -216,7 +216,7 @@ void StarSensor::MainRoutine(const int time_count) {
 }
 
 StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sensor_id, const string file_name, double component_step_time_s,
-                          const Dynamics* dynamics, const LocalEnvironment* local_environment) {
+                          const dynamics::Dynamics* dynamics, const LocalEnvironment* local_environment) {
   setting_file_reader::IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
@@ -249,7 +249,7 @@ StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sens
 }
 
 StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string file_name, double component_step_time_s,
-                          const Dynamics* dynamics, const LocalEnvironment* local_environment) {
+                          const dynamics::Dynamics* dynamics, const LocalEnvironment* local_environment) {
   setting_file_reader::IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));

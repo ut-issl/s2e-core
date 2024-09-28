@@ -25,7 +25,7 @@ AirDrag::AirDrag(const std::vector<Surface>& surfaces, const s2e::math::Vector<3
   cn_.assign(num, 0.0);
 }
 
-void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+void AirDrag::Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
   double air_density_kg_m3 = local_environment.GetAtmosphere().GetAirDensity_kg_m3();
 
   s2e::math::Matrix<3, 3> dcm_ecef2eci =

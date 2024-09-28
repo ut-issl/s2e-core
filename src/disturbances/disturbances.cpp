@@ -30,7 +30,7 @@ Disturbances::~Disturbances() {
   }
 }
 
-void Disturbances::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimulationTime* simulation_time) {
+void Disturbances::Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics, const SimulationTime* simulation_time) {
   InitializeForceAndTorque();
   InitializeAcceleration();
 

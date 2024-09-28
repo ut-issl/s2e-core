@@ -33,9 +33,9 @@ class MagneticDisturbance : public Disturbance {
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
    * @param [in] local_environment: Local environment information
-   * @param [in] dynamics: Dynamics information
+   * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
+  virtual void Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
 
   // Override logger::ILoggable
   /**

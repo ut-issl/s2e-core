@@ -114,7 +114,7 @@ class ForceGenerator : public Component, public logger::ILoggable {
    */
   s2e::math::Quaternion GenerateDirectionNoiseQuaternion(s2e::math::Vector<3> true_direction, const double error_standard_deviation_rad);
 
-  const Dynamics* dynamics_;  //!< Spacecraft dynamics information
+  const dynamics::Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };
 
 /**
@@ -124,7 +124,7 @@ class ForceGenerator : public Component, public logger::ILoggable {
  * @param [in] file_name: Path to initialize file
  * @param [in] dynamics: Dynamics information
  */
-ForceGenerator InitializeForceGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics);
+ForceGenerator InitializeForceGenerator(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::Dynamics* dynamics);
 
 }  // namespace s2e::components
 

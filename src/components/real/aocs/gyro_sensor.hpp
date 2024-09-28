@@ -34,7 +34,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public logge
    * @param [in] dynamics: Dynamics information
    */
   GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
-             const s2e::math::Quaternion& quaternion_b2c, const Dynamics* dynamics);
+             const s2e::math::Quaternion& quaternion_b2c, const dynamics::Dynamics* dynamics);
   /**
    * @fn GyroSensor
    * @brief Constructor with power port
@@ -47,7 +47,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public logge
    * @param [in] dynamics: Dynamics information
    */
   GyroSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base, const unsigned int sensor_id,
-             const s2e::math::Quaternion& quaternion_b2c, const Dynamics* dynamics);
+             const s2e::math::Quaternion& quaternion_b2c, const dynamics::Dynamics* dynamics);
   /**
    * @fn ~GyroSensor
    * @brief Destructor
@@ -85,7 +85,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public logge
   unsigned int sensor_id_ = 0;  //!< Sensor ID
   s2e::math::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};  //!< Quaternion from body frame to component frame
 
-  const Dynamics* dynamics_;  //!< Dynamics information
+  const dynamics::Dynamics* dynamics_;  //!< Dynamics information
 };
 
 /**
@@ -98,7 +98,7 @@ class GyroSensor : public Component, public Sensor<kGyroDimension>, public logge
  * @param [in] dynamics: Dynamics information
  */
 GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
-                          const Dynamics* dynamics);
+                          const dynamics::Dynamics* dynamics);
 /**
  * @fn InitGyroSensor
  * @brief Initialize functions for gyro sensor with power port
@@ -107,10 +107,10 @@ GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, int sens
  * @param [in] sensor_id: Sensor ID
  * @param [in] component_step_time_s: Component step time [sec]
  * @param [in] file_name: Path to the initialize file
- * @param [in] dynamics: Dynamics information
+ * @param [in] dynamics: dynamics::Dynamics information
  */
 GyroSensor InitGyroSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
-                          double component_step_time_s, const Dynamics* dynamics);
+                          double component_step_time_s, const dynamics::Dynamics* dynamics);
 
 } //namespace s2e::components 
 

@@ -39,7 +39,7 @@ class SimpleThruster : public Component, public logger::ILoggable {
    */
   SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const Vector<3> thruster_position_b_m,
                  const Vector<3> thrust_direction_b, const double max_magnitude_N, const double magnitude_standard_deviation_N,
-                 const double direction_standard_deviation_rad, const Structure* structure, const Dynamics* dynamics);
+                 const double direction_standard_deviation_rad, const Structure* structure, const dynamics::Dynamics* dynamics);
   /**
    * @fn SimpleThruster
    * @brief Constructor with power port
@@ -58,7 +58,7 @@ class SimpleThruster : public Component, public logger::ILoggable {
   SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                  const Vector<3> thruster_position_b_m, const Vector<3> thrust_direction_b, const double max_magnitude_N,
                  const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
-                 const Dynamics* dynamics);
+                 const dynamics::Dynamics* dynamics);
   /**
    * @fn ~SimpleThruster
    * @brief Destructor
@@ -154,7 +154,7 @@ class SimpleThruster : public Component, public logger::ILoggable {
   void Initialize(const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad);
 
   const Structure* structure_;  //!< Spacecraft structure information
-  const Dynamics* dynamics_;    //!< Spacecraft dynamics information
+  const dynamics::Dynamics* dynamics_;    //!< Spacecraft dynamics information
 };
 
 /**
@@ -167,7 +167,7 @@ class SimpleThruster : public Component, public logger::ILoggable {
  * @param [in] dynamics: Spacecraft dynamics information
  */
 SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, int thruster_id, const std::string file_name, const Structure* structure,
-                                  const Dynamics* dynamics);
+                                  const dynamics::Dynamics* dynamics);
 /**
  * @fn InitSimpleThruster
  * @brief Initialize function os SimpleThruster
@@ -179,7 +179,7 @@ SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, 
  * @param [in] dynamics: Spacecraft dynamics information
  */
 SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
-                                  const Structure* structure, const Dynamics* dynamics);
+                                  const Structure* structure, const dynamics::Dynamics* dynamics);
 
 } // namespace s2e::components
 
