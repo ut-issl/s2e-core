@@ -36,7 +36,7 @@ std::string AttitudeObserver::GetLogHeader() const {
   std::string str_tmp = "";
 
   std::string head = "attitude_observer_";
-  str_tmp += WriteQuaternion(head + "quaternion", "i2b");
+  str_tmp += logger::WriteQuaternion(head + "quaternion", "i2b");
 
   return str_tmp;
 }
@@ -44,7 +44,7 @@ std::string AttitudeObserver::GetLogHeader() const {
 std::string AttitudeObserver::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteQuaternion(observed_quaternion_i2b_);
+  str_tmp += logger::WriteQuaternion(observed_quaternion_i2b_);
 
   return str_tmp;
 }

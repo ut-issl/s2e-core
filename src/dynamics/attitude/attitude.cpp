@@ -25,7 +25,7 @@ std::string Attitude::GetLogHeader() const {
   std::string str_tmp = "";
 
   str_tmp += logger::WriteVector("spacecraft_angular_velocity", "b", "rad/s", 3);
-  str_tmp += WriteQuaternion("spacecraft_quaternion", "i2b");
+  str_tmp += logger::WriteQuaternion("spacecraft_quaternion", "i2b");
   str_tmp += logger::WriteVector("spacecraft_torque", "b", "Nm", 3);
   str_tmp += WriteScalar("spacecraft_total_angular_momentum", "Nms");
   str_tmp += WriteScalar("spacecraft_kinematic_energy", "J");
@@ -37,7 +37,7 @@ std::string Attitude::GetLogValue() const {
   std::string str_tmp = "";
 
   str_tmp += logger::WriteVector(angular_velocity_b_rad_s_);
-  str_tmp += WriteQuaternion(quaternion_i2b_);
+  str_tmp += logger::WriteQuaternion(quaternion_i2b_);
   str_tmp += logger::WriteVector(torque_b_Nm_);
   str_tmp += WriteScalar(angular_momentum_total_Nms_);
   str_tmp += WriteScalar(kinetic_energy_J_);

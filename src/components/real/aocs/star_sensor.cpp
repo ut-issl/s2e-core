@@ -185,7 +185,7 @@ std::string StarSensor::GetLogHeader() const {
   const std::string sensor_id = std::to_string(static_cast<long long>(component_id_));
   std::string sensor_name = "stt" + sensor_id + "_";
 
-  str_tmp += WriteQuaternion(sensor_name + "measured_quaternion", "i2c");
+  str_tmp += logger::WriteQuaternion(sensor_name + "measured_quaternion", "i2c");
   str_tmp += WriteScalar(sensor_name + "error_flag");
 
   return str_tmp;
@@ -194,7 +194,7 @@ std::string StarSensor::GetLogHeader() const {
 std::string StarSensor::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteQuaternion(measured_quaternion_i2c_);
+  str_tmp += logger::WriteQuaternion(measured_quaternion_i2c_);
   str_tmp += WriteScalar(double(error_flag_));
 
   return str_tmp;
