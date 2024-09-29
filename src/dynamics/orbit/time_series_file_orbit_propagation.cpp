@@ -41,8 +41,8 @@ TimeSeriesFileOrbitPropagation::TimeSeriesFileOrbitPropagation(const CelestialIn
   reference_time_ = CalcEphemerisTimeData(reference_interpolation_id_);
 
   // Initialize orbit
-  orbit_position_i_m_.assign(1.0, orbit::InterpolationOrbit(number_of_interpolation));
-  orbit_velocity_i_m_s_.assign(1.0, orbit::InterpolationOrbit(number_of_interpolation));
+  orbit_position_i_m_.assign(static_cast<std::size_t>(1), orbit::InterpolationOrbit(number_of_interpolation));
+  orbit_velocity_i_m_s_.assign(static_cast<std::size_t>(1), orbit::InterpolationOrbit(number_of_interpolation));
 
   // Initialize interpolation
   for (int i = 0; i < number_of_interpolation; i++) {
@@ -87,7 +87,7 @@ void TimeSeriesFileOrbitPropagation::Propagate(const double end_time_s, const do
   // Check interpolation update
   double current_ephemris_time = (current_time_jd - 2451545.0) * 86400.0;
   double diff_s = current_ephemris_time - reference_time_;
-  double medium_time_s = orbit_position_i_m_[0].GetTimeList()[std::round(number_of_interpolation_ / 2.0)];
+  double medium_time_s = orbit_position_i_m_[0].GetTimeList()[static_cast<std::size_t>(std::round(number_of_interpolation_ / 2.0))];
   if (diff_s > medium_time_s) {
     UpdateInterpolationInformation();
   }
