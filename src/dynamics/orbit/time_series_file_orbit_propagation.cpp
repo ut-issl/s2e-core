@@ -41,8 +41,8 @@ TimeSeriesFileOrbitPropagation::TimeSeriesFileOrbitPropagation(const CelestialIn
   reference_time_ = CalcEphemerisTimeData(reference_interpolation_id_);
 
   // Initialize orbit
-  orbit_position_i_m_.assign(static_cast<std::size_t>(1), orbit::InterpolationOrbit(number_of_interpolation));
-  orbit_velocity_i_m_s_.assign(static_cast<std::size_t>(1), orbit::InterpolationOrbit(number_of_interpolation));
+  orbit_position_i_m_.assign(1, orbit::InterpolationOrbit(number_of_interpolation));
+  orbit_velocity_i_m_s_.assign(1, orbit::InterpolationOrbit(number_of_interpolation));
 
   // Initialize interpolation
   for (int i = 0; i < number_of_interpolation; i++) {
