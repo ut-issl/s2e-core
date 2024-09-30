@@ -43,6 +43,14 @@ class InterpolationOrbit {
    */
   math::Vector<3> CalcPositionWithTrigonometric(const double time, const double period = 0.0) const;
 
+  /**
+   * @fn CalcPositionWithPolynomial
+   * @brief Calculate interpolated position with polynomial method
+   * @param [in] time: time
+   * @return Calculated position
+   */
+  math::Vector<3> CalcPositionWithPolynomial(const double time) const;
+
   // Getters
   /**
    * @fn GetDegree

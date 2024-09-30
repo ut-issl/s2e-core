@@ -11,6 +11,7 @@
 #include "relative_orbit.hpp"
 #include "rk4_orbit_propagation.hpp"
 #include "sgp4_orbit_propagation.hpp"
+#include "time_series_file_orbit_propagation.hpp"
 
 Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string initialize_file, double step_width_s, double current_time_jd,
                  double gravity_constant_m3_s2, std::string section, RelativeInformation* relative_information) {
@@ -96,6 +97,16 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     double error_tolerance = conf.ReadDouble(section_, "error_tolerance");
     orbit = new EnckeOrbitPropagation(celestial_information, gravity_constant_m3_s2, step_width_s, current_time_jd, position_i_m, velocity_i_m_s,
                                       error_tolerance);
+  } else if (propagate_mode == "TIME_SERIES_FILE") {
+    // initialize orbit for propagation with time series file
+    const std::string time_series_file_path = conf.ReadString(section_, "time_series_file_path");
+    const int number_of_interpolation = conf.ReadInt(section_, "number_of_interpolation");
+    const int interpolation_method = conf.ReadInt(section_, "interpolation_method");
+    const double orbital_period_correction_s = conf.ReadDouble(section_, "orbital_period_correction_s");
+
+    orbit = new TimeSeriesFileOrbitPropagation(celestial_information, time_series_file_path, number_of_interpolation, interpolation_method,
+                                               orbital_period_correction_s, current_time_jd);
+
   } else {
     std::cerr << "ERROR: orbit propagation mode: " << propagate_mode << " is not defined!" << std::endl;
     std::cerr << "The orbit mode is automatically set as RK4" << std::endl;
