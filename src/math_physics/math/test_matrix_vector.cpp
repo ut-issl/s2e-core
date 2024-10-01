@@ -14,8 +14,8 @@ TEST(MatrixVector, MultiplyMatrixVector) {
   const size_t R = 3;
   const size_t C = 2;
 
-  math::Matrix<R, C> m;
-  math::Vector<C> v;
+  s2e::math::Matrix<R, C> m;
+  s2e::math::Vector<C> v;
 
   m[0][0] = 1.0;
   m[0][1] = 2.0;
@@ -27,7 +27,7 @@ TEST(MatrixVector, MultiplyMatrixVector) {
   v[0] = 7.0;
   v[1] = 1.0;
 
-  math::Vector<R> result = m * v;
+  s2e::math::Vector<R> result = m * v;
 
   EXPECT_DOUBLE_EQ(9.0, result[0]);
   EXPECT_DOUBLE_EQ(-7.0, result[1]);
@@ -40,7 +40,7 @@ TEST(MatrixVector, MultiplyMatrixVector) {
 TEST(MatrixVector, CalcInverseMatrix) {
   const size_t N = 3;
 
-  math::Matrix<N, N> m;
+  s2e::math::Matrix<N, N> m;
 
   m[0][0] = 1.0;
   m[0][1] = 1.0;
@@ -52,7 +52,7 @@ TEST(MatrixVector, CalcInverseMatrix) {
   m[2][1] = -2.0;
   m[2][2] = 1.0;
 
-  math::Matrix<N, N> inverse = math::CalcInverseMatrix(m);
+  s2e::math::Matrix<N, N> inverse = s2e::math::CalcInverseMatrix(m);
 
   EXPECT_NEAR(-1.0, inverse[0][0], 1e-10);
   EXPECT_NEAR(-1.0, inverse[0][1], 1e-10);

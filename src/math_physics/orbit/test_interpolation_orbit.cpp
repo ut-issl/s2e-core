@@ -33,7 +33,7 @@ TEST(InterpolationOrbit, PushAndPop) {
   EXPECT_EQ(degree, interpolation_orbit.GetDegree());
   for (size_t i = 0; i < degree; i++) {
     double time = (double)i;
-    math::Vector<3> position{i * 2.0};
+    s2e::math::Vector<3> position{i * 2.0};
     bool ret = interpolation_orbit.PushAndPopData(time, position);
     EXPECT_TRUE(ret);
   }
@@ -46,7 +46,7 @@ TEST(InterpolationOrbit, PushAndPop) {
 
   // False test
   double time = 2.0;
-  math::Vector<3> position{-100.0};
+  s2e::math::Vector<3> position{-100.0};
   bool ret = interpolation_orbit.PushAndPopData(time, position);
   EXPECT_FALSE(ret);
 }
