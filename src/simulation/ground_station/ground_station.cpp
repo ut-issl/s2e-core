@@ -13,9 +13,9 @@
 #include <string>
 #include <utilities/macros.hpp>
 
-namespace s2e::simulation {
+namespace s2e::ground_station {
 
-GroundStation::GroundStation(const SimulationConfiguration* configuration, const unsigned int ground_station_id)
+GroundStation::GroundStation(const simulation::SimulationConfiguration* configuration, const unsigned int ground_station_id)
     : ground_station_id_(ground_station_id) {
   Initialize(configuration, ground_station_id_);
   number_of_spacecraft_ = configuration->number_of_simulated_spacecraft_;
@@ -26,7 +26,7 @@ GroundStation::GroundStation(const SimulationConfiguration* configuration, const
 
 GroundStation::~GroundStation() {}
 
-void GroundStation::Initialize(const SimulationConfiguration* configuration, const unsigned int ground_station_id) {
+void GroundStation::Initialize(const simulation::SimulationConfiguration* configuration, const unsigned int ground_station_id) {
   std::string gs_ini_path = configuration->ground_station_file_list_[0];
   auto conf = setting_file_reader::IniAccess(gs_ini_path);
 
@@ -47,7 +47,7 @@ void GroundStation::Initialize(const SimulationConfiguration* configuration, con
 
 void GroundStation::LogSetup(logger::Logger& logger) { logger.AddLogList(this); }
 
-void GroundStation::Update(const environment::EarthRotation& celestial_rotation, const Spacecraft& spacecraft) {
+void GroundStation::Update(const environment::EarthRotation& celestial_rotation, const simulation::Spacecraft& spacecraft) {
   math::Matrix<3, 3> dcm_ecef2eci = celestial_rotation.GetDcmJ2000ToEcef().Transpose();
   position_i_m_ = dcm_ecef2eci * position_ecef_m_;
 
@@ -93,4 +93,4 @@ std::string GroundStation::GetLogValue() const {
   return str_tmp;
 }
 
-}  // namespace s2e::simulation
+}  // namespace s2e::ground_station

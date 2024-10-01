@@ -51,7 +51,7 @@ class GroundStationCalculator : public logger::ILoggable {
    * @param [in] ground_station: Ground station information
    * @param [in] ground_station_rx_antenna: Antenna mounted on ground station
    */
-  void Update(const simulation::Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const simulation::GroundStation& ground_station,
+  void Update(const simulation::Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const ground_station::GroundStation& ground_station,
               const Antenna& ground_station_rx_antenna);
 
   // Override logger::ILoggable TODO: Maybe we don't need logabble, and this class should be used as library.
@@ -111,7 +111,7 @@ class GroundStationCalculator : public logger::ILoggable {
    * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
    * @return Max bitrate [Mbps]
    */
-  double CalcMaxBitrate(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const simulation::GroundStation& ground_station,
+  double CalcMaxBitrate(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const ground_station::GroundStation& ground_station,
                         const Antenna& ground_station_rx_antenna);
   /**
    * @fn CalcReceiveMarginOnGs
@@ -123,7 +123,7 @@ class GroundStationCalculator : public logger::ILoggable {
    * @return Receive margin [dB]
    */
   double CalcReceiveMarginOnGs(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna,
-                               const simulation::GroundStation& ground_station, const Antenna& ground_station_rx_antenna);
+                               const ground_station::GroundStation& ground_station, const Antenna& ground_station_rx_antenna);
 
   /**
    * @fn CalcCn0
@@ -134,7 +134,7 @@ class GroundStationCalculator : public logger::ILoggable {
    * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
    * @return CN0 [dB]
    */
-  double CalcCn0OnGs(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const simulation::GroundStation& ground_station,
+  double CalcCn0OnGs(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const ground_station::GroundStation& ground_station,
                      const Antenna& ground_station_rx_antenna);
 };
 

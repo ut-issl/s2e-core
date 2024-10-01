@@ -30,7 +30,7 @@ GroundStationCalculator::GroundStationCalculator(const double loss_polarization_
 GroundStationCalculator::~GroundStationCalculator() {}
 
 void GroundStationCalculator::Update(const simulation::Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna,
-                                     const simulation::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
+                                     const ground_station::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
   bool is_visible = ground_station.IsVisible(spacecraft.GetSpacecraftId());
   if (is_visible) {
     max_bitrate_Mbps_ = CalcMaxBitrate(spacecraft.GetDynamics(), spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
@@ -43,7 +43,7 @@ void GroundStationCalculator::Update(const simulation::Spacecraft& spacecraft, c
 
 // Private functions
 double GroundStationCalculator::CalcMaxBitrate(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna,
-                                               const simulation::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
+                                               const ground_station::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
   double cn0_dBHz = CalcCn0OnGs(dynamics, spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
 
   double margin_for_bitrate_dB = cn0_dBHz - (ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_) - margin_requirement_dB_;
@@ -56,14 +56,14 @@ double GroundStationCalculator::CalcMaxBitrate(const dynamics::Dynamics& dynamic
 }
 
 double GroundStationCalculator::CalcReceiveMarginOnGs(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna,
-                                                      const simulation::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
+                                                      const ground_station::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
   double cn0_dB = CalcCn0OnGs(dynamics, spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
   double cn0_requirement_dB = ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_ + 10.0 * log10(spacecraft_tx_antenna.GetBitrate_bps());
   return cn0_dB - cn0_requirement_dB;
 }
 
 double GroundStationCalculator::CalcCn0OnGs(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna,
-                                            const simulation::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
+                                            const ground_station::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
   if (!spacecraft_tx_antenna.IsTransmitter() || !ground_station_rx_antenna.IsReceiver()) {
     // Check compatibility of transmitter and receiver
     return 0.0f;

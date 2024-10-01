@@ -12,7 +12,7 @@
 
 #include "../simulation_configuration.hpp"
 
-namespace s2e::simulation {
+namespace s2e::ground_station {
 
 /**
  * @class GroundStation
@@ -24,7 +24,7 @@ class GroundStation : public logger::ILoggable {
    * @fn GroundStation
    * @brief Constructor
    */
-  GroundStation(const SimulationConfiguration* configuration, const unsigned int ground_station_id_);
+  GroundStation(const simulation::SimulationConfiguration* configuration, const unsigned int ground_station_id_);
   /**
    * @fn ~GroundStation
    * @brief Destructor
@@ -35,7 +35,7 @@ class GroundStation : public logger::ILoggable {
    * @fn Initialize
    * @brief Virtual function to initialize the ground station
    */
-  virtual void Initialize(const SimulationConfiguration* configuration, const unsigned int ground_station_id);
+  virtual void Initialize(const simulation::SimulationConfiguration* configuration, const unsigned int ground_station_id);
   /**
    * @fn LogSetup
    * @brief Virtual function to log output setting for ground station related components
@@ -45,7 +45,7 @@ class GroundStation : public logger::ILoggable {
    * @fn Update
    * @brief Virtual function of main routine
    */
-  virtual void Update(const environment::EarthRotation& celestial_rotation, const Spacecraft& spacecraft);
+  virtual void Update(const environment::EarthRotation& celestial_rotation, const simulation::Spacecraft& spacecraft);
 
   // Override functions for ILoggable
   /**
@@ -111,6 +111,6 @@ class GroundStation : public logger::ILoggable {
   bool CalcIsVisible(const math::Vector<3> spacecraft_position_ecef_m);
 };
 
-}  // namespace s2e::simulation
+}  // namespace s2e::ground_station
 
 #endif  // S2E_SIMULATION_GROUND_STATION_GROUND_STATION_HPP_

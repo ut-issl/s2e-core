@@ -22,7 +22,7 @@ class SampleGsComponents;
  * @class SampleGroundStation
  * @brief An example of user defined ground station class
  */
-class SampleGroundStation : public simulation::GroundStation {
+class SampleGroundStation : public ground_station::GroundStation {
  public:
   /**
    * @fn SampleGroundStation
