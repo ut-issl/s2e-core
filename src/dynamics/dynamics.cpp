@@ -5,8 +5,6 @@
 
 #include "dynamics.hpp"
 
-#include "../simulation/multiple_spacecraft/relative_information.hpp"
-
 namespace s2e::dynamics {
 
 Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,

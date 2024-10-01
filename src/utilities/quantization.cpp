@@ -14,4 +14,4 @@ double quantization(const double continuous_number, const double resolution) {
 
 float quantization_float(const double continuous_number, const double resolution) { return (float)quantization(continuous_number, resolution); }
 
-} // namespace s2e::utilities
+}  // namespace s2e::utilities

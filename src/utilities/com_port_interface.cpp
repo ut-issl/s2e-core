@@ -117,4 +117,4 @@ int ComPortInterface::DiscardInBuffer() {
   return 0;
 }
 
-} // namespace s2e::utilities
+}  // namespace s2e::utilities

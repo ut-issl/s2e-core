@@ -10,6 +10,7 @@
 #include "../environment/global/simulation_time.hpp"
 #include "../environment/local/local_environment.hpp"
 #include "../math_physics/math/vector.hpp"
+#include "../simulation/multiple_spacecraft/relative_information.hpp"
 #include "../simulation/simulation_configuration.hpp"
 #include "../simulation/spacecraft/structure/structure.hpp"
 #include "dynamics/attitude/initialize_attitude.hpp"
@@ -17,8 +18,12 @@
 #include "dynamics/thermal/node.hpp"
 #include "dynamics/thermal/temperature.hpp"
 
-class s2e::simulation::RelativeInformation;
-class s2e::environment::LocalEnvironment;
+namespace s2e::simulation {
+class RelativeInformation;
+}
+namespace s2e::environment {
+class LocalEnvironment;
+}
 
 namespace s2e::dynamics {
 
@@ -53,7 +58,7 @@ class Dynamics {
    * @param [in] simulation_time: Simulation time
    * @param [in] local_celestial_information: Local celestial information
    */
-  void Update(const simulation::SimulationTime* simulation_time, const environment::LocalCelestialInformation* local_celestial_information);
+  void Update(const environment::SimulationTime* simulation_time, const environment::LocalCelestialInformation* local_celestial_information);
 
   /**
    * @fn LogSetup

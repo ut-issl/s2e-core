@@ -152,4 +152,3 @@ bool TimeSeriesFileOrbitPropagation::UpdateInterpolationInformation() {
 
   return true;
 }
-

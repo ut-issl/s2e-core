@@ -27,7 +27,7 @@ enum class OrbitPropagateMode {
   kSgp4,           //!< SGP4 propagation using TLE without thruster maneuver
   kRelativeOrbit,  //!< Relative dynamics (for formation flying simulation)
   kKepler,         //!< Kepler orbit propagation without disturbances and thruster maneuver
-  kEncke,           //!< Encke orbit propagation with disturbances and thruster maneuver
+  kEncke,          //!< Encke orbit propagation with disturbances and thruster maneuver
   kTimeSeriesFile  //!< Orbit propagation using time series file
 };
 

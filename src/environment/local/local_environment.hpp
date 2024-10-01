@@ -15,6 +15,10 @@
 #include "simulation/simulation_configuration.hpp"
 #include "solar_radiation_pressure_environment.hpp"
 
+namespace s2e::math {
+class Dynamics;
+}
+
 namespace s2e::environment {
 
 /**

@@ -6,11 +6,16 @@
 #ifndef S2E_MULTIPLE_SPACECRAFT_RELATIVE_INFORMATION_HPP_
 #define S2E_MULTIPLE_SPACECRAFT_RELATIVE_INFORMATION_HPP_
 
+#include <map>
 #include <string>
 
 #include "../../dynamics/dynamics.hpp"
 #include "../../logger/loggable.hpp"
 #include "../../logger/logger.hpp"
+
+namespace s2e::dynamics {
+class Dynamics;
+}
 
 namespace s2e::simulation {
 
@@ -42,7 +47,7 @@ class RelativeInformation : public logger::ILoggable {
    * @param [in] spacecraft_id: ID of target spacecraft
    * @param [in] dynamics: Dynamics information of the target spacecraft
    */
-  void RegisterDynamicsInfo(const size_t spacecraft_id, const dynamics::dynamics::Dynamics* dynamics);
+  void RegisterDynamicsInfo(const size_t spacecraft_id, const dynamics::Dynamics* dynamics);
   /**
    * @fn RegisterDynamicsInfo
    * @brief Remove dynamics information of target spacecraft
@@ -129,12 +134,12 @@ class RelativeInformation : public logger::ILoggable {
    * @brief Return the dynamics information of a spacecraft
    * @param [in] target_spacecraft_id: ID of the spacecraft
    */
-  inline const dynamics::dynamics::Dynamics* GetReferenceSatDynamics(const size_t reference_spacecraft_id) const {
+  inline const dynamics::Dynamics* GetReferenceSatDynamics(const size_t reference_spacecraft_id) const {
     return dynamics_database_.at(reference_spacecraft_id);
   };
 
  private:
-  std::map<const size_t, const dynamics::dynamics::Dynamics*> dynamics_database_;  //!< Dynamics database of all spacecraft
+  std::map<const size_t, const dynamics::Dynamics*> dynamics_database_;  //!< Dynamics database of all spacecraft
 
   std::vector<std::vector<math::Vector<3>>> relative_position_list_i_m_;          //!< Relative position list in the inertial frame in unit [m]
   std::vector<std::vector<math::Vector<3>>> relative_velocity_list_i_m_s_;        //!< Relative velocity list in the inertial frame in unit [m/s]

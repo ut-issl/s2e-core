@@ -85,4 +85,3 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_TIME_SERIES_FILE_ORBIT_PROPAGATION_HPP_
-

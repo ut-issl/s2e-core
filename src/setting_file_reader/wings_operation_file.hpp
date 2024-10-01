@@ -37,6 +37,6 @@ class WingsOperationFile {
   size_t line_pointer_ = 0;         //!< Line pointer
 };
 
-} // namespace s2e::setting_file_reader
+}  // namespace s2e::setting_file_reader
 
 #endif  // S2E_LIBRARY_INITIALIZE_WINGS_OPERATION_FILE_HPP_
