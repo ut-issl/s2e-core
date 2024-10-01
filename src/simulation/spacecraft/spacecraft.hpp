@@ -45,8 +45,9 @@ class Spacecraft {
    * @fn Initialize
    * @brief Initialize function for multiple spacecraft simulation
    */
-  virtual void Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
-                          const int spacecraft_id, simulation::RelativeInformation* relative_information = nullptr);
+  virtual void Initialize(const simulation::SimulationConfiguration* simulation_configuration,
+                          const environment::GlobalEnvironment* global_environment, const int spacecraft_id,
+                          simulation::RelativeInformation* relative_information = nullptr);
 
   /**
    * @fn Update
@@ -99,14 +100,14 @@ class Spacecraft {
   inline unsigned int GetSpacecraftId() const { return spacecraft_id_; }
 
  protected:
-  environment::ClockGenerator clock_generator_;       //!< Origin of clock for the spacecraft
-  dynamics::Dynamics* dynamics_;                      //!< Dynamics information of the spacecraft
-  simulation::RelativeInformation* relative_information_;         //!< Relative information with respect to the other spacecraft
-  environment::LocalEnvironment* local_environment_;  //!< Local environment information around the spacecraft
-  disturbances::Disturbances* disturbances_;          //!< Disturbance information acting on the spacecraft
-  spacecraft::Structure* structure_;                  //!< Structure information of the spacecraft
-  InstalledComponents* components_;                   //!< Components information installed on the spacecraft
-  const unsigned int spacecraft_id_;                  //!< ID of the spacecraft
+  environment::ClockGenerator clock_generator_;            //!< Origin of clock for the spacecraft
+  dynamics::Dynamics* dynamics_;                           //!< Dynamics information of the spacecraft
+  simulation::RelativeInformation* relative_information_;  //!< Relative information with respect to the other spacecraft
+  environment::LocalEnvironment* local_environment_;       //!< Local environment information around the spacecraft
+  disturbances::Disturbances* disturbances_;               //!< Disturbance information acting on the spacecraft
+  spacecraft::Structure* structure_;                       //!< Structure information of the spacecraft
+  InstalledComponents* components_;                        //!< Components information installed on the spacecraft
+  const unsigned int spacecraft_id_;                       //!< ID of the spacecraft
 };
 
 }  // namespace s2e::spacecraft

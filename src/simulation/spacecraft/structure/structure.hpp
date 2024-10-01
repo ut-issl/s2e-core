@@ -72,7 +72,7 @@ class Structure {
 
  private:
   KinematicsParameters* kinematics_parameters_;       //!< Kinematics parameters
-  std::vector<Surface> surfaces_;         //!< Surface information
+  std::vector<Surface> surfaces_;                     //!< Surface information
   ResidualMagneticMoment* residual_magnetic_moment_;  //!< Residual Magnetic Moment
 };
 

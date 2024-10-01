@@ -27,8 +27,9 @@ Spacecraft::~Spacecraft() {
   delete components_;
 }
 
-void Spacecraft::Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
-                            const int spacecraft_id, simulation::RelativeInformation* relative_information) {
+void Spacecraft::Initialize(const simulation::SimulationConfiguration* simulation_configuration,
+                            const environment::GlobalEnvironment* global_environment, const int spacecraft_id,
+                            simulation::RelativeInformation* relative_information) {
   clock_generator_.ClearTimerCount();
   structure_ = new spacecraft::Structure(simulation_configuration, spacecraft_id);
   local_environment_ = new environment::LocalEnvironment(simulation_configuration, global_environment, spacecraft_id);
