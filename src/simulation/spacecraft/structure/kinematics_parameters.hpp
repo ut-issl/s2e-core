@@ -26,7 +26,7 @@ class KinematicsParameters {
    * @fn ~KinematicsParameters
    * @brief Destructor
    */
-  ~KinematicsParameters() {};
+  ~KinematicsParameters(){};
 
   // Getter
   /**
