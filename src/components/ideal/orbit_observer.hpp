@@ -40,7 +40,7 @@ class OrbitObserver : public Component, public logger::ILoggable {
    * @param [in] orbit: Orbit information
    */
   OrbitObserver(const int prescaler, environment::ClockGenerator* clock_generator, const NoiseFrame noise_frame,
-                const math::Vector<6> error_standard_deviation, const Orbit& orbit);
+                const math::Vector<6> error_standard_deviation, const dynamics::orbit::Orbit& orbit);
 
   /**
    * @fn ~AttitudeObserver
@@ -87,7 +87,7 @@ class OrbitObserver : public Component, public logger::ILoggable {
   s2e::randomization::NormalRand normal_random_noise_[6];  //!< Position and Velocity noise [m, m/s]
 
   // Observed variables
-  const Orbit& orbit_;  //!< Orbit information
+  const dynamics::orbit::Orbit& orbit_;  //!< Orbit information
 };
 
 /**
@@ -105,7 +105,7 @@ NoiseFrame SetNoiseFrame(const std::string noise_frame);
  * @param [in] file_name: Path to the initialize file
  * @param [in] orbit: Orbit information
  */
-OrbitObserver InitializeOrbitObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const Orbit& orbit);
+OrbitObserver InitializeOrbitObserver(environment::ClockGenerator* clock_generator, const std::string file_name, const dynamics::orbit::Orbit& orbit);
 
 }  // namespace s2e::components
 

@@ -40,7 +40,7 @@ class Dynamics {
    * @param [in] simulation_time: Simulation time
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] spacecraft_id: Spacecraft ID of the spacecraft
-   * @param [in] structure: Structure of the spacecraft
+   * @param [in] structure: simulation::Structure of the spacecraft
    * @param [in] relative_information: Relative information
    */
   Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,

@@ -16,7 +16,7 @@ SampleGroundStation::SampleGroundStation(const simulation::SimulationConfigurati
 
 SampleGroundStation::~SampleGroundStation() { delete components_; }
 
-void SampleGroundStation::LogSetup(Logger& logger) {
+void SampleGroundStation::LogSetup(logger::Logger& logger) {
   simulation::GroundStation::LogSetup(logger);
   components_->CompoLogSetUp(logger);
 }

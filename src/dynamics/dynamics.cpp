@@ -7,36 +7,37 @@
 
 namespace s2e::dynamics {
 
-Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
-         const environment::LocalEnvironment* local_environment, const int spacecraft_id, simulation::Structure* structure,
-         simulation::RelativeInformation* relative_information)
+Dynamics::Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
+                   const environment::LocalEnvironment* local_environment, const int spacecraft_id, simulation::Structure* structure,
+                   simulation::RelativeInformation* relative_information)
     : structure_(structure), local_environment_(local_environment) {
   Initialize(simulation_configuration, simulation_time, spacecraft_id, structure, relative_information);
 }
 
-Dynamics::~dynamics::Dynamics() {
+Dynamics::~Dynamics() {
   delete attitude_;
   delete orbit_;
   delete temperature_;
 }
 
-void Dynamics::Initialize(const SimulationConfiguration* simulation_configuration, const SimulationTime* simulation_time, const int spacecraft_id,
-                          Structure* structure, RelativeInformation* relative_information) {
-  const LocalCelestialInformation& local_celestial_information = local_environment_->GetCelestialInformation();
+void Dynamics::Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
+                          const int spacecraft_id, simulation::Structure* structure, simulation::RelativeInformation* relative_information) {
+  const environment::LocalCelestialInformation& local_celestial_information = local_environment_->GetCelestialInformation();
   // Initialize
-  orbit_ = InitOrbit(&(local_celestial_information.GetGlobalInformation()), simulation_configuration->spacecraft_file_list_[spacecraft_id],
-                     simulation_time->GetOrbitRkStepTime_s(), simulation_time->GetCurrentTime_jd(),
-                     local_celestial_information.GetGlobalInformation().GetCenterBodyGravityConstant_m3_s2(), "ORBIT", relative_information);
-  attitude_ = InitAttitude(simulation_configuration->spacecraft_file_list_[spacecraft_id], orbit_, &local_celestial_information,
-                           simulation_time->GetAttitudeRkStepTime_s(), structure->GetKinematicsParameters().GetInertiaTensor_b_kgm2(), spacecraft_id);
-  temperature_ = InitTemperature(simulation_configuration->spacecraft_file_list_[spacecraft_id], simulation_time->GetThermalRkStepTime_s(),
-                                 &(local_environment_->GetSolarRadiationPressure()), &(local_environment_->GetEarthAlbedo()));
+  orbit_ = orbit::InitOrbit(&(local_celestial_information.GetGlobalInformation()), simulation_configuration->spacecraft_file_list_[spacecraft_id],
+                            simulation_time->GetOrbitRkStepTime_s(), simulation_time->GetCurrentTime_jd(),
+                            local_celestial_information.GetGlobalInformation().GetCenterBodyGravityConstant_m3_s2(), "ORBIT", relative_information);
+  attitude_ = attitude::InitAttitude(simulation_configuration->spacecraft_file_list_[spacecraft_id], orbit_, &local_celestial_information,
+                                     simulation_time->GetAttitudeRkStepTime_s(), structure->GetKinematicsParameters().GetInertiaTensor_b_kgm2(),
+                                     spacecraft_id);
+  temperature_ = thermal::InitTemperature(simulation_configuration->spacecraft_file_list_[spacecraft_id], simulation_time->GetThermalRkStepTime_s(),
+                                          &(local_environment_->GetSolarRadiationPressure()), &(local_environment_->GetEarthAlbedo()));
 
   // To get initial value
   orbit_->UpdateByAttitude(attitude_->GetQuaternion_i2b());
 }
 
-void Dynamics::Update(const SimulationTime* simulation_time, const LocalCelestialInformation* local_celestial_information) {
+void Dynamics::Update(const environment::SimulationTime* simulation_time, const environment::LocalCelestialInformation* local_celestial_information) {
   // Attitude propagation
   if (simulation_time->GetAttitudePropagateFlag()) {
     attitude_->Propagate(simulation_time->GetElapsedTime_s());
@@ -60,7 +61,7 @@ void Dynamics::ClearForceTorque(void) {
   orbit_->SetAcceleration_i_m_s2(zero);
 }
 
-void Dynamics::LogSetup(Logger& logger) {
+void Dynamics::LogSetup(logger::Logger& logger) {
   logger.AddLogList(attitude_);
   logger.AddLogList(orbit_);
   logger.AddLogList(temperature_);

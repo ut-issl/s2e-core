@@ -45,7 +45,7 @@ std::string Attitude::GetLogValue() const {
   return str_tmp;
 }
 
-void Attitude::SetParameters(const MonteCarloSimulationExecutor& mc_simulator) {
+void Attitude::SetParameters(const simulation::MonteCarloSimulationExecutor& mc_simulator) {
   GetInitializedMonteCarloParameterQuaternion(mc_simulator, "quaternion_i2b", quaternion_i2b_);
 }
 

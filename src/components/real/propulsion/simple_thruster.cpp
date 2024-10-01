@@ -14,8 +14,8 @@ namespace s2e::components {
 // Constructor
 SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
                                const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
-                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
-                               const dynamics::Dynamics* dynamics)
+                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad,
+                               const simulation::Structure* structure, const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       thruster_position_b_m_(thruster_position_b_m),
@@ -29,8 +29,8 @@ SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator*
 
 SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                                const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
-                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
-                               const dynamics::Dynamics* dynamics)
+                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad,
+                               const simulation::Structure* structure, const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       thruster_position_b_m_(thruster_position_b_m),
@@ -123,7 +123,7 @@ math::Vector<3> SimpleThruster::CalcThrustDirection() {
 }
 
 SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, int thruster_id, const std::string file_name,
-                                  const Structure* structure, const dynamics::Dynamics* dynamics) {
+                                  const simulation::Structure* structure, const dynamics::Dynamics* dynamics) {
   setting_file_reader::IniAccess thruster_conf(file_name);
   std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = section_str.c_str();
@@ -131,10 +131,10 @@ SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, 
   int prescaler = thruster_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Vector<3> thruster_pos;
+  math::Vector<3> thruster_pos;
   thruster_conf.ReadVector(Section, "thruster_position_b_m", thruster_pos);
 
-  Vector<3> thruster_dir;
+  math::Vector<3> thruster_dir;
   thruster_conf.ReadVector(Section, "thruster_direction_b", thruster_dir);
 
   double max_magnitude_N = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");
@@ -151,7 +151,7 @@ SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, 
 }
 
 SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
-                                  const Structure* structure, const dynamics::Dynamics* dynamics) {
+                                  const simulation::Structure* structure, const dynamics::Dynamics* dynamics) {
   setting_file_reader::IniAccess thruster_conf(file_name);
   std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = section_str.c_str();
@@ -159,10 +159,10 @@ SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, 
   int prescaler = thruster_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Vector<3> thruster_pos;
+  math::Vector<3> thruster_pos;
   thruster_conf.ReadVector(Section, "thruster_position_b_m", thruster_pos);
 
-  Vector<3> thruster_dir;
+  math::Vector<3> thruster_dir;
   thruster_conf.ReadVector(Section, "thruster_direction_b", thruster_dir);
 
   double max_magnitude_N = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");

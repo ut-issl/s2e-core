@@ -29,7 +29,7 @@ class RungeKutta : public NumericalIntegrator<N> {
    * @fn ~RungeKutta
    * @brief Destructor
    */
-  inline virtual ~RungeKutta(){};
+  inline virtual ~RungeKutta() {};
 
   /**
    * @fn Integrate

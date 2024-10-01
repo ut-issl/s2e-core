@@ -35,8 +35,8 @@ class SolarArrayPanel : public Component, public logger::ILoggable {
    */
   SolarArrayPanel(const int prescaler, environment::ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
                   double cell_area_m2, math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
-                  const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information,
-                  double component_step_time_s);
+                  const environment::SolarRadiationPressureEnvironment* srp_environment,
+                  const environment::LocalCelestialInformation* local_celestial_information, double component_step_time_s);
   /**
    * @fn SolarArrayPanel
    * @brief Constructor with prescaler
@@ -54,7 +54,7 @@ class SolarArrayPanel : public Component, public logger::ILoggable {
    */
   SolarArrayPanel(const int prescaler, environment::ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
                   double cell_area_m2, math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
-                  const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s);
+                  const environment::SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s);
   /**
    * @fn SolarArrayPanel
    * @brief Constructor without prescaler
@@ -72,7 +72,8 @@ class SolarArrayPanel : public Component, public logger::ILoggable {
    */
   SolarArrayPanel(environment::ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area_m2,
                   math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
-                  const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information);
+                  const environment::SolarRadiationPressureEnvironment* srp_environment,
+                  const environment::LocalCelestialInformation* local_celestial_information);
   /**
    * @fn SolarArrayPanel
    * @brief Copy constructor
@@ -117,8 +118,8 @@ class SolarArrayPanel : public Component, public logger::ILoggable {
   const double cell_efficiency_;          //!< Power generation efficiency of solar cell
   const double transmission_efficiency_;  //!< Efficiency of transmission to PCU
 
-  const SolarRadiationPressureEnvironment* const srp_environment_;  //!< Solar Radiation Pressure environment
-  const LocalCelestialInformation* local_celestial_information_;    //!< Local celestial information
+  const environment::SolarRadiationPressureEnvironment* const srp_environment_;  //!< Solar Radiation Pressure environment
+  const environment::LocalCelestialInformation* local_celestial_information_;    //!< Local celestial information
 
   double voltage_V_;           //!< Voltage [V]
   double power_generation_W_;  //!< Generated power [W]
@@ -144,8 +145,8 @@ class SolarArrayPanel : public Component, public logger::ILoggable {
  * @param [in] component_step_time_s: Component step time [sec]
  */
 SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id, const std::string file_name,
-                        const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information,
-                        double component_step_time_s);
+                        const environment::SolarRadiationPressureEnvironment* srp_environment,
+                        const environment::LocalCelestialInformation* local_celestial_information, double component_step_time_s);
 
 /*
  * @fn InitSAP
@@ -157,7 +158,7 @@ SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id
  * @param [in] component_step_time_s: Component step time [sec]
  */
 SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id, const std::string file_name,
-                        const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s);
+                        const environment::SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s);
 
 }  // namespace s2e::components
 

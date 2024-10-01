@@ -18,8 +18,9 @@ namespace s2e::dynamics::thermal {
 
 Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, const vector<vector<double>> radiation_matrix_m2, vector<Node> nodes,
                          vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const size_t node_num,
-                         const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment, const EarthAlbedo* earth_albedo,
-                         const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug)
+                         const double propagation_step_s, const environment::SolarRadiationPressureEnvironment* srp_environment,
+                         const environment::EarthAlbedo* earth_albedo, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting,
+                         const bool debug)
     : conductance_matrix_W_K_(conductance_matrix_W_K),
       radiation_matrix_m2_(radiation_matrix_m2),
       nodes_(nodes),
@@ -50,7 +51,7 @@ Temperature::Temperature() {
 
 Temperature::~Temperature() {}
 
-void Temperature::Propagate(const LocalCelestialInformation* local_celestial_information, const double time_end_s) {
+void Temperature::Propagate(const environment::LocalCelestialInformation* local_celestial_information, const double time_end_s) {
   if (!is_calc_enabled_) return;
   while (time_end_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     CalcRungeOneStep(propagation_time_s_, propagation_step_s_, local_celestial_information, node_num_);
@@ -93,7 +94,7 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
   }
 }
 
-void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, const LocalCelestialInformation* local_celestial_information,
+void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, const environment::LocalCelestialInformation* local_celestial_information,
                                    size_t node_num) {
   vector<double> temperatures_now_K(node_num);
   for (size_t i = 0; i < node_num; i++) {
@@ -131,7 +132,7 @@ void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, const 
 }
 
 vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperatures_K, double t,
-                                                         const LocalCelestialInformation* local_celestial_information, size_t node_num) {
+                                                         const environment::LocalCelestialInformation* local_celestial_information, size_t node_num) {
   // TODO: consider the following unused arguments are really needed
   UNUSED(temperatures_K);
 
@@ -291,8 +292,8 @@ First row is time data
 using std::string;
 using std::vector;
 
-Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const SolarRadiationPressureEnvironment* srp_environment,
-                             const EarthAlbedo* earth_albedo) {
+Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s,
+                             const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo) {
   auto mainIni = setting_file_reader::IniAccess(file_name);
 
   vector<Node> node_list;

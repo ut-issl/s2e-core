@@ -31,14 +31,14 @@ KinematicsParameters InitKinematicsParameters(std::string file_name) {
   return kinematics_params;
 }
 
-std::vector<Surface> InitSurfaces(std::string file_name) {
+std::vector<simulation::Surface> InitSurfaces(std::string file_name) {
   using std::cout;
 
   auto conf = setting_file_reader::IniAccess(file_name);
   const char* section = "SURFACES";
 
   const int num_surface = conf.ReadInt(section, "number_of_surfaces");
-  std::vector<Surface> surfaces;
+  std::vector<simulation::Surface> surfaces;
 
   for (int i = 0; i < num_surface; i++) {
     std::string idx = std::to_string(i);
@@ -89,7 +89,7 @@ std::vector<Surface> InitSurfaces(std::string file_name) {
       break;
     }
 
-    Vector<3> position, normal;
+    math::Vector<3> position, normal;
     keyword = "position" + idx + "_b_m";
     conf.ReadVector(section, keyword.c_str(), position);
 
@@ -103,7 +103,7 @@ std::vector<Surface> InitSurfaces(std::string file_name) {
     }
 
     // Add a surface
-    surfaces.push_back(Surface(position, normal, area, ref, spe, air_spe));
+    surfaces.push_back(simulation::Surface(position, normal, area, ref, spe, air_spe));
   }
   return surfaces;
 }

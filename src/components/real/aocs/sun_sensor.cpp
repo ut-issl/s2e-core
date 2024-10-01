@@ -19,7 +19,8 @@ namespace s2e::components {
 SunSensor::SunSensor(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
                      const math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
-                     const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
+                     const environment::SolarRadiationPressureEnvironment* srp_environment,
+                     const environment::LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
@@ -33,7 +34,8 @@ SunSensor::SunSensor(const int prescaler, environment::ClockGenerator* clock_gen
 SunSensor::SunSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                      const math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
-                     const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
+                     const environment::SolarRadiationPressureEnvironment* srp_environment,
+                     const environment::LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
@@ -154,7 +156,8 @@ string SunSensor::GetLogValue() const {
 }
 
 SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, int ss_id, std::string file_name,
-                        const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information) {
+                        const environment::SolarRadiationPressureEnvironment* srp_environment,
+                        const environment::LocalCelestialInformation* local_celestial_information) {
   setting_file_reader::IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
@@ -187,7 +190,8 @@ SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, int ss_id,
 }
 
 SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int ss_id, std::string file_name,
-                        const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information) {
+                        const environment::SolarRadiationPressureEnvironment* srp_environment,
+                        const environment::LocalCelestialInformation* local_celestial_information) {
   setting_file_reader::IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));

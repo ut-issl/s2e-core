@@ -8,7 +8,7 @@
 
 namespace s2e::dynamics::attitude {
 
-Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
+Attitude* InitAttitude(std::string file_name, const orbit::Orbit* orbit, const environment::LocalCelestialInformation* local_celestial_information,
                        const double step_width_s, const math::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id) {
   setting_file_reader::IniAccess ini_file(file_name);
   const char* section_ = "ATTITUDE";

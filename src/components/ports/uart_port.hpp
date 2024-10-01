@@ -76,8 +76,8 @@ class UartPort {
  private:
   const static unsigned int kDefaultBufferSize = 1024;  //!< Default buffer size
 
-  RingBuffer* rx_buffer_;  //!< Receive buffer (Component -> OBC)
-  RingBuffer* tx_buffer_;  //!< Transmit buffer (OBC-> Component)
+  utilities::RingBuffer* rx_buffer_;  //!< Receive buffer (Component -> OBC)
+  utilities::RingBuffer* tx_buffer_;  //!< Transmit buffer (OBC-> Component)
 };
 
 }  // namespace s2e::components

@@ -15,18 +15,18 @@
 
 namespace s2e::disturbances {
 
-MagneticDisturbance::MagneticDisturbance(const ResidualMagneticMoment& rmm_params, const bool is_calculation_enabled)
+MagneticDisturbance::MagneticDisturbance(const simulation::ResidualMagneticMoment& rmm_params, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, true), residual_magnetic_moment_(rmm_params) {
   rmm_b_Am2_ = residual_magnetic_moment_.GetConstantValue_b_Am2();
 }
 
-Vector<3> MagneticDisturbance::CalcTorque_b_Nm(const Vector<3>& magnetic_field_b_nT) {
+math::Vector<3> MagneticDisturbance::CalcTorque_b_Nm(const math::Vector<3>& magnetic_field_b_nT) {
   CalcRMM();
-  torque_b_Nm_ = kMagUnit_ * OuterProduct(rmm_b_Am2_, magnetic_field_b_nT);
+  torque_b_Nm_ = kMagUnit_ * math::OuterProduct(rmm_b_Am2_, magnetic_field_b_nT);
   return torque_b_Nm_;
 }
 
-void MagneticDisturbance::Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
+void MagneticDisturbance::Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
   UNUSED(dynamics);
 
   CalcTorque_b_Nm(local_environment.GetGeomagneticField().GetGeomagneticField_b_nT());
@@ -35,7 +35,7 @@ void MagneticDisturbance::Update(const LocalEnvironment& local_environment, cons
 void MagneticDisturbance::CalcRMM() {
   static math::Vector<3> random_walk_std_dev(residual_magnetic_moment_.GetRandomWalkStandardDeviation_Am2());
   static math::Vector<3> random_walk_limit(residual_magnetic_moment_.GetRandomWalkLimit_Am2());
-  static RandomWalk<3> random_walk(0.1, random_walk_std_dev, random_walk_limit);  // [FIXME] step width is constant
+  static randomization::RandomWalk<3> random_walk(0.1, random_walk_std_dev, random_walk_limit);  // [FIXME] step width is constant
   static s2e::randomization::NormalRand normal_random(0.0, residual_magnetic_moment_.GetRandomNoiseStandardDeviation_Am2(),
                                                       s2e::randomization::global_randomization.MakeSeed());
 
@@ -64,7 +64,7 @@ std::string MagneticDisturbance::GetLogValue() const {
   return str_tmp;
 }
 
-MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params) {
+MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const simulation::ResidualMagneticMoment& rmm_params) {
   auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "MAGNETIC_DISTURBANCE";
 

@@ -29,9 +29,9 @@ class EnckeOrbitPropagation : public Orbit, public math::OrdinaryDifferentialEqu
    * @param [in] velocity_i_m_s: Initial value of velocity in the inertial frame [m/s]
    * @param [in] error_tolerance: Error tolerance threshold
    */
-  EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double gravity_constant_m3_s2, const double propagation_step_s,
-                        const double current_time_jd, const math::Vector<3> position_i_m, const math::Vector<3> velocity_i_m_s,
-                        const double error_tolerance);
+  EnckeOrbitPropagation(const environment::CelestialInformation* celestial_information, const double gravity_constant_m3_s2,
+                        const double propagation_step_s, const double current_time_jd, const math::Vector<3> position_i_m,
+                        const math::Vector<3> velocity_i_m_s, const double error_tolerance);
   /**
    * @fn ~EnckeOrbitPropagation
    * @brief Destructor

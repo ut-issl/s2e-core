@@ -39,7 +39,7 @@ class SampleGroundStation : public simulation::GroundStation {
    * @fn LogSetup
    * @brief Override function of LogSetup in GroundStation class
    */
-  virtual void LogSetup(Logger& logger);
+  virtual void LogSetup(logger::Logger& logger);
   /**
    * @fn Update
    * @brief Override function of Update in GroundStation class

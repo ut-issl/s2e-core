@@ -30,7 +30,8 @@ class SurfaceForce : public Disturbance {
    * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  SurfaceForce(const std::vector<Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled = true);
+  SurfaceForce(const std::vector<simulation::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m,
+               const bool is_calculation_enabled = true);
   /**
    * @fn ~SurfaceForce
    * @brief Destructor
@@ -39,8 +40,8 @@ class SurfaceForce : public Disturbance {
 
  protected:
   // Spacecraft Structure parameters
-  const std::vector<Surface>& surfaces_;          //!< List of surfaces
-  const math::Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass_kg at body frame [m]
+  const std::vector<simulation::Surface>& surfaces_;  //!< List of surfaces
+  const math::Vector<3>& center_of_gravity_b_m_;      //!< Position vector of the center of mass_kg at body frame [m]
 
   // Internal calculated variables
   std::vector<double> normal_coefficients_;      //!< coefficients for out-plane force for each surface

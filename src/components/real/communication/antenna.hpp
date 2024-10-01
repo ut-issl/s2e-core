@@ -8,8 +8,6 @@
 
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/math/vector.hpp>
-using math::Quaternion;
-using math::Vector;
 #include <vector>
 
 #include "./antenna_radiation_pattern.hpp"
@@ -57,7 +55,7 @@ class Antenna {
    * @param [in] rx_parameters: gain, loss_feeder, loss_pointing, system_temperature for RX
    */
   Antenna(const int component_id, const math::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
-          const double frequency_MHz, const Vector<5> tx_parameters, const Vector<4> rx_parameters);
+          const double frequency_MHz, const math::Vector<5> tx_parameters, const math::Vector<4> rx_parameters);
 
   /**
    * @fn Antenna
@@ -115,7 +113,7 @@ class Antenna {
    * @fn GetQuaternion_b2c
    * @brief Return quaternion from body to component
    */
-  inline Quaternion GetQuaternion_b2c() const { return quaternion_b2c_; }
+  inline math::Quaternion GetQuaternion_b2c() const { return quaternion_b2c_; }
 
   /**
    * @fn IsTransmitter
@@ -130,11 +128,11 @@ class Antenna {
 
  protected:
   // General info
-  int component_id_;           //!< Antenna ID
-  Quaternion quaternion_b2c_;  //!< Coordinate transform from body to component
-  bool is_transmitter_;        //!< Antenna for transmitter or not
-  bool is_receiver_;           //!< Antenna for receiver or not
-  double frequency_MHz_;       //!< Center Frequency [MHz]
+  int component_id_;                 //!< Antenna ID
+  math::Quaternion quaternion_b2c_;  //!< Coordinate transform from body to component
+  bool is_transmitter_;              //!< Antenna for transmitter or not
+  bool is_receiver_;                 //!< Antenna for receiver or not
+  double frequency_MHz_;             //!< Center Frequency [MHz]
 
   // Tx info
   double tx_bitrate_bps_;            //!< Transmit bitrate [bps]

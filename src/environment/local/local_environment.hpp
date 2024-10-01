@@ -15,7 +15,7 @@
 #include "simulation/simulation_configuration.hpp"
 #include "solar_radiation_pressure_environment.hpp"
 
-namespace s2e::math {
+namespace s2e::dynamics {
 class Dynamics;
 }
 
@@ -34,7 +34,7 @@ class LocalEnvironment {
    * @param [in] global_environment: Global environment
    * @param [in] spacecraft_id: Satellite ID
    */
-  LocalEnvironment(const simulation::SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
+  LocalEnvironment(const simulation::SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
                    const int spacecraft_id);
   /**
    * @fn ~LocalEnvironment
@@ -96,7 +96,7 @@ class LocalEnvironment {
    * @param [in] global_environment: Global environment
    * @param [in] spacecraft_id: Satellite ID
    */
-  void Initialize(const simulation::SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
+  void Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
                   const int spacecraft_id);
 };
 

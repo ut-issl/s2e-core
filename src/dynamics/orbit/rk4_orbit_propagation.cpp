@@ -10,8 +10,8 @@
 
 namespace s2e::dynamics::orbit {
 
-Rk4OrbitPropagation::Rk4OrbitPropagation(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
-                                         math::Vector<3> position_i_m, math::Vector<3> velocity_i_m_s, double initial_time_s)
+Rk4OrbitPropagation::Rk4OrbitPropagation(const environment::CelestialInformation* celestial_information, double gravity_constant_m3_s2,
+                                         double time_step_s, math::Vector<3> position_i_m, math::Vector<3> velocity_i_m_s, double initial_time_s)
     : Orbit(celestial_information), OrdinaryDifferentialEquation<6>(time_step_s), gravity_constant_m3_s2_(gravity_constant_m3_s2) {
   propagate_mode_ = OrbitPropagateMode::kRk4;
 

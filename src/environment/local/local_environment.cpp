@@ -10,8 +10,8 @@
 
 namespace s2e::environment {
 
-LocalEnvironment::LocalEnvironment(const simulation::SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
-                                   const int spacecraft_id) {
+LocalEnvironment::LocalEnvironment(const simulation::SimulationConfiguration* simulation_configuration,
+                                   const environment::GlobalEnvironment* global_environment, const int spacecraft_id) {
   Initialize(simulation_configuration, global_environment, spacecraft_id);
 }
 
@@ -23,8 +23,8 @@ LocalEnvironment::~LocalEnvironment() {
   delete celestial_information_;
 }
 
-void LocalEnvironment::Initialize(const simulation::SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
-                                  const int spacecraft_id) {
+void LocalEnvironment::Initialize(const simulation::SimulationConfiguration* simulation_configuration,
+                                  const environment::GlobalEnvironment* global_environment, const int spacecraft_id) {
   // Read file name
   setting_file_reader::IniAccess iniAccess = setting_file_reader::IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   std::string ini_fname = iniAccess.ReadString("SETTING_FILES", "local_environment_file");

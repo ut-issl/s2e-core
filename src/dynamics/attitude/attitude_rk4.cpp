@@ -28,7 +28,7 @@ AttitudeRk4::AttitudeRk4(const math::Vector<3>& angular_velocity_b_rad_s, const 
 
 AttitudeRk4::~AttitudeRk4() {}
 
-void AttitudeRk4::SetParameters(const MonteCarloSimulationExecutor& mc_simulator) {
+void AttitudeRk4::SetParameters(const simulation::MonteCarloSimulationExecutor& mc_simulator) {
   Attitude::SetParameters(mc_simulator);
   GetInitializedMonteCarloParameterVector(mc_simulator, "angular_velocity_b_rad_s", angular_velocity_b_rad_s_);
 

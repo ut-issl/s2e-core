@@ -14,7 +14,7 @@
 
 namespace s2e::disturbances {
 
-AirDrag::AirDrag(const std::vector<Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
+AirDrag::AirDrag(const std::vector<simulation::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
                  const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled),
       wall_temperature_K_(wall_temperature_K),
@@ -25,7 +25,7 @@ AirDrag::AirDrag(const std::vector<Surface>& surfaces, const math::Vector<3>& ce
   cn_.assign(num, 0.0);
 }
 
-void AirDrag::Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
+void AirDrag::Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
   double air_density_kg_m3 = local_environment.GetAtmosphere().GetAirDensity_kg_m3();
 
   math::Matrix<3, 3> dcm_ecef2eci =
@@ -60,7 +60,7 @@ double AirDrag::CalcFunctionChi(const double s) {
   return x;
 }
 
-void AirDrag::CalcCnCt(const Vector<3>& velocity_b_m_s) {
+void AirDrag::CalcCnCt(const math::Vector<3>& velocity_b_m_s) {
   double velocity_norm_m_s = velocity_b_m_s.CalcNorm();
 
   // Re-emitting speed
@@ -95,7 +95,8 @@ std::string AirDrag::GetLogValue() const {
   return str_tmp;
 }
 
-AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Surface>& surfaces, const Vector<3>& center_of_gravity_b_m) {
+AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<simulation::Surface>& surfaces,
+                    const math::Vector<3>& center_of_gravity_b_m) {
   auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "AIR_DRAG";
 

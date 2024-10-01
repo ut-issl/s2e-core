@@ -43,7 +43,7 @@ class GravityGradient : public Disturbance {
    * @param [in] local_environment: Local environment information
    * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
+  virtual void Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
 
   // Override logger::ILoggable
   /**

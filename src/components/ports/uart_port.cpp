@@ -14,8 +14,8 @@ UartPort::UartPort(const unsigned int rx_buffer_size, const unsigned int tx_buff
   unsigned int checked_tx_buffer_size = tx_buffer_size;
   if (rx_buffer_size <= 0) checked_rx_buffer_size = kDefaultBufferSize;
   if (tx_buffer_size <= 0) checked_tx_buffer_size = kDefaultBufferSize;
-  rx_buffer_ = new RingBuffer(checked_rx_buffer_size);
-  tx_buffer_ = new RingBuffer(checked_tx_buffer_size);
+  rx_buffer_ = new utilities::RingBuffer(checked_rx_buffer_size);
+  tx_buffer_ = new utilities::RingBuffer(checked_tx_buffer_size);
 }
 
 UartPort::~UartPort() {

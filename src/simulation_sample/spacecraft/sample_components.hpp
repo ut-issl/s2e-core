@@ -34,23 +34,25 @@
 #include <simulation/spacecraft/installed_components.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
-namespace s2e::sample {
+namespace s2e::components {
+class OnBoardComputer;
+class PowerControlUnit;
+class GyroSensor;
+class Magnetometer;
+class StarSensor;
+class SunSensor;
+class GnssReceiver;
+class Magnetorquer;
+class ReactionWheel;
+class SimpleThruster;
+class ForceGenerator;
+class TorqueGenerator;
+class AngularVelocityObserver;
+class AttitudeObserver;
+class Telescope;
+}  // namespace s2e::components
 
-class components::OnBoardComputer;
-class components::PowerControlUnit;
-class components::GyroSensor;
-class components::Magnetometer;
-class components::StarSensor;
-class components::SunSensor;
-class components::GnssReceiver;
-class components::Magnetorquer;
-class components::ReactionWheel;
-class components::SimpleThruster;
-class components::ForceGenerator;
-class components::TorqueGenerator;
-class components::AngularVelocityObserver;
-class components::AttitudeObserver;
-class components::Telescope;
+namespace s2e::sample {
 
 /**
  * @class SampleComponents
@@ -62,10 +64,9 @@ class SampleComponents : public simulation::InstalledComponents {
    * @fn SampleComponents
    * @brief Constructor
    */
-  SampleComponents(const dynamics::dynamics::Dynamics* dynamics, simulation::Structure* structure,
-                   const environment::LocalEnvironment* local_environment, const environment::GlobalEnvironment* global_environment,
-                   const simulation::SimulationConfiguration* configuration, environment::ClockGenerator* clock_generator,
-                   const unsigned int spacecraft_id);
+  SampleComponents(const dynamics::Dynamics* dynamics, simulation::Structure* structure, const environment::LocalEnvironment* local_environment,
+                   const environment::GlobalEnvironment* global_environment, const simulation::SimulationConfiguration* configuration,
+                   environment::ClockGenerator* clock_generator, const unsigned int spacecraft_id);
   /**
    * @fn ~SampleComponents
    * @brief Destructor
@@ -140,7 +141,7 @@ class SampleComponents : public simulation::InstalledComponents {
 
   // States
   const simulation::SimulationConfiguration* configuration_;  //!< Simulation settings
-  const dynamics::dynamics::Dynamics* dynamics_;              //!< Dynamics information of the spacecraft
+  const dynamics::Dynamics* dynamics_;                        //!< Dynamics information of the spacecraft
   simulation::Structure* structure_;                          //!< Structure information of the spacecraft
   const environment::LocalEnvironment* local_environment_;    //!< Local environment information around the spacecraft
   const environment::GlobalEnvironment* global_environment_;  //!< Global environment information

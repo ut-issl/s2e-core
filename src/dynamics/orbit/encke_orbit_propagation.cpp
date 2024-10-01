@@ -11,7 +11,7 @@
 
 namespace s2e::dynamics::orbit {
 
-EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double gravity_constant_m3_s2,
+EnckeOrbitPropagation::EnckeOrbitPropagation(const environment::CelestialInformation* celestial_information, const double gravity_constant_m3_s2,
                                              const double propagation_step_s, const double current_time_jd, const math::Vector<3> position_i_m,
                                              const math::Vector<3> velocity_i_m_s, const double error_tolerance)
     : Orbit(celestial_information),

@@ -27,7 +27,7 @@ class MagneticDisturbance : public Disturbance {
    * @param [in] rmm_parameters: RMM parameters of the spacecraft
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  MagneticDisturbance(const ResidualMagneticMoment& rmm_parameters, const bool is_calculation_enabled = true);
+  MagneticDisturbance(const simulation::ResidualMagneticMoment& rmm_parameters, const bool is_calculation_enabled = true);
 
   /**
    * @fn Update
@@ -35,7 +35,7 @@ class MagneticDisturbance : public Disturbance {
    * @param [in] local_environment: Local environment information
    * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
+  virtual void Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
 
   // Override logger::ILoggable
   /**
@@ -52,8 +52,8 @@ class MagneticDisturbance : public Disturbance {
  private:
   const double kMagUnit_ = 1.0e-9;  //!< Constant value to change the unit [nT] -> [T]
 
-  math::Vector<3> rmm_b_Am2_;                               //!< True RMM of the spacecraft in the body frame [Am2]
-  const ResidualMagneticMoment& residual_magnetic_moment_;  //!< RMM parameters
+  math::Vector<3> rmm_b_Am2_;                                           //!< True RMM of the spacecraft in the body frame [Am2]
+  const simulation::ResidualMagneticMoment& residual_magnetic_moment_;  //!< RMM parameters
 
   /**
    * @fn CalcRMM
@@ -75,7 +75,7 @@ class MagneticDisturbance : public Disturbance {
  * @param [in] initialize_file_path: Initialize file path
  * @param [in] rmm_params: RMM parameters
  */
-MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params);
+MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const simulation::ResidualMagneticMoment& rmm_params);
 
 }  // namespace s2e::disturbances
 

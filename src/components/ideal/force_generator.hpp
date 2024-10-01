@@ -30,7 +30,7 @@ class ForceGenerator : public Component, public logger::ILoggable {
    * @param [in] dynamics: Dynamics information
    */
   ForceGenerator(const int prescaler, environment::ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_N,
-                 const double direction_error_standard_deviation_rad, const Dynamics* dynamics);
+                 const double direction_error_standard_deviation_rad, const dynamics::Dynamics* dynamics);
   /**
    * @fn ~ForceGenerator
    * @brief Destructor
@@ -66,17 +66,17 @@ class ForceGenerator : public Component, public logger::ILoggable {
    * @fn GetGeneratedForce_b_N
    * @brief Return generated force in the body fixed frame [N]
    */
-  inline const Vector<3> GetGeneratedForce_b_N() const { return generated_force_b_N_; };
+  inline const math::Vector<3> GetGeneratedForce_b_N() const { return generated_force_b_N_; };
   /**
    * @fn GetGeneratedForce_i_N
    * @brief Return generated force in the inertial frame [N]
    */
-  inline const Vector<3> GetGeneratedForce_i_N() const { return generated_force_i_N_; };
+  inline const math::Vector<3> GetGeneratedForce_i_N() const { return generated_force_i_N_; };
   /**
    * @fn GetGeneratedForce_rtn_N
    * @brief Return generated force in the RTN frame [N]
    */
-  inline const Vector<3> GetGeneratedForce_rtn_N() const { return generated_force_rtn_N_; };
+  inline const math::Vector<3> GetGeneratedForce_rtn_N() const { return generated_force_rtn_N_; };
 
   // Setter
   /**

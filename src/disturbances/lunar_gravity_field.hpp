@@ -50,7 +50,7 @@ class LunarGravityField : public Disturbance {
    * @param [in] local_environment: Local environment information
    * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment &local_environment, const dynamics::Dynamics &dynamics);
+  virtual void Update(const environment::LocalEnvironment &local_environment, const dynamics::Dynamics &dynamics);
 
   // Override logger::ILoggable
   /**
@@ -68,10 +68,10 @@ class LunarGravityField : public Disturbance {
   s2e::gravity::GravityPotential lunar_potential_;
   double reference_radius_km_;
   double gravity_constants_km3_s2_;
-  size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential
-  std::vector<std::vector<double>> c_;  //!< Cosine coefficients
-  std::vector<std::vector<double>> s_;  //!< Sine coefficients
-  Vector<3> acceleration_mcmf_m_s2_;    //!< Calculated acceleration in the MCMF(Moon Centered Moon Fixed) frame [m/s2]
+  size_t degree_;                           //!< Maximum degree setting to calculate the geo-potential
+  std::vector<std::vector<double>> c_;      //!< Cosine coefficients
+  std::vector<std::vector<double>> s_;      //!< Sine coefficients
+  math::Vector<3> acceleration_mcmf_m_s2_;  //!< Calculated acceleration in the MCMF(Moon Centered Moon Fixed) frame [m/s2]
 
   // debug
   math::Vector<3> debug_pos_mcmf_m_;  //!< Spacecraft position in MCMF frame [m]

@@ -14,7 +14,7 @@
 namespace s2e::components {
 
 Antenna::Antenna(const int component_id, const math::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
-                 const double frequency_MHz, const Vector<5> tx_parameters, const Vector<4> rx_parameters)
+                 const double frequency_MHz, const math::Vector<5> tx_parameters, const math::Vector<4> rx_parameters)
     : component_id_(component_id), is_transmitter_(is_transmitter), is_receiver_(is_receiver), frequency_MHz_(frequency_MHz) {
   quaternion_b2c_ = quaternion_b2c;
 
@@ -112,7 +112,7 @@ Antenna InitAntenna(const int antenna_id, const std::string file_name) {
 
   const std::string section_name = "ANTENNA_" + std::to_string(static_cast<long long>(antenna_id));
 
-  Quaternion quaternion_b2c;
+  math::Quaternion quaternion_b2c;
   antenna_conf.ReadQuaternion(section_name.c_str(), "quaternion_b2c", quaternion_b2c);
 
   bool is_transmitter = antenna_conf.ReadBoolean(section_name.c_str(), "is_transmitter");

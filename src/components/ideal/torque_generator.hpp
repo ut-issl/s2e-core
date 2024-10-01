@@ -66,7 +66,7 @@ class TorqueGenerator : public Component, public logger::ILoggable {
    * @fn GetGeneratedTorque_b_Nm
    * @brief Return generated torque in the body fixed frame [Nm]
    */
-  inline const Vector<3> GetGeneratedTorque_b_Nm() const { return generated_torque_b_Nm_; };
+  inline const math::Vector<3> GetGeneratedTorque_b_Nm() const { return generated_torque_b_Nm_; };
 
   // Setter
   /**

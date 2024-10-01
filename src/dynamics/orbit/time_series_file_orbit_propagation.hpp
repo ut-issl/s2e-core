@@ -12,6 +12,7 @@
 
 #include "orbit.hpp"
 
+namespace s2e::dynamics::orbit {
 /**
  * @class TimeSeriesFileOrbitPropagation
  * @brief Class to calculate satellite orbit using interpolation with orbit time series input
@@ -28,7 +29,7 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
    * @param [in] orbital_period_correction_s: Orbital period correction [s]
    * @param [in] current_time_jd: Current Julian day [day]
    */
-  TimeSeriesFileOrbitPropagation(const CelestialInformation* celestial_information, const std::string time_series_file_path,
+  TimeSeriesFileOrbitPropagation(const environment::CelestialInformation* celestial_information, const std::string time_series_file_path,
                                  const int number_of_interpolation, const int interpolation_method, const double orbital_period_correction_s,
                                  const double current_time_jd);
 
@@ -73,8 +74,8 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
   double reference_time_;                              //!< Reference start time of the time series data handling
   size_t reference_interpolation_id_;                  //!< Reference EphemerisTime ID of the interpolation
 
-  std::vector<orbit::InterpolationOrbit> orbit_position_i_m_;    //!< Position with interpolation
-  std::vector<orbit::InterpolationOrbit> orbit_velocity_i_m_s_;  //!< Velocity with interpolation
+  std::vector<s2e::orbit::InterpolationOrbit> orbit_position_i_m_;    //!< Position with interpolation
+  std::vector<s2e::orbit::InterpolationOrbit> orbit_velocity_i_m_s_;  //!< Velocity with interpolation
 
   /**
    * @fn UpdateInterpolationInformation
@@ -83,5 +84,7 @@ class TimeSeriesFileOrbitPropagation : public Orbit {
    */
   bool UpdateInterpolationInformation();
 };
+
+}  // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_TIME_SERIES_FILE_ORBIT_PROPAGATION_HPP_

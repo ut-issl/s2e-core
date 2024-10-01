@@ -30,8 +30,8 @@ class Disturbances {
    * @param [in] structure: Structure information of spacecraft
    * @param [in] global_environment: Global environment information
    */
-  Disturbances(const SimulationConfiguration* simulation_configuration, const int spacecraft_id, const Structure* structure,
-               const GlobalEnvironment* global_environment);
+  Disturbances(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id, const simulation::Structure* structure,
+               const environment::GlobalEnvironment* global_environment);
   /**
    * @fn ~Disturbances
    * @brief Destructor
@@ -45,13 +45,14 @@ class Disturbances {
    * @param [in] dynamics: dynamics::Dynamics information
    * @param [in] simulation_time: Simulation time
    */
-  void Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics, const SimulationTime* simulation_time);
+  void Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics,
+              const environment::SimulationTime* simulation_time);
   /**
    * @fn LogSetup
    * @brief log setup for all disturbances
    * @param [in] logger: Logger
    */
-  void LogSetup(Logger& logger);
+  void LogSetup(logger::Logger& logger);
 
   /**
    * @fn GetTorque
@@ -75,9 +76,9 @@ class Disturbances {
   std::string initialize_file_name_;  //!< Initialization file name
 
   std::vector<Disturbance*> disturbances_list_;  //!< List of disturbances
-  Vector<3> total_torque_b_Nm_;                  //!< Total disturbance torque in the body frame [Nm]
-  Vector<3> total_force_b_N_;                    //!< Total disturbance force in the body frame [N]
-  Vector<3> total_acceleration_i_m_s2_;          //!< Total disturbance acceleration in the inertial frame [m/s2]
+  math::Vector<3> total_torque_b_Nm_;            //!< Total disturbance torque in the body frame [Nm]
+  math::Vector<3> total_force_b_N_;              //!< Total disturbance force in the body frame [N]
+  math::Vector<3> total_acceleration_i_m_s2_;    //!< Total disturbance acceleration in the inertial frame [m/s2]
 
   /**
    * @fn InitializeInstances
@@ -87,8 +88,8 @@ class Disturbances {
    * @param [in] structure: Structure information of spacecraft
    * @param [in] global_environment: Global environment information
    */
-  void InitializeInstances(const SimulationConfiguration* simulation_configuration, const int spacecraft_id, const Structure* structure,
-                           const GlobalEnvironment* global_environment);
+  void InitializeInstances(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id,
+                           const simulation::Structure* structure, const environment::GlobalEnvironment* global_environment);
   /**
    * @fn InitializeForceAndTorque
    * @brief Initialize disturbance force and torque

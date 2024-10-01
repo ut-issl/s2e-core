@@ -34,7 +34,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
   Magnetometer(const int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base, const unsigned int sensor_id,
-               const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
+               const math::Quaternion& quaternion_b2c, const environment::GeomagneticField* geomagnetic_field);
   /**
    * @fn Magnetometer
    * @brief Constructor with power port
@@ -47,7 +47,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
    * @param [in] geomagnetic_field: Geomagnetic environment
    */
   Magnetometer(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, Sensor& sensor_base,
-               const unsigned int sensor_id, const math::Quaternion& quaternion_b2c, const GeomagneticField* geomagnetic_field);
+               const unsigned int sensor_id, const math::Quaternion& quaternion_b2c, const environment::GeomagneticField* geomagnetic_field);
   /**
    * @fn ~Magnetometer
    * @brief Destructor
@@ -104,7 +104,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
   unsigned int sensor_id_ = 0;                                     //!< Sensor ID
   math::Quaternion quaternion_b2c_{0.0, 0.0, 0.0, 1.0};            //!< Quaternion from body frame to component frame
 
-  const GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
+  const environment::GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
 };
 
 /**
@@ -117,7 +117,7 @@ class Magnetometer : public Component, public Sensor<kMagnetometerDimension>, pu
  * @param [in] geomagnetic_field: Geomegnetic environment
  */
 Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
-                              const GeomagneticField* geomagnetic_field);
+                              const environment::GeomagneticField* geomagnetic_field);
 /**
  * @fn InitMagnetometer
  * @brief Initialize functions for magnetometer with power port
@@ -129,7 +129,7 @@ Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, int 
  * @param [in] geomagnetic_field: Geomegnetic environment
  */
 Magnetometer InitMagnetometer(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
-                              double component_step_time_s, const GeomagneticField* geomagnetic_field);
+                              double component_step_time_s, const environment::GeomagneticField* geomagnetic_field);
 
 }  // namespace s2e::components
 

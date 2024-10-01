@@ -29,7 +29,7 @@ class Rk4OrbitPropagation : public Orbit, public math::OrdinaryDifferentialEquat
    * @param [in] velocity_i_m_s: Initial value of velocity in the inertial frame [m/s]
    * @param [in] initial_time_s: Initial time [sec]
    */
-  Rk4OrbitPropagation(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
+  Rk4OrbitPropagation(const environment::CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
                       math::Vector<3> position_i_m, math::Vector<3> velocity_i_m_s, double initial_time_s = 0);
   /**
    * @fn ~Rk4OrbitPropagation

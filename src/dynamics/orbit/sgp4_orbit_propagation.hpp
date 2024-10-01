@@ -30,7 +30,7 @@ class Sgp4OrbitPropagation : public Orbit {
    * @param [in] wgs_setting: Wold Geodetic System
    * @param [in] current_time_jd: Current Julian day [day]
    */
-  Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs_setting,
+  Sgp4OrbitPropagation(const environment::CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs_setting,
                        const double current_time_jd);
 
   // Override Orbit

@@ -71,7 +71,7 @@ class Spacecraft {
    * @fn GetDynamics
    * @brief Get dynamics of the spacecraft
    */
-  inline const dynamics::dynamics::Dynamics& GetDynamics() const { return *dynamics_; }
+  inline const dynamics::Dynamics& GetDynamics() const { return *dynamics_; }
   /**
    * @fn GetLocalEnvironment
    * @brief Get local environment around the spacecraft
@@ -86,7 +86,7 @@ class Spacecraft {
    * @fn GetStructure
    * @brief Get structure of the spacecraft
    */
-  inline const Structure& GetStructure() const { return *structure_; }
+  inline const simulation::Structure& GetStructure() const { return *structure_; }
   /**
    * @fn GetInstalledComponents
    * @brief Get components installed on the spacecraft
@@ -100,11 +100,11 @@ class Spacecraft {
 
  protected:
   environment::ClockGenerator clock_generator_;       //!< Origin of clock for the spacecraft
-  dynamics::dynamics::Dynamics* dynamics_;            //!< Dynamics information of the spacecraft
+  dynamics::Dynamics* dynamics_;                      //!< Dynamics information of the spacecraft
   RelativeInformation* relative_information_;         //!< Relative information with respect to the other spacecraft
   environment::LocalEnvironment* local_environment_;  //!< Local environment information around the spacecraft
   disturbances::Disturbances* disturbances_;          //!< Disturbance information acting on the spacecraft
-  Structure* structure_;                              //!< Structure information of the spacecraft
+  simulation::Structure* structure_;                  //!< Structure information of the spacecraft
   InstalledComponents* components_;                   //!< Components information installed on the spacecraft
   const unsigned int spacecraft_id_;                  //!< ID of the spacecraft
 };

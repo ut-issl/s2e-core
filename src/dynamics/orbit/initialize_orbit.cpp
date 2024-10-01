@@ -15,8 +15,8 @@
 
 namespace s2e::dynamics::orbit {
 
-Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string initialize_file, double step_width_s, double current_time_jd,
-                 double gravity_constant_m3_s2, std::string section, RelativeInformation* relative_information) {
+Orbit* InitOrbit(const environment::CelestialInformation* celestial_information, std::string initialize_file, double step_width_s,
+                 double current_time_jd, double gravity_constant_m3_s2, std::string section, simulation::RelativeInformation* relative_information) {
   auto conf = setting_file_reader::IniAccess(initialize_file);
   const char* section_ = section.c_str();
   Orbit* orbit;

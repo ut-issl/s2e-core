@@ -12,11 +12,11 @@
 
 namespace s2e::disturbances {
 
-SolarRadiationPressureDisturbance::SolarRadiationPressureDisturbance(const std::vector<Surface>& surfaces,
+SolarRadiationPressureDisturbance::SolarRadiationPressureDisturbance(const std::vector<simulation::Surface>& surfaces,
                                                                      const math::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled) {}
 
-void SolarRadiationPressureDisturbance::Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
+void SolarRadiationPressureDisturbance::Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
   UNUSED(dynamics);
 
   math::Vector<3> sun_position_from_sc_b_m = local_environment.GetCelestialInformation().GetPositionFromSpacecraft_b_m("SUN");
@@ -54,8 +54,9 @@ std::string SolarRadiationPressureDisturbance::GetLogValue() const {
   return str_tmp;
 }
 
-SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const std::string initialize_file_path, const std::vector<Surface>& surfaces,
-                                                                        const Vector<3>& center_of_gravity_b_m) {
+SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const std::string initialize_file_path,
+                                                                        const std::vector<simulation::Surface>& surfaces,
+                                                                        const math::Vector<3>& center_of_gravity_b_m) {
   auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "SOLAR_RADIATION_PRESSURE_DISTURBANCE";
 

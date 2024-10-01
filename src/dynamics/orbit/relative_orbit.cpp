@@ -10,10 +10,10 @@
 
 namespace s2e::dynamics::orbit {
 
-RelativeOrbit::RelativeOrbit(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
+RelativeOrbit::RelativeOrbit(const environment::CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
                              int reference_spacecraft_id, math::Vector<3> relative_position_lvlh_m, math::Vector<3> relative_velocity_lvlh_m_s,
                              RelativeOrbitUpdateMethod update_method, s2e::orbit::RelativeOrbitModel relative_dynamics_model_type,
-                             s2e::orbit::StmModel stm_model_type, RelativeInformation* relative_information)
+                             s2e::orbit::StmModel stm_model_type, simulation::RelativeInformation* relative_information)
     : Orbit(celestial_information),
       math::OrdinaryDifferentialEquation<6>(time_step_s),
       gravity_constant_m3_s2_(gravity_constant_m3_s2),

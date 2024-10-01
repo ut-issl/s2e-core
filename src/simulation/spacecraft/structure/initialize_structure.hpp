@@ -21,7 +21,7 @@ KinematicsParameters InitKinematicsParameters(std::string file_name);
  * @fn InitSurfaces
  * @brief Initialize the multiple surfaces with an ini file
  */
-std::vector<Surface> InitSurfaces(std::string file_name);
+std::vector<simulation::Surface> InitSurfaces(std::string file_name);
 /**
  * @fn InitResidualMagneticMoment
  * @brief Initialize the RMM(Residual Magnetic Moment) parameters with an ini file

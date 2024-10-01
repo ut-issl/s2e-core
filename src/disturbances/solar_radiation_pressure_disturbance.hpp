@@ -27,7 +27,7 @@ class SolarRadiationPressureDisturbance : public SurfaceForce {
    * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  SolarRadiationPressureDisturbance(const std::vector<Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m,
+  SolarRadiationPressureDisturbance(const std::vector<simulation::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m,
                                     const bool is_calculation_enabled = true);
 
   /**
@@ -36,7 +36,7 @@ class SolarRadiationPressureDisturbance : public SurfaceForce {
    * @param [in] local_environment: Local environment information
    * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
+  virtual void Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
 
   // Override logger::ILoggable
   /**
@@ -67,8 +67,9 @@ class SolarRadiationPressureDisturbance : public SurfaceForce {
  * @param [in] surfaces: surface information of the spacecraft
  * @param [in] center_of_gravity_b_m: Center of gravity position vector at body frame [m]
  */
-SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const std::string initialize_file_path, const std::vector<Surface>& surfaces,
-                                                                        const Vector<3>& center_of_gravity_b_m);
+SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const std::string initialize_file_path,
+                                                                        const std::vector<simulation::Surface>& surfaces,
+                                                                        const math::Vector<3>& center_of_gravity_b_m);
 
 }  // namespace s2e::disturbances
 

@@ -25,7 +25,8 @@ class KeplerOrbitPropagation : public Orbit, public s2e::orbit::KeplerOrbit {
    * @param [in] current_time_jd: Current Julian day [day]
    * @param [in] kepler_orbit: Kepler orbit
    */
-  KeplerOrbitPropagation(const CelestialInformation* celestial_information, const double current_time_jd, s2e::orbit::KeplerOrbit kepler_orbit);
+  KeplerOrbitPropagation(const environment::CelestialInformation* celestial_information, const double current_time_jd,
+                         s2e::orbit::KeplerOrbit kepler_orbit);
   /**
    * @fn ~KeplerOrbitPropagation
    * @brief Destructor

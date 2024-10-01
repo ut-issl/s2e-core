@@ -14,9 +14,12 @@
 #include "math_physics/math/constants.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
-TimeSeriesFileOrbitPropagation::TimeSeriesFileOrbitPropagation(const CelestialInformation* celestial_information, std::string time_series_file_path,
-                                                               int number_of_interpolation, int interpolation_method,
-                                                               double orbital_period_correction_s, const double current_time_jd)
+namespace s2e::dynamics::orbit {
+
+TimeSeriesFileOrbitPropagation::TimeSeriesFileOrbitPropagation(const environment::CelestialInformation* celestial_information,
+                                                               std::string time_series_file_path, int number_of_interpolation,
+                                                               int interpolation_method, double orbital_period_correction_s,
+                                                               const double current_time_jd)
     : Orbit(celestial_information),
       is_time_range_warning_displayed_(false),
       is_interpolation_method_error_displayed_(false),
@@ -27,7 +30,7 @@ TimeSeriesFileOrbitPropagation::TimeSeriesFileOrbitPropagation(const CelestialIn
   propagate_mode_ = OrbitPropagateMode::kTimeSeriesFile;
 
   // Read time series file
-  IniAccess time_series_file(time_series_file_path);
+  setting_file_reader::IniAccess time_series_file(time_series_file_path);
   time_series_file.ReadCsvDoubleWithHeader(time_series_data_, 7, 1, 0);
 
   // Get general info
@@ -41,8 +44,8 @@ TimeSeriesFileOrbitPropagation::TimeSeriesFileOrbitPropagation(const CelestialIn
   reference_time_ = CalcEphemerisTimeData(reference_interpolation_id_);
 
   // Initialize orbit
-  orbit_position_i_m_.assign(1, orbit::InterpolationOrbit(number_of_interpolation));
-  orbit_velocity_i_m_s_.assign(1, orbit::InterpolationOrbit(number_of_interpolation));
+  orbit_position_i_m_.assign(1, s2e::orbit::InterpolationOrbit(number_of_interpolation));
+  orbit_velocity_i_m_s_.assign(1, s2e::orbit::InterpolationOrbit(number_of_interpolation));
 
   // Initialize interpolation
   for (int i = 0; i < number_of_interpolation; i++) {
@@ -152,3 +155,5 @@ bool TimeSeriesFileOrbitPropagation::UpdateInterpolationInformation() {
 
   return true;
 }
+
+}  // namespace s2e::dynamics::orbit

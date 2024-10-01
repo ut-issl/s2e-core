@@ -31,7 +31,7 @@ class SampleGsComponents {
    * @fn CompoLogSetUp
    * @brief Log setup for ground station components
    */
-  void CompoLogSetUp(Logger& logger);
+  void CompoLogSetUp(logger::Logger& logger);
 
   // Getter
   /**

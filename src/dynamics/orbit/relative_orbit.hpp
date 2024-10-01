@@ -41,10 +41,10 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
    * @param [in] stm_model_type: State transition matrix type
    * @param [in] relative_information: Relative information
    */
-  RelativeOrbit(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s, int reference_spacecraft_id,
-                math::Vector<3> relative_position_lvlh_m, math::Vector<3> relative_velocity_lvlh_m_s, RelativeOrbitUpdateMethod update_method,
-                s2e::orbit::RelativeOrbitModel relative_dynamics_model_type, s2e::orbit::StmModel stm_model_type,
-                RelativeInformation* relative_information);
+  RelativeOrbit(const environment::CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
+                int reference_spacecraft_id, math::Vector<3> relative_position_lvlh_m, math::Vector<3> relative_velocity_lvlh_m_s,
+                RelativeOrbitUpdateMethod update_method, s2e::orbit::RelativeOrbitModel relative_dynamics_model_type,
+                s2e::orbit::StmModel stm_model_type, simulation::RelativeInformation* relative_information);
   /**
    * @fn ~RelativeOrbit
    * @brief Destructor
@@ -68,7 +68,7 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
    * @param [in] state: Position and velocity as state vector
    * @param [out] rhs: Output of the function
    */
-  virtual void DerivativeFunction(double t, const Vector<6>& state, Vector<6>& rhs);
+  virtual void DerivativeFunction(double t, const math::Vector<6>& state, math::Vector<6>& rhs);
 
  private:
   double gravity_constant_m3_s2_;         //!< Gravity constant of the center body [m3/s2]
@@ -86,7 +86,7 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
   RelativeOrbitUpdateMethod update_method_;                      //!< Update method
   s2e::orbit::RelativeOrbitModel relative_dynamics_model_type_;  //!< Relative dynamics model type
   s2e::orbit::StmModel stm_model_type_;                          //!< State Transition Matrix model type
-  RelativeInformation* relative_information_;                    //!< Relative information
+  simulation::RelativeInformation* relative_information_;        //!< Relative information
 
   /**
    * @fn InitializeState

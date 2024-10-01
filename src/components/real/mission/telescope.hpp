@@ -24,8 +24,8 @@ namespace s2e::components {
  * @brief Information of stars in the telescope's field of view
  */
 struct Star {
-  HipparcosData hipparcos_data;           //!< Hipparcos data
-  math::Vector<2> position_image_sensor;  //!< Position of image sensor
+  environment::HipparcosData hipparcos_data;  //!< Hipparcos data
+  math::Vector<2> position_image_sensor;      //!< Position of image sensor
 };
 
 /*
@@ -55,7 +55,8 @@ class Telescope : public Component, public logger::ILoggable {
   Telescope(environment::ClockGenerator* clock_generator, const math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
             const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const dynamics::attitude::Attitude* attitude,
-            const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit = nullptr);
+            const environment::HipparcosCatalogue* hipparcos, const environment::LocalCelestialInformation* local_celestial_information,
+            const dynamics::orbit::Orbit* orbit = nullptr);
   /**
    * @fn ~Telescope
    * @brief Destructor
@@ -126,16 +127,16 @@ class Telescope : public Component, public logger::ILoggable {
    */
   void ObserveStars();
 
-  const dynamics::attitude::Attitude* attitude_;                  //!< dynamics::attitude::Attitude information
-  const HipparcosCatalogue* hipparcos_;                           //!< Star information
-  const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
+  const dynamics::attitude::Attitude* attitude_;                               //!< dynamics::attitude::Attitude information
+  const environment::HipparcosCatalogue* hipparcos_;                           //!< Star information
+  const environment::LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
   /**
    * @fn ObserveGroundPositionDeviation
    * @brief Calculate the deviation of the ground position from its initial value in the image sensor
    */
   void ObserveGroundPositionDeviation();
 
-  const Orbit* orbit_;  //!< Orbit information
+  const dynamics::orbit::Orbit* orbit_;  //!< Orbit information
   // Override logger::ILoggable
   /**
    * @fn GetLogHeader
@@ -169,8 +170,8 @@ class Telescope : public Component, public logger::ILoggable {
  * @param [in] local_celestial_information: Local celestial information
  */
 Telescope InitTelescope(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name,
-                        const dynamics::attitude::Attitude* attitude, const HipparcosCatalogue* hipparcos,
-                        const LocalCelestialInformation* local_celestial_information, const Orbit* orbit = nullptr);
+                        const dynamics::attitude::Attitude* attitude, const environment::HipparcosCatalogue* hipparcos,
+                        const environment::LocalCelestialInformation* local_celestial_information, const dynamics::orbit::Orbit* orbit = nullptr);
 
 }  // namespace s2e::components
 
