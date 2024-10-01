@@ -15,9 +15,9 @@
 #include "moon_rotation.hpp"
 #include "simulation_time.hpp"
 
-class MoonRotation;
-
 namespace s2e::environment {
+
+class MoonRotation;
 
 /**
  * @class CelestialInformation

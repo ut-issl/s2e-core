@@ -9,10 +9,11 @@
 #include <cstddef>   // for size_t
 #include <iostream>  // for ostream, cout
 
+namespace s2e::math {
+
 #define dot InnerProduct
 #define cross OuterProduct
 
-namespace s2e::math {
 /**
  * @class Vector
  * @brief Class for mathematical vector
