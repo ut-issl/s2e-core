@@ -30,7 +30,7 @@ class SurfaceForce : public Disturbance {
    * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  SurfaceForce(const std::vector<simulation::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m,
+  SurfaceForce(const std::vector<spacecraft::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m,
                const bool is_calculation_enabled = true);
   /**
    * @fn ~SurfaceForce
@@ -40,7 +40,7 @@ class SurfaceForce : public Disturbance {
 
  protected:
   // Spacecraft Structure parameters
-  const std::vector<simulation::Surface>& surfaces_;  //!< List of surfaces
+  const std::vector<spacecraft::Surface>& surfaces_;  //!< List of surfaces
   const math::Vector<3>& center_of_gravity_b_m_;      //!< Position vector of the center of mass_kg at body frame [m]
 
   // Internal calculated variables

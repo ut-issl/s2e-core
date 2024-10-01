@@ -5,7 +5,7 @@
 
 #include "surface.hpp"
 
-namespace s2e::simulation {
+namespace s2e::spacecraft {
 
 Surface::Surface(const math::Vector<3> position_b_m, const math::Vector<3> normal_b, const double area_m2, const double reflectivity,
                  const double specularity, const double air_specularity)
@@ -16,4 +16,4 @@ Surface::Surface(const math::Vector<3> position_b_m, const math::Vector<3> norma
       specularity_(specularity),
       air_specularity_(air_specularity) {}
 
-}  // namespace s2e::simulation
+}  // namespace s2e::spacecraft

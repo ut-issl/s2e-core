@@ -15,7 +15,7 @@
 
 namespace s2e::disturbances {
 
-MagneticDisturbance::MagneticDisturbance(const simulation::ResidualMagneticMoment& rmm_params, const bool is_calculation_enabled)
+MagneticDisturbance::MagneticDisturbance(const spacecraft::ResidualMagneticMoment& rmm_params, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, true), residual_magnetic_moment_(rmm_params) {
   rmm_b_Am2_ = residual_magnetic_moment_.GetConstantValue_b_Am2();
 }
@@ -64,7 +64,7 @@ std::string MagneticDisturbance::GetLogValue() const {
   return str_tmp;
 }
 
-MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const simulation::ResidualMagneticMoment& rmm_params) {
+MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const spacecraft::ResidualMagneticMoment& rmm_params) {
   auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "MAGNETIC_DISTURBANCE";
 

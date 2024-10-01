@@ -12,7 +12,7 @@
 
 namespace s2e::disturbances {
 
-SolarRadiationPressureDisturbance::SolarRadiationPressureDisturbance(const std::vector<simulation::Surface>& surfaces,
+SolarRadiationPressureDisturbance::SolarRadiationPressureDisturbance(const std::vector<spacecraft::Surface>& surfaces,
                                                                      const math::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled) {}
 
@@ -55,7 +55,7 @@ std::string SolarRadiationPressureDisturbance::GetLogValue() const {
 }
 
 SolarRadiationPressureDisturbance InitSolarRadiationPressureDisturbance(const std::string initialize_file_path,
-                                                                        const std::vector<simulation::Surface>& surfaces,
+                                                                        const std::vector<spacecraft::Surface>& surfaces,
                                                                         const math::Vector<3>& center_of_gravity_b_m) {
   auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "SOLAR_RADIATION_PRESSURE_DISTURBANCE";

@@ -9,7 +9,7 @@
 #include <logger/logger.hpp>
 #include <math_physics/math/vector.hpp>
 
-namespace s2e::simulation {
+namespace s2e::spacecraft {
 
 /**
  * @class InstalledComponents
@@ -51,6 +51,6 @@ class InstalledComponents {
   virtual void LogSetup(logger::Logger& logger);
 };
 
-}  // namespace s2e::simulation
+}  // namespace s2e::spacecraft
 
 #endif  // S2E_SIMULATION_SPACECRAFT_INSTALLED_COMPONENTS_HPP_

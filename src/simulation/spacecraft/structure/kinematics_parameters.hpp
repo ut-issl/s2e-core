@@ -9,7 +9,7 @@
 #include <math_physics/math/matrix.hpp>
 #include <math_physics/math/vector.hpp>
 
-namespace s2e::simulation {
+namespace s2e::spacecraft {
 
 /**
  * @class KinematicsParameters
@@ -88,6 +88,6 @@ class KinematicsParameters {
   math::Matrix<3, 3> inertia_tensor_b_kgm2_;  //!< Inertia tensor at body frame [kgm2]
 };
 
-}  // namespace s2e::simulation
+}  // namespace s2e::spacecraft
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_KINEMATICS_PARAMETERS_HPP_

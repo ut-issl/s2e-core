@@ -8,9 +8,9 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 #include <simulation/spacecraft/structure/initialize_structure.hpp>
 
-namespace s2e::simulation {
+namespace s2e::spacecraft {
 
-Structure::Structure(const SimulationConfiguration* simulation_configuration, const int spacecraft_id) {
+Structure::Structure(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id) {
   Initialize(simulation_configuration, spacecraft_id);
 }
 
@@ -19,7 +19,7 @@ Structure::~Structure() {
   delete residual_magnetic_moment_;
 }
 
-void Structure::Initialize(const SimulationConfiguration* simulation_configuration, const int spacecraft_id) {
+void Structure::Initialize(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id) {
   // Read file name
   setting_file_reader::IniAccess conf = setting_file_reader::IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   std::string ini_fname = conf.ReadString("SETTING_FILES", "structure_file");
@@ -31,4 +31,4 @@ void Structure::Initialize(const SimulationConfiguration* simulation_configurati
   residual_magnetic_moment_ = new ResidualMagneticMoment(InitResidualMagneticMoment(ini_fname));
 }
 
-}  // namespace s2e::simulation
+}  // namespace s2e::spacecraft

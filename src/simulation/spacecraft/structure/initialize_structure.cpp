@@ -8,7 +8,7 @@
 #include <math_physics/math/vector.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
-namespace s2e::simulation {
+namespace s2e::spacecraft {
 
 #define MIN_VAL 1e-6
 KinematicsParameters InitKinematicsParameters(std::string file_name) {
@@ -31,14 +31,14 @@ KinematicsParameters InitKinematicsParameters(std::string file_name) {
   return kinematics_params;
 }
 
-std::vector<simulation::Surface> InitSurfaces(std::string file_name) {
+std::vector<spacecraft::Surface> InitSurfaces(std::string file_name) {
   using std::cout;
 
   auto conf = setting_file_reader::IniAccess(file_name);
   const char* section = "SURFACES";
 
   const int num_surface = conf.ReadInt(section, "number_of_surfaces");
-  std::vector<simulation::Surface> surfaces;
+  std::vector<spacecraft::Surface> surfaces;
 
   for (int i = 0; i < num_surface; i++) {
     std::string idx = std::to_string(i);
@@ -103,7 +103,7 @@ std::vector<simulation::Surface> InitSurfaces(std::string file_name) {
     }
 
     // Add a surface
-    surfaces.push_back(simulation::Surface(position, normal, area, ref, spe, air_spe));
+    surfaces.push_back(spacecraft::Surface(position, normal, area, ref, spe, air_spe));
   }
   return surfaces;
 }
@@ -122,4 +122,4 @@ ResidualMagneticMoment InitResidualMagneticMoment(std::string file_name) {
   return rmm_params;
 }
 
-}  // namespace s2e::simulation
+}  // namespace s2e::spacecraft

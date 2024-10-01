@@ -8,10 +8,10 @@
 #include <logger/log_utility.hpp>
 #include <logger/logger.hpp>
 
-namespace s2e::simulation {
+namespace s2e::spacecraft {
 
-Spacecraft::Spacecraft(const SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
-                       const int spacecraft_id, RelativeInformation* relative_information)
+Spacecraft::Spacecraft(const simulation::SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
+                       const int spacecraft_id, simulation::RelativeInformation* relative_information)
     : spacecraft_id_(spacecraft_id) {
   Initialize(simulation_configuration, global_environment, spacecraft_id, relative_information);
 }
@@ -27,10 +27,10 @@ Spacecraft::~Spacecraft() {
   delete components_;
 }
 
-void Spacecraft::Initialize(const SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
-                            const int spacecraft_id, RelativeInformation* relative_information) {
+void Spacecraft::Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
+                            const int spacecraft_id, simulation::RelativeInformation* relative_information) {
   clock_generator_.ClearTimerCount();
-  structure_ = new simulation::Structure(simulation_configuration, spacecraft_id);
+  structure_ = new spacecraft::Structure(simulation_configuration, spacecraft_id);
   local_environment_ = new environment::LocalEnvironment(simulation_configuration, global_environment, spacecraft_id);
   dynamics_ = new dynamics::Dynamics(simulation_configuration, &(global_environment->GetSimulationTime()), local_environment_, spacecraft_id,
                                      structure_, relative_information);
@@ -77,4 +77,4 @@ void Spacecraft::Update(const environment::SimulationTime* simulation_time) {
 
 void Spacecraft::Clear(void) { dynamics_->ClearForceTorque(); }
 
-}  // namespace s2e::simulation
+}  // namespace s2e::spacecraft

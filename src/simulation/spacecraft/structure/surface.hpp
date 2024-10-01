@@ -8,7 +8,7 @@
 
 #include <math_physics/math/vector.hpp>
 
-namespace s2e::simulation {
+namespace s2e::spacecraft {
 
 /**
  * @class Surface
@@ -115,6 +115,6 @@ class Surface {
   double air_specularity_;        //!< Specularity for air drag
 };
 
-}  // namespace s2e::simulation
+}  // namespace s2e::spacecraft
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_HPP_

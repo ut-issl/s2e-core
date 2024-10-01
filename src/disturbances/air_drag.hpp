@@ -32,7 +32,7 @@ class AirDrag : public SurfaceForce {
    * @param [in] molecular_weight_g_mol: Molecular weight [g/mol]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  AirDrag(const std::vector<simulation::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
+  AirDrag(const std::vector<spacecraft::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
           const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled = true);
 
   /**
@@ -98,7 +98,7 @@ class AirDrag : public SurfaceForce {
  * @param [in] surfaces: surface information of the spacecraft
  * @param [in] center_of_gravity_b_m: Center of gravity position vector at body frame [m]
  */
-AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<simulation::Surface>& surfaces,
+AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<spacecraft::Surface>& surfaces,
                     const math::Vector<3>& center_of_gravity_b_m);
 
 }  // namespace s2e::disturbances

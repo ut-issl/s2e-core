@@ -8,7 +8,7 @@
 namespace s2e::dynamics {
 
 Dynamics::Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
-                   const environment::LocalEnvironment* local_environment, const int spacecraft_id, simulation::Structure* structure,
+                   const environment::LocalEnvironment* local_environment, const int spacecraft_id, spacecraft::Structure* structure,
                    simulation::RelativeInformation* relative_information)
     : structure_(structure), local_environment_(local_environment) {
   Initialize(simulation_configuration, simulation_time, spacecraft_id, structure, relative_information);
@@ -21,7 +21,7 @@ Dynamics::~Dynamics() {
 }
 
 void Dynamics::Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
-                          const int spacecraft_id, simulation::Structure* structure, simulation::RelativeInformation* relative_information) {
+                          const int spacecraft_id, spacecraft::Structure* structure, simulation::RelativeInformation* relative_information) {
   const environment::LocalCelestialInformation& local_celestial_information = local_environment_->GetCelestialInformation();
   // Initialize
   orbit_ = orbit::InitOrbit(&(local_celestial_information.GetGlobalInformation()), simulation_configuration->spacecraft_file_list_[spacecraft_id],

@@ -18,7 +18,7 @@
 namespace s2e::disturbances {
 
 Disturbances::Disturbances(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id,
-                           const simulation::Structure* structure, const environment::GlobalEnvironment* global_environment) {
+                           const spacecraft::Structure* structure, const environment::GlobalEnvironment* global_environment) {
   InitializeInstances(simulation_configuration, spacecraft_id, structure, global_environment);
   InitializeForceAndTorque();
   InitializeAcceleration();
@@ -59,7 +59,7 @@ void Disturbances::LogSetup(logger::Logger& logger) {
 }
 
 void Disturbances::InitializeInstances(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id,
-                                       const simulation::Structure* structure, const environment::GlobalEnvironment* global_environment) {
+                                       const spacecraft::Structure* structure, const environment::GlobalEnvironment* global_environment) {
   setting_file_reader::IniAccess ini_access = setting_file_reader::IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   initialize_file_name_ = ini_access.ReadString("SETTING_FILES", "disturbance_file");
 

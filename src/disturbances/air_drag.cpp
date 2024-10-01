@@ -14,7 +14,7 @@
 
 namespace s2e::disturbances {
 
-AirDrag::AirDrag(const std::vector<simulation::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
+AirDrag::AirDrag(const std::vector<spacecraft::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
                  const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled),
       wall_temperature_K_(wall_temperature_K),
@@ -95,7 +95,7 @@ std::string AirDrag::GetLogValue() const {
   return str_tmp;
 }
 
-AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<simulation::Surface>& surfaces,
+AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<spacecraft::Surface>& surfaces,
                     const math::Vector<3>& center_of_gravity_b_m) {
   auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "AIR_DRAG";

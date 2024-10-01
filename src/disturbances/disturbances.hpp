@@ -30,7 +30,7 @@ class Disturbances {
    * @param [in] structure: Structure information of spacecraft
    * @param [in] global_environment: Global environment information
    */
-  Disturbances(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id, const simulation::Structure* structure,
+  Disturbances(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id, const spacecraft::Structure* structure,
                const environment::GlobalEnvironment* global_environment);
   /**
    * @fn ~Disturbances
@@ -89,7 +89,7 @@ class Disturbances {
    * @param [in] global_environment: Global environment information
    */
   void InitializeInstances(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id,
-                           const simulation::Structure* structure, const environment::GlobalEnvironment* global_environment);
+                           const spacecraft::Structure* structure, const environment::GlobalEnvironment* global_environment);
   /**
    * @fn InitializeForceAndTorque
    * @brief Initialize disturbance force and torque

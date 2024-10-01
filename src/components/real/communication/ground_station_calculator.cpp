@@ -29,7 +29,7 @@ GroundStationCalculator::GroundStationCalculator(const double loss_polarization_
 
 GroundStationCalculator::~GroundStationCalculator() {}
 
-void GroundStationCalculator::Update(const simulation::Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna,
+void GroundStationCalculator::Update(const spacecraft::Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna,
                                      const ground_station::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
   bool is_visible = ground_station.IsVisible(spacecraft.GetSpacecraftId());
   if (is_visible) {

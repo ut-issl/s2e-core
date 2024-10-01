@@ -51,7 +51,7 @@ class GroundStationCalculator : public logger::ILoggable {
    * @param [in] ground_station: Ground station information
    * @param [in] ground_station_rx_antenna: Antenna mounted on ground station
    */
-  void Update(const simulation::Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const ground_station::GroundStation& ground_station,
+  void Update(const spacecraft::Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const ground_station::GroundStation& ground_station,
               const Antenna& ground_station_rx_antenna);
 
   // Override logger::ILoggable TODO: Maybe we don't need logabble, and this class should be used as library.

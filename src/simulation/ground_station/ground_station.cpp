@@ -47,7 +47,7 @@ void GroundStation::Initialize(const simulation::SimulationConfiguration* config
 
 void GroundStation::LogSetup(logger::Logger& logger) { logger.AddLogList(this); }
 
-void GroundStation::Update(const environment::EarthRotation& celestial_rotation, const simulation::Spacecraft& spacecraft) {
+void GroundStation::Update(const environment::EarthRotation& celestial_rotation, const spacecraft::Spacecraft& spacecraft) {
   math::Matrix<3, 3> dcm_ecef2eci = celestial_rotation.GetDcmJ2000ToEcef().Transpose();
   position_i_m_ = dcm_ecef2eci * position_ecef_m_;
 

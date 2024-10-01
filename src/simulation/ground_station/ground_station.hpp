@@ -45,7 +45,7 @@ class GroundStation : public logger::ILoggable {
    * @fn Update
    * @brief Virtual function of main routine
    */
-  virtual void Update(const environment::EarthRotation& celestial_rotation, const simulation::Spacecraft& spacecraft);
+  virtual void Update(const environment::EarthRotation& celestial_rotation, const spacecraft::Spacecraft& spacecraft);
 
   // Override functions for ILoggable
   /**

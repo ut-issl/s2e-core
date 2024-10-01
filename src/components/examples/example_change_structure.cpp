@@ -9,7 +9,7 @@
 
 namespace s2e::components {
 
-ExampleChangeStructure::ExampleChangeStructure(environment::ClockGenerator* clock_generator, simulation::Structure* structure)
+ExampleChangeStructure::ExampleChangeStructure(environment::ClockGenerator* clock_generator, spacecraft::Structure* structure)
     : Component(1, clock_generator), structure_(structure) {}
 
 ExampleChangeStructure::~ExampleChangeStructure() {}

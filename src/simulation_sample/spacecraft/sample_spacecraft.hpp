@@ -18,7 +18,7 @@ namespace s2e::sample {
  * @class SampleSpacecraft
  * @brief An example of user side spacecraft class
  */
-class SampleSpacecraft : public simulation::Spacecraft {
+class SampleSpacecraft : public spacecraft::Spacecraft {
  public:
   /**
    * @fn SampleSpacecraft

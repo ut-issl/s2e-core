@@ -9,7 +9,7 @@
 
 namespace s2e::disturbances {
 
-SurfaceForce::SurfaceForce(const std::vector<simulation::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m,
+SurfaceForce::SurfaceForce(const std::vector<spacecraft::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m,
                            const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, true), surfaces_(surfaces), center_of_gravity_b_m_(center_of_gravity_b_m) {
   // Initialize vectors

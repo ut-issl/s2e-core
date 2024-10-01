@@ -58,13 +58,13 @@ namespace s2e::sample {
  * @class SampleComponents
  * @brief An example of user side components management class
  */
-class SampleComponents : public simulation::InstalledComponents {
+class SampleComponents : public spacecraft::InstalledComponents {
  public:
   /**
    * @fn SampleComponents
    * @brief Constructor
    */
-  SampleComponents(const dynamics::Dynamics* dynamics, simulation::Structure* structure, const environment::LocalEnvironment* local_environment,
+  SampleComponents(const dynamics::Dynamics* dynamics, spacecraft::Structure* structure, const environment::LocalEnvironment* local_environment,
                    const environment::GlobalEnvironment* global_environment, const simulation::SimulationConfiguration* configuration,
                    environment::ClockGenerator* clock_generator, const unsigned int spacecraft_id);
   /**
@@ -142,7 +142,7 @@ class SampleComponents : public simulation::InstalledComponents {
   // States
   const simulation::SimulationConfiguration* configuration_;  //!< Simulation settings
   const dynamics::Dynamics* dynamics_;                        //!< Dynamics information of the spacecraft
-  simulation::Structure* structure_;                          //!< Structure information of the spacecraft
+  spacecraft::Structure* structure_;                          //!< Structure information of the spacecraft
   const environment::LocalEnvironment* local_environment_;    //!< Local environment information around the spacecraft
   const environment::GlobalEnvironment* global_environment_;  //!< Global environment information
 };

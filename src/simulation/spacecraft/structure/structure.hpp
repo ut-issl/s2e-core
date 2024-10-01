@@ -13,7 +13,7 @@
 #include "residual_magnetic_moment.hpp"
 #include "surface.hpp"
 
-namespace s2e::simulation {
+namespace s2e::spacecraft {
 
 /**
  * @class Structure
@@ -25,7 +25,7 @@ class Structure {
    * @fn Structure
    * @brief Constructor
    */
-  Structure(const SimulationConfiguration* simulation_configuration, const int spacecraft_id);
+  Structure(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id);
   /**
    * @fn ~Structure
    * @brief Destructor
@@ -35,14 +35,14 @@ class Structure {
    * @fn Initialize
    * @brief Initialize function
    */
-  void Initialize(const SimulationConfiguration* simulation_configuration, const int spacecraft_id);
+  void Initialize(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id);
 
   // Getter
   /**
    * @fn GetSurfaces
    * @brief Return surface information
    */
-  inline const std::vector<simulation::Surface>& GetSurfaces() const { return surfaces_; }
+  inline const std::vector<Surface>& GetSurfaces() const { return surfaces_; }
   /**
    * @fn GetKinematicsParameters
    * @brief Return kinematics information
@@ -58,7 +58,7 @@ class Structure {
    * @fn GetToSetSurfaces
    * @brief Return surface information
    */
-  inline std::vector<simulation::Surface>& GetToSetSurfaces() { return surfaces_; }
+  inline std::vector<Surface>& GetToSetSurfaces() { return surfaces_; }
   /**
    * @fn GetToSetKinematicsParameters
    * @brief Return kinematics information
@@ -72,10 +72,10 @@ class Structure {
 
  private:
   KinematicsParameters* kinematics_parameters_;       //!< Kinematics parameters
-  std::vector<simulation::Surface> surfaces_;         //!< Surface information
+  std::vector<Surface> surfaces_;         //!< Surface information
   ResidualMagneticMoment* residual_magnetic_moment_;  //!< Residual Magnetic Moment
 };
 
-}  // namespace s2e::simulation
+}  // namespace s2e::spacecraft
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_STRUCTURE_HPP_

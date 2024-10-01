@@ -40,11 +40,11 @@ class Dynamics {
    * @param [in] simulation_time: Simulation time
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] spacecraft_id: Spacecraft ID of the spacecraft
-   * @param [in] structure: simulation::Structure of the spacecraft
+   * @param [in] structure: spacecraft::Structure of the spacecraft
    * @param [in] relative_information: Relative information
    */
   Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
-           const environment::LocalEnvironment* local_environment, const int spacecraft_id, simulation::Structure* structure,
+           const environment::LocalEnvironment* local_environment, const int spacecraft_id, spacecraft::Structure* structure,
            simulation::RelativeInformation* relative_information = (simulation::RelativeInformation*)nullptr);
   /**
    * @fn ~Dynamics
@@ -118,7 +118,7 @@ class Dynamics {
   attitude::Attitude* attitude_;                            //!< Attitude dynamics
   orbit::Orbit* orbit_;                                     //!< Orbit dynamics
   thermal::Temperature* temperature_;                       //!< Thermal dynamics
-  const simulation::Structure* structure_;                  //!< Structure information
+  const spacecraft::Structure* structure_;                  //!< Structure information
   const environment::LocalEnvironment* local_environment_;  //!< Local environment
 
   /**
@@ -132,7 +132,7 @@ class Dynamics {
    * @param [in] relative_information: Relative information
    */
   void Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
-                  const int spacecraft_id, simulation::Structure* structure,
+                  const int spacecraft_id, spacecraft::Structure* structure,
                   simulation::RelativeInformation* relative_information = (simulation::RelativeInformation*)nullptr);
 };
 

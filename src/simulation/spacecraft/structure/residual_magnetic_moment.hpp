@@ -8,7 +8,7 @@
 
 #include <math_physics/math/vector.hpp>
 
-namespace s2e::simulation {
+namespace s2e::spacecraft {
 
 /**
  * @class ResidualMagneticMoment
@@ -71,6 +71,6 @@ class ResidualMagneticMoment {
   double random_noise_standard_deviation_Am2_;  //!< Standard deviation of white noise of RMM [Am2]
 };
 
-}  // namespace s2e::simulation
+}  // namespace s2e::spacecraft
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_HPP_

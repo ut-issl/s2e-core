@@ -5,7 +5,7 @@
 
 #include "residual_magnetic_moment.hpp"
 
-namespace s2e::simulation {
+namespace s2e::spacecraft {
 
 ResidualMagneticMoment::ResidualMagneticMoment(const math::Vector<3> constant_value_b_Am2_, const double random_walk_standard_deviation_Am2,
                                                const double random_walk_limit_Am2, const double random_noise_standard_deviation_Am2)
@@ -14,4 +14,4 @@ ResidualMagneticMoment::ResidualMagneticMoment(const math::Vector<3> constant_va
       random_walk_limit_Am2_(random_walk_limit_Am2),
       random_noise_standard_deviation_Am2_(random_noise_standard_deviation_Am2) {}
 
-}  // namespace s2e::simulation
+}  // namespace s2e::spacecraft

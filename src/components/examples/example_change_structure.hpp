@@ -25,7 +25,7 @@ class ExampleChangeStructure : public Component, public logger::ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] structure: Structure information
    */
-  ExampleChangeStructure(environment::ClockGenerator* clock_generator, simulation::Structure* structure);
+  ExampleChangeStructure(environment::ClockGenerator* clock_generator, spacecraft::Structure* structure);
   /**
    * @fn ~ChangeStructure
    * @brief Destructor
@@ -52,7 +52,7 @@ class ExampleChangeStructure : public Component, public logger::ILoggable {
   virtual std::string GetLogValue() const override;
 
  protected:
-  simulation::Structure* structure_;  //!< Structure information
+  spacecraft::Structure* structure_;  //!< Structure information
 };
 
 }  // namespace s2e::components
