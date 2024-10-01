@@ -45,7 +45,7 @@ Geopotential::Geopotential(const int degree, const std::string file_path, const 
     }
   }
   // Initialize GravityPotential
-  geopotential_ = s2e::gravity::GravityPotential(degree, c_, s_);
+  geopotential_ = gravity::GravityPotential(degree, c_, s_);
 }
 
 bool Geopotential::ReadCoefficientsEgm96(std::string file_name) {

@@ -48,7 +48,7 @@ LunarGravityField::LunarGravityField(const int degree, const std::string file_pa
     }
   }
   // Initialize GravityPotential
-  lunar_potential_ = s2e::gravity::GravityPotential(degree, c_, s_, gravity_constants_km3_s2_ * 1e9, reference_radius_km_ * 1e3);
+  lunar_potential_ = gravity::GravityPotential(degree, c_, s_, gravity_constants_km3_s2_ * 1e9, reference_radius_km_ * 1e3);
 }
 
 bool LunarGravityField::ReadCoefficientsGrgm1200a(std::string file_name) {

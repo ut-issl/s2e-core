@@ -76,7 +76,7 @@ class AttitudeWithCantileverVibration : public Attitude {
   math::Vector<3> euler_angular_cantilever_rad_{0.0};       //!< Euler angle of the cantilever with respect to the body frame [rad/s]
 
   AttitudeWithCantileverVibrationOde attitude_ode_;
-  s2e::numerical_integration::NumericalIntegratorManager<13> numerical_integrator_;
+  numerical_integration::NumericalIntegratorManager<13> numerical_integrator_;
 };
 
 }  // namespace s2e::dynamics::attitude

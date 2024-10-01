@@ -134,9 +134,9 @@ class Magnetorquer : public Component, public logger::ILoggable {
   math::Vector<kMtqDimension> max_magnetic_moment_c_Am2_{100.0};   //!< Maximum magnetic moment in the component frame [Am2]
   math::Vector<kMtqDimension> min_magnetic_moment_c_Am2_{-100.0};  //!< Minimum magnetic moment in the component frame [Am2]
 
-  math::Vector<kMtqDimension> bias_noise_c_Am2_{0.0};                 //!< Constant bias noise in the component frame [Am2]
-  randomization::RandomWalk<kMtqDimension> random_walk_c_Am2_;        //!< Random walk noise
-  s2e::randomization::NormalRand random_noise_c_Am2_[kMtqDimension];  //!< Normal random noise
+  math::Vector<kMtqDimension> bias_noise_c_Am2_{0.0};            //!< Constant bias noise in the component frame [Am2]
+  randomization::RandomWalk<kMtqDimension> random_walk_c_Am2_;   //!< Random walk noise
+  randomization::NormalRand random_noise_c_Am2_[kMtqDimension];  //!< Normal random noise
 
   const environment::GeomagneticField* geomagnetic_field_;  //!< Geomagnetic environment
 

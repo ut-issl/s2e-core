@@ -56,7 +56,7 @@ class GnssSatellites : public logger::ILoggable {
    * @param [in] sp3_files: List of SP3 files
    * @param [in] start_time: The simulation start time
    */
-  void Initialize(const std::vector<s2e::gnss::Sp3FileReader>& sp3_files, const s2e::time_system::EpochTime start_time);
+  void Initialize(const std::vector<gnss::Sp3FileReader>& sp3_files, const time_system::EpochTime start_time);
 
   /**
    * @fn IsCalcEnabled
@@ -89,8 +89,7 @@ class GnssSatellites : public logger::ILoggable {
    * @param [in] time: Target time to get the GNSS satellite. When the argument is not set, the last updated time is used for the calculation.
    * @return GNSS satellite position at ECEF frame at the time. Or return zero vector when the arguments are out of range.
    */
-  math::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id,
-                                     const s2e::time_system::EpochTime time = s2e::time_system::EpochTime(0, 0.0)) const;
+  math::Vector<3> GetPosition_ecef_m(const size_t gnss_satellite_id, const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
 
   /**
    * @fn GetGetClock_s
@@ -99,7 +98,7 @@ class GnssSatellites : public logger::ILoggable {
    * @param [in] time: Target time to get the GNSS satellite. When the argument is not set, the last updated time is used for the calculation.
    * @return GNSS satellite clock offset at the time. Or return zero when the arguments are out of range.
    */
-  double GetClock_s(const size_t gnss_satellite_id, const s2e::time_system::EpochTime time = s2e::time_system::EpochTime(0, 0.0)) const;
+  double GetClock_s(const size_t gnss_satellite_id, const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
 
   // Override logger::ILoggable
   /**
@@ -116,15 +115,15 @@ class GnssSatellites : public logger::ILoggable {
  private:
   bool is_calc_enabled_ = false;  //!< Flag to manage the GNSS satellite position calculation
 
-  std::vector<s2e::gnss::Sp3FileReader> sp3_files_;  //!< List of SP3 files
-  size_t number_of_calculated_gnss_satellites_;      //!< Number of calculated GNSS satellites
-  size_t sp3_file_id_;                               //!< Current SP3 file ID
-  s2e::time_system::EpochTime reference_time_;       //!< Reference start time of the SP3 handling
-  size_t reference_interpolation_id_ = 0;            //!< Reference epoch ID of the interpolation
-  s2e::time_system::EpochTime current_epoch_time_;   //!< The last updated time
+  std::vector<gnss::Sp3FileReader> sp3_files_;   //!< List of SP3 files
+  size_t number_of_calculated_gnss_satellites_;  //!< Number of calculated GNSS satellites
+  size_t sp3_file_id_;                           //!< Current SP3 file ID
+  time_system::EpochTime reference_time_;        //!< Reference start time of the SP3 handling
+  size_t reference_interpolation_id_ = 0;        //!< Reference epoch ID of the interpolation
+  time_system::EpochTime current_epoch_time_;    //!< The last updated time
 
-  std::vector<s2e::orbit::InterpolationOrbit> orbit_;  //!< GNSS satellite orbit with interpolation
-  std::vector<math::Interpolation> clock_;             //!< GNSS satellite clock offset with interpolation
+  std::vector<orbit::InterpolationOrbit> orbit_;  //!< GNSS satellite orbit with interpolation
+  std::vector<math::Interpolation> clock_;        //!< GNSS satellite clock offset with interpolation
 
   // References
   const EarthRotation& earth_rotation_;  //!< Earth rotation
@@ -136,7 +135,7 @@ class GnssSatellites : public logger::ILoggable {
    * @param [in] current_time: Target time
    * @return true means no error, false means the time argument is out of range
    */
-  bool GetCurrentSp3File(s2e::gnss::Sp3FileReader& current_sp3_file, const s2e::time_system::EpochTime current_time);
+  bool GetCurrentSp3File(gnss::Sp3FileReader& current_sp3_file, const time_system::EpochTime current_time);
 
   /**
    * @fn UpdateInterpolationInformation

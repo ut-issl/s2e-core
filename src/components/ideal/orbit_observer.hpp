@@ -83,8 +83,8 @@ class OrbitObserver : public Component, public logger::ILoggable {
   math::Vector<3> observed_position_i_m_{0.0};    //!< Observed position @ inertial frame [m]
   math::Vector<3> observed_velocity_i_m_s_{0.0};  //!< Observed velocity @ inertial frame [m/s]
 
-  NoiseFrame noise_frame_;                                 //!< Noise definition frame
-  s2e::randomization::NormalRand normal_random_noise_[6];  //!< Position and Velocity noise [m, m/s]
+  NoiseFrame noise_frame_;                            //!< Noise definition frame
+  randomization::NormalRand normal_random_noise_[6];  //!< Position and Velocity noise [m, m/s]
 
   // Observed variables
   const dynamics::orbit::Orbit& orbit_;  //!< Orbit information

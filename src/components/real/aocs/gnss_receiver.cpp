@@ -28,10 +28,9 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
       gnss_satellites_(gnss_satellites),
       simulation_time_(simulation_time) {
   for (size_t i = 0; i < 3; i++) {
-    position_random_noise_ecef_m_[i].SetParameters(0.0, position_noise_standard_deviation_ecef_m[i],
-                                                   s2e::randomization::global_randomization.MakeSeed());
+    position_random_noise_ecef_m_[i].SetParameters(0.0, position_noise_standard_deviation_ecef_m[i], randomization::global_randomization.MakeSeed());
     velocity_random_noise_ecef_m_s_[i].SetParameters(0.0, velocity_noise_standard_deviation_ecef_m_s[i],
-                                                     s2e::randomization::global_randomization.MakeSeed());
+                                                     randomization::global_randomization.MakeSeed());
   }
 }
 
@@ -50,10 +49,9 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
       gnss_satellites_(gnss_satellites),
       simulation_time_(simulation_time) {
   for (size_t i = 0; i < 3; i++) {
-    position_random_noise_ecef_m_[i].SetParameters(0.0, position_noise_standard_deviation_ecef_m[i],
-                                                   s2e::randomization::global_randomization.MakeSeed());
+    position_random_noise_ecef_m_[i].SetParameters(0.0, position_noise_standard_deviation_ecef_m[i], randomization::global_randomization.MakeSeed());
     velocity_random_noise_ecef_m_s_[i].SetParameters(0.0, velocity_noise_standard_deviation_ecef_m_s[i],
-                                                     s2e::randomization::global_randomization.MakeSeed());
+                                                     randomization::global_randomization.MakeSeed());
   }
 }
 

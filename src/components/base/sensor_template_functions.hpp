@@ -22,7 +22,7 @@ Sensor<N>::Sensor(const math::Matrix<N, N>& scale_factor, const math::Vector<N>&
       range_to_zero_c_(range_to_zero_c),
       random_walk_noise_c_(random_walk_step_width_s, random_walk_standard_deviation_c, random_walk_limit_c) {
   for (size_t i = 0; i < N; i++) {
-    normal_random_noise_c_[i].SetParameters(0.0, normal_random_standard_deviation_c[i], s2e::randomization::global_randomization.MakeSeed());
+    normal_random_noise_c_[i].SetParameters(0.0, normal_random_standard_deviation_c[i], randomization::global_randomization.MakeSeed());
   }
   RangeCheck();
 }

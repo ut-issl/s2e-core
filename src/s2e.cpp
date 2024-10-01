@@ -23,8 +23,6 @@
 // #include "interface/hils/COSMOSWrapper.h"
 // #include "interface/hils/HardwareMessage.h"
 
-namespace s2e {
-
 void print_path(std::string path) {
 #ifdef WIN32
   std::cout << path << std::endl;
@@ -71,7 +69,7 @@ int main(int argc, char *argv[])
   std::cout << "\tIni file: ";
   print_path(ini_file);
 
-  auto simulation_case = sample::SampleCase(ini_file);
+  auto simulation_case = s2e::sample::SampleCase(ini_file);
   simulation_case.Initialize();
   simulation_case.Main();
 
@@ -81,5 +79,3 @@ int main(int argc, char *argv[])
 
   return EXIT_SUCCESS;
 }
-
-}  // namespace s2e

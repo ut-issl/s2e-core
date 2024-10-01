@@ -14,7 +14,7 @@ OrbitObserver::OrbitObserver(const int prescaler, environment::ClockGenerator* c
                              const math::Vector<6> error_standard_deviation, const dynamics::orbit::Orbit& orbit)
     : Component(prescaler, clock_generator), noise_frame_(noise_frame), orbit_(orbit) {
   for (size_t i = 0; i < 6; i++) {
-    normal_random_noise_[i].SetParameters(0.0, error_standard_deviation[i], s2e::randomization::global_randomization.MakeSeed());
+    normal_random_noise_[i].SetParameters(0.0, error_standard_deviation[i], randomization::global_randomization.MakeSeed());
   }
 }
 

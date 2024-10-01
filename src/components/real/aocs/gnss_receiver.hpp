@@ -110,7 +110,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @fn GetMeasuredGeodeticPosition
    * @brief Return Observed position in the LLH frame [m]
    */
-  inline const s2e::geodesy::GeodeticPosition GetMeasuredGeodeticPosition(void) const { return geodetic_position_; }
+  inline const geodesy::GeodeticPosition GetMeasuredGeodeticPosition(void) const { return geodetic_position_; }
   /**
    * @fn GetMeasuredVelocity_ecef_m_s
    * @brief Return Observed velocity in the ECEF frame [m/s]
@@ -140,11 +140,11 @@ class GnssReceiver : public Component, public logger::ILoggable {
   AntennaModel antenna_model_;            //!< Antenna model
 
   // Simple position observation
-  s2e::randomization::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
-  s2e::randomization::NormalRand velocity_random_noise_ecef_m_s_[3];  //!< Random noise for velocity at the ECEF frame [m]
-  math::Vector<3> position_ecef_m_{0.0};                              //!< Observed position in the ECEF frame [m]
-  math::Vector<3> velocity_ecef_m_s_{0.0};                            //!< Observed velocity in the ECEF frame [m/s]
-  s2e::geodesy::GeodeticPosition geodetic_position_;                  //!< Observed position in the geodetic frame
+  randomization::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
+  randomization::NormalRand velocity_random_noise_ecef_m_s_[3];  //!< Random noise for velocity at the ECEF frame [m]
+  math::Vector<3> position_ecef_m_{0.0};                         //!< Observed position in the ECEF frame [m]
+  math::Vector<3> velocity_ecef_m_s_{0.0};                       //!< Observed velocity in the ECEF frame [m/s]
+  geodesy::GeodeticPosition geodetic_position_;                  //!< Observed position in the geodetic frame
 
   // Time observation
   environment::UTC utc_ = {2000, 1, 1, 0, 0, 0.0};  //!< Observed time in UTC [year, month, day, hour, min, sec]

@@ -20,7 +20,7 @@ namespace s2e::atmosphere {
  * @param [in] exponent_parameter: n in the equation. n=2 for low inclination orbit and n=6 for polar orbit.
  * @return Atmospheric density [kg/m^3]
  */
-double CalcAirDensityWithHarrisPriester_kg_m3(const s2e::geodesy::GeodeticPosition geodetic_position, const math::Vector<3> sun_direction_eci,
+double CalcAirDensityWithHarrisPriester_kg_m3(const geodesy::GeodeticPosition geodetic_position, const math::Vector<3> sun_direction_eci,
                                               const double f10_7 = 100.0, const double exponent_parameter = 4);
 
 }  // namespace s2e::atmosphere

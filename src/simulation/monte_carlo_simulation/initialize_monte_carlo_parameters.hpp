@@ -33,7 +33,7 @@ class InitializedMonteCarloParameters {
     kCircularNormalNormal,           //!< r and θ follow normal distribution in Circular frame
     kSphericalNormalUniformUniform,  //!< r follows normal distribution, and θ and φ follow uniform distribution in Spherical frame
     kSphericalNormalNormal,          //!< r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
-    kQuaternionUniform,              //!< Perfectly Randomized s2e::math::Quaternion
+    kQuaternionUniform,              //!< Perfectly Randomized Quaternion
     kQuaternionNormal,               //!< Angle from the default quaternion θ follows normal distribution
   };
 

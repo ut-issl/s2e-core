@@ -5,11 +5,10 @@
 
 #include "sun_sensor.hpp"
 
-#include <math_physics/math/constants.hpp>
-#include <math_physics/randomization/normal_randomization.hpp>
-using s2e::randomization::NormalRand;
 #include <logger/log_utility.hpp>
+#include <math_physics/math/constants.hpp>
 #include <math_physics/randomization/global_randomization.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
 using namespace std;
@@ -48,7 +47,7 @@ SunSensor::SunSensor(const int prescaler, environment::ClockGenerator* clock_gen
 
 void SunSensor::Initialize(const double random_noise_standard_deviation_rad, const double bias_noise_standard_deviation_rad) {
   // Bias
-  NormalRand nr(0.0, bias_noise_standard_deviation_rad, s2e::randomization::global_randomization.MakeSeed());
+  randomization::NormalRand nr(0.0, bias_noise_standard_deviation_rad, randomization::global_randomization.MakeSeed());
   bias_noise_alpha_rad_ += nr;
   bias_noise_beta_rad_ += nr;
 
