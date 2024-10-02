@@ -13,6 +13,8 @@
 #include "math_physics/math/vector.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::environment {
+
 EarthAlbedo::EarthAlbedo(LocalCelestialInformation* local_celestial_information, SolarRadiationPressureEnvironment* srp_environment)
     : local_celestial_information_(local_celestial_information), srp_environment_(srp_environment) {}
 
@@ -24,8 +26,8 @@ void EarthAlbedo::UpdateAllStates() {
 std::string EarthAlbedo::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("earth_albedo_factor");
-  str_tmp += WriteScalar("earth_albedo_W_m2");
+  str_tmp += logger::WriteScalar("earth_albedo_factor");
+  str_tmp += logger::WriteScalar("earth_albedo_W_m2");
 
   return str_tmp;
 }
@@ -33,8 +35,8 @@ std::string EarthAlbedo::GetLogHeader() const {
 std::string EarthAlbedo::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(earth_albedo_factor_);
-  str_tmp += WriteScalar(earth_albedo_W_m2_);
+  str_tmp += logger::WriteScalar(earth_albedo_factor_);
+  str_tmp += logger::WriteScalar(earth_albedo_W_m2_);
 
   return str_tmp;
 }
@@ -48,7 +50,7 @@ void EarthAlbedo::CalcEarthAlbedo(const LocalCelestialInformation* local_celesti
 
 EarthAlbedo InitEarthAlbedo(std::string initialize_file_path, LocalCelestialInformation* local_celestial_information,
                             SolarRadiationPressureEnvironment* srp_environment) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "EARTH_ALBEDO";
 
   EarthAlbedo earth_albedo(local_celestial_information, srp_environment);
@@ -57,3 +59,5 @@ EarthAlbedo InitEarthAlbedo(std::string initialize_file_path, LocalCelestialInfo
 
   return earth_albedo;
 }
+
+}  // namespace s2e::environment

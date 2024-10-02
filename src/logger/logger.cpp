@@ -8,6 +8,8 @@
 #include <ctime>
 #include <sstream>
 
+namespace s2e::logger {
+
 std::vector<ILoggable *> log_list_;
 bool Logger::is_directory_created_ = false;
 
@@ -103,3 +105,5 @@ void Logger::CopyFileToLogDirectory(const fs::path &ini_file_name) {
   fs::copy_file(ini_file_name, to_file_name);
   return;
 }
+
+}  // namespace s2e::logger

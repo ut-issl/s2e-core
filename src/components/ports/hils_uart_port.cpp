@@ -8,6 +8,8 @@
 
 #include "hils_uart_port.hpp"
 
+namespace s2e::components {
+
 // # define HILS_UART_PORT_SHOW_DEBUG_DATA
 
 HilsUartPort::HilsUartPort(const unsigned int port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
@@ -186,3 +188,5 @@ int HilsUartPort::DiscardOutBuffer() {
   }
   return 0;
 }
+
+}  // namespace s2e::components

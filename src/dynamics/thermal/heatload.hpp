@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+namespace s2e::dynamics::thermal {
+
 /**
  * @class Heatload
  * @brief Class for calculating heatload value for Node class object at elapsed time
@@ -126,5 +128,7 @@ class Heatload {
  * @return Heatload
  */
 Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vector<std::string>& internal_heatload_str);
+
+}  // namespace s2e::dynamics::thermal
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATLOAD_HPP_

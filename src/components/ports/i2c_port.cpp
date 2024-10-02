@@ -7,6 +7,8 @@
 
 #include <utilities/macros.hpp>
 
+namespace s2e::components {
+
 I2cPort::I2cPort(void) {}
 
 I2cPort::I2cPort(const unsigned char max_register_number) : max_register_number_(max_register_number) {}
@@ -93,3 +95,5 @@ unsigned char I2cPort::ReadCommand(const unsigned char i2c_address, unsigned cha
   }
   return length;
 }
+
+}  // namespace s2e::components

@@ -17,20 +17,22 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 /*
  * @struct Star
  * @brief Information of stars in the telescope's field of view
  */
 struct Star {
-  HipparcosData hipparcos_data;           //!< Hipparcos data
-  math::Vector<2> position_image_sensor;  //!< Position of image sensor
+  environment::HipparcosData hipparcos_data;  //!< Hipparcos data
+  math::Vector<2> position_image_sensor;      //!< Position of image sensor
 };
 
 /*
  * @class Telescope
  * @brief Component emulation: Telescope
  */
-class Telescope : public Component, public ILoggable {
+class Telescope : public Component, public logger::ILoggable {
  public:
   /**
    * @fn Telescope
@@ -45,15 +47,16 @@ class Telescope : public Component, public ILoggable {
    * @param [in] x_fov_per_pix: Field of view per pixel of X-axis in the image plane [rad/pix]
    * @param [in] y_fov_per_pix: Field of view per pixel of Y-axis in the image plane [rad/pix]
    * @param [in] number_of_logged_stars: Number of logged stars
-   * @param [in] attitude: Attitude Information
+   * @param [in] attitude: dynamics::attitude::Attitude Information
    * @param [in] hipparcos: Hipparcos catalogue information
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] orbit: Orbit information
    */
-  Telescope(ClockGenerator* clock_generator, const math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
+  Telescope(environment::ClockGenerator* clock_generator, const math::Quaternion& quaternion_b2c, const double sun_forbidden_angle_rad,
             const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const int x_number_of_pix, const int y_number_of_pix,
-            const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const Attitude* attitude,
-            const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information, const Orbit* orbit = nullptr);
+            const double x_fov_per_pix, const double y_fov_per_pix, size_t number_of_logged_stars, const dynamics::attitude::Attitude* attitude,
+            const environment::HipparcosCatalogue* hipparcos, const environment::LocalCelestialInformation* local_celestial_information,
+            const dynamics::orbit::Orbit* orbit = nullptr);
   /**
    * @fn ~Telescope
    * @brief Destructor
@@ -124,25 +127,25 @@ class Telescope : public Component, public ILoggable {
    */
   void ObserveStars();
 
-  const Attitude* attitude_;                                      //!< Attitude information
-  const HipparcosCatalogue* hipparcos_;                           //!< Star information
-  const LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
+  const dynamics::attitude::Attitude* attitude_;                               //!< dynamics::attitude::Attitude information
+  const environment::HipparcosCatalogue* hipparcos_;                           //!< Star information
+  const environment::LocalCelestialInformation* local_celestial_information_;  //!< Local celestial information
   /**
    * @fn ObserveGroundPositionDeviation
    * @brief Calculate the deviation of the ground position from its initial value in the image sensor
    */
   void ObserveGroundPositionDeviation();
 
-  const Orbit* orbit_;  //!< Orbit information
-  // Override ILoggable
+  const dynamics::orbit::Orbit* orbit_;  //!< Orbit information
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -162,12 +165,14 @@ class Telescope : public Component, public ILoggable {
  * @param [in] clock_generator: Clock generator
  * @param [in] sensor_id: Sensor ID
  * @param [in] file_name: Path to initialize file
- * @param [in] attitude: Attitude information
+ * @param [in] attitude: dynamics::attitude::Attitude information
  * @param [in] hipparcos: Star information by Hipparcos catalogue
  * @param [in] local_celestial_information: Local celestial information
  */
-Telescope InitTelescope(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, const Attitude* attitude,
-                        const HipparcosCatalogue* hipparcos, const LocalCelestialInformation* local_celestial_information,
-                        const Orbit* orbit = nullptr);
+Telescope InitTelescope(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name,
+                        const dynamics::attitude::Attitude* attitude, const environment::HipparcosCatalogue* hipparcos,
+                        const environment::LocalCelestialInformation* local_celestial_information, const dynamics::orbit::Orbit* orbit = nullptr);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_MISSION_TELESCOPE_HPP_P_

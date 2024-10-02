@@ -7,7 +7,7 @@
 
 #include <cmath>
 
-namespace time_system {
+namespace s2e::time_system {
 
 EpochTime::EpochTime(const DateTime date_time) {
   // No leap second calculation
@@ -76,4 +76,4 @@ EpochTime EpochTime::operator-(const EpochTime& right_side) const {
   return result;
 }
 
-}  // namespace time_system
+}  // namespace s2e::time_system

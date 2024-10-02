@@ -9,7 +9,7 @@
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/math/vector.hpp>
 
-namespace geodesy {
+namespace s2e::geodesy {
 
 /**
  * @class GeodeticPosition
@@ -80,6 +80,6 @@ class GeodeticPosition {
   void CalcQuaternionXcxfToLtc();
 };
 
-}  // namespace geodesy
+}  // namespace s2e::geodesy
 
 #endif  // S2E_LIBRARY_GEODESY_GEODETIC_POSITION_HPP_

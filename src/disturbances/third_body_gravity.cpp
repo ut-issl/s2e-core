@@ -7,6 +7,8 @@
 
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::disturbances {
+
 ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list, const bool is_calculation_enabled)
     : Disturbance(is_calculation_enabled, false), third_body_list_(third_body_list) {
   acceleration_i_m_s2_ = math::Vector<3>(0.0);
@@ -14,7 +16,7 @@ ThirdBodyGravity::ThirdBodyGravity(std::set<std::string> third_body_list, const 
 
 ThirdBodyGravity::~ThirdBodyGravity() {}
 
-void ThirdBodyGravity::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+void ThirdBodyGravity::Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
   acceleration_i_m_s2_ = math::Vector<3>(0.0);  // initialize
 
   math::Vector<3> sc_position_i_m = dynamics.GetOrbit().GetPosition_i_m();
@@ -44,21 +46,21 @@ math::Vector<3> ThirdBodyGravity::CalcAcceleration_i_m_s2(const math::Vector<3> 
 
 std::string ThirdBodyGravity::GetLogHeader() const {
   std::string str_tmp = "";
-  str_tmp += WriteVector("third_body_acceleration", "i", "m/s2", 3);
+  str_tmp += logger::WriteVector("third_body_acceleration", "i", "m/s2", 3);
 
   return str_tmp;
 }
 
 std::string ThirdBodyGravity::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteVector(acceleration_i_m_s2_);
+  str_tmp += logger::WriteVector(acceleration_i_m_s2_);
 
   return str_tmp;
 }
 
 ThirdBodyGravity InitThirdBodyGravity(const std::string initialize_file_path, const std::string ini_path_celes) {
   // Generate a list of bodies to be calculated in "CelesInfo"
-  auto conf_celes = IniAccess(ini_path_celes);
+  auto conf_celes = setting_file_reader::IniAccess(ini_path_celes);
   const char* section_celes = "CELESTIAL_INFORMATION";
   const int num_of_selected_body = conf_celes.ReadInt(section_celes, "number_of_selected_body");
   const std::string center_object = conf_celes.ReadString(section_celes, "center_object");
@@ -70,7 +72,7 @@ ThirdBodyGravity InitThirdBodyGravity(const std::string initialize_file_path, co
   }
 
   // Generate a list of bodies to be calculated in "ThirdBodyGravity" from the list of bodies of "CelesInfo"
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "THIRD_BODY_GRAVITY";
 
   const int num_of_third_body = conf.ReadInt(section, "number_of_third_body");
@@ -99,3 +101,5 @@ ThirdBodyGravity InitThirdBodyGravity(const std::string initialize_file_path, co
 
   return third_body_disturbance;
 }
+
+}  // namespace s2e::disturbances

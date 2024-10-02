@@ -13,9 +13,11 @@
 #include "sgp4_orbit_propagation.hpp"
 #include "time_series_file_orbit_propagation.hpp"
 
-Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string initialize_file, double step_width_s, double current_time_jd,
-                 double gravity_constant_m3_s2, std::string section, RelativeInformation* relative_information) {
-  auto conf = IniAccess(initialize_file);
+namespace s2e::dynamics::orbit {
+
+Orbit* InitOrbit(const environment::CelestialInformation* celestial_information, std::string initialize_file, double step_width_s,
+                 double current_time_jd, double gravity_constant_m3_s2, std::string section, simulation::RelativeInformation* relative_information) {
+  auto conf = setting_file_reader::IniAccess(initialize_file);
   const char* section_ = section.c_str();
   Orbit* orbit;
 
@@ -47,8 +49,9 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
     // initialize orbit for relative dynamics of formation flying
     RelativeOrbit::RelativeOrbitUpdateMethod update_method =
         (RelativeOrbit::RelativeOrbitUpdateMethod)(conf.ReadInt(section_, "relative_orbit_update_method"));
-    orbit::RelativeOrbitModel relative_dynamics_model_type = (orbit::RelativeOrbitModel)(conf.ReadInt(section_, "relative_dynamics_model_type"));
-    orbit::StmModel stm_model_type = (orbit::StmModel)(conf.ReadInt(section_, "stm_model_type"));
+    s2e::orbit::RelativeOrbitModel relative_dynamics_model_type =
+        (s2e::orbit::RelativeOrbitModel)(conf.ReadInt(section_, "relative_dynamics_model_type"));
+    s2e::orbit::StmModel stm_model_type = (s2e::orbit::StmModel)(conf.ReadInt(section_, "stm_model_type"));
 
     math::Vector<3> init_relative_position_lvlh;
     conf.ReadVector<3>(section_, "initial_relative_position_lvlh_m", init_relative_position_lvlh);
@@ -63,7 +66,7 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
                               init_relative_velocity_lvlh, update_method, relative_dynamics_model_type, stm_model_type, relative_information);
   } else if (propagate_mode == "KEPLER") {
     // initialize orbit for Kepler propagation
-    orbit::OrbitalElements oe;
+    s2e::orbit::OrbitalElements oe;
     // TODO: init_mode_kepler should be removed in the next major update
     if (initialize_mode == OrbitInitializeMode::kInertialPositionAndVelocity) {
       // initialize with position and velocity
@@ -71,7 +74,7 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
       conf.ReadVector<3>(section_, "initial_position_i_m", init_pos_m);
       math::Vector<3> init_vel_m_s;
       conf.ReadVector<3>(section_, "initial_velocity_i_m_s", init_vel_m_s);
-      oe = orbit::OrbitalElements(gravity_constant_m3_s2, current_time_jd, init_pos_m, init_vel_m_s);
+      oe = s2e::orbit::OrbitalElements(gravity_constant_m3_s2, current_time_jd, init_pos_m, init_vel_m_s);
     } else {
       // initialize with orbital elements
       double semi_major_axis_m = conf.ReadDouble(section_, "semi_major_axis_m");
@@ -80,9 +83,9 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
       double raan_rad = conf.ReadDouble(section_, "raan_rad");
       double arg_perigee_rad = conf.ReadDouble(section_, "argument_of_perigee_rad");
       double epoch_jday = conf.ReadDouble(section_, "epoch_jday");
-      oe = orbit::OrbitalElements(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
+      oe = s2e::orbit::OrbitalElements(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
     }
-    orbit::KeplerOrbit kepler_orbit(gravity_constant_m3_s2, oe);
+    s2e::orbit::KeplerOrbit kepler_orbit(gravity_constant_m3_s2, oe);
     orbit = new KeplerOrbitPropagation(celestial_information, current_time_jd, kepler_orbit);
   } else if (propagate_mode == "ENCKE") {
     // initialize orbit for Encke's method
@@ -127,7 +130,7 @@ Orbit* InitOrbit(const CelestialInformation* celestial_information, std::string 
 }
 
 math::Vector<6> InitializePosVel(std::string initialize_file, double current_time_jd, double gravity_constant_m3_s2, std::string section) {
-  auto conf = IniAccess(initialize_file);
+  auto conf = setting_file_reader::IniAccess(initialize_file);
   const char* section_ = section.c_str();
   math::Vector<3> position_i_m;
   math::Vector<3> velocity_i_m_s;
@@ -141,8 +144,8 @@ math::Vector<6> InitializePosVel(std::string initialize_file, double current_tim
     double raan_rad = conf.ReadDouble(section_, "raan_rad");
     double arg_perigee_rad = conf.ReadDouble(section_, "argument_of_perigee_rad");
     double epoch_jday = conf.ReadDouble(section_, "epoch_jday");
-    orbit::OrbitalElements oe(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
-    orbit::KeplerOrbit kepler_orbit(gravity_constant_m3_s2, oe);
+    s2e::orbit::OrbitalElements oe(epoch_jday, semi_major_axis_m, eccentricity, inclination_rad, raan_rad, arg_perigee_rad);
+    s2e::orbit::KeplerOrbit kepler_orbit(gravity_constant_m3_s2, oe);
 
     kepler_orbit.CalcOrbit(current_time_jd);
     position_i_m = kepler_orbit.GetPosition_i_m();
@@ -159,3 +162,5 @@ math::Vector<6> InitializePosVel(std::string initialize_file, double current_tim
 
   return pos_vel;
 }
+
+}  // namespace s2e::dynamics::orbit

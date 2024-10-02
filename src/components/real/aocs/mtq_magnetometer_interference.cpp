@@ -7,11 +7,13 @@
 
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::components {
+
 MtqMagnetometerInterference::MtqMagnetometerInterference(const std::string file_name, Magnetometer& magnetometer, const Magnetorquer& magnetorquer,
                                                          const size_t initialize_id)
     : magnetometer_(magnetometer), magnetorquer_(magnetorquer) {
   // Read ini file
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
   std::string section = "MTQ_MAGNETOMETER_INTERFERENCE_" + std::to_string(static_cast<long long>(initialize_id));
 
   polynomial_degree_ = (size_t)ini_file.ReadInt(section.c_str(), "polynomial_degree");
@@ -49,3 +51,5 @@ void MtqMagnetometerInterference::UpdateInterference(void) {
   magnetometer_.AddConstantBiasNoise_c_nT(additional_bias_c_nT);
   previous_added_bias_c_nT_ = additional_bias_c_nT;
 }
+
+}  // namespace s2e::components

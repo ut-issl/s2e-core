@@ -2,7 +2,7 @@
 
 #include "bias_sinex_file_reader.hpp"
 
-using namespace gnss;
+using namespace s2e::gnss;
 
 TEST(BiasSinex, Constructor) {
   // File read error check

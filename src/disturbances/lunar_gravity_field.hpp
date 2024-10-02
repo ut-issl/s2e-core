@@ -11,6 +11,9 @@
 #include "../math_physics/gravity/gravity_potential.hpp"
 #include "../math_physics/math/vector.hpp"
 #include "disturbance.hpp"
+
+namespace s2e::disturbances {
+
 /**
  * @class LunarGravityField
  * @brief Class to calculate the high-order earth gravity acceleration
@@ -45,19 +48,19 @@ class LunarGravityField : public Disturbance {
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
    * @param [in] local_environment: Local environment information
-   * @param [in] dynamics: Dynamics information
+   * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment &local_environment, const Dynamics &dynamics);
+  virtual void Update(const environment::LocalEnvironment &local_environment, const dynamics::Dynamics &dynamics);
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -65,10 +68,10 @@ class LunarGravityField : public Disturbance {
   gravity::GravityPotential lunar_potential_;
   double reference_radius_km_;
   double gravity_constants_km3_s2_;
-  size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential
-  std::vector<std::vector<double>> c_;  //!< Cosine coefficients
-  std::vector<std::vector<double>> s_;  //!< Sine coefficients
-  Vector<3> acceleration_mcmf_m_s2_;    //!< Calculated acceleration in the MCMF(Moon Centered Moon Fixed) frame [m/s2]
+  size_t degree_;                           //!< Maximum degree setting to calculate the geo-potential
+  std::vector<std::vector<double>> c_;      //!< Cosine coefficients
+  std::vector<std::vector<double>> s_;      //!< Sine coefficients
+  math::Vector<3> acceleration_mcmf_m_s2_;  //!< Calculated acceleration in the MCMF(Moon Centered Moon Fixed) frame [m/s2]
 
   // debug
   math::Vector<3> debug_pos_mcmf_m_;  //!< Spacecraft position in MCMF frame [m]
@@ -88,5 +91,7 @@ class LunarGravityField : public Disturbance {
  * @param [in] initialize_file_path: Initialize file path
  */
 LunarGravityField InitLunarGravityField(const std::string initialize_file_path);
+
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_LUNAR_GRAVITY_FIELD_HPP_

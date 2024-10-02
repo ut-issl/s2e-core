@@ -12,25 +12,27 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 /*
  * @class PowerControlUnit
  * @brief Component emulation of Power Control Unit
  */
-class PowerControlUnit : public Component, public ILoggable {
+class PowerControlUnit : public Component, public logger::ILoggable {
  public:
   /**
    * @fn PowerControlUnit
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
    */
-  PowerControlUnit(ClockGenerator* clock_generator);
+  PowerControlUnit(environment::ClockGenerator* clock_generator);
   /**
    * @fn PowerControlUnit
    * @brief Constructor
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
    */
-  PowerControlUnit(int prescaler, ClockGenerator* clock_generator);
+  PowerControlUnit(int prescaler, environment::ClockGenerator* clock_generator);
   /**
    * @fn ~PowerControlUnit
    * @brief Destructor
@@ -44,15 +46,15 @@ class PowerControlUnit : public Component, public ILoggable {
    */
   void MainRoutine(const int time_count) override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   std::string GetLogValue() const override;
 
@@ -94,5 +96,7 @@ class PowerControlUnit : public Component, public ILoggable {
  private:
   std::map<int, PowerPort*> power_ports_;  //!< Power port list
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_POWER_POWER_CONTROL_UNIT_HPP_

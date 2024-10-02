@@ -5,7 +5,7 @@
 
 #include "interpolation_orbit.hpp"
 
-namespace orbit {
+namespace s2e::orbit {
 
 InterpolationOrbit::InterpolationOrbit(const size_t degree) {
   std::vector<double> time;
@@ -44,4 +44,5 @@ math::Vector<3> InterpolationOrbit::CalcPositionWithPolynomial(const double time
   }
   return output_position;
 }
-}  // namespace orbit
+
+}  // namespace s2e::orbit

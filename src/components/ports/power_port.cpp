@@ -9,6 +9,8 @@
 #include <setting_file_reader/initialize_file_access.hpp>
 #include <utilities/macros.hpp>
 
+namespace s2e::components {
+
 PowerPort::PowerPort() : kPortId(-1), current_limit_A_(10.0), minimum_voltage_V_(3.3), assumed_power_consumption_W_(0.0) {
   is_on_ = true;  // power on to work the component
   Initialize();
@@ -66,7 +68,7 @@ void PowerPort::SubtractAssumedPowerConsumption_W(const double power_W) {
 }
 
 void PowerPort::InitializeWithInitializeFile(const std::string file_name) {
-  IniAccess initialize_file(file_name);
+  setting_file_reader::IniAccess initialize_file(file_name);
   const std::string section_name = "POWER_PORT";
 
   double minimum_voltage_V = initialize_file.ReadDouble(section_name.c_str(), "minimum_voltage_V");
@@ -74,3 +76,5 @@ void PowerPort::InitializeWithInitializeFile(const std::string file_name) {
   double assumed_power_consumption_W = initialize_file.ReadDouble(section_name.c_str(), "assumed_power_consumption_W");
   this->SetAssumedPowerConsumption_W(assumed_power_consumption_W);
 }
+
+}  // namespace s2e::components

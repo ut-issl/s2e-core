@@ -8,8 +8,10 @@
 #include <math_physics/math/constants.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
-AttitudeObserver::AttitudeObserver(const int prescaler, ClockGenerator* clock_generator, const double standard_deviation_rad,
-                                   const Attitude& attitude)
+namespace s2e::components {
+
+AttitudeObserver::AttitudeObserver(const int prescaler, environment::ClockGenerator* clock_generator, const double standard_deviation_rad,
+                                   const dynamics::attitude::Attitude& attitude)
     : Component(prescaler, clock_generator), angle_noise_(0.0, standard_deviation_rad), attitude_(attitude) {
   direction_noise_.SetParameters(0.0, 1.0);
 }
@@ -34,7 +36,7 @@ std::string AttitudeObserver::GetLogHeader() const {
   std::string str_tmp = "";
 
   std::string head = "attitude_observer_";
-  str_tmp += WriteQuaternion(head + "quaternion", "i2b");
+  str_tmp += logger::WriteQuaternion(head + "quaternion", "i2b");
 
   return str_tmp;
 }
@@ -42,14 +44,15 @@ std::string AttitudeObserver::GetLogHeader() const {
 std::string AttitudeObserver::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteQuaternion(observed_quaternion_i2b_);
+  str_tmp += logger::WriteQuaternion(observed_quaternion_i2b_);
 
   return str_tmp;
 }
 
-AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, const std::string file_name, const Attitude& attitude) {
+AttitudeObserver InitializeAttitudeObserver(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                            const dynamics::attitude::Attitude& attitude) {
   // General
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
 
   // CompoBase
   int prescaler = ini_file.ReadInt("COMPONENT_BASE", "prescaler");
@@ -62,3 +65,5 @@ AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, con
 
   return attitude_observer;
 }
+
+}  // namespace s2e::components

@@ -15,6 +15,8 @@
 #include "moon_rotation.hpp"
 #include "simulation_time.hpp"
 
+namespace s2e::environment {
+
 class MoonRotation;
 
 /**
@@ -22,7 +24,7 @@ class MoonRotation;
  * @brief Class to manage the information related with the celestial bodies
  * @details This class uses SPICE to get the information of celestial bodies
  */
-class CelestialInformation : public ILoggable {
+class CelestialInformation : public logger::ILoggable {
  public:
   /**
    * @fn CelestialInformation
@@ -47,15 +49,15 @@ class CelestialInformation : public ILoggable {
    */
   virtual ~CelestialInformation();
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -280,5 +282,7 @@ class CelestialInformation : public ILoggable {
  *@param [in] file_name: Path to the initialize function
  */
 CelestialInformation* InitCelestialInformation(std::string file_name);
+
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_CELESTIAL_INFORMATION_HPP_

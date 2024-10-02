@@ -13,20 +13,23 @@
 
 #include "../base/component.hpp"
 
+namespace s2e::components {
+
 /*
  * @class AttitudeObserver
  * @brief Ideal component which can observe attitude
  */
-class AttitudeObserver : public Component, public ILoggable {
+class AttitudeObserver : public Component, public logger::ILoggable {
  public:
   /**
    * @fn AttitudeObserver
    * @brief Constructor without power port
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] clock_generator: Clock generator
-   * @param [in] attitude: Attitude information
+   * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  AttitudeObserver(const int prescaler, ClockGenerator* clock_generator, const double standard_deviation_rad, const Attitude& attitude);
+  AttitudeObserver(const int prescaler, environment::ClockGenerator* clock_generator, const double standard_deviation_rad,
+                   const dynamics::attitude::Attitude& attitude);
 
   /**
    * @fn ~AttitudeObserver
@@ -41,15 +44,15 @@ class AttitudeObserver : public Component, public ILoggable {
    */
   void MainRoutine(const int time_count) override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -65,7 +68,7 @@ class AttitudeObserver : public Component, public ILoggable {
   randomization::NormalRand angle_noise_;      //!< Normal random for magnitude noise
   randomization::NormalRand direction_noise_;  //!< Normal random for direction noise
 
-  const Attitude& attitude_;  //!< Attitude information
+  const dynamics::attitude::Attitude& attitude_;  //!< dynamics::attitude::Attitude information
 };
 
 /**
@@ -73,8 +76,11 @@ class AttitudeObserver : public Component, public ILoggable {
  * @brief Initialize functions for AttitudeObserver
  * @param [in] clock_generator: Clock generator
  * @param [in] file_name: Path to the initialize file
- * @param [in] attitude: Attitude information
+ * @param [in] attitude: dynamics::attitude::Attitude information
  */
-AttitudeObserver InitializeAttitudeObserver(ClockGenerator* clock_generator, const std::string file_name, const Attitude& attitude);
+AttitudeObserver InitializeAttitudeObserver(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                            const dynamics::attitude::Attitude& attitude);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_IDEAL_ATTITUDE_OBSERVER_HPP_

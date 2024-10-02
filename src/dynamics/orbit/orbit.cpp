@@ -4,6 +4,8 @@
  */
 #include "orbit.hpp"
 
+namespace s2e::dynamics::orbit {
+
 math::Quaternion Orbit::CalcQuaternion_i2lvlh() const {
   math::Vector<3> lvlh_x = spacecraft_position_i_m_;  // x-axis in LVLH frame is position vector direction from geocenter to satellite
   math::Vector<3> lvlh_ex = lvlh_x.CalcNormalizedVector();
@@ -67,14 +69,14 @@ OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode) {
 std::string Orbit::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector("spacecraft_position", "i", "m", 3);
-  str_tmp += WriteVector("spacecraft_position", "ecef", "m", 3);
-  str_tmp += WriteVector("spacecraft_velocity", "i", "m/s", 3);
-  str_tmp += WriteVector("spacecraft_velocity", "b", "m/s", 3);
-  str_tmp += WriteVector("spacecraft_acceleration", "i", "m/s2", 3);
-  str_tmp += WriteScalar("spacecraft_latitude", "rad");
-  str_tmp += WriteScalar("spacecraft_longitude", "rad");
-  str_tmp += WriteScalar("spacecraft_altitude", "m");
+  str_tmp += logger::WriteVector("spacecraft_position", "i", "m", 3);
+  str_tmp += logger::WriteVector("spacecraft_position", "ecef", "m", 3);
+  str_tmp += logger::WriteVector("spacecraft_velocity", "i", "m/s", 3);
+  str_tmp += logger::WriteVector("spacecraft_velocity", "b", "m/s", 3);
+  str_tmp += logger::WriteVector("spacecraft_acceleration", "i", "m/s2", 3);
+  str_tmp += logger::WriteScalar("spacecraft_latitude", "rad");
+  str_tmp += logger::WriteScalar("spacecraft_longitude", "rad");
+  str_tmp += logger::WriteScalar("spacecraft_altitude", "m");
 
   return str_tmp;
 }
@@ -82,14 +84,16 @@ std::string Orbit::GetLogHeader() const {
 std::string Orbit::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(spacecraft_position_i_m_, 16);
-  str_tmp += WriteVector(spacecraft_position_ecef_m_, 16);
-  str_tmp += WriteVector(spacecraft_velocity_i_m_s_, 10);
-  str_tmp += WriteVector(spacecraft_velocity_b_m_s_, 10);
-  str_tmp += WriteVector(spacecraft_acceleration_i_m_s2_, 10);
-  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLatitude_rad());
-  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetLongitude_rad());
-  str_tmp += WriteScalar(spacecraft_geodetic_position_.GetAltitude_m());
+  str_tmp += logger::WriteVector(spacecraft_position_i_m_, 16);
+  str_tmp += logger::WriteVector(spacecraft_position_ecef_m_, 16);
+  str_tmp += logger::WriteVector(spacecraft_velocity_i_m_s_, 10);
+  str_tmp += logger::WriteVector(spacecraft_velocity_b_m_s_, 10);
+  str_tmp += logger::WriteVector(spacecraft_acceleration_i_m_s2_, 10);
+  str_tmp += logger::WriteScalar(spacecraft_geodetic_position_.GetLatitude_rad());
+  str_tmp += logger::WriteScalar(spacecraft_geodetic_position_.GetLongitude_rad());
+  str_tmp += logger::WriteScalar(spacecraft_geodetic_position_.GetAltitude_m());
 
   return str_tmp;
 }
+
+}  // namespace s2e::dynamics::orbit

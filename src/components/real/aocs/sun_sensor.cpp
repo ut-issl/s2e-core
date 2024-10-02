@@ -5,19 +5,21 @@
 
 #include "sun_sensor.hpp"
 
-#include <math_physics/math/constants.hpp>
-#include <math_physics/randomization/normal_randomization.hpp>
-using randomization::NormalRand;
 #include <logger/log_utility.hpp>
+#include <math_physics/math/constants.hpp>
 #include <math_physics/randomization/global_randomization.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
 using namespace std;
 
-SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
-                     const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
+namespace s2e::components {
+
+SunSensor::SunSensor(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
+                     const math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
-                     const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
+                     const environment::SolarRadiationPressureEnvironment* srp_environment,
+                     const environment::LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
@@ -28,10 +30,11 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, const
   Initialize(random_noise_standard_deviation_rad, bias_noise_standard_deviation_rad);
 }
 
-SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+SunSensor::SunSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                      const math::Quaternion& quaternion_b2c, const double detectable_angle_rad, const double random_noise_standard_deviation_rad,
                      const double bias_noise_standard_deviation_rad, const double intensity_lower_threshold_percent,
-                     const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information)
+                     const environment::SolarRadiationPressureEnvironment* srp_environment,
+                     const environment::LocalCelestialInformation* local_celestial_information)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
@@ -44,7 +47,7 @@ SunSensor::SunSensor(const int prescaler, ClockGenerator* clock_generator, Power
 
 void SunSensor::Initialize(const double random_noise_standard_deviation_rad, const double bias_noise_standard_deviation_rad) {
   // Bias
-  NormalRand nr(0.0, bias_noise_standard_deviation_rad, global_randomization.MakeSeed());
+  randomization::NormalRand nr(0.0, bias_noise_standard_deviation_rad, randomization::global_randomization.MakeSeed());
   bias_noise_alpha_rad_ += nr;
   bias_noise_beta_rad_ += nr;
 
@@ -136,8 +139,8 @@ string SunSensor::GetLogHeader() const {
   const string sensor_id = std::to_string(static_cast<long long>(component_id_));
   std::string sensor_name = "sun_sensor" + sensor_id + "_";
 
-  str_tmp += WriteVector(sensor_name + "measured_sun_direction", "c", "-", 3);
-  str_tmp += WriteScalar(sensor_name + "sun_detected_flag", "-");
+  str_tmp += logger::WriteVector(sensor_name + "measured_sun_direction", "c", "-", 3);
+  str_tmp += logger::WriteScalar(sensor_name + "sun_detected_flag", "-");
 
   return str_tmp;
 }
@@ -145,15 +148,16 @@ string SunSensor::GetLogHeader() const {
 string SunSensor::GetLogValue() const {
   string str_tmp = "";
 
-  str_tmp += WriteVector(measured_sun_direction_c_);
-  str_tmp += WriteScalar(double(sun_detected_flag_));
+  str_tmp += logger::WriteVector(measured_sun_direction_c_);
+  str_tmp += logger::WriteScalar(double(sun_detected_flag_));
 
   return str_tmp;
 }
 
-SunSensor InitSunSensor(ClockGenerator* clock_generator, int ss_id, std::string file_name, const SolarRadiationPressureEnvironment* srp_environment,
-                        const LocalCelestialInformation* local_celestial_information) {
-  IniAccess ss_conf(file_name);
+SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, int ss_id, std::string file_name,
+                        const environment::SolarRadiationPressureEnvironment* srp_environment,
+                        const environment::LocalCelestialInformation* local_celestial_information) {
+  setting_file_reader::IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
   const char* Section = section_tmp.c_str();
@@ -184,9 +188,10 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, int ss_id, std::string 
   return ss;
 }
 
-SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, int ss_id, std::string file_name,
-                        const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information) {
-  IniAccess ss_conf(file_name);
+SunSensor InitSunSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int ss_id, std::string file_name,
+                        const environment::SolarRadiationPressureEnvironment* srp_environment,
+                        const environment::LocalCelestialInformation* local_celestial_information) {
+  setting_file_reader::IniAccess ss_conf(file_name);
   const char* sensor_name = "SUN_SENSOR_";
   const std::string section_tmp = sensor_name + std::to_string(static_cast<long long>(ss_id));
   const char* Section = section_tmp.c_str();
@@ -218,3 +223,5 @@ SunSensor InitSunSensor(ClockGenerator* clock_generator, PowerPort* power_port, 
                intensity_lower_threshold_percent, srp_environment, local_celestial_information);
   return ss;
 }
+
+}  // namespace s2e::components

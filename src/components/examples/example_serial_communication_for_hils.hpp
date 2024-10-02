@@ -11,6 +11,8 @@
 #include "../base/component.hpp"
 #include "../base/uart_communication_with_obc.hpp"
 
+namespace s2e::components {
+
 /**
  * @class ExampleSerialCommunicationForHils
  * @brief Example of component emulation for communication in HILS environment
@@ -34,8 +36,9 @@ class ExampleSerialCommunicationForHils : public Component, public UartCommunica
    * @param [in] hils_port_manager: HILS port manager
    * @param [in] mode_id: Mode ID to select sender(0) or responder(1)
    */
-  ExampleSerialCommunicationForHils(ClockGenerator* clock_generator, const int sils_port_id, OnBoardComputer* obc, const unsigned int hils_port_id,
-                                    const unsigned int baud_rate, HilsPortManager* hils_port_manager, const int mode_id);
+  ExampleSerialCommunicationForHils(environment::ClockGenerator* clock_generator, const int sils_port_id, OnBoardComputer* obc,
+                                    const unsigned int hils_port_id, const unsigned int baud_rate, simulation::HilsPortManager* hils_port_manager,
+                                    const int mode_id);
   /**
    * @fn ~ExampleSerialCommunicationForHils
    * @brief Destructor
@@ -70,5 +73,7 @@ class ExampleSerialCommunicationForHils : public Component, public UartCommunica
    */
   int GenerateTelemetry() override;
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_SERIAL_COMMUNICATION_FOR_HILS_HPP_

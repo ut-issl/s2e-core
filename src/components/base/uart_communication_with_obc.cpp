@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+namespace s2e::components {
+
 UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int sils_port_id, OnBoardComputer* obc) : sils_port_id_(sils_port_id), obc_(obc) {
 #ifdef USE_HILS
   simulation_mode_ = SimulationMode::kError;
@@ -33,7 +35,8 @@ UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int sils_port_
   InitializeObcComBase();
 }
 
-UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate, HilsPortManager* hils_port_manager)
+UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate,
+                                                   simulation::HilsPortManager* hils_port_manager)
     : hils_port_id_(hils_port_id), baud_rate_(baud_rate), hils_port_manager_(hils_port_manager) {
 #ifdef USE_HILS
   simulation_mode_ = SimulationMode::kHils;
@@ -47,7 +50,7 @@ UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int hils_port_
 }
 
 UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
-                                                   const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager)
+                                                   const unsigned int rx_buffer_size, simulation::HilsPortManager* hils_port_manager)
     : hils_port_id_(hils_port_id),
       baud_rate_(baud_rate),
       tx_buffer_size_(tx_buffer_size),
@@ -65,7 +68,7 @@ UartCommunicationWithObc::UartCommunicationWithObc(const unsigned int hils_port_
 }
 
 UartCommunicationWithObc::UartCommunicationWithObc(const int sils_port_id, OnBoardComputer* obc, const unsigned int hils_port_id,
-                                                   const unsigned int baud_rate, HilsPortManager* hils_port_manager)
+                                                   const unsigned int baud_rate, simulation::HilsPortManager* hils_port_manager)
     : sils_port_id_(sils_port_id), hils_port_id_(hils_port_id), baud_rate_(baud_rate), obc_(obc), hils_port_manager_(hils_port_manager) {
 #ifdef USE_HILS
   simulation_mode_ = SimulationMode::kHils;
@@ -173,3 +176,5 @@ int UartCommunicationWithObc::SendTelemetry(const unsigned int offset) {
       return -1;
   }
 }
+
+}  // namespace s2e::components

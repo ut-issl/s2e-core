@@ -11,14 +11,15 @@
 
 #include "attitude.hpp"
 
-namespace numerical_integration {
+namespace s2e::dynamics::attitude {
+
 /**
  * @class AttitudeWithCantileverVibrationOde
  * @brief Class to implement Ordinary Differential Equations for Attitude with Cantilever Vibration
  * @note  State variables in this ODE compose the following elenents (in order): angular_velocity_b_rad_s_ (3-dimension),
  *        angular_velocity_cantilever_rad_s_ (3-dimension), quaternion_i2b_ (4-dmension), and euler_angular_cantilever_rad_ (3-dimension)
  */
-class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
+class AttitudeWithCantileverVibrationOde : public numerical_integration::InterfaceOde<13> {
  public:
   /**
    * @fn SetStateFromPhysicalQuantities
@@ -221,6 +222,6 @@ class AttitudeWithCantileverVibrationOde : public InterfaceOde<13> {
   math::Matrix<3, 3> inverse_equivalent_inertia_tensor_cantilever_{0.0};  //!< Inverse of inertia tensor of the cantilever
 };
 
-}  // namespace numerical_integration
+}  // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ODE_ATTITUDE_WITH_CANTILEVER_VIBRATION_HPP_

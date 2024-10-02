@@ -7,12 +7,14 @@
 
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 bool CsvScenarioInterface::is_csv_scenario_enabled_;
 std::map<std::string, unsigned int> CsvScenarioInterface::buffer_line_id_;
 std::map<std::string, DoubleBuffer> CsvScenarioInterface::buffers_;
 
 void CsvScenarioInterface::Initialize(const std::string file_name) {
-  IniAccess scenario_conf(file_name);
+  setting_file_reader::IniAccess scenario_conf(file_name);
   char Section[30] = "SCENARIO";
 
   CsvScenarioInterface::is_csv_scenario_enabled_ = scenario_conf.ReadBoolean(Section, "is_csv_scenario_enabled");
@@ -92,3 +94,5 @@ double CsvScenarioInterface::GetValueFromBuffer(const std::string buffer_name, c
   output = itr->second;
   return output;
 }
+
+}  // namespace s2e::components

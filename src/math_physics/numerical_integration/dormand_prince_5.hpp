@@ -11,7 +11,7 @@
 
 #include "embedded_runge_kutta.hpp"
 
-namespace numerical_integration {
+namespace s2e::numerical_integration {
 
 /**
  * @class DormandPrince5
@@ -46,7 +46,7 @@ class DormandPrince5 : public EmbeddedRungeKutta<N> {
   std::vector<double> CalcInterpolationWeights(const double sigma) const;
 };
 
-}  // namespace numerical_integration
+}  // namespace s2e::numerical_integration
 
 #include "dormand_prince_5_implementation.hpp"
 

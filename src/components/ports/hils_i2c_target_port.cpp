@@ -5,6 +5,8 @@
 
 #include "hils_i2c_target_port.hpp"
 
+namespace s2e::components {
+
 // #define HILS_I2C_TARGET_PORT_SHOW_DEBUG_DATA //!< Remove comment when you want to show the debug message
 
 // FIXME: The magic number. This is depending on the converter.
@@ -105,3 +107,5 @@ int HilsI2cTargetPort::Send(const unsigned char data_length)  // to I2C-USB Targ
 }
 
 int HilsI2cTargetPort::GetStoredFrameCounter() { return stored_frame_counter_; }
+
+}  // namespace s2e::components

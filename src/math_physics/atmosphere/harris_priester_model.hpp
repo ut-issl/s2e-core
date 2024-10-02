@@ -9,7 +9,7 @@
 #include <math_physics/geodesy/geodetic_position.hpp>
 #include <math_physics/math/vector.hpp>
 
-namespace atmosphere {
+namespace s2e::atmosphere {
 
 /**
  * @fn CalcAirDensityWithHarrisPriester
@@ -23,6 +23,6 @@ namespace atmosphere {
 double CalcAirDensityWithHarrisPriester_kg_m3(const geodesy::GeodeticPosition geodetic_position, const math::Vector<3> sun_direction_eci,
                                               const double f10_7 = 100.0, const double exponent_parameter = 4);
 
-}  // namespace atmosphere
+}  // namespace s2e::atmosphere
 
 #endif  // S2E_LIBRARY_HARRIS_PRIESTER_HPP_

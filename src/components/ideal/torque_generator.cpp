@@ -8,9 +8,12 @@
 #include <cfloat>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 // Constructor
-TorqueGenerator::TorqueGenerator(const int prescaler, ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_Nm,
-                                 const double direction_error_standard_deviation_rad, const Dynamics* dynamics)
+TorqueGenerator::TorqueGenerator(const int prescaler, environment::ClockGenerator* clock_generator,
+                                 const double magnitude_error_standard_deviation_Nm, const double direction_error_standard_deviation_rad,
+                                 const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       magnitude_noise_(0.0, magnitude_error_standard_deviation_Nm),
       direction_error_standard_deviation_rad_(direction_error_standard_deviation_rad),
@@ -43,8 +46,8 @@ std::string TorqueGenerator::GetLogHeader() const {
   std::string str_tmp = "";
 
   std::string head = "ideal_torque_generator_";
-  str_tmp += WriteVector(head + "ordered_torque", "b", "Nm", 3);
-  str_tmp += WriteVector(head + "generated_torque", "b", "Nm", 3);
+  str_tmp += logger::WriteVector(head + "ordered_torque", "b", "Nm", 3);
+  str_tmp += logger::WriteVector(head + "generated_torque", "b", "Nm", 3);
 
   return str_tmp;
 }
@@ -52,8 +55,8 @@ std::string TorqueGenerator::GetLogHeader() const {
 std::string TorqueGenerator::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(ordered_torque_b_Nm_);
-  str_tmp += WriteVector(generated_torque_b_Nm_);
+  str_tmp += logger::WriteVector(ordered_torque_b_Nm_);
+  str_tmp += logger::WriteVector(generated_torque_b_Nm_);
 
   return str_tmp;
 }
@@ -78,9 +81,10 @@ math::Quaternion TorqueGenerator::GenerateDirectionNoiseQuaternion(math::Vector<
   return error_quaternion;
 }
 
-TorqueGenerator InitializeTorqueGenerator(ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics) {
+TorqueGenerator InitializeTorqueGenerator(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                          const dynamics::Dynamics* dynamics) {
   // General
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
 
   // CompoBase
   int prescaler = ini_file.ReadInt("COMPONENT_BASE", "prescaler");
@@ -96,3 +100,5 @@ TorqueGenerator InitializeTorqueGenerator(ClockGenerator* clock_generator, const
 
   return torque_generator;
 }
+
+}  // namespace s2e::components

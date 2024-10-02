@@ -16,6 +16,8 @@
 
 #include "../../base/component.hpp"
 
+namespace s2e::components {
+
 /**
  * @enum AntennaModel
  * @brief Antenna pattern model to emulate GNSS antenna
@@ -40,7 +42,7 @@ typedef struct _gnss_info {
  * @class GnssReceiver
  * @brief Class to emulate GNSS receiver
  */
-class GnssReceiver : public Component, public ILoggable {
+class GnssReceiver : public Component, public logger::ILoggable {
  public:
   /**
    * @fn GnssReceiver
@@ -58,10 +60,11 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simulation_time: Simulation time information
    */
-  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
+  GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
                const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
                const math::Vector<3> position_noise_standard_deviation_ecef_m, const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
-               const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+               const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
+               const environment::SimulationTime* simulation_time);
   /**
    * @fn GnssReceiver
    * @brief Constructor with power port
@@ -78,11 +81,11 @@ class GnssReceiver : public Component, public ILoggable {
    * @param [in] gnss_satellites: GNSS Satellites information
    * @param [in] simulation_time: Simulation time information
    */
-  GnssReceiver(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
+  GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                const double half_width_deg, const math::Vector<3> position_noise_standard_deviation_ecef_m,
-               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const Dynamics* dynamics, const GnssSatellites* gnss_satellites,
-               const SimulationTime* simulation_time);
+               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const dynamics::Dynamics* dynamics,
+               const environment::GnssSatellites* gnss_satellites, const environment::SimulationTime* simulation_time);
 
   // Override functions for Component
   /**
@@ -114,15 +117,15 @@ class GnssReceiver : public Component, public ILoggable {
    */
   inline const math::Vector<3> GetMeasuredVelocity_ecef_m_s(void) const { return velocity_ecef_m_s_; }
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -144,9 +147,9 @@ class GnssReceiver : public Component, public ILoggable {
   geodesy::GeodeticPosition geodetic_position_;                  //!< Observed position in the geodetic frame
 
   // Time observation
-  UTC utc_ = {2000, 1, 1, 0, 0, 0.0};  //!< Observed time in UTC [year, month, day, hour, min, sec]
-  unsigned int gps_time_week_ = 0;     //!< Observed GPS time week part
-  double gps_time_s_ = 0.0;            //!< Observed GPS time second part
+  environment::UTC utc_ = {2000, 1, 1, 0, 0, 0.0};  //!< Observed time in UTC [year, month, day, hour, min, sec]
+  unsigned int gps_time_week_ = 0;                  //!< Observed GPS time week part
+  double gps_time_s_ = 0.0;                         //!< Observed GPS time second part
 
   // Satellite visibility
   bool is_gnss_visible_ = false;                 //!< Flag for GNSS satellite is visible or not
@@ -154,9 +157,9 @@ class GnssReceiver : public Component, public ILoggable {
   std::vector<GnssInfo> gnss_information_list_;  //!< Information List of visible GNSS satellites
 
   // References
-  const Dynamics* dynamics_;               //!< Dynamics of spacecraft
-  const GnssSatellites* gnss_satellites_;  //!< Information of GNSS satellites
-  const SimulationTime* simulation_time_;  //!< Simulation time
+  const dynamics::Dynamics* dynamics_;                  //!< Dynamics of spacecraft
+  const environment::GnssSatellites* gnss_satellites_;  //!< Information of GNSS satellites
+  const environment::SimulationTime* simulation_time_;  //!< Simulation time
 
   // Internal Functions
   /**
@@ -224,8 +227,9 @@ AntennaModel SetAntennaModel(const std::string antenna_model);
  * @param [in] gnss_satellites: GNSS satellites information
  * @param [in] simulation_time: Simulation time information
  */
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, const size_t component_id, const std::string file_name, const Dynamics* dynamics,
-                              const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, const size_t component_id, const std::string file_name,
+                              const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
+                              const environment::SimulationTime* simulation_time);
 /**
  * @fn InitGnssReceiver
  * @brief Initialize functions for GNSS Receiver with power port
@@ -237,7 +241,10 @@ GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, const size_t comp
  * @param [in] gnss_satellites: GNSS satellites information
  * @param [in] simulation_time: Simulation time information
  */
-GnssReceiver InitGnssReceiver(ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id, const std::string file_name,
-                              const Dynamics* dynamics, const GnssSatellites* gnss_satellites, const SimulationTime* simulation_time);
+GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
+                              const std::string file_name, const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
+                              const environment::SimulationTime* simulation_time);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_GNSS_RECEIVER_HPP_

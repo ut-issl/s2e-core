@@ -9,6 +9,8 @@
 #include "magnetometer.hpp"
 #include "magnetorquer.hpp"
 
+namespace s2e::components {
+
 /**
  * @class MtqMagnetometerInterference
  * @brief Class for MTQ Magnetometer interference
@@ -37,5 +39,7 @@ class MtqMagnetometerInterference {
   Magnetometer& magnetometer_;        //!< Magnetometer
   const Magnetorquer& magnetorquer_;  //!< Magnetorquer
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MTQ_MAGNETOMETER_INTERFERENCE_HPP_

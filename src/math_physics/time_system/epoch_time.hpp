@@ -10,7 +10,7 @@
 
 #include "date_time_format.hpp"
 
-namespace time_system {
+namespace s2e::time_system {
 
 class DateTime;
 
@@ -69,6 +69,6 @@ class EpochTime {
   double fraction_s_;  //!< Fraction of second under 1 sec [0, 1)
 };
 
-}  // namespace time_system
+}  // namespace s2e::time_system
 
 #endif  // S2E_LIBRARY_TIME_SYSTEM_EPOCH_TIME_HPP_

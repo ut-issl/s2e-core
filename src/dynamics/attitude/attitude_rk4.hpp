@@ -8,6 +8,8 @@
 
 #include "attitude.hpp"
 
+namespace s2e::dynamics::attitude {
+
 /**
  * @class AttitudeRk4
  * @brief Class to calculate spacecraft attitude with Runge-Kutta method
@@ -44,7 +46,7 @@ class AttitudeRk4 : public Attitude {
    * @brief Set parameters for Monte-Carlo simulation
    * @param [in] mc_simulator: Monte-Carlo simulation executor
    */
-  virtual void SetParameters(const MonteCarloSimulationExecutor& mc_simulator);
+  virtual void SetParameters(const simulation::MonteCarloSimulationExecutor& mc_simulator);
 
  private:
   double current_propagation_time_s_;                  //!< current time [sec]
@@ -67,5 +69,7 @@ class AttitudeRk4 : public Attitude {
    */
   void RungeKuttaOneStep(double t, double dt);
 };
+
+}  // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_RK4_HPP_

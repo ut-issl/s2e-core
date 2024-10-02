@@ -9,11 +9,13 @@
 #include "environment/global/physical_constants.hpp"
 #include "environment/local/local_celestial_information.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class SolarRadiationPressureEnvironment
  * @brief Class to calculate Solar Radiation Pressure
  */
-class SolarRadiationPressureEnvironment : public ILoggable {
+class SolarRadiationPressureEnvironment : public logger::ILoggable {
  public:
   bool IsCalcEnabled = true;  //!< Calculation flag
 
@@ -78,15 +80,15 @@ class SolarRadiationPressureEnvironment : public ILoggable {
    */
   inline bool GetIsEclipsed() const { return (shadow_coefficient_ >= 1.0 ? false : true); }
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -121,5 +123,7 @@ class SolarRadiationPressureEnvironment : public ILoggable {
  */
 SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::string initialize_file_path,
                                                                         LocalCelestialInformation* local_celestial_information);
+
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_SOLAR_RADIATION_PRESSURE_ENVIRONMENT_HPP_

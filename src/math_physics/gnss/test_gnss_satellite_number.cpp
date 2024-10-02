@@ -6,7 +6,7 @@
 
 #include "gnss_satellite_number.hpp"
 
-using namespace gnss;
+using namespace s2e::gnss;
 
 /**
  * @brief Test satellite number to index

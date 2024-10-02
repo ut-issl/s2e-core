@@ -11,11 +11,13 @@
 #include "../ground_station/sample_ground_station.hpp"
 #include "../spacecraft/sample_spacecraft.hpp"
 
+namespace s2e::sample {
+
 /**
  * @class SampleCase
  * @brief An example of user defined simulation class
  */
-class SampleCase : public SimulationCase {
+class SampleCase : public simulation::SimulationCase {
  public:
   /**
    * @fn SampleCase
@@ -56,5 +58,7 @@ class SampleCase : public SimulationCase {
    */
   void UpdateTargetObjects();
 };
+
+}  // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_CASE_SAMPLE_CASE_HPP_

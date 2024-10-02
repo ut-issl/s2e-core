@@ -12,6 +12,8 @@
 #include "attitude.hpp"
 #include "ode_attitude_with_cantilever_vibration.hpp"
 
+namespace s2e::dynamics::attitude {
+
 /**
  * @class AttitudeWithCantileverVibration
  * @brief Class to calculate spacecraft attitude with cantilever vibration
@@ -49,15 +51,15 @@ class AttitudeWithCantileverVibration : public Attitude {
    */
   virtual void Propagate(const double end_time_s);
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -66,15 +68,17 @@ class AttitudeWithCantileverVibration : public Attitude {
    * @brief Set parameters for Monte-Carlo simulation
    * @param [in] mc_simulator: Monte-Carlo simulation executor
    */
-  virtual void SetParameters(const MonteCarloSimulationExecutor& mc_simulator);
+  virtual void SetParameters(const simulation::MonteCarloSimulationExecutor& mc_simulator);
 
  private:
   double current_propagation_time_s_;                       //!< current time [sec]
   math::Vector<3> angular_velocity_cantilever_rad_s_{0.0};  //!< Angular velocity of the cantilever with respect to the body frame [rad/s]
   math::Vector<3> euler_angular_cantilever_rad_{0.0};       //!< Euler angle of the cantilever with respect to the body frame [rad/s]
 
-  numerical_integration::AttitudeWithCantileverVibrationOde attitude_ode_;
+  AttitudeWithCantileverVibrationOde attitude_ode_;
   numerical_integration::NumericalIntegratorManager<13> numerical_integrator_;
 };
+
+}  // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_WITH_CANTILEVER_VIBRATION_HPP_

@@ -10,6 +10,8 @@
 #include "../../math_physics/orbit/kepler_orbit.hpp"
 #include "orbit.hpp"
 
+namespace s2e::dynamics::orbit {
+
 /**
  * @class EnckeOrbitPropagation
  * @brief Class to propagate spacecraft orbit with Encke's method
@@ -27,9 +29,9 @@ class EnckeOrbitPropagation : public Orbit, public math::OrdinaryDifferentialEqu
    * @param [in] velocity_i_m_s: Initial value of velocity in the inertial frame [m/s]
    * @param [in] error_tolerance: Error tolerance threshold
    */
-  EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double gravity_constant_m3_s2, const double propagation_step_s,
-                        const double current_time_jd, const math::Vector<3> position_i_m, const math::Vector<3> velocity_i_m_s,
-                        const double error_tolerance);
+  EnckeOrbitPropagation(const environment::CelestialInformation* celestial_information, const double gravity_constant_m3_s2,
+                        const double propagation_step_s, const double current_time_jd, const math::Vector<3> position_i_m,
+                        const math::Vector<3> velocity_i_m_s, const double error_tolerance);
   /**
    * @fn ~EnckeOrbitPropagation
    * @brief Destructor
@@ -63,9 +65,9 @@ class EnckeOrbitPropagation : public Orbit, public math::OrdinaryDifferentialEqu
   double propagation_time_s_;            //!< Simulation current time for numerical integration by RK4
 
   // reference orbit
-  math::Vector<3> reference_position_i_m_;    //!< Reference orbit position in the inertial frame [m]
-  math::Vector<3> reference_velocity_i_m_s_;  //!< Reference orbit velocity in the inertial frame [m/s]
-  orbit::KeplerOrbit reference_kepler_orbit;  //!< Reference Kepler orbital element
+  math::Vector<3> reference_position_i_m_;         //!< Reference orbit position in the inertial frame [m]
+  math::Vector<3> reference_velocity_i_m_s_;       //!< Reference orbit velocity in the inertial frame [m/s]
+  s2e::orbit::KeplerOrbit reference_kepler_orbit;  //!< Reference Kepler orbital element
 
   // difference orbit
   math::Vector<3> difference_position_i_m_;    //!< Difference orbit position in the inertial frame [m]
@@ -92,5 +94,7 @@ class EnckeOrbitPropagation : public Orbit, public math::OrdinaryDifferentialEqu
    */
   double CalcQFunction(const math::Vector<3> difference_position_i_m);
 };
+
+}  // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_ENCKE_ORBIT_PROPAGATION_HPP_

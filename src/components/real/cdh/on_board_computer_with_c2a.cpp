@@ -26,20 +26,22 @@
 #endif  // c2a-core version header
 #endif  // USE_C2A
 
+namespace s2e::components {
+
 std::map<int, UartPort*> ObcWithC2a::com_ports_c2a_;
 std::map<int, I2cPort*> ObcWithC2a::i2c_com_ports_c2a_;
 std::map<int, GpioPort*> ObcWithC2a::gpio_ports_c2a_;
 
-ObcWithC2a::ObcWithC2a(ClockGenerator* clock_generator) : OnBoardComputer(clock_generator), timing_regulator_(1) {
+ObcWithC2a::ObcWithC2a(environment::ClockGenerator* clock_generator) : OnBoardComputer(clock_generator), timing_regulator_(1) {
   // Initialize();
 }
 
-ObcWithC2a::ObcWithC2a(ClockGenerator* clock_generator, int timing_regulator)
+ObcWithC2a::ObcWithC2a(environment::ClockGenerator* clock_generator, int timing_regulator)
     : OnBoardComputer(clock_generator), timing_regulator_(timing_regulator) {
   // Initialize();
 }
 
-ObcWithC2a::ObcWithC2a(int prescaler, ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port)
+ObcWithC2a::ObcWithC2a(int prescaler, environment::ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port)
     : OnBoardComputer(prescaler, clock_generator, power_port), timing_regulator_(timing_regulator) {
   // Initialize();
 }
@@ -256,3 +258,5 @@ bool ObcWithC2a::GpioRead_C2A(int port_id) {
 int OBC_C2A_GpioWrite(int port_id, const bool is_high) { return ObcWithC2a::GpioWrite_C2A(port_id, is_high); }
 
 bool OBC_C2A_GpioRead(int port_id) { return ObcWithC2a::GpioRead_C2A(port_id); }
+
+}  // namespace s2e::components

@@ -9,10 +9,12 @@
 #include <environment/global/clock_generator.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
-SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
-                                 double cell_area_m2, math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
-                                 const SolarRadiationPressureEnvironment* srp_environment,
-                                 const LocalCelestialInformation* local_celestial_information, double component_step_time_s)
+namespace s2e::components {
+
+SolarArrayPanel::SolarArrayPanel(const int prescaler, environment::ClockGenerator* clock_generator, int component_id, int number_of_series,
+                                 int number_of_parallel, double cell_area_m2, math::Vector<3> normal_vector, double cell_efficiency,
+                                 double transmission_efficiency, const environment::SolarRadiationPressureEnvironment* srp_environment,
+                                 const environment::LocalCelestialInformation* local_celestial_information, double component_step_time_s)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       number_of_series_(number_of_series),
@@ -28,9 +30,10 @@ SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_gene
   power_generation_W_ = 0.0;
 }
 
-SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
-                                 double cell_area_m2, math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
-                                 const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s)
+SolarArrayPanel::SolarArrayPanel(const int prescaler, environment::ClockGenerator* clock_generator, int component_id, int number_of_series,
+                                 int number_of_parallel, double cell_area_m2, math::Vector<3> normal_vector, double cell_efficiency,
+                                 double transmission_efficiency, const environment::SolarRadiationPressureEnvironment* srp_environment,
+                                 double component_step_time_s)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       number_of_series_(number_of_series),
@@ -45,10 +48,10 @@ SolarArrayPanel::SolarArrayPanel(const int prescaler, ClockGenerator* clock_gene
   power_generation_W_ = 0.0;
 }
 
-SolarArrayPanel::SolarArrayPanel(ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel, double cell_area_m2,
-                                 math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
-                                 const SolarRadiationPressureEnvironment* srp_environment,
-                                 const LocalCelestialInformation* local_celestial_information)
+SolarArrayPanel::SolarArrayPanel(environment::ClockGenerator* clock_generator, int component_id, int number_of_series, int number_of_parallel,
+                                 double cell_area_m2, math::Vector<3> normal_vector, double cell_efficiency, double transmission_efficiency,
+                                 const environment::SolarRadiationPressureEnvironment* srp_environment,
+                                 const environment::LocalCelestialInformation* local_celestial_information)
     : Component(10, clock_generator),
       component_id_(component_id),
       number_of_series_(number_of_series),
@@ -85,13 +88,13 @@ SolarArrayPanel::~SolarArrayPanel() {}
 std::string SolarArrayPanel::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "sap" + std::to_string(component_id_) + "_";
-  str_tmp += WriteScalar(component_name + "generated_power", "W");
+  str_tmp += logger::WriteScalar(component_name + "generated_power", "W");
   return str_tmp;
 }
 
 std::string SolarArrayPanel::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar(power_generation_W_);
+  str_tmp += logger::WriteScalar(power_generation_W_);
   return str_tmp;
 }
 
@@ -114,10 +117,10 @@ void SolarArrayPanel::MainRoutine(const int time_count) {
   if (power_generation_W_ < 0) power_generation_W_ = 0.0;
 }
 
-SolarArrayPanel InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_name,
-                        const SolarRadiationPressureEnvironment* srp_environment, const LocalCelestialInformation* local_celestial_information,
-                        double component_step_time_s) {
-  IniAccess sap_conf(file_name);
+SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id, const std::string file_name,
+                        const environment::SolarRadiationPressureEnvironment* srp_environment,
+                        const environment::LocalCelestialInformation* local_celestial_information, double component_step_time_s) {
+  setting_file_reader::IniAccess sap_conf(file_name);
 
   const std::string section_name = "SOLAR_ARRAY_PANEL_" + std::to_string(static_cast<long long>(sap_id));
 
@@ -148,9 +151,9 @@ SolarArrayPanel InitSAP(ClockGenerator* clock_generator, int sap_id, const std::
   return sap;
 }
 
-SolarArrayPanel InitSAP(ClockGenerator* clock_generator, int sap_id, const std::string file_name,
-                        const SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s) {
-  IniAccess sap_conf(file_name);
+SolarArrayPanel InitSAP(environment::ClockGenerator* clock_generator, int sap_id, const std::string file_name,
+                        const environment::SolarRadiationPressureEnvironment* srp_environment, double component_step_time_s) {
+  setting_file_reader::IniAccess sap_conf(file_name);
 
   const std::string section_name = "SOLAR_ARRAY_PANEL_" + std::to_string(static_cast<long long>(sap_id));
 
@@ -180,3 +183,5 @@ SolarArrayPanel InitSAP(ClockGenerator* clock_generator, int sap_id, const std::
 
   return sap;
 }
+
+}  // namespace s2e::components

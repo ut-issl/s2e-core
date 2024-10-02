@@ -11,6 +11,9 @@
 #include "../math_physics/gravity/gravity_potential.hpp"
 #include "../math_physics/math/vector.hpp"
 #include "disturbance.hpp"
+
+namespace s2e::disturbances {
+
 /**
  * @class Geopotential
  * @brief Class to calculate the high-order earth gravity acceleration
@@ -43,28 +46,28 @@ class Geopotential : public Disturbance {
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
    * @param [in] local_environment: Local environment information
-   * @param [in] dynamics: Dynamics information
+   * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment &local_environment, const Dynamics &dynamics);
+  virtual void Update(const environment::LocalEnvironment &local_environment, const dynamics::Dynamics &dynamics);
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
  private:
-  gravity::GravityPotential geopotential_;
-  size_t degree_;                       //!< Maximum degree setting to calculate the geo-potential
-  std::vector<std::vector<double>> c_;  //!< Cosine coefficients
-  std::vector<std::vector<double>> s_;  //!< Sine coefficients
-  Vector<3> acceleration_ecef_m_s2_;    //!< Calculated acceleration in the ECEF frame [m/s2]
+  s2e::gravity::GravityPotential geopotential_;
+  size_t degree_;                           //!< Maximum degree setting to calculate the geo-potential
+  std::vector<std::vector<double>> c_;      //!< Cosine coefficients
+  std::vector<std::vector<double>> s_;      //!< Sine coefficients
+  math::Vector<3> acceleration_ecef_m_s2_;  //!< Calculated acceleration in the ECEF frame [m/s2]
 
   // debug
   math::Vector<3> debug_pos_ecef_m_;  //!< Spacecraft position in ECEF frame [m]
@@ -84,5 +87,7 @@ class Geopotential : public Disturbance {
  * @param [in] initialize_file_path: Initialize file path
  */
 Geopotential InitGeopotential(const std::string initialize_file_path);
+
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_GEOPOTENTIAL_HPP_

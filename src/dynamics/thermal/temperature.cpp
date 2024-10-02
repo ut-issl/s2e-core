@@ -14,10 +14,13 @@
 
 using namespace std;
 
+namespace s2e::dynamics::thermal {
+
 Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, const vector<vector<double>> radiation_matrix_m2, vector<Node> nodes,
                          vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const size_t node_num,
-                         const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment, const EarthAlbedo* earth_albedo,
-                         const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug)
+                         const double propagation_step_s, const environment::SolarRadiationPressureEnvironment* srp_environment,
+                         const environment::EarthAlbedo* earth_albedo, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting,
+                         const bool debug)
     : conductance_matrix_W_K_(conductance_matrix_W_K),
       radiation_matrix_m2_(radiation_matrix_m2),
       nodes_(nodes),
@@ -48,7 +51,7 @@ Temperature::Temperature() {
 
 Temperature::~Temperature() {}
 
-void Temperature::Propagate(const LocalCelestialInformation* local_celestial_information, const double time_end_s) {
+void Temperature::Propagate(const environment::LocalCelestialInformation* local_celestial_information, const double time_end_s) {
   if (!is_calc_enabled_) return;
   while (time_end_s - propagation_time_s_ - propagation_step_s_ > 1.0e-6) {
     CalcRungeOneStep(propagation_time_s_, propagation_step_s_, local_celestial_information, node_num_);
@@ -91,7 +94,7 @@ void Temperature::Propagate(const LocalCelestialInformation* local_celestial_inf
   }
 }
 
-void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, const LocalCelestialInformation* local_celestial_information,
+void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, const environment::LocalCelestialInformation* local_celestial_information,
                                    size_t node_num) {
   vector<double> temperatures_now_K(node_num);
   for (size_t i = 0; i < node_num; i++) {
@@ -129,7 +132,7 @@ void Temperature::CalcRungeOneStep(double time_now_s, double time_step_s, const 
 }
 
 vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperatures_K, double t,
-                                                         const LocalCelestialInformation* local_celestial_information, size_t node_num) {
+                                                         const environment::LocalCelestialInformation* local_celestial_information, size_t node_num) {
   // TODO: consider the following unused arguments are really needed
   UNUSED(temperatures_K);
 
@@ -194,14 +197,14 @@ string Temperature::GetLogHeader() const {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
       string str_node = "temp_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
-      str_tmp += WriteScalar(str_node, "deg");
+      str_tmp += logger::WriteScalar(str_node, "deg");
     }
   }
   for (size_t i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
       string str_node = "heat_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
-      str_tmp += WriteScalar(str_node, "W");
+      str_tmp += logger::WriteScalar(str_node, "W");
     }
   }
   return str_tmp;
@@ -212,13 +215,13 @@ string Temperature::GetLogValue() const {
   for (size_t i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
-      str_tmp += WriteScalar(nodes_[i].GetTemperature_degC());
+      str_tmp += logger::WriteScalar(nodes_[i].GetTemperature_degC());
     }
   }
   for (size_t i = 0; i < node_num_; i++) {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
-      str_tmp += WriteScalar(heatloads_[i].GetTotalHeatload_W());
+      str_tmp += logger::WriteScalar(heatloads_[i].GetTotalHeatload_W());
     }
   }
   return str_tmp;
@@ -289,9 +292,9 @@ First row is time data
 using std::string;
 using std::vector;
 
-Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const SolarRadiationPressureEnvironment* srp_environment,
-                             const EarthAlbedo* earth_albedo) {
-  auto mainIni = IniAccess(file_name);
+Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s,
+                             const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo) {
+  auto mainIni = setting_file_reader::IniAccess(file_name);
 
   vector<Node> node_list;
   vector<Heater> heater_list;
@@ -329,7 +332,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   // Read Heatloads from CSV File
   string filepath_heatload = file_path + "heatload.csv";
-  IniAccess conf_heatload(filepath_heatload);
+  setting_file_reader::IniAccess conf_heatload(filepath_heatload);
   conf_heatload.ReadCsvString(heatload_str_list, 100);
   /*since we don't know the number of node_list yet, set node_num=100 temporary.
     Recall that Nodes_num are given to this function only to reserve memory*/
@@ -342,7 +345,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   // Read Node Properties from CSV File
   string filepath_node = file_path + "node.csv";
-  IniAccess conf_node(filepath_node);
+  setting_file_reader::IniAccess conf_node(filepath_node);
   conf_node.ReadCsvString(node_str_list, 100);
   /*since we don't know the number of node_list yet, set node_num=100 temporary.
     Recall that Nodes_num are given to this function only to reserve memory*/
@@ -357,7 +360,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   // Read Heater Properties from CSV File
   string filepath_heater = file_path + "heaters.csv";
-  IniAccess conf_heater(filepath_heater);
+  setting_file_reader::IniAccess conf_heater(filepath_heater);
   conf_heater.ReadCsvString(heater_str_list, 100);
   /*since we don't know the number of heater_list yet, set heater_num=100 temporary.
     Recall that heater_num are given to this function only to reserve memory*/
@@ -373,8 +376,8 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   // Read Cij,Rij data from CSV File
   string filepath_cij = file_path + "cij.csv";
   string filepath_rij = file_path + "rij.csv";
-  IniAccess conf_cij(filepath_cij);
-  IniAccess conf_rij(filepath_rij);
+  setting_file_reader::IniAccess conf_cij(filepath_cij);
+  setting_file_reader::IniAccess conf_rij(filepath_rij);
   conf_cij.ReadCsvDoubleWithHeader(conductance_matrix, node_num, 1, 1);
   conf_rij.ReadCsvDoubleWithHeader(radiation_matrix, node_num, 1, 1);
 
@@ -388,3 +391,5 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
                                 rk_prop_step_s, srp_environment, earth_albedo, is_calc_enabled, solar_calc_setting, debug);
   return temperature;
 }
+
+}  // namespace s2e::dynamics::thermal

@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 
+namespace s2e::simulation {
+
 /**
  * @class InitializedMonteCarloParameters
  * @brief Initialized parameters for Monte-Carlo simulation
@@ -31,7 +33,7 @@ class InitializedMonteCarloParameters {
     kCircularNormalNormal,           //!< r and θ follow normal distribution in Circular frame
     kSphericalNormalUniformUniform,  //!< r follows normal distribution, and θ and φ follow uniform distribution in Spherical frame
     kSphericalNormalNormal,          //!< r and  θ follow normal distribution, and mean vector angle φ follows uniform distribution [0,2*pi]
-    kQuaternionUniform,              //!< Perfectly Randomized math::Quaternion
+    kQuaternionUniform,              //!< Perfectly Randomized Quaternion
     kQuaternionNormal,               //!< Angle from the default quaternion θ follows normal distribution
   };
 
@@ -231,5 +233,7 @@ void InitializedMonteCarloParameters::GetRandomizedVector(math::Vector<NumElemen
     }
   }
 }
+
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_INITIALIZE_MONTE_CARLO_PARAMETERS_HPP_

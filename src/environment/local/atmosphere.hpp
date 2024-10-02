@@ -15,11 +15,13 @@
 #include "math_physics/atmosphere/wrapper_nrlmsise00.hpp"
 #include "math_physics/math/vector.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class Atmosphere
  * @brief Class to calculate earth's atmospheric density
  */
-class Atmosphere : public ILoggable {
+class Atmosphere : public logger::ILoggable {
  public:
   /**
    * @fn Atmosphere
@@ -49,7 +51,7 @@ class Atmosphere : public ILoggable {
    * @param [in] position: Position of target point to calculate the air density
    * @return Atmospheric density [kg/m^3]
    */
-  double CalcAirDensity_kg_m3(const double decimal_year, const Orbit& orbit);
+  double CalcAirDensity_kg_m3(const double decimal_year, const dynamics::orbit::Orbit& orbit);
   /**
    * @fn GetAirDensity
    * @brief Return Atmospheric density [kg/m^3]
@@ -61,15 +63,15 @@ class Atmosphere : public ILoggable {
    */
   inline void SetCalcFlag(const bool is_calc_enabled) { is_calc_enabled_ = is_calc_enabled; }
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -80,8 +82,8 @@ class Atmosphere : public ILoggable {
   double air_density_kg_m3_;     //!< Atmospheric density [kg/m^3]
 
   // NRLMSISE-00 model information
-  std::vector<nrlmsise_table> space_weather_table_;  //!< Space weather table
-  bool is_manual_param_used_;                        //!< Flag to use manual parameters
+  std::vector<atmosphere::nrlmsise_table> space_weather_table_;  //!< Space weather table
+  bool is_manual_param_used_;                                    //!< Flag to use manual parameters
   // Reference of the following setting parameters https://www.swpc.noaa.gov/phenomena/f107-cm-radio-emissions
   double manual_daily_f107_;    //!< Manual daily f10.7 value
   double manual_average_f107_;  //!< Manual 3-month averaged f10.7 value
@@ -115,5 +117,7 @@ class Atmosphere : public ILoggable {
  */
 Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCelestialInformation* local_celestial_information,
                           const SimulationTime* simulation_time);
+
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_ATMOSPHERE_HPP_

@@ -5,7 +5,7 @@
 
 #include "gnss_satellite_number.hpp"
 
-namespace gnss {
+namespace s2e::gnss {
 
 size_t ConvertGnssSatelliteNumberToIndex(const std::string satellite_number) {
   switch (satellite_number.front()) {
@@ -61,4 +61,4 @@ std::string ConvertIndexToGnssSatelliteNumber(const size_t index) {
   return output;
 }
 
-}  // namespace gnss
+}  // namespace s2e::gnss

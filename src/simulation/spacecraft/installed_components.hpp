@@ -9,6 +9,8 @@
 #include <logger/logger.hpp>
 #include <math_physics/math/vector.hpp>
 
+namespace s2e::spacecraft {
+
 /**
  * @class InstalledComponents
  * @brief Base class to express components list installed on a spacecraft
@@ -46,7 +48,9 @@ class InstalledComponents {
    * @brief Setup the logger for components
    * @details Users need to override this function to add logger for components
    */
-  virtual void LogSetup(Logger& logger);
+  virtual void LogSetup(logger::Logger& logger);
 };
+
+}  // namespace s2e::spacecraft
 
 #endif  // S2E_SIMULATION_SPACECRAFT_INSTALLED_COMPONENTS_HPP_

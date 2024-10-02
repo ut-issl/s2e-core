@@ -8,9 +8,11 @@
 #include <math_physics/math/vector.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::spacecraft {
+
 #define MIN_VAL 1e-6
 KinematicsParameters InitKinematicsParameters(std::string file_name) {
-  auto conf = IniAccess(file_name);
+  auto conf = setting_file_reader::IniAccess(file_name);
   const char* section = "KINEMATIC_PARAMETERS";
 
   math::Vector<3> center_of_gravity_b_m;
@@ -29,14 +31,14 @@ KinematicsParameters InitKinematicsParameters(std::string file_name) {
   return kinematics_params;
 }
 
-std::vector<Surface> InitSurfaces(std::string file_name) {
+std::vector<spacecraft::Surface> InitSurfaces(std::string file_name) {
   using std::cout;
 
-  auto conf = IniAccess(file_name);
+  auto conf = setting_file_reader::IniAccess(file_name);
   const char* section = "SURFACES";
 
   const int num_surface = conf.ReadInt(section, "number_of_surfaces");
-  std::vector<Surface> surfaces;
+  std::vector<spacecraft::Surface> surfaces;
 
   for (int i = 0; i < num_surface; i++) {
     std::string idx = std::to_string(i);
@@ -87,7 +89,7 @@ std::vector<Surface> InitSurfaces(std::string file_name) {
       break;
     }
 
-    Vector<3> position, normal;
+    math::Vector<3> position, normal;
     keyword = "position" + idx + "_b_m";
     conf.ReadVector(section, keyword.c_str(), position);
 
@@ -101,13 +103,13 @@ std::vector<Surface> InitSurfaces(std::string file_name) {
     }
 
     // Add a surface
-    surfaces.push_back(Surface(position, normal, area, ref, spe, air_spe));
+    surfaces.push_back(spacecraft::Surface(position, normal, area, ref, spe, air_spe));
   }
   return surfaces;
 }
 
 ResidualMagneticMoment InitResidualMagneticMoment(std::string file_name) {
-  auto conf = IniAccess(file_name);
+  auto conf = setting_file_reader::IniAccess(file_name);
   const char* section = "RESIDUAL_MAGNETIC_MOMENT";
 
   math::Vector<3> rmm_const_b;
@@ -119,3 +121,5 @@ ResidualMagneticMoment InitResidualMagneticMoment(std::string file_name) {
   ResidualMagneticMoment rmm_params(rmm_const_b, rmm_rwdev, random_walk_limit_Am2, random_noise_standard_deviation_Am2);
   return rmm_params;
 }
+
+}  // namespace s2e::spacecraft

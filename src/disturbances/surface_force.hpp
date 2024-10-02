@@ -15,6 +15,8 @@
 #include "../simulation/spacecraft/structure/surface.hpp"
 #include "disturbance.hpp"
 
+namespace s2e::disturbances {
+
 /**
  * @class ThirdBodyGravity
  * @brief Class to calculate third body gravity disturbance
@@ -28,7 +30,8 @@ class SurfaceForce : public Disturbance {
    * @param [in] center_of_gravity_b_m: Center of gravity position at the body frame [m]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  SurfaceForce(const std::vector<Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const bool is_calculation_enabled = true);
+  SurfaceForce(const std::vector<spacecraft::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m,
+               const bool is_calculation_enabled = true);
   /**
    * @fn ~SurfaceForce
    * @brief Destructor
@@ -37,8 +40,8 @@ class SurfaceForce : public Disturbance {
 
  protected:
   // Spacecraft Structure parameters
-  const std::vector<Surface>& surfaces_;          //!< List of surfaces
-  const math::Vector<3>& center_of_gravity_b_m_;  //!< Position vector of the center of mass_kg at body frame [m]
+  const std::vector<spacecraft::Surface>& surfaces_;  //!< List of surfaces
+  const math::Vector<3>& center_of_gravity_b_m_;      //!< Position vector of the center of mass_kg at body frame [m]
 
   // Internal calculated variables
   std::vector<double> normal_coefficients_;      //!< coefficients for out-plane force for each surface
@@ -70,5 +73,7 @@ class SurfaceForce : public Disturbance {
    */
   virtual void CalcCoefficients(const math::Vector<3>& input_direction_b, const double item) = 0;
 };
+
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_SURFACE_FORCE_HPP_

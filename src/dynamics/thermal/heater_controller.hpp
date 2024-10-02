@@ -13,6 +13,8 @@
 
 #include "heater.hpp"
 
+namespace s2e::dynamics::thermal {
+
 class HeaterController {
  public:
   /**
@@ -43,12 +45,12 @@ class HeaterController {
    * @fn GetLowerThreshold_K
    * @brief Return Lower Threshold [K]
    */
-  inline double GetLowerThreshold_K(void) const { return degC2K(lower_threshold_degC_); }
+  inline double GetLowerThreshold_K(void) const { return environment::degC2K(lower_threshold_degC_); }
   /**
    * @fn GetUpperThreshold_K
    * @brief Return Upper Threshold [K]
    */
-  inline double GetUpperThreshold_K(void) const { return degC2K(upper_threshold_degC_); }
+  inline double GetUpperThreshold_K(void) const { return environment::degC2K(upper_threshold_degC_); }
 
   // Setter
   /**
@@ -88,5 +90,7 @@ class HeaterController {
  * @return HeaterController
  */
 HeaterController InitHeaterController(const std::vector<std::string>& heater_str);
+
+}  // namespace s2e::dynamics::thermal
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATER_CONTROLLER_HPP_

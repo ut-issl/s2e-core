@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+namespace s2e::dynamics::thermal {
+
 /**
  * @enum NodeType
  * @brief Type of node
@@ -100,7 +102,7 @@ class Node {
    * @brief Get temperature of node in degC
    * @return double: temperature [degC]
    */
-  inline double GetTemperature_degC(void) const { return K2degC(temperature_K_); }
+  inline double GetTemperature_degC(void) const { return environment::K2degC(temperature_K_); }
   /**
    * @fn GetCapacity_J_K
    * @brief Return heat capacity of node [J/K]
@@ -169,5 +171,7 @@ class Node {
  * @return Node
  */
 Node InitNode(const std::vector<std::string>& node_str);
+
+}  // namespace s2e::dynamics::thermal
 
 #endif  // S2E_DYNAMICS_THERMAL_NODE_HPP_

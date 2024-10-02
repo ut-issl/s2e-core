@@ -11,6 +11,8 @@
 
 #include "c2a_command_database.hpp"
 
+namespace s2e::setting_file_reader {
+
 /**
  * @class WingsOperationFile
  * @brief A class to handle WINGS operation file
@@ -34,5 +36,7 @@ class WingsOperationFile {
   std::vector<std::string> lines_;  //!!< List of read operation command line
   size_t line_pointer_ = 0;         //!< Line pointer
 };
+
+}  // namespace s2e::setting_file_reader
 
 #endif  // S2E_LIBRARY_INITIALIZE_WINGS_OPERATION_FILE_HPP_

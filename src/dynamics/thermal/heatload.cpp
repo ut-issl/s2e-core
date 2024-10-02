@@ -5,7 +5,9 @@
 #include <environment/global/physical_constants.hpp>
 
 using namespace std;
-using namespace math;
+using namespace s2e::math;
+
+namespace s2e::dynamics::thermal {
 
 Heatload::Heatload(int node_id, std::vector<double> time_table_s, std::vector<double> internal_heatload_table_W)
     : node_id_(node_id), time_table_s_(time_table_s), internal_heatload_table_W_(internal_heatload_table_W) {
@@ -100,3 +102,5 @@ Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vecto
 
   return Heatload(node_id, time_table_s, internal_heatload_table_W);
 }
+
+}  // namespace s2e::dynamics::thermal

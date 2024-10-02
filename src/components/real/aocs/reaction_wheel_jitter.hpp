@@ -11,6 +11,8 @@
 #include <math_physics/math/vector.hpp>
 #include <vector>
 
+namespace s2e::components {
+
 /*
  * @class ReactionWheelJitter
  * @brief Class to calculate RW high-frequency jitter effect
@@ -127,5 +129,7 @@ class ReactionWheelJitter {
    */
   void CalcCoefficients();
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_JITTER_HPP_

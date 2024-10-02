@@ -6,6 +6,8 @@
 #ifndef S2E_LIBRARY_UTILITIES_RING_BUFFER_HPP_
 #define S2E_LIBRARY_UTILITIES_RING_BUFFER_HPP_
 
+namespace s2e::utilities {
+
 typedef unsigned char byte;
 
 /**
@@ -51,5 +53,7 @@ class RingBuffer {
   unsigned int read_pointer_;   //!< Read pointer
   unsigned int write_pointer_;  //!< Write pointer
 };
+
+}  // namespace s2e::utilities
 
 #endif  // S2E_LIBRARY_UTILITIES_RING_BUFFER_HPP_

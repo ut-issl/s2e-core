@@ -7,7 +7,9 @@
 
 #include "setting_file_reader/initialize_file_access.hpp"
 
-GlobalEnvironment::GlobalEnvironment(const SimulationConfiguration* simulation_configuration) { Initialize(simulation_configuration); }
+namespace s2e::environment {
+
+GlobalEnvironment::GlobalEnvironment(const simulation::SimulationConfiguration* simulation_configuration) { Initialize(simulation_configuration); }
 
 GlobalEnvironment::~GlobalEnvironment() {
   delete simulation_time_;
@@ -16,9 +18,9 @@ GlobalEnvironment::~GlobalEnvironment() {
   delete gnss_satellites_;
 }
 
-void GlobalEnvironment::Initialize(const SimulationConfiguration* simulation_configuration) {
+void GlobalEnvironment::Initialize(const simulation::SimulationConfiguration* simulation_configuration) {
   // Get ini file path
-  IniAccess iniAccess = IniAccess(simulation_configuration->initialize_base_file_name_);
+  setting_file_reader::IniAccess iniAccess = setting_file_reader::IniAccess(simulation_configuration->initialize_base_file_name_);
   std::string simulation_time_ini_path = simulation_configuration->initialize_base_file_name_;
 
   // Initialize
@@ -37,10 +39,12 @@ void GlobalEnvironment::Update() {
   gnss_satellites_->Update(*simulation_time_);
 }
 
-void GlobalEnvironment::LogSetup(Logger& logger) {
+void GlobalEnvironment::LogSetup(logger::Logger& logger) {
   logger.AddLogList(simulation_time_);
   logger.AddLogList(celestial_information_);
   logger.AddLogList(gnss_satellites_);
 }
 
 void GlobalEnvironment::Reset(void) { simulation_time_->ResetClock(); }
+
+}  // namespace s2e::environment

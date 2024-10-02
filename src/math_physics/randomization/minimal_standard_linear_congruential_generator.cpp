@@ -5,7 +5,7 @@
  */
 
 #include "minimal_standard_linear_congruential_generator.hpp"
-using randomization::MinimalStandardLcg;
+using s2e::randomization::MinimalStandardLcg;
 
 #include <stdexcept>
 

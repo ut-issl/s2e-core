@@ -8,11 +8,13 @@
 
 #include "../global/celestial_information.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class LocalCelestialInformation
  * @brief Class to manage celestial body information in the spacecraft body frame
  */
-class LocalCelestialInformation : public ILoggable {
+class LocalCelestialInformation : public logger::ILoggable {
  public:
   /**
    * @fn LocalCelestialInformation
@@ -68,15 +70,15 @@ class LocalCelestialInformation : public ILoggable {
    */
   inline const CelestialInformation& GetGlobalInformation() const { return *global_celestial_information_; }
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -119,5 +121,7 @@ class LocalCelestialInformation : public ILoggable {
   void ConvertVelocityInertialToBody(const double* position_i, const double* velocity_i, double* velocity_b, const math::Quaternion quaternion_i2b,
                                      const math::Vector<3> angular_velocity_b);
 };
+
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_CELESTIAL_INFORMATION_HPP_

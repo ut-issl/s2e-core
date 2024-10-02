@@ -13,6 +13,8 @@
 #include "residual_magnetic_moment.hpp"
 #include "surface.hpp"
 
+namespace s2e::spacecraft {
+
 /**
  * @class Structure
  * @brief Class for spacecraft structure information
@@ -23,7 +25,7 @@ class Structure {
    * @fn Structure
    * @brief Constructor
    */
-  Structure(const SimulationConfiguration* simulation_configuration, const int spacecraft_id);
+  Structure(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id);
   /**
    * @fn ~Structure
    * @brief Destructor
@@ -33,7 +35,7 @@ class Structure {
    * @fn Initialize
    * @brief Initialize function
    */
-  void Initialize(const SimulationConfiguration* simulation_configuration, const int spacecraft_id);
+  void Initialize(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id);
 
   // Getter
   /**
@@ -73,5 +75,7 @@ class Structure {
   std::vector<Surface> surfaces_;                     //!< Surface information
   ResidualMagneticMoment* residual_magnetic_moment_;  //!< Residual Magnetic Moment
 };
+
+}  // namespace s2e::spacecraft
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_STRUCTURE_HPP_

@@ -14,6 +14,8 @@
 #include "math_physics/math/constants.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::environment {
+
 HipparcosCatalogue::HipparcosCatalogue(double max_magnitude, std::string catalogue_path)
     : max_magnitude_(max_magnitude), catalogue_path_(catalogue_path) {}
 
@@ -85,7 +87,7 @@ std::string HipparcosCatalogue::GetLogValue() const {
 }
 
 HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name) {
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
   const char* section = "HIPPARCOS_CATALOGUE";
 
   std::string catalogue_path = ini_file.ReadString(section, "catalogue_file_path");
@@ -99,3 +101,5 @@ HipparcosCatalogue* InitHipparcosCatalogue(std::string file_name) {
 
   return hipparcos_catalogue_;
 }
+
+}  // namespace s2e::environment

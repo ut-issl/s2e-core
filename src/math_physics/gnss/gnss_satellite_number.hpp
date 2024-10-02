@@ -10,7 +10,7 @@
 
 #include <string>
 
-namespace gnss {
+namespace s2e::gnss {
 
 // GNSS satellite number definition
 // TODO: Move to initialized file?
@@ -46,6 +46,6 @@ size_t ConvertGnssSatelliteNumberToIndex(const std::string satellite_number);
  */
 std::string ConvertIndexToGnssSatelliteNumber(const size_t index);
 
-}  // namespace gnss
+}  // namespace s2e::gnss
 
 #endif  // S2E_LIBRARY_GNSS_GNSS_SATELLITE_NUMBER_HPP_

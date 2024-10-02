@@ -11,7 +11,9 @@
 #include <random>
 #include <setting_file_reader/initialize_file_access.hpp>
 
-ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, const int component_id, const double step_width_s,
+namespace s2e::components {
+
+ReactionWheel::ReactionWheel(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const double step_width_s,
                              const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
                              const math::Quaternion quaternion_b2c, const math::Vector<3> position_b_m, const double dead_time_s,
                              const double time_constant_s, const std::vector<double> friction_coefficients,
@@ -38,7 +40,7 @@ ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generato
   Initialize();
 }
 
-ReactionWheel::ReactionWheel(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+ReactionWheel::ReactionWheel(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                              const double step_width_s, const double rotor_inertia_kgm2, const double max_torque_Nm, const double max_velocity_rpm,
                              const math::Quaternion quaternion_b2c, const math::Vector<3> position_b_m, const double dead_time_s,
                              const double time_constant_s, const std::vector<double> friction_coefficients,
@@ -196,15 +198,15 @@ std::string ReactionWheel::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "rw" + std::to_string(static_cast<long long>(component_id_)) + "_";
 
-  str_tmp += WriteScalar(component_name + "angular_velocity", "rad/s");
-  str_tmp += WriteScalar(component_name + "angular_velocity", "rpm");
-  str_tmp += WriteScalar(component_name + "angular_velocity_upper_limit", "rpm");
-  str_tmp += WriteScalar(component_name + "target_angular_acceleration", "rad/s2");
-  str_tmp += WriteScalar(component_name + "angular_acceleration", "rad/s2");
+  str_tmp += logger::WriteScalar(component_name + "angular_velocity", "rad/s");
+  str_tmp += logger::WriteScalar(component_name + "angular_velocity", "rpm");
+  str_tmp += logger::WriteScalar(component_name + "angular_velocity_upper_limit", "rpm");
+  str_tmp += logger::WriteScalar(component_name + "target_angular_acceleration", "rad/s2");
+  str_tmp += logger::WriteScalar(component_name + "angular_acceleration", "rad/s2");
 
   if (is_logged_jitter_ && is_calculated_jitter_) {
-    str_tmp += WriteVector(component_name + "jitter_force", "c", "N", 3);
-    str_tmp += WriteVector(component_name + "jitter_torque", "c", "Nm", 3);
+    str_tmp += logger::WriteVector(component_name + "jitter_force", "c", "N", 3);
+    str_tmp += logger::WriteVector(component_name + "jitter_torque", "c", "Nm", 3);
   }
 
   return str_tmp;
@@ -213,15 +215,15 @@ std::string ReactionWheel::GetLogHeader() const {
 std::string ReactionWheel::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(angular_velocity_rad_s_);
-  str_tmp += WriteScalar(angular_velocity_rpm_);
-  str_tmp += WriteScalar(velocity_limit_rpm_);
-  str_tmp += WriteScalar(target_acceleration_rad_s2_);
-  str_tmp += WriteScalar(generated_angular_acceleration_rad_s2_);
+  str_tmp += logger::WriteScalar(angular_velocity_rad_s_);
+  str_tmp += logger::WriteScalar(angular_velocity_rpm_);
+  str_tmp += logger::WriteScalar(velocity_limit_rpm_);
+  str_tmp += logger::WriteScalar(target_acceleration_rad_s2_);
+  str_tmp += logger::WriteScalar(generated_angular_acceleration_rad_s2_);
 
   if (is_logged_jitter_ && is_calculated_jitter_) {
-    str_tmp += WriteVector(rw_jitter_.GetJitterForce_c_N());
-    str_tmp += WriteVector(rw_jitter_.GetJitterTorque_c_Nm());
+    str_tmp += logger::WriteVector(rw_jitter_.GetJitterForce_c_N());
+    str_tmp += logger::WriteVector(rw_jitter_.GetJitterTorque_c_Nm());
   }
 
   return str_tmp;
@@ -258,7 +260,7 @@ ReactionWheelJitter rw_jitter;
 
 void InitParams(int actuator_id, std::string file_name, double compo_update_step_s) {
   // Access Parameters
-  IniAccess rw_ini_file(file_name);
+  setting_file_reader::IniAccess rw_ini_file(file_name);
   std::string section_tmp = "REACTION_WHEEL_" + std::to_string(static_cast<long long>(actuator_id));
   const char* rw_section = section_tmp.c_str();
 
@@ -314,8 +316,8 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
   std::string radial_force_harmonics_coefficient_path = rw_ini_file.ReadString(jitter_section, "radial_force_harmonics_coefficient_file");
   std::string radial_torque_harmonics_coefficient_path = rw_ini_file.ReadString(jitter_section, "radial_torque_harmonics_coefficient_file");
   int harmonics_degree = rw_ini_file.ReadInt(jitter_section, "harmonics_degree");
-  IniAccess conf_radial_force_harmonics(radial_force_harmonics_coefficient_path);
-  IniAccess conf_radial_torque_harmonics(radial_torque_harmonics_coefficient_path);
+  setting_file_reader::IniAccess conf_radial_force_harmonics(radial_force_harmonics_coefficient_path);
+  setting_file_reader::IniAccess conf_radial_torque_harmonics(radial_torque_harmonics_coefficient_path);
   std::vector<std::vector<double>> radial_force_harmonics_coefficients;
   std::vector<std::vector<double>> radial_torque_harmonics_coefficients;
   conf_radial_force_harmonics.ReadCsvDouble(radial_force_harmonics_coefficients, harmonics_degree);
@@ -331,7 +333,7 @@ void InitParams(int actuator_id, std::string file_name, double compo_update_step
 }
 }  // namespace
 
-ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step_s) {
+ReactionWheel InitReactionWheel(environment::ClockGenerator* clock_generator, int actuator_id, std::string file_name, double compo_update_step_s) {
   InitParams(actuator_id, file_name, compo_update_step_s);
 
   ReactionWheel rw(prescaler, clock_generator, actuator_id, step_width_s, rotor_inertia_kgm2, max_torque_Nm, max_velocity_rpm, quaternion_b2c,
@@ -341,7 +343,7 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, int actuator_id
   return rw;
 }
 
-ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name,
+ReactionWheel InitReactionWheel(environment::ClockGenerator* clock_generator, PowerPort* power_port, int actuator_id, std::string file_name,
                                 double compo_update_step_s) {
   InitParams(actuator_id, file_name, compo_update_step_s);
 
@@ -353,3 +355,5 @@ ReactionWheel InitReactionWheel(ClockGenerator* clock_generator, PowerPort* powe
 
   return rw;
 }
+
+}  // namespace s2e::components

@@ -13,6 +13,8 @@
 #include "math_physics/math/vector.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::environment {
+
 SolarRadiationPressureEnvironment::SolarRadiationPressureEnvironment(LocalCelestialInformation* local_celestial_information)
     : local_celestial_information_(local_celestial_information) {
   solar_radiation_pressure_N_m2_ = solar_constant_W_m2_ / environment::speed_of_light_m_s;
@@ -40,8 +42,8 @@ void SolarRadiationPressureEnvironment::UpdatePressure() {
 std::string SolarRadiationPressureEnvironment::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("solar_radiation_pressure_at_spacecraft_position", "N/m2");
-  str_tmp += WriteScalar("shadow_coefficient_at_spacecraft_position");
+  str_tmp += logger::WriteScalar("solar_radiation_pressure_at_spacecraft_position", "N/m2");
+  str_tmp += logger::WriteScalar("shadow_coefficient_at_spacecraft_position");
 
   return str_tmp;
 }
@@ -49,8 +51,8 @@ std::string SolarRadiationPressureEnvironment::GetLogHeader() const {
 std::string SolarRadiationPressureEnvironment::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(solar_radiation_pressure_N_m2_ * shadow_coefficient_);
-  str_tmp += WriteScalar(shadow_coefficient_);
+  str_tmp += logger::WriteScalar(solar_radiation_pressure_N_m2_ * shadow_coefficient_);
+  str_tmp += logger::WriteScalar(shadow_coefficient_);
 
   return str_tmp;
 }
@@ -104,7 +106,7 @@ void SolarRadiationPressureEnvironment::CalcShadowCoefficient(std::string shadow
 
 SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::string initialize_file_path,
                                                                         LocalCelestialInformation* local_celestial_information) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "SOLAR_RADIATION_PRESSURE_ENVIRONMENT";
 
   SolarRadiationPressureEnvironment srp_env(local_celestial_information);
@@ -119,3 +121,5 @@ SolarRadiationPressureEnvironment InitSolarRadiationPressureEnvironment(std::str
 
   return srp_env;
 }
+
+}  // namespace s2e::environment

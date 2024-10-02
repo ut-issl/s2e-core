@@ -8,7 +8,7 @@
 
 #include "./vector.hpp"
 
-namespace math {
+namespace s2e::math {
 
 /**
  * @class OrdinaryDifferentialEquation
@@ -111,7 +111,7 @@ class OrdinaryDifferentialEquation {
   double step_width_s_;          //!< Step width
 };
 
-}  // namespace math
+}  // namespace s2e::math
 
 #include "./ordinary_differential_equation_template_functions.hpp"
 

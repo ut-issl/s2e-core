@@ -10,7 +10,7 @@
 #include <fstream>
 #include <iostream>
 
-namespace gravity {
+namespace s2e::gravity {
 
 GravityPotential::GravityPotential(const size_t degree, const std::vector<std::vector<double>> cosine_coefficients,
                                    const std::vector<std::vector<double>> sine_coefficients, const double gravity_constants_m3_s2,
@@ -278,4 +278,4 @@ void GravityPotential::v_w_nm_update(double *v_nm, double *w_nm, const double v_
   return;
 }
 
-}  // namespace gravity
+}  // namespace s2e::gravity

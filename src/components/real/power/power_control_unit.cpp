@@ -4,9 +4,11 @@
  */
 #include "power_control_unit.hpp"
 
-PowerControlUnit::PowerControlUnit(ClockGenerator* clock_generator) : Component(1, clock_generator) {}
+namespace s2e::components {
 
-PowerControlUnit::PowerControlUnit(int prescaler, ClockGenerator* clock_generator) : Component(prescaler, clock_generator) {}
+PowerControlUnit::PowerControlUnit(environment::ClockGenerator* clock_generator) : Component(1, clock_generator) {}
+
+PowerControlUnit::PowerControlUnit(int prescaler, environment::ClockGenerator* clock_generator) : Component(prescaler, clock_generator) {}
 
 PowerControlUnit::~PowerControlUnit() {}
 
@@ -52,3 +54,5 @@ std::string PowerControlUnit::GetLogValue() const {
   std::string str_tmp = "";
   return str_tmp;
 }
+
+}  // namespace s2e::components

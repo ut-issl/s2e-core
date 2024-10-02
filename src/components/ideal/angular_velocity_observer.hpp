@@ -12,11 +12,13 @@
 #include "../base/component.hpp"
 #include "../base/sensor.hpp"
 
+namespace s2e::components {
+
 /*
  * @class AngularVelocityObserver
  * @brief Ideal component which can observe angular velocity
  */
-class AngularVelocityObserver : public Component, public Sensor<3>, public ILoggable {
+class AngularVelocityObserver : public Component, public Sensor<3>, public logger::ILoggable {
  public:
   /**
    * @fn AngularVelocityObserver
@@ -26,7 +28,8 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public ILogg
    * @param [in] sensor_base: Sensor base information
    * @param [in] dynamics: Dynamics information
    */
-  AngularVelocityObserver(const int prescaler, ClockGenerator* clock_generator, Sensor& sensor_base, const Attitude& attitude);
+  AngularVelocityObserver(const int prescaler, environment::ClockGenerator* clock_generator, Sensor& sensor_base,
+                          const dynamics::attitude::Attitude& attitude);
   /**
    * @fn ~AngularVelocityObserver
    * @brief Destructor
@@ -40,15 +43,15 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public ILogg
    */
   void MainRoutine(const int time_count) override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -61,7 +64,7 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public ILogg
 
  protected:
   math::Vector<3> angular_velocity_b_rad_s_{0.0};  //!< Observed angular velocity [rad/s]
-  const Attitude& attitude_;                       //!< Dynamics information
+  const dynamics::attitude::Attitude& attitude_;   //!< Dynamics information
 };
 
 /**
@@ -72,7 +75,9 @@ class AngularVelocityObserver : public Component, public Sensor<3>, public ILogg
  * @param [in] component_step_time_s: Component step time [sec]
  * @param [in] dynamics: Dynamics information
  */
-AngularVelocityObserver InitializeAngularVelocityObserver(ClockGenerator* clock_generator, const std::string file_name, double component_step_time_s,
-                                                          const Attitude& attitude);
+AngularVelocityObserver InitializeAngularVelocityObserver(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                                          double component_step_time_s, const dynamics::attitude::Attitude& attitude);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_IDEAL_ANGULAR_VELOCITY_OBSERVER_HPP_

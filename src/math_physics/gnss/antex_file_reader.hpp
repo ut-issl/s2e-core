@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-namespace gnss {
+namespace s2e::gnss {
 
 /**
  * @class AntexGridDefinition
@@ -345,6 +345,6 @@ class AntexFileReader {
   time_system::DateTime ReadDateTime(std::string line);
 };
 
-}  // namespace gnss
+}  // namespace s2e::gnss
 
 #endif  // S2E_LIBRARY_ANTEX_FILE_READER_HPP_

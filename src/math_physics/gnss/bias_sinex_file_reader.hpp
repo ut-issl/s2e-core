@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-namespace gnss {
+namespace s2e::gnss {
 
 /**
  * @enum BiasIdentifier
@@ -186,6 +186,6 @@ class BiasSinexFileReader {
   void ReadBiasSolution(std::ifstream& bias_sinex_file);
 };
 
-}  // namespace gnss
+}  // namespace s2e::gnss
 
 #endif  // S2E_LIBRARY_BIAS_SINEX_FILE_READER_HPP_

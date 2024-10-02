@@ -9,17 +9,19 @@
 #include "../environment/local/local_environment.hpp"
 #include "../math_physics/math/vector.hpp"
 
+namespace s2e::disturbances {
+
 /**
  * @class Disturbance
  * @brief Base class for a disturbance
  */
-class Disturbance : public ILoggable {
+class Disturbance : public logger::ILoggable {
  public:
   /**
    * @fn Disturbance
    * @brief Constructor
    * @param [in] is_calculation_enabled: Calculation flag
-   * @param [in] is_attitude_dependent: Attitude dependent flag
+   * @param [in] is_attitude_dependent: dynamics::attitude::Attitude dependent flag
    */
   Disturbance(const bool is_calculation_enabled = true, const bool is_attitude_dependent = true)
       : is_calculation_enabled_(is_calculation_enabled), is_attitude_dependent_(is_attitude_dependent) {
@@ -39,7 +41,7 @@ class Disturbance : public ILoggable {
    * @fn UpdateIfEnabled
    * @brief Update calculated disturbance when the calculation flag is true
    */
-  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+  virtual inline void UpdateIfEnabled(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
     if (is_calculation_enabled_) {
       Update(local_environment, dynamics);
     } else {
@@ -54,7 +56,7 @@ class Disturbance : public ILoggable {
    * @fn Update
    * @brief Pure virtual function to define the disturbance calculation
    */
-  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) = 0;
+  virtual void Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) = 0;
 
   /**
    * @fn GetTorque_b_Nm
@@ -90,5 +92,7 @@ class Disturbance : public ILoggable {
   math::Vector<3> acceleration_b_m_s2_;  //!< Disturbance acceleration in the body frame [m/s2]
   math::Vector<3> acceleration_i_m_s2_;  //!< Disturbance acceleration in the inertial frame [m/s2]
 };
+
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_DISTURBANCE_HPP_

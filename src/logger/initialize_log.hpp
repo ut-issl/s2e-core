@@ -8,6 +8,8 @@
 
 #include <logger/logger.hpp>
 
+namespace s2e::logger {
+
 /**
  * @fn InitLog
  * @brief Initialize normal logger (default.csv)
@@ -22,5 +24,7 @@ Logger* InitLog(std::string file_name);
  * @param [in] enable: Enable flag for logging
  */
 Logger* InitMonteCarloLog(std::string file_name, bool enable);
+
+}  // namespace s2e::logger
 
 #endif  // S2E_LIBRARY_LOGGER_INITIALIZE_LOG_HPP_

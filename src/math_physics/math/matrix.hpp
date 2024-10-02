@@ -9,7 +9,7 @@
 #include <cstddef>   // for size_t
 #include <iostream>  // for ostream, cout
 
-namespace math {
+namespace s2e::math {
 
 /**
  * @class Matrix
@@ -244,7 +244,7 @@ Matrix<R, R, T> MakeRotationMatrixY(const double& theta_rad);
 template <size_t R = 3, typename T = double>
 Matrix<R, R, T> MakeRotationMatrixZ(const double& theta_rad);
 
-}  // namespace math
+}  // namespace s2e::math
 
 #include "matrix_template_functions.hpp"
 

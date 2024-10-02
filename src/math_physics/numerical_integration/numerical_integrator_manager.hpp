@@ -12,7 +12,7 @@
 #include "runge_kutta_4.hpp"
 #include "runge_kutta_fehlberg.hpp"
 
-namespace numerical_integration {
+namespace s2e::numerical_integration {
 
 /**
  * @enum NumericalIntegrationMethod
@@ -62,6 +62,6 @@ class NumericalIntegratorManager {
   std::shared_ptr<NumericalIntegrator<N>> integrator_;
 };
 
-}  // namespace numerical_integration
+}  // namespace s2e::numerical_integration
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_NUMERICAL_INTEGRATION_HPP_

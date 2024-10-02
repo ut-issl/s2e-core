@@ -18,11 +18,13 @@
 #include "../../base/component.hpp"
 #include "dynamics/dynamics.hpp"
 
+namespace s2e::components {
+
 /*
  * @class StarSensor
  * @brief Class to emulate star tracker
  */
-class StarSensor : public Component, public ILoggable {
+class StarSensor : public Component, public logger::ILoggable {
  public:
   /**
    * @fn StarSensor
@@ -43,11 +45,11 @@ class StarSensor : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_environment: Local environment information
    */
-  StarSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
+  StarSensor(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
              const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
              const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
              const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s,
-             const Dynamics* dynamics, const LocalEnvironment* local_environment);
+             const dynamics::Dynamics* dynamics, const environment::LocalEnvironment* local_environment);
   /**
    * @fn StarSensor
    * @brief Constructor with power port
@@ -68,12 +70,12 @@ class StarSensor : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_environment: Local environment information
    */
-  StarSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+  StarSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
              const math::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
              const double standard_deviation_sight_direction, const double step_time_s, const unsigned int output_delay,
              const unsigned int output_interval, const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad,
-             const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
-             const LocalEnvironment* local_environment);
+             const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const dynamics::Dynamics* dynamics,
+             const environment::LocalEnvironment* local_environment);
 
   // Override functions for Component
   /**
@@ -82,15 +84,15 @@ class StarSensor : public Component, public ILoggable {
    */
   void MainRoutine(const int time_count) override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -136,32 +138,32 @@ class StarSensor : public Component, public ILoggable {
   double capture_rate_limit_rad_s_;   //!< Angular rate limit to get correct attitude [rad/s]
 
   // Observed variables
-  const Dynamics* dynamics_;                   //!< Dynamics information
-  const LocalEnvironment* local_environment_;  //!< Local environment information
+  const dynamics::Dynamics* dynamics_;                      //!< Dynamics information
+  const environment::LocalEnvironment* local_environment_;  //!< Local environment information
 
   // Internal functions
   /**
    * @fn update
    * @brief Update delay buffer
    * @param [in] local_celestial_information: Local celestial information
-   * @param [in] attitude: Attitude information
+   * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  void update(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
+  void update(const environment::LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude);
   /**
    * @fn Measure
    * @brief Calculate measured quaternion
    * @param [in] local_celestial_information: Local celestial information
-   * @param [in] attitude: Attitude information
+   * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  math::Quaternion Measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
+  math::Quaternion Measure(const environment::LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude);
 
   /**
    * @fn AllJudgement
    * @brief Calculate all error judgement
    * @param [in] local_celestial_information: Local celestial information
-   * @param [in] attitude: Attitude information
+   * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  void AllJudgement(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
+  void AllJudgement(const environment::LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude);
   /**
    * @fn SunJudgement
    * @brief Judge violation of sun forbidden angle
@@ -216,8 +218,8 @@ class StarSensor : public Component, public ILoggable {
  * @param [in] dynamics: Dynamics information
  * @param [in] local_environment: Local environment information
  */
-StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
-                          const Dynamics* dynamics, const LocalEnvironment* local_environment);
+StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
+                          const dynamics::Dynamics* dynamics, const environment::LocalEnvironment* local_environment);
 /**
  * @fn InitStarSensor
  * @brief Initialize functions for StarSensor with power port
@@ -229,7 +231,9 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const 
  * @param [in] dynamics: Dynamics information
  * @param [in] local_environment: Local environment information
  */
-StarSensor InitStarSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
-                          double component_step_time_s, const Dynamics* dynamics, const LocalEnvironment* local_environment);
+StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+                          double component_step_time_s, const dynamics::Dynamics* dynamics, const environment::LocalEnvironment* local_environment);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_STAR_SENSOR_HPP_

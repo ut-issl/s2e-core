@@ -10,8 +10,10 @@
 #include <environment/global/clock_generator.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
-PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery,
-                                 double component_step_time_s)
+namespace s2e::components {
+
+PcuInitialStudy::PcuInitialStudy(const int prescaler, environment::ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps,
+                                 Battery* battery, double component_step_time_s)
     : Component(prescaler, clock_generator),
       saps_(saps),
       battery_(battery),
@@ -22,7 +24,7 @@ PcuInitialStudy::PcuInitialStudy(const int prescaler, ClockGenerator* clock_gene
   power_consumption_W_ = 0.0;
 }
 
-PcuInitialStudy::PcuInitialStudy(ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery)
+PcuInitialStudy::PcuInitialStudy(environment::ClockGenerator* clock_generator, const std::vector<SolarArrayPanel*> saps, Battery* battery)
     : Component(10, clock_generator),
       saps_(saps),
       battery_(battery),
@@ -38,15 +40,15 @@ PcuInitialStudy::~PcuInitialStudy() {}
 std::string PcuInitialStudy::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "pcu_initial_study_";
-  str_tmp += WriteScalar(component_name + "power_consumption", "W");
-  str_tmp += WriteScalar(component_name + "bus_voltage", "V");
+  str_tmp += logger::WriteScalar(component_name + "power_consumption", "W");
+  str_tmp += logger::WriteScalar(component_name + "bus_voltage", "V");
   return str_tmp;
 }
 
 std::string PcuInitialStudy::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar(power_consumption_W_);
-  str_tmp += WriteScalar(bus_voltage_V_);
+  str_tmp += logger::WriteScalar(power_consumption_W_);
+  str_tmp += logger::WriteScalar(bus_voltage_V_);
   return str_tmp;
 }
 
@@ -111,9 +113,9 @@ void PcuInitialStudy::UpdateChargeCurrentAndBusVoltage() {
   }
 }
 
-PcuInitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id, const std::string file_name,
+PcuInitialStudy InitPCU_InitialStudy(environment::ClockGenerator* clock_generator, int pcu_id, const std::string file_name,
                                      const std::vector<SolarArrayPanel*> saps, Battery* battery, double component_step_time_s) {
-  IniAccess pcu_conf(file_name);
+  setting_file_reader::IniAccess pcu_conf(file_name);
 
   const std::string section_name = "PCU_INITIAL_STUDY_" + std::to_string(static_cast<long long>(pcu_id));
 
@@ -124,3 +126,5 @@ PcuInitialStudy InitPCU_InitialStudy(ClockGenerator* clock_generator, int pcu_id
 
   return pcu;
 }
+
+}  // namespace s2e::components

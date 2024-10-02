@@ -10,7 +10,7 @@
 #include "../math/vector.hpp"
 #include "./orbital_elements.hpp"
 
-namespace orbit {
+namespace s2e::orbit {
 
 /**
  * @class KeplerOrbit
@@ -89,6 +89,6 @@ class KeplerOrbit {
   double SolveKeplerNewtonMethod(const double eccentricity, const double mean_anomaly_rad, const double angle_limit_rad, const int iteration_limit);
 };
 
-}  // namespace orbit
+}  // namespace s2e::orbit
 
 #endif  // S2E_LIBRARY_ORBIT_KEPLER_ORBIT_HPP_

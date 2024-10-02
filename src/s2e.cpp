@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
   std::cout << "\tIni file: ";
   print_path(ini_file);
 
-  auto simulation_case = SampleCase(ini_file);
+  auto simulation_case = s2e::sample::SampleCase(ini_file);
   simulation_case.Initialize();
   simulation_case.Main();
 

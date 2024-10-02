@@ -12,11 +12,13 @@
 #include <simulation/monte_carlo_simulation/simulation_object.hpp>
 #include <string>
 
+namespace s2e::dynamics::attitude {
+
 /**
  * @class Attitude
  * @brief Base class for attitude of spacecraft
  */
-class Attitude : public ILoggable, public SimulationObject {
+class Attitude : public logger::ILoggable, public simulation::SimulationObject {
  public:
   /**
    * @fn Attitude
@@ -98,20 +100,20 @@ class Attitude : public ILoggable, public SimulationObject {
    */
   virtual void Propagate(const double end_time_s) = 0;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
   // SimulationObject for McSim
-  virtual void SetParameters(const MonteCarloSimulationExecutor& mc_simulator);
+  virtual void SetParameters(const simulation::MonteCarloSimulationExecutor& mc_simulator);
 
  protected:
   bool is_calc_enabled_ = true;                    //!< Calculation flag
@@ -141,5 +143,7 @@ class Attitude : public ILoggable, public SimulationObject {
  * @param [in] angular_velocity_b_rad_s: Angular velocity [rad/s]
  */
 math::Matrix<4, 4> CalcAngularVelocityMatrix(math::Vector<3> angular_velocity_b_rad_s);
+
+}  // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_ATTITUDE_HPP_

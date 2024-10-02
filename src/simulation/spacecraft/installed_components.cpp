@@ -7,6 +7,8 @@
 
 #include <utilities/macros.hpp>
 
+namespace s2e::spacecraft {
+
 math::Vector<3> InstalledComponents::GenerateForce_b_N() {
   math::Vector<3> force_b_N_(0.0);
   return force_b_N_;
@@ -17,4 +19,6 @@ math::Vector<3> InstalledComponents::GenerateTorque_b_Nm() {
   return torque_b_Nm_;
 }
 
-void InstalledComponents::LogSetup(Logger& logger) { UNUSED(logger); }
+void InstalledComponents::LogSetup(logger::Logger& logger) { UNUSED(logger); }
+
+}  // namespace s2e::spacecraft

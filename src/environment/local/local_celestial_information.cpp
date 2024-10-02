@@ -14,6 +14,8 @@
 
 #include "logger/log_utility.hpp"
 
+namespace s2e::environment {
+
 LocalCelestialInformation::LocalCelestialInformation(const CelestialInformation* global_celestial_information)
     : global_celestial_information_(global_celestial_information) {
   int num_of_state = global_celestial_information_->GetNumberOfSelectedBodies() * 3;
@@ -179,8 +181,8 @@ std::string LocalCelestialInformation::GetLogHeader() const {
 
     std::string body_pos = name + "_position_from_spacecraft";
     std::string body_vel = name + "_velocity_from_spacecraft";
-    str_tmp += WriteVector(body_pos, "b", "m", 3);
-    str_tmp += WriteVector(body_vel, "b", "m/s", 3);
+    str_tmp += logger::WriteVector(body_pos, "b", "m", 3);
+    str_tmp += logger::WriteVector(body_vel, "b", "m/s", 3);
   }
   return str_tmp;
 }
@@ -189,11 +191,13 @@ std::string LocalCelestialInformation::GetLogValue() const {
   std::string str_tmp = "";
   for (int i = 0; i < global_celestial_information_->GetNumberOfSelectedBodies(); i++) {
     for (int j = 0; j < 3; j++) {
-      str_tmp += WriteScalar(celestial_body_position_from_spacecraft_b_m_[i * 3 + j]);
+      str_tmp += logger::WriteScalar(celestial_body_position_from_spacecraft_b_m_[i * 3 + j]);
     }
     for (int j = 0; j < 3; j++) {
-      str_tmp += WriteScalar(celestial_body_velocity_from_spacecraft_b_m_s_[i * 3 + j]);
+      str_tmp += logger::WriteScalar(celestial_body_velocity_from_spacecraft_b_m_s_[i * 3 + j]);
     }
   }
   return str_tmp;
 }
+
+}  // namespace s2e::environment

@@ -14,6 +14,8 @@
 
 #include "../utilities/macros.hpp"
 
+namespace s2e::setting_file_reader {
+
 #ifdef WIN32
 IniAccess::IniAccess(const std::string file_path) : file_path_(file_path) {
   // strcpy_s(file_path_char_, (size_t)_countof(file_path_char_), file_path_.c_str());
@@ -283,3 +285,5 @@ void IniAccess::ReadCsvString(std::vector<std::vector<std::string>>& output_valu
     output_value.push_back(temp);
   }
 }
+
+}  // namespace s2e::setting_file_reader

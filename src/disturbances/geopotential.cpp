@@ -15,6 +15,8 @@
 #include "../logger/log_utility.hpp"
 #include "../utilities/macros.hpp"
 
+namespace s2e::disturbances {
+
 // #define DEBUG_GEOPOTENTIAL
 
 Geopotential::Geopotential(const int degree, const std::string file_path, const bool is_calculation_enabled)
@@ -68,7 +70,7 @@ bool Geopotential::ReadCoefficientsEgm96(std::string file_name) {
   return true;
 }
 
-void Geopotential::Update(const LocalEnvironment &local_environment, const Dynamics &dynamics) {
+void Geopotential::Update(const environment::LocalEnvironment &local_environment, const dynamics::Dynamics &dynamics) {
 #ifdef DEBUG_GEOPOTENTIAL
   chrono::system_clock::time_point start, end;
   start = chrono::system_clock::now();
@@ -92,10 +94,10 @@ std::string Geopotential::GetLogHeader() const {
   std::string str_tmp = "";
 
 #ifdef DEBUG_GEOPOTENTIAL
-  str_tmp += WriteVector("geopotential_calculation_position_", "ecef", "m", 3);
-  str_tmp += WriteScalar("geopotential_calculation_time", "ms");
+  str_tmp += logger::WriteVector("geopotential_calculation_position_", "ecef", "m", 3);
+  str_tmp += logger::WriteScalar("geopotential_calculation_time", "ms");
 #endif
-  str_tmp += WriteVector("geopotential_acceleration", "ecef", "m/s2", 3);
+  str_tmp += logger::WriteVector("geopotential_acceleration", "ecef", "m/s2", 3);
 
   return str_tmp;
 }
@@ -104,17 +106,17 @@ std::string Geopotential::GetLogValue() const {
   std::string str_tmp = "";
 
 #ifdef DEBUG_GEOPOTENTIAL
-  str_tmp += WriteVector(debug_pos_ecef_m_, 15);
-  str_tmp += WriteScalar(time_ms_);
+  str_tmp += logger::WriteVector(debug_pos_ecef_m_, 15);
+  str_tmp += logger::WriteScalar(time_ms_);
 #endif
 
-  str_tmp += WriteVector(acceleration_ecef_m_s2_, 15);
+  str_tmp += logger::WriteVector(acceleration_ecef_m_s2_, 15);
 
   return str_tmp;
 }
 
 Geopotential InitGeopotential(const std::string initialize_file_path) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char *section = "GEOPOTENTIAL";
 
   const int degree = conf.ReadInt(section, "degree");
@@ -126,3 +128,5 @@ Geopotential InitGeopotential(const std::string initialize_file_path) {
 
   return geopotential_disturbance;
 }
+
+}  // namespace s2e::disturbances

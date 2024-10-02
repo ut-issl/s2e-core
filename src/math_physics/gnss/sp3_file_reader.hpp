@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 
-namespace gnss {
+namespace s2e::gnss {
 
 #define SP3_BAD_CLOCK_VALUE (999999.999999)
 #define SP3_BAD_POSITION_VALUE (0.000000)
@@ -236,6 +236,6 @@ class Sp3FileReader {
   Sp3VelocityClockRateCorrelation DecodeVelocityClockRateCorrelation(std::string line);
 };
 
-}  // namespace gnss
+}  // namespace s2e::gnss
 
 #endif  // S2E_LIBRARY_GNSS_SP3_FILE_READER_HPP_

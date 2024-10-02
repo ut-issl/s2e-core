@@ -9,6 +9,8 @@
 #include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 template <size_t N>
 Sensor<N>::Sensor(const math::Matrix<N, N>& scale_factor, const math::Vector<N>& range_to_const_c, const math::Vector<N>& range_to_zero_c,
                   const math::Vector<N>& bias_noise_c, const math::Vector<N>& normal_random_standard_deviation_c,
@@ -20,7 +22,7 @@ Sensor<N>::Sensor(const math::Matrix<N, N>& scale_factor, const math::Vector<N>&
       range_to_zero_c_(range_to_zero_c),
       random_walk_noise_c_(random_walk_step_width_s, random_walk_standard_deviation_c, random_walk_limit_c) {
   for (size_t i = 0; i < N; i++) {
-    normal_random_noise_c_[i].SetParameters(0.0, normal_random_standard_deviation_c[i], global_randomization.MakeSeed());
+    normal_random_noise_c_[i].SetParameters(0.0, normal_random_standard_deviation_c[i], randomization::global_randomization.MakeSeed());
   }
   RangeCheck();
 }
@@ -77,7 +79,7 @@ void Sensor<N>::RangeCheck(void) {
 
 template <size_t N>
 Sensor<N> ReadSensorInformation(const std::string file_name, const double step_width_s, const std::string component_name, const std::string unit) {
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
   std::string section = "SENSOR_BASE_" + component_name;
 
   math::Vector<N * N> scale_factor_vector;
@@ -120,5 +122,7 @@ Sensor<N> ReadSensorInformation(const std::string file_name, const double step_w
 
   return sensor_base;
 }
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_SENSOR_TEMPLATE_FUNCTIONS_HPP_

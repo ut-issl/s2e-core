@@ -9,8 +9,10 @@
 #include <sstream>
 #include <utilities/macros.hpp>
 
-Sgp4OrbitPropagation::Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs_setting,
-                                           const double current_time_jd)
+namespace s2e::dynamics::orbit {
+
+Sgp4OrbitPropagation::Sgp4OrbitPropagation(const environment::CelestialInformation* celestial_information, char* tle1, char* tle2,
+                                           const int wgs_setting, const double current_time_jd)
     : Orbit(celestial_information) {
   propagate_mode_ = OrbitPropagateMode::kSgp4;
 
@@ -66,3 +68,5 @@ void Sgp4OrbitPropagation::Propagate(const double end_time_s, const double curre
   TransformEciToEcef();
   TransformEcefToGeodetic();
 }
+
+}  // namespace s2e::dynamics::orbit

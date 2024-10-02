@@ -6,6 +6,8 @@
 #ifndef S2E_LIBRARY_UTILITIES_QUANTIZATION_HPP_
 #define S2E_LIBRARY_UTILITIES_QUANTIZATION_HPP_
 
+namespace s2e::utilities {
+
 /**
  * @fn quantization
  * @brief Default constructor without any initialization
@@ -23,5 +25,7 @@ double quantization(const double continuous_number, const double resolution);
  * @return Quantized value (float)
  */
 float quantization_float(const double continuous_number, const double resolution);
+
+}  // namespace s2e::utilities
 
 #endif  // S2E_LIBRARY_UTILITIES_QUANTIZATION_HPP_

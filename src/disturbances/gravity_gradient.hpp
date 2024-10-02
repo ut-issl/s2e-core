@@ -14,6 +14,8 @@
 #include "../math_physics/math/vector.hpp"
 #include "disturbance.hpp"
 
+namespace s2e::disturbances {
+
 /**
  * @class GravityGradient
  * @brief Class to calculate the gravity gradient torque
@@ -39,19 +41,19 @@ class GravityGradient : public Disturbance {
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
    * @param [in] local_environment: Local environment information
-   * @param [in] dynamics: Dynamics information
+   * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
+  virtual void Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -82,5 +84,7 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path);
  * @param [in] gravity_constant_m3_s2: Gravitational constant [m3/s2]
  */
 GravityGradient InitGravityGradient(const std::string initialize_file_path, const double gravity_constant_m3_s2);
+
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_

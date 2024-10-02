@@ -19,6 +19,8 @@
 #include "math_physics/orbit/sgp4/sgp4io.h"
 #include "math_physics/orbit/sgp4/sgp4unit.h"
 
+namespace s2e::environment {
+
 /**
  *@struct TimeState
  *@brief State of timing controller
@@ -47,7 +49,7 @@ struct UTC {
  *@class SimulationTime
  *@brief Class to manage simulation time related information
  */
-class SimulationTime : public ILoggable {
+class SimulationTime : public logger::ILoggable {
  public:
   /**
    *@fn SimulationTime
@@ -239,15 +241,15 @@ class SimulationTime : public ILoggable {
    */
   inline double GetStartSecond(void) const { return start_sec_; };
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -333,5 +335,7 @@ class SimulationTime : public ILoggable {
  *@param [in] file_name: Path to the initialize function
  */
 SimulationTime* InitSimulationTime(std::string file_name);
+
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_SIMULATION_TIME_HPP_

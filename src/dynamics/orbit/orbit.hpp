@@ -16,6 +16,8 @@
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/math/vector.hpp>
 
+namespace s2e::dynamics::orbit {
+
 /**
  * @enum OrbitPropagateMode
  * @brief Propagation mode of orbit
@@ -43,14 +45,14 @@ enum class OrbitInitializeMode {
  * @class Orbit
  * @brief Base class of orbit propagation
  */
-class Orbit : public ILoggable {
+class Orbit : public logger::ILoggable {
  public:
   /**
    * @fn Orbit
    * @brief Constructor
    * @param [in] celestial_information: Celestial information
    */
-  Orbit(const CelestialInformation* celestial_information) : celestial_information_(celestial_information) {}
+  Orbit(const environment::CelestialInformation* celestial_information) : celestial_information_(celestial_information) {}
   /**
    * @fn ~Orbit
    * @brief Destructor
@@ -114,7 +116,7 @@ class Orbit : public ILoggable {
    * @fn GetGeodeticPosition
    * @brief Return spacecraft position in the geodetic frame [m]
    */
-  inline geodesy::GeodeticPosition GetGeodeticPosition() const { return spacecraft_geodetic_position_; }
+  inline s2e::geodesy::GeodeticPosition GetGeodeticPosition() const { return spacecraft_geodetic_position_; }
 
   // TODO delete the following functions
   inline double GetLatitude_rad() const { return spacecraft_geodetic_position_.GetLatitude_rad(); }
@@ -173,28 +175,28 @@ class Orbit : public ILoggable {
    */
   math::Quaternion CalcQuaternion_i2lvlh() const;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
  protected:
-  const CelestialInformation* celestial_information_;  //!< Celestial information
+  const environment::CelestialInformation* celestial_information_;  //!< Celestial information
 
   // Settings
   bool is_calc_enabled_ = false;       //!< Calculate flag
   OrbitPropagateMode propagate_mode_;  //!< Propagation mode
 
-  math::Vector<3> spacecraft_position_i_m_;                 //!< Spacecraft position in the inertial frame [m]
-  math::Vector<3> spacecraft_position_ecef_m_;              //!< Spacecraft position in the ECEF frame [m]
-  geodesy::GeodeticPosition spacecraft_geodetic_position_;  //!< Spacecraft position in the Geodetic frame
+  math::Vector<3> spacecraft_position_i_m_;                      //!< Spacecraft position in the inertial frame [m]
+  math::Vector<3> spacecraft_position_ecef_m_;                   //!< Spacecraft position in the ECEF frame [m]
+  s2e::geodesy::GeodeticPosition spacecraft_geodetic_position_;  //!< Spacecraft position in the Geodetic frame
 
   math::Vector<3> spacecraft_velocity_i_m_s_;     //!< Spacecraft velocity in the inertial frame [m/s]
   math::Vector<3> spacecraft_velocity_b_m_s_;     //!< Spacecraft velocity in the body frame [m/s]
@@ -217,5 +219,7 @@ class Orbit : public ILoggable {
 };
 
 OrbitInitializeMode SetOrbitInitializeMode(const std::string initialize_mode);
+
+}  // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_ORBIT_HPP_

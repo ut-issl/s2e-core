@@ -8,6 +8,8 @@
 
 #include <math_physics/math/vector.hpp>
 
+namespace s2e::spacecraft {
+
 /**
  * @class Surface
  * @brief Class for spacecraft surface
@@ -24,7 +26,7 @@ class Surface {
    * @fn ~Surface
    * @brief Destructor
    */
-  ~Surface(){};
+  ~Surface() {};
 
   // Getter
   /**
@@ -112,5 +114,7 @@ class Surface {
   double specularity_;            //!< Ratio of specular reflection in the total reflected light
   double air_specularity_;        //!< Specularity for air drag
 };
+
+}  // namespace s2e::spacecraft
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_SURFACE_HPP_

@@ -12,6 +12,8 @@
 // #include "simulation_object.hpp"
 #include "initialize_monte_carlo_parameters.hpp"
 
+namespace s2e::simulation {
+
 /**
  * @class MonteCarloSimulationExecutor
  * @brief Monte-Carlo Simulation Executor class
@@ -165,5 +167,7 @@ void MonteCarloSimulationExecutor::AddInitializedMonteCarloParameter(std::string
     throw "More than one definition of one InitializedMonteCarloParameters.";
   }
 }
+
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_MONTE_CARLO_SIMULATION_EXECUTOR_HPP_

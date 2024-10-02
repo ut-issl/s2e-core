@@ -15,7 +15,9 @@
 #include "setting_file_reader/initialize_file_access.hpp"
 #include "utilities/macros.hpp"
 
-using namespace gnss;
+using namespace s2e::gnss;
+
+namespace s2e::environment {
 
 const size_t kNumberOfInterpolation = 9;
 
@@ -156,8 +158,8 @@ std::string GnssSatellites::GetLogHeader() const {
 
   // TODO: Add log output for other navigation systems
   for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += WriteVector("GPS" + std::to_string(gps_index) + "_position", "ecef", "m", 3);
-    str_tmp += WriteScalar("GPS" + std::to_string(gps_index) + "_clock_offset", "s");
+    str_tmp += logger::WriteVector("GPS" + std::to_string(gps_index) + "_position", "ecef", "m", 3);
+    str_tmp += logger::WriteScalar("GPS" + std::to_string(gps_index) + "_clock_offset", "s");
   }
 
   return str_tmp;
@@ -167,15 +169,15 @@ std::string GnssSatellites::GetLogValue() const {
   std::string str_tmp = "";
 
   for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += WriteVector(GetPosition_ecef_m(gps_index), 16);
-    str_tmp += WriteScalar(GetClock_s(gps_index));
+    str_tmp += logger::WriteVector(GetPosition_ecef_m(gps_index), 16);
+    str_tmp += logger::WriteScalar(GetClock_s(gps_index));
   }
 
   return str_tmp;
 }
 
 GnssSatellites* InitGnssSatellites(const std::string file_name, const EarthRotation& earth_rotation, const SimulationTime& simulation_time) {
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
   char section[] = "GNSS_SATELLITES";
 
   const bool is_calc_enable = ini_file.ReadEnable(section, INI_CALC_LABEL);
@@ -234,3 +236,5 @@ GnssSatellites* InitGnssSatellites(const std::string file_name, const EarthRotat
 
   return gnss_satellites;
 }
+
+}  // namespace s2e::environment

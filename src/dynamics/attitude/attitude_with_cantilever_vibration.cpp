@@ -8,6 +8,8 @@
 #include <logger/log_utility.hpp>
 #include <utilities/macros.hpp>
 
+namespace s2e::dynamics::attitude {
+
 AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
     const math::Vector<3>& angular_velocity_b_rad_s, const math::Quaternion& quaternion_i2b, const math::Matrix<3, 3>& inertia_tensor_kgm2,
     const math::Matrix<3, 3>& inertia_tensor_cantilever_kgm2, const double damping_ratio_cantilever,
@@ -44,8 +46,8 @@ AttitudeWithCantileverVibration::~AttitudeWithCantileverVibration() {}
 std::string AttitudeWithCantileverVibration::GetLogHeader() const {
   std::string str_tmp = Attitude::GetLogHeader();
 
-  str_tmp += WriteVector("euler_angular_cantilever", "c", "rad", 3);
-  str_tmp += WriteVector("angular_velocity_cantilever", "c", "rad/s", 3);
+  str_tmp += logger::WriteVector("euler_angular_cantilever", "c", "rad", 3);
+  str_tmp += logger::WriteVector("angular_velocity_cantilever", "c", "rad/s", 3);
 
   return str_tmp;
 }
@@ -53,13 +55,13 @@ std::string AttitudeWithCantileverVibration::GetLogHeader() const {
 std::string AttitudeWithCantileverVibration::GetLogValue() const {
   std::string str_tmp = Attitude::GetLogValue();
 
-  str_tmp += WriteVector(euler_angular_cantilever_rad_);
-  str_tmp += WriteVector(angular_velocity_cantilever_rad_s_);
+  str_tmp += logger::WriteVector(euler_angular_cantilever_rad_);
+  str_tmp += logger::WriteVector(angular_velocity_cantilever_rad_s_);
 
   return str_tmp;
 }
 
-void AttitudeWithCantileverVibration::SetParameters(const MonteCarloSimulationExecutor& mc_simulator) {
+void AttitudeWithCantileverVibration::SetParameters(const simulation::MonteCarloSimulationExecutor& mc_simulator) {
   Attitude::SetParameters(mc_simulator);
   GetInitializedMonteCarloParameterVector(mc_simulator, "angular_velocity_b_rad_s", angular_velocity_b_rad_s_);
 
@@ -99,3 +101,5 @@ void AttitudeWithCantileverVibration::Propagate(const double end_time_s) {
   attitude_ode_.SetPreviousInertiaTensor_kgm2(inertia_tensor_kgm2_);
   CalcAngularMomentum();
 }
+
+}  // namespace s2e::dynamics::attitude

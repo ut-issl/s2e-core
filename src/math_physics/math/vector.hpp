@@ -9,10 +9,11 @@
 #include <cstddef>   // for size_t
 #include <iostream>  // for ostream, cout
 
+namespace s2e::math {
+
 #define dot InnerProduct
 #define cross OuterProduct
 
-namespace math {
 /**
  * @class Vector
  * @brief Class for mathematical vector
@@ -237,7 +238,7 @@ Vector<3, double> ConvertFrameOrthogonal2Polar(const Vector<3, double>& orthogon
  */
 Vector<3, double> GenerateOrthogonalUnitVector(const Vector<3, double>& v);
 
-}  // namespace math
+}  // namespace s2e::math
 
 #include "vector_template_functions.hpp"
 

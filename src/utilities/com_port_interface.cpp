@@ -7,6 +7,8 @@
 
 #include "com_port_interface.hpp"
 
+namespace s2e::utilities {
+
 ComPortInterface::ComPortInterface(int port_id, int baudrate, unsigned int tx_buffer_size, unsigned int rx_buffer_size)
     : kPortId(port_id), kPortName(PortName(port_id)), kBaudRate(baudrate), kTxBufferSize(tx_buffer_size), kRxBufferSize(rx_buffer_size) {
   // Allocate managed memory
@@ -114,3 +116,5 @@ int ComPortInterface::DiscardInBuffer() {
   }
   return 0;
 }
+
+}  // namespace s2e::utilities

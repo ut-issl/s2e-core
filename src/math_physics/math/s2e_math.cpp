@@ -7,7 +7,7 @@
 
 #include <math_physics/math/constants.hpp>
 
-namespace math {
+namespace s2e::math {
 double WrapTo2Pi(const double angle_rad) {
   double angle_out = angle_rad;
   if (angle_out < 0.0) {
@@ -23,4 +23,4 @@ double WrapTo2Pi(const double angle_rad) {
   }
   return angle_out;
 }
-}  // namespace math
+}  // namespace s2e::math

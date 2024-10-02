@@ -14,19 +14,22 @@
 #include <string>
 
 using namespace std;
-using namespace math;
+using namespace s2e::math;
 
-StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
-                       const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction,
-                       const double step_time_s, const unsigned int output_delay, const unsigned int output_interval,
-                       const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad,
-                       const double capture_rate_limit_rad_s, const Dynamics* dynamics, const LocalEnvironment* local_environment)
+namespace s2e::components {
+
+StarSensor::StarSensor(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
+                       const math::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
+                       const double standard_deviation_sight_direction, const double step_time_s, const unsigned int output_delay,
+                       const unsigned int output_interval, const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad,
+                       const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const dynamics::Dynamics* dynamics,
+                       const environment::LocalEnvironment* local_environment)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
-      rotation_noise_(global_randomization.MakeSeed()),
-      orthogonal_direction_noise_(0.0, standard_deviation_orthogonal_direction, global_randomization.MakeSeed()),
-      sight_direction_noise_(0.0, standard_deviation_sight_direction, global_randomization.MakeSeed()),
+      rotation_noise_(randomization::global_randomization.MakeSeed()),
+      orthogonal_direction_noise_(0.0, standard_deviation_orthogonal_direction, randomization::global_randomization.MakeSeed()),
+      sight_direction_noise_(0.0, standard_deviation_sight_direction, randomization::global_randomization.MakeSeed()),
       buffer_position_(0),
       step_time_s_(step_time_s),
       output_delay_(output_delay),
@@ -40,18 +43,18 @@ StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, con
       local_environment_(local_environment) {
   Initialize();
 }
-StarSensor::StarSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+StarSensor::StarSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                        const math::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
                        const double standard_deviation_sight_direction, const double step_time_s, const unsigned int output_delay,
                        const unsigned int output_interval, const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad,
-                       const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
-                       const LocalEnvironment* local_environment)
+                       const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const dynamics::Dynamics* dynamics,
+                       const environment::LocalEnvironment* local_environment)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       quaternion_b2c_(quaternion_b2c),
-      rotation_noise_(global_randomization.MakeSeed()),
-      orthogonal_direction_noise_(0.0, standard_deviation_orthogonal_direction, global_randomization.MakeSeed()),
-      sight_direction_noise_(0.0, standard_deviation_sight_direction, global_randomization.MakeSeed()),
+      rotation_noise_(randomization::global_randomization.MakeSeed()),
+      orthogonal_direction_noise_(0.0, standard_deviation_orthogonal_direction, randomization::global_randomization.MakeSeed()),
+      sight_direction_noise_(0.0, standard_deviation_sight_direction, randomization::global_randomization.MakeSeed()),
       buffer_position_(0),
       step_time_s_(step_time_s),
       output_delay_(output_delay),
@@ -88,7 +91,8 @@ void StarSensor::Initialize() {
 
   error_flag_ = true;
 }
-Quaternion StarSensor::Measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+Quaternion StarSensor::Measure(const environment::LocalCelestialInformation* local_celestial_information,
+                               const dynamics::attitude::Attitude* attitude) {
   update(local_celestial_information, attitude);  // update delay buffer
   if (update_count_ == 0) {
     int hist = buffer_position_ - output_delay_ - 1;
@@ -104,7 +108,7 @@ Quaternion StarSensor::Measure(const LocalCelestialInformation* local_celestial_
   return measured_quaternion_i2c_;
 }
 
-void StarSensor::update(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+void StarSensor::update(const environment::LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude) {
   Quaternion quaternion_i2b = attitude->GetQuaternion_i2b();  // Read true value
   Quaternion q_stt_temp = quaternion_i2b * quaternion_b2c_;   // Convert to component frame
   // Add noise on sight direction
@@ -125,7 +129,8 @@ void StarSensor::update(const LocalCelestialInformation* local_celestial_informa
   buffer_position_ %= max_delay_;
 }
 
-void StarSensor::AllJudgement(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude) {
+void StarSensor::AllJudgement(const environment::LocalCelestialInformation* local_celestial_information,
+                              const dynamics::attitude::Attitude* attitude) {
   int judgement = 0;
   judgement = SunJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("SUN"));
   judgement += EarthJudgement(local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH"));
@@ -183,8 +188,8 @@ std::string StarSensor::GetLogHeader() const {
   const std::string sensor_id = std::to_string(static_cast<long long>(component_id_));
   std::string sensor_name = "stt" + sensor_id + "_";
 
-  str_tmp += WriteQuaternion(sensor_name + "measured_quaternion", "i2c");
-  str_tmp += WriteScalar(sensor_name + "error_flag");
+  str_tmp += logger::WriteQuaternion(sensor_name + "measured_quaternion", "i2c");
+  str_tmp += logger::WriteScalar(sensor_name + "error_flag");
 
   return str_tmp;
 }
@@ -192,8 +197,8 @@ std::string StarSensor::GetLogHeader() const {
 std::string StarSensor::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteQuaternion(measured_quaternion_i2c_);
-  str_tmp += WriteScalar(double(error_flag_));
+  str_tmp += logger::WriteQuaternion(measured_quaternion_i2c_);
+  str_tmp += logger::WriteScalar(double(error_flag_));
 
   return str_tmp;
 }
@@ -213,9 +218,9 @@ void StarSensor::MainRoutine(const int time_count) {
   Measure(&(local_environment_->GetCelestialInformation()), &(dynamics_->GetAttitude()));
 }
 
-StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const string file_name, double component_step_time_s,
-                          const Dynamics* dynamics, const LocalEnvironment* local_environment) {
-  IniAccess STT_conf(file_name);
+StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sensor_id, const string file_name, double component_step_time_s,
+                          const dynamics::Dynamics* dynamics, const environment::LocalEnvironment* local_environment) {
+  setting_file_reader::IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* STTSection = section_name.c_str();
@@ -246,9 +251,9 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const 
   return stt;
 }
 
-StarSensor InitStarSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string file_name, double component_step_time_s,
-                          const Dynamics* dynamics, const LocalEnvironment* local_environment) {
-  IniAccess STT_conf(file_name);
+StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const string file_name,
+                          double component_step_time_s, const dynamics::Dynamics* dynamics, const environment::LocalEnvironment* local_environment) {
+  setting_file_reader::IniAccess STT_conf(file_name);
   const char* sensor_name = "STAR_SENSOR_";
   const std::string section_name = sensor_name + std::to_string(static_cast<long long>(sensor_id));
   const char* STTSection = section_name.c_str();
@@ -281,3 +286,5 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, PowerPort* power_port
                  moon_forbidden_angle_rad, capture_rate_rad_s, dynamics, local_environment);
   return stt;
 }
+
+}  // namespace s2e::components

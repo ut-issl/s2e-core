@@ -11,6 +11,8 @@
 #include "math_physics/randomization/random_walk.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::environment {
+
 GeomagneticField::GeomagneticField(const std::string igrf_file_name, const double random_walk_srandard_deviation_nT,
                                    const double random_walk_limit_nT, const double white_noise_standard_deviation_nT)
     : magnetic_field_i_nT_(0.0),
@@ -42,9 +44,9 @@ void GeomagneticField::CalcMagneticField(const double decimal_year, const double
 void GeomagneticField::AddNoise(double* magnetic_field_array_i_nT) {
   static math::Vector<3> standard_deviation(random_walk_standard_deviation_nT_);
   static math::Vector<3> limit(random_walk_limit_nT_);
-  static RandomWalk<3> random_walk(0.1, standard_deviation, limit);
+  static randomization::RandomWalk<3> random_walk(0.1, standard_deviation, limit);
 
-  static randomization::NormalRand white_noise(0.0, white_noise_standard_deviation_nT_, global_randomization.MakeSeed());
+  static randomization::NormalRand white_noise(0.0, white_noise_standard_deviation_nT_, randomization::global_randomization.MakeSeed());
 
   for (int i = 0; i < 3; ++i) {
     magnetic_field_array_i_nT[i] += random_walk[i] + white_noise;
@@ -55,8 +57,8 @@ void GeomagneticField::AddNoise(double* magnetic_field_array_i_nT) {
 std::string GeomagneticField::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector("geomagnetic_field_at_spacecraft_position", "i", "nT", 3);
-  str_tmp += WriteVector("geomagnetic_field_at_spacecraft_position", "b", "nT", 3);
+  str_tmp += logger::WriteVector("geomagnetic_field_at_spacecraft_position", "i", "nT", 3);
+  str_tmp += logger::WriteVector("geomagnetic_field_at_spacecraft_position", "b", "nT", 3);
 
   return str_tmp;
 }
@@ -64,14 +66,14 @@ std::string GeomagneticField::GetLogHeader() const {
 std::string GeomagneticField::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(magnetic_field_i_nT_);
-  str_tmp += WriteVector(magnetic_field_b_nT_);
+  str_tmp += logger::WriteVector(magnetic_field_i_nT_);
+  str_tmp += logger::WriteVector(magnetic_field_b_nT_);
 
   return str_tmp;
 }
 
 GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "MAGNETIC_FIELD_ENVIRONMENT";
 
   std::string fname = conf.ReadString(section, "coefficient_file");
@@ -85,3 +87,5 @@ GeomagneticField InitGeomagneticField(std::string initialize_file_path) {
 
   return geomagnetic_field;
 }
+
+}  // namespace s2e::environment

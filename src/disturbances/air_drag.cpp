@@ -12,7 +12,9 @@
 
 #include "../logger/log_utility.hpp"
 
-AirDrag::AirDrag(const std::vector<Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
+namespace s2e::disturbances {
+
+AirDrag::AirDrag(const std::vector<spacecraft::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
                  const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled)
     : SurfaceForce(surfaces, center_of_gravity_b_m, is_calculation_enabled),
       wall_temperature_K_(wall_temperature_K),
@@ -23,7 +25,7 @@ AirDrag::AirDrag(const std::vector<Surface>& surfaces, const math::Vector<3>& ce
   cn_.assign(num, 0.0);
 }
 
-void AirDrag::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+void AirDrag::Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
   double air_density_kg_m3 = local_environment.GetAtmosphere().GetAirDensity_kg_m3();
 
   math::Matrix<3, 3> dcm_ecef2eci =
@@ -58,7 +60,7 @@ double AirDrag::CalcFunctionChi(const double s) {
   return x;
 }
 
-void AirDrag::CalcCnCt(const Vector<3>& velocity_b_m_s) {
+void AirDrag::CalcCnCt(const math::Vector<3>& velocity_b_m_s) {
   double velocity_norm_m_s = velocity_b_m_s.CalcNorm();
 
   // Re-emitting speed
@@ -78,8 +80,8 @@ void AirDrag::CalcCnCt(const Vector<3>& velocity_b_m_s) {
 std::string AirDrag::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector("air_drag_torque", "b", "Nm", 3);
-  str_tmp += WriteVector("air_drag_force", "b", "N", 3);
+  str_tmp += logger::WriteVector("air_drag_torque", "b", "Nm", 3);
+  str_tmp += logger::WriteVector("air_drag_force", "b", "N", 3);
 
   return str_tmp;
 }
@@ -87,14 +89,15 @@ std::string AirDrag::GetLogHeader() const {
 std::string AirDrag::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(torque_b_Nm_);
-  str_tmp += WriteVector(force_b_N_);
+  str_tmp += logger::WriteVector(torque_b_Nm_);
+  str_tmp += logger::WriteVector(force_b_N_);
 
   return str_tmp;
 }
 
-AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Surface>& surfaces, const Vector<3>& center_of_gravity_b_m) {
-  auto conf = IniAccess(initialize_file_path);
+AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<spacecraft::Surface>& surfaces,
+                    const math::Vector<3>& center_of_gravity_b_m) {
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "AIR_DRAG";
 
   const double wall_temperature_K = conf.ReadDouble(section, "wall_temperature_degC") + 273.0;
@@ -109,3 +112,5 @@ AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Su
 
   return air_drag;
 }
+
+}  // namespace s2e::disturbances

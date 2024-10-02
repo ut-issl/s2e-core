@@ -14,6 +14,8 @@
 #include "../math_physics/math/vector.hpp"
 #include "surface_force.hpp"
 
+namespace s2e::disturbances {
+
 /**
  * @class AirDrag
  * @brief Class to calculate the air drag disturbance force and torque
@@ -30,26 +32,26 @@ class AirDrag : public SurfaceForce {
    * @param [in] molecular_weight_g_mol: Molecular weight [g/mol]
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  AirDrag(const std::vector<Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
+  AirDrag(const std::vector<spacecraft::Surface>& surfaces, const math::Vector<3>& center_of_gravity_b_m, const double wall_temperature_K,
           const double molecular_temperature_K, const double molecular_weight_g_mol, const bool is_calculation_enabled = true);
 
   /**
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
    * @param [in] local_environment: Local environment information
-   * @param [in] dynamics: Dynamics information
+   * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
+  virtual void Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -96,6 +98,9 @@ class AirDrag : public SurfaceForce {
  * @param [in] surfaces: surface information of the spacecraft
  * @param [in] center_of_gravity_b_m: Center of gravity position vector at body frame [m]
  */
-AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<Surface>& surfaces, const Vector<3>& center_of_gravity_b_m);
+AirDrag InitAirDrag(const std::string initialize_file_path, const std::vector<spacecraft::Surface>& surfaces,
+                    const math::Vector<3>& center_of_gravity_b_m);
+
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_AIR_DRAG_HPP_

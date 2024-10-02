@@ -10,6 +10,8 @@
 #include "../math/vector.hpp"
 #include "./normal_randomization.hpp"
 
+namespace s2e::randomization {
+
 /**
  * @class RandomWalk
  * @brief Class to calculate random wark value
@@ -36,9 +38,11 @@ class RandomWalk : public math::OrdinaryDifferentialEquation<N> {
   virtual void DerivativeFunction(double x, const math::Vector<N>& state, math::Vector<N>& rhs);
 
  private:
-  math::Vector<N> limit_;                           //!< Limit of random walk
-  randomization::NormalRand normal_randomizer_[N];  //!< Random walk excitation noise
+  math::Vector<N> limit_;            //!< Limit of random walk
+  NormalRand normal_randomizer_[N];  //!< Random walk excitation noise
 };
+
+}  // namespace s2e::randomization
 
 #include "random_walk_template_functions.hpp"  // template function definisions.
 

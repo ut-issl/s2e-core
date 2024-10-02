@@ -9,6 +9,8 @@
 #include <sstream>
 #include <utilities/macros.hpp>
 
+namespace s2e::dynamics::attitude {
+
 AttitudeRk4::AttitudeRk4(const math::Vector<3>& angular_velocity_b_rad_s, const math::Quaternion& quaternion_i2b,
                          const math::Matrix<3, 3>& inertia_tensor_kgm2, const math::Vector<3>& torque_b_Nm, const double propagation_step_s,
                          const std::string& simulation_object_name)
@@ -26,7 +28,7 @@ AttitudeRk4::AttitudeRk4(const math::Vector<3>& angular_velocity_b_rad_s, const 
 
 AttitudeRk4::~AttitudeRk4() {}
 
-void AttitudeRk4::SetParameters(const MonteCarloSimulationExecutor& mc_simulator) {
+void AttitudeRk4::SetParameters(const simulation::MonteCarloSimulationExecutor& mc_simulator) {
   Attitude::SetParameters(mc_simulator);
   GetInitializedMonteCarloParameterVector(mc_simulator, "angular_velocity_b_rad_s", angular_velocity_b_rad_s_);
 
@@ -119,3 +121,5 @@ void AttitudeRk4::RungeKuttaOneStep(double t, double dt) {
   }
   quaternion_i2b_.Normalize();
 }
+
+}  // namespace s2e::dynamics::attitude

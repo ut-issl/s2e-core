@@ -10,6 +10,8 @@
 #include <math_physics/math/constants.hpp>
 #include <math_physics/planet_rotation/moon_rotation_utilities.hpp>
 
+namespace s2e::environment {
+
 MoonRotation::MoonRotation(const CelestialInformation& celestial_information, MoonRotationMode mode)
     : mode_(mode), celestial_information_(celestial_information) {
   dcm_j2000_to_mcmf_ = math::MakeIdentityMatrix<3>();
@@ -51,3 +53,5 @@ MoonRotationMode ConvertMoonRotationMode(const std::string mode) {
 
   return rotation_mode;
 }
+
+}  // namespace s2e::environment

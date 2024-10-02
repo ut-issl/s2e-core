@@ -7,7 +7,7 @@
 
 #include "igs_product_name_handling.hpp"
 
-using namespace gnss;
+using namespace s2e::gnss;
 
 /**
  * @brief Test GetOrbitClockFinalFileName

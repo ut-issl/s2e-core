@@ -11,6 +11,8 @@
 #include "c2a_communication.hpp"
 #include "on_board_computer.hpp"
 
+namespace s2e::components {
+
 /*
  * @class ObcWithC2a
  * @brief Class to emulate on board computer with C2A flight software
@@ -22,14 +24,14 @@ class ObcWithC2a : public OnBoardComputer {
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
    */
-  ObcWithC2a(ClockGenerator* clock_generator);
+  ObcWithC2a(environment::ClockGenerator* clock_generator);
   /**
    * @fn ObcWithC2a
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
    * @param [in] timing_regulator: Timing regulator to update flight software faster than the component update
    */
-  ObcWithC2a(ClockGenerator* clock_generator, int timing_regulator);
+  ObcWithC2a(environment::ClockGenerator* clock_generator, int timing_regulator);
   /**
    * @fn ObcWithC2a
    * @brief Constructor
@@ -38,7 +40,7 @@ class ObcWithC2a : public OnBoardComputer {
    * @param [in] timing_regulator: Timing regulator to update flight software faster than the component update
    * @param [in] power_port: Power port
    */
-  ObcWithC2a(int prescaler, ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port);
+  ObcWithC2a(int prescaler, environment::ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port);
   /**
    * @fn ~ObcWithC2a
    * @brief Destructor
@@ -270,5 +272,7 @@ class ObcWithC2a : public OnBoardComputer {
   static std::map<int, I2cPort*> i2c_com_ports_c2a_;  //!< I2C ports
   static std::map<int, GpioPort*> gpio_ports_c2a_;    //!< GPIO ports
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_CDH_OBC_C2A_HPP_

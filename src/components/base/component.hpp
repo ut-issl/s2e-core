@@ -12,6 +12,8 @@
 
 #include "interface_tickable.hpp"
 
+namespace s2e::components {
+
 /**
  * @class Component
  * @brief Base class for component emulation. All components have to inherit this.
@@ -27,7 +29,7 @@ class Component : public ITickable {
    * @param [in] clock_generator: Clock generator
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  Component(const unsigned int prescaler, ClockGenerator* clock_generator, const unsigned int fast_prescaler = 1);
+  Component(const unsigned int prescaler, environment::ClockGenerator* clock_generator, const unsigned int fast_prescaler = 1);
   /**
    * @fn Component
    * @brief Constructor with power port
@@ -36,7 +38,7 @@ class Component : public ITickable {
    * @param [in] power_port: Power port
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  Component(const unsigned int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const unsigned int fast_prescaler = 1);
+  Component(const unsigned int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const unsigned int fast_prescaler = 1);
   /**
    * @fn Component
    * @brief Copy constructor
@@ -76,16 +78,18 @@ class Component : public ITickable {
    * @brief Pure virtual function used to calculate high-frequency disturbances(e.g. RW jitter)
    * @note Override only when high-frequency disturbances need to be calculated.
    */
-  virtual void FastUpdate(){};
+  virtual void FastUpdate() {};
 
   /**
    * @fn PowerOffRoutine
    * @brief Pure virtual function executed when the power switch is off.
    */
-  virtual void PowerOffRoutine(){};
+  virtual void PowerOffRoutine() {};
 
-  ClockGenerator* clock_generator_;  //!< Clock generator
-  PowerPort* power_port_;            //!< Power port
+  environment::ClockGenerator* clock_generator_;  //!< Clock generator
+  PowerPort* power_port_;                         //!< Power port
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_COMPONENT_HPP_

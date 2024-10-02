@@ -6,6 +6,8 @@
 
 #include <logger/log_utility.hpp>
 
+namespace s2e::dynamics::attitude {
+
 Attitude::Attitude(const math::Matrix<3, 3>& inertia_tensor_kgm2, const std::string& simulation_object_name)
     : SimulationObject(simulation_object_name), inertia_tensor_kgm2_(inertia_tensor_kgm2) {
   angular_velocity_b_rad_s_ = math::Vector<3>(0.0);
@@ -22,11 +24,11 @@ Attitude::Attitude(const math::Matrix<3, 3>& inertia_tensor_kgm2, const std::str
 std::string Attitude::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector("spacecraft_angular_velocity", "b", "rad/s", 3);
-  str_tmp += WriteQuaternion("spacecraft_quaternion", "i2b");
-  str_tmp += WriteVector("spacecraft_torque", "b", "Nm", 3);
-  str_tmp += WriteScalar("spacecraft_total_angular_momentum", "Nms");
-  str_tmp += WriteScalar("spacecraft_kinematic_energy", "J");
+  str_tmp += logger::WriteVector("spacecraft_angular_velocity", "b", "rad/s", 3);
+  str_tmp += logger::WriteQuaternion("spacecraft_quaternion", "i2b");
+  str_tmp += logger::WriteVector("spacecraft_torque", "b", "Nm", 3);
+  str_tmp += logger::WriteScalar("spacecraft_total_angular_momentum", "Nms");
+  str_tmp += logger::WriteScalar("spacecraft_kinematic_energy", "J");
 
   return str_tmp;
 }
@@ -34,16 +36,16 @@ std::string Attitude::GetLogHeader() const {
 std::string Attitude::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(angular_velocity_b_rad_s_);
-  str_tmp += WriteQuaternion(quaternion_i2b_);
-  str_tmp += WriteVector(torque_b_Nm_);
-  str_tmp += WriteScalar(angular_momentum_total_Nms_);
-  str_tmp += WriteScalar(kinetic_energy_J_);
+  str_tmp += logger::WriteVector(angular_velocity_b_rad_s_);
+  str_tmp += logger::WriteQuaternion(quaternion_i2b_);
+  str_tmp += logger::WriteVector(torque_b_Nm_);
+  str_tmp += logger::WriteScalar(angular_momentum_total_Nms_);
+  str_tmp += logger::WriteScalar(kinetic_energy_J_);
 
   return str_tmp;
 }
 
-void Attitude::SetParameters(const MonteCarloSimulationExecutor& mc_simulator) {
+void Attitude::SetParameters(const simulation::MonteCarloSimulationExecutor& mc_simulator) {
   GetInitializedMonteCarloParameterQuaternion(mc_simulator, "quaternion_i2b", quaternion_i2b_);
 }
 
@@ -79,3 +81,5 @@ math::Matrix<4, 4> CalcAngularVelocityMatrix(math::Vector<3> angular_velocity_b_
 
   return angular_velocity_matrix;
 }
+
+}  // namespace s2e::dynamics::attitude

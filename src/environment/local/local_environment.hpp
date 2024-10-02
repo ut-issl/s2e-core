@@ -15,7 +15,11 @@
 #include "simulation/simulation_configuration.hpp"
 #include "solar_radiation_pressure_environment.hpp"
 
+namespace s2e::dynamics {
 class Dynamics;
+}
+
+namespace s2e::environment {
 
 /**
  * @class LocalEnvironment
@@ -30,7 +34,8 @@ class LocalEnvironment {
    * @param [in] global_environment: Global environment
    * @param [in] spacecraft_id: Satellite ID
    */
-  LocalEnvironment(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
+  LocalEnvironment(const simulation::SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
+                   const int spacecraft_id);
   /**
    * @fn ~LocalEnvironment
    * @brief Destructor
@@ -43,13 +48,13 @@ class LocalEnvironment {
    * @param [in] dynamics: Dynamics information of the satellite
    * @param [in] simulation_time: Simulation time
    */
-  void Update(const Dynamics* dynamics, const SimulationTime* simulation_time);
+  void Update(const dynamics::Dynamics* dynamics, const SimulationTime* simulation_time);
 
   /**
    * @fn LogSetup
    * @brief Log setup for local environments
    */
-  void LogSetup(Logger& logger);
+  void LogSetup(logger::Logger& logger);
 
   /**
    * @fn GetAtmosphere
@@ -91,7 +96,10 @@ class LocalEnvironment {
    * @param [in] global_environment: Global environment
    * @param [in] spacecraft_id: Satellite ID
    */
-  void Initialize(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment, const int spacecraft_id);
+  void Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
+                  const int spacecraft_id);
 };
+
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_ENVIRONMENT_HPP_

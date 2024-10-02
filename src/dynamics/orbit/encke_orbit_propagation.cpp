@@ -9,7 +9,9 @@
 
 #include "../../math_physics/orbit/orbital_elements.hpp"
 
-EnckeOrbitPropagation::EnckeOrbitPropagation(const CelestialInformation* celestial_information, const double gravity_constant_m3_s2,
+namespace s2e::dynamics::orbit {
+
+EnckeOrbitPropagation::EnckeOrbitPropagation(const environment::CelestialInformation* celestial_information, const double gravity_constant_m3_s2,
                                              const double propagation_step_s, const double current_time_jd, const math::Vector<3> position_i_m,
                                              const math::Vector<3> velocity_i_m_s, const double error_tolerance)
     : Orbit(celestial_information),
@@ -90,8 +92,8 @@ void EnckeOrbitPropagation::Initialize(double current_time_jd, math::Vector<3> r
   // reference orbit
   reference_position_i_m_ = reference_position_i_m;
   reference_velocity_i_m_s_ = reference_velocity_i_m_s;
-  orbit::OrbitalElements oe_ref(gravity_constant_m3_s2_, current_time_jd, reference_position_i_m, reference_velocity_i_m_s);
-  reference_kepler_orbit = orbit::KeplerOrbit(gravity_constant_m3_s2_, oe_ref);
+  s2e::orbit::OrbitalElements oe_ref(gravity_constant_m3_s2_, current_time_jd, reference_position_i_m, reference_velocity_i_m_s);
+  reference_kepler_orbit = s2e::orbit::KeplerOrbit(gravity_constant_m3_s2_, oe_ref);
 
   // difference orbit
   difference_position_i_m_.FillUp(0.0);
@@ -124,3 +126,5 @@ double EnckeOrbitPropagation::CalcQFunction(math::Vector<3> difference_position_
 
   return q_func;
 }
+
+}  // namespace s2e::dynamics::orbit

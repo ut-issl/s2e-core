@@ -8,8 +8,10 @@
 #include "dynamics/orbit/orbit.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
-LocalEnvironment::LocalEnvironment(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
-                                   const int spacecraft_id) {
+namespace s2e::environment {
+
+LocalEnvironment::LocalEnvironment(const simulation::SimulationConfiguration* simulation_configuration,
+                                   const environment::GlobalEnvironment* global_environment, const int spacecraft_id) {
   Initialize(simulation_configuration, global_environment, spacecraft_id);
 }
 
@@ -21,10 +23,10 @@ LocalEnvironment::~LocalEnvironment() {
   delete celestial_information_;
 }
 
-void LocalEnvironment::Initialize(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
-                                  const int spacecraft_id) {
+void LocalEnvironment::Initialize(const simulation::SimulationConfiguration* simulation_configuration,
+                                  const environment::GlobalEnvironment* global_environment, const int spacecraft_id) {
   // Read file name
-  IniAccess iniAccess = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
+  setting_file_reader::IniAccess iniAccess = setting_file_reader::IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   std::string ini_fname = iniAccess.ReadString("SETTING_FILES", "local_environment_file");
 
   // Save ini file
@@ -45,11 +47,11 @@ void LocalEnvironment::Initialize(const SimulationConfiguration* simulation_conf
   }
 
   // Log setting for Local celestial information
-  IniAccess conf = IniAccess(ini_fname);
+  setting_file_reader::IniAccess conf = setting_file_reader::IniAccess(ini_fname);
   celestial_information_->is_log_enabled_ = conf.ReadEnable("LOCAL_CELESTIAL_INFORMATION", "logging");
 }
 
-void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* simulation_time) {
+void LocalEnvironment::Update(const dynamics::Dynamics* dynamics, const SimulationTime* simulation_time) {
   auto& orbit = dynamics->GetOrbit();
   auto& attitude = dynamics->GetAttitude();
 
@@ -69,10 +71,12 @@ void LocalEnvironment::Update(const Dynamics* dynamics, const SimulationTime* si
   }
 }
 
-void LocalEnvironment::LogSetup(Logger& logger) {
+void LocalEnvironment::LogSetup(logger::Logger& logger) {
   logger.AddLogList(geomagnetic_field_);
   logger.AddLogList(solar_radiation_pressure_environment_);
   logger.AddLogList(earth_albedo_);
   logger.AddLogList(atmosphere_);
   logger.AddLogList(celestial_information_);
 }
+
+}  // namespace s2e::environment

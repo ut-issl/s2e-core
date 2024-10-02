@@ -26,6 +26,8 @@
 #endif  // c2a-core version header
 #endif  // USE_C2A
 
+namespace s2e::components {
+
 void WingsCommandSenderToC2a::MainRoutine(const int time_count) {
   UNUSED(time_count);
   if (is_enabled_ == false) return;
@@ -131,9 +133,9 @@ void WingsCommandSenderToC2a::AnalyzeC2aCommand(const std::vector<std::string> t
 #endif
 }
 
-WingsCommandSenderToC2a InitWingsCommandSenderToC2a(ClockGenerator* clock_generator, const double compo_update_step_s,
+WingsCommandSenderToC2a InitWingsCommandSenderToC2a(environment::ClockGenerator* clock_generator, const double compo_update_step_s,
                                                     const std::string initialize_file) {
-  IniAccess ini_access(initialize_file);
+  setting_file_reader::IniAccess ini_access(initialize_file);
   std::string section = "WINGS_COMMAND_SENDER_TO_C2A";
 
   bool is_enabled = ini_access.ReadEnable(section.c_str(), "command_send_enable");
@@ -148,3 +150,5 @@ WingsCommandSenderToC2a InitWingsCommandSenderToC2a(ClockGenerator* clock_genera
 
   return WingsCommandSenderToC2a(prescaler, clock_generator, step_width_s, c2a_command_data_base_file, wings_operation_file, is_enabled);
 }
+
+}  // namespace s2e::components

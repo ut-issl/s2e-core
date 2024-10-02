@@ -18,6 +18,8 @@
 #include "logger/log_utility.hpp"
 #include "setting_file_reader/initialize_file_access.hpp"
 
+namespace s2e::environment {
+
 CelestialInformation::CelestialInformation(const std::string inertial_frame_name, const std::string aberration_correction_setting,
                                            const std::string center_body_name, const unsigned int number_of_selected_body, int* selected_body_ids,
                                            const std::vector<std::string> rotation_mode_list)
@@ -163,8 +165,8 @@ std::string CelestialInformation::GetLogHeader() const {
     std::string body_pos = name + "_position";
     std::string body_vel = name + "_velocity";
 
-    str_tmp += WriteVector(body_pos, "i", "m", 3);
-    str_tmp += WriteVector(body_vel, "i", "m/s", 3);
+    str_tmp += logger::WriteVector(body_pos, "i", "m", 3);
+    str_tmp += logger::WriteVector(body_vel, "i", "m/s", 3);
   }
   return str_tmp;
 }
@@ -173,10 +175,10 @@ std::string CelestialInformation::GetLogValue() const {
   std::string str_tmp = "";
   for (unsigned int i = 0; i < number_of_selected_bodies_; i++) {
     for (int j = 0; j < 3; j++) {
-      str_tmp += WriteScalar(celestial_body_position_from_center_i_m_[i * 3 + j]);
+      str_tmp += logger::WriteScalar(celestial_body_position_from_center_i_m_[i * 3 + j]);
     }
     for (int j = 0; j < 3; j++) {
-      str_tmp += WriteScalar(celestial_body_velocity_from_center_i_m_s_[i * 3 + j]);
+      str_tmp += logger::WriteScalar(celestial_body_velocity_from_center_i_m_s_[i * 3 + j]);
     }
   }
   return str_tmp;
@@ -199,7 +201,7 @@ void CelestialInformation::GetPlanetOrbit(const char* planet_name, const double 
 }
 
 CelestialInformation* InitCelestialInformation(std::string file_name) {
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
   const char* section = "CELESTIAL_INFORMATION";
   const char* furnsh_section = "CSPICE_KERNELS";
 
@@ -244,3 +246,5 @@ CelestialInformation* InitCelestialInformation(std::string file_name) {
 
   return celestial_info;
 }
+
+}  // namespace s2e::environment

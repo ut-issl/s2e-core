@@ -21,11 +21,13 @@
 #include "math_physics/math/vector.hpp"
 #include "simulation_time.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class GnssSatellites
  * @brief Class to calculate GNSS satellite position and clock
  */
-class GnssSatellites : public ILoggable {
+class GnssSatellites : public logger::ILoggable {
  public:
   /**
    * @fn GnssSatellites
@@ -98,15 +100,15 @@ class GnssSatellites : public ILoggable {
    */
   double GetClock_s(const size_t gnss_satellite_id, const time_system::EpochTime time = time_system::EpochTime(0, 0.0)) const;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   std::string GetLogValue() const override;
 
@@ -152,5 +154,7 @@ class GnssSatellites : public ILoggable {
  * @return Initialized GnssSatellite class
  */
 GnssSatellites* InitGnssSatellites(const std::string file_name, const EarthRotation& earth_rotation, const SimulationTime& simulation_time);
+
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_GNSS_SATELLITES_HPP_

@@ -15,6 +15,8 @@
 #include "math_physics/orbit/sgp4/sgp4ext.h"   // for jday()
 #include "math_physics/orbit/sgp4/sgp4unit.h"  // for gstime()
 
+namespace s2e::environment {
+
 // Default constructor
 EarthRotation::EarthRotation(const EarthRotationMode rotation_mode) : rotation_mode_(rotation_mode) {
   dcm_j2000_to_ecef_ = math::MakeIdentityMatrix<3>();
@@ -275,3 +277,5 @@ EarthRotationMode ConvertEarthRotationMode(const std::string mode) {
 
   return rotation_mode;
 }
+
+}  // namespace s2e::environment

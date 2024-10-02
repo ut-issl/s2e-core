@@ -9,7 +9,7 @@
 #include <fstream>
 #include <iostream>
 
-namespace gnss {
+namespace s2e::gnss {
 
 bool BiasSinexFileReader::ReadFile(const std::string file_name) {
   // File open
@@ -245,4 +245,4 @@ void BiasSolutionData::SetTargetSignal(const std::string signal1, const std::str
   }
 }
 
-}  // namespace gnss
+}  // namespace s2e::gnss

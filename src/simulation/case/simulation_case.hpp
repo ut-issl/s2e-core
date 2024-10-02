@@ -13,11 +13,13 @@
 #include "../simulation_configuration.hpp"
 class Logger;
 
+namespace s2e::simulation {
+
 /**
  * @class SimulationCase
  * @brief Base class to define simulation scenario
  */
-class SimulationCase : public ILoggable {
+class SimulationCase : public logger::ILoggable {
  public:
   /**
    * @fn SimulationCase
@@ -72,11 +74,11 @@ class SimulationCase : public ILoggable {
    * @fn GetGlobalEnvironment
    * @brief Return global environment
    */
-  inline const GlobalEnvironment& GetGlobalEnvironment() const { return *global_environment_; }
+  inline const environment::GlobalEnvironment& GetGlobalEnvironment() const { return *global_environment_; }
 
  protected:
-  SimulationConfiguration simulation_configuration_;  //!< Simulation setting
-  GlobalEnvironment* global_environment_;             //!< Global Environment
+  SimulationConfiguration simulation_configuration_;    //!< Simulation setting
+  environment::GlobalEnvironment* global_environment_;  //!< Global Environment
 
   /**
    * @fn InitializeSimulationConfiguration
@@ -97,5 +99,7 @@ class SimulationCase : public ILoggable {
    */
   virtual void UpdateTargetObjects() = 0;
 };
+
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_CASE_SIMULATION_CASE_HPP_

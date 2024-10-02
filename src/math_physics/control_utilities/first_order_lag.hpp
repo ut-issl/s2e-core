@@ -6,7 +6,7 @@
 #ifndef S2E_LIBRARY_CONTROL_UTILITIES_FIRST_ORDER_LAG_HPP_
 #define S2E_LIBRARY_CONTROL_UTILITIES_FIRST_ORDER_LAG_HPP_
 
-namespace control_utilities {
+namespace s2e::control_utilities {
 
 /**
  * @class FirstOderLag
@@ -47,6 +47,6 @@ class FirstOrderLag {
   const double gain_;             //!< Gain
 };
 
-}  // namespace control_utilities
+}  // namespace s2e::control_utilities
 
 #endif  // S2E_LIBRARY_CONTROL_UTILITIES_FIRST_ORDER_LAG_HPP_

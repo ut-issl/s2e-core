@@ -9,11 +9,13 @@
 #include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
 
+namespace s2e::components {
+
 // Constructor
-SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id,
+SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
                                const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
-                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
-                               const Dynamics* dynamics)
+                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad,
+                               const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       thruster_position_b_m_(thruster_position_b_m),
@@ -25,10 +27,10 @@ SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_genera
   Initialize(magnitude_standard_deviation_N, direction_standard_deviation_rad);
 }
 
-SimpleThruster::SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+SimpleThruster::SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
                                const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
-                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
-                               const Dynamics* dynamics)
+                               const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad,
+                               const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       thruster_position_b_m_(thruster_position_b_m),
@@ -77,18 +79,18 @@ std::string SimpleThruster::GetLogHeader() const {
   std::string str_tmp = "";
 
   std::string head = "simple_thruster" + std::to_string(component_id_) + "_";
-  str_tmp += WriteVector(head + "output_thrust", "b", "N", 3);
-  str_tmp += WriteVector(head + "output_torque", "b", "Nm", 3);
-  str_tmp += WriteScalar(head + "output_thrust_norm", "N");
+  str_tmp += logger::WriteVector(head + "output_thrust", "b", "N", 3);
+  str_tmp += logger::WriteVector(head + "output_torque", "b", "Nm", 3);
+  str_tmp += logger::WriteScalar(head + "output_thrust_norm", "N");
   return str_tmp;
 }
 
 std::string SimpleThruster::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteVector(output_thrust_b_N_);
-  str_tmp += WriteVector(output_torque_b_Nm_);
-  str_tmp += WriteScalar(output_thrust_b_N_.CalcNorm());
+  str_tmp += logger::WriteVector(output_thrust_b_N_);
+  str_tmp += logger::WriteVector(output_torque_b_Nm_);
+  str_tmp += logger::WriteScalar(output_thrust_b_N_.CalcNorm());
 
   return str_tmp;
 }
@@ -120,19 +122,19 @@ math::Vector<3> SimpleThruster::CalcThrustDirection() {
   return thrust_dir_b_true;
 }
 
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_id, const std::string file_name, const Structure* structure,
-                                  const Dynamics* dynamics) {
-  IniAccess thruster_conf(file_name);
+SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, int thruster_id, const std::string file_name,
+                                  const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics) {
+  setting_file_reader::IniAccess thruster_conf(file_name);
   std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = section_str.c_str();
 
   int prescaler = thruster_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Vector<3> thruster_pos;
+  math::Vector<3> thruster_pos;
   thruster_conf.ReadVector(Section, "thruster_position_b_m", thruster_pos);
 
-  Vector<3> thruster_dir;
+  math::Vector<3> thruster_dir;
   thruster_conf.ReadVector(Section, "thruster_direction_b", thruster_dir);
 
   double max_magnitude_N = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");
@@ -148,19 +150,19 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_
   return thruster;
 }
 
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
-                                  const Structure* structure, const Dynamics* dynamics) {
-  IniAccess thruster_conf(file_name);
+SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
+                                  const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics) {
+  setting_file_reader::IniAccess thruster_conf(file_name);
   std::string section_str = "THRUSTER_" + std::to_string(thruster_id);
   auto* Section = section_str.c_str();
 
   int prescaler = thruster_conf.ReadInt(Section, "prescaler");
   if (prescaler <= 1) prescaler = 1;
 
-  Vector<3> thruster_pos;
+  math::Vector<3> thruster_pos;
   thruster_conf.ReadVector(Section, "thruster_position_b_m", thruster_pos);
 
-  Vector<3> thruster_dir;
+  math::Vector<3> thruster_dir;
   thruster_conf.ReadVector(Section, "thruster_direction_b", thruster_dir);
 
   double max_magnitude_N = thruster_conf.ReadDouble(Section, "thrust_magnitude_N");
@@ -177,3 +179,5 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* po
                           magnitude_standard_deviation_N, deg_err, structure, dynamics);
   return thruster;
 }
+
+}  // namespace s2e::components

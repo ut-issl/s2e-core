@@ -10,6 +10,8 @@
 
 #include "hils_uart_port.hpp"
 
+namespace s2e::components {
+
 const unsigned int kDefaultCommandSize = 0xff;  //!< Default command size
 const unsigned int kDefaultTxSize = 0xff;       //!< Default TX size
 
@@ -106,5 +108,7 @@ class HilsI2cTargetPort : public HilsUartPort {
   /** @brief Buffer for the command from COM port : <cmd_buffer_length, value>  **/
   std::map<unsigned char, unsigned char> command_buffer_;
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_PORTS_HILS_I2C_TARGET_PORT_HPP_

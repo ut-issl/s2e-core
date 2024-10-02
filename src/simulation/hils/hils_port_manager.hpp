@@ -12,6 +12,8 @@
 #endif
 #include <map>
 
+namespace s2e::simulation {
+
 /**
  * @class HilsPortManager
  * @brief Class to manage COM ports for HILS test
@@ -163,9 +165,11 @@ class HilsPortManager {
 
  private:
 #ifdef USE_HILS
-  std::map<int, HilsUartPort*> uart_ports_;      //!< UART ports
-  std::map<int, HilsI2cTargetPort*> i2c_ports_;  //!< I2C ports
+  std::map<int, components::HilsUartPort*> uart_ports_;      //!< UART ports
+  std::map<int, components::HilsI2cTargetPort*> i2c_ports_;  //!< I2C ports
 #endif
 };
+
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_HILS_HILS_PORT_MANAGER_HPP_

@@ -8,7 +8,7 @@
 
 #include "../math/vector.hpp"
 
-namespace orbit {
+namespace s2e::orbit {
 
 /**
  * @class OrbitalElements
@@ -106,6 +106,6 @@ class OrbitalElements {
                         const math::Vector<3> velocity_i_m_s);
 };
 
-}  // namespace orbit
+}  // namespace s2e::orbit
 
 #endif  // S2E_LIBRARY_ORBIT_ORBITAL_ELEMENTS_HPP_

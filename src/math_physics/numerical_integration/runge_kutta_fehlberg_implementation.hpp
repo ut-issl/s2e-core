@@ -8,7 +8,7 @@
 
 #include "runge_kutta_fehlberg.hpp"
 
-namespace numerical_integration {
+namespace s2e::numerical_integration {
 
 template <size_t N>
 RungeKuttaFehlberg<N>::RungeKuttaFehlberg(const double step_width, const InterfaceOde<N>& ode) : EmbeddedRungeKutta<N>(step_width, ode) {
@@ -96,6 +96,6 @@ std::vector<double> RungeKuttaFehlberg<N>::CalcInterpolationWeights(const double
   return interpolation_weights;
 }
 
-}  // namespace numerical_integration
+}  // namespace s2e::numerical_integration
 
 #endif  // S2E_LIBRARY_NUMERICAL_INTEGRATION_RUNGE_KUTTA_FEHLBERG_IMPLEMENTATION_HPP_

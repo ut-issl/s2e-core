@@ -8,6 +8,8 @@
 
 #include <components/base/interface_gpio_component.hpp>
 
+namespace s2e::components {
+
 #define GPIO_HIGH true
 #define GPIO_LOW false
 
@@ -50,5 +52,7 @@ class GpioPort {
   IGPIOCompo* component_;      //!< Component which has the GPIO port
   bool high_low_state_;        //!< GPIO High/Low state
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_PORTS_GPIO_PORT_HPP_

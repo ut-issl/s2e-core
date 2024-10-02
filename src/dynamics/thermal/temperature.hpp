@@ -17,6 +17,8 @@
 #include "heatload.hpp"
 #include "node.hpp"
 
+namespace s2e::dynamics::thermal {
+
 /**
  * @enum SolarCalcSetting
  * @brief Whether to calculate solar radiation inside simulation
@@ -30,7 +32,7 @@ enum class SolarCalcSetting {
  * @class Temperature
  * @brief class to calculate temperature of all nodes
  */
-class Temperature : public ILoggable {
+class Temperature : public logger::ILoggable {
  protected:
   std::vector<std::vector<double>> conductance_matrix_W_K_;  //!< Coupling of node i and node j by heat conduction [W/K]
   std::vector<std::vector<double>> radiation_matrix_m2_;     //!< Coupling of node i and node j by thermal radiation [m2]
@@ -41,11 +43,11 @@ class Temperature : public ILoggable {
   size_t node_num_;                                          //!< number of nodes
   double propagation_step_s_;                                //!< propagation step [s]
   double propagation_time_s_;  //!< Incremented time inside class Temperature [s], finish propagation when reaching end_time
-  const SolarRadiationPressureEnvironment* srp_environment_;  //!< SolarRadiationPressureEnvironment for calculating solar flux
-  const EarthAlbedo* earth_albedo_;                           //!< EarthAlbedo object for calculating earth albedo
-  bool is_calc_enabled_;                                      //!< Whether temperature calculation is enabled
-  SolarCalcSetting solar_calc_setting_;                       //!< setting for solar calculation
-  bool debug_;                                                //!< Activate debug output or not
+  const environment::SolarRadiationPressureEnvironment* srp_environment_;  //!< SolarRadiationPressureEnvironment for calculating solar flux
+  const environment::EarthAlbedo* earth_albedo_;                           //!< EarthAlbedo object for calculating earth albedo
+  bool is_calc_enabled_;                                                   //!< Whether temperature calculation is enabled
+  SolarCalcSetting solar_calc_setting_;                                    //!< setting for solar calculation
+  bool debug_;                                                             //!< Activate debug output or not
 
   /**
    * @fn CalcRungeOneStep
@@ -56,7 +58,8 @@ class Temperature : public ILoggable {
    * @param[in] local_celestial_information: LocalCelestialInformation object for calculating radiation
    * @param[in] node_num: Number of nodes
    */
-  void CalcRungeOneStep(double time_now_s, double time_step_s, const LocalCelestialInformation* local_celestial_information, size_t node_num);
+  void CalcRungeOneStep(double time_now_s, double time_step_s, const environment::LocalCelestialInformation* local_celestial_information,
+                        size_t node_num);
   /**
    * @fn CalcTemperatureDifferentials
    * @brief Calculate differential of thermal equilibrium equation
@@ -68,7 +71,7 @@ class Temperature : public ILoggable {
    * @return std::vector<double>: Differential of thermal equilibrium equation at time now
    */
   std::vector<double> CalcTemperatureDifferentials(std::vector<double> temperatures_K, double time_now_s,
-                                                   const LocalCelestialInformation* local_celestial_information, size_t node_num);
+                                                   const environment::LocalCelestialInformation* local_celestial_information, size_t node_num);
 
  public:
   /**
@@ -91,8 +94,8 @@ class Temperature : public ILoggable {
    */
   Temperature(const std::vector<std::vector<double>> conductance_matrix_W_K, const std::vector<std::vector<double>> radiation_matrix_m2,
               std::vector<Node> nodes, std::vector<Heatload> heatloads, std::vector<Heater> heaters, std::vector<HeaterController> heater_controllers,
-              const size_t node_num, const double propagation_step_s, const SolarRadiationPressureEnvironment* srp_environment,
-              const EarthAlbedo* earth_albedo, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug);
+              const size_t node_num, const double propagation_step_s, const environment::SolarRadiationPressureEnvironment* srp_environment,
+              const environment::EarthAlbedo* earth_albedo, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug);
   /**
    * @fn Temperature
    * @brief Construct a new Temperature object, used when thermal calculation is disabled.
@@ -112,11 +115,12 @@ class Temperature : public ILoggable {
    * @param[in] local_celestial_information: LocalCelestialInformation object for calculating radiation
    * @param time_end_s: Time to finish propagation [s]
    */
-  void Propagate(const LocalCelestialInformation* local_celestial_information, const double time_end_s);
+  void Propagate(const environment::LocalCelestialInformation* local_celestial_information, const double time_end_s);
 
   // Getter
   /**
    * @fn GetNodes
+   *
    * @brief Return Nodes
    * @return std::vector<Node>
    */
@@ -162,7 +166,9 @@ class Temperature : public ILoggable {
  * @param[in] srp_environment: SolarRadiationPressureEnvironment object for calculating solar flux
  * @return Temperature*
  */
-Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s, const SolarRadiationPressureEnvironment* srp_environment,
-                             const EarthAlbedo* earth_albedo);
+Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s,
+                             const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo);
+
+}  // namespace s2e::dynamics::thermal
 
 #endif  // S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_
