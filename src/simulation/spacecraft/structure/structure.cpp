@@ -5,10 +5,12 @@
 
 #include "structure.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 #include <simulation/spacecraft/structure/initialize_structure.hpp>
 
-Structure::Structure(const SimulationConfiguration* simulation_configuration, const int spacecraft_id) {
+namespace s2e::spacecraft {
+
+Structure::Structure(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id) {
   Initialize(simulation_configuration, spacecraft_id);
 }
 
@@ -17,9 +19,9 @@ Structure::~Structure() {
   delete residual_magnetic_moment_;
 }
 
-void Structure::Initialize(const SimulationConfiguration* simulation_configuration, const int spacecraft_id) {
+void Structure::Initialize(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id) {
   // Read file name
-  IniAccess conf = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
+  setting_file_reader::IniAccess conf = setting_file_reader::IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   std::string ini_fname = conf.ReadString("SETTING_FILES", "structure_file");
   // Save ini file
   simulation_configuration->main_logger_->CopyFileToLogDirectory(ini_fname);
@@ -28,3 +30,5 @@ void Structure::Initialize(const SimulationConfiguration* simulation_configurati
   surfaces_ = InitSurfaces(ini_fname);
   residual_magnetic_moment_ = new ResidualMagneticMoment(InitResidualMagneticMoment(ini_fname));
 }
+
+}  // namespace s2e::spacecraft

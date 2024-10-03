@@ -7,19 +7,21 @@
 #define S2E_COMPONENTS_REAL_PROPULSION_SIMPLE_THRUSTER_HPP_
 
 #include <dynamics/dynamics.hpp>
-#include <library/logger/logger.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/normal_randomization.hpp>
+#include <logger/logger.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
 #include "../../base/component.hpp"
+
+namespace s2e::components {
 
 /*
  * @class SimpleThruster
  * @brief Component emulation of simple thruster
  */
-class SimpleThruster : public Component, public ILoggable {
+class SimpleThruster : public Component, public logger::ILoggable {
  public:
   /**
    * @fn SimpleThruster
@@ -35,9 +37,10 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] structure: Spacecraft structure information
    * @param [in] dynamics: Spacecraft dynamics information
    */
-  SimpleThruster(const int prescaler, ClockGenerator* clock_generator, const int component_id, const Vector<3> thruster_position_b_m,
-                 const Vector<3> thrust_direction_b, const double max_magnitude_N, const double magnitude_standard_deviation_N,
-                 const double direction_standard_deviation_rad, const Structure* structure, const Dynamics* dynamics);
+  SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id,
+                 const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
+                 const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const spacecraft::Structure* structure,
+                 const dynamics::Dynamics* dynamics);
   /**
    * @fn SimpleThruster
    * @brief Constructor with power port
@@ -53,10 +56,10 @@ class SimpleThruster : public Component, public ILoggable {
    * @param [in] structure: Spacecraft structure information
    * @param [in] dynamics: Spacecraft dynamics information
    */
-  SimpleThruster(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-                 const Vector<3> thruster_position_b_m, const Vector<3> thrust_direction_b, const double max_magnitude_N,
-                 const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const Structure* structure,
-                 const Dynamics* dynamics);
+  SimpleThruster(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+                 const math::Vector<3> thruster_position_b_m, const math::Vector<3> thrust_direction_b, const double max_magnitude_N,
+                 const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad, const spacecraft::Structure* structure,
+                 const dynamics::Dynamics* dynamics);
   /**
    * @fn ~SimpleThruster
    * @brief Destructor
@@ -75,15 +78,15 @@ class SimpleThruster : public Component, public ILoggable {
    */
   void PowerOffRoutine() override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -92,12 +95,12 @@ class SimpleThruster : public Component, public ILoggable {
    * @fn GetOutputThrust_b_N
    * @brief Return generated thrust on the body fixed frame [N]
    */
-  inline const Vector<3> GetOutputThrust_b_N() const { return output_thrust_b_N_; };
+  inline const math::Vector<3> GetOutputThrust_b_N() const { return output_thrust_b_N_; };
   /**
    * @fn GetOutputTorque_b_Nm
    * @brief Return generated torque on the body fixed frame [Nm]
    */
-  inline const Vector<3> GetOutputTorque_b_Nm() const { return output_torque_b_Nm_; };
+  inline const math::Vector<3> GetOutputTorque_b_Nm() const { return output_torque_b_Nm_; };
 
   // Setter
   /**
@@ -109,16 +112,16 @@ class SimpleThruster : public Component, public ILoggable {
  protected:
   // parameters
   const int component_id_;                               //!< Thruster ID
-  Vector<3> thruster_position_b_m_{0.0};                 //!< Thruster position @ body frame [m]
-  Vector<3> thrust_direction_b_{0.0};                    //!< Thrust direction @ body frame
+  math::Vector<3> thruster_position_b_m_{0.0};           //!< Thruster position @ body frame [m]
+  math::Vector<3> thrust_direction_b_{0.0};              //!< Thrust direction @ body frame
   double duty_ = 0.0;                                    //!< PWM Duty [0.0 : 1.0]
   double thrust_magnitude_max_N_ = 0.0;                  //!< Maximum thrust magnitude [N]
   double direction_noise_standard_deviation_rad_ = 0.0;  //!< Standard deviation of thrust direction error [rad]
-  libra::NormalRand magnitude_random_noise_;             //!< Normal random for thrust magnitude error
-  libra::NormalRand direction_random_noise_;             //!< Normal random for thrust direction error
+  randomization::NormalRand magnitude_random_noise_;     //!< Normal random for thrust magnitude error
+  randomization::NormalRand direction_random_noise_;     //!< Normal random for thrust direction error
   // outputs
-  Vector<3> output_thrust_b_N_{0.0};   //!< Generated thrust on the body fixed frame [N]
-  Vector<3> output_torque_b_Nm_{0.0};  //!< Generated torque on the body fixed frame [Nm]
+  math::Vector<3> output_thrust_b_N_{0.0};   //!< Generated thrust on the body fixed frame [N]
+  math::Vector<3> output_torque_b_Nm_{0.0};  //!< Generated torque on the body fixed frame [Nm]
 
   /**
    * @fn CalcThrust
@@ -130,7 +133,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @brief Calculate generated torque
    * @param [in] center_of_mass_b_m: Center of mass_kg position at body frame [m]
    */
-  void CalcTorque(const Vector<3> center_of_mass_b_m);
+  void CalcTorque(const math::Vector<3> center_of_mass_b_m);
   /**
    * @fn CalcThrustMagnitude
    * @brief Calculate thrust magnitude
@@ -142,7 +145,7 @@ class SimpleThruster : public Component, public ILoggable {
    * @brief Calculate thrust direction
    * @return Thrust direction
    */
-  Vector<3> CalcThrustDirection();
+  math::Vector<3> CalcThrustDirection();
   /**
    * @fn Initialize
    * @brief Initialize function
@@ -151,8 +154,8 @@ class SimpleThruster : public Component, public ILoggable {
    */
   void Initialize(const double magnitude_standard_deviation_N, const double direction_standard_deviation_rad);
 
-  const Structure* structure_;  //!< Spacecraft structure information
-  const Dynamics* dynamics_;    //!< Spacecraft dynamics information
+  const spacecraft::Structure* structure_;  //!< Spacecraft structure information
+  const dynamics::Dynamics* dynamics_;      //!< Spacecraft dynamics information
 };
 
 /**
@@ -164,8 +167,8 @@ class SimpleThruster : public Component, public ILoggable {
  * @param [in] structure: Spacecraft structure information
  * @param [in] dynamics: Spacecraft dynamics information
  */
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_id, const std::string file_name, const Structure* structure,
-                                  const Dynamics* dynamics);
+SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, int thruster_id, const std::string file_name,
+                                  const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics);
 /**
  * @fn InitSimpleThruster
  * @brief Initialize function os SimpleThruster
@@ -176,7 +179,9 @@ SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, int thruster_
  * @param [in] structure: Spacecraft structure information
  * @param [in] dynamics: Spacecraft dynamics information
  */
-SimpleThruster InitSimpleThruster(ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
-                                  const Structure* structure, const Dynamics* dynamics);
+SimpleThruster InitSimpleThruster(environment::ClockGenerator* clock_generator, PowerPort* power_port, int thruster_id, const std::string file_name,
+                                  const spacecraft::Structure* structure, const dynamics::Dynamics* dynamics);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_PROPULSION_SIMPLE_THRUSTER_HPP_

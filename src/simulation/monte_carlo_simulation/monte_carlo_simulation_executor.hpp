@@ -6,11 +6,13 @@
 #ifndef S2E_SIMULATION_MONTE_CARLO_SIMULATION_MONTE_CARLO_SIMULATION_EXECUTOR_HPP_
 #define S2E_SIMULATION_MONTE_CARLO_SIMULATION_MONTE_CARLO_SIMULATION_EXECUTOR_HPP_
 
-#include <library/math/vector.hpp>
 #include <map>
+#include <math_physics/math/vector.hpp>
 #include <string>
 // #include "simulation_object.hpp"
 #include "initialize_monte_carlo_parameters.hpp"
+
+namespace s2e::simulation {
 
 /**
  * @class MonteCarloSimulationExecutor
@@ -86,7 +88,7 @@ class MonteCarloSimulationExecutor {
    */
   template <size_t NumElement>
   void GetInitializedMonteCarloParameterVector(std::string so_name, std::string init_monte_carlo_parameter_name,
-                                               libra::Vector<NumElement>& destination) const;
+                                               math::Vector<NumElement>& destination) const;
   /**
    * @fn GetInitializedMonteCarloParameterDouble
    * @brief Get randomized value and store it in dest
@@ -97,7 +99,7 @@ class MonteCarloSimulationExecutor {
    * @brief Get randomized quaternion and store it in dest_quat
    */
   void GetInitializedMonteCarloParameterQuaternion(std::string so_name, std::string init_monte_carlo_parameter_name,
-                                                   libra::Quaternion& destination) const;
+                                                   math::Quaternion& destination) const;
 
   // Calculation
   /**
@@ -126,7 +128,7 @@ class MonteCarloSimulationExecutor {
    * @brief Add initialized parameter
    */
   void AddInitializedMonteCarloParameter(std::string so_name, std::string init_monte_carlo_parameter_name,
-                                         const libra::Vector<NumElement1>& mean_or_min, const libra::Vector<NumElement2>& sigma_or_max,
+                                         const math::Vector<NumElement1>& mean_or_min, const math::Vector<NumElement2>& sigma_or_max,
                                          InitializedMonteCarloParameters::RandomizationType random_type);
 
   /**
@@ -138,7 +140,7 @@ class MonteCarloSimulationExecutor {
 
 template <size_t NumElement>
 void MonteCarloSimulationExecutor::GetInitializedMonteCarloParameterVector(std::string so_name, std::string init_monte_carlo_parameter_name,
-                                                                           libra::Vector<NumElement>& destination) const {
+                                                                           math::Vector<NumElement>& destination) const {
   if (!enabled_) return;
   std::string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
   if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
@@ -151,8 +153,8 @@ void MonteCarloSimulationExecutor::GetInitializedMonteCarloParameterVector(std::
 
 template <size_t NumElement1, size_t NumElement2>
 void MonteCarloSimulationExecutor::AddInitializedMonteCarloParameter(std::string so_name, std::string init_monte_carlo_parameter_name,
-                                                                     const libra::Vector<NumElement1>& mean_or_min,
-                                                                     const libra::Vector<NumElement2>& sigma_or_max,
+                                                                     const math::Vector<NumElement1>& mean_or_min,
+                                                                     const math::Vector<NumElement2>& sigma_or_max,
                                                                      InitializedMonteCarloParameters::RandomizationType random_type) {
   std::string name = so_name + MonteCarloSimulationExecutor::separator_ + init_monte_carlo_parameter_name;
   if (init_parameter_list_.find(name) == init_parameter_list_.end()) {
@@ -165,5 +167,7 @@ void MonteCarloSimulationExecutor::AddInitializedMonteCarloParameter(std::string
     throw "More than one definition of one InitializedMonteCarloParameters.";
   }
 }
+
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_MONTE_CARLO_SIMULATION_EXECUTOR_HPP_

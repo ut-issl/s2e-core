@@ -7,26 +7,28 @@
 #define S2E_DISTURBANCES_DISTURBANCE_HPP_
 
 #include "../environment/local/local_environment.hpp"
-#include "../library/math/vector.hpp"
+#include "../math_physics/math/vector.hpp"
+
+namespace s2e::disturbances {
 
 /**
  * @class Disturbance
  * @brief Base class for a disturbance
  */
-class Disturbance : public ILoggable {
+class Disturbance : public logger::ILoggable {
  public:
   /**
    * @fn Disturbance
    * @brief Constructor
    * @param [in] is_calculation_enabled: Calculation flag
-   * @param [in] is_attitude_dependent: Attitude dependent flag
+   * @param [in] is_attitude_dependent: dynamics::attitude::Attitude dependent flag
    */
   Disturbance(const bool is_calculation_enabled = true, const bool is_attitude_dependent = true)
       : is_calculation_enabled_(is_calculation_enabled), is_attitude_dependent_(is_attitude_dependent) {
-    force_b_N_ = libra::Vector<3>(0.0);
-    torque_b_Nm_ = libra::Vector<3>(0.0);
-    acceleration_i_m_s2_ = libra::Vector<3>(0.0);
-    acceleration_b_m_s2_ = libra::Vector<3>(0.0);
+    force_b_N_ = math::Vector<3>(0.0);
+    torque_b_Nm_ = math::Vector<3>(0.0);
+    acceleration_i_m_s2_ = math::Vector<3>(0.0);
+    acceleration_b_m_s2_ = math::Vector<3>(0.0);
   }
 
   /**
@@ -39,7 +41,7 @@ class Disturbance : public ILoggable {
    * @fn UpdateIfEnabled
    * @brief Update calculated disturbance when the calculation flag is true
    */
-  virtual inline void UpdateIfEnabled(const LocalEnvironment& local_environment, const Dynamics& dynamics) {
+  virtual inline void UpdateIfEnabled(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) {
     if (is_calculation_enabled_) {
       Update(local_environment, dynamics);
     } else {
@@ -54,28 +56,28 @@ class Disturbance : public ILoggable {
    * @fn Update
    * @brief Pure virtual function to define the disturbance calculation
    */
-  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics) = 0;
+  virtual void Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics) = 0;
 
   /**
    * @fn GetTorque_b_Nm
    * @brief Return the disturbance torque in the body frame [Nm]
    */
-  virtual inline libra::Vector<3> GetTorque_b_Nm() { return torque_b_Nm_; }
+  virtual inline math::Vector<3> GetTorque_b_Nm() { return torque_b_Nm_; }
   /**
    * @fn GetForce_b_N
    * @brief Return the disturbance force in the body frame [N]
    */
-  virtual inline libra::Vector<3> GetForce_b_N() { return force_b_N_; }
+  virtual inline math::Vector<3> GetForce_b_N() { return force_b_N_; }
   /**
    * @fn GetAcceleration_b_m_s2
    * @brief Return the disturbance acceleration in the body frame [m/s2]
    */
-  virtual inline libra::Vector<3> GetAcceleration_b_m_s2() { return acceleration_b_m_s2_; }
+  virtual inline math::Vector<3> GetAcceleration_b_m_s2() { return acceleration_b_m_s2_; }
   /**
    * @fn GetAcceleration_i_m_s2
    * @brief Return the disturbance acceleration in the inertial frame [m/s2]
    */
-  virtual inline libra::Vector<3> GetAcceleration_i_m_s2() { return acceleration_i_m_s2_; }
+  virtual inline math::Vector<3> GetAcceleration_i_m_s2() { return acceleration_i_m_s2_; }
   /**
    * @fn IsAttitudeDependent
    * @brief Return the attitude dependent flag
@@ -83,12 +85,14 @@ class Disturbance : public ILoggable {
   virtual inline bool IsAttitudeDependent() { return is_attitude_dependent_; }
 
  protected:
-  bool is_calculation_enabled_;           //!< Flag to calculate the disturbance
-  bool is_attitude_dependent_;            //!< Flag to show the disturbance depends on attitude information
-  libra::Vector<3> force_b_N_;            //!< Disturbance force in the body frame [N]
-  libra::Vector<3> torque_b_Nm_;          //!< Disturbance torque in the body frame [Nm]
-  libra::Vector<3> acceleration_b_m_s2_;  //!< Disturbance acceleration in the body frame [m/s2]
-  libra::Vector<3> acceleration_i_m_s2_;  //!< Disturbance acceleration in the inertial frame [m/s2]
+  bool is_calculation_enabled_;          //!< Flag to calculate the disturbance
+  bool is_attitude_dependent_;           //!< Flag to show the disturbance depends on attitude information
+  math::Vector<3> force_b_N_;            //!< Disturbance force in the body frame [N]
+  math::Vector<3> torque_b_Nm_;          //!< Disturbance torque in the body frame [Nm]
+  math::Vector<3> acceleration_b_m_s2_;  //!< Disturbance acceleration in the body frame [m/s2]
+  math::Vector<3> acceleration_i_m_s2_;  //!< Disturbance acceleration in the inertial frame [m/s2]
 };
+
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_DISTURBANCE_HPP_

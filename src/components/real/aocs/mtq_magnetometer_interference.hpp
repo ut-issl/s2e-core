@@ -9,6 +9,8 @@
 #include "magnetometer.hpp"
 #include "magnetorquer.hpp"
 
+namespace s2e::components {
+
 /**
  * @class MtqMagnetometerInterference
  * @brief Class for MTQ Magnetometer interference
@@ -30,12 +32,14 @@ class MtqMagnetometerInterference {
   void UpdateInterference(void);
 
  protected:
-  size_t polynomial_degree_;                                              //!< Polynomial degree
-  std::vector<libra::Matrix<3, 3>> additional_bias_by_mtq_coefficients_;  //!< Polynomial coefficients of additional bias noise
-  libra::Vector<3> previous_added_bias_c_nT_{0.0};
+  size_t polynomial_degree_;                                             //!< Polynomial degree
+  std::vector<math::Matrix<3, 3>> additional_bias_by_mtq_coefficients_;  //!< Polynomial coefficients of additional bias noise
+  math::Vector<3> previous_added_bias_c_nT_{0.0};
 
   Magnetometer& magnetometer_;        //!< Magnetometer
   const Magnetorquer& magnetorquer_;  //!< Magnetorquer
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_MTQ_MAGNETOMETER_INTERFERENCE_HPP_

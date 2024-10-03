@@ -7,14 +7,16 @@
 #define S2E_SIMULATION_MONTE_CARLO_SIMULATION_SIMULATION_OBJECT_HPP_
 
 #include <functional>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
 #include <map>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
 #include <string>
 #include <vector>
 
 #include "initialize_monte_carlo_parameters.hpp"
 #include "monte_carlo_simulation_executor.hpp"
+
+namespace s2e::simulation {
 
 /**
  * @class SimulationObject
@@ -40,7 +42,7 @@ class SimulationObject {
    */
   template <size_t NumElement>
   void GetInitializedMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator, std::string init_monte_carlo_parameter_name,
-                                               libra::Vector<NumElement>& destination) const;
+                                               math::Vector<NumElement>& destination) const;
 
   /**
    * @fn GetInitializedMonteCarloParameterDouble
@@ -54,7 +56,7 @@ class SimulationObject {
    * @brief Get randomized quaternion and store it in destination
    */
   void GetInitializedMonteCarloParameterQuaternion(const MonteCarloSimulationExecutor& monte_carlo_simulator,
-                                                   std::string init_monte_carlo_parameter_name, libra::Quaternion& destination) const;
+                                                   std::string init_monte_carlo_parameter_name, math::Quaternion& destination) const;
 
   /**
    * @fn SetParameters
@@ -80,8 +82,10 @@ class SimulationObject {
 template <size_t NumElement>
 void SimulationObject::GetInitializedMonteCarloParameterVector(const MonteCarloSimulationExecutor& monte_carlo_simulator,
                                                                std::string init_monte_carlo_parameter_name,
-                                                               libra::Vector<NumElement>& destination) const {
+                                                               math::Vector<NumElement>& destination) const {
   monte_carlo_simulator.GetInitializedMonteCarloParameterVector(name_, init_monte_carlo_parameter_name, destination);
 }
+
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_MONTE_CARLO_SIMULATION_SIMULATION_OBJECT_HPP_

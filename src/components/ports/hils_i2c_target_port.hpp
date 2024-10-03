@@ -10,6 +10,11 @@
 
 #include "hils_uart_port.hpp"
 
+namespace s2e::components {
+
+const unsigned int kDefaultCommandSize = 0xff;  //!< Default command size
+const unsigned int kDefaultTxSize = 0xff;       //!< Default TX size
+
 /**
  * @class HilsI2cTargetPort
  * @brief Class to control I2C-USB converter for the target(device) side from COM port
@@ -93,11 +98,9 @@ class HilsI2cTargetPort : public HilsUartPort {
   int GetStoredFrameCounter();
 
  private:
-  const unsigned int kDefaultCommandSize = 0xff;  //!< Default command size
-  const unsigned int kDefaultTxSize = 0xff;       //!< Default TX size
-  unsigned char max_register_number_ = 0xff;      //!< Maximum register number
-  unsigned char saved_register_address_ = 0x00;   //!< Saved register address
-  unsigned int stored_frame_counter_ = 0;         //!< Send a few frames of telemetry to the converter in advance.
+  unsigned char max_register_number_ = 0xff;     //!< Maximum register number
+  unsigned char saved_register_address_ = 0x00;  //!< Saved register address
+  unsigned int stored_frame_counter_ = 0;        //!< Send a few frames of telemetry to the converter in advance.
 
   /** @brief Device register: < register address, value>  **/
   std::map<unsigned char, unsigned char> device_registers_;
@@ -105,5 +108,7 @@ class HilsI2cTargetPort : public HilsUartPort {
   /** @brief Buffer for the command from COM port : <cmd_buffer_length, value>  **/
   std::map<unsigned char, unsigned char> command_buffer_;
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_PORTS_HILS_I2C_TARGET_PORT_HPP_

@@ -9,7 +9,9 @@
 #include <string>
 #include <vector>
 
-#include "../library/logger/logger.hpp"
+#include "../logger/logger.hpp"
+
+namespace s2e::simulation {
 
 /**
  * @struct SimulationConfiguration
@@ -17,7 +19,7 @@
  */
 struct SimulationConfiguration {
   std::string initialize_base_file_name_;  //!< Base file name for initialization
-  Logger* main_logger_;                    //!< Main logger
+  logger::Logger* main_logger_;            //!< Main logger
 
   unsigned int number_of_simulated_spacecraft_;    //!< Number of simulated spacecraft
   std::vector<std::string> spacecraft_file_list_;  //!< File name list for spacecraft initialization
@@ -34,5 +36,7 @@ struct SimulationConfiguration {
    */
   ~SimulationConfiguration() { delete main_logger_; }
 };
+
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_SIMULATION_CONFIGURATION_HPP_

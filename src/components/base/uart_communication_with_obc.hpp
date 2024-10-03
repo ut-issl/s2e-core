@@ -10,6 +10,8 @@
 
 #include "../real/cdh/on_board_computer.hpp"
 
+namespace s2e::components {
+
 /**
  * @enum SimulationMode
  * @brief Simulation mode (SILS or HILS)
@@ -54,7 +56,7 @@ class UartCommunicationWithObc {
    * @param [in] baud_rate: Baud rate of HILS communication port
    * @param [in] hils_port_manager: HILS port manager
    */
-  UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate, HilsPortManager* hils_port_manager);
+  UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate, simulation::HilsPortManager* hils_port_manager);
   /**
    * @fn UartCommunicationWithObc
    * @brief Constructor for HILS mode
@@ -65,7 +67,7 @@ class UartCommunicationWithObc {
    * @param [in] hils_port_manager: HILS port manager
    */
   UartCommunicationWithObc(const unsigned int hils_port_id, const unsigned int baud_rate, const unsigned int tx_buffer_size,
-                           const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager);
+                           const unsigned int rx_buffer_size, simulation::HilsPortManager* hils_port_manager);
   /**
    * @fn UartCommunicationWithObc
    * @brief Constructor for both SILS and HILS mode
@@ -77,7 +79,7 @@ class UartCommunicationWithObc {
    * @param [in] hils_port_manager: HILS port manager
    */
   UartCommunicationWithObc(const int sils_port_id, OnBoardComputer* obc, const unsigned int hils_port_id, const unsigned int baud_rate,
-                           HilsPortManager* hils_port_manager);
+                           simulation::HilsPortManager* hils_port_manager);
   /**
    * @fn ~UartCommunicationWithObc
    * @brief Destructor
@@ -107,8 +109,8 @@ class UartCommunicationWithObc {
 
   SimulationMode simulation_mode_ = SimulationMode::kError;  //!< Simulation mode
 
-  OnBoardComputer* obc_;                //!< Communication target OBC
-  HilsPortManager* hils_port_manager_;  //!< HILS port manager
+  OnBoardComputer* obc_;                            //!< Communication target OBC
+  simulation::HilsPortManager* hils_port_manager_;  //!< HILS port manager
 
   /**
    * @fn InitializeObcComBase
@@ -128,5 +130,7 @@ class UartCommunicationWithObc {
    */
   virtual int GenerateTelemetry() = 0;
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_UART_COMMUNICATION_WITH_OBC_HPP_

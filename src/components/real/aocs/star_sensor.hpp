@@ -8,21 +8,23 @@
 
 #include <dynamics/attitude/attitude.hpp>
 #include <environment/local/local_environment.hpp>
-#include <library/logger/loggable.hpp>
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/minimal_standard_linear_congruential_generator_with_shuffle.hpp>
-#include <library/randomization/normal_randomization.hpp>
+#include <logger/loggable.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/minimal_standard_linear_congruential_generator_with_shuffle.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
 #include <vector>
 
 #include "../../base/component.hpp"
 #include "dynamics/dynamics.hpp"
 
+namespace s2e::components {
+
 /*
  * @class StarSensor
  * @brief Class to emulate star tracker
  */
-class StarSensor : public Component, public ILoggable {
+class StarSensor : public Component, public logger::ILoggable {
  public:
   /**
    * @fn StarSensor
@@ -43,11 +45,11 @@ class StarSensor : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_environment: Local environment information
    */
-  StarSensor(const int prescaler, ClockGenerator* clock_generator, const int component_id, const libra::Quaternion& quaternion_b2c,
+  StarSensor(const int prescaler, environment::ClockGenerator* clock_generator, const int component_id, const math::Quaternion& quaternion_b2c,
              const double standard_deviation_orthogonal_direction, const double standard_deviation_sight_direction, const double step_time_s,
              const unsigned int output_delay, const unsigned int output_interval, const double sun_forbidden_angle_rad,
              const double earth_forbidden_angle_rad, const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s,
-             const Dynamics* dynamics, const LocalEnvironment* local_environment);
+             const dynamics::Dynamics* dynamics, const environment::LocalEnvironment* local_environment);
   /**
    * @fn StarSensor
    * @brief Constructor with power port
@@ -68,12 +70,12 @@ class StarSensor : public Component, public ILoggable {
    * @param [in] dynamics: Dynamics information
    * @param [in] local_environment: Local environment information
    */
-  StarSensor(const int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
-             const libra::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
+  StarSensor(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const int component_id,
+             const math::Quaternion& quaternion_b2c, const double standard_deviation_orthogonal_direction,
              const double standard_deviation_sight_direction, const double step_time_s, const unsigned int output_delay,
              const unsigned int output_interval, const double sun_forbidden_angle_rad, const double earth_forbidden_angle_rad,
-             const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const Dynamics* dynamics,
-             const LocalEnvironment* local_environment);
+             const double moon_forbidden_angle_rad, const double capture_rate_limit_rad_s, const dynamics::Dynamics* dynamics,
+             const environment::LocalEnvironment* local_environment);
 
   // Override functions for Component
   /**
@@ -82,15 +84,15 @@ class StarSensor : public Component, public ILoggable {
    */
   void MainRoutine(const int time_count) override;
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const override;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const override;
 
@@ -98,7 +100,7 @@ class StarSensor : public Component, public ILoggable {
    * @fn GetMeasuredQuaternion_i2c
    * @brief Return observed quaternion from the inertial frame to the component frame
    */
-  inline const libra::Quaternion GetMeasuredQuaternion_i2c() const { return measured_quaternion_i2c_; };
+  inline const math::Quaternion GetMeasuredQuaternion_i2c() const { return measured_quaternion_i2c_; };
   /**
    * @fn GetErrorFlag
    * @brief Return error flag
@@ -107,26 +109,26 @@ class StarSensor : public Component, public ILoggable {
 
  protected:
   // StarSensor general parameters
-  const int component_id_;                                            //!< Sensor ID
-  libra::Quaternion quaternion_b2c_;                                  //!< Quaternion from body frame to component frame
-  libra::Quaternion measured_quaternion_i2c_ = {0.0, 0.0, 0.0, 1.0};  //!< StarSensor observed quaternion
-  libra::Vector<3> sight_direction_c_;                                //!< Sight direction vector at component frame
-  libra::Vector<3> first_orthogonal_direction_c;                      //!< The first orthogonal direction of sight at component frame
-  libra::Vector<3> second_orthogonal_direction_c;                     //!< The second orthogonal direction of sight at component frame
+  const int component_id_;                                           //!< Sensor ID
+  math::Quaternion quaternion_b2c_;                                  //!< Quaternion from body frame to component frame
+  math::Quaternion measured_quaternion_i2c_ = {0.0, 0.0, 0.0, 1.0};  //!< StarSensor observed quaternion
+  math::Vector<3> sight_direction_c_;                                //!< Sight direction vector at component frame
+  math::Vector<3> first_orthogonal_direction_c;                      //!< The first orthogonal direction of sight at component frame
+  math::Vector<3> second_orthogonal_direction_c;                     //!< The second orthogonal direction of sight at component frame
 
   // Noise parameters
-  libra::MinimalStandardLcgWithShuffle rotation_noise_;  //!< Randomize object for orthogonal direction
-  libra::NormalRand orthogonal_direction_noise_;         //!< Random noise for orthogonal direction of sight
-  libra::NormalRand sight_direction_noise_;              //!< Random noise for sight direction
+  randomization::MinimalStandardLcgWithShuffle rotation_noise_;  //!< Randomize object for orthogonal direction
+  randomization::NormalRand orthogonal_direction_noise_;         //!< Random noise for orthogonal direction of sight
+  randomization::NormalRand sight_direction_noise_;              //!< Random noise for sight direction
 
   // Delay emulation parameters
-  int max_delay_;                                //!< Max delay
-  std::vector<libra::Quaternion> delay_buffer_;  //!< Buffer of quaternion for delay emulation
-  int buffer_position_;                          //!< Buffer position
-  double step_time_s_;                           //!< Step time for delay calculation [sec]
-  unsigned int output_delay_;                    //!< Output delay [0, max_delay_] [step_sec]
-  unsigned int output_interval_;                 //!< Output interval [step_sec]
-  std::size_t update_count_;                     //!< Output update counter
+  int max_delay_;                               //!< Max delay
+  std::vector<math::Quaternion> delay_buffer_;  //!< Buffer of quaternion for delay emulation
+  int buffer_position_;                         //!< Buffer position
+  double step_time_s_;                          //!< Step time for delay calculation [sec]
+  unsigned int output_delay_;                   //!< Output delay [0, max_delay_] [step_sec]
+  unsigned int output_interval_;                //!< Output interval [step_sec]
+  std::size_t update_count_;                    //!< Output update counter
 
   // observation error parameters
   bool error_flag_;                   //!< Error flag. true: Error, false: No error
@@ -136,60 +138,60 @@ class StarSensor : public Component, public ILoggable {
   double capture_rate_limit_rad_s_;   //!< Angular rate limit to get correct attitude [rad/s]
 
   // Observed variables
-  const Dynamics* dynamics_;                   //!< Dynamics information
-  const LocalEnvironment* local_environment_;  //!< Local environment information
+  const dynamics::Dynamics* dynamics_;                      //!< Dynamics information
+  const environment::LocalEnvironment* local_environment_;  //!< Local environment information
 
   // Internal functions
   /**
    * @fn update
    * @brief Update delay buffer
    * @param [in] local_celestial_information: Local celestial information
-   * @param [in] attitude: Attitude information
+   * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  void update(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
+  void update(const environment::LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude);
   /**
    * @fn Measure
    * @brief Calculate measured quaternion
    * @param [in] local_celestial_information: Local celestial information
-   * @param [in] attitude: Attitude information
+   * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  libra::Quaternion Measure(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
+  math::Quaternion Measure(const environment::LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude);
 
   /**
    * @fn AllJudgement
    * @brief Calculate all error judgement
    * @param [in] local_celestial_information: Local celestial information
-   * @param [in] attitude: Attitude information
+   * @param [in] attitude: dynamics::attitude::Attitude information
    */
-  void AllJudgement(const LocalCelestialInformation* local_celestial_information, const Attitude* attitude);
+  void AllJudgement(const environment::LocalCelestialInformation* local_celestial_information, const dynamics::attitude::Attitude* attitude);
   /**
    * @fn SunJudgement
    * @brief Judge violation of sun forbidden angle
    * @param [in] sun_b: Sun direction vector in the body fixed frame
    * @return 1: violated, 0: not violated
    */
-  int SunJudgement(const libra::Vector<3>& sun_b);
+  int SunJudgement(const math::Vector<3>& sun_b);
   /**
    * @fn EarthJudgement
    * @brief Judge violation of earth forbidden angle
    * @param [in] earth_b: Earth direction vector in the body fixed frame
    * @return 1: violated, 0: not violated
    */
-  int EarthJudgement(const libra::Vector<3>& earth_b);
+  int EarthJudgement(const math::Vector<3>& earth_b);
   /**
    * @fn MoonJudgement
    * @brief Judge violation of moon forbidden angle
    * @param [in] moon_b: Moon direction vector in the body fixed frame
    * @return 1: violated, 0: not violated
    */
-  int MoonJudgement(const libra::Vector<3>& moon_b);
+  int MoonJudgement(const math::Vector<3>& moon_b);
   /**
    * @fn CaptureRateJudgement
    * @brief Judge violation of angular velocity limit
    * @param [in] omega_b_rad_s: Angular velocity of spacecraft in the body fixed frame
    * @return 1: violated, 0: not violated
    */
-  int CaptureRateJudgement(const libra::Vector<3>& omega_b_rad_s);
+  int CaptureRateJudgement(const math::Vector<3>& omega_b_rad_s);
   /**
    * @fn CalAngleVector_rad
    * @brief Calculate angle between two vectors
@@ -197,7 +199,7 @@ class StarSensor : public Component, public ILoggable {
    * @param [in] vector2: Second vector
    * @return Angle between two vectors [rad]
    */
-  double CalAngleVector_rad(const libra::Vector<3>& vector1, const libra::Vector<3>& vector2);
+  double CalAngleVector_rad(const math::Vector<3>& vector1, const math::Vector<3>& vector2);
 
   /**
    * @fn Initialize
@@ -216,8 +218,8 @@ class StarSensor : public Component, public ILoggable {
  * @param [in] dynamics: Dynamics information
  * @param [in] local_environment: Local environment information
  */
-StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
-                          const Dynamics* dynamics, const LocalEnvironment* local_environment);
+StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, int sensor_id, const std::string file_name, double component_step_time_s,
+                          const dynamics::Dynamics* dynamics, const environment::LocalEnvironment* local_environment);
 /**
  * @fn InitStarSensor
  * @brief Initialize functions for StarSensor with power port
@@ -229,7 +231,9 @@ StarSensor InitStarSensor(ClockGenerator* clock_generator, int sensor_id, const 
  * @param [in] dynamics: Dynamics information
  * @param [in] local_environment: Local environment information
  */
-StarSensor InitStarSensor(ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
-                          double component_step_time_s, const Dynamics* dynamics, const LocalEnvironment* local_environment);
+StarSensor InitStarSensor(environment::ClockGenerator* clock_generator, PowerPort* power_port, int sensor_id, const std::string file_name,
+                          double component_step_time_s, const dynamics::Dynamics* dynamics, const environment::LocalEnvironment* local_environment);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_STAR_SENSOR_HPP_

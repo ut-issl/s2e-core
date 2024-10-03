@@ -5,19 +5,24 @@
 
 #include "sample_components.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 #include "sample_port_configuration.hpp"
 
-SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structure, const LocalEnvironment* local_environment,
-                                   const GlobalEnvironment* global_environment, const SimulationConfiguration* configuration,
-                                   ClockGenerator* clock_generator, const unsigned int spacecraft_id)
+namespace s2e::sample {
+
+using namespace components;
+
+SampleComponents::SampleComponents(const dynamics::Dynamics* dynamics, spacecraft::Structure* structure,
+                                   const environment::LocalEnvironment* local_environment, const environment::GlobalEnvironment* global_environment,
+                                   const simulation::SimulationConfiguration* configuration, environment::ClockGenerator* clock_generator,
+                                   const unsigned int spacecraft_id)
     : configuration_(configuration),
       dynamics_(dynamics),
       structure_(structure),
       local_environment_(local_environment),
       global_environment_(global_environment) {
-  IniAccess iniAccess = IniAccess(configuration_->spacecraft_file_list_[spacecraft_id]);
+  setting_file_reader::IniAccess iniAccess = setting_file_reader::IniAccess(configuration_->spacecraft_file_list_[spacecraft_id]);
 
   // PCU power port connection
   pcu_ = new PowerControlUnit(clock_generator);
@@ -27,7 +32,7 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
 
   // Components
   obc_ = new OnBoardComputer(1, clock_generator, pcu_->GetPowerPort(0));
-  hils_port_manager_ = new HilsPortManager();
+  hils_port_manager_ = new simulation::HilsPortManager();
 
   // GyroSensor
   std::string file_name = iniAccess.ReadString("COMPONENT_FILES", "gyro_file");
@@ -84,11 +89,10 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   thruster_ = new SimpleThruster(InitSimpleThruster(clock_generator, pcu_->GetPowerPort(2), 1, file_name, structure_, dynamics));
 
   // Mission
-  const std::string telescope_ini_path = iniAccess.ReadString("COMPONENT_FILES", "telescope_file");
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "telescope_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
-  telescope_ =
-      new Telescope(InitTelescope(clock_generator, 1, telescope_ini_path, &(dynamics_->GetAttitude()), &(global_environment_->GetHipparcosCatalog()),
-                                  &(local_environment_->GetCelestialInformation()), &(dynamics_->GetOrbit())));
+  telescope_ = new Telescope(InitTelescope(clock_generator, 1, file_name, &(dynamics_->GetAttitude()), &(global_environment_->GetHipparcosCatalog()),
+                                           &(local_environment_->GetCelestialInformation()), &(dynamics_->GetOrbit())));
 
   // Force Generator
   file_name = iniAccess.ReadString("COMPONENT_FILES", "force_generator_file");
@@ -105,6 +109,11 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   file_name = iniAccess.ReadString("COMPONENT_FILES", "attitude_observer_file");
   configuration_->main_logger_->CopyFileToLogDirectory(file_name);
   attitude_observer_ = new AttitudeObserver(InitializeAttitudeObserver(clock_generator, file_name, dynamics_->GetAttitude()));
+
+  // Orbit Observer
+  file_name = iniAccess.ReadString("COMPONENT_FILES", "orbit_observer_file");
+  configuration_->main_logger_->CopyFileToLogDirectory(file_name);
+  orbit_observer_ = new OrbitObserver(InitializeOrbitObserver(clock_generator, file_name, dynamics_->GetOrbit()));
 
   // Antenna
   file_name = iniAccess.ReadString("COMPONENT_FILES", "antenna_file");
@@ -137,21 +146,21 @@ SampleComponents::SampleComponents(const Dynamics* dynamics, Structure* structur
   /**************/
 
   // actuator debug output
-  // libra::Vector<kMtqDimension> mag_moment_c{0.01};
+  // math::Vector<kMtqDimension> mag_moment_c{0.01};
   // magnetorquer_->SetOutputMagneticMoment_c_Am2(mag_moment_c);
   // reaction_wheel_->SetTargetTorque_rw_Nm(0.01);
   // reaction_wheel_->SetDriveFlag(true);
   // thruster_->SetDuty(0.9);
 
   // force generator debug output
-  // libra::Vector<3> force_N;
+  // math::Vector<3> force_N;
   // force_N[0] = 1.0;
   // force_N[1] = 0.0;
   // force_N[2] = 0.0;
   // force_generator_->SetForce_b_N(force_N);
 
   // torque generator debug output
-  // libra::Vector<3> torque_Nm;
+  // math::Vector<3> torque_Nm;
   // torque_Nm[0] = 0.1;
   // torque_Nm[1] = 0.0;
   // torque_Nm[2] = 0.0;
@@ -171,6 +180,7 @@ SampleComponents::~SampleComponents() {
   delete torque_generator_;
   delete angular_velocity_observer_;
   delete attitude_observer_;
+  delete orbit_observer_;
   delete antenna_;
   delete mtq_magnetometer_interference_;
   // delete change_structure_;
@@ -183,15 +193,15 @@ SampleComponents::~SampleComponents() {
   delete hils_port_manager_;  // delete after exp_hils
 }
 
-libra::Vector<3> SampleComponents::GenerateForce_b_N() {
-  libra::Vector<3> force_b_N_(0.0);
+math::Vector<3> SampleComponents::GenerateForce_b_N() {
+  math::Vector<3> force_b_N_(0.0);
   force_b_N_ += thruster_->GetOutputThrust_b_N();
   force_b_N_ += force_generator_->GetGeneratedForce_b_N();
   return force_b_N_;
 }
 
-libra::Vector<3> SampleComponents::GenerateTorque_b_Nm() {
-  libra::Vector<3> torque_b_Nm_(0.0);
+math::Vector<3> SampleComponents::GenerateTorque_b_Nm() {
+  math::Vector<3> torque_b_Nm_(0.0);
   torque_b_Nm_ += magnetorquer_->GetOutputTorque_b_Nm();
   torque_b_Nm_ += reaction_wheel_->GetOutputTorque_b_Nm();
   torque_b_Nm_ += thruster_->GetOutputTorque_b_Nm();
@@ -201,7 +211,7 @@ libra::Vector<3> SampleComponents::GenerateTorque_b_Nm() {
 
 void SampleComponents::ComponentInterference() { mtq_magnetometer_interference_->UpdateInterference(); }
 
-void SampleComponents::LogSetup(Logger& logger) {
+void SampleComponents::LogSetup(logger::Logger& logger) {
   logger.AddLogList(gyro_sensor_);
   logger.AddLogList(magnetometer_);
   logger.AddLogList(star_sensor_);
@@ -215,4 +225,7 @@ void SampleComponents::LogSetup(Logger& logger) {
   logger.AddLogList(torque_generator_);
   logger.AddLogList(angular_velocity_observer_);
   logger.AddLogList(attitude_observer_);
+  logger.AddLogList(orbit_observer_);
 }
+
+}  // namespace s2e::sample

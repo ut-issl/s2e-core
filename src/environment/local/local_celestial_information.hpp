@@ -8,11 +8,13 @@
 
 #include "../global/celestial_information.hpp"
 
+namespace s2e::environment {
+
 /**
  * @class LocalCelestialInformation
  * @brief Class to manage celestial body information in the spacecraft body frame
  */
-class LocalCelestialInformation : public ILoggable {
+class LocalCelestialInformation : public logger::ILoggable {
  public:
   /**
    * @fn LocalCelestialInformation
@@ -34,33 +36,33 @@ class LocalCelestialInformation : public ILoggable {
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    * @param [in] spacecraft_angular_velocity_rad_s: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
-  void UpdateAllObjectsInformation(const libra::Vector<3> spacecraft_position_from_center_i_m,
-                                   const libra::Vector<3> spacecraft_velocity_from_center_i_m_s, const libra::Quaternion quaternion_i2b,
-                                   const libra::Vector<3> spacecraft_angular_velocity_rad_s);
+  void UpdateAllObjectsInformation(const math::Vector<3> spacecraft_position_from_center_i_m,
+                                   const math::Vector<3> spacecraft_velocity_from_center_i_m_s, const math::Quaternion quaternion_i2b,
+                                   const math::Vector<3> spacecraft_angular_velocity_rad_s);
 
   /**
    * @fn GetPositionFromSpacecraft_i_m
    * @brief Return position of a selected body (Origin: Spacecraft, Frame: Inertial frame)
    * @param [in] body_name Celestial body name
    */
-  libra::Vector<3> GetPositionFromSpacecraft_i_m(const char* body_name) const;
+  math::Vector<3> GetPositionFromSpacecraft_i_m(const char* body_name) const;
   /**
    * @fn GetCenterBodyPositionFromSpacecraft_i_m
    * @brief Return position of the center body (Origin: Spacecraft, Frame: Inertial frame)
    */
-  libra::Vector<3> GetCenterBodyPositionFromSpacecraft_i_m(void) const;
+  math::Vector<3> GetCenterBodyPositionFromSpacecraft_i_m(void) const;
 
   /**
    * @fn GetPositionFromSpacecraft_b_m
    * @brief Return position of a selected body (Origin: Spacecraft, Frame: Body fixed frame)
    * @param [in] body_name Celestial body name
    */
-  libra::Vector<3> GetPositionFromSpacecraft_b_m(const char* body_name) const;
+  math::Vector<3> GetPositionFromSpacecraft_b_m(const char* body_name) const;
   /**
    * @fn GetCenterBodyPositionFromSpacecraft_b_m
    * @brief Return position of the center body (Origin: Spacecraft, Frame: Body fixed frame)
    */
-  libra::Vector<3> GetCenterBodyPositionFromSpacecraft_b_m(void) const;
+  math::Vector<3> GetCenterBodyPositionFromSpacecraft_b_m(void) const;
 
   /**
    * @fn GetGlobalInfo
@@ -68,15 +70,15 @@ class LocalCelestialInformation : public ILoggable {
    */
   inline const CelestialInformation& GetGlobalInformation() const { return *global_celestial_information_; }
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -96,7 +98,7 @@ class LocalCelestialInformation : public ILoggable {
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    * @param [in] spacecraft_angular_velocity_rad_s: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
-  void CalcAllPosVel_b(const libra::Quaternion quaternion_i2b, const libra::Vector<3> spacecraft_angular_velocity_rad_s);
+  void CalcAllPosVel_b(const math::Quaternion quaternion_i2b, const math::Vector<3> spacecraft_angular_velocity_rad_s);
 
   /**
    * @fn ConvertInertialToBody
@@ -105,7 +107,7 @@ class LocalCelestialInformation : public ILoggable {
    * @param [out] output_b: Output vector in the body fixed frame
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    */
-  void ConvertInertialToBody(const double* input_i, double* output_b, const libra::Quaternion quaternion_i2b);
+  void ConvertInertialToBody(const double* input_i, double* output_b, const math::Quaternion quaternion_i2b);
 
   /**
    * @fn ConvertVelocityInertialToBody
@@ -116,8 +118,10 @@ class LocalCelestialInformation : public ILoggable {
    * @param [in] quaternion_i2b: Spacecraft attitude quaternion from the inertial frame to the body fixed frame
    * @param [in] angular_velocity_b: Spacecraft angular velocity with respect to the inertial frame [rad/s]
    */
-  void ConvertVelocityInertialToBody(const double* position_i, const double* velocity_i, double* velocity_b, const libra::Quaternion quaternion_i2b,
-                                     const libra::Vector<3> angular_velocity_b);
+  void ConvertVelocityInertialToBody(const double* position_i, const double* velocity_i, double* velocity_b, const math::Quaternion quaternion_i2b,
+                                     const math::Vector<3> angular_velocity_b);
 };
+
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_LOCAL_LOCAL_CELESTIAL_INFORMATION_HPP_

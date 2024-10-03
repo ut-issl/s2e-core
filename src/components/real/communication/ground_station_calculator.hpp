@@ -10,14 +10,16 @@
 #include <components/real/communication/antenna.hpp>
 #include <dynamics/dynamics.hpp>
 #include <environment/global/global_environment.hpp>
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 #include <simulation/ground_station/ground_station.hpp>
+
+namespace s2e::components {
 
 /*
  * @class GroundStationCalculator
  * @brief Emulation of analysis and calculation for Ground Stations
  */
-class GroundStationCalculator : public ILoggable {
+class GroundStationCalculator : public logger::ILoggable {
  public:
   /**
    * @fn GroundStationCalculator
@@ -49,18 +51,18 @@ class GroundStationCalculator : public ILoggable {
    * @param [in] ground_station: Ground station information
    * @param [in] ground_station_rx_antenna: Antenna mounted on ground station
    */
-  void Update(const Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+  void Update(const spacecraft::Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const ground_station::GroundStation& ground_station,
               const Antenna& ground_station_rx_antenna);
 
-  // Override ILoggable TODO: Maybe we don't need logabble, and this class should be used as library.
+  // Override logger::ILoggable TODO: Maybe we don't need logabble, and this class should be used as library.
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -109,7 +111,7 @@ class GroundStationCalculator : public ILoggable {
    * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
    * @return Max bitrate [Mbps]
    */
-  double CalcMaxBitrate(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+  double CalcMaxBitrate(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const ground_station::GroundStation& ground_station,
                         const Antenna& ground_station_rx_antenna);
   /**
    * @fn CalcReceiveMarginOnGs
@@ -120,8 +122,8 @@ class GroundStationCalculator : public ILoggable {
    * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
    * @return Receive margin [dB]
    */
-  double CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
-                               const Antenna& ground_station_rx_antenna);
+  double CalcReceiveMarginOnGs(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna,
+                               const ground_station::GroundStation& ground_station, const Antenna& ground_station_rx_antenna);
 
   /**
    * @fn CalcCn0
@@ -132,7 +134,7 @@ class GroundStationCalculator : public ILoggable {
    * @param [in] ground_station_rx_antenna: Rx Antenna mounted on ground station
    * @return CN0 [dB]
    */
-  double CalcCn0OnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
+  double CalcCn0OnGs(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const ground_station::GroundStation& ground_station,
                      const Antenna& ground_station_rx_antenna);
 };
 
@@ -143,5 +145,7 @@ class GroundStationCalculator : public ILoggable {
  */
 
 GroundStationCalculator InitGsCalculator(const std::string file_name);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_GROUND_STATION_CALCULATOR_HPP_

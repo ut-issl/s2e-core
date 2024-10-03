@@ -5,10 +5,14 @@
 
 #include "inter_spacecraft_communication.hpp"
 
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
+
+namespace s2e::simulation {
 
 InterSpacecraftCommunication::InterSpacecraftCommunication(const SimulationConfiguration* simulation_configuration) {
   UNUSED(simulation_configuration);
 }
 
 InterSpacecraftCommunication::~InterSpacecraftCommunication() {}
+
+}  // namespace s2e::simulation

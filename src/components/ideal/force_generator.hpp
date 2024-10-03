@@ -8,15 +8,17 @@
 
 #include <components/base/component.hpp>
 #include <dynamics/dynamics.hpp>
-#include <library/logger/logger.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/normal_randomization.hpp>
+#include <logger/logger.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
+
+namespace s2e::components {
 
 /*
  * @class ForceGenerator
  * @brief Ideal component which can generate for control algorithm test
  */
-class ForceGenerator : public Component, public ILoggable {
+class ForceGenerator : public Component, public logger::ILoggable {
  public:
   /**
    * @fn ForceGenerator
@@ -27,8 +29,8 @@ class ForceGenerator : public Component, public ILoggable {
    * @param [in] direction_error_standard_deviation_rad: Standard deviation of direction error [rad]
    * @param [in] dynamics: Dynamics information
    */
-  ForceGenerator(const int prescaler, ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_N,
-                 const double direction_error_standard_deviation_rad, const Dynamics* dynamics);
+  ForceGenerator(const int prescaler, environment::ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_N,
+                 const double direction_error_standard_deviation_rad, const dynamics::Dynamics* dynamics);
   /**
    * @fn ~ForceGenerator
    * @brief Destructor
@@ -47,15 +49,15 @@ class ForceGenerator : public Component, public ILoggable {
    */
   void PowerOffRoutine();
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -64,44 +66,44 @@ class ForceGenerator : public Component, public ILoggable {
    * @fn GetGeneratedForce_b_N
    * @brief Return generated force in the body fixed frame [N]
    */
-  inline const Vector<3> GetGeneratedForce_b_N() const { return generated_force_b_N_; };
+  inline const math::Vector<3> GetGeneratedForce_b_N() const { return generated_force_b_N_; };
   /**
    * @fn GetGeneratedForce_i_N
    * @brief Return generated force in the inertial frame [N]
    */
-  inline const Vector<3> GetGeneratedForce_i_N() const { return generated_force_i_N_; };
+  inline const math::Vector<3> GetGeneratedForce_i_N() const { return generated_force_i_N_; };
   /**
    * @fn GetGeneratedForce_rtn_N
    * @brief Return generated force in the RTN frame [N]
    */
-  inline const Vector<3> GetGeneratedForce_rtn_N() const { return generated_force_rtn_N_; };
+  inline const math::Vector<3> GetGeneratedForce_rtn_N() const { return generated_force_rtn_N_; };
 
   // Setter
   /**
    * @fn SetForce_b_N
    * @brief Set ordered force in the body fixed frame [N]
    */
-  inline void SetForce_b_N(const libra::Vector<3> force_b_N) { ordered_force_b_N_ = force_b_N; };
+  inline void SetForce_b_N(const math::Vector<3> force_b_N) { ordered_force_b_N_ = force_b_N; };
   /**
    * @fn SetForce_i_N
    * @brief Set ordered force in the inertial frame [N]
    */
-  void SetForce_i_N(const libra::Vector<3> force_i_N);
+  void SetForce_i_N(const math::Vector<3> force_i_N);
   /**
    * @fn SetForce_rtn_N
    * @brief Set ordered force in the RTN frame [N]
    */
-  void SetForce_rtn_N(const libra::Vector<3> force_rtn_N);
+  void SetForce_rtn_N(const math::Vector<3> force_rtn_N);
 
  protected:
-  libra::Vector<3> ordered_force_b_N_{0.0};      //!< Ordered force in the body fixed frame [N]
-  libra::Vector<3> generated_force_b_N_{0.0};    //!< Generated force in the body fixed frame [N]
-  libra::Vector<3> generated_force_i_N_{0.0};    //!< Generated force in the inertial frame [N]
-  libra::Vector<3> generated_force_rtn_N_{0.0};  //!< Generated force in the RTN frame [N]
+  math::Vector<3> ordered_force_b_N_{0.0};      //!< Ordered force in the body fixed frame [N]
+  math::Vector<3> generated_force_b_N_{0.0};    //!< Generated force in the body fixed frame [N]
+  math::Vector<3> generated_force_i_N_{0.0};    //!< Generated force in the inertial frame [N]
+  math::Vector<3> generated_force_rtn_N_{0.0};  //!< Generated force in the RTN frame [N]
 
   // Noise
-  libra::NormalRand magnitude_noise_;              //!< Normal random for magnitude noise
-  libra::NormalRand direction_noise_;              //!< Normal random for direction noise
+  randomization::NormalRand magnitude_noise_;      //!< Normal random for magnitude noise
+  randomization::NormalRand direction_noise_;      //!< Normal random for direction noise
   double direction_error_standard_deviation_rad_;  //!< Standard deviation of direction error [rad]
 
   /**
@@ -110,9 +112,9 @@ class ForceGenerator : public Component, public ILoggable {
    * @param [in] true_direction: True direction
    * @param [in] error_standard_deviation_rad: Standard deviation of direction error [rad]
    */
-  libra::Quaternion GenerateDirectionNoiseQuaternion(libra::Vector<3> true_direction, const double error_standard_deviation_rad);
+  math::Quaternion GenerateDirectionNoiseQuaternion(math::Vector<3> true_direction, const double error_standard_deviation_rad);
 
-  const Dynamics* dynamics_;  //!< Spacecraft dynamics information
+  const dynamics::Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };
 
 /**
@@ -122,6 +124,9 @@ class ForceGenerator : public Component, public ILoggable {
  * @param [in] file_name: Path to initialize file
  * @param [in] dynamics: Dynamics information
  */
-ForceGenerator InitializeForceGenerator(ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics);
+ForceGenerator InitializeForceGenerator(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                        const dynamics::Dynamics* dynamics);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_IDEAL_FORCE_GENERATOR_HPP_

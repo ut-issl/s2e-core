@@ -8,6 +8,7 @@ add_library(${PROJECT_NAME} STATIC
   orbit/relative_orbit.cpp
   orbit/kepler_orbit_propagation.cpp
   orbit/encke_orbit_propagation.cpp
+  orbit/time_series_file_orbit_propagation.cpp
   orbit/initialize_orbit.cpp
 
   thermal/node.cpp
@@ -18,6 +19,7 @@ add_library(${PROJECT_NAME} STATIC
 
   attitude/attitude.cpp
   attitude/attitude_rk4.cpp
+  attitude/attitude_with_cantilever_vibration.cpp
   attitude/controlled_attitude.cpp
   attitude/initialize_attitude.cpp
 

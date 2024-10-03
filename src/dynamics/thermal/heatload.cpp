@@ -5,13 +5,16 @@
 #include <environment/global/physical_constants.hpp>
 
 using namespace std;
-using namespace libra;
+using namespace s2e::math;
+
+namespace s2e::dynamics::thermal {
 
 Heatload::Heatload(int node_id, std::vector<double> time_table_s, std::vector<double> internal_heatload_table_W)
     : node_id_(node_id), time_table_s_(time_table_s), internal_heatload_table_W_(internal_heatload_table_W) {
   elapsed_time_s_ = 0;
   elapsed_time_idx_ = 0;
   solar_heatload_W_ = 0.0;
+  albedo_heatload_W_ = 0.0;
   internal_heatload_W_ = 0.0;
   heater_heatload_W_ = 0.0;
   total_heatload_W_ = 0.0;
@@ -99,3 +102,5 @@ Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vecto
 
   return Heatload(node_id, time_table_s, internal_heatload_table_W);
 }
+
+}  // namespace s2e::dynamics::thermal

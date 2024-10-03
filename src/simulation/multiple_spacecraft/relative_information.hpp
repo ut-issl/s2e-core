@@ -6,17 +6,24 @@
 #ifndef S2E_MULTIPLE_SPACECRAFT_RELATIVE_INFORMATION_HPP_
 #define S2E_MULTIPLE_SPACECRAFT_RELATIVE_INFORMATION_HPP_
 
+#include <map>
 #include <string>
 
 #include "../../dynamics/dynamics.hpp"
-#include "../../library/logger/loggable.hpp"
-#include "../../library/logger/logger.hpp"
+#include "../../logger/loggable.hpp"
+#include "../../logger/logger.hpp"
+
+namespace s2e::dynamics {
+class Dynamics;
+}
+
+namespace s2e::simulation {
 
 /**
  * @class RelativeInformation
  * @brief Base class to manage relative information between spacecraft
  */
-class RelativeInformation : public ILoggable {
+class RelativeInformation : public logger::ILoggable {
  public:
   /**
    * @fn RelativeInformation
@@ -40,7 +47,7 @@ class RelativeInformation : public ILoggable {
    * @param [in] spacecraft_id: ID of target spacecraft
    * @param [in] dynamics: Dynamics information of the target spacecraft
    */
-  void RegisterDynamicsInfo(const size_t spacecraft_id, const Dynamics* dynamics);
+  void RegisterDynamicsInfo(const size_t spacecraft_id, const dynamics::Dynamics* dynamics);
   /**
    * @fn RegisterDynamicsInfo
    * @brief Remove dynamics information of target spacecraft
@@ -64,7 +71,7 @@ class RelativeInformation : public ILoggable {
    * @fn LogSetup
    * @brief Logging setup for relative information
    */
-  void LogSetup(Logger& logger);
+  void LogSetup(logger::Logger& logger);
 
   // Getter
   /**
@@ -73,7 +80,7 @@ class RelativeInformation : public ILoggable {
    * @param [in] target_spacecraft_id: ID of target spacecraft
    * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
-  inline libra::Quaternion GetRelativeAttitudeQuaternion(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
+  inline math::Quaternion GetRelativeAttitudeQuaternion(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
     return relative_attitude_quaternion_list_[target_spacecraft_id][reference_spacecraft_id];
   }
   /**
@@ -82,7 +89,7 @@ class RelativeInformation : public ILoggable {
    * @param [in] target_spacecraft_id: ID of target spacecraft
    * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
-  inline libra::Vector<3> GetRelativePosition_i_m(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
+  inline math::Vector<3> GetRelativePosition_i_m(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
     return relative_position_list_i_m_[target_spacecraft_id][reference_spacecraft_id];
   }
   /**
@@ -91,7 +98,7 @@ class RelativeInformation : public ILoggable {
    * @param [in] target_spacecraft_id: ID of target spacecraft
    * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
-  inline libra::Vector<3> GetRelativeVelocity_i_m_s(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
+  inline math::Vector<3> GetRelativeVelocity_i_m_s(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
     return relative_velocity_list_i_m_s_[target_spacecraft_id][reference_spacecraft_id];
   }
   /**
@@ -109,7 +116,7 @@ class RelativeInformation : public ILoggable {
    * @param [in] target_spacecraft_id: ID of target spacecraft
    * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
-  inline libra::Vector<3> GetRelativePosition_rtn_m(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
+  inline math::Vector<3> GetRelativePosition_rtn_m(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
     return relative_position_list_rtn_m_[target_spacecraft_id][reference_spacecraft_id];
   }
   /**
@@ -118,7 +125,7 @@ class RelativeInformation : public ILoggable {
    * @param [in] target_spacecraft_id: ID of target spacecraft
    * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
-  inline libra::Vector<3> GetRelativeVelocity_rtn_m_s(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
+  inline math::Vector<3> GetRelativeVelocity_rtn_m_s(const size_t target_spacecraft_id, const size_t reference_spacecraft_id) const {
     return relative_velocity_list_rtn_m_s_[target_spacecraft_id][reference_spacecraft_id];
   }
 
@@ -127,19 +134,19 @@ class RelativeInformation : public ILoggable {
    * @brief Return the dynamics information of a spacecraft
    * @param [in] target_spacecraft_id: ID of the spacecraft
    */
-  inline const Dynamics* GetReferenceSatDynamics(const size_t reference_spacecraft_id) const {
+  inline const dynamics::Dynamics* GetReferenceSatDynamics(const size_t reference_spacecraft_id) const {
     return dynamics_database_.at(reference_spacecraft_id);
   };
 
  private:
-  std::map<const size_t, const Dynamics*> dynamics_database_;  //!< Dynamics database of all spacecraft
+  std::map<const size_t, const dynamics::Dynamics*> dynamics_database_;  //!< Dynamics database of all spacecraft
 
-  std::vector<std::vector<libra::Vector<3>>> relative_position_list_i_m_;          //!< Relative position list in the inertial frame in unit [m]
-  std::vector<std::vector<libra::Vector<3>>> relative_velocity_list_i_m_s_;        //!< Relative velocity list in the inertial frame in unit [m/s]
-  std::vector<std::vector<libra::Vector<3>>> relative_position_list_rtn_m_;        //!< Relative position list in the RTN frame in unit [m]
-  std::vector<std::vector<libra::Vector<3>>> relative_velocity_list_rtn_m_s_;      //!< Relative velocity list in the RTN frame in unit [m/s]
-  std::vector<std::vector<double>> relative_distance_list_m_;                      //!< Relative distance list in unit [m]
-  std::vector<std::vector<libra::Quaternion>> relative_attitude_quaternion_list_;  //!< Relative attitude quaternion list
+  std::vector<std::vector<math::Vector<3>>> relative_position_list_i_m_;          //!< Relative position list in the inertial frame in unit [m]
+  std::vector<std::vector<math::Vector<3>>> relative_velocity_list_i_m_s_;        //!< Relative velocity list in the inertial frame in unit [m/s]
+  std::vector<std::vector<math::Vector<3>>> relative_position_list_rtn_m_;        //!< Relative position list in the RTN frame in unit [m]
+  std::vector<std::vector<math::Vector<3>>> relative_velocity_list_rtn_m_s_;      //!< Relative velocity list in the RTN frame in unit [m/s]
+  std::vector<std::vector<double>> relative_distance_list_m_;                     //!< Relative distance list in unit [m]
+  std::vector<std::vector<math::Quaternion>> relative_attitude_quaternion_list_;  //!< Relative attitude quaternion list
 
   /**
    * @fn CalcRelativeAttitudeQuaternion
@@ -147,21 +154,21 @@ class RelativeInformation : public ILoggable {
    * @param [in] target_spacecraft_id: ID of the spacecraft
    * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
-  libra::Quaternion CalcRelativeAttitudeQuaternion(const size_t target_spacecraft_id, const size_t reference_spacecraft_id);
+  math::Quaternion CalcRelativeAttitudeQuaternion(const size_t target_spacecraft_id, const size_t reference_spacecraft_id);
   /**
    * @fn CalcRelativePosition_rtn_m
    * @brief Calculate and return the relative position in RTN frame
    * @param [in] target_spacecraft_id: ID of the spacecraft
    * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
-  libra::Vector<3> CalcRelativePosition_rtn_m(const size_t target_spacecraft_id, const size_t reference_spacecraft_id);
+  math::Vector<3> CalcRelativePosition_rtn_m(const size_t target_spacecraft_id, const size_t reference_spacecraft_id);
   /**
    * @fn CalcRelativeVelocity_rtn_m_s
    * @brief Calculate and return the relative velocity in RTN frame
    * @param [in] target_spacecraft_id: ID of the spacecraft
    * @param [in] reference_spacecraft_id: ID of reference spacecraft
    */
-  libra::Vector<3> CalcRelativeVelocity_rtn_m_s(const size_t target_spacecraft_id, const size_t reference_spacecraft_id);
+  math::Vector<3> CalcRelativeVelocity_rtn_m_s(const size_t target_spacecraft_id, const size_t reference_spacecraft_id);
 
   /**
    * @fn ResizeLists
@@ -169,5 +176,7 @@ class RelativeInformation : public ILoggable {
    */
   void ResizeLists();
 };
+
+}  // namespace s2e::simulation
 
 #endif  // S2E_MULTIPLE_SPACECRAFT_RELATIVE_INFORMATION_HPP_

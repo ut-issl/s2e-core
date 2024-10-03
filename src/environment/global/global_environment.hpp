@@ -9,9 +9,11 @@
 #include "celestial_information.hpp"
 #include "gnss_satellites.hpp"
 #include "hipparcos_catalogue.hpp"
-#include "library/logger/logger.hpp"
+#include "logger/logger.hpp"
 #include "simulation/simulation_configuration.hpp"
 #include "simulation_time.hpp"
+
+namespace s2e::environment {
 
 /**
  * @class GlobalEnvironment
@@ -24,7 +26,7 @@ class GlobalEnvironment {
    * @brief Constructor
    * @param [in] simulation_configuration: Simulation configuration
    */
-  GlobalEnvironment(const SimulationConfiguration* simulation_configuration);
+  GlobalEnvironment(const simulation::SimulationConfiguration* simulation_configuration);
   /**
    * @fn ~GlobalEnvironment
    * @brief Destructor
@@ -36,7 +38,7 @@ class GlobalEnvironment {
    * @brief Initialize all global environment members
    * @param [in] simulation_configuration: Simulation configuration
    */
-  void Initialize(const SimulationConfiguration* simulation_configuration);
+  void Initialize(const simulation::SimulationConfiguration* simulation_configuration);
   /**
    * @fn Update
    * @brief Update states of all global environment
@@ -46,7 +48,7 @@ class GlobalEnvironment {
    * @fn LogSetup
    * @brief Log setup of global environment information
    */
-  void LogSetup(Logger& logger);
+  void LogSetup(logger::Logger& logger);
   /**
    * @fn Reset
    * @brief Reset clock of SimulationTime
@@ -81,5 +83,7 @@ class GlobalEnvironment {
   HipparcosCatalogue* hipparcos_catalogue_;      //!< Hipparcos catalogue
   GnssSatellites* gnss_satellites_;              //!< GNSS satellites
 };
+
+}  // namespace s2e::environment
 
 #endif  // S2E_ENVIRONMENT_GLOBAL_GLOBAL_ENVIRONMENT_HPP_

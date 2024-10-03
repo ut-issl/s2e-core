@@ -5,14 +5,16 @@
 
 #include "csv_scenario_interface.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
+
+namespace s2e::components {
 
 bool CsvScenarioInterface::is_csv_scenario_enabled_;
 std::map<std::string, unsigned int> CsvScenarioInterface::buffer_line_id_;
 std::map<std::string, DoubleBuffer> CsvScenarioInterface::buffers_;
 
 void CsvScenarioInterface::Initialize(const std::string file_name) {
-  IniAccess scenario_conf(file_name);
+  setting_file_reader::IniAccess scenario_conf(file_name);
   char Section[30] = "SCENARIO";
 
   CsvScenarioInterface::is_csv_scenario_enabled_ = scenario_conf.ReadBoolean(Section, "is_csv_scenario_enabled");
@@ -36,8 +38,8 @@ void CsvScenarioInterface::Initialize(const std::string file_name) {
 
 bool CsvScenarioInterface::IsCsvScenarioEnabled() { return CsvScenarioInterface::is_csv_scenario_enabled_; }
 
-libra::Vector<3> CsvScenarioInterface::GetSunDirectionBody(const double time_query) {
-  libra::Vector<3> sun_dir_b;
+math::Vector<3> CsvScenarioInterface::GetSunDirectionBody(const double time_query) {
+  math::Vector<3> sun_dir_b;
   sun_dir_b[0] = GetValueFromBuffer("sun_dir_b_x", time_query);
   sun_dir_b[1] = GetValueFromBuffer("sun_dir_b_y", time_query);
   sun_dir_b[2] = GetValueFromBuffer("sun_dir_b_z", time_query);
@@ -92,3 +94,5 @@ double CsvScenarioInterface::GetValueFromBuffer(const std::string buffer_name, c
   output = itr->second;
   return output;
 }
+
+}  // namespace s2e::components

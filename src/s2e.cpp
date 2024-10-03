@@ -15,7 +15,7 @@
 #include <string>
 
 // Simulator includes
-#include "library/logger/logger.hpp"
+#include "logger/logger.hpp"
 
 // Add custom include files
 #include "simulation_sample/case/sample_case.hpp"
@@ -46,8 +46,8 @@ int main(int argc, char *argv[])
   system_clock::time_point start, end;
   start = system_clock::now();
 
-  std::string data_path = "../../data/";
-  std::string ini_path = INI_FILE_DIR_FROM_EXE;
+  std::string data_path = "../../";
+  std::string ini_path = SETTINGS_DIR_FROM_EXE;
   std::string ini_file = ini_path + "/sample_simulation_base.ini";
 
   // Parsing arguments:  SatAttSim <data_path> [ini_file]
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
   std::cout << "\tIni file: ";
   print_path(ini_file);
 
-  auto simulation_case = SampleCase(ini_file);
+  auto simulation_case = s2e::sample::SampleCase(ini_file);
   simulation_case.Initialize();
   simulation_case.Main();
 

@@ -43,7 +43,7 @@ if read_file_tag == None:
 print("log: " + read_file_tag)
 
 # Read Gound Station position from the ini file in the logs directory
-gs_ini_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + "/sample_ground_station.ini"
+gs_ini_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + "/ground_station.ini"
 configur = ConfigParser(comment_prefixes=('#', ';', '//'), inline_comment_prefixes=('#', ';', '//'))
 configur.read(gs_ini_file_name)
 gs_lat_deg = configur.getfloat('GROUND_STATION_0', 'latitude_deg')

@@ -5,7 +5,9 @@
 
 #include "i2c_port.hpp"
 
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
+
+namespace s2e::components {
 
 I2cPort::I2cPort(void) {}
 
@@ -93,3 +95,5 @@ unsigned char I2cPort::ReadCommand(const unsigned char i2c_address, unsigned cha
   }
   return length;
 }
+
+}  // namespace s2e::components

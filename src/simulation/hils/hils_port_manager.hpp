@@ -7,10 +7,12 @@
 #define S2E_SIMULATION_HILS_HILS_PORT_MANAGER_HPP_
 
 #ifdef USE_HILS
-#include "ports/hils_i2c_target_port.hpp"
-#include "ports/hils_uart_port.hpp"
+#include "../../components/ports/hils_i2c_target_port.hpp"
+#include "../../components/ports/hils_uart_port.hpp"
 #endif
 #include <map>
+
+namespace s2e::simulation {
 
 /**
  * @class HilsPortManager
@@ -163,9 +165,11 @@ class HilsPortManager {
 
  private:
 #ifdef USE_HILS
-  std::map<int, HilsUartPort*> uart_ports_;      //!< UART ports
-  std::map<int, HilsI2cTargetPort*> i2c_ports_;  //!< I2C ports
+  std::map<int, components::HilsUartPort*> uart_ports_;      //!< UART ports
+  std::map<int, components::HilsI2cTargetPort*> i2c_ports_;  //!< I2C ports
 #endif
 };
+
+}  // namespace s2e::simulation
 
 #endif  // S2E_SIMULATION_HILS_HILS_PORT_MANAGER_HPP_

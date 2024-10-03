@@ -6,13 +6,13 @@
 #ifndef S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_HPP_
 #define S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_HPP_
 
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
-using libra::Quaternion;
-using libra::Vector;
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
 #include <vector>
 
 #include "./antenna_radiation_pattern.hpp"
+
+namespace s2e::components {
 
 /*
  * @enum AntennaGainModel
@@ -54,8 +54,8 @@ class Antenna {
    * @param [in] tx_parameters: output, gain, loss_feeder, loss_pointing for TX
    * @param [in] rx_parameters: gain, loss_feeder, loss_pointing, system_temperature for RX
    */
-  Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
-          const double frequency_MHz, const Vector<5> tx_parameters, const Vector<4> rx_parameters);
+  Antenna(const int component_id, const math::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
+          const double frequency_MHz, const math::Vector<5> tx_parameters, const math::Vector<4> rx_parameters);
 
   /**
    * @fn Antenna
@@ -71,7 +71,7 @@ class Antenna {
    * @param [in] rx_system_noise_temperature_K: Receive system noise temperature [K]
    * @param [in] rx_parameters: RX antenna parameters
    */
-  Antenna(const int component_id, const libra::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
+  Antenna(const int component_id, const math::Quaternion& quaternion_b2c, const bool is_transmitter, const bool is_receiver,
           const double frequency_MHz, const double tx_bitrate_bps, const double tx_output_power_W, const AntennaParameters tx_parameters,
           const double rx_system_noise_temperature_K, const AntennaParameters rx_parameters);
   /**
@@ -113,7 +113,7 @@ class Antenna {
    * @fn GetQuaternion_b2c
    * @brief Return quaternion from body to component
    */
-  inline Quaternion GetQuaternion_b2c() const { return quaternion_b2c_; }
+  inline math::Quaternion GetQuaternion_b2c() const { return quaternion_b2c_; }
 
   /**
    * @fn IsTransmitter
@@ -128,11 +128,11 @@ class Antenna {
 
  protected:
   // General info
-  int component_id_;           //!< Antenna ID
-  Quaternion quaternion_b2c_;  //!< Coordinate transform from body to component
-  bool is_transmitter_;        //!< Antenna for transmitter or not
-  bool is_receiver_;           //!< Antenna for receiver or not
-  double frequency_MHz_;       //!< Center Frequency [MHz]
+  int component_id_;                 //!< Antenna ID
+  math::Quaternion quaternion_b2c_;  //!< Coordinate transform from body to component
+  bool is_transmitter_;              //!< Antenna for transmitter or not
+  bool is_receiver_;                 //!< Antenna for receiver or not
+  double frequency_MHz_;             //!< Center Frequency [MHz]
 
   // Tx info
   double tx_bitrate_bps_;            //!< Transmit bitrate [bps]
@@ -165,5 +165,7 @@ AntennaGainModel SetAntennaGainModel(const std::string gain_model_name);
  * @param [in] file_name: Path to initialize file
  */
 Antenna InitAntenna(const int antenna_id, const std::string file_name);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_COMMUNICATION_ANTENNA_HPP_

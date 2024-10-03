@@ -8,9 +8,11 @@
 
 #include <components/ports/power_port.hpp>
 #include <environment/global/clock_generator.hpp>
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
 
 #include "interface_tickable.hpp"
+
+namespace s2e::components {
 
 /**
  * @class Component
@@ -27,7 +29,7 @@ class Component : public ITickable {
    * @param [in] clock_generator: Clock generator
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  Component(const unsigned int prescaler, ClockGenerator* clock_generator, const unsigned int fast_prescaler = 1);
+  Component(const unsigned int prescaler, environment::ClockGenerator* clock_generator, const unsigned int fast_prescaler = 1);
   /**
    * @fn Component
    * @brief Constructor with power port
@@ -36,7 +38,7 @@ class Component : public ITickable {
    * @param [in] power_port: Power port
    * @param [in] fast_prescaler: Frequency scale factor for fast update (used only for component faster than component update period)
    */
-  Component(const unsigned int prescaler, ClockGenerator* clock_generator, PowerPort* power_port, const unsigned int fast_prescaler = 1);
+  Component(const unsigned int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const unsigned int fast_prescaler = 1);
   /**
    * @fn Component
    * @brief Copy constructor
@@ -84,8 +86,10 @@ class Component : public ITickable {
    */
   virtual void PowerOffRoutine(){};
 
-  ClockGenerator* clock_generator_;  //!< Clock generator
-  PowerPort* power_port_;            //!< Power port
+  environment::ClockGenerator* clock_generator_;  //!< Clock generator
+  PowerPort* power_port_;                         //!< Power port
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_COMPONENT_HPP_

@@ -10,10 +10,12 @@
 #include <environment/global/physical_constants.hpp>
 
 using namespace std;
-using namespace libra;
+using namespace s2e::math;
+
+namespace s2e::dynamics::thermal {
 
 Node::Node(const size_t node_id, const string node_name, const NodeType node_type, const size_t heater_id, const double temperature_ini_K,
-           const double capacity_J_K, const double alpha, const double area_m2, libra::Vector<3> normal_vector_b)
+           const double capacity_J_K, const double alpha, const double area_m2, math::Vector<3> normal_vector_b)
     : node_id_(node_id),
       node_name_(node_name),
       heater_id_(heater_id),
@@ -24,20 +26,35 @@ Node::Node(const size_t node_id, const string node_name, const NodeType node_typ
       node_type_(node_type),
       normal_vector_b_(normal_vector_b) {
   AssertNodeParams();
-  solar_radiation_W_ = 0;
+  solar_radiation_W_ = 0.0;
+  albedo_radiation_W_ = 0.0;
 }
 
 Node::~Node() {}
 
-double Node::CalcSolarRadiation_W(libra::Vector<3> sun_direction_b, double solar_flux_W_m2) {
+double Node::CalcSolarRadiation_W(math::Vector<3> sun_direction_b, double solar_flux_W_m2) {
   double cos_theta = InnerProduct(sun_direction_b, normal_vector_b_);
 
   // calculate sun_power
-  if (cos_theta > 0)
+  if (cos_theta > 0.0)
     solar_radiation_W_ = solar_flux_W_m2 * area_m2_ * alpha_ * cos_theta;
   else
-    solar_radiation_W_ = 0;
+    solar_radiation_W_ = 0.0;
   return solar_radiation_W_;
+}
+
+double Node::CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, double earth_albedo_W_m2) {
+  math::Vector<3> earth_direction_b = earth_position_b_m.CalcNormalizedVector();
+
+  double cos_theta_albedo = InnerProduct(earth_direction_b, normal_vector_b_);
+
+  // albedo radiation calculation; earth_albedo_W_m2 reflects the shadow coefficient.
+  if (cos_theta_albedo > 0.0) {
+    albedo_radiation_W_ = earth_albedo_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
+  } else {
+    albedo_radiation_W_ = 0.0;
+  }
+  return albedo_radiation_W_;
 }
 
 void Node::PrintParam(void) {
@@ -124,10 +141,10 @@ Node InitNode(const std::vector<std::string>& node_str) {
   std::string node_label = "temp";  // node name
   size_t node_type_int = 0;         // node type
   size_t heater_id = 0;             // heater node index
-  double temperature_K = 0;         // [K]
-  double capacity_J_K = 0;          // [J/K]
-  double alpha = 0;                 // []
-  double area_m2 = 0;               // [m^2]
+  double temperature_K = 0.0;       // [K]
+  double capacity_J_K = 0.0;        // [J/K]
+  double alpha = 0.0;               // []
+  double area_m2 = 0.0;             // [m^2]
 
   // Index to read from node_str for each parameter
   size_t index_node_id = 0;
@@ -147,7 +164,7 @@ Node InitNode(const std::vector<std::string>& node_str) {
   capacity_J_K = stod(node_str[index_capacity]);
   alpha = stod(node_str[index_alpha]);
   area_m2 = stod(node_str[index_area]);
-  libra::Vector<3> normal_v_b;
+  math::Vector<3> normal_v_b;
   for (size_t i = 0; i < 3; i++) {
     normal_v_b[i] = stod(node_str[index_normal_v_b_head + i]);
   }
@@ -171,3 +188,5 @@ Node InitNode(const std::vector<std::string>& node_str) {
   Node node(node_id, node_label, node_type, heater_id, temperature_K, capacity_J_K, alpha, area_m2, normal_v_b);
   return node;
 }
+
+}  // namespace s2e::dynamics::thermal

@@ -49,14 +49,14 @@ read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file
 # Read S2E CSV
 time = read_scalar_from_csv(read_file_name, 'elapsed_time[s]')
 
-measured_position_eci_m = read_3d_vector_from_csv(read_file_name, 'gnss_receiver1_measured_position_eci', 'm')
-true_position_eci_m = read_3d_vector_from_csv(read_file_name, 'spacecraft_position_i', 'm')
+measured_position_ecef_m = read_3d_vector_from_csv(read_file_name, 'gnss_receiver1_measured_position_ecef', 'm')
+true_position_ecef_m = read_3d_vector_from_csv(read_file_name, 'spacecraft_position_ecef', 'm')
 
 number_of_visible_satellites = read_scalar_from_csv(read_file_name, 'gnss_receiver1_number_of_visible_satellites')
 satellite_visible_flag = read_scalar_from_csv(read_file_name, 'gnss_receiver1_satellite_visible_flag')
 
 # Statistics
-error_m = measured_position_eci_m[:, 1:] - true_position_eci_m[:, 1:]
+error_m = measured_position_ecef_m[:, 1:] - true_position_ecef_m[:, 1:]
 average = [0.0, 0.0, 0.0]
 standard_deviation = [0.0, 0.0, 0.0]
 for i in range(3):
@@ -68,20 +68,20 @@ for i in range(3):
 #
 unit = ' m'
 fig, axis = plt.subplots(5, 1, squeeze = False, tight_layout = True, sharex = True)
-axis[0, 0].plot(time[0], measured_position_eci_m[0], marker=".", c="red",    label="MEASURED-X")
-axis[0, 0].plot(time[0], true_position_eci_m[0], marker=".", c="orange",  label="TRUE-X")
+axis[0, 0].plot(time[0], measured_position_ecef_m[0], marker=".", c="red",    label="MEASURED-X")
+axis[0, 0].plot(time[0], true_position_ecef_m[0], marker=".", c="orange",  label="TRUE-X")
 axis[0, 0].text(0.01, 0.99, "Error average:" + format(average[0], '+.2e') + unit, verticalalignment = 'top', transform = axis[0, 0].transAxes)
 axis[0, 0].text(0.01, 0.79, "Standard deviation:" + format(standard_deviation[0], '+.2e') + unit, verticalalignment = 'top', transform = axis[0, 0].transAxes)
 axis[0, 0].legend(loc = 'upper right')
 
-axis[1, 0].plot(time[0], measured_position_eci_m[1], marker=".", c="green",  label="MEASURED-Y")
-axis[1, 0].plot(time[0], true_position_eci_m[1], marker=".", c="yellow",  label="TRUE-Y")
+axis[1, 0].plot(time[0], measured_position_ecef_m[1], marker=".", c="green",  label="MEASURED-Y")
+axis[1, 0].plot(time[0], true_position_ecef_m[1], marker=".", c="yellow",  label="TRUE-Y")
 axis[1, 0].text(0.01, 0.99, "Error average:" + format(average[1], '+.2e') + unit, verticalalignment = 'top', transform = axis[1, 0].transAxes)
 axis[1, 0].text(0.01, 0.79, "Standard deviation:" + format(standard_deviation[1], '+.2e') + unit, verticalalignment = 'top', transform = axis[1, 0].transAxes)
 axis[1, 0].legend(loc = 'upper right')
 
-axis[2, 0].plot(time[0], measured_position_eci_m[2], marker=".", c="blue",   label="MEASURED-Z")
-axis[2, 0].plot(time[0], true_position_eci_m[2], marker=".", c="purple",  label="TRUE-Z")
+axis[2, 0].plot(time[0], measured_position_ecef_m[2], marker=".", c="blue",   label="MEASURED-Z")
+axis[2, 0].plot(time[0], true_position_ecef_m[2], marker=".", c="purple",  label="TRUE-Z")
 axis[2, 0].text(0.01, 0.99, "Error average:" + format(average[2], '+.2e') + unit, verticalalignment = 'top', transform = axis[2, 0].transAxes)
 axis[2, 0].text(0.01, 0.79, "Standard deviation:" + format(standard_deviation[2], '+.2e') + unit, verticalalignment = 'top', transform = axis[2, 0].transAxes)
 axis[2, 0].legend(loc = 'upper right')
@@ -94,7 +94,7 @@ axis[4, 0].plot(time[0], number_of_visible_satellites[0], marker=".", c="black",
 axis[4, 0].legend(loc = 'upper right')
 axis[4, 0].set_ylim(0, max(number_of_visible_satellites[0]) + 2)
 
-fig.suptitle("GNSS Receiver Spacecraft position @ ECI")
+fig.suptitle("GNSS Receiver Spacecraft position @ ECEF")
 fig.supylabel("Position [m]")
 fig.supxlabel("Time [s]")
 

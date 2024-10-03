@@ -7,15 +7,17 @@
 #define S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_
 
 #include <environment/global/celestial_information.hpp>
-#include <library/math/ordinary_differential_equation.hpp>
+#include <math_physics/math/ordinary_differential_equation.hpp>
 
 #include "orbit.hpp"
+
+namespace s2e::dynamics::orbit {
 
 /**
  * @class Rk4OrbitPropagation
  * @brief Class to propagate spacecraft orbit with Runge-Kutta-4 method
  */
-class Rk4OrbitPropagation : public Orbit, public libra::OrdinaryDifferentialEquation<6> {
+class Rk4OrbitPropagation : public Orbit, public math::OrdinaryDifferentialEquation<6> {
  public:
   /**
    * @fn Rk4OrbitPropagation
@@ -27,8 +29,8 @@ class Rk4OrbitPropagation : public Orbit, public libra::OrdinaryDifferentialEqua
    * @param [in] velocity_i_m_s: Initial value of velocity in the inertial frame [m/s]
    * @param [in] initial_time_s: Initial time [sec]
    */
-  Rk4OrbitPropagation(const CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
-                      libra::Vector<3> position_i_m, libra::Vector<3> velocity_i_m_s, double initial_time_s = 0);
+  Rk4OrbitPropagation(const environment::CelestialInformation* celestial_information, double gravity_constant_m3_s2, double time_step_s,
+                      math::Vector<3> position_i_m, math::Vector<3> velocity_i_m_s, double initial_time_s = 0);
   /**
    * @fn ~Rk4OrbitPropagation
    * @brief Destructor
@@ -43,7 +45,7 @@ class Rk4OrbitPropagation : public Orbit, public libra::OrdinaryDifferentialEqua
    * @param [in] state: Position and velocity as state vector
    * @param [out] rhs: Output of the function
    */
-  virtual void DerivativeFunction(double t, const libra::Vector<6>& state, libra::Vector<6>& rhs);
+  virtual void DerivativeFunction(double t, const math::Vector<6>& state, math::Vector<6>& rhs);
 
   // Override Orbit
   /**
@@ -66,7 +68,9 @@ class Rk4OrbitPropagation : public Orbit, public libra::OrdinaryDifferentialEqua
    * @param [in] velocity_i_m_s: Initial value of velocity in the inertial frame [m/s]
    * @param [in] initial_time_s: Initial time [sec]
    */
-  void Initialize(libra::Vector<3> position_i_m, libra::Vector<3> velocity_i_m_s, double initial_time_s = 0);
+  void Initialize(math::Vector<3> position_i_m, math::Vector<3> velocity_i_m_s, double initial_time_s = 0);
 };
+
+}  // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_RK4_ORBIT_PROPAGATION_HPP_

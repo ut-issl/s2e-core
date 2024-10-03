@@ -6,8 +6,9 @@
 #ifndef S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_HPP_
 #define S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_HPP_
 
-#include <library/math/vector.hpp>
-using libra::Vector;
+#include <math_physics/math/vector.hpp>
+
+namespace s2e::spacecraft {
 
 /**
  * @class ResidualMagneticMoment
@@ -19,8 +20,8 @@ class ResidualMagneticMoment {
    * @fn ResidualMagneticMoment
    * @brief Constructor
    */
-  ResidualMagneticMoment(const Vector<3> constant_value_b_Am2_, const double random_walk_standard_deviation_Am2, const double random_walk_limit_Am2,
-                         const double random_noise_standard_deviation_Am2);
+  ResidualMagneticMoment(const math::Vector<3> constant_value_b_Am2_, const double random_walk_standard_deviation_Am2,
+                         const double random_walk_limit_Am2, const double random_noise_standard_deviation_Am2);
   /**
    * @fn ~ResidualMagneticMoment
    * @brief Destructor
@@ -32,7 +33,7 @@ class ResidualMagneticMoment {
    * @fn GetConstantValue_b_Am2
    * @brief Return Constant value of RMM at body frame [Am2]
    */
-  inline const Vector<3>& GetConstantValue_b_Am2(void) const { return constant_value_b_Am2_; }
+  inline const math::Vector<3>& GetConstantValue_b_Am2(void) const { return constant_value_b_Am2_; }
   /**
    * @fn GetRandomWalkStandardDeviation_Am2
    * @brief Return Random walk standard deviation of RMM [Am2]
@@ -55,19 +56,21 @@ class ResidualMagneticMoment {
    * @brief Set Constant value of RMM at body frame [Am2]
    * @param [in] rmm_const_b_Am2: Constant value of RMM at the body frame [Am2]
    */
-  inline void SetRmmConstant_b_Am2(const Vector<3> rmm_const_b_Am2) { constant_value_b_Am2_ = rmm_const_b_Am2; }
+  inline void SetRmmConstant_b_Am2(const math::Vector<3> rmm_const_b_Am2) { constant_value_b_Am2_ = rmm_const_b_Am2; }
   /**
    * @fn AddRMMConst_b_Am2
    * @brief Add Constant value of RMM at body frame [Am2]
    * @param [in] rmm_const_b_Am2: Constant value of RMM at the body frame [Am2]
    */
-  inline void AddRmmConstant_b_Am2(const Vector<3> rmm_const_b_Am2) { constant_value_b_Am2_ += rmm_const_b_Am2; }
+  inline void AddRmmConstant_b_Am2(const math::Vector<3> rmm_const_b_Am2) { constant_value_b_Am2_ += rmm_const_b_Am2; }
 
  private:
-  Vector<3> constant_value_b_Am2_;              //!< Constant value of RMM at body frame [Am2]
+  math::Vector<3> constant_value_b_Am2_;        //!< Constant value of RMM at body frame [Am2]
   double random_walk_standard_deviation_Am2_;   //!< Random walk standard deviation of RMM [Am2]
   double random_walk_limit_Am2_;                //!< Random walk limit of RMM [Am2]
   double random_noise_standard_deviation_Am2_;  //!< Standard deviation of white noise of RMM [Am2]
 };
+
+}  // namespace s2e::spacecraft
 
 #endif  // S2E_SIMULATION_SPACECRAFT_STRUCTURE_RESIDUAL_MAGNETIC_MOMENT_HPP_

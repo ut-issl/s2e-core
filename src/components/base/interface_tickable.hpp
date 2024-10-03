@@ -6,6 +6,8 @@
 #ifndef S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_HPP_
 #define S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_HPP_
 
+namespace s2e::components {
+
 /**
  * @class ITickable
  * @brief Interface class for time update of components
@@ -39,5 +41,7 @@ class ITickable {
  protected:
   bool needs_fast_update_ = false;  //!< Whether or not high-frequency disturbances need to be calculated
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_BASE_CLASSES_INTERFACE_TICKABLE_HPP_

@@ -8,11 +8,13 @@
 
 #include <string>
 
-#include "../library/logger/loggable.hpp"
-#include "../library/math/matrix.hpp"
-#include "../library/math/matrix_vector.hpp"
-#include "../library/math/vector.hpp"
+#include "../logger/loggable.hpp"
+#include "../math_physics/math/matrix.hpp"
+#include "../math_physics/math/matrix_vector.hpp"
+#include "../math_physics/math/vector.hpp"
 #include "disturbance.hpp"
+
+namespace s2e::disturbances {
 
 /**
  * @class GravityGradient
@@ -39,19 +41,19 @@ class GravityGradient : public Disturbance {
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
    * @param [in] local_environment: Local environment information
-   * @param [in] dynamics: Dynamics information
+   * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
+  virtual void Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -65,7 +67,7 @@ class GravityGradient : public Disturbance {
    * @param [in] inertia_tensor_b_kgm2: Inertia Tensor at body frame [kg*m^2]
    * @return Calculated torque at body frame [Nm]
    */
-  libra::Vector<3> CalcTorque_b_Nm(const libra::Vector<3> earth_position_from_sc_b_m, const libra::Matrix<3, 3> inertia_tensor_b_kgm2);
+  math::Vector<3> CalcTorque_b_Nm(const math::Vector<3> earth_position_from_sc_b_m, const math::Matrix<3, 3> inertia_tensor_b_kgm2);
 };
 
 /**
@@ -82,5 +84,7 @@ GravityGradient InitGravityGradient(const std::string initialize_file_path);
  * @param [in] gravity_constant_m3_s2: Gravitational constant [m3/s2]
  */
 GravityGradient InitGravityGradient(const std::string initialize_file_path, const double gravity_constant_m3_s2);
+
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_GRAVITY_GRADIENT_HPP_

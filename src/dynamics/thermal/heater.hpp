@@ -7,9 +7,11 @@
 #define S2E_DYNAMICS_THERMAL_HEATER_HPP_
 
 #include <environment/global/physical_constants.hpp>
-#include <library/logger/logger.hpp>
+#include <logger/logger.hpp>
 #include <string>
 #include <vector>
+
+namespace s2e::dynamics::thermal {
 
 /**
  * @enum HeaterStatus
@@ -78,11 +80,11 @@ class Heater {
   void PrintParam(void);
 
  protected:
-  size_t heater_id_;       // heater id (Use values over 1)
-  double power_rating_W_;  // Power Rating (100% Duty) [W]
+  size_t heater_id_;       //!< heater id (Use values over 1)
+  double power_rating_W_;  //!</ Power Rating (100% Duty) [W]
 
-  HeaterStatus heater_status_;  // Power Status of Heater
-  double power_output_W_;       // Power Output of Heater [W]
+  HeaterStatus heater_status_;  //!< Power Status of Heater
+  double power_output_W_;       //!< Power Output of Heater [W]
 
   /**
    * @fn AssertHeaterParams
@@ -98,5 +100,7 @@ class Heater {
  * @return Heater
  */
 Heater InitHeater(const std::vector<std::string>& heater_str);
+
+}  // namespace s2e::dynamics::thermal
 
 #endif  // S2E_DYNAMICS_THERMAL_HEATER_HPP_

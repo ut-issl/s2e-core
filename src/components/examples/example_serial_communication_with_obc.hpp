@@ -12,6 +12,8 @@
 #include "../base/interface_gpio_component.hpp"
 #include "../base/uart_communication_with_obc.hpp"
 
+namespace s2e::components {
+
 /**
  * @class ExampleSerialCommunicationWithObc
  * @brief Example of component emulation with communication between OBC flight software
@@ -35,7 +37,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @param [in] port_id: Port ID for communication line b/w OnBoardComputer
    * @param [in] obc: The communication target OBC
    */
-  ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, OnBoardComputer* obc);
+  ExampleSerialCommunicationWithObc(environment::ClockGenerator* clock_generator, int port_id, OnBoardComputer* obc);
   /**
    * @fn ExampleSerialCommunicationWithObc
    * @brief Constructor
@@ -44,7 +46,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    * @param [in] prescaler: Frequency scale factor for update
    * @param [in] obc: The communication target OBC
    */
-  ExampleSerialCommunicationWithObc(ClockGenerator* clock_generator, int port_id, int prescaler, OnBoardComputer* obc);
+  ExampleSerialCommunicationWithObc(environment::ClockGenerator* clock_generator, int port_id, int prescaler, OnBoardComputer* obc);
   /**
    * @fn ~SerialCommunicationWithObc
    * @brief Destructor
@@ -88,5 +90,7 @@ class ExampleSerialCommunicationWithObc : public Component, public UartCommunica
    */
   int Initialize();
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_SERIAL_COMMUNICATION_WITH_OBC_HPP_P_

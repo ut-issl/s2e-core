@@ -6,12 +6,14 @@
 #ifndef S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_
 #define S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_
 
-#include <library/external/sgp4/sgp4io.h>
-#include <library/external/sgp4/sgp4unit.h>
+#include <math_physics/orbit/sgp4/sgp4io.h>
+#include <math_physics/orbit/sgp4/sgp4unit.h>
 
 #include <environment/global/celestial_information.hpp>
 
 #include "orbit.hpp"
+
+namespace s2e::dynamics::orbit {
 
 /**
  * @class Sgp4OrbitPropagation
@@ -28,7 +30,7 @@ class Sgp4OrbitPropagation : public Orbit {
    * @param [in] wgs_setting: Wold Geodetic System
    * @param [in] current_time_jd: Current Julian day [day]
    */
-  Sgp4OrbitPropagation(const CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs_setting,
+  Sgp4OrbitPropagation(const environment::CelestialInformation* celestial_information, char* tle1, char* tle2, const int wgs_setting,
                        const double current_time_jd);
 
   // Override Orbit
@@ -41,8 +43,10 @@ class Sgp4OrbitPropagation : public Orbit {
   virtual void Propagate(const double end_time_s, const double current_time_jd);
 
  private:
-  gravconsttype gravity_constant_setting_;             //!< Gravity constant value type
-  elsetrec sgp4_data_;                                 //!< Structure data for SGP4 library
+  gravconsttype gravity_constant_setting_;  //!< Gravity constant value type
+  elsetrec sgp4_data_;                      //!< Structure data for SGP4 library
 };
+
+}  // namespace s2e::dynamics::orbit
 
 #endif  // S2E_DYNAMICS_ORBIT_SGP4_ORBIT_PROPAGATION_HPP_

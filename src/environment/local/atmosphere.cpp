@@ -5,14 +5,16 @@
 
 #include "atmosphere.hpp"
 
-#include "library/atmosphere/harris_priester_model.hpp"
-#include "library/atmosphere/simple_air_density_model.hpp"
-#include "library/initialize/initialize_file_access.hpp"
-#include "library/logger/log_utility.hpp"
-#include "library/math/vector.hpp"
-#include "library/randomization/global_randomization.hpp"
-#include "library/randomization/normal_randomization.hpp"
-#include "library/randomization/random_walk.hpp"
+#include "logger/log_utility.hpp"
+#include "math_physics/atmosphere/harris_priester_model.hpp"
+#include "math_physics/atmosphere/simple_air_density_model.hpp"
+#include "math_physics/math/vector.hpp"
+#include "math_physics/randomization/global_randomization.hpp"
+#include "math_physics/randomization/normal_randomization.hpp"
+#include "math_physics/randomization/random_walk.hpp"
+#include "setting_file_reader/initialize_file_access.hpp"
+
+namespace s2e::environment {
 
 Atmosphere::Atmosphere(const std::string model, const std::string space_weather_file_name, const double gauss_standard_deviation_rate,
                        const bool is_manual_param, const double manual_f107, const double manual_f107a, const double manual_ap,
@@ -50,13 +52,13 @@ Atmosphere::Atmosphere(const std::string model, const std::string space_weather_
   }
 }
 
-double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& orbit) {
+double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const dynamics::orbit::Orbit& orbit) {
   if (!is_calc_enabled_) return 0;
 
   if (model_ == "STANDARD") {
     // Standard model
     double altitude_m = orbit.GetGeodeticPosition().GetAltitude_m();
-    air_density_kg_m3_ = libra::atmosphere::CalcAirDensityWithSimpleModel(altitude_m);
+    air_density_kg_m3_ = atmosphere::CalcAirDensityWithSimpleModel(altitude_m);
   } else if (model_ == "NRLMSISE00") {
     // NRLMSISE00 model
     double lat_rad = orbit.GetGeodeticPosition().GetLatitude_rad();
@@ -66,8 +68,8 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& 
                                         manual_average_f107_, manual_ap_);
   } else if (model_ == "HARRIS_PRIESTER") {
     // Harris-Priester
-    libra::Vector<3> sun_direction_eci = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN").CalcNormalizedVector();
-    air_density_kg_m3_ = libra::atmosphere::CalcAirDensityWithHarrisPriester_kg_m3(orbit.GetGeodeticPosition(), sun_direction_eci);
+    math::Vector<3> sun_direction_eci = local_celestial_information_->GetGlobalInformation().GetPositionFromCenter_i_m("SUN").CalcNormalizedVector();
+    air_density_kg_m3_ = atmosphere::CalcAirDensityWithHarrisPriester_kg_m3(orbit.GetGeodeticPosition(), sun_direction_eci);
   } else {
     // No suitable model
     return air_density_kg_m3_ = 0.0;
@@ -78,7 +80,7 @@ double Atmosphere::CalcAirDensity_kg_m3(const double decimal_year, const Orbit& 
 
 double Atmosphere::AddNoise(const double rho_kg_m3) {
   // RandomWalk rw(rho_kg_m3*rw_stepwidth_,rho_kg_m3*rw_stddev_,rho_kg_m3*rw_limit_);
-  libra::NormalRand nr(0.0, rho_kg_m3 * gauss_standard_deviation_rate_, global_randomization.MakeSeed());
+  randomization::NormalRand nr(0.0, rho_kg_m3 * gauss_standard_deviation_rate_, randomization::global_randomization.MakeSeed());
   double nrd = nr;
 
   return rho_kg_m3 + nrd;
@@ -86,7 +88,7 @@ double Atmosphere::AddNoise(const double rho_kg_m3) {
 
 std::string Atmosphere::GetLogValue() const {
   std::string str_tmp = "";
-  str_tmp += WriteScalar(air_density_kg_m3_);
+  str_tmp += logger::WriteScalar(air_density_kg_m3_);
 
   return str_tmp;
 }
@@ -94,14 +96,14 @@ std::string Atmosphere::GetLogValue() const {
 std::string Atmosphere::GetLogHeader() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar("air_density_at_spacecraft_position", "kg/m3");
+  str_tmp += logger::WriteScalar("air_density_at_spacecraft_position", "kg/m3");
 
   return str_tmp;
 }
 
 Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCelestialInformation* local_celestial_information,
                           const SimulationTime* simulation_time) {
-  auto conf = IniAccess(initialize_file_path);
+  auto conf = setting_file_reader::IniAccess(initialize_file_path);
   const char* section = "ATMOSPHERE";
   double f107_threshold = 50.0;
   double f107_default = 150.0;
@@ -133,3 +135,5 @@ Atmosphere InitAtmosphere(const std::string initialize_file_path, const LocalCel
 
   return atmosphere;
 }
+
+}  // namespace s2e::environment

@@ -8,7 +8,10 @@
 
 #include <components/ports/gpio_port.hpp>
 
+#include "c2a_communication.hpp"
 #include "on_board_computer.hpp"
+
+namespace s2e::components {
 
 /*
  * @class ObcWithC2a
@@ -21,14 +24,14 @@ class ObcWithC2a : public OnBoardComputer {
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
    */
-  ObcWithC2a(ClockGenerator* clock_generator);
+  ObcWithC2a(environment::ClockGenerator* clock_generator);
   /**
    * @fn ObcWithC2a
    * @brief Constructor
    * @param [in] clock_generator: Clock generator
    * @param [in] timing_regulator: Timing regulator to update flight software faster than the component update
    */
-  ObcWithC2a(ClockGenerator* clock_generator, int timing_regulator);
+  ObcWithC2a(environment::ClockGenerator* clock_generator, int timing_regulator);
   /**
    * @fn ObcWithC2a
    * @brief Constructor
@@ -37,7 +40,7 @@ class ObcWithC2a : public OnBoardComputer {
    * @param [in] timing_regulator: Timing regulator to update flight software faster than the component update
    * @param [in] power_port: Power port
    */
-  ObcWithC2a(int prescaler, ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port);
+  ObcWithC2a(int prescaler, environment::ClockGenerator* clock_generator, int timing_regulator, PowerPort* power_port);
   /**
    * @fn ~ObcWithC2a
    * @brief Destructor
@@ -270,21 +273,6 @@ class ObcWithC2a : public OnBoardComputer {
   static std::map<int, GpioPort*> gpio_ports_c2a_;    //!< GPIO ports
 };
 
-// If the character encoding of C2A is UTF-8, the following functions are not necessary,
-// and users can directory use SendFromObc_C2A and ReceivedByObc_C2A UART
-// TODO: Delete these functions since C2A is changed to use UTF-8
-
-// C2A communication functions
-int OBC_C2A_SendFromObc(int port_id, unsigned char* buffer, int offset, int length);
-int OBC_C2A_ReceivedByObc(int port_id, unsigned char* buffer, int offset, int length);
-
-// I2C
-int OBC_C2A_I2cWriteCommand(int port_id, const unsigned char i2c_address, const unsigned char* data, const unsigned char length);
-int OBC_C2A_I2cWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char* data, const unsigned char length);
-int OBC_C2A_I2cReadRegister(int port_id, const unsigned char i2c_address, unsigned char* data, const unsigned char length);
-
-// GPIO
-int OBC_C2A_GpioWrite(int port_id, const bool is_high);
-bool OBC_C2A_GpioRead(int port_id);  // return false when the port_id is not used
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_CDH_OBC_C2A_HPP_

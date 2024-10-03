@@ -6,13 +6,15 @@
 #ifndef S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_ODE_HPP_
 #define S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_ODE_HPP_
 
-#include <library/math/ordinary_differential_equation.hpp>
+#include <math_physics/math/ordinary_differential_equation.hpp>
+
+namespace s2e::components {
 
 /*
  * @file ReactionWheelOde
  * @brief Ordinary differential equation of angular velocity of reaction wheel with first-order lag
  */
-class ReactionWheelOde : public libra::OrdinaryDifferentialEquation<1> {
+class ReactionWheelOde : public math::OrdinaryDifferentialEquation<1> {
  public:
   /**
    * @fn ReactionWheelOde
@@ -53,10 +55,12 @@ class ReactionWheelOde : public libra::OrdinaryDifferentialEquation<1> {
    * @param [in] state: State vector
    * @param [out] rhs: Differentiated value of state vector
    */
-  void DerivativeFunction(double x, const libra::Vector<1>& state, libra::Vector<1>& rhs) override;
+  void DerivativeFunction(double x, const math::Vector<1>& state, math::Vector<1>& rhs) override;
 
   double velocity_limit_rad_s_;
   double angular_acceleration_rad_s2_ = 0.0;  //!< Angular acceleration [rad/s2]
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_ODE_HPP_

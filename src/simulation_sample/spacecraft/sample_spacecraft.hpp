@@ -12,17 +12,19 @@
 
 class SampleComponents;
 
+namespace s2e::sample {
+
 /**
  * @class SampleSpacecraft
  * @brief An example of user side spacecraft class
  */
-class SampleSpacecraft : public Spacecraft {
+class SampleSpacecraft : public spacecraft::Spacecraft {
  public:
   /**
    * @fn SampleSpacecraft
    * @brief Constructor
    */
-  SampleSpacecraft(const SimulationConfiguration* simulation_configuration, const GlobalEnvironment* global_environment,
+  SampleSpacecraft(const simulation::SimulationConfiguration* simulation_configuration, const environment::GlobalEnvironment* global_environment,
                    const unsigned int spacecraft_id);
 
   /**
@@ -34,5 +36,7 @@ class SampleSpacecraft : public Spacecraft {
  private:
   SampleComponents* sample_components_;
 };
+
+}  // namespace s2e::sample
 
 #endif  // S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_

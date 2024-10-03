@@ -36,6 +36,7 @@ ideal/force_generator.cpp
 ideal/torque_generator.cpp
 ideal/angular_velocity_observer.cpp
 ideal/attitude_observer.cpp
+ideal/orbit_observer.cpp
 
 real/mission/telescope.cpp
 
@@ -56,8 +57,8 @@ ports/i2c_port.cpp
 if(USE_HILS)
   set(SOURCE_FILES
     ${SOURCE_FILES}
-    hils/ports/hils_uart_port.cpp
-    hils/ports/hils_i2c_target_port.cpp
+    ports/hils_uart_port.cpp
+    ports/hils_i2c_target_port.cpp
   )
 endif()
 

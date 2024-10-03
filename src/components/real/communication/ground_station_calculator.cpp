@@ -6,8 +6,10 @@
 #include "ground_station_calculator.hpp"
 
 #include <environment/global/physical_constants.hpp>
-#include <library/initialize/initialize_file_access.hpp>
-#include <library/math/constants.hpp>
+#include <math_physics/math/constants.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
+
+namespace s2e::components {
 
 GroundStationCalculator::GroundStationCalculator(const double loss_polarization_dB, const double loss_atmosphere_dB, const double loss_rainfall_dB,
                                                  const double loss_others_dB, const double ebn0_dB, const double hardware_deterioration_dB,
@@ -27,8 +29,8 @@ GroundStationCalculator::GroundStationCalculator(const double loss_polarization_
 
 GroundStationCalculator::~GroundStationCalculator() {}
 
-void GroundStationCalculator::Update(const Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
-                                     const Antenna& ground_station_rx_antenna) {
+void GroundStationCalculator::Update(const spacecraft::Spacecraft& spacecraft, const Antenna& spacecraft_tx_antenna,
+                                     const ground_station::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
   bool is_visible = ground_station.IsVisible(spacecraft.GetSpacecraftId());
   if (is_visible) {
     max_bitrate_Mbps_ = CalcMaxBitrate(spacecraft.GetDynamics(), spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
@@ -40,8 +42,8 @@ void GroundStationCalculator::Update(const Spacecraft& spacecraft, const Antenna
 }
 
 // Private functions
-double GroundStationCalculator::CalcMaxBitrate(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
-                                               const Antenna& ground_station_rx_antenna) {
+double GroundStationCalculator::CalcMaxBitrate(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna,
+                                               const ground_station::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
   double cn0_dBHz = CalcCn0OnGs(dynamics, spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
 
   double margin_for_bitrate_dB = cn0_dBHz - (ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_) - margin_requirement_dB_;
@@ -53,40 +55,40 @@ double GroundStationCalculator::CalcMaxBitrate(const Dynamics& dynamics, const A
   }
 }
 
-double GroundStationCalculator::CalcReceiveMarginOnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna,
-                                                      const GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
+double GroundStationCalculator::CalcReceiveMarginOnGs(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna,
+                                                      const ground_station::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
   double cn0_dB = CalcCn0OnGs(dynamics, spacecraft_tx_antenna, ground_station, ground_station_rx_antenna);
   double cn0_requirement_dB = ebn0_dB_ + hardware_deterioration_dB_ + coding_gain_dB_ + 10.0 * log10(spacecraft_tx_antenna.GetBitrate_bps());
   return cn0_dB - cn0_requirement_dB;
 }
 
-double GroundStationCalculator::CalcCn0OnGs(const Dynamics& dynamics, const Antenna& spacecraft_tx_antenna, const GroundStation& ground_station,
-                                            const Antenna& ground_station_rx_antenna) {
+double GroundStationCalculator::CalcCn0OnGs(const dynamics::Dynamics& dynamics, const Antenna& spacecraft_tx_antenna,
+                                            const ground_station::GroundStation& ground_station, const Antenna& ground_station_rx_antenna) {
   if (!spacecraft_tx_antenna.IsTransmitter() || !ground_station_rx_antenna.IsReceiver()) {
     // Check compatibility of transmitter and receiver
     return 0.0f;
   }
   // Free space path loss
-  Vector<3> sc_pos_i = dynamics.GetOrbit().GetPosition_i_m();
-  Vector<3> gs_pos_i = ground_station.GetPosition_i_m();
-  Vector<3> pos_gs2sc_i = sc_pos_i - gs_pos_i;
+  math::Vector<3> sc_pos_i = dynamics.GetOrbit().GetPosition_i_m();
+  math::Vector<3> gs_pos_i = ground_station.GetPosition_i_m();
+  math::Vector<3> pos_gs2sc_i = sc_pos_i - gs_pos_i;
 
   double dist_sc_gs_km = pos_gs2sc_i.CalcNorm() / 1000.0;
-  double loss_space_dB = -20.0 * log10(4.0 * libra::pi * dist_sc_gs_km / (300.0 / spacecraft_tx_antenna.GetFrequency_MHz() / 1000.0));
+  double loss_space_dB = -20.0 * log10(4.0 * math::pi * dist_sc_gs_km / (300.0 / spacecraft_tx_antenna.GetFrequency_MHz() / 1000.0));
 
   // GS direction on SC TX antenna frame
-  Vector<3> sc_to_gs_i = gs_pos_i - sc_pos_i;
+  math::Vector<3> sc_to_gs_i = gs_pos_i - sc_pos_i;
   sc_to_gs_i = sc_to_gs_i.CalcNormalizedVector();
-  Quaternion q_i_to_sc_ant = spacecraft_tx_antenna.GetQuaternion_b2c() * dynamics.GetAttitude().GetQuaternion_i2b();
-  Vector<3> gs_direction_on_sc_frame = q_i_to_sc_ant.FrameConversion(sc_to_gs_i);
+  math::Quaternion q_i_to_sc_ant = spacecraft_tx_antenna.GetQuaternion_b2c() * dynamics.GetAttitude().GetQuaternion_i2b();
+  math::Vector<3> gs_direction_on_sc_frame = q_i_to_sc_ant.FrameConversion(sc_to_gs_i);
   double theta_on_sc_antenna_rad = acos(gs_direction_on_sc_frame[2]);
   double phi_on_sc_antenna_rad = atan2(gs_direction_on_sc_frame[1], gs_direction_on_sc_frame[0]);
 
   // SC direction on GS RX antenna frame
-  Vector<3> gs_to_sc_ecef = dynamics.GetOrbit().GetPosition_ecef_m() - ground_station.GetPosition_ecef_m();
+  math::Vector<3> gs_to_sc_ecef = dynamics.GetOrbit().GetPosition_ecef_m() - ground_station.GetPosition_ecef_m();
   gs_to_sc_ecef = gs_to_sc_ecef.CalcNormalizedVector();
-  Quaternion q_ecef_to_gs_ant = ground_station_rx_antenna.GetQuaternion_b2c() * ground_station.GetGeodeticPosition().GetQuaternionXcxfToLtc();
-  Vector<3> sc_direction_on_gs_frame = q_ecef_to_gs_ant.FrameConversion(gs_to_sc_ecef);
+  math::Quaternion q_ecef_to_gs_ant = ground_station_rx_antenna.GetQuaternion_b2c() * ground_station.GetGeodeticPosition().GetQuaternionXcxfToLtc();
+  math::Vector<3> sc_direction_on_gs_frame = q_ecef_to_gs_ant.FrameConversion(gs_to_sc_ecef);
   double theta_on_gs_antenna_rad = acos(sc_direction_on_gs_frame[2]);
   double phi_on_gs_antenna_rad = atan2(sc_direction_on_gs_frame[1], sc_direction_on_gs_frame[0]);
 
@@ -102,8 +104,8 @@ std::string GroundStationCalculator::GetLogHeader() const {
   std::string str_tmp = "";
   std::string component_name = "gs_calculator_";
 
-  str_tmp += WriteScalar(component_name + "max_bitrate", "Mbps");
-  str_tmp += WriteScalar(component_name + "receive_margin", "dB");
+  str_tmp += logger::WriteScalar(component_name + "max_bitrate", "Mbps");
+  str_tmp += logger::WriteScalar(component_name + "receive_margin", "dB");
 
   return str_tmp;
 }
@@ -111,14 +113,14 @@ std::string GroundStationCalculator::GetLogHeader() const {
 std::string GroundStationCalculator::GetLogValue() const {
   std::string str_tmp = "";
 
-  str_tmp += WriteScalar(max_bitrate_Mbps_);
-  str_tmp += WriteScalar(receive_margin_dB_);
+  str_tmp += logger::WriteScalar(max_bitrate_Mbps_);
+  str_tmp += logger::WriteScalar(receive_margin_dB_);
 
   return str_tmp;
 }
 
 GroundStationCalculator InitGsCalculator(const std::string file_name) {
-  IniAccess gs_conf(file_name);
+  setting_file_reader::IniAccess gs_conf(file_name);
 
   char Section[30] = "GROUND_STATION_CALCULATOR";
 
@@ -136,3 +138,5 @@ GroundStationCalculator InitGsCalculator(const std::string file_name) {
                                         hardware_deterioration_dB, coding_gain_dB, margin_requirement_dB, downlink_bitrate_bps);
   return gs_calculator;
 }
+
+}  // namespace s2e::components

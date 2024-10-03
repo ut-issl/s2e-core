@@ -6,16 +6,18 @@
 #ifndef S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_HPP_
 #define S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_HPP_
 
-#include <library/logger/loggable.hpp>
+#include <logger/loggable.hpp>
 #include <simulation/spacecraft/structure/structure.hpp>
 
 #include "../base/component.hpp"
+
+namespace s2e::components {
 
 /**
  * @class ExampleChangeStructure
  * @brief Class to show an example to change satellite structure information
  */
-class ExampleChangeStructure : public Component, public ILoggable {
+class ExampleChangeStructure : public Component, public logger::ILoggable {
  public:
   /**
    * @fn ExampleChangeStructure
@@ -23,7 +25,7 @@ class ExampleChangeStructure : public Component, public ILoggable {
    * @param [in] clock_generator: Clock generator
    * @param [in] structure: Structure information
    */
-  ExampleChangeStructure(ClockGenerator* clock_generator, Structure* structure);
+  ExampleChangeStructure(environment::ClockGenerator* clock_generator, spacecraft::Structure* structure);
   /**
    * @fn ~ChangeStructure
    * @brief Destructor
@@ -50,7 +52,9 @@ class ExampleChangeStructure : public Component, public ILoggable {
   virtual std::string GetLogValue() const override;
 
  protected:
-  Structure* structure_;  //!< Structure information
+  spacecraft::Structure* structure_;  //!< Structure information
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_CHANGE_STRUCTURE_HPP_

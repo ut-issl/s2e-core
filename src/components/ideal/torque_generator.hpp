@@ -8,15 +8,17 @@
 
 #include <components/base/component.hpp>
 #include <dynamics/dynamics.hpp>
-#include <library/logger/logger.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/normal_randomization.hpp>
+#include <logger/logger.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
+
+namespace s2e::components {
 
 /*
  * @class TorqueGenerator
  * @brief Ideal component which can generate for control algorithm test
  */
-class TorqueGenerator : public Component, public ILoggable {
+class TorqueGenerator : public Component, public logger::ILoggable {
  public:
   /**
    * @fn TorqueGenerator
@@ -27,8 +29,8 @@ class TorqueGenerator : public Component, public ILoggable {
    * @param [in] direction_error_standard_deviation_rad: Standard deviation of direction error [rad]
    * @param [in] dynamics: Dynamics information
    */
-  TorqueGenerator(const int prescaler, ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_Nm,
-                  const double direction_error_standard_deviation_rad, const Dynamics* dynamics);
+  TorqueGenerator(const int prescaler, environment::ClockGenerator* clock_generator, const double magnitude_error_standard_deviation_Nm,
+                  const double direction_error_standard_deviation_rad, const dynamics::Dynamics* dynamics);
   /**
    * @fn ~TorqueGenerator
    * @brief Destructor
@@ -47,15 +49,15 @@ class TorqueGenerator : public Component, public ILoggable {
    */
   void PowerOffRoutine();
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
@@ -64,22 +66,22 @@ class TorqueGenerator : public Component, public ILoggable {
    * @fn GetGeneratedTorque_b_Nm
    * @brief Return generated torque in the body fixed frame [Nm]
    */
-  inline const Vector<3> GetGeneratedTorque_b_Nm() const { return generated_torque_b_Nm_; };
+  inline const math::Vector<3> GetGeneratedTorque_b_Nm() const { return generated_torque_b_Nm_; };
 
   // Setter
   /**
    * @fn SetTorque_b_Nm
    * @brief Set ordered torque in the body fixed frame [Nm]
    */
-  inline void SetTorque_b_Nm(const libra::Vector<3> torque_b_Nm) { ordered_torque_b_Nm_ = torque_b_Nm; };
+  inline void SetTorque_b_Nm(const math::Vector<3> torque_b_Nm) { ordered_torque_b_Nm_ = torque_b_Nm; };
 
  protected:
-  libra::Vector<3> ordered_torque_b_Nm_{0.0};    //!< Ordered torque in the body fixed frame [Nm]
-  libra::Vector<3> generated_torque_b_Nm_{0.0};  //!< Generated torque in the body fixed frame [Nm]
+  math::Vector<3> ordered_torque_b_Nm_{0.0};    //!< Ordered torque in the body fixed frame [Nm]
+  math::Vector<3> generated_torque_b_Nm_{0.0};  //!< Generated torque in the body fixed frame [Nm]
 
   // Noise
-  libra::NormalRand magnitude_noise_;              //!< Normal random for magnitude noise
-  libra::NormalRand direction_noise_;              //!< Normal random for direction noise
+  randomization::NormalRand magnitude_noise_;      //!< Normal random for magnitude noise
+  randomization::NormalRand direction_noise_;      //!< Normal random for direction noise
   double direction_error_standard_deviation_rad_;  //!< Standard deviation of direction error [rad]
 
   /**
@@ -88,9 +90,9 @@ class TorqueGenerator : public Component, public ILoggable {
    * @param [in] true_direction: True direction
    * @param [in] error_standard_deviation_rad: Standard deviation of direction error [rad]
    */
-  libra::Quaternion GenerateDirectionNoiseQuaternion(libra::Vector<3> true_direction, const double error_standard_deviation_rad);
+  math::Quaternion GenerateDirectionNoiseQuaternion(math::Vector<3> true_direction, const double error_standard_deviation_rad);
 
-  const Dynamics* dynamics_;  //!< Spacecraft dynamics information
+  const dynamics::Dynamics* dynamics_;  //!< Spacecraft dynamics information
 };
 
 /**
@@ -100,6 +102,9 @@ class TorqueGenerator : public Component, public ILoggable {
  * @param [in] file_name: Path to initialize file
  * @param [in] dynamics: Dynamics information
  */
-TorqueGenerator InitializeTorqueGenerator(ClockGenerator* clock_generator, const std::string file_name, const Dynamics* dynamics);
+TorqueGenerator InitializeTorqueGenerator(environment::ClockGenerator* clock_generator, const std::string file_name,
+                                          const dynamics::Dynamics* dynamics);
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_IDEAL_TORQUE_GENERATOR_HPP_

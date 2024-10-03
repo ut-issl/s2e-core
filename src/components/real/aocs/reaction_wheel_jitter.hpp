@@ -7,9 +7,11 @@
 #define S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_JITTER_HPP_
 
 #pragma once
-#include <library/math/quaternion.hpp>
-#include <library/math/vector.hpp>
+#include <math_physics/math/quaternion.hpp>
+#include <math_physics/math/vector.hpp>
 #include <vector>
+
+namespace s2e::components {
 
 /*
  * @class ReactionWheelJitter
@@ -36,7 +38,7 @@ class ReactionWheelJitter {
    */
   ReactionWheelJitter(std::vector<std::vector<double>> radial_force_harmonics_coefficients,
                       std::vector<std::vector<double>> radial_torque_harmonics_coefficients, const double update_interval_s,
-                      const libra::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz, const double damping_factor,
+                      const math::Quaternion quaternion_b2c, const double structural_resonance_frequency_Hz, const double damping_factor,
                       const double bandwidth, const bool considers_structural_resonance);
   /**
    * @fn ~ReactionWheelJitter
@@ -55,24 +57,24 @@ class ReactionWheelJitter {
    * @fn GetJitterForce_b_N
    * @brief Return generated jitter force in the body fixed frame [N]
    */
-  const libra::Vector<3> GetJitterForce_b_N() const { return jitter_force_b_N_; }
+  const math::Vector<3> GetJitterForce_b_N() const { return jitter_force_b_N_; }
   /**
    * @fn GetJitterTorque_b_Nm
    * @brief Return generated jitter torque in the body fixed frame [Nm]
    */
-  const libra::Vector<3> GetJitterTorque_b_Nm() const { return jitter_torque_b_Nm_; }
+  const math::Vector<3> GetJitterTorque_b_Nm() const { return jitter_torque_b_Nm_; }
   /**
    * @fn GetJitterForce_c_N
    * @brief Return generated jitter force in the components frame [N]
    */
-  const libra::Vector<3> GetJitterForce_c_N() const {
+  const math::Vector<3> GetJitterForce_c_N() const {
     return considers_structural_resonance_ ? filtered_jitter_force_n_c_ : unfiltered_jitter_force_n_c_;
   }
   /**
    * @fn GetJitterTorque_c_Nm
    * @brief Return generated jitter torque in the component frame [Nm]
    */
-  const libra::Vector<3> GetJitterTorque_c_Nm() const {
+  const math::Vector<3> GetJitterTorque_c_Nm() const {
     return considers_structural_resonance_ ? filtered_jitter_torque_n_c_ : unfiltered_jitter_torque_n_c_;
   }
 
@@ -80,8 +82,8 @@ class ReactionWheelJitter {
   std::vector<std::vector<double>> radial_force_harmonics_coefficients_;   //!< Coefficients for radial force harmonics
   std::vector<std::vector<double>> radial_torque_harmonics_coefficients_;  //!< Coefficients for radial torque harmonics
 
-  double update_interval_s_;          //!< Jitter update interval [sec]
-  libra::Quaternion quaternion_b2c_;  //!< Quaternion from body frame to component frame
+  double update_interval_s_;         //!< Jitter update interval [sec]
+  math::Quaternion quaternion_b2c_;  //!< Quaternion from body frame to component frame
 
   double structural_resonance_frequency_Hz_;          //!< Frequency of structural resonance [Hz]
   double structural_resonance_angular_frequency_Hz_;  //!< Angular Frequency of structural resonance
@@ -94,22 +96,22 @@ class ReactionWheelJitter {
   std::vector<double> jitter_torque_rotation_phase_;  //!< 2 * pi * h_i * Omega * t [rad]
 
   // Variables for solving difference equations in component frame
-  libra::Vector<3> unfiltered_jitter_force_n_c_{0.0};
-  libra::Vector<3> unfiltered_jitter_force_n_1_c_{0.0};
-  libra::Vector<3> unfiltered_jitter_force_n_2_c_{0.0};
-  libra::Vector<3> unfiltered_jitter_torque_n_c_{0.0};
-  libra::Vector<3> unfiltered_jitter_torque_n_1_c_{0.0};
-  libra::Vector<3> unfiltered_jitter_torque_n_2_c_{0.0};
-  libra::Vector<3> filtered_jitter_force_n_c_{0.0};
-  libra::Vector<3> filtered_jitter_force_n_1_c_{0.0};
-  libra::Vector<3> filtered_jitter_force_n_2_c_{0.0};
-  libra::Vector<3> filtered_jitter_torque_n_c_{0.0};
-  libra::Vector<3> filtered_jitter_torque_n_1_c_{0.0};
-  libra::Vector<3> filtered_jitter_torque_n_2_c_{0.0};
+  math::Vector<3> unfiltered_jitter_force_n_c_{0.0};
+  math::Vector<3> unfiltered_jitter_force_n_1_c_{0.0};
+  math::Vector<3> unfiltered_jitter_force_n_2_c_{0.0};
+  math::Vector<3> unfiltered_jitter_torque_n_c_{0.0};
+  math::Vector<3> unfiltered_jitter_torque_n_1_c_{0.0};
+  math::Vector<3> unfiltered_jitter_torque_n_2_c_{0.0};
+  math::Vector<3> filtered_jitter_force_n_c_{0.0};
+  math::Vector<3> filtered_jitter_force_n_1_c_{0.0};
+  math::Vector<3> filtered_jitter_force_n_2_c_{0.0};
+  math::Vector<3> filtered_jitter_torque_n_c_{0.0};
+  math::Vector<3> filtered_jitter_torque_n_1_c_{0.0};
+  math::Vector<3> filtered_jitter_torque_n_2_c_{0.0};
   double coefficients_[6];  //!< Coefficients of difference equation
 
-  libra::Vector<3> jitter_force_b_N_{0.0};    //!< Generated jitter force in the body frame [N]
-  libra::Vector<3> jitter_torque_b_Nm_{0.0};  //!< Generated jitter torque in the body frame [Nm]
+  math::Vector<3> jitter_force_b_N_{0.0};    //!< Generated jitter force in the body frame [N]
+  math::Vector<3> jitter_torque_b_Nm_{0.0};  //!< Generated jitter torque in the body frame [Nm]
 
   /**
    * @fn AddStructuralResonance
@@ -127,5 +129,7 @@ class ReactionWheelJitter {
    */
   void CalcCoefficients();
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_REACTION_WHEEL_JITTER_HPP_

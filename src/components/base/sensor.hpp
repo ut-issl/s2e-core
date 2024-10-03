@@ -6,10 +6,12 @@
 #ifndef S2E_COMPONENTS_BASE_SENSOR_HPP_
 #define S2E_COMPONENTS_BASE_SENSOR_HPP_
 
-#include <library/math/matrix.hpp>
-#include <library/math/vector.hpp>
-#include <library/randomization/normal_randomization.hpp>
-#include <library/randomization/random_walk.hpp>
+#include <math_physics/math/matrix.hpp>
+#include <math_physics/math/vector.hpp>
+#include <math_physics/randomization/normal_randomization.hpp>
+#include <math_physics/randomization/random_walk.hpp>
+
+namespace s2e::components {
 
 /**
  * @class Sensor
@@ -31,9 +33,9 @@ class Sensor {
    * @param [in] random_walk_standard_deviation_c: Standard deviation of random wark at the component frame
    * @param [in] random_walk_limit_c: Limit of random walk at the component frame
    */
-  Sensor(const libra::Matrix<N, N>& scale_factor, const libra::Vector<N>& range_to_const_c, const libra::Vector<N>& range_to_zero_c,
-         const libra::Vector<N>& bias_noise_c, const libra::Vector<N>& normal_random_standard_deviation_c, const double random_walk_step_width_s,
-         const libra::Vector<N>& random_walk_standard_deviation_c, const libra::Vector<N>& random_walk_limit_c);
+  Sensor(const math::Matrix<N, N>& scale_factor, const math::Vector<N>& range_to_const_c, const math::Vector<N>& range_to_zero_c,
+         const math::Vector<N>& bias_noise_c, const math::Vector<N>& normal_random_standard_deviation_c, const double random_walk_step_width_s,
+         const math::Vector<N>& random_walk_standard_deviation_c, const math::Vector<N>& random_walk_limit_c);
   /**
    * @fn ~Sensor
    * @brief Destructor
@@ -41,7 +43,7 @@ class Sensor {
   ~Sensor();
 
  protected:
-  libra::Vector<N> bias_noise_c_;  //!< Constant bias noise at the component frame
+  math::Vector<N> bias_noise_c_;  //!< Constant bias noise at the component frame
 
   /**
    * @fn Measure
@@ -49,14 +51,14 @@ class Sensor {
    * @param [in] true_value_c: True value at the component frame
    * @return Observed value with noise at the component frame
    */
-  libra::Vector<N> Measure(const libra::Vector<N> true_value_c);
+  math::Vector<N> Measure(const math::Vector<N> true_value_c);
 
  private:
-  libra::Matrix<N, N> scale_factor_;            //!< Scale factor matrix
-  libra::Vector<N> range_to_const_c_;           //!< Output range limit to be constant output value at the component frame
-  libra::Vector<N> range_to_zero_c_;            //!< Output range limit to be zero output value at the component frame
-  libra::NormalRand normal_random_noise_c_[N];  //!< Normal random
-  RandomWalk<N> random_walk_noise_c_;           //!< Random Walk
+  math::Matrix<N, N> scale_factor_;                     //!< Scale factor matrix
+  math::Vector<N> range_to_const_c_;                    //!< Output range limit to be constant output value at the component frame
+  math::Vector<N> range_to_zero_c_;                     //!< Output range limit to be zero output value at the component frame
+  randomization::NormalRand normal_random_noise_c_[N];  //!< Normal random
+  randomization::RandomWalk<N> random_walk_noise_c_;    //!< Random Walk
 
   /**
    * @fn Clip
@@ -64,7 +66,7 @@ class Sensor {
    * @param [in] input_c: Input value at the component frame
    * @return Clipped value
    */
-  libra::Vector<N> Clip(const libra::Vector<N> input_c);
+  math::Vector<N> Clip(const math::Vector<N> input_c);
   /**
    * @fn RangeCheck
    * @brief Check the range_to_const_c_ and range_to_zero_c_ is correct and fixed the values
@@ -84,6 +86,8 @@ class Sensor {
 template <size_t N>
 Sensor<N> ReadSensorInformation(const std::string file_name, const double step_width_s, const std::string component_name,
                                 const std::string unit = "");
+
+}  // namespace s2e::components
 
 #include "./sensor_template_functions.hpp"
 

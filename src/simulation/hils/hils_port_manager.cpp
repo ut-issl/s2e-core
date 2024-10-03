@@ -5,7 +5,9 @@
 
 #include "hils_port_manager.hpp"
 
-#include <library/utilities/macros.hpp>
+#include <utilities/macros.hpp>
+
+namespace s2e::simulation {
 
 // #define HILS_PORT_MANAGER_SHOW_DEBUG_DATA
 
@@ -45,7 +47,7 @@ int HilsPortManager::UartCloseComPort(unsigned int port_id) {
   }
 
   uart_ports_[port_id]->ClosePort();
-  HilsUartPort* port = uart_ports_.at(port_id);
+  components::HilsUartPort* port = uart_ports_.at(port_id);
   delete port;
   uart_ports_.erase(port_id);
   return 0;
@@ -58,7 +60,7 @@ int HilsPortManager::UartCloseComPort(unsigned int port_id) {
 
 int HilsPortManager::UartReceive(unsigned int port_id, unsigned char* buffer, int offset, int length) {
 #ifdef USE_HILS
-  HilsUartPort* port = uart_ports_[port_id];
+  components::HilsUartPort* port = uart_ports_[port_id];
   if (port == nullptr) return -1;
   int ret = port->ReadRx(buffer, offset, length);
 #ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
@@ -83,7 +85,7 @@ int HilsPortManager::UartReceive(unsigned int port_id, unsigned char* buffer, in
 
 int HilsPortManager::UartSend(unsigned int port_id, const unsigned char* buffer, int offset, int length) {
 #ifdef USE_HILS
-  HilsUartPort* port = uart_ports_[port_id];
+  components::HilsUartPort* port = uart_ports_[port_id];
   if (port == nullptr) return -1;
   int ret = port->WriteTx(buffer, offset, length);
 #ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
@@ -130,7 +132,7 @@ int HilsPortManager::I2cTargetCloseComPort(unsigned int port_id) {
     return -1;
   }
   i2c_ports_[port_id]->ClosePort();
-  HilsI2cTargetPort* port = i2c_ports_.at(port_id);
+  components::HilsI2cTargetPort* port = i2c_ports_.at(port_id);
   delete port;
   i2c_ports_.erase(port_id);
   return 0;
@@ -144,7 +146,7 @@ int HilsPortManager::I2cTargetCloseComPort(unsigned int port_id) {
 int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned char register_address, const unsigned char* data,
                                             const unsigned char length) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_ports_[port_id];
+  components::HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   for (unsigned char i = 0; i < length; i++) {
     port->WriteRegister(register_address + i, data[i]);
@@ -163,7 +165,7 @@ int HilsPortManager::I2cTargetWriteRegister(unsigned int port_id, const unsigned
 int HilsPortManager::I2cTargetReadRegister(unsigned int port_id, const unsigned char register_address, unsigned char* data,
                                            const unsigned char length) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_ports_[port_id];
+  components::HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   for (unsigned char i = 0; i < length; i++) {
     data[i] = port->ReadRegister(register_address + i);
@@ -181,7 +183,7 @@ int HilsPortManager::I2cTargetReadRegister(unsigned int port_id, const unsigned 
 
 int HilsPortManager::I2cTargetReadCommand(unsigned int port_id, unsigned char* data, const unsigned char length) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_ports_[port_id];
+  components::HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   port->ReadCommand(data, length);
   return 0;
@@ -196,7 +198,7 @@ int HilsPortManager::I2cTargetReadCommand(unsigned int port_id, unsigned char* d
 
 int HilsPortManager::I2cTargetReceive(unsigned int port_id) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_ports_[port_id];
+  components::HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   int ret = port->Receive();
 #ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
@@ -214,7 +216,7 @@ int HilsPortManager::I2cTargetReceive(unsigned int port_id) {
 
 int HilsPortManager::I2cTargetSend(unsigned int port_id, const unsigned char length) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_ports_[port_id];
+  components::HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   int ret = port->Send(length);
 #ifdef HILS_PORT_MANAGER_SHOW_DEBUG_DATA
@@ -233,7 +235,7 @@ int HilsPortManager::I2cTargetSend(unsigned int port_id, const unsigned char len
 
 int HilsPortManager::I2cTargetGetStoredFrameCounter(unsigned int port_id) {
 #ifdef USE_HILS
-  HilsI2cTargetPort* port = i2c_ports_[port_id];
+  components::HilsI2cTargetPort* port = i2c_ports_[port_id];
   if (port == nullptr) return -1;
   return port->GetStoredFrameCounter();
 #else
@@ -258,3 +260,5 @@ int HilsPortManager::I2cControllerReceive(unsigned int port_id, unsigned char* b
 int HilsPortManager::I2cControllerSend(unsigned int port_id, const unsigned char* buffer, int offset, int length) {
   return UartSend(port_id, buffer, offset, length);
 }
+
+}  // namespace s2e::simulation

@@ -8,7 +8,10 @@
 
 #include "attitude.hpp"
 #include "attitude_rk4.hpp"
+#include "attitude_with_cantilever_vibration.hpp"
 #include "controlled_attitude.hpp"
+
+namespace s2e::dynamics::attitude {
 
 /**
  * @fn InitAttitude
@@ -20,7 +23,9 @@
  * @param [in] inertia_tensor_kgm2: Inertia tensor [kg m^2]
  * @param [in] spacecraft_id: Satellite ID
  */
-Attitude* InitAttitude(std::string file_name, const Orbit* orbit, const LocalCelestialInformation* local_celestial_information,
-                       const double step_width_s, const libra::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id);
+Attitude* InitAttitude(std::string file_name, const orbit::Orbit* orbit, const environment::LocalCelestialInformation* local_celestial_information,
+                       const double step_width_s, const math::Matrix<3, 3>& inertia_tensor_kgm2, const int spacecraft_id);
+
+}  // namespace s2e::dynamics::attitude
 
 #endif  // S2E_DYNAMICS_ATTITUDE_INITIALIZE_ATTITUDE_HPP_

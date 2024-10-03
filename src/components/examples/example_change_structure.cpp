@@ -5,9 +5,11 @@
 
 #include "example_change_structure.hpp"
 
-#include <library/math/matrix.hpp>
+#include <math_physics/math/matrix.hpp>
 
-ExampleChangeStructure::ExampleChangeStructure(ClockGenerator* clock_generator, Structure* structure)
+namespace s2e::components {
+
+ExampleChangeStructure::ExampleChangeStructure(environment::ClockGenerator* clock_generator, spacecraft::Structure* structure)
     : Component(1, clock_generator), structure_(structure) {}
 
 ExampleChangeStructure::~ExampleChangeStructure() {}
@@ -18,14 +20,14 @@ void ExampleChangeStructure::MainRoutine(const int time_count) {
     structure_->GetToSetKinematicsParameters().SetMass_kg(100.0);
 
     // Center of gravity
-    Vector<3> cg(0.0);
+    math::Vector<3> cg(0.0);
     cg[0] = 0.01;
     cg[1] = -0.01;
     cg[2] = 0.02;
     structure_->GetToSetKinematicsParameters().SetCenterOfGravityVector_b_m(cg);
 
     // RMM
-    Vector<3> rmm(0.0);
+    math::Vector<3> rmm(0.0);
     rmm[0] = 0.1;
     rmm[1] = -0.1;
     rmm[2] = 0.2;
@@ -35,7 +37,7 @@ void ExampleChangeStructure::MainRoutine(const int time_count) {
     structure_->GetToSetSurfaces()[0].SetArea_m2(0.5);
 
     // Inertia Tensor
-    libra::Matrix<3, 3> inertia_tensor_b_kgm2(0.0);
+    math::Matrix<3, 3> inertia_tensor_b_kgm2(0.0);
     inertia_tensor_b_kgm2[0][0] = 0.2;
     inertia_tensor_b_kgm2[1][1] = 0.2;
     inertia_tensor_b_kgm2[2][2] = 0.2;
@@ -54,3 +56,5 @@ std::string ExampleChangeStructure::GetLogValue() const {
 
   return str_tmp;
 }
+
+}  // namespace s2e::components

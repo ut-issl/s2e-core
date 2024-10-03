@@ -5,7 +5,7 @@
 
 #include "disturbances.hpp"
 
-#include <library/initialize/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
 
 #include "air_drag.hpp"
 #include "geopotential.hpp"
@@ -15,8 +15,10 @@
 #include "solar_radiation_pressure_disturbance.hpp"
 #include "third_body_gravity.hpp"
 
-Disturbances::Disturbances(const SimulationConfiguration* simulation_configuration, const int spacecraft_id, const Structure* structure,
-                           const GlobalEnvironment* global_environment) {
+namespace s2e::disturbances {
+
+Disturbances::Disturbances(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id,
+                           const spacecraft::Structure* structure, const environment::GlobalEnvironment* global_environment) {
   InitializeInstances(simulation_configuration, spacecraft_id, structure, global_environment);
   InitializeForceAndTorque();
   InitializeAcceleration();
@@ -28,7 +30,8 @@ Disturbances::~Disturbances() {
   }
 }
 
-void Disturbances::Update(const LocalEnvironment& local_environment, const Dynamics& dynamics, const SimulationTime* simulation_time) {
+void Disturbances::Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics,
+                          const environment::SimulationTime* simulation_time) {
   InitializeForceAndTorque();
   InitializeAcceleration();
 
@@ -48,16 +51,16 @@ void Disturbances::Update(const LocalEnvironment& local_environment, const Dynam
   }
 }
 
-void Disturbances::LogSetup(Logger& logger) {
+void Disturbances::LogSetup(logger::Logger& logger) {
   for (auto disturbance : disturbances_list_) {
     logger.AddLogList(disturbance);
   }
   logger.CopyFileToLogDirectory(initialize_file_name_);
 }
 
-void Disturbances::InitializeInstances(const SimulationConfiguration* simulation_configuration, const int spacecraft_id, const Structure* structure,
-                                       const GlobalEnvironment* global_environment) {
-  IniAccess ini_access = IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
+void Disturbances::InitializeInstances(const simulation::SimulationConfiguration* simulation_configuration, const int spacecraft_id,
+                                       const spacecraft::Structure* structure, const environment::GlobalEnvironment* global_environment) {
+  setting_file_reader::IniAccess ini_access = setting_file_reader::IniAccess(simulation_configuration->spacecraft_file_list_[spacecraft_id]);
   initialize_file_name_ = ini_access.ReadString("SETTING_FILES", "disturbance_file");
 
   GravityGradient* gg_dist = new GravityGradient(
@@ -91,8 +94,10 @@ void Disturbances::InitializeInstances(const SimulationConfiguration* simulation
 }
 
 void Disturbances::InitializeForceAndTorque() {
-  total_torque_b_Nm_ = Vector<3>(0.0);
-  total_force_b_N_ = Vector<3>(0.0);
+  total_torque_b_Nm_ = math::Vector<3>(0.0);
+  total_force_b_N_ = math::Vector<3>(0.0);
 }
 
-void Disturbances::InitializeAcceleration() { total_acceleration_i_m_s2_ = Vector<3>(0.0); }
+void Disturbances::InitializeAcceleration() { total_acceleration_i_m_s2_ = math::Vector<3>(0.0); }
+
+}  // namespace s2e::disturbances

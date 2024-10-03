@@ -6,10 +6,12 @@
 #ifndef S2E_COMPONENTS_REAL_POWER_CSV_SCENARIO_INTERFACE_HPP_
 #define S2E_COMPONENTS_REAL_POWER_CSV_SCENARIO_INTERFACE_HPP_
 
-#include <library/math/vector.hpp>
 #include <map>
+#include <math_physics/math/vector.hpp>
 #include <string>
 #include <vector>
+
+namespace s2e::components {
 
 typedef std::map<double, double> DoubleBuffer;
 
@@ -36,7 +38,7 @@ class CsvScenarioInterface {
    * @brief Return sun direction vector in the body fixed frame
    * @param [in] time_query: Time query
    */
-  static libra::Vector<3> GetSunDirectionBody(const double time_query);
+  static math::Vector<3> GetSunDirectionBody(const double time_query);
   /**
    * @fn GetSunFlag
    * @brief Return sun flag
@@ -77,5 +79,7 @@ class CsvScenarioInterface {
   static std::map<std::string, unsigned int> buffer_line_id_;  //!< Buffer line ID
   static std::map<std::string, DoubleBuffer> buffers_;         //!< Buffer
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_POWER_CSV_SCENARIO_INTERFACE_HPP_

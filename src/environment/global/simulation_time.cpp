@@ -12,7 +12,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "library/initialize/initialize_file_access.hpp"
+#include "setting_file_reader/initialize_file_access.hpp"
 #ifdef WIN32
 #include <Windows.h>
 #else
@@ -20,6 +20,8 @@
 #endif
 
 using namespace std;
+
+namespace s2e::environment {
 
 SimulationTime::SimulationTime(const double end_sec, const double step_sec, const double attitude_update_interval_sec,
                                const double attitude_rk_step_sec, const double orbit_update_interval_sec, const double orbit_rk_step_sec,
@@ -202,8 +204,8 @@ void SimulationTime::PrintStartDateTime(void) const {
 string SimulationTime::GetLogHeader() const {
   string str_tmp = "";
 
-  str_tmp += WriteScalar("elapsed_time", "s");
-  str_tmp += WriteScalar("time", "UTC");
+  str_tmp += logger::WriteScalar("elapsed_time", "s");
+  str_tmp += logger::WriteScalar("time", "UTC");
 
   return str_tmp;
 }
@@ -211,7 +213,7 @@ string SimulationTime::GetLogHeader() const {
 string SimulationTime::GetLogValue() const {
   string str_tmp = "";
 
-  str_tmp += WriteScalar(elapsed_time_sec_);
+  str_tmp += logger::WriteScalar(elapsed_time_sec_);
 
   const char kSize = 100;
   char ymdhms[kSize];
@@ -245,7 +247,7 @@ void SimulationTime::ConvJDtoCalendarDay(const double JD) {
 }
 
 SimulationTime* InitSimulationTime(std::string file_name) {
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
 
   const char* section = "TIME";
   // Parameters about entire simulation
@@ -275,3 +277,5 @@ SimulationTime* InitSimulationTime(std::string file_name) {
 
   return simTime;
 }
+
+}  // namespace s2e::environment

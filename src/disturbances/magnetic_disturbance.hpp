@@ -8,10 +8,12 @@
 
 #include <string>
 
-#include "../library/logger/loggable.hpp"
-#include "../library/math/vector.hpp"
+#include "../logger/loggable.hpp"
+#include "../math_physics/math/vector.hpp"
 #include "../simulation/spacecraft/structure/residual_magnetic_moment.hpp"
 #include "disturbance.hpp"
+
+namespace s2e::disturbances {
 
 /**
  * @class MagneticDisturbance
@@ -25,33 +27,33 @@ class MagneticDisturbance : public Disturbance {
    * @param [in] rmm_parameters: RMM parameters of the spacecraft
    * @param [in] is_calculation_enabled: Calculation flag
    */
-  MagneticDisturbance(const ResidualMagneticMoment& rmm_parameters, const bool is_calculation_enabled = true);
+  MagneticDisturbance(const spacecraft::ResidualMagneticMoment& rmm_parameters, const bool is_calculation_enabled = true);
 
   /**
    * @fn Update
    * @brief Override Updates function of SimpleDisturbance
    * @param [in] local_environment: Local environment information
-   * @param [in] dynamics: Dynamics information
+   * @param [in] dynamics: dynamics::Dynamics information
    */
-  virtual void Update(const LocalEnvironment& local_environment, const Dynamics& dynamics);
+  virtual void Update(const environment::LocalEnvironment& local_environment, const dynamics::Dynamics& dynamics);
 
-  // Override ILoggable
+  // Override logger::ILoggable
   /**
    * @fn GetLogHeader
-   * @brief Override GetLogHeader function of ILoggable
+   * @brief Override GetLogHeader function of logger::ILoggable
    */
   virtual std::string GetLogHeader() const;
   /**
    * @fn GetLogValue
-   * @brief Override GetLogValue function of ILoggable
+   * @brief Override GetLogValue function of logger::ILoggable
    */
   virtual std::string GetLogValue() const;
 
  private:
   const double kMagUnit_ = 1.0e-9;  //!< Constant value to change the unit [nT] -> [T]
 
-  libra::Vector<3> rmm_b_Am2_;                              //!< True RMM of the spacecraft in the body frame [Am2]
-  const ResidualMagneticMoment& residual_magnetic_moment_;  //!< RMM parameters
+  math::Vector<3> rmm_b_Am2_;                                           //!< True RMM of the spacecraft in the body frame [Am2]
+  const spacecraft::ResidualMagneticMoment& residual_magnetic_moment_;  //!< RMM parameters
 
   /**
    * @fn CalcRMM
@@ -64,7 +66,7 @@ class MagneticDisturbance : public Disturbance {
    * @param [in] magnetic_field_b_nT: Magnetic field vector at the body frame [nT]
    * @return Calculated disturbance torque in body frame [Nm]
    */
-  libra::Vector<3> CalcTorque_b_Nm(const libra::Vector<3>& magnetic_field_b_nT);
+  math::Vector<3> CalcTorque_b_Nm(const math::Vector<3>& magnetic_field_b_nT);
 };
 
 /**
@@ -73,6 +75,8 @@ class MagneticDisturbance : public Disturbance {
  * @param [in] initialize_file_path: Initialize file path
  * @param [in] rmm_params: RMM parameters
  */
-MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const ResidualMagneticMoment& rmm_params);
+MagneticDisturbance InitMagneticDisturbance(const std::string initialize_file_path, const spacecraft::ResidualMagneticMoment& rmm_params);
+
+}  // namespace s2e::disturbances
 
 #endif  // S2E_DISTURBANCES_MAGNETIC_DISTURBANCE_HPP_

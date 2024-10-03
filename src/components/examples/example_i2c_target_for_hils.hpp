@@ -11,6 +11,8 @@
 #include "../base/component.hpp"
 #include "../base/i2c_target_communication_with_obc.hpp"
 
+namespace s2e::components {
+
 /**
  * @class ExampleI2cTargetForHils
  * @brief Example of component emulation for I2C target side communication in HILS environment
@@ -32,8 +34,8 @@ class ExampleI2cTargetForHils : public Component, public I2cTargetCommunicationW
    * @param [in] hils_port_id: ID of HILS communication port
    * @param [in] hils_port_manager: HILS port manager
    */
-  ExampleI2cTargetForHils(const int prescaler, ClockGenerator* clock_generator, const int sils_port_id, unsigned char i2c_address,
-                          OnBoardComputer* obc, const unsigned int hils_port_id, HilsPortManager* hils_port_manager);
+  ExampleI2cTargetForHils(const int prescaler, environment::ClockGenerator* clock_generator, const int sils_port_id, unsigned char i2c_address,
+                          OnBoardComputer* obc, const unsigned int hils_port_id, simulation::HilsPortManager* hils_port_manager);
   /**
    * @fn ~ExampleI2cTargetForHils
    * @brief Destructor
@@ -53,5 +55,7 @@ class ExampleI2cTargetForHils : public Component, public I2cTargetCommunicationW
   const unsigned int kStoredFrameSize = 3;  //!< Frame size
   const unsigned char kNumAlphabet = 26;    //!< Number of alphabet
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_I2C_TARGET_FOR_HILS_HPP_

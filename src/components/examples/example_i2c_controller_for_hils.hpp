@@ -11,6 +11,8 @@
 #include "../base/component.hpp"
 #include "../base/i2c_controller.hpp"
 
+namespace s2e::components {
+
 /**
  * @class ExampleI2cControllerForHils
  * @brief Example of component emulation for I2C controller side communication in HILS environment
@@ -31,8 +33,9 @@ class ExampleI2cControllerForHils : public Component, public I2cController {
    * @param [in] rx_buffer_size: RX (Target to Controller) buffer size
    * @param [in] hils_port_manager: HILS port manager
    */
-  ExampleI2cControllerForHils(const int prescaler, ClockGenerator* clock_generator, const unsigned int hils_port_id, const unsigned int baud_rate,
-                              const unsigned int tx_buffer_size, const unsigned int rx_buffer_size, HilsPortManager* hils_port_manager);
+  ExampleI2cControllerForHils(const int prescaler, environment::ClockGenerator* clock_generator, const unsigned int hils_port_id,
+                              const unsigned int baud_rate, const unsigned int tx_buffer_size, const unsigned int rx_buffer_size,
+                              simulation::HilsPortManager* hils_port_manager);
   /**
    * @fn ~ExampleI2cControllerForHils
    * @brief Destructor
@@ -64,5 +67,7 @@ class ExampleI2cControllerForHils : public Component, public I2cController {
   static const uint8_t kWriteCmd_ = 0x44;   //!< Write command for SC18IM700
   static const uint8_t kCmdFooter_ = 0x50;  //!< 'P' Footer for SC18IM700
 };
+
+}  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_EXAMPLES_EXAMPLE_I2C_CONTROLLER_FOR_HILS_HPP_

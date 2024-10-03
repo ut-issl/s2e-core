@@ -6,12 +6,14 @@
 #include "initialize_monte_carlo_simulation.hpp"
 
 #include <cstring>
-#include <library/initialize/initialize_file_access.hpp>
+#include <setting_file_reader/initialize_file_access.hpp>
+
+namespace s2e::simulation {
 
 #define MAX_CHAR_NUM 256
 
 MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
-  IniAccess ini_file(file_name);
+  setting_file_reader::IniAccess ini_file(file_name);
   const char* section = "MONTE_CARLO_EXECUTION";
 
   unsigned long long total_num_of_executions = ini_file.ReadInt(section, "number_of_executions");
@@ -79,12 +81,12 @@ MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
 
     // Read mean_or_min vector
     key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "mean_or_min";
-    libra::Vector<3> mean_or_min;
+    math::Vector<3> mean_or_min;
     ini_file.ReadVector(section, key_name.c_str(), mean_or_min);
 
     // Read sigma_or_max vector
     key_name = so_dot_ip_str + MonteCarloSimulationExecutor::separator_ + "sigma_or_max";
-    libra::Vector<3> sigma_or_max;
+    math::Vector<3> sigma_or_max;
     ini_file.ReadVector(section, key_name.c_str(), sigma_or_max);
 
     // Write randomize setting
@@ -93,3 +95,5 @@ MonteCarloSimulationExecutor* InitMonteCarloSimulation(std::string file_name) {
 
   return monte_carlo_simulator;
 }
+
+}  // namespace s2e::simulation
