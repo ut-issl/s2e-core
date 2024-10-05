@@ -6,6 +6,7 @@
 #ifndef S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_HPP_
 #define S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_HPP_
 
+#include "../../dynamics/orbit/orbit.hpp"
 #include "../math/matrix.hpp"
 #include "../math/vector.hpp"
 #include "./orbital_elements.hpp"
@@ -16,7 +17,7 @@ namespace orbit {
  * @enum RelativeOrbitModel
  * @brief Relative orbit model
  */
-enum class RelativeOrbitModel { kHill = 0 };
+enum class RelativeOrbitModel { kHill = 0, kSabatini = 1 };
 
 /**
  * @enum StmModel
@@ -79,17 +80,6 @@ math::Matrix<6, 6> CalcSsStm(double orbit_radius_m, double gravity_constant_m3_s
 math::Vector<6> CalcSsCorrectionTerm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe);
 
 /**
- * @fn CalcSabatiniStm
- * @brief Calculate Sabatani State Transition Matrix
- * @param [in] orbit_radius_m: Orbit radius [m]
- * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
- * @param [in] elapsed_time_s: Elapsed time [s]
- * @param [in] reference_oe: Orbital elements of reference satellite
- * @return State Transition Matrix
- */
-math::Matrix<6, 6> CalcSabatiniStm(double orbit_radius_m, double gravity_constant_m3_s2, double elapsed_time_s, OrbitalElements* reference_oe);
-
-/**
  * @fn CalcCarterStm
  * @brief Calculate Carter State Transition Matrix
  * @param [in] orbit_radius_m: Orbit radius [m]
@@ -103,3 +93,4 @@ math::Matrix<6, 6> CalcCarterStm(double orbit_radius_m, double gravity_constant_
 }  // namespace orbit
 
 #endif  // S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_HPP_
+
