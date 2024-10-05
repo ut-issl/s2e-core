@@ -19,7 +19,8 @@ RelativeOrbit::RelativeOrbit(const CelestialInformation* celestial_information, 
       update_method_(update_method),
       relative_dynamics_model_type_(relative_dynamics_model_type),
       stm_model_type_(stm_model_type),
-      relative_information_(relative_information) {
+      relative_information_(relative_information),
+      relative_orbit_sabatini_(relative_information->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetPosition_i_m(), relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit().GetVelocity_i_m_s()) {
   propagate_mode_ = OrbitPropagateMode::kRelativeOrbit;
 
   propagation_time_s_ = 0.0;
@@ -54,7 +55,7 @@ void RelativeOrbit::InitializeState(math::Vector<3> relative_position_lvlh_m, ma
 
   if (update_method_ == kRk4) {
     Setup(initial_time_s, initial_state_);
-    CalculateSystemMatrix(relative_dynamics_model_type_, &(relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit()),
+    CalculateSystemMatrix(relative_dynamics_model_type_, 0.0, &(relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit()),
                           gravity_constant_m3_s2);
   } else  // update_method_ == STM
   {
@@ -68,12 +69,27 @@ void RelativeOrbit::InitializeState(math::Vector<3> relative_position_lvlh_m, ma
   TransformEcefToGeodetic();
 }
 
-void RelativeOrbit::CalculateSystemMatrix(orbit::RelativeOrbitModel relative_dynamics_model_type, const Orbit* reference_sat_orbit,
+void RelativeOrbit::CalculateSystemMatrix(orbit::RelativeOrbitModel relative_dynamics_model_type, double elapsed_time, const Orbit* reference_sat_orbit,
                                           double gravity_constant_m3_s2) {
   switch (relative_dynamics_model_type) {
     case orbit::RelativeOrbitModel::kHill: {
       double reference_sat_orbit_radius = reference_sat_orbit->GetPosition_i_m().CalcNorm();
       system_matrix_ = orbit::CalcHillSystemMatrix(reference_sat_orbit_radius, gravity_constant_m3_s2);
+      break;
+    }
+    case orbit::RelativeOrbitModel::kSabatini: {
+      orbit::OrbitalElements reference_oe = orbit::OrbitalElements(gravity_constant_m3_s2_, elapsed_time, reference_sat_orbit->GetPosition_i_m(), reference_sat_orbit->GetVelocity_i_m_s());
+      math::Vector<3> position_i_m = reference_sat_orbit->GetPosition_i_m();
+      double raan_rad = reference_oe.GetRaan_rad();
+      double inclination_rad = reference_oe.GetInclination_rad();
+      double arg_perigee_rad = reference_oe.GetArgPerigee_rad();
+      double x_p_m = position_i_m[0] * cos(raan_rad) + position_i_m[1] * sin(raan_rad);
+      double tmp_m = -position_i_m[0] * sin(raan_rad) + position_i_m[1] * cos(raan_rad);
+      double y_p_m = tmp_m * cos(inclination_rad) + position_i_m[2] * sin(inclination_rad);
+      double phi_rad = atan2(y_p_m, x_p_m);
+      double f_ref_rad = phi_rad - arg_perigee_rad;
+      system_matrix_ = relative_orbit_sabatini_.CalcSabatiniSystemMatrix(gravity_constant_m3_s2_, f_ref_rad, &reference_oe);
+      break;
     }
     default: {
       // NOT REACHED
@@ -139,10 +155,6 @@ void RelativeOrbit::CalculateStm(orbit::StmModel stm_model_type, const Orbit* re
       correction_term_ = orbit::CalcSsCorrectionTerm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, &reference_oe);
       break;
     }
-    case orbit::StmModel::kSabatini: {
-      stm_ = orbit::CalcSabatiniStm(reference_sat_orbit_radius, gravity_constant_m3_s2, elapsed_sec, f_ref_rad, position_i_m, velocity_i_m_s, &reference_oe);
-      break;
-    }
     case orbit::StmModel::kCarter: {
       stm_ = orbit::CalcCarterStm(reference_sat_orbit_radius, gravity_constant_m3_s2, f_ref_rad, &reference_oe);
       break;
@@ -166,6 +178,15 @@ void RelativeOrbit::Propagate(const double end_time_s, const double current_time
   spacecraft_acceleration_i_m_s2_ *= 0.0;  // Disturbance acceleration are not considered in relative orbit propagation
 
   if (update_method_ == kRk4) {
+    switch (relative_dynamics_model_type_) {
+    case orbit::RelativeOrbitModel::kSabatini: {
+      CalculateSystemMatrix(relative_dynamics_model_type_, end_time_s, &(relative_information_->GetReferenceSatDynamics(reference_spacecraft_id_)->GetOrbit()), gravity_constant_m3_s2_);
+    }
+    default: {
+      // NOT REACHED
+      break;
+    }
+  }
     PropagateRk4(end_time_s);
   } else  // update_method_ == STM
   {
