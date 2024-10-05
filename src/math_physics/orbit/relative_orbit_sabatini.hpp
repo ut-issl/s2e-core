@@ -41,8 +41,8 @@ class RelativeOrbitSabatini {
   math::Matrix<6, 6> CalcSabatiniSystemMatrix(double gravity_constant_m3_s2, double f_ref_rad, OrbitalElements* reference_oe);
 
  private:
-  double initial_orbit_radius_m_;  //!< Initial orbit radius [m]
-  double initial_angular_momentum_m2_s_; //!< Initial angular momentum [m2/s]
+  double initial_orbit_radius_m_;         //!< Initial orbit radius [m]
+  double initial_angular_momentum_m2_s_;  //!< Initial angular momentum [m2/s]
 };
 
 }  // namespace orbit

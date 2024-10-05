@@ -6,9 +6,9 @@
 #ifndef S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_HPP_
 #define S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_HPP_
 
+#include "../../dynamics/orbit/orbit.hpp"
 #include "../math/matrix.hpp"
 #include "../math/vector.hpp"
-#include "../../dynamics/orbit/orbit.hpp"
 #include "./orbital_elements.hpp"
 
 namespace orbit {
@@ -93,3 +93,4 @@ math::Matrix<6, 6> CalcCarterStm(double orbit_radius_m, double gravity_constant_
 }  // namespace orbit
 
 #endif  // S2E_LIBRARY_ORBIT_RELATIVE_ORBIT_MODEL_HPP_
+

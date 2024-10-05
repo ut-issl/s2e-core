@@ -8,8 +8,8 @@
 
 #include <math_physics/math/ordinary_differential_equation.hpp>
 #include <math_physics/orbit/relative_orbit_models.hpp>
-#include <math_physics/orbit/relative_orbit_yamanaka_ankersen.hpp>
 #include <math_physics/orbit/relative_orbit_sabatini.hpp>
+#include <math_physics/orbit/relative_orbit_yamanaka_ankersen.hpp>
 #include <simulation/multiple_spacecraft/relative_information.hpp>
 #include <string>
 
@@ -83,11 +83,11 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
   math::Vector<3> relative_position_lvlh_m_;    //!< Relative position in the LVLH frame
   math::Vector<3> relative_velocity_lvlh_m_s_;  //!< Relative velocity in the LVLH frame
 
-  RelativeOrbitUpdateMethod update_method_;                                 //!< Update method
-  orbit::RelativeOrbitModel relative_dynamics_model_type_;                  //!< Relative dynamics model type
-  orbit::StmModel stm_model_type_;                                          //!< State Transition Matrix model type
-  RelativeInformation* relative_information_;                               //!< Relative information
-  orbit::RelativeOrbitSabatini relative_orbit_sabatini_;  //!< Relative Orbit Calculater with Sabatini's STM
+  RelativeOrbitUpdateMethod update_method_;                                //!< Update method
+  orbit::RelativeOrbitModel relative_dynamics_model_type_;                 //!< Relative dynamics model type
+  orbit::StmModel stm_model_type_;                                         //!< State Transition Matrix model type
+  RelativeInformation* relative_information_;                              //!< Relative information
+  orbit::RelativeOrbitSabatini relative_orbit_sabatini_;                   //!< Relative Orbit Calculater with Sabatini's STM
   orbit::RelativeOrbitYamanakaAnkersen relative_orbit_yamanaka_ankersen_;  //!< Relative Orbit Calcilater with Yamanaka-Ankersen's STM
 
   /**
@@ -108,7 +108,8 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
    * @param [in] reference_sat_orbit: Orbit information of reference satellite
    * @param [in] gravity_constant_m3_s2: Gravity constant of the center body [m3/s2]
    */
-  void CalculateSystemMatrix(orbit::RelativeOrbitModel relative_dynamics_model_type, double elapsed_time, const Orbit* reference_sat_orbit, double gravity_constant_m3_s2);
+  void CalculateSystemMatrix(orbit::RelativeOrbitModel relative_dynamics_model_type, double elapsed_time, const Orbit* reference_sat_orbit,
+                             double gravity_constant_m3_s2);
   /**
    * @fn InitializeStmMatrix
    * @brief Calculate State Transition Matrix
@@ -142,3 +143,4 @@ class RelativeOrbit : public Orbit, public math::OrdinaryDifferentialEquation<6>
 };
 
 #endif  // S2E_DYNAMICS_ORBIT_RELATIVE_ORBIT_HPP_
+
