@@ -69,6 +69,21 @@ class Heatload {
    * @brief Return Total Heatload
    */
   inline double GetTotalHeatload_W(void) const { return total_heatload_W_; }
+  /**
+   * @fn GetTotalQIn_W
+   * @brief Return Total Heat Input
+   */
+  inline double GetTotalQIn_W(void) const { return total_Q_in_W_; }
+  /**
+   * @fn GetTotalCondIn_W
+   * @brief Return Total Conduction Heat Input
+   */
+  inline double GetTotalCondIn_W(void) const { return total_cond_in_W_; }
+  /**
+   * @fn GetTotalRadIn_W
+   * @brief Return Total Radiation Heat Input
+   */
+  inline double GetTotalRadIn_W(void) const { return total_rad_in_W_; }
 
   // Setter
   /**
@@ -96,6 +111,21 @@ class Heatload {
    * @param[in] heater_heatload_W
    */
   inline void SetHeaterHeatload_W(const double heater_heatload_W) { heater_heatload_W_ = heater_heatload_W; }
+  /**
+   * @brief Set Total Heat Input [W]
+   * @param[in] total_Q_in_W
+   */
+  inline void SetTotalQIn_W(const double total_Q_in_W) { total_Q_in_W_ = total_Q_in_W; }
+  /**
+   * @brief Set Total Conduction Heat Input [W]
+   * @param[in] total_cond_in_W
+   */
+  inline void SetTotalCondIn_W(const double total_cond_in_W) { total_cond_in_W_ = total_cond_in_W; }
+  /**
+   * @brief Set Total Radiation Heat Input [W]
+   * @param[in] total_rad_in_W
+   */
+  inline void SetTotalRadIn_W(const double total_rad_in_W) { total_rad_in_W_ = total_rad_in_W; }
 
  protected:
   double elapsed_time_s_;                          //!< Elapsed time [s]
@@ -109,6 +139,9 @@ class Heatload {
   double internal_heatload_W_;     //!< Heatload from internal dissipation [W]
   double heater_heatload_W_;       //!< Heatload from heater [W]
   double total_heatload_W_;        //!< Total heatload [W]
+  double total_cond_in_W_;         //!< Total conduction heat input [W]
+  double total_rad_in_W_;          //!< Total radiation heat input [W]
+  double total_Q_in_W_;            //!< Total heat input [W]
 
   double time_table_period_s_;      //!< Value of last element of time_table_s_, which represents the period of the heatload table [s]
   double residual_elapsed_time_s_;  //!< Residual of dividing elapsed_time_s_ by time_table_period_s_ [s]
