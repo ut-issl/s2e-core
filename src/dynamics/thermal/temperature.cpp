@@ -163,6 +163,9 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
                                   (pow(nodes_[j].GetTemperature_K(), 4) - pow(nodes_[i].GetTemperature_K(), 4));
       }
       double total_heat_input_W = conductive_heat_input_W + radiative_heat_input_W + total_heatload_W;
+      heatloads_[i].SetTotalCondIn_W(conductive_heat_input_W);
+      heatloads_[i].SetTotalRadIn_W(radiative_heat_input_W);
+      heatloads_[i].SetTotalQIn_W(total_heat_input_W);
       differentials_K_s[i] = total_heat_input_W / nodes_[i].GetCapacity_J_K();
     } else if (nodes_[i].GetNodeType() == NodeType::kBoundary) {
       differentials_K_s[i] = 0;
@@ -207,6 +210,34 @@ string Temperature::GetLogHeader() const {
       str_tmp += logger::WriteScalar(str_node, "W");
     }
   }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      string str_node = "Condin_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
+      str_tmp += logger::WriteScalar(str_node, "W");
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      string str_node = "Radin_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
+      str_tmp += logger::WriteScalar(str_node, "W");
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      string str_node = "CondandRadin_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
+      str_tmp += logger::WriteScalar(str_node, "W");
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      string str_node = "Qin_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
+      str_tmp += logger::WriteScalar(str_node, "W");
+    }
+  }
   return str_tmp;
 }
 
@@ -222,6 +253,30 @@ string Temperature::GetLogValue() const {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
       str_tmp += logger::WriteScalar(heatloads_[i].GetTotalHeatload_W());
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      str_tmp += logger::WriteScalar(heatloads_[i].GetTotalCondIn_W());
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      str_tmp += logger::WriteScalar(heatloads_[i].GetTotalRadIn_W());
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      str_tmp += logger::WriteScalar(heatloads_[i].GetTotalCondIn_W() + heatloads_[i].GetTotalRadIn_W());
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      str_tmp += logger::WriteScalar(heatloads_[i].GetTotalQIn_W());
     }
   }
   return str_tmp;
