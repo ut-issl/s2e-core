@@ -82,6 +82,10 @@ void Temperature::Propagate(const environment::LocalCelestialInformation* local_
     for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
       cout << setprecision(4) << itr->GetAlbedoRadiation_W() << "  ";
     }
+    cout << "EarthIR:  ";
+    for (auto itr = nodes_.begin(); itr != nodes_.end(); ++itr) {
+      cout << setprecision(4) << itr->GetEarthInfraredRadiation_W() << "  ";
+    }
     math::Vector<3> earth_direction_b = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH").CalcNormalizedVector();
     cout << "EarthDir:  ";
     for (size_t i = 0; i < 3; i++) {

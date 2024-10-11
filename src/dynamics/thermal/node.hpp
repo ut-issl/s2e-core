@@ -131,6 +131,12 @@ class Node {
    */
   inline double GetAlbedoRadiation_W(void) const { return albedo_radiation_W_; }
   /**
+   * @fn GetEarthInfraredRadiation_W
+   * @brief Return Earth Infrared Radiation [W]
+   * @return double: Earth Infrared Radiation [W]
+   */
+  inline double GetEarthInfraredRadiation_W(void) const { return earth_infrared_W_; }
+  /**
    * @fn GetNodeType
    * @brief Return Node Type
    * @return NodeType
