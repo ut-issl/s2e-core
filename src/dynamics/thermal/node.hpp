@@ -71,6 +71,15 @@ class Node {
    * @return double: Albedo Radiation [W]
    */
   double CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, double earth_albedo_W_m2);
+  /**
+   * @fn CalcEarthInfraredRadiation_W
+   * @brief Calculate Earth Infrared Radiation [W] from earth direction, earth infrared radiation, area, and normal vector
+   *
+   * @param earth_position_b_m: Earth position in body frame
+   * @param earth_infrared_W_m2: Earth Infrared Radiation [W/m^2]
+   * @return double: Earth Infrared Radiation [W]
+   */
+  double CalcEarthInfraredRadiation_W(math::Vector<3> earth_position_b_m, double earth_infrared_W_m2);
 
   // Getter
   /**
@@ -154,6 +163,7 @@ class Node {
   double area_m2_;
   double solar_radiation_W_;
   double albedo_radiation_W_;
+  double earth_infrared_W_;
   NodeType node_type_;
   math::Vector<3> normal_vector_b_;
 

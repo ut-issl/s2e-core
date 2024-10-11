@@ -28,6 +28,7 @@ Node::Node(const size_t node_id, const string node_name, const NodeType node_typ
   AssertNodeParams();
   solar_radiation_W_ = 0.0;
   albedo_radiation_W_ = 0.0;
+  earth_infrared_W_ = 0.0;
 }
 
 Node::~Node() {}
@@ -55,6 +56,19 @@ double Node::CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, double ea
     albedo_radiation_W_ = 0.0;
   }
   return albedo_radiation_W_;
+}
+
+double Node::CalcEarthInfraredRadiation_W(math::Vector<3> earth_position_b_m, double earth_infrared_W_m2) {
+  math::Vector<3> earth_direction_b = earth_position_b_m.CalcNormalizedVector();
+
+  double cos_theta_IR = InnerProduct(earth_direction_b, normal_vector_b_);
+
+  // earth infrared radiation calculation
+  if (cos_theta_IR > 0.0) {
+    earth_infrared_W_ = earth_infrared_W_m2 * area_m2_ * alpha_ * cos_theta_IR;
+  } else {
+    earth_infrared_W_ = 0.0;
+  }
 }
 
 void Node::PrintParam(void) {
