@@ -50,7 +50,7 @@ double Node::CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, double ea
 
   // albedo radiation calculation; earth_albedo_W_m2 reflects the shadow coefficient.
   if (cos_theta_albedo > 0.0) {
-    albedo_radiation_W_ = earth_albedo_W_m2 * area_m2_ * alpha_ * cos_theta_albedo;
+    albedo_radiation_W_ = (earth_albedo_W_m2 + 250) * area_m2_ * alpha_ * cos_theta_albedo;
   } else {
     albedo_radiation_W_ = 0.0;
   }
