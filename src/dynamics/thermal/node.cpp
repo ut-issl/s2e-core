@@ -69,6 +69,7 @@ double Node::CalcEarthInfraredRadiation_W(math::Vector<3> earth_position_b_m, do
   } else {
     earth_infrared_W_ = 0.0;
   }
+  return earth_infrared_W_;
 }
 
 void Node::PrintParam(void) {
