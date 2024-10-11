@@ -19,8 +19,8 @@ namespace s2e::dynamics::thermal {
 Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, const vector<vector<double>> radiation_matrix_m2, vector<Node> nodes,
                          vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const size_t node_num,
                          const double propagation_step_s, const environment::SolarRadiationPressureEnvironment* srp_environment,
-                         const environment::EarthAlbedo* earth_albedo, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting,
-                         const bool debug)
+                         const environment::EarthAlbedo* earth_albedo, const environment::EarthInfrared* earth_infrared, const bool is_calc_enabled,
+                         const SolarCalcSetting solar_calc_setting, const bool debug)
     : conductance_matrix_W_K_(conductance_matrix_W_K),
       radiation_matrix_m2_(radiation_matrix_m2),
       nodes_(nodes),
@@ -31,6 +31,7 @@ Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, co
       propagation_step_s_(propagation_step_s),
       srp_environment_(srp_environment),
       earth_albedo_(earth_albedo),
+      earth_infrared_(earth_infrared),
       is_calc_enabled_(is_calc_enabled),
       solar_calc_setting_(solar_calc_setting),
       debug_(debug) {
@@ -146,8 +147,10 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
         double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction_b, solar_flux_W_m2);
         math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
         double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, earth_albedo_->GetEarthAlbedoRadiationPower_W_m2());
+        // double earth_IRradiation_W = nodes_[i].CalcEarthIRRadiation_W(earth_position_b_m, earth_infrared_->GetEarthIRRadiationPower_W_m2());
         heatloads_[i].SetAlbedoHeatload_W(albedo_radiation_W);
         heatloads_[i].SetSolarHeatload_W(solar_radiation_W);
+        // heatloads_[i].SetEarthIRHeatload_W(earth_IRradiation_W);
       }
       double heater_power_W = GetHeaterPower_W(i);
       heatloads_[i].SetHeaterHeatload_W(heater_power_W);
@@ -293,7 +296,8 @@ using std::string;
 using std::vector;
 
 Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s,
-                             const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo) {
+                             const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo,
+                             const environment::EarthInfrared* earth_infrared) {
   auto mainIni = setting_file_reader::IniAccess(file_name);
 
   vector<Node> node_list;
@@ -388,7 +392,7 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   Temperature* temperature;
   temperature = new Temperature(conductance_matrix, radiation_matrix, node_list, heatload_list, heater_list, heater_controller_list, node_num,
-                                rk_prop_step_s, srp_environment, earth_albedo, is_calc_enabled, solar_calc_setting, debug);
+                                rk_prop_step_s, srp_environment, earth_albedo, earth_infrared, is_calc_enabled, solar_calc_setting, debug);
   return temperature;
 }
 
