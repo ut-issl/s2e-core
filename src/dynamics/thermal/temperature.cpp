@@ -147,10 +147,11 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
         double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction_b, solar_flux_W_m2);
         math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
         double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, earth_albedo_->GetEarthAlbedoRadiationPower_W_m2());
-        // double earth_IRradiation_W = nodes_[i].CalcEarthIRRadiation_W(earth_position_b_m, earth_infrared_->GetEarthIRRadiationPower_W_m2());
+        double earth_InfraredRadiation_W =
+            nodes_[i].CalcEarthInfraredRadiation_W(earth_position_b_m, earth_infrared_->GetEarthInfraredRadiationPower_W_m2());
         heatloads_[i].SetAlbedoHeatload_W(albedo_radiation_W);
         heatloads_[i].SetSolarHeatload_W(solar_radiation_W);
-        // heatloads_[i].SetEarthIRHeatload_W(earth_IRradiation_W);
+        heatloads_[i].SetEarthInfraredHeatload_W(earth_InfraredRadiation_W);
       }
       double heater_power_W = GetHeaterPower_W(i);
       heatloads_[i].SetHeaterHeatload_W(heater_power_W);
