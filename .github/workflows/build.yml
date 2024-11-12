@@ -50,7 +50,7 @@ jobs:
         run: setup.bat
 
       - name: Configure build for x86
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
           arch: amd64_x86
 
