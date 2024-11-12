@@ -239,11 +239,12 @@ if(GOOGLE_TEST)
   file(GLOB_RECURSE TEST_FILES ${CMAKE_CURRENT_LIST_DIR}/src/test_*.cpp)
   # Uncomment the following line to exclude any files that match the REGEX from TEST_FILES
   # list(FILTER TEST_FILES EXCLUDE REGEX ${CMAKE_CURRENT_LIST_DIR}/src/test_example.cpp)
+  include_directories(${TEST_PROJECT_NAME})
 
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main gmock)
-  target_link_libraries(${TEST_PROJECT_NAME} MATH_PHYSICS)
-  include_directories(${TEST_PROJECT_NAME})
+  target_link_libraries(${TEST_PROJECT_NAME} MATH_PHYSICS ${NRLMSISE00_LIB})
+
   add_test(NAME s2e-test COMMAND ${TEST_PROJECT_NAME})
   enable_testing()
 
