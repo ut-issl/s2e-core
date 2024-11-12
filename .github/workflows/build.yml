@@ -32,11 +32,11 @@ jobs:
         build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - name: checkout C2A core
         if: contains(matrix.use_c2a, 'ON')
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           path: c2a-core
           repository: ut-issl/c2a-core
@@ -50,7 +50,7 @@ jobs:
         run: setup.bat
 
       - name: Configure build for x86
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
           arch: amd64_x86
 
@@ -61,7 +61,7 @@ jobs:
 
       - name: cache extlib
         id: cache-extlib
-        uses: actions/cache@v4
+        uses: actions/cache@v4.1.2
         with:
           key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}-${{ matrix.build_bit }}
           path: ./ExtLibraries
@@ -153,7 +153,7 @@ jobs:
         build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - name: set compiler
         id: compiler
@@ -185,7 +185,7 @@ jobs:
 
       - name: cache extlib
         id: cache-extlib
-        uses: actions/cache@v4
+        uses: actions/cache@v4.1.2
         with:
           key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}-${{ matrix.build_bit }}
           path: ExtLibraries
