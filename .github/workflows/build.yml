@@ -129,7 +129,7 @@ jobs:
           cmake --build .
 
       - name: build 64bit
-        if: matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF'
+        if: matrix.build_bit == 'BUILD_64BIT=ON'
         shell: cmd
         run: |
           cl.exe
