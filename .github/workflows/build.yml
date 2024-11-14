@@ -28,8 +28,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        use_c2a: ['USE_C2A=OFF', 'USE_C2A=ON']
-        build_bit: ['BUILD_64BIT=OFF', 'BUILD_64BIT=ON']
+        include:
+          - build_bit: 'BUILD_64BIT=OFF'
+            use_c2a: 'USE_C2A=OFF'
+          - build_bit: 'BUILD_64BIT=OFF'
+            use_c2a: 'USE_C2A=ON'
+          - build_bit: 'BUILD_64BIT=ON'
+            use_c2a: 'USE_C2A=OFF'
 
     steps:
       - uses: actions/checkout@v4.2.2
@@ -124,7 +129,7 @@ jobs:
           cmake --build .
 
       - name: build 64bit
-        if: matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF'
+        if: matrix.build_bit == 'BUILD_64BIT=ON'
         shell: cmd
         run: |
           cl.exe
