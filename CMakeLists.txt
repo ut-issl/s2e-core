@@ -104,9 +104,6 @@ set(SOURCE_FILES
   src/simulation_sample/ground_station/sample_ground_station.cpp
 )
 
-## Create executable file
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-
 ## cspice library
 if(APPLE)
   if(APPLE_SILICON)
@@ -180,19 +177,25 @@ if(NOT NRLMSISE00_LIB)
   message(FATAL_ERROR "nrlmsise00 not found in ${EXT_LIB_DIR}")
 endif()
 
-target_link_libraries(${PROJECT_NAME}
-  LOGGER
-  SETTING_FILE_READER
-  INIH
-  UTILITIES
+# link hack for MSVC link.exe
+add_library(lib${PROJECT_NAME}
+  $<TARGET_OBJECTS:LOGGER>
+  $<TARGET_OBJECTS:SETTING_FILE_READER>
+  $<TARGET_OBJECTS:INIH>
+  $<TARGET_OBJECTS:UTILITIES>
 
-  COMPONENT
-  DISTURBANCE
-  DYNAMICS
-  GLOBAL_ENVIRONMENT
-  LOCAL_ENVIRONMENT
-  MATH_PHYSICS
-  SIMULATION
+  $<TARGET_OBJECTS:COMPONENT>
+  $<TARGET_OBJECTS:DISTURBANCE>
+  $<TARGET_OBJECTS:DYNAMICS>
+  $<TARGET_OBJECTS:GLOBAL_ENVIRONMENT>
+  $<TARGET_OBJECTS:LOCAL_ENVIRONMENT>
+  $<TARGET_OBJECTS:MATH_PHYSICS>
+  $<TARGET_OBJECTS:SIMULATION>
+)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
+target_link_libraries(${PROJECT_NAME}
+  lib${PROJECT_NAME}
 
   # ExtLibraries
   ${NRLMSISE00_LIB}
