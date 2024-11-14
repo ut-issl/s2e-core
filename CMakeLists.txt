@@ -104,9 +104,6 @@ set(SOURCE_FILES
   src/simulation_sample/ground_station/sample_ground_station.cpp
 )
 
-## Create executable file
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-
 ## cspice library
 if(APPLE)
   if(APPLE_SILICON)
@@ -179,23 +176,31 @@ endif()
 if(NOT NRLMSISE00_LIB)
   message(FATAL_ERROR "nrlmsise00 not found in ${EXT_LIB_DIR}")
 endif()
-#target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
 
-# Initialize link
-target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT MATH_PHYSICS SETTING_FILE_READER LOGGER UTILITIES)
-target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION MATH_PHYSICS)
-target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT MATH_PHYSICS)
-target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE MATH_PHYSICS)
-target_link_libraries(GLOBAL_ENVIRONMENT ${CSPICE_LIB} MATH_PHYSICS)
-target_link_libraries(LOCAL_ENVIRONMENT GLOBAL_ENVIRONMENT ${CSPICE_LIB} MATH_PHYSICS)
-target_link_libraries(MATH_PHYSICS ${NRLMSISE00_LIB})
-target_link_libraries(SETTING_FILE_READER INIH)
+# link hack for MSVC link.exe
+add_library(lib${PROJECT_NAME}
+  $<TARGET_OBJECTS:LOGGER>
+  $<TARGET_OBJECTS:SETTING_FILE_READER>
+  $<TARGET_OBJECTS:INIH>
+  $<TARGET_OBJECTS:UTILITIES>
 
-target_link_libraries(${PROJECT_NAME} DYNAMICS)
-target_link_libraries(${PROJECT_NAME} DISTURBANCE)
-target_link_libraries(${PROJECT_NAME} SIMULATION)
-target_link_libraries(${PROJECT_NAME} GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT)
-target_link_libraries(${PROJECT_NAME} COMPONENT)
+  $<TARGET_OBJECTS:COMPONENT>
+  $<TARGET_OBJECTS:DISTURBANCE>
+  $<TARGET_OBJECTS:DYNAMICS>
+  $<TARGET_OBJECTS:GLOBAL_ENVIRONMENT>
+  $<TARGET_OBJECTS:LOCAL_ENVIRONMENT>
+  $<TARGET_OBJECTS:MATH_PHYSICS>
+  $<TARGET_OBJECTS:SIMULATION>
+)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
+target_link_libraries(${PROJECT_NAME}
+  lib${PROJECT_NAME}
+
+  # ExtLibraries
+  ${NRLMSISE00_LIB}
+  ${CSPICE_LIB}
+)
 
 ## C2A integration
 if(USE_C2A)
@@ -237,11 +242,12 @@ if(GOOGLE_TEST)
   file(GLOB_RECURSE TEST_FILES ${CMAKE_CURRENT_LIST_DIR}/src/test_*.cpp)
   # Uncomment the following line to exclude any files that match the REGEX from TEST_FILES
   # list(FILTER TEST_FILES EXCLUDE REGEX ${CMAKE_CURRENT_LIST_DIR}/src/test_example.cpp)
+  include_directories(${TEST_PROJECT_NAME})
 
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main gmock)
-  target_link_libraries(${TEST_PROJECT_NAME} MATH_PHYSICS)
-  include_directories(${TEST_PROJECT_NAME})
+  target_link_libraries(${TEST_PROJECT_NAME} MATH_PHYSICS ${NRLMSISE00_LIB})
+
   add_test(NAME s2e-test COMMAND ${TEST_PROJECT_NAME})
   enable_testing()
 

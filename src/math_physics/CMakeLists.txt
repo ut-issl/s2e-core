@@ -1,7 +1,7 @@
 project(MATH_PHYSICS)
 cmake_minimum_required(VERSION 3.13)
 
-add_library(${PROJECT_NAME} STATIC
+add_library(${PROJECT_NAME} OBJECT
   atmosphere/simple_air_density_model.cpp
   atmosphere/harris_priester_model.cpp
   atmosphere/wrapper_nrlmsise00.cpp
