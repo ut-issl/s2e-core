@@ -27,8 +27,11 @@ if(WIN32)
 endif()
 
 ## set directory path
+if(NOT DEFINED S2E_CORE_DIR)
+  set(S2E_CORE_DIR ${CMAKE_CURRENT_LIST_DIR}/../)
+endif()
 if(NOT DEFINED EXT_LIB_DIR)
-  set(EXT_LIB_DIR ../ExtLibraries)
+  set(EXT_LIB_DIR ${CMAKE_CURRENT_LIST_DIR}/../../ExtLibraries)
 endif()
 set(CSPICE_DIR ${EXT_LIB_DIR}/cspice)
 set(NRLMSISE00_DIR ${EXT_LIB_DIR}/nrlmsise00)
@@ -42,7 +45,7 @@ endif()
 
 ## Directory path for ini files
 if(NOT DEFINED SETTINGS_DIR_FROM_EXE)
-  set(SETTINGS_DIR_FROM_EXE ../../settings)
+  set(SETTINGS_DIR_FROM_EXE ../settings)
 endif()
 
 if(NOT DEFINED EXT_LIB_DIR_FROM_EXE)
@@ -79,29 +82,30 @@ endif()
 set(S2E_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 ## include directories
+include_directories(${S2E_CORE_DIR}/src)
 include_directories(${CSPICE_DIR}/include)
 include_directories(${NRLMSISE00_DIR}/src)
 
 ## add_subdirectories
-add_subdirectory(src/simulation)
-add_subdirectory(src/environment/global)
-add_subdirectory(src/environment/local)
-add_subdirectory(src/dynamics)
-add_subdirectory(src/disturbances)
-add_subdirectory(src/components)
-add_subdirectory(src/math_physics)
-add_subdirectory(src/setting_file_reader)
-add_subdirectory(src/logger)
-add_subdirectory(src/utilities)
-add_subdirectory(ExtLibraries/inih)
+add_subdirectory(${S2E_CORE_DIR}/src/simulation simulation)
+add_subdirectory(${S2E_CORE_DIR}/src/environment/global environment/global)
+add_subdirectory(${S2E_CORE_DIR}/src/environment/local environment/local)
+add_subdirectory(${S2E_CORE_DIR}/src/dynamics dynamics)
+add_subdirectory(${S2E_CORE_DIR}/src/disturbances disturbances)
+add_subdirectory(${S2E_CORE_DIR}/src/components components)
+add_subdirectory(${S2E_CORE_DIR}/src/math_physics math_physics)
+add_subdirectory(${S2E_CORE_DIR}/src/setting_file_reader setting_file_reader)
+add_subdirectory(${S2E_CORE_DIR}/src/logger logger)
+add_subdirectory(${S2E_CORE_DIR}/src/utilities utilities)
+add_subdirectory(${S2E_CORE_DIR}/ExtLibraries/inih ExtLibraries/inih)
 
 set(SOURCE_FILES
   src/s2e.cpp
-  src/simulation_sample/case/sample_case.cpp
-  src/simulation_sample/spacecraft/sample_spacecraft.cpp
-  src/simulation_sample/spacecraft/sample_components.cpp
-  src/simulation_sample/ground_station/sample_ground_station_components.cpp
-  src/simulation_sample/ground_station/sample_ground_station.cpp
+  src/simulation/case/sample_case.cpp
+  src/simulation/spacecraft/sample_spacecraft.cpp
+  src/simulation/spacecraft/sample_components.cpp
+  src/simulation/ground_station/sample_ground_station_components.cpp
+  src/simulation/ground_station/sample_ground_station.cpp
 )
 
 ## cspice library
@@ -264,4 +268,4 @@ endif()
 message("Cspice_LIB:  " ${CSPICE_LIB})
 message("nrlmsise00_LIB:  " ${NRLMSISE00_LIB})
 
-include(common.cmake)
+include(${S2E_CORE_DIR}/common.cmake)
