@@ -15,6 +15,7 @@
 
 namespace s2e::environment {
 
+//TODO remove unused local_celestial_information
 EarthAlbedo::EarthAlbedo(LocalCelestialInformation* local_celestial_information, SolarRadiationPressureEnvironment* srp_environment)
     : local_celestial_information_(local_celestial_information), srp_environment_(srp_environment) {}
 
