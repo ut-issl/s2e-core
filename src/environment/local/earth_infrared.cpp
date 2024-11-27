@@ -44,8 +44,6 @@ std::string EarthInfrared::GetLogValue() const {
 }
 
 void EarthInfrared::CalcEarthInfrared(const LocalCelestialInformation* local_celestial_information) {
-  math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
-  double earth_distance_m = earth_position_b_m.CalcNorm();
   if (srp_environment_->GetIsEclipsed()) {
     earth_infrared_W_m2_ = stefan_boltzmann_constant_W_m2K4 * std::pow(earth_infrared_temperature_cold_side_, 4.0);
   } else {
