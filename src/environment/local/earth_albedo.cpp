@@ -42,8 +42,6 @@ std::string EarthAlbedo::GetLogValue() const {
 }
 
 void EarthAlbedo::CalcEarthAlbedo(const LocalCelestialInformation* local_celestial_information) {
-  math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
-  double earth_distance_m = earth_position_b_m.CalcNorm();
   earth_albedo_W_m2_ = srp_environment_->GetPowerDensity_W_m2() * GetEarthAlbedoFactor();
 }
 
