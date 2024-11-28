@@ -150,7 +150,8 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
       if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
         double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction_b, solar_flux_W_m2);
         math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
-        double albedo_radiation_W = nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, earth_albedo_->GetEarthAlbedoRadiationPower_W_m2());
+        double albedo_radiation_W =
+            nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, sun_direction_b, earth_albedo_->GetEarthAlbedoRadiationPower_W_m2());
         double earth_InfraredRadiation_W =
             nodes_[i].CalcEarthInfraredRadiation_W(earth_position_b_m, earth_infrared_->GetEarthInfraredRadiationPower_W_m2());
         heatloads_[i].SetAlbedoHeatload_W(albedo_radiation_W);
@@ -215,6 +216,27 @@ string Temperature::GetLogHeader() const {
       str_tmp += logger::WriteScalar(str_node, "W");
     }
   }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      string str_node = "solar_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
+      str_tmp += logger::WriteScalar(str_node, "W");
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      string str_node = "albedo_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
+      str_tmp += logger::WriteScalar(str_node, "W");
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      string str_node = "earthIR_" + to_string(nodes_[i].GetNodeId()) + " (" + nodes_[i].GetNodeName() + ")";
+      str_tmp += logger::WriteScalar(str_node, "W");
+    }
+  }
   return str_tmp;
 }
 
@@ -230,6 +252,24 @@ string Temperature::GetLogValue() const {
     // Do not retrieve boundary node values
     if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
       str_tmp += logger::WriteScalar(heatloads_[i].GetTotalHeatload_W());
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      str_tmp += logger::WriteScalar(nodes_[i].GetSolarRadiation_W());
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      str_tmp += logger::WriteScalar(nodes_[i].GetAlbedoRadiation_W());
+    }
+  }
+  for (size_t i = 0; i < node_num_; i++) {
+    // Do not retrieve boundary node values
+    if (nodes_[i].GetNodeType() != NodeType::kBoundary) {
+      str_tmp += logger::WriteScalar(nodes_[i].GetEarthInfraredRadiation_W());
     }
   }
   return str_tmp;
