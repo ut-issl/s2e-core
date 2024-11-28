@@ -145,19 +145,19 @@ vector<double> Temperature::CalcTemperatureDifferentials(vector<double> temperat
   vector<double> differentials_K_s(node_num);
   for (size_t i = 0; i < node_num; i++) {
     heatloads_[i].SetElapsedTime_s(t);
+    math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
     if (nodes_[i].GetNodeType() == NodeType::kDiffusive) {
       double solar_flux_W_m2 = srp_environment_->GetPowerDensity_W_m2();
       if (solar_calc_setting_ == SolarCalcSetting::kEnable) {
         double solar_radiation_W = nodes_[i].CalcSolarRadiation_W(sun_direction_b, solar_flux_W_m2);
-        math::Vector<3> earth_position_b_m = local_celestial_information->GetPositionFromSpacecraft_b_m("EARTH");
         double albedo_radiation_W =
             nodes_[i].CalcAlbedoRadiation_W(earth_position_b_m, sun_direction_b, earth_albedo_->GetEarthAlbedoRadiationPower_W_m2());
-        double earth_InfraredRadiation_W =
-            nodes_[i].CalcEarthInfraredRadiation_W(earth_position_b_m, earth_infrared_->GetEarthInfraredRadiationPower_W_m2());
         heatloads_[i].SetAlbedoHeatload_W(albedo_radiation_W);
         heatloads_[i].SetSolarHeatload_W(solar_radiation_W);
-        heatloads_[i].SetEarthInfraredHeatload_W(earth_InfraredRadiation_W);
       }
+      double earth_InfraredRadiation_W =
+          nodes_[i].CalcEarthInfraredRadiation_W(earth_position_b_m, earth_infrared_->GetEarthInfraredRadiationPower_W_m2());
+      heatloads_[i].SetEarthInfraredHeatload_W(earth_InfraredRadiation_W);
       double heater_power_W = GetHeaterPower_W(i);
       heatloads_[i].SetHeaterHeatload_W(heater_power_W);
       heatloads_[i].CalcInternalHeatload();
