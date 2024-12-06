@@ -85,7 +85,7 @@ void WingsCommandSenderToC2a::AnalyzeC2aCommand(const std::vector<std::string> t
   std::string command_name = tokens[0].substr(first_dot_position + 1);
 
   // Get command code
-  C2aCommandInformation cmd_info = c2a_command_database_.GetCommandInformation(command_name);
+  s2e::setting_file_reader::C2aCommandInformation cmd_info = c2a_command_database_.GetCommandInformation(command_name);
   if (cmd_info.GetCommandName() == "Error") {
     // TODO: error handling
   }
@@ -114,7 +114,7 @@ void WingsCommandSenderToC2a::AnalyzeC2aCommand(const std::vector<std::string> t
   uint16_t param_len = 0;
   for (size_t arg_num = 0; arg_num < arguments.size(); arg_num++) {
     size_t len = 0;
-    DecodeC2aCommandArgument(cmd_info.GetArgumentType(arg_num), arguments[arg_num], param + param_len, len);
+    s2e::setting_file_reader::DecodeC2aCommandArgument(cmd_info.GetArgumentType(arg_num), arguments[arg_num], param + param_len, len);
     param_len += (uint16_t)len;
   }
 
