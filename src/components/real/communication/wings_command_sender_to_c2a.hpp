@@ -39,12 +39,12 @@ class WingsCommandSenderToC2a : public Component {
   ~WingsCommandSenderToC2a() {}
 
  protected:
-  C2aCommandDatabase c2a_command_database_;  //!< Command database
-  WingsOperationFile wings_operation_file_;  //!< WINGS operation file
-  bool is_enabled_;                          //!< Enable flag
-  const double step_width_s_;                //!< Step width to execute this component [s]
-  double wait_s_ = 0.0;                      //!< Wait counter [s]
-  bool is_end_of_line_ = false;              //!< Flag to detect end of line
+  s2e::setting_file_reader::C2aCommandDatabase c2a_command_database_;  //!< Command database
+  s2e::setting_file_reader::WingsOperationFile wings_operation_file_;  //!< WINGS operation file
+  bool is_enabled_;                                                    //!< Enable flag
+  const double step_width_s_;                                          //!< Step width to execute this component [s]
+  double wait_s_ = 0.0;                                                //!< Wait counter [s]
+  bool is_end_of_line_ = false;                                        //!< Flag to detect end of line
 
   // Override functions for Component
   /**
