@@ -11,7 +11,7 @@ namespace s2e::dynamics::attitude {
 
 ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const math::Quaternion quaternion_i2b,
                                        const math::Vector<3> main_target_direction_b, const math::Vector<3> sub_target_direction_b,
-                                       const math::Matrix<3, 3>& inertia_tensor_kgm2,
+                                       const math::Matrix<3, 3>& inertia_tensor_kgm2, const geodesy::GeodeticPosition target_earth_surface_position,
                                        const environment::LocalCelestialInformation* local_celestial_information, const orbit::Orbit* orbit,
                                        const std::string& simulation_object_name)
     : Attitude(inertia_tensor_kgm2, simulation_object_name),
@@ -19,6 +19,7 @@ ControlledAttitude::ControlledAttitude(const AttitudeControlMode main_mode, cons
       sub_mode_(sub_mode),
       main_target_direction_b_(main_target_direction_b),
       sub_target_direction_b_(sub_target_direction_b),
+      target_earth_surface_position_(target_earth_surface_position),
       local_celestial_information_(local_celestial_information),
       orbit_(orbit) {
   quaternion_i2b_ = quaternion_i2b;
@@ -100,6 +101,11 @@ math::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mo
     direction = dcm_ecef2eci * orbit_->GetVelocity_ecef_m_s();
   } else if (mode == AttitudeControlMode::kOrbitNormalPointing) {
     direction = OuterProduct(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
+  } else if (mode == AttitudeControlMode::kEarthSurfacePointing) {
+    math::Vector<3> earth_surface_target_position_ecef_m = target_earth_surface_position_.CalcEcefPosition();
+    math::Vector<3> earth_surface_target_position_i_m = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose()*earth_surface_target_position_ecef_m;
+
+    direction = earth_surface_target_position_i_m - orbit_->GetPosition_i_m();
   }
   direction = direction.CalcNormalizedVector();
   return direction;
@@ -149,7 +155,7 @@ AttitudeControlMode ConvertStringToCtrlMode(const std::string mode) {
     return AttitudeControlMode::kGroundSpeedDirectionPointing;
   } else if (mode == "ORBIT_NORMAL_POINTING") {
     return AttitudeControlMode::kOrbitNormalPointing;
-  } else if (mode == "Earth_SURFACE_POINTING") {
+  } else if (mode == "EARTH_SURFACE_POINTING") {
     return AttitudeControlMode::kEarthSurfacePointing;
   } else {
     return AttitudeControlMode::kNoControl;

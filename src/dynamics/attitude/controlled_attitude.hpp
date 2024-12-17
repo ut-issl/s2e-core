@@ -53,13 +53,15 @@ class ControlledAttitude : public Attitude {
    * @param [in] main_target_direction_b: Main target direction on the body fixed frame
    * @param [in] sub_target_direction_b: Sun target direction on the body fixed frame
    * @param [in] inertia_tensor_kgm2: Inertia tensor of the spacecraft [kg m^2]
+   * @param [in] target_earth_surface_position: Target position on the Earth surface for Earth surface pointing mode
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] orbit: Orbit
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
   ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const math::Quaternion quaternion_i2b,
                      const math::Vector<3> main_target_direction_b, const math::Vector<3> sub_target_direction_b,
-                     const math::Matrix<3, 3>& inertia_tensor_kgm2, const environment::LocalCelestialInformation* local_celestial_information,
+                     const math::Matrix<3, 3>& inertia_tensor_kgm2, const geodesy::GeodeticPosition target_earth_surface_position,
+                     const environment::LocalCelestialInformation* local_celestial_information,
                      const orbit::Orbit* orbit, const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~ControlledAttitude
