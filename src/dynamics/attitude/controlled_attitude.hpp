@@ -109,6 +109,7 @@ class ControlledAttitude : public Attitude {
   double previous_calc_time_s_ = -1.0;        //!< Previous time of velocity calculation [sec]
   math::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
   math::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
+  geodesy::GeodeticPosition target_earth_surface_position_; //!< Target position on the Earth surface
 
   const double kMinDirectionAngle_rad = 30.0 * math::deg_to_rad;  //!< Minimum angle b/w main and sub direction
                                                                   // TODO Change with ini file

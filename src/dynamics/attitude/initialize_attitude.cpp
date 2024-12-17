@@ -84,6 +84,13 @@ Attitude* InitAttitude(std::string file_name, const orbit::Orbit* orbit, const e
     ini_file_ca.ReadVector(section_ca_, "main_pointing_direction_b", main_target_direction_b);
     ini_file_ca.ReadVector(section_ca_, "sub_pointing_direction_b", sub_target_direction_b);
 
+    // Earth surface pointing mode
+    double latitude_deg, longitude_deg, altitude_m;
+    latitude_deg = ini_file_ca.ReadDouble(section_ca_, "target_position_latitude_deg");
+    longitude_deg = ini_file_ca.ReadDouble(section_ca_, "target_position_longitude_deg");
+    altitude_m = ini_file_ca.ReadDouble(section_ca_, "altitude_m");
+    geodesy::GeodeticPosition target_position(latitude_deg * math::deg_to_rad, longitude_deg * math::deg_to_rad, altitude_m);
+
     attitude = new ControlledAttitude(main_mode, sub_mode, quaternion_i2b, main_target_direction_b, sub_target_direction_b, inertia_tensor_kgm2,
                                       local_celestial_information, orbit, mc_name);
   } else {
