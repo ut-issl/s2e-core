@@ -103,7 +103,9 @@ math::Vector<3> ControlledAttitude::CalcTargetDirection_i(AttitudeControlMode mo
     direction = OuterProduct(orbit_->GetPosition_i_m(), orbit_->GetVelocity_i_m_s());
   } else if (mode == AttitudeControlMode::kEarthSurfacePointing) {
     math::Vector<3> earth_surface_target_position_ecef_m = target_earth_surface_position_.CalcEcefPosition();
-    math::Vector<3> earth_surface_target_position_i_m = local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose()*earth_surface_target_position_ecef_m;
+    math::Vector<3> earth_surface_target_position_i_m =
+        local_celestial_information_->GetGlobalInformation().GetEarthRotation().GetDcmJ2000ToEcef().Transpose() *
+        earth_surface_target_position_ecef_m;
 
     direction = earth_surface_target_position_i_m - orbit_->GetPosition_i_m();
   }
