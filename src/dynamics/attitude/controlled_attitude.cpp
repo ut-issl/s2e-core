@@ -149,6 +149,8 @@ AttitudeControlMode ConvertStringToCtrlMode(const std::string mode) {
     return AttitudeControlMode::kGroundSpeedDirectionPointing;
   } else if (mode == "ORBIT_NORMAL_POINTING") {
     return AttitudeControlMode::kOrbitNormalPointing;
+  } else if (mode == "Earth_SURFACE_POINTING") {
+    return AttitudeControlMode::kEarthSurfacePointing;
   } else {
     return AttitudeControlMode::kNoControl;
   }

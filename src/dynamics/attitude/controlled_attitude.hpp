@@ -26,6 +26,7 @@ enum class AttitudeControlMode {
   kVelocityDirectionPointing,     //!< Spacecraft velocity direction pointing
   kGroundSpeedDirectionPointing,  //!< Ground speed direction pointing
   kOrbitNormalPointing,           //!< Orbit normal direction pointing
+  kEarthSurfacePointing,          //!< Earth surface pointing
   kNoControl,                     // No Control
 };
 
