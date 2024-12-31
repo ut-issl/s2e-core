@@ -257,7 +257,7 @@ std::string GnssReceiver::GetLogValue() const  // For logs
   str_tmp += logger::WriteScalar(is_gnss_visible_);
   str_tmp += logger::WriteScalar(visible_satellite_number_);
   for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += logger::WriteScalar(pseudorange_list_m_[gps_index], 10);
+    str_tmp += logger::WriteScalar(pseudorange_list_m_[gps_index], 16);
   }
 
   return str_tmp;
