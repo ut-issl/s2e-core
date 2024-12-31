@@ -345,4 +345,3 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, Powe
 }
 
 }  // namespace s2e::components
-

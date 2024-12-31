@@ -264,4 +264,3 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, Powe
 }  // namespace s2e::components
 
 #endif  // S2E_COMPONENTS_REAL_AOCS_GNSS_RECEIVER_HPP_
-
