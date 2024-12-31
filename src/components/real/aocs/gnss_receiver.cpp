@@ -72,9 +72,8 @@ void GnssReceiver::MainRoutine(const int time_count) {
   size_t number_of_calculated_gnss_satellites = gnss_satellites_->GetNumberOfCalculatedSatellite();
   for (size_t i = 0; i < number_of_calculated_gnss_satellites; i++) {
     math::Vector<3> gnss_satellite_position_ecef_m = gnss_satellites_->GetPosition_ecef_m(i);
-    math::Vector<3> receiver_position_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
-    math::Vector<3> a = gnss_satellite_position_ecef_m - receiver_position_ecef_m;
-    double geometric_distance_m = a.CalcNorm();
+    math::Vector<3> position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
+    double geometric_distance_m = (gnss_satellite_position_ecef_m - position_true_ecef_m).CalcNorm();
     randomization::NormalRand pseudorange_random_noise_m;
     pseudorange_random_noise_m.SetParameters(0.0, pseudorange_noise_standard_deviation_m_, randomization::global_randomization.MakeSeed());
     double pseudorange_m = geometric_distance_m + pseudorange_random_noise_m;
@@ -258,7 +257,7 @@ std::string GnssReceiver::GetLogValue() const  // For logs
   str_tmp += logger::WriteScalar(is_gnss_visible_);
   str_tmp += logger::WriteScalar(visible_satellite_number_);
   for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += logger::WriteScalar(pseudorange_list_m_[gps_index], 16);
+    str_tmp += logger::WriteScalar(pseudorange_list_m_[gps_index], 10);
   }
 
   return str_tmp;

@@ -70,8 +70,7 @@ for gps_idx in range(32):
   geometric_range = np.linalg.norm(gps_position - spacecraft_position_ecef_m, axis=0)
   pseudorange_error = pseudorange - geometric_range
   plt.scatter(time[0][:-1], pseudorange_error, marker=".", label=gps_str)
-print(spacecraft_position_ecef_m[0])
-print(geometric_range[0])
+
 plt.title("GPS Pseudorange Error")
 plt.xlabel("Time [s]")
 plt.ylabel("Pseudorange Error [m]")
