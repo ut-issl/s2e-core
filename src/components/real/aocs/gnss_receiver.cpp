@@ -69,16 +69,16 @@ void GnssReceiver::MainRoutine(const int time_count) {
   CheckAntenna(position_true_eci, quaternion_i2b);
 
   // Pseudorange calculation
-  size_t number_of_calculated_gnss_satellites = gnss_satellites_->GetNumberOfCalculatedSatellite();
-  for (size_t i = 0; i < number_of_calculated_gnss_satellites; i++) {
-    math::Vector<3> gnss_satellite_position_ecef_m = gnss_satellites_->GetPosition_ecef_m(i);
-    math::Vector<3> position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
-    double geometric_distance_m = (gnss_satellite_position_ecef_m - position_true_ecef_m).CalcNorm();
-    randomization::NormalRand pseudorange_random_noise_m;
-    pseudorange_random_noise_m.SetParameters(0.0, pseudorange_noise_standard_deviation_m_, randomization::global_randomization.MakeSeed());
-    double pseudorange_m = geometric_distance_m + pseudorange_random_noise_m;
-    pseudorange_list_m_[i] = pseudorange_m;
-  }
+  // size_t number_of_calculated_gnss_satellites = gnss_satellites_->GetNumberOfCalculatedSatellite();
+  // for (size_t i = 0; i < number_of_calculated_gnss_satellites; i++) {
+  //   math::Vector<3> gnss_satellite_position_ecef_m = gnss_satellites_->GetPosition_ecef_m(i);
+  //   math::Vector<3> position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
+  //   double geometric_distance_m = (gnss_satellite_position_ecef_m - position_true_ecef_m).CalcNorm();
+  //   randomization::NormalRand pseudorange_random_noise_m;
+  //   pseudorange_random_noise_m.SetParameters(0.0, pseudorange_noise_standard_deviation_m_, randomization::global_randomization.MakeSeed());
+  //   double pseudorange_m = geometric_distance_m + pseudorange_random_noise_m;
+  //   pseudorange_list_m_[i] = pseudorange_m;
+  // }
 
   if (is_gnss_visible_) {
     // Antenna of GNSS-R can detect GNSS signal
@@ -233,9 +233,9 @@ std::string GnssReceiver::GetLogHeader() const  // For logs
   str_tmp += logger::WriteScalar(sensor_name + "measured_altitude", "m");
   str_tmp += logger::WriteScalar(sensor_name + "satellite_visible_flag");
   str_tmp += logger::WriteScalar(sensor_name + "number_of_visible_satellites");
-  for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += logger::WriteScalar("GPS" + std::to_string(gps_index) + "_pseudorange", "m");
-  }
+  // for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
+  //   str_tmp += logger::WriteScalar("GPS" + std::to_string(gps_index) + "_pseudorange", "m");
+  // }
 
   return str_tmp;
 }
@@ -256,9 +256,9 @@ std::string GnssReceiver::GetLogValue() const  // For logs
   str_tmp += logger::WriteScalar(geodetic_position_.GetAltitude_m(), 10);
   str_tmp += logger::WriteScalar(is_gnss_visible_);
   str_tmp += logger::WriteScalar(visible_satellite_number_);
-  for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += logger::WriteScalar(pseudorange_list_m_[gps_index], 16);
-  }
+  // for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
+  //   str_tmp += logger::WriteScalar(pseudorange_list_m_[gps_index], 16);
+  // }
 
   return str_tmp;
 }
