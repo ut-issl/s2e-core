@@ -100,14 +100,12 @@ class Battery : public Component, public logger::ILoggable {
   /**
    * @fn GetCellCapacity_Ah
    * @brief Return cell capacity [Ah]
-   * @note TODO: Change implementation?
    */
   inline double GetCellCapacity_Ah() const { return cell_capacity_Ah_; }
 
   /**
    * @fn GetNumberOfParallel
    * @brief Return number of parallel connected cells
-   * @note TODO: Change implementation?
    */
   inline int GetNumberOfParallel() const { return number_of_parallel_; }
 
