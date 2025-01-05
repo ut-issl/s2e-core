@@ -233,9 +233,9 @@ std::string GnssReceiver::GetLogHeader() const  // For logs
   str_tmp += logger::WriteScalar(sensor_name + "measured_altitude", "m");
   str_tmp += logger::WriteScalar(sensor_name + "satellite_visible_flag");
   str_tmp += logger::WriteScalar(sensor_name + "number_of_visible_satellites");
-  // for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-  //   str_tmp += logger::WriteScalar("GPS" + std::to_string(gps_index) + "_pseudorange", "m");
-  // }
+  for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
+    str_tmp += logger::WriteScalar("GPS" + std::to_string(gps_index) + "_pseudorange", "m");
+  }
 
   return str_tmp;
 }
@@ -256,9 +256,9 @@ std::string GnssReceiver::GetLogValue() const  // For logs
   str_tmp += logger::WriteScalar(geodetic_position_.GetAltitude_m(), 10);
   str_tmp += logger::WriteScalar(is_gnss_visible_);
   str_tmp += logger::WriteScalar(visible_satellite_number_);
-  // for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-  //   str_tmp += logger::WriteScalar(pseudorange_list_m_[gps_index], 16);
-  // }
+  for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
+    str_tmp += logger::WriteScalar(pseudorange_list_m_[gps_index], 16);
+  }
 
   return str_tmp;
 }
