@@ -87,15 +87,15 @@ void PcuInitialStudy::UpdateChargeCurrentAndBusVoltage() {
   const double cell_capacity_Ah = battery_->GetCellCapacity_Ah();
   const double number_of_parallel = battery_->GetNumberOfParallel();
 
-  double bat_voltage = battery_->GetVoltage_V();
+  const double bat_voltage = battery_->GetVoltage_V();
   double power_generation = 0.0;
   for (auto sap : saps_) {
     power_generation += sap->GetPowerGeneration_W();
   }
-  double current_temp =
+  const double current_temp =
       (-bat_voltage + std::sqrt(bat_voltage * bat_voltage + 4.0 * battery_resistance_Ohm * (power_generation - power_consumption_W_))) /
       (2.0 * battery_resistance_Ohm);
-  double cc_charge_current_A = cc_charge_current_C * cell_capacity_Ah * number_of_parallel;
+  const double cc_charge_current_A = cc_charge_current_C * cell_capacity_Ah * number_of_parallel;
   if (current_temp >= cc_charge_current_A) {
     if (bat_voltage + cc_charge_current_A * battery_resistance_Ohm < cv_charge_voltage_V) {
       // CC Charge
