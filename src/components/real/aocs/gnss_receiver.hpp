@@ -18,15 +18,6 @@
 
 namespace s2e::components {
 
-// GNSS satellite number definition
-// TODO: Move to initialized file?
-const size_t kNumberOfGpsSatellite = 32;      //!< Number of GPS satellites
-const size_t kNumberOfGlonassSatellite = 26;  //!< Number of GLONASS satellites
-const size_t kNumberOfGalileoSatellite = 28;  //!< Number of Galileo satellites
-const size_t kNumberOfBeidouSatellite = 62;   //!< Number of BeiDou satellites
-const size_t kNumberOfQzssSatellite = 5;      //!< Number of QZSS satellites
-const size_t kNumberOfNavicSatellite = 7;     //!< Number of NavIC satellites
-
 /**
  * @enum AntennaModel
  * @brief Antenna pattern model to emulate GNSS antenna
@@ -142,6 +133,19 @@ class GnssReceiver : public Component, public logger::ILoggable {
   virtual std::string GetLogValue() const;
 
  protected:
+  // GNSS satellite number definition
+  // TODO: Move to initialized file?
+  static const size_t kNumberOfGpsSatellite = 32;      //!< Number of GPS satellites
+  static const size_t kNumberOfGlonassSatellite = 26;  //!< Number of GLONASS satellites
+  static const size_t kNumberOfGalileoSatellite = 28;  //!< Number of Galileo satellites
+  static const size_t kNumberOfBeidouSatellite = 62;   //!< Number of BeiDou satellites
+  static const size_t kNumberOfQzssSatellite = 5;      //!< Number of QZSS satellites
+  static const size_t kNumberOfNavicSatellite = 7;     //!< Number of NavIC satellites
+
+  static const size_t kTotalNumberOfGnssSatellite = kNumberOfGpsSatellite + kNumberOfGlonassSatellite + kNumberOfGalileoSatellite +
+                                                    kNumberOfBeidouSatellite + kNumberOfQzssSatellite +
+                                                    kNumberOfNavicSatellite;  //<! Total number of GNSS satellites
+
   // Parameters for receiver
   const size_t component_id_;  //!< Receiver ID
 
@@ -152,8 +156,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
   AntennaModel antenna_model_;            //!< Antenna model
 
   // GNSS observation
-  double pseudorange_noise_standard_deviation_m_;           //!< Random noise for pseudorange [m]
-  math::Vector<kNumberOfGpsSatellite> pseudorange_list_m_;  //!< Pseudorange list for each GPS satellite
+  randomization::NormalRand pseudorange_random_noise_m_;                      //!< Random noise for pseudorange [m]
+  std::vector<double> pseudorange_list_m_{kTotalNumberOfGnssSatellite, 0.0};  //!< Pseudorange list for each GPS satellite
 
   // Simple position observation
   randomization::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
@@ -210,6 +214,25 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] gnss_system_id: ID of target GNSS satellite
    */
   void SetGnssInfo(const math::Vector<3> antenna_to_satellite_i_m, const math::Quaternion quaternion_i2b, const size_t gnss_system_id);
+  /**
+   * @fn CalcGeometricDistance
+   * @brief Calculate the geometric distance between the GNSS satellite and the GNSS receiver antenna
+   * @param [in] gnss_system_id: ID of target GNSS satellite
+   * @return Geometric distance between the GNSS satellite and the GNSS receiver antenna [m]
+   */
+  double CalcGeometricDistance(const size_t gnss_system_id);
+  /**
+   * @fn CalcPseudorange
+   * @brief Calculate the pseudorange between the GNSS satellite and the GNSS receiver antenna
+   * @param [in] gnss_system_id: ID of target GNSS satellite
+   * @return Pseudorange between the GNSS satellite and the GNSS receiver antenna [m]
+   */
+  double CalcPseudorange(const size_t gnss_id);
+  /**
+   * @fn SetGnssObservationList
+   * @brief Calculate and set the GNSS observation list for each GNSS satellite
+   */
+  void SetGnssObservationList();
   /**
    * @fn AddNoise
    * @brief Substitutional method for "Measure" in other sensor models inherited Sensor class
