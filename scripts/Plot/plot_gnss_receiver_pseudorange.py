@@ -53,7 +53,7 @@ plt.figure(0)
 for gps_idx in range(32):
   gps_str = 'GPS' + str(gps_idx)
   pseudorange = read_scalar_from_csv(read_file_name, gps_str + '_pseudorange[m]')
-  plt.plot(time[0][1:], pseudorange[0][1:], marker=".", label=gps_str)
+  plt.scatter(time[0][1:], pseudorange[0][1:], marker=".", label=gps_str)
 
 plt.title("GPS Psuedorange")
 plt.xlabel("Time [s]")
