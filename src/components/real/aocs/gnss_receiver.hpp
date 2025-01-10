@@ -54,6 +54,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_deg: Half width of the antenna cone model [deg]
+   * @param [in] pseudorange_noise_standard_deviation_m: Standard deviation of normal random noise for pseudorange [m]
    * @param [in] position_noise_standard_deviation_ecef_m: Standard deviation of normal random noise for position in the ECEF frame [m]
    * @param [in] velocity_noise_standard_deviation_ecef_m_s: Standard deviation of normal random noise for velocity in the ECEF frame [m/s]
    * @param [in] dynamics: Dynamics information
@@ -62,9 +63,9 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
                const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
-               const math::Vector<3> position_noise_standard_deviation_ecef_m, const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
-               const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
-               const environment::SimulationTime* simulation_time);
+               const double pseudorange_noise_standard_deviation_m, const math::Vector<3> position_noise_standard_deviation_ecef_m,
+               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const dynamics::Dynamics* dynamics,
+               const environment::GnssSatellites* gnss_satellites, const environment::SimulationTime* simulation_time);
   /**
    * @fn GnssReceiver
    * @brief Constructor with power port
@@ -75,6 +76,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_deg: Half width of the antenna cone model [rad]
+   * @param [in] pseudorange_noise_standard_deviation_m: Standard deviation of normal random noise for pseudorange [m]
    * @param [in] position_noise_standard_deviation_ecef_m: Standard deviation of normal random noise for position in the ECEF frame [m]
    * @param [in] velocity_noise_standard_deviation_ecef_m_s: Standard deviation of normal random noise for velocity in the ECEF frame [m/s]
    * @param [in] dynamics: Dynamics information
@@ -83,9 +85,10 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
-               const double half_width_deg, const math::Vector<3> position_noise_standard_deviation_ecef_m,
-               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const dynamics::Dynamics* dynamics,
-               const environment::GnssSatellites* gnss_satellites, const environment::SimulationTime* simulation_time);
+               const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
+               const math::Vector<3> position_noise_standard_deviation_ecef_m, const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
+               const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
+               const environment::SimulationTime* simulation_time);
 
   // Override functions for Component
   /**
@@ -130,6 +133,19 @@ class GnssReceiver : public Component, public logger::ILoggable {
   virtual std::string GetLogValue() const;
 
  protected:
+  // GNSS satellite number definition
+  // TODO: Move to initialized file?
+  static const size_t kNumberOfGpsSatellite = 32;      //!< Number of GPS satellites
+  static const size_t kNumberOfGlonassSatellite = 26;  //!< Number of GLONASS satellites
+  static const size_t kNumberOfGalileoSatellite = 28;  //!< Number of Galileo satellites
+  static const size_t kNumberOfBeidouSatellite = 62;   //!< Number of BeiDou satellites
+  static const size_t kNumberOfQzssSatellite = 5;      //!< Number of QZSS satellites
+  static const size_t kNumberOfNavicSatellite = 7;     //!< Number of NavIC satellites
+
+  static const size_t kTotalNumberOfGnssSatellite = kNumberOfGpsSatellite + kNumberOfGlonassSatellite + kNumberOfGalileoSatellite +
+                                                    kNumberOfBeidouSatellite + kNumberOfQzssSatellite +
+                                                    kNumberOfNavicSatellite;  //<! Total number of GNSS satellites
+
   // Parameters for receiver
   const size_t component_id_;  //!< Receiver ID
 
@@ -138,6 +154,10 @@ class GnssReceiver : public Component, public logger::ILoggable {
   math::Quaternion quaternion_b2c_;       //!< Quaternion from body frame to component frame (antenna frame)
   double half_width_deg_ = 0.0;           //!< Half width of the antenna cone model [deg]
   AntennaModel antenna_model_;            //!< Antenna model
+
+  // GNSS observation
+  randomization::NormalRand pseudorange_random_noise_m_;                      //!< Random noise for pseudorange [m]
+  std::vector<double> pseudorange_list_m_{kTotalNumberOfGnssSatellite, 0.0};  //!< Pseudorange list for each GPS satellite
 
   // Simple position observation
   randomization::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
@@ -194,6 +214,25 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] gnss_system_id: ID of target GNSS satellite
    */
   void SetGnssInfo(const math::Vector<3> antenna_to_satellite_i_m, const math::Quaternion quaternion_i2b, const size_t gnss_system_id);
+  /**
+   * @fn CalcGeometricDistance
+   * @brief Calculate the geometric distance between the GNSS satellite and the GNSS receiver antenna
+   * @param [in] gnss_system_id: ID of target GNSS satellite
+   * @return Geometric distance between the GNSS satellite and the GNSS receiver antenna [m]
+   */
+  double CalcGeometricDistance_m(const size_t gnss_system_id);
+  /**
+   * @fn CalcPseudorange
+   * @brief Calculate the pseudorange between the GNSS satellite and the GNSS receiver antenna
+   * @param [in] gnss_system_id: ID of target GNSS satellite
+   * @return Pseudorange between the GNSS satellite and the GNSS receiver antenna [m]
+   */
+  double CalcPseudorange_m(const size_t gnss_id);
+  /**
+   * @fn SetGnssObservationList
+   * @brief Calculate and set the GNSS observation list for each GNSS satellite
+   */
+  void SetGnssObservationList();
   /**
    * @fn AddNoise
    * @brief Substitutional method for "Measure" in other sensor models inherited Sensor class
