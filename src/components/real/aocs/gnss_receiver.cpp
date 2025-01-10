@@ -186,18 +186,18 @@ void GnssReceiver::SetGnssInfo(const math::Vector<3> antenna_to_satellite_i_m, c
   gnss_information_list_.push_back(gnss_info_new);
 }
 
-double GnssReceiver::CalcGeometricDistance(const size_t gnss_system_id) {
+double GnssReceiver::CalcGeometricDistance_m(const size_t gnss_system_id) {
   math::Vector<3> gnss_satellite_position_ecef_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id);
   math::Vector<3> position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
   double geometric_distance_m = (gnss_satellite_position_ecef_m - position_true_ecef_m).CalcNorm();
   return geometric_distance_m;
 }
 
-double GnssReceiver::CalcPseudorange(const size_t gnss_system_id) {
+double GnssReceiver::CalcPseudorange_m(const size_t gnss_system_id) {
   // TODO: Add effect of radio wave propagation time
   // TODO: Add effect of clock bias
   // TODO: Add ionospheric delay
-  double geometric_distance_m = CalcGeometricDistance(gnss_system_id);
+  double geometric_distance_m = CalcGeometricDistance_m(gnss_system_id);
   double pseudorange_m = geometric_distance_m + pseudorange_random_noise_m_;
   return pseudorange_m;
 }
@@ -207,7 +207,7 @@ void GnssReceiver::SetGnssObservationList() {
   pseudorange_list_m_.assign(kTotalNumberOfGnssSatellite, 0.0);
   for (size_t i = 0; i < gnss_information_list_.size(); i++) {
     size_t gnss_system_id = gnss_information_list_[i].gnss_id;
-    double pseudorange_m = CalcPseudorange(gnss_system_id);
+    double pseudorange_m = CalcPseudorange_m(gnss_system_id);
     pseudorange_list_m_[gnss_system_id] = pseudorange_m;
   }
 }

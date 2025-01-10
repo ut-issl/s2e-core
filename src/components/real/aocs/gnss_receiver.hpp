@@ -220,14 +220,14 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] gnss_system_id: ID of target GNSS satellite
    * @return Geometric distance between the GNSS satellite and the GNSS receiver antenna [m]
    */
-  double CalcGeometricDistance(const size_t gnss_system_id);
+  double CalcGeometricDistance_m(const size_t gnss_system_id);
   /**
    * @fn CalcPseudorange
    * @brief Calculate the pseudorange between the GNSS satellite and the GNSS receiver antenna
    * @param [in] gnss_system_id: ID of target GNSS satellite
    * @return Pseudorange between the GNSS satellite and the GNSS receiver antenna [m]
    */
-  double CalcPseudorange(const size_t gnss_id);
+  double CalcPseudorange_m(const size_t gnss_id);
   /**
    * @fn SetGnssObservationList
    * @brief Calculate and set the GNSS observation list for each GNSS satellite
