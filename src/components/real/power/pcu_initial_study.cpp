@@ -84,8 +84,6 @@ void PcuInitialStudy::UpdateChargeCurrentAndBusVoltage() {
   const double cc_charge_current_C = battery_->GetCcChargeCurrent_C();
   const double cv_charge_voltage_V = battery_->GetCvChargeVoltage_V();
   const double battery_resistance_Ohm = battery_->GetResistance_Ohm();
-  const double cell_capacity_Ah = battery_->GetCellCapacity_Ah();
-  const double number_of_parallel = battery_->GetNumberOfParallel();
 
   const double bat_voltage = battery_->GetVoltage_V();
   double power_generation = 0.0;
@@ -95,12 +93,11 @@ void PcuInitialStudy::UpdateChargeCurrentAndBusVoltage() {
   const double current_temp =
       (-bat_voltage + std::sqrt(bat_voltage * bat_voltage + 4.0 * battery_resistance_Ohm * (power_generation - power_consumption_W_))) /
       (2.0 * battery_resistance_Ohm);
-  const double cc_charge_current_A = cc_charge_current_C * cell_capacity_Ah * number_of_parallel;
-  if (current_temp >= cc_charge_current_A) {
-    if (bat_voltage + cc_charge_current_A * battery_resistance_Ohm < cv_charge_voltage_V) {
+  if (current_temp >= cc_charge_current_C) {
+    if (bat_voltage + cc_charge_current_C * battery_resistance_Ohm < cv_charge_voltage_V) {
       // CC Charge
-      battery_->SetChargeCurrent(cc_charge_current_A);
-      bus_voltage_V_ = bat_voltage + battery_resistance_Ohm * cc_charge_current_A;
+      battery_->SetChargeCurrent(cc_charge_current_C);
+      bus_voltage_V_ = bat_voltage + battery_resistance_Ohm * cc_charge_current_C;
     } else {
       // CV Charge
       battery_->SetChargeCurrent((cv_charge_voltage_V - bat_voltage) / battery_resistance_Ohm);
