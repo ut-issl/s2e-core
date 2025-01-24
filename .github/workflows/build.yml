@@ -10,11 +10,12 @@ on:
     paths:
       - '.github/workflows/build.yml'
       - 'ExtLibraries/**'
-      - 'CMakeLists.txt'
       - 'common.cmake'
-      - 'CMakeSettings.json'
       - 'src/**'
       - 'scripts/Plot/Pipfile'
+      - 'example/CMakeSettings.json'
+      - 'example/CMakeLists.txt'
+      - 'example/src/**'
 
 env:
   # datasource=github-releases depName=ut-issl/c2a-core
@@ -113,38 +114,40 @@ jobs:
         if: steps.cache-extlib.outputs.cache-hit == 'true'
         shell: powershell
         run: |
-          ls ./settings/environment/cspice
-          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/environment/cspice"
-          ls ./settings/environment/cspice
-          ls ./settings/environment/cspice/generic_kernels/lsk
-          ls ./settings/environment/cspice/generic_kernels/pck
-          ls ./settings/environment/cspice/generic_kernels/spk          
+          ls ./example/settings/environment/cspice
+          cp -r "./ExtLibraries/cspice/generic_kernels" "./example/settings/environment/cspice"
+          ls ./example/settings/environment/cspice
+          ls ./example/settings/environment/cspice/generic_kernels/lsk
+          ls ./example/settings/environment/cspice/generic_kernels/pck
+          ls ./example/settings/environment/cspice/generic_kernels/spk
 
-      - name: build 32bit
+      - name: build example (32bit)
         if: matrix.build_bit == 'BUILD_64BIT=OFF'
         shell: cmd
+        working-directory: ./example
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
-      - name: build 64bit
+      - name: build example (64bit)
         if: matrix.build_bit == 'BUILD_64BIT=ON'
         shell: cmd
+        working-directory: ./example
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DFLIGHT_SW_DIR=./c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
         shell: bash
-        working-directory: ./settings
+        working-directory: ./example/settings
         run: |
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
 
-      - name: run simulation(SampleSat)
+      - name: run simulation (SampleSat)
         if: matrix.build_bit == 'BUILD_64BIT=OFF' || (matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF')
-        working-directory: ./
+        working-directory: ./example
         run: |
           .\Debug\S2E.exe
 
@@ -222,29 +225,30 @@ jobs:
       - name: copy to settings
         if: steps.cache-extlib.outputs.cache-hit == 'true'
         run: |
-          ls ./settings/environment/cspice
-          cp -r "./ExtLibraries/cspice/generic_kernels" "./settings/environment/cspice"
-          ls ./settings/environment/cspice
-          ls ./settings/environment/cspice/generic_kernels/lsk
-          ls ./settings/environment/cspice/generic_kernels/pck
-          ls ./settings/environment/cspice/generic_kernels/spk       
-     
+          ls ./example/settings/environment/cspice
+          cp -r "./ExtLibraries/cspice/generic_kernels" "./example/settings/environment/cspice"
+          ls ./example/settings/environment/cspice
+          ls ./example/settings/environment/cspice/generic_kernels/lsk
+          ls ./example/settings/environment/cspice/generic_kernels/pck
+          ls ./example/settings/environment/cspice/generic_kernels/spk       
+
 
       - name: build
         env:
           CC:  ${{ steps.compiler.outputs.CC  }}
           CXX: ${{ steps.compiler.outputs.CXX }}
+        working-directory: ./example
         run: |
-          cmake . -DEXT_LIB_DIR=./ExtLibraries -DEXT_LIB_DIR_FROM_EXE=./ExtLibraries -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=./ -D${{ matrix.build_bit }}
+          cmake . -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
-        working-directory: ./settings
+        working-directory: ./example/settings
         run: |
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
 
       - name: run simulation(SampleSat)
-        working-directory: ./
+        working-directory: ./example
         run: |
           ./S2E
 
@@ -258,14 +262,14 @@ jobs:
           ./gen_graph.sh "${LOG}"
           ls
           ls ./imgs
-      
+
       - name: read python version from Pipfile
         id: python-version
         working-directory: ./scripts/Plot
         run: |
           ver=$(grep python_version ./Pipfile | sed -e 's/^python_version\s=\s"\(.*\)"$/\1/')
           echo "version=$ver" >> "$GITHUB_OUTPUT"
-      
+
       - uses: actions/setup-python@v5.3.0
         with:
           python-version: ${{ steps.python-version.outputs.version }}
