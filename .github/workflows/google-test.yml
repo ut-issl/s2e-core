@@ -89,13 +89,15 @@ jobs:
           ls nrlmsise00/lib*/libnrlmsise00.a
           ls nrlmsise00/src
 
-      - name: build
+      - name: build example
         env:
           CC:  ${{ steps.compiler.outputs.CC  }}
           CXX: ${{ steps.compiler.outputs.CXX }}
+        working-directory: ./example
         run: |
-          cmake . -DEXT_LIB_DIR=./ExtLibraries -DBUILD_64BIT=ON -DGOOGLE_TEST=ON -DCORE_DIR_FROM_EXE=../s2e-core
+          cmake . -DEXT_LIB_DIR=../ExtLibraries -DBUILD_64BIT=ON -DGOOGLE_TEST=ON -DCORE_DIR_FROM_EXE=../s2e-core
           cmake --build .
 
       - name: run test
+        working-directory: ./example
         run: ./S2E_TEST
