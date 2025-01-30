@@ -231,11 +231,24 @@ void GnssReceiver::ConvertJulianDayToGpsTime(const double julian_day) {
   gps_time_s_ = (elapsed_day - (double)(gps_time_week_)*kDayInWeek) * kSecInDay;
 }
 
+typedef struct _gnss_receiver_param {
+  int prescaler;
+  AntennaModel antenna_model;
+  math::Vector<3> antenna_pos_b;
+  math::Quaternion quaternion_b2c;
+  double half_width_deg;
+  double pseudorange_noise_standard_deviation_m;
+  math::Vector<3> position_noise_standard_deviation_ecef_m;
+  math::Vector<3> velocity_noise_standard_deviation_ecef_m_s;
+  bool is_log_pseudorange_enabled;
+} GnssReceiverParam;
+
 std::string GnssReceiver::GetLogHeader() const  // For logs
 {
   std::string str_tmp = "";
   const std::string sensor_id = std::to_string(static_cast<long long>(component_id_));
   std::string sensor_name = "gnss_receiver" + sensor_id + "_";
+  GnssReceiverParam gnss_receiver_param;
 
   str_tmp += logger::WriteScalar(sensor_name + "measured_utc_time_year");
   str_tmp += logger::WriteScalar(sensor_name + "measured_utc_time_month");
@@ -250,8 +263,11 @@ std::string GnssReceiver::GetLogHeader() const  // For logs
   str_tmp += logger::WriteScalar(sensor_name + "measured_altitude", "m");
   str_tmp += logger::WriteScalar(sensor_name + "satellite_visible_flag");
   str_tmp += logger::WriteScalar(sensor_name + "number_of_visible_satellites");
-  for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += logger::WriteScalar("GPS" + std::to_string(gps_index) + "_pseudorange", "m");
+
+  if (gnss_receiver_param.is_log_pseudorange_enabled) {
+    for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
+      str_tmp += logger::WriteScalar("GPS" + std::to_string(gps_index) + "_pseudorange", "m");
+    }
   }
 
   return str_tmp;
@@ -260,6 +276,8 @@ std::string GnssReceiver::GetLogHeader() const  // For logs
 std::string GnssReceiver::GetLogValue() const  // For logs
 {
   std::string str_tmp = "";
+  GnssReceiverParam gnss_receiver_param;
+
   str_tmp += logger::WriteScalar(utc_.year);
   str_tmp += logger::WriteScalar(utc_.month);
   str_tmp += logger::WriteScalar(utc_.day);
@@ -273,8 +291,11 @@ std::string GnssReceiver::GetLogValue() const  // For logs
   str_tmp += logger::WriteScalar(geodetic_position_.GetAltitude_m(), 10);
   str_tmp += logger::WriteScalar(is_gnss_visible_);
   str_tmp += logger::WriteScalar(visible_satellite_number_);
-  for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-    str_tmp += logger::WriteScalar(pseudorange_list_m_[gps_index], 16);
+  
+  if (gnss_receiver_param.is_log_pseudorange_enabled) {
+    for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
+      str_tmp += logger::WriteScalar(pseudorange_list_m_[gps_index], 16);
+    }
   }
 
   return str_tmp;
@@ -291,17 +312,6 @@ AntennaModel SetAntennaModel(const std::string antenna_model) {
     return AntennaModel ::kSimple;
   }
 }
-
-typedef struct _gnss_receiver_param {
-  int prescaler;
-  AntennaModel antenna_model;
-  math::Vector<3> antenna_pos_b;
-  math::Quaternion quaternion_b2c;
-  double half_width_deg;
-  double pseudorange_noise_standard_deviation_m;
-  math::Vector<3> position_noise_standard_deviation_ecef_m;
-  math::Vector<3> velocity_noise_standard_deviation_ecef_m_s;
-} GnssReceiverParam;
 
 GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environment::GnssSatellites* gnss_satellites, const size_t component_id) {
   GnssReceiverParam gnss_receiver_param;
@@ -330,6 +340,7 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environ
   gnss_receiver_param.pseudorange_noise_standard_deviation_m = gnssr_conf.ReadDouble(GSection, "white_noise_standard_deviation_pseudorange_m");
   gnssr_conf.ReadVector(GSection, "white_noise_standard_deviation_position_ecef_m", gnss_receiver_param.position_noise_standard_deviation_ecef_m);
   gnssr_conf.ReadVector(GSection, "white_noise_standard_deviation_velocity_ecef_m_s", gnss_receiver_param.velocity_noise_standard_deviation_ecef_m_s);
+  gnss_receiver_param.is_log_pseudorange_enabled=gnssr_conf.ReadEnable(GSection, "pseudorange_logging");
 
   return gnss_receiver_param;
 }
