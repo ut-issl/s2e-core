@@ -191,9 +191,14 @@ void GnssReceiver::SetGnssInfo(const math::Vector<3> antenna_to_satellite_i_m, c
 }
 
 double GnssReceiver::CalcGeometricDistance_m(const size_t gnss_system_id) {
-
   math::Vector<3> position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
 
+  time_system::DateTime current_date_time((size_t)simulation_time_->GetStartYear(), (size_t)simulation_time_->GetStartMonth(),
+                                        (size_t)simulation_time_->GetStartDay(), (size_t)simulation_time_->GetStartHour(),
+                                        (size_t)simulation_time_->GetStartMinute(), simulation_time_->GetStartSecond());
+  time_system::EpochTime current_epoch_time(current_date_time);
+  time_system::EpochTime signal_travel_time_s((gnss_satellites_->GetPosition_ecef_m(gnss_system_id) - position_true_ecef_m).CalcNorm() / environment::speed_of_light_m_s);
+  time_system::EpochTime signal_emission_time = current_epoch_time - signal_travel_time_s;
   
   double geometric_distance_m = (gnss_satellites_->GetPosition_ecef_m(gnss_system_id) - position_true_ecef_m).CalcNorm();
   return geometric_distance_m;
