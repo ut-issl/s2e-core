@@ -18,8 +18,8 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                            const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
                            const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled,
-                           const dynamics::Dynamics* dynamics,
-                           const environment::GnssSatellites* gnss_satellites, const environment::SimulationTime* simulation_time)
+                           const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
+                           const environment::SimulationTime* simulation_time)
     : Component(prescaler, clock_generator),
       component_id_(component_id),
       antenna_position_b_m_(antenna_position_b_m),
@@ -43,8 +43,8 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                            const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
                            const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled,
-                           const dynamics::Dynamics* dynamics,
-                           const environment::GnssSatellites* gnss_satellites, const environment::SimulationTime* simulation_time)
+                           const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
+                           const environment::SimulationTime* simulation_time)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
       antenna_position_b_m_(antenna_position_b_m),
@@ -192,20 +192,26 @@ void GnssReceiver::SetGnssInfo(const math::Vector<3> antenna_to_satellite_i_m, c
 
 double GnssReceiver::CalcGeometricDistance_m(const size_t gnss_system_id) {
   math::Vector<3> position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
+  math::Vector<3> gnss_position_at_signal_arrival_ecef_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id);
 
-  time_system::DateTime current_date_time((size_t)simulation_time_->GetStartYear(), (size_t)simulation_time_->GetStartMonth(),
-                                        (size_t)simulation_time_->GetStartDay(), (size_t)simulation_time_->GetStartHour(),
-                                        (size_t)simulation_time_->GetStartMinute(), simulation_time_->GetStartSecond());
+  environment::UTC current_utc = simulation_time_->GetCurrentUtc();
+  time_system::DateTime current_date_time((size_t)current_utc.year, (size_t)current_utc.month, (size_t)current_utc.day, (size_t)current_utc.hour,
+                                          (size_t)current_utc.minute, current_utc.second);
   time_system::EpochTime current_epoch_time(current_date_time);
-  time_system::EpochTime signal_travel_time_s((gnss_satellites_->GetPosition_ecef_m(gnss_system_id) - position_true_ecef_m).CalcNorm() / environment::speed_of_light_m_s);
-  time_system::EpochTime signal_emission_time = current_epoch_time - signal_travel_time_s;
-  
-  double geometric_distance_m = (gnss_satellites_->GetPosition_ecef_m(gnss_system_id) - position_true_ecef_m).CalcNorm();
+  double signal_travel_time_s = (gnss_position_at_signal_arrival_ecef_m - position_true_ecef_m).CalcNorm() / environment::speed_of_light_m_s;
+  time_system::EpochTime signal_emission_epoch_time(current_epoch_time.GetTimeWithFraction_s() - signal_travel_time_s);
+
+  math::Vector<3> gnss_position_at_signal_emission_ecef_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id, signal_emission_epoch_time);
+  double sagnac_correction_m =
+      environment::earth_mean_angular_velocity_rad_s *
+      (gnss_position_at_signal_emission_ecef_m[0] * position_true_ecef_m[1] - gnss_position_at_signal_emission_ecef_m[1] * position_true_ecef_m[0]) /
+      environment::speed_of_light_m_s;
+
+  double geometric_distance_m = (gnss_position_at_signal_emission_ecef_m - position_true_ecef_m).CalcNorm() + sagnac_correction_m;
   return geometric_distance_m;
 }
 
 double GnssReceiver::CalcPseudorange_m(const size_t gnss_system_id) {
-  // TODO: Add effect of radio wave propagation time
   // TODO: Add effect of clock bias
   // TODO: Add ionospheric delay
   double geometric_distance_m = CalcGeometricDistance_m(gnss_system_id);
@@ -274,7 +280,7 @@ std::string GnssReceiver::GetLogHeader() const  // For logs
   str_tmp += logger::WriteScalar(sensor_name + "measured_altitude", "m");
   str_tmp += logger::WriteScalar(sensor_name + "satellite_visible_flag");
   str_tmp += logger::WriteScalar(sensor_name + "number_of_visible_satellites");
-  
+
   if (is_logged_pseudorange_) {
     printf("%d\n", gnss_receiver_param.is_log_pseudorange_enabled);
     for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
@@ -303,7 +309,7 @@ std::string GnssReceiver::GetLogValue() const  // For logs
   str_tmp += logger::WriteScalar(geodetic_position_.GetAltitude_m(), 10);
   str_tmp += logger::WriteScalar(is_gnss_visible_);
   str_tmp += logger::WriteScalar(visible_satellite_number_);
-  
+
   if (is_logged_pseudorange_) {
     for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
       str_tmp += logger::WriteScalar(pseudorange_list_m_[gps_index], 16);
@@ -364,7 +370,8 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, cons
 
   GnssReceiver gnss_r(gr_param.prescaler, clock_generator, component_id, gr_param.antenna_model, gr_param.antenna_pos_b, gr_param.quaternion_b2c,
                       gr_param.half_width_deg, gr_param.pseudorange_noise_standard_deviation_m, gr_param.position_noise_standard_deviation_ecef_m,
-                      gr_param.velocity_noise_standard_deviation_ecef_m_s, gr_param.is_log_pseudorange_enabled, dynamics, gnss_satellites, simulation_time);
+                      gr_param.velocity_noise_standard_deviation_ecef_m_s, gr_param.is_log_pseudorange_enabled, dynamics, gnss_satellites,
+                      simulation_time);
   return gnss_r;
 }
 
@@ -378,8 +385,8 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, Powe
 
   GnssReceiver gnss_r(gr_param.prescaler, clock_generator, power_port, component_id, gr_param.antenna_model, gr_param.antenna_pos_b,
                       gr_param.quaternion_b2c, gr_param.half_width_deg, gr_param.pseudorange_noise_standard_deviation_m,
-                      gr_param.position_noise_standard_deviation_ecef_m, gr_param.velocity_noise_standard_deviation_ecef_m_s, gr_param.is_log_pseudorange_enabled, dynamics,
-                      gnss_satellites, simulation_time);
+                      gr_param.position_noise_standard_deviation_ecef_m, gr_param.velocity_noise_standard_deviation_ecef_m_s,
+                      gr_param.is_log_pseudorange_enabled, dynamics, gnss_satellites, simulation_time);
   return gnss_r;
 }
 
