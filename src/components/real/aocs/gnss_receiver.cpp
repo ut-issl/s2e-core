@@ -202,9 +202,12 @@ double GnssReceiver::CalcGeometricDistance_m(const size_t gnss_system_id) {
   time_system::EpochTime signal_emission_epoch_time(current_epoch_time.GetTimeWithFraction_s() - signal_travel_time_s);
 
   math::Vector<3> gnss_position_at_signal_emission_ecef_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id, signal_emission_epoch_time);
+
+  math::Vector<3> earth_angular_velocity_rad_s{0.0};
+  earth_angular_velocity_rad_s[2] = environment::earth_mean_angular_velocity_rad_s;
+
   double sagnac_correction_m =
-      environment::earth_mean_angular_velocity_rad_s *
-      (gnss_position_at_signal_emission_ecef_m[0] * position_true_ecef_m[1] - gnss_position_at_signal_emission_ecef_m[1] * position_true_ecef_m[0]) /
+      InnerProduct(OuterProduct(gnss_position_at_signal_emission_ecef_m, position_true_ecef_m), earth_angular_velocity_rad_s) /
       environment::speed_of_light_m_s;
 
   double geometric_distance_m = (gnss_position_at_signal_emission_ecef_m - position_true_ecef_m).CalcNorm() + sagnac_correction_m;
