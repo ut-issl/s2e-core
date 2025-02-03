@@ -49,7 +49,7 @@ SimulationTime::SimulationTime(const double end_sec, const double step_sec, cons
   current_sidereal_ = gstime(current_jd_);
   JdToDecyear(current_jd_, &current_decyear_);
   ConvJDtoCalendarDay(current_jd_);
-  ConvCalendarDayToEpochTime();
+  ConvertCalendarDayToEpochTime();
   AssertTimeStepParams();
   InitializeState();
   SetParameters();
@@ -140,7 +140,7 @@ void SimulationTime::UpdateTime(void) {
   current_sidereal_ = gstime(current_jd_);
   JdToDecyear(current_jd_, &current_decyear_);
   ConvJDtoCalendarDay(current_jd_);
-  ConvCalendarDayToEpochTime();
+  ConvertCalendarDayToEpochTime();
 
   attitude_update_flag_ = false;
   if (double(attitude_update_counter_) * step_sec_ >= attitude_update_interval_sec_) {
@@ -248,7 +248,7 @@ void SimulationTime::ConvJDtoCalendarDay(const double JD) {
   current_utc_.second = sec;
 }
 
-void SimulationTime::ConvCalendarDayToEpochTime() {
+void SimulationTime::ConvertCalendarDayToEpochTime() {
   time_system::DateTime current_date_time((size_t)current_utc_.year, (size_t)current_utc_.month, (size_t)current_utc_.day, (size_t)current_utc_.hour,
                                           (size_t)current_utc_.minute, current_utc_.second);
   current_epoch_time_ = time_system::EpochTime(current_date_time);

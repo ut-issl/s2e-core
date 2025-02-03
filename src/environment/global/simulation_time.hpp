@@ -338,7 +338,7 @@ class SimulationTime : public logger::ILoggable {
    * @fn ConvCalendarDayToEpochTime
    * @brief Convert calendar date to epoch time
    */
-  void ConvCalendarDayToEpochTime();
+  void ConvertCalendarDayToEpochTime();
 };
 
 /**
