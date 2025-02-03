@@ -191,28 +191,27 @@ void GnssReceiver::SetGnssInfo(const math::Vector<3> antenna_to_satellite_i_m, c
 }
 
 double GnssReceiver::CalcGeometricDistance_m(const size_t gnss_system_id) {
-  double c_m_s = environment::speed_of_light_m_s;
+  const double c_m_s = environment::speed_of_light_m_s;
 
-  math::Vector<3> receiver_position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
-  math::Vector<3> gnss_position_at_signal_arrival_ecef_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id);
+  const math::Vector<3> receiver_position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
+  const math::Vector<3> gnss_position_at_signal_arrival_ecef_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id);
 
-  time_system::EpochTime current_epoch_time = simulation_time_->GetCurrentEpochTime();
+  const time_system::EpochTime current_epoch_time = simulation_time_->GetCurrentEpochTime();
 
-  double signal_travel_time_s = (gnss_position_at_signal_arrival_ecef_m - receiver_position_true_ecef_m).CalcNorm() / c_m_s;
-  uint64_t signal_travel_time_integer_part_s = static_cast<uint64_t>(std::floor(signal_travel_time_s));
-  double signal_travel_time_fraction_s = signal_travel_time_s - signal_travel_time_integer_part_s;
-  time_system::EpochTime signal_travel_epoch_time(signal_travel_time_integer_part_s, signal_travel_time_fraction_s);
-  time_system::EpochTime signal_emission_epoch_time = current_epoch_time - signal_travel_epoch_time;
+  const double signal_travel_time_s = (gnss_position_at_signal_arrival_ecef_m - receiver_position_true_ecef_m).CalcNorm() / c_m_s;
+  const time_system::EpochTime signal_travel_epoch_time(signal_travel_time_s);
+  const time_system::EpochTime signal_emission_epoch_time = current_epoch_time - signal_travel_epoch_time;
 
-  math::Vector<3> gnss_position_at_signal_emission_ecef_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id, signal_emission_epoch_time);
+  const math::Vector<3> gnss_position_at_signal_emission_ecef_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id, signal_emission_epoch_time);
 
   math::Vector<3> earth_angular_velocity_rad_s{0.0};
   earth_angular_velocity_rad_s[2] = environment::earth_mean_angular_velocity_rad_s;
 
-  double sagnac_correction_m =
+  // Calculate Sagnac-effect correction
+  const double sagnac_correction_m =
       InnerProduct(OuterProduct(gnss_position_at_signal_emission_ecef_m, receiver_position_true_ecef_m), earth_angular_velocity_rad_s) / c_m_s;
 
-  double geometric_distance_m = (gnss_position_at_signal_emission_ecef_m - receiver_position_true_ecef_m).CalcNorm() + sagnac_correction_m;
+  const double geometric_distance_m = (gnss_position_at_signal_emission_ecef_m - receiver_position_true_ecef_m).CalcNorm() + sagnac_correction_m;
   return geometric_distance_m;
 }
 
