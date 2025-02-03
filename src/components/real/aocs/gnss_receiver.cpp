@@ -191,15 +191,18 @@ void GnssReceiver::SetGnssInfo(const math::Vector<3> antenna_to_satellite_i_m, c
 }
 
 double GnssReceiver::CalcGeometricDistance_m(const size_t gnss_system_id) {
-  math::Vector<3> position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
+  double c_m_s = environment::speed_of_light_m_s;
+
+  math::Vector<3> receiver_position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
   math::Vector<3> gnss_position_at_signal_arrival_ecef_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id);
 
-  environment::UTC current_utc = simulation_time_->GetCurrentUtc();
-  time_system::DateTime current_date_time((size_t)current_utc.year, (size_t)current_utc.month, (size_t)current_utc.day, (size_t)current_utc.hour,
-                                          (size_t)current_utc.minute, current_utc.second);
-  time_system::EpochTime current_epoch_time(current_date_time);
-  double signal_travel_time_s = (gnss_position_at_signal_arrival_ecef_m - position_true_ecef_m).CalcNorm() / environment::speed_of_light_m_s;
-  time_system::EpochTime signal_emission_epoch_time(current_epoch_time.GetTimeWithFraction_s() - signal_travel_time_s);
+  time_system::EpochTime current_epoch_time = simulation_time_->GetCurrentEpochTime();
+
+  double signal_travel_time_s = (gnss_position_at_signal_arrival_ecef_m - receiver_position_true_ecef_m).CalcNorm() / c_m_s;
+  uint64_t signal_travel_time_integer_part_s = static_cast<uint64_t>(std::floor(signal_travel_time_s));
+  double signal_travel_time_fraction_s = signal_travel_time_s - signal_travel_time_integer_part_s;
+  time_system::EpochTime signal_travel_epoch_time(signal_travel_time_integer_part_s, signal_travel_time_fraction_s);
+  time_system::EpochTime signal_emission_epoch_time = current_epoch_time - signal_travel_epoch_time;
 
   math::Vector<3> gnss_position_at_signal_emission_ecef_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id, signal_emission_epoch_time);
 
@@ -207,10 +210,9 @@ double GnssReceiver::CalcGeometricDistance_m(const size_t gnss_system_id) {
   earth_angular_velocity_rad_s[2] = environment::earth_mean_angular_velocity_rad_s;
 
   double sagnac_correction_m =
-      InnerProduct(OuterProduct(gnss_position_at_signal_emission_ecef_m, position_true_ecef_m), earth_angular_velocity_rad_s) /
-      environment::speed_of_light_m_s;
+      InnerProduct(OuterProduct(gnss_position_at_signal_emission_ecef_m, receiver_position_true_ecef_m), earth_angular_velocity_rad_s) / c_m_s;
 
-  double geometric_distance_m = (gnss_position_at_signal_emission_ecef_m - position_true_ecef_m).CalcNorm() + sagnac_correction_m;
+  double geometric_distance_m = (gnss_position_at_signal_emission_ecef_m - receiver_position_true_ecef_m).CalcNorm() + sagnac_correction_m;
   return geometric_distance_m;
 }
 
@@ -285,7 +287,6 @@ std::string GnssReceiver::GetLogHeader() const  // For logs
   str_tmp += logger::WriteScalar(sensor_name + "number_of_visible_satellites");
 
   if (is_logged_pseudorange_) {
-    printf("%d\n", gnss_receiver_param.is_log_pseudorange_enabled);
     for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
       str_tmp += logger::WriteScalar("GPS" + std::to_string(gps_index) + "_pseudorange", "m");
     }
@@ -362,7 +363,6 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environ
   gnssr_conf.ReadVector(GSection, "white_noise_standard_deviation_position_ecef_m", gnss_receiver_param.position_noise_standard_deviation_ecef_m);
   gnssr_conf.ReadVector(GSection, "white_noise_standard_deviation_velocity_ecef_m_s", gnss_receiver_param.velocity_noise_standard_deviation_ecef_m_s);
   gnss_receiver_param.is_log_pseudorange_enabled = gnssr_conf.ReadEnable(GSection, "pseudorange_logging");
-  printf("%d\n", gnss_receiver_param.is_log_pseudorange_enabled);
   return gnss_receiver_param;
 }
 
