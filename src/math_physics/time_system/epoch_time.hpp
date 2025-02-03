@@ -32,6 +32,11 @@ class EpochTime {
    */
   EpochTime(const DateTime date_time);
   /**
+   * @fn EpochTime
+   * @brief Constructor initialized with a double-precision time expression
+   */
+  EpochTime(const double time_with_fraction_s);
+  /**
    * @fn ~EpochTime
    * @brief Destructor
    */

@@ -32,6 +32,11 @@ EpochTime::EpochTime(const DateTime date_time) {
   fraction_s_ = date_time.GetSecond() - (double)second;
 }
 
+EpochTime::EpochTime(const double time_with_fraction_s) {
+  time_s_ = static_cast<uint64_t>(std::floor(time_with_fraction_s));
+  fraction_s_ = time_with_fraction_s - static_cast<double>(time_s_);
+}
+
 bool EpochTime::operator==(const EpochTime& target) const {
   if (this->time_s_ != target.time_s_) return false;
   if (this->fraction_s_ != target.fraction_s_) return false;  // TODO: comparison of double
