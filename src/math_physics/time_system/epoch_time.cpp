@@ -33,8 +33,13 @@ EpochTime::EpochTime(const DateTime date_time) {
 }
 
 EpochTime::EpochTime(const double time_with_fraction_s) {
-  time_s_ = static_cast<uint64_t>(std::floor(time_with_fraction_s));
-  fraction_s_ = time_with_fraction_s - static_cast<double>(time_s_);
+  if (time_with_fraction_s < 0.0) {
+    time_s_ = 0;
+    fraction_s_ = 0.0;
+  } else {
+    time_s_ = static_cast<uint64_t>(std::floor(time_with_fraction_s));
+    fraction_s_ = time_with_fraction_s - static_cast<double>(time_s_);
+  }
 }
 
 bool EpochTime::operator==(const EpochTime& target) const {
