@@ -18,6 +18,7 @@
 #include "math_physics/orbit/sgp4/sgp4ext.h"
 #include "math_physics/orbit/sgp4/sgp4io.h"
 #include "math_physics/orbit/sgp4/sgp4unit.h"
+#include "math_physics/time_system/epoch_time.hpp"
 
 namespace s2e::environment {
 
@@ -209,6 +210,11 @@ class SimulationTime : public logger::ILoggable {
    *@brief Return current Ephemeris time
    */
   inline double GetCurrentEphemerisTime(void) const { return start_ephemeris_time_ + elapsed_time_sec_; };
+  /**
+   *@fn GetCurrentEpochTime
+   *@brief Return current epoch time
+   */
+  inline const time_system::EpochTime GetCurrentEpochTime(void) const { return current_epoch_time_; };
 
   /**
    *@fn GetStartYear
@@ -261,11 +267,12 @@ class SimulationTime : public logger::ILoggable {
 
  private:
   // Variables
-  double elapsed_time_sec_;  //!< Elapsed time from start of simulation [sec]
-  double current_jd_;        //!< Current Julian date [day]
-  double current_sidereal_;  //!< Current Greenwich sidereal time (GST) [day]
-  double current_decyear_;   //!< Current decimal year [year]
-  UTC current_utc_;          //!< UTC calendar day
+  double elapsed_time_sec_;                    //!< Elapsed time from start of simulation [sec]
+  double current_jd_;                          //!< Current Julian date [day]
+  double current_sidereal_;                    //!< Current Greenwich sidereal time (GST) [day]
+  double current_decyear_;                     //!< Current decimal year [year]
+  UTC current_utc_;                            //!< UTC calendar day
+  time_system::EpochTime current_epoch_time_;  //!< Current epoch time
 
   // Timing controller
   int attitude_update_counter_;   //!< Update counter for attitude calculation
@@ -327,6 +334,11 @@ class SimulationTime : public logger::ILoggable {
    * @note wrapper function of invjday @ sgp4ext for interface adjustment
    */
   void ConvJDtoCalendarDay(const double JD);
+  /**
+   * @fn ConvCalendarDayToEpochTime
+   * @brief Convert calendar date to epoch time
+   */
+  void ConvertCalendarDayToEpochTime();
 };
 
 /**
