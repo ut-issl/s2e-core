@@ -149,6 +149,10 @@ class GnssReceiver : public Component, public logger::ILoggable {
                                                     kNumberOfBeidouSatellite + kNumberOfQzssSatellite +
                                                     kNumberOfNavicSatellite;  //<! Total number of GNSS satellites
 
+  static const size_t  band_frequency_1_Hz  = 1.57542E9;           //!< L1/E1/B1C  frequency [Hz]
+  static const size_t  band_frequency_2_Hz  = 1.22760E9;           //!< L2         frequency [Hz]
+  static const size_t  band_frequency_5_Hz  = 1.17645E9;           //!< L5/E5a/B2a frequency [Hz]
+
   // Parameters for receiver
   const size_t component_id_;  //!< Receiver ID
 
@@ -161,6 +165,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
   // GNSS observation
   randomization::NormalRand pseudorange_random_noise_m_;                      //!< Random noise for pseudorange [m]
   std::vector<double> pseudorange_list_m_{kTotalNumberOfGnssSatellite, 0.0};  //!< Pseudorange list for each GPS satellite
+  std::vector<double> carrier_phase_list_rad_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite
+  std::vector<int> carrier_phase_integer_ambiguity_list_{kTotalNumberOfGnssSatellite, 0};  //!< Carrier phase integer ambiguity list for each GPS satellite
   bool is_logged_pseudorange_;                                                //!< Flag for log output of pseudorange
 
   // Simple position observation
@@ -226,12 +232,26 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   double CalcGeometricDistance_m(const size_t gnss_system_id);
   /**
-   * @fn CalcPseudorange
+   * @fn CalcPseudorange_m
    * @brief Calculate the pseudorange between the GNSS satellite and the GNSS receiver antenna
    * @param [in] gnss_system_id: ID of target GNSS satellite
    * @return Pseudorange between the GNSS satellite and the GNSS receiver antenna [m]
    */
   double CalcPseudorange_m(const size_t gnss_id);
+      /**
+   * @fn CalcCarrierPhase_rad
+   * @brief Calculate the carrier phase between the GNSS satellite and the GNSS receiver antenna
+   * @param [in] gnss_system_id: ID of target GNSS satellite
+   * @return Carrier phase between the GNSS satellite and the GNSS receiver antenna [rad]
+   */
+  double CalcCarrierPhaseIntegerAmbiguity(const size_t gnss_id);
+    /**
+   * @fn CalcCarrierPhaseIntegerAmbiguity
+   * @brief Calculate the carrier phase integer ambiguity between the GNSS satellite and the GNSS receiver antenna
+   * @param [in] gnss_system_id: ID of target GNSS satellite
+   * @return Carrier phase integer ambiguity between the GNSS satellite and the GNSS receiver antenna
+   */
+  double CalcCarrierPhase_rad(const size_t gnss_id);
   /**
    * @fn SetGnssObservationList
    * @brief Calculate and set the GNSS observation list for each GNSS satellite
