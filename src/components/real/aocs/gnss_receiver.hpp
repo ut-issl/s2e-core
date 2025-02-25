@@ -67,7 +67,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
                const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
                const double pseudorange_noise_standard_deviation_m, const math::Vector<3> position_noise_standard_deviation_ecef_m,
-               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const int number_of_bands, const std::vector<size_t> band_frequency_list_Hz, const bool is_log_pseudorange_enabled,
+               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const size_t number_of_bands, const std::vector<size_t> band_frequency_list_Hz, const bool is_log_pseudorange_enabled,
                const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const environment::SimulationTime* simulation_time);
   /**
@@ -92,7 +92,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
                const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
                const math::Vector<3> position_noise_standard_deviation_ecef_m, const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
-               const int number_of_bands, const std::vector<size_t> band_frequency_list_Hz,
+               const size_t number_of_bands, const std::vector<size_t> band_frequency_list_Hz,
                const bool is_log_pseudorange_enabled, const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const environment::SimulationTime* simulation_time);
 
@@ -167,6 +167,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
   std::vector<double> pseudorange_list_m_{kTotalNumberOfGnssSatellite, 0.0};  //!< Pseudorange list for each GPS satellite
   std::vector<double> carrier_phase_list_rad_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite
   std::vector<int> carrier_phase_integer_ambiguity_list_{kTotalNumberOfGnssSatellite, 0};  //!< Carrier phase integer ambiguity list for each GPS satellite
+  size_t number_of_bands_; //!< Number of bands being used
+  std::vector<size_t> band_frequency_list_Hz_{number_of_bands_, 0};  //!< List of Band frequencies being used [Hz]
   bool is_logged_pseudorange_;                                                //!< Flag for log output of pseudorange
 
   // Simple position observation

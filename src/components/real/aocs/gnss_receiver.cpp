@@ -17,7 +17,7 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                            const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                            const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
-                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const int number_of_bands, const std::vector<size_t> band_frequency_list_Hz, const bool is_log_pseudorange_enabled,
+                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const size_t number_of_bands, const std::vector<size_t> band_frequency_list_Hz, const bool is_log_pseudorange_enabled,
                            const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                            const environment::SimulationTime* simulation_time)
     : Component(prescaler, clock_generator),
@@ -36,14 +36,17 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                                                      randomization::global_randomization.MakeSeed());
   }
   pseudorange_random_noise_m_.SetParameters(0.0, pseudorange_noise_standard_deviation_m, randomization::global_randomization.MakeSeed());
+  for (size_t i = 0; i< number_of_bands; i++){
+    band_frequency_list_Hz_.push_back(band_frequency_list_Hz[i]);
+  }
 }
 
 GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                            const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                            const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
-                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,const int number_of_bands, const std::vector<size_t> band_frequency_list_Hz,
-                            const bool is_log_pseudorange_enabled,
+                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,const size_t number_of_bands, const std::vector<size_t> band_frequency_list_Hz,
+                           const bool is_log_pseudorange_enabled,
                            const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                            const environment::SimulationTime* simulation_time)
     : Component(prescaler, clock_generator, power_port),
@@ -52,6 +55,7 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
       quaternion_b2c_(quaternion_b2c),
       half_width_deg_(half_width_deg),
       antenna_model_(antenna_model),
+      band_frequency_list_Hz_(band_frequency_list_Hz),
       is_logged_pseudorange_(is_log_pseudorange_enabled),
       dynamics_(dynamics),
       gnss_satellites_(gnss_satellites),
@@ -224,11 +228,12 @@ double GnssReceiver::CalcPseudorange_m(const size_t gnss_system_id) {
   return pseudorange_m;
 }
 
-double GnssReceiver::CalcCarrierPhaseIntegerAmbiguity(const size_t gnss_system_id) {
+double GnssReceiver::CalcCarrierPhaseIntegerAmbiguity(const size_t gnss_system_id, const int band_number) {
   // TODO: Add effect of clock bias
   // TODO: Add ionospheric delay
-  double frequency_Hz =;
-  double wave_length_m = ;
+  const double c_m_s = environment::speed_of_light_m_s;
+  double frequency_Hz = band_frequency_list_Hz_[band_number];
+  double wave_length_m = c_m_s / frequency_Hz;
   double geometric_distance_m = CalcGeometricDistance_m(gnss_system_id);
   double carrier_phase_integer_ambiguity = floor(geometric_distance_m/wave_length_m);
   return carrier_phase_integer_ambiguity;
@@ -241,7 +246,7 @@ double GnssReceiver::CalcCarrierPhase_rad(const size_t gnss_system_id) {
   double integer_ambiguity = CalcCarrierPhaseIntegerAmbiguity(gnss_system_id);
   double geometric_distance_m = CalcGeometricDistance_m(gnss_system_id);
   double pseudorange_m = geometric_distance_m + pseudorange_random_noise_m_;
-  double carrier_phase_rad = geometric_distance_m - wave_length_m + integer_ambiguity;
+  double carrier_phase_rad = geometric_distance_m / wave_length_m + integer_ambiguity;
   return carrier_phase_rad;
 }
 
@@ -289,7 +294,7 @@ typedef struct _gnss_receiver_param {
   double pseudorange_noise_standard_deviation_m;
   math::Vector<3> position_noise_standard_deviation_ecef_m;
   math::Vector<3> velocity_noise_standard_deviation_ecef_m_s;
-  int number_of_bands;
+  size_t number_of_bands;
   std::vector<size_t> band_frequency_list_Hz;
   bool is_log_pseudorange_enabled;
 } GnssReceiverParam;
