@@ -17,8 +17,8 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                            const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                            const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
-                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const std::vector<size_t> band_id_list, 
-                           const size_t number_of_bands,  std::vector<size_t> band_frequency_list_Hz, const bool is_log_pseudorange_enabled,
+                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
+                           const size_t number_of_bands, const std::vector<size_t> band_id_list,  std::vector<size_t> band_frequency_list_Hz, const bool is_log_pseudorange_enabled,
                            const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                            const environment::SimulationTime* simulation_time)
     : Component(prescaler, clock_generator),
@@ -40,7 +40,7 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
   for (size_t i = 0; i< number_of_bands_; i++){
     band_frequency_list_Hz_.push_back(band_frequency_list_Hz[i]);
   }
-  for (size_t i = 0; i< band_id_list.size; i++){
+  for (size_t i = 0; i< number_of_bands_; i++){
     band_id_list_.push_back(band_id_list[i]);
   }
 }
@@ -49,7 +49,8 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                            const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                            const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
-                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,const size_t number_of_bands, const std::vector<size_t> band_frequency_list_Hz,
+                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,const size_t number_of_bands, const std::vector<size_t> band_id_list,
+                           const std::vector<size_t> band_frequency_list_Hz,
                            const bool is_log_pseudorange_enabled,
                            const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                            const environment::SimulationTime* simulation_time)
@@ -308,8 +309,8 @@ typedef struct _gnss_receiver_param {
   math::Vector<3> position_noise_standard_deviation_ecef_m;
   math::Vector<3> velocity_noise_standard_deviation_ecef_m_s;
   size_t number_of_bands;
-  std::vector<size_t> band_frequency_list_Hz;
   std::vector<size_t> band_id_list;
+  std::vector<size_t> band_frequency_list_Hz;
   bool is_log_pseudorange_enabled;
 } GnssReceiverParam;
 
