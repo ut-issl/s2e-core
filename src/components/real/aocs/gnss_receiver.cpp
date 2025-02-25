@@ -17,7 +17,7 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                            const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                            const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
-                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled,
+                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const int number_of_bands, const std::vector<size_t> band_frequency_list_Hz, const bool is_log_pseudorange_enabled,
                            const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                            const environment::SimulationTime* simulation_time)
     : Component(prescaler, clock_generator),
@@ -42,7 +42,8 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                            const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                            const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
-                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled,
+                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,const int number_of_bands, const std::vector<size_t> band_frequency_list_Hz,
+                            const bool is_log_pseudorange_enabled,
                            const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                            const environment::SimulationTime* simulation_time)
     : Component(prescaler, clock_generator, power_port),
@@ -226,8 +227,8 @@ double GnssReceiver::CalcPseudorange_m(const size_t gnss_system_id) {
 double GnssReceiver::CalcCarrierPhaseIntegerAmbiguity(const size_t gnss_system_id) {
   // TODO: Add effect of clock bias
   // TODO: Add ionospheric delay
-  double frequency_Hz = a;
-  double wave_length_m = a;
+  double frequency_Hz =;
+  double wave_length_m = ;
   double geometric_distance_m = CalcGeometricDistance_m(gnss_system_id);
   double carrier_phase_integer_ambiguity = floor(geometric_distance_m/wave_length_m);
   return carrier_phase_integer_ambiguity;
@@ -288,9 +289,9 @@ typedef struct _gnss_receiver_param {
   double pseudorange_noise_standard_deviation_m;
   math::Vector<3> position_noise_standard_deviation_ecef_m;
   math::Vector<3> velocity_noise_standard_deviation_ecef_m_s;
-  bool is_log_pseudorange_enabled;
   int number_of_bands;
   std::vector<size_t> band_frequency_list_Hz;
+  bool is_log_pseudorange_enabled;
 } GnssReceiverParam;
 
 std::string GnssReceiver::GetLogHeader() const  // For logs
@@ -364,6 +365,13 @@ AntennaModel SetAntennaModel(const std::string antenna_model) {
 }
 
 GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environment::GnssSatellites* gnss_satellites, const size_t component_id) {
+  
+  // Band frequency definition
+  static const size_t  band_frequency_1_Hz  = 1.57542E9;           //!< L1/E1/B1C  frequency [Hz]
+  static const size_t  band_frequency_2_Hz  = 1.22760E9;           //!< L2         frequency [Hz]
+  static const size_t  band_frequency_5_Hz  = 1.17645E9;           //!< L5/E5a/B2a frequency [Hz]
+
+
   GnssReceiverParam gnss_receiver_param;
 
   setting_file_reader::IniAccess gnssr_conf(file_name);
@@ -423,7 +431,7 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, cons
 
   GnssReceiver gnss_r(gr_param.prescaler, clock_generator, component_id, gr_param.antenna_model, gr_param.antenna_pos_b, gr_param.quaternion_b2c,
                       gr_param.half_width_deg, gr_param.pseudorange_noise_standard_deviation_m, gr_param.position_noise_standard_deviation_ecef_m,
-                      gr_param.velocity_noise_standard_deviation_ecef_m_s, gr_param.is_log_pseudorange_enabled, dynamics, gnss_satellites,
+                      gr_param.velocity_noise_standard_deviation_ecef_m_s, gr_param.number_of_bands, gr_param.band_frequency_list_Hz, gr_param.is_log_pseudorange_enabled, dynamics, gnss_satellites,
                       simulation_time);
   return gnss_r;
 }

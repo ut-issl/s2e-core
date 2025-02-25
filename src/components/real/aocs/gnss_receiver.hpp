@@ -57,6 +57,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] pseudorange_noise_standard_deviation_m: Standard deviation of normal random noise for pseudorange [m]
    * @param [in] position_noise_standard_deviation_ecef_m: Standard deviation of normal random noise for position in the ECEF frame [m]
    * @param [in] velocity_noise_standard_deviation_ecef_m_s: Standard deviation of normal random noise for velocity in the ECEF frame [m/s]
+   * 
+   * 
    * @param [in] is_log_pseudorange_enabled: Enable flag to log output pseudorange
    * @param [in] dynamics: Dynamics information
    * @param [in] gnss_satellites: GNSS Satellites information
@@ -65,7 +67,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
                const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
                const double pseudorange_noise_standard_deviation_m, const math::Vector<3> position_noise_standard_deviation_ecef_m,
-               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled,
+               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const int number_of_bands, const std::vector<size_t> band_frequency_list_Hz, const bool is_log_pseudorange_enabled,
                const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const environment::SimulationTime* simulation_time);
   /**
@@ -90,6 +92,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
                const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
                const math::Vector<3> position_noise_standard_deviation_ecef_m, const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
+               const int number_of_bands, const std::vector<size_t> band_frequency_list_Hz,
                const bool is_log_pseudorange_enabled, const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const environment::SimulationTime* simulation_time);
 
@@ -149,9 +152,6 @@ class GnssReceiver : public Component, public logger::ILoggable {
                                                     kNumberOfBeidouSatellite + kNumberOfQzssSatellite +
                                                     kNumberOfNavicSatellite;  //<! Total number of GNSS satellites
 
-  static const size_t  band_frequency_1_Hz  = 1.57542E9;           //!< L1/E1/B1C  frequency [Hz]
-  static const size_t  band_frequency_2_Hz  = 1.22760E9;           //!< L2         frequency [Hz]
-  static const size_t  band_frequency_5_Hz  = 1.17645E9;           //!< L5/E5a/B2a frequency [Hz]
 
   // Parameters for receiver
   const size_t component_id_;  //!< Receiver ID
