@@ -166,8 +166,12 @@ class GnssReceiver : public Component, public logger::ILoggable {
   // GNSS observation
   randomization::NormalRand pseudorange_random_noise_m_;                      //!< Random noise for pseudorange [m]
   std::vector<double> pseudorange_list_m_{kTotalNumberOfGnssSatellite, 0.0};  //!< Pseudorange list for each GPS satellite
-  std::vector<double> carrier_phase_list_rad_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite
-  std::vector<int> carrier_phase_integer_ambiguity_list_{kTotalNumberOfGnssSatellite, 0};  //!< Carrier phase integer ambiguity list for each GPS satellite
+  std::vector<double> carrier_phase_list_1_rad_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite L1/E1/B1C
+  std::vector<double> carrier_phase_list_2_rad_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite L2
+  std::vector<double> carrier_phase_list_5_rad_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite L5/E5a/B2a
+  std::vector<size_t> carrier_phase_integer_ambiguity_1_list_{kTotalNumberOfGnssSatellite, 0};  //!< Carrier phase integer ambiguity list for each GPS satellite L1/E1/B1C
+  std::vector<size_t> carrier_phase_integer_ambiguity_2_list_{kTotalNumberOfGnssSatellite, 0};  //!< Carrier phase integer ambiguity list for each GPS satellite L2
+  std::vector<size_t> carrier_phase_integer_ambiguity_5_list_{kTotalNumberOfGnssSatellite, 0};  //!< Carrier phase integer ambiguity list for each GPS satellite L5/E5a/B2a
   size_t number_of_bands_; //!< Number of bands being used
   std::vector<size_t> band_frequency_list_Hz_{number_of_bands_, 0};  //!< List of Band frequencies being used [Hz]
   std::vector<size_t> band_id_list_{number_of_bands_, 0};  //!< List of Band IDs being used
