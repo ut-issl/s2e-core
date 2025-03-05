@@ -36,7 +36,7 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                                                      randomization::global_randomization.MakeSeed());
   }
   pseudorange_random_noise_m_.SetParameters(0.0, pseudorange_noise_standard_deviation_m, randomization::global_randomization.MakeSeed());
-  receiver_clock_bias_random_noise_s_.SetParameters(0.0, pseudorange_noise_standard_deviation_m, randomization::global_randomization.MakeSeed());
+  receiver_clock_bias_random_noise_s_.SetParameters(0.0, receiver_clock_bias_noise_standard_deviation_s, randomization::global_randomization.MakeSeed());
 }
 
 GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
@@ -62,7 +62,7 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                                                      randomization::global_randomization.MakeSeed());
   }
   pseudorange_random_noise_m_.SetParameters(0.0, pseudorange_noise_standard_deviation_m, randomization::global_randomization.MakeSeed());
-  receiver_clock_bias_random_noise_s_.SetParameters(0.0, pseudorange_noise_standard_deviation_m, randomization::global_randomization.MakeSeed());
+  receiver_clock_bias_random_noise_s_.SetParameters(0.0, receiver_clock_bias_noise_standard_deviation_s, randomization::global_randomization.MakeSeed());
 }
 
 void GnssReceiver::MainRoutine(const int time_count) {
