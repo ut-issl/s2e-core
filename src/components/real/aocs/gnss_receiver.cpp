@@ -15,7 +15,7 @@ namespace s2e::components {
 
 GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id,
                            const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
-                           const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
+                           const double half_width_deg, const double receiver_clock_bias_noise_standard_deviation_s, const double pseudorange_noise_standard_deviation_m,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
                            const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled,
                            const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
@@ -36,13 +36,14 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                                                      randomization::global_randomization.MakeSeed());
   }
   pseudorange_random_noise_m_.SetParameters(0.0, pseudorange_noise_standard_deviation_m, randomization::global_randomization.MakeSeed());
+  receiver_clock_bias_random_noise_s_.SetParameters(0.0, pseudorange_noise_standard_deviation_m, randomization::global_randomization.MakeSeed());
 }
 
 GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                            const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
-                           const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
+                           const double half_width_deg, const double receiver_clock_bias_noise_standard_deviation_s, const double pseudorange_noise_standard_deviation_m,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
-                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled,
+                           const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled, 
                            const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                            const environment::SimulationTime* simulation_time)
     : Component(prescaler, clock_generator, power_port),
@@ -61,6 +62,7 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                                                      randomization::global_randomization.MakeSeed());
   }
   pseudorange_random_noise_m_.SetParameters(0.0, pseudorange_noise_standard_deviation_m, randomization::global_randomization.MakeSeed());
+  receiver_clock_bias_random_noise_s_.SetParameters(0.0, pseudorange_noise_standard_deviation_m, randomization::global_randomization.MakeSeed());
 }
 
 void GnssReceiver::MainRoutine(const int time_count) {
@@ -215,11 +217,17 @@ double GnssReceiver::CalcGeometricDistance_m(const size_t gnss_system_id) {
   return geometric_distance_m;
 }
 
+double GnssReceiver::CalcClockBias_m(const size_t gnss_system_id) {
+  const double c_m_s = environment::speed_of_light_m_s;
+  double gnss_clock_bias_s = gnss_satellites_->GetClock_s(gnss_system_id);
+  return c_m_s * (receiver_clock_bias_random_noise_s_ - gnss_clock_bias_s);
+}
+
 double GnssReceiver::CalcPseudorange_m(const size_t gnss_system_id) {
-  // TODO: Add effect of clock bias
   // TODO: Add ionospheric delay
   double geometric_distance_m = CalcGeometricDistance_m(gnss_system_id);
-  double pseudorange_m = geometric_distance_m + pseudorange_random_noise_m_;
+  double clock_bias_m = CalcClockBias_m(gnss_system_id);
+  double pseudorange_m = geometric_distance_m + clock_bias_m + pseudorange_random_noise_m_;
   return pseudorange_m;
 }
 
@@ -258,6 +266,7 @@ typedef struct _gnss_receiver_param {
   math::Vector<3> antenna_pos_b;
   math::Quaternion quaternion_b2c;
   double half_width_deg;
+  double receiver_clock_bias_noise_standard_deviation_s;
   double pseudorange_noise_standard_deviation_m;
   math::Vector<3> position_noise_standard_deviation_ecef_m;
   math::Vector<3> velocity_noise_standard_deviation_ecef_m_s;
@@ -358,6 +367,7 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environ
   gnssr_conf.ReadVector(GSection, "antenna_position_b_m", gnss_receiver_param.antenna_pos_b);
   gnssr_conf.ReadQuaternion(GSection, "quaternion_b2c", gnss_receiver_param.quaternion_b2c);
   gnss_receiver_param.half_width_deg = gnssr_conf.ReadDouble(GSection, "antenna_half_width_deg");
+  gnss_receiver_param.receiver_clock_bias_noise_standard_deviation_s = gnssr_conf.ReadDouble(GSection, "white_noise_standard_deviation_receiver_clock_bias_s");
   gnss_receiver_param.pseudorange_noise_standard_deviation_m = gnssr_conf.ReadDouble(GSection, "white_noise_standard_deviation_pseudorange_m");
   gnssr_conf.ReadVector(GSection, "white_noise_standard_deviation_position_ecef_m", gnss_receiver_param.position_noise_standard_deviation_ecef_m);
   gnssr_conf.ReadVector(GSection, "white_noise_standard_deviation_velocity_ecef_m_s", gnss_receiver_param.velocity_noise_standard_deviation_ecef_m_s);
@@ -371,7 +381,7 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, cons
   GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 
   GnssReceiver gnss_r(gr_param.prescaler, clock_generator, component_id, gr_param.antenna_model, gr_param.antenna_pos_b, gr_param.quaternion_b2c,
-                      gr_param.half_width_deg, gr_param.pseudorange_noise_standard_deviation_m, gr_param.position_noise_standard_deviation_ecef_m,
+                      gr_param.half_width_deg, gr_param.receiver_clock_bias_noise_standard_deviation_s, gr_param.pseudorange_noise_standard_deviation_m, gr_param.position_noise_standard_deviation_ecef_m,
                       gr_param.velocity_noise_standard_deviation_ecef_m_s, gr_param.is_log_pseudorange_enabled, dynamics, gnss_satellites,
                       simulation_time);
   return gnss_r;
@@ -386,7 +396,7 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, Powe
   power_port->InitializeWithInitializeFile(file_name);
 
   GnssReceiver gnss_r(gr_param.prescaler, clock_generator, power_port, component_id, gr_param.antenna_model, gr_param.antenna_pos_b,
-                      gr_param.quaternion_b2c, gr_param.half_width_deg, gr_param.pseudorange_noise_standard_deviation_m,
+                      gr_param.quaternion_b2c, gr_param.half_width_deg, gr_param.receiver_clock_bias_noise_standard_deviation_s, gr_param.pseudorange_noise_standard_deviation_m,
                       gr_param.position_noise_standard_deviation_ecef_m, gr_param.velocity_noise_standard_deviation_ecef_m_s,
                       gr_param.is_log_pseudorange_enabled, dynamics, gnss_satellites, simulation_time);
   return gnss_r;
