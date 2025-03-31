@@ -6,7 +6,7 @@
 #ifndef S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_
 #define S2E_SIMULATION_SAMPLE_SPACECRAFT_SAMPLE_SPACECRAFT_HPP_
 
-#include <src/simulation/spacecraft/spacecraft.hpp>
+#include <simulation/spacecraft/spacecraft.hpp>
 
 #include "sample_components.hpp"
 

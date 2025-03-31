@@ -97,6 +97,18 @@ class Battery : public Component, public logger::ILoggable {
    */
   inline double GetCvChargeVoltage_V() const { return cv_charge_voltage_V_; }
 
+  /**
+   * @fn GetCellCapacity_Ah
+   * @brief Return cell capacity [Ah]
+   */
+  inline double GetCellCapacity_Ah() const { return cell_capacity_Ah_; }
+
+  /**
+   * @fn GetNumberOfParallel
+   * @brief Return number of parallel connected cells
+   */
+  inline int GetNumberOfParallel() const { return number_of_parallel_; }
+
   // Override logger::ILoggable
   /**
    * @fn GetLogHeader
