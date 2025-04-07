@@ -47,7 +47,6 @@ double Node::CalcSolarRadiation_W(math::Vector<3> sun_direction_b, double solar_
 }
 
 double Node::CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, math::Vector<3> sun_direction_b, double earth_albedo_W_m2) {
-  math::Vector<3> earth_direction_b = earth_position_b_m.CalcNormalizedVector();
   math::Vector<3> sat2earth_direction_b = earth_position_b_m.CalcNormalizedVector();
   math::Vector<3> sat2sun_direction_b = sun_direction_b;
 
@@ -55,7 +54,7 @@ double Node::CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, math::Vec
   math::Vector<3> vec_b = (sat2sun_direction_b - sat2earth_direction_b).CalcNormalizedVector();
 
   double cos_theta = InnerProduct(vec_a, vec_b);
-  double lamda = acos(InnerProduct(earth_direction_b, normal_vector_b_));
+  double lamda = acos(InnerProduct(sat2earth_direction_b, normal_vector_b_));
   double h = earth_position_b_m.CalcNorm() - environment::earth_equatorial_radius_m;
   double H = earth_position_b_m.CalcNorm() / environment::earth_equatorial_radius_m;
   double phi_m = asin(1.0 / H);
@@ -84,7 +83,8 @@ double Node::CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, math::Vec
 
   // Banister's approximation. ref) RADIATION GEOMETRY FACTOR BETWEEN THE EARTH AND A SATELLITE
   if (cos_theta > 0.0) {
-    view_factor *= cos_theta;
+    //TODO: correlate the value of the exponent with the view factor
+    view_factor *= pow(cos_theta, 4.0);
   } else {
     view_factor = 0.0;
   }
