@@ -84,7 +84,7 @@ double Node::CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, math::Vec
   // Banister's approximation. ref) RADIATION GEOMETRY FACTOR BETWEEN THE EARTH AND A SATELLITE
   if (cos_theta > 0.0) {
     //TODO: correlate the value of the exponent with the view factor
-    view_factor *= pow(cos_theta, 4.0);
+    view_factor *= pow(cos_theta, 5.0);
   } else {
     view_factor = 0.0;
   }
