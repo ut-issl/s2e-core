@@ -5,4 +5,4 @@ Node_id,Node_label,node_type (0: diffusive 1: boundary 2: arithmetic),heater_nod
 3,MAIN_STR_PNL_PX.1,0,0,241.2,0.11,0.05,0.01,1,0,0,293
 4,MAIN_STR_PNL_PY.1,0,0,241.2,0.11,0.05,0.01,0,1,0,293
 5,MAIN_STR_PNL_PZ.1,0,0,241.2,0.11,0.05,0.01,0,0,1,293
-6,SPACE.1,1,0,0,0,0,0,0,0,0,293
+6,SPACE.1,1,0,0,0,0,0,0,0,0,2.73
