@@ -18,7 +18,7 @@
 #include "logger/logger.hpp"
 
 // Add custom include files
-#include "simulation_sample/case/sample_case.hpp"
+#include "simulation/case/sample_case.hpp"
 // #include "simulation/monte_carlo_simulation/monte_carlo_simulation_executor.hpp"
 // #include "interface/hils/COSMOSWrapper.h"
 // #include "interface/hils/HardwareMessage.h"
