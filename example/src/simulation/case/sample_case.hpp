@@ -6,7 +6,7 @@
 #ifndef S2E_SIMULATION_SAMPLE_CASE_SAMPLE_CASE_HPP_
 #define S2E_SIMULATION_SAMPLE_CASE_SAMPLE_CASE_HPP_
 
-#include <src/simulation/case/simulation_case.hpp>
+#include <simulation/case/simulation_case.hpp>
 
 #include "../ground_station/sample_ground_station.hpp"
 #include "../spacecraft/sample_spacecraft.hpp"

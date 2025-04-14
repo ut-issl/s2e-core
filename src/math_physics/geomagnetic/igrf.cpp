@@ -91,56 +91,72 @@ void set_file_path(const char *fname) { strcpy(coeff_file, fname); }
 
 static void fcalc(void) /* This is an internal function */
 {
-  double t, pn1m, tx, ty, tz;
+  double t, tx, ty, tz;
   int n, m;
   if (kr != 0) {
     kr = 0;
     t = ra / r;
-    rar[0] = t * t;
-    for (n = 0; n < maxod; n++) rar[n + 1] = rar[n] * t;
+    rar[0] = t * t; /*** (ra/r)**(n+2): rar[n] ***/
+    for (n = 1; n <= maxod; n++) rar[n] = rar[n - 1] * t;
   }
   if (kth != 0) {
-    kth = 0;
+    kth = 0; /*** Pnm: p[m][n]  Qnm: p[n+1][m] ***/
     p[0][0] = 1.;
-    p[1][0] = 0.;
+    p[1][0] = 0.; /*** n=m=0 ***/
     p[0][1] = cth;
+    p[2][0] = -sth; /*** n=1 m=0 ***/
     p[1][1] = sth;
-    p[2][0] = -sth;
-    p[2][1] = cth;
-    for (n = 1; n < maxod; n++) {
-      p[0][n + 1] = (p[0][n] * cth * (n + n + 1) - p[0][n - 1] * n) / (n + 1);
-      p[n + 2][0] = (p[0][n + 1] * cth - p[0][n]) * (n + 1) / sth;
-      for (m = 0; m <= n; m++) {
-        pn1m = p[m][n + 1];
-        p[m + 1][n + 1] = (p[m][n] * (n + m + 1) - pn1m * cth * (n - m + 1)) / sth;
-        p[n + 2][m + 1] = pn1m * (n + m + 2) * (n - m + 1) - p[m + 1][n + 1] * cth * (m + 1) / sth;
+    p[2][1] = cth;                 /*** n=1 m=1 ***/
+    for (n = 2; n <= maxod; n++) { /*** n=2..maxod ***/
+                                   /*** m=0 (P) ***/
+      /***  P(n,0)  <==  P(n-1,0), P(n-2,0)  ***/
+      p[0][n] = (p[0][n - 1] * cth * (n + n - 1) - p[0][n - 2] * (n - 1)) / n;
+      for (m = 1; m < n; m++) { /*** m=1..(n-1) (P) ***/
+                                /***  0.175 ~= cos(80deg.) ***/
+        if (sth > 0.175) {      /*** Low-Middle Lat. ***/
+          /***  P(n,m)  <==  P(n-1,m-1), P(n,m-1)  ***/
+          p[m][n] = (p[m - 1][n - 1] * (n + m - 1) - p[m - 1][n] * cth * (n - m + 1)) / sth;
+        } else { /*** Polar region ***/
+          /***  P(n,m)  <==  P(n-1,m), P(n,m-1)  ***/
+          p[m][n] = (p[m][n - 1] + p[m - 1][n] * sth * (n - m + 1)) / cth;
+        }
       }
+      /***  P(n,n) <== P(n-1,n-1)  ***/ /*** m=n (P) ***/
+      p[n][n] = p[n - 1][n - 1] * sth * (n + n - 1);
+      /***  Q(n,0)  <==  P(n,1)  ***/ /*** m=0 (Q) ***/
+      p[n + 1][0] = -p[1][n];
+      for (m = 1; m < n; m++) { /*** m=1..(n-1) (Q) ***/
+        /***  Q(n,m)  <==  P(n,m-1), Q(n,m)  ***/
+        p[n + 1][m] = (p[m - 1][n] * (n + m) * (n - m + 1) - p[m + 1][n]) / 2.;
+      } /*** m=n (Q) ***/
+      /***  Q(n,n)  <==  P(n-1,n-1), Q(n-1,n-1)  ***/
+      p[n + 1][n] = (p[n - 1][n - 1] * cth + p[n][n - 1] * sth) * (n + n - 1);
     }
   }
   if (kph != 0) {
-    kph = 0;
+    kph = 0; /*** cos(m*phi): csp[m]  sin(m*phi): snp[m] ***/
     csp[0] = 1.;
     snp[0] = 0.;
-    for (m = 0; m < maxod; m++) {
-      csp[m + 1] = csp[m] * cph - snp[m] * sph;
-      snp[m + 1] = snp[m] * cph + csp[m] * sph;
+    for (m = 1; m <= maxod; m++) {
+      csp[m] = csp[m - 1] * cph - snp[m - 1] * sph;
+      snp[m] = snp[m - 1] * cph + csp[m - 1] * sph;
     }
   }
   x = 0.;
   y = 0.;
-  z = 0.;
-  for (n = 0; n < maxod; n++) {
-    tx = g[0][n + 1] * p[n + 2][0];
+  z = 0.;                        /*** Calc. X,Y,Z and F ***/
+  for (n = 1; n <= maxod; n++) { /*** n=1..maxod ***/
+    tx = g[0][n] * p[n + 1][0];
     ty = 0.;
-    tz = g[0][n + 1] * p[0][n + 1];
-    for (m = 0; m <= n; m++) {
-      tx += (g[m + 1][n + 1] * csp[m + 1] + g[n + 1][m] * snp[m + 1]) * p[n + 2][m + 1];
-      ty += (g[m + 1][n + 1] * snp[m + 1] - g[n + 1][m] * csp[m + 1]) * p[m + 1][n + 1] * (m + 1);
-      tz += (g[m + 1][n + 1] * csp[m + 1] + g[n + 1][m] * snp[m + 1]) * p[m + 1][n + 1];
+    tz = g[0][n] * p[0][n];    /*** m=0 ***/
+    for (m = 1; m <= n; m++) { /*** m=1..n ***/
+      tx += (g[m][n] * csp[m] + g[n][m - 1] * snp[m]) * p[n + 1][m];
+      ty += (g[m][n] * snp[m] - g[n][m - 1] * csp[m]) * p[m][n] * m;
+      tz += (g[m][n] * csp[m] + g[n][m - 1] * snp[m]) * p[m][n];
     }
-    x += rar[n + 1] * tx;
-    y += rar[n + 1] * ty;
-    z -= rar[n + 1] * tz * (n + 2);
+    x += rar[n] * tx;
+    y += rar[n] * ty;
+    z -= rar[n] * tz * (n + 1);
   }
   y /= sth;
   if (kext != 0) {
@@ -168,22 +184,22 @@ void field(double are, double aflat, double ara, int maxoda) {
 }
 
 void tcoef(double agh[MxOD + 1][MxOD + 1], double aght[MxOD + 1][MxOD + 1], double atzero, int kexta, double aext[3]) {
-  int nn, mm;
+  int n, m;
   double fac;
   tzero = atzero;
   kext = kexta;
   gh[0][0] = 0.;
   ght[0][0] = 0.;
-  for (nn = 1; nn <= maxod; nn++) {
-    gh[0][nn] = agh[0][nn];
-    ght[0][nn] = aght[0][nn];
+  for (n = 1; n <= maxod; n++) { /*** n=1..maxod ***/
+    gh[0][n] = agh[0][n];
+    ght[0][n] = aght[0][n]; /*** m=0 ***/
     fac = sqrt(2.);
-    for (mm = 1; mm <= nn; mm++) {
-      fac /= sqrt((double)((nn + mm) * (nn - mm + 1)));
-      gh[mm][nn] = agh[mm][nn] * fac;
-      gh[nn][mm - 1] = agh[nn][mm - 1] * fac;
-      ght[mm][nn] = aght[mm][nn] * fac;
-      ght[nn][mm - 1] = aght[nn][mm - 1] * fac;
+    for (m = 1; m <= n; m++) { /*** m=1..n ***/
+      fac /= sqrt((double)((n + m) * (n - m + 1)));
+      gh[m][n] = agh[m][n] * fac;
+      gh[n][m - 1] = agh[n][m - 1] * fac;
+      ght[m][n] = aght[m][n] * fac;
+      ght[n][m - 1] = aght[n][m - 1] * fac;
     }
   }
   if (kext == 0) {
@@ -199,11 +215,14 @@ void tcoef(double agh[MxOD + 1][MxOD + 1], double aght[MxOD + 1][MxOD + 1], doub
 
 void tyear(double ayear) {
   double dyear;
-  int nn, mm;
+  int n, m;
   dyear = ayear - tzero;
-  for (nn = 0; nn <= maxod; nn++) {
-    for (mm = 0; mm <= maxod; mm++) {
-      g[mm][nn] = gh[mm][nn] + ght[mm][nn] * dyear;
+  g[0][0] = 0.;
+  for (n = 1; n <= maxod; n++) {            /*** n=1..maxod ***/
+    g[0][n] = gh[0][n] + ght[0][n] * dyear; /*** m=0 ***/
+    for (m = 1; m <= n; m++) {              /*** m=1..n ***/
+      g[m][n] = gh[m][n] + ght[m][n] * dyear;
+      g[n][m - 1] = gh[n][m - 1] + ght[n][m - 1] * dyear;
     }
   }
 }
@@ -216,6 +235,8 @@ void mfldg(double alat, double alon, double ahi, double *ax, double *ay, double 
     kth = 1;
     blat = alat;
     bhi = ahi;
+    /*** calculate geocentric distance (r)        ***/
+    /***  and sine/cosine of colatitude (sth/cth) ***/
     rlat = alat / URAD;
     hi = ahi;
     slat = sin(rlat);
@@ -227,6 +248,8 @@ void mfldg(double alat, double alon, double ahi, double *ax, double *ay, double 
     r = sqrt(rrm + 2. * hi * rm + hi * hi);
     cth = slat * (hi + rp2 / rm) / r;
     sth = sqrt(1. - cth * cth);
+    /*** force sin(colat) non-zero to avoid DIV-by-0 error ***/
+    if (sth < 0.00000015) sth = 0.00000015;
   }
   if (blon != alon) kph = 1;
   if (kph != 0) {
@@ -260,6 +283,8 @@ void mfldc(double athe, double alon, double ar, double *ax, double *ay, double *
     the = athe / URAD;
     cth = cos(the);
     sth = sin(the);
+    /*** force sin(colat) non-zero to avoid DIV-by-0 error ***/
+    if (sth < 0.00000015) sth = 0.00000015;
   }
   if (blon != alon) kph = 1;
   if (kph != 0) {
