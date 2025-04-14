@@ -356,11 +356,11 @@ std::string GnssReceiver::GetLogHeader() const  // For logs
       str_tmp += logger::WriteScalar("GPS" + std::to_string(gps_index) + "_pseudorange", "m");
     }
   }
+  std::cerr<< "number_of_bands: " << number_of_bands_ << std::endl;
   if (is_logged_carrier_phase_) {
     for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-      for (size_t band_index = 0; band_index < gnss_receiver_param.number_of_bands; band_index++) {
-        str_tmp += logger::WriteScalar(
-            "GPS" + std::to_string(gps_index) + "_carrier_phase_" + std::to_string(gnss_receiver_param.band_id_list[band_index]), "rad");
+      for (size_t band_index = 0; band_index < number_of_bands_; band_index++) {
+        str_tmp += logger::WriteScalar("GPS" + std::to_string(gps_index) + "_carrier_phase_" + std::to_string(band_id_list_[band_index]), "rad");
       }
     }
   }
@@ -393,15 +393,14 @@ std::string GnssReceiver::GetLogValue() const  // For logs
   }
     if (is_logged_carrier_phase_) {
     for (size_t gps_index = 0; gps_index < kNumberOfGpsSatellite; gps_index++) {
-      for (size_t band_index = 0; band_index < gnss_receiver_param.number_of_bands; band_index++) {
-        if (gnss_receiver_param.band_id_list[band_index] == 1) {
+      for (size_t band_index = 0; band_index < number_of_bands_; band_index++) {
+        if (band_id_list_[band_index] == 1) {
           str_tmp += logger::WriteScalar(carrier_phase_list_1_rad_[gps_index], 16);
-        } else if (gnss_receiver_param.band_id_list[band_index] == 2) {
+        } else if (band_id_list_[band_index] == 2) {
           str_tmp += logger::WriteScalar(carrier_phase_list_2_rad_[gps_index], 16);
-        } else if (gnss_receiver_param.band_id_list[band_index] == 5) {
+        } else if (band_id_list_[band_index] == 5) {
           str_tmp += logger::WriteScalar(carrier_phase_list_5_rad_[gps_index], 16);
         }
-        str_tmp += logger::WriteScalar(carrier_phase_list_1_rad_[gps_index], 16);
       }
     }
   }
@@ -464,7 +463,7 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environ
     std::string idx = std::to_string(i);
     idx = "_" + idx;
     std::string keyword;
-    keyword = "band_" + idx;
+    keyword = "band" + idx;
     int band_idx = gnssr_conf.ReadInt(GSection, keyword.c_str());
     double band_frequency_Hz;
     if (band_idx == 1) {
@@ -474,7 +473,7 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environ
     } else if (band_idx == 5) {
       band_frequency_Hz = band_frequency_5_Hz;
     } else {
-      std::cerr << "[Error] " << band_idx << "is an unsupported band index\n" << std::endl;
+      std::cerr << "[Error] " << band_idx << " is an unsupported band index\n" << std::endl;
       std::cerr << "Band index is automatically set as 1\n" << std::endl;
       band_idx = 1;
       band_frequency_Hz = band_frequency_1_Hz;
