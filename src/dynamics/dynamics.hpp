@@ -5,6 +5,7 @@
 #ifndef S2E_DYNAMICS_DYNAMICS_HPP_
 #define S2E_DYNAMICS_DYNAMICS_HPP_
 
+#include <components/ports/power_port_provider.hpp>
 #include <string>
 
 #include "../environment/global/simulation_time.hpp"
@@ -45,7 +46,8 @@ class Dynamics {
    */
   Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
            const environment::LocalEnvironment* local_environment, const int spacecraft_id, spacecraft::Structure* structure,
-           simulation::RelativeInformation* relative_information = (simulation::RelativeInformation*)nullptr);
+           simulation::RelativeInformation* relative_information = (simulation::RelativeInformation*)nullptr,
+           const s2e::components::PowerPortProvider* power_port_provider = (s2e::components::PowerPortProvider*)nullptr);
   /**
    * @fn ~Dynamics
    * @brief Destructor
@@ -94,6 +96,13 @@ class Dynamics {
   void ClearForceTorque(void);
 
   /**
+   * @fn SetPowerPortProvider
+   * @brief Set Power Port Provider for dynamics and temperature
+   */
+  void SetPowerPortProvider(s2e::components::PowerPortProvider* power_port_provider);
+
+
+  /**
    * @fn GetAttitude
    * @brief Return Attitude class
    */
@@ -108,18 +117,14 @@ class Dynamics {
    * @brief Return Temperature class
    */
   inline const thermal::Temperature& GetTemperature() const { return *temperature_; }
-  /**
-   * @fn SetAttitude
-   * @brief Return Attitude class to change the Attitude
-   */
-  inline attitude::Attitude& SetAttitude() const { return *attitude_; }
 
  private:
-  attitude::Attitude* attitude_;                            //!< Attitude dynamics
-  orbit::Orbit* orbit_;                                     //!< Orbit dynamics
-  thermal::Temperature* temperature_;                       //!< Thermal dynamics
-  const spacecraft::Structure* structure_;                  //!< Structure information
-  const environment::LocalEnvironment* local_environment_;  //!< Local environment
+  attitude::Attitude* attitude_;                                   //!< Attitude dynamics
+  orbit::Orbit* orbit_;                                            //!< Orbit dynamics
+  thermal::Temperature* temperature_;                              //!< Thermal dynamics
+  const spacecraft::Structure* structure_;                         //!< Structure information
+  const environment::LocalEnvironment* local_environment_;         //!< Local environment
+  const s2e::components::PowerPortProvider* power_port_provider_;  //!< Power port provider to get power consumption
 
   /**
    * @fn Initialize
@@ -130,10 +135,12 @@ class Dynamics {
    * @param [in] spacecraft_id: Spacecraft ID of the spacecraft
    * @param [in] structure: Structure of the spacecraft
    * @param [in] relative_information: Relative information
+   * @param [in] power_port_provider: Power port provider
    */
   void Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
                   const int spacecraft_id, spacecraft::Structure* structure,
-                  simulation::RelativeInformation* relative_information = (simulation::RelativeInformation*)nullptr);
+                  simulation::RelativeInformation* relative_information = (simulation::RelativeInformation*)nullptr,
+                  const s2e::components::PowerPortProvider* power_port_provider = (s2e::components::PowerPortProvider*)nullptr);
 };
 
 }  // namespace s2e::dynamics

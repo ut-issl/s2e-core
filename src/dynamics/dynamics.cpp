@@ -9,9 +9,9 @@ namespace s2e::dynamics {
 
 Dynamics::Dynamics(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
                    const environment::LocalEnvironment* local_environment, const int spacecraft_id, spacecraft::Structure* structure,
-                   simulation::RelativeInformation* relative_information)
+                   simulation::RelativeInformation* relative_information, const s2e::components::PowerPortProvider* power_port_provider)
     : structure_(structure), local_environment_(local_environment) {
-  Initialize(simulation_configuration, simulation_time, spacecraft_id, structure, relative_information);
+  Initialize(simulation_configuration, simulation_time, spacecraft_id, structure, relative_information, power_port_provider);
 }
 
 Dynamics::~Dynamics() {
@@ -21,7 +21,8 @@ Dynamics::~Dynamics() {
 }
 
 void Dynamics::Initialize(const simulation::SimulationConfiguration* simulation_configuration, const environment::SimulationTime* simulation_time,
-                          const int spacecraft_id, spacecraft::Structure* structure, simulation::RelativeInformation* relative_information) {
+                          const int spacecraft_id, spacecraft::Structure* structure, simulation::RelativeInformation* relative_information,
+                          const s2e::components::PowerPortProvider* power_port_provider) {
   const environment::LocalCelestialInformation& local_celestial_information = local_environment_->GetCelestialInformation();
   // Initialize
   orbit_ = orbit::InitOrbit(&(local_celestial_information.GetGlobalInformation()), simulation_configuration->spacecraft_file_list_[spacecraft_id],
@@ -30,8 +31,9 @@ void Dynamics::Initialize(const simulation::SimulationConfiguration* simulation_
   attitude_ = attitude::InitAttitude(simulation_configuration->spacecraft_file_list_[spacecraft_id], orbit_, &local_celestial_information,
                                      simulation_time->GetAttitudeRkStepTime_s(), structure->GetKinematicsParameters().GetInertiaTensor_b_kgm2(),
                                      spacecraft_id);
-  temperature_ = thermal::InitTemperature(simulation_configuration->spacecraft_file_list_[spacecraft_id], simulation_time->GetThermalRkStepTime_s(),
-                                          &(local_environment_->GetSolarRadiationPressure()), &(local_environment_->GetEarthAlbedo()));
+  temperature_ =
+      thermal::InitTemperature(simulation_configuration->spacecraft_file_list_[spacecraft_id], simulation_time->GetThermalRkStepTime_s(),
+                               &(local_environment_->GetSolarRadiationPressure()), &(local_environment_->GetEarthAlbedo()), power_port_provider);
 
   // To get initial value
   orbit_->UpdateByAttitude(attitude_->GetQuaternion_i2b());
@@ -65,6 +67,11 @@ void Dynamics::LogSetup(logger::Logger& logger) {
   logger.AddLogList(attitude_);
   logger.AddLogList(orbit_);
   logger.AddLogList(temperature_);
+}
+
+void Dynamics::SetPowerPortProvider(s2e::components::PowerPortProvider* power_port_provider) { 
+  power_port_provider_ = power_port_provider;
+  temperature_->SetPowerPortProvider(power_port_provider_);
 }
 
 }  // namespace s2e::dynamics
