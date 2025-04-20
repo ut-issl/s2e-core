@@ -40,14 +40,15 @@ class Node {
    * @param[in] node_name: Name of node (used for logging/output)
    * @param[in] node_type: NodeType
    * @param[in] heater_id: ID of heater attached to this node (0 if no heater)
+   * @param[in] power_port_id: ID of power port attached to this node (-1 if no power port connected)
    * @param[in] temperature_ini_K: Initial temperature of node [K]
    * @param[in] capacity_J_K: Heat capacity of node [J/K]
    * @param[in] alpha: Solar absorptivity of face with possibility of solar incidence
    * @param[in] area_m2: Area of face with possibility of solar incidence [m^2]
    * @param[in] normal_vector_b: Normal vector of face with possibility of solar incidence (Body frame)
    */
-  Node(const size_t node_id, const std::string node_name, const NodeType node_type, const size_t heater_id, const double temperature_ini_K,
-       const double capacity_J_K, const double alpha, const double area_m2, math::Vector<3> normal_vector_b);
+  Node(const size_t node_id, const std::string node_name, const NodeType node_type, const size_t heater_id, const int power_port_id,
+       const double temperature_ini_K, const double capacity_J_K, const double alpha, const double area_m2, math::Vector<3> normal_vector_b);
   /**
    * @fn ~Node
    * @brief Destroy the Node object
@@ -91,6 +92,12 @@ class Node {
    * @return int: Heater ID
    */
   inline size_t GetHeaterId(void) const { return heater_id_; }
+  /**
+   * @fn GetPowerPortId
+   * @brief Return Power Port Id
+   * @return int: Power Port ID
+   */
+  inline int GetPowerPortId(void) const { return power_port_id_; }
   /**
    * @fn GetTemperature_K
    * @brief Get temperature of node in Kelvin
@@ -148,6 +155,7 @@ class Node {
   size_t node_id_;
   std::string node_name_;
   size_t heater_id_;
+  int power_port_id_;
   double temperature_K_;
   double capacity_J_K_;
   double alpha_;

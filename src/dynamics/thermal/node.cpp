@@ -14,11 +14,12 @@ using namespace s2e::math;
 
 namespace s2e::dynamics::thermal {
 
-Node::Node(const size_t node_id, const string node_name, const NodeType node_type, const size_t heater_id, const double temperature_ini_K,
-           const double capacity_J_K, const double alpha, const double area_m2, math::Vector<3> normal_vector_b)
+Node::Node(const size_t node_id, const string node_name, const NodeType node_type, const size_t heater_id, const int power_port_id,
+           const double temperature_ini_K, const double capacity_J_K, const double alpha, const double area_m2, math::Vector<3> normal_vector_b)
     : node_id_(node_id),
       node_name_(node_name),
       heater_id_(heater_id),
+      power_port_id_(power_port_id),
       temperature_K_(temperature_ini_K),
       capacity_J_K_(capacity_J_K),
       alpha_(alpha),
@@ -73,6 +74,7 @@ void Node::PrintParam(void) {
   cout << "  capacity     : " << capacity_J_K_ << endl;
   cout << "  node type    : " << node_type_str << endl;
   cout << "  heater id    : " << heater_id_ << endl;
+  cout << "  power port id: " << power_port_id_ << endl;
   cout << "  Normal Vector: ";
   for (size_t i = 0; i < 3; i++) {
     cout << normal_vector_b_[i] << " ";
@@ -134,13 +136,14 @@ Node InitNode(const std::vector<std::string>& node_str) {
   using std::stod;
   using std::stoi;
 
-  size_t node_str_size_defined = 11;                 // Correct size of node_str
+  size_t node_str_size_defined = 12;                 // Correct size of node_str
   assert(node_str.size() == node_str_size_defined);  // Check if size of node_str is correct
 
   size_t node_id = 0;               // node number
   std::string node_label = "temp";  // node name
   size_t node_type_int = 0;         // node type
   size_t heater_id = 0;             // heater node index
+  int power_port_id = -1;        // power port index
   double temperature_K = 0.0;       // [K]
   double capacity_J_K = 0.0;        // [J/K]
   double alpha = 0.0;               // []
@@ -151,16 +154,18 @@ Node InitNode(const std::vector<std::string>& node_str) {
   size_t index_node_label = 1;
   size_t index_node_type = 2;
   size_t index_heater_id = 3;
-  size_t index_capacity = 4;
-  size_t index_alpha = 5;
-  size_t index_area = 6;
-  size_t index_normal_v_b_head = 7;
-  size_t index_temperature = 10;
+  size_t index_power_port_id = 4;
+  size_t index_capacity = 5;
+  size_t index_alpha = 6;
+  size_t index_area = 7;
+  size_t index_normal_v_b_head = 8;
+  size_t index_temperature = 11;
 
   node_id = stoi(node_str[index_node_id]);
   node_label = node_str[index_node_label];
   node_type_int = stoi(node_str[index_node_type]);
   heater_id = stoi(node_str[index_heater_id]);
+  power_port_id = stoi(node_str[index_power_port_id]);
   capacity_J_K = stod(node_str[index_capacity]);
   alpha = stod(node_str[index_alpha]);
   area_m2 = stod(node_str[index_area]);
@@ -185,7 +190,7 @@ Node InitNode(const std::vector<std::string>& node_str) {
   } else if (node_type_int == 2) {
     node_type = NodeType::kArithmetic;
   }
-  Node node(node_id, node_label, node_type, heater_id, temperature_K, capacity_J_K, alpha, area_m2, normal_v_b);
+  Node node(node_id, node_label, node_type, heater_id, power_port_id, temperature_K, capacity_J_K, alpha, area_m2, normal_v_b);
   return node;
 }
 
