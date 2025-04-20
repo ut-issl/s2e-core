@@ -31,9 +31,9 @@ void Dynamics::Initialize(const simulation::SimulationConfiguration* simulation_
   attitude_ = attitude::InitAttitude(simulation_configuration->spacecraft_file_list_[spacecraft_id], orbit_, &local_celestial_information,
                                      simulation_time->GetAttitudeRkStepTime_s(), structure->GetKinematicsParameters().GetInertiaTensor_b_kgm2(),
                                      spacecraft_id);
-  temperature_ =
-      thermal::InitTemperature(simulation_configuration->spacecraft_file_list_[spacecraft_id], simulation_time->GetThermalRkStepTime_s(),
-                               &(local_environment_->GetSolarRadiationPressure()), &(local_environment_->GetEarthAlbedo()), power_port_provider);
+  temperature_ = thermal::InitTemperature(simulation_configuration->spacecraft_file_list_[spacecraft_id], simulation_time->GetThermalRkStepTime_s(),
+                                          &(local_environment_->GetSolarRadiationPressure()), &(local_environment_->GetEarthAlbedo()),
+                                          &(local_environment_->GetEarthInfrared()), power_port_provider);
 
   // To get initial value
   orbit_->UpdateByAttitude(attitude_->GetQuaternion_i2b());
@@ -69,7 +69,7 @@ void Dynamics::LogSetup(logger::Logger& logger) {
   logger.AddLogList(temperature_);
 }
 
-void Dynamics::SetPowerPortProvider(s2e::components::PowerPortProvider* power_port_provider) { 
+void Dynamics::SetPowerPortProvider(s2e::components::PowerPortProvider* power_port_provider) {
   power_port_provider_ = power_port_provider;
   temperature_->SetPowerPortProvider(power_port_provider_);
 }

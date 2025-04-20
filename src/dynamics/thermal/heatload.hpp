@@ -45,7 +45,9 @@ class Heatload {
    * @fn UpdateTotalHeatload
    * @brief Update total heatload value by summing up all factors
    */
-  void UpdateTotalHeatload(void) { total_heatload_W_ = solar_heatload_W_ + albedo_heatload_W_ + internal_heatload_W_ + heater_heatload_W_; }
+  void UpdateTotalHeatload(void) {
+    total_heatload_W_ = solar_heatload_W_ + albedo_heatload_W_ + earth_infrared_heatload_W_ + internal_heatload_W_ + heater_heatload_W_;
+  }
 
   // Getter
   /**
@@ -58,6 +60,11 @@ class Heatload {
    * @brief Return Albedo Heatload
    */
   inline double GetAlbedoHeatload_W(void) const { return albedo_heatload_W_; }
+  /**
+   * @fn GetEarthInfraredHeatload_W
+   * @brief Return Earth Infrared Heatload
+   */
+  inline double GetEarthInfraredHeatload_W(void) const { return earth_infrared_heatload_W_; }
   /**
    * @fn GetInternalHeatload_W
    * @brief Return Internal Heatload
@@ -96,6 +103,11 @@ class Heatload {
    */
   inline void SetAlbedoHeatload_W(const double albedo_heatload_W) { albedo_heatload_W_ = albedo_heatload_W; }
   /**
+   * @brief Set Earth Infrared Heatload [W]
+   * @param[in] earth_infrared_heatload_W
+   */
+  inline void SetEarthInfraredHeatload_W(const double earth_infrared_heatload_W) { earth_infrared_heatload_W_ = earth_infrared_heatload_W; }
+  /**
    * @brief Set Heater Heatload [W]
    * @param[in] heater_heatload_W
    */
@@ -114,12 +126,13 @@ class Heatload {
   std::vector<double> time_table_s_;                               //!< Times that internal heatload values are defined [s]
   std::vector<double> internal_heatload_table_W_;                  //!< Defined internal heatload values [W]
 
-  unsigned int elapsed_time_idx_;  //!< index of time_table_s_ that is closest to elapsed_time_s_
-  double solar_heatload_W_;        //!< Heatload from solar flux [W]
-  double albedo_heatload_W_;       //!< Heatload from albedo flux [W]
-  double internal_heatload_W_;     //!< Heatload from internal dissipation [W]
-  double heater_heatload_W_;       //!< Heatload from heater [W]
-  double total_heatload_W_;        //!< Total heatload [W]
+  unsigned int elapsed_time_idx_;     //!< index of time_table_s_ that is closest to elapsed_time_s_
+  double solar_heatload_W_;           //!< Heatload from solar flux [W]
+  double albedo_heatload_W_;          //!< Heatload from albedo flux [W]
+  double earth_infrared_heatload_W_;  //!< Heatload from earth infrared [W]
+  double internal_heatload_W_;        //!< Heatload from internal dissipation [W]
+  double heater_heatload_W_;          //!< Heatload from heater [W]
+  double total_heatload_W_;           //!< Total heatload [W]
 
   double time_table_period_s_;      //!< Value of last element of time_table_s_, which represents the period of the heatload table [s]
   double residual_elapsed_time_s_;  //!< Residual of dividing elapsed_time_s_ by time_table_period_s_ [s]

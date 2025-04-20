@@ -48,7 +48,8 @@ class Node {
    * @param[in] normal_vector_b: Normal vector of face with possibility of solar incidence (Body frame)
    */
   Node(const size_t node_id, const std::string node_name, const NodeType node_type, const size_t heater_id, const int power_port_id,
-       const double temperature_ini_K, const double capacity_J_K, const double alpha, const double area_m2, math::Vector<3> normal_vector_b);
+       const double temperature_ini_K, const double capacity_J_K, const double alpha, const double epsilon, const double area_m2,
+       math::Vector<3> normal_vector_b);
   /**
    * @fn ~Node
    * @brief Destroy the Node object
@@ -68,11 +69,20 @@ class Node {
    * @brief Calculate albedo radiation [W] from earth direction, albedo factor, area, and normal vector
    *
    * @param earth_position_b_m: Earth position in body frame
+   * @param sun_direction_b: Sun direction in body frame
    * @param earth_albedo_W_m2: Earth albedo [W/m^2]
    * @return double: Albedo Radiation [W]
    */
-  double CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, double earth_albedo_W_m2);
-
+  double CalcAlbedoRadiation_W(math::Vector<3> earth_position_b_m, math::Vector<3> sun_direction_b, double earth_albedo_W_m2);
+  /**
+   * @fn CalcEarthInfraredRadiation_W
+   * @brief Calculate Earth Infrared Radiation [W] from earth direction, earth infrared radiation, area, and normal vector
+   *
+   * @param earth_position_b_m: Earth position in body frame
+   * @param earth_infrared_W_m2: Earth Infrared Radiation [W/m^2]
+   * @return double: Earth Infrared Radiation [W]
+   */
+  double CalcEarthInfraredRadiation_W(math::Vector<3> earth_position_b_m, double earth_infrared_W_m2);
   // Getter
   /**
    * @fn GetNodeId
@@ -129,6 +139,12 @@ class Node {
    */
   inline double GetAlbedoRadiation_W(void) const { return albedo_radiation_W_; }
   /**
+   * @fn GetEarthInfraredRadiation_W
+   * @brief Return Earth Infrared Radiation [W]
+   * @return double: Earth Infrared Radiation [W]
+   */
+  inline double GetEarthInfraredRadiation_W(void) const { return earth_infrared_W_; }
+  /**
    * @fn GetNodeType
    * @brief Return Node Type
    * @return NodeType
@@ -159,9 +175,11 @@ class Node {
   double temperature_K_;
   double capacity_J_K_;
   double alpha_;
+  double epsilon_;
   double area_m2_;
   double solar_radiation_W_;
   double albedo_radiation_W_;
+  double earth_infrared_W_;
   NodeType node_type_;
   math::Vector<3> normal_vector_b_;
 

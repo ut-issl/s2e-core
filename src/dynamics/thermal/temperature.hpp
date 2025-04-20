@@ -8,6 +8,7 @@
 
 #include <components/ports/power_port_provider.hpp>
 #include <environment/local/earth_albedo.hpp>
+#include <environment/local/earth_infrared.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
 #include <logger/loggable.hpp>
 #include <string>
@@ -47,6 +48,7 @@ class Temperature : public logger::ILoggable {
   double propagation_time_s_;  //!< Incremented time inside class Temperature [s], finish propagation when reaching end_time
   const environment::SolarRadiationPressureEnvironment* srp_environment_;  //!< SolarRadiationPressureEnvironment for calculating solar flux
   const environment::EarthAlbedo* earth_albedo_;                           //!< EarthAlbedo object for calculating earth albedo
+  const environment::EarthInfrared* earth_infrared_;                       //!< EarthInfrared object for calculating earth infrared
   bool is_calc_enabled_;                                                   //!< Whether temperature calculation is enabled
   SolarCalcSetting solar_calc_setting_;                                    //!< setting for solar calculation
   bool debug_;                                                             //!< Activate debug output or not
@@ -91,6 +93,7 @@ class Temperature : public logger::ILoggable {
    * @param propagation_step_s: Propagation time step [s]
    * @param srp_environment: SolarRadiationPressureEnvironment object for calculating solar flux
    * @param earth_albedo: EarthAlbedo object for calculating earth albedo
+   * @param earth_infrared: EarthInfrared object for calculating earth infrared
    * @param is_calc_enabled: Whether calculation is enabled
    * @param solar_calc_setting: Solar calculation settings
    * @param debug: Whether debug is enabled
@@ -99,7 +102,8 @@ class Temperature : public logger::ILoggable {
               std::vector<Node> nodes, std::vector<Heatload> heatloads, std::vector<Heater> heaters, std::vector<HeaterController> heater_controllers,
               const s2e::components::PowerPortProvider* power_port_provider, const size_t node_num, const double propagation_step_s,
               const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo,
-              const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug);
+              const environment::EarthInfrared* earth_infrared, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting,
+              const bool debug);
   /**
    * @fn Temperature
    * @brief Construct a new Temperature object, used when thermal calculation is disabled.
@@ -178,7 +182,7 @@ class Temperature : public logger::ILoggable {
  */
 Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s,
                              const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo,
-                            const s2e::components::PowerPortProvider* power_port_provider);
+                             const environment::EarthInfrared* earth_infrared, const s2e::components::PowerPortProvider* power_port_provider);
 
 }  // namespace s2e::dynamics::thermal
 
