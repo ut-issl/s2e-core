@@ -6,6 +6,7 @@
 #ifndef S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_
 #define S2E_DYNAMICS_THERMAL_TEMPERATURE_HPP_
 
+#include <components/ports/power_port_provider.hpp>
 #include <environment/local/earth_albedo.hpp>
 #include <environment/local/solar_radiation_pressure_environment.hpp>
 #include <logger/loggable.hpp>
@@ -34,14 +35,15 @@ enum class SolarCalcSetting {
  */
 class Temperature : public logger::ILoggable {
  protected:
-  std::vector<std::vector<double>> conductance_matrix_W_K_;  //!< Coupling of node i and node j by heat conduction [W/K]
-  std::vector<std::vector<double>> radiation_matrix_m2_;     //!< Coupling of node i and node j by thermal radiation [m2]
-  std::vector<Node> nodes_;                                  //!< vector of nodes
-  std::vector<Heatload> heatloads_;                          //!< vector of heatloads
-  std::vector<Heater> heaters_;                              //!< vector of heaters
-  std::vector<HeaterController> heater_controllers_;         //!< vector of heater controllers
-  size_t node_num_;                                          //!< number of nodes
-  double propagation_step_s_;                                //!< propagation step [s]
+  std::vector<std::vector<double>> conductance_matrix_W_K_;        //!< Coupling of node i and node j by heat conduction [W/K]
+  std::vector<std::vector<double>> radiation_matrix_m2_;           //!< Coupling of node i and node j by thermal radiation [m2]
+  std::vector<Node> nodes_;                                        //!< vector of nodes
+  std::vector<Heatload> heatloads_;                                //!< vector of heatloads
+  std::vector<Heater> heaters_;                                    //!< vector of heaters
+  std::vector<HeaterController> heater_controllers_;               //!< vector of heater controllers
+  const s2e::components::PowerPortProvider* power_port_provider_;  //!< Power port provider to get power consumption
+  size_t node_num_;                                                //!< number of nodes
+  double propagation_step_s_;                                      //!< propagation step [s]
   double propagation_time_s_;  //!< Incremented time inside class Temperature [s], finish propagation when reaching end_time
   const environment::SolarRadiationPressureEnvironment* srp_environment_;  //!< SolarRadiationPressureEnvironment for calculating solar flux
   const environment::EarthAlbedo* earth_albedo_;                           //!< EarthAlbedo object for calculating earth albedo
@@ -84,6 +86,7 @@ class Temperature : public logger::ILoggable {
    * @param heatloads: Vector of all heatloads included in calculation
    * @param heaters: Vector of all heaters included in calculation
    * @param heater_controllers: Vector of all heater controllers included in calculation
+   * @param power_port_provider: Power port provider to get power consumption
    * @param node_num: Number of nodes
    * @param propagation_step_s: Propagation time step [s]
    * @param srp_environment: SolarRadiationPressureEnvironment object for calculating solar flux
@@ -94,8 +97,9 @@ class Temperature : public logger::ILoggable {
    */
   Temperature(const std::vector<std::vector<double>> conductance_matrix_W_K, const std::vector<std::vector<double>> radiation_matrix_m2,
               std::vector<Node> nodes, std::vector<Heatload> heatloads, std::vector<Heater> heaters, std::vector<HeaterController> heater_controllers,
-              const size_t node_num, const double propagation_step_s, const environment::SolarRadiationPressureEnvironment* srp_environment,
-              const environment::EarthAlbedo* earth_albedo, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug);
+              const s2e::components::PowerPortProvider* power_port_provider, const size_t node_num, const double propagation_step_s,
+              const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo,
+              const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug);
   /**
    * @fn Temperature
    * @brief Construct a new Temperature object, used when thermal calculation is disabled.
@@ -156,6 +160,12 @@ class Temperature : public logger::ILoggable {
    * @brief Print parameters of temperature in debug console
    */
   void PrintParams(void);
+
+  /**
+   * @fn SetPowerPortProvider
+   * @brief Set Power Port Provider
+   */
+  void SetPowerPortProvider(const s2e::components::PowerPortProvider* power_port_provider);
 };
 
 /**
@@ -167,7 +177,8 @@ class Temperature : public logger::ILoggable {
  * @return Temperature*
  */
 Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s,
-                             const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo);
+                             const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo,
+                            const s2e::components::PowerPortProvider* power_port_provider);
 
 }  // namespace s2e::dynamics::thermal
 

@@ -17,16 +17,17 @@ using namespace std;
 namespace s2e::dynamics::thermal {
 
 Temperature::Temperature(const vector<vector<double>> conductance_matrix_W_K, const vector<vector<double>> radiation_matrix_m2, vector<Node> nodes,
-                         vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers, const size_t node_num,
-                         const double propagation_step_s, const environment::SolarRadiationPressureEnvironment* srp_environment,
-                         const environment::EarthAlbedo* earth_albedo, const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting,
-                         const bool debug)
+                         vector<Heatload> heatloads, vector<Heater> heaters, vector<HeaterController> heater_controllers,
+                         const s2e::components::PowerPortProvider* power_port_provider, const size_t node_num, const double propagation_step_s,
+                         const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo,
+                         const bool is_calc_enabled, const SolarCalcSetting solar_calc_setting, const bool debug)
     : conductance_matrix_W_K_(conductance_matrix_W_K),
       radiation_matrix_m2_(radiation_matrix_m2),
       nodes_(nodes),
       heatloads_(heatloads),
       heaters_(heaters),
       heater_controllers_(heater_controllers),
+      power_port_provider_(power_port_provider),
       node_num_(node_num),
       propagation_step_s_(propagation_step_s),
       srp_environment_(srp_environment),
@@ -44,6 +45,7 @@ Temperature::Temperature() {
   node_num_ = 0;
   propagation_step_s_ = 0.0;
   propagation_time_s_ = 0.0;
+  // power_port_provider_ = nullptr;
   solar_calc_setting_ = SolarCalcSetting::kDisable;
   is_calc_enabled_ = false;
   debug_ = false;
@@ -293,7 +295,8 @@ using std::string;
 using std::vector;
 
 Temperature* InitTemperature(const std::string file_name, const double rk_prop_step_s,
-                             const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo) {
+                             const environment::SolarRadiationPressureEnvironment* srp_environment, const environment::EarthAlbedo* earth_albedo,
+                             const s2e::components::PowerPortProvider* power_port_provider) {
   auto mainIni = setting_file_reader::IniAccess(file_name);
 
   vector<Node> node_list;
@@ -330,19 +333,6 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
 
   bool debug = mainIni.ReadEnable("THERMAL", "debug");
 
-  // Read Heatloads from CSV File
-  string filepath_heatload = file_path + "heatload.csv";
-  setting_file_reader::IniAccess conf_heatload(filepath_heatload);
-  conf_heatload.ReadCsvString(heatload_str_list, 100);
-  /*since we don't know the number of node_list yet, set node_num=100 temporary.
-    Recall that Nodes_num are given to this function only to reserve memory*/
-
-  heatload_num = heatload_str_list.size() - 1;
-  auto times_itr = heatload_str_list.begin();  // First Row is Time Data
-  for (auto itr = heatload_str_list.begin() + 1; itr != heatload_str_list.end(); ++itr) {
-    heatload_list.push_back(InitHeatload(*times_itr, *itr));
-  }
-
   // Read Node Properties from CSV File
   string filepath_node = file_path + "node.csv";
   setting_file_reader::IniAccess conf_node(filepath_node);
@@ -354,6 +344,20 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   node_list.reserve(node_num);                                                     // reserve memory
   for (auto itr = node_str_list.begin() + 1; itr != node_str_list.end(); ++itr) {  // first row is for labels
     node_list.push_back(InitNode(*itr));
+  }
+
+  // Read Heatloads from CSV File
+  string filepath_heatload = file_path + "heatload.csv";
+  setting_file_reader::IniAccess conf_heatload(filepath_heatload);
+  conf_heatload.ReadCsvString(heatload_str_list, 100);
+  /*since we don't know the number of node_list yet, set node_num=100 temporary.
+    Recall that Nodes_num are given to this function only to reserve memory*/
+
+  heatload_num = heatload_str_list.size() - 1;
+  auto times_itr = heatload_str_list.begin();  // First Row is Time Data
+  for (auto itr = heatload_str_list.begin() + 1; itr != heatload_str_list.end(); ++itr) {
+    heatload_list.push_back(
+        InitHeatload(*times_itr, *itr, node_list[std::distance(heatload_str_list.begin() + 1, itr)].GetPowerPortId(), power_port_provider));
   }
 
   assert(node_num == heatload_num);  // Number of nodes and heatload lists must be the same
@@ -387,9 +391,16 @@ Temperature* InitTemperature(const std::string file_name, const double rk_prop_s
   assert(radiation_matrix.size() == radiation_matrix[0].size());      // Must be square matrix
 
   Temperature* temperature;
-  temperature = new Temperature(conductance_matrix, radiation_matrix, node_list, heatload_list, heater_list, heater_controller_list, node_num,
-                                rk_prop_step_s, srp_environment, earth_albedo, is_calc_enabled, solar_calc_setting, debug);
+  temperature =
+      new Temperature(conductance_matrix, radiation_matrix, node_list, heatload_list, heater_list, heater_controller_list, power_port_provider,
+                      node_num, rk_prop_step_s, srp_environment, earth_albedo, is_calc_enabled, solar_calc_setting, debug);
   return temperature;
 }
 
+void Temperature::SetPowerPortProvider(const s2e::components::PowerPortProvider* power_port_provider) {
+  power_port_provider_ = power_port_provider;
+  for (auto itr = heatloads_.begin(); itr != heatloads_.end(); ++itr) {
+    itr->SetPowerPortProvider(power_port_provider);
+  }
+}
 }  // namespace s2e::dynamics::thermal
