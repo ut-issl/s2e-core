@@ -6,6 +6,7 @@
 #ifndef S2E_DYNAMICS_THERMAL_HEATLOAD_HPP_
 #define S2E_DYNAMICS_THERMAL_HEATLOAD_HPP_
 
+#include <components/ports/power_port_provider.hpp>
 #include <logger/logger.hpp>
 #include <string>
 #include <vector>
@@ -23,10 +24,13 @@ class Heatload {
    * @brief Construct a new Heatload object
    *
    * @param [in] node_id
+   * @param [in] power_port_id
+   * @param [in] power_port_provider
    * @param [in] time_table_s
    * @param [in] internal_heatload_table_W
    */
-  Heatload(const int node_id, const std::vector<double> time_table_s, const std::vector<double> internal_heatload_table_W);
+  Heatload(const int node_id, const int power_port_id, const s2e::components::PowerPortProvider* power_port_provider,
+           const std::vector<double> time_table_s, const std::vector<double> internal_heatload_table_W);
   /**
    * @fn ~Heatload
    * @brief Destroy the Heatload object
@@ -96,12 +100,19 @@ class Heatload {
    * @param[in] heater_heatload_W
    */
   inline void SetHeaterHeatload_W(const double heater_heatload_W) { heater_heatload_W_ = heater_heatload_W; }
+  /**
+   * @brief Set Power Port provider
+   * @param[in] power_port_provider
+   */
+  inline void SetPowerPortProvider(const s2e::components::PowerPortProvider* power_port_provider) { power_port_provider_ = power_port_provider; }
 
  protected:
-  double elapsed_time_s_;                          //!< Elapsed time [s]
-  unsigned int node_id_;                           //!< Node ID to apply heatload
-  std::vector<double> time_table_s_;               //!< Times that internal heatload values are defined [s]
-  std::vector<double> internal_heatload_table_W_;  //!< Defined internal heatload values [W]
+  double elapsed_time_s_;                                          //!< Elapsed time [s]
+  unsigned int node_id_;                                           //!< Node ID to apply heatload
+  int power_port_id_;                                              //!< Power port ID to apply heatload
+  const s2e::components::PowerPortProvider* power_port_provider_;  //!< Power port provider to get power consumption
+  std::vector<double> time_table_s_;                               //!< Times that internal heatload values are defined [s]
+  std::vector<double> internal_heatload_table_W_;                  //!< Defined internal heatload values [W]
 
   unsigned int elapsed_time_idx_;  //!< index of time_table_s_ that is closest to elapsed_time_s_
   double solar_heatload_W_;        //!< Heatload from solar flux [W]
@@ -125,9 +136,12 @@ class Heatload {
  * @brief Initialize Heatload object from csv file
  * @param[in] time_str: str representing time table, read from csv file
  * @param[in] internal_heatload_str: str representing internal heatload table, read from csv file
+ * @param[in] power_port_id: Power port ID
+ * @param[in] power_port_provider: Power port provider to get power consumption
  * @return Heatload
  */
-Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vector<std::string>& internal_heatload_str);
+Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vector<std::string>& internal_heatload_str, const int power_port_id,
+                      const s2e::components::PowerPortProvider* power_port_provider);
 
 }  // namespace s2e::dynamics::thermal
 

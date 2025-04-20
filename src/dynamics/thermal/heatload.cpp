@@ -9,8 +9,13 @@ using namespace s2e::math;
 
 namespace s2e::dynamics::thermal {
 
-Heatload::Heatload(int node_id, std::vector<double> time_table_s, std::vector<double> internal_heatload_table_W)
-    : node_id_(node_id), time_table_s_(time_table_s), internal_heatload_table_W_(internal_heatload_table_W) {
+Heatload::Heatload(int node_id, int power_port_id, const s2e::components::PowerPortProvider* power_port_provider, std::vector<double> time_table_s,
+                   std::vector<double> internal_heatload_table_W)
+    : node_id_(node_id),
+      power_port_id_(power_port_id),
+      power_port_provider_(power_port_provider),
+      time_table_s_(time_table_s),
+      internal_heatload_table_W_(internal_heatload_table_W) {
   elapsed_time_s_ = 0;
   elapsed_time_idx_ = 0;
   solar_heatload_W_ = 0.0;
@@ -28,17 +33,23 @@ Heatload::Heatload(int node_id, std::vector<double> time_table_s, std::vector<do
 Heatload::~Heatload() {}
 
 void Heatload::CalcInternalHeatload(void) {
-  double time_table_lower_s = time_table_s_[elapsed_time_idx_];      // Time in time_table_s_ that is below and closest to elapsed_time_s_ [s]
-  double time_table_upper_s = time_table_s_[elapsed_time_idx_ + 1];  // Time in time_table_s_ that is above and closest to elapsed_time_s_ [s]
+  if (power_port_id_ == -1 || power_port_provider_ == nullptr) {
+    double time_table_lower_s = time_table_s_[elapsed_time_idx_];      // Time in time_table_s_ that is below and closest to elapsed_time_s_ [s]
+    double time_table_upper_s = time_table_s_[elapsed_time_idx_ + 1];  // Time in time_table_s_ that is above and closest to elapsed_time_s_ [s]
 
-  double internal_heatload_table_lower_W = internal_heatload_table_W_[elapsed_time_idx_];      // Internal heat value at time_table_lower_s [W]
-  double internal_heatload_table_upper_W = internal_heatload_table_W_[elapsed_time_idx_ + 1];  // Internal heat value at time_table_upper_s [W]
+    double internal_heatload_table_lower_W = internal_heatload_table_W_[elapsed_time_idx_];      // Internal heat value at time_table_lower_s [W]
+    double internal_heatload_table_upper_W = internal_heatload_table_W_[elapsed_time_idx_ + 1];  // Internal heat value at time_table_upper_s [W]
 
-  double time_ratio = (residual_elapsed_time_s_ - time_table_lower_s) / (time_table_upper_s - time_table_lower_s);  // ratio of interpolation
-  double internal_heatload_W =
-      internal_heatload_table_lower_W +
-      time_ratio * (internal_heatload_table_upper_W - internal_heatload_table_lower_W);  // internal heatload calculated by interpolation [W]
-  internal_heatload_W_ = internal_heatload_W;
+    double time_ratio = (residual_elapsed_time_s_ - time_table_lower_s) / (time_table_upper_s - time_table_lower_s);  // ratio of interpolation
+    double internal_heatload_W =
+        internal_heatload_table_lower_W +
+        time_ratio * (internal_heatload_table_upper_W - internal_heatload_table_lower_W);  // internal heatload calculated by interpolation [W]
+    internal_heatload_W_ = internal_heatload_W;
+  } else {
+    // internal_heatload_W_ = 0.0;
+    // If power port is connected, use power port heatload
+    internal_heatload_W_ = power_port_provider_->GetPowerConsumption_W(power_port_id_);
+  }
 }
 
 void Heatload::SetElapsedTime_s(double elapsed_time_s) {
@@ -81,7 +92,8 @@ The number of nodes and heatloads must be the same
 
 */
 
-Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vector<std::string>& internal_heatload_str) {
+Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vector<std::string>& internal_heatload_str, const int power_port_id,
+                      const s2e::components::PowerPortProvider* power_port_provider) {
   using std::stod;
   using std::stoi;
 
@@ -100,7 +112,7 @@ Heatload InitHeatload(const std::vector<std::string>& time_str, const std::vecto
     internal_heatload_table_W[i] = stod(internal_heatload_str[i + 1]);
   }
 
-  return Heatload(node_id, time_table_s, internal_heatload_table_W);
+  return Heatload(node_id, power_port_id, power_port_provider, time_table_s, internal_heatload_table_W);
 }
 
 }  // namespace s2e::dynamics::thermal
