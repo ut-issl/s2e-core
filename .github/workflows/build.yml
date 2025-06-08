@@ -151,7 +151,6 @@ jobs:
           ls ./example/Debug/
           ls ./example/settings/
           ls ./ExtLibraries/
-        # ls ../c2a-core/
 
       - name: run simulation (SampleSat)
         if: matrix.build_bit == 'BUILD_64BIT=OFF' || (matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF')
@@ -231,7 +230,7 @@ jobs:
           ls nrlmsise00/src
 
       - name: copy to settings
-        if: steps.cache-extlib.outputs.cache-hit == 'true'
+        # if: steps.cache-extlib.outputs.cache-hit == 'true'
         run: |
           ls ./example/settings/environment/cspice
           cp -r "./ExtLibraries/cspice/generic_kernels" "./example/settings/environment/cspice"
@@ -240,20 +239,26 @@ jobs:
           ls ./example/settings/environment/cspice/generic_kernels/pck
           ls ./example/settings/environment/cspice/generic_kernels/spk       
 
-
       - name: build
         env:
           CC:  ${{ steps.compiler.outputs.CC  }}
           CXX: ${{ steps.compiler.outputs.CXX }}
         working-directory: ./example
         run: |
-          cmake . -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -D${{ matrix.build_bit }}
+          cmake . -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../../ExtLibraries -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
         working-directory: ./example/settings
         run: |
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
+
+      - name: check directories
+        shell: powershell
+        run: |
+          ls ./example/Debug/
+          ls ./example/settings/
+          ls ./ExtLibraries/
 
       - name: run simulation(SampleSat)
         working-directory: ./example
