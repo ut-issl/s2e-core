@@ -269,7 +269,7 @@ jobs:
         run: |
           sudo apt-get install -y gnuplot
           pip3 install yq
-          LOG=$(ls ../../example/logs/logs_*/*.csv)
+          LOG=$(ls ../../logs/logs_*/*.csv)
           echo "plot $LOG"
           ./gen_graph.sh "${LOG}"
           ls
