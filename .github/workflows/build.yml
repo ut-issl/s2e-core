@@ -245,7 +245,7 @@ jobs:
           CXX: ${{ steps.compiler.outputs.CXX }}
         working-directory: ./example
         run: |
-          cmake . -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../../ExtLibraries -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -D${{ matrix.build_bit }}
+          cmake . -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
@@ -255,7 +255,7 @@ jobs:
 
       - name: check directories
         run: |
-          ls ./example/Debug/
+          ls ./example/
           ls ./example/settings/
           ls ./ExtLibraries/
 
