@@ -127,7 +127,7 @@ jobs:
         working-directory: ./example
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=../example/settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=../../example/settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: build example (64bit)
@@ -136,7 +136,7 @@ jobs:
         working-directory: ./example
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=../example/settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=../../example/settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
