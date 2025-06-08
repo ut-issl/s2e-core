@@ -111,7 +111,7 @@ jobs:
           ls nrlmsise00/src
 
       - name: copy to settings
-        if: steps.cache-extlib.outputs.cache-hit == 'true'
+        # if: steps.cache-extlib.outputs.cache-hit == 'true'
         shell: powershell
         run: |
           ls ./example/settings/environment/cspice
