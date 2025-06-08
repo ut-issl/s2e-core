@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.18)
 option(BUILD_64BIT "Build 64bit" OFF)
 
 # Mac user setting
-option(APPLE_SILICON "Build with Apple Silicon" ON)
+option(APPLE_SILICON "Build with Apple Silicon" OFF)
 # Force build with 64bit for APPLE
 if(APPLE)
   option(BUILD_64BIT "Build 64bit" ON)

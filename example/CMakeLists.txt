@@ -15,7 +15,7 @@ option(BUILD_64BIT "Build 64bit" OFF)
 option(GOOGLE_TEST "Execute GoogleTest" OFF)
 
 # Mac user setting
-option(APPLE_SILICON "Build with Apple Silicon" ON)
+option(APPLE_SILICON "Build with Apple Silicon" OFF)
 # Force build with 64bit for APPLE
 if(APPLE)
   option(BUILD_64BIT "Build 64bit" ON)
