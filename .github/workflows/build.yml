@@ -254,7 +254,6 @@ jobs:
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
 
       - name: check directories
-        shell: powershell
         run: |
           ls ./example/Debug/
           ls ./example/settings/
