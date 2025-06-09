@@ -256,6 +256,7 @@ jobs:
       - name: check directories
         run: |
           ls ./example/
+          ls ./example/logs/
           ls ./example/settings/
           ls ./ExtLibraries/
 
@@ -263,6 +264,10 @@ jobs:
         working-directory: ./example
         run: |
           ./S2E
+
+      - name: check directories
+        run: |
+          ls ./example/logs/
 
       - name: generate graph
         working-directory: ./scripts/Plot
