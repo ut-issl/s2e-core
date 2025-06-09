@@ -36,7 +36,7 @@ Icon
 __pycache__/
 
 # Setting files
-settings/environment/cspice
-settings/environment/space_weather
-settings/environment/gravity_field
-settings/environment/star_catalogue
+**/settings/environment/cspice
+**/settings/environment/space_weather
+**/settings/environment/gravity_field
+**/settings/environment/star_catalogue

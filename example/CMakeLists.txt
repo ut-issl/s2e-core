@@ -27,8 +27,11 @@ if(WIN32)
 endif()
 
 ## set directory path
+if(NOT DEFINED S2E_CORE_DIR)
+  set(S2E_CORE_DIR ${CMAKE_CURRENT_LIST_DIR}/../)
+endif()
 if(NOT DEFINED EXT_LIB_DIR)
-  set(EXT_LIB_DIR ../ExtLibraries)
+  set(EXT_LIB_DIR ${CMAKE_CURRENT_LIST_DIR}/../../ExtLibraries)
 endif()
 set(CSPICE_DIR ${EXT_LIB_DIR}/cspice)
 set(NRLMSISE00_DIR ${EXT_LIB_DIR}/nrlmsise00)
@@ -42,7 +45,7 @@ endif()
 
 ## Directory path for ini files
 if(NOT DEFINED SETTINGS_DIR_FROM_EXE)
-  set(SETTINGS_DIR_FROM_EXE ../../settings)
+  set(SETTINGS_DIR_FROM_EXE ../settings)
 endif()
 
 if(NOT DEFINED EXT_LIB_DIR_FROM_EXE)
@@ -79,33 +82,31 @@ endif()
 set(S2E_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 ## include directories
+include_directories(${S2E_CORE_DIR}/src)
 include_directories(${CSPICE_DIR}/include)
 include_directories(${NRLMSISE00_DIR}/src)
 
 ## add_subdirectories
-add_subdirectory(src/simulation)
-add_subdirectory(src/environment/global)
-add_subdirectory(src/environment/local)
-add_subdirectory(src/dynamics)
-add_subdirectory(src/disturbances)
-add_subdirectory(src/components)
-add_subdirectory(src/math_physics)
-add_subdirectory(src/setting_file_reader)
-add_subdirectory(src/logger)
-add_subdirectory(src/utilities)
-add_subdirectory(ExtLibraries/inih)
+add_subdirectory(${S2E_CORE_DIR}/src/simulation simulation)
+add_subdirectory(${S2E_CORE_DIR}/src/environment/global environment/global)
+add_subdirectory(${S2E_CORE_DIR}/src/environment/local environment/local)
+add_subdirectory(${S2E_CORE_DIR}/src/dynamics dynamics)
+add_subdirectory(${S2E_CORE_DIR}/src/disturbances disturbances)
+add_subdirectory(${S2E_CORE_DIR}/src/components components)
+add_subdirectory(${S2E_CORE_DIR}/src/math_physics math_physics)
+add_subdirectory(${S2E_CORE_DIR}/src/setting_file_reader setting_file_reader)
+add_subdirectory(${S2E_CORE_DIR}/src/logger logger)
+add_subdirectory(${S2E_CORE_DIR}/src/utilities utilities)
+add_subdirectory(${S2E_CORE_DIR}/ExtLibraries/inih ExtLibraries/inih)
 
 set(SOURCE_FILES
   src/s2e.cpp
-  src/simulation_sample/case/sample_case.cpp
-  src/simulation_sample/spacecraft/sample_spacecraft.cpp
-  src/simulation_sample/spacecraft/sample_components.cpp
-  src/simulation_sample/ground_station/sample_ground_station_components.cpp
-  src/simulation_sample/ground_station/sample_ground_station.cpp
+  src/simulation/case/sample_case.cpp
+  src/simulation/spacecraft/sample_spacecraft.cpp
+  src/simulation/spacecraft/sample_components.cpp
+  src/simulation/ground_station/sample_ground_station_components.cpp
+  src/simulation/ground_station/sample_ground_station.cpp
 )
-
-## Create executable file
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 ## cspice library
 if(APPLE)
@@ -179,23 +180,31 @@ endif()
 if(NOT NRLMSISE00_LIB)
   message(FATAL_ERROR "nrlmsise00 not found in ${EXT_LIB_DIR}")
 endif()
-#target_link_libraries(${PROJECT_NAME} ${NRLMSISE00_LIB})
 
-# Initialize link
-target_link_libraries(COMPONENT DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT MATH_PHYSICS SETTING_FILE_READER LOGGER UTILITIES)
-target_link_libraries(DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT SIMULATION MATH_PHYSICS)
-target_link_libraries(DISTURBANCE DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT MATH_PHYSICS)
-target_link_libraries(SIMULATION DYNAMICS GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT DISTURBANCE MATH_PHYSICS)
-target_link_libraries(GLOBAL_ENVIRONMENT ${CSPICE_LIB} MATH_PHYSICS)
-target_link_libraries(LOCAL_ENVIRONMENT GLOBAL_ENVIRONMENT ${CSPICE_LIB} MATH_PHYSICS)
-target_link_libraries(MATH_PHYSICS ${NRLMSISE00_LIB})
-target_link_libraries(SETTING_FILE_READER INIH)
+# link hack for MSVC link.exe
+add_library(lib${PROJECT_NAME}
+  $<TARGET_OBJECTS:LOGGER>
+  $<TARGET_OBJECTS:SETTING_FILE_READER>
+  $<TARGET_OBJECTS:INIH>
+  $<TARGET_OBJECTS:UTILITIES>
 
-target_link_libraries(${PROJECT_NAME} DYNAMICS)
-target_link_libraries(${PROJECT_NAME} DISTURBANCE)
-target_link_libraries(${PROJECT_NAME} SIMULATION)
-target_link_libraries(${PROJECT_NAME} GLOBAL_ENVIRONMENT LOCAL_ENVIRONMENT)
-target_link_libraries(${PROJECT_NAME} COMPONENT)
+  $<TARGET_OBJECTS:COMPONENT>
+  $<TARGET_OBJECTS:DISTURBANCE>
+  $<TARGET_OBJECTS:DYNAMICS>
+  $<TARGET_OBJECTS:GLOBAL_ENVIRONMENT>
+  $<TARGET_OBJECTS:LOCAL_ENVIRONMENT>
+  $<TARGET_OBJECTS:MATH_PHYSICS>
+  $<TARGET_OBJECTS:SIMULATION>
+)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
+target_link_libraries(${PROJECT_NAME}
+  lib${PROJECT_NAME}
+
+  # ExtLibraries
+  ${NRLMSISE00_LIB}
+  ${CSPICE_LIB}
+)
 
 ## C2A integration
 if(USE_C2A)
@@ -237,11 +246,12 @@ if(GOOGLE_TEST)
   file(GLOB_RECURSE TEST_FILES ${CMAKE_CURRENT_LIST_DIR}/src/test_*.cpp)
   # Uncomment the following line to exclude any files that match the REGEX from TEST_FILES
   # list(FILTER TEST_FILES EXCLUDE REGEX ${CMAKE_CURRENT_LIST_DIR}/src/test_example.cpp)
+  include_directories(${TEST_PROJECT_NAME})
 
   add_executable(${TEST_PROJECT_NAME} ${TEST_FILES})
   target_link_libraries(${TEST_PROJECT_NAME} gtest gtest_main gmock)
-  target_link_libraries(${TEST_PROJECT_NAME} MATH_PHYSICS)
-  include_directories(${TEST_PROJECT_NAME})
+  target_link_libraries(${TEST_PROJECT_NAME} MATH_PHYSICS ${NRLMSISE00_LIB})
+
   add_test(NAME s2e-test COMMAND ${TEST_PROJECT_NAME})
   enable_testing()
 
@@ -258,4 +268,4 @@ endif()
 message("Cspice_LIB:  " ${CSPICE_LIB})
 message("nrlmsise00_LIB:  " ${NRLMSISE00_LIB})
 
-include(common.cmake)
+include(${S2E_CORE_DIR}/common.cmake)

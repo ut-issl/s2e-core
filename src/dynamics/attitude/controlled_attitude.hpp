@@ -26,6 +26,7 @@ enum class AttitudeControlMode {
   kVelocityDirectionPointing,     //!< Spacecraft velocity direction pointing
   kGroundSpeedDirectionPointing,  //!< Ground speed direction pointing
   kOrbitNormalPointing,           //!< Orbit normal direction pointing
+  kEarthSurfacePointing,          //!< Earth surface pointing
   kNoControl,                     // No Control
 };
 
@@ -52,14 +53,16 @@ class ControlledAttitude : public Attitude {
    * @param [in] main_target_direction_b: Main target direction on the body fixed frame
    * @param [in] sub_target_direction_b: Sun target direction on the body fixed frame
    * @param [in] inertia_tensor_kgm2: Inertia tensor of the spacecraft [kg m^2]
+   * @param [in] target_earth_surface_position: Target position on the Earth surface for Earth surface pointing mode
    * @param [in] local_celestial_information: Local celestial information
    * @param [in] orbit: Orbit
    * @param [in] simulation_object_name: Simulation object name for Monte-Carlo simulation
    */
   ControlledAttitude(const AttitudeControlMode main_mode, const AttitudeControlMode sub_mode, const math::Quaternion quaternion_i2b,
                      const math::Vector<3> main_target_direction_b, const math::Vector<3> sub_target_direction_b,
-                     const math::Matrix<3, 3>& inertia_tensor_kgm2, const environment::LocalCelestialInformation* local_celestial_information,
-                     const orbit::Orbit* orbit, const std::string& simulation_object_name = "attitude");
+                     const math::Matrix<3, 3>& inertia_tensor_kgm2, const geodesy::GeodeticPosition target_earth_surface_position,
+                     const environment::LocalCelestialInformation* local_celestial_information, const orbit::Orbit* orbit,
+                     const std::string& simulation_object_name = "attitude");
   /**
    * @fn ~ControlledAttitude
    * @brief Destructor
@@ -101,13 +104,14 @@ class ControlledAttitude : public Attitude {
   virtual void Propagate(const double end_time_s);
 
  private:
-  AttitudeControlMode main_mode_;             //!< Main control mode
-  AttitudeControlMode sub_mode_;              //!< Sub control mode
-  math::Vector<3> main_target_direction_b_;   //!< Main target direction on the body fixed frame
-  math::Vector<3> sub_target_direction_b_;    //!< Sub target direction on tge body fixed frame
-  double previous_calc_time_s_ = -1.0;        //!< Previous time of velocity calculation [sec]
-  math::Quaternion previous_quaternion_i2b_;  //!< Previous quaternion
-  math::Vector<3> previous_omega_b_rad_s_;    //!< Previous angular velocity [rad/s]
+  AttitudeControlMode main_mode_;                            //!< Main control mode
+  AttitudeControlMode sub_mode_;                             //!< Sub control mode
+  math::Vector<3> main_target_direction_b_;                  //!< Main target direction on the body fixed frame
+  math::Vector<3> sub_target_direction_b_;                   //!< Sub target direction on tge body fixed frame
+  double previous_calc_time_s_ = -1.0;                       //!< Previous time of velocity calculation [sec]
+  math::Quaternion previous_quaternion_i2b_;                 //!< Previous quaternion
+  math::Vector<3> previous_omega_b_rad_s_;                   //!< Previous angular velocity [rad/s]
+  geodesy::GeodeticPosition target_earth_surface_position_;  //!< Target position on the Earth surface
 
   const double kMinDirectionAngle_rad = 30.0 * math::deg_to_rad;  //!< Minimum angle b/w main and sub direction
                                                                   // TODO Change with ini file

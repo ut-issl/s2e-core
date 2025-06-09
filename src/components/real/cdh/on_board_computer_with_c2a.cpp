@@ -133,15 +133,6 @@ int ObcWithC2a::ReceivedByObc_C2A(int port_id, unsigned char* buffer, int offset
   return port->ReadRx(buffer, offset, length);
 }
 
-// If the character encoding of C2A is UTF-8, these functions are not necessary,
-// and users can directory use SendFromObc_C2A and ReceivedByObc_C2A
-int OBC_C2A_SendFromObc(int port_id, unsigned char* buffer, int offset, int length) {
-  return ObcWithC2a::SendFromObc_C2A(port_id, buffer, offset, length);
-}
-int OBC_C2A_ReceivedByObc(int port_id, unsigned char* buffer, int offset, int length) {
-  return ObcWithC2a::ReceivedByObc_C2A(port_id, buffer, offset, length);
-}
-
 int ObcWithC2a::I2cConnectPort(int port_id, const unsigned char i2c_address) {
   if (i2c_com_ports_c2a_[port_id] != nullptr) {
     // Port already used
@@ -212,16 +203,6 @@ int ObcWithC2a::I2cComponentReadCommand(int port_id, const unsigned char i2c_add
   return 0;
 }
 
-int OBC_C2A_I2cWriteCommand(int port_id, const unsigned char i2c_address, const unsigned char* data, const unsigned char length) {
-  return ObcWithC2a::I2cWriteCommand(port_id, i2c_address, data, length);
-}
-int OBC_C2A_I2cWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char* data, const unsigned char length) {
-  return ObcWithC2a::I2cWriteRegister(port_id, i2c_address, data, length);
-}
-int OBC_C2A_I2cReadRegister(int port_id, const unsigned char i2c_address, unsigned char* data, const unsigned char length) {
-  return ObcWithC2a::I2cReadRegister(port_id, i2c_address, data, length);
-}
-
 int ObcWithC2a::GpioConnectPort(int port_id) {
   if (gpio_ports_c2a_[port_id] != nullptr) {
     // Port already used
@@ -255,8 +236,28 @@ bool ObcWithC2a::GpioRead_C2A(int port_id) {
   return port->DigitalRead();
 }
 
-int OBC_C2A_GpioWrite(int port_id, const bool is_high) { return ObcWithC2a::GpioWrite_C2A(port_id, is_high); }
-
-bool OBC_C2A_GpioRead(int port_id) { return ObcWithC2a::GpioRead_C2A(port_id); }
-
 }  // namespace s2e::components
+
+// C2A用
+// If the character encoding of C2A is UTF-8, these functions are not necessary,
+// and users can directory use SendFromObc_C2A and ReceivedByObc_C2A
+int OBC_C2A_SendFromObc(int port_id, unsigned char* buffer, int offset, int length) {
+  return s2e::components::ObcWithC2a::SendFromObc_C2A(port_id, buffer, offset, length);
+}
+int OBC_C2A_ReceivedByObc(int port_id, unsigned char* buffer, int offset, int length) {
+  return s2e::components::ObcWithC2a::ReceivedByObc_C2A(port_id, buffer, offset, length);
+}
+
+int OBC_C2A_I2cWriteCommand(int port_id, const unsigned char i2c_address, const unsigned char* data, const unsigned char length) {
+  return s2e::components::ObcWithC2a::I2cWriteCommand(port_id, i2c_address, data, length);
+}
+int OBC_C2A_I2cWriteRegister(int port_id, const unsigned char i2c_address, const unsigned char* data, const unsigned char length) {
+  return s2e::components::ObcWithC2a::I2cWriteRegister(port_id, i2c_address, data, length);
+}
+int OBC_C2A_I2cReadRegister(int port_id, const unsigned char i2c_address, unsigned char* data, const unsigned char length) {
+  return s2e::components::ObcWithC2a::I2cReadRegister(port_id, i2c_address, data, length);
+}
+
+int OBC_C2A_GpioWrite(int port_id, const bool is_high) { return s2e::components::ObcWithC2a::GpioWrite_C2A(port_id, is_high); }
+
+bool OBC_C2A_GpioRead(int port_id) { return s2e::components::ObcWithC2a::GpioRead_C2A(port_id); }
