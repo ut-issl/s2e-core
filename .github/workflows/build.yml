@@ -256,9 +256,9 @@ jobs:
       - name: check directories
         run: |
           ls ./example/
-          ls ./example/logs/
           ls ./example/settings/
           ls ./ExtLibraries/
+          ls ../../logs/
 
       - name: run simulation(SampleSat)
         working-directory: ./example
@@ -267,7 +267,7 @@ jobs:
 
       - name: check directories
         run: |
-          ls ./example/logs/
+          ls ../../logs/
 
       - name: generate graph
         working-directory: ./scripts/Plot
@@ -297,7 +297,7 @@ jobs:
           pip install pipenv
           pipenv install
           pipenv run pip list
-          pipenv run python plot_gs_visibility.py --no-gui
+          pipenv run python plot_gs_visibility.py --logs-dir '../../logs' --no-gui
           ls ./*_gs_visibility.png
 
       - name: upload imgs
