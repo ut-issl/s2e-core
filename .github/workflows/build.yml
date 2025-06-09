@@ -258,7 +258,7 @@ jobs:
           ls ./example/
           ls ./example/settings/
           ls ./ExtLibraries/
-          ls ../../logs/
+          ls ./example/logs/
 
       - name: run simulation(SampleSat)
         working-directory: ./example
@@ -267,7 +267,7 @@ jobs:
 
       - name: check directories
         run: |
-          ls ../../logs/
+          ls ./example/logs/
 
       - name: generate graph
         working-directory: ./scripts/Plot
