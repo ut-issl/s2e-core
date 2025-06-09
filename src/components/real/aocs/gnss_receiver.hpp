@@ -54,6 +54,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_deg: Half width of the antenna cone model [deg]
+   * @param [in] klobuchar_alpha: Klobuchar alpha coefficients
+   * @param [in] klobuchar_beta: Klobuchar beta coefficients
    * @param [in] pseudorange_noise_standard_deviation_m: Standard deviation of normal random noise for pseudorange [m]
    * @param [in] position_noise_standard_deviation_ecef_m: Standard deviation of normal random noise for position in the ECEF frame [m]
    * @param [in] velocity_noise_standard_deviation_ecef_m_s: Standard deviation of normal random noise for velocity in the ECEF frame [m/s]
@@ -63,7 +65,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] simulation_time: Simulation time information
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
-               const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
+               const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg, const math::Vector<4> klobuchar_alpha,
+               const math::Vector<4> klobuchar_beta,
                const double pseudorange_noise_standard_deviation_m, const math::Vector<3> position_noise_standard_deviation_ecef_m,
                const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled,
                const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
@@ -78,6 +81,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_deg: Half width of the antenna cone model [rad]
+   * @param [in] klobuchar_alpha: Klobuchar alpha coefficients
+   * @param [in] klobuchar_beta: Klobuchar beta coefficients
    * @param [in] pseudorange_noise_standard_deviation_m: Standard deviation of normal random noise for pseudorange [m]
    * @param [in] position_noise_standard_deviation_ecef_m: Standard deviation of normal random noise for position in the ECEF frame [m]
    * @param [in] velocity_noise_standard_deviation_ecef_m_s: Standard deviation of normal random noise for velocity in the ECEF frame [m/s]
@@ -88,7 +93,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
-               const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
+               const double half_width_deg, const math::Vector<4> klobuchar_alpha,
+               const math::Vector<4> klobuchar_beta, const double pseudorange_noise_standard_deviation_m,
                const math::Vector<3> position_noise_standard_deviation_ecef_m, const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
                const bool is_log_pseudorange_enabled, const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const environment::SimulationTime* simulation_time);
@@ -159,6 +165,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
   AntennaModel antenna_model_;            //!< Antenna model
 
   // GNSS observation
+  math::Vector<4> klobuchar_alpha_;
+  math::Vector<4> klobuchar_beta_;
   randomization::NormalRand pseudorange_random_noise_m_;                      //!< Random noise for pseudorange [m]
   std::vector<double> pseudorange_list_m_{kTotalNumberOfGnssSatellite, 0.0};  //!< Pseudorange list for each GPS satellite
   bool is_logged_pseudorange_;                                                //!< Flag for log output of pseudorange
@@ -225,6 +233,21 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @return Geometric distance between the GNSS satellite and the GNSS receiver antenna [m]
    */
   double CalcGeometricDistance_m(const size_t gnss_system_id);
+  /**
+   * @fn CalcElevationAzimuth_rad
+   * @brief Calculate the elevation and azimuth angles of the GNSS satellite from the receiver antenna
+   * @param [in] gnss_system_id: ID of target GNSS satellite
+   * @return Vector of elevation and azimuth angles in radians [rad]
+   */
+  std::vector<double> CalcElevationAzimuth_rad(const size_t gnss_system_id);
+  /**
+   * @fn CalcIonosphericDelay
+   * @brief Calculate the slant ionospheric delay using the Klobuchar model
+   * @param [in] gnss_system_id: ID of target GNSS satellite
+   * @param [in] band_id: ID of target GNSS satellite frequency band
+   * @return Ionospheric delay [m]
+   */
+  double CalcIonosphericDelay_m(const size_t gnss_system_id, const size_t band_id);
   /**
    * @fn CalcPseudorange
    * @brief Calculate the pseudorange between the GNSS satellite and the GNSS receiver antenna
