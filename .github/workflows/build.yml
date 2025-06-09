@@ -111,7 +111,7 @@ jobs:
           ls nrlmsise00/src
 
       - name: copy to settings
-        if: steps.cache-extlib.outputs.cache-hit == 'true'
+        # if: steps.cache-extlib.outputs.cache-hit == 'true'
         shell: powershell
         run: |
           ls ./example/settings/environment/cspice
@@ -127,7 +127,7 @@ jobs:
         working-directory: ./example
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 17 2022" -A Win32 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: build example (64bit)
@@ -136,7 +136,7 @@ jobs:
         working-directory: ./example
         run: |
           cl.exe
-          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
+          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_CONFIGURATION_TYPES:STRING="Debug" -DSETTINGS_DIR_FROM_EXE=./settings -DCORE_DIR_FROM_EXE=../ -DEXT_LIB_DIR=../ExtLibraries -DEXT_LIB_DIR_FROM_EXE=../../ExtLibraries -DFLIGHT_SW_DIR=../c2a-core -DC2A_NAME=Examples/minimum_user -D${{ matrix.use_c2a }} -D${{ matrix.build_bit }}
           cmake --build .
 
       - name: fix simulation config
@@ -144,6 +144,13 @@ jobs:
         working-directory: ./example/settings
         run: |
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
+
+      - name: check directories
+        shell: powershell
+        run: |
+          ls ./example/Debug/
+          ls ./example/settings/
+          ls ./ExtLibraries/
 
       - name: run simulation (SampleSat)
         if: matrix.build_bit == 'BUILD_64BIT=OFF' || (matrix.build_bit == 'BUILD_64BIT=ON' && matrix.use_c2a == 'USE_C2A=OFF')
@@ -223,7 +230,7 @@ jobs:
           ls nrlmsise00/src
 
       - name: copy to settings
-        if: steps.cache-extlib.outputs.cache-hit == 'true'
+        # if: steps.cache-extlib.outputs.cache-hit == 'true'
         run: |
           ls ./example/settings/environment/cspice
           cp -r "./ExtLibraries/cspice/generic_kernels" "./example/settings/environment/cspice"
@@ -231,7 +238,6 @@ jobs:
           ls ./example/settings/environment/cspice/generic_kernels/lsk
           ls ./example/settings/environment/cspice/generic_kernels/pck
           ls ./example/settings/environment/cspice/generic_kernels/spk       
-
 
       - name: build
         env:
@@ -247,17 +253,28 @@ jobs:
         run: |
           find . -type f -name '*.ini' -exec sed -i 's/..\/..\/logs/.\/logs/g' {} \;
 
+      - name: check directories
+        run: |
+          ls ./example/
+          ls ./example/settings/
+          ls ./ExtLibraries/
+          ls ./example/logs/
+
       - name: run simulation(SampleSat)
         working-directory: ./example
         run: |
           ./S2E
+
+      - name: check directories
+        run: |
+          ls ./example/logs/
 
       - name: generate graph
         working-directory: ./scripts/Plot
         run: |
           sudo apt-get install -y gnuplot
           pip3 install yq
-          LOG=$(ls ../../example/logs/logs_*/*.csv)
+          LOG=$(ls ../../logs/logs_*/*.csv)
           echo "plot $LOG"
           ./gen_graph.sh "${LOG}"
           ls
@@ -280,7 +297,7 @@ jobs:
           pip install pipenv
           pipenv install
           pipenv run pip list
-          pipenv run python plot_gs_visibility.py --no-gui
+          pipenv run python plot_gs_visibility.py --logs-dir '../../logs' --no-gui
           ls ./*_gs_visibility.png
 
       - name: upload imgs
