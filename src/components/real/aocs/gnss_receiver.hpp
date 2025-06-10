@@ -13,6 +13,7 @@
 #include <math_physics/geodesy/geodetic_position.hpp>
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/randomization/normal_randomization.hpp>
+#include <math_physics/randomization/random_walk.hpp>
 
 #include "../../base/component.hpp"
 
@@ -54,7 +55,10 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_deg: Half width of the antenna cone model [deg]
-   * @param [in] receiver_clock_bias_noise_standard_deviation_s: Standard deviation of normal random noise for receiver clock bias [s]
+   * @param [in] @param [in] receiver_clock_constant_bias_s: Constant bias of receiver clock [s]
+   * @param [in] receiver_clock_random_walk_standard_deviation_s: Standard deviation of normal random noise for receiver clock random walk [s]
+   * @param [in] receiver_clock_random_walk_limit_s: Limit of random walk for receiver clock [s]
+   * @param [in] receiver_clock_normal_random_standard_deviation_s: Standard deviation of normal random noise for receiver clock [s]
    * @param [in] pseudorange_noise_standard_deviation_m: Standard deviation of normal random noise for pseudorange [m]
    * @param [in] position_noise_standard_deviation_ecef_m: Standard deviation of normal random noise for position in the ECEF frame [m]
    * @param [in] velocity_noise_standard_deviation_ecef_m_s: Standard deviation of normal random noise for velocity in the ECEF frame [m/s]
@@ -65,9 +69,11 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
                const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
-               const double receiver_clock_bias_noise_standard_deviation_s, const double pseudorange_noise_standard_deviation_m,
-               const math::Vector<3> position_noise_standard_deviation_ecef_m, const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
-               const bool is_log_pseudorange_enabled, const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
+               const double receiver_clock_constant_bias_s, math::Vector<1> receiver_clock_random_walk_standard_deviation_s,
+               math::Vector<1> receiver_clock_random_walk_limit_s, const double receiver_clock_normal_random_standard_deviation_s,
+               const double pseudorange_noise_standard_deviation_m, const math::Vector<3> position_noise_standard_deviation_ecef_m,
+               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled,
+               const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const environment::SimulationTime* simulation_time);
   /**
    * @fn GnssReceiver
@@ -79,7 +85,10 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_deg: Half width of the antenna cone model [rad]
-   * @param [in] receiver_clock_bias_noise_standard_deviation_s: Standard deviation of normal random noise for receiver clock bias [s]
+   * @param [in] receiver_clock_constant_bias_s: Constant bias of receiver clock [s]
+   * @param [in] receiver_clock_random_walk_standard_deviation_s: Standard deviation of normal random noise for receiver clock random walk [s]
+   * @param [in] receiver_clock_random_walk_limit_s: Limit of random walk for receiver clock [s]
+   * @param [in] receiver_clock_normal_random_standard_deviation_s: Standard deviation of normal random noise for receiver clock [s]
    * @param [in] pseudorange_noise_standard_deviation_m: Standard deviation of normal random noise for pseudorange [m]
    * @param [in] position_noise_standard_deviation_ecef_m: Standard deviation of normal random noise for position in the ECEF frame [m]
    * @param [in] velocity_noise_standard_deviation_ecef_m_s: Standard deviation of normal random noise for velocity in the ECEF frame [m/s]
@@ -90,10 +99,11 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
-               const double half_width_deg, const double receiver_clock_bias_noise_standard_deviation_s,
-               const double pseudorange_noise_standard_deviation_m, const math::Vector<3> position_noise_standard_deviation_ecef_m,
-               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled,
-               const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
+               const double half_width_deg, const double receiver_clock_constant_bias_s,
+               math::Vector<1> receiver_clock_random_walk_standard_deviation_s, math::Vector<1> receiver_clock_random_walk_limit_s,
+               const double receiver_clock_normal_random_standard_deviation_s, const double pseudorange_noise_standard_deviation_m,
+               const math::Vector<3> position_noise_standard_deviation_ecef_m, const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
+               const bool is_log_pseudorange_enabled, const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const environment::SimulationTime* simulation_time);
 
   // Override functions for Component
@@ -161,8 +171,12 @@ class GnssReceiver : public Component, public logger::ILoggable {
   double half_width_deg_ = 0.0;           //!< Half width of the antenna cone model [deg]
   AntennaModel antenna_model_;            //!< Antenna model
 
+  // Receiver clock
+  double receiver_clock_constant_bias_s_;                           //!< Constant bias of receiver clock [s]
+  randomization::NormalRand receiver_clock_normal_random_noise_s_;  //!< Random noise for receiver clock bias [s]
+  randomization::RandomWalk<1> receiver_clock_random_walk_s_;       //!< Random walk for receiver clock bias
+
   // GNSS observation
-  randomization::NormalRand receiver_clock_bias_random_noise_s_;              //!< Random noise for receiver clock bias [s]
   randomization::NormalRand pseudorange_random_noise_m_;                      //!< Random noise for pseudorange [m]
   std::vector<double> pseudorange_list_m_{kTotalNumberOfGnssSatellite, 0.0};  //!< Pseudorange list for each GPS satellite
   bool is_logged_pseudorange_;                                                //!< Flag for log output of pseudorange
@@ -233,6 +247,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @fn CalcClockBias_m
    * @brief Calculate the clock bias term of the GNSS satellite and the GNSS receiver antenna
    * @param [in] gnss_system_id: ID of target GNSS satellite
+   * @param [in] receiver_clock_bias_s: Clock bias of the GNSS receiver [s]
    * @return Clock bias term of the GNSS satellite and the GNSS receiver antenna [m]
    */
   double CalcClockBias_m(const size_t gnss_system_id);
