@@ -55,7 +55,7 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] antenna_position_b_m: GNSS antenna position at the body-fixed frame [m]
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_deg: Half width of the antenna cone model [deg]
-   * @param [in] @param [in] receiver_clock_constant_bias_s: Constant bias of receiver clock [s]
+   * @param [in] receiver_clock_constant_bias_s: Constant bias of receiver clock [s]
    * @param [in] receiver_clock_random_walk_standard_deviation_s: Standard deviation of normal random noise for receiver clock random walk [s]
    * @param [in] receiver_clock_random_walk_limit_s: Limit of random walk for receiver clock [s]
    * @param [in] receiver_clock_normal_random_standard_deviation_s: Standard deviation of normal random noise for receiver clock [s]
@@ -247,7 +247,6 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @fn CalcClockBias_m
    * @brief Calculate the clock bias term of the GNSS satellite and the GNSS receiver antenna
    * @param [in] gnss_system_id: ID of target GNSS satellite
-   * @param [in] receiver_clock_bias_s: Clock bias of the GNSS receiver [s]
    * @return Clock bias term of the GNSS satellite and the GNSS receiver antenna [m]
    */
   double CalcClockBias_m(const size_t gnss_system_id);
