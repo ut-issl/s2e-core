@@ -32,8 +32,9 @@ AttitudeWithCantileverVibration::AttitudeWithCantileverVibration(
   double spring_coefficient = pow(intrinsic_angular_velocity_cantilever_rad_s, 2.0);
   attitude_ode_.SetSpringCoefficient(spring_coefficient);
   attitude_ode_.SetInverseInertiaTensor(CalcInverseMatrix(inertia_tensor_kgm2_));
+  attitude_ode_.SetInverseTotalInertiaTensor(CalcInverseMatrix(inertia_tensor_kgm2_ + inertia_tensor_cantilever_kgm2));
   math::Matrix<3, 3> inverse_equivalent_inertia_tensor_cantilever =
-      CalcInverseMatrix(inertia_tensor_kgm2_ - inertia_tensor_cantilever_kgm2) * inertia_tensor_kgm2_;
+      attitude_ode_.GetInverseInertiaTensor() * (inertia_tensor_kgm2_ + inertia_tensor_cantilever_kgm2);
   attitude_ode_.SetInverseEquivalentInertiaTensorCantilever(inverse_equivalent_inertia_tensor_cantilever);
   attitude_ode_.SetTorque_b_Nm(torque_b_Nm_);
   attitude_ode_.SetAngularMomentumReactionWheel_b_Nms(angular_momentum_reaction_wheel_b_Nms_);

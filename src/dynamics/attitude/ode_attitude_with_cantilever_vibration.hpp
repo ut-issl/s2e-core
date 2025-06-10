@@ -90,7 +90,8 @@ class AttitudeWithCantileverVibrationOde : public numerical_integration::Interfa
           (attenuation_coefficient_ * omega_cantilever_rad_s + spring_coefficient_ * euler_angle_cantilever_rad)) -
         inverse_inertia_tensor_ * net_torque_b_Nm;
 
-    math::Vector<3> rhs = inverse_inertia_tensor_ * (net_torque_b_Nm - inertia_tensor_cantilever_kgm2_ * angular_accelaration_cantilever_rad_s2);
+    math::Vector<3> rhs =
+        inverse_total_inertia_tensor_ * (net_torque_b_Nm - inertia_tensor_cantilever_kgm2_ * angular_accelaration_cantilever_rad_s2);
 
     for (size_t i = 0; i < 3; ++i) {
       output[i] = rhs[i];
@@ -152,6 +153,11 @@ class AttitudeWithCantileverVibrationOde : public numerical_integration::Interfa
    * @brief Get inverse of inertia tensor of the cantilever
    */
   inline math::Matrix<3, 3> GetInverseEquivalentInertiaTensorCantilever() { return inverse_equivalent_inertia_tensor_cantilever_; }
+  /**
+   * @fn GetInverseTotalInertiaTensor
+   * @brief Get inverse of total inertia tensor
+   */
+  inline math::Matrix<3, 3> GetInverseTotalInertiaTensor() { return inverse_total_inertia_tensor_; }
 
   // Setter
   /**
@@ -209,6 +215,13 @@ class AttitudeWithCantileverVibrationOde : public numerical_integration::Interfa
   inline void SetInverseEquivalentInertiaTensorCantilever(const math::Matrix<3, 3> inverse_equivalent_inertia_tensor_cantilever) {
     inverse_equivalent_inertia_tensor_cantilever_ = inverse_equivalent_inertia_tensor_cantilever;
   }
+  /**
+   * @fn SetInverseTotalInertiaTensor
+   * @brief Set inverse of total inertia tensor
+   */
+  inline void SetInverseTotalInertiaTensor(const math::Matrix<3, 3> inverse_total_inertia_tensor) {
+    inverse_total_inertia_tensor_ = inverse_total_inertia_tensor;
+  }
 
  protected:
   double attenuation_coefficient_ = 0.0;                                  //!< Attenuation coefficient
@@ -220,6 +233,7 @@ class AttitudeWithCantileverVibrationOde : public numerical_integration::Interfa
   math::Matrix<3, 3> previous_inertia_tensor_kgm2_{0.0};                  //!< Previous inertia tensor [kgm2]
   math::Matrix<3, 3> inertia_tensor_cantilever_kgm2_{0.0};                //!< Inertia tensor of the cantilever [kgm2]
   math::Matrix<3, 3> inverse_equivalent_inertia_tensor_cantilever_{0.0};  //!< Inverse of inertia tensor of the cantilever
+  math::Matrix<3, 3> inverse_total_inertia_tensor_{0.0};                  //!< Inverse of total inertia tensor
 };
 
 }  // namespace s2e::dynamics::attitude
