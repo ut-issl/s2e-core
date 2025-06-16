@@ -6,6 +6,7 @@
 #include "gnss_receiver.hpp"
 
 #include <environment/global/physical_constants.hpp>
+#include <math_physics/gnss/gnss_constants.hpp>
 #include <math_physics/gnss/gnss_satellite_number.hpp>
 #include <math_physics/randomization/global_randomization.hpp>
 #include <setting_file_reader/initialize_file_access.hpp>
@@ -16,10 +17,11 @@ namespace s2e::components {
 GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id,
                            const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                            const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
-                           const double carrier_phase_standard_deviation, const double integer_ambiguity_standard_deviation,
+                           const double carrier_phase_standard_deviation_cycle, const double integer_ambiguity_standard_deviation_cycle,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
                            const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const size_t number_of_bands,
-                           const std::vector<size_t> band_id_list, std::vector<size_t> band_frequency_list_Hz, const bool is_log_pseudorange_enabled,
+                           const std::vector<size_t> band_id_list, const std::vector<double> band_frequency_list_Hz,
+                           const std::vector<double> wave_length_list_m, const bool is_log_pseudorange_enabled,
                            const bool is_log_carrier_phase_enabled, const dynamics::Dynamics* dynamics,
                            const environment::GnssSatellites* gnss_satellites, const environment::SimulationTime* simulation_time)
     : Component(prescaler, clock_generator),
@@ -40,8 +42,8 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                                                      randomization::global_randomization.MakeSeed());
   }
   pseudorange_random_noise_m_.SetParameters(0.0, pseudorange_noise_standard_deviation_m, randomization::global_randomization.MakeSeed());
-  carrier_phase_random_noise_.SetParameters(0.0, carrier_phase_standard_deviation, randomization::global_randomization.MakeSeed());
-  random_integer_ambiguity_noise_.SetParameters(0, integer_ambiguity_standard_deviation, randomization::global_randomization.MakeSeed());
+  carrier_phase_random_noise_.SetParameters(0.0, carrier_phase_standard_deviation_cycle, randomization::global_randomization.MakeSeed());
+  random_integer_ambiguity_noise_.SetParameters(0, integer_ambiguity_standard_deviation_cycle, randomization::global_randomization.MakeSeed());
   random_integer_ambiguity_ = std::floor(random_integer_ambiguity_noise_);
   for (size_t i = 0; i < number_of_bands_; i++) {
     band_id_list_.push_back(band_id_list[i]);
@@ -49,16 +51,20 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
   for (size_t i = 0; i < number_of_bands_; i++) {
     band_frequency_list_Hz_.push_back(band_frequency_list_Hz[i]);
   }
+  for (size_t i = 0; i < number_of_bands_; i++) {
+    wave_length_list_m_.push_back(wave_length_list_m[i]);
+  }
 }
 
 GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                            const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
                            const double half_width_deg, const double pseudorange_noise_standard_deviation_m,
-                           const double carrier_phase_standard_deviation, const double integer_ambiguity_standard_deviation,
+                           const double carrier_phase_standard_deviation_cycle, const double integer_ambiguity_standard_deviation_cycle,
                            const math::Vector<3> position_noise_standard_deviation_ecef_m,
                            const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const size_t number_of_bands,
-                           const std::vector<size_t> band_id_list, const std::vector<size_t> band_frequency_list_Hz,
-                           const bool is_log_pseudorange_enabled, const bool is_log_carrier_phase_enabled, const dynamics::Dynamics* dynamics,
+                           const std::vector<size_t> band_id_list, const std::vector<double> band_frequency_list_Hz,
+                           const std::vector<double> wave_length_list_m, const bool is_log_pseudorange_enabled,
+                           const bool is_log_carrier_phase_enabled, const dynamics::Dynamics* dynamics,
                            const environment::GnssSatellites* gnss_satellites, const environment::SimulationTime* simulation_time)
     : Component(prescaler, clock_generator, power_port),
       component_id_(component_id),
@@ -78,11 +84,12 @@ GnssReceiver::GnssReceiver(const int prescaler, environment::ClockGenerator* clo
                                                      randomization::global_randomization.MakeSeed());
   }
   pseudorange_random_noise_m_.SetParameters(0.0, pseudorange_noise_standard_deviation_m, randomization::global_randomization.MakeSeed());
-  carrier_phase_random_noise_.SetParameters(0.0, carrier_phase_standard_deviation, randomization::global_randomization.MakeSeed());
-  random_integer_ambiguity_noise_.SetParameters(0, integer_ambiguity_standard_deviation, randomization::global_randomization.MakeSeed());
+  carrier_phase_random_noise_.SetParameters(0.0, carrier_phase_standard_deviation_cycle, randomization::global_randomization.MakeSeed());
+  random_integer_ambiguity_noise_.SetParameters(0, integer_ambiguity_standard_deviation_cycle, randomization::global_randomization.MakeSeed());
   random_integer_ambiguity_ = std::floor(random_integer_ambiguity_noise_);
   band_id_list_ = band_id_list;
   band_frequency_list_Hz_ = band_frequency_list_Hz;
+  wave_length_list_m_ = wave_length_list_m;
 }
 
 void GnssReceiver::MainRoutine(const int time_count) {
@@ -248,9 +255,7 @@ double GnssReceiver::CalcPseudorange_m(const size_t gnss_system_id) {
 double GnssReceiver::CalcCarrierPhaseIntegerAmbiguity(const double pseudo_range_m, const size_t band_number) {
   // TODO: Add effect of clock bias
   // TODO: Add ionospheric delay
-  const double c_m_s = environment::speed_of_light_m_s;
-  size_t frequency_Hz = band_frequency_list_Hz_[band_number];
-  double wave_length_m = c_m_s / (double)frequency_Hz;
+  double wave_length_m = wave_length_list_m_[band_number];
   size_t carrier_phase_integer_ambiguity = std::floor(pseudo_range_m / wave_length_m) + carrier_phase_random_noise_;
   return carrier_phase_integer_ambiguity;
 }
@@ -258,9 +263,7 @@ double GnssReceiver::CalcCarrierPhaseIntegerAmbiguity(const double pseudo_range_
 double GnssReceiver::CalcCarrierPhase(const double pseudo_range_m, const size_t integer_ambiguity, const size_t band_number) {
   // TODO: Add effect of clock bias
   // TODO: Add ionospheric delay
-  const double c_m_s = environment::speed_of_light_m_s;
-  double frequency_Hz = band_frequency_list_Hz_[band_number];
-  double wave_length_m = c_m_s / frequency_Hz;
+  double wave_length_m = wave_length_list_m_[band_number];
   double carrier_phase = pseudo_range_m / wave_length_m - integer_ambiguity + random_integer_ambiguity_;
   return carrier_phase;
 }
@@ -285,12 +288,13 @@ void GnssReceiver::SetGnssObservationList() {
 
     std::vector<size_t> current_ambiguity(number_of_bands_, 0);
 
+    enum class BandId : size_t { L1 = 1, L2 = 2, L5 = 5 };
+
     for (size_t j = 0; j < number_of_bands_; j++) {
       size_t band_id = band_id_list_[j];
 
       if ((int)pseudorange_m == 0) {
         current_ambiguity[j] = 0;
-        std::cout << "pseudorange_m == 0" << std::endl;
       } else {
         if (previous_integer_ambiguity_map.count(gnss_system_id) > 0) {
           current_ambiguity[j] = previous_integer_ambiguity_map[gnss_system_id][j];
@@ -299,15 +303,24 @@ void GnssReceiver::SetGnssObservationList() {
         }
       }
 
-      if (band_id == 1) {
-        carrier_phase_integer_ambiguity_list_1_[gnss_system_id] = current_ambiguity[j];
-        carrier_phase_list_1_[gnss_system_id] = CalcCarrierPhase(pseudorange_m, current_ambiguity[j], j);
-      } else if (band_id == 2) {
-        carrier_phase_integer_ambiguity_list_2_[gnss_system_id] = current_ambiguity[j];
-        carrier_phase_list_2_[gnss_system_id] = CalcCarrierPhase(pseudorange_m, current_ambiguity[j], j);
-      } else if (band_id == 5) {
-        carrier_phase_integer_ambiguity_list_5_[gnss_system_id] = current_ambiguity[j];
-        carrier_phase_list_5_[gnss_system_id] = CalcCarrierPhase(pseudorange_m, current_ambiguity[j], j);
+      BandId band_enum = static_cast<BandId>(band_id);
+
+      switch (band_enum) {
+        case BandId::L1:
+          carrier_phase_integer_ambiguity_list_1_[gnss_system_id] = current_ambiguity[j];
+          carrier_phase_list_1_[gnss_system_id] = CalcCarrierPhase(pseudorange_m, current_ambiguity[j], j);
+          break;
+        case BandId::L2:
+          carrier_phase_integer_ambiguity_list_2_[gnss_system_id] = current_ambiguity[j];
+          carrier_phase_list_2_[gnss_system_id] = CalcCarrierPhase(pseudorange_m, current_ambiguity[j], j);
+          break;
+        case BandId::L5:
+          carrier_phase_integer_ambiguity_list_5_[gnss_system_id] = current_ambiguity[j];
+          carrier_phase_list_5_[gnss_system_id] = CalcCarrierPhase(pseudorange_m, current_ambiguity[j], j);
+          break;
+        default:
+          std::cout << "[Error] GNSS Receiver: Undefined band ID." << std::endl;
+          break;
       }
     }
 
@@ -342,13 +355,14 @@ typedef struct _gnss_receiver_param {
   math::Quaternion quaternion_b2c;
   double half_width_deg;
   double pseudorange_noise_standard_deviation_m;
-  double carrier_phase_standard_deviation;
-  double integer_ambiguity_standard_deviation;
+  double carrier_phase_standard_deviation_cycle;
+  double integer_ambiguity_standard_deviation_cycle;
   math::Vector<3> position_noise_standard_deviation_ecef_m;
   math::Vector<3> velocity_noise_standard_deviation_ecef_m_s;
   size_t number_of_bands;
   std::vector<size_t> band_id_list;
-  std::vector<size_t> band_frequency_list_Hz;
+  std::vector<double> band_frequency_list_Hz;
+  std::vector<double> wave_length_list_m;
   bool is_log_pseudorange_enabled;
   bool is_log_carrier_phase_enabled;
 } GnssReceiverParam;
@@ -444,9 +458,9 @@ AntennaModel SetAntennaModel(const std::string antenna_model) {
 
 GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environment::GnssSatellites* gnss_satellites, const size_t component_id) {
   // Band frequency definition
-  static const size_t band_frequency_1_Hz = 1.57542E9;  //!< L1/E1/B1C  frequency [Hz]
-  static const size_t band_frequency_2_Hz = 1.22760E9;  //!< L2         frequency [Hz]
-  static const size_t band_frequency_5_Hz = 1.17645E9;  //!< L5/E5a/B2a frequency [Hz]
+  static const double band_frequency_1_Hz = math_physics::gnss::band_frequency_1_Hz;
+  static const double band_frequency_2_Hz = math_physics::gnss::band_frequency_2_Hz;
+  static const double band_frequency_5_Hz = math_physics::gnss::band_frequency_5_Hz;
 
   GnssReceiverParam gnss_receiver_param;
 
@@ -472,41 +486,64 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environ
   gnssr_conf.ReadQuaternion(GSection, "quaternion_b2c", gnss_receiver_param.quaternion_b2c);
   gnss_receiver_param.half_width_deg = gnssr_conf.ReadDouble(GSection, "antenna_half_width_deg");
   gnss_receiver_param.pseudorange_noise_standard_deviation_m = gnssr_conf.ReadDouble(GSection, "white_noise_standard_deviation_pseudorange_m");
-  gnss_receiver_param.carrier_phase_standard_deviation = gnssr_conf.ReadDouble(GSection, "white_noise_standard_deviation_carrier_phase");
-  gnss_receiver_param.integer_ambiguity_standard_deviation = gnssr_conf.ReadDouble(GSection, "white_noise_standard_deviation_integer_ambiguity");
+  gnss_receiver_param.carrier_phase_standard_deviation_cycle = gnssr_conf.ReadDouble(GSection, "white_noise_standard_deviation_carrier_phase_cycle");
+  gnss_receiver_param.integer_ambiguity_standard_deviation_cycle =
+      gnssr_conf.ReadDouble(GSection, "white_noise_standard_deviation_integer_ambiguity_cycle");
   gnssr_conf.ReadVector(GSection, "white_noise_standard_deviation_position_ecef_m", gnss_receiver_param.position_noise_standard_deviation_ecef_m);
   gnssr_conf.ReadVector(GSection, "white_noise_standard_deviation_velocity_ecef_m_s", gnss_receiver_param.velocity_noise_standard_deviation_ecef_m_s);
-  gnss_receiver_param.number_of_bands = gnssr_conf.ReadInt(GSection, "number_of_bands");
+  gnss_receiver_param.number_of_bands = gnssr_conf.ReadInt(GSection, "frequency_bands");
   gnss_receiver_param.is_log_pseudorange_enabled = gnssr_conf.ReadEnable(GSection, "pseudorange_logging");
   gnss_receiver_param.is_log_carrier_phase_enabled = gnssr_conf.ReadEnable(GSection, "carrier_phase_logging");
 
-  std::vector<size_t> band_frequency_list_Hz;
   std::vector<size_t> band_id_list;
+  std::vector<double> band_frequency_list_Hz;
+  std::vector<double> wave_length_list_m;
+
+  enum class BandId : size_t { L1 = 1, L2 = 2, L5 = 5 };
 
   for (size_t i = 0; i < gnss_receiver_param.number_of_bands; i++) {
     std::string idx = std::to_string(i);
     idx = "_" + idx;
     std::string keyword;
     keyword = "band" + idx;
+
     int band_idx = gnssr_conf.ReadInt(GSection, keyword.c_str());
-    size_t band_frequency_Hz;
-    if (band_idx == 1) {
-      band_frequency_Hz = band_frequency_1_Hz;
-    } else if (band_idx == 2) {
-      band_frequency_Hz = band_frequency_2_Hz;
-    } else if (band_idx == 5) {
-      band_frequency_Hz = band_frequency_5_Hz;
-    } else {
-      std::cerr << "[Error] " << band_idx << " is an unsupported band index\n" << std::endl;
-      std::cerr << "Band index is automatically set as 1\n" << std::endl;
-      band_idx = 1;
-      band_frequency_Hz = band_frequency_1_Hz;
+    if (band_idx != static_cast<int>(BandId::L1) && band_idx != static_cast<int>(BandId::L2) && band_idx != static_cast<int>(BandId::L5)) {
+      std::cerr << "[Error] " << band_idx << " is an unsupported band index\n";
+      std::cerr << "Band index is automatically set as Band_L1\n";
+      band_idx = static_cast<int>(BandId::L1);
+    }
+    BandId band_idx_enum = static_cast<BandId>(band_idx);
+
+    double band_frequency_Hz;
+    double wave_length_m;
+    switch (band_idx_enum) {
+      case BandId::L1:
+        band_frequency_Hz = band_frequency_1_Hz;
+        wave_length_m = environment::speed_of_light_m_s / band_frequency_Hz;
+        break;
+      case BandId::L2:
+        band_frequency_Hz = band_frequency_2_Hz;
+        wave_length_m = environment::speed_of_light_m_s / band_frequency_Hz;
+        break;
+      case BandId::L5:
+        band_frequency_Hz = band_frequency_5_Hz;
+        wave_length_m = environment::speed_of_light_m_s / band_frequency_Hz;
+        break;
+      default:
+        std::cerr << "[Error] " << band_idx << " is an unsupported band index\n";
+        std::cerr << "Band index is automatically set as Band_L1\n";
+        band_frequency_Hz = band_frequency_1_Hz;
+        wave_length_m = environment::speed_of_light_m_s / band_frequency_Hz;
+        break;
     }
     band_frequency_list_Hz.push_back(band_frequency_Hz);
     band_id_list.push_back(band_idx);
+    wave_length_list_m.push_back(wave_length_m);
   }
   gnss_receiver_param.band_frequency_list_Hz = band_frequency_list_Hz;
   gnss_receiver_param.band_id_list = band_id_list;
+  gnss_receiver_param.wave_length_list_m = wave_length_list_m;
   return gnss_receiver_param;
 }
 
@@ -516,11 +553,11 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, cons
   GnssReceiverParam gr_param = ReadGnssReceiverIni(file_name, gnss_satellites, component_id);
 
   GnssReceiver gnss_r(gr_param.prescaler, clock_generator, component_id, gr_param.antenna_model, gr_param.antenna_pos_b, gr_param.quaternion_b2c,
-                      gr_param.half_width_deg, gr_param.pseudorange_noise_standard_deviation_m, gr_param.carrier_phase_standard_deviation,
-                      gr_param.integer_ambiguity_standard_deviation, gr_param.position_noise_standard_deviation_ecef_m,
+                      gr_param.half_width_deg, gr_param.pseudorange_noise_standard_deviation_m, gr_param.carrier_phase_standard_deviation_cycle,
+                      gr_param.integer_ambiguity_standard_deviation_cycle, gr_param.position_noise_standard_deviation_ecef_m,
                       gr_param.velocity_noise_standard_deviation_ecef_m_s, gr_param.number_of_bands, gr_param.band_id_list,
-                      gr_param.band_frequency_list_Hz, gr_param.is_log_pseudorange_enabled, gr_param.is_log_carrier_phase_enabled, dynamics,
-                      gnss_satellites, simulation_time);
+                      gr_param.band_frequency_list_Hz, gr_param.wave_length_list_m, gr_param.is_log_pseudorange_enabled,
+                      gr_param.is_log_carrier_phase_enabled, dynamics, gnss_satellites, simulation_time);
   return gnss_r;
 }
 
@@ -534,10 +571,10 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, Powe
 
   GnssReceiver gnss_r(gr_param.prescaler, clock_generator, power_port, component_id, gr_param.antenna_model, gr_param.antenna_pos_b,
                       gr_param.quaternion_b2c, gr_param.half_width_deg, gr_param.pseudorange_noise_standard_deviation_m,
-                      gr_param.carrier_phase_standard_deviation, gr_param.integer_ambiguity_standard_deviation,
+                      gr_param.carrier_phase_standard_deviation_cycle, gr_param.integer_ambiguity_standard_deviation_cycle,
                       gr_param.position_noise_standard_deviation_ecef_m, gr_param.velocity_noise_standard_deviation_ecef_m_s,
-                      gr_param.number_of_bands, gr_param.band_id_list, gr_param.band_frequency_list_Hz, gr_param.is_log_pseudorange_enabled,
-                      gr_param.is_log_carrier_phase_enabled, dynamics, gnss_satellites, simulation_time);
+                      gr_param.number_of_bands, gr_param.band_id_list, gr_param.band_frequency_list_Hz, gr_param.wave_length_list_m,
+                      gr_param.is_log_pseudorange_enabled, gr_param.is_log_carrier_phase_enabled, dynamics, gnss_satellites, simulation_time);
   return gnss_r;
 }
 

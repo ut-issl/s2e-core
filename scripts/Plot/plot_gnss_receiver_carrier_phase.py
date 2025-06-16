@@ -1,5 +1,5 @@
 #
-# Plot GNSS Receiver Pseudorange
+# Plot GNSS Receiver Carrier Phase
 #
 # arg[1] : read_file_tag : time tag for default CSV output log file. ex. 220627_142946
 #
@@ -58,12 +58,12 @@ def plot_carrier_phase(fig_idx, phase_suffix, title):
         plt.close(fig_idx)  # データが無ければ図を閉じる
 
 # Plot each carrier phase if data exists
-plot_carrier_phase(0, 1, "GPS Carrier Phase (Band index: 1)")
-plot_carrier_phase(1, 2, "GPS Carrier Phase (Band index: 2)")
-plot_carrier_phase(2, 5, "GPS Carrier Phase (Band index: 5)")
+plot_carrier_phase(0, 1, "GPS Carrier Phase (L1)")
+plot_carrier_phase(1, 2, "GPS Carrier Phase (L2)")
+plot_carrier_phase(2, 5, "GPS Carrier Phase (L5)")
 
 # Show or save
 if args.no_gui:
-    plt.savefig(read_file_tag + "_gnss_receiver_pseudorange.png")  # saves only the last figure
+    plt.savefig(read_file_tag + "_gnss_receiver_carrier_phase.png")  # saves only the last figure
 else:
     plt.show()

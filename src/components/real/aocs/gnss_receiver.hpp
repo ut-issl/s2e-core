@@ -55,8 +55,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_deg: Half width of the antenna cone model [deg]
    * @param [in] pseudorange_noise_standard_deviation_m: Standard deviation of normal random noise for pseudorange [m]
-   * @param [in] carrier_phase_standard_deviation: Standard deviation of normal random noise for carrier phase [cycle]
-   * @param [in] integer_ambiguity_standard_deviation: Standard deviation of normal random noise for integer ambiguity [cycle]
+   * @param [in] carrier_phase_standard_deviation_cycle: Standard deviation of normal random noise for carrier phase [cycle]
+   * @param [in] integer_ambiguity_standard_deviation_cycle: Standard deviation of normal random noise for integer ambiguity [cycle]
    * @param [in] position_noise_standard_deviation_ecef_m: Standard deviation of normal random noise for position in the ECEF frame [m]
    * @param [in] velocity_noise_standard_deviation_ecef_m_s: Standard deviation of normal random noise for velocity in the ECEF frame [m/s]
    *
@@ -68,11 +68,11 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
                const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
-               const double pseudorange_noise_standard_deviation_m, const double carrier_phase_standard_deviation,
-               const double integer_ambiguity_standard_deviation, const math::Vector<3> position_noise_standard_deviation_ecef_m,
+               const double pseudorange_noise_standard_deviation_m, const double carrier_phase_standard_deviation_cycle,
+               const double integer_ambiguity_standard_deviation_cycle, const math::Vector<3> position_noise_standard_deviation_ecef_m,
                const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const size_t number_of_bands, const std::vector<size_t> band_id_lst,
-               const std::vector<size_t> band_frequency_list_Hz, const bool is_log_pseudorange_enabled, const bool is_log_carrier_phase_enabled,
-               const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
+               const std::vector<double> band_frequency_list_Hz, const std::vector<double> wave_length_list_m, const bool is_log_pseudorange_enabled,
+               const bool is_log_carrier_phase_enabled, const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const environment::SimulationTime* simulation_time);
   /**
    * @fn GnssReceiver
@@ -85,8 +85,8 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] quaternion_b2c: Quaternion from body frame to component frame (antenna frame)
    * @param [in] half_width_deg: Half width of the antenna cone model [rad]
    * @param [in] pseudorange_noise_standard_deviation_m: Standard deviation of normal random noise for pseudorange [m]
-   * @param [in] carrier_phase_standard_deviation: Standard deviation of normal random noise for carrier phase [cycle]
-   * @param [in] integer_ambiguity_standard_deviation: Standard deviation of normal random noise for integer ambiguity [cycle]
+   * @param [in] carrier_phase_standard_deviation_cycle: Standard deviation of normal random noise for carrier phase [cycle]
+   * @param [in] integer_ambiguity_standard_deviation_cycle: Standard deviation of normal random noise for integer ambiguity [cycle]
    * @param [in] position_noise_standard_deviation_ecef_m: Standard deviation of normal random noise for position in the ECEF frame [m]
    * @param [in] velocity_noise_standard_deviation_ecef_m_s: Standard deviation of normal random noise for velocity in the ECEF frame [m/s]
    * @param [in] is_log_pseudorange_enabled: Enable flag to log output pseudorange
@@ -96,11 +96,11 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
-               const double half_width_deg, const double pseudorange_noise_standard_deviation_m, const double carrier_phase_standard_deviation,
-               const double integer_ambiguity_standard_deviation, const math::Vector<3> position_noise_standard_deviation_ecef_m,
+               const double half_width_deg, const double pseudorange_noise_standard_deviation_m, const double carrier_phase_standard_deviation_cycle,
+               const double integer_ambiguity_standard_deviation_cycle, const math::Vector<3> position_noise_standard_deviation_ecef_m,
                const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const size_t number_of_bands, std::vector<size_t> band_id_list,
-               const std::vector<size_t> band_frequency_list_Hz, const bool is_log_pseudorange_enabled, const bool is_log_carrier_phase_enabled,
-               const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
+               const std::vector<double> band_frequency_list_Hz, const std::vector<double> wave_length_list_m, const bool is_log_pseudorange_enabled,
+               const bool is_log_carrier_phase_enabled, const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const environment::SimulationTime* simulation_time);
 
   // Override functions for Component
@@ -182,12 +182,13 @@ class GnssReceiver : public Component, public logger::ILoggable {
   std::vector<size_t> carrier_phase_integer_ambiguity_list_2_{kTotalNumberOfGnssSatellite,
                                                               0};  //!< Carrier phase integer ambiguity list for each GPS satellite L2
   std::vector<size_t> carrier_phase_integer_ambiguity_list_5_{kTotalNumberOfGnssSatellite,
-                                                              0};    //!< Carrier phase integer ambiguity list for each GPS satellite L5/E5a/B2a
-  size_t number_of_bands_;                                           //!< Number of bands being used
-  std::vector<size_t> band_frequency_list_Hz_{number_of_bands_, 0};  //!< List of Band frequencies being used [Hz]
-  std::vector<size_t> band_id_list_{number_of_bands_, 0};            //!< List of Band IDs being used
-  bool is_logged_pseudorange_;                                       //!< Flag for log output of pseudorange
-  bool is_logged_carrier_phase_;                                     //!< Flag for log output of carrier phase
+                                                              0};  //!< Carrier phase integer ambiguity list for each GPS satellite L5/E5a/B2a
+  size_t number_of_bands_;                                         //!< Number of bands being used
+  std::vector<double> band_frequency_list_Hz_;                     //!< List of Band frequencies being used [Hz]
+  std::vector<size_t> band_id_list_;                               //!< List of Band IDs being used
+  std::vector<double> wave_length_list_m_;                         //!< List of Band wavelengths being used [m]
+  bool is_logged_pseudorange_;                                     //!< Flag for log output of pseudorange
+  bool is_logged_carrier_phase_;                                   //!< Flag for log output of carrier phase
 
   // Simple position observation
   randomization::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
