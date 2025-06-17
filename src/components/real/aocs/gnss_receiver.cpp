@@ -607,7 +607,6 @@ GnssReceiver InitGnssReceiver(environment::ClockGenerator* clock_generator, Powe
                       gr_param.carrier_phase_standard_deviation_cycle, gr_param.integer_ambiguity_standard_deviation_cycle,
                       gr_param.receiver_clock_constant_bias_s, gr_param.receiver_clock_random_walk_standard_deviation_s,
                       gr_param.receiver_clock_random_walk_limit_s, gr_param.receiver_clock_normal_random_standard_deviation_s,
-                      gr_param.quaternion_b2c, gr_param.half_width_deg, gr_param.pseudorange_noise_standard_deviation_m,
                       gr_param.position_noise_standard_deviation_ecef_m, gr_param.velocity_noise_standard_deviation_ecef_m_s,
                       gr_param.number_of_bands, gr_param.band_id_list, gr_param.band_frequency_list_Hz, gr_param.wave_length_list_m,
                       gr_param.is_log_pseudorange_enabled, gr_param.is_log_carrier_phase_enabled, dynamics, gnss_satellites, simulation_time);
