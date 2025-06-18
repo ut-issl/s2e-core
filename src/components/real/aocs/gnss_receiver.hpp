@@ -197,9 +197,9 @@ class GnssReceiver : public Component, public logger::ILoggable {
   randomization::NormalRand carrier_phase_random_noise_;                        //!< Random noise for carrier phase [cycle]
   randomization::NormalRand random_integer_ambiguity_noise_;                    //!< Random noise for integer ambiguity
   int random_integer_ambiguity_;                                                //!< Random integer noise for integer ambiguity
-  std::vector<double> pseudorange_list_1_m_{kTotalNumberOfGnssSatellite, 0.0};    //!< Pseudorange list for each GPS satellite L1/E1/B1C
-  std::vector<double> pseudorange_list_2_m_{kTotalNumberOfGnssSatellite, 0.0};    //!< Pseudorange list for each GPS satellite L2
-  std::vector<double> pseudorange_list_5_m_{kTotalNumberOfGnssSatellite, 0.0};    //!< Pseudorange list for each GPS satellite L5/E5a/B2a
+  std::vector<double> pseudorange_list_1_m_{kTotalNumberOfGnssSatellite, 0.0};  //!< Pseudorange list for each GPS satellite L1/E1/B1C
+  std::vector<double> pseudorange_list_2_m_{kTotalNumberOfGnssSatellite, 0.0};  //!< Pseudorange list for each GPS satellite L2
+  std::vector<double> pseudorange_list_5_m_{kTotalNumberOfGnssSatellite, 0.0};  //!< Pseudorange list for each GPS satellite L5/E5a/B2a
   std::vector<double> carrier_phase_list_1_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite L1/E1/B1C
   std::vector<double> carrier_phase_list_2_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite L2
   std::vector<double> carrier_phase_list_5_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite L5/E5a/B2a

@@ -289,7 +289,7 @@ std::vector<double> GnssReceiver::CalcAzimuthElevation_rad(const size_t gnss_sys
 
   // Calculate elevation and azimuth angles
   double azimuth_rad =
-    atan2(InnerProduct(receiver_to_gnss_direction_ecef, unit_vector_east), InnerProduct(receiver_to_gnss_direction_ecef, unit_vector_north));
+      atan2(InnerProduct(receiver_to_gnss_direction_ecef, unit_vector_east), InnerProduct(receiver_to_gnss_direction_ecef, unit_vector_north));
   double elevation_rad = asin(InnerProduct(receiver_to_gnss_direction_ecef, unit_vector_up));
   return {azimuth_rad, elevation_rad};
 }
@@ -297,14 +297,6 @@ std::vector<double> GnssReceiver::CalcAzimuthElevation_rad(const size_t gnss_sys
 double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const size_t band_id) {
   // Ref: Klobuchar, J.A., (1996) "Ionosphercic Effects on GPS", in Parkinson, Spilker (ed), "Global Positioning System Theory and Applications,
   // pp.513-514.
-  klobuchar_alpha_[0] = 3.82E-8;
-  klobuchar_alpha_[1] = 1.49E-8;
-  klobuchar_alpha_[2] = -1.79E-7;
-  klobuchar_alpha_[3] = 0.0;
-  klobuchar_beta_[0] = 1.43E5;
-  klobuchar_beta_[1] = 0.0;
-  klobuchar_beta_[2] = -3.28E5;
-  klobuchar_beta_[3] = 1.13E5;
   const double rad2semi = 1.0 / math::pi;  // Convert radians to semicircles
   const double semi2rad = math::pi;        // Convert semicircles to radians
 
@@ -316,30 +308,21 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
 
   double azimuth_rad = elevation_azimuth_rad[0];
   double elevation_rad = elevation_azimuth_rad[1];
-  elevation_rad = 20.0 * math::deg_to_rad;
-  azimuth_rad = 210.0 * math::deg_to_rad;
 
   double earth_centered_angle_semi = 0.0137 / (elevation_rad * rad2semi + 0.11) - 0.022;
-  printf("psi: %f\n", earth_centered_angle_semi);
 
   // Calculate the latitude, longitude and geomagnetic latitude of the ionospheric pierce point (IPP)
   double receiver_latitude_rad = geodetic_position_.GetLatitude_rad();
   double receiver_longitude_rad = geodetic_position_.GetLongitude_rad();
-  receiver_latitude_rad = 40.0 * math::deg_to_rad;
-  receiver_longitude_rad = 260.0 * math::deg_to_rad;
   double latitude_ipp_semi = receiver_latitude_rad * rad2semi + earth_centered_angle_semi * cos(azimuth_rad);
   if (latitude_ipp_semi > 0.416) {
     latitude_ipp_semi = 0.416;
   } else if (latitude_ipp_semi < -0.416) {
     latitude_ipp_semi = -0.416;
   }
-  printf("Phi_I: %f\n", latitude_ipp_semi);
   double longitude_ipp_semi = receiver_longitude_rad * rad2semi + earth_centered_angle_semi * sin(azimuth_rad) / cos(latitude_ipp_semi * semi2rad);
-  printf("lambda_I: %f\n", longitude_ipp_semi);
   double geomagnetic_latitude_ipp_semi = latitude_ipp_semi + 0.064 * cos((longitude_ipp_semi - 1.617) * semi2rad);
-  printf("Phi_m: %f\n", geomagnetic_latitude_ipp_semi);
 
-  gps_time_s_ = 593100.0;
   double local_time_ipp_s = (43200.0 * longitude_ipp_semi) + gps_time_s_;
   local_time_ipp_s = fmod(local_time_ipp_s, 86400.0);
   if (local_time_ipp_s < 0.0) {
@@ -348,7 +331,6 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
   if (local_time_ipp_s > 86400.0) {
     local_time_ipp_s -= 86400.0;
   }
-  printf("t: %f\n", local_time_ipp_s);
 
   double amplitude_s = klobuchar_alpha_[0] + klobuchar_alpha_[1] * geomagnetic_latitude_ipp_semi +
                        klobuchar_alpha_[2] * pow(geomagnetic_latitude_ipp_semi, 2.0) + klobuchar_alpha_[3] * pow(geomagnetic_latitude_ipp_semi, 3.0);
@@ -365,7 +347,6 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
   double phase_rad = (2.0 * math::pi / period_s) * (local_time_ipp_s - 50400.0);
 
   double slant_factor = 1.0 + 16.0 * pow(0.53 - elevation_rad * rad2semi, 3.0);
-  printf("F: %f\n", slant_factor);
 
   double ionospheric_delay_gps_l1_m;
   if (abs(phase_rad) <= 1.57) {
@@ -373,7 +354,6 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
   } else {
     ionospheric_delay_gps_l1_m = slant_factor * (5.0E-09 + amplitude_s);
   }
-  printf("T_IONO: %.12f\n", ionospheric_delay_gps_l1_m);
 
   enum class BandId : size_t { L1 = 1, L2 = 2, L5 = 5 };
   BandId band_enum = static_cast<BandId>(band_id);
