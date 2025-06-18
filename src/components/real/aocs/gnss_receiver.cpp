@@ -300,6 +300,8 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
   const double rad2semi = 1.0 / math::pi;  // Convert radians to semicircles
   const double semi2rad = math::pi;        // Convert semicircles to radians
 
+  const double c_m_s = environment::speed_of_light_m_s;
+
   std::vector<double> elevation_azimuth_rad = CalcAzimuthElevation_rad(gnss_system_id);
   // Band frequency definition
   static const double band_frequency_1_Hz = math_physics::gnss::band_frequency_1_Hz;
@@ -331,7 +333,6 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
   if (local_time_ipp_s > 86400.0) {
     local_time_ipp_s -= 86400.0;
   }
-
   double amplitude_s = klobuchar_alpha_[0] + klobuchar_alpha_[1] * geomagnetic_latitude_ipp_semi +
                        klobuchar_alpha_[2] * pow(geomagnetic_latitude_ipp_semi, 2.0) + klobuchar_alpha_[3] * pow(geomagnetic_latitude_ipp_semi, 3.0);
   if (amplitude_s < 0.0) {
@@ -350,9 +351,9 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
 
   double ionospheric_delay_gps_l1_m;
   if (abs(phase_rad) <= 1.57) {
-    ionospheric_delay_gps_l1_m = slant_factor * (5.0E-09 + amplitude_s * (1.0 - pow(phase_rad, 2.0) / 2.0 + (pow(phase_rad, 4.0) / 24.0)));
+    ionospheric_delay_gps_l1_m = c_m_s * slant_factor * (5.0E-09 + amplitude_s * (1.0 - pow(phase_rad, 2.0) / 2.0 + (pow(phase_rad, 4.0) / 24.0)));
   } else {
-    ionospheric_delay_gps_l1_m = slant_factor * (5.0E-09 + amplitude_s);
+    ionospheric_delay_gps_l1_m = c_m_s * slant_factor * (5.0E-09 + amplitude_s);
   }
 
   enum class BandId : size_t { L1 = 1, L2 = 2, L5 = 5 };
