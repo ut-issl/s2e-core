@@ -74,19 +74,15 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @param [in] simulation_time: Simulation time information
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, const size_t component_id, const AntennaModel antenna_model,
-               const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg, const math::Vector<4> klobuchar_alpha,
-               const math::Vector<4> klobuchar_beta,
-               const double pseudorange_noise_standard_deviation_m, const math::Vector<3> position_noise_standard_deviation_ecef_m,
-               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const bool is_log_pseudorange_enabled,
-               const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c, const double half_width_deg,
-               const double pseudorange_noise_standard_deviation_m, const double carrier_phase_standard_deviation_cycle,
-               const double integer_ambiguity_standard_deviation_cycle, const double receiver_clock_constant_bias_s,
-               math::Vector<1> receiver_clock_random_walk_standard_deviation_s, math::Vector<1> receiver_clock_random_walk_limit_s,
-               const double receiver_clock_normal_random_standard_deviation_s, const math::Vector<3> position_noise_standard_deviation_ecef_m,
-               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const size_t number_of_bands, const std::vector<size_t> band_id_lst,
-               const std::vector<double> band_frequency_list_Hz, const std::vector<double> wave_length_list_m, const bool is_log_pseudorange_enabled,
-               const bool is_log_carrier_phase_enabled, const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
+               const math::Vector<4> klobuchar_alpha, const math::Vector<4> klobuchar_beta, const double pseudorange_noise_standard_deviation_m,
+               const double carrier_phase_standard_deviation_cycle, const double integer_ambiguity_standard_deviation_cycle,
+               const double receiver_clock_constant_bias_s, math::Vector<1> receiver_clock_random_walk_standard_deviation_s,
+               math::Vector<1> receiver_clock_random_walk_limit_s, const double receiver_clock_normal_random_standard_deviation_s,
+               const math::Vector<3> position_noise_standard_deviation_ecef_m, const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
+               const size_t number_of_bands, const std::vector<size_t> band_id_lst, const std::vector<double> band_frequency_list_Hz,
+               const std::vector<double> wave_length_list_m, const bool is_log_pseudorange_enabled, const bool is_log_carrier_phase_enabled,
+               const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const environment::SimulationTime* simulation_time);
   /**
    * @fn GnssReceiver
@@ -116,15 +112,12 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   GnssReceiver(const int prescaler, environment::ClockGenerator* clock_generator, PowerPort* power_port, const size_t component_id,
                const AntennaModel antenna_model, const math::Vector<3> antenna_position_b_m, const math::Quaternion quaternion_b2c,
-               const double half_width_deg, const math::Vector<4> klobuchar_alpha,
-               const math::Vector<4> klobuchar_beta, const double pseudorange_noise_standard_deviation_m,
-               const math::Vector<3> position_noise_standard_deviation_ecef_m, const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s,
-               const bool is_log_pseudorange_enabled, const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
-               const double half_width_deg, const double pseudorange_noise_standard_deviation_m, const double carrier_phase_standard_deviation_cycle,
+               const double half_width_deg, const math::Vector<4> klobuchar_alpha, const math::Vector<4> klobuchar_beta,
+               const double pseudorange_noise_standard_deviation_m, const double carrier_phase_standard_deviation_cycle,
                const double integer_ambiguity_standard_deviation_cycle, const double receiver_clock_constant_bias_s,
                math::Vector<1> receiver_clock_random_walk_standard_deviation_s, math::Vector<1> receiver_clock_random_walk_limit_s,
                const double receiver_clock_normal_random_standard_deviation_s, const math::Vector<3> position_noise_standard_deviation_ecef_m,
-               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const size_t number_of_bands, std::vector<size_t> band_id_list,
+               const math::Vector<3> velocity_noise_standard_deviation_ecef_m_s, const size_t number_of_bands, const std::vector<size_t> band_id_lst,
                const std::vector<double> band_frequency_list_Hz, const std::vector<double> wave_length_list_m, const bool is_log_pseudorange_enabled,
                const bool is_log_carrier_phase_enabled, const dynamics::Dynamics* dynamics, const environment::GnssSatellites* gnss_satellites,
                const environment::SimulationTime* simulation_time);
@@ -200,16 +193,13 @@ class GnssReceiver : public Component, public logger::ILoggable {
   randomization::RandomWalk<1> receiver_clock_random_walk_s_;       //!< Random walk for receiver clock bias
 
   // GNSS observation
-  math::Vector<4> klobuchar_alpha_;
-  math::Vector<4> klobuchar_beta_;
-  randomization::NormalRand pseudorange_random_noise_m_;                      //!< Random noise for pseudorange [m]
-  std::vector<double> pseudorange_list_m_{kTotalNumberOfGnssSatellite, 0.0};  //!< Pseudorange list for each GPS satellite
-  bool is_logged_pseudorange_;                                                //!< Flag for log output of pseudorange
   randomization::NormalRand pseudorange_random_noise_m_;                        //!< Random noise for pseudorange [m]
   randomization::NormalRand carrier_phase_random_noise_;                        //!< Random noise for carrier phase [cycle]
   randomization::NormalRand random_integer_ambiguity_noise_;                    //!< Random noise for integer ambiguity
   int random_integer_ambiguity_;                                                //!< Random integer noise for integer ambiguity
-  std::vector<double> pseudorange_list_m_{kTotalNumberOfGnssSatellite, 0.0};    //!< Pseudorange list for each GPS satellite
+  std::vector<double> pseudorange_list_1_m_{kTotalNumberOfGnssSatellite, 0.0};    //!< Pseudorange list for each GPS satellite L1/E1/B1C
+  std::vector<double> pseudorange_list_2_m_{kTotalNumberOfGnssSatellite, 0.0};    //!< Pseudorange list for each GPS satellite L2
+  std::vector<double> pseudorange_list_5_m_{kTotalNumberOfGnssSatellite, 0.0};    //!< Pseudorange list for each GPS satellite L5/E5a/B2a
   std::vector<double> carrier_phase_list_1_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite L1/E1/B1C
   std::vector<double> carrier_phase_list_2_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite L2
   std::vector<double> carrier_phase_list_5_{kTotalNumberOfGnssSatellite, 0.0};  //!< Carrier phase list for each GPS satellite L5/E5a/B2a
@@ -219,12 +209,14 @@ class GnssReceiver : public Component, public logger::ILoggable {
                                                               0};  //!< Carrier phase integer ambiguity list for each GPS satellite L2
   std::vector<size_t> carrier_phase_integer_ambiguity_list_5_{kTotalNumberOfGnssSatellite,
                                                               0};  //!< Carrier phase integer ambiguity list for each GPS satellite L5/E5a/B2a
-  size_t number_of_bands_;                                         //!< Number of bands being used
-  std::vector<double> band_frequency_list_Hz_;                     //!< List of Band frequencies being used [Hz]
-  std::vector<size_t> band_id_list_;                               //!< List of Band IDs being used
-  std::vector<double> wave_length_list_m_;                         //!< List of Band wavelengths being used [m]
-  bool is_logged_pseudorange_;                                     //!< Flag for log output of pseudorange
-  bool is_logged_carrier_phase_;                                   //!< Flag for log output of carrier phase
+  math::Vector<4> klobuchar_alpha_;
+  math::Vector<4> klobuchar_beta_;
+  size_t number_of_bands_;                      //!< Number of bands being used
+  std::vector<double> band_frequency_list_Hz_;  //!< List of Band frequencies being used [Hz]
+  std::vector<size_t> band_id_list_;            //!< List of Band IDs being used
+  std::vector<double> wave_length_list_m_;      //!< List of Band wavelengths being used [m]
+  bool is_logged_pseudorange_;                  //!< Flag for log output of pseudorange
+  bool is_logged_carrier_phase_;                //!< Flag for log output of carrier phase
 
   // Simple position observation
   randomization::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
@@ -289,12 +281,12 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   double CalcGeometricDistance_m(const size_t gnss_system_id);
   /**
-   * @fn CalcElevationAzimuth_rad
-   * @brief Calculate the elevation and azimuth angles of the GNSS satellite from the receiver antenna
+   * @fn CalcAzimuthElevation_rad
+   * @brief Calculate the azimuth and elevation angles of the GNSS satellite from the receiver antenna
    * @param [in] gnss_system_id: ID of target GNSS satellite
-   * @return Vector of elevation and azimuth angles in radians [rad]
+   * @return Vector of azimuth and elevation angles in radians [rad]
    */
-  std::vector<double> CalcElevationAzimuth_rad(const size_t gnss_system_id);
+  std::vector<double> CalcAzimuthElevation_rad(const size_t gnss_system_id);
   /**
    * @fn CalcIonosphericDelay
    * @brief Calculate the slant ionospheric delay using the Klobuchar model
@@ -304,7 +296,6 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   double CalcIonosphericDelay_m(const size_t gnss_system_id, const size_t band_id);
   /**
-   * @fn CalcPseudorange
    * @fn CalcClockBias_m
    * @brief Calculate the clock bias term of the GNSS satellite and the GNSS receiver antenna
    * @param [in] gnss_system_id: ID of target GNSS satellite
@@ -312,26 +303,13 @@ class GnssReceiver : public Component, public logger::ILoggable {
    */
   double CalcClockBias_m(const size_t gnss_system_id);
   /**
-   * @fn CalcPseudorange_m
-   * @brief Calculate the pseudorange between the GNSS satellite and the GNSS receiver antenna
-   * @param [in] gnss_system_id: ID of target GNSS satellite
-   * @return Pseudorange between the GNSS satellite and the GNSS receiver antenna [m]
-   */
-  double CalcPseudorange_m(const size_t gnss_id);
-  /**
    * @fn CalcCarrierPhaseIntegerAmbiguity
    * @brief Calculate the carrier phase integer ambiguity between the GNSS satellite and the GNSS receiver antenna
    * @param pseudorange: Pseudorange between the GNSS satellite and the GNSS receiver antenna [m]
+   * @param band_number: Band number of the GNSS satellite
    * @return Carrier phase integer ambiguity between the GNSS satellite and the GNSS receiver antenna
    */
   double CalcCarrierPhaseIntegerAmbiguity(const double pseudo_range_m, const size_t band_number);
-  /**
-   * @fn CalcCarrierPhase
-   * @brief Calculate the carrier phase between the GNSS satellite and the GNSS receiver antenna
-   * @param [in] gnss_system_id: ID of target GNSS satellite
-   * @return Carrier phase between the GNSS satellite and the GNSS receiver antenna [rad]
-   */
-  double CalcCarrierPhase(const double pseudo_range_m, const size_t integer_ambiguity, const size_t band_number);
   /**
    * @fn SetGnssObservationList
    * @brief Calculate and set the GNSS observation list for each GNSS satellite
