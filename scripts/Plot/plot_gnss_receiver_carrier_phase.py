@@ -55,7 +55,7 @@ def plot_carrier_phase(fig_idx, phase_suffix, title):
         plt.ylabel(f"Carrier Phase {phase_suffix} [cycle]")
         plt.legend(fontsize=7, loc="upper right")
     else:
-        plt.close(fig_idx)  # データが無ければ図を閉じる
+        plt.close(fig_idx)
 
 # Plot each carrier phase if data exists
 plot_carrier_phase(0, 1, "GPS Carrier Phase (L1)")
