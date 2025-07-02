@@ -29,6 +29,12 @@ enum class AntennaModel {
 };
 
 /**
+ * @enum BandId
+ * @brief GNSS band ID
+ */
+enum class BandId : size_t { L1 = 1, L2 = 2, L5 = 5 };
+
+/**
  * @struct GnssInfo
  * @brief Information of GNSS satellites
  */
@@ -280,13 +286,6 @@ class GnssReceiver : public Component, public logger::ILoggable {
    * @return Geometric distance between the GNSS satellite and the GNSS receiver antenna [m]
    */
   double CalcGeometricDistance_m(const size_t gnss_system_id);
-  /**
-   * @fn CalcAzimuthElevation_rad
-   * @brief Calculate the azimuth and elevation angles of the GNSS satellite from the receiver antenna
-   * @param [in] gnss_system_id: ID of target GNSS satellite
-   * @return Vector of azimuth and elevation angles in radians [rad]
-   */
-  std::vector<double> CalcAzimuthElevation_rad(const size_t gnss_system_id);
   /**
    * @fn CalcIonosphericDelay
    * @brief Calculate the slant ionospheric delay using the Klobuchar model

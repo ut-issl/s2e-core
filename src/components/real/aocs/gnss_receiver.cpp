@@ -262,38 +262,6 @@ double GnssReceiver::CalcGeometricDistance_m(const size_t gnss_system_id) {
   return geometric_distance_m;
 }
 
-std::vector<double> GnssReceiver::CalcAzimuthElevation_rad(const size_t gnss_system_id) {
-  const math::Vector<3> receiver_position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
-  const math::Vector<3> gnss_position_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id);
-
-  math::Vector<3> receiver_to_gnss_direction_ecef = (gnss_position_m - receiver_position_true_ecef_m).CalcNormalizedVector();
-
-  double receiver_latitude_rad = geodetic_position_.GetLatitude_rad();
-  double receiver_longitude_rad = geodetic_position_.GetLongitude_rad();
-
-  // Calculate unit vectors for East,  North, and Up directions at the receiver's position
-  math::Vector<3> unit_vector_east;
-  unit_vector_east[0] = -sin(receiver_longitude_rad);
-  unit_vector_east[1] = cos(receiver_longitude_rad);
-  unit_vector_east[2] = 0.0;
-
-  math::Vector<3> unit_vector_north;
-  unit_vector_north[0] = -sin(receiver_latitude_rad) * cos(receiver_longitude_rad);
-  unit_vector_north[1] = -sin(receiver_latitude_rad) * sin(receiver_longitude_rad);
-  unit_vector_north[2] = cos(receiver_latitude_rad);
-
-  math::Vector<3> unit_vector_up;
-  unit_vector_up[0] = cos(receiver_latitude_rad) * cos(receiver_longitude_rad);
-  unit_vector_up[1] = cos(receiver_latitude_rad) * sin(receiver_longitude_rad);
-  unit_vector_up[2] = sin(receiver_latitude_rad);
-
-  // Calculate elevation and azimuth angles
-  double azimuth_rad =
-      atan2(InnerProduct(receiver_to_gnss_direction_ecef, unit_vector_east), InnerProduct(receiver_to_gnss_direction_ecef, unit_vector_north));
-  double elevation_rad = asin(InnerProduct(receiver_to_gnss_direction_ecef, unit_vector_up));
-  return {azimuth_rad, elevation_rad};
-}
-
 double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const size_t band_id) {
   // Ref: Klobuchar, J.A., (1996) "Ionosphercic Effects on GPS", in Parkinson, Spilker (ed), "Global Positioning System Theory and Applications,
   // pp.513-514.
@@ -302,28 +270,31 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
 
   const double c_m_s = environment::speed_of_light_m_s;
 
-  std::vector<double> elevation_azimuth_rad = CalcAzimuthElevation_rad(gnss_system_id);
   // Band frequency definition
-  static const double band_frequency_1_Hz = math_physics::gnss::band_frequency_1_Hz;
-  static const double band_frequency_2_Hz = math_physics::gnss::band_frequency_2_Hz;
-  static const double band_frequency_5_Hz = math_physics::gnss::band_frequency_5_Hz;
+  static const double f1_Hz = math_physics::gnss::band_frequency_1_Hz;
+  static const double f2_Hz = math_physics::gnss::band_frequency_2_Hz;
+  static const double f5_Hz = math_physics::gnss::band_frequency_5_Hz;
 
-  double azimuth_rad = elevation_azimuth_rad[0];
-  double elevation_rad = elevation_azimuth_rad[1];
+  const math::Vector<3> receiver_position_true_ecef_m = dynamics_->GetOrbit().GetPosition_ecef_m();
+  const math::Vector<3> gnss_position_ecef_m = gnss_satellites_->GetPosition_ecef_m(gnss_system_id);
+  const math::Vector<3> receiver_to_gnss_satellite_ecef_m = gnss_position_ecef_m - receiver_position_true_ecef_m;
+  const std::vector<double> elevation_azimuth_rad = geodetic_position_.CalcAzimuthElevation_rad(receiver_to_gnss_satellite_ecef_m);
+  const double azimuth_rad = elevation_azimuth_rad[0];
+  const double elevation_rad = elevation_azimuth_rad[1];
 
-  double earth_centered_angle_semi = 0.0137 / (elevation_rad * rad2semi + 0.11) - 0.022;
+  const double earth_centered_angle_semi = 0.0137 / (elevation_rad * rad2semi + 0.11) - 0.022;
 
   // Calculate the latitude, longitude and geomagnetic latitude of the ionospheric pierce point (IPP)
-  double receiver_latitude_rad = geodetic_position_.GetLatitude_rad();
-  double receiver_longitude_rad = geodetic_position_.GetLongitude_rad();
+  const double receiver_latitude_rad = geodetic_position_.GetLatitude_rad();
+  const double receiver_longitude_rad = geodetic_position_.GetLongitude_rad();
   double latitude_ipp_semi = receiver_latitude_rad * rad2semi + earth_centered_angle_semi * cos(azimuth_rad);
   if (latitude_ipp_semi > 0.416) {
     latitude_ipp_semi = 0.416;
   } else if (latitude_ipp_semi < -0.416) {
     latitude_ipp_semi = -0.416;
   }
-  double longitude_ipp_semi = receiver_longitude_rad * rad2semi + earth_centered_angle_semi * sin(azimuth_rad) / cos(latitude_ipp_semi * semi2rad);
-  double geomagnetic_latitude_ipp_semi = latitude_ipp_semi + 0.064 * cos((longitude_ipp_semi - 1.617) * semi2rad);
+  const double longitude_ipp_semi = receiver_longitude_rad * rad2semi + earth_centered_angle_semi * sin(azimuth_rad) / cos(latitude_ipp_semi * semi2rad);
+  const double geomagnetic_latitude_ipp_semi = latitude_ipp_semi + 0.064 * cos((longitude_ipp_semi - 1.617) * semi2rad);
 
   double local_time_ipp_s = (43200.0 * longitude_ipp_semi) + gps_time_s_;
   local_time_ipp_s = fmod(local_time_ipp_s, 86400.0);
@@ -345,9 +316,9 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
     period_s = 72000.0;
   }
 
-  double phase_rad = (2.0 * math::pi / period_s) * (local_time_ipp_s - 50400.0);
+  const double phase_rad = (2.0 * math::pi / period_s) * (local_time_ipp_s - 50400.0);
 
-  double slant_factor = 1.0 + 16.0 * pow(0.53 - elevation_rad * rad2semi, 3.0);
+  const double slant_factor = 1.0 + 16.0 * pow(0.53 - elevation_rad * rad2semi, 3.0);
 
   double ionospheric_delay_gps_l1_m;
   if (abs(phase_rad) <= 1.57) {
@@ -356,7 +327,7 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
     ionospheric_delay_gps_l1_m = c_m_s * slant_factor * (5.0E-09 + amplitude_s);
   }
 
-  enum class BandId : size_t { L1 = 1, L2 = 2, L5 = 5 };
+  
   BandId band_enum = static_cast<BandId>(band_id);
   double ionospheric_delay_m;
   switch (band_enum) {
@@ -364,10 +335,10 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
       ionospheric_delay_m = ionospheric_delay_gps_l1_m;
       break;
     case BandId::L2:
-      ionospheric_delay_m = pow((band_frequency_1_Hz / band_frequency_2_Hz), 2.0) * ionospheric_delay_gps_l1_m;
+      ionospheric_delay_m = pow((f1_Hz / f2_Hz), 2.0) * ionospheric_delay_gps_l1_m;
       break;
     case BandId::L5:
-      ionospheric_delay_m = pow((band_frequency_1_Hz / band_frequency_5_Hz), 2.0) * ionospheric_delay_gps_l1_m;
+      ionospheric_delay_m = pow((f1_Hz / f5_Hz), 2.0) * ionospheric_delay_gps_l1_m;
       break;
     default:
       std::cout << "[Error] GNSS Receiver: Undefined band ID." << std::endl;
@@ -411,8 +382,6 @@ void GnssReceiver::SetGnssObservationList() {
 
     double geometric_distance_m = CalcGeometricDistance_m(gnss_system_id);
     double clock_bias_m = CalcClockBias_m(gnss_system_id);
-
-    enum class BandId : size_t { L1 = 1, L2 = 2, L5 = 5 };
 
     for (size_t j = 0; j < number_of_bands_; j++) {
       double wave_length_m = wave_length_list_m_[j];
@@ -610,9 +579,9 @@ AntennaModel SetAntennaModel(const std::string antenna_model) {
 
 GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environment::GnssSatellites* gnss_satellites, const size_t component_id) {
   // Band frequency definition
-  static const double band_frequency_1_Hz = math_physics::gnss::band_frequency_1_Hz;
-  static const double band_frequency_2_Hz = math_physics::gnss::band_frequency_2_Hz;
-  static const double band_frequency_5_Hz = math_physics::gnss::band_frequency_5_Hz;
+  static const double f1_Hz = math_physics::gnss::band_frequency_1_Hz;
+  static const double f2_Hz = math_physics::gnss::band_frequency_2_Hz;
+  static const double f5_Hz = math_physics::gnss::band_frequency_5_Hz;
 
   GnssReceiverParam gnss_receiver_param;
 
@@ -659,8 +628,6 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environ
   std::vector<double> band_frequency_list_Hz;
   std::vector<double> wave_length_list_m;
 
-  enum class BandId : size_t { L1 = 1, L2 = 2, L5 = 5 };
-
   for (size_t i = 0; i < gnss_receiver_param.number_of_bands; i++) {
     std::string idx = std::to_string(i);
     idx = "_" + idx;
@@ -679,21 +646,21 @@ GnssReceiverParam ReadGnssReceiverIni(const std::string file_name, const environ
     double wave_length_m;
     switch (band_idx_enum) {
       case BandId::L1:
-        band_frequency_Hz = band_frequency_1_Hz;
+        band_frequency_Hz = f1_Hz;
         wave_length_m = environment::speed_of_light_m_s / band_frequency_Hz;
         break;
       case BandId::L2:
-        band_frequency_Hz = band_frequency_2_Hz;
+        band_frequency_Hz = f2_Hz;
         wave_length_m = environment::speed_of_light_m_s / band_frequency_Hz;
         break;
       case BandId::L5:
-        band_frequency_Hz = band_frequency_5_Hz;
+        band_frequency_Hz = f5_Hz;
         wave_length_m = environment::speed_of_light_m_s / band_frequency_Hz;
         break;
       default:
         std::cerr << "[Error] " << band_idx << " is an unsupported band index\n";
         std::cerr << "Band index is automatically set as Band_L1\n";
-        band_frequency_Hz = band_frequency_1_Hz;
+        band_frequency_Hz = f1_Hz;
         wave_length_m = environment::speed_of_light_m_s / band_frequency_Hz;
         break;
     }

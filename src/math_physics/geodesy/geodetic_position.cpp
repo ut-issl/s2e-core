@@ -86,4 +86,30 @@ void GeodeticPosition::CalcQuaternionXcxfToLtc() {
   quaternion_xcxf_to_ltc_ = quaternion_xcxf_to_ltc_.ConvertFromDcm(dcm_xcxf_to_ltc);
 }
 
+std::vector<double> GeodeticPosition::CalcAzimuthElevation_rad(const math::Vector<3> direction_ecef_m) const {
+  const math::Vector<3> direction_unit_vector_ecef = direction_ecef_m.CalcNormalizedVector();
+
+  // Calculate unit vectors for East,  North, and Up directions
+  math::Vector<3> unit_vector_east;
+  unit_vector_east[0] = -sin(longitude_rad_);
+  unit_vector_east[1] = cos(longitude_rad_);
+  unit_vector_east[2] = 0.0;
+
+  math::Vector<3> unit_vector_north;
+  unit_vector_north[0] = -sin(latitude_rad_) * cos(longitude_rad_);
+  unit_vector_north[1] = -sin(latitude_rad_) * sin(longitude_rad_);
+  unit_vector_north[2] = cos(latitude_rad_);
+
+  math::Vector<3> unit_vector_up;
+  unit_vector_up[0] = cos(latitude_rad_) * cos(longitude_rad_);
+  unit_vector_up[1] = cos(latitude_rad_) * sin(longitude_rad_);
+  unit_vector_up[2] = sin(latitude_rad_);
+
+  // Calculate elevation and azimuth angles
+  const double azimuth_rad =
+      atan2(InnerProduct(direction_unit_vector_ecef, unit_vector_east), InnerProduct(direction_unit_vector_ecef, unit_vector_north));
+  const double elevation_rad = asin(InnerProduct(direction_unit_vector_ecef, unit_vector_up));
+  return {azimuth_rad, elevation_rad};
+}
+
 }  // namespace s2e::geodesy

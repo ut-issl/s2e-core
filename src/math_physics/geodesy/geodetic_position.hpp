@@ -8,6 +8,7 @@
 
 #include <math_physics/math/quaternion.hpp>
 #include <math_physics/math/vector.hpp>
+#include <vector>
 
 namespace s2e::geodesy {
 
@@ -43,6 +44,14 @@ class GeodeticPosition {
    * @brief Calculate and return the ECEF position from the geodetic position
    */
   math::Vector<3> CalcEcefPosition() const;
+
+  /**
+   * @fn CalcAzimuthElevation_rad
+   * @brief Calculate azimuth and elevation angles from the geodetic position to the target direction in ECEF frame
+   * @param [in] direction_ecef_m: Target direction in ECEF frame [m]
+   * @return Azimuth and elevation angles [rad]
+   */
+  std::vector<double> CalcAzimuthElevation_rad(const math::Vector<3> direction_ecef_m) const;
 
   // Getter
   /**
