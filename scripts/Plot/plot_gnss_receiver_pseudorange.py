@@ -49,32 +49,31 @@ read_file_name  = path_to_logs + '/' + 'logs_' + read_file_tag + '/' + read_file
 # Read S2E CSV
 time = read_scalar_from_csv(read_file_name, 'elapsed_time[s]')
 
-plt.figure(0)
-for gps_idx in range(32):
-  gps_str = 'GPS' + str(gps_idx)
-  pseudorange = read_scalar_from_csv(read_file_name, gps_str + '_pseudorange[m]')
-  plt.scatter(time[0][1:], pseudorange[0][1:], marker=".", label=gps_str)
+# Plotting function for pseudoranges
+def plot_pseudorange(fig_idx, phase_suffix, title):
+    plotted = False
+    plt.figure(fig_idx)
+    for gps_idx in range(32):
+        gps_str = f'GPS{gps_idx}'
+        column_name = f"{gps_str}_pseudorange_{phase_suffix}[m]"
+        try:
+            pseudorange = read_scalar_from_csv(read_file_name, column_name)
+            plt.scatter(time[0][1:], pseudorange[0][1:], marker=".", label=gps_str)
+            plotted = True
+        except:
+            continue
+    if plotted:
+        plt.title(title)
+        plt.xlabel("Time [s]")
+        plt.ylabel(f"Pseudorange {phase_suffix} [m]")
+        plt.legend(fontsize=7, loc="upper right")
+    else:
+        plt.close(fig_idx)
 
-plt.title("GPS Psuedorange")
-plt.xlabel("Time [s]")
-plt.ylabel("Psuedorange [m]")
-plt.legend(fontsize=7, loc="upper right")
-
-
-plt.figure(1)
-spacecraft_position_ecef_m = read_3d_vector_from_csv(read_file_name, 'spacecraft_position_ecef', 'm')[:, :-1]
-for gps_idx in range(32):
-  gps_str = 'GPS' + str(gps_idx)
-  pseudorange = read_scalar_from_csv(read_file_name, gps_str + '_pseudorange[m]')[:, 1:]
-  gps_position = read_3d_vector_from_csv(read_file_name, gps_str + '_position_ecef', 'm')[:, 1:]
-  geometric_range = np.linalg.norm(gps_position - spacecraft_position_ecef_m, axis=0)
-  pseudorange_error = pseudorange - geometric_range
-  plt.scatter(time[0][:-1], pseudorange_error, marker=".", label=gps_str)
-
-plt.title("GPS Pseudorange Error")
-plt.xlabel("Time [s]")
-plt.ylabel("Pseudorange Error [m]")
-plt.legend(fontsize=7, loc="upper right")
+# Plot each pseudorange if data exists
+plot_pseudorange(0, 1, "GPS Pseudorange (L1)")
+plot_pseudorange(1, 2, "GPS Pseudorange (L2)")
+plot_pseudorange(2, 5, "GPS Pseudorange (L5)")
 
 # Data save
 if args.no_gui:
