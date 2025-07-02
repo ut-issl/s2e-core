@@ -293,7 +293,8 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
   } else if (latitude_ipp_semi < -0.416) {
     latitude_ipp_semi = -0.416;
   }
-  const double longitude_ipp_semi = receiver_longitude_rad * rad2semi + earth_centered_angle_semi * sin(azimuth_rad) / cos(latitude_ipp_semi * semi2rad);
+  const double longitude_ipp_semi =
+      receiver_longitude_rad * rad2semi + earth_centered_angle_semi * sin(azimuth_rad) / cos(latitude_ipp_semi * semi2rad);
   const double geomagnetic_latitude_ipp_semi = latitude_ipp_semi + 0.064 * cos((longitude_ipp_semi - 1.617) * semi2rad);
 
   double local_time_ipp_s = (43200.0 * longitude_ipp_semi) + gps_time_s_;
@@ -327,7 +328,6 @@ double GnssReceiver::CalcIonosphericDelay_m(const size_t gnss_system_id, const s
     ionospheric_delay_gps_l1_m = c_m_s * slant_factor * (5.0E-09 + amplitude_s);
   }
 
-  
   BandId band_enum = static_cast<BandId>(band_id);
   double ionospheric_delay_m;
   switch (band_enum) {

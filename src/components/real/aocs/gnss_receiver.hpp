@@ -215,14 +215,14 @@ class GnssReceiver : public Component, public logger::ILoggable {
                                                               0};  //!< Carrier phase integer ambiguity list for each GPS satellite L2
   std::vector<size_t> carrier_phase_integer_ambiguity_list_5_{kTotalNumberOfGnssSatellite,
                                                               0};  //!< Carrier phase integer ambiguity list for each GPS satellite L5/E5a/B2a
-  math::Vector<4> klobuchar_alpha_;
-  math::Vector<4> klobuchar_beta_;
-  size_t number_of_bands_;                      //!< Number of bands being used
-  std::vector<double> band_frequency_list_Hz_;  //!< List of Band frequencies being used [Hz]
-  std::vector<size_t> band_id_list_;            //!< List of Band IDs being used
-  std::vector<double> wave_length_list_m_;      //!< List of Band wavelengths being used [m]
-  bool is_logged_pseudorange_;                  //!< Flag for log output of pseudorange
-  bool is_logged_carrier_phase_;                //!< Flag for log output of carrier phase
+  math::Vector<4> klobuchar_alpha_;                                //!< Klobuchar alpha coefficients
+  math::Vector<4> klobuchar_beta_;                                 //!< Klobuchar beta coefficients
+  size_t number_of_bands_;                                         //!< Number of bands being used
+  std::vector<double> band_frequency_list_Hz_;                     //!< List of Band frequencies being used [Hz]
+  std::vector<size_t> band_id_list_;                               //!< List of Band IDs being used
+  std::vector<double> wave_length_list_m_;                         //!< List of Band wavelengths being used [m]
+  bool is_logged_pseudorange_;                                     //!< Flag for log output of pseudorange
+  bool is_logged_carrier_phase_;                                   //!< Flag for log output of carrier phase
 
   // Simple position observation
   randomization::NormalRand position_random_noise_ecef_m_[3];    //!< Random noise for position at the ECEF frame [m]
