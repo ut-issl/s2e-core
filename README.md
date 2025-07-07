@@ -98,7 +98,7 @@
 | EQUULEUS              | ISSL, UT and JAXA                     | 2022    | -          |
 | Optimal-1             | ArkEdge Space Inc.                    | 2023    | -          |
 | SPHERE-1 EYE          | Sony Group Corporation and ISSL, UT   | 2023    | [Sekine 2025](https://doi.org/10.57350/jesa.228) |
-| ONGLAISAT             | ISSL, UT                              | -       | [Ikari 2022](https://doi.org/10.57350/jesa.63) |
+| ONGLAISAT             | ISSL, UT                              | 2024    | [Ikari 2022](https://doi.org/10.57350/jesa.63) |
 
 
 ## Collaborators
