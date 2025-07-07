@@ -97,7 +97,7 @@
 | MAGNARO               | Nagoya Univ.                          | 2022    | -          |
 | EQUULEUS              | ISSL, UT and JAXA                     | 2022    | -          |
 | Optimal-1             | ArkEdge Space Inc.                    | 2023    | -          |
-| SPHERE-1 EYE          | Sony Group Corporation and ISSL, UT   | 2023    | [Sekine 2023](https://archive.ists.ne.jp/upload_pdf/2023-f-6-02.pdf) |
+| SPHERE-1 EYE          | Sony Group Corporation and ISSL, UT   | 2023    | [Sekine 2025](https://doi.org/10.57350/jesa.228) |
 | ONGLAISAT             | ISSL, UT                              | -       | [Ikari 2022](https://doi.org/10.57350/jesa.63) |
 
 
@@ -109,4 +109,4 @@
 ## Publications
 1. S. Ikari, and et al., "Development of Compact and Highly Capable Integrated AOCS Module for CubeSats", Journal of Evolving Space Activities, vol. 1, ID 63, 2023. [Link](https://doi.org/10.57350/jesa.63)
 1. 五十里, 他, "宇宙開発の効率化・高度化を目指した東京大学中須賀・船瀬研のOSS活動", UNISEC2022-04, 12th UNISEC Space Takumi Conference, 2022. [Link](http://unisec.jp/archives/7836)
-1. H. Sekine, and et al., "Development of Software-In-the-Loop Simulator and Hardware-In-the-Loop Simulator of AOCS Module for CubeSats", 34th ISTS, Kurume, 2023. [Link](https://archive.ists.ne.jp/upload_pdf/2023-f-6-02.pdf)
+1. H. Sekine, and et al., "Development of Software-In-the-Loop Simulator and Hardware-In-the-Loop Simulator of AOCS Module for CubeSats", Journal of Evolving Space Activities, vol. 3, ID 228, 2025. [Link](https://doi.org/10.57350/jesa.228)
