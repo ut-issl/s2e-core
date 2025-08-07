@@ -61,7 +61,7 @@ jobs:
 
       - name: cache extlib
         id: cache-extlib
-        uses: actions/cache@v4.2.3
+        uses: actions/cache@v4.2.4
         with:
           key: extlib-${{ runner.os }}-${{ hashFiles('./ExtLibraries/**') }}}
           path: ExtLibraries
